@@ -16,7 +16,7 @@
 
     <cmd name="EditInvertSelection"
      _tip="Select all and only the messages that are not currently selected"
-     accel="*Control**Shift*i"/>
+     accel="*Control*i"/>
 
     <cmd name="EditSelectAll"
      _tip="Select all visible messages"
@@ -67,12 +67,11 @@
   <menu>
 
     <submenu name="File">
-      <placeholder name="ComponentPlaceholder">
-        <separator name="mail-list-folder"/>
-        <submenu name="Folder" _label="_Folder">
-           <menuitem name="ChangeFolderProperties" verb="" _label="_Properties..."/>
-        </submenu>
-      </placeholder>
+      <submenu name="Folder" _label="_Folder">
+	<placeholder name="ComponentPlaceholder">
+         <menuitem name="ChangeFolderProperties" verb="" _label="_Properties..."/>
+	</placeholder>
+      </submenu>
     </submenu>
 
     <placeholder name="EditPlaceholder">
@@ -81,6 +80,12 @@
           <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
           <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
           <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
+
+	  <separator f="" name="emaillist1"/>
+
+          <menuitem name="EditCut" verb="" _label="Cu_t"/>
+          <menuitem name="EditCopy" verb="" _label="_Copy"/>
+          <menuitem name="EditPaste" verb="" _label="_Paste"/>
 
 	  <separator f="" name="emaillist2"/>
         </placeholder>
@@ -108,7 +113,7 @@
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
         <placeholder name="MailListActions">
-          <menuitem name="FolderExpunge" verb="" _label="E_xpunge"/>
+          <menuitem name="FolderExpunge" verb="" _label="_Expunge"/>
         </placeholder>
       </placeholder>
     </submenu>

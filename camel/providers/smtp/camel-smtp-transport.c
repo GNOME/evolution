@@ -55,6 +55,7 @@
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-sasl.h"
+#include "string-utils.h"
 
 
 extern int camel_verbose_debug;
@@ -253,30 +254,20 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	
 	port = service->url->port ? service->url->port : SMTP_PORT;
 	
-	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
 #ifdef HAVE_SSL
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
 		if (try_starttls) {
-			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
+			tcp_stream = camel_tcp_stream_ssl_new_raw (service, service->url->host, STARTTLS_FLAGS);
 		} else {
 			port = service->url->port ? service->url->port : 465;
-			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
+			tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host, SSL_PORT_FLAGS);
 		}
-#else
-		if (!try_starttls)
-			port = service->url->port ? service->url->port : 465;
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to %s (port %d): %s"),
-				      service->url->host, port,
-				      _("SSL unavailable"));
-		
-		camel_free_host (h);
-		
-		return FALSE;
-#endif /* HAVE_SSL */
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
+#else
+	tcp_stream = camel_tcp_stream_raw_new ();
+#endif /* HAVE_SSL */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host (h);
@@ -286,7 +277,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 				      service->url->host, port,
 				      g_strerror (errno));
 		
-		camel_object_unref (tcp_stream);
+		camel_object_unref (CAMEL_OBJECT (tcp_stream));
 		
 		return FALSE;
 	}
@@ -393,9 +384,9 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	
  exception_cleanup:
 	
-	camel_object_unref (transport->istream);
+	camel_object_unref (CAMEL_OBJECT (transport->istream));
 	transport->istream = NULL;
-	camel_object_unref (transport->ostream);
+	camel_object_unref (CAMEL_OBJECT (transport->ostream));
 	transport->ostream = NULL;
 	
 	transport->connected = FALSE;
@@ -452,7 +443,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 		truth = camel_sasl_authenticated (sasl);
 		if (chal)
 			g_byte_array_free (chal, TRUE);
-		camel_object_unref (sasl);
+		camel_object_unref (CAMEL_OBJECT (sasl));
 		
 		if (!truth)
 			return FALSE;
@@ -511,11 +502,11 @@ smtp_connect (CamelService *service, CamelException *ex)
 			if (!service->url->passwd) {
 				char *prompt;
 				
-				prompt = g_strdup_printf (_("%sPlease enter the SMTP password for %s on host %s"),
+				prompt = g_strdup_printf (_("%sPlease enter the SMTP password for %s@%s"),
 							  errbuf ? errbuf : "", service->url->user,
 							  service->url->host);
 				
-				service->url->passwd = camel_session_get_password (session, prompt, CAMEL_SESSION_PASSWORD_SECRET,
+				service->url->passwd = camel_session_get_password (session, prompt, FALSE, TRUE,
 										   service, "password", ex);
 				
 				g_free (prompt);
@@ -580,12 +571,12 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	}
 	
 	if (transport->istream) {
-		camel_object_unref (transport->istream);
+		camel_object_unref (CAMEL_OBJECT (transport->istream));
 		transport->istream = NULL;
 	}
 	
 	if (transport->ostream) {
-		camel_object_unref (transport->ostream);
+		camel_object_unref (CAMEL_OBJECT (transport->ostream));
 		transport->ostream = NULL;
 	}
 	
@@ -710,22 +701,17 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	cia = CAMEL_INTERNET_ADDRESS (recipients);
 	for (i = 0; i < len; i++) {
-		char *enc;
-
 		if (!camel_internet_address_get (cia, i, NULL, &addr)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Cannot send message: one or more invalid recipients"));
 			camel_operation_end (NULL);
 			return FALSE;
 		}
-
-		enc = camel_internet_address_encode_address(NULL, NULL, addr);
-		if (!smtp_rcpt (smtp_transport, enc, ex)) {
-			g_free(enc);
+		
+		if (!smtp_rcpt (smtp_transport, addr, ex)) {
 			camel_operation_end (NULL);
 			return FALSE;
 		}
-		g_free(enc);
 	}
 	
 	if (!smtp_data (smtp_transport, message, ex)) {
@@ -1071,8 +1057,8 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		broken_smtp_server:
 			d(fprintf (stderr, "Your SMTP server's implementation of the %s SASL\n"
 				   "authentication mechanism is broken. Please report this to the\n"
-				   "appropriate vendor and suggest that they re-read rfc2554 again\n"
-				   "for the first time (specifically Section 4).\n",
+				   "appropriate vendor and suggest that they re-read rfc2222 again\n"
+				   "for the first time (specifically Section 4, paragraph 2).\n",
 				   mech));
 		}
 		
@@ -1109,7 +1095,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		goto lose;
 	}
 	
-	camel_object_unref (sasl);
+	camel_object_unref (CAMEL_OBJECT (sasl));
 	camel_operation_end (NULL);
 	
 	return TRUE;
@@ -1127,7 +1113,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 				     _("Bad authentication response from server.\n"));
 	}
 	
-	camel_object_unref (sasl);
+	camel_object_unref (CAMEL_OBJECT (sasl));
 	camel_operation_end (NULL);
 	
 	return FALSE;
@@ -1231,7 +1217,7 @@ static gboolean
 smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelException *ex)
 {
 	CamelBestencEncoding enctype = CAMEL_BESTENC_8BIT;
-	struct _camel_header_raw *header, *savedbcc, *n, *tail;
+	struct _header_raw *header, *savedbcc, *n, *tail;
 	char *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlffilter;
@@ -1286,13 +1272,13 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	crlffilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
 	filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
-	camel_object_unref (crlffilter);
+	camel_object_unref (CAMEL_OBJECT (crlffilter));
 	
 	/* unlink the bcc headers */
 	savedbcc = NULL;
-	tail = (struct _camel_header_raw *) &savedbcc;
+	tail = (struct _header_raw *) &savedbcc;
 	
-	header = (struct _camel_header_raw *) &CAMEL_MIME_PART (message)->headers;
+	header = (struct _header_raw *) &CAMEL_MIME_PART (message)->headers;
 	n = header->next;
 	while (n != NULL) {
 		if (!strcasecmp (n->name, "Bcc")) {
@@ -1319,7 +1305,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 					"%s: mail not sent"),
 				      g_strerror (errno));
 		
-		camel_object_unref (filtered_stream);
+		camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		
 		camel_object_unref (transport->istream);
 		transport->istream = NULL;
@@ -1330,7 +1316,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	}
 	
 	camel_stream_flush (CAMEL_STREAM (filtered_stream));
-	camel_object_unref (filtered_stream);
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	
 	/* terminate the message body */
 	

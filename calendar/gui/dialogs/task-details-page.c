@@ -29,6 +29,7 @@
 #include <gtk/gtktogglebutton.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
 #include <widgets/misc/e-url-entry.h>
 #include "e-util/e-dialog-widgets.h"
@@ -51,10 +52,8 @@ struct _TaskDetailsPagePrivate {
 	GtkWidget *priority;
 	GtkWidget *percent_complete;
 
-	GtkWidget *date_completed_label;
 	GtkWidget *completed_date;
 
-	GtkWidget *url_label;
 	GtkWidget *url_entry;
 	GtkWidget *url;
 
@@ -93,8 +92,8 @@ static void task_details_page_finalize (GObject *object);
 
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
-static gboolean task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
-static gboolean task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp);
+static void task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
+static gboolean task_details_page_fill_component (CompEditorPage *page, CalComponent *comp);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -149,10 +148,8 @@ task_details_page_init (TaskDetailsPage *tdpage)
 	priv->priority = NULL;
 	priv->percent_complete = NULL;
 	
-	priv->date_completed_label = NULL;
 	priv->completed_date = NULL;
 
-	priv->url_label = NULL;
 	priv->url_entry = NULL;
 	priv->url = NULL;
 
@@ -176,7 +173,7 @@ task_details_page_finalize (GObject *object)
 		gtk_widget_unref (priv->main);
 
 	if (priv->xml) {
-		g_object_unref (priv->xml);
+		g_object_unref((priv->xml));
 		priv->xml = NULL;
 	}
 
@@ -276,8 +273,8 @@ clear_widgets (TaskDetailsPage *tdpage)
 }
 
 /* fill_widgets handler for the task page */
-static gboolean
-task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
+static void
+task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -296,7 +293,7 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	clear_widgets (tdpage);
 	
 	/* Percent Complete. */
-	e_cal_component_get_percent (comp, &percent);
+	cal_component_get_percent (comp, &percent);
 	if (percent) {
 		e_dialog_spin_set (priv->percent_complete, *percent);
 	} else {
@@ -305,7 +302,7 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	}
 
 	/* Status. */
-	e_cal_component_get_status (comp, &status);
+	cal_component_get_status (comp, &status);
 	if (status == ICAL_STATUS_NONE || status == ICAL_STATUS_NEEDSACTION) {
 		/* Try to use the percent value. */
 		if (percent) {
@@ -321,17 +318,19 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_dialog_option_menu_set (priv->status, status, status_map);
 
 	if (percent)
-		e_cal_component_free_percent (percent);
+		cal_component_free_percent (percent);
 
 	/* Completed Date. */
-	e_cal_component_get_completed (comp, &completed);
+	cal_component_get_completed (comp, &completed);
 	if (completed) {
 		icaltimezone *utc_zone, *zone;
+		char *location;
 
 		/* Completed is in UTC, but that would confuse the user, so
 		   we convert it to local time. */
 		utc_zone = icaltimezone_get_utc_timezone ();
-		zone = calendar_config_get_icaltimezone ();
+		location = calendar_config_get_timezone ();
+		zone = icaltimezone_get_builtin_timezone (location);
 
 		icaltimezone_convert_time (completed, utc_zone, zone);
 
@@ -342,31 +341,29 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					     completed->hour,
 					     completed->minute);
 
-		e_cal_component_free_icaltimetype (completed);
+		cal_component_free_icaltimetype (completed);
 	}
 
 	/* Priority. */
-	e_cal_component_get_priority (comp, &priority_value);
+	cal_component_get_priority (comp, &priority_value);
 	if (priority_value) {
 		priority = priority_value_to_index (*priority_value);
-		e_cal_component_free_priority (priority_value);
+		cal_component_free_priority (priority_value);
 	} else {
 		priority = PRIORITY_UNDEFINED;
 	}
 	e_dialog_option_menu_set (priv->priority, priority, priority_map);
 
 	/* URL */
-	e_cal_component_get_url (comp, &url);
+	cal_component_get_url (comp, &url);
 	e_dialog_editable_set (priv->url, url);
 	
 	priv->updating = FALSE;
-
-	return TRUE;
 }
 
 /* fill_component handler for the task page */
 static gboolean
-task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
+task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -382,16 +379,16 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* Percent Complete. */
 	percent = e_dialog_spin_get_int (priv->percent_complete);
-	e_cal_component_set_percent (comp, &percent);
+	cal_component_set_percent (comp, &percent);
 
 	/* Status. */
 	status = e_dialog_option_menu_get (priv->status, status_map);
-	e_cal_component_set_status (comp, status);
+	cal_component_set_status (comp, status);
 
 	/* Priority. */
 	priority = e_dialog_option_menu_get (priv->priority, priority_map);
 	priority_value = priority_index_to_value (priority);
-	e_cal_component_set_priority (comp, &priority_value);
+	cal_component_set_priority (comp, &priority_value);
 
 	icaltime = icaltime_null_time ();
 
@@ -419,17 +416,18 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		   entire time the dialog is shown. Otherwise if the user
 		   changes the timezone, the COMPLETED date may get changed
 		   as well. */
-		icaltimezone *zone = calendar_config_get_icaltimezone ();
+		char *location = calendar_config_get_timezone ();
+		icaltimezone *zone = icaltimezone_get_builtin_timezone (location);
 		icaltimezone_convert_time (&icaltime, zone,
 					   icaltimezone_get_utc_timezone ());
-		e_cal_component_set_completed (comp, &icaltime);
+		cal_component_set_completed (comp, &icaltime);
 	} else {
-		e_cal_component_set_completed (comp, NULL);
+		cal_component_set_completed (comp, NULL);
 	}
 
 	/* URL. */
 	url = e_dialog_editable_get (priv->url);
-	e_cal_component_set_url (comp, url);
+	cal_component_set_url (comp, url);
 	if (url)
 		g_free (url);
 
@@ -471,12 +469,8 @@ get_widgets (TaskDetailsPage *tdpage)
 	priv->priority = GW ("priority");
 	priv->percent_complete = GW ("percent-complete");
 
-	priv->date_completed_label = GW ("date_completed_label");
-
 	priv->completed_date = GW ("completed-date");
 	gtk_widget_show (priv->completed_date);
-
-	priv->url_label = GW ("url_label");
 
 	priv->url_entry = GW ("url_entry");
 	gtk_widget_show (priv->url_entry);
@@ -487,9 +481,7 @@ get_widgets (TaskDetailsPage *tdpage)
 	return (priv->status
 		&& priv->priority
 		&& priv->percent_complete
-		&& priv->date_completed_label
 		&& priv->completed_date
-		&& priv->url_label
 		&& priv->url);
 }
 
@@ -677,10 +669,6 @@ init_widgets (TaskDetailsPage *tdpage)
 					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
 					   tdpage, NULL);
 
-	/* These are created by hand, so hook the mnemonics manually */
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->date_completed_label), priv->completed_date);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->url_label), priv->url_entry);
-
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
 	   to update the other 2. */
@@ -758,7 +746,7 @@ task_details_page_new (void)
 
 	tdpage = g_object_new (TYPE_TASK_DETAILS_PAGE, NULL);
 	if (!task_details_page_construct (tdpage)) {
-		g_object_unref (tdpage);
+		g_object_unref ((tdpage));
 		return NULL;
 	}
 

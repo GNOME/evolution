@@ -1,0 +1,34 @@
+privlib_LTLIBRARIES = libicalvcal-evolution.la
+
+INCLUDES =			\
+	-I$(top_builddir)	\
+	-I$(top_srcdir)/src/libical	\
+	-I$(top_builddir)/src/libical	\
+	-I$(top_srcdir)/src/libicalss
+
+libicalvcal_evolution_la_LDFLAGS = -version-info 0:0:0
+
+libicalvcal_evolution_la_SOURCES =	\
+	icalvcal.h		\
+	icalvcal.c		\
+	port.h			\
+	vcc.h			\
+	vcc.y			\
+	vobject.h		\
+	vobject.c		\
+	vcaltmp.h		\
+	vcaltmp.c
+
+#libicalvcalincludedir = $(privincludedir)/libicalvcal
+
+#libicalvcalinclude_HEADERS =	\
+#	icalvcal.h		\
+#	port.h			\
+#	vcc.h			\
+#	vobject.h		\
+#	vcaltmp.h
+
+EXTRA_DIST =		\
+	README.TXT	\
+	vcaltest.c	\
+	vctest.c

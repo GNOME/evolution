@@ -186,22 +186,23 @@ e_msg_composer_attachment_new (const char *file_name,
 		return NULL;
 	}
 	
+	wrapper = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (wrapper, stream);
+	
 	mime_type = e_msg_composer_guess_mime_type (file_name);
 	if (mime_type) {
 		if (!strcasecmp (mime_type, "message/rfc822")) {
+			camel_object_unref (wrapper);
 			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
-		} else {
-			wrapper = camel_data_wrapper_new ();
+			
+			camel_stream_reset (stream);
+			camel_data_wrapper_construct_from_stream (wrapper, stream);
 		}
 		
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
 		camel_data_wrapper_set_mime_type (wrapper, mime_type);
 		g_free (mime_type);
-	} else {
-		wrapper = camel_data_wrapper_new ();
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
+	} else
 		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
-	}
 	
 	camel_object_unref (stream);
 	
@@ -210,7 +211,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	camel_object_unref (wrapper);
 	
 	camel_mime_part_set_disposition (part, disposition);
-	filename = g_path_get_basename (file_name);
+	filename = g_path_get_basename(file_name);
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
 	
@@ -220,7 +221,7 @@ e_msg_composer_attachment_new (const char *file_name,
            workaround, don't set a Content-Id on these parts. Fixes
            bug #10032 */
 	/* set the Content-Id */
-	content_id = camel_header_msgid_generate ();
+	content_id = header_msgid_generate ();
 	camel_mime_part_set_content_id (part, content_id);
 	g_free (content_id);
 #endif
@@ -438,7 +439,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 	set_entry (editor_gui, "description_entry",
 		   camel_mime_part_get_description (attachment->body));
 	content_type = camel_mime_part_get_content_type (attachment->body);
-	type = camel_content_type_simple (content_type);
+	type = header_content_type_simple (content_type);
 	set_entry (editor_gui, "mime_type_entry", type);
 	g_free (type);
 	

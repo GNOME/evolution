@@ -6,7 +6,6 @@ INCLUDES = 					\
 	-I $(top_srcdir)/camel			\
 	-I $(top_srcdir)/e-util			\
 	-I $(top_srcdir)/shell			\
-	-I $(top_srcdir)/widgets/misc		\
 	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"		\
 	$(LIBFILTER_CFLAGS)
@@ -74,12 +73,11 @@ EXTRA_DIST =					\
 	filter-marshal.list			\
 	filtertypes.xml				\
 	libfilter-i18n.h			\
-	vfoldertypes.xml			\
-	searchtypes.xml
+	vfoldertypes.xml
 
 # basic rules.
 filterdir = $(privdatadir)
-filter_DATA = filtertypes.xml vfoldertypes.xml searchtypes.xml
+filter_DATA = filtertypes.xml vfoldertypes.xml
 
 libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
 	echo "/* Automatically generated. Do not edit. */" > $@;	      \
@@ -87,5 +85,15 @@ libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
 		sed -n -e 's:.*<title>\(.*\)</title>:char *s = N_("\1");:p' | \
 		sort -u >> $@
 
+filter-marshal.h: filter-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=filter_marshal filter-marshal.list --header > filter-marshal.tmp \
+	&& mv filter-marshal.tmp filter-marshal.h ) \
+	|| ( rm -f filter-marshal.tmp && exit 1 )
+
+filter-marshal.c: filter-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=filter_marshal filter-marshal.list --body > filter-marshal.tmp \
+	&& mv filter-marshal.tmp filter-marshal.c ) \
+	|| ( rm -f filter-marshal.tmp && exit 1 )
+
 MARSHAL_GENERATED = filter-marshal.c filter-marshal.h
-@EVO_MARSHAL_RULE@
+

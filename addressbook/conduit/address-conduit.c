@@ -31,7 +31,12 @@
 #include <pi-socket.h>
 #include <pi-dlp.h>
 #include <pi-address.h>
-#include <libebook/e-book.h>
+#include <ebook/e-book.h>
+#include <ebook/e-book-util.h>
+#include <ebook/e-card-types.h>
+#include <ebook/e-card-cursor.h>
+#include <ebook/e-card.h>
+#include <ebook/e-card-simple.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <libgpilotdCM/gnome-pilot-conduit-management.h>
@@ -58,6 +63,23 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 #define WARN g_warning
 #define INFO g_message
 
+typedef struct {
+	EBookStatus status;
+	char *id;
+} CardObjectChangeStatus;
+
+typedef enum {
+	CARD_ADDED,
+	CARD_MODIFIED,
+	CARD_DELETED
+} CardObjectChangeType;
+
+typedef struct 
+{
+	ECard *card;
+	CardObjectChangeType type;
+} CardObjectChange;
+
 enum {
 	LABEL_WORK,
 	LABEL_HOME,
@@ -69,22 +91,22 @@ enum {
 	LABEL_MOBILE
 };
 
-static EContactField priority [] = {
-	E_CONTACT_PHONE_BUSINESS,
-	E_CONTACT_PHONE_HOME,
-	E_CONTACT_PHONE_BUSINESS_FAX,
-	E_CONTACT_EMAIL,
-	E_CONTACT_PHONE_PAGER,
-	E_CONTACT_PHONE_MOBILE,
-	E_CONTACT_PHONE_BUSINESS_2,
-	E_CONTACT_PHONE_HOME_2,
-	E_CONTACT_PHONE_HOME_FAX,
-	E_CONTACT_EMAIL_2,
-	E_CONTACT_PHONE_OTHER,
-	E_CONTACT_PHONE_PRIMARY,
-	E_CONTACT_PHONE_OTHER_FAX,
-	E_CONTACT_EMAIL_3,
-	E_CONTACT_FIELD_LAST
+static ECardSimpleField priority [] = {
+	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,
+	E_CARD_SIMPLE_FIELD_PHONE_HOME,
+	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX,
+	E_CARD_SIMPLE_FIELD_EMAIL,
+	E_CARD_SIMPLE_FIELD_PHONE_PAGER,
+	E_CARD_SIMPLE_FIELD_PHONE_MOBILE,
+	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2,
+	E_CARD_SIMPLE_FIELD_PHONE_HOME_2,
+	E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,
+	E_CARD_SIMPLE_FIELD_EMAIL_2,
+	E_CARD_SIMPLE_FIELD_PHONE_OTHER,
+	E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,
+	E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX,
+	E_CARD_SIMPLE_FIELD_EMAIL_3,
+	E_CARD_SIMPLE_FIELD_LAST
 };
 
 static int priority_label [] = {
@@ -119,7 +141,7 @@ struct _EAddrLocalRecord {
 	GnomePilotDesktopRecord local;
 
 	/* The corresponding ECard object */
-	EContact *contact;
+	ECard *ecard;
 
         /* pilot-link address structure, used for implementing Transmit. */
 	struct Address *addr;
@@ -129,7 +151,7 @@ struct _EAddrLocalRecord {
 static void
 addrconduit_destroy_record (EAddrLocalRecord *local) 
 {
-	g_object_unref (local->contact);
+	g_object_unref (local->ecard);
 	free_Address (local->addr);
 	g_free (local->addr);
 	g_free (local);
@@ -141,7 +163,7 @@ struct _EAddrConduitCfg {
 	GnomePilotConduitSyncType  sync_type;
 
 	gboolean secret;
-	EContactField default_address;
+	ECardSimpleAddressId default_address;
 
 	gchar *last_uri;
 };
@@ -177,11 +199,11 @@ addrconduit_load_configuration (guint32 pilot_id)
 	c->secret = gnome_config_get_bool ("secret=FALSE");
 	address = gnome_config_get_string ("default_address=business");
 	if (!strcmp (address, "business"))
-		c->default_address = E_CONTACT_ADDRESS_WORK;
+		c->default_address = E_CARD_SIMPLE_ADDRESS_ID_BUSINESS;
 	else if (!strcmp (address, "home"))
-		c->default_address = E_CONTACT_ADDRESS_HOME;
+		c->default_address = E_CARD_SIMPLE_ADDRESS_ID_HOME;
 	else if (!strcmp (address, "other"))
-		c->default_address = E_CONTACT_ADDRESS_OTHER;
+		c->default_address = E_CARD_SIMPLE_ADDRESS_ID_OTHER;
 	g_free (address);
 	c->last_uri = gnome_config_get_string ("last_uri");
 
@@ -201,13 +223,13 @@ addrconduit_save_configuration (EAddrConduitCfg *c)
 	gnome_config_push_prefix (prefix);
 	gnome_config_set_bool ("secret", c->secret);
 	switch (c->default_address) {
-	case E_CONTACT_ADDRESS_WORK:
+	case E_CARD_SIMPLE_ADDRESS_ID_BUSINESS:
 		gnome_config_set_string ("default_address", "business");
 		break;
-	case E_CONTACT_ADDRESS_HOME:
+	case E_CARD_SIMPLE_ADDRESS_ID_HOME:
 		gnome_config_set_string ("default_address", "home");
 		break;
-	case E_CONTACT_ADDRESS_OTHER:
+	case E_CARD_SIMPLE_ADDRESS_ID_OTHER:
 		gnome_config_set_string ("default_address", "other");
 		break;
 	default:
@@ -292,9 +314,9 @@ e_addr_gui_new (EPilotSettings *ps)
 }
 
 static const int default_address_map[] = {
-	E_CONTACT_ADDRESS_WORK,
-	E_CONTACT_ADDRESS_HOME,
-	E_CONTACT_ADDRESS_OTHER,
+	E_CARD_SIMPLE_ADDRESS_ID_BUSINESS,
+	E_CARD_SIMPLE_ADDRESS_ID_HOME,
+	E_CARD_SIMPLE_ADDRESS_ID_OTHER,
 	-1
 };
 
@@ -341,6 +363,9 @@ struct _EAddrConduitContext {
 	GList *changed;
 	GHashTable *changed_hash;
 	GList *locals;
+	
+	gboolean address_load_tried;
+	gboolean address_load_success;
 
 	EPilotMap *map;
 };
@@ -390,8 +415,17 @@ e_addr_context_destroy (EAddrConduitContext *ctxt)
 	if (ctxt->changed_hash != NULL)
 		g_hash_table_destroy (ctxt->changed_hash);
 	
-	if (ctxt->changed != NULL)
-		e_book_free_change_list (ctxt->changed);
+	if (ctxt->changed != NULL) {
+		CardObjectChange *coc;
+		
+		for (l = ctxt->changed; l != NULL; l = l->next) {
+			coc = l->data;
+
+			g_object_unref (coc->card);
+			g_free (coc);
+		}
+		g_list_free (ctxt->changed);
+	}
 	
 	if (ctxt->locals != NULL) {
 		for (l = ctxt->locals; l != NULL; l = l->next)
@@ -456,6 +490,87 @@ static char *print_remote (GnomePilotRecord *remote)
 	return buff;
 }
 
+/* Addressbok Server routines */
+static void
+add_card_cb (EBook *ebook, EBookStatus status, const char *id, gpointer closure)
+{
+	CardObjectChangeStatus *cons = closure;
+
+	cons->status = status;
+	cons->id = g_strdup (id);
+	
+	gtk_main_quit();
+}
+
+static void
+status_cb (EBook *ebook, EBookStatus status, gpointer closure)
+{
+	(*(EBookStatus*)closure) = status;
+	gtk_main_quit();
+}
+
+static void
+cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure)
+{
+	EAddrConduitContext *ctxt = (EAddrConduitContext*)closure;
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		long length;
+		int i;
+
+		ctxt->address_load_success = TRUE;
+
+		length = e_card_cursor_get_length (cursor);
+		ctxt->cards = NULL;
+		for (i = 0; i < length; i ++) {
+			ECard *card = e_card_cursor_get_nth (cursor, i);
+			
+			if (e_card_evolution_list (card))
+				continue;
+
+			ctxt->cards = g_list_append (ctxt->cards, card);
+		}
+
+		gtk_main_quit(); /* end the sub event loop */
+	}
+	else {
+		WARN (_("Cursor could not be loaded\n"));
+		gtk_main_quit(); /* end the sub event loop */
+	}
+}
+
+static void
+book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	EAddrConduitContext *ctxt = (EAddrConduitContext*)closure;
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		e_book_get_cursor (book, "(contains \"full_name\" \"\")", cursor_cb, ctxt);
+	} else {
+		WARN (_("EBook not loaded\n"));
+		gtk_main_quit(); /* end the sub event loop */
+	}
+}
+
+static int
+start_addressbook_server (EAddrConduitContext *ctxt)
+{
+	g_return_val_if_fail(ctxt!=NULL,-2);
+
+	ctxt->ebook = e_book_new ();
+
+	e_book_load_default_book (ctxt->ebook, book_open_cb, ctxt);
+	
+	/* run a sub event loop to turn ebook's async loading into a
+           synchronous call */
+	gtk_main ();
+
+	if (ctxt->address_load_success)
+		return 0;
+
+	return -1;
+}
+
 /* Utility routines */
 static char *
 map_name (EAddrConduitContext *ctxt) 
@@ -470,128 +585,128 @@ map_name (EAddrConduitContext *ctxt)
 static GList *
 next_changed_item (EAddrConduitContext *ctxt, GList *changes) 
 {
-	EBookChange *ebc;
+	CardObjectChange *coc;
 	GList *l;
 	
 	for (l = changes; l != NULL; l = l->next) {
-		ebc = l->data;
+		coc = l->data;
 		
-		if (g_hash_table_lookup (ctxt->changed_hash, e_contact_get_const (ebc->contact, E_CONTACT_UID)))
+		if (g_hash_table_lookup (ctxt->changed_hash, e_card_get_id (coc->card)))
 			return l;
 	}
 	
 	return NULL;
 }
 
-static EContactField
-get_next_mail (EContactField *field)
+static ECardSimpleField
+get_next_mail (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_EMAIL;
+		return E_CARD_SIMPLE_FIELD_EMAIL;
 	
 	switch (*field) {
-	case E_CONTACT_EMAIL:
-		return E_CONTACT_EMAIL_2;
-	case E_CONTACT_EMAIL_2:
-		return E_CONTACT_EMAIL_3;
+	case E_CARD_SIMPLE_FIELD_EMAIL:
+		return E_CARD_SIMPLE_FIELD_EMAIL_2;
+	case E_CARD_SIMPLE_FIELD_EMAIL_2:
+		return E_CARD_SIMPLE_FIELD_EMAIL_3;
 	default:
 	}
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
-static EContactField
-get_next_home (EContactField *field)
+static ECardSimpleField
+get_next_home (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_PHONE_HOME;
+		return E_CARD_SIMPLE_FIELD_PHONE_HOME;
 	
 	switch (*field) {
-	case E_CONTACT_PHONE_HOME:
-		return E_CONTACT_PHONE_HOME_2;
+	case E_CARD_SIMPLE_FIELD_PHONE_HOME:
+		return E_CARD_SIMPLE_FIELD_PHONE_HOME_2;
 	default:
 	}
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
-static EContactField
-get_next_work (EContactField *field)
+static ECardSimpleField
+get_next_work (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_PHONE_BUSINESS;
+		return E_CARD_SIMPLE_FIELD_PHONE_BUSINESS;
 	
 	switch (*field) {
-	case E_CONTACT_PHONE_BUSINESS:
-		return E_CONTACT_PHONE_BUSINESS_2;
+	case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS:
+		return E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2;
 	default:
 	}
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
-static EContactField
-get_next_fax (EContactField *field)
+static ECardSimpleField
+get_next_fax (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_PHONE_BUSINESS_FAX;
+		return E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX;
 	
 	switch (*field) {
-	case E_CONTACT_PHONE_BUSINESS_FAX:
-		return E_CONTACT_PHONE_HOME_FAX;
-	case E_CONTACT_PHONE_HOME_FAX:
-		return E_CONTACT_PHONE_OTHER_FAX;
+	case E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX:
+		return E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX;
+	case E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX:
+		return E_CARD_SIMPLE_FIELD_PHONE_OTHER_FAX;
 	default:
 	}
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
-static EContactField
-get_next_other (EContactField *field)
+static ECardSimpleField
+get_next_other (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_PHONE_OTHER;
+		return E_CARD_SIMPLE_FIELD_PHONE_OTHER;
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
-static EContactField
-get_next_main (EContactField *field)
+static ECardSimpleField
+get_next_main (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_PHONE_PRIMARY;
+		return E_CARD_SIMPLE_FIELD_PHONE_PRIMARY;
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
-static EContactField
-get_next_pager (EContactField *field)
+static ECardSimpleField
+get_next_pager (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_PHONE_PAGER;
+		return E_CARD_SIMPLE_FIELD_PHONE_PAGER;
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
-static EContactField
-get_next_mobile (EContactField *field)
+static ECardSimpleField
+get_next_mobile (ECardSimpleField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_PHONE_MOBILE;
+		return E_CARD_SIMPLE_FIELD_PHONE_MOBILE;
 
-	return E_CONTACT_FIELD_LAST;
+	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
 static void
-get_next_init (EContactField *next_mail,
-	       EContactField *next_home,
-	       EContactField *next_work,
-	       EContactField *next_fax,
-	       EContactField *next_other,
-	       EContactField *next_main,
-	       EContactField *next_pager,
-	       EContactField *next_mobile)
+get_next_init (ECardSimpleField *next_mail,
+	       ECardSimpleField *next_home,
+	       ECardSimpleField *next_work,
+	       ECardSimpleField *next_fax,
+	       ECardSimpleField *next_other,
+	       ECardSimpleField *next_main,
+	       ECardSimpleField *next_pager,
+	       ECardSimpleField *next_mobile)
 {	
 	*next_mail = get_next_mail (NULL);
 	*next_home = get_next_home (NULL);
@@ -604,9 +719,9 @@ get_next_init (EContactField *next_mail,
 }
 
 static gboolean
-is_next_done (EContactField field)
+is_next_done (ECardSimpleField field)
 {
-	if (field == E_CONTACT_FIELD_LAST)
+	if (field == E_CARD_SIMPLE_FIELD_LAST)
 		return TRUE;
 	
 	return FALSE;
@@ -615,8 +730,8 @@ is_next_done (EContactField field)
 static gboolean
 is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local) 
 {	
-	EContactField next_mail, next_home, next_work, next_fax;
-	EContactField next_other, next_main, next_pager, next_mobile;
+	ECardSimpleField next_mail, next_home, next_work, next_fax;
+	ECardSimpleField next_other, next_main, next_pager, next_mobile;
 	gboolean syncable = TRUE;
 	int i, l = 0;
 
@@ -695,26 +810,13 @@ is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local)
 	return syncable;
 }
 
-static void
-set_contact_text (EContact *contact, EContactField field, struct Address address, int entry)
-{
-	char *text = NULL;
-	
-	if (address.entry[entry])
-		text = e_pilot_utf8_from_pchar (address.entry[entry]);
-
-	e_contact_set (contact, field, text);
-	
-	g_free (text);
-}
-
 static char *
-get_entry_text (struct Address address, int entry)
+get_entry_text (struct Address address, int field)
 {
-	if (address.entry[entry])
-		return e_pilot_utf8_from_pchar (address.entry[entry]);
-
-	return NULL;	
+	if (address.entry[field])
+		return e_pilot_utf8_from_pchar (address.entry[field]);
+	
+	return g_strdup ("");
 }
 
 static void
@@ -729,26 +831,26 @@ clear_entry_text (struct Address address, int field)
 static void
 compute_status (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid)
 {
-	EBookChange *ebc;
+	CardObjectChange *coc;
 
 	local->local.archived = FALSE;
 	local->local.secret = FALSE;
 
-	ebc = g_hash_table_lookup (ctxt->changed_hash, uid);
+	coc = g_hash_table_lookup (ctxt->changed_hash, uid);
 	
-	if (ebc == NULL) {
+	if (coc == NULL) {
 		local->local.attr = GnomePilotRecordNothing;
 		return;
 	}
 	
-	switch (ebc->change_type) {
-	case E_BOOK_CHANGE_CARD_ADDED:
+	switch (coc->type) {
+	case CARD_ADDED:
 		local->local.attr = GnomePilotRecordNew;
 		break;	
-	case E_BOOK_CHANGE_CARD_MODIFIED:
+	case CARD_MODIFIED:
 		local->local.attr = GnomePilotRecordModified;
 		break;
-	case E_BOOK_CHANGE_CARD_DELETED:
+	case CARD_DELETED:
 		local->local.attr = GnomePilotRecordDeleted;
 		break;
 	}
@@ -779,22 +881,26 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 }
 
 static void
-local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrConduitContext *ctxt)
+local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitContext *ctxt)
 {
-	const EContactAddress *address;
-	EContactField mailing_address;
+	ECardSimple *simple;
+	const ECardDeliveryAddress *delivery;
+	ECardSimpleAddressId mailing_address;
 	int phone = entryPhone1;
 
 	gboolean syncable;
 	int i;
 	
 	g_return_if_fail (local != NULL);
-	g_return_if_fail (contact != NULL);
+	g_return_if_fail (ecard != NULL);
 
-	local->contact = g_object_ref (contact);
-	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, e_contact_get_const (contact, E_CONTACT_UID), TRUE);
+	local->ecard = ecard;
+	g_object_ref (ecard);
+	simple = e_card_simple_new (ecard);
+	
+	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, ecard->id, TRUE);
 
-	compute_status (ctxt, local, e_contact_get_const (contact, E_CONTACT_UID));
+	compute_status (ctxt, local, ecard->id);
 
 	local->addr = g_new0 (struct Address, 1);
 
@@ -829,46 +935,41 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 		}
 	}
 
-	local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_GIVEN_NAME));
-	local->addr->entry[entryLastname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_FAMILY_NAME));
-	local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_ORG));
-	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_TITLE));
-	
-	/* See if the default has something in it */
-	mailing_address = -1;
-	if (e_contact_get_const (contact, ctxt->cfg->default_address))
-		mailing_address = ctxt->cfg->default_address;
-	
-	/* If it doesn't, look for any address */
-	if (mailing_address == -1) {
-		for (i = E_CONTACT_FIRST_LABEL_ID; i < E_CONTACT_LAST_LABEL_ID; i++) {
-			if (e_contact_get_const (contact, i)) {
-				mailing_address = i;				
-				break;
-			}
-		}
+	if (ecard->name) {
+		local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (ecard->name->given);
+		local->addr->entry[entryLastname] = e_pilot_utf8_to_pchar (ecard->name->family);
 	}
-	
-	/* If all else fails, use the default */
+
+	local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (ecard->org);
+	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (ecard->title);
+
+	mailing_address = -1;
+	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+		const ECardAddrLabel *address;
+		
+		address = e_card_simple_get_address(simple, i);
+		if (address && (address->flags & E_CARD_ADDR_DEFAULT))
+			mailing_address = i;
+	}
 	if (mailing_address == -1)
 		mailing_address = ctxt->cfg->default_address;
 
-	address = e_contact_get_const (contact, mailing_address);
-	if (address) {
+	delivery = e_card_simple_get_delivery_address (simple, mailing_address);
+	if (delivery) {
 		char *add;
 		
 		/* If the address has 2 lines, make sure both get added */
-		if (address->ext != NULL)
-			add = g_strconcat (address->street, "\n", address->ext, NULL);
+		if (delivery->ext != NULL)
+			add = g_strconcat (delivery->street, "\n", delivery->ext, NULL);
 		else
-			add = g_strdup (address->street);
+			add = g_strdup (delivery->street);
 		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (add);
 		g_free (add);
 		
-		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (address->locality);
-		local->addr->entry[entryState] = e_pilot_utf8_to_pchar (address->region);
-		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (address->code);
-		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (address->country);
+		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (delivery->city);
+		local->addr->entry[entryState] = e_pilot_utf8_to_pchar (delivery->region);
+		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (delivery->code);
+		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (delivery->country);
 	}
 
 	/* Phone numbers */
@@ -881,10 +982,10 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 
 		/* Sync by priority */
 		for (i = 0, phone = entryPhone1; 
-		     priority[i] != E_CONTACT_FIELD_LAST && phone <= entryPhone5; i++) {
+		     priority[i] != E_CARD_SIMPLE_FIELD_LAST && phone <= entryPhone5; i++) {
 			const char *phone_str;
 			
-			phone_str = e_contact_get_const (contact, priority[i]);
+			phone_str = e_card_simple_get_const (simple, priority[i]);
 			if (phone_str && *phone_str) {
 				clear_entry_text (*local->addr, phone);
 				local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str);
@@ -896,8 +997,8 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 			      local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
 		local->addr->showPhone = 0;
 	} else {
-		EContactField next_mail, next_home, next_work, next_fax;
-		EContactField next_other, next_main, next_pager, next_mobile;
+		ECardSimpleField next_mail, next_home, next_work, next_fax;
+		ECardSimpleField next_other, next_main, next_pager, next_mobile;
 
 		INFO ("Not Syncable");
 		get_next_init (&next_mail, &next_home, &next_work, &next_fax,
@@ -909,28 +1010,28 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 			const char *phone_str = NULL;
 			
 			if (phonelabel == LABEL_EMAIL && !is_next_done (next_mail)) {
-				phone_str = e_contact_get_const (contact, next_mail);
+				phone_str = e_card_simple_get_const (simple, next_mail);
 				next_mail = get_next_mail (&next_mail);
 			} else if (phonelabel == LABEL_HOME && !is_next_done (next_home)) {
-  				phone_str = e_contact_get_const (contact, next_home);
+				phone_str = e_card_simple_get_const (simple, next_home);
 				next_home = get_next_home (&next_home);
 			} else if (phonelabel == LABEL_WORK && !is_next_done (next_work)) {
-				phone_str = e_contact_get_const (contact, next_work);
+				phone_str = e_card_simple_get_const (simple, next_work);
 				next_work = get_next_work (&next_work);
 			} else if (phonelabel == LABEL_FAX && !is_next_done (next_fax)) {
-				phone_str = e_contact_get_const (contact, next_fax);
+				phone_str = e_card_simple_get_const (simple, next_fax);
 				next_fax = get_next_fax (&next_fax);
 			} else if (phonelabel == LABEL_OTHER && !is_next_done (next_other)) {
-				phone_str = e_contact_get_const (contact, next_other);
+				phone_str = e_card_simple_get_const (simple, next_other);
 				next_other = get_next_other (&next_other);
 			} else if (phonelabel == LABEL_MAIN && !is_next_done (next_main)) {
-				phone_str = e_contact_get_const (contact, next_main);
+				phone_str = e_card_simple_get_const (simple, next_main);
 				next_main = get_next_main (&next_main);
 			} else if (phonelabel == LABEL_PAGER && !is_next_done (next_pager)) {
-				phone_str = e_contact_get_const (contact, next_pager);
+				phone_str = e_card_simple_get_const (simple, next_pager);
 				next_pager = get_next_pager (&next_pager);
 			} else if (phonelabel == LABEL_MOBILE && !is_next_done (next_mobile)) {
-				phone_str = e_contact_get_const (contact, next_mobile);
+				phone_str = e_card_simple_get_const (simple, next_mobile);
 				next_mobile = get_next_mobile (&next_mobile);
 			}
 			
@@ -942,7 +1043,9 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 	}
 	
 	/* Note */
-	local->addr->entry[entryNote] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_NOTE));
+	local->addr->entry[entryNote] = e_pilot_utf8_to_pchar (ecard->note);
+
+	g_object_unref (simple);
 }
 
 static void 
@@ -950,104 +1053,118 @@ local_record_from_uid (EAddrLocalRecord *local,
 		       const char *uid,
 		       EAddrConduitContext *ctxt)
 {
-	EContact *contact = NULL;
+	ECard *ecard = NULL;
 	GList *l;
 	
 	g_assert (local != NULL);
 
 	for (l = ctxt->cards; l != NULL; l = l->next) {
-		contact = l->data;
+		ecard = l->data;
 		
-		/* FIXME Do we need to check for the empty string? */
-		if (e_contact_get_const (contact, E_CONTACT_UID));
+		if (ecard->id && !strcmp (ecard->id, uid))
 			break;
 
-		contact = NULL;
+		ecard = NULL;
 	}
 
-	if (contact != NULL) {
-		local_record_from_ecard (local, contact, ctxt);
+	if (ecard != NULL) {
+		local_record_from_ecard (local, ecard, ctxt);
 	} else {
-		contact = e_contact_new ();
-		e_contact_set (contact, E_CONTACT_UID, (gpointer) uid);
-		local_record_from_ecard (local, contact, ctxt);
-		g_object_unref (contact);
+		ecard = e_card_new ("");
+		e_card_set_id (ecard, uid);
+		local_record_from_ecard (local, ecard, ctxt);
+		g_object_unref (ecard);
 	}
 }
 
-static EContact *
+static ECard *
 ecard_from_remote_record(EAddrConduitContext *ctxt,
 			 GnomePilotRecord *remote,
-			 EContact *in_contact)
+			 ECard *in_card)
 {
 	struct Address address;
-	EContact *contact;
-	EContactName *name;
-	EContactAddress *eaddress;
-	EContactField mailing_address;
+	ECard *ecard;
+	ECardSimple *simple;
+	ECardName *name;
+	ECardDeliveryAddress *delivery;
+	ECardAddrLabel *label;
+	ECardSimpleAddressId mailing_address;
 	char *txt, *find;
-	EContactField next_mail, next_home, next_work, next_fax;
-	EContactField next_other, next_main, next_pager, next_mobile;
+	ECardSimpleField next_mail, next_home, next_work, next_fax;
+	ECardSimpleField next_other, next_main, next_pager, next_mobile;
 	int i;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
 	unpack_Address (&address, remote->record, remote->length);
 
-	if (in_contact == NULL)
-		contact = e_contact_new ();
+	if (in_card == NULL)
+		ecard = e_card_new("");
 	else
-		contact = e_contact_duplicate (in_contact);
+		ecard = e_card_duplicate (in_card);
 
 	/* Name */
-	name = e_contact_name_new ();
+	name = e_card_name_copy (ecard->name);
 	name->given = get_entry_text (address, entryFirstname);
 	name->family = get_entry_text (address, entryLastname);
 
-	e_contact_set (contact, E_CONTACT_NAME, name);
-	e_contact_name_free (name);
-	
+	simple = e_card_simple_new (ecard);
+	txt = e_card_name_to_string (name);	
+	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, txt);
+	e_card_simple_set_name (simple, name);
+
 	/* File as */
-	if (!e_contact_get_const (contact, E_CONTACT_FULL_NAME))
-		set_contact_text (contact, E_CONTACT_FILE_AS, address, entryCompany);
+	if (!(txt && *txt))
+		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FILE_AS, 
+				  address.entry[entryCompany]);
+
+	g_free (txt);
+	e_card_name_unref (name);
 
 	/* Title and Company */
-	set_contact_text (contact, E_CONTACT_TITLE, address, entryTitle);
-	set_contact_text (contact, E_CONTACT_ORG, address, entryCompany);
+	txt = get_entry_text (address, entryTitle);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, txt);
+	g_free (txt);
+
+	txt = get_entry_text (address, entryCompany);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, txt);
+	g_free (txt);
 
 	/* Address */
 	mailing_address = -1;
-	if (e_contact_get_const (contact, ctxt->cfg->default_address))
-		mailing_address = ctxt->cfg->default_address;
+	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+		const ECardAddrLabel *addr;
 
-	if (mailing_address == -1) {
-		for (i = E_CONTACT_FIRST_LABEL_ID; i < E_CONTACT_LAST_LABEL_ID; i++) {
-			if (e_contact_get_const (contact, i)) {
-				mailing_address = i;				
-				break;
-			}
-		}
+		addr = e_card_simple_get_address(simple, i);
+		if (addr && (addr->flags & E_CARD_ADDR_DEFAULT))
+			mailing_address = i;
 	}
-	
 	if (mailing_address == -1)
 		mailing_address = ctxt->cfg->default_address;
 
-	eaddress = g_new0 (EContactAddress, 1);
-
+	delivery = e_card_delivery_address_new ();
+	delivery->flags |= E_CARD_ADDR_DEFAULT;
 	txt = get_entry_text (address, entryAddress);
 	if ((find = strchr (txt, '\n')) != NULL) {
 		*find = '\0';
 		find++;
-	}	
-	eaddress->street = txt;
-	eaddress->ext = find != NULL ? g_strdup (find) : g_strdup ("");
-	eaddress->locality = get_entry_text (address, entryCity);
-	eaddress->region = get_entry_text (address, entryState);
-	eaddress->country = get_entry_text (address, entryCountry);
-	eaddress->code = get_entry_text (address, entryZip);
+	}
+	delivery->street = txt;
+	delivery->ext = find != NULL ? g_strdup (find) : g_strdup ("");
+	delivery->city = get_entry_text (address, entryCity);
+	delivery->region = get_entry_text (address, entryState);
+	delivery->country = get_entry_text (address, entryCountry);
+	delivery->code = get_entry_text (address, entryZip);
+
+	label = e_card_address_label_new ();
+	label->flags |= E_CARD_ADDR_DEFAULT;
+	label->data = e_card_delivery_address_to_string (delivery);
+
+	e_card_simple_set_address (simple, mailing_address, label);
+	e_card_simple_set_delivery_address (simple, mailing_address, delivery);
 	
-	e_contact_set (contact, mailing_address, eaddress);
-	e_contact_address_free (eaddress);
+	e_card_delivery_address_unref (delivery);
+	e_card_address_label_unref (label);
 	
 	/* Phone numbers */
 	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
@@ -1058,28 +1175,28 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		char *phonenum = get_entry_text (address, i);
 		
 		if (phonelabel == LABEL_EMAIL && !is_next_done (next_mail)) {
-			e_contact_set (contact, next_mail, phonenum);
+			e_card_simple_set (simple, next_mail, phonenum);
 			next_mail = get_next_mail (&next_mail);
 		} else if (phonelabel == LABEL_HOME && !is_next_done (next_home)) {
-			e_contact_set (contact, next_home, phonenum);
+			e_card_simple_set (simple, next_home, phonenum);
 			next_home = get_next_home (&next_home);
 		} else if (phonelabel == LABEL_WORK && !is_next_done (next_work)) {
-			e_contact_set (contact, next_work, phonenum);
+			e_card_simple_set (simple, next_work, phonenum);
 			next_work = get_next_work (&next_work);
 		} else if (phonelabel == LABEL_FAX && !is_next_done (next_fax)) {
-			e_contact_set (contact, next_fax, phonenum);
+			e_card_simple_set (simple, next_fax, phonenum);
 			next_fax = get_next_fax (&next_fax);
 		} else if (phonelabel == LABEL_OTHER && !is_next_done (next_other)) {
-			e_contact_set (contact, next_other, phonenum);
+			e_card_simple_set (simple, next_other, phonenum);
 			next_other = get_next_other (&next_other);
 		} else if (phonelabel == LABEL_MAIN && !is_next_done (next_main)) {
-			e_contact_set (contact, next_main, phonenum);
+			e_card_simple_set (simple, next_main, phonenum);
 			next_main = get_next_main (&next_main);
 		} else if (phonelabel == LABEL_PAGER && !is_next_done (next_pager)) {
-			e_contact_set (contact, next_pager, phonenum);
+			e_card_simple_set (simple, next_pager, phonenum);
 			next_pager = get_next_pager (&next_pager);
 		} else if (phonelabel == LABEL_MOBILE && !is_next_done (next_mobile)) {
-			e_contact_set (contact, next_mobile, phonenum);
+			e_card_simple_set (simple, next_mobile, phonenum);
 			next_mobile = get_next_mobile (&next_mobile);
 		}
 		
@@ -1087,11 +1204,16 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	}
 
 	/* Note */
-	set_contact_text (contact, E_CONTACT_NOTE, address, entryNote);
+	txt = get_entry_text (address, entryNote);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_NOTE, txt);
+	g_free (txt);
+	
+	e_card_simple_sync_card (simple);
+	g_object_unref(simple);
 
 	free_Address(&address);
 
-	return contact;
+	return ecard;
 }
 
 static void
@@ -1121,6 +1243,112 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 	}
 }
 
+static void
+card_added (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
+{
+	const GList *l;
+
+	for (l = cards; l != NULL; l = l->next) {
+		ECard *card = E_CARD (l->data);
+		CardObjectChange *coc;
+		
+		if (e_card_evolution_list (card))
+			continue;
+		
+		coc = g_new0 (CardObjectChange, 1);
+		coc->card = card;
+		coc->type = CARD_ADDED;
+
+		g_object_ref (coc->card);
+		ctxt->changed = g_list_prepend (ctxt->changed, coc);
+		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
+	}
+}
+
+static void
+card_changed (EBookView *book_view, const GList *cards, EAddrConduitContext *ctxt)
+{
+	const GList *l;
+
+	for (l = cards; l != NULL; l = l->next) {
+		ECard *card = E_CARD (l->data);
+		CardObjectChange *coc;
+
+		if (e_card_evolution_list (card))
+			continue;
+		
+		coc = g_new0 (CardObjectChange, 1);		
+		coc->card = E_CARD (l->data);
+		coc->type = CARD_MODIFIED;
+
+		g_object_ref (coc->card);
+		ctxt->changed = g_list_prepend (ctxt->changed, coc);
+		if (!e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (coc->card)))
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
+	}
+}
+
+
+static void
+card_removed (EBookView *book_view, GList *ids, EAddrConduitContext *ctxt)
+{
+	GList *l;
+
+	for (l = ids; l != NULL; l = l->next) {
+		const char *id = l->data;
+		CardObjectChange *coc;
+		gboolean archived;
+		
+		archived = e_pilot_map_uid_is_archived (ctxt->map, id);
+	
+		/* If its deleted, not in the archive and not in the map its a list */
+		if (!archived && e_pilot_map_lookup_pid (ctxt->map, id, FALSE) == 0)
+			return;	
+	
+		coc = g_new0 (CardObjectChange, 1);
+		coc->card = e_card_new ("");
+		e_card_set_id (coc->card, id);
+		coc->type = CARD_DELETED;
+
+		ctxt->changed = g_list_prepend (ctxt->changed, coc);
+	
+		if (!archived)
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
+		else
+			e_pilot_map_remove_by_uid (ctxt->map, id);
+	}
+}
+
+static void
+sequence_complete (EBookView *book_view, EBookViewStatus status, EAddrConduitContext *ctxt)
+{
+	g_signal_handlers_disconnect_matched(book_view,
+					     G_SIGNAL_MATCH_DATA,
+					     0, 0,
+					     NULL, NULL, ctxt);
+	g_object_unref (book_view);
+  	gtk_main_quit ();
+}
+
+static void
+view_cb (EBook *book, EBookStatus status, EBookView *book_view, gpointer data)
+{
+	EAddrConduitContext *ctxt = data;
+	
+	g_object_ref (book_view);
+	
+  	g_signal_connect (book_view, "card_added", 
+			  G_CALLBACK (card_added), ctxt);
+	g_signal_connect (book_view, "card_changed", 
+			  G_CALLBACK (card_changed), ctxt);
+	g_signal_connect (book_view, "card_removed", 
+			  G_CALLBACK (card_removed), ctxt);
+  	g_signal_connect (book_view, "sequence_complete", 
+			  G_CALLBACK (sequence_complete), ctxt);
+
+}
+
 /* Pilot syncing callbacks */
 static gint
 pre_sync (GnomePilotConduit *conduit,
@@ -1128,13 +1356,12 @@ pre_sync (GnomePilotConduit *conduit,
 	  EAddrConduitContext *ctxt)
 {
 	GnomePilotConduitSyncAbs *abs_conduit;
-	EBookQuery *query;
-    	GList *l;
+/*    	GList *l; */
 	int len;
 	unsigned char *buf;
 	char *filename;
 	char *change_id;
-	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
+/*  	gint num_records; */
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
 
@@ -1143,13 +1370,11 @@ pre_sync (GnomePilotConduit *conduit,
 	/* g_message ("Addressbook Conduit v.%s", CONDUIT_VERSION); */
 
 	ctxt->dbi = dbi;	
+	ctxt->ebook = NULL;
 	
-	/* FIXME Need to allow our own concept of "local" */
-	ctxt->ebook = e_book_new ();
-	if (!e_book_load_local_addressbook (ctxt->ebook, NULL)) {
-		WARN(_("Could not load addressbook"));
-		gnome_pilot_conduit_error (conduit, _("Could not load addressbook"));
-
+	if (start_addressbook_server (ctxt) != 0) {
+		WARN(_("Could not start wombat server"));
+		gnome_pilot_conduit_error (conduit, _("Could not start wombat"));
 		return -1;
 	}
 
@@ -1158,53 +1383,21 @@ pre_sync (GnomePilotConduit *conduit,
 	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
-	/* Get a list of all contacts */
-	query = e_book_query_from_string ("#t");
-	if (!e_book_get_contacts (ctxt->ebook, query, &ctxt->cards, NULL)) {
-		g_object_unref (query);
-
-		return -1;
-	}
-	g_object_unref (query);
-	
 	/* Count and hash the changes */
 	change_id = g_strdup_printf ("pilot-sync-evolution-addressbook-%d", ctxt->cfg->pilot_id);
-	if (!e_book_get_changes (ctxt->ebook, change_id, &ctxt->changed, NULL))
-		return -1;
 	ctxt->changed_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	g_free (change_id);	
-
-	for (l = ctxt->changed; l != NULL; l = l->next) {
-		EBookChange *ebc = l->data;
-		const char *uid;
-		
-		uid = e_contact_get_const (ebc->contact, E_CONTACT_UID);
-		if (!e_pilot_map_uid_is_archived (ctxt->map, uid)) {
-
-			g_hash_table_insert (ctxt->changed_hash, g_strdup (uid), ebc);
-
-			switch (ebc->change_type) {
-			case E_BOOK_CHANGE_CARD_ADDED:
-				add_records++;
-				break;
-			case E_BOOK_CHANGE_CARD_MODIFIED:
-				mod_records++;
-				break;
-			case E_BOOK_CHANGE_CARD_DELETED:
-				del_records++;
-				break;
-			}
-		} else if (ebc->change_type == E_BOOK_CHANGE_CARD_DELETED) {
-			e_pilot_map_remove_by_uid (ctxt->map, uid);
-		}
-	}
+	e_book_get_changes (ctxt->ebook, change_id, view_cb, ctxt);
+	
+	/* Force the view loading to be synchronous */
+	gtk_main ();
+	g_free (change_id);
 	
 	/* Set the count information */
-  	num_records = g_list_length (ctxt->cards);
-  	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);
-  	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
-  	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
-  	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records);
+/*  	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_TODO); */
+/*  	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records); */
+/*  	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records); */
+/*  	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records); */
+/*  	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records); */
 
 	buf = (unsigned char*)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
@@ -1233,7 +1426,6 @@ post_sync (GnomePilotConduit *conduit,
 	   GnomePilotDBInfo *dbi,
 	   EAddrConduitContext *ctxt)
 {
-	GList *changed;
 	gchar *filename, *change_id;
 	
 	LOG (g_message ( "post_sync: Address Conduit v.%s", CONDUIT_VERSION ));
@@ -1250,9 +1442,9 @@ post_sync (GnomePilotConduit *conduit,
 	 * a race condition if anyone changes a record elsewhere during sycnc
          */	
 	change_id = g_strdup_printf ("pilot-sync-evolution-addressbook-%d", ctxt->cfg->pilot_id);
-	if (e_book_get_changes (ctxt->ebook, change_id, &changed, NULL))
-		e_book_free_change_list (changed);
+	e_book_get_changes (ctxt->ebook, change_id, view_cb, ctxt);
 	g_free (change_id);
+	gtk_main ();
 
 	LOG (g_message ( "---------------------------------------------------------\n" ));
 	
@@ -1267,7 +1459,7 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 {
 	LOG (g_message ( "set_pilot_id: setting to %d\n", ID ));
 	
-	e_pilot_map_insert (ctxt->map, ID, e_contact_get_const (local->contact, E_CONTACT_UID), FALSE);
+	e_pilot_map_insert (ctxt->map, ID, local->ecard->id, FALSE);
 
         return 0;
 }
@@ -1279,7 +1471,7 @@ set_status_cleared (GnomePilotConduitSyncAbs *conduit,
 {
 	LOG (g_message ( "set_status_cleared: clearing status\n" ));
 	
-	g_hash_table_remove (ctxt->changed_hash, e_contact_get_const (local->contact, E_CONTACT_UID));
+	g_hash_table_remove (ctxt->changed_hash, e_card_get_id (local->ecard));
 	
         return 0;
 }
@@ -1353,12 +1545,12 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		
 		iterator = next_changed_item (ctxt, iterator);
 		if (iterator != NULL) {
-			EBookChange *ebc = iterator->data;
+			CardObjectChange *coc = iterator->data;
 			
-			LOG (g_message ( "iterating over %d records", g_hash_table_size (ctxt->changed_hash)));
+			LOG (g_message ( "iterating over %d records", g_hash_table_size (ctxt->changed_hash) ));
 			 
 			*local = g_new0 (EAddrLocalRecord, 1);
-			local_record_from_ecard (*local, ebc->contact, ctxt);
+			local_record_from_ecard (*local, coc->card, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "no events" ));
@@ -1369,10 +1561,10 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		count++;
 		iterator = g_list_next (iterator);
 		if (iterator && (iterator = next_changed_item (ctxt, iterator))) {
-			EBookChange *ebc = iterator->data;
+			CardObjectChange *coc = iterator->data;
 
 			*local = g_new0 (EAddrLocalRecord, 1);
-			local_record_from_ecard (*local, ebc->contact, ctxt);
+			local_record_from_ecard (*local, coc->card, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each_modified ending" ));
@@ -1421,26 +1613,30 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    GnomePilotRecord *remote,
 	    EAddrConduitContext *ctxt)
 {
-	EContact *contact;
+	ECard *ecard;
+	CardObjectChangeStatus cons;
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1);
 
 	LOG (g_message ( "add_record: adding %s to desktop\n", print_remote (remote) ));
 
-	contact = ecard_from_remote_record (ctxt, remote, NULL);
+	ecard = ecard_from_remote_record (ctxt, remote, NULL);
 	
 	/* add the ecard to the server */
-	if (!e_book_add_contact (ctxt->ebook, contact, NULL)) {
+	e_book_add_card (ctxt->ebook, ecard, add_card_cb, &cons);
+
+	gtk_main(); /* enter sub mainloop */
+	
+	if (cons.status != E_BOOK_STATUS_SUCCESS) {
 		WARN ("add_record: failed to add card to ebook\n");
-		g_object_unref (contact);
-		
 		return -1;
 	}
 
-	e_pilot_map_insert (ctxt->map, remote->ID, e_contact_get (contact, E_CONTACT_UID), FALSE);
+	e_card_set_id (ecard, cons.id);
+	e_pilot_map_insert (ctxt->map, remote->ID, ecard->id, FALSE);
 
-	g_object_unref (contact);
+	g_object_unref (ecard);
 
 	return retval;
 }
@@ -1451,8 +1647,10 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 		GnomePilotRecord *remote,
 		EAddrConduitContext *ctxt)
 {
-	EContact *new_contact;
-	EBookChange *ebc;
+	ECard *new_ecard;
+	EBookStatus commit_status;
+	CardObjectChange *coc;
+	CardObjectChangeStatus cons;
 	char *old_id;
 	int retval = 0;
 	
@@ -1461,46 +1659,41 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ("replace_record: replace %s with %s\n",
 	     print_local (local), print_remote (remote)));
 
-	old_id = e_contact_get (local->contact, E_CONTACT_UID);
-	ebc = g_hash_table_lookup (ctxt->changed_hash, old_id);
+	old_id = g_strdup (e_card_get_id (local->ecard));
+	coc = g_hash_table_lookup (ctxt->changed_hash, old_id);
 	
-	new_contact = ecard_from_remote_record (ctxt, remote, local->contact);
-	g_object_unref (local->contact);
-	local->contact = new_contact;
+	new_ecard = ecard_from_remote_record (ctxt, remote, local->ecard);
+	g_object_unref (local->ecard);
+	local->ecard = new_ecard;
 
-	if (ebc && ebc->change_type == E_BOOK_CHANGE_CARD_DELETED) {
-		if (!e_book_add_contact (ctxt->ebook, local->contact, NULL)) {
-			WARN (G_STRLOC ": failed to add card\n");
-
-			return -1;
-		}
-		
-	} else {
-		if (!e_book_commit_contact (ctxt->ebook, local->contact, NULL)) {
-			WARN (G_STRLOC ": failed to commit card\n");
-
-			return -1;
-		}		
-	}
+	if (coc && coc->type == CARD_DELETED)
+		e_book_add_card (ctxt->ebook, local->ecard, add_card_cb, &cons);
+	else
+		e_book_commit_card (ctxt->ebook, local->ecard, status_cb, &commit_status);
+	
+	gtk_main (); /* enter sub mainloop */
 
 	/* Adding a record causes wombat to assign a new uid so we must tidy */
-	if (ebc && ebc->change_type == E_BOOK_CHANGE_CARD_DELETED) {
-		const char *uid = e_contact_get_const (local->contact, E_CONTACT_UID);
-		gboolean arch;
+	if (coc && coc->type == CARD_DELETED) {
+		gboolean arch = e_pilot_map_uid_is_archived (ctxt->map, e_card_get_id (local->ecard));
 		
-		arch = e_pilot_map_uid_is_archived (ctxt->map, uid);
-		e_pilot_map_insert (ctxt->map, remote->ID, uid, arch);
+		e_card_set_id (local->ecard, cons.id);
+		e_pilot_map_insert (ctxt->map, remote->ID, cons.id, arch);
 
-		ebc = g_hash_table_lookup (ctxt->changed_hash, old_id);
-		if (ebc) {
-			g_hash_table_remove (ctxt->changed_hash, old_id);
-			g_object_unref (ebc->contact);
-			g_object_ref (local->contact);
-			ebc->contact = local->contact;
-			/* FIXME We should possibly be duplicating the uid */
-			g_hash_table_insert (ctxt->changed_hash, (gpointer) uid, ebc);
+		coc = g_hash_table_lookup (ctxt->changed_hash, old_id);
+		if (coc) {
+			g_hash_table_remove (ctxt->changed_hash, e_card_get_id (coc->card));
+			g_object_unref (coc->card);
+			g_object_ref (local->ecard);
+			coc->card = local->ecard;
+			g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
 		}
+		
+		commit_status = cons.status;
 	}
+	
+	if (commit_status != E_BOOK_STATUS_SUCCESS)
+		WARN ("replace_record: failed to update card in ebook\n");
 
 	return retval;
 }
@@ -1510,19 +1703,21 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	       EAddrLocalRecord *local,
 	       EAddrConduitContext *ctxt)
 {
+	EBookStatus commit_status;
 	int retval = 0;
 	
 	g_return_val_if_fail (local != NULL, -1);
-	g_return_val_if_fail (local->contact != NULL, -1);
+	g_return_val_if_fail (local->ecard != NULL, -1);
 
 	LOG (g_message ( "delete_record: delete %s\n", print_local (local) ));
 
-	e_pilot_map_remove_by_uid (ctxt->map, e_contact_get_const (local->contact, E_CONTACT_UID));
-	if (!e_book_remove_contact (ctxt->ebook, e_contact_get_const (local->contact, E_CONTACT_UID), NULL)) {
+	e_pilot_map_remove_by_uid (ctxt->map, local->ecard->id);
+	e_book_remove_card_by_id (ctxt->ebook, local->ecard->id, status_cb, &commit_status);
+	
+	gtk_main (); /* enter sub mainloop */
+	
+	if (commit_status != E_BOOK_STATUS_SUCCESS && commit_status != E_BOOK_STATUS_CARD_NOT_FOUND)
 		WARN ("delete_record: failed to delete card in ebook\n");
-
-		retval = -1;
-	}
 	
 	return retval;
 }
@@ -1539,7 +1734,7 @@ archive_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG (g_message ( "archive_record: %s\n", archive ? "yes" : "no" ));
 
-	e_pilot_map_insert (ctxt->map, local->local.ID, e_contact_get_const (local->contact, E_CONTACT_UID), archive);
+	e_pilot_map_insert (ctxt->map, local->local.ID, local->ecard->id, archive);
 	
         return retval;
 }

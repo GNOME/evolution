@@ -26,35 +26,35 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <gal/widgets/e-unicode.h>
 #include "recur-comp.h"
 
 
 
 gboolean
-recur_component_dialog (ECal *client,
-			ECalComponent *comp,
+recur_component_dialog (CalComponent *comp,
 			CalObjModType *mod,
 			GtkWindow *parent)
 {
 	char *str;
-	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
-	ECalComponentVType vtype;
+	GtkWidget *dialog, *rb1, *rb2, *rb3, *hbox;
+	CalComponentVType vtype;
 	gboolean ret;
 	
-	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), CALOBJ_MOD_THIS);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CALOBJ_MOD_THIS);
 
-	vtype = e_cal_component_get_vtype (comp);
+	vtype = cal_component_get_vtype (comp);
 	
 	switch (vtype) {
-	case E_CAL_COMPONENT_EVENT:
+	case CAL_COMPONENT_EVENT:
 		str = g_strdup_printf (_("You are modifying a recurring event, what would you like to modify?"));
 		break;
 
-	case E_CAL_COMPONENT_TODO:
+	case CAL_COMPONENT_TODO:
 		str = g_strdup_printf (_("You are modifying a recurring task, what would you like to modify?"));
 		break;
 
-	case E_CAL_COMPONENT_JOURNAL:
+	case CAL_COMPONENT_JOURNAL:
 		str = g_strdup_printf (_("You are modifying a recurring journal entry, what would you like to modify?"));
 		break;
 
@@ -69,35 +69,23 @@ recur_component_dialog (ECal *client,
 	
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), hbox);
-	rb_this = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
-	gtk_container_add (GTK_CONTAINER (hbox), rb_this);
+	rb1 = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb1);
 
-	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
-		rb_prior = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Prior Instances"));
-		gtk_container_add (GTK_CONTAINER (hbox), rb_prior);
-	} else
-		rb_prior = NULL;
-
-	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
-		rb_future = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Future Instances"));
-		gtk_container_add (GTK_CONTAINER (hbox), rb_future);
-	} else
-		rb_future = NULL;
-
-	rb_all = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("All Instances"));
-	gtk_container_add (GTK_CONTAINER (hbox), rb_all);
+	rb2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb1), _("This and Future Instances"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb2);	
+	rb3 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb1), _("All Instances"));
+	gtk_container_add (GTK_CONTAINER (hbox), rb3);
 
 	gtk_widget_show_all (hbox);
 
 	ret = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_this)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1)))
 		*mod = CALOBJ_MOD_THIS;
-	else if (rb_prior && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_prior)))
-		*mod = CALOBJ_MOD_THISANDPRIOR;
-	else if (rb_future && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_future)))
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb2)))
 		*mod = CALOBJ_MOD_THISANDFUTURE;
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_all)))
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb3)))
 		*mod = CALOBJ_MOD_ALL;
 
 	gtk_widget_destroy (dialog);

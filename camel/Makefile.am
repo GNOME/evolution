@@ -8,6 +8,7 @@ camellibexecdir = $(privlibexecdir)/camel
 camellibexec_PROGRAMS =	camel-lock-helper camel-index-control
 
 privlib_LTLIBRARIES = libcamel.la
+noinst_LTLIBRARIES = libcamel-static.la
 
 INCLUDES = -I.. -I$(srcdir)/.. 			 	\
 	-I$(top_srcdir)/intl			 	\
@@ -25,6 +26,7 @@ libcamel_la_SOURCES = 				\
 	camel-certdb.c				\
 	camel-charset-map.c			\
 	camel-cipher-context.c			\
+	camel-cms-context.c			\
 	camel-data-cache.c			\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
@@ -46,7 +48,7 @@ libcamel_la_SOURCES = 				\
 	camel-http-stream.c			\
 	camel-index.c				\
 	camel-internet-address.c		\
-	camel-junk-plugin.c			\
+	camel-io.c				\
 	camel-lock.c				\
 	camel-lock-client.c			\
 	camel-medium.c				\
@@ -62,7 +64,6 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-index.c		\
 	camel-mime-filter-linewrap.c		\
 	camel-mime-filter-save.c		\
-	camel-mime-filter-windows.c		\
 	camel-mime-filter.c			\
 	camel-mime-message.c			\
 	camel-mime-parser.c			\
@@ -76,6 +77,9 @@ libcamel_la_SOURCES = 				\
 	camel-object.c				\
 	camel-operation.c			\
 	camel-partition-table.c			\
+	camel-pgp-mime.c			\
+	camel-smime-context.c			\
+	camel-smime-utils.c			\
 	camel-provider.c			\
 	camel-sasl.c				\
 	camel-sasl-anonymous.c			\
@@ -92,7 +96,6 @@ libcamel_la_SOURCES = 				\
 	camel-seekable-substream.c		\
 	camel-service.c				\
 	camel-session.c				\
-	camel-smime-context.c			\
 	camel-store.c				\
 	camel-store-summary.c			\
 	camel-stream-buffer.c			\
@@ -100,9 +103,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
 	camel-stream-null.c			\
-	camel-stream-process.c			\
 	camel-stream.c				\
-	camel-string-utils.c			\
 	camel-text-index.c			\
 	camel-tcp-stream-raw.c			\
 	camel-tcp-stream-ssl.c			\
@@ -116,7 +117,8 @@ libcamel_la_SOURCES = 				\
 	camel-vee-folder.c			\
 	camel-vee-store.c			\
 	camel-vtrash-folder.c			\
-	camel.c
+	camel.c					\
+	string-utils.c
 
 libcamelinclude_HEADERS =			\
 	broken-date-parser.h			\
@@ -126,6 +128,7 @@ libcamelinclude_HEADERS =			\
 	camel-certdb.h				\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
+	camel-cms-context.h			\
 	camel-data-cache.h			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
@@ -147,8 +150,8 @@ libcamelinclude_HEADERS =			\
 	camel-http-stream.h			\
 	camel-index.h				\
 	camel-internet-address.h		\
+	camel-io.h				\
 	camel-i18n.h				\
-	camel-junk-plugin.h			\
 	camel-lock.h				\
 	camel-lock-client.h			\
 	camel-medium.h				\
@@ -164,7 +167,6 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-index.h		\
 	camel-mime-filter-linewrap.h		\
 	camel-mime-filter-save.h		\
-	camel-mime-filter-windows.h		\
 	camel-mime-filter.h			\
 	camel-mime-message.h			\
 	camel-mime-parser.h			\
@@ -178,6 +180,9 @@ libcamelinclude_HEADERS =			\
 	camel-object.h				\
 	camel-operation.h			\
 	camel-partition-table.h			\
+	camel-pgp-mime.h			\
+	camel-smime-context.h			\
+	camel-smime-utils.h			\
 	camel-provider.h			\
 	camel-sasl.h				\
 	camel-sasl-anonymous.h			\
@@ -193,7 +198,6 @@ libcamelinclude_HEADERS =			\
 	camel-seekable-substream.h		\
 	camel-service.h				\
 	camel-session.h				\
-	camel-smime-context.h			\
 	camel-store.h				\
 	camel-store-summary.h			\
 	camel-stream-buffer.h			\
@@ -201,9 +205,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
 	camel-stream-null.h			\
-	camel-stream-process.h			\
 	camel-stream.h				\
-	camel-string-utils.h			\
 	camel-text-index.h			\
 	camel-tcp-stream-raw.h			\
 	camel-tcp-stream-ssl.h			\
@@ -217,13 +219,18 @@ libcamelinclude_HEADERS =			\
 	camel-vee-folder.h			\
 	camel-vee-store.h			\
 	camel-vtrash-folder.h			\
-	camel.h
+	camel.h					\
+	string-utils.h
 
 libcamel_la_LDFLAGS = -version-info 0:0:0
 
 libcamel_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la 	\
 	$(CAMEL_LIBS)
+
+libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
+libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)
+libcamel_static_la_LDFLAGS = --all-static
 
 camel_lock_helper_SOURCES = 			\
 	camel-lock-helper.c 			\

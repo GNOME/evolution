@@ -29,6 +29,8 @@
 
 #include "e-shell-offline-handler.h"
 
+#include "e-shell-offline-sync.h"
+
 #include "e-shell-marshal.h"
 
 #include <gtk/gtkcellrenderertext.h>
@@ -50,14 +52,14 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-exception.h>
 
-
+
 #define GLADE_DIALOG_FILE_NAME EVOLUTION_GLADEDIR "/e-active-connection-dialog.glade"
 
-
+
 #define PARENT_TYPE GTK_TYPE_OBJECT
 static GtkObjectClass *parent_class = NULL;
 
-
+
 /* Private part.  */
 
 struct _OfflineProgressListenerServant {
@@ -92,7 +94,7 @@ typedef struct _ComponentInfo ComponentInfo;
 struct _EShellOfflineHandlerPrivate {
 	EShell *shell;
 
-	GtkWindow *parent_window;
+	EShellView *parent_shell_view;
 
 	GladeXML *dialog_gui;
 
@@ -103,7 +105,7 @@ struct _EShellOfflineHandlerPrivate {
 	int finished : 1;
 };
 
-
+
 /* Signals.   */
 
 enum {
@@ -114,12 +116,12 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-
+
 /* Forward declarations for the dialog handling.  */
 
 static void update_dialog_clist (EShellOfflineHandler *offline_handler);
 
-
+
 /* Implementation for the OfflineProgressListener interface.  */
 
 static PortableServer_ServantBase__epv OfflineProgressListener_base_epv;
@@ -272,7 +274,7 @@ create_progress_listener (EShellOfflineHandler *offline_handler,
 	return TRUE;
 }
 
-
+
 /* ComponentInfo handling.  */
 
 static ComponentInfo *
@@ -320,7 +322,7 @@ component_info_free (ComponentInfo *component_info)
 	CORBA_exception_free (&ev);
 }
 
-
+
 /* Utility functions.  */
 
 static void
@@ -334,25 +336,7 @@ hash_foreach_free_component_info (void *key,
 	component_info_free (component_info);
 }
 
-
-static GNOME_Evolution_Offline
-get_offline_interface (GNOME_Evolution_Component objref)
-{
-	GNOME_Evolution_Offline interface;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	interface = Bonobo_Unknown_queryInterface (objref, "IDL:GNOME/Evolution/Offline:1.0", &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		interface = CORBA_OBJECT_NIL;
-
-	CORBA_exception_free (&ev);
-	return interface;
-}
-
-
+
 /* Cancelling the off-line procedure.  */
 
 static void
@@ -360,21 +344,24 @@ cancel_offline (EShellOfflineHandler *offline_handler)
 {
 	EShellOfflineHandlerPrivate *priv;
 	EComponentRegistry *component_registry;
-	GSList *component_infos;
-	GSList *p;
+	GList *component_ids;
+	GList *p;
 
 	priv = offline_handler->priv;
 
-	component_registry = e_shell_peek_component_registry (priv->shell);
-	component_infos = e_component_registry_peek_list (component_registry);
+	component_registry = e_shell_get_component_registry (priv->shell);
+	component_ids = e_component_registry_get_id_list (component_registry);
 
-	for (p = component_infos; p != NULL; p = p->next) {
-		EComponentInfo *info = p->data;
+	for (p = component_ids; p != NULL; p = p->next) {
+		EvolutionShellComponentClient *shell_component_client;
 		GNOME_Evolution_Offline offline_interface;
 		CORBA_Environment ev;
 		const char *id;
 
-		offline_interface = get_offline_interface (info->iface);
+		id = (const char *) p->data;
+		shell_component_client = e_component_registry_get_component_by_id (component_registry, id);
+
+		offline_interface = evolution_shell_component_client_get_offline_interface (shell_component_client);
 		if (offline_interface == CORBA_OBJECT_NIL)
 			continue;
 
@@ -387,6 +374,8 @@ cancel_offline (EShellOfflineHandler *offline_handler)
 		CORBA_exception_free (&ev);
 	}
 
+	e_free_string_list (component_ids);
+
 	priv->num_total_connections = 0;
 
 	if (! priv->finished) {
@@ -395,7 +384,7 @@ cancel_offline (EShellOfflineHandler *offline_handler)
 	}
 }
 
-
+
 /* Preparing the off-line procedure.  */
 
 static gboolean
@@ -403,32 +392,36 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 {
 	EComponentRegistry *component_registry;
 	EShellOfflineHandlerPrivate *priv;
-	GSList *component_infos;
-	GSList *p;
+	GList *component_ids;
+	GList *p;
 	gboolean error;
 
 	priv = offline_handler->priv;
-	component_registry = e_shell_peek_component_registry (priv->shell);
-	component_infos = e_component_registry_peek_list (component_registry);
+	component_registry = e_shell_get_component_registry (priv->shell);
+
+	component_ids = e_component_registry_get_id_list (component_registry);
 
 	error = FALSE;
-	for (p = component_infos; p != NULL; p = p->next) {
-		EComponentInfo *info = p->data;
+	for (p = component_ids; p != NULL; p = p->next) {
+		EvolutionShellComponentClient *shell_component_client;
 		GNOME_Evolution_Offline offline_interface;
 		GNOME_Evolution_OfflineProgressListener progress_listener_interface;
 		GNOME_Evolution_ConnectionList *active_connection_list;
 		OfflineProgressListenerServant *progress_listener_servant;
 		ComponentInfo *component_info;
 		CORBA_Environment ev;
+		const char *id;
 
-		offline_interface = get_offline_interface (info->iface);
+		id = (const char *) p->data;
+		shell_component_client = e_component_registry_get_component_by_id (component_registry, id);
+		offline_interface = evolution_shell_component_client_get_offline_interface (shell_component_client);
 		if (offline_interface == CORBA_OBJECT_NIL)
 			continue;
 
-		if (! create_progress_listener (offline_handler, info->id,
+		if (! create_progress_listener (offline_handler, id,
 						&progress_listener_interface,
 						&progress_listener_servant)) {
-			g_warning ("Cannot create the Evolution::OfflineProgressListener interface for `%s'", info->id);
+			g_warning ("Cannot create the Evolution::OfflineProgressListener interface for `%s'", id);
 			continue;
 		}
 
@@ -437,7 +430,7 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 		GNOME_Evolution_Offline_prepareForOffline (offline_interface, &active_connection_list, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("Cannot prepare component component to go offline -- %s [%s]",
-				   info->id, BONOBO_EX_REPOID (&ev));
+				   id, BONOBO_EX_REPOID (&ev));
 
 			progress_listener_servant_free (progress_listener_servant);
 			
@@ -453,7 +446,7 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 
 		priv->num_total_connections += active_connection_list->_length;
 
-		component_info = component_info_new (info->id,
+		component_info = component_info_new (id,
 						     offline_interface,
 						     progress_listener_interface,
 						     progress_listener_servant,
@@ -468,10 +461,12 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 	if (error)
 		cancel_offline (offline_handler);
 
+	e_free_string_list (component_ids);
+
 	return ! error;
 }
 
-
+
 /* Finalizing the off-line procedure.  */
 
 static void
@@ -524,7 +519,7 @@ finalize_offline (EShellOfflineHandler *offline_handler)
 	g_object_unref (offline_handler);
 }
 
-
+
 /* The confirmation dialog.  */
 
 static void
@@ -591,6 +586,8 @@ dialog_handle_ok (GtkDialog *dialog,
 	instruction_label = glade_xml_get_widget (priv->dialog_gui, "instruction_label");
 	g_assert (instruction_label != NULL);
 	g_assert (GTK_IS_LABEL (instruction_label));
+
+	e_shell_offline_sync_all_folders (priv->shell, GTK_WINDOW (dialog));
 
 	gtk_label_set_text (GTK_LABEL (instruction_label), _("Closing connections..."));
 
@@ -668,7 +665,7 @@ pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
 	gtk_widget_show (dialog);
 }
 
-
+
 /* GObject methods.  */
 
 static void
@@ -715,7 +712,7 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-
+
 /* GTK type handling.  */
 
 static void
@@ -758,7 +755,7 @@ init (EShellOfflineHandler *shell_offline_handler)
 	priv = g_new (EShellOfflineHandlerPrivate, 1);
 
 	priv->shell                 = NULL;
-	priv->parent_window         = NULL;
+	priv->parent_shell_view     = NULL;
 
 	priv->dialog_gui            = NULL;
 
@@ -771,7 +768,7 @@ init (EShellOfflineHandler *shell_offline_handler)
 	shell_offline_handler->priv = priv;
 }
 
-
+
 /**
  * e_shell_offline_handler_construct:
  * @offline_handler: A pointer to an EShellOfflineHandler to construct.
@@ -818,7 +815,7 @@ e_shell_offline_handler_new (EShell *shell)
 	return offline_handler;
 }
 
-
+
 /**
  * e_shell_offline_handler_put_components_offline:
  * @offline_handler: A pointer to an EShellOfflineHandler object.
@@ -827,18 +824,18 @@ e_shell_offline_handler_new (EShell *shell)
  **/
 void
 e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_handler,
-						GtkWindow *parent_window)
+						EShellView *parent_shell_view)
 {
 	EShellOfflineHandlerPrivate *priv;
 
 	g_return_if_fail (offline_handler != NULL);
 	g_return_if_fail (E_IS_SHELL_OFFLINE_HANDLER (offline_handler));
-	g_return_if_fail (parent_window == NULL || GTK_IS_WINDOW (parent_window));
+	g_return_if_fail (parent_shell_view == NULL || E_IS_SHELL_VIEW (parent_shell_view));
 
 	priv = offline_handler->priv;
 
 	priv->procedure_in_progress = TRUE;
-	priv->parent_window = parent_window;
+	priv->parent_shell_view = parent_shell_view;
 
 	/* Add an extra ref here as the signal handlers might want to unref
 	   us.  */
@@ -858,13 +855,16 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		return;
 	}
 
-	if (priv->num_total_connections > 0 && priv->parent_window != NULL)
+	if (priv->num_total_connections > 0 && priv->parent_shell_view != NULL) {
 		pop_up_confirmation_dialog (offline_handler);
-	else
+	} else {
+		e_shell_offline_sync_all_folders (priv->shell,
+						  parent_shell_view ? GTK_WINDOW (parent_shell_view) : NULL);
 		finalize_offline (offline_handler);
+	}
 
 	g_object_unref (offline_handler);
 }
 
-
+
 E_MAKE_TYPE (e_shell_offline_handler, "EShellOfflineHandler", EShellOfflineHandler, class_init, init, PARENT_TYPE)

@@ -163,10 +163,7 @@ e_icon_for_mime_type (const char *mime_type, int size_hint)
 		}
 	}
 #endif
-	
-	if (icon_path == NULL)
-		return NULL;
-	
+
 	pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
 	g_free (icon_path);
 	return pixbuf;

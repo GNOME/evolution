@@ -2,10 +2,9 @@
  *
  * Authors:
  *   Michael Zucchi <notzed@ximian.com>
- *   Jeffrey Stedfast <fejj@ximian.com>
  *   Dan Winship <danw@ximian.com>
  *
- * Copyright (C) 2000, 2003 Ximian, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -27,22 +26,21 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-
 #include "camel-file-utils.h"
-#include "camel-operation.h"
 #include "camel-url.h"
 
-#ifndef MAX
-#define MAX(a,b) ((a) > (b) ? (a) : (b))
-#endif
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
 
+#include <string.h>
+
+#include <netinet/in.h>
+
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
 
 /**
  * camel_file_util_encode_uint32:
@@ -67,7 +65,6 @@ camel_file_util_encode_uint32 (FILE *out, guint32 value)
 	}
 	return fputc (value | 0x80, out);
 }
-
 
 /**
  * camel_file_util_decode_uint32:
@@ -99,7 +96,6 @@ camel_file_util_decode_uint32 (FILE *in, guint32 *dest)
         return 0;
 }
 
-
 /**
  * camel_file_util_encode_fixed_int32:
  * @out: file to output to
@@ -120,7 +116,6 @@ camel_file_util_encode_fixed_int32 (FILE *out, gint32 value)
 		return -1;
 	return 0;
 }
-
 
 /**
  * camel_file_util_decode_fixed_int32:
@@ -144,38 +139,6 @@ camel_file_util_decode_fixed_int32 (FILE *in, gint32 *dest)
 	}
 }
 
-#define CFU_ENCODE_T(type)						\
-int									\
-camel_file_util_encode_##type(FILE *out, type value)			\
-{									\
-	int i;								\
-									\
-	for (i = sizeof (type) - 1; i >= 0; i--) {			\
-		if (fputc((value >> (i * 8)) & 0xff, out) == -1)	\
-			return -1;					\
-	}								\
-	return 0;							\
-}
-
-#define CFU_DECODE_T(type)				\
-int							\
-camel_file_util_decode_##type(FILE *in, type *dest)	\
-{							\
-	type save = 0;					\
-	int i = sizeof(type) - 1;			\
-	int v = EOF;					\
-							\
-        while (i >= 0 && (v = fgetc (in)) != EOF) {	\
-		save |= ((type)v) << (i * 8);		\
-		i--;					\
-	}						\
-	*dest = save;					\
-	if (v == EOF)					\
-		return -1;				\
-	return 0;					\
-}
-
-
 /**
  * camel_file_util_encode_time_t:
  * @out: file to output to
@@ -185,7 +148,17 @@ camel_file_util_decode_##type(FILE *in, type *dest)	\
  * 
  * Return value: 0 on success, -1 on error.
  **/
-CFU_ENCODE_T(time_t)
+int
+camel_file_util_encode_time_t(FILE *out, time_t value)
+{
+	int i;
+
+	for (i = sizeof (time_t) - 1; i >= 0; i--) {
+		if (fputc((value >> (i * 8)) & 0xff, out) == -1)
+			return -1;
+	}
+	return 0;
+}
 
 /**
  * camel_file_util_decode_time_t:
@@ -196,7 +169,22 @@ CFU_ENCODE_T(time_t)
  * 
  * Return value: 0 on success, -1 on error.
  **/
-CFU_DECODE_T(time_t)
+int
+camel_file_util_decode_time_t (FILE *in, time_t *dest)
+{
+	time_t save = 0;
+	int i = sizeof (time_t) - 1;
+	int v = EOF;
+
+        while (i >= 0 && (v = fgetc (in)) != EOF) {
+		save |= ((time_t)v) << (i * 8);
+		i--;
+	}
+	*dest = save;
+	if (v == EOF)
+		return -1;
+	return 0;
+}
 
 /**
  * camel_file_util_encode_off_t:
@@ -207,8 +195,17 @@ CFU_DECODE_T(time_t)
  * 
  * Return value: 0 on success, -1 on error.
  **/
-CFU_ENCODE_T(off_t)
+int
+camel_file_util_encode_off_t (FILE *out, off_t value)
+{
+	int i;
 
+	for (i = sizeof (off_t) - 1; i >= 0; i--) {
+		if (fputc ((value >> (i * 8)) & 0xff, out) == -1)
+			return -1;
+	}
+	return 0;
+}
 
 /**
  * camel_file_util_decode_off_t:
@@ -219,31 +216,22 @@ CFU_ENCODE_T(off_t)
  * 
  * Return value: 0 on success, -1 on failure.
  **/
-CFU_DECODE_T(off_t)
+int
+camel_file_util_decode_off_t (FILE *in, off_t *dest)
+{
+	off_t save = 0;
+	int i = sizeof(off_t) - 1;
+	int v = EOF;
 
-/**
- * camel_file_util_encode_size_t:
- * @out: file to output to
- * @value: value to output
- * 
- * Encode an size_t type.
- * 
- * Return value: 0 on success, -1 on error.
- **/
-CFU_ENCODE_T(size_t)
-
-
-/**
- * camel_file_util_decode_size_t:
- * @in: file to read from
- * @dest: pointer to a variable to put the value in
- * 
- * Decode an size_t type.
- * 
- * Return value: 0 on success, -1 on failure.
- **/
-CFU_DECODE_T(size_t)
-
+        while (i >= 0 && (v = fgetc (in)) != EOF) {
+		save |= ((off_t)v) << (i * 8);
+		i--;
+	}
+	*dest = save;
+	if (v == EOF)
+		return -1;
+	return 0;
+}
 
 /**
  * camel_file_util_encode_string:
@@ -271,7 +259,6 @@ camel_file_util_encode_string (FILE *out, const char *str)
 		return 0;
 	return -1;
 }
-
 
 /**
  * camel_file_util_decode_string:
@@ -311,26 +298,16 @@ camel_file_util_decode_string (FILE *in, char **str)
 	return 0;
 }
 
-
-/**
- * camel_mkdir:
- * @path: directory path to create
- * @mode: permissions
- *
- * Creates the directory path described in @path, creating any parent
- * directories as necessary.
- *
- * Returns 0 on success or -1 on fail. In the case of failure, errno
- * will be set appropriately.
- **/
+/* Make a directory heirarchy.
+   Always use full paths */
 int
-camel_mkdir (const char *path, mode_t mode)
+camel_file_util_mkdir(const char *path, mode_t mode)
 {
 	char *copy, *p;
-	
+
 	g_assert(path && path[0] == '/');
-	
-	p = copy = g_alloca (strlen (path) + 1);
+
+	p = copy = alloca(strlen(path)+1);
 	strcpy(copy, path);
 	do {
 		p = strchr(p + 1, '/');
@@ -343,208 +320,15 @@ camel_mkdir (const char *path, mode_t mode)
 		if (p)
 			*p = '/';
 	} while (p);
-	
+
 	return 0;
 }
 
-
-/**
- * camel_file_util_safe_filename:
- * @name: string to 'flattened' into a safe filename
- *
- * 'Flattens' @name into a safe filename string by hex encoding any
- * chars that may cause problems on the filesystem.
- *
- * Returns a safe filename string.
- **/
 char *
-camel_file_util_safe_filename (const char *name)
+camel_file_util_safe_filename(const char *name)
 {
 	if (name == NULL)
 		return NULL;
 	
 	return camel_url_encode(name, "/?()'*");
-}
-
-
-/* FIXME: poll() might be more efficient and more portable? */
-
-/**
- * camel_read:
- * @fd: file descriptor
- * @buf: buffer to fill
- * @n: number of bytes to read into @buf
- *
- * Cancellable libc read() replacement.
- *
- * Returns number of bytes read or -1 on fail. On failure, errno will
- * be set appropriately.
- **/
-ssize_t
-camel_read (int fd, char *buf, size_t n)
-{
-	ssize_t nread;
-	int cancel_fd;
-	
-	if (camel_operation_cancel_check (NULL)) {
-		errno = EINTR;
-		return -1;
-	}
-	
-	cancel_fd = camel_operation_cancel_fd (NULL);
-	if (cancel_fd == -1) {
-		do {
-			nread = read (fd, buf, n);
-		} while (nread == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
-	} else {
-		int errnosav, flags, fdmax;
-		fd_set rdset;
-		
-		flags = fcntl (fd, F_GETFL);
-		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
-		
-		do {
-			FD_ZERO (&rdset);
-			FD_SET (fd, &rdset);
-			FD_SET (cancel_fd, &rdset);
-			fdmax = MAX (fd, cancel_fd) + 1;
-			
-			nread = -1;
-			if (select (fdmax, &rdset, 0, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (fd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
-				do {
-					nread = read (fd, buf, n);
-				} while (nread == -1 && errno == EINTR);
-			} else if (errno == EINTR) {
-				errno = EAGAIN;
-			}
-		} while (nread == -1 && (errno == EAGAIN || errno == EWOULDBLOCK));
-		
-		errnosav = errno;
-		fcntl (fd, F_SETFL, flags);
-		errno = errnosav;
-	}
-	
-	return nread;
-}
-
-
-/**
- * camel_write:
- * @fd: file descriptor
- * @buf: buffer to write
- * @n: number of bytes of @buf to write
- *
- * Cancellable libc write() replacement.
- *
- * Returns number of bytes written or -1 on fail. On failure, errno will
- * be set appropriately.
- **/
-ssize_t
-camel_write (int fd, const char *buf, size_t n)
-{
-	ssize_t w, written = 0;
-	int cancel_fd;
-	
-	if (camel_operation_cancel_check (NULL)) {
-		errno = EINTR;
-		return -1;
-	}
-	
-	cancel_fd = camel_operation_cancel_fd (NULL);
-	if (cancel_fd == -1) {
-		do {
-			do {
-				w = write (fd, buf + written, n - written);
-			} while (w == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
-			
-			if (w > 0)
-				written += w;
-		} while (w != -1 && written < n);
-	} else {
-		int errnosav, flags, fdmax;
-		fd_set rdset, wrset;
-		
-		flags = fcntl (fd, F_GETFL);
-		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
-		
-		fdmax = MAX (fd, cancel_fd) + 1;
-		do {
-			FD_ZERO (&rdset);
-			FD_ZERO (&wrset);
-			FD_SET (fd, &wrset);
-			FD_SET (cancel_fd, &rdset);
-			
-			w = -1;
-			if (select (fdmax, &rdset, &wrset, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (fd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
-				do {
-					w = write (fd, buf + written, n - written);
-				} while (w == -1 && errno == EINTR);
-				
-				if (w == -1) {
-					if (errno == EAGAIN || errno == EWOULDBLOCK) {
-						w = 0;
-					} else {
-						errnosav = errno;
-						fcntl (fd, F_SETFL, flags);
-						errno = errnosav;
-						return -1;
-					}
-				} else
-					written += w;
-			} else if (errno == EINTR) {
-				w = 0;
-			}
-		} while (w != -1 && written < n);
-		
-		errnosav = errno;
-		fcntl (fd, F_SETFL, flags);
-		errno = errnosav;
-	}
-	
-	if (w == -1)
-		return -1;
-	
-	return written;
-}
-
-/**
- * camel_file_util_savename:
- * @filename: 
- * 
- * Builds a filename of the form ".#" + @filename, used to create
- * a two-stage commit file write.
- * 
- * Return value: ".#" + filename.  It must be free'd with g_free().
- **/
-char *
-camel_file_util_savename(const char *filename)
-{
-	char *name, *slash;
-	int off;
-
-	name = g_malloc(strlen(filename)+3);
-	slash = strrchr(filename, '/');
-	if (slash) {
-		off = slash-filename;
-
-		memcpy(name, filename, off+1);
-		memcpy(name + off+1, ".#", 2);
-		strcpy(name + off+3, filename+off+1);
-	} else {
-		sprintf(name, ".#%s", filename);
-	}
-
-	return name;
 }

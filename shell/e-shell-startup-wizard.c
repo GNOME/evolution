@@ -142,14 +142,10 @@ start_wizard (void)
 	Bonobo_ServerInfoList *info;
 	CORBA_Environment ev;
 	GNOME_Evolution_Wizard wizard;
-	char *query;
 	int i;
 
 	CORBA_exception_init (&ev);
-	query = g_strdup_printf ("repo_ids.has ('IDL:GNOME/Evolution/StartupWizard:%s')", BASE_VERSION);
-	info = bonobo_activation_query (query, selection_order, &ev);
-	g_free (query);
-
+	info = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/StartupWizard:1.0')", selection_order, &ev);
 	if (BONOBO_EX (&ev) || info == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot find startup wizard -- %s", BONOBO_EX_REPOID (&ev));
 		CORBA_exception_free (&ev);
@@ -517,19 +513,10 @@ get_intelligent_importers (void)
 	Bonobo_ServerInfoList *info_list;
 	GList *iids_ret = NULL;
 	CORBA_Environment ev;
-	char *query;
 	int i;
 
 	CORBA_exception_init (&ev);
-	query = g_strdup_printf ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:%s')", BASE_VERSION);
-	info_list = bonobo_activation_query (query, NULL, &ev);
-	g_free (query);
-
-	if (BONOBO_EX (&ev) || info_list == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot find importers -- %s", BONOBO_EX_REPOID (&ev));
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
+	info_list = bonobo_activation_query ("repo_ids.has ('IDL:GNOME/Evolution/IntelligentImporter:1.0')", NULL, &ev);
 	CORBA_exception_free (&ev);
 
 	for (i = 0; i < info_list->_length; i++) {

@@ -37,10 +37,10 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-utils.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
-#include "../comp-util.h"
 #include "save-comp.h"
 #include "delete-comp.h"
 #include "send-comp.h"
@@ -54,16 +54,10 @@
 /* Private part of the CompEditor structure */
 struct _CompEditorPrivate {
 	/* Client to use */
-	ECal *client;
-	
-	/* Source client (where comp lives currently) */
-	ECal *source_client;
-
-	/* View to listen for changes */
-	ECalView *view;
+	CalClient *client;
 
 	/* Calendar object/uid we are editing; this is an internal copy */
-	ECalComponent *comp;
+	CalComponent *comp;
 
 	/* The pages we have */
 	GList *pages;
@@ -96,9 +90,9 @@ static void comp_editor_init (CompEditor *editor);
 static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
 static void comp_editor_finalize (GObject *object);
 
-static void real_set_e_cal (CompEditor *editor, ECal *client);
-static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
-static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method);
+static void real_set_cal_client (CompEditor *editor, CalClient *client);
+static void real_edit_comp (CompEditor *editor, CalComponent *comp);
+static gboolean real_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static gboolean prompt_to_save_changes (CompEditor *editor, gboolean send);
 static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
@@ -106,10 +100,9 @@ static void close_dialog (CompEditor *editor);
 static void page_changed_cb (GtkObject *obj, gpointer data);
 static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
 static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
-static void page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data);
 
-static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
-static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
+static void obj_updated_cb (CalClient *client, const char *uid, gpointer data);
+static void obj_removed_cb (CalClient *client, const char *uid, gpointer data);
 
 static void save_cmd (GtkWidget *widget, gpointer data);
 static void save_close_cmd (GtkWidget *widget, gpointer data);
@@ -172,7 +165,7 @@ comp_editor_class_init (CompEditorClass *klass)
 
 	parent_class = g_type_class_ref(BONOBO_TYPE_WINDOW);
 
-	klass->set_e_cal = real_set_e_cal;
+	klass->set_cal_client = real_set_cal_client;
 	klass->edit_comp = real_edit_comp;
 	klass->send_comp = real_send_comp;
 
@@ -270,33 +263,19 @@ comp_editor_finalize (GObject *object)
 	priv = editor->priv;
 
 	if (priv->client) {
+		g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
 		g_object_unref (priv->client);
 		priv->client = NULL;
 	}
 	
-	if (priv->source_client) {
-		g_object_unref (priv->source_client);
-		priv->source_client = NULL;
-	}
-
-	if (priv->view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      editor);
-
-		g_object_unref (priv->view);
-		priv->view = NULL;
-	}
-
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
 	   with the pages as the data. */
 	for (l = priv->pages; l != NULL; l = l->next)
-		g_object_unref (l->data);
+		g_object_unref((l->data));
 
 	if (priv->comp) {
-		g_object_unref (priv->comp);
+		g_object_unref((priv->comp));
 		priv->comp = NULL;
 	}
 
@@ -309,122 +288,68 @@ comp_editor_finalize (GObject *object)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-static void
-listen_for_changes (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	const char *uid = NULL;
-
-	priv = editor->priv;
-
-	/* Discard change listener */
-	if (priv->view) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      editor);
-				
-		g_object_unref (priv->view);
-		priv->view = NULL;
-	}
-	
-	/* Listen for changes */
-	if (priv->comp)
-		e_cal_component_get_uid (priv->comp, &uid);
-
-	if (uid) {
-		char *query;
-		
-		query = g_strdup_printf ("(uid? \"%s\")", uid);
-		g_message ("%s", query);		
-		e_cal_get_query (priv->source_client, query, &priv->view, NULL);
-		g_free (query);
-	}
-	
-	if (priv->view) {
-		g_signal_connect (priv->view, "objects_modified",
-				  G_CALLBACK (obj_modified_cb), editor);
-
-		g_signal_connect((priv->view), "objects_removed",
-				 G_CALLBACK (obj_removed_cb), editor);
-
-		e_cal_view_start (priv->view);
-	}
-}
-
 static gboolean
 save_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	ECalComponent *clone;
+	CalComponent *clone;
 	GList *l;
-	gboolean result;
-	GError *error = NULL;
-	const char *orig_uid;
+	CalClientResult result;
 
 	priv = editor->priv;
 
 	if (!priv->changed)
 		return TRUE;
 
-	clone = e_cal_component_clone (priv->comp);
+	clone = cal_component_clone (priv->comp);
 	for (l = priv->pages; l != NULL; l = l->next) {
 		if (!comp_editor_page_fill_component (l->data, clone)) {
-			g_object_unref (clone);
+			g_object_unref((clone));
 			comp_editor_show_page (editor, COMP_EDITOR_PAGE (l->data));
 			return FALSE;
 		}
 	}
 	
 	/* If we are not the organizer, we don't update the sequence number */
-	if (!e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client))
-		e_cal_component_commit_sequence (clone);
+	if (!cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client))
+		cal_component_commit_sequence (clone);
 	else
-		e_cal_component_abort_sequence (clone);
+		cal_component_abort_sequence (clone);
 
-	g_object_unref (priv->comp);
+	g_object_unref((priv->comp));
 	priv->comp = clone;
 
 	priv->updating = TRUE;
 
-	e_cal_component_get_uid (priv->comp, &orig_uid);
-
-	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
-		result = e_cal_create_object (priv->client, e_cal_component_get_icalcomponent (priv->comp), NULL, &error);
-	} else {
-		result = e_cal_modify_object (priv->client, e_cal_component_get_icalcomponent (priv->comp), priv->mod, &error);
-	}
-
-	if (!result) {
+	if (cal_component_is_instance (priv->comp))
+		result = cal_client_update_object_with_mod (priv->client, priv->comp, priv->mod);
+	else
+		result = cal_client_update_object (priv->client, priv->comp);
+	if (result != CAL_CLIENT_RESULT_SUCCESS) {
 		GtkWidget *dlg;
 		char *msg;
 
-		msg = g_strdup (error ? error->message : _("Could not update object"));
+		switch (result) {
+		case CAL_CLIENT_RESULT_INVALID_OBJECT :
+			msg = g_strdup (_("Could not update invalid object"));
+			break;
+		case CAL_CLIENT_RESULT_NOT_FOUND :
+			msg = g_strdup (_("Object not found, not updated"));
+			break;
+		case CAL_CLIENT_RESULT_PERMISSION_DENIED :
+			msg = g_strdup (_("You don't have permissions to update this object"));
+			break;
+		default :
+			msg = g_strdup (_("Could not update object"));
+			break;
+		}
 
 		dlg = gnome_error_dialog (msg);
 		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-
 		g_free (msg);
-		if (error)
-			g_error_free (error);
 
 		return FALSE;
 	} else {
-		if (priv->source_client &&
-		    !e_source_equal (e_cal_get_source (priv->client),
-				     e_cal_get_source (priv->source_client)) &&
-		    cal_comp_is_on_server (priv->comp, priv->source_client)) {
-			/* Comp found a new home. Remove it from old one. */
-			e_cal_remove_object (priv->source_client, orig_uid, NULL);
-
-			/* Let priv->source_client point to new home, so we can move it
-			 * again this session. */
-			g_object_unref (priv->source_client);
-			priv->source_client = g_object_ref (priv->client);
-			
-			listen_for_changes (editor);
-		}
-
 		priv->changed = FALSE;
 	}
 
@@ -448,9 +373,9 @@ save_comp_with_send (CompEditor *editor)
 
  	if (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org)) {
  		if (itip_organizer_is_user (priv->comp, priv->client))
- 			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
+ 			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
  		else
- 			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REPLY);
+ 			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REPLY);
  	}
 
 	return TRUE;
@@ -464,9 +389,9 @@ delete_comp (CompEditor *editor)
 
 	priv = editor->priv;
 
-	e_cal_component_get_uid (priv->comp, &uid);
+	cal_component_get_uid (priv->comp, &uid);
 	priv->updating = TRUE;
-	e_cal_remove_object (priv->client, uid, NULL);
+	cal_client_remove_object (priv->client, uid);
 	priv->updating = FALSE;
 	close_dialog (editor);
 }
@@ -483,8 +408,8 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 
 	switch (save_component_dialog (GTK_WINDOW (editor))) {
 	case GTK_RESPONSE_YES: /* Save */
-		if (e_cal_component_is_instance (priv->comp))
-			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
+		if (cal_component_is_instance (priv->comp))
+			if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return FALSE;
 
 		if (send && save_comp_with_send (editor))
@@ -522,13 +447,6 @@ close_dialog (CompEditor *editor)
 
 	priv = editor->priv;
 
-	/* FIXME Unfortunately we do this here because otherwise corba
-	   calls happen during destruction and we might get a change
-	   notification back when we are in an inconsistent state */
-	if (priv->view)
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
-						      G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor); 
-	
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
@@ -715,15 +633,15 @@ comp_editor_append_page (CompEditor *editor,
 
 	priv = editor->priv;
 
-	g_object_ref (page);
+	g_object_ref((page));
 
 	/* If we are editing something, fill the widgets with current info */
 	if (priv->comp != NULL) {
-		ECalComponent *comp;
+		CalComponent *comp;
 
 		comp = comp_editor_get_current_comp (editor);
 		comp_editor_page_fill_widgets (page, comp);
-		g_object_unref (comp);
+		g_object_unref((comp));
 	}
 
 	page_widget = comp_editor_page_get_widget (page);
@@ -743,8 +661,6 @@ comp_editor_append_page (CompEditor *editor,
 			    G_CALLBACK (page_summary_changed_cb), editor);
 	g_signal_connect(page, "dates_changed",
 			    G_CALLBACK (page_dates_changed_cb), editor);
-	g_signal_connect(page, "client_changed",
-			    G_CALLBACK (page_client_changed_cb), editor);
 
 	/* Listen for when the page is mapped/unmapped so we can
 	   install/uninstall the appropriate GtkAccelGroup. */
@@ -793,7 +709,7 @@ comp_editor_remove_page (CompEditor *editor, CompEditorPage *page)
 	gtk_notebook_remove_page (priv->notebook, page_num);
 
 	priv->pages = g_list_remove (priv->pages, page);
-	g_object_unref (page);
+	g_object_unref((page));
 }
 
 /**
@@ -823,14 +739,14 @@ comp_editor_show_page (CompEditor *editor, CompEditorPage *page)
 }
 
 /**
- * comp_editor_set_e_cal:
+ * comp_editor_set_cal_client:
  * @editor: A component editor
  * @client: The calendar client to use
  *
  * Sets the calendar client used by the editor to update components
  **/
 void
-comp_editor_set_e_cal (CompEditor *editor, ECal *client)
+comp_editor_set_cal_client (CompEditor *editor, CalClient *client)
 {
 	CompEditorClass *klass;
 
@@ -839,20 +755,20 @@ comp_editor_set_e_cal (CompEditor *editor, ECal *client)
 
 	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
 
-	if (klass->set_e_cal)
-		klass->set_e_cal (editor, client);
+	if (klass->set_cal_client)
+		klass->set_cal_client (editor, client);
 }
 
 /**
- * comp_editor_get_e_cal:
+ * comp_editor_get_cal_client:
  * @editor: A component editor
  *
  * Returns the calendar client of the editor
  *
  * Return value: The calendar client of the editor
  **/
-ECal *
-comp_editor_get_e_cal (CompEditor *editor)
+CalClient *
+comp_editor_get_cal_client (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 
@@ -866,25 +782,25 @@ comp_editor_get_e_cal (CompEditor *editor)
 
 /* Creates an appropriate title for the event editor dialog */
 static char *
-make_title_from_comp (ECalComponent *comp)
+make_title_from_comp (CalComponent *comp)
 {
 	char *title;
 	const char *type_string;
-	ECalComponentVType type;
-	ECalComponentText text;
+	CalComponentVType type;
+	CalComponentText text;
 
 	if (!comp)
 		return g_strdup (_("Edit Appointment"));
 
-	type = e_cal_component_get_vtype (comp);
+	type = cal_component_get_vtype (comp);
 	switch (type) {
-	case E_CAL_COMPONENT_EVENT:
+	case CAL_COMPONENT_EVENT:
 		type_string = _("Appointment - %s");
 		break;
-	case E_CAL_COMPONENT_TODO:
+	case CAL_COMPONENT_TODO:
 		type_string = _("Task - %s");
 		break;
-	case E_CAL_COMPONENT_JOURNAL:
+	case CAL_COMPONENT_JOURNAL:
 		type_string = _("Journal entry - %s");
 		break;
 	default:
@@ -892,7 +808,7 @@ make_title_from_comp (ECalComponent *comp)
 		return NULL;
 	}
 
-	e_cal_component_get_summary (comp, &text);
+	cal_component_get_summary (comp, &text);
 	if (text.value) {
 		title = g_strdup_printf (type_string, text.value);
 	} else {
@@ -904,24 +820,24 @@ make_title_from_comp (ECalComponent *comp)
 
 /* Creates an appropriate title for the event editor dialog */
 static char *
-make_title_from_string (ECalComponent *comp, const char *str)
+make_title_from_string (CalComponent *comp, const char *str)
 {
 	char *title;
 	const char *type_string;
-	ECalComponentVType type;
+	CalComponentVType type;
 
 	if (!comp)
 		return g_strdup (_("Edit Appointment"));
 
-	type = e_cal_component_get_vtype (comp);
+	type = cal_component_get_vtype (comp);
 	switch (type) {
-	case E_CAL_COMPONENT_EVENT:
+	case CAL_COMPONENT_EVENT:
 		type_string = _("Appointment - %s");
 		break;
-	case E_CAL_COMPONENT_TODO:
+	case CAL_COMPONENT_TODO:
 		type_string = _("Task - %s");
 		break;
-	case E_CAL_COMPONENT_JOURNAL:
+	case CAL_COMPONENT_JOURNAL:
 		type_string = _("Journal entry - %s");
 		break;
 	default:
@@ -939,19 +855,19 @@ make_title_from_string (ECalComponent *comp, const char *str)
 }
 
 static const char *
-make_icon_from_comp (ECalComponent *comp)
+make_icon_from_comp (CalComponent *comp)
 {
-	ECalComponentVType type;
+	CalComponentVType type;
 
 	if (!comp)
 		return EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png";
 
-	type = e_cal_component_get_vtype (comp);
+	type = cal_component_get_vtype (comp);
 	switch (type) {
-	case E_CAL_COMPONENT_EVENT:
+	case CAL_COMPONENT_EVENT:
 		return EVOLUTION_IMAGESDIR "/buttons/new_appointment.png";
 		break;
-	case E_CAL_COMPONENT_TODO:
+	case CAL_COMPONENT_TODO:
 		return EVOLUTION_IMAGESDIR "/buttons/new_task.png";
 		break;
 	default:
@@ -1008,7 +924,7 @@ fill_widgets (CompEditor *editor)
 }
 
 static void
-real_set_e_cal (CompEditor *editor, ECal *client)
+real_set_cal_client (CompEditor *editor, CalClient *client)
 {
 	CompEditorPrivate *priv;
 	GList *elem;
@@ -1022,26 +938,33 @@ real_set_e_cal (CompEditor *editor, ECal *client)
 		return;
 
 	if (client) {
-		g_return_if_fail (E_IS_CAL (client));
-		g_return_if_fail (e_cal_get_load_state (client) ==
-				  E_CAL_LOAD_LOADED);
-		g_object_ref (client);
+		g_return_if_fail (IS_CAL_CLIENT (client));
+		g_return_if_fail (cal_client_get_load_state (client) ==
+				  CAL_CLIENT_LOAD_LOADED);
+		g_object_ref((client));
 	}
 
-	if (priv->client)
-		g_object_unref (priv->client);
+	if (priv->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client),
+					       editor);
+		g_object_unref((priv->client));
+	}
 
 	priv->client = client;
-	if (!priv->source_client)
-		priv->source_client = g_object_ref (client);
 
 	/* Pass the client to any pages that need it. */
 	for (elem = priv->pages; elem; elem = elem->next)
-		comp_editor_page_set_e_cal (elem->data, client);
+		comp_editor_page_set_cal_client (elem->data, client);
+
+	g_signal_connect((priv->client), "obj_updated",
+			    G_CALLBACK (obj_updated_cb), editor);
+
+	g_signal_connect((priv->client), "obj_removed",
+			    G_CALLBACK (obj_removed_cb), editor);
 }
 
 static void
-real_edit_comp (CompEditor *editor, ECalComponent *comp)
+real_edit_comp (CompEditor *editor, CalComponent *comp)
 {
 	CompEditorPrivate *priv;
 	
@@ -1051,30 +974,28 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	priv = editor->priv;
 
 	if (priv->comp) {
-		g_object_unref (priv->comp);
+		g_object_unref((priv->comp));
 		priv->comp = NULL;
 	}
 
 	if (comp)
-		priv->comp = e_cal_component_clone (comp);
+		priv->comp = cal_component_clone (comp);
 	
- 	priv->existing_org = e_cal_component_has_organizer (comp);
+ 	priv->existing_org = cal_component_has_organizer (comp);
  	priv->user_org = itip_organizer_is_user (comp, priv->client);
  	priv->warned = FALSE;
  		
 	set_title_from_comp (editor);
 	set_icon_from_comp (editor);
 	fill_widgets (editor);
-
-	listen_for_changes (editor);
 }
 
 
 static gboolean
-real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
+real_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
-	ECalComponent *tmp_comp;
+	CalComponent *tmp_comp;
 	
 	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
@@ -1083,9 +1004,9 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 	if (itip_send_comp (method, priv->comp, priv->client, NULL)) {
 		tmp_comp = priv->comp;
-		g_object_ref (tmp_comp);
+		g_object_ref((tmp_comp));
 		comp_editor_edit_comp (editor, tmp_comp);
-		g_object_unref (tmp_comp);
+		g_object_unref((tmp_comp));
 		
 		comp_editor_set_changed (editor, TRUE);
 		save_comp (editor);
@@ -1107,14 +1028,14 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
  * Starts the editor editing the given component
  **/
 void
-comp_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
+comp_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 {
 	CompEditorClass *klass;
 
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 	g_return_if_fail (comp != NULL);
-	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
 
 	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
 
@@ -1122,7 +1043,7 @@ comp_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		klass->edit_comp (editor, comp);
 }
 
-ECalComponent *
+CalComponent *
 comp_editor_get_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
@@ -1135,11 +1056,11 @@ comp_editor_get_comp (CompEditor *editor)
 	return priv->comp;
 }
 
-ECalComponent *
+CalComponent *
 comp_editor_get_current_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	ECalComponent *comp;
+	CalComponent *comp;
 	GList *l;
 
 	g_return_val_if_fail (editor != NULL, NULL);
@@ -1147,7 +1068,7 @@ comp_editor_get_current_comp (CompEditor *editor)
 
 	priv = editor->priv;
 
-	comp = e_cal_component_clone (priv->comp);
+	comp = cal_component_clone (priv->comp);
 	if (priv->changed) {
 		for (l = priv->pages; l != NULL; l = l->next)
 			comp_editor_page_fill_component (l->data, comp);
@@ -1188,7 +1109,7 @@ comp_editor_delete_comp (CompEditor *editor)
  *
  **/
 gboolean
-comp_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
+comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	CompEditorClass *klass;
 
@@ -1319,8 +1240,8 @@ save_cmd (GtkWidget *widget, gpointer data)
 
 	commit_all_fields (editor);
 
-	if (e_cal_component_is_instance (priv->comp))
-		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
+	if (cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
 			return;
 
 	save_comp_with_send (editor);
@@ -1336,8 +1257,8 @@ save_close_cmd (GtkWidget *widget, gpointer data)
 	
 	commit_all_fields (editor);
 
-	if (e_cal_component_is_instance (priv->comp))
-		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
+	if (cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
 			return;
 
 	if (save_comp_with_send (editor))
@@ -1361,8 +1282,7 @@ save_as_cmd (GtkWidget *widget, gpointer data)
 	if (filename == NULL)
 		return;
 	
-	ical_string = e_cal_get_component_as_string (priv->client,
-							  e_cal_component_get_icalcomponent (priv->comp));
+	ical_string = cal_client_get_component_as_string (priv->client, priv->comp);
 	if (ical_string == NULL) {
 		g_warning ("Couldn't convert item to a string");
 		return;
@@ -1384,17 +1304,17 @@ delete_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
-	ECalComponentVType vtype;
+	CalComponentVType vtype;
 
 	priv = editor->priv;
 
-	vtype = e_cal_component_get_vtype (priv->comp);
+	vtype = cal_component_get_vtype (priv->comp);
 
 	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor))) {
 		if (itip_organizer_is_user (priv->comp, priv->client) 
 		    && cancel_component_dialog ((GtkWindow *) editor,
 						priv->client, priv->comp, TRUE))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, priv->comp, priv->client, NULL);
+			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, priv->comp, priv->client, NULL);
 
 		delete_comp (editor);
 	}
@@ -1404,26 +1324,26 @@ static void
 print_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
-	ECalComponent *comp;
+	CalComponent *comp;
 
 	commit_all_fields (editor);
 
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, FALSE);
-	g_object_unref (comp);
+	g_object_unref((comp));
 }
 
 static void
 print_preview_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
-	ECalComponent *comp;
+	CalComponent *comp;
 
 	commit_all_fields (editor);
 
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, TRUE);
-	g_object_unref (comp);
+	g_object_unref((comp));
 }
 
 static void
@@ -1516,61 +1436,49 @@ page_dates_changed_cb (GtkObject *obj,
 }
 
 static void
-page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data)
+obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
+	CalComponent *comp = NULL;
+	CalClientGetStatus status;
+	const char *edit_uid;
 
 	priv = editor->priv;
 
-	priv->changed = TRUE;
-	comp_editor_set_e_cal (editor, client);
-}
+	cal_component_get_uid (priv->comp, &edit_uid);
 
-static void
-obj_modified_cb (ECal *client, GList *objects, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-	ECalComponent *comp = NULL;
+	if (!strcmp (uid, edit_uid) && !priv->updating) {
+		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
+			status = cal_client_get_object (priv->client, uid, &comp);
+			if (status == CAL_CLIENT_GET_SUCCESS) {
+				comp_editor_edit_comp (editor, comp);
+				g_object_unref((comp));
+			} else {
+				GtkWidget *dlg;
 
-	priv = editor->priv;
-
-	/* We queried based on a specific UID so we definitely changed */
-	if (priv->updating)
-		return;
-
-	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
-		icalcomponent *icalcomp = icalcomponent_new_clone (objects->data);
-
-		comp = e_cal_component_new ();
-		if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
-			comp_editor_edit_comp (editor, comp);
-		} else {
-			GtkWidget *dlg;
-			
-			dlg = gnome_error_dialog (_("Unable to use current version!"));
-			gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-			icalcomponent_free (icalcomp);
+				dlg = gnome_error_dialog (_("Unable to obtain current version!"));
+				gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+			}
 		}
-
-		g_object_unref (comp);
 	}
 }
 
 static void
-obj_removed_cb (ECal *client, GList *uids, gpointer data)
+obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
+	const char *edit_uid;
 
 	priv = editor->priv;
 
-	if (priv->updating)
-		return;
+	cal_component_get_uid (priv->comp, &edit_uid);
 
-	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
-		close_dialog (editor);
+	if (!strcmp (uid, edit_uid) && !priv->updating) {
+		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
+			close_dialog (editor);
+	}
 }
 
 static gint

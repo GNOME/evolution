@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* addressbook-component.c
  *
- * Copyright (C) 2003  Ettore Perazzoli
+ * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -17,742 +17,633 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Ettore Perazzoli <ettore@ximian.com>
+ * Author: Ettore Perazzoli
  */
 
-/* EPFIXME: Add autocompletion setting.  */
-
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-
-#include "addressbook-component.h"
-#include "addressbook-migrate.h"
-
-#include "addressbook.h"
-#include "addressbook-config.h"
-
-#include "widgets/misc/e-source-selector.h"
-#include "addressbook/gui/widgets/eab-gui-util.h"
-#include "addressbook/gui/merging/eab-contact-merging.h"
-#include "addressbook/util/eab-book-util.h"
-
-
-#include "e-task-bar.h"
-
-#include <string.h>
-#include <bonobo/bonobo-i18n.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtklabel.h>	/* FIXME */
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkstock.h>
-#include <gconf/gconf-client.h>
-#include <gal/util/e-util.h>
-
-#ifdef ENABLE_SMIME
-#include "smime/gui/component.h"
 #endif
 
+#include <libgnomevfs/gnome-vfs-types.h>
+#include <libgnomevfs/gnome-vfs-uri.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-directory.h>
+#include <libgnomevfs/gnome-vfs-file-info.h>
 
-#define PARENT_TYPE bonobo_object_get_type ()
-static BonoboObjectClass *parent_class = NULL;
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
 
-struct _AddressbookComponentPrivate {
-	GConfClient *gconf_client;
-	ESourceList *source_list;
-	GtkWidget *source_selector;
-	char *base_directory;
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-main.h>
 
-	EActivityHandler *activity_handler;
-};
+#include "evolution-shell-component.h"
+#include "evolution-shell-component-dnd.h"
+#include "evolution-storage.h"
+#include "e-folder-list.h"
 
-enum DndTargetType {
-	DND_TARGET_TYPE_VCARD_LIST,
-};
-#define VCARD_TYPE "text/x-vcard"
-static GtkTargetEntry drag_types[] = {
-	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
-};
-static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
+#include "ebook/e-book.h"
+#include "ebook/e-card.h"
+#include "ebook/e-book-util.h"
 
-/* Utility functions.  */
+#include "addressbook-config.h"
+#include "addressbook-storage.h"
+#include "addressbook-component.h"
+#include "addressbook.h"
+#include "addressbook/gui/merging/e-card-merging.h"
+#include "addressbook/gui/widgets/e-addressbook-util.h"
 
-static void
-load_uri_for_selection (ESourceSelector *selector,
-			BonoboControl *view_control)
+
+
+#define GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID "OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
+
+EvolutionShellClient *global_shell_client = NULL;
+
+EvolutionShellClient *
+addressbook_component_get_shell_client  (void)
 {
-	ESource *selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector));
-
-	if (selected_source != NULL) {
-		bonobo_control_set_property (view_control, NULL, "source_uid", TC_CORBA_string,
-					     e_source_peek_uid (selected_source), NULL);
-	}
+	return global_shell_client;
 }
 
-static ESource *
-find_first_source (ESourceList *source_list)
-{
-	GSList *groups, *sources, *l, *m;
-			
-	groups = e_source_list_peek_groups (source_list);
-	for (l = groups; l; l = l->next) {
-		ESourceGroup *group = l->data;
-				
-		sources = e_source_group_peek_sources (group);
-		for (m = sources; m; m = m->next) {
-			ESource *source = m->data;
+static char *accepted_dnd_types[] = {
+	"text/x-vcard",
+	NULL
+};
 
-			return source;
-		}				
+static const EvolutionShellComponentFolderType folder_types[] = {
+	{ "contacts", "evolution-contacts.png", N_("Contacts"), N_("Folder containing contact information"),
+	  TRUE, accepted_dnd_types, NULL },
+	{ "contacts/ldap", "ldap.png", N_("LDAP Server"), N_("LDAP server containing contact information"),
+	  FALSE, accepted_dnd_types, NULL },
+	{ "contacts/public", "evolution-contacts.png", N_("Public Contacts"), N_("Public folder containing contact information"),
+	  FALSE, accepted_dnd_types, NULL },
+	{ NULL }
+};
+
+#define IS_CONTACT_TYPE(x)  (g_ascii_strcasecmp((x), "contacts") == 0 || g_ascii_strcasecmp ((x), "contacts/ldap") == 0 || g_ascii_strcasecmp((x), "contacts/public") == 0)
+
+/* EvolutionShellComponent methods and signals.  */
+
+static EvolutionShellComponentResult
+create_view (EvolutionShellComponent *shell_component,
+	     const char *physical_uri,
+	     const char *type,
+	     const char *view_info,
+	     BonoboControl **control_return,
+	     void *closure)
+{
+	BonoboControl *control;
+
+	if (!IS_CONTACT_TYPE (type))
+		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
+
+	control = addressbook_new_control ();
+	bonobo_control_set_property (control, NULL, "folder_uri", TC_CORBA_string, physical_uri, NULL);
+
+	*control_return = control;
+
+	return EVOLUTION_SHELL_COMPONENT_OK;
+}
+
+static void
+create_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const char *type,
+	       const GNOME_Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_ShellComponentListener_Result result;
+
+	if (!IS_CONTACT_TYPE (type))
+		result = GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE;
+	else 
+		result = GNOME_Evolution_ShellComponentListener_OK;
+
+	CORBA_exception_init(&ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult(listener, result, &ev);
+	CORBA_exception_free(&ev);
+}
+
+static void
+remove_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const char *type,
+	       const GNOME_Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	CORBA_Environment ev;
+	char *db_path, *summary_path, *subdir_path;
+	struct stat sb;
+	int rv;
+
+	CORBA_exception_init(&ev);
+
+	if (!IS_CONTACT_TYPE (type)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
 	}
 
+	if (!strncmp (physical_uri, "ldap://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+	if (strncmp (physical_uri, "file://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_INVALID_URI,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+
+	subdir_path = g_build_filename (physical_uri + 7, "subfolders", NULL);
+	rv = stat (subdir_path, &sb);
+	g_free (subdir_path);
+	if (rv != -1) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_HAS_SUBFOLDERS,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+
+	db_path = g_build_filename (physical_uri + 7, "addressbook.db", NULL);
+	summary_path = g_build_filename (physical_uri + 7, "addressbook.db.summary", NULL);
+	rv = unlink (db_path);
+
+	if (rv == 0 || (rv == -1 && errno == ENOENT))
+		rv = unlink (summary_path);
+
+	if (rv == 0 || (rv == -1 && errno == ENOENT)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_OK,
+								     &ev);
+	}
+	else {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+								     &ev);
+	}
+
+	g_free (db_path);
+	g_free (summary_path);
+
+	CORBA_exception_free(&ev);
+}
+
+/* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
+
+/* This code is cut & pasted from calendar/gui/component-factory.c */
+
+static GNOME_Evolution_ShellComponentListener_Result
+xfer_file (GnomeVFSURI *base_src_uri,
+	   GnomeVFSURI *base_dest_uri,
+	   const char *file_name,
+	   int remove_source)
+{
+	GnomeVFSURI *src_uri, *dest_uri;
+	GnomeVFSHandle *hin, *hout;
+	GnomeVFSResult result;
+	GnomeVFSFileInfo file_info;
+	GnomeVFSFileSize size;
+	char *buffer;
+	
+	src_uri = gnome_vfs_uri_append_file_name (base_src_uri, file_name);
+
+	result = gnome_vfs_open_uri (&hin, src_uri, GNOME_VFS_OPEN_READ);
+	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_OK; /* No need to xfer anything.  */
+	}
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	result = gnome_vfs_get_file_info_uri (src_uri, &file_info, GNOME_VFS_FILE_INFO_DEFAULT);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (src_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	dest_uri = gnome_vfs_uri_append_file_name (base_dest_uri, file_name);
+
+	result = gnome_vfs_create_uri (&hout, dest_uri, GNOME_VFS_OPEN_WRITE, FALSE, 0600);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	/* write source file to destination file */
+	buffer = g_malloc (file_info.size);
+	result = gnome_vfs_read (hin, buffer, file_info.size, &size);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_close (hout);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		g_free (buffer);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	result = gnome_vfs_write (hout, buffer, file_info.size, &size);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_close (hin);
+		gnome_vfs_close (hout);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		g_free (buffer);
+		return GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+	}
+
+	if (remove_source) {
+		char *text_uri;
+
+		/* Sigh, we have to do this as there is no gnome_vfs_unlink_uri(). :-(  */
+
+		text_uri = gnome_vfs_uri_to_string (src_uri, GNOME_VFS_URI_HIDE_NONE);
+		result = gnome_vfs_unlink (text_uri);
+		g_free (text_uri);
+	}
+
+	gnome_vfs_close (hin);
+	gnome_vfs_close (hout);
+	gnome_vfs_uri_unref (src_uri);
+	gnome_vfs_uri_unref (dest_uri);
+	g_free (buffer);
+
+	return GNOME_Evolution_ShellComponentListener_OK;
+}
+
+static void
+xfer_folder (EvolutionShellComponent *shell_component,
+	     const char *source_physical_uri,
+	     const char *destination_physical_uri,
+	     const char *type,
+	     gboolean remove_source,
+	     const GNOME_Evolution_ShellComponentListener listener,
+	     void *closure)
+{
+	CORBA_Environment ev;
+
+	GnomeVFSURI *src_uri;
+	GnomeVFSURI *dest_uri;
+	GnomeVFSResult result;
+	GNOME_Evolution_ShellComponentListener_Result e_result;
+
+	CORBA_exception_init (&ev);
+	
+	if (!IS_CONTACT_TYPE (type)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
+								     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+
+	if (!strncmp (source_physical_uri, "ldap://", 7)
+	    || !strncmp (destination_physical_uri, "ldap://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+							     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+
+	if (strncmp (source_physical_uri, "file://", 7)
+	    || strncmp (destination_physical_uri, "file://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+							     GNOME_Evolution_ShellComponentListener_INVALID_URI,
+							     &ev);
+		CORBA_exception_free(&ev);
+		return;
+	}
+
+	/* check URIs */
+	src_uri = gnome_vfs_uri_new (source_physical_uri);
+	dest_uri = gnome_vfs_uri_new (destination_physical_uri);
+	if (!src_uri || ! dest_uri) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_INVALID_URI,
+			&ev);
+		gnome_vfs_uri_unref (src_uri);
+		gnome_vfs_uri_unref (dest_uri);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	e_result = xfer_file (src_uri, dest_uri, "addressbook.db", remove_source);
+
+	if ((e_result == GNOME_Evolution_ShellComponentListener_OK) && remove_source) {
+		char *summary_uri;
+
+		summary_uri = g_strconcat (source_physical_uri, "/addressbook.db.summary", NULL);
+		result = gnome_vfs_unlink (summary_uri);
+		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_NOT_FOUND)
+			e_result = GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED;
+		g_free (summary_uri);
+	}
+
+	GNOME_Evolution_ShellComponentListener_notifyResult (listener, e_result, &ev);
+
+	gnome_vfs_uri_unref (src_uri);
+	gnome_vfs_uri_unref (dest_uri);
+
+        CORBA_exception_free (&ev);	
+}
+
+static char*
+get_dnd_selection (EvolutionShellComponent *shell_component,
+		   const char *physical_uri,
+		   int type,
+		   int *format_return,
+		   const char **selection_return,
+		   int *selection_length_return,
+		   void *closure)
+{
+	/* g_print ("should get dnd selection for %s\n", physical_uri); */
 	return NULL;
 }
 
+static int owner_count = 0;
+
 static void
-save_primary_selection (AddressbookComponent *addressbook_component)
+owner_set_cb (EvolutionShellComponent *shell_component,
+	      EvolutionShellClient *shell_client,
+	      const char *evolution_homedir,
+	      gpointer user_data)
 {
-	AddressbookComponentPrivate *priv;
-	ESource *source;
+	owner_count ++;
 
-	priv = addressbook_component->priv;
-	
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
-	if (!source)
-		return;
+	if (global_shell_client == NULL)
+		global_shell_client = shell_client;
 
-	/* Save the selection for next time we start up */
-	gconf_client_set_string (priv->gconf_client,
-				 "/apps/evolution/addressbook/display/primary_addressbook",
-				 e_source_peek_uid (source), NULL);
+	addressbook_storage_setup (shell_component, evolution_homedir);
 }
 
-static ESource *
-get_primary_source (AddressbookComponent *addressbook_component)
+static void
+owner_unset_cb (EvolutionShellComponent *shell_component,
+		GNOME_Evolution_Shell shell_interface,
+		gpointer user_data)
 {
-	AddressbookComponentPrivate *priv;
-	ESource *source;
-	char *uid;
+	owner_count --;
 
-	priv = addressbook_component->priv;
+	if (owner_count == 0)
+		global_shell_client = NULL;
 
-	uid = gconf_client_get_string (priv->gconf_client,
-				       "/apps/evolution/addressbook/display/primary_addressbook",
-				       NULL);
-	if (uid) {
-		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
-		g_free (uid);
+	addressbook_storage_cleanup ();
+}
+
+/* FIXME We should perhaps take the time to figure out if the book is editable. */
+static void
+new_item_cb (EBook *book, gpointer closure)
+{
+	gboolean is_list = GPOINTER_TO_INT (closure);
+	ECard *card;
+
+	if (book == NULL)
+		return;
+
+	card = e_card_new ("");
+	if (is_list)
+		e_addressbook_show_contact_list_editor (book, card, TRUE, TRUE);
+	else
+		e_addressbook_show_contact_editor (book, card, TRUE, TRUE);
+	g_object_unref (card);
+}
+
+static void
+user_create_new_item_cb (EvolutionShellComponent *shell_component,
+			 const char *id,
+			 const char *parent_folder_physical_uri,
+			 const char *parent_folder_type,
+			 gpointer data)
+{
+	gboolean is_contact_list;
+	if (!strcmp (id, "contact")) {
+		is_contact_list = FALSE;
+	} else if (!strcmp (id, "contact_list")) {
+		is_contact_list = TRUE;
 	} else {
-		/* Try to create a default if there isn't one */
-		source = find_first_source (priv->source_list);
+		g_warning ("Don't know how to create item of type \"%s\"", id);
+		return;
 	}
-
-	return source;
-}
-
-static void
-load_primary_selection (AddressbookComponent *addressbook_component)
-{
-	AddressbookComponentPrivate *priv;
-	ESource *source;
-
-	priv = addressbook_component->priv;
-
-	source = get_primary_source (addressbook_component);
-	if (source)
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
-}
-
-/* Folder popup menu callbacks */
-
-static void
-add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
-		     GCallback callback, gpointer user_data, gboolean sensitive)
-{
-	GtkWidget *item, *image;
-
-	if (pixmap) {
-		item = gtk_image_menu_item_new_with_label (label);
-
-		/* load the image */
-		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
-			image = gtk_image_new_from_file (pixmap);
-		else
-			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
-
-		if (image) {
-			gtk_widget_show (image);
-			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
-		}
+	if (IS_CONTACT_TYPE (parent_folder_type)) {
+		e_book_use_address_book_by_uri (parent_folder_physical_uri,
+						new_item_cb, GINT_TO_POINTER (is_contact_list));
 	} else {
-		item = gtk_menu_item_new_with_label (label);
+		e_book_use_default_book (new_item_cb, GINT_TO_POINTER (is_contact_list));
 	}
-
-	if (callback)
-		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
-
-	if (!sensitive)
-		gtk_widget_set_sensitive (item, FALSE);
-
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	gtk_widget_show (item);
 }
 
-static void
-delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
-{
-	ESource *selected_source;
-	AddressbookComponentPrivate *priv;
-	GtkWidget *dialog;
-	EBook  *book;
-	gboolean removed = FALSE;
-	GError *error = NULL;
+
+/* Destination side DnD */
 
-	priv = comp->priv;
-	
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
-	if (!selected_source)
-		return;
-
-	/* Create the confirmation dialog */
-	dialog = gtk_message_dialog_new (
-		GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-		GTK_DIALOG_MODAL,
-		GTK_MESSAGE_QUESTION,
-		GTK_BUTTONS_YES_NO,
-		_("Address book '%s' will be removed. Are you sure you want to continue?"),
-		e_source_peek_name (selected_source));
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_YES) {
-		gtk_widget_destroy (dialog);
-		return;
-	}
-
-	/* Remove local data */
-	book = e_book_new ();
-	if (e_book_load_source (book, selected_source, TRUE, &error))
-		removed = e_book_remove (book, &error);
-
-	if (removed) {
-		/* Remove source */
-		if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
-							  selected_source))
-			e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
-							   selected_source);
-		
-		e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
-
-		e_source_list_sync (priv->source_list, NULL);
-	} else {
-		GtkWidget *error_dialog;
-
-		error_dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-						       GTK_DIALOG_MODAL,
-						       GTK_MESSAGE_ERROR,
-						       GTK_BUTTONS_CLOSE,
-						       "Error removing address book: %s",
-						       error->message);
-		gtk_dialog_run (GTK_DIALOG (error_dialog));
-		gtk_widget_destroy (error_dialog);
-
-		g_error_free (error);
-	}
-
-	g_object_unref (book);
-	gtk_widget_destroy (dialog);
-}
-
-static void
-new_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
-{
-	addressbook_config_create_new_source (gtk_widget_get_toplevel (widget));
-}
-
-static void
-edit_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
-{
-	AddressbookComponentPrivate *priv;
-	ESource *selected_source;
-
-	priv = comp->priv;
-
-	selected_source =
-		e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
-	if (!selected_source)
-		return;
-
-	addressbook_config_edit_source (gtk_widget_get_toplevel (widget), selected_source);
-}
-
-/* Callbacks.  */
-
-static void
-primary_source_selection_changed_callback (ESourceSelector *selector,
-					   BonoboControl *view_control)
-{
-	load_uri_for_selection (selector, view_control);
-	save_primary_selection (addressbook_component_peek ());
-}
-
-
-static void
-fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookComponent *comp)
-{
-	gboolean sensitive;
-
-	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ? TRUE : FALSE;
-
-	add_popup_menu_item (menu, _("New Address Book"), NULL, G_CALLBACK (new_addressbook_cb), comp, TRUE);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp, sensitive);
-	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), comp, sensitive);
-}
-
-static gboolean
-selector_tree_drag_drop (GtkWidget *widget, 
-			 GdkDragContext *context, 
-			 int x, 
-			 int y, 
-			 guint time, 
-			 AddressbookComponent *component)
-{
-	GtkTreeViewColumn *column;
-	int cell_x;
-	int cell_y;
-	GtkTreePath *path;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gpointer data;
-	
-	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path, &column, &cell_x, &cell_y))
-		return FALSE;
-	
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-	
-	if (E_IS_SOURCE_GROUP (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-	
-	gtk_drag_get_data (widget, context, gdk_atom_intern (VCARD_TYPE, FALSE), time);
-	gtk_tree_path_free (path);
-	return TRUE;
-}
-	
-static gboolean
-selector_tree_drag_motion (GtkWidget *widget,
-			   GdkDragContext *context,
-			   int x,
-			   int y)
-{
-	GtkTreePath *path;
-	GtkTreeViewDropPosition pos;
-	gpointer data;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	
-	
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		return FALSE;
-	
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-	
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-	
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}	
-	
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	
-	gtk_tree_path_free (path);
-	return TRUE;
-}
-
-static gboolean 
-selector_tree_drag_data_received (GtkWidget *widget, 
-				  GdkDragContext *context, 
-				  gint x, 
-				  gint y, 
-				  GtkSelectionData *data,
-				  guint info,
-				  guint time,
+static CORBA_boolean
+destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *folder,
+				  const char *physical_uri,
+				  const char *folder_type,
+				  const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
+				  GNOME_Evolution_ShellComponentDnd_Action * suggested_action_return,
 				  gpointer user_data)
 {
-	GtkTreePath *path;
-	GtkTreeViewDropPosition pos;
-	gpointer source;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		return FALSE;
-	
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-	
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-	
-	gtk_tree_model_get (model, &iter, 0, &source, -1);
-
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source)) {
-		g_object_unref (source);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}	
-	
-	
-	if ((data->length >= 0) && (data->format == 8)) {
-		gtk_drag_finish (context, FALSE, TRUE, time);
-	}
-
-	gtk_tree_path_free (path);
-	gtk_drag_finish (context, FALSE, FALSE, time);
-
-	printf ("got card\n%s", data->data);
-	
-	//e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (widget), source);
-	{
-		EBook *book;
-		GList *contactlist;
-		GList *l;
-
-		book = e_book_new ();
-		if (!book) {
-			g_message (G_STRLOC ":Couldn't create EBook.");
-			return FALSE;
-		}
-		e_book_load_source (book, source, TRUE, NULL);
-		contactlist = eab_contact_list_from_string (data->data);
-		
-		for (l = contactlist; l; l = l->next) {
-			EContact *contact = l->data;
-			
-			/* XXX NULL for a callback /sigh */
-			if (contact)
-				eab_merging_book_add_contact (book, contact, NULL /* XXX */, NULL);
-		}
-
-		g_list_foreach (contactlist, (GFunc)g_object_unref, NULL);
-		g_list_free (contactlist);
-		
-		g_object_unref (book);
-	}
-
+	*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
 	return TRUE;
-}	
-
-static void
-selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
-{
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), NULL, GTK_TREE_VIEW_DROP_BEFORE);
-}
-
-/* Evolution::Component CORBA methods.  */
-
-static void
-impl_createControls (PortableServer_Servant servant,
-		     Bonobo_Control *corba_sidebar_control,
-		     Bonobo_Control *corba_view_control,
-		     Bonobo_Control *corba_statusbar_control,
-		     CORBA_Environment *ev)
-{
-	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
-	GtkWidget *selector;
-	GtkWidget *selector_scrolled_window;
-	GtkWidget *statusbar_widget;
-	BonoboControl *sidebar_control;
-	BonoboControl *view_control;
-	BonoboControl *statusbar_control;
-
-	selector = e_source_selector_new (addressbook_component->priv->source_list);
-
-	g_signal_connect (selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), addressbook_component);
-	g_signal_connect (selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), addressbook_component);
-	g_signal_connect (selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), addressbook_component);
-	g_signal_connect (selector, "drag-data-received", G_CALLBACK (selector_tree_drag_data_received), addressbook_component);
-	/*
-	g_signal_connect (selector, "drag-begin", G_CALLBACK (drag_begin_callback), addressbook_component);
-	g_signal_connect (selector, "drag-data-get", G_CALLBACK (drag_data_get_callback), addressbook_component);
-	g_signal_connect (selector, "drag-end", G_CALLBACK (drag_end_callback), addressbook_component);
-	//gtk_drag_source_set(selector, GDK_BUTTON1_MASK, drag_types, num_drop_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	*/
-
-	gtk_drag_dest_set(selector, GTK_DEST_DEFAULT_ALL, drag_types, num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
-
-	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
-	gtk_widget_show (selector);
-
-	addressbook_component->priv->source_selector = selector;
-
-	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), selector);
-	gtk_widget_show (selector_scrolled_window);
-
-	sidebar_control = bonobo_control_new (selector_scrolled_window);
-
-	view_control = addressbook_new_control ();
-	g_signal_connect_object (selector, "primary_selection_changed",
-				 G_CALLBACK (primary_source_selection_changed_callback),
-				 G_OBJECT (view_control), 0);
-	g_signal_connect_object (selector, "fill_popup_menu",
-				 G_CALLBACK (fill_popup_menu_callback),
-				 G_OBJECT (addressbook_component), 0);
-
-	load_primary_selection (addressbook_component);
-	load_uri_for_selection (E_SOURCE_SELECTOR (selector), view_control);
-
-	statusbar_widget = e_task_bar_new ();
-	gtk_widget_show (statusbar_widget);
-	statusbar_control = bonobo_control_new (statusbar_widget);
-
-	e_activity_handler_attach_task_bar (addressbook_component->priv->activity_handler,
-					    E_TASK_BAR (statusbar_widget));
-
-	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
-	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
-	*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (statusbar_control), ev);
-}
-
-static GNOME_Evolution_CreatableItemTypeList *
-impl__get_userCreatableItems (PortableServer_Servant servant,
-			      CORBA_Environment *ev)
-{
-	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
-
-	list->_length  = 2;
-	list->_maximum = list->_length;
-	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
-
-	CORBA_sequence_set_release (list, FALSE);
-
-	list->_buffer[0].id = "contact";
-	list->_buffer[0].description = _("New Contact");
-	list->_buffer[0].menuDescription = _("_Contact");
-	list->_buffer[0].tooltip = _("Create a new contact");
-	list->_buffer[0].menuShortcut = 'c';
-	list->_buffer[0].iconName = "evolution-contacts-mini.png";
-
-	list->_buffer[1].id = "contact_list";
-	list->_buffer[1].description = _("New Contact List");
-	list->_buffer[1].menuDescription = _("Contact _List");
-	list->_buffer[1].tooltip = _("Create a new contact list");
-	list->_buffer[1].menuShortcut = 'l';
-	list->_buffer[1].iconName = "contact-list-16.png";
-
-	return list;
 }
 
 static void
-impl_requestCreateItem (PortableServer_Servant servant,
-			const CORBA_char *item_type_name,
-			CORBA_Environment *ev)
+dnd_drop_book_open_cb (EBook *book, EBookStatus status, GList *card_list)
 {
-	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
-	AddressbookComponentPrivate *priv;
-	EBook *book;
-	EContact *contact = e_contact_new ();
-	ESource *selected_source;
-	gchar *uri;
+	GList *l;
 
-	priv = addressbook_component->priv;
+	for (l = card_list; l; l = l->next) {
+		ECard *card = l->data;
 
-	selected_source = get_primary_source (addressbook_component);
-	if (!selected_source) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
-		return;
+		e_card_merging_book_add_card (book, card, NULL /* XXX */, NULL);
 	}
-
-	uri = e_source_get_uri (selected_source);
-	if (!uri) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
-		return;
-	}
-
-	book = e_book_new ();
-	if (!e_book_load_uri (book, uri, TRUE, NULL)) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
-		g_object_unref (book);
-		g_free (uri);
-		return;
-	}
-
-	contact = e_contact_new ();
-
-	if (!item_type_name) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
-	} else if (!strcmp (item_type_name, "contact")) {
-		eab_show_contact_editor (book, contact, TRUE, TRUE);
-	} else if (!strcmp (item_type_name, "contact_list")) {
-		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
-	} else {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
-	}
-
-	g_object_unref (book);
-	g_object_unref (contact);
-	g_free (uri);
 }
 
 static CORBA_boolean
-impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
+destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *folder,
+				const char *physical_uri,
+				const char *folder_type,
+				const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
+				const GNOME_Evolution_ShellComponentDnd_Action action,
+				const GNOME_Evolution_ShellComponentDnd_Data * data,
+				gpointer user_data)
 {
-	return addressbook_migrate (addressbook_component_peek (), major, minor, revision);
+	EBook *book;
+	GList *card_list;
+	char *expanded_uri;
+
+	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
+		return FALSE; /* we can't create links in our addressbook format */
+
+	/* g_print ("in destination_folder_handle_drop (%s)\n", physical_uri); */
+
+	card_list = e_card_load_cards_from_string_with_default_charset (data->bytes._buffer, "ISO-8859-1");
+
+	expanded_uri = e_book_expand_uri (physical_uri);
+
+	book = e_book_new ();
+	addressbook_load_uri (book, expanded_uri,
+			      (EBookCallback)dnd_drop_book_open_cb, card_list);
+
+	g_free (expanded_uri);
+
+	return TRUE;
 }
 
-/* GObject methods.  */
+
+/* Quitting.  */
+
+static gboolean
+request_quit (EvolutionShellComponent *shell_component,
+	      void *data)
+{
+	if (! e_contact_editor_request_close_all ()
+	    || ! e_contact_list_editor_request_close_all ())
+		return FALSE;
+	else
+		return TRUE;
+}
+
+
+/* The factory function.  */
 
 static void
-impl_dispose (GObject *object)
+add_creatable_item (EvolutionShellComponent *shell_component,
+		    const char *id,
+		    const char *description,
+		    const char *menu_description,
+		    const char *tooltip,
+		    char menu_shortcut,
+		    const char *icon_name)
 {
-	AddressbookComponentPrivate *priv = ADDRESSBOOK_COMPONENT (object)->priv;
+	char *icon_path;
+	GdkPixbuf *icon;
 
-	if (priv->source_selector != NULL) {
-		g_object_unref (priv->source_selector);
-		priv->source_selector = NULL;
+	if (icon_name == NULL) {
+		icon_path = NULL;
+		icon = NULL;
+	} else {
+		icon_path = g_build_filename (EVOLUTION_IMAGESDIR, icon_name, NULL);
+		icon = gdk_pixbuf_new_from_file (icon_path, NULL);
 	}
 
-	if (priv->source_list != NULL) {
-		g_object_unref (priv->source_list);
-		priv->source_list = NULL;
-	}
+	evolution_shell_component_add_user_creatable_item (shell_component,
+							   id,
+							   description,
+							   menu_description,
+							   tooltip,
+							   "contacts",
+							   menu_shortcut,
+							   icon);
 
-	if (priv->gconf_client != NULL) {
-		g_object_unref (priv->gconf_client);
-		priv->gconf_client = NULL;
-	}
 
-	if (priv->activity_handler != NULL) {
-		g_object_unref (priv->activity_handler);
-		priv->activity_handler = NULL;
-	}
+	if (icon != NULL)
+		gdk_pixbuf_unref (icon);
+	g_free (icon_path);
+}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+static BonoboObject *
+create_component (void)
+{
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentDndDestinationFolder *destination_interface;
+
+	shell_component = evolution_shell_component_new (folder_types, NULL,
+							 create_view, create_folder,
+							 remove_folder, xfer_folder,
+							 NULL, NULL,
+							 get_dnd_selection,
+							 request_quit,
+							 NULL);
+
+	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,
+										      destination_folder_handle_drop,
+										      shell_component);
+
+	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
+				     BONOBO_OBJECT (destination_interface));
+
+	add_creatable_item (shell_component, "contact",
+			    _("New Contact"), _("_Contact"),
+			    _("Create a new contact"), 'c',
+			    "evolution-contacts-mini.png");
+	add_creatable_item (shell_component, "contact_list",
+			    _("New Contact List"), _("Contact _List"),
+			    _("Create a new contact list"), 'l',
+			    "contact-list-16.png");
+
+	g_signal_connect (shell_component, "owner_set",
+			  G_CALLBACK (owner_set_cb), NULL);
+	g_signal_connect (shell_component, "owner_unset",
+			  G_CALLBACK (owner_unset_cb), NULL);
+	g_signal_connect (shell_component, "user_create_new_item",
+			  G_CALLBACK (user_create_new_item_cb), NULL);
+
+	return BONOBO_OBJECT (shell_component);
 }
 
 static void
-impl_finalize (GObject *object)
+ensure_completion_uris_exist()
 {
-	AddressbookComponentPrivate *priv = ADDRESSBOOK_COMPONENT (object)->priv;
+	/* Initialize the completion uris if they aren't set yet.  The
+	   default set is just the local Contacts folder. */
+	EConfigListener *db;
+	char *val;
 
-	g_free (priv);
+	db = e_book_get_config_database ();
+		
+	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (val && !*val) {
+		g_free (val);
+		val = NULL;
+	}
+		
+	if (!val) {
+		EFolderListItem f[2];
+		char *dirname, *uri;
+		/* in the case where the user is running for the first
+		   time, populate the list with the local contact
+		   folder */
+		dirname = g_build_filename (g_get_home_dir (), "evolution/local/Contacts", NULL);
+		uri = g_strdup_printf ("file://%s", dirname);
+			
+		f[0].uri = "evolution:/local/Contacts";
+		f[0].physical_uri = uri;
+		f[0].display_name = _("Contacts");
+
+		memset (&f[1], 0, sizeof (f[1]));
+
+		val = e_folder_list_create_xml (f);
+
+		g_free (dirname);
+		g_free (uri);
+		e_config_listener_set_string (db, "/apps/evolution/addressbook/completion/uris", val);
+	}
+
+	g_free (val);
 }
 
-
-/* Initialization.  */
-
-static void
-addressbook_component_class_init (AddressbookComponentClass *class)
+
+/* FIXME this is wrong.  */
+BonoboObject *
+addressbook_component_init (void)
 {
-	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
-	GObjectClass *object_class = G_OBJECT_CLASS (class);
-
-	epv->createControls          = impl_createControls;
-	epv->_get_userCreatableItems = impl__get_userCreatableItems;
-	epv->requestCreateItem       = impl_requestCreateItem;
-	epv->upgradeFromVersion      = impl_upgradeFromVersion;
-
-	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalize;
-
-	parent_class = g_type_class_peek_parent (class);
+	ensure_completion_uris_exist ();
+	return create_component ();
 }
-
-static void
-addressbook_component_init (AddressbookComponent *component)
-{
-	AddressbookComponentPrivate *priv;
-
-	priv = g_new0 (AddressbookComponentPrivate, 1);
-
-	/* EPFIXME: Should use a custom one instead? */
-	priv->gconf_client = gconf_client_get_default ();
-
-	priv->source_list = e_source_list_new_for_gconf (priv->gconf_client,
-							 "/apps/evolution/addressbook/sources");
-
-	priv->activity_handler = e_activity_handler_new ();
-	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
-
-	component->priv = priv;
-
-#ifdef ENABLE_SMIME
-	smime_component_init ();
-#endif
-}
-
-
-/* Public API.  */
-
-AddressbookComponent *
-addressbook_component_peek (void)
-{
-	static AddressbookComponent *component = NULL;
-
-	if (component == NULL)
-		component = g_object_new (addressbook_component_get_type (), NULL);
-
-	return component;
-}
-
-GConfClient*
-addressbook_component_peek_gconf_client (AddressbookComponent *component)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
-
-	return component->priv->gconf_client;
-}
-
-const char *
-addressbook_component_peek_base_directory (AddressbookComponent *component)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
-
-	return component->priv->base_directory;
-}
-
-ESourceList *
-addressbook_component_peek_source_list (AddressbookComponent *component)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
-
-	return component->priv->source_list;
-}
-
-
-EActivityHandler *
-addressbook_component_peek_activity_handler (AddressbookComponent *component)
-{
-	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
-
-	return component->priv->activity_handler;
-}
-
-
-BONOBO_TYPE_FUNC_FULL (AddressbookComponent, GNOME_Evolution_Component, PARENT_TYPE, addressbook_component)

@@ -184,7 +184,12 @@ rule_context_finalise(GObject *obj)
 	g_list_free(rc->parts);
 	g_list_foreach(rc->rules, (GFunc)g_object_unref, NULL);
 	g_list_free(rc->rules);
-
+	
+	if (rc->system)
+		xmlFreeDoc(rc->system);
+	if (rc->user)
+		xmlFreeDoc(rc->user);
+	
 	g_free(rc->priv);
 	
 	G_OBJECT_CLASS(parent_class)->finalize(obj);
@@ -283,7 +288,6 @@ static int
 load(RuleContext *rc, const char *system, const char *user)
 {
 	xmlNodePtr set, rule, root;
-	xmlDocPtr systemdoc, userdoc;
 	struct _part_set_map *part_map;
 	struct _rule_set_map *rule_map;
 	struct stat st;
@@ -292,23 +296,24 @@ load(RuleContext *rc, const char *system, const char *user)
 	
 	d(printf("loading rules %s %s\n", system, user));
 	
-	systemdoc = xmlParseFile(system);
-	if (systemdoc == NULL) {
+	rc->system = xmlParseFile(system);
+	if (rc->system == NULL) {
 		rule_context_set_error(rc, g_strdup_printf("Unable to load system rules '%s': %s",
 							     system, g_strerror(errno)));
 		return -1;
 	}
 
-	root = xmlDocGetRootElement(systemdoc);
+	root = xmlDocGetRootElement(rc->system);
 	if (root == NULL || strcmp(root->name, "filterdescription")) {
 		rule_context_set_error(rc, g_strdup_printf("Unable to load system rules '%s': Invalid format", system));
-		xmlFreeDoc(systemdoc);
+		xmlFreeDoc(rc->system);
+		rc->system = NULL;
 		return -1;
 	}
 	/* doesn't matter if this doens't exist */
-	userdoc = NULL;
+	rc->user = NULL;
 	if (stat (user, &st) != -1 && S_ISREG (st.st_mode))
-		userdoc = xmlParseFile(user);
+		rc->user = xmlParseFile(user);
 	
 	/* now parse structure */
 	/* get rule parts */
@@ -332,31 +337,13 @@ load(RuleContext *rc, const char *system, const char *user)
 				}
 				rule = rule->next;
 			}
-		} else if ((rule_map = g_hash_table_lookup(rc->rule_set_map, set->name))) {
-			d(printf("loading system rules ...\n"));
-			rule = set->children;
-			while (rule) {
-				d(printf("checking node: %s\n", rule->name));
-				if (!strcmp(rule->name, "rule")) {
-					FilterRule *part = FILTER_RULE(g_object_new(rule_map->type, NULL, NULL));
-					
-					if (filter_rule_xml_decode(part, rule, rc) == 0) {
-						part->system = TRUE;
-						rule_map->append(rc, part);
-					} else {
-						g_object_unref(part);
-						g_warning("Cannot load filter part");
-					}
-				}
-				rule = rule->next;
-			}
 		}
 		set = set->next;
 	}
 	
 	/* now load actual rules */
-	if (userdoc) {
-		root = xmlDocGetRootElement(userdoc);
+	if (rc->user) {
+		root = xmlDocGetRootElement(rc->user);
 		set = root?root->children:NULL;
 		while (set) {
 			d(printf("set name = %s\n", set->name));
@@ -382,9 +369,6 @@ load(RuleContext *rc, const char *system, const char *user)
 			set = set->next;
 		}
 	}
-
-	xmlFreeDoc(userdoc);
-	xmlFreeDoc(systemdoc);
 	
 	return 0;
 }
@@ -428,11 +412,9 @@ save(RuleContext *rc, const char *user)
 		xmlAddChild(root, rules);
 		rule = NULL;
 		while ((rule = map->next(rc, rule, NULL))) {
-			if (!rule->system) {
-				d(printf("processing rule %s\n", rule->name));
-				work = filter_rule_xml_encode(rule);
-				xmlAddChild(rules, work);
-			}
+			d(printf("processing rule %s\n", rule->name));
+			work = filter_rule_xml_encode(rule);
+			xmlAddChild(rules, work);
 		}
 		l = g_list_next(l);
 	}
@@ -459,7 +441,7 @@ rule_context_revert(RuleContext *rc, const char *user)
 {
 	g_assert(rc);
 	
-	d(printf("rule_context: restoring %s\n", user));
+	d(printf("rule_context: restoring %s %s\n", user));
 	
 	return RULE_CONTEXT_GET_CLASS(rc)->revert(rc, user);
 }
@@ -512,7 +494,7 @@ revert(RuleContext *rc, const char *user)
 	
 	rule_context_set_error(rc, NULL);
 	
-	d(printf("restoring rules %s\n", user));
+	d(printf("restoring rules %s %s\n", user));
 	
 	userdoc = xmlParseFile(user);
 	if (userdoc == NULL)
@@ -536,7 +518,7 @@ revert(RuleContext *rc, const char *user)
 	}
 	
 	/* make what we have, match what we load */
-	set = xmlDocGetRootElement(userdoc);
+	set = xmlDocGetRootElement(rc->user);
 	set = set?set->children:NULL;
 	while (set) {
 		d(printf("set name = %s\n", set->name));
@@ -667,7 +649,7 @@ rule_context_add_rule(RuleContext *rc, FilterRule *new)
 static void
 new_rule_response(GtkWidget *dialog, int button, RuleContext *context)
 {
-	if (button == GTK_RESPONSE_OK) {
+	if (button == GTK_RESPONSE_ACCEPT) {
 		FilterRule *rule = g_object_get_data((GObject *) dialog, "rule");
 		char *user = g_object_get_data((GObject *) dialog, "path");
 		
@@ -714,9 +696,9 @@ rule_context_add_rule_gui(RuleContext *rc, FilterRule *rule, const char *title, 
 	
 	dialog =(GtkDialog *) gtk_dialog_new();
 	gtk_dialog_add_buttons(dialog,
-			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			       GTK_STOCK_OK, GTK_RESPONSE_OK,
-			       NULL);
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				NULL);
 	
 	gtk_window_set_title((GtkWindow *) dialog, title);
 	gtk_window_set_default_size((GtkWindow *) dialog, 600, 400);

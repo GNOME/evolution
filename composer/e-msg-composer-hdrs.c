@@ -48,12 +48,12 @@
 #include <gal/e-text/e-entry.h>
 
 #include <camel/camel.h>
+#include "evolution-folder-selector-button.h"
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
-/*#include "mail/em-folder-selection-button.h"*/
-#include "mail/em-folder-selector.h"
-#include "mail/mail-component.h"
-#include "mail/em-folder-tree.h"
+#include "addressbook/backend/ebook/e-book-util.h"
+
+extern EvolutionShellClient *global_shell_client;
 
 
 
@@ -84,8 +84,6 @@ struct _EMsgComposerHdrsPrivate {
 	
 	EAccountList *accounts;
 	GSList *from_options;
-	
-	gboolean post_custom;
 	
 	/* Standard headers.  */
 	EMsgComposerHdrPair from, reply_to, to, cc, bcc, post_to, subject;
@@ -184,11 +182,6 @@ from_changed (GtkWidget *item, gpointer data)
 {
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (data);
 	const char *reply_to;
-	GList *post_items = NULL;
-	
-	/* this will retrieve items relative to the previous account */
-	if (!hdrs->priv->post_custom)
-		post_items = e_msg_composer_hdrs_get_post_to(hdrs);
 	
 	hdrs->account = g_object_get_data ((GObject *) item, "account");
 	
@@ -196,13 +189,6 @@ from_changed (GtkWidget *item, gpointer data)
 	   because we don't want to change the visibility of the header */
 	reply_to = hdrs->account->id->reply_to;
 	gtk_entry_set_text (GTK_ENTRY (hdrs->priv->reply_to.entry), reply_to ? reply_to : "");
-	
-	/* folders should be made relative to the new from */
-	if (!hdrs->priv->post_custom) {
-		e_msg_composer_hdrs_set_post_to_list (hdrs, post_items);
-		g_list_foreach (post_items, (GFunc)g_free, NULL);
-		g_list_free(post_items);
-	}
 	
 	g_signal_emit (hdrs, signals [FROM_CHANGED], 0);
 }
@@ -477,51 +463,6 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 	return control_widget;
 }
 
-static void
-post_browser_response (EMFolderSelector *emfs, int response, EMsgComposerHdrs *hdrs)
-{
-	if (response == GTK_RESPONSE_OK) {
-		GList *uris = em_folder_selector_get_selected_uris (emfs);
-		e_msg_composer_hdrs_set_post_to_list (hdrs, uris);
-		hdrs->priv->post_custom = FALSE;
-		g_list_foreach (uris, (GFunc) g_free, NULL);
-		g_list_free (uris);
-	}
-	
-	gtk_widget_destroy ((GtkWidget *) emfs);
-}
-
-static void
-post_browser_clicked_cb (GtkButton *button, EMsgComposerHdrs *hdrs)
-{
-	EMFolderTreeModel *model;
-	EMFolderTree *emft;
-	GtkWidget *dialog;
-	GList *post_items;
-	
-	model = mail_component_peek_tree_model (mail_component_peek ());
-	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
-	em_folder_tree_set_multiselect (emft, TRUE);
-	
-	dialog = em_folder_selector_new (emft, EM_FOLDER_SELECTOR_CAN_CREATE,
-	                                 _("Posting destination"),
-	                                 _("Choose folders to post the message to."));
-	
-	post_items = e_msg_composer_hdrs_get_post_to (hdrs);	
-	em_folder_selector_set_selected_list ((EMFolderSelector *) dialog, post_items);
-	g_list_foreach (post_items, (GFunc) g_free, NULL);
-	g_list_free (post_items);
-	
-	g_signal_connect (dialog, "response", G_CALLBACK (post_browser_response), hdrs);
-	gtk_widget_show (dialog);
-}
-
-static void
-post_entry_changed_cb (GtkButton *button, EMsgComposerHdrs *hdrs)
-{
-	hdrs->priv->post_custom = TRUE;
-}
-
 static EMsgComposerHdrPair 
 header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 {
@@ -561,6 +502,7 @@ static void
 create_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
+	static const char *posting_types[] = { "mail/*", NULL };
 	
 	/*
 	 * Reply-To:
@@ -602,21 +544,14 @@ create_headers (EMsgComposerHdrs *hdrs)
 		 _("Enter the addresses that will receive a carbon copy of "
 		   "the message without appearing in the recipient list of "
 		   "the message."));
-
+	
 	/*
 	 * Post-To
 	 */
-	priv->post_to.label = gtk_button_new_with_label (_("Post To:"));
-	GTK_OBJECT_UNSET_FLAGS (priv->post_to.label, GTK_CAN_FOCUS);
-	g_signal_connect (priv->post_to.label, "clicked",
-			  G_CALLBACK (post_browser_clicked_cb), hdrs);
-	gtk_tooltips_set_tip (hdrs->priv->tooltips, priv->post_to.label,
-			      _("Click here to select folders to post to"),
-			      NULL);
-	
-	priv->post_to.entry = gtk_entry_new ();
-	g_signal_connect(priv->post_to.entry, "changed",
-			 G_CALLBACK (post_entry_changed_cb), hdrs);
+	priv->post_to.label = gtk_label_new (_("Post To:"));
+	priv->post_to.entry = evolution_folder_selector_button_new (
+		global_shell_client, _("Posting destination"), NULL,
+		posting_types);
 }
 
 static void
@@ -650,7 +585,7 @@ attach_headers (EMsgComposerHdrs *hdrs)
 static void
 set_pair_visibility (EMsgComposerHdrs *h, EMsgComposerHdrPair *pair, int visible)
 {
-	if (visible /*& h->visible_mask*/) {
+	if (visible & h->visible_mask) {
 		gtk_widget_show (pair->label);
 		gtk_widget_show (pair->entry);
 	} else {
@@ -682,14 +617,21 @@ headers_set_visibility (EMsgComposerHdrs *h, int visible_flags)
 static void
 headers_set_sensitivity (EMsgComposerHdrs *h)
 {
-	/* these ones are always on */
 	bonobo_ui_component_set_prop (
-		h->priv->uic, "/commands/ViewTo", "sensitive",
-		h->visible_mask & E_MSG_COMPOSER_VISIBLE_TO ? "0" : "1", NULL);
+		h->priv->uic, "/commands/ViewFrom", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_FROM ? "1" : "0", NULL);
 	
 	bonobo_ui_component_set_prop (
-		h->priv->uic, "/commands/ViewPostTo", "sensitive",
-		h->visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO ? "0" : "1", NULL);
+		h->priv->uic, "/commands/ViewReplyTo", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_REPLYTO ? "1" : "0", NULL);
+	
+	bonobo_ui_component_set_prop (
+		h->priv->uic, "/commands/ViewCC", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_CC ? "1" : "0", NULL);
+	
+	bonobo_ui_component_set_prop (
+		h->priv->uic, "/commands/ViewBCC", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_BCC ? "1" : "0", NULL);
 }
 
 void
@@ -839,8 +781,6 @@ init (EMsgComposerHdrs *hdrs)
 	
 	priv->accounts = mail_config_get_accounts ();
 	g_object_ref (priv->accounts);
-
-	priv->post_custom = FALSE;
 	
 	hdrs->priv = priv;
 }
@@ -897,9 +837,9 @@ e_msg_composer_hdrs_new (BonoboUIComponent *uic, int visible_mask, int visible_f
 
 static void
 set_recipients_from_destv (CamelMimeMessage *msg,
-			   EABDestination **to_destv,
-			   EABDestination **cc_destv,
-			   EABDestination **bcc_destv,
+			   EDestination **to_destv,
+			   EDestination **cc_destv,
+			   EDestination **bcc_destv,
 			   gboolean redirect)
 {
 	CamelInternetAddress *to_addr;
@@ -916,12 +856,12 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 	
 	if (to_destv) {
 		for (i = 0; to_destv[i] != NULL; ++i) {
-			text_addr = eab_destination_get_address (to_destv[i]);
+			text_addr = e_destination_get_address (to_destv[i]);
 			
 			if (text_addr && *text_addr) {
 				target = to_addr;
-				if (eab_destination_is_evolution_list (to_destv[i])
-				    && !eab_destination_list_show_addresses (to_destv[i])) {
+				if (e_destination_is_evolution_list (to_destv[i])
+				    && !e_destination_list_show_addresses (to_destv[i])) {
 					target = bcc_addr;
 					seen_hidden_list = TRUE;
 				}
@@ -933,11 +873,11 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 	
 	if (cc_destv) {
 		for (i = 0; cc_destv[i] != NULL; ++i) {
-			text_addr = eab_destination_get_address (cc_destv[i]);
+			text_addr = e_destination_get_address (cc_destv[i]);
 			if (text_addr && *text_addr) {
 				target = cc_addr;
-				if (eab_destination_is_evolution_list (cc_destv[i])
-				    && !eab_destination_list_show_addresses (cc_destv[i])) {
+				if (e_destination_is_evolution_list (cc_destv[i])
+				    && !e_destination_list_show_addresses (cc_destv[i])) {
 					target = bcc_addr;
 					seen_hidden_list = TRUE;
 				}
@@ -949,7 +889,7 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 	
 	if (bcc_destv) {
 		for (i = 0; bcc_destv[i] != NULL; ++i) {
-			text_addr = eab_destination_get_address (bcc_destv[i]);
+			text_addr = e_destination_get_address (bcc_destv[i]);
 			if (text_addr && *text_addr) {				
 				camel_address_decode (CAMEL_ADDRESS (bcc_addr), text_addr);
 			}
@@ -983,7 +923,7 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 					 CamelMimeMessage *msg,
 					 gboolean redirect)
 {
-	EABDestination **to_destv, **cc_destv, **bcc_destv;
+	EDestination **to_destv, **cc_destv, **bcc_destv;
 	CamelInternetAddress *addr;
 	const char *subject;
 	char *header;
@@ -1019,18 +959,16 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 		
 		set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv, redirect);
 		
-		eab_destination_freev (to_destv);
-		eab_destination_freev (cc_destv);
-		eab_destination_freev (bcc_destv);
+		e_destination_freev (to_destv);
+		e_destination_freev (cc_destv);
+		e_destination_freev (bcc_destv);
 	}
 	
-#if 0
 	if (hdrs->visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO) {
 		header = e_msg_composer_hdrs_get_post_to (hdrs);
 		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-PostTo", header);
 		g_free (header);
 	}
-#endif
 }
 
 
@@ -1118,26 +1056,26 @@ e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
 
 void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
-			    EABDestination **to_destv)
+			    EDestination **to_destv)
 {
 	char *str;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	str = eab_destination_exportv (to_destv);
+	str = e_destination_exportv (to_destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, str ? str : "", NULL); 
 	g_free (str);
 }
 
 void
 e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
-			    EABDestination **cc_destv)
+			    EDestination **cc_destv)
 {
 	char *str;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	str = eab_destination_exportv (cc_destv);
+	str = e_destination_exportv (cc_destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, str ? str :"", NULL);
 	if (str && *str)
 		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
@@ -1146,157 +1084,27 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 
 void
 e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
-			     EABDestination **bcc_destv)
+			     EDestination **bcc_destv)
 {
 	char *str;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	str = eab_destination_exportv (bcc_destv);
+	str = e_destination_exportv (bcc_destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, str ? str : "", NULL); 
 	if (str && *str)
 		set_pair_visibility (hdrs, &hdrs->priv->bcc, TRUE);
 	g_free (str);
 }
 
-
 void
 e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
 				 const char *post_to)
 {
-	GList *list;
-	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (post_to != NULL);
 	
-	list = g_list_append (NULL, g_strdup (post_to));
-	
-	e_msg_composer_hdrs_set_post_to_list (hdrs, list);
-	
-	g_free (list->data);
-	g_list_free (list);
-}
-
-static GList *
-newsgroups_list_split (const char *list)
-{
-	GList *lst = NULL;
-	char *tmp;	
-	char **items, **cur_ptr;
-	
-	cur_ptr = items = g_strsplit (list, ",", 0);
-	
-	while ((tmp = *cur_ptr) != NULL) {
-		g_strstrip (tmp);
-		
-		if (tmp[0])
-			lst = g_list_append (lst, g_strdup (tmp));
-		
-		cur_ptr++;
-	}
-	
-	g_strfreev (items);
-	
-	return lst;
-}
-
-static char *
-get_account_store_url (EMsgComposerHdrs *hdrs)
-{
-	CamelURL *url;
-	char *ret = NULL;
-	
-	if (hdrs->account->source && hdrs->account->source->url) {
-		url = camel_url_new (hdrs->account->source->url, NULL);
-		ret = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		camel_url_free (url);
-	}
-	
-	return ret;
-}                                            
-
-static char *
-folder_name_to_string (EMsgComposerHdrs *hdrs, const char *uri)
-{
-	char *storeurl = get_account_store_url (hdrs);
-	int len;
-	
-	if (storeurl) {
-		len = strlen (storeurl);
-		
-		if (g_ascii_strncasecmp (uri, storeurl, len) == 0) {
-			g_free (storeurl);
-			return g_strdup (uri + len);
-		}
-		
-		g_free (storeurl);
-	}
-	
-	return g_strdup (uri);
-}
-
-void
-e_msg_composer_hdrs_set_post_to_list (EMsgComposerHdrs *hdrs, GList *urls)
-{
-	GString *caption;
-	char *tmp;
-	gboolean post_custom;
-	
-	if (hdrs->priv->post_to.entry == NULL)
-		return;
-
-	caption = g_string_new("");
-	while (urls) {
-		tmp = folder_name_to_string(hdrs, (char *)urls->data);
-		if (tmp) {
-			if (caption->len)
-				g_string_append(caption, ", ");
-			g_string_append(caption, tmp);
-		}
-		
-		urls = g_list_next (urls);
-	}
-	
-	post_custom = hdrs->priv->post_custom;
-	gtk_entry_set_text(GTK_ENTRY(hdrs->priv->post_to.entry), caption->str);
-	hdrs->priv->post_custom = post_custom;
-
-	g_string_free(caption, TRUE);
-}
-
-void
-e_msg_composer_hdrs_set_post_to_base (EMsgComposerHdrs *hdrs, const char *base, const char *post_to)
-{
-	GList *lst, *curlist;
-	char *tmp, *tmp2;
-	gboolean post_custom;
-	GString *caption;
-	
-	/* split to newsgroup names */
-	lst = newsgroups_list_split(post_to);
-	curlist = lst;
-	
-	caption = g_string_new("");
-	while (curlist) {
-		/* FIXME: this doens't handle all folder names properly */
-		tmp2 = g_strdup_printf ("%s/%s", base, (char *)curlist->data);
-		tmp = folder_name_to_string (hdrs, tmp2);
-		g_free (tmp2);
-		if (tmp) {
-			if (caption->len)
-				g_string_append(caption, ", ");
-			g_string_append(caption, tmp);
-		}
-		curlist = g_list_next(curlist);
-	}
-	
-	post_custom = hdrs->priv->post_custom;
-	gtk_entry_set_text(GTK_ENTRY(hdrs->priv->post_to.entry), caption->str);
-	hdrs->priv->post_custom = post_custom;
-
-	g_string_free(caption, TRUE);
-        g_list_foreach(lst, (GFunc)g_free, NULL);
-	g_list_free(lst);
+	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry), post_to);
 }
 
 void
@@ -1351,67 +1159,67 @@ e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 	return addr;
 }
 
-EABDestination **
+EDestination **
 e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
 	char *str = NULL;
-	EABDestination **destv = NULL;
+	EDestination **destv = NULL;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, &str, NULL); 
 	
 	if (str != NULL) {
-		destv = eab_destination_importv (str);
+		destv = e_destination_importv (str);
 		g_free (str);
 	}
 	
 	return destv;
 }
 
-EABDestination **
+EDestination **
 e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
 	char *str = NULL;
-	EABDestination **destv = NULL;
+	EDestination **destv = NULL;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, &str, NULL); 
 	
 	if (str != NULL) {
-		destv = eab_destination_importv (str);
+		destv = e_destination_importv (str);
 		g_free (str);
 	}
 	
 	return destv;
 }
 
-EABDestination **
+EDestination **
 e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
 	char *str = NULL;
-	EABDestination **destv = NULL;
+	EDestination **destv = NULL;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, &str, NULL); 
 	
 	if (str != NULL) {
-		destv = eab_destination_importv (str);
+		destv = e_destination_importv (str);
 		g_free (str);
 	}
 	
 	return destv;
 }
 
-EABDestination **
+EDestination **
 e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 {
-	EABDestination **to_destv;
-	EABDestination **cc_destv;
-	EABDestination **bcc_destv;
-	EABDestination **recip_destv;
+	EDestination **to_destv;
+	EDestination **cc_destv;
+	EDestination **bcc_destv;
+	EDestination **recip_destv;
 	int i, j, n;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
@@ -1429,7 +1237,7 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	if (n == 0)
 		return NULL;
 	
-	recip_destv = g_new (EABDestination *, n + 1);
+	recip_destv = g_new (EDestination *, n + 1);
 	
 	j = 0;
 	
@@ -1450,44 +1258,16 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	return recip_destv;
 }
 
-
-GList *
+char *
 e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
 {
-	GList *uris, *cur;
-	char *storeurl = NULL, *tmp;
-	
+	GNOME_Evolution_Folder *folder;
+
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	if (hdrs->priv->post_to.entry == NULL)
-		return NULL;
-	
-	tmp = g_strdup (gtk_entry_get_text (GTK_ENTRY (hdrs->priv->post_to.entry)));
-	uris = newsgroups_list_split (tmp);
-	g_free (tmp);
-	
-	cur = uris;
-	while (cur) {
-		/* FIXME: this is a bit of a hack, should use camelurl's etc */
-		if (strstr ((char *) cur->data, ":/") == NULL) {
-			/* relative folder name: convert to absolute */
-			if (!storeurl)
-				storeurl = get_account_store_url (hdrs);
-			if (!storeurl)
-				break;
-			tmp = g_strconcat (storeurl, cur->data, NULL);
-			g_free (cur->data);
-			cur->data = tmp;
-		}
-		
-		cur = cur->next;
-	}
-	
-	g_free (storeurl);
-	
-	return uris;
+	folder = evolution_folder_selector_button_get_folder (EVOLUTION_FOLDER_SELECTOR_BUTTON (hdrs->priv->post_to.entry));
+	return folder ? g_strdup (folder->physicalUri) : NULL;
 }
-
 
 const char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)

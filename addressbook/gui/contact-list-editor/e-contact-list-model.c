@@ -30,7 +30,7 @@ contact_list_value_at (ETableModel *etc, int col, int row)
 {
 	EContactListModel *model = E_CONTACT_LIST_MODEL (etc);
 
-	return (void *) eab_destination_get_textrep (model->data[row], TRUE);
+	return (void *) e_destination_get_textrep (model->data[row], TRUE);
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
@@ -44,7 +44,7 @@ contact_list_set_value_at (ETableModel *etc, int col, int row, const void *val)
 static gboolean
 contact_list_is_cell_editable (ETableModel *etc, int col, int row)
 {
-	return TRUE;
+	return FALSE;
 }
 
 /* This function duplicates the value passed to it. */
@@ -127,7 +127,7 @@ e_contact_list_model_init (GtkObject *object)
 
 	model->data_alloc = 10;
 	model->data_count = 0;
-	model->data = g_new (EABDestination*, model->data_alloc);
+	model->data = g_new (EDestination*, model->data_alloc);
 }
 
 GType
@@ -172,16 +172,16 @@ e_contact_list_model_new ()
 }
 
 void
-e_contact_list_model_add_destination (EContactListModel *model, EABDestination *dest)
+e_contact_list_model_add_destination (EContactListModel *model, EDestination *dest)
 {
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
-	g_return_if_fail (EAB_IS_DESTINATION (dest));
+	g_return_if_fail (E_IS_DESTINATION (dest));
 
 	e_table_model_pre_change (E_TABLE_MODEL (model));
 
 	if (model->data_count + 1 >= model->data_alloc) {
 		model->data_alloc *= 2;
-		model->data = g_renew (EABDestination*, model->data, model->data_alloc);
+		model->data = g_renew (EDestination*, model->data, model->data_alloc);
 	}
 
 	model->data[model->data_count ++] = dest;
@@ -194,28 +194,28 @@ void
 e_contact_list_model_add_email (EContactListModel *model,
 				const char *email)
 {
-	EABDestination *new_dest;
+	EDestination *new_dest;
 
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 	g_return_if_fail (email != NULL);
 
-	new_dest = eab_destination_new ();
-	eab_destination_set_email (new_dest, email);
+	new_dest = e_destination_new ();
+	e_destination_set_email (new_dest, email);
 
 	e_contact_list_model_add_destination (model, new_dest);
 }
 
 void
-e_contact_list_model_add_contact (EContactListModel *model,
-				  EContact *contact)
+e_contact_list_model_add_card (EContactListModel *model,
+			       ECardSimple *simple)
 {
-	EABDestination *new_dest;
+	EDestination *new_dest;
 
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
-	g_return_if_fail (E_IS_CONTACT (contact));
+	g_return_if_fail (E_IS_CARD_SIMPLE (simple));
 
-	new_dest = eab_destination_new ();
-	eab_destination_set_contact (new_dest, contact, 0); /* Hard-wired for default e-mail */
+	new_dest = e_destination_new ();
+	e_destination_set_card (new_dest, simple->card, 0); /* Hard-wired for default e-mail */
 
 	e_contact_list_model_add_destination (model, new_dest);
 }
@@ -229,7 +229,7 @@ e_contact_list_model_remove_row (EContactListModel *model, int row)
 	e_table_model_pre_change (E_TABLE_MODEL (model));
 
 	g_object_unref (model->data[row]);
-	memmove (model->data + row, model->data + row + 1, sizeof (EABDestination*) * (model->data_count - row - 1));
+	memmove (model->data + row, model->data + row + 1, sizeof (EDestination*) * (model->data_count - row - 1));
 	model->data_count --;
 
 	e_table_model_row_deleted (E_TABLE_MODEL (model), row);
@@ -255,7 +255,7 @@ e_contact_list_model_remove_all (EContactListModel *model)
 }
 
 
-const EABDestination *
+const EDestination *
 e_contact_list_model_get_destination (EContactListModel *model, int row)
 {
 	g_return_val_if_fail (E_IS_CONTACT_LIST_MODEL (model), NULL);

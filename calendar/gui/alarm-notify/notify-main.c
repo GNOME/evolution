@@ -1,10 +1,8 @@
 /* Evolution calendar - Alarm notification service main file
  *
  * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2003 Novell, Inc.
  *
- * Authors: Federico Mena-Quintero <federico@ximian.com>
- *          Rodrigo Moya <rodrigo@ximian.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -26,7 +24,6 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gtk/gtkmain.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-init.h>
 #include <libgnome/gnome-sound.h>
@@ -37,14 +34,14 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo-activation/bonobo-activation.h>
-#include <libedataserver/e-source.h>
-#include "e-util/e-passwords.h"
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
-#include "config-data.h"
+#include "save.h"
 
 
+
+static GnomeClient *master_client = NULL;
 
 static BonoboGenericFactory *factory;
 
@@ -68,7 +65,8 @@ save_session_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown,
 
 	args[0] = EVOLUTION_LIBEXECDIR "/evolution-alarm-notify";
 	args[1] = NULL;
-	gnome_client_set_restart_command (client, 1, args);
+
+	gnome_client_set_restart_command (master_client, 1, args);
 
 	return TRUE;
 }
@@ -80,20 +78,24 @@ save_session_cb (GnomeClient *client, GnomeSaveStyle save_style, gint shutdown,
 static void
 init_session (void)
 {
-	GnomeClient *master_client;
+	int flags;
 
 	master_client = gnome_master_client ();
+	flags = gnome_client_get_flags (master_client);
 
-	g_signal_connect (G_OBJECT (master_client), "die",
-			  G_CALLBACK (client_die_cb), NULL);
-	g_signal_connect (G_OBJECT (master_client), "save_yourself",
-			  G_CALLBACK (save_session_cb), NULL);
+	if (!(flags & GNOME_CLIENT_IS_CONNECTED))
+		return;
 
 	/* The daemon should always be started up by the session manager when
 	 * the session starts.  The daemon will take care of loading whatever
 	 * calendars it was told to load.
 	 */
 	gnome_client_set_restart_style (master_client, GNOME_RESTART_IF_RUNNING);
+
+	g_signal_connect (G_OBJECT (master_client), "die",
+			  G_CALLBACK (client_die_cb), NULL);
+	g_signal_connect (G_OBJECT (master_client), "save_yourself",
+			  G_CALLBACK (save_session_cb), NULL);
 }
 
 /* Factory function for the alarm notify service; just creates and references a
@@ -108,7 +110,6 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id
 	}
 
 	bonobo_object_ref (BONOBO_OBJECT (alarm_notify_service));
-
 	return BONOBO_OBJECT (alarm_notify_service);
 }
 
@@ -116,7 +117,7 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id
 static gboolean
 load_calendars (gpointer user_data)
 {
-	GPtrArray *cals;
+	GPtrArray *uris;
 	int i;
 
 	alarm_queue_init ();
@@ -127,24 +128,42 @@ load_calendars (gpointer user_data)
 		g_assert (alarm_notify_service != NULL);
 	}
 
-	cals = config_data_get_calendars_to_load ();
-	if (!cals) {
+	uris = get_calendars_to_load ();
+	if (!uris) {
 		g_message ("load_calendars(): Could not get the list of calendars to load");
 		return TRUE; /* should we continue retrying? */;
 	}
 
-	for (i = 0; i < cals->len; i++) {
-		ESource *source;
+	for (i = 0; i < uris->len; i++) {
 		char *uri;
+		CORBA_Environment ev;
 
-		source = cals->pdata[i];
+		uri = uris->pdata[i];
 
-		uri = e_source_get_uri (source);
-		alarm_notify_add_calendar (alarm_notify_service, uri, FALSE);
+		CORBA_exception_init (&ev);
+		alarm_notify_add_calendar (alarm_notify_service, uri, FALSE, &ev);
+
+		if (ev._major == CORBA_USER_EXCEPTION) {
+			char *ex_id;
+			
+			ex_id = CORBA_exception_id (&ev);
+			if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI) == 0)
+				g_message ("load_calendars(): Invalid URI `%s'; will not load "
+					   "that calendar.", uri);
+			else if (strcmp (ex_id,
+					 ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError)
+				 == 0)
+				g_message ("load_calendars(): Could not contact the backend "
+					   "while trying to load `%s'", uri);
+		} else if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("load_calendars(): Exception while loading calendar `%s'", uri);
+
+		CORBA_exception_free (&ev);
+
 		g_free (uri);
 	}
 
-	g_ptr_array_free (cals, TRUE);
+	g_ptr_array_free (uris, TRUE);
 
 	return FALSE;
 }
@@ -157,9 +176,9 @@ main (int argc, char **argv)
 	textdomain (GETTEXT_PACKAGE);
 
 	gnome_program_init ("evolution-alarm-notify", VERSION, LIBGNOMEUI_MODULE, argc, argv, NULL);
+	gtk_init (&argc, &argv);
 
-	if (bonobo_init_full (&argc, argv, bonobo_activation_orb_get (),
-			      CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
+	if (bonobo_init (&argc, argv) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
 	if (!gnome_vfs_init ())
@@ -169,12 +188,11 @@ main (int argc, char **argv)
 
 	gnome_sound_init ("localhost");
 
-	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION,
+	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));
 
-	g_object_set (G_OBJECT (factory), "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL), NULL);
 	init_session ();
 
 	g_idle_add ((GSourceFunc) load_calendars, NULL);
@@ -190,7 +208,6 @@ main (int argc, char **argv)
 	if (alarm_notify_service)
 		bonobo_object_unref (BONOBO_OBJECT (alarm_notify_service));
 
-	e_passwords_shutdown ();
 	gnome_sound_shutdown ();
 	gnome_vfs_shutdown ();
 

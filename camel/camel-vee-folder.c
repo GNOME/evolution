@@ -1,6 +1,5 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000-2003 Ximian Inc.
+ *  Copyright (C) 2000 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *           Jeffrey Stedfast <fejj@ximian.com>
@@ -25,7 +24,6 @@
 #endif
 
 #include <string.h>
-#include <pthread.h>
 
 #include "camel-exception.h"
 #include "camel-vee-folder.h"
@@ -65,7 +63,7 @@ static void vee_transfer_messages_to(CamelFolder *source, GPtrArray *uids, Camel
 static GPtrArray *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 static GPtrArray *vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
 
-static gboolean vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static void vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value);
 static void vee_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 static void vee_rename(CamelFolder *folder, const char *new);
@@ -89,11 +87,16 @@ static CamelFolderClass *camel_vee_folder_parent;
 /* use folder_unmatched->summary_lock for access to unmatched_uids or appropriate internals, for consistency */
 static CamelVeeFolder *folder_unmatched;
 static GHashTable *unmatched_uids; /* a refcount of uid's that are matched by any rules */
+#ifdef ENABLE_THREADS
+#include <pthread.h>
 static pthread_mutex_t unmatched_lock = PTHREAD_MUTEX_INITIALIZER;
 /* only used to initialise folder_unmatched */
 #define UNMATCHED_LOCK() pthread_mutex_lock(&unmatched_lock)
 #define UNMATCHED_UNLOCK() pthread_mutex_unlock(&unmatched_lock)
-
+#else
+#define UNMATCHED_LOCK()
+#define UNMATCHED_UNLOCK()
+#endif
 
 CamelType
 camel_vee_folder_get_type (void)
@@ -161,10 +164,13 @@ camel_vee_folder_init (CamelVeeFolder *obj)
 
 	obj->changes = camel_folder_change_info_new();
 	obj->search = camel_folder_search_new();
-	
+
+#ifdef ENABLE_THREADS
 	p->summary_lock = g_mutex_new();
 	p->subfolder_lock = g_mutex_new();
 	p->changed_lock = g_mutex_new();
+#endif
+
 }
 
 static void
@@ -200,11 +206,12 @@ camel_vee_folder_finalise (CamelObject *obj)
 
 	camel_folder_change_info_free(vf->changes);
 	camel_object_unref((CamelObject *)vf->search);
-	
+
+#ifdef ENABLE_THREADS
 	g_mutex_free(p->summary_lock);
 	g_mutex_free(p->subfolder_lock);
 	g_mutex_free(p->changed_lock);
-	
+#endif
 	g_free(p);
 }
 
@@ -524,7 +531,7 @@ camel_vee_folder_hash_folder(CamelFolder *folder, char buffer[8])
 	g_free(tmp);
 	md5_update(&ctx, folder->full_name, strlen(folder->full_name));
 	md5_final(&ctx, digest);
-	camel_base64_encode_close(digest, 6, FALSE, buffer, &state, &save);
+	base64_encode_close(digest, 6, FALSE, buffer, &state, &save);
 
 	for (i=0;i<8;i++) {
 		if (buffer[i] == '+')
@@ -612,13 +619,13 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 			break;
 		}
 
-		if (vee_folder_build_folder(vf, f, ex) == -1)
+		if (expunge && vee_folder_build_folder(vf, f, ex) == -1)
 			break;
 
 		node = node->next;
 	}
 
-	if (node == NULL) {
+	if (expunge && node == NULL) {
 		CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
 		g_list_free(p->folders_changed);
 		p->folders_changed = NULL;
@@ -767,20 +774,17 @@ vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids,
 	return result;
 }
 
-static gboolean
+static void
 vee_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	CamelVeeMessageInfo *mi;
-	int res = FALSE;
 
 	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
 	if (mi) {
-		res = camel_folder_set_message_flags(mi->folder, camel_message_info_uid(mi) + 8, flags, set);
+		camel_folder_set_message_flags(mi->folder, camel_message_info_uid(mi) + 8, flags, set);
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
-		res = res || ((CamelFolderClass *)camel_vee_folder_parent)->set_message_flags(folder, uid, flags, set);
+		((CamelFolderClass *)camel_vee_folder_parent)->set_message_flags(folder, uid, flags, set);
 	}
-
-	return res;
 }
 
 static void
@@ -1101,13 +1105,13 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	   we just ref the real memory */
 	matchhash = g_hash_table_new(g_str_hash, g_str_equal);
 	for (i=0;i<match->len;i++)
-		g_hash_table_insert(matchhash, match->pdata[i], GINT_TO_POINTER (1));
+		g_hash_table_insert(matchhash, match->pdata[i], (void *)1);
 
 	allhash = g_hash_table_new(g_str_hash, g_str_equal);
 	all = camel_folder_get_uids(f);
 	for (i=0;i<all->len;i++)
 		if (g_hash_table_lookup(matchhash, all->pdata[i]) == NULL)
-			g_hash_table_insert(allhash, all->pdata[i], GINT_TO_POINTER (1));
+			g_hash_table_insert(allhash, all->pdata[i], (void *)1);
 
 	CAMEL_VEE_FOLDER_LOCK(folder_unmatched, summary_lock);
 
@@ -1373,7 +1377,9 @@ folder_changed_change_uid(CamelFolder *sub, const char *uid, const char hash[8],
 }
 
 struct _folder_changed_msg {
+#ifdef ENABLE_THREADS
 	CamelSessionThreadMsg msg;
+#endif
 	CamelFolderChangeInfo *changes;
 	CamelFolder *sub;
 	CamelVeeFolder *vf;
@@ -1604,17 +1610,20 @@ folder_changed_free(CamelSession *session, CamelSessionThreadMsg *msg)
 	camel_object_unref((CamelObject *)m->sub);
 }
 
+#ifdef ENABLE_THREADS
 static CamelSessionThreadOps folder_changed_ops = {
 	folder_changed_change,
 	folder_changed_free,
 };
+#endif
 
 static void
 folder_changed(CamelFolder *sub, CamelFolderChangeInfo *changes, CamelVeeFolder *vf)
 {
 	struct _folder_changed_msg *m;
 	CamelSession *session = ((CamelService *)((CamelFolder *)vf)->parent_store)->session;
-	
+
+#ifdef ENABLE_THREADS
 	m = camel_session_thread_msg_new(session, &folder_changed_ops, sizeof(*m));
 	m->changes = camel_folder_change_info_new();
 	camel_folder_change_info_cat(m->changes, changes);
@@ -1623,6 +1632,15 @@ folder_changed(CamelFolder *sub, CamelFolderChangeInfo *changes, CamelVeeFolder 
 	m->vf = vf;
 	camel_object_ref((CamelObject *)vf);
 	camel_session_thread_queue(session, &m->msg, 0);
+#else
+	m = g_malloc(sizeof(*m));
+	m->changes = changes;
+	m->sub = sub;
+	m->vf = vf;
+	folder_changed_change(session, &m->msg);
+	folder_changed_free(&m->msg);
+	g_free(m);
+#endif
 }
 
 /* track flag changes in the summary, we just promote it to a folder_changed event */

@@ -26,6 +26,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <gal/widgets/e-unicode.h>
 #include "cancel-comp.h"
 
 
@@ -39,20 +40,20 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean deleting)
+cancel_component_dialog (GtkWindow *parent, CalClient *client, CalComponent *comp, gboolean deleting)
 {
 	GtkWidget *dialog;
-	ECalComponentVType vtype;
+	CalComponentVType vtype;
 	char *str;
 	gint response;
 
-	if (deleting && e_cal_get_save_schedules (client))
+	if (deleting && cal_client_get_save_schedules (client))
 		return TRUE;
 
-	vtype = e_cal_component_get_vtype (comp);
+	vtype = cal_component_get_vtype (comp);
 
 	switch (vtype) {
-	case E_CAL_COMPONENT_EVENT:
+	case CAL_COMPONENT_EVENT:
 		if (deleting)
 			str = g_strdup_printf (_("The event being deleted is a meeting, "
 						 "would you like to send a cancellation notice?"));
@@ -61,7 +62,7 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 						 "and delete this meeting?"));
 		break;
 
-	case E_CAL_COMPONENT_TODO:
+	case CAL_COMPONENT_TODO:
 		if (deleting)
 			str = g_strdup_printf (_("The task being deleted is assigned, "
 						 "would you like to send a cancellation notice?"));
@@ -70,7 +71,7 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 						 "and delete this task?"));
 		break;
 
-	case E_CAL_COMPONENT_JOURNAL:
+	case CAL_COMPONENT_JOURNAL:
 		if (deleting)
 			str = g_strdup_printf (_("The journal entry being deleted is published, "
 						 "would you like to send a cancellation notice?"));

@@ -28,8 +28,8 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
 
-#include "e-cal-view.h"
 #include "gnome-cal.h"
+#include "evolution-activity-client.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -132,6 +132,17 @@ typedef enum
 	E_WEEK_VIEW_TIME_BOTH_SMALL_MIN
 } EWeekViewTimeFormat;
 
+/* Specifies the position of the mouse. */
+typedef enum
+{
+	E_WEEK_VIEW_POS_OUTSIDE,
+	E_WEEK_VIEW_POS_NONE,
+	E_WEEK_VIEW_POS_EVENT,
+	E_WEEK_VIEW_POS_LEFT_EDGE,
+	E_WEEK_VIEW_POS_RIGHT_EDGE
+} EWeekViewPosition;
+
+
 typedef struct _EWeekViewEventSpan EWeekViewEventSpan;
 struct _EWeekViewEventSpan {
 	guint start_day : 6;
@@ -143,9 +154,17 @@ struct _EWeekViewEventSpan {
 
 typedef struct _EWeekViewEvent EWeekViewEvent;
 struct _EWeekViewEvent {
-	E_CALENDAR_VIEW_EVENT_FIELDS
+	CalComponent *comp;
+	time_t start;
+	time_t end;
+	guint16 start_minute;	/* Minutes from the start of the day. */
+	guint16 end_minute;
 	gint spans_index;
 	guint8 num_spans;
+
+	/* TRUE if the event is at a different UTC offset than our current
+	   timezone, i.e. it is in a different timezone. */
+	guint different_timezone : 1;
 };
 
 
@@ -159,7 +178,7 @@ typedef struct _EWeekViewClass  EWeekViewClass;
 
 struct _EWeekView
 {
-	ECalendarView cal_view;
+	GtkTable table;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *titles_canvas;
@@ -170,12 +189,18 @@ struct _EWeekView
 	GnomeCanvasItem *main_canvas_item;
 
 	GnomeCanvasItem *jump_buttons[E_WEEK_VIEW_MAX_WEEKS * 7];
-	gint focused_jump_button;
 
 	GtkWidget *vscrollbar;
 
-	/* The query object */
-	ECalView *query;
+	/* The calendar we are associated with. */
+	GnomeCalendar *calendar;
+
+	/* Calendar client object we are monitoring */
+	CalClient *client;
+
+	/* S-expression for query and the query object */
+	char *sexp;
+	CalQuery *query;
 
 	/* The array of EWeekViewEvent elements. */
 	GArray *events;
@@ -193,6 +218,9 @@ struct _EWeekView
 
 	/* The start of each day displayed. */
 	time_t day_starts[E_WEEK_VIEW_MAX_WEEKS * 7 + 1];
+
+	/* The timezone. */
+	icaltimezone *zone;
 
 	/* The base date, where the adjustment value is 0. */
 	GDate base_date;
@@ -217,6 +245,9 @@ struct _EWeekView
 
 	/* The first day of the week, 0 (Monday) to 6 (Sunday). */
 	gint week_start_day;
+
+	/* Whether we use 12-hour of 24-hour format. */
+	gboolean use_24_hour_format;
 
 	/* The first day of the week we display, 0 (Monday) to 6 (Sunday).
 	   This will usually be week_start_day, but if the weekend is
@@ -316,11 +347,9 @@ struct _EWeekView
 	gint editing_event_num;
 	gint editing_span_num;
 
-	/* This is used to remember the last edited event. */
-	gchar *last_edited_comp_string;
-
 	/* The event that the context menu is for. */
 	gint popup_event_num;
+	EPopupMenu *view_menu;
 
 	/* The last mouse position when dragging, in the entire canvas. */
 	gint drag_event_x;
@@ -331,16 +360,32 @@ struct _EWeekView
 	gchar *pm_string;
 	gint am_string_width;
 	gint pm_string_width;
+
+	/* the invisible widget to manage the clipboard selections */
+	GtkWidget *invisible;
+	gchar *clipboard_selection;
+
+	/* The default category for new events */
+	char *default_category;
+
+	/* The activity client used to show messages on the status bar. */
+	EvolutionActivityClient *activity;
 };
 
 struct _EWeekViewClass
 {
-	ECalendarViewClass parent_class;
+	GtkTableClass parent_class;
+
+	/* Notification signals */
+	void (* selection_changed) (EWeekView *week_view);
 };
 
 
 GtkType	   e_week_view_get_type			(void);
 GtkWidget* e_week_view_new			(void);
+
+void       e_week_view_set_calendar		(EWeekView	*week_view,
+						 GnomeCalendar	*calendar);
 
 /* The first day shown. Note that it will be rounded down to the start of a
    week when set. The returned value will be invalid if no date has been set
@@ -350,12 +395,33 @@ void	   e_week_view_get_first_day_shown	(EWeekView	*week_view,
 void	   e_week_view_set_first_day_shown	(EWeekView	*week_view,
 						 GDate		*date);
 
+void       e_week_view_set_cal_client		(EWeekView	*week_view,
+						 CalClient	*client);
+
+void       e_week_view_set_query		(EWeekView	*week_view,
+						 const char	*sexp);
+
+void       e_week_view_set_default_category	(EWeekView	*week_view,
+						 const char	*category);
+
 /* The selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
    To select a single day, use the same value for start_time & end_time. */
+void       e_week_view_get_selected_time_range	(EWeekView	*week_view,
+						 time_t		*start_time,
+						 time_t		*end_time);
+void	   e_week_view_set_selected_time_range	(EWeekView	*week_view,
+						 time_t		 start_time,
+						 time_t		 end_time);
+
 void       e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 							 time_t		 start_time,
 							 time_t		 end_time);
+
+/* Gets the visible time range. Returns FALSE if no time range has been set. */
+gboolean   e_week_view_get_visible_time_range	(EWeekView	*week_view,
+						 time_t		*start_time,
+						 time_t		*end_time);
 
 /* Whether to display 1 week or 1 month (5 weeks). It defaults to 1 week. */
 gboolean   e_week_view_get_multi_week_view	(EWeekView	*week_view);
@@ -383,10 +449,28 @@ gint	   e_week_view_get_week_start_day	(EWeekView	*week_view);
 void	   e_week_view_set_week_start_day	(EWeekView	*week_view,
 						 gint		 week_start_day);
 
+/* Whether we use 12-hour or 24-hour format. */
+gboolean   e_week_view_get_24_hour_format	(EWeekView	*week_view);
+void	   e_week_view_set_24_hour_format	(EWeekView	*week_view,
+						 gboolean	 use_24_hour);
+
+/* The current timezone. */
+icaltimezone* e_week_view_get_timezone		(EWeekView	*week_view);
+void	      e_week_view_set_timezone		(EWeekView	*week_view,
+						 icaltimezone	*zone);
+
+/* Clipboard related functions */
+void       e_week_view_cut_clipboard            (EWeekView      *week_view);
+void       e_week_view_copy_clipboard           (EWeekView      *week_view);
+void       e_week_view_paste_clipboard          (EWeekView      *week_view);
+
+void       e_week_view_delete_event		(EWeekView      *week_view);
 void       e_week_view_delete_occurrence        (EWeekView      *week_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   e_week_view_get_num_events_selected	(EWeekView	*week_view);
+
+CalComponent *e_week_view_get_selected_event    (EWeekView      *week_view);
 
 /*
  * Internal functions called by the associated canvas items.
@@ -425,14 +509,8 @@ gint	   e_week_view_get_time_string_width	(EWeekView	*week_view);
 gint	   e_week_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
 
-gboolean e_week_view_find_event_from_item (EWeekView	  *week_view,
- 					   GnomeCanvasItem *item,
- 					   gint		  *event_num_return,
- 					   gint		  *span_num_return);
-
-gboolean e_week_view_is_jump_button_visible (EWeekView *week_view,
-					     gint day);
-void e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item);
+void       e_week_view_set_status_message       (EWeekView      *week_view,
+						 const char     *message);
 
 #ifdef __cplusplus
 }

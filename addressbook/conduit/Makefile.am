@@ -5,10 +5,12 @@ INCLUDES = 					\
 	-I$(top_builddir)/addressbook/backend	\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
+	$(PISOCK_CFLAGS)			\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 
 # Address Conduit
-privconduit_LTLIBRARIES = libeaddress_conduit.la
+e_address_conduitsdir=$(libdir)/gnome-pilot/conduits
+e_address_conduits_LTLIBRARIES = libeaddress_conduit.la
 
 libeaddress_conduit_la_SOURCES = \
 	address-conduit.c
@@ -16,24 +18,25 @@ libeaddress_conduit_la_SOURCES = \
 libeaddress_conduit_la_LDFLAGS = -module -avoid-version
 libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\
+	$(top_builddir)/e-util/ename/libename-static.la			\
+	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/e-util/libeconduit.la		 		\
 	$(top_builddir)/camel/libcamel.la	 			\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
-e-address-$(BASE_VERSION).conduit: e-address.conduit.in
-	sed -e 's^\@privconduitdir\@^$(privconduitdir)^g' 		\
+e-address.conduit: e-address.conduit.in Makefile
+	sed -e 's^\@prefix\@^$(prefix)^g' 				\
 	    -e 's^\@datadir\@^$(datadir)^g' 				\
-	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
-	    $< > $@
+	    < $(srcdir)/e-address.conduit.in > e-address.conduit.tmp 	\
+	&& mv e-address.conduit.tmp e-address.conduit
 
-conduitdir = $(datadir)/gnome-pilot/conduits/
-conduit_DATA = e-address-$(BASE_VERSION).conduit
 
-BUILT_SOURCES = $(conduit_DATA)
-CLEANFILES = $(BUILT_SOURCES)
+Conduitdir = $(datadir)/gnome-pilot/conduits/
+Conduit_DATA = e-address.conduit
 
 EXTRA_DIST = \
 	e-address.conduit.in
 
-dist-hook:
-	cd $(distdir); rm -f $(BUILT_SOURCES)
+install-data-local:
+	$(mkinstalldirs) $(Conduitdir)

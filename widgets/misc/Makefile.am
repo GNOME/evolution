@@ -1,9 +1,12 @@
+# FIXME we use the EClippedLabel widget from EShortcutBar.  Probably
+# it should be moved somewhere else.
+
 INCLUDES =								\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/a11y/widgets/					\
+	-I$(top_srcdir)/widgets/shortcut-bar				\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(SOURCE_SEL_CFLAGS)
+	$(GNOME_FULL_CFLAGS)
 
 privlib_LTLIBRARIES =	\
 	libemiscwidgets.la
@@ -11,65 +14,58 @@ privlib_LTLIBRARIES =	\
 widgetsincludedir = $(privincludedir)/widgets
 
 widgetsinclude_HEADERS =			\
-	e-activity-handler.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-cell-date-edit.h			\
 	e-cell-percent.h			\
-	e-cell-renderer-combo.h			\
 	e-charset-picker.h			\
 	e-clipped-label.h			\
-	e-combo-cell-editable.h			\
 	e-config-page.h				\
 	e-combo-button.h			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
-	e-expander.h				\
-	e-image-chooser.h			\
 	e-map.h					\
+	e-messagebox.h				\
 	e-multi-config-dialog.h			\
 	e-search-bar.h				\
-	e-source-option-menu.h			\
-	e-source-selector.h			\
-	e-task-bar.h				\
-	e-task-widget.h				\
 	e-title-bar.h				\
 	e-url-entry.h
 
 libemiscwidgets_la_SOURCES =			\
-	$(MARSHAL_GENERATED)			\
 	$(widgetsinclude_HEADERS)		\
-	e-activity-handler.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
 	e-cell-date-edit.c			\
 	e-cell-percent.c			\
-	e-cell-renderer-combo.c			\
 	e-charset-picker.c			\
 	e-clipped-label.c			\
-	e-combo-cell-editable.c			\
 	e-config-page.c				\
 	e-combo-button.c			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
-	e-expander.c				\
-	e-image-chooser.c			\
 	e-map.c					\
+	e-messagebox.c				\
 	e-multi-config-dialog.c			\
 	e-search-bar.c				\
-	e-source-option-menu.c			\
-	e-source-selector.c			\
-	e-task-bar.c				\
-	e-task-widget.c				\
 	e-title-bar.c				\
-	e-url-entry.c
+	e-url-entry.c				\
+	e-util-marshal.c
+
+# GLib marshalling cruft
+
+e-util-marshal.h: e-util-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.tmp \
+	&& mv e-util-marshal.tmp e-util-marshal.h ) \
+	|| ( rm -f e-util-marshal.tmp && exit 1 )
+
+e-util-marshal.c: e-util-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.tmp \
+	&& mv e-util-marshal.tmp e-util-marshal.c ) \
+	|| ( rm -f e-util-marshal.tmp && exit 1 )
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
-@EVO_MARSHAL_RULE@
 
-libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
-	$(SOURCE_SEL_LIBS)
+libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la
 
 noinst_LTLIBRARIES = libefilterbar.la
 
@@ -82,8 +78,6 @@ noinst_PROGRAMS = 			\
 	test-dateedit			\
 	test-dropdown-button		\
 	test-multi-config-dialog 	\
-	test-source-option-menu		\
-	test-source-selector		\
 	test-title-bar
 
 # test-calendar
@@ -134,34 +128,9 @@ test_title_bar_LDADD = 		\
 	$(GNOME_FULL_LIBS)
 
 
-# test-source-selector
-
-test_source_selector_SOURCES =			\
-	test-source-selector.c
-
-test_source_selector_LDADD =			\
-	../../e-util/libeutil.la		\
-	./libemiscwidgets.la			\
-	$(SOURCE_SEL_LIBS)
-
-
-# test-source-option-menu
-
-test_source_option_menu_SOURCES =		\
-	test-source-option-menu.c
-
-test_source_option_menu_LDADD =			\
-	../../e-util/libeutil.la		\
-	./libemiscwidgets.la			\
-	$(SOURCE_SEL_LIBS)
-
-
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
 	e-util-marshal.list	\
 	ChangeLog.pre-1-4
-
-dist-hook:
-	cd $(distdir); rm -f $(BUILT_SOURCES)

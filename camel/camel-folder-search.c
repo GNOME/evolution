@@ -1,6 +1,5 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000-2003 Ximian Inc.
+ *  Copyright (C) 2000,2001 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *
@@ -36,6 +35,7 @@
 #include <glib.h>
 
 #include "camel-folder-search.h"
+#include "string-utils.h"
 
 #include "camel-exception.h"
 #include "camel-medium.h"
@@ -374,7 +374,7 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 			results = g_hash_table_new(g_str_hash, g_str_equal);
 			for (i=0;i<r->value.ptrarray->len;i++) {
 				d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
-				g_hash_table_insert(results, g_ptr_array_index(r->value.ptrarray, i), GINT_TO_POINTER (1));
+				g_hash_table_insert(results, g_ptr_array_index(r->value.ptrarray, i), (void *)1);
 			}
 			for (i=0;i<search->summary->len;i++) {
 				CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
@@ -851,12 +851,12 @@ match_words_1message (CamelDataWrapper *object, struct _camel_search_words *word
 	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
 		/* for messages we only look at its contents */
 		truth = match_words_1message((CamelDataWrapper *)containee, words, mask);
-	} else if (camel_content_type_is(CAMEL_DATA_WRAPPER (containee)->mime_type, "text", "*")) {
+	} else if (header_content_type_is(CAMEL_DATA_WRAPPER (containee)->mime_type, "text", "*")) {
 		/* for all other text parts, we look inside, otherwise we dont care */
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new ();
 
 		/* FIXME: The match should be part of a stream op */
-		camel_data_wrapper_decode_to_stream (containee, CAMEL_STREAM (mem));
+		camel_data_wrapper_write_to_stream (containee, CAMEL_STREAM (mem));
 		camel_stream_write (CAMEL_STREAM (mem), "", 1);
 		for (i=0;i<words->len;i++) {
 			/* FIXME: This is horridly slow, and should use a real search algorithm */
@@ -867,8 +867,7 @@ match_words_1message (CamelDataWrapper *object, struct _camel_search_words *word
 					return TRUE;
 			}
 		}
-		
-		camel_object_unref (mem);
+		camel_object_unref (CAMEL_OBJECT (mem));
 	}
 	
 	return truth;

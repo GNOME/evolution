@@ -47,16 +47,18 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 
+#include <shell/evolution-shell-client.h>
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-url.h>
 #include <e-util/e-passwords.h>
-
 #include "mail.h"
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-tools.h"
+
+#include "Mailer.h"
 
 /* Note, the first element of each MailConfigLabel must NOT be translated */
 MailConfigLabel label_defaults[5] = {
@@ -91,8 +93,8 @@ typedef struct {
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
 
+#define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig_Factory"
 #define MAIL_CONFIG_RC "/gtkrc-mail-fonts"
-#define MAIL_CONFIG_RC_DIR ".evolution/mail/config"
 
 /* signatures */
 MailConfigSignature *
@@ -446,10 +448,8 @@ config_write_style (void)
 	 * may not have been set yet
 	 *
 	 * filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
-	 *
-	 * EPFIXME this kludge needs to go away.
 	 */
-	filename = g_build_filename (g_get_home_dir (), MAIL_CONFIG_RC_DIR, MAIL_CONFIG_RC, NULL);
+	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
 
 	rc = fopen (filename, "w");
 
@@ -528,10 +528,9 @@ mail_config_init (void)
 	mail_config_clear ();
 
 	/*
-	  EPFIXME: This kludge needs to go away.
 	  filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
 	*/
-	filename = g_build_filename (g_get_home_dir (), MAIL_CONFIG_RC_DIR, MAIL_CONFIG_RC, NULL);
+	filename = g_build_filename (g_get_home_dir (), "evolution", MAIL_CONFIG_RC, NULL);
 	gtk_rc_parse (filename);
 	g_free (filename);
 	
@@ -767,12 +766,6 @@ mail_config_get_account_by_name (const char *account_name)
 }
 
 EAccount *
-mail_config_get_account_by_uid (const char *uid)
-{
-	return (EAccount *) e_account_list_find (config->accounts, E_ACCOUNT_FIND_UID, uid);
-}
-
-EAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
 	CamelProvider *provider;
@@ -782,7 +775,7 @@ mail_config_get_account_by_source_url (const char *source_url)
 	
 	g_return_val_if_fail (source_url != NULL, NULL);
 	
-	provider = camel_provider_get(source_url, NULL);
+	provider = camel_session_get_provider (session, source_url, NULL);
 	if (!provider)
 		return NULL;
 	
@@ -830,7 +823,7 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	
 	g_return_val_if_fail (transport_url != NULL, NULL);
 	
-	provider = camel_provider_get(transport_url, NULL);
+	provider = camel_session_get_provider (session, transport_url, NULL);
 	if (!provider)
 		return NULL;
 	
@@ -940,17 +933,16 @@ mail_config_get_default_transport (void)
 static char *
 uri_to_evname (const char *uri, const char *prefix)
 {
-	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
 	char *safe;
 	char *tmp;
-	
+
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
 	/* blah, easiest thing to do */
 	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/mail/%s%s.xml", base_directory, prefix + 1, safe);
+		tmp = g_strdup_printf ("%s/%s%s.xml", evolution_dir, prefix + 1, safe);
 	else
-		tmp = g_strdup_printf ("%s/mail/%s%s", base_directory, prefix, safe);
+		tmp = g_strdup_printf ("%s/%s%s", evolution_dir, prefix, safe);
 	g_free (safe);
 	return tmp;
 }
@@ -965,8 +957,8 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	char *cachenames[] = { "config/hidestate-", 
 			       "config/et-expanded-", 
 			       "config/et-header-", 
-			       "*views/current_view-",
-			       "*views/custom_view-",
+			       "*views/mail/current_view-",
+			       "*views/mail/custom_view-",
 			       NULL };
 	
 	iter = e_list_get_iterator ((EList *) config->accounts);
@@ -1014,8 +1006,9 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 	EIterator *iter;
 	int work = 0;
 	/* assumes these can't be removed ... */
-	const char *default_sent_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
-	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	extern char *default_sent_folder_uri, *default_drafts_folder_uri;
+
+	mail_tool_delete_meta_data(uri);
 	
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -1061,15 +1054,10 @@ mail_config_folder_to_safe_url (CamelFolder *folder)
 char *
 mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
-	char *url, *basename, *filename;
-	const char *evolution_dir;
-	
-	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
+	char *url, *filename;
 	
 	url = mail_config_folder_to_safe_url (folder);
-	basename = g_strdup_printf ("%s%s", prefix, url);
-	filename = g_build_filename (evolution_dir, "mail", "config", basename, NULL);
-	g_free (basename);
+	filename = g_strdup_printf ("%s/config/%s%s", evolution_dir, prefix, url);
 	g_free (url);
 	
 	return filename;
@@ -1185,12 +1173,150 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	return ret;
 }
 
+/* MailConfig Bonobo object */
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
+static BonoboObjectClass *parent_class = NULL;
+
+/* For the bonobo object */
+typedef struct _EvolutionMailConfig EvolutionMailConfig;
+typedef struct _EvolutionMailConfigClass EvolutionMailConfigClass;
+
+struct _EvolutionMailConfig {
+	BonoboObject parent;
+};
+
+struct _EvolutionMailConfigClass {
+	BonoboObjectClass parent_class;
+
+	POA_GNOME_Evolution_MailConfig__epv epv;
+};
+
 static gboolean
 do_config_write (gpointer data)
 {
 	config_write_timeout = 0;
 	mail_config_write ();
 	return FALSE;
+}
+
+static void
+impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
+					    const GNOME_Evolution_MailConfig_Account *account,
+					    CORBA_Environment *ev)
+{
+	GNOME_Evolution_MailConfig_Service source, transport;
+	GNOME_Evolution_MailConfig_Identity id;
+	EAccount *new;
+	
+	if (mail_config_get_account_by_name (account->name)) {
+		/* FIXME: we need an exception. */
+		return;
+	}
+	
+	new = e_account_new ();
+	new->name = g_strdup (account->name);
+	new->enabled = source.enabled;
+	
+	/* Copy ID */
+	id = account->id;
+	new->id->name = g_strdup (id.name);
+	new->id->address = g_strdup (id.address);
+	new->id->reply_to = g_strdup (id.reply_to);
+	new->id->organization = g_strdup (id.organization);
+	
+	/* Copy source */
+	source = account->source;
+	if (!(source.url == NULL || strcmp (source.url, "none://") == 0))
+		new->source->url = g_strdup (source.url);
+	
+	new->source->keep_on_server = source.keep_on_server;
+	new->source->auto_check = source.auto_check;
+	new->source->auto_check_time = source.auto_check_time;
+	new->source->save_passwd = source.save_passwd;
+	
+	/* Copy transport */
+	transport = account->transport;
+	if (transport.url != NULL)
+		new->transport->url = g_strdup (transport.url);
+	
+	new->transport->url = g_strdup (transport.url);
+	new->transport->save_passwd = transport.save_passwd;
+	
+	/* Add new account */
+	mail_config_add_account (new);
+	
+	/* Don't write out the config right away in case the remote
+	 * component is creating or removing multiple accounts.
+	 */
+	if (!config_write_timeout)
+		config_write_timeout = g_timeout_add (2000, do_config_write, NULL);
+}
+
+static void
+impl_GNOME_Evolution_MailConfig_removeAccount (PortableServer_Servant servant,
+					       const CORBA_char *name,
+					       CORBA_Environment *ev)
+{
+	EAccount *account;
+	
+	if ((account = mail_config_get_account_by_name (name)))
+		mail_config_remove_account (account);
+	
+	/* Don't write out the config right away in case the remote
+	 * component is creating or removing multiple accounts.
+	 */
+	if (!config_write_timeout)
+		config_write_timeout = g_timeout_add (2000, do_config_write, NULL);
+}
+
+static void
+evolution_mail_config_class_init (EvolutionMailConfigClass *klass)
+{
+	POA_GNOME_Evolution_MailConfig__epv *epv = &klass->epv;
+	
+	parent_class = g_type_class_ref(PARENT_TYPE);
+	epv->addAccount = impl_GNOME_Evolution_MailConfig_addAccount;
+	epv->removeAccount = impl_GNOME_Evolution_MailConfig_removeAccount;
+}
+
+static void
+evolution_mail_config_init (EvolutionMailConfig *config)
+{
+	;
+}
+
+BONOBO_TYPE_FUNC_FULL (EvolutionMailConfig,
+		       GNOME_Evolution_MailConfig,
+		       PARENT_TYPE,
+		       evolution_mail_config);
+
+static BonoboObject *
+evolution_mail_config_factory_fn (BonoboGenericFactory *factory,
+				  const char *id,
+				  void *closure)
+{
+	EvolutionMailConfig *config;
+	
+	config = g_object_new (evolution_mail_config_get_type (), NULL);
+	
+	return BONOBO_OBJECT (config);
+}
+
+gboolean
+evolution_mail_config_factory_init (void)
+{
+	BonoboGenericFactory *factory;
+	
+	factory = bonobo_generic_factory_new (MAIL_CONFIG_IID, 
+					      evolution_mail_config_factory_fn,
+					      NULL);
+	if (factory == NULL) {
+		g_warning ("Error starting MailConfig");
+		return FALSE;
+	}
+
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+	return TRUE;
 }
 
 GSList *
@@ -1202,24 +1328,22 @@ mail_config_get_signature_list (void)
 static char *
 get_new_signature_filename (void)
 {
-	const char *base_directory;
 	char *filename, *id;
 	struct stat st;
 	int i;
-
-	base_directory = mail_component_peek_base_directory (mail_component_peek ());
-	filename = g_build_filename (base_directory, "signatures", NULL);
+	
+	filename = g_build_filename (evolution_dir, "/signatures", NULL);
 	if (lstat (filename, &st)) {
 		if (errno == ENOENT) {
 			if (mkdir (filename, 0700))
-				g_warning ("Fatal problem creating %s directory.", filename);
+				g_warning ("Fatal problem creating %s/signatures directory.", evolution_dir);
 		} else
-			g_warning ("Fatal problem with %s directory.", filename);
+			g_warning ("Fatal problem with %s/signatures directory.", evolution_dir);
 	}
 	g_free (filename);
 	
-	filename = g_malloc (strlen (base_directory) + sizeof ("/signatures/signature-") + 12);
-	id = g_stpcpy (filename, base_directory);
+	filename = g_malloc (strlen (evolution_dir) + sizeof ("/signatures/signature-") + 12);
+	id = g_stpcpy (filename, evolution_dir);
 	id = g_stpcpy (id, "/signatures/signature-");
 	
 	for (i = 0; i < (INT_MAX - 1); i++) {
@@ -1276,8 +1400,7 @@ delete_unused_signature_file (const char *filename)
 	char *signatures_dir;
 	int len;
 	
-	signatures_dir = g_strconcat (mail_component_peek_base_directory (mail_component_peek ()),
-				      "/signatures", NULL);
+	signatures_dir = g_strconcat (evolution_dir, "/signatures", NULL);
 	
 	/* remove signature file if it's in evolution dir and no other signature uses it */
 	len = strlen (signatures_dir);
@@ -1432,10 +1555,13 @@ mail_config_signature_run_script (gchar *script)
 		setsid ();
 		
 		maxfd = sysconf (_SC_OPEN_MAX);
-		for (i = 3; i < maxfd; i++) {
-			if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-				fcntl (i, F_SETFD, FD_CLOEXEC);
+		if (maxfd > 0) {
+			for (i = 0; i < maxfd; i++) {
+				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
+					fcntl (i, F_SETFD, FD_CLOEXEC);
+			}
 		}
+		
 		
 		execlp (script, script, NULL);
 		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));

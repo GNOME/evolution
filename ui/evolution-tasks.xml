@@ -1,6 +1,5 @@
 <Root>
   <commands>
-    <cmd name="TasksOpenTask" _tip="View the selected task" accel="*Control*o"/>
     <cmd name="TasksPrint" _tip="Print the list of tasks" pixtype="stock" pixname="gtk-print"
 	 accel="*Control*p"/>
     <cmd name="TasksPrintPreview" _tip="Previews the list of tasks to be printed" pixtype="stock" pixname="gtk-print-preview"/>
@@ -12,14 +11,11 @@
          pixtype="stock" pixname="gtk-delete"/>
     <cmd name="TasksMarkComplete" _tip="Mark selected tasks as complete" accel="*Control*k" sensitive="0"/>
 
-    <cmd name="TasksPurge" _label="Purg_e" _tip="Delete completed tasks" accel="*Control*e"/>
+    <cmd name="TasksExpunge" _label="_Expunge" _tip="Delete completed tasks" accel="*Control*e"/>
   </commands>
   
   <menu>
     <submenu name="File">
-      <placeholder name="FileOps">
-        <menuitem name="OpenTask" verb="TasksOpenTask" _label="_Open Task"/>
-      </placeholder>
       <placeholder name="Print">
 	<menuitem name="PrintPreview" verb="TasksPrintPreview" _label="Print Pre_view"/>
 
@@ -46,8 +42,7 @@
 
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
-        <separator/>
-	<menuitem name="TasksPurge" verb=""/>
+	<menuitem name="TasksExpunge" verb=""/>
       </placeholder>
     </submenu>
 

@@ -1,24 +1,21 @@
 INCLUDES =						\
-	-DG_LOG_DOMAIN=\"eab-contact-merging\"		\
+	-DG_LOG_DOMAIN=\"e-card-gui\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/addressbook			\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LTLIBRARIES =				\
-	libeabbookmerging.la
+	libecardmerging.la
 
-libeabbookmerging_la_SOURCES =			\
-	eab-contact-compare.c			\
-	eab-contact-compare.h			\
-	eab-contact-merging.c			\
-	eab-contact-merging.h
+libecardmerging_la_SOURCES =			\
+	e-card-merging.c			\
+	e-card-merging.h
 
 
-glade_DATA = eab-contact-duplicate-detected.glade				\
-	     eab-contact-commit-duplicate-detected.glade
+glade_DATA = e-card-duplicate-detected.glade				\
+	     e-card-merging-book-commit-duplicate-detected.glade
 
 EXTRA_DIST = 			\
 	 $(glade_DATA)

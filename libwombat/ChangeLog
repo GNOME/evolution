@@ -1,0 +1,9 @@
+2004-02-23  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: don't dist the corba sources
+
+2003-06-16  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* Makefile.am:
+	Add missing stub/skel to BUILD_SOURCES (bug #44717)
+

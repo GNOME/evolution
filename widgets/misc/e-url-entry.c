@@ -40,8 +40,6 @@ static void destroy (GtkObject *obj);
 
 static void button_clicked_cb (GtkWidget *widget, gpointer data);
 
-static gboolean mnemonic_activate (GtkWidget *widget, gboolean group_cycling);
-
 static GtkHBoxClass *parent_class = NULL;
 
 
@@ -74,16 +72,12 @@ static void
 class_init (EUrlEntryClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	object_class = GTK_OBJECT_CLASS (klass);
-	widget_class = GTK_WIDGET_CLASS (klass);
 
 	parent_class = g_type_class_ref(gtk_hbox_get_type ());
 	
 	object_class->destroy = destroy;
-
-	widget_class->mnemonic_activate = mnemonic_activate;
 }
 
 
@@ -123,19 +117,6 @@ destroy (GtkObject *obj)
 	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
-}
-
-/* GtkWidget::mnemonic_activate() handler for the EUrlEntry */
-static gboolean
-mnemonic_activate (GtkWidget *widget, gboolean group_cycling)
-{
-	EUrlEntry *url_entry;
-	EUrlEntryPrivate *priv;
-
-	url_entry = E_URL_ENTRY (widget);
-	priv = url_entry->priv;
-
-	return gtk_widget_mnemonic_activate (priv->entry, group_cycling);
 }
 
 

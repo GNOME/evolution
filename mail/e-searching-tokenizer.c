@@ -1242,19 +1242,10 @@ e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, g
 gint
 e_searching_tokenizer_match_count (ESearchingTokenizer *st)
 {
-	g_return_val_if_fail (E_IS_SEARCHING_TOKENIZER (st), -1);
+	g_return_val_if_fail (st && E_IS_SEARCHING_TOKENIZER (st), -1);
 	
 	if (st->priv->engine)
 		return st->priv->engine->matchcount;
 	
 	return 0;
-}
-
-void
-e_searching_tokenizer_reset (ESearchingTokenizer *st)
-{
-	if (st->priv->engine) {
-		searcher_free (st->priv->engine);
-		st->priv->engine = NULL;
-	}
 }

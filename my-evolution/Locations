@@ -1,0 +1,3057 @@
+[Main]
+regions=US CA MX EU AF OZ ME AS M_ AT
+
+[ME]
+name=Middle East
+states=DZ BH IR IL KW LB OM QA SA AE YE
+
+[ME_IL]
+name=Israel
+loc0=Ben\\ Gurion LLBG ------ ---
+loc1=Eilat LLET ------ ---
+loc2=Ovda LLOV ------ ---
+
+[ME_AE]
+name=United Arab Emirates 
+loc0=Abu\\ Dhabi\\ -\\ Bateen OMAD ------ ---
+loc1=Abu\\ Dhabi OMAA ------ ---
+loc2=Al\\ Ain OMAL ------ ---
+loc3=Dubai OMDB ------ ---
+loc4=Fujairah OMFJ ------ ---
+loc5=Ras\\ Al\\ Khaimah OMRK ------ ---
+loc6=Sharjah OMSJ ------ ---
+
+[ME_QA]
+name=Qatar
+loc0=Doha OTBD ------ ---
+
+[ME_OM]
+name=Oman
+loc0=Masirah OOMA ------ ---
+loc1=Saiq OOSQ ------ ---
+loc2=Salalah OOSA ------ ---
+loc3=Seeb OOMS ------ ---
+loc4=Thumrait OOTH ------ ---
+
+[ME_YE]
+name=Yemen
+loc0=Aden OYAA ------ ---
+loc1=Hodeidah OYHD ------ ---
+loc2=Marib OYMB ------ ---
+loc3=Sana'A OYSN ------ ---
+loc4=Sayun OYSY ------ ---
+loc5=Socotra OYSQ ------ ---
+loc6=Taiz OYTZ ------ ---
+
+[ME_SA]
+name=Saudi Arabia
+loc0=Abha OEAB ------ ---
+loc1=Al\\ Ahsa OEAH ------ ---
+loc2=Al\\ Baha OEBA ------ ---
+loc3=Al\\ Qaysumah OEPA ------ ---
+loc4=Al-Jouf OESK ------ ---
+loc5=Arar OERR ------ ---
+loc6=Bisha OEBH ------ ---
+loc7=Dawadmi OEDW ------ ---
+loc8=Dhahran OEDR ------ ---
+loc9=Gassim OEGS ------ ---
+loc10=Gizan OEGN ------ ---
+loc11=Guriat OEGT ------ ---
+loc12=Hafr\\ Al-Batin OEKK ------ ---
+loc13=Hail OEHL ------ ---
+loc14=Jeddah\\ King\\ Abdul\\ Aziz\\ International\\ Airport OEJN ------ ---
+loc15=Khamis\\ Mushait OEKM ------ ---
+loc16=King\\ Khaled\\ International\\ Airport OERK ------ ---
+loc17=Madinah OEMA ------ ---
+loc18=Makkah OEMK ------ ---
+loc19=Najran OENG ------ ---
+loc20=Rafha OERF ------ ---
+loc21=Riyadh OERY ------ ---
+loc22=Sharurah OESH ------ ---
+loc23=Tabuk OETB ------ ---
+loc24=Taif OETF ------ ---
+loc25=Turaif OETR ------ ---
+loc26=Wadi\\ Al\\ Dawasser\\ Airport OEWD ------ ---
+loc27=Wejh OEWJ ------ ---
+loc28=Yenbo OEYN ------ ---
+
+[ME_DZ]
+name=Algeria
+loc0=Adrar DAUA ------ ---
+loc1=Annaba DABB ------ ---
+loc2=Constantine DABC ------ ---
+loc3=Dar-El-Beida DAAG ------ ---
+loc4=Ghardaia DAUG ------ ---
+loc5=Hassi-Messaoud DAUH ------ ---
+loc6=In\\ Amenas DAUZ ------ ---
+loc7=Oran/Es\\ Senia DAOO ------ ---
+loc8=Tamanrasset/Aguenna DAAT ------ ---
+loc9=Tebessa DABS ------ ---
+loc10=Tlemcen\\ Zenata DAON ------ ---
+
+[ME_BH]
+name=Bahrain
+loc0=Bahrain OBBI ------ ---
+
+[ME_LB]
+name=Lebanon
+loc0=Beirut OLBA ------ ---
+
+[ME_IR]
+name=Iran, Islamic Republic of
+loc0=Ahwaz OIAW ------ ---
+loc1=Bandarabbass OIKB ------ ---
+loc2=Esfahan OIFM ------ ---
+loc3=Kerman OIKK ------ ---
+loc4=Mashhad OIMM ------ ---
+loc5=Shiraz OISS ------ ---
+loc6=Tabriz OITT ------ ---
+loc7=Tehran-Mehrabad OIII ------ ---
+
+[ME_KW]
+name=Kuwait
+loc0=Kuwait OKBK ------ ---
+
+[US]
+name=United States
+states=AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MA MD MI MS MN MO MT NE NH NM NV NY ND NJ NC OH OK OR PA RI SC SD TN TX UT VT VA WA WI WV WY
+
+[US_AK]
+name=Alaska
+loc0=Adak PADK AKZ020 ---
+loc1=Ambl\\er PAFM AKZ003 ---
+loc2=Anaktuvuk PAKP AKZ001 ---
+loc3=Anchorage PANC AKZ015 ---
+loc4=Anchorage\\ -\\ Elmendorf\\ AFB PAED AKZ015 ---
+loc5=Aniak PANI AKZ010 ---
+loc6=Annette PANT ------ ---
+loc7=Barrow PABR AKZ001 ---
+loc8=Barter\\ Island PABA ------ ---
+loc9=Bethel PABE AKZ010 ---
+loc10=Bettles PABT AKZ004 ---
+loc11=Big\\ River\\ Lake PALV AKZ001 ---
+loc12=Cantwell PATW AKZ004 ---
+loc13=Cape\\ Lisburne PALU ------ ---
+loc14=Cape\\ Newenham PAEH ------ ---
+loc15=Cape\\ Romanzoff PACZ ------ ---
+loc16=Chandalar\\ Lake PALR AKZ004 ---
+loc17=Chulitna PAEC ------ ---
+loc18=Circle\\ City PACR AKZ004 ---
+loc19=Cold\\ Bay PACD AKZ020 ---
+loc20=Cordova PACV AKZ017 ---
+loc21=Dead\\ Horse PASC AKZ001 ---
+loc22=Dillingham PADL AKZ010 ---
+loc23=Dutch\\ Harbor PADU AKZ020 ---
+loc24=Elfin\\ Cove PAEL AKZ022 ---
+loc25=Emmonak PAEM ------ ---
+loc26=Fairbanks PAFA AKZ007 ---
+loc27=Farbanks/Eielson\\ AFB PAEI AKZ007 ---
+loc28=Fort\\ Greely/Allen\\ AAF PABI ------ ---
+loc29=Galbraith\\ Lake PAGB ------ ---
+loc30=Galena PAGA ------ ---
+loc31=Gambell PAGM AKZ006 ---
+loc32=Gulkana PAGK AKZ015 ---
+loc33=Gustavus PAGS AKZ024 ---
+loc34=Haines PAHN AKZ002 ---
+loc35=Hayes\\ River PAHZ ------ ---
+loc36=Healy\\ River PAHV AKZ004 ---
+loc37=Homer PAHO AKZ017 ---
+loc38=Hoonah PAOH AKZ026 ---
+loc39=Iliamna PAIL AKZ010 ---
+loc40=Juneau PAJN AKZ025 ---
+loc41=Kake PAFE AKZ026 ---
+loc42=Kenai PAEN AKZ017 ---
+loc43=Ketchikan PAKT AKZ027 ---
+loc44=King\\ Salmon PAKN AKZ016 ---
+loc45=Klawock PAKW ------ ---
+loc46=Kodiak PADQ AKZ018 ---
+loc47=Kotzebue PAOT AKZ003 ---
+loc48=Lake\\ Hood PALH ------ ---
+loc49=McCarthy PAMX AKZ017 ---
+loc50=McGrath PAMC AKZ004 ---
+loc51=Mekoryuk PAMY AKZ010 ---
+loc52=Merril\\ Field PAMR ------ ---
+loc53=Middleton\\ Island PAMD ------ ---
+loc54=Minchumina PAMH ------ ---
+loc55=Nabesna/Devil\\ Mt. PABN ------ ---
+loc56=Nenana PANN AKZ004 ---
+loc57=Nome PAOM AKZ006 ---
+loc58=Northway PAOR AKZ007 ---
+loc59=Palmer PAAQ AKZ015 ---
+loc60=Paxson PAXK AKZ017 ---
+loc61=Petersburg PAPG AKZ026 ---
+loc62=Point\\ Hope PAPO AKZ001 ---
+loc63=Point\\ Lay PPIZ AKZ001 ---
+loc64=Port\\ Alexander PAAP AKZ026 ---
+loc65=Port\\ Alsworth PALJ ------ ---
+loc66=Port\\ Heiden PAPH AKZ010 ---
+loc67=Puntilla\\ Lake PAPT ------ ---
+loc68=Saint\\ Mary's PASM AKZ010 ---
+loc69=Saint\\ Paul PASN ------ ---
+loc70=Sand\\ Point PASD AKZ020 ---
+loc71=Selanik PASK AKZ003 ---
+loc72=Seward PAWD AKZ017 ---
+loc73=Shishmaref PASH AKZ006 ---
+loc74=Sitka PASI AKZ023 ---
+loc75=Skagway PAGY AKZ026 ---
+loc76=Skwentna PASW AKZ015 ---
+loc77=Slana PADT ------ ---
+loc78=Snowshoe\\ Lake PALK ------ ---
+loc79=Soldotna PASX AKZ017 ---
+loc80=Sparrevohn PASV ------ ---
+loc81=Sutton PAJV ------ ---
+loc82=Talkeetna PATK AKZ015 ---
+loc83=Tanana PATA AKZ004 ---
+loc84=Tatalina PATL ------ ---
+loc85=Tin\\ City PATC ------ ---
+loc86=Togiak\\ Village PATG AKZ010 ---
+loc87=Umiat PAUM AKZ001 ---
+loc88=Unalakleet PAUN AKZ006 ---
+loc89=Valdez\\ 2 PAVD AKZ017 ---
+loc90=Wainwright PAFB AKZ001 ---
+loc91=Whittier PAWR AKZ015 ---
+loc92=Willow\\ Airport PAUO AKZ015 ---
+loc93=Wrangell PAWG AKZ026 ---
+loc94=Yakutat PAYA AKZ022 ---
+
+[US_AR]
+name=Arkansas
+loc0=Batesville KBVX ARZ016 ---
+loc1=Bentonville KVBT ARZ001 ---
+loc2=El\\ Dorado KELD ARZ073 ---
+loc3=Fayetteville KFYV ARZ010 085
+loc4=Flippin KFLP ARZ004 ---
+loc5=Fort\\ Smith KFSM ------ 085
+loc6=Harrison KHRO ARZ003 085
+loc7=Hot\\ Springs KHOT ARZ042 ---
+loc8=Jonesboro KJBR ARZ026 085
+loc9=Little\\ Rock KLIT ARZ044 ---
+loc10=Little\\ Rock\\ AFB KLRF ARZ044 ---
+loc11=Pine\\ Bluff KPBF ARZ056 ---
+loc12=Rogers KROG ARZ001 ---
+loc13=Siloam\\ Springs KSLG ARZ001 ---
+loc14=Stuttgart KSGT ARZ057 ---
+loc15=Texarkana KTXK ARZ070 ---
+loc16=Walnut\\ Ridge KARG ARZ017 ---
+
+[US_DC]
+name=District of Columbia
+loc0=Washington/Dulles KIAD DCZ013 dca
+loc1=Washington KDCA DCZ013 dca
+
+[US_ID]
+name=Idaho
+loc0=Boise KBOI IDZ014 ---
+loc1=Burley KBYI IDZ022 ---
+loc2=Challis KU15 IDZ018 ---
+loc3=Coeur\\ d'Alene KCOE IDZ002 ---
+loc4=Elk\\ City KP69 IDZ006 ---
+loc5=Grangeville KS80 IDZ007 ---
+loc6=Hailey-Sun\\ Valley KSUN IDZ018 ---
+loc7=Idaho\\ Falls KIDA IDZ020 ---
+loc8=Lewiston KLWS IDZ003 ---
+loc9=Malad\\ City KMLD IDZ022 ---
+loc10=Malta K77M IDZ022 ---
+loc11=McCall KMYL IDZ011 ---
+loc12=Mountain\\ Home KMUO IDZ014 ---
+loc13=Mullan KS06 IDZ004 ---
+loc14=Pocatello KPIH IDZ021 ---
+loc15=Salmon KSMN IDZ009 ---
+loc16=Salmon\\ (2) K27U IDZ009 ---
+loc17=Soda\\ Springs KU78 IDZ023 ---
+loc18=Strevell K4SV ------ ---
+loc19=Twin\\ Falls KTWF IDZ015 ---
+
+[US_IA]
+name=Iowa
+loc0=Algona KAXA IAZ005 043
+loc1=Ames KAMW IAZ048 043
+loc2=Atlantic KAIO IAZ070 ---
+loc3=Boone KBNW IAZ047 ---
+loc4=Burlington KBRL IAZ089 058
+loc5=Carroll KCIN IAZ045 ---
+loc6=Cedar\\ Rapids KCID IAZ052 ---
+loc7=Chariton KCNC IAZ084 ---
+loc8=Charles\\ City KCCY IAZ018 ---
+loc9=Clarinda KICL IAZ091 ---
+loc10=Clarion KCAV IAZ025 ---
+loc11=Clinton KCWI IAZ066 ---
+loc12=Council\\ Bluffs KCBF IAZ069 ---
+loc13=Creston KCSQ IAZ082 ---
+loc14=Davenport KDVN IAZ068 ---
+loc15=Decorah KDEH IAZ010 ---
+loc16=Denison KDNS IAZ044 ---
+loc17=Des\\ Moines KDSM IAZ060 057
+loc18=Dubuque KDBQ IAZ042 ---
+loc19=Estherville KEST IAZ004 ---
+loc20=Fairfield KFFL IAZ087 ---
+loc21=Fort\\ Dodge KFOD IAZ035 043
+loc22=Fort\\ Madison KFSW IAZ099 ---
+loc23=Iowa\\ City KIOW IAZ064 ---
+loc24=Keokuk KEOK ------ ---
+loc25=Knoxville KOXV ------ ---
+loc26=Lamoni K0Y7 IAZ094 057
+loc27=Le\\ Marine KLRJ ------ ---
+loc28=Marshalltown KMIW IAZ049 ---
+loc29=Mason\\ City KMCW IAZ017 044
+loc30=Monticello KMXO IAZ053 ---
+loc31=Muscatine KMUT IAZ067 ---
+loc32=Newton KTNU IAZ061 ---
+loc33=Oelwen KOLZ IAZ029 ---
+loc34=Orange\\ City KORC IAZ012 ---
+loc35=Ottumwa KOTM IAZ086 058
+loc36=Red\\ Oak KRDK IAZ080 ---
+loc37=Sheldon KSHL IAZ012 ---
+loc38=Shenandoah KSDA IAZ091 ---
+loc39=Sioux\\ City KSUX IAZ031 043
+loc40=Spencer KSPW IAZ014 043
+loc41=Storm\\ Lake KSLB IAZ022 ---
+loc42=Washington KAWG IAZ077 ---
+loc43=Waterloo KALO IAZ039 044
+loc44=Webster\\ City KEBS ------ ---
+
+[US_KS]
+name=Kansas
+loc0=Chanute KCNU KSZ096 084
+loc1=Concordia KCNK KSZ020 071
+loc2=Dodge\\ City KDDC KSZ078 070
+loc3=Elkhart K1K5 KSZ084 ---
+loc4=Emporia KEMP KSZ054 071
+loc5=Fort\\ Riley KFRI KSZ036 ---
+loc6=Garden\\ City KGCK KSZ063 070
+loc7=Goodland KGLD KSZ013 070
+loc8=Hays KHYS KSZ031 ---
+loc9=Hill\\ City KHLC KSZ016 070
+loc10=Hutchinson KHUT KSZ067 084
+loc11=Liberal KLBL KSZ086 ---
+loc12=Manhattan KMHK KSZ022 071
+loc13=Medicine\\ Lodge KP28 KSZ090 ---
+loc14=Olathe KOJC KSZ105 071
+loc15=Olathe/Ind. KIXD KSZ105 071
+loc16=Russell KRSL KSZ032 070
+loc17=Salina KSLN KSZ049 071
+loc18=Topeka KTOP KSZ039 071
+loc19=Topeka-Forbes\\ Field KFOE KSZ039 071
+loc20=Wichita KICT KSZ083 084
+loc21=Wichita-Jabara K3KM KSZ083 084
+loc22=Wichita-McConnell\\ AFB KIAB KSZ083 084
+
+[US_KY]
+name=Kentucky
+loc0=Bowling\\ Green KBWG KYZ071 087
+loc1=Covington KCVG KYZ092 074
+loc2=Fort\\ Campbell KHOP KYZ017 ---
+loc3=Fort\\ Knox KFTK KYZ028 ---
+loc4=Frankfort KFFT KYZ035 ---
+loc5=Henderson KEHR KYZ018 ---
+loc6=Jackson KJKL KYZ112 087
+loc7=Lexington KLEX KYZ041 074
+loc8=London KLOZ ------ 087
+loc9=Louisville KLOU KYZ030 073
+loc10=Louisville-Standiford\\ Field KSDF KYZ030 073
+loc11=Owensboro KOWB KYZ019 086
+loc12=Paducah KPAH KYZ005 ---
+loc13=Pikeville K5I3 KYZ120 ---
+loc14=Somerset KSME KYZ079 ---
+
+[US_LA]
+name=Lousiana
+loc0=Alexandria KAEX LAZ028 115
+loc1=Alexandria-Esler KESF LAZ028 115
+loc2=Amelia K7R3 ------ ---
+loc3=Barksdale KBAD ------ ---
+loc4=Baton\\ Rouge KBTR LAZ048 121
+loc5=Cameron K7R5 LAZ051 ---
+loc6=Fort\\ Polk-Leesville KPOE LAZ027 115
+loc7=Fourchon K9F2 ------ ---
+loc8=Grand\\ Isle KAXO LAZ061 ---
+loc9=Houma KHUM LAZ066 ---
+loc10=Intracoastal K7R4 LAZ052 ---
+loc11=Lafayette KLFT LAZ044 121
+loc12=Lake\\ Charles KLCH LAZ041 121
+loc13=Monroe KMLU LAZ014 ---
+loc14=New\\ Iberia KARA LAZ053 ---
+loc15=New\\ Orleans KMSY LAZ062 121
+loc16=New\\ Orleans\\ NAS KNBG LAZ062 121
+loc17=New\\ Orleans-Lakefront KNEW LAZ062 121
+loc18=Patterson KPTN ------ ---
+loc19=Salt\\ point KP92 ------ ---
+loc20=Shreveport\\ Downtown KDTN LAZ001 107
+loc21=Shreveport\\ Regional KSHV LAZ001 107
+loc22=South\\ Marsh\\ Island K7R8 LAZ053 ---
+loc23=South\\ Timbalier KS58 ------ ---
+loc24=Venice K7R1 ------ 121
+loc25=Vermillion K9R9 ------ ---
+loc26=Vicksburg KTVR ------ ---
+
+[US_ME]
+name=Maine
+loc0=Augusta KAUG MEZ021 034
+loc1=Bangor KBGR MEZ015 034
+loc2=Bar\\ Harbor KBHB MEZ029 ---
+loc3=Brunswick KNHZ MEZ024 049
+loc4=Caribou KCAR MEZ002 ---
+loc5=Clayton\\ Lake K40B ------ ---
+loc6=Frenchville KFVE MEZ002 ---
+loc7=Fryeburg KIZG ------ ---
+loc8=Greenville K3B1 MEZ010 034
+loc9=Houlton KHUL MEZ002 ---
+loc10=Lewiston KLEW MEZ020 ---
+loc11=Millinocket KMLT MEZ015 ---
+loc12=Portland KPWM MEZ024 049
+loc13=Presque\\ Isle KPQI MEZ002 ---
+loc14=Rockland KRKD MEZ027 ---
+loc15=Sanford KSFM MEZ023 ---
+loc16=Turin K3B5 ------ ---
+loc17=Waterville KWVL MEZ021 ---
+loc18=Wiscasset KIWI MEZ026 ---
+
+[US_MS]
+name=Mississippi
+loc0=Columbus KGTR MSZ031 109
+loc1=Columbus-W\\ Point-Starkville KCBM MSZ031 109
+loc2=Greenville KGLH ------ 108
+loc3=Greenwood KGWO MSZ025 108
+loc4=Gulfport KGPT MSZ081 ---
+loc5=Jackson KJAN MSZ048 108
+loc6=Laurel KPIB MSZ066 ---
+loc7=McComb KMCB MSZ070 ---
+loc8=Meridian KMEI MSZ052 109
+loc9=Meridian-Lauderdale KNMM MSZ052 109
+loc10=Natchez KHEZ MSZ060 ---
+loc11=Tupelo KTUP MSZ016 098
+loc12=Vicksburg KTVR MSZ047 ---
+
+[US_MO]
+name=Missouri
+loc0=Cape\\ Girardeau KCGI MOZ087 ---
+loc1=Columbia KCOU MOZ041 072
+loc2=Fort\\ Leonard KTBN MOZ070 072
+loc3=Grandview KGVW MOZ037 ---
+loc4=Jefferson\\ City KJEF MOZ048 072
+loc5=Joplin KJLN MOZ088 084
+loc6=Kansas\\ City KMKC MOZ037 071
+loc7=Kansas\\ City-Gladstone KMCI MOZ029 071
+loc8=Kirksville KIRK MOZ017 058
+loc9=Poplar\\ Bluff KP02 MOZ109 ---
+loc10=Sedalia KSZL MOZ045 ---
+loc11=Spickard KP35 MOZ015 ---
+loc12=Springfield KSGF MOZ095 084
+loc13=St\\ Joseph KSTJ MOZ020 057
+loc14=St\\ Louis KSTL MOZ064 stl
+loc15=St\\ Louis-Spirit KSUS MOZ064 stl
+loc16=Vichy-Rolla KVIH MOZ058 072
+
+[US_MT]
+name=Montana
+loc0=Billings KBIL MTZ035 ---
+loc1=Bozeman KBZN MTZ015 013
+loc2=Broadus K4BQ MTZ036 ---
+loc3=Butte KBTM MTZ007 013
+loc4=Cut\\ Bank KCTB MTZ010 004
+loc5=Dillon KDLN MTZ008 025
+loc6=Drummond K3DU MTZ006 013
+loc7=Glasgow KGGW MTZ017 ---
+loc8=Glendive KGDV MTZ025 ---
+loc9=Great\\ Falls KGFA MTZ012 004
+loc10=Harlowton K3HT MTZ028 ---
+loc11=Havre KHVR MTZ011 004
+loc12=Helena KHLN MTZ014 013
+loc13=Jordan KJDN MTZ022 ---
+loc14=Kalispell KFCA MTZ003 004
+loc15=Lewistown KLWT MTZ013 013
+loc16=Livingston KLVM MTZ028 013
+loc17=Miles\\ City KMLS MTZ032 ---
+loc18=Missoula KMSO MTZ005 013
+loc19=Monida KMQM ------ ---
+loc20=Sidney KSDY MTZ024 ---
+loc21=Thompson\\ Falls K3TH MTZ004 ---
+loc22=West\\ Yellowstone KWYS MTZ015 025
+loc23=West\\ Yellowstone\\ (2) KWEY MTZ015 025
+loc24=Wolf\\ Point KOLF MTZ020 ---
+
+[US_NE]
+name=Nebraska
+loc0=Ainsworth KANW NEZ008 042
+loc1=Alliance KAIA NEZ003 ---
+loc2=Beatrice KBIE NEZ089 057
+loc3=Broken\\ Bow KBBW NEZ038 056
+loc4=Burwell KK20 ------ ---
+loc5=Chadron KCDR NEZ002 041
+loc6=Columbus KOLU NEZ042 ---
+loc7=Falls\\ City KFNB NEZ093 057
+loc8=Grand\\ Island KGRI NEZ062 056
+loc9=Hastings KHSI NEZ075 056
+loc10=Imperial KIML NEZ069 055
+loc11=Imperial\\ (2) K6V1 NEZ069 055
+loc12=Kearney KEAR NEZ061 ---
+loc13=Lincoln KLNK NEZ066 057
+loc14=McCook KMCK NEZ081 056
+loc15=Mullen KMHN NEZ007 042
+loc16=Norfolk KOFK NEZ031 042
+loc17=North\\ Platte KLBF NEZ059 ---
+loc18=O'Neill KONL NEZ010 042
+loc19=Omaha KOMA NEZ052 057
+loc20=Omaha-Bellevue KOFF NEZ052 057
+loc21=Ord-Sharp KODX NEZ039 ---
+loc22=Scottsbluff KBFF NEZ019 041
+loc23=Sidney KSNY NEZ055 055
+loc24=Valentine KVTN NEZ005 042
+
+[US_NH]
+name=New Hampshire
+loc0=Berlin KBML NHZ002 034
+loc1=Concord KCON NHZ008 049
+loc2=Jaffrey KAFN NHZ011 ---
+loc3=Keene KEEN NHZ011 049
+loc4=Laconia KLCI NHZ009 049
+loc5=Lebanon KLEB NHZ003 049
+loc6=Manchester KMHT NHZ012 049
+loc7=Mt\\ Washington KMWN ------ 034
+loc8=Nashua KASH NHZ012 ---
+loc9=North\\ Conway KCWN ------ ---
+loc10=Portsmouth KPSM NHZ013 049
+loc11=Whitefield KHIE ------ ---
+
+[US_NM]
+name=New Mexico
+loc0=Alamogordo KHMN NMZ024 ---
+loc1=Albuquerque KABQ NMZ009 abq
+loc2=Carlsbad KCNM NMZ028 ---
+loc3=Clayton KCAO NMZ007 ---
+loc4=Clovis-Cannon\\ AFB KCVS NMZ021 ---
+loc5=Corona K4CR NMZ016 ---
+loc6=Cuba\\ Awrs K4SL NMZ002 ---
+loc7=Deming KDMN NMZ031 ---
+loc8=Farmington KFMN NMZ001 081
+loc9=Gallup KGUP NMZ008 093
+loc10=Grants KGNT NMZ008 093
+loc11=Hobbs KHOB NMZ029 ---
+loc12=Las\\ Vegas KLVS NMZ005 abq
+loc13=Los\\ Alamos KLAM NMZ002 081
+loc14=Moriarty K4MY NMZ011 ---
+loc15=Roswell KROW NMZ019 ---
+loc16=Ruidoso-Sierra\\ Blanca KRUI NMZ016 ---
+loc17=Santa\\ Fe KSAF NMZ011 abq
+loc18=Silver\\ City KSVC NMZ022 ---
+loc19=Socorro KONM NMZ015 ---
+loc20=Taos KE23 NMZ004 ---
+loc21=Truth\\ or\\ Consequences KTCS NMZ023 ---
+loc22=Tucumcari KTCC NMZ013 ---
+loc23=Zuni\\ Pueblo KZUN ------ ---
+
+[US_ND]
+name=North Dakota
+loc0=Bismark KBIS NDZ035 016
+loc1=Devils\\ Lake KDVL NDZ015 007
+loc2=Devils\\ Lake\\ (2) KP11 NDZ015 007
+loc3=Dickinson KDIK NDZ033 015
+loc4=Fargo KFAR NDZ039 ---
+loc5=Grand\\ Forks KGFK NDZ027 007
+loc6=Jamestown KJMS NDZ037 016
+loc7=Lidgerwood KP67 NDZ053 ---
+loc8=Minot KMOT NDZ011 007
+loc9=Minot\\ AFB KMIB NDZ011 007
+loc10=Roseglen KP24 NDZ021 ---
+loc11=Williston KISN NDZ009 006
+
+[US_OK]
+name=Oklahoma
+loc0=Altus KLTS OKZ036 ---
+loc1=Ardmore KADM OKZ046 ---
+loc2=Bartlesville KBVO OKZ054 084
+loc3=Clinton KCSM OKZ016 ---
+loc4=Enid KEND OKZ012 ---
+loc5=Enid/Woodring KWDG OKZ012 084
+loc6=Fort\\ Sill KFSI OKZ038 ---
+loc7=Gage KGAG OKZ009 ---
+loc8=Guymon KGUY ------ 082
+loc9=Hobart KHBR OKZ035 095
+loc10=Lawton KLAW OKZ038 ---
+loc11=McAlester KMLC OKZ073 ---
+loc12=Oklahoma\\ City KOKC OKZ025 095
+loc13=Oklahoma\\ City-Bethany KPWA OKZ025 095
+loc14=Oklahoma\\ City-Midwest\\ City KTIK OKZ025 095
+loc15=Page KPGO OKZ076 ---
+loc16=Ponca\\ City KPNC OKZ008 084
+loc17=Stillwater KSWO OKZ020 084
+loc18=Tulsa KTUL OKZ060 084
+
+[US_SD]
+name=South Dakota
+loc0=Aberdeen KABR SDZ006 ---
+loc1=Brookings KBKX SDZ040 ---
+loc2=Chamberlain K9V9 SDZ057 ---
+loc3=Custer K0V1 SDZ029 ---
+loc4=Huron KHON SDZ038 028
+loc5=Lemmon KY22 SDZ002 ---
+loc6=Mitchell KMHE SDZ059 028
+loc7=Mobridge KY26 SDZ009 028
+loc8=Philip KPHP SDZ032 028
+loc9=Pierre KPIR SDZ035 028
+loc10=Rapid\\ City KRAP SDZ031 027
+loc11=Rapid\\ City-Ellsworth\\ AFB KRCA SDZ031 027
+loc12=Redig KREJ SDZ001 ---
+loc13=Sioux\\ Falls KFSD SDZ062 043
+loc14=Watertown KATY SDZ020 ---
+loc15=Yankton KYKN SDZ069 043
+
+[US_UT]
+name=Utah
+loc0=Blanding K4BL UTZ022 067
+loc1=Bryce\\ Canyon KBCE UTZ020 080
+loc2=Bullfrog KU17 UTZ021 ---
+loc3=Cedar\\ City KCDC UTZ016 080
+loc4=Delta KU24 UTZ015 ---
+loc5=Dugway KDPG UTZ005 slc
+loc6=Eagle\\ Range KU16 ------ ---
+loc7=Green\\ River KU28 UTZ013 ---
+loc8=Hanksville K4HV UTZ013 067
+loc9=Logan KLGU UTZ001 ---
+loc10=Milford KMLF UTZ016 ---
+loc11=Ogden KOGD UTZ002 slc
+loc12=Ogden-Hill\\ AFB KHIF UTZ002 slc
+loc13=Price-Carbon KPUC UTZ012 067
+loc14=Provo KPVU UTZ004 slc
+loc15=Roosevelt KU67 UTZ011 ---
+loc16=St.\\ George KSGU UTZ019 080
+loc17=Salt\\ Lake\\ City KSLC UTZ003 slc
+loc18=Vernal KVEL UTZ024 ---
+loc19=Wendover KENV UTZ005 slc
+
+[US_VT]
+name=Vermont
+loc0=Ball\\ Mountain K8B3 ------ ---
+loc1=Burlington KBTV VTZ005 ---
+loc2=Canaan KVT1 ------ ---
+loc3=Enosburg\\ Falls K3B8 ------ ---
+loc4=Montpelier KMPV VTZ008 034
+loc5=Newport KNPV VTZ003 034
+loc6=Pownal K5B5 ------ ---
+loc7=Rutland KRUT VTZ011 ---
+loc8=Springfield KVSF VTZ012 ---
+loc9=St\\ Johnsbury K9B2 VTZ007 ---
+loc10=Waterbury K5B1 ------ ---
+loc11=West\\ Burke KVT2 ------ ---
+loc12=Wilmington K0B0 VTZ014 049
+
+[US_WY]
+name=Wyoming
+loc0=Big\\ Piney KBPI WYZ020 ---
+loc1=Casper KCPR WYZ064 ---
+loc2=Cheyenne KCYS WYZ069 ---
+loc3=Cody KCOD WYZ002 026
+loc4=Douglas K4DG WYZ059 ---
+loc5=Evanston KEVW WYZ021 ---
+loc6=Gillette KGCC WYZ054 026
+loc7=Jackson KJAC WYZ006 ---
+loc8=Lander KLND WYZ012 040
+loc9=Laramie KLAR WYZ066 ---
+loc10=Rawlins KRWL WYZ061 040
+loc11=Riverton KRIW WYZ013 040
+loc12=Rock\\ Springs KRKS WYZ022 ---
+loc13=Sheridan KSHR WYZ099 ---
+loc14=Worland KWRL WYZ009 026
+loc15=Yellowstone KP60 WYZ001 ---
+
+
+[US_PA]
+name=Pennsylvania
+loc0=Allentown KABE PAZ061 062
+loc1=Altoona KAOO PAZ025 061
+loc2=Bradford KBFD PAZ005 047
+loc3=Du\\ Bois KDUJ PAZ017 061
+loc4=Erie KERI PAZ002 047
+loc5=Franklin KFKL PAZ008 061
+loc6=Harrisburg KCXY PAZ057 062
+loc7=Johnstown KJST PAZ024 pit
+loc8=Lancaster KLNS PAZ066 phl
+loc9=Latrobe KLBE PAZ030 pit
+loc10=Middletown KMDT PAZ057 062
+loc11=Muir KMUI PAZ058 062
+loc12=Northeast\\ Philadelphia KPNE PAZ071 phl
+loc13=Philadelphia KPHL PAZ071 phl
+loc14=Philipsburg KPSB PAZ019 061
+loc15=Pittsburgh KPIT PAZ021 pit
+loc16=Pittsburgh-West\\ Mifflin KAGC PAZ021 pit
+loc17=Reading KRDG PAZ060 phl
+loc18=Scranton KAVP PAZ047 062
+loc19=State\\ College KUNV PAZ019 061
+loc20=Wilkes\\ -\\ Barre KAVP PAZ047 062
+loc21=Williamsport KIPT PAZ046 062
+
+[US_CA]
+name=California
+loc0=Alturas KS11 CAZ012 ---
+loc1=Arcata KACV CAZ001 ---
+loc2=Avalon KAVX ------ ---
+loc3=Bakersfield KBFL CAZ021 ---
+loc4=Beaumont KBUO CAZ056 ---
+loc5=Bicycle\\ Lake KBYS ------ ---
+loc6=Bishop KBIH CAZ026 ---
+loc7=Blue\\ Canyon KBLU ------ ---
+loc8=Blythe KBLH CAZ031 ---
+loc9=Burbank KBUR CAZ047 ---
+loc10=Camarillo KCMA CAZ040 ---
+loc11=Campo KCZZ CAZ058 ---
+loc12=Carlsbad KCRQ CAZ043 ---
+loc13=Chico KCIC CAZ016 ---
+loc14=China\\ Lake KNID CAZ028 ---
+loc15=Chino KCNO CAZ048 ---
+loc16=Concord KCCR CAZ007 ---
+loc17=Crescent\\ City KCEC CAZ001 ---
+loc18=Daggett KDAG CAZ028 ---
+loc19=Edwards\\ AFB KEDW CAZ025 ---
+loc20=El\\ Centro KNJK CAZ033 ---
+loc21=El\\ Monte KEMT CAZ047 ---
+loc22=Fairfield KSUU CAZ018 ---
+loc23=Fresno KFAT CAZ020 078
+loc24=Fresno-Chandler KFCH CAZ020 078
+loc25=Fullerton KFUL CAZ042 ---
+loc26=Hawthorne KHHR CAZ041 ---
+loc27=Hayward KHWD CAZ007 ---
+loc28=Imperial KIPL CAZ033 ---
+loc29=Imperial\\ Beach KNRS CAZ043 ---
+loc30=Inyokern KIYK CAZ025 ---
+loc31=La\\ Verne KPOC CAZ047 ---
+loc32=Lake\\ Tahoe KTVL CAZ072 ---
+loc33=Lancaster KWJF CAZ059 ---
+loc34=Lemoore KNLC CAZ021 ---
+loc35=Livermore KLVK CAZ007 ---
+loc36=Lompoc KLPC CAZ035 ---
+loc37=Long\\ Beach KLGB CAZ041 lax
+loc38=Los\\ Angeles KLAX CAZ041 lax
+loc39=Mammoth\\ Lakes KMMH CAZ073 ---
+loc40=Marysville KMYV CAZ016 ---
+loc41=Marysville-Beale\\ AFB KBAB CAZ016 ---
+loc42=McClellan KMCC ------ ---
+loc43=Merced KMCE CAZ020 ---
+loc44=Modesto KMOD CAZ019 ---
+loc45=Mojave KMHV CAZ024 ---
+loc46=Montague KSIY CAZ011 ---
+loc47=Monterey KMRY CAZ009 ---
+loc48=Mount\\ Shasta KMHS CAZ011 ---
+loc49=Mount\\ Wilson KMWS CAZ047 ---
+loc50=Mountain\\ View KNUQ CAZ006 sfo
+loc51=Napa KAPC CAZ064 ---
+loc52=Needles KEED CAZ029 ---
+loc53=Oakland KOAK CAZ007 sfo
+loc54=Oceanside KNFG CAZ043 ---
+loc55=Ontario KONT CAZ048 lax
+loc56=Oxnard KOXR CAZ040 ---
+loc57=Palm\\ Springs KPSP CAZ061 ---
+loc58=Palmdale KPMD CAZ054 ---
+loc59=Palo\\ Alto KPAO CAZ006 sfo
+loc60=Paso\\ Robles KPRB CAZ037 ---
+loc61=Point\\ Mugu KNTD ------ ---
+loc62=Point\\ Piedras\\ Blanca K87Q ------ ---
+loc63=Porterville KPTV CAZ021 ---
+loc64=Red\\ Bluff KRBL CAZ015 ---
+loc65=Redding KRDD CAZ013 ---
+loc66=Riverside KRAL CAZ048 ---
+loc67=Riverside/March\\ AFB KRIV CAZ061 ---
+loc68=Sacramento KSAC CAZ017 ---
+loc69=Sacramento-Woodland KSMF CAZ017 ---
+loc70=Salinas KSNS CAZ009 ---
+loc71=San\\ Carlos KSQL CAZ006 ---
+loc72=San\\ Diego KSAN CAZ043 san
+loc73=San\\ Diego-Santee KSEE CAZ050 san
+loc74=San\\ Diego-Brown KSDM CAZ050 san
+loc75=San\\ Diego-Miramar KNKX CAZ043 san
+loc76=San\\ Diego-Montgomery KMYF CAZ043 san
+loc77=San\\ Diego-North\\ Island KNZY ------ san
+loc78=San\\ Francisco KSFO CAZ006 sfo
+loc79=San\\ Jose-Santa\\ Clara KSJC CAZ008 sfo
+loc80=San\\ Luis\\ Obispo KSBP CAZ034 ---
+loc81=San\\ Nicholas\\ Island KNSI CAZ039 ---
+loc82=Sandberg KSDB ------ ---
+loc83=Santa\\ Ana KSNA CAZ042 lax
+loc84=Santa\\ Barbara KSBA CAZ039 lax
+loc85=Santa\\ Maria KSMX CAZ035 090
+loc86=Santa\\ Monica KSMO CAZ041 ---
+loc87=Santa\\ Rosa KSTS CAZ005 ---
+loc88=Shelter\\ Cove KO87 CAZ001 ---
+loc89=Stockton KSCK CAZ019 ---
+loc90=Tahoe\\ Valley KTVL ------ ---
+loc91=Torrance KTOA CAZ042 lax
+loc92=Truckee KTRK CAZ072 ---
+loc93=Twentynine\\ Palms KNXP CAZ028 ---
+loc94=Ukiah KUKI CAZ003 ---
+loc95=Van\\ Nuys KVNY CAZ047 ---
+loc96=Vandenberg\\ AFB KVBG CAZ039 ---
+loc97=Vandenberg\\ Range KVBG CAZ039 ---
+loc98=Visalia KVIS CAZ021 ---
+
+[US_AL]
+name=Alabama
+loc0=Anniston KANB ALZ019 ---
+loc1=Auburn KAUO ALZ047 ---
+loc2=Birmingham KBHM ALZ024 019
+loc3=Decatur KDCU ------ ---
+loc4=Dothan KDHN ALZ066 ---
+loc5=Evergreen KGZH ------ ---
+loc6=Gadsden KGAD ALZ018 ---
+loc7=Huntsville KHSV ALZ006 ---
+loc8=Mobile\\ Regional\\ Airport KMOB ALZ061 ---
+loc9=Mobile\\ Downtown KBFM ALZ061 ---
+loc10=Montgomery KMGM ALZ044 109
+loc11=Montgomery-Maxwell\\ AFB KMXF ALZ044 109
+loc12=Muscle\\ Shoals KMSL ALZ002 ---
+loc13=Ozark KOZR ALZ066 ---
+loc14=Tuscaloosa KTCL ALZ023 ---
+
+[US_AZ]
+name=Arizona
+loc0=Casa\\ Granda KCGZ AZZ028 ---
+loc1=Chandler KIWA AZZ015 ---
+loc2=Douglas KDUG AZZ030 ---
+loc3=Flagstaff KFLG AZZ015 092
+loc4=Fort\\ Huachuca KFHU AZZ035 ---
+loc5=Gila\\ Bend KGBN AZZ027 ---
+loc6=Grand\\ Canyon KGCN AZZ006 ---
+loc7=Kingman KIGM AZZ003 ---
+loc8=Mesa-Falcon\\ Field KFFZ AZZ023 ---
+loc9=Nogales K13A AZZ034 ---
+loc10=Page KPGA AZZ005 ---
+loc11=Payson K0E4 AZZ018 ---
+loc12=Phoenix KPHX AZZ023 phx
+loc13=Phoenix-Deer\\ Valley KDVT AZZ023 phx
+loc14=Phoenix-Goodyear KGYR AZZ023 phx
+loc15=Phoenix-Luke\\ AFB KLUF AZZ023 phx
+loc16=Prescott KPRC AZZ008 ---
+loc17=Safford-Municipal\\ Airport KSAD AZZ030 ---
+loc18=Scottsdale KSDL AZZ023 ---
+loc19=Show\\ Low KSOW AZZ017 ---
+loc20=Tucson KTUS AZZ033 103
+loc21=Tucson-Davis\\ AFB KDMA AZZ033 103
+loc22=Winslow KINW AZZ013 ---
+loc23=Yuma\\ MCAS KNYL AZZ025 ---
+
+[US_CO]
+name=Colorado
+loc0=Air\\ Force KAFF COZ071 ---
+loc1=Akron KAKO COZ049 ---
+loc2=Alamosa KALS COZ063 ---
+loc3=Aspen KASE COZ010 068
+loc4=Colorado\\ Springs KCOS COZ071 ---
+loc5=Cortez KCEZ COZ021 ---
+loc6=Craig KCAG COZ002 ---
+loc7=Denver KDEN COZ040 den
+loc8=Denver-Aurora KAPA COZ040 den
+loc9=Denver-Broomfield KBKF COZ040 den
+loc10=Denver-Cherry\\ Knolls KBJC COZ040 den
+loc11=Durango KDRO COZ022 ---
+loc12=Durango\\ Awrs K4V5 COZ022 ---
+loc13=Eagle KEGE COZ010 ---
+loc14=Fort\\ Carson KFCS COZ071 ---
+loc15=Fort\\ Collins KFCL COZ035 ---
+loc16=Fort\\ Collins/Lovel KFNL COZ035 ---
+loc17=Grand\\ Junction KGJT COZ006 ---
+loc18=Greeley KGXY COZ043 ---
+loc19=Gunnison KGUC COZ012 ---
+loc20=Gunnison\\ (2) K2V9 COZ012 ---
+loc21=Hayden KHDN COZ005 ---
+loc22=La\\ Junta KLHX COZ076 ---
+loc23=Lamar K4LJ COZ080 ---
+loc24=Leadville KLXV COZ012 ---
+loc25=Limon KLIC COZ047 ---
+loc26=Montrose KMTJ COZ017 ---
+loc27=Montrose\\ (2) K6V8 COZ017 ---
+loc28=Pueblo KPUB COZ073 ---
+loc29=Rifle K1V1 COZ003 ---
+loc30=Salida KS29 COZ069 ---
+loc31=Salida-Harriet K0V2 COZ069 ---
+loc32=Steamboat\\ Springs KSBS COZ005 ---
+loc33=Trinidad KTAD COZ077 ---
+loc34=Winter\\ Park KC96 COZ033 ---
+
+[US_CT]
+name=Connecticut
+loc0=Bridgeport KBDR CTZ009 hfd
+loc1=Danbury KDXR CTZ009 ---
+loc2=Groton KGON CTZ012 hfd
+loc3=Hartford KHFD CTZ002 hfd
+loc4=New\\ Haven KHVN CTZ010 ---
+loc5=Oxford KOXC CTZ010 ---
+loc6=Windsor\\ Locks KBDL CTZ002 ---
+
+[US_DE]
+name=Delaware
+loc0=Dover KDOV DEZ002 076
+loc1=Wilmington KILG DEZ001 076
+
+[US_FL]
+name=Florida
+loc0=Apalachicola KAQQ FLZ015 ---
+loc1=Bartow KBOW ------ ---
+loc2=Brooksville KBKV FLZ048 ---
+loc3=Cecil\\ NAS KNZC FLZ025 ---
+loc4=Cocoa\\ Beach KCOF FLZ047 ---
+loc5=Crestview KCEW FLZ006 ---
+loc6=Cross\\ City KCTY FLZ034 ---
+loc7=Daytona\\ Beach KDAB FLZ041 ---
+loc8=Destin KDTS ------ ---
+loc9=Eglin KEGI FLZ006 ---
+loc10=Fort\\ Lauderdale\\ (International) KFLL FLZ072 ---
+loc11=Fort\\ Lauderdale KFXE FLZ072 ---
+loc12=Fort\\ Myers\\ (Page\\ Field) KFMY FLZ065 ---
+loc13=Fort\\ Myers\\ (Southwest\\ Florida\\ International) KRSW FLZ065 ---
+loc14=Gainesville KGNV FLZ036 ---
+loc15=Homestead\\ AFB KHST FLZ074 ---
+loc16=Hurlburt KHRT ------ ---
+loc17=Jacksonville KJAX FLZ025 ---
+loc18=Jacksonville\\ NAS KNIP FLZ025 ---
+loc19=Jacksonville-Craig\\ Airport KCRG FLZ025 ---
+loc20=Key\\ West KEYW FLZ075 ---
+loc21=Key\\ West\\ NAS KNQX FLZ075 ---
+loc22=Lakeland KLAL FLZ052 ---
+loc23=Leesburg KLEE ------ ---
+loc24=Marathon KMTH FLZ075 ---
+loc25=Marianna KMAI FLZ011 ---
+loc26=Mayport KNRB FLZ025 ---
+loc27=Melbourne KMLB FLZ047 ---
+loc28=Miami KMIA FLZ074 mia
+loc29=Miami-Kendall KTMB FLZ074 mia
+loc30=Miami-Opa\\ Locka KOPF FLZ074 mia
+loc31=Milton KNSE FLZ004 ---
+loc32=Nasa\\ Shuttle KTTS ------ ---
+loc33=Naples KAPF FLZ069 ---
+loc34=New\\ Port\\ Richey KRRF FLZ051 ---
+loc35=Ocala KOCF FLZ040 ---
+loc36=Orlando KORL FLZ045 ---
+loc37=Orlando\\ (Orlando\\ International) KMCO FLZ045 ---
+loc38=Panama\\ City KPFN FLZ012 ---
+loc39=Pensacola KPNS FLZ002 ---
+loc40=Pensacola\\ NAS KNPA FLZ002 ---
+loc41=Perry-Foley K40J ------ ---
+loc42=Pompano\\ Beach KPMP ------ ---
+loc43=Punta\\ Gorda KPGD ------ ---
+loc44=Sanford KSFB FLZ046 ---
+loc45=Sarasota KSRQ FLZ060 ---
+loc46=St\\ Petersburg KSPG FLZ050 ---
+loc47=St\\ Petersburg\\ /\\ Clearwater KPIE FLZ050 ---
+loc48=Tallahassee KTLH FLZ017 ---
+loc49=Tampa KTPA FLZ051 ---
+loc50=Tampa-Macdill\\ AFB KMCF FLZ051 ---
+loc51=Titusville KTIX FLZ047 ---
+loc52=Tyndall\\ AFB KPAM ------ ---
+loc53=Valparaiso KVPS FLZ006 ---
+loc54=Valparaiso-Eglin\\ AFB KEGI FLZ006 ---
+loc55=Vero\\ Beach KVRB FLZ054 ---
+loc56=West\\ Palm\\ Beach KPBI FLZ068 ---
+loc57=Winter\\ Haven KGIF ------ ---
+
+[US_GA]
+name=Georgia
+loc0=Albany KABY GAZ125 ---
+loc1=Alma KAMG GAZ134 ---
+loc2=Athens KAHN GAZ036 atl
+loc3=Atlanta KATL GAZ033 atl
+loc4=Augusta KAGS GAZ065 ---
+loc5=Brunswick KSSI GAZ154 ---
+loc6=Columbus KCSG GAZ089 ---
+loc7=Columbus-Fort\\ Benning KLSF GAZ089 ---
+loc8=Dekalb/Peachtree KPDK ------ ---
+loc9=Hinesville KLHW ------ ---
+loc10=Fort\\ Benning KLSF GAZ090 ---
+loc11=Fort\\ Stewart KLHW GAZ138 ---
+loc12=Macon KMCN GAZ082 ---
+loc13=Marietta KMGE GAZ032 ---
+loc14=Moultrie KMGR ------ ---
+loc15=Rome-Russell KRMG GAZ019 atl
+loc16=Savannah KSAV GAZ119 ---
+loc17=Savannah-Hunter\\ AAF KSVN GAZ119 ---
+loc18=St\\ Simon's\\ Island KSSI GAZ154 ---
+loc19=Valdosta KVLD GAZ160 ---
+loc20=Valdosta-Moody\\ AFB KVAD GAZ160 ---
+loc21=Warner\\ Robins KWRB GAZ095 ---
+loc22=West\\ Atlanta KFTY GAZ033 ---
+loc23=Waycross KAYS GAZ151 ---
+
+[US_HI]
+name=Hawaii
+loc0=Barbers\\ Point PHNA HIZ002 ---
+loc1=Barking\\ Sand PHBK ------ ---
+loc2=Bradshaw\\ Field PHSF ------ ---
+loc3=Hilo PHTO HIZ004 ---
+loc4=Honolulu PHNL HIZ002 ---
+loc5=Kahului PHOG HIZ003 ---
+loc6=Kailua-Kona PHKO HIZ002 ---
+loc7=Kaneohe PHNG HIZ002 ---
+loc8=Lahaina PHJH HIZ003 ---
+loc9=Lanai PHNY HIZ003 ---
+loc10=Lihue PHLI HIZ001 ---
+loc11=Molokai PHMK HIZ005 ---
+loc12=Oahu PHHI HIZ002 ---
+
+[US_IL]
+name=Illinois
+loc0=Alton KALN ILZ100 ---
+loc1=Aurora KARR ILZ013 ---
+loc2=Belleville KBLV ILZ101 ---
+loc3=Bloomington KBMI ILZ038 ---
+loc4=Cairo KCIR ILZ092 ---
+loc5=Carbondale KMDH ILZ084 ---
+loc6=Champaign KCMI ILZ045 059
+loc7=Chicago-DuPage KDPA ILZ014 ord
+loc8=Chicago-O'Hare KORD ILZ013 ord
+loc9=Chicago-Lakefront KCGX ILZ014 ord
+loc10=Chicago-Midway KMDW ILZ014 ord
+loc11=Danville KDNV ILZ046 ---
+loc12=Decatur KDEC ILZ053 ---
+loc13=East\\ St\\ Louis KCPS ILZ101 ---
+loc14=Galesburg KGBG ILZ027 ---
+loc15=Marion KMWA ILZ085 ---
+loc16=Marseilles KMMO ILZ019 ---
+loc17=Mattoon KMTO ILZ056 ---
+loc18=Moline-Quad\\ Cities KMLI ILZ015 ---
+loc19=Mount\\ Vernon KMVN ILZ075 ---
+loc20=Peoria KPIA ILZ029 ---
+loc21=Quincy KUIN ILZ095 ---
+loc22=Rockford KRFD ILZ003 ---
+loc23=Salem KSLO ILZ070 ---
+loc24=Springfield KSPI ILZ051 ---
+
+[US_IN]
+name=Indiana
+loc0=Bloomington KBMG INZ062 ---
+loc1=Elkhart KEKM INZ005 ---
+loc2=Evansville KEVV INZ086 ---
+loc3=Fort\\ Wayne KFWA INZ018 ---
+loc4=Gary KGYY INZ001 ---
+loc5=Indianapolis KIND INZ047 ---
+loc6=Lafayette KLAF INZ029 ---
+loc7=Marion KMZZ ------ ---
+loc8=Muncie KMIE INZ041 ---
+loc9=Peru KGUS INZ023 ---
+loc10=South\\ Bend KSBN INZ004 ---
+loc11=Terre\\ Haute KHUF INZ051 ---
+
+[US_MD]
+name=Maryland
+loc0=Aberdeen KAPG ------ ---
+loc1=Andrews\\ AFB KADW MDZ013 ---
+loc2=Baltimore KMTN MDZ011 dca
+loc3=Baltimore-Glen\\ Burnie KBWI MDZ014 dca
+loc4=Cumberland KCBE ------ ---
+loc5=Fort\\ Meade KFME MDZ014 ---
+loc6=Hagerstown KHGR MDZ003 ---
+loc7=Oakland K2G4 ------ 075
+loc8=Patuxent\\ River KNHK MDZ014 ---
+loc9=Salisbury KSBY MDZ022 ---
+
+[US_MI]
+name=Michigan
+loc0=Ann\\ Arbor KARB MIZ075 dtw
+loc1=Alpena KAPN MIZ024 ---
+loc2=Battle\\ Creek KBTL MIZ073 ---
+loc3=Benton\\ Harbor KBEH ------ ---
+loc4=Chippewa\\ County KCIU MIZ008 ---
+loc5=Copper\\ Harbor KP59 MIZ003 ---
+loc6=Detroit KDET MIZ076 dtw
+loc7=Detroit-Taylor KDTW MIZ076 dtw
+loc8=Detroit/Ypsilanti KYIP MIZ075 dtw
+loc9=Escanaba KESC MIZ013 ---
+loc10=Flint KFNT MIZ061 dtw
+loc11=Grand\\ Rapids KGRR MIZ057 ---
+loc12=Hancock KCMX MIZ003 ---
+loc13=Harbor\\ Beach KP58 MIZ049 ---
+loc14=Houghton\\ Lake KHTL MIZ034 ---
+loc15=Iron\\ Mountain KIMT MIZ011 ---
+loc16=Ironwood KIWD MIZ009 ---
+loc17=Jackson KJXN MIZ074 dtw
+loc18=Kalamazoo KAZO MIZ072 045
+loc19=Lansing KLAN MIZ066 ---
+loc20=Manistee KMBL MIZ031 ---
+loc21=Menominee KMNM MIZ012 ---
+loc22=Mount\\ Clemens KMTC MIZ070 ---
+loc23=Muskegon KMKG MIZ050 ---
+loc24=Oscoda KOSC MIZ036 ---
+loc25=Pellston KPLN MIZ016 ---
+loc26=Pontiac KPTK MIZ069 ---
+loc27=Saginaw KMBS MIZ053 ---
+loc28=Sault\\ Ste\\ Marie KSSM MIZ008 ---
+loc29=Sawyer\\ AFB KSAW MIZ077 ---
+loc30=Seul\\ Choix\\ Pt KP75 ------ ---
+loc31=Traverse\\ City KTVC MIZ020 ---
+loc32=Ypsilanti KYIP MIZ075 dtw
+
+[US_MN]
+name=Minnesota
+loc0=Alexandria KAXN MNZ041 ---
+loc1=Bemidji KBJI MNZ009 ---
+loc2=Brainerd KBRD MNZ034 ---
+loc3=Detroit\\ Lakes KDTL MNZ027 ---
+loc4=Duluth KDLH MNZ019 ---
+loc5=Ely KELO MNZ019 ---
+loc6=Fairmont KFRM MNZ091 ---
+loc7=Fergus\\ Falls KFFM MNZ031 ---
+loc8=Grand\\ Marais KP61 MNZ021 ---
+loc9=Grand\\ Rapids KGPZ MNZ026 ---
+loc10=Hibbing KHIB MNZ019 ---
+loc11=International\\ Falls KINL MNZ010 ---
+loc12=Litchfield KY69 MNZ058 ---
+loc13=Mankato KMKT MNZ083 ---
+loc14=Marshall KMML MNZ072 ---
+loc15=Minneapolis KMSP MNZ060 msp
+loc16=Minneapolis\\ [2] KFCM MNZ060 msp
+loc17=Minneapolis\\ [3] KMIC MNZ060 msp
+loc18=Pequot\\ Lakes KP39 MNZ034 ---
+loc19=Redwood\\ Falls KRWF MNZ073 ---
+loc20=Rochester KRST MNZ087 030
+loc21=St\\ Cloud KSTC MNZ051 ---
+loc22=St\\ Paul KSTP MNZ062 ---
+loc23=Thief\\ River\\ Falls KTVF MNZ013 ---
+loc24=Warroad KD45 MNZ005 ---
+loc25=Worthington KOTG MNZ089 ---
+
+[US_NV]
+name=Nevada
+loc0=Austin KU31 NVZ012 ---
+loc1=Battle\\ Mountain KBAM NVZ012 ---
+loc2=Caliente KP38 NVZ015 ---
+loc3=Desert\\ Rock KDRA ------ ---
+loc4=Elko KEKO NVZ008 ---
+loc5=Ely KELY NVZ011 ---
+loc6=Eureka KP68 NVZ012 ---
+loc7=Fallon KNFL NVZ004 ---
+loc8=Hawthorne KHTH NVZ001 ---
+loc9=Indian\\ Springs KL63 NVZ017 ---
+loc10=Las\\ Vegas KLAS NVZ020 079
+loc11=N\\ Las\\ Vegas KLSV NVZ020 079
+loc12=Lovelock KLOL NVZ004 ---
+loc13=Owyhee KOWY NVZ007 ---
+loc14=Reno KRNO NVZ003 065
+loc15=Tonopah KTPH NVZ014 ---
+loc16=Winnemucca KWMC NVZ006 ---
+
+[US_NJ]
+name=New Jersey
+loc0=Atlantic\\ City KACY NJZ022 ---
+loc1=Belmar-Farmingdale KBLM NJZ013 ---
+loc2=Caldwell KCDW NJZ005 ---
+loc3=Lakehurst KNEL ------ ---
+loc4=Millville KMIV NJZ021 ---
+loc5=Morristown KMMU NJZ008 ---
+loc6=Mount\\ Holly KVAY ------ ---
+loc7=Newark KEWR NJZ005 ---
+loc8=Teterboro KTEB NJZ003 ---
+loc9=Trenton KTTN NJZ015 ---
+loc10=Wildwood KWWD NJZ024 ---
+loc11=Wrightstown\\ /\\ Mcguire\\ AFB KWRI NJZ019 ---
+
+[US_NC]
+name=North Carolina
+loc0=Asheville KAVL NCZ053 ---
+loc1=Cape\\ Hatteras KHAT NCZ047 ---
+loc2=Charlotte KCLT NCZ071 100
+loc3=Cherry\\ Point KNKT ------ ---
+loc4=Elizabeth\\ City KECG NCZ016 ---
+loc5=Fayetteville KFAY NCZ088 100
+loc6=Fort\\ Bragg KFBG NCZ088 ---
+loc7=Goldsboro KGSB NCZ078 ---
+loc8=Greensboro KGSO NCZ022 rdu
+loc9=Hickory KHKY NCZ056 ---
+loc10=Hoffman KHFF ------ ---
+loc11=Hot\\ Springs KHSS NCZ048 ---
+loc12=Jacksonville KOAJ NCZ098 ---
+loc13=Kinston KISO NCZ091 ---
+loc14=New\\ Bern KEWN NCZ093 ---
+loc15=New\\ River KNCA NCZ098 ---
+loc16=Pope\\ AFB KPOB NCZ088 ---
+loc17=Raleigh-Durham KRDU NCZ041 rdu
+loc18=Rocky\\ Mount KRWI NCZ028 rdu
+loc19=Stumpy\\ Point K2DP ------ ---
+loc20=Wilmington KILM NCZ101 ---
+loc21=Winston-Salem KINT NCZ021 ---
+
+[US_OH]
+name=Ohio
+loc0=Akron KCAK OHZ021 ---
+loc1=Cincinnati KLUK OHZ077 074
+loc2=Cleveland KCLE OHZ011 cle
+loc3=Cleveland-Lakefront KBKL OHZ011 cle
+loc4=Cleveland/Cuyahoga KCGF OHZ011 cle
+loc5=Columbus-Gahanna KCMH OHZ055 ---
+loc6=Columbus-OSU KOSU OHZ055 ---
+loc7=Dayton KDAY OHZ061 074
+loc8=Dayton-Fairborn KFFO OHZ061 ---
+loc9=Dayton-South\\ Airport KMGY OHZ061 ---
+loc10=Findlay KFDY OHZ017 ---
+loc11=Hamilton KHAO OHZ070 ---
+loc12=Lancaster KLHQ OHZ067 ---
+loc13=Mansfield KMFD OHZ029 ---
+loc14=Rickenbacker KLCK OHZ070 ---
+loc15=Toledo KTOL OHZ003 ---
+loc16=Willoughby KLNN OHZ012 ---
+loc17=Wilmington KILN OHZ072 ---
+loc18=Wooster KBJJ OHZ031 ---
+loc19=Youngstown KYNG OHZ033 ---
+loc20=Zanesville KZZV OHZ057 ---
+
+[US_OR]
+name=Oregon
+loc0=Astoria KAST ORZ001 ---
+loc1=Aurora K3S2 ORZ005 ---
+loc2=Baker\\ City KBKE ORZ020 ---
+loc3=Brookings K4BK ORZ003 ---
+loc4=Burns KBNO ORZ022 ---
+loc5=Cascade KCZK ORZ015 ---
+loc6=Eugene KEUG ORZ006 ---
+loc7=Hillsboro KHIO ORZ004 ---
+loc8=Klamath\\ Falls KLMT ORZ012 ---
+loc9=Lakeview K4LW ORZ015 ---
+loc10=Meacham KMEH ORZ017 ---
+loc11=Medford KMFR ORZ008 ---
+loc12=Newport KONP ORZ002 ---
+loc13=North\\ Bend KOTH ORZ003 ---
+loc14=Ontario KONO ORZ021 ---
+loc15=Pendleton KPDT ORZ017 ---
+loc16=Portland KPDX ORZ004 ---
+loc17=Redmond KRDM ORZ014 ---
+loc18=Roseburg KRBG ORZ007 ---
+loc19=Salem KSLE ORZ005 ---
+loc20=Sexton\\ Summit KSXT ORZ008 ---
+loc21=The\\ Dalles KDLS ORZ010 ---
+loc22=Troutdale KTTD ORZ004 ---
+
+[US_RI]
+name=Rhode Island
+loc0=Block\\ Island KBID RIZ006 ---
+loc1=North\\ Kingstown KOQU RIZ006 ---
+loc2=Providence KPVD RIZ002 bos
+
+[US_SC]
+name=South Carolina
+loc0=Anderson KAND SCZ010 099
+loc1=Beaufort KNBC SCZ048 ---
+loc2=Charleston KCHS SCZ050 ---
+loc3=Columbia KCAE SCZ028 100
+loc4=Columbia-McEntire KMMT SCZ028 100
+loc5=Florence KFLO SCZ032 ---
+loc6=Greenville KGMU SCZ006 099
+loc7=Greenville-Spartanburg KGSP SCZ007 099
+loc8=Myrtle\\ Beach KMYR SCZ034 ---
+loc9=N\\ Myrtle\\ Beach KCRE SCZ034 ---
+loc10=Sumter KSSC SCZ031 ---
+loc11=Sumter\\ (2) K2PJ SCZ031 ---
+
+[US_TN]
+name=Tennessee
+loc0=Bristol KTRI TNZ017 ---
+loc1=Chattanooga KCHA TNZ099 ---
+loc2=Crossville KCSV TNZ066 ---
+loc3=Dyersburg KDYR TNZ019 ---
+loc4=Jackson KMKL TNZ052 ---
+loc5=Knoxville KTYS TNZ069 087
+loc6=Knoxville-Downtown KDKX TNZ069 087
+loc7=Memphis KMEM TNZ088 097
+loc8=Memphis-NAS KNQA TNZ088 097
+loc9=Nashville KBNA TNZ027 ---
+loc10=Smyrna KMQY TNZ062 ---
+
+[US_TX]
+name=Texas
+loc0=Abilene KABI TXZ127 ---
+loc1=Alice KALI TXZ241 ---
+loc2=Amarillo KAMA TXZ017 ---
+loc3=Angleton KLBX ------ ---
+loc4=Arlington KF54 TXZ119 ---
+loc5=Austin KAUS TXZ192 113
+loc6=Beaumont-Port\\ Arthur KBPT TXZ215 ---
+loc7=Bergstrom\\ AFB KBSM TXZ192 ---
+loc8=Borger KBGD TXZ008 ---
+loc9=Brownsville KBRO TXZ255 ---
+loc10=Burnet KBMQ ------ ---
+loc11=Childress KCDS TXZ026 ---
+loc12=College\\ Station KCLL TXZ196 ---
+loc13=Conroe KCXO ------ ---
+loc14=Corpus\\ Christi KCRP TXZ243 ---
+loc15=Corpus\\ Christi\\ NAS KNGP TXZ243 ---
+loc16=Corsicana KCRS TXZ146 ---
+loc17=Cotulla KCOT TXZ229 119
+loc18=Dalhart KDHT TXZ001 ---
+loc19=Dallas-Addison KADS TXZ119 ---
+loc20=Dallas-Fort\\ Worth KDFW TXZ119 ---
+loc21=Dallas-Love\\ Field KDAL TXZ119 ---
+loc22=Dallas-Redbird KRBD TXZ119 ---
+loc23=Del\\ Rio KDRT TXZ183 ---
+loc24=Denton KDTO ------ ---
+loc25=El\\ Paso KELP TXZ055 ---
+loc26=Fort\\ Stockton KFST TXZ075 ---
+loc27=Fort\\ Worth-Meacham KFTW TXZ118 ---
+loc28=Fort\\ Worth\\ NAS KNFW TXZ118 ---
+loc29=Fort\\ Worth-Alliance KAFW TXZ118 ---
+loc30=Galveston KGLS TXZ238 ---
+loc31=Georgetown KGTU TXZ173 ---
+loc32=Greenville KGVT ------ ---
+loc33=Guadalupe\\ Pass KGDP TXZ234 ---
+loc34=Harlingen KHRL TXZ255 ---
+loc35=Hondo KHDO TXZ204 ---
+loc36=Houston-Bush KIAH TXZ213 hou
+loc37=Houston-Hooks KDWH TXZ213 hou
+loc38=Houston-Ellington\\ Field KEFD TXZ213 hou
+loc39=Houston-Clover KT02 TXZ213 hou
+loc40=Houston-Hobby KHOU TXZ213 hou
+loc41=Huntsville KUTS ------ ---
+loc42=Junction KJCT TXZ169 ---
+loc43=Killeen KILE TXZ158 113
+loc44=Killeen-Ft\\ Hood KHLR TXZ158 113
+loc45=Killeen-Gray\\ AAF KGRK TXZ158 113
+loc46=Kingsville KNQI TXZ242 ---
+loc47=Laredo KLRD TXZ239 ---
+loc48=Laughlin KDLF ------ ---
+loc49=Longview KGGG TXZ138 ---
+loc50=Lubbock KLBB TXZ035 ---
+loc51=Lufkin KLFK TXZ165 ---
+loc52=Mc\\ Gregor KPWG ------ ---
+loc53=McAllen KMFE TXZ253 ---
+loc54=Midland KMAF TXZ062 ---
+loc55=Mineral\\ Wells KMWL TXZ117 ---
+loc56=Nacogdoches KOCH TXZ152 ---
+loc57=New\\ Braunfels K3R5 TXZ207 ---
+loc58=Palacios KPSX TXZ236 ---
+loc59=Paris KPRX TXZ095 ---
+loc60=Randolph\\ AFB KRND ------ ---
+loc61=Rockport KRKP TXZ245 ---
+loc62=Sabine\\ Pass KRPE ------ ---
+loc63=San\\ Angelo KSJT TXZ072 ---
+loc64=San\\ Antonio KSAT TXZ205 119
+loc65=San\\ Antonio-Kelly\\ AFB KSKF TXZ205 119
+loc66=San\\ Antonio-Stinson KSSF TXZ205 119
+loc67=Sanderson KP07 TXZ082 ---
+loc68=Sherman-Denison KF39 TXZ093 ---
+loc69=Temple KTPL TXZ158 ---
+loc70=Terrell KTRL ------ ---
+loc71=Tyler KTYR TXZ136 ---
+loc72=Victoria KVCT TXZ234 ---
+loc73=Waco KACT TXZ159 ---
+loc74=Wichita\\ Falls KSPS TXZ086 ---
+loc75=Wink KINK TXZ060 ---
+
+[US_VA]
+name=Virginia
+loc0=Abingdon KVJI VAZ008 ---
+loc1=Ashland KOFP VAZ063 ---
+loc2=Charlottesville KCHO VAZ037 ---
+loc3=Danville KDAN VAZ044 ---
+loc4=Dublin KPSK VAZ013 ---
+loc5=Farmville KFVX VAZ061 ---
+loc6=Fort\\ Belvoir KDAA VAZ053 ---
+loc7=Fort\\ Eustis KFAF ------ ---
+loc8=Franklin KFKN VAZ092 ---
+loc9=Galax-Hillsville KHLX VAZ016 ---
+loc10=Hampton KLFI VAZ094 ---
+loc11=Hot\\ Springs KHSP VAZ020 ---
+loc12=Langley\\ AFB KLFI VAZ094 ---
+loc13=Leesburg KJYO VAZ042 ---
+loc14=Lynchburg KLYH VAZ045 ---
+loc15=Manassas KHEF VAZ052 ---
+loc16=Marion-Wytheville KMKJ VAZ009 ---
+loc17=Martinsville KMTV VAZ043 ---
+loc18=Melfa KMFV VAZ099 ---
+loc19=Newport\\ News KPHF VAZ093 ---
+loc20=Norfolk KORF VAZ093 089
+loc21=Norfolk\\ NAS KNGU VAZ093 089
+loc22=Petersburg KPTB VAZ081 ---
+loc23=Quantico KNYG VAZ052 ---
+loc24=Richmond KRIC VAZ071 089
+loc25=Roanoke KROA VAZ022 ---
+loc26=Shannon KEZF ------ ---
+loc27=Staunton KSHD VAZ025 ---
+loc28=Virginia\\ Beach KNTU VAZ098 ---
+loc29=Virginia\\ Tech\\ Airport KBCB VAZ014 ---
+loc30=Wakefield KAKQ VAZ088 ---
+loc31=Wallops\\ Island KWAL ------ ---
+loc32=Waynesboro KSHD VAZ025 ---
+loc33=Winchester KOKV VAZ028 ---
+loc34=Wise KLNP VAZ002 ---
+
+[US_WV]
+name=West Virginia
+loc0=Beckley KBKW WVZ035 ---
+loc1=Bluefield KBLF WVZ042 ---
+loc2=Charleston KCRW WVZ015 074
+loc3=Clarksburg KCKB WVZ031 ---
+loc4=Elkins KEKN WVZ047 ---
+loc5=Huntington KHTS WVZ006 ---
+loc6=Lewisburg KLWB WVZ045 ---
+loc7=Martinsburg KMRB WVZ052 ---
+loc8=Morgantown KMGW WVZ022 075
+loc9=Parkersburg KPKB WVZ009 ---
+loc10=Wheeling KHLG WVZ004 ---
+loc11=White\\ Sulphur KSSU WVZ045 ---
+
+[US_WI]
+name=Wisconsin
+loc0=Antigo KAIG WIZ019 ---
+loc1=Appleton KATW WIZ038 ---
+loc2=Eau\\ Claire KEAU WIZ028 ---
+loc3=Fond\\ Du\\ Lac KFLD WIZ051 ---
+loc4=Green\\ Bay KGRB WIZ039 ---
+loc5=Hayward KHYR WIZ008 ---
+loc6=Janesville KJVL WIZ069 ---
+loc7=Kenosha KENW WIZ072 ---
+loc8=La\\ Crosse KLSE WIZ041 ---
+loc9=Lone\\ Rock KLNR WIZ055 ---
+loc10=Madison KMSN WIZ063 045
+loc11=Manitowoc KMTW WIZ050 ---
+loc12=Marshfield KMFI WIZ035 ---
+loc13=Milwaukee KMKE WIZ066 045
+loc14=Milwaukee-Timmerman KMWC WIZ066 045
+loc15=Minocqua KARV WIZ010 ---
+loc16=Mosinee KCWA WIZ030 ---
+loc17=Oshkosh KOSH WIZ048 ---
+loc18=Phillips KPBH WIZ009 ---
+loc19=Rhinelander KRHI WIZ010 ---
+loc20=Sheboygan KSBM WIZ052 045
+loc21=Sturgeon\\ Bay KSUE WIZ022 ---
+loc22=Superior KSUW WIZ001 ---
+loc23=Volk\\ Field KVOK ------ ---
+loc24=Waukesha KUES WIZ065 ---
+loc25=Wausau KAUW WIZ030 ---
+loc26=Wisconsin\\ Rapids KISW WIZ035 ---
+
+
+[US_MA]
+name=Massachusetts
+loc0=Ashburnam K9B4 ------ ---
+loc1=Ashfield K2B5 ------ ---
+loc2=Bedford KBED MAZ005 ---
+loc3=Beverly KBVY MAZ007 ---
+loc4=Boston KBOS MAZ015 bos
+loc5=Chatham KCQX MAZ022 bos
+loc6=Chicopee\\ Falls KCEF ------ ---
+loc7=Falmouth-Otis\\ AFB KFMH MAZ022 ---
+loc8=Fitchburg KFIT ------ ---
+loc9=Hyannis KHYA MAZ022 ---
+loc10=Lawrence KLWM MAZ007 ---
+loc11=Marthas\\ Vineyard KMVY MAZ023 ---
+loc12=Nantucket KACK MAZ024 ---
+loc13=New\\ Bedford KEWB MAZ017 ---
+loc14=North\\ Adams K2B6 MAZ001 ---
+loc15=Norwood KOWD MAZ013 ---
+loc16=Orange KORE ------ ---
+loc17=Plymouth KPYM MAZ018 ---
+loc18=Provincetown KPVC ------ ---
+loc19=Taunton K9B0 ------ ---
+loc20=Westfield KBAF MAZ011 ---
+loc21=Worcester KORH MAZ012 bos
+
+[US_NY]
+name=New York
+loc0=Albany KALB NYZ052 048
+loc1=Binghamton KBGM NYZ056 ---
+loc2=Buffalo KBUF NYZ010 047
+loc3=Elmira KELM NYZ024 ---
+loc4=Farmingdale KFRG NYZ077 ---
+loc5=Fort\\ Drum KGTB NYZ007 ---
+loc6=Glens\\ Falls KGFL NYZ042 ---
+loc7=Griffiss\\ AFB KRME ------ ---
+loc8=Islip KISP NYZ080 ---
+loc9=Ithaca KITH NYZ025 048
+loc10=Jamestown KJHW NYZ019 047
+loc11=Massena KMSS NYZ026 ---
+loc12=Montgomery KMGJ NYZ067 ---
+loc13=Monticello KMSV NYZ062 ---
+loc14=New\\ York-JFK\\ Arpt KJFK NYZ076 lga
+loc15=New\\ York-La\\ Guardia KLGA NYZ076 lga
+loc16=Newburgh KSWF NYZ067 ---
+loc17=Niagara\\ Falls KIAG NYZ001 047
+loc18=Ogdensburg KOGS NYZ026 ---
+loc19=Penn\\ Yan KPEO ------ ---
+loc20=Plattsburg KPBG NYZ031 ---
+loc21=Poughkeepsie KPOU NYZ065 ---
+loc22=Rochester KROC NYZ003 047
+loc23=Saranac\\ Lake KSLK NYZ027 ---
+loc24=Schenectady KSCH NYZ049 ---
+loc25=Syracuse KSYR NYZ018 048
+loc26=Utica KUCA NYZ037 ---
+loc27=Watertown KART NYZ007 ---
+loc28=Westhampton KFOK NYZ080 ---
+loc29=White\\ Plains KHPN NYZ070 ---
+
+[US_WA]
+name=Washington
+loc0=Bellingham KBLI WAZ002 ---
+loc1=Bremerton KPWT WAZ010 ---
+loc2=Burlington K75S WAZ005 ---
+loc3=Colville K63S WAZ035 ---
+loc4=Ephrata KEPH WAZ033 ---
+loc5=Everett KPAE WAZ006 sea
+loc6=Fairchild KSKA ------ ---
+loc7=Fort\\ Lewis KGRF WAZ008 ---
+loc8=Friday\\ Harbor KFHR WAZ001 ---
+loc9=Hoquiam KHQM WAZ016 ---
+loc10=Moses\\ Lake KMWH WAZ033 ---
+loc11=Oak\\ Harbor K76S WAZ009 ---
+loc12=Olympia KOLM WAZ008 sea
+loc13=Omak K4OM WAZ038 ---
+loc14=Pasco KPSC WAZ028 ---
+loc15=Port\\ Angeles KCLM WAZ013 ---
+loc16=Pullman KPUW WAZ032 ---
+loc17=Quillayute KUIL ------ ---
+loc18=Renton KRNT WAZ007 ---
+loc19=Seattle KSEA WAZ007 sea
+loc20=Seattle-Boeing KBFI WAZ007 sea
+loc21=Shelton KSHN WAZ010 ---
+loc22=Spokane KGEG WAZ034 002
+loc23=Spokane-Parkwater KSFF WAZ034 002
+loc24=Stampede\\ Pass KSMP ------ ---
+loc25=Tacoma KTIW WAZ007 sea
+loc26=Tacoma-Lakewood KTCM WAZ007 sea
+loc27=Toledo KTDO WAZ020 ---
+loc28=Walla\\ Walla KALW WAZ029 ---
+loc29=Wenatchee KEAT WAZ038 ---
+loc30=Whidbey\\ Island KNUW WAZ009 ---
+loc31=Yakima KYKM WAZ025 ---
+
+[CA]
+name=Canada
+states=AB BC MB NB NF NS NT ON QC SK YK
+
+[CA_AB]
+name=Alberta
+loc0=Calgary CYYC ------ ---
+loc1=Edmonton CYEG ------ ---
+loc2=Edmonton/Villeneuve CZVL ------ ---
+
+[CA_BC]
+name=British Columbia
+loc0=Abbotsford CYXX ------ ---
+loc1=Comox CYQQ ------ ---
+loc2=Port\\ Hardy CYZT ------ ---
+loc3=Smithers CYYD ------ ---
+loc4=Vancouver CYVR ------ ---
+loc5=Victoria CYYJ ------ ---
+
+[CA_MB]
+name=Manitoba
+loc0=Churchill CYYQ ------ ---
+loc1=Winnipeg CYWG ------ ---
+
+[CA_NB]
+name=New Brunswick
+loc0=Chatham CYCH ------ ---
+loc1=Fredericton CYFC ------ ---
+loc2=Moncton CYQM ------ ---
+
+[CA_NF]
+name=Newfoundland
+loc0=Churchill\\ Falls KZUM ------ ---
+loc1=Gander CYQX ------ ---
+loc2=Goose\\ Bay CYYR ------ ---
+loc3=Saint\\ Anthony CYAY ------ ---
+loc4=St.\\ John's CYYT ------ ---
+loc5=Stephenville CYJT ------ ---
+
+[CA_NS]
+name=Nova Scotia
+loc0=Greenwood CYZX ------ ---
+loc1=Halifax CYHZ ------ ---
+loc2=Shearwater CYAW ------ ---
+loc3=Sydney CYQY ------ ---
+
+[CA_NT]
+name=Northwest Territories
+loc0=Iqaluit CYFB ------ ---
+loc1=Yellowknife CYZF ------ ---
+
+[CA_ON]
+name=Ontario
+loc0=Ottawa CYOW ------ ---
+loc1=Toronto CYYZ ------ 047
+loc2=Trenton CYTR ------ ---
+loc3=Windsor CYQG ------ ---
+
+[CA_QC]
+name=Quebec
+loc0=Bagotville CYBG ------ ---
+loc1=Gatineau CYND ------ ---
+loc2=La\\ Grande CYGL ------ ---
+loc3=Montreal\\ Saint-Hubert CYHU ------ ---
+loc4=Montreal\\ Mirabel CYMX ------ ---
+loc5=Montreal\\ Dorval CYUL ------ ---
+loc6=Quebec\\ City CYQB ------ ---
+loc7=Sept-Iles CYZV ------ ---
+
+[CA_SK]
+name=Saskatchewan
+loc0=Nipawin CYBU ------ ---
+loc1=Regina CYQR ------ ---
+loc2=Saskatoon CYXE ------ ---
+loc3=Swift\\ Current CYYN ------ ---
+
+[CA_YK]
+name=Yukon
+loc0=Shingle\\ Point CYUA ------ ---
+
+[MX]
+name=Mexico
+states=MX
+
+[MX_MX]
+name=Mexico
+loc0=Acapulco MMAA ------ ---
+loc1=Aeropuerto\\ del\\ Norte MMAN ------ ---
+loc2=Aguascaliantes MMAS ------ ---
+loc3=Bahias\\ de\\ Huatulco MMBT ------ ---
+loc4=Campeche MMCP ------ ---
+loc5=Cancun MMUN ------ ---
+loc6=Chetumal MMCM ------ ---
+loc7=Chihuahua MMCU ------ ---
+loc8=Ciudad\\ del\\ Carmen MMCE ------ ---
+loc9=Ciudad\\ Juarez MMCS ------ ---
+loc10=Ciudad\\ Obregon MMCN ------ ---
+loc11=Ciudad\\ Victoria MMCV ------ ---
+loc12=Colima MMIA ------ ---
+loc13=Cozumel MMCZ ------ ---
+loc14=Cuernavaca MMCB ------ ---
+loc15=Culiacan MMCL ------ ---
+loc16=Del\\ Bajio MMLO ------ ---
+loc17=Durango MMDO ------ ---
+loc18=Guadalajara MMGL ------ ---
+loc19=Guaymas MMGM ------ ---
+loc20=Hermosillo MMHO ------ ---
+loc21=Ixtapa MMZH ------ ---
+loc22=La\\ Paz MMLP ------ ---
+loc23=Los\\ Mochis MMLM ------ ---
+loc24=Manzanillo MMZO ------ ---
+loc25=Matamoros MMMA ------ ---
+loc26=Mazatlan MMMZ ------ ---
+loc27=Merida MMMD ------ ---
+loc28=Mexicali MMML ------ ---
+loc29=Mexico MMMX ------ ---
+loc30=Minatitlan MMMT ------ ---
+loc31=Monclova MMMV ------ ---
+loc32=Morelia MMMM ------ ---
+loc33=Monterrey MMMY ------ ---
+loc34=Nuevo\\ Laredo MMNL ------ ---
+loc35=Oaxaca MMOX ------ ---
+loc36=Piedras\\ Negras MMPG ------ ---
+loc37=Poza\\ Rica MMPA ------ ---
+loc38=Puebla MMPB ------ ---
+loc39=Puerto\\ Vallarta MMPR ------ ---
+loc40=Puerto\\ Escondido MMPS ------ ---
+loc41=Queretaro MMQT ------ ---
+loc42=Reynosa MMRX ------ ---
+loc43=Saltillo MMIO ------ ---
+loc44=San\\ Jose\\ del\\ Cabo MMSD ------ ---
+loc45=San\\ Luis\\ Potosi MMSP ------ ---
+loc46=Tampico MMTM ------ ---
+loc47=Tapachula MMTP ------ ---
+loc48=Tepic MMEP ------ ---
+loc49=Tijuana MMTJ ------ ---
+loc50=Toluca MMTO ------ ---
+loc51=Torreon MMTC ------ ---
+loc52=Tulancingo MMTL ------ ---
+loc53=Tuxtla\\ Gutierrez MMTG ------ ---
+loc54=Uruapan MMPN ------ ---
+loc55=Veracruz MMVR ------ ---
+loc56=Villahermosa MMVA ------ ---
+loc57=Zacatecas MMZC ------ ---
+
+[EU]
+name=Europe
+states=AB OS BE BA BG CZ HR CY DK EE FI FR MK DE GI GR HU IE IS IT LV LU MT MD NL NO PL PT RO RU SK SI SP SE CH TR UA UK YU
+
+[EU_AB]
+name=Albania
+loc0=Tirana LATI ------ ---
+
+[EU_OS]
+name=Austria
+loc0=Voslau LOAV ------ ---
+loc1=Hohenems LOIH ------ ---
+loc2=Graz LOWG ------ ---
+loc3=Innsbruck LOWI ------ ---
+loc4=Klagenfurt LOWK ------ ---
+loc5=Linz LOWL ------ ---
+loc6=Salzburg LOWS ------ ---
+loc7=Wien LOWW ------ ---
+loc8=Zell\\ Am\\ See LOWZ ------ ---
+
+[EU_BE]
+name=Belgium
+loc0=Antwerpen/Deurne EBAW ------ ---
+loc1=Beauvechain EBBE ------ ---
+loc2=Brasschaat EBBT ------ ---
+loc3=Brussels-National\\ Airport EBBR ------ ---
+loc4=Charleroi-Brussels\\ South EBCI ------ ---
+loc5=Chievres EBCV ------ ---
+loc6=Elsenborn EBLB ------ ---
+loc7=Florennes EBFS ------ ---
+loc8=Goetsenhoven EBTN ------ ---
+loc9=Kleine\\ Brogel EBBL ------ ---
+loc10=Koksijde EBFN ------ ---
+loc11=Liege EBLG ------ ---
+loc12=Oostende EBOS ------ ---
+loc13=Schaffen EBDT ------ ---
+loc14=Spa/La\\ Sauveniere EBSP ------ ---
+
+[EU_BA]
+name=Bosnia-Herzegovina
+loc0=Sarajevo LQSA ------ ---
+
+[EU_BG]
+name=Bulgaria
+loc0=Burgas LBBG ------ ---
+loc1=Plovdiv LBPD ------ ---
+loc2=Sofia LBSF ------ ---
+loc3=Varna LBWN ------ ---
+
+[EU_CZ]
+name=Czech Republic
+loc0=Brno LKTB ------ ---
+loc1=Ostrava LKMT ------ ---
+loc2=Praha LKPR ------ ---
+
+[EU_HR]
+name=Croatia
+loc0=Dubrovnik LDDU ------ ---
+loc1=Pula LDPL ------ ---
+loc2=Rijeka LDRI ------ ---
+loc3=Split LDSP ------ ---
+loc4=Zadar LDZD ------ ---
+loc5=Zagreb LDZA ------ ---
+
+[EU_DK]
+name=Denmark
+loc0=Aarhus EKAH ------ ---
+loc1=Billund EKBI ------ ---
+loc2=Esbjerg EKEB ------ ---
+loc3=Karup EKKA ------ ---
+loc4=Kobenhavn/Kastrup EKCH ------ ---
+loc5=Kobenhavn/Roskilde EKRK ------ ---
+loc6=Lolland\\ Falster EKMB ------ ---
+loc7=Odense EKOD ------ ---
+loc8=Bornholm EKRN ------ ---
+loc9=Sonderborg EKSB ------ ---
+loc10=Sindal EKSN ------ ---
+loc11=Vojens/Skrydstrup EKSP ------ ---
+loc12=Skive EKSV ------ ---
+loc13=Thisted EKTS ------ ---
+loc14=Vandel EKVA ------ ---
+loc15=Kolding/Vandrup EKVD ------ ---
+loc16=Vagar EKVG ------ ---
+loc17=Stauning EKVJ ------ ---
+loc18=Vaerlose EKVL ------ ---
+loc19=Alborg EKYT ------ ---
+
+[EU_EE]
+name=Estonia
+loc0=Tallinn EETN ------ ---
+
+[EU_GI]
+name=Gibraltar
+loc0=Gibraltar LXGB ------ ---
+
+[EU_IS]
+name=Iceland
+loc0=Egilsstadir BIEG ------ ---
+loc1=Keflavik BIKF ------ ---
+loc2=Reykjavik BIRK ------ ---
+
+[EU_LA]
+name=Latvia
+loc0=Riga EVRA ------ ---
+
+[EU_LT]
+name=Lithuania
+loc0=Vilnius EYVI ------ ---
+
+[EU_LU]
+name=Luxembourg
+loc0=Luxembourg ELLX ------ ---
+
+[EU_MK]
+name=FYR Macedonia
+loc0=Ohrid LWOH ------ ---
+loc1=Skopje LWSK ------ ---
+
+[EU_MT]
+name=Malta
+loc0=Luqa LMML ------ ---
+
+[EU_MD]
+name=Moldova
+loc0=Kishineu LUKK ------ ---
+
+[EU_NO]
+name=Norway
+loc0=Alesund ENAL ------ ---
+loc1=Andoya ENAN ------ ---
+loc2=Alta ENAT ------ ---
+loc3=Forde/Bringeland ENBL ------ ---
+loc4=Bronnoysund ENBN ------ ---
+loc5=Bodo ENBO ------ ---
+loc6=Bergen ENBR ------ ---
+loc7=Berlevag ENBV ------ ---
+loc8=Kristiansand/Kjevik ENCN ------ ---
+loc9=Dagali ENDI ------ ---
+loc10=Bardufoss ENDU ------ ---
+loc11=Ekofisk ENEK ------ ---
+loc12=Harstad/Narvik/Evenes ENEV ------ ---
+loc13=Fagernes ENFG ------ ---
+loc14=Floro ENFL ------ ---
+loc15=Frigg ENFR ------ ---
+loc16=Gullfax\\ C ENGC ------ ---
+loc17=Oslo/Gardermoen ENGM ------ ---
+loc18=Haugesund ENHD ------ ---
+loc19=Hammerfest ENHF ------ ---
+loc20=Honningsvag ENHV ------ ---
+loc21=Kristiansund/Kvernberget ENKB ------ ---
+loc22=Kirkenes ENKR ------ ---
+loc23=Lista ENLI ------ ---
+loc24=Leknes ENLK ------ ---
+loc25=Mehamn ENMH ------ ---
+loc26=Molde ENML ------ ---
+loc27=Mosjoen ENMS ------ ---
+loc28=Banak ENNA ------ ---
+loc29=Narvik ENNK ------ ---
+loc30=Namsos ENNM ------ ---
+loc31=Notodden ENNO ------ ---
+loc32=Oseberg\\ A ENOA ------ ---
+loc33=Orland ENOL ------ ---
+loc34=Orsta-Volda ENOV ------ ---
+loc35=Mo\\ I\\ Rana ENRA ------ ---
+loc36=Rorvik/Ryum ENRM ------ ---
+loc37=Roros ENRO ------ ---
+loc38=Rost ENRS ------ ---
+loc39=Rygge ENRY ------ ---
+loc40=Svalbard ENSB ------ ---
+loc41=Sandane ENSD ------ ---
+loc42=Sogndal ENSG ------ ---
+loc43=Svolvaer/Helle ENSH ------ ---
+loc44=Stokmarknes/Skagen ENSK ------ ---
+loc45=Skien/Geiteryggen ENSN ------ ---
+loc46=Stord/Sorstokken ENSO ------ ---
+loc47=Sorkjosen ENSR ------ ---
+loc48=Sandnessjoen/Stokka ENST ------ ---
+loc49=Tromso/Langnes ENTC ------ ---
+loc50=Torp ENTO ------ ---
+loc51=Trondheim/Vaernes ENVA ------ ---
+loc52=Vadso ENVD ------ ---
+loc53=Stavanger/Sola ENZV ------ ---
+
+[EU_PL]
+name=Poland
+loc0=Gdansk EPGD ------ ---
+loc1=Krakow EPKK ------ ---
+loc2=Katowice EPKT ------ ---
+loc3=Poznan EPPO ------ ---
+loc4=Rzeszow EPRZ ------ ---
+loc5=Szczecin EPSC ------ ---
+loc6=Warszawa EPWA ------ ---
+
+[EU_PT]
+name=Portugal
+loc0=Beja LPBJ ------ ---
+loc1=Faro LPFR ------ ---
+loc2=Funchal LPFU ------ ---
+loc3=Lajes LPLA ------ ---
+loc4=Lisboa LPPT ------ ---
+loc5=Porto LPPR ------ ---
+loc6=Porto\\ Santo LPPS ------ ---
+loc7=Santa\\ Maria LPAZ ------ ---
+
+[EU_RO]
+name=Romania
+loc0=Arad LRAR ------ ---
+loc1=Bucuresti LRBS ------ ---
+loc2=Bucuresti-Otopeni LROP ------ ---
+loc3=Iasi LRIA ------ ---
+loc4=Kogalniceanu LRCK ------ ---
+loc5=Timisoara LRTR ------ ---
+loc6=Tirgu\\ Mures LRTM ------ ---
+loc7=Tulcea LRTC ------ ---
+
+[EU_RU]
+name=Russia
+loc0=Abakan UNAA ------ ---
+loc1=Anadyr UHMA ------ ---
+loc2=Anapa URKA ------ ---
+loc3=Arkhangelsk ULAA ------ ---
+loc4=Astrakhan URWA ------ ---
+loc5=Barnaul UNBB ------ ---
+loc6=Belgorod UUOB ------ ---
+loc7=Blagoveschensk UHBB ------ ---
+loc8=Bratsk UIBB ------ ---
+loc9=Bryansk UUBP ------ ---
+loc10=Cheboksary UWKS ------ ---
+loc11=Chelyabinsk USCC ------ ---
+loc12=Chita UIAA ------ ---
+loc13=Kliningrad UMKK ------ ---
+loc14=Kazan UWKD ------ ---
+loc15=Khabarovsk UHHH ------ ---
+loc16=Kogalym USRK ------ ---
+loc17=Krasnodar URKK ------ ---
+loc18=Krasnoyarsk UNKL ------ ---
+loc19=Magadan UHMM ------ ---
+loc20=Makhachkala URML ------ ---
+loc21=Mineralnye\\ Vody URMM ------ ---
+loc22=Moscow\\ Domodedovo UUDD ------ ---
+loc23=Moscow\\ Sheremetyevo UUEE ------ ---
+loc24=Murmansk ULMM ------ ---
+loc25=Nalchik URMN ------ ---
+loc26=Nizhny\\ Novgorod UWGG ------ ---
+loc27=Novosibirsk UNNT ------ ---
+loc28=Omsk UNOO ------ ---
+loc29=Orenburg UWOO ------ ---
+loc30=Perm USPP ------ ---
+loc31=Petropavlovsk-Kamchatsky UHPP ------ ---
+loc32=Petrozavodsk ULPB ------ ---
+loc33=Pskov ULOO ------ ---
+loc34=Raduzhny USNR ------ ---
+loc35=Rostov-Na-Donu URRR ------ ---
+loc36=Samara UWWW ------ ---
+loc37=Sankt-Peterburg ULLI ------ ---
+loc38=Saratov UWSS ------ ---
+loc39=Sochi URSS ------ ---
+loc40=Stavropol URMT ------ ---
+loc41=Syktyvkar UUYY ------ ---
+loc42=Tyumen USTR ------ ---
+loc43=Ufa UWUU ------ ---
+loc44=Ulan-Ude UIUU ------ ---
+loc45=Ulyanovsk UWLW ------ ---
+loc46=Vladikavkaz URMO ------ ---
+loc47=Vladivostok UHWW ------ ---
+loc48=Volgograd URWW ------ ---
+loc49=Voronezh UUOO ------ ---
+loc50=Yakutsk UEEE ------ ---
+loc51=Yekaterinburg USSS ------ ---
+loc52=Yuzhno-Sakhalinsk UHSS ------ ---
+
+[EU_UA]
+name=Ukraine
+loc0=Dnipropetrovsk UKDD ------ ---
+loc1=Donetsk UKCC ------ ---
+loc2=Ivano-Frankivsk UKLI ------ ---
+loc3=Kharkiv UKHH ------ ---
+loc4=Kyiv/Boryspil UKBB ------ ---
+loc5=Kyiv/Zhulyany UKKK ------ ---
+loc6=Kryviy\\ Rig/Lozovatka UKDR ------ ---
+loc7=Lviv UKLL ------ ---
+loc8=Odesa UKOO ------ ---
+loc9=Rivne UKLR ------ ---
+loc10=Sympheropol UKFF ------ ---
+loc11=Uzhgorod UKLU ------ ---
+
+[EU_SK]
+name=Slovakia
+loc0=Bratislava LZIB ------ ---
+loc1=Poprad LZTT ------ ---
+
+[EU_SI]
+name=Slovenia
+loc0=Ljubljana LJLJ ------ ---
+loc1=Maribor LJMB ------ ---
+loc2=Portoroz LJPZ ------ ---
+
+[EU_SE]
+name=Sweden
+loc0=Borlange ESSD ------ --
+loc1=Gavle\\ Sandviken ESSK  ------ --
+loc2=Gallivare ESNG ------ --
+loc3=Goteborg\\ (Landvetter) ESGG  ------ --
+loc4=Goteborg\\ (Save) ESGP ------ --
+loc5=Hagshult ESMV ------ --
+loc6=Halmstad\\ (Swedish\\ Air\\ Force\\ Base) ESMT ------ --
+loc7=Hultsfred\\ (Swedish\\ Air\\ Force\\ Base) ESSF ------ --
+loc8=Jonkoping ESGJ ------ ---
+loc9=Kiruna ESNQ ------ ---
+loc10=Linkoping\\ (Malmen) ESCF ------ --
+loc11=Linkoping\\ (Saab) ESSL ------ --
+loc12=Lulea\\ (Kallax) ESPA ------ --
+loc13=Malmo\\ (Sturup) ESMS ------ --
+loc14=Norrkoping ESSP ------ ---
+loc15=Ronneby ESDF ------ ---
+loc16=Stockholm\\ (Arlanda) ESSA ------ --
+loc17=Stockholm\\ (Bromma) ESSB ------ --
+loc18=Sundsvall-Harnosand ESNN ------ --
+loc19=Umea ESNU ------ ---
+loc20=Vasteras ESOW ------ ---
+loc21=Vaxjo ESMX ------ ---
+loc22=Visby ESSV ------ --
+loc23=Angelholm ESDB ------ --
+loc24=Ornskoldsvik ESNO ------ -- 
+loc25=Ostersund\\ (Froson) ESPC ------ --
+
+[EU_CH]
+name=Switzerland
+loc0=Bern LSZB ------ ---
+loc1=Geneve LSGG ------ ---
+loc2=Lugano LSZA ------ ---
+loc3=Zurich LSZH ------ ---
+
+[EU_TR]
+name=Turkey
+loc0=Adana LTAF ------ ---
+loc1=Adana/Incirlik LTAG ------ ---
+loc2=Afyon LTAH ------ ---
+loc3=Amasya LTAP ------ ---
+loc4=Ankara/Esenboga LTAC ------ ---
+loc5=Ankara/Etimesgut LTAD ------ ---
+loc6=Antalya LTAI ------ ---
+loc7=Balikesir LTBF ------ ---
+loc8=Balikesir/Bandirma LTBG ------ ---
+loc9=Batman LTCJ ------ ---
+loc10=Bursa LTBE ------ ---
+loc11=Diyarbakir LTCC ------ ---
+loc12=Elazig LTCA ------ ---
+loc13=Erzurum LTCE ------ ---
+loc14=Eskisehir LTBI ------ ---
+loc15=Gaziantep LTAJ ------ ---
+loc16=Istanbul LTBA ------ ---
+loc17=Izmir/Adnan\\ Menderes LTBJ ------ ---
+loc18=Izmir/Cigli LTBL ------ ---
+loc19=Izmit LTBQ ------ ---
+loc20=Kayseri LTAU ------ ---
+loc21=Konya LTAN ------ ---
+loc22=Malatya LTAT ------ ---
+loc23=Manisa LTBT ------ ---
+loc24=Mugla/Dalaman LTBS ------ ---
+loc25=Mus LTCK ------ ---
+loc26=Samsun LTAQ ------ ---
+loc27=Sanliurfa LTCH ------ ---
+loc28=Sivas LTAR ------ ---
+loc29=Sivrihisar LTAV ------ ---
+loc30=Trabzon LTCG ------ ---
+loc31=Van LTCI ------ ---
+
+[EU_CY]
+name=Cyprus
+loc0=Akrotiri LCRA ------ ---
+loc1=Ercan LCEN ------ ---
+loc2=Larnaka LCLK ------ ---
+loc3=Paphos LCPH ------ ---
+
+[EU_FI]
+name=Finland
+loc0=Helsinki-Malmi EFHF ------ ---
+loc1=Helsinki-Vantaa EFHK ------ ---
+loc2=Ivalo EFIV ------ ---
+loc3=Jyvaskyla EFJY ------ ---
+loc4=Kemi EFKE ------ ---
+loc5=Kruunupyy EFKK ------ ---
+loc6=Kuopio EFKU ------ ---
+loc7=Mariehamn EFMA ------ ---
+loc8=Oulu EFOU ------ ---
+loc9=Pori EFPO ------ ---
+loc10=Rovaniemi EFRO ------ ---
+loc11=Tampere EFTP ------ ---
+loc12=Turku EFTU ------ ---
+loc13=Vaasa EFVA ------ ---
+
+[EU_FR]
+name=France
+loc0=Agen LFBA ------ ---
+loc1=Ajaccio/Campo\\ dell'Oro LFKJ ------ ---
+loc2=Bale-Mulhouse LFSB ------ ---
+loc3=Bastia LFKB ------ ---
+loc4=Beauvais-Tille LFOB ------ ---
+loc5=Biarritz-Bayonne LFBZ ------ ---
+loc6=Bordeaux LFBD ------ ---
+loc7=Bourges LFLD ------ ---
+loc8=Brest LFRB ------ ---
+loc9=Caen-Carpiquet LFRK ------ ---
+loc10=Calvi-Ste-Catherine LFKC ------ ---
+loc11=Cannes-Mandelieu LFMD ------ ---
+loc12=Cazaux LFBC ------ ---
+loc13=Chambery LFLB ------ ---
+loc14=Cherbourg LFRC ------ ---
+loc15=Clermont-Ferrand LFLC ------ ---
+loc16=Colmar-Meyenheim LFSC ------ ---
+loc17=Deauville-Saint-Gatien LFRG ------ ---
+loc18=Dijon LFSD ------ ---
+loc19=Dinard LFRD ------ ---
+loc20=Dole LFGJ ------ ---
+loc21=Evreux-Fauville LFOE ------ ---
+loc22=Figari LFKF ------ ---
+loc23=Grenoble-Saint-Geoirs LFLS ------ ---
+loc24=Hyeres-Le\\ Palyvestre LFTH ------ ---
+loc25=Lannion LFRO ------ ---
+loc26=Le\\ Havre-Octeville LFOH ------ ---
+loc27=Le\\ Mans LFRM ------ ---
+loc28=Le\\ Touquet LFAT ------ ---
+loc29=Lille-Lesquin LFQQ ------ ---
+loc30=Limoges LFBL ------ ---
+loc31=Lorient-Lann-Bihoue LFRH ------ ---
+loc32=Lyon-Bron LFLY ------ ---
+loc33=Lyon-Satolas LFLL ------ ---
+loc34=Luxeuil LFSX ------ ---
+loc35=Marseille-Provence LFML ------ ---
+loc36=Metz-Frescaty LFSF ------ ---
+loc37=Monpellier-Mediterrannee LFMT ------ ---
+loc38=Mont-de-Marsan LFBM ------ ---
+loc39=Nancy-Essey LFSN ------ ---
+loc40=Nancy-Ochey LFSO ------ ---
+loc41=Nantes\\ Adlantique LFRS ------ ---
+loc42=Nice-Cote\\ d'Azur LFMN ------ ---
+loc43=Nimes-Garons LFTW ------ ---
+loc44=Paris/Charles\\ De\\ Gaulle LFPG ------ ---
+loc45=Paris/Le\\ Bourget LFPB ------ ---
+loc46=Paris/Orly LFPO ------ ---
+loc47=Pau/Pyrenees LFBP ------ ---
+loc48=Perpignan-Rivesaltes LFMP ------ ---
+loc49=Poitiers LFBI ------ ---
+loc50=Quimper LFRQ ------ ---
+loc51=Reims-Champagne LFSR ------ ---
+loc52=Rennes LFRN ------ ---
+loc53=Rouen-Valle\\ de\\ Seine LFOP ------ ---
+loc54=Saint-Brieuc-Armor LFRT ------ ---
+loc55=Saint-Dizier-Robinson LFSI ------ ---
+loc56=Saint-Etienne-Boutheon LFMH ------ ---
+loc57=Saint-Nazaire-Montoir LFRZ ------ ---
+loc58=Strasbourg LFST ------ ---
+loc59=Tarbes LFBT ------ ---
+loc60=Toul-Rosieres LFSL ------ ---
+loc61=Toulouse LFBO ------ ---
+loc62=Tours-St-Symphorien LFOT ------ ---
+loc63=Toussus-Le\\ Noble LFPN ------ ---
+loc64=Troyes/Barberey LFQB ------ ---
+loc65=Vichy-Charmeil LFLV ------ ---
+loc66=Villacoublay LFPV ------ ---
+
+[EU_DE]
+name=Germany
+loc0=Augsburg EDMA ------ ---
+loc1=Bayreuth EDQD ------ ---
+loc2=Berlin-Tegel EDDT ------ ---
+loc3=Berlin-Tempelhof EDDI ------ ---
+loc4=Braunschweig EDVE ------ ---
+loc5=Bremen EDDW ------ ---
+loc6=Dortmund-Wickede EDLW ------ ---
+loc7=Dusseldorf EDDL ------ ---
+loc8=Frankfurt/Main EDDF ------ ---
+loc9=Friedrichshafen EDNY ------ ---
+loc10=Hamburg EDDH ------ ---
+loc11=Hamburg-Finkenwerder EDHI ------ ---
+loc12=Hannover EDDV ------ ---
+loc13=Hof EDQM ------ ---
+loc14=Kassel-Calden EDVK ------ ---
+loc15=Koln/Bonn EDDK ------ ---
+loc16=Lubeck-Blankensee EDHL ------ ---
+loc17=Monchengladbach EDLN ------ ---
+loc18=Munchen EDDM ------ ---
+loc19=Munster/Osnabruck EDDG ------ ---
+loc20=Nurnberg EDDN ------ ---
+loc21=Oberpfaffenhofen EDMO ------ ---
+loc22=Paderborn-Haxterberg EDLP ------ ---
+loc23=Saarbrucken EDDR ------ ---
+loc24=Stuttgart EDDS ------ ---
+loc25=Westerland EDXW ------ ---
+loc26=Dresden-Klotzsche EDDC ------ ---
+loc27=Leipzig-Schkeuditz EDDP ------ ---
+
+[EU_GR]
+name=Greece
+loc0=Andravida LGAD ------ ---
+loc1=Alexandroupolis LGAL ------ ---
+loc2=Araxos LGRX ------ ---
+loc3=Athinai LGAT ------ ---
+loc4=Chania LGSA ------ ---
+loc5=Elefsis LGEL ------ ---
+loc6=Iraklion LGIR ------ ---
+loc7=Kalamata LGKL ------ ---
+loc8=Kavala LGKV ------ ---
+loc9=Kefallinia LGKF ------ ---
+loc10=Kerkira LGKR ------ ---
+loc11=Kos LGKO ------ ---
+loc12=Kozani LGKZ ------ ---
+loc13=Limnos LGLM ------ ---
+loc14=Mitilini LGMT ------ ---
+loc15=Mykonos LGMK ------ ---
+loc16=Preveza LGPZ ------ ---
+loc17=Rodos LGRP ------ ---
+loc18=Samos LGSM ------ ---
+loc19=Santorini LGSR ------ ---
+loc20=Skiathos LGSK ------ ---
+loc21=Thessaloniki LGTS ------ ---
+loc22=Zakinthos LGZA ------ ---
+
+[EU_HU]
+name=Hungary
+loc0=Budapest LHBP ------ ---
+loc1=Papa LHPA ------ ---
+loc2=Szombathely LHSY ------ ---
+
+[EU_IE]
+name=Ireland
+loc0=Connaught EIKN ------ ---
+loc1=Cork EICK ------ ---
+loc2=Dublin EIDW ------ ---
+loc3=Shannon EINN ------ ---
+
+[EU_IT]
+name=Italy
+loc0=Albenga LIMG ------ ---
+loc1=Alghero LIEA ------ ---
+loc2=Amendola LIBA ------ ---
+loc3=Ancona LIPY ------ ---
+loc4=Aviano LIPA ------ ---
+loc5=Bari LIBD ------ ---
+loc6=Bergamo LIME ------ ---
+loc7=Bologna LIPE ------ ---
+loc8=Bolzano LIPB ------ ---
+loc9=Brindisi LIBR ------ ---
+loc10=Cagliari LIEE ------ ---
+loc11=Capo\\ Mele LIMU ------ ---
+loc12=Catania LICC ------ ---
+loc13=Cervia LIPC ------ ---
+loc14=Crotone LIBC ------ ---
+loc15=Dobbiaco LIVD ------ ---
+loc16=Decimomannu LIED ------ ---
+loc17=Ferrara LIPF ------ ---
+loc18=Firenze LIRQ ------ ---
+loc19=Forli LIPK ------ ---
+loc20=Frontone LIVF ------ ---
+loc21=Frosinone LIRH ------ ---
+loc22=Genova LIMJ ------ ---
+loc23=Ghedi LIPL ------ ---
+loc24=Gioia\\ del\\ Colle LIBV ------ ---
+loc25=Grosseto LIRS ------ ---
+loc26=Guidonia LIRG ------ ---
+loc27=Lamezia LICA ------ ---
+loc28=Lampedusa LICD ------ ---
+loc29=Latina LIRL ------ ---
+loc30=Lecce LIBN ------ ---
+loc31=Marino\\ di\\ Ravenna LIVM ------ ---
+loc32=Milano/Linate LIML ------ ---
+loc33=Milano/Malpensa LIMC ------ ---
+loc34=Monte\\ Argentario LIQO ------ ---
+loc35=Monte\\ Bisbino LIMO ------ ---
+loc36=Monte\\ Calamita LIRX ------ ---
+loc37=Monte\\ Cimone LIVC ------ ---
+loc38=Monte\\ Malanotte LIMY ------ ---
+loc39=Monte\\ Scuro LIBQ ------ ---
+loc40=Monte\\ Terminillo LIRK ------ ---
+loc41=Napoli LIRN ------ ---
+loc42=Novara/Cameri LIMN ------ ---
+loc43=Olbia LIEO ------ ---
+loc44=Padova LIPU ------ ---
+loc45=Paganella LIVP ------ ---
+loc46=Palermo LICJ ------ ---
+loc47=Pantelleria LICG ------ ---
+loc48=Passo\\ della\\ Cisa LIMT ------ ---
+loc49=Passo\\ dei\\ Giovi LIMV ------ ---
+loc50=Passo\\ Resia LIVE ------ ---
+loc51=Passo\\ Rolle LIVR ------ ---
+loc52=Perugia LIRZ ------ ---
+loc53=Pescara LIBP ------ ---
+loc54=Piacenza LIMS ------ ---
+loc55=Pian\\ Rosa LIMH ------ ---
+loc56=Pisa LIRP ------ ---
+loc57=Pratica\\ di\\ Mare LIRE ------ ---
+loc58=Reggio\\ Calabria LICR ------ ---
+loc59=Rieti LIQN ------ ---
+loc60=Rimini LIPR ------ ---
+loc61=Rivolto LIPI ------ ---
+loc62=Roma/Ciampino LIRA ------ ---
+loc63=Roma/Fiumicino LIRF ------ ---
+loc64=Roma/Urbe LIRU ------ ---
+loc65=Ronchi\\ de'\\ Legionari LIPQ ------ ---
+loc66=Sarzana LIQW ------ ---
+loc67=Sigonella LICZ ------ ---
+loc68=Taranto LIBG ------ ---
+loc69=Tarvisio LIVO ------ ---
+loc70=Trapani LICT ------ ---
+loc71=Torino/Bric\\ Della\\ Croce LIMK ------ ---
+loc72=Torino/Caselle LIMF ------ ---
+loc73=Trevico LIRT ------ ---
+loc74=Treviso/S.Angelo LIPH ------ ---
+loc75=Treviso/Istrana LIPS ------ ---
+loc76=Trieste LIVT ------ ---
+loc77=Venezia LIPZ ------ ---
+loc78=Vicenza LIPT ------ ---
+loc79=Villafranca LIPX ------ ---
+loc80=Viterbo LIRV ------ ---
+
+[EU_NL]
+name=Netherlands
+loc0=Amsterdam EHAM ------ ---
+loc1=Deelen EHDL ------ ---
+loc2=Den\\ Helder/De\\ Kooy EHKD ------ ---
+loc3=Eindhoven EHEH ------ ---
+loc4=Gilze-Rijen EHGR ------ ---
+loc5=Groningen EHGG ------ ---
+loc6=Leeuwarden EHLW ------ ---
+loc7=Maastricht EHBK ------ ---
+loc8=Rotterdam EHRD ------ ---
+loc9=Twenthe EHTW ------ ---
+loc10=Utrecht/Soesterberg EHSB ------ ---
+loc11=Valkenburg EHVB ------ ---
+loc12=Vlieland EHVL ------ ---
+loc13=Volkel EHVK ------ ---
+loc14=Woensdrecht EHWO ------ ---
+
+[EU_SP]
+name=Spain
+loc0=Alicante LEAL ------ ---
+loc1=Almeria LEAM ------ ---
+loc2=Asturias LEAS ------ ---
+loc3=Barcelona LEBL ------ ---
+loc4=Bilbao LEBB ------ ---
+loc5=Canarias/Fuerteventura GCFV ------ ---
+loc6=Canarias/Gran\\ Canaria GCLP ------ ---
+loc7=Canarias/Hierro GCHI ------ ---
+loc8=Canarias/La\\ Palma GCLA ------ ---
+loc9=Canarias/Lanzarote GCRR ------ ---
+loc10=Canarias/Tenerife\\ Sur GCTS ------ ---
+loc11=Canarias/Tenerife\\ Norte GCXO ------ ---
+loc12=Girona LEGE ------ ---
+loc13=Granada LEGR ------ ---
+loc14=Ibiza LEIB ------ ---
+loc15=Jerez LEJR ------ ---
+loc16=La\\ Coruna LECO ------ ---
+loc17=Madrid\\ (Barajas) LEMD ------ ---
+loc18=Madrid\\ (Cuatro\\ Vientos) LEVS ------ ---
+loc19=Malaga LEMG ------ ---
+loc20=Melilla GEML ------ ---
+loc21=Menorca LEMH ------ ---
+loc22=Murcia LELC ------ ---
+loc23=Palma\\ de\\ Mallorca LEPA ------ ---
+loc24=Pamplona LEPP ------ ---
+loc25=Reus LERS ------ ---
+loc26=San\\ Sebastian LESO ------ ---
+loc27=Santander LEXJ ------ ---
+loc28=Santiago LEST ------ ---
+loc29=Sevilla LEZL ------ ---
+loc30=Valencia LEVC ------ ---
+loc31=Vigo LEVX ------ ---
+loc32=Vitoria LEVT ------ ---
+loc33=Zaragoza LEZG ------ ---
+
+[EU_UK]
+name=United Kingdom
+loc0=Aberdeen EGPD :RQPMS ---
+loc1=Alderney EGJA ------ ---
+loc2=Belfast/Aldergrove EGAA :AAPMS ---
+loc3=Belfast/Harbour EGAC :AAPMS ---
+loc4=Benbecula EGPL :RAPMS ---
+loc5=Biggin\\ Hill EGKB :RBPMS ---
+loc6=Birmingham EGBB :BBPMS ---
+loc7=Blackpool EGNH :RCPMS ---
+loc8=Boscombe\\ Down EGDM ------ ---
+loc9=Boulmer EGQM :RTPMS ---
+loc10=Bournemouth EGHH :RIPMS ---
+loc11=Bristol EGGD :RDPMS ---
+loc12=Cambridge EGSC :RNPMS- ---
+loc13=Cardiff EGFF :RGPMS ---
+loc14=Carlisle EGNC :RCPMS ---
+loc15=Coventry EGBE :BBPMS ---
+loc16=Cranfield EGTC :RIPMS ---
+loc17=Culdrose EGDR :RD2PMS ---
+loc18=Dundee EGPN :RAPMS ---
+loc19=East\\ Midlands EGNX :BBPMS ---
+loc20=Edinburgh EGPH :RAPMS ---
+loc21=Eglington/Londonderry EGAE :AAPMS ---
+loc22=Exeter EGTE :RD2PMS ---
+loc23=Glasgow EGPF :RAPMS ---
+loc24=Guernsey EGJB ------ ---
+loc25=Humberside EGNJ :RTPMS ---
+loc26=Inverness EGPE :RQPMS ---
+loc27=Isle\\ of\\ Man EGNS :RCPMS ---
+loc28=Jersey EGJJ ------ ---
+loc29=Kinloss EGQK :RQPMS ---
+loc30=Leeds\\ and\\ Bradford EGNM :RYPMS ---
+loc31=Leuchars EGQL :RQPMS ---
+loc32=Liverpool EGGP :RCPMS ---
+loc33=London/City EGLC :RBPMS ---
+loc34=London/Gatwick EGKK :RBPMS ---
+loc35=London/Heathrow EGLL :RBPMS ---
+loc36=London/Stansted EGSS :RBPMS ---
+loc37=Lossiemouth EGQS :RQPMS ---
+loc38=Luton EGGW :RBPMS ---
+loc39=Lyneham EGDL :BBPMS ---
+loc40=Manchester EGCC :RCPMS ---
+loc41=Newcastle EGNT :RTPMS ---
+loc42=Norwich EGSH :RNPMS ---
+loc43=Plymouth EGHD :RD2PMS ---
+loc44=Portland EGDP :RIPMS ---
+loc45=Prestwick EGPK :RAPMS ---
+loc46=Saint\\ Mawgan EGDG :RD2PMS ---
+loc47=Scatsta EGPM :RQPMS ---
+loc48=Scilly\\ Isles EGHE :RD2PMS ---
+loc49=Shawbury EGOS :BBPMS ---
+loc50=Shoreham EGKA :RBPMS ---
+loc51=Southampton EGHI :RIPMS ---
+loc52=Southend EGMC :RBPMS ---
+loc53=Staverton EGBJ :RDPMS ---
+loc54=Stornoway EGPO :RQPMS ---
+loc55=Sumburgh EGPB :RQPMS ---
+loc56=Tees-Side EGNV :RTPMS ---
+loc57=Tiree EGPU :RQPMS ---
+loc58=Unst EGPW :RQPMS ---
+loc59=Valley EGOV ------ ---
+loc60=Wick EGPC :RQPMS ---
+loc61=Yeovilton EGDY :RDPMS ---
+
+[EU_YU]
+name=Yugoslavia
+loc0=Beograd LYBE ------ ---
+loc1=Nis LYNI ------ ---
+loc2=Podgorica\\ Titograd LYTI ------ ---
+loc3=Podgorica LYPG ------ ---
+loc4=Pristina LYPR ------ ---
+loc5=Tivat LYTU ------ ---
+
+[AF]
+name=Africa
+states=DZ EG LY MO ZA
+
+[AF_MO]
+name=Morocco
+loc0=Rabat GMME ------ ---
+
+[AF_ZA]
+name=South Africa
+loc0=Bethlehem\\ Airport FABM ------ ---
+loc1=Bloemfontein\\ J.\\ B.\\ M.\\ Hertzog  FABL ------ ---
+loc2=Cape\\ Town\\ D.\\ F.\\ Malan  FACT ------ ---
+loc3=Durban\\ Louis\\ Botha  FADN ------ ---
+loc4=East\\ London FAEL ------ ---
+loc5=George\\ Airport FAGG ------ ---
+loc6=Jan\\ Smuts FAJS ------ ---
+loc7=Langebaanweg FALW ------ ---
+loc8=Lichtenburg FALT ------ ---
+loc9=Pietersburg FAPB ------ ---
+loc10=Port\\ Elizabeth FAPE ------ ---
+loc11=Pretoria FAPR ------ ---
+loc12=Springbok FASB ------ ---
+loc13=Upington FAUP ------ ---
+
+[AF_LY]
+name=Libya
+loc0=Benina HLLB ------ ---
+loc1=Tripoli HLLT ------ ---
+
+[AF_EG]
+name=Egypt
+loc0=Alexandria/Nouzha HEAX ------ ---
+loc1=Asswan HESN ------ ---
+loc2=Cairo HECA ------ ---
+loc3=Luxor HELX ------ ---
+loc4=Mersa\\ Matruh HEMM ------ ---
+loc5=Port\\ Said HEPS ------ ---
+loc6=Sharm\\ El\\ Sheikhintl HESH ------ ---
+
+[AF_DZ]
+name=Algeria
+loc0=Annaba DABB ------ ---
+loc1=Constantine DABC ------ ---
+loc2=Dar-El-Beida DAAG ------ ---
+loc3=Ghardaia DAUG ------ ---
+loc4=Hassi-Messaoud DAUH ------ ---
+loc5=In\\ Amenas DAUZ ------ ---
+loc6=Oran DAOO ------ ---
+loc7=Tamanrasset DAAT ------ ---
+loc8=Tebessa DABS ------ ---
+loc9=Tlemcen\\ Zenata DAON ------ ---
+
+[OZ]
+name=Australasia
+states=AU NZ AN
+
+[OZ_AU]
+name=Australia
+loc0=Adelaide YPAD ------ ---
+loc1=Alice\\ Springs YBAS ------ ---
+loc2=Brisbane YBBN ------ ---
+loc3=Broome YBRM ------ ---
+loc4=Cairns YBCS ------ ---
+loc5=Canberra YSCB ------ ---
+loc6=Christmas\\ Island YPXM ------ ---
+loc7=Cocos\\ Island YPCC ------ ---
+loc8=Darwin YPDN ------ ---
+loc9=Dubbo YSDU ------ ---
+loc10=Hobart YMHB ------ ---
+loc11=Learmouth YPLM ------ ---
+loc12=Melbourne YMML ------ ---
+loc13=Norfolk\\ Island YSNF ------ ---
+loc14=Perth YPPH ------ ---
+loc15=Port\\ Hedland YPPD ------ ---
+loc16=Sydney YSSY ------ ---
+loc17=Townsville YBTL ------ ---
+
+[OZ_NZ]
+name=New Zealand
+loc0=Auckland NZAA ------ ---
+loc1=Christchurch NZCH ------ ---
+loc2=Wellington NZWN ------ ---
+
+[OZ_AN]
+name=Antartica
+loc0=Williams\\ Field NZCM ------ ---
+
+[AS]
+name=Asia
+states=CN HK IN JP KR KP PK SG TW VN
+
+[AS_VN]
+name=Viet Nam
+loc=Da\\ Nang VVDN ------ ---
+loc=Ha\\ Noi VVNB ------ ---
+loc=Ho\\ Chi\\ Minh VVTS ------ ---
+
+[AS_KR]
+name=Korea, Republic of
+loc0=Camp\\ Stanley/H-207 RKSX ------ ---
+loc1=Cheju RKPC ------ ---
+loc2=Chongju\\ Ab RKTU ------ ---
+loc3=Mangilsan\\ Ab RKTM ------ ---
+loc4=Osan\\ Ab RKSO ------ ---
+loc5=Paekado RKTB ------ ---
+loc6=Paengnyongdo\\ Ab RKSP ------ ---
+loc7=Pohang\\ Ab RKTH ------ ---
+loc8=Pusan/Kimhae RKPK ------ ---
+loc9=Pyongtaek\\ Ab RKSG ------ ---
+loc10=Sangju RKTS ------ ---
+loc11=Seoul/Kimp'O\\ International\\ Airport RKSS ------ ---
+loc12=Seoul/Yongdungp'O\\ Rokaf\\ Wc RKSF ------ ---
+loc13=Seoul\\ E\\ Ab RKSM ------ ---
+loc14=Songmu\\ Ab RKTE ------ ---
+loc15=Suwon\\ Ab RKSW ------ ---
+loc16=Taegu RKTT ------ ---
+loc17=Taegu\\ Ab RKTN ------ ---
+loc18=Taejon RKTF ------ ---
+loc19=Ulsan RKPU ------ ---
+loc20=Woong\\ Cheon RKTW ------ ---
+loc21=Yechon\\ Ab RKTY ------ ---
+loc22=Yeoju\\ Range RKSU ------ ---
+loc23=Yeonpyeungdo RKSQ ------ ---
+loc24=Yongsan/H-208\\ Hp RKSY ------ ---
+loc25=Yosu RKJY ------ ---
+
+[AS_KP]
+name=Korea, Democratic People's Republic of
+loc0=Pyongyang ZKPY ------ ---
+
+[AS_HK]
+name=Hong Kong
+loc=Hong\\ Kong VHHH ------ ---
+
+[AS_PK]
+name=Pakistan
+loc0=Islamabad OPRN ------ ---
+loc1=Karachi OPKC ------ ---
+loc2=Lahore OPLA ------ ---
+loc3=Nawabshah OPNH ------ ---
+
+[AS_IN]
+name=India
+loc0=Ahmadabad VAAH ------ ---
+loc1=Amritsar VIAR ------ ---
+loc2=Bombay/Santacruz VABB ------ ---
+loc3=Calcutta/Dum\\ Dum VECC ------ ---
+loc4=Hyderabad VOHY ------ ---
+loc5=Madras/Minambakkam VOMM ------ ---
+loc6=Nagpur\\ Sonegaon VANP ------ ---
+loc7=New\\ Delhi/Palam VIDP ------ ---
+loc8=Patna VEPT ------ ---
+loc9=Thiruvananthapuram VOTV ------ ---
+loc10=Tiruchchirapalli VOTR ------ ---
+loc11=Varanasi/Babatpur VIBN ------ ---
+
+[AS_CN]
+name=People's Republic of China
+loc0=Beijing ZBAA ------ ---
+loc1=Chengdu ZUUU ------ ---
+loc2=Dalian ZYTL ------ ---
+loc3=Guangzhou ZGGG ------ ---
+loc4=Hangzhou ZSHC ------ ---
+loc5=Hong\\ Kong VHHH ------ ---
+loc6=Kunming ZPPP ------ ---
+loc7=Lanzhou ZLLL ------ ---
+loc8=Nanning ZGNN ------ ---
+loc9=Shanghai ZSSS ------ ---
+loc10=Taiyuan ZBYN ------ ---
+loc11=Tianjin ZBTJ ------ ---
+loc12=Urumqi ZWWW ------ ---
+loc13=Xiamen ZSAM ------ ---
+
+[AS_JP]
+name=Japan
+loc0=Akeno\\ Ab RJOE ------ ---
+loc1=Akita\\ Airport RJSK ------ ---
+loc2=Amami\\ Airport RJKA ------ ---
+loc3=Aomori\\ Airport RJSA ------ ---
+loc4=Asahikawa\\ Ab RJCA ------ ---
+loc5=Asahikawa\\ Airport RJEC ------ ---
+loc6=Ashiya\\ Ab RJFA ------ ---
+loc7=Atsugi\\ US\\ NAS RJTA ------ ---
+loc8=Chichijima RJAO ------ ---
+loc9=Chitose\\ Ab RJCC ------ ---
+loc10=Chitose\\ ASDF RJCJ ------ ---
+loc11=Chofu\\ Airport RJTF ------ ---
+loc12=Fuji\\ Ab RJAT ------ ---
+loc13=Fukue\\ Airport RJFE ------ ---
+loc14=Fukui\\ Airport RJNF ------ ---
+loc15=Fukuoka\\ Airport RJFF ------ ---
+loc16=Gifu\\ Ab RJNG ------ ---
+loc17=Hachijojima\\ Airport RJTH ------ ---
+loc18=Hachinohe\\ Ab RJSH ------ ---
+loc19=Hakodate\\ Airport RJCH ------ ---
+loc20=Hamamatsu\\ Ab RJNH ------ ---
+loc21=Hanamaki\\ Airport RJSI ------ ---
+loc22=Hiroshima\\ Airport RJOA ------ ---
+loc23=Hofu\\ Ab RJOF ------ ---
+loc24=Hyakuri\\ Ab RJAH ------ ---
+loc25=Ichikawa RJAI ------ ---
+loc26=Iki\\ Airport RJDB ------ ---
+loc27=Iruma\\ Ab RJTJ ------ ---
+loc28=Iwakuni\\ MCAS RJOI ------ ---
+loc29=Iwojima RJAW ------ ---
+loc30=Izumo\\ Airport RJOC ------ ---
+loc31=Kadena\\ Ab RODN ------ ---
+loc32=Kagoshima\\ Airport RJFK ------ ---
+loc33=Kamigoto RJDK ------ ---
+loc34=Kanoya\\ Ab RJFY ------ ---
+loc35=Kansai\\ International\\ Airport RJBB ------ ---
+loc36=Kasumigaura\\ Ab RJAK ------ ---
+loc37=Kasuminome\\ Ab RJSU ------ ---
+loc38=Kikai\\ Island RJKI ------ ---
+loc39=Kisarazu\\ Ab RJTK ------ ---
+loc40=Kitakyushu\\ Airport RJFR ------ ---
+loc41=Kochi\\ Airport RJOK ------ ---
+loc42=Komatsu\\ Ab RJNK ------ ---
+loc43=Komatsujima\\ Ab RJOP ------ ---
+loc44=Kumamoto\\ Airport RJFT ------ ---
+loc45=Kushiro\\ Airport RJCK ------ ---
+loc46=Matsumoto\\ Airport RJAF ------ ---
+loc47=Matsushima\\ Ab RJST ------ ---
+loc48=Matsuyama\\ Airport RJOM ------ ---
+loc49=Memambetsu\\ Airport RJCM ------ ---
+loc50=Metabaru\\ Ab RJDM ------ ---
+loc51=Miho\\ Ab RJOH ------ ---
+loc52=Minamitorishima RJAM ------ ---
+loc53=Misawa\\ Ab RJSM ------ ---
+loc54=Miyakejima\\ Airport RJTQ ------ ---
+loc55=Miyazaki\\ Airport RJFM ------ ---
+loc56=Mombetsu\\ Airport RJEB ------ ---
+loc57=Nagasaki\\ Airport RJFU ------ ---
+loc58=Nagoya\\ Airport RJNN ------ ---
+loc59=Naha\\ Airport ROAH ------ ---
+loc60=Nakashibetsu\\ Airport RJCN ------ ---
+loc61=Nankishirahama\\ Airport RJBD ------ ---
+loc62=New\\ Tokyo\\ International\\ Airport RJAA ------ ---
+loc63=Niigata\\ Airport RJSN ------ ---
+loc64=Nyutabaru\\ Ab RJFN ------ ---
+loc65=Obihiro\\ Airport RJCB ------ ---
+loc66=Oita\\ Airport RJFO ------ ---
+loc67=Ojika\\ Island RJDO ------ ---
+loc68=Okayama\\ Airport RJOB ------ ---
+loc69=Oki\\ Airport RJNO ------ ---
+loc70=Okinoerabu RJKB ------ ---
+loc71=Okushiri\\ Island RJEO ------ ---
+loc72=Ominato\\ Ab RJSO ------ ---
+loc73=Osaka\\ International\\ Airport RJOO ------ ---
+loc74=Oshima\\ Airport RJTO ------ ---
+loc75=Ozuki\\ Ab RJOZ ------ ---
+loc76=Rebun\\ Island RJCR ------ ---
+loc77=Rishiri\\ Island RJER ------ ---
+loc78=Sapporo\\ Ab RJCO ------ ---
+loc79=Sendai\\ Airport RJSS ------ ---
+loc80=Shimofusa\\ Ab RJTL ------ ---
+loc81=Shizuhama\\ Ab RJNY ------ ---
+loc82=Tachikawa\\ Ab RJTC ------ ---
+loc83=Tajima RJBT ------ ---
+loc84=Takamatsu\\ Airport RJOT ------ ---
+loc85=Tanegashima\\ Airport RJFG ------ ---
+loc86=Tateyama\\ Ab RJTE ------ ---
+loc87=Tokachi\\ GSDF RJCT ------ ---
+loc88=Tokunoshima\\ Island RJKN ------ ---
+loc89=Tokushima\\ Ab RJOS ------ ---
+loc90=Tokyo\\ Heliport RJTI ------ ---
+loc91=Tokyo\\ International\\ Airport RJTT ------ ---
+loc92=Tokyo\\ New\\ International\\ Airport RJAA ------ ---
+loc93=Tottori\\ Airport RJOR ------ ---
+loc94=Toyama\\ Airport RJNT ------ ---
+loc95=Tsuiki\\ Ab RJFZ ------ ---
+loc96=Tsushima\\ Airport RJDT ------ ---
+loc97=Utsunomiya\\ Ab RJTU ------ ---
+loc98=Wakkanai\\ Airport RJCW ------ ---
+loc99=Yakushima RJFC ------ ---
+loc100=Yamagata\\ Airport RJSC ------ ---
+loc101=Yamaguchi\\ Ube\\ Airport RJDC ------ ---
+loc102=Yao\\ Airport RJOY ------ ---
+loc103=Yokosuka\\ Fwf RJTX ------ ---
+loc104=Yokota\\ Ab RJTY ------ ---
+loc105=Zama\\ Airfield RJTR ------ ---
+
+[AS_SG]
+name=Singapore
+loc0=Singapore WSSS ------ ---
+
+[AS_TW]
+name=Taiwan
+loc0=Chia\\ Tung RCFS ------ ---
+loc1=Chiang\\ Kai\\ Shek RCTP ------ ---
+loc2=Chiayi RCKU ------ ---
+loc3=Chihhang RCQS ------ ---
+loc4=Chinmem/Shatou RCBS ------ ---
+loc5=Dongsha RCLM ------ ---
+loc6=Dongshi RCNO ------ ---
+loc7=Feng\\ Nin RCFN ------ ---
+loc8=Hengchun RCKW ------ ---
+loc9=Hsinchu RCPO ------ ---
+loc10=Hulien RCYU ------ ---
+loc11=Ilan RCMS ------ ---
+loc12=Kangshan RCAY ------ ---
+loc13=Kaohsiung RCKH ------ ---
+loc14=Makung RCQC ------ ---
+loc15=Mazu RCFG ------ ---
+loc16=Pa\\ Kuei/Bakuai RCUK ------ ---
+loc17=Pingtung\\ North RCSQ ------ ---
+loc18=Pingtung\\ South RCDC ------ ---
+loc19=Sungshan/Taipei RCSS ------ ---
+loc20=Taichung RCLG ------ ---
+loc21=Tainan RCNN ------ ---
+loc22=Taoyuan RCGM ------ ---
+loc23=Wuchia\\ Observatory RCMQ ------ ---
+
+[M_]
+name=Central and South America
+states=BS BZ KY CU CR DO SV GT HT HN JM NI PA AR BR BO CL CO EC PY PE SR UY VE
+
+[M__BS]
+name=Bahamas
+loc0=Freeport MYGF ------ ---
+loc1=Nassau MYNN ------ ---
+
+[M__BZ]
+name=Belize
+loc0=Belize MZBZ ------ ---
+
+[M__BM]
+name=Bermuda
+loc0=Bermuda TXKF ------ ---
+
+[M__KY]
+name=Cayman Islands
+loc0=Grand\\ Cayman MWCR ------ ---
+
+[M__CU]
+name=Cuba
+loc0=Baracoa MUBA ------ ---
+loc1=Bayamo MUBY ------ ---
+loc2=Camaguey MUCM ------ ---
+loc3=Cayo\\ Largo\\ del\\ Sur MUCL ------ ---
+loc4=Guantanamo MUGT ------ ---
+loc5=Habana MUHA ------ ---
+loc6=Holguin MUHG ------ ---
+loc7=Las\\ Tunas MUVT ------ ---
+loc8=Manzanillo MUMZ ------ ---
+loc9=Moa MUMO ------ ---
+loc10=Nueva\\ Gerona MUNG ------ ---
+loc11=Santiago\\ de\\ Cuba MUCU ------ ---
+loc12=Varadero MUVR ------ ---
+loc13=Venezuela MUCA ------ ---
+
+[M__CR]
+name=Costa Rica
+loc0=Chacarita MRCH ------ ---
+loc1=Juan\\ Santamaria MROC ------ ---
+loc2=Liberia MRLB ------ ---
+loc3=Puerto\\ Limon MRLM ------ ---
+loc4=Tobias\\ Bolanos MRPV ------ ---
+
+[M__DO]
+name=Dominican Republic
+loc0=La\\ Romana MDLR ------ ---
+loc1=Las\\ Americas MDSD ------ ---
+loc2=Puerto\\ Plata MDPP ------ ---
+loc3=Punta\\ Cana MDPC ------ ---
+loc4=Santiago MDST ------ ---
+
+[M__SV]
+name=El Salvador
+loc0=Acajutla MSAC ------ ---
+loc1=El\\ Salvador\\ Int. MSLP ------ ---
+loc2=San\\ Miguel MSSM ------ ---
+loc3=San\\ Salvador MSSS ------ ---
+loc4=Santa\\ Ana MSSA ------ ---
+
+[M__GT]
+name=Guatemala
+loc0=Flores MGFL ------ ---
+loc1=Guatemala MGGT ------ ---
+loc2=Huehuetenango MGHT ------ ---
+loc3=Puerto\\ Barrios MGPB ------ ---
+loc4=San\\ Jose MGSJ ------ ---
+
+[M__HT]
+name=Haiti
+loc0=Port-Au-Prince MTPP ------ ---
+
+[M__HN]
+name=Honduras
+loc0=Amapala MHAM ------ ---
+loc1=Catacamas MHCA ------ ---
+loc2=Choluteca MHCH ------ ---
+loc3=La\\ Ceiba MHLC ------ ---
+loc4=La\\ Esperanza MHLE ------ ---
+loc5=La\\ Mesa MHLM ------ ---
+loc6=Nueva\\ Ocotepeque MHSC ------ ---
+loc7=Puerto\\ Lempira MHPL ------ ---
+loc8=Roatan MHRO ------ ---
+loc9=Santa\\ Rosa\\ de\\ Copan MHSR ------ ---
+loc10=Tegucigalpa MHTG ------ ---
+loc11=Tela MHTE ------ ---
+loc12=Yoro MHYR ------ ---
+
+[M__JM]
+name=Jamaica
+loc0=Kingston MKJP ------ ---
+loc1=Montego\\ Bay MKJA ------ ---
+
+[M__NI]
+name=Nicaragua
+loc0=Bluefields MNBL ------ ---
+loc1=Chinandega MNCH ------ ---
+loc2=Jinotega MNJG ------ ---
+loc3=Juigalpa MNJU ------ ---
+loc4=Managua MNMG ------ ---
+loc5=Puerto\\ Cabezas MNPC ------ ---
+loc6=Rivas MNRS ------ ---
+
+[M__PA]
+name=Panama
+loc0=Bocas\\ del\\ Toro MPBO ------ ---
+loc1=David MPDA ------ ---
+loc2=Howard\\ AFB MPHO ------ ---
+loc3=Panama MPMG ------ ---
+loc4=Santiago MPSA ------ ---
+loc5=Tocumen MPTO ------ ---
+
+[M__BO]
+name=Bolivia
+loc0=Camiri SLCA ------ ---
+loc1=Cobija SLCO ------ ---
+loc2=Cochabamba SLCB ------ ---
+loc3=Concepcion SLCP ------ ---
+loc4=La\\ Paz/Alto SLLP ------ ---
+loc5=Magdalena SLMG ------ ---
+loc6=Oruro SLOR ------ ---
+loc7=Potosi SLPO ------ ---
+loc8=Puerto\\ Suarez SLPS ------ ---
+loc9=Reyes SLRY ------ ---
+loc10=Riberalta SLRI ------ ---
+loc11=Robore SLRB ------ ---
+loc12=Rurrenabaque SLRQ ------ ---
+loc13=San\\ Ignacio\\ De\\ Velasco SLSI ------ ---
+loc14=San\\ Joaquin SLJO ------ ---
+loc15=San\\ Jose\\ De\\ Chiquitos SLJE ------ ---
+loc16=Santa\\ Ana SLSA ------ ---
+loc17=Sucre SLSU ------ ---
+loc18=Tarija SLTJ ------ ---
+loc19=Trinidad SLTR ------ ---
+loc20=Villamontes SLVM ------ ---
+loc21=Viru-Viru SLVR ------ ---
+loc22=Yacuiba SLYA ------ ---
+
+[M__CL]
+name=Chile
+loc0=Antofagasta SCFA ------ ---
+loc1=Arica SCAR ------ ---
+loc2=Concepcion SCIE ------ ---
+loc3=Iquique/Diego\\ Arac SCDA ------ ---
+loc4=Pudahuel SCEL ------ ---
+loc5=Puerto\\ Montt SCTE ------ ---
+loc6=Punta\\ Arenas SCCI ------ ---
+
+[M__CO]
+name=Colombia
+loc0=Barranquilla/Ernestocortissoz SKBQ ------ ---
+loc1=Bogota/Eldorado SKBO ------ ---
+loc2=Bucaramanga/Palonegro SKBG ------ ---
+loc3=Cali/Alfonso\\ Bonillaaragon SKCL ------ ---
+loc4=Cartagena/Rafael\\ Nunez SKCG ------ ---
+loc5=Leticia/Vasquez\\ Cobo SKLT ------ ---
+loc6=Pereira/Matecana SKPE ------ ---
+loc7=Rionegro/J.M.Cordova SKRG ------ ---
+loc8=San\\ Andres\\ Isla/Sesquicentenario SKSP ------ ---
+loc9=Santa\\ Marta/Simon\\ Bolivar SKSM ------ ---
+
+[M__EC]
+name=Ecuador
+loc0=Guayaquil/Simon\\ Bolivar SEGU ------ ---
+loc1=Manta SEMT ------ ---
+loc2=Quito/Mariscal\\ Sucre SEQU ------ ---
+
+[M__PY]
+name=Paraguay
+loc0=Asuncion SGAS ------ ---
+loc1=Guarany SGES ------ ---
+
+[M__PE]
+name=Peru
+loc0=Andahuayla SPHY ------ ---
+loc1=Arequipa SPQU ------ ---
+loc2=Ayacucho SPHO ------ ---
+loc3=Chiclayo SPHI ------ ---
+loc4=Cuzco SPZO ------ ---
+loc5=Huanuco SPNC ------ ---
+loc6=Iquitos SPQT ------ ---
+loc7=Juanjui SPJI ------ ---
+loc8=Juliaca SPJL ------ ---
+loc9=Lima-Callao SPIM ------ ---
+loc10=Pisco SPSO ------ ---
+loc11=Pucallpa SPCL ------ ---
+loc12=Puerto\\ Maldonado SPTU ------ ---
+loc13=Rioja SPJA ------ ---
+loc14=Tacna SPTN ------ ---
+loc15=Talara SPYL ------ ---
+loc16=Yurimaguas SPMS ------ ---
+
+[M__SR]
+name=Suriname
+loc0=Johan\\ A.\\ Pengel SMJP ------ ---
+
+[M__UY]
+name=Uruguay
+loc0=Artigas SUAG ------ ---
+loc1=Capitan\\ Corbeta SULS ------ ---
+loc2=Colonia SUCA ------ ---
+loc3=Durazno SUDU ------ ---
+loc4=Maldonado/Punta\\ Est SUPE ------ ---
+loc5=Melilla SUAA ------ ---
+loc6=Montevideo/Carrasco SUMU ------ ---
+loc7=Paysandu SUPU ------ ---
+loc8=Rivera SURV ------ ---
+loc9=Salto SUSO ------ ---
+loc10=Tacuarembo SUTB ------ ---
+
+[M__VE]
+name=Venezuela
+loc0=Acarigua SVAC ------ ---
+loc1=Barcelona SVBC ------ ---
+loc2=Barinas SVBI ------ ---
+loc3=Barquisimeto SVBM ------ ---
+loc4=Calabozo SVCL ------ ---
+loc5=Caracas\\ Maiquetia SVMI ------ ---
+loc6=Ciudad\\ Bolivar SVCB ------ ---
+loc7=Coro SVCR ------ ---
+loc8=Cumana SVCU ------ ---
+loc9=Guanare SVGU ------ ---
+loc10=Maracaibo-La\\ Chinita SVMC ------ ---
+loc11=Maracay-B.A.Sucre SVBS ------ ---
+loc12=Margarita SVMG ------ ---
+loc13=Mene\\ Grande SVMN ------ ---
+loc14=Merida SVMD ------ ---
+loc15=San\\ Antonio\\ Del\\ Tachira SVSA ------ ---
+loc16=San\\ Fernando\\ De\\ Apure SVSR ------ ---
+loc17=Valera* SVVL ------ ---
+loc18=Caracas\\ La\\ Carlota SVFM ------ ---
+
+[M__AR]
+name=Argentina
+loc0=Aeroparque SABE ------ ---
+loc1=Bahia\\ Blanca SAZB ------ ---
+loc2=Bariloche SAZS ------ ---
+loc3=Comodoro\\ Rivadavia SAVC ------ ---
+loc4=Concordia SAAC ------ ---
+loc5=Cordoba SACO ------ ---
+loc6=Corrientes SARC ------ ---
+loc7=Don\\ Torcuato SADD ------ ---
+loc8=Ezeiza SAEZ ------ ---
+loc9=Formosa SARF ------ ---
+loc10=Iguazu SARI ------ ---
+loc11=Jujuy SASJ ------ ---
+loc12=Mar\\ Del\\ Plata SAZM ------ ---
+loc13=Mendoza SAME ------ ---
+loc14=Neuquen SAZN ------ ---
+loc15=Paso\\ De\\ Los\\ Libres SARL ------ ---
+loc16=Posadas SARP ------ ---
+loc17=Resistencia SARE ------ ---
+loc18=Rio\\ Gallegos SAWG ------ ---
+loc19=Rio\\ Grande SAWE ------ ---
+loc20=Rosario SAAR ------ ---
+loc21=Salta SASA ------ ---
+loc22=San\\ Juan SANU ------ ---
+loc23=Santiago\\ Del\\ Estero SANE ------ ---
+loc24=Sauce\\ Viejo SAAV ------ ---
+loc25=Trelew SAVT ------ ---
+loc26=Tucuman SANT ------ ---
+loc27=Villa\\ Reynolds SAOR ------ ---
+
+[M__BR]
+name=Brazil
+loc0=Afonsos SBAF ------ ---
+loc1=Altamira SBHT ------ ---
+loc2=Aracaju SBAR ------ ---
+loc3=Bage SBBG ------ ---
+loc4=Bauru SBBU ------ ---
+loc5=Belem SBBE ------ ---
+loc6=Belo\\ Horizonte SBCF ------ ---
+loc7=Belo\\ Horizonte\\ Apt SBBH ------ ---
+loc8=Boa\\ Vista SBBV ------ ---
+loc9=Brasilia SBBR ------ ---
+loc10=Campinas SBKP ------ ---
+loc11=Campo\\ Grande SBCG ------ ---
+loc12=Caravelas SBCV ------ ---
+loc13=Conceicao\\ Do\\ Araguaia SBAA ------ ---
+loc14=Corumba SBCR ------ ---
+loc15=Cuiaba SBCY ------ ---
+loc16=Curitiba SBBI ------ ---
+loc17=Curitiba\\ Apt SBCT ------ ---
+loc18=Eduardo\\ Gomes\\ International SBEG ------ ---
+loc19=Fernando\\ De\\ Noronha SBFN ------ ---
+loc20=Florianopolis SBFL ------ ---
+loc21=Fortaleza SBFZ ------ ---
+loc22=Foz\\ Do\\ Iguacu SBFI ------ ---
+loc23=Galeao SBGL ------ ---
+loc24=Goiania SBGO ------ ---
+loc25=Guaratingueta SBGW ------ ---
+loc26=Guarulhos SBGR ------ ---
+loc27=Itaituba SBIH ------ ---
+loc28=Londrina SBLO ------ ---
+loc29=Macae SBME ------ ---
+loc30=Macapa SBMQ ------ ---
+loc31=Maceio SBMO ------ ---
+loc32=Manaus SBMN ------ ---
+loc33=Maraba SBMA ------ ---
+loc34=Marte SBMT ------ ---
+loc35=Natal SBNT ------ ---
+loc36=Pelotas SBPK ------ ---
+loc37=Pirassununga SBYS ------ ---
+loc38=Pocos\\ De\\ Caldas SBPC ------ ---
+loc39=Ponta\\ Pora SBPP ------ ---
+loc40=Porto\\ Alegre SBCO ------ ---
+loc41=Porto\\ Alegre\\ Apt SBPA ------ ---
+loc42=Porto\\ Velho SBPV ------ ---
+loc43=Presidente\\ Prudente SBDN ------ ---
+loc44=Recife SBRF ------ ---
+loc45=Rio\\ /\\ Jacarepagua SBJR ------ ---
+loc46=Rio\\ De\\ Janeiro SBRJ ------ ---
+loc47=Salvador SBSV ------ ---
+loc48=Santa\\ Cruz SBSC ------ ---
+loc49=Santa\\ Maria SBSM ------ ---
+loc50=Santarem SBSN ------ ---
+loc51=Santos SBST ------ ---
+loc52=Sao\\ Jose\\ Dos\\ Campo SBSJ ------ ---
+loc53=Sao\\ Luiz SBSL ------ ---
+loc54=Sao\\ Paulo SBSP ------ ---
+loc55=Tabatinga SBTT ------ ---
+loc56=Teresina SBTE ------ ---
+loc57=Tucurui SBTU ------ ---
+loc58=Uberaba SBUR ------ ---
+loc59=Uruguaiana SBUG ------ ---
+loc60=Vilhena SBVH ------ ---
+loc61=Vitoria SBVT ------ ---
+
+[AT]
+name=Atlantic
+states=AG PR
+
+[AT_PR]
+name=Puerto Rico
+loc0=Aquadilla TJBQ ------ ---
+loc1=San\\ Juan TJSJ ------ ---
+loc2=Mayaguez TJMZ ------ ---
+loc3=Ponce TJPS ------ ---
+
+[AT_AG]
+name=Antigua and Barbuda
+loc0=Antigua TAPA ------ ---
+

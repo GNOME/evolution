@@ -34,7 +34,6 @@ struct _ECompEditorRegistryPrivate {
 
 struct _ECompEditorRegistryData
 {
-	ECompEditorRegistry *registry;
 	CompEditor *editor;
 	char *uid;
 };
@@ -42,63 +41,42 @@ struct _ECompEditorRegistryData
 typedef struct _ECompEditorRegistryData ECompEditorRegistryData;
 typedef struct _ECompEditorRegistryForeachData ECompEditorRegistryForeachData;
 
-static GObjectClass *parent_class = NULL;
+static GtkObjectClass *parent_class = NULL;
 
-static void editor_destroy_cb (gpointer data, GObject *where_object_was);
-
-static void
-registry_data_free (gpointer data)
-{
-	ECompEditorRegistryData *rdata = data;
-
-	if (rdata->editor)
-		g_object_weak_unref (G_OBJECT (rdata->editor), editor_destroy_cb, rdata);
-	g_free (rdata->uid);
-	g_free (rdata);
-}
+static void editor_destroy_cb (GtkWidget *widget, gpointer data);
 
 static void
-dispose (GObject *obj)
+destroy (GtkObject *obj)
 {
 	ECompEditorRegistry *reg;
 	ECompEditorRegistryPrivate *priv;
 
 	reg = E_COMP_EDITOR_REGISTRY (obj);
 	priv = reg->priv;
-	
-	if (priv->editors) {
-		g_hash_table_destroy (priv->editors);
-		priv->editors = NULL;
+
+	if (priv) {
+		if (priv->editors) {
+			g_hash_table_destroy (priv->editors);
+			priv->editors = NULL;
+		}
+
+		g_free (priv);
+		reg->priv = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (obj);
-}
-
-static void
-finalize (GObject *obj)
-{
-	ECompEditorRegistry *reg;
-	ECompEditorRegistryPrivate *priv;
-
-	reg = E_COMP_EDITOR_REGISTRY (obj);
-	priv = reg->priv;
-
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 static void
 class_init (ECompEditorRegistryClass *klass)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = GTK_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->dispose = dispose;
-	object_class->finalize = finalize;
+	object_class->destroy = destroy;
 }
 
 static void
@@ -109,15 +87,16 @@ init (ECompEditorRegistry *reg)
 	priv = g_new0 (ECompEditorRegistryPrivate, 1);
 
 	reg->priv = priv;
-	priv->editors = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, registry_data_free);
+
+	priv->editors = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 
 
 E_MAKE_TYPE (e_comp_editor_registry, "ECompEditorRegistry", ECompEditorRegistry,
-	     class_init, init, G_TYPE_OBJECT);
+	     class_init, init, gtk_object_get_type ());
 
-GObject *
+GtkObject *
 e_comp_editor_registry_new (void)
 {
 	return g_object_new (E_TYPE_COMP_EDITOR_REGISTRY, NULL);
@@ -128,7 +107,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 {
 	ECompEditorRegistryPrivate *priv;
 	ECompEditorRegistryData *rdata;
-	ECalComponent *comp;
+	CalComponent *comp;
 	const char *uid;
 	
 	g_return_if_fail (reg != NULL);
@@ -139,18 +118,16 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 	priv = reg->priv;
 	
 	comp = comp_editor_get_comp (editor);
-	e_cal_component_get_uid (comp, &uid);
+	cal_component_get_uid (comp, &uid);
 
 	rdata = g_new0 (ECompEditorRegistryData, 1);
 
-	rdata->registry = reg;
 	rdata->editor = editor;
 	rdata->uid = g_strdup (uid);
+	g_hash_table_insert (priv->editors, rdata->uid, rdata);
 
-	g_hash_table_insert (priv->editors, g_strdup (uid), rdata);
+	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), reg);
 
-	/* FIXME Need to know when uid on the editor changes (if the component changes locations) */
-	g_object_weak_ref (G_OBJECT (editor), editor_destroy_cb, rdata);
 }
 
 CompEditor *
@@ -211,12 +188,25 @@ e_comp_editor_registry_close_all (ECompEditorRegistry *reg)
 }
 
 static void
-editor_destroy_cb (gpointer data, GObject *where_object_was) 
+editor_destroy_cb (GtkWidget *widget, gpointer data) 
 {
-	ECompEditorRegistryData *rdata = data;
+	ECompEditorRegistry *reg;
+	ECompEditorRegistryPrivate *priv;
+	ECompEditorRegistryData *rdata;
+	CalComponent *comp;
+	const char *uid;
+	
+	reg = E_COMP_EDITOR_REGISTRY (data);
+	priv = reg->priv;
+	
+	comp = comp_editor_get_comp (COMP_EDITOR (widget));
+	cal_component_get_uid (comp, &uid);
 
-	/* We null it out because its dead, so we won't try to weak
-	 * unref it in the hash destroyer */
-	rdata->editor = NULL;
-	g_hash_table_remove (rdata->registry->priv->editors, rdata->uid);
+	rdata = g_hash_table_lookup (priv->editors, uid);
+
+	if (rdata != NULL) {
+		g_hash_table_remove (priv->editors, rdata->uid);
+		g_free (rdata->uid);
+		g_free (rdata);
+	}
 }

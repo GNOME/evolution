@@ -47,8 +47,6 @@
 #include "calendar-config.h"
 #include "calendar-commands.h"
 #include "e-tasks.h"
-#include "e-calendar-table.h"
-#include "print.h"
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
 
@@ -72,9 +70,11 @@ static void tasks_control_set_property		(BonoboPropertyBag	*bag,
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
-static void tasks_control_open_task_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
+static void tasks_control_activate		(BonoboControl		*control,
+						 ETasks			*tasks);
+static void tasks_control_deactivate		(BonoboControl		*control,
+						 ETasks			*tasks);
+
 static void tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
@@ -93,7 +93,7 @@ static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 static void tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
-static void tasks_control_purge_cmd		(BonoboUIComponent	*uic,
+static void tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 static void tasks_control_print_cmd		(BonoboUIComponent	*uic,
@@ -167,13 +167,11 @@ tasks_control_get_property		(BonoboPropertyBag	*bag,
 {
 	ETasks *tasks = user_data;
 	const char *uri;
-	ECalModel *model;
 
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-		uri = e_cal_get_uri (e_cal_model_get_default_client (model));
+		uri = cal_client_get_uri (e_tasks_get_cal_client (tasks));
 		BONOBO_ARG_SET_STRING (arg, uri);
 		break;
 
@@ -192,20 +190,12 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 {
 	ETasks *tasks = user_data;
 	char *uri;
-	ESource *source;
-	ESourceGroup *group;
 
 	switch (arg_id) {
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		/* FIXME Remove the old uri? */
 		uri = BONOBO_ARG_GET_STRING (arg);
-
-		group = e_source_group_new ("", uri);
-		source = e_source_new ("", "");
-		e_source_set_group (source, group);
-
-		if (!e_tasks_add_todo_source (tasks, source)) {
+		if (!e_tasks_open (tasks, uri)) {
 			char *msg;
 
 			msg = g_strdup_printf (_("Could not load the tasks in `%s'"), uri);
@@ -214,10 +204,6 @@ tasks_control_set_property		(BonoboPropertyBag	*bag,
 				GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 			g_free (msg);
 		}
-
-		g_object_unref (source);
-		g_object_unref (group);
-
 		break;
 
 	default:
@@ -245,25 +231,17 @@ tasks_control_activate_cb		(BonoboControl		*control,
 /* Sensitizes the UI Component menu/toolbar commands based on the number of
  * selected tasks.
  */
-void
-tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_selected)
+static void
+sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 {
 	BonoboUIComponent *uic;
-	gboolean read_only = TRUE;
-	ECalModel *model;
+	gboolean read_only;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
-		return;
+	read_only = cal_client_is_read_only (e_tasks_get_cal_client (tasks));
 
-	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-	e_cal_is_read_only (e_cal_model_get_default_client (model), &read_only, NULL);
-
-	bonobo_ui_component_set_prop (uic, "/commands/TasksOpenTask", "sensitive",
-				      n_selected != 1 ? "0" : "1",
-				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksCut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
@@ -271,7 +249,7 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksPaste", "sensitive",
-				      read_only ? "0" : "1",
+				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/TasksDelete", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
@@ -279,7 +257,7 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	bonobo_ui_component_set_prop (uic, "/commands/TasksMarkComplete", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksPurge", "sensitive",
+	bonobo_ui_component_set_prop (uic, "/commands/TasksExpunge", "sensitive",
 				      read_only ? "0" : "1",
 				      NULL);
 }
@@ -292,25 +270,24 @@ selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
 
 	control = BONOBO_CONTROL (data);
 
-	tasks_control_sensitize_commands (control, tasks, n_selected);
+	sensitize_commands (tasks, control, n_selected);
 }
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("TasksOpenTask", tasks_control_open_task_cmd),
 	BONOBO_UI_VERB ("TasksNewTask", tasks_control_new_task_cmd),
 	BONOBO_UI_VERB ("TasksCut", tasks_control_cut_cmd),
 	BONOBO_UI_VERB ("TasksCopy", tasks_control_copy_cmd),
 	BONOBO_UI_VERB ("TasksPaste", tasks_control_paste_cmd),
 	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
 	BONOBO_UI_VERB ("TasksMarkComplete", tasks_control_complete_cmd),
-	BONOBO_UI_VERB ("TasksPurge", tasks_control_purge_cmd),
+	BONOBO_UI_VERB ("TasksExpunge", tasks_control_expunge_cmd),
 	BONOBO_UI_VERB ("TasksPrint", tasks_control_print_cmd),
 	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
 
 	BONOBO_UI_VERB_END
 };
 
-void
+static void
 tasks_control_activate (BonoboControl *control, ETasks *tasks)
 {
 	Bonobo_UIContainer remote_uih;
@@ -347,7 +324,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	etable = e_calendar_table_get_table (cal_table);
 	n_selected = e_table_selected_count (etable);
 
-	tasks_control_sensitize_commands (control, tasks, n_selected);
+	sensitize_commands (tasks, control, n_selected);
 
 	bonobo_ui_component_thaw (uic, NULL);
 
@@ -357,10 +334,12 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 #if 0
 	calendar_config_check_timezone_set ();
 #endif
+
+	control_util_set_folder_bar_label (control, "");
 }
 
 
-void
+static void
 tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (control);
@@ -378,15 +357,6 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
  	bonobo_ui_component_unset_container (uic, NULL);
 }
 
-static void tasks_control_open_task_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path)
-{
-	ETasks *tasks;
-
-	tasks = E_TASKS (data);
-	e_tasks_open_task (tasks);
-}
 
 static void
 tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
@@ -461,17 +431,17 @@ tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 }
 
 static gboolean
-confirm_purge (ETasks *tasks)
+confirm_expunge (ETasks *tasks)
 {
-	GtkWidget *dialog, *checkbox, *parent;
+	GtkWidget *dialog, *label, *checkbox, *parent;
 	int button;
 	
-	if (!calendar_config_get_confirm_purge ())
+	if (!calendar_config_get_confirm_expunge ())
 		return TRUE;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (tasks));
 	dialog = gtk_message_dialog_new (
-		(GtkWindow *)parent,
+		parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_WARNING,
 		GTK_BUTTONS_YES_NO,
@@ -484,37 +454,123 @@ confirm_purge (ETasks *tasks)
 	
 	button = gtk_dialog_run (GTK_DIALOG (dialog));	
 	if (button == GTK_RESPONSE_YES && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
-		calendar_config_set_confirm_purge (FALSE);
+		calendar_config_set_confirm_expunge (FALSE);
 	gtk_widget_destroy (dialog);
 	
 	return button == GTK_RESPONSE_YES ? TRUE : FALSE;
 }
 
 static void
-tasks_control_purge_cmd	(BonoboUIComponent	*uic,
-			 gpointer		 data,
-			 const char		*path)
+tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
+					 gpointer		 data,
+					 const char		*path)
 {
 	ETasks *tasks;
 
 	tasks = E_TASKS (data);
 	
-	if (confirm_purge (tasks))
+	if (confirm_expunge (tasks))
 	    e_tasks_delete_completed (tasks);
 }
 
 
 static void
+print_title (GnomePrintContext *pc,
+	     double page_width, double page_height)
+{
+	GnomeFont *font;
+	char *text;
+	double w, x, y;
+
+	font = gnome_font_find_closest ("Sans Bold", 18);
+
+	text = _("Tasks");
+	w = gnome_font_get_width_utf8 (font, text);
+
+	x = (page_width - w) / 2;
+	y = page_height - gnome_font_get_ascender (font);
+
+	gnome_print_moveto (pc, x, y);
+	gnome_print_setfont (pc, font);
+	gnome_print_setrgbcolor (pc, 0, 0, 0);
+	gnome_print_show (pc, text);
+
+	g_object_unref (font);
+}
+
+static void
 print_tasks (ETasks *tasks, gboolean preview)
 {
 	ECalendarTable *cal_table;
+	EPrintable *printable;
 	ETable *etable;
+	GnomePrintContext *pc;
+	GnomePrintJob *gpm;
+	double l, r, t, b, page_width, page_height, left_margin, bottom_margin, temp_d;
+
+	if (!print_config)
+		print_config = gnome_print_config_default ();
 
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
+	printable = e_table_get_printable (etable);
+	g_object_ref (printable);
+	gtk_object_sink (GTK_OBJECT (printable));
+	e_printable_reset (printable);
 
-	print_table (etable, _("Tasks"), preview);
+	gpm = gnome_print_job_new (print_config);
+	pc = gnome_print_job_get_context (gpm);
+
+	gnome_print_config_get_page_size (print_config, &r, &t);
+
+#if 0
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &temp_d);
+	t -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &temp_d);
+	r -= temp_d;
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &b);
+	gnome_print_config_get_double (print_config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &l);
+#endif
+
+	b = t * FIXED_MARGIN;
+	l = r * FIXED_MARGIN;
+	t *= (1.0 - FIXED_MARGIN);
+	r *= (1.0 - FIXED_MARGIN);
+
+	page_width = r - l;
+	page_height = t - b;
+	left_margin = l;
+	bottom_margin = b;
+
+	while (e_printable_data_left (printable)) {
+		gnome_print_beginpage (pc, "Tasks");
+		gnome_print_gsave (pc);
+
+		gnome_print_translate (pc, left_margin, bottom_margin);
+
+		print_title (pc, page_width, page_height);
+
+		e_printable_print_page (printable, pc,
+					page_width, page_height - 24, TRUE);
+
+		gnome_print_grestore (pc);
+		gnome_print_showpage (pc);
+	}
+
+	gnome_print_job_close (gpm);
+
+	if (preview) {
+		GtkWidget *gpmp;
+		gpmp = gnome_print_job_preview_new (gpm, _("Print Preview"));
+		gtk_widget_show (gpmp);
+	} else {
+		gnome_print_job_print (gpm);
+	}
+
+	g_object_unref (gpm);
+	g_object_unref (printable);
 }
+
 
 /* File/Print callback */
 static void
@@ -526,8 +582,6 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 	GtkWidget *gpd;
 	gboolean preview = FALSE;
 	GnomePrintJob *gpm;
-	ECalendarTable *cal_table;
-	ETable *etable;
 
 	tasks = E_TASKS (data);
 
@@ -556,11 +610,7 @@ tasks_control_print_cmd (BonoboUIComponent *uic,
 		return;
 	}
 
-	cal_table = e_tasks_get_calendar_table (tasks);
-	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (cal_table));
-
 	gtk_widget_destroy (gpd);
-
 	print_tasks (tasks, preview);
 }
 

@@ -66,9 +66,8 @@
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
 #include "camel-stream.h"
+#include "string-utils.h"
 #include "camel-private.h"
-#include "camel-string-utils.h"
-#include "camel-file-utils.h"
 
 
 #define d(x)
@@ -216,9 +215,9 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	CamelFolder *folder;
 	CamelImapFolder *imap_folder;
 	const char *short_name;
-	char *summary_file, *state_file;
+	char *summary_file;
 
-	if (camel_mkdir (folder_dir, S_IRWXU) != 0) {
+	if (camel_mkdir_hier (folder_dir, S_IRWXU) != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create directory %s: %s"),
 				      folder_dir, g_strerror (errno));
@@ -226,7 +225,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	}
 
 	folder = CAMEL_FOLDER (camel_object_new (camel_imap_folder_get_type ()));
-	short_name = strrchr (folder_name, '/');
+	short_name = strrchr (folder_name, imap_store->dir_sep);
 	if (short_name)
 		short_name++;
 	else
@@ -244,12 +243,6 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 		return NULL;
 	}
 
-	/* set/load persistent state */
-	state_file = g_strdup_printf ("%s/cmeta", folder_dir);
-	camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state_file, NULL);
-	g_free(state_file);
-	camel_object_state_read(folder);
-
 	imap_folder = CAMEL_IMAP_FOLDER (folder);
 	imap_folder->cache = camel_imap_message_cache_new (folder_dir, folder->summary, ex);
 	if (!imap_folder->cache) {
@@ -257,15 +250,9 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 		return NULL;
 	}
 
-	if (!g_ascii_strcasecmp (folder_name, "INBOX")) {
-		if ((imap_store->parameters & IMAP_PARAM_FILTER_INBOX))
-			folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
-		if ((imap_store->parameters & IMAP_PARAM_FILTER_JUNK))
-			folder->folder_flags |= CAMEL_FOLDER_FILTER_JUNK;
-	} else {
-		if ((imap_store->parameters & (IMAP_PARAM_FILTER_JUNK|IMAP_PARAM_FILTER_JUNK_INBOX)) == (IMAP_PARAM_FILTER_JUNK))
-			folder->folder_flags |= CAMEL_FOLDER_FILTER_JUNK;
-	}
+	if ((imap_store->parameters & IMAP_PARAM_FILTER_INBOX) &&
+	    !strcasecmp (folder_name, "INBOX"))
+		folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
 
 	imap_folder->search = camel_imap_search_new(folder_dir);
 
@@ -313,10 +300,7 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			}
 		}
 	}
-
-	if (camel_strstrcase (response->status, "OK [READ-ONLY]"))
-		imap_folder->read_only = TRUE;
-
+	
 	if (camel_disco_store_status (CAMEL_DISCO_STORE (folder->parent_store)) == CAMEL_DISCO_STORE_RESYNCING) {
 		if (validity != imap_summary->validity) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_SUMMARY_INVALID,
@@ -421,7 +405,7 @@ static int
 imap_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 {
 	CamelFolder *folder = (CamelFolder *)object;
-	int i, count=0;
+	int i, count=args->argc;
 	guint32 tag;
 
 	for (i=0;i<args->argc;i++) {
@@ -441,7 +425,7 @@ imap_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			*arg->ca_str = folder->description;
 			break;
 		default:
-			count++;
+			count--;
 			continue;
 		}
 
@@ -459,7 +443,7 @@ imap_rename (CamelFolder *folder, const char *new)
 {
 	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
 	CamelImapStore *imap_store = (CamelImapStore *)folder->parent_store;
-	char *folder_dir, *summary_path, *state_file;
+	char *folder_dir, *summary_path;
 	char *folders;
 
 	folders = g_strconcat (imap_store->storage_path, "/folders", NULL);
@@ -472,10 +456,6 @@ imap_rename (CamelFolder *folder, const char *new)
 	CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
 
 	camel_folder_summary_set_filename(folder->summary, summary_path);
-
-	state_file = g_strdup_printf ("%s/cmeta", folder_dir);
-	camel_object_set(folder, NULL, CAMEL_OBJECT_STATE_FILE, state_file, NULL);
-	g_free(state_file);
 
 	g_free(summary_path);
 	g_free(folder_dir);
@@ -506,18 +486,23 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	if (imap_store->current_folder != folder
 	    || strcasecmp(folder->full_name, "INBOX") == 0) {
+		CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		if (response) {
 			camel_imap_folder_selected (folder, response, ex);
 			camel_imap_response_free (imap_store, response);
 		}
-	} else if (imap_folder->need_rescan) {
-		/* Otherwise, if we need a rescan, do it, and if not, just do
-		 * a NOOP to give the server a chance to tell us about new
-		 * messages.
-		 */
+		return;
+	}
+	CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+	
+	/* Otherwise, if we need a rescan, do it, and if not, just do
+	 * a NOOP to give the server a chance to tell us about new
+	 * messages.
+	 */
+	if (imap_folder->need_rescan)
 		imap_rescan (folder, camel_folder_summary_count (folder->summary), ex);
-	} else {
+	else {
 #if 0
 		/* on some servers need to CHECKpoint INBOX to recieve new messages?? */
 		/* rfc2060 suggests this, but havent seen a server that requires it */
@@ -529,8 +514,6 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		response = camel_imap_command (imap_store, folder, ex, "NOOP");
 		camel_imap_response_free (imap_store, response);
 	}
-
-	CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 }
 
 /* Called with the store's connect_lock locked */
@@ -758,11 +741,6 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	gboolean unset;
 	int i, j, max;
 	
-	if (((CamelImapFolder *)folder)->read_only) {
-		imap_sync_offline (folder, ex);
-		return;
-	}
-
 	camel_exception_init (&local_ex);
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
@@ -772,9 +750,9 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	 */
 	max = camel_folder_summary_count (folder->summary);
 	for (i = 0; i < max; i++) {
-		if (!(info = camel_folder_summary_index (folder->summary, i)))
+		info = camel_folder_summary_index (folder->summary, i);
+		if (!info)
 			continue;
-		
 		if (!(info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED)) {
 			camel_folder_summary_info_free (folder->summary, info);
 			continue;
@@ -783,23 +761,23 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		/* Note: Cyrus is broken and will not accept an
 		   empty-set of flags so... if this is true then we
 		   want to unset the previously set flags.*/
-		unset = !(info->flags & folder->permanent_flags);
-		
+		unset = !(info->flags & CAMEL_IMAP_SERVER_FLAGS);
+				
 		/* Note: get_matching() uses UID_SET_LIMIT to limit
 		   the size of the uid-set string. We don't have to
 		   loop here to flush all the matching uids because
 		   they will be scooped up later by our parent loop (I
 		   think?). -- Jeff */
-		matches = get_matching (folder, info->flags & (folder->permanent_flags | CAMEL_MESSAGE_FOLDER_FLAGGED),
-					folder->permanent_flags | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
+		matches = get_matching (folder, info->flags & (CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED),
+					CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED, &set);
 		camel_folder_summary_info_free (folder->summary, info);
 		if (matches == NULL)
 			continue;
 		
 		/* FIXME: since we don't know the previously set flags,
 		   if unset is TRUE then just unset all the flags? */
-		flaglist = imap_create_flag_list (unset ? folder->permanent_flags : info->flags & folder->permanent_flags);
-		
+		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
+
 		/* Note: to `unset' flags, use -FLAGS.SILENT (<flag list>) */
 		response = camel_imap_command (store, folder, &local_ex,
 					       "UID STORE %s %sFLAGS.SILENT %s",
@@ -814,7 +792,7 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 			for (j = 0; j < matches->len; j++) {
 				info = matches->pdata[j];
 				info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-				((CamelImapMessageInfo *) info)->server_flags =
+				((CamelImapMessageInfo*)info)->server_flags =
 					info->flags & CAMEL_IMAP_SERVER_FLAGS;
 			}
 			camel_folder_summary_touch (folder->summary);
@@ -936,14 +914,10 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 static void
 imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	GPtrArray *keep_uids, *mark_uids;
 	CamelImapResponse *response;
 	char *result;
-
-	if (imap_folder->read_only)
-		return;
 
 	if (store->capabilities & IMAP_CAPABILITY_UIDPLUS) {
 		imap_expunge_uids_online (folder, uids, ex);
@@ -1237,7 +1211,7 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 	CamelImapResponse *response;
 	char *uid;
 	int count;
-
+	
 	count = camel_folder_summary_count (folder->summary);
 	response = do_append (folder, message, info, &uid, ex);
 	if (!response)
@@ -1698,7 +1672,7 @@ content_info_get_part_spec (CamelMessageContentInfo *ci)
 		CamelMessageContentInfo *child;
 		
 		/* FIXME: is this only supposed to apply if 'node' is a multipart? */
-		if (node->parent->parent && camel_content_type_is (node->parent->type, "message", "*")) {
+		if (node->parent->parent && header_content_type_is (node->parent->type, "message", "*")) {
 			node = node->parent;
 			continue;
 		}
@@ -1737,7 +1711,6 @@ content_info_get_part_spec (CamelMessageContentInfo *ci)
 static CamelDataWrapper *
 get_content (CamelImapFolder *imap_folder, const char *uid,
 	     CamelMimePart *part, CamelMessageContentInfo *ci,
-	     int frommsg,
 	     CamelException *ex)
 {
 	CamelDataWrapper *content = NULL;
@@ -1747,7 +1720,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	part_spec = content_info_get_part_spec (ci);
 	
 	/* There are three cases: multipart/signed, multipart, message/rfc822, and "other" */
-	if (camel_content_type_is (ci->type, "multipart", "signed")) {
+	if (header_content_type_is (ci->type, "multipart", "signed")) {
 		CamelMultipartSigned *body_mp;
 		char *spec;
 		int ret;
@@ -1758,13 +1731,10 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		body_mp = camel_multipart_signed_new ();
 		/* need to set this so it grabs the boundary and other info about the signed type */
 		/* we assume that part->content_type is more accurate/full than ci->type */
-		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), CAMEL_DATA_WRAPPER (part)->mime_type);
+		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), part->content_type);
 		
 		spec = g_alloca (strlen (part_spec) + 6);
-		if (frommsg)
-			sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
-		else
-			strcpy(spec, part_spec);
+		sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
 		g_free (part_spec);
 		
 		stream = camel_imap_folder_fetch_data (imap_folder, uid, spec, FALSE, ex);
@@ -1778,19 +1748,19 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		}
 		
 		return (CamelDataWrapper *) body_mp;
-	} else if (camel_content_type_is (ci->type, "multipart", "*")) {
+	} else if (header_content_type_is (ci->type, "multipart", "*")) {
 		CamelMultipart *body_mp;
 		char *child_spec;
 		int speclen, num;
 		
-		if (camel_content_type_is (ci->type, "multipart", "encrypted"))
+		if (header_content_type_is (ci->type, "multipart", "encrypted"))
 			body_mp = (CamelMultipart *) camel_multipart_encrypted_new ();
 		else
 			body_mp = camel_multipart_new ();
 		
 		/* need to set this so it grabs the boundary and other info about the multipart */
 		/* we assume that part->content_type is more accurate/full than ci->type */
-		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), CAMEL_DATA_WRAPPER (part)->mime_type);
+		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), part->content_type);
 		
 		speclen = strlen (part_spec);
 		child_spec = g_malloc (speclen + 17); /* dot + 10 + dot + MIME + nul */
@@ -1817,7 +1787,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 					return NULL;
 				}
 				
-				content = get_content (imap_folder, uid, part, ci, FALSE, ex);
+				content = get_content (imap_folder, uid, part, ci, ex);
 			}
 			
 			if (!stream || !content) {
@@ -1837,15 +1807,12 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		g_free (child_spec);
 		
 		return (CamelDataWrapper *) body_mp;
-	} else if (camel_content_type_is (ci->type, "message", "rfc822")) {
+	} else if (header_content_type_is (ci->type, "message", "rfc822")) {
 		content = (CamelDataWrapper *) get_message (imap_folder, uid, part_spec, ci->childs, ex);
 		g_free (part_spec);
 		return content;
 	} else {
-		CamelTransferEncoding enc;
-
-		enc = ci->encoding?camel_transfer_encoding_from_string(ci->encoding):CAMEL_TRANSFER_ENCODING_DEFAULT;
-		content = camel_imap_wrapper_new (imap_folder, ci->type, enc, uid, *part_spec ? part_spec : "1", part);
+		content = camel_imap_wrapper_new (imap_folder, ci->type, uid, *part_spec ? part_spec : "1", part);
 		g_free (part_spec);
 		return content;
 	}
@@ -1878,7 +1845,7 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 		return NULL;
 	}
 	
-	content = get_content (imap_folder, uid, CAMEL_MIME_PART (msg), ci, TRUE, ex);
+	content = get_content (imap_folder, uid, CAMEL_MIME_PART (msg), ci, ex);
 	if (!content) {
 		camel_object_unref (CAMEL_OBJECT (msg));
 		return NULL;
@@ -1890,6 +1857,7 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 	return msg;
 }
 
+/* FIXME: I pulled this number out of my butt. */
 #define IMAP_SMALL_BODY_SIZE 5120
 
 static CamelMimeMessage *
@@ -1941,6 +1909,12 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	if (store->server_level < IMAP_LEVEL_IMAP4REV1 ||
 	    (stream = camel_imap_folder_fetch_data (imap_folder, uid, "", TRUE, NULL)))
 		return get_message_simple (imap_folder, uid, stream, ex);
+
+	/* If we're not actually connected and it's not in the cache,
+	 * that's as far as we can go.
+	 */
+	if (camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex) == FALSE)
+		return NULL;
 
 	mi = camel_folder_summary_uid (folder->summary, uid);
 	if (mi == NULL) {

@@ -39,7 +39,7 @@
 #include <bonobo/bonobo-widget.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
-#include <addressbook/util/eab-destination.h>
+#include <ebook/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "e-util/e-dialog-widgets.h"
 #include "alarm-options.h"
@@ -51,7 +51,7 @@ typedef struct {
 	GladeXML *xml;
 
 	/* The alarm action selected */
-	ECalComponentAlarmAction action;
+	CalAlarmAction action;
 
 	/* Toplevel */
 	GtkWidget *toplevel;
@@ -87,7 +87,7 @@ typedef struct {
 	GtkWidget *palarm_args;
 } Dialog;
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
+#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 static const char *section_name = "Send To";
 
 
@@ -218,7 +218,7 @@ repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
 	gtk_widget_set_sensitive (dialog->repeat_group, active);
 
 	/* activate the 'OK' button */
-	if (dialog->action == E_CAL_COMPONENT_ALARM_PROCEDURE)
+	if (dialog->action == CAL_ALARM_PROCEDURE)
 		palarm_options_changed_cb (GTK_EDITABLE (dialog->palarm_program), dialog);
 }
 
@@ -227,7 +227,7 @@ repeat_spin_button_changed_cb (GtkWidget *spin, gpointer user_data)
 {
 	Dialog *dialog = user_data;
 
-	if (dialog->action == E_CAL_COMPONENT_ALARM_PROCEDURE)
+	if (dialog->action == CAL_ALARM_PROCEDURE)
 		palarm_options_changed_cb (GTK_EDITABLE (dialog->palarm_program), dialog);
 }
 
@@ -237,7 +237,7 @@ repeat_unit_changed_cb (GtkWidget *option_menu, gpointer user_data)
 {
 	Dialog *dialog = user_data;
 
-	if (dialog->action == E_CAL_COMPONENT_ALARM_PROCEDURE)
+	if (dialog->action == CAL_ALARM_PROCEDURE)
 		palarm_options_changed_cb (GTK_EDITABLE (dialog->palarm_program), dialog);
 }
 
@@ -261,12 +261,12 @@ init_widgets (Dialog *dialog)
 
 /* Fills the audio alarm widgets with the values from the alarm component */
 static void
-alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_aalarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	icalattach *attach;
 	const char *url;
 
-	e_cal_component_alarm_get_attach (alarm, &attach);
+	cal_component_alarm_get_attach (alarm, &attach);
 
 	if (!attach) {
 		e_dialog_editable_set (dialog->aalarm_attach, NULL);
@@ -289,12 +289,12 @@ alarm_to_aalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the display alarm widgets with the values from the alarm component */
 static void
-alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_dalarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	ECalComponentText description;
+	CalComponentText description;
 	GtkTextBuffer *text_buffer;
 	
-	e_cal_component_alarm_get_description (alarm, &description);
+	cal_component_alarm_get_description (alarm, &description);
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
 	gtk_text_buffer_set_text (text_buffer, description.value ? description.value : "", -1);
@@ -302,35 +302,35 @@ alarm_to_dalarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the mail alarm widgets with the values from the alarm component */
 static void
-alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	ECalComponentText description;
+	CalComponentText description;
 	GtkTextBuffer *text_buffer;	
 	GSList *attendee_list, *l;
-	EABDestination **destv;
+	EDestination **destv;
 	int len, i;
 	
 	/* Recipients */
-	e_cal_component_alarm_get_attendee_list (alarm, &attendee_list);
+	cal_component_alarm_get_attendee_list (alarm, &attendee_list);
 	len = g_slist_length (attendee_list);
 
 	if (len <= 0) {
-		destv = g_new0 (EABDestination *, 2);
-		destv[0] = eab_destination_new ();
-		eab_destination_set_email (destv[0], dialog->email);
+		destv = g_new0 (EDestination *, 2);
+		destv[0] = e_destination_new ();
+		e_destination_set_email (destv[0], dialog->email);
 		destv[1] = NULL;
 		len = 1;
 	} else {
-		destv = g_new0 (EABDestination *, len + 1);
+		destv = g_new0 (EDestination *, len + 1);
 		for (l = attendee_list, i = 0; l != NULL; l = l->next, i++) {
-			ECalComponentAttendee *a = l->data;
-			EABDestination *dest;
+			CalComponentAttendee *a = l->data;
+			EDestination *dest;
 			
-			dest = eab_destination_new ();
+			dest = e_destination_new ();
 			if (a->cn != NULL && *a->cn)
-				eab_destination_set_name (dest, a->cn);
+				e_destination_set_name (dest, a->cn);
 			if (a->value != NULL && *a->value)
-				eab_destination_set_email (dest, a->value);
+				e_destination_set_email (dest, a->value);
 			
 			destv[i] = dest;
 		}
@@ -338,16 +338,16 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 	}
 	
 	bonobo_widget_set_property (BONOBO_WIDGET (dialog->malarm_addresses), 
-				    "destinations", eab_destination_exportv (destv), NULL);
+				    "destinations", e_destination_exportv (destv), NULL);
 
 	for (i = 0; i < len; i++)
 		g_object_unref (GTK_OBJECT (destv[i]));
 	g_free (destv);
 
-	e_cal_component_free_attendee_list (attendee_list);
+	cal_component_free_attendee_list (attendee_list);
 
 	/* Description */
-	e_cal_component_alarm_get_description (alarm, &description);
+	cal_component_alarm_get_description (alarm, &description);
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
 	gtk_text_buffer_set_text (text_buffer, description.value ? description.value : "", -1);
@@ -355,13 +355,13 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the procedure alarm widgets with the values from the alarm component */
 static void
-alarm_to_palarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_palarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	icalattach *attach;
-	ECalComponentText description;
+	CalComponentText description;
 
-	e_cal_component_alarm_get_attach (alarm, &attach);
-	e_cal_component_alarm_get_description (alarm, &description);
+	cal_component_alarm_get_attach (alarm, &attach);
+	cal_component_alarm_get_description (alarm, &description);
 
 	if (attach) {
 		const char *url;
@@ -416,13 +416,13 @@ normalize_duration (struct icaldurationtype dur, int *value, enum duration_units
 
 /* Fills the repeat widgets with the values from the alarm component */
 static void
-alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_repeat_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	ECalComponentAlarmRepeat repeat;
+	CalAlarmRepeat repeat;
 	int value;
 	enum duration_units units;
 
-	e_cal_component_alarm_get_repeat (alarm, &repeat);
+	cal_component_alarm_get_repeat (alarm, &repeat);
 
 	/* Sensitivity */
 
@@ -449,20 +449,20 @@ alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the widgets with the values from the alarm component */
 static void
-alarm_to_dialog (Dialog *dialog, ECalComponentAlarm *alarm)
+alarm_to_dialog (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	ECalComponentAlarmAction action;
+	CalAlarmAction action;
 
 	alarm_to_repeat_widgets (dialog, alarm);
 
-	e_cal_component_alarm_get_action (alarm, &action);
+	cal_component_alarm_get_action (alarm, &action);
 
 	switch (action) {
-	case E_CAL_COMPONENT_ALARM_NONE:
+	case CAL_ALARM_NONE:
 		g_assert_not_reached ();
 		return;
 
-	case E_CAL_COMPONENT_ALARM_AUDIO:
+	case CAL_ALARM_AUDIO:
 		gtk_window_set_title (GTK_WINDOW (dialog->toplevel), _("Audio Alarm Options"));
 		gtk_widget_show (dialog->aalarm_group);
 		gtk_widget_hide (dialog->dalarm_group);
@@ -471,7 +471,7 @@ alarm_to_dialog (Dialog *dialog, ECalComponentAlarm *alarm)
 		alarm_to_aalarm_widgets (dialog, alarm);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_DISPLAY:
+	case CAL_ALARM_DISPLAY:
 		gtk_window_set_title (GTK_WINDOW (dialog->toplevel), _("Message Alarm Options"));
 		gtk_widget_hide (dialog->aalarm_group);
 		gtk_widget_show (dialog->dalarm_group);
@@ -480,7 +480,7 @@ alarm_to_dialog (Dialog *dialog, ECalComponentAlarm *alarm)
 		alarm_to_dalarm_widgets (dialog, alarm);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_EMAIL:
+	case CAL_ALARM_EMAIL:
 		gtk_window_set_title (GTK_WINDOW (dialog->toplevel), _("Email Alarm Options"));
 		gtk_widget_hide (dialog->aalarm_group);
 		gtk_widget_hide (dialog->dalarm_group);
@@ -489,7 +489,7 @@ alarm_to_dialog (Dialog *dialog, ECalComponentAlarm *alarm)
 		alarm_to_malarm_widgets (dialog, alarm);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_PROCEDURE:
+	case CAL_ALARM_PROCEDURE:
 		gtk_window_set_title (GTK_WINDOW (dialog->toplevel), _("Program Alarm Options"));
 		gtk_widget_hide (dialog->aalarm_group);
 		gtk_widget_hide (dialog->dalarm_group);
@@ -505,7 +505,7 @@ alarm_to_dialog (Dialog *dialog, ECalComponentAlarm *alarm)
 				  G_CALLBACK (palarm_options_changed_cb), dialog);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_UNKNOWN:
+	case CAL_ALARM_UNKNOWN:
 		gtk_window_set_title (GTK_WINDOW (dialog->toplevel), _("Unknown Alarm Options"));
 		break;
 
@@ -521,14 +521,14 @@ alarm_to_dialog (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the alarm data with the values from the repeat/duration widgets */
 static void
-repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+repeat_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	ECalComponentAlarmRepeat repeat;
+	CalAlarmRepeat repeat;
 
 	if (!e_dialog_toggle_get (dialog->repeat_toggle)) {
 		repeat.repetitions = 0;
 
-		e_cal_component_alarm_set_repeat (alarm, repeat);
+		cal_component_alarm_set_repeat (alarm, repeat);
 		return;
 	}
 
@@ -552,13 +552,13 @@ repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 		g_assert_not_reached ();
 	}
 
-	e_cal_component_alarm_set_repeat (alarm, repeat);
+	cal_component_alarm_set_repeat (alarm, repeat);
 
 }
 
 /* Fills the audio alarm data with the values from the widgets */
 static void
-aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+aalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *url;
 	icalattach *attach;
@@ -567,16 +567,16 @@ aalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	attach = icalattach_new_from_url (url ? url : "");
 	g_free (url);
 
-	e_cal_component_alarm_set_attach (alarm, attach);
+	cal_component_alarm_set_attach (alarm, attach);
 	icalattach_unref (attach);
 }
 
 /* Fills the display alarm data with the values from the widgets */
 static void
-dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+dalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *str;
-	ECalComponentText description;
+	CalComponentText description;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 	icalcomponent *icalcomp;
@@ -590,12 +590,12 @@ dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	description.value = str;
 	description.altrep = NULL;
 
-	e_cal_component_alarm_set_description (alarm, &description);
+	cal_component_alarm_set_description (alarm, &description);
 	g_free (str);
 
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
 	 * we don't re-set the alarm's description */
-	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
+	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
 		const char *x_name;
@@ -612,12 +612,12 @@ dalarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the mail alarm data with the values from the widgets */
 static void
-malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+malarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *str;
-	ECalComponentText description;
+	CalComponentText description;
 	GSList *attendee_list = NULL;
-	EABDestination **destv;
+	EDestination **destv;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 	icalcomponent *icalcomp;
@@ -627,26 +627,26 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	/* Attendees */
 	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
 				    TC_CORBA_string, &str, NULL);
-	destv = eab_destination_importv (str);
+	destv = e_destination_importv (str);
 	g_free (str);
 	
 	for (i = 0; destv[i] != NULL; i++) {
-		EABDestination *dest;
-		ECalComponentAttendee *a;
+		EDestination *dest;
+		CalComponentAttendee *a;
 
 		dest = destv[i];
 		
-		a = g_new0 (ECalComponentAttendee, 1);
-		a->value = eab_destination_get_email (dest);
-		a->cn = eab_destination_get_name (dest);
+		a = g_new0 (CalComponentAttendee, 1);
+		a->value = e_destination_get_email (dest);
+		a->cn = e_destination_get_name (dest);
 
 		attendee_list = g_slist_append (attendee_list, a);
 	}
 
-	e_cal_component_alarm_set_attendee_list (alarm, attendee_list);
+	cal_component_alarm_set_attendee_list (alarm, attendee_list);
 
-	e_cal_component_free_attendee_list (attendee_list);
-	eab_destination_freev (destv);	
+	cal_component_free_attendee_list (attendee_list);
+	e_destination_freev (destv);	
 
 	/* Description */
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
@@ -657,12 +657,12 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	description.value = str;
 	description.altrep = NULL;
 
-	e_cal_component_alarm_set_description (alarm, &description);
+	cal_component_alarm_set_description (alarm, &description);
 	g_free (str);
 
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
 	 * we don't re-set the alarm's description */
-	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
+	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property(icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
 		const char *x_name;
@@ -679,12 +679,12 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the procedure alarm data with the values from the widgets */
 static void
-palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+palarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *program;
 	icalattach *attach;
 	char *str;
-	ECalComponentText description;
+	CalComponentText description;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 
@@ -692,19 +692,19 @@ palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	attach = icalattach_new_from_url (program ? program : "");
 	g_free (program);
 
-	e_cal_component_alarm_set_attach (alarm, attach);
+	cal_component_alarm_set_attach (alarm, attach);
 	icalattach_unref (attach);
 
 	str = e_dialog_editable_get (dialog->palarm_args);
 	description.value = str;
 	description.altrep = NULL;
 
-	e_cal_component_alarm_set_description (alarm, &description);
+	cal_component_alarm_set_description (alarm, &description);
 	g_free (str);
 
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
 	 * we don't re-set the alarm's description */
-	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
+	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
 		const char *x_name;
@@ -721,36 +721,36 @@ palarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 
 /* Fills the alarm data with the values from the widgets */
 static void
-dialog_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
+dialog_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	ECalComponentAlarmAction action;
+	CalAlarmAction action;
 
 	repeat_widgets_to_alarm (dialog, alarm);
 
-	e_cal_component_alarm_get_action (alarm, &action);
+	cal_component_alarm_get_action (alarm, &action);
 
 	switch (action) {
-	case E_CAL_COMPONENT_ALARM_NONE:
+	case CAL_ALARM_NONE:
 		g_assert_not_reached ();
 		break;
 
-	case E_CAL_COMPONENT_ALARM_AUDIO:
+	case CAL_ALARM_AUDIO:
 		aalarm_widgets_to_alarm (dialog, alarm);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_DISPLAY:
+	case CAL_ALARM_DISPLAY:
 		dalarm_widgets_to_alarm (dialog, alarm);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_EMAIL:
+	case CAL_ALARM_EMAIL:
 		malarm_widgets_to_alarm (dialog, alarm);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_PROCEDURE:
+	case CAL_ALARM_PROCEDURE:
 		palarm_widgets_to_alarm (dialog, alarm);
 		break;
 
-	case E_CAL_COMPONENT_ALARM_UNKNOWN:
+	case CAL_ALARM_UNKNOWN:
 		break;
 
 	default:
@@ -769,7 +769,7 @@ dialog_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
  * Return value: TRUE if the dialog could be created, FALSE otherwise.
  **/
 gboolean
-alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean repeat)
+alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean repeat)
 {
 	Dialog dialog;
 	int response_id;

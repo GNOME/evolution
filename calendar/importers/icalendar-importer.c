@@ -24,62 +24,40 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <gtk/gtksignal.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
 #include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtknotebook.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
-#include <libecal/e-cal.h>
-#include <widgets/misc/e-source-selector.h>
+#include <cal-client.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
-#include <libical/icalvcal.h>
-#include <e-util/e-dialog-widgets.h>
+#include <shell/e-shell.h>
+#include <shell/evolution-shell-client.h>
+#include "icalvcal.h"
 #include "evolution-calendar-importer.h"
-#include "common/authentication.h"
 
 /* We timeout after 2 minutes, when opening the folders. */
 #define IMPORTER_TIMEOUT_SECONDS 120
 
 
 typedef struct {
+	CalClient *client;
+	CalClient *tasks_client;
 	EvolutionImporter *importer;
-
-	GtkWidget *nb;
-	
-	ESource *primary;
-	ESourceSelector *selectors[E_CAL_SOURCE_TYPE_LAST];
-
-	ECal *client;
-	ECalSourceType source_type;
-
 	icalcomponent *icalcomp;
+	gboolean folder_contains_events;
+	gboolean folder_contains_tasks;
 } ICalImporter;
 
 typedef struct {
 	gboolean do_calendar;
 	gboolean do_tasks;
 } ICalIntelligentImporter;
-
-static const int import_type_map[] = {
-	E_CAL_SOURCE_TYPE_EVENT,
-	E_CAL_SOURCE_TYPE_TODO,
-	-1
-};
-
-static const char *import_type_strings[] = {
-	N_("Appointments and Meetings"),
-	N_("Tasks"),
-	NULL
-};
-
 
 /*
  * Functions shared by iCalendar & vCalendar importer.
@@ -89,12 +67,12 @@ static void
 importer_destroy_cb (gpointer user_data)
 {
 	ICalImporter *ici = (ICalImporter *) user_data;
-	
+
 	g_return_if_fail (ici != NULL);
-	
-	if (ici->client)
-		g_object_unref (ici->client);
-	
+
+	g_object_unref (ici->client);
+	g_object_unref (ici->tasks_client);
+
 	if (ici->icalcomp != NULL) {
 		icalcomponent_free (ici->icalcomp);
 		ici->icalcomp = NULL;
@@ -103,16 +81,56 @@ importer_destroy_cb (gpointer user_data)
 	g_free (ici);
 }
 
-/* This removes all components except VEVENTs and VTIMEZONEs from the toplevel */
-static void
-prepare_events (icalcomponent *icalcomp, GList **vtodos)
+/* This reads in an entire file and returns it. It returns NULL on error.
+   The returned string should be freed. */
+static char*
+read_file (const char *filename)
+{
+	int fd, n;
+	GString *str;
+	char buffer[2049];
+	gboolean error = FALSE;
+
+	/* read file contents */
+	fd = open (filename, O_RDONLY);
+	if (fd == -1)
+		return NULL;
+
+	str = g_string_new ("");
+	while (1) {
+		memset (buffer, 0, sizeof(buffer));
+		n = read (fd, buffer, sizeof (buffer) - 1);
+		if (n > 0) {
+			str = g_string_append (str, buffer);
+		} else if (n == 0) {
+			break;
+		} else {
+			error = TRUE;
+			break;
+		}
+	}
+
+	close (fd);
+
+	if (error) {
+		g_string_free (str, FALSE);
+		return NULL;
+	} else {
+		gchar *retval = str->str;
+		g_string_free (str, FALSE);
+		return retval;
+	}
+}
+
+/* This removes all components except VEVENTs and VTIMEZONEs from the toplevel
+   icalcomponent, and returns a GList of the VTODO components. */
+static GList*
+prepare_events (icalcomponent *icalcomp)
 {
 	icalcomponent *subcomp;
+	GList *vtodos = NULL;
 	icalcompiter iter;
 
-	if (vtodos)
-		*vtodos = NULL;
-	
 	iter = icalcomponent_begin_component (icalcomp, ICAL_ANY_COMPONENT);
 	while ((subcomp = icalcompiter_deref (&iter)) != NULL) {
 		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
@@ -122,18 +140,18 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 			icalcompiter_next (&iter);
 
 			icalcomponent_remove_component (icalcomp, subcomp);
-			if (child_kind == ICAL_VTODO_COMPONENT && vtodos)
-				*vtodos = g_list_prepend (*vtodos, subcomp);
+			if (child_kind == ICAL_VTODO_COMPONENT)
+				vtodos = g_list_prepend (vtodos, subcomp);
 			else
-                                icalcomponent_free (subcomp);
-
-			icalcomponent_free (subcomp);
+				icalcomponent_free (subcomp);
 
 			continue;
 		}
 
 		icalcompiter_next (&iter);
 	}
+
+	return vtodos;
 }
 
 
@@ -153,6 +171,7 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 		if (child_kind != ICAL_VTODO_COMPONENT
 		    && child_kind != ICAL_VTIMEZONE_COMPONENT) {
 			icalcompiter_next (&iter);
+			
 			icalcomponent_remove_component (icalcomp, subcomp);
 			icalcomponent_free (subcomp);
 
@@ -168,143 +187,6 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 	g_list_free (vtodos);
 }
 
-static gboolean
-update_single_object (ECal *client, icalcomponent *icalcomp)
-{
-	char *uid;
-	icalcomponent *tmp_icalcomp;
-
-	uid = (char *) icalcomponent_get_uid (icalcomp);
-	
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
-
-	return e_cal_create_object (client, icalcomp, &uid, NULL);	
-}
-
-static gboolean
-update_objects (ECal *client, icalcomponent *icalcomp)
-{
-	icalcomponent *subcomp;
-	icalcomponent_kind kind;
-
-	kind = icalcomponent_isa (icalcomp);
-	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
-		return update_single_object (client, icalcomp);
-	else if (kind != ICAL_VCALENDAR_COMPONENT)
-		return FALSE;
-
-	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-	while (subcomp) {
-		gboolean success;
-		
-		kind = icalcomponent_isa (subcomp);
-		if (kind == ICAL_VTIMEZONE_COMPONENT) {
-			icaltimezone *zone;
-
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
-
-			success = e_cal_add_timezone (client, zone, NULL);
-			icaltimezone_free (zone, 1);
-			if (!success)
-				return success;
-		} else if (kind == ICAL_VTODO_COMPONENT ||
-			   kind == ICAL_VEVENT_COMPONENT) {
-			success = update_single_object (client, subcomp);
-			if (!success)
-				return success;
-		}
-
-		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
-	}
-
-	return TRUE;
-}
-
-static void
-button_toggled_cb (GtkWidget *widget, gpointer data)
-{
-	ICalImporter *ici = data;
-
-	ici->source_type = e_dialog_radio_get (widget, import_type_map);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (ici->nb), ici->source_type);
-
-	/* If we switched pages we have a new primary source */
-	if (ici->primary)
-		g_object_unref (ici->primary);
-	ici->primary = g_object_ref (e_source_selector_peek_primary_selection (ici->selectors[ici->source_type]));
-}
-
-static void
-primary_selection_changed_cb (ESourceSelector *selector, gpointer data)
-{
-	ICalImporter *ici = data;
-
-	if (ici->primary)
-		g_object_unref (ici->primary);
-	ici->primary = g_object_ref (e_source_selector_peek_primary_selection (selector));
-}
-
-static void
-create_control_fn (EvolutionImporter *importer, Bonobo_Control *control, void *closure)
-{
-	ICalImporter *ici = (ICalImporter *) closure;
-	GtkWidget *vbox, *hbox, *rb = NULL;
-	GSList *group = NULL;
-	ESourceList *source_list;	
-	int i;
-	
-	vbox = gtk_vbox_new (FALSE, FALSE);
-	
-	hbox = gtk_hbox_new (FALSE, FALSE);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 6);
-
-	/* Type of icalendar items */
-	for (i = 0; import_type_map[i] != -1; i++) {
-		rb = gtk_radio_button_new_with_label (group, import_type_strings[i]);
-		gtk_box_pack_start (GTK_BOX (hbox), rb, FALSE, FALSE, 6);
-		g_signal_connect (G_OBJECT (rb), "toggled", G_CALLBACK (button_toggled_cb), ici);
-		if (!group)
-			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
-	}
-	e_dialog_radio_set (rb, import_type_map[0], import_type_map);
-	
-	/* The source selector notebook */
-	ici->nb = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (ici->nb), FALSE);
-	gtk_container_add (GTK_CONTAINER (vbox), ici->nb);
-	
-	/* The source selectors */
-	for (i = 0; import_type_map[i] != -1; i++) {
-		GtkWidget *selector;
-		ESource *primary;
-
-		/* FIXME Better error handling */
-		if (!e_cal_get_sources (&source_list, import_type_map[i], NULL))
-			return;		
-
-		selector = e_source_selector_new (source_list);
-		e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
-		gtk_notebook_append_page (GTK_NOTEBOOK (ici->nb), selector, NULL);
-
-		/* FIXME What if no sources? */
-		primary = e_source_list_peek_source_any (source_list);
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
-		if (!ici->primary)
-			ici->primary = g_object_ref (primary);
-		g_object_unref (source_list);
-		
-		g_signal_connect (G_OBJECT (selector), "primary_selection_changed",
-				  G_CALLBACK (primary_selection_changed_cb), ici);
-		
-		ici->selectors[import_type_map[i]] = E_SOURCE_SELECTOR (selector);
-	}
-
-	gtk_widget_show_all (vbox);
-	
-	*control = BONOBO_OBJREF (bonobo_control_new (vbox));
-}
 
 static void
 process_item_fn (EvolutionImporter *importer,
@@ -312,23 +194,27 @@ process_item_fn (EvolutionImporter *importer,
 		 void *closure,
 		 CORBA_Environment *ev)
 {
-	ECalLoadState state;
+	CalClientLoadState state, tasks_state;
 	ICalImporter *ici = (ICalImporter *) closure;
 	GNOME_Evolution_ImporterListener_ImporterResult result;
-	
+
 	result = GNOME_Evolution_ImporterListener_OK;
 
 	g_return_if_fail (ici != NULL);
+	g_return_if_fail (IS_CAL_CLIENT (ici->client));
 	g_return_if_fail (ici->icalcomp != NULL);
 
-	state = e_cal_get_load_state (ici->client);
-	if (state == E_CAL_LOAD_LOADING) {
+	state = cal_client_get_load_state (ici->client);
+	tasks_state = cal_client_get_load_state (ici->tasks_client);
+	if (state == CAL_CLIENT_LOAD_LOADING
+	    || tasks_state == CAL_CLIENT_LOAD_LOADING) {
 		GNOME_Evolution_ImporterListener_notifyResult (
 			listener,
 			GNOME_Evolution_ImporterListener_BUSY,
 			TRUE, ev);
 		return;
-	} else if (state != E_CAL_LOAD_LOADED) {
+	} else if (state != CAL_CLIENT_LOAD_LOADED
+		   || tasks_state != CAL_CLIENT_LOAD_LOADED) {
 		GNOME_Evolution_ImporterListener_notifyResult (
 			listener,
 			GNOME_Evolution_ImporterListener_UNSUPPORTED_OPERATION,
@@ -336,22 +222,31 @@ process_item_fn (EvolutionImporter *importer,
 		return;
 	}
 
-	switch (ici->source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-		prepare_events (ici->icalcomp, NULL);
-		if (!update_objects (ici->client, ici->icalcomp))
+	/* If the folder contains events & tasks we can just import everything
+	   into it. If it contains just events, we have to strip out the
+	   VTODOs and import them into the default tasks folder. If the folder
+	   contains just tasks, we strip out the VEVENTs, which do not get
+	   imported at all. */
+	if (ici->folder_contains_events && ici->folder_contains_tasks) {
+		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
-		break;
-	case E_CAL_SOURCE_TYPE_TODO:
+	} else if (ici->folder_contains_events) {
+		GList *vtodos = prepare_events (ici->icalcomp);
+		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+			result = GNOME_Evolution_ImporterListener_BAD_DATA;
+
+		prepare_tasks (ici->icalcomp, vtodos);
+		if (cal_client_update_objects (ici->tasks_client,
+					       ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+			result = GNOME_Evolution_ImporterListener_BAD_DATA;
+	} else {
 		prepare_tasks (ici->icalcomp, NULL);
-		if (!update_objects (ici->client, ici->icalcomp))
+		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
-		break;
-	default:
-		g_assert_not_reached ();
 	}
 
-	GNOME_Evolution_ImporterListener_notifyResult (listener, result, FALSE, ev);
+	GNOME_Evolution_ImporterListener_notifyResult (listener, result, FALSE,
+						       ev);
 }
 
 
@@ -364,15 +259,15 @@ support_format_fn (EvolutionImporter *importer,
 		   const char *filename,
 		   void *closure)
 {
-	char *contents ;
+	char *contents;
 	icalcomponent *icalcomp;
 	gboolean ret = FALSE;
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
-		/* parse the file */
-		icalcomp = icalparser_parse_string (contents);
-		g_free (contents);
+	contents = read_file (filename);
 
+	/* parse the file */
+	if (contents) {
+		icalcomp = icalparser_parse_string (contents);
 		if (icalcomp) {
 			if (icalcomponent_is_valid (icalcomp))
 				ret = TRUE;
@@ -382,41 +277,64 @@ support_format_fn (EvolutionImporter *importer,
 		}
 	}
 
+	g_free (contents);
+
 	return ret;
 }
 
 static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
+	      const char *physical_uri,
+	      const char *folder_type,
 	      void *closure)
 {
-	char *contents;
+	char *contents, *f;
 	gboolean ret = FALSE;
 	ICalImporter *ici = (ICalImporter *) closure;
 
 	g_return_val_if_fail (ici != NULL, FALSE);
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+	contents = read_file (filename);
+
+	if (!strcmp (folder_type, "calendar")) {
+		ici->folder_contains_events = TRUE;
+		ici->folder_contains_tasks = FALSE;
+
+		f = g_strdup ("calendar.ics");
+	} else {
+		ici->folder_contains_events = FALSE;
+		ici->folder_contains_tasks = TRUE;
+
+		f = g_strdup ("tasks.ics");
+	}
+
+	/* parse the file */
+	if (contents) {
 		icalcomponent *icalcomp;
 
-		/* parse the file */
 		icalcomp = icalparser_parse_string (contents);
-		g_free (contents);
-		
 		if (icalcomp) {
-			/* create the neccessary ECal */
-			if (ici->client)
-				g_object_unref (ici->client);
-			ici->client = auth_new_cal_from_source (ici->primary, ici->source_type);
+			char *real_uri;
 
-			if (ici->client) {
-				if (e_cal_open (ici->client, TRUE, NULL)) {
-					ici->icalcomp = icalcomp;
-					ret = TRUE;
-				}
+			if (!g_strncasecmp (physical_uri, "file", 4) &&
+			    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen (f)), f)) {
+				real_uri = g_concat_dir_and_file (physical_uri, f);
+			} else
+				real_uri = g_strdup (physical_uri);
+
+			if (cal_client_open_calendar (ici->client, real_uri, TRUE)
+			    && cal_client_open_default_tasks (ici->tasks_client, FALSE)) {
+				ici->icalcomp = icalcomp;
+				ret = TRUE;
 			}
+
+			g_free (real_uri);
 		}
 	}
+
+	g_free (contents);
+	g_free (f);
 
 	return ret;
 }
@@ -425,13 +343,12 @@ BonoboObject *
 ical_importer_new (void)
 {
 	ICalImporter *ici;
-	
-	ici = g_new0 (ICalImporter, 1);
 
-	ici->client = NULL;
+	ici = g_new0 (ICalImporter, 1);
+	ici->client = cal_client_new ();
+	ici->tasks_client = cal_client_new ();
 	ici->icalcomp = NULL;
-	ici->importer = evolution_importer_new (create_control_fn,
-						support_format_fn,
+	ici->importer = evolution_importer_new (support_format_fn,
 						load_file_fn,
 						process_item_fn,
 						NULL,
@@ -456,12 +373,13 @@ vcal_support_format_fn (EvolutionImporter *importer,
 	char *contents;
 	gboolean ret = FALSE;
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+	contents = read_file (filename);
+
+	/* parse the file */
+	if (contents) {
 		VObject *vcal;
 
-		/* parse the file */
 		vcal = Parse_MIME (contents, strlen (contents));
-		g_free (contents);
 
 		if (vcal) {
 			icalcomponent *icalcomp;
@@ -476,6 +394,8 @@ vcal_support_format_fn (EvolutionImporter *importer,
 			cleanVObject (vcal);
 		}
 	}
+
+	g_free (contents);
 
 	return ret;
 }
@@ -493,12 +413,13 @@ load_vcalendar_file (const char *filename)
 	defaults.alarm_audio_fmttype = "audio/x-wav";
 	defaults.alarm_description = (char*) _("Reminder!!");
 
-	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+	contents = read_file (filename);
+
+	/* parse the file */
+	if (contents) {
 		VObject *vcal;
 
-		/* parse the file */
 		vcal = Parse_MIME (contents, strlen (contents));
-		g_free (contents);
 
 		if (vcal) {
 			icalcomp = icalvcal_convert_with_defaults (vcal,
@@ -507,34 +428,57 @@ load_vcalendar_file (const char *filename)
 		}
 	}
 
+	g_free (contents);
+
 	return icalcomp;
 }
 
 static gboolean
 vcal_load_file_fn (EvolutionImporter *importer,
 		   const char *filename,
+		   const char *physical_uri,
+		   const char *folder_type,
 		   void *closure)
 {
 	gboolean ret = FALSE;
+	char *f;
 	ICalImporter *ici = (ICalImporter *) closure;
 	icalcomponent *icalcomp;
 
 	g_return_val_if_fail (ici != NULL, FALSE);
 
+	if (!strcmp (folder_type, "calendar")) {
+		ici->folder_contains_events = TRUE;
+		ici->folder_contains_tasks = FALSE;
+
+		f = g_strdup ("calendar.ics");
+	} else {
+		ici->folder_contains_events = FALSE;
+		ici->folder_contains_tasks = TRUE;
+
+		f = g_strdup ("tasks.ics");
+	}
+
 	icalcomp = load_vcalendar_file (filename);
 	if (icalcomp) {
-		/* create the neccessary ECal */
-		if (ici->client)
-			g_object_unref (ici->client);
-		ici->client = auth_new_cal_from_source (ici->primary, ici->source_type);
-		
-		if (ici->client) {
-			if (e_cal_open (ici->client, TRUE, NULL)) {
-				ici->icalcomp = icalcomp;
-				ret = TRUE;
-			}
+		char *real_uri;
+
+		if (!g_strncasecmp (physical_uri, "file", 4) &&
+		    g_strcasecmp (physical_uri + (strlen (physical_uri) - strlen (f)), f)) {
+			real_uri = g_concat_dir_and_file (physical_uri, f);
+		} else
+			real_uri = g_strdup (physical_uri);
+
+		if (cal_client_open_calendar (ici->client, real_uri, TRUE)
+		    && cal_client_open_default_tasks (ici->tasks_client, FALSE)) {
+			ici->icalcomp = icalcomp;
+			ret = TRUE;
 		}
+
+		g_free (real_uri);
 	}
+
+	g_free (f);
 
 	return ret;
 }
@@ -545,9 +489,10 @@ vcal_importer_new (void)
 	ICalImporter *ici;
 
 	ici = g_new0 (ICalImporter, 1);
+	ici->client = cal_client_new ();
+	ici->tasks_client = cal_client_new ();
 	ici->icalcomp = NULL;
-	ici->importer = evolution_importer_new (create_control_fn,
-						vcal_support_format_fn,
+	ici->importer = evolution_importer_new (vcal_support_format_fn,
 						vcal_load_file_fn,
 						process_item_fn,
 						NULL,
@@ -598,7 +543,7 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	icalcomponent *icalcomp = NULL;
 	char *filename;
 	GList *vtodos;
-	ECal *calendar_client = NULL, *tasks_client = NULL;
+	CalClient *calendar_client = NULL, *tasks_client = NULL;
 	int t;
 
 	/* If neither is selected, just return. */
@@ -608,13 +553,14 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 
 	/* Try to open the default calendar & tasks folders. */
 	if (ici->do_calendar) {
-		calendar_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_EVENT);
+		calendar_client = cal_client_new ();
+		if (!cal_client_open_default_calendar (calendar_client, FALSE))
 			goto out;
 	}
 
 	if (ici->do_tasks) {
-		tasks_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_TODO);
-		if (!tasks_client)
+		tasks_client = cal_client_new ();
+		if (!cal_client_open_default_tasks (tasks_client, FALSE))
 			goto out;
 	}
 
@@ -630,27 +576,27 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	/*
 	 * Import the calendar events into the default calendar folder.
 	 */
-	prepare_events (icalcomp, &vtodos);
+	vtodos = prepare_events (icalcomp);
 
 	/* Wait for client to finish opening the calendar & tasks folders. */
 	for (t = 0; t < IMPORTER_TIMEOUT_SECONDS; t++) {
-		ECalLoadState calendar_state, tasks_state;
+		CalClientLoadState calendar_state, tasks_state;
 
-		calendar_state = tasks_state = E_CAL_LOAD_LOADED;
+		calendar_state = tasks_state = CAL_CLIENT_LOAD_LOADED;
 
-		/* We need this so the ECal gets notified that the
+		/* We need this so the CalClient gets notified that the
 		   folder is opened, via Corba. */
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 
 		if (ici->do_calendar)
-			calendar_state = e_cal_get_load_state (calendar_client);
+			calendar_state = cal_client_get_load_state (calendar_client);
 
 		if (ici->do_tasks)
-			tasks_state = e_cal_get_load_state (tasks_client);
+			tasks_state = cal_client_get_load_state (tasks_client);
 
-		if (calendar_state == E_CAL_LOAD_LOADED
-		    && tasks_state == E_CAL_LOAD_LOADED)
+		if (calendar_state == CAL_CLIENT_LOAD_LOADED
+		    && tasks_state == CAL_CLIENT_LOAD_LOADED)
 			break;
 
 		sleep (1);
@@ -663,7 +609,7 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	/* Import the calendar events. */
 	/* FIXME: What do intelligent importers do about errors? */
 	if (ici->do_calendar)
-		update_objects (calendar_client, icalcomp);
+		cal_client_update_objects (calendar_client, icalcomp);
 
 
 	/*
@@ -671,7 +617,7 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	 */
 	prepare_tasks (icalcomp, vtodos);
 	if (ici->do_tasks)
-		update_objects (tasks_client, icalcomp);
+		cal_client_update_objects (tasks_client, icalcomp);
 
  out:
 	if (icalcomp)

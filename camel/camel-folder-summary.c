@@ -23,15 +23,15 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <pthread.h>
-#include <unistd.h>
 #include <fcntl.h>
-#include <errno.h>
+
+#include <unistd.h>
 #include <ctype.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
 
 #include <gal/util/e-iconv.h>
 
@@ -50,20 +50,24 @@
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-filter.h>
 
-#include <camel/camel-string-utils.h>
-
+#include "string-utils.h"
 #include "e-util/md5-utils.h"
 #include "e-util/e-memory.h"
 
 #include "camel-private.h"
 
+#ifdef ENABLE_THREADS
+#include <pthread.h>
 
 static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* this lock is ONLY for the standalone messageinfo stuff */
 #define GLOBAL_INFO_LOCK(i) pthread_mutex_lock(&info_lock)
 #define GLOBAL_INFO_UNLOCK(i) pthread_mutex_unlock(&info_lock)
-
+#else
+#define GLOBAL_INFO_LOCK(i) 
+#define GLOBAL_INFO_UNLOCK(i) 
+#endif
 
 /* this should probably be conditional on it existing */
 #define USE_BSEARCH
@@ -75,7 +79,7 @@ static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (13)
+#define CAMEL_FOLDER_SUMMARY_VERSION (12)
 
 #define _PRIVATE(o) (((CamelFolderSummary *)(o))->priv)
 
@@ -90,14 +94,14 @@ static int my_list_size(struct _node **list);
 static int summary_header_load(CamelFolderSummary *, FILE *);
 static int summary_header_save(CamelFolderSummary *, FILE *);
 
-static CamelMessageInfo * message_info_new(CamelFolderSummary *, struct _camel_header_raw *);
+static CamelMessageInfo * message_info_new(CamelFolderSummary *, struct _header_raw *);
 static CamelMessageInfo * message_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
 static CamelMessageInfo * message_info_new_from_message(CamelFolderSummary *s, CamelMimeMessage *msg);
 static CamelMessageInfo * message_info_load(CamelFolderSummary *, FILE *);
 static int		  message_info_save(CamelFolderSummary *, FILE *, CamelMessageInfo *);
 static void		  message_info_free(CamelFolderSummary *, CamelMessageInfo *);
 
-static CamelMessageContentInfo * content_info_new(CamelFolderSummary *, struct _camel_header_raw *);
+static CamelMessageContentInfo * content_info_new(CamelFolderSummary *, struct _header_raw *);
 static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
 static CamelMessageContentInfo * content_info_new_from_message(CamelFolderSummary *s, CamelMimePart *mp);
 static CamelMessageContentInfo * content_info_load(CamelFolderSummary *, FILE *);
@@ -147,7 +151,7 @@ camel_folder_summary_init (CamelFolderSummary *s)
 
 	p = _PRIVATE(s) = g_malloc0(sizeof(*p));
 
-	p->filter_charset = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+	p->filter_charset = g_hash_table_new(g_strcase_hash, g_strcase_equal);
 
 	s->message_info_size = sizeof(CamelMessageInfo);
 	s->content_info_size = sizeof(CamelMessageContentInfo);
@@ -166,12 +170,14 @@ camel_folder_summary_init (CamelFolderSummary *s)
 
 	s->messages = g_ptr_array_new();
 	s->messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
-	
+
+#ifdef ENABLE_THREADS
 	p->summary_lock = g_mutex_new();
 	p->io_lock = g_mutex_new();
 	p->filter_lock = g_mutex_new();
 	p->alloc_lock = g_mutex_new();
 	p->ref_lock = g_mutex_new();
+#endif
 }
 
 static void free_o_name(void *key, void *value, void *data)
@@ -219,13 +225,15 @@ camel_folder_summary_finalize (CamelObject *obj)
 		camel_object_unref((CamelObject *)p->filter_stream);
 	if (p->index)
 		camel_object_unref((CamelObject *)p->index);
-	
+
+#ifdef ENABLE_THREADS
 	g_mutex_free(p->summary_lock);
 	g_mutex_free(p->io_lock);
 	g_mutex_free(p->filter_lock);
 	g_mutex_free(p->alloc_lock);
 	g_mutex_free(p->ref_lock);
-	
+#endif
+
 	g_free(p);
 }
 
@@ -810,7 +818,7 @@ void camel_folder_summary_add(CamelFolderSummary *s, CamelMessageInfo *info)
  * 
  * Return value: The newly added record.
  **/
-CamelMessageInfo *camel_folder_summary_add_from_header(CamelFolderSummary *s, struct _camel_header_raw *h)
+CamelMessageInfo *camel_folder_summary_add_from_header(CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageInfo *info = camel_folder_summary_info_new_from_header(s, h);
 
@@ -869,7 +877,7 @@ CamelMessageInfo *camel_folder_summary_add_from_message(CamelFolderSummary *s, C
  * Return value: Guess?  This info record MUST be freed using
  * camel_folder_summary_info_free(), camel_message_info_free() will not work.
  **/
-CamelMessageInfo *camel_folder_summary_info_new_from_header(CamelFolderSummary *s, struct _camel_header_raw *h)
+CamelMessageInfo *camel_folder_summary_info_new_from_header(CamelFolderSummary *s, struct _header_raw *h)
 {
 	return ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s))) -> message_info_new(s, h);
 }
@@ -907,7 +915,7 @@ CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *
 	/* should this check the parser is in the right state, or assume it is?? */
 
 	start = camel_mime_parser_tell(mp);
-	if (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_EOF) {
+	if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_EOF) {
 		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new_from_parser(s, mp);
 
 		camel_mime_parser_unstep(mp);
@@ -1403,81 +1411,45 @@ my_list_size(struct _node **list)
 static int
 summary_header_load(CamelFolderSummary *s, FILE *in)
 {
+	gint32 version, flags, nextuid, count;
+	time_t time;
+
 	fseek(in, 0, SEEK_SET);
 
 	io(printf("Loading header\n"));
 
-	if (camel_file_util_decode_fixed_int32(in, &s->version) == -1)
+	if (camel_file_util_decode_fixed_int32(in, &version) == -1
+	    || camel_file_util_decode_fixed_int32(in, &flags) == -1
+	    || camel_file_util_decode_fixed_int32(in, &nextuid) == -1
+	    || camel_file_util_decode_time_t(in, &time) == -1
+	    || camel_file_util_decode_fixed_int32(in, &count) == -1) {
 		return -1;
+	}
 
-	/* Legacy version check, before version 12 we have no upgrade knowledge */
-	if ((s->version > 0xff) && (s->version & 0xff) < 12) {
-		io(printf ("Summary header version mismatch"));
+	s->nextuid = nextuid;
+	s->flags = flags;
+	s->time = time;
+	s->saved_count = count;
+	if (s->version != version) {
+		d(printf ("Summary header version mismatch"));
 		errno = EINVAL;
 		return -1;
 	}
-
-	if (!(s->version < 0x100 && s->version >= 13))
-		io(printf("Loading legacy summary\n"));
-	else
-		io(printf("loading new-format summary\n"));
-
-	/* legacy version */
-	if (camel_file_util_decode_fixed_int32(in, &s->flags) == -1
-	    || camel_file_util_decode_fixed_int32(in, &s->nextuid) == -1
-	    || camel_file_util_decode_time_t(in, &s->time) == -1
-	    || camel_file_util_decode_fixed_int32(in, &s->saved_count) == -1) {
-		return -1;
-	}
-
-	/* version 13 */
-	if (s->version < 0x100 && s->version >= 13
-	    && (camel_file_util_decode_fixed_int32(in, &s->unread_count) == -1
-		|| camel_file_util_decode_fixed_int32(in, &s->deleted_count) == -1
-		|| camel_file_util_decode_fixed_int32(in, &s->junk_count) == -1)) {
-		return -1;
-	}
-
 	return 0;
 }
 
 static int
 summary_header_save(CamelFolderSummary *s, FILE *out)
 {
-	int unread = 0, deleted = 0, junk = 0, count, i;
-
 	fseek(out, 0, SEEK_SET);
 
 	io(printf("Savining header\n"));
 
-	/* we always write out the current version */
-	camel_file_util_encode_fixed_int32(out, CAMEL_FOLDER_SUMMARY_VERSION);
+	camel_file_util_encode_fixed_int32(out, s->version);
 	camel_file_util_encode_fixed_int32(out, s->flags);
 	camel_file_util_encode_fixed_int32(out, s->nextuid);
 	camel_file_util_encode_time_t(out, s->time);
-
-	count = camel_folder_summary_count(s);
-	for (i=0; i<count; i++) {
-		CamelMessageInfo *info = camel_folder_summary_index(s, i);
-
-		if (info == NULL)
-			continue;
-
-		if ((info->flags & CAMEL_MESSAGE_SEEN) == 0)
-			unread++;
-		if ((info->flags & CAMEL_MESSAGE_DELETED) != 0)
-			deleted++;
-		if ((info->flags & CAMEL_MESSAGE_JUNK) != 0)
-			junk++;
-
-		camel_folder_summary_info_free(s, info);
-	}
-
-	camel_file_util_encode_fixed_int32(out, count);
-	camel_file_util_encode_fixed_int32(out, unread);
-	camel_file_util_encode_fixed_int32(out, deleted);
-
-	return camel_file_util_encode_fixed_int32(out, junk);
+	return camel_file_util_encode_fixed_int32(out, camel_folder_summary_count(s));
 }
 
 /* are these even useful for anything??? */
@@ -1488,9 +1460,9 @@ static CamelMessageInfo * message_info_new_from_parser(CamelFolderSummary *s, Ca
 
 	state = camel_mime_parser_state(mp);
 	switch (state) {
-	case CAMEL_MIME_PARSER_STATE_HEADER:
-	case CAMEL_MIME_PARSER_STATE_MESSAGE:
-	case CAMEL_MIME_PARSER_STATE_MULTIPART:
+	case HSCAN_HEADER:
+	case HSCAN_MESSAGE:
+	case HSCAN_MULTIPART:
 		mi = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new(s, camel_mime_parser_headers_raw(mp));
 		break;
 	default:
@@ -1505,13 +1477,13 @@ static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary
 	CamelMessageContentInfo *ci = NULL;
 
 	switch (camel_mime_parser_state(mp)) {
-	case CAMEL_MIME_PARSER_STATE_HEADER:
-	case CAMEL_MIME_PARSER_STATE_MESSAGE:
-	case CAMEL_MIME_PARSER_STATE_MULTIPART:
+	case HSCAN_HEADER:
+	case HSCAN_MESSAGE:
+	case HSCAN_MULTIPART:
 		ci = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new(s, camel_mime_parser_headers_raw(mp));
 		if (ci) {
 			ci->type = camel_mime_parser_content_type(mp);
-			camel_content_type_ref(ci->type);
+			header_content_type_ref(ci->type);
 		}
 		break;
 	default:
@@ -1540,17 +1512,17 @@ static CamelMessageContentInfo * content_info_new_from_message(CamelFolderSummar
 }
 
 static char *
-summary_format_address(struct _camel_header_raw *h, const char *name, const char *charset)
+summary_format_address(struct _header_raw *h, const char *name, const char *charset)
 {
-	struct _camel_header_address *addr;
+	struct _header_address *addr;
 	const char *text;
 	char *ret;
 
-	text = camel_header_raw_find (&h, name, NULL);
-	addr = camel_header_address_decode (text, charset);
+	text = header_raw_find (&h, name, NULL);
+	addr = header_address_decode (text, charset);
 	if (addr) {
-		ret = camel_header_address_list_format (addr);
-		camel_header_address_list_clear (&addr);
+		ret = header_address_list_format (addr);
+		header_address_list_clear (&addr);
 	} else {
 		ret = g_strdup (text);
 	}
@@ -1559,15 +1531,15 @@ summary_format_address(struct _camel_header_raw *h, const char *name, const char
 }
 
 static char *
-summary_format_string (struct _camel_header_raw *h, const char *name, const char *charset)
+summary_format_string (struct _header_raw *h, const char *name, const char *charset)
 {
 	const char *text;
 	
-	text = camel_header_raw_find (&h, name, NULL);
+	text = header_raw_find (&h, name, NULL);
 	if (text) {
 		while (isspace ((unsigned) *text))
 			text++;
-		return camel_header_decode_string (text, charset);
+		return header_decode_string (text, charset);
 	} else {
 		return NULL;
 	}
@@ -1629,23 +1601,23 @@ camel_folder_summary_content_info_new(CamelFolderSummary *s)
 }
 
 static CamelMessageInfo *
-message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
+message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageInfo *mi;
 	const char *received;
 	guchar digest[16];
-	struct _camel_header_references *refs, *irt, *scan;
+	struct _header_references *refs, *irt, *scan;
 	char *msgid;
 	int count;
 	char *subject, *from, *to, *cc, *mlist;
-	CamelContentType *ct = NULL;
+	struct _header_content_type *ct = NULL;
 	const char *content, *charset = NULL;
 
 	mi = camel_folder_summary_info_new(s);
 
-	if ((content = camel_header_raw_find(&h, "Content-Type", NULL))
-	     && (ct = camel_content_type_decode(content))
-	     && (charset = camel_content_type_param(ct, "charset"))
+	if ((content = header_raw_find(&h, "Content-Type", NULL))
+	     && (ct = header_content_type_decode(content))
+	     && (charset = header_content_type_param(ct, "charset"))
 	     && (strcasecmp(charset, "us-ascii") == 0))
 		charset = NULL;
 	
@@ -1655,10 +1627,10 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 	from = summary_format_address(h, "from", charset);
 	to = summary_format_address(h, "to", charset);
 	cc = summary_format_address(h, "cc", charset);
-	mlist = camel_header_raw_check_mailing_list(&h);
+	mlist = header_raw_check_mailing_list(&h);
 
 	if (ct)
-		camel_content_type_unref(ct);
+		header_content_type_unref(ct);
 
 #ifdef DOEPOOLV
 	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject, TRUE);
@@ -1682,16 +1654,16 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 
 	mi->user_flags = NULL;
 	mi->user_tags = NULL;
-	mi->date_sent = camel_header_decode_date(camel_header_raw_find(&h, "date", NULL), NULL);
-	received = camel_header_raw_find(&h, "received", NULL);
+	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
+	received = header_raw_find(&h, "received", NULL);
 	if (received)
 		received = strrchr(received, ';');
 	if (received)
-		mi->date_received = camel_header_decode_date(received + 1, NULL);
+		mi->date_received = header_decode_date(received + 1, NULL);
 	else
 		mi->date_received = 0;
 
-	msgid = camel_header_msgid_decode(camel_header_raw_find(&h, "message-id", NULL));
+	msgid = header_msgid_decode(header_raw_find(&h, "message-id", NULL));
 	if (msgid) {
 		md5_get_digest(msgid, strlen(msgid), digest);
 		memcpy(mi->message_id.id.hash, digest, sizeof(mi->message_id.id.hash));
@@ -1699,8 +1671,8 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 	}
 	
 	/* decode our references and in-reply-to headers */
-	refs = camel_header_references_decode (camel_header_raw_find (&h, "references", NULL));
-	irt = camel_header_references_inreplyto_decode (camel_header_raw_find (&h, "in-reply-to", NULL));
+	refs = header_references_decode (header_raw_find (&h, "references", NULL));
+	irt = header_references_inreplyto_decode (header_raw_find (&h, "in-reply-to", NULL));
 	if (refs || irt) {
 		if (irt) {
 			/* The References field is populated from the ``References'' and/or ``In-Reply-To''
@@ -1713,7 +1685,7 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 			refs = irt;
 		}
 		
-		count = camel_header_references_list_size(&refs);
+		count = header_references_list_size(&refs);
 		mi->references = g_malloc(sizeof(*mi->references) + ((count-1) * sizeof(mi->references->references[0])));
 		count = 0;
 		scan = refs;
@@ -1724,7 +1696,7 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 			scan = scan->next;
 		}
 		mi->references->size = count;
-		camel_header_references_list_clear(&refs);
+		header_references_list_clear(&refs);
 	}
 
 	return mi;
@@ -1903,7 +1875,7 @@ message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 }
 
 static CamelMessageContentInfo *
-content_info_new (CamelFolderSummary *s, struct _camel_header_raw *h)
+content_info_new (CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageContentInfo *ci;
 	const char *charset;
@@ -1911,9 +1883,9 @@ content_info_new (CamelFolderSummary *s, struct _camel_header_raw *h)
 	ci = camel_folder_summary_content_info_new (s);
 	
 	charset = e_iconv_locale_charset ();
-	ci->id = camel_header_msgid_decode (camel_header_raw_find (&h, "content-id", NULL));
-	ci->description = camel_header_decode_string (camel_header_raw_find (&h, "content-description", NULL), NULL);
-	ci->encoding = camel_content_transfer_encoding_decode (camel_header_raw_find (&h, "content-transfer-encoding", NULL));
+	ci->id = header_msgid_decode (header_raw_find (&h, "content-id", NULL));
+	ci->description = header_decode_string (header_raw_find (&h, "content-description", NULL), NULL);
+	ci->encoding = header_content_encoding_decode (header_raw_find (&h, "content-transfer-encoding", NULL));
 	
 	return ci;
 }
@@ -1924,7 +1896,7 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	CamelMessageContentInfo *ci;
 	char *type, *subtype;
 	guint32 count, i;
-	CamelContentType *ct;
+	struct _header_content_type *ct;
 
 	io(printf("Loading content info\n"));
 
@@ -1932,7 +1904,7 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	
 	camel_folder_summary_decode_token(in, &type);
 	camel_folder_summary_decode_token(in, &subtype);
-	ct = camel_content_type_new(type, subtype);
+	ct = header_content_type_new(type, subtype);
 	g_free(type);		/* can this be removed? */
 	g_free(subtype);
 	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
@@ -1945,7 +1917,7 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 		if (!(name && value))
 			goto error;
 		
-		camel_content_type_set_param(ct, name, value);
+		header_content_type_set_param(ct, name, value);
 		/* TODO: do this so we dont have to double alloc/free */
 		g_free(name);
 		g_free(value);
@@ -1971,8 +1943,8 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 static int
 content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentInfo *ci)
 {
-	CamelContentType *ct;
-	struct _camel_header_param *hp;
+	struct _header_content_type *ct;
+	struct _header_param *hp;
 
 	io(printf("Saving content info\n"));
 
@@ -2001,7 +1973,7 @@ content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentInfo *ci)
 static void
 content_info_free(CamelFolderSummary *s, CamelMessageContentInfo *ci)
 {
-	camel_content_type_unref(ci->type);
+	header_content_type_unref(ci->type);
 	g_free(ci->id);
 	g_free(ci->description);
 	g_free(ci->encoding);
@@ -2028,7 +2000,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 	size_t len;
 	char *buffer;
 	CamelMessageContentInfo *info = NULL;
-	CamelContentType *ct;
+	struct _header_content_type *ct;
 	int body;
 	int enc_id = -1, chr_id = -1, html_id = -1, idx_id = -1;
 	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
@@ -2045,20 +2017,20 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new_from_parser(s, mp);
 
 	switch(state) {
-	case CAMEL_MIME_PARSER_STATE_HEADER:
+	case HSCAN_HEADER:
 		/* check content type for indexing, then read body */
 		ct = camel_mime_parser_content_type(mp);
 		/* update attachments flag as we go */
-		if (!camel_content_type_is(ct, "text", "*"))
+		if (!header_content_type_is(ct, "text", "*"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
 
-		if (p->index && camel_content_type_is(ct, "text", "*")) {
+		if (p->index && header_content_type_is(ct, "text", "*")) {
 			char *encoding;
 			const char *charset;
 
 			d(printf("generating index:\n"));
 			
-			encoding = camel_content_transfer_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
+			encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 			if (encoding) {
 				if (!strcasecmp(encoding, "base64")) {
 					d(printf(" decoding base64\n"));
@@ -2087,7 +2059,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 				g_free(encoding);
 			}
 
-			charset = camel_content_type_param(ct, "charset");
+			charset = header_content_type_param(ct, "charset");
 			if (charset!=NULL
 			    && !(strcasecmp(charset, "us-ascii")==0
 				 || strcasecmp(charset, "utf-8")==0)) {
@@ -2109,7 +2081,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 
 			/* we do charset conversions before this filter, which isn't strictly correct,
 			   but works in most cases */
-			if (camel_content_type_is(ct, "text", "html")) {
+			if (header_content_type_is(ct, "text", "html")) {
 				if (p->filter_html == NULL)
 					p->filter_html = camel_mime_filter_html_new();
 				else
@@ -2121,7 +2093,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 			idx_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_index);
 		}
 		/* and scan/index everything */
-		while (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_BODY_END)
+		while (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_BODY_END)
 			;
 		/* and remove the filters */
 		camel_mime_parser_filter_remove(mp, enc_id);
@@ -2129,14 +2101,14 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		camel_mime_parser_filter_remove(mp, html_id);
 		camel_mime_parser_filter_remove(mp, idx_id);
 		break;
-	case CAMEL_MIME_PARSER_STATE_MULTIPART:
+	case HSCAN_MULTIPART:
 		d(printf("Summarising multipart\n"));
 		/* update attachments flag as we go */
 		ct = camel_mime_parser_content_type(mp);
-		if (camel_content_type_is(ct, "multipart", "mixed"))
+		if (header_content_type_is(ct, "multipart", "mixed"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
 
-		while (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_MULTIPART_END) {
+		while (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_MULTIPART_END) {
 			camel_mime_parser_unstep(mp);
 			part = summary_build_content_info(s, msginfo, mp);
 			if (part) {
@@ -2145,7 +2117,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 			}
 		}
 		break;
-	case CAMEL_MIME_PARSER_STATE_MESSAGE:
+	case HSCAN_MESSAGE:
 		d(printf("Summarising message\n"));
 		/* update attachments flag as we go */
 		msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
@@ -2156,7 +2128,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 			my_list_append((struct _node **)&info->childs, (struct _node *)part);
 		}
 		state = camel_mime_parser_step(mp, &buffer, &len);
-		if (state != CAMEL_MIME_PARSER_STATE_MESSAGE_END) {
+		if (state != HSCAN_MESSAGE_END) {
 			g_error("Bad parser state: Expecing MESSAGE_END or MESSAGE_EOF, got: %d", state);
 			camel_mime_parser_unstep(mp);
 		}
@@ -2190,10 +2162,10 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 	   add a reference, probably need fixing for multithreading */
 
 	/* check for attachments */
-	if (camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "*")) {
-		if (camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "mixed"))
+	if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "*")) {
+		if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "multipart", "mixed"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
-	} else if (!camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*"))
+	} else if (!header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*"))
 		msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
 
 	/* using the object types is more accurate than using the mime/types */
@@ -2216,11 +2188,11 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 			my_list_append((struct _node **)&info->childs, (struct _node *)child);
 		}
 	} else if (p->filter_stream
-		   && camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
+		   && header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
 		int html_id = -1, idx_id = -1;
 
 		/* pre-attach html filter if required, otherwise just index filter */
-		if (camel_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "html")) {
+		if (header_content_type_is(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "html")) {
 			if (p->filter_html == NULL)
 				p->filter_html = camel_mime_filter_html_new();
 			else
@@ -2229,7 +2201,7 @@ summary_build_content_info_message(CamelFolderSummary *s, CamelMessageInfo *msgi
 		}
 		idx_id = camel_stream_filter_add(p->filter_stream, (CamelMimeFilter *)p->filter_index);
 
-		camel_data_wrapper_decode_to_stream(containee, (CamelStream *)p->filter_stream);
+		camel_data_wrapper_write_to_stream(containee, (CamelStream *)p->filter_stream);
 		camel_stream_flush((CamelStream *)p->filter_stream);
 
 		camel_stream_filter_remove(p->filter_stream, idx_id);
@@ -2539,7 +2511,6 @@ struct flag_names_t {
 	{ "flagged", CAMEL_MESSAGE_FLAGGED },
 	{ "seen", CAMEL_MESSAGE_SEEN },
 	{ "attachments", CAMEL_MESSAGE_ATTACHMENTS },
-	{ "junk", CAMEL_MESSAGE_JUNK },
 	{ NULL, 0 }
 };
 
@@ -2625,16 +2596,16 @@ void camel_message_info_ref(CamelMessageInfo *info)
  * Returns a new CamelMessageInfo structure populated by the header.
  **/
 CamelMessageInfo *
-camel_message_info_new_from_header (struct _camel_header_raw *header)
+camel_message_info_new_from_header (struct _header_raw *header)
 {
 	CamelMessageInfo *info;
 	char *subject, *from, *to, *cc, *mlist;
-	CamelContentType *ct = NULL;
+	struct _header_content_type *ct = NULL;
 	const char *content, *date, *charset = NULL;
 	
-	if ((content = camel_header_raw_find(&header, "Content-Type", NULL))
-	    && (ct = camel_content_type_decode(content))
-	    && (charset = camel_content_type_param(ct, "charset"))
+	if ((content = header_raw_find(&header, "Content-Type", NULL))
+	    && (ct = header_content_type_decode(content))
+	    && (charset = header_content_type_param(ct, "charset"))
 	    && (strcasecmp(charset, "us-ascii") == 0))
 		charset = NULL;
 	
@@ -2644,11 +2615,11 @@ camel_message_info_new_from_header (struct _camel_header_raw *header)
 	from = summary_format_address(header, "from", charset);
 	to = summary_format_address(header, "to", charset);
 	cc = summary_format_address(header, "cc", charset);
-	date = camel_header_raw_find(&header, "date", NULL);
-	mlist = camel_header_raw_check_mailing_list(&header);
+	date = header_raw_find(&header, "date", NULL);
+	mlist = header_raw_check_mailing_list(&header);
 
 	if (ct)
-		camel_content_type_unref(ct);
+		header_content_type_unref(ct);
 
 	info = camel_message_info_new();
 
@@ -2659,16 +2630,16 @@ camel_message_info_new_from_header (struct _camel_header_raw *header)
 	camel_message_info_set_mlist(info, mlist);
 	
 	if (date)
-		info->date_sent = camel_header_decode_date (date, NULL);
+		info->date_sent = header_decode_date (date, NULL);
 	else
 		info->date_sent = time (NULL);
 	
-	date = camel_header_raw_find (&header, "received", NULL);
+	date = header_raw_find (&header, "received", NULL);
 	if (date && (date = strrchr (date, ';')))
 		date++;
 	
 	if (date)
-		info->date_received = camel_header_decode_date (date, NULL);
+		info->date_received = header_decode_date (date, NULL);
 	else
 		info->date_received = time (NULL);
 	

@@ -30,12 +30,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include "camel/camel-store.h"
 #include "camel/camel-folder.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
+#include "evolution-storage.h"	/*EvolutionStorage */
 #include "e-util/e-msgport.h"
 #include "e-util/e-account.h"
 
@@ -78,10 +78,8 @@ void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
 			    void *data);
 
 void mail_sync_folder (CamelFolder *folder,
-		       void (*done) (CamelFolder *folder, void *data), void *data);
-
-void mail_sync_store(CamelStore *store, int expunge,
-		     void (*done) (CamelStore *store, void *data), void *data);
+		       void (*done) (CamelFolder *folder, void *data),
+		       void *data);
 
 void mail_refresh_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, void *data),
@@ -124,6 +122,13 @@ int mail_send_mail (const char *uri, CamelMimeMessage *message,
 		    void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data),
 		    void *data);
 
+/* scan subfolders and add them to the storage, synchronous */
+/* FIXME: Move this to component-factory.c */
+void mail_scan_subfolders (CamelStore *store, EvolutionStorage *storage);
+/* not sure about this one though */
+int mail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
+			    void (*done)(CamelStore *, void *data),
+			    void *data);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void mail_send_queue (CamelFolder *queue, const char *destination,
@@ -144,9 +149,8 @@ void mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 			 const char *type, gboolean notify,
 			 CamelOperation *cancel);
 
-/* convenience functions for above */
+/* convenience function for above */
 void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);
-void mail_filter_junk (CamelFolder *folder, GPtrArray *uids);
 
 /* Work Offline */
 void mail_prep_offline(const char *uri, CamelOperation *cancel,
@@ -158,8 +162,6 @@ int mail_store_set_offline(CamelStore *store, gboolean offline,
 
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, void *data);
-
-void mail_mark_junk(CamelFolder *folder, GPtrArray *uids, int junk);
 
 #ifdef __cplusplus
 }

@@ -54,7 +54,7 @@ static void pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex
 static gint pop3_get_message_count (CamelFolder *folder);
 static GPtrArray *pop3_get_uids (CamelFolder *folder);
 static CamelMimeMessage *pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex);
-static gboolean pop3_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static void pop3_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 
 static void
 camel_pop3_folder_class_init (CamelPOP3FolderClass *camel_pop3_folder_class)
@@ -145,7 +145,7 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	CamelPOP3FolderInfo *fi = data;
 	MD5Context md5;
 	unsigned char digest[16];
-	struct _camel_header_raw *h;
+	struct _header_raw *h;
 	CamelMimeParser *mp;
 
 	/* TODO; somehow work out the limit and use that for proper progress reporting
@@ -156,9 +156,9 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	mp = camel_mime_parser_new();
 	camel_mime_parser_init_with_stream(mp, (CamelStream *)stream);
 	switch (camel_mime_parser_step(mp, NULL, NULL)) {
-	case CAMEL_MIME_PARSER_STATE_HEADER:
-	case CAMEL_MIME_PARSER_STATE_MESSAGE:
-	case CAMEL_MIME_PARSER_STATE_MULTIPART:
+	case HSCAN_HEADER:
+	case HSCAN_MESSAGE:
+	case HSCAN_MULTIPART:
 		h = camel_mime_parser_headers_raw(mp);
 		while (h) {
 			if (strcasecmp(h->name, "status") != 0
@@ -173,7 +173,7 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	}
 	camel_object_unref(mp);
 	md5_final(&md5, digest);
-	fi->uid = camel_base64_encode_simple(digest, 16);
+	fi->uid = base64_encode_simple(digest, 16);
 
 	d(printf("building uid for id '%d' = '%s'\n", fi->id, fi->uid));
 }
@@ -522,24 +522,15 @@ fail:
 	return message;
 }
 
-static gboolean
+static void
 pop3_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	CamelPOP3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
 	CamelPOP3FolderInfo *fi;
-	gboolean res = FALSE;
 
 	fi = g_hash_table_lookup(pop3_folder->uids_uid, uid);
-	if (fi) {
-		guint32 new = (fi->flags & ~flags) | (set & flags);
-
-		if (fi->flags != new) {
-			fi->flags = new;
-			res = TRUE;
-		}
-	}
-
-	return res;
+	if (fi)
+		fi->flags = (fi->flags & ~flags) | (set & flags);
 }
 
 static gint

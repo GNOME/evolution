@@ -35,6 +35,7 @@
 #include <gtk/gtksignal.h>
 #include <gnome.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include "e-timezone-entry.h"
 
@@ -68,8 +69,6 @@ static void e_timezone_entry_class_init	(ETimezoneEntryClass	*class);
 static void e_timezone_entry_init	(ETimezoneEntry	*tentry);
 static void e_timezone_entry_destroy	(GtkObject	*object);
 
-static gboolean e_timezone_entry_mnemonic_activate (GtkWidget *widget,
-                                                    gboolean   group_cycling);
 static void on_entry_changed		(GtkEntry	*entry,
 					 ETimezoneEntry *tentry);
 static void on_button_clicked		(GtkWidget	*widget,
@@ -88,13 +87,11 @@ static void
 e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) class;
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class) ;
- 
+
 	object_class = (GtkObjectClass*) class;
 
 	parent_class = g_type_class_peek_parent (class);
 
-	widget_class->mnemonic_activate = e_timezone_entry_mnemonic_activate;
 	timezone_entry_signals[CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
@@ -160,8 +157,6 @@ e_timezone_entry_new			(void)
 	ETimezoneEntry *tentry;
 
 	tentry = g_object_new (e_timezone_entry_get_type (), NULL);
-
-	GTK_WIDGET_SET_FLAGS (GTK_WIDGET(tentry), GTK_CAN_FOCUS);
 
 	return GTK_WIDGET (tentry);
 }
@@ -300,21 +295,5 @@ e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 		gtk_widget_hide (priv->entry);
 
 	g_free (name_buffer);
-}
-
-
-static gboolean
-e_timezone_entry_mnemonic_activate (GtkWidget *widget,
-                                    gboolean   group_cycling)
-{
-        GtkButton *button = NULL;
-                                                                                                
-        if (GTK_WIDGET_CAN_FOCUS (widget)) {
-                button = GTK_BUTTON (((ETimezoneEntryPrivate *) ((ETimezoneEntry *) widget)->priv)->button);
-                if (button != NULL)
-                        gtk_widget_grab_focus (GTK_WIDGET (button));
-        }
-                                                                                                
-        return TRUE;
 }
 

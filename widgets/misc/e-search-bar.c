@@ -556,7 +556,6 @@ setup_bonobo_menus (ESearchBar *esb)
 	g_string_append (xml, "</placeholder>");
 	g_string_append (xml, "</submenu>");
 	
-	remove_bonobo_menus (esb);
 	bonobo_ui_component_set (esb->ui_component, "/menu/SearchPlaceholder", xml->str, NULL);
 
 	g_string_free (xml, TRUE);
@@ -568,7 +567,7 @@ remove_bonobo_menus (ESearchBar *esb)
 	if (bonobo_ui_component_get_container (esb->ui_component) == CORBA_OBJECT_NIL)
 		return;
 
-	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder", NULL);
+	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder/Search", NULL);
 }
 
 static void

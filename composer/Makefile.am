@@ -41,8 +41,6 @@ INCLUDES =								\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/widgets						\
 	-I$(top_builddir)/widgets					\
-	-I$(top_srcdir)/widgets/misc					\
-	-I$(top_builddir)/widgets/misc					\
 	-I$(top_srcdir)/camel					 	\
 	-I$(top_builddir)/camel					 	\
 	-I$(top_srcdir)/addressbook/backend				\

@@ -341,6 +341,7 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 	int retval;
 	
 	retval = gethostbyaddr_r (addr, addrlen, type, host, buf, buflen, &hp, herr);
+	
 	if (hp != NULL) {
 		*herr = 0;
 		retval = 0;

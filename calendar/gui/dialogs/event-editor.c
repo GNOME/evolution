@@ -26,7 +26,7 @@
 #include <config.h>
 #include <string.h>
 #include <glade/glade.h>
-#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 #include <widgets/misc/e-dateedit.h>
 
@@ -45,7 +45,7 @@ struct _EventEditorPrivate {
 	MeetingPage *meet_page;
 	SchedulePage *sched_page;
 
-	EMeetingStore *model;
+	EMeetingModel *model;
 	
 	gboolean meeting_shown;
 	gboolean updating;	
@@ -55,9 +55,9 @@ struct _EventEditorPrivate {
 
 static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
-static void event_editor_set_e_cal (CompEditor *editor, ECal *client);
-static void event_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
-static gboolean event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method);
+static void event_editor_set_cal_client (CompEditor *editor, CalClient *client);
+static void event_editor_edit_comp (CompEditor *editor, CalComponent *comp);
+static gboolean event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void event_editor_finalize (GObject *object);
 
 static void schedule_meeting_cmd (GtkWidget *widget, gpointer data);
@@ -65,8 +65,8 @@ static void refresh_meeting_cmd (GtkWidget *widget, gpointer data);
 static void cancel_meeting_cmd (GtkWidget *widget, gpointer data);
 static void forward_cmd (GtkWidget *widget, gpointer data);
 
-static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
-static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
+static void model_row_changed_cb (ETableModel *etm, int row, gpointer data);
+static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
 
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "schedule-meeting-24.png"),
@@ -110,7 +110,7 @@ event_editor_class_init (EventEditorClass *klass)
 
 	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
 
-	editor_class->set_e_cal = event_editor_set_e_cal;
+	editor_class->set_cal_client = event_editor_set_cal_client;
 	editor_class->edit_comp = event_editor_edit_comp;
 	editor_class->send_comp = event_editor_send_comp;
 	
@@ -121,14 +121,13 @@ static void
 set_menu_sens (EventEditor *ee) 
 {
 	EventEditorPrivate *priv;
-	gboolean sens, existing, user, read_only = TRUE;
+	gboolean sens, existing, user, read_only;
 	
 	priv = ee->priv;
 
 	existing = comp_editor_get_existing_org (COMP_EDITOR (ee));
 	user = comp_editor_get_user_org (COMP_EDITOR (ee));
-	
-	e_cal_is_read_only (comp_editor_get_e_cal (COMP_EDITOR (ee)), &read_only, NULL);
+	read_only = cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (ee)));
 
 	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
@@ -163,12 +162,12 @@ init_widgets (EventEditor *ee)
 
 	priv = ee->priv;
 
-	g_signal_connect((priv->model), "row_changed",
-			    G_CALLBACK (model_row_change_insert_cb), ee);
-	g_signal_connect((priv->model), "row_inserted",
-			    G_CALLBACK (model_row_change_insert_cb), ee);
-	g_signal_connect((priv->model), "row_deleted",
-			    G_CALLBACK (model_row_delete_cb), ee);
+	g_signal_connect((priv->model), "model_row_changed",
+			    G_CALLBACK (model_row_changed_cb), ee);
+	g_signal_connect((priv->model), "model_rows_inserted",
+			    G_CALLBACK (row_count_changed_cb), ee);
+	g_signal_connect((priv->model), "model_rows_deleted",
+			    G_CALLBACK (row_count_changed_cb), ee);
 }
 
 /* Object initialization function for the event editor */
@@ -180,13 +179,13 @@ event_editor_init (EventEditor *ee)
 	priv = g_new0 (EventEditorPrivate, 1);
 	ee->priv = priv;
 
-	priv->model = E_MEETING_STORE (e_meeting_store_new ());
+	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
 	priv->meeting_shown = TRUE;
 	priv->updating = FALSE;	
 }
 
 EventEditor *
-event_editor_construct (EventEditor *ee, ECal *client)
+event_editor_construct (EventEditor *ee, CalClient *client)
 {
 	EventEditorPrivate *priv;
 
@@ -227,19 +226,18 @@ event_editor_construct (EventEditor *ee, ECal *client)
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));
 
-	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
+	comp_editor_set_cal_client (COMP_EDITOR (ee), client);
 
  	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs, pixmaps);
 
 	init_widgets (ee);
 	set_menu_sens (ee);	
-	gtk_window_set_default_size (GTK_WINDOW (ee), 300, 225);
 
 	return ee;
 }
 
 static void
-event_editor_set_e_cal (CompEditor *editor, ECal *client)
+event_editor_set_cal_client (CompEditor *editor, CalClient *client)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
@@ -247,19 +245,19 @@ event_editor_set_e_cal (CompEditor *editor, ECal *client)
 	ee = EVENT_EDITOR (editor);
 	priv = ee->priv;
 
-	e_meeting_store_set_e_cal (priv->model, client);
+	e_meeting_model_set_cal_client (priv->model, client);
 	
-	if (parent_class->set_e_cal)
-		parent_class->set_e_cal (editor, client);	
+	if (parent_class->set_cal_client)
+		parent_class->set_cal_client (editor, client);	
 }
 
 static void
-event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
+event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
-	ECalComponentOrganizer organizer;
-	ECal *client;
+	CalComponentOrganizer organizer;
+	CalClient *client;
 	GSList *attendees = NULL;
 	
 	ee = EVENT_EDITOR (editor);
@@ -270,14 +268,14 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	if (parent_class->edit_comp)
 		parent_class->edit_comp (editor, comp);
 
-	client = comp_editor_get_e_cal (COMP_EDITOR (editor));
+	client = comp_editor_get_cal_client (COMP_EDITOR (editor));
 
 	/* Get meeting related stuff */
-	e_cal_component_get_organizer (comp, &organizer);
-	e_cal_component_get_attendee_list (comp, &attendees);
+	cal_component_get_organizer (comp, &organizer);
+	cal_component_get_attendee_list (comp, &attendees);
 
 	/* Clear things up */
-	e_meeting_store_remove_all_attendees (priv->model);
+	e_meeting_model_remove_all_attendees (priv->model);
 
 	/* Set up the attendees */
 	if (attendees == NULL) {
@@ -298,15 +296,15 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		}
 	
 		for (l = attendees; l != NULL; l = l->next) {
-			ECalComponentAttendee *ca = l->data;
+			CalComponentAttendee *ca = l->data;
 			EMeetingAttendee *ia;
 
-			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (ca));
+			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
 
 			/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
 			if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
 				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
-			e_meeting_store_add_attendee (priv->model, ia);
+			e_meeting_model_add_attendee (priv->model, ia);
 
 			g_object_unref(ia);
 		}
@@ -323,22 +321,22 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 				account = (EAccount*)e_iterator_get(it);
 
-				ia = e_meeting_store_find_attendee (priv->model, account->id->address, &row);
+				ia = e_meeting_model_find_attendee (priv->model, account->id->address, &row);
 				if (ia != NULL)
 					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 			}
 			g_object_unref(it);
-		} else if (e_cal_get_organizer_must_attend (client)) {
+		} else if (cal_client_get_organizer_must_attend (client)) {
 			EMeetingAttendee *ia;
 
-			ia = e_meeting_store_find_attendee (priv->model, organizer.value, &row);
+			ia = e_meeting_model_find_attendee (priv->model, organizer.value, &row);
 			if (ia != NULL)
 				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
 		
 		priv->meeting_shown = TRUE;
 	}	
-	e_cal_component_free_attendee_list (attendees);
+	cal_component_free_attendee_list (attendees);
 
 	set_menu_sens (ee);
 	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && itip_organizer_is_user (comp, client));
@@ -347,27 +345,27 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 }
 
 static gboolean
-event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
+event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	EventEditor *ee = EVENT_EDITOR (editor);
 	EventEditorPrivate *priv;
-	ECalComponent *comp = NULL;
+	CalComponent *comp = NULL;
 
 	priv = ee->priv;
 
 	/* Don't cancel more than once or when just publishing */
-	if (method == E_CAL_COMPONENT_METHOD_PUBLISH ||
-	    method == E_CAL_COMPONENT_METHOD_CANCEL)
+	if (method == CAL_COMPONENT_METHOD_PUBLISH ||
+	    method == CAL_COMPONENT_METHOD_CANCEL)
 		goto parent;
 	
 	comp = meeting_page_get_cancel_comp (priv->meet_page);
 	if (comp != NULL) {
-		ECal *client;
+		CalClient *client;
 		gboolean result;
 		
-		client = e_meeting_store_get_e_cal (priv->model);
-		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
-		g_object_unref (comp);
+		client = e_meeting_model_get_cal_client (priv->model);
+		result = itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
+		g_object_unref((comp));
 
 		if (!result)
 			return FALSE;
@@ -393,11 +391,11 @@ event_editor_finalize (GObject *object)
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
 
-	g_object_unref (priv->event_page);
-	g_object_unref (priv->alarm_page);
-	g_object_unref (priv->recur_page);
-	g_object_unref (priv->meet_page);
-	g_object_unref (priv->sched_page);
+	g_object_unref((priv->event_page));
+	g_object_unref((priv->alarm_page));
+	g_object_unref((priv->recur_page));
+	g_object_unref((priv->meet_page));
+	g_object_unref((priv->sched_page));
 
 	g_object_unref (priv->model);
 
@@ -409,7 +407,7 @@ event_editor_finalize (GObject *object)
 
 /**
  * event_editor_new:
- * @client: a ECal
+ * @client: a CalClient
  *
  * Creates a new event editor dialog.
  *
@@ -417,7 +415,7 @@ event_editor_finalize (GObject *object)
  * editor could not be created.
  **/
 EventEditor *
-event_editor_new (ECal *client)
+event_editor_new (CalClient *client)
 {
 	EventEditor *ee;
 
@@ -473,19 +471,19 @@ refresh_meeting_cmd (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
 	
-	comp_editor_send_comp (COMP_EDITOR (ee), E_CAL_COMPONENT_METHOD_REFRESH);
+	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_REFRESH);
 }
 
 static void
 cancel_meeting_cmd (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
-	ECalComponent *comp;
+	CalComponent *comp;
 	
 	comp = comp_editor_get_current_comp (COMP_EDITOR (ee));
 	if (cancel_component_dialog ((GtkWindow *) ee,
-				     comp_editor_get_e_cal (COMP_EDITOR (ee)), comp, FALSE)) {
-		comp_editor_send_comp (COMP_EDITOR (ee), E_CAL_COMPONENT_METHOD_CANCEL);
+				     comp_editor_get_cal_client (COMP_EDITOR (ee)), comp, FALSE)) {
+		comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_CANCEL);
 		comp_editor_delete_comp (COMP_EDITOR (ee));
 	}
 }
@@ -496,27 +494,33 @@ forward_cmd (GtkWidget *widget, gpointer data)
 	EventEditor *ee = EVENT_EDITOR (data);
 
 	if (comp_editor_save_comp (COMP_EDITOR (ee), TRUE))
-		comp_editor_send_comp (COMP_EDITOR (ee), E_CAL_COMPONENT_METHOD_PUBLISH);
+		comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_PUBLISH);
 }
 
 static void
-model_changed (EventEditor *ee)
+model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 {
-	if (!ee->priv->updating) {
+	EventEditor *ee = EVENT_EDITOR (data);
+	EventEditorPrivate *priv;
+	
+	priv = ee->priv;
+	
+	if (!priv->updating) {
 		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), TRUE);
 	}
 }
 
 static void
-model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
 {
-	model_changed (EVENT_EDITOR (data));
+	EventEditor *ee = EVENT_EDITOR (data);
+	EventEditorPrivate *priv;
+	
+	priv = ee->priv;
+	
+	if (!priv->updating) {
+		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
+		comp_editor_set_needs_send (COMP_EDITOR (ee), TRUE);
+	}
 }
-
-static void
-model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data)
-{
-	model_changed (EVENT_EDITOR (data));
-}
-

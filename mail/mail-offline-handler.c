@@ -27,18 +27,13 @@
 #endif
 
 #include "mail-offline-handler.h"
-#include "mail-component.h"
+#include "mail.h"
 #include "mail-ops.h"
 #include "mail-folder-cache.h"
-#include "em-folder-tree.h"
-
-#include <camel/camel-disco-store.h>
-#include "mail-session.h"
 
 #include <gtk/gtkmain.h>
 
 #include <gal/util/e-util.h>
-
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -50,7 +45,8 @@ struct _MailOfflineHandlerPrivate {
 static gboolean
 service_is_relevant (CamelService *service, gboolean going_offline)
 {
-	if (!(service->provider->flags & CAMEL_PROVIDER_IS_REMOTE))
+	if (!(service->provider->flags & CAMEL_PROVIDER_IS_REMOTE) ||
+	    (service->provider->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return FALSE;
 
 	if (CAMEL_IS_DISCO_STORE (service) &&
@@ -61,7 +57,7 @@ service_is_relevant (CamelService *service, gboolean going_offline)
 }
 
 static void
-add_connection (gpointer key, gpointer value, gpointer user_data)
+add_connection (gpointer key, gpointer data, gpointer user_data)
 {
 	CamelService *service = key;
 	GNOME_Evolution_ConnectionList *list = user_data;
@@ -81,11 +77,11 @@ create_connection_list (void)
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
-	list->_maximum = mail_component_get_store_count (mail_component_peek ());
+	list->_maximum = mail_storages_count ();
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (list->_maximum);
-	
-	mail_component_stores_foreach (mail_component_peek (), add_connection, list);
-	
+
+	mail_storages_foreach (add_connection, list);
+
 	return list;
 }
 
@@ -116,11 +112,106 @@ impl_prepareForOffline (PortableServer_Servant servant,
 struct _sync_info {
 	char *uri;		/* uri of folder being synced */
 	CamelOperation *cancel;	/* progress report/cancellation object */
+	GNOME_Evolution_SyncFolderProgressListener listener;
 	int pc;			/* percent complete (0-100) */
 	int lastpc;		/* last percent reported, so we dont overreport */
 	int id;			/* timeout id */
 	GHashTable *table;      /* the hashtable that we're registered in */
 };
+
+static void
+impl_cancelSyncFolder (PortableServer_Servant servant,
+		       const GNOME_Evolution_Folder *folder,
+		       CORBA_Environment *ev)
+{
+	MailOfflineHandler *offline_handler;
+	MailOfflineHandlerPrivate *priv;
+	struct _sync_info *info;
+
+	offline_handler = MAIL_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
+	priv = offline_handler->priv;
+
+	info = g_hash_table_lookup(priv->sync_table, folder->physicalUri);
+	if (info)
+		camel_operation_cancel(info->cancel);
+	else
+		g_warning("Shell tried to cancel sync of '%s': no such folder", folder->physicalUri);
+}
+
+static int sync_timeout(struct _sync_info *info)
+{
+	CORBA_Environment ev;
+
+	if (info->pc != info->lastpc) {
+		CORBA_exception_init(&ev);
+		GNOME_Evolution_SyncFolderProgressListener_updateProgress(info->listener, info->pc/100.0, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning("Error updating offline progress");
+		CORBA_exception_free(&ev);
+		info->lastpc = info->pc;
+	}
+
+	return TRUE;
+}
+
+static void sync_status(CamelOperation *op, const char *what, int pc, void *data)
+{
+	struct _sync_info *info = data;
+
+	if (pc == CAMEL_OPERATION_START)
+		pc = 0;
+	else if (pc == CAMEL_OPERATION_END)
+		pc = 100;
+
+	info->pc = pc;
+}
+
+static void
+sync_done(const char *uri, void *crap)
+{
+	CORBA_Environment ev;
+	struct _sync_info *info = crap;
+
+	g_source_remove(info->id);
+
+	CORBA_exception_init(&ev);
+	GNOME_Evolution_SyncFolderProgressListener_reportSuccess(info->listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning("Error sending offline completion: hang likely");
+	CORBA_Object_release(info->listener, &ev);
+	CORBA_exception_free(&ev);
+
+	g_hash_table_remove (info->table, info->uri);
+	g_free(info->uri);
+	camel_operation_unref(info->cancel);
+	g_free(info);
+}
+
+static void
+impl_syncFolder (PortableServer_Servant servant,
+		 const GNOME_Evolution_Folder *folder,
+		 const GNOME_Evolution_SyncFolderProgressListener progress_listener,
+		 CORBA_Environment *ev)
+{
+	MailOfflineHandler *offline_handler;
+	MailOfflineHandlerPrivate *priv;
+	struct _sync_info *info;
+
+	offline_handler = MAIL_OFFLINE_HANDLER(bonobo_object_from_servant (servant));
+	priv = offline_handler->priv;
+
+	info = g_malloc(sizeof(*info));
+	info->listener = CORBA_Object_duplicate(progress_listener, ev);
+	info->pc = 0;
+	info->uri = g_strdup(folder->physicalUri);
+	info->id = g_timeout_add(500, (GSourceFunc)sync_timeout, info);
+	info->cancel = camel_operation_new(sync_status, info);
+	info->table = priv->sync_table;
+
+	g_hash_table_insert(priv->sync_table, info->uri, info);
+
+	mail_prep_offline(info->uri, info->cancel, sync_done, info);
+}
 
 static void
 went_offline (CamelStore *store, void *data)
@@ -142,12 +233,12 @@ went_offline (CamelStore *store, void *data)
 }
 
 static void
-store_go_offline (gpointer key, gpointer value, gpointer data)
+storage_go_offline (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
 	GNOME_Evolution_OfflineProgressListener listener = data;
 	CORBA_Environment ev;
-	
+
 	CORBA_exception_init(&ev);
 	if (service_is_relevant (CAMEL_SERVICE (store), TRUE)) {
 		mail_store_set_offline (store, TRUE, went_offline, CORBA_Object_duplicate(listener, &ev));
@@ -169,19 +260,18 @@ impl_goOffline (PortableServer_Servant servant,
 
 	/* FIXME: If send/receive active, wait for it to finish */
 
-	mail_component_stores_foreach (mail_component_peek (), store_go_offline, progress_listener);
+	mail_storages_foreach (storage_go_offline, progress_listener);
 }
 
 static void
-store_go_online (gpointer key, gpointer value, gpointer data)
+storage_go_online (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
-	char *name = value;
 
 	if (service_is_relevant (CAMEL_SERVICE (store), FALSE)) {
 		mail_store_set_offline (store, FALSE, NULL, NULL);
-		em_folder_tree_model_add_store(mail_component_peek_tree_model(mail_component_peek()), store, name);
-		mail_note_store (store, NULL, NULL, NULL);
+		mail_note_store (store, NULL, NULL, CORBA_OBJECT_NIL,
+				 NULL, NULL);
 	}
 }
 
@@ -191,14 +281,14 @@ impl_goOnline (PortableServer_Servant servant,
 {
 	MailOfflineHandler *offline_handler;
 	MailOfflineHandlerPrivate *priv;
-	
+
 	offline_handler = MAIL_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
-	
+
 	/* Enable auto-mail-checking */
 	camel_session_set_online (session, TRUE);
-	
-	mail_component_stores_foreach (mail_component_peek (), store_go_online, NULL);
+
+	mail_storages_foreach (storage_go_online, NULL);
 }
 
 /* GObject methods.  */
@@ -232,6 +322,8 @@ mail_offline_handler_class_init (MailOfflineHandlerClass *klass)
 	epv = & klass->epv;
 	epv->_get_isOffline    = impl__get_isOffline;
 	epv->prepareForOffline = impl_prepareForOffline;
+	epv->syncFolder        = impl_syncFolder;
+	epv->cancelSyncFolder  = impl_cancelSyncFolder;
 	epv->goOffline         = impl_goOffline;
 	epv->goOnline          = impl_goOnline;
 

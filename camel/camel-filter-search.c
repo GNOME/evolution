@@ -91,7 +91,6 @@ static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpR
 static ESExpResult *header_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
-static ESExpResult *junk_test (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -120,7 +119,6 @@ static struct {
 	{ "header-source",      (ESExpFunc *) header_source,      0 },
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
 	{ "pipe-message",       (ESExpFunc *) pipe_message,       0 },
-	{ "junk-test",          (ESExpFunc *) junk_test,          0 },
 };
 
 
@@ -165,7 +163,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 			else {
 				ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
 				if (ct) {
-					charset = camel_content_type_param (ct, "charset");
+					charset = header_content_type_param (ct, "charset");
 					charset = e_iconv_charset_name (charset);
 				}
 			}
@@ -264,7 +262,7 @@ get_full_header (CamelMimeMessage *message)
 	CamelMimePart *mp = CAMEL_MIME_PART (message);
 	GString *str = g_string_new ("");
 	char   *ret;
-	struct _camel_header_raw *h;
+	struct _header_raw *h;
 	
 	for (h = mp->headers; h; h = h->next) {
 		if (h->value != NULL) {
@@ -463,7 +461,7 @@ header_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 	}
 
 	if (src
-	    && (provider = camel_provider_get(src, NULL))
+	    && (provider = camel_session_get_provider(fms->session, src, NULL))
 	    && provider->url_equal) {
 		uria = camel_url_new(src, NULL);
 		if (uria) {
@@ -530,8 +528,12 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 		setsid ();
 		
 		maxfd = sysconf (_SC_OPEN_MAX);
-		for (fd = 3; fd < maxfd; fd++)
-			fcntl (fd, F_SETFD, FD_CLOEXEC);
+		if (maxfd > 0) {
+			for (fd = 0; fd < maxfd; fd++) {
+				if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
+					fcntl (fd, F_SETFD, FD_CLOEXEC);
+			}
+		}
 		
 		args = g_ptr_array_new ();
 		for (i = 0; i < argc; i++)
@@ -553,13 +555,15 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	
 	/* parent process */
 	close (in_fds[0]);
+	fcntl (in_fds[1], F_SETFL, O_NONBLOCK);
+	
+	stream = camel_stream_fs_new_with_fd (in_fds[1]);
 	
 	message = camel_filter_search_get_message (fms, f);
 	
-	stream = camel_stream_fs_new_with_fd (in_fds[1]);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 	camel_stream_flush (stream);
-	camel_object_unref (stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	result = waitpid (pid, &status, 0);
 	
@@ -605,23 +609,6 @@ pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 	return r;
 }
 
-static ESExpResult *
-junk_test (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
-{
-	ESExpResult *r;
-	gboolean retval = FALSE;
-
-	if (fms->session->junk_plugin != NULL) {
-		retval = camel_junk_plugin_check_junk (fms->session->junk_plugin, camel_filter_search_get_message (fms, f));
-		
-		printf("junk filter => %s\n", retval ? "*JUNK*" : "clean");
-	}
-
-	r = e_sexp_result_new (f, ESEXP_RES_BOOL);
-	r->value.number = retval;
-
-	return r;
-}
 
 /**
  * camel_filter_search_match:
@@ -689,13 +676,13 @@ camel_filter_search_match (CamelSession *session,
 	e_sexp_unref (sexp);
 	
 	if (fms.message)
-		camel_object_unref (fms.message);
+		camel_object_unref (CAMEL_OBJECT (fms.message));
 	
 	return retval;
 	
  error:
 	if (fms.message)
-		camel_object_unref (fms.message);
+		camel_object_unref (CAMEL_OBJECT (fms.message));
 	
 	e_sexp_unref (sexp);
 	

@@ -26,6 +26,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/widgets/e-unicode.h>
 #include "../calendar-config.h"
 #include "delete-comp.h"
 
@@ -54,9 +55,9 @@
  * unconditionally return TRUE.
  **/
 gboolean
-delete_component_dialog (ECalComponent *comp,
+delete_component_dialog (CalComponent *comp,
 			 gboolean consider_as_untitled,
-			 int n_comps, ECalComponentVType vtype,
+			 int n_comps, CalComponentVType vtype,
 			 GtkWidget *widget)
 {
 	char *str;
@@ -64,11 +65,11 @@ delete_component_dialog (ECalComponent *comp,
 	int ret;
 
 	if (comp) {
-		g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
+		g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
 		g_return_val_if_fail (n_comps == 1, FALSE);
 	} else {
 		g_return_val_if_fail (n_comps > 1, FALSE);
-		g_return_val_if_fail (vtype != E_CAL_COMPONENT_NO_TYPE, FALSE);
+		g_return_val_if_fail (vtype != CAL_COMPONENT_NO_TYPE, FALSE);
 	}
 
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -78,19 +79,19 @@ delete_component_dialog (ECalComponent *comp,
 		return TRUE;
 
 	if (comp) {
-		ECalComponentText summary;
+		CalComponentText summary;
 		char *tmp;
 
-		vtype = e_cal_component_get_vtype (comp);
+		vtype = cal_component_get_vtype (comp);
 
 		if (!consider_as_untitled) {
-			e_cal_component_get_summary (comp, &summary);
+			cal_component_get_summary (comp, &summary);
 			tmp = g_strdup (summary.value);
 		} else
 			tmp = NULL;
 
 		switch (vtype) {
-		case E_CAL_COMPONENT_EVENT:
+		case CAL_COMPONENT_EVENT:
 			if (tmp)
 				str = g_strdup_printf (_("Are you sure you want to delete "
 							 "the appointment `%s'?"), tmp);
@@ -99,7 +100,7 @@ delete_component_dialog (ECalComponent *comp,
 						  "untitled appointment?"));
 			break;
 
-		case E_CAL_COMPONENT_TODO:
+		case CAL_COMPONENT_TODO:
 			if (tmp)
 				str = g_strdup_printf (_("Are you sure you want to delete "
 							 "the task `%s'?"), tmp);
@@ -108,7 +109,7 @@ delete_component_dialog (ECalComponent *comp,
 						  "untitled task?"));
 			break;
 
-		case E_CAL_COMPONENT_JOURNAL:
+		case CAL_COMPONENT_JOURNAL:
 			if (tmp)
 				str = g_strdup_printf (_("Are you sure you want to delete "
 							 "the journal entry `%s'?"), tmp);
@@ -127,17 +128,17 @@ delete_component_dialog (ECalComponent *comp,
 		g_free (tmp);
 	} else {
 		switch (vtype) {
-		case E_CAL_COMPONENT_EVENT:
+		case CAL_COMPONENT_EVENT:
 			str = g_strdup_printf (_("Are you sure you want to delete "
 						 "%d appointments?"), n_comps);
 			break;
 
-		case E_CAL_COMPONENT_TODO:
+		case CAL_COMPONENT_TODO:
 			str = g_strdup_printf (_("Are you sure you want to delete "
 						 "%d tasks?"), n_comps);
 			break;
 
-		case E_CAL_COMPONENT_JOURNAL:
+		case CAL_COMPONENT_JOURNAL:
 			str = g_strdup_printf (_("Are you sure you want to delete "
 						 "%d journal entries?"), n_comps);
 			break;
@@ -149,11 +150,10 @@ delete_component_dialog (ECalComponent *comp,
 		}
 	}
 
-	dialog = gtk_message_dialog_new ((GtkWindow *)gtk_widget_get_toplevel (widget),
-					 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s", str);
-	gtk_dialog_add_buttons ((GtkDialog *) dialog, GTK_STOCK_NO, GTK_RESPONSE_CANCEL, GTK_STOCK_YES, GTK_RESPONSE_OK, NULL);
+	dialog = gtk_message_dialog_new (gtk_widget_get_toplevel (widget),
+					 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", str);
 	g_free (str);
-	ret = gtk_dialog_run ((GtkDialog *) dialog) == GTK_RESPONSE_OK;
+	ret = gtk_dialog_run ((GtkDialog *)dialog) == GTK_RESPONSE_YES;
 	gtk_widget_destroy (dialog);
 
 	return ret;

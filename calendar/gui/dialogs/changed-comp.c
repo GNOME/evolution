@@ -26,6 +26,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <gal/widgets/e-unicode.h>
 #include "changed-comp.h"
 
 
@@ -43,26 +44,26 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean deleted, gboolean changed)
+changed_component_dialog (GtkWindow *parent, CalComponent *comp, gboolean deleted, gboolean changed)
 {
 	GtkWidget *dialog;
-	ECalComponentVType vtype;
+	CalComponentVType vtype;
 	char *str;
 	gint response;
 
-	vtype = e_cal_component_get_vtype (comp);
+	vtype = cal_component_get_vtype (comp);
 
 	if (deleted) {
 		switch (vtype) {
-		case E_CAL_COMPONENT_EVENT:
+		case CAL_COMPONENT_EVENT:
 			str = _("This event has been deleted.");
 			break;
 
-		case E_CAL_COMPONENT_TODO:
+		case CAL_COMPONENT_TODO:
 			str = _("This task has been deleted.");
 			break;
 
-		case E_CAL_COMPONENT_JOURNAL:
+		case CAL_COMPONENT_JOURNAL:
 			str = _("This journal entry has been deleted.");
 			break;
 
@@ -78,15 +79,15 @@ changed_component_dialog (GtkWindow *parent, ECalComponent *comp, gboolean delet
 
 	} else {
 		switch (vtype) {
-		case E_CAL_COMPONENT_EVENT:
+		case CAL_COMPONENT_EVENT:
 			str = _("This event has been changed.");
 			break;
 
-		case E_CAL_COMPONENT_TODO:
+		case CAL_COMPONENT_TODO:
 			str = _("This task has been changed.");
 			break;
 
-		case E_CAL_COMPONENT_JOURNAL:
+		case CAL_COMPONENT_JOURNAL:
 			str = _("This journal entry has been changed.");
 			break;
 

@@ -1,0 +1,14 @@
+2004-02-23  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: don't dist the corba sources
+
+2003-09-09  egallego@telefonica.net
+
+	Fixes #46130
+
+	* Evolution-Wombat.idl: base interfaces on Bonobo::Unknown.
+
+2003-06-16  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* Makefile.am:
+	Add missing skel/stub to BUILD_SOURCES (bug #44717).

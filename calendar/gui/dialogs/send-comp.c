@@ -26,6 +26,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <gal/widgets/e-unicode.h>
 #include "send-comp.h"
 
 
@@ -39,20 +40,20 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new)
+send_component_dialog (GtkWindow *parent, CalClient *client, CalComponent *comp, gboolean new)
 {
 	GtkWidget *dialog;
-	ECalComponentVType vtype;
+	CalComponentVType vtype;
 	char *str;
 	gint response;
 
-	if (e_cal_get_save_schedules (client))
+	if (cal_client_get_save_schedules (client))
 		return FALSE;
 	
-	vtype = e_cal_component_get_vtype (comp);
+	vtype = cal_component_get_vtype (comp);
 
 	switch (vtype) {
-	case E_CAL_COMPONENT_EVENT:
+	case CAL_COMPONENT_EVENT:
 		if (new)
 			str = g_strdup_printf (_("The meeting information has "
 						 "been created. Send it?"));
@@ -62,7 +63,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 						 "version?"));
 		break;
 
-	case E_CAL_COMPONENT_TODO:
+	case CAL_COMPONENT_TODO:
 		if (new)
 			str = g_strdup_printf (_("The task assignment "
 						 "information has been "
