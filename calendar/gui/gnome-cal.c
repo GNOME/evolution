@@ -656,6 +656,7 @@ update_query (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
+	e_calendar_view_set_status_message (priv->views[priv->current_view_type], _("Updating query"));
 	e_calendar_item_clear_marks (priv->date_navigator->calitem);
 
 	/* free the previous queries */
@@ -676,6 +677,7 @@ update_query (GnomeCalendar *gcal)
 
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
+		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
 		return; /* No time range is set, so don't start a query */
 	}
 
@@ -707,7 +709,7 @@ update_query (GnomeCalendar *gcal)
 	}
 
 	g_free (real_sexp);
-	
+	e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
 	update_todo_view (gcal);
 }
 
@@ -1857,16 +1859,22 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
-
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
-	
+
+	if (source_type == E_CAL_SOURCE_TYPE_EVENT)
+		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
+	else
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
+
 	if (status != E_CALENDAR_STATUS_OK) {
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
 		
 		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
+		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, gcal);
+
 		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
@@ -1879,7 +1887,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	e_cal_set_default_timezone (ecal, priv->zone, NULL);
 
 	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
+	case E_CAL_SOURCE_TYPE_EVENT :
 		msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));
 		e_calendar_view_set_status_message (priv->views[priv->current_view_type], msg);
 		g_free (msg);
@@ -1898,7 +1906,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		e_calendar_view_set_status_message (priv->views[priv->current_view_type], NULL);
 		break;
 		
-	case E_CAL_SOURCE_TYPE_TODO:
+	case E_CAL_SOURCE_TYPE_TODO :
 		msg = g_strdup_printf (_("Loading tasks at %s"), e_cal_get_uri (ecal));
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
 		g_free (msg);
@@ -1922,8 +1930,16 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists)
 
 	priv = gcal->priv;
 	
-	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));	
-	e_calendar_view_set_status_message (priv->views[priv->current_view_type], msg);
+	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
+	switch (e_cal_get_source_type (cal)) {
+	case E_CAL_SOURCE_TYPE_EVENT :
+		e_calendar_view_set_status_message (priv->views[priv->current_view_type], msg);
+		break;
+	case E_CAL_SOURCE_TYPE_TODO :
+		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), msg);
+		break;
+	}
+
 	g_free (msg);
 
 	g_signal_connect (G_OBJECT (cal), "cal_opened", G_CALLBACK (client_cal_opened_cb), gcal);
@@ -2285,6 +2301,8 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 			e_cal_model_remove_client (model, client);
 		}
 
+		/* update date navigator query */
+		update_query (gcal);
 		break;
 		
 	case E_CAL_SOURCE_TYPE_TODO:
@@ -2298,9 +2316,6 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 	}
 	
 	g_hash_table_remove (priv->clients[source_type], uid);
-
-	/* update date navigator query */
-        update_query (gcal);
 
 	return TRUE;
 }

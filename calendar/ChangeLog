@@ -1,3 +1,18 @@
+2004-06-07  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-tasks.c (e_tasks_add_todo_source): open task lists
+	asynchronously.
+	(client_cal_opened_cb): callback from the client when opened.
+
+	* gui/gnome-cal.c (client_cal_opened_cb): disconnect from all
+	signals of the client when opening it fails. Clean up the status
+	messages correctly, based on source type.
+	(open_ecal): for tasks, use e_calendar_table_set_status_message
+	not e_calendar_view_set_status_message.
+	(gnome_calendar_remove_source_by_uid): call update_query only when
+	removing calendars, not tasks lists.
+	(update_query): set meaningful status messages.
+
 2004-06-06 Vardhman Jain <vardhman@students.iiit.net>
 
 	* Bug #36247
