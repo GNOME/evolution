@@ -168,12 +168,13 @@ pipe_to_sa_with_error (CamelMimeMessage *msg, const char *in, char **argv, int r
 		
 		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (msg), stream);
 		camel_stream_flush (stream);
+		camel_stream_close (stream);
 		camel_object_unref (stream);
 	} else if (in) {
 		camel_write (fds[1], in, strlen (in));
-		close (fds[1]);
 	}
 	
+	close (fds[1]);
 	result = waitpid (pid, &status, 0);
 	
 	if (result == -1 && errno == EINTR) {
