@@ -1,5 +1,10 @@
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit.c (pre_sync): Don't fail if there
+	is no map file.
+
+2000-09-20  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/todo/todo-conduit.h: Add since field to context
 
 	* conduits/todo/todo-conduit.c (map_set_node_timet): New utility

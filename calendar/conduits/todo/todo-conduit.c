@@ -88,6 +88,8 @@ static char *print_local (EToDoLocalRecord *local)
 		return buff;
 	}
 
+	return "";
+	
 	return cal_component_get_as_string (local->comp);
 }
 
@@ -486,8 +488,8 @@ comp_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 		comp = cal_component_clone (in_comp);
 	}
 
-  	LOG ("        comp_from_remote_record: " 
-  	     "merging remote %s into local %s\n", 
+ 	LOG ("        comp_from_remote_record: "
+ 	     "merging remote %s into local %s\n", 
   	     print_remote (remote), cal_component_get_as_string (comp));
 
 	cal_component_set_last_modified (comp, &now);
@@ -604,12 +606,15 @@ pre_sync (GnomePilotConduit *conduit,
 	
 	/* Load the uid <--> pilot id mapping */
 	ctxt->map = g_hash_table_new (g_int_hash, g_int_equal);
-	memset (&handler, 0, sizeof (xmlSAXHandler));
-	handler.startElement = map_sax_start_element;
 
 	filename = map_name (ctxt);
-	if (xmlSAXUserParseFile (&handler, ctxt, filename) < 0)
-		return -1;
+	if (g_file_exists (filename)) {
+		memset (&handler, 0, sizeof (xmlSAXHandler));
+		handler.startElement = map_sax_start_element;
+		
+		if (xmlSAXUserParseFile (&handler, ctxt, filename) < 0)
+			return -1;
+	}
 	
 	g_free (filename);
 
@@ -689,11 +694,12 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		status = CAL_CLIENT_LOAD_ERROR;
 	
 	if (status != CAL_CLIENT_GET_SUCCESS) {
+		LOG ("  new record being created\n");
 		comp = comp_from_remote_record (conduit, remote, NULL);
 	} else {
 		CalComponent *new_comp;
 
-		LOG ("succeeded %s\n", cal_component_get_as_string (comp));
+		LOG ("  record found\n");
 
 		new_comp = comp_from_remote_record (conduit, remote, comp);
 		gtk_object_unref (GTK_OBJECT (comp));
@@ -735,6 +741,8 @@ match_record (GnomePilotConduitStandardAbs *conduit,
 	if (!uid)
 		return -1;
 
+	LOG ("  matched\n");
+	
 	*local = g_new0 (EToDoLocalRecord, 1);
 	local_record_from_uid (*local, uid, ctxt);
 	
