@@ -175,7 +175,6 @@ setup_service_optmenu(EContactEditorIm *editor)
 	GtkWidget *item;
 	GtkWidget *label;
 	GtkWidget *image;
-	GdkPixbuf *pixbuf;
 	GtkSizeGroup *sg;
 	int i;
 
@@ -196,15 +195,7 @@ setup_service_optmenu(EContactEditorIm *editor)
 		gtk_container_add(GTK_CONTAINER(item), hbox);
 		gtk_widget_show(hbox);
 
-		pixbuf = e_icon_factory_get_icon (im_images[i], E_ICON_SIZE_MENU);
-
-		if (pixbuf != NULL) {
-			image = gtk_image_new_from_pixbuf(pixbuf);
-
-			g_object_unref(G_OBJECT(pixbuf));
-		}
-		else
-			image = gtk_image_new();
+		image = e_icon_factory_get_image (im_images[i], E_ICON_SIZE_MENU);
 
 		gtk_size_group_add_widget(sg, image);
 

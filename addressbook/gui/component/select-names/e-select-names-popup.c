@@ -192,7 +192,6 @@ toggle_html_mail_cb (GtkWidget *w, gpointer user_data)
 static void
 populate_popup_contact (GtkWidget *pop, gboolean list, PopupInfo *info)
 {
-	GdkPixbuf *pixbuf;
 	GtkWidget *image;
 	EContact *contact;
 	GtkWidget *menuitem;
@@ -291,9 +290,7 @@ populate_popup_contact (GtkWidget *pop, gboolean list, PopupInfo *info)
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (pop), menuitem);
 
-	pixbuf = e_icon_factory_get_icon (list ? LIST_ICON_NAME : CONTACT_ICON_NAME, E_ICON_SIZE_MENU);
-	image = gtk_image_new_from_pixbuf (pixbuf);
-	g_object_unref (pixbuf);
+	image = e_icon_factory_get_image (list ? LIST_ICON_NAME : CONTACT_ICON_NAME, E_ICON_SIZE_MENU);
 	gtk_widget_show (image);
 	menuitem = gtk_image_menu_item_new_with_label (e_destination_get_name (info->dest));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),

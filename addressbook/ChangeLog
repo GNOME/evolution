@@ -1,3 +1,11 @@
+2004-11-26  JP Rosevear  <jpr@novell.com>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(populate_popup_contact): get image directly from icon factory
+
+	* gui/contact-editor/e-contact-editor-im.c
+	(setup_service_optmenu): ditto
+	
 2004-11-25  Hao Sheng  <hao.sheng@sun.com>
 
 	* gui/contact-editor/contact-editor.glade:
