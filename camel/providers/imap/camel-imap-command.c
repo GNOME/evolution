@@ -40,36 +40,34 @@
 #include "camel-imap-private.h"
 #include <camel/camel-exception.h>
 
+static gboolean imap_command_start (CamelImapStore *store, CamelFolder *folder,
+				    const char *cmd, CamelException *ex);
+CamelImapResponse *imap_read_response (CamelImapStore *store,
+				       CamelException *ex);
 static char *imap_read_untagged (CamelImapStore *store, char *line,
 				 CamelException *ex);
-static CamelImapResponse *imap_read_response (CamelImapStore *store,
-					      CamelException *ex);
 static char *imap_command_strdup_vprintf (CamelImapStore *store,
 					  const char *fmt, va_list ap);
+static char *imap_command_strdup_printf (CamelImapStore *store,
+					 const char *fmt, ...);
 
 /**
- * camel_imap_command: Send a command to a IMAP server and get a response
+ * camel_imap_command:
  * @store: the IMAP store
  * @folder: The folder to perform the operation in (or %NULL if not
  * relevant).
  * @ex: a CamelException
- * @fmt: an sort of printf-style format string, followed by arguments
+ * @fmt: a sort of printf-style format string, followed by arguments
  *
- * This function makes sure that @folder (if non-%NULL) is the
- * currently-selected folder on @store and then sends the IMAP command
- * specified by @fmt and the following arguments. It then reads the
- * server's response(s) and parses the final result.
+ * This function calls camel_imap_command_start() to send the
+ * command, then reads the complete response to it using
+ * camel_imap_command_response() and returns a CamelImapResponse
+ * structure.
  *
  * As a special case, if @fmt is %NULL, it will just select @folder
  * and return the response from doing so.
- * 
- * @fmt can include the following %-escapes ONLY:
- *	%s, %d, %%: as with printf
- *	%S: an IMAP "string" (quoted string or literal)
  *
- * %S strings will be passed as literals if the server supports LITERAL+
- * and quoted strings otherwise. (%S does not support strings that
- * contain newlines.)
+ * See camel_imap_command_start() for details on @fmt.
  *
  * On success, the store's command_lock will be locked. It will be freed
  * when you call camel_imap_response_free. (The lock is recursive, so
@@ -84,73 +82,123 @@ CamelImapResponse *
 camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 		    CamelException *ex, const char *fmt, ...)
 {
-	gchar *cmdbuf;
 	va_list ap;
-	CamelException internal_ex;
+	char *cmd;
 
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 
-	/* Check for current folder */
-	if (folder && (!fmt || folder != store->current_folder)) {
-		CamelImapResponse *response;
-
+	if (fmt) {
+		va_start (ap, fmt);
+		cmd = imap_command_strdup_vprintf (store, fmt, ap);
+		va_end (ap);
+	} else {
 		if (store->current_folder) {
 			camel_object_unref (CAMEL_OBJECT (store->current_folder));
 			store->current_folder = NULL;
 		}
-		response = camel_imap_command (store, NULL, ex, "SELECT %S",
-					       folder->full_name);
-		if (!response) {
-			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-			return NULL;
-		}
 		store->current_folder = folder;
 		camel_object_ref (CAMEL_OBJECT (folder));
-
-		camel_imap_folder_selected (folder, response, ex);
-		if (!fmt) {
-			/* This undoes the level of locking we did,
-			 * but not the level of locking associated with
-			 * "response".
-			 */
-			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-			return response;
-		}
-
-		/* Contrariwise, this undoes "response"s lock,
-		 * but not our own.
-		 */
-		camel_imap_response_free (store, response);
+		cmd = imap_command_strdup_printf (store, "SELECT %S",
+						  folder->full_name);
 	}
 
-	/* Send the command */
-	va_start (ap, fmt);
-	cmdbuf = imap_command_strdup_vprintf (store, fmt, ap);
-	va_end (ap);
-
-	camel_exception_init (&internal_ex);
-	camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), &internal_ex,
-					"%c%.5d %s\r\n", store->tag_prefix,
-					store->command++, cmdbuf);
-	g_free (cmdbuf);
-	if (camel_exception_is_set (&internal_ex)) {
-		camel_exception_xfer (ex, &internal_ex);
+	if (!imap_command_start (store, folder, cmd, ex)) {
+		g_free (cmd);
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return NULL;
 	}
+	g_free (cmd);
 
-	/* Read the response. */
 	return imap_read_response (store, ex);
 }
 
 /**
- * camel_imap_command_continuation: Send more command data to the IMAP server
+ * camel_imap_command_start:
  * @store: the IMAP store
+ * @folder: The folder to perform the operation in (or %NULL if not
+ * relevant).
  * @ex: a CamelException
- * @cmdbuf: buffer containing the response/request data
+ * @fmt: a sort of printf-style format string, followed by arguments
+ *
+ * This function makes sure that @folder (if non-%NULL) is the
+ * currently-selected folder on @store and then sends the IMAP command
+ * specified by @fmt and the following arguments.
+ *
+ * @fmt can include the following %-escapes ONLY:
+ *	%s, %d, %%: as with printf
+ *	%S: an IMAP "string" (quoted string or literal)
+ *
+ * %S strings will be passed as literals if the server supports LITERAL+
+ * and quoted strings otherwise. (%S does not support strings that
+ * contain newlines.)
+ *
+ * On success, the store's command_lock will be locked. It will be
+ * freed when %CAMEL_IMAP_RESPONSE_TAGGED or %CAMEL_IMAP_RESPONSE_ERROR
+ * is returned from camel_imap_command_response(). (The lock is
+ * recursive, so callers can grab and release it themselves if they
+ * need to run multiple commands atomically.)
+ *
+ * Return value: %TRUE if the command was sent successfully, %FALSE if
+ * an error occurred (in which case @ex will be set).
+ **/
+gboolean
+camel_imap_command_start (CamelImapStore *store, CamelFolder *folder,
+			  CamelException *ex, const char *fmt, ...)
+{
+	va_list ap;
+	char *cmd;
+	gboolean ok;
+
+	va_start (ap, fmt);
+	cmd = imap_command_strdup_vprintf (store, fmt, ap);
+	va_end (ap);
+
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	ok = imap_command_start (store, folder, cmd, ex);
+	g_free (cmd);
+
+	if (!ok)
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	return ok;
+}
+
+static gboolean
+imap_command_start (CamelImapStore *store, CamelFolder *folder,
+		    const char *cmd, CamelException *ex)
+{
+	/* Check for current folder */
+	if (folder && folder != store->current_folder) {
+		CamelImapResponse *response;
+		CamelException internal_ex;
+
+		response = camel_imap_command (store, folder, ex, NULL);
+		if (!response)
+			return NULL;
+		camel_exception_init (&internal_ex);
+		camel_imap_folder_selected (folder, response, &internal_ex);
+		camel_imap_response_free (store, response);
+		if (camel_exception_is_set (&internal_ex)) {
+			camel_exception_xfer (ex, &internal_ex);
+			return FALSE;
+		}
+	}
+
+	/* Send the command */
+	return camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
+					       "%c%.5d %s\r\n",
+					       store->tag_prefix,
+					       store->command++, cmd) != -1;
+}
+
+/**
+ * camel_imap_command_continuation:
+ * @store: the IMAP store
+ * @cmd: buffer containing the response/request data
+ * @ex: a CamelException
  *
  * This method is for sending continuing responses to the IMAP server
- * after camel_imap_command returns a CAMEL_IMAP_PLUS response.
+ * after camel_imap_command() or camel_imap_command_response() returns
+ * a continuation response.
  * 
  * This function assumes you have an exclusive lock on the remote stream.
  *
@@ -158,11 +206,11 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
  * command_lock will be released.
  **/
 CamelImapResponse *
-camel_imap_command_continuation (CamelImapStore *store, CamelException *ex,
-				 const char *cmdbuf)
+camel_imap_command_continuation (CamelImapStore *store, const char *cmd,
+				 CamelException *ex)
 {
 	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
-					    "%s\r\n", cmdbuf) < 0) {
+					    "%s\r\n", cmd) < 0) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return NULL;
 	}
@@ -170,54 +218,90 @@ camel_imap_command_continuation (CamelImapStore *store, CamelException *ex,
 	return imap_read_response (store, ex);
 }
 
-/* Read the response to an IMAP command. */
-static CamelImapResponse *
-imap_read_response (CamelImapStore *store, CamelException *ex)
+/**
+ * camel_imap_command_response:
+ * @store: the IMAP store
+ * @response: a pointer to pass back the response data in
+ * @ex: a CamelException
+ *
+ * This reads a single tagged, untagged, or continuation response from
+ * @store into *@response. The caller must free the string when it is
+ * done with it.
+ *
+ * Return value: One of %CAMEL_IMAP_RESPONSE_CONTINUATION,
+ * %CAMEL_IMAP_RESPONSE_UNTAGGED, %CAMEL_IMAP_RESPONSE_TAGGED, or
+ * %CAMEL_IMAP_RESPONSE_ERROR. If either of the last two, @store's
+ * command lock will be unlocked.
+ **/
+CamelImapResponseType
+camel_imap_command_response (CamelImapStore *store, char **response,
+			     CamelException *ex)
 {
-	CamelImapResponse *response;
-	CamelException internal_ex;
-	char *respbuf, *retcode;
+	CamelImapResponseType type;
+	char *respbuf;
 
-	/* Read first line */
 	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
 					  &respbuf, ex) < 0) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-		return NULL;
+		return CAMEL_IMAP_RESPONSE_ERROR;
 	}
 
-	response = g_new0 (CamelImapResponse, 1);
-	if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) != CAMEL_DISCO_STORE_RESYNCING) {
-		response->folder = store->current_folder;
-		if (response->folder)
-			camel_object_ref (CAMEL_OBJECT (response->folder));
-	}
-	response->untagged = g_ptr_array_new ();
+	switch (*respbuf) {
+	case '*':
+		type = CAMEL_IMAP_RESPONSE_UNTAGGED;
 
-	camel_exception_init (&internal_ex);
-
-	/* Check for untagged data */
-	while (!strncmp (respbuf, "* ", 2)) {
 		/* Read the rest of the response if it is multi-line. */
-		respbuf = imap_read_untagged (store, respbuf, &internal_ex);
-		if (camel_exception_is_set (&internal_ex))
-			break;
-
-		if (!g_strncasecmp (respbuf, "* BYE", 5)) {
+		respbuf = imap_read_untagged (store, respbuf, ex);
+		if (!respbuf)
+			type = CAMEL_IMAP_RESPONSE_ERROR;
+		else if (!g_strncasecmp (respbuf, "* BYE", 5)) {
 			/* Connection was lost, no more data to fetch */
 			store->connected = FALSE;
 			g_free (respbuf);
-			respbuf = NULL;
-			break;
+			type = CAMEL_IMAP_RESPONSE_ERROR;
 		}
+		break;
+	case '+':
+		type = CAMEL_IMAP_RESPONSE_CONTINUATION;
+		break;
+	default:
+		type = CAMEL_IMAP_RESPONSE_TAGGED;
+		break;
+	}
+	*response = respbuf;
 
-		g_ptr_array_add (response->untagged, respbuf);
-		if (camel_remote_store_recv_line (
-			CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0)
-			break;
+	if (type == CAMEL_IMAP_RESPONSE_ERROR ||
+	    type == CAMEL_IMAP_RESPONSE_TAGGED)
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	return type;
+}
+
+CamelImapResponse *
+imap_read_response (CamelImapStore *store, CamelException *ex)
+{
+	CamelImapResponse *response;
+	CamelImapResponseType type;
+	char *respbuf, *p;
+
+	/* Get another lock so that when we reach the tagged
+	 * response and camel_imap_command_response unlocks,
+	 * we're still locked. This lock is owned by response
+	 * and gets unlocked when response is freed.
+	 */
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+
+	response = g_new0 (CamelImapResponse, 1);
+	if (store->current_folder && camel_disco_store_status (CAMEL_DISCO_STORE (store)) != CAMEL_DISCO_STORE_RESYNCING) {
+		response->folder = store->current_folder;
+		camel_object_ref (CAMEL_OBJECT (response->folder));
 	}
 
-	if (!respbuf || camel_exception_is_set (&internal_ex)) {
-		camel_exception_xfer (ex, &internal_ex);
+	response->untagged = g_ptr_array_new ();
+	while ((type = camel_imap_command_response (store, &respbuf, ex))
+	       == CAMEL_IMAP_RESPONSE_UNTAGGED)
+		g_ptr_array_add (response->untagged, respbuf);
+
+	if (type == CAMEL_IMAP_RESPONSE_ERROR) {
 		camel_imap_response_free_without_processing (store, response);
 		return NULL;
 	}
@@ -227,14 +311,14 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	/* Check for OK or continuation response. */
 	if (*respbuf == '+')
 		return response;
-	retcode = imap_next_word (respbuf);
-	if (!strncmp (retcode, "OK", 2))
+	p = strchr (respbuf, ' ');
+	if (p && !g_strncasecmp (p, " OK", 3))
 		return response;
 
 	/* We should never get BAD, or anything else but +, OK, or NO
 	 * for that matter.
 	 */
-	if (strncmp (retcode, "NO", 2) != 0) {
+	if (!p || g_strncasecmp (p, " NO", 3) != 0) {
 		g_warning ("Unexpected response from IMAP server: %s",
 			   respbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -244,10 +328,12 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		return NULL;
 	}
 
-	retcode = imap_next_word (retcode);
+	p += 3;
+	if (!*p++)
+		p = NULL;
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 			      _("IMAP command failed: %s"),
-			      retcode ? retcode : _("Unknown error"));
+			      p ? p : _("Unknown error"));
 	camel_imap_response_free_without_processing (store, response);
 	return NULL;
 }
@@ -293,9 +379,9 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 					   str->str + 1, length);
 		if (nread == -1) {
 			if (errno == EINTR)
-				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+				camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
 			else
-				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
+				camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 			goto lose;
 		}
@@ -409,13 +495,6 @@ camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
 								sizeof (int));
 				}
 				g_array_append_val (expunged, number);
-
-				/* camel_imap_folder_changed expects
-				 * "exists" to be the value after all
-				 * expunges.
-				 */
-				if (exists)
-					exists--;
 			}
 		}
 		g_free (resp);
@@ -427,12 +506,8 @@ camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
 	if (response->folder) {
 		if (exists > 0 || expunged) {
 			/* Update the summary */
-			CamelException ex;
-			
-			camel_exception_init (&ex);
-			camel_imap_folder_changed (response->folder, exists, expunged, &ex);
-			camel_exception_clear (&ex);
-			
+			camel_imap_folder_changed (response->folder,
+						   exists, expunged, NULL);
 			if (expunged)
 				g_array_free (expunged, TRUE);
 		}
@@ -535,7 +610,6 @@ camel_imap_response_extract_continuation (CamelImapStore *store,
 	if (response->status && *response->status == '+') {
 		status = response->status;
 		response->status = NULL;
-		CAMEL_IMAP_STORE_LOCK (store, command_lock);
 		camel_imap_response_free (store, response);
 		return status;
 	}
@@ -650,4 +724,17 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 	}
 
 	return out;
+}
+
+static char *
+imap_command_strdup_printf (CamelImapStore *store, const char *fmt, ...)
+{
+	va_list ap;
+	char *result;
+
+	va_start (ap, fmt);
+	result = imap_command_strdup_vprintf (store, fmt, ap);
+	va_end (ap);
+
+	return result;
 }

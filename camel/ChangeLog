@@ -1,3 +1,24 @@
+2001-07-26  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-command.c (camel_imap_command_start):
+	Send an IMAP command, but don't wait for responses.
+	(camel_imap_command_response): Read a single line of response from
+	the server.
+	(camel_imap_command, etc): Reimplement in terms of the new code.
+
+	* providers/imap/camel-imap-folder.c (imap_rescan): Use
+	camel_imap_command_start and camel_imap_command_response, and
+	call camel_operation_progress after each line read from the
+	server.
+	(imap_update_summary): Likewise, although with more fudging on the
+	precentages... Also, fix this so that if none of the new messages
+	are cached, it only does a single FETCH, and if some of them are
+	cached, it does two FETCHes (one to get the UIDs, FLAGS, and
+	SIZEs, and another to get the bodies of all of the messages that
+	aren't cached now that it knows the relevant UIDs). This should
+	speed up startup a bunch (especially if you have high bandwidth
+	but also high latency to the IMAP server).
+
 2001-07-25  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-utils.c (mail_mlist_magic): Add another Sender

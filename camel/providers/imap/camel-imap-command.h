@@ -36,6 +36,13 @@ extern "C" {
 #include <glib.h>
 #include "camel-imap-types.h"
 
+typedef enum {
+	CAMEL_IMAP_RESPONSE_ERROR,
+	CAMEL_IMAP_RESPONSE_CONTINUATION,
+	CAMEL_IMAP_RESPONSE_UNTAGGED,
+	CAMEL_IMAP_RESPONSE_TAGGED
+} CamelImapResponseType;
+
 struct _CamelImapResponse {
 	CamelFolder *folder;
 	GPtrArray *untagged;
@@ -47,19 +54,27 @@ CamelImapResponse *camel_imap_command              (CamelImapStore *store,
 						    CamelException *ex,
 						    const char *fmt, ...);
 CamelImapResponse *camel_imap_command_continuation (CamelImapStore *store,
-						    CamelException *ex,
-						    const char *cmdbuf);
+						    const char *cmd,
+						    CamelException *ex);
 
-void  camel_imap_response_free                 (CamelImapStore *store,
-						CamelImapResponse *response);
-void  camel_imap_response_free_without_processing(CamelImapStore *store,
-						  CamelImapResponse *response);
-char *camel_imap_response_extract              (CamelImapStore *store,
-						CamelImapResponse *response,
-						const char *type,
-						CamelException *ex);
-char *camel_imap_response_extract_continuation (CamelImapStore *store,
-						CamelImapResponse *response,
-						CamelException *ex);
+void  camel_imap_response_free                     (CamelImapStore *store,
+						    CamelImapResponse *response);
+void  camel_imap_response_free_without_processing  (CamelImapStore *store,
+						    CamelImapResponse *response);
+char *camel_imap_response_extract                  (CamelImapStore *store,
+						    CamelImapResponse *response,
+						    const char *type,
+						    CamelException *ex);
+char *camel_imap_response_extract_continuation     (CamelImapStore *store,
+						    CamelImapResponse *response,
+						    CamelException *ex);
+
+gboolean           camel_imap_command_start        (CamelImapStore *store,
+						    CamelFolder *folder,
+						    CamelException *ex,
+						    const char *fmt, ...);
+CamelImapResponseType camel_imap_command_response  (CamelImapStore *store,
+						    char **respbuf,
+						    CamelException *ex);
 
 #endif /* CAMEL_IMAP_COMMAND_H */

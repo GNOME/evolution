@@ -409,7 +409,7 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 		if (camel_exception_is_set (ex))
 			goto break_and_lose;
 
-		response = camel_imap_command_continuation (store, ex, sasl_resp);
+		response = camel_imap_command_continuation (store, sasl_resp, ex);
 		g_free (sasl_resp);
 		if (!response)
 			goto lose;
@@ -430,7 +430,7 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 
  break_and_lose:
 	/* Get the server out of "waiting for continuation data" mode. */
-	response = camel_imap_command_continuation (store, NULL, "*");
+	response = camel_imap_command_continuation (store, "*", NULL);
 	if (response)
 		camel_imap_response_free (store, response);
 
