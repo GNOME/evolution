@@ -73,9 +73,12 @@ typedef enum {
 	CAL_BACKEND_GET_ALARMS_INVALID_RANGE
 } CalBackendGetAlarmsForObjectResult;
 
+typedef struct _CalBackendPrivate CalBackendPrivate;
+
 struct _CalBackend {
 	GObject object;
-	GList *clients;
+
+	CalBackendPrivate *priv;
 };
 
 struct _CalBackendClass {
@@ -212,6 +215,15 @@ void cal_backend_last_client_gone (CalBackend *backend);
 void cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status);
 void cal_backend_obj_updated (CalBackend *backend, const char *uid);
 void cal_backend_obj_removed (CalBackend *backend, const char *uid);
+
+void cal_backend_notify_mode      (CalBackend *backend,
+				   GNOME_Evolution_Calendar_Listener_SetModeStatus status, 
+				   GNOME_Evolution_Calendar_CalMode mode);
+void cal_backend_notify_update    (CalBackend *backend, const char *uid);
+void cal_backend_notify_remove    (CalBackend *backend, const char *uid);
+void cal_backend_notify_error     (CalBackend *backend, const char *message);
+void cal_backend_ref_categories   (CalBackend *backend, GSList *categories);
+void cal_backend_unref_categories (CalBackend *backend, GSList *categories);
 
 
 

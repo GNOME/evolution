@@ -33,22 +33,10 @@
 
 
 
-/* A category that exists in some of the objects of the calendar */
-typedef struct {
-	/* Category name, also used as the key in the categories hash table */
-	char *name;
-
-	/* Number of objects that have this category */
-	int refcount;
-} Category;
-
 /* Private part of the CalBackendFile structure */
 struct _CalBackendFilePrivate {
 	/* URI where the calendar data is stored */
 	char *uri;
-
-	/* List of Cal objects with their listeners */
-	GList *clients;
 
 	/* Toplevel VCALENDAR component */
 	icalcomponent *icalcomp;
@@ -68,10 +56,6 @@ struct _CalBackendFilePrivate {
 	GList *events;
 	GList *todos;
 	GList *journals;
-
-	/* Hash table of live categories, and a temporary hash of removed categories */
-	GHashTable *categories;
-	GHashTable *removed_categories;
 
 	/* Config database handle for free/busy organizer information */
 	EConfigListener *config_listener;
@@ -106,7 +90,6 @@ static CalMode cal_backend_file_get_mode (CalBackend *backend);
 static void cal_backend_file_set_mode (CalBackend *backend, CalMode mode);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
-static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
 static CalComponent *cal_backend_file_get_object_component (CalBackend *backend, const char *uid);
 static char *cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid);
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
@@ -136,9 +119,6 @@ static icaltimezone* cal_backend_file_get_timezone (CalBackend *backend, const c
 static icaltimezone* cal_backend_file_get_default_timezone (CalBackend *backend);
 static gboolean cal_backend_file_set_default_timezone (CalBackend *backend,
 						       const char *tzid);
-
-static void notify_categories_changed (CalBackendFile *cbfile);
-static void notify_error (CalBackendFile *cbfile, const char *message);
 
 static CalBackendClass *parent_class;
 
@@ -200,7 +180,6 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_mode = cal_backend_file_get_mode;
 	backend_class->set_mode = cal_backend_file_set_mode;	
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
-	backend_class->get_object = cal_backend_file_get_object;
 	backend_class->get_object_component = cal_backend_file_get_object_component;
 	backend_class->get_timezone_object = cal_backend_file_get_timezone_object;
 	backend_class->get_uids = cal_backend_file_get_uids;
@@ -216,12 +195,6 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_timezone = cal_backend_file_get_timezone;
 	backend_class->get_default_timezone = cal_backend_file_get_default_timezone;
 	backend_class->set_default_timezone = cal_backend_file_set_default_timezone;
-}
-
-static void
-cal_added_cb (CalBackend *backend, gpointer user_data)
-{
-	notify_categories_changed (CAL_BACKEND_FILE (backend));
 }
 
 /* Object initialization function for the file backend */
@@ -240,16 +213,10 @@ cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class)
 	priv->todos = NULL;
 	priv->journals = NULL;
 
-	priv->categories = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->removed_categories = g_hash_table_new (g_str_hash, g_str_equal);
-
 	/* The timezone defaults to UTC. */
 	priv->default_zone = icaltimezone_get_utc_timezone ();
 
 	priv->config_listener = e_config_listener_new ();
-	
-	g_signal_connect (G_OBJECT (cbfile), "cal_added",
-			  G_CALLBACK (cal_added_cb), NULL);
 }
 
 /* g_hash_table_foreach() callback to destroy a CalComponent */
@@ -329,19 +296,8 @@ save (CalBackendFile *cbfile)
 	return;
 	
  error:
-	notify_error (cbfile, gnome_vfs_result_to_string (result));
+	cal_backend_notify_error (CAL_BACKEND (cbfile), gnome_vfs_result_to_string (result));
 	return;
-}
-
-/* Used from g_hash_table_foreach(), frees a Category structure */
-static void
-free_category_cb (gpointer key, gpointer value, gpointer data)
-{
-	Category *c;
-
-	c = value;
-	g_free (c->name);
-	g_free (c);
 }
 
 /* Dispose handler for the file backend */
@@ -404,23 +360,12 @@ cal_backend_file_finalize (GObject *object)
 	cbfile = CAL_BACKEND_FILE (object);
 	priv = cbfile->priv;
 
-	clients = CAL_BACKEND (cbfile)->clients;
-	g_assert (clients == NULL);
-
 	/* Clean up */
 
 	if (priv->uri) {
 	        g_free (priv->uri);
 		priv->uri = NULL;
 	}
-
-	g_hash_table_foreach (priv->categories, free_category_cb, NULL);
-	g_hash_table_destroy (priv->categories);
-	priv->categories = NULL;
-
-	g_hash_table_foreach (priv->removed_categories, free_category_cb, NULL);
-	g_hash_table_destroy (priv->removed_categories);
-	priv->removed_categories = NULL;
 
 	g_free (priv);
 	cbfile->priv = NULL;
@@ -481,53 +426,6 @@ cal_backend_file_get_email_address (CalBackend *backend)
 	 * with it (although that would be a useful feature some day).
 	 */
 	return NULL;
-}
-
-/* Used from g_hash_table_foreach(), adds a category name to the sequence */
-static void
-add_category_cb (gpointer key, gpointer value, gpointer data)
-{
-	Category *c;
-	GNOME_Evolution_Calendar_StringSeq *seq;
-
-	c = value;
-	seq = data;
-
-	seq->_buffer[seq->_length] = CORBA_string_dup (c->name);
-	seq->_length++;
-}
-
-/* Notifies the clients with the current list of categories */
-static void
-notify_categories_changed (CalBackendFile *cbfile)
-{
-	CalBackendFilePrivate *priv;
-	GNOME_Evolution_Calendar_StringSeq *seq;
-	GList *l;
-
-	priv = cbfile->priv;
-
-	/* Build the sequence of category names */
-
-	seq = GNOME_Evolution_Calendar_StringSeq__alloc ();
-	seq->_length = 0;
-	seq->_maximum = g_hash_table_size (priv->categories);
-	seq->_buffer = CORBA_sequence_CORBA_string_allocbuf (seq->_maximum);
-	CORBA_sequence_set_release (seq, TRUE);
-
-	g_hash_table_foreach (priv->categories, add_category_cb, seq);
-	g_assert (seq->_length == seq->_maximum);
-
-	/* Notify the clients */
-
-	for (l = CAL_BACKEND (cbfile)->clients; l; l = l->next) {
-		Cal *cal;
-
-		cal = CAL (l->data);
-		cal_notify_categories_changed (cal, seq);
-	}
-
-	CORBA_free (seq);
 }
 
 /* Idle handler; we save the calendar since it is dirty */
@@ -592,68 +490,6 @@ check_dup_uid (CalBackendFile *cbfile, CalComponent *comp)
 	mark_dirty (cbfile);
 }
 
-/* Updates the hash table of categories by adding or removing those in the
- * component.
- */
-static void
-update_categories_from_comp (CalBackendFile *cbfile, CalComponent *comp, gboolean add)
-{
-	CalBackendFilePrivate *priv;
-	GSList *categories, *l;
-
-	priv = cbfile->priv;
-
-	cal_component_get_categories_list (comp, &categories);
-
-	for (l = categories; l; l = l->next) {
-		const char *name;
-		Category *c;
-
-		name = l->data;
-		c = g_hash_table_lookup (priv->categories, name);
-
-		if (add) {
-			/* Add the category to the set */
-			if (c)
-				c->refcount++;
-			else {
-				/* See if it was in the removed categories */
-
-				c = g_hash_table_lookup (priv->removed_categories, name);
-				if (c) {
-					/* Move it to the set of live categories */
-					g_assert (c->refcount == 0);
-					g_hash_table_remove (priv->removed_categories, c->name);
-
-					c->refcount = 1;
-					g_hash_table_insert (priv->categories, c->name, c);
-				} else {
-					/* Create a new category */
-					c = g_new (Category, 1);
-					c->name = g_strdup (name);
-					c->refcount = 1;
-
-					g_hash_table_insert (priv->categories, c->name, c);
-				}
-			}
-		} else {
-			/* Remove the category from the set --- it *must* have existed */
-
-			g_assert (c != NULL);
-			g_assert (c->refcount > 0);
-
-			c->refcount--;
-
-			if (c->refcount == 0) {
-				g_hash_table_remove (priv->categories, c->name);
-				g_hash_table_insert (priv->removed_categories, c->name, c);
-			}
-		}
-	}
-
-	cal_component_free_categories_list (categories);
-}
-
 /* Tries to add an icalcomponent to the file backend.  We only store the objects
  * of the types we support; all others just remain in the toplevel component so
  * that we don't lose them.
@@ -664,6 +500,7 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	CalBackendFilePrivate *priv;
 	GList **list;
 	const char *uid;
+	GSList *categories;
 
 	priv = cbfile->priv;
 
@@ -706,8 +543,9 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 	}
 
 	/* Update the set of categories */
-
-	update_categories_from_comp (cbfile, comp, TRUE);
+	cal_component_get_categories_list (comp, &categories);
+	cal_backend_ref_categories (CAL_BACKEND (cbfile), categories);
+	cal_component_free_categories_list (categories);
 }
 
 /* Removes a component from the backend's hash and lists.  Does not perform
@@ -721,6 +559,7 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 	icalcomponent *icalcomp;
 	const char *uid;
 	GList **list, *l;
+	GSList *categories;
 
 	priv = cbfile->priv;
 
@@ -762,8 +601,9 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 	g_list_free_1 (l);
 
 	/* Update the set of categories */
-
-	update_categories_from_comp (cbfile, comp, FALSE);
+	cal_component_get_categories_list (comp, &categories);
+	cal_backend_unref_categories (CAL_BACKEND (cbfile), categories);
+	cal_component_free_categories_list (categories);
 
 	g_object_unref (comp);
 }
@@ -988,31 +828,13 @@ cal_backend_file_get_mode (CalBackend *backend)
 	return CAL_MODE_LOCAL;	
 }
 
-static void
-notify_mode (CalBackendFile *cbfile, 
-	     GNOME_Evolution_Calendar_Listener_SetModeStatus status, 
-	     GNOME_Evolution_Calendar_CalMode mode)
-{
-	CalBackendFilePrivate *priv;
-	GList *l;
-
-	priv = cbfile->priv;
-
-	for (l = CAL_BACKEND (cbfile)->clients; l; l = l->next) {
-		Cal *cal;
-
-		cal = CAL (l->data);
-		cal_notify_mode (cal, status, mode);
-	}
-}
-
 /* Set_mode handler for the file backend */
 static void
 cal_backend_file_set_mode (CalBackend *backend, CalMode mode)
 {
-	notify_mode (CAL_BACKEND_FILE (backend),
-		     GNOME_Evolution_Calendar_Listener_MODE_NOT_SUPPORTED,
-		     GNOME_Evolution_Calendar_MODE_LOCAL);
+	cal_backend_notify_mode (backend,
+				 GNOME_Evolution_Calendar_Listener_MODE_NOT_SUPPORTED,
+				 GNOME_Evolution_Calendar_MODE_LOCAL);
 	
 }
 
@@ -1043,31 +865,7 @@ cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type)
 	return n;
 }
 
-/* Get_object handler for the file backend */
-static char *
-cal_backend_file_get_object (CalBackend *backend, const char *uid)
-{
-	CalBackendFile *cbfile;
-	CalBackendFilePrivate *priv;
-	CalComponent *comp;
-
-	cbfile = CAL_BACKEND_FILE (backend);
-	priv = cbfile->priv;
-
-	g_return_val_if_fail (uid != NULL, NULL);
-
-	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
-	g_assert (priv->comp_uid_hash != NULL);
-
-	comp = lookup_component (cbfile, uid);
-
-	if (!comp)
-		return NULL;
-
-	return cal_component_get_as_string (comp);
-}
-
-/* Get_object handler for the file backend */
+/* Get_object_component handler for the file backend */
 static CalComponent *
 cal_backend_file_get_object_component (CalBackend *backend, const char *uid)
 {
@@ -1085,7 +883,7 @@ cal_backend_file_get_object_component (CalBackend *backend, const char *uid)
 	return lookup_component (cbfile, uid);
 }
 
-/* Get_object handler for the file backend */
+/* Get_timezone_object handler for the file backend */
 static char *
 cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid)
 {
@@ -1687,88 +1485,6 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	return corba_alarms;
 }
 
-/* Notifies a backend's clients that an object was updated */
-static void
-notify_update (CalBackendFile *cbfile, const char *uid)
-{
-	CalBackendFilePrivate *priv;
-	GList *l;
-
-	priv = cbfile->priv;
-
-	cal_backend_obj_updated (CAL_BACKEND (cbfile), uid);
-
-	for (l = CAL_BACKEND (cbfile)->clients; l; l = l->next) {
-		Cal *cal;
-
-		cal = CAL (l->data);
-		cal_notify_update (cal, uid);
-	}
-}
-
-/* Notifies a backend's clients that an object was removed */
-static void
-notify_remove (CalBackendFile *cbfile, const char *uid)
-{
-	CalBackendFilePrivate *priv;
-	GList *l;
-
-	priv = cbfile->priv;
-
-	cal_backend_obj_removed (CAL_BACKEND (cbfile), uid);
-
-	for (l = CAL_BACKEND (cbfile)->clients; l; l = l->next) {
-		Cal *cal;
-
-		cal = CAL (l->data);
-		cal_notify_remove (cal, uid);
-	}
-}
-
-/* Notifies a backend's clients that an error has occurred */
-static void
-notify_error (CalBackendFile *cbfile, const char *message)
-{
-	CalBackendFilePrivate *priv;
-	GList *l;
-
-	priv = cbfile->priv;
-
-	for (l = CAL_BACKEND (cbfile)->clients; l; l = l->next) {
-		Cal *cal;
-
-		cal = CAL (l->data);
-		cal_notify_error (cal, message);
-	}
-}
-
-/* Used from g_hash_table_foreach_remove(); removes and frees a category */
-static gboolean
-remove_category_cb (gpointer key, gpointer value, gpointer data)
-{
-	Category *c;
-
-	c = value;
-	g_free (c->name);
-	g_free (c);
-
-	return TRUE;
-}
-
-/* Clears the table of removed categories */
-static void
-clean_removed_categories (CalBackendFile *cbfile)
-{
-	CalBackendFilePrivate *priv;
-
-	priv = cbfile->priv;
-
-	g_hash_table_foreach_remove (priv->removed_categories,
-				     remove_category_cb,
-				     NULL);
-}
-
-
 /* Creates a CalComponent for the given icalcomponent and adds it to our
    cache. Note that the icalcomponent is not added to the toplevel
    icalcomponent here. That needs to be done elsewhere. It returns the uid
@@ -1823,7 +1539,6 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	CalBackendFilePrivate *priv;
 	icalcomponent *toplevel_comp, *icalcomp = NULL;
 	icalcomponent_kind kind;
-	int old_n_categories, new_n_categories;
 	icalcomponent *subcomp;
 	CalBackendResult retval = CAL_BACKEND_RESULT_SUCCESS;
 	GList *comp_uid_list = NULL, *elem;
@@ -1857,13 +1572,6 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		icalcomponent_free (toplevel_comp);
 		return CAL_BACKEND_RESULT_INVALID_OBJECT;
 	}
-
-	/* The list of removed categories must be empty because we are about to
-	 * start a new scanning process.
-	 */
-	g_assert (g_hash_table_size (priv->removed_categories) == 0);
-
-	old_n_categories = g_hash_table_size (priv->categories);
 
 	/* Step throught the VEVENT/VTODOs being added, create CalComponents
 	   for them, and add them to our cache. */
@@ -1900,8 +1608,6 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	   resolving any conflicting TZIDs. */
 	icalcomponent_merge_component (priv->icalcomp, toplevel_comp);
 
-	new_n_categories = g_hash_table_size (priv->categories);
-
 	mark_dirty (cbfile);
 
 	/* Now emit notification signals for all of the added components.
@@ -1909,16 +1615,10 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	   stable state before emitting signals. */
 	for (elem = comp_uid_list; elem; elem = elem->next) {
 		char *comp_uid = elem->data;
-		notify_update (cbfile, comp_uid);
+		cal_backend_notify_update (backend, comp_uid);
 		g_free (comp_uid);
 	}
 	g_list_free (comp_uid_list);
-
-	if (old_n_categories != new_n_categories ||
-	    g_hash_table_size (priv->removed_categories) != 0) {
-		clean_removed_categories (cbfile);
-		notify_categories_changed (cbfile);
-	}
 
 	return retval;
 }
@@ -1943,21 +1643,11 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	if (!comp)
 		return CAL_BACKEND_RESULT_NOT_FOUND;
 
-	/* The list of removed categories must be empty because we are about to
-	 * start a new scanning process.
-	 */
-	g_assert (g_hash_table_size (priv->removed_categories) == 0);
-
 	remove_component (cbfile, comp);
 
 	mark_dirty (cbfile);
 
-	notify_remove (cbfile, uid);
-
-	if (g_hash_table_size (priv->removed_categories) != 0) {
-		clean_removed_categories (cbfile);
-		notify_categories_changed (cbfile);
-	}
+	cal_backend_notify_remove (backend, uid);
 
 	return CAL_BACKEND_RESULT_SUCCESS;
 }

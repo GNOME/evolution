@@ -1,3 +1,30 @@
+2003-01-17  Dan Winship  <danw@ximian.com>
+
+	* pcs/cal-backend.c: Move some non-file-backend-specific stuff
+	from cal-backend-file here so it can be shared with other
+	backends.
+	(CalBackendPrivate): add this, containing the categories hashes
+	and the (formerly public) clients list.
+	(cal_backend_init, cal_backend_finalize): Handle backend->priv.
+	(cal_destroy_cb): Simplify this (and redo it as a weak notify
+	func)
+	(cal_backend_add_cal): Keep a weak ref on the cal rather than
+	connecting to its "destroy" signal. Call notify_categories_changed
+	to let the new cal know about them.
+	(get_object): Default implementation of cal_backend_get_object.
+	that calls cal_component_get_as_string on the return value of
+	cal_backend_get_object_component.
+	(cal_backend_notify_mode, cal_backend_notify_update,
+	cal_backend_notify_remove, cal_backend_notify_error): Notify each
+	Cal about something.
+	(cal_backend_ref_categories, cal_backend_unref_categories):
+	Maintain a list of categories that are used by components in the
+	backend, and trigger categories_changed notifications as needed.
+
+	* pcs/cal-backend-file.c: Remove stuff that was moved to
+	CalBackend (notify funcs, category handling, get_object
+	implementation)
+
 2003-01-16  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-alarm-list.[ch]: Implement EAlarmList as CalComponentAlarm
