@@ -1,3 +1,22 @@
+2002-04-01  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/Makefile.am (libcamelimap_la_LDFLAGS): Use
+	-avoid-version instead of -version-info 0:0:0, and specify
+	-module. (From Max Horn <max@quendi.de>).
+
+	* providers/local/Makefile.am (libcamellocal_la_LDFLAGS): Likewise.
+
+	* providers/nntp/Makefile.am (libcamelnntp_la_LDFLAGS): Likewise.
+
+	* providers/sendmail/Makefile.am (libcamelsendmail_la_LDFLAGS):
+	Likewise.
+
+	* providers/smtp/Makefile.am (libcamelsmtp_la_LDFLAGS): Likewise.
+
+	* providers/pop3/Makefile.am (libcamelpop3_la_LDFLAGS): Likewise.
+	Also remove $(KRB4_LDFLAGS) since KPOP is gone.
+	(INCLUDES): and $(KRB4_CFLAGS)
+
 2002-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (do_copy): We now have to check to make

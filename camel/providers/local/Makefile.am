@@ -58,7 +58,7 @@ libcamellocalinclude_HEADERS =			\
 noinst_HEADERS =				\
 	camel-local-private.h
 
-libcamellocal_la_LDFLAGS = -version-info 0:0:0
+libcamellocal_la_LDFLAGS = -avoid-version -module
 
 libcamellocal_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la
 
