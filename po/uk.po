@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-02-24 15:49+0200\n"
-"PO-Revision-Date: 2003-02-24 06:07--500\n"
+"PO-Revision-Date: 2003-02-24 06:23--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8582,9 +8582,8 @@ msgid "Moving messages"
 msgstr "Перенесення повідомлень"
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Copying messages"
-msgstr "Копіювання повідомлень у %s"
+msgstr "Копіювання повідомлень"
 
 #: camel/camel-gpg-context.c:724
 #, c-format
@@ -9044,9 +9043,8 @@ msgid "Host lookup failed: %s: unknown reason"
 msgstr "Помилка при пошуку хоста: %s: причина невідома"
 
 #: camel/camel-service.c:851
-#, fuzzy
 msgid "Resolving address"
-msgstr "Розв'язання: %s"
+msgstr "Розв'язання адреси"
 
 #: camel/camel-service.c:913
 #, fuzzy
@@ -9737,9 +9735,9 @@ msgid "Could not rename folder %s to %s: %s"
 msgstr "Не вдалося перейменувати теку \"%s\" на \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s': %s"
-msgstr "Не вдалося перейменувати теку: %s"
+msgstr "Не вдалося перейменувати теку \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:388
 #, c-format
@@ -10100,14 +10098,14 @@ msgid "This option will authenticate with the NNTP server using a plaintext pass
 msgstr "Під'єднання до NNTP серверу буде виконуватись з використанням незашифрованих паролів."
 
 #: camel/providers/nntp/camel-nntp-summary.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder: %s"
-msgstr "Невірна тека \"%s\""
+msgstr "Неправильна тека: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get group: %s"
-msgstr "Не вдалося створити канал: %s"
+msgstr "Не вдалося отримати групу: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:344
 #, fuzzy, c-format
@@ -10116,9 +10114,9 @@ msgstr "Збій команди IMAP: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:404
 #: camel/providers/nntp/camel-nntp-summary.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Scanning new messages"
-msgstr "Пошук нових повідомлень"
+msgstr "%s: пошук нових повідомлень"
 
 #: camel/providers/nntp/camel-nntp-summary.c:520
 #, fuzzy, c-format
@@ -10131,9 +10129,9 @@ msgid "Use cancel"
 msgstr "Скасувати"
 
 #: camel/providers/nntp/camel-nntp-summary.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "Operation failed: %s"
-msgstr "Операцію скасовано"
+msgstr "Збій операції: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:246
 msgid "Retrieving POP summary"
@@ -10433,9 +10431,8 @@ msgid "Authentication required"
 msgstr "Вимагається автенфікація"
 
 #: camel/providers/smtp/camel-smtp-transport.c:295
-#, fuzzy
 msgid "Welcome response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:339
 #: camel/providers/smtp/camel-smtp-transport.c:378
@@ -10445,19 +10442,17 @@ msgstr "Неможливо під'єднатись до POP серверу.\n"
 "Помилка при передачі імені користувача: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:340
-#, fuzzy
 msgid "server does not appear to support SSL"
-msgstr "Повідомлення невірно сформовано"
+msgstr "схоже, сервер не підтримує SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS request timed out: %s"
-msgstr "Затримка відповіді на RSET: %s"
+msgstr "Затримка відповіді на STARTTLS: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:369
-#, fuzzy
 msgid "STARTTLS response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на STARTTLS"
 
 #: camel/providers/smtp/camel-smtp-transport.c:472
 #, fuzzy, c-format
@@ -22369,9 +22364,8 @@ msgid "Snowshoe Lake"
 msgstr ""
 
 #: my-evolution/Locations.h:2105
-#, fuzzy
 msgid "Sochi"
-msgstr "Південь"
+msgstr "Сочі"
 
 #: my-evolution/Locations.h:2106
 #, fuzzy
@@ -23385,9 +23379,8 @@ msgid "Utsunomiya Ab"
 msgstr ""
 
 #: my-evolution/Locations.h:2351
-#, fuzzy
 msgid "Uzhgorod"
-msgstr "Європа/Ужгород"
+msgstr "Ужгород"
 
 #: my-evolution/Locations.h:2352
 #, fuzzy
@@ -23842,9 +23835,8 @@ msgid "Wick"
 msgstr "Псевдо"
 
 #: my-evolution/Locations.h:2461
-#, fuzzy
 msgid "Wien"
-msgstr "Срд"
+msgstr "Відень"
 
 #: my-evolution/Locations.h:2462
 msgid "Wildwood"
@@ -23904,9 +23896,8 @@ msgid "Winnipeg"
 msgstr "Вінніпег"
 
 #: my-evolution/Locations.h:2476
-#, fuzzy
 msgid "Winslow"
-msgstr "зараз"
+msgstr "Вінслоу"
 
 #: my-evolution/Locations.h:2477
 msgid "Winston-Salem"
@@ -23917,16 +23908,14 @@ msgid "Winter Haven"
 msgstr ""
 
 #: my-evolution/Locations.h:2479
-#, fuzzy
 msgid "Winter Park"
-msgstr "Ввід пароля"
+msgstr "Вінтер-Парк"
 
 #: my-evolution/Locations.h:2480
 msgid "Wiscasset"
 msgstr "Віскассет"
 
 #: my-evolution/Locations.h:2481
-#, fuzzy
 msgid "Wisconsin"
 msgstr "Вісконсін"
 
@@ -23948,9 +23937,8 @@ msgid "Wolf Point"
 msgstr ""
 
 #: my-evolution/Locations.h:2486
-#, fuzzy
 msgid "Woong Cheon"
-msgstr "Гонг Конг"
+msgstr "Вунґ-Чеон"
 
 #: my-evolution/Locations.h:2487
 msgid "Wooster"
@@ -24122,9 +24110,8 @@ msgid "Zama Airfield"
 msgstr ""
 
 #: my-evolution/Locations.h:2531
-#, fuzzy
 msgid "Zanesville"
-msgstr "Занесвіль"
+msgstr "Зейнсвіль"
 
 #: my-evolution/Locations.h:2532
 msgid "Zaragoza"
@@ -25568,9 +25555,9 @@ msgstr "Не вдалось перенести теку:\n"
 
 #: shell/e-folder-list.c:122
 #: shell/evolution-folder-selector-button.c:127
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" in \"%s\""
-msgstr "в \"%s\"..."
+msgstr "\"%s\" у \"%s\""
 
 #: shell/e-folder-list.c:338
 msgid "Add a Folder"
@@ -25794,9 +25781,8 @@ msgstr "Неможливо створити вказану теку:\n"
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:307
-#, fuzzy
 msgid "Create New Folder"
-msgstr "Створити нову теку..."
+msgstr "Створити нову теку"
 
 #: shell/e-shell-folder-title-bar.c:649
 #: shell/e-shell-folder-title-bar.c:650
@@ -26026,9 +26012,8 @@ msgid "Error executing %s."
 msgstr "Помилка виконання %s."
 
 #: shell/e-shell-view-menu.c:193
-#, fuzzy
 msgid "Bug buddy is not installed."
-msgstr "Не вдалося запустити Bug buddy"
+msgstr "Програму \"Bug buddy\" не встановлено."
 
 #: shell/e-shell-view-menu.c:201
 msgid "Bug buddy could not be run."
@@ -26047,7 +26032,6 @@ msgid "Select the folder that you want to open"
 msgstr "Виберіть теку, яку ви бажаєте відкрити"
 
 #: shell/e-shell-view-menu.c:617
-#, fuzzy
 msgid "Create New Shortcut"
 msgstr "Створити новий ярлик"
 
@@ -26467,9 +26451,8 @@ msgid "C_alendar:"
 msgstr "Календар"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
-#, fuzzy
 msgid "_Contacts:"
-msgstr "Контакти:"
+msgstr "_Контакти:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
 #, fuzzy
@@ -26503,9 +26486,8 @@ msgid "_Account:"
 msgstr "Обліковий рахунок %d"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
-msgstr "Назва теки:"
+msgstr "Назва _теки:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
 msgid "_User:"
@@ -27705,9 +27687,8 @@ msgid "For_mat"
 msgstr "Формат"
 
 #: ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "HT_ML"
-msgstr "H_TML"
+msgstr "_HTML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
@@ -27768,9 +27749,8 @@ msgid "Send the mail in HTML format"
 msgstr "Відіслати пошту в форматі HTML"
 
 #: ui/evolution-message-composer.xml.h:26
-#, fuzzy
 msgid "Send this message"
-msgstr "Надіслати це повідомлення негайно"
+msgstr "Відіслати це повідомлення"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
@@ -27850,9 +27830,8 @@ msgid "H_TML"
 msgstr "H_TML"
 
 #: ui/evolution-signature-editor.xml.h:8
-#, fuzzy
 msgid "Save the current file and close the window"
-msgstr "Зберегти елемент і закрити діалогове вікно"
+msgstr "Зберегти поточний файл і закрити вікно"
 
 #: ui/evolution-signature-editor.xml.h:13
 #: ui/evolution.xml.h:54
@@ -27860,9 +27839,8 @@ msgid "_Help"
 msgstr "Довідка"
 
 #: ui/evolution-signature-editor.xml.h:16
-#, fuzzy
 msgid "_Signature editor"
-msgstr "Файл підпису:"
+msgstr "Редактор _підпису"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -27921,9 +27899,8 @@ msgid "Cut selected task"
 msgstr "Вирізати вибрані завдання"
 
 #: ui/evolution-tasks.xml.h:6
-#, fuzzy
 msgid "Delete completed tasks"
-msgstr "Стерти вибрані завдання"
+msgstr "Стерти виконані завдання"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Delete selected tasks"
@@ -28122,9 +28099,8 @@ msgid "_Folder Bar"
 msgstr "Панель тек"
 
 #: ui/evolution.xml.h:52
-#, fuzzy
 msgid "_Folder..."
-msgstr "Тека"
+msgstr "_Тека..."
 
 #: ui/evolution.xml.h:53
 msgid "_Go to Folder..."
@@ -28191,9 +28167,8 @@ msgid "_Address Cards"
 msgstr "Адресні картки"
 
 #: views/addressbook/galview.xml.h:3
-#, fuzzy
 msgid "_Phone List"
-msgstr "Список телефонів"
+msgstr "Список _телефонів"
 
 #: views/calendar/galview.xml.h:1
 #, fuzzy
@@ -28465,7 +28440,6 @@ msgid "Subitem ID"
 msgstr ""
 
 #: widgets/misc/e-search-bar.c:837
-#, fuzzy
 msgid "Text"
 msgstr "Тест"
 
