@@ -52,7 +52,7 @@ impl_Cal_get_uri (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	char *str_uri;
+	const char *str_uri;
 	CORBA_char *str_uri_copy;
 
 	cal = CAL (bonobo_object_from_servant (servant));
@@ -532,7 +532,10 @@ cal_construct (Cal *cal,
 		return NULL;
 	}
 
+	CORBA_exception_free (&ev);
+
 	/* obtain the WombatClient interface */
+	CORBA_exception_init (&ev);
 	priv->wombat_client = Bonobo_Unknown_queryInterface (
 		priv->listener,
 		"IDL:GNOME/Evolution/WombatClient:1.0",
@@ -818,6 +821,8 @@ cal_get_password (Cal *cal, const char *prompt, const char *key)
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
+
+	CORBA_exception_free (&ev);
 
 	return pwd;
 }

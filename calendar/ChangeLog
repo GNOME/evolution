@@ -1,3 +1,10 @@
+2001-10-26  Federico Mena Quintero  <federico@ximian.com>
+
+	* pcs/cal.c (cal_construct): Get a fresh CORBA_Environment for
+	every CORBA call.  Hopefully will fix #11978, but I'm not sure
+	about what else could be happening.
+	(cal_get_password): Free the exception.
+
 2001-10-25  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-itip-control.c: used functions to get PUBLISH_OPTIONS etc.,
