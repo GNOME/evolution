@@ -32,7 +32,7 @@ e_table_col_new (const char *id, int width, int min_width,
 	etc->compare = compare;
 
 	etc->selected = 0;
-	etc->resizeable = 0;
+	etc->resizeable = resizable;
 
 	return etc;
 }

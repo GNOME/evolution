@@ -1,5 +1,10 @@
 1999-11-29  Miguel de Icaza  <miguel@gnu.org>
 
+	* e-table-col.c (e_table_col_new): Set etc->resizeable.
+
+	* e-table-header-item.c (ethi_event): Handle non-resizeables
+	columns;  Add support for minimum width.
+
 	* e-cell-toggle.c, e-cell-toggle.h: New file.  Implement a
 	multi-state image toggle cell object.
 

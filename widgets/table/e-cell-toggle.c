@@ -19,7 +19,7 @@
 
 #define PARENT_TYPE e_cell_get_type()
 
-Typedef struct {
+typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
 	GnomeCanvas *canvas;
@@ -71,10 +71,13 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	  int col, int row, gboolean selected,
 	  int x1, int y1, int x2, int y2)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (e_cell_view->ecell);
+	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
 	GdkPixbuf *image;
-	const int value = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
+	ArtPixBuf *art;
+	int x, y, width, height;
+	const int value = GPOINTER_TO_INT (
+		e_table_model_value_at (ecell_view->ecell->table_model, col, row));
 
 	if (value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
@@ -83,19 +86,43 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	}
 
 	image = toggle->images [value];
+	art = image->art_pixbuf;
 
+	if ((x2 - x1) < art->width){
+		x = x1;
+		width = x2 - x1;
+	} else {
+		x = x1 + ((x2 - x1) - art->width) / 2;
+		width = art->width;
+	}
+
+	if ((y2 - y1) < art->height){
+		y = y1;
+		height = y2 - y1;
+	} else {
+		y = y1 + ((y2 - y1) - art->height) / 2;
+		height = art->height;
+	}
+
+	width = y2 - y1; 
+	gdk_pixbuf_render_to_drawable_alpha (
+		image, drawable, 0, 0, x, y,
+		width, height,
+		GDK_PIXBUF_ALPHA_FULL, 0,
+		GDK_RGB_DITHER_NORMAL,
+		0, 0);
 }
 
 static void
 etog_set_value (ECellToggleView *toggle_view, int col, int row, int value)
 {
-	ECell *ecell = toggle_view->cell_view.ecell
+	ECell *ecell = toggle_view->cell_view.ecell;
 	ECellToggle *toggle = E_CELL_TOGGLE (ecell);
 
-	if (value >= toggle->n_vals)
+	if (value >= toggle->n_states)
 		value = 0;
 
-	e_table_model_set_value_at (ecell->table_model, col, row, value);
+	e_table_model_set_value_at (ecell->table_model, col, row, GINT_TO_POINTER (value));
 	etog_queue_redraw (toggle_view, col, row);
 }
 
@@ -105,9 +132,10 @@ etog_set_value (ECellToggleView *toggle_view, int col, int row, int value)
 static gint
 etog_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (e_cell_view->ecell);
+	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	int value = e_table_model_value_at (e_cell_view->ecell->table_model, col, row);
+	void *_value = e_table_model_value_at (ecell_view->ecell->table_model, col, row);
+	const int value = GPOINTER_TO_INT (_value);
 	
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
@@ -133,7 +161,7 @@ etog_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 static int
 etog_height (ECellView *ecell_view, int col, int row)
 {
-	ECellToggle *toggle = E_CELL_TOGGLE (e_cell_view->ecell);
+	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
 
 	return toggle->height;
 }
@@ -174,6 +202,7 @@ void
 e_cell_toggle_construct (ECellToggle *etog, ETableModel *etm, int border, int n_states, GdkPixbuf **images)
 {
 	int max_height =  0;
+	int i;
 	
 	E_CELL (etog)->table_model = etm;
 

@@ -11,6 +11,8 @@ libevolutionwidgets_a_SOURCES = 		\
 	e-cell.h				\
 	e-cell-text.c				\
 	e-cell-text.h				\
+	e-cell-toggle.c				\
+	e-cell-toggle.h				\
 	e-cursors.c				\
 	e-cursors.h				\
 	e-table-col.c				\

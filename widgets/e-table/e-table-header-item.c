@@ -383,6 +383,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
 		if (resizing){
+			int new_width;
+			
 			if (ethi->resize_guide == NULL){
 				/* Quick hack until I actually bind the views */
 				ethi->resize_guide = GINT_TO_POINTER (1);
@@ -393,12 +395,16 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 							e->button.time);
 			}
 
-			if (x - ethi->resize_start_pos <= 0)
+			new_width = x - ethi->resize_start_pos;
+			if (new_width <= 0)
 				break;
 
+			if (new_width < ethi->resize_min_width)
+				break;
+			
 			ethi_request_redraw (ethi);
 
-			ethi->resize_width = x - ethi->resize_start_pos;
+			ethi->resize_width = new_width;
 			e_table_header_set_size (ethi->eth, ethi->resize_col, ethi->resize_width);
 
 			ethi_request_redraw (ethi);
@@ -420,9 +426,13 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			 * other event handlers).
 			 */
 			ecol = e_table_header_get_column (ethi->eth, col);
+
+			if (!ecol->resizeable)
+				break;
 			ethi->resize_col = col;
 			ethi->resize_width = ecol->width;
 			ethi->resize_start_pos = start - ecol->width;
+			ethi->resize_min_width = ecol->min_width;
 		}
 		break;
 

@@ -21,11 +21,13 @@ typedef struct {
 	GdkFont         *font;
 
 	/*
-	 * Used during resizing
+	 * Used during resizing;  Could be shorts
 	 */
 	int              resize_col;
 	int 	         resize_width;
 	int              resize_start_pos;
+	int              resize_min_width;
+	
 	GtkObject       *resize_guide;
 
 	/*
