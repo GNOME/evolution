@@ -25,7 +25,7 @@
        <listitem>
 	 <para>
 	   It supports multiple mail sources, including IMAP, POP3,
-	   and local mbox files.
+	   and local <filename>mbox</filename> files.
 	 </para>
        </listitem>
      </itemizedlist>
@@ -125,17 +125,18 @@
       <sect3 id="usage-mail-getnsend-get-attach">
 	<title>Attachments, HTML Mail, and Live Documents</title>
 	<para>
-	  If you receive a file attached to an email,
-	  <application>Evolution</application> will display it at the
-	  bottom of the message to which it's attached.  Text, HTML,
-	  and most images will be displayed in the message itself.
-	  For other files, <application>Evolution</application> will
-	  provide a link and icon at the end of the message.  Click on
-	  that, and <application>Evolution</application> will ask you
-	  where you want to put the file.  Once you've chosen one and
-	  saved the file, you can open, move, copy, or execute it just
-	  like any other, using <application>Nautilus</application> or
-	  your favorite shell or file manager.
+	  If someone sends you a file attached to an email (an
+	  "attachment"), <application>Evolution</application> will
+	  display the file at the bottom of the message to which it's
+	  attached.  Text, HTML, and most images will be displayed in
+	  the message itself.  For other files,
+	  <application>Evolution</application> will provide a link and
+	  icon at the end of the message.  Click on that, and
+	  <application>Evolution</application> will ask you where you
+	  want to put the file.  Once you've chosen one and saved the
+	  file, you can open, move, copy, or execute it just like any
+	  other, using <application>Nautilus</application> or your
+	  favorite shell or file manager.
 	</para>
 
 	<para>
@@ -235,8 +236,17 @@
 	  feature, once it is decided upon). -->  If you enter a name or
 	  nickname that can go with more than one card, Evolution will
 	  open a dialog box to ask you which person you meant.
-	  <!-- (QUESTION: will users be able to drag & drop address cards
-	  to send email?). -->  For more information about using email
+        </para>
+        <para>
+          Alternately, you can click on the
+          <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
+          <guibutton>Bcc:</guibutton> buttons to get a list of email
+          addresses.  Click the checkboxes next to the addresses, then
+          click <guibutton>OK</guibutton>, and the address will be
+          added to the appropriate form field.
+        </para>
+	<para>
+          For more information about using email
 	  together with the contact manager and the calendar, see
 	  <xref linkend="usage-contact-automate"> and <xref
 	  linkend="usage-calendar-apts-group">.
@@ -265,7 +275,7 @@
 	         She puts her co-worker, Tim, in the in the
 	         <guilabel>Cc:</guilabel> field, so that he know
 	         what's going on.  The client can see that Tim also
-	         recieved the message, and know that they can talk to
+	         recieved the message, and knows that he can talk to
 	         Tim about the message as well.
 	      </para>
 	    </example>
@@ -279,20 +289,21 @@
 	    <guilabel>Bcc:</guilabel> field get the message, but
 	    nobody else sees their email address.  They will still see
 	    the list of addresses from the <guilabel>To:</guilabel>
-	    and <guilabel>Cc:</guilabel> fields.
+	    and <guilabel>Cc:</guilabel> fields, though.
 
 	    <example id="ex-mail-bcc">
 	      <title>Using the Bcc: field</title>
 	      <para>
-	         Tim is sending out a message to all of his company's
-	         clients, some of whom are in competition with each
-	         other, and all of whom value their privacy.  If he
-	         puts every address from his address book's "Clients"
+	         Tim is sending an email announcement to all of his
+	         company's clients, some of whom are in competition
+	         with each other, and all of whom value their
+	         privacy. He needs to use the
+	         <guilabel>Bcc:</guilabel> field here.  If he puts
+	         every address from his address book's "Clients"
 	         category into the <guilabel>To:</guilabel> or
-	         <guilabel>Cc:</guilabel> fields, he'll have made the
-	         <emphasis>entire</emphasis> client list public.
-	         Don't assume it won't happen to you; I got careless
-	         one day and did it myself.
+	         <guilabel>Cc:</guilabel> fields, he'll make the
+	         company's <emphasis>entire</emphasis> client list
+	         public.  Don't assume it won't happen to you!
 	     </para>
 	    </example>
 	  </para>
@@ -383,9 +394,9 @@ with quoted materials and the relevant replies interspersed-->
             If you format a message with HTML, but do not have
 	    <guilabel>Send Messages as HTML</guilabel> enabled in your
 	    mail settings, the composer will remove your text styles.
-	    It will, however, preserve indentation and lists.  It will
-	    do the same thing for any individuals in your address book
-	    whom you have marked as preferring not to receive HTML.
+	    It will, however, preserve indentation and lists.  The
+	    same is true for individuals in your address book whom you
+	    have not marked as wanting to receive HTML mail.
            </para>
 	</note>
 	<para>
@@ -404,7 +415,7 @@ with quoted materials and the relevant replies interspersed-->
              <term>Headers and lists</term>
 	      <listitem>
 		<para>
-                  Choose <guilabel>Normal</guilabel> for your default
+                  Choose <guilabel>Normal</guilabel> for a default
                   text style, or <guilabel>Header 1</guilabel> through
                   <guilabel>Header 6</guilabel> for varying sizes of
                   header.  You can also select
@@ -419,7 +430,7 @@ with quoted materials and the relevant replies interspersed-->
 	      <listitem>
 		<para>
                   <itemizedlist mark="none">      
-		  <listitem><para><guilabel>B</guilabel> is for bold text</para></listitem>		    
+		  <listitem><para><guilabel>B</guilabel> is for bold text</para></listitem>   
                   <listitem><para><guilabel>I</guilabel> for italics</para></listitem>
 		  <listitem><para><guilabel>U</guilabel> to underline</para></listitem>
 		  <listitem><para><guilabel>S</guilabel> for a strikethrough.</para></listitem>
@@ -488,18 +499,24 @@ with quoted materials and the relevant replies interspersed-->
 	      of characters, and not "make this text bold," as an HTML
 	      composition tool or text editor would.
 	    </para>
-	  </note>
-	</sect3>
-	<sect3 id="usage-mail-getnsend-send-attach">
-	  <title>Attachments</title>
-	  <para>
-	    If you want to attach a file to your email message, just
-	    click the button with a paper clip on it, labelled
-	    <guibutton>Attach</guibutton>.
-	    <application>Evolution</application> will then ask you to
-	    select the file.  Do so, and then send the message.  Be
-	    aware that big attachments can take a long time to
-	    download.  
+	</note>
+      </sect3>
+      <sect3 id="usage-mail-getnsend-send-attach">
+	<title>Attachments</title>
+	<para>
+	    If you want to attach a file to your email message, you
+	    can drag it from your desktop into the message window, or
+	    click the button in the toolbar with a paper clip on it,
+	    labelled <guibutton>Attach</guibutton>.  If you click the
+	    <guibutton>Attach</guibutton> button,
+	    <application>Evolution</application> will open a file
+	    selection dialog box, to ask you which file you want to
+	    send.  Select the file and click <guilabel>OK</guilabel>.
+          </para>
+	<para>
+            When you send the message, a copy of the file will
+	    go with it.  Be aware that big attachments can take a long
+	    time to download.
           </para>
 	</sect3>
 
@@ -527,7 +544,7 @@ possibly never will be due to security evil. -->
 	  works in much the same way.  It's particularly useful if you
 	  have received a message and you think someone else would
 	  like to see it.  You can forward a message as an attachment
-	  to a new message (this is the default way of forwarding) or
+	  to a new message (this is the default) or
 	  you can send it <glossterm>inline</glossterm> as a quoted
 	  portion of the message you are sending.  Attachment
 	  forwarding is best if you want to send the full, unaltered
@@ -542,9 +559,10 @@ possibly never will be due to security evil. -->
 	  To forward a message, first make sure it is selected by
 	  clicking it once in the message list.  Then, press
 	  <guibutton>Forward</guibutton> on the toolbar, or select
-	  SOMETHING.  To forward a message
+	  <guimenuitem>Forward</guimenuitem> from the
+	  <guimenu>Message</guimenu> menu.  To forward a message
 	  <glossterm>inline</glossterm> instead of attached, select
-	  <guimenuitem>Forward Inline </guimenuitem> from the
+	  <guimenuitem>Forward Inline</guimenuitem> from the
 	  <guimenu>Message</guimenu> menu.  Choose an addressee as you
 	  would when sending a new message; the subject will already
 	  be entered, but you can alter it.  Enter your comments on
@@ -607,7 +625,7 @@ possibly never will be due to security evil. -->
 	    <listitem>
 	      <para>
 		 When you reply or forward, include just enough of
-		 the previous message to provide context. Not too
+		 the previous message to provide context: not too
 		 much, not too little.
 	       </para>
 	    </listitem>
@@ -646,10 +664,12 @@ possibly never will be due to security evil. -->
         <note>
 	  <title>Folders have Limits</title>
 	  <para>
-            A folder can hold mail, calendars, or address cards, but
-	    you can't mix them up.  Also, an email message can be in
-	    only one folder at a time, just like real mail in real
-	    folders.  If you need more flexibility, try vFolders.
+	      You can always place a folder inside other folders,
+	      regardless of folder type.  However, calendars,
+	      contacts, and mail can't go into the same
+	      folder. Calendars have to go in calendar folders, mail
+	      in mail folders, and contacts in contact folders.
+              FIXME: should this go in a different section?
           </para>
 	</note>
       </para>
@@ -741,8 +761,7 @@ possibly never will be due to security evil. -->
 	they have sent, find filters especially helpful to seperate
 	personal from list-related mail, but they're good for anybody
 	who gets more than a few messages a day.  To create a filter,
-	go to your <interface>Inbox</interface>.  Then select
-	<guimenuitem>Filter Assistant</guimenuitem> from the
+	select <guimenuitem>Filter Assistant</guimenuitem> from the
 	<guimenu>Tools</guimenu> menu. This will bring up a window
 	which will guide you through filter creation.  The
 	<interface>filter assistant</interface> is shown in <xref

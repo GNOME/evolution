@@ -1,18 +1,88 @@
+2000-07-19  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mail.sgml: lots of minor fixes to language. added
+	desc. of clahey's cool button-address thing.
+
+	* C/usage-mainwindow.sgml: fixed itemizedlists, ch. to shortcut
+	bar & folder descs, removed refs to trash.
+
+2000-07-18  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: Altered category addition stuff, plus
+	suggestions from Kevin.
+
+	* C/apx-gloss.sgml: Added ldap and signature definitions (from
+	Kevin).
+
+	* C/usage-mail.sgml: Move to variablelists from itemizedlists.
+
+2000-07-14  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: moved to variablelists from itemizedlists
+	* C/usage-calendar.sgml: moved to variablelists from itemizedlists
+
+2000-06-29  Aaron Weber  <aaron@helixcode.com>
+
+	* C/preface.sgml: Minor fixes.
+
+	* C/usage-notes.sgml: New File for feature that is yet to come.
+	* C/evolution-guide.sgml: Added entity for notes chapter.
+	* C/usage-mainwindow.sgml: Un-commented references to notes section.
+	
+	* C/apx-authors.sgml: Removed dcm from author list.
+
+	* C/usage-calendar.sgml: Added to-do list features.
+
+2000-06-28  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: commented out future features; redid
+	contact editor stuff.
+
+	* C/apx-gloss.sgml: Removed "live doc" and added "minicard"
+
+2000-06-27  Aaron Weber  <aaron@helixcode.com>
+
+	* C/devel-action.sgml: Removed file.
+	* C/devel-script.sgml: Same.
+	* C/devel-component.sgml: Same.
+	* C/preface.sgml: Removed references to devel section.
+	* C/evolution-guide.sgml: Removed references to devel section.
+
+2000-06-23  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evolution-guide.sgml: Made moderate to major stylistic updates
+	to this, apx-gloss.sgml, and to all files beginning with "usage,"
+	especially wrt HTML mail.
+	
+
+<<<<<<< ChangeLog
+2000-06-15  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: Category stuff improved.
+
+	* C/usage-calendar.sgml: Now covers how to add an event properly.
+
+=======
+=======
+=======
 2000-07-17  Federico Mena Quintero  <federico@helixcode.com>
 
 	* Makefile.am (SUBDIRS): Added the devel directory.
 
+>>>>>>> 1.15
 2000-06-28  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* C/Makefile.am (SGML_FILES): Don't depend on the newly-removed
 	devel-*.sgml files.
 
+>>>>>>> 1.13
 2000-06-16  Damon Chaplin  <damon@helixcode.com>
 
 	* C/.cvsignore: added evolution-guide and evolution-guide.junk
 	so we don't get the '? doc/C/evolution-guide' messages each time we
 	do a cvs update.
 
+>>>>>>> 1.12
 2000-06-14  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mainwindow.sgml: added sect on menubar, other minor changes.

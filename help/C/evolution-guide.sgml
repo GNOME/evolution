@@ -22,12 +22,12 @@
   <bookinfo>
     <title>A User's Guide to Evolution</title>
     <authorgroup>
-     <author><firstname>Aaron</firstname><surname>Weber</surname></author>
+      <author><firstname>Aaron</firstname><surname>Weber</surname></author>
       <author><firstname>Kevin</firstname><surname>Breit</surname></author>
-
-   </authorgroup>
+    </authorgroup>
     <copyright>
-      <year>2000</year><holder>Helix Code, Inc.</holder>
+      <year>2000</year>
+      <holder>Helix Code, Inc. </holder>
       <holder>Kevin Breit</holder>
     </copyright>
     
@@ -41,16 +41,6 @@
        This is version 0.4 of the Evolution manual.  
     </releaseinfo> 
     <!-- this is version of manual, not application -->
-
-<!-- ########## TO DO LIST: ########### -->
- <!--
-finish content.
-standardize capitalization/formatting of titles, interface and
-component names.
-standardize spelling of buzzwords & techterms like email
-add glossterms and glossary
-standardize on second person, not 1st pers. plural.
--->
 
   </bookinfo>
 
