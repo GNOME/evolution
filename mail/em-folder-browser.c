@@ -534,7 +534,7 @@ emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
 	
-	em_utils_expunge_folder ((GtkWidget *) emfb, emfb->view.folder);
+	em_utils_expunge_folder(gtk_widget_get_toplevel((GtkWidget *)emfb), emfb->view.folder);
 }
 
 static void

@@ -235,8 +235,8 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 		GtkWidget *entry;
 		
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "fileentry_add_script_script");
-		gtk_entry_set_text (GTK_ENTRY (entry), sig->name);
-		
+		gnome_file_entry_set_filename((GnomeFileEntry *)entry, sig->script);
+
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 		gtk_entry_set_text (GTK_ENTRY (entry), sig->name);
 		
@@ -293,14 +293,15 @@ sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 static void
 sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 {
-	const char *script, *name;
+	const char *name;
+	char *script;
 	GtkWidget *dialog;
 	GtkWidget *entry;
 	
 	if (button == GTK_RESPONSE_ACCEPT) {
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "fileentry_add_script_script");
-		script = gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (entry))));
-		
+		script = gnome_file_entry_get_full_path((GnomeFileEntry *)entry, FALSE);
+
 		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 		name = gtk_entry_get_text (GTK_ENTRY (entry));
 		if (script && *script) {
@@ -323,11 +324,13 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 				}
 				
 				gtk_widget_hide (prefs->sig_script_dialog);
+				g_free(script);
 				
 				return;
 			}
 		}
-		
+
+		g_free(script);
 		dialog = gtk_message_dialog_new (GTK_WINDOW (prefs->sig_script_dialog),
 						 GTK_DIALOG_DESTROY_WITH_PARENT,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
@@ -335,6 +338,7 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 		
 		gtk_dialog_run ((GtkDialog *) dialog);
 		gtk_widget_destroy (dialog);
+		return;
 	}
 	
 	gtk_widget_hide (widget);

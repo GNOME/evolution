@@ -1,5 +1,19 @@
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-browser.c (emfb_folder_expunge): get the toplevel
+	widget here too, similar to bug 52161.
+
+	** See bug #52956
+
+	* em-composer-prefs.c (sig_edit_cb): The
+	fileentry_add_script_script widget is a GnomeFileEntry not a
+	GtkEntry.
+	(sig_add_script_response): use get_full_path rather than snooping
+	the gtkentry.  Also, don't close/quit the script dialogue on a bad
+	name.
+
+2004-01-19  Not Zed  <NotZed@Ximian.com>
+
 	* em-migrate.c (em_upgrade_pop_uid_caches_1_4): if we can't open
 	the pop3 cache dir, because it doesn't exist, it is not an error.
 
