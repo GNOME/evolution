@@ -1,5 +1,7 @@
 2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-accounts.c (mail_edit): Implemented.
+
 	* mail-account-editor.c (apply_clicked): Implemented.
 	(ok_clicked): Implemented.
 	(cancel_clicked): Implemented.

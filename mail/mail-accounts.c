@@ -174,12 +174,27 @@ mail_add (GtkButton *button, gpointer data)
 }
 
 static void
+mail_editor_destroyed (GtkWidget *widget, gpointer data)
+{
+	load_accounts (MAIL_ACCOUNTS_DIALOG (data));
+}
+
+static void
 mail_edit (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
-	MailConfigAccount *account;
 	
-	/* open the editor and stuff */
+	if (dialog->accounts->row >= 0) {
+		const MailConfigAccount *account;
+		MailAccountEditor *editor;
+		
+		account = gtk_clist_get_row_data (dialog->accounts, dialog->accounts_row);
+		editor = mail_account_editor_new (account);
+		gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+				    GTK_SIGNAL_FUNC (mail_editor_destroyed),
+				    dialog);
+		gtk_widget_show (GTK_WIDGET (editor));
+	}
 }
 
 static void
