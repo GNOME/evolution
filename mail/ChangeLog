@@ -1,5 +1,9 @@
 2001-03-29  Dan Winship  <danw@ximian.com>
 
+	* mail-format.c (call_handler_function): if called with a
+	multipart that's really a 0-part, spew an error and display as
+	source.
+
 	* message-list.c: #include <camel/camel-vtrash-folder.h>
 
 	* mail-callbacks.c: #include <libgnome/gnome-paper.h>

@@ -548,6 +548,15 @@ call_handler_function (CamelMimePart *part, MailDisplay *md)
 	gboolean output, is_inline;
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+
+	if (CAMEL_IS_MULTIPART (wrapper) &&
+	    camel_multipart_get_number (CAMEL_MULTIPART (wrapper)) == 0) {
+		mail_error_write (md->html, md->stream, _("Could not parse MIME message. Displaying as source."));
+		if (mail_content_loaded (wrapper, md))
+			handle_text_plain (part, "text/plain", md);
+		return TRUE;
+	}
+
 	mime_type = camel_data_wrapper_get_mime_type (wrapper);
 	g_strdown (mime_type);
 
