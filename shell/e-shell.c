@@ -58,10 +58,13 @@
 #include "importer/intelligent.h"
 
 
-#define PARENT_TYPE BONOBO_OBJECT_TYPE
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_x_object_get_type ()
+static BonoboXObjectClass *parent_class = NULL;
 
 struct _EShellPrivate {
+	/* IID for registering the object on OAF.  */
+	char *iid;
+
 	char *local_directory;
 
 	GList *views;
@@ -166,31 +169,6 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 
 
 /* CORBA interface implementation.  */
-
-static POA_GNOME_Evolution_Shell__vepv shell_vepv;
-
-static POA_GNOME_Evolution_Shell *
-create_servant (void)
-{
-	POA_GNOME_Evolution_Shell *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Evolution_Shell *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &shell_vepv;
-
-	CORBA_exception_init (&ev);
-
-	POA_GNOME_Evolution_Shell__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
 
 static GNOME_Evolution_ShellComponent
 impl_Shell_getComponentByType (PortableServer_Servant servant,
@@ -331,21 +309,6 @@ impl_Shell_createStorageSetView (PortableServer_Servant servant,
 	control = evolution_storage_set_view_factory_new_view (shell);
 
 	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
-}
-
-
-/* OAF registration.  */
-
-static OAF_RegistrationResult
-register_shell (EShell *shell,
-		const char *iid)
-{
-	CORBA_Object corba_object;
-
-	/* FIXME: Multi-display stuff.  */
-
-	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-	return oaf_active_server_register (iid, corba_object);
 }
 
 
@@ -605,6 +568,9 @@ destroy (GtkObject *object)
 	shell = E_SHELL (object);
 	priv = shell->priv;
 
+	if (priv->iid != NULL)
+		oaf_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
+
 	g_free (priv->local_directory);
 
 	if (priv->storage_set != NULL)
@@ -660,34 +626,10 @@ destroy (GtkObject *object)
 /* Initialization.  */
 
 static void
-corba_class_init (void)
-{
-	POA_GNOME_Evolution_Shell__vepv *vepv;
-	POA_GNOME_Evolution_Shell__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
-
-	epv = g_new0 (POA_GNOME_Evolution_Shell__epv, 1);
-	epv->getComponentByType   = impl_Shell_getComponentByType;
-	epv->createNewView        = impl_Shell_createNewView;
-	epv->selectUserFolder     = impl_Shell_selectUserFolder;
-	epv->getLocalStorage      = impl_Shell_getLocalStorage;
-	epv->createStorageSetView = impl_Shell_createStorageSetView;
-
-	vepv = &shell_vepv;
-	vepv->_base_epv = base_epv;
-	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	vepv->GNOME_Evolution_Shell_epv = epv;
-}
-
-static void
 class_init (EShellClass *klass)
 {
 	GtkObjectClass *object_class;
+	POA_GNOME_Evolution_Shell__epv *epv;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
@@ -713,7 +655,12 @@ class_init (EShellClass *klass)
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
-	corba_class_init ();
+	epv = & klass->epv;
+	epv->getComponentByType   = impl_Shell_getComponentByType;
+	epv->createNewView        = impl_Shell_createNewView;
+	epv->selectUserFolder     = impl_Shell_selectUserFolder;
+	epv->getLocalStorage      = impl_Shell_getLocalStorage;
+	epv->createStorageSetView = impl_Shell_createStorageSetView;
 }
 
 static void
@@ -744,7 +691,6 @@ init (EShell *shell)
 /**
  * e_shell_construct:
  * @shell: An EShell object to construct
- * @corba_object: A CORBA Object implementing the Evolution::Shell interface
  * @iid: OAFIID for registering the shell into the name server
  * @local_directory: Local directory for storing local information and folders
  * @show_splash: Whether to display a splash screen.
@@ -755,25 +701,25 @@ init (EShell *shell)
  * Return value: %FALSE if the shell cannot be registered; %TRUE otherwise.
  **/
 gboolean
-e_shell_construct (EShell               *shell,
-		   GNOME_Evolution_Shell corba_object,
-		   const char           *iid,
-		   const char           *local_directory,
-		   gboolean              show_splash)
+e_shell_construct (EShell *shell,
+		   const char *iid,
+		   const char *local_directory,
+		   gboolean show_splash)
 {
 	GtkWidget *splash;
 	EShellPrivate *priv;
+	CORBA_Object corba_object;
 	gchar *shortcut_path;
 
 	g_return_val_if_fail (shell != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-	g_return_val_if_fail (corba_object != CORBA_OBJECT_NIL, FALSE);
 	g_return_val_if_fail (local_directory != NULL, FALSE);
 	g_return_val_if_fail (g_path_is_absolute (local_directory), FALSE);
 
-	bonobo_object_construct (BONOBO_OBJECT (shell), corba_object);
+	/* FIXME: Multi-display stuff.  */
 
-	if (register_shell (shell, iid) != OAF_REG_SUCCESS)
+	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
+	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS)
 		return FALSE;
 
 	if (! show_splash) {
@@ -788,6 +734,7 @@ e_shell_construct (EShell               *shell,
 
 	priv = shell->priv;
 
+	priv->iid                  = g_strdup (iid);
 	priv->local_directory      = g_strdup (local_directory);
 	priv->folder_type_registry = e_folder_type_registry_new ();
 	priv->storage_set          = e_storage_set_new (priv->folder_type_registry);
@@ -848,22 +795,13 @@ e_shell_new (const char *local_directory,
 {
 	EShell *new;
 	EShellPrivate *priv;
-	GNOME_Evolution_Shell corba_object;
-	POA_GNOME_Evolution_Shell *servant;
 
 	g_return_val_if_fail (local_directory != NULL, NULL);
 	g_return_val_if_fail (*local_directory != '\0', NULL);
 
-	servant = create_servant ();
-	if (servant == NULL)
-		return NULL;
-
 	new = gtk_type_new (e_shell_get_type ());
 
-	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	if (! e_shell_construct (new,
-				 corba_object, E_SHELL_OAFIID,
-				 local_directory, show_splash)) {
+	if (! e_shell_construct (new, E_SHELL_OAFIID, local_directory, show_splash)) {
 		bonobo_object_unref (BONOBO_OBJECT (new));
 		return NULL;
 	}
@@ -1451,4 +1389,7 @@ e_shell_go_online (EShell *shell,
 }
 
 
-E_MAKE_TYPE (e_shell, "EShell", EShell, class_init, init, PARENT_TYPE)
+E_MAKE_X_TYPE (e_shell, "EShell", EShell,
+	       class_init, init, PARENT_TYPE,
+	       POA_GNOME_Evolution_Shell__init,
+	       GTK_STRUCT_OFFSET (EShellClass, epv));

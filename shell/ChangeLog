@@ -1,5 +1,19 @@
 2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c: New member `iid' in EShellPrivate.
+	(init): Init to NULL.
+	(e_shell_construct): Set it to the value of the @iid argument.
+	(destroy): Unregister that IID.
+	(register_shell): Removed.
+	(e_shell_construct): Just do all the work here.  The function was
+	too simple to really be useful as separate.
+
+	* e-shell.c, e-shell.h: Changed to derive from BonoboXObject
+	instead of deriving from BonoboObject and doing all the nasty
+	CORBA work by hand.
+
+2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c (activity_client_clicked_callback):
 	New callback for the "clicked" signal on the EActivityClient.
 	Just spit out a warning now, for testing purposes.

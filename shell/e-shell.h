@@ -25,7 +25,7 @@
 #define _E_SHELL_H_
 
 #include <liboaf/liboaf.h>	/* For the registration stuff.  */
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -58,16 +58,17 @@ enum _EShellLineStatus {
 typedef enum _EShellLineStatus EShellLineStatus;
 
 struct _EShell {
-	BonoboObject parent;
+	BonoboXObject parent;
 
 	EShellPrivate *priv;
 };
 
 struct _EShellClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_Shell__epv epv;
 
 	void (* no_views_left) (EShell *shell);
-
 	void (* line_status_changed) (EShell *shell, EShellLineStatus status);
 };
 
@@ -76,14 +77,13 @@ struct _EShellClass {
 #define E_SHELL_OAFIID  "OAFIID:GNOME_Evolution_Shell"
 
 
-GtkType  e_shell_get_type   (void);
-gboolean e_shell_construct  (EShell                *shell,
-			     GNOME_Evolution_Shell  corba_object,
-			     const char            *iid,
-			     const char            *local_directory,
-			     gboolean               show_splash);
-EShell  *e_shell_new        (const char            *local_directory,
-			     gboolean               show_splash);
+GtkType   e_shell_get_type   (void);
+gboolean  e_shell_construct  (EShell     *shell,
+			      const char *iid,
+			      const char *local_directory,
+			      gboolean    show_splash);
+EShell   *e_shell_new        (const char *local_directory,
+			      gboolean    show_splash);
 
 EShellView *e_shell_new_view  (EShell     *shell,
 			       const char *uri);
