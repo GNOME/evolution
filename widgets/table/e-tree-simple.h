@@ -12,13 +12,15 @@
 #define E_IS_TREE_SIMPLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_SIMPLE_TYPE))
 
 
-typedef void*    (*ETreeSimpleValueAtFn)    (ETreeModel *etree, ETreePath *path, int col, void *model_data);
-typedef void     (*ETreeSimpleSetValueAtFn) (ETreeModel *etree, ETreePath *path, int col, const void *val, void *model_data);
-typedef gboolean (*ETreeSimpleIsEditableFn) (ETreeModel *etree, ETreePath *path, int col, void *model_data);
+typedef GdkPixbuf* (*ETreeSimpleIconAtFn)     (ETreeModel *etree, ETreePath *path, void *model_data);
+typedef void*      (*ETreeSimpleValueAtFn)    (ETreeModel *etree, ETreePath *path, int col, void *model_data);
+typedef void       (*ETreeSimpleSetValueAtFn) (ETreeModel *etree, ETreePath *path, int col, const void *val, void *model_data);
+typedef gboolean   (*ETreeSimpleIsEditableFn) (ETreeModel *etree, ETreePath *path, int col, void *model_data);
 
 typedef struct {
 	ETreeModel parent;
 
+	ETreeSimpleIconAtFn icon_at;
 	ETreeSimpleValueAtFn value_at;
 	ETreeSimpleSetValueAtFn set_value_at;
 	ETreeSimpleIsEditableFn is_editable;
@@ -32,7 +34,8 @@ typedef struct {
 
 GtkType e_tree_simple_get_type (void);
 
-ETreeModel *e_tree_simple_new (ETreeSimpleValueAtFn value_at,
+ETreeModel *e_tree_simple_new (ETreeSimpleIconAtFn icon_at,
+			       ETreeSimpleValueAtFn value_at,
 			       ETreeSimpleSetValueAtFn set_value_at,
 			       ETreeSimpleIsEditableFn is_editable,
 			       gpointer model_data);

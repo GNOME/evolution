@@ -83,6 +83,15 @@ my_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	}
 }
 
+static GdkPixbuf *
+my_icon_at (ETreeModel *etm, ETreePath *path, void *model_data)
+{
+	if (e_tree_model_node_is_expanded (etm, path))
+		return tree_expanded_pixbuf;
+	else
+		return tree_unexpanded_pixbuf;
+}
+
 /* This function sets the value at a particular point in our ETreeModel. */
 static void
 my_set_value_at (ETreeModel *etm, ETreePath *path, int col, const void *val, void *model_data)
@@ -130,7 +139,6 @@ add_sibling (GtkButton *button, gpointer data)
 
 	e_tree_model_node_insert_before (e_tree_model, parent_node,
 					 selected_node,
-					 NULL, NULL,
 					 g_strdup("User added sibling"));
 
 }
@@ -150,7 +158,7 @@ add_child (GtkButton *button, gpointer data)
 	g_assert (selected_node);
 
 	e_tree_model_node_insert (e_tree_model, selected_node,
-				  0, NULL, NULL,
+				  0,
 				  g_strdup("User added child"));
 }
 
@@ -238,25 +246,24 @@ create_tree (void)
 
 	/* here we create our model.  This uses the functions we defined
 	   earlier. */
-	e_tree_model = e_tree_simple_new (my_value_at,
+	e_tree_model = e_tree_simple_new (my_icon_at,
+					  my_value_at,
 					  my_set_value_at,
 					  my_is_editable,
 					  NULL);
 
 	/* create a root node with 5 children */
 	root_node = e_tree_model_node_insert (e_tree_model, NULL,
-					      0, NULL, NULL,
+					      0,
 					      g_strdup("Root Node"));
 
 	for (i = 0; i < 5; i++){
 		ETreePath *n = e_tree_model_node_insert (e_tree_model,
 							 root_node, 0,
-							 tree_expanded_pixbuf, tree_unexpanded_pixbuf,
 							 g_strdup("First level of children"));
 		for (j = 0; j < 5; j ++) {
 			e_tree_model_node_insert (e_tree_model,
 						  n, 0,
-						  NULL, NULL,
 						  g_strdup("Second level of children"));
 		}
 	}

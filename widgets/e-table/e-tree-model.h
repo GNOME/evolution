@@ -39,6 +39,7 @@ typedef struct {
 	void       (*set_expanded_recurse) (ETreeModel *etm, ETreePath *node, gboolean expanded);
 	void       (*set_expanded_level)   (ETreeModel *etm, ETreePath *node, gboolean expanded, int level);
 
+	GdkPixbuf *(*icon_at)              (ETreeModel *etm, ETreePath* node);
 	ETreePath* (*node_at_row)          (ETreeModel *etm, int row);
 
 	/*
@@ -69,8 +70,8 @@ ETreePath *e_tree_model_node_get_next   (ETreeModel *etree, ETreePath *path);
 ETreePath *e_tree_model_node_get_prev   (ETreeModel *etree, ETreePath *path);
 
 /* node operations */
-ETreePath *e_tree_model_node_insert        (ETreeModel *etree, ETreePath *parent, int position, GdkPixbuf *opened_pixbuf, GdkPixbuf *closed_pixbuf, gpointer node_data);
-ETreePath *e_tree_model_node_insert_before (ETreeModel *etree, ETreePath *parent, ETreePath *sibling, GdkPixbuf *opened_pixbuf, GdkPixbuf *closed_pixbuf, gpointer node_data);
+ETreePath *e_tree_model_node_insert        (ETreeModel *etree, ETreePath *parent, int position, gpointer node_data);
+ETreePath *e_tree_model_node_insert_before (ETreeModel *etree, ETreePath *parent, ETreePath *sibling, gpointer node_data);
 gpointer   e_tree_model_node_remove        (ETreeModel *etree, ETreePath *path);
 
 /* node accessors */
@@ -85,11 +86,10 @@ guint    e_tree_model_node_depth                   (ETreeModel *etree, ETreePath
 guint    e_tree_model_node_num_visible_descendents (ETreeModel *etm, ETreePath *node);
 gpointer e_tree_model_node_get_data                (ETreeModel *etm, ETreePath *node);
 void     e_tree_model_node_set_data                (ETreeModel *etm, ETreePath *node, gpointer node_data);
-GdkPixbuf *e_tree_model_node_get_opened_pixbuf     (ETreeModel *etm, ETreePath *node);
-GdkPixbuf *e_tree_model_node_get_closed_pixbuf     (ETreeModel *etm, ETreePath *node);
 
 /* display oriented routines */
 ETreePath *e_tree_model_node_at_row           (ETreeModel *etree, int row);
+GdkPixbuf *e_tree_model_icon_of_node          (ETreeModel *etree, ETreePath *path);
 int        e_tree_model_row_of_node           (ETreeModel *etree, ETreePath *path);
 void       e_tree_model_root_node_set_visible (ETreeModel *etree, gboolean visible);
 gboolean   e_tree_model_root_node_is_visible  (ETreeModel *etree);

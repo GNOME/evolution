@@ -1,5 +1,21 @@
 2000-06-23  Chris Toshok  <toshok@helixcode.com>
 
+	* e-tree-model.h, e-tree-model.c: add icon_at virtual function -
+	it was stupid to make the insert call take 2 pixbufs.  the model
+	should give this information.
+	
+	* e-cell-tree.c: get rid of the opened/closed pixbuf stuff.  call
+	e_tree_model_icon_of_node.
+
+	* e-tree-example-1.c: add my_icon_at.
+	
+	* e-tree-simple.c (simple_icon_at): new function
+	(e_tree_simple_new): add icon_at parameter.
+	
+	* e-tree-simple.h: add SimpleIconAtFn.
+
+2000-06-23  Chris Toshok  <toshok@helixcode.com>
+
 	* e-tree-example-1.c (create_tree): use the expanded/unexpanded
 	pixbufs as node pixbufs for the first level of children, to test
 	the drawing.

@@ -23,8 +23,6 @@ static ETableModel *e_tree_model_parent_class;
 typedef struct {
 	gboolean expanded;
 	guint visible_descendents;
-	GdkPixbuf *opened_pixbuf;
-	GdkPixbuf *closed_pixbuf;
 	gpointer node_data;
 } ENode;
 
@@ -216,6 +214,14 @@ etree_value_at (ETreeModel *etm, ETreePath* node, int col)
 	return NULL;
 }
 
+static GdkPixbuf*
+etree_icon_at (ETreeModel *etm, ETreePath* node)
+{
+	/* shouldn't be called */
+	g_assert (0);
+	return NULL;
+}
+
 static void
 etree_set_value_at (ETreeModel *etm, ETreePath* node, int col, const void *val)
 {
@@ -337,6 +343,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	tree_class->get_parent        = etree_get_parent;
 
 	tree_class->value_at          = etree_value_at;
+	tree_class->icon_at           = etree_icon_at;
 	tree_class->set_value_at      = etree_set_value_at;
 	tree_class->is_editable       = etree_is_editable;
 
@@ -415,6 +422,12 @@ ETreePath *
 e_tree_model_node_at_row (ETreeModel *etree, int row)
 {
 	return ETM_CLASS(etree)->node_at_row (etree, row);
+}
+
+GdkPixbuf *
+e_tree_model_icon_of_node (ETreeModel *etree, ETreePath *path)
+{
+	return ETM_CLASS(etree)->icon_at (etree, path);
 }
 
 int
@@ -554,36 +567,10 @@ e_tree_model_node_set_data (ETreeModel *etm, ETreePath *node, gpointer node_data
 	enode->node_data = node_data;
 }
 
-GdkPixbuf *
-e_tree_model_node_get_opened_pixbuf (ETreeModel *etm, ETreePath *node)
-{
-	ENode *enode;
-
-	g_return_val_if_fail (node && node->data, NULL);
-
-	enode = (ENode*)node->data;
-
-	return enode->opened_pixbuf;
-}
-
-GdkPixbuf *
-e_tree_model_node_get_closed_pixbuf (ETreeModel *etm, ETreePath *node)
-{
-	ENode *enode;
-
-	g_return_val_if_fail (node && node->data, NULL);
-
-	enode = (ENode*)node->data;
-
-	return enode->closed_pixbuf;
-}
-
 ETreePath*
 e_tree_model_node_insert (ETreeModel *tree_model,
 			  ETreePath *parent_path,
 			  int position,
-			  GdkPixbuf *opened_pixbuf,
-			  GdkPixbuf *closed_pixbuf,
 			  gpointer node_data)
 {
 	ENode *node;
@@ -594,8 +581,6 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 	node = g_new0 (ENode, 1);
 
 	node->expanded = FALSE;
-	node->closed_pixbuf = closed_pixbuf;
-	node->opened_pixbuf = opened_pixbuf;
 	node->node_data = node_data;
 
 	if (parent_path != NULL) {
@@ -641,13 +626,10 @@ ETreePath *
 e_tree_model_node_insert_before (ETreeModel *etree,
 				 ETreePath *parent,
 				 ETreePath *sibling,
-				 GdkPixbuf *opened_pixbuf,
-				 GdkPixbuf *closed_pixbuf,
 				 gpointer node_data)
 {
 	return e_tree_model_node_insert (etree, parent,
 					 g_node_child_position (parent, sibling),
-					 opened_pixbuf, closed_pixbuf,
 					 node_data);
 }
 

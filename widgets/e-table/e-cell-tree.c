@@ -178,10 +178,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		expanded = e_tree_model_node_is_expanded (tree_model, node);
 		subcell_offset = offset;
 
-		if (expanded)
-			node_image = e_tree_model_node_get_opened_pixbuf (tree_model, node);
-		else
-			node_image = e_tree_model_node_get_closed_pixbuf (tree_model, node);
+		node_image = e_tree_model_icon_of_node (tree_model, node);
 
 		if (node_image) {
 			node_image_width = gdk_pixbuf_get_width (node_image);

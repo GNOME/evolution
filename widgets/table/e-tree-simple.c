@@ -23,6 +23,14 @@ simple_value_at (ETreeModel *etm, ETreePath *node, int col)
 	return simple->value_at (etm, node, col, simple->model_data);
 }
 
+static GdkPixbuf *
+simple_icon_at (ETreeModel *etm, ETreePath *node)
+{
+	ETreeSimple *simple = E_TREE_SIMPLE(etm);
+
+	return simple->icon_at (etm, node, simple->model_data);
+}
+
 static void
 simple_set_value_at (ETreeModel *etm, ETreePath *node, int col, const void *val)
 {
@@ -44,6 +52,7 @@ e_tree_simple_class_init (GtkObjectClass *object_class)
 {
 	ETreeModelClass *model_class = (ETreeModelClass *) object_class;
 
+	model_class->icon_at = simple_icon_at;
 	model_class->value_at = simple_value_at;
 	model_class->set_value_at = simple_set_value_at;
 	model_class->is_editable = simple_is_editable;
@@ -52,7 +61,8 @@ e_tree_simple_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE(e_tree_simple, "ETreeSimple", ETreeSimple, e_tree_simple_class_init, NULL, PARENT_TYPE)
 
 ETreeModel *
-e_tree_simple_new (ETreeSimpleValueAtFn value_at,
+e_tree_simple_new (ETreeSimpleIconAtFn icon_at,
+		   ETreeSimpleValueAtFn value_at,
 		   ETreeSimpleSetValueAtFn set_value_at,
 		   ETreeSimpleIsEditableFn is_editable,
 		   gpointer model_data)
@@ -63,6 +73,7 @@ e_tree_simple_new (ETreeSimpleValueAtFn value_at,
 
 	e_tree_model_construct (E_TREE_MODEL (etg));
 
+	etg->icon_at = icon_at;
 	etg->value_at = value_at;
 	etg->set_value_at = set_value_at;
 	etg->is_editable = is_editable;
