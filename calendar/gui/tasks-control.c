@@ -230,8 +230,8 @@ tasks_control_activate_cb		(BonoboControl		*control,
 /* Sensitizes the UI Component menu/toolbar commands based on the number of
  * selected tasks.
  */
-static void
-sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
+void
+tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_selected)
 {
 	BonoboUIComponent *uic;
 	gboolean read_only = TRUE;
@@ -271,7 +271,7 @@ selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
 
 	control = BONOBO_CONTROL (data);
 
-	sensitize_commands (tasks, control, n_selected);
+	tasks_control_sensitize_commands (control, tasks, n_selected);
 }
 
 static BonoboUIVerb verbs [] = {
@@ -325,7 +325,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	etable = e_calendar_table_get_table (cal_table);
 	n_selected = e_table_selected_count (etable);
 
-	sensitize_commands (tasks, control, n_selected);
+	tasks_control_sensitize_commands (control, tasks, n_selected);
 
 	bonobo_ui_component_thaw (uic, NULL);
 

@@ -1,5 +1,14 @@
 2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-control.[ch] (tasks_control_sensitize_commands): made
+	it public.
+
+	* gui/tasks-component.c (update_uri_for_primary_selection): call
+	tasks_control_sensitize_commands() when the primary selection
+	changes.
+
+2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/calendar-component.c (update_uri_for_primary_selection): call
 	calendar_control_sensitize_calendar_commands when the primary selection
 	changes.

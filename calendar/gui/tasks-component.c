@@ -181,6 +181,8 @@ update_uri_for_primary_selection (TasksComponent *component)
 	TasksComponentPrivate *priv;
 	ESource *source;
 	char *uri;
+	ECalendarTable *cal_table;
+	ETable *etable;
 
 	priv = component->priv;
 	
@@ -192,7 +194,11 @@ update_uri_for_primary_selection (TasksComponent *component)
 	uri = e_source_get_uri (source);
 	e_tasks_set_default_uri (priv->tasks, uri);
 	g_free (uri);
-	
+
+	cal_table = e_tasks_get_calendar_table (priv->tasks);
+	etable = e_calendar_table_get_table (cal_table);
+	tasks_control_sensitize_commands (priv->view_control, priv->tasks, e_table_selected_count (etable));
+
 	/* Save the selection for next time we start up */
 	calendar_config_set_primary_tasks (e_source_peek_uid (source));
 }
