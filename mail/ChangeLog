@@ -1,3 +1,12 @@
+2002-11-15  Not Zed  <NotZed@Ximian.com>
+
+	* mail-summary.c (create_summary_view): weak notify -> ref.
+
+	* mail-send-recv.c (build_dialogue): weak notify -> ref.
+
+	* mail-accounts.c (account_edit_clicked): weak notify -> ref, i
+	presume this is what jeff meant, 'cause it dont compile otherwise.
+
 2002-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (account_edit_clicked): Use g_object_weak_ref

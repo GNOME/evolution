@@ -190,7 +190,7 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			account = gtk_clist_get_row_data (prefs->table, row);
 #endif
 			prefs->editor = (GtkWidget *) mail_account_editor_new (account, GTK_WINDOW (window), prefs);
-			g_object_weak_notify ((GObject *) prefs->editor, (GWeakNotify) account_edit_finished, prefs);
+			g_object_weak_ref ((GObject *) prefs->editor, (GWeakNotify) account_edit_finished, prefs);
 			gtk_widget_show (prefs->editor);
 			g_object_ref (prefs);
 		}

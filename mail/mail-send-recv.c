@@ -434,7 +434,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	
 	g_signal_connect (gd, "response", G_CALLBACK (dialogue_response), data);
 	
-	g_object_weak_notify ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
+	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 	
 	data->infos = list;
 	data->gd = gd;

@@ -478,7 +478,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	bonobo_object_add_interface (component, view);
 	summary->view = view;
 	
-	g_object_weak_notify ((GObject *) view, (GWeakNotify) view_destroy_cb, summary);
+	g_object_weak_ref ((GObject *) view, (GWeakNotify) view_destroy_cb, summary);
 
 	bag = bonobo_property_bag_new_full (get_property, NULL, 
 					    event_source, summary);
