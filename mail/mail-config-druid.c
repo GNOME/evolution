@@ -785,9 +785,9 @@ get_fn (EvolutionWizard *wizard,
                 break;
 		
         case 4:
-                widget = glade_xml_get_widget (gui->gui->xml, "management_frame");
-                gtk_widget_reparent (widget, vbox);
-                break;
+		widget = glade_xml_get_widget (gui->gui->xml, "management_frame");
+		gtk_widget_reparent (widget, vbox);
+		break;
 		
         default:
                 return NULL;

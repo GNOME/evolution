@@ -234,7 +234,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 
       <widget>
 	<class>GtkFrame</class>
-	<name>frameManagement</name>
+	<name>management_frame</name>
 	<border_width>3</border_width>
 	<label>Account Information</label>
 	<label_xalign>0</label_xalign>
