@@ -205,19 +205,17 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
  * was on the server and the user deleted it, or whether the
  * user cancelled the deletion.
  **/
-ConfirmDeleteEmptyCompResult
-cal_comp_confirm_delete_empty_comp (CalComponent *comp, CalClient *client, GtkWidget *widget)
+gboolean
+cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 {
 	const char *uid;
 	CalClientGetStatus status;
 	CalComponent *server_comp;
 
-	g_return_val_if_fail (comp != NULL, EMPTY_COMP_DO_NOT_REMOVE);
-	g_return_val_if_fail (IS_CAL_COMPONENT (comp), EMPTY_COMP_DO_NOT_REMOVE);
-	g_return_val_if_fail (client != NULL, EMPTY_COMP_DO_NOT_REMOVE);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), EMPTY_COMP_DO_NOT_REMOVE);
-	g_return_val_if_fail (widget != NULL, EMPTY_COMP_DO_NOT_REMOVE);
-	g_return_val_if_fail (GTK_IS_WIDGET (widget), EMPTY_COMP_DO_NOT_REMOVE);
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	/* See if the component is on the server.  If it is not, then it likely
 	 * means that the appointment is new, only in the day view, and we
@@ -232,30 +230,22 @@ cal_comp_confirm_delete_empty_comp (CalComponent *comp, CalClient *client, GtkWi
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
 		gtk_object_unref (GTK_OBJECT (server_comp));
-		/* Will handle confirmation below */
-		break;
+		return TRUE;
 
 	case CAL_CLIENT_GET_SYNTAX_ERROR:
 		g_message ("confirm_delete_empty_appointment(): Syntax error when getting "
 			   "object `%s'",
 			   uid);
-		/* However, the object *is* in the server, so confirm */
-		break;
+		return TRUE;
 
 	case CAL_CLIENT_GET_NOT_FOUND:
-		return EMPTY_COMP_REMOVE_LOCALLY;
+		return FALSE;
 
 	default:
 		g_assert_not_reached ();
 	}
-
-	/* The event exists in the server, so confirm whether to delete it */
-
-	if (delete_component_dialog (comp, TRUE, 1, CAL_COMPONENT_EVENT, widget)) {
-		cal_client_remove_object (client, uid);
-		return EMPTY_COMP_REMOVED_FROM_SERVER;
-	} else
-		return EMPTY_COMP_DO_NOT_REMOVE;
+	
+	return FALSE;
 }
 
 /**

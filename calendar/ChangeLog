@@ -1,5 +1,20 @@
 2002-09-20  JP Rosevear  <jpr@ximian.com>
 
+	* gui/comp-util.c (cal_comp_is_on_server): check to see if the
+	component is already on the server or not
+
+	* gui/comp-util.h: change proto
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): only delete
+	the event if the summary is empty and the component is not already
+	on the server
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): same
+
+	Fixes #14111
+	
+2002-09-20  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): set the
 	deleted attendees array to size 0 after we clean it up
 

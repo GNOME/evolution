@@ -36,15 +36,8 @@ gboolean cal_comp_util_compare_event_timezones (CalComponent *comp,
 						CalClient *client,
 						icaltimezone *zone);
 
-typedef enum {
-	EMPTY_COMP_REMOVE_LOCALLY,
-	EMPTY_COMP_REMOVED_FROM_SERVER,
-	EMPTY_COMP_DO_NOT_REMOVE
-} ConfirmDeleteEmptyCompResult;
-
-ConfirmDeleteEmptyCompResult cal_comp_confirm_delete_empty_comp (CalComponent *comp,
-								 CalClient *client,
-								 GtkWidget *widget);
+gboolean cal_comp_is_on_server (CalComponent *comp,
+				CalClient *client);
 
 CalComponent *cal_comp_event_new_with_defaults (void);
 

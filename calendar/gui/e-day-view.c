@@ -6265,46 +6265,17 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			NULL);
 	g_assert (text != NULL);
 
-	if (string_is_empty (text)) {
-		ConfirmDeleteEmptyCompResult result;
-
-		result = cal_comp_confirm_delete_empty_comp (event->comp, day_view->client,
-							     GTK_WIDGET (day_view));
-
-		switch (result) {
-		case EMPTY_COMP_REMOVE_LOCALLY: {
-			const char *uid;
-
-			cal_component_get_uid (event->comp, &uid);
-
-			e_day_view_foreach_event_with_uid (day_view, uid,
-							   e_day_view_remove_event_cb, NULL);
-			e_day_view_check_layout (day_view);
-			gtk_widget_queue_draw (day_view->top_canvas);
-			gtk_widget_queue_draw (day_view->main_canvas);
-			goto out; }
-
-		case EMPTY_COMP_REMOVED_FROM_SERVER:
-			goto out;
-
-		case EMPTY_COMP_DO_NOT_REMOVE:
-			/* But we cannot keep an empty summary, so make the
-			 * canvas item refresh itself from the text that the
-			 * component already had.
-			 */
-
-			if (day == E_DAY_VIEW_LONG_EVENT)
-				e_day_view_reshape_long_event (day_view, event_num);
-			else
-				e_day_view_update_event_label (day_view, day, event_num);
-
-			goto out;
-
-		default:
-			g_assert_not_reached ();
-		}
-
-		g_assert_not_reached ();
+	if (string_is_empty (text) && !cal_comp_is_on_server (event->comp, day_view->client)) {
+		const char *uid;
+		
+		cal_component_get_uid (event->comp, &uid);
+		
+		e_day_view_foreach_event_with_uid (day_view, uid,
+						   e_day_view_remove_event_cb, NULL);
+		e_day_view_check_layout (day_view);
+		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->main_canvas);
+		goto out;
 	}
 
 	/* Only update the summary if necessary. */
