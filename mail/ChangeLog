@@ -1,3 +1,14 @@
+2002-06-06  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (mail_regen_list): Keep track of the regeneration
+	request in a list.
+	(regen_list_free): Remove the request from the regenreation list.
+	(message_list_set_folder): If there are any outstanding
+	regneration requests, cancel them.
+	(regen_list_regened): If we were cancelled, do nothing.
+	(regen_list_regen): If we were cancelled, shortcut processing.
+	This is all for #23571.
+
 2002-06-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_get_message_rfc822): Don't forget to free

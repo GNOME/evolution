@@ -86,6 +86,9 @@ struct _MessageList {
 	/* locks */
 	GMutex *hide_lock;	/* for any 'hide' info above */
 
+	/* list of outstanding regeneration requests */
+	GList *regen;
+
 	/* for message/folder chagned event handling */
 	struct _MailAsyncEvent *async_event;
 };

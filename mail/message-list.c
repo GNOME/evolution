@@ -1994,6 +1994,19 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 
 	camel_exception_init (&ex);
 
+	/* cancel any outstanding regeneration requests */
+	if (message_list->regen) {
+		GList *l = message_list->regen;
+
+		while (l) {
+			struct _mail_msg *mm = l->data;
+
+			if (mm->cancel)
+				camel_operation_cancel(mm->cancel);
+			l = l->next;
+		}
+	}
+
 	clear_tree(message_list);
 	
 	if (message_list->folder) {
@@ -2514,19 +2527,26 @@ regen_list_regen (struct _mail_msg *mm)
 	}
 	
 	MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
-	
-	m->summary = g_ptr_array_new ();
-	for (i = 0; i < showuids->len; i++) {
-		info = camel_folder_get_message_info (m->folder, showuids->pdata[i]);
-		if (info) {
-			/* FIXME: should this be taken account of in above processing? */
-			if (m->hidedel && (info->flags & CAMEL_MESSAGE_DELETED) != 0)
-				camel_folder_free_message_info (m->folder, info);
-			else
-				g_ptr_array_add (m->summary, info);
+
+	if (!camel_operation_cancel_check(mm->cancel)) {	
+		m->summary = g_ptr_array_new ();
+		for (i = 0; i < showuids->len; i++) {
+			info = camel_folder_get_message_info (m->folder, showuids->pdata[i]);
+			if (info) {
+				/* FIXME: should this be taken account of in above processing? */
+				if (m->hidedel && (info->flags & CAMEL_MESSAGE_DELETED) != 0)
+					camel_folder_free_message_info (m->folder, info);
+				else
+					g_ptr_array_add (m->summary, info);
+			}
 		}
+		
+		if (m->dotree)
+			m->tree = camel_folder_thread_messages_new_summary (m->summary);
+		else
+			m->tree = NULL;
 	}
-	
+
 	if (uidnew)
 		g_ptr_array_free (uidnew, TRUE);
 	
@@ -2534,11 +2554,6 @@ regen_list_regen (struct _mail_msg *mm)
 		camel_folder_search_free (m->folder, uids);
 	else
 		camel_folder_free_uids (m->folder, uids);
-	
-	if (m->dotree)
-		m->tree = camel_folder_thread_messages_new_summary (m->summary);
-	else
-		m->tree = NULL;
 }
 
 static void
@@ -2551,7 +2566,10 @@ regen_list_regened (struct _mail_msg *mm)
 	
 	if (m->summary == NULL)
 		return;
-	
+
+	if (camel_operation_cancel_check(mm->cancel))
+		return;
+
 	if (m->dotree)
 		build_tree (m->ml, m->tree, m->changes);
 	else
@@ -2585,7 +2603,11 @@ regen_list_free (struct _mail_msg *mm)
 	
 	if (m->changes)
 		camel_folder_change_info_free (m->changes);
-	
+
+	/* This should probably lock the list.
+	   However, since we have a received function, this will always be called in gui thread */
+	m->ml->regen = g_list_remove(m->ml->regen, m);
+
 	gtk_object_unref (GTK_OBJECT (m->ml));
 }
 
@@ -2626,6 +2648,8 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	gtk_object_ref (GTK_OBJECT (ml));
 	m->folder = ml->folder;
 	camel_object_ref (CAMEL_OBJECT (m->folder));
+
+	ml->regen = g_list_prepend(ml->regen, m);
 	
 	e_thread_put (mail_thread_queued, (EMsg *)m);
 }
