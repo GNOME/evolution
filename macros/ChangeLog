@@ -1,3 +1,9 @@
+1998-08-17  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4: Completely rewrote this file. It
+	uses now the `libgtop-config' script and also checks for
+	correct libgtop version.
+
 1998-08-06  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4: Added `freebsd' directory.
