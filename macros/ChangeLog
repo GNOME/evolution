@@ -1,3 +1,9 @@
+1998-08-24  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-support.m4 (GCC_NEED_DECLARATIONS): Added `setreuid',
+	`setregid' and `getpagesize'.
+	(AC_TYPE_UID_T): New check.
+
 1998-08-24  Christopher Blizzard  <blizzard@appliedtheory.com>
 
 	* Makefile.am (MACROS): Add gnome-ghttp-check.m4 to the Makefile.

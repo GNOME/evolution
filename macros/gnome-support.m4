@@ -85,10 +85,13 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   AC_CHECK_FUNCS(vprintf doprnt sterror_r)
   AM_FUNC_ERROR_AT_LINE
 
+  # This is required if we declare setreuid () and setregid ().
+  AC_TYPE_UID_T
+
   # see if we need to declare some functions.  Solaris is notorious for
   # putting functions into the `libc' but not listing them in the headers
   AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h)
-  GCC_NEED_DECLARATIONS(gethostname)
+  GCC_NEED_DECLARATIONS(gethostname setreuid setregid getpagesize)
 
   if test "$LIBOBJS$gcc_need_declarations" != ""; then
      need_gnome_support=yes
