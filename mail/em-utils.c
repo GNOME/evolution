@@ -2652,8 +2652,9 @@ char *em_uri_to_camel(const char *euri)
 	}
 
 	service = account->source;
-	provider = camel_provider_get(service->url, NULL);
-
+	if (!(provider = camel_provider_get (service->url, NULL)))
+		return g_strdup (euri);
+	
 	curl = camel_url_new(service->url, NULL);
 	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 		camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);

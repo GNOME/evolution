@@ -1,3 +1,8 @@
+2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (em_uri_to_camel): If the provider is unavailable,
+	return euri like the other fail cases. Fixes bug #56846.
+
 2004-04-10  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* evolution-mail.schemas.in.in.h: Correct typo s/hight/height/ at
