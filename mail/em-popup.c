@@ -760,7 +760,9 @@ emp_standard_menu_factory(EMPopup *emp, EMPopupTarget *target, void *data)
 
 		/* FIXME: use the snoop_part stuff from em-format.c */
 		if (apps == NULL && strcmp(target->data.part.mime_type, "application/octet-stream") == 0) {
-			const char *filename = camel_mime_part_get_filename(target->data.part.part), *name_type;
+			const char *filename, *name_type;
+			
+			filename = camel_mime_part_get_filename(target->data.part.part);
 
 			if (filename) {
 				/* GNOME-VFS will misidentify TNEF attachments as MPEG */
@@ -780,7 +782,7 @@ emp_standard_menu_factory(EMPopup *emp, EMPopupTarget *target, void *data)
 
 			menus = g_slist_prepend(menus, (void *)&emp_standard_part_apps_bar);
 
-			for (l=apps;l;l=l->next) {
+			for (l = apps, i = 0; l; l = l->next, i++) {
 				GnomeVFSMimeApplication *app = l->data;
 				struct _open_in_item *item;
 
@@ -809,6 +811,10 @@ emp_standard_menu_factory(EMPopup *emp, EMPopupTarget *target, void *data)
 		items = emp_standard_object_popups;
 		len = LEN(emp_standard_object_popups);
 		break; }
+	default:
+		items = NULL;
+		len = 0;
+		g_assert_not_reached ();
 	}
 
 	for (i=0;i<len;i++) {

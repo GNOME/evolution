@@ -795,7 +795,7 @@ efhd_drag_data_get(GtkWidget *w, GdkDragContext *drag, GtkSelectionData *data, g
 		stream = camel_stream_mem_new();
 		/* TODO: shoudl format_format_text run on the content-object? */
 		/* TODO: should we just do format_content? */
-		if (header_content_type_is(((CamelDataWrapper *)part)->mime_type, "text", "*"))
+		if (camel_content_type_is (((CamelDataWrapper *)part)->mime_type, "text", "*"))
 			/* FIXME: this should be an em_utils method, it only needs a default charset param */
 			em_format_format_text((EMFormat *)pobject->format, stream, (CamelDataWrapper *)part);
 		else {
@@ -903,12 +903,12 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	gtk_box_pack_start((GtkBox *)mainbox, button, TRUE, TRUE, 0);
 
 	/* FIXME: loses any snoop info */
-	simple_type = header_content_type_simple(((CamelDataWrapper *)pobject->part)->mime_type);
+	simple_type = camel_content_type_simple (((CamelDataWrapper *)pobject->part)->mime_type);
 	camel_strdown(simple_type);
 
 	/* cache? */
 	/* FIXME: offline parts, just get icon */
-	if (header_content_type_is(((CamelDataWrapper *)pobject->part)->mime_type, "image", "*")) {
+	if (camel_content_type_is (((CamelDataWrapper *)pobject->part)->mime_type, "image", "*")) {
 		EMFormatHTMLJob *job;
 
 		job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);

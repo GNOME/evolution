@@ -560,8 +560,8 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type(part);
-	if (header_content_type_is(type, "text", "plain")
-	    && (format = header_content_type_param(type, "format"))
+	if (camel_content_type_is (type, "text", "plain")
+	    && (format = camel_content_type_param (type, "format"))
 	    && !g_ascii_strcasecmp(format, "flowed"))
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
@@ -606,7 +606,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		CamelMimePart *newpart = camel_multipart_get_part(mp, i);
 
 		type = camel_mime_part_get_content_type(newpart);
-		if (header_content_type_is(type, "text", "plain")) {
+		if (camel_content_type_is (type, "text", "plain")) {
 			camel_stream_write_string(stream, "<table><tr><td><tt>\n");
 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)newpart));
 			camel_stream_flush((CamelStream *)filtered_stream);
@@ -697,7 +697,7 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 
 	/* needs to be cleaner */
 	type = camel_mime_part_get_content_type(part);
-	access_type = header_content_type_param(type, "access-type");
+	access_type = camel_content_type_param (type, "access-type");
 	if (!access_type) {
 		camel_stream_printf(stream, _("Malformed external-body part."));
 		return;
@@ -709,10 +709,10 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 		char *path;
 		char ftype[16];
 
-		name = header_content_type_param(type, "name");
-		site = header_content_type_param(type, "site");
-		dir = header_content_type_param(type, "directory");
-		mode = header_content_type_param(type, "mode");
+		name = camel_content_type_param (type, "name");
+		site = camel_content_type_param (type, "site");
+		dir = camel_content_type_param (type, "directory");
+		mode = camel_content_type_param (type, "mode");
 		if (name == NULL || site == NULL)
 			goto fail;
 		
@@ -733,8 +733,8 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 	} else if (!g_ascii_strcasecmp (access_type, "local-file")) {
 		const char *name, *site;
 		
-		name = header_content_type_param (type, "name");
-		site = header_content_type_param (type, "site");
+		name = camel_content_type_param (type, "name");
+		site = camel_content_type_param (type, "site");
 		if (name == NULL)
 			goto fail;
 		
@@ -749,7 +749,7 @@ efh_message_external(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part
 		
 		/* RFC 2017 */
 		
-		urlparam = header_content_type_param (type, "url");
+		urlparam = camel_content_type_param (type, "url");
 		if (urlparam == NULL)
 			goto fail;
 		
@@ -830,7 +830,7 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	
 	nparts = camel_multipart_get_number(mp);	
 	content_type = camel_mime_part_get_content_type(part);
-	start = header_content_type_param(content_type, "start");
+	start = camel_content_type_param (content_type, "start");
 	if (start && strlen(start)>2) {
 		int len;
 		const char *cid;
@@ -1022,7 +1022,7 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "text/plain", (EMFormatFunc)efh_text_plain },
 	{ "text/html", (EMFormatFunc)efh_text_html },
 	{ "text/richtext", (EMFormatFunc)efh_text_enriched },
-	/*{ "text/*", (EMFormatFunc)efh_text_plain },*/
+	/*{ "text/ *", (EMFormatFunc)efh_text_plain },*/
 	{ "message/external-body", (EMFormatFunc)efh_message_external },
 	{ "multipart/signed", (EMFormatFunc)efh_multipart_signed },
 	{ "multipart/related", (EMFormatFunc)efh_multipart_related },
@@ -1376,7 +1376,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 				return;
 
 			/* Show the local timezone equivalent in brackets if the sender is remote */
-               		msg_date = header_decode_date(date, &msg_offset);
+               		msg_date = camel_header_decode_date (date, &msg_offset);
 			e_localtime_with_offset(msg_date, &local, &local_tz);
 
                		/* Convert message offset to minutes (e.g. -0400 --> -240) */
@@ -1408,7 +1408,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 			flags |= EM_FORMAT_HEADER_BOLD;
 		} else {
 			txt = camel_medium_get_header(part, name);
-			value = header_decode_string(txt, charset);
+			value = camel_header_decode_string (txt, charset);
 			txt = value;
 			label = namein;
 		}
@@ -1429,7 +1429,7 @@ em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMediu
 #define emf ((EMFormat *)efh)
 	
 	ct = camel_mime_part_get_content_type((CamelMimePart *)part);
-	charset = header_content_type_param(ct, "charset");
+	charset = camel_content_type_param (ct, "charset");
 	charset = e_iconv_charset_name(charset);	
 
 	if (!efh->simple_headers)
@@ -1447,7 +1447,7 @@ em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMediu
 	/* dump selected headers */
 	h = (EMFormatHeader *)emf->header_list.head;
 	if (h->next == NULL || emf->mode == EM_FORMAT_ALLHEADERS) {
-		struct _header_raw *header;
+		struct _camel_header_raw *header;
 		
 		header = ((CamelMimePart *)part)->headers;
 		while (header) {

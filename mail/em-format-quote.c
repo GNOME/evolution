@@ -214,8 +214,8 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type(part);
-	if (header_content_type_is(type, "text", "plain")
-	    && (format = header_content_type_param(type, "format"))
+	if (camel_content_type_is (type, "text", "plain")
+	    && (format = camel_content_type_param (type, "format"))
 	    && !g_ascii_strcasecmp(format, "flowed"))
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 	

@@ -579,7 +579,6 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	char *user, *system;
 	GConfClient *gconf;
 	RuleContext *fc;
-	long notify;
 	
 	gconf = mail_config_get_gconf_client ();
 	

@@ -194,7 +194,7 @@ efhq_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	/* FIXME: put in a function */
 	nparts = camel_multipart_get_number(mp);	
 	content_type = camel_mime_part_get_content_type(part);
-	start = header_content_type_param(content_type, "start");
+	start = camel_content_type_param (content_type, "start");
 	if (start && strlen(start)>2) {
 		int len;
 		const char *cid;

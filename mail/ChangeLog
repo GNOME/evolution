@@ -1,5 +1,38 @@
 2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c: updated for camel namespace changes
+
+	* em-folder-view.c: updated for camel namespace changes
+
+	* em-format-html-display.c: updated for camel namespace changes
+
+	* em-format-html-quote.c: updated for camel namespace changes
+
+	* em-format.c: updated for camel namespace changes
+
+	* em-popup.c: updated for camel namespace changes
+
+	* em-utils.c: updated for camel namespace changes
+
+	* mail-autofilter.c: updated for camel namespace changes
+
+	* mail-ops.c: updated for camel namespace changes
+
+	* mail-session.c: updated for camel namespace changes
+
+	* message-list.c: updated for camel namespace changes
+
+	* message-tag-followup.c: updated for camel namespace changes
+
+	* importers/evolution-mbox-importer.c: updated for camel namespace
+	changes
+
+2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-popup.c (emp_standard_menu_factory): Don't forget to
+	initialise/increment 'i' when using it as an object id in the
+	for-loop.
+
 	* em-format.c (em_format_format_text): Initialise charset to NULL
 	or it may be used uninitialised. Also include
 	gnome-vfs-mime-handlers.h for gnome_vfs_mime_type_get_description().

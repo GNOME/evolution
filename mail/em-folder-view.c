@@ -973,7 +973,7 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 	if (FALSE /*gtk_clipboard_get_owner(clip) == (GObject *)emfv->preview*/
 	    && ((EMFormatHTML *)emfv->preview)->html->engine->primary) {
 		CamelMimeMessage *msg, *src;
-		struct _header_raw *header;
+		struct _camel_header_raw *header;
 		HTMLEngineSaveState *state;
 
 		src = (CamelMimeMessage *)((EMFormat *)emfv->preview)->message;

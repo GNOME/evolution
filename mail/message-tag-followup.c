@@ -149,7 +149,7 @@ get_tag_list (MessageTagEditor *editor)
 	
 	date = e_date_edit_get_time (followup->target_date);
 	if (date != (time_t) -1) {
-		text = header_format_date (date, 0);
+		text = camel_header_format_date (date, 0);
 		camel_tag_set (&tags, "due-by", text);
 		g_free (text);
 	} else {
@@ -157,7 +157,7 @@ get_tag_list (MessageTagEditor *editor)
 	}
 	
 	if (gtk_toggle_button_get_active (followup->completed)) {
-		text = header_format_date (followup->completed_date, 0);
+		text = camel_header_format_date (followup->completed_date, 0);
 		camel_tag_set (&tags, "completed-on", text);
 		g_free (text);
 	} else {
@@ -180,7 +180,7 @@ set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 	
 	text = camel_tag_get (&tags, "due-by");
 	if (text && *text) {
-		date = header_decode_date (text, NULL);
+		date = camel_header_decode_date (text, NULL);
 		e_date_edit_set_time (followup->target_date, date);
 	} else {
 		e_date_edit_set_time (followup->target_date, (time_t) -1);
@@ -188,7 +188,7 @@ set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 	
 	text = camel_tag_get (&tags, "completed-on");
 	if (text && *text) {
-		date = header_decode_date (text, NULL);
+		date = camel_header_decode_date (text, NULL);
 		if (date != (time_t) 0) {
 			gtk_toggle_button_set_active (followup->completed, TRUE);
 			followup->completed_date = date;

@@ -1626,7 +1626,7 @@ em_utils_flag_for_followup_completed (GtkWidget *parent, CamelFolder *folder, GP
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 	
-	now = header_format_date (time (NULL), 0);
+	now = camel_header_format_date (time (NULL), 0);
 	
 	camel_folder_freeze (folder);
 	for (i = 0; i < uids->len; i++) {
@@ -1707,7 +1707,7 @@ em_utils_read_messages_from_stream(CamelFolder *folder, CamelStream *stream)
 	camel_mime_parser_init_with_stream(mp, stream);
 	camel_object_unref(stream);
 
-	while (camel_mime_parser_step(mp, 0, 0) == HSCAN_FROM) {
+	while (camel_mime_parser_step(mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMimeMessage *msg;
 
 		/* NB: de-from filter, once written */

@@ -717,9 +717,9 @@ int em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 
 	/*printf("checking is attachment %s/%s\n", ct->type, ct->subtype);*/
-	return !(/*header_content_type_is(ct, "message", "*")
-		   ||*/ header_content_type_is(dw->mime_type, "multipart", "*")
-		 || (header_content_type_is(dw->mime_type, "text", "*")
+	return !(/*camel_content_type_is (ct, "message", "*")
+		   ||*/ camel_content_type_is (dw->mime_type, "multipart", "*")
+		 || (camel_content_type_is (dw->mime_type, "text", "*")
 		     && camel_mime_part_get_filename(part) == NULL));
 
 }
@@ -754,7 +754,7 @@ int em_format_is_inline(EMFormat *emf, CamelMimePart *part)
 	/* messages are always inline? */
 	ct = camel_mime_part_get_content_type(part);
 
-	return header_content_type_is(ct, "message", "*");
+	return camel_content_type_is (ct, "message", "*");
 }
 
 /**
@@ -778,7 +778,7 @@ em_format_format_content(EMFormat *emf, CamelStream *stream, CamelMimePart *part
 {
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 
-	if (header_content_type_is(dw->mime_type, "text", "*"))
+	if (camel_content_type_is (dw->mime_type, "text", "*"))
 		em_format_format_text(emf, stream, dw);
 	else
 		camel_data_wrapper_decode_to_stream(dw, stream);
@@ -803,7 +803,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	if (emf->charset) {
 		charset = emf->charset;
 	} else if (dw->mime_type
-		   && (charset = header_content_type_param(dw->mime_type, "charset"))
+		   && (charset = camel_content_type_param (dw->mime_type, "charset"))
 		   && g_ascii_strncasecmp(charset, "iso-8859-", 9) == 0) {
 		CamelMimeFilterWindows *windows;
 		CamelStream *null;
@@ -985,7 +985,7 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *part = camel_multipart_get_part(mp, i);
 		CamelContentType *type = camel_mime_part_get_content_type (part);
-		char *mime_type = header_content_type_simple (type);
+		char *mime_type = camel_content_type_simple (type);
 		
 		camel_strdown (mime_type);
 
@@ -1015,7 +1015,7 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 	const char *protocol;
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	protocol = header_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
+	protocol = camel_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
 	if (!protocol || strcmp (protocol, "application/pgp-encrypted") != 0)
 		return emf_multipart_mixed(emf, stream, part, info);
 	
@@ -1070,7 +1070,7 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	/* FIXME: put this stuff in a shared function */
 	nparts = camel_multipart_get_number(mp);	
 	content_type = camel_mime_part_get_content_type(part);
-	start = header_content_type_param(content_type, "start");
+	start = camel_content_type_param (content_type, "start");
 	if (start && strlen(start)>2) {
 		int len;
 		const char *cid;
