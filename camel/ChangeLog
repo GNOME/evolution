@@ -1,3 +1,12 @@
+2001-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-summary.c (summary_rebuild): Don't we
+	want to tell where we are by using the start of the message? I
+	think this should be using camel_mime_parser_tell_start_from()
+	instead. Also divide by the size *before* multiplying by 100 so
+	that we don't overflow the int which was giving us negative values
+	for our progress status (oops).
+
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* providers/pop3/Makefile.am (INCLUDES): Add
