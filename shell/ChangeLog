@@ -1,5 +1,10 @@
 2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c: Get the manuals from the `evolution-guide'
+	dir as that's where they get installed.
+
+2001-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (storage_set_view_box_button_release_event_cb):
 	Don't handle button events whose button number is not 1.
 
