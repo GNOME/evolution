@@ -66,6 +66,7 @@ e_notice (GtkWindow *window, const char *type, const char *format, ...)
 	g_free (str);
 	
 	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy(dialog);
 }
 
 static void
