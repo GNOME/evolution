@@ -174,8 +174,9 @@
 	  <class>GtkOptionMenu</class>
 	  <name>option_format</name>
 	  <can_focus>True</can_focus>
-	  <items>mh
-mbox
+	  <items>mbox
+maildir
+mh
 </items>
 	  <initial_choice>0</initial_choice>
 	  <child>

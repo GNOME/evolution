@@ -1,3 +1,31 @@
+2000-12-11  Not Zed  <NotZed@HelixCode.com>
+
+	* local-config.glade: reordered the options and added maildir,
+	mbox, maildir, mh, in that order.
+
+	* mail-local.c (reconfigure_clicked): Added maildir, re-ordered to
+	match the changed xml file too.
+	(do_reconfigure_folder): WHoever 'threaded' this code forgot to
+	check that folder_browser functions shouldn't be called here.
+	(cleanup_reconfigure_folder): Call it here instead.
+	(lookup_folder): Blah blah, we have to lookup the folder and
+	verify its still the same format, joy.  Becaause someone thought
+	it would be wise to make the code 5x more complicated for no
+	reason, and totally break 'mail reconfigure' in the process. i'm
+	really happy about that one.
+	(cleanup_register_folder): Uh, yeah, so like, the
+	local_store->folders hashtable is supposed to point to like,
+	LocalFolders, not CamelFolders.
+	(free_local_folder): Free the localfolder struct properly.
+	(free_folder): Call above to free data properly.
+	(get_folder): Fix for fixing folders hashtable.
+	(local_storage_removed_folder_cb): Same here.
+	(local_storage_new_folder_cb): Ref the local_store when putting it
+	in the local_folder.
+	(cleanup_register_folder): Properly free the local_folder if the
+	op failed.
+	(free_local_folder): Unhook events also.
+
 2000-12-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c (message_list_init): Change the "drawfocus"
