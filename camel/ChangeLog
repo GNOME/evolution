@@ -18,6 +18,7 @@
 	(camel_vee_folder_get_message_folder): Removed function.
 	(camel_vee_folder_hash_folder): Made public (renamed from
 	hash_folder), simply for subclasses (probably not needed).
+	(vee_expunge): Oops, call the class sync, not superclass sync.
 
 2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 

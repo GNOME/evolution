@@ -409,6 +409,8 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
 	GList *node;
 
+	printf("vee-sync\n");
+
 	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
 
 	node = p->folders;
@@ -431,7 +433,7 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void
 vee_expunge (CamelFolder *folder, CamelException *ex)
 {
-	((CamelFolderClass *)camel_vee_folder_parent)->sync(folder, TRUE, ex);
+	((CamelFolderClass *)((CamelObject *)folder)->classfuncs)->sync(folder, TRUE, ex);
 }
 
 static CamelMimeMessage *
