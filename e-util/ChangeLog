@@ -1,3 +1,13 @@
+2001-04-24  Chris Toshok  <toshok@ximian.com>
+
+	* e-host-utils.h: remove prototype for e_gethostbyname_init.
+
+	* e-host-utils.c (e_gethostbyname_r): don't dynamically allocate
+	anything - store everything in the buffer that's passed in.  Also,
+	stop using EMutex.  Switch to a static GMutex (so we can
+	initialize it without having e_gethostbyname_init).
+	(e_gethostbyname_init): removed.
+	
 2001-04-23  Jon Trowbridge  <trow@ximian.com>
 
 	* e-html-utils.c (e_text_to_html_full): Removed attempts to use

@@ -23,27 +23,13 @@
 
 #include <config.h>
 #include <glib.h>
-#include "e-msgport.h"
 #include "e-host-utils.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 
-#ifndef HAVE_GETHOSTBYNAME_R
-static EMutex *gethost_mutex = NULL;
-#endif
-
-void
-e_gethostbyname_init ()
-{
-#ifndef HAVE_GETHOSTBYNAME_R
-	if (gethost_mutex)
-		return;
-
-	gethost_mutex = e_mutex_new (E_MUTEX_SIMPLE);
-#endif
-}
+G_LOCK_DEFINE_STATIC (gethost_mutex);
 
 int
 e_gethostbyname_r (const char *name, struct hostent *host,
@@ -63,17 +49,12 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 	int req_length;
 	int num_aliases = 0, num_addrs = 0;
 
-	if (!gethost_mutex) {
-		g_warning ("mutex wasn't initialized - you must call e_gethostbyname_init before e_gethostbyname_r\n");
-		return -1;
-	}
-
-	e_mutex_lock (gethost_mutex);
+	G_LOCK (gethost_mutex);
 
 	h = gethostbyname (name);
 
 	if (!h) {
-		e_mutex_unlock (gethost_mutex);
+		G_UNLOCK (gethost_mutex);
 		return -1;
 	}
 
@@ -82,58 +63,71 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 	if (h->h_aliases) {
 		for (i = 0; h->h_aliases[i]; i ++)
 			req_length += strlen (h->h_aliases[i]) + 1;
-		num_aliases = i + 1;
+		num_aliases = i;
 	}
 	if (h->h_addr_list) {
 		for (i = 0; h->h_addr_list[i]; i ++)
 			req_length += h->h_length;
-		num_addrs = i + 1;
+		num_addrs = i;
 	}
+
+	req_length += sizeof (char*) * (num_aliases + 1);
+	req_length += sizeof (char*) * (num_addrs + 1);
+	req_length += strlen (h->h_name) + 1;
 
 	if (buflen < req_length) {
 		*herr = ERANGE;
-		e_mutex_unlock (gethost_mutex);
+		G_UNLOCK (gethost_mutex);
 		return -1;
 	}
 
-	if (num_aliases)
-		host->h_aliases = malloc (sizeof (char*) * num_aliases);
+	/* we store the alias/addr pointers in the buffer - figure out
+           their addresses here. */
+	p = buf;
+	if (num_aliases) {
+		host->h_aliases = (char**)p;
+		p += sizeof (char*) * (num_aliases + 1);
+	}
 	else
 		host->h_aliases = NULL;
-	if (num_addrs)
-		host->h_addr_list = malloc (sizeof (char*) * num_addrs);
+	if (num_addrs) {
+		host->h_addr_list = (char**)p;
+		p += sizeof(char*) * (num_addrs + 1);
+	}
 	else
 		host->h_addr_list = NULL;
 
-	host->h_name = strdup (h->h_name);
+	/* copy the host name into the buffer */
+	host->h_name = p;
+	strcpy (p, h->h_name);
+	p += strlen (h->h_name) + 1;
 	host->h_addrtype = h->h_addrtype;
 	host->h_length = h->h_length;
 
 	/* copy the aliases/addresses into the buffer, and assign the
 	   pointers into the hostent */
-	*buf = 0;
-	p = buf;
+	*p = 0;
 	if (num_aliases) {
-		for (i = 0; h->h_aliases[i]; i ++) {
-			strcpy (buf, h->h_aliases[i]);
+		for (i = 0; i < num_aliases; i ++) {
+			strcpy (p, h->h_aliases[i]);
 			host->h_aliases[i] = p;
 			p += strlen (h->h_aliases[i]);
 		}
-		host->h_aliases[num_aliases - 1] = NULL;
+		host->h_aliases[num_aliases] = NULL;
 	}
 
 	if (num_addrs) {
-		for (i = 0; h->h_addr_list[i]; i ++) {
-			memcpy (buf, h->h_addr_list[i], h->h_length);
+		for (i = 0; i < num_addrs; i ++) {
+			memcpy (p, h->h_addr_list[i], h->h_length);
 			host->h_addr_list[i] = p;
 			p += h->h_length;
 		}
-		host->h_addr_list[num_addrs - 1] = NULL;
+		host->h_addr_list[num_addrs] = NULL;
 	}
 
 	*herr = h_errno;
 
-	e_mutex_unlock (gethost_mutex);
+	G_UNLOCK (gethost_mutex);
 
 	return 0;
 #endif

@@ -27,8 +27,6 @@
 #include <sys/types.h>
 #include <netdb.h>
 
-void e_gethostbyname_init (void);
-
 /* gethostbyname_r implementation that works for systems without a
    native gethostbyname_r.  if you use this, you must make sure to
    *only* use this - it can't even coexist with naked calls to
