@@ -22,6 +22,7 @@
 #include <config.h>
 #include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <e-contact-editor-address.h>
 #include <gtk/gtkcombo.h>
 
@@ -89,6 +90,32 @@ e_contact_editor_address_class_init (EContactEditorAddressClass *klass)
 	object_class->destroy = e_contact_editor_address_destroy;
 }
 
+static GList *
+add_to_tab_order(GList *list, GladeXML *gui, char *name)
+{
+	GtkWidget *widget = glade_xml_get_widget(gui, name);
+	return g_list_prepend(list, widget);
+}
+
+static void
+setup_tab_order(GladeXML *gui)
+{
+	GtkWidget *container;
+	GList *list = NULL;
+
+	container = glade_xml_get_widget(gui, "table-checkaddress");
+
+	if (container) {
+		list = add_to_tab_order(list, gui, "entry-city");
+		list = add_to_tab_order(list, gui, "entry-region");
+		list = add_to_tab_order(list, gui, "entry-code");
+		list = add_to_tab_order(list, gui, "combo-country");
+		list = g_list_reverse(list);
+		e_container_change_tab_order(GTK_CONTAINER(container), list);
+		g_list_free(list);
+	}
+}
+
 static void
 e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 {
@@ -107,6 +134,8 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fulladdr.glade", NULL);
 	e_contact_editor_address->gui = gui;
+
+	setup_tab_order (gui);
 
 	widget = glade_xml_get_widget(gui, "table-checkaddress");
 	gtk_widget_ref(widget);
