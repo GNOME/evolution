@@ -1,3 +1,11 @@
+2001-01-15  Jason Leach  <jasonleach@usa.net>
+
+	(Plug leaking the subject string on each message sent)
+	
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_subject): Don't
+	strdup before returning the subject, it's already been strdup'd
+	from the gtk_object_get().
+
 2001-01-13  Jason Leach  <jasonleach@usa.net>
 
 	(Fix Bug #1083: Composer IDLs not getting installed)

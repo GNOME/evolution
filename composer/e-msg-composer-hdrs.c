@@ -678,7 +678,6 @@ e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 	return NULL;
 }
 
-/* FIXME: This is just changed to return allooc'd mem to be consistant with get_from */
 char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 {
@@ -690,7 +689,7 @@ e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 	gtk_object_get (GTK_OBJECT (hdrs->priv->subject_entry),
 			"text", &subject, NULL);
 	
-	return g_strdup (subject);
+	return subject;
 }
 
 
