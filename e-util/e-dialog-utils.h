@@ -34,6 +34,10 @@ void       e_set_dialog_parent               (GtkWindow          *dialog,
 					      GtkWidget          *parent_widget);
 void       e_set_dialog_parent_from_xid      (GtkWindow          *dialog,
 					      Window              xid);
+
+/* FIXME These functions should go away completely at some point.  */
+
+#ifndef GNOME_DISABLE_DEPRECATED
 void       e_gnome_dialog_set_parent         (GnomeDialog        *dialog,
 					      GtkWindow          *parent);
 GtkWidget *e_gnome_warning_dialog_parented   (const char         *warning,
@@ -42,6 +46,8 @@ GtkWidget *e_gnome_ok_cancel_dialog_parented (const char         *message,
 					      GnomeReplyCallback  callback,
 					      gpointer            data,
 					      GtkWindow          *parent);
+#endif
+
 char      *e_file_dialog_save                (const char         *title);
 
 

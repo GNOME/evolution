@@ -26,11 +26,11 @@
 
 #include "e-request.h"
 
-#include <libgnomeui/gnome-dialog.h>
-
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkstock.h>
 
 
 /**
@@ -52,7 +52,7 @@ e_request_string (GtkWindow *parent,
 		  const char *default_string)
 {
 	GtkWidget *prompt_label;
-	const char *text = NULL;
+	char *text;
 	GtkWidget *dialog;
 	GtkWidget *entry;
 	GtkWidget *vbox;
@@ -60,42 +60,42 @@ e_request_string (GtkWindow *parent,
 	g_return_val_if_fail (title != NULL, NULL);
 	g_return_val_if_fail (prompt != NULL, NULL);
 	
-	dialog = gnome_dialog_new (title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-	
-	vbox = GNOME_DIALOG (dialog)->vbox;
+	dialog = gtk_dialog_new_with_buttons (title, parent,
+					      GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      GTK_STOCK_OK, GTK_RESPONSE_OK,
+					      NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 275, -1);
+
+	vbox = GTK_DIALOG (dialog)->vbox;
 	
 	prompt_label = gtk_label_new (prompt);
-	gtk_box_pack_start (GTK_BOX (vbox), prompt_label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), prompt_label, TRUE, TRUE, 3);
 	
 	entry = gtk_entry_new ();
 	gtk_entry_set_text (GTK_ENTRY (entry), default_string);
-	gtk_entry_select_region (GTK_ENTRY (entry), 0, -1);
-	gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 0);
+	gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
+	gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 3);
 	
 	gtk_widget_grab_focus (entry);
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (entry));
 	
 	gtk_widget_show (prompt_label);
 	gtk_widget_show (entry);
 	gtk_widget_show (dialog);
 	
-	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
-	case 0:
-		/* OK.  */
-		text = gtk_entry_get_text (GTK_ENTRY (entry));
+	switch (gtk_dialog_run (GTK_DIALOG (dialog))) {
+	case GTK_RESPONSE_OK:
+		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 		break;
-	case -1:
-	case 1:
-		/* Cancel.  */
+	case GTK_RESPONSE_CANCEL:
+		text = NULL;
 		break;
 	default:
 		g_assert_not_reached ();
 	}
-	
+
 	gtk_widget_destroy (dialog);
 	
-	return text ? g_strdup (text) : NULL;
+	return text;
 }
