@@ -526,7 +526,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			mps = camel_multipart_signed_new ();
 			camel_multipart_signed_sign (mps, cipher, part, userid, CAMEL_CIPHER_HASH_SHA1, &ex);
 			camel_object_unref (cipher);
-			camel_object_unref (part);
 			
 			if (from)
 				camel_object_unref (from);
@@ -536,10 +535,12 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 				if (camel_exception_get_id (&ex) == CAMEL_EXCEPTION_USER_CANCEL) {
 					camel_exception_clear (&ex);
 				} else {
+					camel_object_unref (part);
 					camel_object_unref (mps);
 					goto exception;
 				}
 			} else {
+				camel_object_unref (part);
 				part = camel_mime_part_new ();
 				camel_multipart_set_boundary (CAMEL_MULTIPART (mps), NULL);
 				camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mps);
@@ -602,7 +603,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			
 			camel_multipart_encrypted_encrypt (mpe, part, cipher, userid, recipients, &ex);
 			camel_object_unref (cipher);
-			camel_object_unref (part);
 			
 			if (from)
 				camel_object_unref (from);
@@ -617,9 +617,11 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 					camel_exception_clear (&ex);
 				} else {
 					camel_object_unref (mpe);
+					camel_object_unref (part);
 					goto exception;
 				}
 			} else {
+				camel_object_unref (part);
 				part = camel_mime_part_new ();
 				camel_multipart_set_boundary (CAMEL_MULTIPART (mpe), NULL);
 				camel_medium_set_content_object (CAMEL_MEDIUM (part), (CamelDataWrapper *) mpe);
