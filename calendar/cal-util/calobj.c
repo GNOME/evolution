@@ -1554,7 +1554,6 @@ alarm_compute_offset (CalendarAlarm *a)
 }
 
 
-#if 0
 /**
  * ical_object_find_in_string:
  * @uid: Unique identifier of the sought object.
@@ -1677,7 +1676,7 @@ ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **i
 	return status;
 #endif /* 0 */
 }
-#endif /* 0 */
+
 
 #if 0
 /* Creates a VObject with the base information of a calendar */

@@ -1,5 +1,8 @@
 2000-06-07  Seth Alves  <alves@hungry.com>
 
+	* cal-util/calobj.c (ical_object_find_in_string): put this back in,
+	it's still used in cal-backend-imc.c:cal_backend_imc_update_object
+
 	* cal-client/cal-client.c (cal_client_get_object): instead of
 	returning a text representation, decode the text and return an
 	iCalObject.  Also added CalClientGetStatus which indicates

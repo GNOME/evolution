@@ -250,7 +250,7 @@ typedef enum {
 	CAL_OBJ_FIND_NOT_FOUND
 } CalObjFindStatus;
 
-//CalObjFindStatus ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico);
+CalObjFindStatus ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico);
 
 char       *ical_object_to_string (iCalObject *ico);
 
