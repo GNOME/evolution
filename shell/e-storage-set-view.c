@@ -713,7 +713,7 @@ impl_tree_drag_data_get (ETree *etree, int drag_row, ETreePath drag_path, int dr
 	
 	g_assert (path != NULL);
 	
-	g_signal_emit (view, FOLDER_DRAGGED, 0, path, context, selection, info, time);
+	g_signal_emit (view, signals[FOLDER_DRAGGED], 0, path, context, selection, info, time);
 }
 
 /* -- Destination-side DnD.  */
@@ -805,7 +805,7 @@ impl_tree_drag_data_received (ETree *etree, int row, ETreePath path, int col,
 	
 	g_assert (folder_path != NULL);
 	
-	g_signal_emit (view, FOLDER_RECEIVE_DROP, 0, folder_path, context, selection, info, time);
+	g_signal_emit (view, signals[FOLDER_RECEIVE_DROP], 0, folder_path, context, selection, info, time);
 }
 
 static gboolean

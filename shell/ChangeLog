@@ -1,3 +1,9 @@
+2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-storage-set-view.c (impl_tree_drag_data_received): Emit the
+	right signal.
+	(impl_tree_drag_data_get): Same.
+
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* importer/intelligent.c (create_gui): Make the scrolled window
