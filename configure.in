@@ -302,6 +302,18 @@ dnl ******************************
 GNOME_PILOT_CHECK
 
 
+dnl ******
+dnl XML
+dnl ******
+GNOME_XML_CHECK
+xmlversion=`xml-config --version`
+xmlmajor=`echo $xmlversion | awk -F. '{print $1;}'`
+xmlminor=`echo $xmlversion | awk -F. '{print $2;}'`
+xmlpatch=`echo $xmlversion | awk -F. '{print $3;}'`
+if test "$xmlmajor" -ne 1 -o "$xmlminor" -ne 8 -o "$xmlpatch" -lt 7; then
+	AC_MSG_ERROR(gnome-xml 1.8.7 (or later, but not 2.0) is required to compile Evolution)
+fi
+
 AC_ARG_WITH(camel-hard-log-level, [  --with-camel-hard-log-level=level  value of log level in camel (0-10)],
             camel_hard_log_level="$withval", camel_hard_log_level="0")
 AC_DEFINE_UNQUOTED(CAMEL_HARD_LOG_LEVEL, $camel_hard_log_level)
