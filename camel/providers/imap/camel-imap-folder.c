@@ -41,6 +41,7 @@
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
 #include "camel-imap-message-cache.h"
+#include "camel-imap-private.h"
 #include "camel-imap-search.h"
 #include "camel-imap-store.h"
 #include "camel-imap-summary.h"
@@ -49,7 +50,6 @@
 #include "camel-data-wrapper.h"
 #include "camel-disco-diary.h"
 #include "camel-exception.h"
-#include "camel-imap-private.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-from.h"
 #include "camel-mime-message.h"
@@ -277,7 +277,9 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 	else if (validity != imap_summary->validity) {
 		imap_summary->validity = validity;
 		camel_folder_summary_clear (folder->summary);
+		CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 		camel_imap_message_cache_clear (imap_folder->cache);
+		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 		imap_folder->need_rescan = FALSE;
 		camel_imap_folder_changed (folder, exists, NULL, ex);
 		return;
@@ -862,8 +864,10 @@ imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
 	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 
 	camel_imap_summary_add_offline (folder->summary, uid, message, info);
+	CAMEL_IMAP_FOLDER_LOCK (folder, cache_lock);
 	camel_imap_message_cache_insert_wrapper (cache, uid, "",
 						 CAMEL_DATA_WRAPPER (message));
+	CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
 
 	changes = camel_folder_change_info_new ();
 	camel_folder_change_info_add_uid (changes, uid);
@@ -966,9 +970,11 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 		/* Cache first, since freeing response may trigger a
 		 * summary update that will want this information.
 		 */
+		CAMEL_IMAP_FOLDER_LOCK (folder, cache_lock);
 		camel_imap_message_cache_insert_wrapper (
 			CAMEL_IMAP_FOLDER (folder)->cache,
 			uid, "", CAMEL_DATA_WRAPPER (message));
+		CAMEL_IMAP_FOLDER_UNLOCK (folder, cache_lock);
 		g_free (uid);
 	}
 
@@ -1625,8 +1631,9 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 			id = g_array_index (expunged, int, i);
 			info = camel_folder_summary_index (folder->summary, id - 1);
 			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
-			/* It's safe to not lock around this. */
+			CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 			camel_imap_message_cache_remove (imap_folder->cache, camel_message_info_uid (info));
+			CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 			camel_folder_summary_remove (folder->summary, info);
 			camel_folder_summary_info_free(folder->summary, info);
 		}

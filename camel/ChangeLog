@@ -1,6 +1,16 @@
 2001-06-26  Dan Winship  <danw@ximian.com>
 
-	* camel-url.c (camel_url_encode): constify args
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_selected,
+	imap_append_offline, imap_append_online,
+	camel_imap_folder_changed): lock the cache around accesses
+
+	* providers/imap/camel-imap-store.c (get_folder_online): ref the
+	newly-created folder (as current_folder) before calling
+	camel_imap_folder_selected, in case that needs to do something
+	that causes another folder to become current...
+
+	* camel-service.c (camel_service_get_url): D'oh.
+	s/FALSE/CAMEL_URL_HIDE_PASSWORD/
 
 2001-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
