@@ -635,14 +635,13 @@ static gboolean
 tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guint time, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
-	GtkTreeViewColumn *column;
-	int cell_x, cell_y;
+	GtkTreeViewDropPosition pos;
 	GtkTreePath *path;
 	GdkDragAction action;
 	
 	printf ("::drag-motion called\n");
 	
-	if (!gtk_tree_view_get_path_at_pos (priv->treeview, x, y, &path, &column, &cell_x, &cell_y))
+	if (!gtk_tree_view_get_dest_row_at_pos (priv->treeview, x, y, &path, &pos))
 		return FALSE;
 	
 	/* FIXME: highlight target row? */

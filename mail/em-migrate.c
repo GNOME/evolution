@@ -1242,7 +1242,7 @@ get_local_store_uri (const char *dirname, const char *metadata, char **namep, in
 static int
 cp (const char *src, const char *dest, gboolean show_progress)
 {
-	unsigned char readbuf[4096];
+	unsigned char readbuf[65536];
 	ssize_t nread, nwritten;
 	int errnosav, readfd, writefd;
 	size_t total = 0;
@@ -1251,23 +1251,16 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	
 	/* if the dest file exists and has content, abort - we don't
 	 * want to corrupt their existing data */
-	if (stat (dest, &st) == 0 && st.st_size > 0) {
-		printf ("destination exists, not copying '%s' to '%s'\n", src, dest);
+	if (stat (dest, &st) == 0 && st.st_size > 0)
 		return -1;
-	}
 	
-	if (stat (src, &st) == -1) {
-		printf ("source doesn't exist '%s'\n", src);
+	if (stat (src, &st) == -1)
 		return -1;
-	}
 	
-	if ((readfd = open (src, O_RDONLY)) == -1) {
-		printf ("source cannot be opened '%s'\n", src);
+	if ((readfd = open (src, O_RDONLY)) == -1)
 		return -1;
-	}
 	
 	if ((writefd = open (dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
-		printf ("cannot open dest '%s' '%s'\n", dest, strerror(errno));
 		errnosav = errno;
 		close (readfd);
 		errno = errnosav;
