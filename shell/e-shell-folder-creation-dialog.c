@@ -47,10 +47,17 @@
 struct _DialogData {
 	GtkWidget *dialog;
 	EShell *shell;
+
 	GtkWidget *folder_name_entry;
 	GtkWidget *storage_set_view;
 	GtkWidget *folder_type_option_menu;
+
 	GList *folder_types;
+
+	char *folder_path;
+
+	EShellFolderCreationDialogCallback result_callback;
+	void *result_callback_data;
 };
 typedef struct _DialogData DialogData;
 
@@ -58,6 +65,8 @@ static void
 dialog_data_destroy (DialogData *dialog_data)
 {
 	e_free_string_list (dialog_data->folder_types);
+	g_free (dialog_data->folder_path);
+
 	g_free (dialog_data);
 }
 
@@ -74,6 +83,11 @@ async_create_cb (EStorage *storage,
 	dialog_data = (DialogData *) data;
 
 	if (result == E_STORAGE_OK) {
+		if (dialog_data->result_callback != NULL)
+			(* dialog_data->result_callback) (dialog_data->shell,
+							  E_SHELL_FOLDER_CREATION_DIALOG_RESULT_SUCCESS,
+							  dialog_data->folder_path,
+							  dialog_data->result_callback_data);
 		gtk_widget_destroy (dialog_data->dialog);
 		return;
 	}
@@ -121,12 +135,17 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	char *folder_name;
 	char *path;
 
+	dialog_data = (DialogData *) data;
+
 	if (button_number != 0) {
-		gnome_dialog_close (dialog);
+		if (dialog_data->result_callback != NULL)
+			(* dialog_data->result_callback) (dialog_data->shell,
+							  E_SHELL_FOLDER_CREATION_DIALOG_RESULT_CANCEL,
+							  NULL,
+							  dialog_data->result_callback_data);
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;
 	}
-
-	dialog_data = (DialogData *) data;
 
 	if (! entry_name_is_valid (GTK_ENTRY (dialog_data->folder_name_entry))) {
 		/* FIXME: Explain better.  */
@@ -136,9 +155,14 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	}
 
 	parent_path = e_storage_set_view_get_current_folder
-					(E_STORAGE_SET_VIEW (dialog_data->storage_set_view));
+		(E_STORAGE_SET_VIEW (dialog_data->storage_set_view));
 	if (parent_path == NULL) {
-		gnome_dialog_close (dialog);
+		if (dialog_data->result_callback != NULL)
+			(* dialog_data->result_callback) (dialog_data->shell,
+							  E_SHELL_FOLDER_CREATION_DIALOG_RESULT_CANCEL,
+							  NULL,
+							  dialog_data->result_callback_data);
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;
 	}
 
@@ -156,18 +180,14 @@ dialog_clicked_cb (GnomeDialog *dialog,
 		return;
 	}
 
+	g_free (dialog_data->folder_path);
+	dialog_data->folder_path = g_strdup (path);
+
 	e_storage_set_async_create_folder (storage_set,
 					   path,
 					   folder_type,
 					   NULL, /* description */
 					   async_create_cb, dialog_data);
-}
-
-static void
-dialog_close_cb (GnomeDialog *dialog,
-		 void *data)
-{
-	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
@@ -352,7 +372,9 @@ add_folder_types (GtkWidget *dialog,
 void
 e_shell_show_folder_creation_dialog (EShell *shell,
 				     GtkWindow *parent_window,
-				     const char *default_parent_folder)
+				     const char *default_parent_folder,
+				     EShellFolderCreationDialogCallback result_callback,
+				     void *result_callback_data)
 {
 	GladeXML *gui;
 	GtkWidget *dialog;
@@ -385,12 +407,12 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 	dialog_data->storage_set_view        = storage_set_view;
 	dialog_data->folder_type_option_menu = glade_xml_get_widget (gui, "folder_type_option_menu");
 	dialog_data->folder_types            = folder_types;
-	
+	dialog_data->folder_path             = NULL;
+	dialog_data->result_callback         = result_callback;
+	dialog_data->result_callback_data    = result_callback_data;
 
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb), dialog_data);
-	gtk_signal_connect (GTK_OBJECT (dialog), "close",
-			    GTK_SIGNAL_FUNC (dialog_close_cb), dialog_data);
 	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy_cb), dialog_data);
 

@@ -93,9 +93,28 @@ check_folder_type (EShellFolderSelectionDialog *folder_selection_dialog)
 	}
 
 	e_notice (GTK_WINDOW (folder_selection_dialog), GNOME_MESSAGE_BOX_ERROR,
-		  _("The type of the selected folder is not valid for\nthe requested operation."));
+		  _("The type of the selected folder is not valid for\n"
+		    "the requested operation."));
 
 	return FALSE;
+}
+
+
+/* Folder creation dialog callback.  */
+
+static void
+folder_creation_dialog_result_cb (EShell *shell,
+				  EShellFolderCreationDialogResult result,
+				  const char *path,
+				  void *data)
+{
+	EShellFolderSelectionDialog *dialog;
+	EShellFolderSelectionDialogPrivate *priv;
+
+	dialog = E_SHELL_FOLDER_SELECTION_DIALOG (data);
+	priv = dialog->priv;
+
+	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view), path);
 }
 
 
@@ -175,7 +194,9 @@ impl_clicked (GnomeDialog *dialog,
 		default_parent_folder = e_storage_set_view_get_current_folder (storage_set_view);
 
 		e_shell_show_folder_creation_dialog (priv->shell, GTK_WINDOW (dialog),
-						     default_parent_folder);
+						     default_parent_folder,
+						     folder_creation_dialog_result_cb,
+						     dialog);
 
 		break;
 	}

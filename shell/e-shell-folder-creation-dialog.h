@@ -28,8 +28,22 @@
 
 #include "e-shell.h"
 
-void  e_shell_show_folder_creation_dialog  (EShell     *shell,
-					    GtkWindow  *parent,
-					    const char *default_parent_folder);
+enum _EShellFolderCreationDialogResult {
+	E_SHELL_FOLDER_CREATION_DIALOG_RESULT_SUCCESS,
+	E_SHELL_FOLDER_CREATION_DIALOG_RESULT_FAIL,
+	E_SHELL_FOLDER_CREATION_DIALOG_RESULT_CANCEL
+};
+typedef enum _EShellFolderCreationDialogResult EShellFolderCreationDialogResult;
+
+typedef void (* EShellFolderCreationDialogCallback) (EShell *shell,
+						     EShellFolderCreationDialogResult result,
+						     const char *path,
+						     void *data);
+
+void  e_shell_show_folder_creation_dialog  (EShell                             *shell,
+					    GtkWindow                          *parent,
+					    const char                         *default_parent_folder,
+					    EShellFolderCreationDialogCallback  result_callback,
+					    void                               *result_callback_data);
 
 #endif /* E_SHELL_FOLDER_CREATION_DIALOG_H */
