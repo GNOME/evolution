@@ -1,3 +1,10 @@
+2003-11-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c: setup filter-on-thread and vfolder-on-thread.
+
+	* mail-autofilter.c (rule_from_message): handle AUTO_THREAD
+	(rule_match_thread): new function to setup a filter on a msgid
+
 2003-10-31  Not Zed  <NotZed@Ximian.com>
 
 	* mail-config.glade: Rearranged smime config slightly, and added
