@@ -1,5 +1,9 @@
 2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-factory.c (control_deactivate): Turn folder
+	syncing back on here so that IMAP folders will sync without
+	needing to hit Send & Receive.
+
 	* mail-callbacks.c (ask_confirm_for_only_bcc): Throw up the
 	confirmation dialog.
 	(composer_get_message): If the user only specified Bcc recipients,
@@ -168,24 +172,26 @@
 
 2001-06-26  Peter Williams  <peterw@ximian.com>
 
-	* folder-browser-ui.c: New file derived from folder-browser-factory.c.
-	Contains the Bonobo UI code, split into three groups as described in
-	ui/ChangeLog. Also contains the GalView stuff and the hookups into
-	the Bonobo UI stuff.
+	* folder-browser-ui.c: New file derived from
+	folder-browser-factory.c.  Contains the Bonobo UI code, split into
+	three groups as described in ui/ChangeLog. Also contains the
+	GalView stuff and the hookups into the Bonobo UI stuff.
 
-	* folder-browser-factory.c: Move most of the UI stuff to folder-browser-ui.c.
-	(control_activate): Add all three kinds of UI element to this folderbrowser.
+	* folder-browser-factory.c: Move most of the UI stuff to
+	folder-browser-ui.c.
+	(control_activate): Add all three kinds of UI element to this
+	folderbrowser.
 	(control_deactivate): Remove all three kinds.
 
-	* folder-browser-ui.h: New file. Prototypes functions to add UI elements
-	to a FolderBrowser.
+	* folder-browser-ui.h: New file. Prototypes functions to add UI
+	elements to a FolderBrowser.
 
 	* Makefile.am: Add folder-browser-ui.{c,h}
 	
 	* message-browser.c (PARENT_TYPE): Change to BONOBO_TYPE_WINDOW
 	(message_browser_destroy): Chain to parent destroy function.
-	(set_bonobo_ui): New function. Add the 'message' functions from the folder
-	browser to our UI.
+	(set_bonobo_ui): New function. Add the 'message' functions from
+	the folder browser to our UI.
 	(message_browser_close): BonoboVerbify this.
 	
 	* message-browser.h: Convert to BonoboWindow.

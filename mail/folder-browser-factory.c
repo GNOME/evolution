@@ -77,15 +77,10 @@ control_deactivate (BonoboControl     *control,
 {
 	folder_browser_ui_rm_list (fb);
 	folder_browser_ui_rm_all (fb);
-
-	/* turn this back on to get the old (broken) behaviour of
-	 * synching when leaving a folder
-	 */
-#if 0
+	
 	if (fb->folder)
 		mail_sync_folder (fb->folder, NULL, NULL);
-#endif
-
+	
 	folder_browser_set_ui_component (fb, NULL);
 }
 
