@@ -38,6 +38,7 @@ static gboolean _connect_with_url (CamelService *service, Gurl *url,
 				   CamelException *ex);
 static gboolean _disconnect(CamelService *service, CamelException *ex);
 static gboolean _is_connected (CamelService *service);
+static GList *  _query_auth_types (CamelService *service);
 static void     _finalize (GtkObject *object);
 static gboolean _set_url (CamelService *service, Gurl *url,
 			  CamelException *ex);
@@ -55,6 +56,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->connect_with_url = _connect_with_url;
 	camel_service_class->disconnect = _disconnect;
 	camel_service_class->is_connected = _is_connected;
+	camel_service_class->query_auth_types = _query_auth_types;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
@@ -362,4 +364,34 @@ CamelSession *
 camel_service_get_session (CamelService *service)
 {
 	return service->session;
+}
+
+
+GList *
+_query_auth_types (CamelService *service)
+{
+	return NULL;
+}
+
+/**
+ * camel_service_query_auth_types: return a list of supported
+ * authentication types.
+ * @service: a CamelService
+ *
+ * This is used by the mail source wizard to get the list of
+ * authentication types supported by the protocol, and information
+ * about them.
+ *
+ * This may be called on a service with or without an associated URL.
+ * If there is no URL, the routine must return a generic answer. If
+ * the service does have a URL, the routine MAY connect to the server
+ * and query what authentication mechanisms it supports.
+ *
+ * Return value: a list of CamelServiceAuthType records. The caller
+ * must free the list when it is done.
+ **/
+GList *
+camel_service_query_auth_types (CamelService *service)
+{
+	return CSERV_CLASS(service)->query_auth_types(service);
 }

@@ -46,6 +46,8 @@
 
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
+static GList *query_auth_types (CamelService *service);
+
 static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
 				CamelException *ex);
 
@@ -60,6 +62,7 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	
 	/* virtual method overload */
 	camel_service_class->connect = pop3_connect;
+	camel_service_class->query_auth_types = query_auth_types;
 
 	camel_store_class->get_root_folder = camel_pop3_folder_new;
 	camel_store_class->get_default_folder = camel_pop3_folder_new;
@@ -105,6 +108,23 @@ camel_pop3_store_get_type (void)
 }
 
 
+static CamelServiceAuthType password_authtype = {
+	"Password/APOP",
+
+	"This option will connect to the POP server using the APOP "
+	"protocol if possible, or a plaintext password if not.",
+
+	"",
+	TRUE
+};
+
+static GList *query_auth_types (CamelService *service)
+{
+	GList *ret;
+
+	ret = g_list_append (NULL, &password_authtype);
+	return ret;
+}
 
 static gboolean
 pop3_connect (CamelService *service, CamelException *ex)

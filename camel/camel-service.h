@@ -70,15 +70,24 @@ typedef struct {
 
 	gboolean  (*is_connected)      (CamelService *service);
 
+	GList *   (*query_auth_types)  (CamelService *service);
+
 } CamelServiceClass;
 
 
 
 /* flags for url_flags. (others can be added if needed) */
 #define CAMEL_SERVICE_URL_NEED_USER	(1 << 1)
+#define CAMEL_SERVICE_URL_NEED_AUTH	(1 << 2)
 #define CAMEL_SERVICE_URL_NEED_HOST	(1 << 4)
 #define CAMEL_SERVICE_URL_NEED_PATH	(1 << 6)
 
+
+/* query_auth_types returns a GList of these */
+typedef struct {
+	char *name, *description, *authproto;
+	gboolean need_password;
+} CamelServiceAuthType;
 
 
 /* public methods */
@@ -98,6 +107,8 @@ gboolean            camel_service_is_connected       (CamelService *service);
 
 char *              camel_service_get_url            (CamelService *service);
 CamelSession *      camel_service_get_session        (CamelService *service);
+
+GList *             camel_service_query_auth_types   (CamelService *service);
 
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);
