@@ -1,4 +1,19 @@
 figs = \
+	figures/contacts_mainwindow_a.png	\
+	figures/evo_account_info_a.png		\
+	figures/evo_cal_callout_a.gif		\
+	figures/evo_contacteditor_a.png		\
+	figures/evo_email_a.png			\
+	figures/evo_identity_a.png		\
+	figures/evo_mail_callout_a.gif		\
+	figures/evo_mail_callout_a.png		\
+	figures/evo_newmess_a.png		\
+	figures/evo_receive_setup2_a.png	\
+	figures/evo_receive_setup_a.png		\
+	figures/evo_rule_a.png			\
+	figures/evo_send_setup_a.png		\
+	figures/evo_timezone_a.png		\
+	figures/mail_mainwindow_a.png		\
 	figures/calendar.png			\
 	figures/config-cal.png			\
 	figures/config-mail.png			\
@@ -26,27 +41,27 @@ figs = \
 	figures/summary.png			\
 	figures/vfolder-createrule-fig.png
 figdir = figures
-docname = evolution-1.5
+
+all: $(docname).xml $(omffile)
+
+doc_in_files = evolution.xml
+%-$(BASE_VERSION).xml: $(doc_in_files)
+	cp -f $< $@
+
+docname = evolution-$(BASE_VERSION)
 lang = C
-omffile = evolution-1.5-C.omf
-entities =	\
-	apx-authors.xml		\
-	apx-bugs.xml		\
-	apx-fdl.xml		\
-	apx-gloss.xml		\
-	apx-gpl.xml		\
-	config-prefs.xml	\
-	config-sync.xml		\
-	legal.xml		\
-	menuref.xml		\
-	preface.xml		\
-	usage-calendar.xml	\
-	usage-contact.xml	\
-	usage-exchange.xml	\
-	usage-mail-org.xml	\
-	usage-mail.xml		\
-	usage-mainwindow.xml	\
-	usage-sync.xml
+
+omf_in_files = evolution-$(lang).omf
+%-$(BASE_VERSION)-$(lang).omf: $(omf_in_files)
+	cp -f $< $@
+omffile = evolution-$(BASE_VERSION)-C.omf
 
 include $(top_srcdir)/help/xmldocs.make
 dist-hook: app-dist-hook
+
+CLEANFILES +=			\
+	$(docname).xml		\
+	omf_timestamp		\
+	$(omffile).out		\
+	$(omffile)
+

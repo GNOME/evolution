@@ -40,7 +40,7 @@
 docdir = $(datadir)/gnome/help/$(docname)/$(lang)
 
 # **************  You should not have to edit below this line  *******************
-xml_files = $(entities) $(docname).xml
+xml_files = $(docname).xml
 
 EXTRA_DIST = $(xml_files) $(omffile)
 CLEANFILES = omf_timestamp
@@ -50,10 +50,10 @@ include $(top_srcdir)/help/omf.make
 
 all: omf
 
-$(docname).xml: $(entities)
-	-ourdir=`pwd`;  \
-	cd $(srcdir);   \
-	cp $(entities) $$ourdir
+#$(docname).xml: $(entities)
+#	-ourdir=`pwd`;  \
+#	cd $(srcdir);   \
+#	cp $(entities) $$ourdir
 
 app-dist-hook:
 	if test "$(figdir)"; then \
