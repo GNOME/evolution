@@ -88,9 +88,9 @@ check_html_charset (CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
 		const char *data;
 		int len;
 		const char *val;
-
+		
 		state = camel_html_parser_step(hp, &data, &len);
-
+		
 		/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
 		
 		switch(state) {
@@ -184,7 +184,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		
 		/* Possible Lame Mailer Alert... check the META tags for a charset */
 		if (!charset && header_content_type_is (ct, "text", "html"))
-			charset = check_html_charset(mp, enctype);
+			charset = check_html_charset (mp, enctype);
 		
 		/* if the charset is not us-ascii or utf-8, then we need to convert to utf-8 */
 		if (charset && !(g_strcasecmp (charset, "us-ascii") == 0 || g_strcasecmp (charset, "utf-8") == 0)) {

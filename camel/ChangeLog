@@ -1,5 +1,36 @@
 2001-07-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-filter-charset.c
+	(camel_mime_filter_charset_new_convert): Convert to the
+	iconv-friendly charset names.
+
+	* providers/imap/camel-imap-store.c (create_folder): Fixed a
+	compiler warning about returning without a value in a non-void
+	function. Blah.
+
+	* camel-mime-part.c (process_header): Pass the locale charset as
+	the default_charset to header_decode_string().
+
+	* camel-folder-summary.c (camel_folder_summary_format_string):
+	Pass the locale charset as the default_charset to
+	header_decode_string().
+	(content_info_new): Same.
+
+	* camel-mime-message.c (process_header): Pass the locale charset
+	as the default_charset to header_decode_string().
+
+	* camel-mime-utils.c (append_8bit): New helper function who's
+	purpose is similar to append_latin1() but for 8bit text that we
+	are assuming is not latin1.
+	(header_decode_text): Now takes a default_charset parameter and
+	calls append_8bit when appropriate.
+	(header_decode_string): Also takes a default_charset parameter
+	now.
+	(header_decode_mailbox): Pass NULL as the default_charset to
+	header_decode_string().
+
+2001-07-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-pgp-context.c (pgp_verify): Modified to treat the return
 	value from camel_charset_locale_name() as a const char*.
 

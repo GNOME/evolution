@@ -1004,32 +1004,63 @@ g_string_append_len(GString *st, const char *s, int l)
    according to the rfc's.  Anyway, since the conversion to utf-8
    is trivial, just do it here without iconv */
 static GString *
-append_latin1(GString *out, const char *in, int len)
+append_latin1 (GString *out, const char *in, int len)
 {
 	unsigned int c;
-
+	
 	while (len) {
 		c = (unsigned int)*in++;
 		len--;
 		if (c & 0x80) {
-			out = g_string_append_c(out, 0xc0 | ((c>>6) & 0x3));		/* 110000xx */
-			out = g_string_append_c(out, 0x80 | (c&0x3f)); 	/* 10xxxxxx */
+			out = g_string_append_c (out, 0xc0 | ((c >> 6) & 0x3));  /* 110000xx */
+			out = g_string_append_c (out, 0x80 | (c & 0x3f));        /* 10xxxxxx */
 		} else {
-			out = g_string_append_c(out, c);
+			out = g_string_append_c (out, c);
 		}
 	}
 	return out;
 }
 
+static void
+append_8bit (GString *out, const char *inbuf, int inlen, const char *default_charset)
+{
+	char *outbase, *outbuf;
+	int outlen;
+	iconv_t ic;
+	
+	ic = iconv_open ("UTF-8", default_charset);
+	if (ic != (iconv_t) -1) {
+		int ret;
+		
+		outlen = inlen * 6 + 16;
+		outbuf = outbase = g_malloc (outlen);
+		
+		ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+		if (ret >= 0) {
+			iconv (ic, NULL, 0, &outbuf, &outlen);
+			*outbuf = '\0';
+		}
+		
+		iconv_close (ic);
+		
+		/* FIXME: is outlen == strlen (outbuf) ?? */
+		g_string_append_len (out, outbase, strlen (outbase));
+	} else {
+		/* bah, completely broken...just append as raw text */
+		g_string_append_len (out, inbuf, inlen);
+	}
+}
+
 /* decodes a simple text, rfc822 */
 static char *
-header_decode_text (const char *in, int inlen)
+header_decode_text (const char *in, int inlen, const char *default_charset)
 {
 	GString *out;
 	char *inptr, *inend, *start, *word_start;
 	char *decoded;
 	gboolean wasdword = FALSE;
 	gboolean wasspace = FALSE;
+	gboolean islatin1 = FALSE;
 	
 	out = g_string_new ("");
 	start = inptr = (char *) in;
@@ -1056,8 +1087,12 @@ header_decode_text (const char *in, int inlen)
 				g_string_append (out, dword);
 				g_free (dword);
 				wasdword = TRUE;
+			} else if (islatin1 || !default_charset) {
+				/* append_latin1 is safe for 7bit ascii too */
+				append_latin1 (out, start, inptr - start - 1);
+				wasdword = FALSE;
 			} else {
-				out = append_latin1 (out, start, inptr - start - 1);
+				append_8bit (out, start, inptr - start - 1, default_charset);
 				wasdword = FALSE;
 			}
 			
@@ -1068,6 +1103,11 @@ header_decode_text (const char *in, int inlen)
 			wasspace = FALSE;
 			if (!word_start)
 				word_start = inptr - 1;
+			
+			if (c & 0x80 || c <= 127)
+				islatin1 = TRUE;
+			else
+				islatin1 = FALSE;
 		}
 	}
 	
@@ -1087,8 +1127,11 @@ header_decode_text (const char *in, int inlen)
 			
 			g_string_append (out, dword);
 			g_free (dword);
+		} else if (islatin1 || !default_charset) {
+			/* append_latin1 is safe for 7bit ascii too */
+			append_latin1 (out, start, inptr - start);
 		} else {
-			out = append_latin1 (out, start, inptr - start);
+			append_8bit (out, start, inptr - start, default_charset);
 		}
 	}
 	
@@ -1098,49 +1141,12 @@ header_decode_text (const char *in, int inlen)
 	return decoded;
 }
 
-#if 0     /* This is broken */
-
-/* so in what way is it broken? */
-
-/* decodes a simple text, rfc822 */
-static char *
-header_decode_text(const char *in, int inlen)
-{
-	GString *out;
-	const char *inptr = in;
-	const char *inend = in+inlen;
-	char *encstart, *encend;
-	char *decword;
-
-	out = g_string_new("");
-	while ( (encstart = strstr(inptr, "=?"))
-		&& (encend = strstr(encstart+2, "?=")) ) {
-
-		decword = rfc2047_decode_word(encstart, encend-encstart+2);
-		if (decword) {
-			out = g_string_append_len(out, inptr, encstart-inptr);
-			out = g_string_append_len(out, decword, strlen(decword));
-			g_free (decword);
-		} else {
-			out = append_latin1(out, inptr, encend-inptr+2);
-		}
-		inptr = encend+2;
-	}
-	out = append_latin1(out, inptr, inend-inptr);
-
-	encstart = out->str;
-	g_string_free(out, FALSE);
-
-	return encstart;
-}
-#endif
-
 char *
-header_decode_string(const char *in)
+header_decode_string (const char *in, const char *default_charset)
 {
 	if (in == NULL)
 		return NULL;
-	return header_decode_text(in, strlen(in));
+	return header_decode_text (in, strlen (in), default_charset);
 }
 
 /* how long a sequence of pre-encoded words should be less than, to attempt to 
@@ -2248,13 +2254,13 @@ header_decode_mailbox(const char **in)
 	header_decode_lwsp(&inptr);
 	if (!(*inptr == '.' || *inptr == '@' || *inptr==',' || *inptr=='\0')) {
 		/* ',' and '\0' required incase it is a simple address, no @ domain part (buggy writer) */
-		name = g_string_new("");
+		name = g_string_new ("");
 		while (pre) {
 			char *text, *last;
 
 			/* perform internationalised decoding, and append */
-			text = header_decode_string(pre);
-			name = g_string_append(name, text);
+			text = header_decode_string (pre, NULL);
+			g_string_append (name, text);
 			last = pre;
 			g_free(text);
 
@@ -2362,19 +2368,19 @@ header_decode_mailbox(const char **in)
 			
 			if (comend > comstart) {
 				d(printf("  looking at subset '%.*s'\n", comend-comstart, comstart));
-				tmp = g_strndup(comstart, comend-comstart);
-				text = header_decode_string(tmp);
-				name = g_string_new(text);
-				g_free(tmp);
-				g_free(text);
+				tmp = g_strndup (comstart, comend-comstart);
+				text = header_decode_string (tmp, NULL);
+				name = g_string_new (text);
+				g_free (tmp);
+				g_free (text);
 			}
 		}
 	}
-
+	
 	*in = inptr;
-
+	
 	if (addr->len > 0) {
-		address = header_address_new_name(name?name->str:"", addr->str);
+		address = header_address_new_name(name ? name->str : "", addr->str);
 	}
 
 	g_string_free(addr, TRUE);

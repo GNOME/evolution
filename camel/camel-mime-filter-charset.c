@@ -25,6 +25,7 @@
 #include <errno.h>
 
 #include "camel-mime-filter-charset.h"
+#include "camel-charset-map.h"
 
 #define d(x)
 
@@ -226,18 +227,22 @@ camel_mime_filter_charset_new (void)
 }
 
 CamelMimeFilterCharset *
-camel_mime_filter_charset_new_convert(const char *from_charset, const char *to_charset)
+camel_mime_filter_charset_new_convert (const char *from_charset, const char *to_charset)
 {
 	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET (camel_object_new (camel_mime_filter_charset_get_type ()));
-
-	new->ic = iconv_open(to_charset, from_charset);
+	
+	from_charset = camel_charset_get_iconv_friendly_name (from_charset);
+	to_charset = camel_charset_get_iconv_friendly_name (to_charset);
+	
+	new->ic = iconv_open (to_charset, from_charset);
 	if (new->ic == (iconv_t) -1) {
 		g_warning("Cannot create charset conversion from %s to %s: %s", from_charset, to_charset, strerror(errno));
-		camel_object_unref((CamelObject *)new);
+		camel_object_unref ((CamelObject *)new);
 		new = NULL;
 	} else {
-		new->from = g_strdup(from_charset);
-		new->to = g_strdup(to_charset);
+		new->from = g_strdup (from_charset);
+		new->to = g_strdup (to_charset);
 	}
+	
 	return new;
 }

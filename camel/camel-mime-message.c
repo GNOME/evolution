@@ -513,6 +513,7 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 	CamelHeaderType header_type;
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (medium);
 	CamelInternetAddress *addr;
+	const char *charset;
 	
 	header_type = (CamelHeaderType)g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
@@ -529,8 +530,9 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 		camel_address_decode (CAMEL_ADDRESS (message->reply_to), header_value);
 		break;
 	case HEADER_SUBJECT:
-		g_free(message->subject);
-		message->subject = g_strstrip (header_decode_string (header_value));
+		g_free (message->subject);
+		charset = camel_charset_locale_name ();
+		message->subject = g_strstrip (header_decode_string (header_value, charset));
 		break;
 	case HEADER_TO:
 	case HEADER_CC:
@@ -719,7 +721,7 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 	if (istext)
 		charsetin = camel_mime_filter_bestenc_get_best_charset (bestenc);
 	
-	d(printf("charsetin = %s\n", charsetin));
+	d(printf("charsetin = %s\n", charsetin ? charsetin : "(null)"));
 	
 	/* if we have US-ASCII, or we're not doing text, we dont need to bother with the rest */
 	if (charsetin != NULL && (required & CAMEL_BESTENC_GET_CHARSET) != 0) {

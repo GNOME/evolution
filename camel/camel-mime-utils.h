@@ -145,26 +145,26 @@ void header_raw_clear(struct _header_raw **list);
 char *header_raw_check_mailing_list(struct _header_raw **list);
 
 /* fold a header */
-char *header_address_fold(const char *in, int headerlen);
-char *header_fold(const char *in, int headerlen);
-char *header_unfold(const char *in);
+char *header_address_fold (const char *in, int headerlen);
+char *header_fold (const char *in, int headerlen);
+char *header_unfold (const char *in);
 
 /* decode a header which is a simple token */
-char *header_token_decode(const char *in);
+char *header_token_decode (const char *in);
 
 /* decode/encode a string type, like a subject line */
-char *header_decode_string(const char *in);
-char *header_encode_string(const unsigned char *in);
+char *header_decode_string (const char *in, const char *default_charset);
+char *header_encode_string (const unsigned char *in);
 
 /* encode a phrase, like the real name of an address */
-char *header_encode_phrase(const unsigned char *in);
+char *header_encode_phrase (const unsigned char *in);
 
 /* decode an email date field into a GMT time, + optional offset */
-time_t header_decode_date(const char *in, int *saveoffset);
-char *header_format_date(time_t time, int offset);
+time_t header_decode_date (const char *in, int *saveoffset);
+char *header_format_date (time_t time, int offset);
 
 /* decode a message id */
-char *header_msgid_decode(const char *in);
+char *header_msgid_decode (const char *in);
 
 /* generate msg id */
 char *header_msgid_generate (void);

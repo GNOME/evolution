@@ -405,16 +405,17 @@ camel_charset_get_iconv_friendly_name (const char *name)
 			new_charset[3] = '-';
 			memcpy (new_charset + 4, name + 3, len - 3);
 			new_charset[len + 1] = '\0';
-			g_hash_table_insert (iconv_charsets, g_strdup (name), new_charset);
 		} else {
 			/* *shrug* - add it to the hash table just the way it is? */
 			new_charset = g_strdup (name);
-			g_hash_table_insert (iconv_charsets, g_strdup (name), new_charset);
 		}
 		
+		g_hash_table_insert (iconv_charsets, g_strdup (name), new_charset);
 		charset = new_charset;
 	}
 	ICONV_CHARSETS_UNLOCK ();
+	
+	g_warning ("camel_charset_get_iconv_friendly_name (\"%s\") => \"%s\"", name, charset);
 	
 	return charset;
 }

@@ -40,6 +40,7 @@
 #include "camel-mime-part.h"
 #include "camel-mime-part-utils.h"
 #include "camel-exception.h"
+#include "camel-charset-map.h"
 #include "string-utils.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
@@ -200,6 +201,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	CamelHeaderType header_type;
+	const char *charset;
 	char *text;
 
 	/* Try to parse the header pair. If it corresponds to something   */
@@ -209,30 +211,29 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
 	case HEADER_DESCRIPTION: /* raw header->utf8 conversion */
-		text = header_decode_string(header_value);
-		g_free(mime_part->description);
-		mime_part->description = g_strstrip (text);
+		g_free (mime_part->description);
+		charset = camel_charset_locale_name ();
+		mime_part->description = g_strstrip (header_decode_string (header_value, charset));
 		break;
 	case HEADER_DISPOSITION:
-		set_disposition(mime_part, header_value);
+		set_disposition (mime_part, header_value);
 		break;
 	case HEADER_CONTENT_ID:
-		text = header_msgid_decode(header_value);
-		g_free(mime_part->content_id);
-		mime_part->content_id = text;
+		g_free (mime_part->content_id);
+		mime_part->content_id = header_msgid_decode (header_value);
 		break;
 	case HEADER_ENCODING:
-		text = header_token_decode(header_value);
+		text = header_token_decode (header_value);
 		mime_part->encoding = camel_mime_part_encoding_from_string (text);
-		g_free(text);
+		g_free (text);
 		break;
 	case HEADER_CONTENT_MD5:
-		g_free(mime_part->content_MD5);
-		mime_part->content_MD5 = g_strdup(header_value);
+		g_free (mime_part->content_MD5);
+		mime_part->content_MD5 = g_strdup (header_value);
 		break;
 	case HEADER_CONTENT_LOCATION:
-		g_free(mime_part->content_location);
-		mime_part->content_location = header_location_decode(header_value);
+		g_free (mime_part->content_location);
+		mime_part->content_location = header_location_decode (header_value);
 		break;
 	case HEADER_CONTENT_TYPE: 
 		if (mime_part->content_type)
@@ -298,7 +299,7 @@ get_headers (CamelMedium *medium)
 	headers = g_array_new (FALSE, FALSE, sizeof (CamelMediumHeader));
 	for (h = part->headers; h; h = h->next) {
 		header.name = h->name;
-		header.value = header_decode_string (h->value);
+		header.value = header_decode_string (h->value, NULL);
 		g_array_append_val (headers, header);
 	}
 
@@ -604,14 +605,14 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		default:
 			break;
 		}
-
-		if (header_content_type_is(mp->content_type, "text", "*")) {
-			charset = header_content_type_param(mp->content_type, "charset");
-			if (!(charset == NULL || !strcasecmp(charset, "us-ascii") || !strcasecmp(charset, "utf-8"))) {
-				charenc = (CamelMimeFilter *)camel_mime_filter_charset_new_convert("utf-8", charset);
+		
+		if (header_content_type_is (mp->content_type, "text", "*")) {
+			charset = header_content_type_param (mp->content_type, "charset");
+			if (charset && !(!g_strcasecmp (charset, "us-ascii") || !g_strcasecmp (charset, "utf-8"))) {
+				charenc = (CamelMimeFilter *)camel_mime_filter_charset_new_convert ("UTF-8", charset);
 			} 
 		}
-
+		
 		if (filter || charenc) {
 			filter_stream = camel_stream_filter_new_with_stream(stream);
 

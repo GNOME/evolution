@@ -1375,15 +1375,16 @@ camel_folder_summary_format_address(struct _header_raw *h, const char *name)
 }
 
 char *
-camel_folder_summary_format_string(struct _header_raw *h, const char *name)
+camel_folder_summary_format_string (struct _header_raw *h, const char *name)
 {
-	const char *text;
-
-	text = header_raw_find(&h, name, NULL);
+	const char *charset, *text;
+	
+	text = header_raw_find (&h, name, NULL);
 	if (text) {
-		while (isspace(*text))
+		while (isspace ((unsigned) *text))
 			text++;
-		return header_decode_string(text);
+		charset = camel_charset_locale_name ();
+		return header_decode_string (text, charset);
 	} else {
 		return NULL;
 	}
@@ -1695,16 +1696,18 @@ message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 }
 
 static CamelMessageContentInfo *
-content_info_new(CamelFolderSummary *s, struct _header_raw *h)
+content_info_new (CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageContentInfo *ci;
-
-	ci = camel_folder_summary_content_info_new(s);
-
-	ci->id = header_msgid_decode(header_raw_find(&h, "content-id", NULL));
-	ci->description = header_decode_string(header_raw_find(&h, "content-description", NULL));
-	ci->encoding = header_content_encoding_decode(header_raw_find(&h, "content-transfer-encoding", NULL));
-
+	const char *charset;
+	
+	ci = camel_folder_summary_content_info_new (s);
+	
+	charset = camel_charset_locale_name ();
+	ci->id = header_msgid_decode (header_raw_find (&h, "content-id", NULL));
+	ci->description = header_decode_string (header_raw_find (&h, "content-description", NULL), NULL);
+	ci->encoding = header_content_encoding_decode (header_raw_find (&h, "content-transfer-encoding", NULL));
+	
 	return ci;
 }
 
