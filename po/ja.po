@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution CVS-20000611\n"
-"POT-Creation-Date: 2000-06-11 20:59+0900\n"
-"PO-Revision-Date: 2000-06-11 21:03+0900\n"
+"Project-Id-Version: evolution CVS-20000615\n"
+"POT-Creation-Date: 2000-06-15 00:06+0900\n"
+"PO-Revision-Date: 2000-06-15 00:10+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -452,7 +452,7 @@ msgid "Mobile"
 msgstr "モバイル"
 
 #: addressbook/contact-editor/e-contact-editor.c:1225
-#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2032
+#: addressbook/contact-editor/e-contact-editor.c:1320 mail/mail-config.c:2027
 msgid "Other"
 msgstr "その他"
 
@@ -492,11 +492,11 @@ msgstr "Email 2"
 msgid "Email 3"
 msgstr "Email 3"
 
-#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:583
+#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:577
 msgid "To"
 msgstr "受取人"
 
-#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:555
+#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:549
 msgid "From"
 msgstr "差出人"
 
@@ -534,8 +534,8 @@ msgstr "コンタクトを印刷する"
 
 #. Delete
 #: addressbook/gui/component/addressbook.c:430 calendar/gui/gncal-todo.c:494
-#: mail/folder-browser-factory.c:50 mail/mail-config.c:1859
-#: mail/mail-config.c:1958
+#: mail/folder-browser-factory.c:50 mail/mail-config.c:1857
+#: mail/mail-config.c:1953
 msgid "Delete"
 msgstr "削除"
 
@@ -593,7 +593,7 @@ msgstr "VCard で保存"
 msgid "As _Minicards"
 msgstr "ミニカード"
 
-#: addressbook/gui/component/addressbook.c:1110 mail/folder-browser.c:231
+#: addressbook/gui/component/addressbook.c:1110
 msgid "The URI that the Folder Browser will display"
 msgstr "フォルダブラウザが表示する URI"
 
@@ -1309,13 +1309,13 @@ msgid "Due Date"
 msgstr "期日"
 
 #: calendar/gui/gncal-todo.c:422 calendar/gui/prop.c:605
-#: mail/message-list.c:541
+#: mail/message-list.c:535
 msgid "Priority"
 msgstr "優先度"
 
 #: calendar/gui/gncal-todo.c:423
 msgid "Time Left"
-msgstr ""
+msgstr "残った時間"
 
 #. Label
 #: calendar/gui/gncal-todo.c:435
@@ -1645,7 +1645,7 @@ msgstr "失敗\n"
 msgid "success.\n"
 msgstr "成功\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:635
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:656
 msgid "Cut"
 msgstr "切り取り"
 
@@ -1653,7 +1653,7 @@ msgstr "切り取り"
 msgid "Cut selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムを切り取る"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:636
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:657
 msgid "Copy"
 msgstr "コピー"
 
@@ -1662,7 +1662,7 @@ msgid "Copy selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムをコピーする"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:637
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:658
 msgid "Paste"
 msgstr "貼り付け"
 
@@ -1759,60 +1759,64 @@ msgstr "Subject:"
 msgid "Enter the subject of the mail"
 msgstr "メールの表題を入力"
 
-#: composer/e-msg-composer.c:593
+#: composer/e-msg-composer.c:508
+msgid "Discard this message?"
+msgstr "このメッセージを処分しますか?"
+
+#: composer/e-msg-composer.c:614
 msgid "Save in _folder..."
 msgstr "フォルダ内を保存(_f)..."
 
-#: composer/e-msg-composer.c:593
+#: composer/e-msg-composer.c:614
 msgid "Save the message in a specified folder"
 msgstr "指定したフォルダ内のメッセージを保存する"
 
-#: composer/e-msg-composer.c:596 composer/e-msg-composer.c:633
+#: composer/e-msg-composer.c:617 composer/e-msg-composer.c:654
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "送信"
 
-#: composer/e-msg-composer.c:596
+#: composer/e-msg-composer.c:617
 msgid "Send the message"
 msgstr "メッセージを送信する"
 
-#: composer/e-msg-composer.c:604
+#: composer/e-msg-composer.c:625
 msgid "View _attachments"
 msgstr "添付物を表示 (_a)"
 
-#: composer/e-msg-composer.c:604
+#: composer/e-msg-composer.c:625
 msgid "View/hide attachments"
 msgstr "添付物を表示/隠す"
 
-#: composer/e-msg-composer.c:633
+#: composer/e-msg-composer.c:654
 msgid "Send this message"
 msgstr "このメッセージを送信する"
 
-#: composer/e-msg-composer.c:635
+#: composer/e-msg-composer.c:656
 msgid "Cut selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を切り取る"
 
-#: composer/e-msg-composer.c:636
+#: composer/e-msg-composer.c:657
 msgid "Copy selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域をコピーする"
 
-#: composer/e-msg-composer.c:637
+#: composer/e-msg-composer.c:658
 msgid "Paste selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を貼り付ける"
 
-#: composer/e-msg-composer.c:638
+#: composer/e-msg-composer.c:659
 msgid "Undo"
 msgstr "元に戻す"
 
-#: composer/e-msg-composer.c:638
+#: composer/e-msg-composer.c:659
 msgid "Undo last operation"
 msgstr "最後の操作を元に戻す"
 
-#: composer/e-msg-composer.c:640
+#: composer/e-msg-composer.c:661
 msgid "Attach"
 msgstr "添付"
 
-#: composer/e-msg-composer.c:640
+#: composer/e-msg-composer.c:661
 msgid "Attach a file"
 msgstr "ファイルを添付する"
 
@@ -1883,14 +1887,6 @@ msgstr "メール設定(_M)..."
 #: mail/folder-browser-factory.c:93
 msgid "Forget _Passwords"
 msgstr "パスワード紛失(_P)"
-
-#: mail/folder-browser-factory.c:221
-msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr "すいませんが，Evolution のフォルダブラウザは初期化することが出来ません"
-
-#: mail/folder-browser.c:234
-msgid "Whether a message preview should be shown"
-msgstr "メッセージプレビューは表示すべきかどうか"
 
 #: mail/mail-config.c:258
 msgid ""
@@ -1968,7 +1964,7 @@ msgid "Mail Configuration"
 msgstr "メール設定"
 
 #. Identity page
-#: mail/mail-config.c:1137 mail/mail-config.c:1868
+#: mail/mail-config.c:1137 mail/mail-config.c:1866
 msgid "Identity"
 msgstr "身元"
 
@@ -1982,19 +1978,19 @@ msgstr "メールの起点"
 msgid "Mail Transport"
 msgstr "メールの転送"
 
-#: mail/mail-config.c:1300
+#: mail/mail-config.c:1299
 msgid "Edit Identity"
 msgstr "身元の編集"
 
-#: mail/mail-config.c:1302
+#: mail/mail-config.c:1301
 msgid "Add Identity"
 msgstr "身元の追加"
 
-#: mail/mail-config.c:1443
+#: mail/mail-config.c:1444
 msgid "Edit Source"
 msgstr "起点の編集"
 
-#: mail/mail-config.c:1445
+#: mail/mail-config.c:1446
 msgid "Add Source"
 msgstr "起点の追加"
 
@@ -2018,31 +2014,31 @@ msgstr "署名ファイル"
 msgid "Camel Providers Configuration"
 msgstr "キャメルプロバイダ設定"
 
-#: mail/mail-config.c:1825
+#: mail/mail-config.c:1823
 msgid "Identities"
 msgstr "身元"
 
-#: mail/mail-config.c:1841 mail/mail-config.c:1940
+#: mail/mail-config.c:1839 mail/mail-config.c:1935
 msgid "Add"
 msgstr "追加"
 
-#: mail/mail-config.c:1850 mail/mail-config.c:1949
+#: mail/mail-config.c:1848 mail/mail-config.c:1944
 msgid "Edit"
 msgstr "編集"
 
-#: mail/mail-config.c:1924
+#: mail/mail-config.c:1919
 msgid "Mail sources"
 msgstr "メールの起点"
 
-#: mail/mail-config.c:1967
+#: mail/mail-config.c:1962
 msgid "Sources"
 msgstr "起点"
 
-#: mail/mail-config.c:2002
+#: mail/mail-config.c:1997
 msgid "Transports"
 msgstr "転送"
 
-#: mail/mail-config.c:2023
+#: mail/mail-config.c:2018
 msgid "Send messages in HTML format"
 msgstr "HTML 形式でメッセージを送信"
 
@@ -2050,27 +2046,27 @@ msgstr "HTML 形式でメッセージを送信"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "メールコンポーネント: Bonobo の初期化が出来ませんでした"
 
-#: mail/message-list.c:527
+#: mail/message-list.c:521
 msgid "Online Status"
 msgstr "オンライン状態"
 
-#: mail/message-list.c:562
+#: mail/message-list.c:556
 msgid "Subject"
 msgstr "表題"
 
-#: mail/message-list.c:569
+#: mail/message-list.c:563
 msgid "Date"
 msgstr "日付"
 
-#: mail/message-list.c:576
+#: mail/message-list.c:570
 msgid "Receive"
 msgstr "受信"
 
-#: mail/message-list.c:590
+#: mail/message-list.c:584
 msgid "Size"
 msgstr "サイズ"
 
-#: mail/component-factory.c:178
+#: mail/component-factory.c:177
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Evolution メールコンポーネントの初期化が出来ません"
 
