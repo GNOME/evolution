@@ -285,7 +285,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			do {
 				w = SSL_write (ssl, buffer + written, n - written);
 				if (w < 0)
-					ssl_error_to_errno (SSL_get_error (ssl, w));
+					ssl_error_to_errno (ssl, SSL_get_error (ssl, w));
 			} while (w < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 			
 			if (w > 0)
@@ -323,7 +323,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 					w = 0;
 				} else {
 					error = errno;
-					fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+					fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
 					errno = error;
 					return -1;
 				}
