@@ -26,6 +26,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <ebook/e-card.h>
 
 #define PAS_TYPE_BACKEND_CARD_SEXP        (pas_backend_card_sexp_get_type ())
 #define PAS_BACKEND_CARD_SEXP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BACKEND_CARD_SEXP, PASBackendCardSExp))
@@ -49,5 +50,6 @@ PASBackendCardSExp *pas_backend_card_sexp_new      (const char *text);
 GType               pas_backend_card_sexp_get_type (void);
 
 gboolean            pas_backend_card_sexp_match_vcard (PASBackendCardSExp *sexp, const char *vcard);
+gboolean            pas_backend_card_sexp_match_ecard (PASBackendCardSExp *sexp, ECard *ecard);
 
 #endif /* __PAS_BACKEND_CARD_SEXP_H__ */

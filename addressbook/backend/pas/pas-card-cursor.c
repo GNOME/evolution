@@ -108,6 +108,8 @@ pas_card_cursor_construct (PASCardCursor           *cursor,
 	g_return_if_fail (cursor != NULL);
 	g_return_if_fail (PAS_IS_CARD_CURSOR (cursor));
 
+	priv = cursor->priv;
+
 	priv->get_length   = get_length;
 	priv->get_nth = get_nth;
 	priv->data = data;

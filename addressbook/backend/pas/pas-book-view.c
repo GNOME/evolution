@@ -64,19 +64,46 @@ pas_book_view_notify_change_1 (PASBookView *book_view,
  * pas_book_view_notify_remove:
  */
 void
-pas_book_view_notify_remove (PASBookView                *book_view,
-			     const char                 *id)
+pas_book_view_notify_remove_1 (PASBookView                *book_view,
+			       const char                 *id)
 {
+	GList *ids = NULL;
+
+	ids = g_list_prepend (ids, (char*)id);
+
+	pas_book_view_notify_remove (book_view, ids);
+
+	g_list_free (ids);
+}
+
+void
+pas_book_view_notify_remove (PASBookView  *book_view,
+			     const GList  *ids)
+{
+	GNOME_Evolution_Addressbook_CardIdList idlist;
 	CORBA_Environment ev;
+	const GList *l;
+	int num_ids, i;
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Addressbook_BookViewListener_notifyCardRemoved (
-		book_view->priv->listener, (GNOME_Evolution_Addressbook_CardId) id, &ev);
+	num_ids = g_list_length ((GList*)ids);
+	idlist._buffer = CORBA_sequence_GNOME_Evolution_Addressbook_CardId_allocbuf (num_ids);
+	idlist._maximum = num_ids;
+	idlist._length = num_ids;
+
+	for (l = ids, i = 0; l; l=l->next, i ++) {
+		idlist._buffer[i] = CORBA_string_dup (l->data);
+	}
+
+	GNOME_Evolution_Addressbook_BookViewListener_notifyCardsRemoved (
+		book_view->priv->listener, &idlist, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_view_notify_remove: Exception signaling BookViewListener!\n");
 	}
+
+	CORBA_free(idlist._buffer);
 
 	CORBA_exception_free (&ev);
 }

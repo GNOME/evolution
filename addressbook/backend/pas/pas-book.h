@@ -32,7 +32,7 @@ typedef struct _PASBookPrivate PASBookPrivate;
 
 typedef enum {
 	CreateCard,
-	RemoveCard,
+	RemoveCards,
 	ModifyCard,
 	GetVCard,
 	GetCursor,
@@ -53,8 +53,8 @@ typedef struct {
 
 typedef struct {
 	PASOperation op;
-	char *id;
-} PASRemoveCardRequest;
+	GList *ids;
+} PASRemoveCardsRequest;
 
 typedef struct {
 	PASOperation op;
@@ -112,7 +112,7 @@ typedef union {
 	PASOperation                      op;
 
 	PASCreateCardRequest              create;
-	PASRemoveCardRequest              remove;
+	PASRemoveCardsRequest             remove;
 	PASModifyCardRequest              modify;
 	PASGetVCardRequest                get_vcard;
 	PASGetCursorRequest               get_cursor;

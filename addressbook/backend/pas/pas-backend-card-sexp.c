@@ -345,15 +345,12 @@ static struct {
 };
 
 gboolean
-pas_backend_card_sexp_match_vcard (PASBackendCardSExp *sexp, const char *vcard)
+pas_backend_card_sexp_match_ecard (PASBackendCardSExp *sexp, ECard *ecard)
 {
-	ECard *card;
 	ESExpResult *r;
 	gboolean retval;
 
-	card = e_card_new ((char*)vcard);
-	sexp->priv->search_context->card = e_card_simple_new (card);
-	g_object_unref(card);
+	sexp->priv->search_context->card = e_card_simple_new (ecard);
 
 	/* if it's not a valid vcard why is it in our db? :) */
 	if (!sexp->priv->search_context->card)
@@ -366,6 +363,21 @@ pas_backend_card_sexp_match_vcard (PASBackendCardSExp *sexp, const char *vcard)
 	g_object_unref(sexp->priv->search_context->card);
 
 	e_sexp_result_free(sexp->priv->search_sexp, r);
+
+	return retval;
+}
+
+gboolean
+pas_backend_card_sexp_match_vcard (PASBackendCardSExp *sexp, const char *vcard)
+{
+	ECard *card;
+	gboolean retval;
+
+	card = e_card_new ((char*)vcard);
+
+	retval = pas_backend_card_sexp_match_ecard (sexp, card);
+
+	g_object_unref(card);
 
 	return retval;
 }

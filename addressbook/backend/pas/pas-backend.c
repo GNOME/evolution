@@ -80,17 +80,17 @@ pas_backend_create_card (PASBackend *backend,
 }
 
 void
-pas_backend_remove_card (PASBackend *backend,
-			 PASBook *book,
-			 PASRemoveCardRequest *req)
+pas_backend_remove_cards (PASBackend *backend,
+			  PASBook *book,
+			  PASRemoveCardsRequest *req)
 {
 	g_return_if_fail (PAS_IS_BACKEND (backend));
 	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->id != NULL);
+	g_return_if_fail (req != NULL && req->ids != NULL);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove_card != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove_cards != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->remove_card) (backend, book, req);
+	return (* PAS_BACKEND_GET_CLASS (backend)->remove_cards) (backend, book, req);
 }
 
 void
@@ -250,8 +250,8 @@ process_client_requests (PASBook *book, gpointer user_data)
 		pas_backend_create_card (backend, book, &req->create);
 		break;
 
-	case RemoveCard:
-		pas_backend_remove_card (backend, book, &req->remove);
+	case RemoveCards:
+		pas_backend_remove_cards (backend, book, &req->remove);
 		break;
 
 	case ModifyCard:

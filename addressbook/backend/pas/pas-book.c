@@ -80,13 +80,19 @@ pas_book_queue_create_card (PASBook *book, const char *vcard)
 }
 
 static void
-pas_book_queue_remove_card (PASBook *book, const char *id)
+pas_book_queue_remove_cards (PASBook *book,
+			     const GNOME_Evolution_Addressbook_CardIdList *ids)
 {
 	PASRequest *req;
-
+	int i;
+	
 	req     = g_new0 (PASRequest, 1);
-	req->op = RemoveCard;
-	req->remove.id = g_strdup (id);
+	req->op = RemoveCards;
+	req->remove.ids = NULL;
+
+	for (i = 0; i < ids->_length; i ++) {
+		req->remove.ids = g_list_append (req->remove.ids, g_strdup (ids->_buffer[i]));
+	}
 
 	pas_book_queue_request (book, req);
 }
@@ -281,13 +287,13 @@ impl_GNOME_Evolution_Addressbook_Book_addCard (PortableServer_Servant servant,
 }
 
 static void
-impl_GNOME_Evolution_Addressbook_Book_removeCard (PortableServer_Servant servant,
-						  const CORBA_char *id,
-						  CORBA_Environment *ev)
+impl_GNOME_Evolution_Addressbook_Book_removeCards (PortableServer_Servant servant,
+						   const GNOME_Evolution_Addressbook_CardIdList *ids,
+						   CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object (servant));
 
-	pas_book_queue_remove_card (book, (const char *) id);
+	pas_book_queue_remove_cards (book, ids);
 }
 
 static void
@@ -512,7 +518,7 @@ pas_book_respond_remove (PASBook                           *book,
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Addressbook_BookListener_notifyCardRemoved (
+	GNOME_Evolution_Addressbook_BookListener_notifyCardsRemoved (
 		book->priv->listener, status, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -865,8 +871,9 @@ pas_book_free_request (PASRequest *req)
 		g_free (req->create.id);
 		g_free (req->create.vcard);
 		break;
-	case RemoveCard:
-		g_free (req->remove.id);
+	case RemoveCards:
+		g_list_foreach (req->remove.ids, (GFunc)g_free, NULL);
+		g_list_free (req->remove.ids);
 		break;
 	case ModifyCard:
 		g_free (req->modify.vcard);
@@ -990,7 +997,7 @@ pas_book_class_init (PASBookClass *klass)
 	epv->getVCard                = impl_GNOME_Evolution_Addressbook_Book_getVCard;
 	epv->authenticateUser        = impl_GNOME_Evolution_Addressbook_Book_authenticateUser;
 	epv->addCard                 = impl_GNOME_Evolution_Addressbook_Book_addCard;
-	epv->removeCard              = impl_GNOME_Evolution_Addressbook_Book_removeCard;
+	epv->removeCards             = impl_GNOME_Evolution_Addressbook_Book_removeCards;
 	epv->modifyCard              = impl_GNOME_Evolution_Addressbook_Book_modifyCard;
 	epv->checkConnection         = impl_GNOME_Evolution_Addressbook_Book_checkConnection;
 	epv->getStaticCapabilities   = impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities;

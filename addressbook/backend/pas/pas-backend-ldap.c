@@ -456,20 +456,20 @@ check_schema_support (PASBackendLDAP *bl)
 					continue;
 
 				for (j = 0; oc->oc_names[j]; j++)
-					if (!g_strcasecmp (oc->oc_names[j], EVOLUTIONPERSON)) {
+					if (!g_ascii_strcasecmp (oc->oc_names[j], EVOLUTIONPERSON)) {
 						g_print ("support found on ldap server for objectclass evolutionPerson\n");
 						bl->priv->evolutionPersonSupported = TRUE;
 
 						add_oc_attributes_to_supported_fields (bl, oc);
 					}
-					else if (!g_strcasecmp (oc->oc_names[j], CALENTRY)) {
+					else if (!g_ascii_strcasecmp (oc->oc_names[j], CALENTRY)) {
 						g_print ("support found on ldap server for objectclass calEntry\n");
 						bl->priv->calEntrySupported = TRUE;
 						add_oc_attributes_to_supported_fields (bl, oc);
 					}
-					else if (!g_strcasecmp (oc->oc_names[j], INETORGPERSON)
-						 || !g_strcasecmp (oc->oc_names[j], ORGANIZATIONALPERSON)
-						 || !g_strcasecmp (oc->oc_names[j], PERSON)) {
+					else if (!g_ascii_strcasecmp (oc->oc_names[j], INETORGPERSON)
+						 || !g_ascii_strcasecmp (oc->oc_names[j], ORGANIZATIONALPERSON)
+						 || !g_ascii_strcasecmp (oc->oc_names[j], PERSON)) {
 						add_oc_attributes_to_supported_fields (bl, oc);
 					}
 
@@ -1349,7 +1349,7 @@ remove_card_handler (LDAPOp *op, LDAPMessage *res)
 
 			bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 
-			pas_book_view_notify_remove (view->book_view, remove_op->id);
+			pas_book_view_notify_remove_1 (view->book_view, remove_op->id);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 
@@ -1378,9 +1378,9 @@ remove_card_dtor (LDAPOp *op)
 }
 
 static void
-pas_backend_ldap_process_remove_card (PASBackend *backend,
-				      PASBook    *book,
-				      PASRemoveCardRequest *req)
+pas_backend_ldap_process_remove_cards (PASBackend *backend,
+				       PASBook    *book,
+				       PASRemoveCardsRequest *req)
 {
 	LDAPRemoveOp *remove_op = g_new (LDAPRemoveOp, 1);
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
@@ -1390,7 +1390,12 @@ pas_backend_ldap_process_remove_card (PASBackend *backend,
 
 	book_view = find_book_view (bl);
 
-	remove_op->id = g_strdup (req->id);
+	/*
+	** since we didn't pass "bulk-removes" in our static
+	** capabilities, we should only get 1 length lists here, so
+	** the id we're deleting is the first and only id in the list.
+	*/
+	remove_op->id = g_strdup (req->ids->data);
 
 	do {
 		book_view_notify_status (book_view, _("Removing card from LDAP server..."));
@@ -1476,7 +1481,7 @@ modify_card_modify_handler (LDAPOp *op, LDAPMessage *res)
 			else if (new_match)
 				pas_book_view_notify_add_1 (view->book_view, modify_op->vcard);
 			else /* if (old_match) */
-				pas_book_view_notify_remove (view->book_view, e_card_simple_get_id (modify_op->card));
+				pas_book_view_notify_remove_1 (view->book_view, e_card_simple_get_id (modify_op->card));
 			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
@@ -3384,7 +3389,7 @@ pas_backend_ldap_get_uri (PASBackend *backend)
 	return bl->priv->uri;
 }
 
-static char *
+static char*
 pas_backend_ldap_get_static_capabilities (PASBackend *backend)
 {
 	return g_strdup("net");
@@ -3484,7 +3489,7 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	parent_class->get_static_capabilities = pas_backend_ldap_get_static_capabilities;
 
 	parent_class->create_card             = pas_backend_ldap_process_create_card;
-	parent_class->remove_card             = pas_backend_ldap_process_remove_card;
+	parent_class->remove_cards            = pas_backend_ldap_process_remove_cards;
 	parent_class->modify_card             = pas_backend_ldap_process_modify_card;
 	parent_class->check_connection        = pas_backend_ldap_process_check_connection;
 	parent_class->get_vcard               = pas_backend_ldap_process_get_vcard;

@@ -124,8 +124,7 @@ delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view) {
-		if (e_contact_editor_confirm_delete (GTK_WINDOW (view->view)))
-			e_addressbook_view_delete_selection(view->view);
+		e_addressbook_view_delete_selection(view->view);
 	}
 }
 

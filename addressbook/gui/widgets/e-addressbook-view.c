@@ -746,21 +746,42 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(card_and_book->view->widget)))) {
 		EBook *book;
-
 		GList *list = get_card_list(card_and_book);
 		GList *iterator;
+		gboolean bulk_remove = FALSE;
+
+		bulk_remove = e_book_check_static_capability (card_and_book->view->model->book,
+							      "bulk-remove");
 
 		g_object_get(card_and_book->view->model,
 			     "book", &book,
 			     NULL);
 
-		for (iterator = list; iterator; iterator = iterator->next) {
-			ECard *card = iterator->data;
-			/* Remove the card. */
-			e_book_remove_card (book,
-					    card,
-					    NULL,
-					    NULL);
+		if (bulk_remove) {
+			GList *ids = NULL;
+
+			for (iterator = list; iterator; iterator = iterator->next) {
+				ECard *card = iterator->data;
+				ids = g_list_prepend (ids, (char*)e_card_get_id (card));
+			}
+
+			/* Remove the cards all at once. */
+			e_book_remove_cards (book,
+					     ids,
+					     NULL,
+					     NULL);
+			
+			g_list_free (ids);
+		}
+		else {
+			for (iterator = list; iterator; iterator = iterator->next) {
+				ECard *card = iterator->data;
+				/* Remove the card. */
+				e_book_remove_card (book,
+						    card,
+						    NULL,
+						    NULL);
+			}
 		}
 		e_free_object_list(list);
 	}
@@ -1735,42 +1756,15 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 #endif
 }
 
-static void
-card_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
-{
-	if (status != E_BOOK_STATUS_SUCCESS) {
-		e_addressbook_error_dialog (_("Error removing card"), status);
-	}
-}
-
-static void
-do_remove (int i, gpointer user_data)
-{
-	EBook *book;
-	ECard *card;
-	EAddressbookView *view = user_data;
-
-	g_object_get (view->model,
-		      "book", &book,
-		      NULL);
-
-	card = e_addressbook_model_get_card (view->model, i);
-
-	e_book_remove_card(book, card, card_deleted_cb, view);
-
-	g_object_unref (card);
-}
-
 void
 e_addressbook_view_delete_selection(EAddressbookView *view)
 {
-	ESelectionModel *model = get_selection_model (view);
+	CardAndBook card_and_book;
 
-	g_return_if_fail (model);
+	memset (&card_and_book, 0, sizeof (card_and_book));
+	card_and_book.view = view;
 
-	e_selection_model_foreach (model,
-				   do_remove,
-				   view);
+	delete (GTK_WIDGET (view), &card_and_book);
 }
 
 static void

@@ -197,23 +197,41 @@ create_card(EBookView *book_view,
 
 static void
 remove_card(EBookView *book_view,
-	    const char *id,
+	    GList *ids,
 	    EAddressbookModel *model)
 {
-	int i;
+	int i = 0;
+	int num_deleted = 0;
+	GList *l;
 
-	for ( i = 0; i < model->data_count; i++) {
-		if ( !strcmp(e_card_get_id(model->data[i]), id) ) {
-			g_object_unref (model->data[i]);
-			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
-			model->data_count--;
+	/* XXX this is really broken.  the CARD_REMOVED signal should
+	   be enough for us, but the !(*@#& EReflow mess can't delete
+	   single objects at a time.  In fact it can't remove objects
+	   at all.  every deletion = model_changed. */
+	for (l = ids; l; l = l->next) {
+		char *id = l->data;
+		for ( i = 0; i < model->data_count; i++) {
+			if ( !strcmp(e_card_get_id(model->data[i]), id) ) {
+				g_object_unref (model->data[i]);
+				memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
+				model->data_count--;
 
-			g_signal_emit (model,
-				       e_addressbook_model_signals [CARD_REMOVED], 0,
-				       i);
-			update_folder_bar_message (model);
-			break;
+				num_deleted++;
+				break;
+			}
 		}
+	}
+
+	if (num_deleted == 1) {
+		g_signal_emit (model,
+			       e_addressbook_model_signals [CARD_REMOVED], 0,
+			       i);
+		update_folder_bar_message (model);
+	}
+	else if (num_deleted > 1) {
+		g_signal_emit (model,
+			       e_addressbook_model_signals [MODEL_CHANGED], 0);
+		update_folder_bar_message (model);
 	}
 }
 
@@ -480,9 +498,7 @@ get_view (EAddressbookModel *model)
 {
 	if (model->book && model->query) {
 		if (model->first_get_view) {
-			char *capabilities;
-			capabilities = e_book_get_static_capabilities (model->book);
-			if (capabilities && strstr (capabilities, "do-initial-query")) {
+			if (e_book_check_static_capability (model->book, "do-initial-query")) {
 				e_book_get_book_view (model->book, model->query, book_view_loaded, model);
 			} else {
 				remove_book_view(model);
@@ -493,7 +509,6 @@ get_view (EAddressbookModel *model)
 					       e_addressbook_model_signals [STOP_STATE_CHANGED], 0);
 			}
 			model->first_get_view = FALSE;
-			g_free (capabilities);
 		}
 		else
 			e_book_get_book_view (model->book, model->query, book_view_loaded, model);

@@ -47,6 +47,8 @@ void         pas_book_view_notify_change          (PASBookView                *b
 void         pas_book_view_notify_change_1        (PASBookView                *book_view,
 						   const char                 *card);
 void         pas_book_view_notify_remove          (PASBookView                *book_view,
+						   const GList                *ids);
+void         pas_book_view_notify_remove_1        (PASBookView                *book_view,
 						   const char                 *id);
 void         pas_book_view_notify_add             (PASBookView                *book_view,
 						   const GList                *cards);

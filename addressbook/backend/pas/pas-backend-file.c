@@ -337,6 +337,16 @@ vcard_matches_search (const PASBackendFileBookView *view, char *vcard_string)
 	return pas_backend_card_sexp_match_vcard (view->card_sexp, vcard_string);
 }
 
+static gboolean
+ecard_matches_search (const PASBackendFileBookView *view, ECard *card)
+{
+	/* If this is not a search context view, it doesn't match be default */
+	if (view->card_sexp == NULL)
+		return FALSE;
+
+	return pas_backend_card_sexp_match_ecard (view->card_sexp, card);
+}
+
 static void
 pas_backend_file_search (PASBackendFile  	      *bf,
 			 PASBook         	      *book,
@@ -552,7 +562,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 
 		for (v = ctx->del_ids; v != NULL; v = v->next){
 			char *id = v->data;
-			pas_book_view_notify_remove (view->book_view, id);
+			pas_book_view_notify_remove_1 (view->book_view, id);
 		}
 		
 		pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
@@ -679,59 +689,76 @@ pas_backend_file_process_create_card (PASBackend *backend,
 }
 
 static void
-pas_backend_file_process_remove_card (PASBackend *backend,
-				      PASBook    *book,
-				      PASRemoveCardRequest *req)
+pas_backend_file_process_remove_cards (PASBackend *backend,
+				       PASBook    *book,
+				       PASRemoveCardsRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	DB             *db = bf->priv->file_db;
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
 	EIterator     *iterator;
-	char          *vcard_string;
 	const char    *id;
+	GList         *l;
+	GList         *removed_cards = NULL;
+	GNOME_Evolution_Addressbook_BookListener_CallStatus rv = GNOME_Evolution_Addressbook_BookListener_Success;
 
-	id = req->id;
-	string_to_dbt (id, &id_dbt);
-	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+	for (l = req->ids; l; l = l->next) {
+		id = l->data;
 
-	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
-	if (0 != db_error) {
-		pas_book_respond_remove (
-				 book,
-				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
-		return;
-	}
+		string_to_dbt (id, &id_dbt);
+		memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+
+		db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
+		if (0 != db_error) {
+			rv = GNOME_Evolution_Addressbook_BookListener_CardNotFound;
+			continue;
+		}
 	
-	db_error = db->del (db, NULL, &id_dbt, 0);
-	if (0 != db_error) {
-		pas_book_respond_remove (
-				 book,
-				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
-		return;
+		db_error = db->del (db, NULL, &id_dbt, 0);
+		if (0 != db_error) {
+			rv = GNOME_Evolution_Addressbook_BookListener_CardNotFound;
+			continue;
+		}
+
+		removed_cards = g_list_prepend (removed_cards, e_card_new (vcard_dbt.data));
 	}
 
-	db_error = db->sync (db, 0);
-	if (db_error != 0)
-		g_warning ("db->sync failed.\n");
+	/* if we actually removed some, try to sync */
+	if (removed_cards) {
+		db_error = db->sync (db, 0);
+		if (db_error != 0)
+			g_warning ("db->sync failed.\n");
+	}
 
-
-	vcard_string = vcard_dbt.data;
 	for (iterator = e_list_get_iterator (bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		const PASBackendFileBookView *view = e_iterator_get(iterator);
-		if (vcard_matches_search (view, vcard_string)) {
+		GList *view_removed = NULL;
+		for (l = removed_cards; l; l = l->next) {
+			ECard *removed_card = l->data;
+			if (ecard_matches_search (view, removed_card)) {
+				view_removed = g_list_prepend (view_removed, (char*)e_card_get_id (removed_card));
+			}
+		}
+		if (view_removed) {
 			bonobo_object_ref (BONOBO_OBJECT (view->book_view));
-			pas_book_view_notify_remove (view->book_view, req->id);
+			pas_book_view_notify_remove (view->book_view, view_removed);
 			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 			bonobo_object_unref (BONOBO_OBJECT (view->book_view));
+			g_list_free (view_removed);
 		}
 	}
 	g_object_unref(iterator);
 	
-	pas_book_respond_remove (
-				 book,
-				 GNOME_Evolution_Addressbook_BookListener_Success);
-	pas_backend_summary_remove_card (bf->priv->summary, id);
+	pas_book_respond_remove (book, rv);
+
+	for (l = removed_cards; l; l = l->next) {
+		ECard *c = l->data;
+		pas_backend_summary_remove_card (bf->priv->summary, e_card_get_id (c));
+		g_object_unref (c);
+	}
+
+	g_list_free (removed_cards);
 }
 
 static void
@@ -801,7 +828,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 			else if (new_match)
 				pas_book_view_notify_add_1 (view->book_view, req->vcard);
 			else /* if (old_match) */
-				pas_book_view_notify_remove (view->book_view, id);
+				pas_book_view_notify_remove_1 (view->book_view, id);
 
 			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
@@ -1417,7 +1444,7 @@ pas_backend_file_get_uri (PASBackend *backend)
 static char *
 pas_backend_file_get_static_capabilities (PASBackend *backend)
 {
-	return g_strdup("local,do-initial-query,cache-completions");
+	return g_strdup("local,do-initial-query,bulk-removes");
 }
 
 static gboolean
@@ -1487,7 +1514,7 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	parent_class->get_static_capabilities = pas_backend_file_get_static_capabilities;
 
 	parent_class->create_card             = pas_backend_file_process_create_card;
-	parent_class->remove_card             = pas_backend_file_process_remove_card;
+	parent_class->remove_cards            = pas_backend_file_process_remove_cards;
 	parent_class->modify_card             = pas_backend_file_process_modify_card;
 	parent_class->check_connection        = pas_backend_file_process_check_connection;
 	parent_class->get_vcard               = pas_backend_file_process_get_vcard;

@@ -53,9 +53,9 @@ typedef struct {
 	void (*remove_client) (PASBackend *backend, PASBook *book);
         char *(*get_static_capabilities) (PASBackend *backend);
 
-	void (*create_card) (PASBackend *backend, PASBook *book, PASCreateCardRequest *req);
-	void (*remove_card) (PASBackend *backend, PASBook *book, PASRemoveCardRequest *req);
-	void (*modify_card) (PASBackend *backend, PASBook *book, PASModifyCardRequest *req);
+	void (*create_card)  (PASBackend *backend, PASBook *book, PASCreateCardRequest *req);
+	void (*remove_cards) (PASBackend *backend, PASBook *book, PASRemoveCardsRequest *req);
+	void (*modify_card)  (PASBackend *backend, PASBook *book, PASModifyCardRequest *req);
 	void (*check_connection) (PASBackend *backend, PASBook *book, PASCheckConnectionRequest *req);
 	void (*get_vcard) (PASBackend *backend, PASBook *book, PASGetVCardRequest *req);
 	void (*get_cursor) (PASBackend *backend, PASBook *book, PASGetCursorRequest *req);
@@ -92,9 +92,9 @@ gboolean    pas_backend_is_writable              (PASBackend             *backen
 void        pas_backend_create_card              (PASBackend             *backend,
 						  PASBook                *book,
 						  PASCreateCardRequest   *req);
-void        pas_backend_remove_card              (PASBackend             *backend,
+void        pas_backend_remove_cards              (PASBackend             *backend,
 						  PASBook                *book,
-						  PASRemoveCardRequest   *req);
+						  PASRemoveCardsRequest  *req);
 void        pas_backend_modify_card              (PASBackend             *backend,
 						  PASBook                *book,
 						  PASModifyCardRequest   *req);
