@@ -1,3 +1,7 @@
+2001-09-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* config/: Added.
+
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
 	* searches.xml: Implement "Message Contains" (searches sender,
