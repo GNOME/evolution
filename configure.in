@@ -763,7 +763,6 @@ fi
 
 AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of Mozilla nss3 includes.],
 	with_nss_includes="$withval", with_nss_includes="/usr/include/mozilla")
-have_nss_includes="no"
 if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 	CPPFLAGS_save="$CPPFLAGS"
 	
@@ -776,10 +775,13 @@ if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 	        CPPFLAGS="$CPPFLAGS -I$with_nss_includes"
         fi
 
-	AC_CHECK_HEADERS(nss.h ssl.h smime.h, [ moz_nspr_includes="yes" ])
+	AC_CHECK_HEADERS(nss.h ssl.h smime.h,
+		[ have_nss_includes="yes" ], 
+		[ have_nss_includes="no" ])
+
 	CPPFLAGS="$CPPFLAGS_save"
-	
-	if test "x{$moz_nss_includes}" != "xno" -a "x{$moz_nss_includes}" != "x"; then
+
+	if test "x${have_nss_includes}" = xyes ; then	
 		have_nss_includes="yes"
 		NSS_CFLAGS="-I$with_nss_includes"
 	else
