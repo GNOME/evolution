@@ -253,14 +253,32 @@ unlist_vfolder (CamelObject *folder, gpointer event_data, gpointer user_data)
 	g_message ("Whoa, unlisting vfolder %p but can't find it", folder);
 }
 
-static int
+static void
 vfolder_remove_cb (EvolutionStorage *storage,
+		   const Bonobo_Listener listener,
 		   const char *path,
 		   const char *physical_uri,
 		   gpointer user_data)
 {
-	vfolder_remove (physical_uri);
-	return EVOLUTION_STORAGE_OK;
+	CORBA_any any;
+	CORBA_Environment ev;
+	GNOME_Evolution_Storage_Result corba_result = GNOME_Evolution_Storage_OK;
+
+	if (strncmp(physical_uri, "vfolder:", 8) != 0)
+		corba_result = GNOME_Evolution_Storage_UNSUPPORTED_TYPE;
+	else if (vfolder_find(physical_uri + 8) == NULL)
+		corba_result = GNOME_Evolution_Storage_INVALID_URI;
+	else
+		vfolder_remove (physical_uri);
+
+	CORBA_exception_init (&ev);
+
+	any._type = TC_GNOME_Evolution_Storage_Result;
+	any._value = &corba_result;
+
+	Bonobo_Listener_event (listener, "result", &any, &ev);
+
+	CORBA_exception_free (&ev);
 }
 
 void
