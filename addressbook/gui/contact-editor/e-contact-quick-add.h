@@ -30,12 +30,12 @@
 
 #include <addressbook/backend/ebook/e-card.h>
 
-typedef void (*EContactQuickAddCallback) (ECard *new_card, gpointer user_data);
+typedef void (*EContactQuickAddCallback) (ECard *new_card, gpointer closure);
 
 void e_contact_quick_add (const gchar *name, const gchar *email, 
-			  EContactQuickAddCallback cb, gpointer user_data);
+			  EContactQuickAddCallback cb, gpointer closure);
 
-void e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, gpointer user_data);
+void e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, gpointer closure);
 
 #endif /* __E_CONTACT_QUICK_ADD_H__ */
 

@@ -44,90 +44,133 @@
 #include "e-contact-quick-add.h"
 #include "e-card-merging.h"
 
-static void
-e_card_quick_set_name (ECard *card, const gchar *str)
+typedef struct _QuickAdd QuickAdd;
+struct _QuickAdd {
+	gchar *name;
+	gchar *email;
+	ECard *card;
+
+	EContactQuickAddCallback cb;
+	gpointer closure;
+
+	GtkWidget *name_entry;
+	GtkWidget *email_entry;
+
+	gint refs;
+
+};
+
+static QuickAdd *
+quick_add_new (void)
 {
-	ECardSimple *simple;
-
-	g_return_if_fail (card && E_IS_CARD (card));
-
-	if (str == NULL)
-		return;
-
-	simple = e_card_simple_new (card);
-	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, str);
-	e_card_simple_sync_card (simple);
-	gtk_object_unref (GTK_OBJECT (simple));
+	QuickAdd *qa = g_new0 (QuickAdd, 1);
+	qa->card = e_card_new ("");
+	qa->refs = 1;
+	return qa;
 }
 
 static void
-e_card_quick_set_email (ECard *card, const gchar *str)
+quick_add_ref (QuickAdd *qa)
 {
-	ECardSimple *simple;
-
-	g_return_if_fail (card && E_IS_CARD (card));
-
-	if (str == NULL)
-		return;
-
-	simple = e_card_simple_new (card);
-	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_EMAIL, str);
-	e_card_simple_sync_card (simple);
-	gtk_object_unref (GTK_OBJECT (simple));
-}
-
-
-static void
-book_ready_cb (EBook *book, EBookStatus status, gpointer user_data)
-{
-	ECard *card = E_CARD (user_data);
-
-	EContactQuickAddCallback cb = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-cb");
-	gpointer cb_user_data = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-user-data");
-
-	if (status == E_BOOK_STATUS_SUCCESS) {
-		e_card_merging_book_add_card (book, card, NULL, NULL);
-		if (cb)
-			cb (card, cb_user_data);
-	} else {
-		/* Something went wrong... */
-		if (cb)
-			cb (NULL, cb_user_data);
-
-		gtk_object_unref (GTK_OBJECT (book));
+	if (qa) {
+		++qa->refs;
 	}
 }
 
 static void
-add_card (ECard *card)
+quick_add_unref (QuickAdd *qa)
 {
-	EBook *book = e_book_new ();
-	e_book_load_local_address_book (book, book_ready_cb, card);
+	if (qa) {
+		--qa->refs;
+		if (qa->refs == 0) {
+			g_message ("freeing %s / %s", qa->name, qa->email);
+			g_free (qa->name);
+			g_free (qa->email);
+			gtk_object_unref (GTK_OBJECT (qa->card));
+			g_free (qa);
+		}
+	}
 }
+
+static void
+quick_add_set_name (QuickAdd *qa, const gchar *name)
+{
+	ECardSimple *simple;
+
+	g_free (qa->name);
+	qa->name = g_strdup (name);
+
+	simple = e_card_simple_new (qa->card);
+	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, name);
+	e_card_simple_sync_card (simple);
+	gtk_object_unref (GTK_OBJECT (simple));
+}
+
+static void
+quick_add_set_email (QuickAdd *qa, const gchar *email)
+{
+	ECardSimple *simple;
+
+	g_free (qa->email);
+	qa->email = g_strdup (email);
+
+	simple = e_card_simple_new (qa->card);
+	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_EMAIL, email);
+	e_card_simple_sync_card (simple);
+	gtk_object_unref (GTK_OBJECT (simple));
+}
+
+static void
+merge_cb (EBook *book, gpointer closure)
+{
+	QuickAdd *qa = (QuickAdd *) closure;
+
+	if (book != NULL) {
+		e_card_merging_book_add_card (book, qa->card, NULL, NULL);
+		if (qa->cb)
+			qa->cb (qa->card, qa->closure);
+	} else {
+		/* Something went wrong. */
+		if (qa->cb)
+			qa->cb (NULL, qa->closure);
+	}
+	
+	quick_add_unref (qa);
+}
+
+static void
+quick_add_merge_card (QuickAdd *qa)
+{
+	quick_add_ref (qa);
+	e_book_use_local_address_book (merge_cb, qa);
+}
+
 
 /*
  * Raise a contact editor with all fields editable, and hook up all signals accordingly.
  */
 
 static void
-add_card_cb (EContactEditor *ce, ECard *card, gpointer user_data)
+add_card_cb (EContactEditor *ce, ECard *card, gpointer closure)
 {
-	add_card (card);
+	QuickAdd *qa = (QuickAdd *) closure;
+	g_warning ("add_card_cb");
+	quick_add_merge_card (qa);
 }
 
 static void
-editor_closed_cb (GtkWidget *w, gpointer user_data)
+editor_closed_cb (GtkWidget *w, gpointer closure)
 {
-	/* w is the contact editor, user_data is an ECard. */
-	if (user_data)
-		gtk_object_unref (user_data);
+	QuickAdd *qa = (QuickAdd *) closure;
+	g_warning ("editor_closed_cb");
+	quick_add_unref (qa);
 	gtk_object_unref (GTK_OBJECT (w));
 }
 
 static void
-ce_book_found_fields (EBook *book, EBookStatus status, EList *fields, gpointer user_data)
+ce_book_found_fields (EBook *book, EBookStatus status, EList *fields, gpointer closure)
 {
-	ECard *card = E_CARD (user_data);
+	QuickAdd *qa = (QuickAdd *) closure;
 	EContactEditor *contact_editor;
 
 	if (status != E_BOOK_STATUS_SUCCESS) {
@@ -135,68 +178,65 @@ ce_book_found_fields (EBook *book, EBookStatus status, EList *fields, gpointer u
 		return;
 	}
 
-	contact_editor = e_contact_editor_new (card, TRUE, fields, FALSE /* XXX */);
+	contact_editor = e_contact_editor_new (qa->card, TRUE, fields, FALSE /* XXX */);
 
 	gtk_signal_connect (GTK_OBJECT (contact_editor),
 			    "add_card",
 			    GTK_SIGNAL_FUNC (add_card_cb),
-			    NULL);
+			    qa);
 	gtk_signal_connect (GTK_OBJECT (contact_editor),
 			    "editor_closed",
 			    GTK_SIGNAL_FUNC (editor_closed_cb),
-			    user_data);
+			    qa);
 
-	e_contact_editor_raise (contact_editor);
+	e_contact_editor_show (contact_editor);
 }
 
 static void
-ce_book_ready (EBook *book, EBookStatus status, gpointer user_data)
+ce_get_fields (EBook *book, gpointer closure)
 {
-	if (status != E_BOOK_STATUS_SUCCESS) {
+	QuickAdd *qa = (QuickAdd *) closure;
+
+	if (book == NULL) {
 		g_warning ("Couldn't open local address book.");
-		return;
+		quick_add_unref (qa);
+	} else {
+		e_book_get_supported_fields (book, ce_book_found_fields, qa);
 	}
-
-	e_book_get_supported_fields (book, ce_book_found_fields, user_data);
 }
 
 static void
-edit_card (ECard *card)
+edit_card (QuickAdd *qa)
 {
-	e_book_load_local_address_book (e_book_new (), ce_book_ready, card);
+	e_book_use_local_address_book (ce_get_fields, qa);
 }
 
 static void
-clicked_cb (GtkWidget *w, gint button, gpointer user_data)
+clicked_cb (GtkWidget *w, gint button, gpointer closure)
 {
-	ECard *card = E_CARD (user_data);
+	QuickAdd *qa = (QuickAdd *) closure;
 
 	/* Get data out of entries. */
 	if (button == 0 || button == 1) {
-		gpointer name_entry;
-		gpointer email_entry;
 		gchar *name = NULL;
 		gchar *email = NULL;
 
-		name_entry = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-name-entry");
-		email_entry = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-email-entry");
-		
-		if (name_entry) {
+		if (qa->name_entry) {
 			gchar *tmp;
-			tmp = gtk_editable_get_chars (GTK_EDITABLE (name_entry), 0, -1);
-			name = e_utf8_from_gtk_string (name_entry, tmp);
+			tmp = gtk_editable_get_chars (GTK_EDITABLE (qa->name_entry), 0, -1);
+			name = e_utf8_from_gtk_string (qa->name_entry, tmp);
 			g_free (tmp);
 		}
 
-		if (email_entry) {
+		if (qa->email_entry) {
 			gchar *tmp;
-			tmp = gtk_editable_get_chars (GTK_EDITABLE (email_entry), 0, -1);
-			email = e_utf8_from_gtk_string (email_entry, tmp);
+			tmp = gtk_editable_get_chars (GTK_EDITABLE (qa->email_entry), 0, -1);
+			email = e_utf8_from_gtk_string (qa->email_entry, tmp);
 			g_free (tmp);
 		}
 
-		e_card_quick_set_name (card, name);
-		e_card_quick_set_email (card, email);
+		quick_add_set_name (qa, name);
+		quick_add_set_email (qa, email);
 	
 		g_free (name);
 		g_free (email);
@@ -204,32 +244,31 @@ clicked_cb (GtkWidget *w, gint button, gpointer user_data)
 
 	gtk_widget_destroy (w);
 
-	if (button == 0) { /* OK */
+	if (button == 0) {
 
-		add_card (card);
+		/* OK */
+		quick_add_merge_card (qa);
 
 	} else if (button == 1) {
 		
 		/* EDIT FULL */
-		edit_card (card);
+		edit_card (qa);
 
 	} else {
 		/* CANCEL */
-		gtk_object_unref (user_data);
+		quick_add_unref (qa);
 	}
 
 }
 
 static GtkWidget *
-build_quick_add_dialog (ECard *new_card, EContactQuickAddCallback cb, gpointer user_data)
+build_quick_add_dialog (QuickAdd *qa)
 {
 	GtkWidget *dialog;
 	GtkTable *table;
-	GtkWidget *name_entry;
-	GtkWidget *email_entry;
 	const gint xpad=1, ypad=1;
 
-	g_return_val_if_fail (new_card && E_IS_CARD (new_card), NULL);
+	g_return_val_if_fail (qa != NULL, NULL);
 
 	dialog = gnome_dialog_new (_("Contact Quick-Add"),
 				   GNOME_STOCK_BUTTON_OK,
@@ -240,50 +279,35 @@ build_quick_add_dialog (ECard *new_card, EContactQuickAddCallback cb, gpointer u
 	gtk_signal_connect (GTK_OBJECT (dialog),
 			    "clicked",
 			    clicked_cb,
-			    new_card);
+			    qa);
 
-	name_entry = gtk_entry_new ();
-
-	if (new_card->name) {
-		gchar *str = e_card_name_to_string (new_card->name);
-		gchar *s2 = e_utf8_to_gtk_string (name_entry, str);
-		gtk_entry_set_text (GTK_ENTRY (name_entry), s2);
+	qa->name_entry = gtk_entry_new ();
+	if (qa->name) {
+		gchar *str = e_utf8_to_gtk_string (qa->name_entry, qa->name);
+		gtk_entry_set_text (GTK_ENTRY (qa->name_entry), str);
 		g_free (str);
-		g_free (s2);
 	}
 
 
-	email_entry = gtk_entry_new ();
-
-	if (new_card->email && e_list_length (new_card->email)) {
-		EIterator *iterator = e_list_get_iterator (new_card->email);
-		if (iterator) {
-			e_iterator_reset (iterator);
-			if (e_iterator_is_valid (iterator)) {
-				const gchar *str = e_iterator_get (iterator);
-				gchar *s2 = e_utf8_to_gtk_string (email_entry, str);
-				gtk_entry_set_text (GTK_ENTRY (email_entry), s2);
-				g_free (s2);
-			}
-		}
+	qa->email_entry = gtk_entry_new ();
+	if (qa->email) {
+		gchar *str = e_utf8_to_gtk_string (qa->email_entry, qa->email);
+		gtk_entry_set_text (GTK_ENTRY (qa->email_entry), str);
+		g_free (str);
 	}
-
-	gtk_object_set_data (GTK_OBJECT (new_card), "e-contact-quick-add-name-entry", name_entry);
-	gtk_object_set_data (GTK_OBJECT (new_card), "e-contact-quick-add-email-entry", email_entry);
-
 
 	table = GTK_TABLE (gtk_table_new (2, 2, FALSE));
 
 	gtk_table_attach (table, gtk_label_new (_("Full Name")),
 			  0, 1, 0, 1,
 			  0, 0, xpad, ypad);
-	gtk_table_attach (table, name_entry,
+	gtk_table_attach (table, qa->name_entry,
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND, xpad, ypad);
 	gtk_table_attach (table, gtk_label_new (_("E-mail")),
 			  0, 1, 1, 2,
 			  0, 0, xpad, ypad);
-	gtk_table_attach (table, email_entry,
+	gtk_table_attach (table, qa->email_entry,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND, xpad, ypad);
 
@@ -298,42 +322,39 @@ build_quick_add_dialog (ECard *new_card, EContactQuickAddCallback cb, gpointer u
 
 void
 e_contact_quick_add (const gchar *name, const gchar *email,
-		     EContactQuickAddCallback cb, gpointer user_data)
+		     EContactQuickAddCallback cb, gpointer closure)
 {
-	ECard *new_card;
+	QuickAdd *qa;
 	GtkWidget *dialog;
 
 	/* We need to have *something* to work with. */
 	if (name == NULL && email == NULL) {
 		if (cb)
-			cb (NULL, user_data);
+			cb (NULL, closure);
 		return;
 	}
 
-	new_card = e_card_new ("");
-	if (cb)
-		gtk_object_set_data (GTK_OBJECT (new_card), "e-contact-quick-add-cb", cb);
-	if (user_data)
-		gtk_object_set_data (GTK_OBJECT (new_card), "e-contact-quick-add-user-data", user_data);
+	qa = quick_add_new ();
+	qa->cb = cb;
+	qa->closure = closure;
+	if (name)
+		quick_add_set_name (qa, name);
+	if (email)
+		quick_add_set_email (qa, email);
 
-	
-	e_card_quick_set_name (new_card, name);
-	e_card_quick_set_email (new_card, email);
-
-	dialog = build_quick_add_dialog (new_card, cb, user_data);
-	
+	dialog = build_quick_add_dialog (qa);
 	gtk_widget_show_all (dialog);
 }
 
 void
-e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, gpointer user_data)
+e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, gpointer closure)
 {
 	gchar *name=NULL, *email=NULL;
 	const gchar *last_at, *s;
 	gboolean in_quote;
 
 	if (text == NULL) {
-		e_contact_quick_add (NULL, NULL, cb, user_data);
+		e_contact_quick_add (NULL, NULL, cb, closure);
 		return;
 	}
 
@@ -402,7 +423,7 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 	}
 	
 
-	e_contact_quick_add (name, email, cb, user_data);
+	e_contact_quick_add (name, email, cb, closure);
 	g_free (name);
 	g_free (email);
 }

@@ -1,3 +1,12 @@
+2001-06-19  Jon Trowbridge  <trow@gnu.org>
+
+	* contact-editor/e-contact-quick-add.c: Serious de-crufting,
+	removal of gtk_object_set_data() hacks, simplified by using
+	some of the newer ebook convenience routines, etc.
+	(ce_book_found_fields):
+	s/e_contact_editor_raise/e_contact_editor_show/, to accomodate the
+	small changes in the contact editor API.
+
 2001-06-18  Eskil Heyn Olsen  <eskil@eskil.dk>
 
 	* conduit/address-conduit.c: (check_for_slow_setting),
