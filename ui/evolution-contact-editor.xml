@@ -174,70 +174,91 @@ static GnomeUIInfo main_menu[] = {
 	GNOMEUIINFO_END
 };
 -->
+        <commands>
+		<cmd name="ContactEditorSave"
+		 pixtype="stock" pixname="Save"/>
+
+		<cmd name="ContactEditorSaveAs"
+		 pixtype="stock" pixname="SaveAs"/>
+
+		<cmd name="ContactEditorSendAs"/>
+
+		<cmd name="ContactEditorSendTo"/>
+
+		<cmd name="ContactEditorDelete"
+		 _tip="Delete this item"
+		 pixtype="stock" pixname="Trash"/>
+
+		<cmd name="ContactEditorPrint"
+		 _tip="Print this item"
+		 pixtype="stock" pixname="Print"/>
+
+		<cmd name="ContactEditorPrintEnvelope"
+		 pixtype="stock" pixname="Print"/>
+
+		<cmd name="ContactEditorClose"
+		 pixtype="stock" pixname="Close"/>
+
+		<cmd name="ContactEditorSaveClose"
+		 _tip="Save the contact and close the dialog box"
+		 pixtype="stock" pixname="Save"/>
+	</commands>
+
 	<menu>
 
 		<submenu name="File" _label="_File">
 
-		        <menuitem name="Save" verb="ContactEditorSave"
-			_label="_Save"
-			pixtype="stock" pixname="Save"/>
+		        <menuitem name="ContactEditorSave" verb=""
+			_label="_Save"/>
 
-		        <menuitem name="SaveAs" verb="ContactEditorSaveAs"
-			_label="Save _As..."
-			pixtype="stock" pixname="SaveAs"/>
+		        <menuitem name="ContactEditorSaveAs" verb=""
+			_label="Save _As..."/>
 
 			<separator/>
 
-		        <menuitem name="SendAs" verb="ContactEditorSendAs"
+		        <menuitem name="ContactEditorSendAs" verb=""
 			_label="Se_nd contact to other..."/>
 
-		        <menuitem name="SendTo" verb="ContactEditorSendTo"
+		        <menuitem name="ContactEditorSendTo" verb=""
 			_label="Send _message to contact..."/>
 
 			<separator/>
 
-		        <menuitem name="Delete" verb="ContactEditorDelete"
-			_label="Delete..."
-			pixtype="stock" pixname="Trash"/>
+		        <menuitem name="ContactEditorDelete" verb=""
+			_label="Delete..."/>
 
 			<separator/>
 
 			<placeholder name="Print">
 
-				<menuitem name="Print" verb="ContactEditorPrint"
-				_label="_Print..."
-				pixtype="stock" pixname="Print"/>
+				<menuitem name="ContactEditorPrint" verb=""
+				_label="_Print..."/>
 
-				<menuitem name="PrintEnv" verb="ContactEditorPrintEnvelope"
-				_label="Print En_velope..."
-				pixtype="stock" pixname="Print"/>
+				<menuitem name="ContactEditorPrintEnvelope" verb=""
+				_label="Print En_velope..."/>
 
 			</placeholder>
 
 			<separator/>
 
-		        <menuitem name="Close" verb="ContactEditorClose"
-			_label="Close"
-			pixtype="stock" pixname="Close"/>
+		        <menuitem name="ContactEditorClose" verb=""
+			_label="Close"/>
 
 		</submenu>
 	</menu>
 
 	<dockitem name="Toolbar" relief="none" behavior="exclusive"
 			hlook="text" vlook="icon">
-	        <toolitem name="Save and Close" _label="Save and Close"
-		_tip="Save the contact and close the dialog box" verb="ContactEditorSaveClose"
-		pixtype="stock" pixname="Save" priority="1"/>
+	        <toolitem name="ContactEditorSaveClose" verb=""
+		_label="Save and Close"	priority="1"/>
 
 		<separator/>
 
-		<toolitem name="Print" _label="Print..."
-		_tip="Print this item" verb="ContactEditorPrint"
-		pixtype="stock" pixname="Print" priority="1"/>
+		<toolitem name="ContactEditorPrint" verb=""
+		_label="Print..." priority="1"/>
 
-		<toolitem name="Delete" _label="Delete..."
-		_tip="Delete this item" verb="ContactEditorDelete"
-		pixtype="stock" pixname="Trash" priority="1"/>
+		<toolitem name="ContactEditorDelete" verb=""
+		_label="Delete..." priority="1"/>
 
 <!--
 		<toolitem name="Help" _label="Help"

@@ -1,3 +1,8 @@
+2001-06-19  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-contact-editor.xml: split out commands from
+	toolitems/menuitems.
+
 2001-06-19  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-task-editor.xml: ui xml for task editor
