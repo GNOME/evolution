@@ -1692,7 +1692,7 @@ header_references_list_clear(struct _header_references **list)
 struct _header_references *
 header_references_decode(const char *in)
 {
-	const char *inptr = in, *intmp;
+	const char *inptr = in;
 	struct _header_references *head = NULL, *node;
 	char *id, *word;
 
@@ -1719,6 +1719,21 @@ header_references_decode(const char *in)
 	}
 
 	return head;
+}
+
+struct _header_references *
+header_references_dup(const struct _header_references *list)
+{
+	struct _header_references *new = NULL, *tmp;
+
+	while (list) {
+		tmp = g_new(struct _header_references, 1);
+		tmp->next = new;
+		tmp->id = g_strdup(list->id);
+		new = tmp;
+		list = list->next;
+	}
+	return new;
 }
 
 struct _header_address *

@@ -150,6 +150,7 @@ struct _header_references *header_references_decode(const char *in);
 void header_references_list_clear(struct _header_references **list);
 void header_references_list_append_asis(struct _header_references **list, char *ref);
 int header_references_list_size(struct _header_references **list);
+struct _header_references *header_references_dup(const struct _header_references *list);
 
 /* decode the mime-type header */
 void header_mime_decode(const char *in, int *maj, int *min);

@@ -218,4 +218,8 @@ void		camel_flag_set(CamelFlag **list, const char *name, gboolean state);
 int		camel_flag_list_size(CamelFlag **list);
 void		camel_flag_list_free(CamelFlag **list);
 
+/* message info utils */
+void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to);
+void camel_message_info_free(CamelMessageInfo *mi);
+
 #endif /* ! _CAMEL_FOLDER_SUMMARY_H */

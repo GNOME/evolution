@@ -1054,15 +1054,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 static void
 message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 {
-	g_free(mi->uid);
-	g_free(mi->subject);
-	g_free(mi->from);
-	g_free(mi->to);
-	g_free(mi->cc);
-	g_free(mi->message_id);
-	header_references_list_clear(&mi->references);
-	camel_flag_list_free(&mi->user_flags);
-	g_free(mi);
+	camel_message_info_free(mi);
 }
 
 static CamelMessageContentInfo *
@@ -1357,6 +1349,67 @@ camel_flag_list_free(CamelFlag **list)
 	*list = NULL;
 }
 
+/**
+ * camel_message_info_dup_to:
+ * @from: source message info
+ * @to: destination message info
+ *
+ * Duplicates the contents of one CamelMessageInfo structure into another.
+ * (The destination is assumed to be empty: its contents are not freed.)
+ * The slightly odd interface is to allow this to be used to initialize
+ * "subclasses" of CamelMessageInfo.
+ **/
+void
+camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
+{
+	CamelFlag *flag;
+
+	/* Copy numbers */
+	to->flags = from->flags;
+	to->size = from->size;
+	to->date_sent = from->date_sent;
+	to->date_received = from->date_received;
+
+	/* Copy strings */
+	to->subject = g_strdup(from->subject);
+	to->from = g_strdup(from->from);
+	to->to = g_strdup(from->to);
+	to->cc = g_strdup(from->cc);
+	to->uid = g_strdup(from->uid);
+	to->message_id = g_strdup(from->message_id);
+
+	/* Copy structures */
+	to->references = header_references_dup(from->references);
+	flag = from->user_flags;
+	while (flag) {
+		camel_flag_set(&to->user_flags, flag->name, TRUE);
+		flag = flag->next;
+	}
+
+	/* FIXME some day */
+	to->content = NULL;
+}
+
+/**
+ * camel_message_info_free:
+ * @mi: the message info
+ *
+ * Frees a CamelMessageInfo and its contents.
+ **/
+void
+camel_message_info_free(CamelMessageInfo *mi)
+{
+	g_free(mi->uid);
+	g_free(mi->subject);
+	g_free(mi->from);
+	g_free(mi->to);
+	g_free(mi->cc);
+	g_free(mi->message_id);
+	header_references_list_clear(&mi->references);
+	camel_flag_list_free(&mi->user_flags);
+	/* FIXME: content info? */
+	g_free(mi);
+}
 
 #if 0
 static void
