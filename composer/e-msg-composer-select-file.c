@@ -33,7 +33,6 @@
 #include <gtk/gtksignal.h>
 #include <gal/widgets/e-file-selection.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-window-icon.h>
 

@@ -54,11 +54,8 @@
 #include <glib/gunicode.h>
 
 #include <gtk/gtkoptionmenu.h>
-/*#include <gal/widgets/e-unicode.h>*/
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-exec.h>
-/*#include <libgnomeui/gnome-app.h>*/
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-window-icon.h>
 

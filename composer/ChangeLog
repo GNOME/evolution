@@ -1,3 +1,12 @@
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* listener.h: Removed {BEGIN,END}_GNOME_DECLS.
+
+	* e-msg-composer-select-file.c: Do not #include
+	<libgnome/gnome-defs.h>.
+	* e-msg-composer.c: Likewise.
+	* listener.h: Likewise.
+
 2002-11-13  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (setup_ui): bonobo api changes.

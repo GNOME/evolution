@@ -22,12 +22,9 @@
 #ifndef LISTENER_H_
 #define LISTENER_H_
 
-#include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-object.h>
 #include "Editor.h"
 #include "e-msg-composer.h"
-
-BEGIN_GNOME_DECLS
 
 #define EDITOR_LISTENER_TYPE        (listener_get_type ())
 #define EDITOR_LISTENER(o)          (GTK_CHECK_CAST ((o), EDITOR_LISTENER_TYPE, EditorListener))
@@ -50,7 +47,5 @@ GtkType                                 listener_get_type   (void);
 EditorListener                         *listener_construct  (EditorListener                *listener,
 									GNOME_GtkHTML_Editor_Listener  corba_listener);
 EditorListener                         *listener_new        (EMsgComposer                  *composer);
-
-END_GNOME_DECLS
 
 #endif /* LISTENER_H_ */
