@@ -16,7 +16,7 @@
 </rule>
 <rule name="cc-address-other">
   <code>
-   (match-all (header-contains "Cc" ${receipient}))
+   (match-all (header-contains "CC" ${receipient}))
   </code>
   <description lang="en">The Cc address matches <source type="address" name="receipient">receipients</source>.</description>
 </rule>

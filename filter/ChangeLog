@@ -1,4 +1,10 @@
 2000-06-29  Arik Devens  <arik@helixcode.com>
+
+	* vfoldertypes.xml (ruleset type="match"): Changed Cc to CC to be
+	the same as the other CC rule. None of this works however, cause
+	the CC code is not hooked up to camel... oh well ;-(
+	
+2000-06-29  Arik Devens  <arik@helixcode.com>
 	
 	* vfoldertypes.xml (ruleset type="match"): Added a Cc rule to
 	vfolders. Works like To except on the Cc of a message ;-)
