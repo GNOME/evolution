@@ -357,7 +357,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	if (composer->mime_body) {
 		plain_encoding = CAMEL_MIME_PART_ENCODING_7BIT;
 		for (i = 0; composer->mime_body[i]; i++) {
-			if ((unsigned char)composer->mime_body[i] > 127) {
+			if ((unsigned char) composer->mime_body[i] > 127) {
 				plain_encoding = CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
 				break;
 			}
@@ -2731,6 +2731,24 @@ msg_composer_destroy_notify (void *data)
 	all_composers = g_slist_remove (all_composers, composer);
 }
 
+static int
+composer_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+	if (event->keyval == GDK_Escape) {
+		do_exit (E_MSG_COMPOSER (widget));
+		
+		return TRUE; /* Stop the event? is this TRUE or FALSE? */
+	}
+	
+	/* Have to call parent's handler, or the widget wouldn't get any 
+	   key press events. Note that this is NOT done if the dialog
+	   may have been destroyed. */
+	if (GTK_WIDGET_CLASS (parent_class)->key_press_event)
+		return (* (GTK_WIDGET_CLASS (parent_class)->key_press_event)) (widget, event);
+	
+	return FALSE; /* Not handled. */
+}
+
 static EMsgComposer *
 create_composer (int visible_mask)
 {
@@ -2745,6 +2763,9 @@ create_composer (int visible_mask)
 	
 	all_composers = g_slist_prepend (all_composers, composer);
 	
+	gtk_signal_connect (GTK_OBJECT (composer), "key-press-event",
+			    GTK_SIGNAL_FUNC (composer_key_pressed),
+			    NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
 			    GTK_SIGNAL_FUNC (msg_composer_destroy_notify),
 			    NULL);
@@ -3179,19 +3200,19 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		
 		if (CAMEL_IS_MULTIPART (content)) {
-			CamelMultipart *child_mp;
-
-			child_mp = CAMEL_MULTIPART (content);
+			CamelMultipart *mp;
+			
+			mp = CAMEL_MULTIPART (content);
 			
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 				/* handle the signed content and configure the composer to sign outgoing messages */
-				handle_multipart_signed (composer, child_mp, depth + 1);
+				handle_multipart_signed (composer, mp, depth + 1);
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, child_mp, depth + 1);
+				handle_multipart_encrypted (composer, mp, depth + 1);
 			} else {
 				/* depth doesn't matter so long as we don't pass 0 */
-				handle_multipart (composer, child_mp, depth + 1);
+				handle_multipart (composer, mp, depth + 1);
 			}
 		} else if (header_content_type_is (content_type, "text", "html")) {
 			/* text/html is preferable, so once we find it we're done... */
@@ -3236,21 +3257,21 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		
 		if (CAMEL_IS_MULTIPART (content)) {
-			CamelMultipart *child_mp;
-
-			child_mp = CAMEL_MULTIPART (content);
+			CamelMultipart *mp;
+			
+			mp = CAMEL_MULTIPART (content);
 			
 			if (CAMEL_IS_MULTIPART_SIGNED (content)) {
 				/* handle the signed content and configure the composer to sign outgoing messages */
-				handle_multipart_signed (composer, child_mp, depth + 1);
+				handle_multipart_signed (composer, mp, depth + 1);
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
-				handle_multipart_encrypted (composer, child_mp, depth + 1);
+				handle_multipart_encrypted (composer, mp, depth + 1);
 			} else if (header_content_type_is (content_type, "multipart", "alternative")) {
-				handle_multipart_alternative (composer, child_mp, depth + 1);
+				handle_multipart_alternative (composer, mp, depth + 1);
 			} else {
 				/* depth doesn't matter so long as we don't pass 0 */
-				handle_multipart (composer, child_mp, depth + 1);
+				handle_multipart (composer, mp, depth + 1);
 			}
 		} else if (depth == 0 && i == 0) {
 			/* Since the first part is not multipart/alternative, then this must be the body */
