@@ -139,8 +139,6 @@ static void e_text_update_primary_selection (EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
 static void e_text_insert(EText *text, const char *string);
 
-static void reset_layout_attrs (EText *text);
-
 /* GtkEditable Methods */
 static void e_text_editable_do_insert_text (GtkEditable    *editable,
 					    const gchar    *text,
@@ -165,8 +163,6 @@ static gint e_text_editable_get_position (GtkEditable    *editable);
 /* IM Context Callbacks */
 static void     e_text_commit_cb               (GtkIMContext *context,
 						const gchar  *str,
-						EText        *text);
-static void     e_text_preedit_changed_cb      (GtkIMContext *context,
 						EText        *text);
 static gboolean e_text_retrieve_surrounding_cb (GtkIMContext *context,
 						EText        *text);
@@ -280,56 +276,6 @@ e_text_dispose (GObject *object)
 
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-insert_preedit_text (EText *text)
-{
-	PangoAttrList *attrs = NULL;
-	PangoAttrList *preedit_attrs = NULL;
-	gchar *preedit_string = NULL;
-	GString *tmp_string = g_string_new (NULL);
-	gint length = 0, cpos = 0, preedit_length = 0;
-
-	if (text->layout == NULL || !GTK_IS_IM_CONTEXT (text->im_context))
-		return;
-
-	text->text = e_text_model_get_text(text->model);
-	length = strlen (text->text);
-
-	g_string_prepend_len (tmp_string, text->text,length); 
-
-	attrs = pango_attr_list_new ();
-
-	gtk_im_context_get_preedit_string (text->im_context,
-					&preedit_string, &preedit_attrs,
-					NULL);
-
-	if (preedit_string && g_utf8_validate (preedit_string, -1, NULL))
-		text->preedit_len = preedit_length = strlen (preedit_string);
-	else
-		text->preedit_len  = preedit_length = 0;
-
-	cpos = g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text;	
-
-	if (preedit_length)
-		g_string_insert (tmp_string, cpos, preedit_string);
-
-	reset_layout_attrs (text);
-
-	pango_layout_set_text (text->layout, tmp_string->str, tmp_string->len);
-	if (preedit_length)
-		pango_attr_list_splice (attrs, preedit_attrs, cpos, preedit_length);
-	pango_layout_set_attributes (text->layout, attrs);
-
-	if (preedit_string)
-		g_free (preedit_string);
-	if (preedit_attrs)
-		pango_attr_list_unref (preedit_attrs);
-	if (tmp_string)
-		g_string_free (tmp_string, TRUE);
-	if (attrs)
-		pango_attr_list_unref (attrs);
 }
 
 static void
@@ -1487,10 +1433,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 
-
-	insert_preedit_text (text);	
-
-	if (!pango_layout_get_text (text->layout))
+	if (!text->text)
 		return;
 
 	if (text->stipple)
@@ -1612,7 +1555,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				PangoRectangle strong_pos, weak_pos;
 				char *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
 
-				pango_layout_get_cursor_pos (text->layout, offs - text->text + text->preedit_len, &strong_pos, &weak_pos);
+				pango_layout_get_cursor_pos (text->layout, offs - text->text, &strong_pos, &weak_pos);
 				draw_pango_rectangle (drawable, main_gc, xpos, ypos, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
@@ -2170,8 +2113,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 					if (!text->im_context_signals_registered) {
 						g_signal_connect (text->im_context, "commit",
 								  G_CALLBACK (e_text_commit_cb), text);
-						g_signal_connect (text->im_context, "preedit_changed",
-								  G_CALLBACK (e_text_preedit_changed_cb), text);
 						g_signal_connect (text->im_context, "retrieve_surrounding",
 								  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
 						g_signal_connect (text->im_context, "delete_surrounding",
@@ -3662,7 +3603,6 @@ e_text_init (EText *text)
 {
 	text->model                   = e_text_model_new ();
 	text->text                    = e_text_model_get_text (text->model);
-	text->preedit_len	      = 0;
 	text->layout                  = NULL;
 
 	text->revert                  = NULL;
@@ -3765,7 +3705,6 @@ E_MAKE_TYPE (e_text,
 	     PARENT_TYPE)
 
 
-
 /* IM Context Callbacks */
 static void
 e_text_commit_cb (GtkIMContext *context,
@@ -3776,28 +3715,16 @@ e_text_commit_cb (GtkIMContext *context,
 		if (text->selection_end != text->selection_start)
 			e_text_delete_selection (text);
 		e_text_insert (text, str);
-		g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
+		g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
+			       0 /* XXX ugh */, 0 /* XXX ugh */);
 	}
-}
-
-static void
-e_text_preedit_changed_cb (GtkIMContext *context,
-				EText        *etext)
-{
-	gchar *preedit_string = NULL;
-
-	gtk_im_context_get_preedit_string (context, &preedit_string, 
-					NULL, NULL);
-
-	etext->preedit_len = strlen (preedit_string);
-
-	g_signal_emit (etext, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
 }
 
 static gboolean
 e_text_retrieve_surrounding_cb (GtkIMContext *context,
 				EText        *text)
 {
+	printf ("e_text_retrieve_surrounding_cb\n");
 	gtk_im_context_set_surrounding (context,
 					text->text,
 					strlen (text->text),
@@ -3812,9 +3739,12 @@ e_text_delete_surrounding_cb   (GtkIMContext *context,
 				gint          n_chars,
 				EText        *text)
 {
-	gtk_editable_delete_text (GTK_EDITABLE (text),
-				  text->selection_end + offset,
-				  text->selection_end + offset + n_chars);
+	printf ("e_text_delete_surrounding_cb\n");
+#if 0
+	gtk_editable_delete_text (GTK_EDITABLE (entry),
+				  entry->current_pos + offset,
+				  entry->current_pos + offset + n_chars);
+#endif
 
 	return TRUE;
 }
