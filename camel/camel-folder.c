@@ -1223,8 +1223,7 @@ camel_folder_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 
 
 static void
-move_message_to (CamelFolder *source, const char *uid,
-		 CamelFolder *dest, CamelException *ex)
+move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex)
 {
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info = NULL;
@@ -1247,8 +1246,7 @@ move_message_to (CamelFolder *source, const char *uid,
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
 	if (!camel_exception_is_set (ex))
-		CF_CLASS (source)->set_message_flags (source, uid, CAMEL_MESSAGE_DELETED,
-						      CAMEL_MESSAGE_DELETED);
+		camel_folder_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
 	
 	if (info) {
 		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
@@ -1262,15 +1260,21 @@ static void
 move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
 {
 	int i;
+	CamelException local;
+
+	camel_exception_init(&local);
+	if (ex == NULL)
+		ex = &local;
 
 	camel_operation_start(NULL, _("Moving messages"));
-	
+
 	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++) {
 		move_message_to (source, uids->pdata[i], dest, ex);
 		camel_operation_progress(NULL, i * 100 / uids->len);
 	}
 
 	camel_operation_end(NULL);
+	camel_exception_clear(&local);
 }
 
 /**
