@@ -299,7 +299,11 @@ save_comp (CompEditor *editor)
 	priv->updating = TRUE;
 
 	if (!cal_client_update_object (priv->client, priv->comp)) {
-		g_message ("save_comp (): Could not update the object!");
+		GtkWidget *dlg;
+
+		dlg = gnome_error_dialog (_("Could not update object!"));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+
 		return FALSE;
 	} else {
 		priv->changed = FALSE;
