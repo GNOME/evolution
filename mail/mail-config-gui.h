@@ -23,7 +23,7 @@
 
 #include <glib.h>
 
-#include <Evolution.h>
+#include "shell/Evolution.h"
 
 void mail_config (Evolution_Shell shell);
 void mail_config_druid (Evolution_Shell shell);
