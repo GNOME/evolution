@@ -387,6 +387,11 @@ icaltimezone_get_tznames_from_vtimezone (icalcomponent *component)
 						 ICAL_ANY_COMPONENT);
     }
 
+    /* Outlook (2000) places "Standard Time" and "Daylight Time" in the TZNAME
+       strings, which is totally useless. So we return NULL in that case. */
+    if (standard_tzname && !strcmp (standard_tzname, "Standard Time"))
+	return NULL;
+
     /* If both standard and daylight TZNAMEs were found, if they are the same
        we return just one, else we format them like "EST/EDT". */
     if (standard_tzname && daylight_tzname) {

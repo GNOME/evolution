@@ -1,3 +1,12 @@
+2001-10-25  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_get_tznames_from_vtimezone):
+	Outlooks (2000) places "Standard Time" and "Daylight Time" in the
+	TZNAME strings, which is useless, so return NULL in that case.
+	ETimezoneEntry will then use the TZID instead, in which Outlook does
+	place the actual timezone name. (I just hope Outlook doesn't translate
+	"Standard Time" to other languages, as we won't be able to fix it then)
+
 2001-10-23  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icalrecur.c (icalrecur_two_byrule): use
