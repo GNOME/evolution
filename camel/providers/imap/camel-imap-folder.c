@@ -1957,8 +1957,6 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		
 		camel_imap_response_free (store, response);
 		
-		d(camel_content_info_dump (mi->content, 0));
-		
 		if (!mi->content->type) {
 			/* FETCH returned OK, but we didn't parse a BODY
 			 * response. Courier will return invalid BODY

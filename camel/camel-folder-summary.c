@@ -2758,8 +2758,11 @@ camel_content_info_dump (CamelMessageContentInfo *ci, int depth)
 		return;
 	}
 	
-	printf ("%scontent-type: %s/%s\n", p, ci->type->type ? ci->type->type : "(null)",
-	       ci->type->subtype ? ci->type->subtype : "(null)");
+	if (ci->type)
+		printf ("%scontent-type: %s/%s\n", p, ci->type->type ? ci->type->type : "(null)",
+			ci->type->subtype ? ci->type->subtype : "(null)");
+	else
+		printf ("%scontent-type: <unset>\n", p);
 	printf ("%scontent-transfer-encoding: %s\n", p, ci->encoding ? ci->encoding : "(null)");
 	printf ("%scontent-description: %s\n", p, ci->description ? ci->description : "(null)");
 	printf ("%ssize: %lu\n", p, (unsigned long) ci->size);
