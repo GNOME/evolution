@@ -149,7 +149,6 @@ pgp_mime_part_sign_restore_part (CamelMimePart *mime_part, GSList **encodings)
 			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
 			
 			pgp_mime_part_sign_restore_part (part, encodings);
-			*encodings = (*encodings)->next;
 		}
 	} else {
 		CamelMimePartEncodingType encoding;
@@ -161,6 +160,8 @@ pgp_mime_part_sign_restore_part (CamelMimePart *mime_part, GSList **encodings)
 			encoding = GPOINTER_TO_INT ((*encodings)->data);
 			
 			camel_mime_part_set_encoding (mime_part, encoding);
+			
+			*encodings = (*encodings)->next;
 		}
 	}
 }

@@ -1,5 +1,10 @@
 2001-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c: Updated exception strings to be more clear.
+
+	* camel-pgp-mime.c (pgp_mime_part_sign_restore_part): Stupid
+	mistake, fixes bug #9975.
+
 	* camel-tcp-stream-ssl.c (ssl_bad_cert): Oops, don't fail if
 	`data' isn't a CamelService...cuz it's not supposed to be! It's a
 	CamelTcpStreamSSL object...doh!

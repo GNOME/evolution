@@ -515,20 +515,20 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	
 	if (!plaintext->len) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("No plaintext to sign."));
+				      _("Cannot sign this message: no plaintext to sign"));
 		goto exception;
 	}
 	
 	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, (char *) userid);
 	if (!passphrase) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("No password provided."));
+				     _("Cannot sign this message: no password provided"));
 		goto exception;
 	}
 	
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      _("Cannot sign this message: couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
 		goto exception;
 	}
@@ -690,20 +690,20 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 	
 	if (!plaintext->len) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("No plaintext to clearsign."));
+				      _("Cannot sign this message: no plaintext to clearsign"));
 		goto exception;
 	}
 	
 	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, (char *) userid);
 	if (!passphrase) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("No password provided."));
+				     _("Cannot sign this message: no password provided"));
 		goto exception;
 	}
 	
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      _("Cannot sign this message: couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
 		goto exception;
 	}
@@ -883,13 +883,13 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 	
 	if (!plaintext->len) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("No plaintext to verify."));
+				      _("Cannot verify this message: no plaintext to verify"));
 		goto exception;
 	}
 	
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      _("Cannot verify this message: couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
 		goto exception;
 	}
@@ -900,7 +900,7 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 		sigfile = swrite (sigstream);
 		if (!sigfile) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Couldn't create temp file: %s"),
+					      _("Cannot verify this message: couldn't create temp file: %s"),
 					      g_strerror (errno));
 			goto exception;
 		}
@@ -1066,7 +1066,7 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 	
 	if (!plaintext->len) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("No plaintext to encrypt."));
+				      _("Cannot encrypt this message: no plaintext to encrypt"));
 		goto exception;
 	}
 	
@@ -1076,14 +1076,14 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 						 (char *) userid);
 		if (!passphrase) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("No password provided."));
+					     _("Cannot encrypt this message: no password provided"));
 			goto exception;
 		}
 	}
 	
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      _("Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
 		
 		goto exception;
@@ -1092,7 +1092,7 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 	/* check to make sure we have recipients */
 	if (recipients->len == 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("No recipients specified"));
+				      _("Cannot encrypt this message: no recipients specified"));
 		
 		goto exception;
 	}
@@ -1255,7 +1255,7 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	
 	if (!ciphertext->len) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("No ciphertext to decrypt."));
+				      _("Cannot decrypt this message: no ciphertext to decrypt"));
 		
 		goto exception;
 	}
@@ -1263,14 +1263,14 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, NULL);
 	if (!passphrase) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("No password provided."));
+				      _("Cannot decrypt this message: no password provided"));
 		
 		goto exception;
 	}
 	
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      _("Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"),
 				      g_strerror (errno));
 		
 		goto exception;
