@@ -23,7 +23,7 @@
     <cmd name="DeleteAllOccurrences" _tip="Delete All Occurrences" pixtype="stock" pixname="gtk-delete"/>
 
     <cmd name="PublishFreeBusy" _tip="Publish Free/Busy information for this calendar"/>
-    <cmd name="CalendarPurge" _label="_Purge" _tip="Purge old appointments and meetings" accel="*Control*e"/>
+    <cmd name="CalendarPurge" _label="Purg_e" _tip="Purge old appointments and meetings" accel="*Control*e"/>
   </commands>
 
   <menu>

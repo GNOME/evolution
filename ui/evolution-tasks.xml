@@ -11,7 +11,7 @@
          pixtype="stock" pixname="gtk-delete"/>
     <cmd name="TasksMarkComplete" _tip="Mark selected tasks as complete" accel="*Control*k" sensitive="0"/>
 
-    <cmd name="TasksExpunge" _label="_Expunge" _tip="Delete completed tasks" accel="*Control*e"/>
+    <cmd name="TasksPurge" _label="Purg_e" _tip="Delete completed tasks" accel="*Control*e"/>
   </commands>
   
   <menu>
@@ -43,7 +43,7 @@
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
         <separator/>
-	<menuitem name="TasksExpunge" verb=""/>
+	<menuitem name="TasksPurge" verb=""/>
       </placeholder>
     </submenu>
 

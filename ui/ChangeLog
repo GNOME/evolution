@@ -1,3 +1,9 @@
+2003-07-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-tasks.xml: s/Expunge/Purge.
+
+	* evolution-calendar.xml: fixed menmonic for Purge.
+
 2003-07-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-calendar.xml: added 'Purge' menu item.
