@@ -57,14 +57,17 @@
 enum DndTargetType {
 	DND_TARGET_TYPE_X_EVOLUTION_MESSAGE,
 	DND_TARGET_TYPE_MESSAGE_RFC822,
+	DND_TARGET_TYPE_TEXT_URI_LIST,
 };
 
 #define X_EVOLUTION_MESSAGE_TYPE "x-evolution-message"
 #define MESSAGE_RFC822_TYPE      "message/rfc822"
+#define TEXT_URI_LIST_TYPE       "text/uri-list"
 
 static GtkTargetEntry drag_types[] = {
 	{ X_EVOLUTION_MESSAGE_TYPE, 0, DND_TARGET_TYPE_X_EVOLUTION_MESSAGE },
 	{ MESSAGE_RFC822_TYPE, 0, DND_TARGET_TYPE_MESSAGE_RFC822 },
+	{ TEXT_URI_LIST_TYPE, 0, DND_TARGET_TYPE_TEXT_URI_LIST },
 };
 
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
@@ -206,15 +209,9 @@ add_uid (MessageList *ml, const char *uid, gpointer data)
 }
 
 static void
-message_list_drag_data_get (ETree             *tree,
-			    int                 row,
-			    ETreePath           path,
-			    int                 col,
-			    GdkDragContext     *context,
-			    GtkSelectionData   *selection_data,
-			    guint               info,
-			    guint               time,
-			    gpointer            user_data)
+message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
+			    GdkDragContext *context, GtkSelectionData *selection_data,
+			    guint info, guint time, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids = NULL;
@@ -224,6 +221,69 @@ message_list_drag_data_get (ETree             *tree,
 	message_list_foreach (fb->message_list, add_uid, uids);
 	
 	switch (info) {
+	case DND_TARGET_TYPE_TEXT_URI_LIST:
+	{
+		char dir_template[] = "/tmp/evolution-XXXXXX";
+		const char *dirname, *filename;
+		CamelMimeMessage *message;
+		CamelStream *stream;
+		char *uri_list;
+		int fd;
+		
+		dirname = mktemp (dir_template);
+		if (!dirname) {
+			/* cleanup and abort */
+			for (i = 0; i < uids->len; i++)
+				g_free (uids->pdata[i]);
+			g_ptr_array_free (uids, TRUE);
+			return;
+		}
+		
+		mkdir (dirname, 0700);
+		
+		message = camel_folder_get_message (fb->folder, uids->pdata[0], NULL);
+		g_free (uids->pdata[0]);
+		
+		if (uids->len == 1) {
+			filename = camel_mime_message_get_subject (message);
+			if (!filename)
+				filename = "Unknown";
+		} else
+			filename = "mbox";
+		
+		uri_list = g_strdup_printf ("file://%s/%s", dirname, filename);
+		
+		fd = open (uri_list + 7, O_WRONLY | O_CREAT, 0600);
+		if (fd == -1) {
+			/* cleanup and abort */
+			camel_object_unref (CAMEL_OBJECT (message));
+			for (i = 1; i < uids->len; i++)
+				g_free (uids->pdata[i]);
+			g_ptr_array_free (uids, TRUE);
+			g_free (uri_list);
+			return;
+		}
+		
+		stream = camel_stream_fs_new_with_fd (fd);
+		
+		camel_stream_write (stream, "From - \n", 8);
+		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+		camel_object_unref (CAMEL_OBJECT (message));
+		for (i = 1; i < uids->len; i++) {
+			message = camel_folder_get_message (fb->folder, uids->pdata[i], NULL);
+			camel_stream_write (stream, "From - \n", 8);
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+			camel_object_unref (CAMEL_OBJECT (message));
+			g_free (uids->pdata[i]);
+		}
+		
+		camel_object_unref (CAMEL_OBJECT (stream));
+		
+		gtk_selection_data_set (selection_data, selection_data->target, 8,
+					uri_list, strlen (uri_list));
+		g_free (uri_list);
+	}
+	break;
 	case DND_TARGET_TYPE_MESSAGE_RFC822:
 	{
 		/* FIXME: this'll be fucking slow for the user... pthread this? */

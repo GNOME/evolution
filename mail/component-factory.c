@@ -69,20 +69,22 @@ static GHashTable *storages_hash;
 enum {
 	ACCEPTED_DND_TYPE_MESSAGE_RFC822,
 	ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE,
+	ACCEPTED_DND_TYPE_TEXT_URI_LIST,
 };
 
 static char *accepted_dnd_types[] = {
-	"message/rfc822",         /* if we drag from nautilus or something... */
-	"x-evolution-message",    /* if we drag from an evolution message list... */
+	"message/rfc822",
+	"x-evolution-message",    /* ...from an evolution message list... */
+	"text/uri-list",          /* ...from nautilus... */
 	NULL
 };
 
 enum {
-	EXPORTED_DND_TYPE_TEXT_PLAIN,
+	EXPORTED_DND_TYPE_TEXT_URI_LIST,
 };
 
 static char *exported_dnd_types[] = {
-	"text/plain",             /* we have to export to nautilus as text/plain or a uri-list */
+	"text/uri-list",          /* we have to export to nautilus as text/uri-list */
 	NULL
 };
 
@@ -292,6 +294,7 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 static gboolean
 message_rfc822_dnd (CamelFolder *dest, CamelStream *stream)
 {
+	gboolean retval = FALSE;
 	CamelMimeParser *mp;
 	CamelException *ex;
 	
@@ -309,6 +312,9 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream)
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
 			camel_object_unref (CAMEL_OBJECT (msg));
 			break;
+		} else {
+			/* we got at least 1 message so we will return TRUE */
+			retval = TRUE;
 		}
 		
 		/* append the message to the folder... */
@@ -324,7 +330,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream)
 	camel_object_unref (CAMEL_OBJECT (mp));
 	camel_exception_free (ex);
 	
-	return TRUE;
+	return retval;
 }
 
 static CORBA_boolean
@@ -340,13 +346,53 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	CamelFolder *source;
 	CamelStream *stream;
 	GPtrArray *uids;
+	CamelURL *uri;
+	int type, fd;
 	
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links */
 	
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 	
-	switch (data->format) {
+	for (type = 0; accepted_dnd_types[type]; type++)
+		if (!strcmp (destination_context->dndType, accepted_dnd_types[type]))
+			break;
+	
+	switch (type) {
+	case ACCEPTED_DND_TYPE_TEXT_URI_LIST:
+		source = mail_tool_uri_to_folder (physical_uri, NULL);
+		if (!source)
+			return FALSE;
+		
+		url = g_strndup (data->bytes._buffer, data->bytes._length);
+		inend = strchr (url, '\n');
+		if (inend)
+			*inend = '\0';
+		
+		/* get the path component */
+		g_strstrip (url);
+		uri = camel_url_new (url, NULL);
+		g_free (url);
+		url = uri->path;
+		uri->path = NULL;
+		camel_url_free (uri);
+		
+		fd = open (url, O_RDONLY);
+		if (fd == -1) {
+			g_free (url);
+			return FALSE;
+		}
+		
+		stream = camel_stream_fs_new_with_fd (fd);
+		retval = message_rfc822_dnd (source, stream);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (CAMEL_OBJECT (source));
+		
+		if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE)
+			unlink (url);
+		
+		g_free (url);
+		break;
 	case ACCEPTED_DND_TYPE_MESSAGE_RFC822:
 		source = mail_tool_uri_to_folder (physical_uri, NULL);
 		if (!source)
