@@ -1,5 +1,15 @@
 2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes for bug #39870
+
+	* message-browser.c (transfer_msg_done): Close the
+	message-browser. Since the message doesn't exist anymore, we
+	should close it.
+	(message_browser_delete): New callback to handle deletion in the
+	message-browser window.
+
+2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* subscribe-dialog.c (fe_got_children): If the CamelFolderInfo
 	node doesn't have \NoInferriors set, then check for
 	subfolders. Fixes bug #40314.

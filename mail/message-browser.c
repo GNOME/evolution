@@ -70,8 +70,8 @@ message_browser_destroy (GtkObject *object)
 	message_browser = MESSAGE_BROWSER (object);
 	
 	if (message_browser->fb) {
-		g_signal_handlers_disconnect_matched(message_browser->fb, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, message_browser);
-		g_object_unref((message_browser->fb));
+		g_signal_handlers_disconnect_matched (message_browser->fb, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, message_browser);
+		g_object_unref (message_browser->fb);
 		message_browser->fb = NULL;
 	}
 	
@@ -84,7 +84,7 @@ message_browser_class_init (GObjectClass *object_class)
 {
 	((GtkObjectClass *)object_class)->destroy = message_browser_destroy;
 	
-	message_browser_parent_class = g_type_class_ref(PARENT_TYPE);
+	message_browser_parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 static void
@@ -97,28 +97,8 @@ static void
 transfer_msg_done (gboolean ok, void *data)
 {
 	MessageBrowser *mb = data;
-	gboolean hide_deleted;
-	GConfClient *gconf;
-	int row;
 	
-#warning "GTK_OBJECT_DESTROYED"
-	/*if (ok && !GTK_OBJECT_DESTROYED (mb)) {*/
-	if (ok) {
-		gconf = gconf_client_get_default ();
-		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
-		
-		row = e_tree_row_of_node (mb->fb->message_list->tree,
-					  e_tree_get_cursor (mb->fb->message_list->tree));
-		
-		/* If this is the last message and deleted messages
-                   are hidden, select the previous */
-		if ((row + 1 == e_tree_row_count (mb->fb->message_list->tree)) && hide_deleted)
-			message_list_select (mb->fb->message_list, MESSAGE_LIST_SELECT_PREVIOUS,
-					     0, CAMEL_MESSAGE_DELETED, FALSE);
-		else
-			message_list_select (mb->fb->message_list, MESSAGE_LIST_SELECT_NEXT,
-					     0, 0, FALSE);
-	}
+	gtk_widget_destroy ((GtkWidget *) mb);
 	
 	g_object_unref (mb);
 }
@@ -132,7 +112,7 @@ transfer_msg (MessageBrowser *mb, int del)
 	static char *last_uri = NULL;
 	GPtrArray *uids;
 	char *desc;
-
+	
 /*	if (GTK_OBJECT_DESTROYED(mb))
 	return;*/
 	
@@ -159,7 +139,7 @@ transfer_msg (MessageBrowser *mb, int del)
 	message_list_foreach (mb->fb->message_list, enumerate_msg, uids);
 	
 	if (del) {
-		g_object_ref((mb));
+		g_object_ref (mb);
 		mail_transfer_messages (mb->fb->folder, uids, del,
 					folder->physicalUri, 0, transfer_msg_done, mb);
 	} else {
@@ -182,13 +162,37 @@ message_browser_close (BonoboUIComponent *uih, void *user_data, const char *path
 static void
 message_browser_move (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	transfer_msg(user_data, TRUE);
+	transfer_msg (user_data, TRUE);
 }
 
 static void
 message_browser_copy (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	transfer_msg(user_data, FALSE);
+	transfer_msg (user_data, FALSE);
+}
+
+static void
+message_browser_delete (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	MessageBrowser *mb = user_data;
+	GPtrArray *uids;
+	int i;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (mb->fb->message_list, enumerate_msg, uids);
+	camel_folder_freeze (mb->fb->folder);
+	for (i = 0; i < uids->len; i++) {
+		camel_folder_set_message_flags (mb->fb->folder, uids->pdata[i],
+						CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
+						CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+		g_free (uids->pdata[i]);
+	}
+	
+	camel_folder_thaw (mb->fb->folder);
+	
+	g_ptr_array_free (uids, TRUE);
+	
+	gtk_widget_destroy ((GtkWidget *) mb);
 }
 
 static BonoboUIVerb 
@@ -196,6 +200,7 @@ browser_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageBrowserClose", message_browser_close),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", message_browser_move),
 	BONOBO_UI_UNSAFE_VERB ("MessageCopy", message_browser_copy),
+	BONOBO_UI_UNSAFE_VERB ("MessageDelete", message_browser_delete),
 	BONOBO_UI_VERB_END
 };
 
@@ -229,17 +234,17 @@ static void
 message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
 	const char *uid = g_object_get_data (G_OBJECT (mb), "uid");
-
-	g_signal_handlers_disconnect_matched(mb->fb, G_SIGNAL_MATCH_DATA|G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
-					     message_browser_message_list_built, mb);
+	
+	g_signal_handlers_disconnect_matched (mb->fb, G_SIGNAL_MATCH_DATA|G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+					      message_browser_message_list_built, mb);
 	message_list_select_uid (ml, uid);
 }
 
 static void
 message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowser *mb)
 {
-	g_signal_connect(fb->message_list, "message_list_built",
-			 G_CALLBACK(message_browser_message_list_built), mb);
+	g_signal_connect (fb->message_list, "message_list_built",
+			  G_CALLBACK (message_browser_message_list_built), mb);
 }
 
 static void
@@ -268,26 +273,26 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 	BonoboUIContainer *uicont;
 	BonoboUIComponent *uic;
 	CORBA_Environment ev;
-
-	uicont = bonobo_window_get_ui_container(BONOBO_WINDOW(widget));
-
+	
+	uicont = bonobo_window_get_ui_container (BONOBO_WINDOW (widget));
+	
 	uic = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (uic, BONOBO_OBJREF (uicont), NULL);
 	folder_browser_set_ui_component (fb, uic);
-
+	
 	/* Load our UI */
-
+	
 	/*bonobo_ui_component_freeze (uic, NULL);*/
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
 			       EVOLUTION_UIDIR "/evolution-mail-messagedisplay.xml",
 			       "evolution-mail", NULL);
-
+	
 	/* Load the appropriate UI stuff from the folder browser */
-
+	
 	folder_browser_ui_add_message (fb);
-
+	
 	/* We just opened the message! We don't need to open it again. */
-
+	
 	CORBA_exception_init (&ev);
 	/* remove the broken menus and toolbar items */
 	bonobo_ui_component_rm (uic, "/menu/File/FileOps/MessageOpen", &ev);
@@ -295,17 +300,18 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 	bonobo_ui_component_rm (uic, "/menu/Tools", &ev);
 	bonobo_ui_component_rm (uic, "/Toolbar/MailNextButtons", &ev);
 	CORBA_exception_free (&ev);
-
-	/* Hack around the move/copy commands api's */
+	
+	/* Hack around the move/copy/delete commands api's */
 	bonobo_ui_component_remove_listener (uic, "MessageCopy");
 	bonobo_ui_component_remove_listener (uic, "MessageMove");
-
-	/* Add the Close & Move/Copy items */
-
+	bonobo_ui_component_remove_listener (uic, "MessageDelete");
+	
+	/* Add the Close & Move/Copy/Delete items */
+	
 	bonobo_ui_component_add_verb_list_with_data (uic, browser_verbs, widget);
-
+	
 	/* Done */
-
+	
 	/*bonobo_ui_component_thaw (uic, NULL);*/
 }
 
@@ -316,19 +322,14 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	MessageBrowser *new;
 	FolderBrowser *fb;
 	
-	new = g_object_new (MESSAGE_BROWSER_TYPE,
-			    "title", "Ximian Evolution", NULL);
-	if (!new) {
-		g_warning ("Failed to construct Bonobo window!");
-		return NULL;
-	}
+	new = g_object_new (MESSAGE_BROWSER_TYPE, "title", "Ximian Evolution", NULL);
 	
-	g_object_set_data_full(G_OBJECT(new), "uid", g_strdup (uid), g_free);
+	g_object_set_data_full (G_OBJECT (new), "uid", g_strdup (uid), g_free);
 	
 	fb = FOLDER_BROWSER (folder_browser_new (shell, uri));
-	g_object_ref(fb);
-	gtk_object_sink((GtkObject *)fb);
-
+	g_object_ref (fb);
+	gtk_object_sink ((GtkObject *) fb);
+	
 	new->fb = fb;
 	
 	set_bonobo_ui (GTK_WIDGET (new), fb);
@@ -344,8 +345,7 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (vbox);
 	
-	g_signal_connect(new, "size_allocate", 
-			 G_CALLBACK (message_browser_size_allocate_cb), NULL);
+	g_signal_connect (new, "size-allocate", G_CALLBACK (message_browser_size_allocate_cb), NULL);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (new), vbox);
 	gtk_widget_grab_focus (GTK_WIDGET (MAIL_DISPLAY (fb->mail_display)->html));
@@ -353,8 +353,8 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	set_default_size (GTK_WIDGET (new));
 	
 	/* more evil hackery... */
-	g_signal_connect(fb, "folder_loaded", G_CALLBACK(message_browser_folder_loaded), new);
-	g_signal_connect(fb, "message_loaded", G_CALLBACK(message_browser_message_loaded), new);
+	g_signal_connect (fb, "folder_loaded", G_CALLBACK (message_browser_folder_loaded), new);
+	g_signal_connect (fb, "message_loaded", G_CALLBACK (message_browser_message_loaded), new);
 	
 	return GTK_WIDGET (new);
 }
