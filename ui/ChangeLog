@@ -1,3 +1,9 @@
+2001-08-16  Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution-mail-message.xml : removed the Print Setup menu
+	item, and changed Print Message to Print for consistency's sake.
+
+
 2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Add a "BuiltMenuItems" placeholder in the "Help"

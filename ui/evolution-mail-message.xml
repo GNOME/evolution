@@ -119,7 +119,11 @@
      pixtype="pixbuf"/>
 
     <cmd name="PrintPreviewMessage"
-     _tip="Previews the message to be printed"
+     _tip="Preview the message to be printed"
+     pixtype="pixbuf"/>
+
+    <cmd name="PrintSetup"
+     _tip="Setup the page settings for your current printer"
      pixtype="pixbuf"/>
 
     <cmd name="ToolsFilterMailingList"
@@ -177,8 +181,8 @@
       </placeholder>
 
       <placeholder name="Print">
-        <menuitem name="PrintPreviewMessage" verb="" _label="Print Preview..."/>
-        <menuitem name="PrintMessage" verb="" _label="Print Message..."/>
+        <menuitem name="PrintPreviewMessage" verb="" _label="Print Preview"/>
+        <menuitem name="PrintMessage" verb="" _label="_Print..."/>
       </placeholder>
     </submenu>
 
