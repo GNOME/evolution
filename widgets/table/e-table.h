@@ -108,7 +108,7 @@ typedef struct {
 
 	guint is_grouped : 1;
 
-	guint scroll_down : 1;
+	guint scroll_direction : 4;
 
 	guint do_drag : 1;
 

@@ -95,6 +95,13 @@ enum {
 	ARG_UNIFORM_ROW_HEIGHT,
 };
 
+enum {
+	ET_SCROLL_UP = 1 << 0,
+	ET_SCROLL_DOWN = 1 << 1,
+	ET_SCROLL_LEFT = 1 << 2,
+	ET_SCROLL_RIGHT = 1 << 3
+};
+
 static gint et_signals [LAST_SIGNAL] = { 0, };
 
 static void e_table_fill_table (ETable *e_table, ETableModel *model);
@@ -146,7 +153,7 @@ static void et_drag_data_received(GtkWidget *widget,
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
 static void scroll_off (ETable *et);
-static void scroll_on (ETable *et, gboolean down);
+static void scroll_on (ETable *et, guint scroll_direction);
 
 static void
 et_disconnect_model (ETable *et)
@@ -2421,22 +2428,31 @@ static gboolean
 scroll_timeout (gpointer data)
 {
 	ETable *et = data;
-	int dy;
-	GtkAdjustment *v;
-	double value;
+	int dx = 0, dy = 0;
+	GtkAdjustment *h, *v;
+	double hvalue, vvalue;
 
-	if (et->scroll_down)
-		dy = 20;
-	else
-		dy = -20;
+	if (et->scroll_direction & ET_SCROLL_DOWN)
+		dy += 20;
+	if (et->scroll_direction & ET_SCROLL_UP)
+		dy -= 20;
 
+	if (et->scroll_direction & ET_SCROLL_RIGHT)
+		dx += 20;
+	if (et->scroll_direction & ET_SCROLL_LEFT)
+		dx -= 20;
+
+	h = GTK_LAYOUT(et->table_canvas)->hadjustment;
 	v = GTK_LAYOUT(et->table_canvas)->vadjustment;
 
-	value = v->value;
+	hvalue = h->value;
+	vvalue = v->value;
 
+	gtk_adjustment_set_value(h, CLAMP(h->value + dx, h->lower, h->upper - h->page_size));
 	gtk_adjustment_set_value(v, CLAMP(v->value + dy, v->lower, v->upper - v->page_size));
 
-	if (v->value != value)
+	if (h->value != hvalue ||
+	    v->value != vvalue)
 		do_drag_motion(et,
 			       et->last_drop_context,
 			       et->last_drop_x,
@@ -2448,12 +2464,12 @@ scroll_timeout (gpointer data)
 }
 
 static void
-scroll_on (ETable *et, gboolean down)
+scroll_on (ETable *et, guint scroll_direction)
 {
-	if (et->scroll_idle_id == 0 || down != et->scroll_down) {
+	if (et->scroll_idle_id == 0 || scroll_direction != et->scroll_direction) {
 		if (et->scroll_idle_id != 0)
 			g_source_remove (et->scroll_idle_id);
-		et->scroll_down = down;
+		et->scroll_direction = scroll_direction;
 		et->scroll_idle_id = g_timeout_add (100, scroll_timeout, et);
 	}
 }
@@ -2517,6 +2533,7 @@ et_drag_motion(GtkWidget *widget,
 	       ETable *et)
 {
 	gboolean ret_val;
+	guint direction = 0;
 
 	et->last_drop_x = x;
 	et->last_drop_y = y;
@@ -2534,14 +2551,19 @@ et_drag_motion(GtkWidget *widget,
 	x -= widget->allocation.x;
 	y -= widget->allocation.y;
 
-	if (y < 20 || y > widget->allocation.height - 20) {
-		if (y < 20)
-			scroll_on (et, FALSE);
-		else
-			scroll_on (et, TRUE);
-	} else {
+	if (y < 20)
+		direction |= ET_SCROLL_UP;
+	if (y > widget->allocation.height - 20)
+		direction |= ET_SCROLL_DOWN;
+	if (x < 20)
+		direction |= ET_SCROLL_LEFT;
+	if (x > widget->allocation.width - 20)
+		direction |= ET_SCROLL_RIGHT;
+
+	if (direction != 0)
+		scroll_on (et, direction);
+	else
 		scroll_off (et);
-	}
 
 	return ret_val;
 }
