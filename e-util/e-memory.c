@@ -31,6 +31,8 @@
 #define p(x)   /* poolv debug */
 #define p2(x)   /* poolv assertion checking */
 
+/*#define MALLOC_CHECK*/
+
 /* #define PROFILE_POOLV */
 
 #ifdef PROFILE_POOLV
@@ -68,6 +70,33 @@ static time_end(const char *desc)
 #else
 #define time_start(x)
 #define time_end(x)
+#endif
+
+#ifdef MALLOC_CHECK
+#include <mcheck.h>
+#include <stdio.h>
+static void
+checkmem(void *p)
+{
+	if (p) {
+		int status = mprobe(p);
+
+		switch (status) {
+		case MCHECK_HEAD:
+			printf("Memory underrun at %p\n", p);
+			abort();
+		case MCHECK_TAIL:
+			printf("Memory overrun at %p\n", p);
+			abort();
+		case MCHECK_FREE:
+			printf("Double free %p\n", p);
+			abort();
+		}
+	}
+}
+#define MPROBE(x) checkmem((void *)(x))
+#else
+#define MPROBE(x)
 #endif
 
 /* mempool class */
@@ -819,6 +848,10 @@ e_strv_destroy(struct _EStrv *strv)
 static GHashTable *poolv_pool = NULL;
 static EMemPool *poolv_mempool = NULL;
 
+#ifdef MALLOC_CHECK
+static GPtrArray *poolv_table = NULL;
+#endif
+
 #ifdef PROFILE_POOLV
 static gulong poolv_hits = 0;
 static gulong poolv_misses = 0;
@@ -856,6 +889,9 @@ e_poolv_new(unsigned int size)
 
 	g_assert(size < 255);
 
+	poolv = g_malloc0(sizeof (*poolv) + (size - 1) * sizeof (char *));
+	poolv->length = size;
+
 #ifdef G_THREADS_ENABLED
 	g_static_mutex_lock(&poolv_mutex);
 #endif
@@ -865,14 +901,25 @@ e_poolv_new(unsigned int size)
 	if (!poolv_mempool)
 		poolv_mempool = e_mempool_new(32 * 1024, 512, E_MEMPOOL_ALIGN_BYTE);
 
+#ifdef MALLOC_CHECK
+	{
+		int i;
+
+		if (poolv_table == NULL)
+			poolv_table = g_ptr_array_new();
+
+		for (i=0;i<poolv_table->len;i++)
+			MPROBE(poolv_table->pdata[i]);
+
+		g_ptr_array_add(poolv_table, poolv);
+	}
+#endif
+
 #ifdef G_THREADS_ENABLED
 	g_static_mutex_unlock(&poolv_mutex);
 #endif
 
-	poolv = g_malloc0(sizeof (*poolv) + (size - 1) * sizeof (char *));
-	poolv->length = size;
-
-	p(g_print ("new poolv=%p\tsize=%d\n", poolv, sizeof(*poolv) + (size-1)*sizeof(char *)));
+	p(printf("new poolv=%p\tsize=%d\n", poolv, sizeof(*poolv) + (size-1)*sizeof(char *)));
 
 	return poolv;
 }
@@ -884,7 +931,8 @@ e_poolv_new(unsigned int size)
  *
  * Copy the contents of a pooled string vector
  *
- * Return value: @dest
+ * Return value: @dest, which may be re-allocated if the strings
+ * are different lengths.
  **/
 EPoolv *
 e_poolv_cpy(EPoolv *dest, const EPoolv *src)
@@ -897,6 +945,9 @@ e_poolv_cpy(EPoolv *dest, const EPoolv *src)
 
 	p2(g_return_val_if_fail (dest != NULL, NULL));
 	p2(g_return_val_if_fail (src != NULL, NULL));
+
+	MPROBE(dest);
+	MPROBE(src);
 
 	if (dest->length != src->length) {
 		e_poolv_destroy(dest);
@@ -985,7 +1036,9 @@ e_poolv_set (EPoolv *poolv, int index, char *str, int freeit)
 
 	g_assert(index >=0 && index < poolv->length);
 
-	p(g_print ("setting %d `%s'\n", index, str));
+	MPROBE(poolv);
+
+	p(printf("setting %d `%s'\n", index, str));
 
 	if (!str) {
 #ifdef POOLV_REFCNT
@@ -1067,7 +1120,9 @@ e_poolv_get(EPoolv *poolv, int index)
 	g_assert(poolv != NULL);
 	g_assert(index>= 0 && index < poolv->length);
 
-	p(g_print ("get %d = `%s'\n", index, poolv->s[index]));
+	MPROBE(poolv);
+
+	p(printf("get %d = `%s'\n", index, poolv->s[index]));
 
 	return poolv->s[index]?poolv->s[index]:"";
 }
@@ -1087,9 +1142,19 @@ e_poolv_destroy(EPoolv *poolv)
 	unsigned int ref;
 	char *key;
 
+	MPROBE(poolv);
+
 #ifdef G_THREADS_ENABLED
 	g_static_mutex_lock(&poolv_mutex);
 #endif
+
+#ifdef MALLOC_CHECK
+	for (i=0;i<poolv_table->len;i++)
+		MPROBE(poolv_table->pdata[i]);
+
+	g_ptr_array_remove_fast(poolv_table, poolv);
+#endif
+
 	for (i=0;i<poolv->length;i++) {
 		if (poolv->s[i]) {
 			if (g_hash_table_lookup_extended(poolv_pool, poolv->s[i], (void **)&key, (void **)&ref)) {
