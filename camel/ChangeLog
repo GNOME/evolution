@@ -1,3 +1,8 @@
+2000-04-25  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-message.c: fix some incorrect macro usage that
+	resulted in bogus casts
+
 2000-04-24  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-part-utils.c

@@ -234,7 +234,7 @@ camel_mime_message_set_date(CamelMimeMessage *message,  time_t date, int offset)
 	g_free(message->date_str);
 	message->date_str = header_format_date(date, offset);
 
-	CMD_CLASS(parent_class)->set_header((CamelMedium *)message, "Date", message->date_str);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)message, "Date", message->date_str);
 }
 
 void
@@ -267,7 +267,7 @@ camel_mime_message_set_reply_to (CamelMimeMessage *mime_message, const gchar *re
 
 	g_free(mime_message->reply_to);
 	mime_message->reply_to = g_strdup(reply_to);
-	CMD_CLASS(parent_class)->set_header((CamelMedium *)mime_message, "Reply-To", reply_to);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)mime_message, "Reply-To", reply_to);
 }
 
 const gchar *
@@ -288,7 +288,7 @@ camel_mime_message_set_subject (CamelMimeMessage *mime_message,
 	g_free(mime_message->subject);
 	mime_message->subject = g_strdup(subject);
 	text = header_encode_string(subject);
-	CMD_CLASS(parent_class)->set_header((CamelMedium *)mime_message, "Subject", text);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)mime_message, "Subject", text);
 	g_free(text);
 }
 
@@ -308,7 +308,7 @@ camel_mime_message_set_from (CamelMimeMessage *mime_message, const gchar *from)
 
 	g_free(mime_message->from);
 	mime_message->from = g_strdup(from);
-	CMD_CLASS(parent_class)->set_header((CamelMedium *)mime_message, "From", from);
+	CAMEL_MEDIUM_CLASS(parent_class)->set_header((CamelMedium *)mime_message, "From", from);
 }
 
 const gchar *
