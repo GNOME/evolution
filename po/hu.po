@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
 "POT-Creation-Date: 2001-07-02 11:40+0200\n"
-"PO-Revision-Date: 2001-07-02 11:39+0200\n"
+"PO-Revision-Date: 2001-07-02 16:30+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -141,7 +141,7 @@ msgstr ""
 msgid ""
 "\n"
 "Delivery Label: "
-msgstr ""
+msgstr "\nKézbesítõ címke: "
 
 #: addressbook/backend/ebook/e-card.c:3611
 msgid ""
@@ -846,11 +846,11 @@ msgstr "Ismeretlen hatókörtípus"
 
 #: addressbook/gui/component/addressbook-config.c:349
 msgid "Bind DN:"
-msgstr ""
+msgstr "DN csatolása:"
 
 #: addressbook/gui/component/addressbook-config.c:350
 msgid "FIXME Bind DN Help text here"
-msgstr ""
+msgstr "FIXME DN csatolás súgószövege"
 
 #: addressbook/gui/component/addressbook-config.c:352
 #: mail/mail-config.glade.h:70
@@ -901,7 +901,7 @@ msgstr "Útvonal:"
 
 #: addressbook/gui/component/addressbook-config.c:523
 msgid "FIXME Path Help text here"
-msgstr ""
+msgstr "FIXME Útvonal súgószöveg helye"
 
 #: addressbook/gui/component/addressbook-config.c:528
 msgid "Create path if it doesn't exist."
@@ -930,7 +930,7 @@ msgstr "Név:"
 
 #: addressbook/gui/component/addressbook-config.c:689
 msgid "FIXME Name help text here"
-msgstr ""
+msgstr "FIXME Név súgóüzenetének a helye"
 
 #: addressbook/gui/component/addressbook-config.c:691
 #: calendar/gui/e-itip-control.glade.h:6
@@ -940,7 +940,7 @@ msgstr "Leírás:"
 
 #: addressbook/gui/component/addressbook-config.c:692
 msgid "FIXME Description help text here"
-msgstr ""
+msgstr "FIXME Leírás súgóüzenetének a helye"
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
 msgid "Addressbook Sources"
@@ -1005,7 +1005,7 @@ msgstr "A címjegyzék lekérdezése..."
 #: addressbook/gui/component/e-address-widget.c:388
 #: addressbook/gui/component/select-names/e-select-names-popup.c:276
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "Névjegy adatainak szerkesztése"
 
 #: addressbook/gui/component/e-address-popup.c:946
 #: addressbook/gui/component/e-address-widget.c:424
@@ -1027,15 +1027,15 @@ msgstr "Lekérdezések engedélyezése (Veszélyes!)"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
 msgid "A Bonobo control for an address popup."
-msgstr ""
+msgstr "Bonobo vezérlõ a felugró címhez."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:2
 msgid "A Bonobo control for displaying an address."
-msgstr ""
+msgstr "Bonobo vezérlõ a cím megjelenítéséhez."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:3
 msgid "A sample Bonobo control which displays an addressbook."
-msgstr ""
+msgstr "Minta Bonobo vezérlõ, amely a címjegyzéket jeleníti meg."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:4
 msgid "Control that displays an Evolution addressbook minicard."
@@ -1059,7 +1059,7 @@ msgstr "Factory a címjegyzék címmegjelenítõjéhez"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
 msgid "Factory for the Addressbook's address popup"
-msgstr ""
+msgstr "Factory a Címjegyzék elõugró címeihez"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
 msgid "Factory for the Evolution addressbook component."
@@ -1415,7 +1415,7 @@ msgstr "Megjegyzés"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:739
 msgid "Free-busy URL"
-msgstr ""
+msgstr "Szabad-foglalt URL"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1082
 msgid "Done."
@@ -1682,40 +1682,40 @@ msgstr "Figyelmeztetés a találkozóra"
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:173
 #, c-format
 msgid "Notification about your task starting on %s and ending on %s"
-msgstr ""
+msgstr "Figyelmeztetés a feladatra, amely %s-kor kezdõdik és %s-kor végzõdik"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:177
 #, c-format
 msgid "Notification about your task starting on %s"
-msgstr ""
+msgstr "Figyelmeztetés a feladatra, amely %s-kor kezdõdik"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:182
 #, c-format
 msgid "Notification about your task ending on %s"
-msgstr ""
+msgstr "Figyelmeztetés a feladatra, amely %s-kor végzõdik"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:186
 msgid "Notification about your task"
-msgstr ""
+msgstr "Figyelmeztetés a feladatra"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:193
 #, c-format
 msgid "Notification about your journal entry starting on %s and ending on %s"
-msgstr ""
+msgstr "Figyelmeztetés a naplóbejegyzésre, amely %s-kor kezdõdik és %s-kor végzõdik"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:197
 #, c-format
 msgid "Notification about your journal entry starting on %s"
-msgstr ""
+msgstr "Figyelmeztetés a naplóbejegyzésre, amely %s-kor kezdõdik"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:202
 #, c-format
 msgid "Notification about your journal entry ending on %s"
-msgstr ""
+msgstr "Figyelmeztetés a naplóbejegyzésre, amely %s-kor végzõdik"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:206
 msgid "Notification about your journal entry"
-msgstr ""
+msgstr "Figyelmeztetés a naplóbejegyzésre"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:285
 msgid "Alarm on %A %b %d %Y %H:%M"
@@ -2756,7 +2756,7 @@ msgstr "%02i perces osztás"
 
 #: calendar/gui/e-itip-control.c:544 calendar/gui/print.c:2237
 msgid " to "
-msgstr ""
+msgstr " - "
 
 #: calendar/gui/e-itip-control.c:548 calendar/gui/print.c:2241
 msgid " (Completed "
@@ -2825,15 +2825,15 @@ msgstr "Ez egy feladat lemondása."
 
 #: calendar/gui/e-itip-control.c:687
 msgid "This is freebusy information."
-msgstr ""
+msgstr "Ez egy szabad/foglalt információ."
 
 #: calendar/gui/e-itip-control.c:690
 msgid "This is a request for freebusy information."
-msgstr ""
+msgstr "Ez egy szabad/foglalt információ kérés."
 
 #: calendar/gui/e-itip-control.c:693
 msgid "This is a reply to a freebusy request."
-msgstr ""
+msgstr "Ez egy válasz a szabad/foglalt kérésre."
 
 #: calendar/gui/e-itip-control.c:716
 msgid "The message does not appear to be properly formed"
@@ -3429,7 +3429,7 @@ msgid "Getting message %d (%d%%)"
 msgstr "%d. levél letöltése (%d%%)"
 
 #: camel/camel-filter-driver.c:673 camel/camel-filter-driver.c:683
-#, fuzzy, c-format
+#, c-format
 msgid "Failed on message %d"
 msgstr "%d. levél rossz"
 
@@ -3695,6 +3695,8 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
+"Érvénytelen emailcím-nyomkövetési információ:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:131
 #, c-format
@@ -3702,6 +3704,8 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
+"Érvénytelen átlátszatlan nyomkövetési információ:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:143
 #, c-format
@@ -3709,6 +3713,8 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
+"Érvénytelen nyomkövetési információ:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
@@ -3774,6 +3780,8 @@ msgid ""
 "Could not get Kerberos ticket:\n"
 "%s"
 msgstr ""
+"Nem sikerült Kerberos jegyet szerezni:\n"
+"%s"
 
 #: camel/camel-sasl-kerberos4.c:218
 #: camel/providers/imap/camel-imap-store.c:438
@@ -3883,7 +3891,7 @@ msgstr "Nem található \"%s\" tanúsítványa."
 
 #: camel/camel-smime-context.c:545
 msgid "Failed to find a common bulk algorithm."
-msgstr ""
+msgstr "Nem sikerült \"common bulk\" algoritmust találni."
 
 #: camel/camel-smime-context.c:799
 msgid "Failed to decode message."
@@ -4471,12 +4479,12 @@ msgstr "USENET news"
 
 #: camel/providers/nntp/camel-nntp-provider.c:44
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
+msgstr "Ez egy segédelem a USENET hírcsoportok írásához és olvasásához."
 
 #: camel/providers/nntp/camel-nntp-store.c:224
 #, c-format
 msgid "Could not open directory for news server: %s"
-msgstr ""
+msgstr "Nem sikerült megnyitni a news-kiszolgáló könyvtárát: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:286
 #, c-format
@@ -4487,13 +4495,13 @@ msgstr "USENET News %s-rõl"
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr ""
+msgstr "Ez a beállítás sima szöveges jelszót használ az NNTP kiszolgálhoz."
 
 #: camel/providers/nntp/camel-nntp-store.c:325
 #: camel/providers/nntp/camel-nntp-store.c:488
 #, c-format
 msgid "Unable to open or create .newsrc file for %s: %s"
-msgstr ""
+msgstr "Nem sikerült .newsrc fájlt létrehozni %s számára: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:149
 msgid "Retrieving POP summary"
@@ -4506,7 +4514,7 @@ msgstr "Nem sikerült az új levelek ellenõrzése a POP kiszolgálón: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:199
 msgid "Could not open folder: message listing was incomplete."
-msgstr ""
+msgstr "Nem sikerült megnyitni a mappát: az üzenetlista nem teljes."
 
 #: camel/providers/pop3/camel-pop3-folder.c:292
 #, c-format
@@ -9233,9 +9241,8 @@ msgid "_Week"
 msgstr "_Hét"
 
 #: ui/evolution-comp-editor.xml.h:1
-#, fuzzy
 msgid "C_lose"
-msgstr "Bezárás"
+msgstr "_Bezárás"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this appointment"
@@ -9251,18 +9258,16 @@ msgid "Main toolbar"
 msgstr "Fõ eszköztár"
 
 #: ui/evolution-comp-editor.xml.h:7
-#, fuzzy
 msgid "Preview the printed item"
-msgstr "Elõnézeti képet ad a nyomtatandó levélrõl"
+msgstr "Elõnézeti képet ad a nyomtatandó elemrõl"
 
 #: ui/evolution-comp-editor.xml.h:9
 msgid "Print Pre_view"
 msgstr "Nyomtatási _kép"
 
 #: ui/evolution-comp-editor.xml.h:11
-#, fuzzy
 msgid "Print S_etup"
-msgstr "Nyomtatási beállítások"
+msgstr "Nyomtatási _beállítások"
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:6
 #: ui/evolution-contact-list-editor.xml.h:5
@@ -9289,18 +9294,16 @@ msgid "Save the appointment and close the dialog box"
 msgstr "A találkozó mentése és a párbeszédablak bezárása"
 
 #: ui/evolution-comp-editor.xml.h:17
-#, fuzzy
 msgid "Save this item to disk"
-msgstr "%s nézetének megváltoztatása"
+msgstr "Elem mentése lemezre"
 
 #: ui/evolution-comp-editor.xml.h:18
 msgid "Setup the page settings for your current printer"
 msgstr "Oldalbeállítás az aktuális nyomtatóhoz"
 
 #: ui/evolution-comp-editor.xml.h:19
-#, fuzzy
 msgid "_Action"
-msgstr "_Mûveletek"
+msgstr "_Mûvelet"
 
 #: ui/evolution-comp-editor.xml.h:21 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-contact-list-editor.xml.h:12
@@ -9470,9 +9473,8 @@ msgid "Send queued mail and retrieve new mail"
 msgstr "Várakozó levelek elküldése és új levelek letöltése"
 
 #: ui/evolution-mail-global.xml.h:15
-#, fuzzy
 msgid "Show message preview window"
-msgstr "Levél megjelenítése a szokásos stílusban"
+msgstr "Levélbetekintõ-ablak mutatása"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -9495,9 +9497,8 @@ msgid "_Mail Settings..."
 msgstr "_Levelezõ beállításai"
 
 #: ui/evolution-mail-global.xml.h:21
-#, fuzzy
 msgid "_Preview Pane"
-msgstr "Elõnézet"
+msgstr "_Betekintõ ablaktábla"
 
 #: ui/evolution-mail-global.xml.h:22
 msgid "_Send / Receive"
@@ -9508,14 +9509,12 @@ msgid "Change the properties of this folder"
 msgstr "Mappa tulajdonságainak megváltoztatása"
 
 #: ui/evolution-mail-list.xml.h:3
-#, fuzzy
 msgid "Copy selected messages"
-msgstr "_Kijelölt levelek elrejtése"
+msgstr "Kijelölt levelek másolása"
 
 #: ui/evolution-mail-list.xml.h:5
-#, fuzzy
 msgid "Cut selected messages"
-msgstr "A levél nyomtatása"
+msgstr "Kijelölt levelek kivágása"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide S_elected Messages"
@@ -9544,9 +9543,8 @@ msgid "Mark all visible messages as read"
 msgstr "Az összes látható leveleket elolvasottnak jelöli meg"
 
 #: ui/evolution-mail-list.xml.h:13
-#, fuzzy
 msgid "Paste message in the clipboard"
-msgstr "Vágólap beillesztése"
+msgstr "Levél beillesztése a vágólapról"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Permanently remove all deleted messages from this folder"
@@ -10116,9 +10114,8 @@ msgid "_Insert"
 msgstr "_Beillesztés"
 
 #: ui/evolution-message-composer.xml.h:51
-#, fuzzy
 msgid "_Insert text file..."
-msgstr "Szövegfájl beillesztése..."
+msgstr "_Szövegfájl beillesztése..."
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_Open..."
