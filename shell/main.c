@@ -68,10 +68,6 @@
 #include "e-config-upgrade.h"
 #include "Evolution-DataServer.h"
 
-#ifdef GTKHTML_HAVE_GCONF
-#include <gconf/gconf.h>
-#endif
-
 #include <gal/widgets/e-cursors.h>
 
 #include <fcntl.h>
