@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <gtk/gtkbox.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 #include <bonobo/bonobo-i18n.h>
@@ -142,6 +143,8 @@ copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
 	csdd.selector = e_source_selector_new (csdd.source_list);
 	g_signal_connect (G_OBJECT (csdd.selector), "primary_selection_changed",
 			  G_CALLBACK (primary_selection_changed_cb), &csdd);
+	gtk_widget_show (csdd.selector);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (csdd.dialog)->vbox), csdd.selector, TRUE, TRUE, 6);
 
 	if (gtk_dialog_run (GTK_DIALOG (csdd.dialog)) == GTK_RESPONSE_OK) {
 		result = copy_source (&csdd);

@@ -1,7 +1,12 @@
+2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/copy-source-dialog.c (copy_source_dialog): actually
+	add the source selector to the dialog's box.
+
 2003-11-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/tasks-component.c:
-	* gui/dialogs/copy-dialog-source.[ch]: fixed compilation errors.
+	* gui/dialogs/copy-source-dialog.[ch]: fixed compilation errors.
 
 	* gui/dialogs/Makefile.am: added missing header directories.
 
