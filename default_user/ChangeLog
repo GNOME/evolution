@@ -1,3 +1,0 @@
-000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* default_user/local/Inbox/Makefile.am: Install `mbox'.
