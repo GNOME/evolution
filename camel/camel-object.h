@@ -243,7 +243,7 @@ gboolean camel_object_meta_set(void *vo, const char * name, const char *value);
 int camel_object_state_read(void *vo);
 int camel_object_state_write(void *vo);
 
-/* free a bunch of objects, list must be 0 terminated */
+/* free a retrieved object.  May be a noop for static data. */
 void camel_object_free(void *vo, guint32 tag, void *value);
 
 /* for managing bags of weakly-ref'd 'child' objects */

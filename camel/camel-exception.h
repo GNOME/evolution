@@ -41,15 +41,13 @@ typedef enum {
 
 } ExceptionId;
 
-
 struct _CamelException {
 	/* do not access the fields directly */
 	ExceptionId id;
 	char *desc;
-
 };
 
-
+#define CAMEL_EXCEPTION_INITIALISER { 0, NULL }
 
 /* creation and destruction functions */
 CamelException *          camel_exception_new           (void);
@@ -66,7 +64,6 @@ void                      camel_exception_setv          (CamelException *ex,
 							 ExceptionId id,
 							 const char *format,  
 							 ...);
-
 
 /* exception content transfer */
 void                      camel_exception_xfer          (CamelException *ex_dst,

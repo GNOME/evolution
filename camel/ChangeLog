@@ -1,3 +1,8 @@
+2004-06-18  Not Zed  <NotZed@Ximian.com>
+
+	* camel-exception.h (CAMEL_EXCEPTION_INITIALISER): setup for
+	static inititialisation.
+
 2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c (uidset_init): init
