@@ -103,13 +103,13 @@ static void free_recipients (GList *list);
 static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth);
 
 
-static char *
+static GByteArray *
 get_text (Bonobo_PersistStream persist, char *format)
 {
 	BonoboStream *stream;
 	BonoboStreamMem *stream_mem;
 	CORBA_Environment ev;
-	char *text;
+	GByteArray *text;
 	
 	CORBA_exception_init (&ev);
 	
@@ -125,9 +125,8 @@ get_text (Bonobo_PersistStream persist, char *format)
 	CORBA_exception_free (&ev);
 	
 	stream_mem = BONOBO_STREAM_MEM (stream);
-	text = g_malloc (stream_mem->pos + 1);
-	memcpy (text, stream_mem->buffer, stream_mem->pos);
-	text[stream_mem->pos] = 0;
+	text = g_byte_array_new ();
+	g_byte_array_append (text, stream_mem->buffer, stream_mem->pos);
 	bonobo_object_unref (BONOBO_OBJECT(stream));
 	
 	return text;
@@ -135,55 +134,56 @@ get_text (Bonobo_PersistStream persist, char *format)
 
 #define LINE_LEN 72
 
-typedef enum {
-	MSG_FORMAT_PLAIN,
-	MSG_FORMAT_ALTERNATIVE,
-} MsgFormat;
-
-static gboolean
-is_8bit (const guchar *text)
+static CamelMimePartEncodingType
+best_encoding (GByteArray *buf, const char *charset)
 {
-	guchar *c;
-	
-	for (c = (guchar *) text; *c; c++)
-		if (*c > (guchar) 127)
-			return TRUE;
-	
-	return FALSE;
-}
+	char *in, *out, outbuf[256], *ch;
+	size_t inlen, outlen;
+	int status, count = 0;
+	iconv_t cd;
 
-static int
-best_encoding (const guchar *text)
-{
-	guchar *ch;
-	int count = 0;
-	int total;
-	
-	for (ch = (guchar *) text; *ch; ch++)
-		if (*ch > (guchar) 127)
-			count++;
-	
-	total = (int) (ch - text);
-	
-	if (count * 1.0 <= total * 0.17)
+	cd = iconv_open (charset, "utf-8");
+	g_return_val_if_fail (cd != (iconv_t)-1, -1);
+
+	in = buf->data;
+	inlen = buf->len;
+	do {
+		out = outbuf;
+		outlen = sizeof (outbuf);
+		status = iconv (cd, &in, &inlen, &out, &outlen);
+		for (ch = out - 1; ch >= outbuf; ch--) {
+			if ((unsigned char)*ch > 127)
+				count++;
+		}
+	} while (status == -1 && errno == E2BIG);
+
+	if (status == -1)
+		return -1;
+
+	if (count == 0)
+		return CAMEL_MIME_PART_ENCODING_7BIT;
+	else if (count <= buf->len * 0.17)
 		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
 	else
 		return CAMEL_MIME_PART_ENCODING_BASE64;
 }
 
-static char *
-best_content (gchar *plain)
+static const char *
+best_charset (GByteArray *buf, CamelMimePartEncodingType *encoding)
 {
-	char *result;
-	const char *best;
+	const char *charset;
 
-	if ((best = camel_charset_best (plain, strlen (plain)))) {
-		result = g_strdup_printf ("text/plain; charset=%s", best);
-	} else {
-		result = g_strdup ("text/plain");
-	}
+	charset = mail_config_get_default_charset ();
+	*encoding = best_encoding (buf, charset);
+	if (*encoding != -1)
+		return charset;
 
-	return result;
+	charset = camel_charset_best (buf->data, buf->len);
+	if (!charset)
+		*encoding = CAMEL_MIME_PART_ENCODING_7BIT;
+	else
+		*encoding = best_encoding (buf, charset);
+	return charset;
 }
 
 static gboolean
@@ -248,334 +248,287 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
 }
 
 /* This functions builds a CamelMimeMessage for the message that the user has
-   composed in `composer'.  */
+ * composed in `composer'.
+ */
 static CamelMimeMessage *
 build_message (EMsgComposer *composer)
 {
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
-	MsgFormat type = MSG_FORMAT_ALTERNATIVE;
-	CamelInternetAddress *from;
+	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	CamelMimeMessage *new;
+	GByteArray *data;
+	CamelDataWrapper *plain, *html, *current;
+	CamelMimePartEncodingType plain_encoding;
+	const char *charset;
+	CamelContentType *type;
+	CamelStream *stream;
 	CamelMultipart *body = NULL;
 	CamelMimePart *part;
-	gboolean plain_e8bit = FALSE, html_e8bit = FALSE;
 	CamelException ex;
-	char *html = NULL, *plain = NULL;
-	char *content_type = NULL;
 	int i;
-	
+
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
-	
-	if (composer->send_html)
-		type = MSG_FORMAT_ALTERNATIVE;
-	else
-		type = MSG_FORMAT_PLAIN;
-	
-	/* get and/or set the From field */
-	from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
-	if (!from) {
-		const MailConfigAccount *account = NULL;
-		
-		account = mail_config_get_default_account ();
-		
-		/* if !account then we have mucho problemos, amigo */
-		if (!account)
-			return NULL;
-		
-		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
-	}
-	camel_object_unref (CAMEL_OBJECT (from));
-	
+
 	new = camel_mime_message_new ();
-	
-	e_msg_composer_hdrs_to_message (E_MSG_COMPOSER_HDRS (composer->hdrs), new);
+	e_msg_composer_hdrs_to_message (hdrs, new);
 	for (i = 0; i < composer->extra_hdr_names->len; i++) {
 		camel_medium_add_header (CAMEL_MEDIUM (new),
 					 composer->extra_hdr_names->pdata[i],
 					 composer->extra_hdr_values->pdata[i]);
 	}
-	
-	plain = get_text (composer->persist_stream_interface, "text/plain");
-	
-	/* the component has probably died */ 
-	if (plain == NULL)
+
+	data = get_text (composer->persist_stream_interface, "text/plain");
+	if (!data) {
+		/* The component has probably died */
+		camel_object_unref (CAMEL_OBJECT (new));
 		return NULL;
-	
-	plain_e8bit = is_8bit (plain);
-	
-	if (type != MSG_FORMAT_PLAIN) {
-		e_msg_composer_clear_inlined_table (composer);
-		html = get_text (composer->persist_stream_interface, "text/html");
-		
-		html_e8bit = is_8bit (html);
-		/* the component has probably died */
-		if (html == NULL) {
-			g_free (plain);
+	}
+	charset = best_charset (data, &plain_encoding);
+	type = header_content_type_new ("text", "plain");
+	if (charset)
+		header_content_type_set_param (type, "charset", charset);
+	plain = camel_data_wrapper_new ();
+	stream = camel_stream_mem_new_with_byte_array (data);
+	camel_data_wrapper_construct_from_stream (plain, stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_data_wrapper_set_mime_type_field (plain, type);
+	header_content_type_unref (type);
+
+	if (composer->send_html) {
+		data = get_text (composer->persist_stream_interface, "text/html");
+		if (!data) {
+			/* The component has probably died */
+			camel_object_unref (CAMEL_OBJECT (new));
+			camel_object_unref (CAMEL_OBJECT (plain));
 			return NULL;
 		}
-	}
-	
-	if (type == MSG_FORMAT_ALTERNATIVE) {
+		html = camel_data_wrapper_new ();
+		stream = camel_stream_mem_new_with_byte_array (data);
+		camel_data_wrapper_construct_from_stream (html, stream);
+		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_data_wrapper_set_mime_type (html, "text/html; charset=utf-8");
+
+		/* Build the multipart/alternative */
 		body = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
 						  "multipart/alternative");
 		camel_multipart_set_boundary (body, NULL);
-		
+
 		part = camel_mime_part_new ();
-		
-		content_type = best_content (plain);
-		camel_mime_part_set_content (part, plain, strlen (plain), content_type);
-		g_free (content_type);
-		
-		if (plain_e8bit)
-			camel_mime_part_set_encoding (part, best_encoding (plain));		
-		
-		g_free (plain);
+		camel_medium_set_content_object (CAMEL_MEDIUM (part), plain);
+		camel_object_unref (CAMEL_OBJECT (plain));
+		camel_mime_part_set_encoding (part, plain_encoding);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
-		
+
 		part = camel_mime_part_new ();
+		camel_medium_set_content_object (CAMEL_MEDIUM (part), html);
+		camel_object_unref (CAMEL_OBJECT (html));
+		camel_multipart_add_part (body, part);
+		camel_object_unref (CAMEL_OBJECT (part));
+
+		/* If there are inlined images, construct a
+		 * multipart/related containing the
+		 * multipart/alternative and the images.
+		 */
 		if (g_hash_table_size (composer->inline_images)) {
 			CamelMultipart *html_with_images;
-			CamelMimePart  *text_html;
-			
+
 			html_with_images = camel_multipart_new ();
-			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (html_with_images),
-							  "multipart/related");
+			camel_data_wrapper_set_mime_type (
+				CAMEL_DATA_WRAPPER (html_with_images),
+				"multipart/related; type=\"multipart/alternative\"");
 			camel_multipart_set_boundary (html_with_images, NULL);
-			
-			text_html = camel_mime_part_new ();
-			camel_mime_part_set_content (text_html, html, strlen (html), "text/html; charset=utf-8");
-			
-			if (html_e8bit)
-				camel_mime_part_set_encoding (text_html, best_encoding (html));		
-			
-			camel_multipart_add_part (html_with_images, text_html);
-			camel_object_unref (CAMEL_OBJECT (text_html));
-			
-			add_inlined_images (composer, html_with_images);
-			camel_medium_set_content_object (CAMEL_MEDIUM (part),
-							 CAMEL_DATA_WRAPPER (html_with_images));
-		} else {
-			camel_mime_part_set_content (part, html, strlen (html), "text/html; charset=utf-8");
-			
-			if (html_e8bit)
-				camel_mime_part_set_encoding (part, best_encoding (html));		
-		}
-		
-		g_free (html);
-		
-		camel_multipart_add_part (body, part);
-		camel_object_unref (CAMEL_OBJECT (part));
-	}
-	
-	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
-		CamelMultipart *multipart = camel_multipart_new ();
-		
-		/* Generate a random boundary. */
-		camel_multipart_set_boundary (multipart, NULL);
-		
-		part = camel_mime_part_new ();
-		switch (type) {
-		case MSG_FORMAT_ALTERNATIVE:
-			camel_medium_set_content_object (CAMEL_MEDIUM (part),
-							 CAMEL_DATA_WRAPPER (body));
-			camel_object_unref (CAMEL_OBJECT (body));
-			break;
-		case MSG_FORMAT_PLAIN:
-			content_type = best_content (plain);
-			camel_mime_part_set_content (part, plain, strlen (plain), content_type);
-			g_free (content_type);
-			
-			if (plain_e8bit)
-				camel_mime_part_set_encoding (part, best_encoding (plain));
-			
-			g_free (plain);
-			break;
-		}
-		camel_multipart_add_part (multipart, part);
-		camel_object_unref (CAMEL_OBJECT (part));
-		
-		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart);
-		
-		part = camel_mime_part_new ();
-		camel_medium_set_content_object (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (multipart));
-		camel_object_unref (CAMEL_OBJECT (multipart));
-	} else {
-		switch (type) {
-		case MSG_FORMAT_ALTERNATIVE:
+
 			part = camel_mime_part_new ();
-			
 			camel_medium_set_content_object (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (body));
 			camel_object_unref (CAMEL_OBJECT (body));
-			break;
-		case MSG_FORMAT_PLAIN:
-			/* FIXME: this is just evil... */
-			if (!(composer->pgp_sign || composer->pgp_encrypt ||
-			      composer->smime_sign || composer->smime_encrypt))
-				part = CAMEL_MIME_PART (new);
-			else
-				part = camel_mime_part_new ();
-			
-			content_type = best_content (plain);
-			camel_mime_part_set_content (CAMEL_MIME_PART (part), plain, strlen (plain), content_type);
-			g_free (content_type);
-			
-			if (plain_e8bit)
-				camel_mime_part_set_encoding (part, best_encoding (plain));
-			
-			g_free (plain);
-			
-			break;
-		}
+			camel_multipart_add_part (html_with_images, part);
+			camel_object_unref (CAMEL_OBJECT (part));
+
+			add_inlined_images (composer, html_with_images);
+			current = CAMEL_DATA_WRAPPER (html_with_images);
+		} else
+			current = CAMEL_DATA_WRAPPER (body);
+	} else
+		current = plain;
+
+	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
+		CamelMultipart *multipart = camel_multipart_new ();
+
+		/* Generate a random boundary. */
+		camel_multipart_set_boundary (multipart, NULL);
+
+		part = camel_mime_part_new ();
+		camel_medium_set_content_object (CAMEL_MEDIUM (part), current);
+		if (current == plain)
+			camel_mime_part_set_encoding (part, plain_encoding);
+		camel_object_unref (CAMEL_OBJECT (current));
+		camel_multipart_add_part (multipart, part);
+		camel_object_unref (CAMEL_OBJECT (part));
+
+		e_msg_composer_attachment_bar_to_multipart (attachment_bar, multipart);
+
+		current = CAMEL_DATA_WRAPPER (multipart);
 	}
-	
-	camel_exception_init (&ex);
-	
-	if (composer->pgp_sign) {
-		/* FIXME: should use the PGP key id rather than email address */
-		const char *pgpid;
-		
-		camel_exception_init (&ex);
-		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
-		camel_internet_address_get (from, 0, NULL, &pgpid);
-		mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_CIPHER_HASH_SHA1,
-						&ex);
-		camel_object_unref (CAMEL_OBJECT (from));
-		if (camel_exception_is_set (&ex))
-			goto exception;
-	}
-	
-	if (composer->pgp_encrypt) {
-		/* FIXME: recipients should be an array of key ids rather than email addresses */
-		const CamelInternetAddress *addr;
-		const char *address;
-		GPtrArray *recipients;
-		int i, len;
-		
-		camel_exception_init (&ex);
-		recipients = g_ptr_array_new ();
-		
-		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
-		len = camel_address_length (CAMEL_ADDRESS (addr));
-		for (i = 0; i < len; i++) {
-			camel_internet_address_get (addr, i, NULL, &address);
-			g_ptr_array_add (recipients, g_strdup (address));
-		}
-		
-		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
-		len = camel_address_length (CAMEL_ADDRESS (addr));
-		for (i = 0; i < len; i++) {
-			camel_internet_address_get (addr, i, NULL, &address);
-			g_ptr_array_add (recipients, g_strdup (address));
-		}
-		
-		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
-		len = camel_address_length (CAMEL_ADDRESS (addr));
-		for (i = 0; i < len; i++) {
-			camel_internet_address_get (addr, i, NULL, &address);
-			g_ptr_array_add (recipients, g_strdup (address));
-		}
-		
-		mail_crypto_pgp_mime_part_encrypt (&part, recipients, &ex);
-		for (i = 0; i < recipients->len; i++)
-			g_free (recipients->pdata[i]);
-		g_ptr_array_free (recipients, TRUE);
-		if (camel_exception_is_set (&ex))
-			goto exception;
-	}
-	
+
+	if (composer->pgp_sign || composer->pgp_encrypt
 #ifdef HAVE_NSS
-	if (composer->smime_sign) {
-		/* FIXME: should use the S/MIME signature certificate email address */
-		const char *address;
-		
-		camel_exception_init (&ex);
-		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
-		camel_internet_address_get (from, 0, NULL, &address);
-		mail_crypto_smime_part_sign (&part, address, CAMEL_CIPHER_HASH_SHA1,
-					     &ex);
-		camel_object_unref (CAMEL_OBJECT (from));
-		if (camel_exception_is_set (&ex))
-			goto exception;
-	}
-	
-	if (composer->smime_encrypt) {
-		/* FIXME: recipients should be an array of certificates rather than email addresses */
-		const CamelInternetAddress *addr;
-		const char *address;
-		GPtrArray *recipients;
-		int i, len;
-		
-		camel_exception_init (&ex);
-		recipients = g_ptr_array_new ();
-		
-		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
-		len = camel_address_length (CAMEL_ADDRESS (addr));
-		for (i = 0; i < len; i++) {
-			camel_internet_address_get (addr, i, NULL, &address);
-			g_ptr_array_add (recipients, g_strdup (address));
+	    || composer->smime_sign || composer->smime_encrypt
+#endif
+	    ) {
+		part = camel_mime_part_new ();
+		camel_medium_set_content_object (CAMEL_MEDIUM (part), current);
+		if (current == plain)
+			camel_mime_part_set_encoding (part, plain_encoding);
+		camel_object_unref (CAMEL_OBJECT (current));
+
+		if (composer->pgp_sign) {
+			/* FIXME: should use the PGP key id rather than email address */
+			const char *pgpid;
+			CamelInternetAddress *from;
+
+			camel_exception_init (&ex);
+			from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
+			camel_internet_address_get (from, 0, NULL, &pgpid);
+			mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_CIPHER_HASH_SHA1, &ex);
+			camel_object_unref (CAMEL_OBJECT (from));
+			if (camel_exception_is_set (&ex))
+				goto exception;
 		}
-		
-		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
-		len = camel_address_length (CAMEL_ADDRESS (addr));
-		for (i = 0; i < len; i++) {
-			camel_internet_address_get (addr, i, NULL, &address);
-			g_ptr_array_add (recipients, g_strdup (address));
+
+		if (composer->pgp_encrypt) {
+			/* FIXME: recipients should be an array of key ids rather than email addresses */
+			const CamelInternetAddress *addr;
+			const char *address;
+			GPtrArray *recipients;
+			int i, len;
+
+			camel_exception_init (&ex);
+			recipients = g_ptr_array_new ();
+
+			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
+			len = camel_address_length (CAMEL_ADDRESS (addr));
+			for (i = 0; i < len; i++) {
+				camel_internet_address_get (addr, i, NULL, &address);
+				g_ptr_array_add (recipients, g_strdup (address));
+			}
+
+			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
+			len = camel_address_length (CAMEL_ADDRESS (addr));
+			for (i = 0; i < len; i++) {
+				camel_internet_address_get (addr, i, NULL, &address);
+				g_ptr_array_add (recipients, g_strdup (address));
+			}
+
+			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
+			len = camel_address_length (CAMEL_ADDRESS (addr));
+			for (i = 0; i < len; i++) {
+				camel_internet_address_get (addr, i, NULL, &address);
+				g_ptr_array_add (recipients, g_strdup (address));
+			}
+
+			mail_crypto_pgp_mime_part_encrypt (&part, recipients, &ex);
+			for (i = 0; i < recipients->len; i++)
+				g_free (recipients->pdata[i]);
+			g_ptr_array_free (recipients, TRUE);
+			if (camel_exception_is_set (&ex))
+				goto exception;
 		}
-		
-		addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
-		len = camel_address_length (CAMEL_ADDRESS (addr));
-		for (i = 0; i < len; i++) {
-			camel_internet_address_get (addr, i, NULL, &address);
-			g_ptr_array_add (recipients, g_strdup (address));
+
+#ifdef HAVE_NSS
+		if (composer->smime_sign) {
+			/* FIXME: should use the S/MIME signature certificate email address */
+			const char *address;
+
+			camel_exception_init (&ex);
+			from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
+			camel_internet_address_get (from, 0, NULL, &address);
+			mail_crypto_smime_part_sign (&part, address, CAMEL_CIPHER_HASH_SHA1, &ex);
+			camel_object_unref (CAMEL_OBJECT (from));
+			if (camel_exception_is_set (&ex))
+				goto exception;
 		}
-		
-		mail_crypto_smime_part_encrypt (&part, recipients, &ex);
-		for (i = 0; i < recipients->len; i++)
-			g_free (recipients->pdata[i]);
-		g_ptr_array_free (recipients, TRUE);
-		if (camel_exception_is_set (&ex))
-			goto exception;
-	}
+
+		if (composer->smime_encrypt) {
+			/* FIXME: recipients should be an array of certificates rather than email addresses */
+			const CamelInternetAddress *addr;
+			const char *address;
+			GPtrArray *recipients;
+			int i, len;
+
+			camel_exception_init (&ex);
+			recipients = g_ptr_array_new ();
+
+			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_TO);
+			len = camel_address_length (CAMEL_ADDRESS (addr));
+			for (i = 0; i < len; i++) {
+				camel_internet_address_get (addr, i, NULL, &address);
+				g_ptr_array_add (recipients, g_strdup (address));
+			}
+
+			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_CC);
+			len = camel_address_length (CAMEL_ADDRESS (addr));
+			for (i = 0; i < len; i++) {
+				camel_internet_address_get (addr, i, NULL, &address);
+				g_ptr_array_add (recipients, g_strdup (address));
+			}
+
+			addr = camel_mime_message_get_recipients (new, CAMEL_RECIPIENT_TYPE_BCC);
+			len = camel_address_length (CAMEL_ADDRESS (addr));
+			for (i = 0; i < len; i++) {
+				camel_internet_address_get (addr, i, NULL, &address);
+				g_ptr_array_add (recipients, g_strdup (address));
+			}
+
+			mail_crypto_smime_part_encrypt (&part, recipients, &ex);
+			for (i = 0; i < recipients->len; i++)
+				g_free (recipients->pdata[i]);
+			g_ptr_array_free (recipients, TRUE);
+			if (camel_exception_is_set (&ex))
+				goto exception;
+		}
 #else
-	if (composer->smime_sign || composer->smime_encrypt) {
-		camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("This version of Evolution was not built with support for S/MIME.\n"
-					"You may wish to instead use PGP to %s your document."),
-				      composer->smime_sign && composer->smime_encrypt ? _("sign and encrypt") :
-				      (composer->smime_sign ? _("sign") : _("encrypt")));
-		goto exception;
-	}
+		if (composer->smime_sign || composer->smime_encrypt) {
+			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("This version of Evolution was not built with support for S/MIME.\n"
+						"You may wish to instead use PGP to %s your document."),
+					      composer->smime_sign && composer->smime_encrypt ? _("sign and encrypt") :
+					      (composer->smime_sign ? _("sign") : _("encrypt")));
+			goto exception;
+		}
 #endif /* HAVE_NSS */
-	
-	/* set the toplevel mime part of the message */
-	if (part != CAMEL_MIME_PART (new)) {
-		camel_medium_set_content_object (CAMEL_MEDIUM (new),
-						 camel_medium_get_content_object (CAMEL_MEDIUM (part)));
+
+		current = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		camel_object_ref (CAMEL_OBJECT (current));
 		camel_object_unref (CAMEL_OBJECT (part));
 	}
-	
+
+	camel_medium_set_content_object (CAMEL_MEDIUM (new), current);
+	if (current == plain)
+		camel_mime_part_set_encoding (CAMEL_MIME_PART (new), plain_encoding);
+	camel_object_unref (CAMEL_OBJECT (current));
+
 	return new;
-	
+
  exception:
-	
+
 	if (part != CAMEL_MIME_PART (new))
 		camel_object_unref (CAMEL_OBJECT (part));
-	
+
 	camel_object_unref (CAMEL_OBJECT (new));
-	
+
 	if (camel_exception_is_set (&ex)) {
 		GtkWidget *dialog;
-		
+
 		dialog = gnome_error_dialog_parented (camel_exception_get_description (&ex),
 						      GTK_WINDOW (composer));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		camel_exception_clear (&ex);
 	}
-	
+
 	return NULL;
 }
 
