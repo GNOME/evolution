@@ -18,6 +18,7 @@
 
 #include <ebook/e-book.h>
 #include <e-util/e-canvas.h>
+#include <e-util/e-util.h>
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
 #include "e-ldap-server-dialog.h"
@@ -27,6 +28,10 @@
 #else
 #define CONTROL_FACTORY_ID "control-factory:addressbook"
 #endif
+
+#define PROPERTY_FOLDER_URI          "folder_uri"
+
+#define PROPERTY_FOLDER_URI_IDX      1
 
 static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
@@ -313,7 +318,18 @@ typedef struct {
 	GnomeCanvasItem *view;
 	GnomeCanvasItem *rect;
 	GtkAllocation last_alloc;
+	BonoboPropertyBag *properties;
+	char *uri;
 } AddressbookView;
+
+static void
+addressbook_view_free(AddressbookView *view)
+{
+	if (view->properties)
+		bonobo_object_unref(BONOBO_OBJECT(view->properties));
+	g_free(view->uri);
+	g_free(view);
+}
 
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
@@ -353,7 +369,7 @@ ebook_create (AddressbookView *view)
 static void destroy_callback(GtkWidget *widget, gpointer data)
 {
 	AddressbookView *view = data;
-	g_free(view);
+	addressbook_view_free(view);
 }
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpointer data)
@@ -391,6 +407,79 @@ static void resize(GnomeCanvas *canvas, gpointer data)
 			       "x2", (double) width,
 			       "y2", (double) view->last_alloc.height,
 			       NULL );	
+}
+
+static void
+get_prop (BonoboPropertyBag *bag,
+	  BonoboArg         *arg,
+	  guint              arg_id,
+	  gpointer           user_data)
+{
+	AddressbookView *view = user_data;
+
+	switch (arg_id) {
+
+	case PROPERTY_FOLDER_URI_IDX:
+		if (view && view->uri)
+			BONOBO_ARG_SET_STRING (arg, view->uri);
+		else
+			BONOBO_ARG_SET_STRING (arg, "");
+		break;
+
+	default:
+		g_warning ("Unhandled arg %d\n", arg_id);
+	}
+}
+
+static void
+set_prop (BonoboPropertyBag *bag,
+	  const BonoboArg   *arg,
+	  guint              arg_id,
+	  gpointer           user_data)
+{
+	AddressbookView *view = user_data;
+
+	EBook *book;
+	char *uri_file;
+	char *uri_data;
+	char *uri;
+	
+	switch (arg_id) {
+
+	case PROPERTY_FOLDER_URI_IDX:
+		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
+		
+		book = e_book_new ();
+		
+		if (!book) {
+			printf ("%s: %s(): Couldn't create EBook, bailing.\n",
+				__FILE__,
+				__FUNCTION__);
+			return;
+		}
+		
+		uri_file = g_concat_dir_and_file(view->uri + 7, "uri");
+
+		uri_data = e_read_file(uri_file);
+		if (uri_data)
+			uri = uri_data;
+		else
+			uri = view->uri;
+		
+		if (! e_book_load_uri (book, uri, book_open_cb, view))
+			{
+				printf ("error calling load_uri!\n");
+			}
+		
+		g_free(uri_data);
+		g_free(uri_file);
+
+		break;
+		
+	default:
+		g_warning ("Unhandled arg %d\n", arg_id);
+		break;
+	}
 }
 
 static BonoboObject *
@@ -460,12 +549,23 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 
 	/* Create the control. */
 	control = bonobo_control_new(vbox);
-	
+
+	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
+
+	bonobo_property_bag_add (
+		view->properties, PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
+		BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
+
+	bonobo_control_set_property_bag (control,
+					 view->properties);
+
+	view->uri = NULL;
+
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    control_activate_cb, view->view);
 
 	gtk_widget_pop_visual ();
-	gtk_widget_pop_colormap ();	
+	gtk_widget_pop_colormap ();
 
 	return BONOBO_OBJECT (control);
 }
