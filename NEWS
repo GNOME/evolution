@@ -1,40 +1,67 @@
-Evolution x.x.x, xxxx-xx-xx
+Evolution 1.4.5, 2003-09-12
 ---------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
 
-    #46769 - no waring when create a task which due date is earlier than
-             start date (Harry Lu)
-    #44972 - Appointment Notification List not translated (to German)
+    #29032 - "% finished" changes if status is touched (Hans Petter)
+    #43558 - Validation error in non-ASCII locales (Suresh
+             Chandrasekharan)
+    #44972 - Appointment Notification List not translated to German
              (Lorenzo Gil)
     #46130 - evolution fails to build with error undefined reference to
              `ORBIT_SERVANT_SET_CLASSINFO' (egallego@telefonica.net)
-    #29032 - "% finished" changes if status is touched (Hans Petter)
-    #47863 - Evolution crash/hangs on deleting tasks folder (Jack Jia)
+    #46769 - No warning when creating a task with due date earlier than
+             start date (Harry Lu)
     #47464 - Strange behavior after cutting meeting page's organizer
              to blank (Harry Lu)
+    #47863 - Evolution crash/hangs on deleting tasks folder (Jack Jia)
 
   * Mail
 
-    #46674 - Western european mails garbled from IMAP  (Michael)
-    #47765 - Crash with vFolder definition, introduced by #47208  (Michael)
-    #46168 - Chinese character set aliases updated  (suresh.chandrasekharan@sun.com)
-    #45594 - Failure in hostname lookup, pthread errors  (Michael)
-    #47208 - '#t' expression breaks for vFolders but not filters  (Michael)
-    #43808 - uuencoded files are not detected in messages  (Jeff)
-    #48345 - 256-byte-long message is misdisplayed  (Jeff)
-    #48184 - Not displaying all of the uuencoded files attached to a an Email  (Jeff)
-    #45412 - sent and draft message folders are not being saved  (Jeff)
-    #48203 - Copy link location loses clipboard contents when selecting text elsewhere  (Jeff)
-    #47541 - Hyperlink cannot be opened in mozilla browser  (Jeff)
-    #46512 - mailer should never leave sent messages in Outbox  (Jeff)
-    #45348 - %P instead of %p as description for a 'Follow up overdue'-task  (harry.lu@sun.com)
-    #45818 - i18n mail messages search only produces '[?]'  (suresh.chandrasekharan@sun.com)
-    #32732 - job queuing conflicts for long operations  (Michael)
-    #47224 - dragging of attachments broken  (Michael)
-    #47087 - Close mail message using 'ESC' key  (yuedong.du@sun.com)
+    #32732 - Job queuing conflicts for long operations (Michael)
+    #43808 - Uuencoded files are not detected in messages (Jeff)
+    #45348 - %P instead of %p as description for a 'Follow up
+             overdue'-task (Harry Lu)
+    #45412 - Sent and Draft message folders are not being saved (Jeff)
+    #45594 - Failure in hostname lookup, pthread errors (Michael)
+    #45818 - I18N mail messages search only produces '[?]' (Suresh
+             Chandrasekharan)
+    #46168 - Chinese character set aliases updated (Suresh
+             Chandrasekharan)
+    #46512 - mailer should never leave sent messages in Outbox (Jeff)
+    #46674 - Western european mails garbled from IMAP (Michael)
+    #47087 - Close mail message using 'ESC' key (Yuedong Du)
+    #47208 - '#t' expression breaks for vFolders but not filters
+             (Michael)
+    #47224 - dragging of attachments broken (Michael)
+    #47541 - Hyperlink cannot be opened in mozilla browser (Jeff)
+    #47765 - Crash with vFolder definition, introduced by #47208
+             (Michael)
+    #48184 - Not displaying all of the uuencoded files attached to a
+             an Email (Jeff)
+    #48203 - Copy link location loses clipboard contents when
+             selecting text elsewhere (Jeff)
+    #48345 - 256-byte-long message is misdisplayed (Jeff)
+
+  * Shell
+
+    #47875 - Default shortcuts being added to the wrong group
+             (Calvin Liu, Ettore)
+    #48388 - Occasional hang when double-right-clicking on a folder
+             (Ettore)
+
+  * Summary
+
+    #21879 - Bermuda missing from weather locations (Lorenzo Gil
+             Sanchez)
+    #47461 - Appointment summaries show %P instead of AM/PM (Harry
+             Lu)
+    #47563 - Crash on Solaris caused by GConf schema problems (Jack
+             Jia)
+    #48175 - Wrong color settings of task will crash evolution
+             (Calvin Liu)
 
 Other bugs fixed:
 
@@ -53,6 +80,36 @@ Other bugs fixed:
   * Mail
 
     - An automatic removal of 1 or 2 vFolder would fail (Michael)
+
+  * Shell
+
+    - Migration of shortcuts using non-ASCII labels from 1.4 not
+      working properly (Frederic Crozat)
+    - Memory leaks (Dan)
+
+Updated translations:
+
+    - ca (Enric Balletbò i Serra)
+    - cs (Miloslav Trmac)
+    - cy (Dafydd Harries)
+    - de (Christian Neumair, Stephan Richter, Claudia Walenzyk)
+    - el (Nikos Charonitakis)
+    - es (Pablo Gonzalo del Campo)
+    - fi (Ilkka Tuohela)
+    - fr (Christophe Merlet, Nicolas Brouard)
+    - hu (Andras Timar)
+    - ja (Takeshi AIHANA)
+    - ja (Takeshi AIHANA, SUN Localization Team)
+    - ms (MIMOS Open Source Development Group)
+    - nl (Vincent van Adrighem)
+    - no (Kjartan Maraas)
+    - pl (Artur Flinta)
+    - pt (Duarte Loreto)
+    - sr (Danilo Šegan)
+    - sv (Christian Rose)
+    - sv (Christian Rose)
+    - zh_CN (Wang Jian)
+
 
 Evolution 1.4.4, 2003-07-28
 ---------------------------
