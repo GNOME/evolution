@@ -68,8 +68,14 @@ CamelProviderConfEntry groupwise_conf_entries[] = {
 	{CAMEL_PROVIDER_CONF_SECTION_START, "soapport", NULL,
 	  N_("Address Book And Calendar") },
 
+	{ CAMEL_PROVIDER_CONF_ENTRY , "poa", NULL,
+	 N_("Post Office Agent:"), NULL }, 
+	 
 	{ CAMEL_PROVIDER_CONF_ENTRY, "soap_port", NULL,
 	  N_("Post Office Agent SOAP Port:"), "7181" },
+	
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "soap_ssl", NULL,
+	  N_("Use ssl"), "1"},
 
 	{ CAMEL_PROVIDER_CONF_HIDDEN, "auth-domain", NULL,
 	  NULL, "Groupwise" },
@@ -109,6 +115,18 @@ CamelServiceAuthType camel_groupwise_password_authtype = {
 	TRUE
 };
 
+static int
+groupwise_auto_detect_cb (CamelURL *url, GHashTable **auto_detected,
+			 CamelException *ex)
+{
+	*auto_detected = g_hash_table_new (g_str_hash, g_str_equal);
+
+	g_hash_table_insert (*auto_detected, g_strdup ("poa"),
+			     g_strdup (url->host));
+
+	return 0;
+}
+
 void
 camel_provider_module_init(void)
 {
@@ -117,6 +135,7 @@ camel_provider_module_init(void)
 	imap_provider =  camel_provider_get("imap://", NULL);
 	groupwise_provider.url_hash = groupwise_url_hash;
 	groupwise_provider.url_equal = groupwise_url_equal;
+	groupwise_provider.auto_detect = groupwise_auto_detect_cb;
 	groupwise_provider.authtypes = g_list_prepend (groupwise_provider.authtypes, &camel_groupwise_password_authtype);
 	if (imap_provider != NULL) {
 		groupwise_provider.object_types[CAMEL_PROVIDER_STORE] =  imap_provider->object_types [CAMEL_PROVIDER_STORE];
