@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-imap-folder.c: Abstract class for an imap folder */
+/* camel-imap-folder.c: class for an imap folder */
 
 /* 
  * Authors: Jeffrey Stedfast <fejj@helixcode.com> 
@@ -973,6 +973,7 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 	for (i = 0; i < messages->len; i++) {
 		mi = messages->pdata[i];
 		camel_folder_summary_add (folder->summary, mi);
+		camel_folder_change_info_add_uid (changes, camel_message_info_uid (mi));
 	}
 	g_ptr_array_free (messages, TRUE);
 }
