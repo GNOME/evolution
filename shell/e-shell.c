@@ -399,7 +399,10 @@ setup_components (EShell *shell,
 		icon_path = get_icon_path_for_component_info (info);
 
 		icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
-		e_splash_add_icon (splash, icon_pixbuf);
+
+		if (splash != NULL)
+			e_splash_add_icon (splash, icon_pixbuf);
+
 		gdk_pixbuf_unref (icon_pixbuf);
 
 		g_free (icon_path);
@@ -418,7 +421,8 @@ setup_components (EShell *shell,
 		else
 			g_print ("Evolution component activated successfully -- %s\n", info->iid);
 
-		e_splash_set_icon_highlight (splash, i, TRUE);
+		if (splash != NULL)
+			e_splash_set_icon_highlight (splash, i, TRUE);
 
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
@@ -630,6 +634,7 @@ init (EShell *shell)
  * @shell: An EShell object to construct
  * @corba_object: A CORBA Object implementing the Evolution::Shell interface
  * @local_directory: Local directory for storing local information and folders
+ * @show_splash: Whether to display a splash screen.
  * 
  * Construct @shell so that it uses the specified @local_directory and
  * @corba_object.
@@ -637,7 +642,8 @@ init (EShell *shell)
 void
 e_shell_construct (EShell *shell,
 		   Evolution_Shell corba_object,
-		   const char *local_directory)
+		   const char *local_directory,
+		   gboolean show_splash)
 {
 	GtkWidget *splash;
 	EShellPrivate *priv;
@@ -649,8 +655,12 @@ e_shell_construct (EShell *shell,
 	g_return_if_fail (local_directory != NULL);
 	g_return_if_fail (g_path_is_absolute (local_directory));
 
-	splash = e_splash_new ();
-	gtk_widget_show (splash);
+	if (! show_splash) {
+		splash = NULL;
+	} else {
+		splash = e_splash_new ();
+		gtk_widget_show (splash);
+	}
 
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
@@ -671,7 +681,10 @@ e_shell_construct (EShell *shell,
 	if (! setup_corba_storages (shell))
 		return;
 
-	setup_components (shell, E_SPLASH (splash));
+	if (splash != NULL)
+		setup_components (shell, E_SPLASH (splash));
+	else
+		setup_components (shell, NULL);
 
 	/* The local storage depends on the component registry.  */
 	setup_local_storage (shell);
@@ -698,13 +711,15 @@ e_shell_construct (EShell *shell,
 /**
  * e_shell_new:
  * @local_directory: Local directory for storing local information and folders.
+ * @show_splash: Whether to display a splash screen.
  * 
  * Create a new EShell.
  * 
  * Return value: 
  **/
 EShell *
-e_shell_new (const char *local_directory)
+e_shell_new (const char *local_directory,
+	     gboolean show_splash)
 {
 	EShell *new;
 	EShellPrivate *priv;
@@ -721,7 +736,7 @@ e_shell_new (const char *local_directory)
 	new = gtk_type_new (e_shell_get_type ());
 
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	e_shell_construct (new, corba_object, local_directory);
+	e_shell_construct (new, corba_object, local_directory, show_splash);
 
 	priv = new->priv;
 

@@ -67,9 +67,11 @@ struct _EShellClass {
 GtkType              e_shell_get_type                  (void);
 void                 e_shell_construct                 (EShell          *shell,
 							Evolution_Shell  corba_object,
-							const char      *local_directory);
+							const char      *local_directory,
+							gboolean         show_splash);
 
-EShell              *e_shell_new                       (const char      *local_directory);
+EShell              *e_shell_new                       (const char      *local_directory,
+							gboolean         show_splash);
 EShellView          *e_shell_new_view                  (EShell          *shell,
 							const char      *uri);
 

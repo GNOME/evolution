@@ -1,3 +1,22 @@
+2000-11-03  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* main.c: New local static variables `evolution_directory',
+	`no_splash'.
+	(main): Removed local variable `evolution_directory'.  Add a
+	`--no-splash' command-line option for setting the value of
+	`no_splash'.
+	(idle_cb): Use the static `evolution_directory'.  Make the newly
+	created shell show the splash or not according to the value of
+	`no_splash'.
+
+	* e-shell.c (setup_components): Deal with a NULL @splash
+	parameter.
+	(e_shell_construct): New arg `show_splash'.  Don't create a splash
+	screen if FALSE; instead, pass NULL to `setup_components()' as the
+	@splash arg.
+	(e_shell_new): New arg `show_splash'.  Pass it to
+	`e_shell_construct()'.
+
 2000-11-03  Dan Winship  <danw@helixcode.com>
 
 	* evolution-storage-listener.c (class_init): Fix the name of the

@@ -37,7 +37,9 @@
 
 #define STARTUP_URI "evolution:/local/Inbox"
 
-static EShell *shell;
+static EShell *shell = NULL;
+static char *evolution_directory = NULL;
+static gboolean no_splash = FALSE;
 
 static void
 no_views_left_cb (EShell *shell, gpointer data)
@@ -111,11 +113,8 @@ static gint
 idle_cb (gpointer data)
 {
 	EShellView *view;
-	char *evolution_directory;
 
-	evolution_directory = (char *) data;
-
-	shell = e_shell_new (evolution_directory);
+	shell = e_shell_new (evolution_directory, ! no_splash);
 	g_free (evolution_directory);
 
 	if (shell == NULL) {
@@ -141,14 +140,19 @@ idle_cb (gpointer data)
 int
 main (int argc, char **argv)
 {
-	char *evolution_directory;
+	struct poptOption options[] = {
+		{ "no-splash", '\0', POPT_ARG_NONE, &no_splash, 0, N_("Disable."), NULL },
+		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, &oaf_popt_options, 0, NULL, NULL },
+		POPT_AUTOHELP
+		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
+	};
 
-	#ifdef ENABLE_NLS
+#ifdef ENABLE_NLS
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
-	#endif
+#endif
 
-	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, oaf_popt_options, 0, NULL);
+	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, options, 0, NULL);
 	oaf_init (argc, argv);
 
 	glade_gnome_init ();
