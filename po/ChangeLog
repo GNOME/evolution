@@ -1,3 +1,7 @@
+2004-02-05  Rodney Dawes  <dobey@ximian.com>
+
+	* POTFILES.in: Remove e-shell-view-menu.c
+
 2004-02-04  Ilkka Tuohela  <hile@iki.fi>
 
 	* fi.po: Updated finnish translation.

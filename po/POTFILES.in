@@ -334,7 +334,6 @@ shell/e-shell-settings-dialog.c
 shell/e-shell-shared-folder-picker-dialog.c
 shell/e-shell-startup-wizard.c
 shell/e-shell-utils.c
-shell/e-shell-view-menu.c
 shell/e-shell-window-commands.c
 shell/e-shell-window.c
 shell/e-shell.c
