@@ -19,7 +19,7 @@
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:Bonobo/Unknown:1.0"/>
-		<item value="IDL:GNOME/Evolution/Calendar/AlarmNotify:1.0"/>
+		<item value="IDL:GNOME/Evolution/Calendar/AlarmNotify:@VERSION@"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string" _value="Evolution Calendar alarm notification service"/>
