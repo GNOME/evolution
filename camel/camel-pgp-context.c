@@ -1213,8 +1213,6 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	char passwd_fd[32];
 	int retval, i;
 	
-	ctx = CAMEL_CIPHER_CONTEXT (context);
-	
 	/* get the ciphertext in a form we can use */
 	ciphertext = g_byte_array_new ();
 	stream = camel_stream_mem_new ();
