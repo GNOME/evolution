@@ -563,11 +563,11 @@ dnl Libraries
 dnl *********
 
 dnl EVO_CHECK_LIB(GAL, gal, 0.21)
-dnl PKG_CHECK_MODULES(GTKHTML, gtkhtml-1.1 >= 1.1.4)
-dnl AC_SUBST(GTKHTML_CFLAGS)
-dnl AC_SUBST(GTKHTML_LIBS)
-dnl GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir gtkhtml-1.1`
-dnl AC_SUBST(GTKHTML_DATADIR)
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.0)
+AC_SUBST(GTKHTML_CFLAGS)
+AC_SUBST(GTKHTML_LIBS)
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.0`
+AC_SUBST(GTKHTML_DATADIR)
 
 dnl PKG_CHECK_MODULES(SOUP, soup-2.0)
 dnl (from the libsoup module in GNOME CVS)
@@ -1316,7 +1316,7 @@ calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 calendar/importers/Makefile
-
+composer/Makefile
 my-evolution/GNOME_Evolution_Summary.server.in
 ])
 

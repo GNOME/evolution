@@ -1,3 +1,7 @@
+2002-11-08  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: Added composer/Makefile & gtkhtml-3.0 deps.
+
 2002-11-07  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in (AC_OUTPUT): GNOME_Evolution_Summary.oaf.in = >
