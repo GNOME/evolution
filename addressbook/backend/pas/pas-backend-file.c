@@ -597,6 +597,7 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	int     db_error = 0;
 	
 	string_to_dbt (key, &id_dbt);
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	
 	if (db_error == 1) {
@@ -620,6 +621,9 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	DBC *dbc;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 	PASBackendFileChangeContext *ctx = cnstview->change_context;
+
+	memset (&id_dbt, 0, sizeof (id_dbt));
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
 	if (!bf->priv->loaded)
 		return;
@@ -805,6 +809,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	char          *vcard_string;
 
 	string_to_dbt (req->id, &id_dbt);
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	if (0 != db_error) {
@@ -865,6 +870,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	id = e_card_get_id(card);
 
 	string_to_dbt (id, &id_dbt);	
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
 	/* get the old ecard - the one that's presently in the db */
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
@@ -929,43 +935,45 @@ static void
 pas_backend_file_build_all_cards_list(PASBackend *backend,
 				      PASBackendFileCursorPrivate *cursor_data)
 {
-	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
-	  DB             *db = bf->priv->file_db;
-	  DBC            *dbc;
-	  int            db_error;
-	  DBT  id_dbt, vcard_dbt;
+	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	DB             *db = bf->priv->file_db;
+	DBC            *dbc;
+	int            db_error;
+	DBT  id_dbt, vcard_dbt;
   
-	  cursor_data->elements = NULL;
+	cursor_data->elements = NULL;
 
-	  db_error = db->cursor (db, NULL, &dbc, 0);
+	db_error = db->cursor (db, NULL, &dbc, 0);
 
-	  if (db_error != 0) {
-		  g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
-	  }
+	if (db_error != 0) {
+		g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
+	}
 
-	  db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+	memset (&id_dbt, 0, sizeof (id_dbt));
+	db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
 
-	  while (db_error == 0) {
+	while (db_error == 0) {
 
-		  /* don't include the version in the list of cards */
-		  if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
-		      || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+		/* don't include the version in the list of cards */
+		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
+		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
 
-			  cursor_data->elements = g_list_append(cursor_data->elements,
-								g_strdup(vcard_dbt.data));
+			cursor_data->elements = g_list_append(cursor_data->elements,
+							      g_strdup(vcard_dbt.data));
 
-		  }
+		}
 
-		  db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
 
-	  }
+	}
 
-	  if (db_error != DB_NOTFOUND) {
-		  g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
-	  }
-	  else {
-		  cursor_data->num_elements = g_list_length (cursor_data->elements);
-	  }
+	if (db_error != DB_NOTFOUND) {
+		g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
+	}
+	else {
+		cursor_data->num_elements = g_list_length (cursor_data->elements);
+	}
 }
 
 static void
@@ -1290,6 +1298,7 @@ pas_backend_file_get_vcard (PASBook *book, const char *id)
 	db = bf->priv->file_db;
 
 	string_to_dbt (id, &id_dbt);
+	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	if (db_error == 0) {
@@ -1341,6 +1350,7 @@ pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
 	gboolean ret_val = TRUE;
 
 	string_to_dbt (PAS_BACKEND_FILE_VERSION_NAME, &version_name_dbt);
+	memset (&version_dbt, 0, sizeof (version_dbt));
 
 	db_error = db->get (db, NULL, &version_name_dbt, &version_dbt, 0);
 	if (db_error == 0) {

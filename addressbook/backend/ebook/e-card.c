@@ -1688,7 +1688,12 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_BIRTH_DATE:
 		g_free(card->bday);
-		card->bday = GTK_VALUE_POINTER(*arg);
+		if (GTK_VALUE_POINTER (*arg)) {
+			card->bday = g_new (ECardDate, 1);
+			memcpy (card->bday, GTK_VALUE_POINTER (*arg), sizeof (ECardDate));
+		} else {
+			card->bday = NULL;
+		}
 		break;
 	case ARG_URL:
 		g_free(card->url);
@@ -1732,7 +1737,12 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_ANNIVERSARY:
 		g_free(card->anniversary);
-		card->anniversary = GTK_VALUE_POINTER(*arg);
+		if (GTK_VALUE_POINTER (*arg)) {
+			card->anniversary = g_new (ECardDate, 1);
+			memcpy (card->anniversary, GTK_VALUE_POINTER (*arg), sizeof (ECardDate));
+		} else {
+			card->anniversary = NULL;
+		}
 		break;
 	case ARG_MAILER:
 		g_free(card->mailer);

@@ -28,7 +28,6 @@
 #include <gtk/gtkcombo.h>
 #include <gtk/gtktext.h>
 #include <libgnomeui/gnome-popup-menu.h>
-#include <libgnomeui/gnome-dateedit.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <bonobo/bonobo-ui-container.h>
@@ -39,9 +38,12 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 
+#include <e-util/e-categories-master-list-wombat.h>
+
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
 #include "e-util/e-gui-utils.h"
+#include "widgets/misc/e-dateedit.h"
 
 #include "e-contact-editor.h"
 #include "e-contact-editor-address.h"
@@ -592,6 +594,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	GnomeDialog *dialog;
 	int result;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
+	ECategoriesMasterList *ecml;
 	if (entry && GTK_IS_ENTRY(entry))
 		categories = e_utf8_gtk_entry_get_text(GTK_ENTRY(entry));
 	else if (editor->card)
@@ -599,9 +602,12 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 			       "categories", &categories,
 			       NULL);
 	dialog = GNOME_DIALOG(e_categories_new(categories));
+	ecml = e_categories_master_list_wombat_new ();
 	gtk_object_set(GTK_OBJECT(dialog),
 		       "header", _("This contact belongs to these categories:"),
+		       "ecml", ecml,
 		       NULL);
+	gtk_object_unref (GTK_OBJECT (ecml));
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
 	g_free (categories);
@@ -1973,30 +1979,29 @@ fill_in_info(EContactEditor *editor)
 		editor->name = e_card_name_copy(name);
 
 		widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
-		if (anniversary && widget && GNOME_IS_DATE_EDIT(widget)) {
-			struct tm time_struct = {0,0,0,0,0,0,0,0,0};
-			time_t time_val;
-			GnomeDateEdit *dateedit;
-
-			time_struct.tm_mday = anniversary->day;
-			time_struct.tm_mon = anniversary->month - 1;
-			time_struct.tm_year = anniversary->year - 1900;
-			time_val = mktime(&time_struct);
-			dateedit = GNOME_DATE_EDIT(widget);
-			gnome_date_edit_set_time(dateedit, time_val);
+		if (widget && E_IS_DATE_EDIT(widget)) {
+			EDateEdit *dateedit;
+			dateedit = E_DATE_EDIT(widget);
+			if (anniversary)
+				e_date_edit_set_date (dateedit,
+						      anniversary->year,
+						      anniversary->month,
+						      anniversary->day);
+			else
+				e_date_edit_set_time (dateedit, -1);
 		}
 
 		widget = glade_xml_get_widget(editor->gui, "dateedit-birthday");
-		if (bday && widget && GNOME_IS_DATE_EDIT(widget)) {
-			struct tm time_struct = {0,0,0,0,0,0,0,0,0};
-			time_t time_val;
-			GnomeDateEdit *dateedit;
-			time_struct.tm_mday = bday->day;
-			time_struct.tm_mon = bday->month - 1;
-			time_struct.tm_year = bday->year - 1900;
-			time_val = mktime(&time_struct);
-			dateedit = GNOME_DATE_EDIT(widget);
-			gnome_date_edit_set_time(dateedit, time_val);
+		if (widget && E_IS_DATE_EDIT(widget)) {
+			EDateEdit *dateedit;
+			dateedit = E_DATE_EDIT(widget);
+			if (bday)
+				e_date_edit_set_date (dateedit,
+						      bday->year,
+						      bday->month,
+						      bday->day);
+			else
+				e_date_edit_set_time (dateedit, -1);
 		}
 
 		set_fields(editor);
@@ -2052,10 +2057,8 @@ extract_info(EContactEditor *editor)
 {
 	ECard *card = editor->card;
 	if (card) {
-		ECardDate *anniversary;
-		ECardDate *bday;
-		struct tm time_struct;
-		time_t time_val;
+		ECardDate anniversary;
+		ECardDate bday;
 		int i;
 		GtkWidget *widget;
 		GList *list;
@@ -2087,31 +2090,35 @@ extract_info(EContactEditor *editor)
 				       NULL);
 
 		widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
-		if (widget && GNOME_IS_DATE_EDIT(widget)) {
-			time_val = gnome_date_edit_get_date(GNOME_DATE_EDIT(widget));
-			gmtime_r(&time_val,
-				 &time_struct);
-			anniversary = g_new(ECardDate, 1);
-			anniversary->day   = time_struct.tm_mday;
-			anniversary->month = time_struct.tm_mon + 1;
-			anniversary->year  = time_struct.tm_year + 1900;
-			gtk_object_set(GTK_OBJECT(card),
-				       "anniversary", anniversary,
-				       NULL);
+		if (widget && E_IS_DATE_EDIT(widget)) {
+			if (e_date_edit_get_date (E_DATE_EDIT (widget),
+						  &anniversary.year,
+						  &anniversary.month,
+						  &anniversary.day)) {
+				g_print ("%d %d %d\n", anniversary.year, anniversary.month, anniversary.day);
+				gtk_object_set(GTK_OBJECT(card),
+					       "anniversary", &anniversary,
+					       NULL);
+			} else
+				gtk_object_set(GTK_OBJECT(card),
+					       "anniversary", NULL,
+					       NULL);
 		}
 
 		widget = glade_xml_get_widget(editor->gui, "dateedit-birthday");
-		if (widget && GNOME_IS_DATE_EDIT(widget)) {
-			time_val = gnome_date_edit_get_date(GNOME_DATE_EDIT(widget));
-			gmtime_r(&time_val,
-				 &time_struct);
-			bday = g_new(ECardDate, 1);
-			bday->day   = time_struct.tm_mday;
-			bday->month = time_struct.tm_mon + 1;
-			bday->year  = time_struct.tm_year + 1900;
-			gtk_object_set(GTK_OBJECT(card),
-				       "birth_date", bday,
-				       NULL);
+		if (widget && E_IS_DATE_EDIT(widget)) {
+			if (e_date_edit_get_date (E_DATE_EDIT (widget),
+						  &bday.year,
+						  &bday.month,
+						  &bday.day)) {
+				g_print ("%d %d %d\n", bday.year, bday.month, bday.day);
+				gtk_object_set(GTK_OBJECT(card),
+					       "birth_date", &bday,
+					       NULL);
+			} else
+				gtk_object_set(GTK_OBJECT(card),
+					       "birth_date", NULL,
+					       NULL);
 		}
 	}
 }
@@ -2126,4 +2133,22 @@ void
 e_contact_editor_raise (EContactEditor *editor)
 {
 	gdk_window_raise (GTK_WIDGET (editor->app)->window);
+}
+
+GtkWidget *
+e_contact_editor_create_date(gchar *name,
+			     gchar *string1, gchar *string2,
+			     gint int1, gint int2);
+
+GtkWidget *
+e_contact_editor_create_date(gchar *name,
+			     gchar *string1, gchar *string2,
+			     gint int1, gint int2)
+{
+	GtkWidget *widget = e_date_edit_new ();
+	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget),
+					   TRUE);
+	e_date_edit_set_show_time (E_DATE_EDIT (widget), FALSE);
+	e_date_edit_set_time (E_DATE_EDIT (widget), -1);
+	return widget;
 }
