@@ -15,6 +15,7 @@
         <oaf_attribute name="addressbook:supported_protocols" type="stringv">
 		<item value="ldap"/>
 		<item value="file"/>
+		<item value="vcf"/>
         </oaf_attribute>
 </oaf_server>
 

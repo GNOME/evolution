@@ -10,10 +10,11 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-                       _value="Evolution Addressbook local file backend"/>
+                       _value="Evolution Addressbook local backend"/>
 
         <oaf_attribute name="addressbook:supported_protocols" type="stringv">
 		<item value="file"/>
+		<item value="vcf"/>
         </oaf_attribute>
 </oaf_server>
 

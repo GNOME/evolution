@@ -43,17 +43,8 @@ evolution_wombat_SOURCES = \
 	wombat-interface-check.h	\
 	wombat.c
 
-if ENABLE_LDAP
-LDAP_STUFF =								\
-	$(top_builddir)/addressbook/backend/pas/libpasldap.a		\
-	$(LDAP_LIBS)
-endif
-
 evolution_wombat_LDADD =						\
-	$(top_builddir)/addressbook/backend/pas/libpasfile.a		\
-	$(DB3_LDADD)							\
-	$(LDAP_STUFF)							\
-	$(top_builddir)/addressbook/backend/pas/libpas.a		\
+	$(top_builddir)/addressbook/backend/pas/libpas.la		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/calendar/pcs/libpcsfile.a			\
 	$(top_builddir)/calendar/pcs/libpcs.a				\

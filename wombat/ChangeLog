@@ -1,3 +1,16 @@
+2003-10-21  Chris Toshok  <toshok@ximian.com>
+
+	* GNOME_Evolution_WombatLDAP.server.in.in: add vcf to
+	supported_protocols.
+
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: same.
+
+	* wombat.c (setup_pas): register the vcf backend.
+
+	* Makefile.am (evolution_wombat_LDADD): replace the conditional
+	libpasldap stuff and the references to all the libpas* backends
+	with libpas.la.
+
 2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* wombat.c (termination_handler): re-enabled the call to

@@ -29,16 +29,16 @@
 
 #include "pas/pas-book-factory.h"
 #include "pas/pas-backend-file.h"
+#include "pas/pas-backend-vcf.h"
+#ifdef HAVE_LDAP
+#include "pas/pas-backend-ldap.h"
+#endif
 
 #include "calendar/pcs/cal-factory.h"
 #include "calendar/pcs/cal-backend-file-events.h"
 #include "calendar/pcs/cal-backend-file-todos.h"
 
 #include "wombat-interface-check.h"
-
-#ifdef HAVE_LDAP
-#include "pas/pas-backend-ldap.h"
-#endif
 
 #define CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
 #define PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
@@ -103,6 +103,9 @@ setup_pas (void)
 
 	pas_book_factory_register_backend (
 		pas_book_factory, "file", pas_backend_file_new);
+
+	pas_book_factory_register_backend (
+		pas_book_factory, "vcf", pas_backend_vcf_new);
 
 #ifdef HAVE_LDAP
 	pas_book_factory_register_backend (
