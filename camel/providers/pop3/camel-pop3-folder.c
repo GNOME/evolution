@@ -81,19 +81,6 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 	camel_folder_class->set_message_flags = pop3_set_message_flags;
 }
 
-static void
-camel_pop3_folder_init (gpointer object)
-{
-	CamelFolder *folder = CAMEL_FOLDER (object);
-	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
-	
-	folder->has_summary_capability = FALSE;
-	folder->has_search_capability = FALSE;
-	
-	pop3_folder->uids = NULL;
-	pop3_folder->flags = NULL;
-}
-
 CamelType
 camel_pop3_folder_get_type (void)
 {
@@ -105,7 +92,7 @@ camel_pop3_folder_get_type (void)
 							      sizeof (CamelPop3FolderClass),
 							      (CamelObjectClassInitFunc) camel_pop3_folder_class_init,
 							      NULL,
-							      (CamelObjectInitFunc) camel_pop3_folder_init,
+							      NULL,
 							      (CamelObjectFinalizeFunc) pop3_finalize);
 	}
 	

@@ -53,6 +53,14 @@ camel_vtrash_folder_class_init (CamelVTrashFolderClass *klass)
 	folder_class->move_messages_to = vtrash_move_messages_to;
 }
 
+static void
+camel_vtrash_folder_init (CamelVTrashFolder *vtrash)
+{
+	CamelFolder *folder = CAMEL_FOLDER (vtrash);
+
+	folder->folder_flags |= CAMEL_FOLDER_IS_TRASH;
+}
+
 CamelType
 camel_vtrash_folder_get_type (void)
 {
@@ -65,7 +73,7 @@ camel_vtrash_folder_get_type (void)
 					    sizeof (CamelVTrashFolderClass),
 					    (CamelObjectClassInitFunc) camel_vtrash_folder_class_init,
 					    NULL,
-					    NULL,
+					    (CamelObjectInitFunc) camel_vtrash_folder_init,
 					    NULL);
 	}
 	
@@ -73,7 +81,7 @@ camel_vtrash_folder_get_type (void)
 }
 
 /**
- * camel_vee_folder_new:
+ * camel_vtrash_folder_new:
  * @parent_store: the parent CamelVeeStore
  * @name: the vfolder name
  * @ex: a CamelException

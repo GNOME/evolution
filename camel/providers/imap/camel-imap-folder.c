@@ -143,8 +143,8 @@ camel_imap_folder_init (gpointer object, gpointer klass)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 	CamelFolder *folder = CAMEL_FOLDER (object);
 	
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
+	folder->folder_flags |= (CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY |
+				 CAMEL_FOLDER_HAS_SEARCH_CAPABILITY);
 	
 	imap_folder->priv = g_malloc0(sizeof(*imap_folder->priv));
 #ifdef ENABLE_THREADS
@@ -219,7 +219,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 
 	if ((imap_store->parameters & IMAP_PARAM_FILTER_INBOX) &&
 	    !g_strcasecmp (folder_name, "INBOX"))
-		folder->filter_recent = TRUE;
+		folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
 
 	return folder;
 }

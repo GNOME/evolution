@@ -95,8 +95,7 @@ camel_digest_folder_init (gpointer object, gpointer klass)
 	CamelDigestFolder *digest_folder = CAMEL_DIGEST_FOLDER (object);
 	CamelFolder *folder = CAMEL_FOLDER (object);
 	
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = FALSE;
+	folder->folder_flags |= CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY;
 	
 	digest_folder->priv = g_new0 (struct _CamelDigestFolderPrivate, 1);
 	digest_folder->priv->info_hash = g_hash_table_new (g_str_hash, g_str_equal);

@@ -92,8 +92,8 @@ local_init(gpointer object, gpointer klass)
 	CamelFolder *folder = object;
 	CamelLocalFolder *local_folder = object;
 
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
+	folder->folder_flags |= (CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY |
+				 CAMEL_FOLDER_HAS_SEARCH_CAPABILITY);
 
 	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
 	    CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_DRAFT |

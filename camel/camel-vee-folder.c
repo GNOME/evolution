@@ -132,8 +132,8 @@ camel_vee_folder_init (CamelVeeFolder *obj)
 
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
+	folder->folder_flags |= (CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY |
+				 CAMEL_FOLDER_HAS_SEARCH_CAPABILITY);
 
 	/* FIXME: what to do about user flags if the subfolder doesn't support them? */
 	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |

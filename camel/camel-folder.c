@@ -277,7 +277,7 @@ camel_folder_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	CAMEL_FOLDER_LOCK(folder, lock);
 	
-	if (!folder->deleted)
+	if (!(folder->folder_flags & CAMEL_FOLDER_HAS_BEEN_DELETED))
 		CF_CLASS (folder)->sync (folder, expunge, ex);
 	
 	CAMEL_FOLDER_UNLOCK(folder, lock);
@@ -400,7 +400,7 @@ camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 	
 	CAMEL_FOLDER_LOCK(folder, lock);
 	
-	if (!folder->deleted)
+	if (!(folder->folder_flags & CAMEL_FOLDER_HAS_BEEN_DELETED))
 		CF_CLASS (folder)->expunge (folder, ex);
 	
 	CAMEL_FOLDER_UNLOCK(folder, lock);
@@ -854,7 +854,7 @@ camel_folder_has_summary_capability (CamelFolder *folder)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
-	return folder->has_summary_capability;
+	return folder->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY;
 }
 
 
@@ -1037,7 +1037,7 @@ camel_folder_has_search_capability (CamelFolder *folder)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
-	return folder->has_search_capability;
+	return folder->folder_flags & CAMEL_FOLDER_HAS_SEARCH_CAPABILITY;
 }
 
 static GPtrArray *
@@ -1072,7 +1072,7 @@ camel_folder_search_by_expression (CamelFolder *folder, const char *expression,
 	GPtrArray *ret;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-	g_return_val_if_fail (folder->has_search_capability, NULL);
+	g_return_val_if_fail (folder->folder_flags & CAMEL_FOLDER_HAS_SEARCH_CAPABILITY, NULL);
 
 	/* NOTE: that it is upto the callee to lock */
 
@@ -1102,7 +1102,6 @@ void
 camel_folder_search_free (CamelFolder *folder, GPtrArray *result)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (folder->has_search_capability);
 
 	/* NOTE: upto the callee to lock */
 	CF_CLASS (folder)->search_free (folder, result);
@@ -1122,7 +1121,7 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 	if (!msg)
 		return;
 	
-	if (source->has_summary_capability)
+	if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
 		info = CF_CLASS (source)->get_message_info (source, uid);
 	else
 		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
@@ -1134,7 +1133,7 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 	camel_folder_append_message (dest, msg, info, ex);
 	camel_object_unref (CAMEL_OBJECT (msg));
 	if (info) {
-		if (source->has_summary_capability)
+		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
 			CF_CLASS (source)->free_message_info (source, info);
 		else
 			camel_message_info_free (info);
@@ -1198,7 +1197,7 @@ move_message_to (CamelFolder *source, const char *uid,
 	if (!msg)
 		return;
 	
-	if (source->has_summary_capability)
+	if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
 		info = CF_CLASS (source)->get_message_info (source, uid);
 	else
 		info = camel_message_info_new_from_header (((CamelMimePart *)msg)->headers);
@@ -1214,7 +1213,7 @@ move_message_to (CamelFolder *source, const char *uid,
 						      CAMEL_MESSAGE_DELETED);
 	
 	if (info) {
-		if (source->has_summary_capability)
+		if (source->folder_flags & CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY)
 			CF_CLASS (source)->free_message_info (source, info);
 		else
 			camel_message_info_free (info);
@@ -1291,12 +1290,12 @@ camel_folder_delete (CamelFolder *folder)
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	
 	CAMEL_FOLDER_LOCK (folder, lock);
-	if (folder->deleted) {
+	if (folder->folder_flags & CAMEL_FOLDER_HAS_BEEN_DELETED) {
 		CAMEL_FOLDER_UNLOCK (folder, lock);
 		return;
 	}
 	
-	folder->deleted = TRUE;
+	folder->folder_flags |= CAMEL_FOLDER_HAS_BEEN_DELETED;
 	
 	CF_CLASS (folder)->delete (folder);
 	
@@ -1450,7 +1449,7 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		CamelFilterDriver *driver;
 
 		CAMEL_FOLDER_LOCK(folder, change_lock);
-		if (folder->filter_recent
+		if ((folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT)
 		    && changed->uid_recent->len>0
 		    && (driver = camel_session_get_filter_driver(session, "incoming", NULL))) {
 #ifdef ENABLE_THREADS

@@ -1,3 +1,23 @@
+2001-10-08  Dan Winship  <danw@ximian.com>
+
+	* camel-folder.h (struct _CamelFolder): replace the ever-growing
+	list of gbooleans with a single guint32 for flags.
+
+	* camel-folder.c: Update folder flag setting/checking.
+
+	* providers/pop3/camel-pop3-folder.c (camel_pop3_folder_init):
+	* providers/nntp/camel-nntp-folder.c (camel_nntp_folder_new): 
+	* providers/local/camel-spool-folder.c (spool_init,
+	camel_spool_folder_new): 
+	* providers/local/camel-maildir-folder.c (camel_maildir_folder_new): 
+	* providers/local/camel-local-folder.c (local_init): 
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_init,
+	camel_imap_folder_new): 
+	* camel-vtrash-folder.c (camel_vtrash_folder_init): 
+	* camel-vee-folder.c (camel_vee_folder_init): 
+	* camel-digest-folder.c (camel_digest_folder_init): update folder
+	flag setting.
+
 2001-10-07  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_online): Unlock

@@ -106,8 +106,8 @@ spool_init(gpointer object, gpointer klass)
 	CamelFolder *folder = object;
 	CamelSpoolFolder *spool_folder = object;
 
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
+	folder->folder_flags |= (CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY |
+				 CAMEL_FOLDER_HAS_SEARCH_CAPABILITY);
 
 	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
 	    CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_DRAFT |
@@ -227,7 +227,7 @@ camel_spool_folder_new(CamelStore *parent_store, const char *full_name, guint32 
 
 	if (parent_store->flags & CAMEL_STORE_FILTER_INBOX
 	    && strcmp(full_name, "INBOX") == 0)
-		folder->filter_recent = TRUE;
+		folder->folder_flags |= CAMEL_FOLDER_FILTER_RECENT;
 	folder = (CamelFolder *)camel_spool_folder_construct((CamelSpoolFolder *)folder,
 							     parent_store, full_name, flags, ex);
 

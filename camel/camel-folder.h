@@ -63,13 +63,15 @@ struct _CamelFolder
 	CamelStore *parent_store;
 	CamelFolderSummary *summary;
 
+	guint32 folder_flags;
 	guint32 permanent_flags;
-	gboolean has_summary_capability:1;
-	gboolean has_search_capability:1;
-	gboolean filter_recent:1;
-	gboolean deleted:1;
-
 };
+
+#define CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY (1<<0)
+#define CAMEL_FOLDER_HAS_SEARCH_CAPABILITY  (1<<1)
+#define CAMEL_FOLDER_FILTER_RECENT          (1<<2)
+#define CAMEL_FOLDER_HAS_BEEN_DELETED       (1<<3)
+#define CAMEL_FOLDER_IS_TRASH               (1<<4)
 
 typedef struct {
 	CamelObjectClass parent_class;

@@ -261,8 +261,8 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 	const gchar *root_dir_path;
 
 	camel_folder_construct (folder, parent, folder_name, folder_name);
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
+	folder->folder_flags |= (CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY |
+				 CAMEL_FOLDER_HAS_SEARCH_CAPABILITY);
 
 	root_dir_path = camel_nntp_store_get_toplevel_dir (CAMEL_NNTP_STORE(folder->parent_store));
 	nntp_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary",
