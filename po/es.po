@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-19 14:03+0100\n"
-"PO-Revision-Date: 2005-02-19 14:05+0100\n"
+"PO-Revision-Date: 2005-02-27 16:50+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -15163,9 +15163,9 @@ msgid ""
 "that could be imported where found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"Evolution comprobó la configuración de las siguientes aplicaciones:\n"
-"Pine, Netscape, Elm, iCalendar. No se encontraron ajustes que\n"
-"pudieran ser importados. Si quiere intentarlo de nuevo, pulse\n"
+"Evolution comprobó la configuración para importar de las siguientes \n"
+"aplicaciones: Pine, Netscape, Elm, iCalendar. No se encontró ninguna\n"
+"configuración se pueda importar. Si quiere intentarlo de nuevo, pulse\n"
 "el botón «Atrás».\n"
 
 #: ../shell/e-shell-importer.c:233 ../shell/e-shell-importer.c:267
@@ -15457,7 +15457,7 @@ msgstr "Pulse «Importar» para comenzar a importar el archivo en Evolution. "
 
 #: ../shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr "Asistente de Importación de Evolution"
+msgstr "Asistente de importación de Evolution"
 
 #: ../shell/importer/import.glade.h:3
 msgid "Import File"
@@ -15486,8 +15486,8 @@ msgid ""
 "importing external files into Evolution."
 msgstr ""
 "Bienvenido al asistente de importación de Evolution.\n"
-"Con este asistente será guiado a través del proceso de\n"
-"importar archivos externos a Evolution."
+"Este asistente le guiará a través del proceso de\n"
+"importación de archivos externos dentro de Evolution."
 
 #: ../shell/importer/intelligent.c:193
 msgid "Importers"
