@@ -72,6 +72,7 @@ enum {
         ARG_FONTSET,
 	ARG_FONT_GDK,
 	ARG_FONT_E,
+	ARG_BOLD,
 	ARG_ANCHOR,
 	ARG_JUSTIFICATION,
 	ARG_CLIP_WIDTH,
@@ -268,6 +269,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_GDK_FONT, GTK_ARG_WRITABLE, ARG_FONT_GDK);
 	gtk_object_add_arg_type ("EText::font_e",
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_FONT_E);
+	gtk_object_add_arg_type ("EText::bold",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_BOLD);
 	gtk_object_add_arg_type ("EText::anchor",
 				 GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_ANCHOR);
 	gtk_object_add_arg_type ("EText::justification",
@@ -420,6 +423,10 @@ e_text_init (EText *text)
 	text->tpl_timeout = 0;
 
 	text->draw_background = FALSE;
+
+	text->bold = FALSE;
+
+	text->style = E_FONT_PLAIN;
 	
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
@@ -759,7 +766,7 @@ calc_ellipsis (EText *text)
 {
 	if (text->font)
 		text->ellipsis_width = 
-			e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+			e_font_utf8_text_width (text->font, text->style,
 						text->ellipsis ? text->ellipsis : "...",
 						text->ellipsis ? strlen (text->ellipsis) : 3);
 }
@@ -795,7 +802,7 @@ calc_line_widths (EText *text)
 		if (lines->length != 0) {
 			if (text->font) {
 				lines->width = text_width_with_objects (text->model,
-									text->font, E_FONT_PLAIN,
+									text->font, text->style,
 									lines->text, lines->length);
 				lines->ellipsis_length = 0;
 			} else {
@@ -811,7 +818,7 @@ calc_line_widths (EText *text)
 					lines->ellipsis_length = 0;
 					for (p = lines->text; p && *p && (p - lines->text) < lines->length; p = unicode_next_utf8 (p)) {
 						gint text_width = text_width_with_objects (text->model,
-											   text->font, E_FONT_PLAIN,
+											   text->font, text->style,
 											   lines->text, p - lines->text);
 						if (clip_width >= text_width + text->ellipsis_width)
 							lines->ellipsis_length = p - lines->text;
@@ -822,7 +829,7 @@ calc_line_widths (EText *text)
 				else
 					lines->ellipsis_length = 0;
 				lines->width = text_width_with_objects (text->model,
-									text->font, E_FONT_PLAIN,
+									text->font, text->style,
 									lines->text, lines->ellipsis_length) + 
 					text->ellipsis_width;
 			}
@@ -944,7 +951,7 @@ split_into_lines (EText *text)
 		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
 			if (laststart != lastend
 			    && clip_width < text_width_with_objects (text->model,
-								     text->font, E_FONT_PLAIN,
+								     text->font, text->style,
 								     linestart, cp - linestart)) {
 				text->num_lines ++;
 				
@@ -961,7 +968,7 @@ split_into_lines (EText *text)
 			if (laststart != lastend
 			    && unicode_index_to_offset (linestart, cp - linestart) != 1
 			    && clip_width < text_width_with_objects (text->model,
-								     text->font, E_FONT_PLAIN,
+								     text->font, text->style,
 								     linestart, p - linestart)) {
 				text->num_lines ++;
 				
@@ -987,7 +994,7 @@ split_into_lines (EText *text)
 	     && p
 	     && laststart != lastend
 	     && clip_width < text_width_with_objects (text->model,
-						      text->font, E_FONT_PLAIN, 
+						      text->font, text->style, 
 						      linestart, cp - linestart)) {
 		text->num_lines ++;
 	}
@@ -1017,7 +1024,7 @@ split_into_lines (EText *text)
 		    && (unicode_isspace (unival) || unival == '\n')
 		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
 			if (clip_width < text_width_with_objects (text->model,
-								  text->font, E_FONT_PLAIN,
+								  text->font, text->style,
 								  lines->text, cp - lines->text)
 			    && laststart != lastend) {
 
@@ -1041,7 +1048,7 @@ split_into_lines (EText *text)
 			if (laststart != lastend
 			    && unicode_index_to_offset (lines->text, cp - lines->text) != 1
 			    && clip_width < text_width_with_objects (text->model,
-								     text->font, E_FONT_PLAIN,
+								     text->font, text->style,
 								     lines->text, p - lines->text)) {
 
 				lines->length = lastend - lines->text;
@@ -1077,7 +1084,7 @@ split_into_lines (EText *text)
 
 	if ( line_num < text->num_lines && text->line_wrap ) {
 		if (clip_width < text_width_with_objects (text->model,
-							  text->font, E_FONT_PLAIN,
+							  text->font, text->style,
 							  lines->text, cp - lines->text)
 		    && laststart != lastend ) {
 
@@ -1286,6 +1293,10 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		else 
 			text->needs_calc_line_widths = 1;
 		needs_reflow = 1;
+		break;
+	case ARG_BOLD:
+		text->bold = GTK_VALUE_BOOL (*arg);
+		text->style = text->bold ? E_FONT_BOLD : E_FONT_PLAIN;
 		break;
 	case ARG_ANCHOR:
 		text->anchor = GTK_VALUE_ENUM (*arg);
@@ -1521,6 +1532,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOXED (*arg) = text->font;
 		break;
 
+	case ARG_BOLD:
+		GTK_VALUE_BOOL (*arg) = text->bold;
+		break;
+
 	case ARG_ANCHOR:
 		GTK_VALUE_ENUM (*arg) = text->anchor;
 		break;
@@ -1671,7 +1686,7 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		lines --;
 		i--;
 		x = text_width_with_objects (text->model,
-					     text->font, E_FONT_PLAIN,
+					     text->font, text->style,
 					     lines->text,
 					     text->selection_end - (lines->text - text->text));
 		
@@ -2050,12 +2065,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				sel_end = end_char;
 			if ( sel_start < sel_end ) {
 				sel_rect.x = xpos - x + text_width_with_objects (text->model,
-										 text->font, E_FONT_PLAIN,
+										 text->font, text->style,
 										 lines->text,
 										 sel_start - start_char);
 				sel_rect.y = ypos - y - e_font_ascent (text->font);
 				sel_rect.width = text_width_with_objects (text->model,
-									  text->font, E_FONT_PLAIN,
+									  text->font, text->style,
 									  lines->text + sel_start - start_char,
 									  sel_end - sel_start);
 				sel_rect.height = e_font_height (text->font);
@@ -2074,7 +2089,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						   sel_rect.height);
 				text_draw_with_objects (text->model,
 							drawable,
-							text->font, E_FONT_PLAIN,
+							text->font, text->style,
 							text->gc,
 							xpos - x,
 							ypos - y,
@@ -2082,10 +2097,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							sel_start - start_char);
 				text_draw_with_objects (text->model,
 							drawable,
-							text->font, E_FONT_PLAIN,
+							text->font, text->style,
 							fg_gc,
 							xpos - x + text_width_with_objects (text->model,
-											    text->font, E_FONT_PLAIN,
+											    text->font, text->style,
 											    lines->text,
 											    sel_start - start_char),
 							ypos - y,
@@ -2093,10 +2108,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							sel_end - sel_start);
 				text_draw_with_objects (text->model,
 							drawable,
-							text->font, E_FONT_PLAIN,
+							text->font, text->style,
 							text->gc,
 							xpos - x + text_width_with_objects (text->model,
-											    text->font, E_FONT_PLAIN,
+											    text->font, text->style,
 											    lines->text,
 											    sel_end - start_char),
 							ypos - y,
@@ -2105,7 +2120,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			} else {
 				text_draw_with_objects (text->model,
 							drawable,
-							text->font, E_FONT_PLAIN,
+							text->font, text->style,
 							text->gc,
 							xpos - x,
 							ypos - y,
@@ -2120,7 +2135,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						    text->gc,
 						    TRUE,
 						    xpos - x + text_width_with_objects (text->model,
-											text->font, E_FONT_PLAIN,
+											text->font, text->style,
 											lines->text,
 											sel_start - start_char),
 						    ypos - y - e_font_ascent (text->font),
@@ -2131,14 +2146,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if (text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
 				text_draw_with_objects (text->model,
 							drawable,
-							text->font, E_FONT_PLAIN,
+							text->font, text->style,
 							text->gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
 							lines->ellipsis_length);
 				e_font_draw_utf8_text (drawable,
-						       text->font, E_FONT_PLAIN,
+						       text->font, text->style,
 						       text->gc,
 						       xpos - x + lines->width - text->ellipsis_width,
 						       ypos - y,
@@ -2147,7 +2162,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			} else
 				text_draw_with_objects (text->model,
 							drawable,
-							text->font, E_FONT_PLAIN,
+							text->font, text->style,
 							text->gc,
 							xpos - x,
 							ypos - y,
@@ -2450,7 +2465,7 @@ _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 		y -= e_font_descent (text->font);
 		
 		x += text_width_with_objects (text->model,
-					      text->font, E_FONT_PLAIN,
+					      text->font, text->style,
 					      lines->text,
 					      position - (lines->text - text->text));
 		x -= text->xofs_edit;
@@ -2532,7 +2547,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 #if 0
 		if (unival == '\1') {
 			const gchar *obj_str = NULL; /*e_text_model_get_nth_object (text->model, object_num);*/
-			charwidth = e_font_utf8_text_width (text->font, E_FONT_PLAIN, obj_str, strlen (obj_str));
+			charwidth = e_font_utf8_text_width (text->font, text->style, obj_str, strlen (obj_str));
 			++object_num;
 
 			step1 = charwidth;
@@ -2541,7 +2556,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 
 		} else {
 #endif
-			charwidth = e_font_utf8_char_width (text->font, E_FONT_PLAIN, (gchar *) p);
+			charwidth = e_font_utf8_char_width (text->font, text->style, (gchar *) p);
 			
 			step1 = charwidth / 2;
 			step2 = (charwidth + 1) / 2;
@@ -2736,7 +2751,7 @@ _do_tooltip (gpointer data)
 	for (lines = text->lines, i = 0; i < text->num_lines; lines++, i++) {
 		gdouble line_width;
 
-		line_width = text_width_with_objects (text->model, text->font, E_FONT_PLAIN, lines->text, lines->length);
+		line_width = text_width_with_objects (text->model, text->font, text->style, lines->text, lines->length);
 		max_width = MAX (max_width, line_width);
 	}
 
@@ -3505,7 +3520,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		lines --;
 		i --;
 		x = text_width_with_objects (text->model,
-					     text->font, E_FONT_PLAIN,
+					     text->font, text->style,
 					     lines->text, 
 					     text->selection_end - (lines->text - text->text));
 		

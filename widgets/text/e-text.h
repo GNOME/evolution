@@ -49,6 +49,7 @@ BEGIN_GNOME_DECLS
  * font			string			W		X logical font descriptor
  * fontset		string			W		X logical fontset descriptor
  * font_gdk		GdkFont*		RW		Pointer to a GdkFont
+ * bold                 boolean                 RW              Bold?
  * anchor		GtkAnchorType		RW		Anchor side for the text
  * justification	GtkJustification	RW		Justification for multiline text
  * fill_color		string			W		X color specification for text
@@ -143,9 +144,6 @@ struct _EText {
 	int width;                      /* Rendered text width in pixels */
 	int height;			/* Rendered text height in pixels */
 
-	guint clip : 1;			/* Use clip rectangle? */
-	guint fill_clip_rectangle : 1;  /* Fill the clipping rectangle. */
-
 	/* Antialiased specific stuff follows */
 #if 0
 	ETextSuckFont *suckfont; /* Sucked font */
@@ -189,12 +187,26 @@ struct _EText {
 	gchar *clipboard_selection;     /* Clipboard selection text */
 	gint clipboard_length;          /* Clipboard selection text length*/
 
+	guint clip : 1;			/* Use clip rectangle? */
+	guint fill_clip_rectangle : 1;  /* Fill the clipping rectangle. */
+
 	guint pointer_in : 1;           /* Is the pointer currently over us? */
 	guint default_cursor_shown : 1; /* Is the default cursor currently shown? */
 	guint draw_borders : 1;         /* Draw borders? */
 	guint draw_background : 1;      /* Draw background? */
 
 	guint line_wrap : 1;            /* Do line wrap */
+
+	guint needs_redraw : 1;         /* Needs redraw */
+	guint needs_recalc_bounds : 1;  /* Need recalc_bounds */
+	guint needs_calc_height : 1;    /* Need calc_height */
+	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
+	guint needs_split_into_lines : 1; /* Needs split_into_lines */
+
+	guint bold : 1;
+
+	EFontStyle     style;
+
 	gchar *break_characters;        /* Characters to optionally break after */
 
 	gint max_lines;                 /* Max number of lines (-1 = infinite) */
@@ -205,12 +217,6 @@ struct _EText {
 	gint tooltip_timeout;           /* Timeout for the tooltip */
 	GtkWidget *tooltip_window;      /* GtkWindow for displaying the tooltip */
 	gint tooltip_count;             /* GDK_ENTER_NOTIFY count. */
-
-	guint needs_redraw : 1;         /* Needs redraw */
-	guint needs_recalc_bounds : 1;  /* Need recalc_bounds */
-	guint needs_calc_height : 1;    /* Need calc_height */
-	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
-	guint needs_split_into_lines : 1; /* Needs split_into_lines */
 
 	gint dbl_timeout;               /* Double click timeout */
 	gint tpl_timeout;               /* Triple click timeout */
