@@ -530,47 +530,48 @@ fail:
 
 /* will filter a folder */
 void
-filter_driver_filter_folder(FilterDriver *driver, CamelFolder *folder, const char *source, GPtrArray *uids, gboolean remove, CamelException *ex)
+filter_driver_filter_folder (FilterDriver *driver, CamelFolder *folder, const char *source,
+			     GPtrArray *uids, gboolean remove, CamelException *ex)
 {
 	int i;
 	int freeuids = FALSE;
 	CamelMimeMessage *message;
 	const CamelMessageInfo *info;
-
+	
 	if (uids == NULL) {
-		uids = camel_folder_get_uids(folder);
+		uids = camel_folder_get_uids (folder);
 		freeuids = TRUE;
 	}
-
-	for (i=0;i<uids->len;i++) {
-
-		report_status(driver, FILTER_STATUS_START, "Getting message %d of %d", i, uids->len);
-
+	
+	for (i = 0; i < uids->len; i++) {
+		report_status (driver, FILTER_STATUS_START, "Getting message %d of %d", i+1, uids->len);
+		
 		message = camel_folder_get_message (folder, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex)) {
-			report_status(driver, FILTER_STATUS_END, "Failed at message %d of %d", i, uids->len);
+			report_status (driver, FILTER_STATUS_END, "Failed at message %d of %d", i+1, uids->len);
 			break;
 		}
-
+		
 		if (camel_folder_has_summary_capability (folder))
 			info = camel_folder_get_message_info (folder, uids->pdata[i]);
 		else
 			info = NULL;
 		
-		filter_driver_filter_message(driver, message, (CamelMessageInfo *)info, source, ex);
+		filter_driver_filter_message (driver, message, (CamelMessageInfo *)info, source, ex);
 		if (camel_exception_is_set (ex)) {
-			report_status(driver, FILTER_STATUS_END, "Failed at message %d of %d", i, uids->len);
+			report_status (driver, FILTER_STATUS_END, "Failed at message %d of %d", i+1, uids->len);
 			break;
 		}
-
+		
 		if (remove)
-			camel_folder_set_message_flags (folder, uids->pdata[i], CAMEL_MESSAGE_DELETED,CAMEL_MESSAGE_DELETED);
-
+			camel_folder_set_message_flags (folder, uids->pdata[i],
+							CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+		
 		camel_object_unref (CAMEL_OBJECT (message));
 	}
-
+	
 	if (freeuids)
-		camel_folder_free_uids(folder, uids);
+		camel_folder_free_uids (folder, uids);
 }
 
 gboolean
