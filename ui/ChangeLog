@@ -1,3 +1,8 @@
+2002-03-07  Radek Doulik  <rodo@ximian.com>
+
+	* evolution-signature-editor.xml: added save & close on toolbar,
+	added C-s shortcut
+
 2002-03-04  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-tasks.xml: added Print & PrintPreview stuff.

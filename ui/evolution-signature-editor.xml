@@ -10,7 +10,7 @@
 		accel="*Ctrl*w"/>
 
 		<cmd name="FileSaveClose" _label="Save and Close"
-		pixtype="stock" pixname="Save"/>
+		pixtype="stock" pixname="Save" accel="*Ctrl*s"/>
 
 	</commands>
 
@@ -63,6 +63,7 @@
 	</menu>
 
 	<dockitem name="Toolbar" behavior="exclusive" hlook="text" vlook="icon">
+		<toolitem name="FileSaveClose" verb=""/>
 	</dockitem>
 
 </Root>
