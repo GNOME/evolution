@@ -343,7 +343,15 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	}
 
 	result = xfer_file (src_uri, dest_uri, "addressbook.db", remove_source);
-	
+
+	if ((result == GNOME_Evolution_ShellComponentListener_OK) && remove_source) {
+		char *summary_uri;
+
+		summary_uri = g_strconcat (source_physical_uri, "/addressbook.db.summary", NULL);
+		result = gnome_vfs_unlink (summary_uri);
+		g_free (summary_uri);
+	}
+
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
 
 	gnome_vfs_uri_unref (src_uri);
