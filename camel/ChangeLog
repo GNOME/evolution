@@ -1,3 +1,10 @@
+2001-01-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message): Set
+	the deleted bit *before* copying to the default folder, this way
+	if they are importing mail and have a rule to delete it, it
+	doesn't get copied to the default folder un-deleted.
+
 2001-01-19  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c
