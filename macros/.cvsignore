@@ -1,5 +1,5 @@
-Makefile.in
+WDEI*.h
+*.xpt
 Makefile
-macros.dep
-gnome-macros.dep
-.nautilus-metafile.xml
+Makefile.in
+.deps
