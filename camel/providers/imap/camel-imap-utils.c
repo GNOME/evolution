@@ -33,13 +33,13 @@
 
 #define d(x) x
 
-char *
+const char *
 imap_next_word (const char *buf)
 {
-	char *word;
+	const char *word;
 	
 	/* skip over current word */
-	for (word = (char *)buf; *word && *word != ' '; word++);
+	for (word = buf; *word && *word != ' '; word++);
 	
 	/* skip over white space */
 	for ( ; *word && *word == ' '; word++);
@@ -63,8 +63,8 @@ imap_next_word (const char *buf)
 gboolean
 imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, char *sep, char **folder)
 {
-	char *word;
-	int len;
+	const char *word;
+	size_t len;
 	
 	if (*buf != '*')
 		return FALSE;
@@ -117,22 +117,34 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		return FALSE;
 	
 	if (folder) {
-		char *real_name;
-		int n_len;
+		char *astring, *mailbox;
+		size_t nlen;
 		
 		/* get the folder name */
 		word = imap_next_word (word);
-		real_name = imap_parse_astring (&word, &len);
-		n_len = strlen (store->namespace);
-		if (!strncmp (real_name, store->namespace, n_len))
-			*folder = g_strdup (real_name + n_len);
-		else if (!g_strcasecmp (real_name, "INBOX")) {
-			*folder = g_strdup (real_name);
+		astring = imap_parse_astring ((char **) &word, &len);
+		if (!astring)
+			return FALSE;
+		
+		mailbox = imap_mailbox_decode (astring, strlen (astring));
+		g_free (astring);
+		if (!mailbox)
+			return FALSE;
+		
+		nlen = strlen (store->namespace);
+		
+		if (!strncmp (mailbox, store->namespace, nlen)) {
+			/* strip off the namespace */
+			if (nlen > 0)
+				memmove (mailbox, mailbox + nlen, (len - nlen) + 1);
+			*folder = mailbox;
+		} else if (!g_strcasecmp (mailbox, "INBOX")) {
+			*folder = mailbox;
 		} else {
-			g_warning ("IMAP folder name \"%s\" does not begin with \"%s\"", real_name, store->namespace);
-			*folder = g_strdup (real_name);
+			g_warning ("IMAP folder name \"%s\" does not begin with \"%s\"", mailbox, store->namespace);
+			*folder = mailbox;
 		}
-		g_free (real_name);
+		
 		return *folder != NULL;
 	}
 	
@@ -174,10 +186,8 @@ imap_parse_folder_name (CamelImapStore *store, const char *folder_name)
 			continue;
 		}
 		
-		if (*p == store->dir_sep) {
-			/* FIXME: decode mailbox */
+		if (*p == store->dir_sep)
 			g_ptr_array_add (heirarchy, g_strndup (folder_name, p - folder_name));
-		}
 		
 		p++;
 	}
@@ -276,7 +286,7 @@ static char imap_atom_specials[128] = {
 /**
  * imap_parse_string_generic:
  * @str_p: a pointer to a string
- * @len: a pointer to an int to return the length in
+ * @len: a pointer to a size_t to return the length in
  * @type: type of string (#IMAP_STRING, #IMAP_ASTRING, or #IMAP_NSTRING)
  * to parse.
  *
@@ -295,7 +305,7 @@ static char imap_atom_specials[128] = {
  * latter, it will point to the character after the NIL.)
  **/
 char *
-imap_parse_string_generic (char **str_p, int *len, int type)
+imap_parse_string_generic (char **str_p, size_t *len, int type)
 {
 	char *str = *str_p;
 	char *out;
@@ -304,7 +314,7 @@ imap_parse_string_generic (char **str_p, int *len, int type)
 		return NULL;
 	else if (*str == '"') {
 		char *p;
-		int size;
+		size_t size;
 		
 		str++;
 		size = strcspn (str, "\"") + 1;
@@ -476,7 +486,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 	char *body = *body_p;
 	CamelMessageContentInfo *child;
 	CamelContentType *type;
-	int len;
+	size_t len;
 	
 	if (!body || *body++ != '(') {
 		*body_p = NULL;
@@ -533,7 +543,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 		/* single part */
 		char *main_type, *subtype;
 		char *id, *description, *encoding;
-		guint32 size;
+		guint32 size = 0;
 		
 		main_type = imap_parse_string (&body, &len);
 		skip_char (&body, ' ');
@@ -815,7 +825,7 @@ imap_uid_array_free (GPtrArray *arr)
 char *
 imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 {
-	int len;
+	size_t len;
 	
 	len = strlen (prefix);
 	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
@@ -833,7 +843,7 @@ imap_namespace_concat (CamelImapStore *store, const char *name)
 		else
 			return g_strdup ("");
 	}
-
+	
 	if (!g_strcasecmp (name, "INBOX"))
 		return g_strdup ("INBOX");
 	
@@ -841,7 +851,7 @@ imap_namespace_concat (CamelImapStore *store, const char *name)
 		g_warning ("Trying to concat NULL namespace to \"%s\"!", name);
 		return g_strdup (name);
 	}
-
+	
 	return imap_concat (store, store->namespace, name);
 }
 
@@ -859,7 +869,7 @@ enum {
 #define encode_mode(c) (is_usascii (c) ? MODE_USASCII : (c) == '&' ? MODE_AMPERSAND : MODE_MODUTF7)
 
 char *
-imap_mailbox_encode (const unsigned char *in, int inlen)
+imap_mailbox_encode (const unsigned char *in, size_t inlen)
 {
 	const unsigned char *start, *inptr, *inend;
 	unsigned char *mailbox, *m, *mend;
@@ -981,7 +991,7 @@ imap_mailbox_encode (const unsigned char *in, int inlen)
 
 
 char *
-imap_mailbox_decode (const unsigned char *in, int inlen)
+imap_mailbox_decode (const unsigned char *in, size_t inlen)
 {
 	const unsigned char *start, *inptr, *inend;
 	unsigned char *mailbox, *m, *mend;
@@ -1033,7 +1043,7 @@ imap_mailbox_decode (const unsigned char *in, int inlen)
 					
 					conv = iconv (cd, &inbuf, &buflen, &outbuf, &outleft);
 					if (conv == (size_t) -1) {
-						g_warning ("error decoding mailbox from UTF-7!");
+						g_warning ("error decoding mailbox: %.*s", inlen, in);
 					}
 					iconv (cd, NULL, NULL, NULL, NULL);
 					
@@ -1082,7 +1092,7 @@ imap_mailbox_decode (const unsigned char *in, int inlen)
 				
 				conv = iconv (cd, &inbuf, &buflen, &outbuf, &outleft);
 				if (conv == (size_t) -1) {
-					g_warning ("error decoding mailbox from UTF-7!");
+					g_warning ("error decoding mailbox: %.*s", inlen, in);
 				}
 				iconv (cd, NULL, NULL, NULL, NULL);
 				
@@ -1090,8 +1100,11 @@ imap_mailbox_decode (const unsigned char *in, int inlen)
 			}
 		}
 	} else {
-		/* illegal encoded mailbox... */
-		g_warning ("illegal mailbox name encountered!");
+		if (mode_switch == '-') {
+			/* illegal encoded mailbox... */
+			g_warning ("illegal mailbox name encountered: %.*s", inlen, in);
+		}
+		
 		memcpy (m, start, inptr - start);
 		m += (inptr - start);
 	}

@@ -624,9 +624,10 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelDiscoStore *disco_store = CAMEL_DISCO_STORE (service);
 	CamelImapResponse *response;
-	int i, flags, len;
 	char *result, *name, *path;
 	FILE *storeinfo;
+	int i, flags;
+	size_t len;
 
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	if (!connect_to_server (service, ex) ||

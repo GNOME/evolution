@@ -588,12 +588,14 @@ camel_imap_response_extract (CamelImapStore *store,
 	int len = strlen (type), i;
 	char *resp;
 	
+	len = strlen (type);
+	
 	for (i = 0; i < response->untagged->len; i++) {
 		resp = response->untagged->pdata[i];
 		/* Skip "* ", and initial sequence number, if present */
 		strtoul (resp + 2, &resp, 10);
 		if (*resp == ' ')
-			resp = imap_next_word (resp);
+			resp = (char *) imap_next_word (resp);
 		
 		if (!g_strncasecmp (resp, type, len))
 			break;
@@ -741,8 +743,14 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 		case 'S':
 		case 'F':
 			string = args->pdata[i++];
-			if (*p == 'F')
-				string = imap_namespace_concat (store, string);
+			if (*p == 'F') {
+				char *mailbox;
+				
+				mailbox = imap_namespace_concat (store, string);
+				string = imap_mailbox_encode (mailbox, strlen (mailbox));
+				g_free (mailbox);
+			}
+			
 			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
 				op += sprintf (op, "{%d+}\r\n%s",
 					       strlen (string), string);

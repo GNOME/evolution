@@ -1,3 +1,16 @@
+2002-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (do_beep): As a temporary solution, just
+	printf ("\a"); to make a beep :-)
+
+	* providers/imap/camel-imap-command.c
+	(imap_command_strdup_vprintf): Encode the mailbox to UTF-7 here.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
+	Decode the mailbox name as we parse the list response.
+	(imap_mailbox_decode): It's only an illegal mailbox name if it
+	didn't switch back to US-ASCII mode.
+
 2002-01-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_mailbox_decode): New

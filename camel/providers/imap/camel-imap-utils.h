@@ -28,10 +28,12 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <sys/types.h>
+
 #include "camel-folder-summary.h"
 #include "camel-imap-types.h"
 
-char *imap_next_word (const char *buf);
+const char *imap_next_word (const char *buf);
 
 #define IMAP_LIST_FLAG_NOINFERIORS	(1 << 0)
 #define IMAP_LIST_FLAG_NOSELECT		(1 << 1)
@@ -49,7 +51,7 @@ guint32  imap_parse_flag_list      (char **flag_list);
 
 enum { IMAP_STRING, IMAP_NSTRING, IMAP_ASTRING };
 
-char    *imap_parse_string_generic (char **str_p, int *len, int type);
+char    *imap_parse_string_generic (char **str_p, size_t *len, int type);
 
 #define imap_parse_string(str_p, len_p) \
 	imap_parse_string_generic (str_p, len_p, IMAP_STRING)
@@ -72,8 +74,8 @@ void     imap_uid_array_free       (GPtrArray *arr);
 char *imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix);
 char *imap_namespace_concat (CamelImapStore *store, const char *name);
 
-char *imap_mailbox_encode (const unsigned char *in, int inlen);
-char *imap_mailbox_decode (const unsigned char *in, int inlen);
+char *imap_mailbox_encode (const unsigned char *in, size_t inlen);
+char *imap_mailbox_decode (const unsigned char *in, size_t inlen);
 
 #ifdef __cplusplus
 }

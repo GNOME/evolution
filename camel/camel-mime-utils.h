@@ -28,10 +28,10 @@
 /* maximum size of a line from header_fold() */
 #define CAMEL_FOLD_SIZE (77)
 
-#define CAMEL_UUDECODE_STATE_INIT     (0)
-#define CAMEL_UUDECODE_STATE_BEGIN    (1 << 16)
-#define CAMEL_UUDECODE_STATE_END      (1 << 17)
-#define CAMEL_UUDECODE_STATE_MASK (CAMEL_UUDECODE_STATE_BEGIN | CAMEL_UUDECODE_STATE_END)
+#define CAMEL_UUDECODE_STATE_INIT   (0)
+#define CAMEL_UUDECODE_STATE_BEGIN  (1 << 16)
+#define CAMEL_UUDECODE_STATE_END    (1 << 17)
+#define CAMEL_UUDECODE_STATE_MASK   (CAMEL_UUDECODE_STATE_BEGIN | CAMEL_UUDECODE_STATE_END)
 
 /* a list of references for this message */
 struct _header_references {

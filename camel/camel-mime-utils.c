@@ -442,7 +442,7 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
 	
 	if (i > 0) {
 		while (i < 3) {
-			saved <<= 8;
+			saved <<= 8 | 0;
 			i++;
 		}
 		

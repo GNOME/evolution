@@ -570,7 +570,7 @@ do_beep (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 	d(fprintf (stderr, "beep\n"));
 	
 	camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Beep");
-	/*gdk_beep ();*/
+	printf ("\a");
 	
 	return NULL;
 }
