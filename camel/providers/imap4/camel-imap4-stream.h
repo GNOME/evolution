@@ -80,6 +80,7 @@ struct _CamelIMAP4Stream {
 	CamelStream *stream;
 	
 	guint disconnected:1;  /* disconnected state */
+	guint have_unget:1;    /* have an unget token */
 	guint mode:1;          /* TOKEN vs LITERAL */
 	guint eol:1;           /* end-of-literal */
 	
@@ -96,7 +97,7 @@ struct _CamelIMAP4Stream {
 	unsigned char *tokenptr;
 	unsigned int tokenleft;
 	
-	camel_imap4_token_t *unget;
+	camel_imap4_token_t unget;
 };
 
 struct _CamelIMAP4StreamClass {

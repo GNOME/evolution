@@ -1,3 +1,14 @@
+2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-stream.c (camel_imap4_stream_init):
+	Init have_unget to FALSE. Don't set unget to NULL, it's no longer
+	a pointer.
+	(camel_imap4_stream_finalize): No need to g_free() unget anymore.
+	(camel_imap4_stream_next_token): Check have_unget rather than
+	unget != NULL. Set have_unget to FALSE if we get an unget'd token.
+	(camel_imap4_stream_unget_token): Don't malloc space for an unget
+	token. The unget token is no longer a pointer.
+
 2004-06-14  Not Zed  <NotZed@Ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_data): use
