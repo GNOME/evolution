@@ -1,3 +1,7 @@
+2003-03-02  Sami Pesonen <sampeson@iki.fi>
+
+	* fi.po: converted fi.po to UTF-8 encoding & updated.
+
 2003-03-02  Rodney Dawes  <dobey@ximian.com>
 
 	* POTFILES.in: s/server.in$/server.in.in/
