@@ -1,1 +1,0 @@
-SUBDIRS = minicard search component
