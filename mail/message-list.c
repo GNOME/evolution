@@ -540,6 +540,8 @@ message_list_init_images (void)
 	}
 }
 
+typedef char *(*ctime_r_prototype) (const time_t *clock, ...);
+
 static char *
 filter_date (const void *data)
 {
@@ -549,7 +551,7 @@ filter_date (const void *data)
 	if (date == 0)
 		return g_strdup ("?");
 
-	ctime_r (&date, buf);
+	((ctime_r_prototype) ctime_r) (&date, buf, 26);
 	p = strchr (buf, '\n');
 	if (p)
 		*p = '\0';

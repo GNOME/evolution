@@ -1,3 +1,8 @@
+2000-06-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Work around mismatched ctime_r functions.  This
+	will be fixed.
+
 2000-06-27  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* mail-threads.c: Don't compile this if we don't have
