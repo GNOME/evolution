@@ -1,3 +1,10 @@
+2000-11-08  Anna Marie Dirks  <anna@helixcode.com>
+	* e-search-bar.c: Fixed two spacing problems: first, changed
+	the spacing around the end of the text-entry widget so that 
+	the text entry is always aligned with the beginning of the scrollbar;
+	second, trimmed down the space between the widgets in the search bar.
+
+
 2000-11-06  Not Zed  <NotZed@HelixCode.com>
 
 	* filter-driver.c (do_flag): you shouldn't use an integer to

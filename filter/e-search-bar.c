@@ -213,7 +213,7 @@ e_search_bar_init (ESearchBar *esb)
 {
 	GtkWidget *spacer;
 
-	gtk_box_set_spacing(GTK_BOX(esb), GNOME_PAD);
+	gtk_box_set_spacing(GTK_BOX(esb), 1);
 
 	esb->menubar = gtk_menu_bar_new();
 	gtk_widget_show(esb->menubar);
@@ -233,7 +233,7 @@ e_search_bar_init (ESearchBar *esb)
 	spacer = gtk_drawing_area_new();
 	gtk_widget_show(spacer);
 	gtk_box_pack_start(GTK_BOX(esb), spacer, FALSE, FALSE, 0);
-	gtk_widget_set_usize(spacer, 100, 1);
+	gtk_widget_set_usize(spacer, 15, 1);
 }
 
 static void
@@ -294,3 +294,5 @@ e_search_bar_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	}
 }
+
+
