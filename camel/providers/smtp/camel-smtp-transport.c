@@ -664,7 +664,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	}
 	
 	/* check that the server says we are authenticated */
-	if (!respbuf || strncmp (respbuf, "234", 3)) {
+	if (!respbuf || strncmp (respbuf, "235", 3)) {
 		g_free (respbuf);
 		goto lose;
 	}
