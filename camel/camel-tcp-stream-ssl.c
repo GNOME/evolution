@@ -366,16 +366,19 @@ static gboolean
 ssl_cert_is_saved (const char *certid)
 {
 	char *filename;
-	int fd;
+	struct stat st;
+	int ret;
 	
 	filename = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), certid);
 	
-	fd = open (filename, O_RDONLY);
-	g_free (filename);
-	if (fd != -1)
-		close (fd);
+	if (stat (filename, &st) == -1) {
+		g_free (filename);
+		return FALSE;
+	}
 	
-	return fd != -1;
+	g_free (filename);
+	
+	return st.st_uid == getuid ();
 }
 
 static SECStatus

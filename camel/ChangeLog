@@ -1,3 +1,10 @@
+2001-10-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (ssl_cert_is_saved): Same.
+
+	* camel-tcp-stream-openssl.c (ssl_cert_is_saved): Instead of
+	opening the file, stat it and make sure that it belongs to us.
+
 2001-10-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-openssl.c (ssl_verify): Same hack as below.
