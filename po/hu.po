@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4.1\n"
 "POT-Creation-Date: 2003-07-07 15:49+0200\n"
-"PO-Revision-Date: 2003-07-10 10:23+0200\n"
+"PO-Revision-Date: 2003-07-11 12:33+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -1344,7 +1344,7 @@ msgstr ""
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Category:"
-msgstr "_Kategória:"
+msgstr "K_ategória:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:9
 msgid "_Folder:"
@@ -3608,7 +3608,7 @@ msgstr "Alacsony"
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:404
 msgid "Undefined"
-msgstr "Nem megadott"
+msgstr "Nem meghatározott"
 
 #: calendar/conduits/calendar/calendar-conduit.c:206
 msgid "Split Multi-Day Events:"
@@ -3989,7 +3989,7 @@ msgstr "Ismétlődő"
 
 #: calendar/gui/calendar-model.c:1713
 msgid "Assigned"
-msgstr "Kiosztva"
+msgstr "Hozzárendelve"
 
 #: calendar/gui/calendar-model.c:1719 calendar/gui/e-meeting-model.c:266
 #: calendar/gui/e-meeting-model.c:276 calendar/gui/e-meeting-model.c:534
@@ -5042,7 +5042,7 @@ msgstr "Befejezés dátuma:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Progress"
-msgstr "Folyamatban"
+msgstr "Folyamatjelző"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 msgid "URL:"
@@ -9164,7 +9164,7 @@ msgstr "Nem sikerült átnevezni a mappát: %s: Nincs ilyen mappa"
 #: camel/providers/imap/camel-imap-command.c:450
 #: camel/providers/imap/camel-imap-store.c:2644
 msgid "Operation cancelled"
-msgstr "Művelet megszakítva"
+msgstr "A művelet leállítva"
 
 #: camel/providers/imap/camel-imap-command.c:305
 #: camel/providers/imap/camel-imap-store.c:2647
@@ -13749,11 +13749,11 @@ msgstr "%a %l:%M %p"
 
 #: mail/message-list.c:1108
 msgid "%b %d %l:%M %p"
-msgstr "%d %b %l:%M %p"
+msgstr "%b %d %l:%M %p"
 
 #: mail/message-list.c:1110
 msgid "%b %d %Y"
-msgstr "%Y %d %b"
+msgstr "%Y %b %d"
 
 #: mail/message-list.c:2649
 msgid "Generating message list"
@@ -25767,7 +25767,7 @@ msgstr "Indítóikon-csoport átnevezése"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Re_move"
-msgstr "_Törlés"
+msgstr "_Eltávolítás"
 
 #: shell/e-shortcuts-view.c:429
 msgid "Remove this shortcut from the shortcut bar"
@@ -26396,11 +26396,11 @@ msgstr "Ugrás"
 
 #: ui/evolution-calendar.xml.h:10
 msgid "Go back"
-msgstr "Ugrás visszafelé"
+msgstr "Vissza"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Go forward"
-msgstr "Ugrás előre "
+msgstr "Előre"
 
 #: ui/evolution-calendar.xml.h:12
 msgid "Go to _Date"
@@ -26530,7 +26530,7 @@ msgstr "Szöveg beillesztése a vágólapról"
 #: ui/evolution-composer-entries.xml.h:5 ui/evolution-mail-list.xml.h:13
 #: ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr "Mindet _kijelöli"
+msgstr "_Mindent kijelöl"
 
 #: ui/evolution-composer-entries.xml.h:6
 msgid "Select all text"
@@ -26544,7 +26544,7 @@ msgstr "_Boríték nyomtatása..."
 #: ui/evolution-contact-list-editor.xml.h:5
 #: ui/evolution-message-composer.xml.h:18
 msgid "Save _As..."
-msgstr "M_entés másként..."
+msgstr "Men_tés másként..."
 
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
@@ -27189,7 +27189,7 @@ msgstr "_Visszaállítás"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:6
 msgid "Close this window"
-msgstr "Ablak bezárása"
+msgstr "Az aktuális ablak bezárása"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:39
