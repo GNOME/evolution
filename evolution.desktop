@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Evolution
-Name[tr]=Evolution
-Comment=The Evolution groupware suite
-Comment[tr]=Evolution kitlesel iþlemler uygulamasý
-Exec=evolution
-Icon=evolution.png
-Terminal=0
-Type=Application
