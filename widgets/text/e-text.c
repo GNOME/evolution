@@ -208,9 +208,9 @@ e_text_dispose (GObject *object)
 	if (text->tep)
 		g_object_unref (text->tep);
 	text->tep = NULL;
-	
+
 	if (text->invisible)
-		g_object_unref (text->invisible);
+		gtk_widget_destroy (text->invisible);
 	text->invisible = NULL;
 
 	g_free (text->primary_selection);
