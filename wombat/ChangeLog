@@ -1,3 +1,21 @@
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am: change over from .oaf files to .server files and
+	remove the moniker stuff from the build.
+
+	* wombat.c: port over to gnome2, and nuke all the config moniker
+	stuff.
+
+	* wombat-moniker.[ch]: remove
+
+	* wombat-private-moniker.[ch]: remove
+
+	* GNOME_Evolution_WombatLDAP.server.in: rename the oaf.in file to this.
+	
+	* GNOME_Evolution_WombatNOLDAP.server.in: rename the oaf.in file to this.
+
+	* .cvsignore: s/oaf/server
+	
 2002-08-01  Chris Toshok  <toshok@ximian.com>
 
 	* wombat.c (last_calendar_gone_cb): remove the annoying fprintf

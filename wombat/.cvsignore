@@ -11,5 +11,5 @@ wombat-common.c
 wombat.h
 wombat
 wombat.pure
-GNOME_Evolution_Wombat.oaf
-GNOME_Evolution_Wombat.oaf.in
+GNOME_Evolution_Wombat.server
+GNOME_Evolution_Wombat.server.in

@@ -1,5 +1,9 @@
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"wombat\"			\
+	-DPREFIX=\"$(prefix)\"				\
+	-DSYSCONFDIR=\"$(sysconfdir)\"			\
+	-DDATADIR=\"$(datadir)\"			\
+	-DLIBDIR=\"$(libdir)\"				\
 	-I$(top_srcdir)/e-util				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend		\
@@ -17,10 +21,6 @@ bin_PROGRAMS =	\
 	wombat
 
 wombat_SOURCES = 			\
-	wombat-moniker.c		\
-	wombat-moniker.h		\
-	wombat-private-moniker.c	\
-	wombat-private-moniker.h	\
 	wombat.c
 
 if ENABLE_LDAP
@@ -47,28 +47,28 @@ wombat_LDADD =								\
 	$(top_builddir)/libwombat/libwombat.la				\
 	$(WOMBAT_LIBS)
 
-oafdir = $(datadir)/oaf
+serversdir = $(libdir)/bonobo/servers
 
 if ENABLE_LDAP
-OAF_IN_FILE=GNOME_Evolution_WombatLDAP.oaf.in
+SERVER_IN_FILE=GNOME_Evolution_WombatLDAP.server.in
 else
-OAF_IN_FILE=GNOME_Evolution_WombatNOLDAP.oaf.in
+SERVER_IN_FILE=GNOME_Evolution_WombatNOLDAP.server.in
 endif
 
-GNOME_Evolution_Wombat.oaf.in: $(OAF_IN_FILE)
+GNOME_Evolution_Wombat.server.in: $(SERVER_IN_FILE)
 	cp $< $@
 
-oaf_in_files = GNOME_Evolution_Wombat.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+server_in_files = GNOME_Evolution_Wombat.server.in
+servers_DATA = $(server_in_files:.server.in=.server)
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_SERVER_RULE@
 
 idldir = $(datadir)/idl
 
 idl_DATA = Evolution-Wombat.idl
 
-EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) $(idl_DATA) \
-	     GNOME_Evolution_WombatLDAP.oaf.in GNOME_Evolution_WombatNOLDAP.oaf.in
+EXTRA_DIST = $(servers_DATA) $(server_in_files) $(idl_DATA) \
+	     GNOME_Evolution_WombatLDAP.server.in GNOME_Evolution_WombatNOLDAP.server.in
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
