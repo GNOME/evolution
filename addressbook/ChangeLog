@@ -1,3 +1,9 @@
+2003-06-18  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (fill_in_field): in the
+	EUrlEntry case just reassign widget.  it'll be handled by the
+	GtkEditable code below.  Fixes #43841.
+
 2003-06-14  Larry Ewing  <lewing@ximian.com>
 
         * gui/backend/ebook/e-card-simple.c:

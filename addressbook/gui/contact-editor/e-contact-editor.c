@@ -2143,7 +2143,8 @@ fill_in_field(EContactEditor *editor, char *id, char *value)
 
 	if (E_IS_URL_ENTRY (widget))
 		widget = e_url_entry_get_entry (E_URL_ENTRY (widget));
-	else if (GTK_IS_TEXT_VIEW (widget)) {
+
+	if (GTK_IS_TEXT_VIEW (widget)) {
 		if (value)
 			gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget)),
 						  value, strlen (value));
