@@ -1,3 +1,12 @@
+1998-10-11  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* gnome-guile-checks.m4: Check for "guile-config" and then for
+	"build-guile", if guile-config couldn't be found.  Do not
+	explicitely include output from "info libdir", it is already
+	included in "link".  Use "compile" instead of "info includedir".  Do
+	not include "1.2" in error message when Guile can't be found at
+	all.
+	
 1998-10-11  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Added optional

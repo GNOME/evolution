@@ -24,30 +24,48 @@ AC_DEFUN([GNOME_CHECK_GUILE],
 	AC_SUBST(READLINE_LIB)
 
 	if test "x$cross_compiling" = "xyes" ; then
-	  name_build_guile="$target_alias-build-guile"
+	  name_build_guile="$target_alias-guile-config"
 	else
-	  name_build_guile="build-guile"
+	  name_build_guile="guile-config"
 	fi
 
 	AC_CHECK_PROG(BUILD_GUILE, $name_build_guile, yes, no)
 
 	if test "x$BUILD_GUILE" = "xyes"; then
-		AC_MSG_CHECKING(whether build-guile works)
-		if test x`build-guile --version >/dev/null 2>&1 || \
-				echo no` = xno; then
-			BUILD_GUILE=no
+	    AC_MSG_CHECKING(whether $name_build_guile works)
+	    if test x`$name_build_guile --version >/dev/null 2>&1 || \
+		echo no` = xno; then
+		BUILD_GUILE=no
+	    fi
+	    AC_MSG_RESULT($BUILD_GUILE)
+	else
+
+	    if test "x$cross_compiling" = "xyes" ; then
+		name_build_guile="$target_alias-build-guile"
+	    else	
+		name_build_guile="build-guile"
+	    fi
+
+	    AC_CHECK_PROG(BUILD_GUILE, $name_build_guile, yes, no)
+
+	    if test "x$BUILD_GUILE" = "xyes"; then
+		AC_MSG_CHECKING(whether $name_build_guile works)
+		if test x`$name_build_guile --version >/dev/null 2>&1 || \
+	 	    echo no` = xno; then
+		    BUILD_GUILE=no
 		fi
 		AC_MSG_RESULT($BUILD_GUILE)
+	    fi
 	fi
 
 	AC_CHECK_LIB(m, sin)
 
 	if test "x$BUILD_GUILE" = "xyes"; then
 		AC_MSG_CHECKING(for guile libraries)
-		GUILE_LIBS="-L`build-guile info libdir` `build-guile link`"
+		GUILE_LIBS="`$name_build_guile link`"
 		AC_MSG_RESULT($GUILE_LIBS)
 		AC_MSG_CHECKING(for guile headers)
-		GUILE_INCS="-I`build-guile info includedir`"
+		GUILE_INCS="`$name_build_guile compile`"
 		AC_MSG_RESULT($GUILE_INCS)
 	else
 		GUILE_LIBS="$GNOME_LIBDIR"
@@ -83,9 +101,9 @@ AC_DEFUN([GNOME_CHECK_GUILE],
 
 	if test x$ac_cv_guile_found = xno ; then
 		if test x$1 = xfail ; then
-		  AC_MSG_ERROR(Can not find Guile 1.2 on this system)
+		  AC_MSG_ERROR(Can not find Guile on this system)
 		else
-		  AC_MSG_WARN(Can not find Guile 1.2 on this system)
+		  AC_MSG_WARN(Can not find Guile on this system)
 		fi
 		ac_cv_guile_found=no
 	fi
