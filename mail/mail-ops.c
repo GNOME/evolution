@@ -258,32 +258,16 @@ static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
 	CamelMimeMessage *message;
-	CamelTransport *transport;
-	CamelException *ex;
-	static gboolean loaded = FALSE;
+	CamelStream *stream;
+	int stdout_dup;
 
 	message = e_msg_composer_get_message (composer);
-	camel_mime_message_set_from (message,
-				     "Dan Winship <danw@helixcode.com>");
-	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
-				 "Evolution 0.0.0.0.0.0.0.0.0.1");
-	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
-	if (!loaded) {
-		camel_provider_register_as_module ("/usr/local/lib/evolution/camel-providers/0.0.1/libcamelsendmail.so");
-		loaded = TRUE;
-	}
-	ex = camel_exception_new ();
-	transport = camel_session_get_transport_for_protocol (
-		default_session->session, "sendmail", ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-		g_warning (camel_exception_get_description (ex));
-	else {
-		camel_transport_send (transport, CAMEL_MEDIUM (message), ex);
-		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-			g_warning (camel_exception_get_description (ex));
-		gtk_object_destroy (GTK_OBJECT (transport));
-	}
+	stdout_dup = dup (1);
+	stream = camel_stream_fs_new_with_fd (stdout_dup);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
+					    stream);
+	camel_stream_close (stream);
 
 	gtk_object_unref (GTK_OBJECT (message));
 	gtk_object_destroy (GTK_OBJECT (composer));
