@@ -36,15 +36,15 @@
 
 /**
  * e_request_string:
- * @parent: 
- * @title: 
- * @prompt: 
- * @default: 
+ * @parent: parent window, or %NULL
+ * @title: the dialog title (in the locale character set)
+ * @prompt: the prompt (in the locale character set)
+ * @default: default value (in UTF8)
  * 
- * Requst a string to the user.
+ * Request a string from the user.
  * 
- * Return value: NULL if the user cancelled the dialog, the inserted string
- * otherwise.  The string must be freed by the caller.
+ * Return value: %NULL if the user cancelled the dialog, the inserted
+ * string (in UTF8) otherwise. The string must be freed by the caller.
  **/
 char *
 e_request_string (GtkWindow *parent,
