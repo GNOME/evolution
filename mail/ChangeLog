@@ -1,3 +1,18 @@
+2001-07-20  Peter Williams  <peterw@ximian.com>
+
+	* mail-mt.c (mail_msgport_replied): Fix DanW's fix. Pass the right
+	arguments to mail_msg_destroy.
+
+	* component-factory.c (component_fn): Don't populate the context
+	menu; our only action didn't even work.
+	(populate_folder_context_menu): Removed. ChangeFolderProperties
+	needs a FolderBrowser which we don't have. It didn't even work
+	before.
+
+	* mail-local.c (mail_local_reconfigure_folder): Bring the creation
+	of the hash table to the beginning to prevent warnings. Complain
+	if the mailbox is non-local.
+	
 2001-07-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (filter_folder_filter): Don't expunge the source

@@ -60,6 +60,8 @@ static pthread_cond_t mail_msg_cond = PTHREAD_COND_INITIALIZER;
 
 pthread_t mail_gui_thread;
 
+static void mail_msg_destroy(EThread *e, EMsg *msg, void *data);
+
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 {
 	struct _mail_msg *msg;
@@ -257,7 +259,7 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 		if (m->ops->reply_msg)
 			m->ops->reply_msg(m);
 		mail_msg_check_error(m);
-		mail_msg_destroy(m);
+		mail_msg_destroy(NULL, m, NULL);
 	}
 
 	return TRUE;

@@ -49,6 +49,7 @@
 #include "evolution-shell-component.h"
 #include "evolution-storage-listener.h"
 
+#include "gal/widgets/e-gui-utils.h"
 #include "e-util/e-path.h"
 
 #include "camel/camel.h"
@@ -971,11 +972,29 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 		return;
 	}
 	
+	if (!reconfigure_folder_hash)
+		reconfigure_folder_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	
 	if ((gd = g_hash_table_lookup (reconfigure_folder_hash, fb->folder))) {
 		/* FIXME: raise this dialog?? */
 		return;
 	}
-	
+
+	/* check if we can work on this folder */
+	name = strchr (fb->uri, '/');
+	if (name) {
+		while (*name == '/')
+			name++;
+		/* we just want to see if it's NULL or not */
+		name = (char *) g_hash_table_lookup (local_store->folders, name);
+	}
+
+	if (name == NULL) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_WARNING,
+			  _("You cannot change the format of a non-local folder."));
+		return;
+	}
+
 	m = mail_msg_new (&reconfigure_folder_op, NULL, sizeof (*m));
 	store = camel_folder_get_parent_store (fb->folder);
 	
@@ -1001,9 +1020,6 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	
 	gtk_signal_connect (GTK_OBJECT (gd), "clicked", reconfigure_clicked, m);
 	gtk_object_unref (GTK_OBJECT (gui));
-	
-	if (!reconfigure_folder_hash)
-		reconfigure_folder_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	
 	g_hash_table_insert (reconfigure_folder_hash, (gpointer) fb->folder, (gpointer) gd);
 	

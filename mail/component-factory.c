@@ -300,6 +300,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
+#if 0
 static void
 populate_folder_context_menu (EvolutionShellComponent *shell_component,
 			      BonoboUIComponent *uic,
@@ -317,6 +318,7 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,
 					   popup_xml, NULL);
 }
+#endif
 
 static char *
 get_dnd_selection (EvolutionShellComponent *shell_component,
@@ -671,7 +673,7 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 							 create_folder,
 							 remove_folder,
 							 xfer_folder,
-							 populate_folder_context_menu,
+							 /*populate_folder_context_menu*/NULL,
 							 get_dnd_selection,
 							 NULL);
 	
