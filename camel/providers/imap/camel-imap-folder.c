@@ -519,21 +519,21 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 		camel_folder_summary_info_free (folder->summary, info);
 		g_free (new[i].uid);
 	}
-
+	
 	seq = i + 1;
-
+	
 	/* Free remaining memory. */
 	while (i < summary_len && new[i].uid)
 		g_free (new[i++].uid);
 	g_free (new);
-
+	
 	/* Remove any leftover cached summary messages. (Yes, we
 	 * repeatedly add the same number to the removed array.
 	 * See RFC2060 7.4.1)
 	 */
 	for (i = seq; i <= summary_len; i++)
 		g_array_append_val (removed, seq);
-
+	
 	/* And finally update the summary. */
 	camel_imap_folder_changed (folder, exists, removed, ex);
 	g_array_free (removed, TRUE);
