@@ -1,3 +1,8 @@
+2001-08-24  Peter Williams  <peterw@ximian.com>
+
+	* Revert Not Zed's previous commits as they apparently can
+	cause serious data loss for POP3 users.
+	
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	["Summarizing" and "Synchronizing" are spelt with a "z" in the
