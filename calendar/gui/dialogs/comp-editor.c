@@ -815,10 +815,7 @@ make_title_from_comp (CalComponent *comp)
 		title = g_strdup_printf (type_string, _("No summary"));
 	}
 
-	title_utf8 = g_locale_to_utf8 (title, -1, NULL, NULL, NULL);
-	g_free (title);
-
-	return title_utf8;
+	return title;
 }
 
 static const char *

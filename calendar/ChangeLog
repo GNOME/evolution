@@ -1,3 +1,8 @@
+2003-05-16  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/comp-editor.c (make_title_from_comp): the title is
+	already in UTF-8
+
 2003-05-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #42220
