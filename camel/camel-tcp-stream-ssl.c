@@ -363,7 +363,7 @@ save_ssl_cert (const char *certid)
 	filename = g_strdup_printf ("%s/%s", path, certid);
 	g_free (path);
 	
-	fd = open (filename, O_WRONLY | O_CREAT);
+	fd = open (filename, O_WRONLY | O_CREAT, 0600);
 	if (fd != -1)
 		close (fd);
 	

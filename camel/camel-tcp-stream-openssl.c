@@ -167,47 +167,29 @@ camel_tcp_stream_openssl_new (CamelService *service, const char *expected_host)
 	return CAMEL_STREAM (stream);
 }
 
-static void
-errlib_error_to_errno (int ret)
+static int
+ssl_errno (SSL *ssl, int ret)
 {
-	long error;
-	
-	error = ERR_get_error ();
-	if (error == 0) {
-		if (ret == 0)
-			errno = EINVAL; /* unexpected EOF */
-		else
-			errno = 0;
-	} else if (!errno) {
-		/* ok, we get the shaft now. */
-		errno = EINTR;
-	}
-}
-
-static void
-ssl_error_to_errno (SSL *ssl, int ret)
-{
-	/* hm, a CamelException might be useful right about now! */
-	
 	switch (SSL_get_error (ssl, ret)) {
 	case SSL_ERROR_NONE:
-		errno = 0;
-		return;
+		return 0;
 	case SSL_ERROR_ZERO_RETURN:
 		/* this one does not map well at all */
-		errno = EINVAL;
-		return;
-	case SSL_ERROR_WANT_READ: /* non-fatal; retry */
+		printf ("ssl_errno: SSL_ERROR_ZERO_RETURN\n");
+		return EINVAL;
+	case SSL_ERROR_WANT_READ:   /* non-fatal; retry */
 	case SSL_ERROR_WANT_WRITE:  /* non-fatal; retry */
-	case SSL_ERROR_WANT_X509_LOOKUP: /* non-fatal; retry */
-		errno = EAGAIN;
-		return;
+		printf ("ssl_errno: SSL_ERROR_WANT_[READ,WRITE]\n");
+		return EAGAIN;
 	case SSL_ERROR_SYSCALL:
-		errlib_error_to_errno (ret);
-		return;
+		printf ("ssl_errno: SSL_ERROR_SYSCALL\n");
+		return EINTR;
 	case SSL_ERROR_SSL:
-		errlib_error_to_errno (-1);
-		return;
+		printf ("ssl_errno: SSL_ERROR_SSL  <-- very useful error...riiiiight\n");
+		return EINTR;
+	default:
+		printf ("ssl_errno: default error\n");
+		return EINTR;
 	}
 }
 
@@ -229,8 +211,8 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		do {
 			nread = SSL_read (ssl, buffer, n);
 			if (nread < 0)
-				ssl_error_to_errno (ssl, nread);
-		} while (nread < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
+				errno = ssl_errno (ssl, nread);
+		} while (nread < 0 && (errno == EINTR || errno == EAGAIN));
 	} else {
 		int error, flags, fdmax;
 		fd_set rdset;
@@ -238,11 +220,12 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		flags = fcntl (tcp_stream_openssl->priv->sockfd, F_GETFL);
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
 		
+		fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
+		
 		do {
 			FD_ZERO (&rdset);
 			FD_SET (tcp_stream_openssl->priv->sockfd, &rdset);
 			FD_SET (cancel_fd, &rdset);
-			fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
 			
 			select (fdmax, &rdset, 0, 0, NULL);
 			if (FD_ISSET (cancel_fd, &rdset)) {
@@ -254,9 +237,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			do {
 				nread = SSL_read (ssl, buffer, n);
 				if (nread < 0)
-					ssl_error_to_errno (ssl, nread);
+					errno = ssl_errno (ssl, nread);
 			} while (nread < 0 && errno == EINTR);
-		} while (nread < 0 && (errno == EAGAIN || errno == EWOULDBLOCK));
+		} while (nread < 0 && errno == EAGAIN);
 		
 		error = errno;
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
@@ -285,8 +268,8 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			do {
 				w = SSL_write (ssl, buffer + written, n - written);
 				if (w < 0)
-					ssl_error_to_errno (ssl, SSL_get_error (ssl, w));
-			} while (w < 0 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
+					errno = ssl_errno (ssl, w);
+			} while (w < 0 && (errno == EINTR || errno == EAGAIN));
 			
 			if (w > 0)
 				written += w;
@@ -315,11 +298,11 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			do {
 				w = SSL_write (ssl, buffer + written, n - written);
 				if (w < 0)
-					ssl_error_to_errno (ssl, w);
+					errno = ssl_errno (ssl, w);
 			} while (w < 0 && errno == EINTR);
 			
 			if (w < 0) {
-				if (errno == EAGAIN || errno == EWOULDBLOCK) {
+				if (errno == EAGAIN) {
 					w = 0;
 				} else {
 					error = errno;
@@ -483,7 +466,7 @@ save_ssl_cert (const char *certid)
 	filename = g_strdup_printf ("%s/%s", path, certid);
 	g_free (path);
 	
-	fd = open (filename, O_WRONLY | O_CREAT);
+	fd = open (filename, O_WRONLY | O_CREAT, 0600);
 	if (fd != -1)
 		close (fd);
 	
@@ -561,7 +544,7 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 	
 	SSLeay_add_ssl_algorithms();
 	SSL_load_error_strings();
-
+	
 	/* SSLv23_client_method will negotiate with SSL v2, v3, or TLS v1 */
 	ssl_ctx = SSL_CTX_new (SSLv23_client_method ());
 	g_return_val_if_fail (ssl_ctx != NULL, NULL);
@@ -569,13 +552,13 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 	SSL_CTX_set_verify (ssl_ctx, SSL_VERIFY_PEER, &ssl_verify);
 	ssl = SSL_new (ssl_ctx);
 	SSL_set_fd (ssl, sockfd);
-
+	
 	SSL_CTX_set_app_data (ssl_ctx, openssl);
-
+	
 	n = SSL_connect (ssl);
 	if (n != 1) {
-		ssl_error_to_errno (ssl, n);
-
+		errno = ssl_errno (ssl, n);
+		
 		SSL_shutdown (ssl);
 		
 		if (ssl->ctx)

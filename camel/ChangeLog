@@ -1,5 +1,13 @@
 2001-11-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (save_ssl_cert): Oops, pass a mode
+	argument to the open() call.
+
+	* camel-tcp-stream-openssl.c (save_ssl_cert): Oops, pass a mode
+	argument to the open() call.
+
+2001-11-07  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-pgp-mime.c (camel_pgp_mime_part_decrypt): Add code to
 	kludge around any x-inline-pgp-hacks by prepending some content
 	headers to the decrypted data.
