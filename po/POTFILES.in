@@ -173,7 +173,7 @@ mail/mail-send-recv.c
 mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
-mail/mail-view.c
+mail/message-browser.c
 mail/message-list.c
 mail/session.c
 mail/subscribe-dialog.c
