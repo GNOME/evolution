@@ -582,9 +582,9 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/File/Print/Print",				      "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewAppointment", "new_appointment.xpm"),
-	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewEvent", "new_appointment.xpm"),
-	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewTask", "new_task-16.png"),
-	E_PIXMAP ("/menu/ComponentToolsPlaceholder/Tools/CalendarSettings",   "configure_16_calendar.xpm"),
+	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewEvent",       "new_appointment.xpm"),
+	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewTask",        "new_task-16.png"),
+	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/CalendarSettings",        "configure_16_calendar.xpm"),
 	E_PIXMAP ("/menu/View/ViewBegin/Goto",				      "goto-16.png"),
 
 	E_PIXMAP ("/Toolbar/New",					      "buttons/new_appointment.png"),

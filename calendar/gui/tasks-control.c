@@ -245,19 +245,19 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",                 "new_task-16.png"),
-	E_PIXMAP ("/menu/Edit/Cut",					      "16_cut.png"),
-	E_PIXMAP ("/menu/Edit/Copy",					      "16_copy.png"),
-	E_PIXMAP ("/menu/Edit/Paste",					      "16_paste.png"),
-	E_PIXMAP ("/menu/Edit/Delete",					      "evolution-trash-mini.png"),
-	E_PIXMAP ("/menu/File/Print/Print",                              "print.xpm"),
-	E_PIXMAP ("/menu/File/Print/Print Preview",                      "print-preview.xpm"),
-	E_PIXMAP ("/menu/ComponentToolsPlaceholder/Tools/TasksSettings", "configure_16_calendar.xpm"),
-	E_PIXMAP ("/Toolbar/New",                                        "buttons/new_task.png"),
-	E_PIXMAP ("/Toolbar/Cut",                                        "buttons/cut.png"),
-	E_PIXMAP ("/Toolbar/Copy",                                       "buttons/copy.png"),
-	E_PIXMAP ("/Toolbar/Paste",                                      "buttons/paste.png"),
-	E_PIXMAP ("/Toolbar/Delete",                                     "buttons/delete-message.png"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",            "new_task-16.png"),
+	E_PIXMAP ("/menu/Edit/Cut",                                 "16_cut.png"),
+	E_PIXMAP ("/menu/Edit/Copy",                                "16_copy.png"),
+	E_PIXMAP ("/menu/Edit/Paste",                               "16_paste.png"),
+	E_PIXMAP ("/menu/Edit/Delete",                              "evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/File/Print/Print",                         "print.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print Preview",                 "print-preview.xpm"),
+	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/TasksSettings", "configure_16_calendar.xpm"),
+	E_PIXMAP ("/Toolbar/New",                                   "buttons/new_task.png"),
+	E_PIXMAP ("/Toolbar/Cut",                                   "buttons/cut.png"),
+	E_PIXMAP ("/Toolbar/Copy",                                  "buttons/copy.png"),
+	E_PIXMAP ("/Toolbar/Paste",                                 "buttons/paste.png"),
+	E_PIXMAP ("/Toolbar/Delete",                                "buttons/delete-message.png"),
 	E_PIXMAP_END
 };
 

@@ -1,3 +1,10 @@
+2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/calendar-commands.c (pixmaps): Update pixmap menu paths;
+	/menu/ComponentToolsPlaceholder/Tools ->
+	/menu/Tools/ComponentPlaceholder .
+	* gui/tasks-control.c: Likewise.
+
 2001-09-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	* idl/evolution-calendar.idl: added InvalidURI and UnsupportedMethod
