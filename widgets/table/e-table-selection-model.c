@@ -524,7 +524,19 @@ e_table_selection_model_select_all (ETableSelectionModel *selection)
 	for (i = 0; i < (selection->row_count + 31) / 32; i ++) {
 		selection->selection[i] = ONES;
 	}
-	
+
+	/* need to zero out the bits corresponding to the rows not
+	   selected in the last full 32 bit mask */
+	if (selection->row_count % 32) {
+		int unselected_mask = 0;
+		int num_unselected_in_last_byte = 32 - selection->row_count % 32;
+
+		for (i = 0; i < num_unselected_in_last_byte; i ++)
+			unselected_mask |= 1 << i;
+
+		selection->selection[(selection->row_count + 31) / 32 - 1] &= ~unselected_mask;
+	}
+
 	selection->cursor_col = 0;
 	selection->cursor_row = 0;
 	selection->selection_start_row = 0;
