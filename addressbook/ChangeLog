@@ -1,5 +1,13 @@
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
+	* conduit/address-conduit.c (e_addr_context_destroy): prevent
+	double unref
+	(cursor_cb): correct typo
+	(card_removed): remove the card from the map if was archived and
+	is now deleted
+
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+	
 	* conduit/address-conduit.h: new member
 
 	* conduit/address-conduit.c (print_remote): free the struct after

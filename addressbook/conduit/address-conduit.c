@@ -223,11 +223,8 @@ e_addr_context_destroy (EAddrConduitContext *ctxt)
 		g_hash_table_destroy (ctxt->changed_hash);
 	}
 	
-	if (ctxt->changed != NULL) {
-		for (l = ctxt->changed; l != NULL; l = l->next)
-			gtk_object_unref (GTK_OBJECT (l->data));
+	if (ctxt->changed != NULL)
 		g_list_free (ctxt->changed);
-	}
 	
 	if (ctxt->locals != NULL) {
 		for (l = ctxt->locals; l != NULL; l = l->next)
@@ -276,7 +273,7 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closur
 		for (i = 0; i < length; i ++) {
 			ECard *card = e_card_cursor_get_nth (cursor, i);
 			
-1			if (e_card_evolution_list (card))
+			if (e_card_evolution_list (card))
 				continue;
 
 			ctxt->cards = g_list_append (ctxt->cards, card);
@@ -1006,9 +1003,12 @@ static void
 card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 {
 	CardObjectChange *coc;
-
-	/* If its deleted but not in the map its probably a list */
-	if (e_pilot_map_lookup_pid (ctxt->map, id) == 0)
+	gboolean archived;
+	
+	archived = e_pilot_map_uid_is_archived (ctxt->map, id);
+	
+	/* If its deleted, not in the archive and not in the map its a list */
+	if (!archived && e_pilot_map_lookup_pid (ctxt->map, id) == 0)
 		return;	
 	
 	coc = g_new0 (CardObjectChange, 1);
@@ -1018,8 +1018,10 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 
 	ctxt->changed = g_list_prepend (ctxt->changed, coc);
 	
-	if (!e_pilot_map_uid_is_archived (ctxt->map, id))
+	if (!archived)
 		g_hash_table_insert (ctxt->changed_hash, (gpointer)e_card_get_id (coc->card), coc);
+	else
+		e_pilot_map_remove_by_uid (ctxt->map, id);
 }
 
 static void
@@ -1125,7 +1127,6 @@ post_sync (GnomePilotConduit *conduit,
 	gchar *filename, *change_id;
 	
 	LOG ("post_sync: Address Conduit v.%s", CONDUIT_VERSION);
-	LOG ("---------------------------------------------------------\n");
 
 	filename = map_name (ctxt);
 	e_pilot_map_write (filename, ctxt->map);
@@ -1138,6 +1139,8 @@ post_sync (GnomePilotConduit *conduit,
 	e_book_get_changes (ctxt->ebook, change_id, view_cb, ctxt);
 	g_free (change_id);
 	gtk_main ();
+
+	LOG ("---------------------------------------------------------\n");
 	
 	return 0;
 }
@@ -1228,7 +1231,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (local != NULL, 0);
 
 	if (*local == NULL) {
-		LOG ("beginning for_each_modified: beginning\n");
+		LOG ("for_each_modified beginning\n");
 		
 		iterator = ctxt->changed;
 		
