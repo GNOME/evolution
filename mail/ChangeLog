@@ -1,3 +1,9 @@
+2000-08-08  Dan Winship  <danw@helixcode.com>
+
+	* mail-config-gui.c (service_page_item_new): Attach a signal
+	handler to call the "changed" function when the user clicks the
+	"keep on server" checkbox.
+	
 2000-08-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (view_msg): New convenience function with params of a
@@ -19,7 +25,7 @@
 	* mail-config-gui.c: Add "Don't delete messages from server"
 	button to remote SOURCEs that aren't STORAGEs (ie, POP).
 	(provider_list): Only list SOURCEs. (ie, not mh)
-	
+
 	* mail-config.c: Save/load "keep_on_server" flag.
 
 	* mail-ops.c (fetch_remote_mail): New function, split out of

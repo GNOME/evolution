@@ -973,6 +973,9 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 	    !(mcs->provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
 		item->keep_on_server = gtk_check_button_new_with_label (
 			_("Don't delete messages from server"));
+		gtk_signal_connect (GTK_OBJECT (item->keep_on_server), "toggled",
+				    GTK_SIGNAL_FUNC (service_page_item_changed),
+				    page);
 		gtk_table_attach (GTK_TABLE (table), item->keep_on_server,
 				  0, 3, row, row + 1, GTK_FILL, 0, 0, 0);
 		row++;
