@@ -1,3 +1,15 @@
+2004-03-26  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-cal-model.c (find_client_data): finds the client data for
+	a client
+	(cal_opened_cb): update the query
+	(add_new_client): return client data
+	(e_cal_model_add_client): add the client immediately no matter
+	what, and possibly wait for it to open
+	(remove_client): guard against NULL query
+	(e_cal_model_remove_client): use find_client_data
+	(e_cal_model_dispose): guard against a NULL query
+
 2004-03-25  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-cal-model.c (remove_client): fix off by one error when

@@ -227,12 +227,16 @@ e_cal_model_dispose (GObject *object)
 			
 			g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA,
 							      0, 0, NULL, NULL, model);
-			g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, model);
+			if (client_data->query)
+				g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
+								      0, 0, NULL, NULL, model);
 			
 			priv->clients = g_list_remove (priv->clients, client_data);
+
+
 			g_object_unref (client_data->client);
-			g_object_unref (client_data->query);
+			if (client_data->query)
+				g_object_unref (client_data->query);
 			g_free (client_data);
 		}
 
@@ -1127,6 +1131,24 @@ e_cal_model_get_client_for_uri (ECalModel *model, const char *uri)
 	return NULL;
 }
 
+static ECalModelClient *
+find_client_data (ECalModel *model, ECal *client)
+{
+	ECalModelPrivate *priv;
+	GList *l;
+	
+	priv = model->priv;
+
+	for (l = priv->clients; l != NULL; l = l->next) {
+		ECalModelClient *client_data = (ECalModelClient *) l->data;
+
+		if (client_data->client == client)
+			return client_data;
+	}	
+
+	return NULL;
+}
+
 /* Pass NULL for the client if we just want to find based on uid */
 /* FIXME how do we prevent the same UID is different calendars? */
 static ECalModelComponent *
@@ -1322,6 +1344,24 @@ backend_died_cb (ECal *client, gpointer user_data)
 }
 
 static void
+cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
+{
+	ECalModel *model = (ECalModel *) user_data;
+	ECalModelClient *client_data;
+	
+	if (status != E_CALENDAR_STATUS_OK) {
+		e_cal_model_remove_client (model, client);
+
+		return;
+	}
+	
+	client_data = find_client_data (model, client);
+	g_assert (client_data);
+	
+	update_e_cal_view_for_client (model, client_data);
+}
+
+static ECalModelClient *
 add_new_client (ECalModel *model, ECal *client)
 {
 	ECalModelPrivate *priv;
@@ -1339,18 +1379,7 @@ add_new_client (ECalModel *model, ECal *client)
 	g_signal_connect (G_OBJECT (client_data->client), "backend_died",
 			  G_CALLBACK (backend_died_cb), model);
 
-	update_e_cal_view_for_client (model, client_data);
-}
-
-static void
-cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
-{
-	ECalModel *model = (ECalModel *) user_data;
-
-	if (status != E_CALENDAR_STATUS_OK)
-		return;
-
-	add_new_client (model, client);
+	return client_data;
 }
 
 /**
@@ -1360,7 +1389,8 @@ void
 e_cal_model_add_client (ECalModel *model, ECal *client)
 {
 	ECalModelPrivate *priv;
-
+	ECalModelClient *client_data;
+	
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL (client));
 
@@ -1369,10 +1399,13 @@ e_cal_model_add_client (ECalModel *model, ECal *client)
 	if (e_cal_model_get_client_for_uri (model, e_cal_get_uri (client)))
 		return;
 
-	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-		add_new_client (model, client);
-	else
+	client_data = add_new_client (model, client);	
+	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
+		update_e_cal_view_for_client (model, client_data);
+	} else {
 		g_signal_connect (client, "cal_opened", G_CALLBACK (cal_opened_cb), model);
+		e_cal_open_async (client, TRUE);
+	}
 }
 
 static void
@@ -1381,7 +1414,8 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 	gint i;
 
 	g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
-	g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
+	if (client_data->query)
+		g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, model);
 
 	model->priv->clients = g_list_remove (model->priv->clients, client_data);
 
@@ -1407,7 +1441,8 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 	
 	/* free all remaining memory */
 	g_object_unref (client_data->client);
-	g_object_unref (client_data->query);
+	if (client_data->query)
+		g_object_unref (client_data->query);
 	g_free (client_data);
 }
 
@@ -1417,21 +1452,17 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 void
 e_cal_model_remove_client (ECalModel *model, ECal *client)
 {
-	GList *l;
 	ECalModelPrivate *priv;
-
+	ECalModelClient *client_data;
+	
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL (client));
 
 	priv = model->priv;
-	for (l = priv->clients; l != NULL; l = l->next) {
-		ECalModelClient *client_data = (ECalModelClient *) l->data;
 
-		if (client_data->client == client) {
-			remove_client (model, client_data);
-			break;
-		}
-	}
+	client_data = find_client_data (model, client);
+	if (client_data)
+		remove_client (model, client_data);
 }
 
 /**
