@@ -176,7 +176,7 @@ validate (FilterElement *fe)
 	FilterInput *fi = (FilterInput *)fe;
 	gboolean valid = TRUE;
 	
-	if (!strcmp (fi->type, "regex")) {
+	if (fi->values && !strcmp (fi->type, "regex")) {
 		regex_t regexpat;        /* regex patern */
 		gint regerr;
 		char *text;
