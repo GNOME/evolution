@@ -21,6 +21,7 @@
  * Author: Ettore Perazzoli
  */
 
+#include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>

@@ -1,3 +1,9 @@
+2000-11-06  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer-attachment.c: Added #include <config.h>
+	* e-msg-composer-hdrs.c: s/_HAVE_CONFIG_H/HAVE_CONFIG_H for
+	working i18n.
+	
 2000-11-04  Radek Doulik  <rodo@helixcode.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): fix
