@@ -1,5 +1,7 @@
 2004-04-06  Not Zed  <NotZed@Ximian.com>
 
+	* camel-debug.c: #if 0 out the sys/debugreg stuff.
+
 	** See bug #56110.
 
 	* providers/imap/camel-imap-folder.c (get_content): more debug!
