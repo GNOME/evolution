@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution CVS-20000810\n"
-"POT-Creation-Date: 2000-08-10 12:58+0900\n"
-"PO-Revision-Date: 2000-08-10 13:52+0900\n"
+"Project-Id-Version: evolution CVS-20000828\n"
+"POT-Creation-Date: 2000-08-28 11:26+0900\n"
+"PO-Revision-Date: 2000-08-28 23:28+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -15,9 +15,147 @@ msgstr ""
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:41
 #: addressbook/backend/ebook/load-pine-addressbook.c:41
-#: addressbook/gui/component/addressbook-factory.c:59 calendar/gui/main.c:68
+#: addressbook/backend/ebook/test-client-list.c:29
+#: addressbook/backend/ebook/test-client.c:54
+#: addressbook/conduit/address-conduit.c:1215
+#: addressbook/gui/component/addressbook-factory.c:37
+#: addressbook/gui/minicard/test-minicard-view.c:45
+#: calendar/conduits/calendar/calendar-conduit.c:1669
+#: calendar/conduits/todo/todo-conduit.c:1298 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
 msgstr "Bonobo の初期化が出来ませんでした"
+
+#. This array must be in the same order as enumerations
+#. in GnomePilotConduitSyncType as they are used as index.
+#. Custom type implies Disabled state.
+#.
+#: addressbook/conduit/address-conduit-control-applet.c:54
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:55
+#: calendar/conduits/todo/todo-conduit-control-applet.c:55
+msgid "Disabled"
+msgstr "無効"
+
+#: addressbook/conduit/address-conduit-control-applet.c:55
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:56
+#: calendar/conduits/todo/todo-conduit-control-applet.c:56
+msgid "Synchronize"
+msgstr "同期"
+
+#: addressbook/conduit/address-conduit-control-applet.c:56
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:57
+#: calendar/conduits/todo/todo-conduit-control-applet.c:57
+msgid "Copy From Pilot"
+msgstr "パイロットからコピー"
+
+#: addressbook/conduit/address-conduit-control-applet.c:57
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:58
+#: calendar/conduits/todo/todo-conduit-control-applet.c:58
+msgid "Copy To Pilot"
+msgstr "パイロットへコピー"
+
+#: addressbook/conduit/address-conduit-control-applet.c:58
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:59
+#: calendar/conduits/todo/todo-conduit-control-applet.c:59
+msgid "Merge From Pilot"
+msgstr "パイロットからマージ"
+
+#: addressbook/conduit/address-conduit-control-applet.c:59
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:60
+#: calendar/conduits/todo/todo-conduit-control-applet.c:60
+msgid "Merge To Pilot"
+msgstr "パイロットへマージ"
+
+#: addressbook/conduit/address-conduit-control-applet.c:143
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:144
+#: calendar/conduits/todo/todo-conduit-control-applet.c:144
+msgid "Eskil Heyn Olsen <deity@eskil.dk>"
+msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
+
+#: addressbook/conduit/address-conduit-control-applet.c:145
+msgid "Gpilotd address conduit"
+msgstr "Gpilotd アドレスコンジット"
+
+#: addressbook/conduit/address-conduit-control-applet.c:146
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:147
+#: calendar/conduits/todo/todo-conduit-control-applet.c:147
+msgid "(C) 1998 the Free Software Foundation"
+msgstr "(C) 1998 the Free Software Foundation"
+
+#: addressbook/conduit/address-conduit-control-applet.c:148
+msgid "Configuration utility for the address conduit.\n"
+msgstr "アドレスコンジットのための設定ユーティリティです\n"
+
+#: addressbook/conduit/address-conduit-control-applet.c:149
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:150
+#: calendar/conduits/todo/todo-conduit-control-applet.c:150
+msgid "gnome-unknown.xpm"
+msgstr "gnome-unknown.xpm"
+
+#: addressbook/conduit/address-conduit-control-applet.c:190
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:191
+#: calendar/conduits/todo/todo-conduit-control-applet.c:191
+msgid "Synchronize Action"
+msgstr "同期動作"
+
+#: addressbook/conduit/address-conduit-control-applet.c:261
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:262
+#: calendar/conduits/todo/todo-conduit-control-applet.c:262
+msgid "Conduit state"
+msgstr "コンジットの状況"
+
+#: addressbook/conduit/address-conduit-control-applet.c:315
+#: addressbook/conduit/address-conduit-control-applet.c:328
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:316
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:329
+#: calendar/conduits/todo/todo-conduit-control-applet.c:316
+#: calendar/conduits/todo/todo-conduit-control-applet.c:329
+msgid ""
+"No pilot configured, please choose the\n"
+"'Pilot Link Properties' capplet first."
+msgstr ""
+"パイロットは設定されていません，初めに\n"
+"'パイロットリンクプロパティ' キャプレットを選択してください"
+
+#: addressbook/conduit/address-conduit-control-applet.c:334
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:335
+#: calendar/conduits/todo/todo-conduit-control-applet.c:335
+msgid "Not connected to the gnome-pilot daemon"
+msgstr "gnome-pilot デーモンに接続していません"
+
+#: addressbook/conduit/address-conduit-control-applet.c:339
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:340
+#: calendar/conduits/todo/todo-conduit-control-applet.c:340
+msgid ""
+"An error occured when trying to fetch\n"
+"pilot list from the gnome-pilot daemon"
+msgstr ""
+"gnome-pilot デーモンからパイロットリストを\n"
+"取得しようとした時にエラーが発生しました"
+
+#: addressbook/conduit/address-conduit.c:127
+#: addressbook/conduit/address-conduit.c:141
+msgid "BLARG\n"
+msgstr "BLARG\n"
+
+#: addressbook/conduit/address-conduit.c:471
+#, c-format
+msgid "Address holds %ld address entries"
+msgstr ""
+
+#: addressbook/conduit/address-conduit.c:497
+#: addressbook/conduit/address-conduit.c:499
+msgid "Could not start addressbook server"
+msgstr "アドレス帳サーバを開始出来ませんでした"
+
+#: addressbook/conduit/address-conduit.c:512
+#: addressbook/conduit/address-conduit.c:515
+msgid "Could not read pilot's Address application block"
+msgstr ""
+"パイロットのアドレスアプリケーションブロックを読み込むことが出来ませんでした"
+
+#: addressbook/conduit/address-conduit.c:853
+msgid "Error while communicating with address server"
+msgstr "アドレスサーバで通信中にエラーが発生しました"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -36,471 +174,472 @@ msgstr "アイテムはこれらのカテゴリに属しています:"
 msgid "Available Categories:"
 msgstr "利用できるカテゴリ:"
 
-#: addressbook/contact-editor/e-contact-editor.c:643
-#: calendar/gui/dialogs/task-editor.c:217 calendar/gui/event-editor.c:1168
+#: addressbook/contact-editor/e-contact-editor.c:665
+#: calendar/gui/dialogs/task-editor.c:217 calendar/gui/event-editor.c:1173
 msgid "FIXME: _Appointment"
 msgstr "FIXME: 予約(_A)"
 
-#: addressbook/contact-editor/e-contact-editor.c:644
-#: calendar/gui/dialogs/task-editor.c:218 calendar/gui/event-editor.c:1169
+#: addressbook/contact-editor/e-contact-editor.c:666
+#: calendar/gui/dialogs/task-editor.c:218 calendar/gui/event-editor.c:1174
 msgid "FIXME: Meeting Re_quest"
 msgstr "FIXME: 会議依頼(_q)"
 
-#: addressbook/contact-editor/e-contact-editor.c:646
-#: calendar/gui/dialogs/task-editor.c:216 calendar/gui/event-editor.c:1171
+#: addressbook/contact-editor/e-contact-editor.c:668
+#: calendar/gui/dialogs/task-editor.c:216 calendar/gui/event-editor.c:1176
 msgid "FIXME: _Mail Message"
 msgstr "FIXME: メールメッセージ(_M)"
 
-#: addressbook/contact-editor/e-contact-editor.c:647
-#: calendar/gui/dialogs/task-editor.c:219 calendar/gui/event-editor.c:1172
+#: addressbook/contact-editor/e-contact-editor.c:669
+#: calendar/gui/dialogs/task-editor.c:219 calendar/gui/event-editor.c:1177
 msgid "FIXME: _Contact"
 msgstr "FIXME: 交渉(_C)"
 
-#: addressbook/contact-editor/e-contact-editor.c:648
+#: addressbook/contact-editor/e-contact-editor.c:670
 #: calendar/gui/dialogs/task-editor.c:213
-#: calendar/gui/dialogs/task-editor.c:220 calendar/gui/event-editor.c:1173
+#: calendar/gui/dialogs/task-editor.c:220 calendar/gui/event-editor.c:1178
 msgid "FIXME: _Task"
 msgstr "FIXME: 作業(_T)"
 
-#: addressbook/contact-editor/e-contact-editor.c:649
+#: addressbook/contact-editor/e-contact-editor.c:671
 #: calendar/gui/dialogs/task-editor.c:214
-#: calendar/gui/dialogs/task-editor.c:221 calendar/gui/event-editor.c:1174
+#: calendar/gui/dialogs/task-editor.c:221 calendar/gui/event-editor.c:1179
 msgid "FIXME: Task _Request"
 msgstr "FIXME: 作業依頼(_R)"
 
-#: addressbook/contact-editor/e-contact-editor.c:650
-#: calendar/gui/dialogs/task-editor.c:222 calendar/gui/event-editor.c:1175
+#: addressbook/contact-editor/e-contact-editor.c:672
+#: calendar/gui/dialogs/task-editor.c:222 calendar/gui/event-editor.c:1180
 msgid "FIXME: _Journal Entry"
 msgstr "FIXME: 仕訳記入(_J)"
 
-#: addressbook/contact-editor/e-contact-editor.c:651
-#: calendar/gui/dialogs/task-editor.c:223 calendar/gui/event-editor.c:1176
+#: addressbook/contact-editor/e-contact-editor.c:673
+#: calendar/gui/dialogs/task-editor.c:223 calendar/gui/event-editor.c:1181
 msgid "FIXME: _Note"
 msgstr "FIXME: ノート(_N)"
 
-#: addressbook/contact-editor/e-contact-editor.c:653
-#: addressbook/contact-editor/e-contact-editor.c:758
+#: addressbook/contact-editor/e-contact-editor.c:675
+#: addressbook/contact-editor/e-contact-editor.c:780
 #: calendar/gui/dialogs/task-editor.c:225
-#: calendar/gui/dialogs/task-editor.c:332 calendar/gui/event-editor.c:1178
-#: calendar/gui/event-editor.c:1285
+#: calendar/gui/dialogs/task-editor.c:332 calendar/gui/event-editor.c:1183
+#: calendar/gui/event-editor.c:1290
 msgid "FIXME: Ch_oose Form..."
 msgstr "FIXME: フォームを選択(_o)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:658
-#: calendar/gui/dialogs/task-editor.c:230 calendar/gui/event-editor.c:1183
+#: addressbook/contact-editor/e-contact-editor.c:680
+#: calendar/gui/dialogs/task-editor.c:230 calendar/gui/event-editor.c:1188
 msgid "FIXME: _Memo Style"
 msgstr "FIXME: メモスタイル(_M)"
 
-#: addressbook/contact-editor/e-contact-editor.c:660
-#: calendar/gui/dialogs/task-editor.c:232 calendar/gui/event-editor.c:1185
+#: addressbook/contact-editor/e-contact-editor.c:682
+#: calendar/gui/dialogs/task-editor.c:232 calendar/gui/event-editor.c:1190
 msgid "FIXME: Define Print _Styles..."
 msgstr "FIXME: 印刷スタイルの定義(_S)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:667
-#: calendar/gui/dialogs/task-editor.c:239 calendar/gui/event-editor.c:1192
+#: addressbook/contact-editor/e-contact-editor.c:689
+#: calendar/gui/dialogs/task-editor.c:239 calendar/gui/event-editor.c:1197
 msgid "FIXME: S_end"
 msgstr "FIXME: 送信(_e)"
 
-#: addressbook/contact-editor/e-contact-editor.c:671
-#: calendar/gui/dialogs/task-editor.c:243 calendar/gui/event-editor.c:1196
+#: addressbook/contact-editor/e-contact-editor.c:693
+#: calendar/gui/dialogs/task-editor.c:243 calendar/gui/event-editor.c:1201
 msgid "FIXME: Save Attac_hments..."
 msgstr "FIXME: 添付の保存..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: addressbook/contact-editor/e-contact-editor.c:673
+#: addressbook/contact-editor/e-contact-editor.c:695
 msgid "_Delete"
 msgstr "削除(_D)"
 
-#: addressbook/contact-editor/e-contact-editor.c:674
-#: calendar/gui/dialogs/task-editor.c:246 calendar/gui/event-editor.c:1199
+#: addressbook/contact-editor/e-contact-editor.c:696
+#: calendar/gui/dialogs/task-editor.c:246 calendar/gui/event-editor.c:1204
 msgid "FIXME: _Move to Folder..."
 msgstr "FIXME: フォルダへ移動(_M)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:675
-#: calendar/gui/dialogs/task-editor.c:247 calendar/gui/event-editor.c:1200
+#: addressbook/contact-editor/e-contact-editor.c:697
+#: calendar/gui/dialogs/task-editor.c:247 calendar/gui/event-editor.c:1205
 msgid "FIXME: Cop_y to Folder..."
 msgstr "FIXME: フォルダへコピー(_y)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:677
-#: calendar/gui/dialogs/task-editor.c:249 calendar/gui/event-editor.c:1202
+#: addressbook/contact-editor/e-contact-editor.c:699
+#: calendar/gui/dialogs/task-editor.c:249 calendar/gui/event-editor.c:1207
 msgid "Page Set_up"
 msgstr "ページ設定(_u)"
 
-#: addressbook/contact-editor/e-contact-editor.c:678
-#: calendar/gui/dialogs/task-editor.c:250 calendar/gui/event-editor.c:1203
+#: addressbook/contact-editor/e-contact-editor.c:700
+#: calendar/gui/dialogs/task-editor.c:250 calendar/gui/event-editor.c:1208
 msgid "FIXME: Print Pre_view"
 msgstr "FIXME: 印刷プレビュー(_v)"
 
-#: addressbook/contact-editor/e-contact-editor.c:699
-#: calendar/gui/dialogs/task-editor.c:271 calendar/gui/event-editor.c:1224
+#: addressbook/contact-editor/e-contact-editor.c:721
+#: calendar/gui/dialogs/task-editor.c:271 calendar/gui/event-editor.c:1229
 msgid "FIXME: Paste _Special..."
 msgstr "FIXME: 特殊貼り付け(_S)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:704
-#: calendar/gui/dialogs/task-editor.c:276 calendar/gui/event-editor.c:1229
+#: addressbook/contact-editor/e-contact-editor.c:726
+#: calendar/gui/dialogs/task-editor.c:276 calendar/gui/event-editor.c:1234
 msgid "FIXME: Mark as U_nread"
 msgstr "FIXME: 未読にマーク(_n)"
 
-#: addressbook/contact-editor/e-contact-editor.c:708
-#: calendar/gui/dialogs/task-editor.c:280 calendar/gui/event-editor.c:1233
+#: addressbook/contact-editor/e-contact-editor.c:730
+#: calendar/gui/dialogs/task-editor.c:280 calendar/gui/event-editor.c:1238
 msgid "_Object"
 msgstr "オブジェクト(_O)"
 
-#: addressbook/contact-editor/e-contact-editor.c:713
-#: addressbook/contact-editor/e-contact-editor.c:720
+#: addressbook/contact-editor/e-contact-editor.c:735
+#: addressbook/contact-editor/e-contact-editor.c:742
 #: calendar/gui/dialogs/task-editor.c:285
-#: calendar/gui/dialogs/task-editor.c:293 calendar/gui/event-editor.c:1238
-#: calendar/gui/event-editor.c:1245
+#: calendar/gui/dialogs/task-editor.c:293 calendar/gui/event-editor.c:1243
+#: calendar/gui/event-editor.c:1250
 msgid "FIXME: _Item"
 msgstr "FIXME: アイテム(_I)"
 
-#: addressbook/contact-editor/e-contact-editor.c:714
-#: addressbook/contact-editor/e-contact-editor.c:721
+#: addressbook/contact-editor/e-contact-editor.c:736
+#: addressbook/contact-editor/e-contact-editor.c:743
 #: calendar/gui/dialogs/task-editor.c:286
-#: calendar/gui/dialogs/task-editor.c:294 calendar/gui/event-editor.c:1239
-#: calendar/gui/event-editor.c:1246
+#: calendar/gui/dialogs/task-editor.c:294 calendar/gui/event-editor.c:1244
+#: calendar/gui/event-editor.c:1251
 msgid "FIXME: _Unread Item"
 msgstr "FIXME: 未読アイテム(_U)"
 
-#: addressbook/contact-editor/e-contact-editor.c:715
-#: calendar/gui/dialogs/task-editor.c:288 calendar/gui/event-editor.c:1240
+#: addressbook/contact-editor/e-contact-editor.c:737
+#: calendar/gui/dialogs/task-editor.c:288 calendar/gui/event-editor.c:1245
 msgid "FIXME: Fi_rst Item in Folder"
 msgstr "FIXME: フォルダの最初のアイテム(_r)"
 
-#: addressbook/contact-editor/e-contact-editor.c:722
-#: calendar/gui/dialogs/task-editor.c:296 calendar/gui/event-editor.c:1247
+#: addressbook/contact-editor/e-contact-editor.c:744
+#: calendar/gui/dialogs/task-editor.c:296 calendar/gui/event-editor.c:1252
 msgid "FIXME: _Last Item in Folder"
 msgstr "FIXME: フォルダの最後のアイテム(_L)"
 
-#: addressbook/contact-editor/e-contact-editor.c:727
-#: calendar/gui/dialogs/task-editor.c:301 calendar/gui/event-editor.c:1252
+#: addressbook/contact-editor/e-contact-editor.c:749
+#: calendar/gui/dialogs/task-editor.c:301 calendar/gui/event-editor.c:1257
 msgid "FIXME: _Standard"
 msgstr "FIXME: 標準(_S)"
 
-#: addressbook/contact-editor/e-contact-editor.c:729
-#: calendar/gui/dialogs/task-editor.c:303 calendar/gui/event-editor.c:1254
+#: addressbook/contact-editor/e-contact-editor.c:751
+#: calendar/gui/dialogs/task-editor.c:303 calendar/gui/event-editor.c:1259
 msgid "FIXME: __Formatting"
 msgstr "FIXME: 書式(__)"
 
-#: addressbook/contact-editor/e-contact-editor.c:732
-#: calendar/gui/dialogs/task-editor.c:306 calendar/gui/event-editor.c:1257
+#: addressbook/contact-editor/e-contact-editor.c:754
+#: calendar/gui/dialogs/task-editor.c:306 calendar/gui/event-editor.c:1262
 msgid "FIXME: _Customize..."
 msgstr "FIXME: カスタマイズ(_C)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:737
-#: calendar/gui/dialogs/task-editor.c:311 calendar/gui/event-editor.c:1262
+#: addressbook/contact-editor/e-contact-editor.c:759
+#: calendar/gui/dialogs/task-editor.c:311 calendar/gui/event-editor.c:1267
 msgid "Pre_vious"
 msgstr "前(_v)"
 
-#: addressbook/contact-editor/e-contact-editor.c:738
-#: calendar/gui/dialogs/task-editor.c:312 calendar/gui/event-editor.c:1263
+#: addressbook/contact-editor/e-contact-editor.c:760
+#: calendar/gui/dialogs/task-editor.c:312 calendar/gui/event-editor.c:1268
 msgid "Ne_xt"
 msgstr "次(_x)"
 
-#: addressbook/contact-editor/e-contact-editor.c:740
-#: calendar/gui/dialogs/task-editor.c:314 calendar/gui/event-editor.c:1267
+#: addressbook/contact-editor/e-contact-editor.c:762
+#: calendar/gui/dialogs/task-editor.c:314 calendar/gui/event-editor.c:1272
 msgid "_Toolbars"
 msgstr "ツールバー(_T)"
 
-#: addressbook/contact-editor/e-contact-editor.c:745
-#: calendar/gui/dialogs/task-editor.c:319 calendar/gui/event-editor.c:1272
+#: addressbook/contact-editor/e-contact-editor.c:767
+#: calendar/gui/dialogs/task-editor.c:319 calendar/gui/event-editor.c:1277
 msgid "FIXME: _File..."
 msgstr "FIXME: ファイル(_F)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:746
-#: calendar/gui/dialogs/task-editor.c:320 calendar/gui/event-editor.c:1273
+#: addressbook/contact-editor/e-contact-editor.c:768
+#: calendar/gui/dialogs/task-editor.c:320 calendar/gui/event-editor.c:1278
 msgid "FIXME: It_em..."
 msgstr "FIXME: アイテム(_e)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:747
-#: calendar/gui/dialogs/task-editor.c:321 calendar/gui/event-editor.c:1274
+#: addressbook/contact-editor/e-contact-editor.c:769
+#: calendar/gui/dialogs/task-editor.c:321 calendar/gui/event-editor.c:1279
 msgid "FIXME: _Object..."
 msgstr "FIXME: オブジェクト(_O)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:752
-#: calendar/gui/dialogs/task-editor.c:326 calendar/gui/event-editor.c:1279
+#: addressbook/contact-editor/e-contact-editor.c:774
+#: calendar/gui/dialogs/task-editor.c:326 calendar/gui/event-editor.c:1284
 msgid "FIXME: _Font..."
 msgstr "FIXME: フォント(_F)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:753
-#: calendar/gui/dialogs/task-editor.c:327 calendar/gui/event-editor.c:1280
+#: addressbook/contact-editor/e-contact-editor.c:775
+#: calendar/gui/dialogs/task-editor.c:327 calendar/gui/event-editor.c:1285
 msgid "FIXME: _Paragraph..."
 msgstr "FIXME: 段落(_P)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:760
-#: calendar/gui/dialogs/task-editor.c:334 calendar/gui/event-editor.c:1287
+#: addressbook/contact-editor/e-contact-editor.c:782
+#: calendar/gui/dialogs/task-editor.c:334 calendar/gui/event-editor.c:1292
 msgid "FIXME: Desi_gn This Form"
 msgstr "FIXME: このフォームのデザイン(_g)"
 
-#: addressbook/contact-editor/e-contact-editor.c:761
-#: calendar/gui/dialogs/task-editor.c:335 calendar/gui/event-editor.c:1288
+#: addressbook/contact-editor/e-contact-editor.c:783
+#: calendar/gui/dialogs/task-editor.c:335 calendar/gui/event-editor.c:1293
 msgid "FIXME: D_esign a Form..."
 msgstr "FIXME: フォームのデザイン(_e)"
 
-#: addressbook/contact-editor/e-contact-editor.c:763
-#: calendar/gui/dialogs/task-editor.c:337 calendar/gui/event-editor.c:1290
+#: addressbook/contact-editor/e-contact-editor.c:785
+#: calendar/gui/dialogs/task-editor.c:337 calendar/gui/event-editor.c:1295
 msgid "FIXME: Publish _Form..."
 msgstr "FIXME: 発行フォーム(_F)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:764
-#: calendar/gui/dialogs/task-editor.c:338 calendar/gui/event-editor.c:1291
+#: addressbook/contact-editor/e-contact-editor.c:786
+#: calendar/gui/dialogs/task-editor.c:338 calendar/gui/event-editor.c:1296
 msgid "FIXME: Pu_blish Form As..."
 msgstr "FIXME: 他の発行フォーム(_b)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:766
-#: calendar/gui/dialogs/task-editor.c:340 calendar/gui/event-editor.c:1293
+#: addressbook/contact-editor/e-contact-editor.c:788
+#: calendar/gui/dialogs/task-editor.c:340 calendar/gui/event-editor.c:1298
 msgid "FIXME: Script _Debugger"
 msgstr "FIXME: スクリプトデバッガ(_D)"
 
-#: addressbook/contact-editor/e-contact-editor.c:771
-#: calendar/gui/dialogs/task-editor.c:345 calendar/gui/event-editor.c:1298
+#: addressbook/contact-editor/e-contact-editor.c:793
+#: calendar/gui/dialogs/task-editor.c:345 calendar/gui/event-editor.c:1303
 msgid "FIXME: _Spelling..."
 msgstr "FIXME: スペル(_S)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:773
-#: calendar/gui/dialogs/task-editor.c:350 calendar/gui/event-editor.c:1303
+#: addressbook/contact-editor/e-contact-editor.c:795
+#: calendar/gui/dialogs/task-editor.c:350 calendar/gui/event-editor.c:1308
 msgid "_Forms"
 msgstr "フォーム(_F)"
 
-#: addressbook/contact-editor/e-contact-editor.c:778
+#: addressbook/contact-editor/e-contact-editor.c:800
 msgid "FIXME: _New Contact"
 msgstr "FIXME: 新規交渉(_C)"
 
-#: addressbook/contact-editor/e-contact-editor.c:779
+#: addressbook/contact-editor/e-contact-editor.c:801
 msgid "FIXME: New _Contact from Same Company"
 msgstr "FIXME: 同じ相手から新規交渉(_C)"
 
-#: addressbook/contact-editor/e-contact-editor.c:781
+#: addressbook/contact-editor/e-contact-editor.c:803
 msgid "FIXME: New _Letter to Contact"
 msgstr "FIXME: 新規手紙に交渉(_L)"
 
-#: addressbook/contact-editor/e-contact-editor.c:782
+#: addressbook/contact-editor/e-contact-editor.c:804
 msgid "FIXME: New _Message to Contact"
 msgstr "FIXME: 交渉する新規メッセージ(_M)"
 
-#: addressbook/contact-editor/e-contact-editor.c:783
+#: addressbook/contact-editor/e-contact-editor.c:805
 msgid "FIXME: New Meetin_g with Contact"
 msgstr "FIXME: 交渉との新規会議(_g)"
 
-#: addressbook/contact-editor/e-contact-editor.c:784
+#: addressbook/contact-editor/e-contact-editor.c:806
 msgid "FIXME: _Plan a Meeting..."
 msgstr "FIXME: 会議計画(_P)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:785
+#: addressbook/contact-editor/e-contact-editor.c:807
 msgid "FIXME: New _Task for Contact"
 msgstr "FIXME: 交渉のための新規作業(_T)"
 
-#: addressbook/contact-editor/e-contact-editor.c:786
+#: addressbook/contact-editor/e-contact-editor.c:808
 msgid "FIXME: New _Journal Entry for Contact"
 msgstr "FIXME: 交渉のための新規仕訳記入"
 
-#: addressbook/contact-editor/e-contact-editor.c:788
+#: addressbook/contact-editor/e-contact-editor.c:810
 msgid "FIXME: _Flag for Follow Up..."
 msgstr "FIXME: 再調査のためのフラグ(_F)..."
 
-#: addressbook/contact-editor/e-contact-editor.c:789
+#: addressbook/contact-editor/e-contact-editor.c:811
 msgid "FIXME: _Display Map of Address"
 msgstr "FIXME: アドレスのマップを表示(_D)"
 
-#: addressbook/contact-editor/e-contact-editor.c:790
+#: addressbook/contact-editor/e-contact-editor.c:812
 msgid "FIXME: _Open Web Page"
 msgstr "FIXME: Web ページを開く(_O)"
 
-#: addressbook/contact-editor/e-contact-editor.c:792
+#: addressbook/contact-editor/e-contact-editor.c:814
 msgid "FIXME: Forward as _vCard"
 msgstr "FIXME: vCard で転送(_v)"
 
-#: addressbook/contact-editor/e-contact-editor.c:793
-#: calendar/gui/dialogs/task-editor.c:367 calendar/gui/event-editor.c:1316
+#: addressbook/contact-editor/e-contact-editor.c:815
+#: calendar/gui/dialogs/task-editor.c:367 calendar/gui/event-editor.c:1321
 msgid "FIXME: For_ward"
 msgstr "FIXME: 転送(_w)"
 
-#: addressbook/contact-editor/e-contact-editor.c:805
-#: calendar/gui/dialogs/task-editor.c:380 calendar/gui/event-editor.c:1329
+#: addressbook/contact-editor/e-contact-editor.c:827
+#: calendar/gui/dialogs/task-editor.c:380 calendar/gui/event-editor.c:1334
 msgid "_Insert"
 msgstr "挿入(_I)"
 
-#: addressbook/contact-editor/e-contact-editor.c:806
-#: calendar/gui/dialogs/task-editor.c:381 calendar/gui/event-editor.c:1330
+#: addressbook/contact-editor/e-contact-editor.c:828
+#: calendar/gui/dialogs/task-editor.c:381 calendar/gui/event-editor.c:1335
 msgid "F_ormat"
 msgstr "フォーマット(_o)"
 
-#: addressbook/contact-editor/e-contact-editor.c:807
-#: calendar/gui/dialogs/task-editor.c:382 calendar/gui/event-editor.c:1331
-#: shell/e-shell-view-menu.c:512
+#: addressbook/contact-editor/e-contact-editor.c:829
+#: addressbook/gui/component/addressbook.c:544
+#: calendar/gui/dialogs/task-editor.c:382 calendar/gui/event-editor.c:1336
 msgid "_Tools"
 msgstr "ツール(_T)"
 
-#: addressbook/contact-editor/e-contact-editor.c:808
-#: calendar/gui/dialogs/task-editor.c:383 calendar/gui/event-editor.c:1332
+#: addressbook/contact-editor/e-contact-editor.c:830
+#: calendar/gui/dialogs/task-editor.c:383 calendar/gui/event-editor.c:1337
 msgid "Actio_ns"
 msgstr "行動(_n)"
 
-#: addressbook/contact-editor/e-contact-editor.c:839
+#: addressbook/contact-editor/e-contact-editor.c:861
 msgid "Save and Close"
 msgstr "保存と閉じる"
 
-#: addressbook/contact-editor/e-contact-editor.c:840
-#: calendar/gui/event-editor.c:1371
+#: addressbook/contact-editor/e-contact-editor.c:862
+#: calendar/gui/event-editor.c:1376
 msgid "Save the appointment and close the dialog box"
 msgstr "予約を保存してダイアログボックスを閉じる"
 
-#: addressbook/contact-editor/e-contact-editor.c:844
-#: calendar/gui/calendar-commands.c:680
+#: addressbook/contact-editor/e-contact-editor.c:866
+#: calendar/gui/calendar-commands.c:656
 msgid "Print..."
 msgstr "印刷..."
 
-#: addressbook/contact-editor/e-contact-editor.c:845
-#: calendar/gui/dialogs/task-editor.c:415 calendar/gui/event-editor.c:1376
+#: addressbook/contact-editor/e-contact-editor.c:867
+#: calendar/gui/dialogs/task-editor.c:415 calendar/gui/event-editor.c:1381
 msgid "Print this item"
 msgstr "このアイテムを印刷する"
 
-#: addressbook/contact-editor/e-contact-editor.c:848
-#: calendar/gui/dialogs/task-editor.c:416 calendar/gui/event-editor.c:1377
+#: addressbook/contact-editor/e-contact-editor.c:870
+#: calendar/gui/dialogs/task-editor.c:416 calendar/gui/event-editor.c:1382
 msgid "FIXME: Insert File..."
 msgstr "FIXME: ファイルの挿入..."
 
-#: addressbook/contact-editor/e-contact-editor.c:849
-#: calendar/gui/dialogs/task-editor.c:417 calendar/gui/event-editor.c:1378
+#: addressbook/contact-editor/e-contact-editor.c:871
+#: calendar/gui/dialogs/task-editor.c:417 calendar/gui/event-editor.c:1383
 msgid "Insert a file as an attachment"
 msgstr "ファイルを添付として挿入する"
 
 #. Delete
-#: addressbook/contact-editor/e-contact-editor.c:852
-#: addressbook/gui/component/addressbook.c:427
-#: calendar/gui/e-calendar-table.c:375
-#: calendar/gui/event-editor-dialog.glade.h:93 calendar/gui/gncal-todo.c:508
-#: mail/folder-browser-factory.c:40 mail/mail-config.glade.h:13
+#: addressbook/contact-editor/e-contact-editor.c:874
+#: addressbook/gui/component/addressbook.c:442
+#: calendar/gui/e-calendar-table.c:323
+#: calendar/gui/event-editor-dialog.glade.h:92 calendar/gui/gncal-todo.c:550
+#: mail/folder-browser-factory.c:50 mail/mail-config.glade.h:13
 #: mail/mail-config.glade.h:18 mail/mail-config.glade.h:24
+#: mail/mail-view.c:147
 msgid "Delete"
 msgstr "削除"
 
-#: addressbook/contact-editor/e-contact-editor.c:853
-#: calendar/gui/dialogs/task-editor.c:426 calendar/gui/event-editor.c:1387
-#: calendar/gui/gncal-todo.c:336
+#: addressbook/contact-editor/e-contact-editor.c:875
+#: calendar/gui/dialogs/task-editor.c:426 calendar/gui/event-editor.c:1392
+#: calendar/gui/gncal-todo.c:378
 msgid "Delete this item"
 msgstr "このアイテムを削除"
 
-#: addressbook/contact-editor/e-contact-editor.c:857
-#: calendar/gui/dialogs/task-editor.c:428 calendar/gui/event-editor.c:1389
+#: addressbook/contact-editor/e-contact-editor.c:879
+#: calendar/gui/dialogs/task-editor.c:428 calendar/gui/event-editor.c:1394
 msgid "FIXME: Previous"
 msgstr "FIXME: 前"
 
-#: addressbook/contact-editor/e-contact-editor.c:858
-#: calendar/gui/dialogs/task-editor.c:429 calendar/gui/event-editor.c:1390
+#: addressbook/contact-editor/e-contact-editor.c:880
+#: calendar/gui/dialogs/task-editor.c:429 calendar/gui/event-editor.c:1395
 msgid "Go to the previous item"
 msgstr "前のアイテムへ移動する"
 
-#: addressbook/contact-editor/e-contact-editor.c:860
-#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1391
+#: addressbook/contact-editor/e-contact-editor.c:882
+#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1396
 msgid "FIXME: Next"
 msgstr "FIXME: 次"
 
-#: addressbook/contact-editor/e-contact-editor.c:861
-#: calendar/gui/dialogs/task-editor.c:431 calendar/gui/event-editor.c:1392
+#: addressbook/contact-editor/e-contact-editor.c:883
+#: calendar/gui/dialogs/task-editor.c:431 calendar/gui/event-editor.c:1397
 msgid "Go to the next item"
 msgstr "次のアイテムへ移動する"
 
-#: addressbook/contact-editor/e-contact-editor.c:864
-#: calendar/gui/dialogs/task-editor.c:432 calendar/gui/event-editor.c:1393
+#: addressbook/contact-editor/e-contact-editor.c:886
+#: calendar/gui/dialogs/task-editor.c:432 calendar/gui/event-editor.c:1398
 msgid "FIXME: Help"
 msgstr "FIXME: ヘルプ"
 
-#: addressbook/contact-editor/e-contact-editor.c:865
-#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1394
+#: addressbook/contact-editor/e-contact-editor.c:887
+#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1399
 msgid "See online help"
 msgstr "オンラインヘルプを見る"
 
-#: addressbook/contact-editor/e-contact-editor.c:1320
+#: addressbook/contact-editor/e-contact-editor.c:1343
 msgid "Assistant"
 msgstr "アシスタント"
 
-#: addressbook/contact-editor/e-contact-editor.c:1321
-#: addressbook/contact-editor/e-contact-editor.c:1425
+#: addressbook/contact-editor/e-contact-editor.c:1344
+#: addressbook/contact-editor/e-contact-editor.c:1448
 msgid "Business"
 msgstr "仕事"
 
-#: addressbook/contact-editor/e-contact-editor.c:1322
+#: addressbook/contact-editor/e-contact-editor.c:1345
 msgid "Business 2"
 msgstr "仕事 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1323
+#: addressbook/contact-editor/e-contact-editor.c:1346
 msgid "Business Fax"
 msgstr "仕事の FAX"
 
-#: addressbook/contact-editor/e-contact-editor.c:1324
+#: addressbook/contact-editor/e-contact-editor.c:1347
 msgid "Callback"
 msgstr "呼び戻し"
 
-#: addressbook/contact-editor/e-contact-editor.c:1325
+#: addressbook/contact-editor/e-contact-editor.c:1348
 msgid "Car"
 msgstr "車"
 
-#: addressbook/contact-editor/e-contact-editor.c:1326
+#: addressbook/contact-editor/e-contact-editor.c:1349
 msgid "Company"
 msgstr "会社"
 
-#: addressbook/contact-editor/e-contact-editor.c:1327
-#: addressbook/contact-editor/e-contact-editor.c:1426
+#: addressbook/contact-editor/e-contact-editor.c:1350
+#: addressbook/contact-editor/e-contact-editor.c:1449
 msgid "Home"
 msgstr "家"
 
-#: addressbook/contact-editor/e-contact-editor.c:1328
+#: addressbook/contact-editor/e-contact-editor.c:1351
 msgid "Home 2"
 msgstr "家 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1329
+#: addressbook/contact-editor/e-contact-editor.c:1352
 msgid "Home Fax"
 msgstr "家の FAX"
 
-#: addressbook/contact-editor/e-contact-editor.c:1330
+#: addressbook/contact-editor/e-contact-editor.c:1353
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1331
+#: addressbook/contact-editor/e-contact-editor.c:1354
 msgid "Mobile"
 msgstr "モバイル"
 
-#: addressbook/contact-editor/e-contact-editor.c:1332
-#: addressbook/contact-editor/e-contact-editor.c:1427
-#: mail/mail-config.glade.h:27
+#: addressbook/contact-editor/e-contact-editor.c:1355
+#: addressbook/contact-editor/e-contact-editor.c:1450
+#: mail/mail-config.glade.h:28
 msgid "Other"
 msgstr "その他"
 
-#: addressbook/contact-editor/e-contact-editor.c:1333
+#: addressbook/contact-editor/e-contact-editor.c:1356
 msgid "Other Fax"
 msgstr "その他の FAX"
 
-#: addressbook/contact-editor/e-contact-editor.c:1334
+#: addressbook/contact-editor/e-contact-editor.c:1357
 msgid "Pager"
 msgstr "ポケベル"
 
-#: addressbook/contact-editor/e-contact-editor.c:1335
+#: addressbook/contact-editor/e-contact-editor.c:1358
 msgid "Primary"
 msgstr "主要な"
 
-#: addressbook/contact-editor/e-contact-editor.c:1336
+#: addressbook/contact-editor/e-contact-editor.c:1359
 msgid "Radio"
 msgstr "ラジオ"
 
-#: addressbook/contact-editor/e-contact-editor.c:1337
+#: addressbook/contact-editor/e-contact-editor.c:1360
 msgid "Telex"
 msgstr "テレックス"
 
-#: addressbook/contact-editor/e-contact-editor.c:1338
+#: addressbook/contact-editor/e-contact-editor.c:1361
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
-#: addressbook/contact-editor/e-contact-editor.c:1382
+#: addressbook/contact-editor/e-contact-editor.c:1405
 msgid "Primary Email"
 msgstr "主要な Email"
 
-#: addressbook/contact-editor/e-contact-editor.c:1383
+#: addressbook/contact-editor/e-contact-editor.c:1406
 msgid "Email 2"
 msgstr "Email 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1384
+#: addressbook/contact-editor/e-contact-editor.c:1407
 msgid "Email 3"
 msgstr "Email 3"
 
@@ -540,7 +679,7 @@ msgid "New phone type"
 msgstr "新規電話タイプ"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:11
-#: calendar/gui/event-editor-dialog.glade.h:91 mail/mail-config.glade.h:11
+#: calendar/gui/event-editor-dialog.glade.h:90 mail/mail-config.glade.h:11
 #: mail/mail-config.glade.h:16 mail/mail-config.glade.h:22
 msgid "Add"
 msgstr "追加"
@@ -611,7 +750,7 @@ msgid "_Company:"
 msgstr "会社(_C):"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:30
-#: calendar/gui/event-editor-dialog.glade.h:18
+#: calendar/gui/event-editor-dialog.glade.h:17
 msgid "General"
 msgstr "一般"
 
@@ -719,58 +858,63 @@ msgstr ""
 "III\n"
 "Esq.\n"
 
-#: addressbook/gui/component/addressbook.c:421
-#: calendar/gui/calendar-commands.c:545
+#: addressbook/gui/component/addressbook.c:436
+#: calendar/gui/calendar-commands.c:513 notes/component-factory.c:27
 msgid "New"
 msgstr "新規"
 
-#: addressbook/gui/component/addressbook.c:421
+#: addressbook/gui/component/addressbook.c:436
 msgid "Create a new contact"
 msgstr "新規コンタクトを作成する"
 
-#: addressbook/gui/component/addressbook.c:425
+#: addressbook/gui/component/addressbook.c:440
 msgid "Find"
 msgstr "検索"
 
-#: addressbook/gui/component/addressbook.c:425
+#: addressbook/gui/component/addressbook.c:440
 msgid "Find a contact"
 msgstr "コンタクトを検索する"
 
-#: addressbook/gui/component/addressbook.c:426
-#: calendar/gui/calendar-commands.c:549 mail/folder-browser-factory.c:38
+#: addressbook/gui/component/addressbook.c:441
+#: calendar/gui/calendar-commands.c:518 mail/folder-browser-factory.c:48
+#: mail/mail-view.c:145
 msgid "Print"
 msgstr "印刷"
 
-#: addressbook/gui/component/addressbook.c:426
+#: addressbook/gui/component/addressbook.c:441
 msgid "Print contacts"
 msgstr "コンタクトを印刷する"
 
-#: addressbook/gui/component/addressbook.c:427
+#: addressbook/gui/component/addressbook.c:442
 msgid "Delete a contact"
 msgstr "コンタクトを削除"
 
-#: addressbook/gui/component/addressbook.c:495
+#: addressbook/gui/component/addressbook.c:511
 msgid "_Print Contacts..."
 msgstr "コンタクトを印刷する(_P)..."
 
-#: addressbook/gui/component/addressbook.c:505
-#: addressbook/gui/component/addressbook.c:1044
+#: addressbook/gui/component/addressbook.c:521
+#: addressbook/gui/component/addressbook.c:1051
 msgid "As _Table"
 msgstr "テーブル(_T)"
 
-#: addressbook/gui/component/addressbook.c:512
+#: addressbook/gui/component/addressbook.c:528
 msgid "_New Contact"
 msgstr "新規コンタクト(_N)"
 
-#: addressbook/gui/component/addressbook.c:520
+#: addressbook/gui/component/addressbook.c:536
 msgid "N_ew Directory Server"
 msgstr "新規ディレクトリサーバ(_e)"
 
-#: addressbook/gui/component/addressbook.c:603
+#: addressbook/gui/component/addressbook.c:550
+msgid "_Search for contacts"
+msgstr "コンタクトの検索(_S)"
+
+#: addressbook/gui/component/addressbook.c:632
 msgid "Unable to open addressbook"
 msgstr "住所録を開くことが出来ません"
 
-#: addressbook/gui/component/addressbook.c:608
+#: addressbook/gui/component/addressbook.c:637
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -790,20 +934,20 @@ msgstr ""
 "OpenLDAP のダウンロードとインストール, そして evolution\n"
 "をインストールする必要があるでしょう\n"
 
-#: addressbook/gui/component/addressbook.c:948
-#: addressbook/gui/minicard/e-minicard.c:330
+#: addressbook/gui/component/addressbook.c:920
+#: addressbook/gui/minicard/e-minicard.c:332
 msgid "Save as VCard"
 msgstr "VCard で保存"
 
-#: addressbook/gui/component/addressbook.c:1015
+#: addressbook/gui/component/addressbook.c:1022
 msgid "* Click here to add a contact *"
 msgstr "* ここをクリックしてコンタクトを追加してください *"
 
-#: addressbook/gui/component/addressbook.c:1051
+#: addressbook/gui/component/addressbook.c:1058
 msgid "As _Minicards"
 msgstr "ミニカード"
 
-#: addressbook/gui/component/addressbook.c:1102
+#: addressbook/gui/component/addressbook.c:1109
 msgid "The URI that the Folder Browser will display"
 msgstr "フォルダブラウザが表示する URI"
 
@@ -925,7 +1069,7 @@ msgstr "y"
 msgid "z"
 msgstr "z"
 
-#: addressbook/gui/component/e-ldap-storage.c:87
+#: addressbook/gui/component/e-ldap-storage.c:88
 msgid "External Directories"
 msgstr "外部ディレクトリ"
 
@@ -956,6 +1100,31 @@ msgstr "Root DN:"
 msgid "Name:"
 msgstr "名前:"
 
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: addressbook/gui/component/select-names/select-names.glade.h:7
+msgid "Select Names"
+msgstr "名前を選択"
+
+#: addressbook/gui/component/select-names/select-names.glade.h:8
+msgid "Find..."
+msgstr "検索..."
+
+#: addressbook/gui/component/select-names/select-names.glade.h:9
+msgid "Select name from List:"
+msgstr "リストから名前を選択:"
+
+#: addressbook/gui/component/select-names/select-names.glade.h:10
+msgid "Message Recipients"
+msgstr "受信者のメッセージ"
+
+#: addressbook/gui/minicard/e-minicard-control.c:278
+msgid "Save in addressbook"
+msgstr "住所録に保存"
+
 #: addressbook/gui/minicard/e-minicard-view.c:110
 msgid ""
 "\n"
@@ -969,6 +1138,24 @@ msgstr ""
 "このビューの中に表示できるアイテムはありません\n"
 "\n"
 "ダブルクリックをして新規コンタクトを作成して下さい"
+
+#: addressbook/gui/minicard/test-minicard-view.c:100
+msgid "Reflow Test"
+msgstr ""
+
+#: addressbook/gui/minicard/test-minicard-view.c:101
+msgid "Copyright (C) 2000, Helix Code, Inc."
+msgstr "Copyright (C) 2000, Helix Code, Inc."
+
+#: addressbook/gui/minicard/test-minicard-view.c:103
+msgid "This should test the reflow canvas item"
+msgstr ""
+
+#. gtk_signal_connect(fb->search_entry, "changed", search_activate, fb);
+#: addressbook/gui/search/e-addressbook-search-dialog.c:150
+#: mail/folder-browser.c:377
+msgid "Search"
+msgstr "検索"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1073,7 +1260,7 @@ msgstr "種別:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
 #: addressbook/printing/e-contact-print.glade.h:43
-#: calendar/gui/event-editor-dialog.glade.h:81
+#: calendar/gui/event-editor-dialog.glade.h:80
 msgid "label26"
 msgstr "label26"
 
@@ -1152,209 +1339,285 @@ msgstr "偶数ページを反転"
 msgid "Header/Footer"
 msgstr "ヘッダ/フッタ"
 
-#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:544
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:596
 msgid "am"
 msgstr "午前"
 
-#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:543
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:595
 msgid "pm"
 msgstr "午後"
 
-#: calendar/gui/calendar-commands.c:56
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:146
+msgid "Gpilotd calendar conduit"
+msgstr "Gpilotd カレンダコンジット"
+
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:149
+msgid "Configuration utility for the calendar conduit.\n"
+msgstr "カレンダコンジットのための設定ユーティリティです\n"
+
+#: calendar/conduits/calendar/calendar-conduit.c:399
+#: calendar/conduits/calendar/calendar-conduit.c:1109
+#: calendar/conduits/todo/todo-conduit.c:443
+#: calendar/conduits/todo/todo-conduit.c:1025
+msgid "Error while communicating with calendar server"
+msgstr "カレンダサーバで通信中にエラーが発生しました"
+
+#: calendar/conduits/calendar/calendar-conduit.c:776
+#: calendar/conduits/calendar/calendar-conduit.c:778
+#: calendar/conduits/todo/todo-conduit.c:707
+#: calendar/conduits/todo/todo-conduit.c:709
+msgid "Could not start gnomecal server"
+msgstr "gnomecal サーバを開始出来ませんでした"
+
+#: calendar/conduits/calendar/calendar-conduit.c:806
+#: calendar/conduits/calendar/calendar-conduit.c:809
+msgid "Could not read pilot's DateBook application block"
+msgstr ""
+"パイロットの DateBook "
+"アプリケーションブロックを読み込むことが出来ませんでした"
+
+#: calendar/conduits/todo/todo-conduit-control-applet.c:146
+msgid "Gpilotd todo conduit"
+msgstr "Gpilotd TODO コンジット"
+
+#: calendar/conduits/todo/todo-conduit-control-applet.c:149
+msgid "Configuration utility for the todo conduit.\n"
+msgstr "TODO コンジットのための設定ユーティリティです\n"
+
+#: calendar/conduits/todo/todo-conduit.c:737
+#: calendar/conduits/todo/todo-conduit.c:740
+msgid "Could not read pilot's ToDo application block"
+msgstr ""
+"パイロットの TODO アプリケーションブロックを読み込むことが出来ませんでした"
+
+#: calendar/gui/calendar-commands.c:59
 msgid "Outline:"
 msgstr "概要:"
 
-#: calendar/gui/calendar-commands.c:57
+#: calendar/gui/calendar-commands.c:60
 msgid "Headings:"
 msgstr "見出し:"
 
-#: calendar/gui/calendar-commands.c:58
+#: calendar/gui/calendar-commands.c:61
 msgid "Empty days:"
 msgstr "空き日:"
 
-#: calendar/gui/calendar-commands.c:59
+#: calendar/gui/calendar-commands.c:62
 msgid "Appointments:"
 msgstr "予約:"
 
-#: calendar/gui/calendar-commands.c:60
+#: calendar/gui/calendar-commands.c:63
 msgid "Highlighted day:"
 msgstr "重要な日:"
 
-#: calendar/gui/calendar-commands.c:61
+#: calendar/gui/calendar-commands.c:64
 msgid "Day numbers:"
 msgstr "日数:"
 
-#: calendar/gui/calendar-commands.c:62
+#: calendar/gui/calendar-commands.c:65
 msgid "Current day's number:"
 msgstr "現在の日数:"
 
-#: calendar/gui/calendar-commands.c:63
+#: calendar/gui/calendar-commands.c:66
 msgid "To-Do item that is not yet due:"
 msgstr "まだ期限の来ていない TODO アイテム:"
 
-#: calendar/gui/calendar-commands.c:64
+#: calendar/gui/calendar-commands.c:67
 msgid "To-Do item that is due today:"
 msgstr "今日期限の TODO アイテム:"
 
-#: calendar/gui/calendar-commands.c:65
+#: calendar/gui/calendar-commands.c:68
 msgid "To-Do item that is overdue:"
 msgstr "期限の過ぎた TODO アイテム:"
 
-#: calendar/gui/calendar-commands.c:176
+#: calendar/gui/calendar-commands.c:175
 msgid "Gnome Calendar"
 msgstr "GNOME カレンダ"
 
-#: calendar/gui/calendar-commands.c:179
+#: calendar/gui/calendar-commands.c:178
 msgid "The GNOME personal calendar and schedule manager."
 msgstr "GNOME 個人カレンダとスケジュール管理"
 
-#: calendar/gui/calendar-commands.c:435
+#: calendar/gui/calendar-commands.c:401 tests/ui-tests/message-browser.c:676
 msgid "File not found"
 msgstr "ファイルが見つかりません"
 
-#: calendar/gui/calendar-commands.c:457
+#: calendar/gui/calendar-commands.c:425
 msgid "Open calendar"
 msgstr "カレンダを開く"
 
-#: calendar/gui/calendar-commands.c:496
+#: calendar/gui/calendar-commands.c:464
 msgid "Save calendar"
 msgstr "カレンダを保存"
 
-#: calendar/gui/calendar-commands.c:523 calendar/gui/gncal-todo.c:722
-#: calendar/gui/gncal-todo.c:726
+#: calendar/gui/calendar-commands.c:491 calendar/gui/gncal-todo.c:765
+#: calendar/gui/gncal-todo.c:769
 msgid "Day"
 msgstr "日"
 
-#: calendar/gui/calendar-commands.c:523
+#: calendar/gui/calendar-commands.c:491
 msgid "Show 1 day"
 msgstr "1 日を表示する"
 
-#: calendar/gui/calendar-commands.c:526
+#: calendar/gui/calendar-commands.c:494
 msgid "5 Days"
 msgstr "5 日"
 
-#: calendar/gui/calendar-commands.c:526
+#: calendar/gui/calendar-commands.c:494
 msgid "Show the working week"
 msgstr "仕事中の週を表示する"
 
-#: calendar/gui/calendar-commands.c:529 calendar/gui/gncal-todo.c:721
+#: calendar/gui/calendar-commands.c:497 calendar/gui/gncal-todo.c:764
 msgid "Week"
 msgstr "週"
 
-#: calendar/gui/calendar-commands.c:529
+#: calendar/gui/calendar-commands.c:497
 msgid "Show 1 week"
 msgstr "1 週間を表示する"
 
-#: calendar/gui/calendar-commands.c:532
+#: calendar/gui/calendar-commands.c:500
 msgid "Month"
 msgstr "月"
 
-#: calendar/gui/calendar-commands.c:532
+#: calendar/gui/calendar-commands.c:500
 msgid "Show 1 month"
 msgstr "1 ヵ月を表示する"
 
-#: calendar/gui/calendar-commands.c:536
+#: calendar/gui/calendar-commands.c:504
 msgid "Year"
 msgstr "年"
 
-#: calendar/gui/calendar-commands.c:536
+#: calendar/gui/calendar-commands.c:504
 msgid "Show 1 year"
 msgstr "1 年間を表示する"
 
-#: calendar/gui/calendar-commands.c:545 calendar/gui/calendar-commands.c:689
+#: calendar/gui/calendar-commands.c:513 calendar/gui/calendar-commands.c:665
 msgid "Create a new appointment"
 msgstr "新規予約を作成する"
 
-#: calendar/gui/calendar-commands.c:549 calendar/gui/calendar-commands.c:681
+#: calendar/gui/calendar-commands.c:518 calendar/gui/calendar-commands.c:657
 msgid "Print this calendar"
 msgstr "このカレンダを印刷する"
 
-#: calendar/gui/calendar-commands.c:553
+#: calendar/gui/calendar-commands.c:522
 msgid "Prev"
 msgstr "前"
 
-#: calendar/gui/calendar-commands.c:553
+#: calendar/gui/calendar-commands.c:522
 msgid "Go back in time"
 msgstr "時間を戻る"
 
-#: calendar/gui/calendar-commands.c:554
+#: calendar/gui/calendar-commands.c:523
 msgid "Today"
 msgstr "今日"
 
-#: calendar/gui/calendar-commands.c:554
+#: calendar/gui/calendar-commands.c:523
 msgid "Go to present time"
 msgstr "現在の時間へ移動する"
 
-#: calendar/gui/calendar-commands.c:555
+#: calendar/gui/calendar-commands.c:524
 msgid "Next"
 msgstr "次"
 
-#: calendar/gui/calendar-commands.c:555
+#: calendar/gui/calendar-commands.c:524
 msgid "Go forward in time"
 msgstr "時間を進む"
 
-#: calendar/gui/calendar-commands.c:559
+#: calendar/gui/calendar-commands.c:528
 msgid "Go to"
 msgstr "移動"
 
-#: calendar/gui/calendar-commands.c:559
+#: calendar/gui/calendar-commands.c:528
 msgid "Go to a specific date"
 msgstr "指定日へ移動する"
 
 #. file menu
-#: calendar/gui/calendar-commands.c:666
+#: calendar/gui/calendar-commands.c:642
 msgid "New Ca_lendar"
 msgstr "新規カレンダ(_l)"
 
-#: calendar/gui/calendar-commands.c:667
+#: calendar/gui/calendar-commands.c:643
 msgid "Create a new calendar"
 msgstr "新規カレンダを作成する"
 
-#: calendar/gui/calendar-commands.c:670
+#: calendar/gui/calendar-commands.c:646
 msgid "Open Ca_lendar"
 msgstr "カレンダを開く(_l)"
 
-#: calendar/gui/calendar-commands.c:671
+#: calendar/gui/calendar-commands.c:647
 msgid "Open a calendar"
 msgstr "カレンダを開く"
 
-#: calendar/gui/calendar-commands.c:675 calendar/gui/calendar-commands.c:676
+#: calendar/gui/calendar-commands.c:651 calendar/gui/calendar-commands.c:652
 msgid "Save Calendar As"
 msgstr "カレンダを別名で保存"
 
-#: calendar/gui/calendar-commands.c:689
+#: calendar/gui/calendar-commands.c:665
 msgid "_New appointment..."
 msgstr "新規予約(_N)..."
 
-#: calendar/gui/calendar-commands.c:694
-msgid "New appointment for _today..."
-msgstr "今日の新規予約(_t)..."
-
-#: calendar/gui/calendar-commands.c:695
-msgid "Create a new appointment for today"
-msgstr "今日の新規予約を作成する"
-
-#: calendar/gui/calendar-commands.c:703 calendar/gui/prop.c:716
+#: calendar/gui/calendar-commands.c:673 calendar/gui/prop.c:718
 msgid "Preferences"
 msgstr "設定"
 
-#: calendar/gui/calendar-commands.c:710 calendar/gui/calendar-commands.c:711
+#: calendar/gui/calendar-commands.c:680 calendar/gui/calendar-commands.c:681
 msgid "About Calendar"
 msgstr "カレンダについて"
 
 #. i18n: This "%s%s" indicates possession. Languages where the order is
 #. * the inverse should translate it to "%2$s%1$s".
 #.
-#: calendar/gui/calendar-commands.c:753
+#: calendar/gui/calendar-commands.c:723
 #, c-format
 msgid "%s%s"
 msgstr "%s%s"
 
-#: calendar/gui/calendar-commands.c:753
+#: calendar/gui/calendar-commands.c:723
 msgid "'s calendar"
 msgstr "のカレンダです"
 
-#: calendar/gui/calendar-model.c:452
+#: calendar/gui/calendar-model.c:327
+msgid "Public"
+msgstr "一般"
+
+#: calendar/gui/calendar-model.c:330
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:27
+msgid "Private"
+msgstr "プライベート"
+
+#: calendar/gui/calendar-model.c:333
+msgid "Confidential"
+msgstr "内密"
+
+#: calendar/gui/calendar-model.c:336 calendar/gui/calendar-model.c:503
+msgid "Unknown"
+msgstr "未知"
+
+#: calendar/gui/calendar-model.c:423
+msgid "N"
+msgstr "北"
+
+#: calendar/gui/calendar-model.c:423
+msgid "S"
+msgstr "南"
+
+#: calendar/gui/calendar-model.c:425
+msgid "E"
+msgstr "東"
+
+#: calendar/gui/calendar-model.c:425
+msgid "W"
+msgstr "西"
+
+#: calendar/gui/calendar-model.c:497
+msgid "Transparent"
+msgstr "透明"
+
+#: calendar/gui/calendar-model.c:500
+msgid "Opaque"
+msgstr "不透明"
+
+#: calendar/gui/calendar-model.c:739
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1365,7 +1628,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: calendar/gui/calendar-model.c:525
+#: calendar/gui/calendar-model.c:916
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1375,15 +1638,15 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:570
-msgid "The percent value must be between 0 and 100"
-msgstr "パーセント値は 0 と 100 の間でなければなりません"
+#: calendar/gui/calendar-model.c:956
+msgid "The percent value must be between 0 and 100, inclusive"
+msgstr "パーセント値は 0 と 100 の間で含んでいなければなりません"
 
-#: calendar/gui/calendar-model.c:603
-msgid "The priority must be between 0 and 10"
-msgstr "優先順位は 0 と 10 の間でなければなりません"
+#: calendar/gui/calendar-model.c:990
+msgid "The priority must be between 1 and 9, inclusive"
+msgstr "優先順位は 1 と 9 の間で含んでいなければなりません"
 
-#: calendar/gui/control-factory.c:136
+#: calendar/gui/control-factory.c:124
 msgid "The URI that the calendar will display"
 msgstr "カレンダが表示する URI"
 
@@ -1408,7 +1671,7 @@ msgstr "利用できるサマリはありません"
 msgid "Close"
 msgstr "閉じる"
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1070
+#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1086
 msgid "Snooze"
 msgstr "居眠り"
 
@@ -1420,7 +1683,7 @@ msgstr "予約の編集"
 msgid "Snooze time (minutes)"
 msgstr "居眠り時間 (分)"
 
-#: calendar/gui/dialogs/task-editor.c:245 calendar/gui/event-editor.c:1198
+#: calendar/gui/dialogs/task-editor.c:245 calendar/gui/event-editor.c:1203
 msgid "FIXME: _Delete"
 msgstr "FIXME: 削除(_D)"
 
@@ -1429,11 +1692,11 @@ msgstr "FIXME: 削除(_D)"
 msgid "FIXME: In_complete Task"
 msgstr "FIXME: 未完了の作業(_c)"
 
-#: calendar/gui/dialogs/task-editor.c:347 calendar/gui/event-editor.c:1300
+#: calendar/gui/dialogs/task-editor.c:347 calendar/gui/event-editor.c:1305
 msgid "FIXME: Chec_k Names"
 msgstr "FIXME: 名前チェック(_k)"
 
-#: calendar/gui/dialogs/task-editor.c:348 calendar/gui/event-editor.c:1301
+#: calendar/gui/dialogs/task-editor.c:348 calendar/gui/event-editor.c:1306
 msgid "FIXME: Address _Book..."
 msgstr "FIXME: 住所録(_B)..."
 
@@ -1446,18 +1709,16 @@ msgid "FIXME: S_end Status Report"
 msgstr "FIXME: ステータスレポートを送信(_e)"
 
 #: calendar/gui/dialogs/task-editor.c:358
-#, fuzzy
 msgid "FIXME: _Mark Complete"
-msgstr "FIXME: 削除(_D)"
+msgstr ""
 
-#: calendar/gui/dialogs/task-editor.c:360 calendar/gui/event-editor.c:1310
+#: calendar/gui/dialogs/task-editor.c:360 calendar/gui/event-editor.c:1315
 msgid "FIXME: Rec_urrence..."
 msgstr "FIXME: 振り分け(_u)..."
 
 #: calendar/gui/dialogs/task-editor.c:361
-#, fuzzy
 msgid "FIXME: S_kip Occurrence"
-msgstr "FIXME: 振り分け..."
+msgstr ""
 
 #: calendar/gui/dialogs/task-editor.c:363
 msgid "FIXME: Assig_n Task"
@@ -1471,7 +1732,7 @@ msgstr "FIXME: 返信(_R)"
 msgid "FIXME: Reply to A_ll"
 msgstr "FIXME: 全員へ返信(_l)"
 
-#: calendar/gui/dialogs/task-editor.c:409 calendar/gui/event-editor.c:1370
+#: calendar/gui/dialogs/task-editor.c:409 calendar/gui/event-editor.c:1375
 msgid "FIXME: Save and Close"
 msgstr "FIXME: 保存と閉じる"
 
@@ -1479,15 +1740,15 @@ msgstr "FIXME: 保存と閉じる"
 msgid "Save the task and close the dialog box"
 msgstr "作業を保存してダイアログボックスを閉じる"
 
-#: calendar/gui/dialogs/task-editor.c:414 calendar/gui/event-editor.c:1375
+#: calendar/gui/dialogs/task-editor.c:414 calendar/gui/event-editor.c:1380
 msgid "FIXME: Print..."
 msgstr "FIXME: 印刷..."
 
-#: calendar/gui/dialogs/task-editor.c:419 calendar/gui/event-editor.c:1380
+#: calendar/gui/dialogs/task-editor.c:419 calendar/gui/event-editor.c:1385
 msgid "FIXME: Recurrence..."
 msgstr "FIXME: 振り分け..."
 
-#: calendar/gui/dialogs/task-editor.c:420 calendar/gui/event-editor.c:1381
+#: calendar/gui/dialogs/task-editor.c:420 calendar/gui/event-editor.c:1386
 msgid "Configure recurrence rules"
 msgstr "振り分けルールを設定する"
 
@@ -1499,7 +1760,7 @@ msgstr "FIXME: 作業の割り当て..."
 msgid "Assign the task to someone"
 msgstr "作業を誰かに割り当ててください"
 
-#: calendar/gui/dialogs/task-editor.c:425 calendar/gui/event-editor.c:1386
+#: calendar/gui/dialogs/task-editor.c:425 calendar/gui/event-editor.c:1391
 msgid "FIXME: Delete"
 msgstr "FIXME: 削除"
 
@@ -1559,9 +1820,8 @@ msgstr ""
 "下\n"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:23
-#, fuzzy
 msgid "High"
-msgstr "高さ:"
+msgstr "高さ"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:24
 msgid "% Comp_lete:"
@@ -1570,10 +1830,6 @@ msgstr "% 完了(_l):"
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:25
 msgid "_Contacts..."
 msgstr "コンタクト(_C)..."
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:27
-msgid "Private"
-msgstr "プライベート"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:28
 msgid "Task"
@@ -1595,182 +1851,165 @@ msgstr "URL:"
 msgid "Resources:"
 msgstr "リソース:"
 
-#: calendar/gui/e-calendar-table.c:189
-msgid "Comment"
-msgstr "コメント"
+#. Create the header columns
+#: calendar/gui/e-calendar-table.c:196
+msgid "Categories"
+msgstr "カテゴリ"
 
-#: calendar/gui/e-calendar-table.c:194
-msgid "Completed"
-msgstr "完了"
+#: calendar/gui/e-calendar-table.c:197
+#: calendar/gui/event-editor-dialog.glade.h:13
+msgid "Classification"
+msgstr "分類"
+
+#: calendar/gui/e-calendar-table.c:198
+msgid "Completion date"
+msgstr "完了日"
 
 #: calendar/gui/e-calendar-table.c:199
-msgid "Created"
-msgstr "作成"
-
-#: calendar/gui/e-calendar-table.c:204
-msgid "Description"
-msgstr "説明"
-
-#: calendar/gui/e-calendar-table.c:209
-msgid "Timestamp"
-msgstr "日時"
-
-#: calendar/gui/e-calendar-table.c:214
-msgid "Start Date"
-msgstr "開始日"
-
-#: calendar/gui/e-calendar-table.c:219
-msgid "End Date"
+msgid "End date"
 msgstr "終了日"
 
-#: calendar/gui/e-calendar-table.c:224
-msgid "Geographical Position"
+#: calendar/gui/e-calendar-table.c:200
+msgid "Start date"
+msgstr "開始日"
+
+#: calendar/gui/e-calendar-table.c:201
+msgid "Due date"
+msgstr "期日"
+
+#: calendar/gui/e-calendar-table.c:202
+msgid "Geographical position"
 msgstr "地理的な位置"
 
-#: calendar/gui/e-calendar-table.c:229
-msgid "Last Modification Date"
-msgstr "最終更新日"
+#: calendar/gui/e-calendar-table.c:203
+msgid "Percent complete"
+msgstr "パーセント完了"
 
-#: calendar/gui/e-calendar-table.c:234
-msgid "Location"
-msgstr "場所"
-
-#: calendar/gui/e-calendar-table.c:239
-msgid "Organizer"
-msgstr "組織者"
-
-#: calendar/gui/e-calendar-table.c:244
-msgid "% Complete"
-msgstr "% 完了"
-
-#: calendar/gui/e-calendar-table.c:249 calendar/gui/gncal-todo.c:436
-#: calendar/gui/prop.c:609 mail/message-list.c:484
+#: calendar/gui/e-calendar-table.c:204 calendar/gui/gncal-todo.c:478
+#: calendar/gui/prop.c:611 mail/message-list.c:508
 msgid "Priority"
 msgstr "優先度"
 
-#: calendar/gui/e-calendar-table.c:260
-#, fuzzy
-msgid "TaskPad"
-msgstr "作業(_T)"
+#: calendar/gui/e-calendar-table.c:212 calendar/gui/gncal-todo.c:476
+msgid "Summary"
+msgstr "サマリ"
 
-#: calendar/gui/e-calendar-table.c:265
+#: calendar/gui/e-calendar-table.c:216
+msgid "Transparency"
+msgstr "透明度"
+
+#: calendar/gui/e-calendar-table.c:217
 msgid "URL"
 msgstr "URL"
 
-#: calendar/gui/e-calendar-table.c:270
-#: calendar/gui/event-editor-dialog.glade.h:41
-msgid "Reminder"
-msgstr "催促状"
+#: calendar/gui/e-calendar-table.c:219 calendar/gui/prop.c:786
+msgid "Alarms"
+msgstr "アラーム"
 
-#: calendar/gui/e-calendar-table.c:369
+#: calendar/gui/e-calendar-table.c:317
 msgid "Open..."
 msgstr "開く..."
 
-#: calendar/gui/e-calendar-table.c:370
+#: calendar/gui/e-calendar-table.c:318
 msgid "Open the task"
 msgstr "作業を開く"
 
-#: calendar/gui/e-calendar-table.c:372
+#: calendar/gui/e-calendar-table.c:320
 msgid "Mark Complete"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:373
+#: calendar/gui/e-calendar-table.c:321
 msgid "Mark the task complete"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:376
+#: calendar/gui/e-calendar-table.c:324
 msgid "Delete the task"
 msgstr "作業を削除する"
 
-#: calendar/gui/e-day-view-time-item.c:391
+#: calendar/gui/e-day-view-time-item.c:393
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i 分分割"
 
-#: calendar/gui/e-day-view.c:2317 calendar/gui/e-day-view.c:2324
-#: calendar/gui/e-day-view.c:2333 calendar/gui/e-week-view.c:2643
-#: calendar/gui/e-week-view.c:2650 calendar/gui/e-week-view.c:2659
+#: calendar/gui/e-day-view.c:2334 calendar/gui/e-day-view.c:2341
+#: calendar/gui/e-day-view.c:2350 calendar/gui/e-week-view.c:2681
+#: calendar/gui/e-week-view.c:2688 calendar/gui/e-week-view.c:2697
 msgid "New appointment..."
 msgstr "新規予約..."
 
-#: calendar/gui/e-day-view.c:2321 calendar/gui/e-day-view.c:2328
-#: calendar/gui/e-week-view.c:2647 calendar/gui/e-week-view.c:2654
+#: calendar/gui/e-day-view.c:2338 calendar/gui/e-day-view.c:2345
+#: calendar/gui/e-week-view.c:2685 calendar/gui/e-week-view.c:2692
 msgid "Edit this appointment..."
 msgstr "この予約を編集..."
 
-#: calendar/gui/e-day-view.c:2322 calendar/gui/e-week-view.c:2648
+#: calendar/gui/e-day-view.c:2339 calendar/gui/e-week-view.c:2686
 msgid "Delete this appointment"
 msgstr "この予約を削除"
 
-#: calendar/gui/e-day-view.c:2329 calendar/gui/e-week-view.c:2655
+#: calendar/gui/e-day-view.c:2346 calendar/gui/e-week-view.c:2693
 msgid "Make this appointment movable"
 msgstr "この予約を可動にする"
 
-#: calendar/gui/e-day-view.c:2330 calendar/gui/e-week-view.c:2656
+#: calendar/gui/e-day-view.c:2347 calendar/gui/e-week-view.c:2694
 msgid "Delete this occurrence"
 msgstr "この出来事を削除"
 
-#: calendar/gui/e-day-view.c:2331 calendar/gui/e-week-view.c:2657
+#: calendar/gui/e-day-view.c:2348 calendar/gui/e-week-view.c:2695
 msgid "Delete all occurrences"
 msgstr "すべての出来事を削除"
 
-#: calendar/gui/event-editor.c:291
+#: calendar/gui/event-editor.c:293
 msgid "Edit Appointment"
 msgstr "予約の編集"
 
-#: calendar/gui/event-editor.c:296
+#: calendar/gui/event-editor.c:299
 msgid "No summary"
 msgstr "サマリなし"
 
-#: calendar/gui/event-editor.c:300
+#: calendar/gui/event-editor.c:305
 #, c-format
 msgid "Appointment - %s"
 msgstr "予約 - %s"
 
-#: calendar/gui/event-editor.c:303
+#: calendar/gui/event-editor.c:308
 #, c-format
 msgid "Task - %s"
 msgstr "作業 - %s"
 
-#: calendar/gui/event-editor.c:306
+#: calendar/gui/event-editor.c:311
 #, c-format
 msgid "Journal entry - %s"
 msgstr "仕訳記入 - %s"
 
-#. Owner, summary
-#: calendar/gui/event-editor.c:622 calendar/gui/event-editor.c:718
-msgid "?"
-msgstr "?"
-
-#: calendar/gui/event-editor.c:1265
+#: calendar/gui/event-editor.c:1270
 msgid "FIXME: Ca_lendar..."
 msgstr "FIXME: カレンダ(_l)..."
 
-#: calendar/gui/event-editor.c:1308
+#: calendar/gui/event-editor.c:1313
 msgid "FIXME: _New Appointment"
 msgstr "FIXME: 新規予約(_N)"
 
-#: calendar/gui/event-editor.c:1312
+#: calendar/gui/event-editor.c:1317
 msgid "FIXME: Invite _Attendees..."
 msgstr "FIXME: 付き添いを招待..."
 
-#: calendar/gui/event-editor.c:1313
+#: calendar/gui/event-editor.c:1318
 msgid "FIXME: C_ancel Invitation..."
 msgstr "FIXME: 招待のキャンセル(_a)..."
 
-#: calendar/gui/event-editor.c:1315
+#: calendar/gui/event-editor.c:1320
 msgid "FIXME: Forward as v_Calendar"
 msgstr "FIXME: vCalendar で転送(_C)"
 
-#: calendar/gui/event-editor.c:1383
+#: calendar/gui/event-editor.c:1388
 msgid "FIXME: Invite Attendees..."
 msgstr "FIXME: 付き添いを招待..."
 
-#: calendar/gui/event-editor.c:1384
+#: calendar/gui/event-editor.c:1389
 msgid "Invite attendees to a meeting"
 msgstr "会議に付き添いを招待する"
 
-#: calendar/gui/event-editor.c:1828
+#: calendar/gui/event-editor.c:1832
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
@@ -1803,45 +2042,37 @@ msgid "_Summary:"
 msgstr "サマリ(_S):"
 
 #: calendar/gui/event-editor-dialog.glade.h:9
-msgid "_Owner:"
-msgstr "所有者(_O):"
-
-#: calendar/gui/event-editor-dialog.glade.h:10
 msgid "Time"
 msgstr "時間"
 
-#: calendar/gui/event-editor-dialog.glade.h:11
+#: calendar/gui/event-editor-dialog.glade.h:10
 msgid "Start time:"
 msgstr "開始時間:"
 
-#: calendar/gui/event-editor-dialog.glade.h:12
+#: calendar/gui/event-editor-dialog.glade.h:11
 msgid "End time:"
 msgstr "終了時間:"
 
-#: calendar/gui/event-editor-dialog.glade.h:13
+#: calendar/gui/event-editor-dialog.glade.h:12
 msgid "A_ll day event"
 msgstr "毎日のイベント(_l)"
 
 #: calendar/gui/event-editor-dialog.glade.h:14
-msgid "Classification"
-msgstr "分類"
-
-#: calendar/gui/event-editor-dialog.glade.h:15
 msgid "Pu_blic"
 msgstr "一般(_b)"
 
-#: calendar/gui/event-editor-dialog.glade.h:16
+#: calendar/gui/event-editor-dialog.glade.h:15
 msgid "Pri_vate"
 msgstr "プライベート(_v)"
 
-#: calendar/gui/event-editor-dialog.glade.h:17
+#: calendar/gui/event-editor-dialog.glade.h:16
 msgid "_Confidential"
 msgstr "内密(_C)"
 
-#: calendar/gui/event-editor-dialog.glade.h:19
-#: calendar/gui/event-editor-dialog.glade.h:23
-#: calendar/gui/event-editor-dialog.glade.h:27
-#: calendar/gui/event-editor-dialog.glade.h:31
+#: calendar/gui/event-editor-dialog.glade.h:18
+#: calendar/gui/event-editor-dialog.glade.h:22
+#: calendar/gui/event-editor-dialog.glade.h:26
+#: calendar/gui/event-editor-dialog.glade.h:30
 msgid ""
 "Minutes\n"
 "Hours\n"
@@ -1851,126 +2082,130 @@ msgstr ""
 "時\n"
 "日\n"
 
-#: calendar/gui/event-editor-dialog.glade.h:35
+#: calendar/gui/event-editor-dialog.glade.h:34
 msgid "_Display"
 msgstr "表示(_D)"
 
-#: calendar/gui/event-editor-dialog.glade.h:36
+#: calendar/gui/event-editor-dialog.glade.h:35
 msgid "_Audio"
 msgstr "オーディオ(_A)"
 
-#: calendar/gui/event-editor-dialog.glade.h:37
+#: calendar/gui/event-editor-dialog.glade.h:36
 msgid "_Program"
 msgstr "プログラム(_P)"
 
-#: calendar/gui/event-editor-dialog.glade.h:38
+#: calendar/gui/event-editor-dialog.glade.h:37
 msgid "_Mail"
 msgstr "メール(_M)"
 
-#: calendar/gui/event-editor-dialog.glade.h:39
+#: calendar/gui/event-editor-dialog.glade.h:38
 msgid "Mail _to:"
 msgstr "メールの送り先(_t):"
 
-#: calendar/gui/event-editor-dialog.glade.h:40
+#: calendar/gui/event-editor-dialog.glade.h:39
 msgid "_Run program:"
 msgstr "プログラムを実行(_R):"
 
-#: calendar/gui/event-editor-dialog.glade.h:42
+#: calendar/gui/event-editor-dialog.glade.h:40
+msgid "Reminder"
+msgstr "催促状"
+
+#: calendar/gui/event-editor-dialog.glade.h:41
 msgid "Recurrence rule"
 msgstr "振り分けルール"
 
-#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:736
+#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:879
 msgid "None"
 msgstr "ノート"
 
-#: calendar/gui/event-editor-dialog.glade.h:44
+#: calendar/gui/event-editor-dialog.glade.h:43
 msgid "Daily"
 msgstr "毎日"
 
-#: calendar/gui/event-editor-dialog.glade.h:45
+#: calendar/gui/event-editor-dialog.glade.h:44
 msgid "Weekly"
 msgstr "毎週"
 
-#: calendar/gui/event-editor-dialog.glade.h:46
+#: calendar/gui/event-editor-dialog.glade.h:45
 msgid "Monthly"
 msgstr "毎月"
 
-#: calendar/gui/event-editor-dialog.glade.h:47
+#: calendar/gui/event-editor-dialog.glade.h:46
 msgid "Yearly"
 msgstr "毎年"
 
-#: calendar/gui/event-editor-dialog.glade.h:48
+#: calendar/gui/event-editor-dialog.glade.h:47
 msgid "label23"
 msgstr "label23"
 
-#: calendar/gui/event-editor-dialog.glade.h:49
-#: calendar/gui/event-editor-dialog.glade.h:52
-#: calendar/gui/event-editor-dialog.glade.h:82
+#: calendar/gui/event-editor-dialog.glade.h:48
+#: calendar/gui/event-editor-dialog.glade.h:51
+#: calendar/gui/event-editor-dialog.glade.h:81
 msgid "Every "
 msgstr "常に "
 
-#: calendar/gui/event-editor-dialog.glade.h:50
+#: calendar/gui/event-editor-dialog.glade.h:49
 msgid "day(s)"
 msgstr "日"
 
-#: calendar/gui/event-editor-dialog.glade.h:51
+#: calendar/gui/event-editor-dialog.glade.h:50
 msgid "label24"
 msgstr "label24"
 
-#: calendar/gui/event-editor-dialog.glade.h:53
+#: calendar/gui/event-editor-dialog.glade.h:52
 msgid "week(s)"
 msgstr "週"
 
-#: calendar/gui/event-editor-dialog.glade.h:54
+#: calendar/gui/event-editor-dialog.glade.h:53
 #: calendar/gui/gnome-month-item.c:737
 msgid "Mon"
 msgstr "月"
 
-#: calendar/gui/event-editor-dialog.glade.h:55
+#: calendar/gui/event-editor-dialog.glade.h:54
 #: calendar/gui/gnome-month-item.c:738
 msgid "Tue"
 msgstr "火"
 
-#: calendar/gui/event-editor-dialog.glade.h:56
+#: calendar/gui/event-editor-dialog.glade.h:55
 #: calendar/gui/gnome-month-item.c:739
 msgid "Wed"
 msgstr "水"
 
-#: calendar/gui/event-editor-dialog.glade.h:57
+#: calendar/gui/event-editor-dialog.glade.h:56
 #: calendar/gui/gnome-month-item.c:740
 msgid "Thu"
 msgstr "木"
 
-#: calendar/gui/event-editor-dialog.glade.h:58
+#: calendar/gui/event-editor-dialog.glade.h:57
 #: calendar/gui/gnome-month-item.c:741
 msgid "Fri"
 msgstr "金"
 
-#: calendar/gui/event-editor-dialog.glade.h:59
+#: calendar/gui/event-editor-dialog.glade.h:58
 #: calendar/gui/gnome-month-item.c:742
 msgid "Sat"
 msgstr "土"
 
 #. Initialize by default to three-letter day names
-#: calendar/gui/event-editor-dialog.glade.h:60
+#: calendar/gui/event-editor-dialog.glade.h:59
 #: calendar/gui/gnome-month-item.c:736
 msgid "Sun"
 msgstr "日"
 
-#: calendar/gui/event-editor-dialog.glade.h:61
+#: calendar/gui/event-editor-dialog.glade.h:60
 msgid "label25"
 msgstr "label25"
 
+#: calendar/gui/event-editor-dialog.glade.h:61
 #: calendar/gui/event-editor-dialog.glade.h:62
-#: calendar/gui/event-editor-dialog.glade.h:63
 msgid "Recur on the"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:64
+#: calendar/gui/event-editor-dialog.glade.h:63
 msgid "th day of the month"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:65
+#: calendar/gui/event-editor-dialog.glade.h:64
 msgid ""
 "1st\n"
 "2nd\n"
@@ -1984,7 +2219,7 @@ msgstr ""
 "4 番目\n"
 "5 番目\n"
 
-#: calendar/gui/event-editor-dialog.glade.h:71
+#: calendar/gui/event-editor-dialog.glade.h:70
 msgid ""
 "Monday\n"
 "Tuesday\n"
@@ -2002,52 +2237,51 @@ msgstr ""
 "土曜\n"
 "日曜\n"
 
-#: calendar/gui/event-editor-dialog.glade.h:79
+#: calendar/gui/event-editor-dialog.glade.h:78
 msgid "Every"
 msgstr "常に"
 
-#: calendar/gui/event-editor-dialog.glade.h:80
+#: calendar/gui/event-editor-dialog.glade.h:79
 msgid "month(s)"
 msgstr "月"
 
-#: calendar/gui/event-editor-dialog.glade.h:83
+#: calendar/gui/event-editor-dialog.glade.h:82
 msgid "year(s)"
 msgstr "年"
 
-#: calendar/gui/event-editor-dialog.glade.h:84
+#: calendar/gui/event-editor-dialog.glade.h:83
 msgid "label27"
 msgstr "label27"
 
-#: calendar/gui/event-editor-dialog.glade.h:85
+#: calendar/gui/event-editor-dialog.glade.h:84
 msgid "Ending date"
 msgstr "終了日"
 
-#: calendar/gui/event-editor-dialog.glade.h:86
+#: calendar/gui/event-editor-dialog.glade.h:85
 msgid "Repeat forever"
 msgstr "永久に繰り返す"
 
-#: calendar/gui/event-editor-dialog.glade.h:87
+#: calendar/gui/event-editor-dialog.glade.h:86
 msgid "End on "
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:88
-#, fuzzy
+#: calendar/gui/event-editor-dialog.glade.h:87
 msgid "End after"
-msgstr "フィルタの編集"
+msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:89
+#: calendar/gui/event-editor-dialog.glade.h:88
 msgid "occurrence(s)"
 msgstr "出来事"
 
-#: calendar/gui/event-editor-dialog.glade.h:90
+#: calendar/gui/event-editor-dialog.glade.h:89
 msgid "Exceptions"
 msgstr "例外"
 
-#: calendar/gui/event-editor-dialog.glade.h:92
+#: calendar/gui/event-editor-dialog.glade.h:91
 msgid "Change"
 msgstr "変更"
 
-#: calendar/gui/event-editor-dialog.glade.h:94
+#: calendar/gui/event-editor-dialog.glade.h:93
 msgid "Recurrence"
 msgstr "振り分け"
 
@@ -2147,11 +2381,11 @@ msgstr "金曜"
 msgid "saturday"
 msgstr "土曜"
 
-#: calendar/gui/getdate.y:420
+#: calendar/gui/getdate.y:420 filter/filter-datespec.c:61
 msgid "year"
 msgstr "年"
 
-#: calendar/gui/getdate.y:421
+#: calendar/gui/getdate.y:421 filter/filter-datespec.c:62
 msgid "month"
 msgstr "月"
 
@@ -2159,19 +2393,19 @@ msgstr "月"
 msgid "fortnight"
 msgstr "2週間"
 
-#: calendar/gui/getdate.y:423
+#: calendar/gui/getdate.y:423 filter/filter-datespec.c:63
 msgid "week"
 msgstr "週"
 
-#: calendar/gui/getdate.y:424
+#: calendar/gui/getdate.y:424 filter/filter-datespec.c:64
 msgid "day"
 msgstr "日"
 
-#: calendar/gui/getdate.y:425
+#: calendar/gui/getdate.y:425 filter/filter-datespec.c:65
 msgid "hour"
 msgstr "時"
 
-#: calendar/gui/getdate.y:426
+#: calendar/gui/getdate.y:426 filter/filter-datespec.c:66
 msgid "minute"
 msgstr "分"
 
@@ -2179,7 +2413,7 @@ msgstr "分"
 msgid "min"
 msgstr "分"
 
-#: calendar/gui/getdate.y:428
+#: calendar/gui/getdate.y:428 filter/filter-datespec.c:67
 msgid "second"
 msgstr " 秒"
 
@@ -2199,7 +2433,8 @@ msgstr "昨日"
 msgid "today"
 msgstr "今日"
 
-#: calendar/gui/getdate.y:438
+#: calendar/gui/getdate.y:438 filter/filter-datespec.c:504
+#: filter/filter-datespec.c:664
 msgid "now"
 msgstr "今"
 
@@ -2264,105 +2499,101 @@ msgstr "12番目"
 msgid "ago"
 msgstr "以前"
 
-#: calendar/gui/gncal-todo.c:140
+#: calendar/gui/gncal-todo.c:167
 msgid "Create to-do item"
 msgstr "TODO アイテムを作成"
 
-#: calendar/gui/gncal-todo.c:140
+#: calendar/gui/gncal-todo.c:167
 msgid "Edit to-do item"
 msgstr "TODO アイテムを編集"
 
-#: calendar/gui/gncal-todo.c:176
+#: calendar/gui/gncal-todo.c:203
 msgid "Summary:"
 msgstr "サマリ:"
 
-#: calendar/gui/gncal-todo.c:186
+#: calendar/gui/gncal-todo.c:214
 msgid "Due Date:"
 msgstr "期日:"
 
-#: calendar/gui/gncal-todo.c:195
+#: calendar/gui/gncal-todo.c:225
 msgid "Priority:"
 msgstr "優先度:"
 
-#: calendar/gui/gncal-todo.c:212
+#: calendar/gui/gncal-todo.c:243
 msgid "Item Comments:"
 msgstr "アイテムのコメント:"
 
-#: calendar/gui/gncal-todo.c:334
+#: calendar/gui/gncal-todo.c:376
 msgid "Add to-do item..."
 msgstr "TODO アイテムを追加..."
 
-#: calendar/gui/gncal-todo.c:335
+#: calendar/gui/gncal-todo.c:377
 msgid "Edit this item..."
 msgstr "アイテムを編集..."
 
-#: calendar/gui/gncal-todo.c:434
-msgid "Summary"
-msgstr "サマリ"
-
-#: calendar/gui/gncal-todo.c:435 calendar/gui/prop.c:608
+#: calendar/gui/gncal-todo.c:477 calendar/gui/prop.c:610
 msgid "Due Date"
 msgstr "期日"
 
-#: calendar/gui/gncal-todo.c:437
+#: calendar/gui/gncal-todo.c:479
 msgid "Time Left"
 msgstr "残った時間"
 
 #. Label
-#: calendar/gui/gncal-todo.c:449
+#: calendar/gui/gncal-todo.c:491
 msgid "To-do list"
 msgstr "TODO リスト"
 
 #. Add
-#: calendar/gui/gncal-todo.c:488
+#: calendar/gui/gncal-todo.c:530
 #: composer/e-msg-composer-address-dialog.glade.h:13
 msgid "Add..."
 msgstr "追加..."
 
 #. Edit
-#: calendar/gui/gncal-todo.c:497
+#: calendar/gui/gncal-todo.c:539
 msgid "Edit..."
 msgstr "編集..."
 
-#: calendar/gui/gncal-todo.c:721
+#: calendar/gui/gncal-todo.c:764
 msgid "Weeks"
 msgstr "週"
 
-#: calendar/gui/gncal-todo.c:722 calendar/gui/gncal-todo.c:726
+#: calendar/gui/gncal-todo.c:765 calendar/gui/gncal-todo.c:769
 msgid "Days"
 msgstr "日"
 
-#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
+#: calendar/gui/gncal-todo.c:770 calendar/gui/gncal-todo.c:774
 msgid "Hours"
 msgstr "時"
 
-#: calendar/gui/gncal-todo.c:727 calendar/gui/gncal-todo.c:731
+#: calendar/gui/gncal-todo.c:770 calendar/gui/gncal-todo.c:774
 msgid "Hour"
 msgstr "時"
 
-#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
+#: calendar/gui/gncal-todo.c:775 calendar/gui/gncal-todo.c:779
 msgid "Minutes"
 msgstr "分"
 
-#: calendar/gui/gncal-todo.c:732 calendar/gui/gncal-todo.c:736
+#: calendar/gui/gncal-todo.c:775 calendar/gui/gncal-todo.c:779
 msgid "Minute"
 msgstr "分"
 
-#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
+#: calendar/gui/gncal-todo.c:780 calendar/gui/gncal-todo.c:784
 msgid "Seconds"
 msgstr "秒"
 
-#: calendar/gui/gncal-todo.c:737 calendar/gui/gncal-todo.c:741
+#: calendar/gui/gncal-todo.c:780 calendar/gui/gncal-todo.c:784
 msgid "Second"
 msgstr "秒"
 
-#: calendar/gui/gnome-cal.c:461 calendar/gui/gnome-cal.c:1078
-#: calendar/gui/gnome-cal.c:1134
+#: calendar/gui/gnome-cal.c:458 calendar/gui/gnome-cal.c:1094
+#: calendar/gui/gnome-cal.c:1150
 msgid "Reminder of your appointment at "
 msgstr "あなたの予約の催促 "
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1083 calendar/gui/gnome-cal.c:1138
+#: calendar/gui/gnome-cal.c:1099 calendar/gui/gnome-cal.c:1154
 msgid "Ok"
 msgstr "Ok"
 
@@ -2389,246 +2620,246 @@ msgstr ""
 msgid "Go to today"
 msgstr "今日へ移動"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "1st"
 msgstr "1st"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "2nd"
 msgstr "2nd"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "3rd"
 msgstr "3rd"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "4th"
 msgstr "4th"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "5th"
 msgstr "5th"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "6th"
 msgstr "6th"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "7th"
 msgstr "7th"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "8th"
 msgstr "8th"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "9th"
 msgstr "9th"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "10th"
 msgstr "10th"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "11th"
 msgstr "11th"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "12th"
 msgstr "12th"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "13th"
 msgstr "13th"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "14th"
 msgstr "14th"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "15th"
 msgstr "15th"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "16th"
 msgstr "16th"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "17th"
 msgstr "17th"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "18th"
 msgstr "18th"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "19th"
 msgstr "19th"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "20th"
 msgstr "20th"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "21st"
 msgstr "21st"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "22nd"
 msgstr "22nd"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "23rd"
 msgstr "23rd"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "24th"
 msgstr "24th"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "25th"
 msgstr "25th"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "26th"
 msgstr "26th"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "27th"
 msgstr "27th"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "28th"
 msgstr "28th"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "29th"
 msgstr "29th"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "30th"
 msgstr "30th"
 
-#: calendar/gui/print.c:271
+#: calendar/gui/print.c:294
 msgid "31st"
 msgstr "31st"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Su"
 msgstr "日"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Mo"
 msgstr "月"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Tu"
 msgstr "火"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "We"
 msgstr "水"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Th"
 msgstr "木"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Fr"
 msgstr "金"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Sa"
 msgstr "土"
 
-#: calendar/gui/print.c:868
+#: calendar/gui/print.c:937
 msgid "TODO Items"
 msgstr "TODO アイテム"
 
 #. Day
-#: calendar/gui/print.c:980
+#: calendar/gui/print.c:1038
 msgid "Current day (%a %b %d %Y)"
 msgstr "今日の日付 (%a %b %d %Y)"
 
-#: calendar/gui/print.c:1000 calendar/gui/print.c:1014
-#: calendar/gui/print.c:1015
+#: calendar/gui/print.c:1058 calendar/gui/print.c:1072
+#: calendar/gui/print.c:1073
 msgid "%a"
 msgstr "%a"
 
-#: calendar/gui/print.c:1001 calendar/gui/print.c:1002
-#: calendar/gui/print.c:1016 calendar/gui/print.c:1017
+#: calendar/gui/print.c:1059 calendar/gui/print.c:1060
+#: calendar/gui/print.c:1074 calendar/gui/print.c:1075
 msgid "%b"
 msgstr "%b"
 
-#: calendar/gui/print.c:1004
+#: calendar/gui/print.c:1062
 #, c-format
 msgid "Current week (%s %s %d - %s %d %d)"
 msgstr "今週 (%s %s %d - %s %d %d)"
 
-#: calendar/gui/print.c:1021
+#: calendar/gui/print.c:1079
 #, c-format
 msgid "Current week (%s %s %d - %s %s %d %d)"
 msgstr "今週 (%s %s %d - %s %s %d %d)"
 
-#: calendar/gui/print.c:1027
+#: calendar/gui/print.c:1085
 #, c-format
 msgid "Current week (%s %s %d %d - %s %s %d %d)"
 msgstr "今週 (%s %s %d %d - %s %s %d %d)"
 
 #. Month
-#: calendar/gui/print.c:1040
+#: calendar/gui/print.c:1098
 msgid "Current month (%a %Y)"
 msgstr "今月 (%a %Y)"
 
 #. Year
-#: calendar/gui/print.c:1047
+#: calendar/gui/print.c:1105
 msgid "Current year (%Y)"
 msgstr "今年 (%Y)"
 
-#: calendar/gui/print.c:1084
+#: calendar/gui/print.c:1142
 msgid "Print Calendar"
 msgstr "カレンダの印刷"
 
-#: calendar/gui/print.c:1249
+#: calendar/gui/print.c:1307
 msgid "Print Preview"
 msgstr "印刷プレビュー"
 
-#: calendar/gui/prop.c:334
+#: calendar/gui/prop.c:336
 msgid "Time display"
 msgstr "時間の表示"
 
 #. Time format
-#: calendar/gui/prop.c:338
+#: calendar/gui/prop.c:340
 msgid "Time format"
 msgstr "時間のフォーマット"
 
-#: calendar/gui/prop.c:339
+#: calendar/gui/prop.c:341
 msgid "12-hour (AM/PM)"
 msgstr "12 時間制 (午前/午後)"
 
-#: calendar/gui/prop.c:340
+#: calendar/gui/prop.c:342
 msgid "24-hour"
 msgstr "24 時間制"
 
 #. Weeks start on
-#: calendar/gui/prop.c:350
+#: calendar/gui/prop.c:352
 msgid "Weeks start on"
 msgstr "週の始め"
 
-#: calendar/gui/prop.c:351
+#: calendar/gui/prop.c:353
 msgid "Sunday"
 msgstr "日曜"
 
-#: calendar/gui/prop.c:352
+#: calendar/gui/prop.c:354
 msgid "Monday"
 msgstr "月曜"
 
 #. Day range
-#: calendar/gui/prop.c:362
+#: calendar/gui/prop.c:364
 msgid "Day range"
 msgstr "日にちの幅"
 
-#: calendar/gui/prop.c:373
+#: calendar/gui/prop.c:375
 msgid ""
 "Please select the start and end hours you want\n"
 "to be displayed in the day view and week view.\n"
@@ -2640,81 +2871,77 @@ msgstr ""
 "この範囲外の時間はデフォルトでは表示されない\n"
 "でしょう"
 
-#: calendar/gui/prop.c:389
+#: calendar/gui/prop.c:391
 msgid "Day start:"
 msgstr "開始日:"
 
-#: calendar/gui/prop.c:400
+#: calendar/gui/prop.c:402
 msgid "Day end:"
 msgstr "終了日:"
 
-#: calendar/gui/prop.c:523
+#: calendar/gui/prop.c:525
 msgid "Colors for display"
 msgstr "表示色"
 
-#: calendar/gui/prop.c:526
+#: calendar/gui/prop.c:528
 msgid "Colors"
 msgstr "色"
 
-#: calendar/gui/prop.c:603
+#: calendar/gui/prop.c:605
 msgid "Show on TODO List:"
 msgstr "TODO リストに表示:"
 
-#: calendar/gui/prop.c:610
+#: calendar/gui/prop.c:612
 msgid "Time Until Due"
 msgstr "期限までの時間"
 
-#: calendar/gui/prop.c:641
+#: calendar/gui/prop.c:643
 msgid "To Do List style options:"
 msgstr "TODO リストスタイルのオプション:"
 
-#: calendar/gui/prop.c:646
+#: calendar/gui/prop.c:648
 msgid "Highlight overdue items"
 msgstr "期限が過ぎたアイテムを強調"
 
-#: calendar/gui/prop.c:649
+#: calendar/gui/prop.c:651
 msgid "Highlight not yet due items"
 msgstr "まだ期限が来ていないアイテムを強調"
 
-#: calendar/gui/prop.c:652
+#: calendar/gui/prop.c:654
 msgid "Highlight items due today"
 msgstr "今日期限のアイテムを強調"
 
-#: calendar/gui/prop.c:682
+#: calendar/gui/prop.c:684
 msgid "To Do List Properties"
 msgstr "TODO リストのプロパティ"
 
-#: calendar/gui/prop.c:685
+#: calendar/gui/prop.c:687
 msgid "To Do List"
 msgstr "TODO リスト"
 
-#: calendar/gui/prop.c:784
-msgid "Alarms"
-msgstr "アラーム"
-
 #. build miscellaneous box
-#: calendar/gui/prop.c:787
+#: calendar/gui/prop.c:789
 msgid "Alarm Properties"
 msgstr "アラームのプロパティ"
 
-#: calendar/gui/prop.c:797
+#: calendar/gui/prop.c:799
 msgid "Beep on display alarms"
 msgstr "表示アラームを BEEP 音で鳴らす"
 
-#: calendar/gui/prop.c:807
+#: calendar/gui/prop.c:809
 msgid "Audio alarms timeout after"
 msgstr "オーディオアラームのタイムアウトまで後"
 
-#: calendar/gui/prop.c:818 calendar/gui/prop.c:835
+#: calendar/gui/prop.c:820 calendar/gui/prop.c:837
 msgid " seconds"
 msgstr " 秒"
 
-#: calendar/gui/prop.c:824
+#: calendar/gui/prop.c:826
 msgid "Enable snoozing for "
 msgstr "居眠りを有効 "
 
 #. populate default frame/box
-#: calendar/gui/prop.c:840
+#: calendar/gui/prop.c:842
 msgid "Defaults"
 msgstr "デフォルト"
 
@@ -2727,6 +2954,7 @@ msgid "Cut selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムを切り取る"
 
 #: composer/e-msg-composer-address-dialog.c:186
+#: mail/folder-browser-factory.c:46
 msgid "Copy"
 msgstr "コピー"
 
@@ -2859,39 +3087,39 @@ msgstr "MIME 種別:"
 msgid "File name:"
 msgstr "ファイル名:"
 
-#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:295
+#: composer/e-msg-composer-hdrs.c:138 composer/e-msg-composer-hdrs.c:296
 msgid "From:"
 msgstr "差出人:"
 
-#: composer/e-msg-composer-hdrs.c:243
+#: composer/e-msg-composer-hdrs.c:244
 msgid "Click here for the address book"
 msgstr "アドレス帳のためにここでクリック"
 
-#: composer/e-msg-composer-hdrs.c:296
+#: composer/e-msg-composer-hdrs.c:297
 msgid "Enter the identitiy you wish to send this message from"
 msgstr "このメッセージを送信したい身元を入力"
 
-#: composer/e-msg-composer-hdrs.c:300
+#: composer/e-msg-composer-hdrs.c:301
 msgid "To:"
 msgstr "受取人:"
 
-#: composer/e-msg-composer-hdrs.c:301
+#: composer/e-msg-composer-hdrs.c:302
 msgid "Enter the recipients of the message"
 msgstr "メッセージの受取人を入力"
 
-#: composer/e-msg-composer-hdrs.c:305
+#: composer/e-msg-composer-hdrs.c:306
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:306
+#: composer/e-msg-composer-hdrs.c:307
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "メッセージのカーボンコピーを受信するアドレスを入力"
 
-#: composer/e-msg-composer-hdrs.c:311
+#: composer/e-msg-composer-hdrs.c:312
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:312
+#: composer/e-msg-composer-hdrs.c:313
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -2899,33 +3127,41 @@ msgstr ""
 "メッセージの受取人リストの中に現れないで, "
 "メッセージのカーボンコピーを受信するアドレスを入力"
 
-#: composer/e-msg-composer-hdrs.c:318
+#: composer/e-msg-composer-hdrs.c:319
 msgid "Subject:"
 msgstr "Subject:"
 
-#: composer/e-msg-composer-hdrs.c:319
+#: composer/e-msg-composer-hdrs.c:320
 msgid "Enter the subject of the mail"
 msgstr "メールの表題を入力"
 
-#: composer/e-msg-composer.c:450
+#: composer/e-msg-composer.c:451
 msgid "Save as..."
 msgstr "別名で保存..."
 
-#: composer/e-msg-composer.c:461
+#: composer/e-msg-composer.c:462
 #, c-format
 msgid "Error saving file: %s"
 msgstr "ファイルの保存中にエラー: %s"
 
-#: composer/e-msg-composer.c:481
+#: composer/e-msg-composer.c:482
 #, c-format
 msgid "Error loading file: %s"
 msgstr "ファイルのロード中にエラー: %s"
 
-#: composer/e-msg-composer.c:534 shell/e-shell-view-menu.c:164
+#: composer/e-msg-composer.c:504
+msgid "Saving changes to message..."
+msgstr "メッセージの変更を保存中..."
+
+#: composer/e-msg-composer.c:506
+msgid "About to save changes to message..."
+msgstr "メッセージの変更を保存しようとしています..."
+
+#: composer/e-msg-composer.c:590 shell/e-shell-view-menu.c:165
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:540
+#: composer/e-msg-composer.c:596
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -2935,27 +3171,27 @@ msgstr ""
 "\n"
 "変更を保存しますか?"
 
-#: composer/e-msg-composer.c:563
+#: composer/e-msg-composer.c:618
 msgid "Open file"
 msgstr "ファイルを開く"
 
-#: composer/e-msg-composer.c:675
+#: composer/e-msg-composer.c:730
 msgid "That file does not exist."
 msgstr "そのファイルは存在しません"
 
-#: composer/e-msg-composer.c:685
+#: composer/e-msg-composer.c:740
 msgid "That is not a regular file."
 msgstr "それは通常のファイルではありません"
 
-#: composer/e-msg-composer.c:695
+#: composer/e-msg-composer.c:750
 msgid "That file exists but is not readable."
 msgstr "そのファイルは存在しますが，読み取り可能ではありません"
 
-#: composer/e-msg-composer.c:705
+#: composer/e-msg-composer.c:760
 msgid "That file appeared accesible but open(2) failed."
 msgstr "そのファイルはアクセス可能のように見えますが，open(2) は失敗しました"
 
-#: composer/e-msg-composer.c:727
+#: composer/e-msg-composer.c:782
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2963,230 +3199,580 @@ msgstr ""
 "ファイルはとても大きい (100K 以上) です\n"
 "それを挿入することを望むのは確かですか?"
 
-#: composer/e-msg-composer.c:748
+#: composer/e-msg-composer.c:803
 msgid "An error occurred while reading the file."
 msgstr "ファイル読込中の間にエラーは発生しました"
 
-#: composer/e-msg-composer.c:844 shell/e-shell-view-menu.c:433
+#: composer/e-msg-composer.c:899 shell/e-shell-view-menu.c:434
 msgid "_File"
 msgstr "ファイル(_F)"
 
-#: composer/e-msg-composer.c:850
+#: composer/e-msg-composer.c:905
 msgid "_Open..."
 msgstr "開く(_O)..."
 
-#: composer/e-msg-composer.c:851
+#: composer/e-msg-composer.c:906
 msgid "Load a previously saved message"
 msgstr "以前に保存したメッセージを読み込む"
 
-#: composer/e-msg-composer.c:859
+#: composer/e-msg-composer.c:914
 msgid "_Save..."
 msgstr "保存(_S)..."
 
-#: composer/e-msg-composer.c:860
+#: composer/e-msg-composer.c:915
 msgid "Save message"
 msgstr "メッセージを保存する"
 
-#: composer/e-msg-composer.c:868
+#: composer/e-msg-composer.c:923
 msgid "_Save as..."
 msgstr "別名で保存(_S)..."
 
-#: composer/e-msg-composer.c:869
+#: composer/e-msg-composer.c:924
 msgid "Save message with a different name"
 msgstr "別の名前でメッセージを保存する"
 
-#: composer/e-msg-composer.c:877
+#: composer/e-msg-composer.c:932
 msgid "Save in _folder..."
 msgstr "フォルダ内を保存(_f)..."
 
-#: composer/e-msg-composer.c:878
+#: composer/e-msg-composer.c:933
 msgid "Save the message in a specified folder"
 msgstr "指定したフォルダ内のメッセージを保存する"
 
-#: composer/e-msg-composer.c:887
+#: composer/e-msg-composer.c:942
 msgid "_Insert text file... (FIXME)"
 msgstr "テキストファイルを挿入(_I)... (FIXME)"
 
-#: composer/e-msg-composer.c:888
+#: composer/e-msg-composer.c:943
 msgid "Insert a file as text into the message"
 msgstr "テキストファイルをメッセージの中に挿入する"
 
-#: composer/e-msg-composer.c:897
+#: composer/e-msg-composer.c:952
 msgid "_Send"
 msgstr "送信(_S)"
 
-#: composer/e-msg-composer.c:898
+#: composer/e-msg-composer.c:953
 msgid "Send the message"
 msgstr "メッセージを送信する"
 
-#: composer/e-msg-composer.c:908
+#: composer/e-msg-composer.c:963
 msgid "_Close..."
 msgstr "閉じる(_C)..."
 
-#: composer/e-msg-composer.c:909
+#: composer/e-msg-composer.c:964
 msgid "Quit the message composer"
 msgstr "メッセージ作成を終了する"
 
-#: composer/e-msg-composer.c:922 shell/e-shell-view-menu.c:477
+#: composer/e-msg-composer.c:977 shell/e-shell-view-menu.c:478
 msgid "_Edit"
 msgstr "編集(_E)"
 
-#: composer/e-msg-composer.c:933
+#: composer/e-msg-composer.c:988
 msgid "_Format"
 msgstr "フォーマット(_F)"
 
-#: composer/e-msg-composer.c:939
+#: composer/e-msg-composer.c:994
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:940
+#: composer/e-msg-composer.c:995
 msgid "Send the mail in HTML format"
 msgstr "HTML 形式でメッセージを送信する"
 
-#: composer/e-msg-composer.c:953 shell/e-shell-view-menu.c:382
-#: shell/e-shell-view-menu.c:488 shell/e-storage-set-view.c:242
+#: composer/e-msg-composer.c:1008 shell/e-shell-view-menu.c:383
+#: shell/e-shell-view-menu.c:489 shell/e-storage-set-view.c:221
 msgid "_View"
 msgstr "表示(_V)"
 
-#: composer/e-msg-composer.c:959
+#: composer/e-msg-composer.c:1014
 msgid "Show _attachments"
 msgstr "添付物を表示(_a)"
 
-#: composer/e-msg-composer.c:960
+#: composer/e-msg-composer.c:1015
 msgid "Show/hide attachments"
 msgstr "添付物を表示/隠す"
 
-#: composer/e-msg-composer.c:993
+#: composer/e-msg-composer.c:1048
 msgid "Send"
 msgstr "送信"
 
-#: composer/e-msg-composer.c:994
+#: composer/e-msg-composer.c:1049
 msgid "Send this message"
 msgstr "このメッセージを送信する"
 
-#: composer/e-msg-composer.c:1003
+#: composer/e-msg-composer.c:1058
 msgid "Attach"
 msgstr "添付"
 
-#: composer/e-msg-composer.c:1004
+#: composer/e-msg-composer.c:1059
 msgid "Attach a file"
 msgstr "ファイルを添付する"
 
-#: composer/e-msg-composer.c:1191
+#: composer/e-msg-composer.c:1246
 msgid "Compose a message"
 msgstr "メッセージを作成する"
 
-#: filter/filter-folder.c:183 filter/vfolder-rule.c:269
+#: filter/filter-datespec.c:61
+msgid "years"
+msgstr "年"
+
+#: filter/filter-datespec.c:62
+msgid "months"
+msgstr "月"
+
+#: filter/filter-datespec.c:63
+msgid "weeks"
+msgstr "週"
+
+#: filter/filter-datespec.c:64
+msgid "days"
+msgstr "日"
+
+#: filter/filter-datespec.c:65
+msgid "hours"
+msgstr "時"
+
+#: filter/filter-datespec.c:66
+msgid "minutes"
+msgstr "分"
+
+#: filter/filter-datespec.c:67
+msgid "seconds"
+msgstr " 秒"
+
+#: filter/filter-datespec.c:232
+msgid ""
+"The message's date will be compared against\n"
+"whatever the time is when the filter is run\n"
+"or vfolder is opened."
+msgstr ""
+"フィルタが実行される，または仮想フォルダが\n"
+"開かれる時，メッセージの日付はどんな時間に\n"
+"対してでも比較されるでしょう"
+
+#: filter/filter-datespec.c:254
+msgid ""
+"The message's date will be compared against\n"
+"the time that you specify here."
+msgstr ""
+"メッセージの日付はここで指定する時間に対して\n"
+"比較されるでしょう"
+
+#: filter/filter-datespec.c:293
+msgid ""
+"The message's date will be compared against\n"
+"a time relative to when the filter is run;\n"
+"\"a week ago\", for example."
+msgstr ""
+"メッセージの日付はフィルタが実行される時と\n"
+"関連している時間に対して比較されるでしょう;\n"
+"例えば，\"一週間前\""
+
+#. keep in sync with FilterDatespec_type!
+#: filter/filter-datespec.c:328
+msgid "the current time"
+msgstr "現在時刻"
+
+#: filter/filter-datespec.c:328
+msgid "a time you specify"
+msgstr "指定する時間"
+
+#: filter/filter-datespec.c:329
+msgid "a time relative to the current time"
+msgstr ""
+
+#. The label
+#: filter/filter-datespec.c:387
+msgid "Compare against"
+msgstr ""
+
+#: filter/filter-datespec.c:661
+msgid "<click here to select a date>"
+msgstr "<日付を選択するためにここをクリックしてください>"
+
+#: filter/filter-editor.c:156 filter/score-editor.c:126
+#: filter/vfolder-editor.c:152
+msgid "Add Rule"
+msgstr "ルールを追加"
+
+#: filter/filter-editor.c:188
+msgid "Edit Rule"
+msgstr "ルールを編集"
+
+#: filter/filter-filter.c:397 filter/filter-rule.c:536
+msgid "Less"
+msgstr "より小さい"
+
+#: filter/filter-filter.c:400 filter/filter-rule.c:539
+msgid "More"
+msgstr "より大きい"
+
+#: filter/filter-folder.c:185 filter/vfolder-rule.c:269
 msgid "Select Folder"
 msgstr "フォルダを選択する"
 
-#: filter/filter-folder.c:246
+#: filter/filter-folder.c:207
+msgid "Enter folder URI"
+msgstr "フォルダ URI の入力"
+
+#: filter/filter-folder.c:249
 msgid "<click here to select a folder>"
 msgstr "<フォルダを選択するためにここをクリックしてください>"
 
-#: mail/component-factory.c:225
+#: filter/filter-part.c:420
+msgid "Test"
+msgstr "テスト"
+
+#: filter/score-editor.c:160
+msgid "Edit Score Rule"
+msgstr "スコアルールの編集"
+
+#: filter/vfolder-editor.c:186
+msgid "Edit VFolder Rule"
+msgstr "VFolder ルールの編集"
+
+#: mail/component-factory.c:187
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Evolution メールコンポーネントの初期化が出来ません"
 
-#: mail/folder-browser-factory.c:24
+#: mail/folder-browser-factory.c:33
 msgid "Get mail"
 msgstr "新着メール"
 
-#: mail/folder-browser-factory.c:24
+#: mail/folder-browser-factory.c:33
 msgid "Check for new mail"
 msgstr "新着メールのチェック"
 
-#: mail/folder-browser-factory.c:25
+#: mail/folder-browser-factory.c:34
 msgid "Compose"
 msgstr "作成"
 
-#: mail/folder-browser-factory.c:25
+#: mail/folder-browser-factory.c:34
 msgid "Compose a new message"
 msgstr "新規メッセージを作成する"
 
-#: mail/folder-browser-factory.c:29
+#. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
+#. save_msg, GNOME_STOCK_PIXMAP_SAVE),
+#: mail/folder-browser-factory.c:38 mail/mail-view.c:135
 msgid "Reply"
 msgstr "返信"
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:38 mail/mail-view.c:135
 msgid "Reply to the sender of this message"
 msgstr "メッセージの差出人へ返信する"
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:39 mail/mail-view.c:138
 msgid "Reply to All"
 msgstr "全員へ返信"
 
-#: mail/folder-browser-factory.c:30
+#: mail/folder-browser-factory.c:39 mail/mail-view.c:138
 msgid "Reply to all recipients of this message"
 msgstr "このメッセージの受取人全員へ返信する"
 
-#: mail/folder-browser-factory.c:32
+#: mail/folder-browser-factory.c:41 mail/mail-view.c:141
 msgid "Forward"
 msgstr "転送"
 
-#: mail/folder-browser-factory.c:32
+#: mail/folder-browser-factory.c:41 mail/mail-view.c:141
 msgid "Forward this message"
 msgstr "このメッセージを転送する"
 
-#: mail/folder-browser-factory.c:36
+#: mail/folder-browser-factory.c:45
 msgid "Move"
 msgstr "移動"
 
-#: mail/folder-browser-factory.c:36
+#: mail/folder-browser-factory.c:45
 msgid "Move message to a new folder"
 msgstr "新規フォルダへメッセージを移動する"
 
-#: mail/folder-browser-factory.c:38
+#: mail/folder-browser-factory.c:46
+msgid "Copy message to a new folder"
+msgstr "新規フォルダへメッセージをコピーする"
+
+#: mail/folder-browser-factory.c:48 mail/mail-view.c:145
 msgid "Print the selected message"
 msgstr "選択されたメッセージを印刷する"
 
-#: mail/folder-browser-factory.c:40
+#: mail/folder-browser-factory.c:50 mail/mail-view.c:147
 msgid "Delete this message"
 msgstr "このメッセージを削除する"
 
-#: mail/folder-browser-factory.c:62
+#: mail/folder-browser-factory.c:71
+#, c-format
+msgid "Run filter \"%s\""
+msgstr "フィルタ \"%s\" を実行"
+
+#: mail/folder-browser-factory.c:129 mail/folder-browser-factory.c:187
+msgid "_Print Message"
+msgstr "メッセージを印刷(_P)"
+
+#: mail/folder-browser-factory.c:139
 msgid "_Threaded Message List"
 msgstr "メッセージをスレッド表示(_T)"
 
-#: mail/folder-browser-factory.c:72
-msgid "_Print message"
-msgstr "メッセージを印刷(_P)"
-
-#: mail/folder-browser-factory.c:81
-msgid "_Mark all messages seen"
-msgstr ""
-
-#: mail/folder-browser-factory.c:86
-msgid "E_dit Message"
-msgstr "メッセージを編集(_d)"
-
-#: mail/folder-browser-factory.c:92
-msgid "_View Message"
-msgstr "メッセージを表示(_V)"
-
-#: mail/folder-browser-factory.c:98
-msgid "_Expunge"
-msgstr "抹消(_E)"
-
-#: mail/folder-browser-factory.c:104
-msgid "Mail _Filters ..."
+#: mail/folder-browser-factory.c:150
+msgid "Mail _Filters..."
 msgstr "メールフィルタ(_F) ..."
 
-#: mail/folder-browser-factory.c:110
-msgid "_vFolder Editor ..."
-msgstr "仮想フォルダエディタ(_v) ..."
+#: mail/folder-browser-factory.c:155
+msgid "_Virtual Folder Editor..."
+msgstr "仮想フォルダエディタ(_V)..."
 
-#: mail/folder-browser-factory.c:116
-msgid "_Mail Configuration ..."
+#: mail/folder-browser-factory.c:160
+msgid "_Mail Configuration..."
 msgstr "メール設定(_M)..."
 
-#: mail/folder-browser-factory.c:122
+#: mail/folder-browser-factory.c:165
 msgid "Forget _Passwords"
 msgstr "パスワード紛失(_P)"
 
-#: mail/folder-browser-factory.c:129
+#: mail/folder-browser-factory.c:173
+msgid "_Message"
+msgstr "メッセージ(_M)"
+
+#: mail/folder-browser-factory.c:177
+msgid "_Open in New Window"
+msgstr "新規ウィンドウを開く(_O)"
+
+#: mail/folder-browser-factory.c:182
+msgid "_Edit Message"
+msgstr "メッセージを編集(_E)"
+
+#: mail/folder-browser-factory.c:194
+msgid "Reply to _Sender"
+msgstr "送信者へ返信(_S)"
+
+#: mail/folder-browser-factory.c:199
+msgid "Reply to _All"
+msgstr "全員へ返信(_A)"
+
+#: mail/folder-browser-factory.c:204
+msgid "_Forward"
+msgstr "転送(_F)"
+
+#: mail/folder-browser-factory.c:211
+msgid "_Delete Message"
+msgstr "メッセージを削除(_D)"
+
+#: mail/folder-browser-factory.c:216
+msgid "_Move Message"
+msgstr "メッセージを移動(_M)"
+
+#: mail/folder-browser-factory.c:221
+msgid "_Copy Message"
+msgstr "メッセージをコピー(_C)"
+
+#: mail/folder-browser-factory.c:228
+msgid "_VFolder on Subject"
+msgstr "表題の仮想フォルダ(_V)"
+
+#: mail/folder-browser-factory.c:233
+msgid "VFolder on Se_nder"
+msgstr "送信者の仮想フォルダ(_n)"
+
+#: mail/folder-browser-factory.c:238
+msgid "VFolder on _Recipients"
+msgstr "受信者の仮想フォルダ(_R)"
+
+#: mail/folder-browser-factory.c:245
+msgid "_Filter on Subject"
+msgstr "表題のフィルタ(_F)"
+
+#: mail/folder-browser-factory.c:250
+msgid "Fi_lter on Sender"
+msgstr "送信者のフィルタ(_l)"
+
+#: mail/folder-browser-factory.c:255
+msgid "Filter on Rec_ipients"
+msgstr "受信者のフィルタ(_i)"
+
+#: mail/folder-browser-factory.c:262
+msgid "F_older"
+msgstr "フォルダ(_o)"
+
+#: mail/folder-browser-factory.c:266
+msgid "_Mark all as Read"
+msgstr "既読としてすべてをマーク(_M)"
+
+#: mail/folder-browser-factory.c:271
+msgid "_Delete all"
+msgstr "すべて削除(_D)"
+
+#: mail/folder-browser-factory.c:276
+msgid "_Expunge"
+msgstr "抹消(_E)"
+
+#: mail/folder-browser-factory.c:281
 msgid "_Configure Folder"
 msgstr "フォルダ構成(_C)"
+
+#: mail/folder-browser.c:380
+msgid "Save"
+msgstr "保存"
+
+#: mail/mail-callbacks.c:83
+msgid ""
+"You need to configure the mail client\n"
+"before you can compose mail."
+msgstr ""
+"あなたはメールを作成する前にメール\n"
+"クライアントの設定をする必要があります"
+
+#: mail/mail-callbacks.c:96
+msgid ""
+"You need to configure an identity\n"
+"before you can compose mail."
+msgstr ""
+"あなたはメールを作成する前に身元の\n"
+"設定をする必要があります"
+
+#: mail/mail-callbacks.c:110
+msgid ""
+"You need to configure a mail transport\n"
+"before you can compose mail."
+msgstr ""
+"あなたはメールを作成する前にメール\n"
+"配送の設定をする必要があります"
+
+#: mail/mail-callbacks.c:184
+msgid ""
+"This message has no subject.\n"
+"Really send?"
+msgstr ""
+"このメッセージは表題がありません\n"
+"本当に送信しますか?"
+
+#: mail/mail-callbacks.c:417
+msgid "Move message(s) to"
+msgstr "メッセージを移動します: "
+
+#: mail/mail-callbacks.c:419
+msgid "Copy message(s) to"
+msgstr "メッセージをコピーします: "
+
+#: mail/mail-callbacks.c:488
+msgid ""
+"You may only edit messages saved\n"
+"in the Drafts folder."
+msgstr ""
+
+#: mail/mail-callbacks.c:578
+#, c-format
+msgid ""
+"Error loading filter information:\n"
+"%s"
+msgstr ""
+"フィルタ情報のロード中にエラー:\n"
+"%s"
+
+#: mail/mail-config-gui.c:435
+msgid ""
+"Enter your name and email address to be used in outgoing mail. You may also, "
+"optionally, enter the name of your organization, and the name of a file to "
+"read your signature from."
+msgstr ""
+
+#: mail/mail-config-gui.c:448
+msgid "Full name:"
+msgstr "フルネーム:"
+
+#: mail/mail-config-gui.c:472
+msgid "Email address:"
+msgstr "Email アドレス:"
+
+#: mail/mail-config-gui.c:487
+msgid "Organization:"
+msgstr "組織:"
+
+#: mail/mail-config-gui.c:498
+msgid "Signature file:"
+msgstr "署名ファイル:"
+
+#: mail/mail-config-gui.c:503 mail/mail-config.glade.h:10
+msgid "Signature File"
+msgstr "署名ファイル"
+
+#: mail/mail-config-gui.c:930
+msgid "Server:"
+msgstr "サーバ:"
+
+#: mail/mail-config-gui.c:933
+msgid "Port:"
+msgstr "ポート:"
+
+#: mail/mail-config-gui.c:938
+msgid "Username:"
+msgstr "ユーザ名:"
+
+#: mail/mail-config-gui.c:944
+msgid "Path:"
+msgstr "パス:"
+
+#: mail/mail-config-gui.c:952
+msgid "Authentication:"
+msgstr "認証方式:"
+
+#: mail/mail-config-gui.c:964
+msgid "Detect supported types..."
+msgstr "サポートした種別を検出..."
+
+#: mail/mail-config-gui.c:989
+msgid "Don't delete messages from server"
+msgstr "サーバからメッセージを削除しない"
+
+#: mail/mail-config-gui.c:1001
+msgid "Test Settings"
+msgstr "テスト設定"
+
+#: mail/mail-config-gui.c:1133 mail/mail-config-gui.c:1181
+msgid ""
+"Select the kind of mail server you have, and enter the relevant information "
+"about it.\n"
+"\n"
+"If the server requires authentication, you can click the \"Detect supported "
+"types...\" button after entering the other information."
+msgstr ""
+
+#: mail/mail-config-gui.c:1157
+msgid ""
+"Select the kind of news server you have, and enter the relevant information "
+"about it.\n"
+"\n"
+"If the server requires authentication, you can click the \"Detect supported "
+"types...\" button after entering the other information."
+msgstr ""
+
+#: mail/mail-config-gui.c:1176
+msgid "Mail transport type:"
+msgstr "メール配送種別:"
+
+#: mail/mail-config-gui.c:1231
+msgid "Add Identity"
+msgstr "身元の追加"
+
+#: mail/mail-config-gui.c:1233
+msgid "Edit Identity"
+msgstr "身元の編集"
+
+#: mail/mail-config-gui.c:1325
+msgid "Add Source"
+msgstr "ソースの追加"
+
+#: mail/mail-config-gui.c:1327
+msgid "Edit Source"
+msgstr "ソースの編集"
+
+#: mail/mail-config-gui.c:1422
+msgid "Add News Server"
+msgstr "ニュースサーバの追加"
+
+#: mail/mail-config-gui.c:1424
+msgid "Edit News Server"
+msgstr "ニュースサーバの編集"
+
+#: mail/mail-config-gui.c:2285
+msgid "The connection was successful!"
+msgstr "接続は成功しました!"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3201,10 +3787,6 @@ msgstr "身元"
 msgid "Organization"
 msgstr "組織"
 
-#: mail/mail-config.glade.h:10
-msgid "Signature File"
-msgstr "署名ファイル"
-
 #: mail/mail-config.glade.h:12 mail/mail-config.glade.h:17
 #: mail/mail-config.glade.h:23
 msgid "Edit"
@@ -3212,7 +3794,7 @@ msgstr "編集"
 
 #: mail/mail-config.glade.h:15
 msgid "Sources"
-msgstr "起点"
+msgstr "ソース"
 
 #: mail/mail-config.glade.h:19
 msgid "Mail Sources"
@@ -3220,7 +3802,7 @@ msgstr "メールソース"
 
 #: mail/mail-config-druid.glade.h:15 mail/mail-config.glade.h:20
 msgid "Mail Transport"
-msgstr "メールの転送"
+msgstr "メールの配送"
 
 #: mail/mail-config.glade.h:21
 msgid "News Servers"
@@ -3233,6 +3815,10 @@ msgstr "ニュースソース"
 #: mail/mail-config.glade.h:26
 msgid "Send messages in HTML format"
 msgstr "HTML 形式でメッセージを送信"
+
+#: mail/mail-config.glade.h:27
+msgid "Mark message as seen [ms]: "
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3262,7 +3848,7 @@ msgstr "身元"
 
 #: mail/mail-config-druid.glade.h:14
 msgid "Mail Source"
-msgstr "メールの起点"
+msgstr "メールのソース"
 
 #: mail/mail-config-druid.glade.h:17
 msgid ""
@@ -3272,91 +3858,366 @@ msgstr ""
 "あなたの電子メールの設定は完了しました\n"
 "\"完了\" をクリックして新しい設定を保存してください"
 
-#: mail/mail-crypto.c:342 mail/mail-crypto.c:420
-msgid "No GPG/PGP program available."
-msgstr "GPG/PGP プログラムは利用できません"
+#: mail/mail-crypto.c:345 mail/mail-crypto.c:440 mail/mail-crypto.c:601
+msgid "Please enter your PGP/GPG passphrase."
+msgstr "あなたの PGP/GPG パスフレーズを入力してください"
 
-#: mail/mail-crypto.c:348 mail/mail-crypto.c:426
+#: mail/mail-crypto.c:349 mail/mail-crypto.c:444 mail/mail-crypto.c:606
+msgid "No password provided."
+msgstr "提供されたパスワードはありません"
+
+#: mail/mail-crypto.c:355 mail/mail-crypto.c:450 mail/mail-crypto.c:612
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "GPG/PGP へのパイプが作成できませんでした: %s"
 
-#: mail/mail-ops.c:433
-msgid "Fetching mail"
-msgstr "メールを取り出す"
+#: mail/mail-crypto.c:597
+msgid "No GPG/PGP program available."
+msgstr "GPG/PGP プログラムは利用できません"
 
-#: mail/mail-ops.c:445
-msgid ""
-"This message has no subject.\n"
-"Really send?"
+#: mail/mail-local.c:257
+#, c-format
+msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr ""
-"このメッセージは表題がありません\n"
-"本当に送信しますか?"
 
-#: mail/mail-ops.c:564
-msgid ""
-"You need to configure an identity\n"
-"before you can send mail."
+#: mail/mail-local.c:261
+#, c-format
+msgid "Change folder \"%s\" to \"%s\" format"
 msgstr ""
-"あなたはメールを送信する前に身元の\n"
-"設定をする必要があります"
 
-#: mail/mail-ops.c:838
-#, fuzzy
-msgid "Move message(s) to"
-msgstr "新規フォルダへメッセージを移動する"
+#: mail/mail-ops.c:74
+#, c-format
+msgid "Fetching email from %s"
+msgstr "%s からメールを取得中"
 
-#: mail/mail-threads.c:483
-msgid "Currently pending operations:"
-msgstr "現在未解決の操作:"
+#: mail/mail-ops.c:76
+#, c-format
+msgid "Fetch email from %s"
+msgstr "%s からメールを取得"
 
-#: mail/mail-threads.c:621
+#: mail/mail-ops.c:87
+msgid "You have no remote mail source configured to fetch mail from."
+msgstr ""
+
+#: mail/mail-ops.c:97
+msgid "Bad folder passed to fetch_mail"
+msgstr ""
+
+#: mail/mail-ops.c:166
+#, c-format
+msgid "There is no new mail at %s."
+msgstr "新規メールは %s にはありません"
+
+#: mail/mail-ops.c:238
+#, c-format
+msgid "Sending \"%s\""
+msgstr "\"%s\" を送信中"
+
+#: mail/mail-ops.c:243
+msgid "Sending a message without a subject"
+msgstr "表題なしのメッセージを送信中"
+
+#: mail/mail-ops.c:246
+#, c-format
+msgid "Send \"%s\""
+msgstr "\"%s\" を送信"
+
+#: mail/mail-ops.c:249
+msgid "Send a message without a subject"
+msgstr "表題なしのメッセージを送信"
+
+#: mail/mail-ops.c:414
+#, c-format
+msgid "Expunging \"%s\""
+msgstr "\"%s\" を抹消中"
+
+#: mail/mail-ops.c:416
+#, c-format
+msgid "Expunge \"%s\""
+msgstr "\"%s\" を抹消"
+
+#: mail/mail-ops.c:488
+#, c-format
+msgid "Moving messages from \"%s\" into \"%s\""
+msgstr "\"%s\" から \"%s\" の中へメッセージを移動中"
+
+#: mail/mail-ops.c:490
+#, c-format
+msgid "Copying messages from \"%s\" into \"%s\""
+msgstr "\"%s\" から \"%s\" の中へメッセージをコピー中"
+
+#: mail/mail-ops.c:493
+#, c-format
+msgid "Move messages from \"%s\" into \"%s\""
+msgstr "\"%s\" から \"%s\" の中へメッセージを移動"
+
+#: mail/mail-ops.c:495
+#, c-format
+msgid "Copy messages from \"%s\" into \"%s\""
+msgstr "\"%s\" から \"%s\" の中へメッセージをコピー"
+
+#: mail/mail-ops.c:642
+#, c-format
+msgid "Marking messages in folder \"%s\""
+msgstr "フォルダ \"%s\" の中のメッセージをマーク中"
+
+#: mail/mail-ops.c:645
+#, c-format
+msgid "Mark messages in folder \"%s\""
+msgstr "フォルダ \"%s\" の中のメッセージをマーク"
+
+#: mail/mail-ops.c:801
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "\"%s\" の中のフォルダを走査中"
+
+#: mail/mail-ops.c:804
+#, c-format
+msgid "Scan folders in \"%s\""
+msgstr "\"%s\" の中のフォルダを走査"
+
+#: mail/mail-ops.c:891
+msgid "(No description)"
+msgstr "(説明なし)"
+
+#: mail/mail-ops.c:954
+#, c-format
+msgid "Attaching messages from folder \"%s\""
+msgstr "フォルダ \"%s\" からメッセージをアタッチ中"
+
+#: mail/mail-ops.c:957
+#, c-format
+msgid "Attach messages from \"%s\""
+msgstr "\"%s\" からメッセージをアタッチ"
+
+#: mail/mail-ops.c:1083
+#, c-format
+msgid "Forwarding messages \"%s\""
+msgstr "メッセージ \"%s\" を転送中"
+
+#: mail/mail-ops.c:1088
+msgid "Forwarding a message without a subject"
+msgstr "表題なしのメッセージを転送中"
+
+#: mail/mail-ops.c:1091
+#, c-format
+msgid "Forward message \"%s\""
+msgstr "メッセージ \"%s\" を転送"
+
+#: mail/mail-ops.c:1096
+msgid "Forward a message without a subject"
+msgstr "表題なしのメッセージを転送"
+
+#: mail/mail-ops.c:1161
+msgid ""
+"Failed to generate mime part from message while generating forwarded message."
+msgstr ""
+
+#: mail/mail-ops.c:1250
+#, c-format
+msgid "Loading \"%s\""
+msgstr "\"%s\" を読み込み中"
+
+#: mail/mail-ops.c:1252
+#, c-format
+msgid "Load \"%s\""
+msgstr "\"%s\" を読み込む"
+
+#: mail/mail-ops.c:1371
+#, c-format
+msgid "Creating \"%s\""
+msgstr "\"%s\" を作成中"
+
+#: mail/mail-ops.c:1373
+#, c-format
+msgid "Create \"%s\""
+msgstr "\"%s\" を作成"
+
+#: mail/mail-ops.c:1444
+msgid "Exception while reporting result to shell component listener."
+msgstr ""
+
+#: mail/mail-ops.c:1497
+#, c-format
+msgid "Synchronizing \"%s\""
+msgstr "\"%s\" を同期中"
+
+#: mail/mail-ops.c:1499
+#, c-format
+msgid "Synchronize \"%s\""
+msgstr "\"%s\" を同期"
+
+#: mail/mail-ops.c:1575
+#, c-format
+msgid "Displaying message UID \"%s\""
+msgstr ""
+
+#: mail/mail-ops.c:1578
+msgid "Clearing message display"
+msgstr ""
+
+#: mail/mail-ops.c:1581
+#, c-format
+msgid "Display message UID \"%s\""
+msgstr ""
+
+#: mail/mail-ops.c:1584
+msgid "Clear message display"
+msgstr ""
+
+#: mail/mail-ops.c:1711
+#, c-format
+msgid "Opening messages from folder \"%s\""
+msgstr ""
+
+#: mail/mail-ops.c:1714
+#, c-format
+msgid "Open messages from \"%s\""
+msgstr ""
+
+#: mail/mail-ops.c:1826
+msgid "Loading Draftbox"
+msgstr ""
+
+#: mail/mail-ops.c:1828
+msgid "Load Draftbox"
+msgstr ""
+
+#: mail/mail-ops.c:1896
+#, c-format
+msgid "Viewing messages from folder \"%s\""
+msgstr ""
+
+#: mail/mail-ops.c:1899
+#, c-format
+msgid "View messages from \"%s\""
+msgstr "\"%s\" からメッセージを表示"
+
+#: mail/mail-threads.c:274
+#, c-format
+msgid ""
+"Error while preparing to %s:\n"
+"%s"
+msgstr ""
+
+#: mail/mail-threads.c:694
+#, c-format
+msgid ""
+"Error while `%s':\n"
+"%s"
+msgstr ""
+
+#: mail/mail-threads.c:747
 msgid "Incomplete message written on pipe!"
 msgstr "パイプ上に不完全なメッセージが書かれました!"
 
-#: mail/mail-threads.c:623
+#: mail/mail-threads.c:751
 msgid "Error reading commands from dispatching thread."
 msgstr "派遣されたスレッドからコマンド読み込み中にエラーが発生しました"
 
-#: mail/mail-threads.c:712
+#: mail/mail-threads.c:816
 msgid "Corrupted message from dispatching thread?"
 msgstr "派遣されたスレッドから不正なメッセージ?"
 
-#: mail/mail-threads.c:814
+#: mail/mail-threads.c:927
 msgid "Could not create dialog box."
 msgstr "ダイアログボックスを作成することが出来ませんでした"
 
-#: mail/mail-threads.c:849
+#: mail/mail-threads.c:936
 msgid "User cancelled query."
 msgstr "ユーザはクエリをキャンセルしました"
 
-#: mail/message-list.c:466
+#: mail/mail-tools.c:206
+#, c-format
+msgid "Couldn't create temporary mbox `%s': %s"
+msgstr "テンポラリ mbox '%s' を作成できませんでした: %s"
+
+#: mail/mail-tools.c:293
+#, c-format
+msgid ""
+"Could not read UID cache file \"%s\". You may receive duplicate messages."
+msgstr ""
+
+#: mail/mail-tools.c:385
+#, c-format
+msgid "[%s] %s"
+msgstr "[%s] %s"
+
+#: mail/mail-tools.c:387
+#, c-format
+msgid "[%s] (forwarded message)"
+msgstr "[%s] (メッセージを転送)"
+
+#: mail/mail-tools.c:396
+msgid "Fwd: (no subject)"
+msgstr "転送: (表題なし)"
+
+#: mail/mail-tools.c:433
+#, c-format
+msgid "Forwarded message - %s"
+msgstr "メッセージを転送しました - %s"
+
+#: mail/mail-tools.c:435
+msgid "Forwarded message (no subject)"
+msgstr "メッセージを転送しました (表題なし)"
+
+#: mail/mail-tools.c:636
+#, c-format
+msgid "Don't know protocol to open URI `%s'"
+msgstr "URI '%s' を開くプロトコルを知りません"
+
+#: mail/mail-tools.c:665
+#, c-format
+msgid ""
+"Cannot open location `%s':\n"
+"%s"
+msgstr ""
+"'%s' の場所を開くことが出来ません:\n"
+"%s"
+
+#: mail/mail-vfolder.c:298
+msgid "New VFolder"
+msgstr "新規仮想フォルダ"
+
+#: mail/message-list.c:490
 msgid "Online Status"
 msgstr "オンライン状態"
 
-#: mail/message-list.c:502
+#: mail/message-list.c:526
 msgid "From"
 msgstr "差出人"
 
-#: mail/message-list.c:509
+#: mail/message-list.c:533
 msgid "Subject"
 msgstr "表題"
 
-#: mail/message-list.c:516
+#: mail/message-list.c:540
 msgid "Date"
 msgstr "日付"
 
-#: mail/message-list.c:523
+#: mail/message-list.c:547
 msgid "Received"
 msgstr "受信"
 
-#: mail/message-list.c:530
+#: mail/message-list.c:554
 msgid "To"
 msgstr "受取人"
 
-#: mail/message-list.c:537
+#: mail/message-list.c:561
 msgid "Size"
 msgstr "サイズ"
+
+#: notes/component-factory.c:27
+msgid "Create a new note"
+msgstr "新規ノートを作成"
+
+#: notes/component-factory.c:148
+msgid "Cannot initialize Evolution's notes component."
+msgstr "Evolution ノートコンポーネントの初期化が出来ません"
+
+#: notes/main.c:30
+msgid "Notes Component: Could not initialize bonobo"
+msgstr "ノートコンポーネント: Bonobo の初期化が出来ませんでした"
 
 #: shell/e-setup.c:47
 msgid "Evolution installation"
@@ -3446,7 +4307,7 @@ msgstr ""
 msgid "New..."
 msgstr "新規..."
 
-#: shell/e-shell-folder-title-bar.c:459 shell/e-shell-folder-title-bar.c:460
+#: shell/e-shell-folder-title-bar.c:452 shell/e-shell-folder-title-bar.c:453
 msgid "(Untitled)"
 msgstr "(タイトルなし)"
 
@@ -3462,11 +4323,11 @@ msgstr "Bug buddy はあなたの $PATH には見つかりません"
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy は実行できませんでした"
 
-#: shell/e-shell-view-menu.c:166
+#: shell/e-shell-view-menu.c:167
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:168
+#: shell/e-shell-view-menu.c:169
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -3476,132 +4337,132 @@ msgstr ""
 "カレンダ，そしてコンタクトマネージメントのための\n"
 "グループウェアアプリケーションのパッケージソフトです"
 
-#: shell/e-shell-view-menu.c:318
+#: shell/e-shell-view-menu.c:319
 msgid "Go to folder..."
 msgstr "フォルダへ移動..."
 
-#: shell/e-shell-view-menu.c:376
+#: shell/e-shell-view-menu.c:377
 msgid "_New"
 msgstr "新規(_N)"
 
-#: shell/e-shell-view-menu.c:388
+#: shell/e-shell-view-menu.c:389
 msgid "_Folder"
 msgstr "フォルダ(_F)"
 
-#: shell/e-shell-view-menu.c:394
+#: shell/e-shell-view-menu.c:395
 msgid "Evolution bar _shortcut"
 msgstr "Evolution バーショートカット(_s)"
 
-#: shell/e-shell-view-menu.c:403
+#: shell/e-shell-view-menu.c:404
 msgid "_Mail message (FIXME)"
 msgstr "メールメッセージ(_M) (FIXME)"
 
-#: shell/e-shell-view-menu.c:409
+#: shell/e-shell-view-menu.c:410
 msgid "_Appointment (FIXME)"
 msgstr "約束(_A) (FIXME)"
 
-#: shell/e-shell-view-menu.c:415
+#: shell/e-shell-view-menu.c:416
 msgid "_Contact (FIXME)"
 msgstr "コンタクト(_C) (FIXME)"
 
-#: shell/e-shell-view-menu.c:421
+#: shell/e-shell-view-menu.c:422
 msgid "_Task (FIXME)"
 msgstr "作業(_T) (FIXME)"
 
-#: shell/e-shell-view-menu.c:443
-msgid "_Go to folder..."
+#: shell/e-shell-view-menu.c:444
+msgid "_Go to Folder..."
 msgstr "フォルダへ移動(_G)..."
 
-#: shell/e-shell-view-menu.c:444
+#: shell/e-shell-view-menu.c:445
 msgid "Display a different folder"
 msgstr "別のフォルダを表示する"
 
-#: shell/e-shell-view-menu.c:451
-msgid "_Create new folder..."
+#: shell/e-shell-view-menu.c:452
+msgid "_Create New Folder..."
 msgstr "新規フォルダの作成(_C)..."
 
-#: shell/e-shell-view-menu.c:452 shell/e-shell-view-menu.c:464
+#: shell/e-shell-view-menu.c:453 shell/e-shell-view-menu.c:465
 msgid "Create a new folder"
 msgstr "新規フォルダを作成する"
 
-#: shell/e-shell-view-menu.c:463
+#: shell/e-shell-view-menu.c:464
 msgid "E_xit..."
 msgstr "終了(_x)..."
 
-#: shell/e-shell-view-menu.c:494
-msgid "Show _shortcut bar"
-msgstr "ショートカットバーを表示(_s)"
-
 #: shell/e-shell-view-menu.c:495
+msgid "Show _Shortcut Bar"
+msgstr "ショートカットバーを表示(_S)"
+
+#: shell/e-shell-view-menu.c:496
 msgid "Show the shortcut bar"
 msgstr "ショートカットバーの表示する"
 
-#: shell/e-shell-view-menu.c:500
-msgid "Show _folder bar"
-msgstr "フォルダバーを表示(_f)"
-
 #: shell/e-shell-view-menu.c:501
+msgid "Show _Folder Bar"
+msgstr "フォルダバーを表示(_F)"
+
+#: shell/e-shell-view-menu.c:502
 msgid "Show the folder bar"
 msgstr "フォルダバーの表示する"
 
-#: shell/e-shell-view-menu.c:523
-msgid "_Actions"
-msgstr "行動(_A)"
+#: shell/e-shell-view-menu.c:513
+msgid "_Settings"
+msgstr "設定(_S)"
 
-#: shell/e-shell-view-menu.c:534
+#: shell/e-shell-view-menu.c:524
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: shell/e-shell-view-menu.c:540
-msgid "Help _index"
-msgstr "ヘルプインデックス(_i)"
+#: shell/e-shell-view-menu.c:530
+msgid "Help _Index"
+msgstr "ヘルプインデックス(_I)"
 
-#: shell/e-shell-view-menu.c:547
-msgid "Getting _started"
-msgstr "始め(_s)"
+#: shell/e-shell-view-menu.c:537
+msgid "Getting _Started"
+msgstr "始め(_S)"
 
-#: shell/e-shell-view-menu.c:554
-msgid "Using the _mailer"
-msgstr "メーラの使い方(_m)"
+#: shell/e-shell-view-menu.c:544
+msgid "Using the _Mailer"
+msgstr "メーラの使い方(_M)"
 
-#: shell/e-shell-view-menu.c:561
-msgid "Using the _calendar"
-msgstr "カレンダの使い方(_c)"
+#: shell/e-shell-view-menu.c:551
+msgid "Using the _Calendar"
+msgstr "カレンダの使い方(_C)"
 
-#: shell/e-shell-view-menu.c:568
-msgid "Using the c_ontact manager"
+#: shell/e-shell-view-menu.c:558
+msgid "Using the C_ontact Manager"
 msgstr "コンタクトマネージャの使い方(_o)"
 
-#: shell/e-shell-view-menu.c:578
-msgid "_Submit bug report"
+#: shell/e-shell-view-menu.c:568
+msgid "_Submit Bug Report"
 msgstr "不具合報告提出(_S)"
 
-#: shell/e-shell-view-menu.c:579
+#: shell/e-shell-view-menu.c:569
 msgid "Submit bug report using Bug Buddy"
 msgstr "Bug Buddy 使って不具合報告を提出する"
 
-#: shell/e-shell-view-menu.c:588
+#: shell/e-shell-view-menu.c:578
 msgid "_About Evolution..."
 msgstr "Evolution について(_A)..."
 
-#: shell/e-shell-view-menu.c:589
+#: shell/e-shell-view-menu.c:579
 msgid "Show information about Evolution"
 msgstr "Evolution についての情報を表示する"
 
-#: shell/e-shell-view.c:114
+#: shell/e-shell-view.c:122
 msgid "(No folder displayed)"
 msgstr "(表示したフォルダはありません)"
 
-#: shell/e-shell-view.c:342
+#: shell/e-shell-view.c:350
 msgid "Folders"
 msgstr "フォルダ"
 
-#: shell/e-shell-view.c:740
+#: shell/e-shell-view.c:883
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
 
-#: shell/e-shell.c:291
+#: shell/e-shell.c:293
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "局部記憶装置のセットアップが出来ません -- %s"
@@ -3690,11 +4551,11 @@ msgstr "指定された種別はこの記憶装置ではサポートされていません"
 msgid "Unknown error"
 msgstr "未知のエラー"
 
-#: shell/e-storage-set-view.c:242
+#: shell/e-storage-set-view.c:221
 msgid "View the selected folder"
 msgstr "選択されたフォルダを表示する"
 
-#: shell/main.c:66
+#: shell/main.c:67
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -3736,7 +4597,7 @@ msgstr ""
 "我々はあなたが我々の成果を楽しむことを望んでいます．そして我々は\n"
 "熱心にあなたの貢献を待ち受けています!\n"
 
-#: shell/main.c:93
+#: shell/main.c:94
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -3744,13 +4605,32 @@ msgstr ""
 "ありがとう\n"
 "Evolution チーム\n"
 
-#: shell/main.c:121
+#: shell/main.c:122
 msgid "Cannot initialize the Evolution shell."
 msgstr "Evolution シェルの初期化が出来ません"
 
-#: shell/main.c:156
+#: shell/main.c:159
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Bonobo コンポーネントシステムを初期化出来ません"
+
+#: tests/ui-tests/message-browser.c:360
+msgid "The component now claims that it doesn't support PersistStream!"
+msgstr ""
+
+#: tests/ui-tests/message-browser.c:378
+msgid ""
+"An exception occured while trying to load data into the component with "
+"PersistStream"
+msgstr ""
+
+#: tests/ui-tests/message-browser.c:471
+#, c-format
+msgid "The %s component doesn't support PersistStream!\n"
+msgstr "%s コンポーネントは PersistStream をサポートしていません!\n"
+
+#: tests/ui-tests/message-browser.c:710
+msgid "Open Mime Message"
+msgstr "MIME メッセージを開く"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3779,6 +4659,7 @@ msgstr "フィルタ"
 #. * DO NOT compile it as part of your application.
 #.
 #: widgets/e-table/e-table-field-chooser.glade.h:7
+#: widgets/e-table/e-table-header-item.c:1164
 msgid "Field Chooser"
 msgstr "フィールド選択"
 
@@ -3822,6 +4703,46 @@ msgstr "追加 >>"
 #: widgets/e-table/e-table-group.glade.h:13
 msgid "<< Remove"
 msgstr "<< 削除"
+
+#: widgets/e-table/e-table-header-item.c:1156
+msgid "Sort Ascending"
+msgstr "昇順でソート"
+
+#: widgets/e-table/e-table-header-item.c:1157
+msgid "Sort Descending"
+msgstr "降順でソート"
+
+#: widgets/e-table/e-table-header-item.c:1158
+msgid "Unsort"
+msgstr "ソート解除"
+
+#: widgets/e-table/e-table-header-item.c:1160
+msgid "Group By This Field"
+msgstr ""
+
+#: widgets/e-table/e-table-header-item.c:1161
+msgid "Group By Box"
+msgstr ""
+
+#: widgets/e-table/e-table-header-item.c:1163
+msgid "Remove This Column"
+msgstr "このカラムを削除"
+
+#: widgets/e-table/e-table-header-item.c:1166
+msgid "Alignment"
+msgstr ""
+
+#: widgets/e-table/e-table-header-item.c:1167
+msgid "Best Fit"
+msgstr ""
+
+#: widgets/e-table/e-table-header-item.c:1168
+msgid "Format Columns..."
+msgstr "カラムのフォーマット..."
+
+#: widgets/e-table/e-table-header-item.c:1170
+msgid "Customize Current View..."
+msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:386
 msgid "Tentative"
