@@ -1978,16 +1978,14 @@ on_cursor_activated_idle (gpointer data)
 	ESelectionModel *esm = e_tree_get_selection_model (message_list->tree);
 	gint selected = e_selection_model_selected_count (esm);
 	
-	if (selected > 1) {
-		return TRUE;
-	} else {
+	if (selected == 1) {
 		printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
 		gtk_signal_emit (GTK_OBJECT (message_list),
 				 message_list_signals[MESSAGE_SELECTED], message_list->cursor_uid);
-		
-		message_list->idle_id = 0;
-		return FALSE;
 	}
+		
+	message_list->idle_id = 0;
+	return FALSE;
 }
 
 static void
