@@ -24,9 +24,6 @@
 #include <config.h>
 #endif
 
-#include "e-summary.h"
-#include "e-summary-preferences.h"
-
 #include <gtk/gtk.h>
 
 #include <libgnome/gnome-defs.h>
@@ -43,6 +40,10 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo-conf/bonobo-config-database.h>
+
+#include "e-summary.h"
+#include "e-summary-preferences.h"
+#include "e-summary-table.h"
 
 static void
 make_initial_mail_list (ESummaryPrefs *prefs)
@@ -390,26 +391,31 @@ e_summary_preferences_init (ESummary *summary)
 }
 
 struct _MailPage {
+	GtkWidget *etable;
 	GtkWidget *all, *shown;
 	GtkWidget *fullpath;
 	GtkWidget *add, *remove;
+
+	GHashTable *model;
+	GList *tmp_list;
 };
 
 struct _RDFPage {
-	GtkWidget *all, *shown;
+	GtkWidget *etable;
 	GtkWidget *refresh, *limit;
-	GtkWidget *add, *remove;
-	GtkWidget *new_url;
+	GtkWidget *new_url, *delete_url;
 
-	GList *known;
+	GHashTable *default_hash, *model;
+	GList *known, *tmp_list;
 };
 
 struct _WeatherPage {
-	GtkWidget *all, *shown;
+	GtkWidget *etable;
 	GtkWidget *refresh, *imperial, *metric;
 	GtkWidget *add, *remove;
 
-	GtkCTreeNode *selected_node;
+	GHashTable *model;
+	GList *tmp_list;
 };
 
 struct _CalendarPage {
@@ -432,45 +438,47 @@ typedef struct _PropertyData {
 struct _RDFInfo {
 	char *url;
 	char *name;
+
+	gboolean custom;
 };
 
 static struct _RDFInfo rdfs[] = {
-	{"http://advogato.org/rss/articles.xml", "Advogato"},
-	{"http://barrapunto.com/barrapunto.rdf", "Barrapunto"},
-	{"http://barrapunto.com/gnome.rdf", "Barrapunto GNOME"},
-	{"http://www.bsdtoday.com/backend/bt.rdf", "BSD Today"},
-	{"http://beyond2000.com/b2k.rdf", "Beyond 2000"},
-	{"http://www.cnn.com/cnn.rss", "CNN"},
-        {"http://www.debianplanet.org/debianplanet/backend.php", "Debian Planet"},
-	{"http://www.dictionary.com/wordoftheday/wotd.rss", N_("Dictionary.com Word of the Day")},
-	{"http://www.dvdreview.com/rss/newschannel.rss", "DVD Review"},
-	{"http://freshmeat.net/backend/fm.rdf", "Freshmeat"},
-	{"http://news.gnome.org/gnome-news/rdf", "GNotices"},
-	{"http://headlines.internet.com/internetnews/prod-news/news.rss", "Internet.com"},
-	{"http://www.hispalinux.es/backend.php", "HispaLinux"},
-	{"http://dot.kde.org/rdf", "KDE Dot News"},
-	{"http://www.kuro5hin.org/backend.rdf", "Kuro5hin"},
-	{"http://linuxgames.com/bin/mynetscape.pl", "Linux Games"},
-	{"http://linux.com/mrn/jobs/latest_jobs.rss", "Linux Jobs"},
-	{"http://linuxtoday.com/backend/my-netscape.rdf", "Linux Today"},
-	{"http://lwn.net/headlines/rss", "Linux Weekly News"},
-	{"http://www.linux.com/mrn/front_page.rss", "Linux.com"},
-	{"http://memepool.com/memepool.rss", "Memepool"},
-	{"http://www.mozilla.org/news.rdf", "Mozilla"},
-	{"http://www.mozillazine.org/contents.rdf", "Mozillazine"},
-	{"http://www.fool.com/about/headlines/rss_headlines.asp", "The Motley Fool"},
-	{"http://www.newsforge.com/newsforge.rss", "Newsforge"},
-	{"http://www.nanotechnews.com/nano/rdf", "Nanotech News"},
-	{"http://www.pigdog.org/pigdog.rdf", "Pigdog"},
-	{"http://www.python.org/channews.rdf", "Python.org"},
-	{"http://www.quotationspage.com/data/mqotd.rss", N_("Quotes of the Day")},
-	{"http://www.salon.com/feed/RDF/salon_use.rdf", "Salon"},
-	{"http://slashdot.org/slashdot.rdf", "Slashdot"},
-	{"http://www.theregister.co.uk/tonys/slashdot.rdf", "The Register"},
-	{"http://www.thinkgeek.com/thinkgeek.rdf", "Think Geek"},
-	{"http://www.webreference.com/webreference.rdf", "Web Reference"},
-	{"http://redcarpet.ximian.com/red-carpet.rdf", "Ximian Red Carpet New"},
-	{NULL, NULL}
+	{"http://advogato.org/rss/articles.xml", "Advogato", FALSE},
+	{"http://barrapunto.com/barrapunto.rdf", "Barrapunto", FALSE},
+	{"http://barrapunto.com/gnome.rdf", "Barrapunto GNOME", FALSE,},
+	{"http://www.bsdtoday.com/backend/bt.rdf", "BSD Today", FALSE},
+	{"http://beyond2000.com/b2k.rdf", "Beyond 2000", FALSE},
+	{"http://www.cnn.com/cnn.rss", "CNN", FALSE},
+        {"http://www.debianplanet.org/debianplanet/backend.php", "Debian Planet", FALSE},
+	{"http://www.dictionary.com/wordoftheday/wotd.rss", N_("Dictionary.com Word of the Day"), FALSE},
+	{"http://www.dvdreview.com/rss/newschannel.rss", "DVD Review", FALSE},
+	{"http://freshmeat.net/backend/fm.rdf", "Freshmeat", FALSE},
+	{"http://news.gnome.org/gnome-news/rdf", "GNotices", FALSE},
+	{"http://headlines.internet.com/internetnews/prod-news/news.rss", "Internet.com", FALSE},
+	{"http://www.hispalinux.es/backend.php", "HispaLinux", FALSE},
+	{"http://dot.kde.org/rdf", "KDE Dot News", FALSE},
+	{"http://www.kuro5hin.org/backend.rdf", "Kuro5hin", FALSE},
+	{"http://linuxgames.com/bin/mynetscape.pl", "Linux Games", FALSE},
+	{"http://linux.com/mrn/jobs/latest_jobs.rss", "Linux Jobs", FALSE},
+	{"http://linuxtoday.com/backend/my-netscape.rdf", "Linux Today", FALSE},
+	{"http://lwn.net/headlines/rss", "Linux Weekly News", FALSE},
+	{"http://www.linux.com/mrn/front_page.rss", "Linux.com", FALSE},
+	{"http://memepool.com/memepool.rss", "Memepool", FALSE},
+	{"http://www.mozilla.org/news.rdf", "Mozilla", FALSE},
+	{"http://www.mozillazine.org/contents.rdf", "Mozillazine", FALSE},
+	{"http://www.fool.com/about/headlines/rss_headlines.asp", "The Motley Fool", FALSE},
+	{"http://www.newsforge.com/newsforge.rss", "Newsforge", FALSE},
+	{"http://www.nanotechnews.com/nano/rdf", "Nanotech News", FALSE},
+	{"http://www.pigdog.org/pigdog.rdf", "Pigdog", FALSE},
+	{"http://www.python.org/channews.rdf", "Python.org", FALSE},
+	{"http://www.quotationspage.com/data/mqotd.rss", N_("Quotes of the Day"), FALSE},
+	{"http://www.salon.com/feed/RDF/salon_use.rdf", "Salon", FALSE},
+	{"http://slashdot.org/slashdot.rdf", "Slashdot", FALSE},
+	{"http://www.theregister.co.uk/tonys/slashdot.rdf", "The Register", FALSE},
+	{"http://www.thinkgeek.com/thinkgeek.rdf", "Think Geek", FALSE},
+	{"http://www.webreference.com/webreference.rdf", "Web Reference", FALSE},
+	{"http://redcarpet.ximian.com/red-carpet.rdf", "Ximian Red Carpet New", FALSE},
+	{NULL, NULL, FALSE}
 };
 
 static void
@@ -522,6 +530,10 @@ save_known_rdfs (GList *rdfs)
 		char *line;
 		
 		info = rdfs->data;
+		if (info->custom == FALSE) {
+			continue;
+		}
+		
 		line = g_strconcat (info->url, ",", info->name, "\n", NULL);
 		fputs (line, handle);
 		g_free (line);
@@ -530,13 +542,59 @@ save_known_rdfs (GList *rdfs)
 	fclose (handle);
 }
 
-static void
-fill_rdf_all_clist (GtkCList *clist, 
-		    PropertyData *pd)
+/* Yeah a silly loop, but p should be short enough that it doesn't matter much */
+static gboolean
+rdf_is_shown (PropertyData *pd,
+	      const char *url)
 {
+	GList *p;
+
+	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
+		if (strcmp (p->data, url) == 0) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static void
+fill_rdf_etable (GtkWidget *widget,
+		 PropertyData *pd)
+{
+	ESummaryTableModelEntry *entry;
+	ESummaryTable *est;
 	FILE *handle;
-	int i;
+	int i, total;
 	char *rdf_file, line[4096];
+
+	if (pd->rdf->default_hash == NULL) {
+		pd->rdf->default_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	}
+
+	est = E_SUMMARY_TABLE (widget);
+
+	/* Fill the defaults first */
+	for (i = 0; rdfs[i].url; i++) {
+		ETreePath path;
+
+		path = e_summary_table_add_node (est, NULL, i, NULL);
+
+		entry = g_new (ESummaryTableModelEntry, 1);
+		entry->path = path;
+		entry->location = g_strdup (rdfs[i].url);
+		entry->name = g_strdup (rdfs[i].name);
+		entry->editable = TRUE;
+		entry->removable = FALSE;
+		entry->shown = rdf_is_shown (pd, entry->location);
+		g_hash_table_insert (est->model, entry->path, entry);
+
+		pd->rdf->known = g_list_append (pd->rdf->known, &rdfs[i]);
+
+		g_hash_table_insert (pd->rdf->default_hash, rdfs[i].url, &rdfs[i]);
+	}
+
+	total = i;
 
 	rdf_file = gnome_util_prepend_user_home ("evolution/RDF-urls.txt");
 	handle = fopen (rdf_file, "r");
@@ -549,29 +607,18 @@ fill_rdf_all_clist (GtkCList *clist,
 	}
 
 	if (handle == NULL) {
-		for (i = 0; rdfs[i].url; i++) {
-			char *text[1];
-			int row;
-			
-			text[0] = _(rdfs[i].name);
-			row = gtk_clist_append (clist, text);
-			/* We don't need to free this data as it's
-			   static */
-			gtk_clist_set_row_data (clist, row, &rdfs[i]);
-			pd->rdf->known = g_list_append (pd->rdf->known, &rdfs[i]);
-		}
-		
 		return;
 	}
 
 	while (fgets (line, 4095, handle)) {
-		char *text[1];
+		ETreePath path;
 		char **tokens;
 		struct _RDFInfo *info;
-		int row;
+		int len;
 
-		if (line[strlen (line) - 1] == '\n') {
-			line[strlen (line) - 1] = 0;
+		len = strlen (line);
+		if (line[len - 1] == '\n') {
+			line[len - 1] = 0;
 		}
 
 		tokens = g_strsplit (line, ",", 2);
@@ -579,15 +626,28 @@ fill_rdf_all_clist (GtkCList *clist,
 			continue;
 		}
 
+		if (g_hash_table_lookup (pd->rdf->default_hash, tokens[0]) != NULL) {
+			g_strfreev (tokens);
+			continue;
+		}
+		
 		info = g_new (struct _RDFInfo, 1);
 		info->url = g_strdup (tokens[0]);
 		info->name = g_strdup (tokens[1]);
-
+		info->custom = TRUE;
+		
 		pd->rdf->known = g_list_append (pd->rdf->known, info);
-		text[0] = tokens[1];
-		row = gtk_clist_append (clist, text);
-		gtk_clist_set_row_data_full (clist, row, info,
-					     (GtkDestroyNotify) free_rdf_info);
+
+		path = e_summary_table_add_node (est, NULL, total++, NULL);
+		entry = g_new (ESummaryTableModelEntry, 1);
+		entry->path = path;
+		entry->location = g_strdup (info->url);
+		entry->name = g_strdup (info->name);
+		entry->editable = TRUE;
+		entry->removable = TRUE;
+		entry->shown = rdf_is_shown (pd, entry->location);
+		g_hash_table_insert (est->model, entry->path, entry);
+				
 		g_strfreev (tokens);
 	}
 
@@ -595,182 +655,17 @@ fill_rdf_all_clist (GtkCList *clist,
 }
 
 static void
-fill_rdf_shown_clist (GtkCList *clist,
-		      PropertyData *pd)
-{
-	GList *p;
-
-	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
-		char *text[1];
-		int row;
-
-		text[0] = (char *) find_name_for_url (pd, p->data);
-		row = gtk_clist_append (clist, text);
-		gtk_clist_set_row_data (clist, row, p);
-	}
-}
-
-static void
-fill_weather_all_ctree (GtkCTree *ctree)
-{
-	e_summary_weather_ctree_fill (ctree);
-}
-
-static void
-fill_weather_shown_clist (GtkCList *clist,
-			  PropertyData *pd)
-{
-	GList *p;
-
-	for (p = pd->summary->preferences->stations; p; p = p->next) {
-		char *text[1];
-		char *pretty;
-
-		pretty = (char *) e_summary_weather_code_to_name (p->data);
-
-		text[0] = pretty;
-		gtk_clist_append (clist, text);
-	}
-}
-
-static void
-fill_mail_all_clist (GtkCList *clist,
+fill_weather_etable (ESummaryTable *est,
 		     PropertyData *pd)
 {
-	e_summary_mail_fill_list (clist, pd->summary);
+	e_summary_weather_fill_etable (est, pd->summary);
 }
 
 static void
-fill_mail_shown_clist (GtkCList *clist,
-		       PropertyData *pd)
+fill_mail_etable (ESummaryTable *est,
+		  PropertyData *pd)
 {
-	GList *p;
-
-	for (p = pd->summary->preferences->display_folders; p; p = p->next) {
-		char *text[1];
-		char *uri;
-		const char *name;
-		int row;
-
-		uri = g_strconcat ("file://", p->data, NULL);
-		name = e_summary_mail_uri_to_name (pd->summary, uri);
-		g_free (uri);
-		if (name == NULL) {
-			text[0] = p->data;
-		} else {
-			text[0] = (char *) name + 1; /* GtkCList sucks.  */
-		}
-		row = gtk_clist_prepend (clist, text);
-		gtk_clist_set_row_data (clist, row, p);
-	}
-}
-
-static void
-mail_all_select_row_cb (GtkCList *clist,
-			int row,
-			int column,
-			GdkEvent *event,
-			PropertyData *pd)
-{
-	ESummaryMailRowData *rd;
-	GList *p;
-
-	rd = gtk_clist_get_row_data (GTK_CLIST (pd->mail->all), row);
-	if (rd == NULL) {
-		return;
-	}
-
-	for (p = pd->summary->preferences->display_folders; p; p = p->next) {
-		if (strcmp (rd->uri + 7, p->data) == 0) {
-			/* Already in list */
-			return;
-		}
-	}
-
-	gtk_widget_set_sensitive (pd->mail->add, TRUE);
-}
-
-static void
-mail_all_unselect_row_cb (GtkCList *clist,
-			  int row,
-			  int column,
-			  GdkEvent *event,
-			  PropertyData *pd)
-{
-	if (clist->selection == NULL) {
-		gtk_widget_set_sensitive (pd->mail->add, FALSE);
-	}
-}
-
-static void
-mail_shown_select_row_cb (GtkCList *clist,
-			  int row,
-			  int column,
-			  GdkEvent *event,
-			  PropertyData *pd)
-{
-	gtk_widget_set_sensitive (pd->mail->remove, TRUE);
-}
-
-static void
-mail_shown_unselect_row_cb (GtkCList *clist,
-			    int row,
-			    int column,
-			    GdkEvent *event,
-			    PropertyData *pd)
-{
-	if (clist->selection == NULL) {
-		gtk_widget_set_sensitive (pd->mail->remove, FALSE);
-	}
-}
-
-static void
-mail_add_clicked_cb (GtkButton *button,
-		     PropertyData *pd)
-{
-	int row;
-	ESummaryMailRowData *rd;
-	char *text[1];
-	GList *p;
-	
-	row = GPOINTER_TO_INT (GTK_CLIST (pd->mail->all)->selection->data);
-	rd = gtk_clist_get_row_data (GTK_CLIST (pd->mail->all), row);
-	g_return_if_fail (rd != NULL);
-
-	for (p = pd->summary->preferences->display_folders; p; p = p->next) {
-		if (strcmp (rd->uri + 7, p->data) == 0) {
-			/* Already in list */
-			return;
-		}
-	}
-
-	text[0] = rd->name + 1;
-	row = gtk_clist_append (GTK_CLIST (pd->mail->shown), text);
-
-	pd->summary->preferences->display_folders = g_list_prepend (pd->summary->preferences->display_folders,
-								   g_strdup (rd->uri + 7));
-	gtk_clist_set_row_data (GTK_CLIST (pd->mail->shown), row, pd->summary->preferences->display_folders);
-
-	gnome_property_box_changed (pd->box);
-}
-
-static void
-mail_remove_clicked_cb (GtkButton *button,
-			PropertyData *pd)
-{
-	int row;
-	GList *p;
-
-	row = GPOINTER_TO_INT (GTK_CLIST (pd->mail->shown)->selection->data);
-	p = gtk_clist_get_row_data (GTK_CLIST (pd->mail->shown), row);
-
-	gtk_clist_remove (GTK_CLIST (pd->mail->shown), row);
-	pd->summary->preferences->display_folders = g_list_remove_link (pd->summary->preferences->display_folders, p);
-	g_free (p->data);
-	g_list_free (p);
-
-	gtk_clist_select_row (GTK_CLIST (pd->mail->shown), row, 0);
-	gnome_property_box_changed (pd->box);
+	e_summary_mail_fill_list (est, pd->summary);
 }
 
 static void
@@ -781,113 +676,7 @@ mail_show_full_path_toggled_cb (GtkToggleButton *tb,
 	gnome_property_box_changed (pd->box);
 }
 
-static void
-rdf_all_select_row_cb (GtkCList *clist,
-		       int row,
-		       int column,
-		       GdkEvent *event,
-		       PropertyData *pd)
-{
-	struct _RDFInfo *info;
-	GList *p;
-
-	info = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->all), row);
-	g_return_if_fail (info != NULL);
-
-	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
-		if (strcmp (p->data, info->url) == 0) {
-				/* Found it already */
-			return;
-		}
-	}
-
-	gtk_widget_set_sensitive (pd->rdf->add, TRUE);
-}
-
-static void
-rdf_all_unselect_row_cb (GtkCList *clist,
-			 int row,
-			 int column,
-			 GdkEvent *event,
-			 PropertyData *pd)
-{
-	if (GTK_CLIST (pd->rdf->all)->selection == NULL) {
-		gtk_widget_set_sensitive (pd->rdf->add, FALSE);
-	}
-}
-
-static void
-rdf_shown_select_row_cb (GtkCList *clist,
-			 int row,
-			 int column,
-			 GdkEvent *event,
-			 PropertyData *pd)
-{
-	gtk_widget_set_sensitive (pd->rdf->remove, TRUE);
-}
-
-static void
-rdf_shown_unselect_row_cb (GtkCList *clist,
-			   int row,
-			   int column,
-			   GdkEvent *event,
-			   PropertyData *pd)
-{
-	if (GTK_CLIST (pd->rdf->shown)->selection == NULL) {
-		gtk_widget_set_sensitive (pd->rdf->remove, FALSE);
-	}
-}
-
-static void
-rdf_add_clicked_cb (GtkButton *button,
-		    PropertyData *pd)
-{
-	struct _RDFInfo *info;
-	GList *p, *rows;
-	char *text[1];
-	int row;
-	
-	for (rows = GTK_CLIST (pd->rdf->all)->selection; rows; rows = rows->next) {
-		row = GPOINTER_TO_INT (rows->data);
-		info = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->all), row);
-		
-		text[0] = info->name;
-		
-		for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
-			if (strcmp (p->data, info->url) == 0) {
-				/* Found it already */
-				return;
-			}
-		}
-
-		
-		pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (info->url));
-		row = gtk_clist_prepend (GTK_CLIST (pd->rdf->shown), text);
-		gtk_clist_set_row_data (GTK_CLIST (pd->rdf->shown), row,
-					pd->summary->preferences->rdf_urls);
-	}
-	gnome_property_box_changed (pd->box);
-}
-
-static void
-rdf_remove_clicked_cb (GtkButton *button,
-		       PropertyData *pd)
-{
-	GList *p;
-	int row;
-
-	row = GPOINTER_TO_INT (GTK_CLIST (pd->rdf->shown)->selection->data);
-	p = gtk_clist_get_row_data (GTK_CLIST (pd->rdf->shown), row);
-	gtk_clist_remove (GTK_CLIST (pd->rdf->shown), row);
-
-	pd->summary->preferences->rdf_urls = g_list_remove_link (pd->summary->preferences->rdf_urls, p);
-	g_free (p->data);
-	g_list_free (p);
-
-	gtk_clist_select_row (GTK_CLIST (pd->rdf->shown), row, 0);
-	gnome_property_box_changed (pd->box);
-}
-
+#if 0
 static void
 add_dialog_clicked_cb (GnomeDialog *dialog,
 		       int button,
@@ -971,6 +760,7 @@ rdf_new_url_clicked_cb (GtkButton *button,
 			    hbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (add_dialog);
 }
+#endif
 
 static void
 rdf_refresh_value_changed_cb (GtkAdjustment *adj,
@@ -989,105 +779,26 @@ rdf_limit_value_changed_cb (GtkAdjustment *adj,
 }
 
 static void
-weather_all_select_row_cb (GtkCTree *ctree,
-			   GtkCTreeNode *row,
-			   int column,
-			   PropertyData *pd)
-{
-	ESummaryWeatherLocation *location;
-	GList *p;
-
-	location = gtk_ctree_node_get_row_data (GTK_CTREE (pd->weather->all), row);
-	if (location == NULL) {
-		gtk_ctree_unselect (ctree, row);
-		return;
-	}
-
-	for (p = pd->summary->preferences->stations; p; p = p->next) {
-		if (strcmp (location->code, p->data) == 0) {
-			return; /* Already have it */
-		}
-	}
-
-	gtk_widget_set_sensitive (pd->weather->add, TRUE);
-	pd->weather->selected_node = row;
-}
-
-static void
-weather_all_unselect_row_cb (GtkCList *clist,
-			     GtkCTreeNode *row,
-			     int column,
+mail_etable_item_changed_cb (ESummaryTable *est,
+			     ETreePath path,
 			     PropertyData *pd)
 {
-	if (clist->selection == NULL) {
-		gtk_widget_set_sensitive (pd->weather->add, FALSE);
-	}
-	pd->weather->selected_node = NULL;
-}
-
-static void
-weather_shown_select_row_cb (GtkCList *clist,
-			     int row,
-			     int column,
-			     GdkEvent *event,
-			     PropertyData *pd)
-{
-	gtk_widget_set_sensitive (pd->weather->remove, TRUE);
-}
-
-static void
-weather_shown_unselect_row_cb (GtkCList *clist,
-			       int row,
-			       int column,
-			       GdkEvent *event,
-			       PropertyData *pd)
-{
-	if (clist->selection == NULL) {
-		gtk_widget_set_sensitive (pd->weather->remove, FALSE);
-	}
-}
-
-static void
-weather_add_clicked_cb (GtkButton *button,
-			PropertyData *pd)
-{
-	ESummaryWeatherLocation *location;
-	GList *p;
-	char *text[1];
-
-	location = gtk_ctree_node_get_row_data (GTK_CTREE (pd->weather->all), pd->weather->selected_node);
-
-	g_return_if_fail (location != NULL);
-
-	for (p = pd->summary->preferences->stations; p; p = p->next) {
-		if (strcmp (location->code, p->data) == 0) {
-			return; /* Already have it */
-		}
-	}
-
-	pd->summary->preferences->stations = g_list_prepend (pd->summary->preferences->stations, g_strdup (location->code));
-	text[0] = location->name;
-	gtk_clist_prepend (GTK_CLIST (pd->weather->shown), text);
-
 	gnome_property_box_changed (pd->box);
 }
 
 static void
-weather_remove_clicked_cb (GtkButton *button,
-			   PropertyData *pd)
+rdf_etable_item_changed_cb (ESummaryTable *est,
+			    ETreePath path,
+			    PropertyData *pd)
 {
-	int row;
-	GList *p;
+	gnome_property_box_changed (pd->box);
+}
 
-	row = GPOINTER_TO_INT (GTK_CLIST (pd->weather->shown)->selection->data);
-	p = g_list_nth (pd->summary->preferences->stations, row);
-	gtk_clist_remove (GTK_CLIST (pd->weather->shown), row);
-
-	pd->summary->preferences->stations = g_list_remove_link (pd->summary->preferences->stations, p);
-	g_free (p->data);
-	g_list_free (p);
-
-	gtk_clist_select_row (GTK_CLIST (pd->weather->shown), row, 0);
+static void
+weather_etable_item_changed_cb (ESummaryTable *est,
+				ETreePath path,
+				PropertyData *pd)
+{
 	gnome_property_box_changed (pd->box);
 }
 
@@ -1196,21 +907,6 @@ calendar_today_toggled_cb (GtkToggleButton *tb,
 	gnome_property_box_changed (pd->box);
 }
 
-static void
-construct_pixmap_button (GladeXML *xml,
-			 const char *id,
-			 const char *image)
-{
-	GtkWidget *box, *pixmap;
-
-	box = glade_xml_get_widget (xml, id);
-	
-	pixmap = gnome_stock_pixmap_widget (NULL, image);
-	gtk_box_pack_start (GTK_BOX (box), pixmap, TRUE, TRUE, 0);
-
-	gtk_widget_show (pixmap);
-}
-
 static gboolean
 make_property_dialog (PropertyData *pd)
 {
@@ -1221,24 +917,17 @@ make_property_dialog (PropertyData *pd)
 
 	/* Mail */
 	mail = pd->mail = g_new (struct _MailPage, 1);
+	mail->tmp_list = NULL;
+	
+	mail->etable = glade_xml_get_widget (pd->xml, "mail-custom");
+	g_return_val_if_fail (mail->etable != NULL, FALSE);
 
-	/* I think this should be a fancy bonobo thingy */
-	mail->all = glade_xml_get_widget (pd->xml, "clist7");
-	g_return_val_if_fail (mail->all != NULL, FALSE);
-	fill_mail_all_clist (GTK_CLIST (mail->all), pd);
-	gtk_signal_connect (GTK_OBJECT (mail->all), "select-row",
-			    GTK_SIGNAL_FUNC (mail_all_select_row_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (mail->all), "unselect-row",
-			    GTK_SIGNAL_FUNC (mail_all_unselect_row_cb), pd);
-
-	mail->shown = glade_xml_get_widget (pd->xml, "clist1");
-	g_return_val_if_fail (mail->shown != NULL, FALSE);
-	fill_mail_shown_clist (GTK_CLIST (mail->shown), pd);
-	gtk_signal_connect (GTK_OBJECT (mail->shown), "select-row",
-			    GTK_SIGNAL_FUNC (mail_shown_select_row_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (mail->shown), "unselect-row",
-			    GTK_SIGNAL_FUNC (mail_shown_unselect_row_cb), pd);
-
+	gtk_signal_connect (GTK_OBJECT (mail->etable), "item-changed",
+			    GTK_SIGNAL_FUNC (mail_etable_item_changed_cb), pd);
+	
+	mail->model = E_SUMMARY_TABLE (mail->etable)->model;
+	fill_mail_etable (E_SUMMARY_TABLE (mail->etable), pd);
+	
 	mail->fullpath = glade_xml_get_widget (pd->xml, "checkbutton1");
 	g_return_val_if_fail (mail->fullpath != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mail->fullpath),
@@ -1246,39 +935,22 @@ make_property_dialog (PropertyData *pd)
 	gtk_signal_connect (GTK_OBJECT (mail->fullpath), "toggled",
 			    GTK_SIGNAL_FUNC (mail_show_full_path_toggled_cb), pd);
 
-	mail->add = glade_xml_get_widget (pd->xml, "button4");
-	g_return_val_if_fail (mail->add != NULL, FALSE);
-	construct_pixmap_button (pd->xml, "hbox-mailadd", 
-				 GNOME_STOCK_BUTTON_NEXT);
-	gtk_signal_connect (GTK_OBJECT (mail->add), "clicked",
-			    GTK_SIGNAL_FUNC (mail_add_clicked_cb), pd);
-
-	mail->remove = glade_xml_get_widget (pd->xml, "button5");
-	g_return_val_if_fail (mail->remove != NULL, FALSE);
-	construct_pixmap_button (pd->xml, "hbox-mailremove", 
-				 GNOME_STOCK_BUTTON_PREV);
-	gtk_signal_connect (GTK_OBJECT (mail->remove), "clicked",
-			    GTK_SIGNAL_FUNC (mail_remove_clicked_cb), pd);
-	
 	/* RDF */
 	rdf = pd->rdf = g_new (struct _RDFPage, 1);
 	rdf->known = NULL;
-	rdf->all = glade_xml_get_widget (pd->xml, "clist6");
-	g_return_val_if_fail (rdf->all != NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->all), "select-row",
-			    GTK_SIGNAL_FUNC (rdf_all_select_row_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (rdf->all), "unselect-row",
-			    GTK_SIGNAL_FUNC (rdf_all_unselect_row_cb), pd);
-	fill_rdf_all_clist (GTK_CLIST (rdf->all), pd);
+	rdf->tmp_list = NULL;
+	rdf->default_hash = NULL;
+	
+	rdf->etable = glade_xml_get_widget (pd->xml, "rdf-custom");
+	g_return_val_if_fail (rdf->etable != NULL, FALSE);
 
-	rdf->shown = glade_xml_get_widget (pd->xml, "clist5");
-	g_return_val_if_fail (rdf->shown != NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->shown), "select-row",
-			    GTK_SIGNAL_FUNC (rdf_shown_select_row_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (rdf->shown), "unselect-row",
-			    GTK_SIGNAL_FUNC (rdf_shown_unselect_row_cb), pd);
-	fill_rdf_shown_clist (GTK_CLIST (rdf->shown), pd);
+	gtk_signal_connect (GTK_OBJECT (rdf->etable), "item-changed",
+			    GTK_SIGNAL_FUNC (rdf_etable_item_changed_cb), pd);
 
+	rdf->model = E_SUMMARY_TABLE (rdf->etable)->model;
+
+	fill_rdf_etable (rdf->etable, pd);
+	
 	rdf->refresh = glade_xml_get_widget (pd->xml, "spinbutton1");
 	g_return_val_if_fail (rdf->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->refresh),
@@ -1293,46 +965,19 @@ make_property_dialog (PropertyData *pd)
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->limit)->adjustment), "value_changed",
 			    GTK_SIGNAL_FUNC (rdf_limit_value_changed_cb), pd);
 
-	rdf->add = glade_xml_get_widget (pd->xml, "button9");
-	g_return_val_if_fail (rdf->add != NULL, FALSE);
-
-	construct_pixmap_button (pd->xml, "hbox-newsadd", 
-				 GNOME_STOCK_BUTTON_NEXT);
-	gtk_widget_set_sensitive (rdf->add, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->add), "clicked",
-			    GTK_SIGNAL_FUNC (rdf_add_clicked_cb), pd);
-
-	rdf->remove = glade_xml_get_widget (pd->xml, "button10");
-	g_return_val_if_fail (rdf->remove != NULL, FALSE);
-
-	construct_pixmap_button (pd->xml, "hbox-newsremove", 
-				 GNOME_STOCK_BUTTON_PREV);
-	gtk_widget_set_sensitive (rdf->remove, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->remove), "clicked",
-			    GTK_SIGNAL_FUNC (rdf_remove_clicked_cb), pd);
-	
-	rdf->new_url = glade_xml_get_widget (pd->xml, "button11");
-	g_return_val_if_fail (rdf->new_url != NULL, FALSE);
-	gtk_signal_connect (GTK_OBJECT (rdf->new_url), "clicked",
-			    GTK_SIGNAL_FUNC (rdf_new_url_clicked_cb), pd);
-
 	/* Weather */
 	weather = pd->weather = g_new (struct _WeatherPage, 1);
-	weather->all = glade_xml_get_widget (pd->xml, "ctree1");
-	g_return_val_if_fail (weather->all != NULL, FALSE);
-	fill_weather_all_ctree (GTK_CTREE (weather->all));
-	gtk_signal_connect (GTK_OBJECT (weather->all), "tree-select-row",
-			    GTK_SIGNAL_FUNC (weather_all_select_row_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (weather->all), "tree-unselect-row",
-			    GTK_SIGNAL_FUNC (weather_all_unselect_row_cb), pd);
+	weather->tmp_list = NULL;
+	
+	weather->etable = glade_xml_get_widget (pd->xml, "weather-custom");
+	g_return_val_if_fail (weather->etable != NULL, FALSE);
 
-	weather->shown = glade_xml_get_widget (pd->xml, "clist3");
-	g_return_val_if_fail (weather->shown != NULL, FALSE);
-	fill_weather_shown_clist (GTK_CLIST (weather->shown), pd);
-	gtk_signal_connect (GTK_OBJECT (weather->shown), "select-row",
-			    GTK_SIGNAL_FUNC (weather_shown_select_row_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (weather->shown), "unselect-row",
-			    GTK_SIGNAL_FUNC (weather_shown_unselect_row_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (weather->etable), "item-changed",
+			    GTK_SIGNAL_FUNC (weather_etable_item_changed_cb),
+			    pd);
+	weather->model = E_SUMMARY_TABLE (weather->etable)->model;
+
+	fill_weather_etable (E_SUMMARY_TABLE (weather->etable), pd);
 
 	weather->refresh = glade_xml_get_widget (pd->xml, "spinbutton5");
 	g_return_val_if_fail (weather->refresh != NULL, FALSE);
@@ -1354,22 +999,6 @@ make_property_dialog (PropertyData *pd)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->imperial), (pd->summary->preferences->units == UNITS_IMPERIAL));
 	gtk_signal_connect (GTK_OBJECT (weather->imperial), "toggled",
 			    GTK_SIGNAL_FUNC (weather_imperial_toggled_cb), pd);
-
-	weather->add = glade_xml_get_widget (pd->xml, "button6");
-	g_return_val_if_fail (weather->add != NULL, FALSE);
-
-	construct_pixmap_button (pd->xml, "hbox-weatheradd", 
-				 GNOME_STOCK_BUTTON_NEXT);
-	gtk_signal_connect (GTK_OBJECT (weather->add), "clicked",
-			    GTK_SIGNAL_FUNC (weather_add_clicked_cb), pd);
-
-	weather->remove = glade_xml_get_widget (pd->xml, "button7");
-	g_return_val_if_fail (weather->remove != NULL, FALSE);
-	
-	construct_pixmap_button (pd->xml, "hbox-weatherremove", 
-				 GNOME_STOCK_BUTTON_PREV);
-	gtk_signal_connect (GTK_OBJECT (weather->remove), "clicked",
-			    GTK_SIGNAL_FUNC (weather_remove_clicked_cb), pd);
 
 	/* Calendar */
 	calendar = pd->calendar = g_new (struct _CalendarPage, 1);
@@ -1417,18 +1046,25 @@ make_property_dialog (PropertyData *pd)
 
 	return TRUE;
 }
-	
+
 static void
 free_property_dialog (PropertyData *pd)
 {
 	if (pd->rdf) {
 		g_list_free (pd->rdf->known);
+
+		free_str_list (pd->rdf->tmp_list);
+		g_list_free (pd->rdf->tmp_list);
 		g_free (pd->rdf);
 	}
 	if (pd->mail) {
+		free_str_list (pd->mail->tmp_list);
+		g_list_free (pd->mail->tmp_list);
 		g_free (pd->mail);
 	}
 	if (pd->weather) {
+		free_str_list (pd->weather->tmp_list);
+		g_list_free (pd->weather->tmp_list);
 		g_free (pd->weather);
 	}
 	if (pd->calendar) {
@@ -1446,11 +1082,74 @@ free_property_dialog (PropertyData *pd)
 }
 
 static void
+maybe_add_to_shown (gpointer key,
+		    gpointer value,
+		    gpointer data)
+{
+	ESummaryTableModelEntry *item;
+	GList **list;
+
+	item = (ESummaryTableModelEntry *) value;
+	list = (GList **) data;
+
+	if (item->shown == TRUE) {
+		*list = g_list_prepend (*list, g_strdup (item->location));
+	}
+}
+
+static void
 property_box_clicked_cb (GnomeDialog *dialog,
 			 int page_num,
 			 PropertyData *pd)
 {
 	if (page_num == -1) {
+
+		/* RDFs */
+		if (pd->rdf->tmp_list) {
+			free_str_list (pd->rdf->tmp_list);
+			g_list_free (pd->rdf->tmp_list);
+			pd->rdf->tmp_list = NULL;
+		}
+
+		/* Take each news feed which is on and add it
+		   to the shown list */
+		g_hash_table_foreach (pd->rdf->model, maybe_add_to_shown, &pd->rdf->tmp_list);
+
+		if (pd->summary->preferences->rdf_urls) {
+			free_str_list (pd->summary->preferences->rdf_urls);
+			g_list_free (pd->summary->preferences->rdf_urls);
+		}
+
+		pd->summary->preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
+
+		/* Weather */
+		if (pd->weather->tmp_list) {
+			free_str_list (pd->weather->tmp_list);
+			g_list_free (pd->weather->tmp_list);
+			pd->weather->tmp_list = NULL;
+		}
+		g_hash_table_foreach (pd->weather->model, maybe_add_to_shown, &pd->weather->tmp_list);
+		
+		if (pd->summary->preferences->stations) {
+			free_str_list (pd->summary->preferences->stations);
+			g_list_free (pd->summary->preferences->stations);
+		}
+		pd->summary->preferences->stations = copy_str_list (pd->weather->tmp_list);
+		
+		/* Folders */
+		if (pd->mail->tmp_list) {
+			free_str_list (pd->mail->tmp_list);
+			g_list_free (pd->mail->tmp_list);
+			pd->mail->tmp_list = NULL;
+		}
+		g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
+
+		if (pd->summary->preferences->display_folders) {
+			free_str_list (pd->summary->preferences->display_folders);
+			g_list_free (pd->summary->preferences->display_folders);
+		}
+		pd->summary->preferences->display_folders = copy_str_list (pd->mail->tmp_list);
+		
 		e_summary_reconfigure (pd->summary);
 	}
 }
@@ -1469,6 +1168,28 @@ property_box_destroy_cb (GtkObject *object,
 	free_property_dialog (pd);
 }
 
+/* Prototypes to shut gcc up */
+GtkWidget *e_summary_preferences_make_mail_table (PropertyData *pd);
+GtkWidget *e_summary_preferences_make_rdf_table (PropertyData *pd);
+GtkWidget *e_summary_preferences_make_weather_table (PropertyData *pd);
+GtkWidget *
+e_summary_preferences_make_mail_table (PropertyData *pd)
+{
+	return e_summary_table_new (g_hash_table_new (NULL, NULL));
+}
+
+GtkWidget *
+e_summary_preferences_make_rdf_table (PropertyData *pd)
+{
+	return e_summary_table_new (g_hash_table_new (NULL, NULL));
+}
+
+GtkWidget *
+e_summary_preferences_make_weather_table (PropertyData *pd)
+{
+	return e_summary_table_new (g_hash_table_new (NULL, NULL));
+}
+	
 void
 e_summary_configure (BonoboUIComponent *component,
 		     gpointer userdata,

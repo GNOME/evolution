@@ -35,6 +35,7 @@
 #include <gal/widgets/e-unicode.h>
 
 #include "e-summary.h"
+#include "e-summary-table.h"
 #include "e-summary-weather.h"
 #include "weather.h"
 #include "metar.h"
@@ -265,7 +266,7 @@ message_finished (SoupMessage *msg,
 	}
 
 	if (SOUP_MESSAGE_IS_ERROR (msg)) {
-		GString *string;
+		char *mess;
 		ESummaryWeatherLocation *location;
 
 		g_warning ("Message failed: %d\n%s", msg->errorcode,
@@ -274,16 +275,12 @@ message_finished (SoupMessage *msg,
 
 		location = g_hash_table_lookup (locations_hash, w->location);
 
-		string = g_string_new ("<br><b>There was an error downloading data for ");
-		if (location == NULL) {
-			g_string_append (string, w->location);
-		} else {
-			g_string_append (string, location->name);
-		}
+		mess = g_strdup_printf ("<br><b>%s %s</b></br>",
+					_("There was an error downloading data for"),
+					location ? location->name : w->location);
 
-		g_string_append (string, "</b><br>");
-		w->html = e_utf8_from_locale_string (string->str);
-		g_string_free (string, TRUE);
+		w->html = e_utf8_from_locale_string (mess);
+		g_free (mess);
 
 		e_summary_draw (w->summary);
 		return;
@@ -330,12 +327,12 @@ e_summary_weather_update (ESummary *summary)
 		Weather *weather = w->data;
 
 		if (weather->message != NULL) {
-			soup_message_cancel (weather->message);
-			weather->message = NULL;
+			continue;
 		}
 
 		uri = g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", weather->location);
 		context = soup_context_get (uri);
+		g_print ("Updating %s\n", uri);
 		if (context == NULL) {
 			g_warning ("Invalid URL: %s", uri);
 			soup_context_unref (context);
@@ -648,14 +645,39 @@ e_summary_weather_code_to_name (const char *code)
 	}
 }
 
-void
-e_summary_weather_ctree_fill (GtkCTree *tree)
+static gboolean
+is_weather_shown (ESummaryWeather *weather,
+		  const char *code)
 {
-	GtkCTreeNode *region, *state, *location, *pref_loc_root;
+	GList *p;
+
+	for (p = weather->weathers; p; p = p->next) {
+		Weather *w = p->data;
+
+		if (strcmp (w->location, code) == 0) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+void
+e_summary_weather_fill_etable (ESummaryTable *est,
+			       ESummary *summary)
+{
+	ESummaryWeather *weather;
+	ETreePath region, state, location;
+	ESummaryTableModelEntry *entry;
 	char *key, *path;
 	int nregions, iregions;
-	char **regions, *pp[1];
+	char **regions;
+	int i, n, l;
 
+	g_return_if_fail (IS_E_SUMMARY (summary));
+	
+	weather = summary->weather;
+	
 	path = g_strdup (EVOLUTION_DATADIR "/evolution/Locations");
 
 	key = g_strdup_printf ("=%s=/", path);
@@ -664,14 +686,9 @@ e_summary_weather_ctree_fill (GtkCTree *tree)
 	gnome_config_push_prefix (key);
 	g_free (key);
 
-	pp[0] = _("Regions");
-	pref_loc_root = gtk_ctree_insert_node (tree, NULL, NULL, pp, 0,
-					       NULL, NULL, NULL, NULL,
-					       FALSE, TRUE);
-
 	gnome_config_get_vector ("Main/regions", &nregions, &regions);
 	region = NULL;
-	for (iregions = nregions - 1; iregions >= 0; iregions--) {
+	for (i = 0, iregions = nregions - 1; iregions >= 0; iregions--, i++) {
 		int nstates, istates;
 		char **states;
 		char *region_name;
@@ -682,16 +699,21 @@ e_summary_weather_ctree_fill (GtkCTree *tree)
 		states_key = g_strconcat (regions[iregions], "/states", NULL);
 		region_name = gnome_config_get_string (region_name_key);
 
-		pp[0] = region_name;
-		region = gtk_ctree_insert_node (tree, pref_loc_root,
-						region, pp, 0, NULL,
-						NULL, NULL, NULL, 
-						FALSE, FALSE);
-							
+		region = e_summary_table_add_node (est, NULL, i, NULL);
+
+		entry = g_new (ESummaryTableModelEntry, 1);
+		entry->path = region;
+		entry->location = NULL;
+		entry->name = g_strdup (region_name);
+		entry->editable = FALSE;
+		entry->removable = FALSE;
+		entry->shown = FALSE;
+		g_hash_table_insert (est->model, entry->path, entry);
+		
 		gnome_config_get_vector (states_key, &nstates, &states);
 
 		state = NULL;
-		for (istates = nstates - 1; istates >= 0; istates--) {
+		for (n = 0, istates = nstates - 1; istates >= 0; istates--, n++) {
 			void *iter;
 			char *iter_key, *iter_val;
 			char *state_path, *state_name_key, *state_name;
@@ -700,37 +722,48 @@ e_summary_weather_ctree_fill (GtkCTree *tree)
 			state_name_key = g_strconcat (state_path, "name", NULL);
 			state_name = gnome_config_get_string (state_name_key);
 
-			pp[0] = state_name;
-			state = gtk_ctree_insert_node (tree, region,
-						       state, pp, 0,
-						       NULL, NULL,
-						       NULL, NULL,
-						       FALSE, FALSE);
+			state = e_summary_table_add_node (est, region, n, NULL);
+
+			entry = g_new (ESummaryTableModelEntry, 1);
+			entry->path = state;
+			entry->location = NULL;
+			entry->name = g_strdup (state_name);
+			entry->editable = FALSE;
+			entry->removable = FALSE;
+			entry->shown = FALSE;
+			g_hash_table_insert (est->model, entry->path, entry);
 
 			location = NULL;
 			iter = gnome_config_init_iterator (state_path);
 
+			l = 0;
 			while ((iter = gnome_config_iterator_next (iter, &iter_key, &iter_val)) != NULL) {
 				if (strstr (iter_key, "loc") != NULL) {
 					char **locdata;
 					int nlocdata;
-					ESummaryWeatherLocation *w_location;
 
 					gnome_config_make_vector (iter_val,
 								  &nlocdata,
 								  &locdata);
 					g_return_if_fail (nlocdata == 4);
 
-					pp[0] = locdata[0];
-					location = gtk_ctree_insert_node (tree, state, location, pp, 0,
-									  NULL, NULL, NULL, NULL, FALSE, TRUE);
-					w_location = g_hash_table_lookup (locations_hash, locdata[1]);
-					gtk_ctree_node_set_row_data (tree, location, w_location);
+					location = e_summary_table_add_node (est, state, l, NULL);
+					entry = g_new (ESummaryTableModelEntry, 1);
+					entry->path = location;
+					entry->location = g_strdup (locdata[1]);
+					entry->name = g_strdup (locdata[0]);
+					entry->editable = TRUE;
+					entry->removable = FALSE;
+					
+					entry->shown = is_weather_shown (weather, locdata[1]);
+					g_hash_table_insert (est->model, entry->path, entry);
+					
 					g_strfreev (locdata);
 				}
 
 				g_free (iter_key);
 				g_free (iter_val);
+				l++;
 			}
 
 			g_free (state_name);

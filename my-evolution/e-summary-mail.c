@@ -26,12 +26,6 @@
 #include <liboaf/liboaf.h>
 #include <gal/widgets/e-unicode.h>
 
-#include "Mail.h"
-#include "e-summary.h"
-#include "e-summary-mail.h"
-
-#include "e-util/e-path.h"
-
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h> /* gnome_util_prepend_user_home */
@@ -41,6 +35,13 @@
 
 #include <Evolution.h>
 #include <evolution-storage-listener.h>
+
+#include "Mail.h"
+#include "e-summary.h"
+#include "e-summary-mail.h"
+#include "e-summary-table.h"
+
+#include "e-util/e-path.h"
 
 #define MAIL_IID "OAFIID:GNOME_Evolution_FolderInfo"
 
@@ -65,16 +66,6 @@ typedef struct _ESummaryMailFolder {
 
 	gboolean init; /* Has this folder been initialised? */
 } ESummaryMailFolder;
-
-const char *
-e_summary_mail_get_html (ESummary *summary)
-{
-	if (summary->mail == NULL) {
-		return NULL;
-	}
-
-	return summary->mail->html;
-}
 
 /* Work out what to do with folder names */
 static char *
@@ -143,6 +134,19 @@ e_summary_mail_generate_html (ESummary *summary)
 	g_free (old);
 
 	g_string_free (string, FALSE);
+}
+
+const char *
+e_summary_mail_get_html (ESummary *summary)
+{
+	/* Only regenerate HTML when it's needed */
+	e_summary_mail_generate_html (summary);
+	
+	if (summary->mail == NULL) {
+		return NULL;
+	}
+
+	return summary->mail->html;
 }
 
 static void
@@ -218,19 +222,21 @@ update_folder_cb (EvolutionStorageListener *listener,
 		  ESummary *summary)
 {
 	char *evolution_dir;
-	char *proto;
+	static char *proto = NULL;
 	char *uri;
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution/local");
+	/* Make this static, saves having to recompute it each time */
+	if (proto == NULL) {
+		evolution_dir = gnome_util_prepend_user_home ("evolution/local");
 
-	proto = g_strconcat ("file://", evolution_dir, NULL);
+		proto = g_strconcat ("file://", evolution_dir, NULL);
+		g_free (evolution_dir);
+	}
 	uri = e_path_to_physical (proto, path);
 
 	e_summary_mail_get_info (summary->mail, uri, summary->mail->listener);
 
 	g_free (uri);
-	g_free (evolution_dir);
-	g_free (proto);
 }
 
 static void
@@ -296,8 +302,6 @@ mail_change_notify (BonoboListener *listener,
 		
 		uri = g_strconcat ("file://", p->data, NULL);
 		if (strcmp (uri, folder->path) == 0) {
-			/* Regen HTML */
-			e_summary_mail_generate_html (summary);
 			e_summary_draw (summary);
 
 			g_free (uri);
@@ -438,7 +442,11 @@ e_summary_mail_reconfigure (ESummary *summary)
 		ESummaryMailFolder *folder;
 		char *uri;
 
-		uri = g_strconcat ("file://", p->data, NULL);
+		if (strncmp (p->data, "file://", 7) == 0) {
+			uri = g_strdup (p->data);
+		} else {
+			uri = g_strconcat ("file://", p->data, NULL);
+		}
 		folder = g_hash_table_lookup (mail->folders, uri);
 		if (folder != NULL) {
 			if (folder->init == FALSE) {
@@ -498,33 +506,126 @@ str_compare (gconstpointer a,
 	return strcmp (rda->name, rdb->name);
 }
 
+static char *
+get_parent_path (const char *path)
+{
+	char *last;
+
+	last = strrchr (path, '/');
+	return g_strndup (path, last - path);
+}
+
+static gboolean
+is_folder_shown (ESummaryMail *mail,
+		 const char *path)
+{
+	GList *p;
+
+	for (p = mail->shown; p; p = p->next) {
+		ESummaryMailFolder *folder = p->data;
+		if (strcmp (folder->path, path) == 0) {
+			return TRUE;
+		}
+	}
+	
+	return FALSE;
+}
+
+static ETreePath
+insert_path_recur (ESummaryTable *est,
+		   GHashTable *hash_table,
+		   const char *path,
+		   ESummaryMail *mail)
+{
+	char *parent_path, *name;
+	ETreePath parent_node, node;
+	ESummaryTableModelEntry *entry;
+	static char *toplevel = NULL;
+	
+	parent_path = get_parent_path (path);
+
+	if (toplevel == NULL) {
+		char *tmp;
+		
+		tmp = gnome_util_prepend_user_home ("evolution/local");
+		toplevel = g_strconcat ("file://", tmp, NULL);
+		g_free (tmp);
+	}
+
+	parent_node = g_hash_table_lookup (hash_table, parent_path);
+	if (parent_node == NULL) {
+		if (strcmp (toplevel, path) == 0) {
+			/* Insert root */
+			return NULL;
+		} else {
+			parent_node = insert_path_recur (est, hash_table, parent_path, mail);
+		}
+	}
+
+	g_free (parent_path);
+	name = strrchr (path, '/');
+
+	/* Leave out folders called "subfolder" */
+	if (strcmp (name + 1, "subfolders") == 0) {
+		return parent_node;
+	}
+	
+	node = e_summary_table_add_node (est, parent_node, 0, NULL);
+	entry = g_new (ESummaryTableModelEntry, 1);
+	entry->path = node;
+	entry->location = g_strdup (path);
+	entry->name = g_strdup (name + 1);
+	entry->editable = TRUE;
+	entry->removable = FALSE;
+
+	/* Check if shown */
+	entry->shown = is_folder_shown (mail, path);
+	g_hash_table_insert (est->model, entry->path, entry);
+	g_hash_table_insert (hash_table, g_strdup (path), node);
+
+	return node;
+}
+
+static void
+free_path_hash (gpointer key,
+		gpointer value,
+		gpointer data)
+{
+	g_free (key);
+}
+
 void
-e_summary_mail_fill_list (GtkCList *clist,
+e_summary_mail_fill_list (ESummaryTable *est,
 			  ESummary *summary)
 {
 	ESummaryMail *mail;
-	GList *names = NULL, *p;
+	GList *names, *p;
+	GHashTable *path_hash;
 
+	g_return_if_fail (IS_E_SUMMARY_TABLE (est));
+	g_return_if_fail (IS_E_SUMMARY (summary));
+	
 	mail = summary->mail;
 	if (mail == NULL) {
 		return;
 	}
 
+	names = NULL;
 	g_hash_table_foreach (mail->folders, hash_to_list, &names);
 
+	path_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	
 	names = g_list_sort (names, str_compare);
 	for (p = names; p; p = p->next) {
-		ESummaryMailRowData *rd;
-		char *text[1];
-		int row;
-
-		rd = p->data;
-		text[0] = rd->name + 1;
-		row = gtk_clist_append (clist, text);
-		gtk_clist_set_row_data_full (clist, row, rd, free_row_data);
+		ESummaryMailRowData *rd = p->data;
+		insert_path_recur (est, path_hash, rd->uri, mail);
+		free_row_data (rd);
 	}
 
+	/* Free everything */
 	g_list_free (names);
+	g_hash_table_foreach (path_hash, free_path_hash, NULL);
+	g_hash_table_destroy (path_hash);
 }
 
 const char *

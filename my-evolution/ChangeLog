@@ -1,3 +1,45 @@
+2002-02-04  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am: Add the e-summary-table.[ch] files.
+
+	* e-summary-mail.c: Move the headers.
+	(e_summary_mail_get_html): Regenerate the HTML.
+	(update_folder_cb): Make the file:// part static as it's the same
+	every time.
+	(mail_change_notify): Don't recalculate the HTML here.
+	(e_summary_mail_reconfigure): Don't add file:// if it's already there.
+	(get_parent_path): Given a path, return it's parent.
+	(is_folder_shown): Check all the shown folders to see if the given one
+	is shown.
+	(insert_path_recur): Recursively add a path to the tree.
+	(free_path_hash): Free the key of the hash table.
+	(e_summary_mail_fill_list): Add all the folders to the tree.
+
+	* e-summary-preferences.c: Move the headers
+	(rdf_is_shown): Check if an RDF is shown.
+	(fill_rdf_etable): Fill the etable with all the RDFs
+	(fill_weather_etable): Fill the weather etable.
+	(fill_mail_etable): Ditto (with mail)
+	(make_property_dialog): Use the etables.
+	(free_property_dialog): Free the new lists.
+	(maybe_add_to_shown): Check if the item is clicked and if so add it to
+	the list.
+	(property_box_clicked_cb): Set all the new properties
+	(e_summary_preferences_make_*_table): Make the etables
+
+	* e-summary-rdf.c (e_summary_rdf_update): Don't cancel the message,
+	just keep using the previous one.
+	
+	* e-summary-weather.c (message_finished): Better error message.
+	(e_summary_weather_update): Just continue if a message is already
+	going.
+	(is_weather_shown): Find out if a station is shown.
+	(e_summary_weather_fill_etable): Fill the etable.
+
+	* main.c (main): Init the cursors.
+
+	* my-evolution.glade: Add the custom widgets.
+
 2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-offline-handler.c (create_connection_list): Allocate

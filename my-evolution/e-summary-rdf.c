@@ -362,10 +362,11 @@ e_summary_rdf_update (ESummary *summary)
 		RDF *rdf = r->data;
 
 		if (rdf->message) {
-			soup_message_cancel (rdf->message);
+			continue;
 		}
 
 		context = soup_context_get (rdf->uri);
+		g_print ("Updating %s\n", rdf->uri);
 		if (context == NULL) {
 			g_warning ("Invalid URL: %s", rdf->uri);
 			soup_context_unref (context);

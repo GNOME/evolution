@@ -24,7 +24,7 @@
 #define __E_SUMMARY_WEATHER_H__
 
 #include <time.h>
-#include <gtk/gtkctree.h>
+
 #include "e-summary-type.h"
 
 typedef struct _ESummaryWeather ESummaryWeather;
@@ -144,7 +144,8 @@ typedef time_t ESummaryWeatherUpdate;
 char *e_summary_weather_get_html (ESummary *summary);
 void e_summary_weather_init (ESummary *summary);
 void e_summary_weather_reconfigure (ESummary *summary);
-void e_summary_weather_ctree_fill (GtkCTree *tree);
+void e_summary_weather_fill_etable (ESummaryTable *est,
+				    ESummary *summary);
 const char *e_summary_weather_code_to_name (const char *code);
 void e_summary_weather_free (ESummary *summary);
 gboolean e_summary_weather_update (ESummary *summary);

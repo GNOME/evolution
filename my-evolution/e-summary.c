@@ -320,7 +320,7 @@ static char *
 e_read_file_with_length (const char *filename,
 			 size_t *length)
 {
-	int fd, ret;
+	int fd;
 	struct stat stat_buf;
 	char *buf;
 	size_t bytes_read, size;
@@ -459,7 +459,7 @@ e_summary_init (ESummary *summary)
 
 	priv = summary->priv;
 
-	priv->frozen = FALSE;
+	priv->frozen = TRUE;
 	priv->redraw_pending = FALSE;
 	priv->pending_reload_tag = 0;
 

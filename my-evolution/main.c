@@ -72,6 +72,7 @@ main (int argc,
 
 	glade_gnome_init ();
 
+	e_cursors_init ();
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 

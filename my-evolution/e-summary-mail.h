@@ -23,9 +23,10 @@
 #ifndef __E_SUMMARY_MAIL_H__
 #define __E_SUMMARY_MAIL_H__
 
-#include "e-summary-type.h"
 #include <Evolution.h>
-#include <gtk/gtkclist.h>
+
+#include "e-summary-type.h"
+#include "e-summary-table.h"
 
 typedef enum _ESummaryMailMode ESummaryMailMode;
 enum _ESummaryMailMode {
@@ -46,8 +47,8 @@ void e_summary_mail_init (ESummary *summary,
 			  GNOME_Evolution_Shell corba_shell);
 void e_summary_mail_reconfigure (ESummary *summary);
 void e_summary_mail_free (ESummary *summary);
-void e_summary_mail_fill_list (GtkCList *clist, 
-			       ESummary *summary);
 const char *e_summary_mail_uri_to_name (ESummary *summary,
 					const char *uri);
+void e_summary_mail_fill_list (ESummaryTable *est,
+			       ESummary *summary);
 #endif
