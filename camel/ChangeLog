@@ -1,3 +1,9 @@
+2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-message.c (camel_mime_message_set_reply_to): Use
+	header_encode_phrase instead.
+	(camel_mime_message_set_from): Same.
+
 2000-10-04  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-utils.c (header_content_type_is): Handle the case
