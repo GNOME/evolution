@@ -832,27 +832,6 @@ meeting_page_new (EMeetingModel *emm, CalClient *client)
 }
 
 /**
- * meeting_page_get_default_organizer:
- * @mpage: 
- * 
- * 
- * 
- * Return value: 
- **/
-const ItipAddress  *
-meeting_page_get_default_organizer (MeetingPage *mpage)
-{
-	MeetingPagePrivate *priv;
-
-	g_return_val_if_fail (mpage != NULL, NULL);
-	g_return_val_if_fail (IS_MEETING_PAGE (mpage), NULL);
-
-	priv = mpage->priv;
-
-	return priv->default_address;
-}
-
-/**
  * meeting_page_get_cancel_comp:
  * @mpage: 
  * 

@@ -58,7 +58,6 @@ MeetingPage  *meeting_page_construct         (MeetingPage   *mpage,
 					      CalClient     *client);
 MeetingPage  *meeting_page_new               (EMeetingModel *emm,
 					      CalClient     *client);
-const ItipAddress  *meeting_page_get_default_organizer (MeetingPage *mpage);
 CalComponent *meeting_page_get_cancel_comp   (MeetingPage   *mpage);
 
 

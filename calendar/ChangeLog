@@ -1,5 +1,11 @@
 2002-12-17  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/meeting-page.h: delete proto
+
+	* gui/dialogs/meeting-page.c: remove dead routine
+
+2002-12-17  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/event-editor.c (event_editor_edit_comp): we don't
 	need to add the organizer as an attendee ourselves, just set the
 	edit level properly
