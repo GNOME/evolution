@@ -15,7 +15,7 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
     if test "x$GCC" = "xyes"; then
       case " $CFLAGS " in
       *[\ \	]-Wall[\ \	]*) ;;
-      *) warnCFLAGS="-Wall -Wno-unused" ;;
+      *) warnCFLAGS="-Wall -Wunused" ;;
       esac
 
       ## -W is not all that useful.  And it cannot be controlled

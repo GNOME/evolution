@@ -1,3 +1,7 @@
+Sat Jun 26 01:47:53 1999  Tim Janik  <timj@gtk.org>
+
+	* compiler-flags.m4: give -Wunused to gcc instead of -Wno-unused.
+
 1999-06-11  Tuomas J. Lukka <lukka@iki.fi>
 
 	* gnome-guile-checks.m4: Debian has qt_null in -lqthreads but
