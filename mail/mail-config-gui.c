@@ -169,6 +169,7 @@ typedef struct
 	MailDialogTransportPage *page;
 	gboolean tpagedone;
 	GtkWidget *chkFormat;
+	GtkWidget *spinTimeout;
 } MailDialog;
 
 /* private prototypes - these are ugly, rename some of them? */
@@ -1914,15 +1915,23 @@ format_toggled (GtkWidget *widget, MailDialog *dialog)
 }
 
 static void
+timeout_changed (GtkWidget *widget, MailDialog *dialog)
+{
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+}
+
+static void
 mail_config_apply_clicked (GnomePropertyBox *property_box, 
 			   gint page_num,
 			   MailDialog *dialog)
 {
 	GtkCList *clist;
 	GtkToggleButton *chk;
+	GtkSpinButton *spin;
 	MailConfigService *t;
 	gboolean send_html;
 	gpointer data;
+	glong seen_timeout;
 	int i;
 	
 	if (page_num != -1)
@@ -1962,6 +1971,11 @@ mail_config_apply_clicked (GnomePropertyBox *property_box,
 	chk = GTK_TOGGLE_BUTTON (dialog->chkFormat);
 	send_html = gtk_toggle_button_get_active (chk);
 	mail_config_set_send_html (send_html);
+
+	/* Mark as seen timeout */
+	spin = GTK_SPIN_BUTTON (dialog->spinTimeout);
+	seen_timeout = gtk_spin_button_get_value_as_int (spin);
+	mail_config_set_mark_as_seen_timeout (seen_timeout);
 
 	mail_config_write ();
 }
@@ -2127,6 +2141,14 @@ mail_config (void)
 				      mail_config_send_html ());
 	gtk_signal_connect (GTK_OBJECT (dialog->chkFormat), "toggled",
 			    GTK_SIGNAL_FUNC (format_toggled),
+			    dialog);
+
+	dialog->spinTimeout = glade_xml_get_widget (gui, "spinTimeout");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->spinTimeout),
+				   mail_config_mark_as_seen_timeout ());
+
+	gtk_signal_connect (GTK_OBJECT (dialog->spinTimeout), "changed",
+			    GTK_SIGNAL_FUNC (timeout_changed),
 			    dialog);
 
 	/* Listen for apply signal */

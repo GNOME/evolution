@@ -1604,14 +1604,22 @@ cleanup_display_message (gpointer in_data, gpointer op_data,
 	if (data->msg == NULL) {
 		mail_display_set_message (md, NULL);
 	} else {
+		gint timeout = mail_config_mark_as_seen_timeout ();
+
 		if (input->ml->seen_id)
 			gtk_timeout_remove (input->ml->seen_id);
 
 		mail_display_set_message (md, CAMEL_MEDIUM (data->msg));
 		camel_object_unref (CAMEL_OBJECT (data->msg));
 
-		input->ml->seen_id =
-			gtk_timeout_add (1500, input->timeout, input->ml);
+		if (timeout > 0) {
+			input->ml->seen_id = gtk_timeout_add (timeout, 
+							      input->timeout, 
+							      input->ml);
+		} else {
+			input->ml->seen_id = 0;
+			input->timeout (input->ml);
+		}
 	}
 
 	if (input->uid)

@@ -1,3 +1,18 @@
+2000-08-16  Richard Hult  <rhult@hem.passagen.se>
+ 
+ 	* mail-ops.c (cleanup_display_message): Use a configurable timeout.
+ 
+ 	* mail-config.c (mail_config_set_mark_as_seen_timeout): New function
+ 	for the settable mark-as-seen timeout.
+ 	(mail_config_mark_as_seen_timeout): Likewise.
+ 	(mail_config_write): Write the timeout setting.
+ 	(config_read): Read timeout setting.
+ 
+ 	* mail-config-gui.c (mail_config): Add option for the settable
+ 	mark-as-seen timeout.
+ 	(mail_config_apply_clicked): Likewise.
+ 	(timeout_changed): New function for the timeout setting.
+	
 2000-08-16  Peter Williams  <peterw@helixcode.com>
 
 	* message-thread.c (walk_containers): More (default disabled)

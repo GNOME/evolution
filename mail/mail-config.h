@@ -63,7 +63,8 @@ void           mail_config_set_thread_list (gboolean value);
 void           mail_config_set_paned_size  (gint size);
 gboolean       mail_config_send_html (void);
 void           mail_config_set_send_html (gboolean send_html);
-
+gint           mail_config_mark_as_seen_timeout (void);
+void           mail_config_set_mark_as_seen_timeout (gint timeout);
 
 /* Identity Accessor functions */
 MailConfigIdentity *mail_config_get_default_identity (void);

@@ -47,6 +47,7 @@ typedef struct
 	gboolean thread_list;
 	gint paned_size;
 	gboolean send_html;
+	gint seen_timeout;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -266,6 +267,12 @@ config_read (void)
 	config->send_html = gnome_config_get_bool (str);
 	g_free (str);
 
+	/* Mark as seen timeout */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout=1500", 
+			       evolution_dir);
+	config->seen_timeout = gnome_config_get_int (str);
+	g_free (str);
+
 	/* Show Messages Threaded */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
 			       evolution_dir);
@@ -369,6 +376,12 @@ mail_config_write (void)
 	gnome_config_set_string (str, config->transport->url);
 	g_free (str);
 	
+	/* Mark as seen timeout */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->seen_timeout);
+	g_free (str);
+
 	/* Format */
 	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
 			       evolution_dir);
@@ -439,6 +452,18 @@ void
 mail_config_set_send_html (gboolean send_html)
 {
 	config->send_html = send_html;
+}
+
+gint
+mail_config_mark_as_seen_timeout (void)
+{
+	return config->seen_timeout;
+}
+
+void
+mail_config_set_mark_as_seen_timeout (gint timeout)
+{
+	config->seen_timeout = timeout;
 }
 
 MailConfigIdentity *

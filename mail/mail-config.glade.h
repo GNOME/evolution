@@ -24,4 +24,5 @@ gchar *s = N_("Edit");
 gchar *s = N_("Delete");
 gchar *s = N_("News Sources");
 gchar *s = N_("Send messages in HTML format");
+gchar *s = N_("Mark message as seen [ms]: ");
 gchar *s = N_("Other");
