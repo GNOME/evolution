@@ -1,5 +1,9 @@
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-storage.c (impl_finalize): Fix typo; p -> sp.
+
+2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-activity-handler.c (impl_operationStarted): No need to check
 	for priv being NULL here anymore.
 	(impl_operationProgressing): Likewise.

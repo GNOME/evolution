@@ -644,7 +644,6 @@ impl_finalize (GObject *object)
 {
 	EvolutionStorage *storage;
 	EvolutionStoragePrivate *priv;
-	GList *p;
 	GSList *sp;
 
 	storage = EVOLUTION_STORAGE (object);
@@ -658,10 +657,10 @@ impl_finalize (GObject *object)
 		g_hash_table_destroy (priv->uri_to_path);
 	}
 
-	for (sp = priv->folder_property_items; p != NULL; p = p->next) {
+	for (sp = priv->folder_property_items; sp != NULL; sp = sp->next) {
 		FolderPropertyItem *item;
 
-		item = (FolderPropertyItem *) p->data;
+		item = (FolderPropertyItem *) sp->data;
 
 		g_free (item->label);
 		g_free (item->tooltip);
