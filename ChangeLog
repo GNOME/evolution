@@ -1,3 +1,7 @@
+2002-04-28  Larry Ewing  <lewing@ximian.com>
+
+	* configure.in: require gtkhtml-1.1.1.
+
 2002-04-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in (EVO_CHECK_LIB): Bumped the required version number
