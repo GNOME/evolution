@@ -1,3 +1,13 @@
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch from Nike Gerdts <michael.gerdts@usa.alcatel.com> for
+	#6882, DB3_CFLAGS and DB3_LDFLAGS order messes up CPPFLAGS and
+	LDFLAGS.]
+
+	* configure.in: Put DB3_CFLAGS before the already-defined CPPFLAGS
+	instead of after them; likewise, put DB3_LDADD before the already
+	defined LDADD.
+
 2001-08-24  Dan Winship  <danw@ximian.com>
 
 	* configure.in: We don't need to check for both bonobo-conf 0.11
