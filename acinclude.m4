@@ -106,12 +106,8 @@ AC_DEFUN(EVO_LDAP_CHECK, [
 		AC_DEFINE(HAVE_LDAP,1,[Define if you have LDAP support])
 
 		case $with_static_ldap in
-		no|"")
-			if test -f $with_openldap/lib/libldap.la; then
-				with_static_ldap=yes
-			else
-				with_static_ldap=no
-			fi
+		no)
+			with_static_ldap=no
 			;;
 		*)
 			with_static_ldap=yes
