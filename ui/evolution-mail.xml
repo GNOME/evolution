@@ -70,7 +70,7 @@
 
       <menuitem name="VFolderEdit" verb="SetVFolder" _label="_Virtual Folder Editor..."/>
 
-      <menuitem name="SetMailConfig" verb="" _label="_Mail Configuration..." />
+      <menuitem name="SetMailConfig" verb="" _label="_Mail Configuration..." pixtype="pixbuf"/>
 
       <menuitem name="SetSubscribe" verb="" _label="Manage Subscriptions..."/>
 
@@ -190,7 +190,8 @@
          accel="*Control*x"/>
 
         <menuitem name="FolderConfig" verb=""
-        _label="_Configure Folder..."/>
+        _label="_Configure Folder..."
+	pixtype="pixbuf"/>
 
       </submenu>
 

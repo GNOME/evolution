@@ -1,3 +1,11 @@
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser-factory.c (update_pixmaps): Set the pixmaps for
+	the "/menu/Folder/FolderConfig" and "/menu/Settings/SetMailConfig"
+	items.
+	(set_pixmap): Don't prepend the "buttons" prefix.
+	(update_pixmaps): Update accordingly.
+
 2001-01-24  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (search_string[]): Fix the subject match

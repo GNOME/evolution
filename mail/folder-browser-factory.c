@@ -108,7 +108,7 @@ set_pixmap (BonoboUIComponent *uic,
 	char *path;
 	GdkPixbuf *pixbuf;
 
-	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
+	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution", icon);
 
 	pixbuf = gdk_pixbuf_new_from_file (path);
 	g_return_if_fail (pixbuf != NULL);
@@ -123,13 +123,16 @@ set_pixmap (BonoboUIComponent *uic,
 static void
 update_pixmaps (BonoboUIComponent *uic)
 {
-	set_pixmap (uic, "/Toolbar/MailGet", "fetch-mail.png");
-	set_pixmap (uic, "/Toolbar/MailCompose", "compose-message.png");
-	set_pixmap (uic, "/Toolbar/Reply", "reply.png");
-	set_pixmap (uic, "/Toolbar/ReplyAll", "reply-to-all.png");
-	set_pixmap (uic, "/Toolbar/Forward", "forward.png");
-	set_pixmap (uic, "/Toolbar/Move", "move-message.png");
-	set_pixmap (uic, "/Toolbar/Copy", "copy-message.png");
+	set_pixmap (uic, "/menu/Component/Folder/FolderConfig", "16_configure_folder.xpm");
+	set_pixmap (uic, "/menu/Settings/SetMailConfig", "16_configure_mail.xpm");
+
+	set_pixmap (uic, "/Toolbar/MailGet", "buttons/fetch-mail.png");
+	set_pixmap (uic, "/Toolbar/MailCompose", "buttons/compose-message.png");
+	set_pixmap (uic, "/Toolbar/Reply", "buttons/reply.png");
+	set_pixmap (uic, "/Toolbar/ReplyAll", "buttons/reply-to-all.png");
+	set_pixmap (uic, "/Toolbar/Forward", "buttons/forward.png");
+	set_pixmap (uic, "/Toolbar/Move", "buttons/move-message.png");
+	set_pixmap (uic, "/Toolbar/Copy", "buttons/copy-message.png");
 }
 
 static void

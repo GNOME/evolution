@@ -1,5 +1,9 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* art/Makefile.am (images_DATA): Add the missing .xpm files.
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* art/Makefile.am (images_DATA): Add `24_find_contacts.xpm',
 	`16_print_xpm', `16_configure_addressbook'.
 

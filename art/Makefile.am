@@ -1,10 +1,22 @@
 imagesdir = $(datadir)/images/evolution
 
 images_DATA = \
-	16_print.xpm			\
 	16_configure_addressbook.xpm	\
-	24_find_contact.xpm		\
+	16_configure_addressbook.xpm	\
+	16_configure_folder.xpm		\
+	16_configure_mail.xpm		\
+	16_copy_message.xpm		\
+	16_edit.xpm			\
+	16_encrypt.xpm			\
+	16_forward.xpm			\
+	16_move_message.xpm		\
+	16_print.xpm			\
+	16_print.xpm			\
+	16_reply.xpm			\
+	16_reply_to_all.xpm		\
+	16_save.xpm			\
 	24_all_contacts.xpm		\
+	24_find_contact.xpm		\
 	briefcase.png       		\
 	butterfly.png			\
 	cellphone.png       		\
