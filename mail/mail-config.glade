@@ -1428,7 +1428,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <child>
 				<widget class="GtkLabel" id="label514">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of evolution&lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of Evolution&lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -2102,7 +2102,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <child>
 				    <widget class="GtkLabel" id="transport_ssl_disabled_label">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of evolution&lt;/b&gt;</property>
+				      <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of Evolution&lt;/b&gt;</property>
 				      <property name="use_underline">False</property>
 				      <property name="use_markup">True</property>
 				      <property name="justify">GTK_JUSTIFY_CENTER</property>
