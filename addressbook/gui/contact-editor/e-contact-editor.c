@@ -95,6 +95,7 @@ static void e_contact_editor_dispose (GObject *object);
 
 static void e_contact_editor_raise 	    (EABEditor *editor);
 static void e_contact_editor_show  	    (EABEditor *editor);
+static void e_contact_editor_save_contact   (EABEditor *editor, gboolean should_close);
 static void e_contact_editor_close 	    (EABEditor *editor);
 static gboolean e_contact_editor_is_valid   (EABEditor *editor);
 static gboolean e_contact_editor_is_changed (EABEditor *editor);
@@ -234,6 +235,7 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 	editor_class->show = e_contact_editor_show;
 	editor_class->close = e_contact_editor_close;
 	editor_class->is_valid = e_contact_editor_is_valid;
+	editor_class->save_contact = e_contact_editor_save_contact;
 	editor_class->is_changed = e_contact_editor_is_changed;
 	editor_class->get_window = e_contact_editor_get_window;
 
@@ -1788,6 +1790,12 @@ save_contact (EContactEditor *ce, gboolean should_close)
 	}
 }
 
+static void
+e_contact_editor_save_contact (EABEditor *editor, gboolean should_close)
+{
+	save_contact (E_CONTACT_EDITOR (editor), should_close);
+}
+
 /* Closes the dialog box and emits the appropriate signals */
 static void
 e_contact_editor_close (EABEditor *editor)
@@ -1930,27 +1938,15 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	init_address (e_contact_editor);
 
 	wants_html = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-htmlmail");
-	if (wants_html && GTK_IS_TOGGLE_BUTTON(wants_html))
-		g_signal_connect (wants_html, "toggled",
-				  G_CALLBACK (wants_html_changed), e_contact_editor);
-
+	g_signal_connect (wants_html, "toggled", G_CALLBACK (wants_html_changed), e_contact_editor);
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-fullname");
-	if (widget && GTK_IS_BUTTON(widget))
-		g_signal_connect (widget, "clicked",
-				  G_CALLBACK (full_name_clicked), e_contact_editor);
-
+	g_signal_connect (widget, "clicked", G_CALLBACK (full_name_clicked), e_contact_editor);
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-categories");
-	if (widget && GTK_IS_BUTTON(widget))
-		g_signal_connect (widget, "clicked",
-				  G_CALLBACK (categories_clicked), e_contact_editor);
+	g_signal_connect (widget, "clicked", G_CALLBACK (categories_clicked), e_contact_editor);
 	widget = glade_xml_get_widget (e_contact_editor->gui, "source-option-menu-source");
-	if (widget && E_IS_SOURCE_OPTION_MENU (widget))
-		g_signal_connect (widget, "source_selected",
-				  G_CALLBACK (source_selected), e_contact_editor);
-
+	g_signal_connect (widget, "source_selected", G_CALLBACK (source_selected), e_contact_editor);
 	widget = glade_xml_get_widget (e_contact_editor->gui, "button-ok");
 	g_signal_connect (widget, "clicked", G_CALLBACK (file_save_and_close_cb), e_contact_editor);
-
 	widget = glade_xml_get_widget (e_contact_editor->gui, "button-cancel");
 	g_signal_connect (widget, "clicked", G_CALLBACK (file_cancel_cb), e_contact_editor);
 

@@ -1,5 +1,14 @@
 2004-04-22  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_class_init):
+	Override the save_contact function.
+	(e_contact_editor_save_contact): Implement.
+	(e_contact_editor_init): Remove some unnecessary checks - if
+	something's the matter with the UI files, that needs to be warned
+	about and fixed, not silently worked around.
+
+2004-04-22  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/contact-editor.glade: Make the window be a
 	GtkDialog.
 
