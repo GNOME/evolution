@@ -377,6 +377,8 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 	tm.tm_mon++;
 	month_end   = mktime (&tm);
 
+	gtk_calendar_freeze (gtk_cal);
 	gtk_calendar_clear_marks (gtk_cal);
 	calendar_iterate (cal->cal, month_begin, month_end, mark_gtk_calendar_day, gtk_cal);
+	gtk_calendar_thaw (gtk_cal);
 }

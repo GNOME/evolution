@@ -141,7 +141,23 @@ static void
 display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	GtkWidget *ee;
+	iCalObject *ico;
+	
+	/* Default to the day the user is looking at */
+	ico = ical_new ("", user_name, "");
+	ico->new = 1;
+	ico->dtstart = time_add_minutes (gcal->current_display, day_begin * 60);
+	ico->dtend   = time_add_minutes (ico->dtstart, day_begin * 60 + 30 );
+	
+	ee = event_editor_new (gcal, ico);
+	gtk_widget_show (ee);
+}
 
+static void
+display_objedit_today (GtkWidget *widget, GnomeCalendar *gcal)
+{
+	GtkWidget *ee;
+	
 	ee = event_editor_new (gcal, NULL);
 	gtk_widget_show (ee);
 }
@@ -330,6 +346,7 @@ static GnomeUIInfo gnome_cal_about_menu [] = {
 
 static GnomeUIInfo gnome_cal_edit_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("New appointment..."), NULL, display_objedit },
+	{ GNOME_APP_UI_ITEM, N_("New appointment for today..."), NULL, display_objedit_today },
 	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_ITEM, N_("Properties..."),      NULL, properties, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PROP },

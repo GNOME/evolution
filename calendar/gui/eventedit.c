@@ -1437,7 +1437,7 @@ static void
 event_editor_init (EventEditor *ee)
 {
 	ee->ical = 0;
-	gnome_dialog_set_destroy(GNOME_DIALOG(ee), TRUE);
+	gnome_dialog_set_close (GNOME_DIALOG(ee), TRUE);
 }
 
 static void

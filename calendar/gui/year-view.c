@@ -198,8 +198,9 @@ gncal_year_view_set_year (GncalYearView *yview, int year)
 	
 	snprintf(buff, 20, "%d", yview->year + 1900);
 	gtk_label_set(GTK_LABEL(yview->year_label), buff);
-	
+
 	for (i = 0; i < 12; i++) {
+		gtk_calendar_freeze (GTK_CALENDAR (yview->calendar [i]));
 		gtk_calendar_select_month (GTK_CALENDAR(yview->calendar[i]), i, yview->year + 1900);
 		gtk_calendar_clear_marks (GTK_CALENDAR (yview->calendar[i]));
 	}
@@ -213,6 +214,9 @@ gncal_year_view_set_year (GncalYearView *yview, int year)
 
 		year_view_mark_day (co->ico, co->ev_start, co->ev_end, yview);
 	}
+	for (i = 0; i < 12; i++) 
+		gtk_calendar_thaw (GTK_CALENDAR (yview->calendar [i]));
+
 	calendar_destroy_event_list (l);
 }
 

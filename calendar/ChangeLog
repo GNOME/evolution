@@ -1,3 +1,15 @@
+1998-05-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-full-day.c (new_appointment): Use gtk_calendar freeze/thaw
+
+	* gncal-year-view.c (gncal_year_view_set_year): Use gtkcalendar freeze/thaw. 
+
+	* eventedit.c (event_editor_init): Use gnome_dialog_set_close to
+	avoid the ugly warning. 
+
+	* main.c (display_objedit): Default to the day the user is looking
+	at. 
+
 1998-05-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-day-panel.c (full_day_size_allocated): Do not emit a value
