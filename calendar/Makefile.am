@@ -1,4 +1,4 @@
-SUBDIRS = versit card
+SUBDIRS = versit
 help_base = $(datadir)/gnome/help/cal
 
 CFLAGS += -Wall
