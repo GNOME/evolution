@@ -62,7 +62,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	folder_browser = bonobo_control_get_widget (control);
 
 	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Threaded",
-					       N_("_Threaded Message List"),
+					       _("_Threaded Message List"),
 					       NULL, -1, 0, 0, NULL, NULL);
 	bonobo_ui_handler_menu_set_toggle_state (uih, "/View/Threaded",
 						 threaded_view);
@@ -74,31 +74,31 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 #endif
 		);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", N_("_Expunge"),
+	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", _("_Expunge"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_PIXMAP_TRASH,
 					 0, 0, expunge_folder, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Filter Druid ...", N_("_Filter Druid ..."),
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Filter Druid ...", _("_Filter Druid ..."),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
 					 0, 0, filter_edit, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Virtual Folder Druid ...", N_("_Virtual Folder Druid ..."),
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Virtual Folder Druid ...", _("_Virtual Folder Druid ..."),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
 					 0, 0, vfolder_edit, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Mail Configuration ...", N_("_Mail Configuration ..."),
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Mail Configuration ...", _("_Mail Configuration ..."),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
 					 0, 0, providers_config, NULL);
 	
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Forget Passwords", N_("Forget _Passwords"),
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Forget Passwords", _("Forget _Passwords"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
