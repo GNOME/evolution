@@ -23,6 +23,7 @@ figs = \
 	figures/replymsg.png			\
 	figures/vfolder-createrule-fig.png	\
 	figures/schedule.png
+
 docname = evolution
 lang = C
 omffile = evolution-C.omf

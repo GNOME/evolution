@@ -1,4 +1,3 @@
-<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
   <chapter id="usage-exchange">
     <title>The Ximian Connector for Microsoft Exchange</title>
     <para>
@@ -403,6 +402,7 @@ There are, however, some features which are not available:
                    </listitem>
 		</varlistentry>
 	      </variablelist>
+            </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -529,7 +529,6 @@ There are, however, some features which are not available:
          </para>
  	</listitem>
       </orderedlist>
-    </para>
       <tip id="autopick">
 	<title>Using Autopick to Adjust Meeting Times</title>
 	<para>
