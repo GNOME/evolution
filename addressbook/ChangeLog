@@ -1,5 +1,12 @@
 2003-03-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-table-model.c
+	(e_select_names_table_model_col_count): up the column count by one
+	for the underline.
+	(e_select_names_table_model_value_at): add handling for underline.
+
+2003-03-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/e-address-popup.c (email_menu_add_option): fix use
 	of deprecated gtk_menu_append.
 	(card_picker_selection_changed): change this to be used with the

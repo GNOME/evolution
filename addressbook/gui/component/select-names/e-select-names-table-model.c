@@ -181,7 +181,7 @@ e_select_names_table_model_dispose (GObject *object)
 static int
 e_select_names_table_model_col_count (ETableModel *etc)
 {
-	return 2;
+	return 3;
 }
 
 /* This function returns the number of rows in our ETableModel. */
@@ -219,6 +219,10 @@ e_select_names_table_model_value_at (ETableModel *etc, int col, int row)
 			fill_in_info(e_select_names_table_model);
 		}
 		return e_select_names_table_model->data[row].email;
+		break;
+	case 2:
+		/* underline column*/
+		return (void*)TRUE;
 		break;
 	}
 	return "";
