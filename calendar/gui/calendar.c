@@ -12,6 +12,8 @@
  *
  */
 
+#include <config.h>
+
 #include "calendar.h"
 #include "versit/vcc.h"
 
