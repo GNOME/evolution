@@ -1,3 +1,15 @@
+2004-10-20  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: list plugins as a subdir
+
+	* plugins/Makefile.am: build enabled plugins
+
+	* plugin.mk: simple rule for creating .eplug files
+
+	* configure.in: add plugin foo; --enable-plugins=all turns them
+	all on, or you can --enable-plugins="<plugin dir> <plugin dir>" to
+	list specific ones
+
 2004-10-15  Sarfraaz Ahmed <asarfraaz@novell.com>
 	
 	* camel.pc.in : Change gal-2.2 to gal-2.4

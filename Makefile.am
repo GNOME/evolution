@@ -44,6 +44,7 @@ SUBDIRS = 			\
         art                     \
 	composer		\
 	mail			\
+	plugins			\
 	ui			\
 	views			\
 	tools			\
