@@ -77,6 +77,7 @@ void		filter_element_xml_create	(FilterElement *fe, xmlNodePtr node);
 xmlNodePtr	filter_element_xml_encode	(FilterElement *fe);
 int		filter_element_xml_decode	(FilterElement *fe, xmlNodePtr node);
 FilterElement	*filter_element_clone		(FilterElement *fe);
+void		filter_element_copy_value	(FilterElement *de, FilterElement *se);
 
 GtkWidget	*filter_element_get_widget	(FilterElement *fe);
 void		filter_element_build_code	(FilterElement *fe, GString *out, struct _FilterPart *ff);

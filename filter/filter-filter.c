@@ -332,6 +332,7 @@ option_activate (GtkMenuItem *item, struct _part_data *data)
 		gtk_container_remove (GTK_CONTAINER (data->container), data->partwidget);
 	
 	newpart = filter_part_clone (part);
+	filter_part_copy_values(newpart, data->part);
 	filter_filter_replace_action ((FilterFilter *)data->fr, data->part, newpart);
 	gtk_object_unref (GTK_OBJECT (data->part));
 	data->part = newpart;

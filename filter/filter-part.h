@@ -61,6 +61,7 @@ xmlNodePtr	filter_part_xml_encode	(FilterPart *fe);
 int		filter_part_xml_decode	(FilterPart *fe, xmlNodePtr node);
 
 FilterPart	*filter_part_clone	(FilterPart *fp);
+void		filter_part_copy_values (FilterPart *dfp, FilterPart *sfp);
 
 FilterElement	*filter_part_find_element(FilterPart *ff, const char *name);
 

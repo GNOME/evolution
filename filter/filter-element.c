@@ -23,6 +23,7 @@
 #endif
 
 #include <string.h>
+#include <stdlib.h>
 #include <gtk/gtktypeutils.h>
 
 #include "filter-element.h"
@@ -310,3 +311,61 @@ clone (FilterElement *fe)
 	
 	return new;
 }
+
+/* only copies the value, not the name/type */
+void
+filter_element_copy_value(FilterElement *de, FilterElement *se)
+{
+	/* bit of a hack, but saves having to do the same in each type ? */
+
+	if (IS_FILTER_INPUT(se)) {
+		if (IS_FILTER_INPUT(de)) {
+			if (((FilterInput *)se)->values)
+				filter_input_set_value((FilterInput*)de, ((FilterInput *)se)->values->data);
+		} else if (IS_FILTER_INT(de)) {
+			((FilterInt *)de)->val = atoi((char *) ((FilterInput *)se)->values->data);
+		}
+	} else if (IS_FILTER_FOLDER(se)) {
+		if (IS_FILTER_FOLDER(de)) {
+			filter_folder_set_value((FilterFolder *)de, ((FilterFolder *)se)->uri, ((FilterFolder *)se)->name);
+		}
+	} else if (IS_FILTER_COLOUR(se)) {
+		if (IS_FILTER_COLOUR(de)) {
+			FilterColour *s = (FilterColour *)se, *d = (FilterColour *)de;
+
+			d->r = s->r;
+			d->g = s->g;
+			d->b = s->b;
+			d->a = s->a;
+		}
+	} else if (IS_FILTER_DATESPEC(se)) {
+		if (IS_FILTER_DATESPEC(de)) {
+			FilterDatespec *s = (FilterDatespec *)se, *d = (FilterDatespec *)de;
+
+			d->type = s->type;
+			d->value = s->value;
+		}
+	} else if (IS_FILTER_INT(se)) {
+		if (IS_FILTER_INT(de)) {
+			FilterInt *s = (FilterInt *)se, *d = (FilterInt *)de;
+
+			d->val = s->val;
+		} else if (IS_FILTER_INPUT(de)) {
+			FilterInt *s = (FilterInt *)se;
+			FilterInput *d = (FilterInput *)de;
+			char *v;
+
+			v = g_strdup_printf("%d", s->val);
+			filter_input_set_value(d, v);
+			g_free(v);
+		}
+	} else if (IS_FILTER_OPTION(se)) {
+		if (IS_FILTER_OPTION(de)) {
+			FilterOption *s = (FilterOption *)se, *d = (FilterOption *)de;
+
+			if (s->current)
+				filter_option_set_current(d, s->current->value);
+		}
+	}
+}
+

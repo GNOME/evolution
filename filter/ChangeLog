@@ -1,3 +1,17 @@
+2002-02-26  Not Zed  <NotZed@Ximian.com>
+
+	* filter-filter.c (option_activate): Copy values across to new
+	part.
+
+	* filter-rule.c (option_activate): copy values across to new part,
+	if they are compatible.
+
+	* filter-element.c (filter_element_copy_value): New function to
+	copy values (where they can be) from one filter element to another.
+
+	* filter-part.c (filter_part_copy_values): New function to copy
+	values of a filter part.  #1359.
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfoldertypes.xml: 

@@ -761,3 +761,4 @@ cal_day_selected_double_click (GtkCalendar *cal, gpointer user_data)
 	PRIV (fds)->double_click = TRUE;
 	gnome_dialog_close (PRIV (fds)->gd);
 }
+
