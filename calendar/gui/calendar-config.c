@@ -430,6 +430,8 @@ calendar_config_configure_e_calendar	(ECalendar	*cal)
 	gboolean dnav_show_week_no;
 	gint week_start_day;
 
+	g_return_if_fail (E_IS_CALENDAR (cal));
+
 	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
 
 	/* Note that this is 0 (Sun) to 6 (Sat). */
@@ -455,6 +457,8 @@ calendar_config_configure_e_date_edit	(EDateEdit	*dedit)
 	gboolean dnav_show_week_no, use_24_hour;
 	gint week_start_day, start_hour, end_hour;
 
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
 	dnav_show_week_no = calendar_config_get_dnav_show_week_no ();
 
 	/* Note that this is 0 (Sun) to 6 (Sat). */
@@ -475,4 +479,55 @@ calendar_config_configure_e_date_edit	(EDateEdit	*dedit)
 	e_date_edit_set_show_week_numbers (dedit, dnav_show_week_no);
 	e_date_edit_set_use_24_hour_format (dedit, use_24_hour);
 	e_date_edit_set_time_popup_range (dedit, start_hour, end_hour);
+}
+
+
+/* This sets all the common config settings for an ECellDateEdit ETable item.
+   These are the settings for the ECalendar popup and the time list (if we use
+   24 hour format, and the hours of the working day). */
+void
+calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde)
+{
+	gboolean use_24_hour;
+	gint start_hour, end_hour;
+
+	g_return_if_fail (E_IS_CELL_DATE_EDIT (ecde));
+
+	calendar_config_configure_e_calendar (E_CALENDAR (ecde->calendar));
+
+	use_24_hour = calendar_config_get_24_hour_format ();
+
+	start_hour = calendar_config_get_day_start_hour ();
+	end_hour = calendar_config_get_day_end_hour ();
+	/* Round up the end hour. */
+	if (calendar_config_get_day_end_minute () != 0)
+		end_hour = end_hour + 1 % 24;
+
+	e_cell_date_edit_freeze (ecde);
+	gtk_object_set (GTK_OBJECT (ecde),
+			"use_24_hour_format", use_24_hour,
+			"lower_hour", start_hour,
+			"upper_hour", end_hour,
+			NULL);
+	e_cell_date_edit_thaw (ecde);
+}
+
+
+/* This sets all the common config settings for an ECalendarTable widget.
+   These are the settings for the ECalendar popup and the time list (if we use
+   24 hour format, and the hours of the working day). */
+void
+calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
+{
+	CalendarModel *model;
+	gboolean use_24_hour;
+
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
+	use_24_hour = calendar_config_get_24_hour_format ();
+
+	model = e_calendar_table_get_model (cal_table);
+	calendar_model_set_use_24_hour_format (model, use_24_hour);
+
+	calendar_config_configure_e_cell_date_edit (cal_table->dates_cell);
 }

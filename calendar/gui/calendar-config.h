@@ -32,6 +32,8 @@
 
 #include <widgets/misc/e-calendar.h>
 #include <widgets/misc/e-dateedit.h>
+#include <widgets/misc/e-cell-date-edit.h>
+#include "e-calendar-table.h"
 
 
 /* These are used to get/set the working days in the week. The bit-flags are
@@ -118,9 +120,11 @@ gfloat    calendar_config_get_month_vpane_pos	(void);
 void	  calendar_config_set_month_vpane_pos	(gfloat	      vpane_pos);
 
 
-/* Convenience functions to configure common properties of ECalendar and
-   EDateEdit widgets. */
-void	  calendar_config_configure_e_calendar	(ECalendar   *cal);
-void	  calendar_config_configure_e_date_edit	(EDateEdit   *dedit);
+/* Convenience functions to configure common properties of ECalendar,
+   EDateEdit & ECalendarTable widgets, and the ECellDateEdit ETable cell. */
+void	  calendar_config_configure_e_calendar		(ECalendar	*cal);
+void	  calendar_config_configure_e_date_edit		(EDateEdit	*dedit);
+void	  calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table);
+void	  calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde);
 
 #endif /* _CALENDAR_CONFIG_H_ */

@@ -42,6 +42,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <gal/widgets/e-unicode.h>
+#include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
 #include "calendar-model.h"
 #include "calendar-commands.h"
@@ -315,33 +316,22 @@ calendar_model_row_count (ETableModel *etm)
 	return priv->objects->len;
 }
 
-/* Creates a nice string representation of a time value */
+/* Creates a nice string representation of a time value. If show_midnight is
+   FALSE, and the time is midnight, then we just show the date. */
 static char*
-get_time_t (CalendarModel *model, time_t *t, gboolean skip_midnight)
+get_time_t (CalendarModel *model, time_t *t, gboolean show_midnight)
 {
 	static char buffer[64];
 	struct tm *tmp_tm;
-	char *format;
 
 	if (*t <= 0) {
 		buffer[0] = '\0';
 	} else {
 		tmp_tm = localtime (t);
-
-		if (skip_midnight && tmp_tm->tm_hour == 0
-		    && tmp_tm->tm_min == 0 && tmp_tm->tm_sec == 0)
-			/* strftime format of a weekday and a date. */
-			format = _("%a %m/%d/%Y");
-		else if (model->priv->use_24_hour_format)
-			/* strftime format of a weekday, a date and a time,
-			   in 24-hour format. */
-			format = _("%a %m/%d/%Y %H:%M:%S");
-		else
-			/* strftime format of a weekday, a date and a time,
-			   in 12-hour format. */
-			format = _("%a %m/%d/%Y %I:%M:%S %p");
-			
-		strftime (buffer, sizeof (buffer), format, tmp_tm);
+		e_time_format_date_and_time (tmp_tm,
+					     model->priv->use_24_hour_format,
+					     show_midnight, FALSE,
+					     buffer, sizeof (buffer));
 	}
 
 	return buffer;
@@ -407,7 +397,7 @@ get_completed	(CalendarModel *model,
 		cal_component_free_icaltimetype (completed);
 	}
 
-	return get_time_t (model, &t, FALSE);
+	return get_time_t (model, &t, TRUE);
 }
 
 /* Builds a string for and frees a date/time value */
@@ -423,7 +413,7 @@ get_and_free_datetime (CalendarModel *model, CalComponentDateTime dt)
 
 	cal_component_free_datetime (&dt);
 
-	return get_time_t (model, &t, FALSE);
+	return get_time_t (model, &t, TRUE);
 }
 
 /* Builds a string for the DTEND property of a calendar component */
@@ -503,18 +493,23 @@ static char *
 get_priority (CalComponent *comp)
 {
 	int *priority;
-	static char buf[32];
+	char *retval;
 
 	cal_component_get_priority (comp, &priority);
 
-	if (!priority)
-		buf[0] = '\0';
-	else {
-		g_snprintf (buf, sizeof (buf), "%d", *priority);
-		cal_component_free_priority (priority);
-	}
+	if (!priority || *priority == 0)
+		retval = "";
+	else if (*priority <= 4)
+		retval = _("High");
+	else if (*priority == 5)
+		retval = _("Normal");
+	else
+		retval = _("Low");
 
-	return buf;
+	if (priority)
+		cal_component_free_priority (priority);
+
+	return retval;
 }
 
 /* Builds a string for the SUMMARY property of a calendar component */
@@ -541,6 +536,7 @@ get_transparency (CalComponent *comp)
 
 	switch (transp) {
 	case CAL_COMPONENT_TRANSP_NONE:
+	case CAL_COMPONENT_TRANSP_UNKNOWN:
 		return "";
 
 	case CAL_COMPONENT_TRANSP_TRANSPARENT:
@@ -548,9 +544,6 @@ get_transparency (CalComponent *comp)
 
 	case CAL_COMPONENT_TRANSP_OPAQUE:
 		return _("Opaque");
-
-	case CAL_COMPONENT_TRANSP_UNKNOWN:
-		return _("Unknown");
 
 	default:
 		g_assert_not_reached ();
@@ -633,6 +626,35 @@ get_is_overdue (CalComponent *comp)
 	return retval;
 }
 
+static void *
+get_status (CalComponent *comp)
+{
+	icalproperty_status status;
+
+	cal_component_get_status (comp, &status);
+
+	switch (status) {
+	case ICAL_STATUS_NONE:
+		return "";
+
+	case ICAL_STATUS_NEEDSACTION:
+		return _("Not Started");
+
+	case ICAL_STATUS_INPROCESS:
+		return _("In Progress");
+
+	case ICAL_STATUS_COMPLETED:
+		return _("Completed");
+
+	case ICAL_STATUS_CANCELLED:
+		return _("Cancelled");
+
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
+}
+
 /* value_at handler for the calendar table model */
 static void *
 calendar_model_value_at (ETableModel *etm, int col, int row)
@@ -649,6 +671,10 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 
 	comp = g_array_index (priv->objects, CalComponent *, row);
 	g_assert (comp != NULL);
+
+#if 0
+	g_print ("In calendar_model_value_at: %i\n", col);
+#endif
 
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
@@ -722,6 +748,9 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 			return "red";
 		else
 			return NULL;
+
+	case CAL_COMPONENT_FIELD_STATUS:
+		return get_status (comp);
 
 	default:
 		g_message ("calendar_model_value_at(): Requested invalid column %d", col);
@@ -844,146 +873,63 @@ set_categories (CalComponent *comp, const char *value)
 	g_slist_free (list);
 }
 
-/* Parses a time value entered by the user; returns -1 if it could not be
- * parsed.  Returns 0 for an empty time.
+
+/* FIXME: We won't need this eventually, since the user won't be allowed to
+ * edit the field.
  */
-static time_t
-parse_time (const char *value)
+static void
+show_classification_warning (void)
 {
-	struct tm discard_tm, date_tm, time_tm;
-	struct tm *today_tm;
-	time_t t;
-	const char *pos, *parse_end;
-	char *format[4];
-	gboolean parsed_date = FALSE, parsed_time = FALSE;
-	gint i;
+	GtkWidget *dialog;
 
-	if (string_is_empty (value))
-		return 0;
-
-	pos = value;
-
-	/* Skip any whitespace. */
-	while (isspace (*pos))
-		pos++;
-
-	/* Skip any weekday name, full or abbreviated. */
-	parse_end = strptime (pos, "%a ", &discard_tm);
-	if (parse_end)
-		pos = parse_end;
-
-	memset (&date_tm, 0, sizeof (date_tm));
-	/* strptime format for a date. */
-	parse_end = strptime (pos, _("%m/%d/%Y"), &date_tm);
-	if (parse_end) {
-		pos = parse_end;
-		parsed_date = TRUE;
-	}
-
-	/* Skip any whitespace. */
-	while (isspace (*pos))
-		pos++;
-
-	/* Skip any weekday name, full or abbreviated, again. */
-	parse_end = strptime (pos, "%a ", &discard_tm);
-	if (parse_end)
-		pos = parse_end;
-
-
-	/* strptime format for a time of day, in 12-hour format.
-	   If it is is not appropriate in the locale set to an empty string. */
-	format[0] = _("%I:%M:%S %p%n");
-
-	/* strptime format for a time of day, in 24-hour format. */
-	format[1] = _("%H:%M:%S%n");
-
-	/* strptime format for time of day, without seconds, 12-hour format.
-	   If it is is not appropriate in the locale set to an empty string. */
-	format[2] = _("%I:%M %p%n");
-
-	/* strptime format for time of day, without seconds 24-hour format. */
-	format[3] = _("%H:%M%n");
-
-	for (i = 0; i < sizeof (format) / sizeof (format[0]); i++) {
-		memset (&time_tm, 0, sizeof (time_tm));
-		parse_end = strptime (pos, format[i], &time_tm);
-		if (parse_end) {
-			pos = parse_end;
-			parsed_time = TRUE;
-			break;
-		}
-	}
-
-	/* Skip any whitespace. */
-	while (isspace (*pos))
-		pos++;
-
-	/* If we haven't already parsed a date, try again. */
-	if (!parsed_date) {
-		memset (&date_tm, 0, sizeof (date_tm));
-		/* strptime format for a date. */
-		parse_end = strptime (pos, _("%m/%d/%Y"), &date_tm);
-		if (parse_end) {
-			pos = parse_end;
-			parsed_date = TRUE;
-		}
-	}
-
-	/* If we don't have a date or a time it must be invalid. */
-	if (!parsed_date && !parsed_time)
-		return -1;
-
-
-	if (parsed_date) {
-		/* If a 2-digit year was used we use the current century. */
-		if (date_tm.tm_year < 0) {
-			t = time (NULL);
-			today_tm = localtime (&t);
-
-			/* This should convert it into a value from 0 to 99. */
-			date_tm.tm_year += 1900;
-
-			/* Now add on the century. */
-			date_tm.tm_year += today_tm->tm_year
-				- (today_tm->tm_year % 100);
-		}
-	} else {
-		/* If we didn't get a date we use the current day. */
-		t = time (NULL);
-		today_tm = localtime (&t);
-		date_tm.tm_mday = today_tm->tm_mday;
-		date_tm.tm_mon  = today_tm->tm_mon;
-		date_tm.tm_year = today_tm->tm_year;
-	}
-
-	if (parsed_time) {
-		date_tm.tm_hour = time_tm.tm_hour;
-		date_tm.tm_min = time_tm.tm_min;
-		date_tm.tm_sec = time_tm.tm_sec;
-	} else {
-		date_tm.tm_hour = 0;
-		date_tm.tm_min = 0;
-		date_tm.tm_sec = 0;
-	}
-
-
-	date_tm.tm_isdst = -1;
-	return mktime (&date_tm);
+	dialog = gnome_message_box_new (_("The classification must be 'Public', 'Private', 'Confidential' or 'None'"),
+					GNOME_MESSAGE_BOX_ERROR,
+					GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_widget_show (dialog);
 }
+
+
+static void
+set_classification (CalComponent *comp,
+		    const char *value)
+{
+	CalComponentClassification classif;
+
+	/* An empty string is the same as 'None'. */
+	if (!value[0] || !g_strcasecmp (value, _("None")))
+		classif = CAL_COMPONENT_CLASS_NONE;
+	else if (!g_strcasecmp (value, _("Public")))
+		classif = CAL_COMPONENT_CLASS_PUBLIC;
+	else if (!g_strcasecmp (value, _("Private")))
+		classif = CAL_COMPONENT_CLASS_PRIVATE;
+	else if (!g_strcasecmp (value, _("Confidential")))
+		classif = CAL_COMPONENT_CLASS_CONFIDENTIAL;
+	else {
+		show_classification_warning ();
+		return;
+	}
+
+	cal_component_set_classification (comp, classif);
+}
+
 
 /* Called to set the "Date Completed" field. We also need to update the
    Status and Percent fields to make sure they match. */
 static void
 set_completed (CalendarModel *model, CalComponent *comp, const char *value)
 {
+	ETimeParseStatus status;
+	struct tm tmp_tm;
 	time_t t;
 
-	t = parse_time (value);
-	if (t == -1) {
+	status = e_time_parse_date_and_time (value, &tmp_tm);
+
+	if (status == E_TIME_PARSE_INVALID) {
 		show_date_warning (model);
-	} else if (t == 0) {
+	} else if (status == E_TIME_PARSE_NONE) {
 		ensure_task_not_complete (comp);
 	} else {
+		t = mktime (&tmp_tm);
 		ensure_task_complete (comp, t);
 	}
 }
@@ -993,19 +939,21 @@ static void
 set_datetime (CalendarModel *model, CalComponent *comp, const char *value,
 	      void (* set_func) (CalComponent *comp, CalComponentDateTime *dt))
 {
+	ETimeParseStatus status;
+	struct tm tmp_tm;
 	time_t t;
 
-	t = parse_time (value);
-	if (t == -1) {
+	status = e_time_parse_date_and_time (value, &tmp_tm);
+
+	if (status == E_TIME_PARSE_INVALID) {
 		show_date_warning (model);
-		return;
-	} else if (t == 0) {
+	} else if (status == E_TIME_PARSE_NONE) {
 		(* set_func) (comp, NULL);
-		return;
 	} else {
 		CalComponentDateTime dt;
 		struct icaltimetype itt;
 
+		t = mktime (&tmp_tm);
 		itt = icaltime_from_timet (t, FALSE);
 		dt.value = &itt;
 		dt.tzid = NULL;
@@ -1095,14 +1043,15 @@ set_percent (CalComponent *comp, const char *value)
 		ensure_task_not_complete (comp);
 }
 
-/* FIXME: We need to set the "transient_for" property for the dialog, but the
- * model doesn't know anything about the windows.  */
+/* FIXME: We won't need this eventually, since the user won't be allowed to
+ * edit the field.
+ */
 static void
 show_priority_warning (void)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new (_("The priority must be between 1 and 9, inclusive"),
+	dialog = gnome_message_box_new (_("The priority must be 'High', 'Normal', 'Low' or 'Undefined'."),
 					GNOME_MESSAGE_BOX_ERROR,
 					GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_widget_show (dialog);
@@ -1112,16 +1061,18 @@ show_priority_warning (void)
 static void
 set_priority (CalComponent *comp, const char *value)
 {
-	int matched, priority;
+	int priority;
 
-	if (string_is_empty (value)) {
-		cal_component_set_priority (comp, NULL);
-		return;
-	}
-
-	matched = sscanf (value, "%i", &priority);
-
-	if (matched != 1 || priority < 1 || priority > 9) {
+	/* An empty string is the same as 'None'. */
+	if (!value[0] || !g_strcasecmp (value, _("Undefined")))
+		priority = 0;
+	else if (!g_strcasecmp (value, _("High")))
+		priority = 3;
+	else if (!g_strcasecmp (value, _("Normal")))
+		priority = 5;
+	else if (!g_strcasecmp (value, _("Low")))
+		priority = 7;
+	else {
 		show_priority_warning ();
 		return;
 	}
@@ -1146,10 +1097,51 @@ set_summary (CalComponent *comp, const char *value)
 	cal_component_set_summary (comp, &text);
 }
 
+/* FIXME: We won't need this eventually, since the user won't be allowed to
+ * edit the field.
+ */
+static void
+show_transparency_warning (void)
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (_("The transparency must be 'Transparent', 'Opaque', or 'None'."),
+					GNOME_MESSAGE_BOX_ERROR,
+					GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_widget_show (dialog);
+}
+
+/* Sets the URI of a calendar component */
+static void
+set_transparency (CalComponent *comp, const char *value)
+{
+	CalComponentTransparency transp;
+
+	g_print ("In calendar model set_transparency: %s\n", value);
+
+	/* An empty string is the same as 'None'. */
+	if (!value[0] || !g_strcasecmp (value, _("None")))
+		transp = CAL_COMPONENT_TRANSP_NONE;
+	else if (!g_strcasecmp (value, _("Transparent")))
+		transp = CAL_COMPONENT_TRANSP_TRANSPARENT;
+	else if (!g_strcasecmp (value, _("Opaque"))) {
+		transp = CAL_COMPONENT_TRANSP_OPAQUE;
+	} else {
+		show_transparency_warning ();
+		return;
+	}
+
+	g_print ("  transp: %i\n", transp);
+
+	cal_component_set_transparency (comp, transp);
+}
+
 /* Sets the URI of a calendar component */
 static void
 set_url (CalComponent *comp, const char *value)
 {
+	g_print ("In calendar model set_url\n");
+
 	if (string_is_empty (value)) {
 		cal_component_set_url (comp, NULL);
 		return;
@@ -1172,6 +1164,42 @@ set_complete (CalComponent *comp, const void *value)
 	}
 }
 
+/* Sets the status of a calendar component. */
+static void
+set_status (CalComponent *comp, const char *value)
+{
+	icalproperty_status status;
+	int percent;
+
+	g_print ("In calendar model set_status: %s\n", value);
+
+	/* An empty string is the same as 'None'. */
+	if (!value[0] || !g_strcasecmp (value, _("None")))
+		status = ICAL_STATUS_NONE;
+	else if (!g_strcasecmp (value, _("Not Started")))
+		status = ICAL_STATUS_NEEDSACTION;
+	else if (!g_strcasecmp (value, _("In Progress")))
+		status = ICAL_STATUS_INPROCESS;
+	else if (!g_strcasecmp (value, _("Completed")))
+		status = ICAL_STATUS_COMPLETED;
+	else if (!g_strcasecmp (value, _("Cancelled")))
+		status = ICAL_STATUS_CANCELLED;
+	else {
+		g_warning ("Invalid status: %s\n", value);
+		return;
+	}
+
+	cal_component_set_status (comp, status);
+
+	if (status == ICAL_STATUS_NEEDSACTION) {
+		percent = 0;
+		cal_component_set_percent (comp, &percent);
+		cal_component_set_completed (comp, NULL);
+	} else if (status == ICAL_STATUS_COMPLETED) {
+		ensure_task_complete (comp, -1);
+	}
+}
+
 /* set_value_at handler for the calendar table model */
 static void
 calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *value)
@@ -1189,6 +1217,10 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 	comp = g_array_index (priv->objects, CalComponent *, row);
 	g_assert (comp != NULL);
 
+#if 1
+	g_print ("In calendar_model_set_value_at: %i\n", col);
+#endif
+
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
 		set_categories (comp, value);
@@ -1198,7 +1230,9 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		}
 		break;
 
-	/* FIXME: CLASSIFICATION requires an option menu cell renderer */
+	case CAL_COMPONENT_FIELD_CLASSIFICATION:
+		set_classification (comp, value);
+		break;
 
 	case CAL_COMPONENT_FIELD_COMPLETED:
 		set_completed (model, comp, value);
@@ -1234,7 +1268,9 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		set_summary (comp, value);
 		break;
 
-	/* FIXME: TRANSPARENCY requires an option menu cell renderer */
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
+		set_transparency (comp, value);
+		break;
 
 	case CAL_COMPONENT_FIELD_URL:
 		set_url (comp, value);
@@ -1242,6 +1278,10 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 
 	case CAL_COMPONENT_FIELD_COMPLETE:
 		set_complete (comp, value);
+		break;
+
+	case CAL_COMPONENT_FIELD_STATUS:
+		set_status (comp, value);
 		break;
 
 	default:
@@ -1276,6 +1316,7 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
+	case CAL_COMPONENT_FIELD_CLASSIFICATION:
 	case CAL_COMPONENT_FIELD_COMPLETED:
 	case CAL_COMPONENT_FIELD_DTEND:
 	case CAL_COMPONENT_FIELD_DTSTART:
@@ -1284,8 +1325,10 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
 	case CAL_COMPONENT_FIELD_SUMMARY:
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 	case CAL_COMPONENT_FIELD_URL:
 	case CAL_COMPONENT_FIELD_COMPLETE:
+	case CAL_COMPONENT_FIELD_STATUS:
 		return TRUE;
 
 	default:
@@ -1378,6 +1421,7 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 	case CAL_COMPONENT_FIELD_URL:
+	case CAL_COMPONENT_FIELD_STATUS:
 		return dup_string (value);
 
 	case CAL_COMPONENT_FIELD_HAS_ALARMS:
@@ -1415,6 +1459,7 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
 	case CAL_COMPONENT_FIELD_SUMMARY:
+	case CAL_COMPONENT_FIELD_STATUS:
 		g_free (value);
 
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
@@ -1469,6 +1514,7 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 	case CAL_COMPONENT_FIELD_URL:
+	case CAL_COMPONENT_FIELD_STATUS:
 		return init_string ();
 
 	case CAL_COMPONENT_FIELD_HAS_ALARMS:
@@ -1507,6 +1553,7 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 	case CAL_COMPONENT_FIELD_URL:
+	case CAL_COMPONENT_FIELD_STATUS:
 		return string_is_empty (value);
 
 	case CAL_COMPONENT_FIELD_HAS_ALARMS:
@@ -1541,6 +1588,7 @@ calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 	case CAL_COMPONENT_FIELD_URL:
+	case CAL_COMPONENT_FIELD_STATUS:
 		return e_utf8_from_locale_string (value);
 
 	case CAL_COMPONENT_FIELD_ICON:
@@ -1680,6 +1728,8 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	int *new_idx;
 	CalClientGetStatus status;
 
+	g_print ("In calendar model obj_updated_cb\n");
+
 	model = CALENDAR_MODEL (data);
 	priv = model->priv;
 
@@ -1774,6 +1824,8 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	default:
 		g_assert_not_reached ();
 	}
+
+	g_print ("Out calendar model obj_updated_cb\n");
 }
 
 /* Callback used when an object is removed in the server */

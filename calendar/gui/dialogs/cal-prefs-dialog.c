@@ -36,6 +36,7 @@
 #include "cal-prefs-dialog.h"
 #include "../calendar-config.h"
 #include "../calendar-commands.h"
+#include "../e-tasks.h"
 
 
 typedef struct {
@@ -451,4 +452,5 @@ cal_prefs_dialog_update_config	(CalPrefsDialog	*prefs)
 
 	calendar_config_write ();
 	update_all_config_settings ();
+	e_tasks_update_all_config_settings ();
 }

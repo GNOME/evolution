@@ -434,6 +434,13 @@ calendar_control_deactivate (BonoboControl *control)
  	bonobo_ui_component_unset_container (uic);
 }
 
+/* Removes a calendar from our list of all calendars when it is destroyed. */
+static void
+on_calendar_destroyed (GnomeCalendar *gcal)
+{
+	all_calendars = g_list_remove (all_calendars, gcal);
+}
+
 GnomeCalendar *
 new_calendar (void)
 {
@@ -445,6 +452,9 @@ new_calendar (void)
 					"ORBit and OAF setup."));
 		return NULL;
 	}
+
+	gtk_signal_connect (GTK_OBJECT (gcal), "destroy",
+			    GTK_SIGNAL_FUNC (on_calendar_destroyed), NULL);
 
 	all_calendars = g_list_prepend (all_calendars, gcal);
 

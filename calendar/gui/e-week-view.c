@@ -39,9 +39,10 @@
 #include "e-week-view-main-item.h"
 #include "e-week-view-titles-item.h"
 #include <cal-util/timeutil.h>
-#include "popup-menu.h"
 #include <gal/widgets/e-canvas.h>
 #include <gal/e-text/e-text.h>
+#include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-canvas-utils.h>
 #include "e-meeting-edit.h"
 
@@ -3199,6 +3200,63 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	return TRUE;
 }
 
+enum {
+	/*
+	 * This is used to "flag" events that can not be editted
+	 */
+	MASK_EDITABLE = 1,
+
+	/*
+	 * To disable recurring actions to be displayed
+	 */
+	MASK_RECURRING = 2,
+
+	/*
+	 * To disable actions for non-recurring items to be displayed
+	 */
+	MASK_SINGLE   = 4,
+
+	/*
+	 * This is used to when an event is currently being edited
+	 * in another window and we want to disable the event
+	 * from being edited twice
+	 */
+	MASK_EDITING  = 8
+};
+
+static EPopupMenu main_items [] = {
+	{ N_("New Appointment..."), NULL,
+	  e_week_view_on_new_appointment, NULL, 0 },
+	{ NULL, NULL, NULL, NULL, 0 }
+};
+
+static EPopupMenu child_items [] = {
+	{ N_("Open"), NULL,
+	  e_week_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
+	{ N_("Delete this Appointment"), NULL,
+	  e_week_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	{ N_("Schedule Meeting"), NULL,
+	  e_week_view_on_schedule_meet, NULL, MASK_EDITING },
+	{ "", NULL, NULL, NULL, 0},
+
+	{ N_("New Appointment..."), NULL,
+	  e_week_view_on_new_appointment, NULL, 0 },
+
+	{ "", NULL, NULL, NULL, MASK_SINGLE },
+
+	/*
+	 * The following are only shown if this is a recurring event
+	 */
+	{ "", NULL, NULL, NULL, MASK_SINGLE},
+	{ N_("Make this Occurrence Movable"), NULL,
+	  e_week_view_on_unrecur_appointment, NULL, MASK_RECURRING | MASK_EDITING },
+	{ N_("Delete this Occurrence"), NULL,
+	  e_week_view_on_delete_occurrence, NULL, MASK_RECURRING | MASK_EDITING },
+	{ N_("Delete All Occurrences"), NULL,
+	  e_week_view_on_delete_appointment, NULL, MASK_RECURRING | MASK_EDITING },
+	
+	{ NULL, NULL, NULL, NULL, 0 }
+};
 
 void
 e_week_view_show_popup_menu (EWeekView	     *week_view,
@@ -3206,79 +3264,38 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 			     gint	      event_num)
 {
 	EWeekViewEvent *event;
-	int have_selection, not_being_edited, num_items, i;
-	struct menu_item *context_menu;
-
-	static struct menu_item items[] = {
-		{ N_("New appointment..."), (GtkSignalFunc) e_week_view_on_new_appointment, NULL, TRUE }
-	};
-
-	static struct menu_item child_items[] = {
-		{ N_("Schedule meeting"), (GtkSignalFunc) e_week_view_on_schedule_meet, NULL, TRUE },
-
-		{ NULL, NULL, NULL, TRUE},
-
-		{ N_("Edit this appointment..."), (GtkSignalFunc) e_week_view_on_edit_appointment, NULL, TRUE },
-		{ N_("Delete this appointment"), (GtkSignalFunc) e_week_view_on_delete_appointment, NULL, TRUE },
-
-		{ NULL, NULL, NULL, TRUE },
-
-		{ N_("New appointment..."), (GtkSignalFunc) e_week_view_on_new_appointment, NULL, TRUE }
-	};
-
-	static struct menu_item recur_child_items[] = {
-		{ N_("Make this appointment movable"), (GtkSignalFunc) e_week_view_on_unrecur_appointment, NULL, TRUE },
-		{ N_("Schedule meeting"), (GtkSignalFunc) e_week_view_on_schedule_meet, NULL, TRUE },
-
-		{ NULL, NULL, NULL, TRUE },
-
-		{ N_("Edit this appointment..."), (GtkSignalFunc) e_week_view_on_edit_appointment, NULL, TRUE },
-		{ N_("Delete this occurrence"), (GtkSignalFunc) e_week_view_on_delete_occurrence, NULL, TRUE },
-		{ N_("Delete all occurrences"), (GtkSignalFunc) e_week_view_on_delete_appointment, NULL, TRUE },
-
-		{ NULL, NULL, NULL, TRUE },
-
-		{ N_("New appointment..."), (GtkSignalFunc) e_week_view_on_new_appointment, NULL, TRUE }
-	};
+	int have_selection;
+	gboolean being_edited;
+	guint32 disable_mask = 0, hide_mask = 0;
+	EPopupMenu *context_menu;
 
 	have_selection = GTK_WIDGET_HAS_FOCUS (week_view)
 		&& week_view->selection_start_day != -1;
 
+	/*
+	 * This used to be set only if the event wasn't being edited
+	 * in the event editor, but we can't check that at present.
+	 * We could possibly set up another method of checking it.
+	 */
+	being_edited = FALSE;
+	
 	if (event_num == -1) {
-		num_items = 1;
-		context_menu = &items[0];
-		context_menu[0].sensitive = have_selection;
+		context_menu = main_items;
 	} else {
+		context_menu = child_items;
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_num);
-
-		/* This used to be set only if the event wasn't being edited
-		   in the event editor, but we can't check that at present.
-		   We could possibly set up another method of checking it. */
-		not_being_edited = TRUE;
-
-		if (cal_component_has_recurrences (event->comp)) {
-			num_items = 7;
-			context_menu = &recur_child_items[0];
-			context_menu[0].sensitive = not_being_edited;
-			context_menu[2].sensitive = not_being_edited;
-			context_menu[3].sensitive = not_being_edited;
-			context_menu[4].sensitive = not_being_edited;
-			context_menu[6].sensitive = have_selection;
-		} else {
-			num_items = 4;
-			context_menu = &child_items[0];
-			context_menu[0].sensitive = not_being_edited;
-			context_menu[1].sensitive = not_being_edited;
-			context_menu[3].sensitive = have_selection;
-		}
+		if (cal_component_has_recurrences (event->comp)) 
+			hide_mask |= MASK_SINGLE;
+		else
+			hide_mask |= MASK_RECURRING;
 	}
 
-	for (i = 0; i < num_items; i++)
-		context_menu[i].data = week_view;
-
+	if (being_edited)
+		disable_mask |= MASK_EDITING;
 	week_view->popup_event_num = event_num;
-	popup_menu (context_menu, num_items, bevent);
+
+	e_popup_menu_run (context_menu, (GdkEvent *) bevent, disable_mask, hide_mask, week_view);
 }
 
 

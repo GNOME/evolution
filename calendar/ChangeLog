@@ -1,3 +1,51 @@
+2001-03-05  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-tasks.c: keep list of all Tasks folders so we can update the
+	preference settings when necessary.
+
+	* gui/gnome-cal.c: configure the TaskPad according to the settings.
+
+	* gui/e-calendar-table.c: use ECellCombo and ECellDateEdit for fields,
+	so the tasks folders is almost usable now.
+
+	* gui/calendar-model.c: added support for the Status property.
+
+	* gui/calendar-config.[hc]: added convenience functions to setup
+	ECalendarTable and ECellDateEdit objects.
+
+	* gui/calendar-commands.c: connected to "destroy" signal of calendars
+	so we can remove them from all_calendars list.
+
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_update_config): 
+	call e_tasks_update_all_config_settings() to update all the settings
+	in the Tasks folders as well.
+
+	* cal-util/cal-component.h: added CAL_COMPONENT_FIELD_STATUS.
+
+	* cal-util/cal-component.c (cal_component_get_transparency): fixed
+	calls to strcasecmp so they check for '== 0'.
+
+	Applied patch from Miguel...
+
+2001-02-27  Miguel de Icaza  <miguel@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_event_right_click): Reorganize
+	the menus to have entries always in a consistent fashion, as
+	reported to the genepool mailing list.  
+	(e_day_view_on_event_right_click): Added a FIXME comment to the
+	FIXME comment without a FIXME.
+
+	Now we use e_popup_menu.  This allows us to hide/show items on
+	demand, and to sensitize/de-sensitize items depending on their
+	state. 
+
+	This will also let us add icon support (when we get nice icons for
+	this)
+
+	* gui/e-week-view.c (e_week_view_show_popup_menu): Ditto.
+
+	The files popup-menu.c and popup-menu.h can now be removed.
+
 2001-03-02  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/e-todo.conduit.in: update for new pilot foo

@@ -252,6 +252,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	/* The ToDo list. */
 	priv->todo = e_calendar_table_new ();
+	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 	calendar_model_set_new_comp_vtype (model, CAL_COMPONENT_TODO);
 	e_paned_pack2 (E_PANED (priv->vpane), priv->todo, TRUE, TRUE);
@@ -1010,6 +1011,8 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 					  compress_weekend);
 
 	calendar_config_configure_e_calendar (E_CALENDAR (priv->date_navigator));
+
+	calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->todo));
 
 	if (initializing) {
 		priv->hpane_pos = calendar_config_get_hpane_pos ();

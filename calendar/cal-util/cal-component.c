@@ -3100,9 +3100,9 @@ cal_component_get_transparency (CalComponent *comp, CalComponentTransparency *tr
 
 	val = icalproperty_get_transp (priv->transparency);
 
-	if (strcasecmp (val, "TRANSPARENT"))
+	if (strcasecmp (val, "TRANSPARENT") == 0)
 		*transp = CAL_COMPONENT_TRANSP_TRANSPARENT;
-	else if (strcasecmp (val, "OPAQUE"))
+	else if (strcasecmp (val, "OPAQUE") == 0)
 		*transp = CAL_COMPONENT_TRANSP_OPAQUE;
 	else
 		*transp = CAL_COMPONENT_TRANSP_UNKNOWN;

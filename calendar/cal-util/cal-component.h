@@ -54,6 +54,9 @@ typedef enum {
 
 /* Field identifiers for a calendar component; these are used by the data model
  * for ETable.
+ *
+ * NOTE: These are also used in the ETable specification, and the column
+ *       numbers are saved in the user settings file. So don't reorder them!
  */
 typedef enum {
 	CAL_COMPONENT_FIELD_CATEGORIES,		/* concatenation of the categories list */
@@ -74,6 +77,7 @@ typedef enum {
 	CAL_COMPONENT_FIELD_RECURRING,		/* not a real field */
 	CAL_COMPONENT_FIELD_OVERDUE,		/* not a real field */
 	CAL_COMPONENT_FIELD_COLOR,		/* not a real field */
+	CAL_COMPONENT_FIELD_STATUS,
 	CAL_COMPONENT_FIELD_NUM_FIELDS
 } CalComponentField;
 

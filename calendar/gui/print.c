@@ -24,6 +24,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <math.h>
+#include <time.h>
 #include <libgnome/gnome-paper.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeprint/gnome-print.h>

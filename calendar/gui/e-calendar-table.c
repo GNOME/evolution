@@ -36,6 +36,8 @@
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
+#include <gal/e-table/e-cell-combo.h>
+#include <widgets/misc/e-cell-date-edit.h>
 #include "e-calendar-table.h"
 #include "calendar-model.h"
 #include "dialogs/delete-comp.h"
@@ -158,7 +160,7 @@ static char *list [] = {
 	N_("Start Date"),
 	N_("Due Date"),
 	N_("Geographical Position"),
-	N_("Precent complete"),
+	N_("Percent complete"),
 	N_("Priority"),
 	N_("Summary"),
 	N_("Transparency"),
@@ -177,34 +179,34 @@ static char *list [] = {
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"1\" _title=\"Classification\" "	\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"classification\"   compare=\"string\"/>"		\
         "  <ETableColumn model_col= \"2\" _title=\"Completion Date\" "	\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"dateedit\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"3\" _title=\"End Date\" "		\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"dateedit\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"4\" _title=\"Start Date\" "	\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"dateedit\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"5\" _title=\"Due Date\" "		\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"dateedit\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"6\" _title=\"Geographical Position\" " \
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"7\" _title=\"% Complete\" "	\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"percent\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"8\" _title=\"Priority\" "		\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"priority\"   compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"9\" _title=\"Summary\" "		\
 	"   expansion=\"3.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"  compare=\"string\"/>"			\
         "  <ETableColumn model_col=\"10\" _title=\"Transparency\" "	\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
+	"   cell=\"transparency\"   compare=\"string\"/>"		\
         "  <ETableColumn model_col=\"11\" _title=\"URL\" "		\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
@@ -214,9 +216,12 @@ static char *list [] = {
         "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" _title=\"Type\" "\
 	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
 	"   cell=\"icon\"     compare=\"integer\"/>"			\
-        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" _title=\"Compelete\" " \
+        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" _title=\"Complete\" " \
 	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
 	"   cell=\"checkbox\" compare=\"integer\"/>"			\
+        "  <ETableColumn model_col=\"18\" _title=\"Status\" "		\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"calstatus\"   compare=\"string\"/>"			\
 	"  <ETableState>"						\
 	"    <column source=\"13\"/>"					\
 	"    <column source=\"14\"/>"					\
@@ -230,13 +235,14 @@ e_calendar_table_init (ECalendarTable *cal_table)
 {
 	GtkWidget *table;
 	ETable *e_table;
-	ECell *cell;
+	ECell *cell, *popup_cell;
 	ETableExtras *extras;
 	gint i;
 	GdkPixbuf *pixbuf;
 	GdkColormap *colormap;
 	gboolean success[E_CALENDAR_TABLE_COLOR_LAST];
 	gint nfailed;
+	GList *strings;
 
 	/* Allocate the colors we need. */
 
@@ -271,13 +277,159 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	extras = e_table_extras_new();
 
+	/*
+	 * Normal string fields.
+	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
 			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
 			"color_column", CAL_COMPONENT_FIELD_COLOR,
 			NULL);
+
 	e_table_extras_add_cell (extras, "calstring", cell);
+
+
+	/*
+	 * Date fields.
+	 */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			NULL);
+
+	popup_cell = e_cell_date_edit_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+	e_table_extras_add_cell (extras, "dateedit", popup_cell);
+	cal_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
+
+
+	/*
+	 * Combo fields.
+	 */
+
+	/* Classification field. */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
+
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+
+	strings = NULL;
+	strings = g_list_append (strings, _("None"));
+	strings = g_list_append (strings, _("Public"));
+	strings = g_list_append (strings, _("Private"));
+	strings = g_list_append (strings, _("Confidential"));
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
+					  strings);
+
+	e_table_extras_add_cell (extras, "classification", popup_cell);
+
+	/* Priority field. */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
+
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+
+	strings = NULL;
+	strings = g_list_append (strings, _("High"));
+	strings = g_list_append (strings, _("Normal"));
+	strings = g_list_append (strings, _("Low"));
+	strings = g_list_append (strings, _("Undefined"));
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
+					  strings);
+
+	e_table_extras_add_cell (extras, "priority", popup_cell);
+
+	/* Percent field. */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			NULL);
+
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+
+	strings = NULL;
+	strings = g_list_append (strings, _("0%"));
+	strings = g_list_append (strings, _("10%"));
+	strings = g_list_append (strings, _("20%"));
+	strings = g_list_append (strings, _("30%"));
+	strings = g_list_append (strings, _("40%"));
+	strings = g_list_append (strings, _("50%"));
+	strings = g_list_append (strings, _("60%"));
+	strings = g_list_append (strings, _("70%"));
+	strings = g_list_append (strings, _("80%"));
+	strings = g_list_append (strings, _("90%"));
+	strings = g_list_append (strings, _("100%"));
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
+					  strings);
+
+	e_table_extras_add_cell (extras, "percent", popup_cell);
+
+	/* Transparency field. */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
+
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+
+	strings = NULL;
+	strings = g_list_append (strings, _("None"));
+	strings = g_list_append (strings, _("Opaque"));
+	strings = g_list_append (strings, _("Transparent"));
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
+					  strings);
+
+	e_table_extras_add_cell (extras, "transparency", popup_cell);
+
+	/* Status field. */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	gtk_object_set (GTK_OBJECT (cell),
+			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+			"color_column", CAL_COMPONENT_FIELD_COLOR,
+			"editable", FALSE,
+			NULL);
+
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+
+	strings = NULL;
+	strings = g_list_append (strings, _("Not Started"));
+	strings = g_list_append (strings, _("In Progress"));
+	strings = g_list_append (strings, _("Completed"));
+	strings = g_list_append (strings, _("Cancelled"));
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell),
+					  strings);
+
+	e_table_extras_add_cell (extras, "calstatus", popup_cell);
 
 	/* Create pixmaps */
 

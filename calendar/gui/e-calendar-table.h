@@ -26,6 +26,7 @@
 #define _E_CALENDAR_TABLE_H_
 
 #include <gtk/gtktable.h>
+#include <widgets/misc/e-cell-date-edit.h>
 #include "calendar-model.h"
 
 #ifdef __cplusplus
@@ -78,6 +79,9 @@ struct _ECalendarTable
 	ECalendarTableFilterFunc filter_func;
 	gpointer filter_data;
 	GDestroyNotify filter_data_destroy;
+
+	/* The ECell used to view & edit dates. */
+	ECellDateEdit *dates_cell;
 };
 
 struct _ECalendarTableClass

@@ -68,4 +68,8 @@ void       e_tasks_setup_menus     (ETasks            *tasks,
 				    BonoboUIComponent *uic);
 
 
+/* This updates all the preference settings for all the ETasks widgets in use.
+ */
+void	   e_tasks_update_all_config_settings	(void);
+
 #endif /* _E_TASKS_H_ */
