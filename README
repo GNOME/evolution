@@ -22,23 +22,25 @@ There is also an #evolution IRC channel on irc.gnome.org.
 
 
 Evolution depends on the following non-core GNOME libraries, which
-are all in GNOME CVS under the given names.
-
-	bonobo - Evolution always tracks the latest CVS versions of
-	bonobo. Released versions will virtually always be too old.
-	Note that this must be installed with the same --prefix as
-	gnome-libs for the Makefiles to work properly.
-
-	gdk-pixbuf - 0.7.0 (or later?)
-
-	gnome-print
-
-	gnome-vfs
+are all in GNOME CVS under the given names. (If you build them in
+the order they are listed, then the dependencies will all work out
+correctly.)
 
 	gnome-xml - currently, only 1.8.7 works. Earlier versions have
 	a bug in code that Evolution needs, and the 2.0 branch is not
 	source or binary compatible. If you get this from GNOME CVS,
 	use the	tag "LIB_XML_1_X".
+
+	gnome-print
+
+	bonobo - Evolution always tracks the latest CVS versions of
+	bonobo. Released versions will virtually always be too old.
+	*** Note that this must be installed with the same --prefix as
+	*** gnome-libs for the Makefiles to work properly.
+
+	gdk-pixbuf - 0.7.0 (or later?)
+
+	gnome-vfs
 
 	gtkhtml - Evolution might work with the released versions of
 	this, but the CVS versions tend to be less buggy and more
@@ -57,6 +59,17 @@ The Palm-synchronization code, when it is incorporated, will require
 the pilot-link package. There is most likely a package for this in
 your OS of choice (the name may be "pilot-link" or "libpisock"). If
 not, you can get the source at ftp://ryeham.ee.ryerson.ca/pub/PalmOS/
+
+You will most likely want to include the option
+	--sysconfdir=`gnome-config --sysconfdir`
+when configuring, to make the .gnorba files get installed into the
+system gnorba directory. If you don't do that, you'll need to either
+	a) set GNOME_PATH to include the prefix you install into
+	   (eg, GNOME_PATH=/usr/local)     OR
+	b) set GNOME_GNORBA_PATH to the gnorba directory in the
+	   prefix you install into
+	   (eg, GNOME_GNORBA_PATH=/usr/local/etc/CORBA/servers)
+
 
 
 The layout of the source tree is:
