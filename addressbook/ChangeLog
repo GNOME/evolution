@@ -1,3 +1,8 @@
+2000-10-06  Not Zed  <NotZed@HelixCode.com>
+
+	* gui/search/e-addressbook-search-dialog.c (get_widget): Removed
+	ondemand callback nonsense from rule_context_load().
+
 2000-10-05  Michael Meeks  <michael@helixcode.com>
 
 	* contact-editor/e-contact-editor.c (create_ui): upd.

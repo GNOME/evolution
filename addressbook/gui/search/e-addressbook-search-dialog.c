@@ -98,7 +98,7 @@ get_widget (EAddressbookSearchDialog *view)
 	/* FIXME: hide this in a class */
 	rule_context_add_part_set(view->context, "partset", filter_part_get_type(),
 				  rule_context_add_part, rule_context_next_part);
-	rule_context_load(view->context, SEARCH_RULE_DIR "/addresstypes.xml", "", NULL, NULL);
+	rule_context_load(view->context, SEARCH_RULE_DIR "/addresstypes.xml", "");
 	view->rule = filter_rule_new();
 	part = rule_context_next_part(view->context, NULL);
 	if (part == NULL) {
