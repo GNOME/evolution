@@ -123,12 +123,6 @@ view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-config_cb (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	addressbook_config (NULL /* XXX */);
-}
-
-static void
 search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
@@ -348,8 +342,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsSaveAsVCard", save_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsView", view_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
-
-	BONOBO_UI_UNSAFE_VERB ("AddressbookConfig", config_cb),
 
 	BONOBO_UI_UNSAFE_VERB ("ContactNew", new_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactNewList", new_contact_list_cb),

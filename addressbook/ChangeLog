@@ -1,3 +1,42 @@
+2002-03-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook.c: Remove verb "AddressbookConfig".
+	(config_cb): Removed.
+
+	* gui/component/addressbook-config.c: Remove `dialog' member from
+	`AddresbookDialog'.  Instead, add a `config_control' member.
+	(config_control_new): New.
+	(addressbook_config): Removed.
+	(addressbook_config_register_factory): New.
+	(config_control_factory_fn): New, factory function for the
+	ConfigControl page.
+	(addressbook_source_edit_changed): Don't change the sensitivity of
+	the dialog.  Rather, invoke ::changed on the ConfigPage.
+	(auth_checkbutton_changed): No need to manually change the
+	sensitiviness of the buttons here either.
+	(add_source_clicked): Likewise, just invoke
+	evolution_config_control_changed().
+	(edit_source_clicked): Likewise.
+	(addressbook_dialog_close): Removed.
+	(config_control_destroy_callback): New, callback for when the
+	config control gets destroyed.
+	(addressbook_dialog_apply): Removed.
+	(config_control_apply_callback): New callback for
+	EvolutionConfigControl::apply.
+	(addressbook_dialog_ok): Removed.
+	(addressbook_config_control_new): Set up ->config_control and
+	connect the signals.
+
+	* gui/component/addressbook-config.glade: Call the main hbox in
+	the addressbook_sources dialog `addressbook_sources_main_hbox'.
+
+	* gui/component/addressbook-component.c (owner_set_cb): Call
+	`addresbook_config_register_factory'.
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Add items for
+	OAFIID:GNOME_Evolution_Addresbook_ConfigControl and
+	OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory.
+
 2002-03-11  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (update_query):

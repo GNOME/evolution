@@ -76,7 +76,7 @@
 
     <widget>
       <class>GtkNotebook</class>
-      <name>notebook2</name>
+      <name>main_notebook</name>
       <can_focus>True</can_focus>
       <show_tabs>True</show_tabs>
       <show_border>True</show_border>
@@ -1071,7 +1071,7 @@ Sub
 
     <widget>
       <class>GtkHBox</class>
-      <name>hbox3</name>
+      <name>addressbook_sources_main_hbox</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
       <child>

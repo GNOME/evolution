@@ -131,4 +131,36 @@
 
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory"
+            type="exe"
+            location="evolution-addressbook">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       _value="Factory for the configuration control for the Evolution Addressbook."/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Addresbook_ConfigControl"
+            type="factory"
+	    location="OAFIID:GNOME_Evolution_Addressbook_ConfigControlFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:title" type="string"
+		       _value="LDAP Sources"/>
+
+	<oaf_attribute name="evolution:config_item:description" type="string"
+		       _value="This page can be used to configure access to LDAP servers"/>
+
+	<oaf_attribute name="description" type="string"
+		       _value="Configuration control for the Evolution Addressbook."/>
+
+</oaf_server>
+
 </oaf_info>

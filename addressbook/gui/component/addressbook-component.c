@@ -367,6 +367,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	if (global_shell_client == NULL)
 		global_shell_client = shell_client;
 
+	addressbook_config_register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)));
+
 	addressbook_storage_setup (shell_component, evolution_homedir);
 }
 
