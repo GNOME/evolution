@@ -329,8 +329,6 @@ lookup_handler (const char *mime_type, gboolean *generic)
 		return handler_function;
 	}
 
-/* FIXME: Remove this #ifdef after gnome-vfs 0.3 is released */
-#ifdef HAVE_GNOME_VFS_MIME_GET_DEFAULT_ACTION_WITHOUT_FALLBACK
 	action = gnome_vfs_mime_get_default_action_without_fallback (mime_type);
 	if (action) {
 		if (action->action_type == GNOME_VFS_MIME_ACTION_TYPE_COMPONENT)
@@ -346,7 +344,6 @@ lookup_handler (const char *mime_type, gboolean *generic)
 		*generic = FALSE;
 		return handler_function;
 	}
-#endif
 
 	handler_function = g_hash_table_lookup (mime_fallback_table,
 						mime_type);

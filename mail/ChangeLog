@@ -1,3 +1,11 @@
+2000-08-12  Dan Winship  <danw@helixcode.com>
+
+	* mail-identify.c: Remove workaround for gnome-vfs 0.2 bug.
+
+	* mail-format.c (lookup_handler): Remove workaround for function
+	introduced between gnome-vfs 0.2 and 0.3, since we depend on 0.3
+	now.
+
 2000-08-12  Michael Meeks  <michael@helixcode.com>
 
 	* main.c (main): kill using_oaf assertion.
