@@ -188,7 +188,7 @@ match_email (ESelectNamesCompletion *comp, EDestination *dest)
 		score = len * 2; /* 2 points for each matching character */
 
 		if (name && *name)
-			str = g_strdup_printf ("<%s> %s", name, email);
+			str = g_strdup_printf ("<%s> %s", email, name);
 		else
 			str = g_strdup (email);
 
