@@ -78,16 +78,15 @@ camel_stream_null_get_type (void)
 }
 
 /**
- * camel_stream_fs_new_with_fd:
- * @fd: a file descriptor
+ * camel_stream_null_new:
  *
  * Returns a NULL stream.  A null stream is always at eof, and
  * always returns success for all reads and writes.
  *
  * Return value: the stream
  **/
-CamelStreamNull *
+CamelStream *
 camel_stream_null_new(void)
 {
-	return (CamelStreamNull *)camel_object_new(camel_stream_null_get_type ());
+	return (CamelStream *)camel_object_new(camel_stream_null_get_type ());
 }

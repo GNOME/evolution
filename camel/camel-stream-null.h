@@ -39,6 +39,6 @@ struct _CamelStreamNullClass {
 
 guint			camel_stream_null_get_type	(void);
 
-CamelStreamNull      *camel_stream_null_new		(void);
+CamelStream            *camel_stream_null_new		(void);
 
 #endif /* ! _CAMEL_STREAM_NULL_H */
