@@ -251,13 +251,13 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_util_set_ui (
 		uic, EVOLUTION_DATADIR,
 		"evolution-mail.xml", "evolution-mail");
-
-	state = mail_config_get_thread_list();
-	bonobo_ui_component_set_prop(uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
-	bonobo_ui_component_add_listener(uic, "ViewThreaded", folder_browser_toggle_threads, folder_browser);
+	
+	state = mail_config_get_thread_list (FOLDER_BROWSER (folder_browser)->uri);
+	bonobo_ui_component_set_prop (uic, "/commands/ViewThreaded", "state", state ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (uic, "ViewThreaded", folder_browser_toggle_threads, folder_browser);
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_threads(uic, "", Bonobo_UIComponent_STATE_CHANGED, state?"1":"0", folder_browser);
-
+	folder_browser_toggle_threads (uic, "", Bonobo_UIComponent_STATE_CHANGED, state ? "1" : "0", folder_browser);
+	
 	state = mail_config_get_message_display_style ();
 	bonobo_ui_component_set_prop (uic, message_display_styles[state],
 				      "state", "1", NULL);
@@ -267,7 +267,7 @@ control_activate (BonoboControl     *control,
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
 	folder_browser_set_message_display_style (uic, strrchr (message_display_styles[state], '/') + 1,
 						  Bonobo_UIComponent_STATE_CHANGED, "1", folder_browser);
-
+	
 	if (fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)) {
 		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
 		state = FALSE;
@@ -287,9 +287,9 @@ control_activate (BonoboControl     *control,
 	folder_browser_setup_property_menu (fb, uic);
 	
 	e_pixmaps_update (uic, pixcache);
-
+	
         bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", "0", NULL);
-
+	
 	bonobo_ui_component_thaw (uic, NULL);
 
 	if (fb->folder)

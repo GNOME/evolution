@@ -37,29 +37,30 @@ struct  _FolderBrowser {
 	char        *uri;
 	CamelFolder *folder;
 	int          unread_count; /* last known unread message count */
-
+	
 	/* async loading stuff */
 	char	    *loading_uid;/* what uid am i loading now */
 	char	    *pending_uid; /* what uid should i load next */
 	char	    *new_uid;	/* place to save the next uid during idle timeout */
 	char	    *loaded_uid; /* what we have loaded */
 	guint	     loading_id, seen_id;
-
+	
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
-
+	
 	/* set to true when we are reconfiguring stuff == can't do much else */
 	int	     reconfigure;
-
+	
 	MessageList *message_list;
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;
 	
 	EFilterBar  *search;
 	FilterRule  *search_full; /* if we have a full search active */
-
+	
 	gboolean     preview_shown;
-
+	gboolean     threaded;
+	
 	/* View collection and the menu handler object */
 	GalViewCollection *view_collection;
 	GalViewMenus *view_menus;

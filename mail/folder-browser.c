@@ -214,7 +214,7 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	}
 
 	gtk_widget_set_sensitive(GTK_WIDGET(fb->search), camel_folder_has_search_capability(folder));
-	message_list_set_threaded(fb->message_list, mail_config_get_thread_list());
+	message_list_set_threaded (fb->message_list, mail_config_get_thread_list (fb->uri));
 	message_list_set_folder(fb->message_list, folder,
 				folder_browser_is_drafts (fb) ||
 				folder_browser_is_sent (fb) ||
@@ -429,7 +429,7 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 	
-	mail_config_set_thread_list (atoi (state));
+	mail_config_set_thread_list (fb->uri, atoi (state));
 	message_list_set_threaded (fb->message_list, atoi (state));
 }
 

@@ -70,6 +70,8 @@ typedef struct {
 	MailConfigForwardStyle default_forward_style;
 	MailConfigDisplayStyle message_display_style;
 	char *default_charset;
+	
+	GHashTable *threaded_hash;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -234,9 +236,6 @@ mail_config_clear (void)
 		g_slist_free (config->news);
 		config->news = NULL;
 	}
-	
-	/* overkill? */
-	memset (config, 0, sizeof (MailConfig));
 }
 
 static void
@@ -446,7 +445,7 @@ config_read (void)
 	if (def)
 		config->citation_color = 0x737373;
 	g_free (str);
-
+	
 	/* Mark as seen timeout */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
 			       evolution_dir);
@@ -498,7 +497,7 @@ config_read (void)
 	if (def)
 		config->pgp_type = CAMEL_PGP_TYPE_NONE;
 	g_free (str);
-
+	
 	/* HTTP images */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/http_images", 
 			       evolution_dir);
@@ -665,6 +664,17 @@ mail_config_write (void)
 	gnome_config_sync ();
 }
 
+static gboolean
+threaded_save_state (gpointer key, gpointer value, gpointer user_data)
+{
+	gboolean threaded = GPOINTER_TO_INT (value);
+	
+	gnome_config_set_bool ((char *) key, threaded);
+	g_free (key);
+	
+	return TRUE;
+}
+
 void
 mail_config_write_on_exit (void)
 {
@@ -677,7 +687,7 @@ mail_config_write_on_exit (void)
 			       evolution_dir);
 	gnome_config_set_bool (str, config->thread_list);
 	g_free (str);
-
+	
 	/* Hide deleted automatically */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
 			       evolution_dir);
@@ -711,7 +721,7 @@ mail_config_write_on_exit (void)
 			       evolution_dir);
 	gnome_config_set_int (str, config->citation_color);
 	g_free (str);
-
+	
 	/* Empty Subject */
 	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
 			       evolution_dir);
@@ -733,7 +743,7 @@ mail_config_write_on_exit (void)
 			       evolution_dir);
 	gnome_config_set_int (str, config->http_mode);
 	g_free (str);
-
+	
 	/* Forwarding */
 	str = g_strdup_printf ("=%s/config/Mail=/Format/default_forward_style", 
 			       evolution_dir);
@@ -750,7 +760,7 @@ mail_config_write_on_exit (void)
 	str = g_strdup_printf ("=%s/config/Mail=/Format/default_charset", evolution_dir);
 	gnome_config_set_string (str, config->default_charset);
 	g_free (str);
-
+	
 	/* Passwords */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	sources = mail_config_get_sources ();
@@ -761,7 +771,18 @@ mail_config_write_on_exit (void)
 	}
 	g_slist_free (sources);
 	
+	str = g_strdup_printf ("=%s/config/Mail=/Threads/", evolution_dir);
+	gnome_config_push_prefix (str);
+	g_free (str);
+	
+	g_hash_table_foreach_remove (config->threaded_hash, threaded_save_state, NULL);
+	
+	gnome_config_pop_prefix ();
+	
 	gnome_config_sync ();
+	
+	/* now do cleanup */
+	mail_config_clear ();
 }
 
 /* Accessor functions */
@@ -772,15 +793,49 @@ mail_config_is_configured (void)
 }
 
 gboolean
-mail_config_get_thread_list (void)
+mail_config_get_thread_list (const char *uri)
 {
+	if (uri) {
+		gboolean value = FALSE;
+		
+		if (!config->threaded_hash)
+			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		else
+			value = GPOINTER_TO_INT (g_hash_table_lookup (config->threaded_hash, uri));
+		
+		if (!value) {
+			/* just in case we got a NULL because it just wasn't in the hash table yet */
+			gboolean def;
+			char *str;
+			
+			str = g_strdup_printf ("=%s/config/Mail=/Threads/%s", evolution_dir, uri);
+			value = gnome_config_get_bool_with_default (str, &def);
+			g_free (str);
+			
+			if (!def) {
+				g_hash_table_insert (config->threaded_hash, g_strdup (uri),
+						     GINT_TO_POINTER (value));
+				return value;
+			}
+		} else
+			return value;
+	}
+	
+	/* return the default value */
+	
 	return config->thread_list;
 }
 
 void
-mail_config_set_thread_list (gboolean value)
+mail_config_set_thread_list (const char *uri, gboolean value)
 {
-	config->thread_list = value;
+	if (uri) {
+		if (!config->threaded_hash)
+			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		
+		g_hash_table_insert (config->threaded_hash, g_strdup (uri), GINT_TO_POINTER (value));
+	} else
+		config->thread_list = value;
 }
 
 gboolean

@@ -35,6 +35,7 @@
 
 #include "folder-browser-factory.h"
 #include "evolution-shell-component.h"
+#include "evolution-shell-component-dnd.h"
 #include "folder-browser.h"
 #include "mail.h"		/* YUCK FIXME */
 #include "mail-config.h"
@@ -65,6 +66,18 @@ char *evolution_dir;
 static BonoboGenericFactory *component_factory = NULL;
 static GHashTable *storages_hash;
 
+static char *accepted_dnd_types[] = {
+	"message/rfc822",
+	NULL
+};
+
+static const EvolutionShellComponentFolderType folder_types[] = {
+	{ "mail", "evolution-inbox.png", accepted_dnd_types, NULL },
+	{ "mailstorage", "evolution-inbox.png", NULL, NULL },
+	{ "vtrash", "evolution-trash.png", NULL, NULL },
+	{ NULL, NULL, NULL, NULL }
+};
+
 /* EvolutionShellComponent methods and signals.  */
 
 static EvolutionShellComponentResult
@@ -77,7 +90,7 @@ create_view (EvolutionShellComponent *shell_component,
 	EvolutionShellClient *shell_client;
 	GNOME_Evolution_Shell corba_shell;
 	BonoboControl *control;
-
+	
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
@@ -232,6 +245,53 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
+static char *
+get_dnd_selection (EvolutionShellComponent *shell_component,
+		   const char *physical_uri,
+		   int type,
+		   int *format_return,
+		   const char **selection_return,
+		   int *selection_length_return,
+		   void *closure)
+{
+	g_print ("should get dnd selection for %s\n", physical_uri);
+	return NULL;
+}
+
+/* Destination side DnD */
+static CORBA_boolean
+destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *folder,
+				  const char *physical_uri,
+				  const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context *destination_context,
+				  GNOME_Evolution_ShellComponentDnd_Action *suggested_action_return,
+				  gpointer user_data)
+{
+	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
+	
+	*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
+	
+	return TRUE;
+}
+
+static CORBA_boolean
+destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *folder,
+				const char *physical_uri,
+				const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context *destination_context,
+				const GNOME_Evolution_ShellComponentDnd_Action action,
+				const GNOME_Evolution_ShellComponentDnd_Data *data,
+				gpointer user_data)
+{
+	CamelStream *stream;
+	
+	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
+		return FALSE; /* we can't create links */
+	
+	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
+	
+	return TRUE;
+}
+
+
 static struct {
 	char *name, **uri;
 	CamelFolder **folder;
@@ -350,16 +410,10 @@ debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	camel_verbose_debug = 1;
 }
 
-static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "mail", "evolution-inbox.png" },
-	{ "mailstorage", "evolution-inbox.png" },
-	{ "vtrash", "evolution-trash.png" },
-	{ NULL, NULL }
-};
-
 static BonoboObject *
 component_fn (BonoboGenericFactory *factory, void *closure)
 {
+	EvolutionShellComponentDndDestinationFolder *destination_interface;
 	EvolutionShellComponent *shell_component;
 	MailOfflineHandler *offline_handler;
 	
@@ -369,8 +423,15 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 							 remove_folder,
 							 xfer_folder,
 							 NULL, /* populate_folder_context_menu_fn */
-							 NULL, /* get_dnd_selection_fn */
+							 get_dnd_selection,
 							 NULL);
+	
+	destination_interface = evolution_shell_component_dnd_destination_folder_new (destination_folder_handle_motion,
+										      destination_folder_handle_drop,
+										      shell_component);
+	
+	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
+				     BONOBO_OBJECT (destination_interface));
 	
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

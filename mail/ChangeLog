@@ -1,5 +1,24 @@
 2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (got_folder): Updated to reflect changes to
+	mail_config_[g,s]et_thread_list().
+	(folder_browser_toggle_threads): Same.
+
+	* folder-browser-factory.c (control_activate): Updated to reflect
+	changes to mail_config_[g,s]et_thread_list().
+
+	* mail-config.c (mail_config_write_on_exit): Do cleanup when we're
+	done.
+	(mail_config_set_thread_list): Send in a URI so we can save the
+	state on a per-folder basis.
+	(mail_config_get_thread_list): Send in a URI so we can retrieve
+	the state on a per-folder basis.
+
+	* component-factory.c: Setup the accepted_dnd_types. Also added
+	skeleton code for DnD.
+
+2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* folder-browser-factory.c: Add Reply-to-List bonobo verbs.
 
 	* folder-browser.c: Add Reply-to-List menu items.

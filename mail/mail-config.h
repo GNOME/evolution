@@ -104,8 +104,8 @@ void mail_config_write_on_exit (void);
 /* General Accessor functions */
 gboolean mail_config_is_configured            (void);
 
-gboolean mail_config_get_thread_list          (void);
-void     mail_config_set_thread_list          (gboolean value);
+gboolean mail_config_get_thread_list          (const char *uri);
+void     mail_config_set_thread_list          (const char *uri, gboolean value);
 
 gboolean mail_config_get_hide_deleted          (void);
 void     mail_config_set_hide_deleted          (gboolean value);
