@@ -1037,6 +1037,28 @@ process_free_busy_comp (EMeetingAttendee *ia, icalcomponent *fb_comp, icalcompon
 }
 
 static void
+process_callbacks (EMeetingModel *im) 
+{
+	EMeetingModelPrivate *priv;	
+	GList *l, *m;	
+
+	priv = im->priv;
+
+	for (l = priv->refresh_callbacks, m = priv->refresh_data; l != NULL; l = l->next, m = m->next) {
+		EMeetingModelRefreshCallback cb = l->data;
+			
+		cb (m->data);
+	}
+
+	g_list_free (priv->refresh_callbacks);
+	g_list_free (priv->refresh_data);
+	priv->refresh_callbacks = NULL;
+	priv->refresh_data = NULL;
+	
+	priv->refreshing = FALSE;
+}
+
+static void
 process_free_busy (EMeetingModel *im, EMeetingAttendee *ia, char *text)
 {
 	EMeetingModelPrivate *priv;	
@@ -1096,17 +1118,8 @@ async_close (GnomeVFSAsyncHandle *handle,
 	
 	priv->refresh_count--;
 	
-	if (priv->refresh_count == 0) {
-		GList *l, *m;
-		
-		for (l = priv->refresh_callbacks, m = priv->refresh_data; l != NULL; l = l->next, m = m->next) {
-			EMeetingModelRefreshCallback cb = l->data;
-			
-			cb (m->data);
-		}
-
-		priv->refreshing = FALSE;
-	}
+	if (priv->refresh_count == 0)
+		process_callbacks (r_data->im);
 }
 
 static void
@@ -1253,7 +1266,11 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 			
 			if (ia != NULL)
 				process_free_busy (im, ia, cal_component_get_as_string (comp));
-		}	
+			
+			process_callbacks (im);
+		}
+		
+		
 	}
 
 	/* Look for fburl's of attendee with no free busy info on server */
