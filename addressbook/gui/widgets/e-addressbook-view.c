@@ -61,6 +61,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
 
+#define SHOW_ALL_SEARCH "(contains \"x-evolution-any-field\" \"\")"
+
 static void e_addressbook_view_init		(EAddressbookView		 *card);
 static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
 static void e_addressbook_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -73,6 +75,7 @@ static void folder_bar_message (GtkObject *object, const gchar *status, EAddress
 static void stop_state_changed (GtkObject *object, EAddressbookView *eav);
 static void writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav);
 static void command_state_change (EAddressbookView *eav);
+static void alphabet_state_change (EAddressbookView *eav, gunichar letter);
 
 static void selection_clear_event (GtkWidget *invisible, GdkEventSelection *event,
 				   EAddressbookView *view);
@@ -96,6 +99,7 @@ enum {
 	STATUS_MESSAGE,
 	FOLDER_BAR_MESSAGE,
 	COMMAND_STATE_CHANGE,
+	ALPHABET_STATE_CHANGE,
 	LAST_SIGNAL
 };
 
@@ -182,6 +186,14 @@ e_addressbook_view_class_init (EAddressbookViewClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	e_addressbook_view_signals [ALPHABET_STATE_CHANGE] =
+		gtk_signal_new ("alphabet_state_change",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookViewClass, alphabet_state_change),
+				gtk_marshal_NONE__UINT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_UINT);
+
 	gtk_object_class_add_signals (object_class, e_addressbook_view_signals, LAST_SIGNAL);
 
 	if (!clipboard_atom)
@@ -217,7 +229,7 @@ e_addressbook_view_init (EAddressbookView *eav)
 
 	eav->editable = FALSE;
 	eav->book = NULL;
-	eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
+	eav->query = g_strdup (SHOW_ALL_SEARCH);
 
 	eav->object = NULL;
 	eav->widget = NULL;
@@ -330,12 +342,18 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			       "book", eav->book,
 			       NULL);
 
+
 		break;
 	case ARG_QUERY:
+#if 0 /* This code will mess up ldap a bit.  We need to think about the ramifications of this more. */
+		if ((GTK_VALUE_STRING (*arg) == NULL && !strcmp (eav->query, SHOW_ALL_SEARCH)) ||
+		    (GTK_VALUE_STRING (*arg) != NULL && !strcmp (eav->query, GTK_VALUE_STRING (*arg))))
+			break;
+#endif
 		g_free(eav->query);
 		eav->query = g_strdup(GTK_VALUE_STRING(*arg));
 		if (!eav->query)
-			eav->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
+			eav->query = g_strdup (SHOW_ALL_SEARCH);
 		gtk_object_set(GTK_OBJECT(eav->model),
 			       "query", eav->query,
 			       NULL);
@@ -493,13 +511,15 @@ button_toggled(GtkWidget *button, LetterClosure *closure)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (current), FALSE);
 		jump_to_letter (view, closure->letter);
 		view->current_alphabet_widget = button;
+		alphabet_state_change (view, closure->letter);
 	} else {
 		if (view->current_alphabet_widget != NULL &&
 		    view->current_alphabet_widget == button) {
 			view->current_alphabet_widget = NULL;
 			gtk_object_set (GTK_OBJECT (view),
-					"query", "(contains \"x-evolution-any-field\" \"\")",
+					"query", NULL,
 					NULL);
+			alphabet_state_change (view, 0);
 		}
 	}
 }
@@ -923,9 +943,14 @@ writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 static void
 command_state_change (EAddressbookView *eav)
 {
-	gtk_object_ref (GTK_OBJECT (eav)); /* who knows what might happen during this emission? */
+	/* Reffing during emission is unnecessary.  Gtk automatically refs during an emission. */
 	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [COMMAND_STATE_CHANGE]);
-	gtk_object_unref (GTK_OBJECT (eav));
+}
+
+static void
+alphabet_state_change (EAddressbookView *eav, gunichar letter)
+{
+	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [ALPHABET_STATE_CHANGE], letter);
 }
 
 #ifdef JUST_FOR_TRANSLATORS

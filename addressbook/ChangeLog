@@ -1,5 +1,22 @@
 2002-01-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/addressbook.c (alphabet_state_changed): Handle
+	setting the search bar to "Advanced..." when the alphabet buttons
+	are pushed and back when they're cleared.  Fixes Ximian bug
+	#12904.
+	(addressbook_menu_activated): When the user calls Search->clear,
+	set the search to ESB_ANY and "", don't just set the text.  This
+	is especially useful when it's set to ESB_ADVANCED.
+
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h (alphabet_state_change): Added
+	this signal which gets emitted when the alphabet buttons are
+	pushed.
+	(command_state_change): Removed the ref pair here.  It's not
+	necessary.  gtk_signal_emit refs the object itself.
+
+2002-01-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-compare.c (name_synonyms): Added a couple
 	of names here.
 

@@ -26,6 +26,7 @@
 #include "e-addressbook-model.h"
 #include "widgets/menus/gal-view-menus.h"
 #include "addressbook/backend/ebook/e-book.h"
+#include <gal/unicode/gunicode.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -90,9 +91,10 @@ struct _EAddressbookViewClass
 	/*
 	 * Signals
 	 */
-	void (*status_message)       (EAddressbookView *view, const gchar *message);
-	void (*folder_bar_message)   (EAddressbookView *view, const gchar *message);
-	void (*command_state_change) (EAddressbookView *view);
+	void (*status_message)        (EAddressbookView *view, const gchar *message);
+	void (*folder_bar_message)    (EAddressbookView *view, const gchar *message);
+	void (*command_state_change)  (EAddressbookView *view);
+	void (*alphabet_state_change) (EAddressbookView *view, gunichar letter);
 };
 
 GtkWidget *e_addressbook_view_new               (void);

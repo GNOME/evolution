@@ -66,6 +66,7 @@ typedef struct {
 	BonoboPropertyBag *properties;
 	char *uri;
 	char *passwd;
+	gboolean ignore_search_changes;
 } AddressbookView;
 
 static void addressbook_view_ref (AddressbookView *);
@@ -814,23 +815,28 @@ static ESearchBarItem addressbook_search_option_items[] = {
 };
 
 static void
+alphabet_state_changed (EAddressbookView *eav, gunichar letter, AddressbookView *view)
+{
+	view->ignore_search_changes = TRUE;
+	if (letter == 0) {
+		e_search_bar_set_item_id (view->search, ESB_ANY);
+		e_search_bar_set_text (view->search, "");
+	} else {
+		e_search_bar_set_item_id (view->search, ESB_ADVANCED);
+	}
+	view->ignore_search_changes = FALSE;
+}
+
+static void
 addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
 {
 	switch (id) {
 	case E_FILTERBAR_RESET_ID:
 		/* e_addressbook_view_show_all(view->view); */
-
-		/* Fix option menu if we are using "Category is" */
-		if (e_search_bar_get_item_id (esb) == ESB_CATEGORY) {
-
-			e_search_bar_set_subitem_id (esb, G_MAXINT);
-
-		} else {
-
-			e_search_bar_set_text (esb, "");
-
-		}
-
+		view->ignore_search_changes = TRUE;
+		e_search_bar_set_item_id (view->search, ESB_ANY);
+		view->ignore_search_changes = FALSE;
+		e_search_bar_set_text (esb, "");
 		break;
 	}
 }
@@ -842,6 +848,10 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 	char *search_word, *search_query;
 	const char *category_name;
 	int search_type, subid;
+
+	if (view->ignore_search_changes) {
+		return;
+	}
 
 	gtk_object_get(GTK_OBJECT(esb),
 		       "text", &search_word,
@@ -1070,6 +1080,7 @@ addressbook_factory_new_control (void)
 
 	view = g_new0 (AddressbookView, 1);
 	view->refs = 1;
+	view->ignore_search_changes = FALSE;
 
 	view->vbox = gtk_vbox_new (FALSE, 0);
 
@@ -1127,6 +1138,11 @@ addressbook_factory_new_control (void)
 	gtk_signal_connect (GTK_OBJECT (view->view),
 			    "command_state_change",
 			    GTK_SIGNAL_FUNC(update_command_state),
+			    view);
+	
+	gtk_signal_connect (GTK_OBJECT (view->view),
+			    "alphabet_state_change",
+			    GTK_SIGNAL_FUNC(alphabet_state_changed),
 			    view);
 	
 	view->uri = NULL;
