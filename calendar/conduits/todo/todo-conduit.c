@@ -149,9 +149,19 @@ map_name (EToDoConduitContext *ctxt)
 {
 	char *filename;
 
+	
 	filename = g_strdup_printf ("%s/evolution/local/Calendar/pilot-map-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
 
 	return filename;
+}
+
+static void
+map_set_node_timet (xmlNodePtr node, const char *name, time_t t)
+{
+	char *tstring;
+	
+	tstring = g_strdup_printf ("%ld", t);
+	xmlSetProp (node, name, tstring);
 }
 
 static void
@@ -159,14 +169,26 @@ map_sax_start_element (void *data, const xmlChar *name,
 		       const xmlChar **attrs)
 {
 	EToDoConduitContext *ctxt = (EToDoConduitContext *)data;
-	
+
+	if (!strcmp (name, "PilotMap")) {
+		while (attrs && *attrs != NULL) {
+			const xmlChar **val = attrs;
+			
+			val++;
+			if (!strcmp (*attrs, "timestamp")) 
+				ctxt->since = (time_t)strtoul (*val, NULL, 0);
+
+			attrs = ++val;
+		}
+	}
+	 
 	if (!strcmp (name, "map")) {
 		char *uid = NULL;
 		guint32 *pid = g_new (guint32, 1);
 
 		*pid = 0;
 
-		while (*attrs != NULL) {
+		while (attrs && *attrs != NULL) {
 			const xmlChar **val = attrs;
 			
 			val++;
@@ -217,6 +239,7 @@ map_write (EToDoConduitContext *ctxt, char *filename)
 		return -1;
 	}
 	doc->root = xmlNewDocNode(doc, NULL, "PilotMap", NULL);
+	map_set_node_timet (doc->root, "timestamp", time (NULL));
 
 	g_hash_table_foreach (ctxt->map, map_write_foreach, doc->root);
 	
@@ -585,13 +608,14 @@ pre_sync (GnomePilotConduit *conduit,
 	handler.startElement = map_sax_start_element;
 
 	filename = map_name (ctxt);
-	if (xmlSAXUserParseFile (&logSAXParser, ctxt, filename) < 0)
+	if (xmlSAXUserParseFile (&handler, ctxt, filename) < 0)
 		return -1;
 	
 	g_free (filename);
 
 	/* Find the added, modified and deleted items */
-	changes = cal_client_get_changed_uids (ctxt->client, CALOBJ_TYPE_TODO, 0);
+	changes = cal_client_get_changed_uids (ctxt->client, CALOBJ_TYPE_TODO,
+					       ctxt->since);
 	for (l = changes; l != NULL; l = l->next) {
 		CalObjChange *coc = l->data;
 

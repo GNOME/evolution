@@ -595,7 +595,7 @@ cal_backend_log_sax_start_element (CalBackendParseState *state, const CHAR *name
 		}		
 	}
 
-	if (!strcmp (name, "status")) {
+	if (state->in_valid_timestamp && !strcmp (name, "status")) {
 		CalObjChange *coc = g_new0 (CalObjChange, 1);
 		CalObjType cot = 0;
 

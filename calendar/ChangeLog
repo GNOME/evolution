@@ -1,5 +1,18 @@
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit.h: Add since field to context
+
+	* conduits/todo/todo-conduit.c (map_set_node_timet): New utility
+	function
+	(map_sax_start_element): Look for the map timestamp as well
+	(map_write): Write the map timestamp
+	(pre_sync): Use the map time stamp when looking for changed entries
+
+	* pcs/cal-backend.c (cal_backend_log_sax_start_element): Make sure 
+	we are in a valid timestamp
+	
+2000-09-20  JP Rosevear  <jpr@helixcode.com>
+
 	* pcs/cal-backend.c (cal_backend_log_name): Make the log file
 	name relevant to the actual calendar file, rather than just the
 	directory.

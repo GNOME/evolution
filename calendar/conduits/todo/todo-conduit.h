@@ -63,6 +63,7 @@ struct _EToDoConduitContext {
 	gboolean calendar_load_tried;
 	gboolean calendar_load_success;
 
+	time_t since;
 	GList *uids;
 	
 	GList *added;
