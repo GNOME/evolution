@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
-"POT-Creation-Date: 2003-02-23 17:54+0200\n"
-"PO-Revision-Date: 2003-02-23 07:56--500\n"
+"POT-Creation-Date: 2003-02-24 15:49+0200\n"
+"PO-Revision-Date: 2003-02-24 05:20--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -719,7 +719,7 @@ msgstr "Не вдалося відкрити адресну книгу"
 #. the user clicked cancel in the password dialog
 #: addressbook/gui/component/addressbook.c:617
 msgid "Accessing LDAP Server anonymously"
-msgstr ""
+msgstr "Доступ до сервера LDAP анонімно"
 
 #: addressbook/gui/component/addressbook.c:660
 msgid "Failed to authenticate.\n"
@@ -927,7 +927,7 @@ msgid "Addressbook Sources"
 msgstr "Джерело адресної книги"
 
 #: addressbook/gui/component/ldap-config.glade.h:18
-#: mail/mail-account-gui.c:60
+#: mail/mail-account-gui.c:62
 #: mail/mail-config.glade.h:16
 msgid "Always"
 msgstr "Завжди"
@@ -995,7 +995,7 @@ msgid "Mappings"
 msgstr "Поля"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
-#: mail/mail-account-gui.c:62
+#: mail/mail-account-gui.c:64
 #: mail/mail-config.glade.h:75
 msgid "Never"
 msgstr "Ніколи"
@@ -1043,7 +1043,7 @@ msgstr "Діапазон пошуку:"
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:48
-#: calendar/gui/calendar-model.c:1977
+#: calendar/gui/calendar-model.c:1968
 #: calendar/gui/e-day-view.c:1669
 #: calendar/gui/e-week-view.c:1224
 msgid "Searching"
@@ -1194,7 +1194,7 @@ msgid "Using email address"
 msgstr "Електронна адреса:"
 
 #: addressbook/gui/component/ldap-config.glade.h:101
-#: mail/mail-account-gui.c:61
+#: mail/mail-account-gui.c:63
 #: mail/mail-config.glade.h:131
 msgid "Whenever Possible"
 msgstr ""
@@ -1484,7 +1484,7 @@ msgid "D_epartment:"
 msgstr "Відділ:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:191
+#: calendar/gui/dialogs/task-editor.c:195
 msgid "Details"
 msgstr "Подробиці"
 
@@ -1536,7 +1536,7 @@ msgstr "Хоче отримувати листи в HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/meeting-page.c:647
+#: calendar/gui/dialogs/meeting-page.c:652
 #: calendar/gui/e-calendar-table.c:968
 #: calendar/gui/e-day-view.c:3714
 #: calendar/gui/e-week-view.c:3539
@@ -2976,8 +2976,8 @@ msgid "Protocol not supported"
 msgstr "Протокол не підтримується"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:42
-#: calendar/gui/calendar-model.c:753
-#: calendar/gui/calendar-model.c:1185
+#: calendar/gui/calendar-model.c:751
+#: calendar/gui/calendar-model.c:1176
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:469
 #: calendar/gui/print.c:2313
@@ -3717,7 +3717,7 @@ msgstr "Високий"
 
 #: calendar/cal-util/cal-util.c:501
 #: calendar/cal-util/cal-util.c:523
-#: calendar/gui/calendar-model.c:1703
+#: calendar/gui/calendar-model.c:1694
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:394
 #: mail/message-list.c:751
@@ -4058,70 +4058,70 @@ msgstr "Нова зустріч"
 msgid "Create a new all-day appointment"
 msgstr "Створити нову зустріч"
 
-#: calendar/gui/calendar-model.c:406
-#: calendar/gui/calendar-model.c:965
+#: calendar/gui/calendar-model.c:404
+#: calendar/gui/calendar-model.c:956
 #: calendar/gui/e-calendar-table.c:372
 msgid "Private"
 msgstr "Приватне"
 
-#: calendar/gui/calendar-model.c:409
-#: calendar/gui/calendar-model.c:967
+#: calendar/gui/calendar-model.c:407
+#: calendar/gui/calendar-model.c:958
 #: calendar/gui/e-calendar-table.c:373
 msgid "Confidential"
 msgstr "Конфіденційне"
 
-#: calendar/gui/calendar-model.c:412
+#: calendar/gui/calendar-model.c:410
 #: calendar/gui/e-calendar-table.c:371
 msgid "Public"
 msgstr "Загальне"
 
-#: calendar/gui/calendar-model.c:524
+#: calendar/gui/calendar-model.c:522
 msgid "N"
 msgstr "Півн"
 
-#: calendar/gui/calendar-model.c:524
+#: calendar/gui/calendar-model.c:522
 msgid "S"
 msgstr "Півд"
 
-#: calendar/gui/calendar-model.c:526
+#: calendar/gui/calendar-model.c:524
 msgid "E"
 msgstr "Сх"
 
-#: calendar/gui/calendar-model.c:526
+#: calendar/gui/calendar-model.c:524
 msgid "W"
 msgstr "Зах"
 
-#: calendar/gui/calendar-model.c:591
-#: calendar/gui/calendar-model.c:1135
+#: calendar/gui/calendar-model.c:589
+#: calendar/gui/calendar-model.c:1126
 #: calendar/gui/e-calendar-table.c:445
 msgid "Free"
 msgstr "Вільний"
 
-#: calendar/gui/calendar-model.c:593
+#: calendar/gui/calendar-model.c:591
 #: calendar/gui/e-calendar-table.c:446
 #: calendar/gui/e-meeting-time-sel.c:408
 #: shell/evolution-shell-component.c:1185
 msgid "Busy"
 msgstr "Зайнятий"
 
-#: calendar/gui/calendar-model.c:744
-#: calendar/gui/calendar-model.c:1179
+#: calendar/gui/calendar-model.c:742
+#: calendar/gui/calendar-model.c:1170
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:466
 #: calendar/gui/print.c:2304
 msgid "Not Started"
 msgstr "Не розпочато"
 
-#: calendar/gui/calendar-model.c:747
-#: calendar/gui/calendar-model.c:1181
+#: calendar/gui/calendar-model.c:745
+#: calendar/gui/calendar-model.c:1172
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-calendar-table.c:467
 #: calendar/gui/print.c:2307
 msgid "In Progress"
 msgstr "Виконується"
 
-#: calendar/gui/calendar-model.c:750
-#: calendar/gui/calendar-model.c:1183
+#: calendar/gui/calendar-model.c:748
+#: calendar/gui/calendar-model.c:1174
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:468
 #: calendar/gui/e-meeting-model.c:305
@@ -4130,7 +4130,7 @@ msgstr "Виконується"
 msgid "Completed"
 msgstr "Завершено"
 
-#: calendar/gui/calendar-model.c:1037
+#: calendar/gui/calendar-model.c:1028
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -4141,13 +4141,13 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1177
-#: calendar/gui/dialogs/meeting-page.c:288
+#: calendar/gui/calendar-model.c:1168
+#: calendar/gui/dialogs/meeting-page.c:286
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: composer/e-msg-composer.c:1979
 #: mail/folder-browser.c:1730
-#: mail/mail-account-gui.c:1246
-#: mail/mail-account-gui.c:1672
+#: mail/mail-account-gui.c:1248
+#: mail/mail-account-gui.c:1674
 #: mail/mail-accounts.c:392
 #: mail/mail-config.glade.h:77
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:196
@@ -4158,15 +4158,15 @@ msgstr ""
 msgid "None"
 msgstr "Немає"
 
-#: calendar/gui/calendar-model.c:1705
+#: calendar/gui/calendar-model.c:1696
 msgid "Recurring"
 msgstr "Періодично"
 
-#: calendar/gui/calendar-model.c:1707
+#: calendar/gui/calendar-model.c:1698
 msgid "Assigned"
 msgstr "Прив'язано"
 
-#: calendar/gui/calendar-model.c:1713
+#: calendar/gui/calendar-model.c:1704
 #: calendar/gui/e-meeting-model.c:277
 #: calendar/gui/e-meeting-model.c:287
 #: calendar/gui/e-meeting-model.c:543
@@ -4174,7 +4174,7 @@ msgstr "Прив'язано"
 msgid "Yes"
 msgstr "Так"
 
-#: calendar/gui/calendar-model.c:1713
+#: calendar/gui/calendar-model.c:1704
 #: calendar/gui/e-meeting-model.c:289
 #: calendar/gui/e-meeting-model.c:839
 msgid "No"
@@ -4441,7 +4441,7 @@ msgstr "Нагадування"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:958
+#: calendar/gui/e-itip-control.c:964
 #: calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Зведення:"
@@ -4527,7 +4527,7 @@ msgstr "Дні"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:1050
-#: calendar/gui/e-itip-control.c:586
+#: calendar/gui/e-itip-control.c:592
 msgid "Friday"
 msgstr "П'ятниця"
 
@@ -4541,7 +4541,7 @@ msgstr "Хвилини"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1046
-#: calendar/gui/e-itip-control.c:582
+#: calendar/gui/e-itip-control.c:588
 msgid "Monday"
 msgstr "Понеділок"
 
@@ -4552,7 +4552,7 @@ msgstr "Ндл"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1051
-#: calendar/gui/e-itip-control.c:587
+#: calendar/gui/e-itip-control.c:593
 msgid "Saturday"
 msgstr "Субота"
 
@@ -4566,7 +4566,7 @@ msgstr "Показати номера тижнів у навігаторі да�
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.c:1052
-#: calendar/gui/e-itip-control.c:581
+#: calendar/gui/e-itip-control.c:587
 msgid "Sunday"
 msgstr "Неділя"
 
@@ -4585,7 +4585,7 @@ msgstr "Список завдань"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1049
-#: calendar/gui/e-itip-control.c:585
+#: calendar/gui/e-itip-control.c:591
 msgid "Thursday"
 msgstr "Четвер"
 
@@ -4603,7 +4603,7 @@ msgstr "Формат часу:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1047
-#: calendar/gui/e-itip-control.c:583
+#: calendar/gui/e-itip-control.c:589
 msgid "Tuesday"
 msgstr "Вівторок"
 
@@ -4613,7 +4613,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1048
-#: calendar/gui/e-itip-control.c:584
+#: calendar/gui/e-itip-control.c:590
 msgid "Wednesday"
 msgstr "Середа"
 
@@ -4912,28 +4912,28 @@ msgstr "Доручити:"
 msgid "Enter Delegate"
 msgstr "Ввести делегата"
 
-#: calendar/gui/dialogs/event-editor.c:197
+#: calendar/gui/dialogs/event-editor.c:199
 #: calendar/gui/print.c:2259
 msgid "Appointment"
 msgstr "Зустріч"
 
-#: calendar/gui/dialogs/event-editor.c:202
+#: calendar/gui/dialogs/event-editor.c:206
 msgid "Reminder"
 msgstr "Нагадування"
 
-#: calendar/gui/dialogs/event-editor.c:207
+#: calendar/gui/dialogs/event-editor.c:213
 msgid "Recurrence"
 msgstr "Повторення"
 
-#: calendar/gui/dialogs/event-editor.c:212
-#: calendar/gui/dialogs/event-editor.c:279
-#: calendar/gui/dialogs/event-editor.c:412
+#: calendar/gui/dialogs/event-editor.c:220
+#: calendar/gui/dialogs/event-editor.c:289
+#: calendar/gui/dialogs/event-editor.c:424
 msgid "Scheduling"
 msgstr "Планування"
 
-#: calendar/gui/dialogs/event-editor.c:217
-#: calendar/gui/dialogs/event-editor.c:282
-#: calendar/gui/dialogs/event-editor.c:415
+#: calendar/gui/dialogs/event-editor.c:227
+#: calendar/gui/dialogs/event-editor.c:292
+#: calendar/gui/dialogs/event-editor.c:427
 #: ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
 msgstr "Засідання"
@@ -5022,19 +5022,19 @@ msgstr "Час завершення:"
 msgid "_Start time:"
 msgstr "Дата початку:"
 
-#: calendar/gui/dialogs/meeting-page.c:391
+#: calendar/gui/dialogs/meeting-page.c:396
 msgid "An organizer is required."
 msgstr "Потрібно вказати організатора."
 
-#: calendar/gui/dialogs/meeting-page.c:415
+#: calendar/gui/dialogs/meeting-page.c:420
 msgid "At least one attendee is required."
 msgstr "Потрібен хоча б один учасник."
 
-#: calendar/gui/dialogs/meeting-page.c:570
+#: calendar/gui/dialogs/meeting-page.c:575
 msgid "That person is already attending the meeting!"
 msgstr "Ця персона вже є учасником засідання!"
 
-#: calendar/gui/dialogs/meeting-page.c:643
+#: calendar/gui/dialogs/meeting-page.c:648
 msgid "_Delegate To..."
 msgstr "Доручити..."
 
@@ -5074,7 +5074,7 @@ msgid "Member"
 msgstr "Член"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1082
+#: calendar/gui/e-itip-control.c:1088
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "Зацікавлена персона"
@@ -5274,13 +5274,13 @@ msgstr "Пріоритет:"
 msgid "_Status:"
 msgstr "Стан:"
 
-#: calendar/gui/dialogs/task-editor.c:186
+#: calendar/gui/dialogs/task-editor.c:188
 msgid "Basic"
 msgstr "Основні"
 
-#: calendar/gui/dialogs/task-editor.c:196
-#: calendar/gui/dialogs/task-editor.c:241
-#: calendar/gui/dialogs/task-editor.c:366
+#: calendar/gui/dialogs/task-editor.c:202
+#: calendar/gui/dialogs/task-editor.c:247
+#: calendar/gui/dialogs/task-editor.c:373
 msgid "Assignment"
 msgstr "Призначення"
 
@@ -5289,7 +5289,7 @@ msgid "Due date is wrong"
 msgstr ""
 
 #: calendar/gui/dialogs/task-page.glade.h:5
-#: calendar/gui/e-itip-control.c:1012
+#: calendar/gui/e-itip-control.c:1018
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2
 #: mail/mail-config.glade.h:44
@@ -5630,161 +5630,161 @@ msgstr "Стерти цей екземпляр"
 msgid "Delete _All Occurrences"
 msgstr "Стерти всі екземпляри"
 
-#: calendar/gui/e-itip-control.c:615
+#: calendar/gui/e-itip-control.c:621
 #, fuzzy
 msgid "Yes. (Complex Recurrence)"
 msgstr "Проста періодичність"
 
-#: calendar/gui/e-itip-control.c:627
+#: calendar/gui/e-itip-control.c:633
 #, fuzzy
 msgid "Every day"
 msgstr "Кожен"
 
-#: calendar/gui/e-itip-control.c:629
+#: calendar/gui/e-itip-control.c:635
 #, fuzzy, c-format
 msgid "Every %d days"
 msgstr "%d діб"
 
-#: calendar/gui/e-itip-control.c:635
+#: calendar/gui/e-itip-control.c:641
 #, fuzzy
 msgid "Every week"
 msgstr "Кожен"
 
-#: calendar/gui/e-itip-control.c:637
+#: calendar/gui/e-itip-control.c:643
 #, fuzzy, c-format
 msgid "Every %d weeks"
 msgstr "%d тижнів"
 
-#: calendar/gui/e-itip-control.c:640
+#: calendar/gui/e-itip-control.c:646
 msgid "Every week on "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:642
+#: calendar/gui/e-itip-control.c:648
 #, fuzzy, c-format
 msgid "Every %d weeks on "
 msgstr "%d тижнів"
 
-#: calendar/gui/e-itip-control.c:650
+#: calendar/gui/e-itip-control.c:656
 #, fuzzy
 msgid " and "
 msgstr "Пісок"
 
-#: calendar/gui/e-itip-control.c:657
+#: calendar/gui/e-itip-control.c:663
 #, c-format
 msgid "The %s day of "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:670
+#: calendar/gui/e-itip-control.c:676
 #, c-format
 msgid "The %s %s of "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:675
+#: calendar/gui/e-itip-control.c:681
 #, fuzzy
 msgid "every month"
 msgstr "Один місяць"
 
-#: calendar/gui/e-itip-control.c:680
+#: calendar/gui/e-itip-control.c:686
 #, c-format
 msgid "every %d months"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:686
+#: calendar/gui/e-itip-control.c:692
 #, fuzzy
 msgid "Every year"
 msgstr "Кожен"
 
-#: calendar/gui/e-itip-control.c:688
+#: calendar/gui/e-itip-control.c:694
 #, c-format
 msgid "Every %d years"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:700
+#: calendar/gui/e-itip-control.c:706
 #, c-format
 msgid " a total of %d times"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:708
+#: calendar/gui/e-itip-control.c:714
 msgid ", ending on "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:732
+#: calendar/gui/e-itip-control.c:738
 msgid "<b>Starts:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:742
+#: calendar/gui/e-itip-control.c:748
 #, fuzzy
 msgid "<b>Ends:</b> "
 msgstr "Закінчується: <b>"
 
-#: calendar/gui/e-itip-control.c:762
+#: calendar/gui/e-itip-control.c:768
 #, fuzzy
 msgid "<b>Completed:</b> "
 msgstr "Виконано "
 
-#: calendar/gui/e-itip-control.c:772
+#: calendar/gui/e-itip-control.c:778
 msgid "<b>Due:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:809
-#: calendar/gui/e-itip-control.c:859
+#: calendar/gui/e-itip-control.c:815
+#: calendar/gui/e-itip-control.c:865
 msgid "iCalendar Information"
 msgstr "Інформація iCalendar"
 
 #. Title
-#: calendar/gui/e-itip-control.c:824
+#: calendar/gui/e-itip-control.c:830
 msgid "iCalendar Error"
 msgstr "Помилка iCalendar"
 
-#: calendar/gui/e-itip-control.c:890
-#: calendar/gui/e-itip-control.c:906
-#: calendar/gui/e-itip-control.c:917
-#: calendar/gui/e-itip-control.c:934
+#: calendar/gui/e-itip-control.c:896
+#: calendar/gui/e-itip-control.c:912
+#: calendar/gui/e-itip-control.c:923
+#: calendar/gui/e-itip-control.c:940
 msgid "An unknown person"
 msgstr "Невідома персона"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:941
+#: calendar/gui/e-itip-control.c:947
 msgid "<br> Please review the following information, and then select an action from the menu below."
 msgstr "<br> Будь ласка перегляньте наступну інформацію, потім оберіть дію з нижнього меню."
 
-#: calendar/gui/e-itip-control.c:956
+#: calendar/gui/e-itip-control.c:962
 msgid "<i>None</i>"
 msgstr "<i>Немає</i>"
 
-#: calendar/gui/e-itip-control.c:966
+#: calendar/gui/e-itip-control.c:972
 #, fuzzy
 msgid "Location:"
 msgstr "Місце:"
 
-#: calendar/gui/e-itip-control.c:980
+#: calendar/gui/e-itip-control.c:986
 msgid "Status:"
 msgstr "Стан:"
 
-#: calendar/gui/e-itip-control.c:985
+#: calendar/gui/e-itip-control.c:991
 #: calendar/gui/e-meeting-model.c:297
 #: calendar/gui/e-meeting-model.c:320
 #: calendar/gui/e-meeting-model.c:852
-#: calendar/gui/itip-utils.c:486
+#: calendar/gui/itip-utils.c:392
 msgid "Accepted"
 msgstr "Прийнято"
 
-#: calendar/gui/e-itip-control.c:989
-#: calendar/gui/itip-utils.c:489
+#: calendar/gui/e-itip-control.c:995
+#: calendar/gui/itip-utils.c:395
 msgid "Tentatively Accepted"
 msgstr "Експериментальний"
 
-#: calendar/gui/e-itip-control.c:993
+#: calendar/gui/e-itip-control.c:999
 #: calendar/gui/e-meeting-model.c:299
 #: calendar/gui/e-meeting-model.c:322
 #: calendar/gui/e-meeting-model.c:853
-#: calendar/gui/itip-utils.c:492
-#: calendar/gui/itip-utils.c:518
+#: calendar/gui/itip-utils.c:398
+#: calendar/gui/itip-utils.c:424
 msgid "Declined"
 msgstr "Відхилено"
 
-#: calendar/gui/e-itip-control.c:997
-#: calendar/gui/e-itip-control.c:1203
+#: calendar/gui/e-itip-control.c:1003
+#: calendar/gui/e-itip-control.c:1209
 #: calendar/gui/e-meeting-model.c:233
 #: calendar/gui/e-meeting-model.c:268
 #: calendar/gui/e-meeting-model.c:333
@@ -5802,317 +5802,317 @@ msgstr "Відхилено"
 msgid "Unknown"
 msgstr "Невідоме"
 
-#: calendar/gui/e-itip-control.c:1050
-#: calendar/gui/e-itip-control.c:1078
-#: calendar/gui/e-itip-control.c:1104
-#: calendar/gui/e-itip-control.c:1117
-#: calendar/gui/e-itip-control.c:1130
-#: calendar/gui/e-itip-control.c:1143
+#: calendar/gui/e-itip-control.c:1056
+#: calendar/gui/e-itip-control.c:1084
+#: calendar/gui/e-itip-control.c:1110
+#: calendar/gui/e-itip-control.c:1123
+#: calendar/gui/e-itip-control.c:1136
+#: calendar/gui/e-itip-control.c:1149
 msgid "Choose an action:"
 msgstr "Обрати дію:"
 
-#: calendar/gui/e-itip-control.c:1051
+#: calendar/gui/e-itip-control.c:1057
 msgid "Update"
 msgstr "Оновити"
 
-#: calendar/gui/e-itip-control.c:1052
-#: calendar/gui/e-itip-control.c:1083
-#: calendar/gui/e-itip-control.c:1106
-#: calendar/gui/e-itip-control.c:1119
-#: calendar/gui/e-itip-control.c:1132
-#: calendar/gui/e-itip-control.c:1145
+#: calendar/gui/e-itip-control.c:1058
+#: calendar/gui/e-itip-control.c:1089
+#: calendar/gui/e-itip-control.c:1112
+#: calendar/gui/e-itip-control.c:1125
+#: calendar/gui/e-itip-control.c:1138
+#: calendar/gui/e-itip-control.c:1151
 #: shell/e-shell.c:2092
 #: widgets/misc/e-cell-date-edit.c:262
 msgid "OK"
 msgstr "Гаразд"
 
-#: calendar/gui/e-itip-control.c:1079
+#: calendar/gui/e-itip-control.c:1085
 msgid "Accept"
 msgstr "Прийнято"
 
-#: calendar/gui/e-itip-control.c:1080
+#: calendar/gui/e-itip-control.c:1086
 msgid "Tentatively accept"
 msgstr "Прийняти для проби"
 
-#: calendar/gui/e-itip-control.c:1081
+#: calendar/gui/e-itip-control.c:1087
 msgid "Decline"
 msgstr "Відхилено"
 
-#: calendar/gui/e-itip-control.c:1105
+#: calendar/gui/e-itip-control.c:1111
 msgid "Send Free/Busy Information"
 msgstr "Опублікувати інформацію про зайнятість"
 
-#: calendar/gui/e-itip-control.c:1118
+#: calendar/gui/e-itip-control.c:1124
 msgid "Update respondent status"
 msgstr "Оновити стан учасників"
 
-#: calendar/gui/e-itip-control.c:1131
+#: calendar/gui/e-itip-control.c:1137
 msgid "Send Latest Information"
 msgstr "Надіслати останню інформацію"
 
-#: calendar/gui/e-itip-control.c:1144
-#: calendar/gui/itip-utils.c:506
+#: calendar/gui/e-itip-control.c:1150
+#: calendar/gui/itip-utils.c:412
 #: shell/evolution-shell-component.c:1163
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: calendar/gui/e-itip-control.c:1225
+#: calendar/gui/e-itip-control.c:1231
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> опублікував відомості про засідання."
 
-#: calendar/gui/e-itip-control.c:1226
+#: calendar/gui/e-itip-control.c:1232
 msgid "Meeting Information"
 msgstr "Інформація про засідання"
 
-#: calendar/gui/e-itip-control.c:1231
+#: calendar/gui/e-itip-control.c:1237
 #, fuzzy, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> запитує вашу присутність на засіданні."
 
-#: calendar/gui/e-itip-control.c:1233
+#: calendar/gui/e-itip-control.c:1239
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> запитує вашу присутність на засіданні."
 
-#: calendar/gui/e-itip-control.c:1234
+#: calendar/gui/e-itip-control.c:1240
 msgid "Meeting Proposal"
 msgstr "План засідання"
 
-#: calendar/gui/e-itip-control.c:1238
+#: calendar/gui/e-itip-control.c:1244
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> бажає прийняти участь у засіданні."
 
-#: calendar/gui/e-itip-control.c:1239
+#: calendar/gui/e-itip-control.c:1245
 msgid "Meeting Update"
 msgstr "Оновлення засідання"
 
-#: calendar/gui/e-itip-control.c:1243
+#: calendar/gui/e-itip-control.c:1249
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> бажає отримати останню інформацію про засідання"
 
-#: calendar/gui/e-itip-control.c:1244
+#: calendar/gui/e-itip-control.c:1250
 msgid "Meeting Update Request"
 msgstr "Запит на оновлення засідання"
 
-#: calendar/gui/e-itip-control.c:1251
+#: calendar/gui/e-itip-control.c:1257
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> відповів на запит про участь у засіданні."
 
-#: calendar/gui/e-itip-control.c:1252
+#: calendar/gui/e-itip-control.c:1258
 msgid "Meeting Reply"
 msgstr "Відповідь про засідання"
 
-#: calendar/gui/e-itip-control.c:1259
+#: calendar/gui/e-itip-control.c:1265
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> скасував засідання."
 
-#: calendar/gui/e-itip-control.c:1260
+#: calendar/gui/e-itip-control.c:1266
 msgid "Meeting Cancellation"
 msgstr "Скасування засідання"
 
-#: calendar/gui/e-itip-control.c:1267
-#: calendar/gui/e-itip-control.c:1334
-#: calendar/gui/e-itip-control.c:1369
+#: calendar/gui/e-itip-control.c:1273
+#: calendar/gui/e-itip-control.c:1340
+#: calendar/gui/e-itip-control.c:1375
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> надіслав незрозуміле повідомлення."
 
-#: calendar/gui/e-itip-control.c:1268
+#: calendar/gui/e-itip-control.c:1274
 msgid "Bad Meeting Message"
 msgstr "Невірне повідомлення про засідання"
 
-#: calendar/gui/e-itip-control.c:1292
+#: calendar/gui/e-itip-control.c:1298
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> опублікував відомості про завдання."
 
-#: calendar/gui/e-itip-control.c:1293
+#: calendar/gui/e-itip-control.c:1299
 msgid "Task Information"
 msgstr "Інформація про завдання"
 
-#: calendar/gui/e-itip-control.c:1298
+#: calendar/gui/e-itip-control.c:1304
 #, fuzzy, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> пропонує вам прийняти участь у засіданні."
 
-#: calendar/gui/e-itip-control.c:1300
+#: calendar/gui/e-itip-control.c:1306
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> пропонує вам прийняти участь у засіданні."
 
-#: calendar/gui/e-itip-control.c:1301
+#: calendar/gui/e-itip-control.c:1307
 msgid "Task Proposal"
 msgstr "План завдання"
 
-#: calendar/gui/e-itip-control.c:1305
+#: calendar/gui/e-itip-control.c:1311
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> бажає прийняти участь у виконанні завдання."
 
-#: calendar/gui/e-itip-control.c:1306
+#: calendar/gui/e-itip-control.c:1312
 msgid "Task Update"
 msgstr "Оновлення завдання"
 
-#: calendar/gui/e-itip-control.c:1310
+#: calendar/gui/e-itip-control.c:1316
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> бажає отримувати останню інформацію про завдання."
 
-#: calendar/gui/e-itip-control.c:1311
+#: calendar/gui/e-itip-control.c:1317
 msgid "Task Update Request"
 msgstr "Запит на оновлення завдання"
 
-#: calendar/gui/e-itip-control.c:1318
+#: calendar/gui/e-itip-control.c:1324
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> відповів на призначення завдання."
 
-#: calendar/gui/e-itip-control.c:1319
+#: calendar/gui/e-itip-control.c:1325
 msgid "Task Reply"
 msgstr "Відповідь по завданню"
 
-#: calendar/gui/e-itip-control.c:1326
+#: calendar/gui/e-itip-control.c:1332
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> скасував завдання."
 
-#: calendar/gui/e-itip-control.c:1327
+#: calendar/gui/e-itip-control.c:1333
 msgid "Task Cancellation"
 msgstr "Скасування завдання"
 
-#: calendar/gui/e-itip-control.c:1335
+#: calendar/gui/e-itip-control.c:1341
 msgid "Bad Task Message"
 msgstr "Невірне повідомлення про завдання"
 
-#: calendar/gui/e-itip-control.c:1354
+#: calendar/gui/e-itip-control.c:1360
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> опублікував відомості про зайнятість."
 
-#: calendar/gui/e-itip-control.c:1355
+#: calendar/gui/e-itip-control.c:1361
 msgid "Free/Busy Information"
 msgstr "Інформація про зайнятість"
 
-#: calendar/gui/e-itip-control.c:1359
+#: calendar/gui/e-itip-control.c:1365
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> запитує відомості про зайнятість."
 
-#: calendar/gui/e-itip-control.c:1360
+#: calendar/gui/e-itip-control.c:1366
 msgid "Free/Busy Request"
 msgstr "Відповісти про зайнятість"
 
-#: calendar/gui/e-itip-control.c:1364
+#: calendar/gui/e-itip-control.c:1370
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> відповів про зайнятість."
 
-#: calendar/gui/e-itip-control.c:1365
+#: calendar/gui/e-itip-control.c:1371
 msgid "Free/Busy Reply"
 msgstr "Відповісти про зайнятість"
 
-#: calendar/gui/e-itip-control.c:1370
+#: calendar/gui/e-itip-control.c:1376
 msgid "Bad Free/Busy Message"
 msgstr "Невірне повідомлення про зайнятість"
 
-#: calendar/gui/e-itip-control.c:1444
+#: calendar/gui/e-itip-control.c:1450
 msgid "The message does not appear to be properly formed"
 msgstr "Повідомлення невірно сформовано"
 
-#: calendar/gui/e-itip-control.c:1506
+#: calendar/gui/e-itip-control.c:1512
 msgid "The message contains only unsupported requests."
 msgstr "Повідомлення містить тільки відповіді, що підтримуються"
 
-#: calendar/gui/e-itip-control.c:1534
 #: calendar/gui/e-itip-control.c:1540
+#: calendar/gui/e-itip-control.c:1546
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Під'єднаний файл не містить вірно сформованого повідомлення"
 
-#: calendar/gui/e-itip-control.c:1565
+#: calendar/gui/e-itip-control.c:1571
 msgid "The attachment has no viewable calendar items"
 msgstr "Під'єднаний файл не містить елементів календарю, які можна переглянути"
 
-#: calendar/gui/e-itip-control.c:1787
-#: calendar/gui/e-itip-control.c:1879
+#: calendar/gui/e-itip-control.c:1791
+#: calendar/gui/e-itip-control.c:1883
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1790
-#: calendar/gui/e-itip-control.c:1882
+#: calendar/gui/e-itip-control.c:1794
+#: calendar/gui/e-itip-control.c:1886
 msgid "There was an error on the CORBA system\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1793
-#: calendar/gui/e-itip-control.c:1885
+#: calendar/gui/e-itip-control.c:1797
+#: calendar/gui/e-itip-control.c:1889
 #, fuzzy
 msgid "Object could not be found\n"
 msgstr "Елемент не може бути відіслано!\n"
 
-#: calendar/gui/e-itip-control.c:1796
+#: calendar/gui/e-itip-control.c:1800
 #, fuzzy
 msgid "You do not have the right permissions to update the calendar\n"
 msgstr "Не вдалося відкрити теку в \"%s\""
 
-#: calendar/gui/e-itip-control.c:1799
+#: calendar/gui/e-itip-control.c:1803
 msgid "Update complete\n"
 msgstr "Оновлення виконано\n"
 
-#: calendar/gui/e-itip-control.c:1802
+#: calendar/gui/e-itip-control.c:1806
 msgid "Calendar file could not be updated!\n"
 msgstr "Неможливо оновити календарний файл!\n"
 
-#: calendar/gui/e-itip-control.c:1831
-#: calendar/gui/e-itip-control.c:1897
+#: calendar/gui/e-itip-control.c:1835
+#: calendar/gui/e-itip-control.c:1901
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Неможливо оновити стан учасника, бо елемент вже не існує"
 
-#: calendar/gui/e-itip-control.c:1852
+#: calendar/gui/e-itip-control.c:1856
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1864
+#: calendar/gui/e-itip-control.c:1868
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Неможливо оновити стан учасника, бо поточний стан невірний!\n"
 
-#: calendar/gui/e-itip-control.c:1888
+#: calendar/gui/e-itip-control.c:1892
 #, fuzzy
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "Не вдалося відкрити теку в \"%s\""
 
-#: calendar/gui/e-itip-control.c:1891
+#: calendar/gui/e-itip-control.c:1895
 msgid "Attendee status updated\n"
 msgstr "Стан учасника оновлено!\n"
 
-#: calendar/gui/e-itip-control.c:1894
+#: calendar/gui/e-itip-control.c:1898
 msgid "Attendee status could not be updated!\n"
 msgstr "Неможливо оновити стан учасника!\n"
 
-#: calendar/gui/e-itip-control.c:1929
+#: calendar/gui/e-itip-control.c:1933
 msgid "Removal Complete"
 msgstr "Видалення завершено"
 
-#: calendar/gui/e-itip-control.c:1959
-#: calendar/gui/e-itip-control.c:2009
+#: calendar/gui/e-itip-control.c:1963
+#: calendar/gui/e-itip-control.c:2013
 msgid "Item sent!\n"
 msgstr "Елемент відіслано!\n"
 
-#: calendar/gui/e-itip-control.c:1961
-#: calendar/gui/e-itip-control.c:2013
+#: calendar/gui/e-itip-control.c:1965
+#: calendar/gui/e-itip-control.c:2017
 msgid "The item could not be sent!\n"
 msgstr "Елемент не може бути відіслано!\n"
 
-#: calendar/gui/e-itip-control.c:2086
+#: calendar/gui/e-itip-control.c:2090
 #, fuzzy
 msgid "Select Calendar Folder"
 msgstr "Вибір теки"
 
-#: calendar/gui/e-itip-control.c:2093
+#: calendar/gui/e-itip-control.c:2097
 #, fuzzy
 msgid "Select Tasks Folder"
 msgstr "Вибір теки"
@@ -6327,8 +6327,8 @@ msgid "Meeting _end time:"
 msgstr "Час завершення зібрання:"
 
 #: calendar/gui/e-tasks.c:356
-#: calendar/gui/gnome-cal.c:2011
-#: calendar/gui/gnome-cal.c:2022
+#: calendar/gui/gnome-cal.c:2013
+#: calendar/gui/gnome-cal.c:2024
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Відкривання завдань на %s"
@@ -6362,9 +6362,8 @@ msgid "Completing tasks..."
 msgstr "Завершення завдання..."
 
 #: calendar/gui/e-tasks.c:577
-#, fuzzy
 msgid "Deleting selected objects..."
-msgstr "Стерти вибрані об'єкти"
+msgstr "Стирання вибраних об'єктів"
 
 #: calendar/gui/e-tasks.c:672
 #, fuzzy
@@ -6406,12 +6405,12 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1993
+#: calendar/gui/gnome-cal.c:1995
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Відкривання календаря на %s"
 
-#: calendar/gui/gnome-cal.c:2033
+#: calendar/gui/gnome-cal.c:2035
 #, fuzzy
 msgid "Opening default tasks folder"
 msgstr "Відкривання теки %s"
@@ -6472,62 +6471,62 @@ msgstr "Жовтень"
 msgid "September"
 msgstr "Вересень"
 
-#: calendar/gui/itip-utils.c:344
-#: calendar/gui/itip-utils.c:415
+#: calendar/gui/itip-utils.c:250
+#: calendar/gui/itip-utils.c:321
 msgid "An organizer must be set."
 msgstr "Потрібно вказати організатора."
 
-#: calendar/gui/itip-utils.c:379
+#: calendar/gui/itip-utils.c:285
 msgid "At least one attendee is necessary"
 msgstr "Потрібен хоча б один учасник"
 
-#: calendar/gui/itip-utils.c:458
-#: calendar/gui/itip-utils.c:567
+#: calendar/gui/itip-utils.c:364
+#: calendar/gui/itip-utils.c:473
 msgid "Event information"
 msgstr "Інформація про подію"
 
-#: calendar/gui/itip-utils.c:460
-#: calendar/gui/itip-utils.c:569
+#: calendar/gui/itip-utils.c:366
+#: calendar/gui/itip-utils.c:475
 msgid "Task information"
 msgstr "Інформація про завдання"
 
-#: calendar/gui/itip-utils.c:462
-#: calendar/gui/itip-utils.c:571
+#: calendar/gui/itip-utils.c:368
+#: calendar/gui/itip-utils.c:477
 msgid "Journal information"
 msgstr "Інформація про журнал"
 
-#: calendar/gui/itip-utils.c:464
-#: calendar/gui/itip-utils.c:588
+#: calendar/gui/itip-utils.c:370
+#: calendar/gui/itip-utils.c:494
 msgid "Free/Busy information"
 msgstr "Інформація про зайнятість"
 
-#: calendar/gui/itip-utils.c:466
+#: calendar/gui/itip-utils.c:372
 msgid "Calendar information"
 msgstr "Календарна інформація"
 
-#: calendar/gui/itip-utils.c:502
+#: calendar/gui/itip-utils.c:408
 msgid "Updated"
 msgstr "Оновлено"
 
-#: calendar/gui/itip-utils.c:510
+#: calendar/gui/itip-utils.c:416
 msgid "Refresh"
 msgstr "Оновити"
 
-#: calendar/gui/itip-utils.c:514
+#: calendar/gui/itip-utils.c:420
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:582
+#: calendar/gui/itip-utils.c:488
 #, fuzzy, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Інформація про зайнятість"
 
-#: calendar/gui/itip-utils.c:594
+#: calendar/gui/itip-utils.c:500
 #, fuzzy
 msgid "iCalendar information"
 msgstr "Календарна інформація"
 
-#: calendar/gui/itip-utils.c:752
+#: calendar/gui/itip-utils.c:648
 msgid "You must be an attendee of the event."
 msgstr "Ви маєте бути відвідувачем події."
 
@@ -7116,7 +7115,7 @@ msgstr "Америка/Буенос-Айрес"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "Америка/Кембрідж-Бей"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
@@ -7132,7 +7131,7 @@ msgstr "Америка/Катамарка"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "Америка/Кайєнна"
 
 #: calendar/zones.h:78
 msgid "America/Cayman"
@@ -7456,11 +7455,11 @@ msgstr "Америка/Сант'яго"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "Америка/Санто-Домінґо"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "Америка/Сан-Пауло"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
@@ -7472,7 +7471,7 @@ msgstr ""
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr ""
+msgstr "Америка/Сент-Джонс"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
@@ -7484,11 +7483,11 @@ msgstr ""
 
 #: calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "Америка/Сент-Томас"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "Америка/Сент-Вінсент"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
@@ -7496,7 +7495,7 @@ msgstr ""
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "Америка/Теґучіґальпа"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
@@ -7520,7 +7519,7 @@ msgstr "Америка/Ванкувер"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "Америка/Вайтхорс"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
@@ -7532,7 +7531,7 @@ msgstr "Америка/Якутат"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "Америка/Єллоунайф"
 
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
@@ -10281,46 +10280,46 @@ msgstr "Sendmail"
 msgid "For delivering mail by passing it to the \"sendmail\" program on the local system."
 msgstr "Для надсилання пошти шляхом передачі програмі \"sendmail\" на локальній системі."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:110
+#: camel/providers/sendmail/camel-sendmail-transport.c:109
 #, fuzzy
 msgid "Could not parse recipient list"
 msgstr "Неможливо проаналізувати URL \"%s\""
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:136
+#: camel/providers/sendmail/camel-sendmail-transport.c:140
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
 msgstr "Не вдалося створити канал до sendmail: %s: пошту не відіслано"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:153
+#: camel/providers/sendmail/camel-sendmail-transport.c:161
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
 msgstr "Не вдалося виконати sendmail: %s: пошту не відіслано"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:181
+#: camel/providers/sendmail/camel-sendmail-transport.c:192
 #, c-format
 msgid "Could not send message: %s"
 msgstr "Не вдалося відіслати повідомлення: %s"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:212
+#: camel/providers/sendmail/camel-sendmail-transport.c:220
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
 msgstr "sendmail завершився сигналом %s: пошту не відіслано."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:219
+#: camel/providers/sendmail/camel-sendmail-transport.c:227
 #, c-format
 msgid "Could not execute %s: mail not sent."
 msgstr "Не вдалося виконати %s: пошту не відіслано."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:224
+#: camel/providers/sendmail/camel-sendmail-transport.c:232
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
 msgstr "sendmail завершився з станом %d: пошту не відіслано."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:251
+#: camel/providers/sendmail/camel-sendmail-transport.c:246
 msgid "sendmail"
 msgstr "sendmail"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:253
+#: camel/providers/sendmail/camel-sendmail-transport.c:248
 msgid "Mail delivery via the sendmail program"
 msgstr "Постачання пошти через програму sendmail"
 
@@ -10563,7 +10562,7 @@ msgstr "Затримка відповіді на RCPT TO: %s: пошту не в
 msgid "RCPT TO <%s> failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1251
+#: camel/providers/smtp/camel-smtp-transport.c:1250
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на DATA: %s: пошту не відіслано"
@@ -10571,35 +10570,35 @@ msgstr "Затримка відповіді на DATA: %s: пошту не ві�
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1271
+#: camel/providers/smtp/camel-smtp-transport.c:1270
 msgid "DATA response error"
 msgstr "Помилка відповіді на DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1313
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1311
+#: camel/providers/smtp/camel-smtp-transport.c:1334
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "Вийшов час при надсиланні DATA: надсилання припинено: %s: пошту не відіслано"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1356
+#: camel/providers/smtp/camel-smtp-transport.c:1354
 msgid "DATA termination response error"
 msgstr "Помілка відповіді на завершення DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1379
+#: camel/providers/smtp/camel-smtp-transport.c:1377
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Затримка відповіді на RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1399
+#: camel/providers/smtp/camel-smtp-transport.c:1397
 msgid "RSET response error"
 msgstr "Помилка відповіді на RSET"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1422
+#: camel/providers/smtp/camel-smtp-transport.c:1420
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Затримка відповіді на QUIT: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1442
+#: camel/providers/smtp/camel-smtp-transport.c:1440
 msgid "QUIT response error"
 msgstr "Помилка відповіді на QUIT"
 
@@ -10837,7 +10836,7 @@ msgid "Signature:"
 msgstr "Підпис:"
 
 #: composer/e-msg-composer.c:1980
-#: mail/mail-account-gui.c:1247
+#: mail/mail-account-gui.c:1249
 msgid "Autogenerated"
 msgstr ""
 
@@ -11241,8 +11240,8 @@ msgstr "Необхадно вказати теку."
 
 #: filter/filter-folder.c:243
 #: filter/vfolder-rule.c:408
-#: mail/mail-account-gui.c:1492
-#: mail/mail-account-gui.c:1506
+#: mail/mail-account-gui.c:1494
+#: mail/mail-account-gui.c:1508
 msgid "Select Folder"
 msgstr "Вибір теки"
 
@@ -12333,23 +12332,23 @@ msgstr "Ви ще не ввели потрібну інформацію."
 msgid "Evolution Account Editor"
 msgstr "Редактор облікових рахунків Evolution"
 
-#: mail/mail-account-gui.c:744
+#: mail/mail-account-gui.c:746
 #: mail/mail-config.glade.h:156
 msgid "_Host:"
 msgstr "Комп'ютер:"
 
-#: mail/mail-account-gui.c:748
+#: mail/mail-account-gui.c:750
 #: mail/mail-config.glade.h:126
 #, fuzzy
 msgid "User_name:"
 msgstr "Назва користувача:"
 
-#: mail/mail-account-gui.c:752
+#: mail/mail-account-gui.c:754
 #: mail/mail-config.glade.h:163
 msgid "_Path:"
 msgstr "Шлях:"
 
-#: mail/mail-account-gui.c:1868
+#: mail/mail-account-gui.c:1869
 msgid "You may not create two accounts with the same name."
 msgstr "Не можна створювати два облікових рахунки з спільним ім'ям."
 
@@ -12641,7 +12640,7 @@ msgid "You must specify a valid script name."
 msgstr "Необхідно вказати правильну назву скрипта."
 
 #: mail/mail-composer-prefs.c:336
-#: mail/mail-config.c:1283
+#: mail/mail-config.c:1218
 #, fuzzy
 msgid "Unnamed"
 msgstr "Неназваний контакт"
@@ -12694,12 +12693,12 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Асистент з Облікових рахунків Evolution"
 
-#: mail/mail-config.c:987
+#: mail/mail-config.c:922
 msgid "Checking Service"
 msgstr "Перевірка служби"
 
-#: mail/mail-config.c:1065
-#: mail/mail-config.c:1069
+#: mail/mail-config.c:1000
+#: mail/mail-config.c:1004
 msgid "Connecting to server..."
 msgstr "З'єднання з сервером..."
 
@@ -13313,9 +13312,8 @@ msgid "_Restore defaults"
 msgstr ""
 
 #: mail/mail-config.glade.h:170
-#, fuzzy
 msgid "_Script:"
-msgstr "Безпека"
+msgstr "_Скрипт:"
 
 #: mail/mail-config.glade.h:171
 #, fuzzy
@@ -13328,9 +13326,8 @@ msgid "_Show animated images"
 msgstr "Показувати час як"
 
 #: mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Signatures"
-msgstr "Файл підпису:"
+msgstr "_Підписи"
 
 #: mail/mail-config.glade.h:174
 #, fuzzy
@@ -13455,9 +13452,9 @@ msgid "Save Image as..."
 msgstr "Зберегти зображення як..."
 
 #: mail/mail-folder-cache.c:744
-#, fuzzy, c-format
+#, c-format
 msgid "Pinging %s"
-msgstr "Сканування %s"
+msgstr "Зондування %s"
 
 #: mail/mail-format.c:639
 #, c-format
@@ -17329,7 +17326,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:805
 msgid "Gaziantep"
-msgstr ""
+msgstr "Ґазіантеп"
 
 #: my-evolution/Locations.h:806
 msgid "Gdansk"
@@ -17337,7 +17334,7 @@ msgstr "Гданськ"
 
 #: my-evolution/Locations.h:807
 msgid "Geneve"
-msgstr ""
+msgstr "Женева"
 
 #: my-evolution/Locations.h:808
 msgid "Genova"
@@ -19895,11 +19892,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1470
 msgid "Moscow Domodedovo"
-msgstr ""
+msgstr "Москва (Домодєдово)"
 
 #: my-evolution/Locations.h:1471
 msgid "Moscow Sheremetyevo"
-msgstr ""
+msgstr "Москва (Шерєметьєво)"
 
 #: my-evolution/Locations.h:1472
 msgid "Moses Lake"
@@ -21923,19 +21920,19 @@ msgstr ""
 
 #: my-evolution/Locations.h:1993
 msgid "San Jose del Cabo"
-msgstr ""
+msgstr "Сан-Хосе-дель-Кабо"
 
 #: my-evolution/Locations.h:1994
 msgid "San Jose-Santa Clara"
-msgstr ""
+msgstr "Сан-Хосе — Санта-Клара"
 
 #: my-evolution/Locations.h:1995
 msgid "San Juan"
-msgstr ""
+msgstr "Сан-Хуан"
 
 #: my-evolution/Locations.h:1996
 msgid "Sankt-Peterburg"
-msgstr ""
+msgstr "Санкт-Перербурґ"
 
 #: my-evolution/Locations.h:1997
 msgid "Sanliurfa"
@@ -21995,7 +21992,7 @@ msgstr "Санта Моніка"
 
 #: my-evolution/Locations.h:2011
 msgid "Santander"
-msgstr ""
+msgstr "Сантандер"
 
 #: my-evolution/Locations.h:2012
 msgid "Santarem"
@@ -22003,7 +22000,7 @@ msgstr "Сантарем"
 
 #: my-evolution/Locations.h:2013
 msgid "Santa Rosa"
-msgstr ""
+msgstr "Санта-Роза"
 
 #: my-evolution/Locations.h:2014
 msgid "Santa Rosa de Copan"
@@ -22043,7 +22040,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2023
 msgid "Sapporo Ab"
-msgstr ""
+msgstr "Саппоро-Аб"
 
 #: my-evolution/Locations.h:2024
 msgid "Sarajevo"
@@ -22051,7 +22048,7 @@ msgstr "Сараєво"
 
 #: my-evolution/Locations.h:2025
 msgid "Saranac Lake"
-msgstr ""
+msgstr "Саранк-Лейк"
 
 #: my-evolution/Locations.h:2026
 msgid "Sarasota"
@@ -22067,11 +22064,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:2029
 msgid "Saskatchewan"
-msgstr ""
+msgstr "Саскачевань"
 
 #: my-evolution/Locations.h:2030
 msgid "Saskatoon"
-msgstr ""
+msgstr "Саскатун"
 
 #: my-evolution/Locations.h:2031
 msgid "Sauce Viejo"
@@ -22224,27 +22221,24 @@ msgid "Sheboygan"
 msgstr ""
 
 #: my-evolution/Locations.h:2067
-#, fuzzy
 msgid "Sheldon"
-msgstr "Швеція"
+msgstr "Шелдон"
 
 #: my-evolution/Locations.h:2068
 msgid "Shelter Cove"
 msgstr ""
 
 #: my-evolution/Locations.h:2069
-#, fuzzy
 msgid "Shelton"
-msgstr "Вибір:"
+msgstr "Шелтон"
 
 #: my-evolution/Locations.h:2070
 msgid "Shenandoah"
 msgstr ""
 
 #: my-evolution/Locations.h:2071
-#, fuzzy
 msgid "Sheridan"
-msgstr "Судан"
+msgstr "Шерідан"
 
 #: my-evolution/Locations.h:2072
 msgid "Sherman-Denison"
@@ -22462,9 +22456,8 @@ msgid "Sparrevohn"
 msgstr ""
 
 #: my-evolution/Locations.h:2126
-#, fuzzy
 msgid "Spencer"
-msgstr "Відправник"
+msgstr "Спенсер"
 
 #: my-evolution/Locations.h:2127
 msgid "Spickard"
@@ -22694,9 +22687,8 @@ msgid "Syktyvkar"
 msgstr "Сиктивкар"
 
 #: my-evolution/Locations.h:2183
-#, fuzzy
 msgid "Sympheropol"
-msgstr "Ставрополь"
+msgstr "Сімферополь"
 
 #: my-evolution/Locations.h:2184
 msgid "Syracuse"
@@ -22725,7 +22717,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2190
 msgid "Tachikawa Ab"
-msgstr ""
+msgstr "Тачікава-Аб"
 
 #: my-evolution/Locations.h:2191
 #, fuzzy
@@ -22807,9 +22799,8 @@ msgid "Tallahassee"
 msgstr ""
 
 #: my-evolution/Locations.h:2210
-#, fuzzy
 msgid "Tallinn"
-msgstr "Таллін"
+msgstr "Таллінн"
 
 #: my-evolution/Locations.h:2211
 msgid "Tamanrasset"
@@ -22876,7 +22867,7 @@ msgstr "Тайвань"
 
 #: my-evolution/Locations.h:2225
 msgid "Tarvisio"
-msgstr ""
+msgstr "Тарвізіо"
 
 #: my-evolution/Locations.h:2226
 #, fuzzy
@@ -23184,14 +23175,12 @@ msgid "Treviso/S.Angelo"
 msgstr ""
 
 #: my-evolution/Locations.h:2296
-#, fuzzy
 msgid "Trieste"
-msgstr "Тест"
+msgstr "Тріест"
 
 #: my-evolution/Locations.h:2297
-#, fuzzy
 msgid "Trinidad"
-msgstr "Смерч"
+msgstr "Трінідад"
 
 #: my-evolution/Locations.h:2298
 msgid "Tripoli"
@@ -23214,9 +23203,8 @@ msgid "Troyes/Barberey"
 msgstr ""
 
 #: my-evolution/Locations.h:2303
-#, fuzzy
 msgid "Truckee"
-msgstr "Туреччина"
+msgstr "Тракі"
 
 #: my-evolution/Locations.h:2304
 msgid "Truth or Consequences"
@@ -23555,7 +23543,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2390
 msgid "Vigo"
-msgstr ""
+msgstr "Віґо"
 
 #: my-evolution/Locations.h:2391
 msgid "Vilhena"
@@ -23599,7 +23587,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2401
 msgid "Viru-Viru"
-msgstr ""
+msgstr "Віру-Віру"
 
 #: my-evolution/Locations.h:2402
 msgid "Visalia"
@@ -23935,7 +23923,7 @@ msgstr "Ввід пароля"
 
 #: my-evolution/Locations.h:2480
 msgid "Wiscasset"
-msgstr ""
+msgstr "Віскассет"
 
 #: my-evolution/Locations.h:2481
 #, fuzzy
@@ -23944,7 +23932,7 @@ msgstr "Вісконсін"
 
 #: my-evolution/Locations.h:2482
 msgid "Wisconsin Rapids"
-msgstr ""
+msgstr "Вісконсін-Рапідс"
 
 #: my-evolution/Locations.h:2483
 #, fuzzy
@@ -23965,9 +23953,8 @@ msgid "Woong Cheon"
 msgstr "Гонг Конг"
 
 #: my-evolution/Locations.h:2487
-#, fuzzy
 msgid "Wooster"
-msgstr "Нижній колонтитул:"
+msgstr "Вустер"
 
 #: my-evolution/Locations.h:2488
 msgid "Worcester"
@@ -23994,14 +23981,12 @@ msgid "Wuchia Observatory"
 msgstr ""
 
 #: my-evolution/Locations.h:2494
-#, fuzzy
 msgid "Wyoming"
-msgstr "Вайомінг"
+msgstr "Вайомінґ"
 
 #: my-evolution/Locations.h:2495
-#, fuzzy
 msgid "Xiamen"
-msgstr "Час"
+msgstr "Ксямен"
 
 #: my-evolution/Locations.h:2496
 msgid "Yacuiba"
@@ -24151,7 +24136,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2534
 msgid "Zuni Pueblo"
-msgstr ""
+msgstr "Зуні-Пуебло"
 
 #: my-evolution/Locations.h:2535
 msgid "Zurich"
@@ -25953,10 +25938,10 @@ msgid "Closing connections..."
 msgstr "Закриття з'єднань..."
 
 #: shell/e-shell-offline-sync.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "Error synchronizing \"%s\":\n"
 "%s"
-msgstr "Помилка під час \"%s\":\n"
+msgstr "Помилка під час синхронізації \"%s\":\n"
 "%s"
 
 #: shell/e-shell-offline-sync.c:232
@@ -25967,7 +25952,7 @@ msgstr "Синхронізація теки"
 #: shell/e-shell-offline-sync.c:311
 #, c-format
 msgid "Synchronizing \"%s\" (%d of %d) ..."
-msgstr ""
+msgstr "Синхронізація \"%s\" (%d з %d) ..."
 
 #: shell/e-shell-settings-dialog.c:346
 msgid "Evolution Settings"
@@ -28359,7 +28344,7 @@ msgstr "Грецький"
 
 #: widgets/misc/e-charset-picker.c:65
 msgid "Hebrew"
-msgstr ""
+msgstr "Єврейський"
 
 #: widgets/misc/e-charset-picker.c:66
 msgid "Japanese"
