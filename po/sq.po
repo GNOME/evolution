@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution HEAD\n"
+"Project-Id-Version: evolution gnome-2-10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-01 11:03+0100\n"
-"PO-Revision-Date: 2005-03-01 18:15+0100\n"
+"POT-Creation-Date: 2005-03-02 10:05+0100\n"
+"PO-Revision-Date: 2005-03-02 13:18+0100\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -445,8 +445,8 @@ msgid ""
 "A contact already exists with this address.  Would you like to add a new "
 "card with the same address anyway?"
 msgstr ""
-"Një kontakt me këtë adresë ekziston.  Dëshironi sidoqoftë të shtoni një teser "
-"të re me të njëjtën adresë?"
+"Një kontakt me këtë adresë ekziston.  Dëshironi sidoqoftë të shtoni një "
+"teser të re me të njëjtën adresë?"
 
 #: ../addressbook/addressbook-errors.xml.h:62 ../mail/em-vfolder-rule.c:494
 #: ../plugins/shared-folder/properties.glade.h:10
@@ -778,8 +778,8 @@ msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
 msgstr ""
-"Pozicioni i panelit vertikal, në pixel, midis paraqitjes me tesera ose me listë dhe "
-"panelit të pamjes së parë."
+"Pozicioni i panelit vertikal, në pixel, midis paraqitjes me tesera ose me "
+"listë dhe panelit të pamjes së parë."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
@@ -800,8 +800,8 @@ msgstr "URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së e
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
 msgstr ""
-"URI për kartelën e përdorur së fundmi në dritaren dialogut të "
-"zgjedhjes së emrave."
+"URI për kartelën e përdorur së fundmi në dritaren dialogut të zgjedhjes së "
+"emrave."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
@@ -1010,9 +1010,9 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"Kjo është metoda e përdorur nga Evolution për autentifikimin tuaj.  Ki parasysh "
-"që për t'a vendosur këtë si \"Adresa Email\" nevoitet hyrje anonime tek serveri "
-"juaj ldap."
+"Kjo është metoda e përdorur nga Evolution për autentifikimin tuaj.  Ki "
+"parasysh që për t'a vendosur këtë si \"Adresa Email\" nevoitet hyrje anonime "
+"tek serveri juaj ldap."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -3705,8 +3705,8 @@ msgstr "Eksporto në modalitet asinkron"
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "The number of cards in one output file in asychronous mode, default size 100."
 msgstr ""
-"Numri i teserave në një file daljeje në modalitet asinkron, vlera e paracaktuar "
-"është 100."
+"Numri i teserave në një file daljeje në modalitet asinkron, vlera e "
+"paracaktuar është 100."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
@@ -4084,8 +4084,8 @@ msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
 "of what your task is about."
 msgstr ""
-"Duke i shtuar aktiviteteve një tregues të qartë, u jipni një ide marrësve në lidhje "
-"me detyrën."
+"Duke i shtuar aktiviteteve një tregues të qartë, u jipni një ide marrësve në "
+"lidhje me detyrën."
 
 #. calendar:prompt-no-contents-offline-calendar primary
 #: ../calendar/calendar-errors.xml.h:134
@@ -4110,7 +4110,9 @@ msgstr "Lista e detyrave nuk është shënuar për përdorim jashtë linje"
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
 msgid " Some features may not work correctly with your current server version"
-msgstr " Disa nga veçoritë nuk do të funksionojnë si duhet me versionin aktual të serverit tuaj"
+msgstr ""
+" Disa nga veçoritë nuk do të funksionojnë si duhet me versionin aktual të "
+"serverit tuaj"
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
 #: ../smime/gui/component.c:48
@@ -4477,24 +4479,24 @@ msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
 msgstr ""
-"Pozicioni i panelit horizontal, në pixel, midis eksploruesit data e kalendarit "
-"dhe lista e detyrave, kur nuk ndodhesh tek paraqitja mujore."
+"Pozicioni i panelit horizontal, në pixel, midis eksploruesit data e "
+"kalendarit dhe lista e detyrave, kur nuk ndodhesh tek paraqitja mujore."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
-"Pozicioni i panelit horizontal, në pixel, midis eksploruesit data e kalendarit "
-"dhe lista e detyrave, kur ndodhesh tek paraqitja mujore."
+"Pozicioni i panelit horizontal, në pixel, midis eksploruesit data e "
+"kalendarit dhe lista e detyrave, kur ndodhesh tek paraqitja mujore."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid ""
 "Position of the vertical pane, between task list and the task preview pane, "
 "in pixels."
 msgstr ""
-"Pozicioni i panelit vertikal, në pixel, midis listës së detyrave dhe dritares "
-"së pamjes së parë të detyrës."
+"Pozicioni i panelit vertikal, në pixel, midis listës së detyrave dhe "
+"dritares së pamjes së parë të detyrës."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid ""
@@ -4541,9 +4543,9 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
-"Zona e kohës e prezgjedhur për t'u përdorur për datat dhe oraret në kalendar, "
-"shprehur si lokalitet i papërkthyer i databazës Olsen të zonave orare, për shembull "
-"\"Albania/Tirane\"."
+"Zona e kohës e prezgjedhur për t'u përdorur për datat dhe oraret në "
+"kalendar, shprehur si lokalitet i papërkthyer i databazës Olsen të zonave "
+"orare, për shembull \"Albania/Tirane\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 #, no-c-format
@@ -4556,11 +4558,12 @@ msgstr ""
 "nga domain."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
-#, fuzzy
 msgid ""
 "Time divisions</short> <short>Intervals shown in Day and Work Week views, in "
 "minutes."
-msgstr "Intervalet e shfaqura në paraqitjet Dita dhe Java e Punës"
+msgstr ""
+"Ndarja e kohës</short> <short>Intervalet, në minuta, e shfaqura në paraqitjet "
+"dita dhe java e punës."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Time the last alarm ran, in time_t."
@@ -4580,7 +4583,9 @@ msgstr "Njësitë për përkujtuesin e prezgjedhur, \"minutes\", \"hours\" ose \
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr "Njësitë për të përcaktuar kur duhen fshehur aktivitetet, \"minutes\", \"hours\" ose \"days\"."
+msgstr ""
+"Njësitë për të përcaktuar kur duhen fshehur aktivitetet, \"minutes\", \"hours"
+"\" ose \"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Week start"
@@ -4612,7 +4617,9 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Whether to display the end time of events in the week and month views."
-msgstr "Tregon nëse duhet shfaqur përfundimi i ndodhive tek paraqitjet javore dhe mujore."
+msgstr ""
+"Tregon nëse duhet shfaqur përfundimi i ndodhive tek paraqitjet javore dhe "
+"mujore."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Whether to hide completed tasks in the tasks view."
@@ -4624,7 +4631,9 @@ msgstr "Tregon nëse duhet vendosur një përkujtues të prezgjedhur për takime
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr "Tregon nëse duhet shfaqur koha në formatin orar me 24 orë apo duke përdorur pd/md."
+msgstr ""
+"Tregon nëse duhet shfaqur koha në formatin orar me 24 orë apo duke përdorur "
+"pd/md."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Whether to show week numbers in the date navigator."
@@ -5127,7 +5136,9 @@ msgstr "<b>Java punuese</b>"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u dhe %d do të zëvendësohen me përdoruesin dhe domain nga adresa email.</i>"
+msgstr ""
+"<i>%u dhe %d do të zëvendësohen me përdoruesin dhe domain nga adresa email.</"
+"i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -5514,8 +5525,8 @@ msgstr "Shfaq shtyllën e _bashkangjitjes (sill këtu të bashkangjiturit)"
 #: ../calendar/gui/dialogs/comp-editor.c:979 ../composer/e-msg-composer.c:3493
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr ""
-"Pulsanti i bashkangjitjes: shtyp pulsantin hapësirë për të hapur dhe/ose mbyllur "
-"shtyllën e bashkangjitjes"
+"Pulsanti i bashkangjitjes: shtyp pulsantin hapësirë për të hapur dhe/ose "
+"mbyllur shtyllën e bashkangjitjes"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1526
 #: ../calendar/gui/dialogs/comp-editor.c:1569
@@ -11592,8 +11603,8 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
-"Nëse një përdorues përpiqet të hapë 10 apo më shumë mesazhe njëkohësisht, pyet "
-"përdoruesin nëse me të vërtetë dëshiron një gjë të tillë."
+"Nëse një përdorues përpiqet të hapë 10 apo më shumë mesazhe njëkohësisht, "
+"pyet përdoruesin nëse me të vërtetë dëshiron një gjë të tillë."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -12549,9 +12560,8 @@ msgid "Encry_ption certificate:"
 msgstr "Çertifikata e kri_ptimit:"
 
 #: ../mail/mail-config.glade.h:78
-#, fuzzy
 msgid "Encrypt out_going messages (by default)"
-msgstr "_Kriptim për mesazhet në dalje (e prezgjedhur)"
+msgstr "Kriptim për mesazhet në da_lje (e prezgjedhur)"
 
 #: ../mail/mail-config.glade.h:80
 msgid "Execute Command..."
@@ -12749,7 +12759,9 @@ msgstr "Ll_oji: "
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr "Lista e gjuhëve reflekton vetëm gjuhët për të cilat keni instaluar një fjalor."
+msgstr ""
+"Lista e gjuhëve reflekton vetëm gjuhët për të cilat keni instaluar një "
+"fjalor."
 
 #: ../mail/mail-config.glade.h:137
 msgid ""
@@ -13557,8 +13569,8 @@ msgid ""
 "      you can accept its license."
 msgstr ""
 "I pamundur leximi i file të liçencës \"{0}\", për arsye të një\n"
-"      problem instalimi.  Nuk do të jeni në gjendje të përdorni këtë provider "
-"derisa\n"
+"      problem instalimi.  Nuk do të jeni në gjendje të përdorni këtë "
+"provider derisa\n"
 "      të pranoni liçencën e tij."
 
 #. mail:checking-service title
@@ -14082,334 +14094,284 @@ msgid "Backup Settings..."
 msgstr "Rregullimet e backup..."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
-#, fuzzy
 msgid "Backup and restore Evolution data and settings"
-msgstr "Ndrysho rregullimet e Evolution"
+msgstr "Bën backup dhe rikthen të dhënat dhe rregullimet e Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
-#, fuzzy
 msgid "Restore Settings..."
-msgstr "Rregullimet Pilot..."
+msgstr "Rikthe rregullimet..."
 
 #: ../plugins/bbdb/bbdb.c:388
-#, fuzzy
 msgid "Automatic Contacts"
-msgstr "Shtoje tek kontaktet"
+msgstr "Kontakte automatike"
 
 #: ../plugins/bbdb/bbdb.c:397
-#, fuzzy
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
-msgstr "<span weight=\"bold\">Autentifikimi</span>"
+msgstr "<span weight=\"bold\">Kontakte automatike</span>"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:410
-#, fuzzy
 msgid "_Automatically create entries in the addressbook when responding to mail"
-msgstr "në tek m_ail"
+msgstr "_Automatikisht të krijohen zërat në rubrikë kur i jipet përgjigje një email-i"
 
 #: ../plugins/bbdb/bbdb.c:428
-#, fuzzy
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-msgstr "<span weight=\"bold\">Gërmat e mesazhit</span>"
+msgstr "<span weight=\"bold\">Kontaktet e mesazheve të menjëhershëm</span>"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:441
-#, fuzzy
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr "dhe"
+msgstr ""
+"Sinkronizim periodik i informacioneve dhe figurave të kontakteve nga mesazhet "
+"e _menjëhershëm"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:448
-#, fuzzy
 msgid "Synchronize with _buddy list now"
-msgstr "Sinkronizimi me lista tani"
+msgstr "Sinkronizo tani listën _buddy"
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
-#, fuzzy
 msgid "Weather: Cloudy"
 msgstr "Moti: Me re"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
-#, fuzzy
 msgid "Weather: Fog"
 msgstr "Moti: Mjegull"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
-#, fuzzy
 msgid "Weather: Partly Cloudy"
 msgstr "Moti: Pjesërisht me re"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Rain"
-msgstr "Bahrain"
+msgstr "Moti: Shi"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
-#, fuzzy
 msgid "Weather: Snow"
 msgstr "Moti: Borë"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
-#, fuzzy
 msgid "Weather: Sunny"
 msgstr "Moti: Me diell"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
-#, fuzzy
 msgid "Weather: Thunderstorms"
 msgstr "Moti: Stuhi me vetëtima"
 
 #: ../plugins/calendar-weather/calendar-weather.c:268
-#, fuzzy
 msgid "Select a location"
-msgstr "Zgjidh një veprim"
+msgstr "Zgjidh një zonë"
 
 #: ../plugins/calendar-weather/calendar-weather.c:655
-#, fuzzy
 msgid "_Units:"
-msgstr "Njësia"
+msgstr "_Njësitë:"
 
 #: ../plugins/calendar-weather/calendar-weather.c:662
-#, fuzzy
 msgid "Metric (Celsius, cm, etc)"
-msgstr "Celsius cm"
+msgstr "Metrike (Celsius, cm, etj.)"
 
 #: ../plugins/calendar-weather/calendar-weather.c:663
-#, fuzzy
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr "Imperial Fahrenheit"
+msgstr "Anglosaksone (Fahrenheit, inches, etj.)"
 
 #: ../plugins/default-source/default-source.c:82
-#, fuzzy
 msgid "Mark  as default folder"
-msgstr "Përdor kartelën e prezgjedhur të kopjeve?"
+msgstr "Shëno  si kartela e prezgjedhur"
 
 #: ../plugins/default-source/default-source.c:108
-#, fuzzy
 msgid "Mark as default folder"
-msgstr "Përdor kartelën e prezgjedhur të kopjeve?"
+msgstr "Shëno si kartela e prezgjedhur"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:59
-#, fuzzy
 msgid "Secure Password"
-msgstr "Shkruaj fjalëkalimin"
+msgstr "Fjalëkalim i sigurt"
 
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:62
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"Me këtë opcion lidheni me serverin duke përdorur Kerberos 4 për "
-"autentifikimin."
+"Me këtë opcion lidheni me serverin Exchange duke përdorur autentifikim me "
+"fjalëkalim të sigurt (NTLM)."
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:70
-#, fuzzy
 msgid "Plaintext Password"
-msgstr "Shkruaj fjalëkalimin"
+msgstr "Fjalëkalim në tekst të thjeshtë"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:72
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Me këtë opcion do të lidheni me serverin IMAP duke përdorur një fjalëkalim "
-"në tekst të thjeshtë."
+"Me këtë opcion do të lidheni me serverin Exchange duke përdorur autentifikimin "
+"me një fjalëkalim standart në tekst të thjeshtë."
 
 #. Description section
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:193
-#, fuzzy
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"<small>Mesazhi i specifikuar në vazhdim do t'i dërgohet automatikisht çdo "
-"personi që ju\n"
-"dërgon mail kur ju jeni jashtë zyre.</small>"
+"Mesazhi i specifikuar në vazhdim do t'i dërgohet automatikisht \n"
+"çdo personi që ju dërgon mail kur ju jeni jashtë zyre."
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:221
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:231
-#, fuzzy
 msgid "I am out of the office"
-msgstr "Për momentin jam jashtë zyre"
+msgstr "Nuk jam në zyrë"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:224
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:228
-#, fuzzy
 msgid "I am in the office"
-msgstr "Aktualisht ndodhem në zyrë"
+msgstr "Tani jam në zyrë"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:257
-#, fuzzy
 msgid "Out of office Message:"
-msgstr "<b>Mesazhi i Jashtë Zyre:</b>"
+msgstr "Mesazhi jashtë zyre:"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:302
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "Rregullimet"
+msgstr "Rregullimet e Exchange"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:448
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:200
-#, fuzzy
 msgid "_OWA Url:"
 msgstr "Url _OWA:"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:456
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:193
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "Identifikimi dështoi"
+msgstr "A_utentikimi"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:664
-#, fuzzy
 msgid "Authentication Type"
-msgstr "Identifikimi dështoi"
+msgstr "Lloji i autentikimit"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:678
-#, fuzzy
 msgid "Ch_eck for Supported Types"
-msgstr "K_ontrollo për llojet suportuar "
+msgstr "Kontrollo për lloj_et suportuar"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "Unsubscribing from folder \"%s\""
-msgstr "I pamundur ç'regjistrimi nga kartela `%s': Komandë e pavlefshme"
+msgstr "Duke u ç'regjistruar nga kartela \"%s\""
 
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:413
 msgid "Checklist"
 msgstr "Lista zgjedhjes"
 
 #: ../plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
-#, fuzzy
 msgid "Add Send Options to groupwise messages"
-msgstr "Shto Dërgo Mundësitë tek"
+msgstr "Shtoi \"Opcione dërgimi\" mesazheve groupwise"
 
 #: ../plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: ../widgets/misc/e-send-options.glade.h:20
-#, fuzzy
 msgid "Send Options"
-msgstr "Mundësitë"
+msgstr "Opcione dërgimi"
 
 #: ../plugins/itip-formatter/itip-formatter.c:704
-#, fuzzy
 msgid "Unable to parse item"
-msgstr "I pamundur analizimi i përmbajtjes së mesazhit"
+msgstr "I pamundur analizimi i elementit"
 
 #: ../plugins/itip-formatter/itip-formatter.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
-msgstr "E pamundur hapja e kalendarit '%s'."
+msgstr "I pamundur dërgimi i elementit kalendarit '%s'.  %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:768
 #, c-format
-#, fuzzy
 msgid "Sent to calendar '%s' as accepted"
-msgstr "Dërguar tek kalendari s"
+msgstr "Dërguar kalendarit «%s» si e pranuar"
 
 #: ../plugins/itip-formatter/itip-formatter.c:772
 #, c-format
-#, fuzzy
 msgid "Sent to calendar '%s' as tentative"
-msgstr "Dërguar tek kalendari s"
+msgstr "Dërguar kalendarit «%s» si përpjekje"
 
 #: ../plugins/itip-formatter/itip-formatter.c:777
 #, c-format
-#, fuzzy
 msgid "Sent to calendar '%s' as declined"
-msgstr "Dërguar tek kalendari s"
+msgstr "Dërguar kalendarit «%s» si e papranuar"
 
 #: ../plugins/itip-formatter/itip-formatter.c:782
 #, c-format
-#, fuzzy
 msgid "Sent to calendar '%s' as cancelled"
-msgstr "Dërguar tek kalendari s"
+msgstr "Dërguar kalendarit «%s» si e anulluar"
 
 #: ../plugins/itip-formatter/itip-formatter.c:833
-#, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Gjendja e pjesmarrësit nuk mund të rifreskohet për shkak të një gjendje të "
-"pavlefshme!\n"
+"pavlefshme"
 
 #: ../plugins/itip-formatter/itip-formatter.c:844
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to update attendee. %s"
-msgstr "I pamundur migrimi i kalendarit `%s'"
+msgstr "I pamundur rifreskimi i pjesmarrësit. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:848
-#, fuzzy
 msgid "Attendee status updated"
-msgstr "Gjendja e pjesmarrësit u rifreskua\n"
+msgstr "Gjendja e pjesmarrësit u rifreskua"
 
 #: ../plugins/itip-formatter/itip-formatter.c:973
-#, fuzzy
 msgid "The calendar attached is not valid"
-msgstr ""
-"E dhëna e kontaktit është e pavlefshme:\n"
-"\n"
+msgstr "Kalendari i bashkangjitur nuk është i vlefshëm"
 
 #: ../plugins/itip-formatter/itip-formatter.c:974
-#, fuzzy
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
-msgstr "mesazh tek a kalendari kalendari është nuk."
+msgstr "Mesazhi përmban një kalendar, por kalendari nuk është një iCalendar i vlefshëm."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1008
 #: ../plugins/itip-formatter/itip-formatter.c:1064
-#, fuzzy
 msgid "The item in the calendar is not valid"
-msgstr "element në kalendari është nuk"
+msgstr "Elementi në kalendar nuk është i vlefshëm"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1009
 #: ../plugins/itip-formatter/itip-formatter.c:1065
-#, fuzzy
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
-msgstr "mesazh a kalendari kalendari përmban jo or"
+msgstr ""
+"Mesazhi përmban një kalendar, por kalendari nuk përmban ndodhi, aktivitete "
+"apo informacione disponibiliteti"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1020
-#, fuzzy
 msgid "The calendar attached contains multiple items"
-msgstr "kalendari përmban elementët"
+msgstr "Kalendari i bashkangjitur përmban elementë shumëfishë"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1021
-#, fuzzy
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "Për gjithçka nga elementët file dhe kalendari"
+msgstr ""
+"Për të proçesuar të gjithë elementët, file duhet ruajtur dhe kalendari duhet "
+"importuar"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1658
-#, fuzzy
 msgid "Meetings and Tasks"
-msgstr "Kalendari dhe aktivitetet"
+msgstr "Takime dhe punë"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
 #: ../plugins/itip-formatter/itip-formatter.c:1681
-#, fuzzy
 msgid "_Delete message after acting"
-msgstr "Elemino mesazh mbas"
+msgstr "_Elemino mesazhin mbas aksionit"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1691
-#, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Konfigurimi</span>"
+msgstr "<span weight=\"bold\">Kërkimi konflikteve</span>"
 
 #. Source selector
 #: ../plugins/itip-formatter/itip-formatter.c:1704
-#, fuzzy
 msgid "Select the calendars to search for meeting conflicts"
-msgstr "Zgjidh tek për"
+msgstr "Zgjidh kalendarët ku duhet kërkuar për takime në konflikt"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:175 ../ui/evolution-calendar.xml.h:34
@@ -14420,490 +14382,452 @@ msgstr "Sot"
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:180
-#, fuzzy
 msgid "Today %H:%M"
-msgstr "Sot %l:%M %p"
+msgstr "Sot në %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:184
-#, fuzzy
 msgid "Today %H:%M:%S"
-msgstr "Sot %l:%M %p"
+msgstr "Sot në %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:193
-#, fuzzy
 msgid "Today %l:%M:%S %p"
-msgstr "Sot %l:%M %p"
+msgstr "Sot në %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:203
-#, fuzzy
 msgid "Tomorrow"
-msgstr "Komoros"
+msgstr "Nesër"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:208
-#, fuzzy
 msgid "Tomorrow %H:%M"
-msgstr "H M"
+msgstr "Nesër në %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:212
-#, fuzzy
 msgid "Tomorrow %H:%M:%S"
-msgstr "%H:%M:%S"
+msgstr "Nesër në %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:217
-#, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "Sot %l:%M %p"
+msgstr "Nesër në %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:221
-#, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Sot %l:%M %p"
+msgstr "Nesër në %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:240
 #, c-format
-#, fuzzy
 msgid "%A"
-msgstr "A"
+msgstr "%A"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:245
-#, fuzzy
 msgid "%A %H:%M"
-msgstr "%H:%M"
+msgstr "%A në orën %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:249
-#, fuzzy
 msgid "%A %H:%M:%S"
-msgstr "%H:%M:%S"
+msgstr "%A në orën %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:254
-#, fuzzy
 msgid "%A %l:%M %p"
-msgstr "%a %l:%M %p"
+msgstr "%A në orën %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:258
-#, fuzzy
 msgid "%A %l:%M:%S %p"
-msgstr "%I:%M:%S %p"
+msgstr "%A në orën %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
 #: ../plugins/itip-formatter/itip-view.c:267
-#, fuzzy
 msgid "%A, %B %e"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %e %B"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:273
-#, fuzzy
 msgid "%A, %B %e %H:%M"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %e %B në orën %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:277
-#, fuzzy
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%m/%d/%Y %H:%M:%S"
+msgstr "%A, %e %B në orën %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:282
-#, fuzzy
 msgid "%A, %B %e %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%A, %e %B në orën %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:286
-#, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%b %d %l:%M %p"
+msgstr "%A, %e %B në orën %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:292
-#, fuzzy
 msgid "%A, %B %e, %Y"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %e %B, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:297
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %e %B %Y në orën %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:301
-#, fuzzy
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%a %m/%d/%Y %H:%M:%S"
+msgstr "%A, %e %B %Y në orën %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:306
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "nga %B %d, %Y, %l:%M %p"
+msgstr "%A, %e %B %Y në orën %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:310
-#, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "nga %B %d, %Y, %l:%M %p"
+msgstr "%A, %e %B %Y në orën %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> ka publikuar informacione në lidhje me një mbledhje."
+msgstr "<b>%s</b> me anë të %s ka publikuar informacionet në vazhdim në lidhje me mbledhjen:"
 
 #: ../plugins/itip-formatter/itip-view.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> ka publikuar informacione në lidhje me një mbledhje."
+msgstr "<b>%s</b> ka publikuar informacionet në vazhdim në lidhje me mbledhjen:"
 
 #: ../plugins/itip-formatter/itip-view.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-msgstr "<b>%s</b> kërkon praninë e %s në një mbledhje."
+msgstr "<b>%s</b> kërkon praninë e %s tek mbledhja në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> kërkon praninë tuaj në një mbledhje."
+msgstr "<b>%s</b> nëpërmjet %s kërkon praninë tuaj tek mbledhja në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b>%s</b> kërkon praninë tuaj në një mbledhje."
+msgstr "<b>%s</b> kërkon praninë tuaj tek mbledhja në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> dëshiron t'i shtohet një mbledhjeje ekzistuese."
+msgstr "<b>%s</b> nëpërmjet %s dëshiron t'i shtohet një mbledhjeje ekzistuese:"
 
 #: ../plugins/itip-formatter/itip-view.c:355
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr "<b>%s</b> dëshiron t'i shtohet një mbledhjeje ekzistuese."
+msgstr "<b>%s</b> dëshiron t'i shtohet një mbledhjeje ekzistuese:"
 
 #: ../plugins/itip-formatter/itip-view.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr "<b>%s</b> dëshiron të marrë informacionet aktualë të aktivitetit."
+msgstr "<b>%s</b> dëshiron të marrë informacionet e fundit në lidhje me mbledhjen në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> ka dërguar një mesazh të pakuptueshëm."
+msgstr "<b>%s</b> ka dërguar mbrapsht përgjigjen në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> ka anulluar një mbledhje."
+msgstr "<b>%s</b> nëpërmjet %s ka anulluar mbledhjen në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
-msgstr "<b>%s</b> ka anulluar një mbledhje."
+msgstr "<b>%s</b> ka anulluar mbledhjen në vazhdim."
 
 #: ../plugins/itip-formatter/itip-view.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> i është përgjigjur një kërkese për mbledhje."
+msgstr "<b>%s</b> ka propozuar ndryshimet në vazhdim për mbledhjen."
 
 #: ../plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> i është përgjigjur një kërkese për mbledhje."
+msgstr "<b>%s</b> nëpërmjet %s ka shmangur ndryshimet në vazhdim për mbledhjen:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> i është përgjigjur një kërkese për mbledhje."
+msgstr "<b>%s</b> ka shmangur ndryshimet në vazhdim për mbledhjen."
 
 #: ../plugins/itip-formatter/itip-view.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> ka publikuar informacione në lidhje me aktivitetin."
+msgstr "<b>%s</b> nëpërmjet %s ka publikuar punën në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> ka publikuar informacione në lidhje me aktivitetin."
+msgstr "<b>%s</b> ka publikuar punën në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> kërkon praninë e %s në një mbledhje."
+msgstr "<b>%s</b> kërkon caktimin e %s për detyrën në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> ka anulluar një aktivitet."
+msgstr "<b>%s</b> me anë të %s ju ka caktuar një detyrë:"
 
 #: ../plugins/itip-formatter/itip-view.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr "<b>%s</b> ka anulluar një aktivitet."
+msgstr "<b>%s</b> ju ka caktuar një detyrë:"
 
 #: ../plugins/itip-formatter/itip-view.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> dëshiron të shtojë informacione mbi një aktivitet ekzistues."
+msgstr "<b>%s</b> me anë të %s dëshiron të shtohet tek një detyrë ekzistuese:"
 
 #: ../plugins/itip-formatter/itip-view.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
-msgstr "<b>%s</b> dëshiron të shtojë informacione mbi një aktivitet ekzistues."
+msgstr "<b>%s</b> dëshiron të shtohet tek një detyrë ekzistuese:"
 
 #: ../plugins/itip-formatter/itip-view.c:426
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
-msgstr "<b>%s</b> dëshiron të marrë informacionet aktualë të aktivitetit."
+msgstr ""
+"<b>%s</b> dëshiron të marrë informacionet e fundit në lidhje me detyrën e "
+"shënuar në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> ka dërguar një mesazh të pakuptueshëm."
+msgstr "<b>%s</b> ka dërguar përgjigjen në vazhdim mbi detyrën e shënuar:"
 
 #: ../plugins/itip-formatter/itip-view.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> ka anulluar një aktivitet."
+msgstr "<b>%s</b> me anë të %s ka anulluar detyrën e shënuar në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "<b>%s</b> ka anulluar një aktivitet."
+msgstr "<b>%s</b> ka anulluar detyrën e shënuar në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> i është përgjigjur caktimit të një detyre."
+msgstr ""
+"<b>%s</b> ka propozuar ndryshimet në vazhdim në lidhje me shënimin "
+"e detyrës:"
 
 #: ../plugins/itip-formatter/itip-view.c:442
 #, c-format
-#, fuzzy
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr "<b> s</b> s:"
+msgstr "<b>%s</b> me anë të %s nuk ka pranuar detyrën e shënuar në vazhdim:"
 
 #: ../plugins/itip-formatter/itip-view.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> i është përgjigjur caktimit të një detyre."
+msgstr "<b>%s</b> nuk ka pranuar detyrën e shënuar në vazhdim:"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:892
 #: ../plugins/itip-formatter/itip-view.c:942
-#, fuzzy
 msgid "Comment:"
-msgstr "Komanda:"
+msgstr "Komente:"
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
-#, fuzzy
 msgid "Action not available"
-msgstr "TLS jo në dispozicion"
+msgstr "Veprim jo në dispozicion"
 
 #. org.gnome.mailing-list-actions:no-header secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "mesazh nuk titull për."
+msgstr "Ky mesazh nuk përmban informacione e titullit të nevojshëm për këtë veprim."
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
-#, fuzzy
 msgid "Posting not allowed"
-msgstr "Postimi dështoi: %s"
+msgstr "Postimi nuk lejohet"
 
 #. org.gnome.mailing-list-actions:posting-not-allowed secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
-msgstr "tek lista është nuk është a lista Kontakti lista pronari për."
+msgstr ""
+"Postimi tek kjo mailing list nuk lejohet. Ndoshta është një listë në vetëm-lexim. "
+"Kontakto administratorin e listës për hollësi."
 
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
-#, fuzzy
 msgid "Send e-mail message to mailing list?"
-msgstr "Dërgoi një _mesazh listës..."
+msgstr "Dërgon mesazh e-mail listës?"
 
 #. org.gnome.mailing-list-actions:ask-send-message secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:12
-#, fuzzy
 msgid ""
 "An e-mail message will be sent to the URL \"{0}\". You can either send the "
 "message automatically, or see and change it first.\n"
 "\n"
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
-msgstr "e mail mesazh tek URL Ti mesazh or dhe i pari j lista mbas mesazh."
+msgstr ""
+"Një mesazh e-mail do të dërgohet tek URL \"{0}\". Mund t'a dërgoni mesazhin "
+"automatikisht, ose paraprakisht t'a shihni dhe t'a ndryshoni.\n"
+"\n"
+"Pak mbas dërgimit të mesazhit duhet t'ju arrijë një përgjigje nga mailing list."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
-#, fuzzy
 msgid "_Send message"
-msgstr "Duke dërguar mesazhin"
+msgstr "_Dërgo mesazhin"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:16
-#, fuzzy
 msgid "_Edit message"
-msgstr "Duke dërguar mesazhin"
+msgstr "_Ndrysho mesazhin"
 
 #. org.gnome.mailing-list-actions:malformed-header primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:18
-#, fuzzy
 msgid "Malformed header"
-msgstr "Firmë e keqformuar"
+msgstr "Titull i keqformuar"
 
 #. org.gnome.mailing-list-actions:malformed-header secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:20
-#, fuzzy
 msgid ""
 "The {0} header of this message is malformed and could not be processed.\n"
 "\n"
 "Header: {1}"
-msgstr "titull nga mesazh është dhe nuk j"
+msgstr ""
+"Header {0} i këtij mesazhi është i keqformuar dhe nuk mund të proçesohet.\n"
+"\n"
+"Header: {1}"
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
-#, fuzzy
 msgid "No e-mail action"
-msgstr "Veprimet e filtrimit të log"
+msgstr "Asnjë veprim e-mail"
 
 #. org.gnome.mailing-list-actions:no-action secondary
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:26
-#, fuzzy
 msgid ""
 "The action could not be performed. This means the header for this action did "
 "not contain any action we could handle.\n"
 "\n"
 "Header: {0}"
-msgstr "nuk titull për nuk j"
+msgstr ""
+"Veprimi nuk mund të kryhet. Kjo do të thotë që header për këtë veprim nuk përmban "
+"asnjë veprim të trajtueshëm nga ne.\n"
+"\n"
+"Header: {0}"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/new-mail-notify/new-mail-notify.c:66
-#, fuzzy
 msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "_Mos më njofto kur arrijnë mesazhe të rinj"
+msgstr "_Gjenero një mesazh D-BUS kur arrin postë e re"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
-#, fuzzy
 msgid "Enable and disable plugins"
-msgstr "Aktivo dhe"
+msgstr "Aktivo dhe ç'aktivo plugins"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Manage Plugins..."
-msgstr "Duke fshirë..."
+msgstr "Kontrolli plugins..."
 
 #: ../plugins/plugin-manager/plugin-manager.c:45
-#, fuzzy
 msgid "Author(s)"
-msgstr "orë"
+msgstr "Autori(ët)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:46
-#, fuzzy
 msgid "Id"
-msgstr "I"
+msgstr "Id"
 
 #: ../plugins/plugin-manager/plugin-manager.c:47
-#, fuzzy
 msgid "Path"
-msgstr "_Vendodhja:"
+msgstr "Pozicioni"
 
 #: ../plugins/plugin-manager/plugin-manager.c:48
-#, fuzzy
 msgid "Description"
-msgstr "Përshkrimi:"
+msgstr "Përshkrimi"
 
 #. Setup the ui
 #: ../plugins/plugin-manager/plugin-manager.c:188
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Manazhuesi"
+msgstr "Manazhuesi i plugin"
 
 #: ../plugins/plugin-manager/plugin-manager.c:201
-#, fuzzy
 msgid "Note: Some changes will not take effect until restart"
-msgstr "Shënim nuk deri më"
+msgstr "Shënim: disa nga ndryshimet do të kenë efekt mbas rinisjes së programit"
 
 #: ../plugins/plugin-manager/plugin-manager.c:210
-#, fuzzy
 msgid "Plugin"
-msgstr "Duke pastruar"
+msgstr "Plugin"
 
 #: ../plugins/prefer-plain/prefer-plain.c:105
-#, fuzzy
 msgid "Show HTML if present"
-msgstr "Shfaq HTML"
+msgstr "Shfaq HTML nëse ka"
 
 #: ../plugins/prefer-plain/prefer-plain.c:106
-#, fuzzy
 msgid "Prefer PLAIN"
-msgstr "E PA FSHEHUR"
+msgstr "Preferon tekst të thjeshtë"
 
 #: ../plugins/prefer-plain/prefer-plain.c:107
-#, fuzzy
 msgid "Only ever show PLAIN"
-msgstr "Vetëm E PA FSHEHUR"
+msgstr "Shfaq vetëm dhe gjithmonë tekst të thjeshtë"
 
 #: ../plugins/prefer-plain/prefer-plain.c:150
-#, fuzzy
 msgid "HTML Mode"
-msgstr "Mesazh HTML"
+msgstr "Modalitet HTML"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments ..."
-msgstr "_Të bashkangjitur..."
+msgstr "Ruaj të bashkangjiturit ..."
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
 msgid "Save all attachments"
-msgstr "Duke ruajtur të bashkangjiturin"
+msgstr "Ruaj të gjithë të bashkangjiturit"
 
 #: ../plugins/save-attachments/save-attachments.c:331
-#, fuzzy
 msgid "Select save base name"
-msgstr "Zgjidh zonën e orarit"
+msgstr "Zgjidh emrin bazë të ruajtjes"
 
 #: ../plugins/save-attachments/save-attachments.c:351
-#, fuzzy
 msgid "MIME Type"
-msgstr "Lloji MIME:"
+msgstr "Lloji MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:359
 #: ../ui/evolution-message-composer.xml.h:16
@@ -14913,72 +14837,65 @@ msgstr "Ruaj"
 
 #: ../plugins/save-calendar/csv-format.c:167
 #, c-format
-#, fuzzy
 msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-msgstr "s s s s s s"
+msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 
 #: ../plugins/save-calendar/csv-format.c:370
 #, c-format
-#, fuzzy
 msgid ""
 "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
 "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
 "sAttendees List%sLocation%sModified%s"
-msgstr "Uid Lista Lista Lista Lista U plotësua Lista s"
+msgstr ""
+"Uid%sTreguesi%sLista përshkrimeve%sLista kategorive%sLista komentevet%sPlotësuar%"
+"sKrijuar%sLista kontakteve%sFillimi%sPërfundimi%sSkadimi%spërqindje "
+"e kryer%sPrioriteti%sUrl%sLista pjesmarrësve%sVendi%sNdryshuar%s"
 
 #: ../plugins/save-calendar/csv-format.c:519
-#, fuzzy
 msgid "Advanced options for the CSV format"
-msgstr "Të detajuara për"
+msgstr "Opcionet e detajuara për formatin CSV"
 
 #: ../plugins/save-calendar/csv-format.c:526
-#, fuzzy
 msgid "Prepend a header"
-msgstr "a titull"
+msgstr "Propozoi një titull"
 
 #: ../plugins/save-calendar/csv-format.c:535
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "Dorëzimet lokale"
+msgstr "Kufizuesi i vlerave:"
 
 #: ../plugins/save-calendar/csv-format.c:541
-#, fuzzy
 msgid "Record delimiter:"
-msgstr "Regjistrimi:"
+msgstr "Kufizuesi i regjistrimeve:"
 
 #: ../plugins/save-calendar/csv-format.c:547
-#, fuzzy
 msgid "Encapsulate values with:"
-msgstr "me:"
+msgstr "Kufizo vlerat me:"
 
 #: ../plugins/save-calendar/csv-format.c:569
-#, fuzzy
 msgid "Comma separated value format (.csv)"
-msgstr "Presje"
+msgstr "Format vlerash të ndara me presje (.csv)"
 
 #: ../plugins/save-calendar/ical-format.c:136
-#, fuzzy
 msgid "iCalendar format (.ics)"
-msgstr "Files iCalendar (.ics)"
+msgstr "Format iCalendar (.ics)"
 
 #: ../plugins/save-calendar/rdf-format.c:390
-#, fuzzy
 msgid "RDF format (.rdf)"
 msgstr "Format RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:171
 #: ../plugins/save-calendar/save-calendar.c:181
-#, fuzzy
 msgid "Select destination file"
-msgstr "Zgjidh destinimin"
+msgstr "Zgjidh file e destinuar"
 
 #: ../plugins/save-calendar/save-calendar.c:216
 #, c-format
-#, fuzzy
 msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
-msgstr "nga s është në tek?"
+msgstr ""
+"Prapashtesa e emrit të file për këtë lloj file (%s) nuk përdoret për file e zgjedhur. "
+"Dëshiron të vazhdosh?"
 
 #: ../plugins/send-options/send-options.c:82
 #, c-format
@@ -14987,91 +14904,79 @@ msgstr "%sShkruaj fjalëkalimin për %s (përdoruesi %s)"
 
 #. org.gnome.evolution.mail_shared_folder:invalid-user primary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:2
-#, fuzzy
 msgid "Invalid user"
-msgstr "Qëllim i pavlefshëm"
+msgstr "Përdorues i pavlefshëm"
 
 #. org.gnome.evolution.mail_shared_folder:invalid-user secondary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:4
-#, fuzzy
 msgid ""
 "\n"
 "You cannot share folder with specified user \"{0}\" \n"
-msgstr "me përdorues j"
+msgstr ""
+"\n"
+"E pamundur ndarja e kartelës me përdoruesin e specifikuar \"{0}\" \n"
 
 #. org.gnome.evolution.mail_shared_folder:no-user primary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:8
-#, fuzzy
 msgid "Specify User"
-msgstr "Titull specifik"
+msgstr "Specifiko përdoruesin"
 
 #. org.gnome.evolution.mail_shared_folder:no-user secondary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:10
-#, fuzzy
 msgid ""
 "\n"
 "\tYou have to specify a user name whom you want to add to the list \n"
-msgstr "j tek a përdorues emri tek shto tek lista j"
+msgstr ""
+"\n"
+"\tDuhet specifikuar emri i përdoruesit për t'ja shtuar listës \n"
 
 #: ../plugins/shared-folder/properties.glade.h:2
-#, fuzzy
 msgid "<b>Users :</b>"
-msgstr "<b>Alarme</b>"
+msgstr "<b>Përdoruesit :</b>"
 
 #: ../plugins/shared-folder/properties.glade.h:4
-#, fuzzy
 msgid "Message"
-msgstr "Me_sazhi:"
+msgstr "Mesazhi"
 
 #: ../plugins/shared-folder/properties.glade.h:6
-#, fuzzy
 msgid "Shared Folder Notification"
-msgstr "E përbashkët Kartelë Lajmërim"
+msgstr "Njofto bashkandarjen e kartelës"
 
 #: ../plugins/shared-folder/properties.glade.h:8
-#, fuzzy
 msgid "The participants will receive the following notification.\n"
-msgstr "j"
+msgstr "Pjesmarrësit do të marrin njoftimin në vazhdim.\n"
 
 #: ../plugins/shared-folder/properties.glade.h:11
-#, fuzzy
 msgid "_Contacts..."
-msgstr "Kontakte..."
+msgstr "_Kontakte..."
 
 #: ../plugins/shared-folder/properties.glade.h:12
-#, fuzzy
 msgid "_Cutomize notification message"
-msgstr "I pamundur krijimi i mesazhit."
+msgstr "_Personalizo mesazhin e njoftimit"
 
 #: ../plugins/shared-folder/properties.glade.h:13
-#, fuzzy
 msgid "_Not Shared"
-msgstr "Nuk është filluar"
+msgstr "_Jo e përbashkët"
 
 #: ../plugins/shared-folder/properties.glade.h:15
-#, fuzzy
 msgid "_Shared With ..."
-msgstr "E përba_shkët."
+msgstr "_E përbashkët me ..."
 
 #: ../plugins/shared-folder/properties.glade.h:16
-#, fuzzy
 msgid "_Sharing"
-msgstr "Hija"
+msgstr "_Bashkandarje"
 
 #: ../plugins/shared-folder/share-folder-common.c:315
-#, fuzzy
 msgid "Users"
-msgstr "Përdoruesi"
+msgstr "Përdorues"
 
 #: ../plugins/shared-folder/share-folder-common.c:316
-#, fuzzy
 msgid "Enter the users and set permissions"
-msgstr "Shto dhe të drejtat"
+msgstr "Shto përdoruesit dhe cakto të drejtat"
 
 #: ../plugins/shared-folder/share-folder-common.c:401
-#, fuzzy
 msgid "Sharing"
-msgstr "Hija"
+msgstr "Bashkandarje"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
@@ -15092,19 +14997,16 @@ msgid "Evolution Test component"
 msgstr "Komponues i provave të Evolution"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
-#, fuzzy
 msgid "A GNOME Print description of the current printer settings"
-msgstr "A GNOME Printo përshkrimi nga"
+msgstr "Një përshkrim i llojit «GNOME Print» i rregullimeve aktuale të printerit"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
-#, fuzzy
 msgid "Configuration version"
-msgstr "Versioni i konfigurimit të Evolution"
+msgstr "Versioni i konfigurimit"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
-#, fuzzy
 msgid "Default sidebar width"
-msgstr "Gjerësia e prezgjedhur e dritares"
+msgstr "Gjerësia e prezgjedhur e kuadratit anësor"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window height"
@@ -15119,9 +15021,8 @@ msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "ID apo alias i komponentit që duhet shfaqur si i prezgjedhur në nisje."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
-#, fuzzy
 msgid "Last upgraded configuration version"
-msgstr "Versioni i i fundit i përditsuar i konfigurimit të Evolution"
+msgstr "Versioni i fundit i përditsuar i konfigurimit"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
@@ -15130,63 +15031,57 @@ msgstr ""
 "jashtë linje"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
-#, fuzzy
 msgid "Printer settings"
-msgstr "Rregullimet Pilot..."
+msgstr "Rregullimet e printerit"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
-#, fuzzy
 msgid "Skip development warning dialog"
-msgstr "Nëse duhet kapërcyer dritarja e paralajmërimit të versionit në zhvillim"
+msgstr "Kapërce dialogun e paralajmërimit të versionit në zhvillim"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:476
 msgid "Start in offline mode"
 msgstr "Fillo në modalitetin jashtë linje"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:12
-#, fuzzy
 msgid "The configuration version of Evolution, with major/minor/configuration level"
-msgstr "nga Evolution me i vogël etiketa"
+msgstr "Versioni i konfigurimit të Evolution, me nivelet major/minor/konfigurim"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
-#, fuzzy
 msgid "The default height for the main window, in pixels."
-msgstr "Lartësia e prezgjedhur e dritares së mesazhit"
+msgstr "Lartësia e prezgjedhur e dritares qendrore, në pixel."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
-#, fuzzy
 msgid "The default width for the main window, in pixels."
-msgstr "Gjerësia e prezgjedhur e dritares së mesazhit"
+msgstr "Gjerësia e prezgjedhur e dritares qendrore, në pixel."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
-#, fuzzy
 msgid "The default width for the sidebar, in pixels."
-msgstr "Gjerësia e prezgjedhur e shtyllës së panelit të kartelës"
+msgstr "Gjerësia e prezgjedhur e kuadratit anësor, në pixel."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
-#, fuzzy
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
-msgstr "e fundit nga Evolution me i vogël etiketa"
+msgstr "Versioni i fundit i përditsuar i konfigurimit të Evolution, me nivelet major/minor/konfigurim"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buutons is determined "
 "by the GNOME toolbar setting."
-msgstr "nga dritare tekst është nga është sipas GNOME."
+msgstr ""
+"Stili i pulsantëve të dritares. Vlerat e lejuara janë \"text\", \"icons\", "
+"\"both\", \"toolbar\". Nëse caktohet \"toolbar\", stili i shtyllës së instrumentëve "
+"përcaktohet nga rregullimet e GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
 msgstr "Paneli i instrumentëve është i dukshëm"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
-#, fuzzy
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
-"Nëse e vërtetë, Evolution do të niset në modalitetin jashtë linje në vend të "
+"Nëse Evolution duhet të niset në modalitetin jashtë linje në vend të "
 "modalitetit në linjë."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
@@ -15194,26 +15089,22 @@ msgid "Whether the toolbar should be visible."
 msgstr "Nëse paneli i instrumentëve duhet të jetë i dukshëm."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
-#, fuzzy
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
-"Nëse e vërtetë, dritarja e dialogut të paralajmërimit tek versioni në "
-"zhvillim i Evolution nuk do të shfaqet."
+"Nëse dritarja e dialogut të paralajmërimit tek versioni në zhvillim i Evolution "
+"duhet kapërcyer."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
-#, fuzzy
 msgid "Whether the window buttons should be visible."
-msgstr "Nëse paneli i instrumentëve duhet të jetë i dukshëm."
+msgstr "Nëse pulsantët e dritares duhet të jenë të dukshëm."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
-#, fuzzy
 msgid "Window button style"
-msgstr "Dritarja"
+msgstr "Stili i pulsantëve të dritares"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
-#, fuzzy
 msgid "Window buttons are visible"
-msgstr "Dritarja i dukshëm"
+msgstr "Pulsantët e dritares janë të dukshëm"
 
 #: ../shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -15432,7 +15323,6 @@ msgstr "Bug buddy nuk mund të vihet në funksionim."
 #. * per language credits for translation, displayed in the
 #. * about box
 #: ../shell/e-shell-window-commands.c:501
-#, fuzzy
 msgid "translator-credits"
 msgstr "Laurent Dhima <laurenti@alblinux.net>"
 
@@ -15519,29 +15409,26 @@ msgid "Welcome"
 msgstr "Mirësevini"
 
 #: ../shell/evolution-startup-wizard.glade.h:6
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Mirësevini tek Evolution. Hapat në vazhdim do të mundësojnë\n"
-"Evolution të lidhet me llogaritë e tua email, dhe të imortojë files\n"
-"nga programet e tjerë. \n"
+"Mirësevini tek Evolution. Hapat në vazhdim do të mundësojnë Evolution të lidhet "
+"me llogaritë e tua email, dhe të imortojë filesnga programet e tjerë. \n"
 "\n"
 "Ju lutem kliko butonin \"Vazhdo\" për të vazhduar. "
 
 #: ../shell/evolution-startup-wizard.glade.h:9
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information needed to set up "
 "Evolution. \n"
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
-"Keni dhënë me sukses të gjitha të dhënat e duhura për\n"
-"të sistemuar Evolution. \n"
+"Keni dhënë me sukses të gjitha të dhënat e duhura për të sistemuar "
+"Evolution. \n"
 "\n"
 "Kliko butonin \"Apliko\" për të ruajtur rregullimet. "
 
@@ -15675,9 +15562,8 @@ msgid "Start in online mode"
 msgstr "Fillo në modalitetin në linjë"
 
 #: ../shell/main.c:481
-#, fuzzy
 msgid "Forcibly shut down all Evolution components"
-msgstr "Detyro përfundimin e të gjithë komponentëve të evolution"
+msgstr "Detyro përfundimin e të gjithë komponentëve të Evolution"
 
 #: ../shell/main.c:485
 msgid "Forcibly re-migrate from Evolution 1.4"
@@ -15688,14 +15574,12 @@ msgid "Send the debugging output of all components to a file."
 msgstr "Dërgo rezultatin e debug të të gjithë komponuesve në një file."
 
 #: ../shell/main.c:491
-#, fuzzy
 msgid "Disable the mono plugin environment."
-msgstr "Ç'aktivo mono."
+msgstr "Ç'aktivo ambientin mono plugin."
 
 #: ../shell/main.c:494
-#, fuzzy
 msgid "Disable loading of any plugins."
-msgstr "Ç'aktivo nga."
+msgstr "Ç'aktivo ngarkimin e çfarëdo plugin."
 
 #: ../shell/main.c:525
 #, c-format
@@ -16661,9 +16545,8 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Krijo apo ndrysho rregullat për filtrimin e mesazheve të rinj"
 
 #: ../ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit vFolder definitions"
-msgstr "Krijo apo ndrysho përcaktimet e kartelës virtuale"
+msgstr "Krijo apo ndrysho përcaktimet e kartelës vFolder"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
@@ -16702,9 +16585,8 @@ msgid "_Filters..."
 msgstr "_Filtrat..."
 
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "vFolder _Editor..."
-msgstr "_Editori i kartelave virtuale..."
+msgstr "_Editori i kartelave vFolder..."
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
@@ -16841,9 +16723,8 @@ msgid "Copy selected messages to another folder"
 msgstr "Kopjo mesazhet e zgjedhur në një kartelë tjetër"
 
 #: ../ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create _vFolder From Message"
-msgstr "_Krijo filtër nga mesazhi"
+msgstr "Krijo kartelë _vFolder nga mesazhi"
 
 #: ../ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
@@ -16862,24 +16743,20 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "Krijo një rregull për të filtruar mesazhet me këtë subjekt"
 
 #: ../ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a vFolder for these recipients"
-msgstr "Krijo një kartelë virtuale për këta marrës"
+msgstr "Krijo një kartelë vFolder për këta marrës"
 
 #: ../ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Create a vFolder for this mailing list"
-msgstr "Krijo një kartelë virtuale për këtë mailing list"
+msgstr "Krijo një kartelë vFolder për këtë mailing list"
 
 #: ../ui/evolution-mail-message.xml.h:19
-#, fuzzy
 msgid "Create a vFolder for this sender"
-msgstr "Krijo një kartelë virtuale për këtë dërgues"
+msgstr "Krijo një kartelë vFolder për këtë dërgues"
 
 #: ../ui/evolution-mail-message.xml.h:20
-#, fuzzy
 msgid "Create a vFolder for this subject"
-msgstr "Krijo një kartelë virtuale për këtë subjekt"
+msgstr "Krijo një kartelë vFolder për këtë subjekt"
 
 #: ../ui/evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
@@ -17198,24 +17075,20 @@ msgid "_Undelete"
 msgstr "_Risill"
 
 #: ../ui/evolution-mail-message.xml.h:127
-#, fuzzy
 msgid "vFolder on Mailing _List..."
-msgstr "Kartelë virtuale nga Mailing _List..."
+msgstr "Kartelë vFolder tek Mailing _List..."
 
 #: ../ui/evolution-mail-message.xml.h:128
-#, fuzzy
 msgid "vFolder on Se_nder..."
-msgstr "Kartelë virtuale nga _Dërguesi..."
+msgstr "Kartelë vFolder tek _Dërguesi..."
 
 #: ../ui/evolution-mail-message.xml.h:129
-#, fuzzy
 msgid "vFolder on _Recipients..."
-msgstr "Kartelë virtuale nga _Marrësit..."
+msgstr "Kartelë vFolder tek _Marrësit..."
 
 #: ../ui/evolution-mail-message.xml.h:130
-#, fuzzy
 msgid "vFolder on _Subject..."
-msgstr "Kartelë virtuale nga _Subjekti..."
+msgstr "Kartelë vFolder tek _Subjekti..."
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 #: ../ui/evolution-message-composer.xml.h:3
@@ -17539,24 +17412,20 @@ msgid "Create a new window displaying this folder"
 msgstr "Krijo një dritare të re për të shfaqur këtë kartelë"
 
 #: ../ui/evolution.xml.h:7
-#, fuzzy
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr "Shfaq dritare"
+msgstr "Vizato pulsantët e dritares duke përdorur rregullimet e desktop për panelin e instrumentëve"
 
 #: ../ui/evolution.xml.h:8
-#, fuzzy
 msgid "Display window buttons with icons and text"
-msgstr "Shfaq dritare me dhe tekst"
+msgstr "Shfaq pulsantët e dritares me ikona dhe tekst"
 
 #: ../ui/evolution.xml.h:9
-#, fuzzy
 msgid "Display window buttons with icons only"
-msgstr "Shfaq dritare me"
+msgstr "Shfaq pulsantët e dritares vetëm me ikona"
 
 #: ../ui/evolution.xml.h:10
-#, fuzzy
 msgid "Display window buttons with text only"
-msgstr "Shfaq dritare me tekst"
+msgstr "Shfaq pulsantët e dritares vetëm me tekst"
 
 #: ../ui/evolution.xml.h:11
 msgid "E_xit"
@@ -17579,14 +17448,12 @@ msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr "Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
 
 #: ../ui/evolution.xml.h:16
-#, fuzzy
 msgid "Hide window buttons"
-msgstr "Fshih dritare"
+msgstr "Fshih pulsantët e dritares"
 
 #: ../ui/evolution.xml.h:17
-#, fuzzy
 msgid "Icons _and text"
-msgstr "Ikon_at dhe tekst"
+msgstr "Ikona _dhe tekst"
 
 #: ../ui/evolution.xml.h:18
 msgid "Import data from other programs"
@@ -17601,9 +17468,8 @@ msgid "Pi_lot Settings..."
 msgstr "Rregullimet e Pi_lot-it..."
 
 #: ../ui/evolution.xml.h:22
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "Preferimet e postës"
+msgstr "Preferi_met"
 
 #: ../ui/evolution.xml.h:23
 msgid "Send / Receive"
@@ -17638,19 +17504,16 @@ msgid "Toggle whether we are working offline."
 msgstr "Ndrysho menyrën e funksionimit (lidhur apo shkëputur)."
 
 #: ../ui/evolution.xml.h:31
-#, fuzzy
 msgid "Tool_bar"
 msgstr "Paneli i _instrumentëve"
 
 #: ../ui/evolution.xml.h:32
-#, fuzzy
 msgid "Tool_bar style"
-msgstr "Paneli i instrumentëve është i dukshëm"
+msgstr "Stili i panelit të _instrumentëve"
 
 #: ../ui/evolution.xml.h:33
-#, fuzzy
 msgid "Window B_uttons"
-msgstr "Dritarja B_utonat"
+msgstr "B_utonat e dritares"
 
 #: ../ui/evolution.xml.h:35
 msgid "_About Evolution..."
@@ -17661,14 +17524,12 @@ msgid "_Help"
 msgstr "_Ndihmë"
 
 #: ../ui/evolution.xml.h:41
-#, fuzzy
 msgid "_Hide buttons"
-msgstr "Fs_hih"
+msgstr "_Fshih pulsantët"
 
 #: ../ui/evolution.xml.h:42
-#, fuzzy
 msgid "_Icons only"
-msgstr "_Ikonat"
+msgstr "Vetëm _Ikona"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Import..."
@@ -17687,9 +17548,8 @@ msgid "_Send / Receive"
 msgstr "_Dërgo / Merr"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Text only"
-msgstr "Modeli i tekstit"
+msgstr "Vetëm _Tekst"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Window"
@@ -17777,9 +17637,8 @@ msgid "Select a Time Zone"
 msgstr "Zgjidh zonën e orarit"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "TimeZone Combobox"
-msgstr "Zona orare "
+msgstr "Kutia e kombinuar e zonës orare"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:7
 msgid ""
@@ -17811,14 +17670,12 @@ msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
-#, fuzzy
 msgid "Previous Button"
-msgstr "Paraardhëse"
+msgstr "Pulsanti paraardhës"
 
 #: ../widgets/misc/e-calendar.c:226
-#, fuzzy
 msgid "Month Calendar"
-msgstr "Duke ngarkuar kalendarin"
+msgstr "Kalendari mujor"
 
 #: ../widgets/misc/e-cell-date-edit.c:232 ../widgets/misc/e-dateedit.c:444
 msgid "Now"
@@ -17922,39 +17779,32 @@ msgid "..."
 msgstr "..."
 
 #: ../widgets/misc/e-dateedit.c:313
-#, fuzzy
 msgid "Date and Time Entry"
-msgstr "<b>Data dhe Ora</b>"
+msgstr "Shtimi i datës dhe orës"
 
 #: ../widgets/misc/e-dateedit.c:332
-#, fuzzy
 msgid "Text entry to input date"
-msgstr "Teksti tek data"
+msgstr "Shtimi i tekstit për dhënien e një date"
 
 #: ../widgets/misc/e-dateedit.c:333
-#, fuzzy
 msgid "Text Date Entry"
-msgstr "Teksti Data"
+msgstr "Shkrimi i tekstit të datës"
 
 #: ../widgets/misc/e-dateedit.c:350
-#, fuzzy
 msgid "Click this button to show a calendar"
-msgstr "tek a kalendari"
+msgstr "Kliko këtë pulsant për të shfaqur një kalendar"
 
 #: ../widgets/misc/e-dateedit.c:351
-#, fuzzy
 msgid "Date Button"
-msgstr "Data e dërgimit"
+msgstr "Pulsanti i datës"
 
 #: ../widgets/misc/e-dateedit.c:371
-#, fuzzy
 msgid "Combo box to select time"
-msgstr "tek"
+msgstr "Kuti e kombinuar për zgjedhjen e orarit"
 
 #: ../widgets/misc/e-dateedit.c:372
-#, fuzzy
 msgid "Time Combo Box"
-msgstr "Ora Kuti"
+msgstr "Kutia e kombinuar e orës"
 
 #: ../widgets/misc/e-error.c:84 ../widgets/misc/e-error.c:85
 #: ../widgets/misc/e-error.c:127
@@ -18068,16 +17918,17 @@ msgid "Choose Image"
 msgstr "Zgjidh figurën"
 
 #: ../widgets/misc/e-map.c:647
-#, fuzzy
 msgid "World Map"
 msgstr "Harta e botës"
 
 #: ../widgets/misc/e-map.c:649
-#, fuzzy
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
-msgstr "Miu harta për Tastiera."
+msgstr ""
+"Hartë interaktive bazuar në mouse për zgjedhjen e zonës orare. Përdoruesit që "
+"dëshirojnë të përdorin tastierën për të zgjedhur zonën orare duhet të veprojnë "
+"me anë të quadratit të mëposhtëm."
 
 #: ../widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
@@ -18094,9 +17945,8 @@ msgstr "Sinkronizimi i kategorive:"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:343
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "Editori i kërkimeve"
+msgstr "Shkrimi i tekstit që duhet kërkuar"
 
 #: ../widgets/misc/e-search-bar.c:547
 msgid "_Search"
@@ -18111,9 +17961,8 @@ msgid "_Clear"
 msgstr "_Pastro"
 
 #: ../widgets/misc/e-search-bar.c:645
-#, fuzzy
 msgid "Search Type"
-msgstr "_Fusha e kërkimit:"
+msgstr "Lloji i kërkimit"
 
 #: ../widgets/misc/e-search-bar.c:849
 msgid "Item ID"
@@ -18132,155 +17981,138 @@ msgid "Find _Now"
 msgstr "Gjej _Tani"
 
 #: ../widgets/misc/e-send-options.c:505
-#, fuzzy
 msgid "When de_leted:"
-msgstr "%d fshirë"
+msgstr "Kur është e_leminuar:"
 
 #: ../widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>Mundësi</b>"
+msgstr "<b>Dërgo opcionet</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Replies</b>"
-msgstr "<b>Përsërite</b>"
+msgstr "<b>Përgjigju</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Identifikimi</b>"
+msgstr "<b>Rikthe njoftimin</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
-#, fuzzy
 msgid "<b>Status Tracking</b>"
-msgstr "<b>Duke kërkuar</b>"
+msgstr "<b>Kontrolli i gjendjes</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
-#, fuzzy
 msgid "A_uto-delete sent item"
-msgstr "Elemino këtë objekt"
+msgstr "A_uto elemino elementët e dërguar"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
-msgstr "Klasi_fikimi:"
+msgstr "K_lasifikimi"
 
 #: ../widgets/misc/e-send-options.glade.h:7
-#, fuzzy
 msgid "Creat_e a sent item to track information"
-msgstr "Merr informacionet e fundit mbi aktivitetin"
+msgstr "Krijo një _element dërgimi për të gjurmuar informacionet"
 
 #: ../widgets/misc/e-send-options.glade.h:8
-#, fuzzy
 msgid "Deli_vered and opened"
-msgstr "Përgjigjet dhe prindërit"
+msgstr "Dër_guar dhe hapur"
 
 #: ../widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "Të përgjithshme"
+msgstr "Opcionet e pë_rgjithshme"
 
 #: ../widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "Lexo ricevutat"
+msgstr ""
+"Asnjë\n"
+"Ricevutë leximi"
 
 #: ../widgets/misc/e-send-options.glade.h:12
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt\n"
-msgstr "Lexo ricevutat"
+msgstr ""
+"Asnjë\n"
+"Ricevutë leximi\n"
 
 #: ../widgets/misc/e-send-options.glade.h:15
-#, fuzzy
 msgid ""
 "Public\n"
 "Private\n"
 "Confidential\n"
-msgstr "Në konfidencë"
+msgstr ""
+"Publike\n"
+"Private\n"
+"Në konfidencë\n"
 
 #: ../widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "R_eply requested"
-msgstr "Stili i _përgjigjes:"
+msgstr "Kërk_esë përgjigje"
 
 #: ../widgets/misc/e-send-options.glade.h:21
-#, fuzzy
 msgid "Sta_tus  Tracking"
-msgstr "Gjendja"
+msgstr "Gjurm_imi i gjendjes"
 
 #: ../widgets/misc/e-send-options.glade.h:22
-#, fuzzy
 msgid ""
 "Undefined\n"
 "High\n"
 "Standard\n"
 "Low"
-msgstr "E papërcaktuar"
+msgstr ""
+"I papërcaktuar\n"
+"I lartë\n"
+"Standart\n"
+"I ulët"
 
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "W_ithin"
-msgstr "Gjerësia"
+msgstr "B_renda"
 
 #: ../widgets/misc/e-send-options.glade.h:27
-#, fuzzy
 msgid "When acce_pted: "
 msgstr "Kur _pranohet: "
 
 #: ../widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "_Data e plotësimit:"
+msgstr "Kur plotës_ohet:"
 
 #: ../widgets/misc/e-send-options.glade.h:29
-#, fuzzy
 msgid "When decli_ned:    "
 msgstr "Kur refu_zohet:    "
 
 #: ../widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_After:"
-msgstr "mbas"
+msgstr "_Mbas:"
 
 #: ../widgets/misc/e-send-options.glade.h:31
-#, fuzzy
 msgid "_All information"
-msgstr "Informacione mbi aktivitetin"
+msgstr "_Të gjitha informacionet"
 
 #: ../widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Delay message delivery"
-msgstr "Lëri mesazhet në server"
+msgstr "_Vono dorëzimin e mesazhit"
 
 #: ../widgets/misc/e-send-options.glade.h:33
-#, fuzzy
 msgid "_Delivered"
-msgstr "_Elemino"
+msgstr "_Dërguar"
 
 #: ../widgets/misc/e-send-options.glade.h:35
-#, fuzzy
 msgid "_Set expiration  date"
-msgstr "data"
+msgstr "_Cakto datën e skadimit"
 
 #: ../widgets/misc/e-send-options.glade.h:36
-#, fuzzy
 msgid "_Until:"
-msgstr "Pa titull"
+msgstr "_Deri më:"
 
 #: ../widgets/misc/e-send-options.glade.h:37
-#, fuzzy
 msgid "_When convenient"
-msgstr "_Kur vlen"
+msgstr "_Kur ja vlen"
 
 #: ../widgets/misc/e-send-options.glade.h:38
-#, fuzzy
 msgid "_When opened:     "
-msgstr "_Kur hapet.     "
+msgstr "_Kur hapet:      "
 
 #. system:ask-save-file-exists-overwrite primary
 #: ../widgets/misc/e-system-errors.xml.h:4
@@ -18313,7 +18145,6 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% plotësuar)"
 
 #: ../widgets/misc/e-url-entry.c:107
-#, fuzzy
 msgid "click here to go to url"
-msgstr "<kliko këtu për të zgjedhur një kartelë>"
+msgstr "kliko këtu për të shkuar tek url"
 
