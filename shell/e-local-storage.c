@@ -49,6 +49,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include "e-util/e-path.h"
+#include "e-util/e-unicode-i18n.h"
 #include "e-local-folder.h"
 
 #include "evolution-storage.h"
@@ -154,16 +155,12 @@ setup_folder_as_stock (ELocalStorage *local_storage,
 		       const char *name)
 {
 	EFolder *folder;
-	char *utf8_name;
 
 	folder = e_storage_get_folder (E_STORAGE (local_storage), path);
 	if (folder == NULL)
 		return FALSE;
 
-	utf8_name = e_utf8_from_locale_string (name);
-	e_folder_set_name (folder, utf8_name);
-	g_free (utf8_name);
-
+	e_folder_set_name (folder, name);
 	e_folder_set_is_stock (folder, TRUE);
 
 	return TRUE;
@@ -172,14 +169,14 @@ setup_folder_as_stock (ELocalStorage *local_storage,
 static void
 setup_stock_folders (ELocalStorage *local_storage)
 {
-	setup_folder_as_stock (local_storage, "/Calendar", _("Calendar"));
-	setup_folder_as_stock (local_storage, "/Contacts", _("Contacts"));
-	setup_folder_as_stock (local_storage, "/Drafts", _("Drafts"));
-	setup_folder_as_stock (local_storage, "/Inbox", _("Inbox"));
-	setup_folder_as_stock (local_storage, "/Outbox", _("Outbox"));
-	setup_folder_as_stock (local_storage, "/Sent", _("Sent"));
-	setup_folder_as_stock (local_storage, "/Tasks", _("Tasks"));
-	setup_folder_as_stock (local_storage, "/Trash", _("Trash"));
+	setup_folder_as_stock (local_storage, "/Calendar", U_("Calendar"));
+	setup_folder_as_stock (local_storage, "/Contacts", U_("Contacts"));
+	setup_folder_as_stock (local_storage, "/Drafts", U_("Drafts"));
+	setup_folder_as_stock (local_storage, "/Inbox", U_("Inbox"));
+	setup_folder_as_stock (local_storage, "/Outbox", U_("Outbox"));
+	setup_folder_as_stock (local_storage, "/Sent", U_("Sent"));
+	setup_folder_as_stock (local_storage, "/Tasks", U_("Tasks"));
+	setup_folder_as_stock (local_storage, "/Trash", U_("Trash"));
 }
 
 static gboolean
@@ -623,7 +620,7 @@ impl_get_name (EStorage *storage)
 static const char *
 impl_get_display_name (EStorage *storage)
 {
-	return _("Local Folders");
+	return U_("Local Folders");
 }
 
 

@@ -1,3 +1,17 @@
+2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* e-local-storage.c
+	(setup_folder_as_stock): Don't convert folder name to UTF-8 manually...
+	(setup_stock_folders): ... just use U_() here.
+	(impl_get_display_name): Marked string for translation (with U_).
+
+	* e-storage-set-view.c
+	(storage_sort_callback): s/strcasecmp/g_utf8_collate/
+	(folder_sort_callback): ditto
+
+	* e-summary-storage.c (impl_get_display_name):
+	Marked string for translation (with U_).
+
 2001-08-29  Iain Holmes  <iain@ximian.com>
 
 	* e-local-storage.c (notify_listener): Function to create CORBAany

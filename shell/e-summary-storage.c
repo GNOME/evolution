@@ -29,6 +29,8 @@
 
 #include "e-folder.h"
 
+#include "e-util/e-unicode-i18n.h"
+
 #include <gal/util/e-util.h>
 
 #include <gtk/gtktypeutils.h>
@@ -75,7 +77,7 @@ impl_get_name (EStorage *storage)
 static const char *
 impl_get_display_name (EStorage *storage)
 {
-	return _("Summary");
+	return U_("Summary");
 }
 
 

@@ -36,6 +36,7 @@
 #include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
+#include <gal/unicode/gunicode.h>
 
 #include <libgnome/gnome-util.h>
 
@@ -162,15 +163,15 @@ storage_sort_callback (ETreeMemory *etmm,
 	if (path2_local)
 		return 1;
 	
-	return strcasecmp (e_tree_model_value_at (E_TREE_MODEL (etmm), node1, 0),
-			   e_tree_model_value_at (E_TREE_MODEL (etmm), node2, 0));
+	return g_utf8_collate (e_tree_model_value_at (E_TREE_MODEL (etmm), node1, 0),
+	                       e_tree_model_value_at (E_TREE_MODEL (etmm), node2, 0));
 }
 
 static int
 folder_sort_callback (ETreeMemory *etmm, ETreePath path1, ETreePath path2, gpointer closure)
 {
-	return g_strcasecmp (e_tree_model_value_at (E_TREE_MODEL (etmm), path1, 0),
-			     e_tree_model_value_at (E_TREE_MODEL (etmm), path2, 0));
+	return g_utf8_collate (e_tree_model_value_at (E_TREE_MODEL (etmm), path1, 0),
+	                       e_tree_model_value_at (E_TREE_MODEL (etmm), path2, 0));
 }
 
 
