@@ -1,3 +1,7 @@
+2002-12-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-shell-component-utils.c: Included gtkmessagedialog.h.
+
 2002-11-27  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (show_development_warning): changed to use a gtkdialog
