@@ -1,3 +1,8 @@
+1999-12-02  Russell Steinthal  <rms39@columbia.edu>
+
+	* alarm.c: Enhanced debug support: can be toggled on and off by
+	SIGUSR1, reports alarms which could not be added
+
 1999-11-30  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c (compare): Fixed compare bug. Also neated up

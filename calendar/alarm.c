@@ -29,7 +29,13 @@ typedef struct {
 	CalendarAlarm *alarm;
 } AlarmRecord;
 
-void debug_alarm (AlarmRecord* ar, int add);
+enum DebugAction {
+	ALARM_ACTIVATED,
+	ALARM_ADDED,
+	ALARM_NOT_ADDED
+};
+
+void debug_alarm (AlarmRecord* ar, enum DebugAction action);
 void calendar_notify (time_t time, CalendarAlarm *which, void *data);
 extern int debug_alarms;
 
@@ -42,6 +48,15 @@ alarm_activate ()
 	char c = 0;
 
 	write (alarm_pipes [1], &c, 1);
+}
+
+/*
+ * SIGUSR1 handler.  Toggles debugging output
+ */
+static void
+toggle_debugging ()
+{
+	debug_alarms = !debug_alarms;
 }
 
 static void
@@ -61,7 +76,7 @@ alarm_ready (void *closure, int fd, GdkInputCondition cond)
 
 	while (head_alarm){
 		if (debug_alarms)
-			debug_alarm (ar, 0);
+			debug_alarm (ar, ALARM_ACTIVATED);
 		(*ar->fn)(ar->activation_time, ar->alarm, ar->closure);
 		alarms = g_list_remove (alarms, head_alarm);
 
@@ -116,15 +131,18 @@ alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
 	AlarmRecord *ar;
 	time_t alarm_time = alarm->trigger;
 
-	/* If it already expired, do not add it */
-	if (alarm_time < now)
-		return FALSE;
-	
 	ar = g_new0 (AlarmRecord, 1);
 	ar->activation_time = alarm_time;
 	ar->fn = fn;
 	ar->closure = closure;
 	ar->alarm = alarm;
+
+	/* If it already expired, do not add it */
+	if (alarm_time < now) {
+		if (debug_alarms)
+			debug_alarm (ar, ALARM_NOT_ADDED);
+		return FALSE;
+	}
 
 	alarms = g_list_insert_sorted (alarms, ar, alarm_compare_by_time);
 
@@ -142,7 +160,7 @@ alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
 		head_alarm = alarms->data;
 	}
 	if (debug_alarms)
-		debug_alarm (ar, 1);
+		debug_alarm (ar, ALARM_ADDED);
 	return TRUE;
 }
 
@@ -170,6 +188,7 @@ void
 alarm_init (void)
 {
 	struct sigaction sa;
+	struct sigaction debug_sa;
 	int flags = 0;
 	
 	pipe (alarm_pipes);
@@ -184,18 +203,31 @@ alarm_init (void)
 	sigemptyset (&sa.sa_mask);
 	sa.sa_flags   = SA_RESTART;
 	sigaction (SIGALRM, &sa, NULL);
+	
+	/* Setup a signal handler to toggle debugging */
+	debug_sa.sa_handler = toggle_debugging;
+	sigemptyset (&debug_sa.sa_mask);
+	debug_sa.sa_flags = SA_RESTART;
+	sigaction (SIGUSR1, &debug_sa, NULL);
 }
 
 void 
-debug_alarm (AlarmRecord* ar, int add)
+debug_alarm (AlarmRecord* ar, enum DebugAction action)
 {
 	time_t now = time (NULL);
 	iCalObject *ico = ar->closure;
 	printf ("%s", ctime(&now));
-	if (add)
+	switch (action) {
+	case ALARM_ADDED:
 		printf ("Added alarm for %s", ctime(&ar->activation_time));
-	else
+		break;
+	case ALARM_NOT_ADDED:
+		printf ("Alarm not added for %s", ctime(&ar->activation_time));
+		break;
+	case ALARM_ACTIVATED:
 		printf ("Activated alarm\n");
+		break;
+	}
 
 	if (ar->fn!=&calendar_notify) return;
 	printf ("--- Summary: %s\n", ico->summary);
