@@ -1,5 +1,19 @@
 2004-12-16  Rodney Dawes  <dobey@novell.com>
 
+	* evolution.xml: Move Tools->Settings... to Edit->Preferences
+	Remove the separator above "Quick Reference" in the Help menu
+
+	* evolution-addressbok.xml:
+	* evolution-calendar.xml:
+	* evolution-mail-*.xml:
+	* evolution-tasks.xml:
+	Update the EditPlaceholder items to work properly with the changes in
+	evolution.xml to move Tools->Settings... to Edit->Preferences
+
+	Fixes #43681
+
+2004-12-16  Rodney Dawes  <dobey@novell.com>
+
 	* evolution-mail-message.xml: Add stock zoom icons for the text size
 	menu items
 

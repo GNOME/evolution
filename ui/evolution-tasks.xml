@@ -28,8 +28,8 @@
 
     </submenu>
 
-    <placeholder name="EditPlaceholder">
-      <submenu name="Edit" _label="_Edit">
+    <submenu name="Edit" _label="_Edit">
+      <placeholder name="EditPlaceholder">
 	<menuitem name="TasksCut" verb="" _label="C_ut"/>
 	<menuitem name="TasksCopy" verb="" _label="_Copy"/>
 	<menuitem name="TasksPaste" verb="" _label="_Paste"/>
@@ -41,8 +41,8 @@
 	<separator/>
 
 	<menuitem name="TasksMarkComplete" verb="" _label="Mar_k as Complete"/>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">

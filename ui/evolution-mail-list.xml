@@ -75,8 +75,8 @@
       </placeholder>
     </submenu>
 
-    <placeholder name="EditPlaceholder">
-      <submenu name="Edit" _label="_Edit">
+    <submenu name="Edit" _label="_Edit">
+      <placeholder name="EditPlaceholder">
         <placeholder name="MailListEdit">
           <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
           <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
@@ -88,8 +88,8 @@
         <placeholder name="MailListEditFlags">
           <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark All as _Read"/>
         </placeholder>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="View">
       <placeholder name="MailMessageView">

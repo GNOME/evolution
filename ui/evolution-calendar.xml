@@ -43,8 +43,8 @@
 
     </submenu>
 
-    <placeholder name="EditPlaceholder">
-      <submenu name="Edit" _label="_Edit">
+    <submenu name="Edit" _label="_Edit">
+      <placeholder name="EditPlaceholder">
       	<menuitem name="Cut" verb="" _label="C_ut"/>
       	<menuitem name="Copy" verb="" _label="_Copy"/>
       	<menuitem name="Paste" verb="" _label="_Paste"/>
@@ -54,8 +54,8 @@
       	<menuitem name="Delete" verb="" _label="_Delete"/>
 	<menuitem name="DeleteOccurrence" verb="" _label="Delete this Occurrence"/>
 	<menuitem name="DeleteAllOccurrences" verb="" _label="Delete All Occurrences"/>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="View">
       <placeholder name="ViewBegin">

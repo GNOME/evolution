@@ -87,9 +87,8 @@
       <menuitem name="ContactsViewPreview" verb="" _label="_Preview Pane"/>
     </submenu>
 
-    <placeholder name="EditPlaceholder">
-
-      <submenu name="Edit" _label="_Edit">
+    <submenu name="Edit" _label="_Edit">
+      <placeholder name="EditPlaceholder">
 	<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
 
 	<separator f="" name="eadbk2"/>
@@ -103,9 +102,8 @@
 	<separator f="" name="eadbk6"/>
 
 	<menuitem name="ContactDelete" verb="" _label="_Delete"/>
-      </submenu>
-
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">

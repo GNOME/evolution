@@ -67,8 +67,11 @@
       <menuitem name="FileExit" verb="FileExit"/>
     </submenu>
 
-    <placeholder name="EditPlaceholder">
-    </placeholder>
+    <submenu name="Edit" _label="_Edit">
+      <placeholder name="EditPlaceholder"/>
+      <separator/>
+      <menuitem name="Settings" verb="" _label="Prefere_nces" _tip="Change Evolution's settings"/>
+    </submenu>
 
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>
@@ -84,8 +87,6 @@
     </submenu>
 
     <submenu name="Tools" _label="_Tools">
-      <menuitem name="Settings" verb="" _label="_Settings..." _tip="Change Evolution's settings"/>
-      <separator/>
       <placeholder name="ComponentPlaceholder"/>
       <menuitem name="PilotSettings" verb="" _label="Pi_lot Settings..." _tip="Set up Pilot configuration"/>
     </submenu>
@@ -97,8 +98,6 @@
 
       <placeholder name="BuiltMenuItems"/>
 
-      <separator f="" name="eshell1"/>
-      
       <menuitem name="QuickReference" verb=""
         _label="_Quick Reference"/>
 

@@ -249,8 +249,8 @@
       </placeholder>
     </submenu>
 
-    <placeholder name="EditPlaceholder">
-      <submenu name="Edit">
+    <submenu name="Edit">
+      <placeholder name="EditPlaceholder">
         <placeholder name="MailMessageEdit">
           <menuitem name="EditCut" verb="" _label="Cu_t"/>
           <menuitem name="EditCopy" verb="" _label="_Copy"/>
@@ -274,8 +274,8 @@
           <menuitem name="MessageMarkAsJunk" verb="" _label="Mark as _Junk"/>
           <menuitem name="MessageMarkAsNotJunk" verb="" _label="Mark as _Not Junk"/>
         </placeholder>
-      </submenu>
-    </placeholder>
+      </placeholder>
+    </submenu>
 
     <submenu name="View">
       <placeholder name="MailMessageView">
