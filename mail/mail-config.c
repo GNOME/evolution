@@ -85,6 +85,9 @@ typedef struct {
 	
 	GHashTable *threaded_hash;
 	GHashTable *preview_hash;
+	
+	gboolean filter_log;
+	char *filter_log_path;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -551,6 +554,13 @@ config_read (void)
 	/* Trash folders */
 	config->empty_trash_on_exit = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Trash/empty_on_exit", FALSE, NULL);
+	
+	/* Filter logging */
+	config->filter_log = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Filters/log", FALSE, NULL);
+	
+	config->filter_log_path = bonobo_config_get_string (
+		config->db, "/Mail/Filters/log_path", NULL);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -811,6 +821,13 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_boolean (config->db, "/Mail/Trash/empty_on_exit", 
 				   config->empty_trash_on_exit, NULL);
 	
+	/* Filter logging */
+	bonobo_config_set_boolean (config->db, "/Mail/Filters/log",
+				   config->filter_log, NULL);
+	
+	bonobo_config_set_string_wrapper (config->db, "/Mail/Filters/log_path",
+					  config->filter_log_path, NULL);
+	
 	g_hash_table_foreach_remove (config->threaded_hash, 
 				     hash_save_state, "Threads");
 	
@@ -985,6 +1002,31 @@ mail_config_set_thread_list (const char *uri, gboolean value)
 		}
 	} else
 		config->thread_list = value;
+}
+
+gboolean
+mail_config_get_filter_log (void)
+{
+	return config->filter_log;
+}
+
+void
+mail_config_set_filter_log (gboolean value)
+{
+	config->filter_log = value;
+}
+
+const char *
+mail_config_get_filter_log_path (void)
+{
+	return config->filter_log_path;
+}
+
+void
+mail_config_set_filter_log_path (const char *path)
+{
+	g_free (config->filter_log_path);
+	config->filter_log_path = g_strdup (path);
 }
 
 gboolean

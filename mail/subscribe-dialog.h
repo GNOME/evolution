@@ -54,7 +54,7 @@ typedef struct {
 } SubscribeDialogClass;
 
 GtkType    subscribe_dialog_get_type         (void);
-GtkObject *subscribe_dialog_new              (void);
+GtkWidget *subscribe_dialog_new              (void);
 void       subscribe_dialog_run_and_close    (SubscribeDialog *dialog);
 
 #endif /* _SUBSCRIBE_DIALOG_H_ */

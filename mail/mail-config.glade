@@ -266,13 +266,14 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>management_name_label</name>
-	      <label>Name:</label>
+	      <label>_Name:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>management_name</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -300,7 +301,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <class>GtkCheckButton</class>
 	    <name>management_default</name>
 	    <can_focus>True</can_focus>
-	    <label>Make this my default account</label>
+	    <label>Make this my _default account</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -389,13 +390,14 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>identity_address_label</name>
-	    <label>Email Address:</label>
+	    <label>_Email Address:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>identity_address</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -415,13 +417,14 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>identity_full_name_label</name>
-	    <label>Full Name:</label>
+	    <label>_Full Name:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>identity_full_name</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -501,13 +504,14 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>identity_organization_label</name>
-	    <label>Organization:</label>
+	    <label>_Organization:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>7</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>identity_organization</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -528,7 +532,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <class>GtkCheckButton</class>
 	    <name>check_html_signature</name>
 	    <can_focus>True</can_focus>
-	    <label>HTML Signature:</label>
+	    <label>_HTML Signature:</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -585,13 +589,14 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>identity_signature_label</name>
-	    <label>Signature file:</label>
+	    <label>_Signature file:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>7</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>entry_signature</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -793,13 +798,14 @@ None
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>source_host_label</name>
-	    <label>Host:</label>
+	    <label>_Host:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>source_host</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -819,13 +825,14 @@ None
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>source_user_label</name>
-	    <label>Username:</label>
+	    <label>_Username:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>source_user</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -893,13 +900,14 @@ None
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>source_path_label</name>
-	    <label>Path:</label>
+	    <label>_Path:</label>
 	    <justify>GTK_JUSTIFY_RIGHT</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <default_focus_target>source_path</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -920,7 +928,7 @@ None
 	    <class>GtkCheckButton</class>
 	    <name>source_use_ssl</name>
 	    <can_focus>True</can_focus>
-	    <label>Use secure connection (SSL)</label>
+	    <label>Use secure connection (_SSL)</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1083,7 +1091,7 @@ Kerberos
 		<class>GtkButton</class>
 		<name>source_check_supported</name>
 		<can_focus>True</can_focus>
-		<label> Check for supported types </label>
+		<label>_Check for supported types</label>
 		<relief>GTK_RELIEF_NORMAL</relief>
 	      </widget>
 	    </widget>
@@ -1093,7 +1101,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>source_remember_password</name>
 	    <can_focus>True</can_focus>
-	    <label>Remember this password</label>
+	    <label>_Remember this password</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1149,7 +1157,7 @@ Kerberos
 	    <class>GtkHBox</class>
 	    <name>hbox53</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -1160,7 +1168,7 @@ Kerberos
 	      <class>GtkCheckButton</class>
 	      <name>extra_auto_check</name>
 	      <can_focus>True</can_focus>
-	      <label>Automatically check for new mail every</label>
+	      <label>_Automatically check for new mail every</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -1336,13 +1344,14 @@ Sendmail
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>transport_host_label</name>
-	      <label>Host:</label>
+	      <label>_Host:</label>
 	      <justify>GTK_JUSTIFY_RIGHT</justify>
 	      <wrap>False</wrap>
 	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>transport_host</default_focus_target>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -1388,7 +1397,7 @@ Sendmail
 	    <class>GtkCheckButton</class>
 	    <name>transport_use_ssl</name>
 	    <can_focus>True</can_focus>
-	    <label>Use secure connection (SSL)</label>
+	    <label>Use secure connection (_SSL)</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1420,7 +1429,7 @@ Sendmail
 	    <class>GtkCheckButton</class>
 	    <name>transport_needs_auth</name>
 	    <can_focus>True</can_focus>
-	    <label>Server requires authentication</label>
+	    <label>Server requires _authentication</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1513,7 +1522,7 @@ Kerberos
 		<class>GtkButton</class>
 		<name>transport_check_supported</name>
 		<can_focus>True</can_focus>
-		<label> Check for supported types </label>
+		<label>_Check for supported types</label>
 		<relief>GTK_RELIEF_NORMAL</relief>
 	      </widget>
 	    </widget>
@@ -1533,13 +1542,14 @@ Kerberos
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>transport_user_label</name>
-	      <label>Username:</label>
+	      <label>_Username:</label>
 	      <justify>GTK_JUSTIFY_RIGHT</justify>
 	      <wrap>False</wrap>
 	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>transport_user</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1567,7 +1577,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>transport_remember_password</name>
 	    <can_focus>True</can_focus>
-	    <label>Remember this password</label>
+	    <label>_Remember this password</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -2783,7 +2793,7 @@ Quoted
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>lblPgpPath</name>
-	  <label>PGP _binary path:</label>
+	  <label>_PGP binary path:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
@@ -2893,6 +2903,57 @@ Quoted
 	  <expand>False</expand>
 	  <fill>False</fill>
 	</child>
+      </widget>
+
+      <widget>
+	<class>GtkHBox</class>
+	<name>hbox57</name>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>chkFilterLog</name>
+	  <can_focus>True</can_focus>
+	  <label>_Log filter actions to:</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GnomeFileEntry</class>
+	  <name>fileFilterLog</name>
+	  <max_saved>10</max_saved>
+	  <title>Select Filter Log file...</title>
+	  <directory>False</directory>
+	  <modal>True</modal>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <child_name>GnomeEntry:entry</child_name>
+	    <name>combo-entry2</name>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	  </widget>
+	</widget>
       </widget>
     </widget>
 

@@ -78,18 +78,20 @@ struct _MailAccountsDialog {
 	GtkToggleButton *timeout_toggle;
 	GtkSpinButton *timeout;
 	GtkToggleButton *images_always, *images_sometimes, *images_never;
+	GtkToggleButton *thread_list;
+	GtkToggleButton *show_preview;
 	
 	/* Composer page */
 	GtkToggleButton *send_html;
 	GtkOptionMenu *forward_style;
 	GtkOptionMenu *charset;
+	GtkToggleButton *prompt_empty_subject;
+	GtkToggleButton *prompt_bcc_only;
 	
 	/* Other page */
 	GtkToggleButton *empty_trash;
-	GtkToggleButton *prompt_empty_subject;
-	GtkToggleButton *prompt_bcc_only;
-	GtkToggleButton *thread_list;
-	GtkToggleButton *show_preview;
+	GtkToggleButton *filter_log;
+	GnomeFileEntry *filter_log_path;
 	
 	/* PGP page */
 	GnomeFileEntry *pgp_path;

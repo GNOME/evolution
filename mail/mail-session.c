@@ -343,7 +343,7 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 	RuleContext *fc;
 	GString *fsearch, *faction;
 	FilterRule *rule = NULL;
-	char *user, *system, *filename;
+	char *user, *system;
 	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
@@ -354,14 +354,15 @@ get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 	driver = camel_filter_driver_new ();
 	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
 	
-	if (TRUE /* perform_logging FIXME */) {
+	if (mail_config_get_filter_log ()) {
 		MailSession *ms = (MailSession *)session;
 		
 		if (ms->filter_logfile == NULL) {
-			filename = g_strdup_printf ("%s/evolution-filter-log",
-						    evolution_dir);
-			ms->filter_logfile = fopen (filename, "a+");
-			g_free (filename);
+			const char *filename;
+			
+			filename = mail_config_get_filter_log_path ();
+			if (filename)
+				ms->filter_logfile = fopen (filename, "a+");
 		}
 		if (ms->filter_logfile)
 			camel_filter_driver_set_logfile (driver, ms->filter_logfile);

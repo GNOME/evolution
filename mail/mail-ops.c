@@ -55,7 +55,7 @@
 /* used both for fetching mail, and for filtering mail */
 struct _filter_mail_msg {
 	struct _mail_msg msg;
-
+	
 	CamelFolder *source_folder; /* where they come from */
 	GPtrArray *source_uids;	/* uids to copy, or NULL == copy all */
 	CamelUIDCache *cache;  /* UID cache if we are to cache the uids, NULL otherwise */
@@ -134,12 +134,12 @@ filter_folder_filter (struct _mail_msg *mm)
 }
 
 static void
-filter_folder_filtered(struct _mail_msg *mm)
+filter_folder_filtered (struct _mail_msg *mm)
 {
 }
 
 static void
-filter_folder_free(struct _mail_msg *mm)
+filter_folder_free (struct _mail_msg *mm)
 {
 	struct _filter_mail_msg *m = (struct _filter_mail_msg *)mm;
 	int i;
@@ -190,7 +190,7 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 	
 	m->driver = camel_session_get_filter_driver (session, type, NULL);
 	
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
 /* convenience function for it */
@@ -354,11 +354,11 @@ static struct _mail_msg_op fetch_mail_op = {
 };
 
 /* ouch, a 'do everything' interface ... */
-void mail_fetch_mail(const char *source, int keep,
-		     const char *type, CamelOperation *cancel,
-		     CamelFilterGetFolderFunc get_folder, void *get_data,
-		     CamelFilterStatusFunc *status, void *status_data,
-		     void (*done)(char *source, void *data), void *data)
+void
+mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation *cancel,
+		 CamelFilterGetFolderFunc get_folder, void *get_data,
+		 CamelFilterStatusFunc *status, void *status_data,
+		 void (*done)(char *source, void *data), void *data)
 {
 	struct _fetch_mail_msg *m;
 	struct _filter_mail_msg *fm;
@@ -380,7 +380,7 @@ void mail_fetch_mail(const char *source, int keep,
 	if (status)
 		camel_filter_driver_set_status_func (fm->driver, status, status_data);
 	
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
 
@@ -402,15 +402,15 @@ do_update_subfolders_rec (CamelStore *store, CamelFolderInfo *info, EvolutionSto
 		mail_folder_cache_set_update_estorage (info->url, storage);
 		mail_folder_cache_note_folderinfo (info->url, info);
 	}
-
-	path = g_strdup_printf("%s/%s", prefix, info->name);
-
+	
+	path = g_strdup_printf ("%s/%s", prefix, info->name);
+	
 	if (info->child)
-		do_update_subfolders_rec(store, info->child, storage, path);
+		do_update_subfolders_rec (store, info->child, storage, path);
 	if (info->sibling)
-		do_update_subfolders_rec(store, info->sibling, storage, prefix);
-
-	g_free(path);
+		do_update_subfolders_rec (store, info->sibling, storage, prefix);
+	
+	g_free (path);
 }
 
 static void
@@ -419,14 +419,14 @@ do_update_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 	struct _update_info *uinfo = data;
 	
 	if (uinfo && info) {
-		do_update_subfolders_rec(store, info, uinfo->storage, "");
+		do_update_subfolders_rec (store, info, uinfo->storage, "");
 	}
-
+	
 	if (uinfo->done)
-		uinfo->done(store, uinfo->data);
-
-	gtk_object_unref((GtkObject *)uinfo->storage);
-	g_free(uinfo);
+		uinfo->done (store, uinfo->data);
+	
+	gtk_object_unref ((GtkObject *)uinfo->storage);
+	g_free (uinfo);
 }
 
 /* this interface is a little icky */
@@ -1153,11 +1153,12 @@ do_scan_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 }
 
 /* synchronous function to scan the & and add folders in a store */
-void mail_scan_subfolders(CamelStore *store, EvolutionStorage *storage)
+void
+mail_scan_subfolders (CamelStore *store, EvolutionStorage *storage)
 {
 	int id;
-
-	id = mail_get_folderinfo(store, do_scan_subfolders, storage);
+	
+	id = mail_get_folderinfo (store, do_scan_subfolders, storage);
 	/*mail_msg_wait(id);*/
 }
 
@@ -1168,7 +1169,8 @@ struct _build_data {
 	void *data;
 };
 
-static void do_build_attachment(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
+static void
+do_build_attachment (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
 {
 	struct _build_data *d = data;
 	CamelMultipart *multipart;
@@ -1235,37 +1237,41 @@ struct _get_folder_msg {
 	void *data;
 };
 
-static char *get_folder_desc(struct _mail_msg *mm, int done)
+static char *
+get_folder_desc (struct _mail_msg *mm, int done)
 {
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
 	
 	return g_strdup_printf(_("Opening folder %s"), m->uri);
 }
 
-static void get_folder_get(struct _mail_msg *mm)
+static void
+get_folder_get (struct _mail_msg *mm)
 {
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
-
-	camel_operation_register(mm->cancel);
-	m->folder = mail_tool_uri_to_folder(m->uri, &mm->ex);
-	camel_operation_unregister(mm->cancel);
+	
+	camel_operation_register (mm->cancel);
+	m->folder = mail_tool_uri_to_folder (m->uri, &mm->ex);
+	camel_operation_unregister (mm->cancel);
 }
 
-static void get_folder_got(struct _mail_msg *mm)
+static void
+get_folder_got (struct _mail_msg *mm)
 {
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
-
+	
 	if (m->done)
 		m->done (m->uri, m->folder, m->data);
 }
 
-static void get_folder_free(struct _mail_msg *mm)
+static void
+get_folder_free (struct _mail_msg *mm)
 {
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
-
-	g_free(m->uri);
+	
+	g_free (m->uri);
 	if (m->folder)
-		camel_object_unref((CamelObject *)m->folder);
+		camel_object_unref (CAMEL_OBJECT (m->folder));
 }
 
 static struct _mail_msg_op get_folder_op = {
@@ -1276,18 +1282,18 @@ static struct _mail_msg_op get_folder_op = {
 };
 
 int
-mail_get_folder(const char *uri, void (*done) (char *uri, CamelFolder *folder, void *data), void *data)
+mail_get_folder (const char *uri, void (*done) (char *uri, CamelFolder *folder, void *data), void *data)
 {
 	struct _get_folder_msg *m;
 	int id;
-
-	m = mail_msg_new(&get_folder_op, NULL, sizeof(*m));
-	m->uri = g_strdup(uri);
+	
+	m = mail_msg_new (&get_folder_op, NULL, sizeof(*m));
+	m->uri = g_strdup (uri);
 	m->data = data;
 	m->done = done;
-
+	
 	id = m->msg.seq;
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_new, (EMsg *)m);
 	return id;
 }
 
@@ -1302,37 +1308,41 @@ struct _get_store_msg {
 	void *data;
 };
 
-static char *get_store_desc(struct _mail_msg *mm, int done)
+static char *
+get_store_desc (struct _mail_msg *mm, int done)
 {
 	struct _get_store_msg *m = (struct _get_store_msg *)mm;
 	
 	return g_strdup_printf(_("Opening store %s"), m->uri);
 }
 
-static void get_store_get(struct _mail_msg *mm)
+static void
+get_store_get (struct _mail_msg *mm)
 {
 	struct _get_store_msg *m = (struct _get_store_msg *)mm;
-
-	camel_operation_register(mm->cancel);
-	m->store = camel_session_get_store(session, m->uri, &mm->ex);
-	camel_operation_unregister(mm->cancel);
+	
+	camel_operation_register (mm->cancel);
+	m->store = camel_session_get_store (session, m->uri, &mm->ex);
+	camel_operation_unregister (mm->cancel);
 }
 
-static void get_store_got(struct _mail_msg *mm)
+static void
+get_store_got (struct _mail_msg *mm)
 {
 	struct _get_store_msg *m = (struct _get_store_msg *)mm;
 
 	if (m->done)
-		m->done(m->uri, m->store, m->data);
+		m->done (m->uri, m->store, m->data);
 }
 
-static void get_store_free(struct _mail_msg *mm)
+static void
+get_store_free (struct _mail_msg *mm)
 {
 	struct _get_store_msg *m = (struct _get_store_msg *)mm;
-
-	g_free(m->uri);
+	
+	g_free (m->uri);
 	if (m->store)
-		camel_object_unref((CamelObject *)m->store);
+		camel_object_unref (CAMEL_OBJECT (m->store));
 }
 
 static struct _mail_msg_op get_store_op = {
@@ -1343,18 +1353,18 @@ static struct _mail_msg_op get_store_op = {
 };
 
 int
-mail_get_store(const char *uri, void (*done) (char *uri, CamelStore *store, void *data), void *data)
+mail_get_store (const char *uri, void (*done) (char *uri, CamelStore *store, void *data), void *data)
 {
 	struct _get_store_msg *m;
 	int id;
 	
-	m = mail_msg_new(&get_store_op, NULL, sizeof(*m));
-	m->uri = g_strdup(uri);
+	m = mail_msg_new (&get_store_op, NULL, sizeof (*m));
+	m->uri = g_strdup (uri);
 	m->data = data;
 	m->done = done;
-
+	
 	id = m->msg.seq;
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_new, (EMsg *)m);
 	return id;
 }
 

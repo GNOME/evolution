@@ -1,39 +1,67 @@
+2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* subscribe-dialog.c (subscribe_dialog_new): This should return a
+	GtkWidget not a GtkObject.
+
+	* mail-session.c (get_filter_driver): Update to use user's logging
+	preferences.
+
+	* mail-accounts.c (filter_log_toggled): New.
+	(filter_log_path_changed): New.
+	(construct): Get and attach signals to the filter logging option
+	widgets.
+
+	* mail-config.c (config_read): Read in filter logging options.
+	(mail_config_write_on_exit): Save filter logging options.
+	(mail_config_set_filter_log_path): Implemented.
+	(mail_config_get_filter_log_path): Implemented.
+	(mail_config_set_filter_log): Implemented.
+	(mail_config_get_filter_log): Implemented.
+
 2001-08-07  Peter Williams  <peterw@ximian.com>
 
-	* mail-callbacks.c (folder_created): Use bonobo_object_unref on the storage
-	since it's a bonobo object.
+	* subscribe-dialog.c (folder_etree_construct): Move
+	fe_create_root_node farther down, so we can check for its children
+	without problems.
+
+	* mail-callbacks.c (folder_created): Use bonobo_object_unref on
+	the storage since it's a bonobo object.
 	(mail_storage_create_folder): Same.
 	(folder_deleted): Same.
 
-	* subscribe-dialog.c (fe_destroy): Unref the e_storage since lookup_store
-	gives us a ref.
+	* subscribe-dialog.c (fe_destroy): Unref the e_storage since
+	lookup_store gives us a ref.
 
 2001-08-07  Peter Williams  <peterw@ximian.com>
 
-	* subscribe-dialog.c (folder_etree_construct): Move fe_create_root_node
-	farther down, so we can check for its children without problems.
+	* subscribe-dialog.c (folder_etree_construct): Move
+	fe_create_root_node farther down, so we can check for its children
+	without problems.
 	(storage_tree_path): Removed, this was broken.
-	(subscribe_get_short_folderinfo): Use the queued thread instead of the
-	new thread.
+	(subscribe_get_short_folderinfo): Use the queued thread instead of
+	the new thread.
 	(subscribe_do_subscribe_folder): Same.
-	(ftree_node_new_root): Don't create the path anymore; it was broken
-	and there's a better way to get it now.
+	(ftree_node_new_root): Don't create the path anymore; it was
+	broken and there's a better way to get it now.
 	(fe_got_children): Remove some debugging output.
 	(fe_check_for_children): Here too.
-	(fe_done_subscribing): Get the path from the URI instead of the ftree_node.
-	(_SubscribeDialogPrivate): Add all of our useful widgets as members.
-	(sc_refresh_pressed): Don't clear the search... that makes no sense now.
-	(sc_search_activated): Don't set the filter radio button as active now;
-	we use sensitivity instead.
+	(fe_done_subscribing): Get the path from the URI instead of the
+	ftree_node.
+	(_SubscribeDialogPrivate): Add all of our useful widgets as
+	members.
+	(sc_refresh_pressed): Don't clear the search... that makes no
+	sense now.
+	(sc_search_activated): Don't set the filter radio button as active
+	now; we use sensitivity instead.
 	(sc_all_toggled): Make the search entry insensitive.
 	(sc_filter_toggled): Make the search entry sensitive.
-	(kill_default_view): New function. Gets rid of the default view stuff and
-	makes all the widgetry sensitive.
-	(menu_item_selected): Check if we moved off of the default view and, if so,
-	call kill_default_view().
-	(subscribe_dialog_construct): Initialize our new private widget members, and
-	by default insensitize most of the buttons because they make no sense in the
-	default view.
+	(kill_default_view): New function. Gets rid of the default view
+	stuff and makes all the widgetry sensitive.
+	(menu_item_selected): Check if we moved off of the default view
+	and, if so, call kill_default_view().
+	(subscribe_dialog_construct): Initialize our new private widget
+	members, and by default insensitize most of the buttons because
+	they make no sense in the default view.
 
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 

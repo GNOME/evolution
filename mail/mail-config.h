@@ -105,6 +105,11 @@ void mail_config_write_on_exit (void);
 /* General Accessor functions */
 gboolean mail_config_is_configured            (void);
 
+gboolean    mail_config_get_filter_log        (void);
+void        mail_config_set_filter_log        (gboolean value);
+const char *mail_config_get_filter_log_path   (void);
+void        mail_config_set_filter_log_path   (const char *path);
+
 gboolean mail_config_get_empty_trash_on_exit  (void);
 void     mail_config_set_empty_trash_on_exit  (gboolean value);
 

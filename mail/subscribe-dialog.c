@@ -1520,15 +1520,15 @@ subscribe_dialog_construct (GtkObject *object)
 	populate_store_list (sc);
 }
 
-GtkObject *
+GtkWidget *
 subscribe_dialog_new (void)
 {
 	SubscribeDialog *subscribe_dialog;
-
+	
 	subscribe_dialog = gtk_type_new (SUBSCRIBE_DIALOG_TYPE);
 	subscribe_dialog_construct (GTK_OBJECT (subscribe_dialog));
-
-	return GTK_OBJECT (subscribe_dialog);
+	
+	return GTK_WIDGET (subscribe_dialog);
 }
 
 E_MAKE_TYPE (subscribe_dialog, "SubscribeDialog", SubscribeDialog, subscribe_dialog_class_init, subscribe_dialog_init, PARENT_TYPE);

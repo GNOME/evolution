@@ -636,6 +636,16 @@ pgp_path_changed (GtkEntry *entry, gpointer data)
 }
 
 static void
+filter_log_path_changed (GtkEntry *entry, gpointer data)
+{
+	const char *path;
+	
+	path = gtk_entry_get_text (entry);
+	
+	mail_config_set_filter_log_path (path && *path ? path : NULL);
+}
+
+static void
 set_color (GnomeColorPicker *cp)
 {
 	guint32 rgb = mail_config_get_citation_color ();
@@ -690,6 +700,12 @@ static void
 show_preview_toggled (GtkWidget *toggle, gpointer data)
 {
 	mail_config_set_show_preview (NULL, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+filter_log_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_filter_log (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
 }
 
 static void
@@ -796,12 +812,12 @@ construct (MailAccountsDialog *dialog)
 	set_color (dialog->citation_color);
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
 			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
-
+	
 	dialog->timeout_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "checkMarkTimeout"));
 	gtk_toggle_button_set_active (dialog->timeout_toggle, mail_config_get_do_seen_timeout ());
 	gtk_signal_connect (GTK_OBJECT (dialog->timeout_toggle), "toggled",
 			    GTK_SIGNAL_FUNC (timeout_toggled), dialog);
-
+	
 	dialog->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
 	gtk_spin_button_set_value (dialog->timeout, (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
 	gtk_signal_connect (GTK_OBJECT (dialog->timeout), "changed",
@@ -820,6 +836,16 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->images_always), "toggled",
 			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
 	
+	dialog->thread_list = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkThreadedList"));
+	gtk_toggle_button_set_active (dialog->thread_list, mail_config_get_thread_list (NULL));
+	gtk_signal_connect (GTK_OBJECT (dialog->thread_list), "toggled",
+			    GTK_SIGNAL_FUNC (thread_list_toggled), dialog);
+	
+	dialog->show_preview = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowPreview"));
+	gtk_toggle_button_set_active (dialog->show_preview, mail_config_get_show_preview (NULL));
+	gtk_signal_connect (GTK_OBJECT (dialog->show_preview), "toggled",
+			    GTK_SIGNAL_FUNC (show_preview_toggled), dialog);
+	
 	/* Composer page */
 	dialog->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
 	gtk_toggle_button_set_active (dialog->send_html, mail_config_get_send_html ());
@@ -832,6 +858,16 @@ construct (MailAccountsDialog *dialog)
 	num = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (dialog->forward_style)),
 			       attach_forward_style_signal, &num);
+	
+	dialog->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
+	gtk_toggle_button_set_active (dialog->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
+	gtk_signal_connect (GTK_OBJECT (dialog->prompt_empty_subject), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_empty_subject_toggled), dialog);
+	
+	dialog->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
+	gtk_toggle_button_set_active (dialog->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
+	gtk_signal_connect (GTK_OBJECT (dialog->prompt_bcc_only), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_bcc_only_toggled), dialog);
 	
 	/* Other page */
 	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
@@ -857,25 +893,17 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->empty_trash), "toggled",
 			    GTK_SIGNAL_FUNC (empty_trash_toggled), dialog);
 	
-	dialog->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
-	gtk_toggle_button_set_active (dialog->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
-	gtk_signal_connect (GTK_OBJECT (dialog->prompt_empty_subject), "toggled",
-			    GTK_SIGNAL_FUNC (prompt_empty_subject_toggled), dialog);
+	dialog->filter_log = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkFilterLog"));
+	gtk_toggle_button_set_active (dialog->filter_log, mail_config_get_filter_log ());
+	gtk_signal_connect (GTK_OBJECT (dialog->filter_log), "toggled",
+			    GTK_SIGNAL_FUNC (filter_log_toggled), dialog);
 	
-	dialog->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
-	gtk_toggle_button_set_active (dialog->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
-	gtk_signal_connect (GTK_OBJECT (dialog->prompt_bcc_only), "toggled",
-			    GTK_SIGNAL_FUNC (prompt_bcc_only_toggled), dialog);
-	
-	dialog->thread_list = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkThreadedList"));
-	gtk_toggle_button_set_active (dialog->thread_list, mail_config_get_thread_list (NULL));
-	gtk_signal_connect (GTK_OBJECT (dialog->thread_list), "toggled",
-			    GTK_SIGNAL_FUNC (thread_list_toggled), dialog);
-	
-	dialog->show_preview = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowPreview"));
-	gtk_toggle_button_set_active (dialog->show_preview, mail_config_get_show_preview (NULL));
-	gtk_signal_connect (GTK_OBJECT (dialog->show_preview), "toggled",
-			    GTK_SIGNAL_FUNC (show_preview_toggled), dialog);
+	dialog->filter_log_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileFilterLog"));
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->filter_log_path)),
+			    mail_config_get_filter_log_path ());
+	gnome_file_entry_set_default_path (dialog->filter_log_path, mail_config_get_filter_log_path ());
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->filter_log_path)),
+			    "changed", GTK_SIGNAL_FUNC (filter_log_path_changed), dialog);
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;
