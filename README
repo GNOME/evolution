@@ -134,7 +134,7 @@ and -devel packages for each library.
 
  - gconf - 0.6 or later
 
- - gal (GNOME Application Library) - 0.4.99.8 (If you get this from
+ - gal (GNOME Application Library) - 0.5 (If you get this from
    GNOME CVS, use the tag "GAL_0_5")
 
  - gtkhtml - 0.8.2 or later
