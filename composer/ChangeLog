@@ -1,3 +1,8 @@
+2001-07-04  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (autosave_load_draft): attach send and postpone
+	handlers. and be more tolerant of errors.
+
 2001-07-03  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (autosave_save_draft): make sure we seek to the

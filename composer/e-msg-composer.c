@@ -1063,9 +1063,18 @@ autosave_load_draft (const char *filename)
 	unlink (filename);
 	
 	composer = e_msg_composer_new_with_message (msg);
+	if (composer) {
+		autosave_save_draft (composer);
+		
+		gtk_signal_connect (GTK_OBJECT (composer), "send",
+				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
+
+		gtk_widget_show (GTK_WIDGET (composer));
+	}
 
 	camel_object_unref ((CamelObject *)stream);
-	gtk_widget_show (GTK_WIDGET (composer));
 	return composer;
 }
 
@@ -1114,8 +1123,9 @@ autosave_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
 
 			if (ok) {
 				char *filename = g_strdup_printf ("%s/%s", g_get_home_dir (), d->d_name);
+				EMsgComposer *composer;
 
-				autosave_load_draft (filename);
+				composer = autosave_load_draft (filename);
 
 				g_free (filename);
 			}
