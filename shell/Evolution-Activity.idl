@@ -12,7 +12,7 @@ module GNOME {
 module Evolution {
 
 interface Activity : Bonobo::Unknown {
-	typedef long ActivityID;
+	typedef long ActivityId;
 
 	enum DialogType {
 		DIALOG_TYPE_NONE,
@@ -23,6 +23,7 @@ interface Activity : Bonobo::Unknown {
 	};
 
 	enum DialogAction {
+		DIALOG_ACTION_ERROR,
 		DIALOG_ACTION_DISPLAY,
 		DIALOG_ACTION_POSTPONE
 	};
@@ -45,13 +46,13 @@ interface Activity : Bonobo::Unknown {
 
 	/**
 	 * operationStarted:
-	 * @component_id: ID of the component starting the operation.
+	 * @component_id: Id of the component starting the operation.
 	 * @information: Informative string about the operation being performed.
 	 * @cancellable: Whether this operation should be cancellable by
 	 * the user from the shell view.
 	 * @event_listener: Listener which the events for the activity
 	 * widget will be passed to.
-	 * @activity_id: A unique ID for the activity, to be used to update the
+	 * @activity_id: A unique Id for the activity, to be used to update the
 	 * status of the operation.
 	 * @suggest_display: Whether displaying the dialog might be a nice idea.
 	 */
@@ -60,33 +61,33 @@ interface Activity : Bonobo::Unknown {
 			       in string information,
 			       in boolean cancellable,
 			       in Bonobo::Listener event_listener,
-			       out ActivityID activity_id,
+			       out ActivityId activity_id,
 			       out boolean suggest_display)
 		raises (InvalidIcon);
 
 	/**
 	 * operationProgressing:
-	 * @activity: The unique ID for the activity whose status we want to update.
+	 * @activity: The unique Id for the activity whose status we want to update.
 	 * @information: New informative string.  If empty, the informative string
 	 * isn't changed.
 	 * @progress: A float from 0.0 to 1.0 indicating the status of completion.
 	 *
 	 * Update the status of the specified @activity.
 	 */
-	void operationProgressing (in ActivityID activity,
+	void operationProgressing (in ActivityId activity,
 				   in string information,
 				   in float progress)
 		raises (IdNotFound);
 
 	/**
 	 * operationFinished:
-	 * @activity: The unique ID for the activity that has been completed.
+	 * @activity: The unique Id for the activity that has been completed.
 	 *
 	 * Report that the specified @activity has been completed.  After this
-	 * method is invoked, @activity is not considered to be a valid ID
+	 * method is invoked, @activity is not considered to be a valid Id
 	 * anymore.
 	 */
-	void operationFinished (in ActivityID activity);
+	void operationFinished (in ActivityId activity);
 
 	/**
 	 * requestDialog:
@@ -100,7 +101,7 @@ interface Activity : Bonobo::Unknown {
 	 * shell will flash the label related to this activity, and emit
 	 * "DisplayDialog" through the event source when the user clicks on it.
 	 */
-	DialogAction requestDialog (in ActivityID activity,
+	DialogAction requestDialog (in ActivityId activity,
 				    in DialogType dialog_type);
 };
 		

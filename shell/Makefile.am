@@ -57,6 +57,7 @@ eshellincludedir = $(includedir)/evolution/shell
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
 	e-folder-tree.h				\
+	evolution-activity-client.h		\
 	evolution-local-storage.h		\
 	evolution-session.h			\
 	evolution-shell-client.h		\
@@ -72,6 +73,7 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	e-folder-tree.c				\
+	evolution-activity-client.c		\
 	evolution-local-storage.c		\
 	evolution-session.c			\
 	evolution-shell-client.c		\

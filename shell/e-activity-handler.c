@@ -42,7 +42,7 @@ static BonoboXObjectClass *parent_class = NULL;
 
 struct _ActivityInfo {
 	GdkPixbuf *icon_pixbuf;
-	GNOME_Evolution_Activity_ActivityID id;
+	GNOME_Evolution_Activity_ActivityId id;
 	CORBA_char *information;
 	CORBA_boolean cancellable;
 	Bonobo_Listener event_listener;
@@ -51,7 +51,7 @@ struct _ActivityInfo {
 typedef struct _ActivityInfo ActivityInfo;
 
 struct _EActivityHandlerPrivate {
-	GNOME_Evolution_Activity_ActivityID next_activity_id;
+	GNOME_Evolution_Activity_ActivityId next_activity_id;
 	GList *activity_infos;
 	GSList *task_bars;
 };
@@ -113,7 +113,7 @@ get_new_activity_id (EActivityHandler *activity_handler)
 
 static GList *
 lookup_activity (GList *list,
-		 GNOME_Evolution_Activity_ActivityID activity_id,
+		 GNOME_Evolution_Activity_ActivityId activity_id,
 		 int *order_number_return)
 {
 	GList *p;
@@ -137,7 +137,7 @@ lookup_activity (GList *list,
 /* Creating and destroying ActivityInfos.  */
 
 static ActivityInfo *
-activity_info_new (GNOME_Evolution_Activity_ActivityID id,
+activity_info_new (GNOME_Evolution_Activity_ActivityId id,
 		   GdkPixbuf *icon,
 		   const CORBA_char *information,
 		   CORBA_boolean cancellable,
@@ -256,7 +256,7 @@ impl_operationStarted (PortableServer_Servant servant,
 		       const CORBA_char *information,
 		       const CORBA_boolean cancellable,
 		       const Bonobo_Listener event_listener,
-		       GNOME_Evolution_Activity_ActivityID *activity_id_return,
+		       GNOME_Evolution_Activity_ActivityId *activity_id_return,
 		       CORBA_boolean *suggest_display_return,
 		       CORBA_Environment *ev)
 {
@@ -296,7 +296,7 @@ impl_operationStarted (PortableServer_Servant servant,
 
 static void
 impl_operationProgressing (PortableServer_Servant servant,
-			   const GNOME_Evolution_Activity_ActivityID activity_id,
+			   const GNOME_Evolution_Activity_ActivityId activity_id,
 			   const CORBA_char *information,
 			   const CORBA_float progress,
 			   CORBA_Environment *ev)
@@ -340,7 +340,7 @@ impl_operationProgressing (PortableServer_Servant servant,
 
 static void
 impl_operationFinished (PortableServer_Servant servant,
-			const GNOME_Evolution_Activity_ActivityID activity_id,
+			const GNOME_Evolution_Activity_ActivityId activity_id,
 			CORBA_Environment *ev)
 {
 	EActivityHandler *activity_handler;
@@ -367,7 +367,7 @@ impl_operationFinished (PortableServer_Servant servant,
 
 static GNOME_Evolution_Activity_DialogAction
 impl_requestDialog (PortableServer_Servant servant,
-		    const GNOME_Evolution_Activity_ActivityID activity_id,
+		    const GNOME_Evolution_Activity_ActivityId activity_id,
 		    const GNOME_Evolution_Activity_DialogType dialog_type,
 		    CORBA_Environment *ev)
 {

@@ -1,5 +1,34 @@
 2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-test-component.c: Changed to use the
+	`EvolutionActivityClient' object.  New global static variable
+	`activity_client'.
+	(create_animated_icon): Removed.
+	(create_icon_from_pixbuf): Removed.
+	(task_bar_event_listener_callback): Removed.
+	(timeout_callback_1): Create an EvolutionActivityClient object and
+	put a pointer to it into `activity_client'.  Lower the timeout
+	delay from 1000 msecs to 100 msecs, so we can stress-test the
+	speed control code in EvolutionActivityClient.
+	(timeout_callback_2): Use the EvolutionActivityClient.  Increment
+	progress by 1, instead of 10.
+	(timeout_callback_3): Destroy the EvolutionActivityClient.
+
+	* Makefile.am (libeshell_la_SOURCES): Add
+	`evolution-activity-client.c'.
+	(eshellinclude_HEADERS): Add `evolution-activity-client.h'.
+
+	* evolution-activity-client.c: New.
+	* evolution-activity-client.h: New.
+
+	* e-activity-handler.c: Updated all instances of `ActivityID' with
+	`ActivityId'.
+
+	* Evolution-Activity.idl: Renamed `ActivityID' to `ActivityID'.
+	Added value `DIALOG_ACTION_ERROR' to `DialogAction'.
+
+2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c: Remove the `activity_interface'
 	global.
 	(timeout_callback_3): Get the ::Activity interface using

@@ -28,6 +28,7 @@
 #endif
 
 #include "evolution-shell-component.h"
+#include "evolution-activity-client.h"
 
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
@@ -45,104 +46,19 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 
 
 static EvolutionShellClient *parent_shell = NULL;
-
-static CORBA_long activity_id = 0;
-
-static BonoboListener *task_bar_event_listener;
+static EvolutionActivityClient *activity_client;
 
 static int timeout_id = 0;
 static int progress = -1;
 
 
-static void
-create_icon_from_pixbuf (GdkPixbuf *pixbuf,
-			 GNOME_Evolution_Icon *frame_return)
-{
-	const char *sp;
-	CORBA_octet *dp;
-	int width, height, total_width, rowstride;
-	int i, j;
-	gboolean has_alpha;
-
-	width     = gdk_pixbuf_get_width (pixbuf);
-	height    = gdk_pixbuf_get_height (pixbuf);
-	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
-
-	if (has_alpha)
-		total_width = 4 * width;
-	else
-		total_width = 3 * width;
-
-	frame_return->width = width;
-	frame_return->height = height;
-	frame_return->hasAlpha = has_alpha;
-
-	frame_return->rgba_data._length = frame_return->height * total_width;
-	frame_return->rgba_data._maximum = frame_return->rgba_data._length;
-	frame_return->rgba_data._buffer = CORBA_sequence_CORBA_octet_allocbuf (frame_return->rgba_data._maximum);
-
-	sp = gdk_pixbuf_get_pixels (pixbuf);
-	dp = frame_return->rgba_data._buffer;
-	for (i = 0; i < height; i ++) {
-		for (j = 0; j < total_width; j++) {
-			*(dp ++) = sp[j];
-		}
-		sp += rowstride;
-	}
-}
-
-static GNOME_Evolution_AnimatedIcon *
-create_animated_icon (void)
-{
-	GNOME_Evolution_AnimatedIcon *animated_icon;
-	GdkPixbuf *pixbuf;
-
-	animated_icon = GNOME_Evolution_AnimatedIcon__alloc ();
-
-	animated_icon->_length = 1;
-	animated_icon->_maximum = 1;
-	animated_icon->_buffer = CORBA_sequence_GNOME_Evolution_Icon_allocbuf (animated_icon->_maximum);
-
-	pixbuf = gdk_pixbuf_new_from_file (gnome_pixmap_file ("gnome-money.png"));
-	create_icon_from_pixbuf (pixbuf, &animated_icon->_buffer[0]);
-	gdk_pixbuf_unref (pixbuf);
-
-	CORBA_sequence_set_release (animated_icon, TRUE);
-
-	return animated_icon;
-}
-
-
-static void
-task_bar_event_listener_callback (BonoboListener *listener,
-				  char *event_name,
-				  CORBA_any *any,
-				  CORBA_Environment *ev,
-				  void *data)
-{
-	g_print ("Taskbar event -- %s\n", event_name);
-}
-
 /* Timeout #3: We are done.  */
 static int
 timeout_callback_3 (void *data)
 {
-	CORBA_Environment ev;
+	gtk_object_unref (GTK_OBJECT (activity_client));
 
-	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_Activity_operationFinished (evolution_shell_client_get_activity_interface (parent_shell),
-						    activity_id, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Cannot report operation as finished; exception returned -- %s\n",
-			   ev._repo_id);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	CORBA_exception_free (&ev);
+	g_print ("--> Done.\n");
 
 	return FALSE;
 }
@@ -151,31 +67,20 @@ timeout_callback_3 (void *data)
 static int
 timeout_callback_2 (void *data)
 {
-	CORBA_Environment ev;
-
 	if (progress < 0)
 		progress = 0;
 
-	CORBA_exception_init (&ev);
+	g_print ("--> Updating %d\n", progress);
 
-	GNOME_Evolution_Activity_operationProgressing (evolution_shell_client_get_activity_interface (parent_shell),
-						       activity_id,
-						       "Operation Foo in progress",
-						       (CORBA_float) progress / 100.0,
-						       &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Cannot update operation; exception returned -- %s\n",
-			   ev._repo_id);
-		CORBA_exception_free (&ev);
+	if (! evolution_activity_client_update (activity_client, "Operation Foo in progress",
+						(float) progress / 100.0)) {
+		g_warning ("Error when updating operation");
 		return FALSE;
 	}
 
-	CORBA_exception_free (&ev);
-
-	progress += 10;
+	progress ++;
 	if (progress > 100) {
-		gtk_timeout_add (1000, timeout_callback_3, NULL);
+		gtk_timeout_add (200, timeout_callback_3, NULL);
 		return FALSE;
 	}
 
@@ -186,50 +91,29 @@ timeout_callback_2 (void *data)
 static int
 timeout_callback_1 (void *data)
 {
-	CORBA_boolean suggest_display;
-	CORBA_Environment ev;
-	GNOME_Evolution_AnimatedIcon *animated_icon;
-	GNOME_Evolution_Activity activity_interface;
+	gboolean suggest_display;
+	GdkPixbuf *animated_icon[2];
 
-	activity_interface = evolution_shell_client_get_activity_interface (parent_shell);
-	if (activity_interface== CORBA_OBJECT_NIL)
-		return FALSE;
+	animated_icon[0] = gdk_pixbuf_new_from_file (gnome_pixmap_file ("gnome-money.png"));
+	animated_icon[1] = NULL;
 
-	CORBA_exception_init (&ev);
+	g_assert (animated_icon[0] != NULL);
 
-	g_print ("Component becoming busy -- %s\n", COMPONENT_ID);
-
-	task_bar_event_listener = bonobo_listener_new (task_bar_event_listener_callback, NULL);
-
-	animated_icon = create_animated_icon ();
-
-	GNOME_Evolution_Activity_operationStarted (activity_interface,
-						   COMPONENT_ID,
-						   animated_icon,
-						   "Operation Foo started!",
-						   FALSE,
-						   bonobo_object_corba_objref (BONOBO_OBJECT (task_bar_event_listener)),
-						   &activity_id,
-						   &suggest_display,
-						   &ev);
-
-	CORBA_free (animated_icon);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Cannot start an operation; exception returned -- %s\n",
-			   ev._repo_id);
-		CORBA_exception_free (&ev);
+	activity_client = evolution_activity_client_new (parent_shell, COMPONENT_ID,
+							 animated_icon,
+							 "Operation Foo started!",
+							 FALSE,
+							 &suggest_display);
+	if (activity_client == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot create EvolutionActivityClient object");
 		return FALSE;
 	}
 
-	g_print (" --> Activity ID: %ld\n", (long) activity_id);
-
+	g_print ("Component becoming busy -- %s\n", COMPONENT_ID);
 	if (suggest_display)
 		g_print (" --> Could display dialog box.\n");
 
-	CORBA_exception_free (&ev);
-
-	gtk_timeout_add (3000, timeout_callback_2, NULL);
+	gtk_timeout_add (100, timeout_callback_2, NULL);
 
 	return FALSE;
 }
