@@ -1,3 +1,8 @@
+2001-08-23  Peter Williams  <peterw@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): eek. Fix it so that
+	you can create accounts.
+
 2001-08-22  jacob berkman  <jacob@ximian.com>
 
 	* mail-display.c: rework how the e-card-popup thing has its life

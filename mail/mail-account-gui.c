@@ -1580,7 +1580,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	new_name = e_utf8_gtk_entry_get_text (gui->account_name);
 	old_account = mail_config_get_account_by_name (new_name);
 
-	if (old_account != account) {
+	if (old_account && old_account != account) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("You may not create two accounts with the same name."));
 		return FALSE;
