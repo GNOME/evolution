@@ -189,7 +189,6 @@ save_cb (GtkWidget *widget, gpointer user_data)
 	GtkFileSelection *file_select;
 	char *filename;
 	
-	chdir (g_get_home_dir ());
 	filename = make_safe_filename (g_get_home_dir (), part);
 	file_select = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Save Attachment")));
