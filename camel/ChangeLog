@@ -1,3 +1,9 @@
+2001-01-29  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-command.c
+	(imap_command_strdup_vprintf): Include the terminating NUL in the
+	calculated string length.  This hit memcheck.
+
 2001-01-25  Not Zed  <NotZed@Ximian.com>
 
 	* tests/folder/test3.c: Changed the subject search to handle case

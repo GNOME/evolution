@@ -530,7 +530,7 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 	}
 
 	/* Now write out the string */
-	op = out = g_malloc (len);
+	op = out = g_malloc (len + 1);
 	p = start = fmt;
 	i = 0;
 	while (*p) {
