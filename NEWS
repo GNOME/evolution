@@ -1,23 +1,54 @@
-Evolution x.x.xx, xxxx-xx-xx
-----------------------------
+Evolution 1.4, 2003-06-02
+-------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Calendar
   
-    #43455 - evo crashed on exit (Rodrigo)
-    #43763 - 2 right mouse menus appear in Week & Month views (Rodrigo)
+    #43388 - Problems importing appointments  (Rodrigo)
+    #43455 - Crash on exit  (Rodrigo)
+    #43763 - 2 right mouse menus appear in Week & Month views  (Rodrigo)
+    #43775 - Crash under Chinese locale  (JP)
 
   * Mail
 
-    #42854 - copying files from one IMAP folder to another makes
+    #42854 - Copying files from one IMAP folder to another makes
              multiple copies of file  (Jeff)
-    #43862 - first run imap account won't load folders until account
-             is disabled and re-enabled  (Jeff and Michael)
-    #42691 - server files not regenerated after distclean  (Michael)
+    #43862 - First run imap account won't load folders until account
+             is disabled and re-enabled  (Jeff, Michael)
+    #42691 - Server files not regenerated after distclean  (Michael)
     #43805 - Evolution locked while editing reply to an mail  (Jeff)
     #43410 - Flag for Followup dialog opens up too small in Evo  (Michael)
-    #43688 - can't save signatures  (Michael)
+    #43688 - Can't save signatures  (Michael)
+
+  * Summary
+
+    #43506 - Spontaneous crash  (Ettore)
+
+  * Misc
+
+    #43596 - Symlink icon file so it doesn't break existing panel
+             setups  (Ettore)
+
+Other bugs fixed:
+
+  * Addressbook
+
+    - Removed conflicting shortcut for the Print Preview menu item
+      (Rodney)
+
+  * Misc
+
+    - Corrected some problems in the pkgconfig files  (Rodney)
+    - Fixed an issue with GConf schema file installation  (Joe Marcus
+      Clarke)
+
+Updated translations:
+
+  - nl (Vincent van Adrighem)
+  - ru (GNOME Russian Team)
+  - be (GNOME Belarusian Team)
+  - es (Francisco Javier F. Serrador)
 
 
 Evolution 1.3.92, 2003-05-22

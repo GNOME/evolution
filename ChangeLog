@@ -1,3 +1,11 @@
+== Version 1.4.0 ==
+
+2003-06-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version number to 1.4.0.
+	(VERSION_COMMENT): Set to an empty string.
+	(GAL_REQUIRED): Require 1.99.7.
+
 2003-05-28  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: AC_SUBST() for GAL_REQUIRED and GTKHTML_REQUIRED

@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2003-06-02 12:03+0200\n"
+"POT-Creation-Date: 2003-06-02 15:28-0400\n"
 "PO-Revision-Date: 2003-06-02 16:21+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -3824,7 +3824,7 @@ msgstr "Map met afspraken en gebeurtenissen"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1791 calendar/gui/tasks-control.c:503
-#: calendar/importers/icalendar-importer.c:645
+#: calendar/importers/icalendar-importer.c:644
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
@@ -6450,15 +6450,15 @@ msgstr "iKalender bestanden (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "vKalender bestanden(.vcf)"
 
-#: calendar/importers/icalendar-importer.c:404
+#: calendar/importers/icalendar-importer.c:403
 msgid "Reminder!!"
 msgstr "Herinnering!!"
 
-#: calendar/importers/icalendar-importer.c:638
+#: calendar/importers/icalendar-importer.c:637
 msgid "Calendar Events"
 msgstr "Kalendergebeurtenissen"
 
-#: calendar/importers/icalendar-importer.c:663
+#: calendar/importers/icalendar-importer.c:662
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -6466,7 +6466,7 @@ msgstr ""
 "Evolution heeft Gnome kalender bestanden gevonden.\n"
 "Wilt u deze importeren in Evolution?"
 
-#: calendar/importers/icalendar-importer.c:670
+#: calendar/importers/icalendar-importer.c:669
 msgid "Gnome Calendar"
 msgstr "Gnome kalender"
 
@@ -9512,7 +9512,7 @@ msgstr "Lokale opslaglocaties hebben geen postbus-in"
 msgid "Local mail file %s"
 msgstr "Lokaal postbusbestand %s"
 
-#: camel/providers/local/camel-local-store.c:308 mail/mail-local.c:905
+#: camel/providers/local/camel-local-store.c:308 mail/mail-local.c:909
 #, c-format
 msgid "Could not rename folder %s to %s: %s"
 msgstr "Kon de naam van map %s niet wijzigen naar %s: %s"
@@ -13194,7 +13194,7 @@ msgstr "Verwijzing opslaan als (FIXME)"
 msgid "Save Image as..."
 msgstr "Afbeelding opslaan als..."
 
-#: mail/mail-folder-cache.c:744
+#: mail/mail-folder-cache.c:745
 #, c-format
 msgid "Pinging %s"
 msgstr "%s wordt opgezocht"
@@ -13288,16 +13288,16 @@ msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 msgid "Malformed external-body part."
 msgstr "Misvormd extern-berichtgedeelte"
 
-#: mail/mail-local.c:537 mail/mail-local.c:539
+#: mail/mail-local.c:541 mail/mail-local.c:543
 #, c-format
 msgid "Local folders/%s"
 msgstr "Lokale mappen/%s"
 
-#: mail/mail-local.c:667
+#: mail/mail-local.c:671
 msgid "Reconfiguring folder"
 msgstr "Map opnieuw configureren"
 
-#: mail/mail-local.c:748
+#: mail/mail-local.c:752
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you may find you can't\n"
@@ -13306,22 +13306,22 @@ msgstr ""
 "Kan meta-info van map niet opslaan: deze map kan waarschijnlijk\n"
 "niet meer geopend worden: %s: %s"
 
-#: mail/mail-local.c:804
+#: mail/mail-local.c:808
 #, c-format
 msgid "Cannot save folder metainfo to %s: %s"
 msgstr "Kan map-matainfo niet opslaan in %s: %s"
 
-#: mail/mail-local.c:856
+#: mail/mail-local.c:860
 #, c-format
 msgid "Cannot delete folder metadata %s: %s"
 msgstr "Kan map-metagegevens %s niet verwijderen: %s"
 
-#: mail/mail-local.c:1319
+#: mail/mail-local.c:1323
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Mapformaat wordt veranderd van \"%s\" naar \"%s\""
 
-#: mail/mail-local.c:1344
+#: mail/mail-local.c:1348
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -13329,12 +13329,12 @@ msgstr ""
 "Als deze map niet meer kan worden geopend, dan is\n"
 "het wellicht noodzakelijk om deze handmatig te repareren."
 
-#: mail/mail-local.c:1444
+#: mail/mail-local.c:1448
 #, c-format
 msgid "Reconfigure /%s"
 msgstr "Herconfigureer /%s"
 
-#: mail/mail-local.c:1508
+#: mail/mail-local.c:1512
 msgid "You cannot change the format of a non-local folder."
 msgstr "U kunt het formaat van een niet-lokale map niet veranderen."
 
