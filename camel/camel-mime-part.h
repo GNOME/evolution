@@ -48,6 +48,7 @@ typedef struct
 {
 	CamelMedium parent_object;
 	
+	/* All fields here are -** PRIVATE **- */ 
 	gchar *description;
 	GMimeContentField *disposition;
 	gchar *content_id;
@@ -57,6 +58,7 @@ typedef struct
 	gchar *filename;
 	GList *header_lines;
 	
+	GByteArray *temp_message_buffer;
 	GMimeContentField *content_type;
 	
 } CamelMimePart;

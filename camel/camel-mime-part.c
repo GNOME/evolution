@@ -29,7 +29,8 @@
 #include "camel-log.h"
 #include "gmime-utils.h"
 #include "camel-simple-data-wrapper.h"
-
+#include "hash-table-utils.h"
+#include "camel-stream-mem.h"
 
 typedef enum {
 	HEADER_UNKNOWN,
@@ -62,6 +63,7 @@ void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream
 static void _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value);
 
 static void _set_content_object (CamelMedium *medium, CamelDataWrapper *content);
+static CamelDataWrapper *_get_content_object (CamelMedium *medium);
 
 /* CamelMimePart methods */
 static void _set_description (CamelMimePart *mime_part, const gchar *description);
@@ -93,7 +95,7 @@ static gboolean _parse_header_pair (CamelMimePart *mime_part, gchar *header_name
 static void
 _init_header_name_table()
 {
-	header_name_table = g_hash_table_new (g_str_hash, g_str_equal);
+	header_name_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	g_hash_table_insert (header_name_table, "Content-Description", (gpointer)HEADER_DESCRIPTION);
 	g_hash_table_insert (header_name_table, "Content-Disposition", (gpointer)HEADER_DISPOSITION);
 	g_hash_table_insert (header_name_table, "Content-id", (gpointer)HEADER_CONTENT_ID);
@@ -138,6 +140,7 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	/* virtual method overload */	
 	camel_medium_class->add_header = _add_header;
 	camel_medium_class->set_content_object = _set_content_object;
+	camel_medium_class->get_content_object = _get_content_object;
 
 	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
@@ -159,6 +162,9 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	camel_mime_part->encoding = NULL;
 	camel_mime_part->filename = NULL;
 	camel_mime_part->header_lines = NULL;
+
+	camel_mime_part->temp_message_buffer = NULL;
+
 }
 
 
@@ -208,8 +214,9 @@ _finalize (GtkObject *object)
 	if (mime_part->encoding) g_free (mime_part->encoding);
 	if (mime_part->filename) g_free (mime_part->filename);
 	if (mime_part->header_lines) string_list_free (mime_part->header_lines);
-
+	
 	if (mime_part->content_type) gmime_content_field_unref (mime_part->content_type);
+	if (mime_part->temp_message_buffer) g_byte_array_free (mime_part->temp_message_buffer, TRUE);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimePart::finalize\n");
@@ -562,6 +569,31 @@ _set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 	
 }
 
+static CamelDataWrapper *
+_get_content_object (CamelMedium *medium)
+{
+	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
+	CamelStream *stream;
+
+	/* 
+	 * test if there is not pending content stored in the 
+	 * temporary buffer
+	 */
+	if ((!medium->content ) || (mime_part->temp_message_buffer)) {
+		stream = camel_stream_mem_new_with_buffer (mime_part->temp_message_buffer,
+							   CAMEL_STREAM_MEM_READ);
+		camel_mime_part_construct_content_from_stream (mime_part, stream);
+		/*
+		 * Beware : this will destroy the temp buffer as well
+		 */
+		gtk_object_unref (GTK_OBJECT (stream));
+	}
+	
+	return parent_class->get_content_object (medium);
+		
+}
+
+
 /* **** */
 
 
@@ -725,10 +757,10 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 
 	CamelMimePart *mime_part = CAMEL_MIME_PART (data_wrapper);
-
+	
 	camel_mime_part_construct_headers_from_stream (mime_part, stream);
-	camel_mime_part_construct_content_from_stream (mime_part, stream);
-
+	
+	camel_mime_part_store_stream_in_buffer (mime_part, stream);
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Leaving _construct_from_stream\n");
 
 }

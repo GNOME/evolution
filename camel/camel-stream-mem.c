@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-ofmemet: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-stream-mem.c : memory buffer based stream */
 
 /* inspired by gnome-stream-mem.c in bonobo by Miguel de Icaza */
@@ -50,11 +50,11 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 {
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_mem_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_mem_class);
-
+	
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
-
+	
 	/* virtual method overload */
 	camel_stream_class->read = _read;
 	camel_stream_class->write = _write;
@@ -63,16 +63,15 @@ camel_stream_mem_class_init (CamelStreamMemClass *camel_stream_mem_class)
 	camel_stream_class->eos = _eos;
 	camel_stream_class->close = _close;
 	camel_stream_class->seek = _seek;
-
+	
 	gtk_object_class->finalize = _finalize;
-
+	
 }
 
 static void
 camel_stream_mem_init (gpointer   object,  gpointer   klass)
 {
 	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (object);
-	camel_stream_mem->buffer = g_byte_array_new ();
 	camel_stream_mem->position = 0;
 }
 
@@ -104,12 +103,28 @@ camel_stream_mem_get_type (void)
 CamelStream *
 camel_stream_mem_new (CamelStreamMemMode mode)
 {
-  CamelStreamMem *stream_mem;
+	CamelStreamMem *stream_mem;
+	GByteArray *buffer;
 
-  stream_mem = gtk_type_new (camel_stream_mem_get_type ());
-  stream_mem->mode = mode;
-  return CAMEL_STREAM (stream_mem);
+	buffer = g_byte_array_new ();	
+	stream_mem = (CamelStreamMem *)camel_stream_mem_new_with_buffer (buffer, mode);
+	return CAMEL_STREAM (stream_mem);
 }
+
+
+CamelStream *
+camel_stream_mem_new_with_buffer (GByteArray *buffer, CamelStreamMemMode mode)
+{
+	CamelStreamMem *stream_mem;
+	
+	stream_mem = gtk_type_new (camel_stream_mem_get_type ());
+	stream_mem->mode = mode;
+	stream_mem->buffer = buffer;
+	
+	return CAMEL_STREAM (stream_mem);
+}
+
+
 
 static void           
 _finalize (GtkObject *object)

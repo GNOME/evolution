@@ -39,6 +39,8 @@ void camel_mime_part_construct_headers_from_stream (CamelMimePart *mime_part,
 void camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part, 
 						    CamelStream *stream);
 
+void camel_mime_part_store_stream_in_buffer (CamelMimePart *mime_part, 
+					     CamelStream *stream);
 
 
 #ifdef __cplusplus

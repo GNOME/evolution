@@ -1,5 +1,17 @@
 1999-08-26  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-mime-part.c (_get_content_object): 
+	contruct the content from the buffer before calling
+	CamelMedium implementation.
+	(_construct_from_stream): Do not construct the content 
+	by default, just store the content bytes in 
+	a temporary buffer. Content will be constructed only
+	at caller request (when calling CamelMedium::get_content_object)
+	Providers with better access to the messages (mbox/MH ...)
+	will have to provider lighter implementation, that is
+	shall not read content at all unless the caller asks
+	for it (again with get_content).
+
 	* camel/camel-mime-part-utils.c: new file, groups
 	mime-part related utils. Meant to be used by providers
 	subclassing MimeMessage.

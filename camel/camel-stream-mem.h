@@ -74,6 +74,11 @@ GtkType camel_stream_mem_get_type (void);
 
 /* public methods */
 CamelStream *camel_stream_mem_new (CamelStreamMemMode mode);
+CamelStream * camel_stream_mem_new_with_buffer (GByteArray *buffer, 
+						CamelStreamMemMode mode);
+
+
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

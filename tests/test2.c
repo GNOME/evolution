@@ -30,7 +30,7 @@ main (int argc, char**argv)
 	}
 	
 	camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
-					     
+	camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	camel_stream_close (input_stream);
 	gtk_object_unref (GTK_OBJECT (input_stream));
 
