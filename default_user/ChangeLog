@@ -1,3 +1,12 @@
+2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* searches.xml: So it turns out that I needed to name the
+	recipient's part name to "to" instead of "recipient" because they
+	need to match whatever is in vfoldertypes.xml. I also changed the
+	"type" to "address" which is what the vfoldertypes.xml
+	specifies. Unfortunately, it's still not working? At least it's
+	probably more correct now...
+
 2001-07-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* searches.xml: Moved "Sender-contains" to the top of the list and

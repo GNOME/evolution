@@ -74,9 +74,9 @@
     <rule grouping="any" source="demand">
       <title>Recipients contain</title>
       <partset>
-        <part name="recipients">
+        <part name="to">
           <value name="recipient-type" type="option" value="contains"/>
-          <value name="recipient" type="string"/>
+          <value name="recipient" type="address"/>
         </part>
       </partset>
       <sources/>
