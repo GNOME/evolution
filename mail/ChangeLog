@@ -5,6 +5,7 @@
 	parent list, otherwise remove it from the (supplied) root list.
 	(group_root_set): When we merge children, free the lost node.
 	(thread_messages_free): Remove the return, run as is.
+	(prune_empty): Plugged another small leak.
 
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 

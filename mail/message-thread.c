@@ -101,6 +101,7 @@ prune_empty(struct _container **cp)
 			if (c->child == NULL) {
 				d(printf("removing empty node\n"));
 				lastc->next = c->next;
+				g_free(c);
 				continue;
 			}
 			if (c->parent || c->child->next==0) {
