@@ -1,3 +1,10 @@
+2000-09-13  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_expunge): Don't look at
+	the response of the command. camel_imap_command_extended()
+	processes EXPUNGE responses itself, so if we do it here too we
+	remove twice as many summary items as we should.
+
 2000-09-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_folder_exists): Rewrote

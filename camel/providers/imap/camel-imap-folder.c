@@ -361,92 +361,14 @@ static void
 imap_expunge (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	gchar *node, *result;
-	gint i, status, recent = -1;
-	
-	g_return_if_fail (folder != NULL);
+	gchar *result;
+	gint status;
 	
 	imap_sync (folder, FALSE, ex);
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder, 
 					      &result, ex, "EXPUNGE");
-	
-	if (status != CAMEL_IMAP_OK)
-		return;
-	
-	/* determine which messages were successfully expunged */
-	node = result;
-	for (i = 0; node; i++) {
-		char *word;
-		
-		if (*node != '*')
-			break;
-		
-		word = imap_next_word (node);
-		
-		if (!strncmp (word, "NO", 2)) {
-			/* Something failed, probably a Read-Only mailbox? */
-			CamelService *service = CAMEL_SERVICE (folder->parent_store);
-			char *reason, *ep;
-			
-			word = imap_next_word (word);
-			for (ep = word; *ep && *ep != '\n'; ep++);
-			reason = g_strndup (word, (gint)(ep - word));
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "Could not EXPUNGE from IMAP server %s: %s.",
-					      service->url->host, reason ? reason :
-					      "Unknown error");
-			
-			g_free (reason);
-			break;
-		}
-		
-		/* else we have a message id? */
-		if (*word >= '0' && *word <= '9' && !strncmp ("EXPUNGE", imap_next_word (word), 7)) {
-			int id;
-			
-			id = atoi (word);
-			
-			d(fprintf (stderr, "Expunging message %d from the summary (i = %d)\n", id + i, i));
-			
-			if (id <= imap_folder->summary->len) {
-				CamelMessageInfo *info;
-				
-				info = (CamelMessageInfo *) imap_folder->summary->pdata[id - 1];
-				
-				/* remove from the lookup table and summary */
-				g_hash_table_remove (imap_folder->summary_hash, info->uid);
-				g_ptr_array_remove_index (imap_folder->summary, id - 1);
-				
-				/* free the info data */
-				g_free (info->subject);
-				g_free (info->from);
-				g_free (info->to);
-				g_free (info->cc);
-				g_free (info->uid);
-				g_free (info->message_id);
-				header_references_list_clear (&info->references);
-				g_free (info);
-				info = NULL;
-			} else {
-				/* Hopefully this should never happen */
-				d(fprintf (stderr, "imap expunge-error: message %d is out of range\n", id));
-			}
-		} else if (*word >= '0' && *word <= '9' && !strncmp ("RECENT", imap_next_word (word), 6)) {
-			recent = atoi (word);
-			if (!recent)
-				recent = -1;
-		}
-		
-		for ( ; *node && *node != '\n'; node++);
-		if (*node)
-			node++;
-	}
-	
 	g_free (result);
-	
-	camel_imap_folder_changed (folder, recent, NULL, ex);
 }
 
 static gint
