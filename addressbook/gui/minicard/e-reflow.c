@@ -329,11 +329,14 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				case 1:
 					{
 						GdkEventButton *button = (GdkEventButton *) event;
-						double n_x;
+						double n_x, max_x;
 						n_x = button->x;
 						n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 						n_x = fmod(n_x,(e_reflow->column_width + E_REFLOW_FULL_GUTTER));
-						if ( button->y >= E_REFLOW_BORDER_WIDTH && button->y <= e_reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER ) {
+
+						max_x = E_REFLOW_BORDER_WIDTH;
+						max_x += (e_reflow->column_width + E_REFLOW_FULL_GUTTER) * e_reflow->column_count;
+						if ( button->y >= E_REFLOW_BORDER_WIDTH && button->y <= e_reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER && max_x > button->x ) {
 							e_reflow->which_column_dragged = e_reflow_pick_line(e_reflow, button->x);
 							e_reflow->start_x = e_reflow->which_column_dragged * (e_reflow->column_width + E_REFLOW_FULL_GUTTER) - E_REFLOW_DIVIDER_WIDTH / 2;
 							e_reflow->temp_column_width = e_reflow->column_width;
@@ -412,11 +415,16 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				return TRUE;
 			} else {
 				GdkEventMotion *motion = (GdkEventMotion *) event;
-				double n_x;
+				double n_x, max_x;
+
 				n_x = motion->x;
 				n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 				n_x = fmod(n_x,(e_reflow->column_width + E_REFLOW_FULL_GUTTER));
-				if ( motion->y >= E_REFLOW_BORDER_WIDTH && motion->y <= e_reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER ) {
+
+				max_x = E_REFLOW_BORDER_WIDTH;
+				max_x += (e_reflow->column_width + E_REFLOW_FULL_GUTTER) * e_reflow->column_count;
+
+				if ( motion->y >= E_REFLOW_BORDER_WIDTH && motion->y <= e_reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER && max_x > motion->x) {
 					if ( e_reflow->default_cursor_shown ) {
 						gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, e_reflow->arrow_cursor);
 						e_reflow->default_cursor_shown = FALSE;
@@ -432,11 +440,14 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 		case GDK_ENTER_NOTIFY:
 			if (!e_reflow->column_drag) {
 				GdkEventCrossing *crossing = (GdkEventCrossing *) event;
-				double n_x;
+				double n_x, max_x;
 				n_x = crossing->x;
 				n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 				n_x = fmod(n_x,(e_reflow->column_width + E_REFLOW_FULL_GUTTER));
-				if ( crossing->y >= E_REFLOW_BORDER_WIDTH && crossing->y <= e_reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER ) {
+
+				max_x = E_REFLOW_BORDER_WIDTH;
+				max_x += (e_reflow->column_width + E_REFLOW_FULL_GUTTER) * e_reflow->column_count;
+				if ( crossing->y >= E_REFLOW_BORDER_WIDTH && crossing->y <= e_reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER && max_x > crossing->x) {
 					if ( e_reflow->default_cursor_shown ) {
 						gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, e_reflow->arrow_cursor);
 						e_reflow->default_cursor_shown = FALSE;

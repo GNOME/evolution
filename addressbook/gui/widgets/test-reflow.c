@@ -51,6 +51,7 @@
 #include <e-util/e-canvas.h>
 #include "e-reflow.h"
 #include "e-minicard.h"
+#include "e-scroll-frame.h"
 
 /* This is a horrible thing to do, but it is just a test. */
 GnomeCanvasItem *reflow;
@@ -76,7 +77,7 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpoi
 		 "width", &width,
 		 NULL);
   width = MAX(width, allocation->width);
-  gnome_canvas_set_scroll_region(GNOME_CANVAS( canvas ), 0, 0, width, allocation->height );
+  gnome_canvas_set_scroll_region(GNOME_CANVAS( canvas ), 0, 0, width - 1, allocation->height - 1);
   gnome_canvas_item_set( rect,
 			 "x2", (double) width,
 			 "y2", (double) allocation->height,
@@ -90,7 +91,7 @@ static void resize(GnomeCanvas *canvas, gpointer data)
 		       "width", &width,
 		       NULL);
 	width = MAX(width, last_alloc.width);
-	gnome_canvas_set_scroll_region(canvas , 0, 0, width, last_alloc.height );
+	gnome_canvas_set_scroll_region(canvas , 0, 0, width - 1, last_alloc.height - 1);
 	gnome_canvas_item_set( rect,
 			       "x2", (double) width,
 			       "y2", (double) last_alloc.height,
@@ -122,7 +123,7 @@ int main( int argc, char *argv[] )
   GtkWidget *app;
   GtkWidget *canvas;
   GtkWidget *vbox;
-  GtkWidget *scrollbar;
+  GtkWidget *scrollframe;
   int i;
 
   /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
@@ -164,13 +165,15 @@ int main( int argc, char *argv[] )
 				   0, 0,
 				   100, 100 );
 
-  gtk_box_pack_start(GTK_BOX(vbox), canvas, TRUE, TRUE, 0);
+  scrollframe = e_scroll_frame_new (gtk_layout_get_hadjustment(GTK_LAYOUT(canvas)),
+				    gtk_layout_get_vadjustment(GTK_LAYOUT(canvas)));
+  e_scroll_frame_set_policy (E_SCROLL_FRAME (scrollframe),
+			     GTK_POLICY_AUTOMATIC,
+			     GTK_POLICY_NEVER);
+  
+  gtk_container_add (GTK_CONTAINER (scrollframe), canvas);
 
-  scrollbar = gtk_hscrollbar_new(gtk_layout_get_hadjustment(GTK_LAYOUT(canvas)));
-
-  gtk_box_pack_start(GTK_BOX(vbox), scrollbar, FALSE, FALSE, 0);
-
-  gnome_app_set_contents( GNOME_APP( app ), vbox );
+  gnome_app_set_contents( GNOME_APP( app ), scrollframe );
 
   /* Connect the signals */
   gtk_signal_connect( GTK_OBJECT( app ), "destroy",

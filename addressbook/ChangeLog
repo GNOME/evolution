@@ -1,3 +1,20 @@
+2000-07-09  Anders Carlsson  <andersca@gnu.org>
+
+	* gui/minicard/test-reflow.c (allocate_callback): Fix off by one bug with
+	scroll region setting.
+	(resize): Likewise.
+	(main): Put the contacts list in an EScrolledFrame instead of using a
+	separate GtkScrollbar.
+
+	* gui/minicard/e-reflow.c (e_reflow_event): Don't change mouse cursor and
+	don't allow drags on dividers that aren't visible.
+
+	* gui/component/addressbook.c (allocate_callback): Fix off by one bug with
+	scroll region setting.
+	(resize): Likewise.
+	(create_minicard_view): Put the contacts list in an EScrolledFrame instead of
+	using a separate GtkScrollbar.
+
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c: Removed unused do_nothing_cb

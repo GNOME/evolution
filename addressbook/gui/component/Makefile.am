@@ -13,6 +13,7 @@ INCLUDES =						\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/e-table			\
+	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/addressbook/gui/minicard	\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/addressbook/backend		\

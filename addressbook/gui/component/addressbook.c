@@ -25,6 +25,8 @@
 #include <e-table.h>
 #include <e-cell-text.h>
 
+#include <e-scroll-frame.h>
+
 #include <e-addressbook-model.h>
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>
@@ -674,7 +676,7 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpoi
 		       "width", &width,
 		       NULL);
 	width = MAX(width, allocation->width);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS( view->canvas ), 0, 0, width, allocation->height );
+	gnome_canvas_set_scroll_region(GNOME_CANVAS( view->canvas ), 0, 0, width - 1, allocation->height - 1);
 	gnome_canvas_item_set( view->rect,
 			       "x2", (double) width,
 			       "y2", (double) allocation->height,
@@ -689,7 +691,7 @@ static void resize(GnomeCanvas *canvas, gpointer data)
 		       "width", &width,
 		       NULL);
 	width = MAX(width, view->last_alloc.width);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS(view->canvas), 0, 0, width, view->last_alloc.height );
+	gnome_canvas_set_scroll_region(GNOME_CANVAS(view->canvas), 0, 0, width - 1, view->last_alloc.height - 1);
 	gnome_canvas_item_set( view->rect,
 			       "x2", (double) width,
 			       "y2", (double) view->last_alloc.height,
@@ -857,16 +859,13 @@ create_alphabet (AddressbookView *view)
 static void
 create_minicard_view (AddressbookView *view, char *initial_query)
 {
-	GtkWidget *scrollbar;
-	GtkWidget *vbox;
+	GtkWidget *scrollframe;
 	GtkWidget *alphabet;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	view->minicard_hbox = gtk_hbox_new(FALSE, 0);
-
-	vbox = gtk_vbox_new(FALSE, 0);
 
 	view->canvas = e_canvas_new();
 	view->rect = gnome_canvas_item_new(
@@ -894,14 +893,15 @@ create_minicard_view (AddressbookView *view, char *initial_query)
 					 0, 0,
 					 100, 100 );
 
-	gtk_box_pack_start(GTK_BOX(vbox), view->canvas, TRUE, TRUE, 0);
-
-	scrollbar = gtk_hscrollbar_new(
-		gtk_layout_get_hadjustment(GTK_LAYOUT(view->canvas)));
-
-	gtk_box_pack_start(GTK_BOX(vbox), scrollbar, FALSE, FALSE, 0);
-
-	gtk_box_pack_start(GTK_BOX(view->minicard_hbox), vbox, TRUE, TRUE, 0);
+	scrollframe = e_scroll_frame_new (gtk_layout_get_hadjustment (GTK_LAYOUT (view->canvas)),
+					  gtk_layout_get_vadjustment (GTK_LAYOUT (view->canvas)));
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (scrollframe),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_NEVER);
+	
+	gtk_container_add (GTK_CONTAINER (scrollframe), view->canvas);
+	
+	gtk_box_pack_start(GTK_BOX(view->minicard_hbox), scrollframe, TRUE, TRUE, 0);
 
 	alphabet = create_alphabet(view);
 	if (alphabet) {
