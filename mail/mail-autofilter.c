@@ -281,6 +281,10 @@ filter_gui_add_from_message(CamelMimeMessage *msg, int flags)
 	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	rule_context_load((RuleContext *)fc, systemrules, userrules);
 	rule = filter_rule_from_message(fc, msg, flags);
+	
+	/* FIXME: with demand filters being abandoned, do we still care about source? */
+	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+	
 	rule_context_add_rule_gui((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
 	g_free (userrules);
 	g_free (systemrules);
