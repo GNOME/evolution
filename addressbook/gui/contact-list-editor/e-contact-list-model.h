@@ -2,11 +2,10 @@
 #ifndef _E_CONTACT_LIST_MODEL_H_
 #define _E_CONTACT_LIST_MODEL_H_
 
-#include <gtk/gtk.h>
 #include <gal/e-table/e-table-model.h>
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
-#include "addressbook/util/eab-destination.h"
+#include "addressbook/util/e-destination.h"
 
 G_BEGIN_DECLS
 
@@ -22,7 +21,7 @@ typedef struct _EContactListModelClass EContactListModelClass;
 struct _EContactListModel {
 	ETableModel parent;
 
-	EABDestination **data;
+	EDestination **data;
 	int data_count;
 	int data_alloc;
 };
@@ -37,14 +36,14 @@ GType      e_contact_list_model_get_type (void);
 void         e_contact_list_model_construct (EContactListModel *model);
 ETableModel *e_contact_list_model_new (void);
 
-void         e_contact_list_model_add_destination (EContactListModel *model, EABDestination *dest);
+void         e_contact_list_model_add_destination (EContactListModel *model, EDestination *dest);
 void         e_contact_list_model_add_email       (EContactListModel *model, const char *email);
-void         e_contact_list_model_add_contact     (EContactListModel *model, EContact *contact);
+void         e_contact_list_model_add_contact     (EContactListModel *model, EContact *contact, int email_num);
 
 void	     e_contact_list_model_remove_row (EContactListModel *model, int row);
 void         e_contact_list_model_remove_all (EContactListModel *model);
 
-const EABDestination *e_contact_list_model_get_destination (EContactListModel *model, int row);
+const EDestination *e_contact_list_model_get_destination (EContactListModel *model, int row);
 
 G_END_DECLS
 
