@@ -1,5 +1,8 @@
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
+	* shell/e-folder.c (e_folder_get_folder_type): added the
+	get_e_folder_type function.
+
 	* shell/evolution-service-repository.c:
 	(evolution_service_repository_new): creates an 
 	Evolution_ServiceRepository object.

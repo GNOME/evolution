@@ -26,7 +26,6 @@ static GtkObjectClass *folder_browser_parent_class;
 
 
 
-
 static void
 folder_browser_destroy (GtkObject *object)
 {

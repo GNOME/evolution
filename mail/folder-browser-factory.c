@@ -17,6 +17,8 @@
 #include "e-util/e-gui-utils.h"
 #include "folder-browser.h"
 #include "main.h"
+#include "shell/Evolution.h"
+#include "shell/evolution-service-repository.h"
 
 
 static const gchar *warning_dialog_buttons[] = {
@@ -24,7 +26,44 @@ static const gchar *warning_dialog_buttons[] = {
 	"OK",
 	NULL
 };
-				       
+			
+static void
+folder_browser_set_shell (EvolutionServiceRepository *sr,
+			  Evolution_Shell shell, 
+			  void *closure)
+{
+	FolderBrowser *folder_browser;
+
+	g_return_if_fail (closure);
+	g_return_if_fail (IS_FOLDER_BROWSER (closure));
+	g_return_if_fail (shell != CORBA_OBJECT_NIL);
+
+	folder_browser = FOLDER_BROWSER (closure);
+	
+	/* FIXME : ref the shell here */
+	folder_browser->shell = shell;
+	
+}
+
+static void 
+folder_browser_control_add_service_repository_interface (BonoboControl *control,
+							 GtkWidget *folder_browser)
+{
+	EvolutionServiceRepository *sr;
+
+	/* 
+	 * create an implementation for the Evolution::ServiceRepository
+	 * interface
+	 */
+	sr = evolution_service_repository_new (folder_browser_set_shell,
+					       (void *)folder_browser);
+	
+	/* add the interface to the control */
+	bonobo_object_add_interface (BONOBO_OBJECT (control), 
+				     BONOBO_OBJECT (sr));
+}
+
+
 static int
 development_warning ()
 {
@@ -92,7 +131,16 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 		bonobo_control_set_property_bag (
 			 control,
 			 FOLDER_BROWSER (folder_browser)->properties);
-	
+
+	/* for the moment, the control has the ability to register 
+	 * some services itself, but this should not last. 
+	 * 
+	 * It's not the way to do it, but we don't have the 
+	 * correct infrastructure in the shell now.    
+	 */
+	folder_browser_control_add_service_repository_interface (control, folder_browser); 
+
+
 	return BONOBO_OBJECT (control);
 
 }

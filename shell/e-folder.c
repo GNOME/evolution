@@ -165,6 +165,19 @@ e_folder_get_type_name (EFolder *efolder)
 	return NULL;
 }
 
+
+EFolderType
+e_folder_get_folder_type (EFolder *efolder)
+{
+	g_return_val_if_fail (efolder != NULL, E_FOLDER_OTHER);
+	g_return_val_if_fail (E_IS_FOLDER (efolder), E_FOLDER_OTHER);
+	
+	return (efolder->type);
+}
+
+
+
+
 void
 e_folder_construct (EFolder *efolder, EFolderType type,
 		    const char *uri, const char *name,

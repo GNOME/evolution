@@ -1,3 +1,13 @@
+2000-03-12  bertrand  <bertrand@helixcode.com>
+
+	* folder-browser.h: added a reference to an 
+	Evolution::Shell object. 
+
+	* folder-browser-factory.c (folder_browser_set_shell): 
+	(folder_browser_control_add_service_repository_interface): 
+	(folder_browser_factory): the folder-browser control now
+	implements the Evolution/ServiceRepository interface.
+
 2000-03-07  bertrand  <bertrand@helixcode.com>
 
 	* folder-browser-factory.c (development_warning): 

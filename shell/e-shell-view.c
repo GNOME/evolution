@@ -73,18 +73,37 @@ e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 static GtkWidget *
 get_view (EFolder *efolder)
 {
-  	GtkWidget *w;
-	/*char buffer [80];
+  	GtkWidget *w = NULL;
+	BonoboControl control;
+	EFolderType e_folder_type;
 
-	sprintf (buffer, "I am the view for %s\n",
-		 e_folder_get_description (efolder));
 	
-	w = gtk_label_new (buffer);
+	
 
-	*/
-  	w = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",
-				     NULL);
-	gtk_widget_show (w);
+	printf ("I am the view for %s\n",
+		e_folder_get_description (efolder));
+	
+	
+
+	/* get the folder type */
+	e_folder_type = e_folder_get_folder_type (efolder);
+
+	
+	/* depending on the type of folder, 
+	 * we launch a different bonobo component */
+	switch (e_folder_type) {
+
+	case E_FOLDER_MAIL :
+		w = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",
+					       NULL);
+		break;
+
+	default : 
+		printf ("No bonobo component associated to %s\n", 
+			e_folder_get_description (efolder));
+	}
+  	
+	if (w)	gtk_widget_show (w);
 	
 	return w;
 

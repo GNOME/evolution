@@ -1,3 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+
 #ifndef _FOLDER_BROWSER_H_
 #define _FOLDER_BROWSER_H_
 
@@ -7,6 +10,8 @@
 #include <bonobo/bonobo-property-bag.h>
 #include "message-list.h"
 #include "mail-display.h"
+#include "shell/Evolution.h"
+
 
 #define FOLDER_BROWSER_TYPE        (folder_browser_get_type ())
 #define FOLDER_BROWSER(o)          (GTK_CHECK_CAST ((o), FOLDER_BROWSER_TYPE, FolderBrowser))
@@ -19,6 +24,8 @@ struct  _FolderBrowser {
 	GtkTable parent;
 
 	BonoboPropertyBag *properties;
+
+	Evolution_Shell shell;
 
 	/*
 	 * The current URI being displayed by the FolderBrowser

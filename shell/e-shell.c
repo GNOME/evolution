@@ -9,6 +9,7 @@
  * (C) 1999 Miguel de Icaza
  * (C) 2000 Helix Code, Inc.
  */
+
 #include <config.h>
 #include <gtk/gtkmain.h>
 #include <libgnome/libgnome.h>

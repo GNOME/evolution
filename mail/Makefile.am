@@ -36,9 +36,14 @@ evolution_mail_SOURCES =		\
 	message-list.c			\
 	message-list.h			\
 	session.c			\
-	session.h
+	session.h			
+
 
 evolution_mail_LDADD = 					\
+	../shell/Evolution-common.o			\
+	../shell/Evolution-stubs.o			\
+	../shell/Evolution-skels.o			\
+	../shell/evolution-service-repository.o 	\
 	../widgets/e-table/libetable.a			\
 	../widgets/e-text/libetext.a			\
 	../camel/libcamel.la				\

@@ -87,5 +87,7 @@ void        e_folder_set_view_name   (EFolder *efolder, const char *view_name);
 
 const char *e_folder_get_type_name   (EFolder *efolder);
 
+EFolderType e_folder_get_folder_type (EFolder *efolder);
+
 #endif /* _E_FOLDER_H_ */
 
