@@ -1,3 +1,7 @@
+2002-05-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.etspec: Added search="string" where appropriate.
+
 2002-05-13  Dan Winship  <danw@ximian.com>
 
 	* (various places): Update for camel_folder_append_message /
