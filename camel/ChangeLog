@@ -1,3 +1,8 @@
+2002-05-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-search.c (get_label): New e-sexp callback function
+	to get a user_tag label value.
+
 2002-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c

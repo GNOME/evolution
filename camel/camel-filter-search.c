@@ -94,6 +94,7 @@ static ESExpResult *get_score (struct _ESExp *f, int argc, struct _ESExpResult *
 static ESExpResult *get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *get_label (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -123,6 +124,7 @@ static struct {
 	{ "get-source",         (ESExpFunc *) get_source,         0 },
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
 	{ "shell-exec",         (ESExpFunc *) shell_exec,         0 },
+	{ "get-label",          (ESExpFunc *) get_label,          0 },
 };
 
 
@@ -508,6 +510,17 @@ get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = fms->info->size / 1024;
 
+	return r;
+}
+
+static ESExpResult *
+get_label (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	ESExpResult *r;
+	
+	r = e_sexp_result_new (f, ESEXP_RES_INT);
+	r->value.number = atoi (camel_tag_get (&fms->info->user_tags, "label"));
+	
 	return r;
 }
 
