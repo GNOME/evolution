@@ -1671,7 +1671,7 @@ msgstr "完了しました"
 #: calendar/gui/e-calendar-table.c:421 camel/camel-service.c:544
 #: camel/camel-service.c:580
 msgid "Cancelled"
-msgstr "キャンセル"
+msgstr "キャンセルしました"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: calendar/gui/calendar-model.c:794 e-util/e-time-utils.c:278
@@ -8331,7 +8331,7 @@ msgstr "選択されたメッセージへフィルタルールを適用します"
 
 #: ui/evolution-mail.xml.h:2
 msgid "Cancel"
-msgstr "キャンセルしました"
+msgstr "キャンセル"
 
 #: ui/evolution-mail.xml.h:3
 msgid "Cancel the current mail operation"
