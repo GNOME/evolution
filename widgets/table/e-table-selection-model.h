@@ -48,28 +48,29 @@ typedef struct {
 
 } ETableSelectionModelClass;
 
-GtkType      	 e_table_selection_model_get_type (void);
+GtkType               e_table_selection_model_get_type            (void);
+gboolean              e_table_selection_model_is_row_selected     (ETableSelectionModel *selection,
+								   gint                  n);
+void                  e_table_selection_model_foreach             (ETableSelectionModel *selection,
+								   ETableForeachFunc     callback,
+								   gpointer              closure);
 
-gboolean         e_table_selection_model_is_row_selected (ETableSelectionModel *selection,
-							  gint                  n);
-void             e_table_selection_model_foreach         (ETableSelectionModel *selection,
-						          ETableForeachFunc callback,
-						          gpointer closure);
+void                  e_table_selection_model_do_something        (ETableSelectionModel *selection,
+								   guint                 row,
+								   guint                 col,
+								   GdkModifierType       state);
+void                  e_table_selection_model_maybe_do_something  (ETableSelectionModel *selection,
+								   guint                 row,
+								   guint                 col,
+								   GdkModifierType       state);
+gint                  e_table_selection_model_key_press           (ETableSelectionModel *selection,
+								   GdkEventKey          *key);
+void                  e_table_selection_model_clear               (ETableSelectionModel *selection);
+gint                  e_table_selection_model_selected_count      (ETableSelectionModel *selection);
 
-void             e_table_selection_model_do_something    (ETableSelectionModel *selection,
-						          guint                 row,
-						          guint                 col,
-							  GdkModifierType       state);
-void             e_table_selection_model_maybe_do_something    (ETableSelectionModel *selection,
-								guint                 row,
-								guint                 col,
-								GdkModifierType       state);
-void             e_table_selection_model_clear           (ETableSelectionModel *selection);
-gint             e_table_selection_model_selected_count  (ETableSelectionModel *selection);
+void                  e_table_selection_model_select_all          (ETableSelectionModel *selection);
+void                  e_table_selection_model_invert_selection    (ETableSelectionModel *selection);
 
-void             e_table_selection_model_select_all       (ETableSelectionModel *selection);
-void             e_table_selection_model_invert_selection (ETableSelectionModel *selection);
-
-ETableSelectionModel  *e_table_selection_model_new       (void);
+ETableSelectionModel *e_table_selection_model_new                 (void);
 
 #endif /* _E_TABLE_SELECTION_MODEL_H_ */

@@ -23,6 +23,7 @@ typedef struct {
 	guint no_headers : 1;
 	guint click_to_add : 1;
 	guint draw_grid : 1;
+	guint draw_focus : 1;
 	GtkSelectionMode selection_mode;
 	ETableCursorMode cursor_mode;
 

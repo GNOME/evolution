@@ -3,14 +3,15 @@
  * e-table-selection-model.c: a Table Selection Model
  *
  * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ *   Christopher James Lahey <clahey@ximian.com>
  *
- * (C) 1999 Ximian, Inc.
+ * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "e-table-selection-model.h"
 #include "gal/util/e-util.h"
+#include <gdk/gdkkeysyms.h>
 
 #define ETSM_CLASS(e) ((ETableSelectionModelClass *)((GtkObject *)e)->klass)
 
@@ -306,12 +307,28 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,
 	    e_table_selection_model_class_init, e_table_selection_model_init, PARENT_TYPE);
 
+/** 
+ * e_table_selection_model_new
+ *
+ * This routine creates a new #ETableSelectionModel.
+ *
+ * Returns: The new #ETableSelectionModel.
+ */
 ETableSelectionModel *
 e_table_selection_model_new (void)
 {
 	return gtk_type_new (e_table_selection_model_get_type ());
 }
 
+/** 
+ * e_table_selection_model_is_row_selected
+ * @selection: #ETableSelectionModel to check
+ * @n: The row to check
+ *
+ * This routine calculates whether the given row is selected.
+ *
+ * Returns: %TRUE if the given row is selected
+ */
 gboolean
 e_table_selection_model_is_row_selected (ETableSelectionModel *selection,
 					 gint                 n)
@@ -322,6 +339,15 @@ e_table_selection_model_is_row_selected (ETableSelectionModel *selection,
 		return (selection->selection[BOX(n)] >> OFFSET(n)) & 0x1;
 }
 
+/** 
+ * e_table_selection_model_foreach
+ * @selection: #ETableSelectionModel to traverse
+ * @callback: The callback function to call back.
+ * @closure: The closure
+ *
+ * This routine calls the given callback function once for each
+ * selected row, passing closure as the closure.
+ */
 void 
 e_table_selection_model_foreach     (ETableSelectionModel *selection,
 				     ETableForeachFunc callback,
@@ -399,6 +425,8 @@ etsm_select_single_row (ETableSelectionModel *selection, int row)
 			break;
 		}
 	}
+
+	selection->selection_start_row = row;
 }
 
 static void
@@ -408,6 +436,7 @@ etsm_toggle_single_row (ETableSelectionModel *selection, int row)
 		selection->selection[BOX(row)] &= ~BITMASK(row);
 	else
 		selection->selection[BOX(row)] |= BITMASK(row);
+	selection->selection_start_row = row;
 	gtk_signal_emit(GTK_OBJECT(selection),
 			e_table_selection_model_signals [SELECTION_CHANGED]);
 }
@@ -434,7 +463,7 @@ etsm_move_selection_end (ETableSelectionModel *selection, int row)
 		new_start = MIN (selection->selection_start_row, row);
 		new_end = MAX (selection->selection_start_row, row) + 1;
 	}
-	/* This wouldn't work nearly so smoothly if one end of the selection weren'theld in place. */
+	/* This wouldn't work nearly so smoothly if one end of the selection weren't held in place. */
 	if (old_start < new_start)
 		change_selection(selection, old_start, new_start, FALSE);
 	if (new_start < old_start)
@@ -447,6 +476,24 @@ etsm_move_selection_end (ETableSelectionModel *selection, int row)
 			e_table_selection_model_signals [SELECTION_CHANGED]);
 }
 
+static void
+etsm_set_selection_end (ETableSelectionModel *selection, int row)
+{
+	etsm_select_single_row(selection, selection->selection_start_row);
+	selection->cursor_row = selection->selection_start_row;
+	etsm_move_selection_end(selection, row);
+}
+
+/** 
+ * e_table_selection_model_do_something
+ * @selection: #ETableSelectionModel to do something to.
+ * @row: The row to do something in.
+ * @col: The col to do something in.
+ * @state: The state in which to do something.
+ *
+ * This routine does whatever is appropriate as if the user clicked
+ * the mouse in the given row and column.
+ */
 void
 e_table_selection_model_do_something (ETableSelectionModel *selection,
 				      guint                 row,
@@ -466,20 +513,18 @@ e_table_selection_model_do_something (ETableSelectionModel *selection,
 		switch (selection->mode) {
 		case GTK_SELECTION_SINGLE:
 			etsm_select_single_row (selection, row);
-			selection->selection_start_row = row;
 			break;
 		case GTK_SELECTION_BROWSE:
 		case GTK_SELECTION_MULTIPLE:
 		case GTK_SELECTION_EXTENDED:
 			if (shift_p) {
-				etsm_move_selection_end (selection, row);
+				etsm_set_selection_end (selection, row);
 			} else {
 				if (ctrl_p) {
 					etsm_toggle_single_row (selection, row);
 				} else {
 					etsm_select_single_row (selection, row);
 				}
-				selection->selection_start_row = row;
 			}
 			break;
 		}
@@ -493,10 +538,24 @@ e_table_selection_model_do_something (ETableSelectionModel *selection,
 	}
 }
 
-void             e_table_selection_model_maybe_do_something      (ETableSelectionModel *selection,
-								  guint                 row,
-								  guint                 col,
-								  GdkModifierType       state)
+/** 
+ * e_table_selection_model_maybe_do_something
+ * @selection: #ETableSelectionModel to do something to.
+ * @row: The row to do something in.
+ * @col: The col to do something in.
+ * @state: The state in which to do something.
+ *
+ * If this row is selected, this routine just moves the cursor row and
+ * column.  Otherwise, it does the same thing as
+ * e_table_selection_model_do_something().  This is for being used on
+ * right clicks and other events where if the user hit the selection,
+ * they don't want it to change.
+ */
+void
+e_table_selection_model_maybe_do_something      (ETableSelectionModel *selection,
+						 guint                 row,
+						 guint                 col,
+						 GdkModifierType       state)
 {
 	if (e_table_selection_model_is_row_selected(selection, row)) {
 		selection->cursor_row = row;
@@ -506,6 +565,85 @@ void             e_table_selection_model_maybe_do_something      (ETableSelectio
 	}
 }
 
+static gint
+move_selection (ETableSelectionModel *selection,
+		gboolean              up,
+		GdkModifierType       state)
+{
+	int row = selection->cursor_row;
+	int col = selection->cursor_col;
+
+	gint shift_p = state & GDK_SHIFT_MASK;
+	gint ctrl_p = state & GDK_CONTROL_MASK;
+
+	row = e_table_sorter_model_to_sorted(selection->sorter, row);
+	if (up)
+		row--;
+	else
+		row++;
+	if (row < 0 || row > selection->row_count)
+		return FALSE;
+	row = e_table_sorter_sorted_to_model(selection->sorter, row);
+
+	switch (selection->mode) {
+	case GTK_SELECTION_BROWSE:
+		if (shift_p) {
+			etsm_set_selection_end (selection, row);
+		} else if (!ctrl_p) {
+			etsm_select_single_row (selection, row);
+		}
+		break;
+	case GTK_SELECTION_SINGLE:
+	case GTK_SELECTION_MULTIPLE:
+	case GTK_SELECTION_EXTENDED:
+		etsm_select_single_row (selection, row);
+		break;
+	}
+	if (row != -1) {
+		selection->cursor_row = row;
+		gtk_signal_emit(GTK_OBJECT(selection),
+				e_table_selection_model_signals[CURSOR_CHANGED], row, col);
+	}
+	return TRUE;
+}
+
+/** 
+ * e_table_selection_model_key_press
+ * @selection: #ETableSelectionModel to affect.
+ * @key: The event.
+ *
+ * This routine does whatever is appropriate as if the user pressed
+ * the given key.
+ *
+ * Returns: %TRUE if the #ETableSelectionModel used the key.
+ */
+gint
+e_table_selection_model_key_press      (ETableSelectionModel *selection,
+					GdkEventKey          *key)
+{
+	switch (key->keyval) {
+	case GDK_Up:
+		return move_selection(selection, TRUE, key->state);
+		break;
+	case GDK_Down:
+		return move_selection(selection, FALSE, key->state);
+		break;
+	case GDK_space:
+		if (selection->mode != GTK_SELECTION_SINGLE) {
+			etsm_toggle_single_row (selection, selection->cursor_row);
+			return TRUE;
+		}
+		break;
+	}
+	return FALSE;
+}
+
+/** 
+ * e_table_selection_model_clear
+ * @selection: #ETableSelectionModel to clear
+ *
+ * This routine clears the selection to no rows selected.
+ */
 void
 e_table_selection_model_clear(ETableSelectionModel *selection)
 {
@@ -523,6 +661,14 @@ e_table_selection_model_clear(ETableSelectionModel *selection)
 #define PART(x,n) (((x) & (0x01010101 << n)) >> n)
 #define SECTION(x, n) (((x) >> (n * 8)) & 0xff)
 
+/** 
+ * e_table_selection_model_selected_count
+ * @selection: #ETableSelectionModel to count
+ *
+ * This routine calculates the number of rows selected.
+ *
+ * Returns: The number of rows selected in the given model.
+ */
 gint
 e_table_selection_model_selected_count (ETableSelectionModel *selection)
 {
@@ -549,6 +695,13 @@ e_table_selection_model_selected_count (ETableSelectionModel *selection)
 	return count;
 }
 
+/** 
+ * e_table_selection_model_select_all
+ * @selection: #ETableSelectionModel to select all
+ *
+ * This routine selects all the rows in the given
+ * #ETableSelectionModel.
+ */
 void
 e_table_selection_model_select_all (ETableSelectionModel *selection)
 {
@@ -590,6 +743,13 @@ e_table_selection_model_select_all (ETableSelectionModel *selection)
 			 e_table_selection_model_signals [SELECTION_CHANGED]);
 }
 
+/** 
+ * e_table_selection_model_invert_selection
+ * @selection: #ETableSelectionModel to invert
+ *
+ * This routine inverts all the rows in the given
+ * #ETableSelectionModel.
+ */
 void
 e_table_selection_model_invert_selection (ETableSelectionModel *selection)
 {

@@ -104,43 +104,35 @@ typedef struct {
 	gint        (*click)   (ETableItem *eti, int row, int col, GdkEvent *event);
 	gint        (*key_press)     (ETableItem *eti, int row, int col, GdkEvent *event);
 } ETableItemClass;
-
-GtkType    e_table_item_get_type (void);
+GtkType     e_table_item_get_type            (void);
 
 
 /*
  * Focus
  */
-void       e_table_item_set_cursor          (ETableItem *eti, int col, int row);
+void        e_table_item_set_cursor          (ETableItem        *eti,
+					      int                col,
+					      int                row);
 
-gint       e_table_item_get_focused_column  (ETableItem *eti);
+gint        e_table_item_get_focused_column  (ETableItem        *eti);
 
-/*
- * Handling the selection
- */
-gboolean      e_table_item_is_row_selected  (ETableItem *e_table_Item,
-					     int row);
+void        e_table_item_leave_edit          (ETableItem        *eti);
+void        e_table_item_enter_edit          (ETableItem        *eti,
+					      int                col,
+					      int                row);
 
-void          e_table_item_selected_row_foreach (ETableItem        *eti,
-						 ETableForeachFunc  func,
-						 gpointer           closure);
+void        e_table_item_redraw_range        (ETableItem        *eti,
+					      int                start_col,
+					      int                start_row,
+					      int                end_col,
+					      int                end_row);
 
-void          e_table_item_leave_edit       (ETableItem *eti);
-void          e_table_item_enter_edit       (ETableItem *eti, int col, int row);
-	     				    
-void          e_table_item_redraw_range     (ETableItem *eti,
-					     int start_col, int start_row,
-					     int end_col, int end_row);
-
-EPrintable   *e_table_item_get_printable    (ETableItem        *eti);
-void          e_table_item_print_height     (ETableItem        *eti,
-					     GnomePrintContext *context,
-					     gdouble            width);
-void          e_table_item_compute_location (ETableItem        *eti,
-					     int               *x,
-					     int               *y,
-					     int               *row,
-					     int               *col);
+EPrintable *e_table_item_get_printable       (ETableItem        *eti);
+void        e_table_item_compute_location    (ETableItem        *eti,
+					      int               *x,
+					      int               *y,
+					      int               *row,
+					      int               *col);
 
 
 #endif /* _E_TABLE_ITEM_H_ */
