@@ -189,7 +189,11 @@
 	<application>Evolution</application> will check your mail.
 	New mail will appear in the local <interface>Inbox</interface>
 	if you're using a <glossterm>POP</glossterm> account, and in
-	your <glossterm>IMAP</glossterm> folders if you use IMAP.
+	your <glossterm>IMAP</glossterm> folders if you use IMAP.  If
+	you have chosen to use IMAP, and you have multiple folders on
+	your IMAP server, you may need to subscribe to them.  To learn
+	how to use the subscription manager, read <xref
+	linkend="usage-mail-subscriptions">.
       </para>
    
      <note id="badmailsettings">
@@ -1514,6 +1518,20 @@ possibly never will be due to security evil. -->
          <menuchoice> <guimenu>Settings</guimenu> <guimenuitem>Manage
          Subscriptions</guimenuitem> </menuchoice>.
       </para>
+      <para>
+         If you have configured any IMAP (mail) or NNTP (news)
+         servers, you will see them listed in the left half of the
+         subscription management window.  Click on a server to select
+         it, and you will see the folders or newsgroups available to
+         you.  You can then select individual folders and subscribe to
+         them, or remove yourself from the subscription list.
+      </para>
+      <para>
+        Once you have subscribed to a folder or newsgroup, your system
+        will check for new messages whenever you press the
+        <guibutton>Get Mail</guibutton> button.
+      </para>
+
     </sect2>
   </sect1>
 </chapter>

@@ -1,3 +1,19 @@
+2001-02-23  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mail.sgml: IMAP subscriptions stuff. 
+
+2001-02-21  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mail.sgml: Advanced search/show all/save search stuff.
+
+	* C/evolution.sgml: This file replaces evolution-guide.sgml, for Nautilus Readiness.
+
+	* C/apx-gloss.sgml: glossterm conduit.
+
+	* C/config-sync.sgml: Glossterm conduit.
+
+	* C/preface.sgml: Checked over for Keyboard-Shortcut and other truthfulness.
+
 2001-02-15  Aaron Weber  <aaron@helixcode.com>
 
 	* C/evolution-guide.sgml: Validated. Verified. Markup fixed in
