@@ -146,6 +146,12 @@ static struct {
 	},
 	{ "intelligent_html",
 	  N_("Please select the information that you would like to import:")
+	},
+	{ "nodata_html",
+	  N_("Evolution checked for settings to import from the following\n"
+	     "applications: Pine, Netscape, Elm, iCalendar. No settings\n"
+	     "that could be imported where found. If you would like to\n"
+	     "try again, please click the \"Back\" button.\n")
 	}
 };
 #define num_info (sizeof (info) / sizeof (info[0]))
@@ -734,9 +740,12 @@ prepare_intelligent_page (GnomeDruidPage *page,
 	ImportDialogImporterPage *import;
 	GList *l, *importers;
 	GtkWidget *table;
+	GtkLabel *no_data;
 	int running = 0;
 
 	if (data->importerpage->prepared == TRUE) {
+		if (data->importerpage->running == 0)
+			gnome_druid_set_buttons_sensitive(druid, TRUE, FALSE, TRUE, FALSE);
 		return TRUE;
 	}
 
@@ -763,8 +772,10 @@ prepare_intelligent_page (GnomeDruidPage *page,
 		/* No importers, go directly to finish, do not pass go
 		   Do not collect $200 */
 		import->running = 0;
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->finish))
-			;
+		no_data = create_help ("nodata_html");
+		gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), no_data,
+				    FALSE, TRUE, 0);
+		gnome_druid_set_buttons_sensitive(druid, TRUE, FALSE, TRUE, FALSE);
 		gtk_widget_destroy (dialog);
 		return TRUE;
 	}
@@ -887,7 +898,10 @@ prepare_intelligent_page (GnomeDruidPage *page,
 	gtk_widget_show_all (table);
 
 	if (running == 0) {
-		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->finish));
+		no_data = create_help ("nodata_html");
+		gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), no_data,
+				    FALSE, TRUE, 0);
+		gnome_druid_set_buttons_sensitive(druid, TRUE, FALSE, TRUE, FALSE);
 		gtk_widget_destroy (dialog);
 		return TRUE;
 	}
@@ -1194,7 +1208,7 @@ show_import_wizard (BonoboUIComponent *component,
 			  G_CALLBACK (next_intelligent_page), data);
 	g_signal_connect (data->intelligent, "back",
 			  G_CALLBACK (back_intelligent_page), data);
-	g_signal_connect (data->intelligent, "prepare",
+	g_signal_connect_after (data->intelligent, "prepare",
 			  G_CALLBACK (prepare_intelligent_page), data);
 
 	data->importerpage = importer_importer_page_new (data);
@@ -1206,7 +1220,7 @@ show_import_wizard (BonoboUIComponent *component,
 	
 
 	data->filedialog = glade_xml_get_widget (data->wizard, "page2-file");
-	g_signal_connect (data->filedialog, "prepare",
+	g_signal_connect_after (data->filedialog, "prepare",
 			  G_CALLBACK (prepare_file_page), data);
 	g_signal_connect (data->filedialog, "next",
 			  G_CALLBACK (next_file_page), data);
