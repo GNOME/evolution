@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-29 21:48+0900\n"
-"PO-Revision-Date: 2004-09-29 21:49+0900\n"
+"POT-Creation-Date: 2004-10-06 12:29+0900\n"
+"PO-Revision-Date: 2004-10-06 12:28+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -420,7 +420,7 @@ msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "'%s' 주소록을 지우게 됩니다. 정말로 계속 하시겠습니까?"
 
 #: addressbook/gui/component/addressbook-view.c:814
-#: addressbook/gui/widgets/e-addressbook-view.c:1128
+#: addressbook/gui/widgets/e-addressbook-view.c:1123
 #: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
@@ -459,12 +459,17 @@ msgid "Position of the vertical pane in main view"
 msgstr "메인 보기에서 세로 창의 위치"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
+#: mail/evolution-mail.schemas.in.in.h:71
+msgid "Show the \"Preview\" pane"
+msgstr "\"미리 보기\" 창 보이기"
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
 msgstr "자동 완성하기 전에 최소한 입력해야 하는 문자 개수"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "URI for the folder last used in the select names dialog"
 msgstr "이름 선택 대화 상자에 마지막으로 사용되었던 폴더의 URI"
 
@@ -949,7 +954,7 @@ msgstr "MSN 메신저"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "Mailing Address"
-msgstr "메일링 주소"
+msgstr "우편물 주소"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "Manager:"
@@ -2312,7 +2317,7 @@ msgstr "이 목록으로 메일을 보낼 때 주소를 숨깁니다(_H)"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_List name:"
-msgstr "목록 이름(_N):"
+msgstr "목록 이름(_L):"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
@@ -2442,97 +2447,97 @@ msgstr "고급..."
 msgid "Type"
 msgstr "형태"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:548
+#: addressbook/gui/widgets/e-addressbook-view.c:543
 msgid "Address Book"
 msgstr "주소록"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:892
-#: addressbook/gui/widgets/e-addressbook-view.c:1112
-#: addressbook/gui/widgets/e-addressbook-view.c:2102
+#: addressbook/gui/widgets/e-addressbook-view.c:887
+#: addressbook/gui/widgets/e-addressbook-view.c:1107
+#: addressbook/gui/widgets/e-addressbook-view.c:2097
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "VCard로 저장..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1099
+#: addressbook/gui/widgets/e-addressbook-view.c:1094
 msgid "New Contact..."
 msgstr "새 연락처..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1100
+#: addressbook/gui/widgets/e-addressbook-view.c:1095
 msgid "New Contact List..."
 msgstr "새 연락처 목록..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1103
+#: addressbook/gui/widgets/e-addressbook-view.c:1098
 msgid "Go to Folder..."
 msgstr "폴더로 가기..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1104
+#: addressbook/gui/widgets/e-addressbook-view.c:1099
 msgid "Import..."
 msgstr "가져오기..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1106
+#: addressbook/gui/widgets/e-addressbook-view.c:1101
 msgid "Search for Contacts..."
 msgstr "연락처 찾기..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1107
+#: addressbook/gui/widgets/e-addressbook-view.c:1102
 msgid "Address Book Sources..."
 msgstr "주소록 원본..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1109
+#: addressbook/gui/widgets/e-addressbook-view.c:1104
 msgid "Pilot Settings..."
 msgstr "파일롯 설정..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1113
+#: addressbook/gui/widgets/e-addressbook-view.c:1108
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "주소 전달"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1114
+#: addressbook/gui/widgets/e-addressbook-view.c:1109
 msgid "Send Message to Contact"
 msgstr "연락처로 메세지 보내기"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1115 calendar/gui/print.c:2480
+#: addressbook/gui/widgets/e-addressbook-view.c:1110 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:5
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "인쇄"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1117
+#: addressbook/gui/widgets/e-addressbook-view.c:1112
 msgid "Print Envelope"
 msgstr "봉투 인쇄"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1121
+#: addressbook/gui/widgets/e-addressbook-view.c:1116
 msgid "Copy to Address Book..."
 msgstr "주소록으로 복사..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1122
+#: addressbook/gui/widgets/e-addressbook-view.c:1117
 msgid "Move to Address Book..."
 msgstr "주소록으로 이동..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1125
+#: addressbook/gui/widgets/e-addressbook-view.c:1120
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "잘라내기"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1126
+#: addressbook/gui/widgets/e-addressbook-view.c:1121
 #: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:380
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "복사"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1127
+#: addressbook/gui/widgets/e-addressbook-view.c:1122
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "붙여 넣기"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1132
+#: addressbook/gui/widgets/e-addressbook-view.c:1127
 #: calendar/gui/e-calendar-view.c:1418
 msgid "Current View"
 msgstr "현재 보기"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1687
+#: addressbook/gui/widgets/e-addressbook-view.c:1682
 #: calendar/gui/cal-search-bar.c:358
 msgid "Any Category"
 msgstr "모든 분류"
@@ -5137,12 +5142,12 @@ msgid "_Description:"
 msgstr "설명(_D):"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:623
 msgid "_End time:"
 msgstr "마침 시각(_E):"
 
 #: calendar/gui/dialogs/event-page.glade.h:22
-#: calendar/gui/e-meeting-time-sel.c:594
+#: calendar/gui/e-meeting-time-sel.c:604
 msgid "_Start time:"
 msgstr "시작 시각(_S):"
 
@@ -5246,7 +5251,7 @@ msgid "C_hange Organizer"
 msgstr "주최자 바꾸기(_H)"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:415
+#: calendar/gui/e-meeting-time-sel.c:425
 msgid "Con_tacts..."
 msgstr "연락처(_T)..."
 
@@ -5740,7 +5745,7 @@ msgid "Free"
 msgstr "약속 없음"
 
 #: calendar/gui/e-cal-model-calendar.c:184 calendar/gui/e-calendar-table.c:450
-#: calendar/gui/e-meeting-time-sel.c:399
+#: calendar/gui/e-meeting-time-sel.c:409
 msgid "Busy"
 msgstr "약속 있음"
 
@@ -6611,7 +6616,7 @@ msgid "Needs Action"
 msgstr "동작 필요"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
-#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:408
 msgid "Tentative"
 msgstr "잠정적"
 
@@ -6627,7 +6632,7 @@ msgstr "진행중"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:452
-#: calendar/gui/e-meeting-time-sel.c:2069
+#: calendar/gui/e-meeting-time-sel.c:2079
 msgid "%A, %B %d, %Y"
 msgstr "%Y년 %b %d일 %A"
 
@@ -6638,7 +6643,7 @@ msgstr "%Y년 %b %d일 %A"
 #. strptime format of a weekday and a date.
 #. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
-#: calendar/gui/e-meeting-time-sel.c:2102 e-util/e-time-utils.c:203
+#: calendar/gui/e-meeting-time-sel.c:2112 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
 msgstr "%Y/%m/%d (%a)"
@@ -6654,57 +6659,57 @@ msgstr "%Y/%m/%d (%a)"
 msgid "%m/%d/%Y"
 msgstr "%Y/%m/%d"
 
-#: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:410 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "부재 중"
 
-#: calendar/gui/e-meeting-time-sel.c:401
+#: calendar/gui/e-meeting-time-sel.c:411
 msgid "No Information"
 msgstr "정보 없음"
 
-#: calendar/gui/e-meeting-time-sel.c:432
+#: calendar/gui/e-meeting-time-sel.c:442
 msgid "O_ptions"
 msgstr "옵션(_P)"
 
-#: calendar/gui/e-meeting-time-sel.c:449
+#: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
 msgstr "근무 시간만 보기(_O)"
 
-#: calendar/gui/e-meeting-time-sel.c:459
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _zoomed out"
 msgstr "축소해서 보기(_Z)"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-meeting-time-sel.c:474
+#: calendar/gui/e-meeting-time-sel.c:484
 msgid "_Update free/busy"
 msgstr "약속 있음/없음 업데이트(_U)"
 
-#: calendar/gui/e-meeting-time-sel.c:489
+#: calendar/gui/e-meeting-time-sel.c:499
 msgid "_<<"
 msgstr "_<<"
 
 # Autopick -> 빈 시간 찾기, Microsoft Office XP 참고
-#: calendar/gui/e-meeting-time-sel.c:507
+#: calendar/gui/e-meeting-time-sel.c:517
 msgid "_Autopick"
 msgstr "빈 시간 찾기(_A)"
 
-#: calendar/gui/e-meeting-time-sel.c:522
+#: calendar/gui/e-meeting-time-sel.c:532
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:539
+#: calendar/gui/e-meeting-time-sel.c:549
 msgid "_All people and resources"
 msgstr "모든 사람과 자원(_A)"
 
-#: calendar/gui/e-meeting-time-sel.c:548
+#: calendar/gui/e-meeting-time-sel.c:558
 msgid "All _people and one resource"
 msgstr "모든 사람과 자원 한 개(_P)"
 
-#: calendar/gui/e-meeting-time-sel.c:557
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid "_Required people"
 msgstr "필요한 사람(_R)"
 
-#: calendar/gui/e-meeting-time-sel.c:566
+#: calendar/gui/e-meeting-time-sel.c:576
 msgid "Required people and _one resource"
 msgstr "필요한 사람과 자원 한 개(_O)"
 
@@ -12369,7 +12374,7 @@ msgstr "<b>부재 중 메세지:</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
-msgstr "<b>상태:<b>"
+msgstr "<b>상태:</b>"
 
 #: designs/OOA/ooa.glade.h:6
 msgid ""
@@ -13323,7 +13328,7 @@ msgstr "폴더로 이동(_M)"
 #: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
-msgstr "이동(_N)"
+msgstr "이동(_M)"
 
 #: mail/em-folder-tree.c:1016 mail/message-list.c:1705
 msgid "Cancel _Drag"
@@ -13474,7 +13479,7 @@ msgstr "폴더로 복사(_C)..."
 
 #: mail/em-folder-view.c:937
 msgid "Add Sender to Address_book"
-msgstr "보낸 사람을 주소록에 더하기"
+msgstr "보낸 사람을 주소록에 더하기(_B)"
 
 #: mail/em-folder-view.c:940
 msgid "Appl_y Filters"
@@ -13667,7 +13672,7 @@ msgstr "%b %d일, %p %l:%M까지"
 # FIXME - inline의 나은 번역을 찾아보자
 #: mail/em-format-html-display.c:1056
 msgid "_View Inline"
-msgstr "인라인으로 보기"
+msgstr "인라인으로 보기(_V)"
 
 #: mail/em-format-html-display.c:1057
 msgid "_Hide"
@@ -14277,10 +14282,6 @@ msgstr "메세지 목록에 지워진 메세지를 표시합니다 (취소선을
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
 msgstr "메세지 목록에 지워진 메세지를 표시합니다"
-
-#: mail/evolution-mail.schemas.in.in.h:71
-msgid "Show the \"Preview\" pane"
-msgstr "\"미리 보기\" 창 보이기"
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
@@ -15051,7 +15052,7 @@ msgstr "지원하는 형식인지 확인(_E) "
 
 #: mail/mail-config.glade.h:55
 msgid "Check _incoming mail for junk"
-msgstr "받는 메일이 정크 메일인지 검사"
+msgstr "받는 메일이 정크 메일인지 검사(_J)"
 
 #: mail/mail-config.glade.h:56
 msgid "Check spelling while I _type"
@@ -15297,7 +15298,7 @@ msgstr "서명 인증서(_G):"
 
 #: mail/mail-config.glade.h:137
 msgid "Signat_ure:"
-msgstr "서명:"
+msgstr "서명(_U):"
 
 #: mail/mail-config.glade.h:138
 msgid "Signatures"
@@ -15373,7 +15374,7 @@ msgstr "항상 인터넷에서 그림 읽어들이기(_A)"
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr "보내는 메세지에 (기본값으로) 디지털 서명(_D)"
+msgstr "보내는 메세지에 (기본값으로) 전자 서명(_D)"
 
 #: mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
@@ -15461,7 +15462,7 @@ msgstr "<b>가상 폴더 원본</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr "<span weight=\"bold\">디지털 서명</span>"
+msgstr "<span weight=\"bold\">전자 서명</span>"
 
 #: mail/mail-dialogs.glade.h:9
 msgid "<span weight=\"bold\">Encryption</span>"
@@ -15705,7 +15706,7 @@ msgstr "계속하시면, 이 메세지를 복구할 수 없을 것입니다."
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
-msgstr "비우기(_X)"
+msgstr "비우기(_E)"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
@@ -16851,7 +16852,7 @@ msgstr "Bug buddy를 실행할 수 없습니다."
 #. * about box
 #: shell/e-shell-window-commands.c:425
 msgid "translator-credits"
-msgstr "Changwoo Ryu <cwryu@debian.org>"
+msgstr "류창우 <cwryu@debian.org>"
 
 #: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
@@ -17885,7 +17886,7 @@ msgstr "실행(_A)"
 
 #: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:16
 msgid "_Forward Contact..."
-msgstr "연락처 전달(_C)..."
+msgstr "연락처 전달(_F)..."
 
 #: ui/evolution-addressbook.xml.h:36
 msgid "_Move to Folder..."
@@ -18153,11 +18154,11 @@ msgstr "목록을 저장한후 대화상자를 닫습니다"
 
 #: ui/evolution-contact-list-editor.xml.h:9
 msgid "Se_nd list to other..."
-msgstr "다른 사람에게 목록 보냄..."
+msgstr "다른 사람에게 목록 보내기(_N)..."
 
 #: ui/evolution-contact-list-editor.xml.h:10
 msgid "Send _message to list..."
-msgstr "목록으로 메세지 보냄(_M)..."
+msgstr "목록으로 메세지 보내기(_M)..."
 
 #: ui/evolution-contact-list-editor.xml.h:12
 msgid "_Delete..."
@@ -18244,7 +18245,7 @@ msgstr "메세지를 공용 폴더에 게시합니다"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "S_ubscribe to Folders..."
-msgstr "폴더 구독(_S)..."
+msgstr "폴더 구독(_U)..."
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Show message preview window"
@@ -18280,7 +18281,7 @@ msgstr "지운 메세지 비우기(_X)"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "선택한 메세지 숨기기(_S)"
+msgstr "선택한 메세지 숨기기(_E)"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
@@ -18620,7 +18621,7 @@ msgstr "공용 폴더의 메세지에 대해 회신을 게시합니다"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
-msgstr "이전의 중요한 메세지"
+msgstr "이전의 중요한 메세지(_R)"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
