@@ -1797,7 +1797,7 @@ msgstr "Termine"
 
 #: calendar/gui/calendar-summary.c:245 calendar/gui/calendar-summary.c:251
 msgid "%I:%M%p"
-msgstr "%H.%M"
+msgstr "%I:%M%p"
 
 #: calendar/gui/calendar-summary.c:275 calendar/gui/print.c:948
 #: views/tasks/galview.xml.h:1
@@ -1838,11 +1838,11 @@ msgstr "Der URI, den der Kalender anzeigen wird"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:189
 msgid "Alarm on %A %b %d %Y %H:%M"
-msgstr "Alarm am %A, %d. %b %Y um %H.%M"
+msgstr "Alarm am %A, %d. %b %Y um %H:%M"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:196
 msgid "Notification about your appointment on %A %b %d %Y %H:%M"
-msgstr "Hinweis auf Ihren Termin am %A, %d. %b %Y um %H.%M"
+msgstr "Hinweis auf Ihren Termin am %A, %d. %b %Y um %H:%M"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:207
 msgid "No summary available."
@@ -5210,12 +5210,12 @@ msgstr "%H:%M:%S"
 #. If it is is not appropriate in the locale set to an empty string.
 #: e-util/e-time-utils.c:94 e-util/e-time-utils.c:205
 msgid "%I:%M %p%n"
-msgstr ""
+msgstr "%I:%M %p%n"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:97 e-util/e-time-utils.c:208
 msgid "%H:%M%n"
-msgstr "%H.%M%n"
+msgstr "%H:%M%n"
 
 #. strftime format of a weekday and a date.
 #: e-util/e-time-utils.c:269
@@ -5228,7 +5228,7 @@ msgstr "%a, %d.%m.%Y"
 #. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:274
 msgid "%a %m/%d/%Y %H:%M"
-msgstr "%a, %d.%m.%Y %H.%M"
+msgstr "%a, %d.%m.%Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
@@ -5241,7 +5241,7 @@ msgstr "%a, %d.%m.%Y %I.%M %p"
 #: e-util/e-time-utils.c:312 widgets/misc/e-dateedit.c:1259
 #: widgets/misc/e-dateedit.c:1318 widgets/misc/e-dateedit.c:1497
 msgid "%H:%M"
-msgstr "%H.%M"
+msgstr "%H:%M"
 
 #. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:315
