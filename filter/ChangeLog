@@ -1,3 +1,8 @@
+2000-05-16  NotZed  <NotZed@HelixCode.com>
+
+	* filter-editor.c (main): Simple driver program for testing, so i
+	can fix all this really broken code *sigh*
+
 2000-05-15  NotZed  <NotZed@HelixCode.com>
 
 	* filter-editor.c (filter_editor_set_rule_files): filename based
