@@ -333,6 +333,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	GtkWidget *transport_page;
 	GList *authtypes = NULL;
 	gchar *source_url;
+	gboolean connect;
 	CamelURL *url;
 	
 	config->have_auth_page = TRUE;
@@ -353,8 +354,10 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url = camel_url_new (source_url, NULL);
 	g_free (source_url);
 	
+	connect = GTK_TOGGLE_BUTTON (config->incoming_check_settings)->active;
+	
 	/* If we can't connect, warn them and continue on to the Transport page. */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, FALSE, &authtypes)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, connect, &authtypes)) {
 		GtkWidget *dialog;
 		char *source, *warning;
 		
@@ -369,11 +372,6 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 		g_free (warning);
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		
-		/* Skip to transport page. */
-		config->have_auth_page = FALSE;
-		transport_page = glade_xml_get_widget (config->gui, "druidTransportPage");
-		gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
 		
 		return TRUE;
 	}
@@ -627,6 +625,7 @@ static gboolean
 transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
+	gboolean connect;
 	gchar *xport_url;
 	CamelURL *url;
 	
@@ -634,8 +633,10 @@ transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url = camel_url_new (xport_url, NULL);
 	g_free (xport_url);
 	
+	connect = GTK_TOGGLE_BUTTON (config->outgoing_check_settings)->active;
+	
 	/* If we can't connect, don't let them continue. */
-	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, FALSE, NULL)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, connect, NULL)) {
 		GtkWidget *dialog;
 		char *transport, *warning;
 		
@@ -1045,6 +1046,7 @@ construct (MailConfigDruid *druid)
 	druid->incoming_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtIncomingPath"));
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_path), "changed", incoming_changed, druid);
 	druid->incoming_keep_mail = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingKeepMail"));
+	druid->incoming_check_settings = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingCheckSettings"));
 	
 	druid->have_auth_page = TRUE;
 	druid->auth_text = glade_xml_get_widget (gui, "htmlAuthentication");
@@ -1059,6 +1061,7 @@ construct (MailConfigDruid *druid)
 	druid->outgoing_hostname = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportHostname"));
 	gtk_signal_connect (GTK_OBJECT (druid->outgoing_hostname), "changed", transport_changed, druid);
 	druid->outgoing_requires_auth = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportNeedsAuth"));
+	druid->outgoing_check_settings = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkOutgoingCheckSettings"));
 	
 	set_defaults (druid);
 	

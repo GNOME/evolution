@@ -697,47 +697,31 @@ Click &quot;Next&quot; to begin. </text>
 	      </widget>
 
 	      <widget>
-		<class>GtkHBox</class>
-		<name>hbox9</name>
-		<homogeneous>False</homogeneous>
-		<spacing>0</spacing>
+		<class>GtkCheckButton</class>
+		<name>chkIncomingKeepMail</name>
+		<can_focus>True</can_focus>
+		<label>Keep mail on server</label>
+		<active>False</active>
+		<draw_indicator>True</draw_indicator>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
-		  <fill>True</fill>
+		  <fill>False</fill>
 		</child>
+	      </widget>
 
-		<widget>
-		  <class>GtkCheckButton</class>
-		  <name>chkIncomingKeepMail</name>
-		  <border_width>3</border_width>
-		  <can_focus>True</can_focus>
-		  <label>Keep mail on server</label>
-		  <active>True</active>
-		  <draw_indicator>True</draw_indicator>
-		  <child>
-		    <padding>2</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
-		</widget>
-
-		<widget>
-		  <class>GtkHButtonBox</class>
-		  <name>hbuttonbox1</name>
-		  <layout_style>GTK_BUTTONBOX_END</layout_style>
-		  <spacing>30</spacing>
-		  <child_min_width>85</child_min_width>
-		  <child_min_height>27</child_min_height>
-		  <child_ipad_x>7</child_ipad_x>
-		  <child_ipad_y>0</child_ipad_y>
-		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>True</fill>
-		    <pack>GTK_PACK_END</pack>
-		  </child>
-		</widget>
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>chkIncomingCheckSettings</name>
+		<can_focus>True</can_focus>
+		<label>Check settings</label>
+		<active>True</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>False</fill>
+		</child>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1172,6 +1156,21 @@ Click &quot;Next&quot; to begin. </text>
 		  <can_focus>True</can_focus>
 		  <label>Server requires authentication</label>
 		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkCheckButton</class>
+		  <name>chkOutgoingCheckSettings</name>
+		  <border_width>3</border_width>
+		  <can_focus>True</can_focus>
+		  <label>Check settings</label>
+		  <active>True</active>
 		  <draw_indicator>True</draw_indicator>
 		  <child>
 		    <padding>0</padding>

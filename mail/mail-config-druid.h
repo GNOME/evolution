@@ -69,6 +69,7 @@ struct _MailConfigDruid {
 	GtkEntry *incoming_username;
 	GtkEntry *incoming_path;
 	GtkCheckButton *incoming_keep_mail;
+	GtkCheckButton *incoming_check_settings;
 	
 	/* authentication */
 	gboolean have_auth_page;
@@ -82,6 +83,7 @@ struct _MailConfigDruid {
 	GtkOptionMenu *outgoing_type;
 	GtkEntry *outgoing_hostname;
 	GtkCheckButton *outgoing_requires_auth;
+	GtkCheckButton *outgoing_check_settings;
 	
 	const CamelProvider *source_provider;
 	const CamelProvider *transport_provider;

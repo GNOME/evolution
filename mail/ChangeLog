@@ -1,5 +1,13 @@
 2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c (construct): Keep track of the CheckSettings
+	check boxes.
+	(transport_next): Connect if the user says so.
+	(incoming_next): Same. Also, don't jump to the next page if
+	test-settings fails.
+
+2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-config-druid.c (incoming_next): Updated to not connect when
 	getting a list of authtypes.
 	(transport_next): No longer connects - again, this is
