@@ -1,3 +1,22 @@
+2004-10-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_get_folder): Don't
+	allow users to create folders in offline mode. When in offline
+	mode, use a different codepath to get a folder object.
+	(imap4_noop): Handle offline mode.
+	(imap4_unsubscribe_folder): Throw an exception if we are in
+	offline mode.
+	(imap4_subscribe_folder): Same.
+	(imap4_get_folder_info): Started to implement offline
+	support. Also, even if we are in online mode but the engine has
+	not yet been connected, we should follow the "offline" code path
+	and get the folder info's from the cache.
+	(imap4_rename_folder): Disallow in offline mode.
+	(imap4_delete_folder): Same.
+	(imap4_connect): Handle offline mode.
+	(imap4_disconnect): Handle offline mode and do proper locking.
+	(imap4_query_auth_types): Same.
+
 2004-10-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-summary.c (imap4_summary_fetch_all):

@@ -404,7 +404,7 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	int id, max, i;
 	int retval;
 	
-	if (!camel_session_is_online (!session))
+	if (!camel_session_is_online (session))
 		return;
 	
 	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
@@ -855,7 +855,7 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 			    GPtrArray **transferred_uids, gboolean move, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) src->parent_store)->engine;
-	CamelSession *session = ((CamelService *) folder->parent_store)->session;
+	CamelSession *session = ((CamelService *) src->parent_store)->session;
 	int i, j, n, id, dest_namelen;
 	CamelMessageInfo *info;
 	CamelIMAP4Command *ic;

@@ -296,7 +296,7 @@ connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 	int mode, ret, i;
 	char *serv;
 	const char *port;
-
+	
 	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
 		for (i = 0; ssl_options[i].value; i++)
 			if (!strcmp (ssl_options[i].value, ssl_mode))
@@ -489,6 +489,9 @@ imap4_connect (CamelService *service, CamelException *ex)
 {
 	gboolean retval;
 	
+	if (!camel_session_is_online (service->session))
+		return TRUE;
+	
 	CAMEL_SERVICE_LOCK (service, connect_lock);
 	retval = imap4_reconnect (((CamelIMAP4Store *) service)->engine, ex);
 	CAMEL_SERVICE_UNLOCK (service, connect_lock);
@@ -503,6 +506,10 @@ imap4_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	CamelIMAP4Command *ic;
 	int id;
 	
+	if (!camel_session_is_online (service->session))
+		return TRUE;
+	
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	if (clean && !store->engine->istream->disconnected) {
 		ic = camel_imap4_engine_queue (store->engine, NULL, "LOGOUT\r\n");
 		while ((id = camel_imap4_engine_iterate (store->engine)) < ic->id && id != -1)
@@ -510,6 +517,7 @@ imap4_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		
 		camel_imap4_command_unref (ic);
 	}
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	
 	return 0;
 }
@@ -523,6 +531,9 @@ imap4_query_auth_types (CamelService *service, CamelException *ex)
 	CamelServiceAuthType *authtype;
 	GList *sasl_types, *t, *next;
 	gboolean connected;
+	
+	if (!camel_session_is_online (service->session))
+		return NULL;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	connected = connect_to_server_wrapper (store->engine, ex);
@@ -588,6 +599,7 @@ static CamelFolder *
 imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	CamelFolder *folder = NULL;
 	camel_imap4_list_t *list;
 	CamelIMAP4Command *ic;
@@ -598,6 +610,19 @@ imap4_get_folder (CamelStore *store, const char *folder_name, guint32 flags, Cam
 	int id, i;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
+	
+	if (!camel_session_is_online (session)) {
+		if ((flags & CAMEL_STORE_FOLDER_CREATE) != 0) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot create IMAP folders in offline mode."));
+		} else {
+			/* FIXME: implement me */
+			/*folder = camel_imap4_folder_new_offline (store, folder_name, ex);*/
+		}
+		
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
+		
+		return folder;
+	}
 	
 	/* make sure the folder exists - try LISTing it? */
 	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
@@ -676,6 +701,7 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 	 * contain subfolders - delete them and re-create with the
 	 * proper hint */
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	CamelFolderInfo *fi = NULL;
 	CamelIMAP4Command *ic;
 	char *utf7_name;
@@ -698,6 +724,11 @@ imap4_create_folder (CamelStore *store, const char *parent_name, const char *fol
 		}
 		
 		c++;
+	}
+	
+	if (!camel_session_is_online (session)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot create IMAP folders in offline mode."));
+		return NULL;
 	}
 	
 	if (parent_name != NULL && *parent_name)
@@ -769,6 +800,7 @@ static void
 imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	CamelFolder *selected = (CamelFolder *) engine->folder;
 	CamelIMAP4Command *ic, *ic0 = NULL;
 	CamelFolderInfo *fi;
@@ -782,6 +814,11 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 				      _("Cannot delete folder `%s': Special folder"),
 				      folder_name);
 		
+		return;
+	}
+	
+	if (!camel_session_is_online (session)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot delete IMAP folders in offline mode."));
 		return;
 	}
 	
@@ -857,6 +894,7 @@ static void
 imap4_rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	char *old_uname, *new_uname;
 	CamelIMAP4Command *ic;
 	int id;
@@ -866,6 +904,11 @@ imap4_rename_folder (CamelStore *store, const char *old_name, const char *new_na
 				      _("Cannot rename folder `%s' to `%s': Special folder"),
 				      old_name, new_name);
 		
+		return;
+	}
+	
+	if (!camel_session_is_online (session)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot rename IMAP folders in offline mode."));
 		return;
 	}
 	
@@ -1067,6 +1110,7 @@ static CamelFolderInfo *
 imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	CamelIMAP4Command *ic, *ic0 = NULL;
 	CamelFolderInfo *fi = NULL;
 	camel_imap4_list_t *list;
@@ -1078,11 +1122,10 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
-	if (engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED) {
-		if (!camel_service_connect ((CamelService *) store, ex))
-			return NULL;
-		
-		engine = ((CamelIMAP4Store *) store)->engine;
+	if (!camel_session_is_online (session) /* || engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED */) {
+		/* FIXME: get cached folder-info's */
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
+		return NULL;
 	}
 	
 	if (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED)
@@ -1180,12 +1223,18 @@ static void
 imap4_subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	CamelIMAP4Command *ic;
 	CamelFolderInfo *fi;
 	char *utf7_name;
 	CamelURL *url;
 	const char *p;
 	int id;
+	
+	if (!camel_session_is_online (session)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot subscribe to IMAP folders in offline mode."));
+		return;
+	}
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
@@ -1245,12 +1294,18 @@ static void
 imap4_unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	CamelIMAP4Command *ic;
 	CamelFolderInfo *fi;
 	char *utf7_name;
 	CamelURL *url;
 	const char *p;
 	int id;
+	
+	if (!camel_session_is_online (session)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot unsubscribe from IMAP folders in offline mode."));
+		return;
+	}
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
@@ -1310,9 +1365,13 @@ static void
 imap4_noop (CamelStore *store, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelSession *session = ((CamelService *) store)->session;
 	CamelFolder *folder = (CamelFolder *) engine->folder;
 	CamelIMAP4Command *ic;
 	int id;
+	
+	if (!camel_session_is_online (session))
+		return;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
