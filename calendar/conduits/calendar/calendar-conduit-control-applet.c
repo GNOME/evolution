@@ -1,22 +1,40 @@
-/* Control applet ("capplet") for the gnome-pilot calendar conduit,         */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* Control applet ("capplet") for the gnome-pilot calendar conduit,           */
 /* based on                                                                 */
 /* gpilotd control applet ('capplet') for use with the GNOME control center */
-/* $Id$ */
 
 #include <pwd.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <gnome.h>
-#include <ctype.h>
 
 #include <config.h>
 #include <capplet-widget.h>
 
-#include <gpilotd/gpilotd-conduit-mgmt.h>
-#include <gpilotd/gpilotd-app.h>
-#include <gpilotd/gpilotd-app-dummy-callbacks.h>
+#include <libgpilotdCM/gnome-pilot-conduit-management.h>
+#include <libgpilotdCM/gnome-pilot-conduit-config.h>
+#include <gpilotd/gnome-pilot-client.h>
 
 #include "calendar-conduit.h"
+
+/*
+typedef struct ConduitCfg {
+	guint32 pilotId;
+	pid_t child;
+} ConduitCfg;
+
+typedef struct db {
+        char name[256];
+        int flags;
+        unsigned long creator;
+        unsigned long type;
+        int maxblock;
+} db;
+
+#define CONDUIT_CFG(s) ((ConduitCfg*)(s))
+*/
+
+
 
 /* tell changes callbacks to ignore changes or not */
 static gboolean ignore_changes=FALSE;
@@ -29,20 +47,24 @@ GtkWidget *cfgOptionsWindow=NULL;
 GtkWidget *cfgStateWindow=NULL;
 GtkWidget *dialogWindow=NULL;
 
-GnomePilotConduitMgmt *conduit;
-
-static void doTrySettings(GtkWidget *widget, gpointer);
-static void doRevertSettings(GtkWidget *widget, gpointer);
-static void doSaveSettings(GtkWidget *widget, gpointer);
-
-static void readStateCfg(GtkWidget *w,GCalConduitCfg *cfg);
-static void setStateCfg(GtkWidget *w,GCalConduitCfg *cfg);
-void about_cb (GtkWidget *, gpointer);
+gboolean activated,org_activation_state;
+GnomePilotConduitManagement *conduit;
+GnomePilotConduitConfig *conduit_config;
 GCalConduitCfg *origState = NULL;
 GCalConduitCfg *curState = NULL;
 
+static void doTrySettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
+static void doRevertSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
+static void doSaveSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg);
+
+//static void readStateCfg (GtkWidget *w, GCalConduitCfg *c);
+static void setStateCfg (GtkWidget *w, GCalConduitCfg *c);
+
 gint pilotId;
 CORBA_Environment ev;
+static GnomePilotClient *gpc;
+
+
 
 /* This array must be in the same order as enumerations
    in GnomePilotConduitSyncType as they are used as index.
@@ -56,104 +78,68 @@ static gchar* sync_options[] ={ N_("Disabled"),
 				N_("Merge To Pilot")};
 #define SYNC_OPTIONS_COUNT 6
 
-static void 
-setSettings(GCalConduitCfg* conduitCfg)
+
+static void
+doTrySettings(GtkWidget *widget, GCalConduitCfg *c)
 {
-	if(conduitCfg->sync_type!=GnomePilotConduitSyncTypeCustom)
-		gpilotd_conduit_mgmt_enable_with_first_sync(conduit,pilotId,
-							    conduitCfg->sync_type,
-							    conduitCfg->sync_type,
-							    TRUE);
+	/*
+	readStateCfg (cfgStateWindow, curState);
+	if (activated)
+		gnome_pilot_conduit_config_enable (conduit_config, GnomePilotConduitSyncTypeCustom);
 	else
-		gpilotd_conduit_mgmt_disable(conduit,pilotId);
+		gnome_pilot_conduit_config_disable (conduit_config);
+	*/
 
-	gcalconduit_save_configuration(conduitCfg);
+	if (c->sync_type!=GnomePilotConduitSyncTypeCustom)
+		gnome_pilot_conduit_config_enable_with_first_sync (conduit_config,
+								   c->sync_type,
+								   c->sync_type,
+								   TRUE);
+	else
+		gnome_pilot_conduit_config_disable (conduit_config);
+
+	gcalconduit_save_configuration (c);
 }
 
-static void
-doTrySettings(GtkWidget *widget, gpointer whatever)
-{
-	readStateCfg(cfgStateWindow,curState);
-	setSettings(curState);
-}
-
-static void
-doSaveSettings(GtkWidget *widget, gpointer whatever)
-{
-	doTrySettings(widget,whatever);
-}
 
 static void
-doCancelSettings(GtkWidget *widget, gpointer whatever)
+doSaveSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg)
 {
-	setSettings(origState);
+	doTrySettings(widget, GCalConduitCfg);
+	gcalconduit_save_configuration(GCalConduitCfg);
 }
 
-static void
-doRevertSettings(GtkWidget *widget, gpointer whatever)
-{
-	gcalconduit_destroy_configuration(&curState);
-	curState = gcalconduit_dupe_configuration(origState);
-	setStateCfg(cfgStateWindow,curState);
-	setSettings(curState);
-}
 
 static void
-insert_dir_callback (GtkEditable    *editable, const gchar    *text,
-		     gint len, gint *position, void *data)
+doCancelSettings(GtkWidget *widget, GCalConduitCfg *c)
 {
-    gint i;
-    gchar *curname;
-
-    curname = gtk_entry_get_text(GTK_ENTRY(editable));
-    if (*curname == '\0' && len > 0) {
-	if (isspace(text[0])) {
-	    gtk_signal_emit_stop_by_name(GTK_OBJECT(editable), "insert_text");
-	    return;
-	}
-    } else {
-	for (i=0; i<len; i++) {
-	    if (isspace(text[i])) {
-		gtk_signal_emit_stop_by_name(GTK_OBJECT(editable), 
-					     "insert_text");
-		return;
-	    }
-	}
-    }
-}
-static void
-insert_dir_callback2(GtkEditable    *editable, const gchar    *text,
-		      gint            length, gint           *position,
-		      void *data)
-{
-    if (!ignore_changes)
-        capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
+	doSaveSettings (widget, c);
 }
 
+
 static void
-clist_changed(GtkWidget *widget, gpointer data)
+doRevertSettings(GtkWidget *widget, GCalConduitCfg *GCalConduitCfg)
 {
-    if (!ignore_changes)
-	capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
+	activated = org_activation_state;
+	setStateCfg (cfgStateWindow, curState);
 }
-	
-void about_cb (GtkWidget *widget, gpointer data) {
-  GtkWidget *about;
-  const gchar *authors[] = {_("Eskil Heyn Olsen <deity@eskil.dk>"),NULL};
+
+static void 
+about_cb (GtkWidget *widget, gpointer data) 
+{
+	GtkWidget *about;
+	const gchar *authors[] = {_("Eskil Heyn Olsen <deity@eskil.dk>"),NULL};
   
-  about = gnome_about_new(_("GnomeCalendar Conduit"), VERSION,
-			  _("(C) 1998"),
-			  authors,
-			  _("Configuration utility for the calendar conduit.\n"),
-			  _("gnome-calendar-conduit.png"));
-  gtk_widget_show (about);
+	about = gnome_about_new (_("Gpilotd calendar conduit"), VERSION,
+				 _("(C) 1998 the Free Software Foundation"),
+				 authors,
+				 _("Configuration utility for the calendar conduit.\n"),
+				 _("gnome-unknown.xpm"));
+	gtk_widget_show (about);
   
-  return;
+	return;
 }
 
-static void toggled_cb(GtkWidget *widget, gpointer data) {
-  capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
-}
 
 /* called by the sync_type GtkOptionMenu */
 static void
@@ -164,6 +150,7 @@ sync_action_selection(GtkMenuShell *widget, gpointer unused)
 	}
 }
 
+
 /* called by the sync_type GtkOptionMenu */
 static void
 activate_sync_type(GtkMenuItem *widget, gpointer data)
@@ -172,6 +159,7 @@ activate_sync_type(GtkMenuItem *widget, gpointer data)
 	if(!ignore_changes)
 		capplet_widget_state_changed(CAPPLET_WIDGET(capplet), TRUE);
 }
+
 
 static GtkWidget
 *createStateCfgWindow(void)
@@ -214,38 +202,38 @@ static GtkWidget
 	return vbox;
 }
 
+
 static void
-setStateCfg(GtkWidget *widget,GCalConduitCfg *cfg)
+setStateCfg (GtkWidget *w, GCalConduitCfg *c)
 {
 	GtkOptionMenu *optionMenu;
 	GtkMenu *menu;
 	
-	optionMenu = gtk_object_get_data(GTK_OBJECT(widget), "conduit_state");
-	g_assert(optionMenu!=NULL);
-	menu = GTK_MENU(gtk_option_menu_get_menu(optionMenu));
-
+	optionMenu = gtk_object_get_data (GTK_OBJECT(w), "conduit_state");
+	g_assert (optionMenu != NULL);
+	menu = GTK_MENU (gtk_option_menu_get_menu (optionMenu));
   
 	ignore_changes = TRUE;
 	/* Here were are relying on the items in menu being the same 
 	   order as in GnomePilotConduitSyncType. */
-	gtk_option_menu_set_history(optionMenu,(int)cfg->sync_type);
+	gtk_option_menu_set_history (optionMenu, (int) c->sync_type);
 	ignore_changes = FALSE;
 }
 
 
+#if 0
 static void
-readStateCfg(GtkWidget *w,GCalConduitCfg *cfg)
+readStateCfg (GtkWidget *w, GCalConduitCfg *c)
 {
-/*
-  GtkWidget *button;
-
-  button  = gtk_object_get_data(GTK_OBJECT(w), "conduit_on_off");
-  
-  g_assert(button!=NULL);
-
-  activated = GTK_TOGGLE_BUTTON(button)->active;
-*/
+	/*
+	GtkWidget *button;
+	button  = gtk_object_get_data(GTK_OBJECT(cfg), "conduit_on_off");
+	g_assert(button!=NULL);
+	activated = GTK_TOGGLE_BUTTON(button)->active;
+	*/
 }
+#endif /* 0 */
+
 
 static void
 pilot_capplet_setup(void)
@@ -265,27 +253,29 @@ pilot_capplet_setup(void)
 	gtk_container_add(GTK_CONTAINER(frame), cfgStateWindow);
 
 	gtk_signal_connect(GTK_OBJECT(capplet), "try",
-			   GTK_SIGNAL_FUNC(doTrySettings), NULL);
+			   GTK_SIGNAL_FUNC(doTrySettings), curState);
 	gtk_signal_connect(GTK_OBJECT(capplet), "revert",
-			   GTK_SIGNAL_FUNC(doRevertSettings), NULL);
+			   GTK_SIGNAL_FUNC(doRevertSettings), curState);
 	gtk_signal_connect(GTK_OBJECT(capplet), "ok",
-			   GTK_SIGNAL_FUNC(doSaveSettings), NULL);
+			   GTK_SIGNAL_FUNC(doSaveSettings), curState);
 	gtk_signal_connect(GTK_OBJECT(capplet), "cancel",
-			   GTK_SIGNAL_FUNC(doCancelSettings), NULL);
+			   GTK_SIGNAL_FUNC(doCancelSettings), curState);
 	gtk_signal_connect(GTK_OBJECT(capplet), "help",
 			   GTK_SIGNAL_FUNC(about_cb), NULL);
 
 
-	setStateCfg(cfgStateWindow,curState);
+	setStateCfg (cfgStateWindow, curState);
 
-	gtk_widget_show_all(capplet);
+	gtk_widget_show_all (capplet);
 }
 
+
 static void 
-run_error_dialog(gchar *mesg,...) {
+run_error_dialog(gchar *mesg,...) 
+{
 	char tmp[80];
 	va_list ap;
-	
+
 	va_start(ap,mesg);
 	vsnprintf(tmp,79,mesg,ap);
 	dialogWindow = gnome_message_box_new(mesg,GNOME_MESSAGE_BOX_ERROR,GNOME_STOCK_BUTTON_OK,NULL);
@@ -293,68 +283,92 @@ run_error_dialog(gchar *mesg,...) {
 	va_end(ap);
 }
 
-gint get_pilot_id_from_gpilotd() {
-	gint *pilots;
-	int i;
+
+static gint 
+get_pilot_id_from_gpilotd() 
+{
+	GList *pilots=NULL;
+	gint pilot;
+	int i,err;
   
 	i=0;
-	gpilotd_get_pilot_ids(&pilots);
-	if(pilots) {
-		while(pilots[i]!=-1) { g_message("pilot %d = \"%d\"",i,pilots[i]); i++; }
-		if(i==0) {
+	/* we don't worry about leaking here, so pilots isn't freed */
+	switch(err = gnome_pilot_client_get_pilots(gpc,&pilots)) {
+	case GPILOTD_OK: {
+		if(pilots) {
+			for(i=0;i<g_list_length(pilots);i++) {
+				g_message("pilot %d = \"%s\"",i,(gchar*)g_list_nth(pilots,i)->data); 
+			}
+			if(i==0) {
+				run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
+				return -1;
+			} else {
+				gnome_pilot_client_get_pilot_id_by_name(gpc,
+									pilots->data,  /* this is the first pilot */
+									&pilot);
+				if(i>1) {
+					g_message("too many pilots...");
+					/* need a choose here */
+				}
+				return pilot;
+			}
+		} else {
 			run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
 			return -1;
-		} else {
-			if(i==1) 
-				return pilots[0];
-			else {
-				g_message("too many pilots...");
-				return pilots[0];
-			}
-		}
-	} else {
-		run_error_dialog(_("No pilot configured, please choose the\n'Pilot Link Properties' capplet first."));
+		}    
+		break;
+	}
+	case GPILOTD_ERR_NOT_CONNECTED:
+		run_error_dialog(_("Not connected to the gnome-pilot daemon"));
 		return -1;
-	}    
+		break;
+	default:
+		g_warning("gnome_pilot_client_get_pilot_ids(...) = %d",err);
+		run_error_dialog(_("An error occured when trying to fetch\npilot list from the gnome-pilot daemon"));
+		return -1;
+		break;
+	}
 }
 
+
 int
-main( int argc, char *argv[] )
+main (int argc, char *argv[])
 {
+	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
+				G_LOG_LEVEL_CRITICAL |
+				G_LOG_LEVEL_WARNING);
+	
 	/* we're a capplet */
 	gnome_capplet_init ("calendar conduit control applet", NULL, argc, argv, 
-			    NULL,
-			    0, NULL);
+			    NULL, 0, NULL);
 
-	/* get pilot name from gpilotd */
-	/* 1. initialize the gpilotd connection */
-	if (gpilotd_init(&argc,argv)!=0) {
-		run_error_dialog(_("Cannot initialze the GnomePilot Daemon"));
-		g_error(_("Cannot initialze the GnomePilot Daemon"));
-		return -1;
-	}
-    
-	/* 2 connect to gpilotd */
-	if (gpilotd_connect()!=0) {
-		run_error_dialog(_("Cannot connect to the GnomePilot Daemon"));
-		g_error(_("Cannot connect to the GnomePilot Daemon"));
-		return -1;
-	}
-    
+   
+	gpc = gnome_pilot_client_new();
+	gnome_pilot_client_connect_to_daemon(gpc);
 	pilotId = get_pilot_id_from_gpilotd();
 	if(!pilotId) return -1;
 
 	/* put all code to set things up in here */
-	conduit = gpilotd_conduit_mgmt_new("calendar_conduit",pilotId);
-	gcalconduit_load_configuration(&origState,pilotId);
-	gpilotd_conduit_mgmt_get_sync_type(conduit,pilotId,&origState->sync_type);
+	gcalconduit_load_configuration (&origState, pilotId);
+
+	conduit = gnome_pilot_conduit_management_new ("Calendar", GNOME_PILOT_CONDUIT_MGMT_ID);
+	if (conduit == NULL) return -1;
+	conduit_config = gnome_pilot_conduit_config_new (conduit, pilotId);
+	org_activation_state = gnome_pilot_conduit_config_is_enabled (conduit_config,
+								      &origState->sync_type);
+	activated = org_activation_state;
+
+	//gpilotd_conduit_mgmt_get_sync_type (conduit, pilotId, &origState->sync_type);
 
 	curState = gcalconduit_dupe_configuration(origState);
     
-	pilot_capplet_setup();
+	pilot_capplet_setup ();
 
 
 	/* done setting up, now run main loop */
 	capplet_gtk_main();
+    
+	gnome_pilot_conduit_management_destroy(conduit);
+
 	return 0;
 }    

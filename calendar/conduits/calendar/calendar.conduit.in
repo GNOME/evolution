@@ -1,0 +1,8 @@
+<gnome-pilot-conduit version="1.0">
+<conduit id="gnomecal" type="shlib" location="@prefix@/lib/gnome-pilot/conduits/libcalendar_conduit.so"/>
+<name value="GnomeCal"/>
+<conduit-attribute name="description" value="Synchronizes with GnomeCal"/>
+<conduit-attribute name="default-synctype" value="synchronize"/>
+<conduit-attribute name="icon" value="@prefix@/share/pixmaps/gnome-calendar-conduit.png"/>
+<conduit-attribute name="settings" value="TRUE"/>
+</gnome-pilot-conduit>

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* $Id$ */
 
 #ifndef __CALENDAR_CONDUIT_H__
@@ -10,9 +11,16 @@
 #include <pi-datebook.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
+#include <cal-client/cal-client.h>
 #include <cal-util/calobj.h>
 #include <cal-util/timeutil.h>
-#include "GnomeCal.h"
+
+#ifdef USING_OAF
+#include <liboaf/liboaf.h>
+#else
+#include <libgnorba/gnorba.h>
+#endif
+
 
 /* This is the local record structure for the GnomeCal conduit. */
 typedef struct _GCalLocalRecord GCalLocalRecord;
@@ -43,11 +51,15 @@ typedef struct _GCalConduitContext GCalConduitContext;
 struct _GCalConduitContext {
 	struct AppointmentAppInfo ai;
 	GCalConduitCfg *cfg;
-	GNOME_Calendar_Repository calendar;
+	//GNOME_Calendar_Repository calendar;
+	CalClient *client;
 	CORBA_Environment ev;
 	CORBA_ORB orb;
+
+	char *calendar_file;
 };
 #define GET_GCALCONTEXT(c) ((GCalConduitContext*)gtk_object_get_data(GTK_OBJECT(c),"gcalconduit_context"))
+
 
 /* Given a GCalConduitCfg*, allocates the structure and 
    loads the configuration data for the given pilot. */
@@ -68,6 +80,7 @@ gcalconduit_load_configuration(GCalConduitCfg **c,
 	(*c)->pilotId = pilotId;
 }
 
+
 /* Saves the configuration data. */
 static void 
 gcalconduit_save_configuration(GCalConduitCfg *c) 
@@ -77,7 +90,7 @@ gcalconduit_save_configuration(GCalConduitCfg *c)
 	g_snprintf(prefix,255,"/gnome-pilot.d/calendar-conduit/Pilot_%u/",c->pilotId);
 
 	gnome_config_push_prefix(prefix);
-	gnome_config_set_bool("open_secret",c->open_secret);
+	gnome_config_set_bool ("open_secret", c->open_secret);
 	gnome_config_pop_prefix();
 
 	gnome_config_sync();
@@ -96,6 +109,7 @@ gcalconduit_dupe_configuration(GCalConduitCfg *c) {
 	return retval;
 }
 
+
 /* Destroys any data allocated by gcalconduit_load_configuration
    and deallocates the given configuration. */
 static void 
@@ -107,6 +121,7 @@ gcalconduit_destroy_configuration(GCalConduitCfg **c)
 	*c = NULL;
 }
 
+
 /* Given a GCalConduitContxt*, allocates the structure */
 static void
 gcalconduit_new_context(GCalConduitContext **ctxt,
@@ -117,6 +132,7 @@ gcalconduit_new_context(GCalConduitContext **ctxt,
 	(*ctxt)->cfg = c;
 	CORBA_exception_init (&((*ctxt)->ev));
 }
+
 
 /* Destroys any data allocated by gcalconduit_new_context
    and deallocates its data. */
@@ -132,4 +148,5 @@ gcalconduit_destroy_context(GCalConduitContext **ctxt)
 	g_free(*ctxt);
 	*ctxt = NULL;
 }
+
 #endif __CALENDAR_CONDUIT_H__ 
