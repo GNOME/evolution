@@ -183,10 +183,14 @@ e_gethostbyname_r (const char *name, struct hostent *host,
 	char *addr;
 	
 	memset (&hints, 0, sizeof (struct addrinfo));
+#ifdef HAVE_AI_ADDRCONFIG
+	hints.ai_flags = AI_CANONNAME | AI_ADDRCONFIG;
+#else
 	hints.ai_flags = AI_CANONNAME;
+#endif
 	hints.ai_family = PF_UNSPEC;
-	hints.ai_socktype = 0;
-	hints.ai_protocol = 0;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_protocol = IPPROTO_TCP;
 	
 	if ((retval = getaddrinfo (name, NULL, &hints, &res)) != 0) {
 		*herr = ai_to_herr (retval);
