@@ -53,13 +53,17 @@ struct _PixbufLoader {
 static gboolean
 write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 {
-	CamelDataWrapper *data;
+	CamelMimeFilterCharset *charsetfilter;
+	GMimeContentField *content_type;
+	CamelStreamFilter *filtered_stream;
 	CamelStream *stream_fs;
-	int fd;
-
+	CamelDataWrapper *data;
+	const char *charset;
+	int fd, chid;
+	
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
 	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-
+	
 	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
 	if (fd == -1 && errno == EEXIST && !unique) {
 		GtkWidget *dlg;
@@ -89,20 +93,44 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 		g_free (msg);
 		return FALSE;
 	}
-
+	
+	content_type = camel_mime_part_get_content_type (part);
+	charset = gmime_content_field_get_parameter (content_type, "charset");
+	if (!charset)
+		charset = "us-ascii";
+	
+	fprintf (stderr, "mime part charset = %s\n", charset);
+	
+	charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+	
 	stream_fs = camel_stream_fs_new_with_fd (fd);
-	if (camel_data_wrapper_write_to_stream (data, stream_fs) == -1
-	    || camel_stream_flush (stream_fs) == -1) {
+	
+	filtered_stream = camel_stream_filter_new_with_stream (stream_fs);
+	chid = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charsetfilter));
+	
+	if (camel_data_wrapper_write_to_stream (data, CAMEL_STREAM (filtered_stream)) == -1
+	    || camel_stream_flush (CAMEL_STREAM (filtered_stream)) == -1) {
 		char *msg;
-
+		
 		msg = g_strdup_printf (_("Could not write data: %s"),
 				       strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
+		
+		camel_stream_filter_remove (filtered_stream, chid);
+		camel_object_unref (CAMEL_OBJECT (charsetfilter));
+		camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		camel_object_unref (CAMEL_OBJECT (stream_fs));
+		
 		return FALSE;
 	}
+	
+	camel_stream_filter_remove (filtered_stream, chid);
+	camel_object_unref (CAMEL_OBJECT (charsetfilter));
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (stream_fs));
+	
 	return TRUE;
 }
 
