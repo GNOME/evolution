@@ -68,6 +68,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-utils.c			\
 	camel-movemail.c			\
 	camel-multipart.c			\
+	camel-multipart-encrypted.c		\
 	camel-multipart-signed.c		\
 	camel-object.c				\
 	camel-operation.c			\
@@ -168,6 +169,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-utils.h			\
 	camel-movemail.h			\
 	camel-multipart.h			\
+	camel-multipart-encrypted.h		\
 	camel-multipart-signed.h		\
 	camel-object.h				\
 	camel-operation.h			\

@@ -1,5 +1,9 @@
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-multipart-encrypted.[c,h]: New class implementing the
+	multipart/encrypted content type. Contains methods for encrypting
+	and decrypting a multipart/encrypted MIME object.
+
 	* camel-gpg-context.c (gpg_ctx_parse_status): Check for NODATA
 	too.
 
