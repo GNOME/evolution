@@ -180,23 +180,6 @@ etsm_real_clear (ETreeSelectionModel *etsm)
 }
 
 
-static gint
-etsm_orig_position(ETreeModel *etm, ETreePath path)
-{
-	ETreePath parent, p;
-	gint pos;
-
-	parent = e_tree_model_node_get_parent(etm, path);
-        for (pos = 0, p = e_tree_model_node_get_first_child(etm, parent);
-             p && (p != path);
-             p = e_tree_model_node_get_next(etm, p), pos++);
-
-	if (p)
-		return pos;
-
-	return -1;
-}
-
 static ETreeSelectionModelNode *
 etsm_find_node_unless_equals (ETreeSelectionModel *etsm,
 			      ETreePath path,
@@ -210,7 +193,7 @@ etsm_find_node_unless_equals (ETreeSelectionModel *etsm,
 	if (parent) {
 		selection_node = etsm_find_node_unless_equals(etsm, parent, grow);
 		if (selection_node) {
-			int position = etsm_orig_position(etsm->priv->model, path);
+			int position = e_tree_table_adapter_orig_position(etsm->priv->etta, path);
 			if (selection_node->all_children_selected && grow)
 				return NULL;
 			if (!(selection_node->any_children_selected || grow))
@@ -260,7 +243,7 @@ update_parents (ETreeSelectionModel *etsm, ETreePath path)
 			g_free(node_sequence);
 			return;
 		}
-		orig_position_sequence[i] = etsm_orig_position(etsm->priv->model, parents);
+		orig_position_sequence[i] = e_tree_table_adapter_orig_position(etsm->priv->etta, parents);
 		parents = e_tree_model_node_get_parent(etsm->priv->model, parents);
 	}
 
@@ -622,7 +605,7 @@ etsm_recurse_is_path_selected (ETreeSelectionModel *etsm,
 	if (parent) {
 		selection_node = etsm_recurse_is_path_selected (etsm, parent, is_selected);
 		if (selection_node) {
-			int position = etsm_orig_position(etsm->priv->model, path);
+			int position = e_tree_table_adapter_orig_position(etsm->priv->etta, path);
 			if (position < 0 || position >= selection_node->num_children) {
 				*is_selected = FALSE;
 				return NULL;

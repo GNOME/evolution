@@ -88,6 +88,9 @@ void         e_tree_table_adapter_load_expanded_state        (ETreeTableAdapter 
 void         e_tree_table_adapter_set_sort_info              (ETreeTableAdapter *etta,
 							      ETableSortInfo    *sort_info);
 
+gint         e_tree_table_adapter_orig_position              (ETreeTableAdapter *etta,
+							      ETreePath          path);
+
 G_END_DECLS
 
 #endif /* _E_TREE_TABLE_ADAPTER_H_ */

@@ -48,6 +48,7 @@ typedef struct {
 	ETreePath path;
 	guint32 num_visible_children;
 	guint32 index;
+	guint32 orig_pos;
 
 	guint expanded : 1;
 	guint expandable : 1;
@@ -138,34 +139,53 @@ remap_indices(ETreeTableAdapter *etta)
 	etta->priv->remap_needed = FALSE;
 }
 
+static node_t *
+get_node(ETreeTableAdapter *etta, ETreePath path)
+{
+	GNode *gnode = lookup_gnode(etta, path);
+
+	if (!gnode)
+		return NULL;
+
+	return (node_t *)gnode->data;
+}
+
 static void
 resort_node(ETreeTableAdapter *etta, GNode *gnode, gboolean recurse)
 {
 	node_t *node = (node_t *)gnode->data;
 	ETreePath *paths, path;
 	GNode *prev, *curr;
-	int i;
+	int i, count;
+	gboolean sort_needed;
 
-	if (node->num_visible_children == 0 || !gnode->children)
+	if (node->num_visible_children == 0)
 		return;
-	else if (node->num_visible_children == 1 && recurse) {
-		resort_node(etta, gnode->children, recurse);
-		return;
+
+	sort_needed = etta->priv->sort_info && e_table_sort_info_sorting_get_count (etta->priv->sort_info) > 0;
+
+	for (i = 0, path = e_tree_model_node_get_first_child(etta->priv->source, node->path); path; 
+	     path = e_tree_model_node_get_next(etta->priv->source, path), i++) {
+		node_t *child = get_node(etta, path);
+		if (child)
+			child->orig_pos = i;
 	}
 
-	paths = g_new0(ETreePath, node->num_visible_children);
-	
-	g_return_if_fail(paths != NULL);
+	count = i;
+	if (count <= 1)
+		return;
+
+	paths = g_new0(ETreePath, count);
 
 	for (i = 0, path = e_tree_model_node_get_first_child(etta->priv->source, node->path); path; 
 	     path = e_tree_model_node_get_next(etta->priv->source, path), i++)
 		paths[i] = path;
 
-	if (etta->priv->sort_info && e_table_sort_info_sorting_get_count > 0)
-		e_table_sorting_utils_tree_sort(etta->priv->source, etta->priv->sort_info, etta->priv->header, paths, node->num_visible_children);
+	if (count > 1 && sort_needed)
+		e_table_sorting_utils_tree_sort(etta->priv->source, etta->priv->sort_info, etta->priv->header, paths, count);
 
 	prev = NULL;
-	for (i = 0; i < node->num_visible_children; i++) {
+	for (i = 0; i < count; i++) {
 		curr = lookup_gnode(etta, paths[i]);
 		if (!curr)
 			continue;
@@ -183,17 +203,6 @@ resort_node(ETreeTableAdapter *etta, GNode *gnode, gboolean recurse)
 	}
 
 	g_free(paths);
-}
-
-static node_t *
-get_node(ETreeTableAdapter *etta, ETreePath path)
-{
-	GNode *gnode = lookup_gnode(etta, path);
-
-	if (!gnode)
-		return NULL;
-
-	return (node_t *)gnode->data;
 }
 
 static gint
@@ -295,6 +304,8 @@ delete_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 			parent_node->expandable = expandable;
 			e_table_model_row_changed(E_TABLE_MODEL(etta), parent_row);
 		}
+
+		resort_node (etta, parent_gnode, FALSE);
 	}
 
 	e_table_model_rows_deleted(E_TABLE_MODEL(etta), row, to_remove);
@@ -309,6 +320,7 @@ create_gnode(ETreeTableAdapter *etta, ETreePath path)
 	node = g_new0(node_t, 1);
 	node->path = path;
 	node->index = -1;
+	node->orig_pos = 0;
 	node->expanded = e_tree_model_get_expanded_default(etta->priv->source);
 	node->expandable = e_tree_model_node_is_expandable(etta->priv->source, path);
 	node->expandable_set = 1;
@@ -323,13 +335,15 @@ insert_children(ETreeTableAdapter *etta, GNode *gnode)
 {
 	ETreePath path, tmp;
 	int count = 0;
+	int pos = 0;
 
 	path = ((node_t *)gnode->data)->path;
 	for (tmp = e_tree_model_node_get_first_child(etta->priv->source, path);
 	     tmp;
-	     tmp = e_tree_model_node_get_next(etta->priv->source, tmp)) {
+	     tmp = e_tree_model_node_get_next(etta->priv->source, tmp), pos++) {
 		GNode *child = create_gnode(etta, tmp);
 		node_t *node = (node_t *) child->data;
+		node->orig_pos = pos;
 		if (node->expanded)
 			node->num_visible_children = insert_children(etta, child);
 		g_node_prepend(gnode, child);
@@ -418,10 +432,9 @@ insert_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 
 	g_node_append(parent_gnode, gnode);
 	update_child_counts(parent_gnode, node->num_visible_children + 1);
-	if (etta->priv->sort_info && e_table_sort_info_sorting_get_count(etta->priv->sort_info) > 0) {
-		resort_node(etta, parent_gnode, FALSE);
-		resort_node(etta, gnode, TRUE);
-	}
+	resort_node(etta, parent_gnode, FALSE);
+	resort_node(etta, gnode, TRUE);
+
 	size = node->num_visible_children + 1;
 	resize_map(etta, etta->priv->n_map + size);
 	if (parent_gnode == etta->priv->root)
@@ -1105,4 +1118,15 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta, ETableSortInfo *sor
 	resort_node(etta, etta->priv->root, TRUE);
 	fill_map(etta, 0, etta->priv->root);
 	e_table_model_changed(E_TABLE_MODEL(etta));
+}
+
+gint
+e_tree_table_adapter_orig_position (ETreeTableAdapter *etta, ETreePath path)
+{
+	node_t *node = get_node (etta, path);
+
+	if (!node)
+		return -1;
+
+	return node->orig_pos;
 }
