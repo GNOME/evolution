@@ -1,5 +1,13 @@
 2003-02-05  JP Rosevear  <jpr@ximian.com>
  
+ 	* gui/dialogs/recur-comp.h: fix copyright
+ 
+ 	* gui/dialogs/recur-comp.c: fix copyright
+ 	(recur_component_dialog): say "recurring journal entry" instead of
+ 	just "recurring journal"
+
+2003-02-05  JP Rosevear  <jpr@ximian.com>
+ 
  	* idl/evolution-calendar.idl: fix comment
 	
 2003-02-05  JP Rosevear  <jpr@ximian.com>
