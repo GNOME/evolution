@@ -51,6 +51,7 @@ struct _EventPagePrivate {
 	GtkWidget *main;
 
 	GtkWidget *summary;
+	GtkWidget *location;
 
 	GtkWidget *start_time;
 	GtkWidget *end_time;
@@ -170,6 +171,7 @@ event_page_init (EventPage *epage)
 
 	priv->main = NULL;
 	priv->summary = NULL;
+	priv->location = NULL;
 	priv->start_time = NULL;
 	priv->end_time = NULL;
 	priv->start_timezone = NULL;
@@ -403,6 +405,7 @@ clear_widgets (EventPage *epage)
 
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
+	e_dialog_editable_set (priv->location, NULL);
 	e_dialog_editable_set (priv->description, NULL);
 
 	/* Start and end times */
@@ -465,6 +468,7 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	CalComponentClassification cl;
 	CalComponentTransparency transparency;
 	CalComponentDateTime start_date, end_date;
+	const char *location;
 	const char *categories;
 	GSList *l;
 
@@ -479,10 +483,13 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Clean the page */
 	clear_widgets (epage);
 
-	/* Summary, description(s) */
+	/* Summary, location, description(s) */
 
 	cal_component_get_summary (comp, &text);
 	e_dialog_editable_set (priv->summary, text.value);
+
+	cal_component_get_location (comp, &location);
+	e_dialog_editable_set (priv->location, location);
 
 	cal_component_get_description_list (comp, &l);
 	if (l) {
@@ -596,6 +603,17 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 		cal_component_set_summary (comp, &text);
 	}
+
+	if (str)
+		g_free (str);
+
+	/* Location */
+
+	str = e_dialog_editable_get (priv->location);
+	if (!str || strlen (str) == 0)
+		cal_component_set_location (comp, NULL);
+	else
+		cal_component_set_location (comp, str);
 
 	if (str)
 		g_free (str);
@@ -747,6 +765,7 @@ get_widgets (EventPage *epage)
 	gtk_widget_unparent (priv->main);
 
 	priv->summary = GW ("general-summary");
+	priv->location = GW ("location");
 
 	priv->start_time = GW ("start-time");
 	priv->end_time = GW ("end-time");
@@ -772,6 +791,7 @@ get_widgets (EventPage *epage)
 #undef GW
 
 	return (priv->summary
+		&& priv->location
 		&& priv->start_time
 		&& priv->end_time
 		&& priv->start_timezone
@@ -1283,6 +1303,8 @@ init_widgets (EventPage *epage)
 	 */
 
 	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
+			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
+	gtk_signal_connect (GTK_OBJECT (priv->location), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
 	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), epage);
