@@ -1,3 +1,9 @@
+2004-03-29  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_counts): remove
+	locking here, we're locked whne we enter.
+	(fill_fi): call refresh_info unlocked.  More for #56045.
+
 2004-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap-folder.[c,h]: New source files

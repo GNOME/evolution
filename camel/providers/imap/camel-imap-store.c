@@ -2361,7 +2361,8 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 	folder = camel_object_bag_get(store->folders, fi->full_name);
 	if (folder) {
 		if ((flags & CAMEL_STORE_FOLDER_INFO_FAST) == 0)
-			camel_folder_refresh_info(folder, NULL);
+			/* we use connect lock for everything, so this should be safe */
+			CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, NULL);
 		fi->unread = camel_folder_get_unread_message_count(folder);
 		fi->total = camel_folder_get_message_count(folder);
 		camel_object_unref(folder);
@@ -2388,6 +2389,7 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 	}
 }
 
+/* NB: We should have connect_lock at this point */
 static void
 get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelException *ex)
 {
@@ -2420,7 +2422,6 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 			    && ( (imap_store->parameters & IMAP_PARAM_CHECK_ALL)
 				 || g_ascii_strcasecmp(fi->full_name, "inbox") == 0) ) {
 
-				CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 				/* For the current folder, poke it to check for new	
 				 * messages and then report that number, rather than
 				 * doing a STATUS command.
@@ -2443,8 +2444,6 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 						fi->total = camel_folder_get_message_count(folder);
 					}
 				}
-		
-				CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			} else {
 				/* since its cheap, get it if they're open/consult summary file */
 				fill_fi((CamelStore *)imap_store, fi, 0);
