@@ -1,3 +1,9 @@
+2004-08-13  Not Zed  <NotZed@Ximian.com>
+
+	* em-utils.c (em_utils_message_to_html): don't include the
+	terminating NUL in the data length.
+	(em_utils_part_to_html): nor here.
+
 2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* em-utils.c: Optionally use GtkFileChooser if compiled against

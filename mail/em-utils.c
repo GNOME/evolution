@@ -1417,17 +1417,17 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 		if (source->charset)
 			em_format_set_default_charset((EMFormat *)emfq, source->charset);
 	}
-	em_format_part((EMFormat *) emfq, (CamelStream *) mem, part);
-	g_object_unref (emfq);
-	
-	camel_stream_write ((CamelStream *) mem, "", 1);
-	camel_object_unref (mem);
-	
+	em_format_part((EMFormat *) emfq, (CamelStream *)mem, part);
+	g_object_unref(emfq);
+
+	camel_stream_write((CamelStream *) mem, "", 1);
+	camel_object_unref(mem);
+
 	text = buf->data;
 	if (len)
-		*len = buf->len;
+		*len = buf->len-1;
 	g_byte_array_free (buf, FALSE);
-	
+
 	return text;
 }
 
@@ -1450,24 +1450,24 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 	CamelStreamMem *mem;
 	GByteArray *buf;
 	char *text;
-	
+
 	buf = g_byte_array_new ();
 	mem = (CamelStreamMem *) camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (mem, buf);
-	
+
 	emfq = em_format_quote_new(credits, (CamelStream *)mem, flags);
 	em_format_set_session((EMFormat *)emfq, session);
 	em_format_format_clone((EMFormat *)emfq, NULL, NULL, message, source);
 	g_object_unref (emfq);
-	
-	camel_stream_write ((CamelStream *) mem, "", 1);
-	camel_object_unref (mem);
-	
+
+	camel_stream_write((CamelStream *)mem, "", 1);
+	camel_object_unref(mem);
+
 	text = buf->data;
 	if (len)
-		*len = buf->len;
-	g_byte_array_free (buf, FALSE);
-	
+		*len = buf->len-1;
+	g_byte_array_free(buf, FALSE);
+
 	return text;
 }
 
