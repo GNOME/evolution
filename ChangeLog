@@ -1,3 +1,8 @@
+2001-03-30  Dan Winship  <danw@ximian.com>
+
+	* configure.in (EVOLUTION_MICRO_VERSION): Bump this to 10. (We
+	forgot to do this before branching *again*...)
+
 2001-03-28  Dan Winship  <danw@ximian.com>
 
 	* README: add a bit mentioning that if configure claims you don't
