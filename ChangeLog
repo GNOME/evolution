@@ -1,3 +1,8 @@
+2004-08-13  Rodney Dawes  <dobey@novell.com>
+
+	* configure.in: Check for et/comm-err.h and comm_err.h so that
+	we can include the correct one
+
 2004-08-12  Rodney Dawes  <dobey@novell.com>
 
 	* data/evolution.desktop.in.in: Update Name and description to
