@@ -47,7 +47,7 @@ AC_DEFUN([GNOME_VFS_CHECKS],[
       AC_CHECK_FUNCS(pmap_getport pmap_getmaps rresvport)
       dnl add for source routing support setsockopt
       AC_CHECK_HEADERS(rpc/pmap_clnt.h)
-      vfs_flags="$vfs_flags, mcfs, ftpfs"
+      vfs_flags="$vfs_flags, mcfs, ftpfs, fish"
       use_net_code=true
   fi
 
