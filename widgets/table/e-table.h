@@ -110,6 +110,7 @@ typedef struct {
 	guint row_selection_active : 1;
 
 	guint horizontal_scrolling : 1;
+	guint horizontal_resize : 1;
 
 	guint is_grouped : 1;
 

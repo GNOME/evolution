@@ -193,15 +193,26 @@ e_table_state_change (ETable *et)
 }
 
 static void
-structure_changed (ETableHeader *header, ETable *et)
+e_table_header_change (ETable *et)
 {
 	e_table_state_change (et);
+	if (et->horizontal_resize) {
+		int width = e_table_header_total_width (et->header);
+		gtk_widget_set_usize (GTK_WIDGET (et->header_canvas), width,
+				      -2);
+	}
+}
+
+static void
+structure_changed (ETableHeader *header, ETable *et)
+{
+	e_table_header_change (et);
 }
 
 static void
 expansion_changed (ETableHeader *header, ETable *et)
 {
-	e_table_state_change (et);
+	e_table_header_change (et);
 }
 
 static void
@@ -302,43 +313,44 @@ e_table_init (GtkObject *object)
 
 	GTK_WIDGET_SET_FLAGS (e_table, GTK_CAN_FOCUS);
 
-	gtk_table->homogeneous                      = FALSE;
+	gtk_table->homogeneous          = FALSE;
 
-	e_table->sort_info                          = NULL;
-	e_table->group_info_change_id               = 0;
-	e_table->sort_info_change_id                = 0;
-	e_table->structure_change_id                = 0;
-	e_table->expansion_change_id                = 0;
-	e_table->reflow_idle_id                     = 0;
-	e_table->scroll_idle_id               = 0;
+	e_table->sort_info              = NULL;
+	e_table->group_info_change_id   = 0;
+	e_table->sort_info_change_id    = 0;
+	e_table->structure_change_id    = 0;
+	e_table->expansion_change_id    = 0;
+	e_table->reflow_idle_id         = 0;
+	e_table->scroll_idle_id         = 0;
 
-	e_table->alternating_row_colors             = 1;
-	e_table->horizontal_draw_grid               = 1;
-	e_table->vertical_draw_grid                 = 1;
-	e_table->draw_focus                         = 1;
-	e_table->cursor_mode                        = E_CURSOR_SIMPLE;
-	e_table->length_threshold                   = 200;
-	e_table->uniform_row_height                 = FALSE;
+	e_table->alternating_row_colors = 1;
+	e_table->horizontal_draw_grid   = 1;
+	e_table->vertical_draw_grid     = 1;
+	e_table->draw_focus             = 1;
+	e_table->cursor_mode            = E_CURSOR_SIMPLE;
+	e_table->length_threshold       = 200;
+	e_table->uniform_row_height     = FALSE;
 
-	e_table->need_rebuild                       = 0;
-	e_table->rebuild_idle_id                    = 0;
+	e_table->need_rebuild           = 0;
+	e_table->rebuild_idle_id        = 0;
 
-	e_table->horizontal_scrolling               = FALSE;
+	e_table->horizontal_scrolling   = FALSE;
+	e_table->horizontal_resize      = FALSE;
 
-	e_table->click_to_add_message               = NULL;
+	e_table->click_to_add_message   = NULL;
 
-	e_table->drag_get_data_row                  = -1;
-	e_table->drag_get_data_col                  = -1;
-	e_table->drop_row                           = -1;
-	e_table->drop_col                           = -1;
-	e_table->site                               = NULL;
+	e_table->drag_get_data_row      = -1;
+	e_table->drag_get_data_col      = -1;
+	e_table->drop_row               = -1;
+	e_table->drop_col               = -1;
+	e_table->site                   = NULL;
 
-	e_table->do_drag                            = 0;
+	e_table->do_drag                = 0;
 
-	e_table->sorter                             = NULL;
-	e_table->selection                          = e_table_selection_model_new();
-	e_table->cursor_loc                         = E_TABLE_CURSOR_LOC_NONE;
-	e_table->spec                               = NULL;
+	e_table->sorter                 = NULL;
+	e_table->selection              = e_table_selection_model_new();
+	e_table->cursor_loc             = E_TABLE_CURSOR_LOC_NONE;
+	e_table->spec                   = NULL;
 }
 
 /* Grab_focus handler for the ETable */
@@ -401,7 +413,7 @@ header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_
 	   header is correct */
 	if (GTK_WIDGET (e_table->header_canvas)->allocation.height !=
 	    E_TABLE_HEADER_ITEM (e_table->header_item)->height)
-		gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1,
+		gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -2,
 				      E_TABLE_HEADER_ITEM (e_table->header_item)->height);
 }
 
@@ -453,7 +465,7 @@ e_table_setup_header (ETable *e_table)
 		GTK_OBJECT (e_table->header_canvas), "size_allocate",
 		GTK_SIGNAL_FUNC (header_canvas_size_allocate), e_table);
 
-	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1,
+	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -2,
 			      E_TABLE_HEADER_ITEM (e_table->header_item)->height);
 }
 
@@ -665,7 +677,7 @@ et_table_row_changed (ETableModel *table_model, int row, ETable *et)
 	if (!et->need_rebuild) {
 		if (e_table_group_remove (et->group, row))
 			e_table_group_add (et->group, row);
-		if (et->horizontal_scrolling)
+		if (et->horizontal_scrolling || et->horizontal_resize)
 			e_table_header_update_horizontal(et->header);
 	}
 }
@@ -687,7 +699,7 @@ et_table_rows_inserted (ETableModel *table_model, int row, int count, ETable *et
 			e_table_group_increment(et->group, row, count);
 		for (i = 0; i < count; i++)
 			e_table_group_add (et->group, row + i);
-		if (et->horizontal_scrolling)
+		if (et->horizontal_scrolling || et->horizontal_resize)
 			e_table_header_update_horizontal(et->header);
 	}
 }
@@ -702,7 +714,7 @@ et_table_rows_deleted (ETableModel *table_model, int row, int count, ETable *et)
 			e_table_group_remove (et->group, row + i);
 		if (row != row_count)
 			e_table_group_decrement(et->group, row, count);
-		if (et->horizontal_scrolling)
+		if (et->horizontal_scrolling || et->horizontal_resize)
 			e_table_header_update_horizontal(et->header);
 	}
 }
@@ -798,7 +810,7 @@ changed_idle (gpointer data)
 	et->need_rebuild = 0;
 	et->rebuild_idle_id = 0;
 
-	if (et->horizontal_scrolling)
+	if (et->horizontal_scrolling || et->horizontal_resize)
 		e_table_header_update_horizontal(et->header);
 
 	return FALSE;
@@ -1237,6 +1249,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	connect_header (e_table, state);
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
+	e_table->horizontal_resize = specification->horizontal_resize;
 	e_table->allow_grouping = specification->allow_grouping;
 
 	e_table->sort_info = state->sort_info;

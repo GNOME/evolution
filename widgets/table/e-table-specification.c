@@ -83,6 +83,7 @@ etsp_init (ETableSpecification *etsp)
 	etsp->vertical_draw_grid     = FALSE;
 	etsp->draw_focus             = TRUE;
 	etsp->horizontal_scrolling   = FALSE;
+	etsp->horizontal_resize      = FALSE;
 	etsp->allow_grouping         = TRUE;
 
 	etsp->cursor_mode            = E_CURSOR_SIMPLE;
@@ -191,6 +192,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	}
 	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, "draw-focus", TRUE);
 	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-scrolling", FALSE);
+	specification->horizontal_resize = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-resize", FALSE);
 	specification->allow_grouping = e_xml_get_bool_prop_by_name_with_default (node, "allow-grouping", TRUE);
 
 	specification->selection_mode = GTK_SELECTION_MULTIPLE;
@@ -335,6 +337,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	e_xml_set_bool_prop_by_name (node, "vertical-draw-grid", specification->vertical_draw_grid);
 	e_xml_set_bool_prop_by_name (node, "draw-focus", specification->draw_focus);
 	e_xml_set_bool_prop_by_name (node, "horizontal-scrolling", specification->horizontal_scrolling);
+	e_xml_set_bool_prop_by_name (node, "horizontal-resize", specification->horizontal_resize);
 	e_xml_set_bool_prop_by_name (node, "allow-grouping", specification->allow_grouping);
 
 	switch (specification->selection_mode){
