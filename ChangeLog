@@ -1,3 +1,7 @@
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/C/usage-exec-summary.sgml: Made it build.
+
 2001-06-19  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Tweak the db3 header check to like our RH7 build
