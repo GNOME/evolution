@@ -1,3 +1,14 @@
+2003-05-06  Chris Toshok  <toshok@ximian.com>
+
+	[ really commit this, fixes bug #41910 ] 
+	* gui/contact-list-editor/e-contact-list-model.c
+	(e_contact_list_model_remove_row): change from model_changed to
+	row_deleted here.  model_changed causes the table to free its
+	ETableSelection, which is what we iterate over when deleting
+	contacts.
+	(e_contact_list_model_add_destination): no need to be calling
+	model_changed here either.
+
 2003-04-29  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #41255 ]
@@ -23,18 +34,6 @@
 
 	* tools/evolution-addressbook-export-list-cards.c
 	(set_pre_defined_field): remove duplicate HOME_COUNTRY field add.
-
-2003-04-28  Chris Toshok  <toshok@ximian.com>
-
-	[ fixes bug #41910 ] 
-	* gui/contact-list-editor/e-contact-list-model.c
-	(e_contact_list_model_remove_row): change from model_changed to
-	row_deleted here.  model_changed causes the table to free its
-	ETableSelection, which is what we iterate over when deleting
-	contacts.
-	(e_contact_list_model_add_destination): no need to be calling
-	model_changed here either.
-
 
 2003-04-28  Chris Toshok  <toshok@ximian.com>
 
