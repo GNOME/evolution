@@ -46,8 +46,9 @@ struct _EFolderPrivate {
 	int child_highlight;
 	int unread_count;
 
-	int self_highlight : 1;
-	int is_stock : 1;
+	unsigned int self_highlight : 1;
+	unsigned int is_stock : 1;
+	unsigned int can_sync_offline : 1;
 };
 
 #define EF_CLASS(obj) \
@@ -148,14 +149,15 @@ init (EFolder *folder)
 	EFolderPrivate *priv;
 
 	priv = g_new (EFolderPrivate, 1);
-	priv->type            = NULL;
-	priv->name            = NULL;
-	priv->description     = NULL;
-	priv->physical_uri    = NULL;
-	priv->child_highlight = 0;
-	priv->unread_count    = 0;
-	priv->self_highlight  = FALSE;
-	priv->is_stock        = FALSE;
+	priv->type             = NULL;
+	priv->name             = NULL;
+	priv->description      = NULL;
+	priv->physical_uri     = NULL;
+	priv->child_highlight  = 0;
+	priv->unread_count     = 0;
+	priv->self_highlight   = FALSE;
+	priv->is_stock         = FALSE;
+	priv->can_sync_offline = FALSE;
 
 	folder->priv = priv;
 }
@@ -274,6 +276,9 @@ e_folder_set_name (EFolder *folder,
 	g_return_if_fail (E_IS_FOLDER (folder));
 	g_return_if_fail (name != NULL);
 
+	if (folder->priv->name == name)
+		return;
+
 	g_free (folder->priv->name);
 	folder->priv->name = g_strdup (name);
 
@@ -315,6 +320,9 @@ e_folder_set_physical_uri (EFolder *folder,
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (E_IS_FOLDER (folder));
 	g_return_if_fail (physical_uri != NULL);
+
+	if (folder->priv->physical_uri == physical_uri)
+		return;
 
 	g_free (folder->priv->physical_uri);
 	folder->priv->physical_uri = g_strdup (physical_uri);
@@ -361,6 +369,25 @@ e_folder_set_is_stock (EFolder *folder,
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
+void
+e_folder_set_can_sync_offline (EFolder *folder,
+			       gboolean can_sync_offline)
+{
+	g_return_if_fail (E_IS_FOLDER (folder));
+
+	folder->priv->can_sync_offline = !! can_sync_offline;
+
+	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+}
+
+gboolean
+e_folder_get_can_sync_offline (EFolder *folder)
+{
+	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
+
+	return folder->priv->can_sync_offline;
+}
+
 
 /* Gotta love CORBA.  */
 
@@ -372,12 +399,13 @@ e_folder_to_corba (EFolder *folder,
 	g_return_if_fail (E_IS_FOLDER (folder));
 	g_return_if_fail (folder_return != NULL);
 
-	folder_return->type         = e_safe_corba_string_dup (e_folder_get_type_string (folder));
-	folder_return->description  = e_safe_corba_string_dup (e_folder_get_description (folder));
-	folder_return->displayName  = e_safe_corba_string_dup (e_folder_get_name (folder));
-	folder_return->physicalUri  = e_safe_corba_string_dup (e_folder_get_physical_uri (folder));
-	folder_return->evolutionUri = e_safe_corba_string_dup (evolution_uri);
-	folder_return->unreadCount  = e_folder_get_unread_count (folder);
+	folder_return->type           = e_safe_corba_string_dup (e_folder_get_type_string (folder));
+	folder_return->description    = e_safe_corba_string_dup (e_folder_get_description (folder));
+	folder_return->displayName    = e_safe_corba_string_dup (e_folder_get_name (folder));
+	folder_return->physicalUri    = e_safe_corba_string_dup (e_folder_get_physical_uri (folder));
+	folder_return->evolutionUri   = e_safe_corba_string_dup (evolution_uri);
+	folder_return->unreadCount    = e_folder_get_unread_count (folder);
+	folder_return->canSyncOffline = e_folder_get_can_sync_offline (folder);
 }
 
 

@@ -1,5 +1,28 @@
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Evolution-Offline.idl (syncFolder): Remove exception.
+	(cancelSyncFolder): Remove exception.
+
+	* e-shell-config-offline.c (storage_set_view_has_checkbox_func):
+	New.
+	(e_shell_config_offline_create_control): Pass it as the
+	@has_checkbox_func.
+
+	* e-folder.c: New member can_sync_offline in EFolderPrivate.
+	(init): Init to FALSE.
+	(e_folder_get_can_sync_offline): New.
+	(e_folder_to_corba): Set canSyncOffline in the returned CORBA
+	folder.
+	(e_folder_set_physical_uri): Protect from when @physical_uri and
+	->physical_uri are the same thing.
+	(e_folder_set_description): Same here with description.
+	(e_folder_set_type_string): And type.
+
+	* Evolution-common.idl: New member canSyncOffline in struct
+	Folder.
+
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-config-offline.c
 	(e_shell_config_offline_create_control): Pass NULL for
 	@has_checkbox_func and @has_checkbox_func_data.

@@ -155,6 +155,20 @@ init_storage_set_view_status_from_config (EStorageSetView *storage_set_view,
 	CORBA_exception_free (&ev);
 }
 
+static gboolean
+storage_set_view_has_checkbox_func (EStorageSet *storage_set,
+				    const char *path,
+				    void *data)
+{
+	EFolder *folder;
+
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder == NULL)
+		return FALSE;
+
+	return e_folder_get_can_sync_offline (folder);
+}
+
 BonoboObject *
 e_shell_config_offline_create_control (EShell *shell)
 {
@@ -168,7 +182,7 @@ e_shell_config_offline_create_control (EShell *shell)
 
 	page_data->storage_set_view = e_storage_set_new_view (e_shell_get_storage_set (shell), NULL);
         e_storage_set_view_set_show_checkboxes (E_STORAGE_SET_VIEW (page_data->storage_set_view), TRUE,
-						NULL, NULL);
+						storage_set_view_has_checkbox_func, NULL);
 	gtk_widget_show (page_data->storage_set_view);
 
 	init_storage_set_view_status_from_config (E_STORAGE_SET_VIEW (page_data->storage_set_view), shell);

@@ -17,6 +17,7 @@ module Evolution {
 		string physicalUri;
 		string evolutionUri;
 		long unreadCount;
+		boolean canSyncOffline;
 	};
 	typedef sequence <Folder> FolderList;
 

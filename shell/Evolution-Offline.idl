@@ -59,13 +59,11 @@ interface Offline : Bonobo::Unknown {
 	/* Request the component to sync the specified folder.  This has to
 	   happen after ::prepareForOffline.  */
 	oneway void syncFolder (in Folder folder,
-				in SyncFolderProgressListener listener)
-		raises (notPrepared);
+				in SyncFolderProgressListener listener);
 
 	/* Request the component to stop syncing the specified folder.  This
 	   has to happen after ::syncFolder.  */
-	oneway void cancelSyncFolder (in Folder folder)
-		raises (notSyncing);
+	oneway void cancelSyncFolder (in Folder folder);
 
 	/* Ask the component to go into off-line mode.  This always comes after
 	   a ::prepareForOffline. */
