@@ -1,3 +1,8 @@
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* e-config.c (ec_rebuild): set the default row/col spacings of the
+	table.
+
 2004-10-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-config.c (ec_rebuild): check for empty trailing sections/pages
