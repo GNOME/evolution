@@ -446,10 +446,10 @@ static void
 rename_folder (CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
 	CamelLocalFolder *folder = NULL;
-	char *oldibex, *newibex;
+	char *oldibex, *newibex, *newdir;
+	int errnosav;
 	
 	if (new[0] == '.' || ignore_file (new, TRUE)) {
-		printf ("exception: The new folder name is illegal.\n");
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("The new folder name is illegal."));
 		return;
@@ -460,21 +460,46 @@ rename_folder (CamelStore *store, const char *old, const char *new, CamelExcepti
 	oldibex = mbox_folder_name_to_meta_path (store, old, ".ibex");
 	newibex = mbox_folder_name_to_meta_path (store, new, ".ibex");
 	
-	folder = camel_object_bag_get (store->folders, old);
-	if (folder && folder->index) {
-		if (camel_index_rename (folder->index, newibex) == -1)
-			goto ibex_failed;
-	} else {
-		/* TODO: camel_text_index_rename should find out if we have an active index itself? */
-		if (camel_text_index_rename (oldibex, newibex) == -1)
-			goto ibex_failed;
+	newdir = g_path_get_dirname (newibex);
+	if (camel_mkdir (newdir, 0777) == -1) {
+		if (errno != EEXIST) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not rename `%s': `%s': %s"),
+					      old, new, g_strerror (errno));
+			g_free (oldibex);
+			g_free (newibex);
+			g_free (newdir);
+			
+			return;
+		}
+		
+		g_free (newdir);
+		newdir = NULL;
 	}
 	
-	if (xrename (store, old, new, ".ev-summary", TRUE, ex))
-		goto summary_failed;
+	folder = camel_object_bag_get (store->folders, old);
+	if (folder && folder->index) {
+		if (camel_index_rename (folder->index, newibex) == -1 && errno != ENOENT) {
+			errnosav = errno;
+			goto ibex_failed;
+		}
+	} else {
+		/* TODO: camel_text_index_rename should find out if we have an active index itself? */
+		if (camel_text_index_rename (oldibex, newibex) == -1 && errno != ENOENT) {
+			errnosav = errno;
+			goto ibex_failed;
+		}
+	}
 	
-	if (xrename (store, old, new, NULL, FALSE, ex))
+	if (xrename (store, old, new, ".ev-summary", TRUE, ex) == -1) {
+		errnosav = errno;
+		goto summary_failed;
+	}
+	
+	if (xrename (store, old, new, NULL, FALSE, ex) == -1) {
+		errnosav = errno;
 		goto base_failed;
+	}
 	
 	g_free (oldibex);
 	g_free (newibex);
@@ -495,11 +520,18 @@ rename_folder (CamelStore *store, const char *old, const char *new, CamelExcepti
 			camel_index_rename (folder->index, oldibex);
 	} else
 		camel_text_index_rename (newibex, oldibex);
+	
  ibex_failed:
+	
+	if (newdir) {
+		/* newdir is only non-NULL if we needed to mkdir */
+		rmdir (newdir);
+		g_free (newdir);
+	}
 	
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 			      _("Could not rename '%s': %s"),
-			      old, g_strerror (errno));
+			      old, g_strerror (errnosav));
 	
 	g_free (newibex);
 	g_free (oldibex);

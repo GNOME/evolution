@@ -1,3 +1,12 @@
+2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-store.c (rename_folder): Make sure
+	the new dir path exists before trying to rename files to avoid
+	ENOENT errors. Also save errno when we encounter errors so that we
+	can report the true error later rather than an error we may get
+	while reverting changes. Also, it is OK if the ibex files don't
+	exist, so check for that errno case.
+
 2004-01-28  Sivaih Nallagatla <snallagatla@novell.com>
 
 	* providers/groupwise/camel-gw-listener.c (account_changed)
