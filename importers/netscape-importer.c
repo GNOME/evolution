@@ -315,6 +315,8 @@ netscape_import_accounts (NetscapeImporter *importer)
 	id.organization = CORBA_string_dup (nstr ? nstr : "");
 	nstr = netscape_get_string ("mail.signature_file");
 	id.signature = CORBA_string_dup (nstr ? nstr : "");
+	id.html_signature = CORBA_string_dup ("");
+	id.has_html_signature = FALSE;
 
 	/* Create transport */
 	nstr = netscape_get_string ("network.hosts.smtp_server");
