@@ -370,7 +370,7 @@ static void
 command_xml_dump (gpointer    dummy,
 		  EShellView *view)
 {
-	bonobo_win_dump (BONOBO_WIN (view), "On demand");
+	bonobo_window_dump (BONOBO_WINDOW (view), "On demand");
 }
 
 

@@ -1746,7 +1746,7 @@ debug_xml_cb (GtkWidget *widget, gpointer data)
 	EventEditor *ee = EVENT_EDITOR (data);
 	EventEditorPrivate *priv = ee->priv;
 	
-	bonobo_win_dump (BONOBO_WIN (priv->app), "on demand");
+	bonobo_window_dump (BONOBO_WINDOW (priv->app), "on demand");
 }
 
 /* File/Save callback */
@@ -1904,7 +1904,7 @@ event_editor_construct (EventEditor *ee)
 	}
 
 	/* Construct the app */
-	bonobo_win = bonobo_win_new ("event-editor-dialog", "Event Editor");
+	bonobo_win = bonobo_window_new ("event-editor-dialog", "Event Editor");
 
 	/* FIXME: The sucking bit */
 	{
@@ -1918,14 +1918,14 @@ event_editor_construct (EventEditor *ee)
 		}
 		gtk_widget_ref (contents);
 		gtk_container_remove (GTK_CONTAINER (contents->parent), contents);
-		bonobo_win_set_contents (BONOBO_WIN (bonobo_win), contents);
+		bonobo_window_set_contents (BONOBO_WINDOW (bonobo_win), contents);
 		gtk_widget_destroy (priv->app);
 		priv->app = bonobo_win;
 	}
 
 	{
 		BonoboUIContainer *container = bonobo_ui_container_new ();
-		bonobo_ui_container_set_win (container, BONOBO_WIN (priv->app));
+		bonobo_ui_container_set_win (container, BONOBO_WINDOW (priv->app));
 		bonobo_ui_component_set_container (
 			priv->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	}

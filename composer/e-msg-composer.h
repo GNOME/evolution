@@ -49,7 +49,7 @@ extern "C" {
 
 
 struct _EMsgComposer {
-	BonoboWin parent;
+	BonoboWindow parent;
 	
 	BonoboUIComponent *uic;
 	
@@ -75,7 +75,7 @@ struct _EMsgComposer {
 };
 
 struct _EMsgComposerClass {
-	BonoboWinClass parent_class;
+	BonoboWindowClass parent_class;
 	
 	void (* send) (EMsgComposer *composer);
 	void (* postpone) (EMsgComposer *composer);

@@ -24,12 +24,12 @@ create_container (void)
 	gtk_widget_set_default_colormap (gdk_rgb_get_cmap ());
 	gtk_widget_set_default_visual (gdk_rgb_get_visual ());
 
-	window = bonobo_win_new ("Test", "test");
+	window = bonobo_window_new ("Test", "test");
 	gtk_widget_set_usize (GTK_WIDGET (window), 640, 480);
 	gtk_widget_show (GTK_WIDGET (window));
 
 	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (BONOBO_WIN (window), container);
+	bonobo_ui_container_set_win (BONOBO_WINDOW (window), container);
 
 	control = bonobo_widget_new_control (
 		"OAFIID:control:evolution-mail:833d5a71-a201-4a0e-b7e6-5475c5c4cb45",

@@ -892,7 +892,7 @@ save_settings_for_component (EShell *shell,
 
 	CORBA_exception_init (&ev);
 
-	session_interface = Bonobo_Unknown_query_interface (unknown_interface, "IDL:Evolution/Session:1.0", &ev);
+	session_interface = Bonobo_Unknown_queryInterface (unknown_interface, "IDL:Evolution/Session:1.0", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || CORBA_Object_is_nil (session_interface, &ev)) {
 		CORBA_exception_free (&ev);
 		return TRUE;

@@ -962,11 +962,11 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	CORBA_exception_init (&ev);
 
 	/* Construct the app */
-	sc->app = bonobo_win_new ("subscribe-dialog", "Manage Subscriptions");
+	sc->app = bonobo_window_new ("subscribe-dialog", "Manage Subscriptions");
 
 	/* Build the menu and toolbar */
 	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WIN (sc->app));
+	bonobo_ui_container_set_win (container, BONOBO_WINDOW (sc->app));
 
 	/* set up the bonobo stuff */
 	component = bonobo_ui_component_new_default ();
@@ -1092,7 +1092,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	e_paned_add2 (E_PANED (sc->hpaned), sc->table);
 	e_paned_set_position (E_PANED (sc->hpaned), DEFAULT_STORE_TABLE_WIDTH);
 
-	bonobo_win_set_contents (BONOBO_WIN (sc->app), sc->hpaned);
+	bonobo_window_set_contents (BONOBO_WINDOW (sc->app), sc->hpaned);
 
 #if 0
 	gtk_widget_show (sc->description);

@@ -56,13 +56,13 @@ enum _EShellViewSubwindowMode {
 typedef enum _EShellViewSubwindowMode EShellViewSubwindowMode;
 
 struct _EShellView {
-	BonoboWin parent;
+	BonoboWindow parent;
 
 	EShellViewPrivate *priv;
 };
 
 struct _EShellViewClass {
-	BonoboWinClass parent_class;
+	BonoboWindowClass parent_class;
 
 	/* Signals.  */
 	void (* shortcut_bar_mode_changed) (EShellView *shell_view, EShellViewSubwindowMode new_mode);

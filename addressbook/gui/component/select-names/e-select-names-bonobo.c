@@ -174,7 +174,7 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 				 BONOBO_ARG_STRING, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
 
-	bonobo_control_set_property_bag (control, property_bag);
+	bonobo_control_set_properties (control, property_bag);
 
 	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
 }

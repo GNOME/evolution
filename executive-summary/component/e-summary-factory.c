@@ -134,9 +134,9 @@ control_activate_cb (BonoboControl *control,
 		}
 
 		CORBA_exception_init (&ev);
-		shell_view_interface = Bonobo_Unknown_query_interface (control_frame,
-								       "IDL:Evolution/ShellView:1.0",
-								       &ev);
+		shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
+								      "IDL:Evolution/ShellView:1.0",
+								      &ev);
 		CORBA_exception_free (&ev);
 
 		if (shell_view_interface != CORBA_OBJECT_NIL) {
