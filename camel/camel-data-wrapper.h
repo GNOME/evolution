@@ -27,7 +27,6 @@
 #ifndef CAMEL_DATA_WRAPPER_H
 #define CAMEL_DATA_WRAPPER_H 1
 
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -44,10 +43,11 @@ extern "C" {
 struct _CamelDataWrapper
 {
 	CamelObject parent_object;
-
+	struct _CamelDataWrapperPrivate *priv;
+	
 	CamelContentType *mime_type;
 	CamelStream *stream;
-
+	
 	unsigned int offline:1;
 	unsigned int rawtext:1;
 };

@@ -183,9 +183,24 @@ struct _CamelVeeFolderPrivate {
 #define CAMEL_VEE_FOLDER_UNLOCK(f, l)
 #endif
 
+struct _CamelDataWrapperPrivate {
+#ifdef ENABLE_THREADS
+	pthread_mutex_t stream_lock;
+#else
+	gpointer dummy;
+#endif
+};
+
+#ifdef ENABLE_THREADS
+#define CAMEL_DATA_WRAPPER_LOCK(dw, l)   (pthread_mutex_lock(&((CamelDataWrapper *)dw)->priv->l))
+#define CAMEL_DATA_WRAPPER_UNLOCK(dw, l) (pthread_mutex_unlock(&((CamelDataWrapper *)dw)->priv->l))
+#else
+#define CAMEL_DATA_WRAPPER_LOCK(dw, l)
+#define CAMEL_DATA_WRAPPER_UNLOCK(dw, l)
+#endif
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_H */
-
+#endif /* CAMEL_PRIVATE_H */
