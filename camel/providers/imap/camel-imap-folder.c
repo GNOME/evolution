@@ -635,7 +635,20 @@ message_changed (CamelMimeMessage *m, int type, CamelImapFolder *mf)
 static CamelMimeMessage *
 imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	/* NOTE: extremely easy to do in IMAP - just needa code it ;-) */
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
+	CamelImapStream *imap_stream;
+	CamelMimeMessage *message;
+	gchar *cmdid, *cmdbuf;
+
+	
+}
+
+#if 0
+static CamelMimeMessage *
+imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+{
+	/* NOTE: oh boy, this is gonna be complicated */
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelStreamMem *message_stream = NULL;
 	CamelMimeMessage *message = NULL;
@@ -726,6 +739,7 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 
 	return NULL;
 }
+#endif
 
 GPtrArray *
 imap_get_summary (CamelFolder *folder, CamelException *ex)

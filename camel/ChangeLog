@@ -1,3 +1,9 @@
+2000-06-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Will now always
+	send EHLO first, if that fails it will fall back on HELO.
+	(esmtp_get_authtypes): Should now correctly parse authtypes.
+
 2000-06-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-summary.c: Now builds (not that it's worth much yet).

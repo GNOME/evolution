@@ -128,12 +128,13 @@ camel_smtp_transport_get_type (void)
 static gboolean
 smtp_connect (CamelService *service, CamelException *ex)
 {
+	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 	struct hostent *h;
 	struct sockaddr_in sin;
 	gint fd, num, i;
 	guint32 addrlen;
 	gchar *pass = NULL, *respbuf = NULL;
-	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
+
 
 	if (!service_class->connect (service, ex))
 		return FALSE;
@@ -188,7 +189,17 @@ smtp_connect (CamelService *service, CamelException *ex)
 	g_free (respbuf);
 
 	/* send HELO (or EHLO, depending on the service type) */
-	smtp_helo (transport, ex);
+	if (!transport->smtp_is_esmtp) {
+		/* If we did not auto-detect ESMTP, we should still send EHLO */
+		transport->smtp_is_esmtp = TRUE;
+		if (!smtp_helo (transport, ex)) {
+			/* Okay, apprently this server doesn't support ESMTP */
+			transport->smtp_is_esmtp = FALSE;
+			smtp_helo (transport, ex);
+		}
+	} else {
+		smtp_helo (transport, ex);
+	}
 
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
 	if (transport->smtp_is_esmtp && transport->esmtp_supported_authtypes) {
@@ -239,11 +250,11 @@ static GList
 	GList *ret = NULL;
 	gchar *start, *end;
 
-	if (!(start = strstr (buffer, " AUTH ")))
+	if (!(start = strstr (buffer, "AUTH")))
 		return NULL;
 
 	/* advance to the first token */
-	for (start += 6; *start && *start != ' '; start++);
+	for (start += 4; *start && *start != ' ' && *start != '='; start++);
 
 	for ( ; *start; ) {
 		/* advance to the end of the token */
