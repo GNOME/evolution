@@ -166,6 +166,7 @@ e_cert_selector_new(int type, const char *currentid)
 
 	w = glade_xml_get_widget(gui, "cert_selector_vbox");
 	gtk_box_pack_start((GtkBox *)((GtkDialog *)ecs)->vbox, w, TRUE, TRUE, 3);
+	gtk_window_set_title(GTK_WINDOW(ecs), _("Select certificate"));
 
 	switch (type) {
 	case E_CERT_SELECTOR_SIGNER:

@@ -1,3 +1,8 @@
+2004-05-17  Jon Oberheide  <jon@focalhost.com>
+
+	* gui/e-cert-selector.c (e_cert_selector_new): add "Select
+	certificate" title to the previously untitled dialog.
+
 2004-05-19  James Willcox  <jwillcox@gnome.org>
 
 	* lib/e-cert-db.c: (pk11_password):
