@@ -1,3 +1,8 @@
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-account-gui.c: Add prototype for static function
+	`service_changed'.
+
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* importers/Makefile.am (INCLUDES): Add `$(EXTRA_GNOME_CFLAGS)'
