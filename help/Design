@@ -8,7 +8,7 @@ Miguel de Icaza.
 	Evolution is a project aiming at providing the free software
 	community with a professional, high-quality tool for managing
 	mail, appointments, tasks and other personal information
-	tools.
+	tools.  
 
 	We want to make Evolution a system that addresses our needs
 	(the free software development community) and we believe that
@@ -20,10 +20,59 @@ Miguel de Icaza.
 	features, and to make the user interface as pretty and
 	polished as possible.
 
-	Evolution is a GNOME application.
+	Evolution is a GNOME application and a number of auxiliary
+	CORBA servers that act as the storage backends. 
 
 	Evolution will copy the best user interface bits and the best
 	ideas and features found on contemporary groupware systems.
+
+* Evolution internals.
+
+	Evolution can store its information locally (files for mail,
+	calendar and address book) or on a remote server (imap/pop,
+	cap, ldap).  
+
+	Given the importance of syncing in this modern PDA world,
+	the Evolution GUI acts as a client to the data repository.
+	The data repository is a GUI-less CORBA server called Wombat.
+
+	Wombat provides a unified access system to the calendar and
+	addressbook data (doing mail is a bit hard, so we are leaving
+	this as a TODO item for now).
+
+	Wombat's CORBA interfaces are notifier-based.  This means that
+	CORBA requests sent to Wombat do not return values
+	inmediately, but rather than for Wombat requests the user has
+	to provide a CORBA object that will be notified of what
+	happened.
+
+	Yes, that sounds hairy.  It is actually pretty simple.  It
+	basically means that you submit requests to Wombat, and a
+	callback is invoked in your code when the request has been
+	carried away. 
+
+	This enables a Palm to sync to the repository without having
+	the GUI for Evolution running.  It also means that volunteers
+	will be able to write text-based and web-based versions of
+	Evolution (not me though :-).
+
+* Evolution as a platform
+
+	Evolution is more than a client for managing the above
+	information: Evolution is a platform for building groupware
+	applications that use the above components to get their work done.
+
+	To achieve this Evolution is designed to be scriptable, and it
+	exports its internals trough CORBA/Bonobo.  It is implemented
+	as a collection of Bonobo containers and Bonobo components.
+
+	There is a clean separation between the views (the user
+	interface) and the model (the view).  The views that we are
+	writing are GNOME based, and they talk to the Wombat CORBA
+	server.
+
+	Wombat takes care of notifications to the various clients for
+	the data. 
 
 * The overall organization
 
@@ -88,6 +137,20 @@ Miguel de Icaza.
 	users to add annotations to mails, and special keywords and
 	flags in a per-message fashion).
 
+** Folders
+
+	Michael Zucchi is working on a system that will let users
+	easily define rules for splitting their incoming mail into
+	physical folders.  
+
+	A further refinement to Folders are Virtual Folders.  This
+	basically provides a powerful search and viewing facility for
+	mail.  It works like this: when a mail is "incorporated" into
+	Evolution it is scanned and indexed.
+
+	Then users can enter queries into Evolution that will search
+	the entire database of messages.	
+
 ** Virtual folders
 
 	Virtual folders will enable users to read/browse their mail in
@@ -131,5 +194,8 @@ Miguel de Icaza.
 	for including attachments, editing the message, archiving
 	drafts and archiving messages sent.
 
-	We will probably be extending the GtkHTML engine to support
-	editing of HTML text.
+	Ettore has been working on adding editing support to the
+	GtkHTML and he is working currently on a Bonobo component that
+	will provide a ready-to-use Bonobo control for embedding into
+	other applications.
+
