@@ -1,3 +1,8 @@
+2003-02-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* Makefile.am: Make .server file point to where wombat is now
+	installed.
+
 2003-01-29  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am: Install wombat to

@@ -64,7 +64,7 @@ server_in_files = GNOME_Evolution_Wombat.server.in.in
 serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@LIBEXECDIR\@|$(evolibexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
