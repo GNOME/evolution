@@ -23,12 +23,6 @@
  */
 
 #include <config.h>
-#include <sys/stat.h>
-#include <utime.h>
-#include <unistd.h>
-#include <pwd.h>
-#include <signal.h>
-#include <errno.h>
 
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
@@ -37,12 +31,12 @@
 #include <pi-socket.h>
 #include <pi-file.h>
 #include <pi-dlp.h>
-#include <pi-version.h>
 #include <ebook/e-book.h>
 #include <ebook/e-card-types.h>
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-simple.h>
+#include <e-pilot-util.h>
 
 #define ADDR_CONFIG_LOAD 1
 #define ADDR_CONFIG_DESTROY 1
@@ -55,7 +49,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.0"
+#define CONDUIT_VERSION "0.1.1"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -304,22 +298,22 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 
 	if (ecard->name) {
 		if (ecard->name->given)
-			local->addr->entry[entryFirstname] = strdup (ecard->name->given);
+			local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (ecard->name->given);
 		if (ecard->name->family)
-			local->addr->entry[entryLastname] = strdup (ecard->name->family);
+			local->addr->entry[entryLastname] = e_pilot_utf8_to_pchar (ecard->name->family);
 		if (ecard->org)
-			local->addr->entry[entryCompany] = strdup (ecard->org);
+			local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (ecard->org);
 		if (ecard->title)
-			local->addr->entry[entryTitle] = strdup (ecard->title);
+			local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (ecard->title);
 	}
 
 	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_HOME);
 	if (delivery) {
-		local->addr->entry[entryAddress] = strdup (delivery->street);
-		local->addr->entry[entryCity] = strdup (delivery->city);
-		local->addr->entry[entryState] = strdup (delivery->region);
-		local->addr->entry[entryZip] = strdup (delivery->code);
-		local->addr->entry[entryCountry] = strdup (delivery->country);
+		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (delivery->street);
+		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (delivery->city);
+		local->addr->entry[entryState] = e_pilot_utf8_to_pchar (delivery->region);
+		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (delivery->code);
+		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (delivery->country);
 	}
 	
 	for (i = 0; i <= 7; i++) {
@@ -344,7 +338,7 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE);
 		
 		if (phone_str) {
-			local->addr->entry[phone] = strdup (phone_str);
+			local->addr->entry[phone] = e_pilot_utf8_to_pchar (phone_str);
 			local->addr->phoneLabel[phone - entryPhone1] = i;
 			phone++;
 		}

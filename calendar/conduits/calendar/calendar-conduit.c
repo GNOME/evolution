@@ -23,16 +23,9 @@
  */
 
 #include <config.h>
-#include <sys/stat.h>
-#include <utime.h>
-#include <unistd.h>
-#include <pwd.h>
-#include <signal.h>
-#include <errno.h>
 
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
-#include <gnome-xml/parser.h>
 #include <cal-client/cal-client-types.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
@@ -40,8 +33,8 @@
 #include <pi-socket.h>
 #include <pi-file.h>
 #include <pi-dlp.h>
-#include <pi-version.h>
 #include <libical/src/libical/icaltypes.h>
+#include <e-pilot-util.h>
 
 #define CAL_CONFIG_LOAD 1
 #define CAL_CONFIG_DESTROY 1
@@ -54,7 +47,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.3"
+#define CONDUIT_VERSION "0.1.4"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -375,13 +368,13 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	   uses free to deallocate */
 	cal_component_get_summary (comp, &summary);
 	if (summary.value) 
-		local->appt->description = strdup ((char *) summary.value);
+		local->appt->description = e_pilot_utf8_to_pchar (summary.value);
 
 	cal_component_get_description_list (comp, &d_list);
 	if (d_list) {
 		description = (CalComponentText *) d_list->data;
 		if (description && description->value)
-			local->appt->note = strdup (description->value);
+			local->appt->note = e_pilot_utf8_to_pchar (description->value);
 		else
 			local->appt->note = NULL;
 	} else {
@@ -540,8 +533,9 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 	cal_component_set_last_modified (comp, &now);
 
-	summary.value = appt.description;
+	summary.value = e_pilot_utf8_from_pchar (appt.description);
 	cal_component_set_summary (comp, &summary);
+	free (summary.value);
 
 	/* The iCal description field */
 	if (!appt.note) {
@@ -550,12 +544,13 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		GSList l;
 		CalComponentText text;
 
-		text.value = appt.note;
+		text.value = e_pilot_utf8_from_pchar (appt.note);
 		text.altrep = NULL;
 		l.data = &text;
 		l.next = NULL;
 
 		cal_component_set_description_list (comp, &l);
+		free (text.value);
 	} 
 
 	if (!is_empty_time (appt.begin)) {

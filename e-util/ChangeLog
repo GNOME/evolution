@@ -1,3 +1,12 @@
+2000-12-19  JP Rosevear  <jpr@helixcode.com>
+
+	* e-pilot-util.c (e_pilot_utf8_to_pchar): Convert utf8 strings to
+	pilot character set
+	(e_pilot_utf8_from_pchar): vice versa
+
+	* Makefile.am: Conditionally build e-pilot-util.[hc] because
+	they depend on pilot-link stuff
+
 2000-12-13  Larry Ewing  <lewing@helixcode.com>
 
 	* e-html-utils.c (e_text_to_html): make sure we actually make

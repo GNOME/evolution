@@ -7,9 +7,9 @@ INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
 	$(EXTRA_GNOME_CFLAGS)			\
 	$(UNICODE_CFLAGS)			\
+	$(PISOCK_INCLUDEDIR)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
-	-DG_LOG_DOMAIN=\"e-utils\"		\
-	$(UNICODE_CFLAGS)
+	-DG_LOG_DOMAIN=\"e-utils\"
 
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la \
 	libeconduit.la libeconduit-static.la
@@ -45,9 +45,16 @@ libeutil_la_LIBADD = $(UNICODE_LIBS)
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LDFLAGS = --all-static
 
+if ENABLE_PILOT_CONDUITS
+pl_needed = e-pilot-util.c e-pilot-util.h
+else
+pl_needed = 
+endif
+
 libeconduit_la_SOURCES =		\
 	e-pilot-map.c			\
-	e-pilot-map.h
+	e-pilot-map.h			\
+	$(pl_needed)
 
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = --all-static
