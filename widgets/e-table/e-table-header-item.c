@@ -923,21 +923,183 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	g_hash_table_destroy (arrows);
 }
 
+typedef struct {
+	ETableHeaderItem *ethi;
+	int col;
+} EthiHeaderInfo;
+
 static void
-ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
+ethi_popup_sort_ascending(GtkWidget *widget, EthiHeaderInfo *info)
 {
-	gtk_signal_emit (GTK_OBJECT (ethi),
-			 ethi_signals [BUTTON_PRESSED], event);
+	ETableCol *col;
+	int model_col;
+	int length;
+	int i;
+	int found = FALSE;
+	ETableHeaderItem *ethi = info->ethi;
+
+	col = e_table_header_get_column (ethi->eth, info->col);
+	model_col = col->col_idx;
+
+	length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+	for (i = 0; i < length; i++) {
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
+		if (model_col == column.column){
+			column.ascending = 1;
+			e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
+			found = 1;
+			break;
+		}
+	}
+	if (!found) {
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		for (i = 0; i < length; i++) {
+			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
+			if (model_col == column.column){
+				column.ascending = 1;
+				e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
+				found = 1;
+				break;
+			}
+		}
+	}
+	if (!found) {
+		ETableSortColumn column = { model_col, 1 };
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		if (length == 0)
+			length++;
+		e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
+	}
+}
+
+static void
+ethi_popup_sort_descending(GtkWidget *widget, EthiHeaderInfo *info)
+{
+	ETableCol *col;
+	int model_col;
+	int length;
+	int i;
+	int found = FALSE;
+	ETableHeaderItem *ethi = info->ethi;
+
+	col = e_table_header_get_column (ethi->eth, info->col);
+	model_col = col->col_idx;
+
+	length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+	for (i = 0; i < length; i++) {
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
+		if (model_col == column.column){
+			column.ascending = 0;
+			e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
+			found = 1;
+			break;
+		}
+	}
+	if (!found) {
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		for (i = 0; i < length; i++) {
+			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
+			if (model_col == column.column){
+				column.ascending = 0;
+				e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
+				found = 1;
+				break;
+			}
+		}
+	}
+	if (!found) {
+		ETableSortColumn column = { model_col, 0 };
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		if (length == 0)
+			length++;
+		e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
+	}
+}
+
+static void
+ethi_popup_group_field(GtkWidget *widget, EthiHeaderInfo *info)
+{
+	ETableCol *col;
+	int model_col;
+	ETableHeaderItem *ethi = info->ethi;
+	ETableSortColumn column;
+
+	col = e_table_header_get_column (ethi->eth, info->col);
+	model_col = col->col_idx;
+
+	column.column = model_col;
+	column.ascending = 1;
+	e_table_sort_info_grouping_set_nth(ethi->sort_info, 0, column);
+	e_table_sort_info_grouping_truncate(ethi->sort_info, 1);
+}
+
+static void
+ethi_popup_group_box(GtkWidget *widget, EthiHeaderInfo *info)
+{
+}
+
+static void
+ethi_popup_remove_column(GtkWidget *widget, EthiHeaderInfo *info)
+{
+}
+
+static void
+ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
+{
+}
+
+static void
+ethi_popup_alignment(GtkWidget *widget, EthiHeaderInfo *info)
+{
+}
+
+static void
+ethi_popup_best_fit(GtkWidget *widget, EthiHeaderInfo *info)
+{
+}
+
+static void
+ethi_popup_format_columns(GtkWidget *widget, EthiHeaderInfo *info)
+{
+}
+
+static void
+ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
+{
 }
 
 static EPopupMenu ethi_context_menu [] = {
+	{ "Sort Ascending",            NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  0},
+	{ "Sort Descending",           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 0},
+	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       0},
+	{ "Group By This Field",       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     0},
+	{ "Group By Box",              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       1},
+	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       1},
+	{ "Remove This Column",        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   1},
+	{ "Field Chooser",             NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   1},
+	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       1},
+	{ "Alignment",                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       1},
+	{ "Best Fit",                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        1},
+	{ "Format Columns...",         NULL, GTK_SIGNAL_FUNC(ethi_popup_format_columns),  1},
+	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       1},
+	{ "Customize Current View...", NULL, GTK_SIGNAL_FUNC(ethi_popup_customize_view),  1},
 	{ NULL, NULL, NULL, 0 }
 };
 
 static void
 ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 {
-	e_popup_menu_run (ethi_context_menu, event, 0, ethi);
+	EthiHeaderInfo *info = g_new(EthiHeaderInfo, 1);
+	info->ethi = ethi;
+	info->col = ethi_find_col_by_x (ethi, event->x);
+	e_popup_menu_run (ethi_context_menu, event, 1, info);
+}
+
+static void
+ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
+{
+	gtk_signal_emit (GTK_OBJECT (ethi),
+			 ethi_signals [BUTTON_PRESSED], event);
 }
 
 /*
@@ -993,18 +1155,18 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_BUTTON_PRESS:
 		convert (canvas, e->button.x, e->button.y, &x, &y);
 
-		if (is_pointer_on_division (ethi, x, &start, &col)){
+		if (is_pointer_on_division (ethi, x, &start, &col) && e->button.button == 1){
 			ETableCol *ecol;
-			
-			/*
-			 * Record the important bits.
-			 *
-			 * By setting resize_pos to a non -1 value,
-			 * we know that we are being resized (used in the
-			 * other event handlers).
-			 */
+				
+				/*
+				 * Record the important bits.
+				 *
+				 * By setting resize_pos to a non -1 value,
+				 * we know that we are being resized (used in the
+				 * other event handlers).
+				 */
 			ecol = e_table_header_get_column (ethi->eth, col);
-
+			
 			if (!ecol->resizeable)
 				break;
 			ethi->resize_col = col;
@@ -1021,11 +1183,11 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				ethi_button_pressed (ethi, &e->button);
 		}
 		break;
-
+		
 	case GDK_2BUTTON_PRESS:
 		if (!resizing)
 			break;
-
+		
 		if (e->button.button != 1)
 			break;
 		break;
@@ -1034,7 +1196,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		gboolean needs_ungrab = FALSE;
 		
 		was_maybe_drag = ethi->maybe_drag;
-
+		
 		ethi->maybe_drag = FALSE;
 
 		if (ethi->resize_col != -1){

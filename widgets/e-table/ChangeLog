@@ -1,5 +1,12 @@
 2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-header-item.c: Added right click menus to the table
+	header items.
+
+	* e-table-sort-info.c: Fixed a small bug.
+
+2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table.c: Make scrollbar arrow buttons work.
 
 2000-05-19  Christopher James Lahey  <clahey@helixcode.com>

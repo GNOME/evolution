@@ -250,6 +250,7 @@ etsv_sort(ETableSortedVariable *etsv)
 	ETableSubset *etss = E_TABLE_SUBSET(etsv);
 	static int reentering = 0;
 	int rows = E_TABLE_SUBSET(etsv)->n_map;
+	int total_rows = e_table_model_row_count(E_TABLE_SUBSET(etsv)->source);
 	int i;
 	int j;
 	int cols;
@@ -260,7 +261,7 @@ etsv_sort(ETableSortedVariable *etsv)
 	cols_closure = cols;
 	etsv_closure = etsv;
 	printf ("starting\n");
-	vals_closure = g_new(void *, rows * cols);
+	vals_closure = g_new(void *, total_rows * cols);
 	ascending_closure = g_new(int, cols);
 	compare_closure = g_new(GCompareFunc, cols);
 	for (j = 0; j < cols; j++) {
@@ -277,7 +278,7 @@ etsv_sort(ETableSortedVariable *etsv)
 					gtk_main_iteration();
 			}
 #endif
-			vals_closure[i * cols + j] = e_table_model_value_at (etss->source, col->col_idx, i);
+			vals_closure[E_TABLE_SUBSET(etsv)->map_table[i] * cols + j] = e_table_model_value_at (etss->source, col->col_idx, E_TABLE_SUBSET(etsv)->map_table[i]);
 		}
 		compare_closure[j] = col->compare;
 		ascending_closure[j] = column.ascending;
