@@ -3,11 +3,13 @@
   <para>
     The Ximian Connector for Microsoft Exchange allows Ximian
     Evolution clients to access accounts on Microsoft Exchange 2000
-    servers. It is available for a fee from the Ximian online store at
-    <ulink
+    servers. It is available through Ximian Red Carpet in its own
+    channel, but cannot be used without a license file.  The license
+    file may be purchased from the Ximian online store at <ulink
     url="http://store.ximian.com">store.ximian.com</ulink>. Unlike the
-    regular Ximian Evolution client, it is proprietary software and
-    source code is not available.
+    regular Ximian Evolution client, the Ximian Connector for
+    Microsoft Exchange is proprietary software and source code is not
+    available.
   </para>
   <para>
     The Ximian Connector offers a significant price advantage over
@@ -70,8 +72,9 @@
   <sect1 id="features">
     <title>Connector Features</title>
     <para>
-      <application>Ximian Connector</application> supports numerous
-      features of <application>Microsoft Exchange</application>:
+      <application>Ximian Connector</application> supports the most
+      often used features of <application>Microsoft
+      Exchange</application>:
       <itemizedlist>
 	<listitem>
 	  <para>
@@ -111,12 +114,11 @@
 	      </listitem>
 	    </varlistentry>
 	    <varlistentry>
-	      <term>Sending Email via Exchagne Protocols</term>
+	      <term>Sending Email via Exchange Protocols</term>
 	      <listitem>
 		<para>
-		  If your <application>Exchange</application> server
-		  does not support SMTP: Choose "Microsoft Exchange" as
-		  the transport when configuring the account.
+		  You may use the Microsoft Exchange mail transport
+		  protocol to send email.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -187,65 +189,55 @@
 	    </varlistentry>
 	  </variablelist>
 	</listitem>
-	<listitem>
-	  <para>
-	    Features Not Implemented for 1.0
-	  </para>
-	  <variablelist>
-	    <varlistentry>
-	      <term>Sharing Information under
-		<application>Exchange</application></term>
+</itemizedlist>
+</para>
+
+<para>
+There are, however, some features which are not available:
+<itemizedlist>
+
 	      <listitem>
 		<para>
-		  No support for public folders, delegate access, and
-		  shared folders for 1.0
+		  Access to shared and public folders
 	      </para>
 	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term>Journal and Notes folders</term>
 	    <listitem>
 	      <para>
+                Journal and Notes components
 	      </para>
 	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term>Offline or Disconnected Status</term>
 	    <listitem>
 	      <para>
-		Support for offline or disconnected status in mail and
-		calendar not supported
+		Work Offline (disconnected mode) support
 	      </para>
 	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term>Out-of-Office Replies, Recalling Messages, and other
-	    such features</term>
 	    <listitem>
 	      <para>
-		Such features which only
-		<application>Exchange</application> supports are not
-		yet supported.
+               "Recall Message"
 	      </para>
 	    </listitem>
-	  </varlistentry>
-	</variablelist>
-      </listitem>
+
+	    <listitem>
+	      <para>
+               Creation of an automatic "out-of-office" reply message
+	      </para>
+	    </listitem>
+
       </itemizedlist>
     </para>
   </sect1>
   <sect1 id="install">
     <title>Installing the Connector</title>
     <para>
-<!-- Is this seriously how we do this?  Because I've never seen it in
-       the XG channel -->
        To install the Ximian Connector, run Ximian Red Carpet by
        selecting <menuchoice><guimenu>System</guimenu><guimenuitem>Get
        Software</guimenuitem></menuchoice>.  Subscribe to the Ximian
-       GNOME channel, select the Ximian Connector for Microsoft
-       <application>Exchange</application>2000, and click the <guibutton>Install</guibutton>
-       button.  You can also install the Connector by downloading the
-       individual packages from ftp.ximian.com if you wish.
+       Connector for Microsoft Exchange channel, select the Ximian
+       Connector for Microsoft
+       <application>Exchange</application>2000, and click the
+       <guibutton>Install</guibutton> button.  You can also install
+       the Connector by downloading the individual packages from
+       ftp.ximian.com if you wish.
    </para>
    <para>
        Once you have installed the software, you will also need to
