@@ -54,6 +54,8 @@ struct _FilterDriverPrivate {
 
 	CamelFolder *source;	/* temporary input folder */
 
+	GList *searches;	/* search results */
+
 	CamelException *ex;
 
 	/* evaluator */
@@ -231,7 +233,7 @@ do_delete(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 		uid = p->matches->pdata[i];
 		printf(" %s\n", uid);
 
-		camel_folder_delete_message (p->source, uid);
+		camel_folder_delete_message(p->source, uid);
 	}
 	return NULL;
 }
@@ -275,7 +277,7 @@ mark_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 				if (g_hash_table_lookup_extended(p->copies, uid, &old_key, &old_value))
 					g_hash_table_insert(p->copies, old_key, g_list_prepend(old_value, outbox));
 				else
-					g_hash_table_insert(p->copies, g_strdup(uid), g_list_append(NULL, outbox));
+					g_hash_table_insert(p->copies, uid, g_list_append(NULL, outbox));
 			}
 		}
 	}
@@ -291,10 +293,10 @@ do_stop(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 
 	printf("doing stop on the following messages:\n");
-	for (i = 0; i < p->matches->len; i++) {
+	for (i=0; i<p->matches->len; i++) {
 		uid = p->matches->pdata[i];
 		printf(" %s\n", uid);
-		g_hash_table_insert(p->terminated, g_strdup(uid), (void *)1);
+		g_hash_table_insert(p->terminated, uid, (void *)1);
 	}
 	return NULL;
 }
@@ -302,7 +304,22 @@ do_stop(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 static ESExpResult *
 do_colour(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 {
-	/* FIXME: implement */
+	int i;
+	char *uid;
+	struct _FilterDriverPrivate *p = _PRIVATE(d);
+	CamelMessageInfo *info;
+
+	if (argc>0 && argv[0]->type == ESEXP_RES_STRING) {
+		for (i=0 ; i<p->matches->len; i++) {
+			uid = p->matches->pdata[i];
+			info = (CamelMessageInfo *)camel_folder_get_message_info(p->source, uid);
+			if (info) {
+				printf("assinging colour %s to %s\n", argv[0]->value.string, info->uid);
+				camel_tag_set(&info->user_tags, "colour", argv[0]->value.string);
+			}
+		}
+	}
+
 	return NULL;
 }
 
@@ -353,28 +370,6 @@ close_folders(FilterDriver *d)
 	return 0;
 }
 
-#if 0
-int
-filter_driver_rule_count(FilterDriver *d)
-{
-	struct _FilterDriverPrivate *p = _PRIVATE(d);
-	return g_list_length(p->options);
-}
-
-struct filter_option *
-filter_driver_rule_get(FilterDriver *d, int n)
-{
-	struct _FilterDriverPrivate *p = _PRIVATE(d);
-	return g_list_nth_data(p->options, n);
-}
-#endif
-
-static void
-free_key (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free(key);
-}
-
 int
 filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 {
@@ -385,6 +380,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	char *uid;
 	int i;
 	FilterFilter *rule;
+	GList *l;
 
 	/* FIXME: needs to check all failure cases */
 	p->source = source;
@@ -417,10 +413,12 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		for (i = 0; i < p->matches->len; i++) {
 			uid = p->matches->pdata[i];
 
+#if 0
 			/* for all matching id's, so we can work out what to default */
 			if (g_hash_table_lookup(p->processed, uid) == NULL) {
-				g_hash_table_insert(p->processed, g_strdup(uid), (void *)1);
+				g_hash_table_insert(p->processed, uid, (void *)1);
 			}
+#endif
 
 			if (g_hash_table_lookup(p->terminated, uid)) {
 				g_ptr_array_remove_index_fast(p->matches, i);
@@ -434,8 +432,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		r = e_sexp_eval(p->eval);
 		e_sexp_result_free(r);
 
-		g_strfreev((char **)p->matches->pdata);
-		g_ptr_array_free(p->matches, FALSE);
+		p->searches = g_list_append(p->searches, p->matches);
 	}
 
 	g_string_free(s, TRUE);
@@ -455,21 +452,20 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		copies = g_hash_table_lookup(p->copies, uid);
 		procuid = g_hash_table_lookup(p->processed, uid);
 
-		info = camel_folder_get_message_info (p->source, uid);
+		info = camel_folder_get_message_info(p->source, uid);
 		
 		if (copies || !procuid) {
 			mm = camel_folder_get_message(p->source, uid, p->ex);
 
 			while (copies) {
-				camel_folder_append_message(copies->data, mm, info ? info->flags : 0, p->ex);
+				camel_folder_append_message(copies->data, mm, info, p->ex);
 				tmp = copies->next;
 				g_list_free_1(copies);
 				copies = tmp;
 			}
 
 			if (!procuid) {
-				printf("Applying default rule to message %s\n", uid);
-				camel_folder_append_message(inbox, mm, info ? info->flags : 0, p->ex);
+				camel_folder_append_message(inbox, mm, info, p->ex);
 			}
 
 			gtk_object_unref((GtkObject *)mm);
@@ -478,11 +474,16 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	}
 	camel_folder_free_uids(p->source, all);
 
-	g_hash_table_foreach(p->copies, free_key, NULL);
+	/* now we no longer need our keys */
+	l = p->searches;
+	while (l) {
+		camel_folder_search_free(p->source, l->data);
+		l = l->next;
+	}
+	g_list_free(p->searches);
+
 	g_hash_table_destroy(p->copies);
-	g_hash_table_foreach(p->processed, free_key, NULL);
 	g_hash_table_destroy(p->processed);
-	g_hash_table_foreach(p->terminated, free_key, NULL);
 	g_hash_table_destroy(p->terminated);
 	close_folders(d);
 	g_hash_table_destroy(p->folders);
