@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-10-31 22:07+0300\n"
-"PO-Revision-Date: 2000-10-31 23:01+03:00\n"
+"POT-Creation-Date: 2000-11-01 17:39+0300\n"
+"PO-Revision-Date: 2000-11-01 19:08+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,13 +20,17 @@ msgstr "Карточка: "
 msgid ""
 "\n"
 "Name: "
-msgstr "\nИмя: "
+msgstr ""
+"\n"
+"Имя: "
 
 #: addressbook/backend/ebook/e-card.c:3047
 msgid ""
 "\n"
 "  Prefix:     "
-msgstr "\n  Префикс:    "
+msgstr ""
+"\n"
+"  Префикс:    "
 
 #: addressbook/backend/ebook/e-card.c:3048
 msgid ""
@@ -38,7 +42,9 @@ msgstr ""
 msgid ""
 "\n"
 "  Additional: "
-msgstr "\n  Добавочный: "
+msgstr ""
+"\n"
+"  Добавочный: "
 
 #: addressbook/backend/ebook/e-card.c:3050
 msgid ""
@@ -50,61 +56,81 @@ msgstr ""
 msgid ""
 "\n"
 "  Suffix:     "
-msgstr "\n  Суффикс:     "
+msgstr ""
+"\n"
+"  Суффикс:     "
 
 #: addressbook/backend/ebook/e-card.c:3065
 msgid ""
 "\n"
 "Birth Date: "
-msgstr "\nДата рождения: "
+msgstr ""
+"\n"
+"Дата рождения: "
 
 #: addressbook/backend/ebook/e-card.c:3076
 msgid ""
 "\n"
 "Address:"
-msgstr "\nАдрес:"
+msgstr ""
+"\n"
+"Адрес:"
 
 #: addressbook/backend/ebook/e-card.c:3078
 msgid ""
 "\n"
 "  Postal Box:  "
-msgstr "\nПочтовый ящик:  "
+msgstr ""
+"\n"
+"Почтовый ящик:  "
 
 #: addressbook/backend/ebook/e-card.c:3079
 msgid ""
 "\n"
 "  Ext:         "
-msgstr "\n  Расш.:        "
+msgstr ""
+"\n"
+"  Расш.:        "
 
 #: addressbook/backend/ebook/e-card.c:3080
 msgid ""
 "\n"
 "  Street:      "
-msgstr "\n  Улица:     "
+msgstr ""
+"\n"
+"  Улица:     "
 
 #: addressbook/backend/ebook/e-card.c:3081
 msgid ""
 "\n"
 "  City:        "
-msgstr "\n  Город:      "
+msgstr ""
+"\n"
+"  Город:      "
 
 #: addressbook/backend/ebook/e-card.c:3082
 msgid ""
 "\n"
 "  Region:      "
-msgstr "\n  Область:      "
+msgstr ""
+"\n"
+"  Область:      "
 
 #: addressbook/backend/ebook/e-card.c:3083
 msgid ""
 "\n"
 "  Postal Code: "
-msgstr "\n  Почтовый код: "
+msgstr ""
+"\n"
+"  Почтовый код: "
 
 #: addressbook/backend/ebook/e-card.c:3084
 msgid ""
 "\n"
 "  Country:     "
-msgstr "\n  Страна:     "
+msgstr ""
+"\n"
+"  Страна:     "
 
 #: addressbook/backend/ebook/e-card.c:3097
 msgid ""
@@ -116,25 +142,33 @@ msgstr ""
 msgid ""
 "\n"
 "Telephones:\n"
-msgstr "\nТелефоны:\n"
+msgstr ""
+"\n"
+"Телефоны:\n"
 
 #: addressbook/backend/ebook/e-card.c:3112
 msgid ""
 "\n"
 "Telephone:"
-msgstr "\nТелефон:"
+msgstr ""
+"\n"
+"Телефон:"
 
 #: addressbook/backend/ebook/e-card.c:3136
 msgid ""
 "\n"
 "E-mail:\n"
-msgstr "\nЭл.адрес:\n"
+msgstr ""
+"\n"
+"Эл.адрес:\n"
 
 #: addressbook/backend/ebook/e-card.c:3139
 msgid ""
 "\n"
 "E-mail:"
-msgstr "\nЭл.адрес:"
+msgstr ""
+"\n"
+"Эл.адрес:"
 
 #: addressbook/backend/ebook/e-card.c:3158
 msgid ""
@@ -146,20 +180,23 @@ msgstr ""
 msgid ""
 "\n"
 "Time Zone: "
-msgstr "\nЧасовой пояс: "
+msgstr ""
+"\n"
+"Часовой пояс: "
 
 #: addressbook/backend/ebook/e-card.c:3172
 msgid ""
 "\n"
 "Geo Location: "
-msgstr "\nГеогр.положение: "
+msgstr ""
+"\n"
+"Геогр.положение: "
 
 #: addressbook/backend/ebook/e-card.c:3176
-#, fuzzy
 msgid ""
 "\n"
 "Business Role: "
-msgstr "Рабочий 2"
+msgstr "\nДолжность: "
 
 #: addressbook/backend/ebook/e-card.c:3188
 msgid ""
@@ -171,7 +208,9 @@ msgstr ""
 msgid ""
 "\n"
 "  Name:  "
-msgstr "\n  Имя:  "
+msgstr ""
+"\n"
+"  Имя:  "
 
 #: addressbook/backend/ebook/e-card.c:3190
 msgid ""
@@ -201,13 +240,17 @@ msgstr ""
 msgid ""
 "\n"
 "Categories: "
-msgstr "\nкатегории: "
+msgstr ""
+"\n"
+"категории: "
 
 #: addressbook/backend/ebook/e-card.c:3198
 msgid ""
 "\n"
 "Comment: "
-msgstr "\nКомментарии: "
+msgstr ""
+"\n"
+"Комментарии: "
 
 #. if (crd->sound.prop.used) {
 #. if (crd->sound.type != SOUND_PHONETIC)
@@ -223,22 +266,26 @@ msgstr "\nКомментарии: "
 msgid ""
 "\n"
 "Unique String: "
-msgstr "\nУникальная строка: "
+msgstr ""
+"\n"
+"Уникальная строка: "
 
 #: addressbook/backend/ebook/e-card.c:3214
 msgid ""
 "\n"
 "Public Key: "
-msgstr "\nПубличный ключ: "
+msgstr ""
+"\n"
+"Публичный ключ: "
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:1064
+#: addressbook/conduit/address-conduit.c:910
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1058
-#: calendar/conduits/todo/todo-conduit.c:932 calendar/gui/main.c:55
+#: calendar/conduits/calendar/calendar-conduit.c:1091
+#: calendar/conduits/todo/todo-conduit.c:965 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
@@ -361,25 +408,28 @@ msgstr ""
 "При попытке получить список Пилотов\n"
 "от демона gnome-pilot возникла ошибка"
 
-#: addressbook/conduit/address-conduit.c:194
-#: addressbook/conduit/address-conduit.c:208
-msgid "BLARG\n"
-msgstr "BLARG\n"
+#: addressbook/conduit/address-conduit.c:193
+msgid "Cursor could not be loaded\n"
+msgstr "Курсор не может быть загружен\n"
 
-#: addressbook/conduit/address-conduit.c:638
-#: calendar/conduits/calendar/calendar-conduit.c:622
-#: calendar/conduits/todo/todo-conduit.c:495
+#: addressbook/conduit/address-conduit.c:206
+msgid "EBook not loaded\n"
+msgstr "EBook не загружена\n"
+
+#: addressbook/conduit/address-conduit.c:490
+#: calendar/conduits/calendar/calendar-conduit.c:651
+#: calendar/conduits/todo/todo-conduit.c:524
 msgid "Could not start wombat server"
 msgstr "Не удалось запустить сервер wombat"
 
-#: addressbook/conduit/address-conduit.c:639
-#: calendar/conduits/calendar/calendar-conduit.c:623
-#: calendar/conduits/todo/todo-conduit.c:496
+#: addressbook/conduit/address-conduit.c:491
+#: calendar/conduits/calendar/calendar-conduit.c:652
+#: calendar/conduits/todo/todo-conduit.c:525
 msgid "Could not start wombat"
 msgstr "Не удалось запустить wombat"
 
-#: addressbook/conduit/address-conduit.c:665
-#: addressbook/conduit/address-conduit.c:668
+#: addressbook/conduit/address-conduit.c:517
+#: addressbook/conduit/address-conduit.c:520
 msgid "Could not read pilot's Address application block"
 msgstr "Невозможно прочесть блок приложения адресов Пилота"
 
@@ -1205,13 +1255,13 @@ msgstr "Кондуит календаря Evolution"
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Средство настройки для кондуита календаря Evolution.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:578
-#: calendar/conduits/todo/todo-conduit.c:451
+#: calendar/conduits/calendar/calendar-conduit.c:607
+#: calendar/conduits/todo/todo-conduit.c:480
 msgid "Error while communicating with calendar server"
 msgstr "Ошибка при подключении к серверу календаря"
 
-#: calendar/conduits/calendar/calendar-conduit.c:676
-#: calendar/conduits/calendar/calendar-conduit.c:679
+#: calendar/conduits/calendar/calendar-conduit.c:706
+#: calendar/conduits/calendar/calendar-conduit.c:709
 msgid "Could not read pilot's Calendar application block"
 msgstr "Невозможно прочесть блок приложения календарь Пилота"
 
@@ -1223,8 +1273,8 @@ msgstr "Кондуит заданий Evolution"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Средство настройки для кондуита заданий Evolution.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:549
-#: calendar/conduits/todo/todo-conduit.c:552
+#: calendar/conduits/todo/todo-conduit.c:579
+#: calendar/conduits/todo/todo-conduit.c:582
 msgid "Could not read pilot's ToDo application block"
 msgstr "Невозможно прочесть блок приложения заданий Пилота"
 
@@ -1609,7 +1659,7 @@ msgid "Time Until Due"
 msgstr "Время до условленного"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44 calendar/gui/prop.c:611
-#: filter/libfilter-i18n.h:14
+#: filter/libfilter-i18n.h:18
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -1825,7 +1875,7 @@ msgstr "Пометить задание как выполненное"
 
 #: calendar/gui/e-calendar-table.c:300
 #: calendar/gui/event-editor-dialog.glade.h:73 filter/filter.glade.h:14
-#: filter/filter.glade.h:19 filter/libfilter-i18n.h:7
+#: filter/filter.glade.h:19 filter/libfilter-i18n.h:8
 #: mail/mail-config.glade.h:13 mail/mail-config.glade.h:18
 #: mail/mail-config.glade.h:24 mail/mail-view.c:163
 #: ui/evolution-addressbook.h:11 ui/evolution-contact-editor.h:12
@@ -1911,7 +1961,7 @@ msgstr "в"
 msgid "ocurrences"
 msgstr "случаи"
 
-#: calendar/gui/event-editor.c:2395 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:2397 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
@@ -2715,7 +2765,6 @@ msgid "MTWTFSS"
 msgstr "ПВСЧПСВ"
 
 #: calendar/gui/weekday-picker.c:328 calendar/gui/weekday-picker.c:418
-#, fuzzy
 msgid "SMTWTFS"
 msgstr "ПВСЧПСВ"
 
@@ -2814,27 +2863,27 @@ msgstr "Не удалось подключиться к %s (порт %d): %s"
 msgid "(unknown host)"
 msgstr "(неизвестный хост)"
 
-#: camel/camel-service.c:119
+#: camel/camel-service.c:120
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL \"%s\" нуждается в компоненте имени пользователя"
 
-#: camel/camel-service.c:128
+#: camel/camel-service.c:129
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL \\\"%s\\\" нуждается в компоненте хоста"
 
-#: camel/camel-service.c:137
+#: camel/camel-service.c:138
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL \\\"%s\\\" нуждается в компоненте пути"
 
-#: camel/camel-service.c:516
+#: camel/camel-service.c:497
 #, c-format
 msgid "No such host %s."
 msgstr "Нет такого хоста %s."
 
-#: camel/camel-service.c:519
+#: camel/camel-service.c:500
 #, c-format
 msgid "Temporarily unable to look up hostname %s."
 msgstr "Временно невозможно найти имя хоста %s."
@@ -3266,7 +3315,7 @@ msgstr ""
 "Не удалось подключиться к POP серверу.\n"
 "Ошибка отправки пароля: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:556
+#: camel/providers/pop3/camel-pop3-store.c:557
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Нет такой папки \"%s\""
@@ -3542,9 +3591,8 @@ msgid "Could not create composer window."
 msgstr "Невозможно создать окно редактора."
 
 #: composer/evolution-composer.c:307
-#, fuzzy
 msgid "Cannot initialize Evolution's composer."
-msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
+msgstr "Невозможно инициализировать редактор почты Evolution."
 
 #: filter/filter-datespec.c:61
 msgid "years"
@@ -3624,12 +3672,12 @@ msgstr "Сравнивать с"
 msgid "<click here to select a date>"
 msgstr "<щелкните здесь для выбора даты>"
 
-#: filter/filter-editor.c:159 mail/mail-autofilter.c:287
+#: filter/filter-editor.c:160 mail/mail-autofilter.c:287
 #: mail/mail-autofilter.c:336
 msgid "Add Filter Rule"
 msgstr "Добавить правило фильтра"
 
-#: filter/filter-editor.c:207
+#: filter/filter-editor.c:233
 msgid "Edit Filter Rule"
 msgstr "Правка правила фильтра"
 
@@ -3638,7 +3686,7 @@ msgstr "Правка правила фильтра"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: filter/filter-editor.c:404 filter/filter.glade.h:7
+#: filter/filter-editor.c:456 filter/filter.glade.h:7
 msgid "Edit Filters"
 msgstr "Правка фильтров"
 
@@ -3655,25 +3703,33 @@ msgstr "Добавить действие"
 msgid "Remove action"
 msgstr "Удалить действие"
 
-#: filter/filter-folder.c:186 filter/vfolder-rule.c:271
+#: filter/filter-folder.c:143
+msgid ""
+"Oops, you forgot to choose a folder.\n"
+"Please go back and specify a valid folder to deliver mail to."
+msgstr ""
+"Оп-ля... Вы забыли выбрать папку.\n"
+"Пожалуйста, вернитесь и укажите правильную папку для доставки почты."
+
+#: filter/filter-folder.c:212 filter/vfolder-rule.c:271
 msgid "Select Folder"
 msgstr "Выбрать папку"
 
-#: filter/filter-folder.c:209
+#: filter/filter-folder.c:235
 msgid "Enter folder URI"
 msgstr "Ввести URI папки"
 
-#: filter/filter-folder.c:254
+#: filter/filter-folder.c:281
 msgid "<click here to select a folder>"
 msgstr "<щелкните здесь для выбора папки>"
 
 #: filter/filter-input.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in regular expression '%s':\n"
 "%s"
 msgstr ""
-"Ошибка при подготовке к %s:\n"
+"Ошибка в регулярном выражении \"%s\":\n"
 "%s"
 
 #: filter/filter-part.c:458
@@ -3743,151 +3799,183 @@ msgid "vFolder Sources"
 msgstr "Источники вирт.папки"
 
 #. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2
+#: filter/libfilter-i18n.h:2 mail/message-list.c:524
+msgid "Answered"
+msgstr "Отвечено"
+
+#: filter/libfilter-i18n.h:3
 msgid "Assign Colour"
 msgstr "Связать цвет"
 
-#: filter/libfilter-i18n.h:3
+#: filter/libfilter-i18n.h:4
 msgid "Assign Score"
 msgstr "Связать подсчет"
 
-#: filter/libfilter-i18n.h:4
+#: filter/libfilter-i18n.h:5
 msgid "Copy to Folder"
 msgstr "Скопировать в папку"
 
-#: filter/libfilter-i18n.h:5
+#: filter/libfilter-i18n.h:6
 msgid "Date received"
 msgstr "Дата получения"
 
-#: filter/libfilter-i18n.h:6
+#: filter/libfilter-i18n.h:7
 msgid "Date sent"
 msgstr "Дата отправки"
 
-#: filter/libfilter-i18n.h:8
+#: filter/libfilter-i18n.h:9
+msgid "Deleted"
+msgstr "Удаленное"
+
+#: filter/libfilter-i18n.h:10
+msgid "Draft"
+msgstr "Черновики"
+
+#: filter/libfilter-i18n.h:11
 msgid "Expression"
 msgstr "Выражение"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:12
+msgid "Flagged"
+msgstr ""
+
+#: filter/libfilter-i18n.h:13
 msgid "Forward to Address"
 msgstr "Переслать по адресу"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:14
 msgid "Message Body"
 msgstr "Тело сообщения"
 
-#: filter/libfilter-i18n.h:11
+#: filter/libfilter-i18n.h:15
 msgid "Message was received"
 msgstr "Сообщение было получено"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:16
 msgid "Message was sent"
 msgstr "Сообщение было отправлено"
 
-#: filter/libfilter-i18n.h:13
+#: filter/libfilter-i18n.h:17
 msgid "Move to Folder"
 msgstr "Переместить в папку"
 
-#: filter/libfilter-i18n.h:15
+#: filter/libfilter-i18n.h:19
 msgid "Recipients"
 msgstr "Получатели"
 
-#: filter/libfilter-i18n.h:16
+#: filter/libfilter-i18n.h:20 mail/message-list.c:521
+msgid "Seen"
+msgstr "Прочитанное"
+
+#: filter/libfilter-i18n.h:21
 msgid "Sender"
 msgstr "Отправитель"
 
-#: filter/libfilter-i18n.h:17
+#: filter/libfilter-i18n.h:22
+msgid "Set Flag"
+msgstr "Установить флаг"
+
+#: filter/libfilter-i18n.h:23
 msgid "Source"
 msgstr "Источник"
 
-#: filter/libfilter-i18n.h:18
+#: filter/libfilter-i18n.h:24
 msgid "Specific header"
 msgstr "Специфический заголовок"
 
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:25
 msgid "Stop Processing"
 msgstr "Остановить обработку"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:26
 msgid "Subject"
 msgstr "Тема"
 
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:27
 msgid "after"
 msgstr "после"
 
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:28
 msgid "before"
 msgstr "до"
 
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:29
 msgid "contains"
 msgstr "содержит"
 
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:30
 msgid "does not contain"
 msgstr "не содержит"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:31
 msgid "does not end with"
 msgstr "не заканчивается на"
 
-#: filter/libfilter-i18n.h:26
+#: filter/libfilter-i18n.h:32
 msgid "does not exist"
 msgstr "не существует."
 
-#: filter/libfilter-i18n.h:27
+#: filter/libfilter-i18n.h:33
 msgid "does not match regex"
 msgstr "не совпадает с рег.выражением"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:34
+msgid "does not sound like"
+msgstr "звучит не как"
+
+#: filter/libfilter-i18n.h:35
 msgid "does not start with"
 msgstr "не начинается с"
 
-#: filter/libfilter-i18n.h:29
+#: filter/libfilter-i18n.h:36
 msgid "ends with"
 msgstr "заканчивается на"
 
-#: filter/libfilter-i18n.h:30
+#: filter/libfilter-i18n.h:37
 msgid "exists"
 msgstr "cуществует"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:38
 msgid "is greater than"
 msgstr "больше чем"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:39
 msgid "is less than"
 msgstr "меньше чем"
 
-#: filter/libfilter-i18n.h:33
+#: filter/libfilter-i18n.h:40
 msgid "is not"
 msgstr "не является"
 
-#: filter/libfilter-i18n.h:34
+#: filter/libfilter-i18n.h:41
 msgid "is"
 msgstr "является"
 
-#: filter/libfilter-i18n.h:35
+#: filter/libfilter-i18n.h:42
 msgid "matches regex"
 msgstr "совпадает с рег.выражением"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:43
 msgid "on or after"
 msgstr "на или после"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:44
 msgid "on or before"
 msgstr "на или до"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:45
+msgid "sounds like"
+msgstr "звучит как"
+
+#: filter/libfilter-i18n.h:46
 msgid "starts with"
 msgstr "начинается с"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:47
 msgid "was after"
 msgstr "было после"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:48
 msgid "was before"
 msgstr "было до"
 
@@ -4754,18 +4842,16 @@ msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения %d из %d (uid  \"%s\")"
 
 #: mail/mail-search-dialogue.c:101
-#, fuzzy
 msgid "Cancel"
-msgstr "Отменено"
+msgstr "Отмена"
 
 #: mail/mail-summary.c:96 mail/mail-threads.c:701
 msgid "Incomplete message written on pipe!"
 msgstr "Неполное сообщение записано в канал!"
 
 #: mail/mail-summary.c:365
-#, fuzzy
 msgid "Mailbox summary"
-msgstr "Нет итога"
+msgstr "Итог по почтовому ящику"
 
 #: mail/mail-threads.c:299
 #, c-format
@@ -4920,14 +5006,6 @@ msgstr "Удалить это сообщение"
 msgid "Unseen"
 msgstr "Непрочитанное"
 
-#: mail/message-list.c:521
-msgid "Seen"
-msgstr "Прочитанное"
-
-#: mail/message-list.c:524
-msgid "Answered"
-msgstr "Отвечено"
-
 #: mail/message-list.c:1572
 msgid "Open in New Window"
 msgstr "Открыть в новом окне"
@@ -4998,14 +5076,12 @@ msgid "Rebuild message view"
 msgstr "Перестроить окно сообщения"
 
 #: mail/message-thread.c:525
-#, fuzzy
 msgid "Threading message list"
 msgstr "Список подшитых сообщений"
 
 #: mail/message-thread.c:527
-#, fuzzy
 msgid "Thread message list"
-msgstr "Список подшитых сообщений"
+msgstr "Разбор списка сообщений"
 
 #: mail/subscribe-dialog.c:132
 msgid "Display folders containing:"
@@ -5983,7 +6059,7 @@ msgstr ""
 
 #: ui/evolution-event-editor.h:123
 msgid "FIXME: Script _Debugger"
-msgstr ""
+msgstr "FIXME: Отладчик скрипта"
 
 #: ui/evolution-event-editor.h:124
 msgid "Actio_ns"
@@ -6003,7 +6079,7 @@ msgstr ""
 
 #: ui/evolution-event-editor.h:128
 msgid "FIXME: Forward as v_Calendar"
-msgstr ""
+msgstr "FIXME: Переслать как v_Calendar"
 
 #: ui/evolution-event-editor.h:129
 msgid "FIXME: For_ward"
@@ -6023,7 +6099,7 @@ msgstr "Отладка"
 
 #: ui/evolution-event-editor.h:133
 msgid "FIXME: Insert File"
-msgstr ""
+msgstr "FIXME: Вставить файл"
 
 #.
 #. *  This file is autogenerated from evolution-mail.xml, do not edit
