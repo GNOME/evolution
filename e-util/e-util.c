@@ -20,8 +20,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "e-util.h"
 #include <glib.h>
+#include <gtk/gtkobject.h>
+
+#include "e-util.h"
 
 int
 g_str_compare(const void *x, const void *y)
@@ -38,4 +40,15 @@ g_int_compare(const void *x, const void *y)
     return 0;
   else
     return -1;
+}
+
+void
+e_free_object_list (GList *list)
+{
+	GList *p;
+
+	for (p = list; p != NULL; p = p->next)
+		gtk_object_unref (GTK_OBJECT (p->data));
+
+	g_list_free (list);
 }

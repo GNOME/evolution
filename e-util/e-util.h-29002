@@ -1,6 +1,9 @@
 #ifndef _E_UTIL_H_
 #define _E_UTIL_H_
 
+#include <glib.h>
+#include <gtk/gtktypeutils.h>
+
 #define E_MAKE_TYPE(l,str,t,ci,i,parent) \
 GtkType l##_get_type(void)\
 {\
@@ -19,8 +22,7 @@ GtkType l##_get_type(void)\
                 type = gtk_type_unique (parent, &info);\
 	}\
 	return type;\
-}\
-
+}
 
 typedef enum {
   E_FOCUS_NONE,
@@ -31,5 +33,7 @@ typedef enum {
 
 int g_str_compare(const void *x, const void *y);
 int g_int_compare(const void *x, const void *y);
+
+void e_free_object_list (GList *list);
 
 #endif /* _E_UTIL_H_ */

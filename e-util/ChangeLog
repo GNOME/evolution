@@ -1,3 +1,9 @@
+2000-05-03  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-util.h: #include <glib.h> and <gtk/gtktypeutils.h>.
+
+	* e-util.c (e_free_object_list): New utility function.
+
 2000-05-02  Damon Chaplin  <damon@helixcode.com>
 
 	* e-canvas.c (e_canvas_focus_in): 
