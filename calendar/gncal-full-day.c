@@ -12,6 +12,7 @@
 #include "eventedit.h"
 #include "gncal-full-day.h"
 #include "view-utils.h"
+#include "layout.h"
 #include "main.h"
 #include "popup-menu.h"
 
@@ -45,11 +46,6 @@ typedef struct {
 	int         items;	/* number of decoration bitmaps */
 	time_t      start, end;
 } Child;
-
-struct layout_row {
-	int  intersections;
-	int *slots;
-};
 
 struct drag_info {
 	enum {
@@ -778,145 +774,64 @@ calc_labels_width (GncalFullDay *fullday)
 	return max_w;
 }
 
-#define MAX_CHILDREN_ON_ROW 32
-
-#define xy(a,x,y) (a[((y) * MAX_CHILDREN_ON_ROW) + (x)])
-
-static int
-range_empty (char *array, int slot, int lower, int count)
-{
-	int i;
-
-	for (i = 0; i < count; i++)
-		if (xy (array, slot, lower+i) != 0)
-			return 0;
-	return 1;
-}
-
+/* Used with layout_events(), takes in a list element and returns the start and end times for the
+ * event corresponding to that element.
+ */
 static void
-range_allocate (char *array, int slot, int lower, int count, int val)
+child_layout_query_func (GList *event, time_t *start, time_t *end)
 {
-	int i;
+	Child *child;
 
-	for (i = 0; i < count; i++)
-		xy (array, slot, lower+i) = val;
+	child = event->data;
+
+	*start = child->start;
+	*end = child->end;
 }
 
-static int
-can_expand (char *array, int *allocations, int top_slot, int val, int lower, int count)
-{
-	int slot, i;
-	int cols = 0;
-
-	for (slot = allocations [val] + 1; slot < top_slot; slot++){
-		for (i = 0; i < count; i++)
-			if (xy (array, slot, lower+i))
-				return cols;
-		cols++;
-	}
-	return cols;
-}
-
-static void
-expand_space (char *array, int *allocations, int val, int lower, int count, int cols)
-{
-	int j, i, slot;
-
-	for (i = 0; i < count; i++){
-		slot = allocations [val] + 1;
-		for (j = 0; j < cols; j++)
-			xy (array, slot + j, lower+i) = val;
-	}
-}
-
+/* Takes the list of children in the full day view and lays them out nicely without overlapping.
+ * Basically it calls the layout_events() function in layout.c and resizes the fullday's children.
+ */
 static void
 layout_children (GncalFullDay *fullday)
 {
 	GtkWidget *widget;
-	int lines = (24 * 60) / fullday->interval;
-	char *array = g_malloc0 (sizeof (char) * lines * MAX_CHILDREN_ON_ROW);
 	GList *children;
-	int val, slot;
-	int  *allocations, *columns;
-	int top_slot = 0;
-	int left_x, cols;
-	int pixels_per_col, extra_pixels, extra, usable_pixels;
-	int child_count;
-	
+	Child *child;
+	int num_slots;
+	int *allocations;
+	int *slots;
+	int left_x;
+	int usable_pixels, pixels_per_col, extra_pixels;
+	int i;
+
 	if (!fullday->children)
 		return;
-	
-	/* initial allocation */
-	child_count = g_list_length (fullday->children) + 2;
-	allocations = g_malloc0 (sizeof (int) * child_count);
-	columns     = g_malloc0 (sizeof (int) * child_count);
-	val = 1;
-	for (children = fullday->children; children; children = children->next, val++){
-		Child *child = children->data;
 
-		allocations [val] = 0;
-		columns     [val] = 1;
-		for (slot = 0; slot < MAX_CHILDREN_ON_ROW; slot++){
-			if (range_empty (array, slot, child->lower_row, child->rows_used)){
-				/*
-				  printf ("Child %d uses %d-%d allocates slot=%d\n", val, child->lower_row,
-				  child->lower_row + child->rows_used, slot);
-				*/
-				
-				range_allocate (array, slot, child->lower_row, child->rows_used, val);
-				allocations [val] = slot;
-				columns     [val] = 1;
-				if (slot+1 > top_slot)
-					top_slot = slot+1;
-				break;
-			}
-		}
-	}
-#if DEBUGME
-	for (val = 0; val < 48; val++){
-		int j;
-		
-		printf ("%d: ", val);
-		for (j = 0; j < top_slot; j++){
-			printf (" %d", xy (array, j, val));
-		}
-		printf ("\n");
-	}
-#endif
-	/* Expand */
-	val = 1;
-	for (children = fullday->children; children; children = children->next, val++){
-		Child *child = children->data;
-		
-		cols = can_expand (array, allocations, top_slot, val, child->lower_row, child->rows_used);
-		/* printf ("Can expand regresa: %d\n", cols); */
-		if (!cols)
-			continue;
-		expand_space (array, allocations, val, child->lower_row, child->rows_used, cols);
-		columns [val] += cols;
-	}
+	layout_events (fullday->children, child_layout_query_func, &num_slots, &allocations, &slots);
 
-	/* Assign the spaces */
+	/* Set the size and position of each child */
+
 	widget = GTK_WIDGET (fullday);
 	left_x = 2 * (widget->style->klass->xthickness + TEXT_BORDER) + calc_labels_width (fullday);
 
-	usable_pixels  = widget->allocation.width-left_x - widget->style->klass->xthickness;
-	pixels_per_col = usable_pixels / top_slot;
-	extra_pixels   = usable_pixels % top_slot;
-	
-	val = 1;
-	for (children = fullday->children; children; children = children->next, val++){
-		Child *child = children->data;
-		
-		child->x     = left_x + pixels_per_col * allocations [val];
-		extra = (allocations [val] + columns [val] == top_slot) ? extra_pixels : 0;
-		child->width = pixels_per_col * columns [val] + extra;
-		child_set_size (child);
+	usable_pixels = widget->allocation.width - left_x - widget->style->klass->xthickness;
+	pixels_per_col = usable_pixels / num_slots;
+	extra_pixels = usable_pixels % num_slots;
 
-		/* printf ("Setting child %d to %d for %d pixels\n", val, allocations [val], columns [val]); */
+	for (children = fullday->children, i = 0; children; children = children->next, i++) {
+		child = children->data;
+
+		child->x = left_x + pixels_per_col * allocations[i];
+		child->width = pixels_per_col * slots[i];
+
+		if ((allocations[i] + slots[i]) == num_slots)
+			child->width += extra_pixels;
+
+		child_set_size (child);
 	}
+
 	g_free (allocations);
-	g_free (columns);
+	g_free (slots);
 }
 
 guint
@@ -2118,13 +2033,17 @@ gncal_full_day_forall (GtkContainer *container, gboolean include_internals, GtkC
 }
 
 static gint
-child_compare_by_start (gconstpointer a, gconstpointer b)
+child_compare (gconstpointer a, gconstpointer b)
 {
 	const Child *ca = a;
 	const Child *cb = b;
 	time_t diff;
 	
 	diff = ca->start - cb->start;
+
+	if (diff == 0)
+		diff = cb->end - ca->end;
+
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }
 
@@ -2135,7 +2054,7 @@ fullday_add_children (iCalObject *obj, time_t start, time_t end, void *c)
 	Child *child;
 	
 	child = child_new (fullday, start, end, obj);
-	fullday->children = g_list_insert_sorted (fullday->children, child, child_compare_by_start);
+	fullday->children = g_list_insert_sorted (fullday->children, child, child_compare);
 
 	return 1;
 }

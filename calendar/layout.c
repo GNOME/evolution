@@ -6,7 +6,23 @@
  *          Federico Mena <federico@nuclecu.unam.mx>
  */
 
+#include <config.h>
+#include <stdlib.h>
 #include "layout.h"
+
+
+/* This structure is used to pass around layout information among the internal layout functions */
+struct layout_info {
+	GList *events;			/* List of events from client */
+	int num_events;			/* The number of events (length of the list) */
+	LayoutQueryTimeFunc func;	/* Function to convert a list item to a start/end time pair */
+	int num_rows;			/* Size of the time partition */
+	time_t *partition;		/* The time partition containing start and end time values */
+	int *array;			/* Working array of free and allocated time slots */
+	int *allocations;		/* Returned array of slot allocations */
+	int *slots;			/* Returned array of slots used */
+	int num_slots;			/* Number of slots used */
+};
 
 
 /* This defines the maximum number of events to overlap per row.  More than that number of events
@@ -35,37 +51,35 @@ compare_time_t (const void *a, const void *b)
 /* Builds a partition of the time range occupied by the events in the list.  It returns an array
  * with the times that define the partition and the number of items in the partition.
  */
-static time_t *
-build_partition (GList *events, int num_events, int *num_rows)
+static void
+build_partition (struct layout_info *li)
 {
 	time_t *rows, *p, *q;
 	GList *list;
-	CalendarObject *co;
 	int i, unique_vals;
 
 	/* This is the maximum number of rows we would need */
 
-	*num_rows = num_events * 2;
+	li->num_rows = li->num_events * 2;
 
 	/* Fill the rows with the times */
 
-	rows = g_new (time_t, *num_rows);
+	rows = g_new (time_t, li->num_rows);
 
-	for (list = events, p = rows; list; list = list->next) {
-		co = list->data;
-		*p++ = co->ev_start;
-		*p++ = co->ev_end;
+	for (list = li->events, p = rows; list; list = list->next) {
+		(* li->func) (list, &p[0], &p[1]);
+		p += 2;
 	}
 
 	/* Do a sort | uniq on the array */
 
-	qsort (rows, *num_rows, sizeof (time_t), compare_time_t);
+	qsort (rows, li->num_rows, sizeof (time_t), compare_time_t);
 
 	p = rows;
 	q = rows + 1;
 	unique_vals = 1;
 
-	for (i = 1; i < *num_rows; i++, q++)
+	for (i = 1; i < li->num_rows; i++, q++)
 		if (*q != *p) {
 			unique_vals++;
 			p++;
@@ -74,33 +88,33 @@ build_partition (GList *events, int num_events, int *num_rows)
 
 	/* Return the number of unique values in the partition and the partition array itself */
 
-	*num_rows = unique_vals;
-	return rows;
+	li->num_rows = unique_vals;
+	li->partition = rows;
 }
 
 /* Returns the index of the element in the partition that corresponds to the specified time */
 int
-find_index (time_t *partition, time_t t)
+find_index (struct layout_info *li, time_t t)
 {
 	int i;
 
 	for (i = 0; ; i++)
-		if (partition[i] == t)
+		if (li->partition[i] == t)
 			return i;
 }
 
-#define xy(slot_array, x, y) slot_array[(y * MAX_EVENTS_PER_ROW) + (x)]
+#define xy(li, x, y) li->array[(y * MAX_EVENTS_PER_ROW) + (x)]
 
 /* Checks that all the cells in the slot array at the specified slot column are free to use by an
  * event that has the specified range.
  */
 static int
-range_is_empty (time_t *partition, int *slot_array, int slot, time_t start, time_t end)
+range_is_empty (struct layout_info *li, int slot, time_t start, time_t end)
 {
 	int i;
 
-	for (i = find_index (partition, start); partition[i] < end; i++)
-		if (xy (slot_array, slot, i) != -1)
+	for (i = find_index (li, start); li->partition[i] < end; i++)
+		if (xy (li, slot, i) != -1)
 			return FALSE;
 
 	return TRUE;
@@ -108,43 +122,44 @@ range_is_empty (time_t *partition, int *slot_array, int slot, time_t start, time
 
 /* Allocates a time in the slot array for the specified event's index */
 static void
-range_allocate (time_t *partition, int *slot_array, int slot, time_t start, time_t end, int ev_num)
+range_allocate (struct layout_info *li, int slot, time_t start, time_t end, int ev_num)
 {
 	int i;
 
-	for (i = find_index (partition, start); partition[i] < end; i++)
-		xy (slot_array, slot, i) = ev_num;
+	for (i = find_index (li, start); li->partition[i] < end; i++)
+		xy (li, slot, i) = ev_num;
 }
 
 /* Performs the initial allocation of slots for events.  Each event gets one column; they will be
  * expanded in a later stage.  Returns the number of columns used.
  */
-static int
-initial_allocate (GList *events, time_t *partition, int *slot_array, int *allocations, int *columns_used)
+static void
+initial_allocate (struct layout_info *li)
 {
-	CalendarObject *co;
+	GList *events;
 	int i;
 	int slot;
 	int num_slots;
+	time_t start, end;
 
 	num_slots = 0;
 
-	for (i = 0; events; events = events->next, i++) {
-		co = events->data;
+	for (i = 0, events = li->events; events; events = events->next, i++) {
+		(* li->func) (events, &start, &end);
 
 		/* Start with no allocation, no columns */
 
-		allocations[i] = -1;
-		columns_used[i] = 0;
+		li->allocations[i] = -1;
+		li->slots[i] = 0;
 
 		/* Find a free column for the event */
 
 		for (slot = 0; slot < MAX_EVENTS_PER_ROW; slot++)
-			if (range_is_empty (partition, slot_array, slot, co->ev_start, co->ev_end)) {
-				range_allocate (partition, slot_array, slot, co->ev_start, co->ev_end, i);
+			if (range_is_empty (li, slot, start, end)) {
+				range_allocate (li, slot, start, end, i);
 
-				allocations[i] = slot;
-				columns_used[i] = 1;
+				li->allocations[i] = slot;
+				li->slots[i] = 1;
 
 				if ((slot + 1) > num_slots)
 					num_slots = slot + 1;
@@ -153,13 +168,12 @@ initial_allocate (GList *events, time_t *partition, int *slot_array, int *alloca
 			}
 	}
 
-	return num_slots;
+	li->num_slots = num_slots;
 }
 
 /* Returns the maximum number of columns that an event can expanded by in the slot array */
 static int
-columns_to_expand (time_t *partition, int *slot_array, int *allocations, int num_slots, int ev_num,
-		   time_t start, time_t end)
+columns_to_expand (struct layout_info *li, int ev_num, time_t start, time_t end)
 {
 	int cols;
 	int slot;
@@ -168,11 +182,11 @@ columns_to_expand (time_t *partition, int *slot_array, int *allocations, int num
 
 	cols = 0;
 
-	i_start = find_index (partition, start);
+	i_start = find_index (li, start);
 
-	for (slot = allocations[ev_num] + 1; slot < num_slots; slot++) {
-		for (i = i_start; partition[i] < end; i++)
-			if (xy (slot_array, slot, i) != -1)
+	for (slot = li->allocations[ev_num] + 1; slot < li->num_slots; slot++) {
+		for (i = i_start; li->partition[i] < end; i++)
+			if (xy (li, slot, i) != -1)
 				return cols;
 
 		cols++;
@@ -181,18 +195,18 @@ columns_to_expand (time_t *partition, int *slot_array, int *allocations, int num
 	return cols;
 }
 
-/* Expands an event to occupy the specified number of columns */
+/* Expands an event by the specified number of columns */
 static void
-do_expansion (time_t *partition, int *slot_array, int *allocations, int ev_num, time_t start, time_t end, int num_cols)
+do_expansion (struct layout_info *li, int ev_num, time_t start, time_t end, int num_cols)
 {
 	int i, j;
 	int slot;
 
-	for (i = find_index (partition, start); partition[i] < end; i++) {
-		slot = allocations[ev_num] + 1;
+	for (i = find_index (li, start); li->partition[i] < end; i++) {
+		slot = li->allocations[ev_num] + 1;
 
 		for (j = 0; j < num_cols; j++)
-			xy (slot_array, slot + j, i) = ev_num;
+			xy (li, slot + j, i) = ev_num;
 	}
 }
 
@@ -200,33 +214,31 @@ do_expansion (time_t *partition, int *slot_array, int *allocations, int ev_num, 
  * pass of the layout algorithm.
  */
 static void
-expand_events (GList *events, time_t *partition, int *slot_array, int num_slots, int *allocations, int *columns_used)
+expand_events (struct layout_info *li)
 {
+	GList *events;
+	time_t start, end;
 	int i;
-	CalendarObject *co;
 	int cols;
 
-	for (i = 0; events; events = events->next, i++) {
-		co = events->data;
+	for (i = 0, events = li->events; events; events = events->next, i++) {
+		(* li->func) (events, &start, &end);
 
-		cols = columns_to_expand (partition, slot_array, allocations, num_slots, i, co->ev_start, co->ev_end);
+		cols = columns_to_expand (li, i, start, end);
 
 		if (cols == 0)
 			continue; /* We can't expand this event */
 
-		do_expansion (partition, slot_array, allocations, i, co->ev_start, co->ev_end, cols);
+		do_expansion (li, i, start, end, cols);
 
-		columns_used[i] += cols;
+		li->slots[i] += cols;
 	}
 }
 
 void
-layout_events (GList *events, int *num_slots, int **allocations, int **slots)
+layout_events (GList *events, LayoutQueryTimeFunc func, int *num_slots, int **allocations, int **slots)
 {
-	time_t *time_partition;
-	int *slot_array;
-	int num_events;
-	int num_rows;
+	struct layout_info li;
 	int i;
 
 	g_return_if_fail (num_slots != NULL);
@@ -241,28 +253,33 @@ layout_events (GList *events, int *num_slots, int **allocations, int **slots)
 		return;
 	}
 
-	num_events = g_list_length (events);
+	li.events = events;
+	li.num_events = g_list_length (events);
+	li.func = func;
 
 	/* Build the partition of the time range, and then build the array of slots */
 
-	time_partition = build_partition (events, num_events, &num_rows);
+	build_partition (&li);
 
-	slot_array = g_new (int, num_rows * MAX_EVENTS_PER_ROW);
-	for (i = 0; i < (num_rows * MAX_EVENTS_PER_ROW); i++)
-		slot_array[i] = -1; /* This is our 'empty' value */
+	li.array = g_new (int, li.num_rows * MAX_EVENTS_PER_ROW);
+	for (i = 0; i < (li.num_rows * MAX_EVENTS_PER_ROW); i++)
+		li.array[i] = -1; /* This is our 'empty' value */
 
 	/* Build the arrays for allocations and columns used */
 
-	*allocations = g_new (int, num_events);
-	*slots = g_new (int, num_events);
+	li.allocations = g_new (int, li.num_events);
+	li.slots = g_new (int, li.num_events);
 
-	/* Perform initial allocation -- each event gets one column */
+	/* Perform initial allocation and then expand the events to as many slots as they can occupy */
 
-	*num_slots = initial_allocate (events, time_partition, slot_array, *allocations, *slots);
+	initial_allocate (&li);
+	expand_events (&li);
 
-	/* Expand the events to as many columns as possible */
+	/* Clean up and return values */
 
-	expand_events (events, time_partition, slot_array, *num_slots, *allocations, *slots);
+	g_free (li.array);
 
-	g_free (slot_array);
+	*num_slots = li.num_slots;
+	*allocations = li.allocations;
+	*slots = li.slots;
 }

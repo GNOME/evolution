@@ -194,7 +194,7 @@ quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 	/* Create base widgets for the popup window */
 
 	w = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (w), GTK_SHADOW_OUT);
+	gtk_frame_set_shadow_type (GTK_FRAME (w), GTK_SHADOW_ETCHED_OUT);
 	gtk_container_add (GTK_CONTAINER (qv), w);
 
 	vbox = gtk_vbox_new (FALSE, 0);

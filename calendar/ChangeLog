@@ -1,3 +1,20 @@
+1998-10-08  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* layout.c: Do some cleanup; now we pass a struct with the layout
+	algorithm's state instead of passing a trillion parameters around.
+
+	* gncal-full-day.c (layout_children): Use the new generic layout
+	engine.
+	(child_compare): Sort keys are start time then end time, not just
+	start time.  This produces somewhat nicer results for the layout
+	algorithm.
+
+	The new layout code uses a partition of the time range occupied by
+	the events, rather than using a fixed time granularity.  This is
+	better since the different parts of the program that use the
+	layout module will have different semantics regarding snapping the
+	event bounds to a fixed "time grid".
+
 1998-10-07  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* layout.[ch]: New files that abstract the event layout code from
