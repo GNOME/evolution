@@ -74,10 +74,12 @@ struct _EvolutionStorageListenerServant {
 typedef struct _EvolutionStorageListenerServant EvolutionStorageListenerServant;
 
 
-GtkType                   evolution_storage_listener_get_type   (void);
-void                      evolution_storage_listener_construct  (EvolutionStorageListener  *listener,
-								 Evolution_StorageListener  corba_objref);
-EvolutionStorageListener *evolution_storage_listener_new        (void);
+GtkType                    evolution_storage_listener_get_type      (void);
+void                       evolution_storage_listener_construct     (EvolutionStorageListener  *listener,
+								     Evolution_StorageListener  corba_objref);
+EvolutionStorageListener  *evolution_storage_listener_new           (void);
+
+Evolution_StorageListener  evolution_storage_listener_corba_objref  (EvolutionStorageListener *listener);
 
 #ifdef __cplusplus
 }

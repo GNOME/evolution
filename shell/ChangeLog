@@ -1,5 +1,29 @@
 2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-storage.c (evolution_storage_new_folder): If
+	description is NULL, use the empty string instead.
+
+	* e-local-storage.c (new_folder): New utility function to add a
+	new folder by keeping both the Bonobo interface and the EStorage
+	up-to-date.
+	(load_folders): Use it here instead of just
+	`e_storage_new_folder()'.
+	(component_async_create_folder_callback): Likewise.
+
+	* e-shell-view.c (update_for_current_uri): Prevent an
+	EStorageSetView warning if the path is NULL.
+
+	* evolution-storage.c (impl_Storage_add_listener): New,
+	implementation for `Evolution::Storage::add_listener'.
+	(evolution_storage_get_epv): Install it.
+
+	* evolution-storage-listener.c
+	(evolution_storage_listener_corba_objref): New.
+	(create_servant): Create the servant with `g_new0()' instead of
+	`g_new()'.
+
+2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-storage-listener.c
 	(evolution_storage_listener_construct): Unset the `GTK_FLOATING'
 	flag as `EvolutionStorageListener' is self-owned.

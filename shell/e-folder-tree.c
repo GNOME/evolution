@@ -372,7 +372,7 @@ e_folder_tree_foreach (EFolderTree *folder_tree,
 	root_node = g_hash_table_lookup (folder_tree->path_to_folder,
 					 G_DIR_SEPARATOR_S);
 	if (root_node == NULL) {
-		g_warning ("%s -- What?!  No root node!?", __FUNCTION__);
+		g_warning ("e_folder_tree_foreach -- What?!  No root node!?");
 		return;
 	}
 

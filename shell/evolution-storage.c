@@ -172,6 +172,20 @@ impl_Storage__get_name (PortableServer_Servant servant,
 	return CORBA_string_dup (priv->name);
 }
 
+static void
+impl_Storage_add_listener (PortableServer_Servant servant,
+			   const Evolution_StorageListener listener,
+			   CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	add_listener (storage, listener);
+}
+
 
 /* GtkObject methods.  */
 
@@ -264,7 +278,8 @@ evolution_storage_get_epv (void)
 	POA_Evolution_Storage__epv *epv;
 
 	epv = g_new0 (POA_Evolution_Storage__epv, 1);
-	epv->_get_name = impl_Storage__get_name;
+	epv->_get_name    = impl_Storage__get_name;
+	epv->add_listener = impl_Storage_add_listener;
 
 	return epv;
 }
@@ -411,9 +426,11 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (path != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (g_path_is_absolute (path), EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
-	g_return_val_if_fail (description != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (type != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
 	g_return_val_if_fail (physical_uri != NULL, EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
+
+	if (description == NULL)
+		description = "";
 
 	priv = evolution_storage->priv;
 

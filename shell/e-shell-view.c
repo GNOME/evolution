@@ -951,8 +951,10 @@ update_for_current_uri (EShellView *shell_view)
 	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
 					  GTK_SIGNAL_FUNC (folder_selected_cb),
 					  shell_view);
-	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view),
-					       path);
+
+	if (path != NULL)
+		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view), path);
+
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (priv->storage_set_view),
 					    GTK_SIGNAL_FUNC (folder_selected_cb),
 					    shell_view);

@@ -28,6 +28,9 @@
  *   - If the LocalStorage is destroyed and an async operation on a shell component is
  *     pending, we get a callback on a bogus object.  We need support for cancelling
  *     operations on the shell component.
+ *
+ *   - The tree is kept both in the EStorage and the EvolutionStorage.  Very
+ *     bad design.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -151,6 +154,27 @@ get_physical_path (ELocalStorage *local_storage,
 	return real_path;
 }
 
+static void
+new_folder (ELocalStorage *local_storage,
+	    const char *path,
+	    EFolder *folder)
+{
+	ELocalStoragePrivate *priv;
+
+	priv = local_storage->priv;
+
+	g_print ("%s:%s -- %s\n", __FILE__, __FUNCTION__, path);
+
+	e_storage_new_folder (E_STORAGE (local_storage), path, folder);
+
+	evolution_storage_new_folder (EVOLUTION_STORAGE (priv->bonobo_interface),
+				      path,
+				      e_folder_get_name (folder),
+				      e_folder_get_type_string (folder),
+				      e_folder_get_physical_uri (folder),
+				      e_folder_get_description (folder));
+}
+
 static gboolean
 load_folders (ELocalStorage *local_storage,
 	      const char *parent_path,
@@ -174,7 +198,7 @@ load_folders (ELocalStorage *local_storage,
 		if (folder == NULL)
 			return FALSE;
 
-		e_storage_new_folder (E_STORAGE (local_storage), path, folder);
+		new_folder (E_STORAGE (local_storage), path, folder);
 
 		subfolder_directory_path = g_concat_dir_and_file (physical_path, SUBFOLDER_DIR_NAME);
 	}
@@ -334,9 +358,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 		e_folder_set_physical_uri (folder, callback_data->physical_uri);
 
 		if (e_local_folder_save (E_LOCAL_FOLDER (folder))) {
-			e_storage_new_folder (callback_data->storage,
-					      callback_data->path,
-					      folder);
+			new_folder (callback_data->storage, callback_data->path, folder);
 		} else {
 			rmdir (callback_data->physical_path);
 			gtk_object_unref (GTK_OBJECT (folder));

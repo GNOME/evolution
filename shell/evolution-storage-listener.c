@@ -115,7 +115,7 @@ create_servant (EvolutionStorageListener *listener)
 
 	CORBA_exception_init (&ev);
 
-	servant = g_new (EvolutionStorageListenerServant, 1);
+	servant = g_new0 (EvolutionStorageListenerServant, 1);
 	corba_servant = (POA_Evolution_StorageListener *) servant;
 
 	corba_servant->vepv = &my_Evolution_StorageListener_vepv;
@@ -299,6 +299,28 @@ evolution_storage_listener_new (void)
 	evolution_storage_listener_construct (new, corba_objref);
 
 	return new;
+}
+
+
+/**
+ * evolution_storage_listener_corba_objref:
+ * @listener: A pointer to an EvolutionStorageListener
+ * 
+ * Get the CORBA object reference for the interface embedded in this GTK+
+ * object wrapper.
+ * 
+ * Return value: A pointer to the CORBA object reference.
+ **/
+Evolution_StorageListener
+evolution_storage_listener_corba_objref (EvolutionStorageListener *listener)
+{
+	EvolutionStorageListenerPrivate *priv;
+
+	g_return_val_if_fail (listener != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_STORAGE_LISTENER (listener), CORBA_OBJECT_NIL);
+
+	priv = listener->priv;
+	return priv->corba_objref;
 }
 
 
