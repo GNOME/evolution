@@ -862,7 +862,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	gtk_object_set (GTK_OBJECT (e_tree->priv->selection),
 			"sorter", e_tree->priv->sorter,
-#if 0
+#ifdef E_TREE_USE_TREE_SELECTION
 			"model", e_tree->priv->model,
 			"ets", e_tree->priv->sorted,
 			"etta", e_tree->priv->etta,

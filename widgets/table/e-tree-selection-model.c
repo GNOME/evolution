@@ -53,13 +53,6 @@ struct ETreeSelectionModelPriv {
 	gint cursor_col;
 	gint selection_start_row;
 
-	guint model_changed_id;
-	guint model_row_inserted_id, model_row_deleted_id;
-
-	guint frozen : 1;
-	guint selection_model_changed : 1;
-	guint group_info_changed : 1;
-
 	int          tree_model_pre_change_id;
 	int          tree_model_node_changed_id;
 	int          tree_model_node_data_changed_id;
@@ -956,9 +949,15 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv = g_new(ETreeSelectionModelPriv, 1);
 	etsm->priv = priv;
 
+	priv->etta = NULL;
+	priv->ets = NULL;
+	priv->model = NULL;
+
 	priv->root = NULL;
+
 	priv->cursor_path = NULL;
 	priv->cursor_col = -1;
+	priv->selection_start_row = 0;
 
 	priv->tree_model_pre_change_id      = 0;
 	priv->tree_model_node_changed_id      = 0;
