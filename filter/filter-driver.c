@@ -738,27 +738,9 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	
 	if (info == NULL) {
 		struct _header_raw *h = CAMEL_MIME_PART (message)->headers;
-		char *subject, *from, *to, *cc;
 		
-		info = g_new0 (CamelMessageInfo, 1);
+		info = camel_message_info_new_from_header (h);
 		freeinfo = TRUE;
-		
-		/* FIXME: do we even *need* to set these? Are they even used? -- fejj */
-		subject = camel_folder_summary_format_string (h, "subject");
-		from = camel_folder_summary_format_address (h, "from");
-		to = camel_folder_summary_format_address (h, "to");
-		cc = camel_folder_summary_format_address (h, "cc");
-#ifdef DOESTRV
-		camel_message_info_set_subject (info, subject);
-		camel_message_info_set_from (info, from);
-		camel_message_info_set_to (info, to);
-		camel_message_info_set_cc (info, cc);
-#else
-		info->subject = subject;
-		info->from = from;
-		info->to = to;
-		info->cc = cc;
-#endif /* DOESTRV */
 	} else {
 		if (info->flags & CAMEL_MESSAGE_DELETED)
 			return;
@@ -822,19 +804,8 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	if (p->deleted)
 		info->flags = info->flags | CAMEL_MESSAGE_DELETED;
 	
-	if (freeinfo) {
-		camel_flag_list_free (&info->user_flags);
-		camel_tag_list_free (&info->user_tags);
-#ifdef DOESTRV
-		e_strv_destroy (info->strings);
-#else
-		g_free (info->subject);
-		g_free (info->from);
-		g_free (info->to);
-		g_free (info->cc);
-#endif /* DOESTRV */
-		g_free (info);
-	}
+	if (freeinfo)
+		camel_message_info_free (info);
 	
 	if (filtered)
 		filter_driver_log (driver, FILTER_LOG_END, NULL);

@@ -1,5 +1,14 @@
 2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_filter_message): Use
+	camel_message_info_free() instead of freeing everything by hand -
+	is this a new function? I don't ever recall seeing this
+	before. Also use my new function,
+	camel_message_info_new_from_header - ahhh... this code is now so
+	beatiful. Okay, I'm done.
+
+2000-11-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_filter_message): Update to use
 	EStrv in appropriate places (wrapped with #ifdef DOESTRV for the
 	moment).
