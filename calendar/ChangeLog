@@ -67,6 +67,11 @@
 	/Calendar/Display/Use24HourFormat so that Europeans don't have to
 	switch to 24-hour format manually.
 
+2001-08-17  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (destroy): destroy the addresses
+	(clean_up): don't free the addresses, we need them
+
 2001-08-17  Damon Chaplin  <damon@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_new_task): new function to open the
