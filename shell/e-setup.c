@@ -303,11 +303,18 @@ e_setup_check_config (const char *evolution_directory)
 {
 	GConfClient *client;
 	char *tmp;
+	gboolean present = FALSE;
 
 	client = gconf_client_get_default ();
 
 	tmp = gconf_client_get_string (client, "/apps/evolution/shell/default_folders/mail_uri", NULL);
-	if (tmp != NULL && *tmp != 0) {
+	if (tmp != NULL) {
+		if (*tmp != 0)
+			present = TRUE;
+		g_free (tmp);
+	}
+
+	if (present) {
 		g_object_unref (client);
 		return;
 	}

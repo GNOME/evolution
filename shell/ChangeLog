@@ -1,3 +1,13 @@
+2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-setup.c (e_setup_check_config): Free the temporary string.
+
+	* e-shell-user-creatable-items-handler.c (append_xml_for_menu_item):
+	Free the icon xml string.
+
+	* e-shell.c (parse_default_uri): Free the component name, the
+	configuration path and the temporary path.
+
 2003-04-15  Dan Winship  <danw@ximian.com>
 
 	* e-folder.c (e_folder_get_has_subfolders,

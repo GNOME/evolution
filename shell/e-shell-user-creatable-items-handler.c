@@ -307,9 +307,13 @@ append_xml_for_menu_item (GString *xml,
 	else if (item->shortcut != '\0')
 		g_string_append_printf (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
 
-	if (item->icon != NULL)
-		g_string_append_printf (xml, " pixtype=\"pixbuf\" pixname=\"%s\"",
-				   bonobo_ui_util_pixbuf_to_xml (item->icon));
+	if (item->icon != NULL) {
+		char *icon_xml;
+
+		icon_xml = bonobo_ui_util_pixbuf_to_xml (item->icon);
+		g_string_append_printf (xml, " pixtype=\"pixbuf\" pixname=\"%s\"", icon_xml);
+		g_free (icon_xml);
+	}
 
 	encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
 	g_string_append_printf (xml, " tip=\"%s\"", encoded_tooltip);

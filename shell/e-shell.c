@@ -2152,7 +2152,7 @@ parse_default_uri (EShell *shell,
 {
 	GConfClient *client;
 	const char *component_start;
-	const char *component;
+	char *component;
 	const char *p;
 	char *config_path;
 	char *path;
@@ -2170,6 +2170,8 @@ parse_default_uri (EShell *shell,
 	config_path = g_strdup_printf ("/apps/evolution/shell/default_folders/%s_path", component);
 	path = gconf_client_get_string (client, config_path, NULL);
 	g_object_unref (client);
+	g_free (component);
+	g_free (config_path);
 
 	/* We expect an evolution: URI here, if we don't get it then something
 	   is messed up.  */
@@ -2192,6 +2194,7 @@ parse_default_uri (EShell *shell,
 			*extra_return = g_strdup (p + 1);
 	}
 
+	g_free (path);
 	return TRUE;
 }
 
