@@ -43,7 +43,7 @@ GtkType            pas_backend_summary_get_type         (void);
 
 /* returns FALSE if the load fails for any reason (including that the
    summary is out of date), TRUE if it succeeds */
-gboolean           pas_backend_summary_load       f       (PASBackendSummary *summary);
+gboolean           pas_backend_summary_load             (PASBackendSummary *summary);
 /* returns FALSE if the save fails, TRUE if it succeeds (or isn't required due to no changes) */
 gboolean           pas_backend_summary_save              (PASBackendSummary *summary);
 
