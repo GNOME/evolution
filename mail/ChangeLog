@@ -1,3 +1,10 @@
+2004-12-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69851.
+
+	* mail-account-gui.c (save_service): dont skip the save_password
+	setting if we don't have a needs_auth widget.
+
 2004-11-25  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_test_spamd): do not call gconf here
