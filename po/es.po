@@ -5,9 +5,9 @@
 # Ismael Olea <Ismael@olea.org>, 2001
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.13\n"
-"POT-Creation-Date: 2001-11-14 19:26-0500\n"
-"PO-Revision-Date: 2001-11-09 11:55+0100\n"
+"Project-Id-Version: evolution 1.0\n"
+"POT-Creation-Date: 2001-11-20 17:51+0100\n"
+"PO-Revision-Date: 2001-11-20 18:00+0100\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7670,11 +7670,11 @@ msgid "Subject does not contain"
 msgstr "El asunto no contiene"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:267
+#: e-util/e-passwords.c:360 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Recuerda esta contraseña"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:268
+#: e-util/e-passwords.c:362 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Recordar esta clave durante el resto de esta sesión"
 
@@ -8703,11 +8703,11 @@ msgstr " (predeterminada)"
 
 #: mail/mail-accounts.c:194
 msgid "Disable"
-msgstr "Deshabilitado"
+msgstr "Deshabilitada"
 
 #: mail/mail-accounts.c:196
 msgid "Enable"
-msgstr "Habilitado"
+msgstr "Habilitada"
 
 #: mail/mail-accounts.c:293
 msgid "Are you sure you want to delete this account?"
@@ -9140,7 +9140,7 @@ msgstr "Borradores"
 
 #: mail/mail-config.glade.h:31
 msgid "E_nable"
-msgstr "_Habilitado"
+msgstr "_Habilitada"
 
 #: mail/mail-config.glade.h:32 widgets/misc/e-filter-bar.h:96
 #: widgets/misc/e-filter-bar.h:103
@@ -9149,7 +9149,7 @@ msgstr "Editar..."
 
 #: mail/mail-config.glade.h:33
 msgid "Enabled"
-msgstr "Habilitado"
+msgstr "Habilitada"
 
 #: mail/mail-config.glade.h:34
 msgid "Get Digital ID..."
