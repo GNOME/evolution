@@ -531,7 +531,8 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 								       title,
 								       NULL,
 								       default_folder,
-								       allowed_type_names);
+								       allowed_type_names,
+								       TRUE);
 
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
@@ -2264,7 +2265,7 @@ parse_default_uri (EShell *shell,
 
 	/* We expect an evolution: URI here, if we don't get it then something
 	   is messed up.  */
-	if (strncmp (path, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0 || is_default) {
+	if (path == NULL || strncmp (path, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0 || is_default) {
 		g_free (path);
 		if (path_return != NULL)
 			*path_return = NULL;

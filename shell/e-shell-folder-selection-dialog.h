@@ -23,7 +23,7 @@
 #ifndef E_SHELL_FOLDER_SELECTION_DIALOG_H
 #define E_SHELL_FOLDER_SELECTION_DIALOG_H
 
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 
 #include "e-shell.h"
 
@@ -44,13 +44,13 @@ typedef struct _EShellFolderSelectionDialogPrivate EShellFolderSelectionDialogPr
 typedef struct _EShellFolderSelectionDialogClass   EShellFolderSelectionDialogClass;
 
 struct _EShellFolderSelectionDialog {
-	GnomeDialog parent;
+	GtkDialog parent;
 
 	EShellFolderSelectionDialogPrivate *priv;
 };
 
 struct _EShellFolderSelectionDialogClass {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 
 	void (* folder_selected) (EShellFolderSelectionDialog *folder_selection_dialog,
 				  const char *path);
@@ -64,16 +64,14 @@ void        e_shell_folder_selection_dialog_construct          (EShellFolderSele
 								const char                  *title,
 								const char                  *caption,
 								const char                  *default_uri,
-								const char                  *allowed_types[]);
+								const char                  *allowed_types[],
+								gboolean                     allow_creation);
 GtkWidget  *e_shell_folder_selection_dialog_new                (EShell                      *shell,
 								const char                  *title,
 								const char                  *caption,
 								const char                  *default_uri,
-								const char                  *allowed_types[]);
-
-void      e_shell_folder_selection_dialog_set_allow_creation  (EShellFolderSelectionDialog *folder_selection_dialog,
-							       gboolean                     allow_creation);
-gboolean  e_shell_folder_selection_dialog_get_allow_creation  (EShellFolderSelectionDialog *folder_selection_dialog);
+								const char                  *allowed_types[],
+								gboolean                     allow_creation);
 
 const char *e_shell_folder_selection_dialog_get_selected_path  (EShellFolderSelectionDialog *folder_selection_dialog);
 

@@ -1,5 +1,25 @@
 2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c (e_shell_command_copy_folder): Pass
+	TRUE for arg allow_creation to
+	e_shell_folder_selection_dialog_new().
+	(e_shell_command_move_folder): Likewise.
+	* e-shell-view-menu.c (command_goto_folder): Likewise.
+	(command_new_shortcut): Likewise.
+	* e-shell.c (impl_Shell_selectUserFolder): Likewise.
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_set_allow_creation): Removed.
+	(e_shell_folder_selection_dialog_get_allow_creation): Removed.
+	(e_shell_folder_selection_dialog_new): New arg allow_creation.
+	(e_shell_folder_selection_dialog_construct): Likewise.  Also, do
+	set priv->shell.
+
+	* e-shell-folder-selection-dialog.h,
+	e-shell-folder-selection-dialog.c: Port to GtkDialog.
+
+2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-folder-type-registry.c
 	(e_folder_type_registry_get_handler_for_type): Remove warning for
 	when the type is unknown.

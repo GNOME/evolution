@@ -32,7 +32,6 @@
 
 #include "e-shell-folder-creation-dialog.h"
 
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
@@ -45,8 +44,8 @@
 #include <string.h>
 
 
-#define PARENT_TYPE (gnome_dialog_get_type ())
-static GnomeDialogClass *parent_class = NULL;
+#define PARENT_TYPE (gtk_dialog_get_type ())
+static GtkDialogClass *parent_class = NULL;
 
 struct _EShellFolderSelectionDialogPrivate {
 	EShell *shell;
@@ -197,11 +196,11 @@ impl_destroy (GtkObject *object)
 }
 
 
-/* GnomeDialog methods.  */
+/* GtkDialog methods.  */
 
 static void
-impl_clicked (GnomeDialog *dialog,
-	      int button_number)
+impl_response (GtkDialog *dialog,
+	       int response)
 {
 	EShellFolderSelectionDialog *folder_selection_dialog;
 	EShellFolderSelectionDialogPrivate *priv;
@@ -213,19 +212,19 @@ impl_clicked (GnomeDialog *dialog,
 	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
 	priv = folder_selection_dialog->priv;
 
-	switch (button_number) {
-	case 0:			/* OK */
+	switch (response) {
+	case GTK_RESPONSE_OK:
 		if (check_folder_type_valid (folder_selection_dialog)) {
 			g_signal_emit (folder_selection_dialog, signals[FOLDER_SELECTED], 0,
 				       e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
-			gnome_dialog_close (GNOME_DIALOG (dialog));
+			gtk_widget_destroy (GTK_WIDGET (dialog));
 		}
 		break;
-	case 1:			/* Cancel */
+	case GTK_RESPONSE_CANCEL:
 		g_signal_emit (folder_selection_dialog, signals[CANCELLED], 0);
-		gnome_dialog_close (GNOME_DIALOG (dialog));
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
-	case 2:			/* Add */
+	default:			/* New... */
 		storage_set_view = E_STORAGE_SET_VIEW (priv->storage_set_view);
 		default_parent_folder = e_storage_set_view_get_current_folder (storage_set_view);
 
@@ -258,15 +257,15 @@ static void
 class_init (EShellFolderSelectionDialogClass *klass)
 {
 	GtkObjectClass *object_class;
-	GnomeDialogClass *dialog_class;
+	GtkDialogClass *dialog_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 	object_class = GTK_OBJECT_CLASS (klass);
-	dialog_class = GNOME_DIALOG_CLASS (klass);
+	dialog_class = GTK_DIALOG_CLASS (klass);
 
 	object_class->destroy = impl_destroy;
 
-	dialog_class->clicked = impl_clicked;
+	dialog_class->response = impl_response;
 
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
@@ -314,9 +313,9 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 	dialog = E_SHELL_FOLDER_SELECTION_DIALOG (data);
 
 	if (check_folder_type_valid (dialog))
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, TRUE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
 	else
-		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, FALSE);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 }
 
 static gint
@@ -342,7 +341,7 @@ double_click_cb (EStorageSetView *essv,
 	if (check_folder_type_valid (folder_selection_dialog)) {
 		g_signal_emit (folder_selection_dialog, signals[FOLDER_SELECTED], 0,
 			       e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
-		gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
+		gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
 	}
 }
 
@@ -364,7 +363,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 					   const char *title,
 					   const char *caption,
 					   const char *default_uri,
-					   const char *allowed_types[])
+					   const char *allowed_types[],
+					   gboolean allow_creation)
 {
 	EShellFolderSelectionDialogPrivate *priv;
 	GtkWidget *scroll_frame;
@@ -385,21 +385,26 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);
+
 	g_signal_connect (folder_selection_dialog, "delete_event",
 			  G_CALLBACK (delete_event_cb), folder_selection_dialog);
 
-	gnome_dialog_append_buttons (GNOME_DIALOG (folder_selection_dialog),
-				     GNOME_STOCK_BUTTON_OK,
-				     GNOME_STOCK_BUTTON_CANCEL,
-				     _("New..."),
-				     NULL);
-	gnome_dialog_set_default (GNOME_DIALOG (folder_selection_dialog), 0);
-	gnome_dialog_set_sensitive (GNOME_DIALOG (folder_selection_dialog), 0, FALSE);
+	gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
+
+	if (allow_creation)
+		gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
+					GTK_STOCK_NEW, 1,
+					NULL);
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (folder_selection_dialog), GTK_RESPONSE_OK, FALSE);
 
 	/* Make sure we get destroyed if the shell gets destroyed.  */
 
-#if 0
 	priv->shell = shell;
+#if 0
 	gtk_signal_connect_object_while_alive (GTK_OBJECT (shell), "destroy",
 					       G_CALLBACK (gtk_widget_destroy),
 					       GTK_OBJECT (folder_selection_dialog));
@@ -411,7 +416,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 		caption_label = gtk_label_new (caption);
 		gtk_widget_show (caption_label);
 
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (folder_selection_dialog)->vbox),
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (folder_selection_dialog)->vbox),
 				    caption_label, FALSE, TRUE, 2);
 	}
 
@@ -458,7 +463,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	gtk_container_add (GTK_CONTAINER (scroll_frame), priv->storage_set_view);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (folder_selection_dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (folder_selection_dialog)->vbox),
 			    scroll_frame, TRUE, TRUE, 2);
 
 	gtk_widget_show (priv->storage_set_view);
@@ -487,7 +492,8 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 				     const char *title,
 				     const char *caption,
 				     const char *default_uri,
-				     const char *allowed_types[])
+				     const char *allowed_types[],
+				     gboolean allow_creation)
 {
 	EShellFolderSelectionDialog *folder_selection_dialog;
 
@@ -496,59 +502,10 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 
 	folder_selection_dialog = gtk_type_new (e_shell_folder_selection_dialog_get_type ());
 	e_shell_folder_selection_dialog_construct (folder_selection_dialog, shell,
-						   title, caption, default_uri, allowed_types);
+						   title, caption, default_uri, allowed_types,
+						   allow_creation);
 
 	return GTK_WIDGET (folder_selection_dialog);
-}
-
-
-/**
- * e_shell_folder_selection_dialog_set_allow_creation:
- * @folder_selection_dialog: An EShellFolderSelectionDialog widget
- * @allow_creation: Boolean specifying whether the "New..." button should be
- * displayed
- * 
- * Specify whether @folder_selection_dialog should have a "New..." button to
- * create a new folder or not.
- **/
-void
-e_shell_folder_selection_dialog_set_allow_creation (EShellFolderSelectionDialog *folder_selection_dialog,
-						    gboolean allow_creation)
-{
-	GList *button_list_item;
-	GtkWidget *button;
-
-	g_return_if_fail (folder_selection_dialog != NULL);
-	g_return_if_fail (E_IS_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog));
-
-	folder_selection_dialog->priv->allow_creation = !! allow_creation;
-
-	button_list_item = g_list_nth (GNOME_DIALOG (folder_selection_dialog)->buttons, 2);
-	g_assert (button_list_item != NULL);
-
-	button = GTK_WIDGET (button_list_item->data);
-
-	if (allow_creation)
-		gtk_widget_show (button);
-	else
-		gtk_widget_hide (button);
-}
-
-/**
- * e_shell_folder_selection_dialog_get_allow_creation:
- * @folder_selection_dialog: An EShellFolderSelectionDialog widget
- * 
- * Get whether the "New..." button is displayed.
- * 
- * Return value: %TRUE if the "New..." button is displayed, %FALSE otherwise.
- **/
-gboolean
-e_shell_folder_selection_dialog_get_allow_creation (EShellFolderSelectionDialog *folder_selection_dialog)
-{
-	g_return_val_if_fail (folder_selection_dialog != NULL, FALSE);
-	g_return_val_if_fail (E_IS_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog), FALSE);
-
-	return folder_selection_dialog->priv->allow_creation;
 }
 
 

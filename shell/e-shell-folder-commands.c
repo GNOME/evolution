@@ -324,7 +324,7 @@ e_shell_command_copy_folder (EShell *shell,
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Copy folder"),
-								       caption, uri, NULL);
+								       caption, uri, NULL, TRUE);
 
 	g_free (caption);
 	g_free (uri);
@@ -368,7 +368,7 @@ e_shell_command_move_folder (EShell *shell,
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Move folder"),
-								       caption, uri, NULL);
+								       caption, uri, NULL, TRUE);
 
 	g_free (caption);
 	g_free (uri);
