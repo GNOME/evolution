@@ -1,3 +1,8 @@
+2003-02-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component/e-summary-factory.c (control_activate): Get
+	evolution-executive-summary.xml from EVOLUTION_UI_DIRECTORY.
+
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Automake 1.5 fixes pointed out by Richard Boulton

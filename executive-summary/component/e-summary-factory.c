@@ -79,7 +79,7 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_component_freeze (ui_component, NULL);
 
 	bonobo_ui_util_set_ui (ui_component, EVOLUTION_DATADIR,
-			       "evolution-executive-summary.xml", 
+			       EVOLUTION_UI_DIRECTORY "/evolution-executive-summary.xml", 
 			       "evolution-executive-summary");
 
 	e_pixmaps_update (ui_component, pixmaps);

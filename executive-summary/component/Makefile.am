@@ -66,7 +66,7 @@ evolution_executive_summary_LDADD = 							\
 	-lgal										\
 	$(GTKHTML_LIBS)
 
-gladedir = $(datadir)/evolution/glade
+gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = executive-summary-config.glade
 
 if ENABLE_PURIFY
