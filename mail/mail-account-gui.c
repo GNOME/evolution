@@ -282,6 +282,8 @@ transport_needs_auth_toggled (GtkToggleButton *toggle, gpointer data)
 
 	widget = glade_xml_get_widget (gui->xml, "transport_auth_frame");
 	gtk_widget_set_sensitive (widget, need);
+	if (need)
+		service_changed (NULL, &gui->transport);
 }
 
 static void
@@ -367,7 +369,7 @@ service_check_supported (GtkButton *button, gpointer user_data)
 	service = g_new0 (MailConfigService, 1);
 	save_service (gsvc, NULL, service);
 
-	if (mail_config_check_service (service->url, CAMEL_PROVIDER_STORE, &authtypes)) {
+	if (mail_config_check_service (service->url, gsvc->provider_type, &authtypes)) {
 		build_auth_menu (gsvc, authtypes);
 		g_list_free (authtypes);
 	}
@@ -815,7 +817,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->transport.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_type_omenu"));
 	gui->transport.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_host"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport.hostname), "changed",
-			    GTK_SIGNAL_FUNC (service_changed), &gui->source);
+			    GTK_SIGNAL_FUNC (service_changed), &gui->transport);
 	gui->transport.username = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_user"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport.username), "changed",
 			    GTK_SIGNAL_FUNC (service_changed), &gui->source);
@@ -1032,6 +1034,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 
 	if (source_proto) {
 		setup_service (&gui->source, gui->account->source);
+		gui->source.provider_type = CAMEL_PROVIDER_STORE;
 		g_free (source_proto);
 		if (gui->account->source->auto_check) {
 			gtk_toggle_button_set_active (gui->source_auto_check, TRUE);
@@ -1042,6 +1045,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	if (transport_proto) {
 		if (setup_service (&gui->transport, gui->account->transport))
 			gtk_toggle_button_set_active (gui->transport_needs_auth, TRUE);
+		gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
 		g_free (transport_proto);
 	}
 }

@@ -49,6 +49,7 @@ typedef struct {
 	GtkButton *check_supported;
 
 	CamelProvider *provider;
+	CamelProviderType provider_type;
 } MailAccountGuiService;
 
 typedef struct {

@@ -1,3 +1,16 @@
+2001-04-02  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c: Add a "provider_type" arg to
+	MailAccountGuiService.
+	(transport_needs_auth_toggled): Call service_changed if enabling
+	the auth pane so the status of the "Check supported types" button
+	will be correct.
+	(service_check_supported): Use gsvc->provider_type, not
+	CAMEL_PROVIDER_STORE.
+	(mail_account_gui_new): Pass the transport as the user_data to the
+	"changed" signal on transport.hostname, not the store.
+	(mail_account_gui_setup): Set up provider_type fields
+
 2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* component-factory.c: changed vtrash icon to trash. doh
