@@ -158,23 +158,20 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	FilterOption *fo = (FilterOption *) fe;
 	GConfClient *gconf;
 	GSList *list, *l;
-	const char *p;
-	char *title;
+	char *title, *p;
 	int i = 0;
 	
         FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 	
 	gconf = gconf_client_get_default ();
-#warning "do we have to free the list data returned from gconf_client_get_list() ???"
+	
 	l = list = gconf_client_get_list (gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
-	while (l != NULL && i < 5) {
+	while (l != NULL) {
 		title = (char *) l->data;
 		if ((p = strrchr (title, ':')))
-			title = g_strndup (title, p - title);
-		else
-			title = g_strdup (title);
+			*p++ = '\0';
 		
-		filter_option_add (fo, labels[i++].value, title, NULL);
+		filter_option_add (fo, i < 5 ? labels[i++].value : (p ? p : "#ffffff"), title, NULL);
 		g_free (title);
 		
 		l = l->next;
