@@ -27,6 +27,7 @@
 #include <gtk/gtkcombo.h>
 #include <gtk/gtktext.h>
 #include <libgnomeui/gnome-popup-menu.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -750,6 +751,13 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 			       "categories", &categories,
 			       NULL);
 	dialog = GNOME_DIALOG(e_categories_new(categories));
+
+	if (dialog == NULL) {
+		GtkWidget *uh_oh = gnome_error_dialog (_("Category editor not available."));
+		gtk_widget_show (uh_oh);
+		return;
+	}
+
 	ecml = e_categories_master_list_wombat_new ();
 	gtk_object_set(GTK_OBJECT(dialog),
 		       "header", _("This contact belongs to these categories:"),

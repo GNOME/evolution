@@ -1,3 +1,9 @@
+2001-11-12  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (categories_clicked): If
+	our call to e_categories_new returns NULL, put up an error dialog
+	and return.  (Fixed #14780)
+		
 2001-11-09  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes Ximian bug #14687 ]
