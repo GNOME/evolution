@@ -159,8 +159,8 @@ struct _EText {
 	int yofs_edit;                  /* Offset because of editing */
 
 	/* This needs to be reworked a bit once we get line wrapping. */
-	int selection_start;            /* Start of selection */
-	int selection_end;              /* End of selection */
+	int selection_start;            /* Start of selection IN BYTES */
+	int selection_end;              /* End of selection IN BYTES */
 	gboolean select_by_word;        /* Current selection is by word */
 
 	/* This section is for drag scrolling and blinking cursor. */

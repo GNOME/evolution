@@ -1,3 +1,7 @@
+2000-08-22  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* widgets/e-text/e-text.c: Use byte based UTF-8 syntax
+	
 2000-08-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* announcement-0.4.1.txt: Announcement message
