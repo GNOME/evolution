@@ -730,8 +730,8 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	
 	gtk_paint_box (style, drawable,
 		       GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-		       &clip, NULL, "button",
-		       x, y, width, height);
+		       &clip, GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas), 
+		       "button", x, y, width, height);
 
 	clip.x = x + HEADER_PADDING / 2;
 	clip.y = y + HEADER_PADDING / 2;
