@@ -34,7 +34,7 @@ static void        e_list_iterator_destroy    (GtkObject *object);
 #define PARENT_TYPE (e_iterator_get_type ())
 
 static GtkObjectClass *parent_class;
-#define PARENT_CLASS (E_LIST_ITERATOR_CLASS(parent_class))
+#define PARENT_CLASS (E_ITERATOR_CLASS(parent_class))
 
 /**
  * e_list_iterator_get_type:

@@ -708,7 +708,6 @@ echo "
 	Use movemail:	  $with_movemail
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
-	Crypto support:   $msg_crypto
 	Gtk-doc:	  $enable_gtk_doc"
 
 if test x$enable_gtk_doc = xyes; then

@@ -1,3 +1,7 @@
+2001-01-14  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: remove old config message
+
 2001-01-14  Damon Chaplin  <damon@helixcode.com>
 
 	* tools/evolution-move-tasks: new script to move tasks from the

@@ -479,7 +479,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 		delivery.code = address.entry[entryZip];
 
 	string = e_card_delivery_address_to_string (&delivery);
-	e_card_simple_set (simple,  E_CARD_SIMPLE_FIELD_ADDRESS_HOME, string);
+	e_card_simple_set (simple,  E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, string);
 	g_free (string);
 
 	if (address.entry[entryAddress])
@@ -514,7 +514,8 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, phonenum);
 		else if (!strcmp (phonelabel, "Mobile"))
 			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, phonenum);
-
+		g_print ("    ['%s' : '%s']\n", phonelabel, phonenum);
+		
 		free (phonenum);
 	}
 
