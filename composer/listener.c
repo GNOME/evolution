@@ -155,11 +155,13 @@ insert_paragraph_after (EditorListener *l, CORBA_Environment * ev)
 			if (orig && *orig == '1')
 				reply_indent (l, ev);
 			GNOME_GtkHTML_Editor_Engine_setParagraphData (l->composer->editor_engine, "orig", "0", ev);
+			CORBA_free (orig);
 		}
 		signature = GNOME_GtkHTML_Editor_Engine_getParagraphData (l->composer->editor_engine, "signature", ev);
 		if (ev->_major == CORBA_NO_EXCEPTION) {
 			if (signature && *signature == '1')
 				clear_signature (l->composer->editor_engine, ev);
+			CORBA_free (signature);
 		}
 	}
 }
@@ -208,6 +210,7 @@ impl_event (PortableServer_Servant _servant,
 					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "insert-paragraph", ev);
 					GNOME_GtkHTML_Editor_Engine_runCommand (l->composer->editor_engine, "delete-back", ev);
 				}
+				CORBA_free (orig);
 			}
 		}
 	} else if (!strcmp (name, "url_requested")) {

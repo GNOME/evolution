@@ -1,3 +1,8 @@
+2003-06-19  Larry Ewing  <lewing@ximian.com>
+
+	* listener.c (insert_paragraph_after): free the return value.
+	(impl_event): free the return value.
+
 2003-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (best_encoding): Use e_iconv_open/close so that
