@@ -1,3 +1,10 @@
+Sun Mar  8 16:38:10 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* Makefile.am (INCLUDES): Added GNOME_INCLUDEDIR.
+	(gncal_LDADD): Don't include libsupport.a.
+
+	* gncal.c (main): Use new gnome_init.
+
 1998-02-19  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal.c (main): Added app_id "gncal".

@@ -462,7 +462,7 @@ void show_main_window()
 int main(int argc, char *argv[])
 {
 
-	gnome_init("gncal", &argc, &argv);
+	gnome_init("gncal", NULL, argc, argv, 0, NULL);
 
 	show_main_window();
 

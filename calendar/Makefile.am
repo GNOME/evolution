@@ -1,6 +1,6 @@
 INCLUDES = 			\
-	-I$(includedir)	
-	-I$(includedir)
+	-I$(includedir)		\
+	$(GNOME_INCLUDEDIR)
 
 bin_PROGRAMS = gncal
 
@@ -13,7 +13,6 @@ gncal_SOURCES = \
 gncal_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS) \
-	$(top_builddir)/support/libsupport.a \
 	$(INTLLIBS)
 
 EXTRA_DIST = \
