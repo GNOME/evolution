@@ -193,9 +193,7 @@ line, unless it is being cross-posted to other non-patch lists.
 
 It is absolutely unnecessary to add "please consider", "please review",
 or "seeking review", or similar, to the subject line.  Please do not do
-this.  The list is specifically for the review of patches and subject
-lines such as these will lead to your patch submissions being ignored
-and/or simply forgotten.
+this.
 
 Where the patch does not address a specific bug number, then the subject
 line should simply be a concise summary of the problem/feature it
