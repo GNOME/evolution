@@ -284,6 +284,8 @@
       <placeholder name="ComponentPlaceholder"
 		   delimit="top"/>
 
+      <placeholder name="StorageFolderPropertiesPlaceholder"/>
+
     </popup>
   </popups>
 </Root>
