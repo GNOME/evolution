@@ -653,11 +653,14 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 		pbl = g_new0 (struct _PixbufLoader, 1);
 		if (g_strncasecmp (eb->type, "image/", 6) == 0) {
-			pbl->mstream = camel_stream_mem_new ();
-			camel_data_wrapper_write_to_stream (
-				camel_medium_get_content_object (medium),
-				pbl->mstream);
-			camel_stream_reset (pbl->mstream);
+			CamelDataWrapper *content;
+
+			content = camel_medium_get_content_object (medium);
+			if (!camel_data_wrapper_is_offline (content)) {
+				pbl->mstream = camel_stream_mem_new ();
+				camel_data_wrapper_write_to_stream (content, pbl->mstream);
+				camel_stream_reset (pbl->mstream);
+			}
 		}
 		pbl->type = g_strdup (eb->type);
 		pbl->cid = g_strdup (cid);
