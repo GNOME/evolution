@@ -1,3 +1,9 @@
+2000-10-05  Chris Toshok  <toshok@helixcode.com>
+
+	* component/component-factory.c: include
+	<gal/widgets/e-gui-utils.h> instead of "e-util/e-gui-utils.h" to
+	clear up e_notice declaration, and #include <gnome.h> to get "_".
+
 2000-10-05  Michael Meeks  <michael@helixcode.com>
 
 	* component/e-summary-factory.c (control_activate): upd.

@@ -27,12 +27,13 @@
 #endif
 
 #include <bonobo.h>
+#include <gnome.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
 
 #include "evolution-shell-component.h"
-#include "e-util/e-gui-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 
 #include "component-factory.h"
 #include "e-summary-factory.h"
