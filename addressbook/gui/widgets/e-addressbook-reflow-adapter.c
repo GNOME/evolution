@@ -284,6 +284,10 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 	g_free(string);
 
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST - 2 && count < 5; field++) {
+
+		if (field == E_CARD_SIMPLE_FIELD_FAMILY_NAME)
+			continue;
+
 		string = e_card_simple_get(simple, field);
 		if (string && *string) {
 			int this_height;

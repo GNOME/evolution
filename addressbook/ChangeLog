@@ -1,3 +1,12 @@
+2001-05-25  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c (addressbook_height):
+	Correct the height calculation here to not include the
+	E_CARD_SIMPLE_FIELD_FAMILY_NAME since it won't be displayed.
+
+	* gui/widgets/e-minicard.c (remodel): Changed this to continue to
+	be more consistent and simpler.
+
 2001-05-23  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (view_destroy): fix strings such

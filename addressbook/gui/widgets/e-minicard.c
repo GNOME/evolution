@@ -760,7 +760,7 @@ remodel( EMinicard *e_minicard )
 			EMinicardField *minicard_field = NULL;
 
 			if (field == E_CARD_SIMPLE_FIELD_FAMILY_NAME)
-				field ++;
+				continue;
 
 			if (list)
 				minicard_field = list->data;
