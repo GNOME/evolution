@@ -19,7 +19,7 @@ libeaddress_conduit_la_LDFLAGS = -module -avoid-version
 libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\
 	$(top_builddir)/e-util/ename/libename-static.la			\
-	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(top_builddir)/camel/libcamel-static.la	 		\
 	$(top_builddir)/libibex/libibex.la				\
