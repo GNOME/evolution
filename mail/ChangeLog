@@ -9,6 +9,8 @@
 	* mail-config.c: Config dialogs are completed.
 	(service_acceptable): Fixed a segfault caused by duplicate 
 	camel_exception_free()
+	(providers_config_new): Identity and Source clists are now filled in
+	when the dialog is created as well as the Transport page
 
 	* folder-browser-factory.c: Renamed Tool/ menu items
 	Vfolder was changed to Virtual Folder and

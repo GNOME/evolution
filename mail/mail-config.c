@@ -1012,7 +1012,7 @@ prepare_first (GnomeDruidPage *page, GnomeDruid *druid, gpointer user_data)
 }
 
 static struct identity_record idrec;
-static char *source, *transport;
+static char *source = NULL, *transport = NULL;
 
 static void
 cancel (GnomeDruid *druid, gpointer window)
@@ -1215,7 +1215,9 @@ mail_config_druid (void)
 }
 
 static gint identity_row = -1;
+static gint identity_max_row = -1;
 static gint source_row = -1;
+static gint source_max_row = -1;
 
 struct identity_dialog_data {
 	GtkWidget *clist;
@@ -1254,7 +1256,9 @@ on_cmdIdentityConfigDialogCancel_clicked (GtkWidget *dialog, gpointer user_data)
 	
 	if (data && data->new_entry) {
 		gtk_clist_remove (GTK_CLIST (data->clist), identity_row);
-		identity_row = -1;
+		identity_max_row--;
+		identity_row = identity_row > identity_max_row ? identity_max_row : identity_row;
+		gtk_clist_select_row (GTK_CLIST (data->clist), identity_row, 0);
 	}
 }
 
@@ -1386,7 +1390,9 @@ on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer u
 		g_print ("Cancel clicked\n");
 		if (data && data->new_entry) {
 			gtk_clist_remove (GTK_CLIST (data->clist), source_row);
-			source_row = -1;
+			source_max_row--;
+			source_row = source_row > source_max_row ? source_max_row : source_row;
+			gtk_clist_select_row (GTK_CLIST (data->clist), source_row, 0);
 		}
 		break;
 	}
@@ -1515,9 +1521,12 @@ on_cmdIdentityAdd_clicked (GtkWidget *widget, gpointer user_data)
 	char *text[] = { "", "", "", "" };
 
 	gtk_clist_append (GTK_CLIST (user_data), text);
+
 	if (identity_row > -1)
 		gtk_clist_unselect_row (GTK_CLIST (user_data), identity_row, 0);
-	gtk_clist_select_row (GTK_CLIST (user_data), identity_row + 1, 0);
+
+	identity_max_row++;
+	gtk_clist_select_row (GTK_CLIST (user_data), identity_max_row, 0);
 
 	/* now create the editing dialog */
 	dialog = create_identity_config_dialog (FALSE, &idrec, GTK_WIDGET (user_data));
@@ -1570,11 +1579,12 @@ on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data)
 	char *text[] = { "" };
 
 	gtk_clist_append (GTK_CLIST (user_data), text);
+	source_max_row++;
 
 	if (source_row > -1)
 		gtk_clist_unselect_row (GTK_CLIST (user_data), source_row, 0);
 	
-	gtk_clist_select_row (GTK_CLIST (user_data), source_row + 1, 0);
+	gtk_clist_select_row (GTK_CLIST (user_data), source_max_row, 0);
 
 	/* now create the editing dialog */
 	dialog = create_source_config_dialog (FALSE, &source, GTK_WIDGET (user_data));
@@ -1670,6 +1680,8 @@ providers_config_new (void)
 	GList *providers, *p, *sources, *transports;
 	GtkWidget *table, *interior_notebook;
 	char *titles[] = { _("Name"), _("Address"), _("Organization"), _("Signature file") };
+	char *path;
+	gboolean configured;
 	int page;
 
 
@@ -1739,11 +1751,50 @@ providers_config_new (void)
 	gtk_clist_set_column_width (GTK_CLIST (clistIdentities), 0, 80);
 	gtk_clist_column_titles_show (GTK_CLIST (clistIdentities));
 
-	/* TODO: we should really have a GList of identities */
-	idrec.name = NULL;
-	idrec.address = NULL;
-	idrec.organization = NULL;
-	idrec.sigfile = NULL;
+	/* Find out if stuff has been configured */
+	path = g_strdup_printf ("=%s/config=/mail/configured", evolution_dir);
+	configured = gnome_config_get_bool (path);
+	g_free (path);
+
+	identity_row = -1;
+	if (configured) {
+		char *text[] = { "", "", "", "" };
+		struct identity_record *data;
+
+		/* add an entry to the identity clist */
+		gtk_clist_append (GTK_CLIST (clistIdentities), text);
+		identity_max_row = 0;
+
+		path = g_strdup_printf ("=%s/config=/mail/id_name", evolution_dir);
+		idrec.name = gnome_config_get_string (path);
+		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 0, idrec.name);
+		g_free (path);
+
+		path = g_strdup_printf ("=%s/config=/mail/id_addr", evolution_dir);
+		idrec.address = gnome_config_get_string (path);
+		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 1, idrec.address);
+		g_free (path);
+
+		path = g_strdup_printf ("=%s/config=/mail/id_org", evolution_dir);
+		idrec.organization = gnome_config_get_string (path);
+		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 2, idrec.organization);
+		g_free (path);
+
+		path = g_strdup_printf ("=%s/config=/mail/id_sig", evolution_dir);
+		idrec.sigfile = gnome_config_get_string (path);
+		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 3, idrec.sigfile);
+		g_free (path);
+
+		data = g_malloc0 (sizeof (struct identity_record));
+		data->name = g_strdup (idrec.name);
+		data->address = g_strdup (idrec.address);
+		data->organization = g_strdup (idrec.organization);
+		data->sigfile = g_strdup (idrec.sigfile);
+		gtk_clist_set_row_data (GTK_CLIST (clistIdentities), 0, data);
+	} else {
+		identity_max_row = -1;
+	}
+
 
 	lblIdentities = gtk_label_new (_("Identities"));
 	gtk_widget_set_name (lblIdentities, "lblIdentities");
@@ -1825,6 +1876,25 @@ providers_config_new (void)
 	gtk_clist_set_column_width (GTK_CLIST (clistSources), 0, 80);
 	gtk_clist_column_titles_show (GTK_CLIST (clistSources));
 
+	if (configured && !source) {
+		path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
+		source = gnome_config_get_string (path);
+		g_free (path);
+	}
+
+	source_row = -1;
+	if (source) {
+		char *text[] = { "" };
+
+		gtk_clist_append (GTK_CLIST (clistSources), text);
+		source_max_row = 0;
+
+		gtk_clist_set_text (GTK_CLIST (clistSources), 0, 0, source);
+		gtk_clist_set_row_data (GTK_CLIST (clistSources), 0, g_strdup(source));
+	} else {
+		source_max_row = -1;
+	}
+
 	lblMailSources = gtk_label_new (_("Mail sources"));
 	gtk_widget_set_name (lblMailSources, "lblMailSources");
 	gtk_widget_ref (lblMailSources);
@@ -1889,6 +1959,11 @@ providers_config_new (void)
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (transport_page_vbox);
 	gtk_container_add (GTK_CONTAINER (notebook), transport_page_vbox);
+	if (configured && !transport) {
+		path = g_strdup_printf ("=%s/config=/mail/transport", evolution_dir);
+		transport = gnome_config_get_string (path);
+		g_free (path);
+	}
 	create_transport_page (transport_page_vbox, transports, &transport);
 
 	/* Set the data in the transports page */
