@@ -20,16 +20,16 @@ INCLUDES = -I.. \
 	-DG_LOG_DOMAIN=\"camel-imap-provider\"	
 
 libcamelimap_la_SOURCES = 			\
+	camel-imap-command.c			\
 	camel-imap-folder.c			\
 	camel-imap-provider.c			\
 	camel-imap-store.c			\
-	camel-imap-stream.c			\
 	camel-imap-utils.c
 
 libcamelimapinclude_HEADERS =			\
+	camel-imap-command.h			\
 	camel-imap-folder.h			\
 	camel-imap-store.h			\
-	camel-imap-stream.h			\
 	camel-imap-utils.h
 
 libcamelimap_la_LDFLAGS = -version-info 0:0:0

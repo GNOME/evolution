@@ -1,3 +1,25 @@
+2000-10-03  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-command.c: New file containing
+	camel_imap_command and friends. Major camel_imap_command rewrite
+	to remove duplicated code, make the parsing of literals be
+	more safe/correct, deal with RECENT/EXPUNGE responses more
+	consistently, and make it possible to implement the AUTHENTICATE
+	command.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_nstring): New
+	function, to parse an IMAP "nstring".
+
+	* providers/imap/camel-imap-store.c: Move command stuff to
+	camel-imap-command.c. Update for camel_imap_command changes.
+
+	* providers/imap/camel-imap-folder.c: Update for
+	camel_imap_command changes.
+	(imap_append_message): CRLF filter the message before sending it.
+
+	* providers/imap/Makefile.am: Add camel-imap-command.[ch], remove
+	camel-imap-stream.[ch] for now.
+
 2000-10-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-message.c (camel_mime_message_has_8bit_parts): New

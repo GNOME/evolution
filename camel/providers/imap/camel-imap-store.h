@@ -66,50 +66,6 @@ typedef struct {
 } CamelImapStoreClass;
 
 
-/* public methods */
-void camel_imap_store_open (CamelImapStore *store, CamelException *ex);
-void camel_imap_store_close (CamelImapStore *store, gboolean expunge, CamelException *ex);
-
-/* support functions */
-
-enum {
-	CAMEL_IMAP_OK = 0,
-	CAMEL_IMAP_NO,
-	CAMEL_IMAP_BAD,
-	CAMEL_IMAP_PLUS,
-	CAMEL_IMAP_FAIL
-};
-
-gint camel_imap_command (CamelImapStore *store, CamelFolder *folder,
-			 CamelException *ex, char *fmt, ...);
-
-gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder,
-				  GPtrArray **ret, CamelException *ex, char *fmt, ...);
-void camel_imap_response_free (GPtrArray *response);
-char *camel_imap_response_extract (GPtrArray *response, const char *type,
-				   CamelException *ex);
-
-gint camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder,
-			       char **ret, CamelException *ex, char *fmt, ...);
-
-/* multi-transactional commands... */
-gint camel_imap_command_preliminary (CamelImapStore *store,
-				     char **cmdid,
-				     CamelException *ex,
-				     char *fmt, ...);
-
-gint camel_imap_command_continuation (CamelImapStore *store,
-				      char **ret,
-				      char *cmdid,
-				      char *cmdbuf,
-				      CamelException *ex);
-
-gint camel_imap_command_continuation_with_stream (CamelImapStore *store,
-						  char **ret,
-						  char *cmdid,
-						  CamelStream *cstream,
-						  CamelException *ex);
-
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);
 

@@ -558,3 +558,77 @@ imap_parse_flag_list (const char *flag_list)
 	
 	return flags;
 }
+
+/**
+ * imap_parse_nstring:
+ * @str_p: a pointer to a string
+ * @len: a pointer to an int to return the length in
+ *
+ * This parses an "nstring" (NIL, a quoted string, or a literal)
+ * starting at *@str_p. On success, *@str_p will point to the first
+ * character after the end of the nstring, and *@len will contain
+ * the length of the returned string. On failure, *@str_p will be
+ * set to %NULL.
+ *
+ * This assumes that the string is in the form returned by
+ * camel_imap_command(): that line breaks are indicated by LF rather
+ * than CRLF.
+ *
+ * Return value: the parsed string, or %NULL if a NIL or no string
+ * was parsed. (In the former case, *@str_p will be %NULL; in the
+ * latter, it will point to the character after the NIL.)
+ **/
+char *
+imap_parse_nstring (char **str_p, int *len)
+{
+	char *str = *str_p;
+	char *out;
+
+	if (!str)
+		return NULL;
+	else if (*str == '"') {
+		char *p;
+		int size;
+
+		str++;
+		size = strcspn (str, "\"") + 1;
+		p = out = g_malloc (size);
+
+		while (*str && *str != '"') {
+			if (*str == '\\')
+				str++;
+			*p++ = *str++;
+			if (p - out == size) {
+				out = g_realloc (out, size * 2);
+				p = out + size;
+				size *= 2;
+			}
+		}
+		if (*str != '"') {
+			*str_p = NULL;
+			g_free (out);
+			return NULL;
+		}
+		*p = '\0';
+		*str_p = str + 1;
+		*len = strlen (out);
+		return out;
+	} else if (*str == '{') {
+		*len = strtoul (str + 1, (char **)&str, 10);
+		if (*str++ != '}' || *str++ != '\n' || strlen (str) < *len) {
+			*str_p = NULL;
+			return NULL;
+		}
+		out = g_strndup (str, *len);
+		*str_p = str + *len;
+		return out;
+	} else if (!g_strncasecmp (str, "nil", 3)) {
+		*str_p += 3;
+		*len = 0;
+		return NULL;
+	} else {
+		*str_p = NULL;
+		return NULL;
+	}
+}
+

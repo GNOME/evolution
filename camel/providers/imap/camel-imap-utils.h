@@ -39,6 +39,8 @@ char *imap_translate_sexp (const char *expression);
 char *imap_create_flag_list (guint32 flags);
 guint32 imap_parse_flag_list (const char *flag_list);
 
+char *imap_parse_nstring (char **str_p, int *len);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
