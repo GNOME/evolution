@@ -3,19 +3,7 @@ BUGS:
 - Recurrence end date is wrong.  An event that repeats daily will not
   be included in the ending date of the recurrence (off-by-one error?).
 
-General:
-
-- Color properties, highlight some days and such.
-
-- Mark the current day in BOLD as well as different color (color blind users will need it).
-
-- Write online help.  Nice help.  Lots of help.
-
 Year view:
-
-- Prelight days on mouse enter/leave.  Share that code with goto.c.
-
-- Double click on a day takes you to the day view.
 
 - Button-3 popup with options:
 	Create new appointment in this day
@@ -56,3 +44,7 @@ Event editor dialog:
 Gnome date selection widget:
 
 - Make the displayed date be localized properly -- use strftime().
+
+General:
+
+- Write online help.  Nice help.  Lots of help.

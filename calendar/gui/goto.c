@@ -17,7 +17,6 @@
 static GtkWidget *goto_win;		/* The goto dialog window */
 static GnomeCanvasItem *month_item;	/* The month item in the dialog */
 static GnomeCalendar *gnome_calendar;	/* The gnome calendar the dialog refers to */
-static gulong day_pixels[42];		/* Colors of the day backgrounds */
 
 
 /* Updates the specified month item by marking it appropriately from the calendar the dialog refers
@@ -25,29 +24,9 @@ static gulong day_pixels[42];		/* Colors of the day backgrounds */
 static void
 update (void)
 {
-	int i;
-	GnomeCanvasItem *item;
-	GtkArg arg;
-	GdkColor *c;
-
-	/* First, mark the days */
-
 	unmark_month_item (GNOME_MONTH_ITEM (month_item));
 	mark_month_item (GNOME_MONTH_ITEM (month_item), gnome_calendar->cal);
-
-	/* Now save the colors of the day backgrounds */
-
-	for (i = 0; i < 42; i++) {
-		arg.name = "fill_color_gdk";
-
-		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item),
-						   GNOME_MONTH_ITEM_DAY_BOX + i);
-		gtk_object_getv (GTK_OBJECT (item), 1, &arg);
-
-		c = GTK_VALUE_BOXED (arg);
-		day_pixels[i] = c->pixel;
-		g_free (c);
-	}
+	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), default_prelight_func, NULL);
 }
 
 /* Callback used when the year adjustment is changed */
@@ -163,23 +142,15 @@ set_scroll_region (GtkWidget *widget, GtkAllocation *allocation)
 }
 
 /* Event handler for day groups in the month item.  A button press makes the calendar jump to the
- * selected day and destroys the Go-to dialog box.  Days are prelighted as appropriate on
- * enter_notify and leave_notify events.
+ * selected day and destroys the Go-to dialog box.
  */
 static gint
 day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 {
-	GnomeCanvasItem *box;
 	int child_num, day;
-	GdkColor color;
 
 	child_num = gnome_month_item_child2num (GNOME_MONTH_ITEM (month_item), item);
 	day = gnome_month_item_num2day (GNOME_MONTH_ITEM (month_item), child_num);
-
-	child_num -= GNOME_MONTH_ITEM_DAY_GROUP;
-
-	if (day == 0)
-		return FALSE;
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
@@ -189,23 +160,6 @@ day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 							    GNOME_MONTH_ITEM (month_item)->month, day));
 			gtk_widget_destroy (goto_win);
 		}
-		break;
-
-	case GDK_ENTER_NOTIFY:
-		box = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item),
-						  child_num + GNOME_MONTH_ITEM_DAY_BOX);
-		gnome_canvas_item_set (box,
-				       "fill_color", color_spec_from_prop (COLOR_PROP_PRELIGHT_DAY_BG),
-				       NULL);
-		break;
-
-	case GDK_LEAVE_NOTIFY:
-		box = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item),
-						  child_num + GNOME_MONTH_ITEM_DAY_BOX);
-		color.pixel = day_pixels[child_num];
-		gnome_canvas_item_set (box,
-				       "fill_color_gdk", &color,
-				       NULL);
 		break;
 
 	default:

@@ -1,5 +1,30 @@
 1998-09-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-full-day.c (gncal_full_day_forall): Updated foreach ->
+	forall from Gtk changes, bleah.
+
+	* year-view.c (day_event): New function to handle events from
+	days.  Jumps to the day that is clicked.
+
+	* main.c: Use a watch cursor while the previous/today/next
+	functions are doing their job.
+
+	* mark.c (month_item_prepare_prelight): New public utility
+	function to prepare a month item for prelighting.  It will store
+	the proper prelight information and attach the appropriate signals.
+	(mark_current_day): Make the current day bold as well (useful for
+	color-blind people, I guess).
+
+	* prop.c (set_current_day): Reset the date in the sample calendar
+	and mark the current day.
+	(fake_mark_days): Mark fake events in the sample calendar.
+
+	* year-view.c (year_view_set): Use the general prelighting engine.
+
+	* goto.c (day_event): Just process button presses, as prelighting
+	is done behind the scenes now.
+	(update): Use the general prelighting engine.
+
 	* prop.c (create_colors_page): We can now configure the colors of
 	the monthly calendars!  Wheeeeee!  There are still some nits to be
 	fixed, which are listed in the TODO file.

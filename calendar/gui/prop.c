@@ -1,6 +1,6 @@
-/*
- * Calendar properties dialog box
- * (C) 1998 the Free Software Foundation
+/* Calendar properties dialog box
+ *
+ * Copyright (C) 1998 the Free Software Foundation
  *
  * Authors: Miguel de Icaza <miguel@kernel.org>
  *          Federico Mena <federico@nuclecu.unam.mx>
@@ -9,8 +9,9 @@
 #include <langinfo.h>
 #include <gnome.h>
 #include "gnome-cal.h"
-#include "main.h"
 #include "gnome-month-item.h"
+#include "main.h"
+#include "mark.h"
 
 /* These specify the page numbers in the preferences notebook */
 enum {
@@ -344,6 +345,60 @@ color_spec_from_picker (int num)
 	return build_color_spec (r, g, b);
 }
 
+/* Callback used to query prelight color information for the properties box */
+static char *
+fetch_prelight_spec (gpointer data)
+{
+	return color_spec_from_picker (COLOR_PROP_PRELIGHT_DAY_BG);
+}
+
+/* Marks fake event days in the month item sample */
+static void
+fake_mark_days (void)
+{
+	static int day_nums[] = { 1, 4, 8, 16, 17, 18, 20, 25, 28 }; /* some random days */
+	int day_index;
+	int i;
+	GnomeCanvasItem *item;
+
+	for (i = 0; i < (sizeof (day_nums) / sizeof (day_nums[0])); i++) {
+		day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (month_item), day_nums[i]);
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item), GNOME_MONTH_ITEM_DAY_BOX + day_index);
+		gnome_canvas_item_set (item,
+				       "fill_color", color_spec_from_picker (COLOR_PROP_MARK_DAY_BG),
+				       NULL);
+	}
+}
+
+/* Switches the month item to the current date and highlights the current day's number */
+static void
+set_current_day (void)
+{
+	struct tm *tm;
+	time_t t;
+	GnomeCanvasItem *item;
+	int day_index;
+
+	/* Set the date */
+
+	t = time (NULL);
+	tm = localtime (&t);
+
+	gnome_canvas_item_set (month_item,
+			       "year", tm->tm_year + 1900,
+			       "month", tm->tm_mon,
+			       NULL);
+
+	/* Highlight current day */
+
+	day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (month_item), tm->tm_mday);
+	item = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item), GNOME_MONTH_ITEM_DAY_LABEL + day_index);
+	gnome_canvas_item_set (item,
+			       "fill_color", color_spec_from_picker (COLOR_PROP_CURRENT_DAY_FG),
+			       "font", CURRENT_DAY_FONT,
+			       NULL);
+}
+
 /* Sets the colors of the month item to the current prerences */
 static void
 reconfigure_month (void)
@@ -360,10 +415,6 @@ reconfigure_month (void)
 			       "outline_color", color_spec_from_picker (COLOR_PROP_OUTLINE_COLOR),
 			       NULL);
 
-	/* FIXME: set the rest of the colors -- simulate marking of the month item, set the
-	 * current day, etc.  The following is incorrect.
-	 */
-
 	gnome_canvas_item_set (month_item,
 			       "day_box_color", color_spec_from_picker (COLOR_PROP_EMPTY_DAY_BG),
 			       NULL);
@@ -371,6 +422,17 @@ reconfigure_month (void)
 	gnome_canvas_item_set (month_item,
 			       "day_color", color_spec_from_picker (COLOR_PROP_DAY_FG),
 			       NULL);
+
+	gnome_canvas_item_set (month_item,
+			       "day_font", NORMAL_DAY_FONT,
+			       NULL);
+
+	fake_mark_days ();
+	set_current_day ();
+
+	/* Reset prelighting information */
+
+	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), fetch_prelight_spec, NULL);
 }
 
 /* Callback used when a color is changed */

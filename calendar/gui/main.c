@@ -251,22 +251,48 @@ quit_cmd (void)
 	}
 }
 
+/* Sets a clock cursor for the specified calendar window */
+static void
+set_clock_cursor (GnomeCalendar *gcal)
+{
+	GdkCursor *cursor;
+
+	cursor = gdk_cursor_new (GDK_WATCH);
+	gdk_window_set_cursor (GTK_WIDGET (gcal)->window, cursor);
+	gdk_cursor_destroy (cursor);
+	gdk_flush ();
+}
+
+/* Resets the normal cursor for the specified calendar window */
+static void
+set_normal_cursor (GnomeCalendar *gcal)
+{
+	gdk_window_set_cursor (GTK_WIDGET (gcal)->window, NULL);
+	gdk_flush ();
+}
+
 static void
 previous_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
+	set_clock_cursor (gcal);
 	gnome_calendar_previous (gcal);
+	set_normal_cursor (gcal);
 }
 
 static void
 next_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
+	set_clock_cursor (gcal);
 	gnome_calendar_next (gcal);
+	set_normal_cursor (gcal);
 }
 
 static void
 today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
+	set_clock_cursor (gcal);
 	gnome_calendar_goto_today (gcal);
+	set_normal_cursor (gcal);
 }
 
 static void

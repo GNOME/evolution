@@ -154,6 +154,56 @@ need_resize (YearView *yv)
 	yv->idle_id = gtk_idle_add (idle_handler, yv);
 }
 
+/* Event handler for days in the year's month items */
+static gint
+day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+{
+	YearView *yv;
+	GnomeCanvasItem *mitem;
+	int child_num, day;
+
+	mitem = data;
+	child_num = gnome_month_item_child2num (GNOME_MONTH_ITEM (mitem), item);
+	day = gnome_month_item_num2day (GNOME_MONTH_ITEM (mitem), child_num);
+
+	yv = gtk_object_get_user_data (GTK_OBJECT (mitem));
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		if ((event->button.button == 1) && (day != 0))
+			gnome_calendar_dayjump (yv->calendar,
+						time_from_day (GNOME_MONTH_ITEM (mitem)->year,
+							       GNOME_MONTH_ITEM (mitem)->month,
+							       day));
+		break;
+
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+/* Sets up the month item with the specified index -- connects signals for handling events, etc. */
+static void
+setup_month_item (YearView *yv, int n)
+{
+	GnomeCanvasItem *mitem;
+	GnomeCanvasItem *item;
+	int i;
+
+	mitem = yv->mitems[n];
+
+	/* Connect signals */
+
+	for (i = 0; i < 42; i++) {
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), GNOME_MONTH_ITEM_DAY_GROUP + i);
+		gtk_signal_connect (GTK_OBJECT (item), "event",
+				    (GtkSignalFunc) day_event,
+				    mitem);
+	}
+}
+
 static void
 year_view_init (YearView *yv)
 {
@@ -191,10 +241,12 @@ year_view_init (YearView *yv)
 		/* Month item */
 
 		yv->mitems[i] = gnome_month_item_new (gnome_canvas_root (GNOME_CANVAS (yv)));
+		gtk_object_set_user_data (GTK_OBJECT (yv->mitems[i]), yv);
 		gnome_canvas_item_set (yv->mitems[i],
 				       "anchor", GTK_ANCHOR_NW,
 				       "start_on_monday", week_starts_on_monday,
 				       NULL);
+		setup_month_item (yv, i);
 	}
 
 	/* We will need to resize the items when we paint for the first time */
@@ -317,10 +369,7 @@ year_view_set (YearView *yv, time_t year)
 
 	/* Unmark and re-mark all the months */
 
-	for (i = 0; i < 12; i++) {
-		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
-		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
-	}
+	year_view_colors_changed (yv);
 }
 
 void
@@ -350,5 +399,6 @@ year_view_colors_changed (YearView *yv)
 	for (i = 0; i < 12; i++) {
 		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
 		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
+		month_item_prepare_prelight (GNOME_MONTH_ITEM (yv->mitems[i]), default_prelight_func, NULL);
 	}
 }

@@ -106,7 +106,8 @@ static gint gncal_full_day_focus_in       (GtkWidget         *widget,
 					   GdkEventFocus     *event);
 static gint gncal_full_day_focus_out      (GtkWidget         *widget,
 					   GdkEventFocus     *event);
-static void gncal_full_day_foreach        (GtkContainer      *container,
+static void gncal_full_day_forall         (GtkContainer      *container,
+					   gboolean           include_internals,
 					   GtkCallback        callback,
 					   gpointer           callback_data);
 
@@ -981,7 +982,7 @@ gncal_full_day_class_init (GncalFullDayClass *class)
 	widget_class->focus_in_event = gncal_full_day_focus_in;
 	widget_class->focus_out_event = gncal_full_day_focus_out;
 
-	container_class->foreach = gncal_full_day_foreach;
+	container_class->forall = gncal_full_day_forall;
 
 	class->range_activated = range_activated;
 }
@@ -2097,7 +2098,7 @@ gncal_full_day_focus_out (GtkWidget *widget, GdkEventFocus *event)
 }
 
 static void
-gncal_full_day_foreach (GtkContainer *container, GtkCallback callback, gpointer callback_data)
+gncal_full_day_forall (GtkContainer *container, gboolean include_internals, GtkCallback callback, gpointer callback_data)
 {
 	GncalFullDay *fullday;
 	GList *children;

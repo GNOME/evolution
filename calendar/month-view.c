@@ -9,6 +9,7 @@
 #include <libgnomeui/gnome-canvas-text.h>
 #include "month-view.h"
 #include "main.h"
+#include "mark.h"
 
 
 #define SPACING 4		/* Spacing between title and calendar */
@@ -212,6 +213,6 @@ month_view_colors_changed (MonthView *mv)
 	g_return_if_fail (mv != NULL);
 	g_return_if_fail (IS_MONTH_VIEW (mv));
 
-	unmark_month_item (mv->mitem);
+	unmark_month_item (GNOME_MONTH_ITEM (mv->mitem));
 	/* FIXME */
 }
