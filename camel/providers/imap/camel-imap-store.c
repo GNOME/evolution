@@ -802,7 +802,7 @@ imap_folder_effectively_unsubscribed(CamelImapStore *imap_store,
 }
 
 static void
-imap_forget_folder(CamelImapStore *imap_store, const char *folder_name, CamelException *ex)
+imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelException *ex)
 {
 	CamelFolderSummary *summary;
 	CamelImapMessageCache *cache;
@@ -812,9 +812,15 @@ imap_forget_folder(CamelImapStore *imap_store, const char *folder_name, CamelExc
 	CamelFolderInfo *fi;
 	const char *name;
 	
-	storage_path = g_strdup_printf("%s/folders", imap_store->storage_path);
+	name = strrchr (folder_name, imap_store->dir_sep);
+	if (name)
+		name++;
+	else
+		name = folder_name;
+	
+	storage_path = g_strdup_printf ("%s/folders", imap_store->storage_path);
 	folder_dir = e_path_to_physical (storage_path, folder_name);
-	g_free(storage_path);
+	g_free (storage_path);
 	if (access (folder_dir, F_OK) != 0) {
 		g_free (folder_dir);
 		goto event;
@@ -845,12 +851,6 @@ imap_forget_folder(CamelImapStore *imap_store, const char *folder_name, CamelExc
 	rmdir (folder_dir);
 	g_free (folder_dir);
 	
-	name = strrchr (folder_name, imap_store->dir_sep);
-	if (name)
-		name++;
-	else
-		name = folder_name;
-
  event:
 	
 	fi = g_new0 (CamelFolderInfo, 1);
@@ -1136,7 +1136,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	FILE *storeinfo;
 	int i, flags;
 	size_t len;
-
+	
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	if (!connect_to_server_wrapper (service, ex) ||
 	    !imap_auth_loop (service, ex)) {
@@ -1188,6 +1188,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		}
 		g_free (result);
 	}
+	
 	if (!store->namespace)
 		store->namespace = g_strdup ("");
 	
@@ -2017,7 +2018,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 	name = top;
 	if (!name || name[0] == '\0') {
 		need_inbox = TRUE;
-		name = "";
+		name = imap_store->namespace ? imap_store->namespace : "";
 	}
 	
 	folders = g_ptr_array_new ();
@@ -2057,6 +2058,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 		get_folders_online (imap_store, pattern, folders, (flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED), ex);
 		g_free (pattern);
 	}
+	
 	if (camel_exception_is_set (ex)) {
 	lose:
 		for (i = 0; i < folders->len; i++)
@@ -2064,7 +2066,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 		g_ptr_array_free (folders, TRUE);
 		return NULL;
 	}
-
+	
 	/* Add INBOX, if necessary */
 	if (need_inbox) {
 		for (i = 0; i < folders->len; i++) {
@@ -2094,7 +2096,7 @@ get_folder_info_online (CamelStore *store, const char *top,
 			g_ptr_array_add (folders, fi);
 		}
 	}
-
+	
 	/* Assemble. */
 	tree = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
 	if (flags & CAMEL_STORE_FOLDER_INFO_FAST) {

@@ -1,3 +1,15 @@
+2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info_online): If
+	we are asking for the toplevel folders, use the IMAP store's
+	namespace as the toplevel folder rather than an empty
+	string. Fixes bug #28574.
+	(imap_forget_folder): Rearrange the code so that name can never be
+	used uninitialised.
+
+	* providers/imap/camel-imap-utils.c (imap_namespace_concat):
+	Removed.
+
 2002-08-05  Dan Winship  <danw@ximian.com>
 
 	* camel-folder-summary.h (CamelMessageFlags): Add

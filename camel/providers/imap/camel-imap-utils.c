@@ -1095,28 +1095,6 @@ imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 		return g_strdup_printf ("%s%c%s", prefix, imap_store->dir_sep, suffix);
 }
 
-char *
-imap_namespace_concat (CamelImapStore *store, const char *name)
-{
-	if (!name || *name == '\0') {
-		if (store->namespace)
-			return g_strdup (store->namespace);
-		else
-			return g_strdup ("");
-	}
-	
-	if (!g_strcasecmp (name, "INBOX"))
-		return g_strdup ("INBOX");
-	
-	if (store->namespace == NULL) {
-		g_warning ("Trying to concat NULL namespace to \"%s\"!", name);
-		return g_strdup (name);
-	}
-	
-	return imap_concat (store, store->namespace, name);
-}
-
-
 #define UTF8_TO_UTF7_LEN(len)  ((len * 3) + 8)
 #define UTF7_TO_UTF8_LEN(len)  (len)
 
