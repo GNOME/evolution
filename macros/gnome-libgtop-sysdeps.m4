@@ -142,6 +142,7 @@ main (void)
 
 	case "$host_os" in
 	*bsd*)
+	  AC_CHECK_HEADERS(net/if_var.h)
 	  AC_MSG_CHECKING([for I4B])
 	  AC_TRY_COMPILE([
 #include <sys/types.h>
@@ -149,6 +150,11 @@ main (void)
 
 #include <net/if.h>
 #include <net/if_types.h>
+
+#ifdef HAVE_NET_IF_VAR_H
+#include <net/if_var.h>
+#endif
+
 #include <net/netisr.h>
 #include <net/route.h>
 
@@ -170,6 +176,11 @@ main (void)
 
 #include <net/if.h>
 #include <net/if_types.h>
+
+#ifdef HAVE_NET_IF_VAR_H
+#include <net/if_var.h>
+#endif
+
 #include <net/netisr.h>
 #include <net/route.h>
 

@@ -1,3 +1,9 @@
+1998-11-17  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4: We need to check for <net/if_var.h>
+	and conditionally include it before <net/if_isppp.h> in the code
+	that check for I4B to make it work on FreeBSD 3.0.
+	
 1998-10-25  Marius Vollmer  <mvo@zagadka.ping.de>
 
 	* gnome-guile-checks.m4: Add GUILE_LIBS to LIBS when checking
