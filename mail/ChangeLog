@@ -1,3 +1,13 @@
+2001-05-22  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (on_url_requested): If http mode is
+	HTTP_SOMETIMES, use e_book_query_address_locally to check the From
+	address and load images if it's found.
+
+	* mail-config.c (config_read): Default http_mode to
+	MAIL_CONFIG_HTTP_SOMETIMES. Fix typo to make default forward style
+	actually work.
+
 2001-05-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Use MAILER_CFLAGS and MAILER_LIBS.

@@ -35,7 +35,8 @@
 #include <gtkhtml/htmltext.h> /* XXX */
 #include <gtkhtml/htmlinterval.h> /* XXX */
 
-#include <e-util/e-html-utils.h>
+#include "e-util/e-html-utils.h"
+#include "addressbook/backend/ebook/e-book-util.h"
 
 #include "e-searching-tokenizer.h"
 #include "mail-display.h"
@@ -888,6 +889,21 @@ load_http (MailDisplay *md, gpointer data)
 }
 
 static void
+ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
+{
+	MailDisplay *md = data;
+
+	if (card && md->current_message) {
+		const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
+		const char *md_name, *md_addr;
+
+		if (camel_internet_address_get (from, 0, &md_name, &md_addr) &&
+		    !strcmp (addr, md_addr))
+			mail_display_load_images (md);
+	}
+}
+
+static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		  gpointer user_data)
 {
@@ -936,12 +952,23 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	}
 
 	/* See if it's something we can load. */
-	if (strncmp (url, "http:", 5) == 0 &&
-	    (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
-	     g_datalist_get_data (md->data, "load_images"))) {
-		ba = g_byte_array_new ();
-		g_hash_table_insert (urls, g_strdup (url), ba);
-		mail_display_redisplay_when_loaded (md, ba, load_http, g_strdup (url));
+	if (strncmp (url, "http:", 5) == 0) {
+		if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
+		    g_datalist_get_data (md->data, "load_images")) {
+			ba = g_byte_array_new ();
+			g_hash_table_insert (urls, g_strdup (url), ba);
+			mail_display_redisplay_when_loaded (md, ba, load_http,
+							    g_strdup (url));
+		} else if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES &&
+			   !g_datalist_get_data (md->data, "checking_from")) {
+			const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
+			const char *name, *addr;
+
+			g_datalist_set_data (md->data, "checking_from",
+					     GINT_TO_POINTER (1));
+			if (camel_internet_address_get (from, 0, &name, &addr))
+				e_book_query_address_locally (addr, ebook_callback, md);
+		}
 	}
 
 	gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);

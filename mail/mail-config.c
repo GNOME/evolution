@@ -458,11 +458,11 @@ config_read (void)
 			       evolution_dir);
 	config->http_mode = gnome_config_get_int_with_default (str, &def);
 	if (def)
-		config->http_mode = MAIL_CONFIG_HTTP_NEVER;
+		config->http_mode = MAIL_CONFIG_HTTP_SOMETIMES;
 	g_free (str);
 	
 	/* Forwarding */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/defaul_forward_style",
+	str = g_strdup_printf ("=%s/config/Mail=/Format/default_forward_style",
 			       evolution_dir);
 	config->default_forward_style = gnome_config_get_int_with_default (str, &def);
 	if (def)
