@@ -1,3 +1,24 @@
+2000-05-29  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (gnome_calendar_object_changed): Removed the
+	flags argument, since now we just proxy the calendar object to the
+	calendar client.
+
+	* gui/event-editor.c (alarm_unit_get): Moved over from
+	event-editor-utils.c.
+
+	* gui/event-editor-utils.[ch]: Removed files, since the two
+	functions that were left there (i.e. the ones not present in
+	e-dialog-widgets) can simply be moved to event-editor.c.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Removed
+	event-editor-utils.[ch] from the list of sources.
+
+2000-05-27  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor-utils.c: Moved many functions to
+	e-util/e-dialog-widgets.c.
+
 2000-05-25  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor-dialog.glade: Put the main notebook directly

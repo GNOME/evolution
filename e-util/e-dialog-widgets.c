@@ -136,10 +136,9 @@ static void
 hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpointer info)
 {
 	GSList *group;
-	int *value;
-	int i;
-	const int *value_map;
 	GSList *l;
+	int *value;
+	const int *value_map;
 
 	group = gtk_radio_button_group (radio);
 
@@ -148,15 +147,7 @@ hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpoint
 	value = (int *) value_var;
 	value_map = (const int *) info;
 
-	i = value_to_index (value_map, *value);
-	if (i != -1) {
-		l = g_slist_nth (group, i);
-		if (!l)
-			g_message ("hook_radio(): could not find index %d in radio group!", i);
-
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), TRUE);
-	} else
-		g_message ("hook_radio(): could not find value %d in value map!", *value);
+	e_dialog_radio_set (GTK_WIDGET (radio), *value, value_map);
 
 	/* Hook to changed */
 
@@ -170,35 +161,13 @@ hook_radio (GtkWidget *dialog, GtkRadioButton *radio, gpointer value_var, gpoint
 static void
 get_radio_value (GtkRadioButton *radio, gpointer value_var, gpointer info)
 {
-	GSList *group;
-	GSList *l;
-	int i;
 	int *value;
 	const int *value_map;
-	int v;
-
-	group = gtk_radio_button_group (radio);
-
-	for (i = 0, l = group; l; l = l->next) {
-		radio = GTK_RADIO_BUTTON (l->data);
-
-		if (GTK_TOGGLE_BUTTON (radio)->active)
-			break;
-	}
-
-	if (!l)
-		g_assert_not_reached ();
 
 	value = (int *) value_var;
 	value_map = (const int *) info;
 
-	v = index_to_value (value_map, i);
-	if (v == -1) {
-		g_message ("get_radio_value(): could not find index %d in value map!", i);
-		return;
-	}
-
-	*value = v;
+	*value = e_dialog_radio_get (GTK_WIDGET (radio), value_map);
 }
 
 /* Callback for the "activate" signal of menu items */
@@ -216,7 +185,6 @@ static void
 hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, gpointer info)
 {
 	int *value;
-	int i;
 	const int *value_map;
 
 	/* Set the value */
@@ -224,11 +192,7 @@ hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, g
 	value = (int *) value_var;
 	value_map = (const int *) info;
 
-	i = value_to_index (value_map, *value);
-	if (i != -1)
-		gtk_option_menu_set_history (omenu, i);
-	else
-		g_message ("hook_option_menu(): could not find value %d in value map!", *value);
+	e_dialog_option_menu_set (GTK_WIDGET (omenu), *value, value_map);
 
 	/* Hook to changed */
 
@@ -248,40 +212,13 @@ hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, g
 static void
 get_option_menu_value (GtkOptionMenu *omenu, gpointer value_var, gpointer info)
 {
-	GtkMenu *menu;
-	GtkWidget *active;
-	GList *children;
-	GList *l;
-	int i;
 	int *value;
 	const int *value_map;
-	int v;
-
-	menu = GTK_MENU (gtk_option_menu_get_menu (omenu));
-
-	active = gtk_menu_get_active (menu);
-	g_assert (active != NULL);
-
-	children = GTK_MENU_SHELL (menu)->children;
-
-	for (i = 0, l = children; l; l = l->next) {
-		if (GTK_WIDGET (l->data) == active)
-			break;
-	}
-
-	if (!l)
-		g_assert_not_reached ();
 
 	value = (int *) value_var;
 	value_map = (const int *) info;
 
-	v = index_to_value (value_map, i);
-	if (v == -1) {
-		g_message ("get_option_menu_value(): could not find index %d in value map!", i);
-		return;
-	}
-
-	*value = v;
+	*value = e_dialog_option_menu_get (GTK_WIDGET (omenu), value_map);
 }
 
 /* Hooks a toggle button */
@@ -293,7 +230,7 @@ hook_toggle (GtkWidget *dialog, GtkToggleButton *toggle, gpointer value_var, gpo
 	/* Set the value */
 
 	value = (gboolean *) value_var;
-	gtk_toggle_button_set_active (toggle, *value);
+	e_dialog_toggle_set (GTK_WIDGET (toggle), *value);
 
 	/* Hook to changed */
 
@@ -309,7 +246,7 @@ get_toggle_value (GtkToggleButton *toggle, gpointer value_var, gpointer info)
 	gboolean *value;
 
 	value = (gboolean *) value;
-	*value = toggle->active ? TRUE : FALSE;
+	*value = e_dialog_toggle_get (GTK_WIDGET (toggle));
 }
 
 /* Callback for the "value_changed" signal of the adjustment of a spin button */
@@ -332,12 +269,11 @@ hook_spin_button (GtkWidget *dialog, GtkSpinButton *spin, gpointer value_var, gp
 	/* Set the value */
 
 	value = (double *) value_var;
-	adj = gtk_spin_button_get_adjustment (spin);
-
-	adj->value = *value;
-	gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
+	e_dialog_spin_set (GTK_WIDGET (spin), *value);
 
 	/* Hook to changed */
+
+	adj = gtk_spin_button_get_adjustment (spin);
 
 	if (GNOME_IS_PROPERTY_BOX (dialog))
 		gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
@@ -349,12 +285,9 @@ static void
 get_spin_button_value (GtkSpinButton *spin, gpointer value_var, gpointer info)
 {
 	double *value;
-	GtkAdjustment *adj;
 
 	value = (double *) value_var;
-
-	adj = gtk_spin_button_get_adjustment (spin);
-	*value = adj->value;
+	*value = e_dialog_spin_get_double (GTK_WIDGET (spin));
 }
 
 /* Callback for the "changed" signal of a GtkEditable widget */
@@ -372,18 +305,12 @@ static void
 hook_editable (GtkWidget *dialog, GtkEditable *editable, gpointer value_var, gpointer info)
 {
 	char **value;
-	gint pos;
 
 	/* Set the value */
 
 	value = (char **) value_var;
 
-	pos = 0;
-	gtk_editable_delete_text (editable, 0, -1);
-
-	/* Take NULL as empty string */
-	if (*value)
-		gtk_editable_insert_text (editable, *value, strlen (*value), &pos);
+	e_dialog_editable_set (GTK_WIDGET (editable), *value);
 
 	/* Hook to changed */
 
@@ -402,7 +329,7 @@ get_editable_value (GtkEditable *editable, gpointer value_var, gpointer data)
 	if (*value)
 		g_free (*value);
 
-	*value = gtk_editable_get_chars (editable, 0, -1);
+	*value = e_dialog_editable_get (GTK_WIDGET (editable));
 }
 
 void
@@ -445,6 +372,11 @@ e_dialog_radio_set (GtkWidget *widget, int value, const int *value_map)
 
 	i = value_to_index (value_map, value);
 	if (i != -1) {
+		/* Groups are built by prepending items, so the list ends up in reverse
+		 * order; we need to flip the index around.
+		 */
+		i = g_slist_length (group) - i - 1;
+
 		l = g_slist_nth (group, i);
 		if (!l)
 			g_message ("e_dialog_radio_set(): could not find index %d in radio group!",
@@ -470,7 +402,7 @@ e_dialog_radio_get (GtkWidget *widget, const int *value_map)
 
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (widget));
 
-	for (i = 0, l = group; l; l = l->next) {
+	for (i = 0, l = group; l; l = l->next, i++) {
 		widget = GTK_WIDGET (l->data);
 
 		if (GTK_TOGGLE_BUTTON (widget)->active)
@@ -479,6 +411,11 @@ e_dialog_radio_get (GtkWidget *widget, const int *value_map)
 
 	if (!l)
 		g_assert_not_reached ();
+
+	/* Groups are built by prepending items, so the list ends up in reverse
+	 * order; we need to flip the index around.
+	 */
+	i = g_slist_length (group) - i - 1;
 
 	v = index_to_value (value_map, i);
 	if (v == -1) {
@@ -584,7 +521,7 @@ e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
 
 	children = GTK_MENU_SHELL (menu)->children;
 
-	for (i = 0, l = children; l; l = l->next) {
+	for (i = 0, l = children; l; l = l->next, i++) {
 		if (GTK_WIDGET (l->data) == active)
 			break;
 	}

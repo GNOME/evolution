@@ -752,7 +752,7 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 	if (ee->ical->new)
 		gnome_calendar_add_object (ee->gnome_cal, ee->ical);
 	else
-		gnome_calendar_object_changed (ee->gnome_cal, ee->ical, CHANGE_ALL);
+		gnome_calendar_object_changed (ee->gnome_cal, ee->ical);
 
 	ee->ical->new = 0;
 }

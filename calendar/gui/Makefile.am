@@ -67,8 +67,6 @@ evolution_calendar_SOURCES =			\
 	e-week-view.h				\
 	event-editor.c				\
 	event-editor.h				\
-	event-editor-utils.c			\
-	event-editor-utils.h			\
 	getdate.y				\
 	gncal-todo.c				\
 	gncal-todo.h				\

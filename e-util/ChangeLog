@@ -1,3 +1,21 @@
+2000-05-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-dialog-widgets.c (hook_radio): Use the exported function to
+	set the value.
+	(get_radio_value): Likewise.
+	(hook_option_menu): Likewise.
+	(get_option_menu_value): Likewise.
+	(hook_toggle): Likewise.
+	(get_toggle_value): Likewise.
+	(hook_spin_button): Likewise.
+	(get_spin_button_value): Likewise.
+	(hook_editable): Likewise.
+	(get_editable_value): Likewise.
+	(e_dialog_radio_set): Radio buttons are prepended to their parent
+	group's list, so we need to flip the index around when
+	getting/setting the value.
+	(e_dialog_radio_get): Likewise.
+
 2000-05-27  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-dialog-widgets.c (e_dialog_editable_set): Moved over from

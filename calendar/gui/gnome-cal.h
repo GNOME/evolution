@@ -108,8 +108,7 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 
 /* Flags is a bitmask of CalObjectChange values */
 void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
-						 iCalObject *obj,
-						 int flags);
+						 iCalObject    *obj);
 
 GnomeCalendar *gnome_calendar_locate            (const char *pathname);
 

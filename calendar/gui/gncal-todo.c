@@ -86,7 +86,7 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 		gnome_calendar_add_object (todo->calendar, ico);
 		ico->new = FALSE;
 	} else 
-		gnome_calendar_object_changed (todo->calendar, ico, CHANGE_ALL); /* ok, summary only... */
+		gnome_calendar_object_changed (todo->calendar, ico);
 
 	ical_object_unref (ico);
 

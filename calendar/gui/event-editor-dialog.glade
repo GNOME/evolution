@@ -60,13 +60,14 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label13</name>
-	  <label>Owner: </label>
+	  <label>_Owner:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>general-owner</focus_target>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -104,40 +105,34 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label14</name>
-	  <label>Summary:</label>
+	  <label>_Summary:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
+	  <focus_target>general-summary</focus_target>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
 	    <fill>False</fill>
 	  </child>
 	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkScrolledWindow</class>
-	<name>scrolledwindow1</name>
-	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
 
 	<widget>
-	  <class>GtkText</class>
+	  <class>GtkEntry</class>
 	  <name>general-summary</name>
 	  <can_focus>True</can_focus>
 	  <editable>True</editable>
+	  <text_visible>True</text_visible>
+	  <text_max_length>0</text_max_length>
 	  <text></text>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
 	</widget>
       </widget>
 
@@ -159,13 +154,13 @@
 	  <rows>2</rows>
 	  <columns>3</columns>
 	  <homogeneous>False</homogeneous>
-	  <row_spacing>0</row_spacing>
-	  <column_spacing>0</column_spacing>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
 
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label15</name>
-	    <label>Start time: </label>
+	    <label>Start time:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -191,7 +186,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label16</name>
-	    <label>End time: </label>
+	    <label>End time:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -266,7 +261,7 @@
 	    <class>GtkCheckButton</class>
 	    <name>all-day-event</name>
 	    <can_focus>True</can_focus>
-	    <label>All day event</label>
+	    <label>A_ll day event</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -305,8 +300,8 @@
 	  <rows>4</rows>
 	  <columns>5</columns>
 	  <homogeneous>False</homogeneous>
-	  <row_spacing>0</row_spacing>
-	  <column_spacing>0</column_spacing>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
 
 	  <widget>
 	    <class>GtkSpinButton</class>
@@ -538,7 +533,7 @@ Days
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>mail-to</name>
+	    <name>alarm-mail-mail-to</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
@@ -562,7 +557,7 @@ Days
 
 	  <widget>
 	    <class>GnomeFileEntry</class>
-	    <name>run-program-file-entry</name>
+	    <name>alarm-program-run-program</name>
 	    <max_saved>10</max_saved>
 	    <directory>False</directory>
 	    <modal>False</modal>
@@ -584,7 +579,7 @@ Days
 	    <widget>
 	      <class>GtkEntry</class>
 	      <child_name>GnomeEntry:entry</child_name>
-	      <name>run-program</name>
+	      <name>alarm-program-run-program-entry</name>
 	      <can_focus>True</can_focus>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
@@ -597,7 +592,7 @@ Days
 	    <class>GtkCheckButton</class>
 	    <name>alarm-display</name>
 	    <can_focus>True</can_focus>
-	    <label>Display</label>
+	    <label>_Display</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -620,7 +615,7 @@ Days
 	    <class>GtkCheckButton</class>
 	    <name>alarm-audio</name>
 	    <can_focus>True</can_focus>
-	    <label>Audio</label>
+	    <label>_Audio</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -643,7 +638,7 @@ Days
 	    <class>GtkCheckButton</class>
 	    <name>alarm-program</name>
 	    <can_focus>True</can_focus>
-	    <label>Program</label>
+	    <label>_Program</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -666,7 +661,7 @@ Days
 	    <class>GtkCheckButton</class>
 	    <name>alarm-mail</name>
 	    <can_focus>True</can_focus>
-	    <label>Mail</label>
+	    <label>_Mail</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -688,13 +683,14 @@ Days
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label18</name>
-	    <label>Mail to</label>
+	    <label>Mail _to</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <focus_target>alarm-mail-mail-to</focus_target>
 	    <child>
 	      <left_attach>3</left_attach>
 	      <right_attach>4</right_attach>
@@ -714,13 +710,14 @@ Days
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label17</name>
-	    <label>Run program</label>
+	    <label>_Run program</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <focus_target>alarm-program-run-program-entry</focus_target>
 	    <child>
 	      <left_attach>3</left_attach>
 	      <right_attach>4</right_attach>
@@ -755,13 +752,13 @@ Days
 	  <class>GtkHBox</class>
 	  <name>hbox6</name>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>classification-public</name>
+	    <name>classification-radio</name>
 	    <can_focus>True</can_focus>
-	    <label>Public</label>
+	    <label>Pu_blic</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>classification_radio_group</group>
@@ -774,9 +771,9 @@ Days
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>classification-private</name>
+	    <name></name>
 	    <can_focus>True</can_focus>
-	    <label>Private</label>
+	    <label>Pri_vate</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>classification_radio_group</group>
@@ -789,9 +786,9 @@ Days
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>classification-confidential</name>
+	    <name></name>
 	    <can_focus>True</can_focus>
-	    <label>Confidential</label>
+	    <label>_Confidential</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>classification_radio_group</group>
@@ -1326,7 +1323,7 @@ Days
 
 		    <widget>
 		      <class>GtkSpinButton</class>
-		      <name>recurrence-rule-monthly-day</name>
+		      <name>recurrence-rule-monthly-day-nth</name>
 		      <can_focus>True</can_focus>
 		      <climb_rate>1</climb_rate>
 		      <digits>0</digits>
@@ -1411,7 +1408,7 @@ Days
 
 		    <widget>
 		      <class>GtkOptionMenu</class>
-		      <name>recurrence-rule-monthly-day</name>
+		      <name>recurrence-rule-monthly-weekpos</name>
 		      <can_focus>True</can_focus>
 		      <items>Monday
 Tuesday
@@ -1836,7 +1833,7 @@ Sunday
 		  <class>GtkButton</class>
 		  <name>recurrence-exceptions-change</name>
 		  <can_focus>True</can_focus>
-		  <label>Chage</label>
+		  <label>Change</label>
 		  <child>
 		    <padding>0</padding>
 		    <expand>False</expand>

@@ -1035,7 +1035,7 @@ gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
 }
 
 void
-gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
+gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj)
 {
 	char *obj_string;
 	g_return_if_fail (gcal != NULL);

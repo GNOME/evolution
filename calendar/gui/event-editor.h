@@ -70,10 +70,12 @@ GtkWidget *event_editor_construct (EventEditor *ee, GnomeCalendar *gcal, iCalObj
 
 GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ico);
 
+#if 0
 /* Convenience function to create and show a new event editor for an
  * event that goes from day_begin to day_end of the specified day.
  */
 void event_editor_new_whole_day (GnomeCalendar *owner, time_t day);
+#endif
 
 GtkWidget *make_date_edit (void);
 GtkWidget *make_date_edit_with_time (void);
