@@ -1,3 +1,7 @@
+2000-05-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-gui-utils.c, e-gui-utils.h: Added e_container_foreach_leaf.
+
 2000-05-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Add imagesdir support.

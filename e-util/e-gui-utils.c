@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * GUI utility functions
  *
@@ -110,3 +111,28 @@ GtkWidget *e_create_image_widget(gchar *name,
 		return NULL;
 }
 
+typedef struct {
+	GtkCallback callback;
+	gpointer closure;
+} CallbackClosure;
+
+static void
+e_container_foreach_leaf_callback(GtkWidget *widget, CallbackClosure *callback_closure)
+{
+	if (GTK_IS_CONTAINER(widget)) {
+		e_container_foreach_leaf(GTK_CONTAINER(widget), callback_closure->callback, callback_closure->closure);
+	} else {
+		(*callback_closure->callback) (widget, callback_closure->closure);
+	}
+}
+
+void
+e_container_foreach_leaf(GtkContainer *container,
+			 GtkCallback callback,
+			 gpointer closure)
+{
+	CallbackClosure callback_closure;
+	callback_closure.callback = callback;
+	callback_closure.closure = closure;
+	gtk_container_foreach(container, (GtkCallback) e_container_foreach_leaf_callback, &callback_closure);
+}
