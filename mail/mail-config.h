@@ -197,7 +197,7 @@ typedef enum _mail_config_item_t {
 	MAIL_CONFIG_DISPLAY_LOAD_HTTP,
 
 	MAIL_CONFIG_ITEM_LAST
-};
+} mail_config_item_t;
 
 gboolean mail_config_writable(mail_config_item_t item);
 

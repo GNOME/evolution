@@ -5,7 +5,7 @@
 	use the gconf thing which just doens't work.  i'll waste a few
 	hours trying to get it to work again first before i keep going
 	with this.
-
+ 
 2004-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (efh_message_deliverystatus): format as plain
