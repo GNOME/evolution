@@ -267,6 +267,9 @@ icaltimezone_get_vtimezone_properties	(icaltimezone	*zone,
     if (!tzid)
 	return 0;
 
+    if (zone->location)
+	free (zone->location);
+
     zone->tzid = strdup (tzid);
     zone->component = component;
     zone->location = icaltimezone_get_location_from_vtimezone (component);

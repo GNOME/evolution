@@ -1,3 +1,10 @@
+2002-10-25  Dan Winship  <danw@ximian.com>
+
+	* src/libical/icaltimezone.c
+	(icaltimezone_get_vtimezone_properties): Free the location if it's
+	set. Otherwise one copy of the location of each built-in timezone
+	we use gets leaked.
+
 2002-10-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #25153
