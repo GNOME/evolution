@@ -824,8 +824,6 @@ card_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
 
-	g_free (ecs);
-
 	e_card_set_id (ce->card, id);
 
 	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_ADDED],
@@ -842,6 +840,9 @@ card_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 			command_state_changed (ce);
 		}
 	}
+
+	gtk_object_unref (GTK_OBJECT (ce));
+	g_free (ecs);
 }
 
 static void
@@ -849,8 +850,6 @@ card_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 {
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
-
-	g_free (ecs);
 
 	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_MODIFIED],
 			 status, ce->card);
@@ -864,6 +863,9 @@ card_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 			command_state_changed (ce);
 		}
 	}
+
+	gtk_object_unref (GTK_OBJECT (ce));
+	g_free (ecs);
 }
 
 /* Emits the signal to request saving a card */
@@ -877,6 +879,8 @@ save_card (EContactEditor *ce, gboolean should_close)
 		EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
 		
 		ecs->ce = ce;
+		gtk_object_ref (GTK_OBJECT (ecs->ce));
+
 		ecs->should_close = should_close;
 
 		if (ce->is_new_card)

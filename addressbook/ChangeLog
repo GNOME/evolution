@@ -1,3 +1,16 @@
+2001-10-26  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/contact-editor/e-contact-save-as.c (file_exists): Remove bad
+	dialog ref-counting crap.
+
+	* gui/contact-editor/e-contact-editor.c (save_card): Ref our
+	EContactEditor, since we are holding a pointer to it in
+	EditorCloseStruct.
+	(card_modified_cb): Unref our EContactEditor when we free our
+	EditorCloseStruct.
+	(card_added_cb): Unref our EContactEditor when we free our
+	EditorCloseStruct.
+
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (check_for_slow_setting): make debug

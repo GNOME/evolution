@@ -196,7 +196,6 @@ file_exists(GtkFileSelection *filesel, const char *filename)
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/file-exists.glade", NULL);
 	dialog = GNOME_DIALOG(glade_xml_get_widget(gui, "dialog-exists"));
-	gtk_widget_ref(GTK_WIDGET(dialog));
 	
 	label = glade_xml_get_widget (gui, "label-exists");
 	if (GTK_IS_LABEL (label)) {
@@ -210,8 +209,6 @@ file_exists(GtkFileSelection *filesel, const char *filename)
 	gtk_widget_show (GTK_WIDGET (dialog));
 	result = gnome_dialog_run_and_close(dialog);
 
-	gtk_widget_unref(GTK_WIDGET(dialog));
-	gtk_widget_destroy(GTK_WIDGET(dialog));
 	g_free(gui);
 
 	return result;
