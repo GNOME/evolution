@@ -68,7 +68,7 @@ camel_provider_register (CamelProvider *provider)
 	GList *old_provider_node = NULL;
 
 	g_assert (provider);
-	
+
 	if (_provider_list)
 		old_provider_node = g_list_find_custom (_provider_list, provider, _provider_name_cmp);
 

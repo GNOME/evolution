@@ -32,6 +32,7 @@
 static CamelProvider _mbox_provider = {
 	(GtkType) 0,
 	PROVIDER_STORE,
+	0,
 	"mbox",
 	"Camel default mbox provider",
 	"This the first full fledged local mail provider",
