@@ -379,6 +379,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_hostname), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
+		gtk_entry_set_text (druid->incoming_hostname, "");
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_hostname), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}
@@ -389,6 +390,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_username), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
+		gtk_entry_set_text (druid->incoming_username, "");
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_username), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}
@@ -399,6 +401,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->password), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
+		gtk_entry_set_text (druid->password, "");
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->password), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}
@@ -419,6 +422,7 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_path), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
+		gtk_entry_set_text (druid->incoming_path, "");
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_path), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}
@@ -492,6 +496,9 @@ auth_type_changed (GtkWidget *widget, gpointer user_data)
 	gtk_widget_set_sensitive (GTK_WIDGET (druid->password), sensitive);
 	gtk_widget_set_sensitive (GTK_WIDGET (druid->save_password), sensitive);
 	gtk_widget_set_sensitive (label, sensitive);
+	
+	if (!sensitive)
+		gtk_entry_set_text (druid->password, "");
 	
 	authentication_check (druid);
 }
@@ -600,6 +607,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->outgoing_hostname), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
+		gtk_entry_set_text (druid->outgoing_hostname, "");
 		gtk_widget_set_sensitive (GTK_WIDGET (druid->outgoing_hostname), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}
@@ -969,7 +977,7 @@ mail_config_druid_get_sigfile (MailConfigDruid *druid)
 char *
 mail_config_druid_get_source_url (MailConfigDruid *druid)
 {
-	char *source_url, *host, *pport, *auth;
+	char *source_url, *host, *pport, *str;
 	const CamelProvider *provider;
 	CamelURL *url;
 	int port = 0;
@@ -980,10 +988,16 @@ mail_config_druid_get_source_url (MailConfigDruid *druid)
 	
 	url = g_new0 (CamelURL, 1);
 	url->protocol = g_strdup (provider->protocol);
-	url->user = g_strdup (gtk_entry_get_text (druid->incoming_username));
-	auth = gtk_object_get_data (GTK_OBJECT (druid), "source_authmech");
-	url->authmech = auth && *auth ? g_strdup (auth) : NULL;
-	url->passwd = g_strdup (gtk_entry_get_text (druid->password));
+	
+	str = gtk_entry_get_text (druid->incoming_username);
+	url->user = str && *str ? g_strdup (str) : NULL;
+	
+	str = gtk_object_get_data (GTK_OBJECT (druid), "source_authmech");
+	url->authmech = str && *str ? g_strdup (str) : NULL;
+	
+	str = gtk_entry_get_text (druid->password);
+	url->passwd = str && *str ? g_strdup (str) : NULL;
+	
 	host = g_strdup (gtk_entry_get_text (druid->incoming_hostname));
 	if (host && (pport = strchr (host, ':'))) {
 		port = atoi (pport + 1);

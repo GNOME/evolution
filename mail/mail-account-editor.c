@@ -407,6 +407,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_host), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
 	} else {
+		gtk_entry_set_text (editor->transport_host, "");
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_host), FALSE);
 		gtk_widget_set_sensitive (label, FALSE);
 	}

@@ -1,3 +1,18 @@
+2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config-druid.c (auth_type_changed): Clear the password
+	entry if it's not allowed.
+	(transport_type_changed): Clear the hostname if it is not allowed
+	by the provider type.
+
+	* mail-account-editor.c (transport_type_changed): If the hostname
+	is allowed, clear it.
+
+	* mail-config-druid.c (incoming_type_changed): Clear the contents
+	of the entry boxes that are not to be used.
+	(mail_config_druid_get_source_url): If the text in the entry is
+	emptry string, don't set it' contents in the url.
+
 2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
 
 	* mail-callbacks.c (print_msg): Fix proto.
