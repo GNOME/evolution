@@ -561,7 +561,9 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	/* Set up GtkCTree/GtkCList parameters.  */
 	gtk_ctree_construct (ctree, 1, 0, NULL);
-	gtk_ctree_set_line_style (ctree, GTK_CTREE_LINES_DOTTED);
+	/* This looks ugly with Helix GNOME unless we do this. */
+	gtk_ctree_set_line_style (ctree, GTK_CTREE_LINES_NONE);
+	gtk_ctree_set_expander_style (ctree, GTK_CTREE_EXPANDER_TRIANGLE);
 	gtk_clist_set_selection_mode (GTK_CLIST (ctree), GTK_SELECTION_BROWSE);
 	gtk_clist_set_row_height (GTK_CLIST (ctree), E_SHELL_MINI_ICON_SIZE);
 	

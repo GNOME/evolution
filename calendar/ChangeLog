@@ -1,3 +1,7 @@
+2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/main.c: Make it so that warnings don't crash calendar.
+
 2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/evolution-calendar-control.c: Removed.

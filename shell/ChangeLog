@@ -1,3 +1,8 @@
+2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-storage-set-view.c: Make this always look pretty, with Helix
+	GNOME or without.
+
 2000-05-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-storage-set-view.c (e_storage_set_view_construct): Set the

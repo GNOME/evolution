@@ -79,10 +79,12 @@ main (int argc, char **argv)
 
 	init_calendar ();
 
+#if 0
 	//g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);
 	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
 				G_LOG_LEVEL_CRITICAL |
 				G_LOG_LEVEL_WARNING);
+#endif
 
 	control_factory_init ();
 	component_factory_init ();
