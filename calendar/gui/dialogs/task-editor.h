@@ -56,7 +56,6 @@ struct _TaskEditorClass {
 GtkType     task_editor_get_type       (void);
 TaskEditor *task_editor_construct      (TaskEditor *ee);
 TaskEditor *task_editor_new            (void);
-void        task_editor_update_widgets (TaskEditor *ee);
 
 
 

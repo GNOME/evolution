@@ -1,3 +1,11 @@
+2001-07-19  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/event-editor.h (event_editor_update_widgets):
+	Removed unused prototype.
+
+	* gui/dialogs/task-editor.h (task_editor_update_widgets):
+	Likewise.
+
 2001-07-19  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (clean_up): free various data related
