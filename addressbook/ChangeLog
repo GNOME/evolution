@@ -1,3 +1,7 @@
+2001-01-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* printing/Makefile.am: Order LDADD flags correctly so it compiles.
+
 2001-01-09  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/addressbook.c (addressbook_factory_new_control):
