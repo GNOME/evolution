@@ -3,6 +3,7 @@ noinst_LIBRARIES = libshortcut-bar.a
 noinst_PROGRAMS = test-shortcut-bar
 
 INCLUDES = 					\
+	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets/misc		\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"	\
 	$(EXTRA_GNOME_CFLAGS)			\
