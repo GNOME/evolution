@@ -192,7 +192,7 @@ msgid ""
 "Time Zone: "
 msgstr ""
 "\n"
-"Èasovna cona: "
+"Èasovni pas: "
 
 #: addressbook/backend/ebook/e-card.c:3181
 msgid ""
@@ -1098,15 +1098,15 @@ msgstr "Tovarna za orodje mini vizitk adresarja"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:6
 msgid "Factory for the Evolution addressbook component."
-msgstr "Tovarna za Evolucijino komponento adresarja"
+msgstr "Tovarna za Evolucijino komponento adresarja."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
 msgid "Factory for the sample Addressbook control"
-msgstr "Vzorèna tovarna za kontrolo adresarja"
+msgstr "Tovarna za vzorèno kontrolo adresarja"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 msgid "Evolution's addressbook name selection interface."
-msgstr "Evolucijin vmesnik za izibro imen iz adreasarja."
+msgstr "Evolucijin vmesnik za izibro imen iz adresarja."
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:2
 msgid "Factory for the Addressbook's name selection interface"
@@ -2787,7 +2787,7 @@ msgstr "Tovarna komponent za povzetke koledarja."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
 msgid "Factory for the Evolution calendar component."
-msgstr "Tovarna komponent Evolucije za urejanje koledarja"
+msgstr "Tovarna komponent Evolucije za urejanje koledarja."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
 msgid "Factory for the calendar iTip view control"
@@ -4211,7 +4211,7 @@ msgstr "Priloga kot del sporoèila"
 
 #: composer/e-msg-composer-attachment.glade.h:6
 msgid "MIME type:"
-msgstr "MIME tip:"
+msgstr "Tip MIME:"
 
 #: composer/e-msg-composer-attachment.glade.h:7
 msgid "Send as:"
@@ -4473,7 +4473,7 @@ msgstr "Datoteka nima mesta za storitve.\n"
 
 #: executive-summary/component/executive-summary-config.glade.h:1
 msgid "Appearance"
-msgstr "Izgled"
+msgstr "Videz"
 
 #: executive-summary/component/executive-summary-config.glade.h:2
 msgid "Background:"
@@ -5104,15 +5104,15 @@ msgstr "Evolucijina komponenta za povzetke."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:4
 msgid "Evolution mail folder display component."
-msgstr "Evolucijina komponenta za po¹tne mape"
+msgstr "Evolucijina komponenta za po¹tne mape."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:5
 msgid "Evolution mail folder factory component."
-msgstr "Evolucijina komponenta za tovarne po¹tnih map"
+msgstr "Evolucijina komponenta za tovarne po¹tnih map."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
 msgid "Factory for the Evolution composer."
-msgstr "Tovarna za Evolucijinega skladatelja"
+msgstr "Tovarna za Evolucijinega skladatelja."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
 msgid "Factory for the Evolution mail component."
@@ -6255,7 +6255,7 @@ msgstr "Vrsta mape:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
 msgid "Specify where to create the folder:"
-msgstr "Navedi kje naj se ustvarimapa;"
+msgstr "Navedi kje naj se ustvarimapa:"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
