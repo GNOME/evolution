@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-12 00:45+0800\n"
+"POT-Creation-Date: 2005-01-12 12:49+0800\n"
 "PO-Revision-Date: 2005-01-11 14:55+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -4973,7 +4973,7 @@ msgstr "隐藏附件栏(将附件拖至此处)(_A)"
 
 #: calendar/gui/dialogs/comp-editor.c:473
 #: calendar/gui/dialogs/comp-editor.c:517 composer/e-msg-composer.c:2347
-#: composer/e-msg-composer.c:3468
+#: composer/e-msg-composer.c:3466
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "显示附件栏(将附件拖至此处)(_A)"
 
@@ -5305,7 +5305,7 @@ msgstr "开始时间(_S)："
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
-#: plugins/itip-formatter/itip-formatter.c:1362
+#: plugins/itip-formatter/itip-formatter.c:1365
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -5959,7 +5959,7 @@ msgid "C_ut"
 msgstr "剪切(_U)"
 
 #: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1396
-#: composer/e-msg-composer.c:2903 mail/em-folder-tree.c:1036
+#: composer/e-msg-composer.c:2901 mail/em-folder-tree.c:1036
 #: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:109 ui/evolution-tasks.xml.h:20
@@ -6121,7 +6121,7 @@ msgstr "开始日期"
 #: calendar/gui/e-meeting-list-view.c:153 calendar/gui/e-meeting-store.c:124
 #: calendar/gui/e-meeting-store.c:159 calendar/gui/e-meeting-store.c:224
 #: mail/em-utils.c:1157 plugins/itip-formatter/itip-formatter.c:249
-#: plugins/itip-formatter/itip-formatter.c:1384
+#: plugins/itip-formatter/itip-formatter.c:1387
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
 #: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6328,19 +6328,19 @@ msgstr "<br> 请查看下列信息，并从下面的菜单中选择一个动作�
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1375
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1378
 msgid "Accepted"
 msgstr "接受"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
-#: plugins/itip-formatter/itip-formatter.c:1378
+#: plugins/itip-formatter/itip-formatter.c:1381
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
-#: plugins/itip-formatter/itip-formatter.c:1381
+#: plugins/itip-formatter/itip-formatter.c:1384
 msgid "Declined"
 msgstr "拒绝"
 
@@ -9082,35 +9082,35 @@ msgstr "自动生成的"
 msgid "Si_gnature:"
 msgstr "签名(_G)："
 
-#: composer/e-msg-composer.c:2364 composer/e-msg-composer.c:3357
-#: composer/e-msg-composer.c:3358
+#: composer/e-msg-composer.c:2364 composer/e-msg-composer.c:3355
+#: composer/e-msg-composer.c:3356
 msgid "Compose a message"
 msgstr "撰写新件"
 
-#: composer/e-msg-composer.c:2673
+#: composer/e-msg-composer.c:2671
 #, c-format
 msgid "Attached message - %s"
 msgstr "附加的信件 - %s"
 
 #. translators, this count will always be >1
-#: composer/e-msg-composer.c:2678 composer/e-msg-composer.c:2841
+#: composer/e-msg-composer.c:2676 composer/e-msg-composer.c:2839
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d 封附加的信件"
 
-#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1037
+#: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1037
 #: mail/em-folder-tree.c:2255 mail/em-folder-view.c:823
 #: mail/message-list.c:1713
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: composer/e-msg-composer.c:2906 mail/em-folder-tree.c:1039
+#: composer/e-msg-composer.c:2904 mail/em-folder-tree.c:1039
 #: mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
 
-#: composer/e-msg-composer.c:4538
+#: composer/e-msg-composer.c:4536
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11788,7 +11788,7 @@ msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1634
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1637
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
@@ -13259,15 +13259,15 @@ msgstr "输入密码"
 msgid "User canceled operation."
 msgstr "用户己取消操作。"
 
-#: mail/mail-signature-editor.c:371
+#: mail/mail-signature-editor.c:372
 msgid "Edit signature"
 msgstr "编辑签名"
 
-#: mail/mail-signature-editor.c:411
+#: mail/mail-signature-editor.c:412
 msgid "Enter a name for this signature."
 msgstr "输入该签名的名字。"
 
-#: mail/mail-signature-editor.c:414
+#: mail/mail-signature-editor.c:415
 #: plugins/shared-folder/properties.glade.h:11
 msgid "Name:"
 msgstr "名称："
@@ -13649,22 +13649,22 @@ msgid ""
 "imported"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1625
+#: plugins/itip-formatter/itip-formatter.c:1628
 msgid "Meetings and Tasks"
 msgstr "会议和任务"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1648
+#: plugins/itip-formatter/itip-formatter.c:1651
 msgid "_Delete message after acting"
 msgstr "操作后删除消息(_D)"
 
-#: plugins/itip-formatter/itip-formatter.c:1658
+#: plugins/itip-formatter/itip-formatter.c:1661
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">冲突搜索</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1671
+#: plugins/itip-formatter/itip-formatter.c:1674
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "选择要搜索冲突会议的日历"
 
