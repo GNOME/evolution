@@ -214,7 +214,7 @@ tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp, ECal *client, icalti
 	g_print ("DateNavigator generating instances\n");
 #endif
 	if (comp_is_on_server) {
-		e_cal_generate_instances_for_object (ecal, e_cal_component_get_icalcomponent (comp),
+		e_cal_generate_instances_for_object (client, e_cal_component_get_icalcomponent (comp),
 						     c.start_time, c.end_time,
 						     tag_calendar_cb, &c);
 	} else {
