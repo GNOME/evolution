@@ -1,3 +1,10 @@
+2001-02-25  Damon Chaplin  <damon@ximian.com>
+
+	* e-cell-date-edit.[hc]: new files to implement an ECell for showing
+	and editing dates & times. (Unfinished)
+
+	* Makefile.am (libemiscwidgets_a_SOURCES): added e-cell-date-edit.[hc]
+
 2001-02-24  Not Zed  <NotZed@Ximian.com>
 
 	* e-search-bar.c (add_dropdown): Move the event box into the
