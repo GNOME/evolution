@@ -883,6 +883,10 @@ cal_backend_file_open (CalBackend *backend, const char *uristr, gboolean only_if
 					    | GNOME_VFS_URI_HIDE_HOST_NAME
 					    | GNOME_VFS_URI_HIDE_HOST_PORT
 					    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
+	if (!str_uri) {
+		gnome_vfs_uri_unref (uri);
+		return CAL_BACKEND_OPEN_ERROR;
+	}
 
 	/* Load! */
 	file = fopen (str_uri, "r");
