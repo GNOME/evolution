@@ -185,7 +185,7 @@ libevolution_test_la_SOURCES =		\
 
 libevolution_test_la_LIBADD = 		\
 	libeshell.la			\
-	$(EVOLUTION_CALENDAR_LIBS)
+	$(EVOLUTION_TEST_LIBS)
 
 libevolution_test_la_LDFLAGS = -avoid-version -module
 
