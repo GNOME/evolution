@@ -430,6 +430,34 @@ comp_string (CalComponentItipMethod method, CalComponent *comp, CalClient *clien
 	icalcomponent_add_property (top_level, prop);
 
 	icomp = cal_component_get_icalcomponent (comp);
+
+	if (method == CAL_COMPONENT_METHOD_REPLY) {
+		struct icaltimetype dtstamp;
+		gboolean add_it = FALSE;
+
+		/* workaround for Outlook expecting a X-MICROSOFT-CDO-REPLYTIME
+		   on every METHOD=REPLY message. If the component has any of
+		   the X-MICROSOFT-* properties, we add the REPLYTIME one */
+		prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
+		while (prop) {
+			const char *x_name;
+
+			x_name = icalproperty_get_x_name (prop);
+			if (!strncmp (x_name, "X-MICROSOFT-", strlen ("X-MICROSOFT-"))) {
+				add_it = TRUE;
+				break;
+			}
+			prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY);
+		}
+
+		if (add_it) {
+			dtstamp = icaltime_from_timet_with_zone (
+				time (NULL), 0, icaltimezone_get_utc_timezone ());
+			prop = icalproperty_new_x (icaltime_as_ical_string (dtstamp));
+			icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
+			icalcomponent_add_property (icomp, prop);
+		}
+	}
 		
 	/* Add the timezones */
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);

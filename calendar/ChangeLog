@@ -1,3 +1,12 @@
+2002-03-05  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-itip-control.c (e_itip_control_set_data): reverted my last
+	change of adding the METHOD property to the incoming request.
+
+	* gui/itip-utils.c (comp_string): added extra
+	X-MICROSOFT-CDO-REPLYTIME property for broken Outlook. Should fix
+	#20783.
+
 2002-03-04  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c (comp_compliant): Reset the DTSTAMP of the new
