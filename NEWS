@@ -20,6 +20,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              meaningless message (Michael)
     #43974 - Cannot retrieve "Local Delivery" mail (Michael)
     #42630 - collapsed thread always shows as unread (Jeff)
+    #44139 - composer spacing is not HIG compliant (Jeff)
 
   * All
 
