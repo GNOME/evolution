@@ -343,8 +343,9 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		
 		while (inptr < inend && isspace ((int) *inptr))
 			inptr++;
-		
-		if (inptr < inend && *inptr == '<') {
+
+		if (((inend-inptr) > 5 && g_ascii_strncasecmp(inptr, "<html", 5) == 0)
+		    || ((inend-inptr) > 9 && g_ascii_strncasecmp(inptr, "<!doctype", 9) == 0)) {
 			/* re-tag as text/html */
 			g_free (ct->subtype);
 			ct->subtype = g_strdup ("html");

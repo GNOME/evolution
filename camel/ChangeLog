@@ -1,3 +1,11 @@
+2003-03-28  Not Zed  <NotZed@Ximian.com>
+
+	*
+	camel-mime-part-utils.c (simple_data_wrapper_construct_from_parser):
+	Do a more thorough check for html marked as text/plain.  Check
+	that the text starts with <html or <!doctype.  More complete fix
+	for #16817.
+
 2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-gssapi.c (camel_sasl_gssapi_finalize): Pass in the
