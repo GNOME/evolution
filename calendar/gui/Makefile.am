@@ -176,6 +176,9 @@ libevolution_calendar_la_LIBADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
 	$(EVOLUTION_CALENDAR_LIBS)
 
+libevolution_calendar_la_LDFLAGS =						\
+	-export-dynamic -avoid-version
+
 server_in_files = GNOME_Evolution_Calendar.server.in.in
 
 serverdir = $(libdir)/bonobo/servers
