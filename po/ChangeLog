@@ -1,3 +1,12 @@
+2001-07-09  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* POTFILES.in: Added files:
+	calendar/gui/dialogs/meeting-page.glade
+	shell/glade/e-active-connection-dialog.glade
+	Sorted everything.
+
+	* pl.po: Updated Polish translation.
+
 2001-07-09  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.
@@ -22,7 +31,6 @@
 
         * es.po: Updated Spanish translation.
 	
->>>>>>> 1.516
 2001-07-07  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
