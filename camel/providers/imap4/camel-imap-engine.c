@@ -887,14 +887,6 @@ camel_imap_engine_parse_resp_code (CamelIMAPEngine *engine, CamelException *ex)
 		return -1;
 	}
 	
-	if (token.v.atom[strlen (token.v.atom) - 1] == ']') {
-		/* split this atom ("FOO]") into 2 tokens: "FOO" and "]" */
-		token.token = ']';
-		token.v.atom[strlen (token.v.atom) - 1] = '\0';
-		camel_imap_stream_unget_token (engine->istream, &token);
-		token.token = CAMEL_IMAP_TOKEN_ATOM;
-	}
-	
 	for (code = 0; imap_resp_codes[code].name; code++) {
 		if (!strcmp (imap_resp_codes[code].name, token.v.atom)) {
 			if (engine->current && imap_resp_codes[code].save) {
@@ -1054,14 +1046,6 @@ camel_imap_engine_parse_resp_code (CamelIMAPEngine *engine, CamelException *ex)
 			goto exception;
 		}
 		
-		if (token.v.atom[strlen (token.v.atom) - 1] == ']') {
-			/* this should be the case, but if not - no big. */
-			token.token = ']';
-			token.v.atom[strlen (token.v.atom) - 1] = '\0';
-			camel_imap_stream_unget_token (engine->istream, &token);
-			token.token = CAMEL_IMAP_TOKEN_ATOM;
-		}
-		
 		if (resp != NULL)
 			resp->v.copyuid.destset = g_strdup (token.v.atom);
 		
@@ -1071,17 +1055,10 @@ camel_imap_engine_parse_resp_code (CamelIMAPEngine *engine, CamelException *ex)
 		
 		/* extensions are of the form: "[" atom [SPACE 1*<any TEXT_CHAR except "]">] "]" */
 		
-		/* eat up the TEXT_CHARs, being careful to check atoms for a trailing ']' */
+		/* eat up the TEXT_CHARs */
 		while (token.token != ']' && token.token != '\n') {
 			if (camel_imap_engine_next_token (engine, &token, ex) == -1)
 				goto exception;
-			
-			if (token.token == CAMEL_IMAP_TOKEN_ATOM) {
-				if (token.v.atom[strlen (token.v.atom) - 1] == ']') {
-					token.token = ']';
-					break;
-				}
-			}
 		}
 		
 		break;
