@@ -675,7 +675,7 @@ camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *con
 		CamelMimeFilter *canon_filter;
 
 		if (mps->start1 == -1 && parse_content(mps) == -1) {
-			camel_exception_setv(ex, 1, _("parse error"));
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("parse error"));
 			return NULL;
 		}
 

@@ -1,3 +1,8 @@
+2002-06-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-multipart-signed.c (camel_multipart_signed_verify): Use
+	CAMEL_EXCEPTION_SYSTEM rather than '1' for clarity.
+
 2002-06-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_connect): Up the timeout on the
