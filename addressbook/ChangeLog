@@ -1,3 +1,12 @@
+2003-05-15  Chris Toshok  <toshok@ximian.com>
+
+	* gui/merging/e-card-merging.c (free_lookup): new function, split
+	out the duplicated teardown code from final_cb and final_id_cb.
+	also, unref the card.
+	(final_id_cb): call free_lookup.
+	(final_cb): same.
+	(e_card_merging_book_add_card): ref the card.  fixes bug #43016.
+
 2003-05-14  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (full_addr_clicked):

@@ -31,6 +31,15 @@ typedef struct {
 } ECardMergingLookup;
 
 static void
+free_lookup (ECardMergingLookup *lookup)
+{
+	g_object_unref (lookup->book);
+	g_object_unref (lookup->card);
+
+	g_free (lookup);
+}
+
+static void
 final_id_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
 {
 	ECardMergingLookup *lookup = closure;
@@ -38,9 +47,7 @@ final_id_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
 	if (lookup->id_cb)
 		lookup->id_cb (lookup->book, status, id, lookup->closure);
 
-	g_object_unref (lookup->book);
-
-	g_free (lookup);
+	free_lookup (lookup);
 }
 
 static void
@@ -51,9 +58,7 @@ final_cb (EBook *book, EBookStatus status, gpointer closure)
 	if (lookup->cb)
 		lookup->cb (lookup->book, status, lookup->closure);
 
-	g_object_unref (lookup->book);
-
-	g_free (lookup);
+	free_lookup (lookup);
 }
 
 static void
@@ -144,7 +149,7 @@ e_card_merging_book_add_card (EBook           *book,
 
 	lookup->op = E_CARD_MERGING_ADD;
 	lookup->book = g_object_ref (book);
-	lookup->card = card;
+	lookup->card = g_object_ref (card);
 	lookup->id_cb = cb;
 	lookup->closure = closure;
 
