@@ -72,6 +72,8 @@ corba_exception_to_result (const CORBA_Environment *ev)
 	if (ev->_major == CORBA_USER_EXCEPTION) {
 		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_AlreadyOwned) == 0)
 			return EVOLUTION_SHELL_COMPONENT_ALREADYOWNED;
+		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_OldOwnerHasDied) == 0)
+			return EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED;
 		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_NotOwned) == 0)
 			return EVOLUTION_SHELL_COMPONENT_NOTOWNED;
 		if (strcmp (ev->_repo_id, ex_GNOME_Evolution_ShellComponent_NotFound) == 0)
@@ -379,6 +381,7 @@ evolution_shell_component_client_new (const char *id)
 {
 	CORBA_Environment ev;
 	CORBA_Object corba_object;
+	char *ior;
 
 	g_return_val_if_fail (id != NULL, NULL);
 
@@ -390,6 +393,13 @@ evolution_shell_component_client_new (const char *id)
 		g_warning ("Could not start up component for %s.", id);
 		return NULL;
 	}
+
+#if 0
+	ior = CORBA_ORB_object_to_string (bonobo_orb (), corba_object, &ev);
+	g_print ("--- %s %s\n", id, ior);
+	CORBA_free (ior);
+#endif
+
 	CORBA_exception_free (&ev);
 
 	if (corba_object == CORBA_OBJECT_NIL) {

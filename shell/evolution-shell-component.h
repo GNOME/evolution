@@ -67,6 +67,7 @@ enum _EvolutionShellComponentResult {
 	EVOLUTION_SHELL_COMPONENT_PERMISSIONDENIED,
 	EVOLUTION_SHELL_COMPONENT_HASSUBFOLDERS,
 	EVOLUTION_SHELL_COMPONENT_NOSPACE,
+	EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED,
 	EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR
 };
 typedef enum _EvolutionShellComponentResult EvolutionShellComponentResult;
@@ -177,6 +178,8 @@ void  evolution_shell_component_add_user_creatable_item  (EvolutionShellComponen
 							  const char              *description,
 							  const char              *menu_description,
 							  char                     menu_shortcut);
+
+const char *evolution_shell_component_result_to_string (EvolutionShellComponentResult result);
 
 #ifdef cplusplus
 }

@@ -686,12 +686,20 @@ set_owner_on_components (EShell *shell)
 	id_list = e_component_registry_get_id_list (priv->component_registry);
 	for (p = id_list; p != NULL; p = p->next) {
 		EvolutionShellComponentClient *component_client;
+		EvolutionShellComponentResult result;
 		const char *id;
 
 		id = (const char *) p->data;
 		component_client = e_component_registry_get_component_by_id (priv->component_registry, id);
 
-		evolution_shell_component_client_set_owner (component_client, corba_shell, local_directory);
+		result = evolution_shell_component_client_set_owner (component_client, corba_shell, local_directory);
+		if (result != EVOLUTION_SHELL_COMPONENT_OK) {
+			g_warning ("Error setting owner on component %s -- %s",
+				   id, evolution_shell_component_result_to_string (result));
+
+			if (result == EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED)
+				e_component_registry_restart_component (priv->component_registry, id);
+		}
 	}
 
 	e_free_string_list (id_list);

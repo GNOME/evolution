@@ -69,6 +69,9 @@ GList                         *e_component_registry_get_id_list          (ECompo
 EvolutionShellComponentClient *e_component_registry_get_component_by_id  (EComponentRegistry *component_registry,
 									  const char         *id);
 
+EvolutionShellComponentClient *e_component_registry_restart_component  (EComponentRegistry *component_registry,
+									const char         *id);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

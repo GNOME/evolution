@@ -327,6 +327,49 @@ e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry *folder_type_r
 }
 
 
+gboolean
+e_folder_type_register_type_registered  (EFolderTypeRegistry *folder_type_registry,
+					 const char *type_name)
+{
+	EFolderTypeRegistryPrivate *priv;
+
+	g_return_val_if_fail (folder_type_registry != NULL, FALSE);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), FALSE);
+	g_return_val_if_fail (type_name != NULL, FALSE);
+
+	priv = folder_type_registry->priv;
+
+	if (get_folder_type (folder_type_registry, type_name) == NULL)
+		return FALSE;
+
+	return TRUE;
+}
+
+void
+e_folder_type_register_unregister_type (EFolderTypeRegistry *folder_type_registry,
+					const char *type_name)
+{
+	EFolderTypeRegistryPrivate *priv;
+	FolderType *folder_type;
+
+	g_return_if_fail (folder_type_registry != NULL);
+	g_return_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry));
+	g_return_if_fail (type_name != NULL);
+
+	priv = folder_type_registry->priv;
+
+	folder_type = get_folder_type (folder_type_registry, type_name);
+	if (folder_type == NULL) {
+		g_warning ("e_folder_type_register_unregister_type(): cannot find type `%s'\n",
+			   type_name);
+		return;
+	}
+
+	g_hash_table_remove (priv->name_to_type, folder_type->name);
+	folder_type_free (folder_type);
+}
+
+
 static void
 get_type_names_hash_forall (void *key,
 			    void *value,

@@ -77,17 +77,21 @@ component_new (const char *id,
 	return new;
 }
 
-static void
+static gboolean
 component_free (Component *component)
 {
 	GNOME_Evolution_ShellComponent corba_shell_component;
 	CORBA_Environment ev;
+	gboolean retval;
+
+	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (component->client));
 
 	CORBA_exception_init (&ev);
-	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (component->client));
 	GNOME_Evolution_ShellComponent_unsetOwner (corba_shell_component, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning ("Cannot unregister component -- %s", component->id);
+	if (ev._major == CORBA_NO_EXCEPTION)
+		retval = TRUE;
+	else
+		retval = FALSE;
 	CORBA_exception_free (&ev);
 
 	g_free (component->id);
@@ -97,6 +101,8 @@ component_free (Component *component)
 	e_free_string_list (component->folder_type_names);
 
 	g_free (component);
+
+	return retval;
 }
 
 static gboolean
@@ -110,7 +116,8 @@ register_type (EComponentRegistry *component_registry,
 	       const char **exported_dnd_types,
 	       int num_accepted_dnd_types,
 	       const char **accepted_dnd_types,
-	       Component *handler)
+	       Component *handler,
+	       gboolean override_duplicate)
 {
 	EComponentRegistryPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
@@ -119,6 +126,10 @@ register_type (EComponentRegistry *component_registry,
 
 	folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
 	g_assert (folder_type_registry != NULL);
+
+	if (override_duplicate
+	    && e_folder_type_register_type_registered (folder_type_registry, name))
+		e_folder_type_register_unregister_type (folder_type_registry, name);
 
 	if (! e_folder_type_registry_register_type (folder_type_registry,
 						    name, icon_name, 
@@ -139,7 +150,8 @@ register_type (EComponentRegistry *component_registry,
 
 static gboolean
 register_component (EComponentRegistry *component_registry,
-		    const char *id)
+		    const char *id,
+		    gboolean override_duplicate)
 {
 	EComponentRegistryPrivate *priv;
 	GNOME_Evolution_ShellComponent component_corba_interface;
@@ -153,7 +165,7 @@ register_component (EComponentRegistry *component_registry,
 
 	priv = component_registry->priv;
 
-	if (g_hash_table_lookup (priv->component_id_to_component, id) != NULL) {
+	if (! override_duplicate && g_hash_table_lookup (priv->component_id_to_component, id) != NULL) {
 		g_warning ("Trying to register component twice -- %s", id);
 		return FALSE;
 	}
@@ -198,7 +210,8 @@ register_component (EComponentRegistry *component_registry,
 				     (const char **) type->exportedDndTypes._buffer,
 				     type->acceptedDndTypes._length,
 				     (const char **) type->acceptedDndTypes._buffer,
-				     component)) {
+				     component,
+				     override_duplicate)) {
 			g_warning ("Cannot register type `%s' for component %s",
 				   type->name, component->id);
 		}
@@ -218,8 +231,7 @@ register_component (EComponentRegistry *component_registry,
 			const CORBA_char *schema;
 
 			schema = supported_schemas->_buffer[i];
-			if (! e_uri_schema_registry_set_handler_for_schema (uri_schema_registry, schema, component->client))
-				g_warning ("Cannot register schema `%s' for component %s", schema, component->id);
+			e_uri_schema_registry_set_handler_for_schema (uri_schema_registry, schema, component->client);
 		}
 
 		CORBA_free (supported_schemas);
@@ -324,7 +336,7 @@ e_component_registry_register_component (EComponentRegistry *component_registry,
 	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (component_registry), FALSE);
 	g_return_val_if_fail (id != NULL, FALSE);
 
-	return register_component (component_registry, id);
+	return register_component (component_registry, id, FALSE);
 }
 
 
@@ -394,6 +406,67 @@ e_component_registry_get_component_by_id  (EComponentRegistry *component_registr
 	component = g_hash_table_lookup (priv->component_id_to_component, id);
 	if (component == NULL)
 		return NULL;
+
+	return component->client;
+}
+
+
+EvolutionShellComponentClient *
+e_component_registry_restart_component  (EComponentRegistry *component_registry,
+					 const char *id)
+{
+	EComponentRegistryPrivate *priv;
+	Component *component;
+	CORBA_Environment ev;
+	CORBA_Object corba_objref;
+	gboolean alive;
+	int count;
+
+	g_return_val_if_fail (component_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (component_registry), NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	priv = component_registry->priv;
+
+	component = g_hash_table_lookup (priv->component_id_to_component, id);
+	if (component == NULL)
+		return NULL;
+
+	CORBA_exception_init (&ev);
+
+	g_hash_table_remove (priv->component_id_to_component, id);
+
+	corba_objref = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (component->client)), &ev);
+
+	component_free (component);
+
+	count = 1;
+	while (1) {
+		alive = bonobo_unknown_ping (corba_objref);
+		if (! alive)
+			break;
+
+		g_print ("Waiting for component to die -- %s (%d)\n", id, count);
+		sleep (1);
+		count ++;
+	}
+
+	CORBA_exception_free (&ev);
+
+#if 1
+	if (! register_component (component_registry, id, TRUE))
+		return NULL;
+
+	return e_component_registry_get_component_by_id (component_registry, id);
+#else
+	client = evolution_shell_component_client_new (id);
+	if (client == NULL)
+		return NULL;
+
+	component = component_new (id, client);
+	g_hash_table_insert (priv->component_id_to_component, component->id, component);
+	bonobo_object_unref (BONOBO_OBJECT (client));
+#endif
 
 	return component->client;
 }

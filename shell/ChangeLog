@@ -1,3 +1,39 @@
+2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (set_owner_on_components): If setting the owner fails,
+	print the a warning message out.  Then restart the component.
+
+	* e-component-registry.c (component_free): Return a boolean value.
+	%FALSE if ::unsetOwner raises an exception.
+	(register_type): New arg @override_duplicate, to avoid complaining
+	if a component gets re-registered.
+	(register_component): Likewise.
+	(e_component_registry_restart_component): New.
+
+	* e-uri-schema-registry.c
+	(e_uri_schema_registry_set_handler_for_schema): Changed return
+	type to `void'.  Just remove the old handler and set up the new
+	one.
+
+	* evolution-shell-component-client.c (corba_exception_to_result):
+	Translate ::OldOwnerHasDied into
+	EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED.
+
+	* evolution-shell-component.h: New enum value
+	`EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED'.
+
+	* evolution-shell-component.c (impl_setOwner): If the old owner is
+	not alive anymore [use CORBA_Object_non_existent() to figure this
+	out], emit OWNER_UNSET and raise `OldOwnerHasDied'.
+	(evolution_shell_component_result_to_string): New.
+
+	* Evolution-ShellComponent.idl: New exception `OldOwnerHasDied'.
+	(ShellComponent::setOwner): Can raise it.
+
+	* e-folder-type-registry.c
+	(e_folder_type_register_type_registered): New.
+	(e_folder_type_register_unregister_type): New.
+
 2001-10-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importer/Makefile.am: added BONOBO_GNOME_CFLAGS to make it compile

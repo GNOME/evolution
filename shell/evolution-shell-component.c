@@ -305,8 +305,26 @@ impl_setOwner (PortableServer_Servant servant,
 	priv = shell_component->priv;
 
 	if (priv->owner_client != NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_ShellComponent_AlreadyOwned, NULL);
+		int owner_is_dead;
+
+		owner_is_dead = CORBA_Object_non_existent
+			(bonobo_object_corba_objref (BONOBO_OBJECT (priv->owner_client)), ev);
+		if (ev->_major != CORBA_NO_EXCEPTION)
+			owner_is_dead = TRUE;
+
+		if (! owner_is_dead) {
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_GNOME_Evolution_ShellComponent_AlreadyOwned, NULL);
+		} else {
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_GNOME_Evolution_ShellComponent_OldOwnerHasDied, NULL);
+
+			bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
+			priv->owner_client = NULL;
+
+			gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
+		}
+
 		return;
 	}
 
@@ -822,6 +840,55 @@ evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *she
 	type = user_creatable_item_type_new (id, description, menu_description, menu_shortcut);
 
 	priv->user_creatable_item_types = g_slist_prepend (priv->user_creatable_item_types, type);
+}
+
+
+/* Public utility functions.  */
+
+const char *
+evolution_shell_component_result_to_string (EvolutionShellComponentResult result)
+{
+	switch (result) {
+	case EVOLUTION_SHELL_COMPONENT_OK:
+		return _("Success");
+	case EVOLUTION_SHELL_COMPONENT_CORBAERROR:
+		return _("CORBA error");
+	case EVOLUTION_SHELL_COMPONENT_INTERRUPTED:
+		return _("Interrupted");
+	case EVOLUTION_SHELL_COMPONENT_INVALIDARG:
+		return _("Invalid argument");
+	case EVOLUTION_SHELL_COMPONENT_ALREADYOWNED:
+		return _("Already has an owner");
+	case EVOLUTION_SHELL_COMPONENT_NOTOWNED:
+		return _("No owner");
+	case EVOLUTION_SHELL_COMPONENT_NOTFOUND:
+		return _("Not found");
+	case EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE:
+		return _("Unsupported type");
+	case EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDSCHEMA:
+		return _("Unsupported schema");
+	case EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDOPERATION:
+		return _("Unsupported operation");
+	case EVOLUTION_SHELL_COMPONENT_INTERNALERROR:
+		return _("Internal error");
+	case EVOLUTION_SHELL_COMPONENT_BUSY:
+		return _("Busy");
+	case EVOLUTION_SHELL_COMPONENT_EXISTS:
+		return _("Exists");
+	case EVOLUTION_SHELL_COMPONENT_INVALIDURI:
+		return _("Invalid URI");
+	case EVOLUTION_SHELL_COMPONENT_PERMISSIONDENIED:
+		return _("Permission denied");
+	case EVOLUTION_SHELL_COMPONENT_HASSUBFOLDERS:
+		return _("Has subfolders");
+	case EVOLUTION_SHELL_COMPONENT_NOSPACE:
+		return _("No space left");
+	case EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED:
+		return _("Old owner has died");
+	case EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR:
+	default:
+		return _("Unknown error");
+	}
 }
 
 
