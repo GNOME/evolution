@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-06-24 13:41+0000\n"
-"PO-Revision-Date: 2000-06-24 13:42+00:00\n"
+"POT-Creation-Date: 2000-06-27 12:19+0000\n"
+"PO-Revision-Date: 2000-06-27 12:41+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -348,7 +348,7 @@ msgstr ""
 #: addressbook/contact-editor/e-contact-editor.c:785
 #: calendar/gui/event-editor.c:1331
 msgid "Configure recurrence rules"
-msgstr ""
+msgstr "Настройка правил повторения"
 
 #: addressbook/contact-editor/e-contact-editor.c:787
 #: calendar/gui/event-editor.c:1333
@@ -491,11 +491,11 @@ msgstr "Эл.адрес 2"
 msgid "Email 3"
 msgstr "Эл.адрес 3"
 
-#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:651
+#: addressbook/gui/component/addressbook.c:417 mail/message-list.c:691
 msgid "To"
 msgstr "Кому"
 
-#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:623
+#: addressbook/gui/component/addressbook.c:418 mail/message-list.c:663
 msgid "From"
 msgstr "От"
 
@@ -547,7 +547,7 @@ msgid "Test Select Names"
 msgstr "Проверка выбранных имен"
 
 #: addressbook/gui/component/addressbook.c:510
-#: addressbook/gui/component/addressbook.c:1052
+#: addressbook/gui/component/addressbook.c:1056
 msgid "As _Table"
 msgstr "Как таблица"
 
@@ -580,11 +580,15 @@ msgstr ""
 msgid "Save as VCard"
 msgstr "Сохранить как VCard"
 
-#: addressbook/gui/component/addressbook.c:1059
+#: addressbook/gui/component/addressbook.c:1027
+msgid "* Click here to add a contact *"
+msgstr "* Щелкните здесь чтобы добавить контакт *"
+
+#: addressbook/gui/component/addressbook.c:1063
 msgid "As _Minicards"
 msgstr "Как миникарточки"
 
-#: addressbook/gui/component/addressbook.c:1110
+#: addressbook/gui/component/addressbook.c:1114
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, который будет показывать программа просмотра папок"
 
@@ -1296,7 +1300,7 @@ msgid "Due Date"
 msgstr "Условленная дата"
 
 #: calendar/gui/gncal-todo.c:426 calendar/gui/prop.c:605
-#: mail/message-list.c:609
+#: mail/message-list.c:649
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -1351,17 +1355,17 @@ msgstr "Секунды"
 msgid "Second"
 msgstr "Секунда"
 
-#: calendar/gui/gnome-cal.c:452 calendar/gui/gnome-cal.c:1063
-#: calendar/gui/gnome-cal.c:1119
+#: calendar/gui/gnome-cal.c:453 calendar/gui/gnome-cal.c:1064
+#: calendar/gui/gnome-cal.c:1120
 msgid "Reminder of your appointment at "
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1055
+#: calendar/gui/gnome-cal.c:1056
 msgid "Snooze"
 msgstr "Короткий сон"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1068 calendar/gui/gnome-cal.c:1123
+#: calendar/gui/gnome-cal.c:1069 calendar/gui/gnome-cal.c:1124
 msgid "Ok"
 msgstr "Ок"
 
@@ -1611,7 +1615,7 @@ msgstr "FIXME: Переслать как v_Calendar"
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:690
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:752
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -1619,7 +1623,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:691
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:753
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -1628,7 +1632,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:692
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:754
 msgid "Paste"
 msgstr "Вставить"
 
@@ -1725,77 +1729,86 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:492
-msgid "Open file"
-msgstr "Открыть файл"
+#: composer/e-msg-composer.c:459
+msgid "Save as..."
+msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:470
+#, c-format
+msgid "Error saving file: %s"
+msgstr "Ошибка сохранения файла: %s"
+
+#: composer/e-msg-composer.c:490
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Ошибка при загрузке файла: %s"
 
-#: composer/e-msg-composer.c:543
+#: composer/e-msg-composer.c:539
+msgid "Open file"
+msgstr "Открыть файл"
+
+#: composer/e-msg-composer.c:605
 msgid "Discard this message?"
 msgstr "Отменить это сообщение"
 
-#: composer/e-msg-composer.c:648
+#: composer/e-msg-composer.c:710
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:648
+#: composer/e-msg-composer.c:710
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:651 composer/e-msg-composer.c:688
+#: composer/e-msg-composer.c:713 composer/e-msg-composer.c:750
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:651
+#: composer/e-msg-composer.c:713
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:721
 msgid "View _attachments"
 msgstr "Просмотреть вложения"
 
-#: composer/e-msg-composer.c:659
+#: composer/e-msg-composer.c:721
 msgid "View/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:688
+#: composer/e-msg-composer.c:750
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:690
+#: composer/e-msg-composer.c:752
 msgid "Cut selected region into the clipboard"
 msgstr "Вырезать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:691
+#: composer/e-msg-composer.c:753
 msgid "Copy selected region into the clipboard"
 msgstr "Скопировать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:692
+#: composer/e-msg-composer.c:754
 msgid "Paste selected region into the clipboard"
 msgstr "Вставить выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:693
+#: composer/e-msg-composer.c:755
 msgid "Undo"
 msgstr "Откат"
 
-#: composer/e-msg-composer.c:693
+#: composer/e-msg-composer.c:755
 msgid "Undo last operation"
 msgstr "Отменить последнюю операцию"
 
-#: composer/e-msg-composer.c:695
+#: composer/e-msg-composer.c:757
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:695
+#: composer/e-msg-composer.c:757
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer.c:857
+#: composer/e-msg-composer.c:919
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
@@ -2027,27 +2040,27 @@ msgstr "Отправлять сообщения в формате HTML"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/message-list.c:595
+#: mail/message-list.c:635
 msgid "Online Status"
 msgstr "Подключенное состояние"
 
-#: mail/message-list.c:630
+#: mail/message-list.c:670
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:637
+#: mail/message-list.c:677
 msgid "Date"
 msgstr "Дата"
 
-#: mail/message-list.c:644
+#: mail/message-list.c:684
 msgid "Received"
 msgstr "Получено"
 
-#: mail/message-list.c:658
+#: mail/message-list.c:698
 msgid "Size"
 msgstr "Размер"
 
-#: mail/component-factory.c:179
+#: mail/component-factory.c:184
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
@@ -2182,7 +2195,7 @@ msgstr "Эволюция - %s"
 msgid "Cannot open location: %s"
 msgstr "Невозможно открыть: %s"
 
-#: shell/e-shell.c:250
+#: shell/e-shell.c:256
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Невозможно установить локальное хранилище -- %s"
