@@ -1,5 +1,0 @@
-2003-06-09  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-summary-mail.c (e_summary_mail_get_info): Protect against
-	folder_store being NULL.  [#44111]
-

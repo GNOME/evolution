@@ -1,4 +1,0 @@
-2003-06-10  Larry Ewing  <lewing@ximian.com>
-
-	* e-corba-storage-registry.c (listener_notify): don't leak nr.name.
-
