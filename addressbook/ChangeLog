@@ -1,3 +1,8 @@
+2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/component/select-names/Makefile.am: Clean the idl-generated
+	files properly.
+
 2000-11-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* ename/.cvsignore, gui/minicard/.cvsignore: Removed these

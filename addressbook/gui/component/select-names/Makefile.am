@@ -69,3 +69,6 @@ EXTRA_DIST = 			\
 	select-names.glade.h	\
 	$(oaf_DATA)		\
 	$(IDLS)
+
+BUILT_SOURCES = $(IDL_GENERATED)
+CLEANFILES   += $(BUILT_SOURCES)

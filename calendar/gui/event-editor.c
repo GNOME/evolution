@@ -157,8 +157,7 @@ static void append_exception (EventEditor *ee, time_t t);
 static void check_all_day (EventEditor *ee);
 static void set_all_day (GtkWidget *toggle, EventEditor *ee);
 static void alarm_toggle (GtkWidget *toggle, EventEditor *ee);
-static void check_dates (EDateEdit *dedit, EventEditor *ee);
-static void check_times (EDateEdit *dedit, EventEditor *ee);
+static void date_changed_cb (EDateEdit *dedit, gpointer data);
 static void recurrence_exception_add_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_delete_cb (GtkWidget *widget, EventEditor *ee);
@@ -812,15 +811,10 @@ init_widgets (EventEditor *ee)
 
 	/* Start and end times */
 
-	gtk_signal_connect (GTK_OBJECT (priv->start_time), "date_changed",
-			    GTK_SIGNAL_FUNC (check_dates), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->start_time), "time_changed",
-			    GTK_SIGNAL_FUNC (check_times), ee);
-
-	gtk_signal_connect (GTK_OBJECT (priv->end_time), "date_changed",
-			    GTK_SIGNAL_FUNC (check_dates), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->end_time), "time_changed",
-			    GTK_SIGNAL_FUNC (check_times), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->start_time), "changed",
+			    GTK_SIGNAL_FUNC (date_changed_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->end_time), "changed",
+			    GTK_SIGNAL_FUNC (date_changed_cb), ee);
 
 	gtk_signal_connect (GTK_OBJECT (priv->all_day_event), "toggled",
 			    GTK_SIGNAL_FUNC (set_all_day), ee);
@@ -2210,27 +2204,40 @@ alarm_toggle (GtkWidget *toggle, EventEditor *ee)
 	gtk_widget_set_sensitive (alarm_unit, active);
 }
 
-/*
- * Checks if the day range occupies all the day, and if so, check the
- * box accordingly
+/* Checks if the day range occupies a single whole day, and if so, check. the
+ * "all day event" box accordingly.
  */
 static void
 check_all_day (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	time_t ev_start, ev_end;
+	time_t start_begin_day, end_begin_day;
+	struct tm tm_start, tm_end;
+	gboolean all_day;
 
 	priv = ee->priv;
 
 	ev_start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
 	ev_end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 
-	/* all day event checkbox */
-	if (time_day_begin (ev_start) == ev_start
-	    && time_day_begin (ev_end) == ev_end)
-		e_dialog_toggle_set (priv->all_day_event, TRUE);
+	start_begin_day = time_day_begin (ev_start);
+	end_begin_day = time_day_begin (ev_end);
+
+	tm_start = *localtime (&start_begin_day);
+	tm_end = *localtime (&end_begin_day);
+
+	tm_end.tm_mday--;
+	if (mktime (&tm_start) == mktime (&tm_end))
+		all_day = TRUE;
 	else
-		e_dialog_toggle_set (priv->all_day_event, FALSE);
+		all_day = FALSE;
+
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->all_day_event), ee);
+
+	e_dialog_toggle_set (priv->all_day_event, all_day);
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->all_day_event), ee);
 }
 
 /*
@@ -2284,17 +2291,21 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&end_tm));
 }
 
-/*
- * Callback: checks that the dates are start < end
+/* Callback used when the start or end date widgets change.  We check that the
+ * start date < end date and we set the "all day event" button as appropriate.
  */
 static void
-check_dates (EDateEdit *dedit, EventEditor *ee)
+date_changed_cb (EDateEdit *dedit, gpointer data)
 {
+	EventEditor *ee;
 	EventEditorPrivate *priv;
 	time_t start, end;
 	struct tm tm_start, tm_end;
 
+	ee = EVENT_EDITOR (data);
 	priv = ee->priv;
+
+	/* Ensure that start < end */
 
 	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
 	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
@@ -2304,88 +2315,36 @@ check_dates (EDateEdit *dedit, EventEditor *ee)
 		tm_end = *localtime (&end);
 
 		if (GTK_WIDGET (dedit) == priv->start_time) {
+			/* Modify the end time */
+
 			tm_end.tm_year = tm_start.tm_year;
 			tm_end.tm_mon  = tm_start.tm_mon;
 			tm_end.tm_mday = tm_start.tm_mday;
+			tm_end.tm_hour = tm_start.tm_hour + 1;
+			tm_end.tm_min  = tm_start.tm_min;
+			tm_end.tm_sec  = tm_start.tm_sec;
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
-			e_date_edit_set_time (E_DATE_EDIT (priv->end_time),
-					      mktime (&tm_end));
+			e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&tm_end));
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
 		} else if (GTK_WIDGET (dedit) == priv->end_time) {
+			/* Modify the start time */
+
 			tm_start.tm_year = tm_end.tm_year;
 			tm_start.tm_mon  = tm_end.tm_mon;
 			tm_start.tm_mday = tm_end.tm_mday;
-
-#if 0 /* FIXME: is this right? */
-			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
-			e_date_edit_set_time (E_DATE_EDIT (priv->start_time),
-					      mktime (&tm_start));
-			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
-#endif
-		}
-	}
-}
-
-/*
- * Callback: checks that start_time < end_time and whether the
- * selected hour range spans all of the day
- */
-static void
-check_times (EDateEdit *dedit, EventEditor *ee)
-{
-	EventEditorPrivate *priv;
-	time_t start, end;
-	struct tm tm_start, tm_end;
-
-	priv = ee->priv;
-#if 0
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
-	gdk_flush ();
-#endif
-	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
-	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
-
-	if (start > end) {
-		tm_start = *localtime (&start);
-		tm_end = *localtime (&end);
-
-		if (GTK_WIDGET (dedit) == priv->start_time) {
-			tm_end.tm_min  = tm_start.tm_min;
-			tm_end.tm_sec  = tm_start.tm_sec;
-			tm_end.tm_hour = tm_start.tm_hour + 1;
-
-			if (tm_end.tm_hour >= 24) {
-				tm_end.tm_hour = 24; /* mktime() will bump the day */
-				tm_end.tm_min = 0;
-				tm_end.tm_sec = 0;
-			}
-
-			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
-			e_date_edit_set_time (E_DATE_EDIT (priv->end_time),
-					      mktime (&tm_end));
-			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
-		} else if (GTK_WIDGET (dedit) == priv->end_time) {
+			tm_start.tm_hour = tm_end.tm_hour - 1;
 			tm_start.tm_min  = tm_end.tm_min;
 			tm_start.tm_sec  = tm_end.tm_sec;
-			tm_start.tm_hour = tm_end.tm_hour - 1;
-
-			if (tm_start.tm_hour < 0) {
-				tm_start.tm_hour = 0;
-				tm_start.tm_min = 0;
-				tm_start.tm_min = 0;
-			}
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
-
-			/* will set recur start too */
 			e_date_edit_set_time (E_DATE_EDIT (priv->start_time), mktime (&tm_start));
-
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
-		}
+		} else
+			g_assert_not_reached ();
 	}
 
-	/* Check whether the event spans the whole day */
+	/* Set the "all day event" button as appropriate */
 
 	check_all_day (ee);
 }

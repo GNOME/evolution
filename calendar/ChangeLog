@@ -1,5 +1,15 @@
 2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor.c (check_all_day): Block signals from the
+	toggle button.
+	(date_changed_cb): Merged check_dates() and check_times() into
+	this function; provide better behavior as well.
+	(check_dates): Removed function.
+	(check_times): Removed function.
+	(init_widgets): Connect to the "changed" signal on the start_time
+	and end_time widgets.
+	(check_all_day): Use a better test.
+
 	* gui/Makefile.am: Clean the idl-generated sources properly.
 	* cal-client/Makefile.am: Likewise.
 
