@@ -694,8 +694,8 @@ setup_create_ecal (TasksComponent *component)
 	}		
 
 	/* Handle the fact it may change on us */
-	not = calendar_config_add_notification_primary_calendar (config_create_ecal_changed_cb, 
-								 component);
+	not = calendar_config_add_notification_primary_tasks (config_create_ecal_changed_cb, 
+							      component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* Save the primary source for use elsewhere */
