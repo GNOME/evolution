@@ -229,7 +229,7 @@ func_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, voi
 		if (!strcasecmp(headername, "subject")) {
 			header = ctx->message_current->subject;
 		} else if (!strcasecmp(headername, "date")) {
-			header = ctx->message_current->date;
+			header = ctx->message_current->sent_date;
 		} else if (!strcasecmp(headername, "from")) {
 			header = ctx->message_current->sender;
 		} else {

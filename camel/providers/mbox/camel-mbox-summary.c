@@ -296,7 +296,7 @@ camel_mbox_summary_append_internal_to_external (CamelMboxSummary *internal,
 		
 		external_entry.subject = internal_entry->subject ? strdup (internal_entry->subject) : NULL;
 		external_entry.uid = g_strdup_printf ("%u", internal_entry->uid);
-		external_entry.date = internal_entry->date ? strdup (internal_entry->date) : NULL;
+		external_entry.sent_date = internal_entry->date ? strdup (internal_entry->date) : NULL;
 		external_entry.sender = internal_entry->sender ? strdup (internal_entry->sender) : NULL;
 
 		g_array_append_vals (external_array, &external_entry, 1);

@@ -59,12 +59,20 @@ typedef struct {
 
 
 typedef struct {
+
+	/* all the followings are public fields */
 	gchar *subject;
-	gchar *uid;
-	gchar *date;
+	
 	gchar *sender;
+	gchar *to;
+
+	gchar *sent_date;
+	gchar *received_date;
+	
+	gchar *uid;
 
 	GHashTable *extended_fields;
+
 } CamelMessageInfo;
 
 
