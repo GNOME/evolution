@@ -287,9 +287,7 @@ import_addressbook (PineImporter *importer)
 	uri = g_strdup_printf ("file://%s", path);
 	g_free (path);
 
-	if (!e_book_load_uri (importer->book, uri, import_addressfile, importer)) {
-		g_warning ("Error calling load_uri");
-	}
+	e_book_load_uri (importer->book, uri, import_addressfile, importer);
 	g_free (uri);
 }
 

@@ -1,3 +1,8 @@
+2003-02-06  Chris Toshok  <toshok@ximian.com>
+
+	* importers/pine-importer.c (import_addressbook): track change to
+	e_book_load_uri type.
+
 2003-02-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser.c (on_right_click): Use
