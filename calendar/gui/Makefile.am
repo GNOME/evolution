@@ -9,9 +9,10 @@ gnorba_DATA = gnomecal.gnorba
 help_base = $(datadir)/gnome/help/cal
 
 if HAVE_GNOME_PILOT
-EXTRA_PROGRAMS = todo-conduit-control-applet calendar-conduit-control-applet
-endif
+bin_PROGRAMS = gnomecal todo-conduit-control-applet calendar-conduit-control-applet
+else
 bin_PROGRAMS = gnomecal 
+endif
 
 INCLUDES = 			\
 	-I$(includedir)					\

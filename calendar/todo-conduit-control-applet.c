@@ -46,7 +46,7 @@ doTrySettings(GtkWidget *widget, ConduitCfg *conduitCfg)
 {
     readStateCfg(cfgStateWindow);
     if(activated)
-      gpilotd_conduit_mgmt_enable(conduit,pilotId);
+      gpilotd_conduit_mgmt_enable(conduit,pilotId,GnomePilotConduitSyncTypeSynchronize);
     else
       gpilotd_conduit_mgmt_disable(conduit,pilotId);
 }

@@ -9,6 +9,14 @@
 #include <pi-datebook.h>
 #include <gnome.h>
 
+#include "GnomeCal.h"
+#include "calobj.h"
+#include "calendar.h"
+#include "timeutil.h"
+
+#include <gpilotd/gnome-pilot-conduit.h>
+#include <gpilotd/gnome-pilot-conduit-standard-abs.h>
+
 #define CALLOCALRECORD(s) ((CalLocalRecord*)(s))
 typedef struct _CalLocalRecord CalLocalRecord;
 
