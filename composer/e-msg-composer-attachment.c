@@ -28,6 +28,10 @@
    attachment.  Also, this contains the code to let users edit the
    attachment manually. */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>

@@ -1,3 +1,7 @@
+2004-07-20  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-attachment.c: include config.h.  See #61395.
+
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
 	** Fix for #60387.
