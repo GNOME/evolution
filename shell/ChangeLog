@@ -1,5 +1,10 @@
 2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-window-commands.c: Add a pixmap for the toolbar
+	SendReceive button.
+
+2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (attempt_upgrade): New helper function.
 	(idle_cb): Call it if we have a local shell.  Also, remove unused
 	variables.
