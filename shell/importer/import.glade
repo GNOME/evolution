@@ -90,8 +90,7 @@ importing external files into Evolution.</text>
       <name>page3</name>
       <cxx_use_heap>True</cxx_use_heap>
       <title>Import</title>
-      <text>Click &quot;Finish&quot; to begin importing the file into Evolution. 
-***FIXME: Change the name of the finish button***</text>
+      <text>Click &quot;Import&quot; to begin importing the file into Evolution. </text>
       <background_color>153,174,191</background_color>
       <logo_background_color>255,255,255</logo_background_color>
       <textbox_color>255,255,255</textbox_color>
