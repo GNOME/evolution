@@ -50,7 +50,7 @@
 
       <para>
         <application>Evolution</application> can help you work in a
-        group, by handling email, address and other contact
+        group by handling email, address and other contact
         information, and one or more calendars.  It can do that on one
         or several computers, connected directly or over a network,
         for one person or for large groups.
@@ -63,9 +63,10 @@
 	  <listitem>
 	    <para>
              The application must be <emphasis>both powerful and easy
-             to use</emphasis>. That means a familiar and intuitive
-             interface that users can customize to their liking, and
-             the development of shortcuts for complex tasks.
+             to use</emphasis>. In other words, it needs a familiar
+             and intuitive interface that users can customize to their
+             liking, and users should have access to shortcuts for
+             complex tasks.
             </para>
 	  </listitem>
 	  <listitem>
@@ -125,7 +126,7 @@
         chunks of information, and many of the features it describes
         are unimplemented.  All the content is subject to change,
         especially if you help.  Please send comments on the guide to
-        <email>aaron@helixcode.com</email>. If you would like to work
+        <email>aaron@ximian.com</email>. If you would like to work
         on the guide please contact me or see the GNOME Documentation
         project <ulink
         url="http://developer.gnome.org/projects/gdp">web
@@ -140,14 +141,14 @@
         tour</link>&mdash; it will explain how to use
         <application>Evolution</application>.  If you are new to
         <application>Evolution</application> or to groupware in
-        general, this is the section for you. The second section,
-        covering <link linkend="config">configuration</link>, is
-        targeted at more advanced users, but anyone who wants to
-        change the way <application>Evolution</application> looks or
-        acts can benefit from reading it.  In addition, there is a
-        comprehensive <link linkend="menuref">menu
-        reference</link> which describes nearly every capability that
-        <application>Evolution</application> has to offer.
+        general, this section is for you. The second section, covering
+        <link linkend="config">configuration</link>, is targeted at
+        more advanced users, but anyone who wants to change the way
+        <application>Evolution</application> looks or acts can benefit
+        from reading it.  In addition, there is a comprehensive <link
+        linkend="menuref">menu reference</link> which describes nearly
+        every capability that <application>Evolution</application> has
+        to offer.
       </para>
       <formalpara>
         <title>Typographical conventions</title>
@@ -178,7 +179,7 @@
   <sect1 id="commontasks">
     <title>Quick Reference for Common Tasks</title>
     <para>
-        You might want to get a copy of this section and tape it to
+        You might want to copy this section and tape it to
         the wall next to your computer: it's a very short summary of
         most of the things you'll want to do with
         <application>Evolution</application>, and pointers to the
@@ -189,8 +190,7 @@
       <title>Opening or Creating Anything</title>
       <para>
          Here are the keyboard shortcuts and menu items you're most
-         likely to use: (Please note that the shortcuts listed are
-         probably wrong at this point).
+         likely to use:
          
           <variablelist>
 
@@ -257,21 +257,6 @@
 	    </listitem>
 	  </varlistentry>
 
-	  <varlistentry>
-	    <term>Create a new Task</term>
-	    <listitem>
-	      <para>       
-                  <menuchoice><guimenu>File</guimenu>
-		  <guisubmenu>New</guisubmenu>
-		  <guimenuitem>Task</guimenuitem>  </menuchoice> or 
-                <keycombo action="simul">
-		  <keycap>Ctrl</keycap>
-		  <keycap>Shift</keycap>
-		  <keycap>T</keycap>
-                </keycombo>
-                </para>
-	    </listitem>
-	  </varlistentry>
 
 	  <varlistentry>
 	    <term>Enter a new Contact</term>
@@ -288,6 +273,24 @@
                 </para>
 	    </listitem>
 	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Create a new Task</term>
+	    <listitem>
+	      <para>       
+                  <menuchoice><guimenu>File</guimenu>
+		  <guisubmenu>New</guisubmenu>
+		  <guimenuitem>Task</guimenuitem>  </menuchoice> or 
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>Shift</keycap>
+		  <keycap>T</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
 	</variablelist>
       </para>
     </sect2> 
@@ -300,12 +303,10 @@
 	    <term>Check Mail</term>
 	    <listitem>
 	      <para>
-                Click <guibutton>Get Mail</guibutton> in the toolbar, or press 
-                <keycombo action="simul">
-		  <keycap>FIXME</keycap>
-		  <keycap>FIXME</keycap>
-		  <keycap>FIXME</keycap>
-                </keycombo>
+                Click <guibutton>Get Mail</guibutton> in the
+                toolbar. There is no keyboard shortcut for this task,
+                but you can ask <application>Evolution</application>
+                to check for new mail periodically. To do so, FIXME.
                 </para>
 	    </listitem>
 	  </varlistentry>
@@ -318,14 +319,19 @@
                 click <guibutton>Reply</guibutton> in the
                 toolbar, or press
                 <keycombo action="simul">
-		  <keycap>FIXME</keycap>
-		  <keycap>FIXME</keycap>
-		  <keycap>FIXME</keycap>
+		  <keycap>Ctrl</keycap>
+		  <keycap>R</keycap>
                 </keycombo>
                 </para>
 	      <para>
                 To reply to the sender and all the other visible
-                recipients of the message, click:
+                recipients of the message, click <guibutton>Reply to
+                All</guibutton> or select the message and press
+                <keycombo action="simul">
+		  <keycap>Shift</keycap>
+		  <keycap>Ctrl</keycap>
+		  <keycap>R</keycap>
+                </keycombo>
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -338,9 +344,8 @@
                 and click <guibutton>Forward</guibutton> in the
                 toolbar, or press
                 <keycombo action="simul">
-		  <keycap>FIXME</keycap>
-		  <keycap>FIXME</keycap>
-		  <keycap>FIXME</keycap>
+		  <keycap>Ctrl</keycap>
+		  <keycap>J</keycap>
                 </keycombo>
                 </para>
 	    </listitem>
@@ -361,18 +366,20 @@
 	  </varlistentry>
 
           <varlistentry>
-	    <term>Create Filters and vFolders</term>
+	    <term>Create Filters and Virtual Folders</term>
 	    <listitem>
 	      <para>
-                You can create filters and vFolders based on specific
-                message attributes by right-clicking on a message or
-                by selecting <menuchoice> <guimenu>Tools</guimenu>
+                You can create filters and Virtual Folders based on
+                specific message attributes from the message's
+                right-click menu.  Alternately, select a message, and
+                then choose <menuchoice> <guimenu>Settings</guimenu>
                 <guimenuitem>Mail Filters</guimenuitem> </menuchoice>
-                or <menuchoice> <guimenu>Tools</guimenu>
-                <guimenuitem>vFolder Editor</guimenuitem>
+                or <menuchoice> <guimenu>Settings</guimenu>
+                <guimenuitem>Virtual Folder Editor</guimenuitem>
                 </menuchoice>.  Filters are discussed in <xref
-                linkend="usage-mail-organize-filters">, and vFolders
-                in <xref linkend="usage-mail-organize-vfolders">.
+                linkend="usage-mail-organize-filters">, and Virtual
+                Folders in <xref
+                linkend="usage-mail-organize-vfolders">.
             </para>
 	    </listitem>
 	</varlistentry>

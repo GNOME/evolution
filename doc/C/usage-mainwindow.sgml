@@ -28,7 +28,7 @@
      part of the <interface>main window</interface> is taken up by the
      actual <interface>Inbox</interface>, where messages are listed
      and displayed.  If you're running the program for the first time,
-     you'll have just one message: a welcome from Helix Code.
+     you'll have just one message: a welcome from Ximian.
 
 
 <!-- ==============Figure=================================== -->
@@ -81,8 +81,8 @@
        Directories</guilabel>, it will slide up and you'll see buttons
        for the <guilabel>Bigfoot</guilabel> and
        <guilabel>Netcenter</guilabel> directories, as well as any
-       others you or your system administrator might have added. You
-       can add more groups by right-clicking on the background of the
+       others you or your system administrator may have added. You can
+       add more groups by right-clicking on the background of the
        shortcut bar and selecting <guimenuitem>Menu
        Group</guimenuitem>.  Internet directories behave a lot like
        the local contact manager, which is covered in <xref
@@ -171,7 +171,7 @@
     </para>
     <para>
       If you don't like the shortcut bar, you can use the folder bar
-      or the menu bar to navigate. Press 
+      or the menu bar to navigate the main window. Press 
             <keycombo action="simul">
                  <keycap>Ctrl</keycap> 
                  <keycap>O</keycap> 
@@ -208,18 +208,17 @@
       appointments, address cards, and email in a tree that's a lot
       like a <glossterm linkend="filetree">file
       tree</glossterm>&mdash; it starts small at the top, and branches
-      downwards. On most computers, there will be three folders at the
-      base.  First, and probably most important, is the
-      <guilabel>Local</guilabel> folder, which holds all the
-      <application>Evolution</application> data that's stored on your
-      computer.  After that come <guilabel>vFolders</guilabel>, or
-      virtual folders, discussed in <xref
-      linkend="usage-mail-organize-vfolders">, followed by any
-      <glossterm linkend="imap">IMAP</glossterm> mail folders you
-      might have available to you over your network.  Lastly, there
-      are <guilabel>External Directories</guilabel>, <glossterm
+      downwards. On most computers, there will be three or four
+      folders at the base.  First is the <guilabel>Local</guilabel>
+      folder, which holds all the <application>Evolution</application>
+      data that's stored on your computer.  After that come
+      <guilabel>Virtual Folders</guilabel>, or virtual folders, discussed in
+      <xref linkend="usage-mail-organize-vfolders">, followed by any
+      <glossterm linkend="imap">IMAP</glossterm> mail folders you may
+      have available to you over your network.  Lastly, there are
+      <guilabel>External Directories</guilabel>, <glossterm
       linkend="ldap">LDAP</glossterm> contact directories stored on a
-      network. 
+      network.
     </para>
     <para>
        
@@ -266,7 +265,6 @@
 	   </para>
 	 </listitem>
 
-
       </itemizedlist>
 
     </para>
@@ -294,13 +292,8 @@
        <note>
 	  <title>Folders Have Limits</title>
 	  <para>
-              No matter where they exist, calendars must go in
-	      calendar folders, mail in mail folders, and contacts in
-	      contact folders.  Network folders follow the same type
-	      restriction, because the network servers are only set up
-	      to handle one kind of information. Within your local
-	      system, though you can folders inside each other,
-	      regardless of type.
+              Calendars must go in calendar folders, mail in mail
+	      folders, and contacts in contact folders.
            </para>
 	</note>
 
@@ -310,8 +303,7 @@
       exception.  If you right-click on a folder, you'll have a
       menu with the following options:
       <itemizedlist>
-	<listitem><para><guimenuitem>View</guimenuitem>, to view a message.</para></listitem>
-	<listitem><para><guimenuitem>Something else</guimenuitem>, for another purpose. </para></listitem>
+	<listitem><para><guimenuitem>FIXME</guimenuitem>, for another purpose. </para></listitem>
 	<listitem><para><guimenuitem>Something else</guimenuitem>, for another purpose. </para></listitem>
       </itemizedlist>.
     </para>
@@ -371,8 +363,7 @@
        <varlistentry>
           <term> <guimenu>Edit</guimenu> Menu </term>
           <listitem><para>
-              Although it doesn't contain anything at first,
-              the <guimenu>Edit</guimenu> menu fills up with 
+              The <guimenu>Edit</guimenu> menu holds
               useful tools that help you edit text and move it around.
           </para></listitem>
         </varlistentry>
@@ -392,7 +383,7 @@
           <listitem><para> Tools for configuring, changing, and
           setting up go here.  For mail, that means things like
           <guimenuitem>Mail Configuration</guimenuitem> and the
-          <guimenuitem>vFolder Editor</guimenuitem>.  For the
+          <guimenuitem>Virtual Folder Editor</guimenuitem>.  For the
           <interface>Calendar</interface> and the <interface>Contact
           Manager</interface>, it's color, network, and layout
           configuration. </para></listitem>

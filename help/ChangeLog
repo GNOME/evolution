@@ -1,3 +1,19 @@
+2001-01-19  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-mail.sgml: More of Megan's revisions, and Field Chooser
+	functions in the Sort section.
+
+	* C/apx-gloss.sgml: added "ToolTip"
+
+2001-01-18  Aaron Weber  <aaron@helixcode.com>
+
+	* C/preface.sgml: s/Helix Code/Ximian, and Megan's comments.
+
+	* C/usage-mainwindow.sgml: s/Helix Code/Ximian/, and Megan's
+	comments.
+
+	* C/evolution-guide.sgml: s/Helix Code/Ximian/
+
 2000-12-13  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: Revisions as suggested by Dan.  Especially to

@@ -372,13 +372,28 @@
   <glossterm>Spam</glossterm>
   <glossdef>
    <para>
-    Useless, unwanted e-mail.  Spam normally comes in forms of
-    chain-letters and advertisements for unscrupulous web sites or
-    services.  Messages that are merely useless are called "opt-in
+    Useless, unsolicited e-mail.  Spam normally comes in forms of
+    chain letters and advertisements for unscrupulous or clueless
+    companies.  Messages that are merely useless are called "opt-in
     newsletters."
    </para>
   </glossdef>
  </glossentry>
+
+
+ <glossentry id="tooltip">
+  <glossterm>Tool-Tip</glossterm>
+  <glossdef>
+   <para>
+      A small box of explanatory text which appears when the mouse
+      pointer is held motionless over a button or other interface
+      element.
+   </para>
+  </glossdef>
+ </glossentry>
+
+
+
 
  <glossentry id="virus">
   <glossterm>Virus</glossterm>
