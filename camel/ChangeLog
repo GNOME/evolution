@@ -405,7 +405,8 @@
 	* camel-store.c (camel_store_rename_folder): use object_bag_rekey
 	to rename the object.  object_bag use was broken.
 
-	* camel-object.c (camel_object_bag_rekey): new api to atomically re-key 
+	* camel-object.c (camel_object_bag_rekey): new api to atomically
+	re-key
 
 2004-01-23  Radek Doulik  <rodo@ximian.com>
 
@@ -452,9 +453,10 @@
 	password key, not userid.
 
 2004-01-19  Siviaah Nallagatla <snallagatla@novell.com>
-                                                                                                                             
-        * providers/groupwise/camel-gw-listener.c ( remove_calender_tasks_sources,
-        modify_calender_tasks_sources) : add port and "/soap" to source uri
+
+	* providers/groupwise/camel-gw-listener.c
+	(remove_calender_tasks_sources, modify_calender_tasks_sources):
+	add port and "/soap" to source uri
 
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
@@ -484,7 +486,7 @@
 	s/HEADER_ADDRESS_/CAMEL_HEADER_ADDRESS_/g
 
 2004-01-16 Sivaiah Nallagatla <snallagatla@novell.com>
-	
+
 	* providers/groupwise/camel-groupwise-provider.c: added some conf
 	entries for LDAP address setup
 
@@ -546,12 +548,15 @@
 	* providers/groupwise/camel-groupwise-provider.c: missing renaming.
 
 2004-01-13  Sivaiah Nallagatla <snallagatla@novell.com>
-	
-	* providers/groupwise/camel-gw-listener.[ch] : renamed groupwise-config-listener.[ch] 
-	to these file names and also changed code to use CamelURL insted of EUri
-	* providers/groupwise/camel-groupwise-provider.c : use the renamed config listener apis
-	* providers/groupwise/Makefile.am : changed the source file names 
 
+	* providers/groupwise/camel-gw-listener.[ch]: renamed
+	groupwise-config-listener.[ch] to these file names and also
+	changed code to use CamelURL insted of EUri
+
+	* providers/groupwise/camel-groupwise-provider.c: use the renamed
+	config listener apis
+
+	* providers/groupwise/Makefile.am: changed the source file names
 
 2004-01-12  Meilof Veeningen  <meilof@wanadoo.nl>
 
