@@ -177,7 +177,8 @@ static struct _mail_msg_op filter_folder_op = {
 
 void
 mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
-		    const char *type, CamelOperation *cancel)
+		    const char *type, gboolean notify,
+		    CamelOperation *cancel)
 {
 	struct _filter_mail_msg *m;
 	
@@ -194,6 +195,12 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 	
 	m->driver = camel_session_get_filter_driver (session, type, NULL);
 	
+	if (!notify) {
+		/* FIXME: have a #define NOTIFY_FILTER_NAME macro? */
+		/* the filter name has to stay in sync with mail-session::get_filter_driver */
+		camel_filter_driver_remove_rule_by_name (m->driver, "new-mail-notification");
+	}
+	
 	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
@@ -201,7 +208,7 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 void
 mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
 {
-	mail_filter_folder (folder, uids, FILTER_SOURCE_INCOMING, NULL);
+	mail_filter_folder (folder, uids, FILTER_SOURCE_INCOMING, FALSE, NULL);
 }
 
 /* ********************************************************************** */

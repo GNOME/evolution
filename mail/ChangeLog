@@ -1,5 +1,10 @@
 2002-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (mail_filter_folder): Now takes a boolean notify
+	argument. If this is *not* set, then remove the sound-notify
+	filter rule that mail-session adds. Kinda kludgy, but good enough
+	for the moment.
+
 	* mail-callbacks.c (guess_me): Simplified.
 
 2002-01-21  Jeffrey Stedfast  <fejj@ximian.com>
