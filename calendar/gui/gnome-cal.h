@@ -8,9 +8,7 @@
 #ifndef GNOME_CALENDAR_APP_H
 #define GNOME_CALENDAR_APP_H
 
-#include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gtkcalendar.h>
+#include <gnome.h>
 
 #include "calendar.h"
 

@@ -13,6 +13,7 @@
 #include "year-view.h"
 #include "main.h"
 #include "mark.h"
+#include "quick-view.h"
 #include "timeutil.h"
 
 
@@ -305,6 +306,27 @@ do_popup_menu (YearView *yv, GdkEventButton *event, int allow_new, int allow_day
 	gnome_popup_menu_do_popup (menu, NULL, NULL, event, yv);
 }
 
+/* Creates the quick view when the user clicks on a day */
+static void
+do_quick_view_popup (YearView *yv, GdkEventButton *event, int year, int month, int day)
+{
+	time_t day_start, day_end;
+	GList *list;
+	GtkWidget *qv;
+
+	day_start = time_from_day (year, month, day);
+	day_end = time_end_of_day (day_start);
+
+	list = calendar_get_events_in_range (yv->calendar->cal, day_start, day_end);
+
+	qv = quick_view_new (yv->calendar, "Put the date here", list);
+
+	quick_view_do_popup (QUICK_VIEW (qv), event);
+
+	gtk_widget_destroy (qv);
+	calendar_destroy_event_list (list);
+}
+
 /* Event handler for days in the year's month items */
 static gint
 day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
@@ -325,10 +347,7 @@ day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 			break;
 
 		if (event->button.button == 1) {
-			gnome_calendar_dayjump (yv->calendar,
-						time_from_day (mitem->year,
-							       mitem->month,
-							       day));
+			do_quick_view_popup (yv, (GdkEventButton *) event, mitem->year, mitem->month, day);
 			return TRUE;
 		} else if (event->button.button == 3) {
 			do_popup_menu (yv, (GdkEventButton *) event, TRUE, TRUE, TRUE, TRUE,

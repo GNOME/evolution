@@ -1,3 +1,15 @@
+1998-09-28  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* quick-view.[ch]: New file that presents a quick view of the
+	events in a particular day when the mouse is clicked on the year
+	view.  Work in progress.
+
+	* year-view.c (do_quick_view_popup): New function that creates a
+	quick view for the events in a day.
+
+	* Makefile.am (gnomecal_SOURCES): Added quick-view.[ch] to the
+	list of sources.
+
 1998-09-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* main.c: Hotkey for File/Exit should be C-q, not C-x.

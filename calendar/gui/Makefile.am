@@ -45,6 +45,8 @@ gnomecal_SOURCES = \
 	popup-menu.c		\
 	popup-menu.h		\
 	prop.c			\
+	quick-view.c		\
+	quick-view.h		\
 	timeutil.c		\
 	timeutil.h		\
 	view-utils.h		\
