@@ -1,5 +1,5 @@
 # Generated automatically from Makefile.in by configure.
-# Makefile.in generated automatically by automake 1.2c from Makefile.am
+# Makefile.in generated automatically by automake 1.2d from Makefile.am
 
 # Copyright (C) 1994, 1995, 1996, 1997 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -16,7 +16,7 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = ..
-prefix = /da/share/gnome-install
+prefix = /usr/local
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -49,31 +49,31 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_SCRIPT = ${INSTALL_PROGRAM}
 transform = s,x,x,
 
-NORMAL_INSTALL = true
-PRE_INSTALL = true
-POST_INSTALL = true
-NORMAL_UNINSTALL = true
-PRE_UNINSTALL = true
-POST_UNINSTALL = true
-host_alias = alphaev5-unknown-linux-gnu
-host_triplet = alphaev5-unknown-linux-gnu
-CATALOGS = 
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+host_alias = i586-pc-linux-gnu
+host_triplet = i586-pc-linux-gnu
+CATALOGS =  ko.gmo es.gmo
 CATOBJEXT = .gmo
 CC = gcc
-CFLAGS = -Wall -g -I/da/share/gnome-install/include
+CFLAGS = -g -O2  -I/usr/X11R6/include
 CPP = gcc -E
 CPPFLAGS = 
 CXX = c++
 DATADIRNAME = share
 GENCAT = 
-GMOFILES = 
+GMOFILES =  ko.gmo es.gmo
 GMSGFMT = /usr/bin/msgfmt
-GNOMEINCLUDE_DIR = 
-GNOMELIB_DIR = 
-GNOMEUI_LIBS = -lgnomeui -lgnome -ldl -lgtk -lgdk -lglib -lm  -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext -lSM -lICE
+GNOMEUI_LIBS = -lgnomeui -lgnome -ldl -lgtk -lgdk -lglib -lm  -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext
+GNOME_INCLUDEDIR = -I/usr/local/include
+GNOME_LIBDIR = -L/usr/local/lib
 GNOME_LIBS = -lgnome -ldl
-GTKXMHTML_LIBS = -lgtkxmhtml -lgtk -lgdk -lglib -lm -lXpm     -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext -lSM -lICE
-GTK_LIBS = @GTK_LIBS@
+GTKXMHTML_LIBS = -lgtkxmhtml -lgtk -lgdk -lglib -lm -lXpm     -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext
+GTK_LIBS = -lgtk -lgdk -lglib -lm
 GT_NO = 
 GT_YES = #YES#
 GUILE_LIBS = -lguile
@@ -83,21 +83,22 @@ INTLDEPS =
 INTLLIBS = 
 INTLOBJS = 
 LD = /usr/bin/ld
-LDFLAGS =  -L/da/share/gnome-install/lib
+LDFLAGS = 
 LEX = flex
+LIBOBJS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
-MAINT = #M#
+MAINT = 
 MAKEINFO = makeinfo
 MKINSTALLDIRS = ./mkinstalldirs
 MSGFMT = /usr/bin/msgfmt
 NM = /usr/bin/nm -B
 PACKAGE = gnome-utils
-POFILES = 
+POFILES =  ko.po es.po
 POSUB = po
 PROGRAMS_GENIUS = 
 PROGRAMS_GTOP = gtop
-PTHREAD_LIB = @PTHREAD_LIB@
+PTHREAD_LIB = -lpthread
 QTTHREADS_LIB = 
 RANLIB = ranlib
 READLINE_LIB = 
@@ -105,13 +106,13 @@ TERMCAP_LIB =
 USE_INCLUDED_LIBINTL = no
 USE_NLS = yes
 VERSION = 0.12
-XPM_LIBS = @XPM_LIBS@
+XPM_LIBS = -lXpm
 YACC = 
 l = 
-x_libs = @x_libs@
+x_libs =  -lSM -lICE -lX11  -lXext
 
 INCLUDES = 			\
-	-I$(includedir)
+	-I$(includedir)	
 
 bin_PROGRAMS = gncal
 
@@ -122,7 +123,8 @@ gncal_SOURCES = \
 	calcs.h
 
 gncal_LDADD = \
-	$(GNOMEUI_LIBS)
+	$(GNOMEUI_LIBS) \
+	$(top_builddir)/support/libsupport.a
 
 EXTRA_DIST = \
 	gncal.desktop
@@ -138,12 +140,12 @@ PROGRAMS =  $(bin_PROGRAMS)
 
 DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I..
 LIBS = 
-X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
+X_CFLAGS =  -I/usr/X11R6/include
+X_LIBS =  -L/usr/X11R6/lib
+X_EXTRA_LIBS = 
+X_PRE_LIBS =  -lSM -lICE
 gncal_OBJECTS =  gncal.o calcs.o
-gncal_DEPENDENCIES = 
+gncal_DEPENDENCIES =  $(top_builddir)/support/libsupport.a
 gncal_LDFLAGS = 
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -164,8 +166,8 @@ OBJECTS = $(gncal_OBJECTS)
 default: all
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .o
-$(srcdir)/Makefile.in: #M# Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+.SUFFIXES: .S .c .lo .o .s
+$(srcdir)/Makefile.in:  Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu gncal/Makefile
 
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status $(BUILT_SOURCES)
@@ -201,6 +203,12 @@ uninstall-binPROGRAMS:
 .c.o:
 	$(COMPILE) -c $<
 
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
 mostlyclean-compile:
 	-rm -f *.o core
 
@@ -214,11 +222,17 @@ maintainer-clean-compile:
 .c.lo:
 	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
 
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
-	-rm -rf .libs
+	-rm -rf .libs _libs
 
 distclean-libtool:
 
@@ -249,14 +263,15 @@ uninstall-ProductivityDATA:
 
 tags: TAGS
 
-ID: $(HEADERS) $(SOURCES)
-	here=`pwd` && cd $(srcdir) && mkid -f$$here/ID $(SOURCES) $(HEADERS)
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $(SOURCES) $(HEADERS) $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES)
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	test -z "$(ETAGS_ARGS)$(SOURCES)$(HEADERS)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $(SOURCES) $(HEADERS) -o $$here/TAGS)
+	test -z "$(ETAGS_ARGS)$(SOURCES)$(HEADERS)$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $(SOURCES) $(HEADERS) $(LISP) -o $$here/TAGS)
 
 mostlyclean-tags:
 
@@ -378,6 +393,7 @@ installcheck install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+	-I$(includedir)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
