@@ -1,3 +1,12 @@
+2001-10-18  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c (add_menu_item):
+	Translate labels in select-names option menu. (Bug #9604)
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): Made the default window size
+	slightly wider. (Bug #7516)
+
 2001-10-18  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c, backend/ebook/e-card.h

@@ -354,13 +354,17 @@ add_menu_item		(gpointer	key,
 	ESelectNamesFolder *e_folder;
 	NamesAndMenu *nnm;
 	ESelectNames *e_select_names;
+	gchar *label;
 
 	nnm = user_data;
 	e_folder = value;
 	menu = nnm->menu;
 	e_select_names = nnm->names;
 
-	item = gtk_menu_item_new_with_label (e_folder->display_name);
+	label = e_utf8_to_locale_string (_(e_folder->display_name));
+	item = gtk_menu_item_new_with_label (label);
+	g_free (label);
+
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_object_set_data (GTK_OBJECT (item), "EsnChoiceFolder", e_folder);
 
