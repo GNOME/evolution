@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
-"POT-Creation-Date: 2001-10-01 19:06-0400\n"
+"POT-Creation-Date: 2001-10-02 17:45-0400\n"
 "PO-Revision-Date: 2001-09-27 11:02+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
