@@ -35,8 +35,7 @@ typedef struct _CamelMboxSummaryClass CamelMboxSummaryClass;
 
 /* extra summary flags */
 enum {
-	CAMEL_MESSAGE_FOLDER_NOXEV = 1<<16,
-/*	CAMEL_MESSAGE_FOLDER_FLAGGED = 1<<17,*/
+	CAMEL_MESSAGE_FOLDER_NOXEV = 1<<17,
 };
 
 typedef struct _CamelMboxMessageContentInfo {
@@ -72,7 +71,7 @@ CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char 
 int camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex);
 /* incremental update */
 int camel_mbox_summary_update(CamelMboxSummary *mbs, off_t offset);
-/* perform a folder expunge */
-int camel_mbox_summary_expunge(CamelMboxSummary *mbs);
+/* perform a folder sync or expunge, if needed */
+int camel_mbox_summary_sync (CamelMboxSummary *mbs, gboolean expunge);
 
 #endif /* ! _CAMEL_MBOX_SUMMARY_H */

@@ -524,7 +524,7 @@ copy_block(int fromfd, int tofd, off_t start, size_t bytes)
 }
 
 int
-camel_mbox_summary_expunge(CamelMboxSummary *mbs)
+camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge)
 {
 	CamelMimeParser *mp=NULL;
 	int i, count;
@@ -539,6 +539,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 	int len;
 	guint32 uid, flags;
 	int quick = TRUE, work = FALSE;
+	struct stat st;
 
 	/* make sure we're in sync */
 	count = camel_folder_summary_count(s);
@@ -550,16 +551,17 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 	}
 
 	/* check if we have any work to do */
-	d(printf("Performing expunge, %d messages in inbox\n", count));
+	d(printf("Performing sync, %d messages in inbox\n", count));
 	for (i=0;quick && i<count;i++) {
 		info = (CamelMboxMessageInfo *)camel_folder_summary_index(s, i);
-		if (info->info.flags & (CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_FOLDER_NOXEV))
+		if ((expunge && (info->info.flags & CAMEL_MESSAGE_DELETED)) ||
+		    (info->info.flags & CAMEL_MESSAGE_FOLDER_NOXEV))
 			quick = FALSE;
 		else
 			work |= (info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0;
 	}
 
-	d(printf("Options: %s %s\n", quick?"quick":"", work?"Work":""));
+	d(printf("Options: %s %s %s\n", expunge?"expunge":"", quick?"quick":"", work?"Work":""));
 
 	if (quick && !work)
 		return 0;
@@ -588,8 +590,11 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 	}
 
 	for (i=0;i<count;i++) {
-		off_t frompos, bodypos;
-		off_t xevoffset;
+		off_t frompos, bodypos, lastpos;
+		/* This has to be an int, not an off_t, because that's
+		 * what camel_mime_parser_header returns... FIXME.
+		 */
+		int xevoffset;
 
 		info = (CamelMboxMessageInfo *)camel_folder_summary_index(s, i);
 
@@ -619,14 +624,14 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 				goto error;
 
 			if (camel_mime_parser_tell_start_from(mp) != info->frompos) {
-				g_error("Summary/mbox mismatch, aborting expunge");
+				g_warning("Summary/mbox mismatch, aborting sync");
 				goto error;
 			}
 			
 			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END)
 				goto error;
 
-			xev = camel_mime_parser_header(mp, "X-Evolution", (int *)&xevoffset);
+			xev = camel_mime_parser_header(mp, "X-Evolution", &xevoffset);
 			if (xev && header_evolution_decode(xev, &uid, &flags) != -1) {
 				char name[64];
 
@@ -640,13 +645,16 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 			xevnew = header_evolution_encode(strtoul(info->info.uid, NULL, 10), info->info.flags & 0xffff);
 			if (quick) {
 				if (!xevok) {
-					g_error("The summary told me I had an X-Evolution header, but i dont!");
+					g_warning("The summary told me I had an X-Evolution header, but i dont!");
 					goto error;
 				}
 				buffer = g_strdup_printf("X-Evolution: %s", xevnew);
+				lastpos = lseek (fd, 0, SEEK_CUR);
+				lseek (fd, xevoffset, SEEK_SET);
 				do {
 					len = write(fd, buffer, strlen(buffer));
 				} while (len == -1 && errno == EINTR);
+				lseek (fd, lastpos, SEEK_SET);
 				g_free(buffer);
 				if (len == -1) {
 					goto error;
@@ -706,8 +714,6 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 	}
 
 	if (!quick) {
-		struct stat st;
-
 		if (close(fdout) == -1) {
 			g_warning("Cannot close tmp folder: %s", strerror(errno));
 			goto error;
@@ -719,16 +725,17 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 		}
 		tmpname = 0;
 
-		if (stat(mbs->folder_path, &st) == -1)
-			goto error;
-
-		camel_folder_summary_touch(s);
-		s->time = st.st_mtime;
-		mbs->folder_size = st.st_size;
-		camel_folder_summary_save(s);
 		if (mbs->index)
 			ibex_save(mbs->index);
 	}
+
+	if (stat(mbs->folder_path, &st) == -1)
+		goto error;
+
+	camel_folder_summary_touch(s);
+	s->time = st.st_mtime;
+	mbs->folder_size = st.st_size;
+	camel_folder_summary_save(s);
 
 	gtk_object_unref((GtkObject *)mp);
 

@@ -243,9 +243,10 @@ mbox_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	/* call parent implementation */
 	parent_class->close (folder, expunge, ex);
 
-	if (expunge) {
+	if (expunge)
 		mbox_expunge(folder, ex);
-	}
+	else
+		camel_mbox_summary_sync(mbox_folder->summary, FALSE);
 
 	/* save index */
 	if (mbox_folder->index) {
@@ -268,7 +269,7 @@ mbox_expunge (CamelFolder *folder, CamelException *ex)
 {
 	CamelMboxFolder *mbox = (CamelMboxFolder *)folder;
 
-	if (camel_mbox_summary_expunge(mbox->summary) == -1) {
+	if (camel_mbox_summary_sync(mbox->summary, TRUE) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID, /* FIXME: right error code */
 				      "Could not expunge: %s", strerror(errno));
 	}

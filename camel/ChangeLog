@@ -1,3 +1,20 @@
+2000-06-14  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_sync):
+	Renamed from camel_mbox_summary_expunge. Takes a gboolean saying
+	whether to expunge or just sync the mbox file. Change some
+	g_errors to g_warning so we don't abort. Make the quick
+	X-Evolution updating code lseek around correctly. Update the
+	mbox mtime in the summary file even in the quick case.
+
+	* providers/mbox/camel-mbox-summary.h: make
+	CAMEL_MESSAGE_FOLDER_NOXEV not conflict with
+	CAMEL_MESSAGE_FOLDER_FLAGGED defined in camel-mime-message.h
+
+	* providers/mbox/camel-mbox-folder.c (mbox_close): call
+	camel_mbox_summary_sync to save flag state if not expunging.
+	(mbox_expunge): Update for camel_mbox_summary_expunge rename.
+
 2000-06-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_store_open): 
