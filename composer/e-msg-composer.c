@@ -1117,24 +1117,6 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	bonobo_object_unref (BONOBO_OBJECT (stream));
 }
 
-static void
-set_config (EMsgComposer *composer, char *key, int val)
-{
-	char *full_key;
-	
-	if (composer->config_db == CORBA_OBJECT_NIL)
-		return;
-	
-	full_key = g_strconcat ("/Mail/Composer/", key, NULL);
-
-#warning "bonobo config"
-#if 0	
-	bonobo_config_set_long (composer->config_db, full_key, val, NULL);
-#endif
-	g_free (full_key);
-}
-
-
 /* Commands.  */
 
 static void
@@ -2014,6 +1996,7 @@ setup_ui (EMsgComposer *composer)
 	BonoboUIContainer *container;
 	char *default_charset;
 	gboolean hide_smime;
+	GConfClient *gconf;
 	
 	container = bonobo_window_get_ui_container(BONOBO_WINDOW (composer));
 
@@ -2033,14 +2016,8 @@ setup_ui (EMsgComposer *composer)
 	
 	/* Populate the Charset Encoding menu and default it to whatever the user
 	   chose as his default charset in the mailer */
-#warning "bonobo_config"
-#if 0
-	default_charset = bonobo_config_get_string (composer->config_db,
-						    "/Mail/Format/default_charset",
-						    NULL);
-#else
-	default_charset = g_strdup("iso-8859-1");
-#endif
+	gconf = gconf_client_get_default ();
+	default_charset = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
 	e_charset_picker_bonobo_ui_populate (composer->uic, "/menu/Edit/EncodingPlaceholder",
 					     default_charset,
 					     menu_changed_charset_cb,
@@ -2377,16 +2354,10 @@ destroy (GtkObject *object)
 {
 	EMsgComposer *composer;
 	CORBA_Environment ev;
-
+	
 	composer = E_MSG_COMPOSER (object);
 		
 	CORBA_exception_init (&ev);
-	
-	if (composer->config_db) {
-		Bonobo_ConfigDatabase_sync (composer->config_db, &ev);
-		bonobo_object_release_unref (composer->config_db, NULL);
-		composer->config_db = NULL;
-	}
 	
 	if (composer->uic) {
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
@@ -2642,7 +2613,7 @@ e_msg_composer_get_type (void)
 			0,
 			(GInstanceInitFunc) init,
 		};
-
+		
 		type = g_type_register_static (bonobo_window_get_type (), "EMsgComposer", &info, 0);
 	}
 	
@@ -2650,41 +2621,22 @@ e_msg_composer_get_type (void)
 }
 
 static void
-load_from_config_db (EMsgComposer *composer)
-{
-#if 0
-	Bonobo_ConfigDatabase db = composer->config_db;
-	
-	composer->view_from = bonobo_config_get_long_with_default (
-		db, "Mail/Composer/ViewFrom", 1, NULL);
-	composer->view_replyto = bonobo_config_get_long_with_default ( 
-		db, "Mail/Composer/ViewReplyTo", 0, NULL);
-	composer->view_cc = bonobo_config_get_long_with_default ( 
-                db, "Mail/Composer/ViewCC", 1, NULL);
-	composer->view_bcc = bonobo_config_get_long_with_default (
-		db, "Mail/Composer/ViewBCC", 0, NULL);
-	composer->view_subject = bonobo_config_get_long_with_default (
-		db, "Mail/Composer/ViewSubject", 1, NULL);
-#endif
-}
-
-static void
 e_msg_composer_load_config (EMsgComposer *composer)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	GConfClient *gconf;
 	
-	CORBA_exception_init (&ev);
+	gconf = gconf_client_get_default ();
 	
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	
-	if (ev._major == CORBA_NO_EXCEPTION && db != CORBA_OBJECT_NIL){
-		composer->config_db = db;
-		load_from_config_db (composer);
-	} else
-		composer->config_db = CORBA_OBJECT_NIL;
-	
-	CORBA_exception_free (&ev);
+	composer->view_from = gconf_client_get_bool (
+		gconf, "/apps/evolution/mail/composer/view/From", NULL);
+	composer->view_replyto = gconf_client_get_bool ( 
+		gconf, "/apps/evolution/mail/composer/view/ReplyTo", NULL);
+	composer->view_cc = gconf_client_get_bool ( 
+		gconf, "/apps/evolution/mail/composer/view/Cc", NULL);
+	composer->view_bcc = gconf_client_get_bool (
+		gconf, "/apps/evolution/mail/composer/view/Bcc", NULL);
+	composer->view_subject = gconf_client_get_bool (
+		gconf, "/apps/evolution/mail/composer/view/Subject", NULL);
 }
 
 static int
@@ -4197,11 +4149,13 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 			      gboolean send_html)
 {
 	CORBA_Environment ev;
+	GConfClient *gconf;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if (composer->send_html && send_html)
 		return;
+	
 	if (!composer->send_html && !send_html)
 		return;
 	
@@ -4209,16 +4163,21 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 	
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "block-redraw", &ev);
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/FormatHtml",
-		"state", composer->send_html ? "1" : "0", NULL);
+	CORBA_exception_free (&ev);
+	
+	bonobo_ui_component_set_prop (composer->uic, "/commands/FormatHtml",
+				      "state", composer->send_html ? "1" : "0", NULL);
 	
 	/* let the editor know which mode we are in */
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor),
-				    "FormatHTML", TC_CORBA_boolean, composer->send_html,
-				    NULL);
+				    "FormatHTML", TC_CORBA_boolean,
+				    composer->send_html, NULL);
 	
-	set_config (composer, "FormatHTML", composer->send_html);
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/send_html",
+			       composer->send_html, NULL);
+	
+	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-redraw", &ev);
 	CORBA_exception_free (&ev);
 }
@@ -4451,6 +4410,8 @@ e_msg_composer_get_view_from (EMsgComposer *composer)
 void
 e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 {
+	GConfClient *gconf;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if ((composer->view_from && view_from) ||
@@ -4458,13 +4419,14 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 		return;
 	
 	composer->view_from = view_from;
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewFrom",
-		"state", composer->view_from ? "1" : "0", NULL);
-	set_config (composer, "ViewFrom", composer->view_from);
-	e_msg_composer_hdrs_set_visible
-		(E_MSG_COMPOSER_HDRS (composer->hdrs),
-		 e_msg_composer_get_visible_flags (composer));
+	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewFrom",
+				      "state", composer->view_from ? "1" : "0", NULL);
+	
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/From", view_from, NULL);
+	
+	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
+					 e_msg_composer_get_visible_flags (composer));
 }
 
 
@@ -4495,6 +4457,8 @@ e_msg_composer_get_view_replyto (EMsgComposer *composer)
 void
 e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 {
+	GConfClient *gconf;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if ((composer->view_replyto && view_replyto) ||
@@ -4502,13 +4466,14 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 		return;
 	
 	composer->view_replyto = view_replyto;
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewReplyTo",
-		"state", composer->view_replyto ? "1" : "0", NULL);
-	set_config (composer, "ViewReplyTo", composer->view_replyto);
-	e_msg_composer_hdrs_set_visible
-		(E_MSG_COMPOSER_HDRS (composer->hdrs),
-		 e_msg_composer_get_visible_flags (composer));
+	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewReplyTo",
+				      "state", composer->view_replyto ? "1" : "0", NULL);
+	
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/ReplyTo", view_replyto, NULL);
+	
+	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
+					 e_msg_composer_get_visible_flags (composer));
 }
 
 
@@ -4539,6 +4504,8 @@ e_msg_composer_get_view_cc (EMsgComposer *composer)
 void
 e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 {
+	GConfClient *gconf;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if ((composer->view_cc && view_cc) ||
@@ -4546,13 +4513,14 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 		return;
 	
 	composer->view_cc = view_cc;
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewCC",
-		"state", composer->view_cc ? "1" : "0", NULL);
-	set_config (composer, "ViewCC", composer->view_cc);
-	e_msg_composer_hdrs_set_visible
-		(E_MSG_COMPOSER_HDRS (composer->hdrs),
-		 e_msg_composer_get_visible_flags (composer));
+	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewCC",
+				      "state", composer->view_cc ? "1" : "0", NULL);
+	
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Cc", view_cc, NULL);
+	
+	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
+					 e_msg_composer_get_visible_flags (composer));
 }
 
 
@@ -4583,6 +4551,8 @@ e_msg_composer_get_view_bcc (EMsgComposer *composer)
 void
 e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 {
+	GConfClient *gconf;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	if ((composer->view_bcc && view_bcc) ||
@@ -4590,13 +4560,14 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 		return;
 	
 	composer->view_bcc = view_bcc;
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewBCC",
-		"state", composer->view_bcc ? "1" : "0", NULL);
-	set_config (composer, "ViewBCC", composer->view_bcc);
-	e_msg_composer_hdrs_set_visible
-		(E_MSG_COMPOSER_HDRS (composer->hdrs),
-		 e_msg_composer_get_visible_flags (composer));		 
+	bonobo_ui_component_set_prop (composer->uic, "/commands/ViewBCC",
+				      "state", composer->view_bcc ? "1" : "0", NULL);
+	
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/composer/view/Bcc", view_bcc, NULL);
+	
+	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
+					 e_msg_composer_get_visible_flags (composer));
 }
 
 

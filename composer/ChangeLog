@@ -1,3 +1,17 @@
+2003-01-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_load_config): Load the view
+	menu states from gconf.
+	(e_msg_composer_set_send_html): Save the setting via gconf instead
+	of bonobo-config.
+	(e_msg_composer_set_view_from): Same.
+	(e_msg_composer_set_view_replyto): Here too.
+	(e_msg_composer_set_view_cc): Again here.
+	(e_msg_composer_set_view_bcc): And finally here.
+	(setup_ui): Fixed a #warning - use gconf instead of bonobo-conf.
+	(destroy): No need to sync/destroy the bonobo-conf db, we don't
+	use it anymore.
+
 2003-01-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer.c (setup_ui): Get evolution-message-composer.xml

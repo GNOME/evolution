@@ -30,7 +30,6 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 
 #include <bonobo/bonobo-window.h>
 #include <bonobo/bonobo-ui-component.h>
-/*#include <bonobo-conf/bonobo-config-database.h>*/
 
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
@@ -73,8 +72,6 @@ struct _EMsgComposer {
 	BonoboObject            *editor_listener;
 	GHashTable              *inline_images, *inline_images_by_url;
 	GList                   *current_images;
-	
-	Bonobo_ConfigDatabase    config_db;
 	
 	char *mime_type, *mime_body, *charset;
 	
