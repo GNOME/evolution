@@ -1,5 +1,8 @@
 <Root>
 	<commands>
+	        <cmd name="FileExit" _label="Exit" _tip="Exit the program"
+			pixtype="stock" pixname="Exit" accel="*Control*q"/>
+
 		<cmd name="ViewShortcutBar" type="toggle"
 			_label="Show the _Shortcut Bar"
 			_tip="Toggle whether to show the shortcut bar"/>
@@ -7,7 +10,20 @@
 		<cmd name="ViewFolderBar" type="toggle"
 			_label="Show the _Folder Bar"
 			_tip="Toggle whether to show the folder bar"/>
+
+		<cmd name="HelpSubmitBug" _label="Submit Bug Report"
+			_tip="Submit bug report using Bug Buddy."/>
+
+
+		<cmd name="HelpAbout" _label="About Evolution..."
+			_tip="Show information about Evolution"
+			pixtype="stock" pixname="About"/>
+
+		<cmd name="BonoboCustomize" _label="Customize"
+			_tip="Customize toolbars"
+			pixtype="stock" pixname="Preferences"/>
 	</commands>
+
 	<menu>
 		<submenu name="File" _label="_File">
 			<submenu name="New" _label="_New">
@@ -60,14 +76,18 @@
 
 			<separator/>
 
-			<menuitem name="FileExit" verb=""
-			_label="E_xit" _tip="Exit the program"
-			pixtype="stock" pixname="Quit"
-			accel="*Control*q"/>
+			<menuitem name="FileExit" verb="" _label="E_xit"/>
 			
 		</submenu>
 
-		<submenu name="Edit" _label="_Edit"/>
+		<submenu name="Edit" _label="_Edit">
+
+			<placeholder/>
+
+			<menuitem name="BonoboCustomize" verb=""
+			 _label="Customi_ze" pos="bottom"/>
+
+		</submenu>
 
 		<submenu name="View" _label="_View">
 
@@ -106,21 +126,18 @@
 			<separator/>
 
 			<menuitem name="HelpSubmitBug" verb=""
-			_label="Submit _Bug Report"
-			_tip="Submit bug report using Bug Buddy."/>
+			_label="Submit _Bug Report"/>
 
 			<separator/>
 
 			<menuitem name="HelpAbout" verb=""
-			_label="_About Evolution..."
-			_tip="Show information about Evolution"
-			pixtype="stock" pixname="About" 
-                        />
+			_label="_About Evolution..."/>
 
 		</submenu>
 	</menu>
 
-	<dockitem name="Toolbar" relief="none" behavior="exclusive"/>
+	<dockitem name="Toolbar" relief="none" behavior="exclusive"
+	 _tip="Main toolbar"/>
 
 	<status>
 		<item name="main"/>

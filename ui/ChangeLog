@@ -1,3 +1,8 @@
+2001-01-15  Michael Meeks  <michael@helixcode.com>
+
+	* evolution.xml: progressive cmd/widgetization and
+	add the 'Customize' entry.
+
 2001-01-16  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-mail.xml: Add a stop button to the toolbar.
