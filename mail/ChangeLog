@@ -1,3 +1,32 @@
+2000-10-10  Chris Toshok  <toshok@helixcode.com>
+
+	* mail-ops.c (setup_scan_subfolders): add a ref to input->storage
+	here so that the ref/unref pattern more closely matches other
+	mail-ops.  also, this keeps the storage from being freed when we
+	hit the unref in cleanup_scan_subfolders, which is important
+	because we maintain a reference to it in the storage_hash in
+	component-factory.c
+
+	* subscribe-dialog.h: add storage field.
+
+	* subscribe-dialog.c (subscribe_folder_info): new function,
+	subscribe to a folder given it's CamelFolderInfo, and add it to
+	the shell - we're generating a path from the name of the folder
+	which is bad.
+	(unsubscribe_folder_info): same (except we unsubscribe and remove
+	from the shell).
+	(storage_selected_cb): unref the currently selected storage.
+	(subscribe_dialog_destroy): unref the currently selected storage.
+	(subscribe_dialog_construct): sc->storage = NULL.
+
+	* component-factory.c (mail_lookup_storage): new function, to look
+	up a EvolutionStorage corresponding to a CamelService.  we ref the
+	EvolutionStorage before passing it back.
+	(mail_add_new_storage): insert the storage into storages_hash if
+	result is EVOLUTION_STORAGE_OK.
+
+	* mail.h: add prototype for mail_lookup_storage.
+
 2000-10-10  Larry Ewing  <lewing@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): make sure we dup the return

@@ -58,6 +58,7 @@ static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 static BonoboGenericFactory *factory = NULL;
 static BonoboGenericFactory *summary_factory = NULL;
 static gint running_objects = 0;
+static GHashTable *storages_hash;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png" },
@@ -149,6 +150,15 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 }
 
 static void
+hash_foreach (gpointer key,
+	      gpointer value,
+	      gpointer data)
+{
+	g_free (key);
+	gtk_object_unref (GTK_OBJECT (value));
+}
+
+static void
 factory_destroy (BonoboEmbeddable *embeddable,
 		 gpointer          dummy)
 {
@@ -161,6 +171,10 @@ factory_destroy (BonoboEmbeddable *embeddable,
 	else
 		g_warning ("Serious ref counting error");
 	factory = NULL;
+
+	g_hash_table_foreach (storages_hash, hash_foreach, NULL);
+	g_hash_table_destroy (storages_hash);
+	storages_hash = NULL;
 
 	gtk_main_quit ();
 }
@@ -207,6 +221,7 @@ component_factory_init (void)
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
+	storages_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	if (factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
@@ -217,6 +232,11 @@ component_factory_init (void)
 	if (summary_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail summary component."));
+	}
+
+	if (storages_hash == NULL) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize Evolution's mail storage hash."));
 	}
 }
 
@@ -304,12 +324,12 @@ mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelExcepti
 	}
 
 	storage = evolution_storage_new (url->host);
-	camel_url_free (url);
 
 	res = evolution_storage_register_on_shell (storage, corba_shell);
 
 	switch (res) {
 	case EVOLUTION_STORAGE_OK:
+		g_hash_table_insert (storages_hash, g_strdup(url->host), storage);
 		mail_do_scan_subfolders (uri, storage);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
@@ -320,4 +340,17 @@ mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelExcepti
 				     "mail_tool_add_new_storage: Cannot register storage on shell");
 		break;
 	}
+
+	camel_url_free (url);
+}
+
+EvolutionStorage*
+mail_lookup_storage (CamelService *service)
+{
+	EvolutionStorage *storage = g_hash_table_lookup (storages_hash, service->url->host);
+
+	if (storage)
+		gtk_object_ref (GTK_OBJECT (storage));
+
+	return storage;
 }

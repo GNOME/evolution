@@ -1254,6 +1254,8 @@ setup_scan_subfolders (gpointer in_data, gpointer op_data,
 	
 	gtk_object_ref (GTK_OBJECT (input->storage));
 	data->new_folders = g_ptr_array_new ();
+
+	gtk_object_ref (GTK_OBJECT(input->storage));
 }
 
 static void

@@ -136,6 +136,38 @@ make_folder_search_widget (GtkSignalFunc start_search_func,
 
 
 static void
+subscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
+{
+	char *path;
+
+	path = g_strdup_printf ("/%s", info->full_name); /* XXX */
+
+	camel_store_subscribe_folder (sc->store, info->name, NULL);
+
+	evolution_storage_new_folder (sc->storage,
+				      path,
+				      info->name, "mail",
+				      info->url,
+				      _("(No description)") /* XXX */);
+
+	g_free (path);
+}
+
+static void
+unsubscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
+{
+	char *path;
+
+	path = g_strdup_printf ("/%s", info->full_name); /* XXX */
+
+	camel_store_unsubscribe_folder (sc->store, info->name, NULL);
+
+	evolution_storage_removed_folder (sc->storage, path);
+
+	g_free (path);
+}
+
+static void
 subscribe_close (BonoboUIComponent *uic,
 		 void *user_data, const char *path)
 {
@@ -166,19 +198,12 @@ subscribe_folder_foreach (int model_row, gpointer closure)
 	printf ("subscribe: row %d, node_data %p\n", model_row,
 		e_tree_model_node_get_data (sc->folder_model, node));
 
-	if (!camel_store_folder_subscribed (sc->store, info->name)) {
-		camel_store_subscribe_folder (sc->store, info->name, NULL);
-#if 0
-		/* we need to remove it from the shell */
-		evolution_storage_removed_folder (sc->storage, info->name);
-#endif
-
-		e_tree_model_node_changed (sc->folder_model, node);
-	}
+	if (!camel_store_folder_subscribed (sc->store, info->name))
+		subscribe_folder_info (sc, info);
 }
 
 static void
-subscribe_folder (GtkWidget *widget, gpointer user_data)
+subscribe_folders (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
@@ -196,21 +221,13 @@ unsubscribe_folder_foreach (int model_row, gpointer closure)
 	printf ("unsubscribe: row %d, node_data %p\n", model_row,
 		e_tree_model_node_get_data (sc->folder_model, node));
 
-	if (camel_store_folder_subscribed (sc->store, info->name)) {
-		camel_store_unsubscribe_folder (sc->store, info->name, NULL);
-
-#if 0
-		/* we need to remove it from the shell */
-		evolution_storage_removed_folder (sc->storage, info->name);
-#endif
-
-		e_tree_model_node_changed (sc->folder_model, node);
-	}
+	if (camel_store_folder_subscribed (sc->store, info->name))
+		unsubscribe_folder_info (sc, info);
 }
 
 
 static void
-unsubscribe_folder (GtkWidget *widget, gpointer user_data)
+unsubscribe_folders (GtkWidget *widget, gpointer user_data)
 {
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (user_data);
 
@@ -392,7 +409,7 @@ store_etable_value_at (ETableModel *etm, int col, int row, void *data)
 	SubscribeDialog *sc = SUBSCRIBE_DIALOG (data);
 	CamelStore *store = (CamelStore*)g_list_nth_data (sc->store_list, row);
 
-	return camel_service_get_name (CAMEL_SERVICE (store), FALSE);
+	return camel_service_get_name (CAMEL_SERVICE (store), TRUE);
 }
 
 static void
@@ -466,8 +483,11 @@ storage_selected_cb (ETable *table,
 	/* free up the existing CamelFolderInfo* if there is any */
 	if (sc->folder_info)
 		camel_store_free_folder_info (sc->store, sc->folder_info);
+	if (sc->storage)
+		gtk_object_unref (GTK_OBJECT (sc->storage));
 
 	sc->store = store;
+	sc->storage = mail_lookup_storage (CAMEL_SERVICE (sc->store));
 	sc->folder_info = camel_store_get_folder_info (sc->store, NULL, TRUE, TRUE, FALSE, ex);
 
 	if (camel_exception_is_set (ex)) {
@@ -497,21 +517,10 @@ folder_toggle_cb (ETable *table,
 	ETreePath *node = e_tree_model_node_at_row (sc->folder_model, row);
 	CamelFolderInfo *info = e_tree_model_node_get_data (sc->folder_model, node);
 
-	if (camel_store_folder_subscribed (sc->store, info->name)) {
-		camel_store_unsubscribe_folder (sc->store, info->name, NULL);
-
-#if 0
-		/* we need to remove it from the shell */
-		evolution_storage_removed_folder (sc->storage, info->name);
-#endif
-	}
-	else {
-		camel_store_subscribe_folder (sc->store, info->name, NULL);
-#if 0
-		/* we need to remove it from the shell */
-		evolution_storage_removed_folder (sc->storage, info->name);
-#endif
-	}
+	if (camel_store_folder_subscribed (sc->store, info->name))
+		subscribe_folder_info (sc, info);
+	else
+		unsubscribe_folder_info (sc, info);
 
 	e_tree_model_node_changed (sc->folder_model, node);
 }
@@ -532,8 +541,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditUnSelectAll", subscribe_unselect_all),
 	
 	/* Folder Menu / Toolbar */
-	BONOBO_UI_UNSAFE_VERB ("SubscribeFolder", subscribe_folder),
-	BONOBO_UI_UNSAFE_VERB ("UnsubscribeFolder", unsubscribe_folder),
+	BONOBO_UI_UNSAFE_VERB ("SubscribeFolder", subscribe_folders),
+	BONOBO_UI_UNSAFE_VERB ("UnsubscribeFolder", unsubscribe_folders),
 
 	/* Toolbar Specific */
 	BONOBO_UI_UNSAFE_VERB ("RefreshList", subscribe_refresh_list),
@@ -778,6 +787,10 @@ subscribe_dialog_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (sc->store_model));
 	g_list_foreach (sc->store_list, (GFunc)gtk_object_unref, NULL);
 
+	/* free our storage */
+	if (sc->storage)
+		gtk_object_unref (GTK_OBJECT (sc->storage));
+
 	subscribe_dialog_parent_class->destroy (object);
 }
 
@@ -804,6 +817,7 @@ subscribe_dialog_construct (GtkObject *object, Evolution_Shell shell)
 	 */
 	sc->shell = shell;
 	sc->store = NULL;
+	sc->storage = NULL;
 	sc->folder_info = NULL;
 	sc->store_list = NULL;
 

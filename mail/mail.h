@@ -26,6 +26,7 @@
 #include "mail-config.h"
 #include "mail-config-gui.h"
 #include "folder-browser.h"
+#include "shell/evolution-storage.h"
 
 extern char *evolution_dir;
 
@@ -116,6 +117,8 @@ GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMess
 /*takes a GSList of MailConfigServices */
 void mail_load_storages (Evolution_Shell corba_shell, GSList *sources);
 void mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelException *ex);
+/* used in the subscribe dialog code */
+EvolutionStorage* mail_lookup_storage (CamelService *service);
 
 /* session */
 void session_init (void);
