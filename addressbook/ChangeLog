@@ -1,5 +1,10 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/e-contact-editor.c: Make sure that the canvas
+	doesn't intercept keyboard focus.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/e-contact-editor.c: Use new art.
 
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>

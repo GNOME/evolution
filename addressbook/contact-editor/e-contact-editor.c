@@ -113,6 +113,7 @@ _add_image(GtkTable *table, gchar *image, int left, int right, int top, int bott
 	width = gdk_pixbuf_get_width(pixbuf);
 	height = gdk_pixbuf_get_height(pixbuf);
 	canvas = gnome_canvas_new_aa();
+	GTK_OBJECT_UNSET_FLAGS(GTK_WIDGET(canvas), GTK_CAN_FOCUS);
 #if 0
 	gnome_canvas_item_new(gnome_canvas_root(GNOME_CANVAS(canvas)),
 			      gnome_canvas_rect_get_type(),
