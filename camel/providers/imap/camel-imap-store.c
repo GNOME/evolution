@@ -39,6 +39,7 @@
 
 #include "camel-imap-store.h"
 #include "camel-imap-folder.h"
+#include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-session.h"
 #include "camel-stream.h"
@@ -272,9 +273,9 @@ imap_connect (CamelService *service, CamelException *ex)
 	}
 	g_free (buf);
 
-	status = camel_imap_command (store, &msg, "LOGIN \"%s\" \"%s\"",
-				     service->url->user,
-				     service->url->passwd);
+	status = camel_imap_command(store, NULL, &msg, "LOGIN \"%s\" \"%s\"",
+				    service->url->user,
+				    service->url->passwd);
 
 	if (status != CAMEL_IMAP_OK) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
@@ -322,42 +323,29 @@ camel_imap_store_get_toplevel_dir (CamelImapStore *store)
 static gboolean
 imap_create (CamelFolder *folder, CamelException *ex)
 {
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	const gchar *folder_file_path, *folder_dir_path;
-	gboolean folder_already_exists;
 	gchar *result;
 	gint status;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
 
-	/* get the paths of what we need to create */
-	folder_file_path = imap_folder->folder_file_path;
-	folder_dir_path = imap_folder->folder_dir_path;
-	
-	if (!(folder_file_path || folder_dir_path)) {
+	if (!(folder->full_name || folder->name)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "invalid folder path. Use set_name ?");
 		return FALSE;
 	}
 	
-	/* if the folder already exists, simply return */
-	folder_already_exists = camel_folder_exists (folder, ex);
-	if (camel_exception_get_id (ex))
-		return FALSE;
-
-	if (folder_already_exists)
+	if (camel_folder_get_subfolder(folder->parent_folder, folder->name, FALSE, ex))
 		return TRUE;
 
-	/* create the directory for the subfolder */
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), &result,
-					      "CREATE %s", imap_folder->folder_file_path);
+        /* create the directory for the subfolder */
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
+					      &result, "CREATE %s", folder->full_name);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not CREATE %s on IMAP server %s: %s.",
-				      imap_folder->folder_file_path,
-				      service->url->host,
+				      folder->full_name, service->url->host,
 				      status == CAMEL_IMAP_ERR ? result :
 				      "Unknown error");
 		g_free (result);
@@ -414,13 +402,28 @@ get_folder_name (CamelStore *store, const char *folder_name,
  * result of the command.)
  **/
 gint
-camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...)
+camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...)
 {
 	gchar *cmdbuf, *respbuf;
 	gchar *cmdid, *code;
 	va_list ap;
 	gint status;
 
+	if (folder && store->current_folder != folder && strncmp(fmt, "SELECT", 6) &&
+	    strncmp(fmt, "STATUS", 6) && strncmp(fmt, "CREATE", 5)) {
+		/* We need to select the correct mailbox first */
+		char *r;
+		int s;
+
+		s = camel_imap_command(store, folder, &r, "SELECT %s", folder->full_name);
+		if (s != CAMEL_IMAP_OK) {
+			*ret = r;
+			return s;
+		}
+
+		store->current_folder = folder;
+	}
+	
 	/* create the command */
 	cmdid = g_strdup_printf("A%.5d", store->command++);
 	va_start (ap, fmt);
@@ -500,7 +503,7 @@ camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...)
  **/
 
 gint
-camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...)
+camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...)
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GPtrArray *data;
@@ -508,6 +511,21 @@ camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...)
 	va_list app;
 	gint i, status = CAMEL_IMAP_OK;
 
+	if (folder && store->current_folder != folder && strncmp(fmt, "SELECT", 6) &&
+	    strncmp(fmt, "STATUS", 6) && strncmp(fmt, "CREATE", 5)) {
+		/* We need to select the correct mailbox first */
+		char *r;
+		int s;
+
+		s = camel_imap_command(store, folder, &r, "SELECT %s", folder->full_name);
+		if (s != CAMEL_IMAP_OK) {
+			*ret = r;
+			return s;
+		}
+
+		store->current_folder = folder;
+	}
+	
 	/* Create the command */
 	cmdid = g_strdup_printf("A%.5d", store->command++);
 	va_start (app, fmt);

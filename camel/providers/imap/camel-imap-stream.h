@@ -21,7 +21,6 @@
  */
 
 
-
 #ifndef CAMEL_IMAP_STREAM_H
 #define CAMEL_IMAP_STREAM_H
 
@@ -32,8 +31,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <camel/camel-stream.h>
-#include <camel/providers/imap/camel-imap-folder.h>
-#include <camel/providers/imap/camel-imap-store.h>
+#include "camel-imap-folder.h"
+#include "camel-imap-store.h"
 #include <sys/types.h>
 
 #define CAMEL_IMAP_STREAM_TYPE     (camel_imap_stream_get_type ())

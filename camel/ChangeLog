@@ -1,5 +1,14 @@
 2000-06-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-stream.c (stream_read): Updated to reflect changes
+	made in camel-imap-store.c
+
+	* providers/imap/camel-imap-store.c (imap_create): No longer checks to make 
+	sure a folder doesn't already exists (as this is no longer needed)
+	(camel_imap_command): Now takes a CamelFolder argument so it can detect
+	whether or not it needs to SELECT a folder or not
+	(camel_imap_command_extended): Same.
+
 	* providers/smtp/camel-smtp-transport.c (smtp_connect): Will now always
 	send EHLO first, if that fails it will fall back on HELO.
 	(esmtp_get_authtypes): Should now correctly parse authtypes.

@@ -131,6 +131,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		gint status;
 		
 		status = camel_imap_command_extended(CAMEL_IMAP_STORE (folder->parent_store),
+						     CAMEL_FOLDER (imap_stream->folder),
 						     &imap_stream->cache, "%s",
 						     imap_stream->command);
 

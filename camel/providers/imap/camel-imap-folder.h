@@ -47,10 +47,6 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 
-	gchar *folder_file_path;   /* contains the messages */
-	gchar *folder_dir_path;    /* contains the subfolders */
-	gchar *index_file_path;	   /* index of body contents */
-
 	ibex *index;		   /* index for this folder */
 	CamelImapSummary *summary;
 	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
@@ -78,3 +74,5 @@ GtkType camel_imap_folder_get_type (void);
 #endif /* __cplusplus */
 
 #endif /* CAMEL_IMAP_FOLDER_H */
+
+
