@@ -30,6 +30,7 @@
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-unicode.h>
 #include <gtk/gtkinvisible.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/htmlengine.h>	/* XXX */
@@ -211,24 +212,26 @@ save_part (CamelMimePart *part)
 {
 	GtkFileSelection *file_select;
 	char *filename;
-
-	if(save_pathname == NULL)
+	
+	if (save_pathname == NULL)
 		save_pathname = g_strdup (g_get_home_dir ());
-
+	
 	filename = make_safe_filename (save_pathname, part);
-
+	
 	file_select = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Save Attachment")));
 	gtk_file_selection_set_filename (file_select, filename);
+	/* set the GtkEntry with the locale filename by breaking abstraction */
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (file_select->selection_entry), g_basename (filename));
 	g_free (filename);
-
+	
 	gtk_signal_connect (GTK_OBJECT (file_select->ok_button), "clicked", 
 			    GTK_SIGNAL_FUNC (save_data_cb), part);
 	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
 				   "clicked",
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
 				   GTK_OBJECT (file_select));
-
+	
 	gtk_widget_show (GTK_WIDGET (file_select));
 }
 
