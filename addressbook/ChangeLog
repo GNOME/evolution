@@ -1,5 +1,33 @@
 2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
 
+	* Makefile.am: Switched printing and gui.
+
+	* backend/ebook/e-book-view-listener.h,
+	backend/ebook/e-book-view.h, backend/ebook/e-book.h,
+	backend/ebook/e-card-cursor.h, backend/ebook/e-card-list.h,
+	backend/ebook/e-card-simple.h, backend/ebook/e-card.h: Fixed the
+	#defines to work elsewhere in evolution.
+
+	* gui/component/Makefile.am: Added linking to libecontactprint.
+
+	* gui/component/addressbook.c: Added a menu item to print the
+	current query.
+
+	* printing/Makefile.am: Add linking to libebook and requirements.
+	Add installation of ecps files.
+
+	* printing/e-contact-print.c, printing/e-contact-print.h: Changed
+	this to use real data from an EBook.
+
+	* printing/test-print.c: Made this pass NULL, NULL to
+	e_contact_print_dialog_new so that it will compile.
+
+2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-save-as.c: Fixed some memory leaks.
+
+2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/Makefile.am: Added e-contact-editor-save-as.c and
 	e-contact-editor-save-as.h.
 

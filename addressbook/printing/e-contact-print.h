@@ -24,8 +24,9 @@
 #define E_CONTACT_PRINT_H
 
 #include <gnome.h>
+#include <addressbook/backend/ebook/e-book.h>
 #include "e-contact-print-types.h"
 
-GtkWidget *e_contact_print_dialog_new(void *book, GList *shown_fields);
+GtkWidget *e_contact_print_dialog_new(EBook *book, char *query);
 
 #endif /* E_CONTACT_PRINT_H */

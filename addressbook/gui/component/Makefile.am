@@ -41,7 +41,8 @@ evolution_addressbook_LDADD =						\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/widgets/e-text/libetext.a			\
 	$(top_builddir)/widgets/e-table/libetable.a			\
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/addressbook/printing/libecontactprint.a
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -71,5 +72,3 @@ evolution-addressbook.pure: evolution-addressbook
 	$(PLINK) $(evolution_addressbook_LDFLAGS) $(evolution_addressbook_OBJECTS) $(evolution_addressbook_LDADD) $(LIBS)
 
 endif
-
-

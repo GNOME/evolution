@@ -71,7 +71,7 @@ int main( int argc, char *argv[] )
   shown_fields = g_list_append(shown_fields, "Third field");
   shown_fields = g_list_append(shown_fields, "Fourth field");
 
-  print = e_contact_print_dialog_new(NULL, shown_fields);
+  print = e_contact_print_dialog_new(NULL, NULL);
   gtk_widget_show_all(print);
   gtk_signal_connect(GTK_OBJECT(print), "close", GTK_SIGNAL_FUNC(test_close), NULL);
 

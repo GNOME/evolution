@@ -28,6 +28,8 @@
 #include "e-contact-editor.h"
 #include "e-ldap-server-dialog.h"
 
+#include <addressbook/printing/e-contact-print.h>
+
 #ifdef USING_OAF
 #define CONTROL_FACTORY_ID "OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17"
 #else
@@ -67,6 +69,7 @@ static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	/* how to remove a menu item */
+	bonobo_ui_handler_menu_remove (uih, "/File/Print");
 	bonobo_ui_handler_menu_remove (uih, "/View/<sep>");
 	bonobo_ui_handler_menu_remove (uih, "/View/Toggle View"); 
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Contact"); 
@@ -283,6 +286,16 @@ delete_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 		e_minicard_view_remove_selection (E_MINICARD_VIEW(view->view), card_deleted_cb, NULL);
 }
 
+static void
+print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	char *query = get_query(view);
+	GtkWidget *print = e_contact_print_dialog_new(view->book, query);
+	g_free(query);
+	gtk_widget_show_all(print);
+}
+
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
 
@@ -354,6 +367,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_handler_set_container (uih, remote_uih);		
 
 	bonobo_ui_handler_menu_new_separator (uih, "/View/<sep>", -1);
+
+	bonobo_ui_handler_menu_new_item (uih, "/File/Print",
+					 N_("Print"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, print_cb,
+					 (gpointer) view);
 
 	bonobo_ui_handler_menu_new_item (uih, "/View/Toggle View",
 					 N_("As _Table"),
