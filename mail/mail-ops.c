@@ -1394,6 +1394,7 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 	scan_subfolders_op_t *data = (scan_subfolders_op_t *) op_data;
 	scan_subfolders_folderinfo_t *info;
 	GPtrArray *lsub;
+	CamelFolderInfo *fi;
 	CamelFolder *folder;
 	int i;
 	char *splice;
@@ -1409,20 +1410,21 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	mail_tool_camel_lock_up ();
 	
-	lsub = camel_folder_get_subfolder_names (folder);
+	lsub = camel_folder_get_subfolder_info (folder);
 	
 	mail_tool_camel_lock_down ();
 	
 	for (i = 0; i < lsub->len; i++) {
-		mail_op_set_message (_("Found subfolder \"%s\""), (char *) lsub->pdata[i]);
+		fi = lsub->pdata[i];
+		mail_op_set_message (_("Found subfolder \"%s\""), fi->name);
 		info = g_new (scan_subfolders_folderinfo_t, 1);
-		info->path = g_strdup_printf ("/%s", (char *) lsub->pdata[i]);
+		info->path = g_strdup_printf ("/%s", fi->name);
 		info->uri = g_strdup_printf ("%s%s%s", input->source_uri, splice,
-					     (char *)lsub->pdata[i]);
+					     fi->full_name);
 		g_ptr_array_add (data->new_folders, info);
 	}
 	
-	camel_folder_free_subfolder_names (folder, lsub);
+	camel_folder_free_subfolder_info (folder, lsub);
 	
 	/* FIXME: We intentionally lose a reference to the store here
 	 * for the benefit of the IMAP provider. Undo this when the
