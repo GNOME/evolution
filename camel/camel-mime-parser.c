@@ -1094,14 +1094,18 @@ folder_scan_skip_line(struct _header_scan_state *s, GByteArray *save)
 
 	s->atleast = 1;
 
+	d(printf("skipping line\n"));
+
 	while ( (len = folder_read(s)) > 0 && len > s->atleast) { /* ensure we have at least enough room here */
 		inptr = s->inptr;
 		inend = s->inend-1;
 
 		c = -1;
 		while (inptr<inend
-		       && (c = *inptr++)!='\n')
+		       && (c = *inptr++)!='\n') {
+			d(printf("(%2x,%c)", c, isprint(c)?c:'.'));
 			;
+		}
 
 		if (save)
 			g_byte_array_append(save, s->inptr, inptr-s->inptr);
@@ -1433,9 +1437,12 @@ folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int
 
 content:
 	/* treat eof as the last boundary in From mode */
-	if (s->scan_from && s->eof)
+	if (s->scan_from && s->eof && s->atleast <= 1) {
 		onboundary = TRUE;
-	part = s->parts;
+		part = NULL;
+	} else {
+		part = s->parts;
+	}
 normal_exit:
 	s->atleast = atleast;
 	s->inptr = inptr;

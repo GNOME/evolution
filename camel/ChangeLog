@@ -1,5 +1,10 @@
 2002-09-04  Not Zed  <NotZed@Ximian.com>
 
+	* camel-mime-parser.c (folder_scan_content): If we fake the from
+	eof file boundary, also make sure we say we matched nothing.  Also
+	make the end case a little more robust to make sure we expired all
+	hope of finding a sub-boundary.
+
 	* providers/imap/camel-imap-store.c,
 	providers/imap/camel-imap-folder.c: Lots of changes, too numerous
 	to list.  Changed to use camel-imap-store-summary to cache list
