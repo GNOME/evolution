@@ -1,5 +1,7 @@
-filter-editor
 *.la
 *.lo
 .libs
+Makefile
+Makefile.in
 filter-driver
+filter-editor

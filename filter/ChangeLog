@@ -1,3 +1,10 @@
+2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am: New file.
+
+	* Makefile: Removed.  I wonder why we are using plain Makefiles
+	instead of automake Makefiles at all.
+
 2000-02-29  NotZed  <NotZed@HelixCode.com>
 
 	* filter-driver.c (main): Remove gui code, this will be actual
