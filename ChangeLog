@@ -1,3 +1,7 @@
+2001-04-23  Christopher James Lahey  <clahey@ximian.com>
+
+	* NEWS (Addressbook, General): Added Addressbook and ETable NEWS.
+
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in (EVO_CHECK_LIB): Don't autogen the the Makefile for

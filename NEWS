@@ -50,7 +50,25 @@ Mail:
 
 Addressbook:
 
+  - Added support for non editable sources.  (Toshok)
+
+  - Added address completion for use in contact entries using the
+    select names system.  (Jon Trowbridge)
+
+  - Fixed some major crashes in the addressbook backend.  (Clahey)
+
+  - Updated Ximian's contact information.  (Jason Leach)
+
+  - Finished LDAP support.  (Toshok)
+
 Calendar:
+
+General:
+
+  - Rewrote ETree in gal.  Changed evolution to support the changes in
+    API.  (Clahey)
+
+  - Lots of Etable/ETree bug fixes.  (Clahey)
 
 
 Version 0.9 "Platypus", 2001-03-12
