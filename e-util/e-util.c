@@ -504,7 +504,7 @@ gchar *
 e_strstrcase (const gchar *haystack, const gchar *needle)
 {
 	/* find the needle in the haystack neglecting case */
-	gchar *ptr;
+	const gchar *ptr;
 	guint len;
 
 	g_return_val_if_fail (haystack != NULL, NULL);
