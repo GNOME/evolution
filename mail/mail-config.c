@@ -44,6 +44,9 @@ typedef struct {
 	
 	GSList *accounts;
 	GSList *news;
+	
+	char *pgp_path;
+	int pgp_type;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -338,6 +341,16 @@ config_read (void)
 	config->prompt_empty_subject = gnome_config_get_bool (str);
 	g_free (str);
 	
+	/* PGP/GPG */
+	str = g_strdup_printf ("=%s/config/Mail=/PGP/path", 
+			       evolution_dir);
+	config->pgp_path = gnome_config_get_string (str);
+	g_free (str);
+	str = g_strdup_printf ("=%s/config/Mail=/PGP/type=0", 
+			       evolution_dir);
+	config->pgp_type = gnome_config_get_int (str);
+	g_free (str);
+	
 	gnome_config_sync ();
 }
 
@@ -435,6 +448,16 @@ mail_config_write (void)
 	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
 			       evolution_dir);
 	gnome_config_set_bool (str, config->prompt_empty_subject);
+	g_free (str);
+	
+	/* PGP/GPG */
+	str = g_strdup_printf ("=%s/config/Mail=/PGP/path", 
+			       evolution_dir);
+	gnome_config_set_string (str, config->pgp_path);
+	g_free (str);
+	str = g_strdup_printf ("=%s/config/Mail=/PGP/type", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->pgp_type);
 	g_free (str);
 	
 	gnome_config_sync ();
@@ -549,6 +572,32 @@ void
 mail_config_set_prompt_empty_subject (gboolean value)
 {
 	config->prompt_empty_subject = value;
+}
+
+gint
+mail_config_get_pgp_type (void)
+{
+	return config->pgp_type;
+}
+
+void
+mail_config_set_pgp_type (gint pgp_type)
+{
+	config->pgp_type = pgp_type;
+}
+
+const char *
+mail_config_get_pgp_path (void)
+{
+	return config->pgp_path;
+}
+
+void
+mail_config_set_pgp_path (const char *pgp_path)
+{
+	g_free (config->pgp_path);
+	
+	config->pgp_path = g_strdup (pgp_path);
 }
 
 const MailConfigAccount *

@@ -1,5 +1,14 @@
 2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_set_pgp_path): New config function to
+	set the path to the pgp binary.
+	(mail_config_get_pgp_path): Gee I wonder...
+	(mail_config_set_pgp_type): This one sets the type (ie PGP5, PGP2,
+	or GnuPG - see openpgp-utils.h for values)
+	(mail_config_get_pgp_type): Der.
+
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-account-editor.c (construct): Handle NULL source and, while
 	we're at it, transport URLs. Apparently camel_url_new() and/or
 	camel-url_free() don't handle NULL input well.
