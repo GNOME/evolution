@@ -311,21 +311,24 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
+
+	/* TODO: This probably shouldn't be here? */
+	if ((flags & CAMEL_STORE_FOLDER_CREATE) != 0) {
+		url = camel_url_copy (((CamelService *) parent_store)->url);
+		camel_url_set_fragment (url, full_name);
 	
-	url = camel_url_copy (((CamelService *) parent_store)->url);
-	camel_url_set_fragment (url, full_name);
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->full_name = g_strdup (full_name);
+		fi->name = g_strdup (name);
+		fi->uri = camel_url_to_string (url, 0);
+		fi->unread = camel_folder_get_unread_message_count(folder);
+		fi->flags = CAMEL_FOLDER_NOCHILDREN;
 	
-	fi = g_new0 (CamelFolderInfo, 1);
-	fi->full_name = g_strdup (full_name);
-	fi->name = g_strdup (name);
-	fi->uri = camel_url_to_string (url, 0);
-	fi->unread = camel_folder_get_unread_message_count(folder);
-	fi->flags = CAMEL_FOLDER_NOCHILDREN;
+		camel_url_free (url);
 	
-	camel_url_free (url);
-	
-	camel_object_trigger_event(CAMEL_OBJECT (parent_store), "folder_created", fi);
-	camel_folder_info_free(fi);
+		camel_object_trigger_event(CAMEL_OBJECT (parent_store), "folder_created", fi);
+		camel_folder_info_free(fi);
+	}
 	
 	return lf;
 }
