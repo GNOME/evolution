@@ -2552,7 +2552,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 			if (point) {
 				const char *url, *src;
 				
-				url = html_object_get_url (point->object);
+				url = html_object_get_url (point->object, point->offset);
 				src = html_object_get_src (point->object);
 				
 				if (url && !strncasecmp (url, "mailto:", 7)) {

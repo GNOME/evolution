@@ -2211,7 +2211,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data
                    callback */
 		const char *src, *url;
 		
-		url = html_object_get_url (point->object);
+		url = html_object_get_url (point->object, point->offset);
 		src = html_object_get_src (point->object);
 		
 		if (url || src) {
