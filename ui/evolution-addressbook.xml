@@ -114,10 +114,10 @@
                         <submenu name="Actions" _label="_Actions">
 
 			    <menuitem name="ContactsSendContactToOther"
-			     _label="_Forward Contact" verb=""/>
+			     _label="_Forward Contact..." verb=""/>
 
 			    <menuitem name="ContactsSendMessageToContact"
-			     _label="Send _Message to Contact" verb=""/>
+			     _label="Send _Message to Contact..." verb=""/>
 	                </submenu>
 		</placeholder>
 	</menu>

@@ -1,3 +1,12 @@
+2001-08-17  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-contact-editor.xml: changed 'Send contact to other'
+	to 'Forward Contact' and capitalized 'Send message to Contact' to
+	be consistent with address book.
+
+	* evolution-addressbook.xml: added '...' to 'Forward Contact' and
+	'Send Message to Contact' to be consistent with contact editor.
+
 2001-08-17  Anna Marie Dirks  <anna@ximian.com>
 
 	* evolution-mail-global.xml : Changed the order of the toolbar icons

@@ -63,10 +63,10 @@
 		</submenu>
 		<submenu name="Actions" _label="_Actions">
 		        <menuitem name="ContactEditorSendAs" verb="" 
-			_label="Se_nd contact to other..."/>
+			_label="_Forward Contact..."/>
 
 		        <menuitem name="ContactEditorSendTo" verb=""
-			_label="Send _message to contact..."/>
+			_label="Send _Message to Contact..."/>
 		</submenu>
 	</menu>
 
