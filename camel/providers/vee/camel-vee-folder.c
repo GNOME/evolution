@@ -43,9 +43,6 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 		      gchar *separator, gboolean path_begins_with_sep,
 		      CamelException *ex);
 
-static void vee_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
-static void vee_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
-
 static GPtrArray *vee_get_uids  (CamelFolder *folder, CamelException *ex);
 GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex);
 void vee_free_summary (CamelFolder *folder, GPtrArray *array);
@@ -107,8 +104,6 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	printf("vfolder class init\n");
 	
 	folder_class->init = vee_init;
-	folder_class->open = vee_open;
-	folder_class->close = vee_close;
 
 	folder_class->get_uids = vee_get_uids;
 	folder_class->get_summary = vee_get_summary;
@@ -185,21 +180,18 @@ void
 camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 {
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
+	CamelException *ex;
 
 	gtk_object_ref((GtkObject *)sub);
 	p->folders = g_list_append(p->folders, sub);
 
 	gtk_signal_connect((GtkObject *)sub, "folder_changed", folder_changed, vf);
 
-	/* if we're open, do the search and update too */
-	if (camel_folder_is_open((CamelFolder *)vf)) {
-		CamelException *ex;
-		ex = camel_exception_new();
-		vee_folder_build_folder(vf, sub, ex);
-		camel_exception_free(ex);
-		/* FIXME: should only raise follow-on event if the result changed */
-		gtk_signal_emit_by_name((GtkObject *)vf, "folder_changed", 0);
-	}
+	ex = camel_exception_new();
+	vee_folder_build_folder(vf, sub, ex);
+	camel_exception_free(ex);
+	/* FIXME: should only raise follow-on event if the result changed */
+	gtk_signal_emit_by_name((GtkObject *)vf, "folder_changed", 0);
 }
 
 
@@ -246,25 +238,8 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 	printf("VFolder full name = %s\n", camel_folder_get_full_name(folder));
 
 	g_free(namepart);
-}
 
-static void vee_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
-{
-	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
-
-	camel_vee_folder_parent->open (folder, mode, ex);
-	if (camel_exception_get_id(ex))
-		return;
-
-	/* perform search on folders to be searched ... */
 	vee_folder_build(vf, ex);
-}
-
-static void vee_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
-{
-	camel_vee_folder_parent->close (folder, expunge, ex);
-
-	/* FIXME: close vfolder? */
 }
 
 static void vee_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
@@ -443,10 +418,6 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		printf("searching folder: (%s)%s\n",
 		       gtk_type_name(((GtkObject *)f)->klass->type),
 		       camel_folder_get_full_name(f));
-
-		/* ugh, make sure the folder is open? */
-		if (!camel_folder_is_open(f))
-			camel_folder_open (f, FOLDER_OPEN_RW, ex);
 
 		matches = camel_folder_search_by_expression(f, vf->expression, ex);
 		match = matches;

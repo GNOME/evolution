@@ -38,10 +38,8 @@ static CamelFolderClass *parent_class;
 
 static void finalize (GtkObject *object);
 
-static void pop3_open (CamelFolder *folder, CamelFolderOpenMode mode,
+static void pop3_sync (CamelFolder *folder, gboolean expunge,
 		       CamelException *ex);
-static void pop3_close (CamelFolder *folder, gboolean expunge,
-			CamelException *ex);
 
 static gint get_message_count (CamelFolder *folder, CamelException *ex);
 static GPtrArray *get_uids (CamelFolder *folder, CamelException *ex);
@@ -64,8 +62,7 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 	parent_class = gtk_type_class (camel_folder_get_type ());
 
 	/* virtual method overload */
-	camel_folder_class->open = pop3_open;
-	camel_folder_class->close = pop3_close;
+	camel_folder_class->sync = pop3_sync;
 
 	camel_folder_class->get_message_count = get_message_count;
 	camel_folder_class->get_uids = get_uids;
@@ -138,20 +135,10 @@ camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 }
 
 static void
-pop3_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
+pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-	camel_pop3_store_open (CAMEL_POP3_STORE (folder->parent_store), ex);
-	if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_NONE)
-		parent_class->open (folder, mode, ex);
-}
-
-static void
-pop3_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
-{
-	camel_pop3_store_close (CAMEL_POP3_STORE (folder->parent_store),
-				expunge, ex);
-	if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_NONE)
-		parent_class->close (folder, expunge, ex);
+	if (expunge)
+		camel_pop3_store_expunge (CAMEL_POP3_STORE (folder->parent_store), ex);
 }
 				
 

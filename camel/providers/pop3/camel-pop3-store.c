@@ -372,44 +372,18 @@ free_auth_types (CamelService *service, GList *authtypes)
 }
 
 /**
- * camel_pop3_store_open: Connect to the server if we are currently
- * disconnected.
+ * camel_pop3_store_expunge:
  * @store: the store
  * @ex: a CamelException
  *
- * The POP protocol does not allow deleted messages to be expunged
- * except by closing the connection. Thus, camel_pop3_folder_{open,close}
- * sometimes need to connect to or disconnect from the server. This
- * routine reconnects to the server if we have disconnected.
- *
+ * Expunge messages from the store. This will result in the connection
+ * being closed, which may cause later commands to fail if they can't
+ * reconnect.
  **/
 void
-camel_pop3_store_open (CamelPop3Store *store, CamelException *ex)
+camel_pop3_store_expunge (CamelPop3Store *store, CamelException *ex)
 {
-	CamelService *service = CAMEL_SERVICE (store);
-
-	if (!camel_service_is_connected (service))
-		pop3_connect (service, ex);
-}
-
-/**
- * camel_pop3_store_close: Close the connection to the server and
- * possibly expunge deleted messages.
- * @store: the store
- * @expunge: whether or not to expunge deleted messages
- * @ex: a CamelException
- *
- * See camel_pop3_store_open for an explanation of why this is needed.
- *
- **/
-void
-camel_pop3_store_close (CamelPop3Store *store, gboolean expunge,
-			CamelException *ex)
-{
-	if (expunge)
-		camel_pop3_command (store, NULL, "QUIT");
-	else
-		camel_pop3_command (store, NULL, "RSET");
+	camel_pop3_command (store, NULL, "QUIT");
 	pop3_disconnect (CAMEL_SERVICE (store), ex);
 }
 
@@ -539,6 +513,12 @@ static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name,
 	    gboolean create, CamelException *ex)
 {
+	CamelService *service = CAMEL_SERVICE (store);
+
+	if (!camel_service_is_connected (service)) {
+		if (!camel_service_connect (service, ex))
+			return NULL;
+	}
 	return camel_pop3_folder_new (store, ex);
 }
 
@@ -585,9 +565,22 @@ get_root_folder_name (CamelStore *store, CamelException *ex)
 int
 camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 {
+	CamelService *service = CAMEL_SERVICE (store);
 	char *cmdbuf, *respbuf;
 	va_list ap;
 	int status;
+
+	if (!store->ostream) {
+		CamelException ex;
+
+		camel_exception_init (&ex);
+		if (!camel_service_connect (service, &ex)) {
+			if (ret)
+				*ret = g_strdup (camel_exception_get_description (&ex));
+			camel_exception_clear (&ex);
+			return CAMEL_POP3_FAIL;
+		}
+	}
 
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);

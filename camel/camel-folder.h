@@ -41,24 +41,10 @@ extern "C" {
 #define CAMEL_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_TYPE, CamelFolderClass))
 #define CAMEL_IS_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_TYPE))
 
-typedef enum {
-	FOLDER_OPEN,
-	FOLDER_CLOSE
-} CamelFolderState;
-
-typedef enum {
-	FOLDER_OPEN_UNKNOWN = 0,   /* folder open mode is unknown */
-	FOLDER_OPEN_READ    = 1,   /* folder is read only         */ 
-	FOLDER_OPEN_WRITE   = 2,   /* folder is write only        */ 
-	FOLDER_OPEN_RW      = 3    /* folder is read/write        */ 
-} CamelFolderOpenMode;
-
 struct _CamelFolder
 {
 	CamelObject parent_object;
 	
-	CamelFolderOpenMode open_mode;
-	CamelFolderState open_state;
 	gchar *name;
 	gchar *full_name;
 	gchar *separator;
@@ -86,13 +72,8 @@ typedef struct {
 			gchar *separator, gboolean path_begins_with_sep,
 			CamelException *ex);
 
-	void   (*open) (CamelFolder *folder, 
-			CamelFolderOpenMode mode, 
+	void   (*sync) (CamelFolder *folder, gboolean expunge, 
 			CamelException *ex);
-	
-	void   (*close) (CamelFolder *folder, 
-			 gboolean expunge, 
-			 CamelException *ex);
 
 	const gchar *  (*get_name)  (CamelFolder *folder);
 
@@ -101,8 +82,6 @@ typedef struct {
 	gboolean   (*can_hold_folders)   (CamelFolder *folder);
 
 	gboolean   (*can_hold_messages)  (CamelFolder *folder);
-
-	gboolean   (*is_open) (CamelFolder *folder);
 
 	CamelFolder *  (*get_subfolder)  (CamelFolder *folder, 
 					  const gchar *folder_name, 
@@ -113,9 +92,6 @@ typedef struct {
 					       CamelException *ex);
 
 	CamelStore *  (*get_parent_store) (CamelFolder *folder, 
-					   CamelException *ex);
-
-	CamelFolderOpenMode (*get_mode)   (CamelFolder *folder, 
 					   CamelException *ex);
 
 	void (*expunge)  (CamelFolder *folder, 
@@ -180,12 +156,7 @@ CamelFolder *      camel_folder_get_subfolder          (CamelFolder *folder,
 							gboolean create,
 							CamelException *ex);
 
-void               camel_folder_open                   (CamelFolder *folder, 
-							CamelFolderOpenMode mode, 
-							CamelException *ex);
-
-
-void               camel_folder_close                  (CamelFolder *folder, 
+void               camel_folder_sync                   (CamelFolder *folder, 
 							gboolean expunge, 
 							CamelException *ex);
 
@@ -210,10 +181,6 @@ const gchar *      camel_folder_get_full_name          (CamelFolder *folder);
 /* various properties accessors */
 guint32		   camel_folder_get_permanent_flags    (CamelFolder *folder,
 							CamelException *ex);
-
-CamelFolderOpenMode camel_folder_get_mode              (CamelFolder *folder, 
-							CamelException *ex);
-gboolean           camel_folder_is_open                (CamelFolder *folder);
 
 
 

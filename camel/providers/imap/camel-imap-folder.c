@@ -60,8 +60,7 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 		       gchar *separator, gboolean path_begns_with_sep,
 		       CamelException *ex);
 
-static void imap_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
-static void imap_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 #if 0
 static gboolean imap_exists (CamelFolder *folder, CamelException *ex);
 static gboolean imap_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
@@ -106,8 +105,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	/* virtual method overload */
 	camel_folder_class->init = imap_init;
 
-	camel_folder_class->open = imap_open;
-	camel_folder_class->close = imap_close;
+	camel_folder_class->sync = imap_sync;
 #if 0
 	camel_folder_class->exists = imap_exists;
 	camel_folder_class->create = imap_create;
@@ -158,7 +156,7 @@ camel_imap_folder_get_type (void)
 			sizeof (CamelImapFolder),
 			sizeof (CamelImapFolderClass),
 			(GtkClassInitFunc) camel_imap_folder_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_imap_folder_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -191,6 +189,8 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	   const gchar *name, gchar *separator, gboolean path_begins_with_sep, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	int status;
+	char *result;
 	
 	/* call parent method */
 	parent_class->init (folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
@@ -218,47 +218,25 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	
  	imap_folder->summary = NULL;
  	imap_folder->search = NULL;
-}
 
-static void
-imap_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
-{
-	gchar *result;
-	gint status;
-
-	camel_imap_store_open (CAMEL_IMAP_STORE (folder->parent_store), ex);
-	if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_NONE) {
-		/* do we actually want to do this? probably not */
-		parent_class->open (folder, mode, ex);
-
-		/* SELECT the IMAP mail spool */
-		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-						      &result, "SELECT %s", folder->full_name);
-
-		if (status != CAMEL_IMAP_OK) {
-			CamelService *service = CAMEL_SERVICE (folder->parent_store);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "Could not SELECT %s on IMAP server %s: %s.",
-					      folder->full_name,
-					      service->url->host, 
-					      status == CAMEL_IMAP_ERR ? result :
-					      "Unknown error");
-			g_free (result);
-			return;
-		}
-
-		g_free(result);
+	/* SELECT the IMAP mail spool */
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+					      &result, "SELECT %s", folder->full_name);
+	if (status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not SELECT %s on IMAP server %s: %s.",
+				      folder->full_name, service->url->host, 
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
 	}
+	g_free(result);
 }
 
 static void
-imap_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
+imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	/* TODO: actually code this method */
-	camel_imap_store_close (CAMEL_IMAP_STORE (folder->parent_store), expunge, ex);
-	if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_NONE) 
-		parent_class->close (folder, expunge, ex);
-
 }
 
 static void

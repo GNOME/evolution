@@ -584,25 +584,3 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	
 	return status;
 }
-
-void
-camel_imap_store_open (CamelImapStore *store, CamelException *ex)
-{
-	CamelService *service = CAMEL_SERVICE (store);
-
-	if (!camel_service_is_connected (service))
-		imap_connect (service, ex);
-}
-
-void
-camel_imap_store_close (CamelImapStore *store, gboolean expunge, CamelException *ex)
-{
-	/*
-	  if (expunge)
-	  camel_imap_command (store, NULL, "QUIT");
-	  else
-	  camel_imap_command (store, NULL, "RSET");
-	*/
-	
-	imap_disconnect (CAMEL_SERVICE (store), ex);
-}

@@ -1,5 +1,19 @@
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
+	* camel-folder.c: (camel_folder_open, camel_folder_is_open,
+	camel_folder_get_mode): Kill. Folders are now always open, and
+	handle "closing" sorts of operations at sync or finalize time.
+	(camel_folder_sync): renamed from camel_folder_close. Syncs state
+	to the store but doesn't necessarily close/disconnect.
+
+	* providers/*/camel-*-folder.c: Merge "open" methods into "init"
+	methods. Rename close to sync and update appropriately.
+
+	* providers/imap/camel-imap-store.c: Remove camel_imap_store_open
+	and camel_imap_store_close, which should not have been copied from
+	the POP provider (where the exist to work around limitations of
+	the POP protocol).
+
 	* providers/mbox/camel-mbox-summary.c: fix a bug. (don't expunge
 	deleted messages if called with expunge == FALSE)
 	

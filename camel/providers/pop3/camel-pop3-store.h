@@ -62,9 +62,7 @@ typedef struct {
 
 
 /* public methods */
-void camel_pop3_store_open (CamelPop3Store *store, CamelException *ex);
-void camel_pop3_store_close (CamelPop3Store *store, gboolean expunge,
-			     CamelException *ex);
+void camel_pop3_store_expunge (CamelPop3Store *store, CamelException *ex);
 
 /* support functions */
 enum { CAMEL_POP3_OK, CAMEL_POP3_ERR, CAMEL_POP3_FAIL };

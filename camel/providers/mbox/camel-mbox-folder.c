@@ -61,8 +61,7 @@ static void mbox_init (CamelFolder *folder, CamelStore *parent_store,
 		       gchar *separator, gboolean path_begins_with_sep,
 		       CamelException *ex);
 
-static void mbox_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
-static void mbox_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static void mbox_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint mbox_get_message_count (CamelFolder *folder, CamelException *ex);
 static void mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static GPtrArray *mbox_get_uids (CamelFolder *folder, CamelException *ex);
@@ -97,8 +96,7 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 
 	/* virtual method overload */
 	camel_folder_class->init = mbox_init;
-	camel_folder_class->open = mbox_open;
-	camel_folder_class->close = mbox_close;
+	camel_folder_class->sync = mbox_sync;
 	camel_folder_class->get_message_count = mbox_get_message_count;
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_uids = mbox_get_uids;
@@ -162,6 +160,8 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 {
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 	const gchar *root_dir_path;
+	int forceindex;
+	struct stat st;
 
 	/* call parent method */
 	parent_class->init (folder, parent_store, parent_folder,
@@ -197,19 +197,6 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 	mbox_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary", root_dir_path, folder->full_name);
 	mbox_folder->folder_dir_path = g_strdup_printf ("%s/%s.sdb", root_dir_path, folder->full_name);
 	mbox_folder->index_file_path = g_strdup_printf ("%s/%s.ibex", root_dir_path, folder->full_name);
-}
-
-static void
-mbox_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
-{
-	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
-	int forceindex;
-	struct stat st;
-
-	/* call parent class */
-	parent_class->open (folder, mode, ex);
-	if (camel_exception_get_id(ex))
-		return;
 
 	/* if we have no index file, force it */
 	forceindex = stat(mbox_folder->index_file_path, &st) == -1;
@@ -237,12 +224,9 @@ mbox_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 }
 
 static void
-mbox_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
+mbox_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
-
-	/* call parent implementation */
-	parent_class->close (folder, expunge, ex);
 
 	if (expunge)
 		mbox_expunge(folder, ex);
