@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-27 13:17+0100\n"
-"PO-Revision-Date: 2003-10-28 11:42+0100\n"
+"POT-Creation-Date: 2003-11-04 14:47+0100\n"
+"PO-Revision-Date: 2003-11-04 14:50+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -3352,12 +3352,12 @@ msgstr "Har markør"
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:24
 msgid "Card View"
-msgstr "Kort-visning"
+msgstr "Kort-vising"
 
 #: addressbook/gui/widgets/gal-view-factory-treeview.c:25
 #, fuzzy
 msgid "GTK Tree View"
-msgstr "GTK-trevisning"
+msgstr "GTK-trevising"
 
 #: addressbook/printing/e-contact-print-envelope.c:217
 #: addressbook/printing/e-contact-print-envelope.c:238
@@ -3938,7 +3938,7 @@ msgstr "Offentleg mappe som inneheld avtalar og hendingar"
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:644
+#: calendar/importers/icalendar-importer.c:647
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
@@ -4119,15 +4119,15 @@ msgstr "Nei"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
-msgstr "Dagsvisning"
+msgstr "Dagsvising"
 
 #: calendar/gui/calendar-view-factory.c:121
 msgid "Work Week View"
-msgstr "Arbeidsvekevisning"
+msgstr "Arbeidsvekevising"
 
 #: calendar/gui/calendar-view-factory.c:124
 msgid "Week View"
-msgstr "Vekesvisning"
+msgstr "Vekesvising"
 
 #: calendar/gui/calendar-view-factory.c:127
 msgid "Month View"
@@ -5102,7 +5102,7 @@ msgstr "Unntak"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Preview"
-msgstr "Førehandsvisning"
+msgstr "Førehandsvising"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
 #, fuzzy
@@ -6700,17 +6700,17 @@ msgstr "iCalendar-filer (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "vCalendar-filer (.vcf)"
 
-#: calendar/importers/icalendar-importer.c:403
+#: calendar/importers/icalendar-importer.c:406
 #, fuzzy
 msgid "Reminder!!"
 msgstr "Påminning!"
 
-#: calendar/importers/icalendar-importer.c:637
+#: calendar/importers/icalendar-importer.c:640
 #, fuzzy
 msgid "Calendar Events"
 msgstr "Kalenderhending"
 
-#: calendar/importers/icalendar-importer.c:662
+#: calendar/importers/icalendar-importer.c:665
 #, fuzzy
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
@@ -6719,7 +6719,7 @@ msgstr ""
 "Evolution har funne Gnome Calendar-filer.\n"
 "Vil du importera desse inn i Evolution?"
 
-#: calendar/importers/icalendar-importer.c:669
+#: calendar/importers/icalendar-importer.c:672
 #, fuzzy
 msgid "Gnome Calendar"
 msgstr "Gnome Calendar"
@@ -8660,7 +8660,9 @@ msgstr ""
 #: camel/camel-gpg-context.c:1177
 #, fuzzy, c-format
 msgid "Failed to GPG %s: %s\n"
-msgstr "Kan ikkje bruka GPG på %s: %s\ns"
+msgstr ""
+"Kan ikkje bruka GPG på %s: %s\n"
+"s"
 
 #: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
 #: camel/camel-gpg-context.c:1624
@@ -9695,8 +9697,8 @@ msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
 msgstr ""
-"For å henta (eller flytta) lokal e-post frå vanlege meldingslager i mbox-format til "
-"mapper som vert handsama av Evolution."
+"For å henta (eller flytta) lokal e-post frå vanlege meldingslager i mbox-"
+"format til mapper som vert handsama av Evolution."
 
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
@@ -9727,8 +9729,10 @@ msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
-"For lesing og lagring av lokal e-post i ekstrerne meldingslager («spool»-filer)\n"
-"i mbox-format. Kan også brukast til å lesa eit tre av mapper av Elm-, Pine- og Mutt-type."
+"For lesing og lagring av lokal e-post i ekstrerne meldingslager («spool»-"
+"filer)\n"
+"i mbox-format. Kan også brukast til å lesa eit tre av mapper av Elm-, Pine- "
+"og Mutt-type."
 
 #: camel/providers/local/camel-local-store.c:139
 #: camel/providers/local/camel-local-store.c:228
@@ -14161,7 +14165,6 @@ msgid "Due By"
 msgstr ""
 
 #: mail/message-list.etspec.h:4
-#, fuzzy
 msgid "Flag Status"
 msgstr ""
 
@@ -14174,7 +14177,6 @@ msgid "Follow Up Flag"
 msgstr ""
 
 #: mail/message-list.etspec.h:8
-#, fuzzy
 msgid "Original Location"
 msgstr ""
 
@@ -14199,7 +14201,6 @@ msgid "Follow-Up"
 msgstr ""
 
 #: mail/message-tag-followup.c:65
-#, fuzzy
 msgid "For Your Information"
 msgstr ""
 
@@ -14238,12 +14239,10 @@ msgid ""
 msgstr ""
 
 #: mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due by:"
 msgstr ""
 
 #: mail/message-tags.glade.h:7
-#, fuzzy
 msgid "_Flag:"
 msgstr ""
 
@@ -14281,17 +14280,14 @@ msgid "Please select a server."
 msgstr "Velj ein tenar"
 
 #: mail/subscribe-dialog.glade.h:1
-#, fuzzy
 msgid "Folder Subscriptions"
 msgstr ""
 
 #: mail/subscribe-dialog.glade.h:2
-#, fuzzy
 msgid "None Selected"
 msgstr ""
 
 #: mail/subscribe-dialog.glade.h:3
-#, fuzzy
 msgid "S_erver:"
 msgstr ""
 
@@ -14308,22 +14304,18 @@ msgid "_Unsubscribe"
 msgstr "_Fjern abbonnment"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:1
-#, fuzzy
 msgid "Configure the appearance of the Evolution Summary here"
 msgstr ""
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Summary"
 msgstr ""
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:3
-#, fuzzy
 msgid "Evolution Summary component"
 msgstr ""
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Summary configuration control"
 msgstr ""
 
@@ -24175,7 +24167,6 @@ msgid "All"
 msgstr "Alle"
 
 #: my-evolution/e-summary-shown.c:521 my-evolution/e-summary-table.c:58
-#, fuzzy
 msgid "Shown"
 msgstr ""
 
@@ -26783,14 +26774,17 @@ msgstr ""
 "Hei. Takk for at du tok deg tid til å lasta ned denne prøveversjonen av\n"
 "Ximian Evolution gruppevarepakken.\n"
 "\n"
-"Denne versjonen av Ximian Evolution er ikkje ferdig enno. Det nærmar seg, men\n"
+"Denne versjonen av Ximian Evolution er ikkje ferdig enno. Det nærmar seg, "
+"men\n"
 "somme eigenskapar er ikkje ferdige eller virkar ikkje ordentleg.\n"
 "\n"
 "Dersom du vil ha ein stabil versjon av Evolution, rår me til at du\n"
 "fjernar denne versjonen, og installerer versjon %s i staden.\n"
 "\n"
-"Dersom du finn feil, vil me setja stor pris på det om du seier ifrå om det på\n"
-"http://bugzilla.ximian.com/ . Dette produktet kjem utan noko form for garanti\n"
+"Dersom du finn feil, vil me setja stor pris på det om du seier ifrå om det "
+"på\n"
+"http://bugzilla.ximian.com/ . Dette produktet kjem utan noko form for "
+"garanti\n"
 "og er ikkje meint for personar som lett blir sinte.\n"
 "\n"
 "Me vonar at du nyt resultata av det harde arbeidet vårt, og me ventar\n"
@@ -27359,7 +27353,7 @@ msgstr "_Abbonner på mapper ..."
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Show message preview window"
-msgstr "Vis meldings-førehandsvisningsvindauge"
+msgstr "Vis meldings-førehandsvisingsvindauge"
 
 #: ui/evolution-mail-global.xml.h:15
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -27679,7 +27673,6 @@ msgid "Mark as Unimp_ortant"
 msgstr "Markér som _uviktig"
 
 #: ui/evolution-mail-message.xml.h:47
-#, fuzzy
 msgid "Mark the selected message(s) as having been read"
 msgstr ""
 
@@ -27883,7 +27876,7 @@ msgstr "_Større"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "_Message Display"
-msgstr "_Meldingsvisning"
+msgstr "_Meldingsvising"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "_Move to Folder"
@@ -27895,7 +27888,7 @@ msgstr "_Neste melding"
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "_Normal Display"
-msgstr "_Normal visning"
+msgstr "_Normal vising"
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "_Open Message"
@@ -27937,7 +27930,7 @@ msgstr "L_ukk"
 #: ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:64
 msgid "_View"
-msgstr "_Visning"
+msgstr "_Vis"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -28428,7 +28421,7 @@ msgstr "Last om att"
 
 #: ui/my-evolution.xml.h:5
 msgid "Reload the view"
-msgstr "Last om att visning"
+msgstr "Last om att vising"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
@@ -28444,11 +28437,11 @@ msgstr "_Telefonliste"
 
 #: views/calendar/galview.xml.h:1
 msgid "W_eek View"
-msgstr "V_ekesvisning"
+msgstr "V_ekesvising"
 
 #: views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr "_Dagsvisning"
+msgstr "_Dagsvising"
 
 #: views/calendar/galview.xml.h:3
 msgid "_Month View"
@@ -28456,7 +28449,7 @@ msgstr "_Månadsvising"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Work Week View"
-msgstr "_Arbeidsvekevisning"
+msgstr "_Arbeidsvekevising"
 
 #: views/mail/galview.xml.h:1
 msgid "As Sent Folder"
@@ -28517,22 +28510,22 @@ msgstr "Utval:"
 
 #: widgets/menus/gal-view-menus.c:290
 msgid "_Current View"
-msgstr "_Aktiv visning"
+msgstr "_Aktiv vising"
 
 #. bonobo displays this string so it must be in locale
 #: widgets/menus/gal-view-menus.c:349
 msgid "Custom View"
-msgstr "Tilpassa visning"
+msgstr "Tilpassa vising"
 
 #: widgets/menus/gal-view-menus.c:358
 #, fuzzy
 msgid "Save Custom View..."
-msgstr "Lagre tilpassa visning"
+msgstr "Lagre tilpassa vising"
 
 #: widgets/menus/gal-view-menus.c:371
 #, fuzzy
 msgid "Define Views..."
-msgstr "Definer visningar"
+msgstr "Definer visingar"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
