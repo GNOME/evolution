@@ -1,4 +1,4 @@
-# translation of evolution.HEAD.po to Russian
+# translation of evolution to Russian
 # Copyright (C) 2000,2002,2003, 2004 Free Software Foundation, Inc.
 # Valek Filippov <frob@df.ru>, 2000.
 # Dmitry Mastrukov  <dmitry@taurussoft.org>, 2001-2003.
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-27 03:09+0200\n"
-"PO-Revision-Date: 2004-09-27 19:28+0300\n"
+"POT-Creation-Date: 2004-10-15 12:57+0200\n"
+"PO-Revision-Date: 2004-10-15 17:42+0300\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team:  <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -251,8 +251,8 @@ msgstr "Здесь настраивается автозавершение"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: addressbook/gui/component/addressbook-view.c:1144
-#: calendar/gui/migration.c:377
+#: addressbook/gui/component/addressbook-view.c:1143
+#: calendar/gui/migration.c:378
 msgid "Contacts"
 msgstr "Контакты"
 
@@ -313,7 +313,7 @@ msgid "Create a new contact list"
 msgstr "Создание нового списка контактов"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:813
+#: addressbook/gui/component/addressbook-view.c:812
 msgid "New Address Book"
 msgstr "Новая адресная книга"
 
@@ -330,12 +330,12 @@ msgid "Failed upgrading Addressbook settings or folders."
 msgstr "Ошибка обновления параметров или папок Адресной книги."
 
 #: addressbook/gui/component/addressbook-migrate.c:72
-#: calendar/gui/migration.c:141 mail/em-migrate.c:1160
+#: calendar/gui/migration.c:142 mail/em-migrate.c:1160
 msgid "Migrating..."
 msgstr "Перенос..."
 
 #: addressbook/gui/component/addressbook-migrate.c:124
-#: calendar/gui/migration.c:188 mail/em-migrate.c:1201
+#: calendar/gui/migration.c:189 mail/em-migrate.c:1201
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Переносится '%s':"
@@ -343,7 +343,7 @@ msgstr "Переносится '%s':"
 #. create the local source group
 #. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
-#: calendar/gui/migration.c:450 calendar/gui/migration.c:532
+#: calendar/gui/migration.c:452 calendar/gui/migration.c:545
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
 #: mail/mail-component.c:250 mail/mail-vfolder.c:218
 msgid "On This Computer"
@@ -355,7 +355,7 @@ msgstr "На этом компьютере"
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
-#: calendar/gui/migration.c:458 calendar/gui/migration.c:540
+#: calendar/gui/migration.c:460 calendar/gui/migration.c:553
 #: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:78
 #: mail/mail-config.glade.h:109
 msgid "Personal"
@@ -416,13 +416,13 @@ msgstr ""
 "\n"
 "Производится преобразование ваших данных Pilot Sync..."
 
-#: addressbook/gui/component/addressbook-view.c:711
+#: addressbook/gui/component/addressbook-view.c:710
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Адресная книга '%s' будет удалена. Вы действительно хотите продолжить?"
 
-#: addressbook/gui/component/addressbook-view.c:814
-#: addressbook/gui/widgets/e-addressbook-view.c:1128
+#: addressbook/gui/component/addressbook-view.c:813
+#: addressbook/gui/widgets/e-addressbook-view.c:1123
 #: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
@@ -432,7 +432,7 @@ msgstr "Адресная книга '%s' будет удалена. Вы дей�
 msgid "Delete"
 msgstr "Удалить"
 
-#: addressbook/gui/component/addressbook-view.c:815
+#: addressbook/gui/component/addressbook-view.c:814
 #: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:384
 msgid "Properties..."
 msgstr "Свойства..."
@@ -442,12 +442,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Анонимное подключение к серверу LDAP"
 
 #: addressbook/gui/component/addressbook.c:184
-#: camel/providers/groupwise/camel-gw-listener.c:420
+#: camel/providers/groupwise/camel-gw-listener.c:460
 msgid "Failed to authenticate.\n"
 msgstr "Ошибка проверки подлинности.\n"
 
 #: addressbook/gui/component/addressbook.c:191
-#: camel/providers/groupwise/camel-gw-listener.c:409
+#: camel/providers/groupwise/camel-gw-listener.c:449
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sВведите пароль для %s (пользователь %s)"
@@ -461,6 +461,11 @@ msgid "Position of the vertical pane in main view"
 msgstr "Позиция вертикальной панели в основном окне"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
+#: mail/evolution-mail.schemas.in.in.h:71
+msgid "Show the \"Preview\" pane"
+msgstr "Показывать панель предварительного просмотра"
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
@@ -468,7 +473,7 @@ msgstr ""
 "Количество символов, которое необходимо ввести перед активацией функции "
 "автозавершения"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "URI for the folder last used in the select names dialog"
 msgstr "URI папки, использовавшейся в последний раз в диалоге выбора имен"
 
@@ -2450,97 +2455,97 @@ msgstr "Дополнительно..."
 msgid "Type"
 msgstr "Тип"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:548
+#: addressbook/gui/widgets/e-addressbook-view.c:543
 msgid "Address Book"
 msgstr "Адресная книга"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:892
-#: addressbook/gui/widgets/e-addressbook-view.c:1112
-#: addressbook/gui/widgets/e-addressbook-view.c:2102
+#: addressbook/gui/widgets/e-addressbook-view.c:887
+#: addressbook/gui/widgets/e-addressbook-view.c:1107
+#: addressbook/gui/widgets/e-addressbook-view.c:2097
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Сохранить как VCard..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1099
+#: addressbook/gui/widgets/e-addressbook-view.c:1094
 msgid "New Contact..."
 msgstr "Создать контакт..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1100
+#: addressbook/gui/widgets/e-addressbook-view.c:1095
 msgid "New Contact List..."
 msgstr "Создать список контактов..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1103
+#: addressbook/gui/widgets/e-addressbook-view.c:1098
 msgid "Go to Folder..."
 msgstr "Перейти к папке..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1104
+#: addressbook/gui/widgets/e-addressbook-view.c:1099
 msgid "Import..."
 msgstr "Импорт..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1106
+#: addressbook/gui/widgets/e-addressbook-view.c:1101
 msgid "Search for Contacts..."
 msgstr "Найти контакты..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1107
+#: addressbook/gui/widgets/e-addressbook-view.c:1102
 msgid "Address Book Sources..."
 msgstr "Источники адресных книг..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1109
+#: addressbook/gui/widgets/e-addressbook-view.c:1104
 msgid "Pilot Settings..."
 msgstr "Настройка Pilot..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1113
+#: addressbook/gui/widgets/e-addressbook-view.c:1108
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Переслать контакт"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1114
+#: addressbook/gui/widgets/e-addressbook-view.c:1109
 msgid "Send Message to Contact"
 msgstr "Отправить сообщение к контакту"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1115 calendar/gui/print.c:2480
+#: addressbook/gui/widgets/e-addressbook-view.c:1110 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:5
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Печать"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1117
+#: addressbook/gui/widgets/e-addressbook-view.c:1112
 msgid "Print Envelope"
 msgstr "Напечатать конверт"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1121
+#: addressbook/gui/widgets/e-addressbook-view.c:1116
 msgid "Copy to Address Book..."
 msgstr "Копировать в адресную книгу..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1122
+#: addressbook/gui/widgets/e-addressbook-view.c:1117
 msgid "Move to Address Book..."
 msgstr "Переместить в адресную книгу..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1125
+#: addressbook/gui/widgets/e-addressbook-view.c:1120
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Вырезать"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1126
+#: addressbook/gui/widgets/e-addressbook-view.c:1121
 #: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:380
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Копировать"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1127
+#: addressbook/gui/widgets/e-addressbook-view.c:1122
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Вставить"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1132
+#: addressbook/gui/widgets/e-addressbook-view.c:1127
 #: calendar/gui/e-calendar-view.c:1418
 msgid "Current View"
 msgstr "Текущий вид"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1687
+#: addressbook/gui/widgets/e-addressbook-view.c:1682
 #: calendar/gui/cal-search-bar.c:358
 msgid "Any Category"
 msgstr "Любая категория"
@@ -2895,9 +2900,9 @@ msgstr "Протокол не поддерживается"
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
-#: camel/camel-service.c:723 camel/camel-service.c:887
-#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:463
-#: camel/providers/pop3/camel-pop3-store.c:544
+#: camel/camel-service.c:724 camel/camel-service.c:886
+#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:474
+#: camel/providers/pop3/camel-pop3-store.c:555
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -2908,6 +2913,7 @@ msgstr "Не удается отменить"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
+#: calendar/gui/comp-editor-factory.c:428
 msgid "Authentication Failed"
 msgstr "Сбой проверки подлинности"
 
@@ -3754,7 +3760,7 @@ msgstr "Работа компонента календаря Evolution неож�
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "Ваши календари будут недоступны до перезапуска Evolution."
 
-#: calendar/common/authentication.c:47 calendar/gui/e-pub-utils.c:301
+#: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
 msgid "Enter password"
 msgstr "Введите пароль"
@@ -3826,7 +3832,7 @@ msgstr "Компонент задач Evolution"
 #: calendar/gui/tasks-component.c:425 calendar/gui/tasks-component.c:895
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
-#: camel/providers/groupwise/camel-gw-listener.c:332
+#: camel/providers/groupwise/camel-gw-listener.c:372
 msgid "Tasks"
 msgstr "Задачи"
 
@@ -4096,15 +4102,15 @@ msgstr "Комментарий содержит"
 msgid "Location contains"
 msgstr "Адрес содержит"
 
-#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
+#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:342
 msgid "Unmatched"
 msgstr "Прочее"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
 #: calendar/gui/gnome-cal.c:1910
-#: camel/providers/groupwise/camel-gw-listener.c:331
-#: camel/providers/groupwise/camel-gw-listener.c:361
+#: camel/providers/groupwise/camel-gw-listener.c:371
+#: camel/providers/groupwise/camel-gw-listener.c:401
 msgid "Calendar"
 msgstr "Календарь"
 
@@ -4278,19 +4284,29 @@ msgstr "Как неделю"
 msgid "Month View"
 msgstr "как месяц"
 
-#: calendar/gui/comp-editor-factory.c:409
+#: calendar/gui/comp-editor-factory.c:410
 msgid "Error while opening the calendar"
 msgstr "Ошибка при открытии календаря"
 
-#: calendar/gui/comp-editor-factory.c:420
+#: calendar/gui/comp-editor-factory.c:416
 msgid "Method not supported when opening the calendar"
 msgstr "Метод открытия календаря не поддерживается"
 
-#: calendar/gui/comp-editor-factory.c:426
+#: calendar/gui/comp-editor-factory.c:422
 msgid "Permission denied to open the calendar"
 msgstr "Отказ в доступе при открытии календаря"
 
-#: calendar/gui/comp-editor-factory.c:474
+#: calendar/gui/comp-editor-factory.c:434
+#: camel/providers/imap/camel-imap-command.c:303
+#: camel/providers/imap/camel-imap-command.c:400
+#: camel/providers/imap4/camel-imap4-store.c:260
+#: camel/providers/pop3/camel-pop3-store.c:561
+#: camel/providers/pop3/camel-pop3-store.c:568
+#: camel/providers/pop3/camel-pop3-store.c:574 shell/e-shell.c:1228
+msgid "Unknown error"
+msgstr "Неизвестная ошибка"
+
+#: calendar/gui/comp-editor-factory.c:478
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
@@ -4820,43 +4836,43 @@ msgstr "К дате"
 msgid "Could not update object"
 msgstr "Не удается обновить объект"
 
-#: calendar/gui/dialogs/comp-editor.c:878
-#: calendar/gui/dialogs/comp-editor.c:915
+#: calendar/gui/dialogs/comp-editor.c:870
+#: calendar/gui/dialogs/comp-editor.c:907
 msgid "Edit Appointment"
 msgstr "Изменить встречу"
 
-#: calendar/gui/dialogs/comp-editor.c:883
-#: calendar/gui/dialogs/comp-editor.c:920
+#: calendar/gui/dialogs/comp-editor.c:875
+#: calendar/gui/dialogs/comp-editor.c:912
 #, c-format
 msgid "Appointment - %s"
 msgstr "Встреча - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:886
-#: calendar/gui/dialogs/comp-editor.c:923
+#: calendar/gui/dialogs/comp-editor.c:878
+#: calendar/gui/dialogs/comp-editor.c:915
 #, c-format
 msgid "Task - %s"
 msgstr "Задача - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:889
-#: calendar/gui/dialogs/comp-editor.c:926
+#: calendar/gui/dialogs/comp-editor.c:881
+#: calendar/gui/dialogs/comp-editor.c:918
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Запись в журнале - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:900
-#: calendar/gui/dialogs/comp-editor.c:936
+#: calendar/gui/dialogs/comp-editor.c:892
+#: calendar/gui/dialogs/comp-editor.c:928
 msgid "No summary"
 msgstr "Нет Краткого описания"
 
-#: calendar/gui/dialogs/comp-editor.c:1302
-#: calendar/gui/dialogs/comp-editor.c:1335
-#: calendar/gui/dialogs/comp-editor.c:1359
+#: calendar/gui/dialogs/comp-editor.c:1294
+#: calendar/gui/dialogs/comp-editor.c:1327
+#: calendar/gui/dialogs/comp-editor.c:1351
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Изменения этого элемента будут отвергнуты, если по эл. почте придет "
 "обновление."
 
-#: calendar/gui/dialogs/comp-editor.c:1383
+#: calendar/gui/dialogs/comp-editor.c:1375
 msgid "Unable to use current version!"
 msgstr "Не удается использовать текущую версию!"
 
@@ -5092,12 +5108,12 @@ msgid "_Description:"
 msgstr "_Описание:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:623
 msgid "_End time:"
 msgstr "Коне_ц:"
 
 #: calendar/gui/dialogs/event-page.glade.h:22
-#: calendar/gui/e-meeting-time-sel.c:594
+#: calendar/gui/e-meeting-time-sel.c:604
 msgid "_Start time:"
 msgstr "Нача_ло:"
 
@@ -5111,7 +5127,7 @@ msgstr "Нача_ло:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:648 calendar/gui/e-itip-control.c:1111
 #: composer/e-msg-composer.c:2097 filter/filter-rule.c:877
-#: mail/em-account-prefs.c:427 mail/em-folder-view.c:933
+#: mail/em-account-prefs.c:427 mail/em-folder-view.c:936
 #: mail/mail-account-gui.c:1577 mail/mail-account-gui.c:2022
 #: mail/mail-config.glade.h:103
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
@@ -5201,7 +5217,7 @@ msgid "C_hange Organizer"
 msgstr "И_зменить организатора"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:415
+#: calendar/gui/e-meeting-time-sel.c:425
 msgid "Con_tacts..."
 msgstr "Кон_такты..."
 
@@ -5634,7 +5650,7 @@ msgstr "%s на %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s для неизвестного типа переключателя"
 
-#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2385
+#: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2389
 #, c-format
 msgid "Click to open %s"
 msgstr "Нажмите, чтобы открыть %s"
@@ -5695,7 +5711,7 @@ msgid "Free"
 msgstr "Свободен"
 
 #: calendar/gui/e-cal-model-calendar.c:184 calendar/gui/e-calendar-table.c:450
-#: calendar/gui/e-meeting-time-sel.c:399
+#: calendar/gui/e-meeting-time-sel.c:409
 msgid "Busy"
 msgstr "Занят"
 
@@ -5748,7 +5764,7 @@ msgstr "Нет"
 #: camel/providers/imap4/camel-imap4-engine.c:1432
 #: camel/providers/imap4/camel-imap4-engine.c:1464
 #: camel/providers/imap4/camel-imap4-engine.c:1506
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1204
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
@@ -5819,7 +5835,7 @@ msgstr "Обновление объектов"
 
 #: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1084
 #: calendar/gui/e-calendar-view.c:1431 calendar/gui/e-calendar-view.c:1512
-#: mail/em-folder-view.c:899 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:902 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Открыть"
 
@@ -5829,7 +5845,7 @@ msgstr "Открыть _веб-страницу"
 
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1090
 #: calendar/gui/e-calendar-view.c:1432 calendar/gui/e-calendar-view.c:1518
-#: mail/em-folder-view.c:901 mail/em-popup.c:691 mail/em-popup.c:807
+#: mail/em-folder-view.c:904 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "Со_хранить как..."
@@ -5886,7 +5902,7 @@ msgstr "По_метить выбранную задачу как выполне�
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:927
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -6380,85 +6396,85 @@ msgstr "Похоже что сообщение не было правильно 
 msgid "The message contains only unsupported requests."
 msgstr "Это сообщение содержит только неподдерживаемые запросы"
 
-#: calendar/gui/e-itip-control.c:1648
+#: calendar/gui/e-itip-control.c:1650
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Вложение не содержит правильного сообщения календаря."
 
-#: calendar/gui/e-itip-control.c:1680
+#: calendar/gui/e-itip-control.c:1682
 msgid "The attachment has no viewable calendar items"
 msgstr "Вложение не содержит пригодных для просмотра элементов календаря."
 
-#: calendar/gui/e-itip-control.c:1914
+#: calendar/gui/e-itip-control.c:1916
 msgid "Update complete\n"
 msgstr "Обновление закончено\n"
 
-#: calendar/gui/e-itip-control.c:1942
+#: calendar/gui/e-itip-control.c:1944
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Объект некорректен и не может быть обновлен\n"
 
-#: calendar/gui/e-itip-control.c:1952
+#: calendar/gui/e-itip-control.c:1954
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "Этот ответ пришел не от текущего участника.  Добавить его, как участника?"
 
-#: calendar/gui/e-itip-control.c:1964
+#: calendar/gui/e-itip-control.c:1966
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
-#: calendar/gui/e-itip-control.c:1981
+#: calendar/gui/e-itip-control.c:1983
 msgid "Attendee status updated\n"
 msgstr "Статус участника обновлён!\n"
 
-#: calendar/gui/e-itip-control.c:1984
+#: calendar/gui/e-itip-control.c:1986
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Статус участника не может быть обновлён, потому что элемент больше не "
 "существует"
 
-#: calendar/gui/e-itip-control.c:2011
+#: calendar/gui/e-itip-control.c:2013
 msgid "Removal Complete"
 msgstr "Удаление завершено"
 
-#: calendar/gui/e-itip-control.c:2034 calendar/gui/e-itip-control.c:2082
+#: calendar/gui/e-itip-control.c:2036 calendar/gui/e-itip-control.c:2084
 msgid "Item sent!\n"
 msgstr "Элемент отправлен!\n"
 
-#: calendar/gui/e-itip-control.c:2036 calendar/gui/e-itip-control.c:2086
+#: calendar/gui/e-itip-control.c:2038 calendar/gui/e-itip-control.c:2088
 msgid "The item could not be sent!\n"
 msgstr "Элемент не может быть послан!\n"
 
-#: calendar/gui/e-itip-control.c:2166
+#: calendar/gui/e-itip-control.c:2168
 msgid "Choose an action:"
 msgstr "Выберите действие:"
 
-#: calendar/gui/e-itip-control.c:2237
+#: calendar/gui/e-itip-control.c:2239
 msgid "Update"
 msgstr "Обновить"
 
-#: calendar/gui/e-itip-control.c:2265
+#: calendar/gui/e-itip-control.c:2267
 msgid "Accept"
 msgstr "Принять"
 
-#: calendar/gui/e-itip-control.c:2266
+#: calendar/gui/e-itip-control.c:2268
 msgid "Tentatively accept"
 msgstr "Принять экспериментально"
 
-#: calendar/gui/e-itip-control.c:2267
+#: calendar/gui/e-itip-control.c:2269
 msgid "Decline"
 msgstr "Отклонить"
 
-#: calendar/gui/e-itip-control.c:2296
+#: calendar/gui/e-itip-control.c:2298
 msgid "Send Free/Busy Information"
 msgstr "Отправить информацию о занятости"
 
-#: calendar/gui/e-itip-control.c:2324
+#: calendar/gui/e-itip-control.c:2326
 msgid "Update respondent status"
 msgstr "Обновить состояние"
 
-#: calendar/gui/e-itip-control.c:2352
+#: calendar/gui/e-itip-control.c:2354
 msgid "Send Latest Information"
 msgstr "Отправить последнюю информацию"
 
-#: calendar/gui/e-itip-control.c:2380 calendar/gui/itip-utils.c:442
+#: calendar/gui/e-itip-control.c:2382 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -6559,7 +6575,7 @@ msgid "Needs Action"
 msgstr "Необходимое действие"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
-#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:408
 msgid "Tentative"
 msgstr "Экспериментальный"
 
@@ -6575,7 +6591,7 @@ msgstr "В процессе"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:452
-#: calendar/gui/e-meeting-time-sel.c:2069
+#: calendar/gui/e-meeting-time-sel.c:2079
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d %B %Y"
 
@@ -6586,7 +6602,7 @@ msgstr "%A, %d %B %Y"
 #. strptime format of a weekday and a date.
 #. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
-#: calendar/gui/e-meeting-time-sel.c:2102 e-util/e-time-utils.c:203
+#: calendar/gui/e-meeting-time-sel.c:2112 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
 msgstr "%a, %d.%m.%Y"
@@ -6602,55 +6618,55 @@ msgstr "%a, %d.%m.%Y"
 msgid "%m/%d/%Y"
 msgstr "%d.%m.%Y"
 
-#: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:410 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "Вне офиса"
 
-#: calendar/gui/e-meeting-time-sel.c:401
+#: calendar/gui/e-meeting-time-sel.c:411
 msgid "No Information"
 msgstr "Нет информации"
 
-#: calendar/gui/e-meeting-time-sel.c:432
+#: calendar/gui/e-meeting-time-sel.c:442
 msgid "O_ptions"
 msgstr "_Параметры"
 
-#: calendar/gui/e-meeting-time-sel.c:449
+#: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
 msgstr "Показывать _только рабочие часы"
 
-#: calendar/gui/e-meeting-time-sel.c:459
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _zoomed out"
 msgstr "Показывать уменьшенный"
 
-#: calendar/gui/e-meeting-time-sel.c:474
+#: calendar/gui/e-meeting-time-sel.c:484
 msgid "_Update free/busy"
 msgstr "_Обновить информацию о занятости"
 
-#: calendar/gui/e-meeting-time-sel.c:489
+#: calendar/gui/e-meeting-time-sel.c:499
 msgid "_<<"
 msgstr "<_<"
 
-#: calendar/gui/e-meeting-time-sel.c:507
+#: calendar/gui/e-meeting-time-sel.c:517
 msgid "_Autopick"
 msgstr "Автовыбор"
 
-#: calendar/gui/e-meeting-time-sel.c:522
+#: calendar/gui/e-meeting-time-sel.c:532
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:539
+#: calendar/gui/e-meeting-time-sel.c:549
 msgid "_All people and resources"
 msgstr "_Все люди и ресурсы"
 
-#: calendar/gui/e-meeting-time-sel.c:548
+#: calendar/gui/e-meeting-time-sel.c:558
 msgid "All _people and one resource"
 msgstr "Все _люди и один ресурс"
 
-#: calendar/gui/e-meeting-time-sel.c:557
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid "_Required people"
 msgstr "_Требуемые люди"
 
-#: calendar/gui/e-meeting-time-sel.c:566
+#: calendar/gui/e-meeting-time-sel.c:576
 msgid "Required people and _one resource"
 msgstr "Требуемые люди и _один ресурс"
 
@@ -6822,7 +6838,7 @@ msgstr "Информация iCalendar"
 msgid "You must be an attendee of the event."
 msgstr "Вы должны быть участником события."
 
-#: calendar/gui/migration.c:150
+#: calendar/gui/migration.c:151
 msgid ""
 "The location and hierarchy of the Evolution task folders has changed since "
 "Evolution 1.x.\n"
@@ -6834,7 +6850,7 @@ msgstr ""
 "\n"
 "Производится преобразование папок для новой версии..."
 
-#: calendar/gui/migration.c:154
+#: calendar/gui/migration.c:155
 msgid ""
 "The location and hierarchy of the Evolution calendar folders has changed "
 "since Evolution 1.x.\n"
@@ -6846,28 +6862,28 @@ msgstr ""
 "\n"
 "Производится преобразование папок для новой версии..."
 
-#: calendar/gui/migration.c:380
+#: calendar/gui/migration.c:381
 msgid "Birthdays & Anniversaries"
 msgstr "Дни рождения и годовщины"
 
 #. Create the Webcal source group
-#: calendar/gui/migration.c:466 calendar/gui/migration.c:548
+#: calendar/gui/migration.c:479 calendar/gui/migration.c:572
 msgid "On The Web"
 msgstr "В Сети"
 
 #. FIXME: set proper domain/code
-#: calendar/gui/migration.c:712 calendar/gui/migration.c:864
+#: calendar/gui/migration.c:736 calendar/gui/migration.c:888
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "Не удается преобразовать старые параметры из evolution/config.xmldb"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:741
+#: calendar/gui/migration.c:765
 #, c-format
 msgid "Unable to migrate calendar `%s'"
 msgstr "Не удается преобразовать календарь '%s'"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:893
+#: calendar/gui/migration.c:917
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "Не удается открыть задачи в '%s'"
@@ -8887,7 +8903,7 @@ msgstr "Синхронизация папок"
 msgid "Error parsing filter: %s: %s"
 msgstr "Не удается разобрать фильтр: %s: %s"
 
-#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1426
+#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1429
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Ошибка выполнения фильтра: %s: %s"
@@ -9059,9 +9075,8 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1244
-#: camel/providers/nntp/camel-nntp-store.c:1342 mail/mail-ops.c:705
-#: mail/mail-send-recv.c:611
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1261
+#: mail/mail-ops.c:716 mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Отменено."
 
@@ -9188,56 +9203,56 @@ msgstr "Не удается получить блокировку использ
 msgid "Failed to get lock using flock(2): %s"
 msgstr "Не удается получить блокировку используя flock(2): %s"
 
-#: camel/camel-movemail.c:107
+#: camel/camel-movemail.c:105
 #, c-format
 msgid "Could not check mail file %s: %s"
 msgstr "Не удается проверить почтовый файл %s: %s"
 
-#: camel/camel-movemail.c:120
+#: camel/camel-movemail.c:118
 #, c-format
 msgid "Could not open mail file %s: %s"
 msgstr "Не удается открыть почтовый файл %s: %s"
 
-#: camel/camel-movemail.c:128
+#: camel/camel-movemail.c:126
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
 msgstr "Не удается открыть временный почтовый файл %s: %s"
 
-#: camel/camel-movemail.c:157
+#: camel/camel-movemail.c:155
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
 msgstr "Сбой при сохранении почты во временном файле %s: %s"
 
-#: camel/camel-movemail.c:187
+#: camel/camel-movemail.c:185
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "Не удается создать канал: %s"
 
-#: camel/camel-movemail.c:199
+#: camel/camel-movemail.c:197
 #, c-format
 msgid "Could not fork: %s"
 msgstr "Не удается запустить: %s"
 
-#: camel/camel-movemail.c:237
+#: camel/camel-movemail.c:235
 #, c-format
 msgid "Movemail program failed: %s"
 msgstr "Сбой программы разбора почты: %s"
 
-#: camel/camel-movemail.c:238
+#: camel/camel-movemail.c:236
 msgid "(Unknown error)"
 msgstr "(Неизвестная ошибка)"
 
-#: camel/camel-movemail.c:261
+#: camel/camel-movemail.c:259
 #, c-format
 msgid "Error reading mail file: %s"
 msgstr "Ошибка при чтении почтового файла: %s"
 
-#: camel/camel-movemail.c:272
+#: camel/camel-movemail.c:270
 #, c-format
 msgid "Error writing mail temp file: %s"
 msgstr "Ошибка сохранения временного почтового файла: %s"
 
-#: camel/camel-movemail.c:465 camel/camel-movemail.c:532
+#: camel/camel-movemail.c:463 camel/camel-movemail.c:530
 #, c-format
 msgid "Error copying mail temp file: %s"
 msgstr "Ошибка копирования временного почтового файла: %s"
@@ -9440,7 +9455,7 @@ msgstr "Срок действия упомянутых удостоверени�
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:225
-#: camel/providers/imap/camel-imap-store.c:1245
+#: camel/providers/imap/camel-imap-store.c:1256
 msgid "Bad authentication response from server."
 msgstr "Неверный ответ от сервера при идентификации."
 
@@ -9520,26 +9535,26 @@ msgstr "POP до SMTP, используя не-POP источник"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Сбой компиляции регулярного выражения: %s: %s"
 
-#: camel/camel-service.c:273
+#: camel/camel-service.c:274
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL \"%s\" нуждается в компоненте имени пользователя"
 
-#: camel/camel-service.c:277
+#: camel/camel-service.c:278
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL \\\"%s\\\" нуждается в компоненте хоста"
 
-#: camel/camel-service.c:281
+#: camel/camel-service.c:282
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL \\\"%s\\\" нуждается в компоненте пути"
 
-#: camel/camel-service.c:742
+#: camel/camel-service.c:743
 msgid "cannot create thread"
 msgstr "не удается создать поток"
 
-#: camel/camel-service.c:891
+#: camel/camel-service.c:890
 #, c-format
 msgid "Resolving: %s"
 msgstr "Поиск узла: %s"
@@ -9548,13 +9563,23 @@ msgstr "Поиск узла: %s"
 msgid "Host lookup failed"
 msgstr "Сбой поиска узла"
 
-#: camel/camel-service.c:1019
+#: camel/camel-service.c:914
+#, c-format
+msgid "Host lookup failed: %s: %s"
+msgstr "Сбой поиска узла: %s: %s"
+
+#: camel/camel-service.c:1021
 msgid "Resolving address"
 msgstr "Поиск адреса"
 
-#: camel/camel-service.c:1039
+#: camel/camel-service.c:1041
 msgid "Name lookup failed"
 msgstr "Сбой определения имени узла"
+
+#: camel/camel-service.c:1044
+#, c-format
+msgid "Name lookup failed: %s"
+msgstr "Сбой определения имени узла: %s"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -9794,12 +9819,12 @@ msgstr "Не удается создать папку: недопустимая 
 msgid "Cannot create folder: %s: folder exists"
 msgstr "Не удается создать папку: %s: папка существует"
 
-#: camel/camel-store.c:389 camel/camel-vee-store.c:351
+#: camel/camel-store.c:389 camel/camel-vee-store.c:366
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Не удается удалить папку: %s: недопустимая операция"
 
-#: camel/camel-store.c:439 camel/camel-vee-store.c:388
+#: camel/camel-store.c:439 camel/camel-vee-store.c:403
 #: camel/providers/local/camel-maildir-store.c:232
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
@@ -10026,26 +10051,26 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr "Не удается разобрать URL \"%s\""
 
-#: camel/camel-vee-folder.c:633
+#: camel/camel-vee-folder.c:603
 #, c-format
 msgid "Error storing `%s': %s"
 msgstr "Ошибка при хранении \"%s\": %s"
 
-#: camel/camel-vee-folder.c:675
+#: camel/camel-vee-folder.c:645
 #, c-format
 msgid "No such message %s in %s"
 msgstr "Нет сообщения %s в %s"
 
-#: camel/camel-vee-folder.c:841 camel/camel-vee-folder.c:847
+#: camel/camel-vee-folder.c:812 camel/camel-vee-folder.c:818
 msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr "Не удается скопировать или переместить сообщения в виртуальную папку"
 
-#: camel/camel-vee-store.c:374
+#: camel/camel-vee-store.c:389
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
 msgstr "Не удается удалить папку: %s: нет такой папки"
 
-#: camel/camel-vee-store.c:396
+#: camel/camel-vee-store.c:411
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "Не удается переименовать папку: %s: нет такой папки"
@@ -10129,31 +10154,22 @@ msgstr ""
 "Подключение к серверу IMAP будет производиться с использованием "
 "незашифрованного пароля."
 
-#: camel/providers/groupwise/camel-gw-listener.c:362
+#: camel/providers/groupwise/camel-gw-listener.c:402
 msgid "Checklist"
 msgstr "Перечень"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3229
+#: camel/providers/imap/camel-imap-store.c:3240
 msgid "Operation cancelled"
 msgstr "Операция отменена"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3232
+#: camel/providers/imap/camel-imap-store.c:3243
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Сервер неожиданно отключился: %s"
-
-#: camel/providers/imap/camel-imap-command.c:303
-#: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:283
-#: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:557
-#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
-msgid "Unknown error"
-msgstr "Неизвестная ошибка"
 
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:320
@@ -10224,7 +10240,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:1975
 #: camel/providers/local/camel-maildir-folder.c:244
-#: camel/providers/local/camel-mbox-folder.c:418
+#: camel/providers/local/camel-mbox-folder.c:415
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
 msgstr "Нет такого сообщения"
@@ -10338,78 +10354,80 @@ msgstr "Сервер IMAP %s"
 msgid "IMAP service for %s on %s"
 msgstr "Сервис IMAP для %s на %s"
 
-#: camel/providers/imap/camel-imap-store.c:552
-#: camel/providers/imap/camel-imap-store.c:576
-#: camel/providers/imapp/camel-imapp-store.c:239
-#: camel/providers/nntp/camel-nntp-store.c:219
-#: camel/providers/pop3/camel-pop3-store.c:177
-#: camel/providers/smtp/camel-smtp-transport.c:271
-#: camel/providers/smtp/camel-smtp-transport.c:292
+#: camel/providers/imap/camel-imap-store.c:559
+#: camel/providers/imap/camel-imap-store.c:587
+#: camel/providers/imapp/camel-imapp-store.c:249
+#: camel/providers/nntp/camel-nntp-store.c:230
+#: camel/providers/pop3/camel-pop3-store.c:184
+#: camel/providers/smtp/camel-smtp-transport.c:278
+#: camel/providers/smtp/camel-smtp-transport.c:304
 #, c-format
 msgid "Could not connect to %s (port %s): %s"
 msgstr "Не удается подключиться к %s (порт %s): %s"
 
-#: camel/providers/imap/camel-imap-store.c:554
-#: camel/providers/imap4/camel-imap4-store.c:216
-#: camel/providers/pop3/camel-pop3-store.c:179
-#: camel/providers/smtp/camel-smtp-transport.c:273
+#: camel/providers/imap/camel-imap-store.c:561
+#: camel/providers/imap4/camel-imap4-store.c:210
+#: camel/providers/pop3/camel-pop3-store.c:186
+#: camel/providers/smtp/camel-smtp-transport.c:280
 msgid "SSL unavailable"
 msgstr "SSL недоступен"
 
-#: camel/providers/imap/camel-imap-store.c:573
-#: camel/providers/imap/camel-imap-store.c:850
-#: camel/providers/imap4/camel-imap4-store.c:227
-#: camel/providers/imapp/camel-imapp-store.c:236
-#: camel/providers/nntp/camel-nntp-store.c:216
-#: camel/providers/nntp/camel-nntp-store.c:234
-#: camel/providers/pop3/camel-pop3-store.c:199
+#: camel/providers/imap/camel-imap-store.c:584
+#: camel/providers/imap/camel-imap-store.c:861
+#: camel/providers/imap4/camel-imap4-store.c:221
+#: camel/providers/imapp/camel-imapp-store.c:246
+#: camel/providers/nntp/camel-nntp-store.c:227
+#: camel/providers/nntp/camel-nntp-store.c:245
+#: camel/providers/pop3/camel-pop3-store.c:210
 msgid "Connection cancelled"
 msgstr "Соединение отменено"
 
-#: camel/providers/imap/camel-imap-store.c:684
-#: camel/providers/imap/camel-imap-store.c:715
-#: camel/providers/imap4/camel-imap4-store.c:282
+#: camel/providers/imap/camel-imap-store.c:695
+#: camel/providers/imap/camel-imap-store.c:726
+#: camel/providers/imap4/camel-imap4-store.c:246
+#: camel/providers/imap4/camel-imap4-store.c:259
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Не удается подключиться к серверу IMAP %s в защищенном режиме:%s"
 
-#: camel/providers/imap/camel-imap-store.c:685
-#: camel/providers/pop3/camel-pop3-store.c:240
+#: camel/providers/imap/camel-imap-store.c:696
+#: camel/providers/pop3/camel-pop3-store.c:251
 msgid "SSL/TLS extension not supported."
 msgstr "Расширение SSL/TLS не поддерживается"
 
-#: camel/providers/imap/camel-imap-store.c:716
-#: camel/providers/pop3/camel-pop3-store.c:281
+#: camel/providers/imap/camel-imap-store.c:727
+#: camel/providers/imap4/camel-imap4-store.c:247
+#: camel/providers/pop3/camel-pop3-store.c:292
 msgid "SSL negotiations failed"
 msgstr "Сбой согласований SSL"
 
-#: camel/providers/imap/camel-imap-store.c:853
+#: camel/providers/imap/camel-imap-store.c:864
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Не удается подключиться командой \"%s\": %s"
 
-#: camel/providers/imap/camel-imap-store.c:1277
+#: camel/providers/imap/camel-imap-store.c:1288
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "Сервер IMAP %s не поддерживает затребованный тип аутентификации %s"
 
-#: camel/providers/imap/camel-imap-store.c:1287
-#: camel/providers/smtp/camel-smtp-transport.c:493
+#: camel/providers/imap/camel-imap-store.c:1298
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Аутентификация %s не поддерживается"
 
-#: camel/providers/imap/camel-imap-store.c:1310
-#: camel/providers/imapp/camel-imapp-store.c:352
+#: camel/providers/imap/camel-imap-store.c:1321
+#: camel/providers/imapp/camel-imapp-store.c:362
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sВведите пароль IMAP для %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1324
+#: camel/providers/imap/camel-imap-store.c:1335
 msgid "You didn't enter a password."
 msgstr "Вы не ввели пароль."
 
-#: camel/providers/imap/camel-imap-store.c:1353
+#: camel/providers/imap/camel-imap-store.c:1364
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10420,33 +10438,33 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1872
-#: camel/providers/imap/camel-imap-store.c:2062
+#: camel/providers/imap/camel-imap-store.c:1883
+#: camel/providers/imap/camel-imap-store.c:2073
 #, c-format
 msgid "No such folder %s"
 msgstr "Нет такой папки %s"
 
-#: camel/providers/imap/camel-imap-store.c:1890
-#: camel/providers/imap/camel-imap-store.c:2268
-#: camel/providers/imap4/camel-imap4-store.c:764
+#: camel/providers/imap/camel-imap-store.c:1901
+#: camel/providers/imap/camel-imap-store.c:2279
+#: camel/providers/imap4/camel-imap4-store.c:745
 #, c-format
 msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Имя папки \"%s\" некорректно, так как содержит символ \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:1948
-#: camel/providers/imap/camel-imap-store.c:2329
+#: camel/providers/imap/camel-imap-store.c:1959
+#: camel/providers/imap/camel-imap-store.c:2340
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Эта папка не может содержать подпапки"
 
-#: camel/providers/imap/camel-imap-store.c:2003
+#: camel/providers/imap/camel-imap-store.c:2014
 #: camel/providers/local/camel-maildir-store.c:139
-#: camel/providers/local/camel-mbox-store.c:212
+#: camel/providers/local/camel-mbox-store.c:209
 #: camel/providers/local/camel-mh-store.c:236
 #, c-format
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Не удается создать папку `%s': папка существует."
 
-#: camel/providers/imap/camel-imap-store.c:2279
+#: camel/providers/imap/camel-imap-store.c:2290
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Неизвестная родительская папка: %s"
@@ -10561,106 +10579,97 @@ msgstr ""
 "Подключение к серверу IMAP будет производиться с использованием "
 "незашифрованного пароля."
 
-#: camel/providers/imap4/camel-imap4-store.c:214
-#: camel/providers/imap4/camel-imap4-store.c:230
+#: camel/providers/imap4/camel-imap4-store.c:209
+#: camel/providers/imap4/camel-imap4-store.c:224
 #, c-format
-msgid "Could not connect to %s (port %d): %s"
-msgstr "Не удается подключиться к %s (порт %d): %s"
+msgid "Could not connect to %s: %s"
+msgstr "Не удается подключиться к %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:257
-#, c-format
-msgid ""
-"Failed to connect to IMAP server %s in secure mode: Server does not support "
-"STARTTLS"
-msgstr ""
-"Не удается подключиться к серверу IMAP %s в защищенном режиме: сервер не "
-"поддерживает STARTTLS"
-
-#: camel/providers/imap4/camel-imap4-store.c:363
+#: camel/providers/imap4/camel-imap4-store.c:344
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr "Не удается авторизоваться на сервере IMAP %s используя механизм %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:408
+#: camel/providers/imap4/camel-imap4-store.c:389
 #, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%sВведите пароль SMTP для %s на узле %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:478
+#: camel/providers/imap4/camel-imap4-store.c:459
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr "Не удается пройти проверку подлинности на сервере IMAP %s используя %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:701
+#: camel/providers/imap4/camel-imap4-store.c:682
 #, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 msgstr "Не удается получить папку `%s' на сервере IMAP %s: неизвестная ошибка"
 
-#: camel/providers/imap4/camel-imap4-store.c:815
+#: camel/providers/imap4/camel-imap4-store.c:796
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr "Не удается создать папку `%s': неверное имя почтового ящика"
 
-#: camel/providers/imap4/camel-imap4-store.c:821
+#: camel/providers/imap4/camel-imap4-store.c:802
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
 msgstr "Не удается создать папку `%s': неверная команда"
 
-#: camel/providers/imap4/camel-imap4-store.c:852
+#: camel/providers/imap4/camel-imap4-store.c:833
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
 msgstr "Не удается удалить папку `%s': Специальная папка"
 
-#: camel/providers/imap4/camel-imap4-store.c:911
+#: camel/providers/imap4/camel-imap4-store.c:892
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr "Не удается удалить папку `%s': Неверное имя почтового ящика"
 
-#: camel/providers/imap4/camel-imap4-store.c:916
+#: camel/providers/imap4/camel-imap4-store.c:897
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
 msgstr "Не удается удалить папку: `%s': Неверная команда"
 
-#: camel/providers/imap4/camel-imap4-store.c:936
+#: camel/providers/imap4/camel-imap4-store.c:917
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr "Не удается переименовать папку `%s' в `%s': Специальная папка"
 
-#: camel/providers/imap4/camel-imap4-store.c:968
+#: camel/providers/imap4/camel-imap4-store.c:949
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 msgstr "Не удается переименовать папку `%s' в `%s': Неверное имя почтового ящика"
 
-#: camel/providers/imap4/camel-imap4-store.c:973
+#: camel/providers/imap4/camel-imap4-store.c:954
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "Не удается переименовать папку `%s' в `%s': Неверная команда"
 
-#: camel/providers/imap4/camel-imap4-store.c:1221
+#: camel/providers/imap4/camel-imap4-store.c:1202
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr "Не удается получить сведения %s для шаблона `%s' на сервере IMAP %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1204
 msgid "Bad command"
 msgstr "Неверная команда"
 
-#: camel/providers/imap4/camel-imap4-store.c:1299
+#: camel/providers/imap4/camel-imap4-store.c:1280
 #, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr "Не удается подписаться на папку `%s': Неверное имя почтового ящика"
 
-#: camel/providers/imap4/camel-imap4-store.c:1304
+#: camel/providers/imap4/camel-imap4-store.c:1285
 #, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "Не удается подписаться на папку `%s': Неверная команда"
 
-#: camel/providers/imap4/camel-imap4-store.c:1364
+#: camel/providers/imap4/camel-imap4-store.c:1345
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 msgstr "Не удается отписаться от папки `%s`: неверное имя почтового ящика"
 
-#: camel/providers/imap4/camel-imap4-store.c:1369
+#: camel/providers/imap4/camel-imap4-store.c:1350
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "Не удается отписаться от папки `%s': Неверная команда"
@@ -10701,7 +10710,7 @@ msgstr ""
 "\n"
 " !!! НЕ ИСПОЛЬЗУЙТЕ ЭТО ДЛЯ ОСНОВНОЙ ПОЧТЫ !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:336
+#: camel/providers/imapp/camel-imapp-store.c:346
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Не удается подключиться к серверу POP на %s"
@@ -10785,7 +10794,7 @@ msgstr ""
 
 #: camel/providers/local/camel-local-store.c:142
 #: camel/providers/local/camel-local-store.c:253
-#: camel/providers/local/camel-mbox-store.c:355
+#: camel/providers/local/camel-mbox-store.c:352
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -10823,19 +10832,19 @@ msgid "Could not rename '%s': %s"
 msgstr "Не удается переименовать \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:423
-#: camel/providers/local/camel-mbox-store.c:284
+#: camel/providers/local/camel-mbox-store.c:281
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "Не удается удалить файл краткой информации о папке \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:433
-#: camel/providers/local/camel-mbox-store.c:296
+#: camel/providers/local/camel-mbox-store.c:293
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Не удается удалить индексный файл папки \"%s\": %s"
 
 #: camel/providers/local/camel-local-store.c:456
-#: camel/providers/local/camel-mbox-store.c:320
+#: camel/providers/local/camel-mbox-store.c:317
 #, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "Не удается удалить мета-файл папки '%s': %s"
@@ -10854,6 +10863,7 @@ msgstr "Не удается добавить сообщение к кратко�
 #: camel/providers/local/camel-maildir-folder.c:74
 #: camel/providers/local/camel-maildir-store.c:232
 #: camel/providers/local/camel-maildir-store.c:248
+#: camel/providers/local/camel-spool-store.c:451
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
 #: mail/mail-component.c:134
 msgid "Inbox"
@@ -10871,10 +10881,10 @@ msgstr "Не удается добавить сообщение к папке п
 #: camel/providers/local/camel-maildir-folder.c:243
 #: camel/providers/local/camel-maildir-folder.c:257
 #: camel/providers/local/camel-maildir-folder.c:266
-#: camel/providers/local/camel-mbox-folder.c:417
-#: camel/providers/local/camel-mbox-folder.c:436
-#: camel/providers/local/camel-mbox-folder.c:467
-#: camel/providers/local/camel-mbox-folder.c:475
+#: camel/providers/local/camel-mbox-folder.c:414
+#: camel/providers/local/camel-mbox-folder.c:433
+#: camel/providers/local/camel-mbox-folder.c:464
+#: camel/providers/local/camel-mbox-folder.c:472
 #: camel/providers/local/camel-mh-folder.c:201
 #: camel/providers/local/camel-mh-folder.c:212
 #: camel/providers/local/camel-mh-folder.c:221
@@ -10891,22 +10901,22 @@ msgid "Invalid message contents"
 msgstr "Неверное содержание сообщения"
 
 #: camel/providers/local/camel-maildir-store.c:109
-#: camel/providers/local/camel-mbox-store.c:154
+#: camel/providers/local/camel-mbox-store.c:151
 #: camel/providers/local/camel-mh-store.c:204
 #, c-format
 msgid "Cannot get folder `%s': %s"
 msgstr "Не удается получить папку: `%s': %s"
 
 #: camel/providers/local/camel-maildir-store.c:113
-#: camel/providers/local/camel-mbox-store.c:162
+#: camel/providers/local/camel-mbox-store.c:159
 #: camel/providers/local/camel-mh-store.c:211
 #, c-format
 msgid "Cannot get folder `%s': folder does not exist."
 msgstr "Не удается получить папку `%s': папка не существует."
 
 #: camel/providers/local/camel-maildir-store.c:121
-#: camel/providers/local/camel-mbox-store.c:184
-#: camel/providers/local/camel-mbox-store.c:196
+#: camel/providers/local/camel-mbox-store.c:181
+#: camel/providers/local/camel-mbox-store.c:193
 #, c-format
 msgid "Cannot create folder `%s': %s"
 msgstr "Не удается создать папку: `%s': %s"
@@ -10928,8 +10938,8 @@ msgid "not a maildir directory"
 msgstr "не является почтовым каталогом"
 
 #: camel/providers/local/camel-maildir-store.c:355
-#: camel/providers/local/camel-spool-store.c:284
-#: camel/providers/local/camel-spool-store.c:314
+#: camel/providers/local/camel-spool-store.c:318
+#: camel/providers/local/camel-spool-store.c:332
 #, c-format
 msgid "Could not scan folder `%s': %s"
 msgstr "Не удается просканировать папку \"%s\": %s"
@@ -10956,48 +10966,48 @@ msgstr "Проверка новых сообщений"
 msgid "Storing folder"
 msgstr "Сохранение папки"
 
-#: camel/providers/local/camel-mbox-folder.c:225
-#: camel/providers/local/camel-spool-folder.c:148
+#: camel/providers/local/camel-mbox-folder.c:222
+#: camel/providers/local/camel-spool-folder.c:176
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
 msgstr "Не удается заблокировать папку %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:284
+#: camel/providers/local/camel-mbox-folder.c:281
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Не удается открыть почтовый ящик: %s: %s\n"
 
-#: camel/providers/local/camel-mbox-folder.c:344
+#: camel/providers/local/camel-mbox-folder.c:341
 msgid "Mail append cancelled"
 msgstr "Добавление почты отменено"
 
-#: camel/providers/local/camel-mbox-folder.c:347
+#: camel/providers/local/camel-mbox-folder.c:344
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
 msgstr "Не удается добавить сообщение к файлу mbox: %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:468
+#: camel/providers/local/camel-mbox-folder.c:465
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr "Видимо, папка невостановимо испорчена."
 
-#: camel/providers/local/camel-mbox-folder.c:476
+#: camel/providers/local/camel-mbox-folder.c:473
 #: camel/providers/local/camel-mh-folder.c:222
 msgid "Message construction failed."
 msgstr "Сбой при создании сообщения."
 
-#: camel/providers/local/camel-mbox-store.c:176
-#: camel/providers/local/camel-mbox-store.c:361
+#: camel/providers/local/camel-mbox-store.c:173
+#: camel/providers/local/camel-mbox-store.c:358
 msgid "Cannot create a folder by this name."
 msgstr "Не удается создать папку с таким именем."
 
-#: camel/providers/local/camel-mbox-store.c:206
+#: camel/providers/local/camel-mbox-store.c:203
 #, c-format
 msgid "Cannot get folder `%s': not a regular file."
 msgstr "Не удается получить папку `%s': не является обычным файлом."
 
-#: camel/providers/local/camel-mbox-store.c:236
-#: camel/providers/local/camel-mbox-store.c:247
-#: camel/providers/local/camel-mbox-store.c:270
+#: camel/providers/local/camel-mbox-store.c:233
+#: camel/providers/local/camel-mbox-store.c:244
+#: camel/providers/local/camel-mbox-store.c:267
 #, c-format
 msgid ""
 "Could not delete folder `%s':\n"
@@ -11006,40 +11016,40 @@ msgstr ""
 "Не удается удалить папку \"%s\":\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:255
+#: camel/providers/local/camel-mbox-store.c:252
 #, c-format
 msgid "`%s' is not a regular file."
 msgstr "\"%s\" не является обычным файлом."
 
-#: camel/providers/local/camel-mbox-store.c:262
+#: camel/providers/local/camel-mbox-store.c:259
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr "Папка \"%s\" не пуста. Не удалена."
 
-#: camel/providers/local/camel-mbox-store.c:374
+#: camel/providers/local/camel-mbox-store.c:371
 #, c-format
 msgid "Cannot create directory `%s': %s."
 msgstr "Не удается создать каталог '%s': %s."
 
-#: camel/providers/local/camel-mbox-store.c:388
+#: camel/providers/local/camel-mbox-store.c:385
 #, c-format
 msgid "Cannot create folder: %s: %s"
 msgstr "Не удается создать папку: %s: %s"
 
-#: camel/providers/local/camel-mbox-store.c:390
+#: camel/providers/local/camel-mbox-store.c:387
 msgid "Folder already exists"
 msgstr "Папка уже существует"
 
-#: camel/providers/local/camel-mbox-store.c:472
+#: camel/providers/local/camel-mbox-store.c:469
 msgid "The new folder name is illegal."
 msgstr "Имя новой папки недопустимо."
 
-#: camel/providers/local/camel-mbox-store.c:485
+#: camel/providers/local/camel-mbox-store.c:482
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
 msgstr "Не удается переименовать `%s': `%s': %s"
 
-#: camel/providers/local/camel-mbox-store.c:560
+#: camel/providers/local/camel-mbox-store.c:557
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
 msgstr "Не удается переименовать '%s' в %s: %s"
@@ -11230,7 +11240,7 @@ msgstr ""
 "Папка может быть испорчена, копия сохранена в \"%s\""
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1136
+#: camel/providers/nntp/camel-nntp-store.c:1153
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Введите пароль NNTP для %s@%s"
@@ -11330,29 +11340,28 @@ msgstr ""
 "Подключение к серверу NNTP будет производиться с использованием "
 "незашифрованного пароля."
 
-#: camel/providers/nntp/camel-nntp-store.c:118
-#: camel/providers/nntp/camel-nntp-store.c:1246
-#: camel/providers/nntp/camel-nntp-store.c:1344
+#: camel/providers/nntp/camel-nntp-store.c:120
+#: camel/providers/nntp/camel-nntp-store.c:1263
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "Сбой команды NNTP: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:237
+#: camel/providers/nntp/camel-nntp-store.c:248
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Не удается считать приветствие из %s: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:249
+#: camel/providers/nntp/camel-nntp-store.c:260
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "Сервер NNTP %s вернул код ошибки %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:413
+#: camel/providers/nntp/camel-nntp-store.c:429
 #, c-format
 msgid "USENET News via %s"
 msgstr "Новости USENET через %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:787
+#: camel/providers/nntp/camel-nntp-store.c:808
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11363,7 +11372,7 @@ msgstr ""
 "\n"
 " %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:882
+#: camel/providers/nntp/camel-nntp-store.c:902
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11374,7 +11383,7 @@ msgstr ""
 "Нет такой группы новостей. Выбранный элемент скорее всего является "
 "родительской папкой."
 
-#: camel/providers/nntp/camel-nntp-store.c:914
+#: camel/providers/nntp/camel-nntp-store.c:934
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11384,36 +11393,36 @@ msgstr ""
 "\n"
 "Группа новостей не существует!"
 
-#: camel/providers/nntp/camel-nntp-store.c:939
+#: camel/providers/nntp/camel-nntp-store.c:959
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "Вы не можете создать папку в группах новостей: вместо этого следует "
 "подписаться."
 
-#: camel/providers/nntp/camel-nntp-store.c:947
+#: camel/providers/nntp/camel-nntp-store.c:967
 msgid "You cannot rename a folder in a News store."
 msgstr "Вы не можете переименовать папку в группах новостей."
 
-#: camel/providers/nntp/camel-nntp-store.c:955
+#: camel/providers/nntp/camel-nntp-store.c:975
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Вы не можете удалить папку в группах новостей: вместо этого следует "
 "отписаться."
 
-#: camel/providers/nntp/camel-nntp-store.c:1128
-msgid "Authentication requested but not username provided"
+#: camel/providers/nntp/camel-nntp-store.c:1145
+msgid "Authentication requested but no username provided"
 msgstr "Требуется проверка подлинности, но имя пользователя не указано"
 
-#: camel/providers/nntp/camel-nntp-store.c:1158
+#: camel/providers/nntp/camel-nntp-store.c:1175
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Не удается пройти проверку подлинности на сервере: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1275
+#: camel/providers/nntp/camel-nntp-store.c:1319
 msgid "Not connected."
 msgstr "Не подключен."
 
-#: camel/providers/nntp/camel-nntp-store.c:1324
+#: camel/providers/nntp/camel-nntp-store.c:1370
 #, c-format
 msgid "No such folder: %s"
 msgstr "Нет такой папки: %s"
@@ -11513,30 +11522,30 @@ msgstr ""
 "пароля по протоколу APOP. Это может работать не для всех пользователей даже "
 "на серверах, якобы поддерживающих его."
 
-#: camel/providers/pop3/camel-pop3-store.c:202
+#: camel/providers/pop3/camel-pop3-store.c:213
 #, c-format
 msgid "Could not connect to POP server %s (port %s): %s"
 msgstr "Не удается подключиться к серверу POP %s (порт %s): %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:221
+#: camel/providers/pop3/camel-pop3-store.c:232
 #, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %s)"
 msgstr "Не удалось получить приглашение от сервера POP %s (порт %s)"
 
-#: camel/providers/pop3/camel-pop3-store.c:239
-#: camel/providers/pop3/camel-pop3-store.c:268
-#: camel/providers/pop3/camel-pop3-store.c:280
+#: camel/providers/pop3/camel-pop3-store.c:250
+#: camel/providers/pop3/camel-pop3-store.c:279
+#: camel/providers/pop3/camel-pop3-store.c:291
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Сбой при подключении к серверу POP %s в защищенном режиме: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:378
+#: camel/providers/pop3/camel-pop3-store.c:389
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "Не удается подключиться к серверу POP %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:419
-#: camel/providers/pop3/camel-pop3-store.c:533
+#: camel/providers/pop3/camel-pop3-store.c:430
+#: camel/providers/pop3/camel-pop3-store.c:544
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -11545,28 +11554,28 @@ msgstr ""
 "Не удается подключиться к серверу POP %s: Не поддерживается затребованный "
 "механизм идентификации."
 
-#: camel/providers/pop3/camel-pop3-store.c:435
+#: camel/providers/pop3/camel-pop3-store.c:446
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "SASL `%s' Ошибка регистрации на сервере POP %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:447
+#: camel/providers/pop3/camel-pop3-store.c:458
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "Не удается зарегистрироваться на сервере POP %s: Ошибка протокола SASL"
 
-#: camel/providers/pop3/camel-pop3-store.c:466
+#: camel/providers/pop3/camel-pop3-store.c:477
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Сбой идентификации на сервере POP %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:492
+#: camel/providers/pop3/camel-pop3-store.c:503
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%sВведите пароль POP для %s на узле %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:547
-#: camel/providers/pop3/camel-pop3-store.c:560
+#: camel/providers/pop3/camel-pop3-store.c:558
+#: camel/providers/pop3/camel-pop3-store.c:571
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11575,7 +11584,7 @@ msgstr ""
 "Не удается подключиться к серверу POP%s.\n"
 "Ошибка отправки пароля: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:554
+#: camel/providers/pop3/camel-pop3-store.c:565
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11584,7 +11593,7 @@ msgstr ""
 "Не удается подключиться к серверу POP %s.\n"
 "Ошибка отправки имени пользователя: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:659
+#: camel/providers/pop3/camel-pop3-store.c:670
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Нет такой папки \"%s\""
@@ -11752,40 +11761,40 @@ msgstr "Временный сбой аутентификации"
 msgid "Authentication required"
 msgstr "Требуется аутентификация"
 
-#: camel/providers/smtp/camel-smtp-transport.c:315
+#: camel/providers/smtp/camel-smtp-transport.c:327
 msgid "Welcome response error"
 msgstr "Ошибка при ответе на приветствие"
 
-#: camel/providers/smtp/camel-smtp-transport.c:350
-#: camel/providers/smtp/camel-smtp-transport.c:389
+#: camel/providers/smtp/camel-smtp-transport.c:362
+#: camel/providers/smtp/camel-smtp-transport.c:401
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Не удается подключиться к серверу SMTP %s в защищенном режиме: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:351
+#: camel/providers/smtp/camel-smtp-transport.c:363
 msgid "server does not appear to support SSL"
 msgstr "кажется, сервер не поддерживает SSL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:365
+#: camel/providers/smtp/camel-smtp-transport.c:377
 #, c-format
 msgid "STARTTLS command failed: %s"
 msgstr "Сбой команды STARTTLS: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:380
+#: camel/providers/smtp/camel-smtp-transport.c:392
 msgid "STARTTLS command failed"
 msgstr "Сбой команды STARTTLS"
 
-#: camel/providers/smtp/camel-smtp-transport.c:483
+#: camel/providers/smtp/camel-smtp-transport.c:495
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "Сервер SMTP %s не поддерживает затребованный тип идентификации %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:521
+#: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
 msgstr "%sВведите пароль SMTP для %s на узле %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:540
+#: camel/providers/smtp/camel-smtp-transport.c:552
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -11796,95 +11805,95 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:676
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP сервер %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:678
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Доставка SMTP почты через %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:696
 msgid "Cannot send message: service not connected."
 msgstr "Не удается отправить сообщение: сервис не подключен."
 
-#: camel/providers/smtp/camel-smtp-transport.c:690
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: sender address not valid."
 msgstr "Не удается отправить сообщение: неверный адрес отправителя."
 
-#: camel/providers/smtp/camel-smtp-transport.c:694
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Sending message"
 msgstr "Отправка сообщения"
 
-#: camel/providers/smtp/camel-smtp-transport.c:709
+#: camel/providers/smtp/camel-smtp-transport.c:721
 msgid "Cannot send message: no recipients defined."
 msgstr "Не удается отправить сообщение: не определены получатели."
 
-#: camel/providers/smtp/camel-smtp-transport.c:720
+#: camel/providers/smtp/camel-smtp-transport.c:732
 msgid "Cannot send message: one or more invalid recipients"
 msgstr ""
 "Не удается отправить сообщение: указан один или  несколько некорректных "
 "получателей"
 
-#: camel/providers/smtp/camel-smtp-transport.c:889
+#: camel/providers/smtp/camel-smtp-transport.c:901
 msgid "SMTP Greeting"
 msgstr "Приветствие SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:906
+#: camel/providers/smtp/camel-smtp-transport.c:918
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "Сбой команды HELO: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:923
+#: camel/providers/smtp/camel-smtp-transport.c:935
 msgid "HELO command failed"
 msgstr "Сбой команды HELO"
 
-#: camel/providers/smtp/camel-smtp-transport.c:989
+#: camel/providers/smtp/camel-smtp-transport.c:1001
 msgid "SMTP Authentication"
 msgstr "Аутентификация SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:995
+#: camel/providers/smtp/camel-smtp-transport.c:1007
 msgid "Error creating SASL authentication object."
 msgstr "Ошибка при создании объекта аутентификации SASL."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1012
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:1024
+#: camel/providers/smtp/camel-smtp-transport.c:1035
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "Сбой команды AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1029
+#: camel/providers/smtp/camel-smtp-transport.c:1041
 msgid "AUTH command failed"
 msgstr "Сбой команды AUTH"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1091
+#: camel/providers/smtp/camel-smtp-transport.c:1103
 msgid "Bad authentication response from server.\n"
 msgstr "Неверный ответ от сервера при аутентификации.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1116
+#: camel/providers/smtp/camel-smtp-transport.c:1128
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "Сбой команды MAIL FROM: %s: почта не отправлена"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1133
+#: camel/providers/smtp/camel-smtp-transport.c:1145
 msgid "MAIL FROM command failed"
 msgstr "Сбой команды MAIL FROM"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1157
+#: camel/providers/smtp/camel-smtp-transport.c:1169
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "сбой команды RCPT TO: %s: почта не отправлена"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1176
+#: camel/providers/smtp/camel-smtp-transport.c:1188
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> не удалось"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1215
-#: camel/providers/smtp/camel-smtp-transport.c:1273
-#: camel/providers/smtp/camel-smtp-transport.c:1292
+#: camel/providers/smtp/camel-smtp-transport.c:1227
+#: camel/providers/smtp/camel-smtp-transport.c:1285
+#: camel/providers/smtp/camel-smtp-transport.c:1304
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "Сбой команды DATA: %s: почта не отправлена"
@@ -11892,26 +11901,26 @@ msgstr "Сбой команды DATA: %s: почта не отправлена"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1232
-#: camel/providers/smtp/camel-smtp-transport.c:1308
+#: camel/providers/smtp/camel-smtp-transport.c:1244
+#: camel/providers/smtp/camel-smtp-transport.c:1320
 msgid "DATA command failed"
 msgstr "Сбой команды DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1331
+#: camel/providers/smtp/camel-smtp-transport.c:1343
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "Сбой команды RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1347
+#: camel/providers/smtp/camel-smtp-transport.c:1359
 msgid "RSET command failed"
 msgstr "Сбой команды RSET"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1370
+#: camel/providers/smtp/camel-smtp-transport.c:1382
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "Сбой команды QUIT: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1384
+#: camel/providers/smtp/camel-smtp-transport.c:1396
 msgid "QUIT command failed"
 msgstr "Сбой команды QUIT"
 
@@ -12247,8 +12256,8 @@ msgid "_Discard Changes"
 msgstr "_Отклонить изменения"
 
 #: composer/mail-composer-errors.xml.h:34
-msgid "_Save Message"
-msgstr "_Сохранить сообщение"
+msgid "Save Message"
+msgstr "Сохранить сообщение"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
@@ -12856,7 +12865,7 @@ msgstr "Evolution Mail composer configuration control"
 msgid "Evolution Mail preferences control"
 msgstr "Evolution Mail preferences control"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:422
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:511
 #: mail/mail-component.c:562
@@ -12909,14 +12918,14 @@ msgstr "Подпись(и)"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Пересланное сообщение --------"
 
-#: mail/em-composer-utils.c:1502
+#: mail/em-composer-utils.c:1505
 msgid "an unknown sender"
 msgstr "неизвестный отправитель"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1549
+#: mail/em-composer-utils.c:1552
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -13062,10 +13071,10 @@ msgstr "не отмечено"
 msgid "Junk Test"
 msgstr "Тест на спам"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:935
 #: widgets/misc/e-expander.c:189
 msgid "Label"
-msgstr "Надпись"
+msgstr "Метка"
 
 #: mail/em-filter-i18n.h:38
 msgid "Mailing list"
@@ -13214,7 +13223,7 @@ msgstr "<щёлкните здесь, чтобы выбрать папку>"
 msgid "Create New Folder"
 msgstr "Создание новой папки"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2440
 #: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "Укажите, где создать папку:"
@@ -13273,8 +13282,8 @@ msgstr "_Копировать в папку"
 msgid "_Move to Folder"
 msgstr "Переместить в папку"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
-#: mail/em-folder-view.c:803 mail/message-list.c:1703
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2226
+#: mail/em-folder-view.c:806 mail/message-list.c:1703
 msgid "_Move"
 msgstr "Пере_местить"
 
@@ -13282,211 +13291,211 @@ msgstr "Пере_местить"
 msgid "Cancel _Drag"
 msgstr "Отменить _перенос"
 
-#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1002
+#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1013
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Сканирование папок на \"%s\""
 
-#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
-#: mail/em-folder-view.c:803 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2213 mail/em-folder-tree.c:2226
+#: mail/em-folder-view.c:806 mail/em-folder-view.c:820
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "Выбрать папку"
 
-#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2213 mail/em-folder-view.c:820
 msgid "C_opy"
 msgstr "_Копировать"
 
-#: mail/em-folder-tree.c:2255
+#: mail/em-folder-tree.c:2253
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Создание папки `%s'"
 
-#: mail/em-folder-tree.c:2442 mail/mail-component.c:712
+#: mail/em-folder-tree.c:2440 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "Создать новую папку"
 
-#: mail/em-folder-tree.c:2633
+#: mail/em-folder-tree.c:2631
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Переименовать папку \"%s\" в:"
 
-#: mail/em-folder-tree.c:2635
+#: mail/em-folder-tree.c:2633
 msgid "Rename Folder"
 msgstr "Переименование папки"
 
-#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2708 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Вид"
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2709
 msgid "Open in _New Window"
 msgstr "Открыть в _новом окне"
 
-#: mail/em-folder-tree.c:2715
+#: mail/em-folder-tree.c:2713
 msgid "_Copy..."
 msgstr "_Копировать..."
 
-#: mail/em-folder-tree.c:2716
+#: mail/em-folder-tree.c:2714
 msgid "_Move..."
 msgstr "Пере_местить..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2720
+#: mail/em-folder-tree.c:2718
 msgid "_New Folder..."
 msgstr "_Создать папку..."
 
-#: mail/em-folder-tree.c:2723
+#: mail/em-folder-tree.c:2721
 msgid "_Rename..."
 msgstr "Пе_реименовать..."
 
-#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2724 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Свойства"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:900 mail/em-popup.c:690
+#: mail/em-folder-view.c:903 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "_Править как новое сообщение..."
 
-#: mail/em-folder-view.c:902
+#: mail/em-folder-view.c:905
 msgid "_Print"
 msgstr "_Печать"
 
-#: mail/em-folder-view.c:905 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:908 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "О_тветить отправителю"
 
-#: mail/em-folder-view.c:906 mail/em-popup.c:811
+#: mail/em-folder-view.c:909 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Ответить в с_писок"
 
-#: mail/em-folder-view.c:907 mail/em-popup.c:812
+#: mail/em-folder-view.c:910 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Ответить _всем"
 
-#: mail/em-folder-view.c:908 mail/em-popup.c:814
+#: mail/em-folder-view.c:911 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "Пе_реслать"
 
-#: mail/em-folder-view.c:911
+#: mail/em-folder-view.c:914
 msgid "Follo_w Up..."
 msgstr "К _исполнению..."
 
-#: mail/em-folder-view.c:912
+#: mail/em-folder-view.c:915
 msgid "Fla_g Completed"
 msgstr "_Флаг \"Завершена\""
 
-#: mail/em-folder-view.c:913
+#: mail/em-folder-view.c:916
 msgid "Cl_ear Flag"
 msgstr "О_чистить флаг"
 
-#: mail/em-folder-view.c:916 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:919 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "По_метить как прочитанные"
 
-#: mail/em-folder-view.c:917
+#: mail/em-folder-view.c:920
 msgid "Mark as _Unread"
 msgstr "Пометит_ь как непрочитанные"
 
-#: mail/em-folder-view.c:918
+#: mail/em-folder-view.c:921
 msgid "Mark as _Important"
 msgstr "Пометить как важное"
 
-#: mail/em-folder-view.c:919
+#: mail/em-folder-view.c:922
 msgid "_Mark as Unimportant"
 msgstr "Пометить как неважное"
 
-#: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:923 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Пометить как _спам"
 
-#: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:924 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Пометить как _не спам"
 
-#: mail/em-folder-view.c:925
+#: mail/em-folder-view.c:928
 msgid "U_ndelete"
 msgstr "В_осстановить"
 
-#: mail/em-folder-view.c:928
+#: mail/em-folder-view.c:931
 msgid "Mo_ve to Folder..."
 msgstr "Переместить в папку..."
 
-#: mail/em-folder-view.c:929 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:932 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Копировать в папку..."
 
-#: mail/em-folder-view.c:937
+#: mail/em-folder-view.c:940
 msgid "Add Sender to Address_book"
 msgstr "Добавить отправителя в _адресную книгу"
 
-#: mail/em-folder-view.c:940
+#: mail/em-folder-view.c:943
 msgid "Appl_y Filters"
 msgstr "Применить _фильтры"
 
-#: mail/em-folder-view.c:941
+#: mail/em-folder-view.c:944
 msgid "F_ilter Junk"
 msgstr "Ф_ильтровать спам"
 
-#: mail/em-folder-view.c:944
+#: mail/em-folder-view.c:947
 msgid "Crea_te Rule From Message"
 msgstr "Созда_ть правило из сообщения"
 
-#: mail/em-folder-view.c:945
+#: mail/em-folder-view.c:948
 msgid "VFolder on _Subject"
 msgstr "Виртуальная папка по теме"
 
-#: mail/em-folder-view.c:946
+#: mail/em-folder-view.c:949
 msgid "VFolder on Se_nder"
 msgstr "Виртуальная папка по отправителю"
 
-#: mail/em-folder-view.c:947
+#: mail/em-folder-view.c:950
 msgid "VFolder on _Recipients"
 msgstr "Виртуальная папка по получателю"
 
-#: mail/em-folder-view.c:948
+#: mail/em-folder-view.c:951
 msgid "VFolder on Mailing _List"
 msgstr "Виртуальная папка по списку рассылки"
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:955
 msgid "Filter on Sub_ject"
 msgstr "Фильтр по теме"
 
-#: mail/em-folder-view.c:953
+#: mail/em-folder-view.c:956
 msgid "Filter on Sen_der"
 msgstr "Фильтр по отправителю"
 
-#: mail/em-folder-view.c:954
+#: mail/em-folder-view.c:957
 msgid "Filter on Re_cipients"
 msgstr "Фильтр по получателям"
 
-#: mail/em-folder-view.c:955
+#: mail/em-folder-view.c:958
 msgid "Filter on _Mailing List"
 msgstr "Фильтр по списку рассылки"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1711 mail/em-folder-view.c:1751
+#: mail/em-folder-view.c:1714 mail/em-folder-view.c:1754
 #: mail/mail-config.glade.h:68
 msgid "Default"
 msgstr "По умолчанию"
 
-#: mail/em-folder-view.c:1848
+#: mail/em-folder-view.c:1851
 msgid "Print Message"
 msgstr "Напечатать сообщение"
 
-#: mail/em-folder-view.c:2115
+#: mail/em-folder-view.c:2118
 msgid "_Copy Link Location"
 msgstr "_Копировать ссылку"
 
-#: mail/em-folder-view.c:2380
+#: mail/em-folder-view.c:2384
 #, c-format
 msgid "Click to mail %s"
 msgstr "Нажмите, чтобы написать письмо %s"
@@ -13864,24 +13873,24 @@ msgstr "_Добавить в адресную книгу"
 msgid "Open in %s..."
 msgstr "Открыть в программе %s..."
 
-#: mail/em-subscribe-editor.c:606
+#: mail/em-subscribe-editor.c:612
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Этот сервер не поддерживает подписку, или подписка запрещена."
 
-#: mail/em-subscribe-editor.c:635
+#: mail/em-subscribe-editor.c:641
 msgid "Subscribed"
 msgstr "Подписан"
 
-#: mail/em-subscribe-editor.c:639
+#: mail/em-subscribe-editor.c:645
 msgid "Folder"
 msgstr "Папка"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: mail/em-subscribe-editor.c:852
+#: mail/em-subscribe-editor.c:860
 msgid "Please select a server."
 msgstr "Пожалуйста, выберите сервер."
 
-#: mail/em-subscribe-editor.c:873
+#: mail/em-subscribe-editor.c:881
 msgid "No server has been selected"
 msgstr "Не был выбран сервер"
 
@@ -14230,10 +14239,6 @@ msgstr "Показывать удаленные сообщения (как пе�
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
 msgstr "Показывать удаленные сообщения в списке сообщений"
-
-#: mail/evolution-mail.schemas.in.in.h:71
-msgid "Show the \"Preview\" pane"
-msgstr "Показывать панель предварительного просмотра"
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
@@ -14622,9 +14627,9 @@ msgstr "_Имя пользователя:"
 msgid "_Path:"
 msgstr "Путь:"
 
-#: mail/mail-account-gui.c:1782
-msgid "Select individual file"
-msgstr "Выберите отдельный файл"
+#: mail/mail-account-gui.c:1782 shell/e-shell-importer.c:643
+msgid "Select a file"
+msgstr "Выбрать файл"
 
 #: mail/mail-autofilter.c:74
 #, c-format
@@ -16115,12 +16120,12 @@ msgstr "Фильтрация папки"
 msgid "Fetching Mail"
 msgstr "Получение эл.почты"
 
-#: mail/mail-ops.c:542
+#: mail/mail-ops.c:553
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Ошибка применения фильтров исходящей почты: %s"
 
-#: mail/mail-ops.c:567
+#: mail/mail-ops.c:578
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -16129,96 +16134,96 @@ msgstr ""
 "Ошибка добавления в %s: %s\n"
 "Производится добавление в локальную папку \"Отправленные\"."
 
-#: mail/mail-ops.c:576
+#: mail/mail-ops.c:587
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Ошибка сохранения в локальной папке \"Отправленные\": %s"
 
-#: mail/mail-ops.c:672
+#: mail/mail-ops.c:683
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Отправка сообщения %d из %d"
 
-#: mail/mail-ops.c:703
+#: mail/mail-ops.c:714
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Не удалось отправить %d из %d сообщений"
 
-#: mail/mail-ops.c:707
+#: mail/mail-ops.c:718
 msgid "Complete."
 msgstr "Выполнено."
 
-#: mail/mail-ops.c:804
+#: mail/mail-ops.c:815
 msgid "Saving message to folder"
 msgstr "Сохранение сообщения в папке"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Перемещение сообщений в %s"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Копирование сообщений в %s"
 
-#: mail/mail-ops.c:1115
+#: mail/mail-ops.c:1126
 msgid "Forwarded messages"
 msgstr "Пересланные сообщения"
 
-#: mail/mail-ops.c:1158
+#: mail/mail-ops.c:1169
 #, c-format
 msgid "Opening folder %s"
 msgstr "Открытие папки \"%s\""
 
-#: mail/mail-ops.c:1230
+#: mail/mail-ops.c:1241
 #, c-format
 msgid "Opening store %s"
 msgstr "Открытие хранилища %s"
 
-#: mail/mail-ops.c:1308
+#: mail/mail-ops.c:1319
 #, c-format
 msgid "Removing folder %s"
 msgstr "Удаление папки \"%s\""
 
-#: mail/mail-ops.c:1402
+#: mail/mail-ops.c:1413
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Сохранение папки \"%s\""
 
-#: mail/mail-ops.c:1467
+#: mail/mail-ops.c:1478
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Очистка и сохранение учетной записи '%s'"
 
-#: mail/mail-ops.c:1468
+#: mail/mail-ops.c:1479
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Сохранение учётной записи '%s'"
 
-#: mail/mail-ops.c:1523
+#: mail/mail-ops.c:1534
 msgid "Refreshing folder"
 msgstr "Обновление папки"
 
-#: mail/mail-ops.c:1559 mail/mail-ops.c:1610
+#: mail/mail-ops.c:1570 mail/mail-ops.c:1621
 msgid "Expunging folder"
 msgstr "Очистка папки"
 
-#: mail/mail-ops.c:1607
+#: mail/mail-ops.c:1618
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Очистка корзины в '%s'"
 
-#: mail/mail-ops.c:1608
+#: mail/mail-ops.c:1619
 msgid "Local Folders"
 msgstr "Локальные папки"
 
-#: mail/mail-ops.c:1691
+#: mail/mail-ops.c:1702
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Получение сообщения %s"
 
-#: mail/mail-ops.c:1763
+#: mail/mail-ops.c:1774
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
@@ -16226,7 +16231,7 @@ msgstr[0] "Получение %d сообщения"
 msgstr[1] "Получение %d сообщений"
 msgstr[2] "Получение %d сообщений"
 
-#: mail/mail-ops.c:1849
+#: mail/mail-ops.c:1860
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
@@ -16234,7 +16239,7 @@ msgstr[0] "Подписывается %d сообщение"
 msgstr[1] "Подписывается %d сообщения"
 msgstr[2] "Подписывается %d сообщений"
 
-#: mail/mail-ops.c:1899
+#: mail/mail-ops.c:1910
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -16243,7 +16248,7 @@ msgstr ""
 "Не удается создать файл вывода: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1927
+#: mail/mail-ops.c:1938
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -16252,11 +16257,11 @@ msgstr ""
 "Ошибка сохранения сообщений в: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:2009
 msgid "Saving attachment"
 msgstr "Сохранение вложения"
 
-#: mail/mail-ops.c:2010
+#: mail/mail-ops.c:2021
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -16265,17 +16270,17 @@ msgstr ""
 "Не удается создать файл вывода: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2020
+#: mail/mail-ops.c:2031
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Не удается записать данные: %s"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Отключение от %s"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Переподключение к %s"
@@ -16729,10 +16734,6 @@ msgstr "Автоматическое"
 msgid "F_ilename:"
 msgstr "_Имя файла:"
 
-#: shell/e-shell-importer.c:643
-msgid "Select a file"
-msgstr "Выбрать файл"
-
 #: shell/e-shell-importer.c:655
 msgid "File _type:"
 msgstr "_Тип файла:"
@@ -16841,7 +16842,7 @@ msgstr "Не удается запустить Bug buddy."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: shell/e-shell-window-commands.c:424
+#: shell/e-shell-window-commands.c:425
 msgid "translator-credits"
 msgstr ""
 "Valek Filippov <frob@df.ru>\n"
@@ -16849,19 +16850,19 @@ msgstr ""
 "Leonid Kanter <leon@asplinux.ru>\n"
 "Michael Yakhontov <mvy@asplinux.ru>"
 
-#: shell/e-shell-window-commands.c:438
+#: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
 msgstr "Пакет для групповой работы"
 
-#: shell/e-shell-window-commands.c:678
+#: shell/e-shell-window-commands.c:679
 msgid "_Work Online"
 msgstr "Перейти в сетевой режим"
 
-#: shell/e-shell-window-commands.c:691 ui/evolution.xml.h:39
+#: shell/e-shell-window-commands.c:692 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "Ав_тономная работа"
 
-#: shell/e-shell-window-commands.c:704 ui/evolution.xml.h:25
+#: shell/e-shell-window-commands.c:705 ui/evolution.xml.h:25
 msgid "Work Offline"
 msgstr "Перейти в режим работы вне сети"
 
@@ -19280,7 +19281,7 @@ msgstr "%B %Y"
 msgid "Now"
 msgstr "Сейчас"
 
-#: widgets/misc/e-cell-date-edit.c:805
+#: widgets/misc/e-cell-date-edit.c:810
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "Время должно быть в формате: %s"
