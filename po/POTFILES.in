@@ -378,7 +378,6 @@ ui/evolution-subscribe.xml
 ui/evolution-task-editor.xml
 ui/evolution-tasks.xml
 ui/evolution.xml
-ui/my-evolution.xml
 views/addressbook/galview.xml
 views/calendar/galview.xml
 views/mail/galview.xml

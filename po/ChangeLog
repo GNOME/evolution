@@ -1,3 +1,7 @@
+2004-02-24  JP Rosevear <jpr@ximian.com>
+
+	* POTFILES.in: remove dead file
+
 2004-02022  Adam Weinberger  <adamw@FreeBSD.org>
 
 	* en_CA.po: Added "en_CA" (Canadian English) translation.
