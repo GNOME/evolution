@@ -42,6 +42,10 @@ static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
 static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
 
+static CamelFolderInfo *create_folder (CamelStore *store,
+				       const char *parent_name,
+				       const char *folder_name,
+				       CamelException *ex);
 static void delete_folder (CamelStore *store, const char *folder_name,
 			   CamelException *ex);
 static void rename_folder (CamelStore *store, const char *old_name,
@@ -68,6 +72,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->compare_folder_name = g_str_equal;
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_inbox = get_inbox;
+	camel_store_class->create_folder = create_folder;
 	camel_store_class->delete_folder = delete_folder;
 	camel_store_class->rename_folder = rename_folder;
 	camel_store_class->sync = store_sync;
@@ -211,6 +216,42 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 }
 
 
+static CamelFolderInfo *
+create_folder (CamelStore *store, const char *parent_name,
+	       const char *folder_name, CamelException *ex)
+{
+	g_warning ("CamelStore::create_folder not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	return NULL;
+}
+
+/** 
+ * camel_store_create_folder:
+ * @store: a CamelStore
+ * @parent_name: name of the new folder's parent, or %NULL
+ * @folder_name: name of the folder to create
+ * @ex: a CamelException
+ * 
+ * Creates a new folder as a child of an existing folder.
+ * @parent_name can be %NULL to create a new top-level folder.
+ *
+ * Return value: info about the created folder, which the caller must
+ * free with camel_store_free_folder_info().
+ **/
+CamelFolderInfo *
+camel_store_create_folder (CamelStore *store, const char *parent_name,
+			   const char *folder_name, CamelException *ex)
+{
+	CamelFolderInfo *fi;
+
+	CAMEL_STORE_LOCK(store, folder_lock);
+	fi = CS_CLASS (store)->create_folder (store, parent_name, folder_name, ex);
+	CAMEL_STORE_UNLOCK(store, folder_lock);
+
+	return fi;
+}
+
+
 static void
 delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
@@ -232,7 +273,6 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 	CAMEL_STORE_LOCK(store, folder_lock);
 	CS_CLASS (store)->delete_folder (store, folder_name, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
-
 }
 
 

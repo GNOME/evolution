@@ -83,6 +83,10 @@ typedef struct {
 	CamelFolder *   (*get_inbox)                (CamelStore *store,
 						     CamelException *ex);
 
+	CamelFolderInfo *(*create_folder)           (CamelStore *store,
+						     const char *parent_name,
+						     const char *folder_name,
+						     CamelException *ex);
 	void            (*delete_folder)            (CamelStore *store,
 						     const char *folder_name,
 						     CamelException *ex);
@@ -126,6 +130,10 @@ CamelFolder *    camel_store_get_folder         (CamelStore *store,
 CamelFolder *    camel_store_get_inbox          (CamelStore *store,
 						 CamelException *ex);
 
+CamelFolderInfo *camel_store_create_folder      (CamelStore *store,
+						 const char *parent_name,
+						 const char *folder_name,
+						 CamelException *ex);
 void             camel_store_delete_folder      (CamelStore *store,
 						 const char *folder_name,
 						 CamelException *ex);

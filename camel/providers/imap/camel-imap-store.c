@@ -63,6 +63,7 @@ static GList *query_auth_types (CamelService *service, gboolean connect, CamelEx
 static guint hash_folder_name (gconstpointer key);
 static gint compare_folder_name (gconstpointer a, gconstpointer b);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
+static CamelFolderInfo *create_folder (CamelStore *store, const char *parent_name, const char *folder_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
 					 gboolean subscribed_only,
@@ -96,6 +97,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->hash_folder_name = hash_folder_name;
 	camel_store_class->compare_folder_name = compare_folder_name;
 	camel_store_class->get_folder = get_folder;
+	camel_store_class->create_folder = create_folder;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
 
@@ -681,6 +683,42 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 	return new_folder;
 }
 
+static char *
+imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
+{
+	int len;
+
+	len = strlen (prefix);
+	if (len > 0 && prefix[len - 1] == imap_store->dir_sep)
+		return g_strdup_printf ("%s%s", prefix, suffix);
+	else
+		return g_strdup_printf ("%s%c%s", prefix, imap_store->dir_sep, suffix);
+}
+
+static CamelFolderInfo *
+create_folder (CamelStore *store, const char *parent_name,
+	       const char *folder_name, CamelException *ex)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	CamelFolderInfo *fi;
+	char *full_name;
+
+	if (parent_name)
+		full_name = imap_concat (imap_store, parent_name, folder_name);
+	else
+		full_name = g_strdup (folder_name);
+
+	imap_create (imap_store, full_name, ex);
+	if (camel_exception_is_set (ex)) {
+		g_free (full_name);
+		return NULL;
+	}
+
+	fi = get_folder_info (store, full_name, FALSE, FALSE, FALSE, ex);
+	g_free (full_name);
+	return fi;
+}
+
 static CamelFolderInfo *
 parse_list_response_as_folder_info (CamelImapStore *imap_store,
 				    const char *response)
@@ -839,14 +877,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	if (subscribed_only && !imap_store->useful_lsub)
 		get_subscribed_folders_by_hand (imap_store, name, folders, ex);
 	else {
-		if (*name && name[strlen (name) - 1] != imap_store->dir_sep) {
-			pattern = g_strdup_printf ("%s%c%c", name,
-						   imap_store->dir_sep,
-						   recursive ? '*' : '%');
-		} else {
-			pattern = g_strdup_printf ("%s%c", name,
-						   recursive ? '*' : '%');
-		}
+		pattern = imap_concat (imap_store, name, recursive ? "*" : "%");
 		get_folders (imap_store, pattern, folders, subscribed_only, ex);
 		g_free (pattern);
 	}
