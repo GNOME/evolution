@@ -2347,12 +2347,12 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	
 	print_master = gnome_print_master_new ();
 	
-/*	FIXME: set paper size gnome_print_master_set_paper (print_master,  */
-	
 	if (printer)
 		gnome_print_master_set_printer (print_master, printer);
+	gnome_print_master_set_paper (print_master, gnome_paper_with_name (_("US-Letter")));
 	gnome_print_master_set_copies (print_master, copies, collate);
 	print_context = gnome_print_master_get_context (print_master);
+	gtk_html_print_set_master (fb->mail_display->html, print_master);
 	gtk_html_print (fb->mail_display->html, print_context);
 	gnome_print_master_close (print_master);
 	
