@@ -1266,21 +1266,21 @@ mail_config_set_default_charset (const char *charset)
 const MailConfigAccount *
 mail_config_get_default_account (void)
 {
-	const MailConfigAccount *account;
-	GSList *l;
 	MailConfigAccount *retval;
 	
 	if (!config->accounts)
 		return NULL;
-
+	
 	retval = g_slist_nth_data (config->accounts,
 				   config->default_account);
-
+	
 	/* Looks like we have no default, so make the first account
            the default */
-	if (retval == NULL)
+	if (retval == NULL) {
 		mail_config_set_default_account_num (0);
-
+		retval = config->accounts->data;
+	}
+	
 	return retval;
 }
 
@@ -1367,13 +1367,12 @@ mail_config_set_default_account_num (gint new_default)
 void
 mail_config_set_default_account (const MailConfigAccount *account)
 {
-	GSList *node = config->accounts;
-	gint position = 0;
-
+	int position;
+	
 	position = g_slist_index (config->accounts, (void*)account);
-
+	
 	config->default_account = position;
-		
+	
 	return;
 }
 

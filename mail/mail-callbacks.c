@@ -587,7 +587,7 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const 
 			while (l) {
 				const MailConfigAccount *acnt = l->data;
 				
-				if (!strcmp (acnt->id->address, addr)) {
+				if (!g_strcasecmp (acnt->id->address, addr)) {
 					notme = FALSE;
 					return acnt;
 				}
@@ -604,7 +604,7 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const 
 			while (l) {
 				const MailConfigAccount *acnt = l->data;
 				
-				if (!strcmp (acnt->id->address, addr)) {
+				if (!g_strcasecmp (acnt->id->address, addr)) {
 					notme = FALSE;
 					return acnt;
 				}
@@ -641,9 +641,6 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	time_t date;
 	int offset;
 	
-	source = camel_mime_message_get_source (message);
-	me = mail_config_get_account_by_source_url (source);
-
 	composer = e_msg_composer_new_with_sig_file ();
 	if (!composer)
 		return NULL;
@@ -663,6 +660,9 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();
+	
+	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	
 	if (mode == REPLY_LIST) {
 		CamelMessageInfo *info;
@@ -697,6 +697,8 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			/* We only want to reply to the list address - if it even exists */
 			to = address && i != max ? g_list_append (to, g_strdup (address)) : to;
 		}
+		
+		me = guess_me (to_addrs, cc_addrs, accounts);
 	} else {
 		GHashTable *rcpt_hash;
 		
@@ -713,17 +715,21 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			}
 		}
 		
-		to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-		cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-		
 		if (mode == REPLY_ALL) {
 			cc = list_add_addresses (cc, to_addrs, accounts, rcpt_hash, &me, NULL);
 			cc = list_add_addresses (cc, cc_addrs, accounts, rcpt_hash, me ? NULL : &me, reply_addr);
-		} else if (me == NULL) {
+		} else {
 			me = guess_me (to_addrs, cc_addrs, accounts);
 		}
 		
 		g_hash_table_destroy (rcpt_hash);
+	}
+	
+	if (me == NULL) {
+		/* as a last resort, set the replying account (aka me)
+		   to the account this was fetched from */
+		source = camel_mime_message_get_source (message);
+		me = mail_config_get_account_by_source_url (source);
 	}
 	
 	/* Set the subject of the new message. */
@@ -1996,11 +2002,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
 				    provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
-					char *url;
-					
-					url = g_strdup_printf ("vtrash:%s", account->source->url);
-					vtrash = mail_tool_uri_to_folder (url, NULL);
-					g_free (url);
+					vtrash = mail_tool_get_trash (account->source->url, NULL);
 					
 					if (vtrash)
 						mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
@@ -2011,7 +2013,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 	
 	/* Now empty the local trash folder */
-	vtrash = mail_tool_uri_to_folder ("vtrash:file:/", ex);
+	vtrash = mail_tool_get_trash ("file:/", ex);
 	if (vtrash)
 		mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
 	

@@ -1,3 +1,19 @@
+2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (guess_me): Do a case-insensitive comparison.
+	(mail_generate_reply): Only resort to the source account's
+	identity if we can't find out which identity to use based on the
+	recipients of the message first.
+
+	* mail-config.c (mail_config_get_default_account): Make sure to
+	return the 0th account if we don't have a default. We don't want
+	to return NULL.
+
+	* mail-callbacks.c (empty_trash): Use mail_tool_get_trash for the
+	remote store trash folders.
+
+	* mail-tools.c (mail_tool_get_trash): New convenience function.
+
 2001-07-24  Jason Leach  <jleach@ximian.com>
 
 	* mail-config.c (config_read): get_boolean_with_default for the
@@ -8,7 +24,8 @@
 	* mail-folder-cache.c (make_folder_name): Don't display "(0 unsent)" if
 	the outbox is empty.
 
-	* mail-local.c (init_trash): Set up the local trash in the folder cache.
+	* mail-local.c (init_trash): Set up the local trash in the folder
+	cache.
 
 	* mail-folder-cache.c (update_idle): Make the error reporting a little
 	but more descriptive.

@@ -137,7 +137,7 @@ create_view (EvolutionShellComponent *shell_component,
 	} else if (g_strcasecmp (folder_type, "mailstorage") == 0) {
 		CamelService *store;
 		EvolutionStorage *storage;
-
+		
 		store = camel_session_get_service (session, physical_uri,
 						   CAMEL_PROVIDER_STORE, NULL);
 		if (!store)
@@ -147,20 +147,20 @@ create_view (EvolutionShellComponent *shell_component,
 			camel_object_unref (CAMEL_OBJECT (store));
 			return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
 		}
-
+		
 		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
 			mail_scan_subfolders (CAMEL_STORE(store), storage);
 		camel_object_unref (CAMEL_OBJECT (store));
-
+		
 		control = folder_browser_factory_new_control ("", corba_shell);
 	} else if (g_strcasecmp (folder_type, "vtrash") == 0) {
 		control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
 	} else
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
-
+	
 	if (!control)
 		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-
+	
 	*control_return = control;
 	return EVOLUTION_SHELL_COMPONENT_OK;
 }

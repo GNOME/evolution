@@ -133,6 +133,22 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 	return folder;
 }
 
+CamelFolder *
+mail_tool_get_trash (const gchar *url, CamelException *ex)
+{
+	CamelStore *store;
+	CamelFolder *trash;
+	
+	store = camel_session_get_store (session, url, ex);
+	if (!store)
+		return NULL;
+	
+	trash = camel_store_get_trash (store, ex);
+	camel_object_unref (CAMEL_OBJECT (store));
+	
+	return trash;
+}
+
 /* why is this function so stupidly complex when allthe work is done elsehwere? */
 char *
 mail_tool_do_movemail (const gchar *source_url, CamelException *ex)

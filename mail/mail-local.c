@@ -502,7 +502,7 @@ register_folder_registered(struct _mail_msg *mm)
 	
 	if (local_folder->folder) {
 		gchar *name;
-
+		
 		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8,
 				     local_folder);
 		/* Remove the circular ref once the local store knows aboutthe folder */
@@ -510,20 +510,20 @@ register_folder_registered(struct _mail_msg *mm)
 		
 		/* add the folder to the vfolder lists FIXME: merge stuff above with this */
 		vfolder_register_source(local_folder->folder);
-
+		
 		mail_folder_cache_set_update_lstorage (local_folder->uri, 
 						       local_folder->local_store->corba_local_storage,
 						       local_folder->path);
-
+		
 		name = strrchr (local_folder->path, '/');
 		if (name) /* should always be true... */ {
 			name += 1; /* skip the slash */
 			mail_folder_cache_note_name (local_folder->uri, name);
 		}
-
+		
 		/* Do this after specifying the name so it isn't 'mbox' */
 		mail_folder_cache_note_folder (local_folder->uri, local_folder->folder);
-
+		
 		m->local_folder = NULL;
 	}
 }
@@ -532,7 +532,7 @@ static void
 register_folder_free(struct _mail_msg *mm)
 {
 	struct _register_msg *m = (struct _register_msg *)mm;
-
+	
 	if (m->local_folder)
 		free_local_folder(m->local_folder);
 }
@@ -554,24 +554,24 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	MailLocalFolder *local_folder;
 	struct _register_msg *m;
 	int id;
-
+	
 	if (strcmp (folder->type, "mail") != 0 ||
 	    strncmp (folder->physical_uri, "file://", 7) != 0 ||
 	    strncmp (folder->physical_uri + 7, local_store->local_path,
 		     local_store->local_pathlen) != 0)
 		return;
-
+	
 	local_folder = g_new0 (MailLocalFolder, 1);
 	local_folder->name = g_strdup (strrchr (path, '/') + 1);
 	local_folder->path = g_strdup (path);
 	local_folder->uri = g_strdup (folder->physical_uri);
 	local_folder->local_store = local_store;
 	camel_object_ref((CamelObject *)local_store);
-
+	
 	m = mail_msg_new(&register_folder_op, NULL, sizeof(*m));
-
+	
 	m->local_folder = local_folder;
-
+	
 	/* run synchronous, the shell expects it (I think) */
 	id = m->msg.seq;
 	e_thread_put(mail_thread_queued, (EMsg *)m);
@@ -587,13 +587,13 @@ local_storage_removed_folder_cb (EvolutionStorageListener *storage_listener,
 	MailLocalFolder *local_folder;
 	char *physical_path;
 	char *tmpname;
-
+	
 	physical_path = e_path_to_physical (local_store->local_path, path);
-
+	
 	if (strncmp (physical_path, local_store->local_path,
 		     local_store->local_pathlen) != 0)
 		return;
-
+	
 	tmpname = strchr (physical_path, '/');
 	if (tmpname) {
 		while (*tmpname == '/')
@@ -604,13 +604,13 @@ local_storage_removed_folder_cb (EvolutionStorageListener *storage_listener,
 	}
 	else
 		local_folder = NULL;
-
+	
 	if (local_folder) {
 		g_hash_table_remove (local_store->folders, tmpname);
-
+		
 		free_local_folder (local_folder);
 	}
-
+	
 	g_free (physical_path);
 }
 
