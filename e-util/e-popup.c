@@ -179,6 +179,25 @@ e_popup_get_type(void)
 }
 
 /**
+ * e_popup_new - Create an targetless popup menu manager.
+ * @menuid: Unique ID for this menu.
+ * 
+ * Create a targetless popup menu object.  This can be used as a
+ * helper for creating popup menu's with no target.  Such popup menu's
+ * wont be very pluggable.
+ * 
+ * Return value: A new EPopup.
+ **/
+EPopup *e_popup_new(const char *menuid)
+{
+	EPopup *ep = g_object_new(e_popup_get_type(), NULL);
+
+	e_popup_construct(ep, menuid);
+
+	return ep;
+}
+
+/**
  * e_popup_construct:
  * @ep: An instantiated but uninitialised EPopup.
  * @menuid: The menu identifier.

@@ -192,6 +192,8 @@ struct _EPopupClass {
 
 GType e_popup_get_type(void);
 
+EPopup *e_popup_new(const char *menuid);
+
 /* Static class methods */
 EPopupFactory *e_popup_class_add_factory(EPopupClass *klass, const char *menuid, EPopupFactoryFunc func, void *data);
 void e_popup_class_remove_factory(EPopupClass *klass, EPopupFactory *f);
