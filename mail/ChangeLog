@@ -1,3 +1,11 @@
+2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (save_msg_ok): If the user hits "No", then
+	don't destroy the filesel window.
+
+	* mail-ops.c (save_messages_save): Open with mode 0666 as danw
+	suggests.
+
 2001-01-16  Chris Toshok  <toshok@helixcode.com>
 
 	* component-factory.c (owner_set_cb): only load the news storage

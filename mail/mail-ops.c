@@ -1898,7 +1898,7 @@ static void save_messages_save(struct _mail_msg *mm)
 	int fd, i;
 	char *from;
 
-	fd = open(m->path, O_WRONLY | O_CREAT | O_TRUNC);
+	fd = open(m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1) {
 		camel_exception_setv(&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Unable to create output file: %s\n %s"), m->path, strerror(errno));

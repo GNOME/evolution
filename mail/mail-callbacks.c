@@ -832,9 +832,8 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 		uids = gtk_object_get_data (GTK_OBJECT (user_data), "uids");
 		gtk_object_remove_no_notify (GTK_OBJECT (user_data), "uids");
 		mail_save_messages (folder, uids, path, NULL, NULL);
+		gtk_widget_destroy (GTK_WIDGET (user_data));
 	}
-	
-	gtk_widget_destroy (GTK_WIDGET (user_data));
 }
 
 static void
