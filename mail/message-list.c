@@ -857,7 +857,7 @@ message_list_get_layout (MessageList *message_list)
 			 "<ETableColumn model_col= \"1\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"2\" pixbuf=\"attachment\" expansion=\"0.0\" minimum_width=\"16\" resizable=\"false\" cell=\"render_attachment\" compare=\"integer\" sortable=\"false\"/>"
 			 "<ETableColumn model_col= \"3\" _title=\"From\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
-			 "<ETableColumn model_col= \"4\" _title=\"Subject\" expansion=\"30.0\" minimum_width=\"32\" resizable=\"true\" cell=\"tree-string\" compare=\"subject_compare\"/>"
+			 "<ETableColumn model_col= \"4\" _title=\"Subject\" expansion=\"30.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_tree\" compare=\"subject_compare\"/>"
 			 "<ETableColumn model_col= \"5\" _title=\"Date\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"6\" _title=\"Received\" expansion=\"20.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_date\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"7\" _title=\"To\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
@@ -890,9 +890,9 @@ message_list_setup_etable(MessageList *message_list)
 			/* I wonder if there's a better way to do this ...? */
 			name = camel_service_get_name((CAMEL_SERVICE(message_list->folder->parent_store)), TRUE);
 			printf("folder name is '%s'\n", name);
-			if (strstr(name, "/Drafts") == 0
-			    || strstr(name, "/Outbox") == 0
-			    || strstr(name, "/Sent") == 0) {
+			if (strstr(name, "/Drafts")
+			    || strstr(name, "/Outbox")
+			    || strstr(name, "/Sent")) {
 				e_table_scrolled_set_state(E_TABLE_SCROLLED(message_list->etable), state);
 			}
 			g_free(name);

@@ -1,3 +1,9 @@
+2000-10-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Replace To with From except in Drafts, Outbox,
+	or Sent boxes.  Make Subject column pay attention to text
+	attributes like bold and strikethrough.
+
 2000-10-12  Iain Holmes  <iain@helixcode.com>
 
 	* component-factory.c: Disable the executive summary.
