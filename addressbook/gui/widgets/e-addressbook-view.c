@@ -30,7 +30,6 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 #include <gal/util/e-xml-utils.h>
@@ -958,7 +957,7 @@ jump_to_letters (EAddressbookView *view, gchar* l)
 		for (p = letter_v + 1; *p != NULL; p++) {
 			for (s = *p; *s != '\0'; s = g_utf8_next_char (s)) {
 				buf [g_unichar_to_utf8 (g_utf8_get_char(s), buf)] = '\0';
-				g_string_sprintfa (gstr, "(beginswith \"file_as\" \"%s\")", buf);
+				g_string_append_printf (gstr, "(beginswith \"file_as\" \"%s\")", buf);
 			}
 		}
 		g_string_append (gstr, "))");
@@ -972,7 +971,7 @@ jump_to_letters (EAddressbookView *view, gchar* l)
 
 		for (s = l; *s != '\0'; s = g_utf8_next_char (s)) {
 			buf [g_unichar_to_utf8 (g_utf8_get_char(s), buf)] = '\0';
-			g_string_sprintfa (gstr, "(beginswith \"file_as\" \"%s\")", buf);
+			g_string_append_printf (gstr, "(beginswith \"file_as\" \"%s\")", buf);
 		}
 
 		g_string_append (gstr, ")");
@@ -1058,9 +1057,8 @@ create_alphabet (EAddressbookView *view)
 		LetterClosure *closure;
 		char *label;
 
-		label = e_utf8_to_locale_string (*pl);
+		label = *pl;
 		button = gtk_toggle_button_new_with_label (label);
-		g_free (label);
 		gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 
 		closure = g_new (LetterClosure, 1);
@@ -1102,7 +1100,6 @@ create_minicard_view (EAddressbookView *view)
 	GtkWidget *minicard_hbox;
 	EAddressbookReflowAdapter *adapter;
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	minicard_hbox = gtk_hbox_new(FALSE, 0);
@@ -1149,7 +1146,6 @@ create_minicard_view (EAddressbookView *view)
 
 	gtk_widget_show_all( GTK_WIDGET(minicard_hbox) );
 
-	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();
 
 	e_reflow_model_changed (E_REFLOW_MODEL (adapter));

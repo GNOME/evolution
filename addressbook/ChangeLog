@@ -1,5 +1,14 @@
 2002-12-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-view.c (jump_to_letters):
+	g_string_sprintfa -> g_string_append_printf.
+	(create_alphabet): same.
+	(create_minicard_view): remove gtk_widget_{push,pop}_visual.
+
+	* gui/widgets/Makefile.am (INCLUDES): add -D*_DISABLE_DEPRECATED.
+
+2002-12-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard.c (e_minicard_realize): drop use of
 	"font" arg.
 	(get_left_width): use pango to calculate this instead of a GdkFont.
