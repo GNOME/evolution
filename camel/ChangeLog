@@ -1,5 +1,11 @@
 2000-05-29  Not Zed  <NotZed@HelixCode.com>
 
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_expunge): Make sure we copy messages which are
+	still intact to the new folder.
+	(camel_mbox_summary_expunge): Update the frompos as well when
+	moving the content.
+
 	* providers/vee/camel-vee-folder.c (vee_folder_build): Check the
 	searched folder is open before trying to search it.
 	(message_changed): Track changes to the source message in the

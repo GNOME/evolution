@@ -173,6 +173,8 @@ folder_changed(CamelFolder *sub, int type, CamelVeeFolder *vf)
 {
 	CamelException *ex;
 
+	printf("subfolder changed!!, re-searching\n");
+
 	ex = camel_exception_new();
 	vee_folder_build_folder(vf, sub, ex);
 	camel_exception_free(ex);

@@ -778,7 +778,9 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	}
 
 	if (camel_mime_parser_tell_start_from(parser) != info->frompos) {
-		g_warning("Summary doesn't match the folder contents!  eek!");
+		g_warning("Summary doesn't match the folder contents!  eek!\n"
+			  "  expecting offset %d got %d", info->frompos,
+			  camel_mime_parser_tell_start_from(parser));
 		errno = EINVAL;
 		goto fail;
 	}

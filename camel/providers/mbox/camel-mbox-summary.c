@@ -300,7 +300,7 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 			gtk_object_unref((GtkObject *)mp);
 			/* end of file - no content? */
 			printf("We radn out of file?\n");
-			return 0;
+			return -1;
 		}
 	}
 
@@ -663,7 +663,8 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 					 info->info.content->pos,
 					 info->info.content->endpos,
 					 info->info.content->bodypos));
-				if (copy_block(fd, fdout, info->info.content->bodypos, info->info.content->endpos - info->info.content->bodypos) == -1) {
+				if (copy_block(fd, fdout, info->info.content->bodypos,
+					       info->info.content->endpos - info->info.content->bodypos) == -1) {
 					g_warning("Cannot copy data to output fd");
 					goto error;
 				}
@@ -675,9 +676,20 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 			camel_mime_parser_drop_step(mp);
 			camel_mime_parser_drop_step(mp);
 		} else {
-			d(printf("Nothing to do for this message\n"));
+			if (!quick) {
+				if (copy_block(fd, fdout, info->frompos,
+					       info->info.content->endpos - info->frompos) == -1) {
+					g_warning("Cannot copy data to output fd");
+					goto error;
+				}
+				/* update from pos here? */
+				info->frompos += offset;
+			} else {
+				d(printf("Nothing to do for this message\n"));
+			}
 		}
 		if (!quick && info!=NULL && offset!=0) {
+			printf("offsetting content: %d\n", offset);
 			camel_folder_summary_offset_content(info->info.content, offset);
 			d(printf("pos = %d, endpos = %d, bodypos = %d\n",
 				 info->info.content->pos,
