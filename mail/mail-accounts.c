@@ -326,7 +326,8 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 		account->source->enabled = !account->source->enabled;
 		
 #if 0
-		/* if the account got disabled, remove it from the folder-tree, otherwise add it to the folder-tree */
+		/* if the account got disabled, remove it from the
+                   folder-tree, otherwise add it to the folder-tree */
 		if (account->source && account->source->url) {
 			if (account->source->enabled)
 				mail_load_storage_by_uri (prefs->shell, account->source->url, account->name);
