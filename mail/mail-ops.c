@@ -86,11 +86,15 @@ mail_exception_dialog (char *head, CamelException *ex, gpointer widget)
 	g_free (msg);
 }
 
+#ifdef USE_BROKEN_THREADS
 static void
 async_mail_exception_dialog (char *head, CamelException *ex, gpointer unused )
 {
 	mail_op_error( "%s: %s", head, camel_exception_get_description( ex ) );
 }
+#else
+#define async_mail_exception_dialog mail_exception_dialog
+#endif
 
 static gboolean
 check_configured (void)
@@ -326,7 +330,11 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	info = g_new( rfm_t, 1 );
 	info->fb = FOLDER_BROWSER( user_data );
 	info->source_url = url;
+#ifdef USE_BROKEN_THREADS
 	mail_operation_try( _("Fetching mail"), real_fetch_mail, NULL, info );
+#else
+	real_fetch_mail( info );
+#endif
 }
 
 static gboolean
@@ -360,8 +368,10 @@ real_send_mail( gpointer user_data )
 	char *from = NULL;
 	struct post_send_data *psd = NULL;
 
+#ifdef USE_BROKEN_THREADS
 	mail_op_hide_progressbar();
 	mail_op_set_message( "Connecting to transport..." );
+#endif
 
 	ex = camel_exception_new ();
 	composer = info->composer;
@@ -378,13 +388,17 @@ real_send_mail( gpointer user_data )
 
 	camel_service_connect (CAMEL_SERVICE (transport), ex);
 
+#ifdef USE_BROKEN_THREADS
 	mail_op_set_message( "Connected. Sending..." );
+#endif
 
 	if (!camel_exception_is_set (ex))
 		camel_transport_send (transport, CAMEL_MEDIUM (message), ex);
 
 	if (!camel_exception_is_set (ex)) {
+#ifdef USE_BROKEN_THREADS
 		mail_op_set_message( "Sent. Disconnecting..." );
+#endif 		
 		camel_service_disconnect (CAMEL_SERVICE (transport), ex);
 	}
 
@@ -490,7 +504,12 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	info->from = from;
 	info->psd = psd;
 
+#ifdef USE_BROKEN_THREADS
 	mail_operation_try( "Send Message", real_send_mail, cleanup_send_mail, info );
+#else
+	real_send_mail( info );
+	cleanup_send_mail( info );
+#endif
 }
 
 static void
@@ -631,8 +650,10 @@ static void real_expunge_folder( gpointer user_data )
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	CamelException ex;
 
+#ifdef USE_BROKEN_THREADS
 	mail_op_hide_progressbar();
 	mail_op_set_message( "Expunging %s...", fb->message_list->folder->full_name );
+#endif
 
 	camel_exception_init(&ex);
 
@@ -653,7 +674,11 @@ expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path)
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 
 	if (fb->message_list->folder) {
+#ifdef USE_BROKEN_THREADS
 		mail_operation_try( "Expunge Folder", real_expunge_folder, NULL, fb );
+#else
+		real_expunge_folder( fb );
+#endif
 	}
 }
 

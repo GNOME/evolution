@@ -1,3 +1,15 @@
+2000-06-26  Peter Williams  <peterw@helixcode.com>
+
+	* component-factory.c, mail-ops.c: #ifdef the threads stuff so
+	that if USE_BROKEN_THREADS is not defined we just call the functions
+	in the main thread.
+
+	* mail-threads.h: Don't declare funcs if USE_BROKEN_THREADS not
+	defined.
+
+	* mail-threads.c: Put the query and message boxes on top so that
+	you can see them.
+
 2000-06-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (error_dialog): va_start() returns void, don't

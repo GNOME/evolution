@@ -762,6 +762,14 @@ static void show_error( com_msg_t *msg )
 	timeout_toggle( FALSE );
 	modal_may_proceed = FALSE;
 	gtk_widget_show( GTK_WIDGET( err_dialog ) );
+	gnome_win_hints_set_layer( err_dialog, 
+				   WIN_LAYER_ONTOP );
+	gnome_win_hints_set_state( err_dialog, 
+				   WIN_STATE_ARRANGE_IGNORE );
+	gnome_win_hints_set_hints( err_dialog, 
+				   WIN_HINTS_SKIP_FOCUS |
+				   WIN_HINTS_SKIP_WINLIST |
+				   WIN_HINTS_SKIP_TASKBAR );
 }
 
 /**
@@ -809,6 +817,14 @@ static void get_password( com_msg_t *msg )
 		*(msg->reply) = NULL;
 		timeout_toggle( FALSE );
 		gtk_widget_show( GTK_WIDGET( dialog ) );
+		gnome_win_hints_set_layer( dialog, 
+					   WIN_LAYER_ONTOP );
+		gnome_win_hints_set_state( dialog, 
+					   WIN_STATE_ARRANGE_IGNORE );
+		gnome_win_hints_set_hints( dialog, 
+					   WIN_HINTS_SKIP_FOCUS |
+					   WIN_HINTS_SKIP_WINLIST |
+					   WIN_HINTS_SKIP_TASKBAR );
 	}
 }
 

@@ -157,6 +157,16 @@ THREADS_CFLAGS="`glib-config --cflags gthread`"
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
 
+AC_ARG_ENABLE([broken-threads],[  --enable-broken-threads Enable the broken threads in evolution-mail],[
+	use_bt=$enableval
+],[
+	use_bt=no
+])
+
+if test x"$use_bt" = xyes ; then
+	AC_DEFINE(USE_BROKEN_THREADS)
+fi
+
 dnl **************************************************
 dnl * Print check
 dnl **************************************************

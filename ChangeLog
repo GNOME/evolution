@@ -1,3 +1,10 @@
+2000-06-26  Peter Williams  <peterw@curious-george.helixcode.com>
+
+	* configure.in (THREADS_CFLAGS): Add option --enable-broken-threads
+	to turn on the threading stuff in evolution-mail. Defaults to no.
+
+	* acconfig.h: Add USE_BROKEN_THREADS to the list.
+	
 2000-06-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in: Use `glib-config' instead of `$GLIB_CONFIG' as the

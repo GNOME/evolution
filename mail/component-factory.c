@@ -303,8 +303,13 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	ii = g_new( struct create_info_s, 1 );
 	ii->storage = storage;
 	ii->source = g_strdup( source );
-	mail_operation_try( "Create IMAP Storage", real_create_imap_storage, g_free, ii );
 
+#ifdef USE_BROKEN_THREADS
+	mail_operation_try( "Create IMAP Storage", real_create_imap_storage, g_free, ii );
+#else
+	real_create_imap_storage( ii );
+	g_free( ii );
+#endif
 	/* Note the g_free as our cleanup function deleting the ii struct when we're done */
 }
 
@@ -324,9 +329,10 @@ real_create_imap_storage( gpointer user_data )
 	storage = ii->storage;
 	source = ii->source;
 
+#ifdef USE_BROKEN_THREADS
 	mail_op_hide_progressbar();
 	mail_op_set_message( "Connecting to IMAP service..." );
-
+#endif
 	ex = camel_exception_new ();
 	
 	store = camel_session_get_store (session, source, ex);
@@ -339,7 +345,9 @@ real_create_imap_storage( gpointer user_data )
 		goto cleanup;
 	}
 
+#ifdef USE_BROKEN_THREADS
 	mail_op_set_message( "Connected. Examining folders..." );
+#endif
 
 	folder = camel_store_get_root_folder (store, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
@@ -360,15 +368,19 @@ real_create_imap_storage( gpointer user_data )
 		buf = g_strdup_printf ("%s/%s", source, path);
 		g_print ("Adding %s\n", path);
 
+#ifdef USE_BROKEN_THREADS
 		mail_op_set_message( "Adding %s", path );
+#endif
 
 		evolution_storage_new_folder (storage, path, "mail", buf, "description");
 	}
 
  cleanup:
 	g_free( ii->source );
+#ifdef USE_BROKEN_THREADS
 	if( camel_exception_is_set( ex ) )
 		mail_op_error( "%s", camel_exception_get_description( ex ) );
+#endif
 	camel_exception_free (ex);
 }
 
@@ -414,8 +426,13 @@ create_news_storage (EvolutionShellComponent *shell_component)
 	ni = g_new( struct create_info_s, 1 );
 	ni->storage = storage;
 	ni->source = g_strdup( source );
-	mail_operation_try( "Create News Storage", real_create_news_storage, g_free, ni );
 
+#ifdef USE_BROKEN_THREADS
+	mail_operation_try( "Create News Storage", real_create_news_storage, g_free, ni );
+#else
+	real_create_news_storage( ni );
+	g_free( ni );
+#endif
 	/* again note the g_free cleanup func */
 }
 
@@ -435,8 +452,10 @@ real_create_news_storage( gpointer user_data )
 	storage = ni->storage;
 	source = ni->source;
 
+#ifdef USE_BROKEN_THREADS
 	mail_op_hide_progressbar();
 	mail_op_set_message( "Connecting to news service..." );
+#endif
 
 	ex = camel_exception_new ();
 	
@@ -450,7 +469,9 @@ real_create_news_storage( gpointer user_data )
 		goto cleanup;
 	}
 
+#ifdef USE_BROKEN_THREADS
 	mail_op_set_message( "Connected. Examining folders..." );
+#endif
 
 	folder = camel_store_get_root_folder (store, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
@@ -468,15 +489,18 @@ real_create_news_storage( gpointer user_data )
 		buf = g_strdup_printf ("%s%s", source, path);
 		g_print ("Adding %s\n", path);
 
+#ifdef USE_BROKEN_THREADS
 		mail_op_set_message( "Adding %s", path );
-
+#endif
 		/* FIXME: should be s,"mail","news",? */
 		evolution_storage_new_folder (storage, path, "mail", buf, "description");
 	}
 
  cleanup:
 	g_free( ni->source );
+#ifdef USE_BROKEN_THREADS
 	if( camel_exception_is_set( ex ) )
 		mail_op_error( "%s", camel_exception_get_description( ex ) );
+#endif
 	camel_exception_free (ex);
 }
