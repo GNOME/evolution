@@ -1,3 +1,8 @@
+2000-07-09  Matthias Warkus  <mawa@iname.com>
+
+	* de.po: Rough cut at a complete German translation. Still needs a
+	lot of love.
+
 2000-07-03  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* POTFILES.in: Removed `e-select-names.c' and
