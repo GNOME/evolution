@@ -1,3 +1,20 @@
+2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (mail_local_provider_init): Setup the url_hash and
+	url_equal functions for the local provider.
+
+	* mail-account-gui.c (mail_account_gui_save): Add code here to
+	check to make sure that the Drafts and Sent folders are pointing
+	to valid urls. This is kinda nasty and only really solves the case
+	where the user changes, say, his imap server or
+	something. Unfortunately we still have the problem where if
+	account A's sent/drafts folders point to account B's store and the
+	user changes the url for account B.
+
+	* mail-config.c (mail_config_get_account_by_source_url): Use Camel
+	to compare the urls rather than using e_url_equal which does all
+	sorts of funky shit that may not work in every case.
+
 2001-09-28  Dan Winship  <danw@ximian.com>
 
 	* mail-mt.c (pass_got): Don't call

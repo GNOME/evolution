@@ -40,6 +40,8 @@
 #include "mail-send-recv.h"
 #include "e-msg-composer.h"
 
+#define d(x)
+
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
 
 static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, MailConfigService *service);
@@ -119,16 +121,16 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 	const CamelProvider *prov = service->provider;
 	char *text;
 	GtkWidget *path;
-
+	
 	if (!prov)
 		return TRUE;
-
+	
 	/* transports don't have a path */
 	if (service->path)
 		path = GTK_WIDGET (service->path);
 	else
 		path = NULL;
-
+	
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST)) {
 		text = gtk_entry_get_text (service->hostname);
 		if (!text || !*text) {
@@ -155,10 +157,10 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 	
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH)) {
 		if (!path) {
-			printf ("aagh, transports aren't supposed to have paths.\n");
+			d(printf ("aagh, transports aren't supposed to have paths.\n"));
 			return TRUE;
 		}
-
+		
 		text = gtk_entry_get_text (service->path);
 		if (!text || !*text) {
 			if (incomplete)
@@ -375,7 +377,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_hide (GTK_WIDGET (gui->source.use_ssl));
 		gtk_widget_show (GTK_WIDGET (gui->source.no_ssl));
 #endif
-
+		
 		/* auth */
 		frame = glade_xml_get_widget (gui->xml, "source_auth_frame");
 		if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
@@ -454,7 +456,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_hide (GTK_WIDGET (gui->transport.use_ssl));
 		gtk_widget_show (GTK_WIDGET (gui->transport.no_ssl));
 #endif
-
+		
 		/* auth */
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH) &&
 		    !CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_AUTH))
@@ -917,7 +919,7 @@ struct _ESignatureEditor {
 	MailAccountGui *gui;
 	GtkWidget *win;
 	GtkWidget *control;
-
+	
 	gchar *filename;
 	gboolean html;
 	gboolean has_changed;
@@ -934,9 +936,9 @@ enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 static void
 destroy_editor (ESignatureEditor *editor)
 {
-		gtk_widget_destroy (editor->win);
-		g_free (editor->filename);
-		g_free (editor);
+	gtk_widget_destroy (editor->win);
+	g_free (editor->filename);
+	g_free (editor);
 }
 
 static void
@@ -1212,7 +1214,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gtk_widget_set_sensitive (GTK_WIDGET (gui->edit_signature), FALSE);
 	gui->edit_html_signature = GTK_BUTTON (glade_xml_get_widget (gui->xml, "button_edit_html_signature"));
 	gtk_widget_set_sensitive (GTK_WIDGET (gui->edit_html_signature), FALSE);
-
+	
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->signature)), "changed", signature_changed, gui);
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->html_signature)), "changed",
 			    html_signature_changed, gui);
@@ -1590,6 +1592,8 @@ mail_account_gui_save (MailAccountGui *gui)
 {
 	MailConfigAccount *account = gui->account;
 	const MailConfigAccount *old_account;
+	CamelProvider *provider = NULL;
+	CamelURL *source_url = NULL, *url;
 	gchar *new_name;
 	gboolean old_enabled;
 	
@@ -1629,8 +1633,13 @@ mail_account_gui_save (MailAccountGui *gui)
 	service_destroy (account->source);
 	account->source = g_new0 (MailConfigService, 1);
 	save_service (&gui->source, gui->extra_config, account->source);
-	if (account->source && account->source->url && old_enabled)
-		account->source->enabled = TRUE;
+	if (account->source && account->source->url) {
+		provider = camel_session_get_provider (session, account->source->url, NULL);
+		source_url = provider ? camel_url_new (account->source->url, NULL) : NULL;
+		
+		if (old_enabled)
+			account->source->enabled = TRUE;
+	}
 	account->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
 	if (account->source->auto_check)
 		account->source->auto_check_time = gtk_spin_button_get_value_as_int (gui->source_auto_check_min);
@@ -1639,14 +1648,46 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->transport = g_new0 (MailConfigService, 1);
 	save_service (&gui->transport, NULL, account->transport);
 	
-	g_free (account->drafts_folder_name);
-	account->drafts_folder_name = g_strdup (gui->drafts_folder.name);
-	g_free (account->drafts_folder_uri);
-	account->drafts_folder_uri = g_strdup (gui->drafts_folder.uri);
-	g_free (account->sent_folder_name);
-	account->sent_folder_name = g_strdup (gui->sent_folder.name);
-	g_free (account->sent_folder_uri);
-	account->sent_folder_uri = g_strdup (gui->sent_folder.uri);
+	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
+	url = source_url ? camel_url_new (gui->drafts_folder.uri, NULL) : NULL;
+	if (mail_config_get_account_by_source_url (gui->drafts_folder.uri) ||
+	    (url && provider->url_equal (source_url, url))) {
+		g_free (account->drafts_folder_name);
+		account->drafts_folder_name = g_strdup (gui->drafts_folder.name);
+		g_free (account->drafts_folder_uri);
+		account->drafts_folder_uri = g_strdup (gui->drafts_folder.uri);
+	} else {
+		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
+		g_free (account->drafts_folder_name);
+		account->drafts_folder_name = g_strdup (strrchr (default_drafts_folder_uri, '/') + 1);
+		g_free (account->drafts_folder_uri);
+		account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+	}
+	
+	if (url)
+		camel_url_free (url);
+	
+	/* Check to make sure that the Sent folder uri is "valid" before assigning it */
+	url = camel_url_new (gui->drafts_folder.uri, NULL);
+	if (mail_config_get_account_by_source_url (gui->sent_folder.uri) ||
+	    (url && provider->url_equal (source_url, url))) {
+		g_free (account->sent_folder_name);
+		account->sent_folder_name = g_strdup (gui->sent_folder.name);
+		g_free (account->sent_folder_uri);
+		account->sent_folder_uri = g_strdup (gui->sent_folder.uri);
+	} else {
+		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
+		g_free (account->sent_folder_name);
+		account->sent_folder_name = g_strdup (strrchr (default_sent_folder_uri, '/') + 1);
+		g_free (account->sent_folder_uri);
+		account->sent_folder_uri = g_strdup (default_sent_folder_uri);
+	}
+	
+	if (url)
+		camel_url_free (url);
+	
+	if (source_url)
+		camel_url_free (source_url);
 	
 	g_free (account->pgp_key);
 	account->pgp_key = e_utf8_gtk_entry_get_text (gui->pgp_key);

@@ -1422,21 +1422,42 @@ const MailConfigAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
 	const MailConfigAccount *account;
+	CamelProvider *provider;
+	CamelURL *source;
 	GSList *l;
-
+	
 	g_return_val_if_fail (source_url != NULL, NULL);
-
+	
+	provider = camel_session_get_provider (session, source_url, NULL);
+	if (!provider)
+		return NULL;
+	
+	source = camel_url_new (source_url, NULL);
+	if (!source)
+		return NULL;
+	
 	l = config->accounts;
 	while (l) {
 		account = l->data;
-		if (account
-		    && account->source 
-		    && account->source->url
-		    && e_url_equal (account->source->url, source_url))
-			return account;
+		
+		if (account && account->source && account->source->url) {
+			CamelURL *url;
+			
+			url = camel_url_new (account->source->url, NULL);
+			if (url && provider->url_equal (url, source)) {
+				camel_url_free (url);
+				camel_url_free (source);
+				return account;
+			}
+			
+			if (url)
+				camel_url_free (url);
+		}
 		
 		l = l->next;
 	}
+	
+	camel_url_free (source);
 	
 	return NULL;
 }
