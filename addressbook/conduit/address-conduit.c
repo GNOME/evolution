@@ -42,6 +42,7 @@
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-simple.h>
+#include <e-pilot-map.h>
 
 #define ADDR_CONFIG_LOAD 1
 #define ADDR_CONFIG_DESTROY 1
@@ -152,120 +153,6 @@ e_addr_context_destroy (EAddrConduitContext **ctxt)
 	*ctxt = NULL;
 }
 
-/* Map routines */
-static char *
-map_name (EAddrConduitContext *ctxt) 
-{
-	char *filename = NULL;
-	
-	filename = g_strdup_printf ("%s/evolution/local/Contacts/pilot-map-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
-
-	return filename;
-}
-
-static void
-map_set_node_timet (xmlNodePtr node, const char *name, time_t t)
-{
-	char *tstring;
-	
-	tstring = g_strdup_printf ("%ld", t);
-	xmlSetProp (node, name, tstring);
-}
-
-static void
-map_sax_start_element (void *data, const xmlChar *name, 
-		       const xmlChar **attrs)
-{
-	EAddrConduitContext *ctxt = (EAddrConduitContext *)data;
-
-	if (!strcmp (name, "PilotMap")) {
-		while (attrs && *attrs != NULL) {
-			const xmlChar **val = attrs;
-			
-			val++;
-			if (!strcmp (*attrs, "timestamp")) 
-				ctxt->since = (time_t)strtoul (*val, NULL, 0);
-
-			attrs = ++val;
-		}
-	}
-	 
-	if (!strcmp (name, "map")) {
-		char *uid = NULL;
-		guint32 *pid = g_new (guint32, 1);
-
-		*pid = 0;
-
-		while (attrs && *attrs != NULL) {
-			const xmlChar **val = attrs;
-			
-			val++;
-			if (!strcmp (*attrs, "uid")) 
-				uid = g_strdup (*val);
-			
-			if (!strcmp (*attrs, "pilot_id"))
-				*pid = strtoul (*val, NULL, 0);
-				
-			attrs = ++val;
-		}
-			
-		if (uid && *pid != 0) {
-			g_hash_table_insert (ctxt->pid_map, pid, uid);
-			g_hash_table_insert (ctxt->uid_map, uid, pid);
-		} else {
-			g_free (pid);
-		}
-	}
-}
-
-static void
-map_write_foreach (gpointer key, gpointer value, gpointer data)
-{
-	xmlNodePtr root = data;
-	xmlNodePtr mnode;
-	unsigned long *pid = key;
-	const char *uid = value;
-	char *pidstr;
-	
-	mnode = xmlNewChild (root, NULL, "map", NULL);
-	xmlSetProp (mnode, "uid", uid);
-	pidstr = g_strdup_printf ("%lu", *pid);
-	xmlSetProp (mnode, "pilot_id", pidstr);
-	g_free (pidstr);
-}
-		
-static int
-map_write (EAddrConduitContext *ctxt, char *filename)
-{
-	xmlDocPtr doc;
-	int ret;
-	
-	if (ctxt->pid_map == NULL)
-		return 0;
-	
-	doc = xmlNewDoc ("1.0");
-	if (doc == NULL) {
-		WARN ("Pilot map file could not be created\n");
-		return -1;
-	}
-	doc->root = xmlNewDocNode(doc, NULL, "PilotMap", NULL);
-	map_set_node_timet (doc->root, "timestamp", time (NULL));
-
-	g_hash_table_foreach (ctxt->pid_map, map_write_foreach, doc->root);
-	
-  	/* Write the file */
-	xmlSetDocCompressMode (doc, 0);
-	ret = xmlSaveFile (filename, doc);
-	if (ret < 0) {
-		g_warning ("Pilot map file '%s' could not be saved\n", filename);
-		return -1;
-	}
-	
-	xmlFreeDoc (doc);
-
-	return 0;
-}
-
 /* Addressbok Server routines */
 static void
 add_card_cb (EBook *ebook, EBookStatus status, const char *id, gpointer closure)
@@ -353,6 +240,16 @@ start_addressbook_server (EAddrConduitContext *ctxt)
 }
 
 /* Utility routines */
+static char *
+map_name (EAddrConduitContext *ctxt) 
+{
+	char *filename = NULL;
+	
+	filename = g_strdup_printf ("%s/evolution/local/Contacts/pilot-map-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
+
+	return filename;
+}
+
 static void
 compute_pid (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid)
 {
@@ -728,7 +625,6 @@ pre_sync (GnomePilotConduit *conduit,
 	int len;
 	unsigned char *buf;
 	char *filename;
-	xmlSAXHandler handler;
 /*  	gint num_records; */
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
@@ -750,14 +646,7 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->uid_map = g_hash_table_new (g_str_hash, g_str_equal);
 
 	filename = map_name (ctxt);
-	if (g_file_exists (filename)) {
-		memset (&handler, 0, sizeof (xmlSAXHandler));
-		handler.startElement = map_sax_start_element;
-		
-		if (xmlSAXUserParseFile (&handler, ctxt, filename) < 0)
-			return -1;
-	}
-	
+	e_pilot_map_read (filename, ctxt->pid_map, ctxt->uid_map, &ctxt->since);
 	g_free (filename);
 
 	/* Set the count information */
@@ -802,7 +691,7 @@ post_sync (GnomePilotConduit *conduit,
 	LOG ("---------------------------------------------------------\n");
 
 	filename = map_name (ctxt);
-	map_write (ctxt, filename);
+	e_pilot_map_write (filename, ctxt->pid_map);
 	g_free (filename);
 	
 	return 0;

@@ -2,7 +2,8 @@ INCLUDES = 					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)/addressbook/backend	\
-	$(BONOBO_VFS_GNOME_CFLAGS)			\
+	-I$(top_builddir)/e-util		\
+	$(BONOBO_VFS_GNOME_CFLAGS)		\
 	$(GNOME_PILOT_CFLAGS)
 
 # Address Capplet
@@ -35,7 +36,7 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\
 	$(top_builddir)/e-util/libeutil-static.la			\
 	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/libical/src/libical/libical-static.la		\
+	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(BONOBO_VFS_GNOME_LIBS)					\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS) 				\
 	$(GNOME_LIBDIR) 						\

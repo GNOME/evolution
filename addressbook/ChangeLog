@@ -1,3 +1,10 @@
+2000-10-23  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.c (pre_sync): Use e_pilot_map_read
+	(post_sync): Use e_pilot_map_write
+
+	* conduit/Makefile.am: Link libeconduit and not libical
+
 2000-10-20  Michael Meeks  <michael@helixcode.com>
 
 	* contact-editor/e-contact-editor.c (tb_save_and_close_cb): 
