@@ -1,3 +1,14 @@
+2000-03-04  Christopher James Lahey  <clahey@helixcode.com>
+
+	* TODO: Added a bunch of stuff to the TODO list.  Put +s before a
+	few of the items that are finished.
+
+	* test-table.c: Add a button to save the spec file.
+
+	* e-table.c, e-table.h: Add loading configurations from files as
+	well as the ability to get the current configuration out of the
+	widget.
+
 2000-03-03  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.c: Removed some unused code.

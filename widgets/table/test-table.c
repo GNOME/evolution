@@ -273,9 +273,15 @@ table_browser_test (void)
 }
 
 static void
+save_spec (GtkWidget *button, ETable *e_table)
+{
+	e_table_save_specification(e_table, "e-table-test.xml");
+}
+
+static void
 do_e_table_demo (const char *spec)
 {
-	GtkWidget *e_table, *window, *frame;
+	GtkWidget *e_table, *window, *frame, *vbox, *button;
 	ECell *cell_left_just;
 	ETableHeader *full_header;
 	int i;
@@ -308,11 +314,22 @@ do_e_table_demo (const char *spec)
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	frame = gtk_frame_new (NULL);
 	e_table = e_table_new (full_header, e_table_model, spec);
-	gtk_container_add (GTK_CONTAINER (frame), e_table);
+
+	button = gtk_button_new_with_label("Save spec");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (save_spec), e_table);
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	
+	gtk_box_pack_start (GTK_BOX (vbox), e_table, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	gtk_container_add (GTK_CONTAINER (window), frame);
 
 	gtk_widget_set_usize (window, 200, 200);
 	gtk_widget_show (e_table);
+	gtk_widget_show (button);
+	gtk_widget_show (vbox);
 	gtk_widget_show (frame);
 	gtk_widget_show (window);
 }

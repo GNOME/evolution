@@ -56,6 +56,12 @@ void       e_table_construct (ETable *e_table, ETableHeader *full_header, ETable
 			      const char *spec);
 GtkWidget *e_table_new       (ETableHeader *full_header, ETableModel *etm,
 			      const char *spec);
+void       e_table_construct_from_spec_file (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
+					     const char *filename);
+GtkWidget *e_table_new_from_spec_file (ETableHeader *full_header, ETableModel *etm,
+				       const char *filename);
+gchar     *e_table_get_specification  (ETable *e_table);
+void       e_table_save_specification (ETable *e_table, gchar *filename);
 
 
 END_GNOME_DECLS

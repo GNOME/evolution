@@ -58,6 +58,8 @@ et_destroy (GtkObject *object)
 		g_source_remove(et->rebuild_idle_id);
 		et->rebuild_idle_id = 0;
 	}
+	
+	xmlFreeDoc (et->specification);
 
 	(*e_table_parent_class->destroy)(object);
 }
@@ -623,7 +625,7 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "size_allocate",
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
-
+	
 	gtk_widget_show (GTK_WIDGET (e_table->table_canvas));
 	gtk_table_attach (
 		GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
@@ -665,17 +667,13 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 		       NULL);
 }
 
-void
-e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
-		   const char *spec)
+static void
+et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
+			xmlDoc *xmlSpec)
 {
-	xmlDoc *xmlSpec;
 	xmlNode *xmlRoot;
 	xmlNode *xmlColumns;
 	xmlNode *xmlGrouping;
-
-	char *copy;
-	copy = g_strdup(spec);
 
 	GTK_TABLE (e_table)->homogeneous = FALSE;
 
@@ -686,9 +684,6 @@ e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
-	
-	xmlSpec = xmlParseMemory(copy, strlen(copy) + 1);
-	e_table->specification = xmlSpec;
 
 	xmlRoot = xmlDocGetRootElement(xmlSpec);
 	xmlColumns = e_xml_get_child_by_name(xmlRoot, "columns-shown");
@@ -699,6 +694,29 @@ e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table_setup_header (e_table);
 	e_table_setup_table (e_table, full_header, e_table->header, etm, xmlGrouping);
 	e_table_fill_table (e_table, etm);
+}
+
+void
+e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
+		   const char *spec)
+{
+	xmlDoc *xmlSpec;
+	char *copy;
+	copy = g_strdup(spec);
+
+	xmlSpec = xmlParseMemory(copy, strlen(copy));
+	et_real_construct(e_table, full_header, etm, xmlSpec);
+	g_free(copy);
+}
+
+void
+e_table_construct_from_spec_file (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
+				  const char *filename)
+{
+	xmlDoc *xmlSpec;
+
+	xmlSpec = xmlParseFile(filename);
+	et_real_construct(e_table, full_header, etm, xmlSpec);
 }
 
 GtkWidget *
@@ -712,6 +730,84 @@ e_table_new (ETableHeader *full_header, ETableModel *etm, const char *spec)
 		
 	return (GtkWidget *) e_table;
 }
+
+GtkWidget *
+e_table_new_from_spec_file (ETableHeader *full_header, ETableModel *etm, const char *filename)
+{
+	ETable *e_table;
+
+	e_table = gtk_type_new (e_table_get_type ());
+
+	e_table_construct (e_table, full_header, etm, filename);
+		
+	return (GtkWidget *) e_table;
+}
+
+static xmlNode *
+et_build_column_spec(ETable *e_table)
+{
+	xmlNode *columns_shown;
+	gint i;
+	gint col_count;
+
+	columns_shown = xmlNewNode(NULL, "columns-shown");
+
+	col_count = e_table_header_count(e_table->header);
+	for ( i = 0; i < col_count; i++ ) {
+		gchar *text = g_strdup_printf("%d", e_table_header_index(e_table->header, i));
+		xmlNewChild(columns_shown, NULL, "column", text);
+		g_free(text);
+	}
+	return columns_shown;
+}
+
+static xmlNode *
+et_build_grouping_spec(ETable *e_table)
+{
+	xmlNode *grouping;
+	xmlNode *root;
+
+	root = xmlDocGetRootElement(e_table->specification);
+	grouping = xmlCopyNode(e_xml_get_child_by_name(root, "grouping"), TRUE);
+	return grouping;
+}
+
+static xmlDoc *
+et_build_tree (ETable *e_table)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+	doc = xmlNewDoc( "1.0" );
+	if ( doc == NULL )
+		return NULL;
+	root = xmlNewDocNode(doc, NULL, "ETableSpecification", NULL);
+	xmlDocSetRootElement(doc, root);
+	xmlAddChild(root, et_build_column_spec(e_table));
+	xmlAddChild(root, et_build_grouping_spec(e_table));
+	return doc;
+}
+
+gchar *
+e_table_get_specification (ETable *e_table)
+{
+	xmlDoc *doc = et_build_tree (e_table);
+	xmlChar *buffer;
+	gint size;
+	xmlDocDumpMemory(doc,
+			 &buffer,
+			 &size);
+	xmlFreeDoc(doc);
+	return buffer;
+}
+
+void
+e_table_save_specification (ETable *e_table, gchar *filename)
+{
+	xmlDoc *doc = et_build_tree (e_table);
+	xmlSaveFile(filename, doc);
+	xmlFreeDoc(doc);
+}
+
 
 static void
 e_table_class_init (GtkObjectClass *object_class)
