@@ -10,19 +10,6 @@
 
 module GNOME {
 module Evolution {
-	struct Folder {
-		string type;
-		string description;
-		string displayName;
-		string physicalUri;
-		string evolutionUri;
-		string customIconName;
-		long unreadCount;
-		boolean canSyncOffline;
-		short sortingPriority;
-	};
-	typedef sequence <Folder> FolderList;
-
 	struct Icon {
 		short width, height;
 		boolean hasAlpha;

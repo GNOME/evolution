@@ -32,21 +32,13 @@ interface Offline : Bonobo::Unknown {
 	/* Whether the component is currently off-line.  */
 	attribute boolean isOffline;
 
-	/* Ask the component to prepare to go into off-line mode.  The
-	   component must return a list of the current active connections.
-	   After this call, the shell is expected to: (in order)
-
-	   	1. Invoke ::syncFolder for each of the component's folders that
-	   	   need to be synchronized to disk for offline usage.
-
-		2. Either invoke ::goOffline (actually complete the operation
-		   and go off-line) or ::goOnline (operation cancelled).
-	*/
+	/* Ask the component to prepare to go into off-line mode. The
+	 * component must return a list of the current active
+	 * connections. After this call, the shell is expected to
+	 * either invoke ::goOffline (actually complete the operation
+	 * and go off-line) or ::goOnline (operation cancelled).
+	 */
 	void prepareForOffline (out ConnectionList active_connection_list);
-
-	/* Request the component to stop syncing the specified folder.  This
-	   has to happen after ::syncFolder.  */
-	oneway void cancelSyncFolder (in Folder folder);
 
 	/* Ask the component to go into off-line mode.  This always comes after
 	   a ::prepareForOffline. */

@@ -2,10 +2,6 @@
 .deps
 .libs
 .pure
-Evolution-Addressbook-SelectNames-common.c
-Evolution-Addressbook-SelectNames-skels.c
-Evolution-Addressbook-SelectNames-stubs.c
-Evolution-Addressbook-SelectNames.h
 Evolution-common.c
 Evolution-skels.c
 Evolution-stubs.c
@@ -17,8 +13,7 @@ Evolution-DataServer.h
 ID
 Makefile
 Makefile.in
-apps_evolution_shell-1.5.schemas
-apps_evolution_shell-1.5.schemas.in
+apps_evolution_shell-*.schemas
 evolution
 evolution-nognome
 evolution-test-component

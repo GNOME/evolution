@@ -1,4 +1,4 @@
-SUBDIRS = glade importer
+SUBDIRS = importer
 
 INCLUDES =							\
 	-I$(top_srcdir)/widgets					\
@@ -8,7 +8,6 @@ INCLUDES =							\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
@@ -48,27 +47,6 @@ $(IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
 
 $(IDL_GENERATED_C): $(IDL_GENERATED_H)
-
-
-# SelectNames CORBA stuff
-
-SELECT_NAMES_IDL = \
-	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
-
-SELECT_NAMES_IDL_GENERATED_H =			\
-	Evolution-Addressbook-SelectNames.h
-
-SELECT_NAMES_IDL_GENERATED_C = 			   \
-	Evolution-Addressbook-SelectNames-common.c \
-	Evolution-Addressbook-SelectNames-skels.c  \
-	Evolution-Addressbook-SelectNames-stubs.c
-
-SELECT_NAMES_IDL_GENERATED = $(SELECT_NAMES_IDL_GENERATED_C) $(SELECT_NAMES_IDL_GENERATED_H)
-
-$(SELECT_NAMES_IDL_GENERATED_H): $(SELECT_NAMES_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(SELECT_NAMES_IDL)
-
-$(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
 
 
 # Data Server CORBA stuff
@@ -126,7 +104,6 @@ libeshell_la_LIBADD =				\
 # Evolution executable
 
 evolution_SOURCES =				\
-	$(SELECT_NAMES_IDL_GENERATED)		\
 	$(DATASERVER_IDL_GENERATED)		\
 	e-component-registry.c			\
 	e-component-registry.h			\
@@ -139,10 +116,10 @@ evolution_SOURCES =				\
 	e-shell-constants.h			\
 	e-shell-folder-title-bar.c		\
 	e-shell-folder-title-bar.h		\
-	e-shell-offline-handler.c		\
-	e-shell-offline-handler.h		\
 	e-shell-importer.c			\
 	e-shell-importer.h			\
+	e-shell-offline-handler.c		\
+	e-shell-offline-handler.h		\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
 	e-shell-startup-wizard.c		\
@@ -202,12 +179,9 @@ errordir = $(privdatadir)/errors
 %.xml.h: %.xml
 	$(top_builddir)/e-util/e-error-tool $^
 
-etspec_DATA = e-storage-set-view.etspec
-
-icons = 			\
-	check-empty.xpm		\
-	check-filled.xpm	\
-	check-missing.xpm
+glade_DATA =						\
+	e-active-connection-dialog.glade		\
+	evolution-startup-wizard.glade
 
 # GConf schemas
 
@@ -258,9 +232,8 @@ EXTRA_DIST = 					\
 	GNOME_Evolution_Test.server.in.in	\
 	$(error_DATA)				\
 	$(error_i18n)				\
-	$(etspec_DATA)				\
+	$(glade_DATA)				\
 	$(schema_DATA)				\
-	$(icons)				\
 	ChangeLog.pre-1-4			\
 	e-shell-marshal.list			\
 	evolution-nognome.in
@@ -279,7 +252,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED) $(error_i18n)
+BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED) $(error_i18n)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

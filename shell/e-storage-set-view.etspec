@@ -1,8 +1,0 @@
-<ETableSpecification no-headers="true" selection-mode="single" cursor-mode="line" draw-grid="false" horizontal-scrolling="true">
-  <ETableColumn model_col="0" _title="Folder" expansion="1.0" minimum_width="20" resizable="true" cell="render_tree" compare="string" search="string"/>
-  <ETableColumn model_col="2" _title="Checkbox" expansion="0.0" minimum_width="18" resizable="false" cell="optional_checkbox" compare="integer"/>
-	<ETableState>
-		<column source="0"/>
-	        <grouping></grouping>
-	</ETableState>
-</ETableSpecification>
