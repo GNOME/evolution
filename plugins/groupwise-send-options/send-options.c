@@ -137,6 +137,12 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 		g_free (temp) ;
 	}
 
+	if (dialog->data->gopts->priority) {
+		temp = g_strdup_printf ("%d",dialog->data->gopts->priority);
+		e_msg_composer_add_header (comp, X_SEND_OPT_PRIORITY,temp);
+		g_free (temp);
+	}
+       	
 	g_signal_connect (GTK_WIDGET (comp), "destroy",
 				  G_CALLBACK (send_options_commit), dialog);
 }
