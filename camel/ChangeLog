@@ -1,3 +1,12 @@
+2003-08-11  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #45504.
+
+	* camel-service.c (camel_gethostbyname): duh, pthread_create
+	returns the error code directly, not via errno.
+	(camel_gethostbyaddr): Same, also properly handle the failure
+	case.
+
 2003-08-01  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #47208.
