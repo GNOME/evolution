@@ -18,6 +18,7 @@
 #include <gal/util/e-xml-utils.h>
 #include "gal-view-menus.h"
 #include <gal/menus/gal-define-views-dialog.h>
+#include <gal/widgets/e-unicode.h>
 
 struct _GalViewMenusPrivate {
 	GalViewCollection *collection;
@@ -158,8 +159,7 @@ build_menus(GalViewMenus *menus)
 	int length;
 	int i;
 	GalViewCollection *collection = menus->priv->collection;
-
-
+	char *label;
 
 	root = bonobo_ui_node_new("Root");
 	menu = bonobo_ui_node_new_child(root, "menu");
@@ -191,7 +191,9 @@ build_menus(GalViewMenus *menus)
 
 	menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 	bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
-	bonobo_ui_node_set_attr(menuitem, "_label", "Define Views");
+	label = e_utf8_from_locale_string(_("Define Views"));
+	bonobo_ui_node_set_attr(menuitem, "_label", label);
+	g_free (label);
 	bonobo_ui_node_set_attr(menuitem, "verb", "DefineViews");
 
 	string = bonobo_ui_node_to_string(root, TRUE);
