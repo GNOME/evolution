@@ -1,4 +1,37 @@
-Evolution 1.0.4, 18-04-2002
+Evolution 1.0.5, 05-06-2002
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Mailer
+
+    #24140 -- Crash when downloading a message with invalid header.
+              (Jeff)
+
+    #17174 -- Mail spools appear to be unread forever.  (Michael)
+
+  * Shell
+
+    #23538 -- Intermittent bug when moving folders around.  (Michael)
+
+Other fixes:
+
+  * Calendar
+
+    - Make reminders work with remote backends.  (Rodrigo)
+
+  * Misc
+
+    - Added support for adding an Evolution icon to the CDE
+      Application Manager.  (Ettore)
+
+Updated translations:
+
+  - bg (Borislav Aleksandrov)
+  - pl (GNOME PL Team)
+
+
+Evolution 1.0.4, 04-18-2002
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -61,7 +94,7 @@ Updated translations:
   - pt_BR (Gustavo Maciel Dias Vieira)
 
 
-Evolution 1.0.3, 19-03-2002
+Evolution 1.0.3, 03-19-2002
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
