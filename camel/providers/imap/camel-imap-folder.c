@@ -362,6 +362,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	/* FIXME: maybe remove the appropriate messages from the summary
 	   so we don't need to refetch the entire summary? */
 	imap_summary_free (imap_folder->summary);
+	imap_folder->summary = NULL;
 
 	camel_imap_folder_changed (folder, -1, ex);
 }

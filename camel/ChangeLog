@@ -1,3 +1,10 @@
+2000-07-25  Peter Williams  <peterw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_expunge): Set 
+	imap_folder->summary to NULL after calling imap_summary_free,
+	so we don't get stuck with a junk summary pointer. Should
+	we free it at all?
+
 2000-07-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed): 
