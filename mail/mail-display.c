@@ -20,6 +20,7 @@
 #include "mail-display.h"
 #include "mail-config.h"
 #include "mail.h"
+#include "art/empty.xpm"
 
 #include <bonobo.h>
 #include <libgnorba/gnorba.h>
@@ -374,7 +375,7 @@ pixbuf_for_mime_type (const char *mime_type)
 {
 	const char *icon_name;
 	char *filename = NULL;
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf = NULL;
 
 	icon_name = gnome_vfs_mime_get_value (mime_type, "icon-filename");
 	if (icon_name) {
@@ -398,11 +399,22 @@ pixbuf_for_mime_type (const char *mime_type)
 		}
 	}
 	
-	if (!filename)
-		filename = gnome_pixmap_file ("gnome-unknown.png");
+	if (filename) {
+		pixbuf = gdk_pixbuf_new_from_file (filename);
+		g_free (filename);
+	}
 
-	pixbuf = gdk_pixbuf_new_from_file (filename);
-	g_free (filename);
+	if (!pixbuf) {
+		filename = gnome_pixmap_file ("gnome-unknown.png");
+		if (filename) {
+			pixbuf = gdk_pixbuf_new_from_file (filename);
+			g_free (filename);
+		} else {
+			g_warning ("Could not get any icon for %s!",mime_type);
+			pixbuf = gdk_pixbuf_new_from_xpm_data (
+				(const char **)empty_xpm);
+		}
+	}
 
 	return pixbuf;
 }
@@ -469,7 +481,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 
 	mini = gdk_pixbuf_scale_simple (pixbuf, width, height,
 					GDK_INTERP_BILINEAR);
-	if (error)
+	if (error || !pbl->mstream)
 		gdk_pixbuf_unref (pixbuf);
 	bonobo_ui_toolbar_icon_set_pixbuf (
 		BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), mini);

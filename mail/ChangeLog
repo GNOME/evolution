@@ -1,3 +1,10 @@
+2000-12-21  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c (pixbuf_for_mime_type): Deal with the possibility
+	that we have an icon-filename listed for a MIME type, but the icon
+	file doesn't actually exist. Also, if gnome-unknown.png can't be
+	found, fall back. Might fix a crash people have been reporting...
+
 2000-12-18  Chris Toshok  <toshok@helixcode.com>
 
 	* mail-format.c (handle_multipart_encrypted): for now #ifdef
