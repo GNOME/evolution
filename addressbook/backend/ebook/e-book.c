@@ -290,6 +290,8 @@ e_book_do_response_get_view (EBook                 *book,
 	}
 
 	bonobo_object_unref(BONOBO_OBJECT(op->listener));
+	op->listener = NULL;
+	
 	g_free (op);
 }
 
@@ -342,6 +344,8 @@ e_book_do_response_get_changes (EBook                 *book,
 	}
 
 	bonobo_object_unref(BONOBO_OBJECT(op->listener));
+	op->listener = NULL;
+	
 	g_free (op);
 }
 

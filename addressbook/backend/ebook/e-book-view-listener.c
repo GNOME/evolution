@@ -47,7 +47,10 @@ e_book_view_listener_check_queue (EBookViewListener *listener)
 				 e_book_view_listener_signals [RESPONSES_QUEUED]);
 	}
 
-	if (listener->priv->response_queue == NULL) {
+	/* this callback could be (and indeed is) called from signal emited above,
+	   signal handler could call e_book_view_listener_stop, so we need to check
+	   if idle is still set and if not we don't want to unref again */
+	if (listener->priv->response_queue == NULL && listener->priv->idle_id != 0) {
 		listener->priv->idle_id = 0;
 		bonobo_object_unref (BONOBO_OBJECT (listener));
 		return FALSE;

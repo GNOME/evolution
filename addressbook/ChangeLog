@@ -1,3 +1,15 @@
+2001-08-05  Radek Doulik  <rodo@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_do_response_get_view): set
+	op->listener to NULL to catch possible use of freed op
+	(e_book_do_response_get_changes): ditto
+
+	* backend/ebook/e-book-view-listener.c
+	   (e_book_view_listener_check_queue): this callback could be (and
+	   indeed is) called from signal emited above, 
+	   signal handler could call e_book_view_listener_stop, so we need to check
+	   if idle is still set and if not we don't want to unref again
+
 2001-08-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-compare.c (e_card_compare_name): Made it so
