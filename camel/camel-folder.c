@@ -436,10 +436,11 @@ get_unread_message_count(CamelFolder *folder)
 	for (i=0; i<count; i++) {
 		CamelMessageInfo *info = camel_folder_summary_index(folder->summary, i);
 
-		if (info && !(info->flags & CAMEL_MESSAGE_SEEN))
-			unread++;
-
-		camel_folder_summary_info_free(folder->summary, info);
+		if (info) {
+			if (!(info->flags & CAMEL_MESSAGE_SEEN))
+				unread++;
+			camel_folder_summary_info_free(folder->summary, info);
+		}
 	}
 
 	return unread;

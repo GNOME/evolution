@@ -1,5 +1,8 @@
 2001-09-25    <NotZed@Ximian.com>
 
+	* camel-folder.c (get_unread_message_count): Only unref info if we
+	got it.
+
 	* camel-operation.c (camel_operation_unref): Fix for !threads
 	enabled not ccompiling.
 	(camel_operation_ref): Assert refcount > 0.
