@@ -1,3 +1,38 @@
+Version ???
+-----------
+
+Calendar:
+
+  - Meeting page in the event editor now synchronizes its widgets
+    properly.  (JP)
+
+  - Meeting/scheduling pages now use timezones.  (JP)
+
+  - Better dragging of the time range in the meeting page.  (JP)
+
+  - Free/busy computation now uses recurrences.  (JP)
+
+  - Printout of the month view now has lines and dates [#10285].
+    (Damon)
+
+  - VCalendar components and start times for pasted event are handled
+    correctly [#5287].  (Rodrigo)
+
+  - Alarm daemon configuration fixes [14655].  (Federico)
+
+  - Day/week views now cancel operations properly if the component
+    gets deleted after editing [#15137].  (Federico)
+
+  - Miscellaneous i18n fixes.  (Zbigniew)
+
+  - Miscellaneous memory leak fixes.  (Rodrigo)
+
+Tasks:
+
+  - UTF8 fixes for categories in the table view [#15304].  (Federico)
+
+  - Removed the LOCATION field for now.  (Damon)
+
 Version 0.99.0 (1.0 Release Candidate 1), 2001-11-05
 ----------------------------------------------------
 
