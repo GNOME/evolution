@@ -111,7 +111,7 @@ create_page_container (const char *description,
 	GtkWidget *vbox;
 
 	vbox = gtk_vbox_new (FALSE, 3);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 3);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
 
 #if 0
 	label = e_clipped_label_new (description);
@@ -125,7 +125,7 @@ create_page_container (const char *description,
 	gtk_widget_show (separator);
 #endif
 
-	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0); 
 
 	gtk_widget_show (widget);
 	gtk_widget_show (vbox);
@@ -368,6 +368,8 @@ init (EMultiConfigDialog *multi_config_dialog)
 
 	hbox = gtk_hbox_new (FALSE, 2);
 	dialog_vbox = GTK_DIALOG (multi_config_dialog)->vbox;
+	gtk_box_set_spacing (GTK_BOX (dialog_vbox), 6); 
+	
 	gtk_container_add (GTK_CONTAINER (dialog_vbox), hbox);
 
 	list_e_table_model = e_table_memory_store_new (columns);

@@ -1,3 +1,9 @@
+2003-04-22  Anna Dirks  <anna@ximian.com> 
+
+	*misc/e-multi-config-dialog.c : add appropriate padding
+	and spacing to the settings dialog. Fixes #41392.
+
+
 2003-04-10  Mike Kestner  <mkestner@ximian.com>
 
 	* menus/gal-view-menus.c (build menus): add ... to "Define Views"
