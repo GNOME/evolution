@@ -1,3 +1,7 @@
+2003-10-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* configure.in: Check for gnome-thumbnail.h existence.
+
 2003-09-27  Laurent Dhima  <laurenti@alblinux.net>
 
 	* configure.in: Added "sq" to ALL_LINGUAS.

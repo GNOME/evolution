@@ -1,3 +1,9 @@
+2003-10-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* mail-display.c: (pixbuf_gen_idle):
+	Use gnome-thumbnail_scale_down_pixbuf if available,
+	for better performance.
+
 2003-10-03  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* mail-config-druid.c (identity_prepare), (config_wizard_new):

@@ -52,6 +52,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+#include <libgnomeui/gnome-thumbnail.h>
+#endif
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
 
@@ -710,7 +713,11 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 		}
 	}
 	
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+	mini = gnome_thumbnail_scale_down_pixbuf (pixbuf, width, height);
+#else
 	mini = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
+#endif
 	if (error || !pbl->mstream)
 		g_object_unref (pixbuf);
 	

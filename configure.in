@@ -1061,6 +1061,7 @@ AC_SUBST(GNOME_FULL_LIBS)
 CPPFLAGS_save="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
 AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
+AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
 CPPFLAGS="$CPPFLAGS_save"
 
 dnl --- Flags for the various libraries we build
