@@ -56,7 +56,7 @@
 #include <filter/filter-rule.h>
 #include <filter/filter-option.h>
 #include <filter/filter-folder.h>
-#include <filter/filter-score.h>
+#include <filter/filter-int.h>
 #include <shell/evolution-shell-client.h>
 
 #include "Mail.h"
@@ -709,6 +709,7 @@ netscape_create_priority_converter (FilterContext *fc, NsFilterActionValueType p
 	FilterRule   *fr;
 	FilterElement *el;
 	char           s[MAXLEN];
+	int v;
 
 	ff = filter_filter_new ();
 	fr = FILTER_RULE(ff);
@@ -732,25 +733,26 @@ netscape_create_priority_converter (FilterContext *fc, NsFilterActionValueType p
 
 	switch (priority) {
 	case LOWEST:		
-		((FilterScore *)el)->score = -2;
+		v = -2;
 		break;
 	case LOW:
-		((FilterScore *)el)->score = -1;
+		v = -1;
 		break;
 	case NORMAL:
-		((FilterScore *)el)->score = 0;
+		v = 0;
 		break;
 	case HIGH:
-		((FilterScore *)el)->score = 1;
+		v = 1;
 		break;
 	case HIGHEST:
-		((FilterScore *)el)->score = 2;
+		v = 2;
 		break;
 	default:
 		gtk_object_unref (GTK_OBJECT(ff));
 		return NULL;
 	}
 
+	filter_int_set_value((FilterInt *)el, v);
 	filter_filter_add_action (ff, fp);
 
 	return FILTER_RULE(ff);
@@ -781,27 +783,31 @@ netscape_add_priority_workaround_filters (FilterContext *fc)
 
 
 static gboolean
-netscape_filter_score_set (NsFilterCondition *cond, FilterScore *el)
+netscape_filter_score_set (NsFilterCondition *cond, FilterInt *el)
 {
+	int v;
+
 	switch (cond->prop_val_id) {
 	case LOWEST:
-		el->score = -2;
+		v = -2;
 		break;
 	case LOW:
-		el->score = -1;
+		v = -1;
 		break;
 	case NORMAL:
-		el->score = 0;
+		v = 0;
 		break;
 	case HIGH:
-		el->score = 1;
+		v = 1;
 		break;
 	case HIGHEST:
-		el->score = 2;
+		v = 2;
 		break;
 	default:
 		return FALSE;
 	}
+
+	filter_int_set_value(el, v);
 
 	return TRUE;
 }
@@ -953,7 +959,7 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 				filter_option_set_current ((FilterOption*)el, "is");
 				el = filter_part_find_element (fp, "versus");
 
-				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+				if (!netscape_filter_score_set(cond, (FilterInt*)el)) {
 					filter_rule_remove_part (fr, fp);
 					gtk_object_unref (GTK_OBJECT(fp));
 					continue;
@@ -968,7 +974,7 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 				filter_option_set_current ((FilterOption*)el, "is-not");
 				el = filter_part_find_element (fp, "versus");
 
-				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+				if (!netscape_filter_score_set(cond, (FilterInt*)el)) {
 					filter_rule_remove_part (fr, fp);
 					gtk_object_unref (GTK_OBJECT(fp));
 					continue;
@@ -983,7 +989,7 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 				filter_option_set_current ((FilterOption*)el, "greater-than");
 				el = filter_part_find_element (fp, "versus");
 
-				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+				if (!netscape_filter_score_set(cond, (FilterInt*)el)) {
 					filter_rule_remove_part (fr, fp);
 					gtk_object_unref (GTK_OBJECT(fp));
 					continue;
@@ -998,7 +1004,7 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 				filter_option_set_current ((FilterOption*)el, "less-than");
 				el = filter_part_find_element (fp, "versus");
 
-				if (!netscape_filter_score_set(cond, (FilterScore*)el)) {
+				if (!netscape_filter_score_set(cond, (FilterInt*)el)) {
 					filter_rule_remove_part (fr, fp);
 					gtk_object_unref (GTK_OBJECT(fp));
 					continue;
@@ -1098,23 +1104,23 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 
 		switch (nsf->action_val_id) {
 		case LOWEST:
-			((FilterScore *)el)->score = -2;
+			filter_int_set_value((FilterInt *)el, -2);
 			action_added = TRUE;
 			break;
 		case LOW:
-			((FilterScore *)el)->score = -1;
+			filter_int_set_value((FilterInt *)el, -1);
 			action_added = TRUE;
 			break;
 		case NORMAL:
-			((FilterScore *)el)->score = 0;
+			filter_int_set_value((FilterInt *)el, 0);
 			action_added = TRUE;
 			break;
 		case HIGH:
-			((FilterScore *)el)->score = 1;
+			filter_int_set_value((FilterInt *)el, 1);
 			action_added = TRUE;
 			break;
 		case HIGHEST:
-			((FilterScore *)el)->score = 2;
+			filter_int_set_value((FilterInt *)el, 2);
 			action_added = TRUE;
 			break;
 		default:
