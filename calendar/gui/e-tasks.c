@@ -826,6 +826,7 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 	ECal *client;
 	char *str_uri;
 	GError *error = NULL;
+	const char *uid;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -833,15 +834,15 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 
 	priv = tasks->priv;
 
-	str_uri = e_source_get_uri (source);
-	client = g_hash_table_lookup (priv->clients, str_uri);
-	if (client) {
-		g_free (str_uri);
+	uid = e_source_peek_uid (source);
+	client = g_hash_table_lookup (priv->clients, uid);
+	if (client) 
 		return TRUE;
-	}
+	
 
 	/* FIXME Loading should be async */
 	/* FIXME With no event handling here the status message never actually changes */
+	str_uri = e_source_get_uri (source);
 	set_status_message (tasks, _("Opening tasks at %s"), str_uri);
 
 	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
@@ -850,7 +851,7 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 		return FALSE;
 	}
 
-	g_hash_table_insert (priv->clients, str_uri, client);
+	g_hash_table_insert (priv->clients, g_strdup (uid) , client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
@@ -871,7 +872,7 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	ETasksPrivate *priv;
 	ECal *client;
 	ECalModel *model;
-	char *str_uri;
+	const char *uid;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -879,12 +880,11 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 
 	priv = tasks->priv;
 
-	str_uri = e_source_get_uri (source);
-	client = g_hash_table_lookup (priv->clients, str_uri);
-	if (!client) {
-		g_free (str_uri);
+	uid = e_source_peek_uid (source);
+	client = g_hash_table_lookup (priv->clients, uid);
+	if (!client) 
 		return TRUE;
-	}
+	
 
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
@@ -893,8 +893,8 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	e_cal_model_remove_client (model, client);
 
-	g_hash_table_remove (priv->clients, str_uri);
-	g_free (str_uri);
+	g_hash_table_remove (priv->clients, uid);
+       
 
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
