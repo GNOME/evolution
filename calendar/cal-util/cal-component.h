@@ -51,6 +51,24 @@ typedef enum {
 	CAL_COMPONENT_TIMEZONE
 } CalComponentVType;
 
+/* Structures to return properties and their parameters */
+
+typedef struct {
+	/* Summary string */
+	const char *value;
+
+	/* Alternate representation URI */
+	const char *altrep_param;
+} CalComponentPropSummary;
+
+typedef struct {
+	/* Description string */
+	const char *value;
+
+	/* Alternate representation URI */
+	const char *altrep_param;
+} CalComponentDescription;
+
 typedef struct _CalComponent CalComponent;
 typedef struct _CalComponentClass CalComponentClass;
 
@@ -81,8 +99,12 @@ CalComponentVType cal_component_get_vtype (CalComponent *comp);
 const char *cal_component_get_uid (CalComponent *comp);
 void cal_component_set_uid (CalComponent *comp, const char *uid);
 
-void cal_component_get_summary (CalComponent *comp, const char **summary, const char **altrep);
-void cal_component_set_summary (CalComponent *comp, const char *summary, const char *altrep);
+void cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary);
+void cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary);
+
+void cal_component_get_description_list (CalComponent *comp, GSList **desc_list);
+void cal_component_set_description_list (CalComponent *comp, GSList *desc_list);
+void cal_component_free_description_list (GSList *desc_list);
 
 
 

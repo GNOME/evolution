@@ -39,6 +39,12 @@ typedef struct {
 		icalproperty *prop;
 		icalparameter *altrep_param;
 	} summary;
+
+	struct description {
+		icalproperty *prop;
+		icalparameter *altrep_param;
+	};
+	GSList *description_list;
 } CalComponentPrivate;
 
 
@@ -234,6 +240,39 @@ scan_summary (CalComponent *comp, icalproperty *prop)
 	}
 }
 
+/* Scans the description property */
+static void
+scan_description (CalComponent *comp, icalproperty *prop)
+{
+	CalComponentPrivate *priv;
+	struct description *desc;
+	icalparameter *param;
+
+	priv = comp->priv;
+
+	desc = g_new (struct description, 1);
+	desc->prop = prop;
+
+	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
+	     param;
+	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER)) {
+		icalparameter_kind kind;
+
+		kind = icalparameter_isa (param);
+
+		switch (kind) {
+		case ICAL_ALTREP_PARAMETER:
+			desc->altrep_param = param;
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	priv->description_list = g_slist_append (priv->description_list, desc);
+}
+
 /* Scans an icalproperty and adds its mapping to the component */
 static void
 scan_property (CalComponent *comp, icalproperty *prop)
@@ -243,12 +282,20 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	priv = comp->priv;
 
+	kind = icalproperty_isa (prop);
+
 	switch (kind) {
+	case ICAL_DESCRIPTION_PROPERTY:
+		scan_description (comp, prop);
+		break;
+		
 	case ICAL_SUMMARY_PROPERTY:
 		scan_summary (comp, prop);
+		break;
 
 	case ICAL_UID_PROPERTY:
 		priv->uid_prop = prop;
+		break;
 
 	default:
 		break;
@@ -429,9 +476,7 @@ cal_component_get_vtype (CalComponent *comp)
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CAL_COMPONENT_NO_TYPE);
 
 	priv = comp->priv;
-
-	if (!priv->icalcomp)
-		return CAL_COMPONENT_NO_TYPE;
+	g_return_val_if_fail (priv->icalcomp != NULL, CAL_COMPONENT_NO_TYPE);
 
 	kind = icalcomponent_isa (priv->icalcomp);
 	switch (kind) {
@@ -474,6 +519,7 @@ cal_component_get_uid (CalComponent *comp)
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
 
 	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
 
 	/* This MUST exist, since we ensured that it did */
 	g_assert (priv->uid_prop != NULL);
@@ -508,45 +554,41 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 /**
  * cal_component_get_summary:
  * @comp: A calendar component object.
- * @summary: Return value for the summary string.
- * @altrep: Return value for the alternate representation string.
+ * @summary: Return value for the summary property and its parameters.
  * 
  * Queries the summary of a calendar component object.
  **/
 void
-cal_component_get_summary (CalComponent *comp, const char **summary, const char **altrep)
+cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary)
 {
 	CalComponentPrivate *priv;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (summary != NULL);
 
 	priv = comp->priv;
 
-	if (summary) {
-		if (priv->summary.prop)
-			*summary = icalproperty_get_summary (priv->summary.prop);
-		else
-			*summary = NULL;
-	}
+	if (priv->summary.prop)
+		summary->value = icalproperty_get_summary (priv->summary.prop);
+	else
+		summary->value = NULL;
 
-	if (altrep) {
-		if (priv->summary.altrep_param)
-			*altrep = icalparameter_get_altrep (priv->summary.altrep_param);
-		else
-			*altrep = NULL;
-	}
+	if (priv->summary.altrep_param)
+		summary->altrep_param = icalparameter_get_altrep (priv->summary.altrep_param);
+	else
+		summary->altrep_param = NULL;
 }
 
 /**
  * cal_component_set_summary:
  * @comp: A calendar component object.
- * @summary: Summary string.
+ * @summary: Summary property and its parameters.
  * 
  * Sets the summary of a calendar component object.
  **/
 void
-cal_component_set_summary (CalComponent *comp, const char *summary, const char *altrep)
+cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary)
 {
 	CalComponentPrivate *priv;
 
@@ -554,35 +596,40 @@ cal_component_set_summary (CalComponent *comp, const char *summary, const char *
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
 
 	priv = comp->priv;
-
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	if (!summary)
-		g_return_if_fail (altrep == NULL);
+	if (!summary) {
+		if (priv->summary.prop) {
+			icalcomponent_remove_property (priv->icalcomp, priv->summary.prop);
+			icalproperty_free (priv->summary.prop);
 
-	if (summary) {
-		if (priv->summary.prop)
-			icalproperty_set_summary (priv->summary.prop, (char *) summary);
-		else {
-			priv->summary.prop = icalproperty_new_summary ((char *) summary);
-			icalcomponent_add_property (priv->icalcomp, priv->summary.prop);
+			priv->summary.prop = NULL;
+			priv->summary.altrep_param = NULL;
 		}
-	} else if (priv->summary.prop) {
-		icalcomponent_remove_property (priv->icalcomp, priv->summary.prop);
-		icalproperty_free (priv->summary.prop);
 
-		priv->summary.prop = NULL;
-		priv->summary.altrep_param = NULL;
+		return;
 	}
 
-	if (altrep) {
+	g_return_if_fail (summary->value != NULL);
+
+	if (priv->summary.prop)
+		icalproperty_set_summary (priv->summary.prop, (char *) summary->value);
+	else {
+		priv->summary.prop = icalproperty_new_summary ((char *) summary->value);
+		icalcomponent_add_property (priv->icalcomp, priv->summary.prop);
+	}
+
+	if (summary->altrep_param) {
 		g_assert (priv->summary.prop != NULL);
 
 		if (priv->summary.altrep_param)
-			icalparameter_set_altrep (priv->summary.altrep_param, (char *) altrep);
+			icalparameter_set_altrep (priv->summary.altrep_param,
+						  (char *) summary->altrep_param);
 		else {
-			priv->summary.altrep_param = icalparameter_new_altrep ((char *) altrep);
-			icalproperty_add_parameter (priv->summary.prop, priv->summary.altrep_param);
+			priv->summary.altrep_param = icalparameter_new_altrep (
+				(char *) summary->altrep_param);
+			icalproperty_add_parameter (priv->summary.prop,
+						    priv->summary.altrep_param);
 		}
 	} else if (priv->summary.altrep_param) {
 #if 0
@@ -593,4 +640,138 @@ cal_component_set_summary (CalComponent *comp, const char *summary, const char *
 
 		priv->summary.altrep_param = NULL;
 	}
+}
+
+/**
+ * cal_component_get_description_list:
+ * @comp: A calendar component object.
+ * @desc_list: Return value for the description properties and their parameters,
+ * as a list of #CalComponentDescription structures.  This should be freed using
+ * the cal_component_free_description_list() function.
+ * 
+ * Queries the description of a calendar component object.  Journal components
+ * may have more than one description, and as such this function returns a list
+ * of #CalComponentDescription structures.  All other types of components can
+ * have at most one description.
+ **/
+void
+cal_component_get_description_list (CalComponent *comp, GSList **desc_list)
+{
+	CalComponentPrivate *priv;
+	GSList *list;
+	GSList *l;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (desc_list != NULL);
+
+	priv = comp->priv;
+
+	list = NULL;
+
+	for (l = priv->description_list; l; l = l->next) {
+		struct description *desc;
+		CalComponentDescription *d;
+
+		desc = l->data;
+		g_assert (desc->prop != NULL);
+
+		d = g_new (CalComponentDescription, 1);
+		d->value = icalproperty_get_description (desc->prop);
+
+		if (desc->altrep_param)
+			d->altrep_param = icalparameter_get_altrep (desc->altrep_param);
+		else
+			d->altrep_param = NULL;
+
+		list = g_slist_prepend (list, d);
+	}
+
+	*desc_list = g_slist_reverse (list);
+}
+
+/**
+ * cal_component_set_description_list:
+ * @comp: A calendar component object.
+ * @desc_list: List of #CalComponentSummary structures.
+ * 
+ * Sets the description of a calendar component object.  Journal components may
+ * have more than one description, and as such this function takes in a list of
+ * #CalComponentDescription structures.  All other types of components can have
+ * at most one description.
+ **/
+void
+cal_component_set_description_list (CalComponent *comp, GSList *desc_list)
+{
+	CalComponentPrivate *priv;
+	GSList *l;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+	
+	/* Remove old descriptions */
+
+	for (l = priv->description_list; l; l = l->next) {
+		struct description *desc;
+
+		desc = l->data;
+		g_assert (desc->prop != NULL);
+
+		icalcomponent_remove_property (priv->icalcomp, desc->prop);
+		g_free (desc);
+	}
+
+	g_slist_free (priv->description_list);
+	priv->description_list = NULL;
+
+	/* Add in new descriptions */
+
+	for (l = desc_list; l; l = l->next) {
+		CalComponentDescription *d;
+		struct description *desc;
+
+		d = l->data;
+		g_return_if_fail (d->value != NULL);
+
+		desc = g_new (struct description, 1);
+
+		desc->prop = icalproperty_new_description ((char *) d->value);
+		icalcomponent_add_property (priv->icalcomp, desc->prop);
+
+		if (d->altrep_param) {
+			desc->altrep_param = icalparameter_new_altrep ((char *) d->altrep_param);
+			icalproperty_add_parameter (desc->prop, desc->altrep_param);
+		} else
+			desc->altrep_param = NULL;
+
+		priv->description_list = g_slist_prepend (priv->description_list, desc);
+	}
+
+	priv->description_list = g_slist_reverse (priv->description_list);
+}
+
+/**
+ * cal_component_free_description_list:
+ * @desc_list: List of #CalComponentDescription structures.
+ * 
+ * Frees a list of #CalComponentDescription structures as was returned by the
+ * cal_component_get_description_list() function.
+ **/
+void
+cal_component_free_description_list (GSList *desc_list)
+{
+	GSList *l;
+
+	for (l = desc_list; l; l = l->next) {
+		CalComponentDescription *desc;
+
+		desc = l->data;
+		g_return_if_fail (desc != NULL);
+		g_free (desc);
+	}
+
+	g_slist_free (desc_list);
 }

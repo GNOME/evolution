@@ -1,3 +1,22 @@
+2000-07-01  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_get_description_list):
+	Handle the DESCRIPTION property.  There can be multiple
+	descriptions with parameters each, so we deal with a list instead
+	of a single structure.
+	(cal_component_set_description_list): Ditto.
+	(cal_component_free_description_list): Ditto.
+	(scan_property): Ditto.
+	(scan_description): Ditto.
+
+2000-06-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_get_summary): To avoid
+	passing a million parameters to setters/getters for properties
+	that support parameters, we now pass client-side structures
+	instead.  Here we use CalComponentPropSummary.
+	(cal_component_set_summary): Ditto.
+
 2000-06-29  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component-factory.c: Make calendar die when evolution quits.
