@@ -2787,13 +2787,13 @@ msgstr "_Kezdés idõpontja:"
 #: calendar/gui/dialogs/meeting-page.c:1154
 #: calendar/gui/dialogs/meeting-page.c:1222
 msgid "Individual"
-msgstr "Egyéni"
+msgstr "Egyén"
 
 #: calendar/gui/dialogs/meeting-page.c:553
 #: calendar/gui/dialogs/meeting-page.c:570
 #: calendar/gui/dialogs/meeting-page.c:1223
 msgid "Group"
-msgstr "Csoportos"
+msgstr "Csoport"
 
 #: calendar/gui/dialogs/meeting-page.c:555
 #: calendar/gui/dialogs/meeting-page.c:572
