@@ -141,7 +141,7 @@ e_summary_draw (ESummary *summary)
 
 	string = g_string_new (HTML_1);
 	t = time (NULL);
-	strftime (date, 255, "%A, %d %B %Y", localtime (&t));
+	strftime (date, 255, _("%A, %d %B %Y"), localtime (&t));
 
 	html = g_strdup_printf (HTML_2, date);
 	g_string_append (string, html);

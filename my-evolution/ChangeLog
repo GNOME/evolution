@@ -1,5 +1,11 @@
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (e_summary_draw): put _() around the date string.
+
+	* metar.c: Put some _() around things.
+
+2001-07-12  Iain Holmes  <iain@ximian.com>
+
 	* my-evolution.glade: Made the weather a single selection clist.
 
 2001-07-11  Iain Holmes  <iain@ximian.com>

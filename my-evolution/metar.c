@@ -25,19 +25,19 @@ static regex_t metar_re[RE_NUM];
 
 #define TEMP_F_TO_C(f)  (((f) - 32.0) * 0.555556)
 #define TEMP_C_TO_F(c)  (((c) * 1.8) + 32.0)
-#define TEMP_UNIT_STR(units)  (((units) == UNITS_IMPERIAL) ? "\260F" : "\260C")
+#define TEMP_UNIT_STR(units)  (((units) == UNITS_IMPERIAL) ? _("\260F") : _("\260C"))
 
 #define WINDSPEED_KNOTS_TO_KPH(knots)  ((knots) * 1.851965)
 #define WINDSPEED_KPH_TO_KNOTS(kph)    ((kph) * 0.539967)
-#define WINDSPEED_UNIT_STR(units) (((units) == UNITS_IMPERIAL) ? "knots" : "kph")
+#define WINDSPEED_UNIT_STR(units) (((units) == UNITS_IMPERIAL) ? _("knots") : _("kph"))
 
 #define PRESSURE_INCH_TO_MM(inch)   ((inch) * 25.4)
 #define PRESSURE_MM_TO_INCH(mm)     ((mm) * 0.03937)
 #define PRESSURE_MBAR_TO_INCH(mbar) ((mbar) * 0.02963742)
-#define PRESSURE_UNIT_STR(units) (((units) == UNITS_IMPERIAL) ? "inHg" : "mmHg")
+#define PRESSURE_UNIT_STR(units) (((units) == UNITS_IMPERIAL) ? _("inHg") : _("mmHg"))
 #define VISIBILITY_SM_TO_KM(sm)  ((sm) * 1.609344)
 #define VISIBILITY_KM_TO_SM(km)  ((km) * 0.621371)
-#define VISIBILITY_UNIT_STR(units) (((units) == UNITS_IMPERIAL) ? "miles" : "kilometers")
+#define VISIBILITY_UNIT_STR(units) (((units) == UNITS_IMPERIAL) ? _("miles") : _("kilometers"))
 
 static const char *sky_str[] = {
 	N_("Clear sky"),
