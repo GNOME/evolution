@@ -43,6 +43,7 @@ libebookincludedir = $(includedir)/evolution/ebook
 
 libebookinclude_HEADERS =				\
 	e-book-listener.h				\
+	e-book-types.h					\
 	e-book-view-listener.h				\
 	e-book-view.h					\
 	e-book.h					\
@@ -50,7 +51,9 @@ libebookinclude_HEADERS =				\
 	e-card-iterator.h				\
 	e-card-list-iterator.h				\
 	e-card-list.h					\
+	e-card-pairs.h					\
 	e-card-simple.h					\
+	e-card-types.h					\
 	e-card.h
 
 test_client_SOURCES =					\

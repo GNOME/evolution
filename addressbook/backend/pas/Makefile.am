@@ -21,7 +21,7 @@ INCLUDES =						\
         $(BONOBO_GNOME_CFLAGS)
 
 if ENABLE_LDAP
-LDAP_BACKEND = pas-backend-ldap.c
+LDAP_BACKEND = pas-backend-ldap.c pas-backend-ldap.h
 endif
 
 noinst_LIBRARIES = libpas.a

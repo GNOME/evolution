@@ -1,3 +1,8 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added camel-types.h, camel-folder-pt-proxy.h, and
+	camel-thread-proxy.h.
+
 2000-05-09  Dan Winship  <danw@helixcode.com>
 
 	* providers/sendmail/camel-sendmail-transport.c (_send_internal):

@@ -1,3 +1,15 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Removed dist-hook section.
+
+	* configure.in: Set the version number.  Added a check for gnome
+	window icons.  Removed a bunch of unused Makefiles.
+
+	* tools/Makefile.am: Created a proper EXTRA_DIST section.
+
+	* widgets/e-text/Makefile.am: Added
+	e-text-event-processor-types.h.
+
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* art/Makefile.am: Added briefcase.png to get installed.

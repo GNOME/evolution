@@ -7,6 +7,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/calendar			\
+	-I$(top_srcdir)/calendar/pcs			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
 

@@ -35,16 +35,17 @@ AC_STRUCT_TM
 dnl Checks for library functions.
 AC_CHECK_FUNCS(strdup)
 
-AC_OUTPUT(\
-src/libical/icalversion.h \
-config.h \
-src/libical/Makefile \
-src/libicalss/Makefile \
-src/test/Makefile \
-src/Makefile \
-design-data/Makefile \
-doc/Makefile \
-scripts/Makefile \
-test-data/Makefile \
-src/Makefile \
-Makefile )
+AC_OUTPUT([
+Makefile
+src/Makefile
+src/libical/Makefile
+src/libical/icalversion.h
+src/libicalss/Makefile
+src/test/Makefile
+design-data/Makefile
+doc/Makefile
+scripts/Makefile
+test-data/Makefile
+src/Makefile
+config.h
+])

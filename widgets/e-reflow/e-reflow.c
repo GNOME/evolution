@@ -451,7 +451,7 @@ static void
 e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item)
 {
 	e_reflow->items = g_list_append(e_reflow->items, item);
-	gtk_object_ref(item);
+	gtk_object_ref(GTK_OBJECT(item));
 	if ( GTK_OBJECT_FLAGS( e_reflow ) & GNOME_CANVAS_ITEM_REALIZED ) {
 		gnome_canvas_item_set(item,
 				      "width", (double) e_reflow->column_width,

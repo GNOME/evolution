@@ -1,3 +1,22 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Added e-book-types.h, e-card-pairs.h,
+	e-card-types.h.
+
+	* backend/pas/Makefile.am: Added pas-backend-ldap.h.
+
+	* contact-editor/Makefile.am: Added a proper EXTRA_DIST section.
+	Removed some old defines.
+
+	* ename/Makefile.am: Added e-name-western-tables.h.
+
+	* gui/component/Makefile.am: Added e-ldap-server-dialog.h.  Added
+	a proper EXTRA_DIST section.
+
+	* gui/minicard/e-reflow.c: Added a missed cast.
+
+	* printing/Makefile.am: Added a proper EXTRA_DIST section.
+	
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor.c: Make sure that the canvas

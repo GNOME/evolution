@@ -1,3 +1,13 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am, local/Calendar/Makefile.am,
+	local/Contacts/Makefile.am, local/Directories/Makefile.am,
+	local/Directories/subfolders/Bigfoot/Makefile.am,
+	local/Directories/subfolders/Netcenter/Makefile.am,
+	local/Drafts/Makefile.am, local/Inbox/Makefile.am,
+	local/Outbox/Makefile.am, local/Trash/Makefile.am: Created a
+	proper EXTRA_DIST section.
+
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* local/Directories/subfolders/Bigfoot/.cvsignore: New .cvsignore

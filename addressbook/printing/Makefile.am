@@ -43,3 +43,5 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = 				\
 	e-contact-print.glade
 
+EXTRA_DIST = $(glade_DATA)
+

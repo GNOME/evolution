@@ -31,6 +31,7 @@ libetable_a_SOURCES = 				\
 	e-cell-toggle.h				\
 	e-table.c				\
 	e-table.h				\
+	e-table-col-dnd.h			\
 	e-table-col.c				\
 	e-table-col.h				\
 	e-table-config.c			\
@@ -71,7 +72,8 @@ table_test_SOURCES = 	\
 	test-table.c	\
 	test-check.c	\
 	test-cols.c	\
-	table-test.c 
+	table-test.c 	\
+	table-test.h
 
 table_test_LDADD =				\
 	libetable.a				\

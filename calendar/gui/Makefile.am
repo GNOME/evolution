@@ -60,6 +60,7 @@ evolution_calendar_SOURCES =			\
 	goto.c					\
 	mark.c					\
 	mark.h					\
+	main.h					\
 	popup-menu.c				\
 	popup-menu.h				\
 	prop.c					\
@@ -88,10 +89,6 @@ else
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = calendar-control.gnorba
 endif
-
-EXTRA_DIST = 				\
-	calendar-control.gnorba		\
-	calendar-control.oafinfo
 
 #calendar_pilot_sync_SOURCES =	\
 #	 GnomeCal-common.c	\
@@ -192,7 +189,9 @@ EXTRA_DIST =			\
 	workweekview.xpm	\
 	weekview.xpm		\
 	monthview.xpm		\
-	yearview.xpm
+	yearview.xpm		\
+	calendar-control.gnorba	\
+	calendar-control.oafinfo
 
 #	gnome-calendar-conduit.png
 #	todo-conduit-control-applet.desktop

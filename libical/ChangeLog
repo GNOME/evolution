@@ -1,3 +1,7 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Reorder Makefiles so that it will build.
+
 2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* src/test/Makefile.am

@@ -1,3 +1,10 @@
+2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* filter-arg.h: Changed tree.h to gnome-xml/tree.h.
+
+	* Makefile.am: Added filter-arg-types.h, filter-arg.h,
+	filter-xml.h, filter-format.h, filter-druid.h, filter-editor.h.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: set G_LOG_DOMAIN.

@@ -6,8 +6,8 @@ cflags_set=${CFLAGS+set}
 
 EVOLUTION_MAJOR_VERSION=0
 EVOLUTION_MINOR_VERSION=0
-EVOLUTION_MICRO_VERSION=1
-VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
+EVOLUTION_MICRO_VERSION=0
+VERSION=$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
 PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -48,6 +48,17 @@ fi
 AC_MSG_RESULT($system_mail_dir)
 AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir")
 
+dnl Check for new enough gnome-libs
+CFLAGS_save=$CFLAGS
+LIBS_save=$LIBS
+CFLAGS=`gnome-config --cflags gnomeui`
+LIBS=`gnome-config --libs gnomeui`
+
+AC_CHECK_LIB(gnomeui, gnome_window_icon_set_default_from_file, ,[
+AC_MSG_ERROR(gnome-libs 1.0.59 or higher is required.)])
+
+CFLAGS=$CFLAGS_save
+LIBS=$LIBS_save
 
 ALL_LINGUAS="da el fr gl ja nl no ru sv tr uk"
 
@@ -410,18 +421,10 @@ e-util/Makefile
 libibex/Makefile
 camel/Makefile
 camel/providers/Makefile
-camel/providers/MH/Makefile
-camel/providers/maildir/Makefile
 camel/providers/mbox/Makefile
-camel/providers/nntp/Makefile
 camel/providers/pop3/Makefile
 camel/providers/sendmail/Makefile
-camel/providers/smtp/Makefile
 composer/Makefile
-devel-docs/Makefile
-devel-docs/camel/Makefile
-tests/Makefile
-tests/ui-tests/Makefile
 widgets/Makefile
 widgets/e-text/Makefile
 widgets/meeting-time-sel/Makefile

@@ -24,6 +24,7 @@ bin_PROGRAMS =	\
 
 evolution_addressbook_SOURCES = 	\
 	e-ldap-server-dialog.c          \
+	e-ldap-server-dialog.h		\
 	e-addressbook-model.c		\
 	e-addressbook-model.h		\
 	addressbook-factory.c		\
@@ -56,6 +57,7 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = ldap-server-dialog.glade
 
 EXTRA_DIST = 			\
+	$(glade_DATA)		\
 	addressbook.gnorba	\
 	addressbook.oafinfo
 

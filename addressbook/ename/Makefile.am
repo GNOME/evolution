@@ -26,7 +26,9 @@ libename_la_SOURCES =					\
 libenameincludedir = $(includedir)/ename
 
 libenameinclude_HEADERS =				\
+	e-name-western-tables.h				\
 	e-name-western.h
+
 
 noinst_PROGRAMS =					\
 	test-ename-western				\

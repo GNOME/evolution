@@ -2,8 +2,9 @@ bin_PROGRAMS =	evolution-mail test-mail
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
-EXTRA_DIST = e-attchmt.png
-pkgdata_DATA = e-attchmt.png
+#imagesdir = $(datadir)/images/evolution
+#images_DATA = e-attchmt.png
+#EXTRA_DIST = $(image_DATA)
 
 INCLUDES = \
 	-I$(top_srcdir)/widgets				\
@@ -30,17 +31,19 @@ evolution_mail_SOURCES =		\
 	folder-browser.c		\
 	folder-browser.h		\
 	folder-browser-factory.c	\
-	folder-browser-factory.h	\
 	mail-config.c			\
 	mail-display.c			\
+	mail-display.h			\
 	mail-format.c			\
 	mail-identify.c			\
 	mail-ops.c			\
+	mail-types.h			\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
 	session.c			\
-	mail.h			
+	mail.h				\
+	pixmaps.h
 
 
 evolution_mail_LDADD = 					\

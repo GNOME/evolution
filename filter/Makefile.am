@@ -35,8 +35,16 @@ filter_driver_LDADD = 				\
 
 libfilter_la_SOURCES =				\
 	filter-arg-types.c			\
+	filter-arg-types.h			\
 	filter-arg.c				\
+	filter-arg.h				\
 	filter-xml.c				\
+	filter-xml.h				\
 	filter-format.c				\
+	filter-format.h				\
 	filter-druid.c				\
-	filter-editor.c
+	filter-druid.h				\
+	filter-editor.c				\
+	filter-editor.h
+
+EXTRA_DIST = blank.xpm check.xpm

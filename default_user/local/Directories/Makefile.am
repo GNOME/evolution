@@ -4,3 +4,6 @@ defaultdirectory_DATA = 		\
 	folder-metadata.xml
 
 SUBDIRS= subfolders
+
+EXTRA_DIST = $(defaultdirectory_DATA)
+

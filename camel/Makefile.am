@@ -105,6 +105,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
 	camel-transport.h			\
+	camel-types.h				\
 	camel-url.h				\
 	gmime-content-field.h			\
 	gstring-util.h				\
@@ -122,7 +123,9 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-from.h		\
 	camel-stream-filter.h			\
 	camel-address.h				\
+	camel-folder-pt-proxy.h			\
 	camel-internet-address.h		\
+	camel-thread-proxy.h			\
 	$(pthread_HDR)
 
 libcamel_extra_sources =			\

@@ -1,3 +1,8 @@
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Removed folder-browser-factory.h since it doesn't
+	exist.  Added mail-display.h, mail-types.h, pixmaps.h.
+
 2000-05-09  Matt Loper  <matt@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Remove "File->mail"

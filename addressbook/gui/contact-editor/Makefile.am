@@ -1,8 +1,8 @@
 imagesdir = $(datadir)/images/evolution
-images = email.png head.png phone.png snailmail.png web.png arrow.png briefcase.png netmeeting.png netfreebusy.png
+#images = email.png head.png phone.png snailmail.png web.png arrow.png briefcase.png netmeeting.png netfreebusy.png
 
-EXTRA_DIST = $(images)
-pkgdata_DATA = $(images)
+#EXTRA_DIST = $(images)
+#pkgdata_DATA = $(images)
 
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
@@ -46,3 +46,7 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = 				\
 	contact-editor.glade		\
 	fullname.glade
+
+EXTRA_DIST = $(glade_DATA)		\
+	e-contact-editor-strings.h	\
+	fullname-strings.h
