@@ -449,10 +449,8 @@ static int
 remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 {
 	CamelStreamBuffer *stream;
-	GByteArray *bytes;
-	gchar buf[1024], *ret;
 	CamelException internal_ex;
-	gint nread;
+	char *buf;
 	
 	*dest = NULL;
 	
@@ -468,49 +466,32 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 	}
 	stream = CAMEL_STREAM_BUFFER (store->istream);
 	
-	bytes = g_byte_array_new ();
-	
-	do {
-		nread = camel_stream_buffer_gets (stream, buf, sizeof (buf));
-		if (nread > 0)
-			g_byte_array_append (bytes, buf, nread);
-	} while (nread == sizeof (buf) - 1);
+	buf = camel_stream_buffer_read_line (stream);
 	
 	camel_exception_init (&internal_ex);
-	if (nread == -1) {
+	if (buf == NULL) {
 		if (errno == EINTR)
 			camel_exception_set (&internal_ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
 		else
-			camel_exception_set (&internal_ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, g_strerror (errno));
-	} else if (bytes->len == 0)
-		camel_exception_set (&internal_ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
-				     _("Server unexpectedly disconnected"));
+			camel_exception_setv (&internal_ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Server unexpectedly disconnected: %s"),
+					      g_strerror (errno));
+	}
 	
 	if (camel_exception_is_set (&internal_ex)) {
 		camel_exception_xfer (ex, &internal_ex);
-		g_byte_array_free (bytes, TRUE);
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;
 	}
 	
-	g_byte_array_append (bytes, "", 1);
-	ret = bytes->data;
-	nread = bytes->len - 1;
-	g_byte_array_free (bytes, FALSE);
-	
-	/* strip off the CRLF sequence */
-	while (nread > 0 && ret[nread] != '\r')
-		ret[nread--] = '\0';
-	ret[nread] = '\0';
-	
-	*dest = ret;
+	*dest = buf;
 	
 #if d(!)0
 	if (camel_verbose_debug)
 		fprintf (stderr, "received: %s\n", *dest);
 #endif
 	
-	return nread;
+	return strlen (*dest);
 }
 
 /**
