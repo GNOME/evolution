@@ -2,8 +2,6 @@ SUBDIRS	= select-names
 
 INCLUDES =							\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
-	$(EXTRA_GNOME_CFLAGS)					\
-	$(GNOME_INCLUDEDIR)					\
 	-I$(top_srcdir)						\
 	-I$(top_builddir)					\
 	-I$(top_srcdir)/shell					\
@@ -15,14 +13,13 @@ INCLUDES =							\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
 	-I$(top_srcdir)/addressbook/backend			\
 	-I$(top_builddir)/addressbook/backend			\
-	$(BONOBO_HTML_GNOME_CFLAGS)				\
-	$(GNOME_VFS_CFLAGS)					\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\"
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 
 bin_PROGRAMS =	\
@@ -45,28 +42,25 @@ evolution_addressbook_SOURCES = 	\
 	e-address-popup.h		\
 	e-address-popup.c
 
-evolution_addressbook_LDADD =						\
-	select-names/libeselectnames.la					\
-	$(top_builddir)/shell/libeshell.la				\
-	$(EXTRA_GNOME_LIBS)						\
-	$(BONOBO_HTML_GNOME_LIBS)					\
-	$(GNOME_VFS_LIBS)						\
-	$(BONOBO_CONF_LIBS)						\
-	$(top_builddir)/addressbook/gui/widgets/libeminicard.a		\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-	$(top_builddir)/camel/libcamel.la				\
-	$(top_builddir)/libibex/libibex.la				\
-	$(top_builddir)/e-util/ename/libename.la			\
+evolution_addressbook_LDADD =								\
+	select-names/libeselectnames.la							\
+	$(top_builddir)/shell/libeshell.la						\
+	$(top_builddir)/addressbook/gui/widgets/libeminicard.a				\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
+	$(top_builddir)/camel/libcamel.la						\
+	$(top_builddir)/libibex/libibex.la						\
+	$(top_builddir)/e-util/ename/libename.la					\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a	\
-	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a	\
-	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/addressbook/printing/libecontactprint.a		\
-	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.a	\
-	$(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
-	$(top_builddir)/filter/libfilter.la				\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/widgets/menus/libmenus.la
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a		\
+	$(top_builddir)/libversit/libversit.la						\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a 					\
+	$(top_builddir)/addressbook/printing/libecontactprint.a				\
+	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.a			\
+	$(top_builddir)/addressbook/gui/merging/libecardmerging.a			\
+	$(top_builddir)/filter/libfilter.la						\
+	$(top_builddir)/e-util/libeutil.la						\
+	$(top_builddir)/widgets/menus/libmenus.la					\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
 
@@ -79,10 +73,10 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = addressbook-config.glade
 
-EXTRA_DIST = 			\
-	$(glade_DATA)		\
-	$(oaf_DATA)		\
-	addressbook-config.glade\
+EXTRA_DIST = 				\
+	$(glade_DATA)			\
+	$(oaf_DATA)			\
+	addressbook-config.glade	\
 	$(oaf_in_files)
 
 if ENABLE_PURIFY

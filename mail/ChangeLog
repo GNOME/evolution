@@ -1,3 +1,8 @@
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: s/MAILER_CFLAGS/EVOLUTION_MAIL_CFLAGS/,
+	s/MAILER_LIBS/EVOLUTION_MAIL_LIBS/.
+
 2002-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (session_system_beep): This wrapper for gdk_beep().

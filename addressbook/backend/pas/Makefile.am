@@ -20,8 +20,7 @@ INCLUDES =						\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
-        $(BONOBO_GNOME_CFLAGS)				\
-	$(EXTRA_GNOME_CFLAGS)
+        $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 LDAP_SCHEMA =						\
 	evolutionperson.schema

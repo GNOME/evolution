@@ -49,16 +49,13 @@ INCLUDES = 							\
 	-I$(top_builddir)/addressbook/backend/ebook		\
 	-I$(top_srcdir)/widgets					\
 	-I$(includedir)						\
-	$(BONOBO_HTML_GNOME_CFLAGS)				\
-	$(GNOME_VFS_CFLAGS)					\
-	$(GAL_CFLAGS)						\
-	$(BONOBO_CONF_CFLAGS)					\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
         -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"        	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\"
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
+	$(EVOLUTION_CALENDAR_CFLAGS)
 
 iconsdir = $(datadir)/images/evolution
 
@@ -176,12 +173,7 @@ evolution_calendar_LDADD =								\
 	dialogs/libcal-dialogs.a							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\
-	$(EXTRA_GNOME_LIBS)								\
-	$(BONOBO_HTML_GNOME_LIBS)							\
-	$(GNOME_VFS_LIBS)								\
-	$(BONOBO_CONF_LIBS)								\
-	$(GAL_LIBS)									\
-	$(INTLLIBS)
+	$(EVOLUTION_CALENDAR_LIBS)
 
 evolution_calendar_LDFLAGS = -export-dynamic
 

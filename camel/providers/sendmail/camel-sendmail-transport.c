@@ -131,8 +131,8 @@ sendmail_send_internal (CamelMedium *message, const char **argv, CamelException 
 		/* Child process */
 		nullfd = open ("/dev/null", O_RDWR);
 		dup2 (fd[0], STDIN_FILENO);
-		dup2 (nullfd, STDOUT_FILENO);
-		dup2 (nullfd, STDERR_FILENO);
+		/*		dup2 (nullfd, STDOUT_FILENO);
+				dup2 (nullfd, STDERR_FILENO);*/
 		close (nullfd);
 		close (fd[1]);
 

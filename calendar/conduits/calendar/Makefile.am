@@ -6,10 +6,7 @@ INCLUDES = 					\
 	-I$(top_builddir)/libical/src/libical	\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
-	$(BONOBO_GNOME_CFLAGS)			\
-	$(BONOBO_CONF_CFLAGS)			\
-	$(PISOCK_CFLAGS)			\
-	$(GNOME_PILOT_CFLAGS)
+	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 
 # Calendar Conduit
 e_calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
@@ -26,11 +23,7 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(top_builddir)/libwombat/libwombat-static.la		 	\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
-	$(BONOBO_GNOME_LIBS)						\
-	$(BONOBO_CONF_LIBS)						\
-	$(PISOCK_LIBS) 							\
-	$(GNOME_LIBDIR) 						\
-	$(GNOME_LIBS)
+	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 e-calendar.conduit: e-calendar.conduit.in Makefile
 	sed -e 's^\@prefix\@^$(prefix)^g' 				\

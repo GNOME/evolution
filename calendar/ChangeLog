@@ -1,3 +1,16 @@
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* conduits/calendar/Makefile.am: Use
+	EVOLUTION_CALENDAR_CONDUIT_LIBS and
+	EVOLUTION_CALENDAR_CONDUIT_CFLAGS.
+	* conduits/todo/Makefile.am: Likewise.
+
+	* cal-client/Makefile.am: Use EVOLUTION_CALENDAR_LIBS and
+	EVOLUTION_CALENDAR_CFLAGS.
+	* cal-util/Makefile.am: Likewise.
+	* gui/alarm-notify/Makefile.am: Likewise.
+	* gui/Makefile.am: Likewise.
+
 2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (create_object): Pass a NULL @icon to

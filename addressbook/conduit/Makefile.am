@@ -5,8 +5,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	$(PISOCK_CFLAGS)			\
-	$(GNOME_PILOT_CFLAGS)			\
-	$(BONOBO_GNOME_CFLAGS)			\
+	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)	\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
 
 # Address Conduit
@@ -24,12 +23,7 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(top_builddir)/camel/libcamel-static.la	 		\
 	$(top_builddir)/libibex/libibex.la				\
-	$(PISOCK_LIBS) 							\
-	$(GNOME_PILOT_LIBS) 						\
-	$(BONOBO_CONF_LIBS)						\
-	$(BONOBO_GNOME_LIBS)						\
-	$(GNOME_LIBDIR) 						\
-	$(GNOME_LIBS)
+	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 e-address.conduit: e-address.conduit.in Makefile
 	sed -e 's^\@prefix\@^$(prefix)^g' 				\

@@ -16,7 +16,7 @@ INCLUDES = \
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/shell/importer			\
 	-I$(top_builddir)/shell/importer		\
-	$(MAILER_CFLAGS)				\
+	$(EVOLUTION_MAIL_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -123,7 +123,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/shell/importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/menus/libmenus.la	\
-	$(MAILER_LIBS)
+	$(EVOLUTION_MAIL_LIBS)
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic

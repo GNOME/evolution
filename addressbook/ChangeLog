@@ -1,3 +1,16 @@
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* conduit/Makefile.am: Use EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS
+	and EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS and remove unused flags
+
+	* gui/component/Makefile.am: Use EVOLUTION_ADDRESSBOOK_CFLAGS and
+	EVOLUTION_ADDRESSBOOK_LIBS and remove unused flags.
+	* backend/pas/Makefile.am: Likewise.
+	* backend/ebook/Makefile.am: Likewise.
+	* printing/Makefile.am: Likewise.
+	* backend/ebook/Makefile.am: Likewise.
+	* gui/widgets/Makefile.am (INCLUDES): Likewise.
+
 2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (create_component): Pass a

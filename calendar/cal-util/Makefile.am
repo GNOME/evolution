@@ -42,8 +42,8 @@ libcal_util_static_la_LDFLAGS = --all-static
 test_recur_SOURCES = 	\
 	 test-recur.c
 
-test_recur_LDADD = 	\
-	 libcal-util.la	\
-	 $(top_builddir)/libversit/libversit.la		\
+test_recur_LDADD = 							\
+	 libcal-util.la							\
+	 $(top_builddir)/libversit/libversit.la				\
 	 $(top_builddir)/libical/src/libical/libical-evolution.la	\
-	 $(EXTRA_GNOME_LIBS)
+	 $(EVOLUTION_CALENDAR_LIBS)

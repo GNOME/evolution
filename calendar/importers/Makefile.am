@@ -12,8 +12,7 @@ INCLUDES = 						\
 	-I$(top_builddir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
-	$(BONOBO_GNOME_CFLAGS)				\
-	$(GNOME_INCLUDEDIR)
+	$(EVOLUTION_CALENDAR_CFLAGS)
 
 evolution_calendar_importer_SOURCES = 	\
 	evolution-calendar-importer.h	\

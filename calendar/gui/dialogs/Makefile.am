@@ -25,13 +25,12 @@ INCLUDES = 								\
 	-I$(top_srcdir)/addressbook/backend/ebook			\
 	-I$(top_builddir)/addressbook/backend/ebook			\
 	-I$(includedir)							\
-	$(EXTRA_GNOME_CFLAGS)						\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"				\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
-	$(BONOBO_VFS_GNOME_CFLAGS)					\
-        -DGNOMELOCALEDIR=\""$(localedir)"\"
+        -DGNOMELOCALEDIR=\""$(localedir)"\"				\
+	$(EVOLUTION_CALENDAR_CFLAGS)
 
 noinst_LIBRARIES = libcal-dialogs.a
 

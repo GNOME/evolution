@@ -1,3 +1,8 @@
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Use EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS and
+	EVOLUTION_EXECUTIVE_SUMMARY_LIBS.
+
 2002-01-24  Iain Holmes  <iain@ximian.com>
 
 	* Locations: Applied the Ukraine patch from Leonid Kanter
