@@ -1,3 +1,11 @@
+2004-06-28  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-store.c (camel_folder_info_new):
+	take url argument directly, fixes a memleak.
+	(camel_folder_info_new): make the toplevel "." into "Inbox"
+	always.
+	(maildir_rename_folder): dont let users rename inbox.
+
 2004-06-27  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-url-scanner.c (camel_url_web_end): More fixes.

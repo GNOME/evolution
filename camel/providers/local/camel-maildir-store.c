@@ -222,19 +222,34 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	g_free(new);
 }
 
-static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full, const char *name)
+static void
+maildir_rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
+{
+	CamelFolder *folder;
+
+	if (strcmp(old, ".") == 0) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     _("Cannot rename folder: %s: Invalid operation"), _("Inbox"));
+		return;
+	}
+
+	((CamelStoreClass *)parent_class)->rename_folder(store, old, new, ex);
+}
+
+static CamelFolderInfo *camel_folder_info_new(CamelURL *url, const char *full, const char *name)
 {
 	CamelFolderInfo *fi;
 
 	fi = g_malloc0(sizeof(*fi));
-	fi->uri = g_strdup(url);
+	fi->uri = camel_url_to_string(url, 0);
 	fi->full_name = g_strdup(full);
-	fi->name = g_strdup(name);
+	if (!strcmp(full, ".")) {
+		fi->flags |= CAMEL_FOLDER_SYSTEM;
+		fi->name = g_strdup(_("Inbox"));
+	} else
+		fi->name = g_strdup(name);
 	fi->unread = -1;
 	fi->total = -1;
-
-	if (!strcmp(full, "."))
-		fi->flags |= CAMEL_FOLDER_SYSTEM;
 
 	d(printf("Adding maildir info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
 
@@ -311,7 +326,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, CamelURL *url, const
 
 	camel_url_set_fragment(url, path);
 
-	fi = camel_folder_info_new(camel_url_to_string(url, 0), path, base);
+	fi = camel_folder_info_new(url, path, base);
 	fill_fi(store, fi, flags);
 
 	if (!(stat(tmp, &st) == 0 && S_ISDIR(st.st_mode)
