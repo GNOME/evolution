@@ -1,3 +1,9 @@
+2003-02-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-message.xml: Make "MessageReplyList" and
+	"MessagePostReply" have no pixbuf.
+	* evolution-mail-global.xml: Same with "MailPost".
+
 2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	* evolution-event-editor.xml: Fix an attributes typo.

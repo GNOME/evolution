@@ -13,8 +13,7 @@
      pixtype="pixbuf"/>
 
     <cmd name="MailPost"
-     _tip="Post a message to a Public folder"
-     pixtype="pixbuf"/>
+     _tip="Post a message to a Public folder"/>
 
     <cmd name="MailStop"
      _tip="Cancel the current mail operation"
