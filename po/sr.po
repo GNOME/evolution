@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-11 17:30+0100\n"
-"PO-Revision-Date: 2004-03-11 17:35+0100\n"
+"POT-Creation-Date: 2004-03-14 05:18+0100\n"
+"PO-Revision-Date: 2004-03-14 05:23+0100\n"
 "Last-Translator: Данило Шеган <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -992,7 +992,7 @@ msgstr "Ка_тегорије..."
 #: calendar/gui/dialogs/meeting-page.c:651 calendar/gui/e-cal-view.c:1300
 #: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2388
-#: mail/em-folder-view.c:783 ui/evolution-addressbook.xml.h:33
+#: mail/em-folder-view.c:765 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:112
 #: ui/evolution-tasks.xml.h:19
@@ -3775,7 +3775,7 @@ msgstr "Коментар садржи"
 msgid "Location contains"
 msgstr "Путања садржи"
 
-#: calendar/gui/cal-search-bar.c:363 mail/mail-ops.c:1106
+#: calendar/gui/cal-search-bar.c:363 mail/mail-ops.c:1059
 msgid "Unmatched"
 msgstr "Нерасподељено"
 
@@ -4925,12 +4925,12 @@ msgstr "_Почетно време:"
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2084
-#: mail/em-account-prefs.c:448 mail/em-folder-view.c:792
+#: mail/em-account-prefs.c:448 mail/em-folder-view.c:774
 #: mail/mail-account-gui.c:1258 mail/mail-account-gui.c:1782
 #: mail/mail-config.glade.h:80
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
-#: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:445
-#: widgets/misc/e-dateedit.c:1482 widgets/misc/e-dateedit.c:1597
+#: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
+#: widgets/misc/e-dateedit.c:1480 widgets/misc/e-dateedit.c:1595
 msgid "None"
 msgstr "Ништа"
 
@@ -5662,13 +5662,13 @@ msgstr "_Објави слободан/заузет информацију"
 
 #: calendar/gui/e-cal-view.c:1282 calendar/gui/e-cal-view.c:1347
 #: calendar/gui/e-calendar-table.c:1037 calendar/gui/e-calendar-table.c:1078
-#: mail/em-folder-view.c:758 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:740 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Отвори"
 
 #: calendar/gui/e-cal-view.c:1283 calendar/gui/e-cal-view.c:1353
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1084
-#: mail/em-folder-view.c:760 mail/em-popup.c:689 mail/em-popup.c:804
+#: mail/em-folder-view.c:742 mail/em-popup.c:689 mail/em-popup.c:804
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Сачувај као..."
@@ -6455,7 +6455,7 @@ msgstr "%a %m/%d/%Y"
 #. This is a strftime() format for a short date. %m = month,
 #. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
-#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1606
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
 msgstr "%m/%d/%Y"
 
@@ -6537,7 +6537,7 @@ msgstr "Важност:"
 msgid "Web Page:"
 msgstr "Веб страница:"
 
-#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2194
+#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2176
 #, c-format
 msgid "Click to open %s"
 msgstr "Кликните да отворите %s"
@@ -8840,25 +8840,29 @@ msgstr "Извршавам претрагу на непознато заглав
 msgid "Unsupported operation: append message: for %s"
 msgstr "Неподржана операција: прикључена порука: за %s"
 
-#: camel/camel-folder.c:1164
+#: camel/camel-folder.c:1169
 #, c-format
 msgid "Unsupported operation: search by expression: for %s"
 msgstr "Неподржана операција: претрага по изразу: за %s"
 
-#: camel/camel-folder.c:1204
+#: camel/camel-folder.c:1209
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
 msgstr "Неподржана операција: претрага по uid-у: за %s"
 
-#: camel/camel-folder.c:1322
+#: camel/camel-folder.c:1327
 msgid "Moving messages"
 msgstr "Померам поруке"
 
-#: camel/camel-folder.c:1322
+#: camel/camel-folder.c:1327
 msgid "Copying messages"
 msgstr "Копирам поруке"
 
-#: camel/camel-folder.c:1571
+#: camel/camel-folder.c:1581
+msgid "Learning junk and/or non junk message(s)"
+msgstr "Подучавање о порукама које су ђубре и/или нису"
+
+#: camel/camel-folder.c:1610
 msgid "Filtering new message(s)"
 msgstr "Филтрирам нове поруке"
 
@@ -8892,7 +8896,8 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:779 camel/camel-gpg-context.c:1263
 #: camel/camel-gpg-context.c:1422 camel/camel-gpg-context.c:1508
-#: camel/camel-gpg-context.c:1615 mail/mail-send-recv.c:593
+#: camel/camel-gpg-context.c:1615 mail/mail-ops.c:697
+#: mail/mail-send-recv.c:593
 msgid "Cancelled."
 msgstr "Поништено."
 
@@ -9482,11 +9487,11 @@ msgstr "Не могу да направим директоријум: неисп
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Не могу да обришем директоријум: %s: неисправна операција"
 
-#: camel/camel-store.c:779 mail/mail-ops.c:1126
+#: camel/camel-store.c:779 mail/mail-ops.c:1079
 msgid "Trash"
 msgstr "Смеће"
 
-#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1130
+#: camel/camel-store.c:781 filter/libfilter-i18n.h:35 mail/mail-ops.c:1083
 #: ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Ђубре"
@@ -10122,20 +10127,20 @@ msgid "Index message body data"
 msgstr "Попиши садржаје порука"
 
 #. $HOME relative path + protocol string
-#: camel/providers/local/camel-local-folder.c:382
+#: camel/providers/local/camel-local-folder.c:388
 #, c-format
 msgid "~%s (%s)"
 msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
-#: camel/providers/local/camel-local-folder.c:386
-#: camel/providers/local/camel-local-folder.c:389
+#: camel/providers/local/camel-local-folder.c:392
+#: camel/providers/local/camel-local-folder.c:395
 #, c-format
 msgid "mailbox:%s (%s)"
 msgstr "mailbox:%s (%s)"
 
 #. a full path + protocol
-#: camel/providers/local/camel-local-folder.c:393
+#: camel/providers/local/camel-local-folder.c:399
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -10311,7 +10316,7 @@ msgstr "Нисам могао да обришем директоријум `%s':
 msgid "not a maildir directory"
 msgstr "није maildir директоријум"
 
-#: camel/providers/local/camel-maildir-store.c:377
+#: camel/providers/local/camel-maildir-store.c:383
 #: camel/providers/local/camel-spool-store.c:286
 #: camel/providers/local/camel-spool-store.c:316
 #, c-format
@@ -11164,12 +11169,12 @@ msgstr "сервер изгледа да не подржава SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
-msgid "STARTTLS request timed out: %s"
-msgstr "STARTTLS захтеву је истекло време: %s"
+msgid "STARTTLS command failed: %s"
+msgstr "Неуспела STARTTLS команда: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:373
-msgid "STARTTLS response error"
-msgstr "STARTTLS погрешан одговор"
+msgid "STARTTLS command failed"
+msgstr "Неуспела STARTTLS команда"
 
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
@@ -11203,114 +11208,111 @@ msgid "SMTP mail delivery via %s"
 msgstr "SMTP достава поште преко %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:686
+msgid "Cannot send message: service not connected."
+msgstr "Не могу да пошаљем поруку: услуга није повезана."
+
+#: camel/providers/smtp/camel-smtp-transport.c:692
 msgid "Cannot send message: sender address not valid."
 msgstr "Не могу да пошаљем поруку: адреса пошиљаоца није исправна."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:612
+#: camel/providers/smtp/camel-smtp-transport.c:696
 msgid "Sending message"
 msgstr "Слање припремљених порука"
 
-#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:711
 msgid "Cannot send message: no recipients defined."
 msgstr "Не могу да пошаљем поруку: нису одређени примаоци."
 
-#: camel/providers/smtp/camel-smtp-transport.c:717
+#: camel/providers/smtp/camel-smtp-transport.c:722
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Не могу да пошаљем поруку: један или више неисправних прималаца"
 
-#: camel/providers/smtp/camel-smtp-transport.c:885
+#: camel/providers/smtp/camel-smtp-transport.c:894
 msgid "SMTP Greeting"
 msgstr "SMTP поздрав"
 
-#: camel/providers/smtp/camel-smtp-transport.c:934
+#: camel/providers/smtp/camel-smtp-transport.c:943
 #, c-format
-msgid "HELO request timed out: %s"
-msgstr "HELO захтеву је истекло време: %s"
+msgid "HELO command failed: %s"
+msgstr "Неуспела HELO команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:956
-msgid "HELO response error"
-msgstr "HELO погрешан одговор"
+#: camel/providers/smtp/camel-smtp-transport.c:960
+msgid "HELO command failed"
+msgstr "Неуспела HELO команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1022
+#: camel/providers/smtp/camel-smtp-transport.c:1026
 msgid "SMTP Authentication"
 msgstr "SMTP пријава"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1028
+#: camel/providers/smtp/camel-smtp-transport.c:1032
 msgid "Error creating SASL authentication object."
 msgstr "Грешка код превљења објекта SASL пријаве."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1045
-#: camel/providers/smtp/camel-smtp-transport.c:1057
+#: camel/providers/smtp/camel-smtp-transport.c:1049
+#: camel/providers/smtp/camel-smtp-transport.c:1060
 #, c-format
-msgid "AUTH request timed out: %s"
-msgstr "AUTH захтеву је истекло време: %s"
+msgid "AUTH command failed: %s"
+msgstr "Неуспела AUTH команда: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1066
-msgid "AUTH request failed."
-msgstr "AUTH захтев неуспео."
+msgid "AUTH command failed"
+msgstr "Неуспела AUTH команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1127
+#: camel/providers/smtp/camel-smtp-transport.c:1128
 msgid "Bad authentication response from server.\n"
 msgstr "Лош одговор на пријаву од сервера.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1152
+#: camel/providers/smtp/camel-smtp-transport.c:1153
 #, c-format
-msgid "MAIL FROM request timed out: %s: mail not sent"
-msgstr "MAIL FROM захтеву је истекло време: %s: порука није послата"
+msgid "MAIL FROM command failed: %s: mail not sent"
+msgstr "Неуспела MAIL FROM команда: %s: порука није послата"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1172
-msgid "MAIL FROM response error"
-msgstr "MAIL FROM погрешан одговор"
+#: camel/providers/smtp/camel-smtp-transport.c:1170
+msgid "MAIL FROM command failed"
+msgstr "Неуспела MAIL FROM команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1196
+#: camel/providers/smtp/camel-smtp-transport.c:1194
 #, c-format
-msgid "RCPT TO request timed out: %s: mail not sent"
-msgstr "RCPT TO захтеву је истекло време: %s: порука није послата"
+msgid "RCPT TO command failed: %s: mail not sent"
+msgstr "Неуспела RCPT TO команда: %s: порука није послата"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1218
+#: camel/providers/smtp/camel-smtp-transport.c:1213
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> неуспело"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1257
+#: camel/providers/smtp/camel-smtp-transport.c:1252
+#: camel/providers/smtp/camel-smtp-transport.c:1310
+#: camel/providers/smtp/camel-smtp-transport.c:1329
 #, c-format
-msgid "DATA request timed out: %s: mail not sent"
-msgstr "DATA захтеву је истекло време: %s: порука није послата"
+msgid "DATA command failed: %s: mail not sent"
+msgstr "Неуспела DATA команда: %s: порука није послата"
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1277
-msgid "DATA response error"
-msgstr "DATA погрешан одговор"
+#: camel/providers/smtp/camel-smtp-transport.c:1269
+#: camel/providers/smtp/camel-smtp-transport.c:1345
+msgid "DATA command failed"
+msgstr "Неуспела DATA команда"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1318
-#: camel/providers/smtp/camel-smtp-transport.c:1341
+#: camel/providers/smtp/camel-smtp-transport.c:1368
 #, c-format
-msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr "DATA слању истекло је време: завршетак поруке: %s: порука није послата"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1361
-msgid "DATA termination response error"
-msgstr "DATA завршетак погрешан одговор"
+msgid "RSET command failed: %s"
+msgstr "Неуспела RSET команда: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1384
+msgid "RSET command failed"
+msgstr "Неуспела RSET команда"
+
+#: camel/providers/smtp/camel-smtp-transport.c:1407
 #, c-format
-msgid "RSET request timed out: %s"
-msgstr "RSET захтеву је истекло време: %s"
+msgid "QUIT command failed: %s"
+msgstr "Неуспела QUIT команда: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1404
-msgid "RSET response error"
-msgstr "RSET погрешан одговор"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1427
-#, c-format
-msgid "QUIT request timed out: %s"
-msgstr "QUIT захтеву је истекло време: %s"
-
-#: camel/providers/smtp/camel-smtp-transport.c:1447
-msgid "QUIT response error"
-msgstr "QUIT погрешан одговор"
+#: camel/providers/smtp/camel-smtp-transport.c:1421
+msgid "QUIT command failed"
+msgstr "Неуспела QUIT команда"
 
 #: composer/e-msg-composer-attachment-bar.c:104
 #, c-format
@@ -11860,7 +11862,7 @@ msgstr "%H:%M:%S"
 #. without seconds.
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
-#: widgets/misc/e-dateedit.c:1416 widgets/misc/e-dateedit.c:1641
+#: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
@@ -11869,7 +11871,7 @@ msgstr "%I:%M %p"
 #. without seconds.
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
-#: widgets/misc/e-dateedit.c:1413 widgets/misc/e-dateedit.c:1638
+#: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -12303,7 +12305,7 @@ msgstr "није означен"
 msgid "Junk Test"
 msgstr "Провера ђубрета"
 
-#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:791
+#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:773
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Етикета"
@@ -12727,7 +12729,7 @@ msgid "%s"
 msgstr "%s"
 
 #: mail/em-folder-tree.c:1876 mail/em-folder-tree.c:1889
-#: mail/em-folder-view.c:660 mail/em-folder-view.c:674
+#: mail/em-folder-view.c:642 mail/em-folder-view.c:656
 #: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Одаберите директоријум"
@@ -12809,152 +12811,152 @@ msgid "_Properties..."
 msgstr "_Особине..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:759 mail/em-popup.c:688
+#: mail/em-folder-view.c:741 mail/em-popup.c:688
 msgid "_Edit as New Message..."
 msgstr "_Уреди као нову поруку..."
 
-#: mail/em-folder-view.c:761
+#: mail/em-folder-view.c:743
 msgid "_Print"
 msgstr "_Штампај"
 
-#: mail/em-folder-view.c:764 ui/evolution-mail-message.xml.h:126
+#: mail/em-folder-view.c:746 ui/evolution-mail-message.xml.h:126
 msgid "_Reply to Sender"
 msgstr "_Одговори пошиљаоцу"
 
-#: mail/em-folder-view.c:765 mail/em-popup.c:808
+#: mail/em-folder-view.c:747 mail/em-popup.c:808
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Одговори на _листу"
 
-#: mail/em-folder-view.c:766 mail/em-popup.c:809
+#: mail/em-folder-view.c:748 mail/em-popup.c:809
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Одговори _Свима"
 
-#: mail/em-folder-view.c:767 mail/em-popup.c:811
+#: mail/em-folder-view.c:749 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Forward"
 msgstr "Просл_еди"
 
-#: mail/em-folder-view.c:770
+#: mail/em-folder-view.c:752
 msgid "Follo_w Up..."
 msgstr "Пр_ати..."
 
-#: mail/em-folder-view.c:771
+#: mail/em-folder-view.c:753
 msgid "Fla_g Completed"
 msgstr "Означ_и завршене"
 
-#: mail/em-folder-view.c:772
+#: mail/em-folder-view.c:754
 msgid "Cl_ear Flag"
 msgstr "Скло_ни ознаку"
 
-#: mail/em-folder-view.c:775 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:757 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "О_значи као прочитано"
 
-#: mail/em-folder-view.c:776
+#: mail/em-folder-view.c:758
 msgid "Mark as _Unread"
 msgstr "Означи као _непрочитано"
 
-#: mail/em-folder-view.c:777
+#: mail/em-folder-view.c:759
 msgid "Mark as _Important"
 msgstr "Оначи као _важно"
 
-#: mail/em-folder-view.c:778
+#: mail/em-folder-view.c:760
 msgid "_Mark as Unimportant"
 msgstr "_Означи као неважно"
 
-#: mail/em-folder-view.c:779 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:761 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Означи као _ђубре"
 
-#: mail/em-folder-view.c:780 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:762 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Означи да _није ђубре"
 
-#: mail/em-folder-view.c:784
+#: mail/em-folder-view.c:766
 msgid "U_ndelete"
 msgstr "Пониш_ти брисање"
 
-#: mail/em-folder-view.c:787
+#: mail/em-folder-view.c:769
 msgid "Mo_ve to Folder..."
 msgstr "Прене_си у директоријум..."
 
-#: mail/em-folder-view.c:788 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:770 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Копирај у директоријум..."
 
-#: mail/em-folder-view.c:796
+#: mail/em-folder-view.c:778
 msgid "Add Sender to Address_book"
 msgstr "Додај пошиљаоца у адреса_р"
 
-#: mail/em-folder-view.c:799
+#: mail/em-folder-view.c:781
 msgid "Appl_y Filters"
 msgstr "При_мени филтере"
 
-#: mail/em-folder-view.c:800
+#: mail/em-folder-view.c:782
 msgid "F_ilter Junk"
 msgstr "Ф_илтрирај ђубре"
 
-#: mail/em-folder-view.c:803
+#: mail/em-folder-view.c:785
 msgid "Crea_te Rule From Message"
 msgstr "На_прави правило од поруке"
 
-#: mail/em-folder-view.c:804
+#: mail/em-folder-view.c:786
 msgid "VFolder on _Subject"
 msgstr "VFolder на _Наслов"
 
-#: mail/em-folder-view.c:805
+#: mail/em-folder-view.c:787
 msgid "VFolder on Se_nder"
 msgstr "VFolder на П_ошиљаоца"
 
-#: mail/em-folder-view.c:806
+#: mail/em-folder-view.c:788
 msgid "VFolder on _Recipients"
 msgstr "VFolder на _Примаоце"
 
-#: mail/em-folder-view.c:807
+#: mail/em-folder-view.c:789
 msgid "VFolder on Mailing _List"
 msgstr "VFolder на дописну _листу"
 
-#: mail/em-folder-view.c:809
+#: mail/em-folder-view.c:791
 msgid "VFolder on Thread"
 msgstr "VFolder за нит"
 
-#: mail/em-folder-view.c:813
+#: mail/em-folder-view.c:795
 msgid "Filter on Sub_ject"
 msgstr "Филтрирај према насло_ву"
 
-#: mail/em-folder-view.c:814
+#: mail/em-folder-view.c:796
 msgid "Filter on Sen_der"
 msgstr "Филтрирај према п_ошиљаоцу"
 
-#: mail/em-folder-view.c:815
+#: mail/em-folder-view.c:797
 msgid "Filter on Re_cipients"
 msgstr "Филтрирај према п_римаоцу"
 
-#: mail/em-folder-view.c:816
+#: mail/em-folder-view.c:798
 msgid "Filter on _Mailing List"
 msgstr "Филтрирај према _дописној листи"
 
-#: mail/em-folder-view.c:818
+#: mail/em-folder-view.c:800
 msgid "Filter on Thread"
 msgstr "Филтрирај прем _нити"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1601 mail/em-folder-view.c:1639
+#: mail/em-folder-view.c:1583 mail/em-folder-view.c:1621
 #: mail/mail-config.glade.h:41
 msgid "Default"
 msgstr "Подразумевани"
 
-#: mail/em-folder-view.c:1675
+#: mail/em-folder-view.c:1657
 msgid "Print Message"
 msgstr "Штампај поруку"
 
-#: mail/em-folder-view.c:1922
+#: mail/em-folder-view.c:1904
 msgid "_Copy Link Location"
 msgstr "_Умножи адресу везе"
 
-#: mail/em-folder-view.c:2189
+#: mail/em-folder-view.c:2171
 #, c-format
 msgid "Click to mail %s"
 msgstr "Кликните да пошаљете %s"
@@ -14894,113 +14896,109 @@ msgstr ""
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Неуспешно додавање у локални директоријум Послато: %s"
 
-#: mail/mail-ops.c:610
-#, c-format
-msgid "Sending \"%s\""
-msgstr "Шаљем \"%s\""
-
-#: mail/mail-ops.c:728
+#: mail/mail-ops.c:664
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Шаљем поруку %d од %d"
 
-#: mail/mail-ops.c:747
+# bug: plural-forms
+#: mail/mail-ops.c:695
 #, c-format
-msgid "Failed on message %d of %d"
-msgstr "Неуспех код поруке %d од %d"
+msgid "Failed to send %d of %d messages"
+msgstr "Неуспешно слање %d од %d порука"
 
-#: mail/mail-ops.c:749
+#: mail/mail-ops.c:699
 msgid "Complete."
 msgstr "Готово."
 
-#: mail/mail-ops.c:843
+#: mail/mail-ops.c:796
 msgid "Saving message to folder"
 msgstr "Чувам поруку у директоријум"
 
-#: mail/mail-ops.c:928
+#: mail/mail-ops.c:881
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Премештам поруке у %s"
 
-#: mail/mail-ops.c:928
+#: mail/mail-ops.c:881
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Копирам поруке у %s"
 
-#: mail/mail-ops.c:1041
+#: mail/mail-ops.c:994
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Претражујем директоријуме у \"%s\""
 
-#: mail/mail-ops.c:1237
+#: mail/mail-ops.c:1190
 msgid "Forwarded messages"
 msgstr "Прослеђене поруке"
 
-#: mail/mail-ops.c:1280
+#: mail/mail-ops.c:1233
 #, c-format
 msgid "Opening folder %s"
 msgstr "Отварам директоријум %s"
 
-#: mail/mail-ops.c:1352
+#: mail/mail-ops.c:1305
 #, c-format
 msgid "Opening store %s"
 msgstr "Отварам оставу %s"
 
-#: mail/mail-ops.c:1430
+#: mail/mail-ops.c:1383
 #, c-format
 msgid "Removing folder %s"
 msgstr "Уклањам директоријум %s"
 
-#: mail/mail-ops.c:1524
+#: mail/mail-ops.c:1477
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Смештам директоријум '%s'"
 
-#: mail/mail-ops.c:1589
+#: mail/mail-ops.c:1542
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Чистим и смештам налог „%s“"
 
-#: mail/mail-ops.c:1590
+#: mail/mail-ops.c:1543
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Смештам налог „%s“"
 
-#: mail/mail-ops.c:1645
+#: mail/mail-ops.c:1598
 msgid "Refreshing folder"
 msgstr "Освежавам директоријум"
 
-#: mail/mail-ops.c:1681 mail/mail-ops.c:1732
+#: mail/mail-ops.c:1634 mail/mail-ops.c:1685
 msgid "Expunging folder"
 msgstr "Избацујем директоријум"
 
-#: mail/mail-ops.c:1729
+#: mail/mail-ops.c:1682
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Празним смеће у '%s'"
 
-#: mail/mail-ops.c:1730
+#: mail/mail-ops.c:1683
 msgid "Local Folders"
 msgstr "Локални директоријуми"
 
-#: mail/mail-ops.c:1813
+#: mail/mail-ops.c:1766
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Учитавам поруку %s"
 
 # bug: plural-forms
-#: mail/mail-ops.c:1885
+#: mail/mail-ops.c:1838
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Учитавам %d порука(е)"
 
 # bug: plural-forms
-#: mail/mail-ops.c:1969
+#: mail/mail-ops.c:1922
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Чувам %d порука(е)"
 
-#: mail/mail-ops.c:2017
+#: mail/mail-ops.c:1970
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -15009,7 +15007,7 @@ msgstr ""
 "Не могу да направим излазну датотеку: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2045
+#: mail/mail-ops.c:1998
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -15018,11 +15016,11 @@ msgstr ""
 "Грешка код чувања порука у: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2116
+#: mail/mail-ops.c:2069
 msgid "Saving attachment"
 msgstr "Чувам прилог"
 
-#: mail/mail-ops.c:2133
+#: mail/mail-ops.c:2086
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -15031,24 +15029,20 @@ msgstr ""
 "Не могу да направим излазну датотеку: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2163
+#: mail/mail-ops.c:2116
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Нисам могао да упишем: %s"
 
-#: mail/mail-ops.c:2311
+#: mail/mail-ops.c:2264
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Прекидам везу са %s"
 
-#: mail/mail-ops.c:2311
+#: mail/mail-ops.c:2264
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Поново се повезујем на %s"
-
-#: mail/mail-ops.c:2413
-msgid "Changing junk status"
-msgstr "Измена стања ђубрета"
 
 #: mail/mail-search.glade.h:2
 msgid "Case Sensitive"
@@ -18108,11 +18102,11 @@ msgstr "ПУСЧПСН"
 msgid "%B %Y"
 msgstr "%B %Y."
 
-#: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:431
+#: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:429
 msgid "Now"
 msgstr "Сада"
 
-#: widgets/misc/e-cell-date-edit.c:249 widgets/misc/e-dateedit.c:437
+#: widgets/misc/e-cell-date-edit.c:249 widgets/misc/e-dateedit.c:435
 msgid "Today"
 msgstr "Данас"
 
@@ -18264,12 +18258,12 @@ msgstr "Размак показивача"
 msgid "Spacing around expander arrow"
 msgstr "Размак око стрелице разграника"
 
-#: widgets/misc/e-filter-bar.c:191
+#: widgets/misc/e-filter-bar.c:193
 msgid "Search Editor"
 msgstr "Уредник претраге"
 
 #. FIXME: get the toplevel window...
-#: widgets/misc/e-filter-bar.c:212
+#: widgets/misc/e-filter-bar.c:214
 msgid "Save Search"
 msgstr "Сачувај претрагу"
 
@@ -18289,15 +18283,15 @@ msgstr "_Напредно..."
 msgid "Choose Image"
 msgstr "Изаберите слику"
 
-#: widgets/misc/e-search-bar.c:531
+#: widgets/misc/e-search-bar.c:540
 msgid "_Search"
 msgstr "Прона_ђи"
 
-#: widgets/misc/e-search-bar.c:537
+#: widgets/misc/e-search-bar.c:546
 msgid "_Find Now"
 msgstr "_Пронађи"
 
-#: widgets/misc/e-search-bar.c:538 widgets/misc/e-search-bar.c:929
+#: widgets/misc/e-search-bar.c:547 widgets/misc/e-search-bar.c:929
 msgid "_Clear"
 msgstr "_Очисти"
 
@@ -18326,6 +18320,58 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% завршено)"
+
+#~ msgid "STARTTLS request timed out: %s"
+#~ msgstr "STARTTLS захтеву је истекло време: %s"
+
+#~ msgid "STARTTLS response error"
+#~ msgstr "STARTTLS погрешан одговор"
+
+#~ msgid "HELO request timed out: %s"
+#~ msgstr "HELO захтеву је истекло време: %s"
+
+#~ msgid "HELO response error"
+#~ msgstr "HELO погрешан одговор"
+
+#~ msgid "AUTH request timed out: %s"
+#~ msgstr "AUTH захтеву је истекло време: %s"
+
+#~ msgid "AUTH request failed."
+#~ msgstr "AUTH захтев неуспео."
+
+#~ msgid "MAIL FROM response error"
+#~ msgstr "MAIL FROM погрешан одговор"
+
+#~ msgid "DATA response error"
+#~ msgstr "DATA погрешан одговор"
+
+#~ msgid "DATA send timed out: message termination: %s: mail not sent"
+#~ msgstr ""
+#~ "DATA слању истекло је време: завршетак поруке: %s: порука није послата"
+
+#~ msgid "DATA termination response error"
+#~ msgstr "DATA завршетак погрешан одговор"
+
+#~ msgid "RSET request timed out: %s"
+#~ msgstr "RSET захтеву је истекло време: %s"
+
+#~ msgid "RSET response error"
+#~ msgstr "RSET погрешан одговор"
+
+#~ msgid "QUIT request timed out: %s"
+#~ msgstr "QUIT захтеву је истекло време: %s"
+
+#~ msgid "QUIT response error"
+#~ msgstr "QUIT погрешан одговор"
+
+#~ msgid "Sending \"%s\""
+#~ msgstr "Шаљем \"%s\""
+
+#~ msgid "Failed on message %d of %d"
+#~ msgstr "Неуспех код поруке %d од %d"
+
+#~ msgid "Changing junk status"
+#~ msgstr "Измена стања ђубрета"
 
 #~ msgid "Quit Assistant"
 #~ msgstr "Изађи из помоћника"
@@ -19544,9 +19590,6 @@ msgstr "%s (%d%% завршено)"
 
 #~ msgid "Failed to find a common bulk algorithm."
 #~ msgstr "Нисам могао да нађем општи bulk алгоритам."
-
-#~ msgid "Failed to decode message."
-#~ msgstr "Нисам могао да декодирам поруку."
 
 #~ msgid "Hey you, dunce. You need an account to send mail doncha know."
 #~ msgstr ""
