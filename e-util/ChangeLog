@@ -1,3 +1,9 @@
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-map.c (e_pilot_map_clear): clear all info from the map
+
+	* e-pilot-map.h: add proto
+
 2001-12-10  JP Rosevear  <jpr@ximian.com>
 
 	* e-pilot-util.c (e_pilot_utf8_to_pchar): use UTF-8 instead of
