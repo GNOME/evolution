@@ -53,6 +53,9 @@
 #include "camel-tcp-stream-ssl.h"
 #include <prnetdb.h>
 #endif
+#ifdef HAVE_OPENSSL
+#include "camel-tcp-stream-openssl.h"
+#endif
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-sasl.h"
@@ -243,16 +246,21 @@ connect_to_server (CamelService *service, CamelException *ex)
 	
 	port = service->url->port ? service->url->port : SMTP_PORT;
 	
-#ifdef HAVE_NSS
+#if defined(HAVE_NSS) || defined(HAVE_OPENSSL)
 	if (transport->use_ssl) {
 		port = service->url->port ? service->url->port : 465;
+#ifdef HAVE_NSS
+		/* use the preferred implementation - NSS */
 		tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
+#else
+		tcp_stream = camel_tcp_stream_openssl_new (service, service->url->host);
+#endif /* HAVE_NSS */
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
 #else
 	tcp_stream = camel_tcp_stream_raw_new ();
-#endif /* HAVE_NSS */
+#endif /* HAVE_NSS || HAVE_OPENSSL */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host(h);

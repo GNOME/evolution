@@ -19,6 +19,7 @@ INCLUDES =					\
 	$(GTK_INCLUDEDIR)			\
 	$(NSPR_CFLAGS)				\
 	$(NSS_CFLAGS)				\
+	$(OPENSSL_CFLAGS)			\
         -DG_LOG_DOMAIN=\"camel-smtp-provider\"
 
 libcamelsmtp_la_SOURCES = 			\

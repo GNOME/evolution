@@ -1,3 +1,21 @@
+2001-05-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): Add
+	support for using OpenSSL.
+
+	* camel-remote-store.c (remote_connect): Add support for using the
+	OpenSSL implementation.
+
+	* camel-tcp-stream-ssl.c (ssl_bad_cert): Hmmmm, don't pass in a
+	NULL as the last argument to alert_user - prototype doesn't take
+	that argument anymore?
+
+	* camel-tcp-stream-openssl.c (camel_tcp_stream_openssl_finalize):
+	(ssl_verify): Use a global hash table to try and lookup the
+	CamelTcpStreamOpenSSL object given the ssl context since OpenSSL
+	doesn't think one needs to pass data around, we should all be
+	living in a world of global variables, duh!
+
 2001-05-06  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (libcamelinclude_HEADERS): Fix another build

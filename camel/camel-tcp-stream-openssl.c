@@ -25,7 +25,11 @@
 #endif
 
 #ifdef HAVE_OPENSSL
-#include <openssl/openssl.h>
+
+#include "camel-tcp-stream-openssl.h"
+
+#include <openssl/ssl.h>
+#include <openssl/x509.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -33,10 +37,24 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#include "camel-tcp-stream-openssl.h"
+#include "camel-session.h"
+#include "camel-service.h"
 #include "camel-operation.h"
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#endif
 
 static CamelTcpStreamClass *parent_class = NULL;
+
+static GHashTable *openssl_table = NULL;
+#ifdef ENABLE_THREADS
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+#define OPENSSL_TABLE_LOCK()   pthread_mutex_lock (&lock)
+#define OPENSSL_TABLE_UNLOCK() pthread_mutex_unlock (&lock)
+#else
+#define OPENSSL_TABLE_LOCK
+#define OPENSSL_TABLE_UNLOCK
+#endif
 
 /* Returns the class for a CamelTcpStreamOpenSSL */
 #define CTSR_CLASS(so) CAMEL_TCP_STREAM_OPENSSL_CLASS (CAMEL_OBJECT_GET_CLASS (so))
@@ -98,8 +116,16 @@ camel_tcp_stream_openssl_finalize (CamelObject *object)
 	if (stream->priv->ssl) {
 		SSL_shutdown (stream->priv->ssl);
 		
-		if (stream->priv->ssl->ctx)
+		if (stream->priv->ssl->ctx) {
+			OPENSSL_TABLE_LOCK ();
+			g_hash_table_remove (openssl_table, stream->priv->ssl->ctx);
+			if (g_hash_table_size (openssl_table) == 0) {
+				g_hash_table_destroy (openssl_table);
+				openssl_table = NULL;
+			}
+			OPENSSL_TABLE_UNLOCK ();
 			SSL_CTX_free (stream->priv->ssl->ctx);
+		}
 		
 		SSL_free (stream->priv->ssl);
 	}
@@ -376,30 +402,35 @@ socket_connect (struct hostent *h, int port)
 static int
 ssl_verify (int ok, X509_STORE_CTX *ctx)
 {
-	char *str, buf[256];
+	CamelTcpStreamOpenSSL *stream;
 	X509 *cert;
 	int err;
+	
+	OPENSSL_TABLE_LOCK ();
+	stream = CAMEL_TCP_STREAM_OPENSSL (g_hash_table_lookup (openssl_table, ctx));
+	OPENSSL_TABLE_UNLOCK ();
 	
 	cert = X509_STORE_CTX_get_current_cert (ctx);
 	err = X509_STORE_CTX_get_error (ctx);
 	
-	str = X509_NAME_oneline (X509_get_subject_name (cert), buf, 256);
-	if (str) {
-		if (ok)
-			d(fprintf (stderr, "CamelTcpStreamSSL: depth=%d %s\n", ctx->error_depth, buf));
-		else
-			d(fprintf (stderr, "CamelTcpStreamSSL: depth=%d error=%d %s\n",
-				   ctx->error_depth, err, buf));
-	}
-	
-	if (!ok) {
-		switch (err) {
-		case X509_V_ERR_CERT_NOT_YET_VALID:
-		case X509_V_ERR_CERT_HAS_EXPIRED:
-		case X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT:
-			/* FIXME: get user's response */
-			ok = 1;
-		}
+	if (!ok && stream) {
+		CamelService *service = stream->priv->service;
+		char *prompt, *cert_str;
+		char buf[257];
+		
+#define GET_STRING(name) X509_NAME_oneline(name, buf, 256)
+		
+		cert_str = g_strdup_printf (_("Issuer: %s\n"
+					      "Subject: %s"),
+					    GET_STRING (X509_get_issuer_name (cert)),
+					    GET_STRING (X509_get_subject_name (cert)));
+		
+		prompt = g_strdup_printf (_("Bad certificate from %s:\n\n%s\n\n"
+					    "Do you wish to accept anyway?"),
+					  service->url->host, cert_str);
+		
+		ok = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
+		g_free (prompt);
 	}
 	
 	return ok;
@@ -445,12 +476,19 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	if (fd == -1)
 		return -1;
 	
-	ssl = open_ssl_connection (stream->priv->service, sockfd);
+	ssl = open_ssl_connection (openssl->priv->service, fd);
 	if (!ssl)
 		return -1;
 	
 	openssl->priv->sockfd = fd;
 	openssl->priv->ssl = ssl;
+	
+	OPENSSL_TABLE_LOCK ();
+	if (!openssl_table)
+		openssl_table = g_hash_table_new (g_direct_hash, g_direct_equal);
+	
+	g_hash_table_insert (openssl_table, ssl->ctx, openssl);
+	OPENSSL_TABLE_UNLOCK ();
 	
 	return 0;
 }

@@ -55,7 +55,7 @@ typedef struct {
 CamelType camel_tcp_stream_openssl_get_type (void);
 
 /* public methods */
-CamelStream *camel_tcp_stream_openssl_new (void);
+CamelStream *camel_tcp_stream_openssl_new (CamelService *service, const char *expected_host);
 
 #ifdef __cplusplus
 }
