@@ -9,7 +9,11 @@
         any amount of contact information, share addresses over a
         network, and several ways to save time with everyday tasks. To
         learn about configuring the address book, see <xref
-        linkend="config-prefs-contact">.
+        linkend="config-prefs-contact">. You can import contacts from
+        other contact management tools with the Import tool by
+        selecting
+        <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>,
+        or by mailing them to yourself as vCard attachments.
       </para>
 
     <para>

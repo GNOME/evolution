@@ -185,7 +185,11 @@
 	  <title>Metric or Imperial?</title>
 	  <para>
 	    <application>Evolution</application> supports both
-	    Imperial and Metric measurement for weather reports.
+	    Imperial and Metric measurement for weather
+	    reports. Imperial units are sometimes called British
+	    units, but are used almost exclusively in the United
+	    States. Britain, and most of the rest of the world, use
+	    metric units.
 	  </para>
 	</tip>
       </para>

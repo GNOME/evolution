@@ -9,6 +9,8 @@
       to help you do it.
     </para>
 
+<!-- Kevin, i'd suggest putting an "IMporting old mail" section here." -->
+
     <sect1 id="usage-mail-organize-columns">
       <title>Sorting Mail with Column Headers</title>
       <para>
@@ -436,16 +438,27 @@
       <example id="filter-example">
          <title>Using a Filter to Avoid Spam</title>
          <para>
-           The majority of bulk mail is tagged with the
+           A good deal of bulk mail is eventually tagged with the
            <computeroutput>Precedence: Bulk</computeroutput> header at
-           one point or another.  Some of these messages, of course,
-           could be in mailing lists you've subscribed to, but many of
-           them are unsolicited commercial email.  
+           one point or another.  Not all of it is, of course, and
+           there are "good" messages (mailing lists you subscribe to,
+           for example) that are also considered "Bulk" mail.
+           However, if you filter out all the mail with that header,
+           you'll catch a lot of the mail you don't want to get.
          </para>
          <para>
-           To catch them and put them all in one place, create a
-           new filter for incoming mail. Then:
+           To catch them and automatically mark them for deletion, do
+           the following:
             <orderedlist>
+
+             <listitem><para>
+                 Select <menuchoice><guimenu>Tools</guimenu><guimenuitem>Filters</guimenuitem></menuchoice>.
+             </para></listitem>
+
+             <listitem><para>
+                 Click <guibutton>New</guibutton>.
+             </para></listitem>
+
              <listitem><para>
                Set the first part of your search critera to look in a <guilabel>Specific header</guilabel>.
              </para></listitem>
@@ -469,11 +482,9 @@
                folder where you'd like to place bulk mail.
              </para></listitem>
 
-             <listitem><para>
-               If you like, add an action and choose <guilabel>Stop
-               Processing</guilabel> if you'd like this message to be
-               ignored by all other filters.
-             </para></listitem>
+             <listitem><para> If you like, add another action and
+               choose <guilabel>Delete</guilabel>.
+               </para></listitem>
 
              <listitem><para>
                 Click OK. You're done.
@@ -792,16 +803,15 @@
 		  </para>
 		</listitem>
 	      </itemizedlist>
-	 
-	    </para>
-	  </listitem>
-	  <listitem>
-	<para>
-	        If you want multiple criteria for this filter, press <guibutton>Add
-		criterion</guibutton> and repeat the previous step.
-	    </para>
-	  </listitem>
-    </orderedlist>
+	
+         </para>
+     </listitem>
+   </orderedlist>
+<para>
+Remote folders are considered active if you are connected to the
+server; you must be connected to your mail server for the vFolder to
+include any messages from that source.
+</para>
 
       <figure id="usage-mail-vfolder-fig-createrule">
 	<title>Selecting a vFolder Rule</title>

@@ -140,7 +140,9 @@
 	    <para>
 	      Server Type &mdash; There are numerous types of servers
 	      from which <application>Ximian Evolution</application>
-	      can fetch your mail:
+	      can fetch your mail.  Ask your system administrator if
+	      you're not sure which of the following are available to
+	      you:
 	      <itemizedlist>
 		<listitem>
 		  <para>
@@ -150,18 +152,15 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    IMAPv4 &mdash; Keeps the email on your server so
-		    you can access your email from any computer that
-		    supports IMAPv4 and have everything be the
-		    same. For more information about how to use IMAP
-		    mail, see <xref
-		    linkend="usage-mail-subscriptions">.
+		    IMAP &mdash; Keeps the email on your server so you
+		    can access your email from multiple systems. 
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
 		    Unix mail spool file &mdash; If you run a mail
-		    server on your desktop computer, choose this optino.
+		    server on your desktop computer, choose this
+		    option.
 		  </para>
 		</listitem>
 		<listitem>
@@ -180,10 +179,28 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    None &mdash; How do you  have None?  figure out!
+		    None &mdash; Select this if you do not plan to
+		    check mail with this account.
 		  </para>
 		</listitem>
 	      </itemizedlist>
+
+         <note id="imap-note-one">
+            <title>What's an IMAP Namespace?</title>
+                <para>
+                    For IMAP mail servers, your sysadmin may provide
+		    you with a specific namespace, the path on the
+		    IMAP server where you check for mail.  If you
+		    check your IMAP mail and your folder list includes
+		    files that don't look like mail folders, you
+		    probably need to change your mail
+		    namespace. Typical values are "mail" and "Mail."
+		    If you prefer, you can choose to subscribe to
+		    individual mail folders. For more information
+		    about how to use IMAP mail, see <xref
+		    linkend="usage-mail-subscriptions">.
+               </para>
+             </note>
 	    </para>
 	  </listitem>
 	  <listitem>

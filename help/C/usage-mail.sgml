@@ -1,4 +1,3 @@
-
 <chapter id="usage-mail">
   <title>Using Evolution for Email</title>
   <para>
@@ -7,17 +6,90 @@
       Evolution as a mail client.  For information about how to set up
       your mail account, see <xref linkend="config-prefs-mail">.
   </para>
-  
-  <note>
-    <title>If you use IMAP Mail</title>
+
+  <sect1 id="usage-mail-subscriptions">
+    <title>IMAP Mail Subscription Management</title>
+
     <para>
-      If you chose IMAP mail during the setup process, you must
-      subscribe to your mail folders before you can read mail in
-      them. Read <xref linkend="usage-mail-subscriptions"> to find out
-      how.
+      If you chose IMAP mail during the setup process, you may still
+      have to subscribe to folders or select a specific namespace for
+      your IMAP mail folders. If you don't use IMAP mail, you can skip
+      this section.
+  </para>
+
+  <para>
+      Since IMAP folders exist on the server, and opening them or
+      checking them takes time, you need fine-grained control over the
+      ones you look at on a regular basis.  There are two tools that
+      you can use to control IMAP mail displays. The first is in the
+      Mail Settings dialog. From there, choose the IMAP account you
+      want to change, and select the <guilabel>Receiving
+      Options</guilabel> tab. Your IMAP related options are:
+<simplelist>
+<member>Show only subscribed folders</member>
+<member>Override server-supplied namespace</member>
+</simplelist>
+</para>
+<para>
+If, in your IMAP folder list, you see extraneous folders, folders you
+haven't created, or items that don't appear to be mail folders at all,
+you may wish to simplify your mail view by choosing one of these
+options.  Ask your system administrator what namespace you should use
+if you're not sure, or just use the subscriptions dialog instead.
+</para>
+
+<para>
+You can use the subscriptions tool to hide from view those folders
+that you do not need, and to display folders in addition to those
+provided as the defaults by your mailserver.
+   </para>
+
+    <para>
+      To use it:
+      <orderedlist numeration="arabic">
+	
+	<listitem>
+	  <para>
+	   Select
+	   <menuchoice><guimenu>Tools</guimenu><guimenuitem>Subscribe
+	   to Folders</guimenuitem></menuchoice>.
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    If you have accounts on multiple IMAP servers, select the
+	    server where you'd like to manage your folder
+	    use. <application>Evolution</application> will display a
+	    list of available files and folders.  Depending upon the
+	    way your IMAP server is configured, the list of available
+	    files may include non-mail folders. If it does, just
+	    ignore them.
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+            Select a file or folder by clicking on it.  You will want
+            to select at least the <guilabel>INBOX</guilabel> folder.
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    Click the <guibutton>Subscribe</guibutton> to add it to
+	    the subscribed list.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    When you have subscribed to the folders you want, close
+	    the window.
+	  </para>
+	</listitem>
+      </orderedlist>
     </para>
-  </note>
-  
+  </sect1>
   
   <sect1 id="usage-mail-getnsend-read">
     <title>Reading Mail</title>    
@@ -1594,7 +1666,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>>Accept</term>
+	  <term>Accept as Tentative</term>
 	  <listitem>
 	    <para>
 	  Select this entry if you will probably attend the meeting.
@@ -1631,85 +1703,49 @@
     </para>
   </sect1>
 
-  <sect1 id="usage-mail-subscriptions">
-    <title>Subscription Management</title>
-    <para>
-      Since IMAP folders exist on the server, and opening them or
-      checking them takes time, you need fine-grained control over
-      the way that you use IMAP folders.  That's why
-      <application>Evolution</application> has an IMAP
-      subscriptions manager.
-    </para>
-    <para>
-      To use it:
-      <orderedlist numeration="arabic">
-	
-	<listitem>
-	  <para>
-	   Select
-	   <menuchoice><guimenu>Tools</guimenu><guimenuitem>Subscribe
-	   to Folders</guimenuitem></menuchoice>.
-	  </para>
-	</listitem>
-
-	<listitem>
-	  <para>
-	    If you have accounts on multiple IMAP servers, select the
-	    server where you'd like to manage your
-	    subscriptions. <application>Evolution</application> will
-	    display a list of available files and folders.
-	  </para>
-	</listitem>
-
-	<listitem>
-	  <para>
-            Select a file or folder by clicking on it.  You will want
-            to select at least the <guilabel>INBOX</guilabel>
-            folder. Depending upon the way your IMAP server is
-            configured, the list of available files may include
-            non-mail folders. If it does, you can ignore them.
-	  </para>
-	</listitem>
-
-	<listitem>
-	  <para>
-	    Click the <guibutton>Subscribe</guibutton> to add it to
-	    the subscribed list.
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    When you have subscribed to the folders you want, close
-	    the window.
-	  </para>
-	</listitem>
-      </orderedlist>
-    </para>
-  </sect1>
-
   <sect1 id="encryption">
     <title>Encryption</title>
     <sect2 id="encryption-whatis">
       <title>What is Encryption?</title>
       <para>
-	Encryption is an ancient method of keeping information safe
-	from prying eyes. <application>Evolution</application> helps
-	you you protect your privacy by using
-	<application>gpg</application>, an implementation of strong
-	<glossterm linkend="public-key-encryption">Public Key
-	Encryption.</glossterm>
+       Encryption is a method of hiding information by converting it
+       into code.  <application>Evolution</application> helps you you
+       protect your privacy by using <application>gpg</application>,
+       an implementation of strong <glossterm
+       linkend="public-key-encryption">Public Key
+       Encryption.</glossterm> 
+
+      <para>
+	You can use encryption in two different ways:
+        <simplelist>
+          <member>
+             Encrypt an entire message, so that nobody but the
+             recipient can read it. They will then use the same tool
+             to decrypt the message.
+          </member>
+          <member>
+            Attach an encrypted signature to a plain text message, so
+            that the recipient can read the message without decrypting
+            it, and only needs decryption to verify the sender's
+            identity.
+           </member>
+         </simplelist>
       </para>
 
 	<note id="pub-priv">
 	  <title>Public Key?  Private Key?  What is the difference?</title>
 	  <para>
-	    GPG uses two keys: public and private.  You can give your
-	    public key to anyone you want to recieve
-	    encrypted messages, or put it on a public key server so
-	    that people can look it up before contacting you.
-	    <emphasis>Never give your private key to anyone,
-	    ever</emphasis>.  Your private key lets you decrypt any
-	    message encrypted with your public key.
+	    GPG uses a system with two numeric keys: one public and
+	    one private. A message is encrypted or signed with the
+	    public key, then sent to the holder of the private key;
+	    any message encrypted with the public key can be decrypted
+	    only with the private key. Distribute your public key as
+	    widely as you like (many people put theirs on Internet
+	    "keyservers" for automatic download), because people will
+	    need it to send you encrypted mail.  <emphasis>Never give
+	    your private key to anyone, ever</emphasis>.  Your private
+	    key lets you decrypt any message encrypted with your
+	    public key.
 	  </para>
 	</note>
 
@@ -1719,20 +1755,6 @@
         intended recipient's public key.  To <emphasis>get</emphasis>
         an encrypted message, you must make sure that the sender has
         your public key in advance.
-      </para>
-
-      <para>
-	You can use encryption in two different ways:
-        <simplelist>
-          <member>
-             Encrypt the entire message, so that nobody but the recipient can read it.
-          </member>
-          <member>
-            Attach an encrypted signature to a plain text message, so
-            that the recipient can read the message without decrypting it, and 
-            only needs decryption to verify the sender's identity.
-           </member>
-         </simplelist>
       </para>
 
 	<example> 
@@ -1769,6 +1791,10 @@
 	      </para>
 	    </listitem>
 	  </orderedlist>
+          You may also want to check the box labelled
+          <guilabel></guilabel>.  If you send encrypted mail to
+          someone else, and don't send it to yourself as well, you
+          won't be able to read it later on!
 	</para>
       </tip>
     </sect2>
@@ -1805,13 +1831,16 @@
 	  <listitem>
       	   <para>
             Choose a key length. The default, 1024 bits, should be
-            long enough.
+            long enough. The longer the key, the stronger the
+            encryption, and the longer it will take to generate the
+            keys and to decode or encode data.
 	  </para>
          </listitem>
 
 	  <listitem>
       	   <para>
-             Decide if you want your key to expire automatically, and if so, when.
+             Decide if you want your key to expire automatically, and
+             if so, when.
 	  </para>
          </listitem>
 
@@ -1856,7 +1885,9 @@
 	    pub 1024D/32j38dk2 2001-06-20 you &lt;you@your-address.com&gt;
 	    sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]
 	</programlisting>
+         The Key ID in this case is 32j38dk2.
       </para>
+
       <para>
          GPG will create one list, or keyring, for your public keys
          and one for your private keys. All the public keys you know
@@ -1883,6 +1914,18 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
              </para>
            </listitem>
     </orderedlist>
+
+<para>
+You can also have <application>Evolution</application> look up public
+keys automatically by adding the following line to the file
+<filename>~/.gnupg/options</filename> :
+
+<programlisting>
+keyserver wwwkeys.eu.pgp.net
+</programlisting>
+
+substituting the keyserver of your choice for the server name wwwkeys.eu.pgp.net.
+</para>
 
 	<note id="why-keyserver">
 	  <title>Why Use a Keyserver?</title>
@@ -1989,9 +2032,11 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
       <sect2 id="unencrypting">
 	<title>Unencrypting a Recieved Message</title>
 	<para>
-	  If you get an encrypted message, you will need to decrypt it
-	  before you read it. Remember, the sender has to have your
-	  public key before they can send you an encrypted message.
+	  If you get a signed message, Evolution will attempt to
+	  verify the signature automatically.  To view an encrypted
+	  message, just click on the arrow icon.  Remember, the sender
+	  has to have your public key before they can send you an
+	  encrypted message.
 	</para>
 	<para>
 	  When you view the message,
@@ -2002,3 +2047,5 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
     </sect2>
   </sect1>
 </chapter>
+
+
