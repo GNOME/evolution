@@ -1,5 +1,8 @@
 2000-06-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/pop3/camel-pop3-folder.c (get_message_by_uid): Took out the
+	filter code ( we already filter in camel_pop3_command_get_additional_data)
+
 	* camel-folder.c (init): Updated: a separator is now a char* rather than
 	a single char because IMAP can have a string for a directory separator.
 	Also, since IMAP does not begin with a directory separator, there is a new
