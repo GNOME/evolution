@@ -1,3 +1,27 @@
+2000-10-24  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/imap/camel-imap-store.h: add subscribed_folders.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_class_init):
+	fill in vtable entries for subscription functions.
+	(camel_imap_store_finalize): new function, so we can free up our
+	subscribed_folders hashtable.
+	(camel_imap_store_init): set CAMEL_STORE_SUBSCRIPTIONS in the
+	CamelStore flags, and create our subscribed_folders hashtable.
+	(camel_imap_store_get_type): camel_imap_store_finalize is our
+	finalize function.
+	(get_folder_info): if we're looking at subscribed_only, clear out
+	the subscribed_folders hashtable, use LSUB instead of LIST, and
+	insert folder paths (prepended by their namespace if there is one)
+	into subscribed_folders.  INBOX subscription support needs work,
+	since we always show it, regardless of it's subscribed state.
+	(folder_subscribed): new function.  just look up the folder_path
+	in the hashtable.
+	(subscribe_folder): new function.  use the imap SUBSCRIBE command,
+	and if successful add it to the hashtable.
+	(unsubscribe_folder): new function.  use the imap UNSUBSCRIBE
+	command, and if successful remove it from the hashtable.
+
 2000-10-24  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Fill in the

@@ -65,6 +65,11 @@ static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
 					 gboolean subscribed_only,
 					 CamelException *ex);
+static gboolean folder_subscribed (CamelStore *store, const char *folder_name);
+static void subscribe_folder (CamelStore *store, const char *folder_name,
+			      CamelException *ex);
+static void unsubscribe_folder (CamelStore *store, const char *folder_name,
+				CamelException *ex);
 static void imap_keepalive (CamelRemoteStore *store);
 
 static void
@@ -92,8 +97,21 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->get_root_folder_name = get_root_folder_name;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
-	
+
+	camel_store_class->folder_subscribed = folder_subscribed;
+	camel_store_class->subscribe_folder = subscribe_folder;
+	camel_store_class->unsubscribe_folder = unsubscribe_folder;
+
 	camel_remote_store_class->keepalive = imap_keepalive;
+}
+
+static void
+camel_imap_store_finalize (CamelObject *object)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
+
+	g_hash_table_foreach (imap_store->subscribed_folders, (GHFunc)g_free, NULL);
+	g_hash_table_destroy (imap_store->subscribed_folders);
 }
 
 static void
@@ -102,6 +120,7 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	CamelService *service = CAMEL_SERVICE (object);
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
+	CamelStore *store = CAMEL_STORE (object);
 	
 	service->url_flags |= (CAMEL_SERVICE_URL_NEED_USER |
 			       CAMEL_SERVICE_URL_NEED_HOST |
@@ -112,8 +131,11 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	
 	imap_store->dir_sep = NULL;
 	imap_store->current_folder = NULL;
+
+	store->flags = CAMEL_STORE_SUBSCRIPTIONS;
 	
 	imap_store->connected = FALSE;
+	imap_store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 CamelType
@@ -129,7 +151,7 @@ camel_imap_store_get_type (void)
 					     (CamelObjectClassInitFunc) camel_imap_store_class_init,
 					     NULL,
 					     (CamelObjectInitFunc) camel_imap_store_init,
-					     (CamelObjectFinalizeFunc) NULL);
+					     (CamelObjectFinalizeFunc) camel_imap_store_finalize);
 	}
 	
 	return camel_imap_store_type;
@@ -526,6 +548,13 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	char *folder_path, *status, *p;
 	CamelFolderInfo *topfi = NULL, *fi;
 
+	/* every time we get a list of subscribed folders, we clear
+           out our present notion of them - the hashtable will be
+           repopulated below. */
+	if (subscribed_only) {
+		g_hash_table_foreach (imap_store->subscribed_folders, (GHFunc)g_free, NULL);
+	}
+
 	if (!top)
 		top = "";
 	dir_sep = imap_store->dir_sep;
@@ -562,7 +591,8 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	}
 
 	response = camel_imap_command (imap_store, NULL, ex,
-				       "LIST \"\" \"%s%s%c\"",
+				       "%s \"\" \"%s%s%c\"",
+				       subscribed_only ? "LSUB" : "LIST",
 				       namespace, *namespace ? dir_sep : "",
 				       recursive ? '*' : '%');
 	if (!response) {
@@ -583,12 +613,18 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 			continue;
 		g_ptr_array_add (folders, fi);
 
+		if (subscribed_only) {
+			char *tmp;
+			tmp = g_strdup_printf("%s%s%s", namespace, *namespace ? dir_sep : "", fi->full_name);
+			g_hash_table_insert (imap_store->subscribed_folders, tmp, tmp);
+		}
+
 		if (!g_strcasecmp (fi->full_name, "INBOX"))
 			found_inbox = TRUE;
 	}
 	camel_imap_response_free (response);
 
-	/* Add INBOX, if necessary */	
+	/* Add INBOX, if necessary */
 	if (!*top && !found_inbox) {
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup ("INBOX");
@@ -644,6 +680,61 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	g_free (namespace);
 	g_free (base_url);
 	return topfi;
+}
+
+static gboolean
+folder_subscribed (CamelStore *store, const char *folder_name)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	char *folder_path;
+
+	folder_path = camel_imap_store_folder_path (imap_store, folder_name + 1 /* bump past the '/' */);
+
+	return (g_hash_table_lookup (imap_store->subscribed_folders, folder_path) != NULL);
+}
+
+static void
+subscribe_folder (CamelStore *store, const char *folder_name,
+		  CamelException *ex)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	CamelImapResponse *response;
+	char *folder_path;
+
+	folder_path = camel_imap_store_folder_path (imap_store, folder_name + 1 /* bump past the '/' */);
+
+	response = camel_imap_command (imap_store, NULL, ex,
+				       "SUBSCRIBE \"%s\"",
+				       folder_path);
+
+	if (response)
+		g_hash_table_insert (imap_store->subscribed_folders, folder_path, folder_path);
+	camel_imap_response_free (response);
+}
+
+static void
+unsubscribe_folder (CamelStore *store, const char *folder_name,
+		    CamelException *ex)
+{
+	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+	CamelImapResponse *response;
+	char *folder_path;
+	char *key, *value;
+
+	folder_path = camel_imap_store_folder_path (imap_store, folder_name + 1 /* bump past the '/' */);
+
+	response = camel_imap_command (imap_store, NULL, ex,
+				       "UNSUBSCRIBE \"%s\"",
+				       folder_path);
+
+	if (response) {
+		g_hash_table_lookup_extended (imap_store->subscribed_folders, folder_path,
+					      (gpointer)&key, (gpointer)&value);
+		g_hash_table_remove (imap_store->subscribed_folders, folder_path);
+	}
+	camel_imap_response_free (response);
+	g_free (folder_path);
+	g_free (key);
 }
 
 static void

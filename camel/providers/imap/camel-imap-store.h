@@ -59,6 +59,8 @@ typedef struct {
 	gchar *dir_sep, *storage_path;
 	
 	gboolean connected;
+
+	GHashTable *subscribed_folders;
 } CamelImapStore;
 
 
