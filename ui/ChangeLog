@@ -1,3 +1,8 @@
+2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Add a "BuiltMenuItems" placeholder in the "Help"
+	menu so we can do the fancy Bonobo help stuff.
+
 2001-08-15  Anna Marie Dirks  <anna@ximian.com> 
 
 	*evolution-calendar.xml : Changed "print calendar" to "print".
