@@ -404,10 +404,6 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 			    GTK_SIGNAL_FUNC (style_set_cb), NULL);
 
 	e_shell_folder_title_bar_set_title (folder_title_bar, NULL);
-
-	/* KLUDGE */
-	gtk_widget_size_request (priv->button, &button_requisition);
-	gtk_widget_set_usize (priv->label, button_requisition.width, button_requisition.height);
 }
 
 /**

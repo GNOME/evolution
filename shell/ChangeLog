@@ -1,3 +1,9 @@
+2000-09-14  Iain Holmes  <iain@helixcode.com>
+
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Remove the *kludge* so that the button width is set properly.
+	Fixes bug #XXXX
+
 2000-09-14  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view-menu.c: Remove sillies in toggle paths.
