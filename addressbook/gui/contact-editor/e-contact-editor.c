@@ -1755,6 +1755,7 @@ extract_address_record (EContactEditor *editor, gint record)
 	    !STRING_IS_EMPTY (address->locality) ||
 	    !STRING_IS_EMPTY (address->region)   ||
 	    !STRING_IS_EMPTY (address->code)     ||
+	    !STRING_IS_EMPTY (address->po)       ||
 	    !STRING_IS_EMPTY (address->country))
 		e_contact_set (editor->contact, addresses [record], address);
 	else
