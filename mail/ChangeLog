@@ -1,5 +1,12 @@
 2004-02-02  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53549.
+
+	* em-folder-selector.c: Fix handling a parent path of "/".
+
+	* mail-ops.c (mark_junk_mark): removed the really innacurate cut and
+	paste comment.  This has nothing to do with filter_folder.
+
 	** See bug #52994.
 
 	* em-folder-properties.c (em_folder_properties_show): redirect

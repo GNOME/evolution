@@ -2346,8 +2346,6 @@ mark_junk_describe (struct _mail_msg *mm, int complete)
 	return g_strdup (_("Changing junk status"));
 }
 
-/* filter a folder, or a subset thereof, uses source_folder/source_uids */
-/* this is shared with fetch_mail */
 static void
 mark_junk_mark (struct _mail_msg *mm)
 {

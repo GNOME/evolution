@@ -315,8 +315,8 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 			
 			camel_url_set_fragment (url, newpath);
 		} else {
-			newpath = g_strdup_printf ("%s/%s", url->path ? url->path : "", name);
-			camel_url_set_path (url, newpath);
+			newpath = g_strdup_printf("%s/%s", (url->path == NULL || strcmp(url->path, "/") == 0) ? "":url->path, name);
+			camel_url_set_path(url, newpath);
 		}
 		
 		g_free (emfs->selected_path);
