@@ -57,6 +57,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #41935 - day view ignores scroll wheel (JP)
     #43029 - When running under valgrind Evolution crashed while exiting (JP)
     #41930 - Warning while running gdb includes: "Some clown returned undeclared exception" (JP)
+    #42056 - Accelerators in meeting selector not working/looks bad (Hans Petter)
 
   * Mail
 
