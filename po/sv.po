@@ -11,14 +11,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.207 2005/02/21 10:13:25 menthos Exp $
+# $Id: sv.po,v 1.208 2005/02/21 16:16:12 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-21 11:11+0100\n"
-"PO-Revision-Date: 2005-02-21 11:12+0100\n"
+"PO-Revision-Date: 2005-02-21 17:15+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14762,90 +14762,97 @@ msgstr ""
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
-#, fuzzy
 msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "_Notifiera inte mig när ny post anländer"
+msgstr "_Genererar ett D-BUS-meddelande då ny e-post anländer"
+
+msgid "_Generate a D-BUS message when new mail arrives"
+msgstr "_Generera ett D-BUS-meddelande då ny e-post anländer"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
-#, fuzzy
 msgid "Enable and disable plugins"
-msgstr "A_ktivera avancerade alternativ"
+msgstr "Aktivera och inaktivera insticksmoduler"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
-#, fuzzy
 msgid "Manage Plugins..."
-msgstr "_Hantera prenumerationer..."
+msgstr "Hantera insticksmoduler..."
 
 #: plugins/plugin-manager/plugin-manager.c:45
-#, fuzzy
 msgid "Author(s)"
-msgstr "timme/timmar"
+msgstr "Författare"
+
+msgid "Authors"
+msgstr "Författare"
+
+msgid "Author"
+msgstr "Författare"
 
 #: plugins/plugin-manager/plugin-manager.c:46
-#, fuzzy
 msgid "Id"
-msgstr "d"
+msgstr "Id"
 
 #: plugins/plugin-manager/plugin-manager.c:47
-#, fuzzy
 msgid "Path"
+msgstr "Sökväg"
+
+msgid "Path:"
 msgstr "Sökväg:"
 
 #: plugins/plugin-manager/plugin-manager.c:48
-#, fuzzy
 msgid "Description"
-msgstr "Beskrivning:"
+msgstr "Beskrivning"
 
 #. Setup the ui
 #: plugins/plugin-manager/plugin-manager.c:188
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Manager"
+msgstr "Hanterare för insticksmoduler"
 
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
+msgstr "Obs: En del ändringar kommer inte att börja gälla förrän omstart sker"
 
 #: plugins/plugin-manager/plugin-manager.c:210
-#, fuzzy
 msgid "Plugin"
-msgstr "Tömmer"
+msgstr "Insticksmodul"
+
+msgid "Plugins"
+msgstr "Insticksmoduler"
 
 #: plugins/prefer-plain/prefer-plain.c:105
 msgid "Show HTML if present"
-msgstr ""
+msgstr "Visa HTML om sådan finns"
 
 #: plugins/prefer-plain/prefer-plain.c:106
 msgid "Prefer PLAIN"
-msgstr ""
+msgstr "Föredrar VANLIG TEXT"
 
 #: plugins/prefer-plain/prefer-plain.c:107
 msgid "Only ever show PLAIN"
-msgstr ""
+msgstr "Visa alltid bara VANLIG TEXT"
 
 #: plugins/prefer-plain/prefer-plain.c:150
-#, fuzzy
 msgid "HTML Mode"
-msgstr "_HTML-brev"
+msgstr "HTML-läge"
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
 msgid "Save Attachments ..."
-msgstr "Spara bilaga..."
+msgstr "Spara bilagor..."
+
+msgid "Save Attachments..."
+msgstr "Spara bilagor..."
 
 #: plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
 msgid "Save all attachments"
-msgstr "Spara bilaga"
+msgstr "Spara alla bilagor"
 
 #: plugins/save-attachments/save-attachments.c:331
-#, fuzzy
 msgid "Select save base name"
-msgstr "Välj en tidszon"
+msgstr "Välj basnamn för sparande"
 
 #: plugins/save-attachments/save-attachments.c:351
-#, fuzzy
 msgid "MIME Type"
+msgstr "MIME-typ"
+
+msgid "MIME Type:"
 msgstr "MIME-typ:"
 
 #: plugins/save-attachments/save-attachments.c:359
@@ -14855,12 +14862,12 @@ msgid "Save"
 msgstr "Spara"
 
 #: plugins/save-calendar/csv-format.c:167
-#, c-format
+#, fuzzy, c-format
 msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 msgstr ""
 
 #: plugins/save-calendar/csv-format.c:370
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
 "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
@@ -14869,43 +14876,40 @@ msgstr ""
 
 #: plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
-msgstr ""
+msgstr "Avancerade alternativ för CVS-formatet"
 
 #: plugins/save-calendar/csv-format.c:526
 msgid "Prepend a header"
-msgstr ""
+msgstr "Lägg till ett huvud först"
 
 #: plugins/save-calendar/csv-format.c:535
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "Lokal leverans"
+msgstr "Värdeavskiljare:"
 
 #: plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
-msgstr ""
+msgstr "Postavskiljare:"
 
 #: plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
-msgstr ""
+msgstr "Kapsla in värden med:"
 
 #: plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
-msgstr ""
+msgstr "Kommaseparerat värdeformat (.csv)"
 
 #: plugins/save-calendar/ical-format.c:120
-#, fuzzy
 msgid "iCalendar format (.ics)"
-msgstr "iCalendar-filer (.ics)"
+msgstr "iCalendar-format (.ics)"
 
 #: plugins/save-calendar/rdf-format.c:390
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "RDF-format (.rdf)"
 
 #: plugins/save-calendar/save-calendar.c:172
 #: plugins/save-calendar/save-calendar.c:182
-#, fuzzy
 msgid "Select destination file"
-msgstr "Välj mål"
+msgstr "Välj målfil"
 
 #: plugins/save-calendar/save-calendar.c:217
 #, c-format
@@ -14913,6 +14917,8 @@ msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
 msgstr ""
+"Den föreslagna filändelsen för denna filtyp (%s) används inte i det valda "
+"filnamnet. Vill du fortsätta?"
 
 #: plugins/send-options/send-options.c:82
 #, c-format
@@ -14921,9 +14927,8 @@ msgstr "%sAnge lösenord för %s (användare %s)"
 
 #. org.gnome.evolution.mail_shared_folder:invalid-user primary
 #: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:2
-#, fuzzy
 msgid "Invalid user"
-msgstr "Ogiltigt syfte"
+msgstr "Ogiltig användare"
 
 #. org.gnome.evolution.mail_shared_folder:invalid-user secondary
 #: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:4
@@ -14931,12 +14936,13 @@ msgid ""
 "\n"
 "You cannot share folder with specified user \"{0}\" \n"
 msgstr ""
+"\n"
+"Du kan inte dela mapp med angivna användaren \"{0}\" \n"
 
 #. org.gnome.evolution.mail_shared_folder:no-user primary
 #: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:8
-#, fuzzy
 msgid "Specify User"
-msgstr "Specifikt huvud"
+msgstr "Ange användare"
 
 #. org.gnome.evolution.mail_shared_folder:no-user secondary
 #: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:10
@@ -14956,7 +14962,7 @@ msgstr "Meddelande"
 
 #: plugins/shared-folder/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "Notifiering om delad mapp"
 
 #: plugins/shared-folder/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
@@ -14972,32 +14978,31 @@ msgid "_Cutomize notification message"
 msgstr "Kunde inte skapa meddelande."
 
 #: plugins/shared-folder/properties.glade.h:13
-#, fuzzy
 msgid "_Not Shared"
-msgstr "Inte startad"
+msgstr "I_nte delad"
 
 #: plugins/shared-folder/properties.glade.h:15
 msgid "_Shared With ..."
-msgstr ""
+msgstr "_Delad med..."
+
+msgid "_Shared With..."
+msgstr "_Delad med..."
 
 #: plugins/shared-folder/properties.glade.h:16
-#, fuzzy
 msgid "_Sharing"
-msgstr "Skuggning"
+msgstr "_Delar"
 
 #: plugins/shared-folder/share-folder-common.c:315
-#, fuzzy
 msgid "Users"
-msgstr "_Användare:"
+msgstr "Användare"
 
 #: plugins/shared-folder/share-folder-common.c:316
 msgid "Enter the users and set permissions"
-msgstr ""
+msgstr "Ange användarna och ställ in rättigheterna"
 
 #: plugins/shared-folder/share-folder-common.c:401
-#, fuzzy
 msgid "Sharing"
-msgstr "Skuggning"
+msgstr "Delning"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/subject-thread/subject-thread.c:54
