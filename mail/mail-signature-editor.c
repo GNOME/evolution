@@ -103,7 +103,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	filename = g_strdup_printf ("%s/.#%s", dirname, base);
 	printf ("filename = %s\n", filename);
 	g_free (dirname);
-	g_free(base);
+	g_free (base);
 
 	CORBA_exception_init (&ev);
 	
@@ -118,9 +118,9 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		Bonobo_Stream stream;
 		char *uri;
 
-		uri = g_strdup_printf("file://%s", uri);
+		uri = g_strdup_printf ("file://%s", filename);
 		stream = bonobo_get_object (uri, "IDL:Bonobo/Stream:1.0", NULL);
-		g_free(uri);
+		g_free (uri);
 
 		/* FIXME: truncate? */
 		

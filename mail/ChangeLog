@@ -1,3 +1,9 @@
+2003-03-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-signature-editor.c (menu_file_save_cb): Use 'filename' when
+	creating the uri rather than using the uninitialised 'uri'
+	variable to create itself. Fixes bug #38864.
+
 2003-03-03  Not Zed  <NotZed@Ximian.com>
 
 	* mail-session.c (do_user_message): Do the same as below for
