@@ -1,3 +1,6 @@
+2005-1-10  Parthasarathi Susarla <sparthasarathi@novell.com>
+        * configure.in : added send options plugin to base plugin list
+
 2005-01-10 Vivek Jain <jvivek@novell.com>
 
 	* configure.in : Add shared-folder to plugin 
