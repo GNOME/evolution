@@ -29,7 +29,6 @@
 #include "gal-view-new-dialog.h"
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/util/e-i18n.h>
-#include <gtk/gtknotebook.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkbox.h>
@@ -70,12 +69,10 @@ gvisad_setup_radio_buttons (GalViewInstanceSaveAsDialog *dialog)
 	GtkWidget   *radio_replace = glade_xml_get_widget (dialog->gui, "radiobutton-replace");
 	GtkWidget   *radio_create  = glade_xml_get_widget (dialog->gui, "radiobutton-create" );
 	GtkWidget   *widget;
-	GtkNotebook *notebook      = GTK_NOTEBOOK (glade_xml_get_widget (dialog->gui, "notebook-help"));
 
 	widget = glade_xml_get_widget (dialog->gui, "custom-replace");
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio_replace))) {
 		gtk_widget_set_sensitive (widget, TRUE);
-		gtk_notebook_set_page (notebook, 0);
 		dialog->toggle = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_REPLACE;
 	} else {
 		gtk_widget_set_sensitive (widget, FALSE);
@@ -84,7 +81,6 @@ gvisad_setup_radio_buttons (GalViewInstanceSaveAsDialog *dialog)
 	widget = glade_xml_get_widget (dialog->gui, "entry-create");
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio_create))) {
 		gtk_widget_set_sensitive (widget, TRUE);
-		gtk_notebook_set_page (notebook, 1);
 		dialog->toggle = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_CREATE;
 	} else {
 		gtk_widget_set_sensitive (widget, FALSE);
@@ -194,7 +190,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-view-instance-save-as-dialog.glade", NULL, E_I18N_DOMAIN);
 	dialog->gui = gui;
 
-	widget = glade_xml_get_widget(gui, "table-top");
+	widget = glade_xml_get_widget(gui, "vbox-top");
 	if (!widget) {
 		return;
 	}
@@ -222,6 +218,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	
 	gvisad_setup_radio_buttons (dialog);
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Save Current View"));
 }
 
 
