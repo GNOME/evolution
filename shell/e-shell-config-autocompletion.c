@@ -99,9 +99,7 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 
 	xml = bonobo_config_get_string (ac->db, "/Addressbook/Completion/uris", &ev);
 
-	ac->control_widget = e_folder_list_new (ac->shell_client,
-						xml);
-	bonobo_object_client_unref (BONOBO_OBJECT_CLIENT (ac->shell_client), NULL);
+	ac->control_widget = e_folder_list_new (ac->shell_client, xml);
 	g_free (xml);
 
 	gtk_object_set (GTK_OBJECT (ac->control_widget),

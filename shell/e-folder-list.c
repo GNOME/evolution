@@ -556,7 +556,7 @@ GtkWidget*
 e_folder_list_construct (EFolderList *efl, EvolutionShellClient *client, char *xml)
 {
 	efl->priv->client = client;
-	bonobo_object_client_ref (BONOBO_OBJECT_CLIENT (efl->priv->client), NULL);
+	bonobo_object_ref (BONOBO_OBJECT (efl->priv->client));
 	efl->priv->corba_storage_registry = evolution_shell_client_get_storage_registry_interface (client);
 	e_folder_list_set_xml (efl, xml);
 	return GTK_WIDGET (efl);

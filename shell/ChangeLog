@@ -1,5 +1,17 @@
 2002-05-30  Ettore Perazzoli  <ettore@ximian.com>
 
+	[This fixes #25361.]
+
+	* e-folder-list.c (e_folder_list_construct): Use
+	bonobo_object_ref() instead of bonobo_object_client_ref() as the
+	former only refs the CORBA object [Sigh].
+
+	* e-shell-config-autocompletion.c
+	(e_shell_config_autocompletion_create_widget): Don't unref the
+	shell_client here, as we need it.  :-)
+
+2002-05-30  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (command_about_box): Connect
 	about_box_event_callback() to the "key_press_event" signal as
 	well.  This way the about box is closed when you press a key too.
