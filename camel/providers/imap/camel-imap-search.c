@@ -44,7 +44,7 @@
 #include "camel-seekable-stream.h"
 #include "camel-search-private.h"
 
-#define d(x) x
+#define d(x)
 
 /*
   File is:

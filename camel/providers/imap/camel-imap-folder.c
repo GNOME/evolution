@@ -70,7 +70,7 @@
 #include "camel-private.h"
 
 
-#define d(x) x
+#define d(x)
 
 /* set to -1 for infinite size */
 #define UID_SET_LIMIT  (4096)

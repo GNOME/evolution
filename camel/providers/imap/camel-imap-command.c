@@ -44,7 +44,7 @@
 #include <camel/camel-utf8.h>
 #include <camel/camel-session.h>
 
-#define d(x) x
+#define d(x)
 
 extern int camel_verbose_debug;
 

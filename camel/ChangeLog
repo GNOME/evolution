@@ -1,3 +1,11 @@
+2003-05-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (d): Disable debugging.
+
+	* providers/imap/camel-imap-command.c (d): Disable debugging.
+
+	* providers/imap/camel-imap-search.c (d): Disable debugging.
+
 2003-05-02  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-part-utils.c
