@@ -377,6 +377,7 @@ e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 
 	control_frame =
 		bonobo_widget_get_control_frame (BONOBO_WIDGET (folder_view));
+	bonobo_control_frame_set_autoactivate (control_frame, FALSE);
 	bonobo_control_frame_control_activate (control_frame);
 }
 
