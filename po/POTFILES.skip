@@ -1,4 +1,3 @@
-addressbook/gui/component/select-names/recipient.glade
 addressbook/gui/widgets/test-reflow.c
 addressbook/printing/test-contact-print-style-editor.c
 addressbook/printing/test-print.c
