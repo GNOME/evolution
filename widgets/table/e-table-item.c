@@ -672,7 +672,9 @@ eti_request_region_show (ETableItem *eti,
 static void
 eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 {
-	if (eti->renderers_can_change_size) {
+	if (eti->renderers_can_change_size &&
+	    eti->height_cache && eti->height_cache[row] != -1 &&
+	    eti_row_height_real(eti, row) != eti->height_cache[row]) {
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
@@ -683,7 +685,9 @@ eti_table_model_row_changed (ETableModel *table_model, int row, ETableItem *eti)
 static void
 eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETableItem *eti)
 {
-	if (eti->renderers_can_change_size) {
+	if (eti->renderers_can_change_size &&
+	    eti->height_cache && eti->height_cache[row] != -1 &&
+	    eti_row_height_real(eti, row) != eti->height_cache[row]) {
 		eti_table_model_changed (table_model, eti);
 		return;
 	}
@@ -694,13 +698,32 @@ eti_table_model_cell_changed (ETableModel *table_model, int col, int row, ETable
 static void
 eti_table_model_row_inserted (ETableModel *table_model, int row, ETableItem *eti)
 {
-	eti_table_model_changed (table_model, eti);
+	eti->rows = e_table_model_row_count (eti->table_model);
+
+	if (eti->height_cache) {
+		eti->height_cache = g_renew(int, eti->height_cache, eti->rows);
+		memmove(eti->height_cache + row + 1, eti->height_cache + row, (eti->rows - 1 - row) * sizeof(int));
+		eti->height_cache[row] = -1;
+	}
+
+	eti->needs_compute_height = 1;
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
 static void
 eti_table_model_row_deleted (ETableModel *table_model, int row, ETableItem *eti)
 {
-	eti_table_model_changed (table_model, eti);
+	eti->rows = e_table_model_row_count (eti->table_model);
+
+	if (eti->height_cache)
+		memmove(eti->height_cache + row, eti->height_cache + row + 1, (eti->rows - row) * sizeof(int));
+
+	eti->needs_compute_height = 1;
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 }
 
 void

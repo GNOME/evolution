@@ -14,6 +14,7 @@
 #include "e-table-subset.h"
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE
+#define d(x)
 
 static ETableModelClass *etss_parent_class;
 
@@ -66,6 +67,7 @@ etss_value_at (ETableModel *etm, int col, int row)
 	ETableSubset *etss = (ETableSubset *)etm;
 
 	etss->last_access = row;
+	d(g_print("g) Setting last_access to %d\n", row));
 	return e_table_model_value_at (etss->source, col, etss->map_table [row]);
 }
 
@@ -75,6 +77,7 @@ etss_set_value_at (ETableModel *etm, int col, int row, const void *val)
 	ETableSubset *etss = (ETableSubset *)etm;
 
 	etss->last_access = row;
+	d(g_print("h) Setting last_access to %d\n", row));
 	return e_table_model_set_value_at (etss->source, col, etss->map_table [row], val);
 }
 
@@ -187,6 +190,7 @@ etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 	for (i = etss->last_access; i < limit; i++) {
 		if (map_table [i] == row){
 			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			d(g_print("a) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return;
 		}
@@ -196,6 +200,7 @@ etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 	for (i = etss->last_access - 1; i >= limit; i--) {
 		if (map_table [i] == row){
 			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			d(g_print("b) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return;
 		}
@@ -204,6 +209,7 @@ etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 	for (i = 0; i < n; i++){
 		if (map_table [i] == row){
 			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			d(g_print("c) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return;
 		}
@@ -222,6 +228,7 @@ etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset 
 	for (i = etss->last_access; i < limit; i++) {
 		if (map_table [i] == row){
 			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			d(g_print("d) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return;
 		}
@@ -231,6 +238,7 @@ etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset 
 	for (i = etss->last_access - 1; i >= limit; i--) {
 		if (map_table [i] == row){
 			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			d(g_print("e) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return;
 		}
@@ -239,6 +247,7 @@ etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset 
 	for (i = 0; i < n; i++){
 		if (map_table [i] == row){
 			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			d(g_print("f) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return;
 		}
