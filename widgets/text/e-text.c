@@ -151,10 +151,6 @@ static void _selection_received (GtkInvisible *invisible,
 				 guint time,
 				 EText *text);
 
-static void get_text_extents_with_objects (EText *etext, EFontStyle style,
-					   const gchar *text, gint bytelen,
-					   int *width, int *height);
-
 static void calc_height (EText *text);
 
 static GnomeCanvasItemClass *parent_class;
@@ -696,6 +692,11 @@ e_text_set_property (GObject *object,
 	case PROP_CLIP_HEIGHT:
 		text->clip_height = fabs (g_value_get_double (value));
 		text->needs_recalc_bounds = 1;
+		/* toshok: kind of a hack - set needs_reset_layout
+		   here so when something about the style/them
+		   changes, we redraw the text at the proper size/with
+		   the proper font. */
+		text->needs_reset_layout = 1;
 		needs_reflow = 1;
 		break;
 
@@ -1223,7 +1224,7 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 
 	if (clip_height >= 0) {
 		if (2 + y2 - clip_height > new_yofs_edit)
-			new_yofs_edit = 2 + y2 /*- clip_height*/;
+			new_yofs_edit = y2 - clip_height;
 	} else {
 		new_yofs_edit = 0;
 	}
