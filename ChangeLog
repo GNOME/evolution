@@ -6,6 +6,8 @@
 
 	* tools/Makefile.am: Don't link with libibex.
 
+	* tests/Makefile.am: Same here.
+
 2002-04-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Require gal 0.19.99.14.

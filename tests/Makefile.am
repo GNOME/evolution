@@ -8,7 +8,6 @@ INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir) -I$(top_srcdir)/camel \
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/libibex/libibex.la 	\
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 #	$(BONOBO_LIBS)				
@@ -37,7 +36,6 @@ LDADD = \
 test14_LDADD = \
 	$(top_builddir)/camel/providers/vee/libcamelvee.la 	\
 	$(top_builddir)/camel/libcamel.la 	\
-	$(top_builddir)/libibex/libibex.la 	\
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
@@ -51,7 +49,6 @@ test14_LDADD = \
 test_movemail_LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/libibex/libibex.la 	\
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
