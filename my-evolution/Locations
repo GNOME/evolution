@@ -2827,7 +2827,7 @@ loc14=Merida SVMD ------ ---
 loc15=San\\ Antonio\\ Del\\ Tachira SVSA ------ ---
 loc16=San\\ Fernando\\ De\\ Apure SVSR ------ ---
 loc17=Valera* SVVL ------ ---
-loc18=Caracas\\ La\\ Carlota SVFM ----- ---
+loc18=Caracas\\ La\\ Carlota SVFM ------ ---
 
 [M__MX]
 name=Mexico
