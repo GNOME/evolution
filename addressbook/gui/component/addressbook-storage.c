@@ -142,7 +142,7 @@ create_ldap_folder (EvolutionStorage *storage, const Bonobo_Listener listener,
 		    const CORBA_char *description, const CORBA_char *parent_physical_uri,
 		    gpointer data)
 {
-	if (strcmp (type, "ldap-contacts")) {
+	if (strcmp (type, "contacts")) {
 		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_TYPE);
 		return;
 	}
@@ -459,7 +459,7 @@ load_source_data (const char *file_path)
 
 		path = g_strdup_printf ("/%s", source->name);
 		evolution_storage_new_folder (storage, path, source->name,
-					      "ldap-contacts", source->uri,
+					      "contacts/ldap", source->uri,
 					      source->description, NULL, 0, FALSE, 0);
 
 		sources = g_list_append (sources, source);
@@ -578,7 +578,7 @@ addressbook_storage_add_source (AddressbookSource *source)
 	/* And then to the ui */
 	addressbook_get_other_contact_storage();
 	path = g_strdup_printf ("/%s", source->name);
-	evolution_storage_new_folder (storage, path, source->name, "ldap-contacts",
+	evolution_storage_new_folder (storage, path, source->name, "contacts/ldap",
 				      source->uri, source->description, NULL, 0, FALSE, 0);
 
 	g_free (path);

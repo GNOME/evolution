@@ -1,3 +1,12 @@
+2002-09-26  Dan Winship  <danw@ximian.com>
+
+	* gui/component/addressbook-storage.c (load_source_data): Change
+	folder type to "contacts/ldap".
+	(addressbook_storage_add_source): Likewise.
+	(create_ldap_folder): Check for type being "contacts" not
+	ldap contacts, since the ldap-specific type doesn't appear in the
+	menu.
+
 2002-09-25  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-component.c (folder_types): Rename
