@@ -1592,6 +1592,12 @@ e_book_dispose (GObject *object)
 		CORBA_Environment  ev;
 		GList *l;
 
+		if (book->priv->comp_listener) {
+			g_signal_handler_disconnect (book->priv->comp_listener, book->priv->died_signal);
+			g_object_unref (book->priv->comp_listener);
+			book->priv->comp_listener = NULL;
+		}
+
 		if (book->priv->load_state == URILoaded)
 			e_book_unload_uri (book);
 
@@ -1615,12 +1621,6 @@ e_book_dispose (GObject *object)
 			book->priv->listener = NULL;
 		}
 		
-		if (book->priv->comp_listener) {
-			g_signal_handler_disconnect (book->priv->comp_listener, book->priv->died_signal);
-			g_object_unref (book->priv->comp_listener);
-			book->priv->comp_listener = NULL;
-		}
-
 		g_free (book->priv->cap);
 
 		g_free (book->priv->uri);
