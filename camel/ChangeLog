@@ -1,3 +1,9 @@
+2001-12-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-basic.c (filter): If complete() allocates
+	len+2 bytes for the out buffer, so should this. See bug #16371 for
+	an example case.
+
 2001-11-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-search.c (search_body_contains): Don't use regex
