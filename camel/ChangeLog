@@ -1,3 +1,27 @@
+2000-08-29  Peter Williams  <peterw@helixcode.com>
+
+	* camel-service.c (camel_service_connect): Uncomment this.
+	(camel_service_disconnect): Same.
+
+	* camel-remote-store.[ch]: New files. Abstract remote storages
+	(IMAP, POP3, NNTP) and hides the lower-level networky stuff.
+	
+	* camel-service.c (camel_service_new): Take an extra argument, the
+	provider that created us, cause it's useful.
+	(camel_service_finalize): Unref our new provider member.
+
+	* camel-session.c (camel_session_get_service): Pass the proper number of
+	arguments to camel_service_new().
+
+	* camel-imap-store.c: Massive update: 1) use the CamelRemoteService to
+	make our life Very Easy (TM). 2) Change the semantics of all 
+	camel_imap_command* functions to take exceptions, centralize tons of
+	duplicate code, and use the handy RemoteStore utility functions
+
+	* camel-imap-folder.c: Use the new semantics of camel_imap_command*
+
+	* camel-imap-stream.c: Same.
+	
 2000-08-29  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
@@ -13,6 +37,43 @@
 	(imap_append_message): Updated.
 	(imap_copy_message_to): Updated.
 	(imap_move_message_to): Updated.
+
+2000-08-28  Peter Williams  <peterw@helixcode.com>
+
+	* camel-folder.c (camel_folder_refresh_info): New member function,
+	refresh_info, used for rereading folder state after its state has
+	somehow become unknown. Tries to preserve last-known status of
+	messages.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_refresh_info): Implement
+	::refresh_info (split up ::init)
+
+	* providers/mbox/camel-mbox-store.c (get_folder): Call ::refresh_info.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Call
+	::refresh_info once initialized.
+	(imap_refresh_info): New member function; reads the summary from
+	the server (used to be in camel_imap_folder_new; split out).
+
+	* providers/imap/camel-imap-store.c (imap_connect): Set
+	CamelService::connected a little early so that 
+	camel_imap_command won't try to connect while already
+	connnecting.
+	(camel_imap_command*): Try to connect if not connected already.
+	
+	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): Same as above.
+
+	* providers/pop3/camel-pop3-folder.c (camel_pop3_folder_new): Same
+	as above.
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Set 
+	CamelService::connected a little early so that
+	camel_pop3_command won't try to connect while already
+	connecting
+	(connect_to_server): Same.
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_refresh_info): Same
+	as above.
 
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 

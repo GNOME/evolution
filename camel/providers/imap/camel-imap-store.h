@@ -32,7 +32,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-store.h"
+#include "camel-remote-store.h"
 
 #define CAMEL_IMAP_STORE_TYPE     (camel_imap_store_get_type ())
 #define CAMEL_IMAP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_IMAP_STORE_TYPE, CamelImapStore))
@@ -47,7 +47,7 @@ typedef enum {
 
 
 typedef struct {
-	CamelStore parent_object;	
+	CamelRemoteStore parent_object;	
 	
 	CamelFolder *current_folder;
 	CamelStream *istream, *ostream;
@@ -64,7 +64,7 @@ typedef struct {
 
 
 typedef struct {
-	CamelStoreClass parent_class;
+	CamelRemoteStoreClass parent_class;
 
 } CamelImapStoreClass;
 
@@ -83,13 +83,13 @@ enum {
 	CAMEL_IMAP_FAIL
 };
 
-gint camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...);
-gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...);
+gint camel_imap_command (CamelImapStore *store, CamelFolder *folder, CamelException *ex, char *fmt, ...);
+gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, CamelException *ex, char *fmt, ...);
 
 /* multi-transactional commands... */
-gint camel_imap_command_preliminary (CamelImapStore *store, char **ret, char **cmdid, char *fmt, ...);
-gint camel_imap_command_continuation (CamelImapStore *store, char **ret, char *cmdid, char *cmdbuf);
-gint camel_imap_command_continuation_with_stream (CamelImapStore *store, char **ret, char *cmdid, CamelStream *cstream);
+gint camel_imap_command_preliminary (CamelImapStore *store, char **cmdid, CamelException *ex, char *fmt, ...);
+gint camel_imap_command_continuation (CamelImapStore *store, char **ret, char *cmdid, char *cmdbuf, CamelException *ex);
+gint camel_imap_command_continuation_with_stream (CamelImapStore *store, char **ret, char *cmdid, CamelStream *cstream, CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);

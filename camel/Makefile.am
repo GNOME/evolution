@@ -40,6 +40,7 @@ libcamel_la_SOURCES = 				\
 	camel-multipart.c			\
 	camel-object.c				\
 	camel-provider.c			\
+	camel-remote-store.c			\
 	camel-seekable-stream.c			\
 	camel-seekable-substream.c		\
 	camel-service.c				\
@@ -87,6 +88,7 @@ libcamelinclude_HEADERS =			\
 	camel-multipart.h			\
 	camel-object.h				\
 	camel-provider.h			\
+	camel-remote-store.h			\
 	camel-seekable-stream.h			\
 	camel-seekable-substream.h		\
 	camel-service.h				\

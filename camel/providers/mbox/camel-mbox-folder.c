@@ -58,9 +58,8 @@ static CamelFolderClass *parent_class = NULL;
 
 static void mbox_init(CamelFolder *folder, CamelStore * parent_store,
 		      CamelFolder *parent_folder, const gchar * name,
-
 		      gchar * separator, gboolean path_begins_with_sep, CamelException *ex);
-
+static void mbox_refresh_info (CamelFolder *folder, CamelException *ex);
 static void mbox_sync(CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint mbox_get_message_count(CamelFolder *folder);
 static gint mbox_get_unread_message_count(CamelFolder *folder);
@@ -100,6 +99,7 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 
 	/* virtual method overload */
 	camel_folder_class->init = mbox_init;
+	camel_folder_class->refresh_info = mbox_refresh_info;
 	camel_folder_class->sync = mbox_sync;
 	camel_folder_class->get_message_count = mbox_get_message_count;
 	camel_folder_class->get_unread_message_count = mbox_get_unread_message_count;
@@ -167,8 +167,6 @@ mbox_init(CamelFolder *folder, CamelStore * parent_store,
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *) folder;
 	const gchar *root_dir_path;
 	gchar *real_name;
-	int forceindex;
-	struct stat st;
 
 	/* call parent method */
 	parent_class->init(folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
@@ -202,6 +200,14 @@ mbox_init(CamelFolder *folder, CamelStore * parent_store,
 	mbox_folder->summary_file_path = g_strdup_printf("%s/%s-ev-summary", root_dir_path, real_name);
 	mbox_folder->folder_dir_path = g_strdup_printf("%s/%s.sdb", root_dir_path, real_name);
 	mbox_folder->index_file_path = g_strdup_printf("%s/%s.ibex", root_dir_path, real_name);
+}
+
+static void
+mbox_refresh_info (CamelFolder *folder, CamelException *ex)
+{
+	CamelMboxFolder *mbox_folder = (CamelMboxFolder *) folder;
+	struct stat st;
+	int forceindex;
 
 	/* if we have no index file, force it */
 	forceindex = stat(mbox_folder->index_file_path, &st) == -1;

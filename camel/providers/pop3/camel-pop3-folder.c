@@ -38,6 +38,7 @@ static CamelFolderClass *parent_class;
 
 static void pop3_finalize (CamelObject *object);
 
+static void pop3_refresh_info (CamelFolder *folder, CamelException *ex);
 static void pop3_sync (CamelFolder *folder, gboolean expunge,
 		       CamelException *ex);
 
@@ -60,6 +61,7 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 	parent_class = CAMEL_FOLDER_CLASS(camel_type_get_global_classfuncs (camel_folder_get_type ()));
 
 	/* virtual method overload */
+	camel_folder_class->refresh_info = pop3_refresh_info;
 	camel_folder_class->sync = pop3_sync;
 
 	camel_folder_class->get_message_count = pop3_get_message_count;
@@ -111,21 +113,36 @@ pop3_finalize (CamelObject *object)
 CamelFolder *
 camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 {
-	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (parent);
 	CamelPop3Folder *pop3_folder;
+
+	pop3_folder = CAMEL_POP3_FOLDER(camel_object_new (CAMEL_POP3_FOLDER_TYPE));
+	CF_CLASS (pop3_folder)->init ((CamelFolder *)pop3_folder, parent,
+				      NULL, "inbox", "/", TRUE, ex);
+	pop3_folder->uids = NULL;
+	pop3_folder->flags = NULL;
+	CF_CLASS (pop3_folder)->refresh_info ((CamelFolder *)pop3_folder, ex);
+
+	return (CamelFolder *)pop3_folder;
+}
+
+static void 
+pop3_refresh_info (CamelFolder *folder, CamelException *ex)
+{
 	GPtrArray *uids;
 	int status, count;
 	char *data;
+	CamelPop3Folder *pop3_folder = (CamelPop3Folder *) folder;
+	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (folder->parent_store);
 
 	status = camel_pop3_command (pop3_store, &data, "STAT");
 	if (status != CAMEL_POP3_OK) {
-		CamelService *service = CAMEL_SERVICE (parent);
+		CamelService *service = CAMEL_SERVICE (pop3_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not get message count from POP "
 				      "server %s: %s.", service->url->host,
 				      data ? data : "Unknown error");
 		g_free (data);
-		return NULL;
+		return;
 	}
 
 	count = atoi (data);
@@ -148,7 +165,7 @@ camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 	} else {
 		data = camel_pop3_command_get_additional_data (pop3_store, ex);
 		if (camel_exception_is_set (ex))
-			return NULL;
+			return;
 
 		uids = parse_listing (count, data);
 		g_free (data);
@@ -157,17 +174,12 @@ camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Could not open folder: message "
 					      "listing was incomplete.");
-			return NULL;
+			return;
 		}
 	}
 
-	pop3_folder = CAMEL_POP3_FOLDER(camel_object_new (CAMEL_POP3_FOLDER_TYPE));
-	CF_CLASS (pop3_folder)->init ((CamelFolder *)pop3_folder, parent,
-				      NULL, "inbox", "/", TRUE, ex);
 	pop3_folder->uids = uids;
 	pop3_folder->flags = g_new0 (guint32, uids->len);
-
-	return (CamelFolder *)pop3_folder;
 }
 
 static void

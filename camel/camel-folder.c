@@ -44,6 +44,7 @@ static void init (CamelFolder *folder, CamelStore *parent_store,
 
 static void camel_folder_finalize (CamelObject *object);
 
+static void refresh_info (CamelFolder *folder, CamelException *ex);
 
 static void folder_sync (CamelFolder *folder, gboolean expunge,
 			 CamelException *ex);
@@ -134,6 +135,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	/* virtual method definition */
 	camel_folder_class->init = init;
 	camel_folder_class->sync = folder_sync;
+	camel_folder_class->refresh_info = refresh_info;
 	camel_folder_class->get_name = get_name;
 	camel_folder_class->get_full_name = get_full_name;
 	camel_folder_class->can_hold_folders = can_hold_folders;
@@ -318,6 +320,29 @@ void camel_folder_sync(CamelFolder * folder, gboolean expunge, CamelException * 
 	g_return_if_fail(CAMEL_IS_FOLDER(folder));
 
 	CF_CLASS(folder)->sync(folder, expunge, ex);
+}
+
+static void
+refresh_info (CamelFolder *folder, CamelException *ex)
+{
+	g_warning ("CamelFolder::refresh_info not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+}
+
+/**
+ * camel_folder_refresh_info:
+ * @folder: The folder object
+ * @ex: exception object
+ *
+ * Updates a folder's summary to be in sync with its backing store
+ * (called upon creation and when the store's connection is lost
+ * and then reestablished).
+ **/
+void camel_folder_refresh_info (CamelFolder * folder, CamelException * ex)
+{
+	g_return_if_fail(CAMEL_IS_FOLDER(folder));
+
+	CF_CLASS(folder)->refresh_info(folder, ex);
 }
 
 static const gchar *get_name(CamelFolder * folder)

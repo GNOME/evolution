@@ -63,7 +63,7 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 		       CamelFolder *parent_folder, const gchar *name,
 		       gchar *separator, gboolean path_begns_with_sep,
 		       CamelException *ex);
-
+static void imap_refresh_info (CamelFolder *folder, CamelException *ex);
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void imap_expunge (CamelFolder *folder, CamelException *ex);
 
@@ -108,6 +108,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	
 	/* virtual method overload */
 	camel_folder_class->init = imap_init;
+	camel_folder_class->refresh_info = imap_refresh_info;
 	camel_folder_class->sync = imap_sync;
 	camel_folder_class->expunge = imap_expunge;
 	
@@ -185,11 +186,8 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 	if (!strcmp (folder_name, url->path + 1))
 		folder->can_hold_messages = FALSE;
 	
-	imap_get_subfolder_names_internal (folder, ex);
-	
-	if (folder->can_hold_messages)
-		imap_get_summary_internal (folder, ex);
-	
+	CF_CLASS (folder)->refresh_info (folder, ex);
+
 	return folder;
 }
 
@@ -286,6 +284,15 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 }
 
 static void
+imap_refresh_info (CamelFolder *folder, CamelException *ex)
+{
+	imap_get_subfolder_names_internal (folder, ex);
+	
+	if (folder->can_hold_messages)
+		imap_get_summary_internal (folder, ex);
+}
+
+static void
 imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
@@ -317,21 +324,12 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 					
 					*(flags + strlen (flags) - 1) = '\0';
 					s = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
-									 folder, &result,
+									 folder, &result, ex,
 									 "UID STORE %s FLAGS.SILENT (%s)",
 									 info->uid, flags);
 					
-					if (s != CAMEL_IMAP_OK) {
-						CamelService *service = CAMEL_SERVICE (folder->parent_store);
-						camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-								      "Could not set flags on message %s on IMAP "
-								      "server %s: %s.", info->uid,
-								      service->url->host,
-								      s != CAMEL_IMAP_FAIL && result ? result :
-								      "Unknown error");
-						g_free (result);
+					if (s != CAMEL_IMAP_OK)
 						return;
-					}
 					
 					g_free (result);
 				}
@@ -352,19 +350,11 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	
 	imap_sync (folder, FALSE, ex);
 	
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "EXPUNGE");
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder, 
+					      &result, ex, "EXPUNGE");
 	
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not EXPUNGE from IMAP server %s: %s.",
-				      service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
+	if (status != CAMEL_IMAP_OK)
 		return;
-	}
 	
 	/* determine which messages were successfully expunged */
 	node = result;
@@ -381,7 +371,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 				
 				word = imap_next_word (word);
 				for (ep = word; *ep && *ep != '\n'; ep++);
-				reason = g_strndup (word, (gint)(ep - word) + 1);
+				reason = g_strndup (word, (gint)(ep - word));
 				
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 						      "Could not EXPUNGE from IMAP server %s: %s.",
@@ -462,23 +452,15 @@ imap_get_message_count_internal (CamelFolder *folder, CamelException *ex)
 	
 	if (CAMEL_IMAP_STORE (store)->has_status_capability)
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), folder,
-						      &result, "STATUS %s (MESSAGES)", folder_path);
+						      &result, ex, "STATUS %s (MESSAGES)", folder_path);
 	else
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), folder,
-						      &result, "EXAMINE %s", folder_path);
-	
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get message count for %s from IMAP "
-				      "server %s: %s.", folder_path, service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
-		g_free (folder_path);
-		return 0;
-	}
+						      &result, ex, "EXAMINE %s", folder_path);
+
 	g_free (folder_path);
+	
+	if (status != CAMEL_IMAP_OK)
+		return 0;
 	
 	/* parse out the message count */
 	if (result && *result == '*') {
@@ -582,45 +564,27 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 	camel_stream_reset (memstream);
 	
 	status = camel_imap_command_preliminary (CAMEL_IMAP_STORE (folder->parent_store),
-						 &result, &cmdid, "APPEND %s%s {%d}",
+						 &cmdid, ex, "APPEND %s%s {%d}",
 						 folder_path, flagstr ? flagstr : "", ba->len - 2);
+	g_free (folder_path);
 	
 	if (status != CAMEL_IMAP_PLUS) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not APPEND message to IMAP server %s: %s.",
-				      service->url->host, result ? result : "Unknown error");
-		
-		g_free (result);
 		g_free (cmdid);
-		g_free (folder_path);
 		return;
 	}
-	
-	g_free (result);
-	g_free (folder_path);
 	
 	/* send the rest of our data - the mime message */
 	status = camel_imap_command_continuation_with_stream (CAMEL_IMAP_STORE (folder->parent_store),
-							      &result, cmdid, memstream);
-	
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not APPEND message to IMAP server %s: %s.",
-				      service->url->host, result ? result : "Unknown error");
-		
-		camel_object_unref (CAMEL_OBJECT (memstream));
-		g_free (result);
-		g_free (cmdid);
-		return;
-	}
-	
-	camel_object_unref (CAMEL_OBJECT (memstream));
+							      &result, cmdid, memstream, ex);
 	g_free (cmdid);
+	
+	if (status != CAMEL_IMAP_OK)
+		return;
+
 	g_free (result);
 	
-	camel_imap_folder_changed (folder, 1, NULL, ex);
+	camel_object_unref (CAMEL_OBJECT (memstream));
+       	camel_imap_folder_changed (folder, 1, NULL, ex);
 }
 
 static void
@@ -638,23 +602,14 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	else
 		folder_path = g_strdup (destination->full_name);
 	
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), source, &result,
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), source, &result, ex,
 					      "UID COPY %s %s", uid, folder_path);
+	g_free (folder_path);
 	
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not COPY message %s to %s on IMAP server %s: %s.",
-				      uid, folder_path, service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
-		g_free (folder_path);
+	if (status != CAMEL_IMAP_OK)
 		return;
-	}
 	
 	g_free (result);
-	g_free (folder_path);
 	
 	camel_imap_folder_changed (destination, 1, NULL, ex);
 }
@@ -676,23 +631,14 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	else
 		folder_path = g_strdup (destination->full_name);
 	
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), source, &result,
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), source, &result, ex,
 					      "UID COPY %s %s", uid, folder_path);
-	
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not COPY message %s to %s on IMAP server %s: %s.",
-				      uid, folder_path, service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
-		g_free (folder_path);
-		return;
-	}
-	
-	g_free (result);
 	g_free (folder_path);
+	
+	if (status != CAMEL_IMAP_OK)
+		return;
+
+	g_free (result);
 	
 	if (!(info = (CamelMessageInfo *)imap_get_message_info (source, uid))) {
 		CamelService *service = CAMEL_SERVICE (store);
@@ -779,17 +725,10 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 	}
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
-					      &result, "LIST \"\" \"%s%s*\"", namespace,
+					      &result, ex, "LIST \"\" \"%s%s*\"", namespace,
 					      *namespace ? dir_sep : "");
 	
 	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get subfolder listing from IMAP "
-				      "server %s: %s.", service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
 		g_free (namespace);
 		
 		imap_folder->lsub = g_ptr_array_new ();
@@ -871,20 +810,11 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		data_item = "RFC822.HEADER";
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "UID FETCH %s %s", uid,
+					      &result, ex, "UID FETCH %s %s", uid,
 					      data_item);
 	
-	if (!result || status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not fetch message %s on IMAP server %s: %s",
-				      uid, service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
+	if (!result || status != CAMEL_IMAP_OK)
 		return NULL;
-	}
 	
 	/* parse out the message part */
 	for (p = result; *p && *p != '{' && *p != '"' && *p != '\n'; p++);
@@ -933,18 +863,10 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		data_item = "RFC822.TEXT";
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "UID FETCH %s %s", uid,
+					      &result, ex, "UID FETCH %s %s", uid,
 					      data_item);
 	
 	if (!result || status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not fetch message %s on IMAP server %s: %s",
-				      uid, service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
 		g_free (header);
 		return NULL;
 	}
@@ -1111,23 +1033,14 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	
 	if (num == 1) {
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-						      &result, "FETCH 1 (%s)", summary_specifier);
+						      &result, ex, "FETCH 1 (%s)", summary_specifier);
 	} else {
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-						      &result, "FETCH 1:%d (%s)", num, summary_specifier);
+						      &result, ex, "FETCH 1:%d (%s)", num, summary_specifier);
 	}
 	g_free (summary_specifier);
 	
 	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get summary for %s on IMAP server %s: %s",
-				      folder->full_name, service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
-		
 		if (!imap_folder->summary) {
 			imap_folder->summary = g_ptr_array_new ();
 			imap_folder->summary_hash = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1293,7 +1206,7 @@ imap_get_summary (CamelFolder *folder)
 
 /* get a single message info from the server */
 static CamelMessageInfo *
-imap_get_message_info_internal (CamelFolder *folder, guint id)
+imap_get_message_info_internal (CamelFolder *folder, guint id, CamelException *ex)
 {
 	CamelMessageInfo *info = NULL;
 	struct _header_raw *h, *tail = NULL;
@@ -1306,14 +1219,12 @@ imap_get_message_info_internal (CamelFolder *folder, guint id)
 	summary_specifier = imap_protocol_get_summary_specifier (folder);
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "FETCH %d (%s)", id, summary_specifier);
+					      &result, ex, "FETCH %d (%s)", id, summary_specifier);
 	
 	g_free (summary_specifier);
 	
-	if (status != CAMEL_IMAP_OK) {
-		g_free (result);
+	if (status != CAMEL_IMAP_OK)
 		return NULL;
-	}
 	
 	/* lets grab the UID... */
 	if (!(uid = (char *) e_strstrcase (result, "UID "))) {
@@ -1456,17 +1367,9 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	}
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "UID SEARCH %s", sexp);
+					      &result, ex, "UID SEARCH %s", sexp);
 	
 	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get summary for %s on IMAP server %s: %s",
-				      folder->full_name, service->url->host,
-				      status != CAMEL_IMAP_FAIL && result ? result :
-				      "Unknown error");
-		g_free (result);
 		g_free (sexp);
 		return uids;
 	}
@@ -1594,7 +1497,7 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, GPtrArray *expunged
 		last = imap_folder->summary->len + 1;
 		
 		for (i = last, j = 0; j < recent; i++, j++) {
-			info = imap_get_message_info_internal (folder, i);
+			info = imap_get_message_info_internal (folder, i, ex);
 			if (info) {
 				g_ptr_array_add (imap_folder->summary, info);
 				g_hash_table_insert (imap_folder->summary_hash, info->uid, info);

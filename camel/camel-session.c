@@ -244,7 +244,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		return service;
 	}
 
-	service = camel_service_new (provider->object_types[type], session, url, ex);
+	service = camel_service_new (provider->object_types[type], session, provider, url, ex);
 	if (service) {
 		g_hash_table_insert (provider->service_cache, url, service);
 		camel_object_hook_event (CAMEL_OBJECT (service), "finalize", (CamelObjectEventHookFunc) service_cache_remove, session);

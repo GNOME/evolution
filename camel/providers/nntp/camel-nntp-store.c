@@ -176,6 +176,8 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 	CF_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, ".", FALSE, ex);
 
+	CF_CLASS (new_folder)->refresh_info (new_folder, ex);
+
 	return new_folder;
 }
 
@@ -271,21 +273,22 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 	va_list ap;
 	int status;
 	int resp_code;
-	CamelException *ex;
 
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
-	ex = camel_exception_new();
-
 	/* make sure we're connected */
-	if (store->ostream == NULL)
-		nntp_store_connect (CAMEL_SERVICE (store), ex);
-
-	if (camel_exception_get_id (ex)) {
-		camel_exception_free (ex);
-		return CAMEL_NNTP_FAIL;
+	if (store->ostream == NULL) {
+		CamelException ex;
+	
+		camel_exception_init (&ex);
+		nntp_store_connect (CAMEL_SERVICE (store), &ex);
+		if (camel_exception_get_id (&ex)) {
+			camel_exception_clear (&ex);
+			return CAMEL_NNTP_FAIL;
+		}
+		camel_exception_clear (&ex);
 	}
 
 	/* Send the command */
@@ -343,6 +346,19 @@ camel_nntp_command_get_additional_data (CamelNNTPStore *store)
 	GPtrArray *data;
 	char *buf;
 	int i, status = CAMEL_NNTP_OK;
+
+	/* make sure we're connected */
+	if (store->ostream == NULL) {
+		CamelException ex;
+	
+		camel_exception_init (&ex);
+		nntp_store_connect (CAMEL_SERVICE (store), &ex);
+		if (camel_exception_get_id (&ex)) {
+			camel_exception_clear (&ex);
+			return NULL;
+		}
+		camel_exception_clear (&ex);
+	}
 
 	data = g_ptr_array_new ();
 	while (1) {

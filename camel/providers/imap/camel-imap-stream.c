@@ -23,6 +23,7 @@
 
 #include <config.h>
 #include "camel-imap-stream.h"
+#include "camel/camel-exception.h"
 #include <sys/types.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -117,14 +118,18 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	if (!imap_stream->cache) {
 		/* We need to send the IMAP command since this is our first fetch */
 		CamelFolder *folder = CAMEL_FOLDER (imap_stream->folder);
+		CamelException ex;
 		gchar *result, *p, *q;
 		gint status, part_len;
 		
+		camel_exception_init (&ex);
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
 						      CAMEL_FOLDER (imap_stream->folder),
-						      &result, "%s\r\n",
+						      &result, &ex, "%s\r\n",
 						      imap_stream->command);
-		
+		/* FIXME: exception is ignored */
+		camel_exception_clear (&ex);
+
 		if (!result || status != CAMEL_IMAP_OK) {
 			/* we got an error, dump this stuff */
 			g_free (result);

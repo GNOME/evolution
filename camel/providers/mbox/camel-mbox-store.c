@@ -155,7 +155,8 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 	
 	CF_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, "/", TRUE, ex);
-	
+	CF_CLASS (new_folder)->refresh_info (new_folder, ex);
+
 	return new_folder;
 }
 

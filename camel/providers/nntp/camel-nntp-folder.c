@@ -63,7 +63,6 @@ nntp_folder_init (CamelFolder *folder, CamelStore *parent_store,
 		  gchar *separator, gboolean path_begins_with_sep,
 		  CamelException *ex)
 {
-	const gchar *root_dir_path;
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 
 	/* call parent method */
@@ -93,12 +92,19 @@ nntp_folder_init (CamelFolder *folder, CamelStore *parent_store,
 	if (!(nntp_load_uid_list (nntp_folder) > 0))
 		nntp_generate_uid_list (nntp_folder);
 #endif
+}
 
-	root_dir_path = camel_nntp_store_get_toplevel_dir (CAMEL_NNTP_STORE(folder->parent_store));
-
+static void
+nntp_refresh_info (CamelFolder *folder, CamelException *ex)
+{
+	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 
 	/* load the summary if we have that ability */
 	if (folder->has_summary_capability) {
+		const gchar *root_dir_path;
+
+		root_dir_path = camel_nntp_store_get_toplevel_dir (CAMEL_NNTP_STORE(folder->parent_store));
+
 		nntp_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary",
 							  root_dir_path,
 							  nntp_folder->group_name);
@@ -118,8 +124,6 @@ nntp_folder_init (CamelFolder *folder, CamelStore *parent_store,
 			camel_folder_summary_save (nntp_folder->summary);
 		}
 	}
-		
-
 }
 
 static void
@@ -364,6 +368,7 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 
 	/* virtual method overload */
 	camel_folder_class->init = nntp_folder_init;
+	camel_folder_class->refresh_info = nntp_refresh_info;
 	camel_folder_class->sync = nntp_folder_sync;
 	camel_folder_class->get_subfolder = nntp_folder_get_subfolder;
 	camel_folder_class->get_message_count = nntp_folder_get_message_count;

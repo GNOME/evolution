@@ -80,6 +80,8 @@ typedef struct {
 			gchar *separator, gboolean path_begins_with_sep,
 			CamelException *ex);
 
+	void   (*refresh_info) (CamelFolder *folder, CamelException *ex);
+
 	void   (*sync) (CamelFolder *folder, gboolean expunge, 
 			CamelException *ex);
 
@@ -194,6 +196,8 @@ CamelFolder *      camel_folder_get_subfolder          (CamelFolder *folder,
 							gboolean create,
 							CamelException *ex);
 
+void               camel_folder_refresh_info           (CamelFolder * folder, 
+							CamelException * ex);
 void               camel_folder_sync                   (CamelFolder *folder, 
 							gboolean expunge, 
 							CamelException *ex);

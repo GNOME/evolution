@@ -277,6 +277,9 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 	store->supports_uidl = -1;
 	store->expires = -1;
 
+	/* good enough for us */
+	service->connected = TRUE;
+
 	status = camel_pop3_command (store, NULL, "CAPA");
 	if (status == CAMEL_POP3_OK) {
 		char *p;
@@ -285,6 +288,7 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 		buf = camel_pop3_command_get_additional_data (store, ex);
 		if (camel_exception_is_set (ex)) {
 			pop3_disconnect (service, ex);
+			service->connected = FALSE;
 			return FALSE;
 		}
 
@@ -534,6 +538,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 
 	if (camel_exception_is_set (ex)) {
 		pop3_disconnect (service, NULL);
+		service->connected = FALSE;
 		return FALSE;
 	}
 
@@ -627,6 +632,21 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 {
 	char *cmdbuf;
 	va_list ap;
+
+	/* Check for connectedness. Failed (or cancelled) operations will
+	 * close the connection. */
+	if (CAMEL_SERVICE (store)->connected == FALSE) {
+		CamelException ex;
+
+		d(g_message ("pop3: disconnected, reconnecting."));
+		camel_exception_init (&ex);
+		CAMEL_SERVICE_CLASS (CAMEL_OBJECT_GET_CLASS (store))->connect (store, &ex);
+		if (camel_exception_is_set (&ex)) {
+			camel_exception_clear (&ex);
+			return CAMEL_POP3_FAIL;
+		}
+		camel_exception_clear (&ex);
+	}
 
 	if (!store->ostream) {
 		/*CamelException ex;
@@ -769,3 +789,4 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *e
 
 	return buf;
 }
+

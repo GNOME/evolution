@@ -36,6 +36,7 @@ extern "C" {
 
 #include <camel/camel-object.h>
 #include <camel/camel-url.h>
+#include <camel/camel-provider.h>
 #include <netdb.h>
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
@@ -48,6 +49,7 @@ struct _CamelService {
 	CamelObject parent_object;
 
 	CamelSession *session;
+	CamelProvider *provider;
 	gboolean connected;
 	CamelURL *url;
 	int url_flags;
@@ -109,14 +111,18 @@ typedef struct {
 /* public methods */
 CamelService *      camel_service_new                (CamelType type, 
 						      CamelSession *session,
+						      CamelProvider *provider,
 						      CamelURL *url, 
 						      CamelException *ex);
-
+gboolean            camel_service_connect            (CamelService *service, 
+						      CamelException *ex);
+gboolean            camel_service_disconnect         (CamelService *service, 
+						      CamelException *ex);
 char *              camel_service_get_url            (CamelService *service);
 char *              camel_service_get_name           (CamelService *service,
 						      gboolean brief);
 CamelSession *      camel_service_get_session        (CamelService *service);
-
+CamelProvider *     camel_service_get_provider       (CamelService *service);
 GList *             camel_service_query_auth_types   (CamelService *service,
 						      CamelException *ex);
 void                camel_service_free_auth_types    (CamelService *service,

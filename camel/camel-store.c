@@ -370,4 +370,3 @@ camel_store_get_default_folder (CamelStore *store, CamelException *ex)
 	}
 	return folder;
 }
-

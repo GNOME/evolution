@@ -151,8 +151,8 @@ check_url (CamelService *service, CamelException *ex)
  * Return value: the CamelService, or NULL.
  **/
 CamelService *
-camel_service_new (CamelType type, CamelSession *session, CamelURL *url,
-		   CamelException *ex)
+camel_service_new (CamelType type, CamelSession *session, CamelProvider *provider,
+		   CamelURL *url, CamelException *ex)
 {
 	CamelService *service;
 
@@ -170,6 +170,9 @@ camel_service_new (CamelType type, CamelSession *session, CamelURL *url,
 
 	service->session = session;
 	camel_object_ref (CAMEL_OBJECT (session));
+
+	service->provider = provider;
+	/* don't ref -- providers are not CamelObjects */
 
 	service->connected = FALSE;
 	
@@ -205,22 +208,24 @@ service_connect (CamelService *service, CamelException *ex)
  *
  * Return value: whether or not the connection succeeded
  **/
-/**
- *gboolean
- *camel_service_connect (CamelService *service, CamelException *ex)
- *{
- *	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
- *	g_return_val_if_fail (service->session != NULL, FALSE);
- *	g_return_val_if_fail (service->url != NULL, FALSE);
- *
- *	if (service->connect_level > 0) {
- *		service->connect_level++;
- *		return TRUE;
- *	}
- *
- *	return CSERV_CLASS (service)->connect (service, ex);
- *}
- **/
+
+gboolean
+camel_service_connect (CamelService *service, CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+	g_return_val_if_fail (service->session != NULL, FALSE);
+	g_return_val_if_fail (service->url != NULL, FALSE);
+
+	if (service->connected) {
+		/* But we're still connected, so no exception
+		 * and return true.
+		 */
+		g_warning ("camel_service_connect: trying to connect to an already connected service");
+		return TRUE;
+	}
+
+	return CSERV_CLASS (service)->connect (service, ex);
+}
 
 static gboolean
 service_disconnect (CamelService *service, CamelException *ex)
@@ -244,19 +249,18 @@ service_disconnect (CamelService *service, CamelException *ex)
  * Return value: whether or not the disconnection succeeded without
  * errors. (Consult @ex if %FALSE.)
  **/
-/**
- *gboolean
- *camel_service_disconnect (CamelService *service, CamelException *ex)
- *{
- *	if (service->connect_level < 1) {
- *		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
- *				     "Trying to disconnect from a service that isn't connected");
- *		return FALSE;
- *	}
- *
- *	return CSERV_CLASS (service)->disconnect (service, ex);
- *}
- **/
+
+gboolean
+camel_service_disconnect (CamelService *service, CamelException *ex)
+{
+	if (!service->connected) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
+				     "Trying to disconnect from a service that isn't connected");
+		return FALSE;
+	}
+	
+	return CSERV_CLASS (service)->disconnect (service, ex);
+}
 
 /**
  *static gboolean
@@ -341,6 +345,19 @@ camel_service_get_session (CamelService *service)
 	return service->session;
 }
 
+/**
+ * camel_service_get_provider:
+ * @service: a service
+ *
+ * Returns the CamelProvider associated with the service.
+ *
+ * Return value: the provider
+ **/
+CamelProvider *
+camel_service_get_provider (CamelService *service)
+{
+	return service->provider;
+}
 
 GList *
 query_auth_types_func (CamelService *service, CamelException *ex)
