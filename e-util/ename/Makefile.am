@@ -1,5 +1,4 @@
 INCLUDES =						\
-        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
 	-DG_LOG_DOMAIN=\"EName\"			\
 	-I$(srcdir)					\
 	-I$(srcdir)/..					\
