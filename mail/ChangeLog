@@ -1,5 +1,8 @@
 2001-09-20    <NotZed@Ximian.com>
 
+	* mail-vfolder.c (check_source): Dont let drafts/outbox/sent be
+	added via a generic 'all local folders' rule.
+
 	* component-factory.c (got_folder): trigger a folder changed
 	event, so the folderinfocache stuff has a chance to see if this is
 	the outbox_folder or not.

@@ -75,6 +75,11 @@ extern CamelSession *session;
 static int
 check_source(FilterRule *rule, CamelFolder *folder)
 {
+	extern CamelFolder *drafts_folder, *outbox_folder, *sent_folder;
+
+	if (folder == drafts_folder || folder == outbox_folder || folder == sent_folder)
+		return FALSE;
+
 	if (rule->source) {
 		int remote = (((CamelService *)folder->parent_store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
 		
