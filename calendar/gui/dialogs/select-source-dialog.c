@@ -156,7 +156,18 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 		g_list_free (icon_list);
 	}
 	
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		if (selected_source) {
+			char *absolute_uri;
+
+			/* set the absolute URI on the source we keep around, since the group
+			   will be unrefed */
+			absolute_uri = e_source_build_absolute_uri (selected_source);
+			e_source_set_absolute_uri (selected_source, (const char *) absolute_uri);
+
+			g_free (absolute_uri);
+		}
+	} else {
 		if (selected_source)
 			g_object_unref (selected_source);
 		selected_source = NULL;

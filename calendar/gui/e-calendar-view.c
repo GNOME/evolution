@@ -1113,12 +1113,25 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
 			return;
 	} else {
+		orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+
+		if (!remove_item) {
+			/* change the UID to avoid problems with duplicated UIDs */
+			new_uid = e_cal_component_gen_uid ();
+			icalcomponent_set_uid (orig_icalcomp, new_uid);
+
+			g_free (new_uid);
+		}
+
 		new_uid = NULL;
-		if (!e_cal_create_object (dest_client, event->comp_data->icalcomp, &new_uid, NULL))
+		if (!e_cal_create_object (dest_client, orig_icalcomp, &new_uid, NULL)) {
+			icalcomponent_free (orig_icalcomp);
 			return;
+		}
 
 		if (new_uid)
 			g_free (new_uid);
+		icalcomponent_free (orig_icalcomp);
 	}
 
 	/* remove the item from the source calendar */
@@ -1158,7 +1171,7 @@ transfer_selected_items (ECalendarView *cal_view, gboolean remove_item)
 		e_calendar_view_set_status_message (cal_view, _("Copying items"));
 
 	for (l = selected; l != NULL; l = l->next)
-		transfer_item_to ((ECalendarViewEvent *) l->data, dest_client, TRUE);
+		transfer_item_to ((ECalendarViewEvent *) l->data, dest_client, remove_item);
 
 	e_calendar_view_set_status_message (cal_view, NULL);
 
