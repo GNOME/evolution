@@ -1,3 +1,9 @@
+2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_popup_new_folder_response): Use a
+	folder_name rather than a path as the name argument to
+	camel_store_create_folder(), fixes creation of IMAP folders.
+
 2003-11-17  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-selection-button.c (set_contents): handle an

@@ -1233,7 +1233,7 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 	camel_object_unref (store);
 	
 	/* FIXME: camel_store_create_folder should just take full path names */
-	path = g_strdup (path);
+	path = g_strdup (path[0] == '/' ? path + 1 : path);
 	if (!(name = strrchr (path, '/'))) {
 		name = path;
 		parent = "";
