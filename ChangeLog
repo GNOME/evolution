@@ -1,3 +1,9 @@
+2000-09-15  Dan Winship  <danw@helixcode.com>
+
+	* configure.in, evolution.spec.in: remove spec file. We haven't
+	been keeping it up to date, and it's only good for RH anyway, and
+	if people really want a spec file they can get it from our SRPMs.
+
 2000-09-07  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Require Bonobo 0.19
