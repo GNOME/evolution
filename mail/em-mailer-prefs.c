@@ -77,19 +77,16 @@ static GType col_types[] = {
 };
 
 /* temporarily copied from em-format.c */
-static const struct {
-	const char *name;
-	guint32 flags;
-} default_headers[] = {
-	{ N_("From"), EM_FORMAT_HEADER_BOLD },
-	{ N_("Reply-To"), EM_FORMAT_HEADER_BOLD },
-	{ N_("To"), EM_FORMAT_HEADER_BOLD },
-	{ N_("Cc"), EM_FORMAT_HEADER_BOLD },
-	{ N_("Bcc"), EM_FORMAT_HEADER_BOLD },
-	{ N_("Subject"), EM_FORMAT_HEADER_BOLD },
-	{ N_("Date"), EM_FORMAT_HEADER_BOLD },
-	{ N_("Newsgroups"), EM_FORMAT_HEADER_BOLD },
-	{ "x-evolution-mailer", 0 }, /* DO NOT translate */
+static const char *default_headers[] = {
+	N_("From"),
+	N_("Reply-To"),
+	N_("To"),
+	N_("Cc"),
+	N_("Bcc"),
+	N_("Subject"),
+	N_("Date"),
+	N_("Newsgroups"), 
+	"x-evolution-mailer", /* DO NOT translate */
 };
 
 #define EM_FORMAT_HEADER_XMAILER "x-evolution-mailer"
@@ -886,14 +883,14 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	*/
 	header_add_list = NULL;
 	default_header_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; i < sizeof (default_headers) / sizeof (default_headers[0]); i++) {
+	for (i = 0; i < G_N_ELEMENTS (default_headers); i++) {
 		struct _EMMailerPrefsHeader *h;
 		
 		h = g_malloc (sizeof (struct _EMMailerPrefsHeader));
 		h->is_default = TRUE;
-		h->name = g_strdup (default_headers[i].name);
-		h->enabled = TRUE;
-		g_hash_table_insert (default_header_hash, (gpointer) default_headers[i].name, h);
+		h->name = g_strdup (default_headers[i]);
+		h->enabled = strcmp (default_headers[i], "x-evolution-mailer") != 0;
+		g_hash_table_insert (default_header_hash, (gpointer) default_headers[i], h);
 		header_add_list = g_slist_append (header_add_list, h);
 	}
 	

@@ -1,5 +1,14 @@
 2004-05-13  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-format.c (em_format_default_headers): Don't include the last
+	default_header when setting the default headers. If the user has
+	configured Evolution to display the Mailer header, then it will be
+	set in em-folder-view.c as appropriate when it checks the gconf
+	settings. Fixes bug #58217.
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Default
+	"x-evolution-mailer" header to disabled.
+
 	* em-format-quote.c (emfq_text_plain): Add a stripsig
 	filter. Fixes bug #52767.
 

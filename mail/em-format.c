@@ -762,9 +762,9 @@ void
 em_format_default_headers(EMFormat *emf)
 {
 	int i;
-
+	
 	em_format_clear_headers(emf);
-	for (i=0;i<sizeof(default_headers)/sizeof(default_headers[0]);i++)
+	for (i = 0; i < G_N_ELEMENTS (default_headers) - 1; i++)
 		em_format_add_header(emf, default_headers[i].name, default_headers[i].flags);
 }
 
