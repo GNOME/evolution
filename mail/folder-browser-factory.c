@@ -94,6 +94,8 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailGet", send_receieve_mail),
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
+	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
 	
 	BONOBO_UI_VERB_END
 };

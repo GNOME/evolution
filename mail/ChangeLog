@@ -1,3 +1,12 @@
+2001-01-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-factory.c: Added the next/previous toolbar
+	buttons.
+
+	* mail-callbacks.c (next_msg): New callback so we can have a next
+	toolbar button.
+	(previous_msg): Same but for previous.
+
 2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (construct): Anna's dialog now supports

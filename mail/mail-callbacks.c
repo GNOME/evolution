@@ -918,6 +918,30 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED, 0);
 }
 
+void
+next_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int row;
+	
+	row = e_table_get_cursor_row (fb->message_list->table);
+	message_list_select (fb->message_list, row,
+			     MESSAGE_LIST_SELECT_NEXT,
+			     0, CAMEL_MESSAGE_SEEN);
+}
+
+void
+previous_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int row;
+	
+	row = e_table_get_cursor_row (fb->message_list->table);
+	message_list_select (fb->message_list, row,
+			     MESSAGE_LIST_SELECT_PREVIOUS,
+			     0, CAMEL_MESSAGE_SEEN);
+}
+
 static void expunged_folder(CamelFolder *f, void *data)
 {
 	FolderBrowser *fb = data;
