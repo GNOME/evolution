@@ -1219,10 +1219,10 @@ e_day_view_realize (GtkWidget *widget)
 	gdk_gc_set_colormap (day_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
-	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_DAY_VIEW_ICON_WIDTH);
-	day_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_DAY_VIEW_ICON_WIDTH);
-	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_DAY_VIEW_ICON_WIDTH);
-	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_DAY_VIEW_ICON_WIDTH);
+	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_ICON_SIZE_MENU);
+	day_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_ICON_SIZE_MENU);
+	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
+	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_ICON_SIZE_MENU);
 
 
 	/* Set the canvas item colors. */

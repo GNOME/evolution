@@ -228,7 +228,7 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
 	gchar *icon_path;
 	icaltimezone *current_zone;
 
-	icon_path = e_icon_factory_get_icon_filename ("stock_alarm", 48);
+	icon_path = e_icon_factory_get_icon_filename ("stock_alarm", E_ICON_SIZE_DIALOG);
 	image_path = g_strdup_printf ("file://%s", icon_path);
 	g_free (icon_path);
 

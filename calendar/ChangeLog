@@ -1,5 +1,17 @@
 2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
 
+	* gui/alarm-notify/alarm-queue.c (tray_icon_blink_cb): Use
+	E_ICON_SIZE enum here.
+	(display_notification): Same.
+
+	* gui/alarm-notify/alarm-notify-dialog.c (write_html_heading): Use
+	E_ICON_SIZE_DIALOG here.
+
+	* gui/e-week-view.c (e_week_view_realize): Same as below.
+
+	* gui/e-day-view.c (e_day_view_realize): Use E_ICON_SIZE_MENU for
+	the icon sizes rather than using pixel values.
+
 	* gui/calendar-commands.c (pixmaps): Change E_PIXMAP size args
 	over to E_ICON_SIZE_* values.
 

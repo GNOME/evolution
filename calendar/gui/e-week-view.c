@@ -827,9 +827,9 @@ e_week_view_realize (GtkWidget *widget)
 	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
-	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_WEEK_VIEW_ICON_WIDTH);
-	week_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_WEEK_VIEW_ICON_WIDTH);
-	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_WEEK_VIEW_ICON_WIDTH);
+	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_ICON_SIZE_MENU);
+	week_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_ICON_SIZE_MENU);
+	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
 }
 
 

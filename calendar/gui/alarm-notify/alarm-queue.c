@@ -895,7 +895,7 @@ tray_icon_blink_cb (gpointer data)
 	pixbuf = e_icon_factory_get_icon  (tray_data->blink_state == TRUE ?
 				 	   "stock_appointment-reminder-excl" :
 				 	   "stock_appointment-reminder",
-					   24);
+					   E_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (tray_data->image), pixbuf);
 	gdk_pixbuf_unref (pixbuf);
 
@@ -949,7 +949,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	/* FIXME: Use stock image equivalent when it becomes available */
 	tray_icon = egg_tray_icon_new (qa->instance->auid);
-	pixbuf = e_icon_factory_get_icon  ("stock_appointment-reminder", 24);
+	pixbuf = e_icon_factory_get_icon  ("stock_appointment-reminder", E_ICON_SIZE_LARGE_TOOLBAR);
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gdk_pixbuf_unref (pixbuf);
 	ebox = gtk_event_box_new ();
