@@ -1060,7 +1060,8 @@ static CamelFolderInfo *folder_info_clone_rec(CamelFolderInfo *fi, CamelFolderIn
 	info->full_name = g_strdup(fi->full_name);
 	info->path = g_strdup(fi->path);
 	info->unread_message_count = fi->unread_message_count;
-
+	info->flags = fi->flags;
+	
 	if (fi->sibling)
 		info->sibling = folder_info_clone_rec(fi->sibling, parent);
 	else
