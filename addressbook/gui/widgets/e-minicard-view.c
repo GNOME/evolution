@@ -32,8 +32,6 @@
 #include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 
-static void canvas_destroy (GtkObject *object, EMinicardView *view);
-
 static void e_minicard_view_drag_data_get(GtkWidget *widget,
 					  GdkDragContext *context,
 					  GtkSelectionData *selection_data,
@@ -215,8 +213,6 @@ adapter_changed (EMinicardView *view)
 {
 	char *empty_message;
 
-	view->canvas_drag_data_get_id = 0;
-
 	empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view\n\n"
 						    "Double-click here to create a new Contact."));
 	gtk_object_set (GTK_OBJECT(view),
@@ -304,7 +300,10 @@ e_minicard_view_destroy (GtkObject *object)
 {
 	EMinicardView *view = E_MINICARD_VIEW(object);
 
-	
+	if (view->canvas_drag_data_get_id) {
+		gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
+				       view->canvas_drag_data_get_id);
+	}
 	gtk_object_unref (GTK_OBJECT (view->adapter));
 
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
@@ -363,24 +362,6 @@ e_minicard_view_selection_event (EReflow *reflow, GnomeCanvasItem *item, GdkEven
 	}
 	return return_val;
 }
-
-static void
-disconnect_signals(EMinicardView *view)
-{
-	if (view->canvas_drag_data_get_id)
-		gtk_signal_disconnect(GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
-				      view->canvas_drag_data_get_id);
-
-	view->canvas_drag_data_get_id = 0;
-}
-
-#if 0
-static void
-canvas_destroy(GtkObject *object, EMinicardView *view)
-{
-	disconnect_signals(view);
-}
-#endif
 
 typedef struct {
 	EMinicardView *view;
@@ -498,6 +479,7 @@ static void
 e_minicard_view_init (EMinicardView *view)
 {
 	view->adapter = NULL;
+	view->canvas_drag_data_get_id = 0;
 }
 
 GtkType
