@@ -1,5 +1,8 @@
 2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (signature_changed): Set the updated
+	sig->name on the menu item.
+
 	* importers/netscape-importer.c (netscape_import_accounts):
 	Updated for signature API changes.
 

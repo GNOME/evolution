@@ -1318,6 +1318,21 @@ signature_removed (ESignatureList *signatures, ESignature *sig, MailAccountGui *
 }
 
 static void
+menu_item_set_label (GtkWidget *widget, const char *label)
+{
+	GList *child;
+	
+	child = gtk_container_get_children ((GtkContainer *) widget);
+	while (child != NULL) {
+		if (GTK_IS_LABEL (child->data)) {
+			gtk_label_set_text (child->data, label);
+			break;
+		}
+		child = child->next;
+	}
+}
+
+static void
 signature_changed (ESignatureList *signatures, ESignature *sig, MailAccountGui *gui)
 {
 	GtkWidget *menu;
@@ -1329,7 +1344,7 @@ signature_changed (ESignatureList *signatures, ESignature *sig, MailAccountGui *
 	while (items != NULL) {
 		cur = g_object_get_data (items->data, "sig");
 		if (cur == sig) {
-			gtk_label_set ((GtkLabel *) ((GtkBin *) items->data)->child, sig->name);
+			menu_item_set_label (items->data, sig->name);
 			break;
 		}
 		items = items->next;
@@ -1347,13 +1362,15 @@ static void
 sig_fill_menu (MailAccountGui *gui)
 {
 	ESignatureList *signatures;
-	GtkWidget *menu;
+	GtkWidget *menu, *item;
 	EIterator *it;
 	
 	menu = gtk_option_menu_get_menu (gui->sig_menu);
 	clear_menu (menu);
 	
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_menu_item_new_with_label (_("None")));
+	item = gtk_menu_item_new_with_label (_("None"));
+	gtk_widget_show (item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	
 	signatures = mail_config_get_signatures ();
 	it = e_list_get_iterator ((EList *) signatures);
