@@ -1,3 +1,8 @@
+2000-12-26  Iain Holmes  <iain@helixcode.com>
+
+	* gui/calendar-summary.c (create_summary_view): Create a shared
+	BonoboEventSource object.
+
 2000-12-25  Miguel de Icaza  <miguel@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_init): Set draw background to FALSE.

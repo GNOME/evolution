@@ -247,6 +247,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	BonoboObject *component, *view;
 	BonoboPersistStream *stream;
 	BonoboPropertyBag *bag;
+	BonoboEventSource *event_source;
 	CalSummary *summary;
 	char *html, *file;
 
@@ -282,8 +283,10 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	gtk_signal_connect (GTK_OBJECT (component), "destroy",
 			    GTK_SIGNAL_FUNC (component_destroyed), summary);
 
+	event_source = bonobo_event_source_new ();
+
 	/* HTML view */
-	view = executive_summary_html_view_new ();
+	view = executive_summary_html_view_new_full (event_source);
 	summary->view = view;
 
 	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
@@ -291,7 +294,8 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	bonobo_object_add_interface (component, view);
 
 	/* BonoboPropertyBag */
-	bag = bonobo_property_bag_new (get_property, NULL, summary);
+	bag = bonobo_property_bag_new_full (get_property, NULL, 
+					    event_source, summary);
 	bonobo_property_bag_add (bag, "window_title", PROPERTY_TITLE,
 				 BONOBO_ARG_STRING, NULL, 
 				 "The title of this component's window", 0);

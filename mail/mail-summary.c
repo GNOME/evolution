@@ -438,6 +438,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	CORBA_Environment ev;
 	BonoboObject *component, *view;
 	BonoboPropertyBag *bag;
+	BonoboEventSource *event_source;
 	char *html;
 	MailSummary *summary;
 
@@ -456,7 +457,9 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	component = executive_summary_component_new ();
 	summary->component = component;
 
-	view = executive_summary_html_view_new ();
+	event_source = bonobo_event_source_new ();
+
+	view = executive_summary_html_view_new_full (event_source);
 	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
 					      html);
 	bonobo_object_add_interface (component, view);
@@ -464,7 +467,8 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (view_destroy_cb), summary);
 
-	bag = bonobo_property_bag_new (get_property, NULL, summary);
+	bag = bonobo_property_bag_new_full (get_property, NULL, 
+					    event_source, summary);
 	bonobo_property_bag_add (bag,
 				 "window_title", PROPERTY_TITLE,
 				 BONOBO_ARG_STRING, NULL,
