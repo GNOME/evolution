@@ -125,6 +125,7 @@ inline static gint
 view_to_model_col(ETableItem *eti, int col)
 {
 	ETableCol *ecol = e_table_header_get_column (eti->header, col);
+	g_return_val_if_fail (ecol != NULL, -1);
 	return ecol->col_idx;
 }
 
