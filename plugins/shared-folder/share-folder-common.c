@@ -92,7 +92,7 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 void 
 shared_folder_commit (EPlugin *ep, EConfigTarget *tget)
 {
-	EMConfigTargetFolder *target=  (EMConfigTargetFolder *)tget->config->target;
+	EMConfigTargetFolder *target =  (EMConfigTargetFolder *)tget->config->target;
 	CamelFolder *folder = target->folder;
 	CamelStore *store = folder->parent_store;	
 	EMFolderTreeModel *model = mail_component_peek_tree_model (mail_component_peek ());
@@ -161,7 +161,7 @@ create_folder__created (struct _mail_msg *mm)
 	
 	if (m->done) {
 		ccnc = get_cnc (store);
-		if(ccnc) {
+		if(E_IS_GW_CONNECTION (ccnc)) {
 			(ssi->sf)->cnc = ccnc;
 
 			(ssi->sf)->container_id = g_strdup (get_container_id ((ssi->sf)->cnc, m->name));
@@ -317,11 +317,10 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 	gtk_widget_show(w);
 	gtk_box_pack_start(GTK_BOX (GTK_DIALOG (users_dialog)->vbox), (GtkWidget *) w, TRUE, TRUE, 6);
 	ssi->sf = share_folder_new (cnc, NULL);
-	((ssi->sf)->table)->parent = NULL;
 	gtk_widget_set_sensitive (GTK_WIDGET ((ssi->sf)->table), TRUE);	
 	ssi->model = model;
 	ssi->emfs = emfs;
-	gtk_box_pack_end(GTK_BOX (GTK_DIALOG (users_dialog)->vbox), (GtkWidget *) (ssi->sf)->table, TRUE, TRUE, 6);
+	gtk_widget_reparent (GTK_WIDGET ((ssi->sf)->table), GTK_DIALOG (users_dialog)->vbox);
 	gtk_widget_hide((GtkWidget*) emfs);
 	gtk_window_resize (GTK_WINDOW (users_dialog), 350, 300);
 	gtk_widget_show(users_dialog);
@@ -454,7 +453,6 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 
 		for (container = container_list; container != NULL; container = container->next) {
 			name = e_gw_container_get_name (container->data);
-			//g_print ("\n\nchecking container for: %s\n %s\n", name, fname);
 			/* if Null is passed as name then we return top lavel id*/
 			if (fname == NULL) {
 				id = g_strdup (e_gw_container_get_id (container->data));

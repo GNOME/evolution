@@ -44,7 +44,6 @@ extern "C" {
 typedef struct _ShareFolder ShareFolder;
 typedef struct _ShareFolderClass ShareFolderClass;
 
-struct _GtkToggleButton;
 struct _GtkWidget;
 struct _GladeXML;
 struct _GtkButton;
@@ -67,33 +66,25 @@ struct _ShareFolder {
 	/* General tab */
 	
 	/* Default Behavior */
-	struct _GtkToggleButton *add;
-	struct _GtkToggleButton *edit;
-	struct _GtkToggleButton *del;
-	
 	struct _GtkTreeView *user_list;
 	struct _GtkTextView *message;
 	struct _GtkButton *add_button;
 	struct _GtkButton *remove;
 	struct _GtkButton *add_book;
 	struct _GtkButton *notification;
-	struct _GtkLabel *user_rights;
 	struct _GtkEntry *name;
 	struct _GtkEntry *subject;
 	struct _GtkRadioButton *shared;
 	struct _GtkRadioButton *not_shared;
 	struct _GtkWidget *scrolled_window;
-	struct _GtkWidget *table;
 	struct _GtkListStore *model;
 	struct _GtkCellRenderer *cell;
 	struct _GtkTreeViewColumn *column;
-	struct _GtkFrame *frame;
 	struct _GtkVBox  *vbox;
+	struct _GtkVBox  *table;
 	struct _GtkWidget *window;
 	
-	GList *new_list;
-	GList *update_list;
-	GList *remove_list;
+	GList *users_list;
 	EGwContainer *gcontainer;
 	gint users;
 	gboolean byme;
