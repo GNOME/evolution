@@ -1,3 +1,7 @@
+2000-09-22  Chris Toshok  <toshok@helixcode.com>
+
+	* ldapservers.xml: added yahoo, whowhere, and infospace servers.
+
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (defaultdir): Use $(datadir), not $(prefix)/share
