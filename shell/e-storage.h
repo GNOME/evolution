@@ -137,7 +137,6 @@ char *e_storage_get_path_for_physical_uri  (EStorage   *storage,
 
 /* Protected.  C++ anyone?  */
 gboolean  e_storage_new_folder      (EStorage *storage, const char *path, EFolder *folder);
-gboolean  e_storage_updated_folder  (EStorage *storage, const char *path);
 gboolean  e_storage_removed_folder  (EStorage *storage, const char *path);
 
 #ifdef __cplusplus

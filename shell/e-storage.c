@@ -84,6 +84,28 @@ folder_destroy_notify (EFolderTree *tree,
 }
 
 
+/* Signal callbacks for the EFolders.  */
+
+static void
+folder_changed_cb (EFolder *folder,
+		   void *data)
+{
+	EStorage *storage;
+	EStoragePrivate *priv;
+	const char *path;
+
+	g_assert (E_IS_STORAGE (data));
+
+	storage = E_STORAGE (data);
+	priv = storage->priv;
+
+	path = e_folder_tree_get_path_for_data (priv->folder_tree, folder);
+	g_assert (path != NULL);
+
+	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATED_FOLDER], path);
+}
+
+
 /* GtkObject methods.  */
 
 static void
@@ -502,28 +524,10 @@ e_storage_new_folder (EStorage *storage,
 	if (! e_folder_tree_add (priv->folder_tree, path, e_folder))
 		return FALSE;
 
+	gtk_signal_connect_while_alive (GTK_OBJECT (e_folder), "changed", folder_changed_cb,
+					storage, GTK_OBJECT (storage));
+
 	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
-
-	return TRUE;
-}
-
-gboolean
-e_storage_updated_folder (EStorage *storage,
-			  const char *path)
-{
-	EStoragePrivate *priv;
-
-	g_return_val_if_fail (storage != NULL, FALSE);
-	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
-	g_return_val_if_fail (path != NULL, FALSE);
-	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
-
-	priv = storage->priv;
-
-	if (e_folder_tree_get_folder (priv->folder_tree, path) == NULL)
-		return FALSE;
-
-	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATED_FOLDER], path);
 
 	return TRUE;
 }

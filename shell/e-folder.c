@@ -241,7 +241,7 @@ e_folder_get_highlighted (EFolder *folder)
 
 void
 e_folder_set_name (EFolder *folder,
-		      const char *name)
+		   const char *name)
 {
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (E_IS_FOLDER (folder));

@@ -1,6 +1,45 @@
+2001-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-corba-storage.c (impl_StorageListener_update_folder): Don't
+	call `e_storage_updated_folder()' as it's supposed to happen
+	automatically now.
+
+	* e-storage.c (e_storage_updated_folder): Removed.
+	(folder_changed_cb): New callback for the "changed" signal on the
+	EFolders.
+	(e_storage_new_folder): Connect it.
+
+	* e-folder-tree.c: New member `data_to_path' in `EFolderTree'.
+	(e_folder_tree_new): Init here.
+	(e_folder_tree_destroy): Destroy it here.
+	(e_folder_tree_add): Add to the `data_to_path' hash.  Make sure
+	we are not adding the same folder twice.
+	(remove_folder): Remove from the `data_to_path' hash.
+	(e_folder_tree_get_path_for_folder): New.
+
+	* e-shell-view.c (e_shell_view_construct): Don't connect to the
+	"folder_updated" signal of the local storage anymore.
+	(folder_updated_cb): Removed.
+	(updated_folder_cb): New.
+	(e_shell_view_construct): Connect it to the "updated_folder"
+	signal.
+
+	* e-local-storage.c: Remove `FOLDER_UPDATED' enum value and the
+	`signals' variable, as we don't want to define any custom signals
+	here anymore.
+	(bonobo_interface_update_folder_cb): No need to emit the
+	"folder_updated" signal here.  The base class will take care of
+	this already.
+	(class_init): Don't install the "folder_updated" signal here.
+
+	* e-local-storage.h: Removed signal "folder_updated".  It is not
+	necessary, as we already have an `updated_folder' in `EStorage',
+	which is the parent class of `ELocalStorage'.
+
 2001-01-24  Iain Holmes  <iain@ximian.com>
 
 	* importer/GNOME_Evolution_Importer.idl: Removed the busy exception.
+
 2001-01-19  Iain Holmes  <iain@ximian.com>
 
 	* importer/GNOME_Evolution_Importer.idl: Make the processItem oneway.

@@ -41,6 +41,7 @@ typedef struct _Folder Folder;
 
 struct _EFolderTree {
 	GHashTable *path_to_folder;
+	GHashTable *data_to_path;
 
 	EFolderDestroyNotify folder_destroy_notify;
 	void *folder_destroy_notify_closure;
@@ -149,6 +150,7 @@ remove_folder (EFolderTree *folder_tree,
 	}
 
 	g_hash_table_remove (folder_tree->path_to_folder, folder->path);
+	g_hash_table_remove (folder_tree->data_to_path, folder->data);
 
 	if (folder_tree->folder_destroy_notify != NULL)
 		(* folder_tree->folder_destroy_notify) (folder_tree,
@@ -182,9 +184,11 @@ e_folder_tree_new (EFolderDestroyNotify folder_destroy_notify,
 	new->folder_destroy_notify_closure = closure;
 
 	new->path_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
+	new->data_to_path = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	root_folder = folder_new (G_DIR_SEPARATOR_S, NULL);
 	g_hash_table_insert (new->path_to_folder, root_folder->path, root_folder);
+	g_hash_table_insert (new->data_to_path, root_folder->data, root_folder->path);
 
 	return new;
 }
@@ -206,6 +210,7 @@ e_folder_tree_destroy (EFolderTree *folder_tree)
 	remove_folder (folder_tree, root_folder);
 
 	g_hash_table_destroy (folder_tree->path_to_folder);
+	g_hash_table_destroy (folder_tree->data_to_path);
 
 	g_free (folder_tree);
 }
@@ -227,6 +232,7 @@ e_folder_tree_add (EFolderTree *folder_tree,
 {
 	Folder *parent_folder;
 	Folder *folder;
+	const char *existing_path;
 	char *parent_path;
 
 	g_return_val_if_fail (folder_tree != NULL, FALSE);
@@ -249,10 +255,18 @@ e_folder_tree_add (EFolderTree *folder_tree,
 		return FALSE;
 	}
 
+	existing_path = g_hash_table_lookup (folder_tree->data_to_path, data);
+	if (existing_path != NULL) {
+		g_warning ("%s: Trying to add a folder with duplicate data -- %s",
+			   __FUNCTION__, path);
+		return FALSE;
+	}
+
 	folder = folder_new (path, data);
 	folder_add_subfolder (parent_folder, folder);
 
 	g_hash_table_insert (folder_tree->path_to_folder, folder->path, folder);
+	g_hash_table_insert (folder_tree->data_to_path, data, folder->path);
 
 	g_free (parent_path);
 
@@ -377,4 +391,24 @@ e_folder_tree_foreach (EFolderTree *folder_tree,
 	}
 
 	traverse_subtree (folder_tree, root_node, foreach_func, data);
+}
+
+
+/**
+ * e_folder_tree_get_path_for_data:
+ * @folder_tree: A pointer to an EFolderTree
+ * @data: The data for the folder for which the path is needed
+ * 
+ * Look up the path for the specified @data.
+ * 
+ * Return value: The path for the folder that holds that @data.
+ **/
+const char *
+e_folder_tree_get_path_for_data  (EFolderTree *folder_tree,
+				  const void *data)
+{
+	g_return_val_if_fail (folder_tree != NULL, NULL);
+	g_return_val_if_fail (data != NULL, NULL);
+
+	return (const char *) g_hash_table_lookup (folder_tree->data_to_path, data);
 }

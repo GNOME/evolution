@@ -150,8 +150,6 @@ impl_StorageListener_update_folder (PortableServer_Servant servant,
 
 	e_folder_set_name (e_folder, display_name);
 	e_folder_set_highlighted (e_folder, highlighted);
-
-	e_storage_updated_folder (storage, path);
 }
 
 static void

@@ -883,33 +883,22 @@ unmerge_on_error (BonoboObject *object,
 	win = bonobo_ui_container_get_win (BONOBO_UI_CONTAINER (object));
 
 	if (win)
-		bonobo_window_deregister_component_by_ref (
-			win, cobject);
+		bonobo_window_deregister_component_by_ref (win, cobject);
 }
 
 static void
-folder_updated_cb (EStorage   *storage,
+updated_folder_cb (EStorageSet *storage_set,
 		   const char *path,
-		   void       *data)
+		   void *data)
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
-	char *full_path;
 	char *uri;
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	/* Build the URI from the @path we're given */
-        if (! g_path_is_absolute (path))
-                full_path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage),
-				   G_DIR_SEPARATOR_S, path, NULL);
-        else
-                full_path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage),
-				   path, NULL);
-
-	uri = g_strconcat (E_SHELL_URI_PREFIX, full_path, NULL);
-	g_free (full_path);
+	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 
 	/* Update the shortcut bar */
 	e_shortcuts_update_shortcut_by_uri (e_shell_get_shortcuts (priv->shell), uri);
@@ -945,20 +934,16 @@ e_shell_view_construct (EShellView *shell_view,
 
 	window = GTK_OBJECT (view);
 
-	gtk_signal_connect (window, "delete_event",
-			    (GtkSignalFunc) delete_event, NULL);
+	gtk_signal_connect (window, "delete_event", GTK_SIGNAL_FUNC (delete_event), NULL);
 
 	priv->shell = shell;
 
-	gtk_signal_connect (GTK_OBJECT (e_shell_get_local_storage (priv->shell)), "folder_updated",
-			    folder_updated_cb, shell_view);
 	gtk_signal_connect (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "updated_folder",
-			    folder_updated_cb, shell_view);
+			    updated_folder_cb, shell_view);
 
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (shell_view));
-	gtk_signal_connect (GTK_OBJECT (container), "system_exception",
-			    (GtkSignalFunc) unmerge_on_error, NULL);
+	gtk_signal_connect (GTK_OBJECT (container), "system_exception", GTK_SIGNAL_FUNC (unmerge_on_error), NULL);
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
 	bonobo_ui_component_set_container (priv->ui_component,
@@ -966,14 +951,12 @@ e_shell_view_construct (EShellView *shell_view,
 
 	bonobo_ui_component_freeze (priv->ui_component, NULL);
 
-	bonobo_ui_util_set_ui (priv->ui_component, EVOLUTION_DATADIR,
-			       "evolution.xml", "evolution");
+	bonobo_ui_util_set_ui (priv->ui_component, EVOLUTION_DATADIR, "evolution.xml", "evolution");
 
 	setup_widgets (shell_view);
 
-	bonobo_ui_engine_config_set_path (
-		bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view)),
-		"/evolution/UIConf/kvps");
+	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view)),
+					  "/evolution/UIConf/kvps");
 
 	e_shell_view_menu_setup (shell_view);
 
