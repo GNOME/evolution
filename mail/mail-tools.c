@@ -47,22 +47,6 @@
 
 /* **************************************** */
 
-gchar *
-mail_tool_get_local_movemail_path (void)
-{
-	static gint count = 0;
-	static pthread_mutex_t movemail_path_lock = PTHREAD_MUTEX_INITIALIZER;
-	gint my_count;
-
-	/* Ah, the joys of being multi-threaded... */
-	pthread_mutex_lock (&movemail_path_lock);
-	my_count = count;
-	++count;
-	pthread_mutex_unlock (&movemail_path_lock);
-
-	return g_strdup_printf ("%s/local/Inbox/movemail.%d", evolution_dir, my_count);
-}
-
 CamelFolder *
 mail_tool_get_local_inbox (CamelException *ex)
 {
@@ -115,18 +99,35 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 	return trash;
 }
 
+static char *
+mail_tool_get_local_movemail_path (const unsigned char *uri)
+{
+	unsigned char *safe_uri, *c;
+	char *path;
+	
+	safe_uri = g_strdup (uri);
+	for (c = safe_uri; *c; c++)
+		if (strchr ("/:;=|%&#!*^()\\, ", *c) || !isprint ((int) *c))
+			*c = '_';
+	
+	path = g_strdup_printf ("%s/local/Inbox/movemail.%s", evolution_dir, safe_uri);
+	g_free (safe_uri);
+	
+	return path;
+}
+
 /* why is this function so stupidly complex when allthe work is done elsehwere? */
 char *
-mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
+mail_tool_do_movemail (const char *source_url, CamelException *ex)
 {
-	gchar *dest_path;
-	const gchar *source;
+	char *dest_path;
+	const char *source;
 	struct stat sb;
-
+	
 	g_return_val_if_fail (strncmp (source_url, "mbox:", 5) == 0, NULL);
 	
 	/* Set up our destination. */
-	dest_path = mail_tool_get_local_movemail_path();
+	dest_path = mail_tool_get_local_movemail_path (source_url);
 	
 	/* Skip over "mbox:" plus host part (if any) of url. */
 	source = source_url + 5;
