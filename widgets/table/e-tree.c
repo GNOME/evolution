@@ -1658,6 +1658,42 @@ e_tree_selected_path_foreach     (ETree *e_tree,
 				       callback,
 				       closure);
 }
+
+/* Standard functions */
+static void
+et_foreach_recurse (ETreeModel *model,
+		    ETreePath path,
+		    ETreeForeachFunc callback,
+		    gpointer closure)
+{
+	ETreePath child;
+
+	callback(path, closure);
+
+	child = e_tree_model_node_get_first_child(E_TREE_MODEL(model), path);
+	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(model), child))
+		if (child)
+			et_foreach_recurse (model, child, callback, closure);
+}
+
+void
+e_tree_path_foreach (ETree *e_tree,
+		     ETreeForeachFunc callback,
+		     gpointer closure)
+{
+	ETreePath root;
+
+	g_return_if_fail(e_tree != NULL);
+	g_return_if_fail(E_IS_TREE(e_tree));
+
+	root = e_tree_model_get_root (e_tree->priv->model);
+
+	if (root)
+		et_foreach_recurse (e_tree->priv->model,
+				    root,
+				    callback,
+				    closure);
+}
 #endif
 
 EPrintable *

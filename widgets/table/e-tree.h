@@ -184,6 +184,9 @@ void            e_tree_selected_row_foreach       (ETree                *e_tree,
 void            e_tree_selected_path_foreach      (ETree                *e_tree,
 						   ETreeForeachFunc      callback,
 						   gpointer              closure);
+void            e_tree_path_foreach               (ETree                *e_tree,
+						   ETreeForeachFunc      callback,
+						   gpointer              closure);
 #endif
 gint            e_tree_selected_count             (ETree                *e_tree);
 EPrintable     *e_tree_get_printable              (ETree                *e_tree);
