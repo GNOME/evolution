@@ -98,7 +98,7 @@ size_to_string (gulong size)
 	   I am not sure this will be OK for all the languages.  */
 	
 	if (size < 1e3L) {
-		size_string = g_strdup (_(""));
+		size_string = g_strdup ("");
 	} else {
 		gdouble displayed_size;
 		

@@ -1,3 +1,8 @@
+2002-09-24  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* e-msg-composer-attachment-bar.c (size_to_string):
+	Don't mark empty string with _().
+
 2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-icon-list.c (icon_new_from_pixbuf): Removed a #warning.
