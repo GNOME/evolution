@@ -1,3 +1,13 @@
+2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shortcuts-view-model.c (load_group_into_model): Get the icon
+	from the folder type registry.
+	(shortcuts_new_shortcut_cb): Likewise.
+	(shortcuts_update_shortcut_cb): Likewise.
+
+	* e-shortcuts-view.c (icon_callback): Removed.
+	(e_shortcuts_view_construct): Don't set the icon callback anymore.
+
 2001-08-07  Jason Leach  <jleach@ximian.com>
 
 	* e-storage-set-view.c (etree_value_at): Don't use a leaky hash to
