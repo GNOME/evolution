@@ -1,5 +1,13 @@
 2001-04-11  Dan Winship  <danw@ximian.com>
 
+	* mail-format.c (handle_text_plain): Only look for special
+	pseudo-multipart-isms (binhex, uucode, old pgp, etc) if the MIME
+	type is really text/plain. Otherwise, since there's no handler for
+	applciation/mac-binhex40, it gets sent to mail-identify.c, which
+	thinks it's text/plain because it starts with English words, and
+	so it gets sent back to the text/plain handler, which finds an
+	embedded binhex part...
+
 	* mail-callbacks.c (do_view_message): mark messages as seen when
 	opening then in a separate window.
 
