@@ -1,3 +1,8 @@
+2001-10-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/Makefile.am: add $BONOBO_GNOME_CFLAGS to make it work
+	with latest Bonobo
+
 2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (transfer_msg): Pass an empty flags argument to

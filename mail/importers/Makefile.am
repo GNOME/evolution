@@ -9,6 +9,7 @@ INCLUDES = -I.. \
 	-I$(top_builddir)/shell			\
 	-I$(includedir)				\
 	$(EXTRA_GNOME_CFLAGS)			\
+	$(BONOBO_GNOME_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"
 
 liboutlook_la_SOURCES =				\
