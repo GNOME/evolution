@@ -1,5 +1,10 @@
 2005-01-06 Chenthill Palanisamy <pchenthill@novell.com>
 	
+	Commiting the files mentioned below again to HEAD since it 
+	was not added in head. 
+
+2005-01-06 Chenthill Palanisamy <pchenthill@novell.com>
+	
 	merging send options
 	* Makefile.am:
 	* e-send-options.[ch]: Widgets for the send options dialog
