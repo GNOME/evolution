@@ -1,3 +1,12 @@
+2000-09-09  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage-set-view.c (etree_value_at): Return the name of the
+	folder or the storage instead of just returning the last segment
+	of the path.
+
+	* e-storage-set.c (e_storage_set_get_folder): If the storage is
+	not found, just return NULL to avoid a g_warning.
+
 2000-09-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-shell-view.c: Fixed some warnings.

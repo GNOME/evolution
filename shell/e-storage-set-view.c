@@ -489,16 +489,26 @@ etree_icon_at (ETreeModel *etree, ETreePath *tree_path, void *model_data)
 static void*
 etree_value_at (ETreeModel *etree, ETreePath *tree_path, int col, void *model_data)
 {
+	EStorageSetView *storage_set_view;
+	EStorageSet *storage_set;
+	EStorage *storage;
+	EFolder *folder;
 	char *path;
-	char *last_separator;
 
-	path = (char*)e_tree_model_node_get_data (etree, tree_path);
+	storage_set_view = E_STORAGE_SET_VIEW (model_data);
+	storage_set = storage_set_view->priv->storage_set;
 
-	last_separator = strrchr (path, G_DIR_SEPARATOR);
+	path = (char *) e_tree_model_node_get_data (etree, tree_path);
 
-	g_return_val_if_fail (last_separator != NULL, NULL);
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder != NULL)
+		return (void *) e_folder_get_name (folder);
 
-	return last_separator + 1;
+	storage = e_storage_set_get_storage (storage_set, path + 1);
+	if (storage != NULL)
+		return (void *) e_storage_get_name (storage);
+
+	return NULL;
 }
 
 static void

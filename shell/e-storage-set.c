@@ -452,6 +452,8 @@ e_storage_set_get_folder (EStorageSet *storage_set,
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
 	storage = get_storage_for_path (storage_set, path, &subpath);
+	if (storage == NULL)
+		return NULL;
 
 	return e_storage_get_folder (storage, subpath);
 }
