@@ -43,8 +43,8 @@ enum _es_event_target_t {
 
 /* Flags that qualify TARGET_STATE */
 enum {
-	ES_EVENT_STATE_ONLINE = 1<< 0,
-	ES_EVENT_STATE_OFFLINE = 1<< 0,
+	ES_EVENT_STATE_ONLINE = 1<<0,
+	ES_EVENT_STATE_OFFLINE = 1<<1,
 };
 
 typedef struct _ESEventTargetState ESEventTargetState;

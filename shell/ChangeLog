@@ -1,3 +1,9 @@
+2005-03-17  Not Zed  <NotZed@Ximian.com>
+
+	* es-event.h: fix the qualifier bit assignments for the STATE target.
+
+	* e-shell.c (offline_procedure_finished_cb): fix offline state event.
+
 2005-02-28  JP Rosevear  <jpr@novell.com>
 
 	* e-shell-window-commands.c (command_submit_bug): update authors

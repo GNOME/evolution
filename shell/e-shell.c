@@ -1095,7 +1095,7 @@ offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
 	 * Only the online and offline states are emitted.
 	 */
 	ese = es_event_peek();
-	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, TRUE));
+	e_event_emit((EEvent *)ese, "state.changed", (EEventTarget *)es_event_target_new_state(ese, !now_offline));
 }
 
 /**
