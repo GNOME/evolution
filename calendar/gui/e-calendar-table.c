@@ -1133,6 +1133,9 @@ e_calendar_table_show_popup_menu (ETable *table,
 	if (e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
 		disable_mask |= MASK_ASSIGNABLE;
 
+	if (e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK))
+		disable_mask |= MASK_ASSIGNABLE;
+
 	setup_popup_icons (tasks_popup_menu);
         gtk_menu = e_popup_menu_create (tasks_popup_menu, disable_mask,
 					hide_mask, cal_table);
