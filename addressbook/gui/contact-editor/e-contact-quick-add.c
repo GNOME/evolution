@@ -318,7 +318,7 @@ e_contact_quick_add (const gchar *in_name, const gchar *email,
 {
 	QuickAdd *qa;
 	GtkWidget *dialog;
-	gchar *name;
+	gchar *name = NULL;
 	gint len;
 
 	/* We need to have *something* to work with. */
@@ -328,16 +328,18 @@ e_contact_quick_add (const gchar *in_name, const gchar *email,
 		return;
 	}
 
-	name = g_strdup (in_name);
+	if (in_name) {
+		name = g_strdup (in_name);
 
-	/* Remove extra whitespace and the quotes some mailers put around names. */
-	g_strstrip (name);
-	len = strlen (name);
-	if ((name[0] == '\'' && name[len-1] == '\'') || (name[0] == '"' && name[len-1] == '"')) {
-		name[0] = ' ';
-		name[len-1] = ' ';
+		/* Remove extra whitespace and the quotes some mailers put around names. */
+		g_strstrip (name);
+		len = strlen (name);
+		if ((name[0] == '\'' && name[len-1] == '\'') || (name[0] == '"' && name[len-1] == '"')) {
+			name[0] = ' ';
+			name[len-1] = ' ';
+		}
+		g_strstrip (name);
 	}
-	g_strstrip (name);
 
 	qa = quick_add_new ();
 	qa->cb = cb;

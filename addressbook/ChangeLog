@@ -1,5 +1,11 @@
 2001-08-16  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/contact-editor/e-contact-quick-add.c (e_contact_quick_add): 
+	Check that name != NULL before we start messing with it.
+	(Fixes bug #7329)
+
+2001-08-16  Jon Trowbridge  <trow@ximian.com>
+
 	* gui/component/select-names/e-select-names-completion.c
 	(match_nickname): Boost scoring on an exact nickname match.
 	Manually addressify match.
