@@ -1559,7 +1559,7 @@ search_activated (ESearchBar *esb, EABView *v)
 				} else {
 					master_list = get_master_list ();
 					category_name = e_categories_master_list_nth (master_list, subid);
-					search_query = g_strdup_printf ("(is \"category\" \"%s\")", category_name);
+					search_query = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
 				}
 				break;
 			default:

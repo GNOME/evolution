@@ -1,5 +1,14 @@
 2004-03-30  Chris Toshok  <toshok@ximian.com>
 
+	[ part of the fix for #51977, the other part is in e-d-s ]
+	
+	* gui/widgets/e-addressbook-view.c (search_activated): the name of
+	the category list property has changed from "category" to
+	"category" list in 1.5.  track the change here to get category
+	searching working again.
+
+2004-03-30  Chris Toshok  <toshok@ximian.com>
+
 	[ part of the fix for #54528, the other part is in e-d-s ]
 	
 	* importers/evolution-vcard-importer.c (process_item_fn): get and
