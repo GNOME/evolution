@@ -1,3 +1,8 @@
+2005-01-25  Li Yuan  <li.yuan@sun.com>
+
+	* gui/e-calendar-table.c: (e_calendar_table_init):
+	add a11y name to task table.
+
 2005-01-24  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/recurrence-page.c (sensitize_buttons): if there are
