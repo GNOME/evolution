@@ -1270,6 +1270,7 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 		CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 		return;
 	}
+	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 
 	CAMEL_VEE_FOLDER_LOCK(vf, summary_lock);
 	CAMEL_VEE_FOLDER_LOCK(folder_unmatched, summary_lock);
@@ -1372,8 +1373,6 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 		camel_object_trigger_event((CamelObject *)vf, "folder_changed", vf_changes);
 		camel_folder_change_info_free(vf_changes);
 	}
-
-	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 }
 
 static void

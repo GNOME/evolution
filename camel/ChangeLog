@@ -21,6 +21,9 @@
 	(folder_changed_change): "
 	(folder_changed_change_uid): Also check folder_unmatched for
 	changed uid's so we properly update/propagate unmatched changes.
+	(folder_changed_change): Ok, so dont hold the subfolder lock for
+	the whole duration of the changed event, although we probably
+	should, requires a recursive mutex.
 
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
