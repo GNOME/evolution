@@ -23,7 +23,7 @@
 #include "e-util/e-canvas-utils.h"
 
 enum {
-	ROW_SELECTION,
+	CURSOR_CHANGE,
 	LAST_SIGNAL
 };
 
@@ -45,11 +45,11 @@ enum {
 };
 
 static void
-etcta_row_selection (GtkObject *object, gint row, gboolean selected, ETableClickToAdd *etcta)
+etcta_cursor_change (GtkObject *object, gint row, gint col, ETableClickToAdd *etcta)
 {
 	gtk_signal_emit (GTK_OBJECT (etcta),
-			 etcta_signals [ROW_SELECTION],
-			 row, selected);
+			 etcta_signals [CURSOR_CHANGE],
+			 row, col);
 }
 
 static void
@@ -88,6 +88,9 @@ etcta_add_one (ETableClickToAdd *etcta, ETableModel *one)
 		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etcta->row),
 				      "ETableModel", one,
 				      NULL);
+	gtk_object_set(GTK_OBJECT(etcta->selection),
+		       "model", one,
+		       NULL);
 }
 
 static void
@@ -97,6 +100,9 @@ etcta_drop_one (ETableClickToAdd *etcta)
 		return;
 	gtk_object_unref (GTK_OBJECT(etcta->one));
 	etcta->one = NULL;
+	gtk_object_set(GTK_OBJECT(etcta->selection),
+		       "model", NULL,
+		       NULL);
 }
 
 static void
@@ -138,6 +144,7 @@ etcta_destroy (GtkObject *object){
 	etcta_drop_table_header (etcta);
 	etcta_drop_model (etcta);
 	etcta_drop_message (etcta);
+	gtk_object_unref(GTK_OBJECT(etcta->selection));
 
 	if (GTK_OBJECT_CLASS (etcta_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (etcta_parent_class)->destroy) (object);
@@ -285,10 +292,9 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "ETableModel", etcta->one,
 							   "minimum_width", etcta->width,
 							   "drawgrid", TRUE,
+							   "table_selection_model", etcta->selection,
 							   NULL);
 
-			gtk_signal_connect(GTK_OBJECT(etcta->row), "row_selection",
-					   GTK_SIGNAL_FUNC(etcta_row_selection), etcta);
 		}
 		/* Fall through.  No break; */
 	case GDK_BUTTON_RELEASE:
@@ -345,7 +351,7 @@ etcta_class_init (ETableClickToAddClass *klass)
 
 	etcta_parent_class = gtk_type_class (PARENT_OBJECT_TYPE);
 
-	klass->row_selection = NULL;
+	klass->cursor_change = NULL;
 
 	object_class->destroy = etcta_destroy;
 	object_class->set_arg = etcta_set_arg;
@@ -367,11 +373,11 @@ etcta_class_init (ETableClickToAddClass *klass)
 	gtk_object_add_arg_type ("ETableClickToAdd::height", GTK_TYPE_DOUBLE,
 				 GTK_ARG_READABLE, ARG_HEIGHT);
 
-	etcta_signals [ROW_SELECTION] =
-		gtk_signal_new ("row_selection",
+	etcta_signals [CURSOR_CHANGE] =
+		gtk_signal_new ("cursor_change",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableClickToAddClass, row_selection),
+				GTK_SIGNAL_OFFSET (ETableClickToAddClass, cursor_change),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
@@ -392,6 +398,10 @@ etcta_init (GnomeCanvasItem *item)
 	etcta->row = NULL;
 	etcta->text = NULL;
 	etcta->rect = NULL;
+
+	etcta->selection = e_table_selection_model_new();
+	gtk_signal_connect(GTK_OBJECT(etcta->selection), "cursor_change",
+			   GTK_SIGNAL_FUNC(etcta_cursor_change), etcta);
 
 	e_canvas_item_set_reflow_callback(item, etcta_reflow);
 }

@@ -7,6 +7,7 @@
 #include "e-table-header.h"
 #include "e-table-sort-info.h"
 #include "e-table-item.h"
+#include "e-table-selection-model.h"
 
 #define E_TABLE_CLICK_TO_ADD_TYPE        (e_table_click_to_add_get_type ())
 #define E_TABLE_CLICK_TO_ADD(o)          (GTK_CHECK_CAST ((o), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAdd))
@@ -30,6 +31,8 @@ typedef struct {
 	
 	gdouble           width;
 	gdouble           height;
+
+	ETableSelectionModel *selection;
 } ETableClickToAdd;
 
 typedef struct {
@@ -38,7 +41,7 @@ typedef struct {
 	/*
 	 * signals
 	 */
-	void (*row_selection) (ETableClickToAdd *etcta, gint row, gboolean selected);
+	void (*cursor_change) (ETableClickToAdd *etcta, gint row, gint col);
 } ETableClickToAddClass;
 
 GtkType    e_table_click_to_add_get_type (void);

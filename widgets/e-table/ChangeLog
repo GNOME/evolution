@@ -1,5 +1,10 @@
 2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-click-to-add.c, e-table-click-to-add.h: Added an
+	ETableSelectionModel so this won't crash.
+
+2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-item.c: Fixed the model/view row confusion.
 
 	* e-table-selection-model.c: Changed one expression to use a
