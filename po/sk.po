@@ -6,13 +6,14 @@
 # Copyright (C) 2001-2002,2003 Free Software Foundation, Inc.
 # Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2001-2002,2003.
 # Stanislav Visnovsky <visnovsky@kde.org>, 2003.
+# Lukas Lipka <lukas@pmad.net>, 2005.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch.sk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
 "PO-Revision-Date: 2003-09-26 13:48+0200\n"
-"Last-Translator: Stanislav Visnovsky <visnovsky@kde.org>\n"
+"Last-Translator: Lukas Lipka <lukas@pmad.net>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22207,7 +22208,7 @@ msgstr "%s (%d%% hotových)"
 #~ msgstr "Krok 4. Meno displeja"
 
 #~ msgid "Find contact in"
-#~ msgstr "Nájsť kontakt v"
+#~ msgstr "Nájs� kontakt v"
 
 #~ msgid "* Click here to add a contact *"
 #~ msgstr "* Kliknutím pridáte kontakt *"
@@ -22269,10 +22270,10 @@ msgstr "%s (%d%% hotových)"
 #~ msgstr "Pridať priečinok"
 
 #~ msgid "Outbox"
-#~ msgstr "Odoslaná pošta"
+#~ msgstr "Pošta na odoslanie"
 
 #~ msgid "Sent"
-#~ msgstr "Odoslané"
+#~ msgstr "Odoslaná pošta"
 
 #~ msgid ""
 #~ "Error synchronizing \"%s\":\n"
