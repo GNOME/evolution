@@ -185,6 +185,11 @@
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-calendar.png"/>
 
+	<oaf_attribute name="evolution:config_item:type" type="stringv">
+		<item value="calendar"/>
+		<item value="tasks"/>
+	</oaf_attribute>
+
 	<oaf_attribute name="evolution:config_item:priority" type="string" value="-7"/>
     
 	<oaf_attribute name="description" type="string"
