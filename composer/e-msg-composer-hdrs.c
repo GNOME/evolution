@@ -68,6 +68,7 @@ static GtkTableClass *parent_class = NULL;
 enum {
 	SHOW_ADDRESS_DIALOG,
 	SUBJECT_CHANGED,
+	HDRS_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -209,7 +210,7 @@ addressbook_entry_changed (BonoboListener    *listener,
 {
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
 
-	hdrs->has_changed = TRUE;
+	gtk_signal_emit (GTK_OBJECT (hdrs), signals[HDRS_CHANGED]);
 }
 
 static GtkWidget *
@@ -262,14 +263,13 @@ entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 	gchar *tmp;
 	gchar *subject;
 
-	/* Mark the composer as changed so it prompts to save on close */
-	hdrs->has_changed = TRUE;
-
 	tmp = e_msg_composer_hdrs_get_subject (hdrs);
 	subject = e_utf8_to_gtk_string (GTK_WIDGET (entry), tmp);
 
 	gtk_signal_emit (GTK_OBJECT (hdrs), signals[SUBJECT_CHANGED], subject);
 	g_free (tmp);
+
+	gtk_signal_emit (GTK_OBJECT (hdrs), signals[HDRS_CHANGED]);
 }
 
 static GtkWidget *
@@ -448,6 +448,15 @@ class_init (EMsgComposerHdrsClass *class)
 				GTK_TYPE_NONE,
 				1, GTK_TYPE_STRING);
 
+	signals[HDRS_CHANGED] =
+		gtk_signal_new ("hdrs_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMsgComposerHdrsClass,
+						   hdrs_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
@@ -475,8 +484,6 @@ init (EMsgComposerHdrs *hdrs)
 	hdrs->priv = priv;
 	
 	hdrs->account = NULL;
-	
-	hdrs->has_changed = FALSE;
 }
 
 

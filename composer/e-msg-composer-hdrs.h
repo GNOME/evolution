@@ -60,6 +60,8 @@ struct _EMsgComposerHdrsClass {
 	void (* show_address_dialog) (EMsgComposerHdrs *hdrs);
 
 	void (* subject_changed) (EMsgComposerHdrs *hdrs, gchar *subject);
+
+	void (* hdrs_changed) (EMsgComposerHdrs *hdrs);
 };
 
 

@@ -77,6 +77,8 @@ struct _EMsgComposer {
 	gboolean send_html : 1;
 	gboolean pgp_sign : 1;
 	gboolean pgp_encrypt : 1;
+
+	gboolean has_changed : 1;
 };
 
 struct _EMsgComposerClass {
@@ -127,6 +129,9 @@ void              e_msg_composer_set_pgp_encrypt      (EMsgComposer     *compose
 gboolean          e_msg_composer_get_pgp_encrypt      (EMsgComposer     *composer);
 void              e_msg_composer_clear_inlined_table  (EMsgComposer     *composer);
 gchar *           e_msg_composer_guess_mime_type      (const gchar *file_name);
+
+void              e_msg_composer_set_changed          (EMsgComposer *composer);
+void              e_msg_composer_unset_changed        (EMsgComposer *composer);
 
 #ifdef __cplusplus
 }

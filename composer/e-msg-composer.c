@@ -807,7 +807,7 @@ exit_dialog_cb (int reply, EMsgComposer *composer)
 	default:
 	}
 }
- 
+
 static void
 do_exit (EMsgComposer *composer)
 {
@@ -815,7 +815,7 @@ do_exit (EMsgComposer *composer)
 	GtkWidget *label;
 	gint button;
 	
-	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->has_changed) {
+	if (composer->has_changed) {
 		dialog = gnome_dialog_new (_("Evolution"),
 					   GNOME_STOCK_BUTTON_YES,      /* Save */
 					   GNOME_STOCK_BUTTON_NO,       /* Don't save */
@@ -1271,6 +1271,9 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 		e_msg_composer_show_attachments (composer, TRUE);
 	else
 		e_msg_composer_show_attachments (composer, FALSE);
+
+	/* Mark the composer as changed so it prompts about unsaved changes on close */
+	e_msg_composer_set_changed (composer);
 }
 
 static void
@@ -1288,6 +1291,18 @@ subject_changed_cb (EMsgComposerHdrs *hdrs,
 		gtk_window_set_title (GTK_WINDOW (composer),
 				      _("Compose a message"));
 	g_free (subject);
+}
+
+static void
+hdrs_changed_cb (EMsgComposerHdrs *hdrs,
+		 void *data)
+{
+	EMsgComposer *composer;
+
+	composer = E_MSG_COMPOSER (data);
+
+	/* Mark the composer as changed so it prompts about unsaved changes on close */
+	e_msg_composer_set_changed (composer);
 }
 
 
@@ -1459,6 +1474,8 @@ init (EMsgComposer *composer)
 	composer->send_html                = FALSE;
 	composer->pgp_sign                 = FALSE;
 	composer->pgp_encrypt              = FALSE;
+
+	composer->has_changed              = FALSE;
 }
 
 
@@ -1523,6 +1540,8 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "subject_changed",
 			    GTK_SIGNAL_FUNC (subject_changed_cb), composer);
+	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "hdrs_changed",
+			    GTK_SIGNAL_FUNC (hdrs_changed_cb), composer);
 	gtk_widget_show (composer->hdrs);
 	
 	/* Editor component.  */
@@ -2337,4 +2356,36 @@ e_msg_composer_guess_mime_type (const gchar *file_name)
 		return type;
 	} else
 		return NULL;
+}
+
+/**
+ * e_msg_composer_set_changed:
+ * @composer: An EMsgComposer object.
+ *
+ * Mark the composer as changed, so before the composer gets destroyed
+ * the user will be prompted about unsaved changes.
+ **/
+void
+e_msg_composer_set_changed (EMsgComposer *composer)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->has_changed = TRUE;
+}
+
+/**
+ * e_msg_composer_unset_changed:
+ * @composer: An EMsgComposer object.
+ *
+ * Mark the composer as unchanged, so no prompt about unsaved changes
+ * will appear before destroying the composer.
+ **/
+void
+e_msg_composer_unset_changed (EMsgComposer *composer)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->has_changed = FALSE;
 }

@@ -1,3 +1,22 @@
+2001-01-25  Jason Leach  <jasonleach@usa.net>
+
+        (Moving the flag for has_changed from the Hdrs to the Composer
+	 itself. Providing public methods to set/unset a composer as
+	 changed. Adding attachments now flags the composer as changed)
+	
+	* e-msg-composer.c (e_msg_composer_unset_changed): New function.
+	(e_msg_composer_set_changed): New function.
+
+	* e-msg-composer.c (hdrs_changed_cb): Callback to the new signal,
+	uses the new composer_set_changed.
+	(attachment_bar_changed_cb): Add a call to the new
+	composer_set_changed.
+	
+	* e-msg-composer-hdrs.c (class_init): New signal "hdrs_changed" to
+	tell the parent composer that any of the headers have changed.
+	(addressbook_entry_changed): emit the new signal here.
+	(entry_changed): And here.
+
 2001-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (menu_security_pgp_encrypt_cb): New callback.
