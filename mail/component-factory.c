@@ -45,9 +45,8 @@ CamelFolder *drafts_folder = NULL;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
 static void create_imap_storage (EvolutionShellComponent *shell_component);
-static void real_create_imap_storage( gpointer user_data );
+static void real_create_generic_storage( gpointer user_data );
 static void create_news_storage (EvolutionShellComponent *shell_component);
-static void real_create_news_storage( gpointer user_data );
 
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
 
@@ -251,14 +250,14 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	EvolutionStorage *storage;
 	char *source = NULL, *server, *p;
 	struct create_info_s *ii;
-
+	
 	config = mail_config_fetch ();
 	if (config->sources) {
 		const MailConfigService *s;
 		s = (MailConfigService *)config->sources->data;
 		source = s->url;
 	}
-
+	
 	if (!source || g_strncasecmp (source, "imap://", 7))
 		return;
 	
@@ -267,9 +266,9 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 		g_warning ("We have no shell!?");
 		return;
 	}
-
+	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-
+	
 	if (!(server = strchr (source, '@'))) {
 		g_free (source);
 		return;
@@ -277,50 +276,50 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	
 	server++;
 	for (p = server; *p && *p != '/'; p++);
-
+	
 	server = g_strndup (server, (gint)(p - server));
 	
 	storage = evolution_storage_new (server);
 	g_free (server);
-
+	
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		g_free (source);
 		return;
 	}
-
+	
 	ii = g_new (struct create_info_s, 1);
 	ii->storage = storage;
 	ii->source = g_strdup (source);
 
 #ifdef USE_BROKEN_THREADS
-	mail_operation_try ("Create IMAP Storage", real_create_imap_storage, g_free, ii);
+	mail_operation_try ("Create IMAP Storage", real_create_generic_storage, g_free, ii);
 #else
-	real_create_imap_storage (ii);
+	real_create_generic_storage (ii);
 	g_free (ii);
 #endif
 	/* Note the g_free as our cleanup function deleting the ii struct when we're done */
 }
 
 static void
-real_create_imap_storage (gpointer user_data)
+real_create_generic_storage (gpointer user_data)
 {	
 	CamelException *ex;
 	EvolutionStorage *storage;
-	char *p, *source;
+	char *source;
 	CamelStore *store;
 	CamelFolder *folder;
 	GPtrArray *lsub;
 	int i, max;
 	struct create_info_s *ii;
-
+	
 	ii = (struct create_info_s *) user_data;
 	storage = ii->storage;
 	source = ii->source;
-
+	
 #ifdef USE_BROKEN_THREADS
 	mail_op_hide_progressbar ();
-	mail_op_set_message ("Connecting to IMAP service...");
+	mail_op_set_message ("Connecting to service...");
 #endif
 	ex = camel_exception_new ();
 	
@@ -333,28 +332,22 @@ real_create_imap_storage (gpointer user_data)
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		goto cleanup;
 	}
-
+	
 #ifdef USE_BROKEN_THREADS
 	mail_op_set_message ("Connected. Examining folders...");
 #endif
-
+	
 	folder = camel_store_get_root_folder (store, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		goto cleanup;
 	}
-
-	/* we need a way to set the namespace */
+	
 	lsub = camel_folder_get_subfolder_names (folder);
-
-	p = g_strdup_printf ("%s/INBOX", source);
-	evolution_storage_new_folder (storage, "/INBOX", "mail", p, "description");
-
-	/*dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;*/
 	
 	max = lsub->len;
 	for (i = 0; i < max; i++) {
 		char *path, *buf, *dirname;
-
+		
 #if 0
 		if (strcmp (dir_sep, "/")) {
 			dirname = e_strreplace ((char *)lsub->pdata[i], dir_sep, "/");
@@ -363,19 +356,19 @@ real_create_imap_storage (gpointer user_data)
 		}
 #endif
 		dirname = g_strdup ((char *)lsub->pdata[i]);
-
+		
 		path = g_strdup_printf ("/%s", dirname);
 		g_free (dirname);
 		buf = g_strdup_printf ("%s/%s", source, path + 1);
 		printf ("buf = %s\n", buf);
-
+		
 #ifdef USE_BROKEN_THREADS
 		mail_op_set_message ("Adding %s", path);
 #endif
-
+		
 		evolution_storage_new_folder (storage, path, "mail", buf, "description");
 	}
-
+	
  cleanup:
 	g_free (ii->source);
 #ifdef USE_BROKEN_THREADS
@@ -426,84 +419,16 @@ create_news_storage (EvolutionShellComponent *shell_component)
 		g_free (source);
 		return;
 	}
-
+	
 	ni = g_new( struct create_info_s, 1 );
 	ni->storage = storage;
 	ni->source = g_strdup( source );
-
+	
 #ifdef USE_BROKEN_THREADS
-	mail_operation_try( "Create News Storage", real_create_news_storage, g_free, ni );
+	mail_operation_try( "Create News Storage", real_create_generic_storage, g_free, ni );
 #else
-	real_create_news_storage( ni );
+	real_create_generic_storage( ni );
 	g_free( ni );
 #endif
 	/* again note the g_free cleanup func */
-}
-
-static void
-real_create_news_storage( gpointer user_data )
-{	
-	EvolutionStorage *storage;
-	char *source;
-	CamelStore *store;
-	CamelFolder *folder;
-	CamelException *ex;
-	GPtrArray *lsub;
-	int i, max;
-	struct create_info_s *ni;
-
-	ni = (struct create_info_s *) user_data;
-	storage = ni->storage;
-	source = ni->source;
-
-#ifdef USE_BROKEN_THREADS
-	mail_op_hide_progressbar();
-	mail_op_set_message( "Connecting to news service..." );
-#endif
-
-	ex = camel_exception_new ();
-	
-	store = camel_session_get_store (session, source, ex);
-	if (!store) {
-		goto cleanup;
-	}
-	
-	camel_service_connect (CAMEL_SERVICE (store), ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		goto cleanup;
-	}
-
-#ifdef USE_BROKEN_THREADS
-	mail_op_set_message( "Connected. Examining folders..." );
-#endif
-
-	folder = camel_store_get_root_folder (store, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		goto cleanup;
-	}
-
-	/* we need a way to set the namespace */
-	lsub = camel_folder_get_subfolder_names (folder);
-
-	max = lsub->len;
-	for (i = 0; i < max; i++) {
-		char *path, *buf;
-
-		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
-		buf = g_strdup_printf ("%s%s", source, path);
-
-#ifdef USE_BROKEN_THREADS
-		mail_op_set_message( "Adding %s", path );
-#endif
-		/* FIXME: should be s,"mail","news",? */
-		evolution_storage_new_folder (storage, path, "mail", buf, "description");
-	}
-
- cleanup:
-	g_free( ni->source );
-#ifdef USE_BROKEN_THREADS
-	if( camel_exception_is_set( ex ) )
-		mail_op_error( "%s", camel_exception_get_description( ex ) );
-#endif
-	camel_exception_free (ex);
 }

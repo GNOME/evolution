@@ -1,5 +1,12 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* component-factory.c (real_create_generic_storage): New function
+	to replace real_create_imap_storage and real_create_news_storage
+	(create_imap_storage): Updated.
+	(create_news_storage): Updated.
+
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-display.c:
 	* component-factory.c: s/strncasecmp/g_strncasecmp
 
