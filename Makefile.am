@@ -26,6 +26,7 @@ SUBDIRS =			\
         composer                \
         libical                 \
         libversit               \
+	libwombat		\
         addressbook             \
         mail                    \
         calendar                \

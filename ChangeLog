@@ -1,7 +1,25 @@
+2001-06-21  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* libwombat/: added new directory for the libwombat library, which
+	will contain the implementation of all CORBA interfaces defined
+	in the wombat.idl file
+
 2001-06-21  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Fix the OpenLDAP check to default to "no" if you
 	don't specify anything.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* docs/C/usage-sync: Reworded a little bit for more descrip.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/C/usage-calendar.sgml: Documented categorizing an event.
+
+2001-06-20  Kevin Breit  <battery841@mediaone.net>
+
+	* doc/C/usage-mail.sgml: Updated Bcc: example
 
 2001-06-20  Dan Winship  <danw@ximian.com>
 

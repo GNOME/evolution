@@ -1026,6 +1026,7 @@ mail/Makefile
 mail/importers/Makefile
 data/Makefile
 libversit/Makefile
+libwombat/Makefile
 libibex/Makefile
 calendar/Makefile
 calendar/idl/Makefile
