@@ -108,6 +108,7 @@ enum {
 	DND_ACTION,
 	FOLDER_CONTEXT_MENU_POPPING_UP,
 	FOLDER_CONTEXT_MENU_POPPED_DOWN,
+	CHECKBOXES_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -1274,6 +1275,8 @@ etree_set_value_at (ETreeModel *etree,
 			g_free (temp);
 		}
 		e_tree_model_node_col_changed (etree, tree_path, col);
+		gtk_signal_emit (GTK_OBJECT (storage_set_view),
+				 signals[CHECKBOXES_CHANGED]);
 		break;
 	}
 }
@@ -1584,6 +1587,14 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_RUN_FIRST,
 				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, folder_context_menu_popped_down),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
+
+	signals[CHECKBOXES_CHANGED]
+		= gtk_signal_new ("checkboxes_changed",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, checkboxes_changed),
 				  gtk_marshal_NONE__NONE,
 				  GTK_TYPE_NONE, 0);
 

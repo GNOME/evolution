@@ -68,6 +68,7 @@ struct _EStorageSetViewClass {
 	void (* folder_context_menu_popping_up)  (EStorageSetView *storage_set_view,
 						  const char *path);
 	void (* folder_context_menu_popped_down) (EStorageSetView *storage_set_view);
+	void (* checkboxes_changed) (EStorageSetView *storage_set_view);
 };
 
 
