@@ -103,6 +103,7 @@ development_warning ()
 		  "We hope that you enjoy the results of our hard work, and we eagerly\n"
 		  "await your contributions!\n"
 		  ));
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
