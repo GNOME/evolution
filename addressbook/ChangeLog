@@ -1,3 +1,11 @@
+2001-06-30  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c (build_field): I was accidentally
+	comparing characters and strings here, and didn't see the compiler
+	warning.  Fixed.
+	(e_destination_exportv): Don't export any empty destinations.
+	(bug#3825).
+
 2001-06-30  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/component/e-address-popup.c (e_address_popup_construct): Marked

@@ -368,7 +368,6 @@ e_destination_get_name (const EDestination *dest)
 			priv->name = e_card_name_to_string (priv->card->name);
 			
 		}
-
 	}
 
 	return priv->name;
@@ -467,9 +466,11 @@ e_destination_get_address_textv (EDestination **destv)
 
 	strv = g_new0 (gchar *, len+1);
 	for (i = 0, j = 0; destv[i]; ++i) {
-		const gchar *addr = e_destination_get_email_verbose (destv[i]);
 
-		strv[j++] = addr ? (gchar *) addr : "";
+		if (! e_destination_is_empty (destv[i])) {
+			const gchar *addr = e_destination_get_email_verbose (destv[i]);
+			strv[j++] = addr ? (gchar *) addr : "";
+		}
 	}
 
 	str = g_strjoinv (", ", strv);
@@ -486,8 +487,12 @@ e_destination_get_address_textv (EDestination **destv)
  */
 
 #define DESTINATION_TAG       "DEST"
-#define DESTINATION_SEPARATOR "|"
-#define VEC_SEPARATOR         "\1"
+
+#define DESTINATION_SEPARATOR      "|"
+#define DESTINATION_SEPARATOR_CHAR '|'
+
+#define VEC_SEPARATOR              "\1"
+#define VEC_SEPARATOR_CHAR         '\1'
 
 static gchar *
 join_strings (gchar **strv)
@@ -527,7 +532,7 @@ build_field (const gchar *key, const gchar *value)
 	
 	/* Paranoia: Convert any '\1' or '|' in the key or value to '_' */
 	for (c=field; *c; ++c) {
-		if (*c == VEC_SEPARATOR || *c == DESTINATION_SEPARATOR)
+		if (*c == VEC_SEPARATOR_CHAR || *c == DESTINATION_SEPARATOR_CHAR)
 			*c = '_';
 	}
 
@@ -645,8 +650,6 @@ e_destination_import (const gchar *str)
 	dest->priv->name = name;
 	dest->priv->pending_card_id = card;
 
-	g_message ("name:[%s] addr:[%s]", name, addr);
-
 	e_destination_set_html_mail_pref (dest, want_html);
 
 	g_strfreev (fields);
@@ -657,7 +660,7 @@ e_destination_import (const gchar *str)
 gchar *
 e_destination_exportv (EDestination **destv)
 {
-	gint i, len = 0;
+	gint i, j, len = 0;
 	gchar **strv;
 	gchar *str;
 
@@ -669,13 +672,18 @@ e_destination_exportv (EDestination **destv)
 	}
 
 	strv = g_new0 (gchar *, len+1);
-	for (i = 0; i < len; ++i)
-		strv[i] = e_destination_export (destv[i]);
+	for (i = 0, j = 0; i < len; ++i) {
+		if (! e_destination_is_empty (destv[i]))
+			strv[j++] = e_destination_export (destv[i]);
+	}
 
 	str = g_strjoinv (VEC_SEPARATOR, strv);
 
-	for (i = 0; i < len; ++i)
-		g_free (strv[i]);
+	for (i = 0; i < len; ++i) {
+		if (strv[i]) {
+			g_free (strv[i]);
+		}
+	}
 	g_free (strv);
 
 	return str;
