@@ -384,22 +384,19 @@ folder_browser_toggle_view_source (BonoboUIComponent           *component,
 void
 vfolder_subject (GtkWidget *w, FolderBrowser *fb)
 {
-	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT,
-				      fb->uri);
+	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT, fb->uri);
 }
 
 void
 vfolder_sender (GtkWidget *w, FolderBrowser *fb)
 {
-	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_FROM,
-				      fb->uri);
+	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_FROM, fb->uri);
 }
 
 void
 vfolder_recipient (GtkWidget *w, FolderBrowser *fb)
 {
-	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_TO,
-				      fb->uri);
+	vfolder_gui_add_from_message (fb->mail_display->current_message, AUTO_TO, fb->uri);
 }
 
 void
@@ -439,6 +436,120 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 	g_free (header_value);
 }
 
+void
+hide_none(GtkWidget *w, FolderBrowser *fb)
+{
+	message_list_hide_clear(fb->message_list);
+}
+
+void
+hide_selected(GtkWidget *w, FolderBrowser *fb)
+{
+	GPtrArray *uids;
+	int i;
+
+	uids = g_ptr_array_new();
+	message_list_foreach(fb->message_list, enumerate_msg, uids);
+	message_list_hide_uids(fb->message_list, uids);
+	for (i=0; i<uids->len; i++)
+		g_free(uids->pdata[i]);
+	g_ptr_array_free(uids, TRUE);
+}
+
+void
+hide_deleted(GtkWidget *w, FolderBrowser *fb)
+{
+	MessageList *ml = fb->message_list;
+
+	message_list_hide_add(ml, "(match-all (system-flag \"deleted\"))", ML_HIDE_SAME, ML_HIDE_SAME);
+}
+
+void
+hide_read(GtkWidget *w, FolderBrowser *fb)
+{
+	MessageList *ml = fb->message_list;
+
+	message_list_hide_add(ml, "(match-all (system-flag \"seen\"))", ML_HIDE_SAME, ML_HIDE_SAME);
+}
+
+/* dum de dum, about the 3rd coyp of this function throughout the mailer/camel */
+static const char *
+strip_re(const char *subject)
+{
+	const unsigned char *s, *p;
+	
+	s = (unsigned char *) subject;
+	
+	while (*s) {
+		while(isspace (*s))
+			s++;
+		if (s[0] == 0)
+			break;
+		if ((s[0] == 'r' || s[0] == 'R')
+		    && (s[1] == 'e' || s[1] == 'E')) {
+			p = s+2;
+			while (isdigit(*p) || (ispunct(*p) && (*p != ':')))
+				p++;
+			if (*p == ':') {
+				s = p + 1;
+			} else
+				break;
+		} else
+			break;
+	}
+	return (char *) s;
+}
+
+void
+hide_subject(GtkWidget *w, FolderBrowser *fb)
+{
+	const char *subject;
+	GString *expr;
+
+	if (fb->mail_display->current_message) {
+		/* need to lock for full life of const data */
+		mail_tool_camel_lock_up();
+		subject = camel_mime_message_get_subject(fb->mail_display->current_message);
+		if (subject) {
+			subject = strip_re(subject);
+			if (subject && subject[0]) {
+				expr = g_string_new("(match-all (header-contains \"subject\" ");
+				e_sexp_encode_string(expr, subject);
+				mail_tool_camel_lock_down();
+				g_string_append(expr, "))");
+				message_list_hide_add(fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
+				g_string_free(expr, TRUE);
+				return;
+			}
+		}
+		mail_tool_camel_lock_down();
+	}
+}
+
+void
+hide_sender(GtkWidget *w, FolderBrowser *fb)
+{
+	const CamelInternetAddress *from;
+	const char *real, *addr;
+	GString *expr;
+
+	if (fb->mail_display->current_message) {
+		/* need to lock for full life of const data */
+		mail_tool_camel_lock_up();
+		from = camel_mime_message_get_from(fb->mail_display->current_message);
+		if (camel_internet_address_get(from, 0, &real, &addr)) {
+			expr = g_string_new("(match-all (header-contains \"from\" ");
+			e_sexp_encode_string(expr, addr);
+			mail_tool_camel_lock_down();
+			g_string_append(expr, "))");
+			message_list_hide_add(fb->message_list, expr->str, ML_HIDE_SAME, ML_HIDE_SAME);
+			g_string_free(expr, TRUE);
+			return;
+		}
+		mail_tool_camel_lock_down();
+	}
+}
+
 /* handle context menu over message-list */
 static gint
 on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
@@ -449,6 +560,8 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	int enable_mask = 0;
 	int last_item, i;
 	char *mailing_list_name;
+	char *subject_match = NULL, *from_match = NULL;
+
 	EPopupMenu filter_menu[] = {
 		{ _("VFolder on Subject"),         NULL, GTK_SIGNAL_FUNC (vfolder_subject),   NULL,  2 },
 		{ _("VFolder on Sender"),          NULL, GTK_SIGNAL_FUNC (vfolder_sender),    NULL,  2 },
@@ -460,6 +573,22 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		{ _("Filter on Mailing List"),     NULL, GTK_SIGNAL_FUNC (filter_mlist),      NULL, 66 },
 		{ NULL,                            NULL, NULL,                                NULL,  0 }
 	};
+
+	EPopupMenu hide_menu[] = {
+		{ _("Show all hidden"),            NULL, GTK_SIGNAL_FUNC (hide_none),  	      NULL,  128 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
+		{ _("Hide selected"), 	           NULL, GTK_SIGNAL_FUNC (hide_selected),     NULL,  2 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
+		/* could use another mask, but not enough api do to it */
+		{ _("Hide read"), 	           NULL, GTK_SIGNAL_FUNC (hide_read),  	      NULL,  0 },
+		{ _("Hide deleted"), 	           NULL, GTK_SIGNAL_FUNC (hide_deleted),      NULL,  0 },
+#define HIDE_SUBJECT (6)
+		{ _("Hide Subject"),               NULL, GTK_SIGNAL_FUNC (hide_subject),      NULL,  2 },
+#define HIDE_SENDER (7)
+		{ _("Hide from Sender"),           NULL, GTK_SIGNAL_FUNC (hide_sender),       NULL,  2 },
+		{ NULL,                            NULL, NULL,                                NULL,  0 }
+	};
+
 	EPopupMenu menu[] = {
 		{ _("Open"),                       NULL, GTK_SIGNAL_FUNC (view_msg),          NULL,  0 },
 		{ _("Edit"),                       NULL, GTK_SIGNAL_FUNC (edit_msg),          NULL,  1 },
@@ -484,10 +613,10 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		{ _("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),     NULL,  0 },
 		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
 		{ _("Create Rule From Message"),   NULL, GTK_SIGNAL_FUNC (NULL),       filter_menu,  2 },
+		{ _("Hide Messages"),   NULL, GTK_SIGNAL_FUNC (NULL),       hide_menu,  0 },
 		{ NULL,                            NULL, NULL,                                NULL,  0 }
 	};
 	
-	/* Evil Hack.  */
 	last_item = (sizeof (filter_menu) / sizeof (*filter_menu)) - 2;
 	
 	if (fb->folder != drafts_folder)
@@ -497,8 +626,23 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		enable_mask |= 2;
 		mailing_list_name = NULL;
 	} else {
-		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message,
-								  NULL, NULL);
+		const char *subject, *real, *addr;
+		const CamelInternetAddress *from;
+
+		mail_tool_camel_lock_up();
+		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message, NULL, NULL);
+
+		if ((subject = camel_mime_message_get_subject(fb->mail_display->current_message))
+		    && (subject = strip_re(subject))
+		    && subject[0])
+			subject_match = g_strdup(subject);
+
+		if ((from = camel_mime_message_get_from(fb->mail_display->current_message))
+		    && camel_internet_address_get(from, 0, &real, &addr)
+		    && addr && addr[0])
+			from_match = g_strdup(addr);
+
+		mail_tool_camel_lock_down();
 	}
 	
 	/* get a list of uids */
@@ -510,7 +654,8 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		gboolean have_undeleted = FALSE;
 		gboolean have_seen = FALSE;
 		gboolean have_unseen = FALSE;
-		
+
+		mail_tool_camel_lock_up();
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
 			if (info->flags & CAMEL_MESSAGE_SEEN)
@@ -526,7 +671,8 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 			if (have_seen && have_unseen && have_deleted && have_undeleted)
 				break;
 		}
-		
+		mail_tool_camel_lock_down();
+
 		if (!have_unseen)
 			enable_mask |= 4;
 		if (!have_seen)
@@ -545,8 +691,25 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	} else {
 		filter_menu[last_item].name = g_strdup_printf (_("Filter on Mailing List (%s)"),
 							       mailing_list_name);
+		g_free(mailing_list_name);
 	}
-	
+
+	if (subject_match != NULL) {
+		hide_menu[HIDE_SUBJECT].name = g_strdup_printf(_("Hide Subject \"%s\""), subject_match);
+		g_free(subject_match);
+	} else
+		hide_menu[HIDE_SUBJECT].name = g_strdup(_("Hide Subject"));
+
+	if (from_match != NULL) {
+		hide_menu[HIDE_SENDER].name = g_strdup_printf(_("Hide from Sender <%s>"), from_match);
+		g_free(from_match);
+	} else
+		hide_menu[HIDE_SENDER].name = g_strdup(_("Hide from Sender"));
+
+	/* TODO: should probably be a function to say if anything is hidden ... but this is accurate */
+	if (fb->message_list->hidden == NULL)
+		enable_mask |= 128;
+
 	/* free uids */
 	for (i = 0; i < uids->len; i++)
 		g_free (uids->pdata[i]);
@@ -554,8 +717,10 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	
 	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
 	
-	g_free (filter_menu[last_item].name);
-	
+	g_free(filter_menu[last_item].name);
+	g_free(hide_menu[HIDE_SUBJECT].name);
+	g_free(hide_menu[HIDE_SENDER].name);
+
 	return TRUE;
 }
 

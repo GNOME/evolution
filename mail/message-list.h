@@ -41,6 +41,11 @@ enum {
 #define MESSAGE_LIST_COLUMN_IS_ACTIVE(col) (col == COL_MESSAGE_STATUS || \
 					    col == COL_FLAGGED)
 
+#define ML_HIDE_NONE_START (0)
+#define ML_HIDE_NONE_END (2147483647)
+/* dont change */
+#define ML_HIDE_SAME (2147483646)
+
 struct _MessageList {
 	ETableScrolled parent;
 
@@ -55,6 +60,13 @@ struct _MessageList {
 	/* UID to model row hash table. Keys owned by the mempool. */
 	GHashTable       *uid_rowmap;
 	struct _EMemPool *uid_pool;
+
+	/* UID's to hide.  Keys in the mempool */
+	/* IMPORTANT: You MUST have obtained the camel lock, to operate on these structures */
+	GHashTable	 *hidden;
+	struct _EMemPool *hidden_pool;
+	int hide_unhidden, /* total length, before hiding */
+		hide_before, hide_after; /* hide ranges of messages */
 
 	/* Current search string, or %NULL */
 	char *search;
@@ -99,6 +111,14 @@ void           message_list_select     (MessageList *message_list,
 					int base_row,
 					MessageListSelectDirection direction,
 					guint32 flags, guint32 mask);
+
+/* info */
+unsigned int   message_list_length(MessageList *ml);
+
+/* hide specific messages */
+void	       message_list_hide_add(MessageList *ml, const char *expr, unsigned int lower, unsigned int upper);
+void	       message_list_hide_uids(MessageList *ml, GPtrArray *uids);
+void	       message_list_hide_clear(MessageList *ml);
 
 void	       message_list_set_threaded(MessageList *ml, gboolean threaded);
 void	       message_list_set_search(MessageList *ml, const char *search);

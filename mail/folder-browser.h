@@ -77,6 +77,13 @@ void filter_sender     (GtkWidget *w, FolderBrowser *fb);
 void filter_recipient  (GtkWidget *w, FolderBrowser *fb);
 void filter_mlist      (GtkWidget *w, FolderBrowser *fb);
 
+void hide_read(GtkWidget *w, FolderBrowser *fb);
+void hide_deleted(GtkWidget *w, FolderBrowser *fb);
+void hide_selected(GtkWidget *w, FolderBrowser *fb);
+void hide_none(GtkWidget *w, FolderBrowser *fb);
+void hide_subject(GtkWidget *w, FolderBrowser *fb);
+void hide_sender(GtkWidget *w, FolderBrowser *fb);
+
 void folder_browser_toggle_threads (BonoboUIComponent           *component,
 				    const char                  *path,
 				    Bonobo_UIComponent_EventType type,

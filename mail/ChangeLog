@@ -1,3 +1,66 @@
+2000-12-16  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (build_tree): Always use the slow (full-update)
+	version of the tree update code, to get around a bug(?) in etree.
+	(build_flat): Likewise.
+
+2000-12-15  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-display.c (write_data_to_file): Dont blindly convert all
+	parts to utf8, e.g. image/jpg.  We only convert text/* parts, and
+	only then if required.
+
+2000-12-14  Not Zed  <NotZed@HelixCode.com>
+
+	* component-factory.c (create_view): cast over a warning.
+
+	* folder-browser-factory.c: Add verbs for hide functions.
+
+	* message-list.c (message_list_hide_clear):
+	(message_list_hide_uids): 
+	(message_list_hide_add): Some api renaming.
+	(message_list_hide_add): Allow ML_HIDE_SAME to be passed to mean
+	not to change the upper/lower range at all.
+	(hide_save_state): Save the state of the hide list to stable
+	storage.
+	(hide_load_state): Load the state of hte hide list.
+	(message_list_set_folder): Load/save the state of the folder if it
+	is changed/set.
+	(message_list_destroy): Save the state of the folder hide list
+	when done.
+	(save_tree_state): If we wrote out an empty state file, simply
+	remove it instead.
+
+	* folder-browser.c (on_right_click): Add some hide menus.
+	(hide_read): Hide read messages.
+	(hide_deleted): Hide deleted messages.
+	(hide_selected): Hide selected/current message.
+	(hide_none): Show all hidden messages.
+	(on_right_click): Lock around accesses to the message (inside
+	mlist_detect_magic).
+	(on_right_click): Free the mailing list name.
+
+2000-12-13  Not Zed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (on_right_click): Add camel locking since we
+	call it directly.  Whoever heard of a lock you 'down' to unlock?
+
+	* message-list.c (mail_do_regenerate_messagelist): Added hide
+	expression, messages to hide.  Fixed all callers.
+	(do_regenerate_messagelist): IF we have a hide expression, search
+	and remove those from the uid list.  If we have a hide range,
+	apply that afterwards.
+	(cleanup_regenerate_messagelist): Handle freeing the hide uid
+	temporary data, if required.
+	(message_list_destroy): Free hide data, also lock around all camel
+	object stuff.
+	(message_list_length): New function to get the number of messages
+	avaialble to be hidden by range.
+	(message_list_set_hide): Set the hide expression and range.
+	Issue: Should hiding be remembered?
+	(message_list_unhide_all): Turn off all hiding.
+	(message_list_hide_uids): Hide a list of uid's.
+
 2000-12-15  Dan Winship  <danw@helixcode.com>
 
 	* subscribe-dialog.c (folder_toggle_cb): Update this for the new
@@ -31,6 +94,7 @@
 	(mail_crypto_openpgp_verify): New openpgp function to verify a
 	signature.
 
+>>>>>>> 1.789
 2000-12-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* mail-threads.c (update_active_views): Unref the iterator when
