@@ -55,6 +55,7 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-vfolder.h"
+#include "mail-ops.h"
 
 #define d(x)
 
@@ -826,7 +827,12 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 
 	d(printf("adding folder: '%s' path = '%s'\n", info->url, path));
 
+	/* FIXME: should copy info, so we dont get a removed while we're using it? */
 	camel_object_trigger_event((CamelObject *)mls, "folder_created", info);
+
+	/* this is just so the folder is opened at least once to setup the folder
+	   counts etc in the display.  Joy eh?   The result is discarded. */
+	mail_get_folder(uri, NULL, NULL);
 }
 
 struct _search_info {

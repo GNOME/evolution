@@ -1,5 +1,14 @@
 2001-09-19    <NotZed@Ximian.com>
 
+	* component-factory.c: Added missing header.
+
+	* mail-local.c (mail_local_store_add_folder): Async load the
+	folder we just added, so it can update the folder counts in the
+	display.  We just discard the folder afterwards?
+
+	* mail-ops.c (mail_get_folder): Use the queued thread to get
+	folders.
+
 	* General cleanup of mail debug printfs.
 	
 	* mail-folder-cache.[ch]: Completely rewritten.  Removed all calls

@@ -1324,7 +1324,7 @@ mail_get_folder (const char *uri, void (*done) (char *uri, CamelFolder *folder, 
 	m->done = done;
 	
 	id = m->msg.seq;
-	e_thread_put (mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_queued, (EMsg *)m);
 	return id;
 }
 
