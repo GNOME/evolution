@@ -21,6 +21,10 @@
  * Author: Ettore Perazzoli
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gtk/gtkbox.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkfilesel.h>

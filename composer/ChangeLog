@@ -1,3 +1,8 @@
+2001-07-09  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* e-msg-composer-select-file.c: Added missing #include <config.h> to
+	make translations working.
+
 2001-07-07  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients): Make sure that our
