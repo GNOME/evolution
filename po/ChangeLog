@@ -1,3 +1,8 @@
+2003-09-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* fi.po: Updated Finnish translation from Ilkka Tuohela
+	<hile@nixu.com>.
+
 2003-09-11  Rodney Dawes  <dobey@ximian.com>
 
 	* POTFILES.in: s/evolution.desktop.in/evolution.desktop.in.in/
