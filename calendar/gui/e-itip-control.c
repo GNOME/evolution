@@ -183,7 +183,7 @@ find_server (EItipControl *itip, ECalComponent *comp)
 		GSList *sources, *m;
 		
 		group = l->data;
-		
+
 		sources = e_source_group_peek_sources (group);
 		for (m = sources; m; m = m->next) {
 			ESource *source;
@@ -384,8 +384,7 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 	
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
-	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
-	{
+	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
 		icalvalue *value;
 		icalparameter *param;
 		const char *attendee, *name;

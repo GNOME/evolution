@@ -1,5 +1,10 @@
 2004-06-02  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/dialogs/copy-source-dialog.c (copy_source): fixed
+	leak and pass the correct icalcomponent to e_cal_modify_object.
+
+2004-06-02  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #59333
 
 	* gui/dialogs/task-page.c (task_page_fill_widgets): guard against

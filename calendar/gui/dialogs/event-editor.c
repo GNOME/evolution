@@ -132,7 +132,7 @@ set_menu_sens (EventEditor *ee)
 	e_cal_is_read_only (comp_editor_get_e_cal (COMP_EDITOR (ee)), &read_only, NULL);
 
 	sens = priv->meeting_shown;
-	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
+	comp_editor_set_ui_prop (COMP_EDITOR (ee),
 				 "/commands/ActionScheduleMeeting", 
 				 "sensitive", sens || read_only ? "0" : "1");
 
@@ -144,7 +144,7 @@ set_menu_sens (EventEditor *ee)
 	sens = priv->meeting_shown && existing && user && !read_only;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionCancelMeeting", 
-				 "sensitive", sens? "1" : "0");
+				 "sensitive", sens ? "1" : "0");
 
 	comp_editor_set_ui_prop (COMP_EDITOR (ee),
 				 "/commands/FileSave",
