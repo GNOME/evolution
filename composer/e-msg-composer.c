@@ -48,6 +48,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <gal/unicode/gunicode.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-uidefs.h>
@@ -68,6 +69,7 @@
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-text/e-entry.h>
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/htmlselection.h>
 
 /*#include <addressbook/backend/ebook/e-card.h>*/
 
@@ -1413,7 +1415,7 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 	composer = E_MSG_COMPOSER (data);
 	CORBA_exception_init (&ev);
 	
-	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Delete all but signature", "Undelete all", &ev);
+	GNOME_GtkHTML_Editor_Engine_undoBegin (composer->editor_engine, "Delete all but signature", "Undelete all", &ev);
 	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "disable-selection", &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "text-default-color", &ev);
@@ -1428,7 +1430,7 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 	e_msg_composer_show_sig_file (composer);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "style-normal", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
-	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_undoEnd (composer->editor_engine, &ev);
 	
 	CORBA_exception_free (&ev);
 	printf ("delete all\n");
@@ -1475,11 +1477,11 @@ menu_file_insert_file_cb (BonoboUIComponent *uic,
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-save", &ev);
-	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Insert file", "Uninsert file", &ev);
+	GNOME_GtkHTML_Editor_Engine_undoBegin (composer->editor_engine, "Insert file", "Uninsert file", &ev);
 	if (!GNOME_GtkHTML_Editor_Engine_isParagraphEmpty (composer->editor_engine, &ev))
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "insert-paragraph", &ev);
 	GNOME_GtkHTML_Editor_Engine_insertHTML (composer->editor_engine, html, &ev);
-	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_undoEnd (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-restore", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
@@ -3326,7 +3328,7 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-save", &ev);
-	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Set signature", "Reset signature", &ev);
+	GNOME_GtkHTML_Editor_Engine_undoBegin (composer->editor_engine, "Set signature", "Reset signature", &ev);
 
 	delete_old_signature (composer);
 	html = get_signature_html (composer);
@@ -3339,7 +3341,7 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 		GNOME_GtkHTML_Editor_Engine_insertHTML (composer->editor_engine, html, &ev);
 		g_free (html);
 	}
-	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_undoEnd (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-restore", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
@@ -3856,5 +3858,59 @@ e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled)
 	composer->enable_autosave = enabled;
 }
 
+static gchar *
+next_word (const gchar *s, const gchar **sr)
+{
+	if (!s || !*s)
+		return NULL;
+	else {
+		const gchar *begin;
+		gunichar uc;
+		gboolean cited;
 
-						       
+		do {
+			begin = s;
+			cited = FALSE;
+			uc = g_utf8_get_char (s);
+			s  = g_utf8_next_char (s);
+		} while (!html_selection_spell_word (uc, &cited) && !cited && s);
+
+		/* we are at beginning of word */
+		if (s && *s) {
+			gboolean cited_end;
+
+			cited_end = FALSE;
+			uc = g_utf8_get_char (s);
+
+			/* go to end of word */
+			while (html_selection_spell_word (uc, &cited_end) || (!cited && cited_end)) {
+				cited_end = FALSE;
+				s  = g_utf8_next_char (s);
+				if (!s)
+					break;
+				uc = g_utf8_get_char (s);
+			}
+			*sr = s;
+			return s ? g_strndup (begin, s - begin) : g_strdup (begin);
+		} else
+			return NULL;
+	}
+}
+
+void
+e_msg_composer_ignore (EMsgComposer *composer, const gchar *str)
+{
+	CORBA_Environment ev;
+	gchar *word;
+
+	if (!str)
+		return;
+
+	CORBA_exception_init (&ev);
+	while ((word = next_word (str, &str))) {
+		/* printf ("ignore word %s\n", word); */
+		GNOME_GtkHTML_Editor_Engine_ignoreWord (composer->editor_engine, word, &ev);
+		g_free (word);
+	}
+	CORBA_exception_free (&ev);
+}
