@@ -3,10 +3,10 @@
 
 /* 
  * Authors:
- *   Dan Winship <danw@helixcode.com>
- *   Jeffrey Stedfast <fejj@helixcode.com>
+ *   Dan Winship <danw@ximian.com>
+ *   Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -50,12 +50,16 @@ CamelImapResponse *camel_imap_command_continuation (CamelImapStore *store,
 						    CamelException *ex,
 						    const char *cmdbuf);
 
-void  camel_imap_response_free                 (CamelImapResponse *response);
-void  camel_imap_response_free_without_processing(CamelImapResponse *response);
-char *camel_imap_response_extract              (CamelImapResponse *response,
+void  camel_imap_response_free                 (CamelImapStore *store,
+						CamelImapResponse *response);
+void  camel_imap_response_free_without_processing(CamelImapStore *store,
+						  CamelImapResponse *response);
+char *camel_imap_response_extract              (CamelImapStore *store,
+						CamelImapResponse *response,
 						const char *type,
 						CamelException *ex);
-char *camel_imap_response_extract_continuation (CamelImapResponse *response,
+char *camel_imap_response_extract_continuation (CamelImapStore *store,
+						CamelImapResponse *response,
 						CamelException *ex);
 
 #endif /* CAMEL_IMAP_COMMAND_H */

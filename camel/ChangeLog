@@ -1,5 +1,28 @@
 2001-05-01  Dan Winship  <danw@ximian.com>
 
+	* providers/imap/camel-imap-command.c (camel_imap_command): Redo
+	command locking. Since command_lock is recursive, we can just get
+	a lock here, and release it either on error, or when the caller
+	frees the response data. (This simplifies a lot of stuff, and
+	fixes some problems with camel_imap_folder_changed being called
+	without the command_lock locked because of the 2001-03-22 change.)
+
+	(camel_imap_response_free): 
+	(camel_imap_response_free_without_processing): 
+	(camel_imap_response_extract): 
+	(camel_imap_response_extract_continuation): These all take a
+	CamelImapStore now as well, to deal with locking.
+
+	* providers/imap/camel-imap-private.h: Add
+	CAMEL_IMAP_STORE_ASSERT_LOCKED, which defaults to a noop, but can
+	be made to call e_mutex_assert_locked.
+
+	* providers/imap/camel-imap-folder.c, camel-imap-search.c,
+	camel-imap-store.c: Simplify using new locking stuff. Add a few
+	CAMEL_IMAP_STORE_ASSERT_LOCKED checks.
+
+2001-05-01  Dan Winship  <danw@ximian.com>
+
 	Support the IMAP UIDPLUS extension (RFC 2359), which lets you
 	resync after disconnected operation more efficiently, but also
 	makes it possible to do appends and moves/copies more efficiently

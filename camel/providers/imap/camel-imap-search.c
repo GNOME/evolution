@@ -3,9 +3,9 @@
 
 /*
  *  Authors:
- *    Dan Winship <danw@helixcode.com>
+ *    Dan Winship <danw@ximian.com>
  *
- *  Copyright 2000 Helix Code, Inc. (www.helixcode.com)
+ *  Copyright 2000, 2001 Ximian, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -80,8 +80,6 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 	CamelMessageInfo *info;
 	GHashTable *uid_hash = NULL;
 
-	CAMEL_IMAP_STORE_LOCK(store, command_lock);
-
 	if (s->current) {
 		uid = camel_message_info_uid (s->current);
 		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
@@ -97,11 +95,9 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 					       value);
 	}
 
-	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
-
 	if (!response)
 		return r;
-	result = camel_imap_response_extract (response, "SEARCH", NULL);
+	result = camel_imap_response_extract (store, response, "SEARCH", NULL);
 	if (!result)
 		return r;
 
