@@ -165,7 +165,7 @@ best_encoding (GByteArray *buf, const char *charset)
 	
 	if (!charset)
 		return -1;
-
+	
 	cd = iconv_open (charset, "utf-8");
 	g_return_val_if_fail (cd != (iconv_t)-1, -1);
 	
@@ -250,31 +250,30 @@ add_inlined_image (gpointer key, gpointer value, gpointer data)
 	CamelDataWrapper *wrapper;
 	CamelMimePart *part;
 	struct stat statbuf;
-
+	
 	/* check for regular file */
 	if (stat (file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
 		return;
-
+	
 	if (!(stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0)))
 		return;
-
+	
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
-
+	
 	mime_type = e_msg_composer_guess_mime_type (file_name);
 	camel_data_wrapper_set_mime_type (wrapper, mime_type ? mime_type : "application/octet-stream");
 	g_free (mime_type);
-
+	
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (CAMEL_OBJECT (wrapper));
-
+	
 	camel_mime_part_set_content_id (part, cid);
-	/* FIXME: should this use g_basename (file_name)? */
-	camel_mime_part_set_filename (part, strchr (file_name, '/') ? strrchr (file_name, '/') + 1 : file_name);
+	camel_mime_part_set_filename (part, g_basename (file_name));
 	camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
-
+	
 	camel_multipart_add_part (multipart, part);
 	camel_object_unref (CAMEL_OBJECT (part));
 }
@@ -662,27 +661,27 @@ get_file_content (const gchar *file_name, gboolean convert, guint flags)
 	gint fd;
 	char *raw;
 	char *html;
-
+	
 	fd = open (file_name, O_RDONLY);
 	if (fd == -1) {
 		char *msg;
-
+		
 		msg = g_strdup_printf (_("Could not open file %s:\n"
 					 "%s"), file_name, g_strerror (errno));
-
+		
 		gnome_error_dialog (msg);
 		g_free (msg);
 		return NULL;
-	} 
-
+	}
+	
 	raw = read_file_content (fd);
-
+	
 	if (raw == NULL) {
 		char *msg;
-
+		
 		msg = g_strdup_printf (_("Error while reading file %s:\n"
 					 "%s"), file_name, g_strerror (errno));
-
+		
 		gnome_error_dialog (msg);
 		g_free (msg);
 		close (fd);
@@ -691,10 +690,10 @@ get_file_content (const gchar *file_name, gboolean convert, guint flags)
 	close (fd);
 	
 	html = convert ? e_text_to_html (raw, flags) : raw;
-
+	
 	if (convert)
 		g_free (raw);
-
+	
 	return html;
 }
 
@@ -704,7 +703,7 @@ e_msg_composer_get_sig_file_content (const char *sigfile, gboolean in_html)
 	if (!sigfile || !*sigfile) {
 		return NULL;
 	}
-
+	
 	return get_file_content (sigfile, !in_html, 0);
 }
 
@@ -820,9 +819,9 @@ set_config (EMsgComposer *composer, char *key, int val)
 	
 	if (composer->config_db == CORBA_OBJECT_NIL)
 		return;
-
+	
 	full_key = g_strconcat ("/Mail/Composer/", key, NULL);
-
+	
 	bonobo_config_set_long (composer->config_db, full_key, val, NULL);
 	
 	g_free (full_key);
@@ -842,11 +841,11 @@ show_attachments (EMsgComposer *composer,
 		gtk_widget_hide (composer->attachment_scroll_frame);
 		gtk_widget_hide (composer->attachment_bar);
 	}
-
+	
 	composer->attachment_bar_visible = show;
-
+	
 	/* Update the GUI.  */
-
+	
 #if 0
 	gtk_check_menu_item_set_active
 		(GTK_CHECK_MENU_ITEM
@@ -854,7 +853,7 @@ show_attachments (EMsgComposer *composer,
 					"menu_view_attachments")),
 		 show);
 #endif
-
+	
 	/* XXX we should update the toggle toolbar item as well.  At
 	   this point, it is not a toggle because Glade is broken.  */
 }
@@ -916,15 +915,15 @@ load (EMsgComposer *composer,
       const char *file_name)
 {
 	CORBA_Environment ev;
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	Bonobo_PersistFile_load (composer->persist_file_interface, file_name, &ev);
-
+	
 	if (ev._major != CORBA_NO_EXCEPTION)
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error loading file: %s"), g_basename (file_name));
-
+	
 	CORBA_exception_free (&ev);
 }
 
@@ -941,12 +940,12 @@ static void
 save_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
 {
 	struct _save_info *si = data;
-
+	
 	if (ok && si->quitok)
 		gtk_widget_destroy (GTK_WIDGET (si->composer));
 	else
 		gtk_object_unref (GTK_OBJECT (si->composer));
-
+	
 	g_free (info);
 	g_free (si);
 }
@@ -1038,48 +1037,49 @@ autosave_save_draft (EMsgComposer *composer)
 	char *file;
 	gint fd;
 	gboolean success = TRUE;
-
+	
 	fd = composer->autosave_fd;
 	file = composer->autosave_file;
-
+	
 	if (fd == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error accessing file: %s"), file);
 		return FALSE;
 	}
-
+	
 	msg = e_msg_composer_get_message_draft (composer);
-
+	
 	if (msg == NULL) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to retrieve message from editor"));
 		return FALSE;
 	}
-
+	
 	if (lseek (fd, (off_t)0, SEEK_SET) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
-			  _("Unable to seek on file: %s\n%s"), file, strerror(errno));
+			  _("Unable to seek on file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
-
+	
 	if (ftruncate (fd, (off_t)0) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
-			  _("Unable to truncate file: %s\n%s"), file, strerror(errno));
+			  _("Unable to truncate file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
 	
 	/* this does an lseek so we don't have to */
-	stream = camel_stream_fs_new_with_fd(fd);
-	if (camel_data_wrapper_write_to_stream((CamelDataWrapper *)msg, stream) == -1
-	    || camel_stream_flush((CamelStream *)stream) == -1) {
+	stream = camel_stream_fs_new_with_fd (fd);
+	if (camel_data_wrapper_write_to_stream ((CamelDataWrapper *)msg, stream) == -1
+	    || camel_stream_flush (CAMEL_STREAM (stream)) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
 		
 		success = FALSE;
 	}
+	
 	/* set the fd to -1 in the stream so camel doesn't close it we want to keep it open */
 	CAMEL_STREAM_FS (stream)->fd = -1;
-	camel_object_unref((CamelObject *)stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
 
 	return success;
 }
@@ -1090,13 +1090,13 @@ autosave_load_draft (const char *filename)
 	CamelStream *stream;
 	CamelMimeMessage *msg;
 	EMsgComposer *composer;
-
+	
 	g_return_val_if_fail (filename != NULL, NULL);
-
+	
 	g_warning ("autosave load filename = \"%s\"", filename);
         
 	stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0);
-
+	
 	if (stream == NULL) 
 		return NULL;
 		
@@ -1112,10 +1112,10 @@ autosave_load_draft (const char *filename)
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
-
+		
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
-
+	
 	camel_object_unref ((CamelObject *)stream);
 	return composer;
 }
@@ -1130,7 +1130,7 @@ static void
 autosave_query_cb (gint reply, gpointer data)
 {
 	int *yes = data;
-
+	
 	*yes = !reply;
 }
 
@@ -1176,7 +1176,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
-
+	
 	while (match != NULL) {
 		GSList *next = match->next;
 		char *filename = match->data;
@@ -1198,7 +1198,7 @@ static void
 autosave_run_foreach_cb (gpointer key, gpointer value, gpointer data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (value);
-
+	
 	autosave_save_draft (composer);
 }
 
@@ -1206,9 +1206,9 @@ static gint
 autosave_run (gpointer data)
 {
 	AutosaveManager *am = data;
-
+	
 	g_hash_table_foreach (am->table, (GHFunc)autosave_run_foreach_cb, am);
-
+	
 	return TRUE;
 }
 
@@ -1247,7 +1247,7 @@ autosave_manager_new ()
 	am->table = g_hash_table_new (g_str_hash, g_str_equal);
 	am->id = 0;
 	am->ask = TRUE;
-
+	
 	return am;
 }
 
@@ -1255,9 +1255,9 @@ static void
 autosave_manager_register (AutosaveManager *am, EMsgComposer *composer) 
 {
 	char *key;
-
+	
 	g_return_if_fail (composer != NULL);
-
+	
 	if (autosave_init_file (composer)) {
 		key = g_basename (composer->autosave_file);
 		g_hash_table_insert (am->table, key, composer);
@@ -1445,7 +1445,7 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 	
 	composer = E_MSG_COMPOSER (data);
 	CORBA_exception_init (&ev);
-
+	
 	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Delete all but signature", "Undelete all", &ev);
 	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "disable-selection", &ev);
@@ -1462,7 +1462,7 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "style-normal", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
-
+	
 	CORBA_exception_free (&ev);
 	printf ("delete all\n");
 }
@@ -1494,9 +1494,9 @@ menu_file_insert_file_cb (BonoboUIComponent *uic,
 	char *file_name;
 	char *html;
 	CORBA_Environment ev;
-
+	
 	composer = E_MSG_COMPOSER (data);
-
+	
 	file_name = e_msg_composer_select_file (composer, _("Insert File"));
 	if (file_name == NULL)
 		return;
@@ -1504,7 +1504,7 @@ menu_file_insert_file_cb (BonoboUIComponent *uic,
 	html = get_file_content (file_name, TRUE, E_TEXT_TO_HTML_PRE);
 	if (html == NULL)
 		return;
-
+	
 	CORBA_exception_init (&ev);
 	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-save", &ev);
@@ -1516,7 +1516,7 @@ menu_file_insert_file_cb (BonoboUIComponent *uic,
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-position-restore", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
-
+	
 	g_free (html);
 }
 
@@ -1600,7 +1600,7 @@ menu_view_from_cb (BonoboUIComponent           *component,
 {
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-
+	
 	e_msg_composer_set_view_from (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
@@ -1613,7 +1613,7 @@ menu_view_replyto_cb (BonoboUIComponent           *component,
 {
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-
+	
 	e_msg_composer_set_view_replyto (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
@@ -1626,7 +1626,7 @@ menu_view_bcc_cb (BonoboUIComponent           *component,
 {
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-
+	
 	e_msg_composer_set_view_bcc (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
@@ -1639,7 +1639,7 @@ menu_view_cc_cb (BonoboUIComponent           *component,
 {
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-
+	
 	e_msg_composer_set_view_cc (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
@@ -1676,20 +1676,20 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSendLater",  menu_file_send_later_cb),
 	
 	BONOBO_UI_VERB ("DeleteAll",  menu_edit_delete_all_cb),
-
+	
 	BONOBO_UI_VERB_END
 };
 
 static EPixmap pixcache [] = {
 	E_PIXMAP ("/Toolbar/FileAttach", "buttons/add-attachment.png"),
 	E_PIXMAP ("/Toolbar/FileSend", "buttons/send-24.png"),
-
+	
 /*	E_PIXMAP ("/menu/Insert/FileAttach", "buttons/add-attachment.png"), */
 	E_PIXMAP ("/commands/FileSend", "send-16.png"),
 	E_PIXMAP ("/commands/FileSendLater", "send-later-16.png"),
 	E_PIXMAP ("/commands/FileSave", "save-16.png"),
 	E_PIXMAP ("/commands/FileSaveAs", "save-as-16.png"),
-
+	
 	E_PIXMAP_END
 };
 
@@ -1697,6 +1697,7 @@ static void
 setup_ui (EMsgComposer *composer)
 {
 	BonoboUIContainer *container;
+	char *default_charset;
 	gboolean hide_smime;
 	
 	container = bonobo_ui_container_new ();
@@ -1708,7 +1709,7 @@ setup_ui (EMsgComposer *composer)
 	
 	bonobo_ui_component_add_verb_list_with_data (
 		composer->uic, verbs, composer);
-
+	
         /* Customize Toolbar thingie */
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (composer)),
                                           "/evolution/UIConf/composer");
@@ -1721,9 +1722,15 @@ setup_ui (EMsgComposer *composer)
 	
 	e_pixmaps_update (composer->uic, pixcache);
 	
-	e_charset_picker_bonobo_ui_populate (composer->uic, NULL,
+	/* Populate the Charset Encoding menu and default it to whatever the user
+	   chose as his default charset in the mailer */
+	default_charset = bonobo_config_get_string (composer->config_db,
+						    "/Mail/Format/default_charset",
+						    NULL);
+	e_charset_picker_bonobo_ui_populate (composer->uic, default_charset,
 					     menu_changed_charset_cb,
 					     composer);
+	g_free (default_charset);
 	
 	if (!camel_session_is_online (session)) {
 		/* Move the accelerator from Send to Send Later */
@@ -1949,7 +1956,7 @@ destroy (GtkObject *object)
 	g_hash_table_destroy (composer->inline_images);
 	
 	g_free (composer->charset);
-
+	
 	CORBA_exception_init (&ev);
 	
 	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
@@ -2147,7 +2154,7 @@ init (EMsgComposer *composer)
 	composer->charset                  = NULL;
 	composer->autosave_file            = NULL;
 	composer->autosave_fd              = -1;
-
+	
 	if (am == NULL) {
 		am = autosave_manager_new ();
 	}
@@ -2200,17 +2207,17 @@ e_msg_composer_load_config (EMsgComposer *composer)
 {
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	db = bonobo_get_object ( "wombat:", "Bonobo/ConfigDatabase", &ev);
-
+	
 	if (ev._major == CORBA_NO_EXCEPTION && db != CORBA_OBJECT_NIL){
 		composer->config_db = db;
 		load_from_config_db (composer);
 	} else
 		composer->config_db = CORBA_OBJECT_NIL;
-
+	
 	CORBA_exception_free (&ev);
 }
 

@@ -1,3 +1,8 @@
+2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (add_inlined_image): Use g_basename().
+	(setup_ui): Get the default charset from the mail config db.
+
 2001-08-06  Radek Doulik  <rodo@ximian.com>
 
 	* listener.c (impl_event): handle delete event
