@@ -1,3 +1,11 @@
+2004-10-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67527.
+
+	* camel-service.c (cs_getaddrinfo, cs_getnameinfo): don't loop on
+	EAI_AGAIN, it doesn't appear to mean the same as EAGAIN does with
+	system calls (i guess 'no shit sherlock' really).
+
 2004-09-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66509.
