@@ -1,12 +1,15 @@
 1998-06-11  Raja R Harinath  <harinath@cs.umn.edu>
 
+	* gnome-x-checks.m4 (USE_DEVGTK): Use AC_EGREP_CPP rather than
+	AC_CHECK_HEADER.  AC_CHECK_HEADER is fooled by warnings.
+
 	* gnome-support.m4 (AC_PROG_AWK): Look for awk.
 	(CROSS_COMPILING): Remove conditional.
 	
 Wed Jun 10 14:19:39 EDT 1998 Gregory McLean <gregm@comstar.net>
 
-	* gnome-x-checks.m4: more tweeks to make building against gtk 1.0 and
-	  gtk1.1 less painful.
+	* gnome-x-checks.m4: More tweeks to make building against gtk 1.0
+	  and gtk1.1 less painful.
 
 1998-06-08  Martin Baulig  <martin@home-of-linux.org>
 

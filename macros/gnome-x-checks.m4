@@ -34,6 +34,18 @@ AC_DEFUN([GNOME_X_CHECKS],
 
         LDFLAGS="$saved_ldflags $GTK_LIBS"
 
+	AC_MSG_CHECKING([whether to use features from (unstable) GTK+ 1.1.x])
+	AC_EGREP_CPP(answer_affirmatively,
+	[#include <gtk/gtkfeatures.h>
+	#ifdef GTK_HAVE_ACCEL_GROUP
+	   answer_affirmatively
+	#endif
+	], dev_gtk=yes, dev_gtk=no)
+	if test "$dev_gtk" = "yes"; then
+	   USE_DEVGTK=true
+	fi
+	AC_MSG_RESULT("$dev_gtk")
+
 	GNOME_HAVE_SM=true
 	case "$GTK_LIBS" in
 	 *-lSM*)
@@ -46,8 +58,6 @@ AC_DEFUN([GNOME_X_CHECKS],
 		$x_libs -lICE)
 	    ;;
 	esac
-
-	AC_CHECK_HEADER(gtk/gtkaccelgroup.h, USE_DEVGTK=true)
 
 	if test "$GNOME_HAVE_SM" = true; then
 	   AC_CHECK_HEADERS(X11/SM/SMlib.h,,GNOME_HAVE_SM=false)
