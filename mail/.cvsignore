@@ -9,6 +9,7 @@ Mailer-common.c
 Mailer.h
 evolution-mail
 evolution-mail.pure
+mail-config.gladep
 test-mail
 test-sources
 test-thread

@@ -16,6 +16,7 @@ configure
 libtool
 ltconfig
 ltmain.sh
+po
 stamp-h
 stamp-h.in
 stamp-h1
