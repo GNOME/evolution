@@ -92,6 +92,7 @@ check_test (void)
 	ETableHeader *e_table_header;
 	ETableCol *col_0, *col_1;
 	ECell *cell_left_just, *cell_image_check;
+	GdkPixbuf *pixbuf;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
@@ -108,7 +109,9 @@ check_test (void)
 	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT, TRUE);
 
 	cell_image_check = e_cell_checkbox_new ();
-	col_0 = e_table_col_new (0, "", 18, 18, cell_image_check, g_int_equal, TRUE);
+	pixbuf = gdk_pixbuf_new_from_file("clip.png");
+	col_0 = e_table_col_new_with_pixbuf (0, pixbuf, 18, 18, cell_image_check, g_int_equal, TRUE);
+	gdk_pixbuf_unref(pixbuf);
 	e_table_header_add_column (e_table_header, col_0, 0);
 	
 	col_1 = e_table_col_new (1, "Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);

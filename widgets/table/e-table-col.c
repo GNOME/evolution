@@ -21,7 +21,10 @@ etc_destroy (GtkObject *object)
 {
 	ETableCol *etc = E_TABLE_COL (object);
 
-	g_free (etc->text);
+	if ( etc->is_pixbuf )
+	  gdk_pixbuf_unref( etc->pixbuf );
+	else
+	  g_free (etc->text);
 	
 	(*parent_class->destroy)(object);
 }
@@ -47,9 +50,12 @@ e_table_col_new (int col_idx, const char *text, int width, int min_width,
 	g_return_val_if_fail (compare != NULL, NULL);
 
 	etc = gtk_type_new (E_TABLE_COL_TYPE);
+       
+	etc->is_pixbuf = FALSE;
 
 	etc->col_idx = col_idx;
 	etc->text = g_strdup (text);
+	etc->pixbuf = NULL;
 	etc->width = width;
 	etc->min_width = min_width;
 	etc->ecell = ecell;
@@ -57,6 +63,37 @@ e_table_col_new (int col_idx, const char *text, int width, int min_width,
 
 	etc->selected = 0;
 	etc->resizeable = resizable;
+
+	return etc;
+}
+
+ETableCol *
+e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, int width, int min_width,
+			     ECell *ecell, GCompareFunc compare, gboolean resizable)
+{
+	ETableCol *etc;
+	
+	g_return_val_if_fail (width >= 0, NULL);
+	g_return_val_if_fail (min_width >= 0, NULL);
+	g_return_val_if_fail (width >= min_width, NULL);
+	g_return_val_if_fail (compare != NULL, NULL);
+
+	etc = gtk_type_new (E_TABLE_COL_TYPE);
+
+	etc->is_pixbuf = TRUE;
+
+	etc->col_idx = col_idx;
+	etc->text = NULL;
+	etc->pixbuf = pixbuf;
+	etc->width = width;
+	etc->min_width = min_width;
+	etc->ecell = ecell;
+	etc->compare = compare;
+
+	etc->selected = 0;
+	etc->resizeable = resizable;
+
+	gdk_pixbuf_ref(etc->pixbuf);
 
 	return etc;
 }

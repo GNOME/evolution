@@ -1,5 +1,15 @@
 2000-02-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* clip.png: Test column header image.
+
+	* test-check.c: Test pixbuf column headers.
+
+	* e-table-col.h, e-table-col.c: Added pixbufs for column headers.
+
+	* e-table-header-item.c (draw_button): Draw pixbuf column headers properly.
+
+2000-02-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-cell-text.h, e-cell-text.c: Add an editable argument to
 	e_cell_text_new.
 

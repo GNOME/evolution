@@ -14,6 +14,7 @@
 #include <libgnomeui/gnome-canvas-util.h>
 #include <libgnomeui/gnome-canvas-polygon.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "e-util/e-cursors.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
@@ -35,6 +36,9 @@
 #define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
 
 static GnomeCanvasItemClass *ethi_parent_class;
+
+static void ethi_request_redraw (ETableHeaderItem *ethi);
+
 
 /*
  * DnD icons
@@ -60,8 +64,7 @@ static GtkTargetEntry  ethi_drop_types [] = {
 };
 
 static void
-ethi_destroy (GtkObject *object)
-{
+ethi_destroy (GtkObject *object){
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
 
 	gtk_object_unref (GTK_OBJECT (ethi->eth));
@@ -482,19 +485,34 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	
 	gdk_gc_set_clip_rectangle (ethi->gc, &clip);
 
-	/* Center the thing */
-	xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
+	if ( col->is_pixbuf ) {
+		xtra = (clip.width - gdk_pixbuf_get_width(col->pixbuf))/2;
+		
+		x += xtra + PADDING / 2;
 
-	if (xtra < 0)
-		xtra = 0;
+		gdk_pixbuf_render_to_drawable_alpha(col->pixbuf, 
+						    drawable,
+						    0, 0, 
+						    x, y + (clip.height - gdk_pixbuf_get_height(col->pixbuf)) / 2,
+						    gdk_pixbuf_get_width(col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
+						    GDK_PIXBUF_ALPHA_FULL, 128,
+						    GDK_RGB_DITHER_NORMAL,
+						    0, 0);
+	} else {
+		/* Center the thing */
+		xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
+		
+		/* Skip over border */
+		if (xtra < 0)
+			xtra = 0;
+
+		x += xtra + PADDING / 2;
 	
-	/* Skip over border */
-	x += xtra + 2;
-	
-	gdk_draw_text (
-		drawable, ethi->font,
-		ethi->gc, x, y + ethi->height - PADDING,
-		col->text, strlen (col->text));
+		gdk_draw_text (
+			       drawable, ethi->font,
+			       ethi->gc, x, y + ethi->height - ethi->font->descent - PADDING / 2,
+			       col->text, strlen (col->text));
+	}
 }
 
 static void
@@ -707,12 +725,12 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			}
 
 			new_width = x - ethi->resize_start_pos;
+
 			if (new_width <= 0)
-				break;
+				new_width = 1;
 
 			if (new_width < ethi->resize_min_width)
-				break;
-			
+				new_width = ethi->resize_min_width;
 			ethi_request_redraw (ethi);
 
 			ethi->resize_width = new_width;
