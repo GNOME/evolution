@@ -1,5 +1,9 @@
 2001-08-24  Not Zed  <NotZed@Ximian.com>
 
+	* camel-mime-part-utils.c (convert_buffer): Limit the maximum
+	output buffer size.  iconv bugs?  returns E2BIG forever on some
+	(valid) data?
+
 	* providers/local/camel-spool-summary.c (summary_rebuild): Likewise.
 
 	* providers/local/camel-mbox-summary.c (summary_rebuild):

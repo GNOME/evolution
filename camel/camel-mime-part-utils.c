@@ -150,8 +150,9 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 		convlen = iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
 		if (convlen == -1) {
 			g_free(buffer);
+			g_warning("conversion failed: %s", strerror(errno));
 			/* we didn't have enough space */
-			if (errno == E2BIG) {
+			if (errno == E2BIG && i<6) {
 				i++;
 				continue;
 			}
