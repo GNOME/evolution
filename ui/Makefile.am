@@ -12,6 +12,7 @@ XML_FILES =				\
 	evolution-mail-global.xml	\
 	evolution-mail-messagedisplay.xml	\
 	evolution-message-composer.xml	\
+	evolution-signature-editor.xml		\
 	evolution-subscribe.xml		\
 	evolution-task-editor.xml	\
 	evolution-tasks.xml		\

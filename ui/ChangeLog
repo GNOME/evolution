@@ -1,3 +1,7 @@
+2001-06-28  Radek Doulik  <rodo@ximian.com>
+
+	* evolution-signature-editor.xml: new file
+
 2001-06-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-tasks.xml: added cut/copy/paste entries to the main menu
