@@ -12,3 +12,7 @@ evolution-mail.pure
 test-mail
 test-sources
 test-thread
+*.bb
+*.bbg
+*.da
+*.gcov

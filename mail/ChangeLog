@@ -1,5 +1,7 @@
 2001-01-22  Not Zed  <NotZed@Ximian.com>
 
+	* .cvsignore: Added temp profiling files.
+
 	* component-factory.c (owner_set_cb): remove a warning with
 	conditional news compilation.
 
