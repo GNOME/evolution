@@ -1,3 +1,8 @@
+2003-01-24  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	only add the recurrence rule if its not an instance
+
 2003-01-22  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-control-factory.c (set_data_idle_cb): idle call back to
