@@ -337,8 +337,21 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 	int retval;
 	
 	retval = gethostbyaddr_r (addr, addrlen, type, host, buf, buflen, &hp, herr);
-	if (hp != NULL)
+	
+	if (hp != NULL) {
 		*herr = 0;
+		retval = 0;
+	} else if (retval == 0) {
+		/* glibc 2.3.2 workaround - it seems that
+		 * gethostbyaddr_r will sometimes return 0 on fail and
+		 * fill @host with garbage strings from /etc/hosts
+		 * (failure to parse the file? who knows). Luckily, it
+		 * seems that we can rely on @hp being NULL on
+		 * fail.
+		 */
+		retval = -1;
+	}
+	
 	return retval;
 #endif
 #else /* No support for gethostbyaddr_r */
