@@ -148,7 +148,7 @@ static void emft_queue_save_state (EMFolderTree *emft);
 static void emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter *iter, gboolean expanded);
 
 static void emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, EMFolderTree *emft);
-static void emft_tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
+static gboolean emft_tree_test_collapse_row (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
 static void emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
 static gboolean emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTree *emft);
 static void emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft);
@@ -466,7 +466,7 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_widget_show ((GtkWidget *) priv->treeview);
 	
 	g_signal_connect (priv->treeview, "row-expanded", G_CALLBACK (emft_tree_row_expanded), emft);
-	g_signal_connect (priv->treeview, "row-collapsed", G_CALLBACK (emft_tree_row_collapsed), emft);
+	g_signal_connect (priv->treeview, "test-collapse-row", G_CALLBACK (emft_tree_test_collapse_row), emft);
 	g_signal_connect (priv->treeview, "row-activated", G_CALLBACK (emft_tree_row_activated), emft);
 	g_signal_connect (priv->treeview, "button-press-event", G_CALLBACK (emft_tree_button_press), emft);
 	
@@ -1747,13 +1747,24 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
 
-static void
-emft_tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_path, EMFolderTree *emft)
+static gboolean
+emft_tree_test_collapse_row (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_path, EMFolderTree *emft)
 {
-	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter cursor;
+	
+	selection = gtk_tree_view_get_selection (treeview);
+	if (gtk_tree_selection_get_selected (selection, &model, &cursor)) {
+		/* select the collapsed node IFF it is a parent of the currently selected folder */
+		if (gtk_tree_store_is_ancestor ((GtkTreeStore *) model, root, &cursor))
+			gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
+	}
 	
 	emft_update_model_expanded_state (emft->priv, root, FALSE);
 	emft_queue_save_state (emft);
+	
+	return FALSE;
 }
 
 static void

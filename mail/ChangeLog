@@ -1,3 +1,12 @@
+2004-06-08  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (emft_tree_row_collapsed): Only change the
+	cursor if the currently selected folder is a subfolder of the
+	folder collapsed. Fixes bug #59801 without breaking bug #57665.
+	(emft_tree_test_collapse_row): Renamed from
+	emft_tree_collapse_row() to match the new signal we are connected
+	to.
+
 2004-06-07  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_add_store): Set the
