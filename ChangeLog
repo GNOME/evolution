@@ -1,5 +1,10 @@
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* ui/evolution-mail.xml: Moved the (un)select all menu items over
+	to the Edit menu - this looks nicer.
+
+2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* ui/evolution-mail.xml: Added some new menu items to the Message
 	menu like (un)select all and moved "mark as read" to the Message
 	menu.
