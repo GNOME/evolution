@@ -369,11 +369,11 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 static void
 entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 {
-	char *subject, *tmp;
+	char *subject;
 	
-	tmp = e_msg_composer_hdrs_get_subject (hdrs);
+	subject = e_msg_composer_hdrs_get_subject (hdrs);
 	g_signal_emit(hdrs, signals[SUBJECT_CHANGED], 0, subject);
-	g_free (tmp);
+	g_free (subject);
 	g_signal_emit(hdrs, signals[HDRS_CHANGED], 0);
 }
 

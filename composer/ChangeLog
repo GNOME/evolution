@@ -1,3 +1,13 @@
+2002-11-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (subject_changed_cb): Duh!  dont free subject &
+	simplify logic a little.
+
+2002-11-20  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-hdrs.c (entry_changed): duh, emit the signal
+	using an initialised value(!).
+
 2002-11-19  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_get_sig_file_content): use

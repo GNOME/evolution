@@ -2153,12 +2153,7 @@ subject_changed_cb (EMsgComposerHdrs *hdrs,
 	
 	composer = E_MSG_COMPOSER (data);
 	
-	if (strlen (subject))
-		gtk_window_set_title (GTK_WINDOW (composer), subject);
-	else
-		gtk_window_set_title (GTK_WINDOW (composer),
-				      _("Compose a message"));
-	g_free (subject);
+	gtk_window_set_title (GTK_WINDOW (composer), subject[0]?subject:_("Compose a message"));
 }
 
 static void
