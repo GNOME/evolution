@@ -158,6 +158,7 @@ static void free_send_info(void *key, struct _send_info *info, void *data)
 	camel_operation_unref(info->cancel);
 	if (info->timeout_id != 0)
 		gtk_timeout_remove(info->timeout_id);
+	g_free(info->what);
 	g_free(info);
 }
 
@@ -299,9 +300,11 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
 			
 		recv_icon = gnome_pixmap_new_from_file(EVOLUTION_BUTTONSDIR "/receive-24.png");
+
 	       	pretty_url = format_url(source->url);
-		
 		label = (GtkLabel *)gtk_label_new(pretty_url);
+		g_free(pretty_url);
+
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
 		gtk_progress_set_show_text((GtkProgress *)bar, FALSE);
 		stop = (GtkButton *)gnome_stock_button(GNOME_STOCK_BUTTON_CANCEL);
@@ -350,10 +353,12 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		} else if (info->timeout_id == 0)
 			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
 		
-		pretty_url = format_url(destination);
-		
 		send_icon  = gnome_pixmap_new_from_file(EVOLUTION_BUTTONSDIR "/send-24.png");
+
+		pretty_url = format_url(destination);
 		label = (GtkLabel *)gtk_label_new(pretty_url);
+		g_free(pretty_url);
+
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
 		stop = (GtkButton *)gnome_stock_button(GNOME_STOCK_BUTTON_CANCEL);
 		status_label = (GtkLabel *)gtk_label_new(_("Waiting..."));
@@ -514,10 +519,6 @@ receive_done (char *uri, void *data)
 	d(printf("%s: freeing info %p\n", __FUNCTION__, info));
 	g_hash_table_remove(info->data->active, info->uri);
 	info->data->infos = g_list_remove(info->data->infos, info);
-	g_free(info->uri);
-	camel_operation_unref(info->cancel);
-	if (info->timeout_id)
-		gtk_timeout_remove(info->timeout_id);
 
 	if (g_hash_table_size(info->data->active) == 0) {
 		if (info->data->gd)
@@ -525,7 +526,7 @@ receive_done (char *uri, void *data)
 		free_send_data();
 	}
 
-	g_free(info);
+	free_send_info(NULL, info, NULL);
 }
 
 /* same for updating */

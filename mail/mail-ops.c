@@ -724,12 +724,17 @@ send_queue_send(struct _mail_msg *mm)
 		
 		camel_folder_set_message_flags (m->queue, uids->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 	}
-	
+
 	if (camel_exception_is_set (&mm->ex))
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d of %d"), i+1, uids->len);
 	else
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
-	
+
+	if (m->driver) {
+		camel_object_unref((CamelObject *)m->driver);
+		m->driver = NULL;
+	}
+		
 	camel_folder_free_uids (m->queue, uids);
 	
 	if (!camel_exception_is_set (&mm->ex))
@@ -756,6 +761,8 @@ send_queue_free(struct _mail_msg *mm)
 {
 	struct _send_queue_msg *m = (struct _send_queue_msg *)mm;
 	
+	if (m->driver)
+		camel_object_unref((CamelObject *)m->driver);
 	camel_object_unref((CamelObject *)m->queue);
 	g_free(m->destination);
 	if (m->cancel)

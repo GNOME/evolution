@@ -1,3 +1,18 @@
+2001-08-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.c (mail_config_get_thread_list): Free the dbkey if
+	we found the config option.
+
+	* mail-send-recv.c (build_dialogue): Free the pretty_url after
+	we've used it.
+	(free_send_info): Free the 'what' string.
+	(receive_done): Use free_send_info to make sure we free
+	everything.
+
+	* mail-ops.c (send_queue_free): Unref the filter driver when done.
+	(send_queue_send): Unref the driver here too, force any long
+	taking operations to run in our thread.
+
 2001-08-07  Peter Williams  <peterw@ximian.com>
 
 	* Revert Jeff's changes to subscribe-dialog.[ch]. It's not a widget,
