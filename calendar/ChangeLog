@@ -1,3 +1,9 @@
+2003-09-29  JP Rosevear <jpr@ximian.com>
+
+	* conduits/todo/Makefile.am: link to libical-evolution
+
+	* conduits/calendar/Makefile.am: ditto	
+	
 2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* cal-util/Makefile.am (libical_util_la_LIBADD):

@@ -21,7 +21,7 @@ libetodo_conduit_la_LIBADD = 						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/libical/src/libical/libical.la			\
+	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(top_builddir)/e-util/libeconduit.la		 		\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
