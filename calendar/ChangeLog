@@ -1,3 +1,7 @@
+2001-04-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/dialogs/Makefile.am (INCLUDES): Add `$(EXTRA_GNOME_CFLAGS)'.
+
 2001-04-26  Dan Winship  <danw@ximian.com>
 
 	* conduits/todo/Makefile.am (libetodo_conduit_la_LIBADD): Remove
