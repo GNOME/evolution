@@ -69,60 +69,14 @@ header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterM
 	if (argc == 2) {
 		char *header = (argv[0])->value.string;
 		char *match = (argv[1])->value.string;
-		const char *contents;
-		
-		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
-		if (contents && e_strstrcase (contents, match))
-			matched = TRUE;
-	}
-	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = matched;
-	
-	return r;
-}
-
-static ESExpResult *
-match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms)
-{
-	/* FIXME: is this right? I dunno */
-	/* match-all: when dealing with single messages is a no-op */
-	ESExpResult *r;
-	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	if (argv[0]->type == ESEXP_RES_BOOL)
-		r->value.bool = argv[0]->value.bool;
-	else
-		r->value.bool = FALSE;
-	
-	return r;
-}
-
-static ESExpResult *
-body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
-{
-	gboolean matched = FALSE;
-	ESExpResult *r;
-	
-	if (argc > 0) {
-		CamelStream *stream;
-		GByteArray *array;
-		char *match, *body;
 		regex_t regexpat;        /* regex patern */
 		regmatch_t *fltmatch;
 		gint regerr = 0;
 		size_t reglen = 0;
 		gchar *regmsg;
+		const char *contents;
 		
-		match = (*argv)->value.string;
-		
-		array = g_byte_array_new ();
-		stream = camel_stream_mem_new_with_byte_array (array);
-		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (fms->message), stream);
-		camel_stream_reset (stream);
-		g_byte_array_append (array, "", 1);
-		
-		body = array->data;
+		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
 		
 		regerr = regcomp (&regexpat, match, REG_EXTENDED | REG_NEWLINE | REG_ICASE);
 		if (regerr) {
@@ -137,13 +91,148 @@ body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 			g_free (regmsg);
 			regfree (&regexpat);
 		} else {
-			fltmatch = g_new0 (regmatch_t, regexpat.re_nsub);
+			if (contents) {
+				fltmatch = g_new0 (regmatch_t, regexpat.re_nsub);
+				
+				if (!regexec (&regexpat, contents, regexpat.re_nsub, fltmatch, 0))
+					matched = TRUE;
+				
+				g_free (fltmatch);
+				regfree (&regexpat);
+			}
+		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static ESExpResult *
+match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms)
+{
+	/* match-all: when dealing with single messages is a no-op */
+	ESExpResult *r;
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	if (argv[0]->type == ESEXP_RES_BOOL)
+		r->value.bool = argv[0]->value.bool;
+	else
+		r->value.bool = FALSE;
+	
+	return r;
+}
+
+static gboolean
+mime_part_matches (CamelMimePart *mime_part, const char *match, CamelException *ex)
+{
+	CamelStream *stream;
+	GByteArray *array;
+	char *text;
+	regex_t regexpat;        /* regex patern */
+	regmatch_t *fltmatch;
+	gint regerr = 0;
+	size_t reglen = 0;
+	gchar *regmsg;
+	gboolean matched = FALSE;
+	
+	array = g_byte_array_new ();
+	stream = camel_stream_mem_new_with_byte_array (array);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_part), stream);
+	camel_stream_reset (stream);
+	g_byte_array_append (array, "", 1);
+	
+	text = array->data;
+	
+	regerr = regcomp (&regexpat, match, REG_EXTENDED | REG_NEWLINE | REG_ICASE);
+	if (regerr) {
+		/* regerror gets called twice to get the full error string 
+		   length to do proper posix error reporting */
+		reglen = regerror (regerr, &regexpat, 0, 0);
+		regmsg = g_malloc0 (reglen + 1);
+		regerror (regerr, &regexpat, regmsg, reglen);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Failed to perform regex search on message body: %s",
+				      regmsg);
+		g_free (regmsg);
+		regfree (&regexpat);
+	} else {
+		fltmatch = g_new0 (regmatch_t, regexpat.re_nsub);
+		
+		if (!regexec (&regexpat, text, regexpat.re_nsub, fltmatch, 0))
+			matched = TRUE;
+		
+		g_free (fltmatch);
+		regfree (&regexpat);
+	}
+	
+	return matched;
+}
+
+static gboolean
+handle_multipart (CamelMultipart *multipart, const char *match, CamelException *ex)
+{
+	gboolean matched = FALSE;
+	int i, nparts;
+	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts && !matched; i++) {
+		GMimeContentField *content;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content = camel_mime_part_get_content_type (mime_part);
+		
+		if (gmime_content_field_is_type (content, "text", "*")) {
+			/* we only want to match text parts */
+			matched = mime_part_matches (mime_part, match, ex);
 			
-			if (!regexec (&regexpat, body, regexpat.re_nsub, fltmatch, 0))
-				matched = TRUE;
+			if (camel_exception_is_set (ex))
+				break;
+		} else if (gmime_content_field_is_type (content, "multipart", "*")) {
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
 			
-			g_free (fltmatch);
-			regfree (&regexpat);
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			matched = handle_multipart (mpart, match, ex);
+			
+			if (camel_exception_is_set (ex))
+				break;
+		}
+	}
+	
+	return matched;
+}
+
+static ESExpResult *
+body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc > 0) {
+		GMimeContentField *content;
+		char *match;
+		
+		match = (*argv)->value.string;
+		
+		content = camel_mime_part_get_content_type (CAMEL_MIME_PART (fms->message));
+		
+		if (gmime_content_field_is_type (content, "multipart", "*")) {
+			CamelDataWrapper *wrapper;
+			CamelMultipart *multipart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (fms->message)));
+			multipart = CAMEL_MULTIPART (wrapper);
+			
+			matched = handle_multipart (multipart, match, fms->ex);
+		} else {
+			/* single-part message so just search the entire message */
+			matched = mime_part_matches (CAMEL_MIME_PART (fms->message), match, fms->ex);
 		}
 	}
 	

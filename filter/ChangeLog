@@ -1,3 +1,9 @@
+2000-09-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-message-search.c (body_contains): Modified to only match
+	text MIME parts in the message rather than the entire MIME message
+	(header_contains): Added regex matching
+
 2000-09-12  Dan Winship  <danw@helixcode.com>
 
 	* rule-context.c (d): 
