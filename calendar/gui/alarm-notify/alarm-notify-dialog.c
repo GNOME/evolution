@@ -252,11 +252,11 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
 	current_zone = config_data_get_timezone ();
 
 	buf = timet_to_str_with_zone (occur_start, current_zone);
-	start = e_utf8_from_locale_string (buf);
+	start = g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
 	g_free (buf);
 
 	buf = timet_to_str_with_zone (occur_end, current_zone);
-	end = e_utf8_from_locale_string (buf);
+	end = g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
 	g_free (buf);
 
 	/* Write the header */
