@@ -1,3 +1,8 @@
+2003-04-04  Chris Toshok  <toshok@ximian.com>
+
+	* ename/e-name-western.c (e_name_western_extract_middle): fix abr.
+	(e_name_western_get_suffix_at_str_end): same.
+
 2003-04-02  Not Zed  <NotZed@Ximian.com>
 
 	* e-passwords.c (e_passwords_forget_passwords): Delete all

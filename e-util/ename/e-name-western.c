@@ -299,8 +299,10 @@ e_name_western_extract_middle (ENameWestern *name, ENameWesternIdxs *idxs)
 		return;
 
 	middle = name->full + idxs->first_idx + strlen (name->first);
-	middle = g_utf8_next_char (middle);
+	if (*middle == '\0')
+		return;
 
+	middle = g_utf8_next_char (middle);
 	if (*middle == '\0')
 		return;
 	
@@ -536,6 +538,8 @@ e_name_western_get_suffix_at_str_end (char *str)
 
 		word = e_name_western_get_preceding_word (str, p - str);
 		nextp = p - strlen (word);
+		if (nextp == str)
+			break;
 		nextp = g_utf8_prev_char (nextp);
 		
 		e_name_western_cleanup_string (& word);
