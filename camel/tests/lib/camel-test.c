@@ -5,17 +5,13 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <pthread.h>
 #include <unistd.h>
 #include <signal.h>
 #include <errno.h>
 
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
-
 #include <camel/camel.h>
 
-#ifdef ENABLE_THREADS
 /* well i dunno, doesn't seem to be in the headers but hte manpage mentions it */
 /* a nonportable checking mutex for glibc, not really needed, just validates
    the test harness really */
@@ -27,11 +23,6 @@ static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 #define CAMEL_TEST_LOCK pthread_mutex_lock(&lock)
 #define CAMEL_TEST_UNLOCK pthread_mutex_unlock(&lock)
 #define CAMEL_TEST_ID (pthread_self())
-#else
-#define CAMEL_TEST_LOCK
-#define CAMEL_TEST_UNLOCK
-#define CAMEL_TEST_ID (0)
-#endif
 
 static int setup;
 static int ok;
@@ -57,10 +48,9 @@ static void
 dump_action(int id, struct _state *s, void *d)
 {
 	struct _stack *node;
-
-#ifdef ENABLE_THREADS
+	
 	printf("\nThread %d:\n", id);
-#endif
+	
 	node = s->state;
 	if (node) {
 		printf("Current action:\n");
@@ -80,13 +70,11 @@ static void die(int sig)
 		indie = 1;
 		printf("\n\nReceived fatal signal %d\n", sig);
 		g_hash_table_foreach(info_table, (GHFunc)dump_action, 0);
-
-#ifdef ENABLE_THREADS
+		
 		if (camel_test_verbose > 2) {
 			printf("Attach debugger to pid %d to debug\n", getpid());
 			sleep(1000);
 		}
-#endif
 	}
 
 	_exit(1);
