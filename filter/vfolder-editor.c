@@ -338,10 +338,10 @@ select_rule (GtkWidget *w, GtkWidget *child, struct _editor_data *data)
 }
 
 static void
-double_click (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+double_click (GtkWidget *widget, GdkEventButton *event, struct _editor_data *data)
 {
-	if (event->type == GDK_2BUTTON_PRESS)
-		rule_edit (widget, user_data);
+	if (data->current && event->type == GDK_2BUTTON_PRESS)
+		rule_edit (widget, data);
 }
 
 GtkWidget *

@@ -1,3 +1,10 @@
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* vfolder-editor.c (double_click): Make sure we have something
+	selected first ;-)
+	
+	* filter-editor.c (double_click): And here too.
+
 2001-03-03  Not Zed  <NotZed@Ximian.com>
 
 	* filter.glade: Added option menu to vfolder editor.
