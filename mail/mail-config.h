@@ -284,7 +284,7 @@ gboolean mail_config_check_service (const char *url, CamelProviderType type, GLi
 gboolean evolution_mail_config_factory_init (void);
 
 GList * mail_config_get_signature_list (void);
-MailConfigSignature *mail_config_signature_add (gboolean html);
+MailConfigSignature *mail_config_signature_add (gboolean html, const gchar *script);
 void mail_config_signature_delete (MailConfigSignature *sig);
 void mail_config_signature_write (MailConfigSignature *sig);
 void mail_config_signature_set_name (MailConfigSignature *sig, const gchar *name);
@@ -306,7 +306,7 @@ void mail_config_signature_unregister_client (MailConfigSignatureClient client, 
 void mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature *sig);
 
 void mail_config_write_account_sig (MailConfigAccount *account, gint i);
-void mail_config_signature_run_script (gchar *script);
+gchar * mail_config_signature_run_script (gchar *script);
 
 gboolean mail_config_get_show_signature_info (void);
 void     mail_config_set_show_signature_info (gboolean show);

@@ -1253,7 +1253,7 @@ sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 	
 	sig_switch_to_list (w, gui);
 	
-	gui->def_signature = mail_composer_prefs_new_signature (NULL, FALSE);
+	gui->def_signature = mail_composer_prefs_new_signature (NULL, TRUE, NULL);
 	gui->auto_signature = FALSE;
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_menu), sig_gui_get_index (gui));

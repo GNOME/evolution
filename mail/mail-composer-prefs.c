@@ -167,20 +167,6 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 }
 
 static void
-run_script (char *script)
-{
-	struct stat st;
-	
-	if (stat (script, &st))
-		return;
-	
-	if (!S_ISREG (st.st_mode) || !(st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)))
-		return;
-	
-	mail_config_signature_run_script (script);
-}
-
-static void
 sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 {
 	char *str;
@@ -189,8 +175,11 @@ sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 		gtk_html_load_from_string (GTK_HTML (prefs->sig_preview), " ", 1);
 		return;
 	}
-	
-	str = e_msg_composer_get_sig_file_content (sig->filename, sig->html);
+
+	if (sig->script)
+		str = mail_config_signature_run_script (sig->script);
+	else
+		str = e_msg_composer_get_sig_file_content (sig->filename, sig->html);
 	if (!str)
 		str = g_strdup (" ");
 	
@@ -213,13 +202,6 @@ sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 	g_free (str);
 }
 
-static void
-sig_write_and_update_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
-{
-	sig_load_preview (prefs, sig);
-	mail_config_signature_write (sig);
-}
-
 static MailConfigSignature *
 sig_current_sig (MailComposerPrefs *prefs)
 {
@@ -239,16 +221,23 @@ sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 MailConfigSignature *
-mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html)
+mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const gchar *script)
 {
 	MailConfigSignature *sig;
 	char *name [1];
 	int row;
 	
-	sig = mail_config_signature_add (html);
+	sig = mail_config_signature_add (html, script);
 	
 	if (prefs) {
 		name [0] = e_utf8_to_gtk_string (GTK_WIDGET (prefs->sig_clist), sig->name);
+		if (sig->script) {
+			gchar *tmp;
+
+			tmp = name [0];
+			name [0] = g_strconcat (name [0], _(" [script]"), NULL);
+			g_free (tmp);
+		}
 		row = gtk_clist_append (prefs->sig_clist, name);
 		gtk_clist_set_row_data (prefs->sig_clist, row, sig);
 		gtk_clist_select_row (GTK_CLIST (prefs->sig_clist), row, 0);
@@ -282,7 +271,47 @@ sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
 static void
 sig_add (GtkWidget *widget, MailComposerPrefs *prefs)
 {
-	mail_composer_prefs_new_signature (prefs, FALSE);
+	mail_composer_prefs_new_signature (prefs, TRUE, NULL);
+}
+
+static void
+sig_add_script_add (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	gchar *script, *name;
+
+	script = gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry
+					      (GNOME_FILE_ENTRY (glade_xml_get_widget (prefs->sig_script_gui,
+										       "fileentry_add_script_script")))));
+	name = e_utf8_gtk_entry_get_text (GTK_ENTRY (glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name")));
+	if (script && *script) {
+		struct stat st;
+	
+		if (!stat (script, &st)
+		    && S_ISREG (st.st_mode) && (st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR))) {
+			MailConfigSignature *sig;
+
+			sig = mail_composer_prefs_new_signature (prefs, TRUE, script);
+			mail_config_signature_set_name (sig, name);
+			g_free (name);
+			gtk_widget_hide (prefs->sig_script_dialog);
+
+			return;
+		}
+	}
+	gnome_dialog_run_and_close (GNOME_DIALOG (gnome_ok_dialog_parented (_("Please specify a valid script name"),
+									    GTK_WINDOW (prefs->sig_script_dialog))));
+}
+
+static void
+sig_add_script (GtkWidget *widget, MailComposerPrefs *prefs)
+{
+	GtkWidget *entry;
+
+	entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
+	gtk_entry_set_text (GTK_ENTRY (entry), _("Unnamed"));
+
+	gtk_widget_show_all (prefs->sig_script_dialog);
+	gdk_window_raise (prefs->sig_script_dialog->window);
 }
 
 static void
@@ -312,12 +341,19 @@ static void
 sig_fill_clist (GtkCList *clist)
 {
 	GList *l;
-	char *name [1];
+	gchar *name [1];
 	int row;
 	
 	gtk_clist_freeze (clist);
 	for (l = mail_config_get_signature_list (); l; l = l->next) {
 		name [0] = e_utf8_to_gtk_string (GTK_WIDGET (clist), ((MailConfigSignature *) l->data)->name);
+		if (((MailConfigSignature *) l->data)->script) {
+			gchar *tmp;
+
+			tmp = name [0];
+			name [0] = g_strconcat (name [0], _(" [script]"), NULL);
+			g_free (tmp);
+		}
 		row = gtk_clist_append (clist, name);
 		gtk_clist_set_row_data (clist, row, l->data);
 		g_free (name [0]);
@@ -355,10 +391,19 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 static void
 sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailComposerPrefs *prefs)
 {
+	gchar *tmp, *tmp1;
+
 	switch (event) {
 	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
 		printf ("accounts NAME CHANGED\n");
-		gtk_clist_set_text (GTK_CLIST (prefs->sig_clist), sig->id, 0, sig->name);
+		tmp = e_utf8_to_gtk_string (GTK_WIDGET (prefs->sig_clist), sig->name);
+		if (sig->script) {
+			tmp1 = tmp;
+			tmp = g_strconcat (tmp, _(" [script]"), NULL);
+			g_free (tmp1);
+		}
+		gtk_clist_set_text (GTK_CLIST (prefs->sig_clist), sig->id, 0, tmp);
+		g_free (tmp);
 		if (sig == sig_current_sig (prefs)) {
 			prefs->sig_switch = TRUE;
 			/*e_utf8_gtk_entry_set_text (GTK_ENTRY (prefs->sig_name), sig->name);*/
@@ -727,6 +772,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "composer_tab");
 	prefs->gui = gui;
+	prefs->sig_script_gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "vbox_add_script_signature");
 
 	/* get our toplevel widget */
 	toplevel = glade_xml_get_widget (gui, "toplevel");
@@ -805,7 +851,16 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	prefs->sig_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAdd"));
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_add), "clicked",
 			    GTK_SIGNAL_FUNC (sig_add), prefs);
-	
+
+	prefs->sig_script_dialog = gnome_dialog_new (_("Add script signature"),
+						     _("Add Signature"), GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gnome_dialog_close_hides (GNOME_DIALOG (prefs->sig_script_dialog), TRUE);
+	gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG (prefs->sig_script_dialog)->vbox),
+				     glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature"));
+	gnome_dialog_button_connect (GNOME_DIALOG (prefs->sig_script_dialog), 0, sig_add_script_add, prefs);
+
+	glade_xml_signal_connect_data (gui, "cmdSignatureAddScriptClicked", sig_add_script, prefs);
+
 	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
 	gtk_signal_connect (GTK_OBJECT (prefs->sig_edit), "clicked",
 			    GTK_SIGNAL_FUNC (sig_edit), prefs);

@@ -2801,7 +2801,7 @@ get_new_signature_filename ()
 }
 
 MailConfigSignature *
-mail_config_signature_add (gboolean html)
+mail_config_signature_add (gboolean html, const gchar *script)
 {
 	MailConfigSignature *sig;
 
@@ -2809,8 +2809,11 @@ mail_config_signature_add (gboolean html)
 
 	/* printf ("mail_config_signature_add %d\n", config->signatures); */
 	sig->id = config->signatures;
-	sig->name = g_strdup (_("Unnamed"));
-	sig->filename = get_new_signature_filename ();
+	sig->name = g_strdup (U_("Unnamed"));
+	if (script)
+		sig->script = g_strdup (script);
+	else
+		sig->filename = get_new_signature_filename ();
 	sig->html = html;
 
 	config->signature_list = g_list_append (config->signature_list, sig);
@@ -2947,21 +2950,78 @@ mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature 
 	}
 }
 
-void
+gchar *
 mail_config_signature_run_script (gchar *script)
 {
-	if (script) {
-		gchar *argv[2];
-		gint pid, status;
+	int result, status;
+	int in_fds[2];
+	pid_t pid;
+	
+	if (pipe (in_fds) == -1) {
+		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));
+		return NULL;
+	}
+	
+	if (!(pid = fork ())) {
+		/* child process */
+		int maxfd, i;
 
-		printf ("running script %s\n", script);
-		argv [0] = script;
-		argv [1] = NULL;
-		pid = gnome_execute_async (NULL, 1, argv);
-		if (pid < 0)
-			gnome_error_dialog (_("Cannot execute signature script"));
-		else
-			waitpid (pid, &status, 0);
+		close (in_fds [0]);
+		if (dup2 (in_fds[1], STDOUT_FILENO) < 0)
+			_exit (255);
+		close (in_fds [1]);
+		
+		setsid ();
+		
+		maxfd = sysconf (_SC_OPEN_MAX);
+		if (maxfd > 0) {
+			for (i = 0; i < maxfd; i++) {
+				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
+					close (i);
+			}
+		}
+		
+		
+		execlp (script, NULL);
+		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));
+		_exit (255);
+	} else if (pid < 0) {
+		g_warning ("Failed to create create child process '%s': %s", script, g_strerror (errno));
+		return NULL;
+	} else {
+#define BUFFER_SIZE 4096
+		GString *str = g_string_new (NULL);
+		gchar *rv;
+		gchar buffer [BUFFER_SIZE];
+		ssize_t rb;
+
+		/* parent process */
+		close (in_fds[1]);
+		while ((rb = read (in_fds [0], buffer, BUFFER_SIZE - 1)) > 0) {
+			buffer [rb] = 0;
+			g_string_append (str, buffer);
+		}
+
+		close (in_fds [0]);
+		result = waitpid (pid, &status, 0);
+	
+		if (result == -1 && errno == EINTR) {
+			/* child process is hanging... */
+			kill (pid, SIGTERM);
+			sleep (1);
+			result = waitpid (pid, &status, WNOHANG);
+			if (result == 0) {
+				/* ...still hanging, set phasers to KILL */
+				kill (pid, SIGKILL);
+				sleep (1);
+				result = waitpid (pid, &status, WNOHANG);
+			}
+		}
+
+		rv = str->str;
+		g_string_free (str, FALSE);
+
+		return rv;
 	}
 }
 

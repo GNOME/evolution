@@ -105,6 +105,8 @@ struct _MailComposerPrefs {
 	GtkHTML *sig_preview;
 	gboolean sig_switch;
 	int sig_row;
+	GladeXML *sig_script_gui;
+	GtkWidget *sig_script_dialog;
 };
 
 struct _MailComposerPrefsClass {
@@ -122,7 +124,7 @@ GtkWidget *mail_composer_prefs_new (void);
 void mail_composer_prefs_apply (MailComposerPrefs *prefs);
 
 
-MailConfigSignature *mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html);
+MailConfigSignature *mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const gchar *script);
 
 /* needed by global config */
 #define MAIL_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
