@@ -1,5 +1,7 @@
 2004-04-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #56645
+
 	* em-folder-tree.c (tree_drag_motion): If the row the cursor is
 	hovering over has children and is not expanded already, setup a
 	timer to auto-expand it if the user hovers there long enough.
