@@ -1,5 +1,12 @@
 2003-01-23  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #31014, roll this in from the 1.2 branch ]
+	* backend/pas/pas-backend-ldap.c: use "categories" instead of
+	"category" for the ECard field so the UI/get_supported_fields stuff
+	actually thinks its usable in the contact editor..
+
+2003-01-23  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): fix
 	for bug 34883 broke ssl transactions (at least those where we were
 	connecting to port 636).  Move it to after the SSL stanza.
