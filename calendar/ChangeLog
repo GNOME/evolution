@@ -1,3 +1,9 @@
+2003-09-11  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* conduits/todo/Makefile.am:
+	Statically link with wombat. Fix ETodo conduit.
+	(Mdk bug #5348)
+
 2003-09-01  Andrew Wu <Yang.Wu@sun.com>
        * gui/e-day-view.c:
        (e_day_view_change_event_end_time_up):
