@@ -204,7 +204,7 @@ struct _EMFormat {
 	EDList header_list;	/* if empty, then all */
 
 	struct _CamelSession *session; /* session, used for authentication when required */
-	struct _CamelURL *base;		/* current location (base url) */
+	struct _CamelURL *base;	/* content-base header or absolute content-location, for any part */
 
 	const char *snoop_mime_type; /* if we snooped an application/octet-stream type, what we snooped */
 

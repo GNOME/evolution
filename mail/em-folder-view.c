@@ -1997,10 +1997,10 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	EMEvent *eme;
 	EMEventTargetMessage *target;
 	
-	if (emfv->preview == NULL || msg == NULL) {
+	if (emfv->preview == NULL) {
 		emfv->priv->nomarkseen = FALSE;
-		g_object_unref (emfv);
 		emfv_enable_menus(emfv);
+		g_object_unref (emfv);
 		return;
 	}
 		
@@ -2035,10 +2035,9 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 		}
 	}
 	
-	g_object_unref (emfv);
 	emfv->priv->nomarkseen = FALSE;
-
 	emfv_enable_menus(emfv);
+	g_object_unref (emfv);
 }
 
 static void
