@@ -874,6 +874,8 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	}
 
 	prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
+	if (prop == NULL)
+		goto show;
 	priv->method = icalproperty_get_method (prop);
 
 	tz_iter = icalcomponent_begin_component (priv->main_comp, ICAL_VTIMEZONE_COMPONENT);
