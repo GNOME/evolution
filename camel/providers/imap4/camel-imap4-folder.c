@@ -520,7 +520,13 @@ untagged_fetch (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, 
 		if (token->token != CAMEL_IMAP4_TOKEN_ATOM)
 			goto unexpected;
 		
-		if (!strcmp (token->v.atom, "BODY[]")) {
+		if (!strcmp (token->v.atom, "BODY[")) {
+			if (camel_imap4_engine_next_token (engine, token, ex) == -1)
+				goto exception;
+			
+			if (token->token != ']')
+				goto unexpected;
+			
 			if (camel_imap4_engine_next_token (engine, token, ex) == -1)
 				goto exception;
 			

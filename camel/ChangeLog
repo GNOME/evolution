@@ -1,3 +1,8 @@
+2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-folder.c (untagged_fetch): Fixed to
+	not expect ]'s as part of the BODY atom token.
+
 2004-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-vee-store.c (change_folder): (flags & 0) will never be
