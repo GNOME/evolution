@@ -23,6 +23,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <stdlib.h>
 #include "mail.h"
 #include "mail-session.h"
 #include "mail-mt.h"
@@ -303,8 +304,10 @@ mail_session_init (void)
 {
 	char *camel_dir, *key, *value;
 	void *iter;
-
-	camel_init ();
+	
+	if (camel_init (evolution_dir) != 0)
+		exit (0);
+	
 	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
 	session = camel_session_new (camel_dir, auth_callback,
 				     register_callback, remove_callback);

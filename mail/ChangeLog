@@ -1,3 +1,11 @@
+2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* session.c (mail_session_init): Call camel_init with the
+	evolution directory passed in. Also, abort if camel cannot be
+	initialized.
+
+	* main.c (main): Shutdown camel.
+
 2001-03-04  Michael Meeks  <michael@ximian.com>
 
 	* folder-browser-factory.c (free_pixmaps): impl.
@@ -5,17 +13,18 @@
 
 2001-03-13  Iain Holmes  <iain@ximian.com>
 
-	* Makefile.am: Removed the importers and created a subdirectory for them to
-	live happily as plugins.
+	* Makefile.am: Removed the importers and created a subdirectory
+	for them to live happily as plugins.
 
-	* mail-importer.c (mail_importer_create_folder): Modified the function to take
-	a BonoboListener for the callback.
+	* mail-importer.c (mail_importer_create_folder): Modified the
+	function to take a BonoboListener for the callback.
 	(get_importer_list): Get a list of importer plugins.
 	(free_importer_list): Free the list of plugins.
 	(mail_importer_init): Initalise the list of plugins.
 	(main_importer_uninit): Unload the modules.
 
-	* GNOME_Evolution_Mail.oaf.in: Remove the oaf_server entries for the importers.
+	* GNOME_Evolution_Mail.oaf.in: Remove the oaf_server entries for
+	the importers.
 
 	* importers/*: Copy the importers in here.
 

@@ -86,7 +86,7 @@ main (int argc, char *argv [])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	g_thread_init( NULL );
+	g_thread_init (NULL);
 
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
 				    argc, argv, oaf_popt_options, 0, NULL);
@@ -116,10 +116,10 @@ main (int argc, char *argv [])
 	glade_gnome_init ();
 
 	gnome_vfs_init ();
-
+	
 	e_cursors_init ();
 
-	mail_msg_init();
+	mail_msg_init ();
 	
 	component_factory_init ();
 	evolution_composer_factory_init (composer_send_cb,
@@ -133,6 +133,8 @@ main (int argc, char *argv [])
 	GDK_THREADS_ENTER ();
 	bonobo_main ();
 	GDK_THREADS_LEAVE ();
+	
+	camel_shutdown ();
 	
 	mail_config_write_on_exit ();
 
