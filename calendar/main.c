@@ -2,9 +2,11 @@
  * GnomeCalendar widget
  * Copyright (C) 1998 the Free Software Foundation
  *
- * Authors: 
+ * Authors:
  *          Miguel de Icaza (miguel@kernel.org)
+ *          Federico Mena (quartic@gimp.org)
  */
+
 #include <config.h>
 #include <gnome.h>
 #include <pwd.h>
@@ -35,18 +37,21 @@ int active_calendars = 0;
 /* A list of all of the calendars started */
 GList *all_calendars = NULL;
 
+static void new_calendar (char *full_name, char *calendar_file);
+
+
 void
 init_username (void)
 {
 	char *p;
 	struct passwd *passwd;
-	
+
 	passwd = getpwuid (getuid ());
-	if ((p = passwd->pw_name)){
+	if ((p = passwd->pw_name)) {
 		user_name = g_strdup (p);
 		full_name = g_strdup (passwd->pw_gecos);
 	} else {
-		if ((p = getenv ("USER"))){
+		if ((p = getenv ("USER"))) {
 			user_name = g_strdup (p);
 			full_name = g_strdup (p);
 			return;
@@ -61,11 +66,9 @@ init_username (void)
 int
 range_check_hour (int hour)
 {
-	struct tm tm;
-	
 	if (hour < 0)
 		hour = 0;
-	if (hour > 24)
+	else if (hour >= 24)
 		hour = 23;
 
 	return hour;
@@ -89,6 +92,7 @@ init_calendar (void)
 		day_begin = 8;
 		day_end   = 17;
 	}
+
 	gnome_config_pop_prefix ();
 }
 
@@ -124,7 +128,7 @@ void
 quit_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	/* FIXME: check all of the calendars for their state (modified) */
-	
+
 	gtk_main_quit ();
 }
 
@@ -136,6 +140,7 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 				       GNOME_MESSAGE_BOX_WARNING,
 				       "Yes", "No");
 	}
+
 	gtk_widget_destroy (widget);
 	active_calendars--;
 
@@ -164,39 +169,86 @@ today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 void
 new_calendar_cmd (GtkWidget *widget, void *data)
 {
+	new_calendar (full_name, NULL);
+}
+
+static void
+open_ok (GtkWidget *widget, GtkFileSelection *fs)
+{
+	/* FIXME: find out who owns this calendar and use that name */
+	new_calendar ("Somebody", gtk_file_selection_get_filename (fs));
+
+	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
 void
 open_calendar_cmd (GtkWidget *widget, void *data)
 {
-	GtkWidget *filesel;
+	GtkFileSelection *fs;
 
-	filesel = gtk_file_selection_new (_("Open Calendar"));
-	gtk_widget_show (filesel);
-	
+	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Open calendar")));
+
+	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
+			    (GtkSignalFunc) open_ok,
+			    fs);
+	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), "clicked",
+				   (GtkSignalFunc) gtk_widget_destroy,
+				   GTK_OBJECT (fs));
+
+	gtk_widget_show (GTK_WIDGET (fs));
+	gtk_grab_add (GTK_WIDGET (fs)); /* Yes, it is modal, so sue me */
+}
+
+static void
+save_ok (GtkWidget *widget, GtkFileSelection *fs)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (gtk_object_get_user_data (GTK_OBJECT (fs)));
+
+	if (gcal->cal->filename)
+		g_free (gcal->cal->filename);
+
+	gcal->cal->filename = g_strdup (gtk_file_selection_get_filename (fs));
+	calendar_save (gcal->cal, gcal->cal->filename);
+	gtk_widget_destroy (GTK_WIDGET (fs));
 }
 
 void
 save_calendar_cmd (GtkWidget *widget, void *data)
 {
+	GtkFileSelection *fs;
+
+	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save calendar")));
+	gtk_object_set_user_data (GTK_OBJECT (fs), data);
+
+	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
+			    (GtkSignalFunc) save_ok,
+			    fs);
+	gtk_signal_connect_object (GTK_OBJECT (fs->cancel_button), "clicked",
+				   (GtkSignalFunc) gtk_widget_destroy,
+				   GTK_OBJECT (fs));
+
+	gtk_widget_show (GTK_WIDGET (fs));
+	gtk_grab_add (GTK_WIDGET (fs)); /* Yes, it is modal, so sue me even more */
 }
 
 GnomeUIInfo gnome_cal_file_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("New calendar"),  NULL, new_calendar_cmd },
 
-	{ GNOME_APP_UI_ITEM, N_("Open calendar"), NULL, open_calendar_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("Open calendar..."), NULL, open_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
 
-	{ GNOME_APP_UI_ITEM, N_("Save calendar"), NULL, save_calendar_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("Save calendar..."), NULL, save_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
-	
-	{ GNOME_APP_UI_SEPARATOR },	
-	{ GNOME_APP_UI_ITEM, N_("Close"), NULL, close_cmd, NULL, NULL,
+
+	{ GNOME_APP_UI_SEPARATOR },
+	{ GNOME_APP_UI_ITEM, N_("Close this calendar"), NULL, close_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
-	
+
 	{ GNOME_APP_UI_ITEM, N_("Exit"), NULL, quit_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
-	
+
 	GNOMEUIINFO_END
 };
 
@@ -213,19 +265,19 @@ GnomeUIInfo gnome_cal_edit_menu [] = {
 };
 
 GnomeUIInfo gnome_cal_menu [] = {
-	{ GNOME_APP_UI_SUBTREE, N_("File"),     NULL, &gnome_cal_file_menu },
-	{ GNOME_APP_UI_SUBTREE, N_("Edit"),     NULL, &gnome_cal_edit_menu },
-	{ GNOME_APP_UI_SUBTREE, N_("Help"),     NULL, &gnome_cal_about_menu },
+	{ GNOME_APP_UI_SUBTREE, N_("File"), NULL, &gnome_cal_file_menu },
+	{ GNOME_APP_UI_SUBTREE, N_("Edit"), NULL, &gnome_cal_edit_menu },
+	{ GNOME_APP_UI_SUBTREE, N_("Help"), NULL, &gnome_cal_about_menu },
 	GNOMEUIINFO_END
 };
 
 GnomeUIInfo gnome_toolbar [] = {
 	{ GNOME_APP_UI_ITEM, N_("Prev"), NULL, previous_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
-	
+
 	{ GNOME_APP_UI_ITEM, N_("Today"), NULL, today_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BACK },
-	
+
 	{ GNOME_APP_UI_ITEM, N_("Next"), NULL, next_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
 
@@ -237,7 +289,6 @@ setup_menu (GtkWidget *gcal)
 {
 	gnome_app_create_menus_with_data (GNOME_APP (gcal), gnome_cal_menu, gcal);
 	gnome_app_create_toolbar_with_data (GNOME_APP (gcal), gnome_toolbar, gcal);
-	
 }
 
 static void
@@ -245,30 +296,28 @@ new_calendar (char *full_name, char *calendar_file)
 {
 	GtkWidget   *toplevel;
 	char        *title;
-	
+
 	title = g_copy_strings (full_name, "'s calendar", NULL);
-	
+
 	toplevel = gnome_calendar_new (title);
 	g_free (title);
 	setup_menu (toplevel);
 
-	if (g_file_exists (calendar_file)){
+	if (calendar_file && g_file_exists (calendar_file)) {
 		printf ("Trying to load %s\n", calendar_file);
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
-	} else {
-		printf ("Trying to load ./test.vcf\n");
-		gnome_calendar_load (GNOME_CALENDAR (toplevel), "./test.vcf");
 	}
+
 	active_calendars++;
 	all_calendars = g_list_prepend (all_calendars, toplevel);
 	gtk_widget_show (toplevel);
 }
-	
+
 int 
 main(int argc, char *argv[])
 {
 	GnomeClient *client;
-	
+
 	argp_program_version = VERSION;
 
 	/* Initialise the i18n stuff */
@@ -283,5 +332,3 @@ main(int argc, char *argv[])
 	gtk_main ();
 	return 0;
 }
-
-

@@ -370,12 +370,13 @@ static void
 delete_appointment (GtkWidget *widget, gpointer data)
 {
 	Child *child;
+	GncalFullDay *fullday;
 
 	child = data;
 
-	/* FIXME */
+	fullday = GNCAL_FULL_DAY (child->widget->parent);
 
-	printf ("Yay!  delete_appointment() not yet implemented\n");
+	gnome_calendar_remove_object (fullday->calendar, child->ico);
 }
 
 static void

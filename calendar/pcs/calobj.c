@@ -56,6 +56,7 @@ ical_new (char *comment, char *organizer, char *summary)
 	ico->organizer = g_strdup (organizer);
 	ico->summary   = g_strdup (summary);
 	ico->class     = g_strdup ("PUBLIC");
+	ico->status    = g_strdup ("NEEDS ACTION");
 
 	default_alarm  (ico, &ico->dalarm, organizer, ALARM_DISPLAY);
 	default_alarm  (ico, &ico->palarm, organizer, ALARM_PROGRAM);
@@ -790,7 +791,8 @@ ical_object_to_vobject (iCalObject *ical)
 	addPropValue (o, VCTranspProp, to_str (ical->transp));
 
 	/* related */
-	store_list (o, VCRelatedToProp, ical->related, ';');
+	if (ical->related)
+		store_list (o, VCRelatedToProp, ical->related, ';');
 
 	/* attach */
 	for (l = ical->attach; l; l = l->next)
