@@ -8,3 +8,4 @@ Mail-common.c
 Mail.h
 evolution-mail
 test-mail
+test-sources

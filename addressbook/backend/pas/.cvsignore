@@ -8,5 +8,4 @@ addressbook-stubs.c
 addressbook-skels.c
 addressbook-common.c
 addressbook.h
-test-card
-test-client
+wombat
