@@ -43,6 +43,7 @@
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-part.h"
 #include "camel-mime-part-utils.h"
+#include "camel-mime-utils.h"
 #include "camel-exception.h"
 #include "camel-charset-map.h"
 #include "string-utils.h"
@@ -235,7 +236,8 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	case HEADER_CONTENT_ID:
 		g_free (mime_part->content_id);
 		if (!(mime_part->content_id = header_msgid_decode (header_value))) {
-			header_decode_lwsp (&header_value);
+			while (*header_value && strchr (" \t\r\n", *header_value))
+				header_value++;
 			if (*header_value == '<') {
 				p = header_value;
 				while (*p && *p != '>')
@@ -245,8 +247,8 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 				mime_part->content_id = g_strdup (header_value);
 			}
 			
-			if (mime_part->header_value)
-				g_strstrip (mime_part->header_value);
+			if (mime_part->content_id)
+				g_strstrip (mime_part->content_id);
 		}
 		break;
 	case HEADER_ENCODING:

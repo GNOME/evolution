@@ -380,7 +380,7 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 		camel_imap_folder_changed (folder, exists, NULL, ex);
 	
 	/* And we're done. */
-}	
+}
 
 static void           
 imap_finalize (CamelObject *object)
