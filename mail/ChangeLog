@@ -1,3 +1,9 @@
+2001-11-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (forward_message): If we already have the
+	message loaded in the mail-display, don't bother re-loading. This
+	happens to fix bug #14848.
+
 2001-11-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tools_x_evolution_message_parse): Was

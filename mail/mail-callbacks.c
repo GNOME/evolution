@@ -1174,9 +1174,15 @@ forward_message (FolderBrowser *fb, MailConfigForwardStyle style)
 	if (!check_send_configuration (fb))
 		return;
 	
-	mail_get_message (fb->folder, fb->message_list->cursor_uid,
-			  do_forward_non_attached, GINT_TO_POINTER (style),
-			  mail_thread_new);
+	if (fb->mail_display && fb->mail_display->current_message) {
+		do_forward_non_attached (fb->folder, NULL,
+					 fb->mail_display->current_message,
+					 GINT_TO_POINTER (style));
+	} else {
+		mail_get_message (fb->folder, fb->message_list->cursor_uid,
+				  do_forward_non_attached, GINT_TO_POINTER (style),
+				  mail_thread_new);
+	}
 }
 
 void
