@@ -260,9 +260,18 @@ main( int argc, char *argv[] )
 
     /* get pilot name from gpilotd */
     /* 1. initialize the gpilotd connection */
-    gpilotd_init(&argc,argv);
+    if (gpilotd_init(&argc,argv)!=0) {
+	    run_error_dialog(_("Cannot initialze the GnomePilot Daemon"));
+	    g_error(_("Cannot initialze the GnomePilot Daemon"));
+	    return -1;
+    }
+    
     /* 2 connect to gpilotd */
-    if(!gpilotd_connect()) g_error("Cannot connect to gpilotd");
+    if (gpilotd_connect()!=0) {
+	    run_error_dialog(_("Cannot connect to the GnomePilot Daemon"));
+	    g_error(_("Cannot connect to the GnomePilot Daemon"));
+	    return -1;
+    }
     
     pilotId = get_pilot_id_from_gpilotd();
     if(!pilotId) return -1;

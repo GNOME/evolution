@@ -391,9 +391,6 @@ vcalendar_create_from_calendar (Calendar *cal)
 		addVObjectProp (vcal, obj);
 	}
 
-	cleanVObject (vcal);
-	cleanStrTbl ();
-
 	return vcal;
 }
 
@@ -437,7 +434,7 @@ calendar_save (Calendar *cal, char *fname)
 		gtk_widget_show(dlg);
 	}
 	
-	cleanVObject (vcal);
+	cleanVObject (vcal); 
 	cleanStrTbl ();
 }
 

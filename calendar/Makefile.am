@@ -9,7 +9,11 @@ gnorba_DATA = gnomecal.gnorba
 help_base = $(datadir)/gnome/help/cal
 
 if HAVE_GNOME_PILOT
-bin_PROGRAMS = gnomecal todo-conduit-control-applet calendar-conduit-control-appleta calendar-pilot-sync
+bin_PROGRAMS = 				\
+	gnomecal 			\
+	todo-conduit-control-applet 	\
+	calendar-conduit-control-applet	\
+	calendar-pilot-sync
 else
 bin_PROGRAMS = gnomecal 
 endif
@@ -115,20 +119,21 @@ calendar_pilot_sync_LDADD =	\
 	$(LINK_FLAGS)
 
 
-if HAVE_GNOME_PILOT
 #calendar_conduit
 calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 
 calendar_conduits_LTLIBRARIES = libcalendar_conduit.la
 
 libcalendar_conduit_la_SOURCES = \
+	GnomeCal-common.c	\
+	GnomeCal-stubs.c	\
 	calendar-conduit.c	\
 	calobj.c 		\
 	alarm.c			\
-	GnomeCal-common.c	\
-	GnomeCal-stubs.c	\
 	calendar.c 		\
 	timeutil.c
+
+calendar-conduit.c: my_gnomecal_idl
 
 libcalendar_conduit_la_LDFLAGS = \
 	-rpath $(libdir)
@@ -167,6 +172,8 @@ libtodo_conduit_la_LIBADD = \
 libtodo_conduit_la_SOURCES = \
 	todo-conduit.c
 
+todo-conduit.c:	GnomeCal.h
+
 todo_conduit_control_applet_SOURCES = \
 	todo-conduit-control-applet.c
 
@@ -179,7 +186,6 @@ todo_conduit_control_applet_LDADD = \
         $(PISOCK_LIBS) \
 	$(GNOME_PILOT_LIBS) \
         $(INTLLIBS) 
-endif # HAVE_GNOME_PILOT
 
 gnomecal_LDADD = $(LINK_FLAGS)
 

@@ -251,29 +251,38 @@ gchar *get_pilot_id_from_gpilotd() {
 int
 main( int argc, char *argv[] )
 {
-    /* we're a capplet */
-    gnome_capplet_init ("calendar conduit control applet", NULL, argc, argv, 
-			NULL,
-			0, NULL);
+	/* we're a capplet */
+	gnome_capplet_init ("calendar conduit control applet", NULL, argc, argv, 
+			    NULL,
+			    0, NULL);
 
-    /* put all code to set things up in here */
-    conduit = gpilotd_conduit_mgmt_new("calendar_conduit");
+	/* put all code to set things up in here */
+	conduit = gpilotd_conduit_mgmt_new("calendar_conduit");
 
-    /* get pilot name from gpilotd */
-    /* 1. initialize the gpilotd connection */
-    gpilotd_init(&argc,argv);
-    /* 2 connect to gpilotd */
-    if(!gpilotd_connect()) g_error("Cannot connect to gpilotd");
+	/* get pilot name from gpilotd */
+	/* 1. initialize the gpilotd connection */
+	if (gpilotd_init(&argc,argv)!=0) {
+		run_error_dialog(_("Cannot initialze the GnomePilot Daemon"));
+		g_error(_("Cannot initialze the GnomePilot Daemon"));
+		return -1;
+	}
     
-    pilotId = get_pilot_id_from_gpilotd();
-    if(!pilotId) return -1;
-    org_activation_state = activated = gpilotd_conduit_mgmt_is_enabled(conduit,pilotId);
+	/* 2 connect to gpilotd */
+	if (gpilotd_connect()!=0) {
+		run_error_dialog(_("Cannot connect to the GnomePilot Daemon"));
+		g_error(_("Cannot connect to the GnomePilot Daemon"));
+		return -1;
+	}
     
-    pilot_capplet_setup();
+	pilotId = get_pilot_id_from_gpilotd();
+	if(!pilotId) return -1;
+	org_activation_state = activated = gpilotd_conduit_mgmt_is_enabled(conduit,pilotId);
+    
+	pilot_capplet_setup();
 
 
-    /* done setting up, now run main loop */
-    capplet_gtk_main();
-    g_free(pilotId);
-    return 0;
+	/* done setting up, now run main loop */
+	capplet_gtk_main();
+	g_free(pilotId);
+	return 0;
 }    

@@ -1063,7 +1063,7 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 
 	retval = gnome_pilot_conduit_standard_abs_new ("DatebookDB", 0x64617465);
 	g_assert (retval != NULL);
-	/*gnome_pilot_conduit_construct(GNOME_PILOT_CONDUIT(retval),"calendar");*/
+	gnome_pilot_conduit_construct(GNOME_PILOT_CONDUIT(retval),"calendar");
 
 	cfg = g_new0(ConduitCfg,1);
 	g_assert(cfg != NULL);
