@@ -20,6 +20,9 @@ typedef struct {
 	/* Time at which the calendar was created */
 	time_t  created;
 
+	/* Timestamp in the filename */
+	time_t  file_time;
+	
 	/* If the calendar was last modified */
 	int     modified;
 	void    *temp;

@@ -1,3 +1,11 @@
+1999-01-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* main.c (save_calendar_cmd): Warn if the calendar file has
+	changed. 
+
+	* calendar.c (calendar_load, calendar_save): Keep track of the
+	modification time for the calendar file.
+
 1999-01-20  Nat Friedman  <nat@nat.org>
 
 	* gncal-full-day.c (gncal_full_day_key_press): Only trap printable

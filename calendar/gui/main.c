@@ -11,6 +11,7 @@
 #include <gnome.h>
 #include <pwd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <string.h>
 #include <ctype.h>
 #include "calendar.h"
@@ -391,9 +392,34 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 {
 	GnomeCalendar *gcal = data;
 
-	if (gcal->cal->filename)
+	if (gcal->cal->filename){
+		struct stat s;
+		
+		stat (gcal->cal->filename, &s);
+
+		if (s.st_mtime != gcal->cal->file_time){
+			GtkWidget *box;
+			char *str;
+			int b;
+			
+			str = g_strdup_printf (
+				_("File %s has changed since it was loaded\nContinue?"),
+				gcal->cal->filename);
+			box = gnome_message_box_new (str, GNOME_MESSAGE_BOX_INFO,
+						     GNOME_STOCK_BUTTON_YES,
+						     GNOME_STOCK_BUTTON_NO,
+						     NULL);
+			g_free (str);
+			gnome_dialog_set_default (GNOME_DIALOG (box), 1);
+			b = gnome_dialog_run (GNOME_DIALOG (box));
+			gtk_object_destroy (GTK_OBJECT (box));
+
+			if (b != 0)
+				return;
+		}
+		
 		calendar_save (gcal->cal, gcal->cal->filename);
-	else
+	} else
 		save_as_calendar_cmd (widget, data);
 }
 
@@ -650,17 +676,17 @@ parse_an_arg (poptContext ctx,
 	}
 }
 
-static const struct poptOption options[] = {
-  {NULL, '\0', POPT_ARG_CALLBACK, parse_an_arg, 0, NULL, NULL},
-  {"events", 'e', POPT_ARG_NONE, NULL, 'e', N_("Show events and quit"),
-   NULL},
-  {"from", 'f', POPT_ARG_STRING, NULL, 'f', N_("Specifies start date [for --events]"), N_("DATE")},
-  {"file", 'F', POPT_ARG_STRING, NULL, 'F', N_("File to load calendar from"), N_("FILE")},
-  {"userfile", '\0', POPT_ARG_NONE, NULL, USERFILE_KEY, N_("Load the user calendar"), NULL},
-  {"geometry", '\0', POPT_ARG_STRING, NULL, GEOMETRY_KEY, N_("Geometry for starting up"), N_("GEOMETRY")},
-  {"view", '\0', POPT_ARG_STRING, NULL, VIEW_KEY, N_("The startup view mode"), N_("VIEW")},
-  {"to", 't', POPT_ARG_STRING, NULL, 't', N_("Specifies ending date [for --events]"), N_("DATE")},
-  {NULL, '\0', 0, NULL, 0}
+static const struct poptOption options [] = {
+	{ NULL, '\0', POPT_ARG_CALLBACK, parse_an_arg, 0, NULL, NULL },
+	{ "events", 'e', POPT_ARG_NONE, NULL, 'e', N_("Show events and quit"),
+	  NULL },
+	{ "from", 'f', POPT_ARG_STRING, NULL, 'f', N_("Specifies start date [for --events]"), N_("DATE") },
+	{ "file", 'F', POPT_ARG_STRING, NULL, 'F', N_("File to load calendar from"), N_("FILE") },
+	{ "userfile", '\0', POPT_ARG_NONE, NULL, USERFILE_KEY, N_("Load the user calendar"), NULL },
+	{ "geometry", '\0', POPT_ARG_STRING, NULL, GEOMETRY_KEY, N_("Geometry for starting up"), N_("GEOMETRY") },
+	{ "view", '\0', POPT_ARG_STRING, NULL, VIEW_KEY, N_("The startup view mode"), N_("VIEW") },
+	{ "to", 't', POPT_ARG_STRING, NULL, 't', N_("Specifies ending date [for --events]"), N_("DATE") },
+	{ NULL, '\0', 0, NULL, 0}
 };
 
 static void
@@ -719,14 +745,14 @@ main(int argc, char *argv[])
 {
 	GnomeClient *client;
 
-	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
-	textdomain(PACKAGE);
+	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
+	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table("calendar", VERSION, argc, argv,
-				   options, 0, NULL);
+	gnome_init_with_popt_table ("calendar", VERSION, argc, argv,
+				    options, 0, NULL);
 
 	if (show_events)
-	  dump_events ();
+		dump_events ();
 
 	client = gnome_master_client ();
 	if (client){

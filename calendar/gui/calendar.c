@@ -14,6 +14,7 @@
 
 #include <config.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include "calendar.h"
 #include "alarm.h"
 #include "timeutil.h"
@@ -280,6 +281,7 @@ calendar_load (Calendar *cal, char *fname)
 {
 	VObject *vcal;
 	time_t calendar_today;
+	struct stat s;
 	
 	if (cal->filename){
 		g_warning ("Calendar load called again\n");
@@ -291,6 +293,8 @@ calendar_load (Calendar *cal, char *fname)
 	if (!vcal)
 		return "Could not load the calendar";
 
+	stat (fname, &s);
+	cal->file_time = s.st_mtime;
 	calendar_today     = time (NULL);
 	calendar_day_begin = time_day_begin (calendar_today);
 	calendar_day_end   = time_day_end (calendar_today);
@@ -307,6 +311,7 @@ calendar_save (Calendar *cal, char *fname)
 	VObject *vcal;
 	GList   *l;
 	time_t  now = time (NULL);
+	struct  stat s;
 	
 	if (fname == NULL)
 		fname = cal->filename;
@@ -348,6 +353,9 @@ calendar_save (Calendar *cal, char *fname)
 		g_free (backup_name);
 	}
 	writeVObjectToFile (fname, vcal);
+
+	stat (fname, &s);
+	cal->file_time = s.st_mtime;
 	
 	cleanVObject (vcal);
 	cleanStrTbl ();
