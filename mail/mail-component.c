@@ -102,6 +102,9 @@ struct _store_info {
 	/* for setup only */
 	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
 	void *done_data;
+
+	int ref_count:31;
+	int removed:1;
 };
 
 struct _MailComponentPrivate {
@@ -148,6 +151,7 @@ store_info_new(CamelStore *store, const char *name)
 	struct _store_info *si;
 
 	si = g_malloc0(sizeof(*si));
+	si->ref_count = 1;
 	if (name == NULL)
 		si->name = camel_service_get_name((CamelService *)store, TRUE);
 	else
@@ -165,8 +169,19 @@ store_info_new(CamelStore *store, const char *name)
 }
 
 static void
-store_info_free(struct _store_info *si)
+store_info_ref(struct _store_info *si)
 {
+	si->ref_count++;
+}
+
+static void
+store_info_unref(struct _store_info *si)
+{
+	if (si->ref_count > 1) {
+		si->ref_count--;
+		return;
+	}
+
 	if (si->vtrash)
 		camel_object_unref(si->vtrash);
 	if (si->vjunk)
@@ -184,11 +199,15 @@ mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
 	if (si->done)
 		si->done(store, info, si);
 
-	/* let the counters know about the already opened junk/trash folders */
-	if (si->vtrash)
-		mail_note_folder(si->vtrash);
-	if (si->vjunk)
-		mail_note_folder(si->vjunk);
+	if (!si->removed) {
+		/* let the counters know about the already opened junk/trash folders */
+		if (si->vtrash)
+			mail_note_folder(si->vtrash);
+		if (si->vjunk)
+			mail_note_folder(si->vjunk);
+	}
+
+	store_info_unref(si);
 }
 
 /* Utility functions.  */
@@ -203,6 +222,7 @@ mc_add_store(MailComponent *component, CamelStore *store, const char *name, void
 	si->done = done;
 	g_hash_table_insert(component->priv->store_hash, store, si);
 	em_folder_tree_model_add_store(component->priv->model, store, si->name);
+	store_info_ref(si);
 	mail_note_store(store, NULL, mc_add_store_done, si);
 }
 
@@ -429,7 +449,8 @@ impl_dispose (GObject *object)
 static void
 store_hash_free (CamelStore *store, struct _store_info *si, void *data)
 {
-	store_info_free(si);
+	si->removed = 1;
+	store_info_unref(si);
 }
 
 static void
@@ -1029,7 +1050,8 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 		return;
 	
 	g_hash_table_remove (priv->store_hash, store);
-	store_info_free(si);
+	si->removed = 1;
+	store_info_unref(si);
 	
 	/* so i guess potentially we could have a race, add a store while one
 	   being removed.  ?? */
