@@ -1,3 +1,16 @@
+2002-04-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.c (message_info_new): Simplified since we
+	can now decode in-reply-to without getting extra cruft. Get rid of
+	the FIXME about having to check scan->id because of the
+	possibility of it being NULL, this can no longer happen.
+
+	* camel-mime-utils.c (header_references_inreplyto_decode): New
+	function to decode in-reply-to headers. Only grabs the first thing
+	that looks like a message-id and then returns.
+	(header_references_decode): Loop calling
+	header_references_decode_single (a new internal function).
+
 2002-04-04  Not Zed  <NotZed@Ximian.com>
 
 	* camel-remote-store.c (remote_connect): Reset the keepalive

@@ -2675,37 +2675,62 @@ header_references_list_clear(struct _header_references **list)
 	*list = NULL;
 }
 
-/* generate a list of references, from most recent up */
-struct _header_references *
-header_references_decode(const char *in)
+static void
+header_references_decode_single (const char **in, struct _header_references **head)
 {
-	const char *inptr = in;
-	struct _header_references *head = NULL, *node;
+	struct _header_references *ref;
+	const char *inptr = *in;
 	char *id, *word;
-
-	if (in == NULL || in[0] == '\0')
-		return NULL;
-
+	
 	while (*inptr) {
-		header_decode_lwsp(&inptr);
+		header_decode_lwsp (&inptr);
 		if (*inptr == '<') {
-			id = header_msgid_decode_internal(&inptr);
+			id = header_msgid_decode_internal (&inptr);
 			if (id) {
-				node = g_malloc(sizeof(*node));
-				node->next = head;
-				head = node;
-				node->id = id;
+				ref = g_malloc (sizeof (struct _header_references));
+				ref->next = *head;
+				ref->id = id;
+				*head = ref;
+				break;
 			}
 		} else {
-			word = header_decode_word(&inptr);
+			word = header_decode_word (&inptr);
 			if (word)
 				g_free (word);
 			else if (*inptr != '\0')
 				inptr++; /* Stupid mailer tricks */
 		}
 	}
+	
+	*in = inptr;
+}
 
-	return head;
+struct _header_references *
+header_references_inreplyto_decode (const char *in)
+{
+	struct _header_references *ref = NULL;
+	
+	if (in == NULL || in[0] == '\0')
+		return NULL;
+	
+	header_references_decode_single (&in, &ref);
+	
+	return ref;
+}
+
+/* generate a list of references, from most recent up */
+struct _header_references *
+header_references_decode (const char *in)
+{
+	struct _header_references *refs = NULL;
+	
+	if (in == NULL || in[0] == '\0')
+		return NULL;
+	
+	while (*in)
+		header_references_decode_single (&in, &refs);
+	
+	return refs;
 }
 
 struct _header_references *

@@ -1588,26 +1588,9 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	
 	/* decode our references and in-reply-to headers */
 	refs = header_references_decode (header_raw_find (&h, "references", NULL));
-	irt = header_references_decode (header_raw_find (&h, "in-reply-to", NULL));
+	irt = header_references_inreplyto_decode (header_raw_find (&h, "in-reply-to", NULL));
 	if (refs || irt) {
 		if (irt) {
-			struct _header_references *n, *r = irt;
-			
-			/* If there are multiple things in In-Reply-To that look like Message-IDs,
-			   only use the first one of them: odds are that the later ones are actually
-			   email addresses, not IDs. */
-			
-			/* since header_references_decode() returns the list in reverse order,
-			   free all but the last In-Reply-To message-id */
-			while (r->next) {
-				n = r->next;
-				g_free (r->id);
-				g_free (r);
-				r = n;
-			}
-			
-			irt = r;
-			
 			/* The References field is populated from the ``References'' and/or ``In-Reply-To''
 			   headers. If both headers exist, take the first thing in the In-Reply-To header
 			   that looks like a Message-ID, and append it to the References header. */
@@ -1623,12 +1606,9 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 		count = 0;
 		scan = refs;
 		while (scan) {
-			/* FIXME: the id might be NULL because of a small bug in camel-mime-utils */
-			if (scan->id) {
-				md5_get_digest(scan->id, strlen(scan->id), digest);
-				memcpy(mi->references->references[count].id.hash, digest, sizeof(mi->message_id.id.hash));
-				count++;
-			}
+			md5_get_digest(scan->id, strlen(scan->id), digest);
+			memcpy(mi->references->references[count].id.hash, digest, sizeof(mi->message_id.id.hash));
+			count++;
 			scan = scan->next;
 		}
 		mi->references->size = count;

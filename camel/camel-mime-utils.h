@@ -188,7 +188,8 @@ char *header_msgid_decode (const char *in);
 /* generate msg id */
 char *header_msgid_generate (void);
 
-/* decode a References header */
+/* decode a References or In-Reply-To header */
+struct _header_references *header_references_inreplyto_decode (const char *in);
 struct _header_references *header_references_decode(const char *in);
 void header_references_list_clear(struct _header_references **list);
 void header_references_list_append_asis(struct _header_references **list, char *ref);
