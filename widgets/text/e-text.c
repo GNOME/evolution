@@ -266,17 +266,9 @@ e_text_dispose (GObject *object)
 
 	if (text->im_context) {
 		g_signal_handlers_disconnect_matched (text->im_context,
-						      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+						      G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL,
-						      e_text_commit_cb, text);
-		g_signal_handlers_disconnect_matched (text->im_context,
-						      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL,
-						      e_text_retrieve_surrounding_cb, text);
-		g_signal_handlers_disconnect_matched (text->im_context,
-						      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL,
-						      e_text_delete_surrounding_cb, text);
+						      NULL, text);
 		g_object_unref (text->im_context);
 		text->im_context = NULL;
 	}
@@ -2110,17 +2102,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			} else {
 				if (text->im_context) {
 					g_signal_handlers_disconnect_matched (text->im_context,
-									      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+									      G_SIGNAL_MATCH_DATA,
 									      0, 0, NULL,
-									      e_text_commit_cb, text);
-					g_signal_handlers_disconnect_matched (text->im_context,
-									      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
-									      0, 0, NULL,
-									      e_text_retrieve_surrounding_cb, text);
-					g_signal_handlers_disconnect_matched (text->im_context,
-									      G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
-									      0, 0, NULL,
-									      e_text_delete_surrounding_cb, text);
+									      NULL, text);
 				}
 				e_text_stop_editing (text);
 				if (text->timeout_id) {
