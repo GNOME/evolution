@@ -910,6 +910,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
 
+	setup_widgets (gcal);
 	priv->dn_query = NULL;
 	priv->sexp = g_strdup ("#t"); /* Match all */
 
@@ -1719,8 +1720,6 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
 	priv = gcal->priv;
-
-	setup_widgets (gcal);
 
 	/*
 	 * Calendar Folder Client.
