@@ -1,3 +1,7 @@
+2000-04-24  Fatih Demir	<kabalak@gmx.net>
+
+	* configure.in : Added tr to ALL_LINGUAS .
+
 2000-04-24  NotZed  <NotZed@HelixCode.com>
 
 	* tests/test13.c (main): Fixed for method movements.
