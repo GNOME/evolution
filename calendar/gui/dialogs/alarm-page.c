@@ -345,6 +345,12 @@ sensitize_buttons (AlarmPage *apage)
 	else
 		gtk_widget_set_sensitive (apage->priv->add, sensitivity);
 	gtk_widget_set_sensitive (priv->delete, have_selected && !read_only ? TRUE : FALSE);
+	gtk_widget_set_sensitive (priv->action, sensitivity);
+	gtk_widget_set_sensitive (priv->interval_value, sensitivity);
+	gtk_widget_set_sensitive (priv->value_units, sensitivity);
+	gtk_widget_set_sensitive (priv->relative, sensitivity);
+	gtk_widget_set_sensitive (priv->time, sensitivity);
+	gtk_widget_set_sensitive (priv->button_options, sensitivity);
 }
 
 /* Appends an alarm to the list */
@@ -862,8 +868,8 @@ alarm_page_construct (AlarmPage *apage)
 
 	init_widgets (apage);
 
-	g_signal_connect (G_OBJECT (apage), "client_changed",
-			  G_CALLBACK (client_changed_cb), NULL);
+	g_signal_connect_after (G_OBJECT (apage), "client_changed",
+				G_CALLBACK (client_changed_cb), NULL);
 
 	return apage;
 }

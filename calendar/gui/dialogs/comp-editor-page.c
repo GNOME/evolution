@@ -436,7 +436,6 @@ comp_editor_page_notify_client_changed (CompEditorPage *page,
 	gtk_signal_emit (GTK_OBJECT (page),
 			 comp_editor_page_signals[CLIENT_CHANGED],
 			 client);
-	comp_editor_page_set_e_cal (page, client);
 }
 
 /**

@@ -1,3 +1,26 @@
+2004-06-08  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/comp-editor-page.c
+	(comp_editor_page_notify_client_changed): do not set the private
+	client here, it is set in comp-editor.c.
+
+	* gui/dialogs/event-page.c (sensitize_widgets): new function.
+	(source_changed_cb): call sensitize_buttons().
+
+	* gui/dialogs/recurrence-page.c (sensitize_buttons): new
+	function, to deal correctly with the sensitivity of all widgets
+	in the page.
+	(recurrence_page_fill_widgets, type_toggled_cb, client_changed_cb):
+	call sensitize_buttons() instead of sensitize_recur_widgets().
+	(recurrence_page_construct): g_signal_connect_after for
+	"client_changed", to get notifications after CompEditorPage
+	gets his.
+
+	* gui/dialogs/alarm-page.c (sensitize_buttons): sensitize the missing
+	widgets in the page.
+	(alarm_page_construct): g_signal_connect_after for "client_changed",
+	to get notifications after CompEditorPage gets his.
+
 2004-06-08  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-week-view.c (e_week_view_do_key_press): cast week view

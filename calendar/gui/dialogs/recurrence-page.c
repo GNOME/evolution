@@ -508,12 +508,8 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	RecurrencePagePrivate *priv;
 	enum recur_type type;
 	GtkWidget *label;
-	gboolean read_only;
 
 	priv = rpage->priv;
-
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
-		read_only = TRUE;
 
 	type = e_dialog_radio_get (priv->none, type_map);
 
@@ -554,6 +550,34 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	default:
 		g_assert_not_reached ();
 	}
+}
+
+static void
+sensitize_buttons (RecurrencePage *rpage)
+{
+	gboolean read_only;
+	gint selected_rows;
+	RecurrencePagePrivate *priv;
+
+	priv = rpage->priv;
+
+	selected_rows = gtk_tree_selection_count_selected_rows (
+		gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)));
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
+		read_only = TRUE;
+
+	if (!read_only)
+		sensitize_recur_widgets (rpage);
+	else
+		gtk_widget_set_sensitive (priv->params, FALSE);
+
+	gtk_widget_set_sensitive (priv->none, !read_only);
+	gtk_widget_set_sensitive (priv->simple, !read_only);
+	gtk_widget_set_sensitive (priv->exception_add, !read_only && e_cal_component_has_recurrences (priv->comp));
+	gtk_widget_set_sensitive (priv->exception_modify, !read_only && selected_rows > 0);
+	gtk_widget_set_sensitive (priv->exception_delete, !read_only && selected_rows > 0);
+	gtk_widget_set_sensitive (priv->exception_date, !read_only);
 }
 
 #if 0
@@ -1504,7 +1528,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
 	ECalComponentText text;
-	CompEditorPageDates dates;	
+	CompEditorPageDates dates;
 	GSList *rrule_list;
 	int len;
 	struct icalrecurrencetype *r;
@@ -1568,7 +1592,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 		gtk_widget_set_sensitive (priv->custom, FALSE);
 
-		sensitize_recur_widgets (rpage);
+		sensitize_buttons (rpage);
 		preview_recur (rpage);
 
 		priv->updating = FALSE;
@@ -1836,7 +1860,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	gtk_widget_set_sensitive (priv->custom, FALSE);
 
-	sensitize_recur_widgets (rpage);
+	sensitize_buttons (rpage);
 	make_recurrence_special (rpage);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->interval_value));
@@ -1859,7 +1883,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	g_signal_handlers_unblock_matched (priv->custom, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	gtk_widget_set_sensitive (priv->custom, TRUE);
-	sensitize_recur_widgets (rpage);
+	sensitize_buttons (rpage);
 
  out:
 
@@ -2048,7 +2072,7 @@ type_toggled_cb (GtkToggleButton *toggle, gpointer data)
 	field_changed (rpage);
 
 	if (toggle->active) {
-		sensitize_recur_widgets (rpage);
+		sensitize_buttons (rpage);
 		preview_recur (rpage);
 	}
 }
@@ -2354,7 +2378,7 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 {
 	RecurrencePage *rpage = RECURRENCE_PAGE (page);
 
-	sensitize_recur_widgets (rpage);
+	sensitize_buttons (rpage);
 }
 
 /**
@@ -2389,8 +2413,8 @@ recurrence_page_construct (RecurrencePage *rpage)
 
 	init_widgets (rpage);
 
-	g_signal_connect (G_OBJECT (rpage), "client_changed",
-			  G_CALLBACK (client_changed_cb), NULL);
+	g_signal_connect_after (G_OBJECT (rpage), "client_changed",
+				G_CALLBACK (client_changed_cb), NULL);
 
 	return rpage;
 }

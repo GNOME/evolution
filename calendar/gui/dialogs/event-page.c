@@ -408,6 +408,33 @@ clear_widgets (EventPage *epage)
 	e_dialog_editable_set (priv->categories, NULL);
 }
 
+static void
+sensitize_widgets (EventPage *epage)
+{
+	gboolean read_only;
+	EventPagePrivate *priv;
+
+	priv = epage->priv;
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (epage)->client, &read_only, NULL))
+		read_only = TRUE;
+
+	gtk_widget_set_sensitive (priv->summary, !read_only);
+	gtk_widget_set_sensitive (priv->location, !read_only);
+	gtk_widget_set_sensitive (priv->start_time, !read_only);
+	gtk_widget_set_sensitive (priv->start_timezone, !read_only);
+	gtk_widget_set_sensitive (priv->end_time, !read_only);
+	gtk_widget_set_sensitive (priv->end_timezone, !read_only);
+	gtk_widget_set_sensitive (priv->all_day_event, !read_only);
+	gtk_widget_set_sensitive (priv->description, !read_only);
+	gtk_widget_set_sensitive (priv->classification_public, !read_only);
+	gtk_widget_set_sensitive (priv->classification_private, !read_only);
+	gtk_widget_set_sensitive (priv->classification_confidential, !read_only);
+	gtk_widget_set_sensitive (priv->show_time_as_free, !read_only);
+	gtk_widget_set_sensitive (priv->show_time_as_busy, !read_only);
+	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
+	gtk_widget_set_sensitive (priv->categories, !read_only);
+}
 
 /* fill_widgets handler for the event page */
 static gboolean
@@ -531,6 +558,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
 	priv->updating = FALSE;
+
+	sensitize_widgets (epage);
 
 	return validated;
 }
@@ -1269,6 +1298,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			gtk_widget_destroy (dialog);
 		} else {
 			comp_editor_page_notify_client_changed (COMP_EDITOR_PAGE (epage), client);
+			sensitize_widgets (epage);
 		}
 	}
 }
