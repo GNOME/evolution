@@ -1,3 +1,11 @@
+2000-03-30  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* art/evolution-calendar.png art/evolution-inbox.png 
+	art/evolution-tasks.png	art/evolution-contacts.png 
+	art/evolution-notes.png evolution-today.png:
+	added some artwork for the main shortcutbar.. someone
+	could stick them in it.
+
 2000-03-29  Dan Winship  <danw@helixcode.com>
 
 	* shell/e-shell-view.c (e_shell_view_set_view): Call
