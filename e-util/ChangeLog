@@ -1,3 +1,8 @@
+2000-04-06  Matt Loper  <matt@helixcode.com>
+
+	* e-setup.c (e_setup_base_dir): Get/set Evolution's base directory
+	via gnome-config.
+	
 2000-03-22  NotZed  <NotZed@HelixCode.com>
 
 	* e-util/e-sexp.h: Formatting cleanup.

@@ -11,6 +11,7 @@
 #include <bonobo.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-cursors.h>
+#include <e-util/e-setup.h> /* for e_setup_base_dir */
 #include <glade/glade.h>
 #include <glade/glade-xml.h>
 #include "e-shell.h"
@@ -68,6 +69,10 @@ evolution_boot (void)
 {
 	EShellView *e_shell_view;
 
+	/* FIXME: this is rude */
+	if (!e_setup_base_dir ())
+		exit (0);
+	
 	eshell = e_shell_new ();
 	e_shell_view = E_SHELL_VIEW (
 		e_shell_view_new (eshell,
