@@ -1,5 +1,10 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* e-msg-composer.c: s/strncasecmp/g_strncasecmp - this will help
+	later with building on different platforms :-)
+
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* e-msg-composer.c (e_msg_composer_new_with_message): Added code
 	to set the body text based on the CamelMimeMessage.
 	(set_editor_text): Use lowercase html tags...

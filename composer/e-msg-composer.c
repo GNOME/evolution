@@ -1429,7 +1429,7 @@ e_msg_composer_new_from_url (const char *url)
 	int len, clen;
 	char *content;
 
-	g_return_val_if_fail (strncasecmp (url, "mailto:", 7) == 0, NULL);
+	g_return_val_if_fail (g_strncasecmp (url, "mailto:", 7) == 0, NULL);
 
 	/* Parse recipients (everything after ':' until '?' or eos. */
 	p = url + 7;
@@ -1458,15 +1458,15 @@ e_msg_composer_new_from_url (const char *url)
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
 
-			if (!strncasecmp (header, "to", len))
+			if (!g_strncasecmp (header, "to", len))
 				to = add_recipients (to, content, FALSE);
-			else if (!strncasecmp (header, "cc", len))
+			else if (!g_strncasecmp (header, "cc", len))
 				cc = add_recipients (cc, content, FALSE);
-			else if (!strncasecmp (header, "bcc", len))
+			else if (!g_strncasecmp (header, "bcc", len))
 				bcc = add_recipients (bcc, content, FALSE);
-			else if (!strncasecmp (header, "subject", len))
+			else if (!g_strncasecmp (header, "subject", len))
 				subject = g_strdup (content);
-			else if (!strncasecmp (header, "body", len))
+			else if (!g_strncasecmp (header, "body", len))
 				body = g_strdup (content);
 
 			g_free (content);
