@@ -45,6 +45,7 @@ e_pixmap_file (const char *filename)
 
 		return ret;
 	}
+	g_free (edir);
 
 	/* Try the evolution button images dir */
 	edir = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons",
@@ -56,6 +57,7 @@ e_pixmap_file (const char *filename)
 		
 		return ret;
 	}
+	g_free (edir);
 
 	/* Fall back to the gnome_pixmap_file */
 	return gnome_pixmap_file (filename);

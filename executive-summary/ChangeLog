@@ -19,6 +19,8 @@
 
 	* component/e-summary.c (html_event): Use the name spaced #define.
 
+	* component/e-summary-util (e_pixmap_file): Free the edir. 
+
 2000-12-08  Iain Holmes  <iain@helixcode.com>
 
 	* summary.html: Don't hardcode the image paths.
