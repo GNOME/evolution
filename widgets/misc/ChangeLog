@@ -1,3 +1,7 @@
+2003-11-13  Bolian Yin <bolian.yin@sun.com>
+
+	* e-calendar-item.c: remove a declaration of a deleted func.
+
 2003-11-12  JP Rosevear <jpr@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_class_init): a canvas item

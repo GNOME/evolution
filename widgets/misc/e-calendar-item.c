@@ -64,8 +64,6 @@ static void e_calendar_item_get_arg	(GtkObject	 *o,
 static void e_calendar_item_set_arg	(GtkObject	 *o,
 					 GtkArg		 *arg,
 					 guint		  arg_id);
-static gboolean e_calendar_item_focus (GtkWidget *widget,
-				       GtkDirectionType direction);
 static void e_calendar_item_realize	(GnomeCanvasItem *item);
 static void e_calendar_item_unrealize	(GnomeCanvasItem *item);
 static void e_calendar_item_unmap	(GnomeCanvasItem *item);
