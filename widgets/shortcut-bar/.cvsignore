@@ -1,0 +1,7 @@
+*.o
+libshortcut-bar.a
+Makefile
+Makefile.in
+.deps
+.libs
+test-shortcut-bar
