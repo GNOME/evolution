@@ -791,9 +791,11 @@ e_scroll_frame_button_press (GtkWidget *widget, GdkEventButton *event)
 	if (event->button == 4 || event->button == 5) {
 		GtkAdjustment *adj;
 		gfloat new_value;
-		
+
 		gtk_object_get (GTK_OBJECT (widget),
-				"vadjustment", &adj,
+				(event->state & GDK_CONTROL_MASK) ?
+				 "hadjustment" : "vadjustment", 
+				 &adj,
 				NULL);
 		new_value = adj->value + ((event->button == 4) ? 
 					  -adj->page_increment / 2: 

@@ -1,3 +1,8 @@
+2000-06-13  Anders Carlsson  <andersca@gnu.org>
+
+	* e-scroll-frame.c (e_scroll_frame_button_press): Control does 
+	horizontal scrolling, a la gimp.
+
 2000-06-11  Anders Carlsson  <andersca@gnu.org>
 
 	* e-scroll-frame.c (e_scroll_frame_button_press): Add support
