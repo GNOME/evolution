@@ -587,6 +587,7 @@ init (EFilterBar *efb)
 {
 	gtk_signal_connect (GTK_OBJECT (efb), "menu_activated", menubar_activated, NULL);
 	gtk_signal_connect (GTK_OBJECT (efb), "query_changed", option_changed, NULL);
+	gtk_signal_connect (GTK_OBJECT (efb), "search_activated", option_changed, NULL);
 	
 	efb->menu_rules = g_ptr_array_new ();
 	efb->option_rules = g_ptr_array_new ();

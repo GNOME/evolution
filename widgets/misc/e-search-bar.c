@@ -46,6 +46,7 @@
 enum {
 	QUERY_CHANGED,
 	MENU_ACTIVATED,
+	SEARCH_ACTIVATED,
 
 	LAST_SIGNAL
 };
@@ -68,13 +69,20 @@ enum {
 static void
 emit_query_changed (ESearchBar *esb)
 {
-	if (esb->pending_change) {
-		gtk_idle_remove (esb->pending_change);
-		esb->pending_change = 0;
+	gtk_signal_emit (GTK_OBJECT (esb),
+			 esb_signals [QUERY_CHANGED]);
+}
+
+static void
+emit_search_activated (ESearchBar *esb)
+{
+	if (esb->pending_activate) {
+		gtk_idle_remove (esb->pending_activate);
+		esb->pending_activate = 0;
 	}
 
 	gtk_signal_emit (GTK_OBJECT (esb),
-			 esb_signals [QUERY_CHANGED]);
+			 esb_signals [SEARCH_ACTIVATED]);
 }
 
 static void
@@ -102,7 +110,7 @@ static void
 entry_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
 {
-	emit_query_changed (esb);
+	emit_search_activated (esb);
 }
 
 static void
@@ -115,7 +123,7 @@ subitem_activated_cb (GtkWidget *widget, ESearchBar *esb)
 
 	esb->item_id = id;
 	esb->subitem_id = subid;
-	emit_query_changed (esb);
+	emit_search_activated (esb);
 }
 
 static void
@@ -243,7 +251,7 @@ option_activated_cb (GtkWidget *widget,
 static void
 activate_button_clicked_cb (GtkWidget *widget, ESearchBar *esb)
 {
-	emit_query_changed (esb);
+	emit_search_activated (esb);
 }
 
 
@@ -564,9 +572,9 @@ impl_destroy (GtkObject *object)
 	if (esb->suboption)
 		gtk_object_unref (GTK_OBJECT (esb->suboption));
 	
-	if (esb->pending_change) {
-		gtk_idle_remove (esb->pending_change);
-		esb->pending_change = 0;
+	if (esb->pending_activate) {
+		gtk_idle_remove (esb->pending_activate);
+		esb->pending_activate = 0;
 	}
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -612,6 +620,14 @@ class_init (ESearchBarClass *klass)
 				GTK_SIGNAL_OFFSET (ESearchBarClass, menu_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	esb_signals [SEARCH_ACTIVATED] =
+		gtk_signal_new ("search_activated",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ESearchBarClass, search_activated),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 	
 	gtk_object_class_add_signals (object_class, esb_signals, LAST_SIGNAL);
 }
@@ -631,11 +647,11 @@ init (ESearchBar *esb)
 /* Object construction.  */
 
 static gint
-idle_change_hack (gpointer ptr)
+idle_activate_hack (gpointer ptr)
 {
 	ESearchBar *esb = E_SEARCH_BAR (ptr);
-	esb->pending_change = 0;
-	emit_query_changed (esb);
+	esb->pending_activate = 0;
+	emit_search_activated (esb);
 	return FALSE;
 }
 
@@ -665,14 +681,14 @@ e_search_bar_construct (ESearchBar *search_bar,
 	/* 
 	 * If the default choice for the option menu has subitems, then we need to
 	 * activate the search immediately.  However, the developer won't have
-	 * connected to the changed signal until after the object is constructed,
+	 * connected to the activated signal until after the object is constructed,
 	 * so we can't emit here.  Thus we launch a one-shot idle function that will
 	 * emit the changed signal, so that the proper callback will get invoked.
 	 */
 	if (search_bar->subitem_id >= 0) {
 		gtk_widget_set_sensitive (search_bar->activate_button, FALSE);
 
-		search_bar->pending_change = gtk_idle_add (idle_change_hack, search_bar);
+		search_bar->pending_activate = gtk_idle_add (idle_activate_hack, search_bar);
 	}
 }
 
@@ -853,7 +869,7 @@ e_search_bar_set_subitem_id (ESearchBar *search_bar, int id)
 
 	search_bar->subitem_id = id;
 	gtk_option_menu_set_history (GTK_OPTION_MENU (search_bar->suboption), row);
-	emit_query_changed (search_bar);
+	emit_search_activated (search_bar);
 }
 
 /**
@@ -912,7 +928,7 @@ e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id)
  * e_search_bar_set_text:
  * @search_bar: A search bar.
  * @text: Text to set in the search bar's entry line.
- * 
+ *
  * Sets the text string inside the entry line of a search bar.
  **/
 void
@@ -922,7 +938,7 @@ e_search_bar_set_text (ESearchBar *search_bar, const char *text)
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
 	e_utf8_gtk_editable_set_text (GTK_EDITABLE (search_bar->entry), text);
-	emit_query_changed (search_bar);
+	emit_search_activated (search_bar);
 }
 
 /**
