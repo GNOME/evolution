@@ -1,3 +1,8 @@
+2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-charset-map.c (camel_charset_to_iconv): Get rid of the
+	g_warning, we no longer really need that.
+
 2001-09-10    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_msg_new): Forgot
@@ -5,9 +10,11 @@
 
 2001-09-08  Not Zed  <NotZed@Ximian.com>
 
-	* providers/local/camel-spool-summary.c (spool_summary_sync_full): Likewise.
+	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
+	Likewise.
 
-	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full): Fix the wording.
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
+	Fix the wording.
 
 	* camel-tcp-stream-raw.c (stream_read): Save errno around fcntl
 	call in cancellable read case.  Also, loop while we get EINTR.
