@@ -1,3 +1,12 @@
+2001-12-11  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Fixes #17085
+
+	* camel-charset-map.c: Added #include <errno.h>.
+
+	* camel-charset-map-private.h:
+	Recreated (following instructions from camel-charset-map.c)
+
 2001-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-object.c (camel_type_register): Keep a name-to-type hash
