@@ -95,10 +95,10 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", vfolder_edit_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", vfolder_sender),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", vfolder_subject),
-	BONOBO_UI_UNSAFE_VERB ("HideRead", hide_read),
-	BONOBO_UI_UNSAFE_VERB ("HideSelected", hide_selected),
-	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", hide_none),
+	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", hide_read),
+	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", hide_selected),
 	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", load_images),
+	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", hide_none),
 	
 	BONOBO_UI_VERB_END
 };

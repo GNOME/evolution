@@ -1,3 +1,8 @@
+2001-06-08  Dan Winship  <danw@ximian.com>
+
+	* folder-browser-factory.c: fix some commands to match the ui file
+	again.
+
 2001-06-07  Iain Holmes  <iain@ximian.com>
 
 	* GNOME_Evolution_Mail.oaf.in: Add server info for FolderInfo
