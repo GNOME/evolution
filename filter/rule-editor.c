@@ -163,8 +163,13 @@ rule_editor_new (RuleContext *rc, const char *source)
 {
 	RuleEditor *re = (RuleEditor *) g_object_new (RULE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
+	GtkWidget *w;
 	
 	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
+
+	w = glade_xml_get_widget (gui, "rule_editor");
+	gtk_box_pack_start ((GtkBox *) ((GtkDialog *)re)->vbox, w, TRUE, TRUE, 0);
+
 	rule_editor_construct (re, rc, gui, source);
 	
 	g_object_unref (gui);

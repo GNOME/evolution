@@ -1,3 +1,14 @@
+2004-03-30  Rodney Dawes  <dobey@ximian.com>
+
+	* filter-editor.c (filter_editor_new): Use the new "filter_editor"
+	that has been added to the glade file
+	* filter.glade: Remove an unused piece of UI definition and add a
+	new "filter_editor" that is the same as rule_editor, only for the
+	filter editor dialogs, and change "Filter Rules" to "Search Rules"
+	in the rule_editor
+	* rule-editor.c (rule_editor_new): Set the child widget of the editor
+	dialog appropriately
+
 2004-03-29  Rodney Dawes  <dobey@ximian.com>
 
 	* filter-filter.c (get_widget):
