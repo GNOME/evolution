@@ -187,6 +187,8 @@ cal_listener_destroy (GtkObject *object)
 
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_message ("cal_listener_destroy(): could not release the calendar");
+
+		priv->cal = CORBA_OBJECT_NIL;
 	}
 	CORBA_exception_free (&ev);
 
@@ -255,6 +257,10 @@ Listener_cal_loaded (PortableServer_Servant servant,
 
 	case Evolution_Calendar_Listener_ERROR:
 		load_status = CAL_LISTENER_LOAD_ERROR;
+		break;
+
+	case Evolution_Calendar_Listener_IN_USE:
+		load_status = CAL_LISTENER_LOAD_IN_USE;
 		break;
 
 	default:

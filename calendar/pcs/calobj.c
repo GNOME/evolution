@@ -677,7 +677,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->class = g_strdup (str_val (vo));
 		free (the_str);
 	} else
-		ical->class = "PUBLIC";
+		ical->class = g_strdup ("PUBLIC");
 
 	/* categories */
 	if (has (o, VCCategoriesProp)){

@@ -42,17 +42,17 @@ corba-cal.h		\
 corba-cal-factory.c	\
 corba-cal-factory.h: GnomeCal.h
 
-GNOME_CALENDAR_CORBA_GENERATED =		\
+EVOLUTION_CALENDAR_CORBA_GENERATED =		\
 	evolution-calendar.h			\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
 
-$(GNOME_CALENDAR_CORBA_GENERATED): evolution-calendar.idl
+$(EVOLUTION_CALENDAR_CORBA_GENERATED): evolution-calendar.idl
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/evolution-calendar.idl
 
 gnomecal_SOURCES =				\
-	$(GNOME_CALENDAR_CORBA_GENERATED)	\
+	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
 	GnomeCal-common.c			\
 	GnomeCal-skels.c			\
 	GnomeCal.h				\
@@ -125,7 +125,7 @@ calendar_pilot_sync_SOURCES =	\
 	timeutil.h
 
 tlacuache_SOURCES =				\
-	$(GNOME_CALENDAR_CORBA_GENERATED)	\
+	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
 	alarm.c					\
 	alarm.h					\
 	cal.c					\
@@ -161,6 +161,26 @@ tlacuache_LDADD =			\
 calendar_pilot_sync_LDADD =	\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
 	$(LINK_FLAGS)
+
+noinst_PROGRAMS = tl-test
+
+tl_test_SOURCES =				\
+	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
+	cal-client.c				\
+	cal-client.h				\
+	cal-listener.c				\
+	cal-listener.h				\
+	cal-util.c				\
+	cal-util.h				\
+	tl-test.c
+
+tl_test_INCLUDES =			\
+	$(INCLUDES)			\
+	-DG_LOG_DOMAIN=\"tl-test\"
+
+tl_test_LDADD =				\
+	$(BONOBO_VFS_GNOME_LIBS)	\
+	../libversit/libversit.la
 
 if HAVE_GNOME_PILOT
 #calendar_conduit

@@ -73,7 +73,7 @@ create_cal_factory (void)
 	CORBA_exception_init (&ev);
 	result = goad_server_register (CORBA_OBJECT_NIL,
 				       object,
-				       "calendar:cal-factory",
+				       "evolution:calendar-factory",
 				       "object",
 				       &ev);
 

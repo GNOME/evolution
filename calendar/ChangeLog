@@ -1,3 +1,103 @@
+2000-02-10  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-backend.c (cal_backend_add_cal): Connect to the Cal's
+	destroy signal.
+	(cal_backend_remove_cal): Killed function now that removal of Cal
+	objects is done in their destroy callback.
+	(cal_destroy_cb): New callback to remove a Cal from the backend's
+	list of clients.  Also, the backend destroys itself when there are
+	no more clients connected to it.
+	(save): New placeholder function to save a backend.
+	(destroy): New function to destroy a backend's data.
+	(cal_backend_destroy): Save the calendar and destroy it.
+
+	* cal.c (cal_destroy): Reset the priv->backend to NULL.
+
+	* cal-factory.c (add_calendar_client): There is no need to call
+	cal_backend_remove_cal(); we can now just destroy the Cal object.
+	(create_fn): Make sure we always unref the URI.
+	(load_fn): Move the URI unref to the end of the function for
+	safety.
+
+	* cal-factory.c (add_calendar_client): Unref the Cal only if
+	notification of the listener was unsuccessful.  Otherwise, the
+	calendar user agent (Listener side) keeps the reference.
+
+	* tl-test.c (list_uids): Free the calobj.
+
+	* cal-client.c (cal_loaded_cb): Use bonobo_object_unref() to get
+	rid of the listener.
+	(load_or_create): Likewise.
+	(destroy_factory): New function to get rid of the factory.
+	(destroy_listener): New function to get rid of the listener.
+	(destroy_cal): New function to get rid of the calendar client
+	interface object.
+	(cal_client_destroy): Free all resources.
+	(cal_client_get_object): CORBA_free() the calobj string.  Boy, I
+	love memprof.
+
+	* cal-listener.c (cal_listener_destroy): Reset the priv->cal to
+	CORBA_OBJECT_NIL.
+
+	* cal-backend.c (cal_backend_remove_cal): Do not unref the Cal,
+	since the calendar user agent owns it.
+	(cal_backend_add_cal): Do not ref the Cal, since the calendar user
+	agent owns it.
+
+	* cal-factory.c (add_calendar_client): Use bonobo_object_unref()
+	to get rid of the calendar client interface object.
+
+	* calobj.c (ical_object_create_from_vobject): Duplicate the
+	default "PUBLIC" string.
+
+2000-02-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-factory.c (cal_factory_load): Added documentation comment.
+	(load_fn): Do not print a message if the backend could not be
+	loaded due to a non-fatal error.
+	(queue_load_create_job): Moved the stuff from cal_factory_load()
+	to here.  Now this function serves to queue load or create
+	requests.
+	(cal_factory_load): Use queue_load_create_job().
+	(cal_factory_create): Implemented; use queue_load_create_job().
+	(create_fn): New job handler for creating new calendars.
+	(create_backend): New function to create a new backend with a new
+	calendar.
+	(add_backend): New helper function to add backends to the
+	factory's hash table.
+	(load_backend): Use add_backend() instead of adding the backend by
+	ourselves.
+
+	* cal-client.c (load_or_create): Moved the functionality from
+	cal_client_load_calendar() to here, and added an option to create
+	a new calendar instead of loading an existing one.
+	(cal_client_load_calendar): Use load_or_create().
+	(cal_client_create_calendar): Implemented.
+
+	* cal-backend.c (cal_backend_create): Implemented.
+
+	* evolution-calendar.idl (LoadStatus): Added an IN_USE error for
+	create requests.
+
+	* cal-listener.h (CalListenerLoadStatus): Added CAL_LISTENER_LOAD_IN_USE.
+
+	* cal-listener.c (Listener_cal_loaded): Convert the IN_USE error.
+
+	* cal-client.h (CalClientLoadStatus): Added CAL_CLIENT_LOAD_IN_USE.
+
+	* cal-client.c (cal_loaded_cb): Handle CAL_LISTENER_LOAD_IN_USE.
+
+	* tl-test.c: New test program for the calendar client side; it
+	also exercises the server side by sending commands to it.
+
+	* Makefile.am: Added the tl-test program.
+
+	* tlacuache.gnorba: Updated.
+
+	* tlacuache.c (create_cal_factory): Use the right GOAD id.
+
+	* cal-client.c (cal_client_construct): Use the right GOAD id.
+
 2000-02-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-calendar.idl (Cal): Added get_uids() method to get a
@@ -325,13 +425,13 @@
 
 2000-01-08  Vadim Strizhevsky  <vadim@optonline.net>
 
-	* calendar-conduit-control-applet.c: Added pilotID argument to 
+	* calendar-conduit-control-applet.c: Added pilotID argument to
 	gpilotd_conduit_mgmt_new.
 
 
 2000-01-05  Eskil Heyn Olsen  <deity@eskil.dk>
 
-	* GnomeCal.idl: Added an argument to get_number_of_objects, so you 
+	* GnomeCal.idl: Added an argument to get_number_of_objects, so you
 	can choose which state the object should have
 	(any/new/modified/...). Will also add one to choose type
 	(event/journal etc).
@@ -357,7 +457,7 @@
 	(ee_rp_init_ending_date): And subtracts 86400 secs when about to
 	redisplay the box.
 
-	* calendar.h: Added an argument to calendar_new, to enable certain 
+	* calendar.h: Added an argument to calendar_new, to enable certain
 	features, such as initing alarms or nor.
 
 	* calendar.c (calendar_new): Implemented support for the
@@ -451,7 +551,7 @@
 
 	* Merged todo list coloring patch from stable
 	* Added myself to AUTHORS, about box (per Miguel)
-	
+
 1999-11-22  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c (pre_sync): Writes some warning
@@ -465,7 +565,7 @@
 1999-11-12  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* Makefile.am (extra_pilot_bins): Fixed the if then else problem,
-	using solution suggested by James Henstridge, appears to be caused 
+	using solution suggested by James Henstridge, appears to be caused
 	by a (by now fixed) bug in my automake.
 
 1999-11-12  Russell Steinthal  <rms39@columbia.edu>
@@ -478,13 +578,13 @@
 
 	* eventedit.c: Give some static functions external linkage so they
 	can be used elsewhere (make_spin_button); add some prototypes to
-	appease gcc.	
+	appease gcc.
 
 1999-11-11  Russell Steinthal  <rms39@columbia.edu>
 
 	* calendar.c (calendar_day_change): Add call to
 	calendar_init_alarms() to schedule another day change alarm.
-	
+
 1999-11-09  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c: Enabled debug output. Sets a g_log_domain,
@@ -572,9 +672,9 @@
 	* calendar-conduit.c: more _free calls, vamped the noise on output.
 
 1999-10-06  Eskil Olsen   <deity@eskil.dk>
-	
+
 	* *conduit*[ch]: checks return values from gpilotd_init/connect.
-	
+
 	* calender.c (vcalendar_create_from_calendar): removed a set
  	of cleanVObject cleanStrTbl, since the freed memory that the
 	function returned.
@@ -613,12 +713,12 @@
 
 	* corba-cal.c: the g_free that was commented out since glib said
 	was a duplicate free, was supposed to be a free.
-		
+
 	* GnomeCal.idl/corba-cal.c: added a get_object_id_list and a
 	get_objects_by_id_list. Latter is not done.
 
 	* calendar-conduit.c: rewrote the way the conduit iterates over
-	records. It no longers fetches all entries (since that didn't work 
+	records. It no longers fetches all entries (since that didn't work
 	with more then 285 entries. It now fetches the id list, and gets
 	each record. (will be using get_objects_by_id_list to get records
 	in amounts of 10 or so later, to reduce amount of corba calls).
@@ -652,7 +752,7 @@
 
 	* doc/C/gnomecal.sgml: Merge from gnome-pim-1-0. Synced with newest
 	user-guide.
-	
+
 1999-09-01  Miguel de Icaza  <miguel@gnu.org>
 
 	* eventedit.c (ee_create_buttons): Make the OK button the default
@@ -665,10 +765,10 @@
 	(calendar_add_object): Ditto.
 
 	Closes bug #676
-	
+
 	* main.c (save_calendar_cmd): Fix problem in which we warned the
 	user about the calendar being modified the first time the calendar
-	was used. 
+	was used.
 
 1999-08-22  Tomas Ogren  <stric@ing.umu.se>
 
@@ -686,7 +786,7 @@
 
 1999-07-30  Miguel de Icaza  <miguel@gnu.org>
 
-	* month-view.c (month_view_init): Release points here. 
+	* month-view.c (month_view_init): Release points here.
 
 1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
 
@@ -732,10 +832,10 @@
 	(calendar_object_find_event): Use the hash table here.
 
 	* main.c (save_calendar_cmd): The object is already destroyed by
-	gnome_dialog_run. 
+	gnome_dialog_run.
 
 	* calendar-pilot-sync.c (sync_object_to_pilot): Do not turn
-	archived bit on. 
+	archived bit on.
 
 	* calobj.c (ical_gen_uid): Use the hostname, not the domain name.
 	(ical_gen_uid): Add a serial number.  Isodates can be small.
@@ -754,7 +854,7 @@
 
 	* calendar-pilot-sync.c: New file.  Implements PalmPilot
 	syncronization with the Gnome Calendar.
-	
+
 	* calobj.c (ical_object_new_from_string): New function.  Creates
 	an iCalObject from a vCalendar string that is supposed to contain
 	only one vEvent.
@@ -938,11 +1038,11 @@
 1999-04-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-todo.c (edit_activated): Kill all grabs from the CList
-	before running the new dialog box.  
+	before running the new dialog box.
 
 	This fixes the problem of button-3/Edit on the todo item blocking
 	the GUI (actually, the main window responds, but not the todo
-	window). 
+	window).
 
 1999-04-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -1073,7 +1173,7 @@
 1999-02-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (ical_object_to_vobject): Save the owner/organizer of
-	the event. 
+	the event.
 	(ical_object_create_from_vobject): Load the owner/organizer of the event.
 
 	* gncal-full-day.c (delete_occurance): Assign child to data (fixes
@@ -1083,7 +1183,7 @@
 
 	* calendar.c: According to configured values, use either tm.tm_zone
 	or tzname. In last case, also declare it extern.
-	
+
 	* prop.c: langinfo.h not available everywhere. Wrapped. BTW, works
 	fine without it.
 
@@ -1095,17 +1195,17 @@
 1999-02-17  Sergey Panov <sipan@mit.edu>
 
 	* gnome-month-item.c,gnome-month-item.h,goto.c,mark.h,
-	month-view.c,prop.c,quick-view.c,year-view.c: will define 
+	month-view.c,prop.c,quick-view.c,year-view.c: will define
 	fonts via fontset. Friendlier to locales that use iso8859-[^1]
 	and koi8-r encodings. Does not solve problem for Asian languiges
 	--- better solution is needed (e.g. standart GNOME fontstyles
-	defined in gtkrc).	
-	
+	defined in gtkrc).
+
 1999-02-16  Sergey Panov <sipan@mit.edu>
 
 	* main.c: Use N_() macro for color settings labels in
 	color_props structure.
-	
+
 1999-02-15  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* goto.c (goto_dialog): Indentation fixes.
@@ -1120,11 +1220,11 @@
 	* main.c (save_default_calendar): New function.  Saves the
 	calendar if it is the user's default calendar
 
-	* gncal-full-day.c (unrecur_appointment): 
-	* gncal-day-panel.c (day_view_range_activated): 
-	* eventedit.c (ee_ok): 
+	* gncal-full-day.c (unrecur_appointment):
+	* gncal-day-panel.c (day_view_range_activated):
+	* eventedit.c (ee_ok):
 	* gncal-todo.c (ok_button): Added autosave for the default
-	calendar. 
+	calendar.
 
 1999-02-09  Tomas Ogren  <stric@ing.umu.se>
 
@@ -1174,7 +1274,7 @@
 	routine.  Now it can split the text in lines and fit as many
 	events as possible.
 	(nicetime): Return strings without spaces at the beginning.
-	
+
 	* gncal-day-view.c (gncal_day_view_expose): Move clip-clear
 	operation here.
 
@@ -1227,7 +1327,7 @@
 1999-01-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* main.c (save_calendar_cmd): Warn if the calendar file has
-	changed. 
+	changed.
 
 	* calendar.c (calendar_load, calendar_save): Keep track of the
 	modification time for the calendar file.
@@ -1284,8 +1384,8 @@
 	Rewrote the old and broken alarm system.  It never actually
 	worked properly.  Now it works properly, and I figured a nice way
 	to get the Audio alarm do something nicer (it is now like an alarm
-	clock :-). 
-	
+	clock :-).
+
 	* gnome-cal.c (calendar_notify): Now we take a CalendarAlarm to
 	actually distinguish which alarm was triggered.
 
@@ -1303,13 +1403,13 @@
 
 1998-12-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* gncal-todo.c (simple_todo_editor): Use gnome_dialog_set_parent. 
+	* gncal-todo.c (simple_todo_editor): Use gnome_dialog_set_parent.
 	* goto.c (goto_dialog): ditto
 	* prop.c (properties): ditto.
 
 1998-11-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* eventedit.c (ee_rp_init_exceptions): Update GtkClist usage. 
+	* eventedit.c (ee_rp_init_exceptions): Update GtkClist usage.
 
 1998-11-23  Andrew T. Veliath  <andrewtv@usa.net>
 
@@ -1319,7 +1419,7 @@
 
 1998-11-23  Herbert V. Riedel <hvr@hvrlab.ml.org>
 
-	* eventedit.c: use GPOINTER_TO_INT 
+	* eventedit.c: use GPOINTER_TO_INT
 
 	* gncal-todo.c: same.
 

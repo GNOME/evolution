@@ -42,7 +42,8 @@ typedef struct _CalClientClass CalClientClass;
 /* Load status for the cal_loaded signal */
 typedef enum {
 	CAL_CLIENT_LOAD_SUCCESS,
-	CAL_CLIENT_LOAD_ERROR
+	CAL_CLIENT_LOAD_ERROR,
+	CAL_CLIENT_LOAD_IN_USE
 } CalClientLoadStatus;
 
 struct _CalClient {
@@ -71,6 +72,7 @@ CalClient *cal_client_construct (CalClient *client);
 CalClient *cal_client_new (void);
 
 gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
+gboolean cal_client_create_calendar (CalClient *client, const char *str_uri);
 
 char *cal_client_get_object (CalClient *client, const char *uid);
 

@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "cal-backend.h"
 #include "calobj.h"
 #include "../libversit/vcc.h"
@@ -36,7 +37,7 @@ typedef struct {
 	/* URI where the calendar data is stored */
 	GnomeVFSURI *uri;
 
-	/* List of Cal client interface objects, each with its listener */
+	/* List of Cal objects with their listeners */
 	GList *clients;
 
 	/* All the iCalObject structures in the calendar, hashed by UID.  The
@@ -119,6 +120,55 @@ cal_backend_init (CalBackend *backend)
 	backend->priv = priv;
 }
 
+/* Saves a calendar */
+static void
+save (CalBackend *backend)
+{
+	/* FIXME */
+}
+
+/* g_hash_table_foreach() callback to destroy an iCalObject */
+static void
+free_ical_object (gpointer key, gpointer value, gpointer data)
+{
+	iCalObject *ico;
+
+	ico = value;
+	ical_object_destroy (ico);
+}
+
+/* Destroys a backend's data */
+static void
+destroy (CalBackend *backend)
+{
+	CalBackendPrivate *priv;
+
+	priv = backend->priv;
+
+	if (priv->uri) {
+		gnome_vfs_uri_unref (priv->uri);
+		priv->uri = NULL;
+	}
+
+	g_assert (priv->clients == NULL);
+
+	if (priv->object_hash) {
+		g_hash_table_foreach (priv->object_hash, free_ical_object, NULL);
+		g_hash_table_destroy (priv->object_hash);
+		priv->object_hash = NULL;
+	}
+
+	g_list_free (priv->events);
+	g_list_free (priv->todos);
+	g_list_free (priv->journals);
+
+	priv->events = NULL;
+	priv->todos = NULL;
+	priv->journals = NULL;
+
+	priv->loaded = FALSE;
+}
+
 /* Destroy handler for the calendar backend */
 static void
 cal_backend_destroy (GtkObject *object)
@@ -132,7 +182,10 @@ cal_backend_destroy (GtkObject *object)
 	backend = CAL_BACKEND (object);
 	priv = backend->priv;
 
-	/* FIXME: free stuff */
+	if (priv->loaded)
+		save (backend);
+
+	destroy (backend);
 
 	g_free (priv);
 
@@ -265,6 +318,11 @@ load_from_vobject (CalBackend *backend, VObject *vobject)
 
 		ical = ical_object_create_from_vobject (this, object_name);
 
+		/* FIXME: some broken files may have duplicated UIDs.  This is
+		 * Bad(tm).  Deal with it by creating new UIDs for them and
+		 * spitting some messages to the console.
+		 */
+
 		if (ical)
 			add_object (backend, ical);
 	}
@@ -364,6 +422,45 @@ cal_backend_get_uri (CalBackend *backend)
 	return priv->uri;
 }
 
+/* Callback used when a Cal is destroyed */
+static void
+cal_destroy_cb (GtkObject *object, gpointer data)
+{
+	Cal *cal;
+	Cal *lcal;
+	CalBackend *backend;
+	CalBackendPrivate *priv;
+	GList *l;
+
+	cal = CAL (object);
+
+	backend = CAL_BACKEND (data);
+	priv = backend->priv;
+
+	/* Find the cal in the list of clients */
+
+	for (l = priv->clients; l; l = l->next) {
+		lcal = CAL (l->data);
+
+		if (lcal == cal)
+			break;
+	}
+
+	g_assert (l != NULL);
+
+	/* Disconnect */
+
+	priv->clients = g_list_remove_link (priv->clients, l);
+	g_list_free_1 (l);
+
+	/* When all clients go away, the backend can go away, too.  Commit
+         * suicide here.
+	 */
+
+	if (!priv->clients)
+		gtk_object_unref (GTK_OBJECT (backend));
+}
+
 /**
  * cal_backend_add_cal:
  * @backend: A calendar backend.
@@ -386,40 +483,15 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 	g_return_if_fail (cal != NULL);
 	g_return_if_fail (IS_CAL (cal));
 
-	gtk_object_ref (GTK_OBJECT (cal));
+	/* We do not keep a reference to the Cal since the calendar user agent
+	 * owns it.
+	 */
+
+	gtk_signal_connect (GTK_OBJECT (cal), "destroy",
+			    GTK_SIGNAL_FUNC (cal_destroy_cb),
+			    backend);
+
 	priv->clients = g_list_prepend (priv->clients, cal);
-}
-
-/**
- * cal_backend_remove_cal:
- * @backend: A calendar backend.
- * @cal: A calendar client interface object.
- * 
- * Removes a calendar client interface object from a calendar backend.  The
- * calendar backend must already have a loaded calendar.
- **/
-void
-cal_backend_remove_cal (CalBackend *backend, Cal *cal)
-{
-	CalBackendPrivate *priv;
-	GList *l;
-
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (IS_CAL_BACKEND (backend));
-
-	priv = backend->priv;
-	g_return_if_fail (priv->loaded);
-
-	g_return_if_fail (cal != NULL);
-	g_return_if_fail (IS_CAL (cal));
-
-	l = g_list_find (priv->clients, cal);
-	if (!l)
-		return;
-
-	gtk_object_unref (GTK_OBJECT (cal));
-	priv->clients = g_list_remove_link (priv->clients, l);
-	g_list_free_1 (l);
 }
 
 /**
@@ -441,10 +513,11 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 
 	g_return_val_if_fail (backend != NULL, CAL_BACKEND_LOAD_ERROR);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_LOAD_ERROR);
-	g_return_val_if_fail (uri != NULL, CAL_BACKEND_LOAD_ERROR);
 
 	priv = backend->priv;
 	g_return_val_if_fail (!priv->loaded, CAL_BACKEND_LOAD_ERROR);
+
+	g_return_val_if_fail (uri != NULL, CAL_BACKEND_LOAD_ERROR);
 
 	/* FIXME: this looks rather bad; maybe we should check for local files
 	 * and fail if they are remote.
@@ -475,13 +548,46 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 }
 
 /**
+ * cal_backend_create:
+ * @backend: A calendar backend.
+ * @uri: URI that will contain the calendar data.
+ *
+ * Creates a new empty calendar in a calendar backend.
+ **/
+void
+cal_backend_create (CalBackend *backend, GnomeVFSURI *uri)
+{
+	CalBackendPrivate *priv;
+
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	priv = backend->priv;
+	g_return_if_fail (!priv->loaded);
+
+	g_return_if_fail (uri != NULL);
+
+	/* Create the new calendar information */
+
+	g_assert (priv->object_hash == NULL);
+	priv->object_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* Done */
+
+	gnome_vfs_uri_ref (uri);
+
+	priv->uri = uri;
+	priv->loaded = TRUE;
+}
+
+/**
  * cal_backend_get_object:
  * @backend: A calendar backend.
  * @uid: Unique identifier for a calendar object.
- * 
+ *
  * Queries a calendar backend for a calendar object based on its unique
  * identifier.
- * 
+ *
  * Return value: The string representation of a complete calendar wrapping the
  * the sought object, or NULL if no object had the specified UID.  A complete
  * calendar is returned because you also need the timezone data.
@@ -560,10 +666,10 @@ build_uids_list (gpointer key, gpointer value, gpointer data)
  * cal_backend_get_uids:
  * @backend: A calendar backend.
  * @type: Bitmask with types of objects to return.
- * 
+ *
  * Builds a list of unique identifiers corresponding to calendar objects whose
  * type matches one of the types specified in the @type flags.
- * 
+ *
  * Return value: A list of strings that are the sought UIDs.
  **/
 GList *
@@ -639,11 +745,11 @@ compare_instance_func (gconstpointer a, gconstpointer b)
  * @backend: A calendar backend.
  * @start: Start time for query.
  * @end: End time for query.
- * 
+ *
  * Builds a sorted list of calendar event object instances that occur or recur
  * within the specified time range.  Each object instance contains the object
  * itself and the start/end times at which it occurs or recurs.
- * 
+ *
  * Return value: A list of calendar event object instances, sorted by their
  * start times.
  **/

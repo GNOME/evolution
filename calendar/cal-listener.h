@@ -43,7 +43,8 @@ typedef struct _CalListenerClass CalListenerClass;
 /* Load status for the cal_loaded signal.  We need better error reporting. */
 typedef enum {
 	CAL_LISTENER_LOAD_SUCCESS,
-	CAL_LISTENER_LOAD_ERROR
+	CAL_LISTENER_LOAD_ERROR,
+	CAL_LISTENER_LOAD_IN_USE
 } CalListenerLoadStatus;
 
 struct _CalListener {

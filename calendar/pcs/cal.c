@@ -127,6 +127,8 @@ cal_destroy (GtkObject *object)
 	cal = CAL (object);
 	priv = cal->priv;
 
+	priv->backend = NULL;
+
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (priv->listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)

@@ -1,5 +1,5 @@
-[calendar:cal-factory]
+[evolution:calendar-factory]
 type=exe
-repo_id=IDL:GNOME/Calendar/CalFactory:1.0
+repo_id=IDL:Evolution/Calendar/CalFactory:1.0
 description=Calendar factory for the Personal Calendar Server
 location_info=tlacuache

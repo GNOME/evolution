@@ -163,6 +163,94 @@ cal_client_init (CalClient *client)
 	priv->load_state = LOAD_STATE_NOT_LOADED;
 }
 
+/* Gets rid of the factory that a client knows about */
+static void
+destroy_factory (CalClient *client)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	int result;
+
+	priv = client->priv;
+
+	CORBA_exception_init (&ev);
+	result = CORBA_Object_is_nil (priv->factory, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("destroy_factory(): could not see if the factory was nil");
+		priv->factory = CORBA_OBJECT_NIL;
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	if (result)
+		return;
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release (priv->factory, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("destroy_factory(): could not release the factory");
+
+	CORBA_exception_free (&ev);
+	priv->factory = CORBA_OBJECT_NIL;
+}
+
+/* Gets rid of the listener that a client knows about */
+static void
+destroy_listener (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	priv = client->priv;
+
+	if (!priv->listener)
+		return;
+
+	bonobo_object_unref (BONOBO_OBJECT (priv->listener));
+	priv->listener = NULL;
+}
+
+/* Gets rid of the calendar client interface object that a client knows about */
+static void
+destroy_cal (CalClient *client)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;	
+	int result;
+
+	priv = client->priv;
+
+	CORBA_exception_init (&ev);
+	result = CORBA_Object_is_nil (priv->cal, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("destroy_cal(): could not see if the "
+			   "calendar client interface object was nil");
+		priv->cal = CORBA_OBJECT_NIL;
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	if (result)
+		return;
+	
+	CORBA_exception_init (&ev);
+	Evolution_Calendar_Cal_unref (priv->cal, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("destroy_cal(): could not unref the calendar client interface object");
+
+	CORBA_exception_free (&ev);
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release (priv->cal, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("destroy_cal(): could not release the calendar client interface object");
+
+	CORBA_exception_free (&ev);
+	priv->cal = CORBA_OBJECT_NIL;
+
+}
+
 /* Destroy handler for the calendar client */
 static void
 cal_client_destroy (GtkObject *object)
@@ -176,7 +264,11 @@ cal_client_destroy (GtkObject *object)
 	client = CAL_CLIENT (object);
 	priv = client->priv;
 
-	/* FIXME */
+	destroy_factory (client);
+	destroy_listener (client);
+	destroy_cal (client);
+
+	priv->load_state = LOAD_STATE_NOT_LOADED;
 
 	g_free (priv);
 
@@ -199,11 +291,14 @@ cal_loaded_cb (CalListener *listener,
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	Evolution_Calendar_Cal cal_copy;
+	CalClientLoadStatus client_status;
 
 	client = CAL_CLIENT (data);
 	priv = client->priv;
 
 	g_assert (priv->load_state == LOAD_STATE_LOADING);
+
+	client_status = CAL_CLIENT_LOAD_ERROR;
 
 	switch (status) {
 	case CAL_LISTENER_LOAD_SUCCESS:
@@ -219,11 +314,15 @@ cal_loaded_cb (CalListener *listener,
 		priv->cal = cal_copy;
 		priv->load_state = LOAD_STATE_LOADED;
 
-		gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_LOADED],
-				 CAL_CLIENT_LOAD_SUCCESS);
+		client_status = CAL_CLIENT_LOAD_SUCCESS;
 		goto out;
 
 	case CAL_LISTENER_LOAD_ERROR:
+		client_status = CAL_CLIENT_LOAD_ERROR;
+		goto error;
+
+	case CAL_LISTENER_LOAD_IN_USE:
+		client_status = CAL_CLIENT_LOAD_IN_USE;
 		goto error;
 
 	default:
@@ -232,15 +331,16 @@ cal_loaded_cb (CalListener *listener,
 
  error:
 
-	gtk_object_unref (GTK_OBJECT (priv->listener));
+	bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 	priv->listener = NULL;
 	priv->load_state = LOAD_STATE_NOT_LOADED;
 
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_LOADED],
-			 CAL_CLIENT_LOAD_ERROR);
-
  out:
+
 	g_assert (priv->load_state != LOAD_STATE_LOADING);
+
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_LOADED],
+			 client_status);
 }
 
 /* Handle the obj_added signal from the listener */
@@ -278,10 +378,10 @@ obj_changed_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, g
 /**
  * cal_client_construct:
  * @client: A calendar client.
- * 
+ *
  * Constructs a calendar client object by contacting the calendar factory of the
  * calendar server.
- * 
+ *
  * Return value: The same object as the @client argument, or NULL if the
  * calendar factory could not be contacted.
  **/
@@ -300,7 +400,7 @@ cal_client_construct (CalClient *client)
 
 	factory = (Evolution_Calendar_CalFactory) goad_server_activate_with_id (
 		NULL,
-		"calendar:cal-factory",
+		"evolution:calendar-factory",
 		GOAD_ACTIVATE_REMOTE,
 		NULL);
 
@@ -335,11 +435,11 @@ cal_client_construct (CalClient *client)
 
 /**
  * cal_client_new:
- * @void: 
- * 
+ * @void:
+ *
  * Creates a new calendar client.  It should be initialized by calling
  * cal_client_load_calendar() or cal_client_create_calendar().
- * 
+ *
  * Return value: A newly-created calendar client, or NULL if the client could
  * not be constructed because it could not contact the calendar server.
  **/
@@ -359,19 +459,9 @@ cal_client_new (void)
 	return client;
 }
 
-/**
- * cal_client_load_calendar:
- * @client: A calendar client.
- * @str_uri: URI of calendar to load.
- * 
- * Makes a calendar client initiate a request to load a calendar.  The calendar
- * client will emit the "cal_loaded" signal when the response from the server is
- * received.
- * 
- * Return value: TRUE on success, FALSE on failure to issue the load request.
- **/
-gboolean
-cal_client_load_calendar (CalClient *client, const char *str_uri)
+/* Issues a load or create request */
+static gboolean
+load_or_create (CalClient *client, const char *str_uri, gboolean load)
 {
 	CalClientPrivate *priv;
 	Evolution_Calendar_Listener corba_listener;
@@ -387,7 +477,7 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 
 	priv->listener = cal_listener_new ();
 	if (!priv->listener) {
-		g_message ("cal_client_load_calendar(): could not create the listener");
+		g_message ("load_or_create(): could not create the listener");
 		return FALSE;
 	}
 
@@ -410,11 +500,15 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 	CORBA_exception_init (&ev);
 
 	priv->load_state = LOAD_STATE_LOADING;
-	Evolution_Calendar_CalFactory_load (priv->factory, str_uri, corba_listener, &ev);
+
+	if (load)
+		Evolution_Calendar_CalFactory_load (priv->factory, str_uri, corba_listener, &ev);
+	else
+		Evolution_Calendar_CalFactory_create (priv->factory, str_uri, corba_listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("cal_client_load_calendar(): load request failed");
-		gtk_object_unref (GTK_OBJECT (priv->listener));
+		g_message ("load_or_create(): load/create request failed");
+		bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 		priv->listener = NULL;
 		priv->load_state = LOAD_STATE_NOT_LOADED;
 		CORBA_exception_free (&ev);
@@ -426,12 +520,46 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 }
 
 /**
+ * cal_client_load_calendar:
+ * @client: A calendar client.
+ * @str_uri: URI of calendar to load.
+ *
+ * Makes a calendar client initiate a request to load a calendar.  The calendar
+ * client will emit the "cal_loaded" signal when the response from the server is
+ * received.
+ *
+ * Return value: TRUE on success, FALSE on failure to issue the load request.
+ **/
+gboolean
+cal_client_load_calendar (CalClient *client, const char *str_uri)
+{
+	return load_or_create (client, str_uri, TRUE);
+}
+
+/**
+ * cal_client_create_calendar:
+ * @client: A calendar client.
+ * @str_uri: URI that will contain the calendar data.
+ *
+ * Makes a calendar client initiate a request to create a new calendar.  The
+ * calendar client will emit the "cal_loaded" signal when the response from the
+ * server is received.
+ *
+ * Return value: TRUE on success, FALSE on failure to issue the create request.
+ **/
+gboolean
+cal_client_create_calendar (CalClient *client, const char *str_uri)
+{
+	return load_or_create (client, str_uri, FALSE);
+}
+
+/**
  * cal_client_get_object:
  * @client: A calendar client.
  * @uid: Unique identifier for a calendar object.
- * 
+ *
  * Queries a calendar for a calendar object based on its unique identifier.
- * 
+ *
  * Return value: The string representation of a complete calendar wrapping the
  * sought object, or NULL if no object had the specified UID.  A complete
  * calendar is returned because you also need the timezone data.
@@ -466,6 +594,7 @@ cal_client_get_object (CalClient *client, const char *uid)
 	}
 
 	retval = g_strdup (calobj);
+	CORBA_free (calobj);
 
  out:
 	CORBA_exception_free (&ev);
@@ -476,10 +605,10 @@ cal_client_get_object (CalClient *client, const char *uid)
  * cal_client_get_uids:
  * @client: A calendar client.
  * @type: Bitmask with types of objects to return.
- * 
+ *
  * Queries a calendar for a list of unique identifiers corresponding to calendar
  * objects whose type matches one of the types specified in the @type flags.
- * 
+ *
  * Return value: A list of strings that are the sought UIDs.
  **/
 GList *
@@ -530,10 +659,10 @@ cal_client_get_uids (CalClient *client, CalObjType type)
  * @client: A calendar client.
  * @start: Start time for query.
  * @end: End time for query.
- * 
+ *
  * Queries a calendar for the events that occur or recur in the specified range
  * of time.
- * 
+ *
  * Return value: A list of #CalObjInstance structures.
  **/
 GList *
