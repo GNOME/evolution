@@ -29,6 +29,8 @@ libeutil_la_SOURCES =			\
 	e-list-iterator.h		\
 	e-list.c			\
 	e-list.h			\
+	e-memory.c			\
+	e-memory.h			\
 	e-sexp.c			\
 	e-sexp.h			\
 	e-dbhash.c			\

@@ -1,3 +1,10 @@
+2000-11-20  Not Zed  <NotZed@HelixCode.com>
+
+	* e-memory.[ch]: New routines for fast memory management and
+	compact string array storage.
+
+	* Makefile.am (libeutil_la_SOURCES): Added e-memory.[ch].
+
 2000-11-09  JP Rosevear  <jpr@helixcode.com>
 
 	* e-dbhash.h: oops thats func not *func
