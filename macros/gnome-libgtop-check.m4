@@ -11,9 +11,9 @@ AC_DEFUN([GNOME_LIBGTOP_TYPES],
 ])
 
 dnl
-dnl GNOME_LIBGTOP_HOOK (script-if-libgtop-enabled, failflag)
+dnl GNOME_LIBGTOP_HOOK (minversion, script-if-libgtop-enabled, failflag)
 dnl
-dnl if failflag is "fail" then GNOME_LIBGTOP_HOOK will abort if gtopConf.sh
+dnl if failflag is "fail" then GNOME_LIBGTOP_HOOK will abort if LibGTop
 dnl is not found. 
 dnl
 
@@ -75,13 +75,20 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	if test x$no_libgtop = x ; then
 	  AC_DEFINE(HAVE_LIBGTOP)
 	  AC_MSG_RESULT(yes)
+	  dnl Note that an empty true branch is not valid sh syntax.
+	  ifelse([$2], [], :, [$2])
 	else
 	  AC_MSG_RESULT(no)
+	  if test "x$3" = "xfail"; then
+	    AC_MSG_ERROR(LibGTop >= $min_libgtop_version not found)
+	  else
+	    AC_MSG_ERROR(LibGTop >= $min_libgtop_version not found)
+	  fi
 	fi
 
 	AM_CONDITIONAL(HAVE_LIBGTOP, test x$no_libgtop != xyes)
 ])
 
 AC_DEFUN([GNOME_INIT_LIBGTOP],[
-	GNOME_LIBGTOP_HOOK([],)
+	GNOME_LIBGTOP_HOOK($1,[],$2)
 ])
