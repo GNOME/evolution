@@ -3,4 +3,9 @@ Makefile.in
 *-decl.txt
 *.signals
 *.hierarchy
+*.stamp
+*-scan.c
+*-unused.txt
+*-decl-list.txt
 sgml
+

@@ -1,0 +1,7 @@
+GtkObject
+  BonoboObject
+    ExecutiveSummaryComponent
+    ExecutiveSummaryComponentFactory
+    Handle to remote Bonobo::Unknown
+      ExecutiveSummaryComponentFactoryClient
+    ExecutiveSummaryHtmlView

@@ -6,4 +6,5 @@ Makefile.in
 *-unused.txt
 *.signals
 *.hierarchy
-
+*.stamp
+*-scan.c
