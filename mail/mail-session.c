@@ -103,7 +103,7 @@ class_init (MailSessionClass *mail_session_class)
 {
 	CamelSessionClass *camel_session_class =
 		CAMEL_SESSION_CLASS (mail_session_class);
-
+	
 	/* virtual method override */
 	camel_session_class->get_password = get_password;
 	camel_session_class->forget_password = forget_password;
@@ -117,10 +117,11 @@ static CamelType
 mail_session_get_type (void)
 {
 	static CamelType mail_session_type = CAMEL_INVALID_TYPE;
-
+	
 	if (mail_session_type == CAMEL_INVALID_TYPE) {
 		mail_session_type = camel_type_register (
-			camel_session_get_type (), "MailSession",
+			camel_session_get_type (),
+			"MailSession",
 			sizeof (MailSession),
 			sizeof (MailSessionClass),
 			(CamelObjectClassInitFunc) class_init,
@@ -128,7 +129,7 @@ mail_session_get_type (void)
 			(CamelObjectInitFunc) init,
 			NULL);
 	}
-
+	
 	return mail_session_type;
 }
 

@@ -406,21 +406,24 @@ pass_got (char *string, void *data)
 		m->result = g_strdup (string);
 		
 		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->tb));
-		mca = mail_config_get_account_by_source_url (m->service_url);
-		if (mca)
-			mail_config_service_set_save_passwd (mca->source, remember);
-		else {
-			mca = mail_config_get_account_by_transport_url (m->service_url);
+		if (m->service_url) {
+			mca = mail_config_get_account_by_source_url (m->service_url);
 			if (mca)
-				mail_config_service_set_save_passwd (mca->transport, remember);
-			else
-				printf ("Cannot figure out which account owns URL \"%s\" (could before?)\n", m->service_url);
+				mail_config_service_set_save_passwd (mca->source, remember);
+			else {
+				mca = mail_config_get_account_by_transport_url (m->service_url);
+				if (mca)
+					mail_config_service_set_save_passwd (mca->transport, remember);
+				else
+					printf ("Cannot figure out which account owns URL \"%s\" (could before?)\n",
+						m->service_url);
+			}
 		}
 	}
 }
 
 static void
-do_get_pass(struct _mail_msg *mm)
+do_get_pass (struct _mail_msg *mm)
 {
 	struct _pass_msg *m = (struct _pass_msg *)mm;
 	const MailConfigAccount *mca;
@@ -436,16 +439,18 @@ do_get_pass(struct _mail_msg *mm)
 	tb = gtk_check_button_new_with_label (_("Remember this password"));
 	gtk_widget_show (tb);
 	
-	mca = mail_config_get_account_by_source_url (m->service_url);
-	if (mca)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
-	else {
-		mca = mail_config_get_account_by_transport_url (m->service_url);
+	if (m->service_url) {
+		mca = mail_config_get_account_by_source_url (m->service_url);
 		if (mca)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->transport->save_passwd);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
 		else {
-			printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url);
-			gtk_widget_hide (tb);
+			mca = mail_config_get_account_by_transport_url (m->service_url);
+			if (mca)
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->transport->save_passwd);
+			else {
+				printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url);
+				gtk_widget_hide (tb);
+			}
 		}
 	}
 	
@@ -514,8 +519,12 @@ mail_get_password (CamelService *service, const char *prompt, gboolean secret)
 	
 	m->prompt = prompt;
 	m->secret = secret;
-	m->service_url = camel_url_to_string (service->url, 
-					      CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	if (service) {
+		m->service_url = camel_url_to_string (service->url, 
+						      CAMEL_URL_HIDE_PASSWORD |
+						      CAMEL_URL_HIDE_PARAMS);
+	} else
+		m->service_url = NULL;
 	
 	if (pthread_self () == mail_gui_thread) {
 		do_get_pass ((struct _mail_msg *)m);

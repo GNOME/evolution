@@ -1,5 +1,10 @@
 2001-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-mt.c (do_get_pass): We are not guarenteed to have a
+	non-NULL service (ie. PGP) thus check for it.
+	(pass_got): And again here.
+	(mail_get_password): And of course here too.
+
 	* mail-format.c (decode_pgp): When writing out a CamelException to
 	the HTML stream, be sure to translate it first.
 	(handle_message_external_body): Convert to UTF8 here too - I know
