@@ -199,9 +199,17 @@ libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
 camel-lock-helper: camel-lock-helper.o camel-lock.o
 	$(CC) -o $@ $^ -I$(srcdir)/.. -I$(srcdir)
 
+if CAMEL_LOCK_HELPER_SETUID
 install-exec-local:
-	-file=$(DESTDIR)$(sbindir)/camel-lock-helper; \
-	chown root $$file && chgrp root $$file && chmod u+s $$file
+	chown $(CAMEL_LOCK_HELPER_USER) $(DESTDIR)$(sbindir)/camel-lock-helper
+	chmod u+s $(DESTDIR)$(sbindir)/camel-lock-helper
+endif
+if CAMEL_LOCK_HELPER_SETGID
+install-exec-local:
+	chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(sbindir)/camel-lock-helper
+	chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper
+endif
+
 
 noinst_HEADERS =				\
 	camel-charset-map-private.h		\
