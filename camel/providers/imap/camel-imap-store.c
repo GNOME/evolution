@@ -3177,11 +3177,8 @@ camel_imap_store_readline (CamelImapStore *store, char **dest, CamelException *e
 	 * meaning if we reconnect, so always set an exception.
 	 */
 	
-	if (!camel_imap_store_connected (store, ex)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
-				     g_strerror (errno));
+	if (!camel_imap_store_connected (store, ex))
 		return -1;
-	}
 	
 	stream = CAMEL_STREAM_BUFFER (store->istream);
 	

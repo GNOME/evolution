@@ -1,3 +1,12 @@
+2004-05-27  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fixes bug #59191.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_readline):
+	Don't override the exception with g_strerror() since presumably
+	camel_imap_store_is_connected() will have set that for us (and
+	will have a much more accurate exception anyway).
+
 2004-05-26  Dan Winship  <danw@novell.com>
 
 	* camel-store.c (camel_store_get_trash): If the store is not a
