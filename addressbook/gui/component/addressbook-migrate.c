@@ -698,7 +698,7 @@ migrate_ldap_servers (MigrationContext *context, ESourceGroup *on_ldap_servers)
 }
 
 static ESource*
-get_source_by_uri (ESourceList *source_list, const char *uri)
+get_source_by_name (ESourceList *source_list, const char *name)
 {
 	GSList *groups;
 	GSList *g;
@@ -718,14 +718,9 @@ get_source_by_uri (ESourceList *source_list, const char *uri)
 
 		for (s = sources; s; s = s->next) {
 			ESource *source = E_SOURCE (s->data);
-			char *source_uri = e_source_get_uri (source);
-			gboolean found = FALSE;
+			const char *source_name = e_source_peek_name (source);
 
-			if (!strcmp (uri, source_uri))
-				found = TRUE;
-
-			g_free (source_uri);
-			if (found)
+			if (!strcmp (name, source_name))
 				return source;
 		}
 	}
@@ -782,16 +777,11 @@ migrate_completion_folders (MigrationContext *context)
 						source = e_source_list_peek_source_by_uid (context->source_list, uid);
 				}
 				else {
-					char *uri;
-					char *semi = strchr (physical_uri, ';');
-					if (semi)
-						uri = g_strndup (physical_uri, semi - physical_uri);
-					else
-						uri = g_strdup (physical_uri);
+					char *name = e_xml_get_string_prop_by_name (child, "display-name");
 
-					source = get_source_by_uri (context->source_list, uri);
+					source = get_source_by_name (context->source_list, name);
 
-					g_free (uri);
+					g_free (name);
 				}
 
 				if (source) {
