@@ -1543,6 +1543,8 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 {
 	CalComponent *old_comp;
 	CalComponent *comp;
+	CalComponentDateTime dt;
+	icaltimezone *zone, *default_zone;
 	const char *comp_uid;
 	struct icaltimetype last_modified;
 
@@ -1564,6 +1566,46 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 	last_modified = icaltime_from_timet (time (NULL), 0);
 	cal_component_set_last_modified (comp, &last_modified);
 	
+	/* Check dtstart ,dtend and due's timezone, and convert it to local 
+	 * default timezone if the timezone is not in our builtin timezone
+	 * list */
+	cal_component_get_dtstart (comp, &dt);
+	if (dt.value && dt.tzid) {
+		zone = cal_backend_file_get_timezone ((CalBackend *)cbfile, dt.tzid);
+		if (!zone) {
+			default_zone = cal_backend_file_get_default_timezone ((CalBackend *)cbfile);
+			g_free ((char *)dt.tzid);
+			dt.tzid = g_strdup (icaltimezone_get_tzid (default_zone));
+			cal_component_set_dtstart (comp, &dt);
+		}
+	}
+	cal_component_free_datetime (&dt);
+
+	cal_component_get_dtend (comp, &dt);
+	if (dt.value && dt.tzid) {
+		zone = cal_backend_file_get_timezone ((CalBackend *)cbfile, dt.tzid);
+		if (!zone) {
+			default_zone = cal_backend_file_get_default_timezone ((CalBackend *)cbfile);
+			g_free ((char *)dt.tzid);
+			dt.tzid = g_strdup (icaltimezone_get_tzid (default_zone));
+			cal_component_set_dtend (comp, &dt);
+		}
+	}
+	cal_component_free_datetime (&dt);
+	 
+	cal_component_get_due (comp, &dt);
+	if (dt.value && dt.tzid) {
+		zone = cal_backend_file_get_timezone ((CalBackend *)cbfile, dt.tzid);
+		if (!zone) {
+			default_zone = cal_backend_file_get_default_timezone ((CalBackend *)cbfile);
+			g_free ((char *)dt.tzid);
+			dt.tzid = g_strdup (icaltimezone_get_tzid (default_zone));
+			cal_component_set_due (comp, &dt);
+		}
+	}
+	cal_component_free_datetime (&dt);
+	cal_component_abort_sequence (comp);
+	 
 	/* Remove any old version of the component. */
 	old_comp = lookup_component (cbfile, comp_uid);
 	if (old_comp)

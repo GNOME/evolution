@@ -1,3 +1,9 @@
+2003-11-19  Harry Lu  <harry.lu@sun.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_update_object):
+	If the component's timezone is not included in buildin timezone
+	list, convert it to local default timezone.
+
 2003-11-11  Harry Lu  <harry.lu@sun.com>
 
 	* gui/dialogs/recurrence-page.c (make_ending_count_special):
