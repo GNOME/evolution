@@ -109,7 +109,7 @@ dnl **************************************************
 
 have_pthread=false
 
-AC_ARG_WITH(threads, [--with-threads include threads support],[
+AC_ARG_WITH(threads, [  --with-threads          Include thread support],[
         if test x$withval = xyes; then
               test_thread=true
         else
@@ -131,6 +131,18 @@ else
 fi
 
 AM_CONDITIONAL(ENABLE_THREADS, $have_pthread)
+
+dnl
+dnl Notice that this is a hack, and we wont be able to use this forever, but
+dnl at least for some time
+dnl
+if $have_pthread; then 
+ 	THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
+	THREADS_CFLAGS="`glib-config --cflags gthread`"
+else
+	THREADS_LIBS=""
+	THREADS_CFLAGS=""
+fi
 
 
 dnl **************************************************
@@ -215,18 +227,6 @@ if gnome-config --libs gdk_pixbuf gnomecanvaspixbuf > /dev/null 2>&1; then
     AC_MSG_RESULT(found)
 else
     AC_MSG_ERROR(Did not find gdkpixbuf installed)
-fi
-
-dnl
-dnl Notice that this is a hack, and we wont be able to use this forever, but
-dnl at least for some time
-dnl
-if $have_pthread; then 
- 	THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
-	THREADS_CFLAGS="`glib-config --cflags gthread`"
-else
-	THREADS_LIBS=""
-	THREADS_CFLAGS=""
 fi
 
 GLIB_CFLAGS="`glib-config --cflags`"
@@ -315,12 +315,6 @@ if test "$xmlmajor" -ne 1 -o "$xmlminor" -ne 8 -o "$xmlpatch" -lt 7; then
 	AC_MSG_ERROR(gnome-xml 1.8.7 (or later, but not 2.0) is required to compile Evolution)
 fi
 
-AC_ARG_WITH(camel-hard-log-level, [  --with-camel-hard-log-level=level  value of log level in camel (0-10)],
-            camel_hard_log_level="$withval", camel_hard_log_level="0")
-AC_DEFINE_UNQUOTED(CAMEL_HARD_LOG_LEVEL, $camel_hard_log_level)
-
-AC_CONFIG_SUBDIRS(libical)
-
 AC_SUBST(CAPPLET_LIBS)
 
 dnl ******************************
@@ -362,9 +356,42 @@ if test "x$enable_oaf" = "xyes"; then
 	BONOBO_GNOME_CFLAGS="`oaf-config --cflags ` $BONOBO_GNOME_CFLAGS"
 fi
 
+dnl ********
+dnl Kerberos
+dnl ********
+AC_ARG_WITH(krb5, [  --with-krb5=PREFIX      Location of Kerberos 5 libs/includes])
+AC_ARG_WITH(krb4, [  --with-krb4=PREFIX      Location of Kerberos 4 libs/includes])
+AC_MSG_CHECKING(for Kerberos 5)
+AC_MSG_RESULT($with_krb5)
+if test x$with_krb5 != xno; then
+	KRB5_CFLAGS="-I$with_krb5/include/krb5"
+	KRB5_LDFLAGS="-L$with_krb5/lib -lkrb5 -lk5crypto -lcom_err"
+	AC_DEFINE(HAVE_KRB5)
+fi
+AC_MSG_CHECKING(for Kerberos 4)
+AC_MSG_RESULT($with_krb4)
+if test x$with_krb4 != xno; then
+	KRB4_CFLAGS="-I$with_krb4/include -I$with_krb4/include/kerberosIV $KRB5_CFLAGS"
+	save_LDFLAGS="$LDFLAGS"
+	LDFLAGS="$LDFLAGS -L$with_krb4/lib"
+	AC_CHECK_LIB(krb, krb_mk_req,
+		[KRB4_LDFLAGS="-L$with_krb4/lib -lkrb -ldes"],
+		[KRB4_LDFLAGS="-L$with_krb4/lib -lkrb4 -ldes425 -lkrb5 -lk5crypto -lcom_err"],
+		-ldes)
+	LDFLAGS="$save_LDFLAGS"
+	AC_DEFINE(HAVE_KRB4)
+fi
+AC_SUBST(KRB5_CFLAGS)
+AC_SUBST(KRB5_LDFLAGS)
+AC_SUBST(KRB4_CFLAGS)
+AC_SUBST(KRB4_LDFLAGS)
+
+
 dnl ******************************
 dnl Makefiles
 dnl ******************************
+
+AC_CONFIG_SUBDIRS(libical)
 
 AC_OUTPUT([
 Makefile

@@ -7,7 +7,6 @@
 #undef PACKAGE
 #undef VERSION
 #undef HAVE_BONOBO
-#undef CAMEL_HARD_LOG_LEVEL
 #undef ENABLE_THREADS
 #undef SENDMAIL_PATH
 #undef SYSTEM_MAIL_DIR
@@ -15,6 +14,8 @@
 #undef HAVE_TIMEZONE
 #undef HAVE_TM_GMTOFF
 #undef USING_OAF
+#undef HAVE_KRB4
+#undef HAVE_KRB5
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK

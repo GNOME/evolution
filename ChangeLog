@@ -1,3 +1,11 @@
+2000-05-02  Dan Winship  <danw@helixcode.com>
+
+	* configure.in, acconfig.h: add some minimal Kerberos checking.
+	This isn't intended to be generically useful at this point, it's
+	just there to give me a second POP auth mechanism to play with.
+
+	Also remove a bit of cruft, and reorganize configure.in a bit.
+
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
 	* tests/test13.c: And here too.
