@@ -94,7 +94,7 @@ free_pixmaps (void)
 	g_slist_free (inited_arrays);
 }
 
-
+
 /**
  * e_activation_failure_dialog:
  * @parent: parent window of the dialog, or %NULL
@@ -139,4 +139,28 @@ e_activation_failure_dialog (GtkWindow *parent, const char *msg,
 
 	e_notice (parent, GNOME_MESSAGE_BOX_ERROR, errmsg);
 	g_free (errmsg);
+}
+
+
+/**
+ * e_get_activation_failure_msg:
+ * @ev: An exception returned by an oaf_activate call.
+ * 
+ * Get a descriptive error message from @ev.
+ * 
+ * Return value: A newly allocated string with the printable error message.
+ **/
+char *
+e_get_activation_failure_msg (CORBA_Environment *ev)
+{
+	g_return_val_if_fail (ev != NULL, NULL);
+
+	if (strcmp (CORBA_exception_id (ev), ex_OAF_GeneralError) != 0) {
+		return bonobo_exception_get_text (ev); 
+	} else {
+		const OAF_GeneralError *oaf_general_error;
+
+		oaf_general_error = CORBA_exception_value (ev);
+		return g_strdup (oaf_general_error->description);
+	}
 }

@@ -61,7 +61,8 @@ void                           e_component_registry_construct            (ECompo
 EComponentRegistry            *e_component_registry_new                  (EShell             *shell);
 
 gboolean                       e_component_registry_register_component   (EComponentRegistry *component_registry,
-									  const char         *id);
+									  const char         *id,
+									  CORBA_Environment  *ev);
 
 GList                         *e_component_registry_get_id_list          (EComponentRegistry *component_registry);
 
@@ -69,7 +70,8 @@ EvolutionShellComponentClient *e_component_registry_get_component_by_id  (ECompo
 									  const char         *id);
 
 EvolutionShellComponentClient *e_component_registry_restart_component  (EComponentRegistry *component_registry,
-									const char         *id);
+									const char         *id,
+									CORBA_Environment  *ev);
 
 #ifdef __cplusplus
 }

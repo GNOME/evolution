@@ -43,7 +43,7 @@
 
 #define PARENT_TYPE BONOBO_X_OBJECT_TYPE
 
-static GtkObjectClass *parent_class = NULL;
+static BonoboXObjectClass *parent_class = NULL;
 
 struct _UserCreatableItemType {
 	char *id;
@@ -724,7 +724,7 @@ destroy (GtkObject *object)
 
 	g_free (priv);
 
-	parent_class->destroy (object);
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

@@ -67,6 +67,7 @@
 #include "e-splash.h"
 #include "e-uri-schema-registry.h"
 
+#include "evolution-shell-component-utils.h"
 #include "evolution-storage-set-view-factory.h"
 
 #include "e-shell.h"
@@ -146,6 +147,25 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+/* Utility functions.  */
+
+static void
+pop_up_activation_error_dialog (ESplash *splash,
+				const char *id,
+				CORBA_Environment *ev)
+{
+	char *error_message;
+
+	error_message = e_get_activation_failure_msg (ev);
+	e_notice (GTK_WINDOW (splash), GNOME_MESSAGE_BOX_ERROR,
+		  _("Cannot activate component %s :\n"
+		    "The error from the activation system is:\n"
+		    "%s"),
+		  id, error_message);
+	g_free (error_message);
+}
 
 
 /* Interactivity handling.  */
@@ -738,17 +758,22 @@ setup_components (EShell *shell,
 
 	for (i = 0; i < info_list->_length; i++) {
 		const OAF_ServerInfo *info;
+		CORBA_Environment ev;
 
 		info = info_list->_buffer + i;
 
-		if (! e_component_registry_register_component (priv->component_registry, info->iid)) {
-			g_warning ("Cannot activate Evolution component -- %s", info->iid);
+		CORBA_exception_init (&ev);
+
+		if (! e_component_registry_register_component (priv->component_registry, info->iid, &ev)) {
+			pop_up_activation_error_dialog (splash, info->iid, &ev);
 		} else {
 			e_shell_user_creatable_items_handler_add_component
 				(priv->user_creatable_items_handler,
 				 info->iid,
 				 e_component_registry_get_component_by_id (priv->component_registry, info->iid));
 		}
+
+		CORBA_exception_free (&ev);
 
 		if (splash != NULL)
 			e_splash_set_icon_highlight (splash, i, TRUE);
@@ -764,7 +789,8 @@ setup_components (EShell *shell,
 
 /* FIXME what if anything fails here?  */
 static void
-set_owner_on_components (EShell *shell)
+set_owner_on_components (EShell *shell,
+			 ESplash *splash)
 {
 	GNOME_Evolution_Shell corba_shell;
 	EShellPrivate *priv;
@@ -792,14 +818,26 @@ set_owner_on_components (EShell *shell)
 				   id, evolution_shell_component_result_to_string (result));
 
 			if (result == EVOLUTION_SHELL_COMPONENT_OLDOWNERHASDIED) {
-				component_client = e_component_registry_restart_component (priv->component_registry, id);
-				result = evolution_shell_component_client_set_owner (component_client, corba_shell,
-										     local_directory);
-				if (result != EVOLUTION_SHELL_COMPONENT_OK) {
-					g_warning ("Error re-setting owner on component %s -- %s",
-						   id, evolution_shell_component_result_to_string (result));
-					/* (At this point, we give up.)  */
+				CORBA_Environment ev;
+
+				CORBA_exception_init (&ev);
+
+				component_client = e_component_registry_restart_component (priv->component_registry,
+											   id, &ev);
+
+				if (component_client == NULL) {
+					pop_up_activation_error_dialog (splash, id, &ev);
+				} else {
+					result = evolution_shell_component_client_set_owner (component_client, corba_shell,
+											     local_directory);
+					if (result != EVOLUTION_SHELL_COMPONENT_OK) {
+						g_warning ("Error re-setting owner on component %s -- %s",
+							   id, evolution_shell_component_result_to_string (result));
+						/* (At this point, we give up.)  */
+					}
 				}
+
+				CORBA_exception_free (&ev);
 			}
 		}
 	}
@@ -1184,7 +1222,7 @@ e_shell_construct (EShell *shell,
 	
 	/* Now that we have a local storage and all the interfaces set up, we
 	   can tell the components we are here.  */
-	set_owner_on_components (shell);
+	set_owner_on_components (shell, E_SPLASH (splash));
 	
 	if (show_splash) {
 		gtk_widget_destroy (splash);

@@ -200,7 +200,8 @@ register_type (EComponentRegistry *component_registry,
 static gboolean
 register_component (EComponentRegistry *component_registry,
 		    const char *id,
-		    gboolean override_duplicate)
+		    gboolean override_duplicate,
+		    CORBA_Environment *ev)
 {
 	EComponentRegistryPrivate *priv;
 	GNOME_Evolution_ShellComponent component_corba_interface;
@@ -209,7 +210,7 @@ register_component (EComponentRegistry *component_registry,
 	GNOME_Evolution_URISchemaList *supported_schemas;
 	Component *component;
 	EvolutionShellComponentClient *client;
-	CORBA_Environment ev;
+	CORBA_Environment my_ev;
 	CORBA_unsigned_long i;
 
 	priv = component_registry->priv;
@@ -219,11 +220,9 @@ register_component (EComponentRegistry *component_registry,
 		return FALSE;
 	}
 
-	client = evolution_shell_component_client_new (id);
+	client = evolution_shell_component_client_new (id, ev);
 	if (client == NULL)
 		return FALSE;
-
-	CORBA_exception_init (&ev);
 
 	/* FIXME we could use the EvolutionShellComponentClient API here instead, but for
            now we don't care.  */
@@ -231,16 +230,18 @@ register_component (EComponentRegistry *component_registry,
 	component_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (client));
 	shell_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (priv->shell));
 
+	CORBA_exception_init (&my_ev);
+
 	/* Register the supported folder types.  */
 
-	supported_types = GNOME_Evolution_ShellComponent__get_supportedTypes (component_corba_interface, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION || supported_types->_length == 0) {
+	supported_types = GNOME_Evolution_ShellComponent__get_supportedTypes (component_corba_interface, &my_ev);
+	if (my_ev._major != CORBA_NO_EXCEPTION || supported_types->_length == 0) {
 		bonobo_object_unref (BONOBO_OBJECT (client));
-		CORBA_exception_free (&ev);
+		CORBA_exception_free (&my_ev);
 		return FALSE;
 	}
 
-	CORBA_exception_free (&ev);
+	CORBA_exception_free (&my_ev);
 
 	component = component_new (id, client);
 	g_hash_table_insert (priv->component_id_to_component, component->id, component);
@@ -270,8 +271,8 @@ register_component (EComponentRegistry *component_registry,
 
 	/* Register the supported external URI schemas.  */
 
-	supported_schemas = GNOME_Evolution_ShellComponent__get_externalUriSchemas (component_corba_interface, &ev);
-	if (ev._major == CORBA_NO_EXCEPTION) {
+	supported_schemas = GNOME_Evolution_ShellComponent__get_externalUriSchemas (component_corba_interface, &my_ev);
+	if (my_ev._major == CORBA_NO_EXCEPTION) {
 		EUriSchemaRegistry *uri_schema_registry;
 
 		uri_schema_registry = e_shell_get_uri_schema_registry (priv->shell); 
@@ -379,13 +380,14 @@ e_component_registry_new (EShell *shell)
 
 gboolean
 e_component_registry_register_component (EComponentRegistry *component_registry,
-					 const char *id)
+					 const char *id,
+					 CORBA_Environment *ev)
 {
 	g_return_val_if_fail (component_registry != NULL, FALSE);
 	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (component_registry), FALSE);
 	g_return_val_if_fail (id != NULL, FALSE);
 
-	return register_component (component_registry, id, FALSE);
+	return register_component (component_registry, id, FALSE, ev);
 }
 
 
@@ -462,11 +464,12 @@ e_component_registry_get_component_by_id  (EComponentRegistry *component_registr
 
 EvolutionShellComponentClient *
 e_component_registry_restart_component  (EComponentRegistry *component_registry,
-					 const char *id)
+					 const char *id,
+					 CORBA_Environment *ev)
 {
 	EComponentRegistryPrivate *priv;
 	Component *component;
-	CORBA_Environment ev;
+	CORBA_Environment my_ev;
 	CORBA_Object corba_objref;
 
 	g_return_val_if_fail (component_registry != NULL, NULL);
@@ -479,34 +482,22 @@ e_component_registry_restart_component  (EComponentRegistry *component_registry,
 	if (component == NULL)
 		return NULL;
 
-	CORBA_exception_init (&ev);
+	CORBA_exception_init (&my_ev);
 
 	g_hash_table_remove (priv->component_id_to_component, id);
 
-	corba_objref = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (component->client)), &ev);
+	corba_objref = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (component->client)), &my_ev);
 
 	component_free (component);
 
 	wait_for_corba_object_to_die (corba_objref, id);
 
-	CORBA_exception_free (&ev);
+	CORBA_exception_free (&my_ev);
 
-#if 1
-	if (! register_component (component_registry, id, TRUE))
+	if (! register_component (component_registry, id, TRUE, ev))
 		return NULL;
 
 	return e_component_registry_get_component_by_id (component_registry, id);
-#else
-	client = evolution_shell_component_client_new (id);
-	if (client == NULL)
-		return NULL;
-
-	component = component_new (id, client);
-	g_hash_table_insert (priv->component_id_to_component, component->id, component);
-	bonobo_object_unref (BONOBO_OBJECT (client));
-#endif
-
-	return component->client;
 }
 
 

@@ -1,3 +1,28 @@
+2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component.c: Change type of parent_class to
+	BonoboXObjectClass.
+
+	* e-shell.c (pop_up_activation_error_dialog): New helper function
+	to pop up a dialog if one of the components couldn't be activated,
+	getting the description for the error from
+	e_get_activation_failure_msg().
+	(setup_components): Use this function in case of activation error.
+	(set_owner_on_components): Likewise, when the component gets
+	restarted.  Also get a @splash arg so we can set the parent for
+	this dialog correctly.
+
+	* e-component-registry.c (register_component): New arg @ev.
+	(e_component_registry_register_component): Likewise.
+	(e_component_registry_restart_component): Likewise.  Also, remove
+	some bogus code that was #if'ed out.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_new): New arg @ev.
+
+	* evolution-shell-component-utils.c
+	(e_get_activation_failure_msg): New.
+
 2002-04-03  Dan Winship  <danw@ximian.com>
 
 	* e-storage.c (get_path_for_physical_uri_foreach): Deal with

@@ -65,7 +65,8 @@ GtkType                        evolution_shell_component_client_get_type   (void
 void                           evolution_shell_component_client_construct  (EvolutionShellComponentClient *shell_component_client,
 									    const char                    *id,
 									    CORBA_Object                   corba_object);
-EvolutionShellComponentClient *evolution_shell_component_client_new        (const char                    *id);
+EvolutionShellComponentClient *evolution_shell_component_client_new        (const char                    *id,
+									    CORBA_Environment             *optional_ev);
 
 /* Properties.  */
 

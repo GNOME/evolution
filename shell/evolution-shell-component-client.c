@@ -388,30 +388,30 @@ evolution_shell_component_client_construct (EvolutionShellComponentClient *shell
 }
 
 EvolutionShellComponentClient *
-evolution_shell_component_client_new (const char *id)
+evolution_shell_component_client_new (const char *id,
+				      CORBA_Environment *ev)
 {
 	EvolutionShellComponentClient *new;
-	CORBA_Environment ev;
 	CORBA_Object corba_object;
+	CORBA_Environment *local_ev;
+	CORBA_Environment static_ev;
 
 	g_return_val_if_fail (id != NULL, NULL);
 
-	CORBA_exception_init (&ev);
+	CORBA_exception_init (&static_ev);
 
-	corba_object = oaf_activate_from_id ((char *) id, 0, NULL, &ev); /* Yuck.  */
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		CORBA_exception_free (&ev);
-		g_warning ("Could not start up component for %s.", id);
+	if (ev == NULL)
+		local_ev = &static_ev;
+	else
+		local_ev = ev;
+
+	corba_object = oaf_activate_from_id ((char *) id, 0, NULL, ev);
+	if (ev->_major != CORBA_NO_EXCEPTION || corba_object == NULL) {
+		CORBA_exception_free (&static_ev);
 		return NULL;
 	}
 
-	CORBA_exception_free (&ev);
-
-	if (corba_object == CORBA_OBJECT_NIL) {
-		g_warning ("Could not activate component %s. "
-			   "(Maybe you need to set OAF_INFO_PATH?)", id);
-		return NULL;
-	}
+	CORBA_exception_free (&static_ev);
 
 	new = gtk_type_new (evolution_shell_component_client_get_type ());
 	evolution_shell_component_client_construct (new, id, corba_object);
