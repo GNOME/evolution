@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: acampi 
 #  
-#  $Id: Makefile.am,v 1.2 2003/09/22 07:32:30 hansp Exp $
+#  $Id: Makefile.am,v 1.3 2003/09/22 21:27:01 hansp Exp $
 #
 #
 # (C) COPYRIGHT 2003, Andrea Campi, mailto:a.campi@inet.it
@@ -70,7 +70,7 @@ libicalcap_evolutioninclude_HEADERS =	\
 
 noinst_PROGRAMS = client
 
-LDADD =  ../libicalss/libicalss-evolution.la ../libicalvcal/libicalvcal-evolution.la $(cxx_libs) ../libical/libical-evolution.la libicalcap-evolution.la $(RRCAP_LIBS)
+LDADD =  ../libicalss/libicalss-evolution.la ../libicalvcal/libicalvcal-evolution.la ../libical/libical-evolution.la libicalcap-evolution.la $(RRCAP_LIBS)
 
 
 client_SOURCES = client.c

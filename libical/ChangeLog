@@ -1,4 +1,9 @@
-2002-09-22  Hans Petter Jansson  <hpj@ximian.com>
+2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* src/libicalcap/Makefile.am (LDADD): Remove $(cxx_libs), it's
+	undefined.
+
+2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* configure.in: Require flex 2.5.31 and add a test for it. Rename
 	WITH_CXX conditional to WITH_CXX_BINDINGS.
@@ -31,7 +36,7 @@
 	* src/libicalss/icalssyacc.c:
 	* src/libicalss/icalssyacc.h: Removed from repository.
 
-2002-09-12  Hans Petter Jansson  <hpj@ximian.com>
+2003-09-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* configure.in: Subst in Evolution install variables.
 
