@@ -600,30 +600,42 @@ name_and_email_simple_query_cb (EBook *book, EBookStatus status, GList *contacts
 	ModelDestClosure *c = closure;
 	EDestination *dest = c->dest;
 	ESelectNamesModel *model = c->model;
+	EContact *contact;
+	int num_non_list_contacts = 0;
+	GList *l;
 
 	g_free (c);
 
-	if (status == E_BOOK_ERROR_OK && g_list_length (contacts) == 1) {
-		EContact *contact = E_CONTACT (contacts->data);
-		const char *email = e_destination_get_email (dest);
-		int email_num = 0;
-		
-		if (email && *email) {
-			GList *email_list = e_contact_get (contact, E_CONTACT_EMAIL);
-			GList *l;
-
-			for (l = email_list; l; l = l->next) {
-				if (!g_ascii_strcasecmp (email, l->data))
-					break;
-				email_num++;
+	if (status == E_BOOK_ERROR_OK) {
+		for (l = contacts; l; l = l->next) {
+			EContact *c = E_CONTACT (l->data);
+			if (!e_contact_get (c, E_CONTACT_IS_LIST)) {
+				num_non_list_contacts++;
+				contact = c;
 			}
-			if (l == NULL)
-				email_num = -1;
 		}
+
+		if (num_non_list_contacts == 1) {
+			const char *email = e_destination_get_email (dest);
+			int email_num = 0;
 		
-		if (email_num >= 0) {
-			e_destination_set_contact (dest, contact, email_num);
-			e_select_names_model_changed (model);
+			if (email && *email) {
+				GList *email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+				GList *l;
+
+				for (l = email_list; l; l = l->next) {
+					if (!g_ascii_strcasecmp (email, l->data))
+						break;
+					email_num++;
+				}
+				if (l == NULL)
+					email_num = -1;
+			}
+
+			if (email_num >= 0) {
+				e_destination_set_contact (dest, contact, email_num);
+				e_select_names_model_changed (model);
+			}
 		}
 	}
 	
