@@ -1,3 +1,8 @@
+2000-12-07  Chris Toshok  <toshok@helixcode.com>
+
+	* cal-client/Makefile.am (client_test_LDADD): add
+	EXTRA_GNOME_LIBS.
+
 2000-12-07  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal-backend.c (cal_backend_compute_changes_foreach_key): Create
