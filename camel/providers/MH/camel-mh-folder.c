@@ -38,6 +38,7 @@
 #include "camel-stream-buffered-fs.h"
 #include "camel-folder-summary.h"
 #include "gmime-utils.h"
+#include "mh-utils.h"
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -65,7 +66,6 @@ static void _open (CamelFolder *folder, CamelFolderOpenMode mode);
 
 /* some utility functions */
 static int copy_reg (const char *src_path, const char *dst_path);
-static gboolean _is_a_message_file (const gchar *file_name, const gchar *file_path);
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
@@ -221,7 +221,7 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 	dir_entry = readdir (dir_handle);
 	while (dir_entry != NULL) {
 		/* tests if the entry correspond to a message file */
-		if (_is_a_message_file (dir_entry->d_name, mh_folder->directory_path))
+		if (mh_is_a_message_file (dir_entry->d_name, mh_folder->directory_path))
 			/* add the file name to the list */
 			mh_folder->file_name_list = g_list_insert_sorted (mh_folder->file_name_list, 
 									  g_strdup (dir_entry->d_name), 
@@ -233,7 +233,29 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 	closedir (dir_handle);
 	
 	_create_summary (folder);
+	
+	/* get (or create) uid list */
+	if (!mh_load_uid_list (mh_folder))
+		mh_generate_uid_list (mh_folder);
 }
+
+
+
+static void
+_close (CamelFolder *folder, gboolean expunge)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+	
+	if (mh_folder->uid_array)
+		mh_save_uid_list (mh_folder);
+
+	/* call parent implementation */
+	parent_class->close (folder, expunge);
+}
+
+
+
+
 
 /**
  * camel_mh_folder_set_name: set the name of an MH folder
@@ -479,29 +501,6 @@ _list_subfolders (CamelFolder *folder)
 
 
 
-static gboolean
-_is_a_message_file (const gchar *file_name, const gchar *file_path)
-{
-	struct stat stat_buf;
-	gint stat_error = 0;
-	gboolean ok;
-	gchar *full_file_name;
-	int i;
-	
-	/* test if the name is a number */
-	i=0;
-	while ((file_name[i] != '\0') && (file_name[i] >= '0') && (file_name[i] <= '9'))
-		i++;
-	if ((i==0) || (file_name[i] != '\0')) return FALSE;
-	
-	/* is it a regular file ? */
-	full_file_name = g_strdup_printf ("%s/%s", file_path, file_name);
-	stat_error = stat (full_file_name, &stat_buf);
-	g_free (full_file_name);
-
-	return  ((stat_error != -1) && S_ISREG (stat_buf.st_mode));
-}
-
 
 static void
 _filename_free (gpointer data)
@@ -583,7 +582,7 @@ _get_message_count (CamelFolder *folder)
 	dir_entry = readdir (dir_handle);
 	while (dir_entry != NULL) {
 		/* tests if the entry correspond to a message file */
-		if (_is_a_message_file (dir_entry->d_name, directory_path)) 
+		if (mh_is_a_message_file (dir_entry->d_name, directory_path)) 
 			message_count++;	
 		/* read next entry */
 		dir_entry = readdir (dir_handle);
@@ -619,7 +618,7 @@ _find_next_free_message_file (CamelFolder *folder, gint *new_msg_number, gchar *
 	dir_entry = readdir (dir_handle);
 	while (dir_entry != NULL) {
 		/* tests if the entry correspond to a message file */
-		if (_is_a_message_file (dir_entry->d_name, directory_path)) {
+		if (mh_is_a_message_file (dir_entry->d_name, directory_path)) {
 			/* see if the message number is the biggest found */
 			current_message_number = atoi (dir_entry->d_name);
 			if (current_message_number > last_max_message_number)

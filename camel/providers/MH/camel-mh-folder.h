@@ -46,6 +46,7 @@ typedef struct {
 	
 	gchar *directory_path;
 	GList *file_name_list;
+	GArray *uid_array;
 
 } CamelMhFolder;
 

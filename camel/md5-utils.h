@@ -43,7 +43,7 @@ void md5_get_digest_from_stream (CamelStream *stream, guchar digest[16]);
 
 /* use this one when speed is needed */
 /* for use in provider code only */
-void md5_get_digest_from_file (gchar *filename, gint buffer_size, guchar digest[16]);
+void md5_get_digest_from_file (const gchar *filename, guchar digest[16]);
 
 /* raw routines */
 void md5_init (MD5Context *ctx);

@@ -15,12 +15,14 @@ libcamelmh_la_SOURCES = 			\
 	camel-mh-folder.c			\
 	camel-mh-provider.c			\
 	camel-mh-store.c			\
-	mh-uid.c
+	mh-uid.c				\
+	mh-utils.c
 
 libcamelmhinclude_HEADERS =			\
 	camel-mh-folder.h			\
-	camel-mh-store.h\
-	mh-uid.h
+	camel-mh-store.h			\
+	mh-uid.h				\
+	mh-utils.h
 
 
 libcamelmh_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)

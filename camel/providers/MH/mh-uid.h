@@ -24,5 +24,17 @@
 #define MH_UID_H 1
 
 #include <glib.h>
+#include "camel-mh-folder.h"
+
+
+typedef struct {
+	gchar uid[16];
+	guint file_number;
+} MhUidCouple;
+
+void mh_uid_get_for_file (gchar *filename, guchar uid[16]);
+void mh_save_uid_list (CamelMhFolder *mh_folder);
+gint mh_load_uid_list (CamelMhFolder *mh_folder);
+gint mh_generate_uid_list (CamelMhFolder *mh_folder);
 
 #endif /* MH_UID_H */

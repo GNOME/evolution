@@ -20,22 +20,34 @@
  * USA
  */
 
+
+#include <config.h> 
+
 #include "mh-uid.h"
 #include "camel-stream.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-buffered-fs.h"
 #include "gmime-utils.h"
 #include "md5-utils.h"
+#include "mh-utils.h"
 
-guchar *
-mh_uid_get_for_file (gchar *filename)
+#include <sys/stat.h> 
+#include <unistd.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+void
+mh_uid_get_for_file (gchar *filename, guchar uid[16])
 {
 	CamelStream *message_stream;
 	GArray *header_array;
 	Rfc822Header *cur_header;
 	int i;
 	MD5Context ctx;
-	guchar *md5_digest_uid;
 
 
 	message_stream = camel_stream_buffered_fs_new_with_name (filename, 
@@ -61,10 +73,119 @@ mh_uid_get_for_file (gchar *filename)
 	
 	g_array_free (header_array, TRUE);
 	
-	md5_digest_uid = g_new0 (guchar, 16);
-	md5_final (md5_digest_uid, &ctx);
-
-	return md5_digest_uid;
+	md5_final (uid, &ctx);
 }
 
 
+
+
+void 
+mh_save_uid_list (CamelMhFolder *mh_folder)
+{
+	GArray *uid_array;
+	MhUidCouple *first_uid_couple;
+	gchar *directory_path = mh_folder->directory_path;
+	gchar *uidfile_path;
+	int fd;
+	int i;
+
+	uidfile_path = g_strdup_printf ("%s/%s", directory_path, ".camel-uid-list");
+	fd = open (uidfile_path, O_WRONLY | O_CREAT );
+	g_free (uidfile_path);
+	if (!fd) return;
+
+	uid_array = mh_folder->uid_array;
+	first_uid_couple = (MhUidCouple *)uid_array->data;
+
+	/* write the number of uid contained in the file */
+	write (fd, &(uid_array->len), sizeof (uid_array->len));
+	
+	/* now write the array of uid self */
+	write (fd, first_uid_couple, sizeof (first_uid_couple) * uid_array->len);
+	
+	close (fd);
+}
+
+
+gint 
+mh_load_uid_list (CamelMhFolder *mh_folder)
+{
+	GArray *new_uid_array;
+	MhUidCouple *first_uid_couple;
+	gchar *directory_path = mh_folder->directory_path;
+	gchar *uidfile_path;
+	int fd;
+	guint uid_nb;
+
+	uidfile_path = g_strdup_printf ("%s/%s", directory_path, ".camel-uid-list");
+	fd = open (uidfile_path, O_RDONLY);
+	g_free (uidfile_path);
+	if (!fd) return -1;
+
+	if (mh_folder->uid_array) g_array_free (mh_folder->uid_array, FALSE);
+
+	read (fd, &uid_nb, sizeof (uid_nb));
+
+	new_uid_array = g_array_new (FALSE, FALSE, sizeof (MhUidCouple));
+	new_uid_array = g_array_set_size (new_uid_array, uid_nb);
+	first_uid_couple = (MhUidCouple *)new_uid_array->data;
+	
+	/* read the number of uids in the file */
+	read (fd, first_uid_couple, sizeof (first_uid_couple) * uid_nb);
+	
+	mh_folder->uid_array = new_uid_array;		
+
+	return 1;
+}
+
+
+gint 
+mh_generate_uid_list (CamelMhFolder *mh_folder)
+{	
+	GArray *new_uid_array;
+	const gchar *directory_path;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
+	gchar *msg_path;
+	guint msg_count;	
+	MhUidCouple *uid_couple;
+	guint file_number;
+
+	g_assert(mh_folder);
+
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return -1;
+		
+	msg_count = camel_folder_get_message_count (CAMEL_FOLDER (mh_folder));
+	if (!msg_count) return -1;
+	
+	new_uid_array = g_array_new (FALSE, FALSE, sizeof (MhUidCouple));
+	new_uid_array = g_array_set_size (new_uid_array, msg_count);
+	uid_couple = (MhUidCouple *)new_uid_array->data;
+
+	dir_handle = opendir (directory_path);
+	
+	/* read first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while (dir_entry != NULL) {
+
+		/* tests if the entry correspond to a message file */
+		if (mh_is_a_message_file (dir_entry->d_name, directory_path)) {
+						
+			/* get the uid for this message */
+			msg_path = g_strdup_printf ("%s/%s", directory_path, dir_entry->d_name);
+			mh_uid_get_for_file (msg_path, uid_couple->uid);
+			g_free (msg_path);
+
+			/* convert filename into file number */
+			uid_couple->file_number = atoi (dir_entry->d_name);
+			uid_couple++;
+		}
+			
+		/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}
+
+	closedir (dir_handle);
+	
+}

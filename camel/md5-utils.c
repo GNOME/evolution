@@ -358,7 +358,7 @@ md5_get_digest_from_stream (CamelStream *stream, guchar digest[16])
  * the 16 bytes buffer @digest .
  **/
 void
-md5_get_digest_from_file (gchar *filename, guchar digest[16])
+md5_get_digest_from_file (const gchar *filename, guchar digest[16])
 {	
 	MD5Context ctx;
 	guchar tmp_buf[1024];
