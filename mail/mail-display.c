@@ -660,7 +660,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 				   to pass a bunch of useful things to all embedded controls. */
 				const CamelInternetAddress *from;
 				char *from_address;
-				MailConfigIdentity *id;
+				const MailConfigIdentity *id;
 
 				id = mail_config_get_default_identity ();
 				if (!id)

@@ -1,5 +1,8 @@
 2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (on_object_requested): Update to reflect past
+	changes to the mail-config API.
+
 	* session.c (mail_session_set_password): strdup() the key.
 
 	* mail-config-druid.c (construct): We don't want to be able to set
