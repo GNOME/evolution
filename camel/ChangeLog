@@ -1,3 +1,9 @@
+2003-01-14  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-parser.c (folder_scan_step): If we have no
+	content-type header, set it to text/plain explcitly, rather than
+	NULL, because some code doesn't handle NULL.
+
 2003-01-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-gssapi.[c,h]: New source files implementing the

@@ -1693,6 +1693,8 @@ tail_recurse:
 				d(printf("parent was multipart/digest, autoupgrading to message/rfc822?\n"));
 				/* maybe we should do this too?
 				   header_raw_append_parse(&h->headers, "Content-Type: message/rfc822", -1);*/
+			} else {
+				ct = header_content_type_decode("text/plain");
 			}
 		}
 		h->content_type = ct;
