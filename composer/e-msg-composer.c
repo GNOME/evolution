@@ -2093,12 +2093,14 @@ setup_signatures_menu (EMsgComposer *composer)
 	EIterator *it;
 	
 	hbox = e_msg_composer_hdrs_get_from_hbox (E_MSG_COMPOSER_HDRS (composer->hdrs));
-	
-	label = gtk_label_new (_("Signature:"));
+
+	label = gtk_label_new_with_mnemonic (_("Si_gnature:"));
 	gtk_widget_show (label);
-	
+
 	composer->sig_menu = (GtkOptionMenu *) gtk_option_menu_new ();
-	
+
+	gtk_label_set_mnemonic_widget (label, composer->sig_menu);
+
 	gtk_box_pack_end_defaults (GTK_BOX (hbox), (GtkWidget *) composer->sig_menu);
 	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 	hspace = gtk_hbox_new (FALSE, 0);

@@ -536,7 +536,7 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 	
 	priv = hdrs->priv;
 	
-	ret.label = gtk_button_new_with_label (name);
+	ret.label = gtk_button_new_with_mnemonic (name);
 	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);
 	g_signal_connect_data (ret.label, "clicked",
 			       G_CALLBACK (address_button_clicked_cb),
@@ -567,7 +567,7 @@ static void
 create_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
-	
+	AtkObject *a11y;	
 	/*
 	 * Reply-To:
 	 *
@@ -575,36 +575,39 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 * because that causes from_changed to be called, which
 	 * expects the reply_to fields to be initialized.
 	 */
-	priv->reply_to.label = gtk_label_new (_("Reply-To:"));
+	priv->reply_to.label = gtk_label_new_with_mnemonic (_("_Reply-To:"));
 	priv->reply_to.entry = gtk_entry_new ();
+	gtk_label_set_mnemonic_widget (priv->reply_to.label, priv->reply_to.entry);
 	
 	/*
 	 * From
 	 */
-	priv->from.label = gtk_label_new (_("From:"));
+	priv->from.label = gtk_label_new_with_mnemonic (_("Fr_om:"));
 	priv->from.entry = create_from_optionmenu (hdrs);
+	gtk_label_set_mnemonic_widget (priv->from.label, e_msg_composer_hdrs_get_from_omenu (hdrs));
 	
 	/*
 	 * Subject
 	 */
-	priv->subject.label = gtk_label_new (_("Subject:"));
+	priv->subject.label = gtk_label_new_with_mnemonic (_("S_ubject:"));
 	priv->subject.entry = gtk_entry_new ();
+	gtk_label_set_mnemonic_widget (priv->subject.label, priv->subject.entry);
 	g_signal_connect (priv->subject.entry, "changed",
 			  G_CALLBACK (entry_changed), hdrs);
-	
+
 	/*
 	 * To, CC, and Bcc
 	 */
 	priv->to = header_new_recipient (
-		hdrs, _("To:"),
+		hdrs, _("_To:"),
 		_("Enter the recipients of the message"));
 	
 	priv->cc = header_new_recipient (
-		hdrs, _("Cc:"),
+		hdrs, _("_Cc:"),
 		_("Enter the addresses that will receive a carbon copy of the message"));
 	
 	priv->bcc = header_new_recipient (
-		hdrs, _("Bcc:"),
+		hdrs, _("_Bcc:"),
 		 _("Enter the addresses that will receive a carbon copy of "
 		   "the message without appearing in the recipient list of "
 		   "the message."));
@@ -612,7 +615,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 	/*
 	 * Post-To
 	 */
-	priv->post_to.label = gtk_button_new_with_label (_("Post To:"));
+	priv->post_to.label = gtk_button_new_with_mnemonic (_("_Post To:"));
 	GTK_OBJECT_UNSET_FLAGS (priv->post_to.label, GTK_CAN_FOCUS);
 	g_signal_connect (priv->post_to.label, "clicked",
 			  G_CALLBACK (post_browser_clicked_cb), hdrs);
@@ -621,6 +624,10 @@ create_headers (EMsgComposerHdrs *hdrs)
 			      NULL);
 	
 	priv->post_to.entry = gtk_entry_new ();
+	a11y = gtk_widget_get_accessible (priv->post_to.entry);
+	if (a11y != NULL) {
+		atk_object_set_name (a11y, _("Post To:"));	
+	}
 	g_signal_connect(priv->post_to.entry, "changed",
 			 G_CALLBACK (post_entry_changed_cb), hdrs);
 }
