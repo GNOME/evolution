@@ -15,7 +15,7 @@ module Evolution {
 
 struct Connection {
 	string hostName;
-	short portNumber;
+	string type;
 };
 typedef sequence<Connection> ConnectionList;
 

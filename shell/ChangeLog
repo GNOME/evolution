@@ -1,3 +1,14 @@
+2001-05-04  Dan Winship  <danw@ximian.com>
+
+	* e-shell-offline-handler.c (update_dialog_clist_hash_foreach,
+	(duplicate_connection_list): Use type instead of portNumber.
+	(e_shell_offline_handler_put_components_offline): Fix the logic of
+	when to show the connection dialog here. (Show it when there *are*
+	connections, not when there aren't.)
+
+	* Evolution-Offline.idl: Have a "string type" instead of "short
+	portNumber" in Connection.
+
 2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-offline-handler.c

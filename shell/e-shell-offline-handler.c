@@ -152,8 +152,8 @@ duplicate_connection_list (const GNOME_Evolution_ConnectionList *source)
 	copy->_buffer  = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (copy->_maximum);
 
 	for (i = 0; i < source->_length; i++) {
-		copy->_buffer[i].hostName   = CORBA_string_dup (source->_buffer[i].hostName);
-		copy->_buffer[i].portNumber = source->_buffer[i].portNumber;
+		copy->_buffer[i].hostName = CORBA_string_dup (source->_buffer[i].hostName);
+		copy->_buffer[i].type     = CORBA_string_dup (source->_buffer[i].type);
 	}
 
 	return copy;
@@ -508,7 +508,7 @@ update_dialog_clist_hash_foreach (void *key,
 		char *columns[3];
 
 		columns[0] = p->hostName;
-		columns[1] = g_strdup_printf ("%d", p->portNumber);
+		columns[1] = p->type;
 		columns[2] = NULL;
 
 		gtk_clist_prepend (GTK_CLIST (clist), columns);
@@ -801,7 +801,7 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		return;
 	}
 
-	if (priv->num_total_connections == 0 && priv->parent_shell_view != NULL)
+	if (priv->num_total_connections > 0 && priv->parent_shell_view != NULL)
 		pop_up_confirmation_dialog (offline_handler);
 	else
 		finalize_offline (offline_handler);
