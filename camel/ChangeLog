@@ -3,6 +3,10 @@
 	* camel-pgp-context.c (crypto_exec_with_passwd): Initialize buf
 	and diag_buf to NULL, hopefully this fixes the crash if the
 	select() times out.
+	(pgp_encrypt): Argh. What was I thinking? Don't use "-r recipient"
+	as an argument, instead use "-r" and "recipient" as 2 separate
+	arguments to pgp. This might fix the "gpg only encrypts to my
+	private key" bug?
 
 2001-08-28  Peter Williams  <peterw@ximian.com>
 

@@ -1047,7 +1047,6 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 	     CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
 	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
-	GPtrArray *recipient_list = NULL;
 	GByteArray *plaintext;
 	CamelStream *stream;
 	GPtrArray *argv;
@@ -1099,18 +1098,9 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 	}
 	
 	argv = g_ptr_array_new ();
-	recipient_list = g_ptr_array_new ();
 	
 	switch (context->priv->type) {
 	case CAMEL_PGP_TYPE_GPG:
-		for (r = 0; r < recipients->len; r++) {
-			char *buf, *recipient;
-			
-			recipient = recipients->pdata[r];
-			buf = g_strdup_printf ("-r %s", recipient);
-			g_ptr_array_add (recipient_list, buf);
-		}
-		
 		g_ptr_array_add (argv, "gpg");
 		
 		g_ptr_array_add (argv, "--verbose");
@@ -1119,8 +1109,10 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		
 		g_ptr_array_add (argv, "--armor");
 		
-		for (r = 0; r < recipient_list->len; r++)
-			g_ptr_array_add (argv, recipient_list->pdata[r]);
+		for (r = 0; r < recipients->len; r++) {
+			g_ptr_array_add (argv, "-r");
+			g_ptr_array_add (argv, recipients->pdata[r]);
+		}
 		
 		g_ptr_array_add (argv, "--output");
 		g_ptr_array_add (argv, "-");            /* output to stdout */
@@ -1139,18 +1131,12 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		}
 		break;
 	case CAMEL_PGP_TYPE_PGP5:
-		for (r = 0; r < recipients->len; r++) {
-			char *buf, *recipient;
-			
-			recipient = recipients->pdata[r];
-			buf = g_strdup_printf ("-r %s", recipient);
-			g_ptr_array_add (recipient_list, buf);
-		}
-		
 		g_ptr_array_add (argv, "pgpe");
 		
-		for (r = 0; r < recipient_list->len; r++)
-			g_ptr_array_add (argv, recipient_list->pdata[r]);
+		for (r = 0; r < recipients->len; r++) {
+			g_ptr_array_add (argv, "-r");
+			g_ptr_array_add (argv, recipients->pdata[r]);
+		}
 		
 		g_ptr_array_add (argv, "-f");
 		g_ptr_array_add (argv, "-z");
@@ -1170,14 +1156,6 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		break;
 	case CAMEL_PGP_TYPE_PGP2:
 	case CAMEL_PGP_TYPE_PGP6:
-		for (r = 0; r < recipients->len; r++) {
-			char *buf, *recipient;
-			
-			recipient = recipients->pdata[r];
-			buf = g_strdup (recipient);
-			g_ptr_array_add (recipient_list, buf);
-		}
-		
 		g_ptr_array_add (argv, "pgp");
 		g_ptr_array_add (argv, "-f");
 		g_ptr_array_add (argv, "-e");
@@ -1185,8 +1163,8 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		g_ptr_array_add (argv, "-o");
 		g_ptr_array_add (argv, "-");
 		
-		for (r = 0; r < recipient_list->len; r++)
-			g_ptr_array_add (argv, recipient_list->pdata[r]);
+		for (r = 0; r < recipients->len; r++)
+			g_ptr_array_add (argv, recipients->pdata[r]);
 		
 		if (sign) {
 			g_ptr_array_add (argv, "-s");
@@ -1213,13 +1191,6 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 					  &diagnostics);
 	
 	g_byte_array_free (plaintext, TRUE);
-	
-	/* free the temp recipient list */
-	if (recipient_list) {
-		for (r = 0; r < recipient_list->len; r++)
-			g_free (recipient_list->pdata[r]);
-		g_ptr_array_free (recipient_list, TRUE);
-	}
 	
 	g_free (passphrase);
 	g_ptr_array_free (argv, TRUE);
