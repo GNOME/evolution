@@ -1945,13 +1945,13 @@ loc2=Portoroz LJPZ ------ ---
 [EU_SE]
 name=Sweden
 loc0=Borlange ESSD ------ --
-loc1=Gavle \\ Sandviken ESSK  ------ --
+loc1=Gavle\\ Sandviken ESSK  ------ --
 loc2=Gallivare ESNG ------ --
 loc3=Goteborg\\ (Landvetter) ESGG  ------ --
 loc4=Goteborg\\ (Save) ESGP ------ --
 loc5=Hagshult ESMV ------ --
-loc6=Halmstad\\ (Swedish Air Force Base) ESMT ------ --
-loc7=Hultsfred\\(Swedish Air Force Base) ESSF ------ --
+loc6=Halmstad\\ (Swedish\\ Air\\ Force\\ Base) ESMT ------ --
+loc7=Hultsfred\\ (Swedish\\ Air\\ Force\\ Base) ESSF ------ --
 loc8=Jonkoping ESGJ ------ ---
 loc9=Kiruna ESNQ ------ ---
 loc10=Linkoping\\ (Malmen) ESCF ------ --

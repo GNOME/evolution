@@ -368,7 +368,6 @@ e_summary_weather_add_location (ESummary *summary,
 static gboolean
 e_summary_weather_init_locations (void) 
 {
-	char *key, *path;
 	int nregions, iregions;
 	char **regions;
 
@@ -377,13 +376,8 @@ e_summary_weather_init_locations (void)
 	}
 
 	locations_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	path = g_strdup (LOCATIONDIR);
 
-	key = g_strdup_printf ("=%s=/", path);
-	g_free (path);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
+	gnome_config_push_prefix ("=" LOCATIONDIR "/Locations=/");
 
 	gnome_config_get_vector ("Main/regions", &nregions, &regions);
 	for (iregions = nregions - 1; iregions >= 0; iregions--) {
@@ -419,7 +413,13 @@ e_summary_weather_init_locations (void)
 					gnome_config_make_vector (iter_val,
 								  &nlocdata,
 								  &locdata);
-					g_return_val_if_fail (nlocdata == 4, FALSE);
+
+					if (nlocdata != 4) {
+						g_warning ("Invalid location in Locations file: %s\n", iter_val);
+						g_free (iter_key);
+						g_free (iter_val);
+						continue;
+					}
 
 					if (!g_hash_table_lookup (locations_hash, locdata[1])) {
 						location = weather_location_new (locdata);
@@ -660,17 +660,10 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 {
 	ETreePath region, state, location;
 	ESummaryShownModelEntry *entry;
-	char *key, *path;
 	int nregions, iregions;
 	char **regions;
 
-	path = g_strdup (LOCATIONDIR);
-
-	key = g_strdup_printf ("=%s=/", path);
-	g_free (path);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
+	gnome_config_push_prefix ("=" LOCATIONDIR "/Locations=/");
 
 	gnome_config_get_vector ("Main/regions", &nregions, &regions);
 	region = NULL;
@@ -722,7 +715,12 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 					gnome_config_make_vector (iter_val,
 								  &nlocdata,
 								  &locdata);
-					g_return_if_fail (nlocdata == 4);
+					if (nlocdata != 4) {
+						g_warning ("Invalid location in Locations file: %s\n", iter_val);
+						g_free (iter_key);
+						g_free (iter_val);
+						continue;
+					}
 					
 					entry = g_new (ESummaryShownModelEntry, 1);
 					entry->location = g_strdup (locdata[1]);

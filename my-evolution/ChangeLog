@@ -1,3 +1,20 @@
+2003-03-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Locations (name): Add some escapes to the newly added locations
+	so they get split properly.
+
+	* e-summary-weather.c (e_summary_weather_init_locations): Fetch
+	the Locations file from the right path.  If you find an invalid
+	entry in the Locations file, complain with an informative
+	g_warning() instead of just returning FALSE.
+	(e_summary_weather_fill_etable): Do the same thing here.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-calendar.c (generate_html): Added the AM/PM part when
+	not in "wants24hr" mode; moved the date before the time instead of
+	vice versa.  Also, do not check the boolean value against TRUE!
+
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Locations: Added more Swedish locations, submitted by Marten
