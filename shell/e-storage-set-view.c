@@ -961,7 +961,7 @@ impl_tree_drag_begin (ETree *etree,
 
 	CORBA_exception_init (&ev);
 
-	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (component_client));
+	corba_component = evolution_shell_component_client_corba_objref (component_client);
 	priv->drag_corba_source_interface = Bonobo_Unknown_queryInterface (corba_component,
 									   "IDL:GNOME/Evolution/ShellComponentDnd/SourceFolder:1.0",
 									   &ev);
@@ -2160,7 +2160,7 @@ e_storage_set_view_new (EStorageSet *storage_set,
 
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 
-	new = gtk_type_new (e_storage_set_view_get_type ());
+	new = g_object_new (e_storage_set_view_get_type (), NULL);
 
 	e_storage_set_view_construct (E_STORAGE_SET_VIEW (new), storage_set, ui_container);
 

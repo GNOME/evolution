@@ -125,7 +125,7 @@ e_task_bar_new (void)
 {
 	ETaskBar *task_bar;
 
-	task_bar = gtk_type_new (e_task_bar_get_type ());
+	task_bar = g_object_new (e_task_bar_get_type (), NULL);
 	e_task_bar_construct (task_bar);
 
 	return GTK_WIDGET (task_bar);

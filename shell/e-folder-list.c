@@ -559,7 +559,8 @@ e_folder_list_get_type (void)
 GtkWidget*
 e_folder_list_new (EvolutionShellClient *client, char *xml)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_folder_list_get_type ()));
+	GtkWidget *widget = GTK_WIDGET (g_object_new (e_folder_list_get_type (), NULL));
+
 	e_folder_list_construct (E_FOLDER_LIST (widget), client, xml);
 	return widget;
 }

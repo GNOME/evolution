@@ -1149,7 +1149,7 @@ e_local_storage_open (EFolderTypeRegistry *folder_type_registry,
 	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), NULL);
 	g_return_val_if_fail (base_path != NULL, NULL);
 
-	new = gtk_type_new (e_local_storage_get_type ());
+	new = g_object_new (e_local_storage_get_type (), NULL);
 
 	if (! construct (E_LOCAL_STORAGE (new), folder_type_registry, base_path)) {
 		g_object_unref (new);

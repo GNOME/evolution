@@ -236,7 +236,7 @@ e_corba_config_page_new_from_objref (GNOME_Evolution_ConfigControl corba_object)
 	g_return_val_if_fail (corba_object != CORBA_OBJECT_NIL, NULL);
 	g_return_val_if_fail (corba_object != CORBA_OBJECT_NIL, NULL);
 
-	corba_config_page = gtk_type_new (e_corba_config_page_get_type ());
+	corba_config_page = g_object_new (e_corba_config_page_get_type (), NULL);
 	if (! e_corba_config_page_construct (corba_config_page, corba_object)) {
 		gtk_widget_destroy (GTK_WIDGET (corba_config_page));
 		return NULL;

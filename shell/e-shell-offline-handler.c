@@ -786,7 +786,7 @@ e_shell_offline_handler_new (EShell *shell)
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	offline_handler = (EShellOfflineHandler *) gtk_type_new (e_shell_offline_handler_get_type ());
+	offline_handler = (EShellOfflineHandler *) g_object_new (e_shell_offline_handler_get_type (), NULL);
 	e_shell_offline_handler_construct (offline_handler, shell);
 
 	return offline_handler;

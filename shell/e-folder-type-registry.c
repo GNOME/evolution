@@ -139,7 +139,7 @@ folder_type_free (FolderType *folder_type)
 		gdk_pixbuf_unref (folder_type->mini_icon_pixbuf);
 
 	if (folder_type->handler != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (folder_type->handler));
+		g_object_unref (folder_type->handler);
 
 	g_free (folder_type);
 }
@@ -202,7 +202,7 @@ set_handler (EFolderTypeRegistry *folder_type_registry,
 	if (folder_type->handler != NULL)
 		return FALSE;
 
-	bonobo_object_ref (BONOBO_OBJECT (handler));
+	g_object_ref (handler);
 	folder_type->handler = handler;
 
 	return TRUE;
@@ -278,7 +278,7 @@ e_folder_type_registry_new (void)
 {
 	EFolderTypeRegistry *new;
 
-	new = gtk_type_new (e_folder_type_registry_get_type ());
+	new = g_object_new (e_folder_type_registry_get_type (), NULL);
 
 	e_folder_type_registry_construct (new);
 

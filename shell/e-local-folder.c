@@ -430,7 +430,7 @@ e_local_folder_new (const char *name,
 	g_return_val_if_fail (name != NULL, NULL);
 	g_return_val_if_fail (type != NULL, NULL);
 
-	local_folder = gtk_type_new (e_local_folder_get_type ());
+	local_folder = g_object_new (e_local_folder_get_type (), NULL);
 
 	e_local_folder_construct (local_folder, name, type, description);
 
@@ -444,7 +444,7 @@ e_local_folder_new_from_path (const char *path)
 
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
-	folder = gtk_type_new (e_local_folder_get_type ());
+	folder = g_object_new (e_local_folder_get_type (), NULL);
 
 	if (! construct_loading_metadata (E_LOCAL_FOLDER (folder), path)) {
 		g_object_unref (folder);

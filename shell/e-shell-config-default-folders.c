@@ -77,7 +77,7 @@ e_shell_config_default_folder_selector_button_new (char *widget_name,
 						   char *string2,
 						   int int1, int int2)
 {
-	return (GtkWidget *)gtk_type_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON);
+	return (GtkWidget *) g_object_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON, NULL);
 }
 
 static void
@@ -156,7 +156,7 @@ e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigCont
 	dfc->config_listener = e_config_listener_new ();
 
 	CORBA_exception_init (&ev);
-	shell_dup = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (shell)), &ev);
+	shell_dup = CORBA_Object_duplicate (BONOBO_OBJREF (shell), &ev);
 	CORBA_exception_free (&ev);
 	dfc->shell_client = evolution_shell_client_new (shell_dup);
 

@@ -342,7 +342,7 @@ evolution_folder_selector_button_new (EvolutionShellClient *shell_client,
 {
 	EvolutionFolderSelectorButton *folder_selector_button;
 
-	folder_selector_button = gtk_type_new (evolution_folder_selector_button_get_type ());
+	folder_selector_button = g_object_new (evolution_folder_selector_button_get_type (),  NULL);
 
 	evolution_folder_selector_button_construct (folder_selector_button,
 						    shell_client,

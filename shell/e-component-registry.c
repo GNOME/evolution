@@ -133,7 +133,7 @@ component_free (Component *component)
 
 	CORBA_exception_init (&ev);
 
-	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (component->client));
+	corba_shell_component = evolution_shell_component_client_corba_objref (component->client);
 	corba_shell_component = CORBA_Object_duplicate (corba_shell_component, &ev);
 
 	GNOME_Evolution_ShellComponent_unsetOwner (corba_shell_component, &ev);
@@ -229,8 +229,8 @@ register_component (EComponentRegistry *component_registry,
 	/* FIXME we could use the EvolutionShellComponentClient API here instead, but for
            now we don't care.  */
 
-	component_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	shell_corba_interface = bonobo_object_corba_objref (BONOBO_OBJECT (priv->shell));
+	component_corba_interface = evolution_shell_component_client_corba_objref (client);
+	shell_corba_interface = BONOBO_OBJREF (priv->shell);
 
 	CORBA_exception_init (&my_ev);
 
@@ -373,7 +373,7 @@ e_component_registry_new (EShell *shell)
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	component_registry = gtk_type_new (e_component_registry_get_type ());
+	component_registry = g_object_new (e_component_registry_get_type (), NULL);
 	e_component_registry_construct (component_registry, shell);
 
 	return component_registry;
@@ -488,7 +488,7 @@ e_component_registry_restart_component  (EComponentRegistry *component_registry,
 
 	g_hash_table_remove (priv->component_id_to_component, id);
 
-	corba_objref = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (component->client)), &my_ev);
+	corba_objref = CORBA_Object_duplicate (evolution_shell_component_client_corba_objref (component->client), &my_ev);
 
 	component_free (component);
 

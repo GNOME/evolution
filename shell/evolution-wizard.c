@@ -261,7 +261,7 @@ evolution_wizard_new_full (EvolutionWizardGetControlFn get_fn,
 	g_return_val_if_fail (num_pages > 0, NULL);
 	g_return_val_if_fail (BONOBO_IS_EVENT_SOURCE (event_source), NULL);
 
-	wizard = gtk_type_new (evolution_wizard_get_type ());
+	wizard = g_object_new (evolution_wizard_get_type (), NULL);
 
 	return evolution_wizard_construct (wizard, event_source, get_fn, num_pages, closure);
 }

@@ -456,7 +456,7 @@ evolution_storage_set_view_new (EStorageSetView *storage_set_view_widget)
 	g_return_val_if_fail (storage_set_view_widget != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view_widget), NULL);
 
-	new = gtk_type_new (evolution_storage_set_view_get_type ());
+	new = g_object_new (evolution_storage_set_view_get_type (), NULL);
 
 	evolution_storage_set_view_construct (new, storage_set_view_widget);
 

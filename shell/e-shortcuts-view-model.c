@@ -331,7 +331,7 @@ e_shortcuts_view_model_new (EShortcuts *shortcuts)
 	g_return_val_if_fail (shortcuts != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
 
-	new = gtk_type_new (e_shortcuts_view_model_get_type ());
+	new = g_object_new (e_shortcuts_view_model_get_type (), NULL);
 
 	e_shortcuts_view_model_construct (new, shortcuts);
 

@@ -125,7 +125,7 @@ e_uri_schema_registry_new (void)
 {
 	EUriSchemaRegistry *registry;
 
-	registry = gtk_type_new (e_uri_schema_registry_get_type ());
+	registry = g_object_new (e_uri_schema_registry_get_type (), NULL);
 
 	return registry;
 }

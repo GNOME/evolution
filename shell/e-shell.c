@@ -205,7 +205,7 @@ set_interactive (EShell *shell,
 
 		id = (const char *) p->data;
 		shell_component_client = e_component_registry_get_component_by_id (priv->component_registry, id);
-		shell_component_objref = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
+		shell_component_objref = evolution_shell_component_client_corba_objref (shell_component_client);
 
 		CORBA_exception_init (&ev);
 
@@ -356,7 +356,7 @@ impl_Shell_getComponentByType (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (handler));
+	corba_component = evolution_shell_component_client_corba_objref (handler);
 	Bonobo_Unknown_ref (corba_component, ev);
 
 	return CORBA_Object_duplicate (corba_component, ev);
@@ -870,7 +870,7 @@ set_owner_on_components (EShell *shell,
 	priv = shell->priv;
 	local_directory = e_shell_get_local_directory (shell);
 
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
+	corba_shell = BONOBO_OBJREF (shell);
 
 	id_list = e_component_registry_get_id_list (priv->component_registry);
 	for (p = id_list; p != NULL; p = p->next) {
@@ -1623,7 +1623,7 @@ save_settings_for_component (EShell *shell,
 	char *prefix;
 	gboolean retval;
 
-	unknown_interface = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	unknown_interface = evolution_shell_component_client_corba_objref (client);
 	g_assert (unknown_interface != CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
@@ -1832,7 +1832,7 @@ e_shell_component_maybe_crashed   (EShell *shell,
 
 	component = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry, type_name);
 	if (component != NULL
-	    && bonobo_unknown_ping (bonobo_object_corba_objref (BONOBO_OBJECT (component)), NULL))
+	    && bonobo_unknown_ping (evolution_shell_component_client_corba_objref (component), NULL))
 		return;
 
 	/* See if that type has caused a crash already.  */
@@ -2038,7 +2038,7 @@ e_shell_send_receive (EShell *shell)
 		CORBA_exception_init (&ev);
 
 		GNOME_Evolution_ShellComponent_sendReceive
-			(bonobo_object_corba_objref (BONOBO_OBJECT (component_client)), TRUE, &ev);
+			(evolution_shell_component_client_corba_objref (component_client), TRUE, &ev);
 
 		if (BONOBO_EX (&ev))
 			g_warning ("Error invoking Send/Receive on %s -- %s", id, BONOBO_EX_REPOID (&ev));

@@ -333,7 +333,7 @@ e_shell_settings_dialog_new ()
 {
 	EShellSettingsDialog *new;
 
-	new = gtk_type_new (e_shell_settings_dialog_get_type ());
+	new = g_object_new (e_shell_settings_dialog_get_type (), NULL);
 
 	return GTK_WIDGET (new);
 }

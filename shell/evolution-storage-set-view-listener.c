@@ -254,7 +254,7 @@ evolution_storage_set_view_listener_new (void)
 	EvolutionStorageSetViewListenerPrivate *priv;
 	GNOME_Evolution_StorageSetViewListener corba_listener;
 
-	new = gtk_type_new (evolution_storage_set_view_listener_get_type ());
+	new = g_object_new (evolution_storage_set_view_listener_get_type (), NULL);
 	priv = new->priv;
 
 	priv->servant = create_servant (new);

@@ -92,7 +92,7 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 
 	CORBA_exception_init (&ev);
 
-	shell_dup = CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (shell)), &ev);
+	shell_dup = CORBA_Object_duplicate (BONOBO_OBJREF (shell), &ev);
 	ac->shell_client = evolution_shell_client_new (shell_dup);
 
 	xml = e_config_listener_get_string_with_default (ac->config_listener,

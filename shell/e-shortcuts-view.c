@@ -763,7 +763,7 @@ e_shortcuts_view_new (EShortcuts *shortcuts)
 	g_return_val_if_fail (shortcuts != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
 
-	new = gtk_type_new (e_shortcuts_view_get_type ());
+	new = g_object_new (e_shortcuts_view_get_type (), NULL);
 	e_shortcuts_view_construct (E_SHORTCUTS_VIEW (new), shortcuts);
 
 	return new;

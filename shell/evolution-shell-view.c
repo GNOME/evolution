@@ -230,7 +230,7 @@ init (EvolutionShellView *shell_view)
 EvolutionShellView *
 evolution_shell_view_new (void)
 {
-	return gtk_type_new (evolution_shell_view_get_type ());
+	return g_object_new (evolution_shell_view_get_type (), NULL);
 }
 
 

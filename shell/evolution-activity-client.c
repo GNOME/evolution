@@ -323,7 +323,7 @@ evolution_activity_client_new (EvolutionShellClient *shell_client,
 	g_return_val_if_fail (information != NULL, NULL);
 	g_return_val_if_fail (suggest_display_return != NULL, NULL);
 
-	activity_client = gtk_type_new (evolution_activity_client_get_type ());
+	activity_client = g_object_new (evolution_activity_client_get_type (), NULL);
 
 	if (! evolution_activity_client_construct (activity_client,
 						   shell_client,

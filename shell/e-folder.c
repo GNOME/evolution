@@ -217,7 +217,7 @@ e_folder_new (const char *name,
 	g_return_val_if_fail (type != NULL, NULL);
 	g_return_val_if_fail (description != NULL, NULL);
 
-	folder = gtk_type_new (E_TYPE_FOLDER);
+	folder = g_object_new (E_TYPE_FOLDER, NULL);
 
 	e_folder_construct (folder, name, type, description);
 

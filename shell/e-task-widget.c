@@ -165,7 +165,7 @@ e_task_widget_new (GdkPixbuf *icon_pixbuf,
 	g_return_val_if_fail (icon_pixbuf != NULL, NULL);
 	g_return_val_if_fail (information != NULL, NULL);
 
-	task_widget = gtk_type_new (e_task_widget_get_type ());
+	task_widget = g_object_new (e_task_widget_get_type (), NULL);
 	e_task_widget_construct (task_widget, icon_pixbuf, component_id, information);
 
 	return GTK_WIDGET (task_widget);

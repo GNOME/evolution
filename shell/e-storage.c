@@ -358,7 +358,7 @@ e_storage_new (const char *name,
 {
 	EStorage *new;
 
-	new = gtk_type_new (e_storage_get_type ());
+	new = g_object_new (e_storage_get_type (), NULL);
 
 	e_storage_construct (new, name, root_folder);
 

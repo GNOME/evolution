@@ -385,7 +385,7 @@ e_shell_about_box_new (void)
 {
 	EShellAboutBox *about_box;
 
-	about_box = gtk_type_new (e_shell_about_box_get_type ());
+	about_box = g_object_new (e_shell_about_box_get_type (), NULL);
 
 	return GTK_WIDGET (about_box);
 }

@@ -1727,7 +1727,7 @@ e_shell_view_new (EShell *shell)
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	new = gtk_type_new (e_shell_view_get_type ());
+	new = g_object_new (e_shell_view_get_type (), NULL);
 
 	return e_shell_view_construct (E_SHELL_VIEW (new), shell);
 }
@@ -2160,7 +2160,7 @@ get_view_for_uri (EShellView *shell_view,
 	if (handler_client == CORBA_OBJECT_NIL)
 		return NULL;
 
-	handler = bonobo_object_corba_objref (BONOBO_OBJECT (handler_client));
+	handler = evolution_shell_component_client_corba_objref (handler_client);
 
 	CORBA_exception_init (&ev);
 

@@ -213,7 +213,7 @@ owner_ping_callback (void *data)
 	shell_component = EVOLUTION_SHELL_COMPONENT (data);
 	priv = shell_component->priv;
 
-	owner_objref = bonobo_object_corba_objref (BONOBO_OBJECT (priv->owner_client));
+	owner_objref = evolution_shell_client_corba_objref (priv->owner_client);
 
 	if (owner_objref == CORBA_OBJECT_NIL)
 		return FALSE;
@@ -409,7 +409,7 @@ impl_setOwner (PortableServer_Servant servant,
 		int owner_is_dead;
 
 		owner_is_dead = CORBA_Object_non_existent
-			(bonobo_object_corba_objref (BONOBO_OBJECT (priv->owner_client)), ev);
+			(evolution_shell_client_corba_objref (priv->owner_client), ev);
 		if (ev->_major != CORBA_NO_EXCEPTION)
 			owner_is_dead = TRUE;
 

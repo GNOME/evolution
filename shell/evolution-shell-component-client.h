@@ -69,6 +69,8 @@ void                           evolution_shell_component_client_construct  (Evol
 EvolutionShellComponentClient *evolution_shell_component_client_new        (const char                    *id,
 									    CORBA_Environment             *optional_ev);
 
+GNOME_Evolution_ShellComponent  evolution_shell_component_client_corba_objref  (EvolutionShellComponentClient *client);
+
 /* Properties.  */
 
 const char *evolution_shell_component_client_get_id  (EvolutionShellComponentClient *shell_component_client);

@@ -355,7 +355,7 @@ e_splash_new (void)
 	splash_image_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "/splash.png", NULL);
 	g_return_val_if_fail (splash_image_pixbuf != NULL, NULL);
 
-	new = gtk_type_new (e_splash_get_type ());
+	new = g_object_new (e_splash_get_type (), NULL);
 	e_splash_construct (new, splash_image_pixbuf);
 
 	/* gdk_pixbuf_unref (splash_image_pixbuf); */

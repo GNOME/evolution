@@ -490,8 +490,6 @@ main (int argc, char **argv)
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
 	GSList *uri_list;
-	const char **args;
-	poptContext popt_context;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -534,6 +532,7 @@ main (int argc, char **argv)
 
 	uri_list = NULL;
 
+#if 0
 	args = poptGetArgs (popt_context);
 	if (args != NULL) {
 		const char **p;
@@ -541,6 +540,7 @@ main (int argc, char **argv)
 		for (p = args; *p != NULL; p++)
 			uri_list = g_slist_prepend (uri_list, (char *) *p);
 	}
+#endif
 
 	gtk_idle_add (idle_cb, uri_list);
 

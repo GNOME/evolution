@@ -600,7 +600,7 @@ e_shell_folder_title_bar_new (void)
 
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	new = gtk_type_new (e_shell_folder_title_bar_get_type ());
+	new = g_object_new (e_shell_folder_title_bar_get_type (), NULL);
 
 	e_shell_folder_title_bar_construct (new);
 	gtk_widget_pop_visual ();

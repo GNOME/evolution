@@ -98,7 +98,7 @@ e_gray_bar_new (void)
 {
 	GtkWidget *new;
 
-	new = gtk_type_new (e_gray_bar_get_type ());
+	new = g_object_new (e_gray_bar_get_type (), NULL);
 
 	return new;
 }

@@ -500,7 +500,7 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	folder_selection_dialog = gtk_type_new (e_shell_folder_selection_dialog_get_type ());
+	folder_selection_dialog = g_object_new (e_shell_folder_selection_dialog_get_type (), NULL);
 	e_shell_folder_selection_dialog_construct (folder_selection_dialog, shell,
 						   title, caption, default_uri, allowed_types,
 						   allow_creation);

@@ -105,7 +105,7 @@ e_history_new (EHistoryItemFreeFunc item_free_function)
 {
 	EHistory *history;
 
-	history = gtk_type_new (e_history_get_type ());
+	history = g_object_new (e_history_get_type (), NULL);
 	e_history_construct (history, item_free_function);
 
 	return history;

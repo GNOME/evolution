@@ -32,12 +32,25 @@
 #include "evolution-config-control.h"
 #include "evolution-storage.h"
 
+#include <bonobo-activation/bonobo-activation.h>
+
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-widget.h>
 
+#include <libgnomeui/gnome-ui-init.h>
+
+#include <gtk/gtkdialog.h>
+#include <gtk/gtkeventbox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkvbox.h>
+
 #include <gdk-pixbuf/gdk-pixbuf.h>
+
+#include <stdlib.h>
 
 
 #define COMPONENT_ID "OAFIID:GNOME_Evolution_TestComponent_ShellComponent"
@@ -87,9 +100,9 @@ configuration_control_factory_fn (BonoboGenericFactory *factory,
 static void
 register_configuration_control_factory (void)
 {
-	configuration_control_factory = bonobo_generic_factory_new_multi (CONFIGURATION_CONTROL_FACTORY_ID,
-									  configuration_control_factory_fn,
-									  NULL);
+	configuration_control_factory = bonobo_generic_factory_new (CONFIGURATION_CONTROL_FACTORY_ID,
+								    configuration_control_factory_fn,
+								    NULL);
 
 	if (configuration_control_factory == NULL)
 		g_warning ("Cannot register configuration control factory!");
@@ -117,7 +130,7 @@ spit_out_shortcuts (EvolutionShellClient *shell_client)
 
 	groups = GNOME_Evolution_Shortcuts__get_groups (shortcuts_interface, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Exception getting the groups: %s", ev._repo_id);
+		g_warning ("Exception getting the groups: %s", BONOBO_EX_REPOID (&ev));
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -151,7 +164,7 @@ spit_out_shortcuts (EvolutionShellClient *shell_client)
 /* TEST #4: The multiple folder selector.  */
 
 static void
-dialog_clicked_callback (GnomeDialog *dialog,
+dialog_clicked_callback (GtkDialog *dialog,
 			 int button_num,
 			 void *data)
 {
@@ -171,7 +184,7 @@ dialog_clicked_callback (GnomeDialog *dialog,
 
 	folder_list = GNOME_Evolution_StorageSetView__get_checkedFolders (storage_set_view_iface, &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot get checkedFolders -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Cannot get checkedFolders -- %s", BONOBO_EX_REPOID (&ev));
 	} else {
 		int i;
 
@@ -221,7 +234,7 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	g_assert (shell_client != NULL);
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	corba_shell = evolution_shell_client_corba_objref (shell_client);
 
 	control_widget = evolution_shell_client_create_storage_set_view (shell_client,
 									 CORBA_OBJECT_NIL,
@@ -229,20 +242,24 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 									 &storage_set_view_iface,
 									 &ev);
 	if (control_widget == NULL) {
-		g_warning ("Can't create the StorageSetView control -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Can't create the StorageSetView control -- %s", BONOBO_EX_REPOID (&ev));
 		CORBA_exception_free (&ev);
 		return;
 	}
 
-	dialog = gnome_dialog_new ("Test the Selector here.", GNOME_STOCK_BUTTON_APPLY, GNOME_STOCK_BUTTON_CLOSE, NULL);
+	dialog = gtk_dialog_new_with_buttons ("Test the Selector here.", NULL,
+					      GTK_DIALOG_MODAL,
+					      GTK_STOCK_APPLY, GTK_RESPONSE_ACCEPT,
+					      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+					      NULL);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 200, 400);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
-	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), control_widget);
+	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), control_widget);
 
 	GNOME_Evolution_StorageSetView__set_showCheckboxes (storage_set_view_iface, TRUE, &ev);
 	if (BONOBO_EX (&ev))
-		g_warning ("Cannot show checkboxes -- %s", BONOBO_EX_ID (&ev));
+		g_warning ("Cannot show checkboxes -- %s", BONOBO_EX_REPOID (&ev));
 
 	g_signal_connect (dialog, "clicked",
 			  G_CALLBACK (dialog_clicked_callback), storage_set_view_iface);
@@ -272,7 +289,7 @@ shared_folder_discovery_timeout_callback (void *data)
 
 	storage = EVOLUTION_STORAGE (data);
 
-	listener = (Bonobo_Listener) gtk_object_get_data (GTK_OBJECT (storage), "listener");
+	listener = (Bonobo_Listener) g_object_get_data (G_OBJECT (storage), "listener");
 
 	result.result = GNOME_Evolution_Storage_OK;
 	result.path = "/Shared Folders/The Public Folder";
@@ -285,15 +302,15 @@ shared_folder_discovery_timeout_callback (void *data)
 	Bonobo_Listener_event (listener, "result", &any, &ev);
 	if (BONOBO_EX (&ev))
 		g_warning ("Cannot report result for shared folder discovery -- %s",
-			   BONOBO_EX_ID (&ev));
+			   BONOBO_EX_REPOID (&ev));
 
 	Bonobo_Unknown_unref (listener, &ev);
 	CORBA_Object_release (listener, &ev);
 
 	CORBA_exception_free (&ev);
 
-	g_object_set_data (storage, "listener", NULL);
-	g_object_set_data (storage, "timeout_id", NULL);
+	g_object_set_data (G_OBJECT (storage), "listener", NULL);
+	g_object_set_data (G_OBJECT (storage), "timeout_id", NULL);
 
 	return FALSE;
 }
@@ -317,8 +334,8 @@ storage_discover_shared_folder_callback (EvolutionStorage *storage,
 
 	timeout_id = g_timeout_add (1000, shared_folder_discovery_timeout_callback, storage);
 
-	g_object_set_data (storage, "listener", listener_copy);
-	g_object_set_data (storage, "timeout_id", GINT_TO_POINTER (timeout_id));
+	g_object_set_data (G_OBJECT (storage), "listener", listener_copy);
+	g_object_set_data (G_OBJECT (storage), "timeout_id", GINT_TO_POINTER (timeout_id));
 }
 
 static void
@@ -331,21 +348,21 @@ storage_cancel_discover_shared_folder_callback (EvolutionStorage *storage,
 	CORBA_Environment ev;
 	int timeout_id;
 
-	timeout_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (storage), "timeout_id"));
+	timeout_id = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (storage), "timeout_id"));
 	if (timeout_id == 0)
 		return;
 
 	g_source_remove (timeout_id);
-	g_object_set_data (storage, "timeout_id", NULL);
+	g_object_set_data (G_OBJECT (storage), "timeout_id", NULL);
 
-	listener = (Bonobo_Listener) gtk_object_get_data (GTK_OBJECT (storage), "listener");
+	listener = (Bonobo_Listener) g_object_get_data (G_OBJECT (storage), "listener");
 
 	CORBA_exception_init (&ev);
 	Bonobo_Unknown_unref (listener, &ev);
 	CORBA_Object_release (listener, &ev);
 	CORBA_exception_free (&ev);
 
-	g_object_set_data (storage, "listener", NULL);
+	g_object_set_data (G_OBJECT (storage), "listener", NULL);
 }
 
 static void
@@ -380,7 +397,7 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 	g_signal_connect (the_storage, "show_folder_properties",
 			  G_CALLBACK (storage_show_folder_properties_callback), NULL);
 
-	result = evolution_storage_register_on_shell (the_storage, BONOBO_OBJREF (shell_client));
+	result = evolution_storage_register_on_shell (the_storage, evolution_shell_client_corba_objref (shell_client));
 	if (result != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage on the shell.");
 		bonobo_object_unref (BONOBO_OBJECT (the_storage));
@@ -439,7 +456,7 @@ timeout_callback_2 (void *data)
 	int progress;
 
 	activity_client = EVOLUTION_ACTIVITY_CLIENT (data);
-	progress = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (activity_client), "my_progress"));
+	progress = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (activity_client), "my_progress"));
 
 	if (progress < 0)
 		progress = 0;
@@ -453,10 +470,10 @@ timeout_callback_2 (void *data)
 	}
 
 	progress ++;
-	g_object_set_data (activity_client, "my_progress", GINT_TO_POINTER (progress));
+	g_object_set_data (G_OBJECT (activity_client), "my_progress", GINT_TO_POINTER (progress));
 
 	if (progress > 100) {
-		gtk_timeout_add (200, timeout_callback_3, activity_client);
+		g_timeout_add (200, timeout_callback_3, activity_client);
 		return FALSE;
 	}
 
@@ -474,7 +491,7 @@ timeout_callback_1 (void *data)
 
 #define NUM_ACTIVITIES 10
 
-	animated_icon[0] = gdk_pixbuf_new_from_file (gnome_pixmap_file ("gnome-money.png"));
+	animated_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "outbox-16.png", NULL);
 	animated_icon[1] = NULL;
 
 	g_assert (animated_icon[0] != NULL);
@@ -489,7 +506,7 @@ timeout_callback_1 (void *data)
 		return FALSE;
 	}
 
-	g_object_set_data (activity_client, "my_progress", GINT_TO_POINTER (-1));
+	g_object_set_data (G_OBJECT (activity_client), "my_progress", GINT_TO_POINTER (-1));
 
 	g_signal_connect (activity_client, "cancel",
 			  G_CALLBACK (activity_client_cancel_callback), NULL);
@@ -500,11 +517,11 @@ timeout_callback_1 (void *data)
 	if (suggest_display)
 		g_print (" --> Could display dialog box.\n");
 
-	gtk_timeout_add (100, timeout_callback_2, activity_client);
+	g_timeout_add (100, timeout_callback_2, activity_client);
 
 	if (count < NUM_ACTIVITIES) {
 		count ++;
-		gtk_timeout_add ((rand () % 5 + 1) * 500, timeout_callback_1, NULL);
+		g_timeout_add ((rand () % 5 + 1) * 500, timeout_callback_1, NULL);
 	}
 
 	return FALSE;
@@ -551,7 +568,7 @@ create_view_fn (EvolutionShellComponent *shell_component,
 	*control_return = bonobo_control_new (vbox);
 
 	g_assert (timeout_id == 0);
-	timeout_id = gtk_timeout_add (2000, timeout_callback_1, NULL);
+	timeout_id = g_timeout_add (2000, timeout_callback_1, NULL);
 
 	return EVOLUTION_SHELL_COMPONENT_OK;
 }
@@ -562,17 +579,20 @@ request_quit_fn (EvolutionShellComponent *shell_component,
 {
 	GtkWidget *confirm_dialog;
 	GtkWidget *label;
-	int button;
+	int response;
 
-	confirm_dialog = gnome_dialog_new ("Quit?", GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
+	confirm_dialog = gtk_dialog_new_with_buttons ("Quit?", NULL, GTK_DIALOG_MODAL,
+						      GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+						      GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+						      NULL);
 	label = gtk_label_new ("Please confirm that you want to quit now.");
-	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (confirm_dialog)->vbox), label);
+	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (confirm_dialog)->vbox), label);
 	gtk_widget_show_all (confirm_dialog);
 
-	button = gnome_dialog_run (GNOME_DIALOG (confirm_dialog));
+	response = gtk_dialog_run (GTK_DIALOG (confirm_dialog));
 	gtk_widget_destroy (confirm_dialog);
 
-	if (button == 0)
+	if (response == GTK_RESPONSE_ACCEPT)
 		return TRUE;	/* OK */
 	else
 		return FALSE;	/* Cancel */
@@ -665,10 +685,10 @@ register_component (void)
 	g_signal_connect (shell_component, "user_create_new_item",
 			  G_CALLBACK (user_create_new_item_callback), NULL);
 
-	result = oaf_active_server_register (COMPONENT_ID,
-					     bonobo_object_corba_objref (BONOBO_OBJECT (shell_component)));
+	result = bonobo_activation_active_server_register (COMPONENT_ID,
+							   bonobo_object_corba_objref (BONOBO_OBJECT (shell_component)));
 
-	if (result == OAF_REG_ERROR)
+	if (result != Bonobo_ACTIVATION_REG_SUCCESS)
 		g_error ("Cannot register active server into OAF");
 }
 
@@ -676,18 +696,13 @@ register_component (void)
 int
 main (int argc, char **argv)
 {
-	CORBA_ORB orb;
-
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	gnome_init_with_popt_table ("evolution-test-component", VERSION,
-				    argc, argv, oaf_popt_options, 0, NULL);
-
-	orb = oaf_init (argc, argv);
-
-	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
-		g_error ("Cannot initialize the test component.");
+	gnome_program_init (PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv, 
+			    GNOME_PROGRAM_STANDARD_PROPERTIES,
+			    GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution Test Component"),
+			    NULL);
 
 	register_configuration_control_factory ();
 

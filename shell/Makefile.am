@@ -236,21 +236,21 @@ evolution_LDADD =							\
 
 # Test component
 
-# noinst_PROGRAMS =			\
-# 	evolution-test-component
+noinst_PROGRAMS =			\
+	evolution-test-component
 
-# evolution_test_component_SOURCES =	\
-# 	evolution-test-component.c
+evolution_test_component_SOURCES =	\
+	evolution-test-component.c
 
-# evolution_test_component_LDADD = 	\
-# 	libeshell.la			\
-#	$(SHELL_LIBS)
+evolution_test_component_LDADD = 	\
+	libeshell.la			\
+	$(SHELL_LIBS)
 
-# install-test-component: evolution-test-component
-# 	$(mkinstalldirs) $(DESTDIR)$(bindir)
-# 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
-# 	$(mkinstalldirs) $(DESTDIR)$(serverdir)
-# 	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
+install-test-component: evolution-test-component
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
+	$(mkinstalldirs) $(DESTDIR)$(serverdir)
+	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
 
 # Misc stuff
 

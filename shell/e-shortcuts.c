@@ -779,7 +779,7 @@ e_shortcuts_new_from_file (EShell *shell,
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (file_name != NULL, NULL);
 
-	new = gtk_type_new (e_shortcuts_get_type ());
+	new = g_object_new (e_shortcuts_get_type (), NULL);
 	e_shortcuts_construct (new, shell);
 
 	if (! e_shortcuts_load (new, file_name))

@@ -338,7 +338,7 @@ evolution_storage_listener_new (void)
 	EvolutionStorageListenerPrivate *priv;
 	GNOME_Evolution_StorageListener corba_objref;
 
-	new = gtk_type_new (evolution_storage_listener_get_type ());
+	new = g_object_new (evolution_storage_listener_get_type (), NULL);
 	priv = new->priv;
 
 	priv->servant = create_servant (new);

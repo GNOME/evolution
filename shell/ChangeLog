@@ -1,4 +1,105 @@
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-client.c (impl_dispose): New.
+	(impl_finalize): New.
+	(destroy): Removed.
+	(class_init): Install dispose, finalize handlers.
+
+	* All: Use evolution_shell_client_corba_objref() or
+	evolution_shell_component_client_corba_objref() instead of
+	BONOBO_OBJREF() or bonobo_object_corba_objref() where needed.
+
+	* e-folder-type-registry.c (set_handler): Use g_object_ref() for
+	the handler, not bonobo_object_ref().
+	(folder_type_free): Likewise for unref.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_corba_objref): New.
+	(impl_dispose): Moved from impl_destroy; only unref things.
+	(impl_finalize) New.
+	(class_init): Install dispose/finalize.
+	(evolution_shell_component_client_get_dnd_source_interface): Use
+	priv->corba_objref instead of bonobo_object_corba_objref() since
+	we are not a BonoboObject anymore.
+	(evolution_shell_component_client_get_dnd_destination_interface):
+	Likewise.
+	(evolution_shell_component_client_get_offline_interface): Likewise.
+	(evolution_shell_component_client_set_owner): Likewise.
+	(evolution_shell_component_client_unset_owner): Likewise.
+	(evolution_shell_component_client_create_view): Likewise.
+	(evolution_shell_component_client_handle_external_uri): Likewise.
+	(evolution_shell_component_client_async_create_folder): Likewise.
+	(evolution_shell_component_client_async_xfer_folder): Likewise.
+	(evolution_shell_component_client_populate_folder_context_menu): Likewise.
+	(evolution_shell_component_client_unpopulate_folder_context_menu): Likewise.
+
+	* e-component-registry.c (register_component): Use
+	evolution_shell_component_client_corba_objref().
+	(e_component_registry_restart_component): Likewise.
+	(component_free): Likewise.
+
+	* evolution-shell-component-client.c: g_object_new() instead of gtk_type_new().
+	* e-component-registry.c: Likewise.
+	* e-corba-config-page.c
+	* e-folder-list.c: Likewise.
+	* e-folder-type-registry.c: Likewise.
+	* e-folder.c: Likewise.
+	* e-gray-bar.c: Likewise.
+	* e-history.c: Likewise.
+	* e-local-folder.c: Likewise.
+	* e-local-folder.c: Likewise.
+	* e-local-storage.c: Likewise.
+	* e-shell-about-box.c: Likewise.
+	* e-shell-config-default-folders.c: Likewise.
+	* e-shell-folder-selection-dialog.c: Likewise.
+	* e-shell-folder-title-bar.c: Likewise.
+	* e-shell-offline-handler.c: Likewise.
+	* e-shell-settings-dialog.c: Likewise.
+	* e-shell-user-creatable-items-handler.c: Likewise.
+	* e-shell-view.c: Likewise.
+	* e-shortcuts-view-model.c: Likewise.
+	* e-shortcuts-view.c: Likewise.
+	* e-shortcuts.c: Likewise.
+	* e-splash.c: Likewise.
+	* e-storage-set-view.c: Likewise.
+	* e-storage-set.c: Likewise.
+	* e-storage.c: Likewise.
+	* e-task-bar.c: Likewise.
+	* e-task-widget.c: Likewise.
+	* e-uri-schema-registry.c: Likewise.
+	* evolution-activity-client.c: Likewise.
+	* evolution-folder-selector-button.c: Likewise.
+	* evolution-shell-client.c: Likewise.
+	* evolution-shell-view.c: Likewise.
+	* evolution-storage-listener.c: Likewise.
+	* evolution-storage-set-view-listener.c: Likewise.
+	* evolution-storage-set-view.c: Likewise.
+	* evolution-wizard.c: Likewise.
+
+	* GNOME_Evolution_TestComponent.server: Renamed from
+	GNOME_Evolution_TestComponent.oaf.
+
+	* evolution-test-component.c (spit_out_shortcuts): Use
+	BONOBO_EX_REPOID().
+	(create_new_folder_selector): Ported to use GtkDialog instead of
+	GnomeDialog.
+	(storage_cancel_discover_shared_folder_callback): Add missing
+	G_OBJECT() cast.
+	(shared_folder_discovery_timeout_callback): Likewise.
+	(storage_discover_shared_folder_callback): Likewise.
+	(timeout_callback_2): Likewise.
+	(timeout_callback_1): Likewise.
+	(shared_folder_discovery_timeout_callback): Use
+	g_object_get_data() instead of gtk_object_get_data().
+	(storage_cancel_discover_shared_folder_callback): Likewise.
+	(timeout_callback_2): Likewise.
+	(timeout_callback_2): g_timeout_add() instead of
+	gtk_timeout_add().
+	(create_view_fn): Likewise.
+	(timeout_callback_1): Likewise.
+	(timeout_callback_1): Pass NULL as the error arg to
+	gdk_pixbuf_new_from_file().
+	(register_component): Use bonobo-activation instead of OAF.
 
 	* e-shell-about-box.c (impl_destroy): Removed.
 	(impl_finalize): New.

@@ -461,7 +461,7 @@ e_storage_set_new (EFolderTypeRegistry *folder_type_registry)
 {
 	EStorageSet *new;
 
-	new = gtk_type_new (e_storage_set_get_type ());
+	new = g_object_new (e_storage_set_get_type (), NULL);
 
 	e_storage_set_construct (new, folder_type_registry);
 

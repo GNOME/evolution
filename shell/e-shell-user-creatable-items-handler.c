@@ -110,7 +110,7 @@ component_new (const char *id,
 
 	CORBA_exception_init (&ev);
 
-	objref = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	objref = evolution_shell_component_client_corba_objref (client);
 	new->type_list = GNOME_Evolution_ShellComponent__get_userCreatableItemTypes (objref, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
@@ -474,7 +474,7 @@ execute_verb (EShellUserCreatableItemsHandler *handler,
 			CORBA_exception_init (&ev);
 
 			GNOME_Evolution_ShellComponent_userCreateNewItem
-				(bonobo_object_corba_objref (BONOBO_OBJECT (component->component_client)),
+				(evolution_shell_component_client_corba_objref (component->component_client),
 				 id,
 				 e_safe_corba_string (e_shell_view_get_current_physical_uri (shell_view)),
 				 e_safe_corba_string (e_shell_view_get_current_folder_type (shell_view)),
@@ -708,7 +708,7 @@ e_shell_user_creatable_items_handler_new (void)
 {
 	EShellUserCreatableItemsHandler *new;
 
-	new = gtk_type_new (e_shell_user_creatable_items_handler_get_type ());
+	new = g_object_new (e_shell_user_creatable_items_handler_get_type (), NULL);
 
 	return new;
 }
