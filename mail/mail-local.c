@@ -204,11 +204,10 @@ save_metainfo (struct _local_meta *meta)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root, node;
-	char *path, *slash;
-	int errsav, ret;
-
+	int ret;
+	
 	d(printf("Saving folder metainfo to : %s\n", meta->path));
-
+	
 	doc = xmlNewDoc("1.0");
 	root = xmlNewDocNode(doc, NULL, "folderinfo", NULL);
 	xmlDocSetRootElement(doc, root);
@@ -218,22 +217,7 @@ save_metainfo (struct _local_meta *meta)
 	xmlSetProp(node, "name", meta->name);
 	xmlSetProp(node, "index", meta->indexed?"1":"0");
 	
-	path = alloca (strlen (meta->path) + 5);
-	slash = strrchr (meta->path, '/');
-	if (slash)
-		sprintf (path, "%.*s.#%s", slash - meta->path + 1, meta->path, slash + 1);
-	else
-		sprintf (path, ".#%s", meta->path);
-	
 	ret = e_xml_save_file (path, doc);
-	if (ret != -1)
-		ret = rename (path, meta->path);
-	
-	if (ret == -1) {
-		errsav = errno;
-		unlink (path);
-		errno = errsav;
-	}
 	
 	xmlFreeDoc (doc);
 	
