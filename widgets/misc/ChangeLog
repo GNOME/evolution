@@ -1,3 +1,7 @@
+2003-12-01  JP Rosevear <jpr@ximian.com>
+
+	* e-source-selector.c (class_init): list the signal args properly
+
 2003-11-30  ERDI Gergo  <cactus@cactus.rulez.org>
 
 	* e-calendar.c: canned the _clicked handlers as those make it
