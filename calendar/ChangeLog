@@ -1,5 +1,15 @@
 2004-07-21  JP Rosevear  <jpr@novell.com>
 
+	Fixes #61738
+	
+	* gui/dialogs/meeting-page.c (clear_widgets): by default we have a
+	user as organizer
+	(sensitize_widgets): use user_org to determine widget sensitivity
+	(meeting_page_fill_widgets): set user_org value appropriately
+	(change_clicked_cb): set user_org to TRUE
+
+2004-07-21  JP Rosevear  <jpr@novell.com>
+
 	Fixes #61779
 	
 	* gui/dialogs/task-page.c (init_widgets): listen for changes on

@@ -85,6 +85,7 @@ struct _MeetingPagePrivate {
 	gint row;
 	
 	/* For handling who the organizer is */
+	gboolean user_org;
 	gboolean existing;
 	
         gboolean updating;
@@ -316,12 +317,13 @@ clear_widgets (MeetingPage *mpage)
 	gtk_widget_hide (priv->existing_organizer_table);	
 
 	priv->existing = FALSE;
+	priv->user_org = TRUE;
 }
 
 static void
 sensitize_widgets (MeetingPage *mpage)
 {
-	gboolean read_only;
+	gboolean read_only, user_org;
 	MeetingPagePrivate *priv = mpage->priv;
 
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, NULL))
@@ -329,9 +331,9 @@ sensitize_widgets (MeetingPage *mpage)
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->existing_organizer_btn, !read_only);
-	gtk_widget_set_sensitive (priv->add, !read_only);
-	gtk_widget_set_sensitive (priv->remove, !read_only);
-	gtk_widget_set_sensitive (priv->invite, !read_only);
+	gtk_widget_set_sensitive (priv->add, !read_only && priv->user_org);
+	gtk_widget_set_sensitive (priv->remove, !read_only && priv->user_org);
+	gtk_widget_set_sensitive (priv->invite, !read_only && priv->user_org);
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 }
 
@@ -379,6 +381,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					    page->client,
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_hide (priv->existing_organizer_btn);
+				priv->user_org = TRUE;
 			} else {
 				if (e_cal_get_static_capability (
 					    page->client,
@@ -387,6 +390,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				gtk_widget_set_sensitive (priv->invite, FALSE);
 				gtk_widget_set_sensitive (priv->add, FALSE);
 				gtk_widget_set_sensitive (priv->remove, FALSE);
+				priv->user_org = FALSE;
 			}
 			
 			if (organizer.cn != NULL)
@@ -580,6 +584,7 @@ change_clicked_cb (GtkWidget *widget, gpointer data)
 	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 	
 	priv->existing = FALSE;
+	priv->user_org = TRUE;
 }
 
 static void
