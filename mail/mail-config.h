@@ -61,13 +61,19 @@ typedef struct {
 
 typedef enum {
 	MAIL_CONFIG_HTTP_NEVER, MAIL_CONFIG_HTTP_SOMETIMES,
-	MAIL_CONFIG_HTTP_ALWAYS,
+	MAIL_CONFIG_HTTP_ALWAYS
 } MailConfigHTTPMode;
 
 typedef enum {
 	MAIL_CONFIG_FORWARD_ATTACHED, MAIL_CONFIG_FORWARD_INLINE,
-	MAIL_CONFIG_FORWARD_QUOTED,
+	MAIL_CONFIG_FORWARD_QUOTED
 } MailConfigForwardStyle;
+
+typedef enum {
+	MAIL_CONFIG_DISPLAY_NORMAL, MAIL_CONFIG_DISPLAY_FULL_HEADERS,
+	MAIL_CONFIG_DISPLAY_SOURCE,
+	MAIL_CONFIG_DISPLAY_MAX
+} MailConfigDisplayStyle;
 
 /* Identities */
 MailConfigIdentity *identity_copy (const MailConfigIdentity *id);
@@ -94,9 +100,6 @@ gboolean mail_config_is_configured            (void);
 
 gboolean mail_config_get_thread_list          (void);
 void     mail_config_set_thread_list          (gboolean value);
-
-gboolean mail_config_get_view_source          (void);
-void     mail_config_set_view_source          (gboolean value);
 
 gboolean mail_config_get_hide_deleted          (void);
 void     mail_config_set_hide_deleted          (gboolean value);
@@ -130,6 +133,9 @@ void               mail_config_set_http_mode (MailConfigHTTPMode);
 
 MailConfigForwardStyle mail_config_get_default_forward_style (void);
 void                   mail_config_set_default_forward_style (MailConfigForwardStyle);
+
+MailConfigDisplayStyle mail_config_get_message_display_style (void);
+void                   mail_config_set_message_display_style (MailConfigDisplayStyle);
 
 const MailConfigAccount  *mail_config_get_default_account       (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);

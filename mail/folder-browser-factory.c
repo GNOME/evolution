@@ -91,9 +91,9 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", vfolder_edit_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", vfolder_sender),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", vfolder_subject),
-/*	BONOBO_UI_UNSAFE_VERB ("ViewFullHeaders", view_full_headers),	*/
 	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", hide_read),
 	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", hide_selected),
+	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", load_images),
 	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", hide_none),
 	
 	BONOBO_UI_VERB_END
@@ -203,6 +203,13 @@ folder_browser_setup_property_menu (FolderBrowser *fb,
 	g_free (name);
 }
 
+/* Must be in the same order as MailConfigDisplayStyle */
+char *message_display_styles[] = {
+	"/commands/ViewNormal",
+	"/commands/ViewFullHeaders",
+	"/commands/ViewSource"
+};
+
 static void
 control_activate (BonoboControl     *control,
 		  BonoboUIComponent *uic,
@@ -236,11 +243,14 @@ control_activate (BonoboControl     *control,
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
 	folder_browser_toggle_threads(uic, "", Bonobo_UIComponent_STATE_CHANGED, state?"1":"0", folder_browser);
 
-	state = mail_config_get_view_source();
-	bonobo_ui_component_set_prop(uic, "/commands/ViewSource", "state", state?"1":"0", NULL);
-	bonobo_ui_component_add_listener(uic, "ViewSource", folder_browser_toggle_view_source, folder_browser);
+	state = mail_config_get_message_display_style ();
+	bonobo_ui_component_set_prop (uic, message_display_styles[state],
+				      "state", "1", NULL);
+	bonobo_ui_component_add_listener (uic, "ViewNormal", folder_browser_set_message_display_style, folder_browser);
+	bonobo_ui_component_add_listener (uic, "ViewFullHeaders", folder_browser_set_message_display_style, folder_browser);
+	bonobo_ui_component_add_listener (uic, "ViewSource", folder_browser_set_message_display_style, folder_browser);
 	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
-	folder_browser_toggle_view_source(uic, "", Bonobo_UIComponent_STATE_CHANGED, state?"1":"0", folder_browser);
+	folder_browser_set_message_display_style (uic, strrchr (message_display_styles[state], '/') + 1, Bonobo_UIComponent_STATE_CHANGED, "1", folder_browser);
 
 	if (fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)) {
 		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);

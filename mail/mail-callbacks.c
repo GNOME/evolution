@@ -1224,6 +1224,14 @@ search_msg (GtkWidget *widget, gpointer user_data)
 	gtk_widget_show_all (w);
 }
 
+void
+load_images (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+
+	mail_display_load_images (fb->mail_display);
+}
+
 static void
 save_msg_ok (GtkWidget *widget, gpointer user_data)
 {

@@ -67,6 +67,7 @@ void next_unread_msg       (GtkWidget *widget, gpointer user_data);
 void previous_unread_msg   (GtkWidget *widget, gpointer user_data);
 void resend_msg            (GtkWidget *widget, gpointer user_data);
 void search_msg            (GtkWidget *widget, gpointer user_data);
+void load_images           (GtkWidget *widget, gpointer user_data);
 
 void select_all            (BonoboUIComponent *uih, void *user_data, const char *path);
 void invert_selection      (BonoboUIComponent *uih, void *user_data, const char *path);

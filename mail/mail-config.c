@@ -51,7 +51,6 @@
 
 typedef struct {
 	gboolean thread_list;
-	gboolean view_source;
 	gboolean hide_deleted;
 	gint paned_size;
 	gboolean send_html;
@@ -68,6 +67,7 @@ typedef struct {
 
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
+	MailConfigDisplayStyle message_display_style;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -690,18 +690,6 @@ mail_config_set_thread_list (gboolean value)
 }
 
 gboolean
-mail_config_get_view_source (void)
-{
-	return config->view_source;
-}
-
-void
-mail_config_set_view_source (gboolean value)
-{
-	config->view_source = value;
-}
-
-gboolean
 mail_config_get_hide_deleted (void)
 {
 	return config->hide_deleted;
@@ -911,6 +899,18 @@ void
 mail_config_set_default_forward_style (MailConfigForwardStyle style)
 {
 	config->default_forward_style = style;
+}
+
+MailConfigDisplayStyle
+mail_config_get_message_display_style (void)
+{
+	return config->message_display_style;
+}
+
+void
+mail_config_set_message_display_style (MailConfigDisplayStyle style)
+{
+	config->message_display_style = style;
 }
 
 const MailConfigAccount *

@@ -1,5 +1,26 @@
 2001-05-15  Dan Winship  <danw@ximian.com>
 
+	* mail-display.c (on_url_requested): Load http images if the user
+	has force-loaded images too.
+	(mail_display_redisplay): Update for normal/headers/source changes.
+	(mail_display_load_images): New. Force HTTP image loading for the
+	current message.
+
+	* mail-config.c (mail_config_get_message_display_style,
+	mail_config_set_message_display_style): Updated and renamed from
+	mail_config_{get,set}_view_source
+
+	* mail-callbacks.c (load_images): New.
+
+	* folder-browser.c (folder_browser_set_message_display_style):
+	Renamed and updated from folder_browser_toggle_view_source.
+
+	* folder-browser-factory.c (verbs): Add ViewLoadImages.
+	(control_activate): Update for normal/headers/source change to
+	radio group.
+
+2001-05-15  Dan Winship  <danw@ximian.com>
+
 	* folder-browser-factory.c (verbs): Update for changes in
 	evolution-mail.xml (many commands were renamed to better match the
 	current menu layout).

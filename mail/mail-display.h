@@ -50,8 +50,7 @@ void           mail_display_redisplay_when_loaded (MailDisplay *md,
 void           mail_display_set_message (MailDisplay *mail_display, 
 					 CamelMedium *medium);
 
-void           mail_display_toggle_raw  (MailDisplay *mail_display,
-					 gboolean toggle);
+void           mail_display_load_images (MailDisplay *mail_display);
 
 
 #define HTML_HEADER "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<HTML>\n<HEAD>\n<META NAME=\"GENERATOR\" CONTENT=\"Evolution Mail Component\">\n</HEAD>\n"

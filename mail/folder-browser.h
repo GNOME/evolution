@@ -109,15 +109,16 @@ void folder_browser_toggle_threads (BonoboUIComponent           *component,
 				    const char                  *state,
 				    gpointer                     user_data);
 
-void folder_browser_toggle_view_source (BonoboUIComponent           *component,
-					const char                  *path,
-					Bonobo_UIComponent_EventType type,
-					const char                  *state,
-					gpointer                     user_data);
-
 void folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 					 const char                  *path,
 					 Bonobo_UIComponent_EventType type,
 					 const char                  *state,
 					 gpointer                     user_data);
+
+void folder_browser_set_message_display_style (BonoboUIComponent           *component,
+					       const char                  *path,
+					       Bonobo_UIComponent_EventType type,
+					       const char                  *state,
+					       gpointer                     user_data);
+
 #endif /* _FOLDER_BROWSER_H_ */

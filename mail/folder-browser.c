@@ -382,19 +382,26 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 }
 
 void
-folder_browser_toggle_view_source (BonoboUIComponent           *component,
-				   const char                  *path,
-				   Bonobo_UIComponent_EventType type,
-				   const char                  *state,
-				   gpointer                     user_data)
+folder_browser_set_message_display_style (BonoboUIComponent           *component,
+					  const char                  *path,
+					  Bonobo_UIComponent_EventType type,
+					  const char                  *state,
+					  gpointer                     user_data)
 {
+	extern char *message_display_styles[];
 	FolderBrowser *fb = user_data;
-	
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
+	int i;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED || atoi(state) == 0)
 		return;
-	
-	mail_config_set_view_source (atoi (state));
-	mail_display_redisplay (fb->mail_display, TRUE);
+
+	for (i = 0; i < MAIL_CONFIG_DISPLAY_MAX; i++) {
+		if (strstr (message_display_styles[i], path)) {
+			mail_config_set_message_display_style (i);
+			mail_display_redisplay (fb->mail_display, TRUE);
+			return;
+		}
+	}
 }
 
 void

@@ -37,13 +37,14 @@
 
 #include <e-util/e-html-utils.h>
 
+#include "e-searching-tokenizer.h"
 #include "mail-display.h"
 #include "mail-config.h"
-#include "mail.h"
-#include "art/empty.xpm"
-
 #include "mail-ops.h"
 #include "mail-mt.h"
+#include "mail.h"
+
+#include "art/empty.xpm"
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -936,7 +937,8 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 
 	/* See if it's something we can load. */
 	if (strncmp (url, "http:", 5) == 0 &&
-	    mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS) {
+	    (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
+	     g_datalist_get_data (md->data, "load_images"))) {
 		ba = g_byte_array_new ();
 		g_hash_table_insert (urls, g_strdup (url), ba);
 		mail_display_redisplay_when_loaded (md, ba, load_http, g_strdup (url));
@@ -1113,7 +1115,7 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER, "<BODY>\n");
 
 	if (md->current_message) {
-		if (mail_config_get_view_source ())
+		if (mail_config_get_message_display_style () == MAIL_CONFIG_DISPLAY_SOURCE)
 			mail_format_raw_message (md->current_message, md);
 		else
 			mail_format_mime_message (md->current_message, md);
@@ -1156,6 +1158,18 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium)
 	}
 }
 
+/**
+ * mail_display_load_images:
+ * @md: the mail display object
+ *
+ * Load all HTTP images in the current message
+ **/
+void
+mail_display_load_images (MailDisplay *md)
+{
+	g_datalist_set_data (md->data, "load_images", GINT_TO_POINTER (1));
+	mail_display_redisplay (md, FALSE);
+}
 
 /*----------------------------------------------------------------------*
  *                     Standard Gtk+ Class functions
