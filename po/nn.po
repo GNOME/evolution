@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-29 17:30+0000\n"
-"PO-Revision-Date: 2004-08-29 19:22+0000\n"
+"PO-Revision-Date: 2004-08-29 20:06+0000\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -30,23 +30,23 @@ msgstr "noverande adressebokmappe"
 
 #: a11y/addressbook/ea-minicard-view.c:102
 msgid "have "
-msgstr ""
+msgstr "har "
 
 #: a11y/addressbook/ea-minicard-view.c:102
 msgid "has "
-msgstr ""
+msgstr "har "
 
 #: a11y/addressbook/ea-minicard-view.c:104
 msgid " cards"
-msgstr "kort"
+msgstr " kort"
 
 #: a11y/addressbook/ea-minicard-view.c:104
 msgid " card"
-msgstr "kort"
+msgstr " kort"
 
 #: a11y/addressbook/ea-minicard.c:105
 msgid "contact's header: "
-msgstr ""
+msgstr "Kontakthovud: "
 
 #: a11y/addressbook/ea-minicard.c:166
 msgid "evolution minicard"
@@ -8610,7 +8610,6 @@ msgid "Indian/Cocos"
 msgstr "Indiahavet/Kokos"
 
 #: calendar/zones.h:342
-#, fuzzy
 msgid "Indian/Comoro"
 msgstr "Indiahavet/Comoro"
 
@@ -8796,7 +8795,7 @@ msgstr "Stillehavet/Yap"
 
 #: camel/camel-cipher-context.c:102
 msgid "Signing is not supported by this cipher"
-msgstr ""
+msgstr "Signering er ikkje støtta av dette chifferet"
 
 #: camel/camel-cipher-context.c:128
 msgid "Signing message"
@@ -8804,15 +8803,15 @@ msgstr "Signerer melding"
 
 #: camel/camel-cipher-context.c:145
 msgid "Verifying is not supported by this cipher"
-msgstr ""
+msgstr "Stadfesting er ikkje støtta av dette chifferet"
 
 #: camel/camel-cipher-context.c:171
 msgid "Verifying message"
-msgstr ""
+msgstr "Stadfestar melding"
 
 #: camel/camel-cipher-context.c:189
 msgid "Encryption is not supported by this cipher"
-msgstr ""
+msgstr "Kryptering er ikkje støtta av dette chifferet"
 
 #: camel/camel-cipher-context.c:215
 msgid "Encrypting message"
@@ -8820,7 +8819,7 @@ msgstr "Krypterer melding"
 
 #: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
-msgstr ""
+msgstr "Dekryptering er ikkje støtta av dette chifferet"
 
 #: camel/camel-cipher-context.c:254
 msgid "Decrypting message"
@@ -8828,11 +8827,11 @@ msgstr "Dekrypterer melding"
 
 #: camel/camel-cipher-context.c:271
 msgid "You may not import keys with this cipher"
-msgstr ""
+msgstr "Du kan ikkje importera nøklar med dette chifferet"
 
 #: camel/camel-cipher-context.c:301
 msgid "You may not export keys with this cipher"
-msgstr ""
+msgstr "Du kan ikkje eksportera nøklar med dette chifferet"
 
 #: camel/camel-data-cache.c:133
 msgid "Unable to create cache path"
@@ -9126,7 +9125,7 @@ msgstr "Feil under bruk av GPG på %s: %s\n"
 #: camel/camel-gpg-context.c:1275 camel/camel-smime-context.c:419
 #, c-format
 msgid "Could not generate signing data: %s"
-msgstr ""
+msgstr "Klarte ikkje laga signeringsdata: %s"
 
 #: camel/camel-gpg-context.c:1307 camel/camel-gpg-context.c:1762
 #: camel/camel-gpg-context.c:1813
@@ -9365,31 +9364,31 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr ""
+msgstr "Dette valet vil kopla til tenaren med eit trygt DIGEST-MD5-passord, dersom tenaren støttar det."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
-msgstr ""
+msgstr "Tenarutfordringa for lang (meir enn 2048 oktettar)\n"
 
 #: camel/camel-sasl-digest-md5.c:822
 msgid "Server challenge invalid\n"
-msgstr ""
+msgstr "Tenarutfordringa ugyldig\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr ""
+msgstr "Tenarutfordringa innehelde ugyldig «Vernkvalitet»-merke\n"
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
-msgstr ""
+msgstr "Tenaren sitt svar inneheldt ikkje autoriseringsdata\n"
 
 #: camel/camel-sasl-digest-md5.c:868
 msgid "Server response contained incomplete authorization data\n"
-msgstr ""
+msgstr "Tenaren sitt svar inneheldt ufullstendig autoriseringsdata\n"
 
 #: camel/camel-sasl-digest-md5.c:878
 msgid "Server response does not match\n"
-msgstr ""
+msgstr "Tenarsvaret stemmer ikkje\n"
 
 #: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
@@ -9397,35 +9396,35 @@ msgstr ""
 
 #: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr ""
+msgstr "Dette valet vil kopla til tenaren med Kerberos 5-autentisering."
 
 #: camel/camel-sasl-gssapi.c:152
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
-msgstr ""
+msgstr "Den oppgjevne mekanismen er ikkje støtta av den tildelte referansen, eller vert ikkje kjent att av implementasjonen."
 
 #: camel/camel-sasl-gssapi.c:157
 msgid "The provided target_name parameter was ill-formed."
-msgstr ""
+msgstr "Den oppgjevne parameteren target_name var misforma."
 
 #: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
-msgstr ""
+msgstr "Den oppgjevne parameteren target_name inneheldt ein ugyldig eller ikkje støtta type namn."
 
 #: camel/camel-sasl-gssapi.c:164
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
-msgstr ""
+msgstr "input_token inneheld andre kanalbindingar enn dei som er spesifiserte i parameteren imput_chan_bindings."
 
 #: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
-msgstr ""
+msgstr "input_token inneheld ein ugyldig signatur eller ein signatur som ikkje kunne verifiserast."
 
 #: camel/camel-sasl-gssapi.c:173
 msgid ""
@@ -9447,14 +9446,14 @@ msgstr ""
 
 #: camel/camel-sasl-gssapi.c:187
 msgid "The referenced credentials have expired."
-msgstr ""
+msgstr "Dei refererte referansane har gått ut."
 
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
-msgstr ""
+msgstr "Ugyldig autentiseringssvar frå tenaren."
 
 #: camel/camel-sasl-gssapi.c:217
 #, c-format
@@ -9471,7 +9470,7 @@ msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:43
 msgid "This option will connect to the server using Kerberos 4 authentication."
-msgstr ""
+msgstr "Dette valet vil kopla til tenaren med Kerberos 4-autentisering."
 
 #: camel/camel-sasl-kerberos4.c:162
 #, c-format
@@ -9479,6 +9478,8 @@ msgid ""
 "Could not get Kerberos ticket:\n"
 "%s"
 msgstr ""
+"Klarte ikkje få Kerberos-billett:\n"
+"%s"
 
 #: camel/camel-sasl-login.c:32
 msgid "Login"
@@ -9486,7 +9487,7 @@ msgstr "Logg inn"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
+msgstr "Dette valet vil kopla til tenaren med eit enkelt passord."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -9500,7 +9501,7 @@ msgstr "NTLM / SPA"
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
-msgstr ""
+msgstr "Dette valet vil kopla til ein Windows-tenar med NTLM/Secure Password Authentication."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
@@ -9512,7 +9513,7 @@ msgstr "POP før SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:38
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr ""
+msgstr "Dette valet vil autorisera ei POP-tilkopling før det prøver SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:103
 msgid "POP Source URI"
@@ -9520,31 +9521,31 @@ msgstr "Adresse til POP-kjelde"
 
 #: camel/camel-sasl-popb4smtp.c:106
 msgid "POP Before SMTP auth using an unknown transport"
-msgstr ""
+msgstr "POP før SMTP-autorisering med ein ukjend transport"
 
 #: camel/camel-sasl-popb4smtp.c:111
 msgid "POP Before SMTP auth using a non-pop source"
-msgstr ""
+msgstr "POP før SMTP-autentisering med ei ikkie-POP-kjelde"
 
 #: camel/camel-search-private.c:114
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
-msgstr ""
+msgstr "Kompilering av regulært uttrykk feila: %s: %s"
 
 #: camel/camel-service.c:271
 #, c-format
 msgid "URL '%s' needs a username component"
-msgstr "URLen «%s» treng ein bruknamn-komponent"
+msgstr "Adressa «%s» treng ein bruknamn-del"
 
 #: camel/camel-service.c:275
 #, c-format
 msgid "URL '%s' needs a host component"
-msgstr ""
+msgstr "Adressa «%s» treng ein vertsnamn-del"
 
 #: camel/camel-service.c:279
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr ""
+msgstr "Adressa «%s» treng ein sti-del"
 
 #: camel/camel-service.c:729
 #, c-format
@@ -9564,12 +9565,12 @@ msgstr "Namneoppslag feila: Kan ikkje laga tråd: %s"
 #: camel/camel-service.c:794
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr ""
+msgstr "Vertsnamnoppslag feila: %s: vert ikkje funnen"
 
 #: camel/camel-service.c:797
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr ""
+msgstr "Vertsoppslag feila: %s: ukjend grunn"
 
 #: camel/camel-service.c:851
 msgid "Resolving address"
@@ -9595,77 +9596,77 @@ msgstr ""
 #: camel/camel-smime-context.c:104
 #, c-format
 msgid "Enter security pass-phrase for `%s'"
-msgstr ""
+msgstr "Skriv inn adgangsfrasen til «%s»"
 
 #: camel/camel-smime-context.c:261
 #, c-format
 msgid "Cannot find certificate for '%s'"
-msgstr ""
+msgstr "Kan ikkje finna sertifikat til «%s»"
 
 #: camel/camel-smime-context.c:267
 msgid "Cannot create CMS message"
-msgstr ""
+msgstr "Kan ikkje laga CMS-melding"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
-msgstr ""
+msgstr "Kan ikkje laga CMS signedData"
 
 #: camel/camel-smime-context.c:278
 msgid "Cannot attach CMS signedData"
-msgstr ""
+msgstr "Kan ikkje leggja ved CMS signedData"
 
 #: camel/camel-smime-context.c:285
 msgid "Cannot attach CMS data"
-msgstr ""
+msgstr "Kan ikkje leggja ved CMS-data"
 
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
-msgstr ""
+msgstr "Kan ikkje laga CMS SignerInfo"
 
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
-msgstr ""
+msgstr "Kan ikkje finna sertifikatkjede"
 
 #: camel/camel-smime-context.c:303
 msgid "Cannot add CMS SigningTime"
-msgstr ""
+msgstr "Kan ikkje leggja til CMS SigningTime"
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
 #, c-format
 msgid "Encryption cert for '%s' does not exist"
-msgstr ""
+msgstr "Krypteringssertifikatet til «%s» finst ikkje"
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Kan ikkje leggja til SMIMEEncKeyPrefs-attributt"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Kan ikkje leggja til MS SMIMEEncKeyPrefs-attributt"
 
 #: camel/camel-smime-context.c:354
 msgid "Cannot add encryption certificate"
-msgstr ""
+msgstr "Kan ikkje leggja til krypteringssertifikat"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
-msgstr ""
+msgstr "Kan ikkje leggja til CMS SignerInfo"
 
 #: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 msgid "Cannot create encoder context"
-msgstr ""
+msgstr "Kan ikkje laga kodarkontekst"
 
 #: camel/camel-smime-context.c:436
 msgid "Failed to add data to CMS encoder"
-msgstr ""
+msgstr "Kan ikkje leggja til data til CMS-kodar"
 
 #: camel/camel-smime-context.c:441 camel/camel-smime-context.c:894
 msgid "Failed to encode data"
-msgstr ""
+msgstr "Kan ikkje koda data"
 
 #: camel/camel-smime-context.c:514
 msgid "Unverified"
-msgstr ""
+msgstr "Ikkje stadfesta"
 
 #: camel/camel-smime-context.c:516
 msgid "Good signature"
@@ -9705,11 +9706,11 @@ msgstr "Prosesseringsfeil"
 
 #: camel/camel-smime-context.c:569
 msgid "No signedData in signature"
-msgstr ""
+msgstr "Ingen signedData i signatur"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Samandrag manglar i innpakka data"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
 msgid "Cannot calculate digests"
@@ -9717,37 +9718,37 @@ msgstr "Kan ikkje rekna ut samandrag"
 
 #: camel/camel-smime-context.c:604
 msgid "Cannot set message digests"
-msgstr ""
+msgstr "Kan ikkje setja meldingsamandrag"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
 msgid "Certificate import failed"
-msgstr ""
+msgstr "Importering av sertifikat feila"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
-msgstr ""
+msgstr "Melding med berre sertifikat, kan ikkje stadfesta sertifikat"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr ""
+msgstr "Melding med berre sertifikat, sertifikata importerte og stadfesta"
 
 #: camel/camel-smime-context.c:635
 msgid "Cannot find signature digests"
-msgstr ""
+msgstr "Kan ikkje finna signatursamandrag"
 
 #: camel/camel-smime-context.c:651
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
-msgstr ""
+msgstr "Signatur: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:752
 msgid "Decoder failed"
-msgstr ""
+msgstr "Dekoding feila"
 
 #: camel/camel-smime-context.c:804
 #, c-format
 msgid "Cannot find certificate for `%s'"
-msgstr ""
+msgstr "Kan ikkje finna sertifikatet til «%s»"
 
 #: camel/camel-smime-context.c:811
 msgid "Cannot find common bulk encryption algorithm"
@@ -9760,52 +9761,52 @@ msgstr ""
 
 #: camel/camel-smime-context.c:831
 msgid "Cannot create CMS Message"
-msgstr ""
+msgstr "Kan ikkje laga CMS-melding"
 
 #: camel/camel-smime-context.c:837
 msgid "Cannot create CMS EnvelopedData"
-msgstr ""
+msgstr "Kan ikkje laga CMS EvnelopedData"
 
 #: camel/camel-smime-context.c:843
 msgid "Cannot attach CMS EnvelopedData"
-msgstr ""
+msgstr "Kan ikkje leggja ved CMS EvnelopedData"
 
 #: camel/camel-smime-context.c:849
 msgid "Cannot attach CMS data object"
-msgstr ""
+msgstr "Kan ikkje leggja ved CMS-dataobjekt"
 
 #: camel/camel-smime-context.c:858
 msgid "Cannot create CMS RecipientInfo"
-msgstr ""
+msgstr "Kan ikkje laga CMS RecipientInfo"
 
 #: camel/camel-smime-context.c:863
 msgid "Cannot add CMS RecipientInfo"
-msgstr ""
+msgstr "Kan ikkje leggja til CMS RecipientInfo"
 
 #: camel/camel-smime-context.c:888
 msgid "Failed to add data to encoder"
-msgstr ""
+msgstr "Klarte ikkje leggja til data til kodar"
 
 #: camel/camel-smime-context.c:975
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Dekodar feila, feil %d"
 
 #: camel/camel-smime-context.c:982
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "S/MIME dekryptering: Fann ikkje noko kryptert innhald"
 
 #: camel/camel-smime-context.c:1009
 msgid "import keys: unimplemented"
-msgstr ""
+msgstr "importer nøklar: ikkje implementert"
 
 #: camel/camel-smime-context.c:1017
 msgid "export keys: unimplemented"
-msgstr ""
+msgstr "eksporter nøklar: ikkje implementert"
 
 #: camel/camel-store.c:213
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr ""
+msgstr "Kan ikkje henta mappe: ugyldig handling i dette lageret"
 
 #: camel/camel-store.c:243
 #, c-format
@@ -18347,7 +18348,7 @@ msgstr "Abbonner eller fjern abbonnement på mapper på eksterne tenarar"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Virtual Folder _Editor..."
-msgstr "R_edigering av virtuelle mapper .."
+msgstr "R_edigering av virtuelle mapper ..."
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "_Filters..."
@@ -18359,11 +18360,11 @@ msgstr "Endra eigenskapane til denne mappa"
 
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Kopier dei merka meldingane til utklippstavla"
+msgstr "Kopier dei valde meldingane til utklippstavla"
 
 #: ui/evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Klipp ut merka meldingar til utklippstavla"
+msgstr "Klipp ut dei valde meldingane til utklippstavla"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "E_xpunge"
@@ -18371,15 +18372,15 @@ msgstr "_Tøm"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "Skjul _valde meldingar"
+msgstr "Gøym _valde meldingar"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "Skjul _sletta meldingar"
+msgstr "Gøym _sletta meldingar"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr "Skjul _lesne meldingar"
+msgstr "Gøym _lesne meldingar"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid "Hide deleted messages rather than displaying them with a line through them"
@@ -18387,11 +18388,11 @@ msgstr "Gøym dei sletta meldingane i staden for å visa dei gjennomstreka"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
-msgstr "Markér alle som l_esne"
+msgstr "Merk alle som l_esne"
 
 #: ui/evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
-msgstr "Markér alle synlege meldingar som lest"
+msgstr "Merk alle synlege meldingar som lesne"
 
 #: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:74
 msgid "Paste message(s) from the clipboard"
@@ -18411,7 +18412,7 @@ msgstr "Vel alle og berre dei meldingane som ikkje alt er merka"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr ""
+msgstr "Vel alle meldingane i same tråd som den valde meldinga"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
@@ -18419,7 +18420,7 @@ msgstr "Vel alle synlege meldingar"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "_Vis skjulte meldingar"
+msgstr "_Vis gøymde meldingar"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
@@ -18427,7 +18428,7 @@ msgstr "Vis meldingar som har vore mellombels gøymd"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr "Mellombels gøym alle meldingar som har allereide vort lest"
+msgstr "Mellombels gøym alle lesne meldingar"
 
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
@@ -18443,14 +18444,13 @@ msgstr "_Mappe"
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr "_Invertér val"
+msgstr "_Omvend valet"
 
 #: ui/evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
 msgstr "_Tråda meldingsliste"
 
 #: ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "A_dd Sender to Address Book"
 msgstr "_Legg til avsendar i adresseboka"
 
@@ -18459,7 +18459,6 @@ msgid "A_pply Filters"
 msgstr "_Bruk filter"
 
 #: ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Add Sender to Address Book"
 msgstr "Legg til avsendar i adresseboka"
 
@@ -18468,68 +18467,60 @@ msgid "Apply filter rules to the selected messages"
 msgstr "Bruk filterreglar på valde meldingar"
 
 #: ui/evolution-mail-message.xml.h:5
-#, fuzzy
 msgid "Caret _Mode"
-msgstr "Tekststorle_ik"
+msgstr ""
 
 #: ui/evolution-mail-message.xml.h:6
-#, fuzzy
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr "Fann ikkje sendaren av denne meldinga"
+msgstr "Skriv eit svar til alle mottakarane av den valde meldinga"
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr ""
+msgstr "Skriv eit svar til e-post-lista den valde meldinga er på"
 
 #: ui/evolution-mail-message.xml.h:8
-#, fuzzy
 msgid "Compose a reply to the sender of the selected message"
-msgstr "Fann ikkje sendaren av denne meldinga"
+msgstr "Skriv eit svar til avsendaren av den valde meldinga"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Copy selected messages to another folder"
-msgstr "Kopier dei merka meldingane til ei anna mappe"
+msgstr "Kopier dei valde meldingane til ei anna mappe"
 
 #: ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create _Virtual Folder From Message"
-msgstr "Mapper"
+msgstr "Lag _virtuell mappe frå meldinga"
 
 #: ui/evolution-mail-message.xml.h:13
-#, fuzzy
 msgid "Create a rule to filter messages from this sender"
-msgstr "Slett e-post frå tenaren"
+msgstr "Lag ein regel som filtrerer meldingar frå denne sendaren"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages to these recipients"
-msgstr ""
+msgstr "Lag ein regel som filtrerer meldingar til desse mottakarane"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages to this mailing list"
-msgstr ""
+msgstr "Lag ein regel som filtrerer meldingar på denne e-post-lista"
 
 #: ui/evolution-mail-message.xml.h:16
-#, fuzzy
 msgid "Create a rule to filter messages with this subject"
-msgstr "Lag eit nytt rammesett med denne ramma"
+msgstr "Lag ein regel som filtrerer meldingar med dette emnet"
 
 #: ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a virtual folder for these recipients"
-msgstr "Mapper"
+msgstr "Lag ei virtuell mappe til desse mottakarane"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Create a virtual folder for this mailing list"
-msgstr "Lag ei virtuell mappe for denne e-postlista"
+msgstr "Lag ei virtuell mappe til denne e-postlista"
 
 #: ui/evolution-mail-message.xml.h:19
 msgid "Create a virtual folder for this sender"
-msgstr "Lag ei virtuell mappe for denne avsendaren"
+msgstr "Lag ei virtuell mappe til denne avsendaren"
 
 #: ui/evolution-mail-message.xml.h:20
-#, fuzzy
 msgid "Create a virtual folder for this subject"
-msgstr "Mapper"
+msgstr "Lag ei virtuell mappe til dette emnet"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
@@ -18537,104 +18528,87 @@ msgstr "Minsk tekststorleik"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the next important message"
-msgstr "Vis neste viktige melding"
+msgstr "Vis den neste viktige meldinga"
 
 #: ui/evolution-mail-message.xml.h:26
-#, fuzzy
 msgid "Display the next message"
-msgstr "Vis åtvaringsmelding"
+msgstr "Vis den neste meldinga"
 
 #: ui/evolution-mail-message.xml.h:27
-#, fuzzy
 msgid "Display the next unread message"
-msgstr "Vis informasjonsmelding"
+msgstr "Vis den neste uleste meldinga"
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Display the next unread thread"
 msgstr "Vis den neste ulesne tråden"
 
 #: ui/evolution-mail-message.xml.h:29
-#, fuzzy
 msgid "Display the previous important message"
-msgstr "Vis det førre dokumentet"
+msgstr "Vis den førre viktige meldinga"
 
 #: ui/evolution-mail-message.xml.h:30
-#, fuzzy
 msgid "Display the previous message"
-msgstr "Vis det førre dokumentet"
+msgstr "Vis den førre meldinga"
 
 #: ui/evolution-mail-message.xml.h:31
-#, fuzzy
 msgid "Display the previous unread message"
-msgstr "Vis det førre dokumentet"
+msgstr "Vis den førre uleste meldinga"
 
 #: ui/evolution-mail-message.xml.h:32
-#, fuzzy
 msgid "F_orward As..."
-msgstr "Vidaresend"
+msgstr "_Vidaresend som ..."
 
 #: ui/evolution-mail-message.xml.h:33
-#, fuzzy
 msgid "Filter _Junk"
-msgstr "Filter-reglar"
+msgstr "Filtrer _skrot"
 
 #: ui/evolution-mail-message.xml.h:34
-#, fuzzy
 msgid "Filter on Mailing _List..."
-msgstr "Fil alt i liste"
+msgstr "Filtrer på e-post-_liste ..."
 
 #: ui/evolution-mail-message.xml.h:35
-#, fuzzy
 msgid "Filter on Se_nder..."
-msgstr "Fil under:"
+msgstr "Filtrer på avse_ndar ..."
 
 #: ui/evolution-mail-message.xml.h:36
-#, fuzzy
 msgid "Filter on _Recipients..."
-msgstr "Skriv ut filer"
+msgstr "Filtrer på _mottakarar ..."
 
 #: ui/evolution-mail-message.xml.h:37
-#, fuzzy
 msgid "Filter on _Subject..."
-msgstr "Ingen emne"
+msgstr "Filtrer på _emne ..."
 
 #: ui/evolution-mail-message.xml.h:38
-#, fuzzy
 msgid "Filter the selected messages for junk status"
-msgstr "Sentrer dei valte elementa"
+msgstr "Filtrer dei valde meldingane etter skrot-status"
 
 #: ui/evolution-mail-message.xml.h:39
-#, fuzzy
 msgid "Flag selected message(s) for follow-up"
-msgstr "Sentrer dei valte elementa"
+msgstr "Valde meldingar skal følgjast opp"
 
 #: ui/evolution-mail-message.xml.h:40
-#, fuzzy
 msgid "Follow _Up..."
-msgstr "Fullt _namn ..."
+msgstr "Følg _opp ..."
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "Tving lasting av bilete i HTML-e-post"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr "Send meldinga vidare i brødteksta på ei ny melding"
+msgstr "Send meldinga vidare i kroppen på ei ny melding"
 
 #: ui/evolution-mail-message.xml.h:44
-#, fuzzy
 msgid "Forward the selected message quoted like a reply"
-msgstr "Send valte meldingar vidare som MIME-oversikt?"
+msgstr "Send den valde meldinga vidare, sitert som eit svar"
 
 #: ui/evolution-mail-message.xml.h:45
-#, fuzzy
 msgid "Forward the selected message to someone"
-msgstr "Sentrer dei valte elementa"
+msgstr "Send den valde meldinga vidare til nokon"
 
 #: ui/evolution-mail-message.xml.h:46
-#, fuzzy
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Send valte meldingar vidare som MIME-oversikt?"
+msgstr "Send den valde meldinga vidare til nokon, som eit vedlegg"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
@@ -18646,45 +18620,39 @@ msgstr "Last b_ilete"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
-msgstr "Markér som v_iktig"
+msgstr "Merk som v_iktig"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Mark as U_nread"
-msgstr "Markér som _ulesen"
+msgstr "Merk som _ulesen"
 
 #: ui/evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
-msgstr "Markér som _uviktig"
+msgstr "Merk som _uviktig"
 
 #: ui/evolution-mail-message.xml.h:56
-#, fuzzy
 msgid "Mark the selected message(s) as having been read"
-msgstr "Send valte meldingar vidare som MIME-oversikt?"
+msgstr "Merk dei valde meldingane som lesne"
 
 #: ui/evolution-mail-message.xml.h:57
-#, fuzzy
 msgid "Mark the selected message(s) as important"
-msgstr "Sentrer dei valte elementa"
+msgstr "Merk dei valde meldingane som viktige"
 
 #: ui/evolution-mail-message.xml.h:58
-#, fuzzy
 msgid "Mark the selected message(s) as junk"
-msgstr "Sentrer dei valte elementa"
+msgstr "Merk dei valde meldingane som skrot"
 
 #: ui/evolution-mail-message.xml.h:59
-#, fuzzy
 msgid "Mark the selected message(s) as not being junk"
-msgstr "Send valte meldingar vidare som MIME-oversikt?"
+msgstr "Merk dei valde meldingane som ikkje-skrot"
 
 #: ui/evolution-mail-message.xml.h:60
-#, fuzzy
 msgid "Mark the selected message(s) as not having been read"
-msgstr "Send valte meldingar vidare som MIME-oversikt?"
+msgstr "Merk dei valde meldingane som ulesne"
 
 #: ui/evolution-mail-message.xml.h:61
-#, fuzzy
 msgid "Mark the selected message(s) as unimportant"
-msgstr "Sentrer dei valte elementa"
+msgstr "Merk dei valde meldingane som uviktige"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Mark the selected messages for deletion"
@@ -18695,9 +18663,8 @@ msgid "Move"
 msgstr "Flytt"
 
 #: ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Move selected message(s) to another folder"
-msgstr "Lagra side til ascii-fil"
+msgstr "Flytt dei valde meldingane til ei anna mappe"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
@@ -18712,18 +18679,16 @@ msgid "Next _Unread Message"
 msgstr "Neste _ulesne melding"
 
 #: ui/evolution-mail-message.xml.h:69
-#, fuzzy
 msgid "Not Junk"
-msgstr "Ikkje-reklame"
+msgstr "Ikkje skrot"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
 msgstr "Opna vald melding i eit nytt vindauge"
 
 #: ui/evolution-mail-message.xml.h:71
-#, fuzzy
 msgid "Open the selected message in the composer for editing"
-msgstr "Opna vald melding i redigeringsvindauget for å senda henne på nytt"
+msgstr "Opna vald melding i redigeringsvindauget"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
@@ -18734,18 +18699,16 @@ msgid "P_revious Unread Message"
 msgstr "Fo_rrige ulesne melding"
 
 #: ui/evolution-mail-message.xml.h:75
-#, fuzzy
 msgid "Post a Repl_y"
-msgstr "Post eit svar"
+msgstr "Send eit _svar"
 
 #: ui/evolution-mail-message.xml.h:76
-#, fuzzy
 msgid "Post a reply to a message in a Public folder"
-msgstr "Post eit svar til ei melding i ei offentleg mappe"
+msgstr "Send eit svar til ei melding i ei offentleg mappe"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
-msgstr "_Forrige viktige melding"
+msgstr "_Førre viktige melding"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
@@ -18760,18 +18723,16 @@ msgid "Re_direct"
 msgstr ""
 
 #: ui/evolution-mail-message.xml.h:84
-#, fuzzy
 msgid "Redirect (bounce) the selected message to someone"
-msgstr "Sentrer dei valte elementa"
+msgstr ""
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
-msgstr "Sett tilbake teksta til det opprinnelege"
+msgstr "Gå tilbake til opprinneleg tekststorleik"
 
 #: ui/evolution-mail-message.xml.h:90
-#, fuzzy
 msgid "S_earch in Message..."
-msgstr "S_øk i meldingar ..."
+msgstr "S_øk i meldinga ..."
 
 #: ui/evolution-mail-message.xml.h:91
 msgid "S_maller"
@@ -18782,9 +18743,8 @@ msgid "Save the message as a text file"
 msgstr "Lagra meldinga som tekstfil"
 
 #: ui/evolution-mail-message.xml.h:93
-#, fuzzy
 msgid "Search for text in the body of the displayed message"
-msgstr "Skriv tittelen på ruta her."
+msgstr "Søk etter tekst i kroppen på den viste meldinga"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
@@ -18799,9 +18759,8 @@ msgid "Show Full _Headers"
 msgstr "Vis heile meldings_hovudet"
 
 #: ui/evolution-mail-message.xml.h:97
-#, fuzzy
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Skriv tittelen på ruta her."
+msgstr "Vis ein blinkande markør i kroppen på dei viste meldingane"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
@@ -18820,29 +18779,24 @@ msgid "Text Si_ze"
 msgstr "Tekststorle_ik"
 
 #: ui/evolution-mail-message.xml.h:102
-#, fuzzy
 msgid "Un-delete the selected messages"
-msgstr "Sentrer dei valte elementa"
+msgstr "Gjenopprett dei valde meldingane"
 
 #: ui/evolution-mail-message.xml.h:103
-#, fuzzy
 msgid "VFolder on Mailing _List..."
-msgstr "Fil alt i liste"
+msgstr "_Lag virtuell mappe til e-post-lista ..."
 
 #: ui/evolution-mail-message.xml.h:104
-#, fuzzy
 msgid "VFolder on Se_nder..."
-msgstr "Mappenamn:"
+msgstr "Lag virtuell mappe til _avsendaren ..."
 
 #: ui/evolution-mail-message.xml.h:105
-#, fuzzy
 msgid "VFolder on _Recipients..."
-msgstr "Mappa finst: "
+msgstr "Lag virtuell mappe til _mottakarane ..."
 
 #: ui/evolution-mail-message.xml.h:106
-#, fuzzy
 msgid "VFolder on _Subject..."
-msgstr "Ingen emne"
+msgstr "Lag virtuell mappe til _emnet ..."
 
 #: ui/evolution-mail-message.xml.h:108
 msgid "_Attached"
@@ -18893,9 +18847,8 @@ msgid "_Tools"
 msgstr "Verk_tøy"
 
 #: ui/evolution-mail-message.xml.h:130
-#, fuzzy
 msgid "_Undelete"
-msgstr "_Angra slett"
+msgstr "_Gjenopprett"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
@@ -19039,9 +18992,8 @@ msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Avgjer om Svar-til-feltet vert vist"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "Avgjer om CC-feltet vert vist"
+msgstr "Avgjer om To-feltet vert vist"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -19202,11 +19154,11 @@ msgstr "Endra innstillingane til Evolution"
 
 #: ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr ""
+msgstr "Endra om verktøylinja er synleg"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
-msgstr ""
+msgstr "Lag eit nytt vindauge som viser denne mappa"
 
 #: ui/evolution.xml.h:7
 msgid "E_xit"
@@ -19230,7 +19182,7 @@ msgstr "Fjernar passorda frå minnet, slik at du vil bli spurd om dei på nytt"
 
 #: ui/evolution.xml.h:12
 msgid "Import data from other programs"
-msgstr ""
+msgstr "Importer data frå andre program"
 
 #: ui/evolution.xml.h:14
 msgid "New _Window"
@@ -19250,7 +19202,7 @@ msgstr "Send køa meldingar og motta ny meldingar"
 
 #: ui/evolution.xml.h:18
 msgid "Set up Pilot configuration"
-msgstr ""
+msgstr "Sett opp Pilot-oppsettet"
 
 #: ui/evolution.xml.h:19
 msgid "Show information about Evolution"
@@ -19274,7 +19226,7 @@ msgstr "_Verktøylinje"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
-msgstr ""
+msgstr "Vel om me arbeider fråkopla."
 
 #: ui/evolution.xml.h:26
 msgid "_About Evolution..."
@@ -19294,7 +19246,7 @@ msgstr "_Ny"
 
 #: ui/evolution.xml.h:33
 msgid "_Quick Reference"
-msgstr ""
+msgstr "_Snøggreferanse"
 
 #: ui/evolution.xml.h:34
 msgid "_Send / Receive"
@@ -19391,6 +19343,8 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
+"Bruk venstre museknapp for å forstørra ein del av kartet, og vel ein tidssone.\n"
+"Bruk høgre museknapp for å forminska."
 
 #: widgets/menus/gal-view-menus.c:292
 msgid "_Current View"
@@ -19682,19 +19636,13 @@ msgstr "Vil du skriva over henne?"
 
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
-#, fuzzy
 msgid "Cannot save file \"{0}\"."
-msgstr ""
-"Klarte ikkje å lagra til «%s»\n"
-" %s"
+msgstr "Klarte ikkje å lagra fila «{0}»."
 
 #. system:no-load-file primary
 #: widgets/misc/e-system-errors.xml.h:13
-#, fuzzy
 msgid "Cannot open file \"{0}\"."
-msgstr ""
-"Klarte ikkje å lagra til «%s»\n"
-" %s"
+msgstr "Klarte ikkje å opna fila «{0}»."
 
 #: widgets/misc/e-task-widget.c:212
 #, c-format
@@ -19704,5 +19652,5 @@ msgstr "%s (...)"
 #: widgets/misc/e-task-widget.c:217
 #, c-format
 msgid "%s (%d%% complete)"
-msgstr "%s (%d%% ferdig)"
+msgstr "%s (%d %% ferdig)"
 
