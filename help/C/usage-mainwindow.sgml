@@ -42,7 +42,7 @@
         or several computers, connected directly or over a network,
         for one person or for large groups.
       </para>
-    </para>
+
     <para>
       With <application>Ximian Evolution</application>, you can
       accomplish your most common daily tasks faster.  For example, it
@@ -356,6 +356,9 @@
           tool to import the files.  Read the FAQ at the Ximian
           website for more information.
       </para>
+        </listitem>
+     </orderedlist>
+    </para>
     </note>     
 
     <note>

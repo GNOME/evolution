@@ -1,5 +1,9 @@
 2001-09-04  Aaron Weber  <aaron@ximian.com>
 
+	* C/usage-mainwindow.sgml: Validate.
+
+	* C/usage-mail.sgml: More html stuff.
+
 	* C/apx-authors.sgml: Credit kmarass.
 
 	* C/usage-contact.sgml: groups-of-contacts-management.

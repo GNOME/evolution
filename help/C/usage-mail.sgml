@@ -513,6 +513,7 @@
 	      reconnect, choose
 	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
 	      Online</guimenuitem></menuchoice>
+            </para>
          </note>
 
       <para>
@@ -636,11 +637,12 @@
           with more than one card, Evolution will open a dialog box to
           ask you which person you meant. 
 
-	  <!-- Also, <application>Evolution</application> will add a
+<!-- Also, <application>Evolution</application> will add a
           domain to any unqualified addresses.  By default, this is
           your domain, but you can choose which one mail preferences
-          dialog. NOTE: Bug filed on this-- it's not available now,
-          but may be in the future.-->
+          dialog. NOTE: Bug filed on this: it's not available now,
+          but may be in the future. 
+-->
 
           </para>
 
@@ -847,7 +849,6 @@ with quoted materials and the relevant replies interspersed-->
             <xref linkend="config-prefs-mail-other"> for more
             information.
           </para>
-        </note>
         <para>
            HTML formatting tools are located in the toolbar just above
            the space where you'll actually compose the message, and
@@ -933,8 +934,6 @@ with quoted materials and the relevant replies interspersed-->
                </para>
             </listitem>
           </varlistentry>
-
-
           </variablelist>
         </para>
         <para>
@@ -1137,10 +1136,11 @@ with quoted materials and the relevant replies interspersed-->
       <sect3 id="html-templates">
 	<title>HTML Templates</title>
 	<para>
-          <application>Evolution</application> not only allows you to 
-	  decorate your email with HTML text and graphics, but 
-	  provides you with prebuilt templates for you to use when making 
-	  these improvements.
+          <application>Evolution</application> not only allows you to
+	  decorate your email with HTML text and graphics, but
+	  provides you with prebuilt templates for you to use when
+	  making these improvements.  You can use these to emphasize a
+	  point or frame an image in an attractive manner.
         </para>
 	<para>
 	  To include a template into your HTML based email:
@@ -1152,7 +1152,7 @@ with quoted materials and the relevant replies interspersed-->
 	    </listitem>
 	    <listitem>
 	      <para>
-		Enable HTML in your email by clicking
+		Make sure that the
 		<menuchoice>
 		  <guimenu>
 		    Format
@@ -1161,20 +1161,37 @@ with quoted materials and the relevant replies interspersed-->
 		    HTML
 		  </guimenuitem>
 		</menuchoice>
+		selector is checked.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
 		Click the <guibutton>HTML Template</guibutton> button in the 
-		<guilabel>Toolbar</guilabel>.
+		<guilabel>Toolbar</guilabel> or select 		
+		<menuchoice>
+		  <guimenu>
+		  Insert
+		  </guimenu>
+		  <guimenuitem>
+		    HTML Template
+		  </guimenuitem>
+		</menuchoice>
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Select the template in the <guilabel>Template</guilabel> 
-		selection box.
+		Select the template type in the
+		<guilabel>Template</guilabel> selection box. Your
+		options are <guilabel>Note</guilabel> and
+		<guilabel>Image Frame</guilabel>.  
 	      </para>
 	    </listitem>
+	    <listitem>
+	      <para>
+	      Set the size and alignment of the HTML template.
+	      </para>
+	    </listitem>
+
 	    <listitem>
 	      <para>
 		Click <guibutton>Insert</guibutton> to insert it where the 
@@ -1183,8 +1200,14 @@ with quoted materials and the relevant replies interspersed-->
 	    </listitem>
 	    <listitem>
 	      <para>
-		Click in the template to edit the specific object you clicked 
-		on.
+		Once you have inserted the template, click on the text
+		in the template, and enter the text you want to use.
+              </para>
+	      <para>
+		If you have selected an image frame template,
+		right-click on the image and select
+		<guimenuitem>Image</guimenuitem> to select the image
+		you want to place in the frame.
 	      </para>
 	    </listitem>
 	  </orderedlist>
@@ -1261,6 +1284,30 @@ with quoted materials and the relevant replies interspersed-->
 	    </listitem>
 	  </orderedlist>
 	</para>
+	<para>
+	  You can also edit a table after creation.  Just right-click
+	  on it and select <guimenuitem>Table</guimenuitem> to open
+	  the table editing window again. Or, you can select items
+	  from the <guimenu>Table Delete</guimenu> and <guimenu>Table
+	  Insert</guimenu> menus.
+	  </para>
+	
+	<para>
+	  <tip id="table-tip">
+	  <title>Deleting an Entire Table</title>
+	  <para>
+	    You can delete an entire table by right-clicking on
+            a table or other HTML object in a message, and selecting
+	  <menuchoice>
+	    <guimenu>Table Delete</guimenu>
+	    <guimenuitem>Table</guimenuitem> </menuchoice>.  In an
+	    HMTL message, your signature, templates, and image
+	    inclusions all have tables around them, and you can remove
+	    them completely and quickly with this shortcut.
+	  </para>
+         </tip>
+        </para>
+
       </sect3>
     </sect2>
     
