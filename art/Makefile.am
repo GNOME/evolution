@@ -89,6 +89,7 @@ images_DATA = \
 
 buttonsdir = $(datadir)/images/evolution/buttons
 buttons_DATA = 				\
+	add-attachment.png		\
 	add-service.png			\
 	compose-message.png		\
 	copy-message.png		\

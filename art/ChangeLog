@@ -1,3 +1,7 @@
+2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Install the add-attachment.png icon.
+
 2001-06-27  Tuomas Kuosmanen  <tigert@ximian.com>
 
 	* evolution-calendar-mini.png: New version of the folder tree's 
