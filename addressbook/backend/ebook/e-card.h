@@ -174,6 +174,8 @@ void                  e_card_arbitrary_free               (ECardArbitrary       
 /* ECard email manipulation */
 gboolean              e_card_email_match_string           (const ECard                *card,
 							   const gchar                *str);
+gint                  e_card_email_find_number            (const ECard                *card,
+							   const gchar                *email);
 
 /* Specialized functionality */
 GList                *e_card_load_cards_from_file         (const char                 *filename);

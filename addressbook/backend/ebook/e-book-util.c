@@ -508,6 +508,56 @@ e_book_name_and_email_query (EBook *book,
 }
 
 /*
+ * Simple nickname query
+ */
+
+typedef struct _NicknameQueryInfo NicknameQueryInfo;
+struct _NicknameQueryInfo {
+	gchar *nickname;
+	EBookSimpleQueryCallback cb;
+	gpointer closure;
+};
+
+static void
+nickname_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure)
+{
+	NicknameQueryInfo *info = closure;
+
+	if (info->cb)
+		info->cb (book, status, cards, info->closure);
+
+	g_free (info->nickname);
+	g_free (info);
+}
+
+guint
+e_book_nickname_query (EBook *book,
+		       const char *nickname,
+		       EBookSimpleQueryCallback cb,
+		       gpointer closure)
+{
+	NicknameQueryInfo *info;
+	gchar *query;
+	guint retval;
+
+	g_return_val_if_fail (E_IS_BOOK (book), 0);
+	g_return_val_if_fail (nickname && *nickname, 0);
+
+	info = g_new0 (NicknameQueryInfo, 1);
+	info->nickname = g_strdup (nickname);
+	info->cb = cb;
+	info->closure = closure;
+
+	query = g_strdup_printf ("(is \"nickname\" \"%s\")", info->nickname);
+
+	retval = e_book_simple_query (book, query, nickname_cb, info);
+
+	g_free (query);
+
+	return retval;
+}
+
+/*
  *  Convenience routine to check for addresses in the local address book.
  */
 

@@ -1,3 +1,72 @@
+2001-08-09  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_create_entry): Hook up some magic to
+	(basically) cardify an entry on focus-out.  (What we do is actually
+	more complicated than that.)
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_set_property_fn): After we set an entry's text, try to
+	cardify it.  We need to do this so that (for example) reply
+	e-mails get properly cardified.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_duplicate): Use e_select_names_model_append,
+	rather than manipulating lists directly.
+	(e_select_names_model_insert): Connect "changed" signal proxy for
+	added EDestination.
+	(e_select_names_model_append): Ditto.
+	(e_select_names_model_replace): Ditto, and disconnect signals for
+	replaced EDestination.
+	(e_select_names_model_delete): Ditto on the disconnection.
+	(e_select_names_model_delete_all): Ditto.
+	(e_select_names_model_cardify): Added.  Try to cardify a specified
+	EDestination.
+	(e_select_names_model_cancel_cardify): Added.  Cancel the pending
+	cardification of a single EDestination.
+	(e_select_names_model_cardify_all): Added.  Cardify all of the
+	EDestinations in the model.
+	(e_select_names_model_cancel_cardify_all): Added.  Cancel's any
+	and all pending cardifications.
+
+	* backend/ebook/e-destination.c (e_destination_class_init): Added
+	"changed" and "cardified" signals.
+	(e_destination_freeze): Added (static).
+	(e_destination_thaw): Added (static).
+	(e_destination_clear_card): Reset allow_cardify and
+	cannot_cardify, cancel any pending cardifications, and emit the
+	"changed" signal.
+	(e_destination_clear_strings): Emit the "changed" signal.
+	(e_destination_clear): Do freeze/thaw to prevent multiple signal
+	emissions.
+	(e_destination_set_card): Check that the card we are setting is
+	not equal to the current card, and emit the "changed" signal if we
+	are actually changing.
+	(e_destination_set_card_uri): Emit "changed" signal, if necessary.
+	(e_destination_set_name): Emit "changed" signal, if necessary.
+	(e_destination_set_email): Emit "changed" signal, if necessary.
+	(e_destination_set_html_mail_pref): Emit "changed" signal, if
+	necessary.
+	(use_card_cb): If we've just loaded/set the ECard, emit the
+	"changed" signal.
+	(e_destination_set_raw): Emit "changed" signal, if necessary.
+	(e_destination_allow_cardification): Added.
+	(e_destination_set_allow_cardification): Added.
+	(e_destination_cardify): Added.  Tries to automatically convert
+	a string-based EDestination to one based on an ECard.
+	(e_destination_cardify_delayed): Added.  Cardifies in a timeout.
+	(e_destination_cancel_cardify): Added.  Cancels any pending
+	cardifications.
+	(e_destination_xml_decode): Added freeze/thaw.
+
+	* backend/ebook/e-book-util.c (e_book_nickname_query): Added.  A
+	canned simple query for nicknames.
+
+	* backend/ebook/e-card.c (e_card_email_find_number): Added.  Given
+	a card and an string containing an email address, return the index
+	number of the address inside of the card, or -1 if the address is
+	not found.
+
 2001-08-09  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes ximian bugs #5080, #6021, #6704, #6705 ] 

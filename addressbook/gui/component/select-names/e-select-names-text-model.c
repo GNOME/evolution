@@ -423,7 +423,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 				EDestination *dest = e_destination_new ();
 				e_destination_set_raw (dest, new_str);
-
+				
 				e_select_names_model_replace (source, index, dest);
 
 				if (this_length > 0) {

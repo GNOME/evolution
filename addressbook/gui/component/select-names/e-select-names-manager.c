@@ -368,6 +368,38 @@ popup_cb (EEntry *entry, GdkEventButton *ev, gint pos, ESelectNamesModel *model)
 	e_select_names_popup (model, ev, pos);
 }
 
+static gint
+focus_in_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
+
+	e_select_names_model_cancel_cardify_all (model);
+
+	return FALSE;
+}
+
+static gint
+focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
+
+	if (!e_entry_completion_popup_is_visible (entry))
+		e_select_names_model_cardify_all (model, NULL, 0);
+
+	return FALSE;
+}
+
+static void
+completion_popup_cb (EEntry *entry, gint visible, gpointer user_data)
+{
+	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
+
+	if (!visible && !GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (entry->canvas)))
+		e_select_names_model_cardify_all (model, NULL, 0);
+}
+
 GtkWidget *
 e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *id)
 {
@@ -388,6 +420,19 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 					    "popup",
 					    GTK_SIGNAL_FUNC (popup_cb),
 					    section->model);
+
+			gtk_signal_connect (GTK_OBJECT (eentry->canvas),
+					    "focus_in_event",
+					    GTK_SIGNAL_FUNC (focus_in_cb),
+					    eentry);
+			gtk_signal_connect (GTK_OBJECT (eentry->canvas),
+					    "focus_out_event",
+					    GTK_SIGNAL_FUNC (focus_out_cb),
+					    eentry);
+			gtk_signal_connect (GTK_OBJECT (eentry),
+					    "completion_popup",
+					    GTK_SIGNAL_FUNC (completion_popup_cb),
+					    NULL);
 
 			entry = g_new (ESelectNamesManagerEntry, 1);
 			entry->entry = eentry;

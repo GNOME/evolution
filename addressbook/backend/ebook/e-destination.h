@@ -54,12 +54,16 @@ struct _EDestination {
 
 struct _EDestinationClass {
 	GtkObjectClass parent_class;
+
+	void (*changed) (EDestination *dest);	
+	void (*cardified) (EDestination *dest);
 };
 
 GtkType e_destination_get_type (void);
 
 
 EDestination  *e_destination_new                (void);
+void           e_destination_changed            (EDestination *);
 EDestination  *e_destination_copy               (const EDestination *);
 void           e_destination_clear              (EDestination *);
 
@@ -93,6 +97,16 @@ gboolean       e_destination_is_evolution_list  (const EDestination *);
 
 /* If true, they want HTML mail. */
 gboolean       e_destination_get_html_mail_pref (const EDestination *);
+
+gboolean       e_destination_allow_cardification     (const EDestination *);
+void           e_destination_set_allow_cardification (EDestination *, gboolean);
+void           e_destination_cardify                 (EDestination *, EBook *);
+void           e_destination_cardify_delayed         (EDestination *, EBook *, gint delay); /* delay < 0: "default" */
+void           e_destination_cancel_cardify          (EDestination *);
+
+#if 0
+void           e_destination_uncardify               (EDestination *);
+#endif
 
 gchar         *e_destination_get_address_textv  (EDestination **);
 

@@ -132,8 +132,15 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 	switch (arg_id) {
 
 	case ENTRY_PROPERTY_ID_TEXT:
-		e_entry_set_text (E_ENTRY (w), BONOBO_ARG_GET_STRING (arg));
-		break;
+		{
+			ESelectNamesModel *model;
+			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
+			g_assert (model != NULL);
+			
+			e_entry_set_text (E_ENTRY (w), BONOBO_ARG_GET_STRING (arg));
+			e_select_names_model_cardify_all (model, NULL, 0);
+			break;
+		}
 
 	case ENTRY_PROPERTY_ID_DESTINATIONS:
 		{

@@ -61,6 +61,11 @@ guint e_book_name_and_email_query (EBook *book,
 				   EBookSimpleQueryCallback cb,
 				   gpointer closure);
 
+guint e_book_nickname_query (EBook *book,
+			     const char *nickname,
+			     EBookSimpleQueryCallback cb,
+			     gpointer closure);
+
 /* Returns the ECard associated to email in the callback,
    or NULL if no match is found in the local address book. */
 void e_book_query_address_locally (const gchar *email,

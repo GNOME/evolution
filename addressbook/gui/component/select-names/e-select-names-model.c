@@ -219,6 +219,12 @@ e_select_names_model_changed (ESelectNamesModel *model)
 	gtk_signal_emit (GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
 }
 
+static void
+destination_changed_proxy (EDestination *dest, gpointer closure)
+{
+	e_select_names_model_changed (E_SELECT_NAMES_MODEL (closure));
+}
+
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
 ESelectNamesModel *
@@ -240,7 +246,7 @@ e_select_names_model_duplicate (ESelectNamesModel *old)
 	
 	for (iter = old->priv->data; iter != NULL; iter = g_list_next (iter)) {
 		EDestination *dup = e_destination_copy (E_DESTINATION (iter->data));
-		model->priv->data = g_list_append (model->priv->data, dup);
+		e_select_names_model_append (model, dup);
 	}
 
 	model->priv->limit = old->priv->limit;
@@ -444,6 +450,21 @@ e_select_names_model_get_string (ESelectNamesModel *model, gint index)
 	return dest ? e_destination_get_textrep (dest) : "";
 }
 
+static void
+connect_destination (ESelectNamesModel *model, EDestination *dest)
+{
+	gtk_signal_connect (GTK_OBJECT (dest),
+			    "changed",
+			    destination_changed_proxy,
+			    model);
+}
+
+static void
+disconnect_destination (ESelectNamesModel *model, EDestination *dest)
+{
+	gtk_signal_disconnect_by_func (GTK_OBJECT (dest), destination_changed_proxy, model);
+}
+
 void
 e_select_names_model_insert (ESelectNamesModel *model, gint index, EDestination *dest)
 {
@@ -457,6 +478,8 @@ e_select_names_model_insert (ESelectNamesModel *model, gint index, EDestination 
 		gtk_object_unref (GTK_OBJECT (dest));
 		return;
 	}
+
+	connect_destination (model, dest);
 
 	model->priv->data = g_list_insert (model->priv->data, dest, index);
 	
@@ -477,6 +500,8 @@ e_select_names_model_append (ESelectNamesModel *model, EDestination *dest)
 		gtk_object_unref (GTK_OBJECT (dest));
 		return;
 	}
+
+	connect_destination (model, dest);
 
 	model->priv->data = g_list_append (model->priv->data, dest);
 
@@ -503,6 +528,8 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination
 
 	if (model->priv->data == NULL) {
 
+		connect_destination (model, dest);
+
 		model->priv->data = g_list_append (model->priv->data, dest);
 		gtk_object_ref (GTK_OBJECT (dest));
 		gtk_object_sink (GTK_OBJECT (dest));
@@ -512,6 +539,9 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination
 		node = g_list_nth (model->priv->data, index);
 
 		if (node->data != dest) {
+
+			disconnect_destination (model, E_DESTINATION (node->data));
+			connect_destination (model, dest);
 
 			old_str = e_destination_get_textrep (E_DESTINATION (node->data));
 			old_strlen = old_str ? strlen (old_str) : 0;
@@ -540,6 +570,7 @@ e_select_names_model_delete (ESelectNamesModel *model, gint index)
 	g_return_if_fail (0 <= index && index < g_list_length (model->priv->data));
 	
 	node = g_list_nth (model->priv->data, index);
+	disconnect_destination (model, E_DESTINATION (node->data));
 	gtk_object_unref (GTK_OBJECT (node->data));
 
 	model->priv->data = g_list_remove_link (model->priv->data, node);
@@ -565,8 +596,10 @@ e_select_names_model_clean (ESelectNamesModel *model)
 		dest = iter->data ? E_DESTINATION (iter->data) : NULL;
 
 		if (dest == NULL || e_destination_is_empty (dest)) {
-			if (dest)
+			if (dest) {
+				disconnect_destination (model, dest);
 				gtk_object_unref (GTK_OBJECT (dest));
+			}
 			model->priv->data = g_list_remove_link (model->priv->data, iter);
 			g_list_free_1 (iter);
 			changed = TRUE;
@@ -579,12 +612,19 @@ e_select_names_model_clean (ESelectNamesModel *model)
 		e_select_names_model_changed (model);
 }
 
+static void
+delete_all_iter (gpointer data, gpointer closure)
+{
+	disconnect_destination (E_SELECT_NAMES_MODEL (closure), E_DESTINATION (data));
+	gtk_object_unref (GTK_OBJECT (data));
+}
+
 void
 e_select_names_model_delete_all (ESelectNamesModel *model)
 {
 	g_return_if_fail (model != NULL && E_IS_SELECT_NAMES_MODEL (model));
 
-	g_list_foreach (model->priv->data, (GFunc) gtk_object_unref, NULL);
+	g_list_foreach (model->priv->data, delete_all_iter, model);
 	g_list_free (model->priv->data);
 	model->priv->data = NULL;
 
@@ -692,3 +732,70 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, 
 	if (length)
 		*length = len;
 }
+
+void
+e_select_names_model_cardify (ESelectNamesModel *model, EBook *book, gint index, gint delay)
+{
+	EDestination *dest;
+
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (book == NULL || E_IS_BOOK (book));
+	g_return_if_fail (0 <= index && index < g_list_length (model->priv->data));
+
+	dest = E_DESTINATION (g_list_nth_data (model->priv->data, index));
+
+	if (!e_destination_is_empty (dest)) {
+
+		if (delay > 0)
+			e_destination_cardify_delayed (dest, book, delay);
+		else
+			e_destination_cardify (dest, book);
+	}
+}
+
+void
+e_select_names_model_cancel_cardify (ESelectNamesModel *model, gint index)
+{
+	EDestination *dest;
+
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (0 <= index && index < g_list_length (model->priv->data));
+
+	dest = E_DESTINATION (g_list_nth_data (model->priv->data, index));
+	
+	e_destination_cancel_cardify (dest);
+}
+
+void
+e_select_names_model_cardify_all (ESelectNamesModel *model, EBook *book, gint delay)
+{
+	GList *iter;
+
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (book == NULL || E_IS_BOOK (book));
+
+	for (iter = model->priv->data; iter != NULL; iter = g_list_next (iter)) {
+		EDestination *dest = E_DESTINATION (iter->data);
+		if (!e_destination_is_empty (dest)) {
+
+			if (delay > 0)
+				e_destination_cardify_delayed (dest, book, delay);
+			else
+				e_destination_cardify (dest, book);
+		}
+	}
+}
+
+void
+e_select_names_model_cancel_cardify_all (ESelectNamesModel *model)
+{
+	GList *iter;
+
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+
+	for (iter = model->priv->data; iter != NULL; iter = g_list_next (iter)) {
+		EDestination *dest = E_DESTINATION (iter->data);
+		e_destination_cancel_cardify (dest);
+	}
+}
+

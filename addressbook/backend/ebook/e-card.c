@@ -1813,6 +1813,29 @@ e_card_email_match_string (const ECard *card, const gchar *str)
 	return FALSE;
 }
 
+gint
+e_card_email_find_number (const ECard *card, const gchar *email)
+{
+	EIterator *iter;
+	gint count = 0;
+
+	g_return_val_if_fail (E_IS_CARD (card), -1);
+	g_return_val_if_fail (email != NULL, -1);
+
+	iter = e_list_get_iterator (card->email);
+	for (e_iterator_reset (iter); e_iterator_is_valid (iter); e_iterator_next (iter)) {
+		if (!strcmp (e_iterator_get (iter), email))
+			goto finished;
+		++count;
+	}
+	count = -1;
+
+ finished:
+	gtk_object_unref (GTK_OBJECT (iter));
+
+	return count;
+}
+
 /*
  * ECard lifecycle management and vCard loading/saving.
  */
