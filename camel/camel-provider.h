@@ -48,13 +48,23 @@ typedef enum {
 
 extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
 
-/* _IS_SOURCE means the user can get mail from there.
- * _IS_STORAGE means the user can read mail from there.
+/* Provider flags:
+ *
+ * _IS_REMOTE   the provider works with remote data
+ * _IS_LOCAL    it can be used as a backend for local folder
+ *                tree folders. (*Not* just the opposite of _IS_REMOTE)
+ * _IS_SOURCE   mail arrives there, so it should be offered as an
+ *                option in the mail config dialog.
+ * _IS_STORAGE  mail is stored there. it will appear in the folder tree.
+ * _IS_EXTERNAL it appears in the folder tree but is not created by
+ *                the mail component.
  */
 #define CAMEL_PROVIDER_IS_REMOTE	(1 << 0)
-#define CAMEL_PROVIDER_IS_SOURCE	(1 << 1)
-#define CAMEL_PROVIDER_IS_STORAGE	(1 << 2)
-#define CAMEL_PROVIDER_SUPPORTS_SSL	(1 << 3)
+#define CAMEL_PROVIDER_IS_LOCAL		(1 << 1)
+#define CAMEL_PROVIDER_IS_EXTERNAL	(1 << 2)
+#define CAMEL_PROVIDER_IS_SOURCE	(1 << 3)
+#define CAMEL_PROVIDER_IS_STORAGE	(1 << 4)
+#define CAMEL_PROVIDER_SUPPORTS_SSL	(1 << 5)
 
 
 /* Flags for url_flags. "ALLOW" means the config dialog will let

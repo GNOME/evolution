@@ -79,7 +79,7 @@ static CamelProvider vee_provider = {
 
 	"vfolder",
 
-	0, /* flags */
+	CAMEL_PROVIDER_IS_STORAGE,
 
 	0, /* url_flags */
 

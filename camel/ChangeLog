@@ -1,5 +1,17 @@
 2001-10-01  Dan Winship  <danw@ximian.com>
 
+	* camel-provider.h: Fix up the provider flags to specify things
+	more completely so we don't have to hardcode provider names in the
+	mailer.
+
+	* providers/local/camel-local-provider.c: MH, mbox, and Maildir
+	are LOCAL. MH and mbox are no longer STORAGE by the new
+	definition.
+
+	* camel-session.c (vee_provider): The vfolder store is a STORAGE.
+
+2001-10-01  Dan Winship  <danw@ximian.com>
+
 	* providers/local/camel-local-store.c (construct): Don't munge the
 	URL; CamelSession's caching relies on it not changing. Instead,
 	add a toplevel_dir field to CamelLocalStore, and set that to the
