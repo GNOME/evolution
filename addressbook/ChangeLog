@@ -1,3 +1,17 @@
+2001-06-25  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/e-address-popup.c: Add a huge steaming pile of
+	code to handle the case of single-address merging.  In other
+	words, if you go to "harvest" an address by right-clicking on it
+	in the mail viewer, and you already have a closely-matching
+	contact (w/ a different e-mail address), this gives you the
+	option of editting that contact's e-mail addresses to add the
+	one you just clicked on.
+
+	* backend/ebook/e-card-compare.c (match_search_info_free): It is
+	amazing how much better things work when you don't try to
+	dereference the pointer you just freed.
+
 2001-06-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/Makefile.am (minicard_test_LDADD): correct path to

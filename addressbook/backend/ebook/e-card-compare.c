@@ -336,11 +336,14 @@ match_search_info_free (MatchSearchInfo *info)
 {
 	if (info) {
 		gtk_object_unref (GTK_OBJECT (info->card));
-		g_free (info);
-		
+
 		/* This should already have been deallocated, but just in case... */
-		g_list_foreach (info->avoid, (GFunc) gtk_object_unref, NULL);
-		g_list_free (info->avoid);
+		if (info->avoid) {
+			g_list_foreach (info->avoid, (GFunc) gtk_object_unref, NULL);
+			g_list_free (info->avoid);
+		}
+
+		g_free (info);
 	}
 }
 

@@ -46,9 +46,6 @@ typedef struct _EAddressPopupClass EAddressPopupClass;
 struct _EAddressPopup {
 	GtkEventBox parent;
 
-	guint leave_timeout_tag;
-	gboolean grabbed;
-
 	gchar *name;
 	gchar *email;
 
@@ -59,6 +56,8 @@ struct _EAddressPopup {
 	GtkWidget *main_vbox;
 	GtkWidget *generic_view;
 	GtkWidget *minicard_view;
+
+	gboolean transitory;
 
 	guint scheduled_refresh;
 	guint query_tag;
