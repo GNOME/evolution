@@ -1183,12 +1183,12 @@ e_tree_sorted_class_init (ETreeSortedClass *klass)
 	signals [NODE_RESORTED] =
 		gtk_signal_new ("node_resorted",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeSortedClass, node_resorted),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 }
 
 static void

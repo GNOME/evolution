@@ -225,7 +225,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	e_completion_view_signals[E_COMPLETION_VIEW_NONEMPTY] =
 		gtk_signal_new ("nonempty",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionViewClass, nonempty),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -233,7 +233,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	e_completion_view_signals[E_COMPLETION_VIEW_ADDED] =
 		gtk_signal_new ("added",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionViewClass, added),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -241,7 +241,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	e_completion_view_signals[E_COMPLETION_VIEW_FULL] =
 		gtk_signal_new ("full",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionViewClass, full),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -249,7 +249,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	e_completion_view_signals[E_COMPLETION_VIEW_BROWSE] =
 		gtk_signal_new ("browse",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionViewClass, browse),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
@@ -258,7 +258,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE] =
 		gtk_signal_new ("unbrowse",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionViewClass, unbrowse),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -266,13 +266,13 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	e_completion_view_signals[E_COMPLETION_VIEW_ACTIVATE] =
 		gtk_signal_new ("activate",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionViewClass, activate),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 
-	gtk_object_class_add_signals (object_class, e_completion_view_signals, E_COMPLETION_VIEW_LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_completion_view_signals, E_COMPLETION_VIEW_LAST_SIGNAL);
 
 	object_class->destroy = e_completion_view_destroy;
 

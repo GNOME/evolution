@@ -10,6 +10,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "gal-view.h"
+#include "gal/util/e-util.h"
 
 #define GV_CLASS(e) ((GalViewClass *)((GtkObject *)e)->klass)
 
@@ -176,12 +177,12 @@ gal_view_class_init      (GtkObjectClass *object_class)
 	gal_view_signals [CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (GalViewClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, gal_view_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, gal_view_signals, LAST_SIGNAL);
 }
 
 GtkType

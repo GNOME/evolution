@@ -55,7 +55,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	e_tree_model_signals [PRE_CHANGE] =
 		gtk_signal_new ("pre_change",
 				GTK_RUN_LAST,
-				klass->type,
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, pre_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -63,7 +63,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	e_tree_model_signals [NODE_CHANGED] =
 		gtk_signal_new ("node_changed",
 				GTK_RUN_LAST,
-				klass->type,
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_changed),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
@@ -71,7 +71,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	e_tree_model_signals [NODE_DATA_CHANGED] =
 		gtk_signal_new ("node_data_changed",
 				GTK_RUN_LAST,
-				klass->type,
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_data_changed),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
@@ -79,7 +79,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	e_tree_model_signals [NODE_COL_CHANGED] =
 		gtk_signal_new ("node_col_changed",
 				GTK_RUN_LAST,
-				klass->type,
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_col_changed),
 				gtk_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
@@ -87,7 +87,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	e_tree_model_signals [NODE_INSERTED] =
 		gtk_signal_new ("node_inserted",
 				GTK_RUN_LAST,
-				klass->type,
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_inserted),
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
@@ -95,12 +95,12 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	e_tree_model_signals [NODE_REMOVED] =
 		gtk_signal_new ("node_removed",
 				GTK_RUN_LAST,
-				klass->type,
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ETreeModelClass, node_removed),
 				e_marshal_NONE__POINTER_POINTER_INT,
 				GTK_TYPE_NONE, 3, GTK_TYPE_POINTER, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
-	gtk_object_class_add_signals (klass, e_tree_model_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (klass, e_tree_model_signals, LAST_SIGNAL);
 
 	tree_class->get_root             = NULL;
 

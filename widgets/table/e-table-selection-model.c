@@ -8,6 +8,7 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+#include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include "e-table-selection-model.h"

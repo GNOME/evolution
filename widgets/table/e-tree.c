@@ -2396,7 +2396,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, cursor_change),
 				gtk_marshal_NONE__INT_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_POINTER);
@@ -2404,7 +2404,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [CURSOR_ACTIVATED] =
 		gtk_signal_new ("cursor_activated",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, cursor_activated),
 				gtk_marshal_NONE__INT_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_POINTER);
@@ -2412,7 +2412,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [SELECTION_CHANGE] =
 		gtk_signal_new ("selection_change",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, selection_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -2420,7 +2420,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [DOUBLE_CLICK] =
 		gtk_signal_new ("double_click",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, double_click),
 				e_marshal_NONE__INT_POINTER_INT_POINTER,
 				GTK_TYPE_NONE, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -2428,7 +2428,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, right_click),
 				e_marshal_INT__INT_POINTER_INT_POINTER,
 				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -2436,7 +2436,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [CLICK] =
 		gtk_signal_new ("click",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, click),
 				e_marshal_INT__INT_POINTER_INT_POINTER,
 				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -2444,7 +2444,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, key_press),
 				e_marshal_INT__INT_POINTER_INT_POINTER,
 				GTK_TYPE_INT, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -2452,7 +2452,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals [START_DRAG] =
 		gtk_signal_new ("start_drag",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, start_drag),
 				e_marshal_NONE__INT_POINTER_INT_POINTER,
 				GTK_TYPE_NONE, 4, GTK_TYPE_INT, GTK_TYPE_POINTER, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -2460,7 +2460,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_BEGIN] =
 		gtk_signal_new ("tree_drag_begin",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_begin),
 				e_marshal_NONE__INT_POINTER_INT_POINTER,
 				GTK_TYPE_NONE, 4,
@@ -2471,7 +2471,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_END] =
 		gtk_signal_new ("tree_drag_end",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_end),
 				e_marshal_NONE__INT_POINTER_INT_POINTER,
 				GTK_TYPE_NONE, 4,
@@ -2482,7 +2482,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_DATA_GET] =
 		gtk_signal_new ("tree_drag_data_get",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_data_get),
 				e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_UINT_UINT,
 				GTK_TYPE_NONE, 7,
@@ -2496,7 +2496,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_DATA_DELETE] =
 		gtk_signal_new ("tree_drag_data_delete",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_data_delete),
 				e_marshal_NONE__INT_POINTER_INT_POINTER,
 				GTK_TYPE_NONE, 4,
@@ -2508,7 +2508,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_LEAVE] =
 		gtk_signal_new ("tree_drag_leave",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_leave),
 				e_marshal_NONE__INT_POINTER_INT_POINTER_UINT,
 				GTK_TYPE_NONE, 5,
@@ -2520,7 +2520,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_MOTION] =
 		gtk_signal_new ("tree_drag_motion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_motion),
 				e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_UINT,
 				GTK_TYPE_BOOL, 7,
@@ -2534,7 +2534,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_DROP] =
 		gtk_signal_new ("tree_drag_drop",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_drop),
 				e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_UINT,
 				GTK_TYPE_BOOL, 7,
@@ -2548,7 +2548,7 @@ e_tree_class_init (ETreeClass *class)
 	et_signals[TREE_DRAG_DATA_RECEIVED] =
 		gtk_signal_new ("tree_drag_data_received",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, tree_drag_data_received),
 				e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_UINT_UINT,
 				GTK_TYPE_NONE, 9,
@@ -2562,14 +2562,14 @@ e_tree_class_init (ETreeClass *class)
 				GTK_TYPE_UINT,
 				GTK_TYPE_UINT);
 
-	gtk_object_class_add_signals (object_class, et_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, et_signals, LAST_SIGNAL);
 
 	class->set_scroll_adjustments = set_scroll_adjustments;
 
 	widget_class->set_scroll_adjustments_signal =
 		gtk_signal_new ("set_scroll_adjustments",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETreeClass, set_scroll_adjustments),
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);

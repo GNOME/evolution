@@ -35,6 +35,7 @@
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-unicode.h"
 #include "gal/util/e-text-event-processor-emacs-like.h"
+#include "gal/util/e-util.h"
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
@@ -223,7 +224,7 @@ e_text_class_init (ETextClass *klass)
 	e_text_signals[E_TEXT_CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -231,7 +232,7 @@ e_text_class_init (ETextClass *klass)
 	e_text_signals[E_TEXT_ACTIVATE] =
 		gtk_signal_new ("activate",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextClass, activate),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -239,7 +240,7 @@ e_text_class_init (ETextClass *klass)
 	e_text_signals[E_TEXT_KEYPRESS] =
 		gtk_signal_new ("keypress",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextClass, keypress),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_UINT, GTK_TYPE_UINT);
@@ -247,12 +248,12 @@ e_text_class_init (ETextClass *klass)
 	e_text_signals[E_TEXT_POPUP] =
 		gtk_signal_new ("popup",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextClass, popup),
 				gtk_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
-	gtk_object_class_add_signals (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_text_signals, E_TEXT_LAST_SIGNAL);
 
 
 	gtk_object_add_arg_type ("EText::model",

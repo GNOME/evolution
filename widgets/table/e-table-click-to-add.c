@@ -22,6 +22,7 @@
 #include "gal/e-text/e-text.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
+#include "gal/util/e-util.h"
 
 enum {
 	CURSOR_CHANGE,
@@ -465,12 +466,12 @@ etcta_class_init (ETableClickToAddClass *klass)
 	etcta_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableClickToAddClass, cursor_change),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
-	gtk_object_class_add_signals (object_class, etcta_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, etcta_signals, LAST_SIGNAL);
 }
 
 static void

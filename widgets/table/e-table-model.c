@@ -11,6 +11,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "e-table-model.h"
+#include "gal/util/e-util.h"
 
 #define ETM_CLASS(e) ((ETableModelClass *)((GtkObject *)e)->klass)
 
@@ -261,7 +262,7 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	e_table_model_signals [MODEL_CHANGED] =
 		gtk_signal_new ("model_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableModelClass, model_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -269,7 +270,7 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	e_table_model_signals [MODEL_PRE_CHANGE] =
 		gtk_signal_new ("model_pre_change",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableModelClass, model_pre_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -277,7 +278,7 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	e_table_model_signals [MODEL_ROW_CHANGED] =
 		gtk_signal_new ("model_row_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableModelClass, model_row_changed),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
@@ -285,7 +286,7 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	e_table_model_signals [MODEL_CELL_CHANGED] =
 		gtk_signal_new ("model_cell_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableModelClass, model_cell_changed),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
@@ -293,7 +294,7 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	e_table_model_signals [MODEL_ROWS_INSERTED] =
 		gtk_signal_new ("model_rows_inserted",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableModelClass, model_rows_inserted),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
@@ -301,12 +302,12 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	e_table_model_signals [MODEL_ROWS_DELETED] =
 		gtk_signal_new ("model_rows_deleted",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableModelClass, model_rows_deleted),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
-	gtk_object_class_add_signals (object_class, e_table_model_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_table_model_signals, LAST_SIGNAL);
 
 	klass->column_count        = NULL;     
 	klass->row_count           = NULL;        

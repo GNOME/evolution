@@ -1159,7 +1159,7 @@ e_entry_class_init (GtkObjectClass *object_class)
 	e_entry_signals[E_ENTRY_CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EEntryClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -1167,7 +1167,7 @@ e_entry_class_init (GtkObjectClass *object_class)
 	e_entry_signals[E_ENTRY_ACTIVATE] =
 		gtk_signal_new ("activate",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EEntryClass, activate),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -1175,7 +1175,7 @@ e_entry_class_init (GtkObjectClass *object_class)
 	e_entry_signals[E_ENTRY_POPUP] =
 		gtk_signal_new ("popup",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EEntryClass, popup),
 				gtk_marshal_NONE__POINTER_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
@@ -1183,13 +1183,13 @@ e_entry_class_init (GtkObjectClass *object_class)
 	e_entry_signals[E_ENTRY_COMPLETION_POPUP] =
 		gtk_signal_new ("completion_popup",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EEntryClass, completion_popup),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 
-	gtk_object_class_add_signals (object_class, e_entry_signals, E_ENTRY_LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_entry_signals, E_ENTRY_LAST_SIGNAL);
 
 	gtk_object_add_arg_type ("EEntry::model",
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_MODEL);  

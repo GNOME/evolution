@@ -10,6 +10,7 @@
 #include <config.h>
 #include "e-reflow-model.h"
 #include <gtk/gtksignal.h>
+#include "gal/util/e-util.h"
 
 #define ERM_CLASS(e) ((EReflowModelClass *)((GtkObject *)e)->klass)
 
@@ -143,7 +144,7 @@ e_reflow_model_class_init (GtkObjectClass *object_class)
 	e_reflow_model_signals [MODEL_CHANGED] =
 		gtk_signal_new ("model_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EReflowModelClass, model_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -151,7 +152,7 @@ e_reflow_model_class_init (GtkObjectClass *object_class)
 	e_reflow_model_signals [MODEL_ITEMS_INSERTED] =
 		gtk_signal_new ("model_items_inserted",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EReflowModelClass, model_items_inserted),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
@@ -159,12 +160,12 @@ e_reflow_model_class_init (GtkObjectClass *object_class)
 	e_reflow_model_signals [MODEL_ITEM_CHANGED] =
 		gtk_signal_new ("model_item_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EReflowModelClass, model_item_changed),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
-	gtk_object_class_add_signals (object_class, e_reflow_model_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_reflow_model_signals, LAST_SIGNAL);
 
 	klass->set_width            = NULL;
 	klass->count                = NULL;

@@ -76,7 +76,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 	e_table_sort_info_signals [SORT_INFO_CHANGED] =
 		gtk_signal_new ("sort_info_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableSortInfoClass, sort_info_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -84,7 +84,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 	e_table_sort_info_signals [GROUP_INFO_CHANGED] =
 		gtk_signal_new ("group_info_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableSortInfoClass, group_info_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -92,7 +92,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 	klass->sort_info_changed = NULL;
 	klass->group_info_changed = NULL;
 
-	gtk_object_class_add_signals (object_class, e_table_sort_info_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_table_sort_info_signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE(e_table_sort_info, "ETableSortInfo", ETableSortInfo,

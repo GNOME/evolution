@@ -22,6 +22,7 @@
 
 #include <gtk/gtksignal.h>
 #include "e-canvas.h"
+#include "gal/util/e-util.h"
 
 static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_destroy        (GtkObject        *object);
@@ -107,12 +108,12 @@ e_canvas_class_init (ECanvasClass *klass)
 	e_canvas_signals [REFLOW] =
 		gtk_signal_new ("reflow",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECanvasClass, reflow),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, e_canvas_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_canvas_signals, LAST_SIGNAL);
 }
 
 static void

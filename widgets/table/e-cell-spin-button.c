@@ -149,14 +149,14 @@ e_cell_spin_button_class_init     (GtkObjectClass   *klass)
 	signals[STEP] =
 		gtk_signal_new ("step",
 				GTK_RUN_LAST,
-				klass->type,
+				E_OBJECT_CLASS_TYPE (klass),
 				GTK_SIGNAL_OFFSET (ECellSpinButtonClass, step),
 				e_marshal_NONE__POINTER_INT_INT_INT,
 				GTK_TYPE_NONE,
 				4, GTK_TYPE_POINTER, GTK_TYPE_INT, 
 				GTK_TYPE_INT, GTK_TYPE_INT);
 	
-	gtk_object_class_add_signals (klass, signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (klass, signals, LAST_SIGNAL);
 }
 
 static void 

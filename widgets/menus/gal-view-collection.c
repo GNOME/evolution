@@ -109,7 +109,7 @@ gal_view_collection_class_init (GtkObjectClass *object_class)
 	gal_view_collection_signals [DISPLAY_VIEW] =
 		gtk_signal_new ("display_view",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (GalViewCollectionClass, display_view),
 				gtk_marshal_NONE__OBJECT,
 				GTK_TYPE_NONE, 1, GAL_VIEW_TYPE);
@@ -117,12 +117,12 @@ gal_view_collection_class_init (GtkObjectClass *object_class)
 	gal_view_collection_signals [CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (GalViewCollectionClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, gal_view_collection_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, gal_view_collection_signals, LAST_SIGNAL);
 
 	klass->display_view = NULL;
 	klass->changed      = NULL;

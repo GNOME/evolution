@@ -21,6 +21,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gal/widgets/e-cursors.h"
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-popup-menu.h"
@@ -1578,12 +1579,12 @@ ethi_class_init (GtkObjectClass *object_class)
 	ethi_signals [BUTTON_PRESSED] =
 		gtk_signal_new ("button_pressed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableHeaderItemClass, button_pressed),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_GDK_EVENT);
 		
-	gtk_object_class_add_signals (object_class, ethi_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, ethi_signals, LAST_SIGNAL);
 }
 
 static void

@@ -39,7 +39,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 	e_printable_signals [PRINT_PAGE] =
 		gtk_signal_new ("print_page",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, print_page),
 				e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL,
 				GTK_TYPE_NONE, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
@@ -47,7 +47,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 	e_printable_signals [DATA_LEFT] =
 		gtk_signal_new ("data_left",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, data_left),
 				gtk_marshal_BOOL__NONE,
 				GTK_TYPE_BOOL, 0, GTK_TYPE_NONE);
@@ -55,7 +55,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 	e_printable_signals [RESET] =
 		gtk_signal_new ("reset",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, reset),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0, GTK_TYPE_NONE);
@@ -63,7 +63,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 	e_printable_signals [HEIGHT] =
 		gtk_signal_new ("height",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, height),
 				e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL,
 				GTK_TYPE_DOUBLE, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
@@ -71,12 +71,12 @@ e_printable_class_init (GtkObjectClass *object_class)
 	e_printable_signals [WILL_FIT] =
 		gtk_signal_new ("will_fit",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EPrintableClass, will_fit),
 				e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL,
 				GTK_TYPE_BOOL, 4, GTK_TYPE_OBJECT, GTK_TYPE_DOUBLE, GTK_TYPE_DOUBLE, GTK_TYPE_BOOL);
 
-	gtk_object_class_add_signals (object_class, e_printable_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_printable_signals, LAST_SIGNAL);
 
 	klass->print_page = NULL;    
 	klass->data_left = NULL;

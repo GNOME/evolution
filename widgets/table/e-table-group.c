@@ -631,7 +631,7 @@ etg_class_init (GtkObjectClass *object_class)
 	etg_signals [CURSOR_CHANGE] =
 		gtk_signal_new ("cursor_change",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableGroupClass, cursor_change),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
@@ -639,7 +639,7 @@ etg_class_init (GtkObjectClass *object_class)
 	etg_signals [CURSOR_ACTIVATED] =
 		gtk_signal_new ("cursor_activated",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableGroupClass, cursor_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
@@ -647,7 +647,7 @@ etg_class_init (GtkObjectClass *object_class)
 	etg_signals [DOUBLE_CLICK] =
 		gtk_signal_new ("double_click",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableGroupClass, double_click),
 				gtk_marshal_NONE__INT_INT_POINTER,
 				GTK_TYPE_NONE, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -655,7 +655,7 @@ etg_class_init (GtkObjectClass *object_class)
 	etg_signals [RIGHT_CLICK] =
 		gtk_signal_new ("right_click",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableGroupClass, right_click),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -663,7 +663,7 @@ etg_class_init (GtkObjectClass *object_class)
 	etg_signals [CLICK] =
 		gtk_signal_new ("click",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableGroupClass, click),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -671,7 +671,7 @@ etg_class_init (GtkObjectClass *object_class)
 	etg_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableGroupClass, key_press),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
@@ -679,12 +679,12 @@ etg_class_init (GtkObjectClass *object_class)
 	etg_signals [START_DRAG] =
 		gtk_signal_new ("start_drag",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableGroupClass, start_drag),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
 
-	gtk_object_class_add_signals (object_class, etg_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, etg_signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE);

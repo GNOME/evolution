@@ -20,6 +20,7 @@
  */
 
 #include "e-text-event-processor.h"
+#include <gal/util/e-util.h>
 #include <gtk/gtksignal.h>
 
 static void e_text_event_processor_init		(ETextEventProcessor		 *card);
@@ -80,13 +81,13 @@ e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 	e_tep_signals[E_TEP_EVENT] =
 		gtk_signal_new ("command",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextEventProcessorClass, command),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 
-	gtk_object_class_add_signals (object_class, e_tep_signals, E_TEP_LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_tep_signals, E_TEP_LAST_SIGNAL);
 
 	gtk_object_add_arg_type ("ETextEventProcessor::allow_newlines", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);

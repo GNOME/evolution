@@ -104,12 +104,12 @@ config_class_init (GtkObjectClass *object_class)
 	e_table_config_signals [CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableConfigClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, e_table_config_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_table_config_signals, LAST_SIGNAL);
 
 	gtk_object_add_arg_type ("ETableConfig::state", E_TABLE_STATE_TYPE,
 				 GTK_ARG_READABLE, ARG_STATE);

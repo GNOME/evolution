@@ -10,6 +10,7 @@
 
 #include <config.h>
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 #include "e-table-utils.h"
 #include "e-table-header-utils.h"
 

@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "e-completion.h"
+#include "gal/util/e-util.h"
 
 enum {
 	E_COMPLETION_REQUEST_COMPLETION,
@@ -111,7 +112,7 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_REQUEST_COMPLETION] =
 		gtk_signal_new ("request_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, request_completion),
 				gtk_marshal_NONE__POINTER_INT_INT,
 				GTK_TYPE_NONE, 3,
@@ -120,7 +121,7 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_BEGIN_COMPLETION] =
 		gtk_signal_new ("begin_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, begin_completion),
 				gtk_marshal_NONE__POINTER_INT_INT,
 				GTK_TYPE_NONE, 3,
@@ -129,7 +130,7 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_COMPLETION] =
 		gtk_signal_new ("completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, completion),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
@@ -138,7 +139,7 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_RESTART_COMPLETION] =
 		gtk_signal_new ("restart_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, restart_completion),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -146,7 +147,7 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_CANCEL_COMPLETION] =
 		gtk_signal_new ("cancel_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, cancel_completion),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -154,7 +155,7 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_END_COMPLETION] =
 		gtk_signal_new ("end_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, end_completion),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -162,7 +163,7 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_CLEAR_COMPLETION] = 
 		gtk_signal_new ("clear_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, clear_completion),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -170,12 +171,12 @@ e_completion_class_init (ECompletionClass *klass)
 	e_completion_signals[E_COMPLETION_LOST_COMPLETION] =
 		gtk_signal_new ("lost_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ECompletionClass, lost_completion),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 
-	gtk_object_class_add_signals (object_class, e_completion_signals, E_COMPLETION_LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_completion_signals, E_COMPLETION_LAST_SIGNAL);
 
 	object_class->destroy = e_completion_destroy;
 }

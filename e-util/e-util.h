@@ -52,6 +52,16 @@ GtkType l##_get_type(void)\
 	return type;\
 }
 
+#if 1
+#  define E_OBJECT_CLASS_ADD_SIGNALS(oc,sigs,last) \
+	gtk_object_class_add_signals (oc, sigs, last)
+#  define E_OBJECT_CLASS_TYPE(oc) (oc)->type
+#else
+#  define E_OBJECT_CLASS_ADD_SIGNALS(oc,sigs,last)
+#  define E_OBJECT_CLASS_TYPE(oc) G_TYPE_FROM_CLASS (oc)
+#endif
+
+
 typedef enum {
 	E_FOCUS_NONE,
 	E_FOCUS_CURRENT,

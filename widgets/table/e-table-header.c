@@ -13,6 +13,7 @@
 #include <gtk/gtksignal.h>
 #include "e-table-header.h"
 #include "e-table-defines.h"
+#include "gal/util/e-util.h"
 
 /* The arguments we take */
 enum {
@@ -236,26 +237,26 @@ e_table_header_class_init (GtkObjectClass *object_class)
 	eth_signals [STRUCTURE_CHANGE] =
 		gtk_signal_new ("structure_change",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableHeaderClass, structure_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	eth_signals [DIMENSION_CHANGE] = 
 		gtk_signal_new ("dimension_change", 
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableHeaderClass, dimension_change),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 	eth_signals [REQUEST_WIDTH] = 
 		gtk_signal_new ("request_width",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableHeaderClass, request_width),
 				gtk_marshal_INT__INT,
 				GTK_TYPE_INT, 1, GTK_TYPE_INT);
 
-	gtk_object_class_add_signals (object_class, eth_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eth_signals, LAST_SIGNAL);
 }
 
 static void

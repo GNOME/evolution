@@ -24,6 +24,7 @@
 #include <gtk/gtksignal.h>
 #include "e-text-model-repos.h"
 #include "e-text-model.h"
+#include "gal/util/e-util.h"
 
 #define CLASS(obj) (E_TEXT_MODEL_CLASS (GTK_OBJECT (obj)->klass))
 
@@ -105,7 +106,7 @@ e_text_model_class_init (ETextModelClass *klass)
 	e_text_model_signals[E_TEXT_MODEL_CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextModelClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -113,7 +114,7 @@ e_text_model_class_init (ETextModelClass *klass)
 	e_text_model_signals[E_TEXT_MODEL_REPOSITION] =
 		gtk_signal_new ("reposition",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextModelClass, reposition),
 				gtk_marshal_NONE__POINTER_POINTER,
 				GTK_TYPE_NONE, 2,
@@ -122,7 +123,7 @@ e_text_model_class_init (ETextModelClass *klass)
 	e_text_model_signals[E_TEXT_MODEL_OBJECT_ACTIVATED] =
 		gtk_signal_new ("object_activated",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextModelClass, object_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1,
@@ -131,12 +132,12 @@ e_text_model_class_init (ETextModelClass *klass)
 	e_text_model_signals[E_TEXT_MODEL_CANCEL_COMPLETION] =
 		gtk_signal_new ("cancel_completion",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETextModelClass, cancel_completion),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	
-	gtk_object_class_add_signals (object_class, e_text_model_signals, E_TEXT_MODEL_LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_text_model_signals, E_TEXT_MODEL_LAST_SIGNAL);
 	
 	/* No default signal handlers. */
 	klass->changed          = NULL;

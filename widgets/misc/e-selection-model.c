@@ -136,7 +136,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 	e_selection_model_signals [CURSOR_CHANGED] =
 		gtk_signal_new ("cursor_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ESelectionModelClass, cursor_changed),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
@@ -144,7 +144,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 	e_selection_model_signals [CURSOR_ACTIVATED] =
 		gtk_signal_new ("cursor_activated",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ESelectionModelClass, cursor_activated),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
@@ -152,7 +152,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 	e_selection_model_signals [SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ESelectionModelClass, selection_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
@@ -180,7 +180,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 	klass->set_selection_end  = NULL;
 
 
-	gtk_object_class_add_signals (object_class, e_selection_model_signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_selection_model_signals, LAST_SIGNAL);
 
 	gtk_object_add_arg_type ("ESelectionModel::sorter", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_SORTER);

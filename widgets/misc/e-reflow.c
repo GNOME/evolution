@@ -1180,12 +1180,12 @@ e_reflow_class_init (EReflowClass *klass)
 	signals [SELECTION_EVENT] =
 		gtk_signal_new ("selection_event",
 				GTK_RUN_LAST,
-				object_class->type,
+				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (EReflowClass, selection_event),
 				e_marshal_INT__OBJECT_POINTER,
 				GTK_TYPE_INT, 2, GTK_TYPE_OBJECT, GTK_TYPE_GDK_EVENT);
 
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
 	object_class->set_arg  = e_reflow_set_arg;
 	object_class->get_arg  = e_reflow_get_arg;
