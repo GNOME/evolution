@@ -1,5 +1,11 @@
 2001-07-09  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-calendar.c (generate_html): Fix up the HTML so having 
+	appointments doesn't mess up the display. Set the correct length of
+	time to show appointments.
+
+2001-07-09  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-tasks.c (generate_html): Make the tasks switch to the
 	tasks folder when you click on them.
 

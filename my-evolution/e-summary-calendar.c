@@ -143,15 +143,33 @@ generate_html (gpointer data)
 	GList *uids, *l;
 	GString *string;
 	char *tmp;
-	time_t t, day_begin, day_end;
+	time_t t, begin, end, f;
 
 	t = time (NULL);
-	day_begin = time_day_begin (t);
-	day_end = time_day_end (t);
+	begin = time_day_begin (t);
+	switch (summary->preferences->days) {
+	case E_SUMMARY_CALENDAR_ONE_DAY:
+		end = time_day_end (t);
+		break;
+
+	case E_SUMMARY_CALENDAR_FIVE_DAYS:
+		f = time_add_day (t, 5);
+		end = time_day_end (f);
+		break;
+	
+	case E_SUMMARY_CALENDAR_ONE_WEEK:
+		f = time_add_week (t, 1);
+		end = time_day_end (f);
+		break;
+
+	case E_SUMMARY_CALENDAR_ONE_MONTH:
+		f = time_add_month (t, 1);
+		end = time_day_end (f);
+		break;
+	}
 
 	uids = cal_client_get_objects_in_range (calendar->client, 
-						CALOBJ_TYPE_EVENT, day_begin,
-						day_end);
+						CALOBJ_TYPE_EVENT, begin, end);
 	if (uids == NULL) {
 		char *s1, *s2;
 
@@ -219,7 +237,7 @@ generate_html (gpointer data)
 		}
 
 		cal_obj_uid_list_free (uids);
-		g_string_append (string, "</ul>");
+		g_string_append (string, "</dd></dl>");
 	}
 
 	if (calendar->html) {
