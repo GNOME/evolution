@@ -273,7 +273,7 @@ reflow_columns (EReflow *reflow)
 		   inserted at the start of the column */
 		column_start = reflow->reflow_from_column - 1;
 		start = reflow->columns[column_start];
-		column_count = column_start;
+		column_count = column_start + 1;
 	}
 
 	list = NULL;
@@ -347,14 +347,17 @@ item_removed (EReflowModel *model, int i, EReflow *reflow)
 		int start_of_column = reflow->columns[c];
 
 		if (start_of_column <= sorted) {
-			reflow->reflow_from_column = c;
-			reflow->need_reflow_columns = TRUE;
-			set_empty (reflow);
-			e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
-
+			if (reflow->reflow_from_column == -1
+			    || reflow->reflow_from_column > c) {
+				reflow->reflow_from_column = c;
+			}
 			break;
 		}
 	}
+
+	reflow->need_reflow_columns = TRUE;
+	set_empty (reflow);
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM (reflow));
 
 	e_sorter_array_set_count (reflow->sorter, reflow->count);
 
@@ -403,8 +406,9 @@ items_inserted (EReflowModel *model, int position, int count, EReflow *reflow)
 
 			if (start_of_column <= sorted) {
 				if (reflow->reflow_from_column == -1
-				    || reflow->reflow_from_column > c)
+				    || reflow->reflow_from_column > c) {
 					reflow->reflow_from_column = c;
+				}
 				break;
 			}
 		}
