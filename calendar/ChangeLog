@@ -1,3 +1,9 @@
+2004-11-04  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/task-page.glade: expand the horizontal box so that it
+	fills all available space.
+
 2004-11-03  David Trowbridge  <trowbrds@cs.colorado.edu>
 
 	* gui/e-cal-config.c: added EConfig subclass for calendars
