@@ -320,7 +320,7 @@
 		    Size (kb) - Sorts based on the size of the message in kilobytes.
 		  </para>
 		</listitem>
-		          <itemizedlist>
+
 		<listitem>
 		  <para>
 		    Status - Filters according to the status of a message, such as
@@ -564,6 +564,7 @@
 	<application>evolution</application>, he can see that message both in
 	the "Anna" virtual folder and in the "Internal Evolution Discussion"
 	virtual folder.
+       </para>
       </example>
 
 	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
