@@ -1268,7 +1268,15 @@ mark_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, 0);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+
+	/* Remove the automatic mark-as-read timer first */
+	if (fb->seen_id) {
+		gtk_timeout_remove (fb->seen_id);
+		fb->seen_id = 0;
+	}
+
+	flag_messages (fb, CAMEL_MESSAGE_SEEN, 0);
 }
 
 void

@@ -1,3 +1,8 @@
+2001-08-10  Jason Leach  <jleach@ximian.com>
+
+	* mail-callbacks.c (mark_as_unseen): If marking messages as
+	unread, remove the automatic mark-as-read timer.  Bug #4153.
+
 2001-08-08  Peter Williams  <peterw@ximian.com>
 
 	* component-factory.c (mail_load_storages): Don't load the storage
@@ -88,7 +93,6 @@
 	* message-browser.c (set_bonobo_ui): Remove the "Customize
 	Toolbar" thing.
 
->>>>>>> 1.1526
 2001-08-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (send_mail_send): Dont double-register this
