@@ -1,3 +1,9 @@
+2004-05-18  Jerome Lacoste  <jerome@coffeebreaks.org>
+
+	Fixes bug #57940
+
+	* evolution-addressbook.xml: "Save as VCard" -> "Save as VCard..."
+
 2004-05-14  Jeffrey Stedfast  <fejj@novell.com>
 
 	* evolution-mail-message.xml: Rename MessageResend to MessageEdit
