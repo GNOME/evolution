@@ -1,3 +1,20 @@
+2000-12-22  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/goto-dialog.glade.h: translations
+	
+	* gui/goto-dialog.glade: new glade file for goto dialog
+	
+	* gui/gnome-cal.c (setup_widgets): Set date navigator attributes
+
+	* gui/calendar-commands.h: remove prototype
+
+	* gui/goto.h: Add prototype
+
+	* gui/Makefile.am: Add glade file stuff
+
+	* gui/gnome-cal.c (setup_widgets): Use accessors to configure the
+	calendar item properly
+
 2000-12-21  Federico Mena Quintero  <federico@helixcode.com>
 
 	Alarm trigger queueing for the GUI part.

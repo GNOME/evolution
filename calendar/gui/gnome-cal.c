@@ -244,7 +244,10 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The ECalendar. */
 	w = e_calendar_new ();
 	priv->date_navigator = E_CALENDAR (w);
+	e_calendar_item_set_days_start_week_sel (priv->date_navigator->calitem, 9);
+	e_calendar_item_set_max_days_sel (priv->date_navigator->calitem, 42);
 	gtk_widget_show (w);
+
 	e_paned_pack1 (E_PANED (priv->vpane), w, FALSE, TRUE);
 	gtk_signal_connect (GTK_OBJECT (priv->date_navigator),
 			    "style_set",

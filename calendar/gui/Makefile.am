@@ -54,9 +54,14 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = 					\
 	event-editor-dialog.glade		\
 	e-meeting-dialog.glade			\
-	e-itip-control.glade
+	e-itip-control.glade			\
+	goto-dialog.glade
 
-glade_messages = event-editor-dialog.glade.h
+glade_messages = 				\
+	event-editor-dialog.glade.h		\
+	e-meet-dialog.glade.h			\
+	e-itip-control.glade.h			\
+	goto-dialog.glade.h
 
 evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
@@ -107,6 +112,7 @@ evolution_calendar_SOURCES =			\
 	gnome-month-item.c			\
 	gnome-month-item.h			\
 	goto.c					\
+	goto.h					\
 	itip-utils.c				\
 	itip-utils.h				\
 	main.c					\

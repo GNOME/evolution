@@ -240,7 +240,8 @@ enum {
 	ARG_MAXIMUM_DAYS_SELECTED,
 	ARG_DAYS_TO_START_WEEK_SELECTION,
 	ARG_MOVE_SELECTION_WHEN_MOVING,
-	ARG_ROUND_SELECTION_WHEN_MOVING
+	ARG_ROUND_SELECTION_WHEN_MOVING,
+	ARG_DISPLAY_POPUP
 };
 
 enum {
@@ -330,6 +331,9 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	gtk_object_add_arg_type ("ECalendarItem::round_selection_when_moving",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
 				 ARG_ROUND_SELECTION_WHEN_MOVING);
+	gtk_object_add_arg_type ("ECalendarItem::display_popup",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_DISPLAY_POPUP);
 
 	e_calendar_item_signals[DATE_RANGE_CHANGED] =
 		gtk_signal_new ("date_range_changed",
@@ -393,11 +397,12 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->show_week_numbers = FALSE;
 	calitem->week_start_day = 0;
 	calitem->expand = TRUE;
-	calitem->max_days_selected = 42;
-	calitem->days_to_start_week_selection = 9;
+	calitem->max_days_selected = 1;
+	calitem->days_to_start_week_selection = -1;
 	calitem->move_selection_when_moving = TRUE;
 	calitem->round_selection_when_moving = FALSE;
-
+	calitem->display_popup = TRUE;
+	
 	calitem->x1 = 0.0;
 	calitem->y1 = 0.0;
 	calitem->x2 = 0.0;
@@ -503,10 +508,10 @@ e_calendar_item_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = calitem->show_week_numbers;
 		break;
 	case ARG_MAXIMUM_DAYS_SELECTED:
-		GTK_VALUE_INT (*arg) = calitem->max_days_selected;
+		GTK_VALUE_INT (*arg) = e_calendar_item_get_max_days_sel (calitem);
 		break;
 	case ARG_DAYS_TO_START_WEEK_SELECTION:
-		GTK_VALUE_INT (*arg) = calitem->days_to_start_week_selection;
+		GTK_VALUE_INT (*arg) = e_calendar_item_get_days_start_week_sel (calitem);
 		break;
 	case ARG_MOVE_SELECTION_WHEN_MOVING:
 		GTK_VALUE_BOOL (*arg) = calitem->move_selection_when_moving;
@@ -514,6 +519,11 @@ e_calendar_item_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_ROUND_SELECTION_WHEN_MOVING:
 		GTK_VALUE_BOOL (*arg) = calitem->round_selection_when_moving;
 		break;
+	case ARG_DISPLAY_POPUP:
+		GTK_VALUE_BOOL (*arg) = e_calendar_item_get_display_popup (calitem);
+		break;
+	default:
+		g_warning ("Invalid arg");
 	}
 }
 
@@ -639,12 +649,11 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_MAXIMUM_DAYS_SELECTED:
 		ivalue = GTK_VALUE_INT (*arg);
-		ivalue = MAX (1, ivalue);
-		calitem->max_days_selected = ivalue;
+		e_calendar_item_set_max_days_sel (calitem, ivalue);
 		break;
 	case ARG_DAYS_TO_START_WEEK_SELECTION:
 		ivalue = GTK_VALUE_INT (*arg);
-		calitem->days_to_start_week_selection = ivalue;
+		e_calendar_item_set_days_start_week_sel (calitem, ivalue);
 		break;
 	case ARG_MOVE_SELECTION_WHEN_MOVING:
 		bvalue = GTK_VALUE_BOOL (*arg);
@@ -653,6 +662,10 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_ROUND_SELECTION_WHEN_MOVING:
 		bvalue = GTK_VALUE_BOOL (*arg);
 		calitem->round_selection_when_moving = bvalue;
+		break;
+	case ARG_DISPLAY_POPUP:
+		bvalue = GTK_VALUE_BOOL (*arg);
+		e_calendar_item_set_display_popup (calitem, bvalue);
 		break;
 	default:
 		g_warning ("Invalid arg");
@@ -1620,7 +1633,8 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 						      &all_week))
 		return FALSE;
 
-	if (event->button.button == 3 && day == -1) {
+	if (event->button.button == 3 && day == -1 
+	    && e_calendar_item_get_display_popup (calitem)) {
 		e_calendar_item_show_popup_menu (calitem,
 						 (GdkEventButton*) event,
 						 month_offset);
@@ -2145,6 +2159,55 @@ e_calendar_item_set_first_month(ECalendarItem	*calitem,
 
 	e_calendar_item_date_range_changed (calitem);
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
+}
+
+/* Get the maximum number of days selectable */
+gint
+e_calendar_item_get_max_days_sel       (ECalendarItem	*calitem)
+{
+	return calitem->max_days_selected;
+}
+
+
+/* Set the maximum number of days selectable */
+void	 
+e_calendar_item_set_max_days_sel       (ECalendarItem	*calitem,
+					gint             days)
+{
+	calitem->max_days_selected = MAX (1, days);
+}
+
+
+/* Get the maximum number of days selectable */
+gint     
+e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem)
+{
+	return calitem->days_to_start_week_selection;
+}
+
+
+/* Set the maximum number of days selectable */
+void	 
+e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
+					gint            days)
+{
+	calitem->days_to_start_week_selection = days;
+}
+
+/* Set the maximum number of days before whole weeks are selected */
+gboolean 
+e_calendar_item_get_display_popup      (ECalendarItem	*calitem)
+{
+	return calitem->display_popup;
+}
+
+
+/* Get the maximum number of days before whole weeks are selected */
+void	 
+e_calendar_item_set_display_popup      (ECalendarItem	*calitem,
+					gboolean        display)
+{
+	calitem->display_popup = display;
 }
 
 

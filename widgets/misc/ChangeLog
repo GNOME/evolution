@@ -1,3 +1,24 @@
+2000-12-22  JP Rosevear  <jpr@helixcode.com>
+
+	* e-calendar-item.h: add prototypes
+
+	* e-calendar-item.c (e_calendar_item_init): Set max_days_selected to
+	1 and days_to_start_week_selection to -1 as documented in header
+	(e_calendar_item_set_arg): use new accessor methods
+	(e_calendar_item_get_arg): ditto
+	(e_calendar_item_get_max_days_sel): accessor
+	(e_calendar_item_set_max_days_sel): ditto
+	(e_calendar_item_get_days_start_week_sel): ditto
+	(e_calendar_item_set_days_start_week_sel): ditto
+	(e_calendar_item_class_init): add display_popup argument
+	(e_calendar_item_init): initialize display_popup member
+	(e_calendar_item_get_arg): get display_popup member
+	(e_calendar_item_set_arg): set display_popup member
+	(e_calendar_item_button_press): only show the popup menu if the
+	member is set
+	(e_calendar_item_get_display_popup): acessor
+	(e_calendar_item_set_display_popup): ditto
+
 2000-12-14  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-dateedit.h: #include <time.h>

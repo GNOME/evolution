@@ -58,9 +58,6 @@ extern const guint MAX_SNOOZE_SECS;
 /* This tells all the calendars to reload the config settings. */
 void update_all_config_settings (void);
 
-/* Creates and runs the Go-to date dialog */
-void goto_dialog (GnomeCalendar *gcal);
-
 /* Returns a pointer to a statically-allocated string with a representation of the specified color.
  * Values must be in [0, 65535].
  */

@@ -135,6 +135,9 @@ struct _ECalendarItem
 	   move back/forward one month. Used for the week view. */
 	gboolean round_selection_when_moving;
 
+	/* Whether to display the pop-up, TRUE by default */
+	gboolean display_popup;
+
 	/*
 	 * Internal stuff.
 	 */
@@ -229,6 +232,34 @@ void	 e_calendar_item_get_first_month	(ECalendarItem	*calitem,
 void	 e_calendar_item_set_first_month	(ECalendarItem	*calitem,
 						 gint		 year,
 						 gint		 month);
+
+/* Get the maximum number of days selectable */
+gint     e_calendar_item_get_max_days_sel       (ECalendarItem	*calitem);
+
+/* Set the maximum number of days selectable */
+void	 e_calendar_item_set_max_days_sel       (ECalendarItem	*calitem,
+						 gint            days);
+
+/* Get the maximum number of days selectable */
+gint     e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem);
+
+/* Get the maximum number of days before whole weeks are selected */
+void	 e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
+						 gint            days);
+
+/* Set the maximum number of days before whole weeks are selected */
+gboolean e_calendar_item_get_display_popup      (ECalendarItem	*calitem);
+
+/* Get the maximum number of days before whole weeks are selected */
+void	 e_calendar_item_set_display_popup      (ECalendarItem	*calitem,
+						 gboolean        display);
+
+/* Set the maximum number of days before whole weeks are selected */
+gint     e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem);
+
+/* Set the maximum number of days selectable */
+void	 e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
+						 gint            days);
 
 /* Returns the range of dates actually shown. Months are 0 to 11.
    This also includes the last days of the previous month and the first days
