@@ -55,3 +55,20 @@ This applies to the search bar, the filter rules and the vfolder
 rules.  Filter rules and vfolder rules might need to be re-adjusted
 after you upgrade to version 1.1.1.
 
+IMAP FOLDER NAME CHANGES (I18N)
+
+If you created any folder names using non-ASCII characters using prior
+versions of Evolution, you will find they may not be displayed
+properly anymore.  This is because previous versions did not implement
+IMAP I18N folder names correctly as specified in RFC 2060.
+
+The upgrade script will try to rectify any filters or vfolders using
+any such names.  However, as it does not know the character set used
+by the server, non ISO-8859-1 (latin-1) characters will not be
+properly converted.  You may need to reverify the filter and vFolder
+rules in this case.
+
+Also note that if such folder names do not display properly that it is
+purely cosmetic and may be fixed by renaming the folder(s) in
+question.
+
