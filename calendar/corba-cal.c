@@ -83,8 +83,6 @@ cal_repo_get_object_by_pilot_id (PortableServer_Servant servant,
 	char *buffer;
 	CORBA_char *ret;
 
-	g_message("entering cal_repo_get_object_by_pilot_id\n");
-
 	obj = calendar_object_find_by_pilot (gcal->cal, pilot_id);
 	if (obj == NULL){
 	        GNOME_Calendar_Repository_NotFound *exn;
@@ -93,15 +91,12 @@ cal_repo_get_object_by_pilot_id (PortableServer_Servant servant,
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
 				     ex_GNOME_Calendar_Repository_NotFound, exn);
-		g_message("leaving cal_repo_get_object_by_pilot_id the hard way\n");
 		return NULL;
 	}
 
 	buffer = calendar_string_from_object (obj);
 	ret = CORBA_string_dup (buffer);
 	free (buffer);
-
-	g_message("leaving cal_repo_get_object_by_pilot_id\n");
 
 	return ret;
 	
