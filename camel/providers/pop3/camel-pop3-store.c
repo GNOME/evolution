@@ -113,9 +113,12 @@ static void
 camel_pop3_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
+	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 
-	service->url_flags |= (CAMEL_SERVICE_URL_NEED_USER | CAMEL_SERVICE_URL_NEED_HOST |
+	service->url_flags |= (CAMEL_SERVICE_URL_NEED_USER |
+			       CAMEL_SERVICE_URL_NEED_HOST |
 			       CAMEL_SERVICE_URL_ALLOW_AUTH);
+	remote_store->default_port = 110;
 }
 
 CamelType

@@ -386,8 +386,10 @@ static void
 camel_nntp_store_init (gpointer object, gpointer klass)
 {
 	CamelService *service = CAMEL_SERVICE (object);
+	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 
 	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
+	remote_store->default_port = 119;
 }
 
 CamelType

@@ -218,13 +218,8 @@ remote_connect (CamelService *service, CamelException *ex)
 	
 	if (service->url->port)
 		port = service->url->port;
-	else {
-		CamelProvider *prov = camel_service_get_provider (service);
-		
-		port = prov->default_ports[CAMEL_PROVIDER_STORE];
-		g_assert (port); /* a remote service MUST define a valid default port */
-	}
-	
+	else
+		port = store->default_port;	
 	sin.sin_port = htons (port);
 	
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));

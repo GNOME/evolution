@@ -1,5 +1,17 @@
 2000-10-02  Dan Winship  <danw@helixcode.com>
 
+	* camel-provider.h: Remove default_ports.
+
+	* camel-remote-store.c (remote_connect): Get default_port from
+	CamelRemoteStore rather than CamelProvider.
+
+	* providers/{imap,nntp,pop3}/camel-*-store.c: Initialize
+	CamelRemoteStore::default_port
+
+	* providers/*/camel-*-provider.c: Remove default_ports.
+
+2000-10-02  Dan Winship  <danw@helixcode.com>
+
 	* camel-folder.[ch]: Remove
 	camel_folder_{get,free}_subfolder_info, as we want to be able to
 	scan the whole subfolder tree without having to open any folders,

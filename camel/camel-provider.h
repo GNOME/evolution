@@ -79,7 +79,6 @@ typedef struct {
 	int flags;
 
 	CamelType object_types [CAMEL_NUM_PROVIDER_TYPES];
-	gint default_ports [CAMEL_NUM_PROVIDER_TYPES];
 
 	GHashTable *service_cache;
 	

@@ -45,7 +45,6 @@ static CamelProvider imap_provider = {
 	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 
 	{ 0, 0 },
-	{ 143, 0 },
 
 	NULL
 };

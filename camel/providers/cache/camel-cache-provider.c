@@ -38,7 +38,6 @@ static CamelProvider cache_provider = {
 
 	0,
 
-	{ 0, 0 },
 	{ 0, 0 }
 };
 

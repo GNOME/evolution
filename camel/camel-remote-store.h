@@ -42,7 +42,7 @@ typedef struct {
 	CamelStore parent_object;	
 	
 	CamelStream *istream, *ostream;
-	guint timeout_id;
+	guint timeout_id, default_port;
 } CamelRemoteStore;
 
 
