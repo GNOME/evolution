@@ -1,3 +1,18 @@
+2003-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-url-scanner.c (camel_url_web_end): Urls are unlikely to
+	end with punctuation or closing braces, so strip any of those off
+	the end of the url. Fixes bug #41461.
+
+	* tests/mime-filter/data/html.1.out: Removed a trailing \n at the
+	end of the file, this is incorrect (since out input file does not
+	contain one).
+
+	* camel-mime-filter-tohtml.c (html_convert): Only output a <br> if
+	we found an eoln in the input. Along the same lines, don't write a
+	'\n' to the output buffer unless we've encountered that eoln in
+	the input. Fixes bug #41407.
+
 2003-04-17  Not Zed  <NotZed@Ximian.com>
 
 	* camel-multipart-signed.c (parse_content): Dont assume adding 1

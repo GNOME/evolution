@@ -359,6 +359,13 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 			while (inptr < inend && is_urlsafe (*inptr) && *inptr != close_brace)
 				inptr++;
 			
+			/* urls are extremely unlikely to end with any
+			 * punctuation, so strip any trailing
+			 * punctuation off. Also strip off any closing
+			 * braces. */
+			while (inptr > pos && strchr (",.?!)}]", inptr[-1]))
+				inptr--;
+			
 			break;
 		default:
 			break;

@@ -320,12 +320,15 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 			outptr = g_stpcpy (outptr, "</font>");
 		}
 		
-		if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_NL) {
-			outptr = check_size (filter, outptr, &outend, 5);
-			outptr = g_stpcpy (outptr, "<br>");
+		if (inptr < inend) {
+			if (html->flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_NL) {
+				outptr = check_size (filter, outptr, &outend, 5);
+				outptr = g_stpcpy (outptr, "<br>");
+			}
+			
+			*outptr++ = '\n';
 		}
 		
-		*outptr++ = '\n';
 		start = ++inptr;
 	} while (inptr < inend);
 	
