@@ -26,6 +26,8 @@
 #include "addressbook-widget.h"
 #include "addressbook.h"
 
+
+
 #if 0
 static void
 bonobo_clock_control_prop_value_changed_cb (BonoboPropertyBag *pb, char *name, char *type,
@@ -55,6 +57,89 @@ release_data (GtkObject *object, void *data)
 }
 #endif
 
+
+static void
+control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
+{
+	/* how to remove a menu item */
+	bonobo_ui_handler_menu_remove (uih, "/Actions/New Contact"); 
+
+	/* remove our toolbar */
+	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
+}
+
+static void
+do_nothing_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	printf ("Yow! I am called back!\n");
+}
+
+static GnomeUIInfo gnome_toolbar [] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), do_nothing_cb, GNOME_STOCK_PIXMAP_NEW),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), do_nothing_cb, GNOME_STOCK_PIXMAP_SEARCH),
+	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), do_nothing_cb, GNOME_STOCK_PIXMAP_PRINT),
+	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), do_nothing_cb, GNOME_STOCK_PIXMAP_TRASH),
+
+	GNOMEUIINFO_END
+};
+
+
+
+
+static void
+control_activate (BonoboControl *control, BonoboUIHandler *uih)
+{
+	Bonobo_UIHandler  remote_uih;
+	GtkWidget *toolbar;
+	BonoboControl *toolbar_control;
+	
+	remote_uih = bonobo_control_get_remote_ui_handler (control);
+	bonobo_ui_handler_set_container (uih, remote_uih);		
+
+	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Contact", N_("_New Contact"),       
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, do_nothing_cb, NULL);
+
+	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
+				   GTK_TOOLBAR_BOTH);
+
+	gnome_app_fill_toolbar (GTK_TOOLBAR (toolbar),
+				gnome_toolbar, 
+				NULL);
+	
+	gtk_widget_show_all (toolbar);
+
+	toolbar_control = bonobo_control_new (toolbar);
+	bonobo_ui_handler_dock_add (
+		uih, "/Toolbar",
+		bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
+		GNOME_DOCK_ITEM_BEH_LOCKED |
+		GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
+		GNOME_DOCK_TOP,
+		1, 1, 0);
+}
+
+static void
+control_activate_cb (BonoboControl *control, 
+		     gboolean activate, 
+		     gpointer user_data)
+{
+	BonoboUIHandler  *uih;
+
+	uih = bonobo_control_get_ui_handler (control);
+	g_assert (uih);
+	
+	if (activate)
+		control_activate (control, uih);
+	else
+		control_deactivate (control, uih);
+}
+
+
 static BonoboObject *
 addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 {
@@ -68,6 +153,9 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	/* Create the control. */
 	view = create_view();
 	control = bonobo_control_new (view->widget);
+
+	gtk_signal_connect (GTK_OBJECT (control), "activate",
+			    control_activate_cb, NULL);	
 #if 0
 	/* Create the properties. */
 	pb = bonobo_property_bag_new ();
