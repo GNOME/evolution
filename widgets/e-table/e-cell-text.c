@@ -86,7 +86,7 @@ static GdkAtom clipboard_atom = GDK_NONE;
 
 #define PARENT_TYPE e_cell_get_type()
 
-#define TEXT_PAD 5
+#define TEXT_PAD 4
 
 typedef struct {
 	gpointer lines;			/* Text split into lines (private field) */
@@ -102,7 +102,6 @@ typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
 	GdkFont     *font;
-	GdkCursor *default_cursor;
 	GdkCursor *i_cursor;
 	GdkBitmap *stipple;		/* Stipple for text */
 	
@@ -204,6 +203,7 @@ static void _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, g
 static gboolean _blink_scroll_timeout (gpointer data);
 
 static void build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, int view_col, int row);
+static void calc_ellipsis (ECellTextView *text_view);
 
 static ECellClass *parent_class;
 
@@ -320,7 +320,8 @@ ect_realize (ECellView *ecell_view)
 	text_view->gc = gdk_gc_new (GTK_WIDGET (text_view->canvas)->window);
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
-	text_view->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	
+	calc_ellipsis (text_view);
 
 	if (parent_class->realize)
 		(* parent_class->realize) (ecell_view);
@@ -344,7 +345,6 @@ ect_unrealize (ECellView *ecv)
 		gdk_bitmap_unref (text_view->stipple);
 
 	gdk_cursor_destroy (text_view->i_cursor);
-	gdk_cursor_destroy (text_view->default_cursor);
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (ecv);
@@ -403,9 +403,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			    rect.x, rect.y, rect.width, rect.height);
 	gdk_gc_set_foreground (text_view->gc, &canvas->style->text [GTK_STATE_NORMAL]);
 
-	x1 += 1;
+	x1 += 4;
 	y1 += 1;
-	x2 -= 1;
+	x2 -= 4;
 	y2 -= 1;
 
 	rect.x = x1;
@@ -744,47 +744,6 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	e_tep_event.type = event->type;
 	switch (event->type) {
 	case GDK_FOCUS_CHANGE:
-		if (ect->editable) {
-			GdkEventFocus *focus_event;
-			focus_event = (GdkEventFocus *) event;
-			if (focus_event->in) {
-				if(!edit_display) {
-#if 0
-					if ( edit->pointer_in ) {
-						if ( edit->default_cursor_shown ) {
-							gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text_view->i_cursor);
-							edit->default_cursor_shown = FALSE;
-						}
-					}
-#endif
-					edit->selection_start = 0;
-					edit->selection_end = 0;
-					edit->select_by_word = FALSE;
-					edit->xofs_edit = 0;
-					edit->yofs_edit = 0;
-					if (edit->timeout_id == 0)
-						edit->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text_view);
-					edit->timer = g_timer_new();
-					g_timer_elapsed(edit->timer, &(edit->scroll_start));
-					g_timer_start(edit->timer);
-				}
-			} else {
-				if ( ! edit->default_cursor_shown ) {
-					gdk_window_set_cursor(canvas->window, text_view->default_cursor);
-					edit->default_cursor_shown = TRUE;
-				}
-				if (edit->timeout_id) {
-					g_source_remove(edit->timeout_id);
-					edit->timeout_id = 0;
-				}
-				if (edit->timer) {
-					g_timer_stop(edit->timer);
-					g_timer_destroy(edit->timer);
-					edit->timer = NULL;
-				}
-			}
-		}
-		return_val = 0;
 		break;
 	case GDK_KEY_PRESS: /* Fall Through */
 	case GDK_KEY_RELEASE:
@@ -866,7 +825,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		}
 		break;
 	case GDK_MOTION_NOTIFY:
-		if (edit) {
+		if (edit_display) {
 			GdkEventMotion motion = event->motion;
 			e_tep_event.motion.time = motion.time;
 			e_tep_event.motion.state = motion.state;
@@ -883,7 +842,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 #if 0
 		edit->pointer_in = TRUE;
 #endif
-		if (edit) {
+		if (edit_display) {
 			if ( edit->default_cursor_shown ) {
 				gdk_window_set_cursor(canvas->window, text_view->i_cursor);
 				edit->default_cursor_shown = FALSE;
@@ -894,9 +853,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 #if 0
 		text_view->pointer_in = FALSE;
 #endif
-		if (edit) {
+		if (edit_display) {
 			if ( ! edit->default_cursor_shown ) {
-				gdk_window_set_cursor(canvas->window, text_view->default_cursor);
+				gdk_window_set_cursor(canvas->window, NULL);
 				edit->default_cursor_shown = TRUE;
 			}
 		}
@@ -996,8 +955,10 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->selection_end = 0;
 	edit->select_by_word = FALSE;
 
-	edit->timeout_id = 0;
-	edit->timer = NULL;
+	edit->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text_view);
+	edit->timer = g_timer_new();
+	g_timer_elapsed(edit->timer, &(edit->scroll_start));
+	g_timer_start(edit->timer);
 
 	edit->lastx = 0;
 	edit->lasty = 0;
@@ -1023,6 +984,15 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->old_text = g_strdup (str);
 	edit->cell.text = g_strdup (str);
 
+#if 0
+	if ( edit->pointer_in ) {
+		if ( edit->default_cursor_shown ) {
+			gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text_view->i_cursor);
+			edit->default_cursor_shown = FALSE;
+		}
+	}
+#endif
+
 	ect_queue_redraw (text_view, view_col, row);
 	
 	return NULL;
@@ -1035,8 +1005,22 @@ static void
 ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CellEdit *edit = text_view->edit;
 
-	if (text_view->edit){
+	if (edit){
+		if ( ! edit->default_cursor_shown ) {
+			gdk_window_set_cursor(GTK_WIDGET(text_view->canvas)->window, NULL);
+			edit->default_cursor_shown = TRUE;
+		}
+		if (edit->timeout_id) {
+			g_source_remove(edit->timeout_id);
+			edit->timeout_id = 0;
+		}
+		if (edit->timer) {
+			g_timer_stop(edit->timer);
+			g_timer_destroy(edit->timer);
+			edit->timer = NULL;
+		}
 		ect_accept_edits (text_view);
 		ect_stop_editing (text_view);
 	} else {
@@ -1109,7 +1093,7 @@ get_line_xpos (CurrentCell *cell, struct line *line)
 	ECellTextView *text_view = cell->text_view;
 	ECellText *ect = E_CELL_TEXT (((ECellView *)cell->text_view)->ecell);
 	
-	x = text_view->xofs + ect->x + 1;
+	x = text_view->xofs + ect->x;
 
 	switch (ect->justify) {
 	case GTK_JUSTIFY_RIGHT:
@@ -1142,7 +1126,7 @@ get_line_ypos (CurrentCell *cell, struct line *line)
 
 	struct line *lines = linebreaks->lines;
 
-	y = text_view->yofs + ect->y + 1;
+	y = text_view->yofs + ect->y;
 	y += (line - lines) * (text_view->font->ascent + text_view->font->descent);
 
 	return y;
@@ -1309,10 +1293,9 @@ _blink_scroll_timeout (gpointer data)
 			redraw = TRUE;
 		edit->show_cursor = FALSE;
 	}
-#if 0
-	if (redraw)
-		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
-#endif
+	if ( redraw ) {
+		ect_queue_redraw (text_view, edit->cell.view_col, edit->cell.row);
+	}
 	return TRUE;
 }
 
@@ -1896,5 +1879,5 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 	cell->text = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-	cell->width = e_table_header_get_column(((ETableItem *)ecell_view->e_table_item_view)->header, view_col)->width - 2;
+	cell->width = e_table_header_get_column(((ETableItem *)ecell_view->e_table_item_view)->header, view_col)->width - 8;
 }

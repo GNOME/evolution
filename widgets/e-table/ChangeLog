@@ -1,3 +1,8 @@
+2000-02-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-cell-text.c: Made space around text look right.  Added a
+	blinking cursor.
+
 2000-02-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-item.c (eti_header_structure_changed): Add nice
