@@ -341,8 +341,9 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 static void
 imap_expunge (CamelFolder *folder, CamelException *ex)
 {
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	gchar *result;
-	gint status;
+	gint status, max, i;
 
 	g_return_if_fail (folder != NULL);
 
@@ -365,6 +366,28 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
 	
 	g_free (result);
+
+	g_return_if_fail (imap_folder->summary != NULL);
+
+	/* now we need to remove the imap summary so it'll be regenerated */
+	max = imap_folder->summary->len;
+	for (i = 0; i < max; i++) {
+		CamelMessageInfo *info;
+		
+		info = g_ptr_array_index (imap_folder->summary, i);
+		g_free (info->subject);
+		g_free (info->from);
+		g_free (info->to);
+		g_free (info->cc);
+		g_free (info->uid);
+		g_free (info->message_id);
+		header_references_list_clear (&info->references);
+		g_free (info);
+		info = NULL;
+	}
+
+	g_ptr_array_free (imap_folder->summary, TRUE);
+	imap_folder->summary = NULL;
 }
 
 #if 0
@@ -1134,7 +1157,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		}
 
 		for (flags += 6; *flags && *flags != '('; flags++); /* advance to <flags> */
-		for (q = flags; *q && *q != ')' && *q != ' '; q++); /* find the end of <flags> */
+		for (q = flags; *q && *q != ')' /*&& *q != ' '*/; q++); /* find the end of <flags> */
 		flags = g_strndup (flags, (gint)(q - flags + 1));
 		d(fprintf (stderr, "*** info->flags = %s\n", flags));
 
@@ -1230,7 +1253,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	CamelMessageInfo *info = NULL;
 	struct _header_raw *h, *tail = NULL;
 	const char *received;
-	char *result, *p;
+	char *result, *muid, *flags, *header, *q;
 	int j, status;
 
 	/* lets first check to see if we have the message info cached */
@@ -1243,26 +1266,105 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 			if (!strcmp (info->uid, uid))
 				return info;
 		}
+	} else {
+		/* If the summary doesn't exist, lets create it from scratch */
+		CamelException *ex;
+		int max, i;
+
+		ex = camel_exception_new ();
+		
+		if (!imap_get_summary (folder, ex)) {
+			camel_exception_free (ex);
+			return NULL;
+		}
+		camel_exception_free (ex);
+
+		max = imap_folder->summary->len;
+		for (i = 0; i < max; i++) {
+			info = g_ptr_array_index (imap_folder->summary, i);
+			if (!strcmp (info->uid, uid))
+				return info;
+		}
+
+		return NULL;
 	}
 
 	/* we don't have a cached copy, so fetch it */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "UID FETCH %s BODY[HEADER.FIELDS "
-					      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
-					      "REFERENCES IN-REPLY-TO)]", uid);
+						      &result, "UID FETCH %s (UID FLAGS BODY[HEADER.FIELDS "
+						      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
+						      "REFERENCES IN-REPLY-TO)])", uid);
 
 	if (status != CAMEL_IMAP_OK) {
 		g_free (result);
 		return NULL;
 	}
+	
+	/* lets grab the UID... */
+	if (!(muid = strstr (result, "(UID "))) {
+		d(fprintf (stderr, "Cannot get a uid for %s\n\n%s\n\n", uid, result));
+		g_free (result);
+		return NULL;
+	}
+		
+	for (muid += 5; *muid && (*muid < '0' || *muid > '9'); muid++); /* advance to <uid> */
+	for (q = muid; *q && *q != ')' && *q != ' '; q++);     /* find the end of the <uid> */
+	muid = g_strndup (muid, (gint)(q - muid));
 
+	/* make sure the UIDs are identical */
+	if (strcmp (muid, uid)) {
+		d(fprintf (stderr, "UIDs are not identical %s != %s\n", uid, muid));
+		g_free (result);
+		g_free (muid);
+		return NULL;
+	}
+	g_free (muid);
+
+	info = g_malloc0 (sizeof (CamelMessageInfo));
+	info->uid = g_strdup (uid);
+	d(fprintf (stderr, "*** info->uid = %s\n", info->uid));
+	
+	/* now lets grab the FLAGS */
+	if (!(flags = strstr (q, "FLAGS "))) {
+		d(fprintf (stderr, "We didn't seem to get any flags for %s...\n", uid));
+		g_free (info->uid);
+		g_free (info);
+		g_free (result);
+		return NULL;
+	}
+	
+	for (flags += 6; *flags && *flags != '('; flags++); /* advance to <flags> */
+	for (q = flags; *q && *q != ')'; q++);              /* find the end of <flags> */
+	flags = g_strndup (flags, (gint)(q - flags + 1));
+	d(fprintf (stderr, "*** info->flags = %s\n", flags));
+	
+	/* now we gotta parse for the flags */
+	info->flags = 0;
+	if (strstr (flags, "\\Seen"))
+		info->flags |= CAMEL_MESSAGE_SEEN;
+	if (strstr (flags, "\\Answered"))
+		info->flags |= CAMEL_MESSAGE_ANSWERED;
+	if (strstr (flags, "\\Flagged"))
+		info->flags |= CAMEL_MESSAGE_FLAGGED;
+	if (strstr (flags, "\\Deleted"))
+		info->flags |= CAMEL_MESSAGE_DELETED;
+	if (strstr (flags, "\\Draft"))
+		info->flags |= CAMEL_MESSAGE_DRAFT;
+	g_free (flags);
+	flags = NULL;
+
+	d(fprintf (stderr, "we got the flags... %d\n", info->flags));
+	
+	/* construct the header list */
+	/* fast-forward to beginning of header info... */
+	for (header = q; *header && *header != '\n'; header++);
 	h = NULL;
 	for (j = 0; *header_fields[j]; j++) {
 		struct _header_raw *raw;
 		char *field, *value;
 		
 		field = g_strdup_printf ("\n%s:", header_fields[j]);
-		value = get_header_field (result, field);
+		value = get_header_field (header, field);
 		g_free (field);
 		if (!value)
 			continue;
@@ -1283,7 +1385,6 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	}
 	
 	/* construct the CamelMessageInfo */
-	info = g_malloc0 (sizeof (CamelMessageInfo));
 	info->subject = camel_summary_format_string (h, "subject");
 	info->from = camel_summary_format_address (h, "from");
 	info->to = camel_summary_format_address (h, "to");
@@ -1303,9 +1404,6 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	info->references = header_references_decode (header_raw_find (&h, "references", NULL));
 	if (info->references == NULL)
 		info->references = header_references_decode (header_raw_find (&h, "in-reply-to", NULL));
-	
-	info->uid = g_strdup (uid);
-	g_free (result);
 
 	while (h->next) {
 		struct _header_raw *next = h->next;
@@ -1315,45 +1413,6 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 		g_free (h);
 		h = next;
 	}
-	
-	/* now to get the flags */
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "UID FETCH %s FLAGS", uid);
-	
-	if (status != CAMEL_IMAP_OK) {
-		g_free (result);
-		d(fprintf (stderr, "Warning: Error getting FLAGS for message %s\n", uid));
-		
-		return info; /* I guess we should return what we got so far? */
-	}
-	
-	if (!result || *result != '*') {
-		g_free (result);
-		d(fprintf (stderr, "Warning: FLAGS for message %s not found\n", uid));
-
-		return info; /* I guess we should return what we got so far? */
-	}
-	
-	p = strchr (result, '(') + 1;
-	if (g_strncasecmp (p, "FLAGS", 5)) {
-		g_free (result);
-		d(fprintf (stderr, "Warning: FLAGS for message %s not found\n", uid));
-
-		return info; /* I guess we should return what we got so far? */
-	}
-	
-	/* now we gotta parse for the flags */
-	info->flags = 0;
-	if (strstr (p, "\\Seen"))
-		info->flags |= CAMEL_MESSAGE_SEEN;
-	if (strstr (p, "\\Answered"))
-		info->flags |= CAMEL_MESSAGE_ANSWERED;
-	if (strstr (p, "\\Flagged"))
-		info->flags |= CAMEL_MESSAGE_FLAGGED;
-	if (strstr (p, "\\Deleted"))
-		info->flags |= CAMEL_MESSAGE_DELETED;
-	if (strstr (p, "\\Draft"))
-		info->flags |= CAMEL_MESSAGE_DRAFT;
 
 	g_free (result);
 

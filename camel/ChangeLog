@@ -2,6 +2,12 @@
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_class_init): Added
 	in imap_[g,s]et_message_user_flag() methods
+	(imap_get_message_info): Rewrote to use the more efficient way of
+	downloading summary information and also added a UID comparison so that
+	if the UID requested doesn't match the UID received, it returns NULL.
+	FIXME: When the mailer gets NULL when it requested message info, it
+	seems that it displays a row for that message and when you try and select
+	the blank row, it segfaults.
 
 	* providers/imap/camel-imap-store.c (get_folder): Oops, this should not be 
 	checking against "/", it should be checking against dir_sep.
