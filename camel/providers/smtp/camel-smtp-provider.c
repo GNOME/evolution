@@ -32,7 +32,8 @@ static CamelProvider smtp_provider = {
 	"smtp",
 	"SMTP",
 
-	"For delivering mail by connecting to a remote mailhub using SMTP.",
+	"For delivering mail by connecting to a remote mailhub using SMTP."
+	"(NOT YET TESTED!)",
 
 	0,
 

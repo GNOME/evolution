@@ -227,6 +227,13 @@ query_auth_types (CamelService *service, CamelException *ex)
 	if (kpop)
 		ret = g_list_append (ret, &kpop_authtype);
 #endif
+
+	if (!ret) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not connect to POP server on "
+				      "%s.", service->url->host);
+	}				      
+
 	return ret;
 }
 
