@@ -1,5 +1,15 @@
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/alphabet.glade: Made the alphabet buttons not
+	focusable.
+
+	* gui/minicard/e-minicard-view.c: Made the "123" button work.
+
+	* gui/minicard/e-reflow-sorted.c: Made all buttons past the last
+	letter available work.
+
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/alphabet.glade: Added a bit of space around the
 	alphabet bar.
 

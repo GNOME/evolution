@@ -387,6 +387,9 @@ compare_to_letter(EMinicard *card, char *letter)
 	g_return_val_if_fail(card != NULL, 0);
 	g_return_val_if_fail(E_IS_MINICARD(card), 0);
 
+	if (*letter == '1')
+		return 1;
+
 	if (card->card) {
 		char *file_as;
 		gtk_object_get(GTK_OBJECT(card->card),

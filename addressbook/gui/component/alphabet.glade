@@ -54,8 +54,7 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>button-123</name>
-	  <can_focus>True</can_focus>
+	  <name>button-1</name>
 	  <label>123</label>
 	  <child>
 	    <padding>0</padding>
@@ -67,7 +66,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-a</name>
-	  <can_focus>True</can_focus>
 	  <label>a</label>
 	  <child>
 	    <padding>0</padding>
@@ -79,7 +77,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-b</name>
-	  <can_focus>True</can_focus>
 	  <label>b</label>
 	  <child>
 	    <padding>0</padding>
@@ -91,7 +88,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-c</name>
-	  <can_focus>True</can_focus>
 	  <label>c</label>
 	  <child>
 	    <padding>0</padding>
@@ -103,7 +99,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-d</name>
-	  <can_focus>True</can_focus>
 	  <label>d</label>
 	  <child>
 	    <padding>0</padding>
@@ -115,7 +110,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-e</name>
-	  <can_focus>True</can_focus>
 	  <label>e</label>
 	  <child>
 	    <padding>0</padding>
@@ -127,7 +121,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-f</name>
-	  <can_focus>True</can_focus>
 	  <label>f</label>
 	  <child>
 	    <padding>0</padding>
@@ -139,7 +132,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-g</name>
-	  <can_focus>True</can_focus>
 	  <label>g</label>
 	  <child>
 	    <padding>0</padding>
@@ -151,7 +143,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-h</name>
-	  <can_focus>True</can_focus>
 	  <label>h</label>
 	  <child>
 	    <padding>0</padding>
@@ -163,7 +154,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-i</name>
-	  <can_focus>True</can_focus>
 	  <label>i</label>
 	  <child>
 	    <padding>0</padding>
@@ -175,7 +165,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-j</name>
-	  <can_focus>True</can_focus>
 	  <label>j</label>
 	  <child>
 	    <padding>0</padding>
@@ -187,7 +176,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-k</name>
-	  <can_focus>True</can_focus>
 	  <label>k</label>
 	  <child>
 	    <padding>0</padding>
@@ -199,7 +187,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-l</name>
-	  <can_focus>True</can_focus>
 	  <label>l</label>
 	  <child>
 	    <padding>0</padding>
@@ -211,7 +198,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-m</name>
-	  <can_focus>True</can_focus>
 	  <label>m</label>
 	  <child>
 	    <padding>0</padding>
@@ -223,7 +209,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-n</name>
-	  <can_focus>True</can_focus>
 	  <label>n</label>
 	  <child>
 	    <padding>0</padding>
@@ -235,7 +220,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-o</name>
-	  <can_focus>True</can_focus>
 	  <label>o</label>
 	  <child>
 	    <padding>0</padding>
@@ -247,7 +231,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-p</name>
-	  <can_focus>True</can_focus>
 	  <label>p</label>
 	  <child>
 	    <padding>0</padding>
@@ -259,7 +242,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-q</name>
-	  <can_focus>True</can_focus>
 	  <label>q</label>
 	  <child>
 	    <padding>0</padding>
@@ -271,7 +253,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-r</name>
-	  <can_focus>True</can_focus>
 	  <label>r</label>
 	  <child>
 	    <padding>0</padding>
@@ -283,7 +264,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-s</name>
-	  <can_focus>True</can_focus>
 	  <label>s</label>
 	  <child>
 	    <padding>0</padding>
@@ -295,7 +275,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-t</name>
-	  <can_focus>True</can_focus>
 	  <label>t</label>
 	  <child>
 	    <padding>0</padding>
@@ -307,7 +286,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-u</name>
-	  <can_focus>True</can_focus>
 	  <label>u</label>
 	  <child>
 	    <padding>0</padding>
@@ -319,7 +297,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-v</name>
-	  <can_focus>True</can_focus>
 	  <label>v</label>
 	  <child>
 	    <padding>0</padding>
@@ -343,7 +320,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-x</name>
-	  <can_focus>True</can_focus>
 	  <label>x</label>
 	  <child>
 	    <padding>0</padding>
@@ -355,7 +331,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-y</name>
-	  <can_focus>True</can_focus>
 	  <label>y</label>
 	  <child>
 	    <padding>0</padding>
@@ -367,7 +342,6 @@
 	<widget>
 	  <class>GtkButton</class>
 	  <name>button-z</name>
-	  <can_focus>True</can_focus>
 	  <label>z</label>
 	  <child>
 	    <padding>0</padding>

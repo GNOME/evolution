@@ -246,11 +246,11 @@ void e_reflow_sorted_jump   (EReflowSorted *sorted,
 	int columns = 0;
 	EReflow *reflow = E_REFLOW(sorted);
 	GList *list;
+	GtkAdjustment *adjustment;
 
 	for (list = reflow->columns; list; list = g_list_next(list)) {
 		if (compare_func(((GList *)list->data)->data, value) >= 0) {
 			GList *last = list->prev;
-			GtkAdjustment *adjustment;
 			if (last) {
 				GList *walk;
 				for (walk = last->data; walk != list->data; walk = g_list_next(walk)) {
@@ -266,4 +266,7 @@ void e_reflow_sorted_jump   (EReflowSorted *sorted,
 		}
 		columns ++;
 	}
+	columns --;
+	adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(sorted)->canvas));
+	gtk_adjustment_set_value(adjustment, (reflow->column_width + E_REFLOW_FULL_GUTTER) * columns);
 }
