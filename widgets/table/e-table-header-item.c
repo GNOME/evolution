@@ -443,25 +443,23 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		return FALSE;
 
 	gdk_drag_status (context, 0, time);
-	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget (context)) {
-		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
-		    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
-			int col;
-			
-			col = ethi_find_col_by_x (ethi, x);
-			
-			if (col != -1){
-				ethi_remove_destroy_marker (ethi);
-				ethi_add_drop_marker (ethi, col);
-				gdk_drag_status (context, context->suggested_action, time);
-			} else {
-				ethi_remove_drop_marker (ethi);
-				ethi_add_destroy_marker (ethi);
-			}
+	if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
+	    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
+		int col;
+		
+		col = ethi_find_col_by_x (ethi, x);
+		
+		if (col != -1){
+			ethi_remove_destroy_marker (ethi);
+			ethi_add_drop_marker (ethi, col);
+			gdk_drag_status (context, context->suggested_action, time);
 		} else {
 			ethi_remove_drop_marker (ethi);
 			ethi_add_destroy_marker (ethi);
 		}
+	} else {
+		ethi_remove_drop_marker (ethi);
+		ethi_add_destroy_marker (ethi);
 	}
 
 	return TRUE;

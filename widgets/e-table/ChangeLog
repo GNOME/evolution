@@ -1,6 +1,9 @@
 2000-04-12  Miguel de Icaza  <miguel@gnu.org>
 
-	* e-table-header-item.c (ethi_end_resize): Reset resize_guide here.
+	* e-table-header-item.c (ethi_drag_motion): Remove test for
+	source.  We will fix this later.
+	
+	(ethi_end_resize): Reset resize_guide here.
 
 2000-04-11  Miguel de Icaza  <miguel@helixcode.com>
 
