@@ -48,14 +48,12 @@
 #include <e-util/e-categories-master-list-wombat.h>
 #include "e-util/e-sexp.h"
 
-static void e_select_names_init		(ESelectNames		 *card);
+static void e_select_names_init		(ESelectNames		 *names);
 static void e_select_names_class_init	(ESelectNamesClass	 *klass);
 static void e_select_names_dispose (GObject *object);
 static void update_query (GtkWidget *widget, ESelectNames *e_select_names);
 
 static void sync_table_and_models (ESelectNamesModel *triggering_model, ESelectNames *esl);
-
-extern EvolutionShellClient *global_shell_client;
 
 static GtkDialogClass *parent_class = NULL;
 #define PARENT_TYPE gtk_dialog_get_type()
@@ -478,12 +476,6 @@ e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
 	GtkWidget *widget, *button;
-	const char *selector_types[] = { "contacts/*", NULL };
-	char *filename;
-	char *contacts_uri;
-	EConfigListener *db;
-
-	db = e_book_get_config_database();
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/select-names.glade", NULL, NULL);
 	e_select_names->gui = gui;
@@ -559,25 +551,7 @@ e_select_names_init (ESelectNames *e_select_names)
 		g_signal_connect(button, "clicked",
 				 G_CALLBACK(update_query), e_select_names);
 
-	contacts_uri = e_config_listener_get_string_with_default (db, "/apps/evolution/addressbook/select_names/last_used_uri", NULL, NULL);
-	if (!contacts_uri) {
-		contacts_uri = e_config_listener_get_string_with_default (db, "/apps/evolution/shell/default_folders/contacts_uri",
-									  NULL, NULL);
-	}
-	if (!contacts_uri || !contacts_uri[0]) {
-		if (contacts_uri)
-			g_free (contacts_uri);
-		filename = g_build_filename (g_get_home_dir(), "evolution/local/Contacts", NULL);
-		contacts_uri = g_strdup_printf("file://%s", filename);
-		g_free (filename);
-	}
-
 	button = glade_xml_get_widget (gui, "folder-selector");
-	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
-						    global_shell_client,
-						    _("Find contact in"),
-						    contacts_uri,
-						    selector_types);
 	if (button && EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button))
 		g_signal_connect(button, "selected",
 				 G_CALLBACK(folder_selected), e_select_names);
@@ -588,10 +562,6 @@ e_select_names_init (ESelectNames *e_select_names)
 	g_signal_connect (e_table_scrolled_get_table (e_select_names->table), "selection_change",
 			  G_CALLBACK (selection_change), e_select_names);
 	selection_change (e_table_scrolled_get_table (e_select_names->table), e_select_names);
-
-	addressbook_model_set_uri(e_select_names, e_select_names->model, contacts_uri);
-
-	g_free (contacts_uri);
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)
@@ -656,10 +626,35 @@ e_select_names_dispose (GObject *object)
 }
 
 GtkWidget*
-e_select_names_new (void)
+e_select_names_new (EvolutionShellClient *shell_client)
 {
-	GtkWidget *widget = g_object_new (E_TYPE_SELECT_NAMES, NULL);
-	return widget;
+	ESelectNames *e_select_names;
+	const char *selector_types[] = { "contacts/*", NULL };
+	char *contacts_uri;
+	GtkWidget *button;
+	EConfigListener *db;
+
+	e_select_names = g_object_new (E_TYPE_SELECT_NAMES, NULL);
+
+	db = e_book_get_config_database ();
+	contacts_uri = e_config_listener_get_string_with_default (
+		db, "/apps/evolution/addressbook/select_names/last_used_uri",
+		NULL, NULL);
+	if (!contacts_uri)
+		contacts_uri = g_strdup (e_book_get_default_book_uri ());
+
+	button = glade_xml_get_widget (e_select_names->gui, "folder-selector");
+	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
+						    shell_client,
+						    _("Find contact in"),
+						    contacts_uri,
+						    selector_types);
+
+	addressbook_model_set_uri(e_select_names, e_select_names->model, contacts_uri);
+
+	g_free (contacts_uri);
+
+	return GTK_WIDGET (e_select_names);
 }
 
 static void
@@ -707,7 +702,9 @@ section_right_click_cb (ETable *et, int row, int col, GdkEvent *ev, ESelectNames
 }
 
 void
-e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, ESelectNamesModel *source)
+e_select_names_add_section (ESelectNames *e_select_names,
+			    const char *name, const char *id,
+			    ESelectNamesModel *source)
 {
 	ESelectNamesChild *child;
 	GtkWidget *button;
@@ -812,19 +809,6 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	g_hash_table_insert(e_select_names->children, g_strdup(id), child);
 
 	sync_table_and_models (child->source, e_select_names);
-}
-
-static void *
-card_copy(const void *value, void *closure)
-{
-	g_object_ref((gpointer)value);
-	return (void *)value;
-}
-
-static void
-card_free(void *value, void *closure)
-{
-	g_object_unref((gpointer)value);
 }
 
 void

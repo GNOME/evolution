@@ -1,3 +1,24 @@
+2003-03-31  Dan Winship  <danw@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): Remove folder-selector button
+	initialization.
+	(e_select_names_new): Initialize folder-selector button here,
+	using the passed-in EvolutionShellClient rather than depending on
+	a global variable.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_activate_dialog): take an
+	EvolutionShellClient and pass it to e_select_names_new().
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_SelectNames_activate_dialog): get a pointer to the shell
+	from bonobo-activation, create a shell_client, and pass it to
+	e_select_names_manager_activate_dialog.
+
+	* backend/ebook/e-book-util.c (e_book_get_default_book_uri):
+	constify return value
+
 2003-03-30  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-vcard.[ch]: braindead, and *extremely* forgiving

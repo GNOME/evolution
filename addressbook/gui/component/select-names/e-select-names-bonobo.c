@@ -27,12 +27,17 @@
 #include "e-select-names-bonobo.h"
 #include "e-simple-card-bonobo.h"
 
+#include <bonobo-activation/bonobo-activation-activate.h>
+
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-event-source.h>
 
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-entry.h>
+
+#include "evolution-shell-client.h"
 
 #include "Evolution-Addressbook-SelectNames.h"
 
@@ -359,11 +364,23 @@ impl_SelectNames_activate_dialog (PortableServer_Servant servant,
 {
 	ESelectNamesBonobo *select_names;
 	ESelectNamesBonoboPrivate *priv;
+	EvolutionShellClient *shell_client;
+	GNOME_Evolution_Shell shell;
 
 	select_names = E_SELECT_NAMES_BONOBO (bonobo_object (servant));
 	priv = select_names->priv;
 
-	e_select_names_manager_activate_dialog (priv->manager, section_id);
+	shell = bonobo_activation_activate_from_id  (
+		"OAFIID:GNOME_Evolution_Shell",
+		Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
+		NULL, ev);
+	if (BONOBO_EX (ev))
+		return;
+
+	shell_client = evolution_shell_client_new (shell);
+	e_select_names_manager_activate_dialog (priv->manager, shell_client,
+						section_id);
+	g_object_unref (shell_client);
 }
 
 

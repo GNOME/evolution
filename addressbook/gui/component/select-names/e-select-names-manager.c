@@ -476,9 +476,8 @@ db_listener (EConfigListener *db, const char *key,
 
 /**
  * e_select_names_manager_new:
- * @VCard: a string in vCard format
  *
- * Returns: a new #ESelectNamesManager that wraps the @VCard.
+ * Returns: a new #ESelectNamesManager
  */
 ESelectNamesManager *
 e_select_names_manager_new (void)
@@ -605,6 +604,7 @@ clear_widget (gpointer data, GObject *where_object_was)
 
 void
 e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
+					EvolutionShellClient *shell_client,
 					const char *id)
 {
 	g_return_if_fail (E_IS_SELECT_NAMES_MANAGER (manager));
@@ -621,7 +621,7 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 
 		GList *iter;
 
-		manager->names = E_SELECT_NAMES (e_select_names_new ());
+		manager->names = E_SELECT_NAMES (e_select_names_new (shell_client));
 
 		for (iter = manager->sections; iter != NULL; iter = g_list_next (iter)) {
 			ESelectNamesManagerSection *section = iter->data;

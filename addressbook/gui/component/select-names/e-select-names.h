@@ -27,10 +27,10 @@
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
 
-#include <addressbook/gui/widgets/e-addressbook-model.h>
+#include "evolution-shell-client.h"
+#include "e-addressbook-model.h"
 
 #include "e-select-names-model.h"
-#include "e-util/e-list.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -85,15 +85,15 @@ struct _ESelectNamesClass
 };
 
 
-GtkWidget *e_select_names_new          (void);
+GtkWidget *e_select_names_new          (EvolutionShellClient *shell_client);
 GType      e_select_names_get_type     (void);
 
-void       e_select_names_add_section  (ESelectNames *e_select_names,
-				       	char         *name,
-				       	char         *id,
-				       	ESelectNamesModel *source);
-void e_select_names_set_default (ESelectNames *e_select_names,
-				 const char *id);
+void       e_select_names_add_section  (ESelectNames         *e_select_names,
+				       	const char           *name,
+				       	const char           *id,
+				       	ESelectNamesModel    *source);
+void       e_select_names_set_default  (ESelectNames         *e_select_names,
+					const char           *id);
 
 #ifdef __cplusplus
 }
