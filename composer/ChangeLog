@@ -1,3 +1,13 @@
+2002-07-23  Not Zed  <NotZed@Ximian.com>
+
+	* Applied patch below.
+
+2002-07-19  Christian Kreibich <christian@whoop.org>
+
+	* e.msg-composer.c (get_signature_html): Test for the signature
+	delimiter not only at the beginning of a signature file, but also
+	inside the signature.
+
 2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_view_bcc): Reverted some

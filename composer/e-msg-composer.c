@@ -955,7 +955,7 @@ get_signature_html (EMsgComposer *composer)
 					"%s%s%s%s"
 					"</TD></TR></TABLE>",
 					format_html ? "" : "<PRE>\n",
-					format_html || !strncmp ("-- \n", text, 4) ? "" : "-- \n",
+					format_html || (!strncmp ("-- \n", text, 4) || strstr(text, "\n-- \n")) ? "" : "-- \n",
 					text,
 					format_html ? "" : "</PRE>\n");
 		g_free (text);
