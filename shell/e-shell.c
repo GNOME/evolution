@@ -561,8 +561,8 @@ e_shell_construct (EShell *shell,
 	EShellPrivate *priv;
 	CORBA_Object corba_object;
 	gboolean start_online;
-
-	g_return_val_if_fail (shell != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
+	GSList *component;
+	
 	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (startup_line_mode == E_SHELL_STARTUP_LINE_MODE_CONFIG
 			      || startup_line_mode == E_SHELL_STARTUP_LINE_MODE_ONLINE
@@ -582,7 +582,22 @@ e_shell_construct (EShell *shell,
 
 	while (gtk_events_pending ())
 		gtk_main_iteration ();	
-
+	
+	/* activate all the components */
+	component = e_component_registry_peek_list (shell->priv->component_registry);
+	while (component != NULL) {
+		const EComponentInfo *info = component->data;
+		CORBA_Environment ev;
+		
+		CORBA_exception_init (&ev);
+		
+		e_component_registry_activate (shell->priv->component_registry, info->id, &ev);
+		
+		CORBA_exception_free (&ev);
+		
+		component = component->next;
+	}
+	
 	attempt_upgrade(shell);
 
 	if (e_shell_startup_wizard_create () == FALSE) {
@@ -686,11 +701,8 @@ e_shell_attempt_upgrade (EShell *shell, int major, int minor, int revision)
 		gboolean component_upgraded;
 
 		CORBA_exception_init (&ev);
-
-		e_component_registry_activate (shell->priv->component_registry, info->id, &ev);
-
-		if (!BONOBO_EX (&ev))
-		    component_upgraded = GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
+		
+		component_upgraded = GNOME_Evolution_Component_upgradeFromVersion (info->iface, major, minor, revision, &ev);
 		
 		if (BONOBO_EX (&ev)) {
 			char *exception_text;
@@ -968,7 +980,7 @@ e_shell_go_online (EShell *shell,
 	EShellPrivate *priv;
 	GSList *component_infos;
 	GSList *p;
-
+	
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (action_window == NULL || E_IS_SHELL_WINDOW (action_window));
@@ -982,15 +994,15 @@ e_shell_go_online (EShell *shell,
 		GNOME_Evolution_Offline offline_interface;
 
 		CORBA_exception_init (&ev);
-
+		
 		offline_interface = Bonobo_Unknown_queryInterface (info->iface, "IDL:GNOME/Evolution/Offline:1.0", &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || offline_interface == CORBA_OBJECT_NIL) {
-			CORBA_exception_free (&ev);
+				CORBA_exception_free (&ev);
 			continue;
 		}
-
+		
 		CORBA_exception_free (&ev);
-
+		
 		GNOME_Evolution_Offline_goOnline (offline_interface, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_warning ("Error putting component `%s' online.", info->id);

@@ -1,3 +1,13 @@
+2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-shell.c (e_shell_attempt_upgrade): Don't activate the
+	components here.
+	(e_shell_construct): Activate them all here instead (before we
+	attempt to upgrade). Fixes a bug where the shell would start up in
+	online mode but never notify the components to go online.
+
+	* main.c (idle_cb): s/Cannot access/Cannot register/
+
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
 	* e-shell.c (e_shell_attempt_upgrade): make sure the component is

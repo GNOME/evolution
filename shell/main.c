@@ -389,7 +389,7 @@ idle_cb (void *data)
 		corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("Cannot access the Ximian Evolution shell."));
+				  _("Cannot register the Ximian Evolution shell."));
 			CORBA_exception_free (&ev);
 			bonobo_main_quit ();
 			return FALSE;
