@@ -8,7 +8,6 @@ LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/libibex/libibex.la 	\
-	$(DB3_LDADD)				\
 	$(GNOME_LIBDIR) 			\
 	$(top_builddir)/camel/tests/lib/libcameltest.a			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)			\

@@ -1,5 +1,11 @@
 2001-06-18  Dan Winship  <danw@ximian.com>
 
+	* tests/stream/Makefile.am (LDADD): 
+	* tests/smime/Makefile.am (LDADD): 
+	* tests/misc/Makefile.am (LDADD): 
+	* tests/message/Makefile.am (LDADD): 
+	* tests/folder/Makefile.am (LDADD): Remove DB3_LDADD
+
 	* Makefile.am (install-exec-local): Set camel-lock-help setgid or
 	setuid as needed
 
