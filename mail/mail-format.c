@@ -211,7 +211,7 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
 	
 	if (!mail_content_loaded (CAMEL_DATA_WRAPPER (mime_message), md,
-				  TRUE, NULL, NULL))
+				  TRUE, NULL, html, NULL))
 		return;
 	
 	mail_html_write (html, stream,
@@ -653,7 +653,7 @@ attachment_header (CamelMimePart *part, const char *mime_type, MailDisplay *md,
 	/* Write a description, if we have one. */
 	info = camel_mime_part_get_description (part);
 	if (info) {
-		htmlinfo = e_text_to_html (info, E_TEXT_TO_HTML_CONVERT_URLS);
+		htmlinfo = e_text_to_html (info, md->printing ? 0 : E_TEXT_TO_HTML_CONVERT_URLS);
 		gtk_html_stream_printf (stream, ", \"%s\"", htmlinfo);
 		g_free (htmlinfo);
 	}
@@ -686,7 +686,7 @@ format_mime_part (CamelMimePart *part, MailDisplay *md,
 		mesg = e_utf8_from_locale_string (_("Could not parse MIME message. Displaying as source."));
 		mail_error_printf (html, stream, "\n%s\n", mesg);
 		g_free (mesg);
-		if (mail_content_loaded (wrapper, md, TRUE, NULL, NULL))
+		if (mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
 			handle_text_plain (part, "text/plain", md, html, stream);
 		return TRUE;
 	}
@@ -722,7 +722,7 @@ format_mime_part (CamelMimePart *part, MailDisplay *md,
 		attachment_header (part, mime_type, md, html, stream);
 	
 	if (handler && handler->builtin && inline_flags & I_DISPLAYED &&
-	    mail_content_loaded (wrapper, md, TRUE, NULL, NULL))
+	    mail_content_loaded (wrapper, md, TRUE, NULL, html, NULL))
 		output = (*handler->builtin) (part, mime_type, md, html, stream);
 	else
 		output = TRUE;
@@ -780,7 +780,7 @@ static void
 write_text_header (const char *name, const char *value, int flags, GtkHTML *html, GtkHTMLStream *stream)
 {
 	char *encoded;
-	
+
 	if (value && *value)
 		encoded = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
 	else
@@ -838,13 +838,21 @@ write_address (MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream,
 			}
 			
 			if (have_name) {
-				gtk_html_stream_printf (stream,
-							"%s &lt;<a href=\"mailto:%s\">%s</a>&gt;",
-							name_disp, addr_url, email_disp);
+				if (md->printing) {
+					gtk_html_stream_printf (stream, "%s &lt;%s&gt;", name_disp, email_disp);
+				} else {
+					gtk_html_stream_printf (stream,
+								"%s &lt;<a href=\"mailto:%s\">%s</a>&gt;",
+								name_disp, addr_url, email_disp);
+				}
 			} else {
-				gtk_html_stream_printf (stream,
-							"<a href=\"mailto:%s\">%s</a>",
-							addr_url, email_disp);
+				if (md->printing) {
+					mail_html_write (html, stream, email_disp);
+				} else {
+					gtk_html_stream_printf (stream,
+								"<a href=\"mailto:%s\">%s</a>",
+								addr_url, email_disp);
+				}
 			}			
 
 		} else {
@@ -1027,16 +1035,17 @@ load_offline_content (MailDisplay *md, gpointer data)
 }
 
 gboolean
-mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisplay, const gchar *url, GtkHTMLStream *handle)
+mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisplay, const gchar *url,
+		     GtkHTML *html, GtkHTMLStream *handle)
 {
 	if (!camel_data_wrapper_is_offline (wrapper))
 		return TRUE;
 	
 	camel_object_ref (CAMEL_OBJECT (wrapper));
 	if (redisplay)
-		mail_display_redisplay_when_loaded (md, wrapper, load_offline_content, wrapper);
+		mail_display_redisplay_when_loaded (md, wrapper, load_offline_content, html, wrapper);
 	else
-		mail_display_stream_write_when_loaded (md, wrapper, url, load_offline_content, handle, wrapper);
+		mail_display_stream_write_when_loaded (md, wrapper, url, load_offline_content, html, handle, wrapper);
 	
 	return FALSE;
 }
@@ -1140,7 +1149,7 @@ struct {
 #define NSPECIALS (sizeof (text_specials) / sizeof (*text_specials))
 
 static void
-write_one_text_plain_chunk (const char *text, int len, GtkHTML *html, GtkHTMLStream *stream)
+write_one_text_plain_chunk (const char *text, int len, GtkHTML *html, GtkHTMLStream *stream, gboolean printing)
 {
 	char *buf;
 	
@@ -1148,7 +1157,7 @@ write_one_text_plain_chunk (const char *text, int len, GtkHTML *html, GtkHTMLStr
 			 "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n");
 	
 	buf = g_strndup (text, len);
-	mail_text_write  (html, stream, buf);
+	mail_text_write  (html, stream, printing, buf);
 	g_free (buf);
 	
 	mail_html_write (html, stream, "</td></tr></table>\n");
@@ -1201,7 +1210,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 		
 		/* Deal with special case */
 		if (start != p)
-			write_one_text_plain_chunk (p, start - p, html, stream);
+			write_one_text_plain_chunk (p, start - p, html, stream, md->printing);
 		
 		p = text_specials[i].handler (start, part, start - text, md, html, stream);
 		if (p == start) {
@@ -1215,13 +1224,13 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 				break;
 			}
 			p++;
-			write_one_text_plain_chunk (start, p - start, html, stream);
+			write_one_text_plain_chunk (start, p - start, html, stream, md->printing);
 		} else if (p)
 			write_hr (html, stream);
 	}
 	/* Finish up (or do the whole thing if there were no specials). */
 	if (p)
-		write_one_text_plain_chunk (p, strlen (p), html, stream);
+		write_one_text_plain_chunk (p, strlen (p), html, stream, md->printing);
 	
 	g_free (text);
 	
@@ -1283,8 +1292,10 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 		}
 		
 		/* replace '<' with '&lt;', etc. */
-		text = e_text_to_html (p, E_TEXT_TO_HTML_CONVERT_SPACES |
-				       E_TEXT_TO_HTML_CONVERT_URLS);
+		text = e_text_to_html (p, 
+				       md->printing ?
+				       E_TEXT_TO_HTML_CONVERT_SPACES :
+				       E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_CONVERT_URLS);
 		if (text && *text)
 			mail_html_write (html, stream, text);
 		g_free (text);
@@ -1872,7 +1883,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		
 		if (message) {
 			gtk_html_stream_printf (stream, "<font size=-1 %s>", good ? "" : "color=red");
-			mail_text_write (html, stream, message);
+			mail_text_write (html, stream, md->printing, message);
 			mail_html_write (html, stream, "</font>");
 		}
 		
@@ -2203,7 +2214,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	cia = camel_mime_message_get_from (message);
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
-		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
 		g_string_sprintfa (retval, "%s<b>From:</b> %s<br>",
 				   citation, html);
 		g_free (html);
@@ -2213,7 +2224,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
-		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
 		g_string_sprintfa (retval, "%s<b>To:</b> %s<br>",
 				   citation, html);
 		g_free (html);
@@ -2223,7 +2234,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	cia = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	buf = camel_address_format (CAMEL_ADDRESS (cia));
 	if (buf) {
-		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
 		g_string_sprintfa (retval, "%s<b>Cc:</b> %s<br>",
 				   citation, html);
 		g_free (html);
@@ -2240,7 +2251,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 
 	date_val = camel_mime_message_get_date (message, &offset);
 	buf = header_format_date (date_val, offset);
-	html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+	html = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL);
 	g_string_sprintfa (retval, "%s<b>Date:</b> %s<br>", citation, html);
 	g_free (html);
 

@@ -2326,11 +2326,31 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 }
 
-/*
- * FIXME: This routine could be made generic, by having a closure
- * function plus data, and having the whole process be taken care
- * of for you
- */
+#define HEADER_HEIGHT 1.1
+#define FOOTER_HEIGHT 1.1
+
+static void
+header_print_cb (GtkHTML *html, GnomePrintContext *print_context,
+		 double x, double y, double width, double height, gpointer user_data)
+{
+#if 0
+	gnome_print_setlinewidth (print_context, 12);
+	gnome_print_setrgbcolor (print_context, 1.0, 0.0, 0.0);
+
+	gnome_print_newpath (print_context);
+	gnome_print_moveto (print_context, x, y);
+	gnome_print_lineto (print_context, x+width, y+height);
+	gnome_print_strokepath (print_context);
+#endif
+}
+
+static void
+footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
+		 double x, double y, double width, double height, gpointer user_data)
+{
+
+}
+
 static void
 do_mail_print (FolderBrowser *fb, gboolean preview)
 {
@@ -2375,6 +2395,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	print_context = gnome_print_master_get_context (print_master);
 
 	html = GTK_HTML (gtk_html_new ());
+	mail_display_initialize_gtkhtml (fb->mail_display, html);
 	
 	/* Set our 'printing' flag to true and render.  This causes us
 	   to ignoring any adjustments we made to accomodate the
@@ -2383,11 +2404,17 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 
 	mail_display_render (fb->mail_display, html);
 	gtk_html_print_set_master (html, print_master);
+
+#if 0
+	gtk_html_print_with_header_footer (html, print_context,
+					   HEADER_HEIGHT, FOOTER_HEIGHT,
+					   header_print_cb, footer_print_cb,
+					   NULL);
+#endif
 	gtk_html_print (html, print_context);
 
 	fb->mail_display->printing = FALSE;
 
-	gtk_object_unref (GTK_OBJECT (html));
 	gnome_print_master_close (print_master);
 	
 	if (preview){
@@ -2405,7 +2432,8 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 				  _("Printing of message failed"));
 		}
 	}
-	gtk_object_unref (GTK_OBJECT (print_master));
+
+	/* FIXME: We are leaking the GtkHTML object */
 }
 
 /* This is pretty evil.  FolderBrowser's API should be extended to allow these sorts of

@@ -1,5 +1,31 @@
 2001-12-11  Jon Trowbridge  <trow@ximian.com>
 
+	* mail-identify.c (mail_identify_mime_part): Fixed for
+	mail_content_loaded's new signature.
+
+	* mail-format.c (attachment_header): Don't convert URLs, etc. if
+	we are printing.
+	(write_address): Don't convert addresses to mailto: links if we
+	are printing.
+	(write_one_text_plain_chunk): Add a printing flag, that we pass
+	along to mail_text_write.
+	(handle_text_plain): Pass our printing flag to
+	write_one_text_plain_chunk.
+	(mail_get_message_rfc822): Don't unneccesarily convert URLs.
+	(mail_content_loaded): Add a GtkHTML parameter.
+
+	* mail-display.c (mail_display_initialize_gtkhtml): Added.  Breaks
+	all of the signal hookups out of mail_display_new.
+	(mail_display_new): Call mail_display_initialize_gtkhtml.
+	(mail_text_write): Don't convert URLs, etc., if we are printing.
+	Lots of other changes to pass around GtkHTML/GtkHTMLStream objects.
+
+	* mail-callbacks.c (do_mail_print): Call
+	mail_display_initialize_gtkhtml on our GtkHTML object.
+
+	* folder-browser.c (update_status_bar): Make the status bar more
+	useful when you have a large number of hidden messages.
+
 	* message-list.etspec: Add ETable magic for our new "Needs Reply"
 	column.  (The next few entries are for bug #90)
 

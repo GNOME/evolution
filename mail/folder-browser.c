@@ -718,7 +718,7 @@ static void
 update_status_bar(FolderBrowser *fb)
 {
 	CORBA_Environment ev;
-	int tmp;
+	int tmp, total;
 	GString *work;
 	extern CamelFolder *outbox_folder, *sent_folder;
 
@@ -727,44 +727,49 @@ update_status_bar(FolderBrowser *fb)
 	    || fb->shell_view == CORBA_OBJECT_NIL)
 		return;
 
+	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
+		total = camel_folder_get_message_count(fb->folder);
+	} else {
+		GPtrArray *sum = camel_folder_get_summary(fb->folder);
+		int i;
+
+		if (sum) {
+			total = 0;
+			for (i=0;i<sum->len;i++) {
+				CamelMessageInfo *info = sum->pdata[i];
+				
+				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
+					total++;
+			}
+			camel_folder_free_summary(fb->folder, sum);
+		} else {
+			total = camel_folder_get_message_count(fb->folder);
+		}
+	}
+	
 	work = g_string_new("");
 	g_string_sprintfa(work, _("%d new"), camel_folder_get_unread_message_count(fb->folder));
 	tmp = message_list_hidden(fb->message_list);
-	if (tmp) {
+	if (0 < tmp && tmp < total) {
 		g_string_append(work, _(", "));
-		g_string_sprintfa(work, _("%d hidden"), tmp);
+		if (tmp < total / 2)
+			g_string_sprintfa(work, _("%d hidden"), tmp);
+		else  
+			g_string_sprintfa(work, _("%d visible"), total - tmp);
 	}
 	tmp = e_selection_model_selected_count(e_tree_get_selection_model(fb->message_list->tree));
 	if (tmp) {
 		g_string_append(work, _(", "));
 		g_string_sprintfa(work, _("%d selected"), tmp);
 	}
-	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
-		tmp = camel_folder_get_message_count(fb->folder);
-	} else {
-		GPtrArray *sum = camel_folder_get_summary(fb->folder);
-		int i;
-
-		if (sum) {
-			tmp = 0;
-			for (i=0;i<sum->len;i++) {
-				CamelMessageInfo *info = sum->pdata[i];
-				
-				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
-					tmp++;
-			}
-			camel_folder_free_summary(fb->folder, sum);
-		} else {
-			tmp = camel_folder_get_message_count(fb->folder);
-		}
-	}
 	g_string_append(work, _(", "));
+
 	if (fb->folder == outbox_folder)
-		g_string_sprintfa(work, _("%d unsent"), tmp);
+		g_string_sprintfa(work, _("%d unsent"), total);
 	else if (fb->folder == sent_folder)
-		g_string_sprintfa(work, _("%d sent"), tmp);
+		g_string_sprintfa(work, _("%d sent"), total);
 	else
-		g_string_sprintfa(work, _("%d total"), tmp);
+		g_string_sprintfa(work, _("%d total"), total);
 
 	CORBA_exception_init(&ev);
 	GNOME_Evolution_ShellView_setFolderBarLabel(fb->shell_view, work->str, &ev);

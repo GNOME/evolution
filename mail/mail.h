@@ -47,6 +47,7 @@ gboolean mail_content_loaded (CamelDataWrapper *wrapper,
 			      MailDisplay *display,
 			      gboolean redisplay,
 			      const gchar *url,
+			      GtkHTML *html,
 			      GtkHTMLStream *handle);
 
 typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,

@@ -55,17 +55,21 @@ typedef struct {
 GtkType        mail_display_get_type    (void);
 GtkWidget *    mail_display_new         (void);
 
+void           mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html);
+
 void           mail_display_queue_redisplay (MailDisplay *mail_display);
 void           mail_display_render (MailDisplay *mail_display, GtkHTML *html);
 void           mail_display_redisplay (MailDisplay *mail_display, gboolean unscroll);
 void           mail_display_redisplay_when_loaded (MailDisplay *md,
 						   gconstpointer key,
 						   void (*callback)(MailDisplay *, gpointer),
+						   GtkHTML *html,
 						   gpointer data);
 void           mail_display_stream_write_when_loaded (MailDisplay *md,
 						      gconstpointer key,
 						      const gchar *url,
 						      void (*callback)(MailDisplay *, gpointer),
+						      GtkHTML *html,
 						      GtkHTMLStream *handle,
 						      gpointer data);
 
@@ -82,6 +86,7 @@ void           mail_display_load_images (MailDisplay *mail_display);
 
 void           mail_text_write          (GtkHTML *html,
 					 GtkHTMLStream *stream,
+					 gboolean printing,
 					 const char *text);
 void           mail_error_printf        (GtkHTML *html,
 					 GtkHTMLStream *stream,

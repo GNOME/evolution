@@ -94,6 +94,5 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	
 	gtk_html_write (stream_gtkhtml->html, stream_gtkhtml->html_stream,
 			buffer, n);
-	
 	return n;
 }
