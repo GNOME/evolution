@@ -60,3 +60,9 @@ char *s = N_("Address '{0}' already exists.");
 /* addressbook:ask-list-add-exists secondary */
 char *s = N_("A contact already exists with this address.  Would you like to add a new card with the same address anyway?");
 char *s = N_("_Add");
+/* addressbook:server-version title */
+char *s = N_("Server Version");
+/* addressbook:server-version primary */
+char *s = N_("Your server needs to be updated");
+/* addressbook:server-version secondary */
+char *s = N_("Some features may not work correctly with your current server version");

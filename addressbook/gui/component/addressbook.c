@@ -29,7 +29,7 @@
 #include <libebook/e-book.h>
 
 #include "e-util/e-passwords.h"
-
+#include "widgets/misc/e-error.h"
 #include "addressbook.h"
 
 #define d(x)
@@ -82,38 +82,45 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 
 		/* the user clicked cancel in the password dialog */
 		if (status == E_BOOK_ERROR_CANCELLED) {
-				
+
 			if (e_book_check_static_capability (book, "anon-access")) {
-			
-			GtkWidget *dialog;
 
-			/* XXX "LDAP" has to be removed from the folowing message
-			   so that it wil valid for other servers which provide 
-			   anonymous access*/
+				GtkWidget *dialog;
 
-			dialog = gtk_message_dialog_new (NULL,
-							 0,
-							 GTK_MESSAGE_WARNING,
-							 GTK_BUTTONS_OK,
-							 _("Accessing LDAP Server anonymously"));
-			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-			gtk_widget_show (dialog);
-			data->cb (book, E_BOOK_ERROR_OK, data->closure);
+				/* XXX "LDAP" has to be removed from the folowing message
+				   so that it wil valid for other servers which provide 
+				   anonymous access*/
+
+				dialog = gtk_message_dialog_new (NULL,
+						0,
+						GTK_MESSAGE_WARNING,
+						GTK_BUTTONS_OK,
+						_("Accessing LDAP Server anonymously"));
+				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+				gtk_widget_show (dialog);
+				data->cb (book, E_BOOK_ERROR_OK, data->closure);
+				free_load_source_data (data);
+				return;
+			}
+		} else if (status == E_BOOK_ERROR_INVALID_SERVER_VERSION) {
+			e_error_run (NULL, "addressbook:server-version", NULL);
+			status = E_BOOK_ERROR_OK;
+			if (data->cb)
+				data->cb (book, status, data->closure);
 			free_load_source_data (data);
 			return;
-			}
-		}
-		else {
+
+		} else {
 			gchar *uri = e_source_get_uri (data->source);
 			gchar *stripped_uri = remove_parameters_from_uri (uri);
 			const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");
-		        const gchar *component_name;
-			
+			const gchar *component_name;
+
 			component_name = auth_domain ? auth_domain : "Addressbook";
-			
+
 			e_passwords_forget_password (component_name, stripped_uri);
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
-			
+
 			g_free (stripped_uri);
 			g_free (uri);
 			return;

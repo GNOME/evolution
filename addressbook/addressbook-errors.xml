@@ -90,4 +90,11 @@
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-ok" label="_Add" response="GTK_RESPONSE_YES"/>
  </error>
+ 
+ <error id="server-version" type="warning">
+  <title>Server Version</title> 
+  <primary>Your server needs to be updated</primary> 
+  <secondary>Some features may not work correctly with your current server version</secondary>
+ </error>
+
 </error-list>
