@@ -1,5 +1,8 @@
 2000-04-10  Dan Winship  <danw@helixcode.com>
 
+	* providers/pop3/camel-pop3-store.c (pop3_connect): fix various
+	bugs in APOP code (still untested) and some of the error cases.
+
 	* camel-provider.h: Clarify what provider.protocol, provider.name,
 	and provider.description should be.
 
