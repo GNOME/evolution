@@ -1452,8 +1452,12 @@ camel_folder_change_info_new(void)
 void
 camel_folder_change_info_add_source(CamelFolderChangeInfo *info, const char *uid)
 {
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
-
+	struct _CamelFolderChangeInfoPrivate *p;
+	
+	g_return_if_fail (info != NULL);
+	
+	p = info->priv;
+	
 	if (p->uid_source == NULL)
 		p->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -1471,8 +1475,13 @@ camel_folder_change_info_add_source(CamelFolderChangeInfo *info, const char *uid
 void
 camel_folder_change_info_add_source_list(CamelFolderChangeInfo *info, const GPtrArray *list)
 {
+	struct _CamelFolderChangeInfoPrivate *p;
 	int i;
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	
+	g_return_if_fail (info != NULL);
+	g_return_if_fail (list != NULL);
+	
+	p = info->priv;
 
 	if (p->uid_source == NULL)
 		p->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
@@ -1495,10 +1504,14 @@ camel_folder_change_info_add_source_list(CamelFolderChangeInfo *info, const GPtr
 void
 camel_folder_change_info_add_update(CamelFolderChangeInfo *info, const char *uid)
 {
+	struct _CamelFolderChangeInfoPrivate *p;
 	char *key;
 	int value;
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
-
+	
+	g_return_if_fail (info != NULL);
+	
+	p = info->priv;
+	
 	if (p->uid_source == NULL) {
 		camel_folder_change_info_add_uid(info, uid);
 		return;
@@ -1522,7 +1535,10 @@ void
 camel_folder_change_info_add_update_list(CamelFolderChangeInfo *info, const GPtrArray *list)
 {
 	int i;
-
+	
+	g_return_if_fail (info != NULL);
+	g_return_if_fail (list != NULL);
+	
 	for (i=0;i<list->len;i++)
 		camel_folder_change_info_add_update(info, list->pdata[i]);
 }
@@ -1544,7 +1560,6 @@ change_info_remove(char *key, void *value, CamelFolderChangeInfo *info)
 		return;
 	}
 
-
 	/* we dont need to copy this, as they've already been copied into our pool */
 	g_ptr_array_add(info->uid_removed, key);
 	g_hash_table_insert(p->uid_stored, key, info->uid_removed);
@@ -1560,8 +1575,12 @@ change_info_remove(char *key, void *value, CamelFolderChangeInfo *info)
 void
 camel_folder_change_info_build_diff(CamelFolderChangeInfo *info)
 {
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
-
+	struct _CamelFolderChangeInfoPrivate *p;
+	
+	g_return_if_fail (info != NULL);
+	
+	p = info->priv;
+	
 	if (p->uid_source) {
 		g_hash_table_foreach(p->uid_source, (GHFunc)change_info_remove, info);
 		g_hash_table_destroy(p->uid_source);
@@ -1589,6 +1608,9 @@ change_info_cat(CamelFolderChangeInfo *info, GPtrArray *source, void (*add)(Came
 void
 camel_folder_change_info_cat(CamelFolderChangeInfo *info, CamelFolderChangeInfo *source)
 {
+	g_return_if_fail (info != NULL);
+	g_return_if_fail (source != NULL);
+	
 	change_info_cat(info, source->uid_added, camel_folder_change_info_add_uid);
 	change_info_cat(info, source->uid_removed, camel_folder_change_info_remove_uid);
 	change_info_cat(info, source->uid_changed, camel_folder_change_info_change_uid);
@@ -1604,10 +1626,14 @@ camel_folder_change_info_cat(CamelFolderChangeInfo *info, CamelFolderChangeInfo 
 void
 camel_folder_change_info_add_uid(CamelFolderChangeInfo *info, const char *uid)
 {
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	struct _CamelFolderChangeInfoPrivate *p;
 	GPtrArray *olduids;
 	char *olduid;
-
+	
+	g_return_if_fail (info != NULL);
+	
+	p = info->priv;
+	
 	if (g_hash_table_lookup_extended(p->uid_stored, uid, (void **)&olduid, (void **)&olduids)) {
 		/* if it was removed then added, promote it to a changed */
 		/* if it was changed then added, leave as changed */
@@ -1634,10 +1660,14 @@ camel_folder_change_info_add_uid(CamelFolderChangeInfo *info, const char *uid)
 void
 camel_folder_change_info_remove_uid(CamelFolderChangeInfo *info, const char *uid)
 {
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	struct _CamelFolderChangeInfoPrivate *p;
 	GPtrArray *olduids;
 	char *olduid;
-
+	
+	g_return_if_fail (info != NULL);
+	
+	p = info->priv;
+	
 	if (g_hash_table_lookup_extended(p->uid_stored, uid, (void **)&olduid, (void **)&olduids)) {
 		/* if it was added/changed them removed, then remove it */
 		if (olduids != info->uid_removed) {
@@ -1663,10 +1693,14 @@ camel_folder_change_info_remove_uid(CamelFolderChangeInfo *info, const char *uid
 void
 camel_folder_change_info_change_uid(CamelFolderChangeInfo *info, const char *uid)
 {
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	struct _CamelFolderChangeInfoPrivate *p;
 	GPtrArray *olduids;
 	char *olduid;
-
+	
+	g_return_if_fail (info != NULL);
+	
+	p = info->priv;
+	
 	if (g_hash_table_lookup_extended(p->uid_stored, uid, (void **)&olduid, (void **)&olduids)) {
 		/* if we have it already, leave it as that */
 		return;
@@ -1688,6 +1722,8 @@ camel_folder_change_info_change_uid(CamelFolderChangeInfo *info, const char *uid
 gboolean
 camel_folder_change_info_changed(CamelFolderChangeInfo *info)
 {
+	g_return_val_if_fail (info != NULL, FALSE);
+	
 	return (info->uid_added->len || info->uid_removed->len || info->uid_changed->len);
 }
 
@@ -1700,8 +1736,12 @@ camel_folder_change_info_changed(CamelFolderChangeInfo *info)
 void
 camel_folder_change_info_clear(CamelFolderChangeInfo *info)
 {
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
-
+	struct _CamelFolderChangeInfoPrivate *p;
+	
+	g_return_if_fail (info != NULL);
+	
+	p = info->priv;
+	
 	g_ptr_array_set_size(info->uid_added, 0);
 	g_ptr_array_set_size(info->uid_removed, 0);
 	g_ptr_array_set_size(info->uid_changed, 0);
@@ -1723,8 +1763,13 @@ camel_folder_change_info_clear(CamelFolderChangeInfo *info)
 void
 camel_folder_change_info_free(CamelFolderChangeInfo *info)
 {
-	struct _CamelFolderChangeInfoPrivate *p = info->priv;
-
+	struct _CamelFolderChangeInfoPrivate *p;
+	
+	if (info == NULL)
+		return;
+	
+	p = info->priv;
+	
 	if (p->uid_source)
 		g_hash_table_destroy(p->uid_source);
 
@@ -1737,6 +1782,3 @@ camel_folder_change_info_free(CamelFolderChangeInfo *info)
 	g_ptr_array_free(info->uid_changed, TRUE);
 	g_free(info);
 }
-
-
-

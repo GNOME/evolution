@@ -1,3 +1,22 @@
+2001-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Note: Except for the info_free(), the NULL checks are
+	g_return's. I felt that since g_free() handles NULL that our
+	_free() functions should also.
+	
+	* camel-folder.c (camel_folder_change_info_free): Check to make
+	sure that the info pointer isn't NULL.
+	(camel_folder_change_info_change_uid): Same.
+	(camel_folder_change_info_changed): Same.
+	(camel_folder_change_info_remove_uid): Same.
+	(camel_folder_change_info_add_uid): Same.
+	(camel_folder_change_info_build_diff): Same.
+	(camel_folder_change_info_cat): Same.
+	(camel_folder_change_info_add_source): Same.
+	(camel_folder_change_info_add_source_list): Same.
+	(camel_folder_change_info_add_update): Same.
+	(camel_folder_change_info_add_update_list): Same.
+
 2001-06-18  Dan Winship  <danw@ximian.com>
 
 	* tests/stream/Makefile.am (LDADD): 

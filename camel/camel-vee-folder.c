@@ -173,7 +173,7 @@ camel_vee_folder_finalise (CamelObject *obj)
 
 	g_free(vf->expression);
 	g_free(vf->vname);
-
+	
 	camel_folder_change_info_free(vf->changes);
 	camel_object_unref((CamelObject *)vf->search);
 	camel_object_unref((CamelObject *)((CamelFolder *)vf)->summary);
