@@ -1,3 +1,9 @@
+2003-07-07  Antonio Xu <antonio.xu@sun.com>
+
+	Fixes #45767
+	
+	* conduits/todo/Makefile.am: don't link against libwombat-static.la.
+
 2003-07-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #45910
