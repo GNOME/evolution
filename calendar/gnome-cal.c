@@ -44,6 +44,7 @@ gnome_calendar_get_type (void)
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
+	GtkWidget *sw;
 	time_t now;
 
 	now = time (NULL);
@@ -54,10 +55,13 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->month_view = month_view_new (gcal, now);
 	gcal->year_view  = year_view_new (gcal, now);
 
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (sw), gcal->year_view);
+
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,   gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view,  gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->month_view, gtk_label_new (_("Month View")));
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view,  gtk_label_new (_("Year View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), sw,  gtk_label_new (_("Year View"))); 
 
 	gtk_widget_show_all (gcal->notebook);
 

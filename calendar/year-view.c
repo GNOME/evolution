@@ -21,6 +21,8 @@
 #define TITLE_SPACING 1		/* Spacing between title and calendar */
 #define SPACING 4		/* Spacing between months */
 
+#define CALENDAR_HEIGHT 600     /* Height of the entire year view. */
+
 
 static void year_view_class_init    (YearViewClass  *class);
 static void year_view_init          (YearView       *yv);
@@ -105,9 +107,8 @@ idle_handler (gpointer data)
 	title_height = GTK_VALUE_DOUBLE (arg);
 
 	/* Space for the titles and months */
-
 	width = GTK_WIDGET (yv)->allocation.width;
-	height = GTK_WIDGET (yv)->allocation.height - head_height;
+	height = CALENDAR_HEIGHT;
 
 	/* Offsets */
 
@@ -569,6 +570,7 @@ year_view_new (GnomeCalendar *calendar, time_t year)
 	year_view_colors_changed (yv);
 	year_view_set (yv, year);
 	compute_min_size (yv);
+
 	return GTK_WIDGET (yv);
 }
 
@@ -601,7 +603,7 @@ year_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	if (GTK_WIDGET_CLASS (parent_class)->size_allocate)
 		(* GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
 
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (yv), 0, 0, allocation->width, allocation->height);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (yv), 0, 0, allocation->width, CALENDAR_HEIGHT);
 	need_resize (yv);
 }
 

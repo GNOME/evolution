@@ -1,3 +1,17 @@
+1999-05-25  Nat Friedman  <nat@nat.org>
+
+	* doc/C/gnomecal.sgml: Fixed a typo.
+
+	* gnome-cal.c (setup_widgets): Added a scrolled window widget into
+ 	which the year view is placed.
+
+	* year-view.c (CALENDAR_HEIGHT): The height of the total year view
+ 	inside the scrolled window.
+	(idle_handler): Set the height of the year view to
+ 	CALENDAR_HEIGHT.
+	(year_view_size_allocate): Set the scroll region of the year view
+ 	canvas to allocation->width, CALENDAR_HEIGHT.
+
 1999-04-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* main.c (dump_todo): Add --todo flag to dump the todo contents.

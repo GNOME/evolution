@@ -566,9 +566,15 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
 		if (xpos != -1)
 			gtk_widget_set_uposition (toplevel, xpos, ypos);
-		if (width != -1)
-			gtk_widget_set_usize (toplevel, width, height);
+#if 0
+	if (width != -1)
+		gtk_widget_set_usize (toplevel, width, 600);
+#endif
 	}
+#if 0
+ 	gtk_widget_set_usize (toplevel, width, 600); 
+#endif
+
 	setup_appbar (toplevel);
 	setup_menu (toplevel);
 

@@ -50,7 +50,7 @@
       <filename>gnomecal</filename> program.  You can use these
       options to alter the behaviour of the program or to quickly
       query the program for appointments, and to do items from the
-      command line without requiring an X display.  These are usefu
+      command line without requiring an X display.  These are useful
       for example to include in scripts.
     </para>
 
