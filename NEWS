@@ -1,3 +1,40 @@
+1.0 Release Candidate, 2001-10-30
+---------------------------------
+
+Shell:
+
+Mailer:
+
+Addressbook:
+
+  - General bug fixes.  (Everybody)
+
+  - Printing fixes.  (Trow)
+
+  - Fixed the dreaded "this should never happen" bug.  (Trow)
+
+  - Plugged memory leaks.  (Trow)
+
+  - Fixed use-score sort ordering when doing completion.  (Trow)
+
+  - Fixed EAddressPopup race conditions.  (Trow)
+
+  - Implemented transfer function for shell, so moving contact
+    folders now works.  (Trow)
+
+  - Fixed occasional completion flakiness.  (Trow)
+
+  - Fixed contact count on folder bar.  (Trow)
+
+  - Fixes for LDAP/multibook address completion.  (Toshok, Trow)
+
+Calendar:
+
+Summary:
+
+  - Worked around gnome-vfs problems that were causing crashes.  (Trow)
+
+
 Version 0.17 (Beta 7), 2001-10-15
 ---------------------------------
 
