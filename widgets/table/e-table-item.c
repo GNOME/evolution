@@ -48,6 +48,7 @@ enum {
 };
 
 static int eti_get_height (ETableItem *eti);
+static int eti_row_height (ETableItem *eti, int row);
 
 static gboolean
 eti_editing (ETableItem *eti)
@@ -298,12 +299,40 @@ eti_row_height_real (ETableItem *eti, int row)
 	return max_h;
 }
 
+static gboolean
+height_cache_idle(ETableItem *eti)
+{
+	int changed = 0;
+	int i;
+	if (!eti->height_cache) {
+		eti->height_cache = g_new(int, eti->rows);
+	}
+	for (i = eti->height_cache_idle_count; i < eti->rows; i++) {
+		if (eti->height_cache[i] == -1) {
+			eti_row_height(eti, i);
+			changed ++;
+			if (changed >= 20)
+				break;
+		}
+	}
+	if (changed >= 20) {
+		eti->height_cache_idle_count = i;
+		return TRUE;
+	}
+	eti->height_cache_idle_id = 0;
+	return FALSE;	
+}
+
 static void
 free_height_cache (ETableItem *eti)
 {
 	if (eti->height_cache)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
+	eti->height_cache_idle_count = 0;
+	
+	if (eti->height_cache_idle_id == 0)
+		eti->height_cache_idle_id = g_idle_add_full(G_PRIORITY_LOW, (GSourceFunc) height_cache_idle, eti, NULL);
 }
 
 static void
@@ -375,8 +404,10 @@ eti_get_height (ETableItem *eti)
 			if (eti->height_cache) {
 				height = 0;
 				for (row = 0; row < rows; row++) {
-					if (eti->height_cache[row] == -1)
-						height += row_height + 1;
+					if (eti->height_cache[row] == -1) {
+						height += (row_height + 1) * (rows - row);
+						break;
+					}
 					else
 						height += eti->height_cache[row] + 1;
 				}
@@ -628,6 +659,9 @@ eti_destroy (GtkObject *object)
 
 	g_slist_free (eti->selection);
 	
+	if (eti->height_cache_idle_id)
+		g_source_remove(eti->height_cache_idle_id);
+	
 	if (GTK_OBJECT_CLASS (eti_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (eti_parent_class)->destroy) (object);
 }
@@ -706,6 +740,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->height = 0;
 
 	eti->height_cache = NULL;
+	eti->height_cache_idle_id = 0;
+	eti->height_cache_idle_count = 0;
 	
 	eti->length_threshold = -1;
 	eti->renderers_can_change_size = 1;

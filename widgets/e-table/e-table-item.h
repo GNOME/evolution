@@ -51,6 +51,8 @@ typedef struct {
 	int              n_cells;
 
 	int             *height_cache;
+	int              height_cache_idle_id;
+	int              height_cache_idle_count;
 
 	/*
 	 * Lengh Threshold: above this, we stop computing correctly
