@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-12-07 15:02+0100\n"
-"PO-Revision-Date: 2001-12-07 15:05+0100\n"
+"POT-Creation-Date: 2001-12-13 22:37+0100\n"
+"PO-Revision-Date: 2001-12-13 22:39+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -619,7 +619,7 @@ msgstr "VCard for %s"
 #: addressbook/backend/ebook/test-client.c:33
 #: addressbook/conduit/address-conduit.c:1533
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1449
+#: calendar/conduits/calendar/calendar-conduit.c:1546
 #: calendar/conduits/todo/todo-conduit.c:1130
 #: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
@@ -682,13 +682,13 @@ msgid "EBook not loaded\n"
 msgstr "EBook ikke lastet\n"
 
 #: addressbook/conduit/address-conduit.c:1089
-#: calendar/conduits/calendar/calendar-conduit.c:981
+#: calendar/conduits/calendar/calendar-conduit.c:1078
 #: calendar/conduits/todo/todo-conduit.c:694
 msgid "Could not start wombat server"
 msgstr "Kunne ikke starte wombat tjener"
 
 #: addressbook/conduit/address-conduit.c:1090
-#: calendar/conduits/calendar/calendar-conduit.c:982
+#: calendar/conduits/calendar/calendar-conduit.c:1079
 #: calendar/conduits/todo/todo-conduit.c:695
 msgid "Could not start wombat"
 msgstr "Kunne ikke starte wombat"
@@ -2937,13 +2937,13 @@ msgstr "Lav"
 msgid "Undefined"
 msgstr "Udefinert"
 
-#: calendar/conduits/calendar/calendar-conduit.c:937
+#: calendar/conduits/calendar/calendar-conduit.c:1034
 #: calendar/conduits/todo/todo-conduit.c:649
 msgid "Error while communicating with calendar server"
 msgstr "Feil under kommunikasjon med kalendertjeneren"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1075
-#: calendar/conduits/calendar/calendar-conduit.c:1078
+#: calendar/conduits/calendar/calendar-conduit.c:1172
+#: calendar/conduits/calendar/calendar-conduit.c:1175
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunne ikke lese pilotens kalender-applikasjonsblokk"
 
@@ -3115,7 +3115,7 @@ msgstr "%d %B %Y"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-commands.c:805
+#: calendar/gui/calendar-commands.c:820
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
@@ -3158,7 +3158,7 @@ msgid "Free"
 msgstr "Ledig"
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:429
+#: calendar/gui/e-meeting-time-sel.c:432
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Opptatt"
@@ -4091,7 +4091,7 @@ msgid "_Change Organizer"
 msgstr "En_dre organisator"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:447
+#: calendar/gui/e-meeting-time-sel.c:450
 msgid "_Invite Others..."
 msgstr "_Inviter andre..."
 
@@ -4846,7 +4846,7 @@ msgstr "start-dato"
 msgid "Chair Persons"
 msgstr "Styremedlemmer"
 
-#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1550
+#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1568
 msgid "Required Participants"
 msgstr "Obligatoriske deltakere"
 
@@ -4923,7 +4923,7 @@ msgid "Declined"
 msgstr "Avslått"
 
 #: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
-#: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:428
+#: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
 msgid "Tentative"
 msgstr "Tentativ"
 
@@ -4939,14 +4939,14 @@ msgstr "Under arbeid"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:471
-#: calendar/gui/e-meeting-time-sel.c:2088
+#: calendar/gui/e-meeting-time-sel.c:2102
 msgid "%A, %B %d, %Y"
 msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2118 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel.c:2132 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%a %d.%m.%Y"
@@ -4958,63 +4958,63 @@ msgstr "%a %d.%m.%Y"
 msgid "%m/%d/%Y"
 msgstr "%d.%m.%Y"
 
-#: calendar/gui/e-meeting-time-sel.c:430
+#: calendar/gui/e-meeting-time-sel.c:433
 msgid "Out of Office"
 msgstr "Ute"
 
-#: calendar/gui/e-meeting-time-sel.c:431
+#: calendar/gui/e-meeting-time-sel.c:434
 msgid "No Information"
 msgstr "Ingen informasjon"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:470
 msgid "_Options"
 msgstr "_Alternativer"
 
-#: calendar/gui/e-meeting-time-sel.c:484
+#: calendar/gui/e-meeting-time-sel.c:487
 msgid "Show _Only Working Hours"
 msgstr "Vis k_un arbeidstid"
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:500
 msgid "Show _Zoomed Out"
 msgstr "Vis _zoomet ut"
 
-#: calendar/gui/e-meeting-time-sel.c:515
+#: calendar/gui/e-meeting-time-sel.c:518
 msgid "_Update Free/Busy"
 msgstr "_Oppdater ledig/opptatt"
 
-#: calendar/gui/e-meeting-time-sel.c:533
+#: calendar/gui/e-meeting-time-sel.c:536
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:550
+#: calendar/gui/e-meeting-time-sel.c:553
 msgid "_Autopick"
 msgstr "_Autovelg"
 
-#: calendar/gui/e-meeting-time-sel.c:564
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:581
+#: calendar/gui/e-meeting-time-sel.c:584
 msgid "_All People and Resources"
 msgstr "_Alle mennesker og ressurser"
 
-#: calendar/gui/e-meeting-time-sel.c:594
+#: calendar/gui/e-meeting-time-sel.c:597
 msgid "All _People and One Resource"
 msgstr "Alle _mennesker og en ressurs"
 
-#: calendar/gui/e-meeting-time-sel.c:607
+#: calendar/gui/e-meeting-time-sel.c:610
 msgid "_Required People"
 msgstr "_Obligatoriske mennesker"
 
-#: calendar/gui/e-meeting-time-sel.c:620
+#: calendar/gui/e-meeting-time-sel.c:623
 msgid "Required People and _One Resource"
 msgstr "Obligatoriske mennesker _og en ressurs"
 
-#: calendar/gui/e-meeting-time-sel.c:643
+#: calendar/gui/e-meeting-time-sel.c:646
 msgid "Meeting _start time:"
 msgstr "Tid for møtets _start:"
 
-#: calendar/gui/e-meeting-time-sel.c:662
+#: calendar/gui/e-meeting-time-sel.c:665
 msgid "Meeting _end time:"
 msgstr "Tid for møtets slutt:"
 
@@ -5442,90 +5442,90 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "SMTOTFL"
 
-#: calendar/pcs/query.c:234
+#: calendar/pcs/query.c:246
 msgid "time-now expects 0 arguments"
 msgstr "tid-nå forventer 0 argumenter"
 
-#: calendar/pcs/query.c:258
+#: calendar/pcs/query.c:270
 msgid "make-time expects 1 argument"
 msgstr "lag-tid forventer 1 argument"
 
-#: calendar/pcs/query.c:263
+#: calendar/pcs/query.c:275
 msgid "make-time expects argument 1 to be a string"
 msgstr "lag-tid forventer at argument 1 er en streng"
 
-#: calendar/pcs/query.c:271
+#: calendar/pcs/query.c:283
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr "argument 1 til make-time må være en dato/tid streng på ISO 8601 format"
 
-#: calendar/pcs/query.c:300
+#: calendar/pcs/query.c:312
 msgid "time-add-day expects 2 arguments"
 msgstr "tid-add-day forventer 2 argumenter"
 
-#: calendar/pcs/query.c:305
+#: calendar/pcs/query.c:317
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "time-add-day forventer at argument 1 er en time_t"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:324
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "time-add-day forventer at argument 2 er et heltall"
 
-#: calendar/pcs/query.c:339
+#: calendar/pcs/query.c:351
 msgid "time-day-begin expects 1 argument"
 msgstr "time-day-begin forventer 1 argument"
 
-#: calendar/pcs/query.c:344
+#: calendar/pcs/query.c:356
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "time-day-begin forventer at argument 1 er en time_t"
 
-#: calendar/pcs/query.c:371
+#: calendar/pcs/query.c:383
 msgid "time-day-end expects 1 argument"
 msgstr "time-day-end forventer 1 argument"
 
-#: calendar/pcs/query.c:376
+#: calendar/pcs/query.c:388
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "time-day-end forventer at argument 1 er av type time_t"
 
-#: calendar/pcs/query.c:412
+#: calendar/pcs/query.c:424
 msgid "get-vtype expects 0 arguments"
 msgstr "get-vtype forventer 0 argumenter"
 
-#: calendar/pcs/query.c:508
+#: calendar/pcs/query.c:520
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "occur-in-time-range? forventer 2 argumenter"
 
-#: calendar/pcs/query.c:513
+#: calendar/pcs/query.c:525
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "occur-in-time-range? forventer at argument 1 er av type time_t"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:532
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "occur-in-time-range forventer at argument 2 er av type time_t"
 
-#: calendar/pcs/query.c:650
+#: calendar/pcs/query.c:662
 msgid "contains? expects 2 arguments"
 msgstr "inneholder? forventer 2 argumenter"
 
-#: calendar/pcs/query.c:655
+#: calendar/pcs/query.c:667
 msgid "contains? expects argument 1 to be a string"
 msgstr "contains? forventer at argument 1 er en streng"
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:674
 msgid "contains? expects argument 2 to be a string"
 msgstr "contains? forventer at argument 2 er en streng"
 
-#: calendar/pcs/query.c:679
+#: calendar/pcs/query.c:691
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
 "contains? forventer at argument 1 er en av «any», «summary», «description»"
 
-#: calendar/pcs/query.c:721
+#: calendar/pcs/query.c:733
 msgid "has-categories? expects at least 1 argument"
 msgstr "has-categories? forventer minst 1 argument"
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:745
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -5533,39 +5533,39 @@ msgstr ""
 "has-categories? forventer at alle argumenter er strenger eller ett, og kun "
 "ett, argument er den bolske verdien falsk (#f)"
 
-#: calendar/pcs/query.c:821
+#: calendar/pcs/query.c:833
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed? forventer 0 argumenter"
 
-#: calendar/pcs/query.c:866
+#: calendar/pcs/query.c:878
 msgid "completed-before? expects 1 argument"
 msgstr "completed-before? forventer 1 argument"
 
-#: calendar/pcs/query.c:871
+#: calendar/pcs/query.c:883
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "completed-before? forventer at argument 1 er en time_t"
 
-#: calendar/pcs/query.c:1159
+#: calendar/pcs/query.c:1160
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Evaluering av søkeuttrykket ga ikke en boolsk verdi"
 
-#: camel/camel-cipher-context.c:171
+#: camel/camel-cipher-context.c:169
 msgid "Signing is not supported by this cipher"
 msgstr "Signering er ikke støttet av dette cipheret"
 
-#: camel/camel-cipher-context.c:211
+#: camel/camel-cipher-context.c:209
 msgid "Clearsigning is not supported by this cipher"
 msgstr "«Clearsigning» er ikke støttet av dette cipheret"
 
-#: camel/camel-cipher-context.c:251
+#: camel/camel-cipher-context.c:249
 msgid "Verifying is not supported by this cipher"
 msgstr "Verifisering er ikke støttet av dette cipheret"
 
-#: camel/camel-cipher-context.c:294
+#: camel/camel-cipher-context.c:292
 msgid "Encryption is not supported by this cipher"
 msgstr "Kryptering er ikke støttet av dette cipheret"
 
-#: camel/camel-cipher-context.c:336
+#: camel/camel-cipher-context.c:334
 msgid "Decryption is not supported by this cipher"
 msgstr "Dekryptering er ikke støttet av dette cipheret"
 
@@ -6401,7 +6401,7 @@ msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sVennligst skriv inn IMAP-passord for %s@%s"
 
 #: camel/providers/imap/camel-imap-store.c:567
-#: camel/providers/smtp/camel-smtp-transport.c:433
+#: camel/providers/smtp/camel-smtp-transport.c:430
 msgid "You didn't enter a password."
 msgstr "Du skrev ikke inn et passord."
 
@@ -7028,7 +7028,7 @@ msgstr "Kunne ikke koble til POP-tjener på %s."
 msgid "%sPlease enter the POP3 password for %s@%s"
 msgstr "%sVennligst skriv inn POP3-passord for %s@%s"
 
-#: camel/providers/pop3/camel-pop3-store.c:378
+#: camel/providers/pop3/camel-pop3-store.c:377
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
@@ -7037,12 +7037,12 @@ msgstr ""
 "Kunne ikke koble til POP-tjener.\n"
 "Feil under oversending av brukernavn: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:381
-#: camel/providers/pop3/camel-pop3-store.c:418
+#: camel/providers/pop3/camel-pop3-store.c:380
+#: camel/providers/pop3/camel-pop3-store.c:417
 msgid "(Unknown)"
 msgstr "(Ukjent)"
 
-#: camel/providers/pop3/camel-pop3-store.c:408
+#: camel/providers/pop3/camel-pop3-store.c:407
 msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
@@ -7050,7 +7050,7 @@ msgstr ""
 "Kunne ikke koble til POP-tjeneren.\n"
 "Ingen støtte for forespurt autentiseringsmekanisme."
 
-#: camel/providers/pop3/camel-pop3-store.c:416
+#: camel/providers/pop3/camel-pop3-store.c:415
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
@@ -7059,12 +7059,12 @@ msgstr ""
 "Kunne ikke koble til POP-tjener.\n"
 "Feil ved oversending av passord: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:483
+#: camel/providers/pop3/camel-pop3-store.c:480
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Ingen slik mappe «%s»."
 
-#: camel/providers/pop3/camel-pop3-store.c:566
+#: camel/providers/pop3/camel-pop3-store.c:563
 #, c-format
 msgid "Unexpected response from POP server: %s"
 msgstr "Uventet svar fra POP-tjener: %s"
@@ -7242,12 +7242,12 @@ msgstr "Feil ved Welcome-svar: %s: mulig ikke-fatal"
 msgid "SMTP server %s does not support requested authentication type %s"
 msgstr "SMTP-tjener %s støtter ikke etterspurt autentiseringstype %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:418
+#: camel/providers/smtp/camel-smtp-transport.c:417
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sVennligst skriv inn SMTP-passord for %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:441
+#: camel/providers/smtp/camel-smtp-transport.c:438
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -7258,126 +7258,126 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:557
+#: camel/providers/smtp/camel-smtp-transport.c:554
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-tjener %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:559
+#: camel/providers/smtp/camel-smtp-transport.c:556
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP e-postlevering via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:584
+#: camel/providers/smtp/camel-smtp-transport.c:581
 msgid "Cannot send message: sender address not defined."
 msgstr "Kan ikke sende melding: senderadresse ikke definert."
 
-#: camel/providers/smtp/camel-smtp-transport.c:591
+#: camel/providers/smtp/camel-smtp-transport.c:588
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan ikke sende melding: senderadresse ikke gyldig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:596 mail/mail-ops.c:558
+#: camel/providers/smtp/camel-smtp-transport.c:593 mail/mail-ops.c:558
 msgid "Sending message"
 msgstr "Sender melding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:607
+#: camel/providers/smtp/camel-smtp-transport.c:604
 msgid "Cannot send message: no recipients defined."
 msgstr "Kan ikke sende melding: ingen mottakere definert."
 
-#: camel/providers/smtp/camel-smtp-transport.c:687
+#: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "SMTP Greeting"
 msgstr "SMTP-velkomst"
 
-#: camel/providers/smtp/camel-smtp-transport.c:709
+#: camel/providers/smtp/camel-smtp-transport.c:706
 #, c-format
 msgid "HELO request timed out: %s: non-fatal"
 msgstr "Tidsavbrudd for HELO-forespørsel: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:729
+#: camel/providers/smtp/camel-smtp-transport.c:726
 #, c-format
 msgid "HELO response error: %s: non-fatal"
 msgstr "Feil ved HELO-svar: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:761
+#: camel/providers/smtp/camel-smtp-transport.c:758
 msgid "SMTP Authentication"
 msgstr "SMTP-autentisering"
 
-#: camel/providers/smtp/camel-smtp-transport.c:767
+#: camel/providers/smtp/camel-smtp-transport.c:764
 msgid "Error creating SASL authentication object."
 msgstr "Feil under oppretting av SASL-autentiseringsobjekt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:782
-#: camel/providers/smtp/camel-smtp-transport.c:794
+#: camel/providers/smtp/camel-smtp-transport.c:779
+#: camel/providers/smtp/camel-smtp-transport.c:791
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Tidsavbrudd for AUTH-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:803
+#: camel/providers/smtp/camel-smtp-transport.c:800
 msgid "AUTH request failed."
 msgstr "AUTH-forespørsel feilet."
 
-#: camel/providers/smtp/camel-smtp-transport.c:851
+#: camel/providers/smtp/camel-smtp-transport.c:848
 msgid "Bad authentication response from server.\n"
 msgstr "Ugyldig svar på autentisering fra tjener.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:877
+#: camel/providers/smtp/camel-smtp-transport.c:874
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for «MAIL FROM»-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:896
+#: camel/providers/smtp/camel-smtp-transport.c:893
 #, c-format
 msgid "MAIL FROM response error: %s: mail not sent"
 msgstr "Feil ved «MAIL FROM»-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:921
+#: camel/providers/smtp/camel-smtp-transport.c:918
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for «RCPT TO»-forespørsel: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:940
+#: camel/providers/smtp/camel-smtp-transport.c:937
 #, c-format
 msgid "RCPT TO response error: %s: mail not sent"
 msgstr "Feil ved «RCPT TO»-svar: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:974
+#: camel/providers/smtp/camel-smtp-transport.c:971
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Tidsavbrudd for DATA-forespørsel: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:993
+#: camel/providers/smtp/camel-smtp-transport.c:990
 #, c-format
 msgid "DATA response error: %s: mail not sent"
 msgstr "Feil ved DATA-svar: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1033
-#: camel/providers/smtp/camel-smtp-transport.c:1051
+#: camel/providers/smtp/camel-smtp-transport.c:1030
+#: camel/providers/smtp/camel-smtp-transport.c:1048
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Tidsavbrudd for DATA-send: meldingsterminering: %s: melding ikke sendt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1070
+#: camel/providers/smtp/camel-smtp-transport.c:1067
 #, c-format
 msgid "DATA response error: message termination: %s: mail not sent"
 msgstr "Feil ved DATA-svar: meldingsterminering: %s: melding ikke sendt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1094
+#: camel/providers/smtp/camel-smtp-transport.c:1091
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Tidsavbrudd for RSET-forespørsel: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1113
+#: camel/providers/smtp/camel-smtp-transport.c:1110
 #, c-format
 msgid "RSET response error: %s"
 msgstr "Feil ved RSET-svar: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1136
+#: camel/providers/smtp/camel-smtp-transport.c:1133
 #, c-format
 msgid "QUIT request timed out: %s: non-fatal"
 msgstr "Tidsavbrudd for QUIT-forespørsel: %s: ikke-fatal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1155
+#: camel/providers/smtp/camel-smtp-transport.c:1152
 #, c-format
 msgid "QUIT response error: %s: non-fatal"
 msgstr "Feil ved QUIT-svar: %s: ikke-fatal"
@@ -8748,7 +8748,7 @@ msgid "Are you sure you want to delete this news account?"
 msgstr "Er du sikker på at du vil slette denne diskusjonsgruppekontoen?"
 
 #. give our dialog an Close button and title
-#: mail/mail-accounts.c:783 mail/mail-config.glade.h:42
+#: mail/mail-accounts.c:798 mail/mail-config.glade.h:42
 msgid "Mail Settings"
 msgstr "Innstillinger for e-post"
 
@@ -8757,22 +8757,22 @@ msgstr "Innstillinger for e-post"
 msgid "Mail to %s"
 msgstr "Send til %s"
 
-#: mail/mail-autofilter.c:215
+#: mail/mail-autofilter.c:217
 #, c-format
 msgid "Subject is %s"
 msgstr "Emne er %s"
 
-#: mail/mail-autofilter.c:231
+#: mail/mail-autofilter.c:233
 #, c-format
 msgid "Mail from %s"
 msgstr "E-post fra %s"
 
-#: mail/mail-autofilter.c:287
+#: mail/mail-autofilter.c:289
 #, c-format
 msgid "%s mailing list"
 msgstr "%s e-postliste"
 
-#: mail/mail-autofilter.c:336 mail/mail-autofilter.c:356
+#: mail/mail-autofilter.c:338 mail/mail-autofilter.c:358
 msgid "Add Filter Rule"
 msgstr "Legg til filterregel"
 
@@ -8953,6 +8953,10 @@ msgstr "Filtre"
 #: mail/mail-callbacks.c:2325
 msgid "Print Message"
 msgstr "Skriv ut melding"
+
+#: mail/mail-callbacks.c:2352
+msgid "US-Letter"
+msgstr "US-letter"
 
 #: mail/mail-callbacks.c:2371
 msgid "Printing of message failed"
@@ -9549,23 +9553,23 @@ msgstr "Skjul"
 msgid "External Viewer"
 msgstr "Ekstern visning"
 
-#: mail/mail-display.c:1133
+#: mail/mail-display.c:1136
 msgid "Loading message content"
 msgstr "Laster meldingsinnhold"
 
-#: mail/mail-display.c:1596
+#: mail/mail-display.c:1605
 msgid "Open Link in Browser"
 msgstr "Åpne lenke i nettleser"
 
-#: mail/mail-display.c:1598
+#: mail/mail-display.c:1607
 msgid "Copy Link Location"
 msgstr "Kopier lokasjon for lenke"
 
-#: mail/mail-display.c:1601
+#: mail/mail-display.c:1610
 msgid "Save Link as (FIXME)"
 msgstr "Lagre lenke som"
 
-#: mail/mail-display.c:1604
+#: mail/mail-display.c:1613
 msgid "Save Image as..."
 msgstr "Lagre bilde som..."
 
@@ -9753,7 +9757,7 @@ msgstr "Sender melding %d av %d"
 msgid "Failed on message %d of %d"
 msgstr "Feilet på melding %d av %d"
 
-#: mail/mail-ops.c:695 mail/mail-send-recv.c:537
+#: mail/mail-ops.c:695 mail/mail-send-recv.c:545
 msgid "Complete."
 msgstr "Fullført."
 
@@ -9918,42 +9922,42 @@ msgstr "Finn:"
 msgid "Matches:"
 msgstr "Treff:"
 
-#: mail/mail-send-recv.c:141
+#: mail/mail-send-recv.c:143
 msgid "Cancelling..."
 msgstr "Avbryter..."
 
-#: mail/mail-send-recv.c:245
+#: mail/mail-send-recv.c:251
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Tjener: %s, Type: %s"
 
-#: mail/mail-send-recv.c:247
+#: mail/mail-send-recv.c:253
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Sti: %s, Type: %s"
 
-#: mail/mail-send-recv.c:249
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Type: %s"
 msgstr "Type: %s"
 
-#: mail/mail-send-recv.c:286
+#: mail/mail-send-recv.c:292
 msgid "Send & Receive Mail"
 msgstr "Send & motta e-post"
 
-#: mail/mail-send-recv.c:288
+#: mail/mail-send-recv.c:294
 msgid "Cancel All"
 msgstr "Avbryt alle"
 
-#: mail/mail-send-recv.c:348
+#: mail/mail-send-recv.c:354
 msgid "Updating..."
 msgstr "Oppdaterer..."
 
-#: mail/mail-send-recv.c:349 mail/mail-send-recv.c:402
+#: mail/mail-send-recv.c:355 mail/mail-send-recv.c:408
 msgid "Waiting..."
 msgstr "Venter..."
 
-#: mail/mail-send-recv.c:533
+#: mail/mail-send-recv.c:541
 msgid "Cancelled."
 msgstr "Avbrutt"
 
@@ -10010,16 +10014,20 @@ msgstr ""
 msgid "VFolders"
 msgstr "VFoldere"
 
-#: mail/mail-vfolder.c:824
+#: mail/mail-vfolder.c:785
+msgid "vFolders"
+msgstr "vMapper"
+
+#: mail/mail-vfolder.c:825
 msgid "Edit VFolder"
 msgstr "Rediger VFolder"
 
-#: mail/mail-vfolder.c:840
+#: mail/mail-vfolder.c:841
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
 msgstr "Prøver å redigere en vfolder «%s» som ikke eksisterer."
 
-#: mail/mail-vfolder.c:894
+#: mail/mail-vfolder.c:895
 msgid "New VFolder"
 msgstr "Ny VFolder"
 
@@ -10189,11 +10197,11 @@ msgstr "Avtaler"
 msgid "No appointments"
 msgstr "Ingen avtaler"
 
-#: my-evolution/e-summary-calendar.c:377
+#: my-evolution/e-summary-calendar.c:375
 msgid "%k:%M %d %B"
 msgstr "%k:%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:379
+#: my-evolution/e-summary-calendar.c:377
 msgid "%l:%M %d %B"
 msgstr "%l: %M %d %B"
 
@@ -10206,12 +10214,12 @@ msgstr "E-post sammendrag"
 #. stations and their codes in Evolution sources.
 #. (evolution/my-evolution/Locations)
 #. Codes are seperated with : eg. "KBOS:EGAA"
-#: my-evolution/e-summary-preferences.c:80
+#: my-evolution/e-summary-preferences.c:81
 #: my-evolution/e-summary-weather.c:661
 msgid "KBOS"
 msgstr "KBOS"
 
-#: my-evolution/e-summary-preferences.c:444
+#: my-evolution/e-summary-preferences.c:445
 msgid "Dictionary.com Word of the Day"
 msgstr "Dictionary.com Ord for dagen"
 
@@ -11644,7 +11652,40 @@ msgstr ""
 "En feil oppsto under kopiering av filer til\n"
 "«%s»."
 
-#: shell/e-setup.c:281
+#: shell/e-setup.c:280
+#, c-format
+msgid ""
+"Evolution could not create directory\n"
+"%s:\n"
+"%s"
+msgstr ""
+"Evolution kunne ikke opprette katalog\n"
+"%s:\n"
+"%s"
+
+#: shell/e-setup.c:298
+#, c-format
+msgid ""
+"Directory %s\n"
+"does not have the right permissions. Please make it\n"
+"readable and executable and restart Evolution."
+msgstr ""
+"Katalog %s\n"
+"har ikke korrekte rettigheter. Vennligst gjør den\n"
+"lesbar og kjørbar og start Evolution på nytt."
+
+#: shell/e-setup.c:304
+#, c-format
+msgid ""
+"File %s\n"
+"should be removed to allow Evolution to work correctly.\n"
+"Please remove this file and restart Evolution."
+msgstr ""
+"Filen %s\n"
+"må fjernes for at Evolution skal fungere riktig.\n"
+"Vennligst fjern denne filen og start Evolution på nytt."
+
+#: shell/e-setup.c:327
 #, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
@@ -11655,7 +11696,7 @@ msgstr ""
 "Vennligst flytt denne for å tillate installasjon\n"
 "av Evolution's brukerfiler."
 
-#: shell/e-setup.c:295
+#: shell/e-setup.c:341
 msgid ""
 "Evolution has detected an old\n"
 "Executive-Summary directory.\n"
@@ -11669,7 +11710,7 @@ msgstr ""
 "kan kjøre.\n"
 "Vil du fjerne denne katalogen?"
 
-#: shell/e-setup.c:320
+#: shell/e-setup.c:366
 #, c-format
 msgid ""
 "The directory `%s' exists but is not the\n"
@@ -11839,16 +11880,21 @@ msgstr ""
 "Importerer %s\n"
 "Importerer oppføring %d."
 
-#: shell/e-shell-importer.c:397
+#: shell/e-shell-importer.c:409
 #, c-format
 msgid "File %s does not exist"
 msgstr "Filen %s eksisterer ikke"
 
-#: shell/e-shell-importer.c:409
+#: shell/e-shell-importer.c:410 shell/e-shell-importer.c:420
+#: shell/e-shell-importer.c:436 shell/e-shell-importer.c:486
+msgid "Evolution Error"
+msgstr "Evolution feil"
+
+#: shell/e-shell-importer.c:420
 msgid "You may only import to local folders"
 msgstr "Du kan kun importere til lokale mapper"
 
-#: shell/e-shell-importer.c:424
+#: shell/e-shell-importer.c:435
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -11857,11 +11903,11 @@ msgstr ""
 "Ingen importerer som kan håndtere\n"
 "%s"
 
-#: shell/e-shell-importer.c:434
+#: shell/e-shell-importer.c:445
 msgid "Importing"
 msgstr "Importerer"
 
-#: shell/e-shell-importer.c:442
+#: shell/e-shell-importer.c:453
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -11870,17 +11916,17 @@ msgstr ""
 "Importerer %s.\n"
 "Starter %s"
 
-#: shell/e-shell-importer.c:455
+#: shell/e-shell-importer.c:466
 #, c-format
 msgid "Error starting %s"
 msgstr "Feil under start av %s"
 
-#: shell/e-shell-importer.c:474
+#: shell/e-shell-importer.c:485
 #, c-format
 msgid "Error loading %s"
 msgstr "Feil under lasting av %s"
 
-#: shell/e-shell-importer.c:491
+#: shell/e-shell-importer.c:502
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -11889,31 +11935,31 @@ msgstr ""
 "Importerer %s\n"
 "Importerer oppføring 1."
 
-#: shell/e-shell-importer.c:561
+#: shell/e-shell-importer.c:572
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: shell/e-shell-importer.c:612
+#: shell/e-shell-importer.c:623
 msgid "Filename:"
 msgstr "Filnavn:"
 
-#: shell/e-shell-importer.c:617
+#: shell/e-shell-importer.c:628
 msgid "Select a file"
 msgstr "Velg en fil"
 
-#: shell/e-shell-importer.c:627
+#: shell/e-shell-importer.c:638
 msgid "File type:"
 msgstr "Filtype:"
 
-#: shell/e-shell-importer.c:652
+#: shell/e-shell-importer.c:663
 msgid "Import data and settings from older programs"
 msgstr "Importer data og innstillinger fra andre programmer"
 
-#: shell/e-shell-importer.c:656
+#: shell/e-shell-importer.c:667
 msgid "Import a single file"
 msgstr "Importer en enkelt fil"
 
-#: shell/e-shell-importer.c:721 shell/e-shell-startup-wizard.c:628
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:628
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -11921,24 +11967,24 @@ msgstr ""
 "Vennligst vent...\n"
 "Søker etter eksisterende oppsett"
 
-#: shell/e-shell-importer.c:724 shell/e-shell-startup-wizard.c:631
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:631
 msgid "Starting Intelligent Importers"
 msgstr "Starter intelligent import"
 
-#: shell/e-shell-importer.c:848 shell/e-shell-startup-wizard.c:754
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:754
 #, c-format
 msgid "From %s:"
 msgstr "Fra %s:"
 
-#: shell/e-shell-importer.c:1014
+#: shell/e-shell-importer.c:1027
 msgid "Select folder"
 msgstr "Velg mappe"
 
-#: shell/e-shell-importer.c:1015
+#: shell/e-shell-importer.c:1028
 msgid "Select a destination folder for importing this data"
 msgstr "Velg en målmappe for å importere data"
 
-#: shell/e-shell-importer.c:1127 shell/importer/intelligent.c:193
+#: shell/e-shell-importer.c:1140 shell/importer/intelligent.c:193
 msgid "Import"
 msgstr "Importer"
 
