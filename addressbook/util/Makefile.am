@@ -10,7 +10,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/shell				\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LTLIBRARIES = libeabutil.la
+privlib_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
 	eab-marshal.c					\

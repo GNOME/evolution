@@ -16,7 +16,7 @@ INCLUDES =						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 
-noinst_LTLIBRARIES = libevolution-smime.la
+privlib_LTLIBRARIES = libevolution-smime.la
 
 libevolution_smime_la_SOURCES = 	\
 	ca-trust-dialog.c		\

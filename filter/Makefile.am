@@ -9,7 +9,7 @@ INCLUDES = 					\
 	-DG_LOG_DOMAIN=\"filter\"		\
 	$(LIBFILTER_CFLAGS)
 
-noinst_LTLIBRARIES =				\
+privlib_LTLIBRARIES =				\
 	libfilter.la
 
 libfilter_la_SOURCES =				\

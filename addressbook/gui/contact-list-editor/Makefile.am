@@ -15,7 +15,7 @@ INCLUDES =						\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LTLIBRARIES =				\
+privlib_LTLIBRARIES =				\
 	libecontactlisteditor.la
 
 libecontactlisteditor_la_SOURCES = 		\

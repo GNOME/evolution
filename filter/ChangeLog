@@ -1,3 +1,7 @@
+2005-02-09  Hans Petter Jansson  <hpj@novell.com>
+
+	* Makefile.am: Install shared libraries in privlibdir.
+
 2005-01-11  Not Zed  <NotZed@Ximian.com>
 
 	* filter-part.c (filter_part_expand_code): cast lenght specifiers

@@ -1,3 +1,8 @@
+2005-02-09  Hans Petter Jansson  <hpj@novell.com>
+
+	* lib/Makefile.am:
+	* gui/Makefile.am: Install shared libraries to privlibdir.
+
 2005-02-04  Rodney Dawes  <dobey@novell.com>
 
 	* gui/ca-trust-dialog.c (ca_trust_dialog_new): Set the border widths

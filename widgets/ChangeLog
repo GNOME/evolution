@@ -1,3 +1,9 @@
+2005-02-09  Hans Petter Jansson  <hpj@novell.com>
+
+	* e-timezone-dialog/Makefile.am:
+	* menus/Makefile.am:
+	* misc/Makefile.am: Install shared libraries to privlibdir.
+
 2005-01-18  Hao Sheng  <hao.sheng@sun.com>
 
 	* misc/e-dateedit.[ch]:

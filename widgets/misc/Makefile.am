@@ -7,8 +7,9 @@ INCLUDES =								\
 	-DG_LOG_DOMAIN=__FILE__						\
 	$(E_WIDGETS_CFLAGS)
 
-privlib_LTLIBRARIES =	\
-	libemiscwidgets.la
+privlib_LTLIBRARIES =		\
+	libemiscwidgets.la	\
+	libefilterbar.la
 
 widgetsincludedir = $(privincludedir)/widgets
 
@@ -90,8 +91,6 @@ errordir = $(privdatadir)/errors
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
 	$(E_WIDGETS_LIBS)
-
-noinst_LTLIBRARIES = libefilterbar.la
 
 libefilterbar_la_SOURCES =	\
 	e-filter-bar.c		\

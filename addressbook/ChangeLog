@@ -1,3 +1,9 @@
+2005-02-09  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/contact-editor/Makefile.am:
+	* gui/contact-list-editor/Makefile.am:
+	* util/Makefile.am: Install shared libraries to privlibdir.
+
 2005-02-08  Christophe Fergeau <teuf@users.sourceforge.net>
 
 	* importers/evolution-vcard-importer.c (has_bom)

@@ -13,7 +13,7 @@ INCLUDES =						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
 	$(CERT_UI_CFLAGS)
 
-noinst_LTLIBRARIES = libessmime.la
+privlib_LTLIBRARIES = libessmime.la
 
 libessmime_la_SOURCES = 	\
 	$(MARSHAL_GENERATED)	\
