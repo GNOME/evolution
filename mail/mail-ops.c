@@ -1515,7 +1515,7 @@ typedef struct display_message_input_s
 {
 	MessageList *ml;
 	gchar *uid;
-	 gint (*timeout) (gpointer);
+	gint (*timeout) (gpointer);
 }
 display_message_input_t;
 
@@ -1646,7 +1646,7 @@ mail_do_display_message (MessageList *ml, const char *uid,
 	input->uid = g_strdup (uid);
 	input->timeout = timeout;
 
-	mail_operation_queue (&op_display_message, input, FALSE);
+	mail_operation_queue (&op_display_message, input, TRUE);
 }
 
 /* ** EDIT MESSAGES ******************************************************* */

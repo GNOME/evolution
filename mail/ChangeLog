@@ -21,6 +21,19 @@
 	* mail-format.c (get_url_for_icon): Copy the url_path so that
 	it can't get freed under us.
 
+	* mail-threads.c (mail_operation_queue): Fix a leak.
+
+	* mail-ops.c (mail_do_display_message): Fix another leak.
+
+	* message-list.c (message_list_destroy): Remove the seen_id timeout
+	if necessary.
+
+	* mail-local.c (mail_tool_local_uri_to_folder): Fix a leak.
+
+	* session.c (auth_callback): Fix a leak. Almost seems as if
+	I've been using Purify...
+
+
 2000-08-15  Peter Williams  <peterw@helixcode.com>
 
 	* message-thread.c (alloc_container): Add support for debugging

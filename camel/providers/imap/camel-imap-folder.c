@@ -969,6 +969,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 
 	d(fprintf (stderr, "*** We're returning... ***\n"));
 	
+	g_free (mesg);
 	return msg;
 	
 #if 0
@@ -1085,7 +1086,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	char *result, *q, *node;
 	const char *received;
 	char *summary_specifier;
-	struct _header_raw *h, *tail = NULL;
+	struct _header_raw *h = NULL, *tail = NULL;
 	
 	num = imap_get_message_count_internal (folder, ex);
 
@@ -1252,7 +1253,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		if (info->references == NULL)
 			info->references = header_references_decode (header_raw_find (&h, "in-reply-to", NULL));
 		
-		while (h->next) {
+		while (h) {
 			struct _header_raw *next = h->next;
 			
 			g_free (h->name);

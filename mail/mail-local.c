@@ -200,6 +200,7 @@ mail_tool_local_uri_to_folder(const char *uri, CamelException *ex)
 
 	folder = mail_tool_get_folder_from_urlname (storename, meta->name, FALSE, ex);
 	camel_url_free(url);
+	g_free (storename);
 	free_metainfo(meta);
 
 	return folder;

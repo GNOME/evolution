@@ -300,6 +300,11 @@ mail_operation_queue (const mail_operation_spec * spec, gpointer input,
 	} /* else add self to queue */
 
 	write (DISPATCH_WRITER, clur, sizeof (closure_t));
+	/* dispatch allocates a separate buffer
+	 * to hold the closure; it's in the pipe and
+	 * can safely be freed
+	 */
+	g_free (clur);
 	queue_len++;
 	return TRUE;
 }
@@ -865,7 +870,7 @@ get_password (com_msg_t * msg)
 	if (button == 1 || *(msg->reply) == NULL) {
 		*(msg->success) = FALSE;
 		*(msg->reply) = g_strdup (_("User cancelled query."));
-	} else if (button > 0) {
+	} else if (button >= 0) {
 		*(msg->success) = TRUE;
 	}
 

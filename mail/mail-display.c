@@ -505,7 +505,10 @@ mail_display_init (GtkObject *object)
 static void
 mail_display_destroy (GtkObject *object)
 {
-	/* MailDisplay *mail_display = MAIL_DISPLAY (object); */
+	MailDisplay *mail_display = MAIL_DISPLAY (object);
+
+	g_datalist_clear (mail_display->data);
+	g_free (mail_display->data);
 
 	mail_display_parent_class->destroy (object);
 }

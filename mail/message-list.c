@@ -676,6 +676,9 @@ message_list_destroy (GtkObject *object)
 	if (message_list->idle_id != 0)
 		g_source_remove(message_list->idle_id);
 
+	if (message_list->seen_id)
+		gtk_timeout_remove (message_list->seen_id);
+
 	if (message_list->folder)
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
 

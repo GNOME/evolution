@@ -57,6 +57,9 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->message_list)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->message_list));
 
+	if (folder_browser->mail_display)
+		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
+
 	folder_browser_parent_class->destroy (object);
 }
 

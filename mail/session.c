@@ -66,14 +66,14 @@ static char *
 auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 	       CamelService *service, char *item, CamelException *ex)
 {
-	char *key, *ans;
+	char *key, *ans, *url;
 
 	if (!passwords)
 		passwords = g_hash_table_new (g_str_hash, g_str_equal);
 
-	key = g_strdup_printf ("%s:%s",
-			       camel_url_to_string (service->url, FALSE),
-			       item);
+	url = camel_url_to_string (service->url, FALSE);
+	key = g_strdup_printf ("%s:%s", url, item);
+	g_free (url);
 
 	if (mode == CAMEL_AUTHENTICATOR_TELL) {
 		if (!data) {

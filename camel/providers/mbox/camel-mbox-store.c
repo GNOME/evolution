@@ -148,7 +148,8 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 				      name);
 		g_free (name);
 		return NULL;
-	}
+	} else
+		g_free (name);
 
 	new_folder =  CAMEL_FOLDER (camel_object_new (CAMEL_MBOX_FOLDER_TYPE));
 	
