@@ -3,7 +3,7 @@
 	* providers/sendmail/camel-sendmail-transport.c
 	(sendmail_send_to): Add a CRLF filter to the output stream to
 	convert any CRLF sequences into plain old line-feeds to work
-	around a bug in some local transport programs.
+	around a bug in some local transport programs. Fixes bug #39138.
 
 2003-02-27  Jeffrey Stedfast  <fejj@ximian.com>
 
