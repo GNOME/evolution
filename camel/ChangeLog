@@ -1,3 +1,14 @@
+2000-05-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (try_connect): Removed
+	Exception code - Pop doesn't seem to set exceptions
+
+	* providers/imap/camel-imap-folders.c: Initial code, mostly
+	just a template for future code
+
+	* providers/imap/imap.[c,h]: Source code from my personal
+	mailer - for reference only!
+
 2000-05-25  NotZed  <NotZed@HelixCode.com>
 
 	* camel-mime-part-utils.c
