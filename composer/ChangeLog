@@ -1,3 +1,20 @@
+2001-12-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (add_from_user):
+	select_file_attachments now returns a GPtrArray so handle that and
+	loop until we've added all the attachment files.
+
+	* e-msg-composer-select-file.c (confirm): Add an evil kludge to
+	get a list of filenames from the GtkFileSelection widget based on
+	the label in the history option menu item and the base filenames
+	of the selected items in the filename clist.
+	(create_file_selection): Setup the clist to allow multiple
+	selection.
+	(file_selection_info_destroy_notify): Destroy the GPtrArray
+	containing the list of xselected files.
+	(select_file_internal): Return a GPtrArray of files instead of a
+	char *.
+
 2001-12-10  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer.c (get_file_content): Only execute an executable
