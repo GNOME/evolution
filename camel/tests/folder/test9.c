@@ -51,6 +51,35 @@ struct {
 	{ "count1", "(body-contains \"data3\")", "(move-to \"folder2\")" },
 };
 
+/* broken match rules */
+struct {
+	char *name, *match, *action;
+} brokens[] = {
+	{ "count1", "(body-contains data50)", "(copy-to \"folder1\")" }, /* non string argument */
+	{ "count1", "(body-contains-stuff \"data3\")", "(move-to-folder \"folder2\")" }, /* invalid function */
+	{ "count1", "(or (body-contains \"data3\") (foo))", "(move-to-folder \"folder2\")" }, /* invalid function */
+	{ "count1", "(or (body-contains \"data3\") (foo)", "(move-to-folder \"folder2\")" }, /* missing ) */
+	{ "count1", "(and body-contains \"data3\") (foo)", "(move-to-folder \"folder2\")" }, /* missing ( */
+	{ "count1", "body-contains \"data3\")", "(move-to-folder \"folder2\")" }, /* missing ( */
+	{ "count1", "body-contains \"data3\"", "(move-to-folder \"folder2\")" }, /* missing ( ) */
+	{ "count1", "(body-contains \"data3\" ())", "(move-to-folder \"folder2\")" }, /* extra () */
+	{ "count1", "()", "(move-to-folder \"folder2\")" }, /* invalid () */
+	{ "count1", "", "(move-to-folder \"folder2\")" }, /* empty */
+};
+
+/* broken action rules */
+struct {
+	char *name, *match, *action;
+} brokena[] = {
+	{ "a", "(body-contains \"data2\")", "(body-contains \"help\")" }, /* rule in action */
+	{ "a", "(body-contains \"data2\")", "(move-to-folder-name \"folder2\")" }, /* unknown function */
+	{ "a", "(body-contains \"data2\")", "(or (move-to-folder \"folder2\")" }, /* missing ) */
+	{ "a", "(body-contains \"data2\")", "(or move-to-folder \"folder2\"))" }, /* missing ( */
+	{ "a", "(body-contains \"data2\")", "move-to-folder \"folder2\")" }, /* missing ( */
+	{ "a", "(body-contains \"data2\")", "(move-to-folder \"folder2\" ())" }, /* invalid () */
+	{ "a", "(body-contains \"data2\")", "()" }, /* invalid () */
+	{ "a", "(body-contains \"data2\")", "" }, /* empty */
+};
 
 static CamelFolder *get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
 {
@@ -160,6 +189,34 @@ int main(int argc, char **argv)
 
 	check_unref(driver, 1);
 	pull();
+
+	/* this tests that invalid rules are caught */
+	push("Testing broken match rules");
+	for (i=0;i<ARRAY_LEN(brokens);i++) {
+		push("rule %s", brokens[i].match);
+		driver = camel_filter_driver_new(get_folder, NULL);
+		camel_filter_driver_add_rule(driver, brokens[i].name, brokens[i].match, brokens[i].action);
+		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", ex);
+		check(camel_exception_is_set(ex));
+		camel_exception_clear(ex);
+		check_unref(driver, 1);
+		pull();
+	}
+	pull();
+
+	push("Testing broken action rules");
+	for (i=0;i<ARRAY_LEN(brokena);i++) {
+		push("rule %s", brokena[i].action);
+		driver = camel_filter_driver_new(get_folder, NULL);
+		camel_filter_driver_add_rule(driver, brokena[i].name, brokena[i].match, brokena[i].action);
+		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", ex);
+		check(camel_exception_is_set(ex));
+		camel_exception_clear(ex);
+		check_unref(driver, 1);
+		pull();
+	}
+	pull();
+
 
 	for (i=0;i<ARRAY_LEN(mailboxes);i++) {
 		check_unref(mailboxes[i].folder, 1);

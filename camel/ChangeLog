@@ -1,6 +1,8 @@
 2001-01-24  Not Zed  <NotZed@Ximian.com>
 
 	* tests/folder/test9.c (main): Fix for api changes.
+	(main): Added tests to see that invalid match and action
+	rules are properly detected.
 
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Remove
 	the 'finished message' bit.
