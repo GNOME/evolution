@@ -288,7 +288,7 @@ ecsb_draw         (ECellView        *ecv,
 			       rect.x, rect.y, rect.width, rect.height);
 
 		gtk_paint_arrow (canvas->style, drawable,
-				 GTK_STATE_NORMAL, shadow,
+				 GTK_STATE_NORMAL, GTK_SHADOW_NONE,
 				 &rect, canvas, NULL,
 				 GTK_ARROW_DOWN, TRUE,
 				 rect.x,
@@ -311,7 +311,7 @@ ecsb_draw         (ECellView        *ecv,
 			       rect.x, rect.y, rect.width, rect.height);
 
 		gtk_paint_arrow (canvas->style, drawable,
-				 GTK_STATE_NORMAL, shadow,
+				 GTK_STATE_NORMAL, GTK_SHADOW_NONE,
 				 &rect, canvas, NULL,
 				 GTK_ARROW_UP, TRUE,
 				 rect.x,

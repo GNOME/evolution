@@ -403,7 +403,7 @@ gal_combo_box_init (GalComboBox *combo_box)
 	gtk_button_set_relief (GTK_BUTTON (combo_box->priv->arrow_button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (combo_box->priv->arrow_button, GTK_CAN_FOCUS);
 
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
+	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->arrow_button), arrow);
 	gtk_box_pack_end (GTK_BOX (combo_box), combo_box->priv->arrow_button, FALSE, FALSE, 0);
 	g_signal_connect (combo_box->priv->arrow_button, "toggled",
