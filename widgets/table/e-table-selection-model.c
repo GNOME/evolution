@@ -411,7 +411,7 @@ change_one_row(ETableSelectionModel *selection, int row, gboolean grow)
 	int i;
 	i = BOX(row);
 
-	OPERATE(selection, i, BITMASK_LEFT(row) | BITMASK_RIGHT(row + 1), grow);
+	OPERATE(selection, i, ~BITMASK(row), grow);
 }
 
 static void
