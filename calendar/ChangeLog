@@ -1,3 +1,25 @@
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
+	* gui/calendar-config.c (calendar_config_get_calendars_selected):
+	config accessor
+	(calendar_config_set_calendars_selected): ditto
+	(calendar_config_add_notification_calendars_selected): config
+	notification
+
+	* gui/calendar-config.h: add protos
+
+	* gui/calendar-config-keys.h: add new key
+
+	* gui/calendar-component.c (is_in_uids): util function
+	(update_uris_for_selection): save the selection in the
+	configuration
+	(update_selection): update the selection from the config info
+	(source_selection_changed_cb): only pass one param
+	(config_selection_changed_cb): listen for config changes
+	(impl_dispose): remove config notification
+	(impl_createControls): use bonobo_exception_set; add a config
+	notification
+
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/tasks-component.c (impl__get_userCreatableItems): New.

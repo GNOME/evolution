@@ -119,6 +119,28 @@ units_to_string (CalUnits units)
  * Calendar Settings.
  */
 
+GSList *
+calendar_config_get_calendars_selected (void)
+{
+	return gconf_client_get_list (config, CALENDAR_CONFIG_SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
+}
+
+void
+calendar_config_set_calendars_selected (GSList *selected)
+{
+	gconf_client_set_list (config, CALENDAR_CONFIG_SELECTED_CALENDARS, GCONF_VALUE_STRING, selected, NULL);
+}
+
+guint
+calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_SELECTED_CALENDARS, func, data, NULL, NULL);
+	
+	return id;
+}
+
 /* The current timezone, e.g. "Europe/London". It may be NULL, in which case
    you should assume UTC (though Evolution will show the timezone-setting
    dialog the next time a calendar or task folder is selected). */

@@ -65,10 +65,9 @@ ESourceList *e_source_list_new_for_gconf  (GConfClient *client,
 
 GSList       *e_source_list_peek_groups         (ESourceList *list);
 ESourceGroup *e_source_list_peek_group_by_uid   (ESourceList *list,
-						 const char  *source_group);
+						 const char  *uid);
 ESource      *e_source_list_peek_source_by_uid  (ESourceList *list,
-						 const char  *group_name,
-						 const char  *source_name);
+						 const char  *uid);
 
 gboolean  e_source_list_add_group             (ESourceList  *list,
 					       ESourceGroup *group,
@@ -76,10 +75,9 @@ gboolean  e_source_list_add_group             (ESourceList  *list,
 gboolean  e_source_list_remove_group          (ESourceList  *list,
 					       ESourceGroup *group);
 gboolean  e_source_list_remove_group_by_uid   (ESourceList  *list,
-					       const char   *name);
+					       const char   *uid);
 gboolean  e_source_list_remove_source_by_uid  (ESourceList  *list,
-					       const char   *group_name,
-					       const char   *source_name);
+					       const char   *uidj);
 
 gboolean  e_source_list_sync  (ESourceList  *list,
 			       GError      **error);

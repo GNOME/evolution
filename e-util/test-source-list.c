@@ -377,36 +377,31 @@ on_idle_do_stuff (void *unused_data)
 	if (remove_source_arg != NULL) {
 		ESource *source;
 
-		if (group_arg == NULL) {
-			fprintf (stderr, "When using --remove-source, you need to specify a group using --group.\n");
-			exit (1);
-		}
-
-		source = e_source_list_peek_source_by_uid (list, group_arg, remove_source_arg);
+		source = e_source_list_peek_source_by_uid (list, remove_source_arg);
 		if (source == NULL) {
-			fprintf (stderr, "No such source \"%s\" in group \"%s\".\n", remove_source_arg, group_arg);
+			fprintf (stderr, "No such source \"%s\".\n", remove_source_arg);
 			exit (1);
 		}
 
-		e_source_list_remove_source_by_uid (list, group_arg, remove_source_arg);
+		e_source_list_remove_source_by_uid (list, remove_source_arg);
 		e_source_list_sync (list, NULL);
 	}
 
 	if (set_name_arg != NULL) {
-		if (group_arg == NULL) {
+		if (group_arg == NULL && source_arg == NULL) {
 			fprintf (stderr,
-				 "When using --set-name, you need to specify a source (using --group and\n"
-				 "--source) or a group (using --group alone).\n");
+				 "When using --set-name, you need to specify a source (using --source"
+				 "alone) or a group (using --group alone).\n");
 			exit (1);
 		}
 
 		if (source_arg != NULL) {
-			ESource *source = e_source_list_peek_source_by_uid (list, group_arg, source_arg);
+			ESource *source = e_source_list_peek_source_by_uid (list, source_arg);
 
 			if (source != NULL) {
 				e_source_set_name (source, set_name_arg);
 			} else {
-				fprintf (stderr, "No such source \"%s\" in group \"%s\".\n", source_arg, group_arg);
+				fprintf (stderr, "No such source \"%s\".\n", source_arg);
 				exit (1);
 			}
 		} else {
@@ -418,7 +413,7 @@ on_idle_do_stuff (void *unused_data)
 				fprintf (stderr, "No such group \"%s\".\n", group_arg);
 				exit (1);
 			}
-		}
+		} 
 
 		e_source_list_sync (list, NULL);
 	}
@@ -426,14 +421,14 @@ on_idle_do_stuff (void *unused_data)
 	if (set_relative_uri_arg != NULL && add_source_arg == NULL) {
 		ESource *source;
 
-		if (source_arg == NULL || group_arg == NULL) {
+		if (source_arg == NULL) {
 			fprintf (stderr,
-				 "When using --set-relative-uri, you need to specify a source using --group\n"
-				 "and --source.\n");
+				 "When using --set-relative-uri, you need to specify a source using " 
+				 "--source.\n");
 			exit (1);
 		}
 
-		source = e_source_list_peek_source_by_uid (list, group_arg, source_arg);
+		source = e_source_list_peek_source_by_uid (list, source_arg);
 		e_source_set_relative_uri (source, set_relative_uri_arg);
 		e_source_list_sync (list, NULL);
 	}
@@ -442,17 +437,16 @@ on_idle_do_stuff (void *unused_data)
 		ESource *source;
 		guint32 color;
 
-		if (add_source_arg == NULL && (source_arg == NULL || group_arg == NULL)) {
+		if (add_source_arg == NULL && source_arg == NULL) {
 			fprintf (stderr,
-				 "When using --set-color, you need to specify a source using --group\n"
-				 "and --source.\n");
+				 "When using --set-color, you need to specify a source using --source\n");
 			exit (1);
 		}
 
 		if (add_source_arg != NULL)
 			source = new_source;
 		else
-			source = e_source_list_peek_source_by_uid (list, group_arg, source_arg);
+			source = e_source_list_peek_source_by_uid (list, source_arg);
 
 		sscanf (set_color_arg, "%06x", &color);
 		e_source_set_color (source, color);
@@ -462,17 +456,16 @@ on_idle_do_stuff (void *unused_data)
 	if (unset_color) {
 		ESource *source;
 
-		if (add_source_arg == NULL && (source_arg == NULL || group_arg == NULL)) {
+		if (add_source_arg == NULL && source_arg == NULL) {
 			fprintf (stderr,
-				 "When using --unset-color, you need to specify a source using --group\n"
-				 "and --source.\n");
+				 "When using --unset-color, you need to specify a source using --source\n");			
 			exit (1);
 		}
 
 		if (add_source_arg != NULL)
 			source = new_source;
 		else
-			source = e_source_list_peek_source_by_uid (list, group_arg, source_arg);
+			source = e_source_list_peek_source_by_uid (list, source_arg);
 
 		e_source_unset_color (source);
 		e_source_list_sync (list, NULL);

@@ -1,3 +1,14 @@
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
+	* test-source-list.c (on_idle_do_stuff): we only need the uid to
+	remove and peek at stuff
+
+	* e-source-list.h: update proto types
+
+	* e-source-list.c (e_source_list_peek_source_by_uid): allow peek
+	by uid only
+	(e_source_list_remove_source_by_uid): allow removal by uid only
+
 2003-11-07  Dan Winship  <danw@ximian.com>
 
 	* ename/*: Removed. No longer used by evolution except via

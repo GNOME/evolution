@@ -68,6 +68,11 @@ void calendar_config_remove_notification (guint id);
  * Calendar Settings.
  */
 
+/* The current list of calendars selected */
+GSList   *calendar_config_get_calendars_selected (void);
+void	  calendar_config_set_calendars_selected (GSList *selected);
+guint	  calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data);
+
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
 void	  calendar_config_set_timezone		(gchar	     *timezone);
