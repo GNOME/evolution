@@ -1,3 +1,8 @@
+2004-09-14  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_try_authenticate):
+	s/not/no/ in the error string. Fixes bug #65828.
+
 2004-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-store.c (camel_vee_store_finalise): free the unmatched

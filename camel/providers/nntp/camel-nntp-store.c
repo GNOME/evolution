@@ -1125,7 +1125,7 @@ camel_nntp_try_authenticate (CamelNNTPStore *store, CamelException *ex)
 	
 	if (!service->url->user) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     _("Authentication requested but not username provided"));
+				     _("Authentication requested but no username provided"));
 		return -1;
 	}
 	
