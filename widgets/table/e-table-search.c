@@ -221,21 +221,22 @@ e_table_search_input_character (ETableSearch *ets, gunichar character)
 	}
 }
 
-void
+gboolean
 e_table_search_backspace (ETableSearch *ets)
 {
 	char *end;
 
-	g_return_if_fail (ets != NULL);
-	g_return_if_fail (E_IS_TABLE_SEARCH (ets));
+	g_return_val_if_fail (ets != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_SEARCH (ets), FALSE);
 
 	if (!ets->priv->search_string ||
 	    !*ets->priv->search_string)
-		return;
+		return FALSE;
 
 	end = ets->priv->search_string + strlen (ets->priv->search_string);
 	end = g_utf8_prev_char (end);
 	*end = 0;
 	ets->priv->last_character = 0;
 	add_timeout (ets);
+	return TRUE;
 }

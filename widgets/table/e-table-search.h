@@ -64,7 +64,7 @@ ETableSearch *e_table_search_new              (void);
 /**/
 void          e_table_search_input_character  (ETableSearch *e_table_search,
 					       gunichar      character);
-void          e_table_search_backspace        (ETableSearch *e_table_search);
+gboolean      e_table_search_backspace        (ETableSearch *e_table_search);
 void          e_table_search_cancel           (ETableSearch *e_table_search);
 
 END_GNOME_DECLS

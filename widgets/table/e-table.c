@@ -754,8 +754,9 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		return_val = 1;
 		break;
 	case GDK_BackSpace:
-		e_table_search_backspace (et->search);
-		break;
+		if (e_table_search_backspace (et->search))
+			return TRUE;
+		/* Fall through */
 	default:
 		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK)) == 0
 		    && ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
