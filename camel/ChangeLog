@@ -1,5 +1,8 @@
 2001-09-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-multipart.c (camel_multipart_set_boundary): Take a const
+	char * instead of a char *.
+
 	* camel-mime-part-utils.c
 	(camel_mime_part_construct_content_from_parser): Reuse the
 	original boundary instead of generating our own.

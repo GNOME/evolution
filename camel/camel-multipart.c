@@ -57,7 +57,7 @@ static CamelMimePart *       get_part          (CamelMultipart *multipart,
 						guint index);
 static guint                 get_number        (CamelMultipart *multipart);
 static void                  set_boundary      (CamelMultipart *multipart,
-						gchar *boundary);
+						const char *boundary);
 static const gchar *         get_boundary      (CamelMultipart *multipart);
 static int                   write_to_stream   (CamelDataWrapper *data_wrapper,
 						CamelStream *stream);
@@ -347,7 +347,7 @@ camel_multipart_get_number (CamelMultipart *multipart)
 
 
 static void
-set_boundary (CamelMultipart *multipart, gchar *boundary)
+set_boundary (CamelMultipart *multipart, const char *boundary)
 {
 	CamelDataWrapper *cdw = CAMEL_DATA_WRAPPER (multipart);
 	char *bgen, digest[16], bbuf[27], *p;
@@ -385,7 +385,7 @@ set_boundary (CamelMultipart *multipart, gchar *boundary)
  * be used.
  **/
 void
-camel_multipart_set_boundary (CamelMultipart *multipart, gchar *boundary)
+camel_multipart_set_boundary (CamelMultipart *multipart, const char *boundary)
 {
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
 

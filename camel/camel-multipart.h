@@ -66,7 +66,7 @@ typedef struct {
 	CamelMimePart * (*remove_part_at) (CamelMultipart *multipart, guint index);
 	CamelMimePart * (*get_part) (CamelMultipart *multipart, guint index);
 	guint (*get_number) (CamelMultipart *multipart);
-	void (*set_boundary) (CamelMultipart *multipart, gchar *boundary);
+	void (*set_boundary) (CamelMultipart *multipart, const char *boundary);
 	const gchar * (*get_boundary) (CamelMultipart *multipart);
 
 } CamelMultipartClass;
@@ -91,7 +91,7 @@ CamelMimePart *     camel_multipart_get_part       (CamelMultipart *multipart,
 						    guint index);
 guint               camel_multipart_get_number     (CamelMultipart *multipart);
 void                camel_multipart_set_boundary   (CamelMultipart *multipart,
-						    gchar *boundary);
+						    const char *boundary);
 const gchar *       camel_multipart_get_boundary   (CamelMultipart *multipart);
 
 void		    camel_multipart_set_preface	   (CamelMultipart *multipart, const char *preface);
