@@ -1413,7 +1413,10 @@ invisible_selection_get_callback (GtkWidget *widget,
 	MailDisplay *display;
 
 	display = MAIL_DISPLAY (data);
-
+	
+	if (!display->selection)
+		return;
+	
 	g_assert (info == 1);
 
 	gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,

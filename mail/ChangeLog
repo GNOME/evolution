@@ -1,5 +1,8 @@
 2001-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (invisible_selection_get_callback): Do nothing if
+	the selection is NULL? Maybe this is the cause of bug #6817.
+
 	* mail-config.c (mail_config_folder_to_cachename): Go back to
 	generating the cachename ourselves, but continue doing it the way
 	the dfault implementation of camel_folder_get_uri worked.
