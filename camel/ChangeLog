@@ -1,5 +1,10 @@
 2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_update_summary): If mi
+	is NULL, don't bother updating it. Should fix bug #17694.
+
+2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel.h: #include camel-mime-filter-tohtml.h
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge

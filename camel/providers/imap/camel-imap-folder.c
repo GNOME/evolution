@@ -1850,7 +1850,12 @@ imap_update_summary (CamelFolder *folder, int exists,
 			g_datalist_clear (&data);
 			continue;
 		}
+		
 		mi = messages->pdata[seq - first];
+		if (mi == NULL) {
+			g_datalist_clear (&data);
+			continue;
+		}
 		
 		uid = g_datalist_get_data (&data, "UID");
 		if (uid)
