@@ -128,6 +128,8 @@ etsv_add       (ETableSubsetVariable *etssv,
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
 	int i;
 
+	e_table_model_pre_change (etm);
+
 	if (etss->n_map + 1 > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(int));
