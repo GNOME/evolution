@@ -142,7 +142,7 @@ static void rule_add(GtkWidget *widget, struct _editor_data *data)
 	
 	d(printf("add rule\n"));
 	/* create a new rule with 1 match and 1 action */
-	rule = filter_rule_new();
+	rule = vfolder_rule_new();
 
 	part = rule_context_next_part(data->f, NULL);
 	filter_rule_add_part(rule, filter_part_clone(part));
