@@ -82,12 +82,15 @@ static GnomeUIInfo mail_view_menubar[] =
 };
 
 GtkWidget *
-mail_view_create (CamelMimeMessage *msg, FolderBrowser *folder_browser)
+mail_view_create (FolderBrowser *folder_browser)
 {
+	CamelMimeMessage *msg;
 	GtkWidget *window;
 	GtkWidget *toolbar;
 	GtkWidget *mail_display;
 	char *subject;
+	
+	msg = folder_browser->mail_display->current_message;
 	
 	subject = (char *) camel_mime_message_get_subject (msg);
 	if (!subject)
@@ -120,8 +123,7 @@ mail_view_create (CamelMimeMessage *msg, FolderBrowser *folder_browser)
 				  mail_view_menubar[1].widget,
 				  (GtkDestroyNotify) gtk_widget_unref);
 	
-	mail_display = mail_display_new (folder_browser);
-	mail_display_set_message (MAIL_DISPLAY (mail_display), CAMEL_MEDIUM (msg));
+	mail_display = folder_browser->mail_display;
 	gtk_widget_set_usize (mail_display, 600, 600);
 	
 	gnome_app_set_contents (GNOME_APP (window), mail_display);

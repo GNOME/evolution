@@ -1103,7 +1103,7 @@ real_view_msg (MessageList *ml, const char *uid, gpointer user_data)
 	fb->message_list->cursor_uid = uid;
 	fb->mail_display->current_message = msg;
 	
-	view = mail_view_create (msg, fb);
+	view = mail_view_create (fb);
 	
 	gtk_widget_show (view);
 }

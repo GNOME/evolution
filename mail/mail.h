@@ -84,7 +84,7 @@ void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
 void configure_folder(BonoboUIHandler *uih, void *user_data, const char *path);
 
 /* mail view */
-GtkWidget *mail_view_create (CamelMimeMessage *msg, FolderBrowser *folder_browser);
+GtkWidget *mail_view_create (FolderBrowser *folder_browser);
 
 /* session */
 void session_init (void);
