@@ -734,20 +734,35 @@ prepare_engine (EMsgComposer *composer)
 	CORBA_exception_init (&ev);
 	composer->editor_engine = (GNOME_GtkHTML_Editor_Engine) bonobo_object_client_query_interface
 		(bonobo_widget_get_server (BONOBO_WIDGET (composer->editor)), "IDL:GNOME/GtkHTML/Editor/Engine:1.0", &ev);
-	if (composer->editor_engine != CORBA_OBJECT_NIL) {
+	if ((composer->editor_engine != CORBA_OBJECT_NIL) && (ev._major == CORBA_NO_EXCEPTION)) {
 		
 		/* printf ("trying set listener\n"); */
 		composer->editor_listener = BONOBO_OBJECT (listener_new (composer));
-		if (composer->editor_listener != CORBA_OBJECT_NIL)
+		if (composer->editor_listener != NULL)
 			GNOME_GtkHTML_Editor_Engine__set_listener (composer->editor_engine,
 							       (GNOME_GtkHTML_Editor_Listener)
 							       bonobo_object_dup_ref
 							       (bonobo_object_corba_objref (composer->editor_listener), &ev),
 							       &ev);
-		else
+		
+		if ((ev._major != CORBA_NO_EXCEPTION) || (composer->editor_listener == NULL)) {
+			CORBA_Environment err_ev;
+
+			CORBA_exception_init (&err_ev);
+			
+			Bonobo_Unknown_unref (composer->editor_engine, &err_ev);
+			CORBA_Object_release (composer->editor_engine, &err_ev);
+
+			CORBA_exception_free (&err_ev);
+
+			composer->editor_engine = CORBA_OBJECT_NIL;
 			g_warning ("Can't establish Editor Listener\n");
-	} else
+		}
+	} else {
+		composer->editor_engine = CORBA_OBJECT_NIL;
 		g_warning ("Can't get Editor Engine\n");
+	}
+
 	CORBA_exception_free (&ev);
 }
 
@@ -2426,6 +2441,16 @@ create_composer (void)
 	e_msg_composer_show_attachments (composer, FALSE);
 
 	prepare_engine (composer);
+	if (composer->editor_engine == CORBA_OBJECT_NIL) {
+		e_activation_failure_dialog (GTK_WINDOW (composer),
+					     _("Could not create composer window:\n"
+					       "Unable to activate HTML editor component."),
+					     GNOME_GTKHTML_EDITOR_CONTROL_ID,
+					     "IDL:GNOME/GtkHTML/Editor/Engine:1.0");
+		gtk_object_destroy (GTK_OBJECT (composer));
+		return NULL;
+	}
+		
 	gtk_signal_connect (GTK_OBJECT (composer), "map", map_default_cb, NULL);
 
 	if (am == NULL) {

@@ -1,3 +1,10 @@
+2001-11-14  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (create_composer): popup failure dialog if we
+	cannot get a valid editor_engine.
+	(prepare_engine): make the checks robust and make sure that we
+	unset the engine if any part fails. 
+
 2001-11-02  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (add_inlined_images): use hash table to
