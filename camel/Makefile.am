@@ -106,13 +106,9 @@ libcamelinclude_HEADERS =			\
 	camel-address.h				\
 	camel-internet-address.h
 
-libcamel_extra_sources =			\
-	camel-arg-collector.c
-
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
 EXTRA_DIST =					\
-	$(libcamel_extra_sources)		\
 	README 
 
 #noinst_PROGRAMS =				\
