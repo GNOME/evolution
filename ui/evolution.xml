@@ -96,8 +96,6 @@
                   _label="Add to _Shortcut Bar"
                   _tip="Create a link to this folder in the shortcut bar"/>
         
-        <separator/>
-
         <placeholder name="ComponentPlaceholder"
                      delimit="top"/>
 

@@ -1,3 +1,11 @@
+2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-list.xml: Move the ChangeFolderProperties into
+	the ComponentPlaceholder.  Add a separator on the top.
+
+	* evolution.xml: Remove the separator above the component
+	placeholder here.
+
 2001-08-20  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-comp-editor.xml: control-return for save and close

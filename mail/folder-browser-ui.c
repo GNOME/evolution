@@ -263,7 +263,7 @@ folder_browser_setup_property_menu (FolderBrowser *fb,
 		name = g_strdup (_("Properties"));
 
 	bonobo_ui_component_set_prop (
-		uic, "/menu/File/Folder/ChangeFolderProperties",
+		uic, "/menu/File/Folder/ComponentPlaceholder/ChangeFolderProperties",
 		"label", name, NULL);
 	g_free (name);
 }

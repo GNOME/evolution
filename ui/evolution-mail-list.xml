@@ -68,7 +68,9 @@
 
     <submenu name="File">
       <submenu name="Folder" _label="_Folder">
+	<placeholder name="ComponentPlaceholder">
          <menuitem name="ChangeFolderProperties" verb="" _label="_Properties..."/>
+	</placeholder>
       </submenu>
     </submenu>
 

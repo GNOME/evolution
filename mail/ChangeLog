@@ -1,3 +1,9 @@
+2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser-ui.c (folder_browser_setup_property_menu):
+	Updated as ChangeFolderProperties is now in the
+	ComponentPlaceholder.
+
 2001-08-20  Peter Williams  <peterw@ximian.com>
 
 	* mail-accounts.c (mail_able): Whoops, make sure that the account
