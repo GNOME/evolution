@@ -39,6 +39,8 @@
 
 #include <liboaf/liboaf.h>
 
+#include <ical.h>
+
 struct _ESummaryCalendar {
 	CalClient *client;
 
@@ -161,10 +163,56 @@ e_summary_calendar_event_sort_func (const void *e1,
 	return icaltime_compare (*(event1->dt.value), *(event2->dt.value));
 }
 
+struct _RecurData {
+	ESummary *summary;
+	GPtrArray *array;
+	ESummaryCalEvent *event;
+};
+
+static gboolean
+add_recurrances (CalComponent *comp,
+		 time_t start,
+		 time_t end,
+		 gpointer data)
+{
+	struct _RecurData *recur = data;
+	struct icaltimetype v, *p;
+	ESummaryCalEvent *event;
+
+	event = g_new (ESummaryCalEvent, 1);
+	v = icaltime_from_timet_with_zone (start, FALSE, recur->summary->tz);
+	p = g_new (struct icaltimetype, 1);
+
+	event->dt.value = p;
+
+	p->year = v.year;
+	p->month = v.month;
+	p->day = v.day;
+	p->hour = v.hour;
+	p->minute = v.minute;
+	p->second = v.second;
+	p->is_utc = v.is_utc;
+	p->is_date = v.is_date;
+	p->is_daylight = v.is_daylight;
+	p->zone = v.zone;
+	
+	event->dt.tzid = recur->summary->timezone;
+	event->comp = comp;
+	event->uid = g_strdup (recur->event->uid);
+	event->zone = recur->summary->tz;
+
+	gtk_object_ref (GTK_OBJECT (comp));
+
+	g_ptr_array_add (recur->array, event);
+	return TRUE;
+}
+
 static GPtrArray *
 uids_to_array (ESummary *summary,
 	       CalClient *client,
-	       GList *uids)
+	       GList *uids,
+	       time_t begin,
+	       time_t end)
 {
 	GList *p;
 	GPtrArray *array;
@@ -187,17 +235,32 @@ uids_to_array (ESummary *summary,
 			continue;
 		}
 
-		cal_component_get_dtstart (event->comp, &event->dt);
+		if (cal_component_has_recurrences (event->comp) == TRUE) {
+			struct _RecurData *recur;
 
-		status = cal_client_get_timezone (client, event->dt.tzid, &event->zone);
-		if (status != CAL_CLIENT_GET_SUCCESS) {
-			gtk_object_unref (GTK_OBJECT (event->comp));
+			recur = g_new (struct _RecurData, 1);
+			recur->event = event;
+			recur->array = array;
+			recur->summary = summary;
+			cal_recur_generate_instances (event->comp, begin, end,
+						      add_recurrances, recur,
+						      cal_client_resolve_tzid_cb, client);
+			g_free (recur);
+			g_free (event->uid);
 			g_free (event);
-			continue;
+		} else {
+			cal_component_get_dtstart (event->comp, &event->dt);
+			
+			status = cal_client_get_timezone (client, event->dt.tzid, &event->zone);
+			if (status != CAL_CLIENT_GET_SUCCESS) {
+				gtk_object_unref (GTK_OBJECT (event->comp));
+				g_free (event);
+				continue;
+			}
+			
+			icaltimezone_convert_time (event->dt.value, event->zone, summary->tz);
+			g_ptr_array_add (array, event);
 		}
-
-		icaltimezone_convert_time (event->dt.value, event->zone, summary->tz);
-		g_ptr_array_add (array, event);
 	}
 
 	qsort (array->pdata, array->len, sizeof (ESummaryCalEvent *), e_summary_calendar_event_sort_func);
@@ -283,7 +346,7 @@ generate_html (gpointer data)
 		g_free (s);
 		g_string_append (string, "</a></b></dt><dd>");
 
-		uidarray = uids_to_array (summary, calendar->client, uids);
+		uidarray = uids_to_array (summary, calendar->client, uids, begin, end);
 		for (i = 0; i < uidarray->len; i++) {
 			ESummaryCalEvent *event;
 			CalComponentText text;

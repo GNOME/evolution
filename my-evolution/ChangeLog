@@ -1,3 +1,8 @@
+2001-10-02  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-calendar.c (uids_to_array): Handle recurrances correctly.
+	(add_recurrances): Function to generate occurrances
+
 2001-10-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: add $(BONOBO_GNOME_CFLAGS) to make it compile with
