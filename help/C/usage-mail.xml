@@ -545,30 +545,25 @@
       <guibutton>Send</guibutton>.
     </para>
 
-      <sect2 id="usage-mail-getnsend-send-delay">
+     <sect2 id="usage-mail-getnsend-send-delay">
         <title>Sending Composed Messages Later</title>
         <para>
-           <application>Evolution</application> will send mail
-           immediately unless you tell it to do otherwise by selecting
-           <menuchoice> <guimenu>File</guimenu> <guimenuitem>Send
-           Later</guimenuitem></menuchoice>.  This will add your
-           messages to the <guilabel>Outbox</guilabel> queue.  The
-           "Send Later" feature is particularly useful if you use a
-           modem to connect to the Internet and pay per-minute
-           charges: you can remain offline until you need to send
-           mail, then connect and send all your mail at once.  Mail in
-           the outbox is sent when you click
-           <guibutton>Send/Receive</guibutton> in the main window.
-        </para>
-        <para>
-           To learn more about how you can specify message queue and
-           filter behavior, see <xref linkend="config-prefs-mail"/>.
-        </para>
+           <application>Evolution</application> will normally send
+           mail as soon as you click the <guibutton>Send</guibutton>
+           button. However, there are a few ways you can save a
+           message to be sent later:
 
-      <para>
-	You can also choose to save messages as drafts or as text
-	files. Your options are:
        <itemizedlist>
+          <listitem>
+             <para>
+                If you are offline,
+                <application>Evolution</application> will add your
+                messages to the <guilabel>Outbox</guilabel> queue. The
+                next time you connect to the Internet and send or
+                receive mail, that message will be sent.
+            </para>
+           </listitem>
+
         <listitem><para>
           Choose
 	  <menuchoice>
@@ -579,13 +574,6 @@
           revision.
        </para></listitem>
 
-       <listitem><para>
-         If you'd like to have the message sent later, you
-         can choose <guimenuitem>Send Later</guimenuitem>. That way,
-         the message will be added to the queue, and you can send a 
-         batch of messages all at once.
-        </para></listitem>
-        
         <listitem><para> 
          If you prefer to save your message as a text file,
          choose <guimenuitem>Save As</guimenuitem> and then choose a
