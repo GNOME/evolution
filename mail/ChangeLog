@@ -1,3 +1,17 @@
+2001-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Applied patch from Tuomas Kuosmanen <tigert@ximian.com>]
+
+	* folder-browser.c: Added enum value `ESB_SENDER_CONTAINS' as well
+	as a "Sender contains" item to the search menu.  Also add a
+	corresponding "(match-all)" rule to the `search_string' array.
+	(search_save): Handle `ESB_SENDER_CONTAINS' here.
+
+2001-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Mail.oafinfo: Fixed the repo_ids so that they
+	use the right syntax.
+
 2001-01-23  Dan Winship  <danw@ximian.com>
 
 	* folder-browser-factory.c: 

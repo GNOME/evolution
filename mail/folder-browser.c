@@ -227,6 +227,7 @@ static ESearchBarItem folder_browser_search_menu_items[] = {
 };
 
 enum {
+	ESB_SENDER_CONTAINS,
 	ESB_BODY_SUBJECT_CONTAINS,
 	ESB_BODY_CONTAINS,
 	ESB_SUBJECT_CONTAINS,
@@ -235,6 +236,7 @@ enum {
 };
 
 static ESearchBarItem folder_browser_search_option_items[] = {
+	{ N_("Sender contains"),          ESB_SENDER_CONTAINS          },
 	{ N_("Body or subject contains"), ESB_BODY_SUBJECT_CONTAINS    },
 	{ N_("Body contains"),            ESB_BODY_CONTAINS            },
         { N_("Subject contains"),         ESB_SUBJECT_CONTAINS         },
@@ -247,6 +249,7 @@ static ESearchBarItem folder_browser_search_option_items[] = {
 /* %s is replaced by the whole search string in quotes ...
    possibly could split the search string into words as well ? */
 static char *search_string[] = {
+	"(match-all (header-contains \"from\" %s)",
 	"(or (body-contains %s) (match-all (header-contains \"Subject\" %s)))",
 	"(body-contains %s)",
 	"(match-all (header-contains \"Subject\" %s)",
@@ -327,6 +330,14 @@ search_save (GtkWidget *w, FolderBrowser *fb)
 	default:
 		/* header or body contains */
 		index = ESB_BODY_SUBJECT_CONTAINS;
+	case ESB_SENDER_CONTAINS:
+		part = vfolder_create_part ("from");
+		filter_rule_add_part ((FilterRule *)rule, part);
+		element = filter_part_find_element (part, "from-type");
+		filter_option_set_current ((FilterOption *)element, "contains");
+		element = filter_part_find_element (part, "from");
+		filter_input_set_value ((FilterInput *)element, text);
+		break;
 	case ESB_BODY_CONTAINS:
 	case ESB_SUBJECT_CONTAINS:
 		if (index == ESB_BODY_SUBJECT_CONTAINS || index == ESB_BODY_CONTAINS) {
