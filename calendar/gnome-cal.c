@@ -119,13 +119,13 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 	time_t new_time;
 	
 	if (cp == gcal->day_view)
-		new_time = time_add_day (gcal->current_display, 1 * direction);
+		new_time = time_add_day (time_day_begin (gcal->current_display), 1 * direction);
 	else if (cp == gcal->week_view)
-		new_time = time_add_week (gcal->current_display, 1 * direction);
+		new_time = time_add_week (time_week_begin (gcal->current_display), 1 * direction);
 	else if (cp == gcal->month_view)
-		new_time = time_add_month (gcal->current_display, 1 * direction);
+		new_time = time_add_month (time_month_begin (gcal->current_display), 1 * direction);
 	else if (cp == gcal->year_view)
-		new_time = time_add_year (gcal->current_display, 1 * direction);
+		new_time = time_add_year (time_year_begin (gcal->current_display), 1 * direction);
 	else {
 		g_warning ("Weee!  Where did the penguin go?");
 		g_assert_not_reached ();

@@ -1,3 +1,11 @@
+1998-10-31  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-cal.c (gnome_calendar_direction): Add the offset from the
+	beginning of the current time unit (day/month/etc), otherwise it
+	does not work right, for example, you are on the 31st day of a
+	month and the next month is a 30-day one and you jump to the next
+	month.
+
 1998-10-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* month-view.c: Changed a lot of stuff not to use the layout code
