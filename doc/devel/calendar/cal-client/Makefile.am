@@ -50,16 +50,14 @@ GTKDOC_CFLAGS=						\
 	-I$(top_builddir)				\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/libical/src/libical		\
-	$(BONOBO_VFS_GNOME_CFLAGS)			\
-	$(BONOBO_CONF_CFLAGS)
+	$(EVOLUTION_CALENDAR_CFLAGS)
 
-GTKDOC_LIBS=								\
-	$(BONOBO_VFS_GNOME_LIBS)					\
-	$(BONOBO_CONF_LIBS)						\
-	$(top_builddir)/calendar/cal-client/.libs/libcal-client-static.al\
-	$(top_builddir)/calendar/cal-util/.libs/libcal-util-static.al	\
-	$(top_builddir)/libical/src/libical/.libs/libical-static.al	\
-	$(top_builddir)/libversit/.libs/libversit.al			\
+GTKDOC_LIBS=									\
+	$(EVOLUTION_CALENDAR_LIBS)						\
+	$(top_builddir)/calendar/cal-client/.libs/libcal-client-static.al	\
+	$(top_builddir)/calendar/cal-util/.libs/libcal-util-static.al		\
+	$(top_builddir)/libical/src/libical/.libs/libical-static.al		\
+	$(top_builddir)/libversit/.libs/libversit.al				\
 	$(top_builddir)/libwombat/libwombat.la
 
 GTKDOC_CC=$(LIBTOOL) --mode=compile $(CC)

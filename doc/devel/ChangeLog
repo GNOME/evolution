@@ -1,3 +1,8 @@
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* calendar/cal-client/Makefile.am: Use EVOLUTION_CALENDAR_CFLAGS
+	and EVOLUTION_CALENDAR_LIBS.
+
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
 	* calendar/cal-client/Makefile.am: cal-client needs bonobo-conf
