@@ -43,14 +43,15 @@ evolution_wombat_SOURCES = \
 	wombat-interface-check.h	\
 	wombat.c
 
+if ENABLE_LDAP
+LDAP_BACKEND = $(top_builddir)/addressbook/backend/pas/libpasldap.la
+endif
+
 evolution_wombat_LDADD =						\
-	$(top_builddir)/addressbook/backend/pas/libpas.la		\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-	$(top_builddir)/calendar/pcs/libpcsfile.a			\
-	$(top_builddir)/calendar/pcs/libpcs.a				\
-	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/e-util/libedb3util.la				\
-	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/addressbook/backend/pas/libpasfile.la		\
+	$(top_builddir)/addressbook/backend/pas/libpasvcf.la		\
+	$(LDAP_BACKEND)							\
+	$(top_builddir)/calendar/pcs/libpcsfile.la			\
 	$(WOMBAT_LIBS)
 
 if ENABLE_LDAP

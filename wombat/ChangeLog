@@ -1,3 +1,12 @@
+2003-10-24  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (evolution_wombat_LDADD): put back the conditional
+	libpasldap stuff, and make evolution-wombat explicitly depend on
+	the specific backends again; libpas itself cannot depend on the
+	backends. Use libpcsfile.la for the calendar dependency, and
+	remove libebook, libcal-util, libedb3util and libeutil, since
+	they're properly pulled in by libtool now.
+
 2003-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* GNOME_Evolution_WombatNOLDAP.server.in.in: Add
