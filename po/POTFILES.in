@@ -17,6 +17,7 @@ addressbook/gui/component/select-names/e-select-names.c
 addressbook/gui/component/select-names/e-select-names.etspec
 addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/contact-editor/contact-editor.glade
+addressbook/gui/contact-editor/eab-editor.c
 addressbook/gui/contact-editor/e-contact-editor-address.c
 addressbook/gui/contact-editor/e-contact-editor-fullname.c
 addressbook/gui/contact-editor/e-contact-editor-im.c
