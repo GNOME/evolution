@@ -537,13 +537,13 @@
   <title>Source Account</title>
   <input type="optionlist" name="srcmatch-type">
    <option value="is">
-    <title>Is</title>
+    <title>is</title>
     <code>
       (match-all (= (get-source) ${uri}))
     </code>
    </option>
    <option value="is-not">
-    <title>Is Not</title>
+    <title>is not</title>
     <code>
       (match-all (not (= (get-source) ${uri})))
     </code>
