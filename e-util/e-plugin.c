@@ -333,13 +333,11 @@ ep_load(const char *filename)
 			ep->id = id;
 			ep->path = g_strdup(filename);
 			ep->enabled = ep_check_enabled(id);
-			if (e_plugin_construct(ep, root) == -1) {
-				g_object_unref(ep);
-			} else {
-				g_hash_table_insert(ep_plugins, ep->id, ep);
-				pdoc->plugins = g_slist_prepend(pdoc->plugins, ep);
-				cache |= (ep->hooks_pending != NULL);
-			}
+			if (e_plugin_construct(ep, root) == -1)
+				e_plugin_enable(ep, FALSE);
+			g_hash_table_insert(ep_plugins, ep->id, ep);
+			pdoc->plugins = g_slist_prepend(pdoc->plugins, ep);
+			cache |= (ep->hooks_pending != NULL);
 		}
 	}
 

@@ -1,3 +1,8 @@
+2004-11-19  Not Zed  <NotZed@Ximian.com>
+
+	* e-plugin.c (ep_load): if the plugin fails to load just disable
+	it, don't unref it (it may be referenced elsewhere).
+
 2004-11-18  Not Zed  <NotZed@Ximian.com>
 
 	* e-plugin.c (epl_loadmodule): split out module loadng code.
