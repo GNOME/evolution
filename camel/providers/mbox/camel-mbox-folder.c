@@ -72,7 +72,7 @@ static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
 /* static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);*/
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
-static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
+static void _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static GList *_get_uid_list  (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
 #if 0
@@ -81,7 +81,7 @@ static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, Ca
 static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 #endif
 
-static CamelFolderSummary *search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
+static GList *search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
 static void _finalize (GtkObject *object);
 
@@ -844,8 +844,6 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 	
 
 	/* io exception handling */
-	io_error : 
-
 		switch errno { 
 		case EACCES :
 			
@@ -894,7 +892,7 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 }
 
 
-static gint
+static void
 _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
@@ -960,7 +958,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	
 	if (camel_exception_get_id (ex)) { 
 		/* ** FIXME : free the preparsed information */
-		return -1;
+		return;
 		}
 
 	mbox_summary_info =
@@ -1001,7 +999,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 					      "Full error is : %s\n",
 					      mbox_folder->folder_file_path,
 					      strerror (errno));
-			return -1;
+			return;
 		}
 
 	camel_mbox_copy_file_chunk (fd1,
@@ -1020,8 +1018,6 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 	g_free (tmp_message_filename);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::append_message\n");
-	
-	return -1;
 }
 
 
@@ -1068,7 +1064,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	guint32 searched_uid;
 	int i;
 	gboolean uid_found;
-	CamelStreamFs *message_stream;
+	CamelStream *message_stream;
 	CamelMimeMessage *message = NULL;
 	CamelStore *parent_store;
 
@@ -1117,7 +1113,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 
 	
 	message = camel_mime_message_new_with_session (camel_store_get_session (parent_store, ex));
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (message_stream));
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (message), message_stream);
 	
 	
 
@@ -1126,7 +1122,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	return message;
 }
 
-static CamelFolderSummary *
+static GList *
 search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
 {
 	return camel_mbox_folder_search_by_expression(folder, expression, ex);
