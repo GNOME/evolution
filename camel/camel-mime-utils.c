@@ -2258,11 +2258,11 @@ header_decode_date(const char *in, int *saveoffset)
 				w(g_warning("day not followed by ',' its probably a broken mail client, so we'll ignore its date entirely"));
 				printf ("Giving it one last chance...\n");
 				newdate = parse_date (in);
-				if (FALSE && newdate) {
+				if (newdate) {
 					printf ("Got: %s\n", newdate);
 					if (saveoffset)
 						*saveoffset = 0;					
-					t =  header_decode_date (newdate, NULL);
+					t = header_decode_date (newdate, NULL);
 					g_free (newdate);
 				}
 				
