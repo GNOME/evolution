@@ -1,3 +1,7 @@
+2000-01-25  Mathieu Lacage <mathieu@advogato.org>
+
+	* .cvsignore s: cvs shutup. 
+
 2000-01-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-reflow.c, widgets/e-minicard.c: Handle shift-tab
