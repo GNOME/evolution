@@ -8,33 +8,41 @@
 #include <config.h>
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkdrawingarea.h>
-#include <gtk/gtktext.h>
-#include <libgnomeui/gtkcalendar.h>
+#include <gnome.h>
 #include "eventedit.h"
 #include "gncal-full-day.h"
 #include "view-utils.h"
 #include "main.h"
 #include "popup-menu.h"
 
+/* Images */
+#include "bell.xpm"
+#include "recur.xpm"
 
 #define TEXT_BORDER 2
 #define HANDLE_SIZE 8
-#define MIN_WIDTH 300
+#define MIN_WIDTH 200
 #define XOR_RECT_WIDTH 2
 #define UNSELECT_TIMEOUT 150 /* ms */
 
+/* Size of the pixmaps */
+#define DECOR_WIDTH      16
+#define DECOR_HEIGHT     16
 
 typedef struct {
 	iCalObject *ico;
 	GtkWidget  *widget;
 	GdkWindow  *window;
+	GdkWindow  *decor_window;
 	int         lower_row; /* zero is first displayed row */
 	int         rows_used;
 	int         x;         /* coords of child's window */
 	int         y;
 	int         width;
 	int         height;
+	int         decor_width;
+	int         decor_height;
+	int         items;	/* number of decoration bitmaps */
 	time_t      start, end;
 } Child;
 
@@ -109,6 +117,8 @@ static GtkContainerClass *parent_class;
 
 static int fullday_signals[LAST_SIGNAL] = { 0 };
 
+/* The little images */
+static GdkPixmap *pixmap_bell, *pixmap_recur;
 
 static void
 get_tm_range (GncalFullDay *fullday,
@@ -163,6 +173,8 @@ static void
 child_map (GncalFullDay *fullday, Child *child)
 {
 	gdk_window_show (child->window);
+	if (child->decor_width)
+		gdk_window_show (child->decor_window);
 	gtk_widget_show (child->widget); /* OK, not just a map... */
 }
 
@@ -170,7 +182,7 @@ static void
 child_unmap (GncalFullDay *fullday, Child *child)
 {
 	gdk_window_hide (child->window);
-
+	gdk_window_hide (child->decor_window);
 	if (GTK_WIDGET_MAPPED (child->widget))
 		gtk_widget_unmap (child->widget);
 }
@@ -185,7 +197,7 @@ child_set_text_pos (Child *child)
 
 	allocation.x = HANDLE_SIZE;
 	allocation.y = has_focus ? HANDLE_SIZE : 0;
-	allocation.width = child->width - HANDLE_SIZE;
+	allocation.width = child->width - HANDLE_SIZE - child->decor_width;
 	allocation.height = child->height - (has_focus ? (2 * HANDLE_SIZE) : 0);
 
 	gtk_widget_size_request (child->widget, &child->widget->requisition); /* FIXME: is this needed? */
@@ -198,13 +210,14 @@ child_realize (GncalFullDay *fullday, Child *child)
 	GdkWindowAttr attributes;
 	gint attributes_mask;
 	GtkWidget *widget;
-
+	GdkColor c;
+	
 	widget = GTK_WIDGET (fullday);
 
 	attributes.window_type = GDK_WINDOW_CHILD;
 	attributes.x = child->x;
 	attributes.y = child->y;
-	attributes.width = child->width;
+	attributes.width = child->width - child->decor_width;;
 	attributes.height = child->height;
 	attributes.wclass = GDK_INPUT_OUTPUT;
 	attributes.visual = gtk_widget_get_visual (widget);
@@ -218,14 +231,46 @@ child_realize (GncalFullDay *fullday, Child *child)
 				 | GDK_KEY_PRESS_MASK);
 
 	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP | GDK_WA_CURSOR;
-
 	child->window = gdk_window_new (widget->window, &attributes, attributes_mask);
 	gdk_window_set_user_data (child->window, widget);
-
 	gtk_style_set_background (widget->style, child->window, GTK_STATE_NORMAL);
-
 	gtk_widget_set_parent_window (child->widget, child->window);
 
+	/* Create the decoration window */
+	attributes.x = child->x + child->width - child->decor_width;
+	attributes.width  = child->decor_width ? child->decor_width : 1;
+	attributes.height = child->decor_height ? child->decor_height : 1;
+	attributes.visual   = gdk_imlib_get_visual ();
+	attributes.colormap = gdk_imlib_get_colormap ();
+	attributes.event_mask = (GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK);
+	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+	child->decor_window = gdk_window_new (widget->window, &attributes, attributes_mask);
+	gdk_color_white (gdk_imlib_get_colormap (), &c);
+	gdk_window_set_background (child->decor_window, &c);
+	gdk_window_set_user_data (child->decor_window, widget);
+
+	if (!pixmap_bell){
+		GdkImlibImage *imlib_bell, *imlib_recur;
+		GdkPixmap *mask;
+		
+		imlib_bell  = gdk_imlib_create_image_from_xpm_data (bell_xpm);
+		gdk_imlib_render (imlib_bell, DECOR_WIDTH, DECOR_HEIGHT);
+		pixmap_bell = gdk_imlib_move_image (imlib_bell);
+		mask = gdk_imlib_move_mask  (imlib_bell);
+		gdk_imlib_destroy_image (imlib_bell);
+		fullday->bell_gc = gdk_gc_new (child->decor_window);
+		if (mask)
+			gdk_gc_set_clip_mask (fullday->bell_gc, mask);
+			
+		imlib_recur = gdk_imlib_create_image_from_xpm_data (recur_xpm);
+		gdk_imlib_render (imlib_recur, DECOR_WIDTH, DECOR_HEIGHT);
+		pixmap_recur = gdk_imlib_move_image (imlib_recur);
+		mask   = gdk_imlib_move_mask (imlib_recur);
+		gdk_imlib_destroy_image (imlib_recur);
+		fullday->recur_gc = gdk_gc_new (child->decor_window);
+		if (mask)
+			gdk_gc_set_clip_mask (fullday->recur_gc, mask);
+	}
 	child_set_text_pos (child);
 }
 
@@ -235,6 +280,40 @@ child_unrealize (GncalFullDay *fullday, Child *child)
 	gdk_window_set_user_data (child->window, NULL);
 	gdk_window_destroy (child->window);
 	child->window = NULL;
+}
+
+static void
+child_draw_decor (GncalFullDay *fullday, Child *child, GdkRectangle *area)
+{
+	iCalObject *ico = child->ico;
+	GdkRectangle rect, dest;
+	int ry = 0;
+
+	rect.x = child->width;
+	rect.y = 0;
+	rect.width = child->decor_width;
+	rect.height = child->decor_height;
+	
+	if (!gdk_rectangle_intersect (&rect, area, &dest))
+		return;
+	
+	if (ico->recur){
+		gdk_window_copy_area (child->decor_window,
+				      fullday->recur_gc,
+				      0, ry,
+				      pixmap_recur, 0, 0,
+				      DECOR_WIDTH, DECOR_HEIGHT);
+		ry += DECOR_HEIGHT;
+	}
+	if (ico->dalarm.enabled || ico->malarm.enabled || ico->palarm.enabled || ico->aalarm.enabled){
+		printf ("PINTANDO ALARMA\n");
+		gdk_window_copy_area (child->decor_window,
+				      fullday->bell_gc,
+				      0, ry,
+				      pixmap_bell, 0, 0,
+				      DECOR_WIDTH, DECOR_HEIGHT);
+		ry += DECOR_HEIGHT;
+	}
 }
 
 static void
@@ -270,7 +349,7 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 
 		rect.x = 0;
 		rect.y = 0;
-		rect.width = child->width;
+		rect.width = child->width - child->decor_width;
 		rect.height = HANDLE_SIZE;
 
 		if (gdk_rectangle_intersect (&rect, area, &dest))
@@ -392,6 +471,8 @@ child_realized_setup (GtkWidget *widget, gpointer data)
 static void
 child_set_pos (GncalFullDay *fullday, Child *child, int x, int y, int width, int height)
 {
+	const int decor_width = child->decor_width;
+
 	child->x = x;
 	child->y = y;
 	child->width = width;
@@ -401,7 +482,12 @@ child_set_pos (GncalFullDay *fullday, Child *child, int x, int y, int width, int
 		return;
 
 	child_set_text_pos (child);
-	gdk_window_move_resize (child->window, x, y, width, height);
+	gdk_window_move_resize (child->window, x, y, width - decor_width, height);
+
+	if (decor_width){
+		gdk_window_move_resize (child->decor_window, x + width - decor_width, y,
+					decor_width, child->decor_height);
+	}
 }
 
 static int
@@ -462,18 +548,18 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 	
 	child = data;
 
+	child_set_size (child);
+
 	/* Update summary in calendar object */
 
 	text = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
 	if (child->ico->summary && strcmp (text, child->ico->summary) == 0)
 		return FALSE;
-	
+
 	if (child->ico->summary)
 		g_free (child->ico->summary);
 
 	child->ico->summary = text;
-
-	child_set_size (child);
 
 	/* Notify calendar of change */
 
@@ -516,6 +602,31 @@ child_button_press (GtkWidget *widget, GdkEventButton *event, gpointer data)
 	return TRUE;
 }
 
+/*
+ * compute the space required to display the decorations 
+ */
+static void
+child_compute_decor (Child *child)
+{
+	iCalObject *ico = child->ico;
+	int rows_used;
+
+	child->items = 0;
+	rows_used = (child->rows_used < 1) ? 1 : child->rows_used;
+	if (ico->recur)
+		child->items++;
+	if (ico->dalarm.enabled || ico->aalarm.enabled || ico->palarm.enabled || ico->malarm.enabled)
+		child->items++;
+
+	if (child->items > rows_used){
+		child->decor_width  = DECOR_WIDTH * 2;
+		child->decor_height = DECOR_HEIGHT;
+	} else {
+		child->decor_width  = DECOR_WIDTH * (child->items ? 1 : 0);
+		child->decor_height = DECOR_HEIGHT * child->items;
+	}
+}
+
 static Child *
 child_new (GncalFullDay *fullday, time_t start, time_t end, iCalObject *ico)
 {
@@ -530,10 +641,10 @@ child_new (GncalFullDay *fullday, time_t start, time_t end, iCalObject *ico)
 	child->y = 0;
 	child->width = 0;
 	child->height = 0;
-	child->start  = start;
-	child->end    = end;
-	
+	child->start = start;
+	child->end = end;
 	child_range_changed (fullday, child);
+	child_compute_decor (child);
 
 	/* We set the i-beam cursor and the initial summary text upon realization */
 
@@ -821,6 +932,8 @@ gncal_full_day_init (GncalFullDay *fullday)
 
 	fullday->up_down_cursor = NULL;
 	fullday->beam_cursor = NULL;
+	fullday->recur_gc = NULL;
+	fullday->bell_gc = NULL;
 }
 
 static void
@@ -947,6 +1060,7 @@ gncal_full_day_realize (GtkWidget *widget)
 
 	for (children = fullday->children; children; children = children->next)
 		child_realize (fullday, children->data);
+
 }
 
 static void
@@ -969,6 +1083,13 @@ gncal_full_day_unrealize (GtkWidget *widget)
 	gdk_cursor_destroy (fullday->beam_cursor);
 	fullday->beam_cursor = NULL;
 
+	gdk_gc_destroy (fullday->bell_gc);
+	gdk_gc_destroy (fullday->recur_gc);
+	gdk_pixmap_unref (pixmap_bell);
+	gdk_pixmap_unref (pixmap_recur);
+	
+	pixmap_bell = NULL;
+		
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
@@ -1291,7 +1412,7 @@ find_child_by_window (GncalFullDay *fullday, GdkWindow *window, int *on_text)
 	for (children = fullday->children; children; children = children->next) {
 		child = children->data;
 
-		if (child->window == window)
+		if (child->window == window || child->decor_window == window)
 			return child;
 
 		if (child->widget == owner) {

@@ -1,3 +1,8 @@
+1998-05-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-day-panel.c (full_day_size_allocated): Do not emit a value
+	changed signal if the value is the same. 
+
 1998-05-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* prop.c (prop_apply): Only run the apply code once.

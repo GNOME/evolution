@@ -40,6 +40,9 @@ struct _GncalFullDay {
 
 	GdkCursor *up_down_cursor;	/* for dragging children */
 	GdkCursor *beam_cursor;		/* for the text widgets */
+	GdkGC     *recur_gc;            /* The gc used to draw the recur image */
+	GdkGC     *bell_gc;             /* The gc used to draw on imlib windows */
+
 };
 
 struct _GncalFullDayClass {

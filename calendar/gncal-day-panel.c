@@ -51,13 +51,15 @@ full_day_size_allocated (GtkWidget *widget, GtkAllocation *allocation, GncalDayP
 {
 	GtkAdjustment *adj;
 	int yoffset;
+	gfloat newval;
 
 	adj = gtk_scrolled_window_get_vadjustment (dpanel->fullday_sw);
 
 	yoffset = gncal_full_day_get_day_start_yoffset (GNCAL_FULL_DAY (widget));
 
-	adj->value = adj->lower + (adj->upper - adj->lower) * (double) yoffset / allocation->height;
-	gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
+	newval = adj->lower + (adj->upper - adj->lower) * (double) yoffset / allocation->height;
+	if (newval != adj->value)
+		gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
 }
 
 static void
