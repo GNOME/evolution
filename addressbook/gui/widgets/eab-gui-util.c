@@ -233,7 +233,7 @@ file_exists(GtkFileSelection *filesel, const char *filename)
 					 _("%s already exists\nDo you want to overwrite it?"), filename);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				_("Overwrite"), GTK_RESPONSE_ACCEPT,
 				NULL);
 
@@ -263,7 +263,7 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 			case GTK_RESPONSE_ACCEPT : /* Overwrite */
 				e_write_file(filename, info->vcard, O_WRONLY | O_CREAT | O_TRUNC);
 				break;
-			case GTK_RESPONSE_REJECT : /* cancel */
+			case GTK_RESPONSE_CANCEL : /* cancel */
 				return;
 		}
 	} else if (error != 0) {
@@ -351,7 +351,7 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 					      NULL);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 200, 350);
 
-	cancel_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT);
+	cancel_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	ok_button = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
 	gtk_widget_set_sensitive (ok_button, FALSE);
 
