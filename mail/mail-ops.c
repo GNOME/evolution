@@ -257,9 +257,16 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	FilterContext *fc;
 	FilterDriver *filter;
 	FILE *logfile = NULL;
+	CamelFolder *folder;
 	
-	/* If using IMAP, don't do anything... */
+	/* FIXME: This shouldn't be checking for "imap" specifically. */
 	if (!strncmp (input->source_url, "imap:", 5)) {
+		folder = mail_tool_get_inbox (input->source_url, ex);
+		if (folder) {
+			camel_folder_refresh_info (folder, ex);
+			camel_object_unref (CAMEL_OBJECT (folder));
+		}
+
 		data->empty = FALSE;
 		return;
 	}
@@ -301,7 +308,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		}
 		g_free (path);
 	} else {
-		CamelFolder *folder = mail_tool_get_inbox (input->source_url, ex);
+		folder = mail_tool_get_inbox (input->source_url, ex);
 
 		if (folder) {
 			if (camel_folder_get_message_count (folder) > 0) {

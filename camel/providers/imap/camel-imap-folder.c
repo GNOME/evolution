@@ -475,9 +475,16 @@ imap_copy_message_to (CamelFolder *source, const char *uid,
 				       uid, folder_path);
 	camel_imap_response_free (response);
 	g_free (folder_path);
+
+	/* FIXME: This should go away once folder_changed is being
+	 * emitted by camel_imap_folder_changed on appends again.
+	 */
+	if (!camel_exception_is_set (ex)) {
+		camel_object_trigger_event (CAMEL_OBJECT (destination),
+					    "folder_changed", NULL);
+	}
 }
 
-/* FIXME: Duplication of code! */
 static void
 imap_move_message_to (CamelFolder *source, const char *uid,
 		      CamelFolder *destination, CamelException *ex)
@@ -494,6 +501,12 @@ imap_move_message_to (CamelFolder *source, const char *uid,
 
 	if (camel_exception_is_set (ex))
 		return;
+
+	/* FIXME: This should go away once folder_changed is being
+	 * emitted by camel_imap_folder_changed on appends again.
+	 */
+	camel_object_trigger_event (CAMEL_OBJECT (destination),
+				    "folder_changed", NULL);
 
 	camel_folder_delete_message (source, uid);
 }
@@ -804,17 +817,13 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 
 		for (i = 0; i < expunged->len; i++) {
 			id = g_array_index (expunged, int, i);
-			d(fprintf (stderr, "Expunging message %d from the summary (i = %d)\n", id + i, i));
-			camel_folder_summary_remove_index (imap_folder->summary, id - 1);
+			camel_folder_summary_remove_index (
+				imap_folder->summary, id - 1);
 		}
+		camel_object_trigger_event (CAMEL_OBJECT (folder),
+					    "folder_changed", NULL);
 	}
 
-	if (exists > imap_folder->exists) {
-		int old = imap_folder->exists;
-
+	if (exists != 0)
 		imap_folder->exists = exists;
-		imap_update_summary (folder, old + 1, exists, ex);
-	}
-	
-	camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", NULL);
 }

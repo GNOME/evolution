@@ -56,7 +56,6 @@ static CamelFolderClass *parent_class = NULL;
 #define CMBOXS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 
-static void mbox_refresh_info (CamelFolder *folder, CamelException *ex);
 static void mbox_sync(CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint mbox_get_message_count(CamelFolder *folder);
 static gint mbox_get_unread_message_count(CamelFolder *folder);
@@ -94,7 +93,6 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_folder_class->refresh_info = mbox_refresh_info;
 	camel_folder_class->sync = mbox_sync;
 	camel_folder_class->get_message_count = mbox_get_message_count;
 	camel_folder_class->get_unread_message_count = mbox_get_unread_message_count;
