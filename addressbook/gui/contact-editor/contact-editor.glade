@@ -961,7 +961,6 @@
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>checkbutton-htmlmail</name>
-	    <visible>False</visible>
 	    <label>Wants to receive _HTML mail</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>

@@ -1,6 +1,7 @@
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
 	-DEVOLUTIONDIR=\""$(evolutiondir)"\"
 
 INCLUDES =					\

@@ -1,5 +1,24 @@
 2000-09-20  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added a
+	wants_html field to cards.  Uses "x-mozilla-html".
+
+	* contact-editor/Makefile.am: Added definition of
+	EVOLUTION_DATADIR.
+
+	* contact-editor/contact-editor.glade: Make Wants HTML check
+	button visible.
+
+	* contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-editor.h: Make Wants HTML check button
+	active.  Fix UI stuff to use XML.  Set parent window of
+	confirm_delete dialog.
+
+	* gui/widgets/e-addressbook-view.c, gui/widgets/e-minicard.c: Set
+	the parent window of the confirm_delete dialog.
+	
+2000-09-20  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/widgets/e-addressbook-view.c: Fixed display of the minicards
 	when the addressbook was first loading.  (It was overwriting a
 	string with NULL during init.)

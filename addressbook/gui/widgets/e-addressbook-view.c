@@ -401,6 +401,7 @@ table_double_click(ETableScrolled *table, gint row, EAddressbookView *view)
 typedef struct {
 	EBook *book;
 	ECard *card;
+	GtkWidget *widget;
 } CardAndBook;
 
 static void
@@ -427,7 +428,7 @@ print (GtkWidget *widget, CardAndBook *card_and_book)
 static void
 delete (GtkWidget *widget, CardAndBook *card_and_book)
 {
-	if (e_contact_editor_confirm_delete()) {
+	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(card_and_book->widget)))) {
 		/* Add the card in the contact editor to our ebook */
 		e_book_remove_card (card_and_book->book,
 				    card_and_book->card,
@@ -453,6 +454,7 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		
 		card_and_book = g_new(CardAndBook, 1);
 		card_and_book->card = e_addressbook_model_get_card(model, row);
+		card_and_book->widget = GTK_WIDGET(table);
 		gtk_object_get(GTK_OBJECT(model),
 			       "book", &(card_and_book->book),
 			       NULL);

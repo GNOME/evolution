@@ -339,7 +339,7 @@ delete (GtkWidget *widget, EMinicard *minicard)
 {
 	EBook *book;
 	
-	if (e_contact_editor_confirm_delete()) {
+	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(GTK_WIDGET(GNOME_CANVAS_ITEM(minicard)->canvas))))) {
 		e_card_simple_sync_card(minicard->simple);
 		
 		gtk_object_get(GTK_OBJECT(GNOME_CANVAS_ITEM(minicard)->parent),

@@ -104,7 +104,7 @@ EContactEditor *e_contact_editor_new (ECard *card, gboolean is_new_card);
 GtkType    e_contact_editor_get_type (void);
 
 
-gboolean e_contact_editor_confirm_delete(void);
+gboolean e_contact_editor_confirm_delete(GtkWindow *parent);
 
 #ifdef __cplusplus
 }
