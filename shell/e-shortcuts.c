@@ -140,12 +140,12 @@ load_shortcuts (EShortcuts *shortcuts,
 
 	for (p = root->childs; p != NULL; p = p->next) {
 		ShortcutGroup *shortcut_group;
-		const char *shortcut_group_title;
+		char *shortcut_group_title;
 
 		if (strcmp ((char *) p->name, "group") != 0)
 			continue;
 
-		shortcut_group_title = (const char *) xmlGetProp (p, "title");
+		shortcut_group_title = (char *) xmlGetProp (p, "title");
 		if (shortcut_group_title == NULL)
 			continue;
 
