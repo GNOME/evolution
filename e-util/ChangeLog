@@ -1,3 +1,7 @@
+2001-10-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-url.[ch] (e_uri_copy, e_uri_to_string): new functions
+	
 2001-10-01  Rodrigo Moya <rodrigo@ximian.com>
 	
 	* e-url.[ch]: added basic URI management functions

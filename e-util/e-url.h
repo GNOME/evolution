@@ -50,6 +50,8 @@ typedef struct {
 EUri       *e_uri_new       (const char *uri_string);
 void        e_uri_free      (EUri *uri);
 const char *e_uri_get_param (EUri *uri, const char *name);
+EUri       *e_uri_copy      (EUri *uri);
+char       *e_uri_to_string (EUri *uri, gboolean show_password);
 
 #endif /* __E_URL_H__ */
 
