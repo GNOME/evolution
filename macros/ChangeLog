@@ -1,3 +1,14 @@
+1998-07-15  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (MACROS): Add `need-declaration.m4'.
+
+	* gnome-support.m4 (AC_REPLACE_FUNCS): Add memmove, strtod,
+	strtol, strtoul.
+	(GCC_NEED_DECLARATIONS): New check.  Check whether `gethostname'
+	needs to be declared.
+
+	* need-declaration.m4: New file.  Stolen from EGCS.
+
 1998-07-13  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4 (AC_REPLACE_FUNCS): Add check for `mkstemp'.

@@ -78,10 +78,15 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
       LIBOBJS="$LIBOBJS easy-vsnprintf.o",
       LIBOBJS="$LIBOBJS vsnprintf.o")])
 
-  AC_REPLACE_FUNCS(mkstemp scandir strcasecmp strerror strndup strnlen)
-  AC_REPLACE_FUNCS(strtok_r vasprintf)
+  AC_REPLACE_FUNCS(memmove mkstemp scandir strcasecmp strerror strndup strnlen)
+  AC_REPLACE_FUNCS(strtok_r strtod strtol strtoul vasprintf)
 
-  if test "$LIBOBJS" != ""; then
+  # see if we need to declare some functions.  Solaris is notorious for
+  # putting functions into the `libc' but not listing them in the headers
+  AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h)
+  GCC_NEED_DECLARATIONS(gethostname)
+
+  if test "$LIBOBJS$gcc_need_declarations" != ""; then
      need_gnome_support=yes
   fi
   # Turn our LIBOBJS into libtool objects.  This is gross, but it
