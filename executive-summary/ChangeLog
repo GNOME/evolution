@@ -1,3 +1,7 @@
+2000-12-08  Iain Holmes  <iain@helixcode.com>
+
+	* summary.html: Don't hardcode the image paths.
+
 2000-12-08  JP Rosevear  <jpr@helixcode.com>
 
 	* component/Makefile.am (evolution-executive-summary.pure): Add purify
