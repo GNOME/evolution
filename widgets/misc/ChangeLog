@@ -1,5 +1,12 @@
 2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-dropdown-button.c (e_dropdown_button_construct): Removed
+	@ui_info and @data args.  Obviously I am not very smart at this
+	time of the night.
+	(e_dropdown_button_new): Likewise.
+
+2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-dropdown-button.c, e-dropdown-button.h: New.
 
 2001-01-25  Damon Chaplin  <damon@ximian.com>

@@ -144,9 +144,7 @@ init (EDropdownButton *dropdown_button)
 void
 e_dropdown_button_construct (EDropdownButton *dropdown_button,
 			     const char *label_text,
-			     GtkMenu *menu,
-			     GnomeUIInfo *ui_info,
-			     void *data)
+			     GtkMenu *menu)
 {
 	EDropdownButtonPrivate *priv;
 	GtkWidget *hbox;
@@ -159,7 +157,6 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 	g_return_if_fail (label_text != NULL);
 	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
-	g_return_if_fail (ui_info != NULL);
 
 	priv = dropdown_button->priv;
 
@@ -179,16 +176,12 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 	gtk_widget_show (arrow);
 
 	priv->menu = GTK_WIDGET (menu);
-	gnome_app_fill_menu_with_data (GTK_MENU_SHELL (priv->menu), ui_info,
-				       priv->accel_group, TRUE, 0, data);
 }
 
 /**
  * e_dropdown_button_new:
  * @label_text: 
  * @menu: 
- * @ui_info: 
- * @data: 
  * 
  * Create a new dropdown button.
  * 
@@ -196,21 +189,17 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
  **/
 GtkWidget *
 e_dropdown_button_new (const char *label_text,
-		       GtkMenu *menu,
-		       GnomeUIInfo *ui_info,
-		       void *data)
+		       GtkMenu *menu)
 {
 	GtkWidget *widget;
 
 	g_return_val_if_fail (label_text != NULL, NULL);
 	g_return_val_if_fail (menu != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
-	g_return_val_if_fail (ui_info != NULL, NULL);
 
 	widget = gtk_type_new (e_dropdown_button_get_type ());
 
-	e_dropdown_button_construct (E_DROPDOWN_BUTTON (widget), label_text, menu, ui_info, data);
-
+	e_dropdown_button_construct (E_DROPDOWN_BUTTON (widget), label_text, menu);
 	return widget;
 }
 

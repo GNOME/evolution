@@ -63,13 +63,9 @@ struct _EDropdownButtonClass {
 GtkType    e_dropdown_button_get_type   (void);
 void       e_dropdown_button_construct  (EDropdownButton *dropdown_button,
 					 const char      *label_text,
-					 GtkMenu         *menu,
-					 GnomeUIInfo     *ui_info,
-					 void            *data);
+					 GtkMenu         *menu);
 GtkWidget *e_dropdown_button_new        (const char      *label_text,
-					 GtkMenu         *menu,
-					 GnomeUIInfo     *ui_info,
-					 void            *data);
+					 GtkMenu         *menu);
 
 #ifdef __cplusplus
 }

@@ -82,7 +82,7 @@ main (int argc, char **argv)
 
 	gnome_app_fill_menu (GTK_MENU_SHELL (menu), ui_info, NULL, TRUE, 0);
 
-	dropdown_button = e_dropdown_button_new ("Me_nu", GTK_MENU (menu), ui_info, NULL);
+	dropdown_button = e_dropdown_button_new ("Me_nu", GTK_MENU (menu));
 	gtk_container_add (GTK_CONTAINER (window), dropdown_button);
 
 	gtk_widget_show (window);
