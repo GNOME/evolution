@@ -1387,7 +1387,9 @@ ee_rp_init_exceptions (EventEditor *ee)
 
 	ee->recur_ex_clist = widget = gtk_clist_new (1);
 	gtk_clist_set_selection_mode (GTK_CLIST (widget), GTK_SELECTION_BROWSE);
+#if 0
 	gtk_clist_set_policy (GTK_CLIST (widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+#endif
 	fill_exception_clist (ee);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, TRUE, 0);
 
