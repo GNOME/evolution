@@ -586,6 +586,7 @@ begin_completion_cb (ECompletion *completion, const gchar *txt, gint pos, gint l
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 
+	e_table_model_pre_change (cv->model);
 	e_completion_view_clear_choices (cv);
 	cv->have_all_choices = FALSE;
 
@@ -605,6 +606,7 @@ cancel_completion_cb (ECompletion *completion, gpointer user_data)
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 
 	/* On a cancel, clear our choices and issue an "unbrowse" signal. */
+	e_table_model_pre_change (cv->model);
 	e_completion_view_clear_choices (cv);
 	cv->have_all_choices = TRUE;
 	e_completion_view_set_cursor_row (cv, -1);
@@ -619,6 +621,8 @@ completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer user_d
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 	gint r = cv->choices->len;
 	gboolean first = (cv->choices->len == 0);
+
+	e_table_model_pre_change (cv->model);
 
 	e_completion_match_ref (match);
 	g_ptr_array_add (cv->choices, match);
@@ -637,6 +641,7 @@ end_completion_cb (ECompletion *completion, gpointer user_data)
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 
 	/* Do a final refresh of the table. */
+	e_table_model_pre_change (cv->model);
 	e_table_model_changed (cv->model);
 
 	cv->have_all_choices = TRUE;
@@ -648,6 +653,7 @@ clear_completion_cb (ECompletion *completion, gpointer user_data)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 
+	e_table_model_pre_change (cv->model);
 	e_completion_view_clear_choices (cv);
 	cv->have_all_choices = FALSE;
 
@@ -669,6 +675,7 @@ lost_completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer u
 
 	/* FIXME: do remove_index_fast(), then row_changed and
 	 * row_deleted (if there are more than 1 row still) */
+	e_table_model_pre_change (cv->model);
 	g_ptr_array_remove_index (c, i);
 	e_table_model_row_deleted (cv->model, i);
 	
