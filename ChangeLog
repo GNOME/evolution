@@ -1,3 +1,7 @@
+2004-09-14  Danilo Šegan  <dsegan@gmx.net>
+
+	* configure.in: Added "bs" to ALL_LINGUAS.
+
 2004-09-13  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires
