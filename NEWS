@@ -9,12 +9,22 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
               (Toshok)
     #26130 -- Close contact editor before save as crashes. (Toshok)
 
+  * Calendar
+
+    #25757 -- Fix quoting of icalendar properties (JP)
+    #25829, #25830, #26066 
+	   -- Fix a number of meeting usability and interop issues (JP)
+    
 Other fixes:
 
   * Addressbook
 
     - Some memory leak fixes in the addressbook backends and
       libversit. (Toshok)
+
+  * Calendar
+	
+    - Update time zone information (Damon)
 
 Updated translations:
 
