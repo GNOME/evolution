@@ -346,15 +346,18 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		}
 	}
 	else if (E_IS_WEEK_VIEW (cal_view)) {
-		gint index;
-		EWeekViewEvent *week_view_event;
-		EWeekView *week_view = E_WEEK_VIEW (cal_view);
+		AtkObject *atk_parent, *atk_child;
+		gint index = 0;
 
-		for (index = week_view->events->len - 1; index >= 0; --index) {
-			week_view_event = &g_array_index (week_view->events,
-							  EWeekViewEvent, index);
-			if (cal_view_event == (ECalendarViewEvent*)week_view_event)
+		atk_parent = atk_object_get_parent (accessible);
+		while ((atk_child = atk_object_ref_accessible_child (atk_parent,
+								     index)) != NULL) {
+			if (atk_child == accessible) {
+				g_object_unref (atk_child);
 				return index;
+			}
+			g_object_unref (atk_child);
+			++index;
 		}
 	}
 	else {

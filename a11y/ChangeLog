@@ -1,3 +1,11 @@
+2003-12-10  Bolian Yin <bolian.yin@sun.com>
+
+	* calendar/ea-cal-view-event.c (ea_cal_view_event_get_index_in_parent): corret index error in week view.
+	* calendar/ea-day-view-cell.c: impl. get_index_in_parent
+	* calendar/ea-day-view-main-item.c: emit signal "active-descendant-changed", fix error in selection_interface_ref_selection.
+	* widgets/ea-calendar-cell.c: impl. get_index_in_parent.
+	* widgets/ea-calendar-item.c: change signature of e_calendar_item_get_offset_for_date, emit signal "active-descendant-changed".
+
 2003-12-09  Andrew Wu <Yang.Wu@sun.com>
 
 	* calendar/Makefile.am: add entries for new source files

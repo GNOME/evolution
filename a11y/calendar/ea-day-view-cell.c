@@ -95,6 +95,7 @@ static G_CONST_RETURN gchar* ea_day_view_cell_get_name (AtkObject *accessible);
 static G_CONST_RETURN gchar* ea_day_view_cell_get_description (AtkObject *accessible);
 static AtkStateSet* ea_day_view_cell_ref_state_set (AtkObject *obj);
 static AtkObject * ea_day_view_cell_get_parent (AtkObject *accessible);
+static gint ea_day_view_cell_get_index_in_parent (AtkObject *accessible);
 
 /* component interface */
 static void atk_component_interface_init (AtkComponentIface *iface);
@@ -160,6 +161,7 @@ ea_day_view_cell_class_init (EaDayViewCellClass *klass)
 	class->ref_state_set = ea_day_view_cell_ref_state_set;
 
 	class->get_parent = ea_day_view_cell_get_parent;
+	class->get_index_in_parent = ea_day_view_cell_get_index_in_parent;
 }
 
 AtkObject* 
@@ -280,7 +282,28 @@ ea_day_view_cell_get_parent (AtkObject *accessible)
 		return NULL;
 
 	cell = E_DAY_VIEW_CELL (g_obj);
-	return gtk_widget_get_accessible (GTK_WIDGET (cell->day_view->main_canvas));
+	return atk_gobject_accessible_for_object (G_OBJECT (cell->day_view->main_canvas_item));
+}
+
+static gint
+ea_day_view_cell_get_index_in_parent (AtkObject *accessible)
+{
+	AtkGObjectAccessible *atk_gobj;
+	GObject *g_obj;
+	EDayViewCell *cell;
+	AtkObject *parent;
+
+	g_return_val_if_fail (EA_IS_DAY_VIEW_CELL (accessible), -1);
+
+	atk_gobj = ATK_GOBJECT_ACCESSIBLE (accessible);
+	g_obj = atk_gobject_accessible_get_object (atk_gobj);
+	if (!g_obj)
+		return -1;
+
+	cell = E_DAY_VIEW_CELL (g_obj);
+	parent = atk_object_get_parent (accessible);
+	return atk_table_get_index_at (ATK_TABLE (parent),
+				       cell->row, cell->column);
 }
 
 /* Atk Component Interface */
@@ -329,8 +352,6 @@ component_interface_get_extents (AtkComponent *component,
 	*x += day_view->day_offsets[cell->column] - scroll_x;
 	*y += day_view->row_height * cell->row
 		- scroll_y;
-	printf ("ybl: cellrow=%d, cellcol=%d, scroll_x=%d, scroll_y=%d\n",
-		cell->row, cell->column, scroll_x, scroll_y);
 	*width = day_view->day_widths[cell->column];
 	*height = day_view->row_height;
 }

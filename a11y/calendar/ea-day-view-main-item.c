@@ -422,6 +422,7 @@ static void
 ea_day_view_main_item_time_change_cb (EDayView *day_view, gpointer data)
 {
 	EaDayViewMainItem *ea_main_item;
+	AtkObject *item_cell = NULL;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 	g_return_if_fail (data);
@@ -432,6 +433,18 @@ ea_day_view_main_item_time_change_cb (EDayView *day_view, gpointer data)
 #ifdef ACC_DEBUG
 	printf ("EvoAcc: ea_day_view_main_item time changed cb\n");
 #endif
+	/* only deal with the first selected child, for now */
+	item_cell = atk_selection_ref_selection (ATK_SELECTION (ea_main_item),
+						 0);
+	if (item_cell) {
+		AtkStateSet *state_set;
+		state_set = atk_object_ref_state_set (item_cell);
+		atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
+		g_object_unref (state_set);
+	}
+	g_signal_emit_by_name (ea_main_item,
+			       "active-descendant-changed",
+			       item_cell);
 	g_signal_emit_by_name (data, "selection_changed");
 }
 
@@ -1187,9 +1200,23 @@ selection_interface_clear_selection (AtkSelection *selection)
 static AtkObject*  
 selection_interface_ref_selection (AtkSelection *selection, gint i)
 {
-	if (selection_interface_is_child_selected (selection, i))
-		return ea_day_view_main_item_ref_child (ATK_OBJECT (selection), i);
-	return NULL;
+	gint count;
+	GObject *g_obj;
+	EDayView *day_view;
+	EaDayViewMainItem* ea_main_item = EA_DAY_VIEW_MAIN_ITEM (selection);
+	gint start_index;
+
+	count = selection_interface_get_selection_count (selection);
+	if (i < 0 || i >=count)
+		return NULL;
+
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (ea_main_item));
+	day_view = E_DAY_VIEW_MAIN_ITEM (g_obj)->day_view;
+	start_index = ea_day_view_main_item_get_child_index_at (ea_main_item,
+								day_view->selection_start_row,
+								day_view->selection_start_day);
+
+	return ea_day_view_main_item_ref_child (ATK_OBJECT (selection), start_index + i);
 }
 
 static gint

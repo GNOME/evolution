@@ -93,6 +93,7 @@ static void ea_calendar_cell_class_init (EaCalendarCellClass *klass);
 static G_CONST_RETURN gchar* ea_calendar_cell_get_name (AtkObject *accessible);
 static G_CONST_RETURN gchar* ea_calendar_cell_get_description (AtkObject *accessible);
 static AtkObject * ea_calendar_cell_get_parent (AtkObject *accessible);
+static gint ea_calendar_cell_get_index_in_parent (AtkObject *accessible);
 
 /* component interface */
 static void atk_component_interface_init (AtkComponentIface *iface);
@@ -158,6 +159,7 @@ ea_calendar_cell_class_init (EaCalendarCellClass *klass)
 	class->get_description = ea_calendar_cell_get_description;
 
 	class->get_parent = ea_calendar_cell_get_parent;
+	class->get_index_in_parent = ea_calendar_cell_get_index_in_parent;
 }
 
 AtkObject* 
@@ -246,6 +248,24 @@ ea_calendar_cell_get_parent (AtkObject *accessible)
 	cell = E_CALENDAR_CELL (g_obj);
 	calitem = cell->calitem;
 	return atk_gobject_accessible_for_object (G_OBJECT (calitem));
+}
+
+static gint
+ea_calendar_cell_get_index_in_parent (AtkObject *accessible)
+{
+	GObject *g_obj;
+	ECalendarCell *cell;
+	AtkObject *parent;
+
+	g_return_val_if_fail (EA_IS_CALENDAR_CELL (accessible), -1);
+
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+	if (!g_obj)
+		return -1;
+	cell = E_CALENDAR_CELL (g_obj);
+	parent = atk_object_get_parent (accessible);
+	return atk_table_get_index_at (ATK_TABLE (parent),
+				       cell->row, cell->column);
 }
 
 /* Atk Component Interface */

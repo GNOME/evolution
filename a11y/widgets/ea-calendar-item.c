@@ -122,6 +122,9 @@ static gboolean ea_calendar_item_get_row_label (EaCalendarItem *ea_calitem,
 						gint row,
 						gchar *buffer,
 						gint buffer_size);
+static gboolean e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
+						     gint year, gint month, gint day,
+						     gint *offset);
 
 #ifdef ACC_DEBUG
 static gint n_ea_calendar_item_created = 0;
@@ -596,16 +599,16 @@ table_interface_is_row_selected (AtkTable *table,
 	calitem = E_CALENDAR_ITEM (g_obj);
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
 
-	sel_index_start =
-		e_calendar_item_get_offset_for_date (calitem,
-						     g_date_get_year (&start_date),
-						     g_date_get_month (&start_date),
-						     g_date_get_day (&start_date));
-	sel_index_end =
-		e_calendar_item_get_offset_for_date (calitem,
-						     g_date_get_year (&end_date),
-						     g_date_get_month (&end_date),
-						     g_date_get_day (&end_date));
+	e_calendar_item_get_offset_for_date (calitem,
+					     g_date_get_year (&start_date),
+					     g_date_get_month (&start_date),
+					     g_date_get_day (&start_date),
+					     &sel_index_start);
+	e_calendar_item_get_offset_for_date (calitem,
+					     g_date_get_year (&end_date),
+					     g_date_get_month (&end_date),
+					     g_date_get_day (&end_date),
+					     &sel_index_end);
 
 	if ((sel_index_start < row_index_start &&
 	     sel_index_end >= row_index_start) ||
@@ -648,16 +651,15 @@ table_interface_is_selected (AtkTable *table,
 	calitem = E_CALENDAR_ITEM (g_obj);
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
 
-	sel_index_start =
-		e_calendar_item_get_offset_for_date (calitem,
-						     g_date_get_year (&start_date),
-						     g_date_get_month (&start_date),
-						     g_date_get_day (&start_date));
-	sel_index_end =
-		e_calendar_item_get_offset_for_date (calitem,
-						     g_date_get_year (&end_date),
-						     g_date_get_month (&end_date),
-						     g_date_get_day (&end_date));
+	e_calendar_item_get_offset_for_date (calitem,
+					     g_date_get_year (&start_date),
+					     g_date_get_month (&start_date),
+					     g_date_get_day (&start_date),
+					     &sel_index_start);
+	e_calendar_item_get_offset_for_date (calitem,
+					     g_date_get_year (&end_date),
+					     g_date_get_month (&end_date),
+					     g_date_get_day (&end_date), &sel_index_end);
 
 	if (sel_index_start <= index && sel_index_end >= index)
 	    return TRUE;
@@ -895,10 +897,12 @@ selection_interface_ref_selection (AtkSelection *selection, gint i)
 
 	calitem = E_CALENDAR_ITEM (g_obj);
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
-	sel_offset = e_calendar_item_get_offset_for_date (calitem,
-							  g_date_get_year (&start_date),
-							  g_date_get_month (&start_date),
-							  g_date_get_day (&start_date));
+	if (!e_calendar_item_get_offset_for_date (calitem,
+						  g_date_get_year (&start_date),
+						  g_date_get_month (&start_date) - 1,
+						  g_date_get_day (&start_date),
+						  &sel_offset))
+		return NULL;
 
 	return ea_calendar_item_ref_child (ATK_OBJECT (selection), sel_offset + i);
 }
@@ -954,10 +958,23 @@ static void
 selection_preview_change_cb (ECalendarItem *calitem)
 {
 	AtkObject *atk_obj;
+	AtkObject *item_cell = NULL;
 
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (calitem));
 
+	/* only deal with the first selected child, for now */
+	item_cell = atk_selection_ref_selection (ATK_SELECTION (atk_obj),
+						 0);
+	if (item_cell) {
+		AtkStateSet *state_set;
+		state_set = atk_object_ref_state_set (item_cell);
+		atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
+		g_object_unref (state_set);
+	}
+	g_signal_emit_by_name (atk_obj,
+			       "active-descendant-changed",
+			       item_cell);
 	g_signal_emit_by_name (atk_obj, "selection_changed");
 }
 
@@ -1200,17 +1217,19 @@ e_calendar_item_get_date_for_offset (ECalendarItem *calitem, gint day_offset,
 	return TRUE;
 }
 
-/* month is from 0 to 11 */
-gint
+/* the arg month is from 0 to 11 */
+static gboolean
 e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
-				     gint year, gint month, gint day)
+				     gint year, gint month, gint day,
+				     gint *offset)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
 	GDate *start_date, *end_date;
 	gint n_days;
 
-	g_return_val_if_fail (E_IS_CALENDAR_ITEM (calitem), -1);
+	*offset = 0;
+	g_return_val_if_fail (E_IS_CALENDAR_ITEM (calitem), FALSE);
 
 	if (!e_calendar_item_get_date_range (calitem, &start_year,
 					     &start_month, &start_day,
@@ -1221,10 +1240,11 @@ e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
 	start_date = g_date_new_dmy (start_day, start_month + 1, start_year);
 	end_date = g_date_new_dmy (day, month + 1, year);
 
-	n_days = g_date_days_between (start_date, end_date);
+	*offset = g_date_days_between (start_date, end_date);
 	g_free (start_date);
 	g_free (end_date);
-	return n_days;
+
+	return TRUE;
 }
 
 gint
