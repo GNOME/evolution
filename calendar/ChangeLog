@@ -1,3 +1,11 @@
+2003-01-22  Jack Jia  <jack.jia@sun.com>
+
+	Fixes #34927
+
+	* gui/e-meeting-model.c (async_open): Call process_callback function
+	to process the data when it can not open free-busy url correctly.
+	Don't try to close the invalid handle.
+
 2002-12-11  Jack Jia  <jack.jia@sun.com>
 
 	Fixes #34933

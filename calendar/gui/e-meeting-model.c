@@ -1431,7 +1431,7 @@ async_open (GnomeVFSAsyncHandle *handle,
 	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
 
 	if (result != GNOME_VFS_OK) {
-		gnome_vfs_async_close (handle, async_close, qdata);
+		process_callbacks (qdata);
 		return;
 	}
 
