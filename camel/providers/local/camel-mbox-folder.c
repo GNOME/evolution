@@ -59,7 +59,7 @@ static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *e
 static void mbox_unlock(CamelLocalFolder *lf);
 
 #ifdef STATUS_PINE
-static void mbox_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static gboolean mbox_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 #endif
 
 static void mbox_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value);
@@ -496,7 +496,7 @@ fail:
 }
 
 #ifdef STATUS_PINE
-static void
+static gboolean
 mbox_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	/* Basically, if anything could change the Status line, presume it does */
@@ -506,7 +506,7 @@ mbox_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guin
 		set |= CAMEL_MESSAGE_FOLDER_XEVCHANGE|CAMEL_MESSAGE_FOLDER_FLAGGED;
 	}
 
-	((CamelFolderClass *)parent_class)->set_message_flags(folder, uid, flags, set);
+	return ((CamelFolderClass *)parent_class)->set_message_flags(folder, uid, flags, set);
 }
 #endif
 

@@ -136,9 +136,9 @@ typedef struct {
 	guint32 (*get_permanent_flags) (CamelFolder *folder);
 	guint32 (*get_message_flags)   (CamelFolder *folder,
 					const char *uid);
-	void    (*set_message_flags)   (CamelFolder *folder,
-					const char *uid,
-					guint32 flags, guint32 set);
+	gboolean (*set_message_flags)   (CamelFolder *folder,
+					 const char *uid,
+					 guint32 flags, guint32 set);
 
 	gboolean (*get_message_user_flag) (CamelFolder *folder,
 					   const char *uid,
@@ -229,7 +229,7 @@ guint32		   camel_folder_get_permanent_flags    (CamelFolder *folder);
 guint32		   camel_folder_get_message_flags      (CamelFolder *folder,
 							const char *uid);
 
-void		   camel_folder_set_message_flags      (CamelFolder *folder,
+gboolean	   camel_folder_set_message_flags      (CamelFolder *folder,
 							const char *uid,
 							guint32 flags,
 							guint32 set);

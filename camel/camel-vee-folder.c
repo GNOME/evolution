@@ -65,7 +65,7 @@ static void vee_transfer_messages_to(CamelFolder *source, GPtrArray *uids, Camel
 static GPtrArray *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 static GPtrArray *vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
 
-static void vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static gboolean vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value);
 static void vee_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 static void vee_rename(CamelFolder *folder, const char *new);
@@ -767,17 +767,20 @@ vee_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids,
 	return result;
 }
 
-static void
+static gboolean
 vee_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	CamelVeeMessageInfo *mi;
+	int res = FALSE;
 
 	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
 	if (mi) {
-		camel_folder_set_message_flags(mi->folder, camel_message_info_uid(mi) + 8, flags, set);
+		res = camel_folder_set_message_flags(mi->folder, camel_message_info_uid(mi) + 8, flags, set);
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
-		((CamelFolderClass *)camel_vee_folder_parent)->set_message_flags(folder, uid, flags, set);
+		res = res || ((CamelFolderClass *)camel_vee_folder_parent)->set_message_flags(folder, uid, flags, set);
 	}
+
+	return res;
 }
 
 static void

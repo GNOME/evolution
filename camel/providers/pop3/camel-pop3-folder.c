@@ -54,7 +54,7 @@ static void pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex
 static gint pop3_get_message_count (CamelFolder *folder);
 static GPtrArray *pop3_get_uids (CamelFolder *folder);
 static CamelMimeMessage *pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex);
-static void pop3_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static gboolean pop3_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 
 static void
 camel_pop3_folder_class_init (CamelPOP3FolderClass *camel_pop3_folder_class)
@@ -522,15 +522,24 @@ fail:
 	return message;
 }
 
-static void
+static gboolean
 pop3_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	CamelPOP3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
 	CamelPOP3FolderInfo *fi;
+	gboolean res = FALSE;
 
 	fi = g_hash_table_lookup(pop3_folder->uids_uid, uid);
-	if (fi)
-		fi->flags = (fi->flags & ~flags) | (set & flags);
+	if (fi) {
+		guint32 new = (fi->flags & ~flags) | (set & flags);
+
+		if (fi->flags != new) {
+			fi->flags = new;
+			res = TRUE;
+		}
+	}
+
+	return res;
 }
 
 static gint

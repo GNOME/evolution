@@ -62,18 +62,16 @@ static const gchar *get_name (CamelFolder *folder);
 static const gchar *get_full_name (CamelFolder *folder);
 static CamelStore *get_parent_store   (CamelFolder *folder);
 
-static guint32 get_permanent_flags (CamelFolder *folder);
-static guint32 get_message_flags (CamelFolder *folder, const char *uid);
-static void set_message_flags (CamelFolder *folder, const char *uid,
-			       guint32 flags, guint32 set);
-static gboolean get_message_user_flag (CamelFolder *folder, const char *uid, const char *name);
-static void set_message_user_flag (CamelFolder *folder, const char *uid,
-				   const char *name, gboolean value);
+static guint32 get_permanent_flags(CamelFolder *folder);
+static guint32 get_message_flags(CamelFolder *folder, const char *uid);
+static gboolean set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
+static gboolean get_message_user_flag(CamelFolder *folder, const char *uid, const char *name);
+static void set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gboolean value);
 static const char *get_message_user_tag(CamelFolder *folder, const char *uid, const char *name);
 static void set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 
-static gint get_message_count (CamelFolder *folder);
-static gint get_unread_message_count (CamelFolder *folder);
+static gint get_message_count(CamelFolder *folder);
+static gint get_unread_message_count(CamelFolder *folder);
 
 static void expunge             (CamelFolder *folder,
 				 CamelException *ex);
@@ -681,29 +679,31 @@ camel_folder_get_message_flags (CamelFolder *folder, const char *uid)
 	return ret;
 }
 
-static void
+static gboolean
 set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	CamelMessageInfo *info;
 	guint32 new;
 
-	g_return_if_fail(folder->summary != NULL);
+	g_return_val_if_fail(folder->summary != NULL, FALSE);
 
 	info = camel_folder_summary_uid(folder->summary, uid);
 	if (info == NULL)
-		return;
+		return FALSE;
 
 	new = (info->flags & ~flags) | (set & flags);
 	if (new == info->flags) {
 		camel_folder_summary_info_free(folder->summary, info);
-		return;
+		return FALSE;
 	}
 	
 	info->flags = new | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch(folder->summary);
 	camel_folder_summary_info_free(folder->summary, info);
 
-	camel_object_trigger_event (folder, "message_changed", (char *) uid);
+	camel_object_trigger_event(folder, "message_changed", (char *) uid);
+
+	return TRUE;
 }
 
 /**
@@ -716,16 +716,16 @@ set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 s
  * Sets those flags specified by @set to the values specified by @flags
  * on the indicated message. (This may or may not persist after the
  * folder or store is closed. See camel_folder_get_permanent_flags().)
+ *
+ * Return Value: TRUE if the flags were changed, false otherwise.
  **/
-void
-camel_folder_set_message_flags (CamelFolder *folder, const char *uid,
-				guint32 flags, guint32 set)
+gboolean
+camel_folder_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_val_if_fail(CAMEL_IS_FOLDER(folder), FALSE);
 
-	CF_CLASS (folder)->set_message_flags (folder, uid, flags, set);
+	return CF_CLASS(folder)->set_message_flags(folder, uid, flags, set);
 }
-
 
 static gboolean
 get_message_user_flag(CamelFolder *folder, const char *uid, const char *name)

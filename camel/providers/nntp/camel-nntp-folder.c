@@ -99,10 +99,10 @@ nntp_folder_sync_offline (CamelFolder *folder, CamelException *ex)
 	camel_folder_summary_save (folder->summary);
 }
 
-static void
+static gboolean
 nntp_folder_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
-        ((CamelFolderClass *) folder_class)->set_message_flags (folder, uid, flags, set);
+        return ((CamelFolderClass *) folder_class)->set_message_flags (folder, uid, flags, set);
 }
 
 static CamelStream *
