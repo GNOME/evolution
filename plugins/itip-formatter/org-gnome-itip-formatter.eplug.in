@@ -1,0 +1,14 @@
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.itip_formatter" type="shlib" name="Itip Formatter" description="Displays text/calendar parts in messages"
+		location="@PLUGINDIR@/liborg-gnome-itip-formatter.so">
+	
+		<hook class="org.gnome.evolution.mail.format:1.0">
+			<group id="EMFormatHTMLDisplay">
+				<item mime_type="text/calendar" flags="inline_disposition" format="format_itip"/>
+			</group>
+			<group id="EMFormat">
+				<item mime_type="text/calendar" flags="inline_disposition" format="format_itip"/>
+			</group>
+		</hook>
+	</e-plugin>
+</e-plugin-list>
