@@ -104,6 +104,7 @@ evolution_calendar_LDADD =					\
 
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
+
 if USING_OAF
 oafdir = $(datadir)/oaf
 oaf_DATA = calendar-control.oafinfo evolution-calendar.oafinfo
@@ -112,7 +113,9 @@ gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = calendar-control.gnorba evolution-calendar.gnorba
 endif
 
-EXTRA_DIST =				\
+OAF_GNORBA_EXTRAS = calendar-control.oafinfo evolution-calendar.oafinfo calendar-control.gnorba evolution-calendar.gnorba
+EXTRA_DIST =	 			\
+	$(OAF_GNORBA_EXTRAS)		\
 	$(glade_DATA)			\
 	bell.xpm			\
 	recur.xpm			\
@@ -123,6 +126,7 @@ EXTRA_DIST =				\
 	yearview.xpm			\
 	calendar-control.gnorba		\
 	calendar-control.oafinfo
+
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
