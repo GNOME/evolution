@@ -484,12 +484,19 @@ filter_driver_status_log (FilterDriver *driver, enum filter_status_t status,
 		/* write log header */
 		time_t t;
 		char date[50];
+		char *from = NULL;
+		char *subject = NULL;
+
+		if (msg) {
+			from = camel_mime_message_get_from(msg);
+			subject = camel_mime_message_get_subject(msg);
+		}
 		
 		time (&t);
 		strftime (date, 49, "%a, %d %b %Y %H:%M:%S", localtime (&t));
 		fprintf (out, " - Applied filter \"%s\" to message from %s - \"%s\" at %s\n",
-			 desc, msg ? camel_mime_message_get_from (msg) : "unknown",
-			 msg ? camel_mime_message_get_subject (msg) : "", date);
+			 desc, from ? from : "unknown",
+			 subject ? subject : "", date);
 		break;
 	}
 	case FILTER_STATUS_START:
