@@ -11,12 +11,8 @@
 #include "pas-book-view.h"
 
 static BonoboObjectClass *pas_book_view_parent_class;
-POA_GNOME_Evolution_Addressbook_BookView__vepv pas_book_view_vepv;
 
 struct _PASBookViewPrivate {
-	PASBookViewServant *servant;
-	GNOME_Evolution_Addressbook_BookView corba_objref;
-
 	GNOME_Evolution_Addressbook_BookViewListener  listener;
 };
 
@@ -165,24 +161,18 @@ pas_book_view_notify_status_message (PASBookView *book_view,
 	CORBA_exception_free (&ev);
 }
 
-void
+static void
 pas_book_view_construct (PASBookView                *book_view,
-			 GNOME_Evolution_Addressbook_BookView corba_objref,
 			 GNOME_Evolution_Addressbook_BookViewListener  listener)
 {
 	PASBookViewPrivate *priv;
 	CORBA_Environment ev;
 
 	g_return_if_fail (book_view != NULL);
-	g_return_if_fail (corba_objref != CORBA_OBJECT_NIL);
 	g_return_if_fail (listener != CORBA_OBJECT_NIL);
 
 	priv = book_view->priv;
 
-	g_return_if_fail (priv->corba_objref == CORBA_OBJECT_NIL);
-
-	priv->corba_objref = corba_objref;
-	
 	CORBA_exception_init (&ev);
 
 	bonobo_object_dup_ref (listener, &ev);
@@ -197,56 +187,6 @@ pas_book_view_construct (PASBookView                *book_view,
 	priv->listener  = listener;
 }
 
-static PASBookViewServant *
-create_servant (PASBookView *factory)
-{
-	PASBookViewServant *servant;
-	POA_GNOME_Evolution_Addressbook_BookView *corba_servant;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	servant = g_new0 (PASBookViewServant, 1);
-	corba_servant = (POA_GNOME_Evolution_Addressbook_BookView *) servant;
-
-	corba_servant->vepv = &pas_book_view_vepv;
-	POA_GNOME_Evolution_Addressbook_BookView__init ((PortableServer_Servant) corba_servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	servant->object = factory;
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
-
-static GNOME_Evolution_Addressbook_BookView
-activate_servant (PASBookView *factory,
-		  POA_GNOME_Evolution_Addressbook_BookView *servant)
-{
-	GNOME_Evolution_Addressbook_BookView corba_object;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), servant, &ev));
-
-	corba_object = PortableServer_POA_servant_to_reference (bonobo_poa(), servant, &ev);
-
-	if (ev._major == CORBA_NO_EXCEPTION && ! CORBA_Object_is_nil (corba_object, &ev)) {
-		CORBA_exception_free (&ev);
-		return corba_object;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return CORBA_OBJECT_NIL;
-}
-
 /**
  * pas_book_view_new:
  */
@@ -254,16 +194,11 @@ PASBookView *
 pas_book_view_new (GNOME_Evolution_Addressbook_BookViewListener  listener)
 {
 	PASBookView *book_view;
-	PASBookViewPrivate *priv;
 	GNOME_Evolution_Addressbook_BookView corba_objref;
 
 	book_view = g_object_new (PAS_TYPE_BOOK_VIEW, NULL);
-	priv = book_view->priv;
-
-	priv->servant = create_servant (book_view);
-	corba_objref = activate_servant (book_view, (POA_GNOME_Evolution_Addressbook_BookView*)priv->servant);
 	
-	pas_book_view_construct (book_view, corba_objref, listener);
+	pas_book_view_construct (book_view, listener);
 
 	return book_view;
 }
@@ -289,26 +224,6 @@ pas_book_view_dispose (GObject *object)
 }
 
 static void
-corba_class_init (PASBookViewClass *klass)
-{
-	POA_GNOME_Evolution_Addressbook_BookView__vepv *vepv;
-	POA_GNOME_Evolution_Addressbook_BookView__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
-
-
-	epv = &klass->epv;
-
-	vepv = &pas_book_view_vepv;
-	vepv->_base_epv                                   = base_epv;
-	vepv->GNOME_Evolution_Addressbook_BookView_epv = epv;
-}
-
-static void
 pas_book_view_class_init (PASBookViewClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -316,8 +231,6 @@ pas_book_view_class_init (PASBookViewClass *klass)
 	pas_book_view_parent_class = g_object_new (BONOBO_TYPE_OBJECT, NULL);
 
 	object_class->dispose = pas_book_view_dispose;
-
-	corba_class_init (klass);
 }
 
 static void

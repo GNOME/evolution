@@ -1,5 +1,28 @@
 2002-11-05  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-card.c: g_date_* => g_date_get_*, fixes
+	G_DISABLE_DEPRECATED build.
+
+	* backend/ebook/e-book-listener.[ch]: remove the servant crap i'd
+	c&p'ed and put in here.
+
+	* backend/ebook/e-book-view-listener.[ch]: remove the servant crap
+	i'd c&p'ed and put in here.
+	
+	* backend/pas/pas-book-factory.[ch]: subclass from BonoboObject,
+	and remove the servant crap from here too.  whee.
+
+	* backend/pas/pas-card-cursor.[ch]: remove the servant crap i'd
+	c&p'ed and put in here.
+
+	* backend/pas/pas-book.[ch]: remove the servant crap i'd c&p'ed
+	and put in here.
+
+	* backend/pas/pas-book-view.[ch]: remove the servant crap i'd
+	c&p'ed and put in here.
+
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-card-sexp.[ch]: port to gnome 2.
 
 	* backend/pas/pas-backend-file.[ch]: same.

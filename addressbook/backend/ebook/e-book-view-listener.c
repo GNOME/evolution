@@ -26,12 +26,8 @@ enum {
 static guint e_book_view_listener_signals [LAST_SIGNAL];
 
 static BonoboObjectClass          *parent_class;
-POA_GNOME_Evolution_Addressbook_BookViewListener__vepv  e_book_view_listener_vepv;
 
 struct _EBookViewListenerPrivate {
-	EBookViewListenerServant *servant;
-	GNOME_Evolution_Addressbook_BookViewListener corba_objref;
-
 	GList   *response_queue;
 	gint     timeout_id;
 
@@ -211,7 +207,7 @@ impl_BookViewListener_notify_card_added (PortableServer_Servant servant,
 					 const GNOME_Evolution_Addressbook_VCardList *cards,
 					 CORBA_Environment *ev)
 {
-	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object (servant));
 
 	e_book_view_listener_queue_sequence_event (
 		listener, CardAddedEvent, cards);
@@ -222,7 +218,7 @@ impl_BookViewListener_notify_card_removed (PortableServer_Servant servant,
 					   const CORBA_char* id,
 					   CORBA_Environment *ev)
 {
-	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object (servant));
 
 	e_book_view_listener_queue_id_event (
 		listener, CardRemovedEvent, (const char *) id);
@@ -233,7 +229,7 @@ impl_BookViewListener_notify_card_changed (PortableServer_Servant servant,
 					   const GNOME_Evolution_Addressbook_VCardList *cards,
 					   CORBA_Environment *ev)
 {
-	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object (servant));
 
 	e_book_view_listener_queue_sequence_event (
 		listener, CardModifiedEvent, cards);
@@ -244,7 +240,7 @@ impl_BookViewListener_notify_sequence_complete (PortableServer_Servant servant,
 						const GNOME_Evolution_Addressbook_BookViewListener_CallStatus status,
 						CORBA_Environment *ev)
 {
-	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object (servant));
 
 	e_book_view_listener_queue_status_event (listener, SequenceCompleteEvent,
 						 e_book_view_listener_convert_status (status));
@@ -255,7 +251,7 @@ impl_BookViewListener_notify_status_message (PortableServer_Servant  servant,
 					     const char             *message,
 					     CORBA_Environment      *ev)
 {
-	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object (servant));
 
 	e_book_view_listener_queue_message_event (listener, StatusMessageEvent, message);
 }
@@ -331,70 +327,10 @@ e_book_view_listener_convert_status (const GNOME_Evolution_Addressbook_BookViewL
 	}
 }
 
-void
-e_book_view_listener_construct      (EBookViewListener *listener,
-				     GNOME_Evolution_Addressbook_BookViewListener corba_objref)
+static void
+e_book_view_listener_construct      (EBookViewListener *listener)
 {
-	EBookViewListenerPrivate *priv;
-
-	g_return_if_fail (listener != NULL);
-	g_return_if_fail (corba_objref != CORBA_OBJECT_NIL);
-
-	priv = listener->priv;
-
-	g_return_if_fail (priv->corba_objref == CORBA_OBJECT_NIL);
-
-	priv->corba_objref = corba_objref;
-}
-
-static EBookViewListenerServant *
-create_servant (EBookViewListener *listener)
-{
-	EBookViewListenerServant *servant;
-	POA_GNOME_Evolution_Addressbook_BookViewListener *corba_servant;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	servant = g_new0 (EBookViewListenerServant, 1);
-	corba_servant = (POA_GNOME_Evolution_Addressbook_BookViewListener *) servant;
-
-	corba_servant->vepv = &e_book_view_listener_vepv;
-	POA_GNOME_Evolution_Addressbook_BookViewListener__init ((PortableServer_Servant) corba_servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	servant->object = listener;
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
-
-static GNOME_Evolution_Addressbook_BookViewListener
-activate_servant (EBookViewListener *listener,
-		  POA_GNOME_Evolution_Addressbook_BookViewListener *servant)
-{
-	GNOME_Evolution_Addressbook_BookViewListener corba_object;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), servant, &ev));
-
-	corba_object = PortableServer_POA_servant_to_reference (bonobo_poa(), servant, &ev);
-
-	if (ev._major == CORBA_NO_EXCEPTION && ! CORBA_Object_is_nil (corba_object, &ev)) {
-		CORBA_exception_free (&ev);
-		return corba_object;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return CORBA_OBJECT_NIL;
+	/* nothing needed here */
 }
 
 /**
@@ -409,16 +345,10 @@ EBookViewListener *
 e_book_view_listener_new ()
 {
 	EBookViewListener *listener;
-	EBookViewListenerPrivate *priv;
-	GNOME_Evolution_Addressbook_BookViewListener corba_objref;
 
 	listener = g_object_new (E_TYPE_BOOK_VIEW_LISTENER, NULL);
-	priv = listener->priv;
 
-	priv->servant = create_servant (listener);
-	corba_objref = activate_servant (listener, (POA_GNOME_Evolution_Addressbook_BookViewListener *) priv->servant);
-
-	e_book_view_listener_construct (listener, corba_objref);
+	e_book_view_listener_construct (listener);
 
 	return listener;
 }
@@ -427,7 +357,6 @@ static void
 e_book_view_listener_init (EBookViewListener *listener)
 {
 	listener->priv                 = g_new0 (EBookViewListenerPrivate, 1);
-	listener->priv->corba_objref   = CORBA_OBJECT_NIL;
 	listener->priv->response_queue = NULL;
 	listener->priv->timeout_id     = 0;
 	listener->priv->timeout_lock   = FALSE;
@@ -477,34 +406,10 @@ e_book_view_listener_dispose (GObject *object)
 }
 
 static void
-corba_class_init (EBookViewListenerClass *klass)
-{
-	POA_GNOME_Evolution_Addressbook_BookViewListener__vepv *vepv;
-	POA_GNOME_Evolution_Addressbook_BookViewListener__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
-
-
-	epv = &klass->epv;
-	epv->notifyCardChanged      = impl_BookViewListener_notify_card_changed;
-	epv->notifyCardRemoved      = impl_BookViewListener_notify_card_removed;
-	epv->notifyCardAdded        = impl_BookViewListener_notify_card_added;
-	epv->notifySequenceComplete = impl_BookViewListener_notify_sequence_complete;
-	epv->notifyStatusMessage    = impl_BookViewListener_notify_status_message;
-
-	vepv = &e_book_view_listener_vepv;
-	vepv->_base_epv                                    = base_epv;
-	vepv->GNOME_Evolution_Addressbook_BookViewListener_epv = epv;
-}
-
-static void
 e_book_view_listener_class_init (EBookViewListenerClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	POA_GNOME_Evolution_Addressbook_BookViewListener__epv *epv;
 
 	parent_class = g_type_class_ref (BONOBO_TYPE_OBJECT);
 
@@ -519,7 +424,12 @@ e_book_view_listener_class_init (EBookViewListenerClass *klass)
 
 	object_class->dispose = e_book_view_listener_dispose;
 
-	corba_class_init (klass);
+	epv = &klass->epv;
+	epv->notifyCardChanged      = impl_BookViewListener_notify_card_changed;
+	epv->notifyCardRemoved      = impl_BookViewListener_notify_card_removed;
+	epv->notifyCardAdded        = impl_BookViewListener_notify_card_added;
+	epv->notifySequenceComplete = impl_BookViewListener_notify_sequence_complete;
+	epv->notifyStatusMessage    = impl_BookViewListener_notify_status_message;
 }
 
 BONOBO_TYPE_FUNC_FULL (

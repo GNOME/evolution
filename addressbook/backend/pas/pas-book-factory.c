@@ -19,7 +19,6 @@
 #define DEFAULT_PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
-POA_GNOME_Evolution_Addressbook_BookFactory__vepv   pas_book_factory_vepv;
 
 typedef struct {
 	char                              *uri;
@@ -27,9 +26,6 @@ typedef struct {
 } PASBookFactoryQueuedRequest;
 
 struct _PASBookFactoryPrivate {
-	PASBookFactoryServant *servant;
-	GNOME_Evolution_Addressbook_BookFactory corba_objref;
-
 	gint        idle_id;
 	GHashTable *backends;
 	GHashTable *active_server_map;
@@ -388,22 +384,13 @@ pas_book_factory_queue_request (PASBookFactory               *factory,
 	}
 }
 
-static PASBookFactory *
-factory_from_servant (PortableServer_Servant servant)
-{
-	PASBookFactoryServant *my_servant;
-
-	my_servant = (PASBookFactoryServant *) servant;
-	return my_servant->object;
-}
-
 static void
 impl_GNOME_Evolution_Addressbook_BookFactory_openBook (PortableServer_Servant        servant,
 				      const CORBA_char             *uri,
 				      const GNOME_Evolution_Addressbook_BookListener  listener,
 				      CORBA_Environment            *ev)
 {
-	PASBookFactory      *factory = factory_from_servant (servant);
+	PASBookFactory      *factory = PAS_BOOK_FACTORY (bonobo_object (servant));
 	PASBackendFactoryFn  backend_factory;
 
 	backend_factory = pas_book_factory_lookup_backend_factory (factory, uri);
@@ -421,71 +408,10 @@ impl_GNOME_Evolution_Addressbook_BookFactory_openBook (PortableServer_Servant   
 	pas_book_factory_queue_request (factory, uri, listener);
 }
 
-void
-pas_book_factory_construct (PASBookFactory *factory,
-			    GNOME_Evolution_Addressbook_BookListener corba_objref)
+static void
+pas_book_factory_construct (PASBookFactory *factory)
 {
-	PASBookFactoryPrivate *priv;
-
-	g_return_if_fail (factory != NULL);
-	g_return_if_fail (corba_objref != CORBA_OBJECT_NIL);
-
-	priv = factory->priv;
-
-	g_return_if_fail (priv->corba_objref == CORBA_OBJECT_NIL);
-
-	priv->corba_objref = corba_objref;
-}
-
-
-static PASBookFactoryServant *
-create_servant (PASBookFactory *factory)
-{
-	PASBookFactoryServant *servant;
-	POA_GNOME_Evolution_Addressbook_BookFactory *corba_servant;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	servant = g_new0 (PASBookFactoryServant, 1);
-	corba_servant = (POA_GNOME_Evolution_Addressbook_BookFactory *) servant;
-
-	corba_servant->vepv = &pas_book_factory_vepv;
-	POA_GNOME_Evolution_Addressbook_BookFactory__init ((PortableServer_Servant) corba_servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
-	servant->object = factory;
-
-	CORBA_exception_free (&ev);
-
-	return servant;
-}
-
-static GNOME_Evolution_Addressbook_BookFactory
-activate_servant (PASBookFactory *factory,
-		  POA_GNOME_Evolution_Addressbook_BookFactory *servant)
-{
-	GNOME_Evolution_Addressbook_BookFactory corba_object;
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), servant, &ev));
-
-	corba_object = PortableServer_POA_servant_to_reference (bonobo_poa(), servant, &ev);
-
-	if (ev._major == CORBA_NO_EXCEPTION && ! CORBA_Object_is_nil (corba_object, &ev)) {
-		CORBA_exception_free (&ev);
-		return corba_object;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return CORBA_OBJECT_NIL;
+	/* nothing to do here.. */
 }
 
 /**
@@ -495,16 +421,10 @@ PASBookFactory *
 pas_book_factory_new (void)
 {
 	PASBookFactory *factory;
-	PASBookFactoryPrivate *priv;
-	GNOME_Evolution_Addressbook_BookFactory corba_objref;
 
 	factory = g_object_new (PAS_TYPE_BOOK_FACTORY, NULL);
-	priv = factory->priv;
-
-	priv->servant = create_servant (factory);
-	corba_objref = activate_servant (factory, (POA_GNOME_Evolution_Addressbook_BookFactory*)priv->servant);
 	
-	pas_book_factory_construct (factory, corba_objref);
+	pas_book_factory_construct (factory);
 
 	return factory;
 }
@@ -533,7 +453,7 @@ pas_book_factory_activate (PASBookFactory *factory, const char *iid)
 	else
 		tmp_iid = g_strdup (DEFAULT_PAS_BOOK_FACTORY_OAF_ID);
 
-	result = bonobo_activation_active_server_register (tmp_iid, priv->corba_objref);
+	result = bonobo_activation_active_server_register (tmp_iid, bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
 
 	switch (result) {
 	case Bonobo_ACTIVATION_REG_SUCCESS:
@@ -625,7 +545,7 @@ pas_book_factory_dispose (GObject *object)
 	priv->backends = NULL;
 
 	if (priv->registered) {
-		bonobo_activation_active_server_unregister (priv->iid, priv->corba_objref);
+		bonobo_activation_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
 		priv->registered = FALSE;
 	}
 
@@ -637,33 +557,12 @@ pas_book_factory_dispose (GObject *object)
 }
 
 static void
-corba_class_init (void)
-{
-	POA_GNOME_Evolution_Addressbook_BookFactory__vepv *vepv;
-	POA_GNOME_Evolution_Addressbook_BookFactory__epv *epv;
-	PortableServer_ServantBase__epv *base_epv;
-
-	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
-	base_epv->_private    = NULL;
-	base_epv->finalize    = NULL;
-	base_epv->default_POA = NULL;
-
-
-	epv = g_new0 (POA_GNOME_Evolution_Addressbook_BookFactory__epv, 1);
-
-	epv->openBook = impl_GNOME_Evolution_Addressbook_BookFactory_openBook;
-
-	vepv = &pas_book_factory_vepv;
-	vepv->_base_epv                                   = base_epv;
-	vepv->GNOME_Evolution_Addressbook_BookFactory_epv = epv;
-}
-
-static void
 pas_book_factory_class_init (PASBookFactoryClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	POA_GNOME_Evolution_Addressbook_BookFactory__epv *epv;
 
-	pas_book_factory_parent_class = g_type_class_ref (G_TYPE_OBJECT);
+	pas_book_factory_parent_class = g_type_class_ref (BONOBO_TYPE_OBJECT);
 
 	object_class->dispose = pas_book_factory_dispose;
 
@@ -676,32 +575,14 @@ pas_book_factory_class_init (PASBookFactoryClass *klass)
 			      pas_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
-	corba_class_init ();
+
+	epv = &klass->epv;
+
+	epv->openBook = impl_GNOME_Evolution_Addressbook_BookFactory_openBook;
 }
 
-/**
- * pas_book_factory_get_type:
- */
-GType
-pas_book_factory_get_type (void)
-{
-	static GType type = 0;
-
-	if (! type) {
-		GTypeInfo info = {
-			sizeof (PASBookFactoryClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc)  pas_book_factory_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (PASBookFactory),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) pas_book_factory_init
-		};
-
-		type = g_type_register_static (G_TYPE_OBJECT, "PASBookFactory", &info, 0);
-	}
-
-	return type;
-}
+BONOBO_TYPE_FUNC_FULL (
+		       PASBookFactory,
+		       GNOME_Evolution_Addressbook_BookFactory,
+		       BONOBO_TYPE_OBJECT,
+		       pas_book_factory);

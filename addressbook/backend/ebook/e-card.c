@@ -280,7 +280,7 @@ e_card_get_use_score(ECard *card)
 	e_card_get_today (&today);
 	g_date_set_dmy (&last_use, card->last_use->day, card->last_use->month, card->last_use->year);
 
-	days_since_last_use = g_date_julian (&today) - g_date_julian (&last_use);
+	days_since_last_use = g_date_get_julian (&today) - g_date_get_julian (&last_use);
 	
 	/* Apply a seven-day "grace period" to the use score decay. */
 	days_since_last_use -= 7;
@@ -304,9 +304,9 @@ e_card_touch(ECard *card)
 	if (card->last_use == NULL)
 		card->last_use = g_new (ECardDate, 1);
 
-	card->last_use->day   = g_date_day (&today);
-	card->last_use->month = g_date_month (&today);
-	card->last_use->year  = g_date_year (&today);
+	card->last_use->day   = g_date_get_day (&today);
+	card->last_use->month = g_date_get_month (&today);
+	card->last_use->year  = g_date_get_year (&today);
 
 	card->raw_use_score   = use_score + 1.0;
 }

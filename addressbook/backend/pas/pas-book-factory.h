@@ -20,30 +20,21 @@ G_BEGIN_DECLS
 typedef struct _PASBookFactoryPrivate PASBookFactoryPrivate;
 
 typedef struct {
-	GObject            parent_object;
+	BonoboObject            parent_object;
 	PASBookFactoryPrivate *priv;
 } PASBookFactory;
 
 typedef struct {
-	GObjectClass parent_class;
+	BonoboObjectClass parent_class;
+
+	POA_GNOME_Evolution_Addressbook_BookFactory__epv epv;
 
 	/* Notification signals */
 
 	void (* last_book_gone) (PASBookFactory *factory);
 } PASBookFactoryClass;
 
-
-struct _PASBookFactoryServant {
-	POA_GNOME_Evolution_Addressbook_BookFactory servant_placeholder;
-	PASBookFactory *object;
-};
-typedef struct _PASBookFactoryServant PASBookFactoryServant;
-
-
-
 PASBookFactory *pas_book_factory_new              (void);
-void            pas_book_factory_construct (PASBookFactory *factory,
-					    GNOME_Evolution_Addressbook_BookListener corba_objref);
 
 void            pas_book_factory_register_backend (PASBookFactory               *factory,
 						   const char                   *proto,

@@ -133,23 +133,11 @@ typedef struct {
 	void (*requests_queued) (void);
 } PASBookClass;
 
-
-struct _PASBookServant {
-	POA_GNOME_Evolution_Addressbook_Book servant_placeholder;
-	PASBook *object;
-};
-typedef struct _PASBookServant PASBookServant;
-
-
 
 typedef gboolean (*PASBookCanWriteFn)     (PASBook *book);
 typedef gboolean (*PASBookCanWriteCardFn) (PASBook *book, const char *id);
 
 PASBook                *pas_book_new                    (PASBackend                        *backend,
-							 GNOME_Evolution_Addressbook_BookListener             listener);
-void                    pas_book_construct              (PASBook                           *book,
-							 GNOME_Evolution_Addressbook_Book   corba_objref,
-							 PASBackend                        *backend,
 							 GNOME_Evolution_Addressbook_BookListener             listener);
 PASBackend             *pas_book_get_backend            (PASBook                           *book);
 GNOME_Evolution_Addressbook_BookListener  pas_book_get_listener           (PASBook                           *book);

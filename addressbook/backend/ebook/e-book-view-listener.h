@@ -71,18 +71,7 @@ typedef struct {
 	
 } EBookViewListenerResponse;
 
-
-struct _EBookViewListenerServant {
-	POA_GNOME_Evolution_Addressbook_BookViewListener servant_placeholder;
-	EBookViewListener *object;
-};
-typedef struct _EBookViewListenerServant EBookViewListenerServant;
-
-
-
 EBookViewListener         *e_book_view_listener_new            (void);
-void                       e_book_view_listener_construct      (EBookViewListener *listener,
-								GNOME_Evolution_Addressbook_BookViewListener corba_objref);
 int                        e_book_view_listener_check_pending  (EBookViewListener *listener);
 EBookViewListenerResponse *e_book_view_listener_pop_response   (EBookViewListener *listener);
 GType                      e_book_view_listener_get_type       (void);

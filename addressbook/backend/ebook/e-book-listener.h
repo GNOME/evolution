@@ -97,18 +97,8 @@ typedef struct {
 	char                   *vcard;
 } EBookListenerResponse;
 
-
-struct _EBookListenerServant {
-	POA_GNOME_Evolution_Addressbook_BookListener servant_placeholder;
-	EBookListener *object;
-};
-typedef struct _EBookListenerServant EBookListenerServant;
-
-
 
 EBookListener         *e_book_listener_new            (void);
-void                   e_book_listener_construct      (EBookListener *listener,
-						       GNOME_Evolution_Addressbook_BookListener corba_objref);
 int                    e_book_listener_check_pending  (EBookListener *listener);
 EBookListenerResponse *e_book_listener_pop_response   (EBookListener *listener);
 GType                  e_book_listener_get_type       (void);

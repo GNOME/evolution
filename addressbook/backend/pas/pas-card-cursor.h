@@ -41,22 +41,10 @@ struct _PASCardCursorClass {
 };
 
 
-struct _PASCardCursorServant {
-	POA_GNOME_Evolution_Addressbook_CardCursor servant_placeholder;
-	PASCardCursor *object;
-};
-typedef struct _PASCardCursorServant PASCardCursorServant;
-
-
 
 /* Creating a new addressbook. */
 PASCardCursor *pas_card_cursor_new       (PASCardCursorLengthFunc  get_length,
 				          PASCardCursorNthFunc     get_nth,
-					  gpointer data);
-void           pas_card_cursor_construct (PASCardCursor           *cursor,
-					  GNOME_Evolution_Addressbook_CardCursor     corba_cursor,
-					  PASCardCursorLengthFunc  get_length,
-					  PASCardCursorNthFunc     get_nth,
 					  gpointer data);
 
 GType          pas_card_cursor_get_type  (void);

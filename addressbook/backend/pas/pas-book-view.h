@@ -40,19 +40,7 @@ struct _PASBookViewClass {
 };
 
 
-
-struct _PASBookViewServant {
-	POA_GNOME_Evolution_Addressbook_BookView servant_placeholder;
-	PASBookView *object;
-};
-typedef struct _PASBookViewServant PASBookViewServant;
-
-
-
 PASBookView *pas_book_view_new                    (GNOME_Evolution_Addressbook_BookViewListener  listener);
-void         pas_book_view_construct              (PASBookView                *book_view,
-						   GNOME_Evolution_Addressbook_BookView corba_objref,
-						   GNOME_Evolution_Addressbook_BookViewListener  listener);
 
 void         pas_book_view_notify_change          (PASBookView                *book_view,
 						   const GList                *cards);
