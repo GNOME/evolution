@@ -35,7 +35,9 @@ libpcs_a_SOURCES =		\
 	cal-factory.c		\
 	cal-factory.h		\
 	job.c			\
-	job.h
+	job.h			\
+	query.c			\
+	query.h
 
 
 BUILT_SOURCES = $(CORBA_GENERATED)

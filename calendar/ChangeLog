@@ -1,9 +1,63 @@
+2001-03-29  Federico Mena Quintero  <federico@ximian.com>
+
+	Engine for live queries to calendars.  A query object watches a
+	CalBackend in the PCS and is otherwise completely separate from
+	it; backends need to do nothing to support live queries.  Right
+	now we have the following functions:
+
+		(get-vtype)
+
+			Returns a string indicating the type of component
+			(VEVENT, VTODO, VJOURNAL, VFREEBUSY, VTIMEZONE,
+			UNKNOWN).
+
+		(occur-in-time-range? START END)
+		
+			START - int, time_t start of the time range
+			END - int, time_t end of the time range
+
+			Returns a boolean indicating whether the component
+			has any occurrences in the specified time range.
+
+	* idl/evolution-calendar.idl (Cal::getQuery): New method that
+	initiates a live query.
+	(Query): New interface for a handle to a live query.
+	(QueryListener): New interface for a listener to changes in a live
+	query.
+
+	* pcs/query.[ch]: New files with the live query engine.
+
+	* pcs/cal-backend.h (CalBackendClass): Added notification signals
+	so that the query system can catch them.
+	(CalBackendClass): New virtual method ::get_load_state().
+
+	* pcs/cal-backend.c (cal_backend_opened):
+	(cal_backend_obj_updated):
+	(cal_backend_obj_updated): New functions to emit the notification
+	signals; to be used only by backend implementations.
+	(cal_backend_get_load_state): New function.
+
+	* pcs/cal-backend-file.c (notify_update): Call
+	cal_backend_obj_updated().
+	(notify_remove): Call call_backend_obj_removed().
+	(open_cal): Free the icalcomp if it is not of the correct type.
+	(cal_backend_file_get_load_state): Implemented new method.
+
+	* pcs/cal-backend-db.c (cal_backend_db_update_object): Call
+	cal_backend_obj_updated().
+	(cal_backend_db_remove_object): Call cal_backend_obj_removed().
+	(cal_backend_db_get_load_state): Implemented new method.
+
+	* pcs/cal.c (Cal_get_query): Implementation of the ::getQuery()
+	method.
+
 2001-03-27 Anna Marie Dirks <anna@ximian.com> 
+
 	* gui/e-itip-control.c: fixed button placement to comply
 	with gnome standards. 
 
-
 2001-03-27 Anna Marie Dirks <anna@ximian.com> 
+
 	* gui/e-itip-control.glade: fixed spacing and label alignment to
 	comply with gnome standards. Also removed shadows from extraneous
 	scrolled windows to avoid bevelitous. There are many more changes

@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include "cal.h"
-#include "cal-backend.h"
+#include "query.h"
 
 
 
@@ -446,6 +446,31 @@ Cal_remove_object (PortableServer_Servant servant,
 				     NULL);
 }
 
+/* Cal::getQuery implementation */
+static GNOME_Evolution_Calendar_Query
+Cal_get_query (PortableServer_Servant servant,
+	       const CORBA_char *sexp,
+	       GNOME_Evolution_Calendar_QueryListener ql,
+	       CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	Query *query;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	query = query_new (priv->backend, ql, sexp);
+	if (!query) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate,
+				     NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	return BONOBO_OBJREF (query);
+}
+
 /**
  * cal_get_epv:
  * @void:
@@ -460,16 +485,17 @@ cal_get_epv (void)
 	POA_GNOME_Evolution_Calendar_Cal__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Evolution_Calendar_Cal__epv, 1);
-	epv->_get_uri     = Cal_get_uri;
+	epv->_get_uri = Cal_get_uri;
 	epv->countObjects = Cal_get_n_objects;
-	epv->getObject    = Cal_get_object;
-	epv->getUIds      = Cal_get_uids;
-	epv->getChanges   = Cal_get_changes;
-	epv->getObjectsInRange  = Cal_get_objects_in_range;
-	epv->getAlarmsInRange   = Cal_get_alarms_in_range;
+	epv->getObject = Cal_get_object;
+	epv->getUIDs = Cal_get_uids;
+	epv->getChanges = Cal_get_changes;
+	epv->getObjectsInRange = Cal_get_objects_in_range;
+	epv->getAlarmsInRange = Cal_get_alarms_in_range;
 	epv->getAlarmsForObject = Cal_get_alarms_for_object;
 	epv->updateObject = Cal_update_object;
 	epv->removeObject = Cal_remove_object;
+	epv->getQuery = Cal_get_query;
 
 	return epv;
 }

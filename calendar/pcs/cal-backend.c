@@ -37,6 +37,9 @@
 /* Signal IDs */
 enum {
 	LAST_CLIENT_GONE,
+	OPENED,
+	OBJ_UPDATED,
+	OBJ_REMOVED,
 	LAST_SIGNAL
 };
 
@@ -96,8 +99,51 @@ cal_backend_class_init (CalBackendClass *class)
 				GTK_SIGNAL_OFFSET (CalBackendClass, last_client_gone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+	cal_backend_signals[OPENED] =
+		gtk_signal_new ("opened",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, opened),
+				gtk_marshal_NONE__ENUM,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_ENUM);
+	cal_backend_signals[OBJ_UPDATED] =
+		gtk_signal_new ("obj_updated",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, obj_updated),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	cal_backend_signals[OBJ_REMOVED] =
+		gtk_signal_new ("obj_removed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, obj_removed),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, cal_backend_signals, LAST_SIGNAL);
+
+	class->last_client_gone = NULL;
+	class->opened = NULL;
+	class->obj_updated = NULL;
+	class->obj_removed = NULL;
+
+	class->get_uri = NULL;
+	class->add_cal = NULL;
+	class->open = NULL;
+	class->get_n_objects = NULL;
+	class->get_object = NULL;
+	class->get_type_by_uid = NULL;
+	class->get_uids = NULL;
+	class->get_objects_in_range = NULL;
+	class->get_changes = NULL;
+	class->get_alarms_in_range = NULL;
+	class->get_alarms_for_object = NULL;
+	class->update_object = NULL;
+	class->remove_object = NULL;
 }
 
 
@@ -162,7 +208,29 @@ cal_backend_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exists
 	g_return_val_if_fail (uri != NULL, CAL_BACKEND_OPEN_ERROR);
 
 	g_assert (CLASS (backend)->open != NULL);
-	result =  (* CLASS (backend)->open) (backend, uri, only_if_exists);
+	result = (* CLASS (backend)->open) (backend, uri, only_if_exists);
+
+	return result;
+}
+
+/**
+ * cal_backend_is_loaded:
+ * @backend: A calendar backend.
+ * 
+ * Queries whether a calendar backend has been loaded yet.
+ * 
+ * Return value: TRUE if the backend has been loaded with data, FALSE otherwise.
+ **/
+gboolean
+cal_backend_is_loaded (CalBackend *backend)
+{
+	gboolean result;
+
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+
+	g_assert (CLASS (backend)->is_loaded != NULL);
+	result = (* CLASS (backend)->is_loaded) (backend);
 
 	return result;
 }
@@ -417,3 +485,58 @@ cal_backend_last_client_gone (CalBackend *backend)
 	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE]);
 }
 
+/**
+ * cal_backend_opened:
+ * @backend: A calendar backend.
+ * @status: Open status code.
+ * 
+ * Emits the "opened" signal of a calendar backend.  This function is to be used
+ * only by backend implementations.
+ **/
+void
+cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[OPENED],
+			 status);
+}
+
+/**
+ * cal_backend_obj_updated:
+ * @backend: A calendar backend.
+ * @uid: Unique identifier of the component that was updated.
+ * 
+ * Emits the "obj_updated" signal of a calendar backend.  This function is to be
+ * used only by backend implementations.
+ **/
+void
+cal_backend_obj_updated (CalBackend *backend, const char *uid)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (uid != NULL);
+
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[OBJ_UPDATED],
+			 uid);
+}
+
+/**
+ * cal_backend_obj_removed:
+ * @backend: A calendar backend.
+ * @uid: Unique identifier of the component that was removed.
+ * 
+ * Emits the "obj_removed" signal of a calendar backend.  This function is to be
+ * used only by backend implementations.
+ **/
+void
+cal_backend_obj_removed (CalBackend *backend, const char *uid)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+	g_return_if_fail (uid != NULL);
+
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[OBJ_REMOVED],
+			 uid);
+}

@@ -737,7 +737,7 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 
 	CORBA_exception_init (&ev);
 
-	seq = GNOME_Evolution_Calendar_Cal_getUIds (priv->cal, t, &ev);
+	seq = GNOME_Evolution_Calendar_Cal_getUIDs (priv->cal, t, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_client_get_uids(): could not get the list of UIDs");
 		CORBA_exception_free (&ev);

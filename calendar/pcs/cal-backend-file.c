@@ -69,6 +69,7 @@ static GnomeVFSURI *cal_backend_file_get_uri (CalBackend *backend);
 static void cal_backend_file_add_cal (CalBackend *backend, Cal *cal);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri,
 						   gboolean only_if_exists);
+static gboolean cal_backend_file_is_loaded (CalBackend *backend);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
@@ -143,6 +144,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->add_cal = cal_backend_file_add_cal;
 	backend_class->open = cal_backend_file_open;
+	backend_class->is_loaded = cal_backend_file_is_loaded;
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
 	backend_class->get_type_by_uid = cal_backend_file_get_type_by_uid;
@@ -163,6 +165,14 @@ cal_backend_file_init (CalBackendFile *cbfile)
 
 	priv = g_new0 (CalBackendFilePrivate, 1);
 	cbfile->priv = priv;
+
+	priv->uri = NULL;
+	priv->clients = NULL;
+	priv->icalcomp = NULL;
+	priv->comp_uid_hash = NULL;
+	priv->events = NULL;
+	priv->todos = NULL;
+	priv->journals = NULL;
 }
 
 /* g_hash_table_foreach() callback to destroy a CalComponent */
@@ -640,8 +650,10 @@ open_cal (CalBackendFile *cbfile, GnomeVFSURI *uri, FILE *file)
 	 * individual components as well?
 	 */
 
-	if (icalcomponent_isa (icalcomp) != ICAL_VCALENDAR_COMPONENT)
+	if (icalcomponent_isa (icalcomp) != ICAL_VCALENDAR_COMPONENT) {
+		icalcomponent_free (icalcomp);
 		return CAL_BACKEND_OPEN_ERROR;
+	}
 
 	priv->icalcomp = icalcomp;
 
@@ -732,6 +744,19 @@ cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_e
 
 		return create_cal (cbfile, uri);
 	}
+}
+
+/* is_loaded handler for the file backend */
+static gboolean
+cal_backend_file_is_loaded (CalBackend *backend)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	return (priv->icalcomp != NULL);
 }
 
 /* Get_n_objects handler for the file backend */
@@ -1469,6 +1494,8 @@ notify_update (CalBackendFile *cbfile, const char *uid)
 
 	priv = cbfile->priv;
 
+	cal_backend_obj_updated (CAL_BACKEND (cbfile), uid);
+
 	for (l = priv->clients; l; l = l->next) {
 		Cal *cal;
 
@@ -1485,6 +1512,8 @@ notify_remove (CalBackendFile *cbfile, const char *uid)
 	GList *l;
 
 	priv = cbfile->priv;
+
+	cal_backend_obj_removed (CAL_BACKEND (cbfile), uid);
 
 	for (l = priv->clients; l; l = l->next) {
 		Cal *cal;

@@ -98,13 +98,18 @@ module Calendar {
 	/* Used to represent a list of components plus their triggers */
 	typedef sequence<CalComponentAlarms> CalComponentAlarmsSeq;
 
+	interface Query;
+
 	interface Listener;
+
+	interface QueryListener;
 
 	/* Calendar client interface */
 	interface Cal : Bonobo::Unknown {
 		exception NotFound {};
 		exception InvalidRange {};
 		exception InvalidObject {};
+		exception CouldNotCreate {};
 
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
@@ -117,7 +122,7 @@ module Calendar {
 			raises (NotFound);
 
 		/* Gets a list of UIDs based on component type */
-		CalObjUIDSeq getUIds (in CalObjType type);
+		CalObjUIDSeq getUIDs (in CalObjType type);
 
 		/* Gets a list of components that changed based on object type */
 		CalObjChangeSeq getChanges (in CalObjType type, in string change_id);
@@ -151,6 +156,13 @@ module Calendar {
 		/* Removes a component */
 		void removeObject (in CalObjUID uid)
 			raises (NotFound);
+
+		/* Initiates a live query of the calendar.  Returns a handle
+		 * to the live query itself; changes to components that are
+		 * present in the query are notified to the listener.
+		 */
+		Query getQuery (in string sexp, in QueryListener ql)
+			raises (CouldNotCreate);
 	};
 
 	/* Listener for changes in a calendar */
@@ -175,6 +187,43 @@ module Calendar {
 
 		/* Called from a Calendar when a component is removed */
 		void notifyObjRemoved (in CalObjUID uid);
+	};
+
+	/* Handle to a live query on a calendar */
+	interface Query : Bonobo::Unknown {
+	};
+
+	/* Listener for changes in a query of a calendar */
+	interface QueryListener : Bonobo::Unknown {
+		/* Called when a component is added or changed.  If
+		 * query_in_progress is true, then the initial query results are
+		 * being populated and the other arguments indicate the
+		 * percentage of completion Otherwise, the percent value is
+		 * unspecified.  */
+		void notifyObjUpdated (in CalObjUID uid, 
+				       in boolean query_in_progress, 
+				       in long n_scanned,
+				       in long total);
+
+		/* Called when a component is removed */
+		void notifyObjRemoved (in CalObjUID uid);
+
+		/* Reported when a query ends */
+		enum QueryDoneStatus {
+			SUCCESS,
+			PARSE_ERROR
+		};
+
+		/* Called when the query finishes populating itself some time
+		 * after it is created.  Before this is called,
+		 * notifyObjUpdated() may have been called several times to
+		 * indicate which objects are actually in the query, unless the
+		 * status result is a parse error.  
+		 */
+		void notifyQueryDone (in QueryDoneStatus status, in string error_str);
+
+		/* Called when an evaluation error occurs while performing a query */
+		void notifyEvalError (in string error_str);
 	};
 
 	/* A calendar factory, can load and create calendars */

@@ -43,7 +43,7 @@ BEGIN_GNOME_DECLS
 #define IS_CAL_BACKEND(obj)         (GTK_CHECK_TYPE ((obj), CAL_BACKEND_TYPE))
 #define IS_CAL_BACKEND_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_BACKEND_TYPE))
 
-/* Load status values */
+/* Open status values */
 typedef enum {
 	CAL_BACKEND_OPEN_SUCCESS,	/* Loading OK */
 	CAL_BACKEND_OPEN_ERROR,		/* We need better error reporting in libversit */
@@ -67,12 +67,18 @@ struct _CalBackendClass {
 	/* Notification signals */
 	void (* last_client_gone) (CalBackend *backend);
 
+	void (* opened) (CalBackend *backend, CalBackendOpenStatus status);
+	void (* obj_updated) (CalBackend *backend, const char *uid);
+	void (* obj_removed) (CalBackend *backend, const char *uid);
+
 	/* Virtual methods */
 	GnomeVFSURI *(* get_uri) (CalBackend *backend);
 	void (* add_cal) (CalBackend *backend, Cal *cal);
 
 	CalBackendOpenStatus (* open) (CalBackend *backend, GnomeVFSURI *uri,
 				       gboolean only_if_exists);
+
+	gboolean (* is_loaded) (CalBackend *backend);
 
 	/* General object acquirement and information related virtual methods */
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
@@ -108,6 +114,8 @@ void cal_backend_add_cal (CalBackend *backend, Cal *cal);
 CalBackendOpenStatus cal_backend_open (CalBackend *backend, GnomeVFSURI *uri,
 				       gboolean only_if_exists);
 
+gboolean cal_backend_is_loaded (CalBackend *backend);
+
 int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
 
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
@@ -134,6 +142,9 @@ gboolean cal_backend_update_object (CalBackend *backend, const char *uid, const 
 gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
 
 void cal_backend_last_client_gone (CalBackend *backend);
+void cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status);
+void cal_backend_obj_updated (CalBackend *backend, const char *uid);
+void cal_backend_obj_removed (CalBackend *backend, const char *uid);
 
 
 

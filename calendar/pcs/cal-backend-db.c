@@ -67,6 +67,7 @@ static void cal_backend_db_add_cal (CalBackend *backend, Cal *cal);
 static CalBackendOpenStatus cal_backend_db_open (CalBackend *backend,
                                                  GnomeVFSURI *uri,
                                                  gboolean only_if_exists);
+static gboolean cal_backend_db_is_loaded (CalBackend *backend);
 
 static int cal_backend_db_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_db_get_object (CalBackend *backend, const char *uid);
@@ -150,6 +151,7 @@ cal_backend_db_class_init (CalBackendDBClass *klass)
 	backend_class->get_uri = cal_backend_db_get_uri;
 	backend_class->add_cal = cal_backend_db_add_cal;
 	backend_class->open = cal_backend_db_open;
+	backend_class->is_loaded = cal_backend_db_is_loaded;
 	backend_class->get_n_objects = cal_backend_db_get_n_objects;
 	backend_class->get_object = cal_backend_db_get_object;
 	backend_class->get_type_by_uid = cal_backend_db_get_type_by_uid;
@@ -587,6 +589,17 @@ cal_backend_db_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exi
 	g_free((gpointer) str_uri);
 
 	return CAL_BACKEND_OPEN_SUCCESS;
+}
+
+/* is_loaded handler for the DB backend */
+static gboolean
+cal_backend_db_is_loaded (CalBackend *backend)
+{
+	CalBackendDB *cbdb;
+
+	cbdb = CAL_BACKEND_DB (backend);
+
+	return (cbdb->priv->uri != NULL);
 }
 
 /* get_n_objects handler for the DB backend */
@@ -1445,7 +1458,8 @@ cal_backend_db_update_object (CalBackend *backend, const char *uid, const char *
 		return FALSE;
 	}
 	commit_transaction(tid);
-	
+
+	cal_backend_obj_updated (CAL_BACKEND (cbdb), uid);
 	do_notify(cbdb, cal_notify_update, uid);
 	return TRUE;
 }
@@ -1482,6 +1496,7 @@ cal_backend_db_remove_object (CalBackend *backend, const char *uid)
 	/* TODO: update history database */
 	commit_transaction(tid);
 	
+	cal_backend_obj_removed (CAL_BACKEND (cbdb), uid);
 	do_notify(cbdb, cal_notify_remove, uid);
 			
 	return TRUE;
