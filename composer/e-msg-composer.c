@@ -3414,7 +3414,7 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 	body = g_object_get_data ((GObject *) composer, "body:text");
 	if (body) {
 		if (apply) 
-			set_editor_text (composer, body, FALSE);
+			set_editor_text (composer, body, FALSE, FALSE);
 		
 		g_object_set_data ((GObject *) composer, "body:text", NULL);
 		g_free (body);
@@ -4181,7 +4181,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 		char *htmlbody;
 		
 		htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		set_editor_text (composer, htmlbody, FALSE);
+		set_editor_text (composer, htmlbody, FALSE, FALSE);
 		g_free (htmlbody);
 	}
 }
@@ -4292,7 +4292,7 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)<b>"), FALSE);
+	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)<b>"), FALSE, FALSE);
 	e_msg_composer_set_send_html (composer, FALSE);
 	disable_editor (composer);
 	
