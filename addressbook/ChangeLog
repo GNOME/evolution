@@ -1,3 +1,26 @@
+2001-10-12  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/evolution-ldif-importer.c: commit the importer
+	originally from Michael M. Morrison, with fixups by toshok.
+
+	* backend/ebook/Makefile.am (bin_PROGRAMS): add
+	evolution-ldif-importer.
+	(oaf_in_files): add
+	GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.
+
+	* backend/ebook/e-card-simple.h: add WANTS_HTML and IS_LIST.
+
+	* backend/ebook/e-card-simple.c (field_data): add WANTS_HTML and
+	IS_LIST.
+	(e_card_simple_set): fix typo.
+
+	* backend/ebook/.cvsignore: ignore
+	GNOME_Evolution_Addressbook_LDIF_Importer.oaf and
+	evolution-ldif-importer.
+
+	* backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in:
+	ldif importer oafinfo.
+
 2001-10-12  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:

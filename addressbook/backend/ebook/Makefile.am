@@ -1,7 +1,9 @@
 noinst_PROGRAMS = test-card test-client test-client-list
 
-bin_PROGRAMS = evolution-vcard-importer 		\
-	load-pine-addressbook load-gnomecard-addressbook
+bin_PROGRAMS =	evolution-vcard-importer 		\
+		evolution-ldif-importer			\
+		load-pine-addressbook			\
+		load-gnomecard-addressbook
 
 CORBA_SOURCE =						\
 	addressbook.h					\
@@ -133,6 +135,21 @@ evolution_vcard_importer_LDADD =				\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/e-util/libeutil.la
 
+evolution_ldif_importer_SOURCES =			\
+	evolution-ldif-importer.c
+evolution_ldif_importer_LDADD =				\
+	libebook.la						\
+	$(BONOBO_CONF_LIBS)					\
+	$(BONOBO_GNOME_LIBS)					\
+	$(EXTRA_GNOME_LIBS)					\
+	$(top_builddir)/camel/libcamel.la			\
+	$(top_builddir)/libibex/libibex.la		\
+	$(top_builddir)/shell/importer/libevolution-importer.la \
+	$(DB3_LDADD)						\
+	$(top_builddir)/e-util/ename/libename.la		\
+	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/e-util/libeutil.la
+
 load_pine_addressbook_SOURCES =				\
 	load-pine-addressbook.c
 
@@ -170,7 +187,8 @@ dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Addressbook_VCard_Importer.oaf.in
+oaf_in_files =	GNOME_Evolution_Addressbook_VCard_Importer.oaf.in \
+		GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 @XML_I18N_MERGE_OAF_RULE@

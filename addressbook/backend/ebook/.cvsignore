@@ -16,8 +16,10 @@ load-pine-addressbook
 load-gnomecard-addressbook
 evolution-vcard-importer
 evolution-gnomecard-importer
+evolution-ldif-importer
 Evolution-Composer-stubs.c
 Evolution-Composer-skels.c
 Evolution-Composer-common.c
 Evolution-Composer.h
 GNOME_Evolution_Addressbook_VCard_Importer.oaf
+GNOME_Evolution_Addressbook_LDIF_Importer.oaf

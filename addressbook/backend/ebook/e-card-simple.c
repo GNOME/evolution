@@ -105,6 +105,8 @@ static ECardSimpleFieldData field_data[] =
  	{ E_CARD_SIMPLE_FIELD_GIVEN_NAME,         "given_name",      "Given Name",    "Given Name",  0,                                E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
  	{ E_CARD_SIMPLE_FIELD_ADDITIONAL_NAME,    "additional_name",  "Additional Name", "Additional Name",  0,                        E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
  	{ E_CARD_SIMPLE_FIELD_NAME_SUFFIX,        "name_suffix",     "Name Suffix",   "Name Suffix",  0,                               E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
+ 	{ E_CARD_SIMPLE_FIELD_WANTS_HTML,         "wants_html",      "Wants HTML",    "Wants HTML",   0,                               E_CARD_SIMPLE_INTERNAL_TYPE_BOOL },
+ 	{ E_CARD_SIMPLE_FIELD_IS_LIST,            "list",            "Is List",       "Is List",      0,                               E_CARD_SIMPLE_INTERNAL_TYPE_BOOL },
 };
 static int field_data_count = sizeof (field_data) / sizeof (field_data[0]);
 
@@ -1047,7 +1049,7 @@ void            e_card_simple_set            (ECardSimple          *simple,
 				gboolean boole = TRUE;
 				if (data == NULL)
 					boole = FALSE;
-				else if (strcasecmp (data, "false"))
+				else if (!strcasecmp (data, "false"))
 					boole = FALSE;
 				gtk_object_set (GTK_OBJECT (simple->card),
 						field_data[field].ecard_field, boole,
