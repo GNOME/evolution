@@ -26,10 +26,10 @@
 #include <string.h>
 
 CamelServiceAuthType camel_sasl_plain_authtype = {
-	N_("PLAIN"),
+	N_("Password"),
 
 	N_("This option will connect to the server using a "
-	   "the PLAIN SASL mechanism if the server supports it."),
+	   "simple password."),
 
 	"PLAIN",
 	TRUE
