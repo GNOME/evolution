@@ -261,9 +261,11 @@ generate_html (gpointer data)
 						       text.value);
 #endif
 				cal_component_free_icaltimetype (completed);
+				gtk_object_unref (comp);
 				continue;
 			}
 
+			gtk_object_unref (comp);
 			g_string_append (string, tmp);
 			g_free (tmp);
 		}
