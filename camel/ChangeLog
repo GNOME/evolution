@@ -3,6 +3,7 @@
 	* camel-mime-utils.c (quoted_encode): Fix so that we don't encode
 	every single char in the word. Also, do we need a safemask? I
 	don't see why we would.
+	(header_encode_string): Don't strip off the last char!!
 
 2000-10-06  Chris Toshok  <toshok@helixcode.com>
 

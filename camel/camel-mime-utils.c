@@ -1190,10 +1190,10 @@ header_encode_string(const unsigned char *in)
 			out = g_string_append_len(out, start, inptr-start);
 			break;
 		case 1:
-			rfc2047_encode_word(out, start, inptr-start-1, "ISO-8859-1", IS_ESAFE);
+			rfc2047_encode_word(out, start, inptr-start, "ISO-8859-1", IS_ESAFE);
 			break;
 		case 2:
-			rfc2047_encode_word(out, start, inptr-start-1,
+			rfc2047_encode_word(out, start, inptr-start,
 					    camel_charset_best(start, inptr-start-1), IS_ESAFE);
 			break;
 		}
