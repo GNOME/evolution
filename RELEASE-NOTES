@@ -1,0 +1,58 @@
+WARNING
+
+Evolution 1.1.1 is a BETA quality release.  This means that it has
+bugs, including possibly destructive bugs that can cause valuable data
+to be lost.
+
+For this reason, please make sure you back up your mail and your
+calendar/addressbook information before using Evolution 1.1.1 on them.
+In particular, you are strongly advised to backup the `evolution'
+directory in your home directory if you are upgrading from a 1.0.x
+version of Evolution to Evolution 1.1.1.
+
+
+UPGRADING FROM 1.0.x
+
+The format of certain configuration files has changed in this version
+of Evolution.  When you start Evolution 1.1.1 for the first time, it
+will automatically migrate your configuration so that it will work as
+expected with this version.
+
+If you want to return to a 1.0.x version after trying 1.1.1, you have
+to restore the original configuration files.  From the command-line,
+you can do the following, after having quit Evolution:
+
+	killev
+	cd ~/evolution
+	mv filters.xml.bak-1.0 filters.xml
+	mv vfolders.xml.bak-1.0 vfolders.xml
+	mv shortcuts.xml.bak-1.0 shortcuts.xml
+
+	[FIXME what about the IMAP cache?]
+
+Note that any changes to filters, vfolders or shortcuts made with
+1.1.1 will be lost after this operation.
+
+Also note that the upgrade mechanism runs automatically only the first
+time you run 1.1.1.  For this reason, if you run Evolution 1.1.1, then
+go back to 1.0 using the aforementioned procedure, and then go back to
+using 1.1.1 again, the settings will not be upgraded.
+
+To force the upgrade to happen again in this case, use the following
+command to start Evolution 1.1.1:
+
+	evolution --force-upgrade
+
+
+SEARCH CRITERIA CHANGES
+
+When you specify multiple words in search "contains" criterion,
+Evolution will now search the mail messages that contain all the words
+specified, in any order.  (The 1.0.x behavior was to look for the
+whole string in "subject contains" matches, and matched no messages in
+the case of body searches.)
+
+This applies to the search bar, the filter rules and the vfolder
+rules.  Filter rules and vfolder rules might need to be re-adjusted
+after you upgrade to version 1.1.1.
+
