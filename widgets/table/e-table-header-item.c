@@ -608,29 +608,35 @@ ethi_drag_data_received (GtkWidget *canvas,
 			 ETableHeaderItem *ethi)
 {
 	int found = FALSE;
-	int count = e_table_header_count(ethi->eth);
-	int column = atoi(data->data);
-	int drop_col = ethi->drop_col;
+	int count;
+	int column;
+	int drop_col;
 	int i;
-	ethi->drop_col = -1;
 
-	if (column < 0)
-		return;
-	for (i = 0; i < count; i++) {
-		ETableCol *ecol = e_table_header_get_column (ethi->eth, i);
-		if (ecol->col_idx == column) {
-			e_table_header_move(ethi->eth, i, drop_col);
-			found = TRUE;
-			break;
-		}
-	}
-	if (!found) {
-		count = e_table_header_count(ethi->full_header);
-		for (i = 0; i < count; i++) {
-			ETableCol *ecol = e_table_header_get_column (ethi->full_header, i);
-			if (ecol->col_idx == column) {
-				e_table_header_add_column (ethi->eth, ecol, drop_col);
-				break;
+	if (data->data) {
+		count = e_table_header_count(ethi->eth);
+		column = atoi(data->data);
+		drop_col = ethi->drop_col;
+		ethi->drop_col = -1;
+
+		if (column >= 0) {
+			for (i = 0; i < count; i++) {
+				ETableCol *ecol = e_table_header_get_column (ethi->eth, i);
+				if (ecol->col_idx == column) {
+					e_table_header_move(ethi->eth, i, drop_col);
+					found = TRUE;
+					break;
+				}
+			}
+			if (!found) {
+				count = e_table_header_count(ethi->full_header);
+				for (i = 0; i < count; i++) {
+					ETableCol *ecol = e_table_header_get_column (ethi->full_header, i);
+					if (ecol->col_idx == column) {
+						e_table_header_add_column (ethi->eth, ecol, drop_col);
+						break;
+					}
+				}
 			}
 		}
 	}
