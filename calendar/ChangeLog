@@ -1,3 +1,8 @@
+2001-11-05  Damon Chaplin  <damon@ximian.com>
+
+	* gui/calendar-model.c (dup_date_edit_value): removed ';' in the wrong
+	place. Fixes bug #14421.
+
 2001-11-05  Dan Winship  <danw@ximian.com>
 
 	* gui/alarm-notify/Makefile.am (evolution_alarm_notify_LDFLAGS):

@@ -1411,7 +1411,7 @@ dup_date_edit_value (const void *value)
 {
 	ECellDateEditValue *dv, *orig_dv;
 
-	if (value == NULL);
+	if (value == NULL)
 		return NULL;
 
 	orig_dv = (ECellDateEditValue*) value;
