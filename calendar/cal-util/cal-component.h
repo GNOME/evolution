@@ -144,6 +144,10 @@ void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_get_last_modified (CalComponent *comp, struct icaltimetype **t);
 void cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t);
 
+void cal_component_get_sequence (CalComponent *comp, int **sequence);
+void cal_component_set_sequence (CalComponent *comp, int *sequence);
+void cal_component_free_sequence (int *sequence);
+
 void cal_component_get_summary (CalComponent *comp, CalComponentText *summary);
 void cal_component_set_summary (CalComponent *comp, CalComponentText *summary);
 

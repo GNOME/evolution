@@ -67,11 +67,17 @@ typedef struct {
 	struct datetime due;
 
 	icalproperty *last_modified;
+	icalproperty *sequence;
 
 	struct {
 		icalproperty *prop;
 		icalparameter *altrep_param;
 	} summary;
+
+	/* Whether we should increment the sequence number when piping the
+	 * object over the wire.
+	 */
+	guint need_sequence_inc : 1;
 } CalComponentPrivate;
 
 
@@ -198,9 +204,14 @@ free_icalcomponent (CalComponent *comp)
 	priv->due.tzid_param = NULL;
 
 	priv->last_modified = NULL;
+	priv->sequence = NULL;
 
 	priv->summary.prop = NULL;
 	priv->summary.altrep_param = NULL;
+
+	/* Clean up */
+
+	priv->need_sequence_inc = FALSE;
 }
 
 /* Destroy handler for the calendar component object */
@@ -435,6 +446,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 
 	case ICAL_LASTMODIFIED_PROPERTY:
 		priv->last_modified = prop;
+		break;
+
+	case ICAL_SEQUENCE_PROPERTY:
+		priv->sequence = prop;
 		break;
 
 	case ICAL_SUMMARY_PROPERTY:
@@ -1418,6 +1433,8 @@ cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt)
 		      icalproperty_new_dtend,
 		      icalproperty_set_dtend,
 		      dt);
+
+	priv->need_sequence_inc = TRUE;
 }
 
 /**
@@ -1518,6 +1535,8 @@ cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt)
 		      icalproperty_new_dtstart,
 		      icalproperty_set_dtstart,
 		      dt);
+
+	priv->need_sequence_inc = TRUE;
 }
 
 /**
@@ -1565,6 +1584,8 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
 		      icalproperty_new_due,
 		      icalproperty_set_due,
 		      dt);
+
+	priv->need_sequence_inc = TRUE;
 }
 
 /**
@@ -1605,7 +1626,6 @@ cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t)
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (t != NULL);
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
@@ -1614,6 +1634,89 @@ cal_component_set_last_modified (CalComponent *comp, struct icaltimetype *t)
 			  icalproperty_new_lastmodified,
 			  icalproperty_set_lastmodified,
 			  t);
+}
+
+/**
+ * cal_component_get_sequence:
+ * @comp: A calendar component object.
+ * @sequence: Return value for the sequence number.  This should be freed using
+ * cal_component_free_sequence().
+ * 
+ * Queries the sequence number of a calendar component object.
+ **/
+void
+cal_component_get_sequence (CalComponent *comp, int **sequence)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (sequence != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!priv->sequence) {
+		*sequence = NULL;
+		return;
+	}
+
+	*sequence = g_new (int, 1);
+	**sequence = icalproperty_get_sequence (priv->sequence);
+}
+
+/**
+ * cal_component_set_sequence:
+ * @comp: A calendar component object.
+ * @sequence: Sequence number value.
+ * 
+ * Sets the sequence number of a calendar component object.  Normally this
+ * function should not be called, since the sequence number is incremented
+ * automatically at the proper times.
+ **/
+void
+cal_component_set_sequence (CalComponent *comp, int *sequence)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	priv->need_sequence_inc = FALSE;
+
+	if (!sequence) {
+		if (priv->sequence) {
+			icalcomponent_remove_property (priv->icalcomp, priv->sequence);
+			icalproperty_free (priv->sequence);
+			priv->sequence = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->sequence)
+		icalproperty_set_sequence (priv->sequence, *sequence);
+	else {
+		priv->sequence = icalproperty_new_sequence (*sequence);
+		icalcomponent_add_property (priv->icalcomp, priv->sequence);
+	}
+}
+
+/**
+ * cal_component_free_sequence:
+ * @sequence: Sequence number value.
+ * 
+ * Frees a sequence number value.
+ **/
+void
+cal_component_free_sequence (int *sequence)
+{
+	g_return_if_fail (sequence != NULL);
+
+	g_free (sequence);
 }
 
 /**

@@ -1,3 +1,21 @@
+2000-07-07  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (scan_property): Handle the SEQUENCE
+	property.
+	(free_icalcomponent): Ditto.
+	(cal_component_get_sequence): Ditto.
+	(cal_component_set_sequence): Ditto.
+	(cal_component_free_sequence): Ditto.
+	(cal_component_set_last_modified): Removed incorrect assertion.
+	(CalComponentPrivate): New need_sequence_inc flag.  The sequence
+	number must be incremented when certain properties change, so we
+	store a flag that says if we need to bump it when piping the
+	object over the wire.
+	(free_icalcomponent): Reset need_sequence_inc.
+	(cal_component_set_dtstart): Set need_sequence_inc.
+	(cal_component_set_dtend): Ditto.
+	(cal_component_set_due): Ditto.
+
 2000-07-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (scan_property): Handle the
