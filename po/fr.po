@@ -2347,11 +2347,11 @@ msgstr "Mlle"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Mr."
-msgstr "M"
+msgstr "M."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:10
 msgid "Mrs."
-msgstr "Mme"
+msgstr "MM"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Ms."
@@ -2401,7 +2401,7 @@ msgstr "_Cacher les adresses lors de l'envoi d'un E-mail à cette liste"
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
 msgid "_Remove"
-msgstr "Effacer"
+msgstr "_Effacer"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "contact-list-editor"
@@ -6655,7 +6655,7 @@ msgid ""
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
 "Ne peut synchroniser le dossier de spool %s : %s\n"
-"Le dossier est peut-être corrompu, copie sauvée dans '%s'"
+"Le dossier est peut-être corrompu, copie enregistrée dans '%s'"
 
 #: camel/providers/local/camel-spool-summary.c:941
 #, fuzzy, c-format
@@ -6692,13 +6692,13 @@ msgstr "Ne peut obtenir la liste des grouges du serveur."
 #: camel/providers/nntp/camel-nntp-grouplist.c:108
 #, c-format
 msgid "Unable to load grouplist file for %s: %s"
-msgstr "Inpossible de charger la liste des groupes du serveur pour %s : %s"
+msgstr "Impossible de charger la liste des groupes du serveur pour %s : %s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:159
 #, c-format
 msgid "Unable to save grouplist file for %s: %s"
 msgstr ""
-"Inpossible de sauvegarder le fichier de la liste des groupes pour %s : %s"
+"Impossible de sauvegarder le fichier de la liste des groupes pour %s : %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:42
 msgid "USENET news"
@@ -8494,7 +8494,7 @@ msgstr ""
 
 #: mail/mail-account-gui.c:1024
 msgid "Save signature"
-msgstr "sauver la signature :"
+msgstr "Enregistrer la signature"
 
 #: mail/mail-account-gui.c:1030
 msgid ""
@@ -8661,7 +8661,7 @@ msgstr "Un expéditeur inconnu"
 
 #: mail/mail-callbacks.c:788
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "le %a %d-%m-%Y at %H:%M  %%s a écrit :"
+msgstr "le %a %d-%m-%Y à %H:%M,  %%s a écrit :"
 
 #: mail/mail-callbacks.c:1171
 msgid "Move message(s) to"
@@ -8707,7 +8707,7 @@ msgstr "Enregistrer le message sous..."
 
 #: mail/mail-callbacks.c:1727
 msgid "Save Messages As..."
-msgstr "Sauver les messages sous..."
+msgstr "Enregistrer les messages sous..."
 
 #: mail/mail-callbacks.c:1872 widgets/misc/e-messagebox.c:159
 msgid "Warning"
@@ -12529,7 +12529,7 @@ msgstr "Imprimer les contacts sélectionnés"
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
-msgstr "Sauver les contacts sélectionnés comme une Vcard"
+msgstr "Enregistrer les contacts sélectionnés comme une Vcard"
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
@@ -13312,7 +13312,7 @@ msgstr "Rechercher (dans le message)..."
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Save the message as a text file"
-msgstr "Sauver le message comme un fichier texte"
+msgstr "Enregistrer le message comme un fichier texte"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Search for text in the body of the displayed message"
@@ -13481,11 +13481,11 @@ msgstr "Enregistrer sous"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save _Draft"
-msgstr "Sauver le _brouillon"
+msgstr "Enregistrer le _brouillon"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save in folder..."
-msgstr "Sauver dans le dossier..."
+msgstr "Enregistrer dans le dossier..."
 
 #: ui/evolution-message-composer.xml.h:24
 #: ui/evolution-signature-editor.xml.h:4
@@ -14040,7 +14040,7 @@ msgstr "Éditeur de recherche"
 
 #: widgets/misc/e-filter-bar.c:174
 msgid "Save Search"
-msgstr "Sauver la recherche"
+msgstr "Enregistrer la recherche"
 
 #: widgets/misc/e-filter-bar.h:94
 msgid "Add to Saved Searches"
