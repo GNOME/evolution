@@ -1,5 +1,21 @@
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c (set_book): Make
+	sure to only set the query once when creating a new book and not
+	at all on addressbook model creation.  This prevents an accidental
+	pair of changes from making the addressbook model load a remote
+	addressbook.
+
+	* gui/widgets/e-addressbook-model.c (get_view): If this is the
+	first_get_view and the addressbook is remote, empty the view
+	instead of leaving it in the state it used to be in.  This only
+	occurs if you set the book after the model has existed for a
+	while.
+	(e_addressbook_model_set_arg): When setting the book, set
+	first_get_view to TRUE.
+
+2002-02-13  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c (display_view): Attach to the
 	emvw instead of the emv here.
 
