@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -20,6 +21,11 @@
 
 #ifndef _CAMEL_FOLDER_SEARCH_H
 #define _CAMEL_FOLDER_SEARCH_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <e-util/e-sexp.h>
 #include <libibex/ibex.h>
@@ -116,5 +122,9 @@ GPtrArray *camel_folder_search_execute_expression(CamelFolderSearch *search, con
 gboolean camel_folder_search_match_expression(CamelFolderSearch *search, const char *expr,
 					      const CamelMessageInfo *info, CamelException *ex);
 void camel_folder_search_free_result(CamelFolderSearch *search, GPtrArray *);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_FOLDER_SEARCH_H */

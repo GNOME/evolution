@@ -22,6 +22,11 @@
 #ifndef _CAMEL_MIME_FILTER_LINEWRAP_H
 #define _CAMEL_MIME_FILTER_LINEWRAP_H
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
+
 #include <camel/camel-mime-filter.h>
 
 #define CAMEL_MIME_FILTER_LINEWRAP_TYPE         (camel_mime_filter_linewrap_get_type ())
@@ -47,5 +52,9 @@ struct _CamelMimeFilterLinewrapClass {
 CamelType camel_mime_filter_linewrap_get_type (void);
 
 CamelMimeFilter *camel_mime_filter_linewrap_new (guint preferred_len, guint max_len, char indent_char);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_LINEWRAP_H */

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -20,6 +21,11 @@
 
 #ifndef _CAMEL_FOLDER_SUMMARY_H
 #define _CAMEL_FOLDER_SUMMARY_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <stdio.h>
 #include <time.h>
@@ -326,5 +332,9 @@ void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str);
 #define camel_message_info_set_uid(x, s) (g_free(((CamelMessageInfo *)(x))->uid),((CamelMessageInfo *)(x))->uid = (s))
 #define camel_message_info_set_mlist(x, s) (g_free(((CamelMessageInfo *)(x))->mlist),((CamelMessageInfo *)(x))->mlist = (s))
 #endif
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_FOLDER_SUMMARY_H */

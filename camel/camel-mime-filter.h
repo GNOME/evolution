@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -22,6 +23,11 @@
 
 #ifndef _CAMEL_MIME_FILTER_H
 #define _CAMEL_MIME_FILTER_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <sys/types.h>
 #include <camel/camel-object.h>
@@ -80,5 +86,9 @@ void camel_mime_filter_backup(CamelMimeFilter *f, const char *data, size_t lengt
 
 /* ensure this much size available for filter output */
 void camel_mime_filter_set_size(CamelMimeFilter *f, size_t size, int keep);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_H */

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -18,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_VEE_STORE_H
 #define _CAMEL_VEE_STORE_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <glib.h>
 #include <camel/camel-store.h>
@@ -46,5 +53,9 @@ struct _CamelVeeStoreClass {
 
 guint		camel_vee_store_get_type	(void);
 CamelVeeStore      *camel_vee_store_new	(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_VEE_STORE_H */

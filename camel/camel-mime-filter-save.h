@@ -24,6 +24,11 @@
 #ifndef __CAMEL_MIME_FILTER_SAVE_H__
 #define __CAMEL_MIME_FILTER_SAVE_H__
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
+
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-seekable-stream.h>
 
@@ -48,5 +53,9 @@ CamelType camel_mime_filter_save_get_type (void);
 
 CamelMimeFilter *camel_mime_filter_save_new (void);
 CamelMimeFilter *camel_mime_filter_save_new_with_stream (CamelStream *stream);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* __CAMEL_MIME_FILTER_SAVE_H__ */

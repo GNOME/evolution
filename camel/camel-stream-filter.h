@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -18,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_STREAM_FILTER_H
 #define _CAMEL_STREAM_FILTER_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-stream.h>
 #include <camel/camel-mime-filter.h>
@@ -48,5 +55,9 @@ CamelStreamFilter      *camel_stream_filter_new_with_stream	(CamelStream *stream
 
 int camel_stream_filter_add	(CamelStreamFilter *filter, CamelMimeFilter *);
 void camel_stream_filter_remove	(CamelStreamFilter *filter, int id);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_STREAM_FILTER_H */

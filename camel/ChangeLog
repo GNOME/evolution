@@ -1,5 +1,37 @@
 2002-03-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-vtrash-folder.h: 
+	* camel-vee-store.h: 
+	* camel-vee-folder.h: 
+	* camel-stream-null.h: 
+	* camel-stream-filter.h: 
+	* camel-store-summary.h: 
+	* camel-news-address.h: 
+	* camel-mime-utils.h: 
+	* camel-mime-parser.h: 
+	* camel-mime-filter-save.h: 
+	* camel-mime-filter-linewrap.h: 
+	* camel-mime-filter-index.h: 
+	* camel-mime-filter-html.h: 
+	* camel-mime-filter.h: 
+	* camel-mime-filter-from.h: 
+	* camel-mime-filter-crlf.h: 
+	* camel-mime-filter-chomp.h: 
+	* camel-mime-filter-charset.h: 
+	* camel-mime-filter-bestenc.h: 
+	* camel-mime-filter-basic.h: 
+	* camel-internet-address.h: 
+	* camel-folder-thread.h: 
+	* camel-folder-summary.h: 
+	* camel-folder-search.h: 
+	* camel-filter-driver.h: 
+	* camel-charset-map.h: 
+	* camel-address.h: Add c++ armoring.
+
+	* camel-object.h: s/class/klass
+
+2002-03-01  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-part-utils.c
 	(camel_mime_part_construct_content_from_parser): Reverted my
 	pgp/mime fixes here too.

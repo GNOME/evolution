@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -18,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_MIME_FILTER_FROM_H
 #define _CAMEL_MIME_FILTER_FROM_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-mime-filter.h>
 
@@ -44,5 +51,9 @@ struct _CamelMimeFilterFromClass {
 
 guint		camel_mime_filter_from_get_type	(void);
 CamelMimeFilterFrom      *camel_mime_filter_from_new	(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_FROM_H */

@@ -38,14 +38,14 @@ extern "C" {
 
 #ifdef G_DISABLE_CHECKS
 #define CAMEL_CHECK_CAST( obj, ctype, ptype )         ((ptype *) obj)
-#define CAMEL_CHECK_CLASS_CAST( class, ctype, ptype ) ((ptype *) class)
+#define CAMEL_CHECK_CLASS_CAST( klass, ctype, ptype ) ((ptype *) klass)
 #define CAMEL_CHECK_TYPE( obj, ctype )                (TRUE)
-#define CAMEL_CHECK_CLASS_TYPE( class, ctype )        (TRUE)
+#define CAMEL_CHECK_CLASS_TYPE( klass, ctype )        (TRUE)
 #else
 #define CAMEL_CHECK_CAST( obj, ctype, ptype )         ((ptype *) camel_object_check_cast( (CamelObject *)(obj), (CamelType)(ctype) ))
-#define CAMEL_CHECK_CLASS_CAST( class, ctype, ptype ) ((ptype *) camel_object_class_check_cast( (CamelObjectClass *)(class), (CamelType)(ctype) ))
+#define CAMEL_CHECK_CLASS_CAST( klass, ctype, ptype ) ((ptype *) camel_object_class_check_cast( (CamelObjectClass *)(klass), (CamelType)(ctype) ))
 #define CAMEL_CHECK_TYPE( obj, ctype )                (camel_object_is_of_type( (CamelObject *)(obj), (CamelType)(ctype) ))
-#define CAMEL_CHECK_CLASS_TYPE( class, ctype )        (camel_object_class_is_of_type( (CamelObjectClass *)(class), (CamelType)(ctype) ))
+#define CAMEL_CHECK_CLASS_TYPE( klass, ctype )        (camel_object_class_is_of_type( (CamelObjectClass *)(klass), (CamelType)(ctype) ))
 #endif
 
 #define CAMEL_INVALID_TYPE ((CamelType)0)
@@ -124,26 +124,25 @@ void camel_object_unref (CamelObject *obj);
 #define camel_object_unref(o) (printf("%s (%s:%d):unref (%p)\n", __FUNCTION__, __FILE__, __LINE__, o), camel_object_unref (o))
 #endif
 
-CamelObject *camel_object_check_cast (CamelObject * obj,
+CamelObject *camel_object_check_cast (CamelObject *obj,
 				      CamelType ctype);
-CamelObjectClass *camel_object_class_check_cast (CamelObjectClass *
-						 class,
+CamelObjectClass *camel_object_class_check_cast (CamelObjectClass *klass,
 						 CamelType ctype);
-gboolean camel_object_is_of_type (CamelObject * obj, CamelType ctype);
-gboolean camel_object_class_is_of_type (CamelObjectClass * class,
+gboolean camel_object_is_of_type (CamelObject *obj, CamelType ctype);
+gboolean camel_object_class_is_of_type (CamelObjectClass *klass,
 					CamelType ctype);
-gchar *camel_object_describe (CamelObject * obj);
-void camel_object_class_declare_event (CamelObjectClass * class,
-				       const gchar * name,
+gchar *camel_object_describe (CamelObject *obj);
+void camel_object_class_declare_event (CamelObjectClass *klass,
+				       const char *name,
 				       CamelObjectEventPrepFunc prep);
-void camel_object_hook_event (CamelObject * obj, const gchar * name,
+void camel_object_hook_event (CamelObject *obj, const char * name,
 			      CamelObjectEventHookFunc hook,
 			      gpointer user_data);
-void camel_object_unhook_event (CamelObject * obj, const gchar * name,
+void camel_object_unhook_event (CamelObject *obj, const char * name,
 				CamelObjectEventHookFunc hook,
 				gpointer user_data);
-void camel_object_trigger_event (CamelObject * obj,
-				 const gchar * name,
+void camel_object_trigger_event (CamelObject *obj,
+				 const char *name,
 				 gpointer event_data);
 
 #ifdef __cplusplus

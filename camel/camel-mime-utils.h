@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -19,8 +20,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_MIME_UTILS_H
 #define _CAMEL_MIME_UTILS_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <time.h>
 #include <glib.h>
@@ -214,5 +221,9 @@ size_t quoted_encode_close(unsigned char *in, size_t len, unsigned char *out, in
 
 char *base64_encode_simple (const char *data, size_t len);
 size_t base64_decode_simple (char *data, size_t len);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_UTILS_H */

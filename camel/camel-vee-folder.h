@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -18,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_VEE_FOLDER_H
 #define _CAMEL_VEE_FOLDER_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <glib.h>
 #include <camel/camel-folder.h>
@@ -67,5 +74,9 @@ void	     camel_vee_folder_set_folders	(CamelVeeFolder *vf, GList *folders);
 void	     camel_vee_folder_set_expression	(CamelVeeFolder *vf, const char *expr);
 
 void	     camel_vee_folder_hash_folder	(CamelFolder *folder, char buffer[8]);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_VEE_FOLDER_H */

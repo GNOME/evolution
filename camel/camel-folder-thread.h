@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -20,6 +21,11 @@
 
 #ifndef _CAMEL_FOLDER_THREAD_H
 #define _CAMEL_FOLDER_THREAD_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-folder.h>
@@ -53,5 +59,9 @@ void camel_folder_thread_messages_destroy(CamelFolderThread *threads);
 
 /* debugging function only */
 int camel_folder_threaded_messages_dump(CamelFolderThreadNode *c);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* !_CAMEL_FOLDER_THREAD_H */

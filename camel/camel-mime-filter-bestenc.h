@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -20,6 +21,11 @@
 
 #ifndef _CAMEL_MIME_FILTER_BESTENC_H
 #define _CAMEL_MIME_FILTER_BESTENC_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-part.h>
@@ -84,5 +90,9 @@ CamelMimeFilterBestenc      *camel_mime_filter_bestenc_new	(unsigned int flags);
 CamelMimePartEncodingType	camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBestencEncoding required);
 const char *		camel_mime_filter_bestenc_get_best_charset(CamelMimeFilterBestenc *f);
 void 			camel_mime_filter_bestenc_set_flags(CamelMimeFilterBestenc *f, unsigned int flags);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_BESTENC_H */

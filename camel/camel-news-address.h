@@ -1,7 +1,8 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
- *  Authors: 
+ *  Authors: Michael Zucchi <NotZed@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_NEWS_ADDRESS_H
 #define _CAMEL_NEWS_ADDRESS_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-address.h>
 
@@ -41,5 +48,9 @@ struct _CamelNewsAddressClass {
 
 guint		camel_news_address_get_type	(void);
 CamelNewsAddress      *camel_news_address_new	(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_NEWS_ADDRESS_H */

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -20,6 +21,11 @@
 
 #ifndef _CAMEL_MIME_FILTER_CHARSET_H
 #define _CAMEL_MIME_FILTER_CHARSET_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-mime-filter.h>
 #include <iconv.h>
@@ -48,5 +54,9 @@ guint		camel_mime_filter_charset_get_type	(void);
 CamelMimeFilterCharset      *camel_mime_filter_charset_new	(void);
 
 CamelMimeFilterCharset      *camel_mime_filter_charset_new_convert	(const char *from_charset, const char *to_charset);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_CHARSET_H */

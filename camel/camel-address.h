@@ -21,6 +21,11 @@
 #ifndef _CAMEL_ADDRESS_H
 #define _CAMEL_ADDRESS_H
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
+
 #include <glib.h>
 #include <camel/camel-object.h>
 
@@ -66,5 +71,9 @@ int		camel_address_cat	(CamelAddress *, const CamelAddress *);
 int		camel_address_copy	(CamelAddress *, const CamelAddress *);
 
 void		camel_address_remove	(CamelAddress *, int index);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_ADDRESS_H */

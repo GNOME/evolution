@@ -24,6 +24,11 @@
 #ifndef _CAMEL_VTRASH_FOLDER_H
 #define _CAMEL_VTRASH_FOLDER_H
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
+
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-folder.h>
 
@@ -49,5 +54,9 @@ struct _CamelVTrashFolderClass {
 CamelType       camel_vtrash_folder_get_type    (void);
 
 CamelFolder    *camel_vtrash_folder_new		(CamelStore *parent_store, const char *name);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_VTRASH_FOLDER_H */

@@ -20,8 +20,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_MIME_FILTER_CRLF_H
 #define _CAMEL_MIME_FILTER_CRLF_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-mime-filter.h>
 
@@ -59,5 +65,9 @@ struct _CamelMimeFilterCRLFClass {
 CamelType camel_mime_filter_crlf_get_type (void);
 
 CamelMimeFilter *camel_mime_filter_crlf_new (CamelMimeFilterCRLFDirection direction, CamelMimeFilterCRLFMode mode);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_CRLF_H */

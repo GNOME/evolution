@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -18,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_MIME_FILTER_INDEX_H
 #define _CAMEL_MIME_FILTER_INDEX_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-mime-filter.h>
 #include <libibex/ibex.h>
@@ -51,5 +58,9 @@ CamelMimeFilterIndex      *camel_mime_filter_index_new_ibex (ibex *);
 /* Set the match name for any indexed words */
 void camel_mime_filter_index_set_name (CamelMimeFilterIndex *, char *);
 void camel_mime_filter_index_set_ibex (CamelMimeFilterIndex *mf, ibex *index);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_INDEX_H */

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Copyright (C) 2000 Ximian Inc.
  *
@@ -18,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_STORE_SUMMARY_H
 #define _CAMEL_STORE_SUMMARY_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <stdio.h>
 #include <time.h>
@@ -158,5 +165,9 @@ void camel_folder_info_set_string(CamelStoreSummary *, CamelFolderInfo *, int ty
 #define camel_folder_info_full(s, i) (camel_folder_info_string((CamelStoreSummary *)s, (const CamelFolderInfo *)i, CAMEL_STORE_SUMMARY_FULL))
 #define camel_folder_info_uri(s, i) (camel_folder_info_string((CamelStoreSummary *)s, (const CamelFolderInfo *)i, CAMEL_STORE_SUMMARY_URI))
 #define camel_folder_info_name(s, i) (camel_folder_info_string((CamelStoreSummary *)s, (const CamelFolderInfo *)i, CAMEL_STORE_SUMMARY_NAME))
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_STORE_SUMMARY_H */

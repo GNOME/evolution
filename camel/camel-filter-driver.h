@@ -22,6 +22,11 @@
 #ifndef _CAMEL_FILTER_DRIVER_H
 #define _CAMEL_FILTER_DRIVER_H
 
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
+
 #include <glib.h>
 #include <camel/camel-object.h>
 #include <camel/camel-session.h>
@@ -106,5 +111,9 @@ void camel_filter_driver_expand_option (CamelFilterDriver *d, GString *s, GStrin
 int camel_filter_driver_rule_count (CamelFilterDriver *d);
 struct filter_option *camel_filter_driver_rule_get (CamelFilterDriver *d, int n);
 #endif
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_FILTER_DRIVER_H */

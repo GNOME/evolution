@@ -19,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifndef _CAMEL_MIME_FILTER_CHOMP_H
 #define _CAMEL_MIME_FILTER_CHOMP_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-mime-filter.h>
 
@@ -43,5 +49,9 @@ struct _CamelMimeFilterChompClass {
 CamelType camel_mime_filter_chomp_get_type (void);
 
 CamelMimeFilter *camel_mime_filter_chomp_new (void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_FILTER_CHOMP_H */

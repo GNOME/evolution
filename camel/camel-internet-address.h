@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -20,6 +21,11 @@
 
 #ifndef _CAMEL_INTERNET_ADDRESS_H
 #define _CAMEL_INTERNET_ADDRESS_H
+
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #include <camel/camel-address.h>
 
@@ -51,5 +57,9 @@ int			camel_internet_address_find_address(CamelInternetAddress *, const char *, 
 /* utility functions, for network/display formatting */
 char *			camel_internet_address_encode_address(int *len, const char *name, const char *addr);
 char *			camel_internet_address_format_address(const char *real, const char *addr);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_INTERNET_ADDRESS_H */
