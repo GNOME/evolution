@@ -1,3 +1,11 @@
+2001-03-07  Dan Winship  <danw@ximian.com>
+
+	* camel-remote-store.c (camel_remote_store_connected): Return the
+	return value of camel_service_connect rather than returning
+	!camel_exception_is_set(), since that will be wrong if ex==NULL...
+	Fixes a crash in the IMAP keepalive code, but this same problem
+	probably exists in other places too...
+
 2001-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-digest-md5.c (compute_response): Redone so as to save

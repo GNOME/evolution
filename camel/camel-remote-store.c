@@ -635,9 +635,7 @@ camel_remote_store_refresh_folders (CamelRemoteStore *store, CamelException *ex)
 gboolean
 camel_remote_store_connected (CamelRemoteStore *store, CamelException *ex)
 {
-	if (store->istream == NULL) {
-		camel_service_connect (CAMEL_SERVICE (store), ex);
-		return !camel_exception_is_set (ex);
-	}
+	if (store->istream == NULL)
+		return camel_service_connect (CAMEL_SERVICE (store), ex);
 	return TRUE;
 }
