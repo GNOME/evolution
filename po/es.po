@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2004-01-12 22:53-0500\n"
-"PO-Revision-Date: 2004-01-03 21:46+0100\n"
+"PO-Revision-Date: 2004-01-14 16:06+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,9 +99,9 @@ msgid "Manager your S/Mime certificates here"
 msgstr "Gestione sus certificados S/Mime aquí"
 
 #: addressbook/gui/component/addressbook-component.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Addressbook '%s' will be removed. Are you sure you want to continue?"
-msgstr "La Agenda «%s» será eliminada. ¿Seguro que quiere continuar?"
+msgstr "La libreta «%s» será eliminada. ¿Seguro que quiere continuar?"
 
 #: addressbook/gui/component/addressbook-component.c:258
 #: addressbook/gui/component/ldap-config.glade.h:28
@@ -185,14 +185,13 @@ msgid "Migrating..."
 msgstr "Migrando..."
 
 #: addressbook/gui/component/addressbook-migrate.c:53
-#, fuzzy
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"La ubicación y jerarquía de las carpetas de buzones de correo ha cambiado "
+"La ubicación y jerarquía de las carpetas de contactos de Evolution ha cambiado "
 "desde Evolution 1.x.\n"
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas..."
@@ -200,7 +199,7 @@ msgstr ""
 #: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:161
 #, c-format
 msgid "Migrating `%s':"
-msgstr "Migrando «%s»"
+msgstr "Migrando «%s»:"
 
 #. create the local source group
 #: addressbook/gui/component/addressbook-migrate.c:313
@@ -224,9 +223,8 @@ msgid "On LDAP Servers"
 msgstr "En servidores LDAP"
 
 #: addressbook/gui/component/addressbook-migrate.c:463
-#, fuzzy
 msgid "LDAP Servers"
-msgstr "En servidores LDAP"
+msgstr "Servidores LDAP"
 
 #: addressbook/gui/component/addressbook.c:273
 msgid ""
@@ -256,57 +254,51 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:285
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
-"El soporte de esta libreta de direcciones no pudo analizar esta consulta."
+msgstr "El soporte de esta libreta de direcciones no pudo analizar esta consulta."
 
 #: addressbook/gui/component/addressbook.c:288
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
-"El motor para esta libreta de direcciones rehusó a efectuar esta consulta."
+msgstr "El motor para esta libreta de direcciones rehusó a efectuar esta consulta."
 
 #: addressbook/gui/component/addressbook.c:291
 msgid "This query did not complete successfully."
 msgstr "Esta consulta no se completó con éxito."
 
 #: addressbook/gui/component/addressbook.c:592
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  Please check that the path exists "
 "and that you have permission to access it."
 msgstr ""
-"No se pudo abrir esta libreta de direcciones. Compruebe\n"
+"No se pudo abrir esta libreta de direcciones. Compruebe"
 "que la ruta exista y que tenga permisos para acceder a ella."
 
 #: addressbook/gui/component/addressbook.c:599
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"No se pudo abrir esta libreta de direcciones.  Esto significa\n"
-"que ha introducido una URI errónea, o que el servidor LDAP es\n"
+"No se pudo abrir esta libreta de direcciones.  Esto significa"
+"que ha introducido una URI errónea, o que el servidor LDAP es "
 "inaccesible."
 
 #: addressbook/gui/component/addressbook.c:604
-#, fuzzy
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution you must compile the program from the CVS "
 "sources after retrieving OpenLDAP from the link below."
 msgstr ""
-"Esta versión de Evolution no se le ha compilado el soporte LDAP.\n"
-"Si quiere usar LDAP en Evolution debe compilar el programa\n"
-"de las fuentes del CVS una vez que haya obtenido LDAP del\n"
-"siguiente enlace.\n"
+"Esta versión de Evolution no se le ha compilado el soporte LDAP."
+"Si quiere usar LDAP en Evolution debe compilar el programa "
+"de las fuentes del CVS una vez que haya obtenido OpenLDAP del"
+"siguiente enlace."
 
 #: addressbook/gui/component/addressbook.c:613
-#, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 msgstr ""
-"No se pudo abrir esta libreta de direcciones.  Esto significa\n"
-"que ha introducido una URI errónea, o que el servidor LDAP es\n"
+"No se pudo abrir esta libreta de direcciones.  Esto significa"
+"que ha introducido una URI errónea, o que el servidor LDAP es "
 "inaccesible."
 
 #: addressbook/gui/component/addressbook.c:630
@@ -407,9 +399,8 @@ msgid "Addressbook Creation Assistant"
 msgstr "Asistente de creación de libretas"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
-#, fuzzy
 msgid "Addressbook Properties"
-msgstr "Fuentes de la libreta de direcciones"
+msgstr "Propiedades de la libreta de direcciones"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Addressbook Sources"
@@ -450,14 +441,11 @@ msgstr "Dirección de correo-e:"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Evolution will use this DN to authenticate you with the server"
-msgstr ""
-"Evolution usará este Nombre Distintivo para autenticarle con el servidor"
+msgstr "Evolution usará este Nombre Distintivo para autenticarle con el servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
-msgid ""
-"Evolution will use this email address to authenticate you with the server"
-msgstr ""
-"Evolution usará esta dirección de correo-e para autenticarle con el servidor"
+msgid "Evolution will use this email address to authenticate you with the server"
+msgstr "Evolution usará esta dirección de correo-e para autenticarle con el servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
@@ -712,8 +700,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:78
 msgid "This option controls how long a search will be run."
-msgstr ""
-"Esta opción controla durante cuánto tiempo va a efectuarse una búsqueda."
+msgstr "Esta opción controla durante cuánto tiempo va a efectuarse una búsqueda."
 
 #: addressbook/gui/component/ldap-config.glade.h:79
 msgid "U_se SSL/TLS:"
@@ -803,8 +790,7 @@ msgstr "búsqueda"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in.h:1
 msgid "Evolution Addressbook name selection interface"
-msgstr ""
-"Interfaz de selección de nombre de la libreta de direcciones de Evolution"
+msgstr "Interfaz de selección de nombre de la libreta de direcciones de Evolution"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:207
 msgid "Remove All"
@@ -851,39 +837,32 @@ msgid "Source"
 msgstr "Fuente"
 
 #: addressbook/gui/component/select-names/e-select-names.c:494
-#, fuzzy
 msgid "Select Contents from Address Book"
-msgstr "Selecciona contactos de la libreta de direcciones"
+msgstr "Seleccione contenidos de la libreta de direcciones"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "<b>Contacts</b>"
-msgstr "<b>Estado:</b>"
+msgstr "<b>Contactos</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
-#, fuzzy
 msgid "<b>Show Contacts</b>"
-msgstr "Mostrar contactos"
+msgstr "<b>Mostrar contactos</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
-#, fuzzy
 msgid "Address _Book:"
-msgstr "Libreta de direcciones:"
+msgstr "_Libreta de direcciones:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
-#, fuzzy
 msgid "C_ategory:"
 msgstr "_Categoría:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
-#, fuzzy
 msgid "Select Contacts from Address Book"
 msgstr "Selecciona contactos de la libreta de direcciones"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
-#, fuzzy
 msgid "_Find"
-msgstr "Buscar"
+msgstr "_Buscar"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid " B_usiness:"
@@ -939,7 +918,7 @@ msgstr "Detalles"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Enter the person's instant messenger accounts here."
-msgstr ""
+msgstr "Introduzca las cuentas de mensajería instantánea de la persona aquí."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "F_ree/Busy URL:"
@@ -954,14 +933,10 @@ msgid "Full _Name..."
 msgstr "_Nombre completo..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
-#, fuzzy
 msgid ""
 "If this person has the ability to participate in a video conference, enter "
 "their address here."
-msgstr ""
-"Si esta persona publica información de disponibilidad u otra información de "
-"agenda en Internet, escriba\n"
-"aquí la dirección de esa información."
+msgstr "Si esta persona puede participar en una videoconferencia, introduzca su dirección aquí."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid ""
@@ -974,9 +949,8 @@ msgstr ""
 "aquí la dirección de esa información."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Instant Messaging"
-msgstr "_Publicar mensaje"
+msgstr "Mensajería instantánea"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "New phone type"
@@ -1063,7 +1037,7 @@ msgstr "Ésta es la dirección de _correo usual"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
 msgid "_Video Conferencing URL:"
-msgstr ""
+msgstr "URL para _videoconferencia:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Web page address:"
@@ -1287,9 +1261,8 @@ msgid "Congo"
 msgstr "Congo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:186
-#, fuzzy
 msgid "Congo, The Democratic Republic Of The"
-msgstr "Corea, República Democrática Popular de"
+msgstr "Congo, República Democrática del"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cook Islands"
@@ -1496,14 +1469,12 @@ msgid "Indonesia"
 msgstr "Indonesia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:238
-#, fuzzy
 msgid "Iran"
-msgstr "Ilan"
+msgstr "Irán"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:239
-#, fuzzy
 msgid "Iraq"
-msgstr "Israel"
+msgstr "Iraq"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Ireland"
@@ -1550,7 +1521,6 @@ msgid "Kiribati"
 msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:251
-#, fuzzy
 msgid "Korea, Democratic People's Republic Of"
 msgstr "Corea, República Democrática Popular de"
 
@@ -1603,9 +1573,8 @@ msgid "Luxembourg"
 msgstr "Luxemburgo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:264
-#, fuzzy
 msgid "Macao"
-msgstr "Macai"
+msgstr "Macao"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macedonia"
@@ -1853,7 +1822,7 @@ msgstr "Senegal"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "Serbia And Montenegro"
-msgstr ""
+msgstr "Servia y Montenegro"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Seychelles"
@@ -1932,9 +1901,8 @@ msgid "Switzerland"
 msgstr "Suiza"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:346
-#, fuzzy
 msgid "Syria"
-msgstr "Smyrna"
+msgstr "Siria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Taiwan"
@@ -1953,9 +1921,8 @@ msgid "Thailand"
 msgstr "Tailandia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:351
-#, fuzzy
 msgid "Timor-Leste"
-msgstr "Trieste"
+msgstr "Timor-Leste"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Togo"
@@ -2089,9 +2056,8 @@ msgid "Changed"
 msgstr "Modificados"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:708
-#, fuzzy
 msgid "Service"
-msgstr "Servicio preparado"
+msgstr "Servicio"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:722
 msgid "Account Name"
@@ -2139,25 +2105,23 @@ msgstr "Otro"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2807
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2808
-#, fuzzy
 msgid "Jabber"
-msgstr "Lista de id de Jabber"
+msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2809
-#, fuzzy
 msgid "Yahoo"
-msgstr "Yoro"
+msgstr "Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2810
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2811
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:3098
 #, c-format
@@ -2295,8 +2259,7 @@ msgstr "_Nombre de la lista:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
-"_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
+msgstr "_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
@@ -3285,8 +3248,7 @@ msgid "Export in asynchronous mode "
 msgstr "Exportar en modo asíncrono"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 "El número de tarjetas en un archivo de salida en modo asíncrono, tamaño por "
 "omisión 100."
@@ -3296,8 +3258,7 @@ msgid "NUMBER"
 msgstr "NÚMERO"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Error en los argumentos de la línea de comandos, por favor use la opción --"
 "help para ver el uso."
@@ -3336,7 +3297,6 @@ msgstr "Lista de anónimos"
 
 #: calendar/common/authentication.c:34 calendar/gui/itip-utils.c:1156
 #: smime/gui/component.c:39
-#, fuzzy
 msgid "Enter password"
 msgstr "Introduzca contraseña"
 
@@ -3469,11 +3429,11 @@ msgstr "_Abrir"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:902
 msgid "_Dismiss"
-msgstr ""
+msgstr "_Rechazar"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:904
 msgid "Dismiss _All"
-msgstr ""
+msgstr "Rechazar _todas"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:969
 msgid "No description available."
@@ -3584,7 +3544,7 @@ msgstr "Intervalos mostrados en las vistas de día y semana laboral"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Lista de urls para publicación de disponibilidad"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -3664,18 +3624,15 @@ msgstr "Indica si debe ocultar las áreas terminadas"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
-msgstr ""
-"Indica si debe establecer un recordatorio predeterminado para los eventos"
+msgstr "Indica si debe establecer un recordatorio predeterminado para los eventos"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr ""
-"Indica si debe mostrar las horas en formato militar en vez de usar am/pm"
+msgstr "Indica si debe mostrar las horas en formato militar en vez de usar am/pm"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
-msgstr ""
-"Indica si debe mostrar los números de la semana en el navegador de fechas"
+msgstr "Indica si debe mostrar los números de la semana en el navegador de fechas"
 
 #: calendar/gui/cal-search-bar.c:49
 msgid "Summary contains"
@@ -3765,12 +3722,11 @@ msgstr "Trabajo"
 
 #: calendar/gui/calendar-component.c:584 calendar/gui/calendar-component.c:596
 msgid "Birthdays & Anniversaries"
-msgstr ""
+msgstr "Cumpleaños y aniversarios"
 
 #: calendar/gui/calendar-component.c:595
-#, fuzzy
 msgid "Birthdays"
-msgstr "C_umpleaños:"
+msgstr "Cumpleaños"
 
 #: calendar/gui/calendar-component.c:720
 msgid "New appointment"
@@ -3910,14 +3866,12 @@ msgid "Unknown Alarm Options"
 msgstr "Opciones de avisos desconocidos"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-#, fuzzy
 msgid "Alarm Repeat"
-msgstr "<b>Repetición de alarmas</b>"
+msgstr "Repetición de alarma"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Display:"
-msgstr "Pantalla del mensaje"
+msgstr "Mensaje a mostrar:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
@@ -3982,9 +3936,8 @@ msgid "Play a sound"
 msgstr "Reproducir un sonido"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
-#, fuzzy
 msgid "Reminders"
-msgstr "Recordatorio"
+msgstr "Recordatorios"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:471
 msgid "Run a program"
@@ -4192,9 +4145,8 @@ msgid "_24 hour"
 msgstr "_24 horas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#, fuzzy
 msgid "_Add URL"
-msgstr "_Añadir ->"
+msgstr "_Añadir URL"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Ask for confirmation when deleting items"
@@ -4213,9 +4165,8 @@ msgid "_Display"
 msgstr "_Mostrar"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
 msgid "_Free/Busy Publishing"
-msgstr "Solicitud de disponibilidad"
+msgstr "_Publicación de disponibilidad"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Fri"
@@ -4244,8 +4195,7 @@ msgstr "_Sáb"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Show appointment end times in week and month views"
-msgstr ""
-"Mostrar la hora del final de las citas en las vistas s_emanales y mensuales"
+msgstr "Mostrar la hora del final de las citas en las vistas s_emanales y mensuales"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Time divisions:"
@@ -4264,11 +4214,8 @@ msgid "before every appointment"
 msgstr "antes de cada cita"
 
 #: calendar/gui/dialogs/calendar-setup.c:155
-#, fuzzy
 msgid "You must specify a location to get the calendar from."
-msgstr ""
-"El grupo «%s» es remoto. Debe especificar una ubicación de la que obtener la "
-"agenda"
+msgstr "Debe especificar una ubicación de la que obtener la agenda."
 
 #: calendar/gui/dialogs/calendar-setup.c:163
 #, c-format
@@ -4299,37 +4246,33 @@ msgid "Could not create directory for new calendar"
 msgstr "No se pudo crear el directorio para la agenda nueva"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
-#, fuzzy
 msgid "Calendar Creation Assistant"
-msgstr "Asistente de creación de libretas"
+msgstr "Asistente de creación de agendas"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
-#, fuzzy
 msgid "Calendar Properties"
-msgstr "Grupo de agenda"
+msgstr "Propiedades de la agenda"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
-#, fuzzy
 msgid ""
 "Congratulations, you are finished setting up this calendar.\n"
 "\n"
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
-"Felicidades, ha terminado de configurar esta libreta de direcciones. Ahora\n"
+"Felicidades, ha terminado de configurar esta agenda.\n"
 "\n"
 "Por favor, pulse el botón «Terminar» para guardar la configuración que ha "
 "entrado aquí."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid ""
 "Congratulations, you are finished setting up this task list.\n"
 "\n"
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
-"Felicidades, ha terminado de configurar esta libreta de direcciones. Ahora\n"
+"Felicidades, ha terminado de configurar esta lista de tareas.\n"
 "\n"
 "Por favor, pulse el botón «Terminar» para guardar la configuración que ha "
 "entrado aquí."
@@ -4340,45 +4283,38 @@ msgid "New Task List"
 msgstr "Lista de tareas nueva"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15
-#, fuzzy
 msgid "Remote"
-msgstr "Eliminar"
+msgstr "Remoto"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:18
-#, fuzzy
 msgid ""
 "Specifying a display name and group is the first step in setting up a "
 "calendar."
 msgstr ""
 "Especificar un nombre para mostrar es el primer paso requerido para "
-"configurar una libreta de direcciones."
+"configurar una agenda."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:19
-#, fuzzy
 msgid ""
 "Specifying a display name and group is the first step in setting up a task "
 "list."
 msgstr ""
 "Especificar un nombre para mostrar es el primer paso requerido para "
-"configurar una libreta de direcciones."
+"configurar una lista de tareas."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:21
-#, fuzzy
 msgid "Step 2: Remote Folder Parameters"
-msgstr "Paso 1: Características de la carpeta"
+msgstr "Paso 2: Parámetros de carpeta remota"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:22
-#, fuzzy
 msgid "Task List Creation Assistant"
-msgstr "Asistente de creación de libretas"
+msgstr "Asistente de creación de listas de tareas"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:23
-#, fuzzy
 msgid "Task List Properties"
-msgstr "Agrupar lista de tareas"
+msgstr "Propiedades de lista de tareas"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:24
-#, fuzzy
 msgid ""
 "This assistant will help you create a new calendar. \n"
 "\n"
@@ -4386,14 +4322,13 @@ msgid ""
 "parameters may be required. Please contact your system\n"
 "administrator if you need help finding this information."
 msgstr ""
-"Este asistente le ayudará a crear una libreta de direcciones nueva. \n"
+"Este asistente le ayudará a crear una agenda nueva. \n"
 " \n"
-"Dependiendo del tipo de libreta de direcciones que cree, se requerirán\n"
+"Dependiendo del tipo de agenda que cree, se requerirán\n"
 "parámetros adicionales. contacte con su administrador de sistemas\n"
 "si necesita ayuda para encontrar esta información."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:29
-#, fuzzy
 msgid ""
 "This assistant will help you create a new task list.\n"
 "\n"
@@ -4401,9 +4336,9 @@ msgid ""
 "parameters may be required. Please contact your system\n"
 "administrator if you need help finding this information."
 msgstr ""
-"Este asistente le ayudará a crear una libreta de direcciones nueva. \n"
+"Este asistente le ayudará a crear una lista de tareas nueva. \n"
 " \n"
-"Dependiendo del tipo de libreta de direcciones que cree, se requerirán\n"
+"Dependiendo del tipo de lista de tareas que cree, se requerirán\n"
 "parámetros adicionales. contacte con su administrador de sistemas\n"
 "si necesita ayuda para encontrar esta información."
 
@@ -4413,16 +4348,17 @@ msgid ""
 "requires you\n"
 "to specify additional parameters."
 msgstr ""
+"Está creando una carpeta en un grupo que está almacenado en una ubicación remota. "
+"Esto requiere que \n"
+"especifique parámetros adicionales."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:38
-#, fuzzy
 msgid "_Refresh Interval:"
-msgstr "Regenerar la lista"
+msgstr "Intervalo de _refresco:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:39
-#, fuzzy
 msgid "_Source URL:"
-msgstr "URI de la fuente POP"
+msgstr "URL de _origen:"
 
 #: calendar/gui/dialogs/cancel-comp.c:57
 msgid ""
@@ -4575,7 +4511,6 @@ msgstr ""
 "actualización por correo"
 
 #: calendar/gui/dialogs/comp-editor.c:1562
-#, fuzzy
 msgid "Unable to use current version!"
 msgstr "Imposible obtener versión actual."
 
@@ -4651,8 +4586,7 @@ msgstr "La tarea no pudo ser borrada porque el permiso fue denegado"
 
 #: calendar/gui/dialogs/delete-error.c:74
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
-"La entrada del diario no pudo ser borrada porque el permiso fue denegado"
+msgstr "La entrada del diario no pudo ser borrada porque el permiso fue denegado"
 
 #: calendar/gui/dialogs/delete-error.c:77
 msgid "The item could not be deleted because permission was denied"
@@ -4761,18 +4695,16 @@ msgstr "Co_nfidencial"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Date & Time"
-msgstr "Fecha/Hora"
+msgstr "Fecha y hora"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 msgid "F_ree"
 msgstr "Lib_re"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "L_ocation:"
-msgstr "Lugar:"
+msgstr "_Ubicación:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:8
@@ -4785,9 +4717,8 @@ msgid "Pu_blic"
 msgstr "Pú_blico"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Show Time As"
-msgstr "<b>Mostrar hora como</b>"
+msgstr "Mostrar hora como"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:11
@@ -4937,18 +4868,15 @@ msgstr "Nombre de la lista de tareas"
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr ""
-"Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
+msgstr "Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
 
 #: calendar/gui/dialogs/recur-comp.c:54
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Está modificando una tarea que se repite, ¿qué quiere modificar?"
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
-"Está modificando una entrada del diario que se repite, ¿qué quiere modificar?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Está modificando una entrada del diario que se repite, ¿qué quiere modificar?"
 
 #: calendar/gui/dialogs/recur-comp.c:72
 msgid "This Instance Only"
@@ -5027,19 +4955,16 @@ msgid "Every"
 msgstr "Cada"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
-#, fuzzy
 msgid "Exceptions"
-msgstr "<b>Excepciones</b>"
+msgstr "Excepciones"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
-#, fuzzy
 msgid "Preview"
-msgstr "Vista previa:"
+msgstr "Vista previa"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:7
-#, fuzzy
 msgid "Recurrence Rule"
-msgstr "<b>Regla de repetición</b>"
+msgstr "Regla de repetición"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "_Custom recurrence"
@@ -5115,8 +5040,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/send-comp.c:67
 msgid "The task assignment information has been created. Send it?"
-msgstr ""
-"La información de asignación de tareas ha sido creada. ¿Desea enviarla?"
+msgstr "La información de asignación de tareas ha sido creada. ¿Desea enviarla?"
 
 #: calendar/gui/dialogs/send-comp.c:71
 msgid "The task information has changed. Send an updated version?"
@@ -5173,9 +5097,8 @@ msgid "Not Started"
 msgstr "Sin comenzar"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "Progress"
-msgstr "En proceso"
+msgstr "Progreso"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:394
@@ -6088,8 +6011,7 @@ msgstr "Actualización terminada\n"
 
 #: calendar/gui/e-itip-control.c:1801 calendar/gui/e-itip-control.c:1873
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"El estado de asistencia no puede ser actualizado porque no existe el elemento"
+msgstr "El estado de asistencia no puede ser actualizado porque no existe el elemento"
 
 #: calendar/gui/e-itip-control.c:1817 calendar/gui/e-itip-control.c:1855
 msgid "Object is invalid and cannot be updated\n"
@@ -6382,18 +6304,17 @@ msgid "Opening tasks at %s"
 msgstr "Abriendo tareas en %s"
 
 #: calendar/gui/e-tasks.c:808
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error opening %s:\n"
 "%s"
 msgstr ""
-"Error en %s:\n"
+"Error al abrir %s:\n"
 " %s"
 
 #: calendar/gui/e-tasks.c:825
-#, fuzzy
 msgid "Loading tasks"
-msgstr "Carga de imágenes"
+msgstr "Cargando tareas"
 
 #: calendar/gui/e-tasks.c:918
 msgid "Completing tasks..."
@@ -6413,14 +6334,14 @@ msgid "Calendar"
 msgstr "Agenda"
 
 #: calendar/gui/gnome-cal.c:1755
-#, fuzzy, c-format
+#, c-format
 msgid "Opening %s"
-msgstr "Abrir en %s..."
+msgstr "Abriendo %s"
 
 #: calendar/gui/gnome-cal.c:1766
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open '%s': %s"
-msgstr "No se pudo renombrar: «%s»: %s"
+msgstr "No se pudo abrir «%s»: %s"
 
 #: calendar/gui/gnome-cal.c:1911
 #, c-format
@@ -6559,7 +6480,7 @@ msgid "You must be an attendee of the event."
 msgstr "Debe ser un asistente del acontecimiento."
 
 #: calendar/gui/itip-utils.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for %s"
 msgstr "Introduzca su contraseña para %s"
 
@@ -6826,8 +6747,7 @@ msgstr "Crea una lista de tareas nueva"
 #: calendar/gui/tasks-component.c:698
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr ""
-"No es posible abrir la lista de tareas «%s» para crear eventos y reuniones"
+msgstr "No es posible abrir la lista de tareas «%s» para crear eventos y reuniones"
 
 #: calendar/gui/tasks-component.c:710
 msgid "There is no calendar available for creating tasks"
@@ -8496,7 +8416,7 @@ msgstr "Resincronizando con el servidor"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr ""
+msgstr "Copiar el contenido de la carpeta localmente para operación desconectada"
 
 #: camel/camel-disco-folder.c:101
 msgid "Downloading new messages for offline mode"
@@ -8742,8 +8662,7 @@ msgstr "Esta parte del mensaje está firmada digitalmente"
 #: camel/camel-smime-context.c:708 camel/camel-smime-context.c:719
 #: camel/camel-smime-context.c:726
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr ""
-"No se pudo verificar la firma del mensaje: Formato de mensaje incorrecto"
+msgstr "No se pudo verificar la firma del mensaje: Formato de mensaje incorrecto"
 
 #: camel/camel-gpg-context.c:1402
 #, c-format
@@ -8797,8 +8716,7 @@ msgstr "No se pudo bloquear el archivo para %s: %s"
 #: camel/camel-lock.c:154
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr ""
-"Expiró el tiempo tratando de cerrar el archivo %s. Inténtelo más tarde."
+msgstr "Expiró el tiempo tratando de cerrar el archivo %s. Inténtelo más tarde."
 
 #: camel/camel-lock.c:209
 #, c-format
@@ -8966,8 +8884,7 @@ msgstr "Reto del servidor no válido\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr ""
-"El reto del servidor contiene una valor «Calidad de Protección» no válido\n"
+msgstr "El reto del servidor contiene una valor «Calidad de Protección» no válido\n"
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
@@ -8975,8 +8892,7 @@ msgstr "La respuesta del servidor no contenía información de autorización\n"
 
 #: camel/camel-sasl-digest-md5.c:868
 msgid "Server response contained incomplete authorization data\n"
-msgstr ""
-"La respuesta del servidor contenía información de autorización incompleta\n"
+msgstr "La respuesta del servidor contenía información de autorización incompleta\n"
 
 #: camel/camel-sasl-digest-md5.c:878
 msgid "Server response does not match\n"
@@ -8996,7 +8912,7 @@ msgid ""
 "unrecognized by the implementation."
 msgstr ""
 "El mecanismo especificado no está soportado por la credencial provista, o es "
-"ireconocible por la implementación."
+"irreconocible por la implementación."
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The provided target_name parameter was ill-formed."
@@ -9037,8 +8953,7 @@ msgstr ""
 
 #: camel/camel-sasl-gssapi.c:174
 msgid "The supplied context handle did not refer to a valid context."
-msgstr ""
-"El manipulador de contexto suministrado no se refiere a un contexto válido."
+msgstr "El manipulador de contexto suministrado no se refiere a un contexto válido."
 
 #: camel/camel-sasl-gssapi.c:177
 msgid "The consistency checks performed on the input_token failed."
@@ -9294,8 +9209,7 @@ msgstr "No se pudo descifrar la firma del certificado"
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr ""
-"No se pudo descifrar la firma de la Lista de Revocación de Certificados"
+msgstr "No se pudo descifrar la firma de la Lista de Revocación de Certificados"
 
 #: camel/camel-tcp-stream-openssl.c:576
 msgid "Unable to decode issuer's public key"
@@ -9539,7 +9453,6 @@ msgid "Check for new messages in all folders"
 msgstr "Comprobar si hay mensajes nuevos en todas las carpetas"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:71
-#, fuzzy
 msgid "Apply filters to new messages in Inbox on this server"
 msgstr ""
 "Aplicar filtros a los mensajes nuevos en la bandeja de entrada de este "
@@ -9552,11 +9465,11 @@ msgstr "Sincronizar automáticamente el correo remoto localmente"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:82
 msgid "Novell GroupWise"
-msgstr ""
+msgstr "Novell GroupWise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:84
 msgid "For accesing Novell Groupwise servers"
-msgstr ""
+msgstr "Para acceder a servidores Novell Groupwise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:99
 #: camel/providers/imap/camel-imap-provider.c:89
@@ -9841,8 +9754,7 @@ msgstr "No existe la carpeta %s"
 
 #: camel/providers/imap/camel-imap-store.c:2017
 #, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
 "El nombre de la carpeta «%s» es inválido porque no puede contener el "
 "carácter de retorno de carro «%c»"
@@ -10435,44 +10347,41 @@ msgid "Internal error: uid in invalid format: %s"
 msgstr "Error interno: uid en formato inválido: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get article %s from NNTP server"
-msgstr "No se pudo obtener la lista de grupo del servidor."
+msgstr "No se pudo obtener el artículo %s del servidor NNTP"
 
 #: camel/providers/nntp/camel-nntp-folder.c:353
 msgid "Posting not allowed by news server"
-msgstr ""
+msgstr "Publicación no permitida por el servidor de noticias"
 
 #: camel/providers/nntp/camel-nntp-folder.c:364
 #, c-format
 msgid "Failed to send newsgroups header: %s: message not posted"
-msgstr ""
+msgstr "Fallo al enviar la cabecera de los grupos de noticias: %s mensaje no publicado"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 #: camel/providers/nntp/camel-nntp-folder.c:417
 #, c-format
 msgid "Error posting to newsgroup: %s: message not posted"
-msgstr ""
+msgstr "Error al publicar en el grupo de noticias %s: mensaje no publicado"
 
 #: camel/providers/nntp/camel-nntp-folder.c:429
 msgid "Error reading response to posted message: message not posted"
-msgstr ""
+msgstr "Error leyendo la respuesta al mensaje publicado: mensaje no publicado"
 
 #: camel/providers/nntp/camel-nntp-folder.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "Error posting message: %s: message not posted"
-msgstr ""
-"Error auto guardando el mensaje: %s\n"
-" %s"
+msgstr "Error al publicar el mensaje: %s: mensaje no publicado"
 
 #: camel/providers/nntp/camel-nntp-folder.c:448
 msgid "You cannot post NNTP messages while working offline!"
-msgstr ""
+msgstr "No puede publicar mensajes NNTP mientras trabaja desconectado."
 
 #: camel/providers/nntp/camel-nntp-folder.c:459
-#, fuzzy
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "No se pudo copiar los mensajes a la carpeta buzón temporal: %s"
+msgstr "No puede copiar mensajes desde una carpeta NNTP"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
 msgid "Could not get group list from server."
@@ -10490,13 +10399,12 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "No se pudo guardar el archivo de lista de grupo para %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr ""
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgstr "Mostrar carpetas en notación corta (ej: c.o.linux en vez de xomp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
-msgstr ""
+msgstr "En el diálogo de subscripción, mostrar nombres de carpetas relativos"
 
 #: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
@@ -10530,19 +10438,19 @@ msgid "USENET News via %s"
 msgstr "Noticias USENET vía %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:641
-#, fuzzy
 msgid "Stream error"
-msgstr "error de análisis"
+msgstr "error de flujo"
 
 #: camel/providers/nntp/camel-nntp-store.c:644
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
 "\n"
 "%s"
 msgstr ""
-"Error guardando mensajes en: %s:\n"
-" %s"
+"Error al obtener los grupos de noticias:\n"
+"\n"
+"%s"
 
 #: camel/providers/nntp/camel-nntp-store.c:736
 msgid ""
@@ -10550,6 +10458,9 @@ msgid ""
 "\n"
 "No such newsgroup. The selected item is a probably a parent folder."
 msgstr ""
+"No puede suscribirse a este grupo de noticias:\n"
+"\n"
+"No existe dicho grupo. El elemento seleccionado probablemente es una carpeta madre."
 
 #: camel/providers/nntp/camel-nntp-store.c:768
 msgid ""
@@ -10557,25 +10468,26 @@ msgid ""
 "\n"
 "newsgroup does not exist!"
 msgstr ""
+"No puede suscribirse a este grupo de noticias:\n"
+"\n"
+"el grupo de noticias no existe"
 
 #: camel/providers/nntp/camel-nntp-store.c:793
 msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr ""
+msgstr "No puede crear una carpeta en un almacén de Noticias: suscríbase en su lugar."
 
 #: camel/providers/nntp/camel-nntp-store.c:801
-#, fuzzy
 msgid "You cannot rename a folder in a News store."
-msgstr "No se pudo cambiar el nombre de la carpeta %s a %s: %s"
+msgstr "No se puede renombrar una carpeta en un almacén de noticias."
 
 #: camel/providers/nntp/camel-nntp-store.c:809
-#, fuzzy
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
-msgstr "No se pudo mover una carpeta dentro de uno de sus descendientes."
+msgstr "No puede eliminar una carpeta en un almacén de noticias:desuscríbase en su lugar."
 
 #: camel/providers/nntp/camel-nntp-summary.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Connection error: %s"
-msgstr "Error desconocido: %s"
+msgstr "Error de conexión: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:240
 #, c-format
@@ -10588,9 +10500,8 @@ msgid "Could not get group: %s"
 msgstr "No se pudo obtener grupo: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:311
-#, fuzzy
 msgid "Could not get messages: unspecificed error"
-msgstr "No se pudo enviar mensaje: %s"
+msgstr "No se pudieron obtener los mensajes: error no especificado"
 
 #: camel/providers/nntp/camel-nntp-summary.c:356
 #, c-format
@@ -10720,8 +10631,7 @@ msgstr "SASL «%s» Falló el inicio de sesión para servidor POP %s: %s"
 #: camel/providers/pop3/camel-pop3-store.c:437
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr ""
-"No se pudo iniciar sesión en el servidor POP %s: Error del protocolo SASL"
+msgstr "No se pudo iniciar sesión en el servidor POP %s: Error del protocolo SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:456
 #, c-format
@@ -10757,8 +10667,7 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr ""
-"Para enviar correo pasándoselo al programa «sendmail» en el sistema local."
+msgstr "Para enviar correo pasándoselo al programa «sendmail» en el sistema local."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -10856,8 +10765,7 @@ msgstr "El usuario no es local: lo reenviaré a <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr ""
-"Acción solicitada del correo no realizada: el mailbox no está disponible"
+msgstr "Acción solicitada del correo no realizada: el mailbox no está disponible"
 
 #: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Requested action not taken: mailbox unavailable"
@@ -10873,8 +10781,7 @@ msgstr "El usuario no es local: pruebe con <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr ""
-"Acción solicitada no realizada: la capacidad del sistema es insuficiente"
+msgstr "Acción solicitada no realizada: la capacidad del sistema es insuficiente"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
@@ -10938,8 +10845,7 @@ msgstr "Error de respuesta en STARTTLS"
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr ""
-"El servidor SMTP %s no implementa el método de autenticación requerido %s."
+msgstr "El servidor SMTP %s no implementa el método de autenticación requerido %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
@@ -11147,9 +11053,8 @@ msgid "Posting destination"
 msgstr "Publicar destino"
 
 #: composer/e-msg-composer-hdrs.c:508
-#, fuzzy
 msgid "Choose folders to post the message to."
-msgstr "Elija una carpeta para publicar el mensaje."
+msgstr "Elija las carpetas en las que publicar el mensaje."
 
 #: composer/e-msg-composer-hdrs.c:542
 msgid "Click here for the address book"
@@ -11216,17 +11121,15 @@ msgid "Post To:"
 msgstr "Publicar en:"
 
 #: composer/e-msg-composer-hdrs.c:614
-#, fuzzy
 msgid "Click here to select folders to post to"
-msgstr "<pinche aquí para seleccionar una carpeta>"
+msgstr "Pulse aquí para seleccionar las carpetas en las que publicar"
 
 #: composer/e-msg-composer-select-file.c:119
 msgid "Attach file(s)"
 msgstr "Adjuntar archivo(s)"
 
 #: composer/e-msg-composer.c:654
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for from account"
+msgid "Cannot sign outgoing message: No signing certificate set for from account"
 msgstr ""
 "No se puede firmar el correo saliente: No hay establecido un certificado de "
 "firma para la cuenta remitente"
@@ -11308,12 +11211,11 @@ msgstr ""
 " %s"
 
 #: composer/e-msg-composer.c:1376
-#, fuzzy
 msgid ""
 "Ximian Evolution has found unsaved messages from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
-"Ximian Evolution ha encontrado archivos no guardados de una sesión previa.\n"
+"Ximian Evolution ha encontrado mensajes no guardados de una sesión previa.\n"
 "¿Quiere tratar de recuperarlos?"
 
 #: composer/e-msg-composer.c:1540
@@ -11347,16 +11249,16 @@ msgstr "Auto-generado"
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] ""
+msgstr[0] "<b>%d</b> archivo adjunto"
 msgstr[1] ""
 
 #: composer/e-msg-composer.c:2274
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Ocultar barra de _adjuntos (soltar adjuntos aquí)"
 
 #: composer/e-msg-composer.c:2277 composer/e-msg-composer.c:3136
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Mostrar barra de _adjuntos (soltar adjuntos aquí)"
 
 #: composer/e-msg-composer.c:2294 composer/e-msg-composer.c:3020
 #: composer/e-msg-composer.c:3021
@@ -11395,8 +11297,7 @@ msgstr ""
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr ""
-"<b>(El editor contiene un mensaje sin texto, que no puede editarse)</b>"
+msgstr "<b>(El editor contiene un mensaje sin texto, que no puede editarse)</b>"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -12226,8 +12127,7 @@ msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 "Configure las preferencias de correo incluyendo seguridad y visualización de "
 "mensajes, aquí"
@@ -12491,8 +12391,7 @@ msgstr "Renombrar carpeta"
 #: mail/em-folder-tree.c:1397 shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
-msgstr ""
-"Ya existe una carpeta llamada «%s». por favor, use un nombre diferente."
+msgstr "Ya existe una carpeta llamada «%s». por favor, use un nombre diferente."
 
 #: mail/em-folder-tree.c:1497
 msgid "Folder properties"
@@ -12509,14 +12408,12 @@ msgid "Folder Name"
 msgstr "Nombre de la carpeta"
 
 #: mail/em-folder-tree.c:1523
-#, fuzzy
 msgid "Total messages"
-msgstr "Mensaje de ayuda"
+msgstr "Mensajes en total"
 
 #: mail/em-folder-tree.c:1535
-#, fuzzy
 msgid "Unread messages"
-msgstr "Mensaje siguiente _no leído"
+msgstr "Mensajes no leídos"
 
 #: mail/em-folder-tree.c:1644 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:20 ui/evolution-mail-messagedisplay.xml.h:8
@@ -12687,20 +12584,20 @@ msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
 #: mail/em-folder-view.c:2113
-#, fuzzy, c-format
+#, c-format
 msgid "Click to mail %s"
-msgstr "Pulse aquí para añadir una tarea"
+msgstr "Pulse para enviar correo a %s"
 
 #: mail/em-folder-view.c:2115
-#, fuzzy, c-format
+#, c-format
 msgid "Click to open %s"
-msgstr "Pulse aquí para añadir una tarea"
+msgstr "Pulse para abrir %s"
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:395
 #, c-format
 msgid "Matches: %d"
-msgstr "Coincide: %d"
+msgstr "Coincide con: %d"
 
 #: mail/em-format-html-display.c:632 mail/em-format-html.c:564
 msgid "Unsigned"
@@ -12755,7 +12652,6 @@ msgid "Unencrypted"
 msgstr "Descifrado"
 
 #: mail/em-format-html-display.c:641
-#, fuzzy
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -12961,9 +12857,9 @@ msgid "Failed to migrate `%s': %s"
 msgstr "Fallo al migrar «%s»: %s"
 
 #: mail/em-migrate.c:857 mail/em-migrate.c:872
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
-msgstr "Fallo al migrar «%s»: %s"
+msgstr "Falló  al migrar las cachés de identificación de usuario pop3 : %s"
 
 #: mail/em-migrate.c:931 mail/em-migrate.c:948
 #, c-format
@@ -13307,8 +13203,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Preguntar al usuario cuando intenta compactar una carpeta."
 
 #: mail/evolution-mail.schemas.in.in.h:41
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Preguntar al usuario cuando intenta enviar un mensaje sin un asunto."
 
 #: mail/evolution-mail.schemas.in.in.h:42
@@ -13391,8 +13286,7 @@ msgstr "Reproducir un archivo de sonido cuando llegue correo nuevo."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr ""
-"Especifica el tipo de notificación de correo nuevo que el usuario desea usar."
+msgstr "Especifica el tipo de notificación de correo nuevo que el usuario desea usar."
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Spell check inline"
@@ -13448,11 +13342,11 @@ msgstr "Cadena UID para la cuenta predeterminada."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Use Spamasssassin daemon and client"
-msgstr ""
+msgstr "Usar el demonio y cliente de Spamassassin"
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
-msgstr ""
+msgstr "Usar el demonio y cliente de Spamassassin (spamc/spamd)"
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Use custom fonts"
@@ -13806,9 +13700,8 @@ msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
 #: mail/mail-component.c:582
-#, fuzzy
 msgid "URI of the mail source that the view will display"
-msgstr "UID de la fuente de contactos que la vista mostrará"
+msgstr "URI de la fuente de correo que la vista mostrará"
 
 #: mail/mail-config-druid.c:367 mail/mail-config.glade.h:65
 msgid "Identity"
@@ -14030,8 +13923,7 @@ msgstr "No citar el mensaje original"
 
 #: mail/mail-config.glade.h:48
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr ""
-"No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
+msgstr "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
 #: mail/mail-config.glade.h:49 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
@@ -14394,9 +14286,8 @@ msgid "_Junk"
 msgstr "_Basura"
 
 #: mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Load images if sender is in address book"
-msgstr "Cargar imágenes si el _remitente está en la libreta de direcciones"
+msgstr "_Cargar imágenes si el remitente está en la libreta de direcciones"
 
 #: mail/mail-config.glade.h:159
 msgid "_Local Tests Only"
@@ -15082,10 +14973,8 @@ msgstr ""
 "desarrollo de Evolution no se mostrará."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
-msgstr ""
-"Lista de rutas a las carpetas que serán sincronizadas para uso en desconexión"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgstr "Lista de rutas a las carpetas que serán sincronizadas para uso en desconexión"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Path to the default calendar folder"
@@ -15466,8 +15355,7 @@ msgstr "No ha especificado un nombre de carpeta."
 
 #: shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr ""
-"El nombre de la carpeta no puede contener el carácter de retorno de carro."
+msgstr "El nombre de la carpeta no puede contener el carácter de retorno de carro."
 
 #: shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
@@ -15483,8 +15371,7 @@ msgstr "'.' y '..' son nombres reservados de carpetas."
 
 #: shell/e-shell-view-menu.c:89 shell/e-shell-window-commands.c:58
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
-"Las utilidades GNOME Pilot no parecen estar instaladas en este sistema."
+msgstr "Las utilidades GNOME Pilot no parecen estar instaladas en este sistema."
 
 #: shell/e-shell-view-menu.c:97 shell/e-shell-window-commands.c:66
 #, c-format
@@ -15534,8 +15421,7 @@ msgid "Work Offline"
 msgstr "Trabajar desconectado"
 
 #: shell/e-shell-window.c:324
-msgid ""
-"Ximian Evolution is currently online.  Click on this button to work offline."
+msgid "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution está conectado.  Pulse este botón para trabajar "
 "desconectado."
@@ -15545,8 +15431,7 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution está en proceso de desconectarse."
 
 #: shell/e-shell-window.c:337
-msgid ""
-"Ximian Evolution is currently offline.  Click on this button to work online."
+msgid "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution está desconectado.  Pulse este botón para trabajar "
 "conectado."
@@ -15751,19 +15636,16 @@ msgstr ""
 "%s"
 
 #: shell/evolution-test-component.c:140
-#, fuzzy
 msgid "New Test"
-msgstr "Tarea nueva"
+msgstr "Prueba nueva"
 
 #: shell/evolution-test-component.c:141
-#, fuzzy
 msgid "_Test"
-msgstr "Prueba"
+msgstr "_Prueba"
 
 #: shell/evolution-test-component.c:142
-#, fuzzy
 msgid "Create a new test item"
-msgstr "Crea una lista de tareas nueva"
+msgstr "Crea una elemento de prueba nuevo"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "Active Connections"
@@ -16049,9 +15931,9 @@ msgid "Certificate Viewer: %s"
 msgstr "Visor de certificados: %s"
 
 #: smime/gui/component.c:36
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for `%s'"
-msgstr "Introduzca su contraseña para %s"
+msgstr "Introduzca la contraseña para «%s»"
 
 #. FIXME: add serial no, validity date, uses
 #: smime/gui/e-cert-selector.c:116
@@ -16230,8 +16112,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Tiene certificados de estas organizaciones que le identifican:"
 
 #: smime/gui/smime-ui.glade.h:44
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "Tiene certificados en el archivo que identifican a estas autoridades de "
 "certificación:"
@@ -16913,8 +16794,7 @@ msgstr "Abre una ventana para escribir un mensaje de correo"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
-"Elimina permanentemente todos los mensajes borrados de todas las carpetas"
+msgstr "Elimina permanentemente todos los mensajes borrados de todas las carpetas"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Post Ne_w Message"
@@ -16973,10 +16853,8 @@ msgid "Hide _Read Messages"
 msgstr "Oculta_r mensajes leídos"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
-"Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
+msgid "Hide deleted messages rather than displaying them with a line through them"
+msgstr "Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
@@ -17598,18 +17476,16 @@ msgid "Toggles whether the From chooser is displayed"
 msgstr "Conmutador que indica si se muestra el selector «De»"
 
 #: ui/evolution-message-composer.xml.h:35
-#, fuzzy
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "Conmutador que indica si se muestra el campo «Responder-a»"
+msgstr "Conmutador que indica si se muestra el campo «Publicar-en»"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Responder-a»"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "Conmutador que indica si se muestra el campo «Cc»"
+msgstr "Conmutador que indica si se muestra el campo «Para»"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -17641,9 +17517,8 @@ msgid "_Open..."
 msgstr "_Abrir..."
 
 #: ui/evolution-message-composer.xml.h:48
-#, fuzzy
 msgid "_Post-To Field"
-msgstr "Campo «_Responder-a»"
+msgstr "Campo «_Publicar-en»"
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
@@ -17654,9 +17529,8 @@ msgid "_Security"
 msgstr "_Seguridad"
 
 #: ui/evolution-message-composer.xml.h:52
-#, fuzzy
 msgid "_To Field"
-msgstr "Campo «_De»"
+msgstr "Campo «_Para»"
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
@@ -17755,14 +17629,12 @@ msgid "Print the list of tasks"
 msgstr "Imprime la lista de tareas"
 
 #: ui/evolution-tasks.xml.h:16
-#, fuzzy
 msgid "View the selected task"
-msgstr "Borra las tareas seleccionadas"
+msgstr "Ver la tarea seleccionada"
 
 #: ui/evolution-tasks.xml.h:21
-#, fuzzy
 msgid "_Open Task"
-msgstr "_Tarea"
+msgstr "_Abrir tarea"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
@@ -17830,7 +17702,7 @@ msgstr "Conmutador que indica si se está trabajando desconectado o no."
 
 #: ui/evolution.xml.h:21
 msgid "Ximian Evolution _FAQ"
-msgstr "_FAQ de Ximian Evolution"
+msgstr "P+_F de Ximian Evolution"
 
 #: ui/evolution.xml.h:22
 msgid "_About Ximian Evolution..."
@@ -18137,73 +18009,66 @@ msgid "Find _Now"
 msgstr "Buscar _ahora"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Test"
-msgstr "Evolution"
+msgstr "Prueba de Evolution"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
 msgstr "Componente de Prueba de Evolution"
 
 #: widgets/misc/e-expander.c:181
-#, fuzzy
 msgid "Expanded"
-msgstr "C_ompactar"
+msgstr "Expandido"
 
 #: widgets/misc/e-expander.c:182
-#, fuzzy
 msgid "Whether or not the expander is expanded"
-msgstr "Indica si debe pedir confirmación cuando de compacta una carpeta"
+msgstr "Indica si el expansor está o no expandido"
 
 #: widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "Texto de la etiqueta del expansor"
 
 #: widgets/misc/e-expander.c:197
-#, fuzzy
 msgid "Use underline"
-msgstr "Sin definir"
+msgstr "Usar subrayado"
 
 #: widgets/misc/e-expander.c:198
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
-msgstr ""
+msgstr "Si se establece, un subrayado en el texto indica que el siguiente carácter deberá ser usado como tecla mnemotécnica."
 
 #: widgets/misc/e-expander.c:205
-#, fuzzy
 msgid "Spacing"
-msgstr "España"
+msgstr "Espaciado"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "Espacio para poner entre la etiqueta y el descendiente"
 
 #: widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "Etiqueta del widget"
 
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "Un widget para mostrar en lugar de la etiqueta usual del expansor"
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr ""
+msgstr "Tamaño del expansor"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "Tamaño de la flecha del expansor"
 
 #: widgets/misc/e-expander.c:231
-#, fuzzy
 msgid "Indicator Spacing"
-msgstr "Indian Springs"
+msgstr "Indicador de espacio"
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Espaciado alrededor de la flecha del expansor"
 
 #~ msgid "Rename"
 #~ msgstr "Renombrar"
@@ -28277,3 +28142,4 @@ msgstr ""
 
 #~ msgid "th"
 #~ msgstr "º"
+
