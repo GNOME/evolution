@@ -61,11 +61,11 @@ typedef struct _TimezoneDialogPage {
 typedef struct _ImportDialogPage {
 	GtkWidget *page;
 	GtkWidget *vbox;
-	GtkWidget *placeholder, *clist;
 
 	GList *importers;
 	
-int running;
+	int running;
+	gboolean prepared;
 } ImportDialogPage;
 
 typedef struct _MailDialogPage {
@@ -275,12 +275,12 @@ do_import (SWData *data)
 	CORBA_Environment ev;
 	GList *l, *selected = NULL;
 
-	for (l = GTK_CLIST (data->import_page->clist)->selection; l; l = l->next) {
+	for (l = GTK_CLIST (data->import_page->importers); l; l = l->next) {
 		IntelligentImporterData *importer_data;
 		SelectedImporterData *sid;
 		char *iid;
 
-		importer_data = g_list_nth_data (data->import_page->importers, GPOINTER_TO_INT (l->data));
+		importer_data = l->data;
 		iid = g_strdup (importer_data->iid);
 
 		sid = g_new (SelectedImporterData, 1);
@@ -574,8 +574,12 @@ prepare_importer_page (GnomeDruidPage *page,
 	GtkWidget *dialog;
 	ImportDialogPage *import;
 	GList *l, *importers;
-	GtkWidget *dummy;
+	GtkWidget *table;
 	int running = 0;
+
+	if (data->import_page->prepared == TRUE) {
+		return;
+	}
 
 	dialog = gnome_message_box_new (_("Please wait...\nScanning for existing setups"), GNOME_MESSAGE_BOX_INFO, NULL);
 	gtk_signal_connect (GTK_OBJECT (dialog), "map",
@@ -597,11 +601,13 @@ prepare_importer_page (GnomeDruidPage *page,
 		return TRUE;
 	}
 
+	table = gtk_table_new (g_list_length (importers), 2, FALSE);
 	for (l = importers; l; l = l->next) {
+		GtkWidget *label;
 		IntelligentImporterData *id;
 		CORBA_Environment ev;
 		gboolean can_run;
-		char *text[1];
+		char *str;
 		
 		id = g_new0 (IntelligentImporterData, 1);
 		id->iid = g_strdup (l->data);
@@ -696,10 +702,17 @@ prepare_importer_page (GnomeDruidPage *page,
 		CORBA_exception_free (&ev);
 
 		import->importers = g_list_prepend (import->importers, id);
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (import->placeholder),
-					   id->widget, NULL);
-		text[0] = id->name;
-		gtk_clist_prepend (GTK_CLIST (import->clist), text);
+		str = g_strdup_printf (_("From %s:"), id->name);
+		label = gtk_label_new (str);
+		g_free (str);
+		gtk_table_attach (GTK_TABLE (table), label, 0, 1, running - 1,
+				  running, 0, 0, 0, 0);
+		gtk_table_attach (GTK_TABLE (table), id->widget, 1, 2,
+				  running - 1, running, 0, 0, 0, 0);
+		gtk_widget_show_all (table);
+
+		gtk_box_pack_start (GTK_BOX (data->import_page->vbox), table,
+				    FALSE, FALSE, 0);
 	}
 
 	if (running == 0) {
@@ -709,53 +722,16 @@ prepare_importer_page (GnomeDruidPage *page,
 	}
 
 	import->running = running;
-	dummy = gtk_drawing_area_new ();
-	gtk_widget_show (dummy);
-	gtk_notebook_append_page (GTK_NOTEBOOK (import->placeholder), dummy, NULL);
-	/* Set the start to the blank page */
-	gtk_notebook_set_page (GTK_NOTEBOOK (import->placeholder), running);
-
 	gtk_widget_destroy (dialog);
+
 	return FALSE;
-}
-
-static void
-select_row_cb (GtkCList *clist,
-	       int row,
-	       int column,
-	       GdkEvent *ev,
-	       SWData *data)
-{
-	ImportDialogPage *page;
-
-	page = data->import_page;
-	gtk_notebook_set_page (GTK_NOTEBOOK (page->placeholder), row);
-}
-
-static void
-unselect_row_cb (GtkCList *clist,
-		 int row,
-		 int column,
-		 GdkEvent *ev,
-		 SWData *data)
-{
-	ImportDialogPage *page;
-
-	page = data->import_page;
-	if (clist->selection == NULL) {
-		gtk_notebook_set_page (GTK_NOTEBOOK (page->placeholder), page->running);
-	} else {
-		gtk_notebook_set_page (GTK_NOTEBOOK (page->placeholder), 
-				       GPOINTER_TO_INT (clist->selection->data));
-	}
 }
 
 static ImportDialogPage *
 make_importer_page (SWData *data)
 {
 	ImportDialogPage *page;
-	char *titles[1];
-	GtkWidget *hbox, *sw;
+	GtkWidget *label, *sep;
 	
 	g_return_val_if_fail (data != NULL, NULL);
 
@@ -766,32 +742,15 @@ make_importer_page (SWData *data)
 	gtk_signal_connect (GTK_OBJECT (page->page), "prepare",
 			    GTK_SIGNAL_FUNC (prepare_importer_page), data);
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
+	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 4);
 
-	titles[0] = ".";
-	page->clist = gtk_clist_new_with_titles (1, titles);
-	gtk_clist_column_titles_hide (GTK_CLIST (page->clist));
-  	gtk_clist_set_selection_mode (GTK_CLIST (page->clist), GTK_SELECTION_MULTIPLE);
-	gtk_signal_connect (GTK_OBJECT (page->clist), "select-row",
-			    GTK_SIGNAL_FUNC (select_row_cb), data);
-	gtk_signal_connect (GTK_OBJECT (page->clist), "unselect-row",
-			    GTK_SIGNAL_FUNC (unselect_row_cb), data);
+	label = gtk_label_new (_("Please select the information\nthat you would like to import"));
+	gtk_box_pack_start (GTK_BOX (page->vbox), label, FALSE, FALSE, 0);
 
-	hbox = gtk_hbox_new (FALSE, 2);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
-	gtk_box_pack_start (GTK_BOX (page->vbox), hbox, TRUE, TRUE, 0);
+	sep = gtk_hseparator_new ();
+	gtk_box_pack_start (GTK_BOX (page->vbox), sep, FALSE, FALSE, 0);
 
-	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-  	gtk_widget_set_usize (sw, 300, 150); 
-	gtk_container_add (GTK_CONTAINER (sw), page->clist);
-	gtk_box_pack_start (GTK_BOX (hbox), sw, FALSE, FALSE, 0);
-
-	page->placeholder = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (page->placeholder), FALSE);
-	gtk_box_pack_start (GTK_BOX (hbox), page->placeholder, TRUE, TRUE, 0);
-
+	page->prepared = FALSE;
 	return page;
 }
 

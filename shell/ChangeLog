@@ -1,3 +1,8 @@
+2001-09-07  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (prepare_importer_page): New design.
+	(make_importer_page): Remove the extra widgets for the new design.
+
 2001-09-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (tree_start_drag): Changed this to use the
