@@ -1,3 +1,17 @@
+2001-06-13  Damon Chaplin  <damon@ximian.com>
+
+	* Makefile.am (SUBDIRS): added zoneinfo.
+
+	* configure.in (AC_OUTPUT): added zoneinfo/Makefile.
+
+	* zoneinfo/Makefile.am: new file to install & distribute the
+	VTIMEZONE data files, and the zones.tab file.
+
+	* zoneinfo/zones.tab: new file containing a list of all timezones
+	and their coordinates (so we can mark them on the world map).
+
+	* zoneinfo/*: Lots of VTIMEZONE data files added, one per timezone.
+
 2001-05-16  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/Makefile.am: Fixes to make it make dist and make

@@ -5,7 +5,7 @@ EXTRA_DIST = \
 	TEST \
 	TODO
 
-SUBDIRS = design-data doc scripts test-data src
+SUBDIRS = design-data doc scripts test-data src zoneinfo
 
 # Disabled examples until it builds
 #SUBDIRS = design-data doc scripts test-data src examples

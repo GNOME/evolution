@@ -99,5 +99,6 @@ src/libicalvcal/Makefile
 src/python/Makefile
 src/test/Makefile
 test-data/Makefile
+zoneinfo/Makefile
 ])
 
