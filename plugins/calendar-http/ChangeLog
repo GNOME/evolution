@@ -1,3 +1,7 @@
+2004-11-04  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: duh, add this to cvs, remove Makefile.
+
 2004-11-04  David Trowbridge <David.Trowbridge@Colorado.edu>
 
 	* Initial import of webcal properties plugin.
