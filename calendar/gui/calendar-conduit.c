@@ -50,7 +50,7 @@ void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj);
 #define G_LOG_DOMAIN "gcalconduit" 
 
 #define DEBUG_CALCONDUIT 
-/* #undef DEBUG_CALCONDUIT */
+#undef DEBUG_CALCONDUIT 
 
 #ifdef DEBUG_CALCONDUIT
 #define show_exception(e) g_warning ("Exception: %s\n", CORBA_exception_id (e))
@@ -889,7 +889,7 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	      guint32 ID,
 	      GCalConduitContext *ctxt)
 {
-	LOG ("entering set_pilot_id");
+	LOG ("entering set_pilot_id(id=%d)",ID);
 
 	g_return_val_if_fail(local!=NULL,-1);
 	g_assert(local->ical!=NULL);

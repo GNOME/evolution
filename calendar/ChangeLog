@@ -1,3 +1,7 @@
+1999-12-03  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* calendar-conduit.c: undef DEBUG_CALCONDUT, suppresses debug output.
+
 1999-12-02  Russell Steinthal  <rms39@columbia.edu>
 
 	* alarm.c: Enhanced debug support: can be toggled on and off by
