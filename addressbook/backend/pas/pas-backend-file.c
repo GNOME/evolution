@@ -153,11 +153,30 @@ pas_backend_file_create_unique_id (char *vcard)
 	return g_strdup_printf ("pas-id-%08lX%08X", time(NULL), c++);
 }
 
+static char *
+get_e_card_prop (ECard *ecard, const char *propname)
+{
+	char *prop = NULL;
+
+	if (!strcasecmp(propname, "full_name"))
+		gtk_object_get(GTK_OBJECT(ecard),
+			       "full_name", &prop, NULL);
+	else if (!strcasecmp(propname, "url"))
+		gtk_object_get(GTK_OBJECT(ecard),
+			       "url", &prop, NULL);
+	else if (!strcasecmp(propname, "mailer"))
+		gtk_object_get(GTK_OBJECT(ecard),
+			       "mailer", &prop, NULL);
+	
+	return prop;
+}
+
 static ESExpResult *
-func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
+	      int argc, struct _ESExpResult **argv,
+	      char *(*compare)(const char*, const char*))
 {
 	ESExpResult *r;
-	PASBackendFileSearchContext *ctx = data;
 	int truth = FALSE;
 
 	if (argc>1
@@ -166,19 +185,11 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 
 		propname = argv[0]->value.string;
 
-		if (!strcasecmp(propname, "full_name"))
-			gtk_object_get(GTK_OBJECT(ctx->ecard),
-				       "full_name", &prop, NULL);
-		else if (!strcasecmp(propname, "url"))
-			gtk_object_get(GTK_OBJECT(ctx->ecard),
-				       "url", &prop, NULL);
-		else if (!strcasecmp(propname, "mailer"))
-			gtk_object_get(GTK_OBJECT(ctx->ecard),
-				       "mailer", &prop, NULL);
+		prop = get_e_card_prop (ctx->ecard, propname);
 
 		if (prop) {
 			if (argv[1]->type == ESEXP_RES_STRING
-			    && strstr(prop, argv[1]->value.string)) {
+			    && compare(prop, argv[1]->value.string)) {
 				truth = TRUE;
 			}
 		}
@@ -189,6 +200,69 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 	return r;
 }
 
+static ESExpResult *
+func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	PASBackendFileSearchContext *ctx = data;
+
+	return entry_compare (ctx, f, argc, argv, strstr);
+}
+
+static char *
+is_helper (const char *s1, const char *s2)
+{
+	if (!strcmp(s1, s2))
+		return (char*)s1;
+	else
+		return NULL;
+}
+
+static ESExpResult *
+func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	PASBackendFileSearchContext *ctx = data;
+
+	return entry_compare (ctx, f, argc, argv, is_helper);
+}
+
+static char *
+endswith_helper (const char *s1, const char *s2)
+{
+	char *p;
+	if ((p = strstr(s1, s2))
+	    && (strlen(p) == strlen(s2)))
+		return p;
+	else
+		return NULL;
+}
+
+static ESExpResult *
+func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	PASBackendFileSearchContext *ctx = data;
+
+	return entry_compare (ctx, f, argc, argv, endswith_helper);
+}
+
+static char *
+beginswith_helper (const char *s1, const char *s2)
+{
+	char *p;
+	if ((p = strstr(s1, s2))
+	    && (p == s1))
+		return p;
+	else
+		return NULL;
+}
+
+static ESExpResult *
+func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	PASBackendFileSearchContext *ctx = data;
+
+	return entry_compare (ctx, f, argc, argv, beginswith_helper);
+}
+
 /* 'builtin' functions */
 static struct {
 	char *name;
@@ -197,6 +271,9 @@ static struct {
 				   doesn't execute everything, 0 otherwise */
 } symbols[] = {
 	{ "contains", func_contains, 0 },
+	{ "is", func_is, 0 },
+	{ "beginswith", func_beginswith, 0 },
+	{ "endswith", func_endswith, 0 },
 };
 
 static gboolean

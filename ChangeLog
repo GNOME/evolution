@@ -1,3 +1,19 @@
+2000-04-11  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(get_e_card_prop): new function, taking code from func_contains to
+	get string properties.
+	(entry_compare): new function generic, taking strstr-like function
+	as a parameter.
+	(func_contains): rewrite function to use entry_compare.
+	(is_helper): new helper function to map strcmp to a strstr-like
+	function.
+	(func_is): new function, implementing "is" for searches.
+	(endswith_helper): new function.
+	(func_endswith) new function, implementing "endswith" for searches.
+	(beginswith_helper): new function.
+	(func_beginswith): new function, implementing "beginswith" for searches.
+
 2000-04-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/gui/minicard/e-minicard-view.c: This was setting
