@@ -1153,7 +1153,7 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	m->success = &ret;
 	
 	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_new, (EMsg *)m);
 
 	dialog = gtk_dialog_new_with_buttons(_("Connecting to server..."), window,
 					     GTK_DIALOG_DESTROY_WITH_PARENT,

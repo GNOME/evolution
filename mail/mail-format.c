@@ -775,11 +775,6 @@ write_field_row_begin (MailDisplayStream *stream, const char *name, int flags)
 	}
 }
 
-/* day of the week names shown for remote mail offsets */
-static char *tz_days [] = {
-	N_("Sun"), N_("Mon"), N_("Tue"), N_("Wed"), N_("Thu"), N_("Fri"), N_("Sat")
-};
-
 static void
 write_date (MailDisplayStream *stream, CamelMimeMessage *message, int flags)
 {
@@ -806,15 +801,21 @@ write_date (MailDisplayStream *stream, CamelMimeMessage *message, int flags)
 
 		if (msg_offset) {
 			/* Message timezone different from local. Show both */
-			camel_stream_printf((CamelStream *)stream,  "<I> (");
-			
+			char buf[30];
+
 			msg_offset += (local.tm_hour * 60) + local.tm_min;
+
 			if (msg_offset >= (24 * 60) || msg_offset < 0) {
 				/* Timezone conversion crossed midnight. Show day */
-				camel_stream_printf((CamelStream *)stream,  "%s, ",  _(tz_days[local.tm_wday]));
+				/* translators: strftime format for local time equivalent in Date header display */
+				e_utf8_strftime(buf, 29, _("<I> (%a, %R %Z)</I>"), &local);
+			} else {
+				e_utf8_strftime(buf, 29, _("<I> (%R %Z)</I>"), &local);
 			}
-			/* translators: 'localtime' equivalent shown in date header for mails from other timezones */
-			camel_stream_printf((CamelStream *)stream, "%02d:%02d %s)</I>", local.tm_hour, local.tm_min, _("localtime"));
+
+			/* I doubt any locales put '%' in time representation
+			   but just in case... */
+			camel_stream_printf((CamelStream *)stream,  "%s", buf);
 		}
 					     
 		camel_stream_printf ((CamelStream *) stream, "</td> </tr>");

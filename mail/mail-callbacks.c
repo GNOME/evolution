@@ -3121,18 +3121,21 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-do_view_message (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *data)
+do_view_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data)
 {
-	FolderBrowser *fb = FOLDER_BROWSER (data);
-	
+	FolderBrowser *fb = data;
+	int i;
+
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
-	
-	if (message && uid) {
+
+	for (i = 0; i < uids->len && i < msgs->len; i++) {
+		char *uid = uids->pdata[i];
+		CamelMimeMessage *msg = msgs->pdata[i];
 		GtkWidget *mb;
 		
-		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		mb = message_browser_new (fb->shell, fb->uri, uid);
+		camel_folder_set_message_flags(folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+		mb = message_browser_new(fb->shell, fb->uri, uid);
 		gtk_widget_show (mb);
 	}
 }
@@ -3142,7 +3145,6 @@ view_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
-	int i;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
@@ -3153,12 +3155,7 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to open all %d messages in separate windows?"), uids, fb))
 		return;
 	
-	/* FIXME: use mail_get_messages() */
-	for (i = 0; i < uids->len; i++) {
-		mail_get_message (fb->folder, uids->pdata [i], do_view_message, fb, mail_thread_queued);
-		g_free (uids->pdata [i]);
-	}
-	g_ptr_array_free (uids, TRUE);
+	mail_get_messages(fb->folder, uids, do_view_messages, fb);
 }
 
 void

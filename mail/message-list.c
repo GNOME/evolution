@@ -2913,5 +2913,5 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 
 	ml->regen = g_list_prepend(ml->regen, m);
 	
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	e_thread_put (mail_thread_new, (EMsg *)m);
 }

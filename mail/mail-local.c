@@ -1396,7 +1396,7 @@ reconfigure_response(GtkDialog *dialog, int button, struct _reconfigure_msg *m)
 		gtk_widget_set_sensitive (m->apply, FALSE);
 		gtk_widget_set_sensitive (m->cancel, FALSE);
 		
-		e_thread_put (mail_thread_queued, (EMsg *)m);
+		e_thread_put (mail_thread_new, (EMsg *)m);
 		break; }
 	case GTK_RESPONSE_CANCEL:
 	default:

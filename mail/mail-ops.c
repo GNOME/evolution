@@ -1208,7 +1208,7 @@ mail_get_folderinfo (CamelStore *store, CamelOperation *op, void (*done)(CamelSt
 	m->data = data;
 	id = m->msg.seq;
 
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_new, (EMsg *)m);
 
 	return id;
 }
@@ -1582,7 +1582,7 @@ mail_sync_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void *d
 	m->data = data;
 	m->done = done;
 
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 }
 
 /* ******************************************************************************** */
@@ -1654,7 +1654,7 @@ mail_expunge_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void
 	m->data = data;
 	m->done = done;
 
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 }
 
 /* ******************************************************************************** */
@@ -1729,7 +1729,7 @@ mail_empty_trash(EAccount *account, void (*done) (EAccount *account, void *data)
 	m->data = data;
 	m->done = done;
 
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 }
 
 /* ** GET MESSAGE(s) ***************************************************** */
@@ -2150,7 +2150,7 @@ mail_save_part (CamelMimePart *part, const char *path,
 	m->done = done;
 	
 	id = m->msg.seq;
-	e_thread_put (mail_thread_queued, (EMsg *)m);
+	e_thread_put (mail_thread_new, (EMsg *)m);
 	
 	return id;
 }
@@ -2325,7 +2325,7 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 	m->done = done;
 
 	id = m->msg.seq;
-	e_thread_put(mail_thread_queued, (EMsg *)m);
+	e_thread_put(mail_thread_new, (EMsg *)m);
 
 	return id;
 }
