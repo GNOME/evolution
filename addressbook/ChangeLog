@@ -1,5 +1,11 @@
 2001-12-03  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-destination.c (e_destination_equal): Make address
+	comparisons case-insensitive. (Fixes 11776)
+
+	* backend/ebook/e-card.c (e_card_email_match_single_string): Make address
+	host comparisons case-insensitive. (Fixes 11776)
+
 	* gui/component/select-names/e-select-names-manager.c (focus_out_cb): Clean
 	ESelectNamesModel on focus-out. (Half of a fix for 15656)
 

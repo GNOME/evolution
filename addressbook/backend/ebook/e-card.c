@@ -1827,12 +1827,12 @@ e_card_email_match_single_string (const gchar *a, const gchar *b)
 		++xb;
 
 	while (match && *xa != '@' && *xb != '@') {
-		match = (*xa == *xb);
+		match = (tolower (*xa) == tolower (*xb));
 		--xa;
 		--xb;
 	}
 
-	match = match && ((*xa == *xb) || (*xa == '.') || (*xb == '.'));
+	match = match && ((tolower (*xa) == tolower (*xb)) || (*xa == '.') || (*xb == '.'));
 
 	return match;
 }
@@ -1866,7 +1866,7 @@ e_card_email_find_number (const ECard *card, const gchar *email)
 
 	iter = e_list_get_iterator (card->email);
 	for (e_iterator_reset (iter); e_iterator_is_valid (iter); e_iterator_next (iter)) {
-		if (!strcmp (e_iterator_get (iter), email))
+		if (!g_strcasecmp (e_iterator_get (iter), email))
 			goto finished;
 		++count;
 	}
