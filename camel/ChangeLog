@@ -1,3 +1,7 @@
+2004-03-12  Radek Doulik  <rodo@ximian.com>
+
+	* camel-folder.c (folder_changed): clearn the learn bit only if set
+
 2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #55018.

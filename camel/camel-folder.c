@@ -1723,10 +1723,9 @@ folder_changed (CamelObject *obj, gpointer event_data)
 						notjunk = g_ptr_array_new();
 					g_ptr_array_add (notjunk, g_strdup (changed->uid_changed->pdata [i]));
 				}
-			}
-
 				/* reset junk learn flag so that we don't process it again */
-			camel_folder_set_message_flags (folder, changed->uid_changed->pdata [i], CAMEL_MESSAGE_JUNK_LEARN, 0);
+				camel_folder_set_message_flags (folder, changed->uid_changed->pdata [i], CAMEL_MESSAGE_JUNK_LEARN, 0);
+			}
 		}
 		d(if (junk || notjunk) printf("** Have '%d' messages for junk filter to learn, launching thread to process them\n",
 					      (junk ? junk->len : 0) + (notjunk ? notjunk->len : 0)));
