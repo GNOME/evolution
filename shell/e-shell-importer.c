@@ -51,7 +51,8 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include "e-util/e-gtk-utils.h"
+#include <e-util/e-gtk-utils.h>
+#include <e-util/e-dialog-utils.h>
 
 #include "e-shell-importer.h"
 #include "importer/GNOME_Evolution_Importer.h"
@@ -104,6 +105,7 @@ typedef struct _ImportData {
 	GnomeDruidPageEdge *finish;
 	GtkWidget *vbox;
 
+	char *filename;
 	char *choosen_iid;
 	EvolutionImporterClient *client;
 } ImportData;
@@ -435,37 +437,14 @@ get_iid_for_filetype (const char *filename)
 	}
 }
 
-static void error_response_cb(GtkWidget *w, int button, void *data)
-{
-	gtk_widget_destroy(w);
-}
-
 static void
-show_error (const char *message,
-	    const char *title)
-{
-	GtkWidget *box;
-
-	box = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", message);
-	gtk_window_set_title (GTK_WINDOW (box), title);
-	g_signal_connect(box, "response", G_CALLBACK(error_response_cb), box);
-
-	gtk_widget_show (box);
-}
-
-static void
-start_import (const char *filename, EvolutionImporterClient *client)
+start_import (gpointer parent, const char *filename, EvolutionImporterClient *client)
 {
 	ImporterComponentData *icd;
 	char *label;
-	struct stat buf;
 	
-	if (stat (filename, &buf) == -1) {
-		char *message;
-
-		message = g_strdup_printf (_("File %s does not exist"), filename);
-		show_error (message, _("Evolution Error"));
-		g_free (message);
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
+		e_notice (parent, GTK_MESSAGE_ERROR, _("File %s does not exist"), filename);
 
 		return;
 	}
@@ -491,7 +470,7 @@ start_import (const char *filename, EvolutionImporterClient *client)
 
 	if (evolution_importer_client_load_file (icd->client, filename) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
-		show_error (label, _("Evolution Error"));
+		e_notice (icd->dialog, GTK_MESSAGE_ERROR, _("Error loading %s"), filename);
 
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);
@@ -1007,11 +986,7 @@ import_druid_finish (GnomeDruidPage *page,
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->typepage->intelligent))) {
 		do_import (data);
 	} else {
-		char *filename;
-
-		filename = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->filepage->filename), FALSE);
-		start_import (filename, data->client);
-		g_free (filename);
+		start_import (druid, data->filename, data->client);
 	}
 
 	gtk_widget_destroy (data->dialog);
@@ -1034,22 +1009,28 @@ next_file_page (GnomeDruidPage *page,
 		ImportData *data)
 {
 	char *real_iid = NULL;
-	
-	if (data->choosen_iid == NULL || strcmp (data->choosen_iid, "Automatic") == 0) {
-		char *filename;
-		
-		/* Work out the component to use */
 
-		/* FIXME Would should carry around the filename probably */
-		filename = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->filepage->filename), FALSE);
-		real_iid = get_iid_for_filetype (filename);
-		g_free (filename);
+	/* Get and test the file name */
+	if (data->filename)
+		g_free (data->filename);
+	data->filename = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->filepage->filename), FALSE);
+	
+	if (!g_file_test (data->filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
+		e_notice (druid, GTK_MESSAGE_ERROR, _("File %s does not exist"), data->filename);
+		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
+
+		return TRUE;
+	}
+
+	/* Work out the component to use */
+	if (data->choosen_iid == NULL || strcmp (data->choosen_iid, "Automatic") == 0) {
+		real_iid = get_iid_for_filetype (data->filename);
 	} else {
 		real_iid = g_strdup (data->choosen_iid);
 	}
 
 	if (!real_iid) {
-		g_message ("No iid");
+		e_notice (druid, GTK_MESSAGE_ERROR, _("No importer available for file %s"), data->filename);
 		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
 
 		return TRUE;
@@ -1061,13 +1042,12 @@ next_file_page (GnomeDruidPage *page,
 	g_free (real_iid);
 
 	if (!data->client) {
-		g_message ("No importer");
+		e_notice (druid, GTK_MESSAGE_ERROR, _("Unable to execute importer"));
 		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->filedialog));
 
 		return TRUE;
 	}
 	
-	g_message ("Success");
 	return FALSE;
 }
 
@@ -1164,7 +1144,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 	data->dialog = glade_xml_get_widget (data->wizard, "importwizard");
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
 				"Evolution:shell");
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (shell_window));
+	e_dialog_set_transient_for (GTK_WINDOW (data->dialog), GTK_WIDGET (shell_window));
 	g_object_weak_ref ((GObject *)data->dialog, dialog_weak_notify, &dialog_open);
 	
 	data->druid = glade_xml_get_widget (data->wizard, "druid1");

@@ -1,5 +1,15 @@
 2004-02-04  JP Rosevear <jpr@ximian.com>
 
+	* e-shell-importer.c (start_import): pass in a parent for the
+	dialogs, use e_notice
+	(import_druid_finish): we carry the filename around with us now
+	(next_file_page): check the file here and store the name; put up
+	gui dialogs
+	(e_shell_importer_start_import): set the druid as a transient for
+	the shell
+
+2004-02-04  JP Rosevear <jpr@ximian.com>
+
 	* importer/import.glade: add extra page
 
 	* importer/evolution-importer.h: update protos
