@@ -271,14 +271,17 @@ static gint
 e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 {
 	GnomeCanvas *canvas;
+	GdkEvent full_event;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	canvas = GNOME_CANVAS (widget);
+	
+	full_event.key = *event;
 
-	return emit_event (canvas, (GdkEvent *) event);
+	return emit_event (canvas, &full_event);
 }
 
 
@@ -333,6 +336,7 @@ e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 	ECanvas *ecanvas;
+	GdkEvent full_event;
 
 	canvas = GNOME_CANVAS (widget);
 	ecanvas = E_CANVAS (widget);
@@ -342,10 +346,12 @@ e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	if (ecanvas->ic)
 		gdk_im_begin (ecanvas->ic, canvas->layout.bin_window);
 
-	if (canvas->focused_item)
-		return emit_event (canvas, (GdkEvent *) event);
-	else
+	if (canvas->focused_item) {
+		full_event.focus_change = *event;
+		return emit_event (canvas, &full_event);
+	} else {
 		return FALSE;
+	}
 }
 
 /* Focus out handler for the canvas */
@@ -354,6 +360,7 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 	ECanvas *ecanvas;
+	GdkEvent full_event;
 
 	canvas = GNOME_CANVAS (widget);
 	ecanvas = E_CANVAS (widget);
@@ -363,10 +370,12 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	if (ecanvas->ic)
 		gdk_im_end ();
 
-	if (canvas->focused_item)
-		return emit_event (canvas, (GdkEvent *) event);
-	else
+	if (canvas->focused_item) {
+		full_event.focus_change = *event;
+		return emit_event (canvas, &full_event);
+	} else {
 		return FALSE;
+	}
 }
 
 static void
