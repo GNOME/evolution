@@ -412,13 +412,15 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 				      y1,
 				      &wx,
 				      &wy);
+
 	x1 = wx;
 	y1 = wy;
-	
+
 	*x += x1;
-	/* The ETable positions don't include the grid lines, I think, so we
-	   add 1. */
-	*y += y1 + 1;
+	/* The ETable positions don't include the grid lines, I think, so we add 1. */
+	*y += y1 + 1
+		- (int)((GnomeCanvas *)canvas)->layout.vadjustment->value
+		+ ((GnomeCanvas *)canvas)->zoom_yofs;
 
 	scrollbar_width = popup->vscrollbar->requisition.width
 		+ GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
