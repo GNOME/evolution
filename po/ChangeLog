@@ -4,6 +4,7 @@
 	  Removed mail/mail-account-editor.c
 	  Removed mail/mail-config-druid.c
 	  They are no longer available.
+	* da.po: Updated Danish translation.
 
 2004-12-01  Dafydd Harries  <daf@muse.19inch.net>
 
