@@ -1705,7 +1705,9 @@ struct _get_messages_msg {
 
 static char * get_messages_desc(struct _mail_msg *mm, int done)
 {
-	return g_strdup_printf(_("Retrieving messages"));
+	struct _get_messages_msg *m = (struct _get_messages_msg *)mm;
+
+	return g_strdup_printf(_("Retrieving %d message(s)"), m->uids->len);
 }
 
 static void get_messages_get(struct _mail_msg *mm)
@@ -1714,8 +1716,6 @@ static void get_messages_get(struct _mail_msg *mm)
 	int i;
 	CamelMimeMessage *message;
 
-	camel_operation_register(mm->cancel);
-	camel_operation_start(mm->cancel, _("Retrieving %d messsage(s)"), m->uids->len);
 	for (i=0; i<m->uids->len; i++) {
 		int pc = ((i+1) * 100) / m->uids->len;
 
@@ -1726,9 +1726,6 @@ static void get_messages_get(struct _mail_msg *mm)
 
 		g_ptr_array_add(m->messages, message);
 	}
-
-	camel_operation_end(mm->cancel);
-	camel_operation_unregister(mm->cancel);
 }
 
 static void get_messages_got(struct _mail_msg *mm)
@@ -1794,7 +1791,9 @@ struct _save_messages_msg {
 
 static char *save_messages_desc(struct _mail_msg *mm, int done)
 {
-	return g_strdup(_("Saving messages"));
+	struct _save_messages_msg *m = (struct _save_messages_msg *)mm;
+
+	return g_strdup_printf(_("Saving %d messsage(s)"), m->uids->len);
 }
 
 /* tries to build a From line, based on message headers */
@@ -1883,9 +1882,6 @@ static void save_messages_save(struct _mail_msg *mm)
 	camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)from_filter);
 	camel_object_unref((CamelObject *)from_filter);
 	
-	camel_operation_register(mm->cancel);
-	camel_operation_start(mm->cancel, _("Saving %d messsage(s)"), m->uids->len);
-
 	for (i=0; i<m->uids->len; i++) {
 		CamelMimeMessage *message;
 		int pc = ((i+1) * 100) / m->uids->len;
@@ -1913,9 +1909,6 @@ static void save_messages_save(struct _mail_msg *mm)
 
 	camel_object_unref((CamelObject *)filtered_stream);
 	camel_object_unref((CamelObject *)stream);
-
-	camel_operation_end(mm->cancel);
-	camel_operation_unregister(mm->cancel);
 }
 
 static void save_messages_saved(struct _mail_msg *mm)

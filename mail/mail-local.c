@@ -759,9 +759,6 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 
 	d(printf("reconfiguring folder: %s to type %s\n", m->fb->uri, m->newtype));
 
-	camel_operation_register(mm->cancel);
-	camel_operation_start(mm->cancel, _("Reconfiguring folder"));
-
 	/* NOTE: This var is cleared by the folder_browser via the set_uri method */
 	m->fb->reconfigure = TRUE;
 
@@ -891,9 +888,6 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	g_free(tourl);
 	if (url)
 		camel_url_free (url);
-
-	camel_operation_end(mm->cancel);
-	camel_operation_unregister(mm->cancel);
 }
 
 static void

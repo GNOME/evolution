@@ -1,3 +1,25 @@
+2001-07-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (reconfigure_folder_reconfigure): remvoed
+	register/start/end etc code.
+
+	* mail-ops.c (get_messages_desc): Add the count here.
+	(get_messages_get): Remove the register/start code, its handled
+	above us.
+	(save_messages_desc): Added count.
+	(save_messages_save): Removed register/start/end code.
+
+	* mail-mt.c (mail_msg_received, mail_msg_destroy): Changed to use
+	camel_operation rather than mail_status.
+	(mail_msgport_received, mail_msgport_replied): Turn of the
+	mail_status stuff, we dont need to report on stuff running in the
+	gui thread right?
+	(retrieve_shell_view_interface_from_control, set_view_data,
+	mail_statusf,  mail_status, mail_status_end, mail_status_start,
+	status_timeout, do_del_status, set_status_op): removed now
+	redundant stuff.
+	(mail_msg_free): Removed reference to timeout_id.
+
 2001-07-18  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (reconfigure_folder_reconfigure): Changed to use

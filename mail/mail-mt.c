@@ -10,10 +10,6 @@
 
 #include <gtk/gtkentry.h>
 #include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkprogress.h>
-#include <gtk/gtkprogressbar.h>
-#include <gtk/gtktable.h>
 #include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -31,12 +27,9 @@
 
 #include "mail-mt.h"
 
-#include "art/mail-new.xpm"
-
 /*#define MALLOC_CHECK*/
 #define d(x) 
 
-static void set_view_data(const char *current_message, int busy);
 static void set_stop(int sensitive);
 static void mail_enable_stop(void);
 static void mail_disable_stop(void);
@@ -49,16 +42,13 @@ extern EvolutionShellClient *global_shell_client;
 
 /* background operation status stuff */
 struct _mail_msg_priv {
-	int timeout_id;
 	int activity_state;	/* sigh sigh sigh, we need to keep track of the state external to the
 				 pointer itself for locking/race conditions */
 	EvolutionActivityClient *activity;
-	char *what;
-	unsigned int pc;
 };
 
-/*static GtkWindow *progress_dialogue;*/
-/*static int progress_row;*/
+/* This is used for the mail status bar, cheap and easy */
+#include "art/mail-new.xpm"
 
 static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
@@ -144,24 +134,9 @@ void mail_msg_free(void *msg)
 	g_hash_table_remove(mail_msg_active, (void *)m->seq);
 	pthread_cond_broadcast(&mail_msg_cond);
 
-#if 0
-	/* this closes the bar, and/or the whole progress dialogue, once we're out of things to do */
-	if (g_hash_table_size(mail_msg_active) == 0) {
-		if (progress_dialogue != NULL) {
-			bar = progress_dialogue;
-			progress_dialogue = NULL;
-			progress_row = 0;
-		}
-	} else if (m->priv->bar) {
-		bar = m->priv->bar;
-		label = m->priv->label;
-	}
-#endif
-
-	if (m->priv->timeout_id > 0)
-		gtk_timeout_remove(m->priv->timeout_id);
-
 	/* We need to make sure we dont lose a reference here YUCK YUCK */
+	/* This is tightly integrated with the code in do_op_status,
+	   as it closely relates to the CamelOperation setup in msg_new() above */
 	if (m->priv->activity_state == 1) {
 		m->priv->activity_state = 3; /* tell the other thread
 					      * to free it itself (yuck yuck) */
@@ -282,8 +257,6 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 		if (m->ops->reply_msg)
 			m->ops->reply_msg(m);
 		mail_msg_check_error(m);
-		if (m->ops->describe_msg)
-			mail_status_end();
 		mail_msg_free(m);
 	}
 
@@ -302,11 +275,7 @@ mail_msgport_received(GIOChannel *source, GIOCondition cond, void *d)
 		checkmem(m->cancel);
 		checkmem(m->priv);
 #endif
-		if (m->ops->describe_msg) {
-			char *text = m->ops->describe_msg(m, FALSE);
-			mail_status_start(text);
-			g_free(text);
-		}
+
 		if (m->ops->receive_msg)
 			m->ops->receive_msg(m);
 		if (m->msg.reply_port)
@@ -314,8 +283,6 @@ mail_msgport_received(GIOChannel *source, GIOCondition cond, void *d)
 		else {
 			if (m->ops->reply_msg)
 				m->ops->reply_msg(m);
-			if (m->ops->describe_msg)
-				mail_status_end();
 			mail_msg_free(m);
 		}
 	}
@@ -334,8 +301,11 @@ mail_msg_destroy(EThread *e, EMsg *msg, void *data)
 	checkmem(m->priv);
 #endif	
 
-	if (m->ops->describe_msg)
-		mail_status_end();
+	if (m->ops->describe_msg) {
+		camel_operation_end(m->cancel);
+		camel_operation_unregister(m->cancel);
+	}
+
 	mail_msg_free(m);
 }
 
@@ -352,8 +322,10 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 
 	if (m->ops->describe_msg) {
 		char *text = m->ops->describe_msg(m, FALSE);
+
 		d(printf("message received at thread\n"));
-		mail_status_start(text);
+		camel_operation_register(m->cancel);
+		camel_operation_start(m->cancel, "%s", text);
 		g_free(text);
 	}
 
@@ -403,183 +375,8 @@ void mail_msg_init(void)
 
 /* ********************************************************************** */
 
-struct _set_msg {
-	struct _mail_msg msg;
-	char *text;
-};
-
 /* locks */
 static pthread_mutex_t status_lock = PTHREAD_MUTEX_INITIALIZER;
-#define STATUS_BUSY_PENDING (2)
-
-/* blah blah */
-
-#define STATUS_DELAY (5)
-
-static int status_depth;
-static int status_showing;
-static int status_shown;
-static char *status_message_next;
-static int status_message_clear;
-static int status_timeout_id;
-/*static int status_busy;*/
-
-struct _status_msg {
-	struct _mail_msg msg;
-	char *text;
-	int busy;
-};
-
-static gboolean
-status_timeout(void *data)
-{
-	char *msg;
-	int busy = 0;
-
-	d(printf("got status timeout\n"));
-
-	MAIL_MT_LOCK(status_lock);
-	if (status_message_next) {
-		d(printf("setting message to '%s' busy %d\n", status_message_next, status_busy));
-		msg = status_message_next;
-		status_message_next = NULL;
-		busy = status_depth > 0;
-		status_message_clear = 0;
-		MAIL_MT_UNLOCK(status_lock);
-
-		/* copy msg so we can set it outside the lock */
-		/* unset first is a hack to avoid the stack stuff that doesn't and can't work anyway */
-		if (status_shown)
-			set_view_data(NULL, FALSE);
-		status_shown = TRUE;
-		set_view_data(msg, busy);
-		g_free(msg);
-		return TRUE;
-	}
-
-	/* the delay-clear stuff doesn't work yet.  Dont care ... */
-
-	status_showing = FALSE;
-	status_message_clear++;
-	if (status_message_clear >= STATUS_DELAY && status_depth==0) {
-		d(printf("clearing message, busy = %d\n", status_depth));
-	} else {
-		d(printf("delaying clear\n"));
-		MAIL_MT_UNLOCK(status_lock);
-		return TRUE;
-	}
-
-	status_timeout_id = 0;
-
-	MAIL_MT_UNLOCK(status_lock);
-
-	if (status_shown)
-		set_view_data(NULL, FALSE);
-	status_shown = FALSE;
-
-	return FALSE;
-}
-
-static void do_set_status(struct _mail_msg *mm)
-{
-	struct _status_msg *m = (struct _status_msg *)mm;
-
-	MAIL_MT_LOCK(status_lock);
-
-	if (status_timeout_id != 0)
-		gtk_timeout_remove(status_timeout_id);
-
-	status_timeout_id = gtk_timeout_add(500, status_timeout, 0);
-	status_message_clear = 0;
-
-	MAIL_MT_UNLOCK(status_lock);
-
-	/* the 'clear' stuff doesn't really work yet, but oh well,
-	   this stuff here needs a little changing for it to work */
-	if (status_shown)
-		set_view_data(NULL, status_depth != 0);
-	status_shown = 0;
-
-	if (m->text) {
-		status_shown = 1;
-		set_view_data(m->text, status_depth != 0);
-	}
-}
-
-static void do_del_status(struct _mail_msg *mm)
-{
-	struct _status_msg *m = (struct _status_msg *)mm;
-
-	g_free(m->text);
-}
-
-struct _mail_msg_op set_status_op = {
-	NULL,
-	do_set_status,
-	NULL,
-	do_del_status,
-};
-
-/* start a new operation */
-void mail_status_start(const char *msg)
-{
-	struct _status_msg *m = NULL;
-
-	MAIL_MT_LOCK(status_lock);
-	status_depth++;
-	MAIL_MT_UNLOCK(status_lock);
-
-	if (msg == NULL || msg[0] == 0)
-		msg = _("Working");
-
-	m = mail_msg_new(&set_status_op, NULL, sizeof(*m));
-	m->text = g_strdup(msg);
-	m->busy = TRUE;
-
-	e_msgport_put(mail_gui_port, &m->msg.msg);
-}
-
-/* end it */
-void mail_status_end(void)
-{
-	struct _status_msg *m = NULL;
-
-	m = mail_msg_new(&set_status_op, NULL, sizeof(*m));
-	m->text = NULL;
-
-	MAIL_MT_LOCK(status_lock);
-	status_depth--;
-	m->busy = status_depth = 0;
-	MAIL_MT_UNLOCK(status_lock);
-
-	e_msgport_put(mail_gui_port, &m->msg.msg);
-}
-
-/* message during it */
-void mail_status(const char *msg)
-{
-	if (msg == NULL || msg[0] == 0)
-		msg = _("Working");
-
-	MAIL_MT_LOCK(status_lock);
-
-	g_free(status_message_next);
-	status_message_next = g_strdup(msg);
-
-	MAIL_MT_UNLOCK(status_lock);
-}
-
-void mail_statusf(const char *fmt, ...)
-{
-	va_list ap;
-	char *text;
-
-	va_start(ap, fmt);
-	text = g_strdup_vprintf(fmt, ap);
-	va_end(ap);
-	mail_status(text);
-	g_free(text);
-}
 
 /* ********************************************************************** */
 
@@ -985,79 +782,6 @@ mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void
 }
 
 /* ******************** */
-
-/* FIXME FIXME FIXME This is a totally evil hack.  */
-
-static GNOME_Evolution_ShellView
-retrieve_shell_view_interface_from_control (BonoboControl *control)
-{
-	Bonobo_ControlFrame control_frame;
-	GNOME_Evolution_ShellView shell_view_interface;
-	CORBA_Environment ev;
-
-	control_frame = bonobo_control_get_control_frame (control);
-
-	if (control_frame == NULL)
-		return CORBA_OBJECT_NIL;
-
-	CORBA_exception_init (&ev);
-	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
-							       "IDL:GNOME/Evolution/ShellView:1.0",
-							       &ev);
-	CORBA_exception_free (&ev);
-
-	if (shell_view_interface != CORBA_OBJECT_NIL)
-		gtk_object_set_data (GTK_OBJECT (control),
-				     "mail_threads_shell_view_interface",
-				     shell_view_interface);
-	else
-		g_warning ("Control frame doesn't have Evolution/ShellView.");
-
-	return shell_view_interface;
-}
-
-static void
-set_view_data(const char *current_message, int busy)
-{
-	EList *controls;
-	EIterator *it;
-
-	controls = folder_browser_factory_get_control_list ();
-	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {
-		BonoboControl *control;
-		GNOME_Evolution_ShellView shell_view_interface;
-		CORBA_Environment ev;
-
-		control = BONOBO_CONTROL (e_iterator_get (it));
-
-		shell_view_interface = gtk_object_get_data (GTK_OBJECT (control), "mail_threads_shell_view_interface");
-
-		if (shell_view_interface == CORBA_OBJECT_NIL)
-			shell_view_interface = retrieve_shell_view_interface_from_control (control);
-
-		CORBA_exception_init (&ev);
-
-		if (shell_view_interface != CORBA_OBJECT_NIL) {
-			if ((current_message == NULL || current_message[0] == 0) && ! busy) {
-				d(printf("clearing msg\n"));
-				GNOME_Evolution_ShellView_unsetMessage (shell_view_interface, &ev);
-			} else {
-				d(printf("setting msg %s\n", current_message ? current_message : "(null)"));
-				GNOME_Evolution_ShellView_setMessage (shell_view_interface,
-								      current_message?current_message:"",
-								      busy,
-								      &ev);
-			}
-		}
-
-		CORBA_exception_free (&ev);
-
-		/* yeah we only set the first one.  Why?  Because it seems to leave
-		   random ones lying around otherwise.  Shrug. */
-		break;
-	}
-	gtk_object_unref(GTK_OBJECT(it));
-}
 
 static void
 set_stop(int sensitive)
