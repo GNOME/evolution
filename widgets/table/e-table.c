@@ -35,6 +35,7 @@
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-canvas-background.h"
 #include "gal/widgets/e-canvas-vbox.h"
 #include "gal/widgets/e-unicode.h"
 #include "e-table.h"
@@ -622,11 +623,6 @@ table_canvas_reflow_idle (ETable *e_table)
 						0, 0, width - 1, height - 1);
 		set_header_canvas_width (e_table);
 	}
-	gtk_object_set (GTK_OBJECT (e_table->white_item),
-			"y1", item_height,
-			"x2", width,
-			"y2", height,
-			NULL);
 	e_table->reflow_idle_id = 0;
 	return FALSE;
 }
@@ -651,11 +647,6 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			NULL);
 	gtk_object_set (GTK_OBJECT (e_table->header),
 			"width", width,
-			NULL);
-	gtk_object_set (GTK_OBJECT (e_table->white_item),
-			"y1", item_height + 1,
-			"x2", width,
-			"y2", height,
 			NULL);
 	if (e_table->reflow_idle_id)
 		g_source_remove(e_table->reflow_idle_id);
@@ -1098,11 +1089,7 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 
 	e_table->white_item = gnome_canvas_item_new(
 		gnome_canvas_root(e_table->table_canvas),
-		gnome_canvas_rect_get_type(),
-		"x1", (double) 0,
-		"y1", (double) 0,
-		"x2", (double) 100,
-		"y2", (double) 100,
+		e_canvas_background_get_type(),
 		"fill_color_gdk", &GTK_WIDGET(e_table->table_canvas)->style->base[GTK_STATE_NORMAL],
 		NULL);
 

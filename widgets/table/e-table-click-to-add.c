@@ -362,7 +362,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "ETableHeader", etcta->eth,
 							   "ETableModel", etcta->one,
 							   "minimum_width", etcta->width,
-							   "horizontal_draw_grid", FALSE,
+							   "horizontal_draw_grid", TRUE,
 							   "vertical_draw_grid", TRUE,
 							   "selection_model", etcta->selection,
 							   "cursor_mode", E_CURSOR_SPREADSHEET,

@@ -33,6 +33,7 @@
 #include "gal/util/e-i18n.h"
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas.h>
+#include <gal/widgets/e-canvas-background.h>
 
 #include <gal/e-table/e-table-column-specification.h>
 #include <gal/e-table/e-table-header-item.h>
@@ -76,6 +77,7 @@ enum {
 	KEY_PRESS,
 	START_DRAG,
 	STATE_CHANGE,
+	WHITE_SPACE_EVENT,
 
 	TREE_DRAG_BEGIN,
 	TREE_DRAG_END,
@@ -697,11 +699,6 @@ tree_canvas_reflow_idle (ETree *e_tree)
 						0, 0, width - 1, height - 1);
 		set_header_canvas_width (e_tree);
 	}
-	gtk_object_set (GTK_OBJECT (e_tree->priv->white_item),
-			"y1", item_height,
-			"x2", width,
-			"y2", height,
-			NULL);
 	e_tree->priv->reflow_idle_id = 0;
 	return FALSE;
 }
@@ -951,6 +948,16 @@ et_canvas_realize (GtkWidget *canvas, ETree *e_tree)
 }
 
 static gint
+white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETree *e_tree)
+{
+	int return_val = 0;
+	gtk_signal_emit (GTK_OBJECT (e_tree),
+			 et_signals [WHITE_SPACE_EVENT],
+			 event, &return_val);
+	return return_val;
+}
+
+static gint
 et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETree *e_tree)
 {
 	switch (event->type) {
@@ -1046,14 +1053,12 @@ e_tree_setup_table (ETree *e_tree)
 
 	e_tree->priv->white_item = gnome_canvas_item_new(
 		gnome_canvas_root(e_tree->priv->table_canvas),
-		gnome_canvas_rect_get_type(),
-		"x1", (double) 0,
-		"y1", (double) 0,
-		"x2", (double) 100,
-		"y2", (double) 100,
+		e_canvas_background_get_type(),
 		"fill_color_gdk", &GTK_WIDGET(e_tree->priv->table_canvas)->style->base[GTK_STATE_NORMAL],
 		NULL);
 
+	gtk_signal_connect (GTK_OBJECT (e_tree->priv->white_item), "event",
+			    GTK_SIGNAL_FUNC (white_item_event), e_tree);
 	gtk_signal_connect (
 		GTK_OBJECT(e_tree->priv->table_canvas), "realize",
 		GTK_SIGNAL_FUNC(et_canvas_realize), e_tree);
@@ -2969,6 +2974,7 @@ e_tree_class_init (ETreeClass *class)
 	class->key_press               = NULL;
 	class->start_drag              = et_real_start_drag;
 	class->state_change            = NULL;
+	class->white_space_event       = NULL;
 
 	class->tree_drag_begin         = NULL;
 	class->tree_drag_end           = NULL;
@@ -3051,6 +3057,14 @@ e_tree_class_init (ETreeClass *class)
 				GTK_SIGNAL_OFFSET (ETreeClass, state_change),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+
+	et_signals [WHITE_SPACE_EVENT] =
+		gtk_signal_new ("white_space_event",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (ETreeClass, white_space_event),
+				gtk_marshal_INT__POINTER,
+				GTK_TYPE_INT, 1, GTK_TYPE_GDK_EVENT);
 
 	et_signals[TREE_DRAG_BEGIN] =
 		gtk_signal_new ("tree_drag_begin",
