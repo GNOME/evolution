@@ -416,7 +416,7 @@ composer_get_message (EMsgComposer *composer)
 		}
 		
 		if (have_invalid) {
-			msg = _("This message contains invalid recipients:");
+			msg = g_strdup (_("This message contains invalid recipients:"));
 			for (i = 0; recipients[i]; ++i) {
 				if (!e_destination_is_valid (recipients[i])) {
 					new_msg = g_strdup_printf ("%s\n    %s", msg,
@@ -431,6 +431,7 @@ composer_get_message (EMsgComposer *composer)
 			msg = new_msg;
 			
 			message_box = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_WARNING, GNOME_STOCK_BUTTON_OK, NULL);
+			g_free (msg);
 			
 			gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
 			

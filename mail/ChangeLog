@@ -1,5 +1,9 @@
 2001-09-26  Jon Trowbridge  <trow@ximian.com>
 
+	* mail-callbacks.c (composer_get_message): strdup our "This
+	message contains invalid recipients" string, since it gets freed
+	later.  And then don't leak the message string.  (Bug #10877)
+
 	* mail-format.c (write_address): Use camel_address_format,
 	not camel_address_encode.
 
