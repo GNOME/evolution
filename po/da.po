@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-04-12 19:25+0200\n"
-"PO-Revision-Date: 2000-05-03 00:38+0200\n"
+"PO-Revision-Date: 2000-05-04 00:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -269,11 +269,15 @@ msgstr "Slet"
 msgid "Delete this message"
 msgstr "Slet denne meddelelse"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:146
 msgid "_Mail"
 msgstr "_E-post"
 
-#: mail/folder-browser-factory.c:269
+#: mail/folder-browser-factory.c:151
+msgid "_Expunge"
+msgstr "_Udslet"
+
+#: mail/folder-browser-factory.c:275
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Beklager, Evolutions mappebladrer kan ikke initialiseres."
 
@@ -289,31 +293,31 @@ msgstr "Om en forkig-besked skal vises"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postdelen: kunne ikke initialisere Bonobo"
 
-#: mail/message-list.c:404
+#: mail/message-list.c:431
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:418
+#: mail/message-list.c:445
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:425
+#: mail/message-list.c:452
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:432
+#: mail/message-list.c:459
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:439
+#: mail/message-list.c:466
 msgid "Receive"
 msgstr "Modtag"
 
-#: mail/message-list.c:446
+#: mail/message-list.c:473
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:453
+#: mail/message-list.c:480
 msgid "Size"
 msgstr "Størrelse"
 
@@ -336,22 +340,6 @@ msgstr "En mappe med opgaver"
 #: shell/e-init.c:25
 msgid "Evolution can not create its local folders"
 msgstr "Evolution kan ikke oprette sine lokale mapper"
-
-#: shell/e-service.c:166
-msgid "A service containing mail items"
-msgstr "En tjeneste som indeholder e-post ting"
-
-#: shell/e-service.c:169
-msgid "A service containing contacts"
-msgstr "En tjeneste som indeholder kontakter"
-
-#: shell/e-service.c:172
-msgid "A service containing calendar entries"
-msgstr "En tjeneste som indeholder kalenderting"
-
-#: shell/e-service.c:175
-msgid "A service containing tasks"
-msgstr "En tjeneste som indeholder opgaver"
 
 #: shell/e-shell-shortcut.c:99
 msgid "Large Icons"
