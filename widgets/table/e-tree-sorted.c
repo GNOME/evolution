@@ -121,6 +121,17 @@ ets_sort_idle(gpointer user_data)
 	return FALSE;
 }
 
+#define ETS_SORT_IDLE_ACTIVATED(ets) ((ets)->priv->sort_idle_id != 0)
+
+inline static void
+ets_stop_sort_idle (ETreeSorted *ets)
+{
+	if (ets->priv->sort_idle_id) {
+		g_source_remove(ets->priv->sort_idle_id);
+		ets->priv->sort_idle_id = 0;
+	}
+}
+
 static gboolean
 ets_insert_idle(ETreeSorted *ets)
 {
@@ -591,10 +602,7 @@ ets_destroy (GtkObject *object)
 		priv->sort_info_changed_id = 0;
 	}
 
-	if (ets->priv->sort_idle_id) {
-		g_source_remove(ets->priv->sort_idle_id);
-		ets->priv->sort_idle_id = 0;
-	}
+	ets_stop_sort_idle (ets);
 	if (ets->priv->insert_idle_id) {
 		g_source_remove(ets->priv->insert_idle_id);
 		ets->priv->insert_idle_id = 0;
@@ -963,6 +971,8 @@ ets_proxy_node_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 	d(g_print("Setting last access %p. (ets_proxy_node_changed)\n", ets->priv->last_access));
 
 	if (e_tree_model_node_is_root(ets->priv->source, node)) {
+		ets_stop_sort_idle (ets);
+
 		if (ets->priv->root) {
 			free_path(ets->priv->root);
 		}
@@ -1029,7 +1039,7 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 		i = parent_path->num_children;
 		path = new_path(parent_path, child);
 		path->orig_position = position;
-		if (ets->priv->sort_idle_id == 0) {
+		if (!ETS_SORT_IDLE_ACTIVATED (ets)) {
 			ets->priv->insert_count++;
 			if (ets->priv->insert_count > ETS_INSERT_MAX) {
 				/* schedule a sort, and append instead */
