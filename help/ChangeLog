@@ -1,3 +1,19 @@
+2002-12-10  Aaron Weber  <aaron@ximian.com>
+
+	* C/preface.sgml: change word from "Resend" to "redirect".
+
+	* C/config-prefs.sgml: rm "base" option for search scope dropdown.
+
+2002-11-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-authors.sgml: update URL.
+
+	* C/config-prefs.sgml: typo
+
+	* C/apx-gpl.sgml: add gpl/fdl files.
+	* C/apx-fdl.sgml new file (add fdl). These two are good to have with Evo in case it's shipped without other GNOME software.
+	* C/Makefile.am: added the two new files.
+	
 2002-11-12  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	reviewed by: Ettore

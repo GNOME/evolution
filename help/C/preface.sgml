@@ -362,12 +362,13 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Resend (Bounce) Feature Added</term>
+	    <term>Redirect (Bounce) Feature Added</term>
 	    <listitem>
 	      <para>
-               This feature is often called "Bounce" or "Redirect." To
-               resend a message with all its headers instead of merely
-               forwarding it, select the message and choose
+               This feature is also sometimes known as "Bounce" or
+               "Resend." To resend a message with all its headers
+               instead of merely forwarding it, select the message and
+               choose
                  <menuchoice>
 		  <guimenu>
                       Actions
@@ -376,7 +377,7 @@ Lastly, we'll have warnings, in cases where you should be careful:
                      Forward
                   </guisubmenu>
 		  <guimenuitem>
-                      Resend
+                      Redirect
                   </guimenuitem>
 		</menuchoice>.
              </para>

@@ -837,15 +837,6 @@ smtp.omniport.com:143
 		      following options are available:
 		      <variablelist>
 			<varlistentry>
-			  <term>Base</term>
-			  <listitem>
-			    <para>
-			      Searches just the Search Base.  Most of the time,
-			      not very useful.
-			    </para>
-			  </listitem>
-			</varlistentry>
-			<varlistentry>
 			  <term>One</term>
 			  <listitem>
 			    <para>
