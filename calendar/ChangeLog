@@ -1,3 +1,8 @@
+2003-10-31  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): fixed
+	mismatched condition in if/else statement.
+
 2003-10-30  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-tasks.[ch] (e_tasks_get_cal_client): removed.
