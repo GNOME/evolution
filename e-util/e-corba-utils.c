@@ -34,3 +34,9 @@ e_safe_corba_string (const char *s)
 
 	return s;
 }
+
+CORBA_char *
+e_safe_corba_string_dup (const char *s)
+{
+	return CORBA_string_dup (e_safe_corba_string (s));
+}

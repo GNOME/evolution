@@ -1,3 +1,7 @@
+2002-05-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-corba-utils.c (e_safe_corba_string_dup): New.
+
 2002-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (e_thread_destroy): Destroy our mutex too.

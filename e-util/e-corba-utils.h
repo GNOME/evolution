@@ -24,6 +24,7 @@
 
 #include <orb/orbit.h>
 
-const CORBA_char *e_safe_corba_string (const char *s);
+const CORBA_char *e_safe_corba_string      (const char *s);
+CORBA_char       *e_safe_corba_string_dup  (const char *s);
 
 #endif
