@@ -1,3 +1,9 @@
+2001-10-14  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_hookup_shell_listeners): Added linebreaks to our
+	"this shouldn't happen" dialog message. (Bug #12498)
+
 2001-10-12  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/addressbook-factory.c (main): Add a component name
