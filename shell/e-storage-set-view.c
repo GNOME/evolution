@@ -574,6 +574,7 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 	int shortcut_len;
 	char *shortcut;
 	const char *name;
+	const char *folder_path;
 
 	g_assert (storage_set_view != NULL);
 	g_assert (selection_data != NULL);
@@ -581,8 +582,22 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 	priv = storage_set_view->priv;
 
 	node = lookup_node_in_hash (storage_set_view, priv->selected_row_path);
-	folder = get_folder_at_node (storage_set_view, node);
-	name = e_folder_get_name (folder);
+
+	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), node);
+	g_assert (folder_path != NULL);
+
+	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
+	if (folder != NULL) {
+		name = e_folder_get_name (folder);
+	} else {
+		EStorage *storage;
+
+		storage = e_storage_set_get_storage (priv->storage_set, folder_path + 1);
+		if (storage != NULL)
+			name = e_storage_get_display_name (storage);
+		else
+			name = NULL;
+	}
 
 	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
 

@@ -1,4 +1,9 @@
-2001-11-05  Anna Marie Dirks  <anna@ximian.com>
+2001-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (set_e_shortcut_selection): Get the storage
+	name if we are dragging a storage instead of a folder.
+
+2001-11-01  Anna Marie Dirks  <anna@ximian.com>
 
 	* e-shell-importer.c (prepare_intelligent_page): Fixed spacing and
 	alignment probelms. (See bug #14281)
