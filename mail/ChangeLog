@@ -1,3 +1,8 @@
+2001-05-14  Duncan Mak  <duncan@ximian.com>
+
+	* mail-search.c (mail_search_construct): set the dialog's
+	window_icon to jimmac's new find_message.xpm.
+
 2001-05-13  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Make the LDADD line longer so it actually compiles everything

@@ -34,6 +34,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml-search.h>
 #include <gtkhtml/htmlengine.h>
+#include <libgnomeui/gnome-window-icon.h>
 
 static GtkObjectClass *parent_class;
 
@@ -187,7 +188,8 @@ begin_cb (ESearchingTokenizer *st, gchar *foo, MailSearch *ms)
 	
 #ifdef SUBJECT_IN_DIALOG
 	if (ms->mail->current_message->subject && *ms->mail->current_message->subject) {
-		gchar *msg_subject = e_utf8_to_gtk_string (GTK_WIDGET (ms->msg_label), ms->mail->current_message->subject);
+		gchar *msg_subject = e_utf8_to_gtk_string (GTK_WIDGET (ms->msg_label), 
+							   ms->mail->current_message->subject);
 		gtk_label_set_text (GTK_LABEL (ms->msg_label), msg_subject); /* Use the converted string */
 		g_free (msg_subject);
 	} else {
@@ -316,6 +318,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gtk_widget_grab_focus (entry); /* Give focus to entry by default */ 
 	gnome_dialog_set_default (GNOME_DIALOG (ms), 0); 
 	gnome_dialog_editable_enters (GNOME_DIALOG (ms), GTK_EDITABLE(entry)); /* Make <enter> run the search */
+	gnome_window_icon_set_from_file (GTK_WINDOW (GNOME_DIALOG (ms)), EVOLUTION_ICONSDIR "/find-message.xpm");
 
 #ifdef SUBJECT_IN_DIALOG
 	gtk_widget_show_all (msg_hbox);
