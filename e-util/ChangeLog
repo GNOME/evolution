@@ -1,3 +1,10 @@
+2001-09-21    <NotZed@Ximian.com>
+
+	* e-msgport.c (e_thread_destroy): Instead of using
+	pthread_cancel() which seems to have numerous implementation
+	issues, send a special quit message to the subordinate thread.
+	(thread_dispatch): When it gets a quit message, well, quit!
+
 2001-09-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gtk-utils.c (widget_realize_callback_for_backing_store): Use

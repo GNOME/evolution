@@ -264,6 +264,7 @@ struct _EThread {
 };
 
 #define E_THREAD_NONE ((pthread_t)~0)
+#define E_THREAD_QUIT_REPLYPORT ((struct _EMsgPort *)~0)
 
 static void thread_destroy_msg(EThread *e, EMsg *m);
 
@@ -317,10 +318,10 @@ EThread *e_thread_new(e_thread_t type)
 /* close down the threads & resources etc */
 void e_thread_destroy(EThread *e)
 {
-	int tries = 0;
 	int busy = FALSE;
 	EMsg *msg;
 	struct _thread_info *info;
+	GList *l;
 
 	/* make sure we soak up all the messages first */
 	while ( (msg = e_msgport_get(e->server_port)) ) {
@@ -333,52 +334,48 @@ void e_thread_destroy(EThread *e)
 	case E_THREAD_QUEUE:
 	case E_THREAD_DROP:
 		/* if we have a thread, 'kill' it */
-		while (e->id != E_THREAD_NONE && tries < 500) {
-			if (e->waiting > 0) {
-				pthread_t id = e->id;
-				e->id = E_THREAD_NONE;
-				pthread_mutex_unlock(&e->mutex);
-				if (pthread_cancel(id) == 0)
-					pthread_join(id, 0);
-				pthread_mutex_lock(&e->mutex);
-			} else {
-				(printf("thread still active, waiting for it to finish\n"));
-				pthread_mutex_unlock(&e->mutex);
-				sleep(1);
-				pthread_mutex_lock(&e->mutex);
-			}
-			tries++;
+		if (e->id != E_THREAD_NONE) {
+			pthread_t id = e->id;
+
+			t(printf("Sending thread '%d' quit message\n", id));
+
+			e->id = E_THREAD_NONE;
+
+			msg = g_malloc0(sizeof(*msg));
+			msg->reply_port = E_THREAD_QUIT_REPLYPORT;
+			e_msgport_put(e->server_port, msg);
+
+			pthread_mutex_unlock(&e->mutex);
+			t(printf("Joining thread '%d'\n", id));
+			pthread_join(id, 0);
+			t(printf("Joined thread '%d'!\n", id));
+			pthread_mutex_lock(&e->mutex);
 		}
 		busy = e->id != E_THREAD_NONE;
 		break;
 	case E_THREAD_NEW:
-		while (e->id_list && tries < 500) {
+		/* first, send everyone a quit message */
+		l = e->id_list;
+		while (l) {
+			info = l->data;
+			t(printf("Sending thread '%d' quit message\n", info->id));
+			msg = g_malloc0(sizeof(*msg));
+			msg->reply_port = E_THREAD_QUIT_REPLYPORT;
+			e_msgport_put(e->server_port, msg);
+			l = l->next;			
+		}
+
+		/* then, wait for everyone to quit */
+		while (e->id_list) {
 			info = e->id_list->data;
-			if (!info->busy) {
-				e->id_list = g_list_remove(e->id_list, info);
-				printf("cleaning up pool thread %ld\n", info->id);
-				pthread_mutex_unlock(&e->mutex);
-				if (pthread_cancel(info->id) == 0)
-					pthread_join(info->id, 0);
-				pthread_mutex_lock(&e->mutex);
-				printf("cleaned up ok\n");
-				g_free(info);
-			} else {
-				(printf("thread(s) still active, waiting for it to finish\n"));
-				tries++;
-				pthread_mutex_unlock(&e->mutex);
-				sleep(1);
-				pthread_mutex_lock(&e->mutex);
-			}
-		}
-#if 0
-		while (g_list_length(e->id_list) && tries < 5) {
-			(printf("thread(s) still active, waiting for them to finish\n"));
+			e->id_list = g_list_remove(e->id_list, info);
 			pthread_mutex_unlock(&e->mutex);
-			sleep(1);
+			t(printf("Joining thread '%d'\n", info->id));
+			pthread_join(info->id, 0);
+			t(printf("Joined thread '%d'!\n", info->id));
 			pthread_mutex_lock(&e->mutex);
+			g_free(info);
 		}
-#endif
 		busy = g_list_length(e->id_list) != 0;
 		break;
 	}
@@ -492,6 +489,7 @@ thread_dispatch(void *din)
 	EThread *e = din;
 	EMsg *m;
 	struct _thread_info *info;
+	pthread_t self = pthread_self();
 
 	t(printf("dispatch thread started: %ld\n", pthread_self()));
 
@@ -506,7 +504,7 @@ thread_dispatch(void *din)
 			case E_THREAD_NEW:
 			case E_THREAD_QUEUE:
 			case E_THREAD_DROP:
-				info = thread_find(e, pthread_self());
+				info = thread_find(e, self);
 				if (info)
 					info->busy = FALSE;
 				e->waiting++;
@@ -525,8 +523,17 @@ thread_dispatch(void *din)
 			}
 
 			continue;
+		} else if (m->reply_port == E_THREAD_QUIT_REPLYPORT) {
+			t(printf("Thread %d got quit message\n", self));
+			/* Handle a quit message, say we're quitting, free the message, and break out of the loop */
+			info = thread_find(e, self);
+			if (info)
+				info->busy = 2;
+			pthread_mutex_unlock(&e->mutex);
+			g_free(m);
+			break;
 		} else {
-			info = thread_find(e, pthread_self());
+			info = thread_find(e, self);
 			if (info)
 				info->busy = TRUE;
 		}
@@ -545,27 +552,7 @@ thread_dispatch(void *din)
 		}
 	}
 
-	/* if we run out of things to process we could conceivably 'hang around' for a bit,
-	   but to do this we need to use the fd interface of the msgport, and its utility
-	   is probably debatable anyway */
-
-#if 0
-	/* signify we are no longer running */
-	/* This code isn't used yet, but would be if we ever had a 'quit now' message implemented */
-	pthread_mutex_lock(&e->mutex);
-	switch (e->type) {
-	case E_THREAD_QUEUE:
-	case E_THREAD_DROP:
-		e->id = E_THREAD_NONE;
-		break;
-	case E_THREAD_NEW:
-		e->id_list = g_list_remove(e->id_list, (void *)pthread_self());
-		break;
-	}
-	pthread_mutex_unlock(&e->mutex);
-#endif
-
-	return 0;
+	return NULL;
 }
 
 /* send a message to the thread, start thread if necessary */
