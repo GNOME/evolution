@@ -18,7 +18,7 @@ main (int argc, char *argv [])
 
 	if (isatty (0)){
 		int fd;
-		
+
 		close (0);
 		fd = open ("sample.table", O_RDONLY);
 		if (fd == -1){
@@ -27,7 +27,7 @@ main (int argc, char *argv [])
 		}
 		dup2 (fd, 0);
 	}
-	
+
 	gnome_init ("TableTest", "TableTest", argc, argv);
 	e_cursors_init ();
 
@@ -37,7 +37,7 @@ main (int argc, char *argv [])
 /*  	check_test (); */
 
 	e_table_test ();
-	
+
 	gtk_main ();
 
 	e_cursors_shutdown ();
