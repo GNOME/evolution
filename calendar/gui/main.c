@@ -129,7 +129,7 @@ about_calendar_cmd (GtkWidget *widget, void *data)
         GtkWidget *about;
         const gchar *authors[] = {
 		"Miguel de Icaza (miguel@kernel.org)",
-		"Federico Mena (quartic@gimp.org)",
+		"Federico Mena (federico@gimp.org)",
 		"Arturo Espinosa (arturo@nuclecu.unam.mx)",
 		NULL
 	};
@@ -139,10 +139,9 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 				 authors,
 				 _("The GNOME personal calendar and schedule manager."),
 				 NULL);
-	gnome_dialog_run_and_destroy (GNOME_DIALOG (about));
-#if 0
+	gnome_dialog_set_modal (GNOME_DIALOG (about));
+	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
         gtk_widget_show (about);
-#endif
 }
 
 static void
