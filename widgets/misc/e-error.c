@@ -592,7 +592,7 @@ remove_parent(GtkWidget *w, GtkWidget *parent)
 void
 e_error_default_parent(struct _GtkWindow *parent)
 {
-	if (g_slist_find(ee_parent_list, parent) != NULL) {
+	if (g_slist_find(ee_parent_list, parent) == NULL) {
 		ee_parent_list = g_slist_prepend(ee_parent_list, parent);
 		g_signal_connect(parent, "destroy", G_CALLBACK(remove_parent), parent);
 	}

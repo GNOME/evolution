@@ -4,6 +4,8 @@
 	fallback.
 	(e_error_newv): if parent is null, see if we have a default still
 	alive, and use that.  warn if not.
+	(e_error_default_parent): uh, fix the sense of the
+	if-we-dont-have-it test.
 
 2004-05-20  JP Rosevear  <jpr@novell.com>
 
