@@ -465,11 +465,12 @@ static gint book_query_count = sizeof (book_queries) / sizeof (BookQuery);
 /*
  * Build up a big compound sexp corresponding to all of our queries.
  */
-static gchar *
+static EBookQuery*
 book_query_sexp (ESelectNamesCompletion *comp)
 {
 	gint i, j;
-	gchar **queryv, *query;
+	gchar **queryv;
+	EBookQuery *query;
 
 	g_return_val_if_fail (comp && E_IS_SELECT_NAMES_COMPLETION (comp), NULL);
 
@@ -486,12 +487,15 @@ book_query_sexp (ESelectNamesCompletion *comp)
 	if (j == 0) {
 		query = NULL;
 	} else if (j == 1) {
-		query = queryv[0];
+		query = e_book_query_from_string (queryv[0]);
 		queryv[0] = NULL;
 	} else {
-		gchar *tmp = g_strjoinv (" ", queryv);
-		query = g_strdup_printf ("(or %s)", tmp);
+		gchar *tmp, *tmp2;
+		tmp = g_strjoinv (" ", queryv);
+		tmp2 = g_strdup_printf ("(or %s)", tmp);
+		query = e_book_query_from_string (tmp2);
 		g_free (tmp);
+		g_free (tmp2);
 	}
 
 	for (i=0; i<book_query_count; ++i)
@@ -946,7 +950,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 	e_select_names_completion_stop_query (comp);  /* Stop any prior queries. */
 
 	if (comp->priv->books_not_ready == 0) {
-		gchar *sexp;
+		EBookQuery *query;
 	
 		if (strlen (query_text) < comp->priv->minimum_query_length) {
 			e_completion_end_search (E_COMPLETION (comp));
@@ -956,8 +960,8 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 		g_free (comp->priv->query_text);
 		comp->priv->query_text = g_strdup (query_text);
 
-		sexp = book_query_sexp (comp);
-		if (sexp && *sexp) {
+		query = book_query_sexp (comp);
+		if (query) {
 			GList *l;
 
 			if (out)
@@ -1005,7 +1009,8 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 					book_data->cached_query_text = g_strdup (query_text);
 
 					book_data->book_view_tag = e_book_async_get_book_view (book_data->book,
-											       sexp, 
+											       query, 
+											       NULL, -1,
 											       e_select_names_completion_got_book_view_cb, book_data);
 					comp->priv->pending_completion_seq++;
 				}
@@ -1024,7 +1029,7 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 			g_free (comp->priv->query_text);
 			comp->priv->query_text = NULL;
 		}
-		g_free (sexp);
+		e_book_query_unref (query);
 
 	} else {
 

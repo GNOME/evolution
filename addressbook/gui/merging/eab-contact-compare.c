@@ -617,7 +617,8 @@ use_common_book_cb (EBook *book, gpointer closure)
 	GList *contact_email;
 	gchar *query_parts[MAX_QUERY_PARTS];
 	gint p=0;
-	gchar *query, *qj;
+	gchar *qj;
+	EBookQuery *query = NULL;
 	int i;
 
 	if (book == NULL) {
@@ -669,18 +670,21 @@ use_common_book_cb (EBook *book, gpointer closure)
 	for(i = 0; query_parts[i] != NULL; i++)
 		g_free(query_parts[i]);
 	if (p > 0) {
-		query = g_strdup_printf ("(or %s)", qj);
-		g_free (qj);
+		char *s;
+		s = g_strdup_printf ("(or %s)", qj);
+		query = e_book_query_from_string (s);
+		g_free (s);
 	} else {
-		query = qj;
+		query = e_book_query_from_string (qj);
 	}
 
-	if (query && *query)
+	if (query)
 		e_book_async_get_contacts (book, query, query_cb, info);
 	else
 		query_cb (book, E_BOOK_ERROR_OK, NULL, info);
 
-	g_free (query);
+	g_free (qj);
+	e_book_query_unref (query);
 }
 
 void

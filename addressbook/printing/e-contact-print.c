@@ -67,7 +67,7 @@ struct _EContactPrintContext
 	gboolean uses_book;
 	int type;
 	EBook *book;
-	gchar *query;
+	EBookQuery *query;
 
 	GList *contacts;
 };
@@ -589,7 +589,7 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 	g_object_unref(ctxt->master);
 	if (ctxt->book)
 		g_object_unref(ctxt->book);
-	g_free(ctxt->query);
+	e_book_query_unref (ctxt->query);
 	g_list_foreach(ctxt->contacts, (GFunc) g_object_unref, NULL);
 	g_list_free(ctxt->contacts);
 	g_object_unref(ctxt->style->headings_font);
@@ -651,13 +651,13 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, EContac
 }
 
 static void
-e_contact_do_print_contacts (EBook *book, char *query, EContactPrintContext *ctxt)
+e_contact_do_print_contacts (EBook *book, EBookQuery *query, EContactPrintContext *ctxt)
 {
-	e_book_async_get_book_view(book, query, (EBookBookViewCallback) book_view_loaded, ctxt);
+	e_book_async_get_book_view(book, query, NULL, -1, (EBookBookViewCallback) book_view_loaded, ctxt);
 }
 
 static void
-e_contact_do_print (EBook *book, char *query, EContactPrintContext *ctxt)
+e_contact_do_print (EBook *book, EBookQuery *query, EContactPrintContext *ctxt)
 {
 	switch ( ctxt->style->type ) {
 	case E_CONTACT_PRINT_TYPE_CARDS:
@@ -871,7 +871,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	gboolean uses_book = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_book"));
 	gboolean uses_list = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dialog), "uses_list"));
 	EBook *book = NULL;
-	char *query = NULL;
+	EBookQuery *query = NULL;
 	EContact *contact = NULL;
 	GList *contact_list = NULL;
 	gdouble font_size;
@@ -880,6 +880,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	if (uses_book) {
 		book = g_object_get_data(G_OBJECT(dialog), "book");
 		query = g_object_get_data(G_OBJECT(dialog), "query");
+		e_book_query_ref (query);
 	}
 	else if (uses_list) {
 		contact_list = g_object_get_data(G_OBJECT(dialog), "contact_list");
@@ -962,7 +963,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 										   72 * style->page_height));
 #endif
 		ctxt->book = book;
-		ctxt->query = g_strdup(query);
+		ctxt->query = query;
 		if (uses_book) {
 			ctxt->contacts = NULL;
 			g_object_ref(book);
@@ -986,7 +987,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 			e_free_object_list (contact_list);
 		else
 			g_object_unref(contact);
-		g_free(query);
+		e_book_query_unref (query);
 		gtk_widget_destroy (dialog);
 		g_free(style);
 		g_free(ctxt);
@@ -1008,7 +1009,7 @@ e_contact_print_dialog_new(EBook *book, char *query)
 	g_object_set_data(G_OBJECT(dialog), "uses_book", GINT_TO_POINTER (TRUE));
 	g_object_set_data(G_OBJECT(dialog), "uses_list", GINT_TO_POINTER (FALSE));
 	g_object_set_data(G_OBJECT(dialog), "book", book);
-	g_object_set_data(G_OBJECT(dialog), "query", g_strdup(query));
+	g_object_set_data(G_OBJECT(dialog), "query", e_book_query_from_string  (query));
 	g_signal_connect(dialog,
 			 "response", G_CALLBACK(e_contact_print_response), NULL);
 	g_signal_connect(dialog,
@@ -1055,7 +1056,7 @@ e_contact_print_preview(EBook *book, char *query)
 									    72 * style->page_height));
 #endif
 	ctxt->book = book;
-	ctxt->query = g_strdup(query);
+	ctxt->query = e_book_query_from_string (query);
 	ctxt->contacts = NULL;
 	g_object_ref(book);
 	e_contact_do_print(book, ctxt->query, ctxt);

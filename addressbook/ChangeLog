@@ -1,3 +1,11 @@
+2004-01-09  Ross Burton  <ross@burtonini.com>
+
+	* gui/component/select-names/e-select-names-completion.c:
+	* gui/merging/eab-contact-compare.c:
+	* gui/widgets/e-addressbook-model.c:
+	* printing/e-contact-print.c:
+	Update for API changes to e-book-async.
+
 2004-01-08  Ross Burton  <ross@burtonini.com>
 
 	* gui/contact-editor/contact-editor.glade:

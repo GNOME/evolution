@@ -493,8 +493,6 @@ get_view (EABModel *model)
 	gboolean success;
 
 	if (model->book && model->query) {
-		char *query_string = e_book_query_to_string (model->query);
-
 		remove_book_view(model);
 		free_data (model);
 
@@ -502,20 +500,18 @@ get_view (EABModel *model)
 			model->first_get_view = FALSE;
 
 			if (e_book_check_static_capability (model->book, "do-initial-query")) {
-				success = e_book_async_get_book_view (model->book, query_string, book_view_loaded, model);
+				success = e_book_async_get_book_view (model->book, model->query, NULL, -1, book_view_loaded, model);
 			} else {
 				g_signal_emit (model,
 					       eab_model_signals [MODEL_CHANGED], 0);
 				g_signal_emit (model,
 					       eab_model_signals [STOP_STATE_CHANGED], 0);
-				g_free (query_string);
 				return;
 			}
 		}
 		else
-			success = e_book_async_get_book_view (model->book, query_string, book_view_loaded, model);
+			success = e_book_async_get_book_view (model->book, model->query, NULL, -1, book_view_loaded, model);
 
-		g_free (query_string);
 	}
 }
 
