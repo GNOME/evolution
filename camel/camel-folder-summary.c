@@ -425,6 +425,7 @@ retry:
 		g_warning("Trying to insert message with clashing uid.  new uid re-assigned");
 		g_free(info->uid);
 		info->uid = NULL;
+		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 		goto retry;
 	}
 
