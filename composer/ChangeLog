@@ -1,3 +1,10 @@
+2002-07-29  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (encode_signature_name): new helper function
+	(decode_signature_name): new helper function
+	(get_signature_html): use encode_signature_name
+	(set_signature_gui): use decode_signature_name
+
 2002-07-26  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (do_exit): don't assert on default, when ESC is

@@ -897,6 +897,98 @@ prepare_engine (EMsgComposer *composer)
 }
 
 static gchar *
+encode_signature_name (const gchar *name)
+{
+	const gchar *s;
+	gchar *ename, *e;
+	gint len = 0;
+
+	s = name;
+	while (*s) {
+		len ++;
+		if (*s == '"' || *s == '.' || *s == '=')
+			len ++;
+		s ++;
+	}
+
+	ename = g_new (gchar, len + 1);
+
+	s = name;
+	e = ename;
+	while (*s) {
+		if (*s == '"') {
+			*e = '.';
+			e ++;
+			*e = '1';
+			e ++;
+		} else if (*s == '=') {
+			*e = '.';
+			e ++;
+			*e = '2';
+			e ++;
+		} else {
+			*e = *s;
+			e ++;
+		}
+		if (*s == '.') {
+			*e = '.';
+			e ++;
+		}
+		s ++;
+	}
+	*e = 0;
+
+	printf ("name: '%s'\nencoded name: '%s'\n", name, ename);
+
+	return ename;
+}
+
+static gchar *
+decode_signature_name (const gchar *name)
+{
+	const gchar *s;
+	gchar *dname, *d;
+	gint len = 0;
+
+	s = name;
+	while (*s) {
+		len ++;
+		if (*s == '.') {
+			s ++;
+			if (!*s || !(*s == '.' || *s == '1' || *s == '2'))
+				return NULL;
+		}
+		s ++;
+	}
+
+	dname = g_new (gchar, len + 1);
+
+	s = name;
+	d = dname;
+	while (*s) {
+		if (*s == '.') {
+			s ++;
+			if (!*s || !(*s == '.' || *s == '1' || *s == '2')) {
+				g_free (dname);
+				return NULL;
+			}
+			if (*s == '1')
+				*d = '"';
+			else if (*s == '2')
+				*d = '=';
+			else
+				*d = '.';
+		} else
+			*d = *s;
+		d ++;
+		s ++;
+	}
+	*d = 0;
+
+	return dname;
+}
+
+static gchar *
 get_signature_html (EMsgComposer *composer)
 {
 	gboolean format_html = FALSE;
@@ -945,6 +1037,11 @@ get_signature_html (EMsgComposer *composer)
 
 	/* printf ("text: %s\n", text); */
 	if (text) {
+		gchar *encoded_name = NULL;
+
+		if (composer->signature)
+			encoded_name = encode_signature_name (composer->signature->name);
+
 		/* The signature dash convention ("-- \n") is specified in the
 		 * "Son of RFC 1036": http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html,
 		 * section 4.3.2.
@@ -955,12 +1052,13 @@ get_signature_html (EMsgComposer *composer)
 					"%s%s%s%s"
 					"</TD></TR></TABLE>",
 					composer->signature ? "name:" : "auto",
-					composer->signature ? composer->signature->name : "",
+					composer->signature ? encoded_name : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || (!strncmp ("-- \n", text, 4) || strstr(text, "\n-- \n")) ? "" : "-- \n",
 					text,
 					format_html ? "" : "</PRE>\n");
 		g_free (text);
+		g_free (encoded_name);
 		text = html;
 	}
 	
@@ -3226,17 +3324,20 @@ set_signature_gui (EMsgComposer *composer)
 		if (ev._major == CORBA_NO_EXCEPTION && str) {
 			if (!strncmp (str, "name:", 5)) {
 				GList *list = NULL;
+				gchar *decoded_signature_name = decode_signature_name (str + 5);
 
 				list = mail_config_get_signature_list ();
-				if (list)
+				if (list && decoded_signature_name)
 					for (; list; list = list->next) {
-						if (!strcmp (str + 5, ((MailConfigSignature *) list->data)->name))
+						if (!strcmp (decoded_signature_name,
+							     ((MailConfigSignature *) list->data)->name))
 							break;
 					}
-				if (list)
+				if (list && decoded_signature_name)
 					composer->signature = (MailConfigSignature *) list->data;
 				else
 					composer->auto_signature = TRUE;
+				g_free (decoded_signature_name);
 			} else if (!strcmp (str, "auto")) {
 				composer->auto_signature = TRUE;
 			}
