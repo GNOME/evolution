@@ -1,3 +1,19 @@
+2001-07-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (rfc2047_decode_word): Remove my iso8859-1 ->
+	iso-8859-1 hack and use camel_charset_get_iconv_friendly_name()
+	instead.
+	(rfc2184_decode): Use camel_charset_get_iconv_friendly_name()
+
+	* camel.c (camel_init): Call camel_charset_map_init().
+
+	* camel-charset-map.c (camel_charset_map_init): New function to
+	initialize the charset-equivalent lookup table. To be called by
+	camel_init().
+	(camel_charset_get_iconv_friendly_name): New function to try and
+	convert a charset into something that iconv is more likely to
+	accept.
+
 2001-07-19  Peter Williams  <peterw@ximian.com>
 
 	* Revert 7/11/2001 patch for IMAP INBOX filtering at NotZed's 

@@ -904,6 +904,7 @@ rfc2047_decode_word(const char *in, int len)
 	const char *inptr = in+2;
 	const char *inend = in+len-2;
 	const char *inbuf;
+	const char *charset;
 	char *encname;
 	int tmplen;
 	int ret;
@@ -949,18 +950,11 @@ rfc2047_decode_word(const char *in, int len)
 		if (inlen > 0) {
 			/* yuck, all this snot is to setup iconv! */
 			tmplen = inptr - in - 3;
-			encname = alloca (tmplen + 2);
-			
-			/* Hack to convert charsets like ISO8859-1 to iconv-friendly ISO-8859-1 */
-			if (!g_strncasecmp (in + 2, "iso", 3) && *(in + 5) != '-') {
-				memcpy (encname, in + 2, 3);
-				encname[3] = '-';
-				memcpy (encname + 4, in + 5, tmplen - 3);
-				tmplen++;
-			} else {
-				memcpy (encname, in + 2, tmplen);
-			}
+			encname = alloca (tmplen + 1);
+			memcpy (encname, in + 2, tmplen);
 			encname[tmplen] = '\0';
+			
+			charset = camel_charset_get_iconv_friendly_name (encname);
 			
 			inbuf = decword;
 			
@@ -969,27 +963,27 @@ rfc2047_decode_word(const char *in, int len)
 			outbuf = outbase;
 			
 			/* TODO: Should this cache iconv converters? */
-			ic = iconv_open ("UTF-8", encname);
+			ic = iconv_open ("UTF-8", charset);
 			if (ic != (iconv_t)-1) {
 				ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
-				if (ret>=0) {
+				if (ret >= 0) {
 					iconv (ic, NULL, 0, &outbuf, &outlen);
 					*outbuf = 0;
 					decoded = g_strdup (outbase);
 				}
 				iconv_close (ic);
 			} else {
-				w(g_warning("Cannot decode charset, header display may be corrupt: %s: %s",
-					    encname, strerror(errno)));
+				w(g_warning ("Cannot decode charset, header display may be corrupt: %s: %s",
+					     charset, g_strerror (errno)));
 				/* TODO: Should this do this, or just leave the encoded strings? */
 				decword[inlen] = 0;
-				decoded = g_strdup(decword);
+				decoded = g_strdup (decword);
 			}
 		}
 	}
-
+	
 	d(printf("decoded '%s'\n", decoded));
-
+	
 	return decoded;
 }
 
@@ -1166,16 +1160,16 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	d(printf("Converting [%d] '%.*s' to %s\n", len, len, in, type));
 
 	/* convert utf8->encoding */
-	bufflen = len*6+16;
-	buffer = alloca(bufflen);
+	bufflen = len * 6 + 16;
+	buffer = alloca (bufflen);
 	inlen = len;
 	inptr = in;
-
-	ascii = alloca(bufflen);
-
-	if (strcasecmp(type, "UTF-8") != 0)
-		ic = iconv_open(type, "UTF-8");
-
+	
+	ascii = alloca (bufflen);
+	
+	if (g_strcasecmp (type, "UTF-8") != 0)
+		ic = iconv_open (type, "UTF-8");
+	
 	while (inlen) {
 		int convlen, i, proclen;
 
@@ -1802,6 +1796,7 @@ rfc2184_decode (const char *in, int len)
 {
 	const char *inptr = in;
 	const char *inend = in + len;
+	const char *charset;
 	char *decoded = NULL;
 	char *encoding;
 	
@@ -1810,11 +1805,12 @@ rfc2184_decode (const char *in, int len)
 		return NULL;
 	
 	encoding = g_strndup (in, inptr - in);
+	charset = camel_charset_get_iconv_friendly_name (encoding);
+	g_free (encoding);
+	
 	inptr = memchr (inptr + 1, '\'', inend - inptr - 1);
-	if (!inptr) {
-		g_free (encoding);
+	if (!inptr)
 		return NULL;
-	}
 	
 	inptr++;
 	if (inptr < inend) {
@@ -1825,14 +1821,14 @@ rfc2184_decode (const char *in, int len)
 		
 		inbuf = decword = hex_decode (inptr, inend - inptr);
 		inlen = strlen (inbuf);
-				
-		ic = iconv_open ("UTF-8", encoding);
+		
+		ic = iconv_open ("UTF-8", charset);
 		if (ic != (iconv_t) -1) {
 			int ret;
-		
+			
 			outlen = inlen * 6 + 16;
 			outbuf = outbase = g_malloc (outlen);
-	
+			
 			ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 			if (ret >= 0) {
 				iconv (ic, NULL, 0, &outbuf, &outlen);

@@ -197,19 +197,85 @@ void main(void)
 
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
+#include "hash-table-utils.h"
 #include <gal/unicode/gunicode.h>
 #include <locale.h>
 #include <string.h>
 #include <glib.h>
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#endif
 
-void camel_charset_init(CamelCharset *c)
+
+#ifdef ENABLE_THREADS
+static pthread_mutex_t iconv_charsets_lock = PTHREAD_MUTEX_INITIALIZER;
+#define ICONV_CHARSETS_LOCK() pthread_mutex_lock (&iconv_charsets_lock)
+#define ICONV_CHARSETS_UNLOCK() pthread_mutex_unlock (&iconv_charsets_lock)
+#else
+#define ICONV_CHARSETS_LOCK()
+#define ICONV_CHARSETS_UNLOCK()
+#endif /* ENABLE_THREADS */
+
+static GHashTable *iconv_charsets = NULL;
+
+struct {
+	char *charset;
+	char *iconv_name;
+} known_iconv_charsets[] = {
+	/* charset name, iconv-friendly charset name */
+	{ "iso-8859-1",     "iso-8859-1" },
+	{ "iso8859-1",      "iso-8859-1" },
+	/* the above mostly serves as an example for iso-style charsets,
+	   but we have code that will populate the iso-*'s if/when they
+	   show up in camel_charset_map_get_iconv_friendly_name() so I'm
+	   not going to bother putting them all in here... */
+	{ "windows-cp1251", "cp1251"     },
+	{ "windows-1251",   "cp1251"     },
+	{ "cp1251",         "cp1251"     },
+	{ NULL,             NULL         }
+};
+
+
+static void
+shutdown_foreach (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+	g_free (value);
+}
+
+static void
+camel_charset_map_shutdown (void)
+{
+	g_hash_table_foreach (iconv_charsets, shutdown_foreach, NULL);
+	g_hash_table_destroy (iconv_charsets);
+}
+
+void
+camel_charset_map_init (void)
+{
+	int i;
+	
+	if (iconv_charsets)
+		return;
+	
+	iconv_charsets = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	for (i = 0; known_iconv_charsets[i].charset != NULL; i++) {
+		g_hash_table_insert (iconv_charsets, g_strdup (known_iconv_charsets[i].charset),
+				     g_strdup (known_iconv_charsets[i].iconv_name));
+	}
+	
+	g_atexit (camel_charset_map_shutdown);
+}
+
+void
+camel_charset_init (CamelCharset *c)
 {
 	c->mask = ~0;
 	c->level = 0;
 }
 
 void
-camel_charset_step(CamelCharset *c, const char *in, int len)
+camel_charset_step (CamelCharset *c, const char *in, int len)
 {
 	register unsigned int mask;
 	register int level;
@@ -260,7 +326,8 @@ camel_charset_best_mask(unsigned int mask)
 	return "UTF-8";
 }
 
-const char *camel_charset_best_name(CamelCharset *charset)
+const char *
+camel_charset_best_name(CamelCharset *charset)
 {
 	if (charset->level == 1)
 		return "ISO-8859-1";
@@ -313,6 +380,40 @@ camel_charset_locale_name (void)
 			g_strdown (charset);
 		}
 	}
+	
+	return charset;
+}
+
+const char *
+camel_charset_get_iconv_friendly_name (const char *name)
+{
+	const char *charset;
+	
+	ICONV_CHARSETS_LOCK ();
+	charset = g_hash_table_lookup (iconv_charsets, name);
+	if (!charset) {
+		/* Attempt to friendlyify the charset */
+		char *new_charset;
+		int len;
+		
+		/* Hack to convert charsets like ISO8859-1 to iconv-friendly ISO-8859-1 */
+		if (!g_strncasecmp (name, "iso", 3) && name[3] != '-' && name[3] != '_') {
+			len = strlen (name);
+			new_charset = g_malloc (len + 2);
+			memcpy (new_charset, name, 3);
+			new_charset[3] = '-';
+			memcpy (new_charset + 4, name + 3, len - 3);
+			new_charset[len + 1] = '\0';
+			g_hash_table_insert (iconv_charsets, g_strdup (name), new_charset);
+		} else {
+			/* *shrug* - add it to the hash table just the way it is? */
+			new_charset = g_strdup (name);
+			g_hash_table_insert (iconv_charsets, g_strdup (name), new_charset);
+		}
+		
+		charset = new_charset;
+	}
+	ICONV_CHARSETS_UNLOCK ();
 	
 	return charset;
 }

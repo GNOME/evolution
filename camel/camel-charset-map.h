@@ -28,6 +28,8 @@ struct _CamelCharset {
 	int level;
 };
 
+void camel_charset_map_init (void);
+
 void camel_charset_init(CamelCharset *);
 void camel_charset_step(CamelCharset *, const char *in, int len);
 const char *camel_charset_best_name(CamelCharset *);
@@ -36,5 +38,7 @@ const char *camel_charset_best_name(CamelCharset *);
 const char *camel_charset_best(const char *in, int len);
 
 char *camel_charset_locale_name (void);
+
+const char *camel_charset_get_iconv_friendly_name (const char *name);
 
 #endif /* ! _CAMEL_CHARSET_MAP_H */
