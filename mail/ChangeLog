@@ -1,3 +1,8 @@
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* component-factory.c (owner_set_cb): Create a global reference to
+	the Drafts mbox folder for the Composer to use
+
 2000-08-06  JP Rosevear  <jpr@helixcode.com>
 
 	* mail-config.c (ndialog_page_undone): Desensitize ok button
