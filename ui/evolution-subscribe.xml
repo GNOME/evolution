@@ -36,9 +36,13 @@
 
     <toolitem type="separator"/>
 
-    <toolitem name="Refresh" verb=""
+    <toolitem name="RefreshList" verb=""
     _label="Refresh List" _descr="Refresh List of Folders"
     pixtype="pixbuf"/>
+
+    <toolitem type="separator"/>
+
+    <control name="FolderSearch"/>
 
   </dockitem>
 </Root>

@@ -1,3 +1,8 @@
+2000-09-28  Chris Toshok  <toshok@helixcode.com>
+
+	* ui/evolution-subscribe.xml: add a FolderSearch control, and
+	change "Refresh" to "RefreshList".
+
 2000-09-27  Chris Toshok  <toshok@helixcode.com>
 
 	* ui/evolution-subscribe.xml: add an Refresh List button..
