@@ -234,7 +234,7 @@ email_menu_add_option (EMailMenu *menu, const gchar *addr)
 	menu_item = gtk_menu_item_new_with_label (addr);
 	g_object_set_data (G_OBJECT (menu_item), "addr", addr_cpy);
 	gtk_widget_show_all (menu_item);
-	gtk_menu_append (GTK_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (menu->option_menu))), menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (gtk_option_menu_get_menu (GTK_OPTION_MENU (menu->option_menu))), menu_item);
 
 	g_signal_connect (menu_item,
 			  "activate",
@@ -531,31 +531,26 @@ enum {
 	COLUMN_CARD
 };
 
-static gboolean
-card_picker_row_select_cb (GtkTreeSelection  *selection,
-			   GtkTreeModel      *model,
-			   GtkTreePath       *path,
-			   gboolean           path_currently_selected,
-			   gpointer           closure)
+static void
+card_picker_selection_changed (GtkTreeSelection *selection, gpointer closure)
 {
 	MiniWizard *wiz = (MiniWizard *) closure;
 	CardPicker *pick = (CardPicker *) wiz->closure;
+	gboolean selected;
 	GtkTreeIter iter;
 
-	if (path_currently_selected) {
-		gtk_tree_model_get_iter (model, &iter, path);
-		gtk_tree_model_get (model, &iter,
-				    COLUMN_CARD, &pick->current_card,
-				    NULL);
+	selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-		gtk_widget_set_sensitive (wiz->ok_button, TRUE);
+	gtk_widget_set_sensitive (wiz->ok_button, selected);
+
+	if (selected) {
+		gtk_tree_model_get (GTK_TREE_MODEL (pick->model), &iter,
+				    COLUMN_CARD, &pick->current_card,
+				    -1);
 	}
 	else {
 		pick->current_card = NULL;
-		gtk_widget_set_sensitive (wiz->ok_button, FALSE);
 	}
-
-	return TRUE;
 }
 
 static void
@@ -584,6 +579,13 @@ card_picker_cleanup_cb (gpointer closure)
 }
 
 static void
+free_str (gpointer      data,
+	  GObject      *where_the_object_was)
+{
+	g_free (data);
+}
+
+static void
 card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, const gchar *new_email)
 {
 	CardPicker *pick;
@@ -595,9 +597,7 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 
 	pick->body  = gtk_vbox_new (FALSE, 2);
 
-	pick->model = gtk_list_store_new (2,
-					  G_TYPE_STRING, G_TYPE_POINTER,
-					  NULL);
+	pick->model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
 
 	pick->list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (pick->model));
 
@@ -615,9 +615,10 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 	str = g_strdup_printf (_("Create a new contact \"%s\""), new_name);
 	gtk_list_store_append (pick->model, &iter);
 	gtk_list_store_set (pick->model, &iter,
-			    str, NULL,
-			    NULL);
-	g_free (str);
+			    COLUMN_ACTION, str,
+			    COLUMN_CARD, NULL,
+			    -1);
+	g_object_weak_ref (G_OBJECT (pick->model), free_str, str);
 
 	pick->cards = NULL;
 	while (cards) {
@@ -632,9 +633,10 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 		gtk_list_store_set (pick->model, &iter,
 				    COLUMN_ACTION, str,
 				    COLUMN_CARD, card,
-				    NULL);
+				    -1);
 		g_free (name_str);
-		g_free (str);
+
+		g_object_weak_ref (G_OBJECT (pick->model), free_str, str);
 
 		cards = g_list_next (cards);
 	}
@@ -650,9 +652,9 @@ card_picker_init (MiniWizard *wiz, const GList *cards, const gchar *new_name, co
 	wiz->ok_cb      = card_picker_ok_cb;
 	wiz->cleanup_cb = card_picker_cleanup_cb;
 
-	gtk_tree_selection_set_select_func (gtk_tree_view_get_selection (GTK_TREE_VIEW (pick->list)),
-					    card_picker_row_select_cb,
-					    wiz, NULL);
+	g_object_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (pick->list)),
+			  "changed", card_picker_selection_changed,
+			  wiz);
 
 	/* Build our widget */
 
@@ -900,7 +902,7 @@ e_address_popup_construct (EAddressPopup *pop)
 		GtkStyle *style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (name_holder)));
 		style->bg[0] = color;
 		gtk_widget_set_style (GTK_WIDGET (name_holder), style);
-		gtk_style_unref (style);
+		g_object_unref (style);
 	}
 
 	pop->generic_view = gtk_frame_new (NULL);
@@ -1038,25 +1040,6 @@ wizard_destroy_cb (MiniWizard *wiz, gpointer closure)
 }
 
 static void
-popup_size_allocate_cb (GtkWidget *widget, GtkAllocation *alloc, gpointer user_data)
-{
-	gint x, y, w, h, xmax, ymax;
-
-	xmax = gdk_screen_width ();
-	ymax = gdk_screen_height ();
-
-	if (g_object_get_data (G_OBJECT (widget), "size_allocate") == NULL) {
-		gdk_window_get_pointer (NULL, &x, &y, NULL);
-		w = alloc->width;
-		h = alloc->height;
-		x = CLAMP (x - w/2, 0, xmax - w);
-		y = CLAMP (y - h/2, 0, ymax - h);
-		gtk_widget_set_uposition (widget, x, y);
-		g_object_set_data (G_OBJECT (widget), "size_allocate", widget);
-	}
-}
-
-static void
 e_address_popup_ambiguous_email_add (EAddressPopup *pop, const GList *cards)
 {
 	MiniWizard *wiz = mini_wizard_new ();
@@ -1066,14 +1049,8 @@ e_address_popup_ambiguous_email_add (EAddressPopup *pop, const GList *cards)
 	wiz->destroy_closure = win;
 
 	gtk_window_set_title (GTK_WINDOW (win),  _("Merge E-Mail Address"));
-	g_signal_connect (win,
-			  "size_allocate",
-			  G_CALLBACK (popup_size_allocate_cb),
-			  NULL);
+	gtk_window_set_position (GTK_WINDOW (win), GTK_WIN_POS_MOUSE);
 
-	/* FIXME: This hard-wired size is evil. */
-	gtk_widget_set_usize (win, 275, 170);
-		
 	card_picker_init (wiz, cards, pop->name, pop->email);
 
 	e_address_popup_cleanup (pop);

@@ -1,5 +1,22 @@
 2003-03-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/e-address-popup.c (email_menu_add_option): fix use
+	of deprecated gtk_menu_append.
+	(card_picker_selection_changed): change this to be used with the
+	"changed" signal on GtkTreeSelection.
+	(free_str): yeah, gross.  i know.
+	(card_picker_init): this needed some fixing, so the strings don't
+	go away after we insert them into the model.  also, connect to the
+	"changed" GtkTreeSelection signal instead of using the nonexistant
+	gtk_tree_selection_set_func.
+	(e_address_popup_construct): gtk_style_unref -> g_object_unref.
+	(popup_size_allocate_cb): nuke.
+	(e_address_popup_ambiguous_email_add): use gtk_window_set_position
+	and let the window manager place the window instead of doing it
+	ourself.
+
+2003-03-18  Chris Toshok  <toshok@ximian.com>
+
 	[ Fixes addressbook bug #39730 ]
 	* gui/component/ldap-config.glade: add response ids to the search
 	base dialog.
