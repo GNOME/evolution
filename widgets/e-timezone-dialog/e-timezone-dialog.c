@@ -59,6 +59,7 @@ struct _ETimezoneDialogPrivate {
 	GtkWidget *table;
 	GtkWidget *map_window;
 	GtkWidget *timezone_combo;
+	GtkWidget *preview_label;
 };
 
 
@@ -296,11 +297,13 @@ get_widgets (ETimezoneDialog *etd)
 	priv->map_window	= GW ("map-window");
 	priv->timezone_combo	= GW ("timezone-combo");
 	priv->table             = GW ("timezone-table");
+	priv->preview_label     = GW ("preview-label");
 
 	return (priv->app
 		&& priv->map_window
 		&& priv->timezone_combo
-		&& priv->table);
+		&& priv->table
+		&& priv->preview_label);
 }
 
 
@@ -320,7 +323,6 @@ e_timezone_dialog_new (void)
 	etd = E_TIMEZONE_DIALOG (g_object_new (E_TYPE_TIMEZONE_DIALOG, NULL));
 	return e_timezone_dialog_construct (E_TIMEZONE_DIALOG (etd));
 }
-
 
 static const char *
 zone_display_name (icaltimezone *zone)
@@ -387,7 +389,7 @@ on_map_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data)
 
 	new_zone = get_zone_from_point (etd, priv->point_hover);
 
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
+	gtk_label_set_text (GTK_LABEL (priv->preview_label),
 			    zone_display_name (new_zone));
 
 	return TRUE;
@@ -415,6 +417,7 @@ on_map_leave (GtkWidget *widget, GdkEventCrossing *event, gpointer data)
 
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
 			    zone_display_name (priv->zone));
+	gtk_label_set_text (GTK_LABEL (priv->preview_label), "");
 
 	priv->point_hover = NULL;
 
@@ -568,6 +571,8 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 
 	priv->zone = zone;
 
+	gtk_label_set_text (GTK_LABEL (priv->preview_label),
+			    zone ? zone_display_name (zone) : "");
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry),
 			    zone ? zone_display_name (zone) : "");
 

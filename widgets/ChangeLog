@@ -1,3 +1,13 @@
+2004-09-13  Rodney Dawes  <dobey@novell.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c (get_widgets):
+	(on_map_motion, on_map_leave, e_timezone_dialog_set_timezone):
+	* e-timezone-dialog/e-timezone-dialog.glade:
+	Add the label back for previewing the timezone name, and set the
+	label appropriately
+
+	Fixes #64800
+
 2004-08-17  Rodney Dawes  <dobey@novell.com>
 
 	* e-timezone-dialog/e-timezone-dialog.c (e_timezone_dialog_construct):
