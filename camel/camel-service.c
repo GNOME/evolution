@@ -94,7 +94,7 @@ _finalize (GtkObject *object)
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelService::finalize\n");
 
-	if (camel_service->url) g_free (camel_service->url);
+	g_free (camel_service->url);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelService::finalize\n");

@@ -134,9 +134,9 @@ _finalize (GtkObject *object)
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::finalize\n");
 
-	if (camel_folder->name) g_free (camel_folder->name);
-	if (camel_folder->full_name) g_free (camel_folder->full_name);
-	if (camel_folder->permanent_flags) g_free (camel_folder->permanent_flags);
+	g_free (camel_folder->name);
+	g_free (camel_folder->full_name);
+	g_free (camel_folder->permanent_flags);
 	if (camel_folder->message_list) {
 		/* unref all messages got from the folder */
 		message_node = camel_folder->message_list;
@@ -217,8 +217,8 @@ _set_name (CamelFolder *folder, const gchar *name)
 	g_assert (name);
 	g_assert (folder->parent_store);
 	
-	if (folder->name) g_free(folder->name);
-	if (folder->full_name) g_free (folder->full_name);
+	g_free (folder->name);
+	g_free (folder->full_name);
 	
 	separator = camel_store_get_separator (folder->parent_store);
 	
@@ -256,7 +256,7 @@ camel_folder_set_name (CamelFolder *folder, const gchar *name)
 static void
 _set_full_name (CamelFolder *folder, const gchar *name)
 {
-	if (folder->full_name) g_free(folder->full_name);
+	g_free(folder->full_name);
 	folder->full_name = g_strdup (name);
 }
 

@@ -206,13 +206,13 @@ _finalize (GtkObject *object)
 
 
 
-	if (mime_part->description) g_free (mime_part->description);
-	if (mime_part->disposition) gmime_content_field_unref (mime_part->disposition);
-	if (mime_part->content_id) g_free (mime_part->content_id);
-	if (mime_part->content_MD5) g_free (mime_part->content_MD5);
-	if (mime_part->content_languages) string_list_free (mime_part->content_languages);
-	if (mime_part->encoding) g_free (mime_part->encoding);
-	if (mime_part->filename) g_free (mime_part->filename);
+	g_free (mime_part->description);
+	gmime_content_field_unref (mime_part->disposition);
+	g_free (mime_part->content_id);
+	g_free (mime_part->content_MD5);
+	string_list_free (mime_part->content_languages);
+	g_free (mime_part->encoding);
+	g_free (mime_part->filename);
 	if (mime_part->header_lines) string_list_free (mime_part->header_lines);
 	
 	if (mime_part->content_type) gmime_content_field_unref (mime_part->content_type);
@@ -248,7 +248,7 @@ _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 static void
 _set_description (CamelMimePart *mime_part, const gchar *description)
 {
-	if (mime_part->description) g_free (mime_part->description);
+	g_free (mime_part->description);
 	mime_part->description = g_strdup (description);
 }
 
@@ -285,10 +285,11 @@ static void
 _set_disposition (CamelMimePart *mime_part, const gchar *disposition)
 {
 #warning Do not use MimeContentfield here !!!
-	if (mime_part->disposition) g_free(mime_part->disposition);
-	if (!mime_part->disposition) 
-		mime_part->disposition = g_new0 (GMimeContentField,1);
-	if ((mime_part->disposition)->type) g_free ((mime_part->disposition)->type);
+	
+	if (mime_part->disposition) g_free ((mime_part->disposition)->type);
+	g_free(mime_part->disposition);
+	
+	mime_part->disposition = g_new0 (GMimeContentField,1);
 	(mime_part->disposition)->type = g_strdup (disposition);
 }
 
@@ -323,7 +324,7 @@ camel_mime_part_get_disposition (CamelMimePart *mime_part)
 static void
 _set_filename (CamelMimePart *mime_part, gchar *filename)
 {
-	if (mime_part->filename) g_free(mime_part->filename);
+	g_free(mime_part->filename);
 	mime_part->filename = filename;
 }
 
@@ -360,7 +361,7 @@ camel_mime_part_get_filename (CamelMimePart *mime_part)
 static void
 _set_content_id (CamelMimePart *mime_part, gchar *content_id)
 {
-	if (mime_part->content_id) g_free(mime_part->content_id);
+	g_free(mime_part->content_id);
 	mime_part->content_id = content_id;
 }
 
@@ -386,7 +387,7 @@ camel_mime_part_get_content_id (CamelMimePart *mime_part)
 static void
 _set_content_MD5 (CamelMimePart *mime_part, gchar *content_MD5)
 {
-	if (mime_part->content_MD5) g_free(mime_part->content_MD5);
+	g_free(mime_part->content_MD5);
 	mime_part->content_MD5 = content_MD5;
 }
 
@@ -414,7 +415,7 @@ camel_mime_part_get_content_MD5 (CamelMimePart *mime_part)
 static void
 _set_encoding (CamelMimePart *mime_part, gchar *encoding)
 {
-	if (mime_part->encoding) g_free(mime_part->encoding);
+	g_free(mime_part->encoding);
 	mime_part->encoding = encoding;
 }
 

@@ -137,7 +137,7 @@ _finalize (GtkObject *object)
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamFs::finalize\n");
 	
-	if (stream_fs->name) g_free (stream_fs->name);
+	g_free (stream_fs->name);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::finalize\n");

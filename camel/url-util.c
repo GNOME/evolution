@@ -124,12 +124,12 @@ g_url_free (Gurl *url)
 {
 	g_assert (url);
 
-	if (url->protocol) g_free (url->protocol);
-	if (url->user) g_free (url->user);
-	if (url->passwd) g_free (url->passwd);
-	if (url->host) g_free (url->host);
-	if (url->port) g_free (url->port);
-	if (url->path) g_free (url->path);
+	g_free (url->protocol);
+	g_free (url->user);
+	g_free (url->passwd);
+	g_free (url->host);
+	g_free (url->port);
+	g_free (url->path);
 
 	g_free (url);
 	

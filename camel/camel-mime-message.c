@@ -184,11 +184,11 @@ _finalize (GtkObject *object)
 	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (object);
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimeMessage::finalize\n");
-	if (message->received_date) g_free (message->received_date);
-	if (message->sent_date) g_free (message->sent_date);
-	if (message->subject) g_free (message->subject);
-	if (message->reply_to) g_free (message->reply_to);
-	if (message->from) g_free (message->from);
+	g_free (message->received_date);
+	g_free (message->sent_date);
+	g_free (message->subject);
+	g_free (message->reply_to);
+	g_free (message->from);
 	
 #warning free recipients.
 	if (message->folder) gtk_object_unref (GTK_OBJECT (message->folder));
@@ -221,7 +221,7 @@ static void
 _set_field (CamelMimeMessage *mime_message, gchar *name, gchar *value, gchar **variable)
 {
 	if (variable) {
-		if (*variable) g_free (*variable);
+		g_free (*variable);
 		*variable = value;
 	}
 }

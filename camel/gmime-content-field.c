@@ -76,8 +76,8 @@ gmime_content_field_free (GMimeContentField *content_field)
 {
 	g_assert (content_field);
 	g_hash_table_foreach (content_field->parameters, _free_parameter, NULL);
-	if (content_field->type) g_free (content_field->type);
-	if (content_field->subtype) g_free (content_field->subtype);
+	g_free (content_field->type);
+	g_free (content_field->subtype);
 	g_hash_table_destroy (content_field->parameters);
 	g_free (content_field);
 }
@@ -297,14 +297,9 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 	g_assert (string);
 	g_assert (content_field);
  
-	if (content_field->type) {
-		CAMEL_LOG_FULL_DEBUG ( "GMimeContentField::construct_from_string, Freeing old mime type string\n");
-		g_free (content_field->type);
-	}
-	if (content_field->subtype) {
-		CAMEL_LOG_FULL_DEBUG ( "GMimeContentField::construct_from_string, Freeing old mime type substring\n");
-		g_free (content_field->subtype);
-	}
+	g_free (content_field->type);	
+	g_free (content_field->subtype);
+	
 	
 	first = 0;
 	len = strlen (string);

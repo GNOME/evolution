@@ -35,7 +35,7 @@ void
 g_hash_table_generic_free (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	if (value) g_free (value);
+	g_free (value);
 }
 
 

@@ -1,3 +1,21 @@
+1999-09-01  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder.c (_finalize): 
+	(_set_name): 
+	* camel/camel-mime-message.c (_finalize): 
+	* camel/camel-mime-part.c (_finalize): 
+	(_set_description): 
+	(_set_disposition): 
+	* camel/camel-service.c (_finalize): 
+	* camel/camel-stream-fs.c (_finalize): 
+	* camel/gmime-content-field.c: 
+	(gmime_content_field_construct_from_string): 
+	* camel/url-util.c (g_url_free): 
+
+	When using g_free (obj) don't test if obj != NULL
+	g_free () already do that. Thanks to elerium for
+	the feedback.
+
 1999-08-30  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-recipient.c (camel_recipient_get): 
