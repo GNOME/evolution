@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 0.0.1\n"
 "POT-Creation-Date: 2000-05-05 00:33+0200\n"
-"PO-Revision-Date: 2000-05-05 00:42+0200\n"
+"PO-Revision-Date: 2000-05-05 00:43+0200\n"
 "Last-Translator: Jesús Bravo Álvarez <jba@pobox.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -347,11 +347,11 @@ msgstr "Evolution non pode crear as carpetas locais"
 
 #: shell/e-shell-shortcut.c:99
 msgid "Large Icons"
-msgstr "Iconos Grandes"
+msgstr "Iconas Grandes"
 
 #: shell/e-shell-shortcut.c:100
 msgid "Small Icons"
-msgstr "Iconos Pequenos"
+msgstr "Iconas Pequenas"
 
 #: shell/e-shell-shortcut.c:102
 msgid "Add New Group"
