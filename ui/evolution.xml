@@ -139,6 +139,8 @@
     <placeholder name="ComponentActionsPlaceholder"/>
 
     <submenu name="Tools" _label="_Tools">
+      <menuitem name="Settings" verb="" _label="_Configure..."/>
+      <separator/>
       <placeholder name="ComponentPlaceholder"/>
       <menuitem name="PilotSettings" verb="" _label="_Pilot Settings..."/>
     </submenu>
