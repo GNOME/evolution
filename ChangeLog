@@ -1,3 +1,7 @@
+2001-09-13  Yanko Kaneti  <yaneti@declera.com>
+
+	* configure.in (ALL_LINGUAS): Added bg to ALL_LINGUAS.
+
 2001-09-13  Larry Ewing  <lewing@ximian.com>
 
 	* data/evolution.mime: override the gnome-vfs.mime to match .vcf
