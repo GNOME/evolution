@@ -1,3 +1,8 @@
+2001-03-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail.xml: Change "Send and Receive" to "Send /
+	Receive".
+
 2001-03-20  Miguel de Icaza  <miguel@ximian.com>
 
 	* evolution-addressbook.xml: Added artwork from Jakub.

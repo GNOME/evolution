@@ -137,7 +137,7 @@
     <submenu name="Actions">
         <placeholder name="Component">
       	    <menuitem name="SendReceive" verb="MailGetSend"
-      	     _label="_Send and Receive"/>
+      	     _label="_Send / Receive"/>
       	    
       	    <separator/>
       	    
@@ -251,7 +251,7 @@
   <dockitem name="Toolbar">
 
     <toolitem name="MailGet" verb="MailGetSend"
-    _label="Send and Receive" priority="1" _tip="Send queued mail and retrieve new mail"
+    _label="Send / Receive" priority="1" _tip="Send queued mail and retrieve new mail"
     pixtype="pixbuf"/>
 
     <toolitem name="MailCompose" verb="MailCompose"
