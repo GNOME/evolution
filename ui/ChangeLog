@@ -1,5 +1,12 @@
 2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-addressbook.xml: Set the pixtype for
+	"ContactEditorDelete" to "pixbuf".
+	* evolution-contact-editor.xml: Likewise.
+	* evolution-contact-list-editor.xml: Likewise.
+
+2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution.xml: Remove "Control-W" accelerator for closing the
 	window.
 

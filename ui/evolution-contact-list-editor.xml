@@ -8,7 +8,7 @@
 
 		<cmd name="ContactListEditorDelete"
 		 _tip="Delete this list"
-		 pixtype="stock" pixname="Trash" accel="*Control*d"/>
+		 pixtype="pixbuf" accel="*Control*d"/>
 
 		<cmd name="ContactListEditorClose"
 		 pixtype="stock" pixname="Close" accel="*Control*w"/>

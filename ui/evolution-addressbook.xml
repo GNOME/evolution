@@ -2,7 +2,6 @@
 	<commands>
 		<cmd name="ContactDelete"
 		 _tip="Delete selected contacts"
-		 pixtype="stock" pixname="Trash"
 		 accel="*Control*d"/>
 
 		<cmd name="ContactNew"
@@ -138,7 +137,7 @@
 		_label="Print" pixtype="pixbuf"/>
 
 		<toolitem name="ContactDelete" verb=""
-		_label="Delete"/>
+		_label="Delete" pixtype="pixbuf"/>
 
 		<toolitem name="ContactStop" verb=""
 		_label="Stop"/>

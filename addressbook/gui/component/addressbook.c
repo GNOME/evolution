@@ -273,6 +273,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/Toolbar/ContactNew", "new_contact.xpm"),
 	E_PIXMAP ("/Toolbar/ContactNewList", "all_contacts.xpm"),
 	E_PIXMAP ("/Toolbar/ContactsPrint", "buttons/print.png"),
+	E_PIXMAP ("/Toolbar/ContactDelete", "buttons/delete-message.png"),
 
 	E_PIXMAP_END
 };

@@ -1056,6 +1056,7 @@ EPixmap pixmaps[] = {
 	E_PIXMAP ("/commands/ContactEditorPrint", "print.xpm"),
 	E_PIXMAP ("/commands/ContactEditorPrintEnvelope", "print.xpm"),
 
+	E_PIXMAP ("/Toolbar/ContactEditorDelete", "buttons/delete-message.png"),
 	E_PIXMAP ("/Toolbar/ContactEditorPrint", "buttons/print.png"),
 
 	E_PIXMAP_END

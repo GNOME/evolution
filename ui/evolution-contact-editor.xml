@@ -8,8 +8,7 @@
 		<cmd name="ContactEditorSendTo"/>
 
 		<cmd name="ContactEditorDelete"
-		 _tip="Delete this item"
-		 pixtype="stock" pixname="Trash" accel="*Control*d"/>
+		 _tip="Delete this item" accel="*Control*d"/>
 
 		<cmd name="ContactEditorPrint"
 		 _tip="Print this item"
@@ -83,23 +82,10 @@
 		<separator/>
 
 		<toolitem name="ContactEditorDelete" verb=""
-		_label="Delete" priority="1"/>
+		_label="Delete" pixtype="pixbuf" priority="1"/>
 
 		<toolitem name="ContactEditorClose" verb=""
 		_label="Close" priority="1"/>	
-
-<!--
-		<toolitem name="Help" _label="Help"
-		_tip="See online help" verb="ContactEditorHelp"
-		pixtype="stock" pixname="Help"/>
-
-	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Previous"),
-				N_("Go to the previous item"), NULL,
-				GNOME_STOCK_PIXMAP_BACK),
-	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Next"),
-				N_("Go to the next item"), NULL,
-				GNOME_STOCK_PIXMAP_FORWARD),
--->
 
 	</dockitem>
 
