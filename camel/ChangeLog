@@ -1,3 +1,18 @@
+2002-01-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Sort
+	the needheaders UID array and fixed to respect the
+	UID_SET_LIMIT. This should now finish the fixification of bug
+	#2529. There's still the possible issue that a command-line (The
+	only command-line I can think of that can still be too long is a
+	SEARCH command, but this can't possibly be fixed until we rewrite
+	the imap code to use Zucchi's ImapEngine idea).
+
+2002-01-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):
+	Move the command-lock outside the loop.
+
 2002-01-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):

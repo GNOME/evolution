@@ -746,9 +746,10 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 	int uid = 0;
 	char *set;
 	
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	
 	while (uid < uids->len) {
 		set = imap_uid_array_to_set (folder->summary, uids, uid, UID_SET_LIMIT, &uid);
-		CAMEL_IMAP_STORE_LOCK (store, command_lock);
 		response = camel_imap_command (store, folder, ex,
 					       "UID STORE %s +FLAGS.SILENT \\Deleted",
 					       set);
@@ -765,10 +766,12 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 						       "UID EXPUNGE %s", set);
 		} else
 			response = camel_imap_command (store, folder, ex, "EXPUNGE");
+		
 		if (response)
 			camel_imap_response_free (store, response);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 	}
+	
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }
 
 static int
@@ -1852,38 +1855,48 @@ imap_update_summary (CamelFolder *folder, int exists,
 		char *uidset;
 		int uid = 0;
 		
-		/* FIXME: sort needheaders */
-		/* FIXME: modify code to allow for uidset limit */
-		uidset = imap_uid_array_to_set (folder->summary, needheaders, uid, -1, &uid);
-		g_ptr_array_free (needheaders, TRUE);
-		if (!camel_imap_command_start (store, folder, ex,
-					       "UID FETCH %s BODY.PEEK[%s]",
-					       uidset, header_spec)) {
-			g_free (uidset);
-			goto lose;
-		}
-		g_free (uidset);
+		qsort (needheaders->pdata, needheaders->len,
+		       sizeof (void *), uid_compar);
 		
 		camel_operation_start (NULL, _("Fetching summary information for new messages"));
-		while ((type = camel_imap_command_response (store, &resp, ex))
-		       == CAMEL_IMAP_RESPONSE_UNTAGGED) {
-			data = parse_fetch_response (imap_folder, resp);
-			g_free (resp);
-			if (!data)
-				continue;
-			
-			stream = g_datalist_get_data (&data, "BODY_PART_STREAM");
-			if (stream) {
-				add_message_from_data (folder, messages, first, data);
-				got += IMAP_PRETEND_SIZEOF_HEADERS;
-				camel_operation_progress (NULL, got * 100 / size);
-			}
-			g_datalist_clear (&data);
-		}
-		camel_operation_end (NULL);
 		
-		if (type == CAMEL_IMAP_RESPONSE_ERROR)
-			goto lose;
+		while (uid < needheaders->len) {
+			uidset = imap_uid_array_to_set (folder->summary, needheaders, uid, UID_SET_LIMIT, &uid);
+			if (!camel_imap_command_start (store, folder, ex,
+						       "UID FETCH %s BODY.PEEK[%s]",
+						       uidset, header_spec)) {
+				g_ptr_array_free (needheaders, TRUE);
+				camel_operation_end (NULL);
+				g_free (uidset);
+				goto lose;
+			}
+			g_free (uidset);
+			
+			while ((type = camel_imap_command_response (store, &resp, ex))
+			       == CAMEL_IMAP_RESPONSE_UNTAGGED) {
+				data = parse_fetch_response (imap_folder, resp);
+				g_free (resp);
+				if (!data)
+					continue;
+				
+				stream = g_datalist_get_data (&data, "BODY_PART_STREAM");
+				if (stream) {
+					add_message_from_data (folder, messages, first, data);
+					got += IMAP_PRETEND_SIZEOF_HEADERS;
+					camel_operation_progress (NULL, got * 100 / size);
+				}
+				g_datalist_clear (&data);
+			}
+			
+			if (type == CAMEL_IMAP_RESPONSE_ERROR) {
+				g_ptr_array_free (needheaders, TRUE);
+				camel_operation_end (NULL);
+				goto lose;
+			}
+		}
+		
+		g_ptr_array_free (needheaders, TRUE);
+		camel_operation_end (NULL);
 	}
 	
 	/* Now finish up summary entries (fix UIDs, set flags and size) */
