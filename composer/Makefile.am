@@ -85,5 +85,8 @@ EXTRA_DIST =					\
 	$(IDLS)					\
 	bad-icon.xpm
 
-BUILT_SOURCES = $(IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED)
 CLEANFILES   += $(BUILT_SOURCES)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)

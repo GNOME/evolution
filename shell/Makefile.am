@@ -13,8 +13,6 @@ INCLUDES = 								\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
 	-DG_LOG_DOMAIN=\"evolution-shell\"
 
-CLEANFILES = $(IDL_GENERATED)
-
 # CORBA stuff
 
 IDLS = \
@@ -162,3 +160,10 @@ evolution.pure: evolution
 	$(PLINK) $(evolution_LDFLAGS) $(evolution_OBJECTS) $(evolution_LDADD) $(LIBS)
 
 endif
+
+CLEANFILES += $(IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
+

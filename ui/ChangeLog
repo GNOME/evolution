@@ -1,3 +1,8 @@
+2001-03-13  Michael Meeks  <michael@ximian.com>
+
+	* evolution-mail.xml: Add a load of commands, sigh, people
+	do this so brokenly.
+
 2001-04-02  Anders Carlsson  <andersca@codefactory.se>
 
 	* evolution-mail.xml: Added a space after an attribute to make libxml happy.

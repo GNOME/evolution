@@ -1,3 +1,7 @@
+2001-04-14  Michael Meeks  <michael@ximian.com>
+
+	* idl/Makefile.am: Remove stale build cruftiness.
+
 2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* widgets/e-summary-subwindow.c: added some missing includes.

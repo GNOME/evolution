@@ -1,3 +1,7 @@
+2001-04-14  Michael Meeks  <michael@ximian.com>
+
+	* Makefile.am (dist-hook): remove built sources from dist.
+
 2001-04-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-splash.c (impl_destroy): Call the parent class' ::destroy

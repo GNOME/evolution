@@ -55,3 +55,9 @@ gladedir = $(datadir)/evolution/glade
 glade_DATA = import.glade
 
 EXTRA_DIST = $(glade_DATA) $(IDLS)
+
+BUILT_SOURCES=$(IDL_GENERATED)
+CLEANFILES += $(BUILT_SOURCES)
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
+

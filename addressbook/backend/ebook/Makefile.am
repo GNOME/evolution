@@ -145,6 +145,9 @@ load_gnomecard_addressbook_LDADD =			\
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
 
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
+
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)

@@ -14,13 +14,80 @@
     <cmd name="MailStop"
       pixtype="stock" pixname="Stop"/>
 
-    <cmd name="MailCompose"
-     pixtype="pixbuf" _label="_Compose"/>
+    <cmd name="MailCompose" pixtype="pixbuf" _label="Compose"/>
 	    
+    <cmd name="PrintMessage" _label="Print message..."
+     _tip="Print message to the printer"
+     pixtype="pixbuf" accel="*Control*P"/>
+
+    <cmd name="PrintPreviewMessage" _label="Print Preview of message..."
+    _tip="Previews the message to be printed" pixtype="pixbuf"/>
+
+    <cmd name="EditSelectAll" _label="Select All" accel="*Control*a"/>
+
+    <cmd name="EditInvertSelection" _label="Invert Selection"
+     accel="*Control*i"/>
+
+    <cmd name="MessageOpenNewWnd" _label="Open in New Window"
+     _tip="Open the current message in a new window" accel="*Control*o"/>
+
+    <cmd name="MessageEdit" _label="Edit Message"
+     _tip="Edit the current message" pixbuf="pixbuf" accel="*Control*e"/>
+
+    <cmd name="MessageSaveAs" _label="_Save Message As..."
+     _tip="Save the message into a new file"
+     pixtype="pixbuf" accel="*Control**Alt*s"/>
+
+    <cmd name="MessagePrint" _label="Print Message"
+     _tip="Print the selected message" accel="*Control*p"/>
+
+    <cmd name="MessageReplySndr" _label="Reply to sender" pixtype="pixbuf"
+     accel="*Control*r" _tip="Send a reply to the person who sent you this mail"/>
+
+    <cmd name="MessageReplyAll" _label="Reply to all"
+     pixtype="pixbuf" accel="*Control**Shift*r"
+     _tip="Send a single mail in reply to all the selected mail"/>
+
+    <cmd name="MessageForwardAttached" _label="Forward"
+     _tip="Forward the selected mail to someone" accel="*Control*j"/>
+
+    <cmd name="MessageForwardInlined" _label="Forward inline"
+     _tip="Forward this message in-line with your mail, so you can edit it"
+     accel="*Control**Shift*j"/>
+
+    <cmd name="MessageMarkAsRead" _label="Mark As Read"
+     _tip="Mark the selected messages as having been read" accel="*Control*k"/>
+
+    <cmd name="MessageMarkAsUnRead" _label="Mark As U_nread"
+     _tip="Mark the selected messages as not having been read" accel="*Control**Shift*k"/>
+
+    <cmd name="MessageMove" _label="Move"
+     _tip="Move selected messages to another folder" pixtype="pixbuf" accel="*Control*m"/>
+
+    <cmd name="MessageCopy" _label="Copy"
+     _tip="Copy selected messages to another folder" accel="*Control*c"/>
+
+    <cmd name="MessageDelete" _label="Delete"
+     _tip="Delete the selected messages" accel="*Control*d"/>
+
+    <cmd name="MessageUndelete" _label="Undelete"
+     _tip="Un-delete the selected messages" accel="*Control*u"/>
+
+    <cmd name="MessageApplyFilters" _label="Apply Filters"
+     _tip="Apply any new filters to the mail in this box"
+     accel="*Control*y"/>
+
+
+    <cmd name="FolderExpunge" _label="Expunge"
+     _tip="Finaly remove all mails tagged for deletion"
+     accel="*Control*x"/>
+
+    <cmd name="FolderConfig" _label="Configure Folder..."
+     _tip="Change the properties of this folder" pixtype="pixbuf"/>
+
     <cmd name="MailGetSend" pixtype="pixbuf" _tip="Send queued mail
     and retrieve new mail"/>
 
-    <cmd name="MessageForwardAttached" accel="*Control*f"/>
   </commands>
 
   <keybindings>

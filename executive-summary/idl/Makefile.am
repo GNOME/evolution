@@ -16,17 +16,8 @@ INCLUDES = \
 
 EXTRA_DIST = $(IDLS)
 
-CLEANFILES = $(IDL_GENERATED)
-
-IDLS = \
+IDLS =					\
 	Executive-Summary.idl		\
 	HtmlView.idl                    \
 	Summary.idl			\
 	SummaryComponent.idl
-
-IDL_GENERATED = \
-	Executive-Summary.h		\
-	Executive-Summary-common.c	\
-	Executive-Summary-skels.c	\
-	Executive-Summary-stubs.c
-

@@ -21,8 +21,6 @@ INCLUDES = \
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
 	-DG_LOG_DOMAIN=\"evolution-executive-summary\"
 
-CLEANFILES = $(COMPOSER_GENERATED)
-
 COMPOSER_GENERATED = \
 	Composer.h			\
 	Composer-common.c		\
@@ -86,3 +84,8 @@ evolution-executive-summary.pure: evolution-executive-summary
 endif
 
 EXTRA_DIST = $(glade_DATA)
+CLEANFILES += $(COMPOSER_GENERATED)
+BUILT_SOURCES = $(COMPOSER_GENERATED)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)

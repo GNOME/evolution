@@ -50,4 +50,7 @@ libpas_a_SOURCES =					\
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
 
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
+
 EXTRA_DIST = $(LDAP_BACKEND_SOURCES)

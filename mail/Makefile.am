@@ -183,3 +183,6 @@ endif
 
 BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED)
 CLEANFILES   += $(BUILT_SOURCES)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)

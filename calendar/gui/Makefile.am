@@ -157,3 +157,6 @@ endif
 
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES += $(BUILT_SOURCES)
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
