@@ -43,6 +43,7 @@
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-icon-factory.h>
 #include <widgets/misc/e-dateedit.h>
 #include <stdlib.h>
 #include <string.h>
@@ -285,6 +286,8 @@ init_widgets (UrlDialogData *url_dlg_data)
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (url_dlg_data->scrolled_window),
 					     GTK_SHADOW_IN);
+	gtk_window_set_icon (GTK_WINDOW (url_dlg_data->url_dialog),
+			     e_icon_factory_get_icon("stock_calendar", 32));
 
 	gtk_widget_show (url_dlg_data->scrolled_window);
 }

@@ -26,6 +26,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <e-util/e-icon-factory.h>
 #include "send-comp.h"
 
 
@@ -82,6 +83,10 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO, str);
+	if (vtype == E_CAL_COMPONENT_EVENT)
+		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon ("stock_calendar", 32));
+	else if (vtype == E_CAL_COMPONENT_TODO)
+		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon ("stock_todo", 32));
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);

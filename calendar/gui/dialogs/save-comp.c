@@ -27,6 +27,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
+#include <e-util/e-icon-factory.h>
 #include "save-comp.h"
 
 
@@ -59,6 +60,7 @@ save_component_dialog (GtkWindow *parent)
 				GTK_STOCK_SAVE, GTK_RESPONSE_YES,
 				NULL);
 
+	gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon("stock_calendar", 32));
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Save Event"));
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 

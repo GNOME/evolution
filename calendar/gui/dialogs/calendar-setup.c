@@ -39,6 +39,7 @@
 #include <libecal/e-cal.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-url.h>
+#include <e-util/e-icon-factory.h>
 #include "calendar-setup.h"
 
 #define GLADE_FILE_NAME "calendar-setup.glade"
@@ -738,6 +739,8 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
+			     e_icon_factory_get_icon("stock_calendar", 32));
 
 	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	if (icon_list) {
@@ -810,6 +813,8 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
+			     e_icon_factory_get_icon("stock_calendar", 32));
 
 	gtk_widget_show_all (source_dialog->window);
 
@@ -906,6 +911,8 @@ calendar_setup_new_task_list (GtkWindow *parent)
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
+			     e_icon_factory_get_icon ("stock_todo", 32));
 	
 	icon_list = e_icon_factory_get_icon_list ("stock_task");
 	if (icon_list) {
@@ -978,6 +985,8 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_window_set_modal (GTK_WINDOW (source_dialog->window), TRUE);
+	gtk_window_set_icon (GTK_WINDOW (source_dialog->window),
+			     e_icon_factory_get_icon ("stock_todo", 32));
 
 	gtk_widget_show_all (source_dialog->window);
 

@@ -20,10 +20,13 @@
 
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtkstock.h>
+#include <e-util/e-icon-factory.h>
 #include "widgets/misc/e-source-selector.h"
 #include "select-source-dialog.h"
 
@@ -120,6 +123,11 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 	gtk_box_pack_start (GTK_BOX (hbox), scroll, TRUE, TRUE, 0);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), source_selector);
+
+	if (obj_type == E_CAL_SOURCE_TYPE_EVENT)
+		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon("stock_calendar", 32));
+	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
+		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon("stock_todo", 32));
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
 		if (selected_source)

@@ -42,6 +42,7 @@
 #include <addressbook/util/e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "e-util/e-dialog-widgets.h"
+#include "e-util/e-icon-factory.h"
 #include "alarm-options.h"
 
 
@@ -797,6 +798,8 @@ alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean
 	init_widgets (&dialog);
 
 	alarm_to_dialog (&dialog, alarm);
+
+	gtk_window_set_icon (GTK_WINDOW (dialog.toplevel), e_icon_factory_get_icon ("stock_calendar", 32));
 
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 	gtk_widget_hide (dialog.toplevel);

@@ -26,6 +26,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
+#include <e-util/e-icon-factory.h>
 #include "../calendar-config.h"
 #include "delete-comp.h"
 
@@ -61,6 +62,7 @@ delete_component_dialog (ECalComponent *comp,
 {
 	char *str;
 	GtkWidget *dialog;
+	const char *stock_icon;
 	int ret;
 
 	if (comp) {
@@ -91,6 +93,7 @@ delete_component_dialog (ECalComponent *comp,
 
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
+			stock_icon = "stock_calendar";
 			if (tmp)
 				str = g_strdup_printf (_("Are you sure you want to delete "
 							 "the appointment `%s'?"), tmp);
@@ -100,6 +103,7 @@ delete_component_dialog (ECalComponent *comp,
 			break;
 
 		case E_CAL_COMPONENT_TODO:
+			stock_icon = "stock_todo";
 			if (tmp)
 				str = g_strdup_printf (_("Are you sure you want to delete "
 							 "the task `%s'?"), tmp);
@@ -109,6 +113,7 @@ delete_component_dialog (ECalComponent *comp,
 			break;
 
 		case E_CAL_COMPONENT_JOURNAL:
+			stock_icon = "stock_calendar";
 			if (tmp)
 				str = g_strdup_printf (_("Are you sure you want to delete "
 							 "the journal entry `%s'?"), tmp);
@@ -158,6 +163,7 @@ delete_component_dialog (ECalComponent *comp,
 	dialog = gtk_message_dialog_new ((GtkWindow *)gtk_widget_get_toplevel (widget),
 					 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s", str);
 	gtk_dialog_add_buttons ((GtkDialog *) dialog, GTK_STOCK_NO, GTK_RESPONSE_CANCEL, GTK_STOCK_YES, GTK_RESPONSE_OK, NULL);
+	gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon (stock_icon, 32));
 	g_free (str);
 	ret = gtk_dialog_run ((GtkDialog *) dialog) == GTK_RESPONSE_OK;
 	gtk_widget_destroy (dialog);

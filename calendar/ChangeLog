@@ -1,3 +1,20 @@
+2004-05-25  Trent Lloyd  <lathiat@bur.st>
+
+	Fixes: #57472
+
+	* gui/dialogs/alarm-options.c:
+	* gui/dialogs/calendar-setup.c:
+	* gui/dialogs/cancel-comp.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/delete-comp.c:
+	* gui/dialogs/delete-error.c:
+	* gui/dialogs/save-comp.c:
+	* gui/dialogs/select-source-dialog.c:
+	* gui/dialogs/send-comp.c
+	* gui/dialogs/url-editor-dialog.c:
+	- Add include of e-icon-factory.h
+	- Set icon on window to be calendar/tasks icon rather than mail icon
+
 2004-05-21  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/calendar-setup.c: set the dialog icons appropriately
