@@ -1,3 +1,7 @@
+2001-10-28    <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_rename_folder): Use the right variable, not info.
+
 2001-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-buffer.c (camel_stream_buffer_read_line): Make sure

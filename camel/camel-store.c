@@ -462,7 +462,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 		
 		reninfo.old_base = (char *)old_name;
 		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info(store, new_name, flags, ex);
-		if (info.new != NULL) {
+		if (reninfo.new != NULL) {
 			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
 			((CamelStoreClass *)((CamelObject *)store)->classfuncs)->free_folder_info(store, reninfo.new);
 		}
