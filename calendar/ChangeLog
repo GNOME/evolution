@@ -1,3 +1,149 @@
+2003-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-itip-control.c (destroy): dont unref accounts anymore.
+	(change_status): itipAddress -> EAccount.
+
+	* gui/calendar-model.c (calendar_model_destroy): dont unref
+	accounts anymore.
+	(calendar_model_value_at): simplify logic using account_list_find.
+
+	* gui/dialogs/task-editor.c (task_editor_edit_comp): use new
+	itip_addresses interfaces.
+
+	* gui/dialogs/meeting-page.c (meeting_page_construct): use new
+	itip_addresses_* interfaces.  Should probably be using e_account
+	directly.
+	(meeting_page_finalize): dont unref the accounts list.
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): dont unref
+	accounts anymore.
+
+	* gui/itip-utils.c (itip_addresses_get_default): Just use
+	e_account_list_get_default.
+	(itip_addresses_get): dont ref the account object, just keep 1 ref
+	to it.
+	(find_account): remove.
+	(itip_organizer_is_user): use e_account_list_find now.
+	(itip_sentby_is_user): "
+	(comp_limit_attendees): "
+
+2003-02-19  Not Zed  <NotZed@Ximian.com>
+
+	* gui/dialogs/meeting-page.c: addresses->accounts
+	(meeting_page_finalize): unref accounts.
+
+	* gui/dialogs/event-editor.c: Use EAccountList api's
+
+	* pcs/cal-backend-util.c (cal_backend_mail_account_get): Removed,
+	use a global EAccountList instead.
+	(cal_backend_mail_account_get_default): Use the global
+	EAccountList directly.
+	(cal_backend_mail_account_is_valid): And here too.
+
+	* gui/itip-utils.h: Removed ItipAddress structure.
+
+	* gui/itip-utils.c (itip_addresses_get): Change it to return a
+	global account object, so we dont need to duplicate all account
+	info in the calendar.
+	(itip_addresses_free, itip_address_free): Removed, use
+	g_object_unref.
+	(itip_addresses_get_default): Return an EAccount.
+	(find_account): helper to lookup accounts based on name/address.
+	(itip_organizer_is_user): Use helper to find account.
+	(itip_sentby_is_user): "
+	(comp_limit_attendees): "
+	(comp_sentby): Update to use an EAccount direclty.
+	(get_address): Removed, now redundant.
+
+	* gui/e-itip-control.c: Changed priv->addresses to be accounts
+	EAccountList.
+	(destroy): unref accounts.
+	(find_my_address): Change to use accounts list directly, also fix
+	a small potential memleak.
+
+	* gui/calendar-model.c: Change priv->addresses to be a direct
+	reference to an EAccountList, renamed priv->accounts.
+	(calendar_model_destroy): unref accounts.
+	(calendar_model_value_at): Use EAccountList directly to lookup
+	members.
+
+	* gui/calendar-config.c (calendar_config_get_timezone)
+	(calendar_config_set_timezone): Fix timezone key.
+	(calendar_config_get_24_hour_format): Same for 24 hour format key.
+	(calendar_config_set_24_hour_format): And here.
+	(calendar_config_get_week_start_day): "
+	(calendar_config_set_week_start_day): "
+	(calendar_config_get_day_start_hour): "
+	(calendar_config_set_day_start_hour): "
+	(calendar_config_get_day_start_minute): "
+	(calendar_config_set_day_start_minute): "
+	(calendar_config_get_day_end_hour): "
+	(calendar_config_set_day_end_hour): "
+	(calendar_config_get_day_end_minute)
+	(calendar_config_set_day_end_minute)
+	(calendar_config_get_time_divisions)
+	(calendar_config_set_time_divisions)
+	(calendar_config_get_dnav_show_week_no)
+	(calendar_config_set_dnav_show_week_no)
+	(calendar_config_get_default_view)
+	(calendar_config_set_default_view)
+	(calendar_config_get_hpane_pos, calendar_config_set_hpane_pos)
+	(calendar_config_get_vpane_pos, calendar_config_set_vpane_pos)
+	(calendar_config_get_month_hpane_pos)
+	(calendar_config_set_month_hpane_pos)
+	(calendar_config_get_month_vpane_pos)
+	(calendar_config_set_month_vpane_pos)
+	(calendar_config_get_compress_weekend)
+	(calendar_config_set_compress_weekend)
+	(calendar_config_get_show_event_end)
+	(calendar_config_set_show_event_end)
+	(calendar_config_get_working_days)
+	(calendar_config_set_working_days)
+	(calendar_config_get_hide_completed_tasks)
+	(calendar_config_set_hide_completed_tasks)
+	(calendar_config_get_hide_completed_tasks_units)
+	(calendar_config_set_hide_completed_tasks_units)
+	(calendar_config_get_hide_completed_tasks_value)
+	(calendar_config_set_hide_completed_tasks_value)
+	(calendar_config_get_confirm_delete)
+	(calendar_config_set_confirm_delete)
+	(calendar_config_get_confirm_expunge)
+	(calendar_config_set_confirm_expunge)
+	(calendar_config_get_tasks_due_today_color)
+	(calendar_config_set_tasks_due_today_color)
+	(calendar_config_get_tasks_overdue_color)
+	(calendar_config_set_tasks_overdue_color)
+	(calendar_config_get_use_default_reminder)
+	(calendar_config_set_use_default_reminder)
+	(calendar_config_get_default_reminder_interval)
+	(calendar_config_set_default_reminder_interval)
+	(calendar_config_get_default_reminder_units)
+	(calendar_config_set_default_reminder_units)
+	(calendar_config_default_calendar_folder)
+	(calendar_config_default_tasks_folder): Update config paths for
+	new config convention, etc.
+
+	* gui/alarm-notify/save.c (KEY_LAST_NOTIFICATION_TIME, etc):
+	Updated keys to lowercase/proper path.
+	(save_calendars_to_load): Store the calendars list as a gconf
+	list.
+	(get_calendars_to_load): Load the calendars list as a gconf list.
+	(save_blessed_program): Similar, for the blessed program list.
+	(is_blessed_program): Same here.
+
+	* gui/alarm-notify/config-data.c (config_data_get_timezone): Update
+	the path to the timezone key.
+	(config_data_get_24_hour_format): Fix path to config option.
+
+	* conduits/todo/todo-conduit.c (get_default_timezone): lower-case
+	the timezone key.
+
+	* conduits/calendar/calendar-conduit.c (get_default_timezone):
+	lower-case the timezone key.
+
+	* cal-client/cal-client.c (get_default_uri): Use the proper path
+	to get the default folder uri's.
+
 2003-02-23  Hans Petter Jansson  <hpj@ximan.com>
 
 	* gui/gnome-cal.c (backend_died_cb): Appease the compiler.

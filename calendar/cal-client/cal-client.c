@@ -950,9 +950,9 @@ get_default_uri (gboolean tasks)
 	db = e_config_listener_new ();
 	
 	if (tasks)
-		uri = e_config_listener_get_string (db, "/apps/Evolution/DefaultFolders/tasks_uri");
+		uri = e_config_listener_get_string (db, "/apps/evolution/shell/default_folders/tasks_uri");
 	else
-		uri = e_config_listener_get_string (db, "/apps/Evolution/DefaultFolders/calendar_uri");
+		uri = e_config_listener_get_string (db, "/apps/evolution/shell/default_folders/calendar_uri");
 	g_object_unref (G_OBJECT (db));
 
 	if (!uri)
