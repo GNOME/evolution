@@ -1,5 +1,8 @@
 2002-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (connect_to_server): Fix
+	to work with OpenSSL.
+
 	* camel-tcp-stream-openssl.c: compile fixes.
 	(camel_tcp_stream_openssl_enable_ssl): Check to make sure that the
 	sockfd != -1, it's not enough to check that it is non-zero. Also

@@ -245,6 +245,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	struct hostent *h;
 	guint32 addrlen;
 	int port, ret;
+	int sockfd;
 	
 	if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex))
 		return FALSE;
@@ -311,13 +312,14 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		
 		inet_aton (hname, (struct in_addr *)&transport->localaddr.sin_addr);
 	} else {
-		int sockfd = GPOINTER_TO_INT (camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream)));
+		sockfd = GPOINTER_TO_INT (camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream)));
 		
 		getsockname (sockfd, (struct sockaddr *)&transport->localaddr, &addrlen);
 	}
 #else
-	getsockname (CAMEL_TCP_STREAM_RAW (tcp_stream)->sockfd,
-		     (struct sockaddr *)&transport->localaddr, &addrlen);
+	sockfd = GPOINTER_TO_INT (camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream)));
+	
+	getsockname (sockfd, (struct sockaddr *)&transport->localaddr, &addrlen);
 #endif /* HAVE_NSS */
 	
 	transport->ostream = tcp_stream;
