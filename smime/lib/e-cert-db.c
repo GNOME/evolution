@@ -1114,12 +1114,12 @@ e_cert_db_import_certs_from_file (ECertDB *cert_db,
 	return rv;  
 }
 
-#if notyet
 gboolean
 e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 			      const char *file_path,
 			      GError **error)
 {
+#if notyet
 	EPKCS12 *pkcs12 = e_pkcs12_new ();
 	GError *e = NULL;
 
@@ -1129,8 +1129,11 @@ e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 	}
 
 	return TRUE;
-}
+#else
+#warning "e_cert_db_import_pkcs12_file not implemented yet"
+	return FALSE;
 #endif
+}
 
 gboolean
 e_cert_db_export_pkcs12_file (ECertDB *cert_db,

@@ -1,3 +1,11 @@
+2004-06-17  Not Zed  <NotZed@Ximian.com>
+
+	** See #59885.
+
+	* lib/e-cert-db.c (e_cert_db_import_pkcs12_file): move the #if
+	notyet stuff inside the function so the symbol is defined, since
+	we call it eslewhere.  i dunno if it actually works yet.
+
 2004-06-15  Jeffrey Stedfast  <fejj@novell.com>
 
 	* lib/Makefile.am: Added smime-marshal.list to EXTRA_DIST
