@@ -290,7 +290,6 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 	gchar *menu_text = NULL;
 	ECard *card;
 	gchar *cpy, **strv;
-	const gchar *email;
 	gint len, i, match_len = 0;
 	gint match = 0, first_match = 0;
 	double score = 0;

@@ -1,5 +1,10 @@
 2001-06-09  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(match_name): Removed unused email variable.
+
+2001-06-09  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-compare.c (use_common_book_cb): Null
 	terminate the strv here.
 	(e_card_locate_match): ref here instead of unref.
