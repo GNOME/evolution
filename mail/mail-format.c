@@ -109,18 +109,21 @@ free_urls (gpointer urls)
 	g_hash_table_destroy (urls);
 }
 
-static void
+static char *
 add_url (char *url, gpointer data, MailDisplay *md)
 {
 	GHashTable *urls;
 	gpointer old_key, old_value;
 
 	urls = g_datalist_get_data (md->data, "urls");
-	g_return_if_fail (urls != NULL);
+	g_return_val_if_fail (urls != NULL, NULL);
 
-	if (g_hash_table_lookup_extended (urls, url, &old_key, &old_value))
-		g_free (old_key);
+	if (g_hash_table_lookup_extended (urls, url, &old_key, &old_value)) {
+		g_free (url);
+		url = old_key;
+	}
 	g_hash_table_insert (urls, url, data);
+	return url;
 }
 
 /**
@@ -218,9 +221,7 @@ get_url_for_icon (const char *icon_name, MailDisplay *md)
 	g_free (icon_path);
 
 	url = g_strdup_printf ("x-evolution-data:%p", ba);
-	add_url (url, ba, md);
-
-	return url;
+	return add_url (url, ba, md);
 }
 
 
@@ -967,12 +968,12 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	g_string_free (string, TRUE);
 
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
-	add_url (xed, ba, md);
-	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
-				 "finalize", free_byte_array, ba);
 	mail_html_write (md->html, md->stream,
 			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
 			 "</iframe>", xed);
+	add_url (xed, ba, md);
+	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
+				 "finalize", free_byte_array, ba);
 
 	return TRUE;
 }
@@ -1523,9 +1524,8 @@ handle_via_external (CamelMimePart *part, const char *mime_type,
 		icon = "gnome-unknown.png";
 	action = g_strdup_printf ("open the file in %s", app->name);
 	url = g_strdup_printf ("x-evolution-external:%s", app->command);
-	add_url (url, part, md);
-
 	handle_mystery (part, md, url, icon, desc, action);
+	add_url (url, part, md);
 
 	g_free (action);
 
