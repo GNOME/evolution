@@ -47,6 +47,7 @@
 #include <cal-util/timeutil.h>
 #include <cal-client/cal-client.h>
 #include <e-util/e-time-utils.h>
+#include <e-util/e-html-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <evolution-shell-client.h>
 #include <evolution-folder-selector-button.h>
@@ -578,25 +579,9 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
-		switch (type) {
-		case CAL_COMPONENT_EVENT:
-			write_label_piece (itip, &datetime, buffer, 1024,
-					   U_("Meeting begins: <b>"),
-					   "</b><br>");
-			break;
-		case CAL_COMPONENT_TODO:
-			write_label_piece (itip, &datetime, buffer, 1024,
-					   U_("Task begins: <b>"),
-					   "</b><br>");
-			break;
-		case CAL_COMPONENT_FREEBUSY:
-			write_label_piece (itip, &datetime, buffer, 1024,
-					   U_("Free/Busy info begins: <b>"),
-					   "</b><br>");
-			break;
-		default:
-			write_label_piece (itip, &datetime, buffer, 1024, U_("Begins: <b>"), "</b><br>");
-		}
+		write_label_piece (itip, &datetime, buffer, 1024,
+				   U_("<b>Starts:</b> "),
+				   "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
 	}
@@ -605,17 +590,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
-		switch (type) {
-		case CAL_COMPONENT_EVENT:
-			write_label_piece (itip, &datetime, buffer, 1024, U_("Meeting ends: <b>"), "</b><br>");
-			break;
-		case CAL_COMPONENT_FREEBUSY:
-			write_label_piece (itip, &datetime, buffer, 1024, U_("Free/Busy info ends: <b>"),
-					   "</b><br>");
-			break;
-		default:
-			write_label_piece (itip, &datetime, buffer, 1024, U_("Ends: <b>"), "</b><br>");
-		}
+		write_label_piece (itip, &datetime, buffer, 1024, U_("<b>Ends:</b> "), "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -628,7 +603,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		/* Pass TRUE as is_utc, so it gets converted to the current
 		   timezone. */
 		datetime.value->is_utc = TRUE;
-		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Completed: <b>"), "</b><br>");
+		write_label_piece (itip, &datetime, buffer, 1024, U_("<b>Completed:</b> "), "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 		task_completed = TRUE;
@@ -638,7 +613,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_due (comp, &datetime);
 	if (type == CAL_COMPONENT_TODO && !task_completed && datetime.value) {
-		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Due: <b>"), "</b><br>");
+		write_label_piece (itip, &datetime, buffer, 1024, U_("<b>Due:</b> "), "<br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -794,15 +769,20 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	/* Summary */
 	cal_component_get_summary (priv->comp, &text);
-	gtk_html_stream_printf (html_stream, "<b>%s</b> %s<br><br>",
-				U_("Summary:"), text.value ? text.value : U_("<i>None</i>"));
-
+	html = e_text_to_html (text.value ? text.value : U_("<i>None</i>"), E_TEXT_TO_HTML_CONVERT_NL);
+	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
+				U_("Summary:"), html);
+	g_free (html);
+	
 	/* Location */
 	cal_component_get_location (priv->comp, &string);
-	if (string != NULL)
-		gtk_html_stream_printf (html_stream, "<b>%s</b> %s<br><br>", 
-					U_("Location:"), string);
-
+	if (string != NULL) {
+		html = e_text_to_html (string, E_TEXT_TO_HTML_CONVERT_NL);
+		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>", 
+					U_("Location:"), html);
+		g_free (html);
+	}
+	
 	/* Status */
 	if (priv->method == ICAL_METHOD_REPLY) {
 		GSList *alist;
@@ -812,7 +792,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		if (alist != NULL) {
 			CalComponentAttendee *a = alist->data;
 
-			gtk_html_stream_printf (html_stream, "<b>%s</b> ",
+			gtk_html_stream_printf (html_stream, "<b>%s</b><br>",
 						U_("Status:"));
 			
 			switch (a->status) {
@@ -843,8 +823,10 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		text = *((CalComponentText *)l->data);
 
 	if (l && text.value) {
-		gtk_html_stream_printf (html_stream, "<b>%s</b> %s",
-					U_("Description:"), text.value);
+		html = e_text_to_html (text.value, E_TEXT_TO_HTML_CONVERT_NL);
+		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s",
+					U_("Description:"), html);
+		g_free (html);
 	}
 	cal_component_free_text_list (l);
 
