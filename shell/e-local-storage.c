@@ -147,6 +147,36 @@ new_folder (ELocalStorage *local_storage,
 }
 
 static gboolean
+setup_folder_as_stock (ELocalStorage *local_storage,
+		       const char *path,
+		       const char *name)
+{
+	EFolder *folder;
+
+	folder = e_storage_get_folder (E_STORAGE (local_storage), path);
+	if (folder == NULL)
+		return FALSE;
+
+	e_folder_set_name (folder, name);
+	e_folder_set_is_stock (folder, TRUE);
+
+	return TRUE;
+}
+
+static void
+setup_stock_folders (ELocalStorage *local_storage)
+{
+	setup_folder_as_stock (local_storage, "/Calendar", _("Calendar"));
+	setup_folder_as_stock (local_storage, "/Contacts", _("Contacts"));
+	setup_folder_as_stock (local_storage, "/Drafts", _("Drafts"));
+	setup_folder_as_stock (local_storage, "/Inbox", _("Inbox"));
+	setup_folder_as_stock (local_storage, "/Outbox", _("Outbox"));
+	setup_folder_as_stock (local_storage, "/Sent", _("Sent"));
+	setup_folder_as_stock (local_storage, "/Tasks", _("Tasks"));
+	setup_folder_as_stock (local_storage, "/Trash", _("Trash"));
+}
+
+static gboolean
 load_folder (const char *physical_path, const char *path, gpointer data)
 {
 	ELocalStorage *local_storage = data;
@@ -169,7 +199,12 @@ load_all_folders (ELocalStorage *local_storage)
 
 	base_path = e_local_storage_get_base_path (local_storage);
 
-	return e_path_find_folders (base_path, load_folder, local_storage);
+	if (! e_path_find_folders (base_path, load_folder, local_storage))
+		return FALSE;
+
+	setup_stock_folders (local_storage);
+
+	return TRUE;
 }
 
 
@@ -471,6 +506,9 @@ remove_folder (ELocalStorage *local_storage,
 
 	storage = E_STORAGE (local_storage);
 	folder = e_storage_get_folder (storage, path);
+
+	if (e_folder_get_is_stock (folder))
+		return E_STORAGE_CANTCHANGESTOCKFOLDER;
 
 	component_client = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry,
 									e_folder_get_type_string (folder));
@@ -816,6 +854,9 @@ impl_async_xfer_folder (EStorage *storage,
 	local_storage = E_LOCAL_STORAGE (storage);
 	priv = local_storage->priv;
 
+	if (remove_source && e_folder_get_is_stock (e_storage_get_folder (storage, source_path)))
+		(* callback) (storage, E_STORAGE_CANTCHANGESTOCKFOLDER, callback_data);
+
 	folder_items = NULL;
 	append_xfer_item_list (storage, g_strdup (source_path), g_strdup (destination_path), &folder_items);
 	folder_items = g_list_reverse (folder_items); /* lame */
@@ -884,7 +925,7 @@ bonobo_interface_update_folder_cb (EvolutionStorage *storage,
 	if (folder == NULL)
 		return;
 
-	e_folder_set_name (folder, display_name);
+	/* e_folder_set_name (folder, display_name); */
 	e_folder_set_unread_count (folder, unread_count);
 
 	return;

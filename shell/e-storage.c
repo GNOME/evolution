@@ -497,6 +497,8 @@ e_storage_result_to_string (EStorageResult result)
 		return _("Operation not supported");
 	case E_STORAGE_UNSUPPORTEDTYPE:
 		return _("The specified type is not supported in this storage");
+	case E_STORAGE_CANTCHANGESTOCKFOLDER:
+		return _("The specified folder cannot be modified or removed");
 	default:
 		return _("Unknown error");
 	}

@@ -41,9 +41,12 @@ struct _EFolderPrivate {
 	char *type;
 	char *description;
 	char *physical_uri;
-	gboolean self_highlight;
+
 	int child_highlight;
 	int unread_count;
+
+	int self_highlight : 1;
+	int is_stock : 1;
 };
 
 #define EF_CLASS(obj) \
@@ -148,9 +151,10 @@ init (EFolder *folder)
 	priv->name            = NULL;
 	priv->description     = NULL;
 	priv->physical_uri    = NULL;
-	priv->self_highlight  = FALSE;
 	priv->child_highlight = 0;
 	priv->unread_count    = 0;
+	priv->self_highlight  = FALSE;
+	priv->is_stock        = FALSE;
 
 	folder->priv = priv;
 }
@@ -251,6 +255,15 @@ e_folder_get_highlighted (EFolder *folder)
 	return folder->priv->child_highlight || folder->priv->unread_count;
 }
 
+gboolean
+e_folder_get_is_stock (EFolder *folder)
+{
+	g_return_val_if_fail (folder != NULL, FALSE);
+	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
+
+	return folder->priv->is_stock;
+}
+
 
 void
 e_folder_set_name (EFolder *folder,
@@ -327,10 +340,24 @@ e_folder_set_child_highlight (EFolder *folder,
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (E_IS_FOLDER (folder));
 
+	/* FIXME: Doesn't emit CHANGED.  */
+
 	if (highlighted)
 		folder->priv->child_highlight++;
 	else
 		folder->priv->child_highlight--;
+}
+
+void
+e_folder_set_is_stock (EFolder *folder,
+		       gboolean is_stock)
+{
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (E_IS_FOLDER (folder));
+
+	folder->priv->is_stock = !! is_stock;
+
+	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
 

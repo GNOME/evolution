@@ -26,12 +26,17 @@
    <?xml version="1.0"?>
    <efolder>
            <type>mail</type>
-	   <description>This is the folder where I store mail from my gf</description>
+
+	   <name>Inbox</name>
+	   <name locale="it">Posta in Arrivo</name>
+
+	   <description>This is the default folder for incoming messages</description>
+	   <description locale="it">Cartella che contiene i messaggi in arrivo</description>
+
 	   <homepage>http://www.somewhere.net</homepage>
    </efolder>
 
    FIXME: Do we want to use a namespace for this?
-   FIXME: Do we want to have an internationalized description?
  */
 
 #ifdef HAVE_CONFIG_H

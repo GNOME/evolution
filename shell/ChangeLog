@@ -1,3 +1,54 @@
+2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Finally!  Fix #413, "Support for stock folders", and #786, "i18n:
+	default folder names are not translated".]
+
+	* e-local-storage.c (setup_folder_as_stock): New helper function.
+	(setup_stock_folders): Use it to set the default folders as
+	"stock" folders.  This will give them a translated name and also
+	make them unmodifiable.
+	(load_all_folders): Call `setup_stock_folders()' here.
+
+	* e-shell-folder-commands.c (delete_cb): Display an error dialog
+	if the deletion fails.
+	(e_shell_command_delete_folder): Pass the shell view to the delete
+	callback.
+
+	* e-storage.c (e_storage_result_to_string): Add a string for
+	`E_STORAGE_CANTCHANGESTOCKFOLDER' as well.
+
+	* e-local-storage.c (remove_folder): Don't allow a stock folder to
+	be removed.
+	(impl_async_xfer_folder): Don't allow a stock folder to be moved.
+
+	* e-corba-storage.c (async_remove_folder): Don't allow a stock
+	folder to be removed.
+
+	* e-storage.h: New enum value `E_STORAGE_CANTCHANGESTOCKFOLDER' in
+	`EStorageResult'.
+
+	* e-folder.c: Make member `self_highlight' a :1 int.  New :1 int
+	member `is_stock'.
+	(init): Init `is_stock' to %FALSE.
+	(e_folder_set_is_stock): New.
+	(e_folder_get_is_stock): New.
+
+	* e-local-storage.c (bonobo_interface_update_folder_cb): For now,
+	don't set the display name.
+
+2001-08-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Evolution-common.idl: Add Folder struct here.
+
+	* Evolution-Storage.idl: Removed Folder struct.
+
+	* Evolution.idl: #include <Evolution-common.idl>, not
+	<Evolution-Icon.idl>.
+
+	* Evolution-common.idl: New.
+
+	* Evolution-Icon.idl: Removed.
+
 2001-08-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-commands.c (rename_clicked): `#if 0'ed out.

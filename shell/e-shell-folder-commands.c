@@ -348,7 +348,13 @@ delete_cb (EStorageSet *storage_set,
 	   EStorageResult result,
 	   void *data)
 {
-	/* FIXME: Do something? */
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	if (result != E_STORAGE_OK)
+		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot delete folder:\n%s"), e_storage_result_to_string (result));
 }
 
 static int
@@ -412,7 +418,7 @@ e_shell_command_delete_folder (EShell *shell,
 		e_storage_set_async_remove_folder (storage_set,
 						   path,
 						   delete_cb,
-						   NULL);
+						   shell_view);
 
 		/* Select another folder to prevent bad things from happening */
 		e_shell_view_display_uri (shell_view, DEFAULT_URI);

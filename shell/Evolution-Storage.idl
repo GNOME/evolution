@@ -12,14 +12,6 @@
 
 module GNOME {
 module Evolution {
-	struct Folder {
-		string type;
-		string description;
-		string display_name;
-		string physical_uri;
-		long unread_count;
-	};
-
 	interface Storage;
 	interface StorageListener;
 

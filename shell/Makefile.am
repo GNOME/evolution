@@ -19,7 +19,6 @@ INCLUDES = -O								\
 
 IDLS = \
 	Evolution-Activity.idl			\
-	Evolution-Icon.idl			\
 	Evolution-Offline.idl			\
 	Evolution-Session.idl			\
 	Evolution-Shell.idl			\
