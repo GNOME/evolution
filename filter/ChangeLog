@@ -1,3 +1,13 @@
+2000-12-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_filter_message): Oops, slight
+	logic error. We want to copy the message to the default folder if
+	the message hasn't been Moved (which is the same as Copied &&
+	Deleted). This fixes bug #1007.
+
+	* filter-rule.c (more_parts): Make sure we have more than 1 part
+	before we sensitize the "remove" button.
+
 2000-12-20  Not Zed  <NotZed@HelixCode.com>
 
 	* filter-message-search.c (filter_message_search): Oops, missed a

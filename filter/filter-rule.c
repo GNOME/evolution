@@ -479,8 +479,10 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 	}
 	
 	/* set the "Remove criterion" button sensitive */
-	w = gtk_object_get_data (GTK_OBJECT (button), "remove");
-	gtk_widget_set_sensitive (w, TRUE);
+	if (g_list_length (data->fr->parts) > 1) {
+		w = gtk_object_get_data (GTK_OBJECT (button), "remove");
+		gtk_widget_set_sensitive (w, TRUE);
+	}
 }
 
 static void
