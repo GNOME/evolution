@@ -1,3 +1,7 @@
+mail/2001-03-31  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-storage-set-view.c: Include <gal/util/e-util.h> here.
+
 2001-03-30  Iain Holmes  <iain@ximian.com>
 
 	* importer/importer.c (start_import): If the importer can't be started, then

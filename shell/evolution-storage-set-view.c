@@ -26,6 +26,7 @@
 #endif
 
 #include "evolution-storage-set-view.h"
+#include <gal/util/e-util.h>
 
 
 #define PARENT_TYPE bonobo_object_get_type ()
