@@ -54,7 +54,7 @@ camel_imap4_engine_get_type (void)
 	static CamelType type = 0;
 	
 	if (!type) {
-		type = camel_type_register (CAMEL_TYPE_IMAP4_ENGINE,
+		type = camel_type_register (camel_object_get_type (),
 					    "CamelIMAP4Engine",
 					    sizeof (CamelIMAP4Engine),
 					    sizeof (CamelIMAP4EngineClass),

@@ -67,7 +67,7 @@ camel_imap4_summary_get_type (void)
 	static CamelType type = 0;
 	
 	if (!type) {
-		type = camel_type_register (CAMEL_TYPE_IMAP4_SUMMARY,
+		type = camel_type_register (CAMEL_FOLDER_SUMMARY_TYPE,
 					    "CamelIMAP4Summary",
 					    sizeof (CamelIMAP4Summary),
 					    sizeof (CamelIMAP4SummaryClass),

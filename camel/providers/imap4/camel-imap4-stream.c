@@ -56,7 +56,7 @@ camel_imap4_stream_get_type (void)
 	static CamelType type = 0;
 	
 	if (!type) {
-		type = camel_type_register (CAMEL_TYPE_IMAP4_STREAM,
+		type = camel_type_register (CAMEL_STREAM_TYPE,
 					    "CamelIMAP4Stream",
 					    sizeof (CamelIMAP4Stream),
 					    sizeof (CamelIMAP4StreamClass),

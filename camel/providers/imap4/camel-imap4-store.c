@@ -75,7 +75,7 @@ camel_imap4_store_get_type (void)
 	static CamelType type = 0;
 	
 	if (!type) {
-		type = camel_type_register (CAMEL_TYPE_IMAP4_STORE,
+		type = camel_type_register (CAMEL_STORE_TYPE,
 					    "CamelIMAP4Store",
 					    sizeof (CamelIMAP4Store),
 					    sizeof (CamelIMAP4StoreClass),
@@ -958,8 +958,7 @@ imap4_build_folder_info (CamelIMAP4Engine *engine, guint32 flags, GPtrArray *arr
 		array->pdata[i] = fi;
 	}
 	
-	/* FIXME: build the fi tree */
-	fi = array->pdata[0];
+	fi = camel_folder_info_build (array, top, '/', TRUE);
 	
 	camel_url_free (url);
 	

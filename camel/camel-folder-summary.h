@@ -33,6 +33,7 @@ extern "C" {
 #include <camel/camel-object.h>
 #include <camel/camel-index.h>
 
+#define CAMEL_FOLDER_SUMMARY_TYPE         camel_folder_summary_get_type ()
 #define CAMEL_FOLDER_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_folder_summary_get_type (), CamelFolderSummary)
 #define CAMEL_FOLDER_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_folder_summary_get_type (), CamelFolderSummaryClass)
 #define CAMEL_IS_FOLDER_SUMMARY(obj)      CAMEL_CHECK_TYPE (obj, camel_folder_summary_get_type ())

@@ -74,7 +74,7 @@ camel_imap4_folder_get_type (void)
 	static CamelType type = 0;
 	
 	if (!type) {
-		type = camel_type_register (CAMEL_TYPE_IMAP4_FOLDER,
+		type = camel_type_register (CAMEL_FOLDER_TYPE,
 					    "CamelIMAP4Folder",
 					    sizeof (CamelIMAP4Folder),
 					    sizeof (CamelIMAP4FolderClass),
@@ -203,6 +203,12 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	return (CamelFolder *) imap_folder;
 }
 
+
+const char *
+camel_imap4_folder_utf7_name (CamelIMAP4Folder *folder)
+{
+	return folder->utf7_name;
+}
 
 
 static struct {

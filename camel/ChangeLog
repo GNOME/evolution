@@ -1,3 +1,15 @@
+2004-04-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.h (CAMEL_FOLDER_SUMMARY_TYPE): Defined.
+
+	* camel-object.h (CAMEL_OBJECT_TYPE): Fixed.
+
+	* providers/imap4/camel-imap4-folder.c
+	(camel_imap4_folder_utf7_name): Implemented.
+
+	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
+	Use camel_folder_info_build() to build the folder-info tree.
+
 2004-04-06  Not Zed  <NotZed@Ximian.com>
 
 	* camel-debug.c: #if 0 out the sys/debugreg stuff.

@@ -61,7 +61,7 @@ typedef struct _CamelObjectClass *CamelType;
 
 extern CamelType camel_object_type;
 
-#define CAMEL_OBJECT_TYPE        (camel_object_type)
+#define CAMEL_OBJECT_TYPE        (camel_object_get_type ())
 
 /* we can't check casts till we've got the type, use the global type variable because its cheaper */
 #define CAMEL_OBJECT(obj)        (CAMEL_CHECK_CAST((obj), camel_object_type, CamelObject))
