@@ -1,3 +1,9 @@
+2002-01-17  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/alarm-page.c (get_alarm_string): save the alarm string
+	in the correct variable (str), so it actually gets shown for alarms
+	with specific trigger times. Fixes bug #18801.
+
 2002-01-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/task-page.c (task_page_fill_widgets): default component
