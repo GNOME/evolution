@@ -1,3 +1,21 @@
+2001-09-26  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-card-compare.c (e_card_compare_name_to_string):
+	Properly handle names when the individual elements (given,
+	addition, family) contain whitespace.  (Bug #10502)
+
+	* backend/ebook/e-destination.c (e_destination_set_name): Reset
+	textrep when we change the name.
+	(e_destination_set_email): Reset textrep when we change the email.
+	(e_destination_get_textrep): Make sure that the textrep version of
+	the address is properly quoted if it contains unsafe characters.
+	(All related to bug #10796)
+
+	* gui/component/select-names/e-select-names-completion.c
+	(match_nickname): Fix nickname matching. (bug #9698)
+	(make_match): Use e_completion_match_new when building our match,
+	rather than ad hoc manipulation of the struct.
+
 2001-09-26  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_changes): set

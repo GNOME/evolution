@@ -105,40 +105,72 @@ name_fragment_match (const gchar *a, const gchar *b)
 ECardMatchType
 e_card_compare_name_to_string (ECard *card, const gchar *str)
 {
-	gchar **namev;
+	gchar **namev, **givenv = NULL, **addv = NULL, **familyv = NULL;
 	gboolean matched_given = FALSE, matched_additional = FALSE, matched_family = FALSE, mismatch = FALSE;
 	ECardMatchType match_type;
-	gint i;
+	gint match_count = 0;
+	gint i, j;
+	gchar *str_cpy, *s;
 
 	g_return_val_if_fail (E_IS_CARD (card), E_CARD_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (card->name != NULL, E_CARD_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (str != NULL, E_CARD_MATCH_NOT_APPLICABLE);
 
-	namev = g_strsplit (str, " ", 0);
+	/* FIXME: utf-8 */
+	str_cpy = s = g_strdup (str);
+	while (*s) {
+		if (*s == ',' || *s == '"')
+			*s = ' ';
+		++s;
+	}
+	namev   = g_strsplit (str_cpy, " ", 0);
+	g_free (str_cpy);
+
+	if (card->name->given)
+		givenv = g_strsplit (card->name->given, " ", 0);
+	if (card->name->additional)
+		addv = g_strsplit (card->name->additional, " ", 0);
+	if (card->name->family)
+		familyv = g_strsplit (card->name->family, " ", 0);
 	
 	for (i = 0; namev[i] && !mismatch; ++i) {
-		
-		if (card->name->given
-		    && !matched_given
-		    && name_fragment_match (card->name->given, namev[i])) {
 
-			matched_given = TRUE;
-
-		} else if (card->name->additional
-			   && !matched_additional
-			   && name_fragment_match (card->name->additional, namev[i])) {
-
-			matched_additional = TRUE;
-
-		} else if (card->name->family
-			   && !matched_family
-			   && !g_utf8_strcasecmp (card->name->family, namev[i])) {
-
-			matched_family = TRUE;
-
-		} else {
+		if (*namev[i]) {
 
 			mismatch = TRUE;
+
+			if (mismatch && givenv) {
+				for (j = 0; givenv[j]; ++j) {
+					if (name_fragment_match (givenv[j], namev[i])) {
+						matched_given = TRUE;
+						mismatch = FALSE;
+						++match_count;
+						break;
+					}
+				}
+			}
+
+			if (mismatch && addv) {
+				for (j = 0; addv[j]; ++j) {
+					if (name_fragment_match (addv[j], namev[i])) {
+						matched_additional = TRUE;
+						mismatch = FALSE;
+						++match_count;
+						break;
+					}
+				}
+			}
+
+			if (mismatch && familyv) {
+				for (j = 0; familyv[j]; ++j) {
+					if (!g_utf8_strcasecmp (familyv[j], namev[i])) {
+						matched_family = TRUE;
+						mismatch = FALSE;
+						++match_count;
+						break;
+					}
+				}
+			}
 
 		}
 	}
@@ -163,6 +195,9 @@ e_card_compare_name_to_string (ECard *card, const gchar *str)
 	}
 
 	g_strfreev (namev);
+	g_strfreev (givenv);
+	g_strfreev (addv);
+	g_strfreev (familyv);
 
 	return match_type;
 }

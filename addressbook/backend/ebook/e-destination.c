@@ -473,6 +473,8 @@ e_destination_set_name (EDestination *dest, const gchar *name)
 	if (changed) {
 		g_free (dest->priv->addr);
 		dest->priv->addr = NULL;
+		g_free (dest->priv->textrep);
+		dest->priv->textrep = NULL;
 		e_destination_changed (dest);
 	}
 }
@@ -501,6 +503,8 @@ e_destination_set_email (EDestination *dest, const gchar *email)
 	if (changed) {
 		g_free (dest->priv->addr);
 		dest->priv->addr = NULL;
+		g_free (dest->priv->textrep);
+		dest->priv->textrep = NULL;
 		e_destination_changed (dest);
 	}
 }
@@ -812,16 +816,17 @@ e_destination_get_textrep (const EDestination *dest)
 	if (e_destination_from_card (dest) && name != NULL)
 		return name;
 
-	if (name && email) {
-		gchar *rep = g_strdup_printf ("%s <%s>", name, email);
-		if (dest->priv->textrep && !strcmp (rep, dest->priv->textrep)) {
-			g_free (rep);
-		} else {
-			g_free (dest->priv->textrep);
-			dest->priv->textrep = rep;
-		}
-		return dest->priv->textrep;
+	/* Make sure that our address gets quoted properly */
+	if (name && email && dest->priv->textrep == NULL) {
+		CamelInternetAddress *addr = camel_internet_address_new ();
+		camel_internet_address_add (addr, name, email);
+		g_free (dest->priv->textrep);
+		dest->priv->textrep = camel_address_encode (CAMEL_ADDRESS (addr));
+		camel_object_unref (CAMEL_OBJECT (addr));
 	}
+
+	if (dest->priv->textrep != NULL)
+		return dest->priv->textrep;
 
 	if (email)
 		return email;
@@ -908,7 +913,7 @@ static void
 name_and_email_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure)
 {
 	EDestination *dest = E_DESTINATION (closure);
-	
+
 	if (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS && g_list_length ((GList *) cards) == 1) {
 		ECard *card = E_CARD (cards->data);
 		const gchar *email = e_destination_get_email (dest);
