@@ -18,6 +18,21 @@
 	(reminder_delete_cb): if the alarm existed before the dialog was
 	loaded, delete it immediately from the cal component
 
+2001-02-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/event-editor-dialog.glade: Gui tweaks for bugs 1248 and 1246
+
+	* gui/dialogs/task-editor-dialog.glade: ditto
+
+2001-02-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_show_popup_menu): Make the menus more
+	consistent
+
+	* gui/e-day-view.c (e_day_view_on_event_right_click): ditto
+
+	* gui/e-calendar-table.c: ditto
+
 2001-02-05  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.c (cal_component_alarm_set_trigger): Set

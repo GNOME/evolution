@@ -76,7 +76,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label3</name>
-	    <label>S_ummary</label>
+	    <label>Su_mmary</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
@@ -485,7 +485,6 @@ Confidential
 	    <class>GtkButton</class>
 	    <name>contacts-button</name>
 	    <can_focus>True</can_focus>
-	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -524,7 +523,6 @@ Confidential
 	    <class>GtkButton</class>
 	    <name>categories-button</name>
 	    <can_focus>True</can_focus>
-	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
