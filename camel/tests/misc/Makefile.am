@@ -19,9 +19,10 @@ LDADD = \
 	$(EVOLUTION_MAIL_LIBS)
 
 check_PROGRAMS =  	\
-	url
+	url		\
+	utf7
 
-TESTS = url
+TESTS = url utf7
 
 
 

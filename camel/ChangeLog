@@ -1,5 +1,7 @@
 2002-08-28  Not Zed  <NotZed@Ximian.com>
 
+	* tests/misc/utf7.c: some utf7/utf8 tests.
+
 	* providers/imap/camel-imap-utils.c (imap_mailbox_encode): Chagned
 	to use camel_utf8_utf7 code.
 	(imap_mailbox_decode): As above, using camel_utf8_utf7.  'UTF-7'
