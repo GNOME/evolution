@@ -2079,6 +2079,27 @@ scroll_off (ETable *et)
 }
 
 static void
+context_destroyed (gpointer data)
+{
+	ETable *et = data;
+	et->last_drop_x       = 0;
+	et->last_drop_y       = 0;
+	et->last_drop_time    = 0;
+	et->last_drop_context = NULL;
+	scroll_off (et);
+	gtk_object_unref (GTK_OBJECT (et));
+}
+
+static void
+context_connect (ETable *et, GdkDragContext *context)
+{
+	if (g_dataset_get_data (context, "e-table") == NULL) {
+		gtk_object_ref (GTK_OBJECT (et));
+		g_dataset_set_data_full (context, "e-table", et, context_destroyed);
+	}
+}
+
+static void
 et_drag_leave(GtkWidget *widget,
 	      GdkDragContext *context,
 	      guint time,
@@ -2110,6 +2131,7 @@ et_drag_motion(GtkWidget *widget,
 	et->last_drop_y = y;
 	et->last_drop_time = time;
 	et->last_drop_context = context;
+	context_connect (et, context);
 
 	ret_val = do_drag_motion (et,
 				  context,

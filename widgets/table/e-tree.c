@@ -2211,6 +2211,28 @@ hover_off (ETree *et)
 }
 
 static void
+context_destroyed (gpointer data)
+{
+	ETree *et = data;
+	et->priv->last_drop_x       = 0;
+	et->priv->last_drop_y       = 0;
+	et->priv->last_drop_time    = 0;
+	et->priv->last_drop_context = NULL;
+	scroll_off (et);
+	hover_off (et);
+	gtk_object_unref (GTK_OBJECT (et));
+}
+
+static void
+context_connect (ETree *et, GdkDragContext *context)
+{
+	if (g_dataset_get_data (context, "e-tree") == NULL) {
+		gtk_object_ref (GTK_OBJECT (et));
+		g_dataset_set_data_full (context, "e-tree", et, context_destroyed);
+	}
+}
+
+static void
 et_drag_leave(GtkWidget *widget,
 	      GdkDragContext *context,
 	      guint time,
@@ -2244,6 +2266,7 @@ et_drag_motion(GtkWidget *widget,
 	et->priv->last_drop_y = y;
 	et->priv->last_drop_time = time;
 	et->priv->last_drop_context = context;
+	context_connect (et, context);
 
 	if (et->priv->hover_idle_id != 0) {
 		if (abs (et->priv->hover_x - x) > 3 ||
