@@ -3,7 +3,14 @@ Evolution 1.0.6, 00-00-0000
   * Mailer
 
     #25456 -- Crash when deleting an account that has not been added
-              to the Evolution storage yet.
+              to the Evolution storage yet.  (Jeff)
+
+    #24615 -- VFolders with the UNMATCHED vfolder as a source hang.
+              (Michael)
+
+    ------ -- Limit the size of UID arrays to 4k to make sure that the
+              FETCH command was small enough for some IMAP server 
+              limitations.  (Jeff)
 
   * Calendar
 
