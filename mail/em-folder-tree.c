@@ -41,6 +41,7 @@
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-stream-mem.h>
+#include <camel/camel-file-utils.h>
 
 #include "e-util/e-mktemp.h"
 #include "e-util/e-request.h"
@@ -49,6 +50,8 @@
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
+#include "mail-config.h"
+#include "mail-component.h"
 
 #include "em-utils.h"
 #include "em-popup.h"
@@ -91,6 +94,8 @@ struct _EMFolderTreePrivate {
 	
 	char *selected_uri;
 	char *selected_path;
+	
+	guint save_state_id;
 	
 	/* dnd signal ids */
 	guint ddr, rdp, rd, ddg, ddd;
@@ -141,6 +146,10 @@ static void em_folder_tree_init (EMFolderTree *emft);
 static void em_folder_tree_destroy (GtkObject *obj);
 static void em_folder_tree_finalize (GObject *obj);
 
+static void em_folder_tree_save_state (EMFolderTree *emft);
+static void em_folder_tree_queue_save_state (EMFolderTree *emft);
+
+static void tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
 static void tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *path, EMFolderTree *emft);
 static gboolean tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree *emft);
 static void tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft);
@@ -349,6 +358,11 @@ em_folder_tree_destroy (GtkObject *obj)
 		priv->ddd = 0;
 	}
 	
+	if (priv->save_state_id != 0) {
+		em_folder_tree_save_state ((EMFolderTree *) obj);
+		priv->save_state_id = 0;
+	}
+	
 	priv->treeview = NULL;
 	priv->model = NULL;
 	
@@ -402,6 +416,7 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 	gtk_widget_show ((GtkWidget *) priv->treeview);
 	
 	g_signal_connect (priv->treeview, "row-expanded", G_CALLBACK (tree_row_expanded), emft);
+	g_signal_connect (priv->treeview, "row-collapsed", G_CALLBACK (tree_row_collapsed), emft);
 	g_signal_connect (priv->treeview, "button-press-event", G_CALLBACK (tree_button_press), emft);
 	
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) priv->treeview);
@@ -1023,6 +1038,8 @@ em_folder_tree_get_folder_info__got (struct _mail_msg *mm)
 	
 	if (m->select_uri)
 		em_folder_tree_set_selected (m->emft, m->select_uri);
+	
+	em_folder_tree_queue_save_state (m->emft);
 }
 
 static void
@@ -1063,8 +1080,10 @@ tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_p
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_BOOL_LOAD_SUBDIRS, &load,
 			    -1);
-	if (!load)
+	if (!load) {
+		em_folder_tree_queue_save_state (emft);
 		return;
+	}
 	
 	if (!path || !strcmp (path, "/"))
 		top = NULL;
@@ -1083,6 +1102,11 @@ tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_p
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
 
+static void
+tree_row_collapsed (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_path, EMFolderTree *emft)
+{
+	em_folder_tree_queue_save_state (emft);
+}
 
 #if 0
 static void
@@ -2319,4 +2343,118 @@ em_folder_tree_get_model (EMFolderTree *emft)
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
 	
 	return emft->priv->model;
+}
+
+
+static void
+model_save_state (FILE *fp, struct _EMFolderTreePrivate *priv, GtkTreeModel *model, GtkTreeIter *node)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreePath *tree_path;
+	char *alias, *path;
+	EAccount *account;
+	CamelStore *store;
+	GtkTreeIter iter;
+	
+	do {
+		tree_path = gtk_tree_model_get_path (model, node);
+		if (gtk_tree_view_row_expanded (priv->treeview, tree_path)) {
+			gtk_tree_model_get (model, node, COL_POINTER_CAMEL_STORE, &store, COL_STRING_FOLDER_PATH, &path, -1);
+			si = g_hash_table_lookup (priv->model->store_hash, store);
+			if ((account = mail_config_get_account_by_name (si->display_name))) {
+				alias = g_strdup_printf ("%s:%s", account->uid, path);
+			} else {
+				alias = g_strdup_printf ("%s:%s", si->display_name, path);
+			}
+			camel_file_util_encode_string (fp, alias);
+			g_free (alias);
+			
+			if (gtk_tree_model_iter_children (model, &iter, node))
+				model_save_state (fp, priv, model, &iter);
+		}
+		gtk_tree_path_free (tree_path);
+	} while (gtk_tree_model_iter_next (model, node));
+}
+
+
+static void
+em_folder_tree_save_state (EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	char *dirname, *filename, *tmpname;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	FILE *fp;
+	int fd;
+	
+	if (priv->save_state_id != 0) {
+		g_source_remove (priv->save_state_id);
+		priv->save_state_id = 0;
+	}
+	
+	model = gtk_tree_view_get_model (priv->treeview);
+	
+	if (!gtk_tree_model_get_iter_first (model, &iter))
+		return;
+	
+	dirname = (char *) mail_component_peek_base_directory (mail_component_peek ());
+	dirname = g_build_filename (dirname, "mail", "config", NULL);
+	
+	if (camel_mkdir (dirname, 0777) == -1 && errno != EEXIST) {
+		g_free (dirname);
+		return;
+	}
+	
+	tmpname = g_build_filename (dirname, "folder-tree.state~", NULL);
+	filename = g_build_filename (dirname, "folder-tree.state", NULL);
+	g_free (dirname);
+	
+	if (!(fp = fopen (tmpname, "w+"))) {
+		g_free (filename);
+		g_free (tmpname);
+		return;
+	}
+	
+	model_save_state (fp, priv, model, &iter);
+	
+	if (fflush (fp) != 0)
+		goto exception;
+	
+	if ((fd = fileno (fp)) == -1)
+		goto exception;
+	
+	if (fsync (fd) == -1)
+		goto exception;
+	
+	fclose (fp);
+	fp = NULL;
+	
+	if (rename (tmpname, filename) == -1)
+		goto exception;
+	
+	g_free (filename);
+	g_free (tmpname);
+	
+	return;
+	
+ exception:
+	
+	if (fp != NULL)
+		fclose (fp);
+	
+	unlink (tmpname);
+	g_free (tmpname);
+	g_free (filename);
+}
+
+
+static void
+em_folder_tree_queue_save_state (EMFolderTree *emft)
+{
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	
+	if (priv->save_state_id != 0)
+		return;
+	
+	priv->save_state_id = g_timeout_add (1000, (GSourceFunc) em_folder_tree_save_state, emft);
 }

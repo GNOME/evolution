@@ -1,3 +1,14 @@
+2003-11-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (em_folder_tree_save_state): New function to
+	save tree expanded state.
+	(em_folder_tree_queue_save_state): New function to queue saving of
+	the expanded state.
+	(em_folder_tree_construct): Connect to the row-collapsed signal.
+	(tree_row_collapsed): Queue a save-state.
+	(tree_row_expanded): Queue a save state.
+	(em_folder_tree_get_folder_info__got): Queue a save-state.
+
 2003-11-25  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-view.c (em_folder_view_print): set session on print

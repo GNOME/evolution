@@ -64,6 +64,7 @@ struct _EMFolderTreeModel {
 	
 	GHashTable *store_hash;  /* maps CamelStore's to store-info's */
 	GHashTable *uri_hash;    /* maps URI's to GtkTreeRowReferences */
+	GHashTable *expanded;
 };
 
 struct _EMFolderTreeModelClass {
