@@ -1,3 +1,24 @@
+2003-12-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* providers/groupwise/camel-groupwise-provider.c
+	(camel_provider_module_init): g_module_open the other providers we
+	depend on to avoid load ordering problems.
+
+2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* providers/groupwise/camel-groupwise-provider.c: removed useless
+	configuration options, and added other options from the IMAP
+	provider.
+	(camel_provider_module_init): register a SMTP transport object also, and
+	removed SASL registration, since we don't support it.
+
+2003-12-19  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* providers/groupwise/Makefile.am:
+	* providers/groupwise/libcamelgroupwise.urls:
+	* providers/groupwise/camel-groupwise-provider.c: added Camel
+	provider for Groupwise accounts, based on the IMAP one.
+
 2003-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): Don't immediately
