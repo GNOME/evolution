@@ -18,19 +18,25 @@
   <sect1 id="printpreview">
     <title>Print Preview</title>
     <para>
-      <guibutton>Print Preview</guibutton>, appears both as a button
-      in the printing dialog and as an item in the
+      <guibutton>Print Preview</guibutton> appears both as a button in
+      the printing dialog and as an item in the
       <guimenu>File</guimenu> menu.  In both places, it does the same
-      thing: it opens a new window that displays an image of the current
-      message, calendar, appointment, or address card.
+      thing: it opens a new window that shows you what would happen if
+      you were to print the current message, calendar, appointment, or
+      address card.
     </para>
     <para>
       That window allows you to select which pages you want to see,
       and how close you'd like to look at them.  Zoom in or out, fit
-      the page to the window (<guibutton>Fit</guibutton>) or match the
-      width of the page and the window (<guibutton>Fit
-      Width</guibutton>).  If you're satisfied with the way it looks,
-      click <guibutton>Print</guibutton> to send your document on its way.
+      the page to the window (the <guibutton>Fit</guibutton> button)
+      or match the width of the page and the window (the
+      <guibutton>Fit Width</guibutton> button).  None of these buttons
+      changes the way the page will be printed, but they do let you
+      get a better look.  If you're satisfied with the way the things
+      look, click <guibutton>Print</guibutton> to send your document
+      on its way.  If you'd like to change it, just close the
+      <guilabel>Print Preview</guilabel> window and make the changes
+      you want from the Mail, Calendar, or Contact Manager.
     </para>
 
 
@@ -90,3 +96,10 @@
     </para>
   </sect1>
 </chapter>
+
+
+
+
+
+
+

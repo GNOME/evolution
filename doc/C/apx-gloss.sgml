@@ -298,7 +298,7 @@
    <para>
       A regular expression, or "regex", is a way of describing a
       string of text using metacharacters or wild-card symbols.  For
-      example, the statement <userinput>fly*so[a|u]p</userinput> means
+      example, the statement <userinput>fly.*so[a|u]p</userinput> means
       "any phrase beginning with 'fly' and ending in 'soup' or
       'soap'".  If you searched for that expression, you'd find both
       "fly in my soup" and "fly in my soap."  There's not room here to

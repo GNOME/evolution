@@ -1,5 +1,4 @@
 <!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"> -->
-
 <chapter id="config-prefs">
 
       <title>Advanced Configuration</title>
@@ -62,8 +61,6 @@
 	  </listitem>
 	</varlistentry>
 
-
-
 	<varlistentry>
 	  <term><guilabel>Other</guilabel></term>
 	  <listitem>
@@ -71,7 +68,7 @@
               Miscellaneous mail and news settings, such as HTML
               handling preferences, and how long
               <application>Evolution</application> should wait before
-              marking message read.
+              marking a message read.
            </para>
 	  </listitem>
 	</varlistentry>
@@ -175,7 +172,9 @@
 	      <term><guilabel>Mail source type:</guilabel></term>
 	      <listitem>
 		<para>
-                  Select from IMAP or POP servers, or Unix-style
+                  Select from <glossterm
+                  linkend="imap">IMAP</glossterm> or <glossterm
+                  linkend="pop">POP</glossterm> servers, or Unix-style
                   <systemitem><filename>mbox</filename></systemitem>
                   or <systemitem><filename>mh</filename></systemitem>
                   files.
@@ -188,7 +187,7 @@
 		<para>
                   Enter the name of the mail source server in this
                   field. If you use an  may or may not be the same as your
-                  <glossterm>SMTP</glossterm> server.
+                  <glossterm linkend="smtp">SMTP</glossterm> server.
                 </para>
 	      </listitem>
 	    </varlistentry>
@@ -249,13 +248,13 @@
 	<para>
            The <interface>Mail Transports</interface> tab lets you set
            how you will send mail.  Evolution currently supports two
-           mail transport options: <guilabel>SMTP</guilabel>, which
+           mail transport options: <glossterm linkend="smtp">SMTP</glossterm>, which
            uses a remote mail server, and
-           <guilabel>sendmail</guilabel>, which uses the
+           <glossterm linkend="sendmail">sendmail</glossterm>, which uses the
            <application>sendmail</application> program on your local
            system.  <application>Sendmail</application> is more
            difficult to configure, but offers more flexibility than
-           <systemitem>SMTP</systemitem>.
+           <glossterm>SMTP</glossterm>.
         </para>
 	<para>
             To use <guilabel>SMTP</guilabel>, you'll need to enter the

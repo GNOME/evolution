@@ -112,7 +112,11 @@
           message lists.  To sort by sender, subject, or date, click
           on the bars with those labels at the top of the message
           list.  If you click twice, you'll sort them in reverse
-          order.
+          order. You can also right-click on the message header bars
+          to get a set of sorting options, and add or remove columns
+          from the message list.  You can find detailed instructions
+          on how to customize your message display columns in <xref
+          linkend="usage-mail-organize-columns">.
         </para>
 	<para>
           You can also choose a threaded message view. Select
@@ -852,6 +856,48 @@ possibly never will be due to security evil. -->
       Fortunately, <application>Evolution</application> has the tools
       to help you do it.
     </para>
+    <sect2 id="usage-mail-organize-columns">
+      <title>Sorting Mail with Column Headers</title>
+      <para>
+         By default, the columns in a mail message list are an
+         envelope icon indicating whether a message has been read
+         (closed for unread, open for read), an exclamation point
+         indicating priority, and the <guilabel>From</guilabel>,
+         <guilabel>Subject</guilabel>, and <guilabel>Date</guilabel>
+         fields.  However, you can change that if you want.
+      </para>
+      <para>
+         Right-click on one of the column headers to get a list of
+         options:
+             <variablelist>
+
+               <varlistentry>
+                  <term><guimenuitem> </guimenuitem></term>
+                  <listitem><para>
+                  </para></listitem>
+               </varlistentry>
+
+              <varlistentry>
+                  <term><guimenuitem> </guimenuitem></term>
+                  <listitem><para>
+                  </para></listitem>
+               </varlistentry>
+
+              <varlistentry>
+                  <term><guimenuitem> </guimenuitem></term>
+                  <listitem><para>
+                  </para></listitem>
+               </varlistentry>
+
+              <varlistentry>
+                  <term><guimenuitem> </guimenuitem></term>
+                  <listitem><para>
+                  </para></listitem>
+               </varlistentry>
+
+            </variablelist>
+      </para>
+    </sect2>
 
     <sect2 id="usage-mail-organize-folders">
       <title>Getting Organized with Folders</title>
@@ -872,12 +918,15 @@ possibly never will be due to security evil. -->
         When you click <guibutton>OK</guibutton>, your new folder will
 	appear in the <interface>folder view</interface>.  You can
 	then put messages in it by dragging and dropping them, or by
-	using the <guibutton>Move</guibutton> button in the toolbar.
-	If you create a filter with the <interface>filter
-	assistant</interface>, you can have mail moved to your folder
-	automatically.
+	using the <guibutton>Move</guibutton> button in the
+	toolbar. If you want to move several messages at once, click
+	on the ones you want to move while holding down the
+	<keycap>CTRL</keycap> key, or use <keycap>Shift</keycap> to
+	select a range of messages.  If you create a filter with the
+	<interface>filter assistant</interface>, you can have mail
+	moved to your folder automatically.
       </para>
-    </sect2>    
+        </sect2>    
 
     <sect2 id="usage-mail-organize-search">
       <title>Searching for Messages</title>

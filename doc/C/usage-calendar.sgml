@@ -8,12 +8,11 @@
     To begin using the calendar, select
     <guibutton>Calendar</guibutton> from the <interface>shortcut
     bar</interface>.  By default, the calendar starts showing today's
-    schedule on a grey and white ruled background.  At the upper
-    right, there's a monthly calendar you can use to switch days.
-    Below that, there's a <guilabel>TaskPad</guilabel>, where you can
-    keep a sort of glorified to-do list that's not linked to your
-    calendar.  The calendar's daily view is shown in <xref
-    linkend="usage-calendar-fig">.
+    schedule on a ruled background.  At the upper right, there's a
+    monthly calendar you can use to switch days.  Below that, there's
+    a <guilabel>TaskPad</guilabel>, where you can keep a list of tasks
+    seperate from your calendar appointments.  The calendar's daily
+    view is shown in <xref linkend="usage-calendar-fig">.
 
    <!-- ============== Figure ============================= -->
     <figure id="usage-calendar-fig">
@@ -31,9 +30,11 @@
     <title>Ways of Looking at your Calendar</title>
 
     <para>
-       You can view your calendar by the day, by the week, by the
-       month, or by the year; press the calendar-shaped buttons on the
-       right side of the toolbar to switch between views.
+       The toolbar offers you four different views of your calendar:
+       one day, five days, a week, or a month at once. Press the
+       calendar-shaped buttons on the right side of the toolbar to
+       switch between views. You can also select a range of days in
+       the small calendar at the upper right.
     </para>
     <para>
        To view yesterday's appointments, &mdash;last week's, if you're in
@@ -65,15 +66,9 @@ lack of time, resources, and interest.
   <sect1 id="usage-calendar-apts">
     <title>Scheduling With the Evolution Calendar</title>
     <para>
-       The <application>Evolution</application> calendar allows you to
-       schedule events for yourself or a group of people.  It can
-       handle events that repeat, event lengths from ten minutes to
-       multiple days, and events that have a date but no specific
-       time.  Of course, you can also set event reminders and alarms
-       so that you don't forget about everything you've just put into
-       your calendar. From office or family to office
-       <emphasis>and</emphasis> family,
-       <application>Evolution</application> can handle the schedule.
+      Of course, you'll want to use the calendar to do more than find
+      out what day it is. This section will tell you how to schedule
+      events, set alarms, and determine event recurrence.
     </para>
     <sect2 id="usage-calendar-apts-basic">
       <title>Creating events</title>
@@ -193,8 +188,8 @@ lack of time, resources, and interest.
 	icon in the toolbar.  That will save the event and close the
 	event editor window. If you want, you can alter an event
 	summary in the calendar view by clicking on it and typing. You
-	can change other settings by right-clicking on the event in
-	the and then choosing <guimenuitem>Edit this Appointment</guimenuitem>.
+	can change other settings by right-clicking on the event then
+	choosing <guimenuitem>Edit this Appointment</guimenuitem>.
       </para>
     </sect2>
 

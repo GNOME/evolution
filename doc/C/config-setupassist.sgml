@@ -22,9 +22,7 @@
 
 <!--  
 
-
-
-Before you get it, though, you should decide where you want to
+        Before you get it, though, you should decide where you want to
 	keep it.  Your options will vary a little depending on your
 	network setup, but they come down to storing the mail on your
 	hard disk (using <glossterm linkend="pop">POP</glossterm>), or
@@ -116,8 +114,8 @@ Before you get it, though, you should decide where you want to
 	  <listitem>
 	    <para>
               <application>Evolution</application> supports several
-              mail sources: <glossterm>POP</glossterm> and
-              <glossterm>IMAP</glossterm> servers, and UNIX-style
+              mail sources: <glossterm linkend="pop">POP</glossterm> and
+              <glossterm linkend="imap">IMAP</glossterm> servers, and UNIX-style
               <systemitem><filename>mbox</filename></systemitem> and
               <systemitem><filename>mh</filename></systemitem> files.
               POP servers retrieve your mail and store it on your
@@ -149,10 +147,9 @@ Before you get it, though, you should decide where you want to
           <term> <guilabel>Server:</guilabel></term>
 	  <listitem>
 	    <para>
-              This should be the name of the server where you check
-              your mail, if you use one.  It may be the same as the
-              server where you send your outgoing mail, if you use
-              one.
+              This should be the name of the server where you get
+              incoming mail.  It may (or may not) be the same as the
+              server where you send your outgoing mail.
             </para>
 	  </listitem>
 	</varlistentry>
@@ -162,7 +159,7 @@ Before you get it, though, you should decide where you want to
 	<listitem>
              <para>
               Enter the username for your mail server account, if you
-              have one. Normally, this is the part of your email
+              have one. In almost all cases, this is the part of your email
               address before the @ character, and
               <application>Evolution</application> has selected that
               value as the default.  If you have a different username,
@@ -188,8 +185,10 @@ Before you get it, though, you should decide where you want to
 	  <listitem>
 	    <para>
               This is the mail sending protocol you will want to use.
-              <application>Evolution</application> supports both SMTP
-              and <application>sendmail</application>.
+              <application>Evolution</application> supports both
+              <glossterm linkend="smtp">SMTP</glossterm> and
+              <application>sendmail</application>; SMTP is by far the
+              more common.
             </para>
 	  </listitem>
       </varlistentry>

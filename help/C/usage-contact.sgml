@@ -11,27 +11,27 @@
       Rolodex.  Of course, it's a lot easier to update
       <application>Evolution</application> than it is to change an
       actual paper book. <application>Evolution</application> also
-      allows easy synchronization with hand-held and remote devices.
-      Since <application>Evolution</application> supports most major
-      network protocols, including <glossterm linkend="ldap">LDAP</glossterm>, it can
-      fit into almost any existing network.
+      allows easy synchronization with hand-held devices.  Since
+      <application>Evolution</application> supports the <glossterm
+      linkend="ldap">LDAP</glossterm> directory protocol, you can use
+      it with almost any type of existing directory server on your
+      network.
     </para>
     <para>
       Another advantage of the <application>Evolution</application>
-      address book is its integration with the rest of the
-      application.  That means that when you look for someone's
+      contact manager is its integration with the rest of the
+      application.  When you look for someone's
       address, you can also see a history of appointments with that
       person.  Or, you can get an e-mail with contact information in
       it and create a new address card on the spot.  In addition,
-      searches and folders and all work in the same way they do in the
-      other components, so you don't have to learn another system for
-      similar tasks.
+      searches and folders work in the same way they do in the
+      other components.
     </para>
     <para>
       This chapter will cover using the
       <application>Evolution</application> contact manager to organize
       any amount of contact information, share addresses over a
-      network, and several ways to save time with everyday tasks.  To
+      network, and several ways to save time with everyday tasks. To
       learn about configuring the contact manager, see <xref
       linkend="config-prefs-contact">.
     </para>
@@ -94,14 +94,14 @@
     </para>
 
     <para>
-       The rest of the contact manager is taken up by the display of
-       your contact information.  You can view that display as a table
-       or as a list of cards&mdash; switch views in the
-       <guimenu>View</guimenu> menu &mdash; and move through them
-       alphabetically with the buttons and the scrollbar at the right
-       of the window. Of course, if you have more than a few people
-       listed, you'll want some way of finding them more quickly,
-       which is why there's a search feature.
+       Your contact information fills the rest of the display. By
+       default, <application>Evolution</application> shows it as a set
+       of small address cards, but you can set it to appear as a table
+       with the options in the <guimenu>View</guimenu> menu. Move
+       through the cards alphabetically with the buttons and the
+       scrollbar at the right of the window. Of course, if you have
+       more than a few people listed, you'll want some way of finding
+       them more quickly, which is why there's a search feature.
     </para>
 
     <sect2 id="contact-search">
@@ -113,22 +113,27 @@
     	   hit <keycap>Enter</keycap>.
     	   <application>Evolution</application> will search through
     	   the contents of every displayed card to find one that
-    	   matches. That means that you can refine searches by doing several in
-    	   succession.
+    	   matches. In other words, you can refine searches by doing
+    	   several in succession.
 	</para>
       <para>
-	   If there are no matches, the card display will be blank. When
-	   you'd like to see all the cards again, press <guilabel>Show
-	   All</guilabel>.
+	   If there are no matches, the card display will be
+	   blank. When you'd like to see all the cards again, press
+	   <guilabel>Show All</guilabel>.
+ <!--  **************************************************
+           If you're sneaky, you can
+	   enter a blank search &mdash; every contact has at least one
+	   space in it, so you'll display them all. NOTE: This may not actually work.
+ ******  -->
       </para>
       <example id="contact-quicksearch-ex">
 	<title>Refining a Quick Search</title>
 	<para>
-	    Tom comes back from lunch and finds a note on his keyboard:
-	    "Curtis in sales called for you, but he didn't leave a number,
-	    and I forgot to write down the name of the company he works
-	    for. He said it was important, though." Tom is not at all
-	    annoyed.
+	    Tom comes back from lunch and finds a note on his
+	    keyboard: "Curtis in sales called for you, but he didn't
+	    leave a number, and I forgot to write down the name of the
+	    company he works for. He said it was important, though."
+	    Tom is not at all annoyed.
          </para>
 	 <para>
 	    He opens his contacts folder, and runs a quick search for
@@ -152,11 +157,11 @@
         Click <guibutton>Add Criterion</guibutton> to increase the
         number of criteria you'd like to use in the search, and
         <guibutton>Remove Criterion</guibutton> to remove one from the
-        bottom of the list.  Your criteria may be a searchs within the
+        bottom of the list.  Your criteria may be a search within the
         <guilabel>Name</guilabel> or <guilabel>Email</guilabel>
         fields; alternately you can choose to search through all the
-        fields with a regular expression.  Then, you can select all
-        the familiar requirements like <guilabel>Begins
+        fields with a regular expression.  Then, you can select from
+        all the familiar requirements like <guilabel>Begins
         With</guilabel> and <guilabel>Does Not Contain</guilabel>,
         decide whether to match <guilabel>All</guilabel> or
         <guilabel>Any</guilabel> of your criteria, and press
@@ -475,15 +480,15 @@
   <sect1 id="usage-contact-sharing">
     <title>Sharing your Cards</title>
     <para>
-       If you keep your cards on a network using an
-       <glossterm linkend="ldap">LDAP</glossterm> server, you can share access to
-       them.  Actually, the server software takes care of that, and
-       also determines who is allowed to see and change them.  This is
-       the sort of feature you'll want to use if your company has a
+       If you keep your cards on a network using an <glossterm
+       linkend="ldap">LDAP</glossterm> server, you can share access to
+       them, browse other address books, or maintain a shared set of
+       contact information for your company or your department.  This
+       is the sort of feature you'll want to use if your company has a
        list of vendors and clients that needs constant updating.  If
        you also share your calendars, people can avoid duplicating
-       work and keep up to date on developments within their work-group
-       or across the entire company.
+       work and keep up to date on developments within their
+       work-group or across the entire company.
     </para>
 
      <example id="usage-contact-sharing-ex">
@@ -496,7 +501,7 @@
 	    already scheduled a meeting with Company X next Thursday.
 	    He can either go to the meeting himself or ask Deanna to
 	    discuss his concerns for him.  Either way, he avoids
-	    scheduling an extra meeting with Company X.
+	    scheduling an extra meeting with Company X. 
 	 </para>
       </example>
     <para>
@@ -576,14 +581,16 @@
 	 <application>Evolution</application> will fill in addresses
 	 from your contact manager's address cards if you let it.  In
 	 addition to that, you can send email to everyone in a
-	 particular group.
+	 particular group if you choose.
       </para>
  <!-- FIXME this feature not yet implemented  -->
       <para>
-         Future versions of <application>Evolution</application> will
-	 allow you to you export a group of cards to a spreadsheet,
-	 database, or word processor so you can print address labels
-	 or prepare large postal mailings.
+         You can also use the contact manager to handle lists of
+	 postal addresses to print for labels.  Future versions of
+	 <application>Evolution</application> will allow you to you
+	 export a group of cards to a spreadsheet, database, or word
+	 processor so you can print address labels or prepare large
+	 mailings.
       </para>
     </sect2>
 <!--

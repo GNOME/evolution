@@ -464,6 +464,152 @@
 	</variablelist>
        </para>
     </sect2>
+
+   <sect2 id="menuref-mail-messagelistheader">
+      <title>The Message Heading Right-Click Menu</title>
+      <para>
+         At the top of the message list is the message list heading
+         bar; you can click on an individual heading &mdash;
+         <guilabel>Subject</guilabel>, for example, to have the
+         message list sorted by that attribute.  However, if you right
+         click on a heading, you'll get the following menu:
+      </para>
+
+      <para>
+          <variablelist>
+
+	  <varlistentry>
+	      <term><guimenuitem>Sort Ascending</guimenuitem></term>
+	      <listitem><para>
+		 Sort the list, in ascending order, by the attribute you clicked.
+	      </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Sort Descending</guimenuitem></term>
+	      <listitem><para>
+		 Sort the list in descending order.
+	      </para></listitem>
+	    </varlistentry>
+  
+	  <varlistentry>
+	      <term><guimenuitem>Unsort</guimenuitem></term>
+	      <listitem><para>
+		 Undo any sorting by this attribute, and leave the message list sorted 
+                 by the previous one.
+	      </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Group by this Field</guimenuitem></term>
+	      <listitem><para>
+		 Instead of sorting the messages, group them in boxes. 
+	      </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Group by Box</guimenuitem></term>
+	      <listitem><para> If you have your messages grouped in
+	      boxes, you can arrange the boxes as well, by choosing
+	      this item.  </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Remove this column</guimenuitem></term>
+	      <listitem><para>
+		 Choose this to remove the column from the message list display.
+	      </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Field Chooser</guimenuitem></term>
+	      <listitem><para>
+		 Opens a palette of columns. You can drag the columns
+		 you want from the palette into position in the
+		 message list heading bar; red arrows appear
+		 when you get close enough to a possibile position.</para>
+                 
+              <para>
+                 Your options are: 
+                 <itemizedlist>
+                     <listitem><para>
+                         <guiicon>An Envelope</guiicon> which indicates whether a message has been read (closed for unread, open for read).
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guiicon>An Exclamation Point</guiicon> for priority
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guiicon>A Penguin</guiicon> which indicates something, although I'm not sure what.
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guiicon>A Paper Clip</guiicon> which indicates that there is an attachment to the message.
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guilabel>From</guilabel>, for the <guilabel>From</guilabel> field of a message.
+                     </para></listitem>
+                     <listitem><para>
+                         <guilabel>Subject</guilabel>, for the <guilabel>Subject</guilabel> field of a message.
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guilabel>Date</guilabel>, for the date and time a message was sent.
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guilabel>Received</guilabel>, for the date and time you got the message. 
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guilabel>To</guilabel>, for the <guilabel>To</guilabel> field.
+                     </para></listitem>
+
+                     <listitem><para>
+                         <guilabel>Size</guilabel>, for a message's size.
+                     </para></listitem>
+		  </itemizedlist>
+             </para>   
+
+	      </listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Alignment</guimenuitem></term>
+	      <listitem><para> Use this item to decide upon the
+	      alignment of the message attributes within their
+	      columns.  </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Best Fit</guimenuitem></term>
+	      <listitem><para>
+		 Alters the width of the message list columns to maximize the amount of information displayed.
+	      </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	      <term><guimenuitem>Format Columns...</guimenuitem></term>
+	      <listitem><para>
+		 This item is not yet available.
+	      </para></listitem>
+	    </varlistentry>
+
+
+	  <varlistentry>
+	      <term><guimenuitem>Customize
+	      Views...</guimenuitem></term> <listitem><para> Opens a
+	      dialog box that lets you choose a complex set of
+	      arrangements for your message list, so you can combine
+	      sorting and grouping in as many ways as you like.
+	      </para></listitem>
+	    </varlistentry>
+
+          </variablelist>
+      </para>
+   </sect2>
   </sect1>
 
   <sect1 id="menuref-mail-editor">
