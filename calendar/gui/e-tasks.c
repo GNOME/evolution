@@ -29,6 +29,7 @@
 #include <gal/menus/gal-view-instance.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+#include "e-util/e-url.h"
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
 #include "cal-search-bar.h"
@@ -332,6 +333,8 @@ e_tasks_open			(ETasks		*tasks,
 	ETasksPrivate *priv;
 	char *config_filename;
 	char *message;
+	EUri *uri;
+	char *real_uri;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -339,12 +342,21 @@ e_tasks_open			(ETasks		*tasks,
 
 	priv = tasks->priv;
 
-	message = g_strdup_printf (_("Opening tasks at %s"), file);
+	uri = e_uri_new (file);
+	if (!uri || !g_strncasecmp (uri->protocol, "file", 4))
+		real_uri = g_concat_dir_and_file (file, "tasks.ics");
+	else
+		real_uri = g_strdup (file);
+
+	message = g_strdup_printf (_("Opening tasks at %s"), real_uri);
 	set_status_message (tasks, message);
 	g_free (message);
 
-	if (!cal_client_open_calendar (priv->client, file, FALSE)) {
+	if (!cal_client_open_calendar (priv->client, real_uri, FALSE)) {
 		g_message ("e_tasks_open(): Could not issue the request");
+		g_free (real_uri);
+		e_uri_free (uri);
+
 		return FALSE;
 	}
 
@@ -352,6 +364,8 @@ e_tasks_open			(ETasks		*tasks,
 	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->tasks_view),
 				     config_filename);
 	g_free (config_filename);
+	g_free (real_uri);
+	e_uri_free (uri);
 
 	return TRUE;
 }

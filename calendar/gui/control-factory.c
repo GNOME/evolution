@@ -68,17 +68,14 @@ get_prop (BonoboPropertyBag *bag,
 	  CORBA_Environment *ev,
 	  gpointer           user_data)
 {
-	/*GnomeCalendar *gcal = user_data;*/
+	GnomeCalendar *gcal = user_data;
+	char *uri;
 
 	switch (arg_id) {
 
 	case PROPERTY_CALENDAR_URI_IDX:
-		/*
-		if (fb && fb->uri)
-			BONOBO_ARG_SET_STRING (arg, fb->uri);
-		else
-			BONOBO_ARG_SET_STRING (arg, "");
-		*/
+		uri = cal_client_get_uri (gnome_calendar_get_cal_client (gcal));
+		BONOBO_ARG_SET_STRING (arg, uri);
 		break;
 
 	default:
@@ -95,14 +92,10 @@ set_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	GnomeCalendar *gcal = user_data;
-	char *filename;
 
 	switch (arg_id) {
 	case PROPERTY_CALENDAR_URI_IDX:
-		filename = g_strdup_printf ("%s/calendar.ics",
-					    BONOBO_ARG_GET_STRING (arg));
-		gnome_calendar_open (gcal, filename); /* FIXME: result value -> exception? */
-		g_free (filename);
+		gnome_calendar_open (gcal, BONOBO_ARG_GET_STRING (arg)); /* FIXME: result value -> exception? */
 		break;
 
 	default:
@@ -156,7 +149,7 @@ control_factory_init (void)
 
 	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, control_factory_fn, NULL);
 	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-       
+	
 	if (factory == NULL)
 		g_error ("I could not register a Calendar control factory.");
 }
