@@ -1,3 +1,9 @@
+2004-11-22  Not Zed  <NotZed@Ximian.com>
+
+	* em-account-editor.c (emae_receive_options_extra_item): dont
+	track containee widgets anymore, they are automagically destroyed
+	by the container if required.
+
 2004-11-25  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_test_spamd): do not call gconf here
