@@ -1,0 +1,53 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:531: checking for bison
+configure:564: checking for gcc
+configure:677: checking whether the C compiler (gcc -g ) works
+configure:693: gcc -o conftest -g   conftest.c  1>&5
+configure:719: checking whether the C compiler (gcc -g ) is a cross-compiler
+configure:724: checking whether we are using GNU C
+configure:733: gcc -E conftest.c
+configure:752: checking whether gcc accepts -g
+configure:786: checking for flex
+configure:820: checking for yywrap in -lfl
+configure:839: gcc -o conftest -g   conftest.c -lfl   1>&5
+configure:862: checking whether ln -s works
+configure:885: checking for ranlib
+configure:943: checking for a BSD compatible install
+configure:1002: checking for ar
+configure:1034: checking for main in -lical
+configure:1049: gcc -o conftest -g   conftest.c -lical   1>&5
+/usr/bin/ld: cannot open -lical: No such file or directory
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 1042 "configure"
+#include "confdefs.h"
+
+int main() {
+main()
+; return 0; }
+configure:1078: checking how to run the C preprocessor
+configure:1099: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1158: checking for ANSI C header files
+configure:1171: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1238: gcc -o conftest -g   conftest.c  1>&5
+configure:1265: checking for malloc.h
+configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1265: checking for unistd.h
+configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1265: checking for time.h
+configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1265: checking for stdio.h
+configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1265: checking for sys/types.h
+configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1265: checking for assert.h
+configure:1275: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1303: checking for working const
+configure:1357: gcc -c -g  conftest.c 1>&5
+configure:1378: checking for size_t
+configure:1411: checking whether struct tm is in sys/time.h or time.h
+configure:1424: gcc -c -g  conftest.c 1>&5
+configure:1448: checking for strdup
+configure:1476: gcc -o conftest -g   conftest.c  1>&5

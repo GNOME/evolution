@@ -1,0 +1,32 @@
+2.0 Success. 
+2.1 Success but fallback taken  on one or more property  values. 
+2.2 Success, invalid property  ignored. 
+2.3 Success, invalid property  parameter ignored.  
+2.4 Success, unknown non-  standard property ignored. 
+2.5 Success, unknown non  standard property value  ignored. 
+2.6 Success, invalid calendar  component ignored.   
+2.7 Success, request forwarded  to Calendar User.  
+2.8 Success, repeating event  ignored. Scheduled as a  single component. 
+2.9 Success, truncated end date  time to date boundary. 
+2.10 Success, repeating VTODO  ignored. Scheduled as a  single VTODO. 
+2.11 Success, unbounded RRULE  clipped at some finite  number of instances  
+3.0 Invalid property name.  
+3.1 Invalid property value.  
+3.2 Invalid property parameter.   
+3.3 Invalid property parameter  value.  
+3.4 Invalid calendar component  sequence.   
+3.5 Invalid date or time.  
+3.6 Invalid rule.  
+3.7 Invalid Calendar User.  
+3.8 No authority.   
+3.9 Unsupported version.   
+3.10 Request entity too large. 
+3.11 Required component or  property missing. 
+3.12 Unknown component or  property found 
+3.13 Unsupported component or  property found 
+3.14 Unsupported capability  
+4.0 Event conflict. Date/time  is busy.  
+5.0 Request MAY supported.  
+5.1 Service unavailable.  
+5.2 Invalid calendar service.  
+5.3 No scheduling support for  user. 

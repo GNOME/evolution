@@ -1,0 +1,317 @@
+BEGIN:VCALENDAR
+X-LIC-CLUSTERCOUNT
+ :13
+DTSTART
+ :00000000T000000
+DTEND
+ :00000000T000000
+BEGIN:VEVENT
+ORGANIZER
+ :mailto:a@example.com
+COMMENT
+ :DUKES forfeit the game
+SEQUENCE
+ :2
+UID
+ :0981234-1234234-23@example.com
+DTSTAMP
+ :19970613T190000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ATTENDEE
+ ;PARTSTAT=ACCEPTED
+ :Mailto:B@example.com
+ORGANIZER
+ :MAILTO:A@example.com
+UID
+ :calsrv.example.com-873970198738777@example.com
+SEQUENCE
+ :0
+REQUEST-STATUS
+ :2.0\;Success
+DTSTAMP
+ :19970612T190000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ ;RSVP=TRUE
+ :Mailto:B@example.com
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=PARAMETER_PARSE_ERROR
+ :Can't parse parameter name: 'TYPE=INDIVIDUAL'
+COMMENT
+ :Sorry
+COMMENT
+ : I cannot change this meeting time
+UID
+ :calsrv.example.com-873970198738777@example.com
+SEQUENCE
+ :0
+DTSTAMP
+ :19970614T190000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :MAILTO:A@Example.com
+ATTENDEE
+ ;PARTSTAT=DELEGATED
+ ;DELEGATED-TO="Mailto:E@example.com"
+ :Mailto:C@example.com
+UID
+ :calsrv.example.com-873970198738777@example.com
+SEQUENCE
+ :0
+REQUEST-STATUS
+ :2.0\;Success
+DTSTAMP
+ :19970611T190000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :MAILTO:A@Example.com
+ATTENDEE
+ ;PARTSTAT=ACCEPTED
+ ;DELEGATED-FROM="Mailto:C@example.com"
+ :Mailto:E@example.com
+ATTENDEE
+ ;PARTSTAT=DELEGATED
+ ;DELEGATED-TO="Mailto:E@example.com"
+ :Mailto:C@example.com
+UID
+ :calsrv.example.com-873970198738777@example.com
+SEQUENCE
+ :0
+REQUEST-STATUS
+ :2.0\;Success
+DTSTAMP
+ :19970614T190000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :MAILTO:A@Example.com
+ATTENDEE
+ ;PARTSTAT=DELEGATED
+ ;DELEGATED-TO="Mailto:E@example.com"
+ :Mailto:C@example.com
+ATTENDEE
+ ;PARTSTAT=DECLINED
+ ;DELEGATED-FROM="Mailto:C@example.com"
+ :Mailto:E@example.com
+COMMENT
+ :Sorry
+COMMENT
+ : I will be out of town at that time.
+UID
+ :calsrv.example.com-873970198738777@example.com
+SEQUENCE
+ :0
+REQUEST-STATUS
+ :2.0\;Success
+DTSTAMP
+ :19970614T190000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ :A@example.com
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=PARAMETER_PARSE_ERROR
+ :Can't parse parameter name: 'TYPE=INDIVIDUAL'
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=PARAMETER_PARSE_ERROR
+ :Can't parse parameter name: 'Mailto'
+ATTENDEE
+ :Mailto:B@example.com
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=PARAMETER_PARSE_ERROR
+ :Can't parse parameter name: 'TYPE=INDIVIDUAL'
+ATTENDEE
+ :Mailto:C@example.com
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=PARAMETER_PARSE_ERROR
+ :Can't parse parameter name: 'TYPE=INDIVIDUAL'
+ATTENDEE
+ :Mailto:D@example.com
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=PARAMETER_PARSE_ERROR
+ :Can't parse parameter name: 'TYPE=INDIVIDUAL'
+COMMENT
+ :Mr. B cannot attend. It's raining. Lets cancel.
+UID
+ :calsrv.example.com-873970198738777@example.com
+SEQUENCE
+ :1
+STATUS
+ :CANCELLED
+DTSTAMP
+ :19970613T190000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ :mailto:B@example.com
+COMMENT
+ :You're off the hook for this meeting
+UID
+ :calsrv.example.com-873970198738777@example.com
+DTSTAMP
+ :19970613T193000Z
+SEQUENCE
+ :1
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+UID
+ :guid-1@host1.com
+SEQUENCE
+ :0
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=VALUE_PARSE_ERROR
+ :Can't parse as RECUR value in RRULE property. Removing entire property: 
+ 'FREQ=MONTHLY\;BYMONTHDAY=1\;UNTIL=19980901T210000Z'
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ ;ROLE=CHAIR
+ ;PARTSTAT=ACCEPTED
+ :Mailto:A@example.com
+ATTENDEE
+ :Mailto:B@example.com
+ATTENDEE
+ :Mailto:C@example.com
+ATTENDEE
+ :Mailto:D@example.com
+DESCRIPTION
+ :IETF-C&S Conference Call
+CLASS
+ :PUBLIC
+SUMMARY
+ :IETF Calendaring Working Group Meeting
+DTSTART
+ :19970601T210000Z
+DTEND
+ :19970601T220000Z
+LOCATION
+ :Conference Call
+DTSTAMP
+ :19970526T083000Z
+STATUS
+ :CONFIRMED
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+UID
+ :guid-1@host1.com
+SEQUENCE
+ :0
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=VALUE_PARSE_ERROR
+ :Can't parse as RECUR value in RRULE property. Removing entire property: 
+ 'FREQ=MONTHLY\;BYMONTHDAY=1'
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ ;ROLE=CHAIR
+ :Mailto:A@example.com
+ATTENDEE
+ ;RSVP=TRUE
+ :Mailto:B@example.com
+ATTENDEE
+ ;RSVP=TRUE
+ :Mailto:C@example.com
+ATTENDEE
+ ;RSVP=TRUE
+ :Mailto:D@example.com
+DESCRIPTION
+ :IETF-C&S Conference Call
+CLASS
+ :PUBLIC
+SUMMARY
+ :IETF Calendaring Working Group Meeting
+DTSTART
+ :19970601T210000Z
+DTEND
+ :19970601T220000Z
+DTSTAMP
+ :19970602T094000Z
+LOCATION
+ :Conference Call
+STATUS
+ :CONFIRMED
+X-LIC-ERROR
+ ;X-LIC-ERRORTYPE=PROPERTY_PARSE_ERROR
+ :Parse error in property name: 'FOO'
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ :Mailto:B@example.com
+REQUEST-STATUS
+ :2.8\;Repeating event ignored. Scheduled as a single event\;RRULE
+REQUEST-STATUS
+ :3.0\;Invalid Property Name\;FOO
+UID
+ :guid-1@host1.com
+SEQUENCE
+ :0
+DTSTAMP
+ :19970603T094000Z
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ ;ROLE=CHAIR
+ ;PARTSTAT=ACCEPTED
+ :Mailto:A@example.com
+ATTENDEE
+ :Mailto:B@example.com
+ATTENDEE
+ :Mailto:C@example.com
+ATTENDEE
+ :Mailto:D@example.com
+UID
+ : guid-1-12345@host1.com
+DTSTAMP
+ :19970603T094000
+LAST-MODIFIED
+ :20000209T060027Z
+END:VEVENT
+BEGIN:VEVENT
+ORGANIZER
+ :Mailto:A@example.com
+ATTENDEE
+ :Mailto:B@example.com
+UID
+ :acme-12345@host1.com
+DTSTAMP
+ :19970603T094000
+LAST-MODIFIED
+ :20000209T060028Z
+END:VEVENT
+END:VCALENDAR
