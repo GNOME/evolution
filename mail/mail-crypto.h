@@ -25,7 +25,8 @@
 
 #include <camel/camel.h>
 #include <camel/camel-pgp-mime.h>
-#include <camel/camel-smime.h>
+#include <camel/camel-smime-context.h>
+#include <camel/camel-smime-utils.h>
 
 #ifdef __cplusplus
 extern "C" {
