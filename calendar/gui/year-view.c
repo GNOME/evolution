@@ -76,8 +76,8 @@ year_view_class_init (YearViewClass *class)
 	widget_class->size_allocate = year_view_size_allocate;
 }
 
-/* Resizes the year view's child items.  This is done in the idle loop for performance (we avoid
- * resizing on every size allocation).
+/* Resizes the year view's child items.  This is done in the idle loop for
+ * performance (we avoid resizing on every size allocation).
  */
 static gint
 idle_handler (gpointer data)
@@ -96,6 +96,16 @@ idle_handler (gpointer data)
 
 	yv = data;
 
+	/* Compute the size we can use */
+
+	width = MAX (GTK_WIDGET (yv)->allocation.width, yv->min_width);
+	height = MAX (GTK_WIDGET (yv)->allocation.height, yv->min_height);
+
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (yv), 0, 0, width, height);
+
+	width--;
+	height--;
+
 	/* Get the heights of the heading and the titles */
 
 	arg.name = "text_height";
@@ -106,14 +116,10 @@ idle_handler (gpointer data)
 	gtk_object_getv (GTK_OBJECT (yv->titles[0]), 1, &arg);
 	title_height = GTK_VALUE_DOUBLE (arg);
 
-	/* Space for the titles and months */
-	width = GTK_WIDGET (yv)->allocation.width;
-	height = CALENDAR_HEIGHT;
-
 	/* Offsets */
 
 	xofs = (width + SPACING) / 3.0;
-	yofs = (height + SPACING) / 4.0;
+	yofs = (height - head_height + SPACING) / 4.0;
 
 	/* Month item vertical offset */
 
@@ -603,7 +609,6 @@ year_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	if (GTK_WIDGET_CLASS (parent_class)->size_allocate)
 		(* GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
 
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (yv), 0, 0, allocation->width, CALENDAR_HEIGHT);
 	need_resize (yv);
 }
 

@@ -1,3 +1,19 @@
+1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* year-view.c (idle_handler): Set the canvas scroll region here,
+	not in size_allocate().  Also, use the correct width and height
+	based on the allocation and the precomputed minimum width/height
+	values.
+
+	* gnome-cal.c (setup_widgets): Set the scrollbar policy of the
+	scrolled window.
+
+	* main.c (setup_appbar): Use the correct type for the appbar.
+
+	* gncal-day-view.c: Removed unused function switch_to_day().
+
+	* gncal-day-panel.c (calendar_day_selected): Removed unused variable.
+
 1999-05-25  Nat Friedman  <nat@nat.org>
 
 	* doc/C/gnomecal.sgml: Fixed a typo.

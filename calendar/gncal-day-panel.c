@@ -71,7 +71,6 @@ calendar_day_selected (GtkCalendar *calendar, GncalDayPanel *dpanel)
 {
 	gint y, m, d;
 	struct tm tm;
-	time_t time;
 
 	gtk_calendar_get_date (calendar, &y, &m, &d);
 

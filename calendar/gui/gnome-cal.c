@@ -56,6 +56,9 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->year_view  = year_view_new (gcal, now);
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+					GTK_POLICY_NEVER,
+					GTK_POLICY_AUTOMATIC);
 	gtk_container_add (GTK_CONTAINER (sw), gcal->year_view);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,   gtk_label_new (_("Day View")));

@@ -139,11 +139,6 @@ context_menu (GncalDayView *dayview, GdkEventButton *event)
 	popup_menu (main_items, 1, event);
 }
 
-static void
-switch_to_day (GncalDayView *dayview)
-{
-}
-
 static gint
 gncal_day_view_button_press (GtkWidget *widget, GdkEventButton *event)
 {

@@ -537,10 +537,10 @@ setup_menu (GtkWidget *gcal)
 static void
 setup_appbar (GtkWidget *gcal)
 {
-        GnomeAppBar *appbar;
-	
+        GtkWidget *appbar;
+
         appbar = gnome_appbar_new (FALSE, TRUE, GNOME_PREFERENCES_USER);
-	gnome_app_set_statusbar (GNOME_APP (gcal), GTK_WIDGET(appbar));
+	gnome_app_set_statusbar (GNOME_APP (gcal), GTK_WIDGET (appbar));
 }
 
 static gint
