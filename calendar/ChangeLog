@@ -1,3 +1,10 @@
+2004-07-12  Rodney Dawes  <dobey@novell.com>
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog):
+	Update the layout of the dialog to be more usable
+
+	Partially fixes #56171
+
 2004-07-11  Jürg Billeter <j@bitron.ch>
 
 	* gui/dialogs/event-page.c (event_page_fill_component):

@@ -38,6 +38,7 @@ recur_component_dialog (ECal *client,
 {
 	char *str;
 	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
+	GtkWidget *placeholder, *vbox;
 	ECalComponentVType vtype;
 	gboolean ret;
 	
@@ -66,28 +67,44 @@ recur_component_dialog (ECal *client,
 
 	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
 	g_free (str);
-	
-	hbox = gtk_hbox_new (FALSE, 2);
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+
+	hbox = gtk_hbox_new (FALSE, 12);
 	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), hbox);
+
+	placeholder = gtk_label_new ("");
+	gtk_widget_set_size_request (placeholder, 48, 48);
+	gtk_box_pack_start (GTK_BOX (hbox), placeholder, FALSE, FALSE, 0);
+	gtk_widget_show (placeholder);
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
+	gtk_widget_show (vbox);
+
 	rb_this = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
-	gtk_container_add (GTK_CONTAINER (hbox), rb_this);
+	gtk_container_add (GTK_CONTAINER (vbox), rb_this);
 
 	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
 		rb_prior = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Prior Instances"));
-		gtk_container_add (GTK_CONTAINER (hbox), rb_prior);
+		gtk_container_add (GTK_CONTAINER (vbox), rb_prior);
 	} else
 		rb_prior = NULL;
 
 	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
 		rb_future = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Future Instances"));
-		gtk_container_add (GTK_CONTAINER (hbox), rb_future);
+		gtk_container_add (GTK_CONTAINER (vbox), rb_future);
 	} else
 		rb_future = NULL;
 
 	rb_all = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("All Instances"));
-	gtk_container_add (GTK_CONTAINER (hbox), rb_all);
+	gtk_container_add (GTK_CONTAINER (vbox), rb_all);
 
 	gtk_widget_show_all (hbox);
+
+	placeholder = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), placeholder, FALSE, FALSE, 0);
+	gtk_widget_show (placeholder);
 
 	ret = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;
 
