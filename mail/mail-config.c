@@ -782,7 +782,8 @@ identity_page_new (const MailConfigIdentity *id)
 		default_sig = g_strconcat (g_get_home_dir (), 
 					   G_DIR_SEPARATOR_S,
 					   ".signature", NULL);
-		gtk_entry_set_text (GTK_ENTRY (page->sig), default_sig);
+		if (g_file_exists (default_sig))
+			gtk_entry_set_text (GTK_ENTRY (page->sig), default_sig);
 		g_free (default_sig);
 	}
 	

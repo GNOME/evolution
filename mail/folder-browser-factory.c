@@ -191,7 +191,7 @@ folder_browser_factory_new_control (const char *uri)
 	
 	control = bonobo_control_new (folder_browser);
 	
-	if (control == NULL){
+	if (control == NULL) {
 		gtk_object_destroy (GTK_OBJECT (folder_browser));
 		return NULL;
 	}

@@ -1,3 +1,13 @@
+2000-08-03  Michael Meeks  <michael@helixcode.com>
+
+	* mail-config.c (identity_page_new): only whack the sig in if the
+	file exists.
+
+	* component-factory.c (factory_fn): count running instances,
+	attach destroy signal (factory_destroy): add. 
+
+	* main.c (main): pass orb around.
+
 2000-08-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (composer_send_cb): Yay, no more compiler warnings

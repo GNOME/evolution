@@ -25,6 +25,8 @@
 int
 main (int argc, char *argv [])
 {
+	CORBA_ORB orb;
+
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
@@ -35,9 +37,9 @@ main (int argc, char *argv [])
 	od_assert_using_oaf ();
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
 				    argc, argv, oaf_popt_options, 0, NULL);
-	oaf_init (argc, argv);
+	orb = oaf_init (argc, argv);
 
-	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL,
+	if (bonobo_init (orb, CORBA_OBJECT_NIL,
 			 CORBA_OBJECT_NIL) == FALSE) {
 		g_error ("Mail component could not initialize Bonobo.\n"
 			 "If there was a warning message about the "
