@@ -1,3 +1,12 @@
+2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Probably fixes bug #56623 and others?
+
+	* e-signature-list.c (gconf_signatures_changed): Fixed to not use
+	free'd iter memory. Also reverse the new_sigs list before adding
+	them to the signature list (so they are in the same order they
+	appeared in the gconf key).
+
 2004-04-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-signature-list.c (gconf_signatures_changed): Fixed to not

@@ -177,9 +177,8 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 						g_signal_emit (signature_list, signals[SIGNATURE_CHANGED], 0, signature);
 					
 					g_object_unref (iter);
-					g_free (uid);
 					
-					continue;
+					goto loop;
 				}
 			}
 			
@@ -190,18 +189,23 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 		signature = e_signature_new_from_xml (l->data);
 		e_list_append (E_LIST (signature_list), signature);
 		new_sigs = g_slist_prepend (new_sigs, signature);
+		
+	loop:
+		
 		g_free (uid);
 	}
 	
-	/* Now emit signals for each added signature. */
-	l = new_sigs;
-	while (l != NULL) {
-		n = l->next;
-		signature = l->data;
-		g_signal_emit (signature_list, signals[SIGNATURE_ADDED], 0, signature);
-		g_object_unref (signature);
-		g_slist_free_1 (l);
-		l = n;
+	if (new_sigs != NULL) {
+		/* Now emit signals for each added signature. */
+		l = g_slist_reverse (new_sigs);
+		while (l != NULL) {
+			n = l->next;
+			signature = l->data;
+			g_signal_emit (signature_list, signals[SIGNATURE_ADDED], 0, signature);
+			g_object_unref (signature);
+			g_slist_free_1 (l);
+			l = n;
+		}
 	}
 	
 	/* Anything left in old_sigs must have been deleted */
