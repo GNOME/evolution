@@ -28,6 +28,7 @@
 #include <glib.h>
 
 #include "camel-folder-search.h"
+#include "string-utils.h"
 
 #define d(x)
 #define r(x)
@@ -381,7 +382,7 @@ search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, C
 			/* performs an OR of all words */
 			for (i=1;i<argc && !truth;i++) {
 				if (argv[i]->type == ESEXP_RES_STRING
-				    && strstr(header, argv[i]->value.string)) {
+				    && strstrcase(header, argv[i]->value.string)) {
 					r(printf("%s got a match with %s of %s\n", search->current->uid, header, argv[i]->value.string));
 					truth = TRUE;
 					break;

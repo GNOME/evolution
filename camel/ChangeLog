@@ -1,5 +1,8 @@
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
+	* camel-folder-search.c (search_header_contains): make header
+	matching case-insensitive
+
 	* camel-folder-summary.c:
 	* camel-session.c:
 	* providers/mbox/camel-mbox-folder.c:
