@@ -51,7 +51,7 @@ typedef struct {
 
 
 typedef struct {
-	CamelTransferClass parent_class;
+	CamelTransportClass parent_class;
 
 } CamelSmtpTransportClass;
 

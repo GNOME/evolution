@@ -1,3 +1,10 @@
+2000-04-07  Jeffrey Stedfast  <fejj@stampede.org>
+
+	* providers/smtp/camel-smtp-transport.c: fixes to numerous bugs;
+	should now build fine.
+	* providers/Makefile.am: Readded smtp now that smtp builds without
+	error.
+
 2000-04-07  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (pop3_connect): Clarify error

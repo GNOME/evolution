@@ -41,7 +41,6 @@
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "md5-utils.h"
-#include "url-util.h"
 
 /* Specified in RFC ???? */
 #define SMTP_PORT 25
@@ -56,20 +55,19 @@ static gboolean _send_to (CamelTransport *transport, CamelMedium *message, GList
 /* support prototypes */
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, CamelException *ex);
-static void esmtp_get_authtypes(gchar *buffer);
+static GList *esmtp_get_authtypes(gchar *buffer);
 static GList *query_auth_types (CamelService *service);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static gchar *smtp_get_email_addr_from_text (gchar *text);
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex);
 static gboolean smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex);
-static gboolean smtp_data (CamelSmtpTransport *transport, gchar *message, CamelException *ex);
+static gboolean smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *ex);
 static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 
 
 static gboolean smtp_is_esmtp = FALSE;
-static GList *esmtp_supported_authtypes = NULL;
 
 static void
 camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_class)
@@ -77,7 +75,7 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	CamelTransportClass *camel_transport_class =
 		CAMEL_TRANSPORT_CLASS (camel_smtp_transport_class);
    CamelServiceClass *camel_service_class =
-		CAMEL_SERVICE_CLASS (camel_smtp_store_class);
+		CAMEL_SERVICE_CLASS (camel_smtp_transport_class);
 
    /* virtual method overload */
    camel_service_class->connect = smtp_connect;
@@ -119,9 +117,9 @@ smtp_connect (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	struct sockaddr_in sin;
-	gint port, fd, status;
-	gchar *buf, *pass;
-	CamelSmtpStore *transport = CAMEL_SMTP_TRANSPORT (service);
+	gint fd;
+	gchar *pass = NULL, *respbuf = NULL;
+	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 
 	if (!service_class->connect (service, ex))
 		return FALSE;
@@ -129,12 +127,9 @@ smtp_connect (CamelService *service, CamelException *ex)
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
-	port = camel_service_getport (service, "smtp", SMTP_PORT, "tcp", ex);
-	if (port == -1)
-		return FALSE;
 
 	sin.sin_family = h->h_addrtype;
-	sin.sin_port = port;
+	sin.sin_port = htons (service->url->port ? service->url->port : SMTP_PORT);
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
@@ -151,7 +146,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	}
 
 	transport->ostream = camel_stream_fs_new_with_fd (fd);
-	transport->istream = camel_stream_buffer_new (store->ostream,
+	transport->istream = camel_stream_buffer_new (transport->ostream,
 						  CAMEL_STREAM_BUFFER_READ);
 
 	/* Read the greeting, note whether the server is ESMTP and if it requests AUTH. */
@@ -179,7 +174,7 @@ smtp_connect (CamelService *service, CamelException *ex)
    g_free(respbuf);
 
    /* send HELO */
-   smtp_helo(service, ex);
+   smtp_helo(transport, ex);
 
 	return TRUE;
 }
@@ -193,7 +188,7 @@ smtp_disconnect (CamelService *service, CamelException *ex)
 		return TRUE;
 
    /* send the QUIT command to the SMTP server */
-   smtp_quit(service, ex);
+   smtp_quit(transport, ex);
 
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
@@ -203,14 +198,14 @@ smtp_disconnect (CamelService *service, CamelException *ex)
 	 */
 	camel_stream_close (transport->ostream);
 	gtk_object_unref (GTK_OBJECT (transport->ostream));
-	store->ostream = NULL;
-	store->istream = NULL;
+	transport->ostream = NULL;
+	transport->istream = NULL;
 
 	return TRUE;
 }
 
 static GList
-esmtp_get_authtypes(gchar *buffer)
+*esmtp_get_authtypes(gchar *buffer)
 {
    GList *ret = NULL;
 
@@ -252,16 +247,16 @@ static gboolean
 _send_to (CamelTransport *transport, CamelMedium *message,
 	  GList *recipients, CamelException *ex)
 {
-	GList *r, *s;
-   gchar *recipient;
-   gboolean status;
+	GList *r;
+   gchar *recipient, *s, *sender;
    guint i, len;
    CamelService *service = CAMEL_SERVICE (transport);
+   CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT(transport);
 
    if (!camel_service_is_connected (service))
 		smtp_connect (service, ex);
 
-   s = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "From");
+   s = camel_mime_message_get_from (CAMEL_MIME_MESSAGE(message));
    if (!s)
    {
       camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -269,9 +264,11 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 				      "sender address not defined.");
       return FALSE;
    }
-   else
-      smtp_mail(service, s->data, ex);
-   g_list_free(s);
+
+   sender = smtp_get_email_addr_from_text(s);
+   smtp_mail(smtp_transport, sender, ex);
+   g_free(sender);
+   g_free(s);
 
    if (!(len = g_list_length(recipients)))
    {
@@ -282,8 +279,8 @@ _send_to (CamelTransport *transport, CamelMedium *message,
    }
    for (i = 0, r = recipients; i < len; i++, r = r->next)
    {
-      recipient = smtp_get_addr_from_text(r->data);
-      if (!smtp_rcpt(service, recipient; ex))
+      recipient = smtp_get_email_addr_from_text(r->data);
+      if (!smtp_rcpt(smtp_transport, recipient, ex))
       {
          g_free(recipient);
          return FALSE;
@@ -291,26 +288,29 @@ _send_to (CamelTransport *transport, CamelMedium *message,
       g_free(recipient);
    }
 
-   if (!smtp_data(service, message, ex))
+   if (!smtp_data(smtp_transport, message, ex))
       return FALSE;
 
    /* reset the service for our next transfer session */
-   smtp_rset(service, ex);
+   smtp_rset(smtp_transport, ex);
 
-	return status;
+	return TRUE;
 }
 
 static gboolean
 _send (CamelTransport *transport, CamelMedium *message,
        CamelException *ex)
 {
-	GList *recipients;
+	GList *to, *cc, *bcc, *recipients;
 
-   recipients = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "To");
-   recipients = g_list_append(recipients, 
-           camel_mime_message_get_recipients ((CamelMimeMessage *) message, "Cc");
-   recipients = g_list_append(recipients, 
-           camel_mime_message_get_recipients ((CamelMimeMessage *) message, "Bcc");
+   to = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "To");
+   cc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "Cc");
+   bcc = camel_mime_message_get_recipients ((CamelMimeMessage *) message, "Bcc");
+   recipients = g_list_concat(to, cc);
+   recipients = g_list_concat(recipients, bcc);
+   g_list_free(to);
+   g_list_free(cc);
+   g_list_free(bcc);
 
 	return _send_to (transport, message, recipients, ex);
 }
@@ -329,7 +329,7 @@ static gchar
    gchar *tmp, *addr = NULL;
    gchar *addr_strt;         /* points to start of addr */
    gchar *addr_end;          /* points to end of addr */
-   gchar *ptr1, *ptr2;
+   gchar *ptr1;
    
    
    /* check the incoming args */
@@ -382,8 +382,6 @@ static gchar
    {
       /* here we found out the name doesn't have an '@' part
        * let's figure out what machine we're on & stick it on the end
-       * woops.. forgot the '@' sign, gotta stick that in the reply
-       * ptr2 should still point to the next place to copy to in addr
        */
       gchar hostname[MAXHOSTNAMELEN];
 
@@ -396,8 +394,6 @@ static gchar
       addr = g_strconcat(tmp, "@", hostname, NULL);
       g_free(tmp);
    }
-   else               /* there's an @ sign already in the email addy */
-      *ptr2 = '\0';   /* add a null to the end of the string */
 
    return addr;
 }
@@ -409,7 +405,6 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
    gchar *cmdbuf, *respbuf = NULL;
    gchar localhost[MAXHOSTNAMELEN + MAXHOSTNAMELEN + 2];
    gchar domainname[MAXHOSTNAMELEN];
-   gint n;
 
    /* get the localhost name */
    memset(localhost, 0, sizeof(localhost));
@@ -535,11 +530,12 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 }
 
 static gboolean
-smtp_data (CamelSmtpTransport *transport, gchar *message, CamelException *ex)
+smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *ex)
 {
    /* now we can actually send what's important :p */
    gchar *cmdbuf, *respbuf = NULL;
-   gchar *tmp, *chunk, *begin, *end;
+   gchar *buf, *chunk;
+   CamelStream *message_stream; 
 
    /* enclose address in <>'s since some SMTP daemons *require* that */
    cmdbuf = g_strdup("DATA\r\n");
@@ -569,19 +565,19 @@ smtp_data (CamelSmtpTransport *transport, gchar *message, CamelException *ex)
    }
 	
    /* now to send the actual data */
-   for (begin = message; *begin; begin++)
+   message_stream = camel_stream_buffer_new(CAMEL_DATA_WRAPPER (message)->output_stream, CAMEL_STREAM_BUFFER_READ);
+   while (1)
    {
       /* send 1 line at a time */
-      for (end = begin; *end && *end != '\n'; end++);
-      end--;
-      tmp = g_strndup(begin, (gint)(end - begin));
+      buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER(message_stream));
+      if (!buf)
+         break;
 
       /* check for a lone '.' */
-      if (!strcmp(tmp, "."))
-         chunk = g_strconcat(tmp, ".\r\n", NULL);
+      if (!strcmp(buf, "."))
+         chunk = g_strconcat(buf, ".\r\n", NULL);
       else
-         chunk = g_strconcat(tmp, "\r\n", NULL);
-      g_free(tmp);
+         chunk = g_strconcat(buf, "\r\n", NULL);
 
       /* write the line */
       if ( camel_stream_write (transport->ostream, chunk, strlen(chunk)) == -1)
