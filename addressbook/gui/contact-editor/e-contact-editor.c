@@ -1079,6 +1079,21 @@ extract_im (EContactEditor *editor)
 }
 
 static void
+init_address_textview (EContactEditor *editor, gint record)
+{
+	gchar         *textview_name;
+	GtkWidget     *textview;
+	GtkTextBuffer *text_buffer;
+
+	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	textview = glade_xml_get_widget (editor->gui, textview_name);
+	g_free (textview_name);
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+	g_signal_connect (text_buffer, "changed", G_CALLBACK (widget_changed), editor);
+}
+
+static void
 init_address_field (EContactEditor *editor, gint record, const gchar *widget_field_name)
 {
 	gchar     *entry_name;
@@ -1095,8 +1110,7 @@ init_address_field (EContactEditor *editor, gint record, const gchar *widget_fie
 static void
 init_address_record (EContactEditor *editor, gint record)
 {
-	init_address_field (editor, record, "address-1");
-	init_address_field (editor, record, "address-2");
+	init_address_textview (editor, record);
 	init_address_field (editor, record, "city");
 	init_address_field (editor, record, "state");
 	init_address_field (editor, record, "zip");
@@ -1110,6 +1124,25 @@ init_address (EContactEditor *editor)
 
 	for (i = 0; i < ADDRESS_SLOTS; i++)
 		init_address_record (editor, i);
+}
+
+static void
+fill_in_address_textview (EContactEditor *editor, gint record, EContactAddress *address)
+{
+	gchar         *textview_name;
+	GtkWidget     *textview;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter    iter;
+
+	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	textview = glade_xml_get_widget (editor->gui, textview_name);
+	g_free (textview_name);
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+	gtk_text_buffer_set_text (text_buffer, address->street ? address->street : "", -1);
+
+	gtk_text_buffer_get_end_iter (text_buffer, &iter);
+	gtk_text_buffer_insert (text_buffer, &iter, address->ext ? address->ext : "", -1);
 }
 
 static void
@@ -1135,8 +1168,7 @@ fill_in_address_record (EContactEditor *editor, gint record)
 	if (!address)
 		return;
 
-	fill_in_address_field (editor, record, "address-1", address->street);
-	fill_in_address_field (editor, record, "address-2", address->ext);
+	fill_in_address_textview (editor, record, address);
 	fill_in_address_field (editor, record, "city", address->locality);
 	fill_in_address_field (editor, record, "state", address->region);
 	fill_in_address_field (editor, record, "zip", address->code);
@@ -1152,6 +1184,45 @@ fill_in_address (EContactEditor *editor)
 
 	for (i = 0; i < ADDRESS_SLOTS; i++)
 		fill_in_address_record (editor, i);
+}
+
+static void
+extract_address_textview (EContactEditor *editor, gint record, EContactAddress *address)
+{
+	gchar         *textview_name;
+	GtkWidget     *textview;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter    iter_1, iter_2;
+
+	textview_name = g_strdup_printf ("textview-%s-address", address_name [record]);
+	textview = glade_xml_get_widget (editor->gui, textview_name);
+	g_free (textview_name);
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+	gtk_text_buffer_get_start_iter (text_buffer, &iter_1);
+
+	/* Skip blank lines */
+	while (gtk_text_iter_get_chars_in_line (&iter_1) < 1 &&
+	       !gtk_text_iter_is_end (&iter_1))
+		gtk_text_iter_forward_line (&iter_1);
+
+	if (gtk_text_iter_is_end (&iter_1))
+		return;
+
+	iter_2 = iter_1;
+	gtk_text_iter_forward_line (&iter_2);
+
+	/* Extract street (first line of text) */
+	address->street = gtk_text_iter_get_text (&iter_1, &iter_2);
+
+	iter_1 = iter_2;
+	if (gtk_text_iter_is_end (&iter_1))
+		return;
+
+	gtk_text_iter_forward_to_end (&iter_2);
+
+	/* Extract extended address (remaining lines of text) */
+	address->ext = gtk_text_iter_get_text (&iter_1, &iter_2);
 }
 
 static gchar *
@@ -1174,8 +1245,7 @@ extract_address_record (EContactEditor *editor, gint record)
 
 	address = g_new0 (EContactAddress, 1);
 
-	address->street   = extract_address_field (editor, record, "address-1");
-	address->ext      = extract_address_field (editor, record, "address-2");
+	extract_address_textview (editor, record, address);
 	address->locality = extract_address_field (editor, record, "city");
 	address->region   = extract_address_field (editor, record, "state");
 	address->code     = extract_address_field (editor, record, "zip");
