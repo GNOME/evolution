@@ -1,3 +1,7 @@
+2003-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Don't use == for comparing strings in shell.
+
 2003-04-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Bump version to 1.2.4.99.
