@@ -15,3 +15,5 @@ evolution-calendar-skels.c
 evolution-calendar-common.c
 evolution-calendar.h
 GnomeCal-stubs.c
+tlacuache
+tl-test

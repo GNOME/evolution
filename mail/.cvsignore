@@ -7,3 +7,4 @@ Mail-skels.c
 Mail-common.c
 Mail.h
 evolution-mail
+test-mail

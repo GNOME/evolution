@@ -1,3 +1,7 @@
+2000-02-19  Matt Loper  <matt@helixcode.com>
+
+	* .cvsignore: added test-mail.
+
 2000-02-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* folder-browser.c (folder_browser_load_folder): New routine,

@@ -1,3 +1,9 @@
 .deps
 Makefile
 Makefile.in
+.libs
+vcc.c
+vcc.lo
+vobject.lo
+vcaltmp.lo
+libversit.la

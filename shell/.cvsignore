@@ -7,3 +7,7 @@ Shell.h
 evolution
 Makefile.in
 Makefile
+Evolution-stubs.c
+Evolution-skels.c
+Evolution-common.c
+Evolution.h
