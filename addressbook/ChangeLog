@@ -1,3 +1,7 @@
+2002-11-15  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/addressbook-component.c: Use bonobo_main_quit
+	
 2002-11-14  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/gal-view-factory-minicard.c: clean this up a tad.

@@ -380,7 +380,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 static gboolean
 gtk_main_quit_cb (gpointer closure)
 {
-	gtk_main_quit ();
+	bonobo_main_quit ();
 	return TRUE;
 }
 
