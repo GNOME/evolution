@@ -5,7 +5,8 @@
  *
  * Copyright 2000, Helix Code, Inc.
  */
-  
+
+#include "config.h"  
 #include <gtk/gtksignal.h>
 #include <fcntl.h>
 #ifdef HAVE_DB_185_H
