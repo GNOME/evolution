@@ -37,7 +37,7 @@
 #include "filter-input.h"
 #include "e-util/e-sexp.h"
 
-#define d(x)
+#define d(x) 
 
 static gboolean validate (FilterElement *fe);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
@@ -276,9 +276,11 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 			if (str) {
 				decstr = e_utf8_xml1_decode (str);
 				xmlFree (str);
-				d(printf ("  '%s'\n", decstr));
-				fi->values = g_list_append (fi->values, decstr);
-			}
+			} else
+				decstr = g_strdup("");
+
+			d(printf ("  '%s'\n", decstr));
+			fi->values = g_list_append (fi->values, decstr);
 		} else {
 			g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
 		}

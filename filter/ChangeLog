@@ -1,3 +1,10 @@
+2002-01-15  Not Zed  <NotZed@Ximian.com>
+
+	* filter-input.c (xml_decode): If we write "" to an xml file, we
+	read back NULL.  So if we read back NULL, convert it to "".
+	Sigh.  This makes a fix for #7801, although new gui may also be
+	required.
+
 2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-source.c (filter_source_get_sources): Get the account
