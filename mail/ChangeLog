@@ -1,3 +1,9 @@
+2000-04-14  Chris Toshok  <toshok@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): use
+	gnome_app_fill_toolbar_with_data, so we get the beautiful gnome
+	toolbar.
+
 2000-04-14  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c (development_warning): Fix up the

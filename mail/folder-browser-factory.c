@@ -140,10 +140,32 @@ random_cb (GtkWidget *button, gpointer user_data)
 	printf ("Yow! I am called back!\n");
 }
 
+static GnomeUIInfo gnome_toolbar [] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("New mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
+	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send a new message"), random_cb, GNOME_STOCK_PIXMAP_MAIL_SND),
+	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find messages"), random_cb, GNOME_STOCK_PIXMAP_SEARCH),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Reply"), N_("Reply to the sender of this message"), random_cb, GNOME_STOCK_PIXMAP_SEARCH),
+	GNOMEUIINFO_ITEM_STOCK (N_("Reply to All"), N_("Reply to all recipients of this message"), random_cb, GNOME_STOCK_PIXMAP_MAIL_RPL),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Forward"), N_("Forward this message"), random_cb, GNOME_STOCK_PIXMAP_MAIL_FWD),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"), random_cb, GNOME_STOCK_PIXMAP_PRINT),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete this message"), random_cb, GNOME_STOCK_PIXMAP_TRASH),
+
+	GNOMEUIINFO_END
+};
+
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	Bonobo_UIHandler  remote_uih;
+	BonoboControl *toolbar_control;
 	GtkWidget *toolbar, *folder_browser;
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
@@ -154,48 +176,20 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, msg_composer_cb, NULL);
 
-	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
-				   GTK_TOOLBAR_BOTH);
 	folder_browser = bonobo_control_get_widget (control);
 
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "New mail",
-				 "Check for new mail", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_MAIL_RCV),
-				 fetch_mail, folder_browser);
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "Send",
-				 "Send a new message", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_MAIL_SND),
-				 random_cb, folder_browser);
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "Find",
-				 "Find messages", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_SEARCH),
-				 random_cb, folder_browser);
-	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "Reply",
-				 "Reply to the sender of this message", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_MAIL_RPL),
-				 random_cb, folder_browser);
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "Reply to All",
-				 "Reply to all recipients of this message", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_MAIL_RPL),
-				 random_cb, folder_browser);
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "Forward",
-				 "Forward this message", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_MAIL_FWD),
-				 random_cb, folder_browser);
-	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "Print",
-				 "Print the selected message", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_PRINT),
-				 random_cb, folder_browser);
-	gtk_toolbar_append_item (GTK_TOOLBAR (toolbar), "Delete",
-				 "Delete this message", NULL,
-				 gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_TRASH),
-				 random_cb, folder_browser);
+	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
+				   GTK_TOOLBAR_BOTH);
+
+	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
+					  gnome_toolbar,
+					  NULL, folder_browser);
+
 	gtk_widget_show_all (toolbar);
 
+	toolbar_control = bonobo_control_new (toolbar);
 	bonobo_ui_handler_dock_add (uih, "/Toolbar",
-				    bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_control_new (toolbar))),
+				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
 				    GNOME_DOCK_ITEM_BEH_LOCKED |
 				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE,
 				    GNOME_DOCK_TOP,
