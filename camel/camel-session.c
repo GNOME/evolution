@@ -79,6 +79,12 @@ camel_session_get_type (void)
 }
 
 
+CamelSession *
+camel_session_new ()
+{
+	return gtk_type_new (CAMEL_SESSION_TYPE);
+}
+
 /**
  * camel_session_set_provider: set the default provider for a protocol
  * @session: session object for wich the provider will the default

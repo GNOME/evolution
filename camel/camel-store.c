@@ -125,10 +125,9 @@ _init (CamelStore *store, CamelSession *session, const gchar *url_name)
 {
 	
 #warning re-enable assertion here.
-	/*  g_assert(session); */
+	g_assert(session);
 	g_assert(url_name);
 
-	if (store->session) gtk_object_unref (GTK_OBJECT (store->session));
 	store->session = session;
 	gtk_object_ref (GTK_OBJECT (session));
 	/*store->url_name = url_name;*/
@@ -141,7 +140,7 @@ _finalize (GtkObject *object)
 	CamelStore *camel_store = CAMEL_STORE (object);
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelStore::finalize\n");
 
-	if (camel_store->url_name) g_free (camel_store->url_name);
+	/*  if (camel_store->url_name) g_free (camel_store->url_name); */
 	if (camel_store->session) gtk_object_unref (GTK_OBJECT (camel_store->session));
 	
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);

@@ -118,6 +118,7 @@ camel_provider_register_as_module (const gchar *module_path)
 
 	new_provider = camel_provider_module_init();
 	new_provider->gmodule = new_module;
+	camel_provider_register (new_provider);
 
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelProvider::register_as_module\n");
 	return new_provider;
@@ -148,7 +149,7 @@ _provider_protocol_find (gconstpointer a, gconstpointer b)
  * 
  * Look into the list of registered provider if 
  * one correspond both to the protocol name 
- * and to the protocol type. When several providerss
+ * and to the protocol type. When several providers
  * exist for a same protocol, the last registered
  * is returned.
  * 
@@ -157,27 +158,27 @@ _provider_protocol_find (gconstpointer a, gconstpointer b)
 const CamelProvider *
 camel_provider_get_for_protocol (const gchar *protocol, ProviderType type)
 {
-	GList *found_provider_node;
-	CamelProvider *found_provider = NULL;
-	
+	CamelProvider *current_provider = NULL;
+	GList *current_provider_node;
+	gboolean protocol_is_found;
+	gboolean provider_is_found;
+
 	g_assert (protocol);
 	g_return_val_if_fail (_provider_list, NULL);
-	 
-	/* we've got a compilation warning here because of bad prototype of
-	   g_list_find_custom (), don't worry about that */
-	do {
-		found_provider_node = g_list_find_custom (_provider_list, (gconstpointer)protocol, _provider_name_cmp);
-		/* we will get the last registered provider 
-		   here because providers are registered 
-		   using g_list_prepend(). This is a bit
-		   dangerous however because we rely on 
-		   the way g_list_find_custom() is implemented.
-		   This should be changed one day */		
-		if (found_provider_node)
-			found_provider = (CamelProvider*)found_provider_node->data;
-		else found_provider = NULL;
-	}
-	while (found_provider && (found_provider->provider_type != type));
-	
-	return found_provider;
+
+	current_provider_node = _provider_list;
+	provider_is_found = FALSE;
+
+	while ((!provider_is_found) && current_provider_node) {
+		current_provider = (CamelProvider *)current_provider_node->data;
+		
+		protocol_is_found = (g_strcasecmp (protocol, current_provider->protocol) == 0);
+		if (protocol_is_found) 
+			provider_is_found = (current_provider->provider_type == type);
+		
+		g_list_next (current_provider_node);
+		}
+
+	if (provider_is_found) return current_provider;
+	else return NULL;
 }

@@ -1,5 +1,21 @@
 1999-08-12  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* tests/ui-tests/store_listing.c (show_folder_messages): 
+	remove stupid debug code.
+	(add_mail_store): use camel_session_get_store instead
+	of creating MH store directly.
+	(main): load MH provider.
+
+	* camel/camel-provider.c (camel_provider_register_as_module): 
+	register new provider.
+	(camel_provider_get_for_protocol): 
+	Now, implementation is correct.
+
+	* camel/camel-store.c (_finalize): 
+	* camel/camel-store.h (struct _CamelStore): 
+	further disabled url_name field use. 
+	URL will be generated dynamically.
+
 	* camel/camel-session.c (camel_session_get_store_for_protocol): 
 	compilation and runtime fixes.
 

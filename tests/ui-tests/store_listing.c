@@ -16,6 +16,8 @@
 #include "camel.h"
 
 static GladeXML *xml;
+static CamelSession *_session;
+
 
 static void add_mail_store (const gchar *store_url);
 static void show_folder_messages (CamelFolder *folder);
@@ -88,9 +90,7 @@ show_folder_messages (CamelFolder *folder)
 		current_row = gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
 		gtk_clist_set_row_data_full (GTK_CLIST (message_clist), current_row, (gpointer)message, message_destroy_notify);
 	}
-	for (i=0; i<10; i++)
-		gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
-	
+
 	
 	
 }
@@ -112,12 +112,10 @@ add_mail_store (const gchar *store_url)
 	CamelFolder *new_folder;
 
 
-	/* normally the store type is found automatically 
-	   with the URL, this is not implemented for 
-	   the moment */
-	store = gtk_type_new (CAMEL_MH_STORE_TYPE);
-	camel_store_init (store, (CamelSession *)NULL, g_strdup (store_url));
-	
+
+	store = camel_session_get_store (_session, store_url);
+	if (!store) return;
+
 	//store_list = g_list_append (store_list, (gpointer)store);
 	mailbox_and_store_tree = glade_xml_get_widget (xml, "store-and-mailbox-tree");
 	new_tree_text[0] = g_strdup (store_url);
@@ -216,7 +214,9 @@ main(int argc, char *argv[])
 	camel_init ();
 	xml = glade_xml_new ("store_listing.glade", NULL);
 	if (xml) glade_xml_signal_autoconnect (xml);
-	
+
+	_session = camel_session_new ();
+	camel_provider_register_as_module ("../../camel/providers/MH/.libs/libcamelmh.so");
 	
 	gtk_main ();
 	

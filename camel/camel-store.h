@@ -50,7 +50,7 @@ struct _CamelStore
 	CamelService parent_object;	
 	
 	CamelSession *session;
-	gchar *url_name;
+	/*  gchar *url_name; */
 	gchar separator;
 };
 
