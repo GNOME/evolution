@@ -848,7 +848,7 @@ insert_folders (EStorageSetView *storage_set_view,
 
 		folder_changed_callback_data = g_new (FolderChangedCallbackData, 1);
 		folder_changed_callback_data->storage_set_view = storage_set_view;
-		folder_changed_callback_data->path = g_strdup (folder_path);
+		folder_changed_callback_data->path = g_strdup (full_path);
 
 		e_gtk_signal_connect_full_while_alive (GTK_OBJECT (folder), "changed",
 						       GTK_SIGNAL_FUNC (folder_changed_cb),

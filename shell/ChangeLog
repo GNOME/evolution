@@ -1,3 +1,8 @@
+2000-11-06  Dan Winship  <danw@helixcode.com>
+
+	* e-storage-set-view.c (insert_folders): Pass full_name, not
+	folder_name to callback.
+
 2000-11-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-shell-view.c (impl_ShellView_change_current_view):
