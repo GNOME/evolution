@@ -57,6 +57,15 @@ tokenise(const char *name)
 	return -1;
 }
 
+static int
+tokenise_xmlfreeprop(const char *name)
+{
+	int ret = -1;
+	ret = tokenise(name);
+	free(name);
+	return ret;
+}
+
 static char *
 detokenise(int token)
 {
@@ -94,8 +103,11 @@ find_node_attr(xmlNodePtr start, char *name, char *attrname, char *attrvalue)
 	while (	start && (start = find_node(start, name)) ) {
 		s = xmlGetProp(start, attrname);
 		d(printf("   comparing '%s' to '%s'\n", s, attrvalue));
-		if (s && !strcmp(s, attrvalue))
+		if (s && !strcmp(s, attrvalue)) {
+			free(s);
 			break;
+		}
+		free(s);
 		start = start->next;
 	}
 	return start;
@@ -126,7 +138,7 @@ load_desc(xmlNodePtr node, int type, int vartype, char *varname)
 			newvarname = NULL;
 		} else {
 			newtype = tokenise(node->name);
-			newvartype = tokenise(xmlGetProp(node, "type"));
+			newvartype = tokenise_xmlfreeprop(xmlGetProp(node, "type"));
 			newvarname = xmlGetProp(node, "name");
 		}
 		n = node->childs;
@@ -135,6 +147,8 @@ load_desc(xmlNodePtr node, int type, int vartype, char *varname)
 			list = g_list_concat(list, load_desc(n, newtype, newvartype, newvarname));
 			n = n->next;
 		}
+		if (newvarname)
+			free(newvarname);
 		node = node->next;
 	}
 	return list;
@@ -157,7 +171,7 @@ filter_load_ruleset(xmlDocPtr doc)
 
 		rule = ruleset->childs;
 		
-		ruletype = tokenise(xmlGetProp(ruleset, "type"));
+		ruletype = tokenise_xmlfreeprop(xmlGetProp(ruleset, "type"));
 
 		d(printf("ruleset, name = %s\n", ruleset->name));
 
@@ -298,12 +312,15 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 		op = g_malloc0(sizeof(*op));
 		d(printf("option = %s\n", o->name));
 		d(printf("option, type=%s\n", xmlGetProp(option, "type")));
-		op->type = tokenise(xmlGetProp(option, "type"));
+		op->type = tokenise_xmlfreeprop(xmlGetProp(option, "type"));
 		while (o) {
+			char *rulestr;
+
 			type = tokenise(o->name);
 			switch (type) {
 			case FILTER_XML_OPTIONRULE:
-				lrule = g_list_find_custom(rules, xmlGetProp(o, "rule"), (GCompareFunc) filter_find_rule);
+				rulestr = xmlGetProp(o, "rule");
+				lrule = g_list_find_custom(rules, rulestr, (GCompareFunc) filter_find_rule);
 				if (lrule) {
 					fr = lrule->data;
 					d(printf("found rule : %s\n", fr->name));
@@ -329,8 +346,9 @@ filter_load_optionset(xmlDocPtr doc, GList *rules)
 					}
 				} else {
 					/* FIXME: memleak */
-					printf("Cannot find rule: %s\n", xmlGetProp(o, "rule"));
+					printf("Cannot find rule: %s\n", rulestr);
 				}
+				free(rulestr);
 				break;
 			case FILTER_XML_DESC:
 				d(printf("loading option descriptiong\n"));

@@ -299,8 +299,20 @@ start(void)
 	x->ex = camel_exception_new ();
 	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so.0");
 	x->session = camel_session_new (auth_callback);
+	printf("session = %p\n", x->session);
 	x->store = camel_session_get_store (x->session, store_url, x->ex);
+	printf("store = %p\n", x->store);
+	if (camel_exception_get_id (x->ex)) {
+		printf ("Exception caught in camel_store_get_folder\n"
+			"Full description : %s\n", camel_exception_get_description (x->ex));
+		return NULL;
+	}
 	x->folder = camel_store_get_folder (x->store, "Inbox", x->ex);
+	if (camel_exception_get_id (x->ex)) {
+		printf ("Exception caught in camel_store_get_folder\n"
+			"Full description : %s\n", camel_exception_get_description (x->ex));
+		return NULL;
+	}
 	camel_folder_open (x->folder, FOLDER_OPEN_READ, x->ex);
 	x->terminated = g_hash_table_new(g_str_hash, g_str_equal);
 	x->processed = g_hash_table_new(g_str_hash, g_str_equal);

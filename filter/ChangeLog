@@ -1,3 +1,16 @@
+2000-03-27  NotZed  <NotZed@HelixCode.com>
+
+	* filter-xml.c (tokenise_xmlfreeprop): Free a prop after
+	tokenising it.
+	(find_node_attr): Free the prop after using it.
+	(load_desc): Ditto.   I use free() because xmlFree() is nowhere to
+	be found.
+	(filter_load_optionset): Ditto.
+
+	* filter-arg-types.c (arg_address_values_add_xml): free() xml
+	stuff, plugs a leak.
+	(arg_folder_values_add_xml): Ditto.
+
 2000-03-22  NotZed  <NotZed@HelixCode.com>
 
 	* filter-driver.c (main): Changed to use async search api.

@@ -398,7 +398,12 @@ arg_address_values_add_xml(FilterArg *arg, xmlNodePtr node)
 	n = node->childs;
 	while (n) {
 		if (!strcmp(n->name, "address")) {
-			filter_arg_address_add(arg, xmlGetProp(n, "name"), xmlGetProp(n, "email"));
+			char *nm, *e;
+			nm = xmlGetProp(n, "name");
+			e = xmlGetProp(n, "email");
+			filter_arg_address_add(arg, nm, e);
+			free(nm);
+			free(e);
 		} else {
 			g_warning("Loading address from xml, wrong node encountered: %s\n", n->name);
 		}
@@ -666,9 +671,10 @@ arg_folder_values_add_xml(FilterArg *arg, xmlNodePtr node)
 	while (n) {
 		if (!strcmp(n->name, "folder")) {
 			char *name = xmlGetProp(n, "name");
-			if (name)
+			if (name) {
 				filter_arg_folder_add(arg, name);
-			else
+				free(name);
+			} else
 				g_warning("no xml prop 'name' on '%s'\n", n->name);
 		} else {
 			g_warning("Loading folders from xml, wrong node encountered: %s\n", n->name);
