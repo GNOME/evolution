@@ -76,6 +76,9 @@ struct _EPaned
   gint min_position;
   gint max_position;
 
+  gint old_child1_size;
+  gint quantum;
+
   guint position_set : 1;
   guint in_drag : 1;
   guint child1_shrink : 1;
@@ -122,6 +125,8 @@ void    e_paned_compute_position (EPaned   *paned,
 				  gint      child2_req);
 
 gboolean e_paned_handle_shown    (EPaned   *paned);
+gint     e_paned_quantized_size  (EPaned   *paned,
+				  int       size);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

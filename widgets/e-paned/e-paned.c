@@ -36,7 +36,8 @@
 
 enum {
   ARG_0,
-  ARG_HANDLE_SIZE
+  ARG_HANDLE_SIZE,
+  ARG_QUANTUM,
 };
 
 static void    e_paned_class_init (EPanedClass  *klass);
@@ -122,6 +123,8 @@ e_paned_class_init (EPanedClass *klass)
 
   gtk_object_add_arg_type("EPaned::handle_size", GTK_TYPE_UINT,
 			  GTK_ARG_READWRITE, ARG_HANDLE_SIZE);
+  gtk_object_add_arg_type("EPaned::quantum", GTK_TYPE_UINT,
+			  GTK_ARG_READWRITE, ARG_QUANTUM);
 }
 
 static GtkType
@@ -153,6 +156,9 @@ e_paned_init (EPaned *paned)
   
   paned->handle_xpos = -1;
   paned->handle_ypos = -1;
+  
+  paned->old_child1_size = 0;
+  paned->quantum = 1;
 }
 
 static void
@@ -166,6 +172,11 @@ e_paned_set_arg (GtkObject *object,
     {
     case ARG_HANDLE_SIZE:
       e_paned_set_handle_size (paned, GTK_VALUE_UINT (*arg));
+      break;
+    case ARG_QUANTUM:
+      paned->quantum = GTK_VALUE_UINT (*arg);
+      if (paned->quantum == 0)
+	paned->quantum = 1;
       break;
     default:
       break;
@@ -183,6 +194,9 @@ e_paned_get_arg (GtkObject *object,
     {
     case ARG_HANDLE_SIZE:
       GTK_VALUE_UINT (*arg) = paned->handle_size;
+      break;
+    case ARG_QUANTUM:
+      GTK_VALUE_UINT (*arg) = paned->quantum;
       break;
     default:
       arg->type = GTK_TYPE_INVALID;
@@ -547,9 +561,9 @@ e_paned_set_handle_size (EPaned *paned,
 
 void
 e_paned_compute_position(EPaned *paned,
-			   gint      allocation,
-			   gint      child1_req,
-			   gint      child2_req)
+			 gint      allocation,
+			 gint      child1_req,
+			 gint      child2_req)
 {
   g_return_if_fail (paned != NULL);
   g_return_if_fail (E_IS_PANED (paned));
@@ -603,4 +617,18 @@ e_paned_handle_shown(EPaned *paned)
     return (*klass->handle_shown)(paned);
   else
     return TRUE;
+}
+
+gint
+e_paned_quantized_size(EPaned *paned,
+		       gint    size)
+{
+  gint quantization = size - paned->old_child1_size;
+  if (quantization > 0)
+    quantization += paned->quantum / 2;
+  else
+    quantization -= paned->quantum / 2;
+  quantization /= paned->quantum;
+  quantization *= paned->quantum;
+  return paned->old_child1_size + quantization;
 }

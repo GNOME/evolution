@@ -352,6 +352,7 @@ e_vpaned_button_press (GtkWidget      *widget,
   if (!paned->in_drag &&
       (event->window == paned->handle) && (event->button == 1))
     {
+      paned->old_child1_size = paned->child1_size;
       paned->in_drag = TRUE;
       /* We need a server grab here, not gtk_grab_add(), since
        * we don't want to pass events on to the widget's children */
@@ -360,7 +361,7 @@ e_vpaned_button_press (GtkWidget      *widget,
 			| GDK_BUTTON1_MOTION_MASK
 			| GDK_BUTTON_RELEASE_MASK, NULL, NULL,
 			event->time);
-      paned->child1_size += event->y - paned->handle_size / 2;
+      paned->child1_size = e_paned_quantized_size(paned, paned->child1_size + event->y - paned->handle_size / 2);
       paned->child1_size = CLAMP (paned->child1_size, 0,
 				  widget->allocation.height -
 				  paned->handle_size -
@@ -418,9 +419,9 @@ e_vpaned_motion (GtkWidget      *widget,
   if (paned->in_drag)
     {
       gint size = y - GTK_CONTAINER(paned)->border_width - paned->handle_size / 2;
-
+      
       e_vpaned_xor_line (paned);
-      paned->child1_size = CLAMP (size, paned->min_position, paned->max_position);
+      paned->child1_size = CLAMP (e_paned_quantized_size(paned, size), paned->min_position, paned->max_position);
       e_vpaned_xor_line(paned);
     }
 
