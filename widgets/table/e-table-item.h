@@ -62,6 +62,8 @@ typedef struct {
 
 	guint            uses_source_model : 1;
 
+	guint            in_key_press : 1;
+
 	/*
 	 * Realized views, per column
 	 */

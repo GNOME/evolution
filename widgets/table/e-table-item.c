@@ -58,6 +58,10 @@ enum {
 	ARG_HEIGHT,
 };
 
+#define DOUBLE_CLICK_TIME      250
+#define TRIPLE_CLICK_TIME      500
+
+
 static int eti_get_height (ETableItem *eti);
 static int eti_get_minimum_width (ETableItem *eti);
 static int eti_row_height (ETableItem *eti, int row);
@@ -1063,6 +1067,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->needs_redraw              = 0;
 	eti->needs_compute_height      = 0;
 
+	eti->in_key_press              = 0;
+
 	eti->tooltip                   = g_new0 (ETableTooltip, 1);
 	eti->tooltip->timer            = 0;
 	eti->tooltip->window           = NULL;
@@ -1663,6 +1669,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, 
 							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 			}
+			g_print("Single click\n");
 
 			break;
 		case 3:
@@ -1724,6 +1731,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->button.time,
 							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
 			}
+			g_print ("Release\n");
 			break;
 		case 3:
 		case 4:
@@ -1736,7 +1744,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	}
 
 	case GDK_2BUTTON_PRESS: {
-		double x1, y1;
 		int col, row;
 		GdkEventButton button;
 
@@ -1746,15 +1753,24 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
+#if 0
 		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 			return TRUE;
+#endif
+		gtk_object_get(GTK_OBJECT(eti->selection),
+			       "cursor_row", &row,
+			       "cursor_col", &col,
+			       NULL);
 
+#if 0
 		button = *(GdkEventButton *)e;
 		button.x = x1;
 		button.y = y1;
+#endif
 
 		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
 				 row, view_to_model_col (eti, col), &button);
+		g_print("Double click\n");
 		break;
 	}
 	case GDK_MOTION_NOTIFY: {
@@ -1805,6 +1821,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_KEY_PRESS: {
 		gint cursor_row, cursor_col;
 		gint handled = TRUE;
+
 		gtk_object_get(GTK_OBJECT(eti->selection),
 			       "cursor_row", &cursor_row,
 			       "cursor_col", &cursor_col,
@@ -1817,6 +1834,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		if (cursor_col == -1)
 			return FALSE;
+
+		eti->in_key_press = TRUE;
 
 		switch (e->key.keyval){
 		case GDK_Left:
@@ -1956,6 +1975,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					e_table_selection_model_key_press(eti->selection, (GdkEventKey *) e);
 			}
 		}
+		eti->in_key_press = FALSE;
 		break;
 	}
 	
@@ -2181,18 +2201,46 @@ e_table_item_get_focused_column (ETableItem *eti)
 	return cursor_col;
 }
 
+typedef struct {
+	gint view_row;
+	gint view_col;
+	ETableItem *eti;
+} IntsAndEti;
+
+static gboolean
+region_timeout (gpointer data)
+{
+	IntsAndEti *iae = data;
+
+	eti_request_region_show (iae->eti, iae->view_col, iae->view_row, iae->view_col, iae->view_row);
+	gtk_object_unref(GTK_OBJECT(iae->eti));
+	g_free(iae);
+	return FALSE;
+}
+
 static void
 eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem *eti)
 {
 	int view_row = model_to_view_row(eti, row);
 	int view_col = model_to_view_col(eti, col);
+	IntsAndEti *iae;
 
 	if (view_row == -1 || view_col == -1) {
 		e_table_item_leave_edit (eti);
 		return;
 	}
 
-	eti_request_region_show (eti, view_col, view_row, view_col, view_row);
+	if (!eti->in_key_press) {
+	iae = g_new(IntsAndEti, 1);
+	iae->view_row = view_row;
+	iae->view_col = view_col;
+	iae->eti = eti;
+	gtk_object_ref(GTK_OBJECT(eti));
+	g_timeout_add(DOUBLE_CLICK_TIME + 10, region_timeout, iae);
+	} else {
+		eti_request_region_show (eti, view_col, view_row, view_col, view_row);
+	}
+
 	e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 	if (eti_editing(eti))
 		e_table_item_leave_edit (eti);
