@@ -53,7 +53,7 @@ init_corba (int *argc, char **argv)
 	CORBA_exception_init (&ev);
 
 	gnome_CORBA_init_with_popt_table ("Evolution", VERSION, argc, argv,
-					  shell_popt_options, 0, &ctx,
+					  NULL, 0, NULL,
 					  GNORBA_INIT_SERVER_FUNC, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)

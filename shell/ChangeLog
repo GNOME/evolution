@@ -1,5 +1,10 @@
 2000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* main.c (init_corba) [! USING_OAF]: We have no options no
+	popt context.
+
+2000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* All files: Reorganized and redone a lot of the shell.  New
 	features: internal URI namespace, extensible storage/folder
 	mechanism, configurable shortcuts.
