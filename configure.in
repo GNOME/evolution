@@ -1546,6 +1546,7 @@ composer/Makefile
 mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
+mail/default/de/Makefile
 mail/default/zh_CN/Makefile
 mail/default/ja/Makefile
 mail/default/nl/Makefile

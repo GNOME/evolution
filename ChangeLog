@@ -1,3 +1,7 @@
+2005-02-27  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: add mail/default/de to ac_output to fix the build
+
 2005-02-23  Björn Torkelsson <torkel@acc.umu.se>
 
 	* Makefile.am (DISTCLEANFILES): remove *.pc and intltool-*
