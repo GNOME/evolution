@@ -809,7 +809,7 @@ static EMPopupItem emp_standard_object_popups[] = {
 	{ EM_POPUP_BAR, "10.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
 	{ EM_POPUP_ITEM, "10.part.00", N_("_Reply to sender"), G_CALLBACK(emp_part_popup_reply_sender), NULL, "stock_mail-reply" , EM_POPUP_PART_MESSAGE },
 	{ EM_POPUP_ITEM, "10.part.01", N_("Reply to _List"), G_CALLBACK(emp_part_popup_reply_list), NULL, NULL, EM_POPUP_PART_MESSAGE},
-	{ EM_POPUP_ITEM, "10.part.03", N_("Reply to _All"), G_CALLBACK(emp_part_popup_reply_all), NULL, "stock_mail-reply_to_all", EM_POPUP_PART_MESSAGE},
+	{ EM_POPUP_ITEM, "10.part.03", N_("Reply to _All"), G_CALLBACK(emp_part_popup_reply_all), NULL, "stock_mail-reply-to-all", EM_POPUP_PART_MESSAGE},
 	{ EM_POPUP_BAR, "20.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
 	{ EM_POPUP_ITEM, "20.part.00", N_("_Forward"), G_CALLBACK(emp_part_popup_forward), NULL, "stock_mail-forward", EM_POPUP_PART_MESSAGE },
 

@@ -1,3 +1,9 @@
+2004-09-12  JP Rosevear  <jpr@novell.com>
+
+	Fixes #65703
+	
+	* em-popup.c: use proper stock icon name
+
 2004-09-08  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #60515.
