@@ -233,7 +233,15 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			camel_object_unhook_event (CAMEL_OBJECT (folder), "folder_changed", 
 						   input->hook_func, input->hook_data);
 		
-		camel_folder_free_uids (folder, uids);
+		/* save the cache for the next time we fetch mail! */
+		if (cache) {
+			camel_uid_cache_free_uids (uids);
+			
+			if (!camel_exception_is_set (ex))
+				camel_uid_cache_save (cache);
+			camel_uid_cache_destroy (cache);
+		} else
+			camel_folder_free_uids (folder, uids);
 		
 		data->empty = FALSE;
 	}
