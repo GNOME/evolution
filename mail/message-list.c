@@ -1812,10 +1812,10 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelFolder *folder = (CamelFolder *)o;
 	int i;
 	
-	printf("folder changed event, changes = %p\n", changes);
+	d(printf("folder changed event, changes = %p\n", changes));
 	if (changes) {
-		printf("changed = %d added = %d removed = %d\n",
-		       changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len);
+		d(printf("changed = %d added = %d removed = %d\n",
+			 changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len));
 		
 		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
 		if (ml->hidedeleted) {
@@ -2128,6 +2128,21 @@ message_list_length (MessageList *ml)
 {
 	return ml->hide_unhidden;
 }
+
+/* returns number of hidden messages */
+unsigned int
+message_list_hidden(MessageList *ml)
+{
+	unsigned int hidden = 0;
+
+	MESSAGE_LIST_LOCK (ml, hide_lock);
+	if (ml->hidden)
+		hidden = g_hash_table_size (ml->hidden);
+	MESSAGE_LIST_UNLOCK (ml, hide_lock);
+
+	return hidden;
+}
+
 
 /* add a new expression to hide, or set the range.
    @expr: A new search expression - all matching messages will be hidden.  May be %NULL.

@@ -186,8 +186,6 @@ recursive_add_folder (EvolutionStorage *storage, const char *path, const char *n
 	}
 
 	evolution_storage_new_folder (storage, path, name, "mail", url, name, FALSE);
-	mail_folder_cache_set_update_estorage (url, storage);
-	mail_folder_cache_note_name (url, name);
 }
 
 /* ** Get one level of folderinfo ****************************************** */

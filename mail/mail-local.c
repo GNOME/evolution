@@ -69,7 +69,12 @@ static GNOME_Evolution_Storage local_corba_storage = CORBA_OBJECT_NIL;
 #define MAIL_IS_LOCAL_STORE(o)    (CAMEL_CHECK_TYPE((o), MAIL_LOCAL_STORE_TYPE))
 
 typedef struct {
-	CamelStore parent_object;	
+	CamelStore parent_object;
+
+	/* stores CamelFolderInfo's of the folders we're supposed to know about, by uri */
+	GHashTable *folder_infos;
+	GMutex *folder_info_lock;
+
 } MailLocalStore;
 
 typedef struct {
@@ -78,12 +83,17 @@ typedef struct {
 
 static CamelType mail_local_store_get_type (void);
 
+static MailLocalStore *global_local_store;
+
 /* ** MailLocalFolder ** (protos) ************************************************* */
 
 #define MAIL_LOCAL_FOLDER_TYPE     (mail_local_folder_get_type ())
 #define MAIL_LOCAL_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), MAIL_LOCAL_FOLDER_TYPE, MailLocalFolder))
 #define MAIL_LOCAL_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_LOCAL_FOLDER_TYPE, MailLocalFolderClass))
 #define MAIL_IS_LOCAL_FOLDER(o)    (CAMEL_CHECK_TYPE((o), MAIL_LOCAL_FOLDER_TYPE))
+
+#define LOCAL_STORE_LOCK(folder)   (g_mutex_lock   (((MailLocalStore *)folder)->folder_info_lock))
+#define LOCAL_STORE_UNLOCK(folder) (g_mutex_unlock (((MailLocalStore *)folder)->folder_info_lock))
 
 struct _local_meta {
 	char *path;		/* path of metainfo */
@@ -639,7 +649,8 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 {
 	MailLocalStore *local_store = MAIL_LOCAL_STORE (store);
 	MailLocalFolder *folder;
-	char *physical_uri, *name;
+	char *physical_uri;
+	CamelFolderInfo *info;
 
 	d(printf("--LOCAL-- get_folder: %s", folder_name));
 
@@ -663,13 +674,20 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 		}
 	}
 
-	/* FIXME: why is this here? */
-	physical_uri = g_strdup_printf("file://%s/%s", ((CamelService *)store)->url->path, folder_name);
-	mail_folder_cache_note_folder(physical_uri, CAMEL_FOLDER (folder));
-	name = strrchr(folder_name, '/');
-	if (name) /* should always be true... */ {
-		if (local_corba_storage != CORBA_OBJECT_NIL)
-			mail_folder_cache_set_update_lstorage(physical_uri, local_corba_storage, name);
+	physical_uri = g_strdup_printf("file:/%s/%s", ((CamelService *)store)->url->path, folder_name);
+	LOCAL_STORE_LOCK(local_store);
+	info = g_hash_table_lookup(local_store->folder_infos, physical_uri);
+	if (info) {
+		char *path = g_strdup(info->full_name);
+
+		d(printf("noting folder: '%s' path = '%s'\n", info->url, info->full_name));
+		
+		LOCAL_STORE_UNLOCK(local_store);
+		mail_note_folder((CamelFolder *)folder, path);
+		g_free(path);
+	} else {
+		LOCAL_STORE_UNLOCK(local_store);
+		g_warning("LocalStore opening a folder we weren't told existed!: %s", physical_uri);
 	}
 	g_free(physical_uri);
 
@@ -729,6 +747,32 @@ mls_get_name (CamelService *service, gboolean brief)
 }
 
 static void
+mls_init (MailLocalStore *mls, MailLocalStoreClass *mlsclass)
+{
+	mls->folder_infos = g_hash_table_new(g_str_hash, g_str_equal);
+	mls->folder_info_lock = g_mutex_new();
+}
+
+static void
+free_info(void *key, void *value, void *data)
+{
+	CamelFolderInfo *info = value;
+
+	g_free(info->url);
+	g_free(info->name);
+	g_free(info->full_name);
+	free(info);
+}
+
+static void
+mls_finalise(MailLocalStore *mls)
+{
+	g_hash_table_foreach(mls->folder_infos, (GHFunc)free_info, NULL);
+	g_hash_table_destroy(mls->folder_infos);
+	g_mutex_free(mls->folder_info_lock);
+}
+
+static void
 mls_class_init (CamelObjectClass *camel_object_class)
 {
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS(camel_object_class);
@@ -754,11 +798,65 @@ mail_local_store_get_type (void)
 			sizeof (MailLocalStoreClass),
 			(CamelObjectClassInitFunc) mls_class_init,
 			NULL,
-			NULL,
-			NULL);
+			(CamelObjectInitFunc) mls_init,
+			(CamelObjectFinalizeFunc) mls_finalise);
 	}
 
 	return mail_local_store_type;
+}
+
+static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, const char *path, const char *name)
+{
+	CamelFolderInfo *info;
+
+	LOCAL_STORE_LOCK(mls);
+
+	if (g_hash_table_lookup(mls->folder_infos, uri)) {
+		g_warning("Shell trying to add a folder I already have!");
+	} else {
+		info = g_malloc0(sizeof(*info));
+		info->url = g_strdup(uri);
+		info->full_name = g_strdup(path);
+		info->name = g_strdup(name);
+		info->unread_message_count = -1;
+		g_hash_table_insert(mls->folder_infos, info->url, info);
+	}
+
+	LOCAL_STORE_UNLOCK(mls);
+
+	d(printf("adding folder: '%s' path = '%s'\n", info->url, path));
+
+	camel_object_trigger_event((CamelObject *)mls, "folder_created", info);
+}
+
+struct _search_info {
+	const char *path;
+	CamelFolderInfo *info;
+};
+
+static void
+remove_find_path(char *uri, CamelFolderInfo *info, struct _search_info *data)
+{
+	if (!strcmp(info->full_name, data->path))
+		data->info = info;
+}
+
+static void mail_local_store_remove_folder(MailLocalStore *mls, const char *path)
+{
+	struct _search_info data = { path, NULL };
+
+	/* we're keyed on uri, not path, so have to search for it manually */
+
+	LOCAL_STORE_LOCK(mls);
+	g_hash_table_foreach(mls->folder_infos, (GHFunc)remove_find_path, &data);
+	if (data.info) {
+		g_hash_table_remove(mls->folder_infos, data.info->url);
+		g_free(data.info->url);
+		g_free(data.info->full_name);
+		g_free(data.info->name);
+		g_free(data.info);
+	}
+	LOCAL_STORE_UNLOCK(mls);
 }
 
 /* ** Local Provider ************************************************************** */
@@ -815,24 +913,32 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	if (strcmp (folder->type, "mail") != 0)
 		return;
 
-	mail_folder_cache_set_update_lstorage (folder->physicalUri,
-					       data,
-					       path);
-	mail_folder_cache_note_name (folder->physicalUri, folder->displayName);
+	if (path[0] == '/')
+		path++;
+
+	d(printf("Local folder new:\n"));
+	d(printf(" path = '%s'\n uri = '%s'\n display = '%s'\n",
+		 path, folder->physicalUri, folder->displayName));
+
+	mail_local_store_add_folder(global_local_store, folder->physicalUri, path, folder->displayName);
+
+	/* are we supposed to say anything about it? */
 }
 
-#if 0
+
 static void
 local_storage_removed_folder_cb (EvolutionStorageListener *storage_listener,
 				 const char *path,
 				 void *data)
 {
-	if (strcmp (folder->type, "mail") != 0)
-		return;
+	if (path[0] == '/')
+		path++;
 
-	/* anything to do? */
+	d(printf("Local folder remove:\n"));
+	d(printf(" path = '%s'\n", path));
+
+	mail_local_store_remove_folder(global_local_store, path);
 }
-#endif
 
 static void
 storage_listener_startup (EvolutionShellClient *shellclient)
@@ -842,14 +948,17 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 	GNOME_Evolution_Storage corba_storage;
 	CORBA_Environment ev;
 
-	printf("---- CALLING STORAGE LISTENER STARTUP ---\n");
+	d(printf("---- CALLING STORAGE LISTENER STARTUP ---\n"));
 
 	local_corba_storage = corba_storage = evolution_shell_client_get_local_storage (shellclient);
 	if (corba_storage == CORBA_OBJECT_NIL) {
 		g_warning ("No local storage available from shell client!");
 		return;
 	}
-	
+
+	/* setup to record this store's changes */
+	mail_note_local_store((CamelStore *)global_local_store, local_corba_storage);
+
 	local_storage_listener = evolution_storage_listener_new ();
 	corba_local_storage_listener = evolution_storage_listener_corba_objref (
 		local_storage_listener);
@@ -862,11 +971,10 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 			    "new_folder",
 			    GTK_SIGNAL_FUNC (local_storage_new_folder_cb),
 			    corba_storage);
-	/*gtk_signal_connect (GTK_OBJECT (local_storage_listener),
-	 *		    "removed_folder",
-	 *		    GTK_SIGNAL_FUNC (local_storage_removed_folder_cb),
-	 *		    corba_storage);
-	 */
+	gtk_signal_connect (GTK_OBJECT (local_storage_listener),
+			    "removed_folder",
+	 		    GTK_SIGNAL_FUNC (local_storage_removed_folder_cb),
+			    corba_storage);
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_addListener (corba_storage,
@@ -880,8 +988,6 @@ storage_listener_startup (EvolutionShellClient *shellclient)
 }
 
 /* ** The rest ******************************************************************** */
-
-static MailLocalStore *global_local_store;
 
 void
 mail_local_storage_startup (EvolutionShellClient *shellclient, const char *evolution_path)

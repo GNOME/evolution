@@ -323,12 +323,6 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	
 	g_return_val_if_fail (uri != NULL, NULL);
 	
-	folder = mail_folder_cache_try_folder (uri);
-	if (folder) {
-		camel_object_ref (CAMEL_OBJECT (folder));
-		return folder;
-	}
-	
 	/* This hack is still needed for file:/ since it's its own EvolutionStorage type */
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
@@ -353,8 +347,6 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 				name = "";
 		}
 		
-		printf("opening folder '%s' on store (%p) '%s'\n", name, store, uri);
-		
 		if (offset)
 			folder = camel_store_get_trash (store, ex);
 		else
@@ -368,8 +360,12 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 			camel_object_unref (CAMEL_OBJECT (folder));
 			folder = NULL;
 		}
-	} else
-		mail_folder_cache_note_folder (uri, folder);
+	} else {
+		/* we dont want to note file url's, they need to be noted elsewhere (sigh) */
+		if (strncmp(uri, "file:", 5) != 0)
+			mail_note_folder(folder, NULL);
+		/*mail_folder_cache_note_folder (uri, folder);*/
+	}
 	
 	camel_url_free (url);
 	

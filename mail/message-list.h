@@ -122,6 +122,7 @@ void           message_list_select_uid (MessageList *message_list,
 
 /* info */
 unsigned int   message_list_length(MessageList *ml);
+unsigned int   message_list_hidden(MessageList *ml);
 
 /* hide specific messages */
 void	       message_list_hide_add(MessageList *ml, const char *expr, unsigned int lower, unsigned int upper);

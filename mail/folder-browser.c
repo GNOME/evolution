@@ -61,6 +61,9 @@
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
+static void folder_changed(CamelObject *o, void *event_data, void *data);
+static void main_folder_changed(CamelObject *o, void *event_data, void *data);
+
 #define X_EVOLUTION_MESSAGE_TYPE "x-evolution-message"
 #define MESSAGE_RFC822_TYPE      "message/rfc822"
 #define TEXT_URI_LIST_TYPE       "text/uri-list"
@@ -124,12 +127,19 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->shell != CORBA_OBJECT_NIL)
 		CORBA_Object_release (folder_browser->shell, &ev);
 
+	if (folder_browser->shell_view != CORBA_OBJECT_NIL)
+		CORBA_Object_release(folder_browser->shell_view, &ev);
+
 	if (folder_browser->uicomp)
 		bonobo_object_unref (BONOBO_OBJECT (folder_browser->uicomp));
 	
 	g_free (folder_browser->uri);
 	
 	if (folder_browser->folder) {
+		camel_object_unhook_event(CAMEL_OBJECT(folder_browser->folder), "folder_changed",
+					  folder_changed, folder_browser);
+		camel_object_unhook_event(CAMEL_OBJECT(folder_browser->folder), "message_changed",
+					  folder_changed, folder_browser);
 		mail_sync_folder (folder_browser->folder, NULL, NULL);
 		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
 	}
@@ -680,6 +690,58 @@ folder_browser_paste (GtkWidget *menuitem, FolderBrowser *fb)
 			       GDK_CURRENT_TIME);
 }
 
+/* all this crap so we can give the user a whoopee doo status bar */
+static void
+update_status_bar(FolderBrowser *fb)
+{
+	CORBA_Environment ev;
+	int tmp;
+	GString *work;
+	extern CamelFolder *outbox_folder;
+
+	if (fb->folder == NULL
+	    || fb->message_list == NULL
+	    || fb->shell_view == CORBA_OBJECT_NIL)
+		return;
+
+	work = g_string_new("");
+	g_string_sprintfa(work, _("%d new"), camel_folder_get_unread_message_count(fb->folder));
+	tmp = message_list_hidden(fb->message_list);
+	if (tmp) {
+		g_string_append(work, _(", "));
+		g_string_sprintfa(work, _("%d hidden"), tmp);
+	}
+	tmp = e_selection_model_selected_count(e_tree_get_selection_model(fb->message_list->tree));
+	if (tmp) {
+		g_string_append(work, _(", "));
+		g_string_sprintfa(work, _("%d selected"), tmp);
+	}
+	tmp = camel_folder_get_message_count(fb->folder);
+	g_string_append(work, _(", "));
+	if (fb->folder == outbox_folder)
+		g_string_sprintfa(work, _("%d unsent"), tmp);
+	else
+		g_string_sprintfa(work, _("%d total"), tmp);
+
+	CORBA_exception_init(&ev);
+	GNOME_Evolution_ShellView_setFolderBarLabel(fb->shell_view, work->str, &ev);
+	CORBA_exception_free(&ev);
+
+	g_string_free(work, TRUE);
+}
+
+static void main_folder_changed(CamelObject *o, void *event_data, void *data)
+{
+	FolderBrowser *fb = data;
+
+	update_status_bar(fb);
+}
+
+static void folder_changed(CamelObject *o, void *event_data, void *data)
+{
+	mail_msg_wait(mail_proxy_event(main_folder_changed, o, event_data, data));
+}
+
 static void
 got_folder(char *uri, CamelFolder *folder, void *data)
 {
@@ -700,8 +762,10 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 				 folder_browser_is_outbox (fb));
 	vfolder_register_source (folder);
 
-	mail_folder_cache_note_folder (fb->uri, folder);
-	mail_folder_cache_note_fb (fb->uri, fb);
+	camel_object_hook_event(CAMEL_OBJECT(fb->folder), "folder_changed",
+				folder_changed, fb);
+	camel_object_hook_event(CAMEL_OBJECT(fb->folder), "message_changed",
+				folder_changed, fb);
 
 	/* when loading a new folder, nothing is selected initially */
 
@@ -726,6 +790,20 @@ folder_browser_set_ui_component (FolderBrowser *fb, BonoboUIComponent *uicomp)
 		bonobo_object_ref (BONOBO_OBJECT (uicomp));
 
 	fb->uicomp = uicomp;
+}
+
+void
+folder_browser_set_shell_view(FolderBrowser *fb, GNOME_Evolution_ShellView shell_view)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init(&ev);
+	if (fb->shell_view != CORBA_OBJECT_NIL)
+		CORBA_Object_release(fb->shell_view, &ev);
+	CORBA_exception_free(&ev);
+	
+	fb->shell_view = CORBA_Object_duplicate(shell_view, &ev);
+	CORBA_exception_free(&ev);
 }
 
 extern CamelFolder *drafts_folder, *sent_folder, *outbox_folder;
@@ -1591,6 +1669,8 @@ on_selection_changed (GtkObject *obj, gpointer user_data)
 	}
 
 	folder_browser_ui_set_selection_state (fb, state);
+
+	update_status_bar(fb);
 }
 
 static void

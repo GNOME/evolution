@@ -3,6 +3,7 @@
 
 /* 
  * Authors: Peter Williams <peterw@ximian.com>
+ *	    Michael Zucchi <notzed@ximian.com>
  *
  * Copyright 2000,2001 Ximian, Inc. (www.ximian.com)
  *
@@ -25,40 +26,21 @@
 #ifndef _MAIL_FOLDER_CACHE_H
 #define _MAIL_FOLDER_CACHE_H
 
-#include <camel/camel-folder.h>
-#include <camel/camel-store.h>
 #include <shell/evolution-storage.h>
-#include <shell/Evolution.h>
 
-#include "folder-browser.h"
+/* Add a store whose folders should appear in the shell
+   The folders are scanned from the store, and/or added at
+   runtime via the folder_created event */
+void mail_note_store(struct _CamelStore *store);
 
-/* No real order that these functions should be called. The idea is
- * that whenever a chunk of the mailer gets some up-to-date
- * information about a URI, it calls one of the _note_ functions and
- * the folder cache sees to it that the information is put to good
- * use.
- *
- * Thus there is no way to remove items from the cache. So it leaks a lot.  */
+/* Similar to above, but do updates via a local GNOME_Evolutuion_Storage
+   rather than a remote proxy EvolutionStorage object */
+void mail_note_local_store(struct _CamelStore *store, GNOME_Evolution_Storage corba_storage);
 
-void mail_folder_cache_set_update_estorage (const gchar *uri, EvolutionStorage *estorage);
-void mail_folder_cache_set_update_lstorage (const gchar *uri, 
-					    GNOME_Evolution_Storage lstorage,
-					    const gchar *path);
-
-void mail_folder_cache_remove_folder (const gchar *uri);
-
-/* We always update the shell view */
-/*void mail_folder_cache_set_update_shellview (const gchar *uri);*/
-
-void mail_folder_cache_note_folder         (const gchar *uri, CamelFolder *folder);
-void mail_folder_cache_note_fb             (const gchar *uri, FolderBrowser *fb);
-void mail_folder_cache_note_folderinfo     (const gchar *uri, CamelFolderInfo *fi);
-void mail_folder_cache_note_name           (const gchar *uri, const gchar *name);
-
-CamelFolder *mail_folder_cache_try_folder  (const gchar *uri);
-gchar *      mail_folder_cache_try_name    (const gchar *uri);
-
-void mail_folder_cache_set_shell_view      (GNOME_Evolution_ShellView sv);
-void mail_folder_cache_set_folder_browser  (FolderBrowser *fb);
+/* When a folder has been opened, notify it for watching.
+   The path may be NULL if the shell-equivalent path can be determined
+   from the folder->full_name, if it cannot, then the path must	
+   be supplied */
+void mail_note_folder(struct _CamelFolder *folder, const char *path);
 
 #endif

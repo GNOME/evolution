@@ -990,7 +990,10 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	switch (res) {
 	case EVOLUTION_STORAGE_OK:
 		mail_hash_storage (store, storage);
+/*
 		mail_scan_subfolders (CAMEL_STORE (store), storage);
+*/
+		mail_note_store((CamelStore *)store);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:

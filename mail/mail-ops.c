@@ -404,12 +404,6 @@ do_update_subfolders_rec (CamelStore *store, CamelFolderInfo *info, EvolutionSto
 {
 	char *path;
 	
-	if (info->url) {
-		/* info->url == URI??? */
-		mail_folder_cache_set_update_estorage (info->url, storage);
-		mail_folder_cache_note_folderinfo (info->url, info);
-	}
-	
 	path = g_strdup_printf ("%s/%s", prefix, info->name);
 	
 	if (info->child)
@@ -442,6 +436,8 @@ mail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
 			void (*done)(CamelStore *, void *data), void *data)
 {
 	struct _update_info *info;
+
+	/* FIXME: i'm not sure this function is needed anymore??? */
 
 	/* FIXME: This wont actually work entirely right, as a failure may lose this data */
 	/* however, this isn't a big problem ... */
@@ -1460,8 +1456,7 @@ remove_folder_got (struct _mail_msg *mm)
 	struct _remove_folder_msg *m = (struct _remove_folder_msg *)mm;
 
 	if (m->removed) {
-		/* Remove this folder from the folder cache */
-		mail_folder_cache_remove_folder (m->uri);
+		/* FIXME: Remove this folder from the folder cache ??? */
 	}
 
 	if (m->done)

@@ -107,8 +107,6 @@ source_finalise(CamelFolder *folder, void *event_data, void *data)
 void
 vfolder_register_source (CamelFolder *folder)
 {
-	GList *l;
-	
 	if (CAMEL_IS_VEE_FOLDER(folder))
 		return;
 	
@@ -245,16 +243,14 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp(folder->full_name, rule->name) != 0) {
-		char *uri, *path, *key;
+		char *path, *key;
 		CamelFolder *old;
 
 		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, folder);
 
 		context_rule_added((RuleContext *)context, rule);
 
-		uri = g_strdup_printf("vfolder:%s/vfolder#%s", evolution_dir, folder->full_name);
-		mail_folder_cache_remove_folder(uri);
-		g_free(uri);
+		/* TODO: remove folder from folder info cache? */
 
 		path = g_strdup_printf("/%s", folder->full_name);
 		evolution_storage_removed_folder(mail_lookup_storage(vfolder_store), path);
@@ -299,7 +295,6 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 {
 	CamelFolder *folder;
-	char *uri, *path;
 
 	printf("rule added: %s\n", rule->name);
 
@@ -310,37 +305,19 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 
 		g_hash_table_insert(vfolder_hash, g_strdup(rule->name), folder);
 
-		/* Ok, so the mail_folder_cache api is a complete fuckup,
-		   I think this mess probably does what it is supposed to do */
-		uri = g_strdup_printf("vfolder:%s/vfolder#%s", evolution_dir, rule->name);
-		printf("Noting folder '%s', storage = %p\n", uri, mail_lookup_storage(vfolder_store));
-		path = g_strdup_printf("/%s", rule->name);
-		evolution_storage_new_folder(mail_lookup_storage(vfolder_store),
-					     path, rule->name,
-					     "mail", uri,
-					     rule->name,
-					     FALSE);
-
-		mail_folder_cache_note_folder(uri, folder);
-		mail_folder_cache_set_update_estorage(uri, mail_lookup_storage(vfolder_store));
-		g_free(uri);
-		g_free(path);
-
+		mail_note_folder(folder, NULL);
 		rule_changed(rule, folder);
 	}
 }
 
 static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 {
-	char *uri, *key, *path;
+	char *key, *path;
 	CamelFolder *folder;
 
 	printf("rule removed; %s\n", rule->name);
 
-	/* have to remove this first before unrefing the folder, otherwise it gets itself lost */
-	uri = g_strdup_printf("vfolder:%s/vfolder#%s", evolution_dir, rule->name);
-	mail_folder_cache_remove_folder(uri);
-	g_free(uri);
+	/* TODO: remove from folder info cache? */
 
 	path = g_strdup_printf("/%s", rule->name);
 	evolution_storage_removed_folder(mail_lookup_storage(vfolder_store), path);

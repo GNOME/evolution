@@ -1,3 +1,47 @@
+2001-09-19    <NotZed@Ximian.com>
+
+	* General cleanup of mail debug printfs.
+	
+	* mail-folder-cache.[ch]: Completely rewritten.  Removed all calls
+	to the old code everywhere they were used.  Nuff said.
+
+	* folder-browser.h: Add shell_view to folder_browser & api to set
+	it.
+
+	* folder-browser-factory.c (control_activate): Set the shell-view
+	on the folder_browser.
+	(control_deactivate): And clear it here.
+
+	* folder-browser.c (folder_browser_destroy): Unhook from changed
+	events on the folder before giving it away.
+	(got_folder): Hook onto the folder-changed events.
+	(folder_changed): Event hook proxy for folder_changed events
+	(main_folder_changed): And the main code version.
+	(update_status_bar): And the one that actually does the work.
+	(on_selection_changed): Also call update_status_bar() to update
+	the selection count.
+	(folder_browser_set_shell_view): Implement function to set the
+	shell_view on the folder_browser.
+	(folder_browser_destroy): Release the shell_view here too.
+
+	* mail-tools.c (mail_tool_uri_to_folder): Dont 'note' the new
+	folder if its from a file: url, this is handled by hte local store
+	(yeeruughck).
+
+	* mail-local.c (mls_init): 
+	(free_info): 
+	(mls_finalise): Setup init/finalise funcs for the folderinfo hash.
+	(local_storage_removed_folder_cb): re-enable.
+
+2001-09-18    <NotZed@Ximian.com>
+
+	* mail-local.c (MailLocalStore): Add a hash table to store
+	uri<>folderinfo data.
+	(mail_local_store_add_folder): Add a new folderinfo to our hash.
+	(mail_local_store_remove_folder): Remove a folder by uri.
+	(storage_listener_startup): Add this store to those monitored by
+	the folder tree.
+
 2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (do_get_pass): Make the title translatable, and also
