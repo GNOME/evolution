@@ -500,7 +500,7 @@ e_strsplit (const gchar *string,
   return str_array;
 }
 
-gchar *
+const gchar *
 e_strstrcase (const gchar *haystack, const gchar *needle)
 {
 	/* find the needle in the haystack neglecting case */
@@ -515,9 +515,9 @@ e_strstrcase (const gchar *haystack, const gchar *needle)
 		return NULL;
 
 	if (len == 0)
-		return (gchar *) haystack;
+		return haystack;
 
-	for (ptr = (gchar *) haystack; *(ptr + len - 1) != '\0'; ptr++)
+	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
 		if (!g_strncasecmp (ptr, needle, len))
 			return ptr;
 
