@@ -203,6 +203,7 @@ static const char *authors[] = {
 	"Duarte Loreto",
 	"Duncan Mak",
 	"ERDI Gergo",
+	"Ed Catmur",
 	"Edd Dumbill",
 	"Edgar Luna Díaz",
 	"Elliot Lee",
