@@ -59,6 +59,7 @@
 #define N_CHARS(x) (CHAR_WIDTH * (x))
 
 #define COL_ICON_WIDTH         (16)
+#define COL_ATTACH_WIDTH       (16)
 #define COL_CHECK_BOX_WIDTH    (16)
 #define COL_FROM_EXPANSION     (24.0)
 #define COL_FROM_WIDTH_MIN     (32)
@@ -120,7 +121,11 @@ internet_address_new_from_string (const gchar *string)
 	   1. "Jeffrey Stedfast" <fejj@helixcode.com>
 	   2. fejj@helixcode.com
 	   3. <fejj@helixcode.com> (Jeffrey Stedfast)
+
+	   notzed: actually we dont, this isn't spruce, the addresses have already been parsed by camel.
+	   FIXME: This code wont handle multiple addresses.
 	*/
+
 	InternetAddress *ia;
 	gchar *name = NULL, *address = NULL;
 	const gchar *ptr;
@@ -652,6 +657,35 @@ subtree_unread(MessageList *ml, ETreePath *node)
 	return FALSE;
 }
 
+static gboolean
+content_is_attachment(CamelMessageContentInfo *ci)
+{
+	CamelMessageContentInfo *child;
+
+	/* no info about content */
+	if (ci == NULL)
+		return FALSE;
+
+	/* we assume multipart/mixed is an attachment always
+	   other multipart / * is only an attachment if it contains multipart/mixed's, or
+	   non-text parts */
+	if (header_content_type_is(ci->type, "multipart", "*")) {
+		if (header_content_type_is(ci->type, "multipart", "mixed")) {
+			return TRUE;
+		}
+		child = ci->childs;
+		while (child) {
+			if (content_is_attachment(child)) {
+				return TRUE;
+			}
+			child = child->next;
+		}
+		return FALSE;
+	} else {
+		return !header_content_type_is(ci->type, "text", "*");
+	}
+}
+
 static void *
 ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
@@ -691,7 +725,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	}
 		
 	case COL_ATTACHMENT:
-		return GINT_TO_POINTER (0);
+		if (content_is_attachment(msg_info->content))
+			return (void *)1;
+		else
+			return (void *)0;
 		
 	case COL_FROM:
 		if (msg_info->from)
@@ -954,7 +991,7 @@ message_list_init_header (MessageList *message_list)
 	message_list->table_cols [COL_ATTACHMENT] =
 		e_table_col_new_with_pixbuf (
 			COL_ATTACHMENT, states_pixmaps [4].pixbuf,
-			0.0, COL_ICON_WIDTH,
+			0.0, COL_ATTACH_WIDTH,
 			message_list->render_attachment,
 			g_int_compare, FALSE);
 	
@@ -1263,7 +1300,7 @@ folder_to_cachename(CamelFolder *folder, const char *prefix)
 {
 	char *url, *p, *filename;
 
-	url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
+	url = camel_url_to_string(CAMEL_SERVICE(folder->parent_store)->url, FALSE);
 	for (p = url; *p; p++) {
 		if (!isprint((unsigned char)*p) || strchr(" /'\"`&();|<>${}!", *p))
 			*p = '_';
@@ -1384,7 +1421,7 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
 	char *id;
-	int expanded;
+	int expanded = FALSE;	/* just removes a silly warning */
 
 	while (c) {
 		if (c->message) {

@@ -1,3 +1,10 @@
+2000-10-04  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_init_header): Fix the attachment icon width.
+	(content_is_attachment): Perform some simple tests to see if the
+	message contains an attachment.
+	(build_subtree): Kill a pointless warning.
+
 2000-10-04  Miguel de Icaza  <miguel@helixcode.com>
 
 	* mail-callbacks.c (delete_msg): Added a comment to a piece of
