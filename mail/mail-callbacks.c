@@ -745,8 +745,8 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 		GtkWidget *dialog;
 		gchar *err;
 		
-		err = g_strdup_printf (_("Error loading filter information:\n"
-					 "%s"), ((RuleContext *)fc)->error);
+		err = g_strdup_printf (_("Error loading filter information:\n%s"),
+				       ((RuleContext *)fc)->error);
 		dialog = gnome_warning_dialog (err);
 		g_free (err);
 		

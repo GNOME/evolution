@@ -1540,46 +1540,47 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	const char *boundary;
 	char *text = NULL;
 	GMimeContentField *mime_type;
-
+	
 	/* We only include text, message, and multipart bodies. */
 	mime_type = camel_data_wrapper_get_mime_type_field (data);
-
+	
 	/* FIXME: This is wrong. We don't want to include large
 	 * images. But if we don't do it this way, we don't get
 	 * the headers...
 	 */
 	if (g_strcasecmp (mime_type->type, "message") == 0) {
 		*is_html = FALSE;
-		return get_data_wrapper_text (data);
+		return g_strdup (get_data_wrapper_text (data));
 	}
-
+	
 	if (g_strcasecmp (mime_type->type, "text") == 0) {
+		fprintf (stderr, "here we are...\n");
 		*is_html = !g_strcasecmp (mime_type->subtype, "html");
-		return get_data_wrapper_text (data);
+		return g_strdup (get_data_wrapper_text (data));
 	}
-
+	
 	/* If it's not message and it's not text, and it's not
 	 * multipart, we don't want to deal with it.
 	 */
 	if (g_strcasecmp (mime_type->type, "multipart") != 0)
 		return NULL;
-
+	
 	mp = CAMEL_MULTIPART (data);
-
+	
 	if (g_strcasecmp (mime_type->subtype, "alternative") == 0) {
 		/* Pick our favorite alternative and reply to it. */
-
+		
 		subpart = find_preferred_alternative (mp, want_plain);
 		if (!subpart)
 			return NULL;
-
+		
 		data = camel_medium_get_content_object (
 			CAMEL_MEDIUM (subpart));
 		return mail_get_message_body (data, want_plain, is_html);
 	}
-
+	
 	nparts = camel_multipart_get_number (mp);
-
+	
 	/* Otherwise, concatenate all the parts that we can. If we find
 	 * an HTML part in there though, return just that: We don't want
 	 * to deal with merging HTML and non-HTML parts.
@@ -1587,10 +1588,10 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	boundary = camel_multipart_get_boundary (mp);
 	for (i = 0; i < nparts; i++) {
 		subpart = camel_multipart_get_part (mp, i);
-
+		
 		if (!mail_part_is_inline (subpart))
 			continue;
-
+		
 		data = camel_medium_get_content_object (
 			CAMEL_MEDIUM (subpart));
 		subtext = mail_get_message_body (data, want_plain, is_html);
@@ -1600,20 +1601,17 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 			g_free (text);
 			return subtext;
 		}
-
+		
 		if (text) {
 			old = text;
-			text = g_strdup_printf ("%s\n--%s\n%s", text,
+			text = g_strdup_printf ("%s\n--%s\n%s", old,
 						boundary, subtext);
 			g_free (subtext);
 			g_free (old);
 		} else
 			text = subtext;
 	}
-
-	if (!text)
-		return NULL;
-
+	
 	return text;
 }
 
@@ -1688,12 +1686,13 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 					break;
 				d += len + 3;
 			}
+			*d = '\0';
 			
 			/* Now convert that to HTML. */
-			repl_text = e_text_to_html (quoted_text,
-						    E_TEXT_TO_HTML_PRE);
+			repl_text = e_text_to_html (quoted_text, E_TEXT_TO_HTML_PRE);
 			g_free (quoted_text);
 		}
+		
 		e_msg_composer_set_body_text (composer, repl_text);
 		g_free (repl_text);
 		g_free (text);
