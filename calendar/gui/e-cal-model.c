@@ -1249,42 +1249,10 @@ e_cal_view_done_cb (ECalView *query, ECalendarStatus status, gpointer user_data)
 	/* FIXME Clear status bar */
 }
 
-/* Builds a complete query sexp for the calendar model by adding the predicates
- * to filter only for the type of objects that the model supports, and
- * whether we want completed tasks.
- */
-static char *
-adjust_e_cal_view_sexp (ECalModel *model, const char *sexp)
-{
-	ECalModelPrivate *priv;
-	char *type_sexp, *new_sexp;
-
-	priv = model->priv;
-
-	if (priv->kind == ICAL_NO_COMPONENT)
-		type_sexp = g_strdup ("#t");
-	else {
-		if (priv->kind == ICAL_VEVENT_COMPONENT)
-			type_sexp = g_strdup ("(or (= (get-vtype) \"VEVENT\"))");
-		else if (priv->kind == ICAL_VTODO_COMPONENT)
-			type_sexp = g_strdup ("(or (= (get-vtype) \"VTODO\"))");
-		else if (priv->kind == ICAL_VJOURNAL_COMPONENT)
-			type_sexp = g_strdup ("(or (= (get-vtype) \"VJOURNAL\"))");
-		else
-			type_sexp = g_strdup ("#t");
-	}
-
-	new_sexp = g_strdup_printf ("(and %s %s)", type_sexp, sexp);
-	g_free (type_sexp);
-
-	return new_sexp;
-}
-
 static void
 update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 {
 	ECalModelPrivate *priv;
-	gchar *real_sexp;
 
 	priv = model->priv;
 
@@ -1298,15 +1266,12 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 
 	/* prepare the query */
 	g_assert (priv->sexp != NULL);
-	real_sexp = adjust_e_cal_view_sexp (model, priv->sexp);
 
-	if (!e_cal_get_query (client_data->client, real_sexp, &client_data->query, NULL)) {
+	if (!e_cal_get_query (client_data->client, priv->sexp, &client_data->query, NULL)) {
 		g_warning (G_STRLOC ": Unable to get query");
-		g_free (real_sexp);
 
 		return;
 	}	
-	g_free (real_sexp);
 
 	g_signal_connect (client_data->query, "objects_added", G_CALLBACK (e_cal_view_objects_added_cb), model);
 	g_signal_connect (client_data->query, "objects_modified", G_CALLBACK (e_cal_view_objects_modified_cb), model);

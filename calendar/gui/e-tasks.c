@@ -929,19 +929,6 @@ e_tasks_delete_selected (ETasks *tasks)
 	set_status_message (tasks, NULL);
 }
 
-static char *
-create_sexp (void)
-{
-	char *sexp;
-
-	sexp = g_strdup ("(and (= (get-vtype) \"VTODO\") (is-completed?))");
-#if 0
-	g_print ("Calendar model sexp:\n%s\n", sexp);
-#endif
-
-	return sexp;
-}
-
 /**
  * e_tasks_expunge:
  * @tasks: A tasks control widget
@@ -962,16 +949,17 @@ e_tasks_delete_completed (ETasks *tasks)
 
 	/* FIXME Confirm expunge */
 
-	sexp = create_sexp ();
-
 	set_status_message (tasks, _("Expunging"));
 	
+	sexp = g_strdup ("(is-completed?)");
 	if (!e_cal_get_object_list (priv->client, sexp, &objects, NULL)) {
 		set_status_message (tasks, NULL);
+		g_free (sexp);
 		g_warning (G_STRLOC ": Could not get the objects");
 
 		return;
 	}
+	g_free (sexp);
 	
 	for (l = objects; l; l = l->next) {
 		/* FIXME Better error handling */

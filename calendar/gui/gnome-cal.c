@@ -557,8 +557,7 @@ adjust_e_cal_view_sexp (GnomeCalendar *gcal, const char *sexp)
 	start = isodate_from_time_t (start_time);
 	end = isodate_from_time_t (end_time);
 
-	new_sexp = g_strdup_printf ("(and (= (get-vtype) \"VEVENT\")"
-				    "     (occur-in-time-range? (make-time \"%s\")"
+	new_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
 				    "                           (make-time \"%s\"))"
 				    "     %s)",
 				    start, end,
@@ -2894,9 +2893,8 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 
 	start = isodate_from_time_t (0);
 	end = isodate_from_time_t (older_than);
-	sexp = g_strdup_printf ("(and (= (get-vtype) \"VEVENT\")"
-				"     (occur-in-time-range? (make-time \"%s\")"
-				"                           (make-time \"%s\")))",
+	sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
+				"                      (make-time \"%s\"))",
 				start, end);
 
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), _("Purging"));

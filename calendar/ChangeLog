@@ -1,3 +1,14 @@
+2003-11-10  Dan Winship  <danw@ximian.com>
+
+	* gui/e-tasks.c (e_tasks_delete_completed): Remove get-vtype check
+	from the completed-tasks query (and don't leak the sexp string).
+
+	* gui/e-cal-model.c (update_e_cal_view_for_client): Don't adjust
+	the sexp to use get-vtype.
+
+	* gui/gnome-cal.c (adjust_e_cal_view_sexp, gnome_calendar_purge):
+	Remove get-vtype check from queries
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* gui/Makefile.am: remove includes for toplevel libical dir
