@@ -324,7 +324,7 @@ create_children			(EDateEdit	*dedit)
 	priv = dedit->priv;
 
 	priv->date_entry  = gtk_entry_new ();
-	gtk_widget_set_size_request (priv->date_entry, 90, 0);
+	gtk_widget_set_size_request (priv->date_entry, 90, -1);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	
 	g_signal_connect (priv->date_entry, "key_press_event",
@@ -356,7 +356,7 @@ create_children			(EDateEdit	*dedit)
 
 
 	priv->time_combo = gtk_combo_new ();
-	gtk_widget_set_size_request (GTK_COMBO (priv->time_combo)->entry, 90, 0);
+	gtk_widget_set_size_request (GTK_COMBO (priv->time_combo)->entry, 90, -1);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
 	rebuild_time_popup (dedit);
 
@@ -1208,24 +1208,34 @@ static void
 position_date_popup		(EDateEdit	*dedit)
 {
 	gint x, y;
+	gint win_x, win_y;
 	gint bwidth, bheight;
-	GtkRequisition req;
+	GtkRequisition cal_req, button_req;
 	gint screen_width, screen_height;
 
-	gtk_widget_size_request (dedit->priv->cal_popup, &req);
+	gtk_widget_size_request (dedit->priv->cal_popup, &cal_req);
 
-	gdk_window_get_origin (dedit->priv->date_button->window, &x, &y);
-	gdk_window_get_size (dedit->priv->date_button->window,
-			     &bwidth, &bheight);
+	gtk_widget_size_request (dedit->priv->date_button, &button_req);
+	bwidth = button_req.width;
+	gtk_widget_size_request (gtk_widget_get_parent (dedit->priv->date_button), &button_req);
+	bheight = button_req.height;
+
+	gtk_widget_translate_coordinates (dedit->priv->date_button,
+					  gtk_widget_get_toplevel (dedit->priv->date_button),
+					  bwidth - cal_req.width, bheight,
+					  &x, &y);
+
+	gdk_window_get_origin (gtk_widget_get_toplevel (dedit->priv->date_button)->window,
+			       &win_x, &win_y);
+
+	x += win_x;
+	y += win_y;
 
       	screen_width = gdk_screen_width ();
 	screen_height = gdk_screen_height ();
 
-	x += bwidth - req.width;
-	y += bheight;
-
-	x = CLAMP (x, 0, MAX (0, screen_width - req.width));
-	y = CLAMP (y, 0, MAX (0, screen_height - req.height));
+	x = CLAMP (x, 0, MAX (0, screen_width - cal_req.width));
+	y = CLAMP (y, 0, MAX (0, screen_height - cal_req.height));
 
 	gtk_widget_set_uposition (dedit->priv->cal_popup, x, y);
 }

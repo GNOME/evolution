@@ -1,3 +1,10 @@
+2003-02-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-dateedit.c (create_children): Don't request combo boxes that are
+	0 pixels tall.
+	(position_date_popup): Make this work when the button doesn't have
+	its own window.
+
 2003-01-26  Chris Toshok  <toshok@ximian.com>
 
 	* e-clipped-label.c (e_clipped_label_new): init the layout to
