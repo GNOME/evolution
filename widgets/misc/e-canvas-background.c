@@ -173,11 +173,11 @@ ecb_dispose (GObject *object)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (object);
 
-	if (ecb->priv->stipple)
-		gdk_bitmap_unref (ecb->priv->stipple);
-	ecb->priv->stipple = NULL;
-
 	if (ecb->priv) {
+		if (ecb->priv->stipple)
+			gdk_bitmap_unref (ecb->priv->stipple);
+		ecb->priv->stipple = NULL;
+
 		g_free (ecb->priv);
 		ecb->priv = NULL;
 	}
