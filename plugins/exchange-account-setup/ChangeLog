@@ -1,6 +1,15 @@
+2005-03-18  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-account-setup.c (org_gnome_exchange_owa_url): When the 
+	Exchange account doesn't contain OWA url parameter, setting the OWA 
+	url value in the receive page and saving it.
+	(construct_owa_url): Forming OWA url, from the existing parameters for
+	hostname, ssl, OWA path and mailbox name.
+	see #73627
+
 2005-03-17  Sushma Rai  <rsushma@novell.com>
 
-	* exchange-account-setup.c (exchange_authtype_changed): Setting the
+	* exchange-account-setup.c (exchange_authtype_changed): Setting the 
 	authentication mechanism to both transport and source urls.
 
 2005-03-05  Sushma Rai  <rsushma@novell.com>

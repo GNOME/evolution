@@ -396,12 +396,39 @@ destroy_label(GtkWidget *old, GtkWidget *label)
 	gtk_widget_destroy(label);
 }
 
+static char *
+construct_owa_url (CamelURL *url) 
+{
+	const char *owa_path, *use_ssl = NULL;
+	const char *protocol = "http", *mailbox_name;
+	char *owa_url;
+
+	use_ssl = camel_url_get_param (url, "use_ssl");
+	if (use_ssl) {
+		if (!strcmp (use_ssl, "always"))
+			protocol = "https";
+	}
+
+	owa_path = camel_url_get_param (url, "owa_path");
+	if (!owa_path)
+		owa_path = "/exchange";
+	mailbox_name = camel_url_get_param (url, "mailbox");
+
+	if (mailbox_name)
+		owa_url = g_strdup_printf("%s://%s%s/%s", protocol, url->host, owa_path, mailbox_name); 
+	else
+		owa_url = g_strdup_printf("%s://%s%s", protocol, url->host, owa_path ); 
+
+	return owa_url;
+}
+
 /* used by editor and druid - same code */
 GtkWidget *
 org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
-	const char *source_url, *owa_url;
+	const char *source_url;
+	char *owa_url = NULL;
 	GtkWidget *owa_entry;
 	CamelURL *url;
 	int row;
@@ -430,7 +457,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 		return data->old;
 	}
 
-	owa_url = camel_url_get_param(url, "owa_url");
+	owa_url = g_strdup (camel_url_get_param(url, "owa_url"));
 
 	/* if the host is null, then user+other info is dropped silently, force it to be kept */
 	if (url->host == NULL) {
@@ -449,6 +476,23 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show(label);
 
 	owa_entry = gtk_entry_new();
+
+	if (!owa_url) {
+		if (url->host[0] != 0) {
+			char *uri;
+
+			/* url has hostname but not owa_url. 
+			 * Account has been created using x-c-s or evo is upgraded to 2.2
+		 	 * When invoked from druid, hostname will get set after validation,
+		 	 * so this condition will never be true during account creation.
+			 */
+			owa_url = construct_owa_url (url);
+			camel_url_set_param (url, "owa_url", owa_url);
+			uri = camel_url_to_string(url, 0);
+			e_account_set_string(target_account->account,  E_ACCOUNT_SOURCE_URL, uri);
+			g_free(uri);
+		}
+	}
 	if (owa_url)
 		gtk_entry_set_text(GTK_ENTRY (owa_entry), owa_url); 
 	gtk_label_set_mnemonic_widget((GtkLabel *)label, owa_entry);
@@ -470,6 +514,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	/* Track the authenticate label, so we can destroy it if e-config is to destroy the hbox */
 	g_object_set_data((GObject *)hbox, "authenticate-label", label);
 
+	g_free (owa_url);
 	return hbox;
 }
 
