@@ -58,6 +58,8 @@
 typedef struct {
 	Bonobo_ConfigDatabase db;
 	
+	gboolean corrupt;
+	
 	gboolean show_preview;
 	gboolean thread_list;
 	gboolean hide_deleted;
@@ -284,7 +286,7 @@ mail_config_clear (void)
 static void
 config_read (void)
 {
-	gint len, i, default_num;
+	int len, i, default_num;
 	
 	mail_config_clear ();
 	
@@ -296,12 +298,19 @@ config_read (void)
 		MailConfigIdentity *id;
 		MailConfigService *source;
 		MailConfigService *transport;
-		gchar *path, *val;
+		char *path, *val;
 		
 		account = g_new0 (MailConfigAccount, 1);
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
-		account->name = bonobo_config_get_string (config->db, path, NULL);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
+		if (val && *val) {
+			account->name = val;
+		} else {
+			g_free (val);
+			account->name = g_strdup_printf (_("Account %d"), i + 1);
+			config->corrupt = TRUE;
+		}
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
@@ -593,7 +602,7 @@ void
 mail_config_write (void)
 {
 	CORBA_Environment ev;
-	gint len, i, default_num;
+	int len, i, default_num;
 	
 	/* Accounts */
 	
@@ -617,7 +626,7 @@ mail_config_write (void)
 	
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
-		gchar *path;
+		char *path;
 		
 		account = g_slist_nth_data (config->accounts, i);
 		
@@ -901,6 +910,12 @@ gboolean
 mail_config_is_configured (void)
 {
 	return config->accounts != NULL;
+}
+
+gboolean
+mail_config_is_corrupt (void)
+{
+	return config->corrupt;
 }
 
 static char *

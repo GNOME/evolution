@@ -636,6 +636,12 @@ shell_client_destroy (GtkObject *object)
 }
 
 static void
+warning_clicked (GtkWidget *dialog, gpointer user_data)
+{
+	gtk_widget_destroy (dialog);
+}
+
+static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
 	      const char *evolution_homedir,
@@ -679,10 +685,20 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	}
 	
 	mail_session_enable_interaction (TRUE);
-
+	
 	vfolder_load_storage(corba_shell);
 	
 	mail_autoreceive_setup ();
+	
+	if (mail_config_is_corrupt ()) {
+		GtkWidget *dialog;
+		
+		dialog = gnome_warning_dialog (_("Some of your mail settings seem corrupt, "
+						 "please check that everything is in order."));
+		gtk_signal_connect (GTK_OBJECT (dialog), "clicked", warning_clicked, NULL);
+		gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+		gtk_widget_show (dialog);
+	}
 }
 
 static void

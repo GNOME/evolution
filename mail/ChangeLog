@@ -1,11 +1,23 @@
+2001-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (owner_set_cb): Throw up a warning dialog if
+	we suspect the config database is corrupt.
+
+	* mail-config.c (config_read): If the account name is NULL, then
+	we have a corrupt config database most likely - so generate a fake
+	account name and set the corrupt but to TRUE.
+	(mail_config_is_corrupt): New function to find out if the config
+	is suspected of being corrupted.
+
 2001-09-25  Iain Holmes  <iain@ximian.com>
 
-	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount): Check
-	if the transport is NULL.
+	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount):
+	Check if the transport is NULL.
 
 2001-09-25  Iain Holmes  <iain@ximian.com>
 
-	* mail-display.c (link_menu): Remove the Save Link as (FIXME) item.
+	* mail-display.c (link_menu): Remove the Save Link as (FIXME)
+	item.
 
 2001-09-25  Jeffrey Stedfast  <fejj@ximian.com>
 

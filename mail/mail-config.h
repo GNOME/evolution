@@ -106,6 +106,7 @@ void mail_config_write_on_exit (void);
 
 /* General Accessor functions */
 gboolean mail_config_is_configured            (void);
+gboolean mail_config_is_corrupt               (void);
 
 gboolean    mail_config_get_filter_log        (void);
 void        mail_config_set_filter_log        (gboolean value);
