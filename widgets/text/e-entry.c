@@ -335,6 +335,7 @@ e_entry_init (GtkObject *object)
 		"editable", TRUE,
 		"allow_newlines", FALSE,
 		"im_context", E_CANVAS (entry->canvas)->im_context,
+		"handle_popup", TRUE,
 		NULL));
 
 	g_signal_connect (entry->item,

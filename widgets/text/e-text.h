@@ -211,10 +211,12 @@ struct _EText {
 	guint32  last_time_request;       /* The time of the last selection request. */
 	GdkAtom  last_selection_request;  /* The time of the last selection request. */
 	GList   *queued_requests;         /* Queued selection requests. */
-	
+
 	GtkIMContext *im_context;
 	gboolean      need_im_reset;
 	gboolean      im_context_signals_registered;
+
+	gboolean      handle_popup;
 };
 
 struct _ETextClass {

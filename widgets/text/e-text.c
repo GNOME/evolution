@@ -117,7 +117,8 @@ enum {
 	PROP_DRAW_BACKGROUND,
 	PROP_DRAW_BUTTON,
 	PROP_CURSOR_POS,
-	PROP_IM_CONTEXT
+	PROP_IM_CONTEXT,
+	PROP_HANDLE_POPUP
 };
 
 static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
@@ -897,7 +898,11 @@ e_text_set_property (GObject *object,
 
 		text->need_im_reset = FALSE;
 		break;
-		
+
+	case PROP_HANDLE_POPUP:
+		text->handle_popup = g_value_get_boolean (value);
+		break;
+
 	default:
 		return;
 	}
@@ -1062,6 +1067,10 @@ e_text_get_property (GObject *object,
 		g_value_set_object (value, text->im_context);
 		break;
 		
+	case PROP_HANDLE_POPUP:
+		g_value_set_boolean (value, text->handle_popup);
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -2207,9 +2216,14 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		/* We follow convention and emit popup events on right-clicks. */
 		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
-			e_text_do_popup (text, &(event->button),
-					 get_position_from_xy (text, event->button.x, event->button.y));
-			return TRUE;
+			if (text->handle_popup) {
+				e_text_do_popup (text, &(event->button),
+						 get_position_from_xy (text, event->button.x, event->button.y));
+				return TRUE;
+			}
+			else {
+				break;
+			}
 		}
 
 		/* Create our own double and triple click events, 
@@ -2507,7 +2521,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 	g_signal_connect_swapped (menuitem, "activate",
 				  G_CALLBACK (e_text_cut_clipboard), text);
-	gtk_widget_set_sensitive (menuitem, text->selection_start != text->selection_end);
+	gtk_widget_set_sensitive (menuitem, text->editable && (text->selection_start != text->selection_end));
 
 	/* copy menu item */
 	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
@@ -2523,7 +2537,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 	g_signal_connect_swapped (menuitem, "activate",
 				  G_CALLBACK (e_text_paste_clipboard), text);
-	gtk_widget_set_sensitive (menuitem, gtk_selection_data_targets_include_text (data));
+	gtk_widget_set_sensitive (menuitem, text->editable && gtk_selection_data_targets_include_text (data));
 
 	menuitem = gtk_menu_item_new_with_label (_("Select All"));
 	gtk_widget_show (menuitem);
@@ -3391,6 +3405,13 @@ e_text_class_init (ETextClass *klass)
 							      GTK_TYPE_IM_CONTEXT,
 							      G_PARAM_READWRITE));
 
+	g_object_class_install_property (gobject_class, PROP_HANDLE_POPUP,
+					 g_param_spec_boolean ("handle_popup",
+							       _( "Handle Popup" ),
+							       _( "Handle Popup" ),
+							       FALSE,
+							       G_PARAM_READWRITE));
+
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 }
@@ -3480,6 +3501,8 @@ e_text_init (EText *text)
 	text->im_context              = NULL;
 	text->need_im_reset           = FALSE;
 	text->im_context_signals_registered = FALSE;
+
+	text->handle_popup            = FALSE;
 
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
