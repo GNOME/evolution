@@ -1,3 +1,8 @@
+2001-06-25  Joe Shaw  <joe@ximian.com>
+
+	* folder-browser.c (invisible_destroyed): Check to make sure that
+	clipboard_selection is non-NULL before we g_byte_array_free() it.
+
 2001-06-25  jacob berkman  <jacob@ximian.com>
 
 	* mail-send-recv.c (free_send_data): sync folders after we've

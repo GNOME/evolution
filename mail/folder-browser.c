@@ -92,8 +92,10 @@ static guint folder_browser_signals [LAST_SIGNAL] = {0, };
 static void
 invisible_destroyed (GtkObject *invisible)
 {
-	g_byte_array_free (clipboard_selection, TRUE);
-	clipboard_selection = NULL;
+	if (clipboard_selection) {
+		g_byte_array_free (clipboard_selection, TRUE);
+		clipboard_selection = NULL;
+	}
 }
 
 static void
