@@ -60,6 +60,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
+#include <gal/widgets/e-unicode.h>
 #include <gal/shortcut-bar/e-shortcut-bar.h>
 
 #include "e-shortcuts-view.h"
