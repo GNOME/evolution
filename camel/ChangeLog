@@ -1,74 +1,73 @@
 2003-05-16  Jeremy Katz  <katzj@redhat.com>
- 
- 	* providers/smtp/camel-smtp-transport.c (smtp_helo): Ensure cmdbuf
- 	is initialized to avoid compiler warning.
- 
- 	* providers/local/camel-mbox-summary.c (summary_header_load): Cast
- 	folder_size to uint32 to fix warning.
- 	(camel_mbox_summary_sync_mbox): Update for new API.
- 
- 	* providers/imap/camel-imap-utils.c (parse_params):
- 	imap_parse_nstring expects size_t, not int
- 	(imap_body_decode): Likewise.
- 
- 	* camel-stream-filter.c (do_read): presize needs to be size_t
- 	instead of int.
- 	(do_write): Likewise.
- 
- 	* camel-seekable-substream.c (stream_read): Return ssize_t instead
- 	of int to match prototypes.
- 	(stream_write): Likewise.
- 
- 	* camel-mime-part.c (construct_from_parser): len needs to be
- 	size_t instead of int.
- 
- 	* camel-mime-parser.c (folder_scan_step): datalength needs to be a
- 	size_t* instead of an int* to make dependent APIs safe.
- 	(camel_mime_parser_step): Likewise.
- 	(folder_scan_content): Likewise.
- 	* camel-mime-parser.h: Likewise.
- 
- 	* camel-mime-message.c (camel_mime_message_class_init): Use glib
- 	macro for pointer/int conversions.
- 	(construct_from_parser): Update for new API.
- 
- 	* camel-folder-summary.c
- 	(camel_folder_summary_info_new_from_parser): Update len to be
- 	size_t for new API.
- 	(summary_build_content_info): Likewise.
- 	* camel-http-stream.c (http_get_headers): Likewise.
- 	* camel-mime-part-utils.c
- 	(simple_data_wrapper_construct_from_parser): Likewise.
- 	* camel-multipart-signed.c (signed_construct_from_parser): Likewise.
- 	* camel-multipart.c (construct_from_parser): Likewise.
- 
- 	* camel-folder-search.c (match_words_index): Use glib macros for
- 	pointer/int conversions.
- 	* camel-html-parser.c (tokenise_setup): Likewise.
- 	(convert_entity): Likewise.
- 	* camel-block-file.c (block_hash_func): Likewise.
- 	(camel_block_file_get_block): Likewise.
- 	(camel_block_file_get_block): Likewise.
- 	(camel_block_file_detach_block): Likewise.
- 	* camel-session.c (session_thread_msg_new): Likewise.
- 	(session_thread_msg_free): Likewise.
- 	(session_thread_wait): Likewise.
- 	* camel-text-index.c (text_index_compress_nosync): Likewise.
- 	(text_index_compress_nosync): Likewise.
- 	(camel_text_index_validate): Likewise.
- 	* camel-vee-folder.c (vee_folder_remove_folder): Likewise.
- 	(unmatched_check_uid): Likewise.
- 	(folder_added_uid): Likewise.
- 	(vee_folder_build_folder): Likewise.
- 	(folder_changed_add_uid): Likewise.
- 	(folder_changed_remove_uid): Likewise.
- 	* providers/imap/camel-imap-search.c (imap_body_contains): Likewise.
- 	* providers/pop3/camel-pop3-folder.c (cmd_list): Likewise.
- 	(cmd_uidl): Likewise.
- 
- 	* camel-data-cache.c (data_cache_init): Cast to CamelCopyFunc.
- 	Fixes a warning.
- 
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Ensure cmdbuf
+	is initialized to avoid compiler warning.
+
+	* providers/local/camel-mbox-summary.c (summary_header_load): Cast
+	folder_size to uint32 to fix warning.
+	(camel_mbox_summary_sync_mbox): Update for new API.
+
+	* providers/imap/camel-imap-utils.c (parse_params):
+	imap_parse_nstring expects size_t, not int
+	(imap_body_decode): Likewise.
+
+	* camel-stream-filter.c (do_read): presize needs to be size_t
+	instead of int.
+	(do_write): Likewise.
+
+	* camel-seekable-substream.c (stream_read): Return ssize_t instead
+	of int to match prototypes.
+	(stream_write): Likewise.
+
+	* camel-mime-part.c (construct_from_parser): len needs to be
+	size_t instead of int.
+
+	* camel-mime-parser.c (folder_scan_step): datalength needs to be a
+	size_t* instead of an int* to make dependent APIs safe.
+	(camel_mime_parser_step): Likewise.
+	(folder_scan_content): Likewise.
+	* camel-mime-parser.h: Likewise.
+
+	* camel-mime-message.c (camel_mime_message_class_init): Use glib
+	macro for pointer/int conversions.
+	(construct_from_parser): Update for new API.
+
+	* camel-folder-summary.c
+	(camel_folder_summary_info_new_from_parser): Update len to be
+	size_t for new API.
+	(summary_build_content_info): Likewise.
+	* camel-http-stream.c (http_get_headers): Likewise.
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Likewise.
+	* camel-multipart-signed.c (signed_construct_from_parser): Likewise.
+	* camel-multipart.c (construct_from_parser): Likewise.
+
+	* camel-folder-search.c (match_words_index): Use glib macros for
+	pointer/int conversions.
+	* camel-html-parser.c (tokenise_setup): Likewise.
+	(convert_entity): Likewise.
+	* camel-block-file.c (block_hash_func): Likewise.
+	(camel_block_file_get_block): Likewise.
+	(camel_block_file_get_block): Likewise.
+	(camel_block_file_detach_block): Likewise.
+	* camel-session.c (session_thread_msg_new): Likewise.
+	(session_thread_msg_free): Likewise.
+	(session_thread_wait): Likewise.
+	* camel-text-index.c (text_index_compress_nosync): Likewise.
+	(text_index_compress_nosync): Likewise.
+	(camel_text_index_validate): Likewise.
+	* camel-vee-folder.c (vee_folder_remove_folder): Likewise.
+	(unmatched_check_uid): Likewise.
+	(folder_added_uid): Likewise.
+	(vee_folder_build_folder): Likewise.
+	(folder_changed_add_uid): Likewise.
+	(folder_changed_remove_uid): Likewise.
+	* providers/imap/camel-imap-search.c (imap_body_contains): Likewise.
+	* providers/pop3/camel-pop3-folder.c (cmd_list): Likewise.
+	(cmd_uidl): Likewise.
+
+	* camel-data-cache.c (data_cache_init): Cast to CamelCopyFunc.
+	Fixes a warning.
 
 2003-05-15  Not Zed  <NotZed@Ximian.com>
 
@@ -4159,7 +4158,7 @@
 
 	* *.c: Fix callers for api changes to camel-object, mainly
 	declare_event->add_event, and classfuncs->klass, and a couple
-        of missing #include <config.h>'s
+	of missing #include <config.h>'s
 
 	* camel-arg.[ch], Makefile.am: New support code for
 	camel_object_get/set arg.
@@ -8786,13 +8785,13 @@
 
 2001-07-02  Sam Creasey <sammy@oh.verio.com>
 
-        * providers/nntp/camel-nntp-folder.c: Implemented
-        nntp_folder_search_by_expression and
-        nntp_folder_search_free.  Basic search functionality e.g. unread
-        marking now works for NNTP folders.
+	* providers/nntp/camel-nntp-folder.c: Implemented
+	nntp_folder_search_by_expression and
+	nntp_folder_search_free.  Basic search functionality e.g. unread
+	marking now works for NNTP folders.
 
-        * camel_filter_search.c (get_size): Added get-size sexp directive
-        to get the size of a message for filters.
+	* camel_filter_search.c (get_size): Added get-size sexp directive
+	to get the size of a message for filters.
 
 	* providers/nntp/camel-nntp-folder.c (camel_nntp_folder_new):
 	Always check with the NNTP server after summary load -- this
@@ -9768,7 +9767,7 @@
 
 2001-04-26  Not Zed  <NotZed@Ximian.com>
 
-        * Applied jacob's patches for e-poolv stuff.
+	* Applied jacob's patches for e-poolv stuff.
 
 2001-04-23  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -11362,9 +11361,9 @@
 	token is non-NULL. This is why:
 
 	sending : AUTH PLAIN
-        received: 334 ok. go on.                 <-- this is why
-        sending : ZGZPaQpAZ214Lm5ldBBnb29jYXI=
-        received: 235 {mp005-rz3} go ahead
+	received: 334 ok. go on.                 <-- this is why
+	sending : ZGZPaQpAZ214Lm5ldBBnb29jYXI=
+	received: 235 {mp005-rz3} go ahead
 
 	* camel-sasl.c (camel_sasl_authtype): Add the PLAIN type here.
 	(camel_sasl_authtype_list): And here too.
@@ -21936,7 +21935,7 @@
 	set/get function on input/output stream.
 
 	* camel/camel-mime-part.c (_get_content_object): 
-	don't use a temporary mem stream. 	
+	don't use a temporary mem stream.
 
 	* camel/camel-seekable-substream.c (_seek): 
 	(_eos): 
