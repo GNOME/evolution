@@ -1,3 +1,34 @@
+2001-12-18  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (check_for_slow_setting): go slow and
+	clear the map if the last uri and the current uri do not match
+	(post_sync): save the last uri
+
+	* conduits/address-conduit-config.h: handle a last uri config
+	option
+
+2001-12-18  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (addressbook_default_book_open):
+	change this to match its e-book counterpart, and only failover to
+	the local addressbook if the protocol wasn't supported.  that way
+	errors like "failure to connect" are still reported to the user.
+
+	* backend/ebook/e-book-util.h: add prototypes for
+	e_book_load_default_book and e_book_get_config_database.
+
+	* backend/ebook/e-book-util.c (e_book_default_book_open): new
+	function, basically cut and paste addressbook_default_book_open
+	from addressbook.c here.
+	(e_book_load_default_book): cut and past
+	addressbook_load_default_book here, pretty much, except leave off
+	the auth stuff.
+	(e_book_get_config_database): new function, returns the
+	Bonobo_ConfigDatabase for e_book_load_default_book to use.
+
+	* conduit/address-conduit.c (start_addressbook_server): use
+	e_book_load_default_book here.
+	
 2001-12-17  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug 17355 ]

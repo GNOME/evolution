@@ -699,7 +699,12 @@ addressbook_default_book_open (EBook *book, EBookStatus status, gpointer closure
 
 	g_free (default_book_closure);
 
-	if (status != E_BOOK_STATUS_SUCCESS) {
+	/* special case the protocol not supported error, since we
+	   really only want to failover to the local book in the case
+	   where there's no installed backend for that protocol.  all
+	   other errors (failure to connect, etc.) should get reported
+	   to the caller as normal. */
+	if (status == E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED) {
 		e_book_load_local_address_book (book, user_response, user_closure);
 	}
 	else {
