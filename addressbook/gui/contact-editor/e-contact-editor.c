@@ -1857,6 +1857,8 @@ e_contact_editor_build_phone_ui (EContactEditor *editor)
 			g_object_unref(editor->phone_popup);
 		
 		editor->phone_popup = gnome_popup_menu_new(editor->phone_info);
+		g_object_ref (editor->phone_popup);
+		gtk_object_sink (GTK_OBJECT (editor->phone_popup));
 	}
 }
 
@@ -1883,6 +1885,8 @@ e_contact_editor_build_email_ui (EContactEditor *editor)
 			g_object_unref(editor->email_popup);
 		
 		editor->email_popup = gnome_popup_menu_new(editor->email_info);
+		g_object_ref (editor->email_popup);
+		gtk_object_sink (GTK_OBJECT (editor->email_popup));
 	}
 }
 
@@ -1909,6 +1913,8 @@ e_contact_editor_build_address_ui (EContactEditor *editor)
 			g_object_unref(editor->address_popup);
 		
 		editor->address_popup = gnome_popup_menu_new(editor->address_info);
+		g_object_ref (editor->address_popup);
+		gtk_object_sink (GTK_OBJECT (editor->address_popup));
 	}
 }
 

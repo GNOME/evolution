@@ -1,3 +1,13 @@
+2002-11-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c
+	(e_contact_editor_build_phone_ui): sink the popup.
+	(e_contact_editor_build_email_ui): same.
+	(e_contact_editor_build_address_ui): same.
+
+	* gui/component/addressbook-config.c (ldap_dialog_new): show
+	everything from dialog->page down, so custom widgets show up.
+
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/Makefile.am: Added rule to generate

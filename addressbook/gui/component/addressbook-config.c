@@ -1604,6 +1604,8 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 
 	dialog->page = glade_xml_get_widget (dialog->gui, "addressbook-sources");
 
+	gtk_widget_show_all (dialog->page);
+
 	return dialog;
 }
 
