@@ -570,8 +570,6 @@ pas_backend_file_process_create_card (PASBackend *backend,
 				 GNOME_Evolution_Addressbook_BookListener_CardNotFound,
 				 "");
 	}
-
-	g_free(req->vcard);
 }
 
 static void
@@ -596,7 +594,6 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 		pas_book_respond_remove (
 				 book,
 				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
-		g_free (req->id);
 		return;
 	}
 	
@@ -605,7 +602,6 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 		pas_book_respond_remove (
 				 book,
 				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
-		g_free (req->id);
 		return;
 	}
 
@@ -629,8 +625,6 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	pas_book_respond_remove (
 				 book,
 				 GNOME_Evolution_Addressbook_BookListener_Success);
-	
-	g_free (req->id);
 }
 
 static void
@@ -722,7 +716,6 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	g_free(old_vcard_string);
 
 	gtk_object_unref(GTK_OBJECT(card));
-	g_free (req->vcard);
 }
 
 static void
@@ -912,7 +905,6 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 				      PASGetChangesRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
-	CORBA_Environment ev;
 	PASBookView       *book_view;
 	PASBackendFileBookView view;
 	PASBackendFileChangeContext ctx;
@@ -951,17 +943,6 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	e_iterator_last(iterator);
 	pas_backend_file_changes (bf, book, e_iterator_get(iterator));
 	gtk_object_unref(GTK_OBJECT(iterator));
-
-	g_free(req->change_id);
-	CORBA_exception_init(&ev);
-	bonobo_object_release_unref (req->listener, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("pas_backend_file_process_get_changed: Exception unreffing "
-			  "listener.\n");
-	}
-
-	CORBA_exception_free(&ev);
 }
 
 static void

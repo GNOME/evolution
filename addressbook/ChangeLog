@@ -1,5 +1,17 @@
 2002-03-27  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_create_card): don't free req->vcard.
+	it's freed in pas_book_free_request.
+	(pas_backend_file_process_remove_card): don't free req->id for the
+	same reason.
+	(pas_backend_file_process_modify_card): don't free req->vcard for
+	the same reason.
+	(pas_backend_file_process_get_changes): don't free req->change_id
+	or release_unref the listener for the same reason.
+
+2002-03-27  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (check_schema_support): make sure
 	to call ldap_value_free (values);, and ldap_msgfree (resp).
 	(get_ldap_library_info): don't ask me why, but it appears we have
