@@ -17,6 +17,7 @@ errordir = $(privdatadir)/errors
 %.xml.h: %.xml
 	$(top_builddir)/e-util/e-error-tool $^
 
-BUILT_SOURCES = $(error_i18n)
+BUILT_SOURCES = $(plugin_DATA) $(error_i18n)
 
-EXTRA_DIST = org-gnome-itip-formatter.eplug.in
+EXTRA_DIST = $(error_DATA) $(error_i18n) org-gnome-itip-formatter.eplug.in
+

@@ -1,3 +1,8 @@
+2005-01-05  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am: Dist the errors data properly, and add the .eplug
+	output file to BUILT_SOURCES
+
 2005-01-03  Rodney Dawes  <dobey@novell.com>
 
 	* itip-formatter.c (format_itip_object): Don't do set_usize ()
