@@ -90,6 +90,7 @@ struct ETreePriv {
 	ETableSpecification *spec;
 
 	int reflow_idle_id;
+	int scroll_idle_id;
 
 	int table_model_change_id;
 	int table_row_change_id;
@@ -117,6 +118,8 @@ struct ETreePriv {
 
 	guint horizontal_scrolling : 1;
 
+	guint scroll_down : 1;
+
 	ECursorMode cursor_mode;
 
 	int drop_row;
@@ -124,6 +127,10 @@ struct ETreePriv {
 	int drop_col;
 
 	GnomeCanvasItem *drop_highlight;
+	int last_drop_x;
+	int last_drop_y;
+	int last_drop_time;
+	GdkDragContext *last_drop_context;
 
 	int drag_row;
 	ETreePath drag_path;
@@ -184,6 +191,9 @@ static gint e_tree_drag_source_event_cb (GtkWidget      *widget,
 
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
+static void scroll_off (ETree *et);
+static void scroll_on (ETree *et, gboolean down);
+
 static void
 et_disconnect_from_etta (ETree *et)
 {
@@ -218,6 +228,8 @@ et_destroy (GtkObject *object)
 	if (et->priv->reflow_idle_id)
 		g_source_remove(et->priv->reflow_idle_id);
 	et->priv->reflow_idle_id = 0;
+
+	scroll_off (et);
 
 	et_disconnect_from_etta (et);
 
@@ -270,6 +282,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->sort_info                          = NULL;
 	e_tree->priv->sorter                             = NULL;
 	e_tree->priv->reflow_idle_id                     = 0;
+	e_tree->priv->scroll_idle_id                     = 0;
 
 	e_tree->priv->alternating_row_colors             = 1;
 	e_tree->priv->horizontal_draw_grid               = 1;
@@ -1955,36 +1968,22 @@ et_drag_data_delete(GtkWidget *widget,
 			 context);
 }
 
-static void
-et_drag_leave(GtkWidget *widget,
-	      GdkDragContext *context,
-	      guint time,
-	      ETree *et)
-{
-	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [TREE_DRAG_LEAVE],
-			 et->priv->drop_row,
-			 et->priv->drop_path,
-			 et->priv->drop_col,
-			 context,
-			 time);
-	et->priv->drop_row = -1;
-	et->priv->drop_col = -1;
-}
-
 static gboolean
-et_drag_motion(GtkWidget *widget,
+do_drag_motion(ETree *et,
 	       GdkDragContext *context,
 	       gint x,
 	       gint y,
-	       guint time,
-	       ETree *et)
+	       guint time)
 {
 	gboolean ret_val;
 	int row, col;
 	ETreePath path;
-	y -= widget->allocation.y;
+	GtkWidget *widget;
+
+	widget = GTK_WIDGET (et);
+
 	x -= widget->allocation.x;
+	y -= widget->allocation.y;
 	e_tree_get_cell_at (et,
 			    x,
 			    y,
@@ -2016,6 +2015,112 @@ et_drag_motion(GtkWidget *widget,
 			 y,
 			 time,
 			 &ret_val);
+
+	return ret_val;
+}
+
+static gboolean
+scroll_timeout (gpointer data)
+{
+	ETree *et = data;
+	int dy;
+	GtkAdjustment *v;
+	double value;
+
+	if (et->priv->scroll_down)
+		dy = 20;
+	else
+		dy = -20;
+
+	v = GTK_LAYOUT(et->priv->table_canvas)->vadjustment;
+
+	value = v->value;
+
+	gtk_adjustment_set_value(v, CLAMP(v->value + dy, v->lower, v->upper - v->page_size));
+
+	if (v->value != value)
+		do_drag_motion(et,
+			       et->priv->last_drop_context,
+			       et->priv->last_drop_x,
+			       et->priv->last_drop_y,
+			       et->priv->last_drop_time);
+			       
+
+	return TRUE;
+}
+
+static void
+scroll_on (ETree *et, gboolean down)
+{
+	if (et->priv->scroll_idle_id == 0 || down != et->priv->scroll_down) {
+		if (et->priv->scroll_idle_id != 0)
+			g_source_remove (et->priv->scroll_idle_id);
+		et->priv->scroll_down = down;
+		et->priv->scroll_idle_id = g_timeout_add (100, scroll_timeout, et);
+	}
+}
+
+static void
+scroll_off (ETree *et)
+{
+	if (et->priv->scroll_idle_id) {
+		g_source_remove (et->priv->scroll_idle_id);
+		et->priv->scroll_idle_id = 0;
+	}
+}
+
+static void
+et_drag_leave(GtkWidget *widget,
+	      GdkDragContext *context,
+	      guint time,
+	      ETree *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [TREE_DRAG_LEAVE],
+			 et->priv->drop_row,
+			 et->priv->drop_path,
+			 et->priv->drop_col,
+			 context,
+			 time);
+	et->priv->drop_row = -1;
+	et->priv->drop_col = -1;
+
+	scroll_off (et);
+}
+
+static gboolean
+et_drag_motion(GtkWidget *widget,
+	       GdkDragContext *context,
+	       gint x,
+	       gint y,
+	       guint time,
+	       ETree *et)
+{
+	int ret_val;
+
+	et->priv->last_drop_x = x;
+	et->priv->last_drop_y = y;
+	et->priv->last_drop_time = time;
+	et->priv->last_drop_context = context;
+
+	ret_val = do_drag_motion (et,
+				  context,
+				  x,
+				  y,
+				  time);
+
+	x -= widget->allocation.x;
+	y -= widget->allocation.y;
+
+	if (y < 20 || y > widget->allocation.height - 20) {
+		if (y < 20)
+			scroll_on (et, FALSE);
+		else
+			scroll_on (et, TRUE);
+	} else {
+		scroll_off (et);
+	}
+
 	return ret_val;
 }
 
@@ -2075,6 +2180,8 @@ et_drag_drop(GtkWidget *widget,
 	et->priv->drop_row = -1;
 	et->priv->drop_path = NULL;
 	et->priv->drop_col = -1;
+
+	scroll_off (et);
 	return ret_val;
 }
 

@@ -58,6 +58,7 @@ typedef struct {
 	int group_info_change_id;
 
 	int reflow_idle_id;
+	int scroll_idle_id;
 
 	GnomeCanvas *header_canvas, *table_canvas;
 
@@ -82,6 +83,8 @@ typedef struct {
 	guint horizontal_scrolling : 1;
 
 	guint is_grouped : 1;
+
+	guint scroll_down : 1;
 	
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;
@@ -95,6 +98,10 @@ typedef struct {
 	int drop_row;
 	int drop_col;
 	GnomeCanvasItem *drop_highlight;
+	int last_drop_x;
+	int last_drop_y;
+	int last_drop_time;
+	GdkDragContext *last_drop_context;
 
 	int drag_row;
 	int drag_col;

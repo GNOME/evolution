@@ -124,6 +124,9 @@ static gint e_table_drag_source_event_cb (GtkWidget      *widget,
 
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
+static void scroll_off (ETable *et);
+static void scroll_on (ETable *et, gboolean down);
+
 static void
 et_disconnect_model (ETable *et)
 {
@@ -168,6 +171,8 @@ et_destroy (GtkObject *object)
 		g_source_remove(et->reflow_idle_id);
 	et->reflow_idle_id = 0;
 
+	scroll_off (et);
+
 	gtk_object_unref (GTK_OBJECT (et->model));
 	gtk_object_unref (GTK_OBJECT (et->full_header));
 	gtk_object_unref (GTK_OBJECT (et->header));
@@ -203,38 +208,39 @@ e_table_init (GtkObject *object)
 
 	GTK_WIDGET_SET_FLAGS (e_table, GTK_CAN_FOCUS);
 
-	gtk_table->homogeneous = FALSE;
+	gtk_table->homogeneous                      = FALSE;
 
-	e_table->sort_info = NULL;
-	e_table->group_info_change_id = 0;
-	e_table->reflow_idle_id = 0;
+	e_table->sort_info                          = NULL;
+	e_table->group_info_change_id               = 0;
+	e_table->reflow_idle_id                     = 0;
+	e_table->scroll_idle_id               = 0;
 
-	e_table->alternating_row_colors = 1;
-	e_table->horizontal_draw_grid = 1;
-	e_table->vertical_draw_grid = 1;
-	e_table->draw_focus = 1;
-	e_table->cursor_mode = E_CURSOR_SIMPLE;
-	e_table->length_threshold = 200;
+	e_table->alternating_row_colors             = 1;
+	e_table->horizontal_draw_grid               = 1;
+	e_table->vertical_draw_grid                 = 1;
+	e_table->draw_focus                         = 1;
+	e_table->cursor_mode                        = E_CURSOR_SIMPLE;
+	e_table->length_threshold                   = 200;
 
-	e_table->need_rebuild = 0;
-	e_table->rebuild_idle_id = 0;
+	e_table->need_rebuild                       = 0;
+	e_table->rebuild_idle_id                    = 0;
 
-	e_table->horizontal_scrolling = FALSE;
+	e_table->horizontal_scrolling               = FALSE;
 
-	e_table->click_to_add_message = NULL;
+	e_table->click_to_add_message               = NULL;
 
-	e_table->drag_get_data_row = -1;
-	e_table->drag_get_data_col = -1;
-	e_table->drop_row = -1;
-	e_table->drop_col = -1;
-	e_table->site = NULL;
-	e_table->drag_source_button_press_event_id = 0;
+	e_table->drag_get_data_row                  = -1;
+	e_table->drag_get_data_col                  = -1;
+	e_table->drop_row                           = -1;
+	e_table->drop_col                           = -1;
+	e_table->site                               = NULL;
+	e_table->drag_source_button_press_event_id  = 0;
 	e_table->drag_source_motion_notify_event_id = 0;
 
-	e_table->sorter = NULL;
-	e_table->selection = e_table_selection_model_new();
-	e_table->cursor_loc = E_TABLE_CURSOR_LOC_NONE;
-	e_table->spec = NULL;
+	e_table->sorter                             = NULL;
+	e_table->selection                          = e_table_selection_model_new();
+	e_table->cursor_loc                         = E_TABLE_CURSOR_LOC_NONE;
+	e_table->spec                               = NULL;
 }
 
 /* Grab_focus handler for the ETable */
@@ -1910,32 +1916,21 @@ et_drag_data_delete(GtkWidget *widget,
 			 context);
 }
 
-static void
-et_drag_leave(GtkWidget *widget,
-	      GdkDragContext *context,
-	      guint time,
-	      ETable *et)
-{
-	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [TABLE_DRAG_LEAVE],
-			 et->drop_row,
-			 et->drop_col,
-			 context,
-			 time);
-	et->drop_row = -1;
-	et->drop_col = -1;
-}
-
 static gboolean
-et_drag_motion(GtkWidget *widget,
+do_drag_motion(ETable *et,
 	       GdkDragContext *context,
 	       gint x,
 	       gint y,
-	       guint time,
-	       ETable *et)
+	       guint time)
 {
 	gboolean ret_val;
 	int row, col;
+	GtkWidget *widget;
+
+	widget = GTK_WIDGET (et);
+
+	x -= widget->allocation.x;
+	y -= widget->allocation.y;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
@@ -1958,6 +1953,114 @@ et_drag_motion(GtkWidget *widget,
 			 y,
 			 time,
 			 &ret_val);
+
+	return ret_val;
+}
+
+static gboolean
+scroll_timeout (gpointer data)
+{
+	ETable *et = data;
+	int dy;
+	GtkAdjustment *v;
+	double value;
+
+	if (et->scroll_down)
+		dy = 20;
+	else
+		dy = -20;
+
+	v = GTK_LAYOUT(et->table_canvas)->vadjustment;
+
+	value = v->value;
+
+	gtk_adjustment_set_value(v, CLAMP(v->value + dy, v->lower, v->upper - v->page_size));
+
+	if (v->value != value)
+		do_drag_motion(et,
+			       et->last_drop_context,
+			       et->last_drop_x,
+			       et->last_drop_y,
+			       et->last_drop_time);
+			       
+
+	return TRUE;
+}
+
+static void
+scroll_on (ETable *et, gboolean down)
+{
+	if (et->scroll_idle_id == 0 || down != et->scroll_down) {
+		if (et->scroll_idle_id != 0)
+			g_source_remove (et->scroll_idle_id);
+		et->scroll_down = down;
+		et->scroll_idle_id = g_timeout_add (100, scroll_timeout, et);
+	}
+}
+
+static void
+scroll_off (ETable *et)
+{
+	if (et->scroll_idle_id) {
+		g_source_remove (et->scroll_idle_id);
+		et->scroll_idle_id = 0;
+	}
+}
+
+static void
+et_drag_leave(GtkWidget *widget,
+	      GdkDragContext *context,
+	      guint time,
+	      ETable *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [TABLE_DRAG_LEAVE],
+			 et->drop_row,
+			 et->drop_col,
+			 context,
+			 time);
+	et->drop_row = -1;
+	et->drop_col = -1;
+
+	scroll_off (et);
+}
+
+static gboolean
+et_drag_motion(GtkWidget *widget,
+	       GdkDragContext *context,
+	       gint x,
+	       gint y,
+	       guint time,
+	       ETable *et)
+{
+	gboolean ret_val;
+
+	g_print ("x=%d, y=%d\n", x, y);
+
+	et->last_drop_x = x;
+	et->last_drop_y = y;
+	et->last_drop_time = time;
+	et->last_drop_context = context;
+
+	ret_val = do_drag_motion (et,
+				  context,
+				  x,
+				  y,
+				  time);
+
+
+	x -= widget->allocation.x;
+	y -= widget->allocation.y;
+
+	if (y < 20 || y > widget->allocation.height - 20) {
+		if (y < 20)
+			scroll_on (et, FALSE);
+		else
+			scroll_on (et, TRUE);
+	} else {
+		scroll_off (et);
+	}
+
 	return ret_val;
 }
 
@@ -1971,6 +2074,9 @@ et_drag_drop(GtkWidget *widget,
 {
 	gboolean ret_val;
 	int row, col;
+
+	x -= widget->allocation.x;
+	y -= widget->allocation.y;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
@@ -2004,6 +2110,9 @@ et_drag_drop(GtkWidget *widget,
 			 &ret_val);
 	et->drop_row = -1;
 	et->drop_col = -1;
+
+	scroll_off (et);
+
 	return ret_val;
 }
 
@@ -2018,6 +2127,9 @@ et_drag_data_received(GtkWidget *widget,
 		      ETable *et)
 {
 	int row, col;
+
+	x -= widget->allocation.x;
+	y -= widget->allocation.y;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
