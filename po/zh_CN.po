@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-06 12:38+0100\n"
-"PO-Revision-Date: 2005-02-07 00:22+0800\n"
+"POT-Creation-Date: 2005-02-07 20:44+0100\n"
+"PO-Revision-Date: 2005-02-08 06:33+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -6002,7 +6002,7 @@ msgstr "到期日期："
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
 #: calendar/gui/e-itip-control.c:1132
-#: plugins/exchange-account-setup/exchange-account-setup.c:102
+#: plugins/exchange-account-setup/exchange-account-setup.c:129
 #: plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "状态："
@@ -13683,8 +13683,32 @@ msgstr "标为默认文件夹"
 msgid "Mark as default folder"
 msgstr "标为默认文件夹"
 
+#. i18n: "Secure Password Authentication" is an Outlookism
+#: plugins/exchange-account-setup/exchange-account-setup.c:53
+msgid "Secure Password"
+msgstr "安全密码"
+
+#. i18n: "NTLM" probably doesn't translate
+#: plugins/exchange-account-setup/exchange-account-setup.c:56
+msgid ""
+"This option will connect to the Exchange server using secure password (NTLM) "
+"authentication."
+msgstr ""
+"此选项将使用安全密码(NTLM)身份验证连接到 Exchange 服务器。"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:64
+msgid "Plaintext Password"
+msgstr "纯文本密码"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:66
+msgid ""
+"This option will connect to the Exchange server using standard plaintext "
+"password authentication."
+msgstr ""
+"此选项将使用标准的纯文本密码身份验证连接到 Exchange 服务器。"
+
 #. Description section
-#: plugins/exchange-account-setup/exchange-account-setup.c:86
+#: plugins/exchange-account-setup/exchange-account-setup.c:113
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -13692,31 +13716,39 @@ msgstr ""
 "在您位于办公室外时，如果有人给您发送邮件，则会自动将下面指定的信件\n"
 "送回。"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:113
+#: plugins/exchange-account-setup/exchange-account-setup.c:140
 msgid "I am in the office"
 msgstr "我正在办公室内"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:127
+#: plugins/exchange-account-setup/exchange-account-setup.c:154
 msgid "I am out of the office"
 msgstr "我正在办公室外"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:141
+#: plugins/exchange-account-setup/exchange-account-setup.c:168
 msgid "Out of office Message:"
 msgstr "办公室以外信件："
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:167
+#: plugins/exchange-account-setup/exchange-account-setup.c:194
 msgid "Exchange Settings"
 msgstr "Exchange 设置"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:305
+#: plugins/exchange-account-setup/exchange-account-setup.c:332
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "_OWA URL："
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:313
+#: plugins/exchange-account-setup/exchange-account-setup.c:340
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
 msgid "A_uthenticate"
 msgstr "身份验证(_U)"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:457
+msgid "Authentication Type"
+msgstr "身份验证类型"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:471
+msgid "Ch_eck for Supported Types"
+msgstr "检查支持的类型(_E)"
 
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
