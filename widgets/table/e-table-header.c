@@ -321,7 +321,8 @@ eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
  *
  * This function adds the @tc ETableCol definition into the @eth ETableHeader
  * at position @pos.  This is the way you add new ETableCols to the
- * ETableHeader.
+ * ETableHeader.  The header will assume ownership of the @tc; you should not
+ * unref it after you add it.
  *
  * This function will emit the "structure_change" signal on the @eth object.
  * The ETableCol is assumed 

@@ -44,17 +44,27 @@ static void
 etg_destroy (GtkObject *object)
 {
 	ETableGroup *etg = E_TABLE_GROUP(object);
-	if (etg->header)
+
+	if (etg->header) {
 		gtk_object_unref (GTK_OBJECT(etg->header));
-	if (etg->full_header)
+		etg->header = NULL;
+	}
+
+	if (etg->full_header) {
 		gtk_object_unref (GTK_OBJECT(etg->full_header));
-	if (etg->model)
+		etg->full_header = NULL;
+	}
+
+	if (etg->model) {
 		gtk_object_unref (GTK_OBJECT(etg->model));
+		etg->model = NULL;
+	}
+
 	if (GTK_OBJECT_CLASS (etg_parent_class)->destroy)
 		GTK_OBJECT_CLASS (etg_parent_class)->destroy (object);
 }
 
-/** 
+/**
  * e_table_group_new
  * @parent: The %GnomeCanvasGroup to create a child of.
  * @full_header: The full header of the %ETable.
@@ -81,7 +91,7 @@ e_table_group_new (GnomeCanvasGroup *parent,
 		   int               n)
 {
 	g_return_val_if_fail (model != NULL, NULL);
-	
+
 	if (n < e_table_sort_info_grouping_get_count(sort_info)) {
 		return e_table_group_container_new (parent, full_header, header, model, sort_info, n);
 	} else {
@@ -90,7 +100,7 @@ e_table_group_new (GnomeCanvasGroup *parent,
 	return NULL;
 }
 
-/** 
+/**
  * e_table_group_construct
  * @parent: The %GnomeCanvasGroup to create a child of.
  * @etg: The %ETableGroup to construct.
@@ -116,7 +126,7 @@ e_table_group_construct (GnomeCanvasGroup *parent,
 	gnome_canvas_item_constructv (GNOME_CANVAS_ITEM (etg), parent, 0, NULL);
 }
 
-/** 
+/**
  * e_table_group_add
  * @etg: The %ETableGroup to add a row to
  * @row: The row to add.
@@ -131,11 +141,11 @@ e_table_group_add (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->add)
-		ETG_CLASS (etg)->add (etg, row);
+	g_assert (ETG_CLASS (etg)->add != NULL);
+	ETG_CLASS (etg)->add (etg, row);
 }
 
-/** 
+/**
  * e_table_group_add_array
  * @etg: The %ETableGroup to add to
  * @array: The array to add.
@@ -152,11 +162,11 @@ e_table_group_add_array (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->add_array)
-		ETG_CLASS (etg)->add_array (etg, array, count);
+	g_assert (ETG_CLASS (etg)->add_array != NULL);
+	ETG_CLASS (etg)->add_array (etg, array, count);
 }
 
-/** 
+/**
  * e_table_group_add_all
  * @etg: The %ETableGroup to add to
  *
@@ -169,11 +179,11 @@ e_table_group_add_all (ETableGroup *etg)
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->add_all)
-		ETG_CLASS (etg)->add_all (etg);
+	g_assert (ETG_CLASS (etg)->add_all != NULL);
+	ETG_CLASS (etg)->add_all (etg);
 }
 
-/** 
+/**
  * e_table_group_remove
  * @etg: The %ETableGroup to remove a row from
  * @row: The row to remove.
@@ -191,13 +201,11 @@ e_table_group_remove (ETableGroup *etg,
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
 
-	if (ETG_CLASS (etg)->remove)
-		return ETG_CLASS (etg)->remove (etg, row);
-	else
-		return FALSE;
+	g_assert (ETG_CLASS (etg)->remove != NULL);
+	return ETG_CLASS (etg)->remove (etg, row);
 }
 
-/** 
+/**
  * e_table_group_increment
  * @etg: The %ETableGroup to increment
  * @position: The position to increment from
@@ -215,11 +223,11 @@ e_table_group_increment (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->increment)
-		ETG_CLASS (etg)->increment (etg, position, amount);
+	g_assert (ETG_CLASS (etg)->increment != NULL);
+	ETG_CLASS (etg)->increment (etg, position, amount);
 }
 
-/** 
+/**
  * e_table_group_increment
  * @etg: The %ETableGroup to decrement
  * @position: The position to decrement from
@@ -237,11 +245,11 @@ e_table_group_decrement (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->decrement)
-		ETG_CLASS (etg)->decrement (etg, position, amount);
+	g_assert (ETG_CLASS (etg)->decrement != NULL);
+	ETG_CLASS (etg)->decrement (etg, position, amount);
 }
 
-/** 
+/**
  * e_table_group_increment
  * @etg: The %ETableGroup to count
  *
@@ -253,15 +261,13 @@ gint
 e_table_group_row_count (ETableGroup *etg)
 {
 	g_return_val_if_fail (etg != NULL, 0);
-	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), 0);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
 
-	if (ETG_CLASS (etg)->row_count)
-		return ETG_CLASS (etg)->row_count (etg);
-	else
-		return 0;
+	g_assert (ETG_CLASS (etg)->row_count != NULL);
+	return ETG_CLASS (etg)->row_count (etg);
 }
 
-/** 
+/**
  * e_table_group_set_focus
  * @etg: The %ETableGroup to set
  * @direction: The direction the focus is coming from.
@@ -278,11 +284,11 @@ e_table_group_set_focus (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->set_focus)
-		ETG_CLASS (etg)->set_focus (etg, direction, view_col);
+	g_assert (ETG_CLASS (etg)->set_focus != NULL);
+	ETG_CLASS (etg)->set_focus (etg, direction, view_col);
 }
 
-/** 
+/**
  * e_table_group_get_focus
  * @etg: The %ETableGroup to check
  *
@@ -296,13 +302,11 @@ e_table_group_get_focus (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
 
-	if (ETG_CLASS (etg)->get_focus)
-		return ETG_CLASS (etg)->get_focus (etg);
-	else
-		return FALSE;
+	g_assert (ETG_CLASS (etg)->get_focus != NULL);
+	return ETG_CLASS (etg)->get_focus (etg);
 }
 
-/** 
+/**
  * e_table_group_get_focus_column
  * @etg: The %ETableGroup to check
  *
@@ -314,15 +318,13 @@ gint
 e_table_group_get_focus_column (ETableGroup *etg)
 {
 	g_return_val_if_fail (etg != NULL, FALSE);
-	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), FALSE);
+	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
 
-	if (ETG_CLASS (etg)->get_focus_column)
-		return ETG_CLASS (etg)->get_focus_column (etg);
-	else
-		return -1;
+	g_assert (ETG_CLASS (etg)->get_focus_column != NULL);
+	return ETG_CLASS (etg)->get_focus_column (etg);
 }
 
-/** 
+/**
  * e_table_group_get_printable
  * @etg: %ETableGroup which will be printed
  *
@@ -337,13 +339,11 @@ e_table_group_get_printable (ETableGroup *etg)
 	g_return_val_if_fail (etg != NULL, NULL);
 	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), NULL);
 
-	if (ETG_CLASS (etg)->get_printable)
-		return ETG_CLASS (etg)->get_printable (etg);
-	else
-		return NULL;
+	g_assert (ETG_CLASS (etg)->get_printable != NULL);
+	return ETG_CLASS (etg)->get_printable (etg);
 }
 
-/** 
+/**
  * e_table_group_compute_location
  * @eti: %ETableGroup to look in.
  * @x: A pointer to the x location to find in the %ETableGroup.
@@ -363,11 +363,11 @@ e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int 
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->compute_location)
-		ETG_CLASS (etg)->compute_location (etg, x, y, row, col);
+	g_assert (ETG_CLASS (etg)->compute_location != NULL);
+	ETG_CLASS (etg)->compute_location (etg, x, y, row, col);
 }
 
-/** 
+/**
  * e_table_group_get_position
  * @eti: %ETableGroup to look in.
  * @x: A pointer to the location to store the found x location in.
@@ -393,11 +393,11 @@ e_table_group_get_cell_geometry  (ETableGroup *etg,
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	if (ETG_CLASS (etg)->get_cell_geometry)
-		ETG_CLASS (etg)->get_cell_geometry (etg, row, col, x, y, width, height);
+	g_assert (ETG_CLASS (etg)->get_cell_geometry != NULL);
+	ETG_CLASS (etg)->get_cell_geometry (etg, row, col, x, y, width, height);
 }
 
-/** 
+/**
  * e_table_group_cursor_change
  * @eti: %ETableGroup to emit the signal on
  * @row: The new cursor row (model row)
@@ -415,7 +415,7 @@ e_table_group_cursor_change (ETableGroup *e_table_group, gint row)
 			 row);
 }
 
-/** 
+/**
  * e_table_group_cursor_activated
  * @eti: %ETableGroup to emit the signal on
  * @row: The cursor row (model row)
@@ -433,7 +433,7 @@ e_table_group_cursor_activated (ETableGroup *e_table_group, gint row)
 			 row);
 }
 
-/** 
+/**
  * e_table_group_double_click
  * @eti: %ETableGroup to emit the signal on
  * @row: The row clicked on (model row)
@@ -453,7 +453,7 @@ e_table_group_double_click (ETableGroup *e_table_group, gint row, gint col, GdkE
 			 row, col, event);
 }
 
-/** 
+/**
  * e_table_group_right_click
  * @eti: %ETableGroup to emit the signal on
  * @row: The row clicked on (model row)
@@ -477,7 +477,7 @@ e_table_group_right_click (ETableGroup *e_table_group, gint row, gint col, GdkEv
 	return return_val;
 }
 
-/** 
+/**
  * e_table_group_click
  * @eti: %ETableGroup to emit the signal on
  * @row: The row clicked on (model row)
@@ -501,7 +501,7 @@ e_table_group_click (ETableGroup *e_table_group, gint row, gint col, GdkEvent *e
 	return return_val;
 }
 
-/** 
+/**
  * e_table_group_key_press
  * @eti: %ETableGroup to emit the signal on
  * @row: The cursor row (model row)
@@ -525,7 +525,7 @@ e_table_group_key_press (ETableGroup *e_table_group, gint row, gint col, GdkEven
 	return return_val;
 }
 
-/** 
+/**
  * e_table_group_start_drag
  * @eti: %ETableGroup to emit the signal on
  * @row: The cursor row (model row)
@@ -549,7 +549,7 @@ e_table_group_start_drag (ETableGroup *e_table_group, gint row, gint col, GdkEve
 	return return_val;
 }
 
-/** 
+/**
  * e_table_group_get_header
  * @eti: %ETableGroup to check
  *
@@ -612,7 +612,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->click = NULL;
 	klass->key_press = NULL;
 	klass->start_drag = NULL;
-	
+
 	klass->add = NULL;
 	klass->add_array = NULL;
 	klass->add_all = NULL;

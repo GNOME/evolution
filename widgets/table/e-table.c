@@ -700,6 +700,8 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 static void
 et_canvas_button_press (GtkWidget *canvas, GdkEvent *event, ETable *e_table)
 {
+	fprintf (stderr, "et_canvas_button_press(): PRESSED\n");
+
 	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
 		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
 
