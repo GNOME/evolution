@@ -1055,9 +1055,17 @@ create_new_event (CalendarComponent *calendar_component, gboolean is_allday, gbo
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
 	}
-	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only)
+	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only) {
+		GtkWidget *dialog;
+			
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+						 _("Selected calendar is read-only, events cannot be created. Please select a read-write calendar."));
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
 		return;
-
+	}
+	
 	if (priv->calendar && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (priv->calendar))))
 		e_calendar_view_new_appointment_full (view, is_allday, is_meeting);
 	else {

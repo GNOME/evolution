@@ -1,3 +1,11 @@
+2004-04-12  Gary Ekker  <gekker@novell.com>
+
+        Fixes #56628
+	
+	* gui/calendar-component.c (create_new_event): Add informational dialog
+	when user attempts event creation in read-only calendar.
+	
+
 2004-04-09  Gary Ekker  <gekker@novell.com>
 
 	* gui/dialogs/url-editor-dialog.c: Fixed to use e-passwords.
