@@ -1,5 +1,9 @@
 2001-09-17  Jon Trowbridge  <trow@ximian.com>
 
+	* backend/ebook/e-card.c (e_card_list_send): Do the right thing if
+	the card we are trying to send to has no valid e-mail addresses.
+	(bug #10137)
+
 	* gui/widgets/e-minicard.c (e_minicard_event): Code implicitly
 	assumed that event->button.button is 1, 2, or 3, causing disaster
 	when using a wheel-mouse.  Fixed. (bug #9400)

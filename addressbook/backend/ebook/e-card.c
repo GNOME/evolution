@@ -4088,7 +4088,8 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 				else
 					bcc_length += len;
 			} else {
-				++to_length;
+				if (card->email != NULL)
+					++to_length;
 			}
 		}
 
@@ -4097,15 +4098,19 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		to_list->_maximum = to_length;
 		to_list->_length = to_length;
-		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
+		if (to_length > 0) {
+			to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (to_length);
+		}
 
 		cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		cc_list->_maximum = cc_list->_length = 0;
-
+		
 		bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		bcc_list->_maximum = bcc_length;
 		bcc_list->_length = bcc_length;
-		bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
+		if (bcc_length > 0) {
+			bcc_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc_length);
+		}
 
 		to_i = 0;
 		bcc_i = 0;
@@ -4113,64 +4118,62 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 			ECard *card = cards->data;
 			EIterator *iterator;
 			gchar *name, *addr;
-			char *file_as;
 			gboolean is_list, is_hidden, free_name_addr;
-			EList *email;
 			GNOME_Evolution_Composer_Recipient *recipient;
 
-			gtk_object_get (GTK_OBJECT (card),
-				       "file_as", &file_as,
-				       "email", &email,
-				       NULL);
+			if (card->email != NULL) {
 
-			is_list = e_card_evolution_list (card);
-			is_hidden = is_list && !e_card_evolution_list_show_addresses (card);
-
-			for (iterator = e_list_get_iterator (email); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
-
-				if (is_hidden) {
-					recipient = &(bcc_list->_buffer[bcc_i]);
-					++bcc_i;
-				} else {
-					recipient = &(to_list->_buffer[to_i]);
-					++to_i;
-				}
-   
-				name = "";
-				addr = "";
-				free_name_addr = FALSE;
-				if (e_iterator_is_valid (iterator)) {
-				
-					if (is_list) {
-						/* We need to decode the list entries, which are XMLified EDestinations. */
-						EDestination *dest = e_destination_import (e_iterator_get (iterator));
-						if (dest != NULL) {
-							name = g_strdup (e_destination_get_name (dest));
-							addr = g_strdup (e_destination_get_email (dest));
-							free_name_addr = TRUE;
-							gtk_object_unref (GTK_OBJECT (dest));
-						}
-						
-					} else { /* is just a plain old card */
-						name = file_as;
-						addr = (char *) e_iterator_get (iterator);
+				is_list = e_card_evolution_list (card);
+				is_hidden = is_list && !e_card_evolution_list_show_addresses (card);
+			
+				for (iterator = e_list_get_iterator (card->email); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+					
+					if (is_hidden) {
+						recipient = &(bcc_list->_buffer[bcc_i]);
+						++bcc_i;
+					} else {
+						recipient = &(to_list->_buffer[to_i]);
+						++to_i;
 					}
+					
+					name = "";
+					addr = "";
+					free_name_addr = FALSE;
+					if (e_iterator_is_valid (iterator)) {
+						
+						if (is_list) {
+							/* We need to decode the list entries, which are XMLified EDestinations. */
+							EDestination *dest = e_destination_import (e_iterator_get (iterator));
+							if (dest != NULL) {
+								name = g_strdup (e_destination_get_name (dest));
+								addr = g_strdup (e_destination_get_email (dest));
+								free_name_addr = TRUE;
+								gtk_object_unref (GTK_OBJECT (dest));
+							}
+							
+						} else { /* is just a plain old card */
+							if (card->name)
+								name = e_card_name_to_string (card->name);
+							addr = g_strdup ((char *) e_iterator_get (iterator));
+							free_name_addr = TRUE;
+						}
+					}
+					
+					recipient->name    = CORBA_string_dup (name ? name : "");
+					recipient->address = CORBA_string_dup (addr ? addr : "");
+					
+					if (free_name_addr) {
+						g_free ((gchar *) name);
+						g_free ((gchar *) addr);
+					}
+					
+					/* If this isn't a list, we quit after the first (i.e. the default) address. */
+					if (!is_list)
+						break;
+					
 				}
-
-				recipient->name    = CORBA_string_dup (name ? name : "");
-				recipient->address = CORBA_string_dup (addr ? addr : "");
-
-				if (free_name_addr) {
-					g_free ((gchar *) name);
-					g_free ((gchar *) addr);
-				}
-				
-				/* If this isn't a list, we quit after the first (i.e. the default) address. */
-				if (!is_list)
-					break;
-
+				gtk_object_unref (GTK_OBJECT (iterator));
 			}
-			gtk_object_unref (GTK_OBJECT (iterator));
 
 			cards = g_list_next (cards);
 		}
