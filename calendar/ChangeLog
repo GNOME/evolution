@@ -1,3 +1,13 @@
+2003-03-20  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c
+	(e_calendar_context_destroy): calcomponents are gobjects now
+	(calconduit_load_configuration): ref and sink to avoid warnings
+
+	* conduits/todo/todo-conduit.c (todoconduit_load_configuration):
+	ref and sink to avoid warnings
+	(e_todo_context_destroy): calcomponents are gobjects now
+
 2003-03-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/cancel-comp.c (cancel_component_dialog): use a

@@ -117,7 +117,11 @@ todoconduit_load_configuration (guint32 pilot_id)
 	c->pilot_id = pilot_id;
 
 	management = gnome_pilot_conduit_management_new ("e_todo_conduit", GNOME_PILOT_CONDUIT_MGMT_ID);
+	gtk_object_ref (GTK_OBJECT (management));
+	gtk_object_sink (GTK_OBJECT (management));
 	config = gnome_pilot_conduit_config_new (management, pilot_id);
+	gtk_object_ref (GTK_OBJECT (config));
+	gtk_object_sink (GTK_OBJECT (config));
 	if (!gnome_pilot_conduit_config_is_enabled (config, &c->sync_type))
 		c->sync_type = GnomePilotConduitSyncTypeNotSet;
 	gtk_object_unref (GTK_OBJECT (config));
@@ -308,7 +312,7 @@ e_todo_context_destroy (EToDoConduitContext *ctxt)
 		g_object_unref (ctxt->client);
 
 	if (ctxt->default_comp != NULL)
-		gtk_object_unref (GTK_OBJECT (ctxt->default_comp));
+		g_object_unref (ctxt->default_comp);
 	if (ctxt->uids != NULL)
 		cal_obj_uid_list_free (ctxt->uids);
 
