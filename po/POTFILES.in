@@ -353,7 +353,7 @@ shell/GNOME_Evolution_Test.server.in.in
 shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
-shell/shell-errors.xml.h
+shell/shell-errors.xml
 smime/gui/certificate-manager.c
 smime/gui/certificate-viewer.c
 smime/gui/component.c

@@ -1,3 +1,8 @@
+2004-06-10  Adam Weinberger  <adamw@gnome.org>
+
+	* en_CA.po: Updated Canadian English translation.
+	* POTFILES.in: Correct path error.
+
 2004-06-10  Rodney Dawes  <dobey@novell.com>
 
 	* POTFILES.in: Update for removed files
