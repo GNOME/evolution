@@ -117,7 +117,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
-					 0, 0, mail_config, NULL);
+					 0, 0, (void *) mail_config, NULL);
 	
 	bonobo_ui_handler_menu_new_item (uih, "/Tools/Forget Passwords", _("Forget _Passwords"),
 					 NULL, -1,

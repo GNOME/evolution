@@ -283,7 +283,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		return GINT_TO_POINTER(!(msg_info->flags & CAMEL_MESSAGE_SEEN));
 
 	case COL_COLOUR:
-		return camel_tag_get(&msg_info->user_tags, "colour");
+		return (void *) camel_tag_get((CamelTag **) &msg_info->user_tags, "colour");
 	}
 
 	g_assert_not_reached ();

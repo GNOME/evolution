@@ -434,11 +434,6 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 			continue;
 		}
 
-		if (mi == NULL) {
-			g_warning("Folder doesn't contain uid %s", uids->pdata[i]);
-			continue;
-		}
-
 		if (mi->message_id) {
 			d(printf("doing : %s\n", mi->message_id));
 			c = g_hash_table_lookup(id_table, mi->message_id);

@@ -60,7 +60,7 @@ mail_request_dialog (const char *prompt, gboolean secret, const char *key)
 	    ans == NULL)
 		return NULL;
 #else
-	if (!mail_op_get_password (prompt, secret, &ans))
+	if (!mail_op_get_password ((char *) prompt, secret, &ans))
 		return NULL;
 #endif
 
