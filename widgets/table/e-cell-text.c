@@ -13,6 +13,8 @@
 
 #define PARENT_TYPE e_cell_get_type()
 
+#define TEXT_PAD 2
+
 typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
@@ -26,11 +28,22 @@ static ECellView *
 ect_realize (ECell *ecell, GnomeCanvas *canvas)
 {
 	ECellText *ect = E_CELL_TEXT (ecell);
-	ECellTextView *ectv = g_new (ECellTextView, 1);
+	ECellTextView *ectv = g_new0 (ECellTextView, 1);
 
 	ectv->cell_view.ecell = ecell;
 	ectv->gc = gdk_gc_new (GTK_WIDGET (canvas)->window);
-	ectv->font = gdk_fontset_load (ect->font_name ? ect->font_name : "fixed");
+	if (ect->font_name){
+		GdkFont *f;
+
+		f = gdk_fontset_load (ect->font_name);
+		ectv->font = f;
+	}
+	if (!ectv->font){
+		ectv->font = GTK_WIDGET (canvas)->style->font;
+		
+		gdk_font_ref (ectv->font);
+	}
+	
 	ectv->canvas = canvas;
 
 	return (ECellView *)ectv;
@@ -67,8 +80,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1
 	
 	gdk_gc_set_clip_rectangle (text_view->gc, &rect);
 
-	printf ("String is: [%s]\n", str);
-	
 	switch (ect->justify){
 	case GTK_JUSTIFY_LEFT:
 		xoff = 1;
@@ -90,20 +101,23 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable, int col, int row, int x1
 	/* Draw now */
 	{
 		GtkWidget *w = GTK_WIDGET (text_view->canvas);
-		GdkColor *background;
-		int idx;
+		GdkColor *background, *foreground;
+		const int height = text_view->font->ascent + text_view->font->descent;
 		
-		if (selected)
-			idx = GTK_STATE_SELECTED;
-		else
-			idx = GTK_STATE_NORMAL;
+		if (selected){
+			background = &w->style->bg [GTK_STATE_SELECTED];
+			foreground = &w->style->text [GTK_STATE_SELECTED];
+		} else {
+			background = &w->style->base [GTK_STATE_NORMAL];
+			foreground = &w->style->text [GTK_STATE_NORMAL];
+		}
 		
-		gdk_gc_set_foreground (text_view->gc, &w->style->bg [idx]);
+		gdk_gc_set_foreground (text_view->gc, background); 
 		gdk_draw_rectangle (drawable, text_view->gc, TRUE,
 				    rect.x, rect.y, rect.width, rect.height);
-		gdk_gc_set_foreground (text_view->gc, &w->style->fg [idx]);
+		gdk_gc_set_foreground (text_view->gc, foreground);
 		gdk_draw_string (drawable, text_view->font, text_view->gc,
-				 x1 + xoff, y2 - text_view->font->descent, str);
+				 x1 + xoff, y2 - text_view->font->descent - ((y2-y1-height)/2), str);
 	}
 }
 
@@ -129,6 +143,14 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 	}
 }
 
+static int
+ect_height (ECellView *ecell_view, int col, int row)
+{
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	
+	return (text_view->font->ascent + text_view->font->descent) + TEXT_PAD;
+}
+
 static void
 ect_destroy (GtkObject *object)
 {
@@ -150,7 +172,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->unrealize = ect_unrealize;
 	ecc->draw = ect_draw;
 	ecc->event = ect_event;
-
+	ecc->height = ect_height;
+	
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 

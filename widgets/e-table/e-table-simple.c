@@ -62,14 +62,6 @@ simple_is_cell_editable (ETableModel *etm, int col, int row)
 	return simple->is_cell_editable (etm, col, row, simple->data);
 }
 
-static int
-simple_row_height (ETableModel *etm, int row)
-{
-	ETableSimple *simple = (ETableSimple *)etm;
-
-	return simple->row_height (etm, row, simple->data);
-}
-
 static void
 e_table_simple_class_init (GtkObjectClass *object_class)
 {
@@ -81,7 +73,6 @@ e_table_simple_class_init (GtkObjectClass *object_class)
 	model_class->value_at = simple_value_at;
 	model_class->set_value_at = simple_set_value_at;
 	model_class->is_cell_editable = simple_is_cell_editable;
-	model_class->row_height = simple_row_height;
 }
 
 GtkType
@@ -114,7 +105,6 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleValueAtFn value_at,
 		    ETableSimpleSetValueAtFn set_value_at,
 		    ETableSimpleIsCellEditableFn is_cell_editable,
-		    ETableSimpleRowHeightFn row_height,
 		    void *data)
 {
 	ETableSimple *et;
@@ -127,7 +117,6 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->value_at = value_at;
 	et->set_value_at = set_value_at;
 	et->is_cell_editable = is_cell_editable;
-	et->row_height = row_height;
 	
 	return (ETableModel *) et;
 }

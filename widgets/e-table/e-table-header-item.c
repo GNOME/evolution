@@ -376,6 +376,10 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		set_cursor (ethi, x);
 		break;
 
+	case GDK_LEAVE_NOTIFY:
+		e_cursor_set (GTK_WIDGET (canvas)->window, E_CURSOR_ARROW);
+		break;
+			    
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
 		if (resizing){

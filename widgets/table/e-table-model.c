@@ -58,12 +58,6 @@ e_table_model_is_cell_editable (ETableModel *etable, int col, int row)
 	return ETM_CLASS (etable)->is_cell_editable (etable, col, row);
 }
 
-int
-e_table_model_row_height (ETableModel *etable, int row)
-{
-	return ETM_CLASS (etable)->row_height (etable, row);
-}
-
 static void
 e_table_model_destroy (GtkObject *object)
 {
@@ -101,6 +95,12 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	gtk_object_class_add_signals (object_class, etm_signals, LAST_SIGNAL);
 }
 
+static void
+e_table_model_init (ETableModel *etm)
+{
+	etm->row_selected = -1;
+}
+
 GtkType
 e_table_model_get_type (void)
 {
@@ -112,7 +112,7 @@ e_table_model_get_type (void)
 			sizeof (ETableModel),
 			sizeof (ETableModelClass),
 			(GtkClassInitFunc) e_table_model_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) e_table_model_init,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
@@ -122,22 +122,6 @@ e_table_model_get_type (void)
 	}
 
 	return type;
-}
-
-int
-e_table_model_height (ETableModel *etable)
-{
-	int rows, size, i;
-
-	g_return_val_if_fail (etable != NULL, 0);
-
-	rows = e_table_model_row_count (etable);
-	size = 0;
-	
-	for (i = 0; i < rows; i++)
-		size += e_table_model_row_height (etable, i) + 1;
-
-	return size;
 }
 
 void

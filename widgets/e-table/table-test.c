@@ -172,12 +172,6 @@ set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
 }
 
-static int
-row_height (ETableModel *etm, int row, void *data)
-{
-	return row * 2 + 14;
-}
-
 int
 main (int argc, char *argv [])
 {
@@ -197,13 +191,13 @@ main (int argc, char *argv [])
 	 */
 	e_table_model = e_table_simple_new (
 		col_count, col_name, row_count, value_at,
-		set_value_at, is_cell_editable, row_height, NULL);
+		set_value_at, is_cell_editable, NULL);
 
 	/*
 	 * Header
 	 */
 	e_table_header = e_table_header_new ();
-	cell_left_just = e_cell_text_new (e_table_model, "fixed", GTK_JUSTIFY_LEFT);
+	cell_left_just = e_cell_text_new (e_table_model, NULL, GTK_JUSTIFY_LEFT);
 	
 	for (i = 0; i < cols; i++){
 		ETableCol *ecol = e_table_col_new (

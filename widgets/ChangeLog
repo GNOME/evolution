@@ -1,8 +1,30 @@
+1999-11-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-item.c (eti_realize): Compute height using the ecell
+	methods here. 
+	(eti_get_height): new method to compute dimensions.
+
+	* e-cursors.c: use a different cursor.
+
+	* e-table-model.h: kill height and row_height methods.
+
+	* e-cell.c (ec_height): New method.
+
+	* e-cell-text.c (ect_realize): Load the font from the canvas.
+	(ect_draw): New color setup.
+	Center in the row.
+	(ect_height): Implement new method.
+
 1999-11-26  Michael Meeks  <mmeeks@gnu.org>
 
 	* ROADMAP.e-table: small spelling/typo fixes.
 
 1999-11-25  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table-item.c (eti_event): Work on mouse-button event
+	propagation to cells.
+
+	* e-cell-text.c (ect_draw): Use CellViews now.
 
 	* e-table-item.c (eti_realize_cell_views): New routine: Realizes
 	the cell views

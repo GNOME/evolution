@@ -35,6 +35,13 @@ ec_event (ECellView *ecell_view, GdkEvent *event, int col, int row)
 	g_warning ("e-cell-event invoked\n");
 }
 
+static gint
+ec_height (ECellView *ecell_view, int col, int row)
+{
+	g_warning ("e-cell-event invoked\n");
+	return 0;
+}
+
 static void
 ec_focus (ECellView *ecell_view, int col, int row, int x1, int y1, int x2, int y2)
 {
@@ -68,6 +75,7 @@ e_cell_class_init (GtkObjectClass *object_class)
 	ecc->event = ec_event;
 	ecc->focus = ec_focus;
 	ecc->unfocus = ec_unfocus;
+	ecc->height = ec_height;
 }
 
 static void
@@ -105,5 +113,12 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 {
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
 		ecell_view, drawable, col, row, x1, y1, x2, y2);
+}
+
+int
+e_cell_height (ECellView *ecell_view, int col, int row)
+{
+	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->height (
+		ecell_view, col, row);
 }
 

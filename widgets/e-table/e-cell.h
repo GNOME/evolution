@@ -36,15 +36,17 @@ typedef struct {
 	gint   	   (*event)     (ECellView *ecell_view, GdkEvent *event, int col, int row);
 	void   	   (*focus)     (ECellView *ecell, int col, int row, int x1, int y1, int x2, int y2);
 	void   	   (*unfocus)   (ECellView *ecell);
+	int        (*height)    (ECellView *ecell, int col, int row);
 } ECellClass;
 
 GtkType    e_cell_get_type  (void);
 void       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int col, int row);
 ECellView *e_cell_realize   (ECell *ecell, GnomeCanvas *canvas);
-void       e_cell_unrealize (ECellView *ecell);
-void       e_cell_draw      (ECellView *ecell, GdkDrawable *dr,
+void       e_cell_unrealize (ECellView *ecell_view);
+void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *dr,
 			     int col, int row, int x1, int y1, int x2, int y2);
-void       e_cell_focus     (ECellView *ecell, int col, int row, int x1, int y1, int x2, int y2);
-void       e_cell_unfocus   (ECellView *ecell);
+void       e_cell_focus     (ECellView *ecell_view, int col, int row, int x1, int y1, int x2, int y2);
+void       e_cell_unfocus   (ECellView *ecell_view);
+int        e_cell_height    (ECellView *ecell_view, int col, int row);
 
 #endif /* _E_CELL_H_ */

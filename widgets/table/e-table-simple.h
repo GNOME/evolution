@@ -9,7 +9,6 @@ typedef	int         (*ETableSimpleRowCountFn)       (ETableModel *etm, void *dat
 typedef	void       *(*ETableSimpleValueAtFn)        (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)     (ETableModel *etm, int col, int row, void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn) (ETableModel *etm, int col, int row, void *data);
-typedef int         (*ETableSimpleRowHeightFn)      (ETableModel *etm, int row, void *data);
 
 typedef struct {
 	ETableModel parent;
@@ -20,7 +19,6 @@ typedef struct {
 	ETableSimpleValueAtFn        value_at;
 	ETableSimpleSetValueAtFn     set_value_at;
 	ETableSimpleIsCellEditableFn is_cell_editable;
-	ETableSimpleRowHeightFn      row_height;
 	void *data;
 } ETableSimple;
 
@@ -36,7 +34,6 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleValueAtFn value_at,
 				 ETableSimpleSetValueAtFn set_value_at,
 				 ETableSimpleIsCellEditableFn is_cell_editable,
-				 ETableSimpleRowHeightFn row_height,
 				 void *data);
 
 #endif /* _E_TABLE_SIMPLE_H_ */

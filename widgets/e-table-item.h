@@ -41,6 +41,12 @@ typedef struct {
 	 */
 	ECellView      **cell_views;
 	int              n_cells;
+
+	/*
+	 * Lengh Threshold: above this, we stop computing correctly
+	 * the size
+	 */
+	int              length_threshold;
 } ETableItem;
 
 typedef struct {
