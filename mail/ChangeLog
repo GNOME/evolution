@@ -1,3 +1,13 @@
+2002-07-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (mail_display_set_message): If we unref'd a
+	current_message, clear the datalist. Don't bother connecting to
+	the message's finalise signal because something else may own a ref
+	to the original message when we replace it with a new one.
+	(mail_display_destroy): Only clear the datalist if we have a
+	current_message, otherwise it's safe to assume that it is already
+	cleared.
+
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (INCLUDES): Add -I flags to get the ebook headers.

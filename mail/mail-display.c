@@ -1477,14 +1477,6 @@ mail_error_printf (GtkHTML *html, GtkHTMLStream *stream,
 	g_free (htmltext);
 }
 
-static void
-clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
-{
-	GData *data = user_data;
-	
-	g_datalist_clear (&data);
-}
-
 
 #define COLOR_IS_LIGHT(r, g, b)  ((r + g + b) > (128 * 3))
 
@@ -1621,8 +1613,10 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *foll
 		return;
 	
 	/* Clean up from previous message. */
-	if (md->current_message)
+	if (md->current_message) {
 		camel_object_unref (CAMEL_OBJECT (md->current_message));
+		g_datalist_clear (md->data);
+	}
 	
 	g_free (md->followup);
 	
@@ -1636,10 +1630,6 @@ mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *foll
 	
 	g_datalist_init (md->data);
 	mail_display_redisplay (md, TRUE);
-	if (medium) {
-		camel_object_hook_event (CAMEL_OBJECT (medium), "finalize",
-					 clear_data, *(md->data));
-	}
 }
 
 /**
@@ -1706,14 +1696,15 @@ mail_display_destroy (GtkObject *object)
 	
 	gtk_object_unref (GTK_OBJECT (mail_display->html));
 	
-	if (mail_display->current_message)
+	if (mail_display->current_message) {
 		camel_object_unref (mail_display->current_message);
+		g_datalist_clear (mail_display->data);
+	}
 	
 	g_free (mail_display->charset);
 	g_free (mail_display->selection);
 	g_free (mail_display->followup);
 	
-	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
 	mail_display->data = NULL;
 	
