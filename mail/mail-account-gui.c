@@ -1157,6 +1157,7 @@ sig_new_text (GtkWidget *w, MailAccountGui *gui)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_text), sig_get_index (gui->text_signature));
 
 	sig_set_and_write (gui);
+	gtk_widget_set_sensitive (gui->sig_edit_text, TRUE);
 }
 
 static void
@@ -1173,6 +1174,7 @@ sig_new_html (GtkWidget *w, MailAccountGui *gui)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_html), sig_get_index (gui->html_signature));
 
 	sig_set_and_write (gui);
+	gtk_widget_set_sensitive (gui->sig_edit_html, TRUE);
 }
 
 static void

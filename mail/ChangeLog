@@ -1,3 +1,9 @@
+2002-03-07  Radek Doulik  <rodo@ximian.com>
+
+	* mail-account-gui.c (sig_new_html): make edit button sensitive
+	after new signature is created
+	(sig_new_text): ditto
+
 2002-03-07  Anna Marie Dirks  <anna@ximian.com>
 
 	* folder-browser.c: Made all the acclerators in the context menu on a message work. (There are 22 different menu items here, so picking a unique accelerator for each label was tricky, and some of the choices I made are different from the ones I would have made if there weren't so many stinking menu items.)
