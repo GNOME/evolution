@@ -1,3 +1,9 @@
+2003-09-23  Charles Zhang  <charles.zhang@sun.com>
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
+	to "key_press_event" signal with key_press_event_callback.
+	(key_press_event): Handle `ESC` key press event. [#48145]
+
 2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* Makefile.am (evolution_LDADD): libical.la -> libical-evolution.la
