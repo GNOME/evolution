@@ -332,8 +332,7 @@ close_cb (GtkWidget *widget, gpointer data)
 	dialog_data = (DialogData *) data;
 	attachment = dialog_data->attachment;
 	
-	gtk_widget_destroy (glade_xml_get_widget (attachment->editor_gui,
-						  "dialog"));
+	gtk_widget_destroy (dialog_data->dialog);
 	gtk_object_unref (GTK_OBJECT (attachment->editor_gui));
 	attachment->editor_gui = NULL;
 	
@@ -462,7 +461,10 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	connect_widget (editor_gui, "file_name_entry", "focus_out_event",
 			file_name_focus_out_cb, dialog_data);
 	
-	gtk_signal_connect (GTK_OBJECT (parent), "destroy", close_cb, dialog_data);
-	gtk_signal_connect (GTK_OBJECT (gtk_widget_get_toplevel (parent)), "hide",
-			    close_cb, dialog_data);
+	/* make sure that when the composer gets hidden/closed that our windows also close */
+	parent = gtk_widget_get_toplevel (parent);
+	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy", close_cb, dialog_data,
+					GTK_OBJECT (dialog_data->dialog));
+	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "hide", close_cb, dialog_data,
+					GTK_OBJECT (dialog_data->dialog));
 }

@@ -3320,6 +3320,11 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	if (account && account->name)
 		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->name);
 	
+	/* build_message() set this to text/html since we set composer->send_html to
+	   TRUE before calling e_msg_composer_get_message() */
+	if (!composer->send_html)
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format", "text/plain");
+	
 	return msg;
 }
 
