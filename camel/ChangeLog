@@ -1,3 +1,11 @@
+2004-02-09  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #51319.
+	
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): re-enable indexing when folder is
+	first opened.  Also load defaults if no meta-data present.
+
 2004-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-provider.c (camel_provider_init): Use strrchr, not strchr.

@@ -1549,7 +1549,6 @@ camel_folder_is_frozen (CamelFolder *folder)
 	return CF_CLASS (folder)->is_frozen (folder);
 }
 
-
 struct _folder_filter_msg {
 	CamelSessionThreadMsg msg;
 
@@ -1712,7 +1711,6 @@ message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
 
 	return ret;
 }
-
 
 /**
  * camel_folder_free_nop:

@@ -255,7 +255,9 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	lf->flags = flags;
 
 	if (camel_object_state_read(lf) == -1) {
-		/* FIXME: load defaults? */
+		/* No metadata - load defaults and persitify */
+		camel_object_set(lf, NULL, CAMEL_LOCAL_FOLDER_INDEX_BODY, TRUE, 0);
+		camel_object_state_write(lf);
 	}
 
 	/* follow any symlinks to the mailbox */
@@ -272,22 +274,22 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	unlink(lf->index_path);
 
 	/* FIXME: Need to run indexing off of the setv method */
-#if 1
-	forceindex = FALSE;
-#else
+
 	/* if we have no/invalid index file, force it */
 	forceindex = camel_text_index_check(lf->index_path) == -1;
-	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
+	if (lf->flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
 		int flag = O_RDWR|O_CREAT;
+
 		if (forceindex)
 			flag |= O_TRUNC;
+
 		lf->index = (CamelIndex *)camel_text_index_new(lf->index_path, flag);
 		if (lf->index == NULL) {
 			/* yes, this isn't fatal at all */
 			g_warning("Could not open/create index file: %s: indexing not performed", strerror (errno));
 			forceindex = FALSE;
 			/* record that we dont have an index afterall */
-			flags &= ~CAMEL_STORE_FOLDER_BODY_INDEX;
+			lf->flags &= ~CAMEL_STORE_FOLDER_BODY_INDEX;
 		}
 	} else {
 		/* if we do have an index file, remove it (?) */
@@ -295,8 +297,6 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 			camel_text_index_remove(lf->index_path);
 		forceindex = FALSE;
 	}
-	lf->flags = flags;
-#endif
 
 	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf->summary_path, lf->folder_path, lf->index);
 	if (camel_local_summary_load((CamelLocalSummary *)folder->summary, forceindex, ex) == -1) {
@@ -497,7 +497,7 @@ local_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelLocalFolder *lf = CAMEL_LOCAL_FOLDER(folder);
 
-	d(printf("local sync, expunge=%s\n", expunge?"true":"false"));
+	d(printf("local sync '%s' , expunge=%s\n", folder->full_name, expunge?"true":"false"));
 
 	if (camel_local_folder_lock(lf, CAMEL_LOCK_WRITE, ex) == -1)
 		return;
