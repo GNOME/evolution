@@ -974,7 +974,7 @@ save_draft (EMsgComposer *composer, int quitok)
 	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
 		int id;
 		
-		id = mail_get_folder (account->drafts_folder_uri, save_folder, &folder, mail_thread_new);
+		id = mail_get_folder (account->drafts_folder_uri, 0, save_folder, &folder, mail_thread_new);
 		mail_msg_wait (id);
 		
 		if (!folder) {

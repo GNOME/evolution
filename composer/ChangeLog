@@ -1,3 +1,8 @@
+2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (save_draft): Pass an empty flags argument to
+	mail_get_folder.
+
 2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer.c (setup_ui): Use
