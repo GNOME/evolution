@@ -1,9 +1,0 @@
-I will add these fields as I get a chance to.
-
-Thanks,
-    Chris Lahey
-
-X-EVOLUTION-LIST			boolean if this is a mailing list.
-X-EVOLUTION-LIST-SHOW-ADDRESSES		boolean whether to list all email addresses in the To: line or to treat the list kind of like a BCC.
-X-EVOLUTION-RELATED-CONTACTS		EDestionationList of related contacts.
-REV					last changed date.
