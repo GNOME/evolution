@@ -1259,7 +1259,7 @@ static GnomeUIInfo actions_menu[] = {
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Rec_urrence..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Intive _Attendees..."), NULL, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Invite _Attendees..."), NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: C_ancel Invitation..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Forward as v_Calendar"), NULL, NULL),
