@@ -1,5 +1,5 @@
 omf_dest_dir=$(datadir)/omf/evolution
-scrollkeeper_localstate_dir = $(localstatedir)/scrollkeeper
+scrollkeeper_localstate_dir = $(SCROLLKEEPER_LOCALSTATE_DIR)
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(omf_dest_dir)

@@ -67,6 +67,8 @@ AC_PATH_PROG(SCROLLKEEPER_CONFIG, scrollkeeper-config,no)
 if test x$SCROLLKEEPER_CONFIG = xno; then
   AC_MSG_ERROR(Couldn't find scrollkeeper-config, please install the scrollkeeper package)
 fi
+SCROLLKEEPER_LOCALSTATE_DIR=`scrollkeeper-config --pkglocalstatedir`
+AC_SUBST(SCROLLKEEPER_LOCALSTATE_DIR)
 
 dnl  Test whether jw is installed
 AC_PATH_PROG(JW,jw,no)
@@ -499,6 +501,7 @@ dnl Hah! Threads are no longer an option
 dnl AC_ARG_WITH(threads, [  --with-threads          Include thread support],[
 dnl FIXME: support more thread types, pth at least
 
+GLIB_CONFIG=${GLIB_CONFIG-glib-config}
 GNOME_PTHREAD_CHECK
 
 if test "x$PTHREAD_LIB" = "x" ; then
@@ -510,8 +513,8 @@ dnl Notice that this is a hack, and we wont be able to use this forever, but
 dnl at least for some time
 dnl
 
-THREADS_LIBS="$PTHREAD_LIB `glib-config --libs gthread`"
-THREADS_CFLAGS="`glib-config --cflags gthread`"
+THREADS_LIBS="$PTHREAD_LIB `$GLIB_CONFIG --libs gthread`"
+THREADS_CFLAGS="`$GLIB_CONFIG --cflags gthread`"
 
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
@@ -579,8 +582,8 @@ EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.6)
 dnl *************************
 dnl CFLAGS and LIBS and stuff
 dnl *************************
-GLIB_CFLAGS="`glib-config --cflags`"
-GLIB_LIBS="`glib-config --libs`"
+GLIB_CFLAGS="`$GLIB_CONFIG --cflags`"
+GLIB_LIBS="`$GLIB_CONFIG --libs`"
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 

@@ -1,3 +1,17 @@
+2001-08-19  Chris Toshok  <toshok@ximian.com>
+
+	* omf-install/Makefile.am (scrollkeeper_localstate_dir) use
+	$(SCROLLKEEPER_LOCALSTATE_DIR), and not something based on
+	evolution's local state dir.  this should fix the core dumps
+	during install on freebsd and solaris.
+
+	* configure.in (GLIB_CONFIG): use $GLIB_CONFIG if it's set,
+	otherwise default to glib-config.  a cheap solution to get this
+	working on freebsd (where they have glib12-config, but not
+	glib-config.)  also, switch all `glib-config`s to `$GLIB_CONFIG`.
+	(SCROLLKEEPER_LOCALSTATE_DIR): use scrollkeeper-config to figure
+	this out, and AC_SUBST so omf-install/Makefile.am can use it.
+
 2001-08-17  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Move the libical compile order.
