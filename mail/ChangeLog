@@ -1,5 +1,12 @@
 2002-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-signature-editor.c (menu_file_save_cb): Since bonobo
+	doesn't seem to O_TRUNC the file stream before writing to it,
+	write to a temp file first and then rename() it to the real
+	filename. This also protects against losing data if the drive is
+	full too. Also use a real mode, not 0, so that we can actually
+	save/read the content ;-)
+
 	* GNOME_Evolution_Mail.oaf.in: Re-added the config wizard
 	interfaces. Ettore accidently removed them thinking they were
 	duplicates of the new mail-config interfaces.

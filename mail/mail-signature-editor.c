@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
 
@@ -66,12 +67,18 @@ destroy_editor (ESignatureEditor *editor)
 }
 
 static void
-menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev) {
-	e_notice (GTK_WINDOW (uic), GNOME_MESSAGE_BOX_ERROR,
-		  _("Could not save signature file."));
+menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev)
+{
+	const char *err;
 	
-	g_warning ("Exception while saving signature (%s)",
-		   bonobo_exception_get_text (ev));
+	/* errno is set if the rename() fails in menu_file_save_cb */
+	
+	err = ev->_major != CORBA_NO_EXCEPTION ? bonobo_exception_get_text (ev) : g_strerror (errno);
+	
+	e_notice (GTK_WINDOW (uic), GNOME_MESSAGE_BOX_ERROR,
+		  _("Could not save signature file: %s"), err);
+	
+	g_warning ("Exception while saving signature: %s", err);
 }
 
 static void
@@ -80,47 +87,56 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		   const char *path)
 {
 	ESignatureEditor *editor;
-	Bonobo_PersistFile pfile_iface;
 	CORBA_Environment ev;
+	char *filename;
+	char *dirname;
 	
 	editor = E_SIGNATURE_EDITOR (data);
+	
+	printf ("editor->sig->filename = %s\n", editor->sig->filename);
+	dirname = g_dirname (editor->sig->filename);
+	printf ("dirname = %s\n", dirname);
+	filename = g_basename (editor->sig->filename);
+	printf ("basename = %s\n", filename);
+	filename = g_strdup_printf ("%s/.#%s", dirname, filename);
+	printf ("filename = %s\n", filename);
+	
+	CORBA_exception_init (&ev);
+	
 	if (editor->html) {
-		CORBA_exception_init (&ev);
+		Bonobo_PersistFile pfile_iface;
 		
 		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
 								    "IDL:Bonobo/PersistFile:1.0", NULL);
-		Bonobo_PersistFile_save (pfile_iface, editor->sig->filename, &ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			menu_file_save_error (uic, &ev);
-
-		CORBA_exception_free (&ev);
+		Bonobo_PersistFile_save (pfile_iface, filename, &ev);
 	} else {
-		BonoboStream *stream;
-		CORBA_Environment ev;
 		Bonobo_PersistStream pstream_iface;
+		BonoboStream *stream;
 		
-		CORBA_exception_init (&ev);
-	
-		stream = bonobo_stream_open (BONOBO_IO_DRIVER_FS, editor->sig->filename,
-					     Bonobo_Storage_CREATE, 0);
+		stream = bonobo_stream_open (BONOBO_IO_DRIVER_FS, filename,
+					     Bonobo_Storage_WRITE | Bonobo_Storage_CREATE, 0644);
 		BONOBO_STREAM_CLASS (GTK_OBJECT (stream)->klass)->truncate (stream, 0, &ev);
-
+		
 		pstream_iface = bonobo_object_client_query_interface
 			(bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
 			 "IDL:Bonobo/PersistStream:1.0", NULL);
-
+		
 		Bonobo_PersistStream_save (pstream_iface, 
 					   (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
 					   "text/plain", &ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			menu_file_save_error (uic, &ev);
-	
-		CORBA_exception_free (&ev);
+		
 		bonobo_object_unref (BONOBO_OBJECT (stream));
 	}
-
+	
+	if (ev._major != CORBA_NO_EXCEPTION || rename (filename, editor->sig->filename) == -1) {
+		menu_file_save_error (uic, &ev);
+		unlink (filename);
+	}
+	
+	g_free (filename);
+	
+	CORBA_exception_free (&ev);
+	
 	mail_config_signature_set_html (editor->sig, editor->html);
 	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED, editor->sig);
 }
