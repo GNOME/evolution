@@ -26,6 +26,7 @@
 
 #include <gtk/gtktable.h>
 #include <camel/camel-mime-message.h>
+#include <addressbook/backend/ebook/e-destination.h>
 #include <mail/mail-config.h>
 
 #ifdef __cplusplus
@@ -79,28 +80,29 @@ GtkType     e_msg_composer_hdrs_get_type           (void);
 GtkWidget  *e_msg_composer_hdrs_new                (gint visible_flags);
 
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
-						    CamelMimeMessage *msg,
-						    gboolean sending);
+						    CamelMimeMessage *msg);
 
 void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 						    const char *account_name);
 void        e_msg_composer_hdrs_set_reply_to       (EMsgComposerHdrs *hdrs,
 						    const char *reply_to);
 void        e_msg_composer_hdrs_set_to             (EMsgComposerHdrs *hdrs,
-						    const GList      *to_list);
+						    EDestination    **to_destv);
 void        e_msg_composer_hdrs_set_cc             (EMsgComposerHdrs *hdrs,
-						    const GList      *cc_list);
+						    EDestination    **cc_destv);
 void        e_msg_composer_hdrs_set_bcc            (EMsgComposerHdrs *hdrs,
-						    const GList      *bcc_list);
+						    EDestination    **bcc_destv);
 void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 						    const char       *subject);
 
 CamelInternetAddress *e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs);
 CamelInternetAddress *e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs);
-GList      *e_msg_composer_hdrs_get_to             (EMsgComposerHdrs *hdrs);
-GList      *e_msg_composer_hdrs_get_cc             (EMsgComposerHdrs *hdrs);
-GList      *e_msg_composer_hdrs_get_bcc            (EMsgComposerHdrs *hdrs);
-char       *e_msg_composer_hdrs_get_subject        (EMsgComposerHdrs *hdrs);
+
+EDestination **e_msg_composer_hdrs_get_to          (EMsgComposerHdrs *hdrs);
+EDestination **e_msg_composer_hdrs_get_cc          (EMsgComposerHdrs *hdrs);
+EDestination **e_msg_composer_hdrs_get_bcc         (EMsgComposerHdrs *hdrs);
+EDestination **e_msg_composer_hdrs_get_recipients  (EMsgComposerHdrs *hdrs);
+char          *e_msg_composer_hdrs_get_subject     (EMsgComposerHdrs *hdrs);
 
 GtkWidget  *e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_to_entry       (EMsgComposerHdrs *hdrs);

@@ -44,7 +44,6 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <camel/camel.h>
-#include <e-destination.h>
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
 #include "addressbook/backend/ebook/e-book-util.h"
@@ -677,7 +676,7 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 					seen_hidden_list = TRUE;
 				}
 				
-				camel_address_unformat (CAMEL_ADDRESS (target),text_addr);
+				camel_address_unformat (CAMEL_ADDRESS (target), text_addr);
 			}
 		}
 	}
@@ -711,29 +710,12 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 	camel_object_unref (CAMEL_OBJECT (bcc_addr));
 }
 
-static void
-free_destv (EDestination **destv, gboolean should_we_touch)
-{
-	gint i;
-
-	if (destv) {
-		for (i = 0; destv[i] != NULL; ++i) {
-			if (should_we_touch)
-				e_destination_touch (destv[i]);
-			gtk_object_unref (GTK_OBJECT (destv[i]));
-		}
-		g_free (destv);
-	}
-}
-
 void
 e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
-				CamelMimeMessage *msg,
-				gboolean sending)
+				CamelMimeMessage *msg)
 {
 	CamelInternetAddress *addr;
 	gchar *subject;
-	gchar *str = NULL;
 	EDestination **to_destv, **cc_destv, **bcc_destv;
 	
 	g_return_if_fail (hdrs != NULL);
@@ -755,53 +737,20 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 		camel_object_unref (CAMEL_OBJECT (addr));
 	}
 
-	/* Get string of destinations from each entry. */
-
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", &str, NULL);
-	g_message ("to str: %s", str);
-	to_destv = e_destination_importv (str);
-	g_free (str);
-
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", &str, NULL);
-	g_message ("cc str: %s", str);
-	cc_destv = e_destination_importv (str);
-	g_free (str);
-
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", &str, NULL);
-	g_message ("bcc str: %s", str);
-	bcc_destv = e_destination_importv (str);
-	g_free (str);
+	to_destv  = e_msg_composer_hdrs_get_to (hdrs);
+	cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
+	bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
 
 	/* Attach destinations to the message. */
 
 	set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv);
 
-	/* Only touch the destinations (boosting the use score) if we are sending */
-	free_destv (to_destv, sending);
-	free_destv (cc_destv, sending);
-	free_destv (bcc_destv, sending);
+	e_destination_freev (to_destv);
+	e_destination_freev (cc_destv);
+	e_destination_freev (bcc_destv);
 }
 
 
-static void
-set_entry (BonoboWidget *bonobo_widget,
-	   const GList *list)
-{
-	GString *string;
-	const GList *p;
-	
-	string = g_string_new ("");
-	for (p = list; p != NULL; p = p->next) {
-		if (string->str[0] != '\0')
-			g_string_append (string, ", ");
-		g_string_append (string, p->data);
-	}
-	
-	bonobo_widget_set_property (BONOBO_WIDGET (bonobo_widget), "text", string->str, NULL);
-	
-	g_string_free (string, TRUE);
-}
-
 
 /* FIXME: yea, this could be better... but it's doubtful it'll be used much */
 void
@@ -853,35 +802,40 @@ e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
 				    "text", reply_to, NULL);
 }
 
-/* FIXME: these shouldn't take GLists, they should take CamelInternetAddress's */
 void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
-			    const GList *to_list)
+			    EDestination **to_destv)
 {
-	g_return_if_fail (hdrs != NULL);
+	gchar *str;
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-	
-	set_entry (BONOBO_WIDGET (hdrs->priv->to.entry), to_list);
+
+	str = e_destination_exportv (to_destv);
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", str, NULL); 
+	g_free (str);
 }
 
 void
 e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
-			    const GList *cc_list)
+			    EDestination **cc_destv)
 {
-	g_return_if_fail (hdrs != NULL);
+	gchar *str;
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	set_entry (BONOBO_WIDGET (hdrs->priv->cc.entry), cc_list);
+	str = e_destination_exportv (cc_destv);
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", str, NULL); 
+	g_free (str);
 }
 
 void
 e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
-			     const GList *bcc_list)
+			     EDestination **bcc_destv)
 {
-	g_return_if_fail (hdrs != NULL);
+	gchar *str;
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-	
-	set_entry (BONOBO_WIDGET (hdrs->priv->bcc.entry), bcc_list);
+
+	str = e_destination_exportv (bcc_destv);
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", str, NULL); 
+	g_free (str);
 }
 
 void
@@ -948,40 +902,103 @@ e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 	return addr;
 }
 
-/* FIXME this is currently unused and broken.  */
-GList *
+EDestination **
 e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
+	gchar *str = NULL;
+	EDestination **destv = NULL;
+
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", &str, NULL); 
+
+	if (str != NULL) {
+		destv = e_destination_importv (str);
+		g_free (str);
+	}
 	
-	g_assert_not_reached ();
-	
-	return NULL;
+	return destv;
 }
 
-/* FIXME this is currently unused and broken.  */
-GList *
+EDestination **
 e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
+	gchar *str = NULL;
+	EDestination **destv = NULL;
+
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-	
-	g_assert_not_reached ();
-	
-	return NULL;
+
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", &str, NULL); 
+
+	if (str != NULL) {
+		destv = e_destination_importv (str);
+		g_free (str);
+	}
+
+	return destv;
 }
 
-/* FIXME this is currently unused and broken.  */
-GList *
+EDestination **
 e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
+	gchar *str = NULL;
+	EDestination **destv = NULL;
+
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", &str, NULL); 
+
+	if (str != NULL) {
+		destv = e_destination_importv (str);
+		g_free (str);
+	}
+
+	return destv;
+}
+
+EDestination **
+e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
+{
+	EDestination **to_destv;
+	EDestination **cc_destv;
+	EDestination **bcc_destv;
+	EDestination **recip_destv;
+	gint i, j, N;
 	
-	g_assert_not_reached ();
-	
-	return NULL;
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	to_destv  = e_msg_composer_hdrs_get_to (hdrs);
+	cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
+	bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
+
+	N = 0;
+
+	for (i = 0; to_destv && to_destv[i] != NULL; ++i, ++N);
+	for (i = 0; cc_destv && cc_destv[i] != NULL; ++i, ++N);
+	for (i = 0; bcc_destv && bcc_destv[i] != NULL; ++i, ++N);
+
+	if (N == 0)
+		return NULL;
+
+	recip_destv = g_new (EDestination *, N+1);
+
+	j = 0;
+
+	for (i = 0; to_destv && to_destv[i] != NULL; ++i, ++j)
+		recip_destv[j] = to_destv[i];
+	for (i = 0; cc_destv && cc_destv[i] != NULL; ++i, ++j)
+		recip_destv[j] = cc_destv[i];
+	for (i = 0; bcc_destv && bcc_destv[i] != NULL; ++i, ++j)
+		recip_destv[j] = bcc_destv[i];
+
+	g_assert (j == N);
+	recip_destv[j] = NULL;
+
+	g_free (to_destv);
+	g_free (cc_destv);
+	g_free (bcc_destv);
+
+	return recip_destv;
 }
 
 char *

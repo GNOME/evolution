@@ -1,3 +1,32 @@
+2001-09-08  Jon Trowbridge  <trow@ximian.com>
+
+	* evolution-composer.c (corba_recipientlist_to_destv): Originally
+	was corba_recipientlist_to_glist.
+	(impl_Composer_set_headers): Use corba_recipientlist_to_destv, new
+	destination-based api.
+
+	* e-msg-composer.c (build_message): Get rid of that 'sending'
+	stuff.  That was a bad idea.
+	(e_msg_composer_new_with_message): Apply the revised api and work
+	with vectors of destinations rather than just lists.
+	(e_msg_composer_get_recipients): Added.  Returns the full set of
+	recipient destinations in a vector.
+
+	* e-msg-composer-hdrs.c: Removed free_destv function.  We use
+	e_destination_freev instead.
+	(e_msg_composer_hdrs_get_to): Changed to return a vector of
+	EDestinations.  This function now works.
+	(e_msg_composer_hdrs_get_cc): Ditto.
+	(e_msg_composer_hdrs_get_bcc): Ditto.
+	(e_msg_composer_hdrs_get_recipients): Added.  Returns a vector of
+	EDestinations that is the union of the to, cc and bcc lines.
+	(e_msg_composer_hdrs_set_to): Changed to take a vector of
+	EDestinations, rather than a GList.
+	(e_msg_composer_hdrs_set_cc): Ditto.
+	(e_msg_composer_hdrs_set_bcc): Ditto.
+	(e_msg_composer_hdrs_to_message): Use our new, improved API, rather
+	than a bunch of poking around in BonoboPropertyBags, etc.
+
 2001-09-07  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients_from_destv): Remove some

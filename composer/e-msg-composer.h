@@ -113,9 +113,9 @@ void              e_msg_composer_show_attachments     (EMsgComposer     *compose
 						       gboolean          show);
 void              e_msg_composer_set_headers          (EMsgComposer     *composer,
 						       const char       *from,
-						       const GList      *to,
-						       const GList      *cc,
-						       const GList      *bcc,
+						       EDestination    **to,
+						       EDestination    **cc,
+						       EDestination    **bcc,
 						       const char       *subject);
 void              e_msg_composer_set_body_text        (EMsgComposer     *composer,
 						       const char       *text);
@@ -124,8 +124,7 @@ void              e_msg_composer_add_header           (EMsgComposer     *compose
 						       const char       *value);
 void              e_msg_composer_attach               (EMsgComposer     *composer,
 						       CamelMimePart    *attachment);
-CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer, 
-						       gboolean          sending);
+CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer);
 CamelMimeMessage *e_msg_composer_get_message_draft    (EMsgComposer     *composer);
 void              e_msg_composer_show_sig_file        (EMsgComposer     *composer);
 gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
@@ -145,6 +144,8 @@ void              e_msg_composer_set_view_bcc         (EMsgComposer     *compose
 gboolean          e_msg_composer_get_view_cc          (EMsgComposer     *composer);
 void              e_msg_composer_set_view_cc          (EMsgComposer     *composer,
 						       gboolean          view_cc);
+
+EDestination    **e_msg_composer_get_recipients       (EMsgComposer     *composer);
 
 const MailConfigAccount *e_msg_composer_get_preferred_account (EMsgComposer *composer);
 

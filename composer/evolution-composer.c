@@ -44,40 +44,30 @@ static void (*postpone_cb) (EMsgComposer *, gpointer);
 
 static POA_GNOME_Evolution_Composer__vepv Composer_vepv;
 
-static GList *
-corba_recipientlist_to_glist (const GNOME_Evolution_Composer_RecipientList *cl)
+static EDestination **
+corba_recipientlist_to_destv (const GNOME_Evolution_Composer_RecipientList *cl)
 {
 	GNOME_Evolution_Composer_Recipient *recip;
-	GList *gl = NULL;
-	char *str;
+	EDestination **destv;
 	int i;
 
-	for (i = cl->_length - 1; i >= 0; i--) {
+	if (cl->_length == 0)
+		return NULL;
+
+	destv = g_new (EDestination *, cl->_length+1);
+
+	for (i = 0; i < cl->_length; ++i) {
 		recip = &(cl->_buffer[i]);
 
-		/* Let's copy this code into yet another place! */
-		if (*recip->name) {
-			str = camel_internet_address_format_address (recip->name, recip->address);
-		} else
-			str = g_strdup (recip->address);
+		destv[i] = e_destination_new ();
+
+		if (*recip->name)
+			e_destination_set_name (destv[i], recip->name);
+		e_destination_set_email (destv[i], recip->address);
 		
-		gl = g_list_prepend (gl, str);		
 	}
 
-	return gl;
-}
-
-static void
-free_recipient_glist (GList *gl)
-{
-	GList *tmp;
-
-	while (gl) {
-		tmp = gl->next;
-		g_free (gl->data);
-		g_list_free_1 (gl);
-		gl = tmp;
-	}
+	return destv;
 }
 
 static void
@@ -90,21 +80,20 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EvolutionComposer *composer;
-	GList *gto, *gcc, *gbcc;
+	EDestination **tov, **ccv, **bccv;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
-	gto = corba_recipientlist_to_glist (to);
-	gcc = corba_recipientlist_to_glist (cc);
-	gbcc = corba_recipientlist_to_glist (bcc);
+	tov  = corba_recipientlist_to_destv (to);
+	ccv  = corba_recipientlist_to_destv (cc);
+	bccv = corba_recipientlist_to_destv (bcc);
 	
-	e_msg_composer_set_headers (composer->composer, NULL, gto, gcc, gbcc,
-				    subject);
+	e_msg_composer_set_headers (composer->composer, NULL, tov, ccv, bccv, subject);
 
-	free_recipient_glist (gto);
-	free_recipient_glist (gcc);
-	free_recipient_glist (gbcc);
+	e_destination_freev (tov);
+	e_destination_freev (ccv);
+	e_destination_freev (bccv);
 }
 
 static void
