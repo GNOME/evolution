@@ -1,3 +1,10 @@
+2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (address_compare): Updated to use Nat's
+	ENameWestern parser.
+
+	* Makefile.am: link against e-util/ename/libename.la
+
 2000-09-25  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c: CamelException is not for compile-time errors.

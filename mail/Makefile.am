@@ -87,6 +87,7 @@ evolution_mail_LDADD = 					\
 	$(CAMEL_OBJS_EXTRA)				\
 	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(BONOBO_VFS_GNOME_LIBS)			\

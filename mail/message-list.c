@@ -15,6 +15,7 @@
 #include <bonobo/bonobo-main.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
+#include <e-util/ename/e-name-western.h>
 
 #include <string.h>
 #include <ctype.h>
@@ -131,9 +132,9 @@ internet_address_new_from_string (const gchar *string)
 	
 	g_return_val_if_fail (string != NULL, NULL);
 	g_return_val_if_fail (*string != '\0', NULL);
-
+	
 	padding = NULL;
-
+	
 	ptr = string;
 	while (isspace (*ptr))
 		ptr++;
@@ -233,10 +234,13 @@ static gint
 address_compare (gconstpointer address1, gconstpointer address2)
 {
 	InternetAddress *ia1, *ia2;
-	gint retval;
+	gint retval = 0;
 	
 	ia1 = internet_address_new_from_string ((const char *) address1);
 	ia2 = internet_address_new_from_string ((const char *) address2);
+	
+	g_return_val_if_fail (ia1 != NULL, -1);
+	g_return_val_if_fail (ia2 != NULL, 1);
 	
 	if (!ia1->name && !ia2->name) {
 		/* if neither has a name we should compare addresses */
@@ -247,9 +251,45 @@ address_compare (gconstpointer address1, gconstpointer address2)
 		else if (!ia2->name)
 			retval = 1;
 		else {
-			/* FIXME: use Nat's e-western-name parser
-			 * so we can compare last name then first */
-			retval = g_strcasecmp (ia1->name, ia2->name);
+			ENameWestern *name1, *name2;
+			
+			name1 = e_name_western_parse (ia1->name);
+			name2 = e_name_western_parse (ia2->name);
+			
+			if (!name1->last && !name2->last) {
+				/* neither has a last name */
+				
+				retval = g_strcasecmp (ia1->name, ia2->name);
+			} else {
+				/* compare last names */
+				
+				if (!name1->last)
+					retval = -1;
+				else if (!name2->last)
+					retval = 1;
+				else {
+					retval = g_strcasecmp (name1->last, name2->last);
+					if (!retval) {
+						/* last names are identical - compare first names */
+						
+						if (!name1->first)
+							retval = -1;
+						else if (!name2->first)
+							retval = 1;
+						else {
+							retval = g_strcasecmp (name1->first, name2->first);
+							if (!retval) {
+								/* first names are identical - compare addresses */
+								
+								retval = g_strcasecmp (ia1->address, ia2->address);
+							}
+						}
+					}
+				}
+			}
+			
+			e_name_western_free (name1);
+			e_name_western_free (name2);
 		}
 	}
 	
