@@ -5483,9 +5483,8 @@ msgid "_Mail message (FIXME)"
 msgstr ""
 
 #: ui/evolution.h:19
-#, fuzzy
 msgid "_Appointment (FIXME)"
-msgstr "Зустр╕ч╕:"
+msgstr "Зустр╕ч"
 
 #: ui/evolution.h:20
 #, fuzzy
@@ -5608,7 +5607,7 @@ msgstr "_<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:508
 msgid "_Autopick"
-msgstr ""
+msgstr "Автовиб╕р"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:522
 msgid ">_>"
@@ -5616,31 +5615,31 @@ msgstr "_>>"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:539
 msgid "_All People and Resources"
-msgstr ""
+msgstr "Вс╕ люди ╕ ресурси"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:552
 msgid "All _People and One Resource"
-msgstr ""
+msgstr "Вс╕ люди ╕ один ресурс"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:565
 msgid "_Required People"
-msgstr ""
+msgstr "Потр╕бн╕ люди"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:578
 msgid "Required People and _One Resource"
-msgstr ""
+msgstr "Потр╕бн╕ люди ╕ один ресурс"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:601
 msgid "Meeting _start time:"
-msgstr "Час початку зустр╕ч╕:"
+msgstr "Час початку з╕брання:"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:625
 msgid "Meeting _end time:"
-msgstr "Час завершення зустр╕ч╕:"
+msgstr "Час завершення з╕брання:"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:738
 msgid "All Attendees"
-msgstr ""
+msgstr "Весь супров╕д"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
