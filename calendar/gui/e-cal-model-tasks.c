@@ -222,7 +222,7 @@ get_completed (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_completed),
+					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_completed.zone)),
 					 &zone);
 		comp_data->completed->zone = zone;
 	}
@@ -252,7 +252,7 @@ get_due (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_due),
+					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_due.zone)),
 					 &zone);
 		comp_data->due->zone = zone;
 	}
@@ -398,7 +398,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 		} else {
 			/* Get the current time in the same timezone as the DUE date.*/
 			status = cal_client_get_timezone (comp_data->client,
-							  icaltime_get_tzid (due_tt),
+							  icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (due_tt.zone)),
 							  &zone);
 			if (status != CAL_CLIENT_GET_SUCCESS)
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
@@ -960,8 +960,7 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 		break;
 	}
 
-	return "black";
-	/* return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data); */
+	return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data);
 }
 
 static void

@@ -391,7 +391,7 @@ delete_comp (CompEditor *editor)
 
 	cal_component_get_uid (priv->comp, &uid);
 	priv->updating = TRUE;
-	cal_client_remove_object (priv->client, uid);
+	cal_client_remove_object (priv->client, uid, NULL);
 	priv->updating = FALSE;
 	close_dialog (editor);
 }
@@ -1453,7 +1453,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
 			icalcomponent *icalcomp;
 
-			status = cal_client_get_object (priv->client, uid, &icalcomp);
+			status = cal_client_get_object (priv->client, uid, NULL, &icalcomp);
 			if (status == CAL_CLIENT_GET_SUCCESS) {
 				comp = cal_component_new ();
 				if (cal_component_set_icalcomponent (comp, icalcomp))

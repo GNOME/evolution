@@ -23,8 +23,13 @@ module Calendar {
 	typedef string CalObj;
 	typedef sequence<CalObj> CalObjSeq;
 
+	typedef sequence<string> stringlist;
+
 	/* A unique identifier for a calendar component */
 	typedef string CalObjUID;
+
+	/* A unique identified for an event recurrence */
+	typedef string CalRecurID;
 
 	/* Simple sequence of strings */
 	typedef sequence<string> StringSeq;
@@ -126,6 +131,33 @@ module Calendar {
 	typedef string User;
 	typedef sequence<User> UserList;
 
+	enum CallStatus {
+		Success,
+		RepositoryOffline,
+		PermissionDenied,
+		ObjectNotFound,
+		CardIdAlreadyExists,
+		AuthenticationFailed,
+		AuthenticationRequired,
+		UnsupportedField,
+		UnsupportedAuthenticationMethod,
+		TLSNotAvailable,
+		NoSuchCal,
+		InvalidObject,
+
+		/* These can be returned for successful searches, but
+		   indicate the result set was truncated */
+		SearchSizeLimitExceeded,
+		SearchTimeLimitExceeded,
+
+		InvalidQuery,
+		QueryRefused,
+
+		CouldNotCancel,
+		
+		OtherError
+	};
+
 	interface Query;
 
 	interface Listener;
@@ -137,6 +169,7 @@ module Calendar {
 		exception NotFound {};
 		exception InvalidRange {};
 		exception InvalidObject {};
+		exception InvalidURI {};
 		exception CouldNotCreate {};
 		exception PermissionDenied {};
 		exception Busy {string errorMsg;};
@@ -144,37 +177,42 @@ module Calendar {
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
 
+		oneway void open (in boolean only_if_exists)
+			raises (InvalidURI, PermissionDenied);
+
+		oneway void remove ()
+			raises (InvalidURI, PermissionDenied);
+
 		/* Check write permissions for calendar */
-		boolean isReadOnly ();
+		oneway void isReadOnly ();
 		
 		/* Information on the backend's capabilities */
-		string getStaticCapabilities ();
+		oneway void getStaticCapabilities ();
 
 		/* Return the cal address associated with this calendar,
 		   if any. */
-		string getCalAddress ()
+		oneway void getCalAddress ()
 			raises (NotFound);
 
-		string getAlarmEmailAddress ()
+		oneway void getAlarmEmailAddress ()
 			raises (NotFound);
 
 		/* Returns the LDAP attribute to get attendees from */
-		string getLdapAttribute ()
+		oneway void getLdapAttribute ()
 			raises (NotFound);
 
 		/* For going online/offline */
 		void setMode (in CalMode mode);
-		
-		/* Gets the number of components of the specified types */
-		long countObjects (in CalObjType type);
 
 		/* Get a default object of a given type */
 		CalObj getDefaultObject (in CalObjType type);
 		
 		/* Gets a component based on its URI */
-		CalObj getObject (in CalObjUID uid)
+		CalObj getObject (in CalObjUID uid, in CalRecurID rid)
 			raises (NotFound);
 
+		oneway void getObjectList (in string query);
+		
 		/* Sets the default timezone to be used for resolving DATE
 		   and floating DATE-TIME values. */
 		void setDefaultTimezone (in CalTimezoneObjUID tzid)
@@ -184,16 +222,9 @@ module Calendar {
 		CalTimezoneObj getTimezoneObject (in CalTimezoneObjUID tzid)
 			raises (NotFound);
 
-		/* Gets a list of UIDs based on component type */
-		CalObjUIDSeq getUIDs (in CalObjType type);
-
 		/* Gets a list of components that changed based on object type */
 		CalObjChangeSeq getChanges (in CalObjType type, in string change_id);
 
-		/* Gets a list of components that occur or recur in the specified time range */
-		CalObjUIDSeq getObjectsInRange (in CalObjType type, 
-						in Time_t start, in Time_t end)
-			raises (InvalidRange);
 
 		/* Gets a list of the components that have alarms that trigger
 		 * in the specified range of time, and the trigger/occurrence
@@ -236,34 +267,20 @@ module Calendar {
 			raises (NotFound, InvalidObject, PermissionDenied);
 
 		/* Removes a component */
-		void removeObject (in CalObjUID uid, in CalObjModType mod)
-			raises (NotFound, PermissionDenied);
+		oneway void createObject (in CalObj calobj);
+		oneway void modifyObject (in CalObj calobj, in CalObjModType mod);
+		oneway void removeObject (in CalObjUID uid, in CalObjModType mod);
 
 		/* Sends a component */
 		CalObj sendObject (in CalObj calobj, out UserList users)
 			raises (InvalidObject, PermissionDenied, Busy);
 
-		/* Initiates a live query of the calendar.  Returns a handle
-		 * to the live query itself; changes to components that are
-		 * present in the query are notified to the listener.
-		 */
-		Query getQuery (in string sexp, in QueryListener ql)
+		oneway void getQuery (in string sexp, in QueryListener ql)
 			raises (CouldNotCreate);
 	};
 
 	/* Listener for changes in a calendar */
 	interface Listener : Bonobo::Unknown {
-		/* Return status when opening a calendar */
-		enum OpenStatus {
-			SUCCESS,		/* All OK */
-			ERROR,			/* Generic error */
-			NOT_FOUND,		/* Requested opening in only_if_exists mode
-						 * when the URI did not exist.
-						 */
-			METHOD_NOT_SUPPORTED,	/* A method handler is not registered */
-			PERMISSION_DENIED
-		};
-
 		/* Return status when setting calendar mode */
 		enum SetModeStatus {
 			MODE_SET,                    /* All OK */
@@ -271,62 +288,44 @@ module Calendar {
 			MODE_NOT_SUPPORTED           /* Mode not supported */
 		};
 
-		/* Called from a CalFactory when a calendar is initially opened.
-		 * The listener must remember the cal object.  
-		 */
-		void notifyCalOpened (in OpenStatus status, in Cal cal);
+		oneway void notifyReadOnly (in CallStatus status, in boolean read_only);
+		oneway void notifyCalAddress (in CallStatus status, in string address);
+		oneway void notifyAlarmEmailAddress (in CallStatus status, in string address);
+		oneway void notifyLDAPAttribute (in CallStatus status, in string ldap_attribute);
+		oneway void notifyStaticCapabilities (in CallStatus status, in string capabilities);
+		
+		oneway void notifyCalOpened (in CallStatus status);
+		oneway void notifyCalRemoved (in CallStatus status);
+
+		oneway void notifyObjectCreated (in CallStatus status, in string uid);
+		oneway void notifyObjectModified (in CallStatus status);
+		oneway void notifyObjectRemoved (in CallStatus status);
+		
+		oneway void notifyObjectListRequested (in CallStatus status, in stringlist objects);
+		oneway void notifyQuery (in CallStatus status, in Query query);
 
                 /* Called from a Calendar when the mode is changed */
-		void notifyCalSetMode (in SetModeStatus status, in CalMode mode);
-		
-		/* Called from a Calendar when a component is added or changed */
-		void notifyObjUpdated (in CalObjUID uid);
-
-		/* Called from a Calendar when a component is removed */
-		void notifyObjRemoved (in CalObjUID uid);
+		oneway void notifyCalSetMode (in SetModeStatus status, in CalMode mode);		
 
 		/* Called from a Calendar when the list of categories changes */
-		void notifyCategoriesChanged (in StringSeq categories);
+		oneway void notifyCategoriesChanged (in StringSeq categories);
 
 		/* Called from a Calendar when there is an error not notified otherwise */
-		void notifyErrorOccurred (in string message);
+		oneway void notifyErrorOccurred (in string message);
 	};
 
 	/* Handle to a live query on a calendar */
 	interface Query : Bonobo::Unknown {
+		oneway void start ();
 	};
 
 	/* Listener for changes in a query of a calendar */
 	interface QueryListener : Bonobo::Unknown {
-		/* Called when components are added or changed.  If
-		 * query_in_progress is true, then the initial query results are
-		 * being populated and the other arguments indicate the
-		 * percentage of completion Otherwise, the percent value is
-		 * unspecified.  */
-		void notifyObjUpdated (in CalObjUIDSeq uids, 
-				       in boolean query_in_progress, 
-				       in long n_scanned,
-				       in long total);
-
-		/* Called when a component is removed */
-		void notifyObjRemoved (in CalObjUID uid);
-
-		/* Reported when a query ends */
-		enum QueryDoneStatus {
-			SUCCESS,
-			PARSE_ERROR
-		};
-
-		/* Called when the query finishes populating itself some time
-		 * after it is created.  Before this is called,
-		 * notifyObjUpdated() may have been called several times to
-		 * indicate which objects are actually in the query, unless the
-		 * status result is a parse error.  
-		 */
-		void notifyQueryDone (in QueryDoneStatus status, in string error_str);
-
-		/* Called when an evaluation error occurs while performing a query */
-		void notifyEvalError (in string error_str);
+		oneway void notifyObjectsAdded (in stringlist objects);		
+		oneway void notifyObjectsModified (in stringlist objects);		
+		oneway void notifyObjectsRemoved (in CalObjUIDSeq uids);
+		oneway void notifyQueryProgress (in string message, in short percent);
+		oneway void notifyQueryDone (in CallStatus status);
 	};
 
 	/* A calendar factory, can load and create calendars */
@@ -334,14 +333,9 @@ module Calendar {
 		exception NilListener {};
 		exception InvalidURI {};
 		exception UnsupportedMethod {};
-		exception PermissionDenied {};
 
-		/* Open a calendar from an URI */
-		void open (in string uri, in boolean only_if_exists, in Listener listener)
-			raises (NilListener, InvalidURI, UnsupportedMethod, PermissionDenied);
-
-		/* List of open URI's */
-		StringSeq uriList (in CalMode mode);
+		Cal getCal (in string uri, in CalObjType type, in Listener listener)
+			raises (NilListener, InvalidURI, UnsupportedMethod);
 	};
 
 	/* Interface to the alarm notification service */

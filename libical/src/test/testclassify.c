@@ -29,29 +29,52 @@
 #include "ical.h"
 #include <errno.h>
 #include <string.h> /* For strerror */
-#include "icalss.h"
+#include "icalset.h"
+#include "icalclassify.h"
 
-/* Get a note about the purpose of the property*/
-const char* get_note(icalcomponent *c)
+
+struct class_map {
+	ical_class class;
+	char *str;
+} class_map[] = {
+    {ICAL_NO_CLASS,"No class"},
+    {ICAL_PUBLISH_NEW_CLASS,"New Publish"},
+    {ICAL_PUBLISH_UPDATE_CLASS,"Update Publish"},
+    {ICAL_REQUEST_NEW_CLASS,"New request"},
+    {ICAL_REQUEST_UPDATE_CLASS,"Update"},
+    {ICAL_REQUEST_RESCHEDULE_CLASS,"Reschedule"},
+    {ICAL_REQUEST_DELEGATE_CLASS,"Delegate"},
+    {ICAL_REQUEST_NEW_ORGANIZER_CLASS,"New Organizer"},
+    {ICAL_REQUEST_FORWARD_CLASS,"Forward"},
+    {ICAL_REQUEST_STATUS_CLASS,"Status request"},
+    {ICAL_REPLY_ACCEPT_CLASS,"Accept reply"},
+    {ICAL_REPLY_DECLINE_CLASS,"Decline reply"},
+    {ICAL_REPLY_CRASHER_ACCEPT_CLASS,"Crasher's accept reply"},
+    {ICAL_REPLY_CRASHER_DECLINE_CLASS,"Crasher's decline reply"},
+    {ICAL_ADD_INSTANCE_CLASS,"Add instance"},
+    {ICAL_CANCEL_EVENT_CLASS,"Cancel event"},
+    {ICAL_CANCEL_INSTANCE_CLASS,"Cancel instance"},
+    {ICAL_CANCEL_ALL_CLASS,"Cancel all instances"},
+    {ICAL_REFRESH_CLASS,"Refresh"},
+    {ICAL_COUNTER_CLASS,"Counter"},
+    {ICAL_DECLINECOUNTER_CLASS,"Decline counter"},
+    {ICAL_MALFORMED_CLASS,"Malformed"}, 
+    {ICAL_OBSOLETE_CLASS,"Obsolete"},
+    {ICAL_MISSEQUENCED_CLASS,"Missequenced"},
+    {ICAL_UNKNOWN_CLASS,"Unknown"}
+};
+
+char* find_class_string(ical_class class)
 {
-    icalproperty *p;
-    const char* note = 0;
+    int i; 
 
-    if(c != 0){
-        for(p = icalcomponent_get_first_property(c,ICAL_X_PROPERTY);
-            p!= 0;
-            p = icalcomponent_get_next_property(c,ICAL_X_PROPERTY)){
-            if(strcmp(icalproperty_get_x_name(p),"X-LIC-NOTE")==0){
-            note = icalproperty_get_x(p);
-            }
-        }
-    } 
-    
-    if(note == 0){
-        note = "None";
+    for (i = 0;class_map[i].class != ICAL_UNKNOWN_CLASS;i++){
+	if (class_map[i].class == class){
+	    return class_map[i].str;
+	}
     }
-    
-    return note;
+
+    return "Unknown";
 }
 
 
@@ -60,66 +83,71 @@ int main(int argc, char* argv[])
     icalcomponent *c;
     int i=0;
 
-    /* Open up the two storage files, one for the incomming components, 
-       one for the calendar */
-    icalset* incoming = icalset_new_file("../../test-data/incoming.ics");
+    icalset* f = icalset_new_file("../../test-data/incoming.ics");
     icalset* cal = icalset_new_file("../../test-data/calendar.ics");
 
-    assert(incoming!= 0);
+    assert(f!= 0);
     assert(cal!=0);
-
-    /* Iterate through all of the incoming components */
-    for(c=icalset_get_first_component(incoming);c!=0;
-	c=icalset_get_next_component(incoming)){
 	
-	icalproperty_xlicclass class;
-	icalcomponent *match = 0;
-        const char* this_uid;
+
+    /* Foreach incoming message */
+    for(c=icalset_get_first_component(f);c!=0;
+	c=icalset_get_next_component(f)){
+	
+	ical_class class;
+	icalcomponent *match;
+	icalcomponent *inner = icalcomponent_get_first_real_component(c);
+	icalcomponent *p;
+	const char *this_uid;
+	const char *i_x_note=0;
+	const char *c_x_note=0;
 
 	i++;
 
-        /* Check this component against the restrictions imposed by
-           iTIP. An errors will be inserted as X-LIC-ERROR properties
-           in the component. The Parser will also insert errors if it
-           cannot parse the component */
-        icalcomponent_check_restrictions(c);
+	if(inner == 0){
+	    continue;
+	}
 
-        /* If there are any errors, print out the component */
-        if(icalcomponent_count_errors(c) != 0){
-            printf("----- Component has errors ------- \n%s-----------------\n",
-                   icalcomponent_as_ical_string(c));
-        }
+	p = icalcomponent_get_first_property(inner,ICAL_UID_PROPERTY);
+	this_uid = icalproperty_get_uid(p);
 
-        /* Use one of the icalcomponent convenience routines to get
-           the UID. This routine will save you from having to use
-           icalcomponent_get_inner(),
-           icalcomponent_get_first_property(), checking the return
-           value, and then calling icalproperty_get_uid. There are
-           several other convenience routines for DTSTART, DTEND,
-           DURATION, SUMMARY, METHOD, and COMMENT */
-	this_uid = icalcomponent_get_uid(c);
+	assert(this_uid != 0);
 
-        if(this_uid != 0){
-            /* Look in the calendar for a component with the same UID
-               as the incomming component. We should reall also be
-               checking the RECURRENCE-ID. Another way to do this
-               operation is to us icalset_find_match(), which does use
-               the RECURRENCE-ID. */
-            match = icalset_fetch(cal,this_uid);
-        }
+	/* Find a booked component that is matched to the incoming
+	   message, based on the incoming component's UID, SEQUENCE
+	   and RECURRENCE-ID*/
 
-        
-        /* Classify the incoming component. The third argument is the
-           calid of the user who owns the calendar. In a real program,
-           you would probably switch() on the class.*/
+	match = icalset_fetch(cal,this_uid);
+
 	class = icalclassify(c,match,"A@example.com");
 
-	printf("Test %d\n\
-Incoming:      %s\n\
-Matched:       %s\n\
-Classification: %s\n\n",
-               i,get_note(c),get_note(match),
-               icalproperty_enum_to_string(class));	
+	for(p = icalcomponent_get_first_property(c,ICAL_X_PROPERTY);
+	    p!= 0;
+	    p = icalcomponent_get_next_property(c,ICAL_X_PROPERTY)){
+	    if(strcmp(icalproperty_get_x_name(p),"X-LIC-NOTE")==0){
+		i_x_note = icalproperty_get_x(p);
+	    }
+	}
+
+
+	if(i_x_note == 0){
+	    i_x_note = "None";
+	}
+
+	for(p = icalcomponent_get_first_property(match,ICAL_X_PROPERTY);
+	    p!= 0;
+	    p = icalcomponent_get_next_property(match,ICAL_X_PROPERTY)){
+	    if(strcmp(icalproperty_get_x_name(p),"X-LIC-NOTE")==0){
+		c_x_note = icalproperty_get_x(p);
+	    }
+	}
+
+	if(c_x_note == 0){
+	    c_x_note = "None";
+	}
+
+
+	printf("Test %d\nIncoming:      %s\nMatched:       %s\nClassification: %s\n\n",i,i_x_note,c_x_note,find_class_string(class));	
     }
 
     return 0;

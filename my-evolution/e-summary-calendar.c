@@ -272,7 +272,7 @@ uids_to_array (ESummary *summary,
 		event = g_new (ESummaryCalEvent, 1);
 
 		event->uid = g_strdup (p->data);
-		status = cal_client_get_object (client, p->data, &icalcomp);
+		status = cal_client_get_object (client, p->data, NULL, &icalcomp);
 		if (status != CAL_CLIENT_GET_SUCCESS) {
 			g_free (event);
 			continue;

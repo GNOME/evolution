@@ -98,12 +98,14 @@ itip_organizer_is_user (CalComponent *comp, CalClient *client)
   		strip = itip_strip_mailto (organizer.value);
   
  		if (cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
- 			const char *email;
+ 			char *email;
  			
- 			email = cal_client_get_cal_address (client);
- 			if (email && !g_strcasecmp (email, strip))
+  			if (cal_client_get_cal_address (client, &email, NULL) && !g_strcasecmp (email, strip)) {
+				g_free (email);
+				
  				return TRUE;
- 
+			}
+			
  			return FALSE;
  		}
  	
@@ -530,11 +532,11 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 {
 	CalClientSendResult result;
 	icalcomponent *top_level, *new_top_level = NULL;
-	char *error_msg;
+	char error_msg[256];
 	gboolean retval = TRUE;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	result = cal_client_send_object (client, top_level, &new_top_level, users, &error_msg);
+	result = cal_client_send_object (client, top_level, &new_top_level, users, error_msg);
 
 	if (result == CAL_CLIENT_SEND_SUCCESS) {
 		icalcomponent *ical_comp;
@@ -546,7 +548,6 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 	} else if (result == CAL_CLIENT_SEND_BUSY) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, error_msg);
 
-		g_free (error_msg);
 		retval = FALSE;
 	}
 

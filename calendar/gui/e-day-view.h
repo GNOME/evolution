@@ -588,11 +588,6 @@ gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
 gint	   e_day_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
 
-gboolean e_day_view_find_event_from_item (EDayView *day_view,
- 					  GnomeCanvasItem *item,
- 					  gint *day_return,
- 					  gint *event_num_return);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

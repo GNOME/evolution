@@ -45,7 +45,6 @@
 #include "dialogs/recur-comp.h"
 #include "print.h"
 #include "goto.h"
-#include "ea-calendar.h"
 
 /* Used for the status bar messages */
 #define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
@@ -83,8 +82,6 @@ static GdkAtom clipboard_atom = GDK_NONE;
 enum {
 	SELECTION_CHANGED,
 	TIMEZONE_CHANGED,
-	EVENT_CHANGED,
-	EVENT_ADDED,
 	LAST_SIGNAL
 };
 
@@ -115,33 +112,10 @@ e_cal_view_class_init (ECalViewClass *klass)
 			      cal_util_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
-	e_cal_view_signals[EVENT_CHANGED] =
-		g_signal_new ("event_changed",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (ECalViewClass, event_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
-
-	e_cal_view_signals[EVENT_ADDED] =
-		g_signal_new ("event_added",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-			      G_STRUCT_OFFSET (ECalViewClass, event_added),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
-
 	/* Method override */
 	object_class->destroy = e_cal_view_destroy;
 
 	klass->selection_changed = NULL;
-	klass->event_changed = NULL;
-	klass->event_added = NULL;
-
 	klass->get_selected_events = NULL;
 	klass->get_selected_time_range = NULL;
 	klass->set_selected_time_range = NULL;
@@ -151,9 +125,6 @@ e_cal_view_class_init (ECalViewClass *klass)
 	/* clipboard atom */
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-
-	/* init the accessibility support for e_day_view */
- 	e_cal_view_a11y_init ();
 }
 
 static void
@@ -538,13 +509,9 @@ e_cal_view_update_query (ECalView *cal_view)
 {
 	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
 
-	e_cal_view_set_status_message (cal_view, _("Searching"));
-
 	if (E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->update_query) {
 		E_CAL_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->update_query (cal_view);
 	}
-
-	e_cal_view_set_status_message (cal_view, NULL);
 }
 
 void
@@ -564,9 +531,9 @@ e_cal_view_cut_clipboard (ECalView *cal_view)
 	e_cal_view_copy_clipboard (cal_view);
 	for (l = selected; l != NULL; l = l->next) {
 		CalComponent *comp;
-
 		ECalViewEvent *event = (ECalViewEvent *) l->data;
-
+		GError *error = NULL;
+		
 		if (!event)
 			continue;
 
@@ -580,8 +547,8 @@ e_cal_view_cut_clipboard (ECalView *cal_view)
 					event->comp_data->client, NULL);
 
 		cal_component_get_uid (comp, &uid);
-		delete_error_dialog (cal_client_remove_object (event->comp_data->client, uid),
-				     CAL_COMPONENT_EVENT);
+		cal_client_remove_object (event->comp_data->client, uid, &error);
+		delete_error_dialog (error, CAL_COMPONENT_EVENT);
 
 		g_object_unref (comp);
 	}
@@ -657,7 +624,8 @@ delete_event (ECalView *cal_view, ECalViewEvent *event)
 
 	if (delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view))) {
 		const char *uid;
-
+		GError *error = NULL;
+		
 		if (itip_organizer_is_user (comp, event->comp_data->client) 
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client,
@@ -670,9 +638,10 @@ delete_event (ECalView *cal_view, ECalViewEvent *event)
 			g_object_unref (comp);
 			return;
 		}
-
-		delete_error_dialog (
-			cal_client_remove_object (event->comp_data->client, uid), CAL_COMPONENT_EVENT);
+		
+		cal_client_remove_object (event->comp_data->client, uid, &error);
+		delete_error_dialog (error, CAL_COMPONENT_EVENT);
+		g_clear_error (&error);
 	}
 
 	g_object_unref (comp);
@@ -728,11 +697,13 @@ e_cal_view_delete_selected_occurrence (ECalView *cal_view)
 
 	if (cal_util_component_is_instance (event->comp_data->icalcomp)) {
 		const char *uid;
-
+		GError *error = NULL;
+		
 		uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-		delete_error_dialog (
-			cal_client_remove_object_with_mod (event->comp_data->client, uid, CALOBJ_MOD_THIS),
-			CAL_COMPONENT_EVENT);
+
+		cal_client_remove_object_with_mod (event->comp_data->client, uid, CALOBJ_MOD_THIS, &error);
+		delete_error_dialog (error, CAL_COMPONENT_EVENT);
+		g_clear_error (&error);
 	} else {
 		CalComponent *comp;
 
@@ -1169,36 +1140,8 @@ setup_popup_icons (EPopupMenu *context_menu)
 	for (i = 0; context_menu[i].name; i++) {
 		GtkWidget *pixmap_widget = NULL;
 
-		if (!strcmp (context_menu[i].name, _("_Copy")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("C_ut")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_CUT, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Delete")) ||
-			 !strcmp (context_menu[i].name, _("Delete this _Occurrence")) ||
-			 !strcmp (context_menu[i].name, _("Delete _All Occurrences")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("Go to _Today")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_HOME, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Go to Date...")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_JUMP_TO, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("New _Appointment...")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_appointment.xpm");
-		else if (!strcmp (context_menu[i].name, _("New All Day _Event")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_all_day_event.png");
-		else if (!strcmp (context_menu[i].name, _("New Meeting")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/meeting-request-16.png");
-		else if (!strcmp (context_menu[i].name, _("New Task")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_task-16.png");
-		else if (!strcmp (context_menu[i].name, _("_Open")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_OPEN, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Paste")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Print...")))
+		if (!strcmp (context_menu[i].name, _("_Print...")))
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Save As...")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Settings...")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_MENU);
 
 		if (pixmap_widget)
 			gtk_widget_show (pixmap_widget);
@@ -1215,7 +1158,8 @@ e_cal_view_create_popup_menu (ECalView *cal_view)
 	guint32 disable_mask = 0, hide_mask = 0;
 	GtkMenu *popup;
 	CalClient *client = NULL;
-
+	gboolean read_only = TRUE;
+	
 	g_return_val_if_fail (E_IS_CAL_VIEW (cal_view), NULL);
 
 	/* get the selection */
@@ -1260,7 +1204,8 @@ e_cal_view_create_popup_menu (ECalView *cal_view)
 		client = event->comp_data->client;
 	}
 
-	if (cal_client_is_read_only (client))
+	cal_client_is_read_only (client, &read_only, NULL);
+	if (!read_only)
 		disable_mask |= MASK_EDITABLE;
 
 	if (being_edited)

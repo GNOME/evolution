@@ -1,4 +1,4 @@
-lib_LTLIBRARIES = libicalvcal.la
+privlib_LTLIBRARIES = libicalvcal-evolution.la
 
 INCLUDES =			\
 	-I$(top_builddir)	\
@@ -6,27 +6,20 @@ INCLUDES =			\
 	-I$(top_builddir)/src/libical	\
 	-I$(top_srcdir)/src/libicalss
 
-libicalvcal_la_LDFLAGS = -version-info 0:0:0
+libicalvcal_evolution_la_LDFLAGS = -version-info 0:0:0
 
-if DEV
-libicalvcal_la_DEVSOURCES = vcc.y
-else
-libicalvcal_la_DEVSOURCES = vcc.c
-endif
-
-
-libicalvcal_la_SOURCES =	\
+libicalvcal_evolution_la_SOURCES =	\
 	icalvcal.h		\
 	icalvcal.c		\
 	port.h			\
 	vcc.h			\
+	vcc.y			\
 	vobject.h		\
 	vobject.c		\
 	vcaltmp.h		\
-	vcaltmp.c		\
-	$(libicalvcal_la_DEVSOURCES)
+	vcaltmp.c
 
-libicalvcalincludedir = $(includedir)/libicalvcal
+#libicalvcalincludedir = $(privincludedir)/libicalvcal
 
 #libicalvcalinclude_HEADERS =	\
 #	icalvcal.h		\

@@ -256,10 +256,7 @@ impl_dispose (GObject *object)
 	offline_handler = CALENDAR_OFFLINE_HANDLER (object);
 	priv = offline_handler->priv;
 
-	if (priv->client) {
-		g_object_unref (priv->client);
-		priv->client = NULL;
-	}
+	g_object_unref (priv->client);
 	
 	if (priv->listener_interface != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -271,8 +268,6 @@ impl_dispose (GObject *object)
 		priv->listener_interface = CORBA_OBJECT_NIL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -285,9 +280,6 @@ impl_finalize (GObject *object)
 	priv = offline_handler->priv;
 
 	g_free (priv);
-
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /* GTK+ type initialization.  */

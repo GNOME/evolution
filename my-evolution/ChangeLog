@@ -1,7 +1,7 @@
-2003-09-08  Calvin Liu <calvin.liu@sun.com>
+2003.08-29  Rodrigo Moya <rodrigo@ximian.com>
 
-	** For bug #48175
-	* e-summary-tasks.c: set default value for colour if it's empty
+	* e-summary-tasks.c:
+	* e-summary-calendar.c: adapted to changes in cal_client_get_object.
 
 2003-08-26  Rodrigo Moya <rodrigo@ximian.com>
 

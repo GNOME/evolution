@@ -226,7 +226,7 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 	 */
 	cal_component_get_uid (comp, &uid);
 
-	status = cal_client_get_object (client, uid, &icalcomp);
+	status = cal_client_get_object (client, uid, NULL, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:

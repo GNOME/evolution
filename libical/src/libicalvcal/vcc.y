@@ -56,11 +56,6 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 #define DBG_(x)
 #endif
 
-#ifdef WIN32
-#define snprintf   _snprintf
-#define strcasecmp stricmp
-#endif
-
 /****  External Functions  ****/
 
 /* assign local name to parser variables and functions so that
@@ -424,7 +419,7 @@ static void enterValues(const char *value)
 	       using ';' to separate the values. */
 	    if (vObjectUStringZValue(curProp)) {
 		p1 = fakeCString(vObjectUStringZValue(curProp));
-		p2 = malloc((strlen(p1)+strlen(value)+1));
+		p2 = malloc((strlen(p1)+strlen(value)+2));
 		strcpy(p2, p1);
 		deleteStr(p1);
 
@@ -437,7 +432,7 @@ static void enterValues(const char *value)
 		setVObjectUStringZValue_(curProp,fakeUnicode(p2,0));
 		deleteStr(p2);
 	    } else {
-	    setVObjectUStringZValue_(curProp,fakeUnicode(value,0));
+		setVObjectUStringZValue_(curProp,fakeUnicode(value,0));
 	    }
 	}
     }

@@ -255,7 +255,7 @@ struct _EToDoConduitContext {
 
 	icaltimezone *timezone;
 	CalComponent *default_comp;
-	GList *uids;
+	GList *comps;
 	GList *changed;
 	GHashTable *changed_hash;
 	GList *locals;
@@ -275,7 +275,7 @@ e_todo_context_new (guint32 pilot_id)
 	ctxt->client = NULL;
 	ctxt->timezone = NULL;
 	ctxt->default_comp = NULL;
-	ctxt->uids = NULL;
+	ctxt->comps = NULL;
 	ctxt->changed_hash = NULL;
 	ctxt->changed = NULL;
 	ctxt->locals = NULL;
@@ -311,8 +311,11 @@ e_todo_context_destroy (EToDoConduitContext *ctxt)
 
 	if (ctxt->default_comp != NULL)
 		g_object_unref (ctxt->default_comp);
-	if (ctxt->uids != NULL)
-		cal_obj_uid_list_free (ctxt->uids);
+	if (ctxt->comps != NULL) {
+		for (l = ctxt->comps; l; l = l->next)
+			g_object_unref (l->data);
+		g_list_free (ctxt->comps);
+	}
 
 	if (ctxt->changed_hash != NULL) {
 		g_hash_table_foreach_remove (ctxt->changed_hash, e_todo_context_foreach_change, NULL);
@@ -680,7 +683,7 @@ local_record_from_uid (EToDoLocalRecord *local,
 
 	g_assert(local!=NULL);
 
-	status = cal_client_get_object (ctxt->client, uid, &icalcomp);
+	status = cal_client_get_object (ctxt->client, uid, NULL, &icalcomp);
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		comp = cal_component_new ();
@@ -922,7 +925,8 @@ pre_sync (GnomePilotConduit *conduit,
 	g_free (filename);
 
 	/* Get the local database */
-	ctxt->uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_TODO);
+	if (!cal_client_get_object_list_as_comp (ctxt->client, "(#t)", &ctxt->comps, NULL))
+		return -1;
 
 	/* Count and hash the changes */
 	change_id = g_strdup_printf ("pilot-sync-evolution-todo-%d", ctxt->cfg->pilot_id);
@@ -956,7 +960,7 @@ pre_sync (GnomePilotConduit *conduit,
 	}
 
 	/* Set the count information */
-	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_TODO);
+	num_records = g_list_length (ctxt->comps);
 	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);
 	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
 	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
@@ -1051,7 +1055,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	  EToDoLocalRecord **local,
 	  EToDoConduitContext *ctxt)
 {
-	static GList *uids, *iterator;
+	static GList *comps, *iterator;
 	static int count;
 
 	g_return_val_if_fail (local != NULL, -1);
@@ -1059,17 +1063,17 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	if (*local == NULL) {
 		LOG (g_message ( "beginning for_each" ));
 
-		uids = ctxt->uids;
+		comps = ctxt->comps;
 		count = 0;
 		
-		if (uids != NULL) {
-			LOG (g_message ( "iterating over %d records", g_list_length (uids) ));
+		if (comps != NULL) {
+			LOG (g_message ( "iterating over %d records", g_list_length (comps)));
 
 			*local = g_new0 (EToDoLocalRecord, 1);
-			local_record_from_uid (*local, uids->data, ctxt);
+			local_record_from_comp (*local, comps->data, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 			
-			iterator = uids;
+			iterator = comps;
 		} else {
 			LOG (g_message ( "no events" ));
 			(*local) = NULL;
@@ -1241,7 +1245,8 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ( "delete_record: deleting %s\n", uid ));
 
 	e_pilot_map_remove_by_uid (ctxt->map, uid);
-	cal_client_remove_object (ctxt->client, uid);
+	/* FIXME Error handling */
+	cal_client_remove_object (ctxt->client, uid, NULL);
 	
         return 0;
 }

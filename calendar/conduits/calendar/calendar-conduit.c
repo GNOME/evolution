@@ -253,7 +253,7 @@ struct _ECalConduitContext {
 
 	icaltimezone *timezone;
 	CalComponent *default_comp;
-	GList *uids;
+	GList *comps;
 	GList *changed;
 	GHashTable *changed_hash;
 	GList *locals;
@@ -276,7 +276,7 @@ e_calendar_context_new (guint32 pilot_id)
 	ctxt->client = NULL;
 	ctxt->timezone = NULL;
 	ctxt->default_comp = NULL;
-	ctxt->uids = NULL;
+	ctxt->comps = NULL;
 	ctxt->changed = NULL;
 	ctxt->changed_hash = NULL;
 	ctxt->locals = NULL;
@@ -311,8 +311,11 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 		g_object_unref (ctxt->client);
  	if (ctxt->default_comp != NULL)
  		g_object_unref (ctxt->default_comp);	
-	if (ctxt->uids != NULL)
-		cal_obj_uid_list_free (ctxt->uids);
+	if (ctxt->comps != NULL) {
+		for (l = ctxt->comps; l; l = l->next)
+			g_object_unref (l->data);
+		g_list_free (ctxt->comps);
+	}
 	
 	if (ctxt->changed != NULL)
 		cal_client_change_list_free (ctxt->changed);
@@ -550,7 +553,7 @@ is_all_day (CalClient *client, CalComponentDateTime *dt_start, CalComponentDateT
 }
 
 static gboolean
-process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi_uid, GList **multi_ccc)
+process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi_comp, GList **multi_ccc)
 {
 	CalComponentDateTime dt_start, dt_end;
 	icaltimezone *tz_start, *tz_end;
@@ -562,7 +565,7 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	gboolean ret = TRUE;
 
 	*multi_ccc = NULL;
-	*multi_uid = NULL;
+	*multi_comp = NULL;
 	
 	if (ccc->type == CAL_CLIENT_CHANGE_DELETED)
 		return FALSE;
@@ -623,7 +626,7 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 		c->type = CAL_CLIENT_CHANGE_ADDED;
 		
 		*multi_ccc = g_list_prepend (*multi_ccc, c);
-		*multi_uid = g_list_prepend (*multi_uid, new_uid);
+		*multi_comp = g_list_prepend (*multi_comp, g_object_ref (c->comp));
 
 		event_start = day_end;
 		day_end = time_day_end_with_zone (event_start, ctxt->timezone);
@@ -632,7 +635,8 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	dt_end.value = old_end_value;
 	
 	cal_component_get_uid (ccc->comp, &uid);
-	cal_client_remove_object (ctxt->client, uid);
+	/* FIXME Error handling */
+	cal_client_remove_object (ctxt->client, uid, NULL);
 	ccc->type = CAL_CLIENT_CHANGE_DELETED;
 
  cleanup:
@@ -1011,7 +1015,7 @@ local_record_from_uid (ECalLocalRecord *local,
 
 	g_assert(local!=NULL);
 
-	status = cal_client_get_object (ctxt->client, uid, &icalcomp);
+	status = cal_client_get_object (ctxt->client, uid, NULL, &icalcomp);
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		comp = cal_component_new ();
@@ -1380,7 +1384,8 @@ pre_sync (GnomePilotConduit *conduit,
 	g_free (filename);
 
 	/* Get the local database */
-	ctxt->uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_EVENT);
+	if (!cal_client_get_object_list_as_comp (ctxt->client, "(#t)", &ctxt->comps, NULL))
+		return -1;
 
 	/* Find the added, modified and deleted items */
 	change_id = g_strdup_printf ("pilot-sync-evolution-calendar-%d", ctxt->cfg->pilot_id);
@@ -1391,10 +1396,10 @@ pre_sync (GnomePilotConduit *conduit,
 	/* See if we need to split up any events */
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		CalClientChange *ccc = l->data;
-		GList *multi_uid = NULL, *multi_ccc = NULL;
+		GList *multi_comp = NULL, *multi_ccc = NULL;
 		
-		if (process_multi_day (ctxt, ccc, &multi_uid, &multi_ccc)) {
-			ctxt->uids = g_list_concat (ctxt->uids, multi_uid);
+		if (process_multi_day (ctxt, ccc, &multi_comp, &multi_ccc)) {
+			ctxt->comps = g_list_concat (ctxt->comps, multi_comp);
 			
 			added = g_list_concat (added, multi_ccc);
 			removed = g_list_prepend (removed, ccc);
@@ -1442,7 +1447,7 @@ pre_sync (GnomePilotConduit *conduit,
 	}
 	
 	/* Set the count information */
-	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_EVENT);
+	num_records = g_list_length (ctxt->comps);
 	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);
 	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
 	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
@@ -1537,7 +1542,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	  ECalLocalRecord **local,
 	  ECalConduitContext *ctxt)
 {
-	static GList *uids, *iterator;
+	static GList *comps, *iterator;
 	static int count;
 
 	g_return_val_if_fail (local != NULL, -1);
@@ -1545,17 +1550,17 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 	if (*local == NULL) {
 		LOG (g_message ( "beginning for_each" ));
 
-		uids = ctxt->uids;
+		comps = ctxt->comps;
 		count = 0;
 		
-		if (uids != NULL) {
-			LOG (g_message ( "iterating over %d records", g_list_length (uids) ));
+		if (comps != NULL) {
+			LOG (g_message ( "iterating over %d records", g_list_length (comps)));
 
 			*local = g_new0 (ECalLocalRecord, 1);
-			local_record_from_uid (*local, uids->data, ctxt);
+			local_record_from_comp (*local, comps->data, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 
-			iterator = uids;
+			iterator = comps;
 		} else {
 			LOG (g_message ( "no events" ));
 			(*local) = NULL;
@@ -1729,7 +1734,8 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	LOG (g_message ( "delete_record: deleting %s\n", uid ));
 
 	e_pilot_map_remove_by_uid (ctxt->map, uid);
-	cal_client_remove_object (ctxt->client, uid);
+	/* FIXME Error handling */
+	cal_client_remove_object (ctxt->client, uid, NULL);
 	
         return 0;
 }

@@ -87,7 +87,7 @@ struct _GnomeCalendarClass {
 
 	void (* calendar_focus_change)  (GnomeCalendar *gcal, gboolean in);
 	void (* taskpad_focus_change)   (GnomeCalendar *gcal, gboolean in);
-        void (* goto_date)         (GnomeCalendar *gcal,
+        void (* goto_date)         (GnomeCalendar *day_view,
 				    GnomeCalendarGotoDateType date);
 
 };
@@ -125,12 +125,6 @@ void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_ty
 			      gboolean range_selected, gboolean grab_focus);
 
 GtkWidget *gnome_calendar_get_current_view_widget (GnomeCalendar *gcal);
-
-ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
-GtkWidget *gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal); 
-GtkWidget *gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal);
-GtkWidget *gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal);
-
 void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
 void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
 

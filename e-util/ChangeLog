@@ -1,46 +1,6 @@
-2003-09-11  Dan Winship  <danw@ximian.com>
+2003-08-13  JP Rosevear  <jpr@ximian.com>
 
-	* Makefile.am (noinst_LTLIBRARIES): Remove libeutil-static.la and
-	libeconduit-static.la
-
-	* ename/Makefile.am (noinst_LTLIBRARIES): Remove
-	libename-static.la
-
-2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
-
-	* eggtrayicon.[ch]: Added for tray icon support. To be removed when
-	libgnomeui sports this functionality.
-
-	* Makefile.am: Include eggtrayicon.
-
-2003-08-27  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-mktemp.c (e_mktemp_cleanup): We need to unlink the full paths
-	in the tmpdirs, not just the base path.
-
-2003-08-20  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
-	
-	* e-time-utils.c (parse_with_strptime): Fixes #43558 Appointment
-	Editor always gives time validation error for apptmnts in non
-	UTF-8/non ASCII locales.
-
-2003-08-11  Not Zed  <NotZed@Ximian.com>
-
-	* e-msgport.c (e_thread_put): check pthread_create return code
-	properly.
-	(e_mutex_lock): check pthread* return codes properly.
-	(e_mutex_unlock): Same here.
-	(e_mutex_cond_wait): and here.
-
-2003-08-05  Dan Winship  <danw@ximian.com>
-
-	* e-html-utils.c (special_chars): add a flag for non-url chars
-	(controls, whitespace, ", and |)
-	(url_extract): Use that. When urlifying just a hostname, make sure
-	it really is a hostname, and not just something like "www.c".
-	(e_text_to_html_full): Deal with url_extract returning NULL in the
-	"www." case
-	(main): add a regression test, #ifdef E_HTML_UTILS_TEST
+	* Makefile.am: remove db3 hash stuff
 
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
 

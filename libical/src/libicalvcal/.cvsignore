@@ -1,5 +1,12 @@
-Makefile
-.deps
-.libs
-*.lo
 *.la
+*.lo
+.libs
+.deps
+Makefile
+Makefile.in
+libtool
+ltconfig
+ltmain.sh
+stamp-h
+stamp-h.in
+vcc.c

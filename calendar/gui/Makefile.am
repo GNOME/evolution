@@ -37,7 +37,23 @@ $(SELECT_NAMES_IDL_GENERATED_H): $(IDLS)
 $(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
 
 
-IDL_GENERATED = $(COMPOSER_IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
+# Calendar IDL files
+
+CALENDAR_IDL_GENERATED_H =                 		\
+	evolution-calendar.h
+CALENDAR_IDL_GENERATED_C =                 		\
+	evolution-calendar-common.c			\
+	evolution-calendar-skels.c			\
+	evolution-calendar-stubs.c
+CALENDAR_IDL_GENERATED = $(CALENDAR_IDL_GENERATED_C) $(CALENDAR_IDL_GENERATED_H)
+
+$(CALENDAR_IDL_GENERATED_H): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
+                $(top_srcdir)/calendar/idl/evolution-calendar.idl
+$(CALENDAR_IDL_GENERATED_C): $(CALENDAR_IDL_GENERATED_H)
+
+
+IDL_GENERATED = $(COMPOSER_IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(CALENDAR_IDL_GENERATED)
 
 
 SUBDIRS = alarm-notify dialogs
@@ -57,7 +73,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/widgets				\
-	-I$(top_srcdir)/a11y/calendar			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -179,7 +194,6 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la                       \
 	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_calendar_la_LDFLAGS = -avoid-version -module

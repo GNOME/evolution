@@ -249,7 +249,7 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	/* Get the object */
 
-	status = cal_client_get_object (oc->client, uid, &icalcomp);
+	status = cal_client_get_object (oc->client, uid, NULL, &icalcomp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:

@@ -58,12 +58,13 @@
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
+	gboolean html_destroyed;
 	
 	GPtrArray *event_clients;
 	CalClient *event_client;
 	GPtrArray *task_clients;
 	CalClient *task_client;
-
+	
 	char *vcalendar;
 	CalComponent *comp;
 	icalcomponent *main_comp;
@@ -187,13 +188,43 @@ error:
 	return NULL;
 }
 
-static gboolean
-start_default_server_async (EItipControl *itip, CalClient *client, gboolean tasks)
+static CalClient *
+start_default_server (EItipControl *itip, gboolean tasks)
 {
-	if (tasks)
-		return cal_client_open_default_tasks (client, FALSE);
-	else
-		return cal_client_open_default_calendar (client, FALSE);
+	CalClient *client;
+	gboolean success = FALSE;
+
+	client = cal_client_new ();
+
+	g_signal_connect (client, "cal_opened", G_CALLBACK (start_calendar_server_cb), &success);
+
+	if (tasks) {
+		if (!cal_client_open_default_tasks (client, FALSE))
+			goto error;
+	} else {
+		if (!cal_client_open_default_calendar (client, FALSE))
+			goto error;
+	}
+	
+	/* run a sub event loop to turn cal-client's async load
+	   notification into a synchronous call */
+	if (!itip->priv->destroyed) {
+		gtk_signal_connect (GTK_OBJECT (itip), "destroy",
+				    gtk_main_quit, NULL);
+
+		gtk_main ();
+		
+		gtk_signal_disconnect_by_func (GTK_OBJECT (itip),
+					       gtk_main_quit, NULL);
+	}
+	
+	if (success)
+		return client;
+
+ error:
+	g_object_unref (client);
+	
+	return NULL;
 }
 
 static GPtrArray *
@@ -277,7 +308,7 @@ find_server (GPtrArray *servers, CalComponent *comp)
 		CalClientGetStatus status;
 		
 		client = g_ptr_array_index (servers, i);
-		status = cal_client_get_object (client, uid, &icalcomp);
+		status = cal_client_get_object (client, uid, NULL, &icalcomp);
 		if (status == CAL_CLIENT_GET_SUCCESS) {
 			icalcomponent_free (icalcomp);
 			g_object_ref (client);
@@ -297,7 +328,7 @@ html_destroyed (gpointer data)
 	
 	priv = itip->priv;
 	
-	priv->html = NULL;
+	priv->html_destroyed = TRUE;
 }
 
 static void
@@ -329,6 +360,7 @@ init (EItipControl *itip)
 	
 	/* Html Widget */
 	priv->html = gtk_html_new ();
+	priv->html_destroyed = FALSE;
 	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
 					   "text/html; charset=utf-8");
 	gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
@@ -401,12 +433,10 @@ destroy (GtkObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
 	EItipControlPrivate *priv;
-
+	
 	priv = itip->priv;
-
+	  
 	priv->destroyed = TRUE;
-
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 static void
@@ -913,7 +943,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	priv = itip->priv;
 
-	if (priv->html == NULL)
+	if (priv->html_destroyed)
 		return;
 	
 	/* Html widget */
@@ -1231,11 +1261,11 @@ get_real_item (EItipControl *itip)
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
 		if (priv->event_client != NULL)
-			status = cal_client_get_object (priv->event_client, uid, &icalcomp);
+			status = cal_client_get_object (priv->event_client, uid, NULL, &icalcomp);
 		break;
 	case CAL_COMPONENT_TODO:
 		if (priv->task_client != NULL)
-			status = cal_client_get_object (priv->task_client, uid, &icalcomp);
+			status = cal_client_get_object (priv->task_client, uid, NULL, &icalcomp);
 		break;
 	default:
 		status = CAL_CLIENT_GET_NOT_FOUND;
@@ -1936,7 +1966,7 @@ update_attendee_status (EItipControl *itip)
 	
 	/* Obtain our version */
 	cal_component_get_uid (priv->comp, &uid);
-	status = cal_client_get_object (client, uid, &icalcomp);
+	status = cal_client_get_object (client, uid, NULL, &icalcomp);
 
 	if (status == CAL_CLIENT_GET_SUCCESS) {
 		GSList *attendees;
@@ -2019,7 +2049,7 @@ remove_item (EItipControl *itip)
 	CalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
-	CalClientResult result;
+	GError *error = NULL;
 	
 	priv = itip->priv;
 
@@ -2033,13 +2063,15 @@ remove_item (EItipControl *itip)
 		return;
 	
 	cal_component_get_uid (priv->comp, &uid);
-	result = cal_client_remove_object (client, uid);
-	if (result == CAL_CLIENT_RESULT_SUCCESS || result == CAL_CLIENT_RESULT_NOT_FOUND) {
+	cal_client_remove_object (client, uid, &error);
+	if (!error || error->code == E_CALENDAR_STATUS_OBJECT_NOT_FOUND) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	} else {
-		delete_error_dialog (result, type);
-	}	
+		delete_error_dialog (error, type);
+	}
+	
+	g_clear_error (&error);
 }
 
 static void
@@ -2179,34 +2211,16 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 	g_free (path);
 }
 
-typedef struct
+static gboolean
+object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data) 
 {
-	EItipControl    *itip;
-	GtkHTMLEmbedded *eb;
-	CalClient       *client;
-}
-ObjectRequestContext;
-
-static void
-default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
-{
-	ObjectRequestContext *context = data;
+	EItipControl *itip = E_ITIP_CONTROL (data);
 	EItipControlPrivate *priv;
 	GtkWidget *button;
 	CalComponentVType vtype;
+	
+	priv = itip->priv;	
 
-	priv = context->itip->priv;	
-
-	if (status != CAL_CLIENT_OPEN_SUCCESS ||
-	    context->itip->priv->destroyed    ||
-	    context->itip->priv->html == NULL) {
-		g_object_unref (context->client);
-		g_object_unref (context->itip);
-		g_free (context);
-		return;
-	}
-
-	priv->event_client = client;
 	vtype = cal_component_get_vtype (priv->comp);
 
 	switch (vtype) {
@@ -2215,64 +2229,23 @@ default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpoint
 			global_shell_client, _("Select Calendar Folder"),
 			calendar_config_default_calendar_folder (), 
 			calendar_types);
+		priv->event_client = start_default_server (itip, FALSE);
 		break;
 	case CAL_COMPONENT_TODO:
 		button = evolution_folder_selector_button_new (
 			global_shell_client, _("Select Tasks Folder"),
 			calendar_config_default_tasks_folder (), 
 			tasks_types);
+		priv->task_client = start_default_server (itip, TRUE);
 		break;
 	default:
 		button = NULL;
 	}
 
-	g_signal_connect (button, "selected", G_CALLBACK (button_selected_cb), context->itip);
+	g_signal_connect (button, "selected", G_CALLBACK (button_selected_cb), itip);
 	
-	gtk_container_add (GTK_CONTAINER (context->eb), button);
+	gtk_container_add (GTK_CONTAINER (eb), button);
 	gtk_widget_show (button);
-
-	g_object_unref (context->itip);
-	g_free (context);
-	return;
-}
-
-static gboolean
-object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data) 
-{
-	EItipControl *itip = E_ITIP_CONTROL (data);
-	ObjectRequestContext *context;
-	EItipControlPrivate *priv;
-	CalComponentVType vtype;
-	gboolean success;
-
-	priv = itip->priv;	
-	vtype = cal_component_get_vtype (priv->comp);
-
-	context = g_new0 (ObjectRequestContext, 1);
-	context->itip   = itip;
-	context->eb     = eb;
-	context->client = cal_client_new ();
-
-	g_object_ref (itip);
-	g_signal_connect (context->client, "cal_opened",
-			  G_CALLBACK (default_server_started_cb), context);
-
-	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
-		success = start_default_server_async (itip, context->client, FALSE);
-		break;
-	case CAL_COMPONENT_TODO:
-		success = start_default_server_async (itip, context->client, TRUE);
-		break;
-	default:
-		success = FALSE;
-	}
-
-	if (!success) {
-		g_object_unref (itip);
-		g_object_unref (context->client);
-		g_free (context);
-	}
 
 	return TRUE;
 }

@@ -164,11 +164,11 @@ sort_uids (gconstpointer a,
 
 	/* a after b then return > 0 */
 
-	status = cal_client_get_object (client, a, &icalcomp_a);
+	status = cal_client_get_object (client, a, NULL, &icalcomp_a);
 	if (status != CAL_CLIENT_GET_SUCCESS)
 		return -1;
 
-	status = cal_client_get_object (client, b, &icalcomp_b);
+	status = cal_client_get_object (client, b, NULL, &icalcomp_b);
 	if (status != CAL_CLIENT_GET_SUCCESS)
 		return 1;
 
@@ -228,7 +228,7 @@ get_todays_uids (ESummary *summary,
 		time_t endt;
 
 		uid = p->data;
-		status = cal_client_get_object (client, uid, &icalcomp);
+		status = cal_client_get_object (client, uid, NULL, &icalcomp);
 		if (status != CAL_CLIENT_GET_SUCCESS) {
 			continue;
 		}
@@ -277,7 +277,7 @@ get_task_colour (ESummary *summary,
 	todays_start = time_day_begin_with_zone (t, summary->tz);
 	todays_end = time_day_end_with_zone (t, summary->tz);
 
-	status = cal_client_get_object (client, uid, &icalcomp);
+	status = cal_client_get_object (client, uid, NULL, &icalcomp);
 	if (status != CAL_CLIENT_GET_SUCCESS) {
 		return "black";
 	}
@@ -367,7 +367,7 @@ generate_html (gpointer data)
 			const char *colour;
 			
 			uid = l->data;
-			status = cal_client_get_object (tasks->client, uid, &icalcomp);
+			status = cal_client_get_object (tasks->client, uid, NULL, &icalcomp);
 			if (status != CAL_CLIENT_GET_SUCCESS) {
 				continue;
 			}
@@ -384,7 +384,7 @@ generate_html (gpointer data)
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.png\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<a href=\"tasks:/%s\"><font size=\"-1\" color=\"%s\">%s</font></a><br>", 
-						       uid, colour ? colour : _("blue"), text.value ? text.value : _("(No Description)"));
+						       uid, colour, text.value ? text.value : _("(No Description)"));
 			} else {
 #if 0
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "

@@ -34,7 +34,8 @@
  ======================================================================*/
 
 #include "ical.h"
-
+#include "sspm.h"
+#include "icalmime.h"
 #include <stdlib.h> /* For rand */
 #include <string.h> /* for strrchr, strdup*/
 #include <unistd.h>   /* for getopt */
@@ -264,7 +265,7 @@ int main(int argc, char* argv[]) {
 	    d.pos = 0;
 	    d.str = buf;
 
-	    c = icalmime_parse(icalparser_string_line_generator,&d);
+	    c = icalmime_parse(string_line_generator,&d);
 
 	    printf("%s\n",icalcomponent_as_ical_string(c));
 
