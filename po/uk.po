@@ -379,7 +379,7 @@ msgstr "Отримання результатів пошуку на LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2759
 msgid "Error performing search"
-msgstr "Помилка виданання пошуку"
+msgstr "Помилка виконання пошуку"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2783
 msgid "Could not parse query string"
@@ -396,7 +396,7 @@ msgstr "Не вдалося завантажити курсор\n"
 
 #: addressbook/conduit/address-conduit.c:549
 msgid "EBook not loaded\n"
-msgstr ""
+msgstr "EBook не завантажено\n"
 
 #: addressbook/conduit/address-conduit.c:1354
 #: calendar/conduits/calendar/calendar-conduit.c:1203
@@ -428,9 +428,8 @@ msgid "A sample Bonobo control which displays an addressbook."
 msgstr ""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:4
-#, fuzzy
 msgid "Addressbook Settings"
-msgstr "Джерело адресної книги"
+msgstr "Налаштування адресної книги"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
 msgid "Configuration control for the Evolution Addressbook Storages."
@@ -909,9 +908,8 @@ msgid "Select"
 msgstr "Вибрати"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
-#, fuzzy
 msgid "Selected:"
-msgstr "Стерто"
+msgstr "Вибрано:"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 msgid ""
@@ -1081,9 +1079,8 @@ msgid "Using distinguished name (DN)"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:102
-#, fuzzy
 msgid "Using email address"
-msgstr "Електронна адреса"
+msgstr "Використовуючи електронну адресу"
 
 #: addressbook/gui/component/ldap-config.glade.h:103
 #: mail/mail-account-gui.c:55 mail/mail-config.glade.h:136
@@ -2624,9 +2621,8 @@ msgid "Jr."
 msgstr "Молодший"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:8
-#, fuzzy
 msgid "Miss"
-msgstr "існує"
+msgstr "Місс"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Mr."
@@ -3319,7 +3315,7 @@ msgstr ""
 
 #: calendar/conduits/todo/todo-conduit.c:206
 msgid "Default Priority:"
-msgstr "Gjxfnrjdbq пріоритет:"
+msgstr "Типовий пріоритет:"
 
 #: calendar/conduits/todo/todo-conduit.c:951
 #: calendar/conduits/todo/todo-conduit.c:954
@@ -3335,9 +3331,8 @@ msgid "A sample Bonobo control which displays an calendar."
 msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
-#, fuzzy
 msgid "Calendar and Tasks"
-msgstr "Установки пошти..."
+msgstr "Календар та Завдання"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
 #, fuzzy
@@ -3852,19 +3847,19 @@ msgid "Unknown action to be performed"
 msgstr "Невідома помилка"
 
 #: calendar/gui/dialogs/alarm-page.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the start of the appointment"
-msgstr " перед початком зустрічі"
+msgstr "%s %s перед початком зустрічі"
 
 #: calendar/gui/dialogs/alarm-page.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the start of the appointment"
-msgstr " перед початком зустрічі"
+msgstr "%s %s після початку зустрічі"
 
 #: calendar/gui/dialogs/alarm-page.c:411
 #, c-format
 msgid "%s at the start of the appointment"
-msgstr "%s перед початком зустрічі"
+msgstr "%s на початку зустрічі"
 
 #: calendar/gui/dialogs/alarm-page.c:420
 #, fuzzy, c-format
@@ -3969,9 +3964,8 @@ msgid "60 minutes"
 msgstr "60 хвилин"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-#, fuzzy
 msgid "Calendar and Tasks Settings"
-msgstr "Установки пошти..."
+msgstr "Установки Календаря та Завдань"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Color for overdue tasks"
@@ -4158,11 +4152,9 @@ msgid "Are you sure you want to cancel and delete this task?"
 msgstr "Ви впевнені, що хочете скасувати та стерти це завдання?"
 
 #: calendar/gui/dialogs/cancel-comp.c:67
-#, fuzzy
 msgid "Are you sure you want to cancel and delete this journal entry?"
 msgstr ""
-"Ви впевнені, що хочете стерти запис в "
-"журналі \"%s\"?"
+"Ви впевнені, що хочете скасувати та стерти цей запис в журналі?"
 
 #: calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
@@ -4304,10 +4296,9 @@ msgstr ""
 "неназваний запис в журналі?"
 
 #: calendar/gui/dialogs/delete-comp.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr ""
-"Ви впевнені, що хочете стерти зустріч \"%s\"?"
+msgstr "Ви впевнені, що хочете стерти %d зустрічей?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
 #, c-format
@@ -4738,9 +4729,8 @@ msgstr "Відділ:"
 
 #: calendar/gui/e-calendar-table.c:751 calendar/gui/e-day-view.c:2750
 #: calendar/gui/e-week-view.c:1853
-#, fuzzy
 msgid "Deleting selected objects"
-msgstr "Стерти вибрані контакти"
+msgstr "Стерти вибрані об'єкти"
 
 #: calendar/gui/e-calendar-table.c:972 calendar/gui/e-day-view.c:3594
 #: calendar/gui/e-week-view.c:3471 mail/folder-browser.c:1608
@@ -5277,9 +5267,8 @@ msgid "Completing tasks..."
 msgstr "Дата завершення"
 
 #: calendar/gui/e-tasks.c:566
-#, fuzzy
 msgid "Deleting selected objects..."
-msgstr "Стерти вибрані контакти"
+msgstr "Стерти вибрані об'екти..."
 
 #: calendar/gui/e-tasks.c:659
 #, fuzzy
@@ -5657,9 +5646,8 @@ msgid "Imports iCalendar files into Evolution"
 msgstr "Імпорт файлів iCalendar у Evolution."
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:3
-#, fuzzy
 msgid "Imports vCalendar files into Evolution"
-msgstr "Імпорт файлів VCard у Evolution."
+msgstr "Імпорт файлів vCalendar у Evolution."
 
 #: calendar/importers/icalendar-importer.c:638
 #, fuzzy
@@ -5667,18 +5655,16 @@ msgid "Calendar Events"
 msgstr "Календарне повідомлення"
 
 #: calendar/importers/icalendar-importer.c:663
-#, fuzzy
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
-"Evolution знайшов поштові файли Pine.\n"
+"Evolution знайшов файли Gnome Calendar.\n"
 "Чи бажаєте ви імпортувати їх у Evolution?"
 
 #: calendar/importers/icalendar-importer.c:670
-#, fuzzy
 msgid "Gnome Calendar"
-msgstr "Календар"
+msgstr "Gnome Calendar"
 
 #: calendar/pcs/query.c:248
 msgid "time-now expects 0 arguments"
@@ -7015,7 +7001,7 @@ msgstr ""
 
 #: calendar/zones.h:302
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "Європа/Любляна"
 
 #: calendar/zones.h:303
 msgid "Europe/London"
@@ -7083,7 +7069,7 @@ msgstr "Європа/Сараєво"
 
 #: calendar/zones.h:319
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "Європа/Сімферополь"
 
 #: calendar/zones.h:320
 msgid "Europe/Skopje"
@@ -7095,11 +7081,11 @@ msgstr "Європа/Софія"
 
 #: calendar/zones.h:322
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "Європа/Стокгольм"
 
 #: calendar/zones.h:323
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Європа/Талін"
 
 #: calendar/zones.h:324
 msgid "Europe/Tirane"
@@ -7115,11 +7101,11 @@ msgstr ""
 
 #: calendar/zones.h:327
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "Європа/Ватікан"
 
 #: calendar/zones.h:328
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "Європа/Відень"
 
 #: calendar/zones.h:329
 msgid "Europe/Vilnius"
@@ -7139,7 +7125,7 @@ msgstr "Європа/Запоріжжя"
 
 #: calendar/zones.h:333
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "Європа/Цюріх"
 
 #: calendar/zones.h:334
 msgid "Indian/Antananarivo"
