@@ -1,3 +1,17 @@
+2003-12-10  Harry Lu  <harry.lu@sun.com>
+
+        Fix for bugzilla bug #51628.
+
+        * gui/weekday-picker.c: (weekday_picker_class_init): setup focus
+        handler.
+        (day_clicked): new function to set day_mask when mouse clicked
+        or keyboard input of space/enter.
+        (handle_key_press_event): new function to handle key press event.
+        (day_event_cb): handle key press event too.
+        (weekday_picker_init): set widget can be focused.
+        (colorize_items): change the box's outline if it is focused.
+        (weekday_picker_focus): new function to handler focus event.
+
 2003-12-09  Andrew Wu <Yang.Wu@sun.com>
 
 	* gui/e-week-view-main-item.c (e_week_view_main_item_class_init): init a11y.

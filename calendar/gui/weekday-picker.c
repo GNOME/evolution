@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include <gtk/gtksignal.h>
+#include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-text.h>
@@ -44,6 +45,9 @@ struct _WeekdayPickerPrivate {
 
 	/* Day that defines the start of the week; 0 = Sunday, ..., 6 = Saturday */
 	int week_start_day;
+
+	/* Current keyboard focus day */
+	int focus_day;
 
 	/* Metrics */
 	int font_ascent, font_descent;
@@ -70,6 +74,8 @@ static void weekday_picker_realize (GtkWidget *widget);
 static void weekday_picker_size_request (GtkWidget *widget, GtkRequisition *requisition);
 static void weekday_picker_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static void weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style);
+static gboolean weekday_picker_focus (GtkWidget *widget, GtkDirectionType direction);
+static void colorize_items (WeekdayPicker *wp);
 
 static GnomeCanvasClass *parent_class;
 
@@ -106,8 +112,62 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 	widget_class->size_request = weekday_picker_size_request;
 	widget_class->size_allocate = weekday_picker_size_allocate;
 	widget_class->style_set = weekday_picker_style_set;
+	widget_class->focus = weekday_picker_focus;
 
 	class->changed = NULL;
+}
+
+static void 
+day_clicked (WeekdayPicker *wp, int index)
+{
+	WeekdayPickerPrivate *priv = wp->priv;
+	guint8 day_mask;
+
+	if (priv->blocked_day_mask & (0x1 << index))
+		return;
+
+	if (priv->day_mask & (0x1 << index))
+		day_mask = priv->day_mask & ~(0x1 << index);
+	else
+		day_mask = priv->day_mask | (0x1 << index);
+
+	weekday_picker_set_days (wp, day_mask);
+}
+
+static gint
+handle_key_press_event (WeekdayPicker *wp, GdkEvent *event)
+{
+	WeekdayPickerPrivate *priv = wp->priv;
+	guint keyval = event->key.keyval;
+
+	if (priv->focus_day == -1)
+		priv->focus_day = priv->week_start_day;
+
+	switch (keyval) {
+		case GDK_Up:
+		case GDK_Right:
+			priv->focus_day += 1;
+			break;
+		case GDK_Down:
+		case GDK_Left:
+			priv->focus_day -= 1;
+			break;
+		case GDK_space:
+		case GDK_Return:
+			day_clicked (wp, priv->focus_day);
+			return TRUE;
+		default:
+			return FALSE;
+	}
+
+	if (priv->focus_day > 6)
+		priv->focus_day = 0;
+	if (priv->focus_day < 0)
+		priv->focus_day = 6;
+
+	colorize_items (wp);
+	gnome_canvas_item_grab_focus (priv->boxes[priv->focus_day]);
+	return TRUE;
 }
 
 /* Event handler for the day items */
@@ -117,10 +177,12 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
 	int i;
-	guint8 day_mask;
 
 	wp = WEEKDAY_PICKER (data);
 	priv = wp->priv;
+
+	if (event->type == GDK_KEY_PRESS)
+		return handle_key_press_event(wp, event);
 
 	if (!(event->type == GDK_BUTTON_PRESS && event->button.button == 1))
 		return FALSE;
@@ -133,22 +195,13 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 
 	g_assert (i != 7);
 
-	/* Turn on that day */
-
 	i += priv->week_start_day;
 	if (i >= 7)
 		i -= 7;
 
-	if (priv->blocked_day_mask & (0x1 << i))
-		return TRUE;
-
-	if (priv->day_mask & (0x1 << i))
-		day_mask = priv->day_mask & ~(0x1 << i);
-	else
-		day_mask = priv->day_mask | (0x1 << i);
-
-	weekday_picker_set_days (wp, day_mask);
-
+	priv->focus_day = i;
+	gnome_canvas_item_grab_focus (priv->boxes[i]);
+	day_clicked (wp, i);
 	return TRUE;
 }
 
@@ -186,13 +239,12 @@ weekday_picker_init (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
 
-	GTK_WIDGET_UNSET_FLAGS (wp, GTK_CAN_FOCUS);
-
 	priv = g_new0 (WeekdayPickerPrivate, 1);
 
 	wp->priv = priv;
 
 	create_items (wp);
+	priv->focus_day = -1;
 }
 
 /* Finalize handler for the weekday picker */
@@ -219,7 +271,7 @@ static void
 colorize_items (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
-	GdkColor *outline;
+	GdkColor *outline, *focus_outline;
 	GdkColor *fill, *sel_fill;
 	GdkColor *text_fill, *sel_text_fill;
 	int i;
@@ -227,6 +279,7 @@ colorize_items (WeekdayPicker *wp)
 	priv = wp->priv;
 
 	outline = &GTK_WIDGET (wp)->style->fg[GTK_WIDGET_STATE (wp)];
+	focus_outline = &GTK_WIDGET (wp)->style->bg[GTK_WIDGET_STATE (wp)];
 
 	fill = &GTK_WIDGET (wp)->style->base[GTK_WIDGET_STATE (wp)];
 	text_fill = &GTK_WIDGET (wp)->style->fg[GTK_WIDGET_STATE (wp)];
@@ -236,7 +289,7 @@ colorize_items (WeekdayPicker *wp)
 
 	for (i = 0; i < 7; i++) {
 		int day;
-		GdkColor *f, *t;
+		GdkColor *f, *t, *o;
 
 		day = i + priv->week_start_day;
 		if (day >= 7)
@@ -250,9 +303,14 @@ colorize_items (WeekdayPicker *wp)
 			t = text_fill;
 		}
 
+		if (day == priv->focus_day)
+			o = focus_outline;
+		else
+			o = outline;
+
 		gnome_canvas_item_set (priv->boxes[i],
 				       "fill_color_gdk", f,
-				       "outline_color_gdk", outline,
+				       "outline_color_gdk", o,
 				       NULL);
 
 		gnome_canvas_item_set (priv->labels[i],
@@ -569,4 +627,32 @@ weekday_picker_get_week_start_day (WeekdayPicker *wp)
 
 	priv = wp->priv;
 	return priv->week_start_day;
+}
+
+/*  focus handler for weekday picker */
+static gboolean
+weekday_picker_focus (GtkWidget *widget, GtkDirectionType direction)
+{
+	WeekdayPicker *wp;
+	WeekdayPickerPrivate *priv;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (IS_WEEKDAY_PICKER (widget), FALSE);
+	wp = WEEKDAY_PICKER (widget);
+	priv = wp->priv;
+
+	if (!GTK_WIDGET_CAN_FOCUS (widget))
+		return FALSE;
+
+	if (GTK_WIDGET_HAS_FOCUS (widget)) {
+		priv->focus_day = -1;
+		colorize_items (wp);
+		return FALSE;
+	}
+
+	priv->focus_day = priv->week_start_day;
+	gnome_canvas_item_grab_focus (priv->boxes[priv->focus_day]);
+	colorize_items (wp);
+
+	return TRUE;
 }
