@@ -1,5 +1,7 @@
 2003-11-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (em_migrate_dir): Don't leak the message objects.
+
 	* em-folder-tree.c (em_copy_folders): Execute asynchronously by
 	queueing the copy in another thread.
 	(em_copy_folders__copy): Moved the original logic here.

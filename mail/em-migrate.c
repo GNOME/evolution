@@ -379,6 +379,8 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		
 		camel_folder_append_message (new_folder, message, info, NULL, &ex);
 		camel_folder_free_message_info (old_folder, info);
+		camel_object_unref (message);
+		
 		if (camel_exception_is_set (&ex))
 			break;
 		
