@@ -12,6 +12,7 @@ camel/providers/nntp/camel-nntp-grouplist.c
 camel/providers/nntp/camel-nntp-provider.c
 camel/providers/nntp/camel-nntp-store.c
 camel/providers/nntp/camel-nntp-summary.c
+data/evolution.desktop.in
 designs/OOA/ooa.glade
 designs/read_receipts/read.glade
 mail/mail-summary.c
