@@ -62,7 +62,7 @@ struct _EMFolderTreeClass {
 	
 	/* signals */
 	void (* folder_activated) (EMFolderTree *emft, const char *path, const char *uri);
-	void (* folder_selected) (EMFolderTree *emft, const char *path, const char *uri);
+	void (* folder_selected) (EMFolderTree *emft, const char *path, const char *uri, guint32 flags);
 };
 
 GType em_folder_tree_get_type (void);

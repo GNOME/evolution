@@ -1,3 +1,15 @@
+2004-05-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-component.c (folder_selected_cb): Check that the folder is
+	selectable using the new flags argument.
+
+	* em-folder-selector.c (folder_selected_cb): Updated for below
+	changes.
+
+	* em-folder-tree.c (emft_tree_selection_changed): Updated to pass
+	a flags argument to the folder_selected signal.
+	(emft_tree_row_activated): Same.
+
 2004-05-06  Radek Doulik  <rodo@ximian.com>
 
 	* em-composer-prefs.c (sig_selection_changed): reset the preview

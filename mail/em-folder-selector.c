@@ -203,7 +203,7 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 }
 
 static void
-folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFolderSelector *emfs)
+folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderSelector *emfs)
 {
 	if (emfs->name_entry)
 		emfs_create_name_changed (emfs->name_entry, emfs);

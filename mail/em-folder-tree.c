@@ -200,10 +200,11 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMFolderTreeClass, folder_selected),
 			      NULL, NULL,
-			      em_marshal_VOID__STRING_STRING,
-			      G_TYPE_NONE, 2,
+			      em_marshal_VOID__STRING_STRING_UINT,
+			      G_TYPE_NONE, 3,
 			      G_TYPE_STRING,
-			      G_TYPE_STRING);
+			      G_TYPE_STRING,
+			      G_TYPE_UINT);
 	
 	signals[FOLDER_ACTIVATED] =
 		g_signal_new ("folder-activated",
@@ -1827,23 +1828,24 @@ emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeV
 	GtkTreeModel *model = (GtkTreeModel *) priv->model;
 	GtkTreeIter iter;
 	char *path, *uri;
-
+	guint32 flags;
+	
 	if (!emft_select_func(NULL, model, tree_path, FALSE, emft))
 		return;
-
+	
 	if (!gtk_tree_model_get_iter (model, &iter, tree_path))
 		return;
-
+	
 	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
-			    COL_STRING_URI, &uri, -1);
-
+			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
+	
 	g_free (priv->selected_uri);
 	priv->selected_uri = g_strdup (uri);
 	
 	g_free (priv->selected_path);
 	priv->selected_path = g_strdup (path);
 	
-	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, path, uri);
+	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, path, uri, flags);
 	g_signal_emit (emft, signals[FOLDER_ACTIVATED], 0, path, uri);
 }
 
@@ -2716,12 +2718,13 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	char *path, *uri;
+	guint32 flags;
 	
 	if (!emft_selection_get_selected (selection, &model, &iter))
 		return;
 	
 	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path,
-			    COL_STRING_URI, &uri, -1);
+			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
 	
 	g_free (priv->selected_uri);
 	priv->selected_uri = g_strdup (uri);
@@ -2729,7 +2732,7 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 	g_free (priv->selected_path);
 	priv->selected_path = g_strdup (path);
 	
-	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, path, uri);
+	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, path, uri, flags);
 }
 
 

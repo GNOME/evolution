@@ -323,9 +323,9 @@ mc_startup(MailComponent *mc)
 }
 
 static void
-folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFolderView *view)
+folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderView *view)
 {
-	if (!path || !strcmp (path, "/"))
+	if ((flags & CAMEL_FOLDER_NOSELECT) || !path || !strcmp (path, "/"))
 		em_folder_view_set_folder (view, NULL, NULL);
 	else
 		em_folder_view_set_folder_uri (view, uri);
