@@ -1,3 +1,9 @@
+2002-01-29  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (do_mail_print): initialize line to 0 to make
+	everybody happy ;-)
+	ops, set local_font to NULL
+
 2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Don't bother checking

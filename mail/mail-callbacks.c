@@ -2392,7 +2392,7 @@ header_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 	gnome_print_strokepath (print_context); */
 }
 
-static GnomeFont *local_font;
+static GnomeFont *local_font = NULL;
 static gint page_num, pages;
 
 static void
@@ -2422,7 +2422,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	GnomePrintMaster *print_master;
 	GnomePrintDialog *dialog;
 	GnomePrinter *printer = NULL;
-	gdouble line;
+	gdouble line = 0.0;
 	int copies = 1;
 	int collate = FALSE;
 
