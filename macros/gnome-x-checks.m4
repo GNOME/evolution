@@ -15,7 +15,7 @@ dnl   gnome_cv_passdown_{x_libs,X_LIBS,X_CFLAGS}
 dnl
 AC_DEFUN([GNOME_X_CHECKS],
 [
-	AM_PATH_GTK(1.0.0,,AC_MSG_ERROR(GTK not installed, or gtk-config not in path))
+	AM_PATH_GTK(1.0.1,,AC_MSG_ERROR(GTK not installed, or gtk-config not in path))
 
 	dnl Hope that GTK_CFLAGS have only -I and -D.  Otherwise, we could
 	dnl   test -z "$x_includes" || CPPFLAGS="$CPPFLAGS -I$x_includes"
@@ -47,7 +47,7 @@ AC_DEFUN([GNOME_X_CHECKS],
 	    ;;
 	esac
 
-	AC_CHECK_HEADER(gtk/gtkaccelgroup.h, USE_DEVGTK=true; AC_DEFINE(HAVE_DEVGTK))
+	AC_CHECK_HEADER(gtk/gtkaccelgroup.h, USE_DEVGTK=true)
 
 	if test "$GNOME_HAVE_SM" = true; then
 	   AC_CHECK_HEADERS(X11/SM/SMlib.h,,GNOME_HAVE_SM=false)
