@@ -60,6 +60,7 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la		\
+	$(top_builddir)/camel/libcamel.la						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 
