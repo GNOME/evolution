@@ -1041,12 +1041,12 @@ prompt_to_save_changes (EContactEditor *editor)
 		return TRUE;
 
 	switch (e_addressbook_prompt_save_dialog (GTK_WINDOW(editor->app))) {
-	case 0: /* Save */
+	case GTK_RESPONSE_YES:
 		save_card (editor, FALSE);
 		return TRUE;
-	case 1: /* Discard */
+	case GTK_RESPONSE_NO:
 		return TRUE;
-	case 2: /* Cancel */
+	case GTK_RESPONSE_CANCEL:
 	default:
 		return FALSE;
 	}
@@ -1123,25 +1123,34 @@ file_send_to_cb (GtkWidget *widget, gpointer data)
 }
 
 gboolean
-e_contact_editor_confirm_delete(GtkWindow *parent)
+e_contact_editor_confirm_delete (GtkWindow *parent)
 {
-	GtkDialog *dialog;
-	GladeXML *gui;
-	int result;
+	GtkWidget *dialog;
+	gint result;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-editor-confirm-delete.glade", NULL, NULL);
+	dialog = gtk_message_dialog_new (parent,
+					 0,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_NONE,
+#if notyet
+					 /* XXX we really need to handle the plural case here.. */
+					 (plural
+					  ? _("Are you sure you want\n"
+					      "to delete these contacts?"))
+#endif
+					  _("Are you sure you want\n"
+					    "to delete this contact?"));
 
-	dialog = GTK_DIALOG(glade_xml_get_widget(gui, "confirm-dialog"));
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				_("Delete"), GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				NULL);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
-	
-	result = gtk_dialog_run(dialog);
+	result = gtk_dialog_run(GTK_DIALOG (dialog));
 
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	gtk_widget_destroy (dialog);
 
-	g_object_unref(gui);
-
-	return !result;
+	return (result == GTK_RESPONSE_ACCEPT);
 }
 
 static void
@@ -1732,8 +1741,8 @@ _popup_position(GtkMenu *menu,
 	GtkRequisition request;
 	int mh, mw;
 	gdk_window_get_origin (button->window, x, y);
-	*x += button->allocation.width;
-	*y += button->allocation.height;
+	*x += button->allocation.x;
+	*y += button->allocation.y;
 
 	gtk_widget_size_request(GTK_WIDGET(menu), &request);
 
@@ -1754,15 +1763,18 @@ _popup_position(GtkMenu *menu,
 		*y = gdk_screen_height () - mh;
 
 	/* XXX? */
-	*push_in = FALSE;
+	*push_in = TRUE;
 }
 
 static gint
 _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor, GtkWidget *popup, GList **list, GnomeUIInfo **info, gchar *label, gchar *entry, gchar *dialog_title)
 {
 	gint menu_item;
-#if 0
-	g_signal_emit_by_name(widget, "button_press_event");
+
+#if PENDING_PORT_WORK
+	g_signal_handlers_block_matched (widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_emit_by_name (widget, "button_press_event", NULL, NULL, NULL);
+	g_signal_handlers_unblock_matched (widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
 #endif
 	gtk_widget_realize(popup);
 	menu_item = gnome_popup_menu_do_popup_modal(popup, _popup_position, widget, button, editor, widget);

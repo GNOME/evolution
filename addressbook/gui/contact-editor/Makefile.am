@@ -55,9 +55,7 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = 				\
 	contact-editor.glade		\
 	fulladdr.glade			\
-	fullname.glade			\
-	file-exists.glade		\
-	e-contact-editor-confirm-delete.glade
+	fullname.glade
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

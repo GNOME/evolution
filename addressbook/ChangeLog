@@ -1,3 +1,44 @@
+2002-11-11  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (_arrow_pressed): change
+	around a little, still ifdefed though.
+
+	* gui/contact-editor/e-contact-save-as.c (file_exists): same.
+	(save_it): deal with the GtkDialog response ids.
+
+	* gui/contact-editor/e-contact-editor.c
+	(e_contact_editor_confirm_delete): just build the dialog here
+	(using gtk_message_dialog*).
+
+	* gui/contact-editor/Makefile.am (glade_DATA): remove
+	file-exists.glade and e-contact-editor-confirm-delete.glade.
+
+2002-11-11  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-card-cursor.c (pas_card_cursor_dispose): guard
+	against multiple invocations.
+
+	* backend/pas/pas-backend-ldap.c (view_destroy): change signature
+	to that of weak ref's notify function - also, don't use the type
+	check macros on the freed GObject.
+	(cursor_destroy): same.
+	(pas_backend_ldap_book_destroy_cb): same.
+	(pas_backend_ldap_add_client): use weak_ref insteead of ::destroy.
+	(get_cursor_handler): same.
+	(pas_backend_ldap_process_get_book_view): same.
+
+	* backend/pas/pas-backend-file.c (cursor_destroy): change
+	signature to that of weak ref's notify function - also, don't use
+	the type check macros on the freed GObject.
+	(pas_backend_file_book_destroy_cb): same.
+	(view_destroy): same.
+	(pas_backend_file_process_get_cursor): use weak_ref instead of
+	::destroy.
+	(pas_backend_file_process_get_book_view): same.
+	(pas_backend_file_process_get_completion_view): same.
+	(pas_backend_file_process_get_changes): same.
+	(pas_backend_file_add_client): same.
+
 2002-11-10  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-card-sexp.c

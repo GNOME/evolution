@@ -34,7 +34,7 @@
 #include <string.h>
 #include <libgnomeui/gnome-messagebox.h>
 
-static int file_exists(GtkFileSelection *filesel, const char *filename);
+static gint file_exists(GtkFileSelection *filesel, const char *filename);
 
 typedef struct {
 	GtkFileSelection *filesel;
@@ -54,10 +54,10 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	if (error == EEXIST) {
 		response = file_exists(info->filesel, filename);
 		switch (response) {
-			case 0 : /* Overwrite */
+			case GTK_RESPONSE_ACCEPT : /* Overwrite */
 				e_write_file(filename, info->vcard, O_WRONLY | O_CREAT | O_TRUNC);
 				break;
-			case 1 : /* cancel */
+			case GTK_RESPONSE_REJECT : /* cancel */
 				return;
 		}
 	} else if (error != 0) {
@@ -204,32 +204,24 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 	gtk_widget_show(GTK_WIDGET(filesel));
 }
 
-static int
+static gint
 file_exists(GtkFileSelection *filesel, const char *filename)
 {
-	GtkDialog *dialog = NULL;
-	GtkWidget *label;
-	GladeXML *gui = NULL;
-	int result = 0;
-	char *string;
+	GtkWidget *dialog;
+	gint response;
 
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/file-exists.glade", NULL, NULL);
-	dialog = GTK_DIALOG(glade_xml_get_widget(gui, "dialog-exists"));
-	
-	label = glade_xml_get_widget (gui, "label-exists");
-	if (GTK_IS_LABEL (label)) {
-		string = g_strdup_printf (_("%s already exists\nDo you want to overwrite it?"), filename);
-		gtk_label_set_text (GTK_LABEL (label), string);
-		g_free (string);
-	}
+	dialog = gtk_message_dialog_new (GTK_WINDOW (filesel),
+					 0,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_NONE,
+					 _("%s already exists\nDo you want to overwrite it?"), filename);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW(filesel));
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				_("Overwrite"), GTK_RESPONSE_ACCEPT,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				NULL);
 
-	gtk_widget_show (GTK_WIDGET (dialog));
-	result = gtk_dialog_run(dialog);
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-
-	g_free(gui);
-
-	return result;
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+	return response;
 }
