@@ -700,7 +700,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 			       uids->len);
 		
 		message = camel_folder_get_message (folder, uids->pdata[i], ex);
-		if (camel_exception_is_set (ex)) {
+		if (!message || camel_exception_is_set (ex)) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, "Failed at message %d of %d",
 				       i+1, uids->len);
 			break;

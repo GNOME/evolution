@@ -1,3 +1,12 @@
+2001-02-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_decode_date): A fix for broken
+	mailers that send 2-digit years (ie "Wed, 28 Feb 01
+	04:59:41"). Fixes bug #1633.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Check
+	to make sure message isn't NULL.
+
 2001-02-28  Dan Winship  <danw@ximian.com>
 
 	* camel-remote-store.c (remote_recv_line): If we get back 0 bytes

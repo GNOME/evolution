@@ -2655,10 +2655,10 @@ header_decode_date(const char *in, int *saveoffset)
 				char *newdate;
 
 				w(g_warning("day not followed by ',' it's probably a broken mail client, so we'll ignore its date entirely"));
-				printf ("Giving it one last chance...\n");
+				w(printf ("Giving it one last chance...\n"));
 				newdate = parse_broken_date (in);
 				if (newdate) {
-					printf ("Got: %s\n", newdate);
+					w(printf ("Got: %s\n", newdate));
 					t = header_decode_date (newdate, saveoffset);
 					g_free (newdate);
 					return t;
@@ -2682,10 +2682,12 @@ header_decode_date(const char *in, int *saveoffset)
 		g_free(monthname);
 	}
 	year = header_decode_int(&inptr);
-	if (year<100) {
+	if (year < 69) {
+		tm.tm_year = 100 + year;
+	} else if (year < 100) {
 		tm.tm_year = year;
 	} else {
-		tm.tm_year = year-1900;
+		tm.tm_year = year - 1900;
 	}
 	/* get the time ... yurck */
 	tm.tm_hour = header_decode_int(&inptr);
