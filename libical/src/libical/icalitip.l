@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalitip.l,v 1.1 2000/02/17 18:02:28 alves Exp $
+  $Id: icalitip.l,v 1.2 2000/02/23 17:55:49 alves Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -43,14 +43,14 @@
 #undef yywrap
 
 #undef YY_FATAL_ERROR
-#define YY_FATAL_ERROR(msg) yyerror(msg)
+#define YY_FATAL_ERROR(msg) icalparser_yyerror(msg)
 
 icalvalue_kind value_kind=ICAL_NO_VALUE;
 void set_parser_value_state();
 extern enum icalparser_state_enum icalparser_state;
 extern int yydebug; 
 
-void yyerror(char *s);
+void icalparser_yyerror(char *s);
 
 void init_str_buf();
 
@@ -83,6 +83,7 @@ digit		[0-9]
 
 %option caseless
 
+
 %s quoted_string
 %s binary_value boolean_value uri_value time_value duration_value number_value period_value recur_value text_value utcoffset_value
 %s enum_param_value string_param_value stringlist_param_value keyword line_start component seperator parameter end_of_value paramtext
@@ -96,7 +97,7 @@ digit		[0-9]
 
 
 <binary_value>{
-.*			 { yylval.v_string= icalmemory_tmp_copy(yytext);  
+.*			 { icalparser_yylval.v_string= icalmemory_tmp_copy(yytext);  
 			   return STRING;}
 {crlf}|\n                { return EOL;}
 
@@ -109,7 +110,7 @@ digit		[0-9]
 }
 
 <uri_value>{
-.*			 { yylval.v_string= icalmemory_tmp_copy(yytext);  
+.*			 { icalparser_yylval.v_string= icalmemory_tmp_copy(yytext);  
 			   return STRING;}
 {crlf}|\n                { return EOL;}
 
@@ -117,7 +118,7 @@ digit		[0-9]
 
 
 <time_value>{
-{digit}*		 { yylval.v_string= icalmemory_tmp_copy(yytext);
+{digit}*		 { icalparser_yylval.v_string= icalmemory_tmp_copy(yytext);
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 Z			 { return UTC_CHAR; }
@@ -125,7 +126,7 @@ Z			 { return UTC_CHAR; }
 }
 
 <duration_value>{
-{digit}+		 { yylval.v_string =icalmemory_tmp_copy(yytext); 
+{digit}+		 { icalparser_yylval.v_string =icalmemory_tmp_copy(yytext); 
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 [\+\-PTWHMSD]		 { return yytext[0]; }
@@ -134,12 +135,12 @@ T			 { return TIME_CHAR; }
 }
 
 <number_value>{
-[\+\-\.0-9]+		 {  yylval.v_int=atoi(yytext); return INTNUMBER; }
+[\+\-\.0-9]+		 {  icalparser_yylval.v_int=atoi(yytext); return INTNUMBER; }
 {crlf}|\n                { return EOL;}
 }
 
 <period_value>{
-{digit}+		 { yylval.v_string =icalmemory_tmp_copy(yytext) ;
+{digit}+		 { icalparser_yylval.v_string =icalmemory_tmp_copy(yytext) ;
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 Z			 { return UTC_CHAR; }
@@ -180,7 +181,7 @@ FR                       { return FR; }
 =                        { return EQUALS; }
 ,                        { return COMMA; }
 ;                        { return SEMICOLON; }
-[\-\+0-9]+		 { yylval.v_string= icalmemory_tmp_copy(yytext);
+[\-\+0-9]+		 { icalparser_yylval.v_string= icalmemory_tmp_copy(yytext);
                            return DIGITS; }
 T			 { return TIME_CHAR; }
 Z			 { return UTC_CHAR; }
@@ -190,7 +191,7 @@ Z			 { return UTC_CHAR; }
 <utcoffset_value>{
 {crlf}|\n                { return EOL;}
 \-|\+			 { return yytext[0]; }
-{digit}{digit}		 { yylval.v_int=atoi(yytext); return INTNUMBER; }
+{digit}{digit}		 { icalparser_yylval.v_int=atoi(yytext); return INTNUMBER; }
 
 }
 

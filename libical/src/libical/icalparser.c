@@ -34,7 +34,7 @@
 
 extern icalvalue* icalparser_yy_value;
 void set_parser_value_state(icalvalue_kind kind);
-int yyparse(void);
+int icalparser_yyparse(void);
 
 char* icalparser_get_next_char(char c, char *str);
 char* icalparser_get_next_parameter(char* line,char** end);
@@ -122,7 +122,7 @@ icalvalue*  icalparser_parse_value(icalvalue_kind kind,
     set_parser_value_state(kind);
     icalparser_yy_value = 0;
 
-    r = yyparse();
+    r = icalparser_yyparse();
 
     /* Error. Parse failed */
     if( icalparser_yy_value == 0 || r != 0){

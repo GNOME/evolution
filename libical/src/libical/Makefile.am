@@ -13,7 +13,6 @@ libical_la_SOURCES =		\
 	icalerror.h		\
 	icalirip.h		\
 	icalitip.l		\
-	icalitip.y		\
 	icalmemory.c		\
 	icalmemory.h		\
 	icalparameter.c		\
@@ -31,7 +30,11 @@ libical_la_SOURCES =		\
 	icalvcal.h		\
 	locking.c		\
 	pvl.c			\
-	pvl.h
+	pvl.h			\
+	icalitip.y		\
+	icalitip.tab.c
 
 EXTRA_DIST = .gdbinit base64.c
 
+YFLAGS=-picalparser_yy
+LFLAGS=-Picalparser_yy -olex.yy.c

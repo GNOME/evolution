@@ -134,4 +134,4 @@ typedef union {
 #define	UTC_CHAR	384
 
 
-extern YYSTYPE yylval;
+extern YYSTYPE icalparser_yylval;
