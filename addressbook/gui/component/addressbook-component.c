@@ -524,10 +524,10 @@ create_component (void)
 				     BONOBO_OBJECT (destination_interface));
 
 	evolution_shell_component_add_user_creatable_item (shell_component, "contact",
-							   _("New Contact"), _("New _Contact"), 'c',
+							   _("New Contact"), _("_Contact"), 'c',
 							   NULL);
 	evolution_shell_component_add_user_creatable_item (shell_component, "contact_list",
-							   _("New Contact List"), _("New Contact _List"), 'l',
+							   _("New Contact List"), _("Contact _List"), 'l',
 							   NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",

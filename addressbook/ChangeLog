@@ -1,3 +1,8 @@
+2002-02-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/component/addressbook-component.c (create_component): remove
+	"New" from user creatable menu items
+
 2002-02-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c,
