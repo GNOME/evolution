@@ -1,3 +1,10 @@
+2001-10-15  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (is_all_day): util function
+	to determine if event is all day
+	(local_record_from_comp): use new util function
+	(comp_from_remote_record): kill use of deprecated time functions
+
 2001-10-13  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/comp-editor.c (real_edit_comp): call

@@ -323,6 +323,22 @@ is_empty_time (struct tm time)
 	return TRUE;
 }
 
+static gboolean
+is_all_day (CalClient *client, CalComponentDateTime *dt_start, CalComponentDateTime *dt_end) 
+{
+	time_t dt_start_time, dt_end_time;
+	icaltimezone *timezone;
+	
+	timezone = get_timezone (client, dt_start->tzid);
+	dt_start_time = icaltime_as_timet_with_zone (*dt_start->value, timezone);
+	dt_end_time = icaltime_as_timet_with_zone (*dt_end->value, get_timezone (client, dt_end->tzid));
+
+	if (dt_end_time == time_add_day_with_zone (dt_start_time, 1, timezone))
+		return TRUE;
+
+	return FALSE;
+}
+
 static short
 nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 {
@@ -412,7 +428,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	CalComponentText summary;
 	GSList *d_list = NULL, *edl = NULL, *l;
 	CalComponentText *description;
-	CalComponentDateTime dt;
+	CalComponentDateTime dt_start, dt_end, dt;
 	CalComponentClassification classif;
 	time_t dt_time;
 	int i;
@@ -462,24 +478,31 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 		local->appt->note = NULL;
 	}
 
-	cal_component_get_dtstart (comp, &dt);	
-	if (dt.value) {
-		dt_time = icaltime_as_timet_with_zone (*dt.value, get_timezone (ctxt->client, dt.tzid));
-		
+	/* Start/End */
+	cal_component_get_dtstart (comp, &dt_start);
+	cal_component_get_dtend (comp, &dt_end);
+	if (dt_start.value) {
+		dt_time = icaltime_as_timet_with_zone (*dt_start.value, 
+						       get_timezone (ctxt->client, dt_start.tzid));
 		local->appt->begin = *localtime (&dt_time);
+	} else {
+		WARN ("No starting time!");
 	}
-	cal_component_free_datetime (&dt);	
-
-	cal_component_get_dtend (comp, &dt);	
-	if (dt.value && time_add_day (dt_time, 1) != icaltime_as_timet_with_zone (*dt.value, get_timezone (ctxt->client, dt.tzid))) {
-		dt_time = icaltime_as_timet_with_zone (*dt.value, get_timezone (ctxt->client, dt.tzid));
-		
-		local->appt->end = *localtime (&dt_time);
-		local->appt->event = 0;
+	
+	if (dt_start.value && dt_end.value) {
+		if (is_all_day (ctxt->client, &dt_start, &dt_end)) {
+			local->appt->event = 1;
+		} else {
+			dt_time = icaltime_as_timet_with_zone (*dt_end.value, 
+							       get_timezone (ctxt->client, dt_end.tzid));
+			local->appt->end = *localtime (&dt_time);
+			local->appt->event = 0;
+		}
 	} else {
 		local->appt->event = 1;
 	}
-	cal_component_free_datetime (&dt);	
+	cal_component_free_datetime (&dt_start);
+	cal_component_free_datetime (&dt_end);	
 
 	/* Recurrence Rules */
 	local->appt->repeatType = repeatNone;
@@ -666,7 +689,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	if (appt.event) {
 		time_t t = mktime (&appt.begin);
 		
-		t = time_day_end (t);
+		t = time_day_end_with_zone (t, timezone);
 		it = icaltime_from_timet_with_zone (t, FALSE, timezone);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
@@ -734,7 +757,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 		if (!appt.repeatForever) {
 			time_t t = mktime (&appt.repeatEnd);
-			t = time_add_day (t, 1);
 			recur.until = icaltime_from_timet_with_zone (t, FALSE, timezone);
 		}
 
