@@ -1,3 +1,9 @@
+2000-10-26  Michael Meeks  <michael@helixcode.com>
+
+	* printing/e-contact-print.c (e_contact_print_letter_tab),
+	(complete_sequence, e_contact_do_print_phone_list, lowify):
+	unsigned charness.
+
 2000-10-25  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c (ldap_op_process_current): only

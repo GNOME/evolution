@@ -315,7 +315,7 @@ e_contact_get_letter_tab_width (EContactPrintContext *ctxt)
 static double
 e_contact_print_letter_tab (EContactPrintContext *ctxt)
 {
-	char character;
+	unsigned char character;
 	gdouble x, y;
 	gdouble page_width = 72 * (ctxt->style->page_width - ctxt->style->left_margin - ctxt->style->right_margin);
 	gdouble tab_height, tab_width;
@@ -518,7 +518,7 @@ complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
 	for(; cards; cards = cards->next) {
 		ECard *card = cards->data;
 		ECardSimple *simple = e_card_simple_new(card);
-		gchar *file_as;
+		guchar *file_as;
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "file_as", &file_as,
@@ -735,7 +735,7 @@ e_contact_do_print_phone_list (EBook *book, char *query, EContactPrintContext *c
 	for(card = e_book_get_first(book); card; card = e_book_get_next(book)) {
 	*/
 	for (i=0; i < 30; i++) {
-		gchar *file_as = e_card_get_string_fileas(card);
+		guchar *file_as = e_card_get_string_fileas(card);
 		if ( file_as && (!character || *character != tolower(*file_as)) ) {
 			if (ctxt->style->sections_start_new_page && ! first_contact) {
 				e_contact_start_new_page(ctxt);
@@ -789,7 +789,7 @@ e_contact_do_print (EBook *book, char *query, EContactPrintContext *ctxt)
 static void lowify( char *data )
 {
 	for ( ; *data; data++ )
-		*data = tolower(*data);
+		*data = tolower((unsigned char) *data);
 }
 
 static gboolean get_bool( char *data )
