@@ -23,9 +23,12 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include <bonobo.h>
+#include <glib.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-ui-util.h>
 #include "e-tasks.h"
 #include "tasks-control.h"
 

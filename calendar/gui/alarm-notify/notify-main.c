@@ -24,8 +24,12 @@
 #include "config.h"
 #endif
 
-#include <gnome.h>
-#include <bonobo.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-init.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-generic-factory.h>
 #include <liboaf/liboaf.h>
 #include "alarm-notify.h"
 

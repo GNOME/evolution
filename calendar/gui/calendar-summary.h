@@ -25,6 +25,7 @@
 #ifndef CALENDAR_SUMMARY_H
 #define CALENDAR_SUMMARY_H
 
+#include <bonobo/bonobo-generic-factory.h>
 #include <evolution-services/executive-summary-component.h>
 
 BonoboGenericFactory *calendar_summary_factory_init (void);

@@ -29,7 +29,6 @@
 #include <time.h>
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkvbox.h>
-#include <bonobo.h>
 #include <widgets/misc/e-calendar.h>
 #include <cal-client/cal-client.h>
 

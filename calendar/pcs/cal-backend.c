@@ -23,7 +23,8 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
 #include <gnome-xml/xmlmemory.h>

@@ -23,8 +23,16 @@
 
 #include <config.h>
 #include <time.h>
-#include <gnome.h>
-#include <bonobo.h>
+#include <glib.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtkwidget.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-persist-stream.h>
+#include <bonobo/bonobo-stream-client.h>
 #include <glade/glade.h>
 #include <ical.h>
 #include <Evolution-Composer.h>

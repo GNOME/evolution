@@ -24,8 +24,9 @@
 
 #include <config.h>
 #include <glade/glade.h>
-#include <bonobo.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-persist-file.h>
 #include <glade/glade.h>
 
 #include <liboaf/liboaf.h>

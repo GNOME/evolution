@@ -26,8 +26,8 @@
 #ifndef _E_TASKS_H_
 #define _E_TASKS_H_
 
+#include <gtk/gtktable.h>
 #include <cal-client/cal-client.h>
-#include <bonobo.h>
 
 #define E_TYPE_TASKS            (e_tasks_get_type ())
 #define E_TASKS(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_TASKS, ETasks))

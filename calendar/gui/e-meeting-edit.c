@@ -21,7 +21,8 @@
  */
 
 #include <config.h>
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-object-client.h>
 #include <glade/glade.h>
 #include <ical.h>
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>

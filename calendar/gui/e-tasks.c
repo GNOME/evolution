@@ -24,7 +24,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/menus/gal-view-collection.h>
@@ -32,6 +31,7 @@
 #include <gal/menus/gal-view-etable.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
+#include "calendar-config.h"
 #include "e-calendar-table.h"
 #include "calendar-config.h"
 #include "component-factory.h"

@@ -34,7 +34,9 @@
 
 #include <config.h>
 #include <stdio.h>
-#include <gtk/gtk.h>
+#include <stdlib.h>
+#include <string.h>
+#include <gtk/gtkmain.h>
 #include <cal-util/cal-recur.h>
 
 

@@ -23,8 +23,8 @@
  */
 
 #include <config.h>
-#include <bonobo.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-generic-factory.h>
 
 #include <liboaf/liboaf.h>
 

@@ -24,8 +24,6 @@
 #endif
 
 #include <liboaf/liboaf.h>
-#include <gnome.h>
-#include <bonobo.h>
 #include "evolution-calendar.h"
 
 

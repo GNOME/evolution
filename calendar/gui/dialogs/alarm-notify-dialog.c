@@ -21,7 +21,12 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkwindow.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include "alarm-notify-dialog.h"
 

@@ -23,7 +23,6 @@
  */
 
 #include <config.h>
-#include <bonobo.h>
 #include "evolution-shell-component.h"
 #include <executive-summary/evolution-services/executive-summary-component.h>
 #include "component-factory.h"

@@ -21,10 +21,15 @@
  */
 
 #include <config.h>
-#include <bonobo.h>
+#include <stdlib.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-init.h>
 #include <liboaf/liboaf.h>
-#include <gnome.h>
-#include <cal-client/cal-client.h>
+#include <bonobo/bonobo-main.h>
+#include "cal-client.h"
 
 static CalClient *client1;
 static CalClient *client2;

@@ -25,11 +25,11 @@
 #include <config.h>
 #endif
 
-#include <glade/glade.h>
-#include <bonobo.h>
+#include <libgnome/gnome-defs.h>
 #include <glade/glade.h>
 
 #include <liboaf/liboaf.h>
+#include <bonobo/bonobo-main.h>
 
 #include <gal/widgets/e-cursors.h>
 

@@ -23,10 +23,12 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <libgnomeui/gnome-canvas-text.h>
-#include <libgnome/gnome-i18n.h>
 #include "weekday-picker.h"
 
 

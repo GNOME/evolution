@@ -33,11 +33,11 @@
 #include <ctype.h>
 #include <errno.h>
 #include <glib.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <libgnorba/gnorba.h>
-#include <bonobo.h>
+#include <bonobo/bonobo-ui-util.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
 #include "gnome-cal.h"

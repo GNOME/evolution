@@ -1,3 +1,29 @@
+2001-03-26  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* cal-client/client-test.c: Replace includes of <gnome.h>, <bonobo.h>
+	and <gtk/gtk.h> with the needed headers to speed up compile.
+	* cal-util/test-recur.c: Same here for <gtk/gtk.h>
+	* gui/calendar-commands.c: Replace <bonobo.h> and remove
+	<libgnorba/gnorba.h>
+	* gui/calendar-summary.c: Replace <gnome.h> and <bonobo.h>
+	* gui/calendar-summary.h: Added <bonobo/bonobo-generic-factory.h>
+	* gui/component-factory.c: Remove <bonobo.h>
+	* gui/control-factory.c: Replace <bonobo.h>
+	* gui/e-calendar-table.c: Remove <gnome.h>
+	* gui/e-itip-control.c: Replace <gnome.h> and <bonobo.h>
+	* gui/e-meeting-edit.c: Replace <bonobo.h>
+	* gui/e-tasks.c: Replace <gnome.h>
+	* gui/e-tasks.h: Replace <bonobo.h>
+	* gui/gnome-cal.h: Remove <bonobo.h>
+	* gui/main.c: Replace <bonobo.h> and <glade/glade.h>
+	* gui/tasks-control-factory.c: Replace <bonobo.h>
+	* gui/tasks-control.c: Replace <gnome.h> and <bonobo.h>
+	* gui/weekday-picker.c: Add <string.h> and <libgnome/gnome-defs.h>
+	* gui/alarm-notify/client-main.c: Remove <gnome.h> and <bonobo.h>
+	* gui/alarm-notify/notify-main.c: Replace <gnome.h> and <bonobo.h>
+	* gui/dialogs/alarm-notify-dialog.c: Replace <gnome.h>
+	* pcs/cal-backend.c: Replace <gtk/gtk.h>
+	 
 2001-03-25  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_init): The

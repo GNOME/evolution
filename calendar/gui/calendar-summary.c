@@ -28,9 +28,9 @@
 
 #include <time.h>
 
-#include <gnome.h>
-#include <bonobo.h>
-
+#include <bonobo/bonobo-persist-stream.h>
+#include <bonobo/bonobo-property-control.h>
+#include <bonobo/bonobo-stream-client.h>
 #include <liboaf/liboaf.h>
 
 #include <evolution-services/executive-summary-component.h>
