@@ -2664,7 +2664,11 @@ emft_popup_rename_folder (EPopup *ep, EPopupItem *pitem, void *data)
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), name);
 	while (!done) {
 		new_name = e_request_string (NULL, _("Rename Folder"), prompt, name);
-		if (new_name == NULL || !strcmp (name, new_name)) {
+		if (strchr(new_name, '/') != NULL) {
+			e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emft),
+				    "mail:no-rename-folder", name, new_name, _("Folder names cannot contain '/'"), NULL);
+			done = TRUE;
+		} else if (new_name == NULL || !strcmp (name, new_name)) {
 			/* old name == new name */
 			done = TRUE;
 		} else {

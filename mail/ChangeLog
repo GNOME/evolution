@@ -1,5 +1,21 @@
 2005-01-18  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #70768.
+
+	* em-folder-browser.c (emfb_mark_all_read): get the uid list from
+	the message-list (view) rather than folder (model).
+
+	* message-list.c (message_list_foreach): removed, no longer used.
+	(message_list_get_uids): new function replacing ml_foreach, get
+	visible uids's of messages.
+
+2005-01-18  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #71105.
+
+	* em-folder-tree.c (emft_popup_rename_folder): dont let a user
+	rename a folder to one including '/'.
+
 	* em-format-html.c (emfh_gethttp): kill old 'load http 0 now=0' debug.
 
 	** See bug #70563.

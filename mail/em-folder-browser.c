@@ -588,12 +588,12 @@ emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
 	if (emfv->folder == NULL)
 		return;
 
-	uids = camel_folder_get_uids(emfv->folder);
+	uids = message_list_get_uids(emfv->list);
 	camel_folder_freeze(emfv->folder);
 	for (i=0;i<uids->len;i++)
 		camel_folder_set_message_flags(emfv->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	camel_folder_thaw(emfv->folder);
-	camel_folder_free_uids(emfv->folder, uids);
+	message_list_free_uids(emfv->list, uids);
 }
 
 static void

@@ -160,10 +160,6 @@ typedef struct {
 	void (*message_list_scrolled) (MessageList *ml);
 } MessageListClass;
 
-typedef void (*MessageListForeachFunc) (MessageList *message_list,
-					const char *uid,
-					gpointer user_data);
-
 typedef enum {
 	MESSAGE_LIST_SELECT_NEXT = 0,
 	MESSAGE_LIST_SELECT_PREVIOUS = 1,
@@ -175,13 +171,10 @@ GtkType        message_list_get_type   (void);
 GtkWidget     *message_list_new        (void);
 void           message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, const char *uri, gboolean outgoing);
 
-void           message_list_foreach    (MessageList *message_list,
-					MessageListForeachFunc callback,
-					gpointer user_data);
-
 void	       message_list_freeze(MessageList *ml);
 void	       message_list_thaw(MessageList *ml);
 
+GPtrArray     *message_list_get_uids(MessageList *message_list);
 GPtrArray     *message_list_get_selected(MessageList *ml);
 void           message_list_set_selected(MessageList *ml, GPtrArray *uids);
 void	       message_list_free_uids(MessageList *ml, GPtrArray *uids);
