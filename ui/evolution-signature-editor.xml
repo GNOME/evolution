@@ -49,6 +49,13 @@
 			 <placeholder name="EditMisc"/>
 		</submenu>
 
+		<submenu name="Format" _label="For_mat">
+			<menuitem name="FormatHtml" verb=""/>
+		
+			<separator/>
+			<placeholder name="FormatParagraph"/>
+		</submenu>
+
                 <submenu name="Insert" _label="_Insert">
 	  
                 	<placeholder name="Component">
@@ -61,12 +68,6 @@
 	
 			<placeholder name="BuiltMenuItems"/>
 
-		</submenu>
-		<submenu name="Format" _label="For_mat">
-			<menuitem name="FormatHtml" verb=""/>
-		
-			<separator f="" name="emailcomposer"/>
-			<placeholder name="FormatParagraph"/>
 		</submenu>
 	</menu>
 
