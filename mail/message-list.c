@@ -262,6 +262,7 @@ set_content_size (GnomeCanvas *canvas, GtkAllocation *alloc)
         gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
 }
 
+#if 0
 static GtkWidget *
 make_etable (MessageList *message_list)
 {
@@ -314,6 +315,7 @@ make_etable (MessageList *message_list)
 
 	return t;
 }
+#endif
 
 /*
  * GtkObject::init
@@ -334,9 +336,9 @@ message_list_init (GtkObject *object)
 	/*
 	 * The etable
 	 */
-
-	message_list->etable = make_etable (message_list);
-
+	
+	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <leaf column=\"0\" ascending=\"1\"/> </grouping> </ETableSpecification>");
+	
 	/*
 	 * We do own the Etable, not some widget container
 	 */
