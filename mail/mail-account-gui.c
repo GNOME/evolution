@@ -2055,7 +2055,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 				hstore = si;
 			}
 			
-			if (source_proto && !strcasecmp (provider->protocol, source_proto)) {
+			if (source_proto && !g_ascii_strcasecmp (provider->protocol, source_proto)) {
 				fstore = item;
 				hstore = si;
 			}
@@ -2083,7 +2083,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 				htransport = ti;
 			}
 			
-			if (transport_proto && !strcasecmp (provider->protocol, transport_proto)) {
+			if (transport_proto && !g_ascii_strcasecmp (provider->protocol, transport_proto)) {
 				ftransport = item;
 				htransport = ti;
 			}
