@@ -152,7 +152,7 @@ struct _CamelIMAP4Engine {
 	
 	camel_imap4_engine_t state;
 	camel_imap4_level_t level;
-	guint32 capa:31;
+	guint32 capa;
 	
 	guint32 maxlen:31;
 	guint32 maxlentype:1;

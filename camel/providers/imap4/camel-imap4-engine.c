@@ -261,7 +261,7 @@ camel_imap4_engine_capability (CamelIMAP4Engine *engine, CamelException *ex)
 	CamelIMAP4Command *ic;
 	int id, retval = 0;
 	
-	ic = camel_imap4_engine_queue (engine, NULL, "CAPABILITY\r\n");
+	ic = camel_imap4_engine_prequeue (engine, NULL, "CAPABILITY\r\n");
 	
 	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
@@ -295,9 +295,9 @@ camel_imap4_engine_namespace (CamelIMAP4Engine *engine, CamelException *ex)
 	int id, i;
 	
 	if (engine->capa & CAMEL_IMAP4_CAPABILITY_NAMESPACE) {
-		ic = camel_imap4_engine_queue (engine, NULL, "NAMESPACE\r\n");
+		ic = camel_imap4_engine_prequeue (engine, NULL, "NAMESPACE\r\n");
 	} else {
-		ic = camel_imap4_engine_queue (engine, NULL, "LIST \"\" \"\"\r\n");
+		ic = camel_imap4_engine_prequeue (engine, NULL, "LIST \"\" \"\"\r\n");
 		camel_imap4_command_register_untagged (ic, "LIST", camel_imap4_untagged_list);
 		ic->user_data = array = g_ptr_array_new ();
 	}
