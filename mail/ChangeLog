@@ -1,3 +1,8 @@
+2004-05-18  Cantona Su <paradisetux@hotmail.com>
+
+	* em-format-html.c: Added header "X-Newsreader" for handle Outlook
+	Express as Mailer.
+	
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-browser.c (em_folder_browser_show_preview): don't

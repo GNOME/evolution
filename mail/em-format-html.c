@@ -1651,7 +1651,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			
 			while (header) {
 				if (mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
-					       !g_ascii_strcasecmp (header->name, "User-Agent"))) {
+					       !g_ascii_strcasecmp (header->name, "User-Agent") ||
+					       !g_ascii_strcasecmp (header->name, "X-Newsreader"))) {
 					struct _camel_header_raw xmailer;
 					
 					xmailer.name = "X-Evolution-Mailer";
