@@ -66,6 +66,7 @@ AC_DEFUN(AM_GNOME_WITH_NLS,
 		[test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
 	      if test "$MSGFMT" != "no"; then
 		AC_CHECK_FUNCS(dcgettext)
+		AC_CHECK_FUNCS(dgettext)
 		AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
 		AM_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
 		  [test -z "`$ac_dir/$ac_word -h 2>&1 | grep '(HELP)'`"], :)
