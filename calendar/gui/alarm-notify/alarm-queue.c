@@ -898,11 +898,11 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 
 			/* display popup menu */
 			menu = gtk_menu_new ();
-			add_popup_menu_item (GTK_MENU (menu), _("_Open"), GTK_STOCK_OPEN,
+			add_popup_menu_item (GTK_MENU (menu), _("Open"), GTK_STOCK_OPEN,
 					     G_CALLBACK (popup_open_cb), tray_data);
-			add_popup_menu_item (GTK_MENU (menu), _("_Dismiss"), NULL,
+			add_popup_menu_item (GTK_MENU (menu), _("Dismiss"), NULL,
 					     G_CALLBACK (popup_dismiss_cb), tray_data);
-			add_popup_menu_item (GTK_MENU (menu), _("Dismiss _All"), NULL,
+			add_popup_menu_item (GTK_MENU (menu), _("Dismiss All"), NULL,
 					     G_CALLBACK (popup_dismiss_all_cb), tray_data);
 			gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, event->button, event->time);
 
