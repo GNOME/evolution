@@ -57,6 +57,7 @@
 #include "widgets/misc/e-charset-picker.h"
 
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-icon-factory.h>
 
 #include "em-format-html-display.h"
 #include "em-format-html-print.h"
