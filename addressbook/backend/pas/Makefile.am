@@ -36,14 +36,13 @@ if ENABLE_LDAP
 LDAP_BACKEND = libpasldap.a
 endif
 
-ldapschemadir = $(datadir)/evolution
-
+ldapschemadir = $(datadir)/evolution-$(BASE_VERSION)
 ldapschema_DATA= $(LDAP_SCHEMA)
 
 privlib_LIBRARIES = libpas.a
 noinst_LIBRARIES = libpasfile.a $(LDAP_BACKEND)
 
-pasincludedir = $(includedir)/evolution/pas
+pasincludedir = $(includedir)/evolution-$(BASE_VERSION)/pas
 
 pasinclude_HEADERS =					\
 	$(CORBA_SOURCE_H)				\

@@ -1,22 +1,23 @@
-INCLUDES =					\
-	-I$(top_srcdir)				\
-	-I$(top_srcdir)/addressbook/		\
-	-I$(top_srcdir)/addressbook/backend	\
-	-I$(top_builddir)/addressbook/backend	\
-	-I$(top_srcdir)/addressbook/gui/merging	\
+INCLUDES =						\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/addressbook/			\
+	-I$(top_srcdir)/addressbook/backend		\
+	-I$(top_builddir)/addressbook/backend		\
+	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
-	-I$(top_builddir)/shell			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"\
-	-DDATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"	\
-	-DEVOLUTIONDIR=\""$(evolutiondir)"\"	\
-	-DG_LOG_DOMAIN=\"contact-list-editor\"	\
-	-DG_DISABLE_DEPRECATED			\
-	-DGTK_DISABLE_DEPRECATED		\
-	-DLIBGNOME_DISABLE_DEPRECATED		\
-	-DLIBGNOMEUI_DISABLE_DEPRECATED		\
+	-I$(top_builddir)/shell				\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
+	-DDATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
+	-DEVOLUTIONDIR=\""$(evolutiondir)"\"		\
+	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
+	-DG_DISABLE_DEPRECATED				\
+	-DGTK_DISABLE_DEPRECATED			\
+	-DLIBGNOME_DISABLE_DEPRECATED			\
+	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LIBRARIES =				\
@@ -44,14 +45,13 @@ e-contact-list-editor-marshal.c: e-contact-list-editor-marshal.h
 MARSHAL_GENERATED = e-contact-list-editor-marshal.c e-contact-list-editor-marshal.h
 
 
-iconsdir = $(datadir)/evolution/images
-
-gladedir   = $(datadir)/evolution/glade
+iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
+gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA = 					\
 	contact-list-editor.glade
 
-etspecdir   = $(datadir)/evolution/etspec
+etspecdir   = $(datadir)/evolution-$(BASE_VERSION)/etspec
 etspec_DATA = e-contact-list-editor.etspec
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)

@@ -1,11 +1,11 @@
-ecpsdir    = $(datadir)/evolution/ecps
+ecpsdir    = $(datadir)/evolution-$(BASE_VERSION)/ecps
 
 ecps_DATA  =				\
 	smallbook.ecps			\
 	medbook.ecps			\
 	phonelist.ecps
 
-gladedir   = $(datadir)/evolution/glade
+gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA = 				\
 	e-contact-print.glade

@@ -58,7 +58,7 @@ libebook_la_SOURCES =					\
 	e-destination.c
 
 
-libebookincludedir = $(includedir)/evolution/ebook
+libebookincludedir = $(includedir)/evolution-$(BASE_VERSION)/ebook
 
 libebookinclude_HEADERS =				\
 	e-book-listener.h				\

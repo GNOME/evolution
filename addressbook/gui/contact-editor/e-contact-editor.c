@@ -811,8 +811,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		GtkWidget *uh_oh = gtk_message_dialog_new (NULL,
 							   0, GTK_MESSAGE_ERROR,
 							   GTK_RESPONSE_OK,
-							   _("Category editor not available."),
-							   NULL);
+							   _("Category editor not available."));
 		g_free (categories);
 		gtk_widget_show (uh_oh);
 		return;
@@ -1179,7 +1178,7 @@ create_ui (EContactEditor *ce)
 	bonobo_ui_component_add_verb_list_with_data (ce->uic, verbs, ce);
 
 	bonobo_ui_util_set_ui (ce->uic, EVOLUTION_DATADIR,
-			       "evolution-contact-editor.xml",
+			       EVOLUTION_UIDIR "/evolution-contact-editor.xml",
 			       "evolution-contact-editor", NULL);
 
 	e_pixmaps_update (ce->uic, pixmaps);

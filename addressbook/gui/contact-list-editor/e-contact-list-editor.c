@@ -559,7 +559,7 @@ create_ui (EContactListEditor *ce)
 		ce->uic, verbs, ce);
 
 	bonobo_ui_util_set_ui (ce->uic, EVOLUTION_DATADIR,
-			       "evolution-contact-list-editor.xml",
+			       EVOLUTION_UIDIR "/evolution-contact-list-editor.xml",
 			       "evolution-contact-list-editor", NULL);
 
 	e_pixmaps_update (ce->uic, pixmaps);

@@ -1,34 +1,35 @@
 SUBDIRS	= select-names
 
-INCLUDES =							\
-	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
-	-DPREFIX=\"$(prefix)\"					\
-	-DSYSCONFDIR=\"$(sysconfdir)\"				\
-	-DDATADIR=\"$(datadir)\"				\
-	-DLIBDIR=\"$(libdir)\"					\
-	-I$(top_srcdir)						\
-	-I$(top_builddir)					\
-	-I$(top_srcdir)/shell					\
-	-I$(top_builddir)/shell					\
-	-I$(top_srcdir)/widgets/misc				\
-	-I$(top_srcdir)/addressbook/gui/contact-editor		\
-	-I$(top_srcdir)/addressbook/gui/contact-list-editor	\
-	-I$(top_srcdir)/addressbook/gui/minicard		\
-	-I$(top_srcdir)/addressbook/gui/widgets			\
-	-I$(top_srcdir)/addressbook/backend			\
-	-I$(top_builddir)/addressbook/backend			\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution/images\" \
-	$(LDAP_CFLAGS)						\
-	-DG_DISABLE_DEPRECATED					\
-	-DGTK_DISABLE_DEPRECATED				\
-	-DLIBGNOME_DISABLE_DEPRECATED				\
-	-DLIBGNOMEUI_DISABLE_DEPRECATED				\
+INCLUDES =									\
+	-DG_LOG_DOMAIN=\"evolution-addressbook\"				\
+	-DPREFIX=\"$(prefix)\"							\
+	-DSYSCONFDIR=\"$(sysconfdir)\"						\
+	-DDATADIR=\"$(datadir)\"						\
+	-DLIBDIR=\"$(libdir)\"							\
+	-I$(top_srcdir)								\
+	-I$(top_builddir)							\
+	-I$(top_srcdir)/shell							\
+	-I$(top_builddir)/shell							\
+	-I$(top_srcdir)/widgets/misc						\
+	-I$(top_srcdir)/addressbook/gui/contact-editor				\
+	-I$(top_srcdir)/addressbook/gui/contact-list-editor			\
+	-I$(top_srcdir)/addressbook/gui/minicard				\
+	-I$(top_srcdir)/addressbook/gui/widgets					\
+	-I$(top_srcdir)/addressbook/backend					\
+	-I$(top_builddir)/addressbook/backend					\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"					\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"					\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"				\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"					\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"				\
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution-$(BASE_VERSION)/images\"	\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"				\
+	$(LDAP_CFLAGS)								\
+	-DG_DISABLE_DEPRECATED							\
+	-DGTK_DISABLE_DEPRECATED						\
+	-DLIBGNOME_DISABLE_DEPRECATED						\
+	-DLIBGNOMEUI_DISABLE_DEPRECATED						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 componentdir = $(COMPONENT_DIR)
@@ -95,10 +96,10 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 
 @INTLTOOL_SERVER_RULE@
 
-gladedir   = $(datadir)/evolution/glade
+gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = ldap-config.glade
 
-iconsdir = $(datadir)/evolution/images
+iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\

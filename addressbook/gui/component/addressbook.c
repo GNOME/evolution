@@ -376,7 +376,7 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_component_freeze (uic, NULL);
 
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
-			       "evolution-addressbook.xml",
+			       EVOLUTION_UIDIR "/evolution-addressbook.xml",
 			       "evolution-addressbook", NULL);
 
 	e_addressbook_view_setup_menus (view->view, uic);

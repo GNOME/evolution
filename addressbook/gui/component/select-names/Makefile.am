@@ -50,7 +50,7 @@ INCLUDES =						\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-lib_LTLIBRARIES = libeselectnames.la
+privlib_LTLIBRARIES = libeselectnames.la
 
 libeselectnames_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
@@ -94,10 +94,10 @@ e-select-names-marshal.c: e-select-names-marshal.h
 
 MARSHAL_GENERATED = e-select-names-marshal.c e-select-names-marshal.h
 
-gladedir   = $(datadir)/evolution/glade
+gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = select-names.glade
 
-etspecdir   = $(datadir)/evolution/etspec
+etspecdir   = $(datadir)/evolution-$(BASE_VERSION)/etspec
 etspec_DATA = e-select-names.etspec
 
 EXTRA_DIST = 			\
