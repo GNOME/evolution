@@ -190,7 +190,9 @@ real_flush_updates(void *o, void *event_data, void *data)
 				char *type = (strncmp(up->uri, "vtrash:", 7)==0)?"vtrash":"mail";
 			
 				d(printf("Adding new folder: %s\n", up->path));
-				evolution_storage_new_folder(storage, up->path, up->name, type, up->uri, up->name, up->unread);
+				evolution_storage_new_folder(storage,
+							     up->path, up->name, type, up->uri, up->name, up->unread,
+							     TRUE);
 			}
 
 			if (!up->olduri && up->add)

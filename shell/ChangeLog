@@ -1,5 +1,20 @@
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-corba-storage.c (impl_StorageListener_notifyFolderCreated):
+	Set the can_sync_offline property on the EFolder based on the
+	canSyncOffline value on the CORBA folder.
+
+	* evolution-test-component.c (setup_custom_storage): Pass FALSE
+	for @sync_offline to evolution_storage_new_folder().
+
+	* e-local-storage.c (new_folder): Pass FALSE for @sync_offline to
+	evolution_storage_new_folder().
+
+	* evolution-storage.h (evolution_storage_new_folder): New arg
+	@can_sync_offline.
+
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* Evolution-Offline.idl (syncFolder): Remove exception.
 	(cancelSyncFolder): Remove exception.
 

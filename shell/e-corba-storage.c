@@ -108,6 +108,7 @@ impl_StorageListener_notifyFolderCreated (PortableServer_Servant servant,
 
 	e_folder_set_physical_uri (e_folder, folder->physicalUri);
 	e_folder_set_unread_count (e_folder, folder->unreadCount);
+	e_folder_set_can_sync_offline (e_folder, folder->canSyncOffline);
 
 	if (! e_storage_new_folder (storage, path, e_folder)) {
 		g_warning ("Cannot register folder -- %s %s\n", path, folder->displayName);

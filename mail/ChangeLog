@@ -1,5 +1,13 @@
 2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* subscribe-dialog.c (recursive_add_folder): Pass TRUE for
+	@sync_offline to evolution_storage_new_folder().
+
+	* mail-folder-cache.c (real_flush_updates): Pass TRUE for 
+	@sync_offline to evolution_storage_new_folder().
+
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-callbacks.c (composer_sent_cb): Always unref the composer
 	[even when we are destroying it], otherwise we leak it and we get
 	the nasty bug where you can't quit.

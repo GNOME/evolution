@@ -1,3 +1,10 @@
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-storage.c (load_source_data): Pass
+	FALSE for @sync_offline to evolution_storage_new_folder().
+	(addressbook_storage_add_source): Pass FALSE for @sync_offline to
+	evolution_storage_new_folder().
+
 2002-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (request_quit): New, quit

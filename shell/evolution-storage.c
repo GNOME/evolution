@@ -943,7 +943,8 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      const char *type,
 			      const char *physical_uri,
 			      const char *description,
-			      int         unread_count)
+			      int         unread_count,
+			      gboolean    can_sync_offline)
 {
 	EvolutionStorageResult   result;
 	EvolutionStoragePrivate *priv;
@@ -970,10 +971,11 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	CORBA_exception_init (&ev);
 
 	corba_folder = GNOME_Evolution_Folder__alloc ();
-	corba_folder->displayName  = CORBA_string_dup (display_name);
-	corba_folder->description  = CORBA_string_dup (description);
-	corba_folder->type         = CORBA_string_dup (type);
-	corba_folder->physicalUri  = CORBA_string_dup (physical_uri);
+	corba_folder->displayName    = CORBA_string_dup (display_name);
+	corba_folder->description    = CORBA_string_dup (description);
+	corba_folder->type           = CORBA_string_dup (type);
+	corba_folder->physicalUri    = CORBA_string_dup (physical_uri);
+	corba_folder->canSyncOffline = (CORBA_boolean) can_sync_offline;
 
 	evolutionUri = make_full_uri (evolution_storage, path);
 	corba_folder->evolutionUri = CORBA_string_dup (evolutionUri);
