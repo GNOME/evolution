@@ -1,3 +1,14 @@
+2001-09-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (storage_set_view_box_event_cb): Removed.
+	(folder_bar_popup_map_callback): Don't connect.
+	(reparent_storage_set_view_box_and_destroy_popup): Don't ungrab
+	here.
+	(popdown_transient_folder_bar): Ungrab here.
+	(popdown_transient_folder_bar_idle): New.
+	(switch_on_folder_tree_click): Invoke it in the idle loop.  Also,
+	ungrab.
+
 2001-09-20  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): Check

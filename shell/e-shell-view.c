@@ -295,9 +295,6 @@ reparent_storage_set_view_box_and_destroy_popup (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
-	gtk_grab_remove (priv->storage_set_view_box);
-
 	g_assert (priv->folder_bar_popup != NULL);
 
 	gtk_widget_ref (priv->storage_set_view_box);
@@ -319,6 +316,9 @@ popdown_transient_folder_bar (EShellView *shell_view)
 	EShellViewPrivate *priv;
 
 	priv = shell_view->priv;
+
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gtk_grab_remove (priv->storage_set_view_box);
 
 	reparent_storage_set_view_box_and_destroy_popup (shell_view);
 	gtk_widget_hide (priv->storage_set_view_box);
@@ -348,54 +348,6 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 	popdown_transient_folder_bar (shell_view);
 
 	return TRUE;
-}
-
-static int
-storage_set_view_box_event_cb (GtkWidget *widget,
-			       GdkEvent *event,
-			       void *data)
-{
-	GtkWidget *event_widget;
-	GtkWidget *tooltip;
-	EShellView *shell_view;
-	EShellViewPrivate *priv;
-
-	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
-
-	event_widget = gtk_get_event_widget (event);
-
-	if (!event_widget)
-		return FALSE;
-
-	tooltip = e_tree_get_tooltip (E_TREE(priv->storage_set_view));
-	if (! (GTK_WIDGET_IS_SENSITIVE (event_widget) &&
-	       tooltip &&
-	       gtk_widget_is_ancestor (event_widget, tooltip)))
-		return FALSE;
-
-	switch (event->type) {
-	case GDK_BUTTON_PRESS:
-	case GDK_2BUTTON_PRESS:
-	case GDK_3BUTTON_PRESS:
-	case GDK_KEY_PRESS:
-	case GDK_KEY_RELEASE:
-	case GDK_MOTION_NOTIFY:
-	case GDK_BUTTON_RELEASE:
-	case GDK_PROXIMITY_IN:
-	case GDK_PROXIMITY_OUT:
-		gtk_propagate_event (event_widget, event);
-		return TRUE;
-		break;
-	case GDK_ENTER_NOTIFY:
-	case GDK_LEAVE_NOTIFY:
-		gtk_widget_event (event_widget, event);
-		return TRUE;
-		break;
-	default:
-		break;
-	}
-	return FALSE;
 }
 
 static void
@@ -439,9 +391,6 @@ folder_bar_popup_map_callback (GtkWidget *widget,
 
 	gtk_grab_add (widget);
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (widget), "event",
-					GTK_SIGNAL_FUNC (storage_set_view_box_event_cb), shell_view,
-					GTK_OBJECT (priv->folder_bar_popup));
 	gtk_signal_connect_while_alive (GTK_OBJECT (widget), "button_release_event",
 					GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view,
 					GTK_OBJECT (priv->folder_bar_popup));
@@ -518,6 +467,20 @@ set_folder_timeout (gpointer data)
 	return FALSE;
 }
 
+static int
+popdown_transient_folder_bar_idle (void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	popdown_transient_folder_bar (shell_view);
+
+	gtk_object_unref (GTK_OBJECT (shell_view));
+
+	return FALSE;
+}
+
 static void
 switch_on_folder_tree_click (EShellView *shell_view,
 			     const char *path)
@@ -526,6 +489,9 @@ switch_on_folder_tree_click (EShellView *shell_view,
 	char *uri;
 
 	priv = shell_view->priv;
+
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gtk_grab_remove (priv->storage_set_view_box);
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 	if (priv->uri != NULL && !strcmp (uri, priv->uri)) {
@@ -543,8 +509,10 @@ switch_on_folder_tree_click (EShellView *shell_view,
 
 	if (priv->folder_bar_popup != NULL) {
 		e_shell_view_display_uri (shell_view, uri);
-		popdown_transient_folder_bar (shell_view);
 		g_free (uri);
+
+		gtk_object_ref (GTK_OBJECT (shell_view));
+		gtk_idle_add (popdown_transient_folder_bar_idle, shell_view);
 		return;
 	}
 
