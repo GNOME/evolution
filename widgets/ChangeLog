@@ -1,3 +1,9 @@
+2005-03-14  Not Zed  <NotZed@Ximian.com>
+
+	* menus/gal-view-menus.c (build_menus): don't
+	bonobo_ui_free_string from bonobo_ui_node_to_string - it should be
+	g_free'd now (api chagne in bonobo).
+
 2005-03-11  Sushma Rai  <rsushma@novell.com>
 
 	* misc/e-send-options.c (setup_widgets): Not showing the send options
