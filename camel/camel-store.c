@@ -591,24 +591,23 @@ camel_store_get_trash (CamelStore *store, CamelException *ex)
 {
 	CamelFolder *folder;
 
+	/* TODO: This is quite redundant, since get_folder(CAMEL_VTRASH_NAME) does the same */
+
 	if ((store->flags & CAMEL_STORE_VTRASH) == 0
 	    || store->folders == NULL)
 		return NULL;
-	
-	CAMEL_STORE_LOCK(store, folder_lock);
 
 	folder = camel_object_bag_reserve(store->folders, CAMEL_VTRASH_NAME);
 	if (!folder) {
 		folder = CS_CLASS(store)->get_trash(store, ex);
 
-		if (folder)
+		if (folder) {
 			camel_object_bag_add(store->folders, CAMEL_VTRASH_NAME, folder);
-		else
+			camel_object_trigger_event(store, "folder_opened", folder);
+		} else
 			camel_object_bag_abort(store->folders, CAMEL_VTRASH_NAME);
 	}
 
-	CAMEL_STORE_UNLOCK(store, folder_lock);
-	
 	return folder;
 }
 
@@ -625,23 +624,22 @@ camel_store_get_junk (CamelStore *store, CamelException *ex)
 {
 	CamelFolder *folder;
 
+	/* TODO: This is quite redundant, since get_folder(CAMEL_VJUNK_NAME) does the same */
+
 	if ((store->flags & CAMEL_STORE_VJUNK) == 0
 	    || store->folders == NULL)
 		return NULL;
-	
-	CAMEL_STORE_LOCK(store, folder_lock);
 
 	folder = camel_object_bag_reserve(store->folders, CAMEL_VJUNK_NAME);
 	if (!folder) {
 		folder = CS_CLASS(store)->get_junk(store, ex);
 
-		if (folder)
+		if (folder) {
 			camel_object_bag_add(store->folders, CAMEL_VJUNK_NAME, folder);
-		else
+			camel_object_trigger_event(store, "folder_opened", folder);
+		} else
 			camel_object_bag_abort(store->folders, CAMEL_VJUNK_NAME);
 	}
-
-	CAMEL_STORE_UNLOCK(store, folder_lock);
 	
 	return folder;
 }
