@@ -1,3 +1,8 @@
+2001-06-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-shortcuts-view-model.c (load_group_into_model): Replaced GList
+	with GSList here to fix a type mismatch.
+
 2001-06-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shortcuts-view-model.c (load_group_into_model): Updated to

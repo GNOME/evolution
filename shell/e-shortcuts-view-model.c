@@ -76,7 +76,7 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 	EShortcutsViewModelPrivate *priv;
 	EStorageSet *storage_set;
 	GSList *shortcut_list;
-	GList *p;
+	GSList *p;
 
 	priv = shortcuts_view_model->priv;
 
