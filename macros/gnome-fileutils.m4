@@ -15,6 +15,26 @@ AC_CHECK_FUNCS(bcopy endgrent endpwent fchdir ftime ftruncate \
 getcwd getmntinfo gettimeofday isascii lchown \
 listmntent memcpy mkfifo strchr strerror strrchr vprintf)
 
+dnl Set some defaults when cross-compiling
+
+if test x$cross_compiling = xyes ; then
+	case "$host_os" in
+	linux*)
+	  fu_cv_sys_mounted_getmntent1=yes
+	  fu_cv_sys_stat_statfs2_bsize=yes
+	  ;;
+	sunos*)
+	  fu_cv_sys_stat_statfs4=yes
+	  ;;
+	freebsd*)
+	  fu_cv_sys_stat_statfs2_bsize=yes
+	  ;;
+	osf*)
+	  fu_cv_sys_stat_statfs3_osf1=yes
+	  ;;
+	esac
+fi
+
 # Determine how to get the list of mounted filesystems.
 list_mounted_fs=
 
@@ -366,8 +386,8 @@ fi
 
 if test -n "$list_mounted_fs" && test $space != no; then
 DF_PROG="df"
-LIBOBJS="$LIBOBJS fsusage.o"
-LIBOBJS="$LIBOBJS mountlist.o"
+# LIBOBJS="$LIBOBJS fsusage.o"
+# LIBOBJS="$LIBOBJS mountlist.o"
 fi
 
 # Check for SunOS statfs brokenness wrt partitions 2GB and larger.

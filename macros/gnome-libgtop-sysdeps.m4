@@ -21,11 +21,10 @@ AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
 	[  --with-linux-table      Use the table () function from Martin Baulig],[
 	linux_table="$withval"],[linux_table=auto])
 
-	AC_MSG_CHECKING(for table function in Linux Kernel)
-
 	if test $linux_table = yes ; then
 	  AC_CHECK_HEADER(linux/table.h, linux_table=yes, linux_table=no)
 	elif test $linux_table = auto ; then
+	  AC_MSG_CHECKING(for table function in Linux Kernel)
 	  AC_TRY_RUN([
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,9 +51,8 @@ main (void)
 	exit (ret < 1 ? ret : 0);
 }
 ], linux_table=yes, linux_table=no, linux_table=no)
+	  AC_MSG_RESULT($linux_table)
 	fi
-
-	AC_MSG_RESULT($linux_table)
 
 	if test $linux_table = yes ; then
 	  AC_DEFINE(HAVE_LINUX_TABLE)
