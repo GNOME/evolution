@@ -17,6 +17,7 @@ INCLUDES = -I.. \
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
 	$(GTK_INCLUDEDIR)			\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(KRB4_CFLAGS)				\
 	-DG_LOG_DOMAIN=\"camel-imap-provider\"	
 

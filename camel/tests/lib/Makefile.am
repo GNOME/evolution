@@ -1,5 +1,5 @@
 
-INCLUDES = -I$(includedir)
+INCLUDES = -I$(includedir) -I$(top_srcdir)
 
 check_LIBRARIES = libcameltest.a
 

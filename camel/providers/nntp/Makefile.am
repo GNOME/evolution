@@ -15,6 +15,7 @@ INCLUDES = -I../..				\
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
 	$(GTK_INCLUDEDIR) 			\
+	$(EXTRA_GNOME_CFLAGS)			\
 	-DG_LOG_DOMAIN=\"camel-nntp-provider\"
 
 libcamelnntp_la_SOURCES = 			\

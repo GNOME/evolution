@@ -1,5 +1,19 @@
 2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am (SUBDIRS): Remove `tests'.
+
+	* tests/lib/Makefile.am (INCLUDES): Add `-I$(top_srcdir)'.
+
+	* providers/vee/Makefile.am (INCLUDES): Add
+	`$(EXTRA_GNOME_CFLAGS)'.
+	* providers/sendmail/Makefile.am (INCLUDES): Likewise.
+	* providers/pop3/Makefile.am (INCLUDES): Likewise.
+	* providers/local/Makefile.am (INCLUDES): Likewise.
+	* providers/imap/Makefile.am (INCLUDES): Likewise.
+	* providers/cache/Makefile.am (INCLUDES): Likewise.
+
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* providers/smtp/Makefile.am (INCLUDES): Add
 	`$(EXTRA_GNOME_CFLAGS)'.
 
