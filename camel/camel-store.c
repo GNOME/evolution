@@ -651,11 +651,14 @@ store_sync (CamelStore *store, int expunge, CamelException *ex)
 		CamelException x;
 		int i;
 
+		/* we don't sync any vFolders, that is used to update certain vfolder queries mainly,
+		   and we're really only interested in storing/expunging the physical mails */
 		camel_exception_init(&x);
 		folders = camel_object_bag_list(store->folders);
 		for (i=0;i<folders->len;i++) {
 			folder = folders->pdata[i];
-			if (!camel_exception_is_set(&x))
+			if (!CAMEL_IS_VEE_FOLDER(folder)
+			    && !camel_exception_is_set(&x))
 				camel_folder_sync(folder, expunge, &x);
 			camel_object_unref(folder);
 		}

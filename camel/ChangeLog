@@ -1,3 +1,15 @@
+2004-05-19  Not Zed  <NotZed@Ximian.com>
+
+	** See #58641.
+
+	* camel-vee-folder.c (vee_sync): don't rebuild auto-type vfolders.
+	they should always be consistent and it saves a lot of unecessary
+	work.
+
+	* camel-store.c (store_sync): we don't want to sync any vfolders
+	as part of the store sync call.  its used for a different purpose
+	in vFolders.  oh well its a hack.
+
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c (fill_fi): do the same
