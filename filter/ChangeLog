@@ -1,3 +1,9 @@
+2004-02-17  Not Zed  <NotZed@Ximian.com>
+
+	* filter-int.c (int_clone): implement, since we dont store the
+	min/max values in the xml output, we lose it otherwise.  Bug
+	#54155.
+
 2004-02-06  Hans Petter Jansson  <hpj@ximian.com>
 
 	* filter-input.c (filter_input_init): Default to an empty string

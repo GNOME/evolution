@@ -34,6 +34,7 @@
 #define d(x)
 
 static int int_eq (FilterElement *fe, FilterElement *cm);
+static FilterElement *int_clone(FilterElement *fe);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
 static int xml_decode (FilterElement *fe, xmlNodePtr node);
@@ -85,6 +86,7 @@ filter_int_class_init (FilterIntClass *klass)
 	
 	/* override methods */
 	fe_class->eq = int_eq;
+	fe_class->clone = int_clone;
 	fe_class->xml_create = xml_create;
 	fe_class->xml_encode = xml_encode;
 	fe_class->xml_decode = xml_decode;
@@ -148,6 +150,19 @@ int_eq (FilterElement *fe, FilterElement *cm)
 {
         return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
 		&& ((FilterInt *)fe)->val == ((FilterInt *)cm)->val;
+}
+
+static FilterElement *
+int_clone(FilterElement *fe)
+{
+	FilterInt *fi, *fs;
+
+	fs = (FilterInt *)fe;
+	fi = filter_int_new_type(fs->type, fs->min, fs->max);
+	fi->val = fs->val;
+	((FilterElement *)fi)->name = g_strdup(fe->name);
+
+	return (FilterElement *)fi;
 }
 
 static void
