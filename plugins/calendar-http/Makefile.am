@@ -1,4 +1,5 @@
 INCLUDES =					\
+	-I$(top_srcdir)				\
 	$(EVOLUTION_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)		\
 	$(SOURCE_SEL_CFLAGS)
