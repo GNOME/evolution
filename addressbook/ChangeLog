@@ -1,3 +1,8 @@
+2004-04-23  Dan Winship  <danw@ximian.com>
+
+	* gui/component/component-factory.c (factory): Fix the addressbook
+	control to not crash. (Temporary fix.)
+
 2004-04-23  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-gui-util.c (added_cb): this signal takes an

@@ -26,6 +26,7 @@
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "addressbook-config.h"
+#include "addressbook-view.h"
 #include "autocompletion-config.h"
 #include "eab-popup-control.h"
 #include "eab-vcard-control.h"
@@ -57,8 +58,13 @@ factory (BonoboGenericFactory *factory,
 
 	if (strcmp (component_id, VCARD_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (eab_vcard_control_new ());
-	if (strcmp (component_id, ADDRESSBOOK_CONTROL_ID) == 0)
-		return BONOBO_OBJECT (addressbook_new_control ());
+	if (strcmp (component_id, ADDRESSBOOK_CONTROL_ID) == 0) {
+		AddressbookView *view;
+
+		/* FIXME: temporary hack, leaks a view */
+		view = addressbook_view_new ();
+		return BONOBO_OBJECT (addressbook_view_peek_folder_view (view));
+	}
 	if (strcmp (component_id, COMPONENT_ID) == 0) {
 		BonoboObject *object = BONOBO_OBJECT (addressbook_component_peek ());
 		bonobo_object_ref (object);
