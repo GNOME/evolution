@@ -1,3 +1,18 @@
+2000-08-29  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (mail_do_send_mail): Update this and related
+	functions to no longer take a From address. (The composer deals
+	with it itself now.)
+	(do_send_mail): Add the Evolution version back to the X-Mailer
+	header (this change got lost in the thread migration).
+
+	* mail-callbacks.c (composer_send_cb): Don't re-fetch the From
+	address. It's set by the composer now. Don't free the
+	post_send_data from here.
+	(mail_reply): Attach to the composer's destroy signal to free the
+	psd. (The current code would free it more than once if an error
+	occurred while trying to send the first time.)
+
 2000-08-28  Peter Williams  <peterw@helixcode.com>
 
 	* mail-config-gui.c (mail_config_apply_clicked): Add new news sources,

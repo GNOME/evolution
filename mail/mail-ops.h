@@ -33,10 +33,8 @@ void mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 			 gpointer hook_func, gpointer hook_data);
 void mail_do_send_mail (const char *xport_uri,
 			CamelMimeMessage *message,
-			const char *from,
 			CamelFolder *done_folder,
 			const char *done_uid,
-
 			guint32 done_flags, GtkWidget *composer);
 void mail_do_expunge_folder (CamelFolder *folder);
 void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,

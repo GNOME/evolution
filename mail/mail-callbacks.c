@@ -195,10 +195,9 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 }
 
 static void
-free_psd (struct post_send_data *psd)
+free_psd (GtkWidget *composer, gpointer user_data)
 {
-	if (!psd)
-		return;
+	struct post_send_data *psd = user_data;
 
 	if (psd->folder)
 		camel_object_unref (CAMEL_OBJECT (psd->folder));
@@ -210,28 +209,13 @@ free_psd (struct post_send_data *psd)
 void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
-	gchar *from = NULL;
-	const MailConfigIdentity *id = NULL;
 	MailConfigService *xport = NULL;
 	CamelMimeMessage *message;
 	const char *subject;
 	struct post_send_data *psd = data;
 	
 	/* Config info */
-	id = mail_config_get_default_identity ();
 	xport = mail_config_get_transport ();
-	
-	/* Generate our from address */
-	/* FIXME: we shouldn't need this code anymore as it's taken care of in the composer */
-	from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
-	if (!from) {
-		CamelInternetAddress *ciaddr;
-		
-		ciaddr = camel_internet_address_new ();
-		camel_internet_address_add (ciaddr, id->name, id->address);
-		from = camel_address_encode (CAMEL_ADDRESS (ciaddr));
-		camel_object_unref (CAMEL_OBJECT (ciaddr));
-	}
 	
 	/* Get the message */
 	message = e_msg_composer_get_message (composer);
@@ -241,24 +225,18 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (subject == NULL || subject[0] == '\0') {
 		if (!ask_confirm_for_empty_subject (composer)) {
 			camel_object_unref (CAMEL_OBJECT (message));
-			free_psd (psd); /* will take care of psd == NULL */
 			return;
 		}
 	}
 	
 	if (psd) {
-		mail_do_send_mail (xport->url, message, from,
+		mail_do_send_mail (xport->url, message, 
 				   psd->folder, psd->uid, psd->flags, 
 				   GTK_WIDGET (composer));
 	} else {
-		mail_do_send_mail (xport->url, message, from,
-				   NULL, NULL, 0,
+		mail_do_send_mail (xport->url, message, NULL, NULL, 0,
 				   GTK_WIDGET (composer));
 	}
-	
-	g_free (from);
-	
-	free_psd (psd);
 }
 
 static GtkWidget *
@@ -341,6 +319,8 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), psd); 
+	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+			    GTK_SIGNAL_FUNC (free_psd), psd);
 
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
