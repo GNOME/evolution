@@ -1,3 +1,7 @@
+2001-01-19  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* providers/smtp/camel-smtp-provider.c: Mark strings for translation.
+	
 2001-01-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-filter-driver.c (report_status): Add a percentage complete
