@@ -738,8 +738,11 @@ save_url (MailDisplay *md, const char *url)
 			
 			name = strrchr (url, '/');
 			name = name ? name : url;
-
-			memstream = camel_stream_mem_new_with_byte_array (ba);			
+			
+			/* we have to copy the data here since the ba may be long gone
+			 * by the time the user actually saves the file
+			 */
+			memstream = camel_stream_mem_new_with_buffer (ba->data, ba->len);			
 			wrapper = camel_data_wrapper_new ();
 			camel_data_wrapper_construct_from_stream (wrapper, memstream);
 			camel_object_unref (CAMEL_OBJECT (memstream));

@@ -1,3 +1,8 @@
+2001-10-10  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (save_url): copy the data.  We can't ref the byte
+	array and we can't free it so we have to copy it.
+
 2001-10-10    <NotZed@Ximian.com>
 
 	* mail-ops.c (transfer_messages_transfer): IF the source and
