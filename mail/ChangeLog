@@ -1,3 +1,8 @@
+2003-04-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (config_wizard_set_page): Fixed a logic
+	error that was the cause of bug #41389.
+
 2003-04-15  Not Zed  <NotZed@Ximian.com>
 
 	* For bug #41199.

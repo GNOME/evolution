@@ -104,7 +104,7 @@ config_wizard_set_page (MailConfigWizard *mcw, MailConfigWizardPage page)
 	if (mcw->corba_wizard)
 		evolution_wizard_set_page (mcw->corba_wizard, page, NULL);
 	else {
-		if (page <= mcw->interior_pages->len)
+		if (page < mcw->interior_pages->len)
 			gnome_druid_set_page (mcw->druid, mcw->interior_pages->pdata[page]);
 		else
 			gnome_druid_set_page (mcw->druid, mcw->last_page);
