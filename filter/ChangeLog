@@ -1,3 +1,9 @@
+2004-03-20  Danilo Šegan  <dsegan@gmx.net>
+
+	* filter-datespec.c (set_button): Use ngettext for handling plurals.
+	(timespans): Use C preprocessor hacks to make xgettext see real
+	ngettext messages (fixes part of #53464).
+
 2004-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-rule.c (rule_copy): Don't ref the newly cloned rule (fix
