@@ -31,6 +31,9 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
 
+#include <gdk/gdkx.h>
+#include <X11/Xlib.h>
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -67,6 +70,8 @@ quit_box_new (void)
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
+
+	e_make_widget_backing_stored (window);
 
 	gtk_window_set_title (GTK_WINDOW (window), _("Evolution"));
 
