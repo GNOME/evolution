@@ -70,11 +70,10 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 		    CamelFolderSearch *s)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (s->folder->parent_store);
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (s->folder);
 	char *value = argv[0]->value.string;
 	CamelImapResponse *response;
 	char *result, *p, *lasts = NULL, *real_uid;
-	const char *uid;
+	const char *uid = "";
 	ESExpResult *r;
 	CamelMessageInfo *info;
 	GHashTable *uid_hash = NULL;
@@ -121,10 +120,10 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 				uid_hash = g_hash_table_new(g_str_hash, g_str_equal);
 				for (i=0;i<s->summary->len;i++) {
 					info = s->summary->pdata[i];
-					g_hash_table_insert(uid_hash, camel_message_info_uid(info), info);
+					g_hash_table_insert(uid_hash, (char *)camel_message_info_uid(info), info);
 				}
 			}
-			if (g_hash_table_lookup_extended(uid_hash, p, &real_uid, &info))
+			if (g_hash_table_lookup_extended(uid_hash, p, (void *)&real_uid, (void *)&info))
 				g_ptr_array_add (r->value.ptrarray, real_uid);
 		}
 	}

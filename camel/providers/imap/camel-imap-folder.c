@@ -89,14 +89,6 @@ static void imap_update_summary (CamelFolder *folder, int first, int last,
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
 static void       imap_search_free          (CamelFolder *folder, GPtrArray *uids);
 
-/* flag methods */
-static guint32  imap_get_message_flags     (CamelFolder *folder, const char *uid);
-static void     imap_set_message_flags     (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
-static gboolean imap_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name);
-static void     imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name,
-					    gboolean value);
-
-
 static void
 camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 {
@@ -303,7 +295,6 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 			camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
 			camel_folder_summary_remove (imap_folder->summary, info);
 			camel_folder_summary_info_free(folder->summary, info);
-			folder_changed = TRUE;
 			g_free (new[i].uid);
 			i--;
 			summary_len--;
@@ -705,11 +696,13 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	camel_folder_search_set_folder (imap_folder->search, folder);
 	summary = camel_folder_get_summary(folder);
 	camel_folder_search_set_summary(imap_folder->search, summary);
-	uids = camel_folder_search_execute_expression (imap_folder->search, expression, ex);
+	matches = camel_folder_search_execute_expression (imap_folder->search, expression, ex);
 
 	CAMEL_IMAP_FOLDER_UNLOCK(folder, search_lock);
 
 	camel_folder_free_summary(folder, summary);
+
+	return matches;
 }
 
 static void
