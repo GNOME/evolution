@@ -39,6 +39,7 @@
 #include <gtk/gtkvbox.h>
 
 #include <camel/camel-folder.h>
+#include <camel/camel-vee-folder.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "em-folder-properties.h"
@@ -314,9 +315,23 @@ void
 em_folder_properties_show(GtkWindow *parent, CamelFolder *folder, const char *uri)
 {
 	/* HACK: its the old behaviour, not very 'neat' but it works */
-	if (!strncmp(uri, "vfolder:", 8))
-		vfolder_edit_rule(uri);
-	else if (folder == NULL)
+	if (!strncmp(uri, "vfolder:", 8)) {
+		CamelURL *url = camel_url_new(uri, NULL);
+
+		/* MORE HACK: UNMATCHED is a special folder which you can't modify, so check for it here */
+		if (url == NULL
+		    || url->fragment == NULL
+		    || strcmp(url->fragment, CAMEL_UNMATCHED_NAME) != 0) {
+			if (url)
+				camel_url_free(url);
+			vfolder_edit_rule(uri);
+			return;
+		}
+		if (url)
+			camel_url_free(url);
+	}
+
+	if (folder == NULL)
 		mail_get_folder(uri, 0, emfp_dialog_got_folder, NULL, mail_thread_new);
 	else
 		emfp_dialog_got_folder((char *)uri, folder, NULL);
