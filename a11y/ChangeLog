@@ -1,3 +1,11 @@
+2005-01-28  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* addressbook/ea-minicard-view.c 
+	(ea_minicard_view_get_name) : use ngetext
+	instead of splitting the the sentence to take care
+	of different messages for plural vs singular case 
+	Fixes #61060
+ 
 2005-01-15  JP Rosevear  <jpr@novell.com>
 
 	* calendar/ea-calendar-helpers.c

@@ -139,26 +139,20 @@ ea_minicard_view_class_init (EaMinicardViewClass *klass)
 static G_CONST_RETURN gchar*
 ea_minicard_view_get_name (AtkObject *accessible)
 {
-	gchar name[100];
-	GString *new_str = g_string_new (NULL);
-	gchar str[10];
 	EReflow *reflow;
-
+	gchar *string;
+	
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
-	memset (name, '\0', 100);
-	memset (str, '\0', 10);
 
 	reflow = E_REFLOW(atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
-	sprintf (str, "%d", reflow->count);
-	g_string_append (new_str, _("current addressbook folder "));
-	g_string_append (new_str, (reflow->count) > 1 ? _("have ") : _("has "));
-	g_string_append (new_str, str);
-	g_string_append (new_str, (reflow->count) > 1 ? _(" cards") : _(" card"));
 
-	strcpy (name, new_str->str);
-	g_string_free (new_str, TRUE);
+	string = g_strdup_printf (ngettext ("current addressbook folder has %d card", 
+				   "current addressbook folder have %d cards", 
+				   reflow->count), reflow->count);
+	
 
-	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name);
+	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, string);
+	g_free (string);
 	return accessible->name;
 }
 
