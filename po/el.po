@@ -4927,7 +4927,7 @@ msgstr "Αποστολή Σε:"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:12
 #: calendar/gui/e-alarm-list.c:452
 msgid "Send an email"
-msgstr "Αποστολή e-mail"
+msgstr "Αποστολή ενός e-mail"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:13
 msgid "_Arguments:"
@@ -5042,7 +5042,7 @@ msgstr "_Προσθήκη συνημμένου..."
 #: calendar/gui/dialogs/cal-attachment-bar.c:699
 #: composer/e-msg-composer-attachment-bar.c:703
 msgid "Attachment Bar"
-msgstr "Μπάρα συνημμένων"
+msgstr "Μπάρα Συνημμένων"
 
 #: calendar/gui/dialogs/cal-attachment-select-file.c:96
 #: calendar/gui/dialogs/cal-attachment-select-file.c:115
@@ -5110,7 +5110,7 @@ msgstr "Αφαίρεση"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:738
 msgid "Don't Remove"
-msgstr "Όχι απομάκρυνση"
+msgstr "Όχι Απομάκρυνση"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
@@ -5148,7 +5148,7 @@ msgstr "60 λεπτά"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "<b>Alerts</b>"
-msgstr "<b>Συναγερμοί:</b> "
+msgstr "<b>Συναγερμοί</b> "
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "<b>Default Free/Busy Server</b>"
@@ -10241,7 +10241,7 @@ msgstr "Απαντήσεις και μητρικά"
 
 #: filter/filter-rule.c:880
 msgid "Include threads"
-msgstr "Συμπεριλαμβάνονται αλληλουχίες"
+msgstr "Περιέχει αλληλουχίες"
 
 #: filter/filter-rule.c:975 filter/filter.glade.h:3
 msgid "Incoming"
@@ -13009,7 +13009,7 @@ msgstr "_Κατάργηση Συνδρομής"
 
 #: mail/mail-dialogs.glade.h:26
 msgid "specific folders only"
-msgstr "για τον συγκεκριμένους φακέλους"
+msgstr "μόνο συγκεκριμένοι φάκελοι"
 
 #: mail/mail-dialogs.glade.h:27
 msgid "with all active remote folders"
@@ -16540,11 +16540,11 @@ msgstr "Εκκαθάριση παλαιών ραντεβού και συναντ
 
 #: ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
-msgstr "Επιλογή η_μερομηνίας"
+msgstr "Επιλογή Η_μερομηνίας"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
-msgstr "Επιλογή μιας συγκεκριμένης ημερομηνία"
+msgstr "Επιλογή μιας συγκεκριμένης ημερομηνίας"
 
 #: ui/evolution-calendar.xml.h:28
 msgid "Select today"
@@ -17606,7 +17606,7 @@ msgstr "Στυλ εργαλειο_θήκης"
 
 #: ui/evolution.xml.h:33
 msgid "Window B_uttons"
-msgstr "Κου_μπιά παραθύρου"
+msgstr "Κου_μπιά Παραθύρου"
 
 #: ui/evolution.xml.h:35
 msgid "_About Evolution..."
@@ -17682,7 +17682,7 @@ msgstr "Προ_βολή Εργάσιμων Ημερών"
 
 #: views/mail/galview.xml.h:1
 msgid "As _Sent Folder"
-msgstr "Ως φάκελος Απε_σταλμένων"
+msgstr "Ως Φάκελος Απε_σταλμένων"
 
 #: views/mail/galview.xml.h:2
 msgid "By S_tatus"
