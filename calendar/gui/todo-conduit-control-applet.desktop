@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Todo conduit 
-Name[da]=Udstående
-Comment=Configure the todo conduit
-Comment[da]=Konfigurér Udstående
-Exec=todo-conduit-control-applet --cap-id=1
-Terminal=0
-Type=Application
