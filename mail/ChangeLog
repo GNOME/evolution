@@ -1,3 +1,9 @@
+2001-09-05  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (launch_cb): the "command" of a
+	GnomeVFSMimeApplication can include arguments as well. Deal with
+	that. Fixes support for CodeWeavers' CrossOver Plugin.
+
 2001-09-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_remove_account): Adjust the

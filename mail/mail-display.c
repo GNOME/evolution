@@ -251,7 +251,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	MailMimeHandler *handler;
 	GList *apps, *children, *c;
 	GnomeVFSMimeApplication *app;
-	char *filename, *url, *argv[2];
+	char *command, *filename;
 	const char *tmpdir;
 	
 	handler = mail_lookup_handler (gtk_object_get_data (user_data, "mime_type"));
@@ -287,16 +287,11 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 		return;
 	}
 	
-	if (app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS) {
-		url = g_strdup_printf ("file:%s", filename);
-		g_free (filename);
-		filename = url;
-	}
-	
-	argv[0] = app->command;
-	argv[1] = filename;
-	
-	gnome_execute_async (tmpdir, 2, argv);
+	command = g_strdup_printf ("%s %s%s &", app->command,
+				   app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS ? "file:" : "",
+				   filename);
+	system (command);
+	g_free (command);
 	g_free (filename);
 }
 
