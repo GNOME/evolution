@@ -1,3 +1,9 @@
+2000-01-09  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4: Applied patch from R. Bernstein
+	<rocky@panix.com> - print a better error message when
+	LibGTop's major version number mismatches.
+
 1999-12-25  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-pilot.m4: Applied patch from Colin Walters to make

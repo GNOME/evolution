@@ -116,10 +116,13 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
 	  libgtop_micro_version=`$LIBGTOP_CONFIG --version | \
 	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
-	  test $libgtop_major_version != $min_libgtop_major && no_libgtop=yes
-	  test $libgtop_minor_version -lt $min_libgtop_minor && no_libgtop=yes
-	  if test $libgtop_minor_version = $min_libgtop_minor ; then
-	    test $libgtop_micro_version -lt $min_libgtop_micro && no_libgtop=yes
+	  if test $libgtop_major_version != $min_libgtop_major ; then 
+	    no_libgtop=mismatch
+	  else 
+ 	    test $libgtop_minor_version -lt $min_libgtop_minor && no_libgtop=yes
+	    if test $libgtop_minor_version = $min_libgtop_minor ; then
+	      test $libgtop_micro_version -lt $min_libgtop_micro && no_libgtop=yes
+	    fi
 	  fi
 	  . $configfile
 	fi
@@ -136,6 +139,9 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	  ifelse([$2], [], :, [$2])
 	else
 	  AC_MSG_RESULT(no)
+	  if test "$no_libgtop"x = mismatchx; then
+	    AC_MSG_ERROR(LibGTop major version mismatch $libgtop_major_version != $min_libgtop_major)
+	  fi
 	  if test "x$3" = "xfail"; then
 	    AC_MSG_ERROR(LibGTop >= $min_libgtop_version not found)
 	  else
