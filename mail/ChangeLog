@@ -1,3 +1,62 @@
+2004-03-03  Not Zed  <NotZed@Ximian.com>
+
+	* em-inline-filter.c (emif_scan): 
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
+	if we have the folder opened already, and its the outbox, then use
+	the total count instead of unread count.  Bit of hack, but copies
+	mail-folder-cache stuff.
+
+	* mail-component.c (mc_add_store): renamed from
+	mail_component_add_store, internal call.  Added a done callback.
+	(mc_add_local_store): renamed from mc_add_store, callback for
+	local store.
+	(mail_component_add_store): call mc_add_store to do the work.
+	(mc_add_local_store_done): ugh, the target of all this shit - note
+	all the default folders now they should be setup.
+
+	* mail-folder-cache.c (mail_note_folder): clean up the logic a
+	bit.  was gonna do osmething else but it didn't work.
+	
+2004-03-02  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (mail_send): if we're already sending, up the
+	again count to tell it we need to re-send again.
+	(receive_done): if we've been asked to run a send again while we
+	were already running it, run it again to make sure we didn't miss
+	any new messages.  See bug #46839.
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): update
+	check_incoming_imap changes for merge conflicts.
+	(settings_changed): i have no idea what these changes jeff did do,
+	but check_incoming_imap is no longer needed, so i've deleted most
+	of it.
+
+2004-02-27  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (emf_multipart_encrypted, emf_multipart_signed): If
+	validation fails, display as multipart/mixed rather than unkown
+	attachment type, and make the error a little clearer that its an
+	error.  See #52939.
+
+2004-02-26  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (regen_list_regened): NOOP if the folder has
+	changed.
+
+	* mail-session.c (mail_session_check_junk_notify): remove
+	check_incoming_imap test.
+	(mail_session_init): "
+
+	* evolution-mail.schemas.in.in: Remove check_incoming_imap option.
+
+	* mail-config.glade: Remove check incoming imap checkbox.
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): remove
+	check_incoming_imap test.
+	(em_mailer_prefs_apply): "
+	(settings_changed): "
+
 2004-03-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (emft_tree_button_press): s/||/&&/. Fixes a

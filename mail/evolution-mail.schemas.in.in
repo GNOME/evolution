@@ -688,20 +688,6 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/junk/check_incoming_imap</key>
-      <applyto>/apps/evolution/mail/junk/check_incoming_imap</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-         <short>Check incoming mail being junk for IMAP accounts</short>
-         <long>
-          Run junk test on incoming mail for IMAP accounts (only valid if check_incoming is set to true)
-         </long>
-      </locale>
-    </schema>
-
-    <schema>
       <key>/schemas/apps/evolution/mail/junk/sa/local_only</key>
       <applyto>/apps/evolution/mail/junk/sa/local_only</applyto>
       <owner>evolution-mail</owner>

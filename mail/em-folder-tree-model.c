@@ -41,12 +41,16 @@
 #include "mail-tools.h"
 #include "mail-mt.h"
 
+/* sigh, these 2 only needed for outbox total count checking - a mess */
+#include "mail-component.h"
+#include "mail-folder-cache.h"
+
 #include "em-utils.h"
 
 #include "em-marshal.h"
 #include "em-folder-tree-model.h"
 
-
+#define u(x) 			/* unread count debug */
 #define d(x) x
 
 static GType col_types[] = {
@@ -408,6 +412,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	gboolean load;
+	struct _CamelFolder *folder;
 
 	load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 	
@@ -415,12 +420,19 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	uri_row = gtk_tree_row_reference_new ((GtkTreeModel *) model, path);
 	path_row = gtk_tree_row_reference_copy (uri_row);
 	gtk_tree_path_free (path);
-	
+
 	g_hash_table_insert (model->uri_hash, g_strdup (fi->url), uri_row);
 	g_hash_table_insert (si->path_hash, g_strdup (fi->path), path_row);
-	
+
+	/* HACK: if we have the folder, and its the outbox folder, we need the total count, not unread */
+	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
 	unread = fi->unread_message_count == -1 ? 0 : fi->unread_message_count;
-	
+	if (mail_note_get_folder_from_uri(fi->url, &folder) && folder) {
+		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX))
+			unread = camel_folder_get_message_count(folder);
+		camel_object_unref(folder);
+	}
+		
 	gtk_tree_store_set ((GtkTreeStore *) model, iter,
 			    COL_STRING_DISPLAY_NAME, fi->name,
 			    COL_POINTER_CAMEL_STORE, si->store,
@@ -939,14 +951,20 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (path != NULL);
 
+	u(printf("set unread count %p '%s' %d\n", store, path, unread));
+
 	if (unread < 0)
 		unread = 0;
 	
-	if (!(si = g_hash_table_lookup (model->store_hash, store)))
+	if (!(si = g_hash_table_lookup (model->store_hash, store))) {
+		u(printf("  can't find store\n"));
 		return;
+	}
 	
-	if (!(row = g_hash_table_lookup (si->path_hash, path)))
+	if (!(row = g_hash_table_lookup (si->path_hash, path))) {
+		u(printf("  can't find row\n"));
 		return;
+	}
 	
 	tree_path = gtk_tree_row_reference_get_path (row);
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, tree_path)) {

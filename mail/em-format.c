@@ -1158,8 +1158,10 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 	opart = camel_mime_part_new();
 	valid = camel_cipher_decrypt(context, part, opart, ex);
 	if (valid == NULL) {
-		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
-		em_format_part_as(emf, stream, part, NULL);
+		em_format_format_error(emf, stream, ex->desc?("Could not parse S/MIME message"):_("Could not parse S/MIME message: Unknown error"));
+		if (ex->desc)
+			em_format_format_error(emf, stream, ex->desc);
+		em_format_part_as(emf, stream, part, "multipart/mixed");
 	} else {
 		em_format_format_secure(emf, stream, opart, valid);
 	}
@@ -1319,8 +1321,10 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 
 		valid = camel_cipher_verify(cipher, part, ex);
 		if (valid == NULL) {
-			em_format_format_error(emf, stream, ex->desc?ex->desc:_("Unknown error verifying signature"));
-			em_format_part_as(emf, stream, part, NULL);
+			em_format_format_error(emf, stream, ex->desc?_("Error verifying signature"):_("Unknown error verifying signature"));
+			if (ex->desc)
+				em_format_format_error(emf, stream, ex->desc);
+			em_format_part_as(emf, stream, part, "multipart/mixed");
 		} else {
 			em_format_format_secure(emf, stream, cpart, valid);
 		}

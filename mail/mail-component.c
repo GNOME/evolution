@@ -106,16 +106,6 @@ struct _MailComponentPrivate {
 	CamelStore *local_store;
 };
 
-/* Utility functions.  */
-static void
-mc_add_store(CamelStore *store, const char *name, MailComponent *mc)
-{
-	mail_component_add_store(mc, store, name);
-	
-	camel_object_unref(store);
-	g_object_unref(mc);
-}
-
 /* indexed by _mail_component_folder_t */
 static struct {
 	char *name;
@@ -128,6 +118,44 @@ static struct {
 	{ "Sent", },
 	{ "Inbox", },		/* 'always local' inbox */
 };
+
+/* Utility functions.  */
+static void
+mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
+{
+	char *service_name = NULL;
+
+	MAIL_COMPONENT_DEFAULT(component);
+
+	if (name == NULL)
+		name = service_name = camel_service_get_name ((CamelService *) store, TRUE);
+
+	camel_object_ref(store);
+	g_hash_table_insert(component->priv->store_hash, store, g_strdup(name));
+	em_folder_tree_model_add_store(component->priv->model, store, name);
+	mail_note_store(store, NULL, done, component);
+	g_free(service_name);
+}
+
+static void
+mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
+{
+	MailComponent *mc = data;
+	int i;
+
+	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
+		if (mc_default_folders[i].folder)
+			mail_note_folder(mc_default_folders[i].folder);
+	}
+}
+
+static void
+mc_add_local_store(CamelStore *store, const char *name, MailComponent *mc)
+{
+	mc_add_store(mc, store, name, mc_add_local_store_done);
+	camel_object_unref(store);
+	g_object_unref(mc);
+}
 
 static void
 mc_setup_local_store(MailComponent *mc)
@@ -170,7 +198,7 @@ mc_setup_local_store(MailComponent *mc)
 
 	g_object_ref(mc);
 	camel_object_ref(p->local_store);
-	mail_async_event_emit(p->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)mc_add_store, p->local_store, _("On This Computer"), mc);
+	mail_async_event_emit(p->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)mc_add_local_store, p->local_store, _("On This Computer"), mc);
 
 	return;
 fail:
@@ -328,8 +356,6 @@ static void
 impl_dispose (GObject *object)
 {
 	MailComponentPrivate *priv = MAIL_COMPONENT (object)->priv;
-
-	printf("mail dispose?\n");
 
 	if (priv->activity_handler != NULL) {
 		g_object_unref (priv->activity_handler);
@@ -706,18 +732,7 @@ mail_component_peek_activity_handler (MailComponent *component)
 void
 mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)
 {
-	char *service_name = NULL;
-
-	MAIL_COMPONENT_DEFAULT(component);
-
-	if (name == NULL)
-		name = service_name = camel_service_get_name ((CamelService *) store, TRUE);
-
-	camel_object_ref(store);
-	g_hash_table_insert(component->priv->store_hash, store, g_strdup(name));
-	em_folder_tree_model_add_store(component->priv->model, store, name);
-	mail_note_store(store, NULL, NULL, NULL);
-	g_free(service_name);
+	mc_add_store(component, store, name, NULL);
 }
 
 /**

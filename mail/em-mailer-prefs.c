@@ -159,16 +159,6 @@ static void
 settings_changed (GtkWidget *widget, gpointer user_data)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
-	gboolean check_incoming, locked = FALSE;
-	
-	if (prefs->check_incoming && prefs->check_incoming_imap) {
-		/* this callback can get called in _construct() before
-		 * these widgets have been created */
-		if ((check_incoming = gtk_toggle_button_get_active (prefs->check_incoming)))
-			locked = gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/junk/sa/check_incoming_imap", NULL);
-		
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->check_incoming_imap), check_incoming && !locked);
-	}
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -465,7 +455,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	GtkTreeIter iter;
 	char *font, *buf;
 	GladeXML *gui;
-	gboolean locked, check_incoming;
+	gboolean locked;
 	int val, i;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "preferences_tab", NULL);
@@ -756,20 +746,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	emmp_header_remove_sensitivity (prefs);
 	
 	/* Junk prefs */
-	prefs->check_incoming_imap = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkDoNotCheckIMAP"));
-	toggle_button_init (prefs->check_incoming_imap, prefs->gconf,
-			    "/apps/evolution/mail/junk/sa/check_incoming_imap",
-			    TRUE, G_CALLBACK (settings_changed), prefs);
-	
 	prefs->check_incoming = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkCheckIncomingMail"));
 	toggle_button_init (prefs->check_incoming, prefs->gconf,
 			    "/apps/evolution/mail/junk/sa/check_incoming",
 			    FALSE, G_CALLBACK (settings_changed), prefs);
-	
-	check_incoming = gtk_toggle_button_get_active (prefs->check_incoming);
-	if (!gtk_toggle_button_get_active (prefs->check_incoming))
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->check_incoming_imap, FALSE);
-	
+
 	prefs->sa_local_tests_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSALocalTestsOnly"));
 	toggle_button_init (prefs->sa_local_tests_only, prefs->gconf,
 			    "/apps/evolution/mail/junk/sa/local_only",
@@ -918,8 +899,6 @@ em_mailer_prefs_apply (EMMailerPrefs *prefs)
 	/* junk prefs */
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming",
 			       gtk_toggle_button_get_active (prefs->check_incoming), NULL);
-	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/check_incoming_imap",
-			       !gtk_toggle_button_get_active (prefs->check_incoming_imap), NULL);
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/local_only",
 			       gtk_toggle_button_get_active (prefs->sa_local_tests_only), NULL);
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/junk/sa/use_daemon",

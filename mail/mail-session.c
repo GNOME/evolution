@@ -771,8 +771,6 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 		key ++;
 		if (!strcmp (key, "check_incoming"))
 			camel_session_set_check_junk (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
-		else if (!strcmp (key, "check_incoming_imap"))
-			camel_session_set_check_junk_for_imap (session, gconf_value_get_bool (gconf_entry_get_value (entry)));
 	}
 }
 
@@ -793,7 +791,6 @@ mail_session_init (const char *base_directory)
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/junk", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	camel_session_set_check_junk (session, gconf_client_get_bool (gconf, "/apps/evolution/mail/junk/check_incoming", NULL));
-	camel_session_set_check_junk_for_imap (session, gconf_client_get_bool (gconf, "/apps/evolution/mail/junk/check_incoming_imap", NULL));
 	session_check_junk_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/junk",
 								(GConfClientNotifyFunc) mail_session_check_junk_notify,
 								session, NULL, NULL);

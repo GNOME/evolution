@@ -112,6 +112,8 @@ struct _send_info {
 	GtkButton *stop;
 	EClippedLabel *status;
 
+	int again;		/* need to run send again */
+
 	int timeout_id;
 	char *what;
 	int pc;
@@ -119,6 +121,8 @@ struct _send_info {
 	/*time_t update;*/
 	struct _send_data *data;
 };
+
+static CamelFolder *receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelException *ex);
 
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
@@ -568,6 +572,19 @@ receive_done (char *uri, void *data)
 {
 	struct _send_info *info = data;
 
+	/* if we've been called to run again - run again */
+	if (info->type == SEND_SEND && info->state == SEND_ACTIVE && info->again) {
+		info->again = 0;
+		mail_send_queue (mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX),
+				 info->uri,
+				 FILTER_SOURCE_OUTGOING,
+				 info->cancel,
+				 receive_get_folder, info,
+				 receive_status, info,
+				 receive_done, info);
+		return;
+	}
+
 	if (info->bar) {
 		gtk_progress_bar_set_fraction((GtkProgressBar *)info->bar, (gfloat)1.0);
 
@@ -911,6 +928,7 @@ mail_send (void)
 	data = setup_send_data ();
 	info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 	if (info != NULL) {
+		info->again++;
 		d(printf("send of %s still in progress\n", transport->url));
 		return;
 	}

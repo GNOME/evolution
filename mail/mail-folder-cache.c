@@ -54,7 +54,7 @@
 #include "em-folder-tree-model.h"
 
 #define w(x) 
-#define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
+#define d(x)  /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
@@ -334,11 +334,14 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 
 	folder = mfi->folder;
 	if (folder) {
+		d(printf("update 1 folder '%s'\n", folder->full_name));
 		if ((count_trash && CAMEL_IS_VTRASH_FOLDER (folder))
 		    || folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
 		    || (count_sent && folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))) {
+			d(printf(" total count\n"));
 			unread = camel_folder_get_message_count(folder);
 		} else {
+			d(printf(" unread count\n"));
 			if (info)
 				unread = info->unread_message_count;
 			else
@@ -423,7 +426,9 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	
 	if (mfi->folder != folder)
 		return;
-	
+
+	d(printf("folder '%s' changed\n", folder->full_name));
+
 	if (!CAMEL_IS_VTRASH_FOLDER(folder)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
 	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT)
@@ -480,22 +485,13 @@ void mail_note_folder(CamelFolder *folder)
 	struct _store_info *si;
 	struct _folder_info *mfi;
 
-	if (stores == NULL) {
-		g_warning("Adding a folder `%s' to a store which hasn't been added yet?\n", folder->full_name);
-		return;
-	}
+	d(printf("noting folder '%s'\n", folder->full_name));
 
 	LOCK(info_lock);
-	si = g_hash_table_lookup(stores, store);
-	if (si == NULL) {
-		/*g_warning("Adding a folder `%s' to a store %p which hasn't been added yet?", folder->full_name, store);*/
-		UNLOCK(info_lock);
-		return;
-	}
-
-	mfi = g_hash_table_lookup(si->folders, folder->full_name);
-	if (mfi == NULL) {
-		w(g_warning("Adding a folder `%s' that I dont know about yet?", folder->full_name));
+	if (stores == NULL
+	    || (si = g_hash_table_lookup(stores, store)) == NULL
+	    || (mfi = g_hash_table_lookup(si->folders, folder->full_name)) == NULL) {
+		w(g_warning("Noting folder before store initialised"));
 		UNLOCK(info_lock);
 		return;
 	}

@@ -721,7 +721,7 @@ send_queue_send(struct _mail_msg *mm)
 
 	if (m->cancel)
 		camel_operation_register (m->cancel);
-	
+
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *message;
 		CamelMessageInfo *info;
@@ -754,9 +754,9 @@ send_queue_send(struct _mail_msg *mm)
 		camel_object_unref (m->driver);
 		m->driver = NULL;
 	}
-	
+
 	camel_folder_free_uids (m->queue, uids);
-	
+		
 	if (!camel_exception_is_set (&mm->ex))
 		camel_folder_expunge (m->queue, &mm->ex);
 	
