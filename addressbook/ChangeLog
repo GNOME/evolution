@@ -1,3 +1,16 @@
+2000-10-25  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c (ldap_op_process_current): only
+	call the handler if the if we're connected, and if we fail to
+	connect finish the op and post a message.
+	(pas_backend_ldap_connect): add debug spew if DEBUG is defined.
+	(modify_card_handler): LDAP_RES_SEARCH_ENTRY => LDAP_SUCCESS.
+	(modify_card_handler): only perform the ldap_modify_s if we have a
+	list of modifications.
+	(get_cursor_handler): use ldap_error_to_response here.
+	(pas_backend_ldap_load_uri): use LDAP_PORT instead of the constant
+	389.
+
 2000-10-19  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/*: Merge properly from HEAD

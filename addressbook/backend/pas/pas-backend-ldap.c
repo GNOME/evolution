@@ -1,17 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Author:
- *   Nat Friedman (nat@helixcode.com)
+ *   Chris Toshok (toshok@helixcode.com)
  *
  * Copyright 2000, Helix Code, Inc.
  */
+
+/*#define DEBUG*/
 
 #include "config.h"  
 #include <gtk/gtksignal.h>
 #include <fcntl.h>
 #include <time.h>
 #include <lber.h>
+
+#ifdef DEBUG
+#define LDAP_DEBUG
+#endif
 #include <ldap.h>
+#ifdef DEBUG
+#undef LDAP_DEBUG
+#endif
 
 #include "pas-backend-ldap.h"
 #include "pas-book.h"
@@ -23,7 +32,8 @@
 #define LDAP_MAX_SEARCH_RESPONSES 100
 
 /* this really needs addressing */
-#define OBJECT_CLASS "newPilotPerson"
+#define OBJECT_CLASS "person"
+
 
 static gchar *query_prop_to_ldap(gchar *query_prop);
 
@@ -190,6 +200,13 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 {
 	PASBackendLDAPPrivate *blpriv = bl->priv;
 
+#ifdef DEBUG
+	{
+		extern int ldap_debug;
+		ldap_debug = LDAP_DEBUG_ANY;
+	}
+#endif
+
 	/* close connection first if it's open first */
 	if (blpriv->ldap)
 		ldap_unbind (blpriv->ldap);
@@ -234,8 +251,16 @@ ldap_op_process_current (PASBackend *backend)
 		pas_backend_ldap_connect(bl);
 	}
 
-	if (op->handler (backend, op))
+	if (bl->priv->connected) {
+		if (op->handler (backend, op))
+			ldap_op_finished (op);
+	}
+	else {
+		if (op->view)
+			pas_book_view_notify_status_message (op->view, "Unable to connect to LDAP server");
+
 		ldap_op_finished (op);
+	}
 }
 
 static void
@@ -635,7 +660,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 				    bl->priv->ldap_scope,
 				    query, NULL, 0, &res);
 
-	if (ldap_error == LDAP_RES_SEARCH_ENTRY) {
+	if (ldap_error == LDAP_SUCCESS) {
 		/* get the single card from the list (we're guaranteed
                    either 1 or 0 since we looked up by dn, which is
                    unique) */
@@ -647,19 +672,30 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 
 			/* build our mods */
 			mod_array = build_mods_from_ecards (current_card, new_card, &need_new_dn);
-			ldap_mods = (LDAPMod**)mod_array->pdata;
+			if (mod_array->len > 0) {
+				ldap_mods = (LDAPMod**)mod_array->pdata;
 
-			/* actually perform the ldap modify */
-			ldap_error = ldap_modify_s (ldap, id, ldap_mods);
-			g_print ("ldap_modify_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
+				/* actually perform the ldap modify */
+				ldap_error = ldap_modify_s (ldap, id, ldap_mods);
+				g_print ("ldap_modify_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
+			}
+			else {
+				g_print ("modify list empty.  on modification sent\n");
+			}
 
 			/* and clean up */
 			free_mods (mod_array);
 			gtk_object_unref (GTK_OBJECT(new_card));
 			gtk_object_unref (GTK_OBJECT(current_card));
 		}
+		else {
+			g_print ("didn't find original card\n");
+		}
 
 		ldap_msgfree(res);
+	}
+	else {
+		g_print ("ldap_search_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
 	}
 
 	response = ldap_error_to_response (ldap_error);
@@ -825,12 +861,9 @@ get_cursor_handler (PASBackend *backend, LDAPOp *op)
 	gtk_signal_connect(GTK_OBJECT(cursor), "destroy",
 			   GTK_SIGNAL_FUNC(cursor_destroy), cursor_data);
 	
-	pas_book_respond_get_cursor (
-		book,
-		(ldap_error == 0 
-		 ? Evolution_BookListener_Success 
-		 : Evolution_BookListener_CardNotFound),
-		cursor);
+	pas_book_respond_get_cursor (book,
+				     ldap_error_to_response (ldap_error),
+				     cursor);
 
 	/* we're synchronous */
 	return TRUE;
@@ -1584,9 +1617,9 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 		bl->priv->uri = g_strdup (uri);
 		bl->priv->ldap_host = g_strdup(lud->lud_host);
 		bl->priv->ldap_port = lud->lud_port;
-		/* if a port wasn't specified, default to 389 */
+		/* if a port wasn't specified, default to LDAP_PORT */
 		if (bl->priv->ldap_port == 0)
-			bl->priv->ldap_port = 389;
+			bl->priv->ldap_port = LDAP_PORT;
 		bl->priv->ldap_rootdn = g_strdup(lud->lud_dn);
 		bl->priv->ldap_scope = lud->lud_scope;
 
