@@ -27,7 +27,6 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-url.h>
-#include "art/connect_to_url-16.xpm"
 #include "e-url-entry.h"
 
 struct _EUrlEntryPrivate {
@@ -86,9 +85,6 @@ static void
 init (EUrlEntry *url_entry)
 {
 	EUrlEntryPrivate *priv;
-	GdkColormap *colormap;
-	GdkPixmap *url_icon;
-	GdkBitmap *url_mask;
 	GtkWidget *pixmap;
 
 	priv = g_new0 (EUrlEntryPrivate, 1);
@@ -98,13 +94,7 @@ init (EUrlEntry *url_entry)
 	gtk_box_pack_start (GTK_BOX (url_entry), priv->entry, TRUE, TRUE, 0);
 	priv->button = gtk_button_new ();
 	gtk_box_pack_start (GTK_BOX (url_entry), priv->button, FALSE, FALSE, 0);
-	
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (priv->button));
-	url_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, 
-							  &url_mask, NULL,
-							  connect_to_url_16_xpm);
-	
-	pixmap = gtk_pixmap_new (url_icon, url_mask);
+	pixmap = gtk_image_new_from_file (MAP_DIR "/connect_to_url-16.xpm");
 	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
 	gtk_widget_show (pixmap);
 

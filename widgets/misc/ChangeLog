@@ -1,3 +1,10 @@
+2003-03-10  Rodney Dawes  <dobey@ximian.com>
+
+	* e-calendar.c: Use GtkArrow instead of pixmaps
+	* e-combo-button.c: Use GtkArrow instead of pixmaps
+	* e-filter-bar.c: gtk_window_set_policy () is deprecated
+	* e-url-entry.c: Load the icon in a pixbuf instead of GdkPixmap
+	
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-url-entry.c (destroy): Removed unused variable.

@@ -214,7 +214,6 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			efb->save_dialogue = gd;
 			gnome_dialog_set_default (GNOME_DIALOG (gd), 0);
 			gtk_window_set_default_size (GTK_WINDOW (gd), 600, 300);
-			gtk_window_set_policy (GTK_WINDOW (gd), FALSE, TRUE, FALSE);
 			
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
 			gtk_widget_show (gd);

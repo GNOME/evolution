@@ -67,35 +67,6 @@
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT		150
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY	2
 
-static char * left_arrow_xpm[] = {
-	"7 7 3 1",
-	" 	c None",
-	".	c #949594",
-	"+	c #000000",
-	"     .+",
-	"   .+++",
-	" .+++++",
-	"+++++++",
-	" .+++++",
-	"   .+++",
-	"     .+"
-};
-
-static char * right_arrow_xpm[] = {
-	"7 7 3 1",
-	" 	c None",
-	".	c #949594",
-	"+	c #000000",
-	"+.     ",
-	"+++.   ",
-	"+++++. ",
-	"+++++++",
-	"+++++. ",
-	"+++.   ",
-	"+.     "
-};
-
-
 static void e_calendar_class_init	(ECalendarClass *class);
 static void e_calendar_init		(ECalendar	*cal);
 static void e_calendar_destroy		(GtkObject	*object);
@@ -162,9 +133,6 @@ e_calendar_init (ECalendar *cal)
 	GdkFont *small_font;
 	PangoFontDescription *small_font_desc;
 	GtkWidget *button, *pixmap;
-	GdkColormap *colormap;
-	GdkPixmap *gdk_pixmap;
-	GdkBitmap *gdk_mask;
 
 	GTK_WIDGET_UNSET_FLAGS (cal, GTK_CAN_FOCUS);
 
@@ -205,14 +173,8 @@ e_calendar_init (ECalendar *cal)
 				   G_CALLBACK (e_calendar_on_prev_released),
 				   GTK_OBJECT (cal));
 
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (cal));
-	gdk_pixmap = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap,
-							    &gdk_mask, NULL,
-							    left_arrow_xpm);
-	pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
+	pixmap = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_NONE);
 	gtk_widget_show (pixmap);
-	gdk_pixmap_unref (gdk_pixmap);
-	g_object_unref (gdk_mask);
 	gtk_container_add (GTK_CONTAINER (button), pixmap);
 
 	cal->prev_item = gnome_canvas_item_new (canvas_group,
@@ -231,13 +193,8 @@ e_calendar_init (ECalendar *cal)
 				   G_CALLBACK (e_calendar_on_next_released),
 				   GTK_OBJECT (cal));
 
-	gdk_pixmap = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap,
-							    &gdk_mask, NULL,
-							    right_arrow_xpm);
-	pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
+	pixmap = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
 	gtk_widget_show (pixmap);
-	gdk_pixmap_unref (gdk_pixmap);
-	g_object_unref (gdk_mask);
 	gtk_container_add (GTK_CONTAINER (button), pixmap);
 
 	cal->next_item = gnome_canvas_item_new (canvas_group,

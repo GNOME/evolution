@@ -51,17 +51,6 @@ struct _EComboButtonPrivate {
 
 #define SPACING 2
 
-static const char *arrow_xpm[] = {
-	"11 5  2 1",
-	" 	c none",
-	".	c #000000000000",
-	" ......... ",
-	"  .......  ",
-	"   .....   ",
-	"    ...    ",
-	"     .     ",
-};
-
 
 #define PARENT_TYPE gtk_button_get_type ()
 static GtkButtonClass *parent_class = NULL;
@@ -100,21 +89,6 @@ create_empty_pixmap_widget (void)
 	GdkPixbuf *pixbuf;
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
-
-	pixmap_widget = create_pixmap_widget_from_pixbuf (pixbuf);
-
-	g_object_unref (pixbuf);
-
-	return pixmap_widget;
-}
-
-static GtkWidget *
-create_arrow_pixmap_widget (void)
-{
-	GtkWidget *pixmap_widget;
-	GdkPixbuf *pixbuf;
-
-	pixbuf = gdk_pixbuf_new_from_xpm_data (arrow_xpm);
 
 	pixmap_widget = create_pixmap_widget_from_pixbuf (pixbuf);
 
@@ -453,7 +427,7 @@ init (EComboButton *combo_button)
 			    2 * GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->label);
 
-	priv->arrow_pixmap = create_arrow_pixmap_widget ();
+	priv->arrow_pixmap = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_pixmap, TRUE, TRUE,
 			    GTK_WIDGET (combo_button)->style->xthickness);
 	gtk_widget_show (priv->arrow_pixmap);
