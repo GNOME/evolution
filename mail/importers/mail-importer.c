@@ -350,14 +350,16 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 	DIR *dir;
 	struct dirent *d;
 	struct stat st;
-	char *filefull, *foldersub, *uri;
+	char *filefull, *foldersub, *uri, utf8_filename;
 	const char *folder;
 
 	dir = opendir(filepath);
 	if (dir == NULL)
 		return;
 
-	camel_operation_start(NULL, _("Scanning %s"), filepath);
+	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
+	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);
+	g_free (utf8_filename);
 
 	while ( (d=readdir(dir)) ) {
 		if (d->d_name[0] == '.')

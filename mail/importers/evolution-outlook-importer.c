@@ -248,10 +248,13 @@ static gboolean
 load_file_fn(EvolutionImporter *eimporter, const char *filename, void *data)
 {
 	OutlookImporter *importer = data;
+	char *utf8_filename;
 
+	utf8_filename = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
 	importer->dialog = gtk_message_dialog_new(NULL, 0/*GTK_DIALOG_NO_SEPARATOR*/,
 						  GTK_MESSAGE_INFO, GTK_BUTTONS_CANCEL,
-						  _("Importing `%s'"), filename);
+						  _("Importing `%s'"), utf8_filename);
+	g_free (utf8_filename);
 	gtk_window_set_title (GTK_WINDOW (importer->dialog), _("Importing..."));
 
 	importer->label = gtk_label_new (_("Please wait"));

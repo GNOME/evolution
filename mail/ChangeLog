@@ -1,3 +1,10 @@
+2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* importers/evolution-mbox-importer.c: (load_file_fn):
+	* importers/evolution-outlook-importer.c: (load_file_fn):
+	* importers/mail-importer.c: (import_folders_rec):
+	Convert filename to UTF-8 from local encoding before displaying it.
+
 2004-08-23  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (em_folder_tree_set_selected): store the
