@@ -266,43 +266,37 @@ service_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
 }
 
 static void
-construct (CamelService *service, CamelSession *session,
-	   CamelProvider *provider, CamelURL *url, CamelException *ex)
+construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex)
 {
-	char *url_string;
+	char *err, *url_string;
 	
 	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_USER) &&
 	    (url->user == NULL || url->user[0] == '\0')) {
-		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("URL '%s' needs a username component"),
-				      url_string);
-		g_free (url_string);
-		return;
+		err = _("URL '%s' needs a username component");
+		goto fail;
 	} else if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_HOST) &&
 		   (url->host == NULL || url->host[0] == '\0')) {
-		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("URL '%s' needs a host component"),
-				      url_string);
-		g_free (url_string);
-		return;
+		err = _("URL '%s' needs a host component");
+		goto fail;
 	} else if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_PATH) &&
 		   (url->path == NULL || url->path[0] == '\0')) {
-		url_string = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("URL '%s' needs a path component"),
-				      url_string);
-		g_free (url_string);
-		return;
+		err = _("URL '%s' needs a path component");
+		goto fail;
 	}
 	
 	service->provider = provider;
-	service->url = url;
+	service->url = camel_url_copy(url);
 	service->session = session;
 	camel_object_ref (session);
 	
 	service->status = CAMEL_SERVICE_DISCONNECTED;
+
+	return;
+
+fail:
+	url_string = camel_url_to_string(url, CAMEL_URL_HIDE_PASSWORD);
+	camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID, err, url_string);
+	g_free(url_string);
 }
 
 /**

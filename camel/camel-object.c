@@ -1897,7 +1897,17 @@ camel_object_bag_abort(CamelObjectBag *bag, const void *key)
 	E_UNLOCK(type_lock);
 }
 
-
+/**
+ * camel_object_bag_rekey:
+ * @bag: 
+ * @o: 
+ * @newkey: 
+ * 
+ * Re-key an object, atomically.  The key for object @o is set to
+ * @newkey, in an atomic manner.
+ *
+ * It is an api (fatal) error if @o is not currently in the bag.
+ **/
 void
 camel_object_bag_rekey(CamelObjectBag *bag, void *o, const void *newkey)
 {

@@ -1,5 +1,17 @@
 2004-01-29  Not Zed  <NotZed@Ximian.com>
 
+	* camel-object.c (camel_object_bag_rekey): added a doc comment.
+
+	** See bug #53520.
+
+	* camel-session.c (get_service): free the url once done, it now
+	gets copied by the service.
+
+	* camel-service.c (construct): copy the url that comes in, don't
+	just '0Wn34z' it.  clena up exception handling too.
+
+2004-01-29  Not Zed  <NotZed@Ximian.com>
+
 	* camel-object.c (cobject_state_write): output scan->name and
 	scan->value for writing metadata, rather than meta->name/value
 	which just duplicates the last entry, related to #53195.

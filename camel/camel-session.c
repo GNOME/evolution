@@ -416,22 +416,21 @@ get_service (CamelSession *session, const char *url_string,
 	
 	/* Now look up the service in the provider's cache */
 	service = camel_object_bag_reserve(provider->service_cache[type], url);
-	if (service != NULL) {
-		camel_url_free (url);
-		return service;
+	if (service == NULL) {
+		service = (CamelService *)camel_object_new (provider->object_types[type]);
+		camel_exception_init (&internal_ex);
+		camel_service_construct (service, session, provider, url, &internal_ex);
+		if (camel_exception_is_set (&internal_ex)) {
+			camel_exception_xfer (ex, &internal_ex);
+			camel_object_unref (service);
+			service = NULL;
+			camel_object_bag_abort(provider->service_cache[type], url);
+		} else {
+			camel_object_bag_add(provider->service_cache[type], url, service);
+		}
 	}
-
-	service = (CamelService *)camel_object_new (provider->object_types[type]);
-	camel_exception_init (&internal_ex);
-	camel_service_construct (service, session, provider, url, &internal_ex);
-	if (camel_exception_is_set (&internal_ex)) {
-		camel_exception_xfer (ex, &internal_ex);
-		camel_object_unref (service);
-		service = NULL;
-		camel_object_bag_abort(provider->service_cache[type], url);
-	} else {
-		camel_object_bag_add(provider->service_cache[type], url, service);
-	}
+done:
+	camel_url_free (url);
 
 	return service;
 }
