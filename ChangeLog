@@ -1,8 +1,14 @@
 2003-11-17  JP Rosevear <jpr@ximian.com>
 
+	* Makefile.am (EXTRA_DIST): do the right thing for disting
+
+2003-11-17  JP Rosevear <jpr@ximian.com>
+
 	* configure.in: use the server.mk file to get rules for building
 	versioned .server files
 
+	* */Makefile.am: use simplified rule subst
+	
 2003-11-17 JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: Install versioned package config files

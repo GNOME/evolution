@@ -23,7 +23,7 @@ EXTRA_DIST = 			\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\
-	$(pkgconfig_DATA:$(BASE_VERSION).pc=.pc.in)
+	$(pkgconfig_DATA:-$(BASE_VERSION).pc=.pc.in)
 
 if ENABLE_SMIME
 SMIME_DIR=smime
