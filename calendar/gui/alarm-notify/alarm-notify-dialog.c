@@ -243,8 +243,8 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
 {
 	char *buf;
 	char *start, *end;
-	char *bg_path = "file://" EVOLUTION_ICONSDIR "/bcg.png";
-	char *image_path = "file://" EVOLUTION_ICONSDIR "/alarm.png";
+	char *bg_path = "file://" EVOLUTION_IMAGESDIR "/bcg.png";
+	char *image_path = "file://" EVOLUTION_IMAGESDIR "/alarm.png";
 	icaltimezone *current_zone;
 
 	/* Stringize the times */
@@ -403,7 +403,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 #if 0
 	gnome_win_hints_set_state (an->dialog, WIN_STATE_STICKY);
 	gnome_win_hints_set_layer (an->dialog, WIN_LAYER_ONTOP);
-	gnome_window_icon_set_from_file (GTK_WINDOW (an->dialog), EVOLUTION_ICONSDIR "/alarm.png");
+	gnome_window_icon_set_from_file (GTK_WINDOW (an->dialog), EVOLUTION_IMAGESDIR "/alarm.png");
 #endif
 
 	gtk_widget_show (an->dialog);

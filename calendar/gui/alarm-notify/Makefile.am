@@ -11,8 +11,7 @@ idl_flags = $(IDL_INCLUDES)
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
-evolibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)
-evolibexec_PROGRAMS = evolution-alarm-notify
+privlibexec_PROGRAMS = evolution-alarm-notify
 
 noinst_LIBRARIES = libalarm.a
 
@@ -28,14 +27,10 @@ INCLUDES = 						\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/widgets				\
-	-I$(includedir)					\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)
-
-gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA =		\
 	alarm-notify.glade
@@ -63,19 +58,16 @@ evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-evolution_alarm_notify_LDFLAGS = -export-dynamic
-
-serversdir = $(libdir)/bonobo/servers
-servers_in_files = \
+server_in_files = \
 	GNOME_Evolution_Calendar_AlarmNotify.server.in
 
-servers_DATA = $(servers_in_files:.server.in=.server)
+server_DATA = $(server_in_files:.server.in=.server)
 
 @INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST =		\
-	$(servers_DATA)	\
-	$(servers_in_files)	\
+	$(server_DATA)	\
+	$(server_in_files)	\
 	$(glade_DATA)
 
 BUILT_SOURCES = $(CORBA_GENERATED)
