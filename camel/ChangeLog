@@ -1,3 +1,18 @@
+2000-07-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-folder.c: Renamed _by_uid methods. Since we no longer
+	have get-by-number methods, no need to have the _by_uid 
+	extensions. 
+	(get_message_by_uid): Renamed to get_message
+	(delete_message_by_uid): Renamed to delete_message
+	(summary_get_by_uid): Renamed to get_message_info
+
+	* providers/mbox/camel-mbox-folder.c: 
+	* providers/pop3/camel-pop3-folder.c:
+	* providers/imap/camel-imap-folder.c:
+	* providers/vee/camel-vee-folder.c: Updated to reflect
+	camel-folder changes.
+
 2000-06-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-folder.c (camel_folder_copy_message_to): New function, to

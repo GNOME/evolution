@@ -130,13 +130,13 @@ typedef struct {
 					   CamelMimeMessage *message, 
 					   CamelException *ex);
 
-	CamelMimeMessage * (*get_message_by_uid)  (CamelFolder *folder, 
-						   const gchar *uid, 
-						   CamelException *ex);
+	CamelMimeMessage * (*get_message)  (CamelFolder *folder, 
+					    const gchar *uid, 
+					    CamelException *ex);
 
-	void (*delete_message_by_uid)  (CamelFolder *folder, 
-					const gchar *uid, 
-					CamelException *ex);
+	void (*delete_message)  (CamelFolder *folder, 
+				 const gchar *uid, 
+				 CamelException *ex);
 
 	GPtrArray * (*get_uids)       (CamelFolder *folder,
 				       CamelException *ex);
@@ -159,8 +159,8 @@ typedef struct {
 					 const char *expression,
 					 CamelException *ex);
 
-	const CamelMessageInfo * (*summary_get_by_uid) (CamelFolder *,
-							const char *uid);
+	const CamelMessageInfo * (*get_message_info) (CamelFolder *,
+						      const char *uid);
 
 	void (*copy_message_to) (CamelFolder *source,
 				 const char *uid,
@@ -265,10 +265,10 @@ void               camel_folder_free_subfolder_names  (CamelFolder *folder,
 const gchar *      camel_folder_get_message_uid       (CamelFolder *folder, 
 						       CamelMimeMessage *message, 
 						       CamelException *ex);
-CamelMimeMessage * camel_folder_get_message_by_uid    (CamelFolder *folder, 
+CamelMimeMessage * camel_folder_get_message           (CamelFolder *folder, 
 						       const gchar *uid, 
 						       CamelException *ex);
-void               camel_folder_delete_message_by_uid (CamelFolder *folder, 
+void               camel_folder_delete_message        (CamelFolder *folder, 
 						       const gchar *uid, 
 						       CamelException *ex);
 GPtrArray *        camel_folder_get_uids              (CamelFolder *folder, 
@@ -281,8 +281,13 @@ gboolean           camel_folder_has_search_capability (CamelFolder *folder);
 GList *		   camel_folder_search_by_expression  (CamelFolder *folder, const char *expression, CamelException *ex);
 
 /* summary info. FIXME: rename this slightly? */
-const CamelMessageInfo *camel_folder_summary_get_by_uid (CamelFolder *summary,
-							 const char *uid);
+const CamelMessageInfo *camel_folder_get_message_info (CamelFolder *summary,
+						       const char *uid);
+
+void               camel_folder_copy_message_to       (CamelFolder *source,
+						       const char *uid,
+						       CamelFolder *dest,
+						       CamelException *ex);
 
 void               camel_folder_move_message_to       (CamelFolder *source,
 						       const char *uid,

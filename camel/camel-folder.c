@@ -109,15 +109,15 @@ static void              free_summary        (CamelFolder *folder,
 static const gchar      *get_message_uid     (CamelFolder *folder,
 					      CamelMimeMessage *message,
 					      CamelException *ex);
-static CamelMimeMessage *get_message_by_uid  (CamelFolder *folder,
+static CamelMimeMessage *get_message         (CamelFolder *folder,
 					      const gchar *uid,
 					      CamelException *ex);
-static void delete_message_by_uid            (CamelFolder *folder,
+static void delete_message                   (CamelFolder *folder,
 					      const gchar *uid,
 					      CamelException *ex);
 
-static const CamelMessageInfo *summary_get_by_uid (CamelFolder *folder,
-						   const char *uid);
+static const CamelMessageInfo *get_message_info (CamelFolder *folder,
+						 const char *uid);
 
 static GList *search_by_expression (CamelFolder *folder, const char *exp,
 				    CamelException *ex);
@@ -161,14 +161,14 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message_user_flag = get_message_user_flag;
 	camel_folder_class->set_message_user_flag = set_message_user_flag;
 	camel_folder_class->get_message_uid = get_message_uid;
-	camel_folder_class->get_message_by_uid = get_message_by_uid;
-	camel_folder_class->delete_message_by_uid = delete_message_by_uid;
+	camel_folder_class->get_message = get_message;
+	camel_folder_class->delete_message = delete_message;
 	camel_folder_class->get_uids = get_uids;
 	camel_folder_class->free_uids = free_uids;
 	camel_folder_class->get_summary = get_summary;
 	camel_folder_class->free_summary = free_summary;
 	camel_folder_class->search_by_expression = search_by_expression;
-	camel_folder_class->summary_get_by_uid = summary_get_by_uid;
+	camel_folder_class->get_message_info = get_message_info;
 	camel_folder_class->copy_message_to = copy_message_to;
 	camel_folder_class->move_message_to = move_message_to;
 
@@ -744,27 +744,27 @@ camel_folder_set_message_user_flag (CamelFolder *folder, const char *uid,
 
 
 static const CamelMessageInfo *
-summary_get_by_uid (CamelFolder *folder, const char *uid)
+get_message_info (CamelFolder *folder, const char *uid)
 {
-	g_warning ("CamelFolder::summary_get_by_uid not implemented for `%s'",
+	g_warning ("CamelFolder::get_message_info not implemented for `%s'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
 /**
- * camel_folder_summary_get_by_uid:
+ * camel_folder_get_message_info:
  * @folder: a CamelFolder
  * @uid: the uid of a message
  *
  * Return value: the summary information for the indicated message
  **/
 const CamelMessageInfo *
-camel_folder_summary_get_by_uid (CamelFolder *folder, const char *uid)
+camel_folder_get_message_info (CamelFolder *folder, const char *uid)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (uid != NULL, NULL);
 
-	return CF_CLASS (folder)->summary_get_by_uid (folder, uid);
+	return CF_CLASS (folder)->get_message_info (folder, uid);
 }
 
 
@@ -814,15 +814,15 @@ camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message,
 
 
 static CamelMimeMessage *
-get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	g_warning ("CamelFolder::get_message_by_uid not implemented for `%s'",
+	g_warning ("CamelFolder::get_message not implemented for `%s'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
 /**
- * camel_folder_get_message_by_uid:
+ * camel_folder_get_message:
  * @folder: the folder object
  * @uid: the UID
  * @ex: a CamelException
@@ -834,25 +834,25 @@ get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
  * Return value: Message corresponding to the UID
  **/
 CamelMimeMessage *
-camel_folder_get_message_by_uid (CamelFolder *folder, const gchar *uid,
-				 CamelException *ex)
+camel_folder_get_message (CamelFolder *folder, const gchar *uid,
+			  CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	return CF_CLASS (folder)->get_message_by_uid (folder, uid, ex);
+	return CF_CLASS (folder)->get_message (folder, uid, ex);
 }
 
 
 static void
-delete_message_by_uid (CamelFolder *folder, const gchar *uid,
-		       CamelException *ex)
+delete_message (CamelFolder *folder, const gchar *uid,
+		CamelException *ex)
 {
-	g_warning ("CamelFolder::delete_message_by_uid not implemented "
+	g_warning ("CamelFolder::delete_message not implemented "
 		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
 }
 
 /**
- * camel_folder_delete_message_by_uid:
+ * camel_folder_delete_message:
  * @folder: the folder object
  * @uid: the UID
  * @ex: a CamelException
@@ -860,12 +860,12 @@ delete_message_by_uid (CamelFolder *folder, const gchar *uid,
  * Delete a message from a folder given its UID.
  **/
 void
-camel_folder_delete_message_by_uid (CamelFolder *folder, const gchar *uid,
-				    CamelException *ex)
+camel_folder_delete_message (CamelFolder *folder, const gchar *uid,
+			     CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	return CF_CLASS (folder)->delete_message_by_uid (folder, uid, ex);
+	return CF_CLASS (folder)->delete_message (folder, uid, ex);
 }
 
 
@@ -1035,7 +1035,7 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message_by_uid (source, uid, ex);
+	msg = camel_folder_get_message (source, uid, ex);
 	if (!msg)
 		return;
 	camel_folder_append_message (dest, msg, ex);
@@ -1079,14 +1079,14 @@ move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message_by_uid (source, uid, ex);
+	msg = camel_folder_get_message (source, uid, ex);
 	if (!msg)
 		return;
 	camel_folder_append_message (dest, msg, ex);
 	gtk_object_unref (GTK_OBJECT (msg));
 	if (camel_exception_is_set (ex))
 		return;
-	camel_folder_delete_message_by_uid (source, uid, ex);
+	camel_folder_delete_message (source, uid, ex);
 }
 
 /**
@@ -1099,7 +1099,7 @@ move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
  * This moves a message from one folder to another. If the @source and
  * @dest folders have the same parent_store, this may be more efficient
  * than a camel_folder_append_message() followed by
- * camel_folder_delete_message_by_uid().
+ * camel_folder_delete_message().
  **/
 void
 camel_folder_move_message_to (CamelFolder *source, const char *uid,

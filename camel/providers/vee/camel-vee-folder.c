@@ -48,9 +48,9 @@ GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex);
 void vee_free_summary (CamelFolder *folder, GPtrArray *array);
 
 static gint vee_get_message_count (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
+static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
-static const CamelMessageInfo *vee_summary_get_by_uid(CamelFolder *f, const char *uid);
+static const CamelMessageInfo *vee_get_message_info (CamelFolder *folder, const char *uid);
 static GList *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
 static guint32 vee_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex);
@@ -111,9 +111,9 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->get_uids = vee_get_uids;
 	folder_class->get_summary = vee_get_summary;
 	folder_class->free_summary = vee_free_summary;
-	folder_class->get_message_by_uid = vee_get_message_by_uid;
+	folder_class->get_message = vee_get_message;
 
-	folder_class->summary_get_by_uid = vee_summary_get_by_uid;
+	folder_class->get_message_info = vee_get_message_info;
 
 	folder_class->get_message_count = vee_get_message_count;
 	folder_class->search_by_expression = vee_search_by_expression;
@@ -193,10 +193,10 @@ message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *mf)
 	char *vuid;
 
 	printf("VMessage changed: %s\n", uid);
-	info = camel_folder_summary_get_by_uid(f, uid);
+	info = camel_folder_get_message_info(f, uid);
 
 	vuid = g_strdup_printf("%p:%s", f, uid);
-	vinfo = (CamelMessageInfo *)vee_summary_get_by_uid((CamelFolder *)mf, vuid);
+	vinfo = (CamelMessageInfo *)vee_get_message_info((CamelFolder *)mf, vuid);
 	if (info && vinfo) {
 		vinfo->flags = info->flags;
 		camel_flag_list_free(&vinfo->user_flags);
@@ -291,7 +291,7 @@ get_real_message (CamelFolder *folder, const char *uid,
 {
 	CamelVeeMessageInfo *mi;
 
-	mi = (CamelVeeMessageInfo *)vee_summary_get_by_uid(folder, uid);
+	mi = (CamelVeeMessageInfo *)vee_get_message_info(folder, uid);
 	if (mi == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     "No such message %s in %s", uid,
@@ -304,7 +304,7 @@ get_real_message (CamelFolder *folder, const char *uid,
 	return TRUE;
 }
 
-static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
@@ -312,7 +312,7 @@ static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gcha
 	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
 		return NULL;
 
-	return camel_folder_get_message_by_uid(real_folder, real_uid, ex);
+	return camel_folder_get_message (real_folder, real_uid, ex);
 }
 
 GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex)
@@ -327,7 +327,7 @@ void vee_free_summary (CamelFolder *folder, GPtrArray *array)
 	/* no op */
 }
 
-static const CamelMessageInfo *vee_summary_get_by_uid(CamelFolder *f, const char *uid)
+static const CamelMessageInfo *vee_get_message_info (CamelFolder *f, const char *uid)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)f;
 
@@ -478,7 +478,7 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		matches = camel_folder_search_by_expression(f, vf->expression, ex);
 		match = matches;
 		while (match) {
-			info = camel_folder_summary_get_by_uid(f, match->data);
+			info = camel_folder_get_message_info(f, match->data);
 			if (info) {
 				mi = g_malloc0(sizeof(*mi));
 				mi->info.subject = g_strdup(info->subject);
@@ -553,7 +553,7 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	matches = camel_folder_search_by_expression(f, vf->expression, ex);
 	match = matches;
 	while (match) {
-		info = camel_folder_summary_get_by_uid(f, match->data);
+		info = camel_folder_get_message_info(f, match->data);
 		if (info) {
 			mi = g_malloc0(sizeof(*mi));
 			mi->info.subject = g_strdup(info->subject);

@@ -68,17 +68,13 @@ static GPtrArray *mbox_get_uids (CamelFolder *folder, CamelException *ex);
 static GPtrArray *mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex);
 static GPtrArray *mbox_get_summary (CamelFolder *folder, CamelException *ex);
 static void mbox_free_summary (CamelFolder *folder, GPtrArray *array);
-static CamelMimeMessage *mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
+static CamelMimeMessage *mbox_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
 static void mbox_expunge (CamelFolder *folder, CamelException *ex);
-#if 0
-static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex);
-static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
-#endif
 
-static void mbox_delete_message_by_uid(CamelFolder *folder, const gchar *uid, CamelException *ex);
+static void mbox_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
-static const CamelMessageInfo *mbox_summary_get_by_uid(CamelFolder *f, const char *uid);
+static const CamelMessageInfo *mbox_get_message_info (CamelFolder *folder, const char *uid);
 
 static GList *mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
@@ -111,12 +107,12 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->free_summary = mbox_free_summary;
 	camel_folder_class->expunge = mbox_expunge;
 
-	camel_folder_class->get_message_by_uid = mbox_get_message_by_uid;
-	camel_folder_class->delete_message_by_uid = mbox_delete_message_by_uid;
+	camel_folder_class->get_message = mbox_get_message;
+	camel_folder_class->delete_message = mbox_delete_message;
 
 	camel_folder_class->search_by_expression = mbox_search_by_expression;
 
-	camel_folder_class->summary_get_by_uid = mbox_summary_get_by_uid;
+	camel_folder_class->get_message_info = mbox_get_message_info;
 
 	camel_folder_class->get_message_flags = mbox_get_message_flags;
 	camel_folder_class->set_message_flags = mbox_set_message_flags;
@@ -406,7 +402,7 @@ mbox_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 }
 
 static void
-mbox_delete_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+mbox_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	CamelMessageInfo *info;
 	CamelMboxFolder *mf = CAMEL_MBOX_FOLDER (folder);
@@ -419,7 +415,7 @@ mbox_delete_message_by_uid (CamelFolder *folder, const gchar *uid, CamelExceptio
 }
 
 static CamelMimeMessage *
-mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+mbox_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	CamelStream *message_stream = NULL;
@@ -504,7 +500,7 @@ mbox_free_summary (CamelFolder *folder, GPtrArray *array)
 
 /* get a single message info, by uid */
 static const CamelMessageInfo *
-mbox_summary_get_by_uid (CamelFolder *folder, const char *uid)
+mbox_get_message_info (CamelFolder *folder, const char *uid)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 

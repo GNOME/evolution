@@ -36,19 +36,19 @@
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (GTK_OBJECT (o)->klass))
 static CamelFolderClass *parent_class;
 
-static void finalize (GtkObject *object);
+static void pop3_finalize (GtkObject *object);
 
 static void pop3_sync (CamelFolder *folder, gboolean expunge,
 		       CamelException *ex);
 
-static gint get_message_count (CamelFolder *folder, CamelException *ex);
-static GPtrArray *get_uids (CamelFolder *folder, CamelException *ex);
-static void free_uids (CamelFolder *folder, GPtrArray *uids);
-static CamelMimeMessage *get_message_by_uid (CamelFolder *folder, 
-					     const char *uid,
-					     CamelException *ex);
-static void delete_message_by_uid (CamelFolder *folder, const char *uid,
-				   CamelException *ex);
+static gint pop3_get_message_count (CamelFolder *folder, CamelException *ex);
+static GPtrArray *pop3_get_uids (CamelFolder *folder, CamelException *ex);
+static void pop3_free_uids (CamelFolder *folder, GPtrArray *uids);
+static CamelMimeMessage *pop3_get_message (CamelFolder *folder, 
+					   const char *uid,
+					   CamelException *ex);
+static void pop3_delete_message (CamelFolder *folder, const char *uid,
+				 CamelException *ex);
 
 
 static void
@@ -64,14 +64,14 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 	/* virtual method overload */
 	camel_folder_class->sync = pop3_sync;
 
-	camel_folder_class->get_message_count = get_message_count;
-	camel_folder_class->get_uids = get_uids;
-	camel_folder_class->free_uids = free_uids;
+	camel_folder_class->get_message_count = pop3_get_message_count;
+	camel_folder_class->get_uids = pop3_get_uids;
+	camel_folder_class->free_uids = pop3_free_uids;
 
-	camel_folder_class->get_message_by_uid = get_message_by_uid;
-	camel_folder_class->delete_message_by_uid = delete_message_by_uid;
+	camel_folder_class->get_message = pop3_get_message;
+	camel_folder_class->delete_message = pop3_delete_message;
 
-	object_class->finalize = finalize;
+	object_class->finalize = pop3_finalize;
 }
 
 static void
@@ -113,7 +113,7 @@ camel_pop3_folder_get_type (void)
 }
 
 void
-finalize (GtkObject *object)
+pop3_finalize (GtkObject *object)
 {
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 
@@ -175,7 +175,7 @@ uid_to_number (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
 	int i;
 
-	if (!get_uids (folder, ex))
+	if (!pop3_get_uids (folder, ex))
 		return -1;
 
 	for (i = 0; i < pop3_folder->uids->len; i++) {
@@ -188,7 +188,7 @@ uid_to_number (CamelFolder *folder, const char *uid, CamelException *ex)
 
 
 static CamelMimeMessage *
-get_message_by_uid (CamelFolder *folder, const char *uid, CamelException *ex)
+pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 {
 	int status, num;
 	char *result, *body;
@@ -235,8 +235,8 @@ get_message_by_uid (CamelFolder *folder, const char *uid, CamelException *ex)
 }
 
 static void
-delete_message_by_uid (CamelFolder *folder, const char *uid,
-		       CamelException *ex)
+pop3_delete_message (CamelFolder *folder, const char *uid,
+		     CamelException *ex)
 {
 	int status, num;
 	char *resp;
@@ -257,18 +257,18 @@ delete_message_by_uid (CamelFolder *folder, const char *uid,
 }
 
 static gint
-get_message_count (CamelFolder *folder, CamelException *ex)
+pop3_get_message_count (CamelFolder *folder, CamelException *ex)
 {
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
 
-	if (!get_uids (folder, ex))
+	if (!pop3_get_uids (folder, ex))
 		return -1;
 
 	return pop3_folder->uids->len;
 }
 
 static GPtrArray *
-get_uids (CamelFolder *folder, CamelException *ex)
+pop3_get_uids (CamelFolder *folder, CamelException *ex)
 {
 	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (folder->parent_store);
 	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (folder);
@@ -329,7 +329,8 @@ get_uids (CamelFolder *folder, CamelException *ex)
 }
 
 static void
-free_uids (CamelFolder *folder, GPtrArray *uids)
+pop3_free_uids (CamelFolder *folder, GPtrArray *uids)
 {
 	;
 }
+
