@@ -1,5 +1,10 @@
 2001-08-21  Iain Holmes  <iain@ximian.com>
 
+	* pine-importer.c (scan_dir): Don't add a directory to the list of files
+	to be imported.
+
+2001-08-21  Iain Holmes  <iain@ximian.com>
+
 	* netscape-importer.c (netscape_import_accounts): Fully assign the id
 	structure.
 

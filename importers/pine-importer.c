@@ -528,7 +528,7 @@ scan_dir (PineImporter *importer,
 			pf->path = NULL;
 			pf->parent = g_strdup (orig_parent);
 			pf->foldername = g_strdup (foldername);
-			importer->dir_list = g_list_append (importer->dir_list, pf);
+/*  			importer->dir_list = g_list_append (importer->dir_list, pf); */
 
 			subdir = g_concat_dir_and_file (orig_parent, foldername);
 			scan_dir (importer, fullname, subdir);
