@@ -192,6 +192,16 @@ CalComponent *comp, const char **uid
 CalComponent *comp, const char *uid
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_get_categories</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, const char **categories
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_set_categories</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, const char *categories
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_get_categories_list</NAME>
 <RETURNS>void  </RETURNS>
 CalComponent *comp, GSList **categ_list

@@ -1,3 +1,7 @@
+2001-01-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* configure.in (AC_OUTPUT): Added calendar/gui/alarm-notify/Makefile.
+
 2001-01-05  Tuomas Kuosmanen  <tigert@helixcode.com>
 
 	* art/evolution-contacts-mini.png: This looks more pretty.
