@@ -50,6 +50,9 @@ data_wrapper_repository_init ()
 	if (_initialized != -1) return -1;
 	_repository.mime_links = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	data_wrapper_repository_set_data_wrapper_type ("multipart", camel_multipart_get_type());
+
+	/* this is a temporary default so that Michael can use get_stream on text messages  */
+	data_wrapper_repository_set_data_wrapper_type ("text", camel_simple_data_wrapper_get_type());
 	_content_field = gmime_content_field_new (NULL, NULL);
 	_initialized = 1;
 	return 1;

@@ -1,3 +1,9 @@
+2000-02-10  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/data-wrapper-repository.c (data_wrapper_repository_init): 
+	default the text/* mime types to CamelSimpleDataWrapper so
+	that Michael can use get_stream. 
+
 2000-02-10  NotZed  <notzed@zedzone.helixcode.com>
 
 	* camel/camel-simple-data-wrapper-stream.h: The superclass is
