@@ -1455,7 +1455,7 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 
 		ethi->config = e_table_config_new (
 				_("Customize Current View"),
-				spec, state, NULL);
+				spec, state, GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 		g_object_weak_ref (G_OBJECT (ethi->config),
 				   config_destroyed, ethi);
 		g_signal_connect (
