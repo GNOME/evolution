@@ -261,8 +261,6 @@ request_password (struct _pass_msg *m)
 	
 	password_dialog = (GtkDialog *) gtk_message_dialog_new (NULL, 0, GTK_MESSAGE_QUESTION,
 								GTK_BUTTONS_OK_CANCEL, "%s", m->prompt);
-	
-	g_signal_connect (password_dialog, "response", G_CALLBACK (pass_response), m);
 	gtk_window_set_title (GTK_WINDOW (password_dialog), title);
 	g_free (title);
 	
@@ -287,10 +285,12 @@ request_password (struct _pass_msg *m)
 		gtk_widget_show (m->check);
 	}
 	
-	if (m->ismain)
-		gtk_dialog_run (password_dialog);
-	else
+	if (m->ismain) {
+		pass_response(password_dialog, gtk_dialog_run (password_dialog), m);
+	} else {
+		g_signal_connect (password_dialog, "response", G_CALLBACK (pass_response), m);
 		gtk_widget_show ((GtkWidget *) password_dialog);
+	}
 }
 
 static void
@@ -467,11 +467,12 @@ do_user_message (struct _mail_msg *mm)
 	
 	/* We only need to wait for the result if we allow cancel otherwise show but send result back instantly */
 	if (m->allow_cancel) {
-		g_signal_connect (message_dialog, "response", G_CALLBACK (user_message_response), m);
-		if (m->ismain)
-			gtk_dialog_run (message_dialog);
-		else
+		if (m->ismain) {
+			user_message_response(message_dialog, gtk_dialog_run (message_dialog), m);
+		} else {
+			g_signal_connect (message_dialog, "response", G_CALLBACK (user_message_response), m);
 			gtk_widget_show ((GtkWidget *) message_dialog);
+		}
 	} else {
 		gtk_widget_show ((GtkWidget *) message_dialog);
 		m->result = TRUE;

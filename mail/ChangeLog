@@ -1,5 +1,17 @@
 2003-03-03  Not Zed  <NotZed@Ximian.com>
 
+	* mail-session.c (do_user_message): Do the same as below for
+	request_password, so we dont leave a mainloop lying around.
+
+2003-03-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (request_password): Don't connect to the response
+	signal if we are in the main thread - instead just use the return
+	value from gtk_dialog_run and then call pass_response() with the
+	response value.
+
+2003-03-03  Not Zed  <NotZed@Ximian.com>
+
 	* subscribe-dialog.c (fe_got_children): Remove the
 	e_tree_memory_sort_node, currently it crashes inside gal, the root
 	node seems to get free'd under it.
