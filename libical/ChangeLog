@@ -1,3 +1,7 @@
+2001-01-24  Dan Winship  <danw@helixcode.com>
+
+	* src/libical/icaltime.c: Remove unused "extern long timezone".
+
 2001-01-24  Damon Chaplin  <damon@helixcode.com>
 
 	* src/libical/icaltime.c (set_tz): 

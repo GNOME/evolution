@@ -47,7 +47,6 @@
 
 
 
-extern long int timezone;  /* Global defined by libc */
 struct icaltimetype 
 icaltime_from_timet(time_t tm, int is_date)
 {
