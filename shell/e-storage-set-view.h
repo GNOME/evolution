@@ -64,7 +64,7 @@ struct _EStorageSetViewClass {
 				   const char *name);
 
 	void (* dnd_action) (EStorageSetView *storage_set_view,
-			     GdkDragAction action,
+			     GdkDragContext *context,
 			     const char *source_data,
 			     const char *source_data_type,
 			     const char *target_path);

@@ -81,7 +81,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+static unsigned int signals[LAST_SIGNAL] = { 0 };
 
 
 /* DND stuff.  */
@@ -222,20 +222,23 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 
 /* Custom marshalling function.  */
 
-typedef void (* GtkSignal_NONE__ENUM_STRING_STRING_STRING) (GtkObject *object,
-							    int, const char *, const char *, const char *);
+typedef void (* GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING) (GtkObject *object,
+								      GdkDragContext *action,
+								      const char *,
+								      const char *,
+								      const char *);
 
 static void
-marshal_NONE__ENUM_STRING_STRING_STRING (GtkObject *object,
-					 GtkSignalFunc func,
-					 void *func_data,
-					 GtkArg *args)
+marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING (GtkObject *object,
+						   GtkSignalFunc func,
+						   void *func_data,
+						   GtkArg *args)
 {
-	GtkSignal_NONE__ENUM_STRING_STRING_STRING rfunc;
+	GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING rfunc;
 
-	rfunc = (GtkSignal_NONE__ENUM_STRING_STRING_STRING) func;
+	rfunc = (GtkSignal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING) func;
 	(* rfunc) (object,
-		   GTK_VALUE_ENUM (args[0]),
+		   GTK_VALUE_POINTER (args[0]),
 		   GTK_VALUE_STRING (args[1]),
 		   GTK_VALUE_STRING (args[2]),
 		   GTK_VALUE_STRING (args[3]));
@@ -454,7 +457,7 @@ table_drag_data_get (ETable *etable,
 		     int drag_col,
 		     GdkDragContext *context,
 		     GtkSelectionData *selection_data,
-		     guint info,
+		     unsigned int info,
 		     guint32 time)
 {
 	EStorageSetView *storage_set_view;
@@ -478,9 +481,9 @@ table_drag_motion (ETable *table,
 		   int row,
 		   int col,
 		   GdkDragContext *context,
-		   gint x,
-		   gint y,
-		   guint time)
+		   int x,
+		   int y,
+		   unsigned int time)
 {
 	gdk_drag_status (context, GDK_ACTION_MOVE, time);
 
@@ -492,9 +495,30 @@ table_drag_drop (ETable *etable,
 		 int row,
 		 int col,
 		 GdkDragContext *context,
-		 gint x,
-		 gint y,
-		 guint time)
+		 int x,
+		 int y,
+		 unsigned int time)
+{
+	if (context->targets != NULL) {
+		gtk_drag_get_data (GTK_WIDGET (etable), context,
+				   GPOINTER_TO_INT (context->targets->data),
+				   time);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+table_drag_data_received (ETable *etable,
+			  int row,
+			  int col,
+			  GdkDragContext *context,
+			  int x,
+			  int y,
+			  GtkSelectionData *selection_data,
+			  unsigned int info,
+			  unsigned int time)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -506,11 +530,6 @@ table_drag_drop (ETable *etable,
 
 	target_tree_path = e_tree_model_node_at_row (priv->etree_model, row);
 	target_path = e_tree_model_node_get_data (priv->etree_model, target_tree_path);
-
-	gtk_signal_emit (GTK_OBJECT (etable), signals[DND_ACTION],
-			 context->action, NULL, NULL, NULL);
-
-	return TRUE;
 }
 
 static gboolean
@@ -688,7 +707,7 @@ etree_is_editable (ETreeModel *etree, ETreePath *path, int col, void *model_data
 
 /* StorageSet signal handling.  */
 
-static gint
+static int
 treepath_compare (ETreeModel *model,
 		  ETreePath  *node1,
 		  ETreePath  *node2)
@@ -852,12 +871,13 @@ class_init (EStorageSetViewClass *klass)
 	object_class->destroy = destroy;
 
 	etable_class = E_TABLE_CLASS (klass);
-	etable_class->right_click         = right_click;
-	etable_class->cursor_change       = cursor_change;
-	etable_class->table_drag_begin    = table_drag_begin;
-	etable_class->table_drag_data_get = table_drag_data_get;
-	etable_class->table_drag_motion   = table_drag_motion;
-	etable_class->table_drag_drop     = table_drag_drop;
+	etable_class->right_click              = right_click;
+	etable_class->cursor_change            = cursor_change;
+	etable_class->table_drag_begin         = table_drag_begin;
+	etable_class->table_drag_data_get      = table_drag_data_get;
+	etable_class->table_drag_motion        = table_drag_motion;
+	etable_class->table_drag_drop          = table_drag_drop;
+	etable_class->table_drag_data_received = table_drag_data_received;
 
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
@@ -882,9 +902,9 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_RUN_FIRST,
 				  object_class->type,
 				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, dnd_action),
-				  marshal_NONE__ENUM_STRING_STRING_STRING,
+				  marshal_NONE__GDKDRAGCONTEXT_STRING_STRING_STRING,
 				  GTK_TYPE_NONE, 4,
-				  GTK_TYPE_ENUM,
+				  GTK_TYPE_GDK_DRAG_CONTEXT,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING,
 				  GTK_TYPE_STRING);

@@ -1,3 +1,24 @@
+2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (table_drag_drop): Don't emit the
+	"dnd_action" signal here.  Instead, do a `gtk_drag_get_data()' to
+	retrieve information about the drop.
+	(table_drag_data_received): New, implementation for
+	`ETable::table_drag_data_received'.
+	(class_init): Install it.
+	(table_drag_data_get): Use `unsigned int' instead of `guint' for
+	consistency.
+	(table_drag_motion): Same here.  Also use `int' instead of `gint'.
+	(table_drag_drop): Likewise.
+	(treepath_compare): Likewise.
+	(marshal_NONE__ENUM_STRING_STRING_STRING): Removed.
+	(marshal_NONE__GDKDRAGACTION_STRING_STRING_STRING): New.
+	(class_init): Use it; update signal "dnd_action" so that it passes
+	a `GdkDragAction *' instead of .
+
+	* e-storage-set-view.h: Change signal "::dnd_action" so that it
+	provides a `GdkDragContext' instead of just a `GdkDragAction'.
+
 2001-01-16  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (e_shell_view_construct): set config
