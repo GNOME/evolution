@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
@@ -378,14 +378,12 @@ msgid "Receiving LDAP search results..."
 msgstr "Отримання результатів пошуку на LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2759
-#, fuzzy
 msgid "Error performing search"
-msgstr "Помилка видалення картки"
+msgstr "Помилка виданання пошуку"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2783
-#, fuzzy
 msgid "Could not parse query string"
-msgstr "Неможливо проаналізувати URL \"%s\""
+msgstr "Неможливо проаналізувати рядок пошуку"
 
 #: addressbook/conduit/address-conduit.c:293
 #, fuzzy
@@ -568,14 +566,12 @@ msgid "Enter password for %s (user %s)"
 msgstr "Введіть пароль для %s (користувач %s)"
 
 #: addressbook/gui/component/addressbook.c:769
-#, fuzzy
 msgid "Name begins with"
-msgstr "закінчується на"
+msgstr "Ім'я починається з"
 
 #: addressbook/gui/component/addressbook.c:770
-#, fuzzy
 msgid "Email is"
-msgstr "Е-пошта 2"
+msgstr "Е-пошта"
 
 #: addressbook/gui/component/addressbook.c:771
 #: calendar/gui/cal-search-bar.c:53
@@ -653,7 +649,6 @@ msgid "Enable Queries (Dangerous!)"
 msgstr "Дозволити запити (небезпечно!)"
 
 #: addressbook/gui/component/addressbook-config.c:197
-#, fuzzy
 msgid "Failed to connect to LDAP server"
 msgstr "Неможливо з'єднатись з сервером LDAP."
 
@@ -710,9 +705,8 @@ msgid "<< Fewer Options"
 msgstr "Параметри"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
-#, fuzzy
 msgid "<- _Remove"
-msgstr "Видалити"
+msgstr "<- Видалити"
 
 #: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
@@ -762,14 +756,12 @@ msgstr "Джерело адресної книги"
 
 #: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:54
 #: mail/mail-config.glade.h:16
-#, fuzzy
 msgid "Always"
-msgstr "Сповіщення"
+msgstr "Завжди"
 
 #: addressbook/gui/component/ldap-config.glade.h:16
-#, fuzzy
 msgid "Anonymously"
-msgstr "Анонім"
+msgstr "Анонімно"
 
 #: addressbook/gui/component/ldap-config.glade.h:17
 msgid "Associated LDAP Attribute"
@@ -812,7 +804,6 @@ msgid "Distinguished _name:"
 msgstr "Назва списку:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
-#, fuzzy
 msgid "Email Address:"
 msgstr "_Електронна адреса:"
 
@@ -856,9 +847,8 @@ msgstr "Поля"
 
 #: addressbook/gui/component/ldap-config.glade.h:37 mail/mail-account-gui.c:56
 #: mail/mail-config.glade.h:76
-#, fuzzy
 msgid "Never"
-msgstr "кожні"
+msgstr "Ніколи"
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -915,9 +905,8 @@ msgid "Searching"
 msgstr "Пошук"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
-#, fuzzy
 msgid "Select"
-msgstr "Вибрати все"
+msgstr "Вибрати"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 #, fuzzy
@@ -1224,9 +1213,8 @@ msgid "account-editor"
 msgstr "Редактор контактів"
 
 #: addressbook/gui/component/ldap-config.glade.h:129
-#, fuzzy
 msgid "cards"
-msgstr "Немає карток"
+msgstr "картки"
 
 #: addressbook/gui/component/ldap-config.glade.h:130
 #, fuzzy
@@ -1301,9 +1289,8 @@ msgid "Unnamed Contact"
 msgstr "Неназваний контакт"
 
 #: addressbook/gui/component/select-names/e-select-names.c:600
-#, fuzzy
 msgid "Find contact in"
-msgstr "Відправник містить"
+msgstr "Знайти контакт в"
 
 #: addressbook/gui/component/select-names/e-select-names.c:716
 msgid ""
@@ -1332,9 +1319,8 @@ msgid "Select Names"
 msgstr "Вибрати назви"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "Selected Contacts:"
-msgstr "Стерти контакт?"
+msgstr "Вибрані контакти:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 #, fuzzy
@@ -1981,9 +1967,8 @@ msgid "Kiribati"
 msgstr "Кірібаті"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:239
-#, fuzzy
 msgid "Korea, Republic Of"
-msgstr "Корея"
+msgstr "Республика Корея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 #: my-evolution/Locations.h:1146
@@ -2392,7 +2377,6 @@ msgid "Tajikistan"
 msgstr "Таджикистан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:333
-#, fuzzy
 msgid "Tanzania, United Republic Of"
 msgstr "Танзанія"
 
@@ -2488,7 +2472,6 @@ msgid "Virgin Islands, British"
 msgstr "Американські Вірджинові острови"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:355
-#, fuzzy
 msgid "Virgin Islands, U.S."
 msgstr "Американські Вірджинові острови"
 
@@ -2647,7 +2630,7 @@ msgstr "існує"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:9
 msgid "Mr."
-msgstr ""
+msgstr "Мр."
 
 #: addressbook/gui/contact-editor/fullname.glade.h:10
 msgid "Mrs."
@@ -2875,14 +2858,12 @@ msgid "Error removing card"
 msgstr "Помилка видалення картки"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:204
-#, fuzzy
 msgid "Display Cards?"
-msgstr "Відобразити"
+msgstr "Відобразити картки?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:205
-#, fuzzy
 msgid "Display Cards"
-msgstr "Відобразити"
+msgstr "Відобразити картки"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:209
 #, c-format
@@ -2893,24 +2874,20 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:344
-#, fuzzy
 msgid "Move card to"
-msgstr "Немає карток"
+msgstr "Перенести картку до"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:346
-#, fuzzy
 msgid "Copy card to"
-msgstr "Немає карток"
+msgstr "Копіювати картку до"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:349
-#, fuzzy
 msgid "Move cards to"
-msgstr "Немає карток"
+msgstr "Перенести картки до"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:351
-#, fuzzy
 msgid "Copy cards to"
-msgstr "Немає карток"
+msgstr "Копіювати картки до"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:334
 msgid "* Click here to add a contact *"
@@ -2980,37 +2957,30 @@ msgid "Save as VCard"
 msgstr "Зберегти як VCard"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:875
-#, fuzzy
 msgid "New Contact..."
-msgstr "Новий контакт"
+msgstr "Новий контакт..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:876
-#, fuzzy
 msgid "New Contact List..."
-msgstr "Новий контактний список"
+msgstr "Новий контактний список..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:879
-#, fuzzy
 msgid "Go to Folder..."
 msgstr "Перейти на теку..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:880
-#, fuzzy
 msgid "Import..."
 msgstr "Імпорт..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:882
-#, fuzzy
 msgid "Search for Contacts..."
-msgstr "Пошук контактів"
+msgstr "Пошук контактів..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:883
-#, fuzzy
 msgid "Addressbook Sources..."
 msgstr "Джерела адресних книг..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:885
-#, fuzzy
 msgid "Pilot Settings..."
 msgstr "Установки пілота..."
 
@@ -3497,9 +3467,8 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-queue.c:772
-#, fuzzy
 msgid "Do not ask me about this program again."
-msgstr "Більше не питати."
+msgstr "Більше не питати про цю програму."
 
 #: calendar/gui/alarm-notify/notify-main.c:166 calendar/gui/main.c:58
 msgid "Could not initialize GNOME"
@@ -3734,7 +3703,7 @@ msgid "_Appointment"
 msgstr "_Зустріч"
 
 #: calendar/gui/control-factory.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the folder in '%s'"
 msgstr "Не вдалося відкрити теку в \"%s\""
 
@@ -3798,9 +3767,8 @@ msgid "With these arguments:"
 msgstr "З цими аргументами:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:83
-#, fuzzy
 msgid "days"
-msgstr "Тіло"
+msgstr "днів"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "extra times every"
@@ -4075,7 +4043,6 @@ msgid "T_ue"
 msgstr "Втр"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "Task List"
 msgstr "Список завдань"
 
@@ -4167,7 +4134,6 @@ msgid "_Show appointment end times in week and month views"
 msgstr "Показати час завершення зустрічей"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#, fuzzy
 msgid "_Time divisions:"
 msgstr "Розділювачі часу:"
 
@@ -4184,16 +4150,12 @@ msgid "The meeting status has changed. Send an updated version?"
 msgstr ""
 
 #: calendar/gui/dialogs/cancel-comp.c:57
-#, fuzzy
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr "Ви впевнені, що хочете стерти завдання"
+msgstr "Ви впевнені, що хочете скасувати та стерти цю зустріч?"
 
 #: calendar/gui/dialogs/cancel-comp.c:62
-#, fuzzy
 msgid "Are you sure you want to cancel and delete this task?"
-msgstr ""
-"Ви впевнені, що хочете стерти завдання "
-"\"%s\"?"
+msgstr "Ви впевнені, що хочете скасувати та стерти це завдання?"
 
 #: calendar/gui/dialogs/cancel-comp.c:67
 #, fuzzy
@@ -4251,12 +4213,10 @@ msgid " to "
 msgstr ""
 
 #: calendar/gui/dialogs/comp-editor-util.c:192 calendar/gui/print.c:2212
-#, fuzzy
 msgid " (Completed "
-msgstr "Завершено"
+msgstr "(Завершено"
 
 #: calendar/gui/dialogs/comp-editor-util.c:194 calendar/gui/print.c:2214
-#, fuzzy
 msgid "Completed "
 msgstr "Завершено"
 
@@ -4350,18 +4310,14 @@ msgstr ""
 "Ви впевнені, що хочете стерти зустріч \"%s\"?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d tasks?"
-msgstr ""
-"Ви впевнені, що хочете стерти завдання "
-"\"%s\"?"
+msgstr "Ви впевнені, що хочете стерти %d завданнь?"
 
 #: calendar/gui/dialogs/delete-comp.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %d journal entries?"
-msgstr ""
-"Ви впевнені, що хочете стерти запис в "
-"журналі \"%s\"?"
+msgstr "Ви впевнені, що хочете стерти %d записів в журналі?"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
 msgid "Addressbook..."
@@ -4430,11 +4386,8 @@ msgid "F_ree"
 msgstr "Вільний"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "L_ocation:"
-msgstr ""
-"\n"
-"Розташування: "
+msgstr "Розташування:"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
@@ -4475,9 +4428,8 @@ msgid "An organizer is required."
 msgstr "Потрібно вказати організатора."
 
 #: calendar/gui/dialogs/meeting-page.c:446
-#, fuzzy
 msgid "At least one attendee is required."
-msgstr "Потрібен хоча б один відвідувач"
+msgstr "Потрібен хоча б один відвідувач."
 
 #: calendar/gui/dialogs/meeting-page.c:626
 msgid "That person is already attending the meeting!"
@@ -4525,9 +4477,8 @@ msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
-#, fuzzy
 msgid "Role"
-msgstr "Мобільний"
+msgstr "Роль"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
 #: calendar/gui/e-calendar-table.etspec.h:14
@@ -4617,33 +4568,29 @@ msgid "on"
 msgstr "Пнд"
 
 #: calendar/gui/dialogs/recurrence-page.c:1062
-#, fuzzy
 msgid "first"
-msgstr "список"
+msgstr "перший"
 
 #: calendar/gui/dialogs/recurrence-page.c:1063 filter/filter-datespec.c:86
 msgid "second"
-msgstr "секунда"
+msgstr "другий"
 
 #: calendar/gui/dialogs/recurrence-page.c:1064
 #, fuzzy
 msgid "third"
-msgstr "Інша"
+msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.c:1065
-#, fuzzy
 msgid "fourth"
-msgstr "Північ"
+msgstr "четвертий"
 
 #: calendar/gui/dialogs/recurrence-page.c:1066
-#, fuzzy
 msgid "last"
-msgstr "список"
+msgstr "останній"
 
 #: calendar/gui/dialogs/recurrence-page.c:1092
-#, fuzzy
 msgid "Other Date"
-msgstr "Інший факс"
+msgstr "Інша дата"
 
 #: calendar/gui/dialogs/recurrence-page.c:1120 filter/filter-datespec.c:83
 msgid "day"
@@ -4713,7 +4660,6 @@ msgid "until"
 msgstr "доки"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:19
-#, fuzzy
 msgid "week(s)"
 msgstr "Тиждень"
 
@@ -4739,7 +4685,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% Complete"
 msgstr "% завершення:"
 
@@ -4772,7 +4718,6 @@ msgstr "Вставити"
 #: calendar/gui/dialogs/task-editor.c:190
 #: calendar/gui/dialogs/task-editor.c:227
 #: calendar/gui/dialogs/task-editor.c:324
-#, fuzzy
 msgid "Assignment"
 msgstr "Призначення"
 
@@ -4804,7 +4749,6 @@ msgid "_Open"
 msgstr "Відкрити"
 
 #: calendar/gui/e-calendar-table.c:973
-#, fuzzy
 msgid "_Save as..."
 msgstr "Зберегти як..."
 
@@ -4838,12 +4782,10 @@ msgid "_Paste"
 msgstr "Вставити"
 
 #: calendar/gui/e-calendar-table.c:984
-#, fuzzy
 msgid "_Assign Task"
 msgstr "Призначити завдання"
 
 #: calendar/gui/e-calendar-table.c:985
-#, fuzzy
 msgid "_Forward as iCalendar"
 msgstr "Переслати як i_Calendar"
 
@@ -4852,9 +4794,8 @@ msgid "_Mark as Complete"
 msgstr "Позначити як виконане"
 
 #: calendar/gui/e-calendar-table.c:987
-#, fuzzy
 msgid "_Mark Selected Tasks as Complete"
-msgstr "Позначити завдання як виконані"
+msgstr "Позначити вибрані завдання як виконані"
 
 #: calendar/gui/e-calendar-table.c:992
 msgid "_Delete Selected Tasks"
@@ -4980,12 +4921,10 @@ msgid "New All Day _Event"
 msgstr "Нова щоденна подія"
 
 #: calendar/gui/e-day-view.c:3553 calendar/gui/e-week-view.c:3440
-#, fuzzy
 msgid "New Meeting"
 msgstr "Нове засідання"
 
 #: calendar/gui/e-day-view.c:3555 calendar/gui/e-week-view.c:3441
-#, fuzzy
 msgid "New Task"
 msgstr "Нове завдання"
 
@@ -5010,14 +4949,12 @@ msgstr ""
 
 #: calendar/gui/e-day-view.c:3584 calendar/gui/e-week-view.c:3464
 #: ui/evolution.xml.h:37
-#, fuzzy
 msgid "_Configure..."
-msgstr "Конфіґурувати теку"
+msgstr "Конфіґурувати..."
 
 #: calendar/gui/e-day-view.c:3586 calendar/gui/e-week-view.c:3465
-#, fuzzy
 msgid "_Configure Pilot..."
-msgstr "Конфіґурувати теку"
+msgstr "Конфіґурувати Pilot..."
 
 #: calendar/gui/e-day-view.c:3595 calendar/gui/e-week-view.c:3472
 #: mail/folder-browser.c:1610 ui/evolution-mail-message.xml.h:110
@@ -5030,9 +4967,8 @@ msgid "_Schedule Meeting..."
 msgstr "Планувати зустріч"
 
 #: calendar/gui/e-day-view.c:3608 calendar/gui/e-week-view.c:3485
-#, fuzzy
 msgid "_Forward as iCalendar..."
-msgstr "Переслати як i_Calendar"
+msgstr "Переслати як i_Calendar..."
 
 #: calendar/gui/e-day-view.c:3613 calendar/gui/e-week-view.c:3490
 #, fuzzy
@@ -5118,9 +5054,8 @@ msgid "Select Calendar Folder"
 msgstr "Вибір теки"
 
 #: calendar/gui/e-itip-control.c:1868
-#, fuzzy
 msgid "Select Tasks Folder"
-msgstr "Вибір теки"
+msgstr "Вибір теки завдань"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
@@ -5365,7 +5300,7 @@ msgid "Could not open the folder in `%s'"
 msgstr "Не вдалося відкрити теку в \"%s\""
 
 #: calendar/gui/gnome-cal.c:1549
-#, fuzzy, c-format
+#, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr ""
 "Метод, необхідний для завантаження \"%s\", "
@@ -5433,7 +5368,6 @@ msgid "September"
 msgstr "Вересень"
 
 #: calendar/gui/itip-utils.c:220
-#, fuzzy
 msgid "At least one attendee is necessary"
 msgstr "Потрібен хоча б один відвідувач"
 
@@ -5679,9 +5613,8 @@ msgid "Do not ask me again."
 msgstr "Більше не питати."
 
 #: calendar/gui/tasks-control.c:612
-#, fuzzy
 msgid "Print Tasks"
-msgstr "Надрукувати картки"
+msgstr "Надрукувати завдання"
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
@@ -5716,14 +5649,12 @@ msgid "SMTWTFS"
 msgstr "НПВСЧПС"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:1
-#, fuzzy
 msgid "Factory to import iCalendar files into Evolution"
-msgstr "Фабрика імпорту файлів VCard у Evolutuion."
+msgstr "Фабрика імпорту файлів iCalendar у Evolutuion."
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:2
-#, fuzzy
 msgid "Imports iCalendar files into Evolution"
-msgstr "Імпорт файлів VCard у Evolution."
+msgstr "Імпорт файлів iCalendar у Evolution."
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.oaf.in.h:3
 #, fuzzy
@@ -6072,9 +6003,8 @@ msgid "America/Adak"
 msgstr "Американська Самоа"
 
 #: calendar/zones.h:60
-#, fuzzy
 msgid "America/Anchorage"
-msgstr "Американська Самоа"
+msgstr "Америка/Анкорідж"
 
 #: calendar/zones.h:61
 #, fuzzy
@@ -6083,7 +6013,7 @@ msgstr "Анґуілла"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr "Америка/Антіґуа"
+msgstr "Америка/Антігуа"
 
 #: calendar/zones.h:63
 #, fuzzy
@@ -6166,9 +6096,8 @@ msgid "America/Cordoba"
 msgstr "Америка/Кордоба"
 
 #: calendar/zones.h:82
-#, fuzzy
 msgid "America/Costa_Rica"
-msgstr "Коста Ріка"
+msgstr "Америка/Коста Ріка"
 
 #: calendar/zones.h:83
 #, fuzzy
@@ -6202,9 +6131,8 @@ msgid "America/Detroit"
 msgstr "Америка/Детройт"
 
 #: calendar/zones.h:90
-#, fuzzy
 msgid "America/Dominica"
-msgstr "Домініка"
+msgstr "Америка/Домініка"
 
 #: calendar/zones.h:91
 msgid "America/Edmonton"
@@ -6346,7 +6274,7 @@ msgstr "Американська Самоа"
 
 #: calendar/zones.h:124
 msgid "America/Managua"
-msgstr "Америка/Манаґуа"
+msgstr "Америка/Манагуа"
 
 #: calendar/zones.h:125
 #, fuzzy
@@ -6354,9 +6282,8 @@ msgid "America/Manaus"
 msgstr "Американська Самоа"
 
 #: calendar/zones.h:126
-#, fuzzy
 msgid "America/Martinique"
-msgstr "Мартініка"
+msgstr "Америка/Мартініка"
 
 #: calendar/zones.h:127
 #, fuzzy
@@ -6401,9 +6328,8 @@ msgid "America/Montserrat"
 msgstr "Монцеррат"
 
 #: calendar/zones.h:137
-#, fuzzy
 msgid "America/Nassau"
-msgstr "Американська Самоа"
+msgstr "Америка/Нассау"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
@@ -6416,7 +6342,7 @@ msgstr ""
 #: calendar/zones.h:140
 #, fuzzy
 msgid "America/Nome"
-msgstr "Американська Самоа"
+msgstr "Америка/Ном"
 
 #: calendar/zones.h:141
 #, fuzzy
@@ -6457,9 +6383,8 @@ msgid "America/Porto_Velho"
 msgstr ""
 
 #: calendar/zones.h:150
-#, fuzzy
 msgid "America/Puerto_Rico"
-msgstr "Пуерто Ріко"
+msgstr "Америка/Пуерто Ріко"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
@@ -6694,9 +6619,8 @@ msgid "Asia/Chongqing"
 msgstr ""
 
 #: calendar/zones.h:205
-#, fuzzy
 msgid "Asia/Colombo"
-msgstr "Колумбія"
+msgstr "Азія/Коломбо"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
@@ -6712,7 +6636,7 @@ msgstr ""
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Азія/Дубаї"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
@@ -6720,11 +6644,11 @@ msgstr "Азія/Душанбе"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr "Азія/Ґаза"
+msgstr "Азія/Газа"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Азія/Харбін"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
@@ -6764,7 +6688,7 @@ msgstr "Азія/Камчатка"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Азія/Карачі"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
@@ -6792,7 +6716,7 @@ msgstr "Азія/Кувейт"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Азія/Макао"
 
 #: calendar/zones.h:230
 msgid "Asia/Magadan"
@@ -6982,9 +6906,8 @@ msgid "Australia/Broken_Hill"
 msgstr "Австралія"
 
 #: calendar/zones.h:276
-#, fuzzy
 msgid "Australia/Darwin"
-msgstr "Австралія"
+msgstr "Австралія/Дарвін"
 
 #: calendar/zones.h:277
 #, fuzzy
@@ -7023,9 +6946,8 @@ msgid "Europe/Andorra"
 msgstr "Європа/Андорра"
 
 #: calendar/zones.h:285
-#, fuzzy
 msgid "Europe/Athens"
-msgstr "Властивості"
+msgstr "Європа/Афіни"
 
 #: calendar/zones.h:286
 msgid "Europe/Belfast"
@@ -7141,7 +7063,7 @@ msgstr "Європа/Прага"
 
 #: calendar/zones.h:314
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Європа/Ріга"
 
 #: calendar/zones.h:315
 msgid "Europe/Rome"
@@ -7152,9 +7074,8 @@ msgid "Europe/Samara"
 msgstr "Європа/Самара"
 
 #: calendar/zones.h:317
-#, fuzzy
 msgid "Europe/San_Marino"
-msgstr "Сан Маріно"
+msgstr "Європа/Сан Маріно"
 
 #: calendar/zones.h:318
 msgid "Europe/Sarajevo"
@@ -7556,7 +7477,7 @@ msgstr ""
 "%s"
 
 #: camel/camel-folder-search.c:353
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error executing search expression: %s:\n"
 "%s"
@@ -7734,9 +7655,9 @@ msgstr ""
 "відправника не вірна."
 
 #: camel/camel-pgp-context.c:634 camel/camel-pgp-context.c:808
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Неможливо створити канал до GPG/PGP: %s"
+msgstr "Неможливо підписати це повідомлення: неможливо створити канал до GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:795
 #, fuzzy

@@ -1,7 +1,8 @@
 2002-06-13  Andrew V. Samoilov  <kai@cmail.ru>
 
 	* ru.po: Updated Russian translation.
-	* uk.po: Updated Ukrainian translation.
+	* uk.po: Updated Ukrainian translation.  Use utf-8 instead of
+	utf8 to avoid msgfmt's warning.
 
 2002-06-11  Andrew V. Samoilov  <kai@cmail.ru>
 
