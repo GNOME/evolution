@@ -1,3 +1,7 @@
+2000-05-18  Dan Winship  <danw@helixcode.com>
+
+	* configure.in (AC_OUTPUT): add camel/providers/vee
+
 2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* art/Makefile.am: Install the mini icons.
