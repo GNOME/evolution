@@ -94,8 +94,8 @@ struct _CamelArgGetV {
 	CamelArgGet argv[CAMEL_ARGV_MAX];
 };
 
-#define camel_argv_start(tv, last) (va_start((tv)->ap, last))
-#define camel_argv_end(tv) (va_end((tv)->ap))
+#define camel_argv_start(tv, last) va_start((tv)->ap, last)
+#define camel_argv_end(tv) va_end((tv)->ap)
 int camel_argv_build(CamelArgV *tv);
 int camel_arggetv_build(CamelArgGetV *tv);
 
