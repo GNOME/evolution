@@ -1,5 +1,9 @@
 2004-10-21  Rodrigo Moya <rodrigo@novell.com>
 
+	* mail-to-task.c (set_attendees, set_organizer): new functions.
+	(do_mail_to_task): set attendees and organizer on the task from the
+	recipients in the mail message.
+
 	* org-gnome-mail-to-task.eplug.in: use correct icon.
 
 2004-10-21  Rodrigo Moya <rodrigo@novell.com>
