@@ -1,3 +1,26 @@
+2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c: Add defines for the slot
+	counts for email, phone, im, address.
+	(phones): Add E_CONTACT_PHONE_COMPANY back in, now that we can
+	differentiate it.
+	(init_email): Use EMAIL_SLOTS and a loop.
+	(init_im): Ditto for IM_SLOTS.
+	(init_phone): Ditto for PHONE_SLOTS.
+	(fill_in_address)
+	(extract_address)
+	(init_address): Ditto for ADDRESS_SLOTS.
+	(get_ui_slot_param): Implement.
+	(get_ui_slot): Implement.
+	(set_ui_slot): Implement.
+	(alloc_ui_slot): Implement.
+	(fill_in_email): Add code to preserve spatial organization.
+	(extract_email): Ditto.
+	(fill_in_phone): Ditto.
+	(extract_phone): Ditto.
+	(fill_in_im): Ditto.
+	(exctract_im): Ditto.
+
 2004-04-21  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-migrate.c (setup_progress_dialog):

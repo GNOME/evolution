@@ -68,6 +68,13 @@
 #include "e-contact-editor-fullname.h"
 #include "e-contact-editor-marshal.h"
 
+#define EMAIL_SLOTS   4
+#define PHONE_SLOTS   4
+#define IM_SLOTS      3
+#define ADDRESS_SLOTS 3
+
+#define EVOLUTION_UI_SLOT_PARAM "X-EVOLUTION-UI-SLOT"
+
 /* IM columns */
 enum {
 	COLUMN_IM_ICON,
@@ -129,22 +136,23 @@ static struct {
 	const gchar *type_2;
 }
 phones [] = {
-	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT, NULL    },
-	{ E_CONTACT_PHONE_BUSINESS,     "WORK",          "VOICE" },
-	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",          "FAX"   },
-	{ E_CONTACT_PHONE_CALLBACK,     EVC_X_CALLBACK,  NULL    },
-	{ E_CONTACT_PHONE_CAR,          "CAR",           NULL    },
-	{ E_CONTACT_PHONE_HOME,         "HOME",          "VOICE" },
-	{ E_CONTACT_PHONE_HOME_FAX,     "HOME",          "FAX"   },
-	{ E_CONTACT_PHONE_ISDN,         "ISDN",          NULL    },
-	{ E_CONTACT_PHONE_MOBILE,       "CELL",          NULL    },
-	{ E_CONTACT_PHONE_OTHER,        "VOICE",         NULL    },
-	{ E_CONTACT_PHONE_OTHER_FAX,    "FAX",           NULL    },
-	{ E_CONTACT_PHONE_PAGER,        "PAGER",         NULL    },
-	{ E_CONTACT_PHONE_PRIMARY,      "PREF",          NULL    },
-	{ E_CONTACT_PHONE_RADIO,        EVC_X_RADIO,     NULL    },
-	{ E_CONTACT_PHONE_TELEX,        EVC_X_TELEX,     NULL    },
-	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,    NULL    }
+	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT,       NULL    },
+	{ E_CONTACT_PHONE_BUSINESS,     "WORK",                "VOICE" },
+	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",                "FAX"   },
+	{ E_CONTACT_PHONE_CALLBACK,     EVC_X_CALLBACK,        NULL    },
+	{ E_CONTACT_PHONE_CAR,          "CAR",                 NULL    },
+	{ E_CONTACT_PHONE_COMPANY,      "X-EVOLUTION-COMPANY", NULL    },
+	{ E_CONTACT_PHONE_HOME,         "HOME",                "VOICE" },
+	{ E_CONTACT_PHONE_HOME_FAX,     "HOME",                "FAX"   },
+	{ E_CONTACT_PHONE_ISDN,         "ISDN",                NULL    },
+	{ E_CONTACT_PHONE_MOBILE,       "CELL",                NULL    },
+	{ E_CONTACT_PHONE_OTHER,        "VOICE",               NULL    },
+	{ E_CONTACT_PHONE_OTHER_FAX,    "FAX",                 NULL    },
+	{ E_CONTACT_PHONE_PAGER,        "PAGER",               NULL    },
+	{ E_CONTACT_PHONE_PRIMARY,      "PREF",                NULL    },
+	{ E_CONTACT_PHONE_RADIO,        EVC_X_RADIO,           NULL    },
+	{ E_CONTACT_PHONE_TELEX,        EVC_X_TELEX,           NULL    },
+	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,          NULL    }
 };
 
 static EContactField addresses[] = {
@@ -315,10 +323,10 @@ init_email_record_location (EContactEditor *editor, gint record)
 static void
 init_email (EContactEditor *editor)
 {
-	init_email_record_location (editor, 1);
-	init_email_record_location (editor, 2);
-	init_email_record_location (editor, 3);
-	init_email_record_location (editor, 4);
+	gint i;
+
+	for (i = 1; i <= EMAIL_SLOTS; i++)
+		init_email_record_location (editor, i);
 }
 
 static void
@@ -419,33 +427,133 @@ get_phone_type (EVCardAttribute *attr)
 	return -1;
 }
 
+static EVCardAttributeParam *
+get_ui_slot_param (EVCardAttribute *attr)
+{
+	EVCardAttributeParam *param = NULL;
+	GList                *param_list;
+	GList                *l;
+
+	param_list = e_vcard_attribute_get_params (attr);
+
+	for (l = param_list; l; l = g_list_next (l)) {
+		const gchar *str;
+
+		param = l->data;
+
+		str = e_vcard_attribute_param_get_name (param);
+		if (!strcasecmp (str, EVOLUTION_UI_SLOT_PARAM))
+			break;
+
+		param = NULL;
+	}
+
+	return param;
+}
+
+static gint
+get_ui_slot (EVCardAttribute *attr)
+{
+	EVCardAttributeParam *param;
+	gint                  slot = -1;
+
+	param = get_ui_slot_param (attr);
+
+	if (param) {
+		GList *value_list;
+
+		value_list = e_vcard_attribute_param_get_values (param);
+		slot = atoi (value_list->data);
+	}
+
+	return slot;
+}
+
+static void
+set_ui_slot (EVCardAttribute *attr, gint slot)
+{
+	EVCardAttributeParam *param;
+	gchar                *slot_str;
+
+	param = get_ui_slot_param (attr);
+	if (!param) {
+		param = e_vcard_attribute_param_new (EVOLUTION_UI_SLOT_PARAM);
+		e_vcard_attribute_add_param (attr, param);
+	}
+
+	e_vcard_attribute_param_remove_values (param);
+
+	slot_str = g_strdup_printf ("%d", slot);
+	e_vcard_attribute_param_add_value (param, slot_str);
+	g_free (slot_str);
+}
+
+static gint
+alloc_ui_slot (EContactEditor *editor, const gchar *widget_base, gint preferred_slot, gint num_slots)
+{
+	gchar       *widget_name;
+	GtkWidget   *widget;
+	const gchar *entry_contents;
+	gint         i;
+
+	/* See if we can get the preferred slot */
+
+	if (preferred_slot >= 1) {
+		widget_name = g_strdup_printf ("%s-%d", widget_base, preferred_slot);
+		widget = glade_xml_get_widget (editor->gui, widget_name);
+		entry_contents = gtk_entry_get_text (GTK_ENTRY (widget));
+		g_free (widget_name);
+
+		if (!nonempty (entry_contents))
+			return preferred_slot;
+	}
+
+	/* Find first empty slot */
+
+	for (i = 1; i <= num_slots; i++) {
+		widget_name = g_strdup_printf ("%s-%d", widget_base, i);
+		widget = glade_xml_get_widget (editor->gui, widget_name);
+		entry_contents = gtk_entry_get_text (GTK_ENTRY (widget));
+		g_free (widget_name);
+
+		if (!nonempty (entry_contents))
+			return i;
+	}
+
+	return -1;
+}
+
 static void
 fill_in_email (EContactEditor *editor)
 {
 	GList *email_attr_list;
 	GList *l;
-	gint   record_n = 1;
+	gint   record_n;
 
-	email_attr_list = e_contact_get_attributes (editor->contact, E_CONTACT_EMAIL);
+	/* Clear */
+
+	for (record_n = 1; record_n <= EMAIL_SLOTS; record_n++) {
+		fill_in_email_record (editor, record_n, NULL, -1);
+	}
 
 	/* Fill in */
 
-	for (l = email_attr_list; l && record_n <= 4; l = g_list_next (l)) {
+	email_attr_list = e_contact_get_attributes (editor->contact, E_CONTACT_EMAIL);
+
+	for (record_n = 1, l = email_attr_list; l && record_n <= EMAIL_SLOTS; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
-		gchar *email_address;
+		gchar           *email_address;
+		gint             slot;
 
-		email_address  = e_vcard_attribute_get_value (attr);
+		email_address = e_vcard_attribute_get_value (attr);
+		slot = alloc_ui_slot (editor, "entry-email", get_ui_slot (attr), EMAIL_SLOTS);
+		if (slot < 1)
+			break;
 
-		fill_in_email_record (editor, record_n, email_address,
+		fill_in_email_record (editor, slot, email_address,
 				      get_email_location (attr));
 
 		record_n++;
-	}
-
-	/* Clear remaining */
-
-	for ( ; record_n <= 4; record_n++) {
-		fill_in_email_record (editor, record_n, NULL, -1);
 	}
 }
 
@@ -455,9 +563,9 @@ extract_email (EContactEditor *editor)
 	GList *attr_list = NULL;
 	gint   i;
 
-	for (i = 1; i <= 4; i++) {
-		gchar           *address;
-		gint             location;
+	for (i = 1; i <= EMAIL_SLOTS; i++) {
+		gchar *address;
+		gint   location;
 
 		extract_email_record (editor, i, &address, &location);
 
@@ -471,6 +579,7 @@ extract_email (EContactEditor *editor)
 									email_index_to_location (location));
 
 			e_vcard_attribute_add_value (attr, address);
+			set_ui_slot (attr, i);
 
 			attr_list = g_list_append (attr_list, attr);
 		}
@@ -564,28 +673,32 @@ fill_in_phone (EContactEditor *editor)
 {
 	GList *phone_attr_list;
 	GList *l;
-	gint   record_n = 1;
+	gint   record_n;
 
-	phone_attr_list = get_attributes_named (E_VCARD (editor->contact), "TEL");
+	/* Clear */
+
+	for (record_n = 1; record_n <= PHONE_SLOTS; record_n++) {
+		fill_in_phone_record (editor, record_n, NULL, -1);
+	}
 
 	/* Fill in */
 
-	for (l = phone_attr_list; l && record_n <= 4; l = g_list_next (l)) {
+	phone_attr_list = get_attributes_named (E_VCARD (editor->contact), "TEL");
+
+	for (record_n = 1, l = phone_attr_list; l && record_n <= PHONE_SLOTS; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
 		gchar           *phone;
+		gint             slot;
 
 		phone = e_vcard_attribute_get_value (attr);
+		slot = alloc_ui_slot (editor, "entry-phone", get_ui_slot (attr), PHONE_SLOTS);
+		if (slot < 1)
+			break;
 
-		fill_in_phone_record (editor, record_n, phone,
+		fill_in_phone_record (editor, slot, phone,
 				      get_phone_type (attr));
 
 		record_n++;
-	}
-
-	/* Clear remaining */
-
-	for ( ; record_n <= 4; record_n++) {
-		fill_in_phone_record (editor, record_n, NULL, -1);
 	}
 }
 
@@ -595,7 +708,7 @@ extract_phone (EContactEditor *editor)
 	GList *attr_list = NULL;
 	gint   i;
 
-	for (i = 1; i <= 4; i++) {
+	for (i = 1; i <= PHONE_SLOTS; i++) {
 		gchar *phone;
 		gint   phone_type;
 
@@ -622,6 +735,7 @@ extract_phone (EContactEditor *editor)
 			}
 
 			e_vcard_attribute_add_value (attr, phone);
+			set_ui_slot (attr, i);
 
 			attr_list = g_list_append (attr_list, attr);
 		}
@@ -668,10 +782,10 @@ init_phone_record_type (EContactEditor *editor, gint record)
 static void
 init_phone (EContactEditor *editor)
 {
-	init_phone_record_type (editor, 1);
-	init_phone_record_type (editor, 2);
-	init_phone_record_type (editor, 3);
-	init_phone_record_type (editor, 4);
+	gint i;
+
+	for (i = 1; i <= PHONE_SLOTS; i++)
+		init_phone_record_type (editor, i);
 }
 
 static void
@@ -737,13 +851,12 @@ init_im_record_service (EContactEditor *editor, gint record)
 static void
 init_im (EContactEditor *editor)
 {
-	init_im_record_service (editor, 1);
-	init_im_record_service (editor, 2);
-	init_im_record_service (editor, 3);
+	gint i;
 
-	init_im_record_location (editor, 1);
-	init_im_record_location (editor, 2);
-	init_im_record_location (editor, 3);
+	for (i = 1; i <= IM_SLOTS; i++) {
+		init_im_record_service  (editor, i);
+		init_im_record_location (editor, i);
+	}
 }
 
 static void
@@ -778,31 +891,35 @@ fill_in_im (EContactEditor *editor)
 {
 	GList *im_attr_list;
 	GList *l;
-	gint   record_n = 1;
+	gint   record_n;
 	gint   i;
+
+	/* Clear */
+
+	for (record_n = 1 ; record_n <= IM_SLOTS; record_n++) {
+		fill_in_im_record (editor, record_n, -1, NULL, -1);
+	}
 
 	/* Fill in */
 
-	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
+	for (record_n = 1, i = 0; i < G_N_ELEMENTS (im_service); i++) {
 		im_attr_list = e_contact_get_attributes (editor->contact, im_service [i].field);
 
-		for (l = im_attr_list; l && record_n <= 3; l = g_list_next (l)) {
+		for (l = im_attr_list; l && record_n <= IM_SLOTS; l = g_list_next (l)) {
 			EVCardAttribute *attr = l->data;
-			gchar *im_name;
+			gchar           *im_name;
+			gint             slot;
 
 			im_name = e_vcard_attribute_get_value (attr);
+			slot = alloc_ui_slot (editor, "entry-im-name", get_ui_slot (attr), IM_SLOTS);
+			if (slot < 1)
+				break;
 
-			fill_in_im_record (editor, record_n, i, im_name,
+			fill_in_im_record (editor, slot, i, im_name,
 					   get_im_location (attr));
 
 			record_n++;
 		}
-	}
-
-	/* Clear remaining */
-
-	for ( ; record_n <= 3; record_n++) {
-		fill_in_im_record (editor, record_n, -1, NULL, -1);
 	}
 }
 
@@ -839,7 +956,7 @@ extract_im (EContactEditor *editor)
 
 	service_attr_list = g_new0 (GList *, G_N_ELEMENTS (im_service));
 
-	for (i = 1; i <= 3; i++) {
+	for (i = 1; i <= IM_SLOTS; i++) {
 		EVCardAttribute *attr;
 		gchar           *name;
 		gint             service;
@@ -856,6 +973,7 @@ extract_im (EContactEditor *editor)
 									im_index_to_location (location));
 
 			e_vcard_attribute_add_value (attr, name);
+			set_ui_slot (attr, i);
 
 			service_attr_list [service] = g_list_append (service_attr_list [service], attr);
 		}
@@ -898,9 +1016,10 @@ init_address_record (EContactEditor *editor, gint record)
 static void
 init_address (EContactEditor *editor)
 {
-	init_address_record (editor, 0);
-	init_address_record (editor, 1);
-	init_address_record (editor, 2);
+	gint i;
+
+	for (i = 0; i < ADDRESS_SLOTS; i++)
+		init_address_record (editor, i);
 }
 
 static void
@@ -939,9 +1058,10 @@ fill_in_address_record (EContactEditor *editor, gint record)
 static void
 fill_in_address (EContactEditor *editor)
 {
-	fill_in_address_record (editor, 0);
-	fill_in_address_record (editor, 1);
-	fill_in_address_record (editor, 2);
+	gint i;
+
+	for (i = 0; i < ADDRESS_SLOTS; i++)
+		fill_in_address_record (editor, i);
 }
 
 static gchar *
@@ -987,9 +1107,10 @@ extract_address_record (EContactEditor *editor, gint record)
 static void
 extract_address (EContactEditor *editor)
 {
-	extract_address_record (editor, 0);
-	extract_address_record (editor, 1);
-	extract_address_record (editor, 2);
+	gint i;
+
+	for (i = 0; i < ADDRESS_SLOTS; i++)
+		extract_address_record (editor, i);
 }
 
 static void
