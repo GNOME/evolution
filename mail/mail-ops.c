@@ -367,8 +367,10 @@ fetch_mail_fetch (struct _mail_msg *mm)
 	/* we unref this here as it may have more work to do (syncing
 	   folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
-	camel_object_unref (CAMEL_OBJECT (fm->driver));
-	fm->driver = NULL;
+	if (fm->driver) {
+		camel_object_unref (CAMEL_OBJECT (fm->driver));
+		fm->driver = NULL;
+	}
 }
 
 static void

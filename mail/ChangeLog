@@ -3,6 +3,8 @@
 	* mail-ops.c (filter_folder_filter): Unref the driver before
 	returning to main thread, so any closing operations are handled
 	async (as in fetch_mail_fetch()), for #28072.
+	(fetch_mail_fetch): Check driver != NULL, if folder_filter freed
+	it already.
 
 	** fixes for #24605.
 	
