@@ -1,5 +1,9 @@
 <Root>
   <commands>
+    <cmd name="OpenNewWindow" _label="New _Window"
+      _tip="Create a new window displaying this folder"
+      accel="*Control**Shift*w"/>
+
     <cmd name="FileClose" _label="Close" _tip="Close this window"
       pixtype="stock" pixname="Close" accel="*Control*w"/>
 
@@ -30,17 +34,10 @@
   <menu>
     <submenu name="File" _label="_File">
       <submenu name="New" _label="_New">
-	<placeholder name="NewFirstItem"/>
 	<placeholder name="ComponentItems"/>
-
-	<separator f="" name="eshell8"/>
-
-	<menuitem name="EvolutionWindow"
-	  verb="OpenNewWindow"
-	  _label="_Window"
-	  _tip="Open a new window"
-	  accel="*Control**Shift*w"/>
       </submenu>
+
+      <menuitem name="OpenNewWindow" verb=""/>
 
       <placeholder name="FileOps"/>
 
@@ -131,14 +128,6 @@
   <popups>
     <popup name="NewPopup">
     	<placeholder name="ComponentItems"/>
-
-	<separator f="" name="eshell7"/>
-
-	<menuitem name="EvolutionWindow"
-	          verb="OpenNewWindow"
-		  _label="_Window"
-		  _tip="Create a new window"
-		  accel="*Control**Shift*w"/>
     </popup>
   </popups>
 
