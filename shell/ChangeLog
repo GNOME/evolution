@@ -1,3 +1,10 @@
+2001-05-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* importer/intelligent.c (create_gui): Made this function static.
+	Removed the unused variable placeholder.
+	(intelligent_importer_init): Cast from gpointer to int here
+	properly using GPOINTER_TO_INT.
+
 2001-05-09  Dan Winship  <danw@ximian.com>
 
 	* e-local-storage.c: Remove get_physical_path and load_folders,

@@ -174,10 +174,10 @@ unselect_row_cb (GtkCList *clist,
 	gtk_notebook_set_page (GTK_NOTEBOOK (d->placeholder), d->running);
 }
 
-IntelligentImporterDialog *
+static IntelligentImporterDialog *
 create_gui (GList *importers)
 {
-	GtkWidget *dialog, *clist, *placeholder, *sw;
+	GtkWidget *dialog, *clist, *sw;
 	IntelligentImporterDialog *d;
 	GList *l;
 	int running = 0;
@@ -368,7 +368,7 @@ intelligent_importer_init (void)
 			CORBA_Environment ev;
 			char *iid;
 
-			data = g_list_nth_data (d->importers, l->data);
+			data = g_list_nth_data (d->importers, GPOINTER_TO_INT (l->data));
 			iid = g_strdup (data->iid);
 
 			new_data = g_new (SelectedImporterData, 1);
