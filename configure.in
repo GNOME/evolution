@@ -511,12 +511,12 @@ dnl *********
 dnl Libraries
 dnl *********
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.6)
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.8)
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.6`
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.8`
 AC_SUBST(GTKHTML_DATADIR)
-GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.6`
+GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.8`
 AC_DEFINE_UNQUOTED(GTKHTML_API_VERSION, "$GTKHTML_API_VERSION", [The gtkhtml api version])
 
 
@@ -1100,8 +1100,8 @@ dnl --- Required version numbers
 
 GAL_REQUIRED=2.4.0
 GAL_PACKAGE=2.4
-GTKHTML_REQUIRED=3.6.0
-GTKHTML_PACKAGE=3.6
+GTKHTML_REQUIRED=3.7.0
+GTKHTML_PACKAGE=3.8
 EDS_REQUIRED=1.2.0
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
