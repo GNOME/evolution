@@ -179,17 +179,18 @@ get_cid (CamelMimePart *part, MailDisplay *md)
 	GHashTable *urls;
 	char *cid;
 	gpointer orig_name, value;
+	static int fake_cid_counter = 0;
 
 	urls = g_datalist_get_data (md->data, "urls");
 
 	/* If we have a real Content-ID, use it. If we don't,
-	 * make a (syntactically invalid) fake one.
+	 * make a (syntactically invalid, unique) fake one.
 	 */
 	if (camel_mime_part_get_content_id (part)) {
 		cid = g_strdup_printf ("cid:%s",
 				       camel_mime_part_get_content_id (part));
 	} else
-		cid = g_strdup_printf ("cid:@@@%p", part);
+		cid = g_strdup_printf ("cid:@@@%d", fake_cid_counter++);
 
 	if (g_hash_table_lookup_extended (urls, cid, &orig_name, &value)) {
 		g_free (cid);

@@ -1,5 +1,16 @@
 2001-03-26  Dan Winship  <danw@ximian.com>
 
+	* mail-format.c (get_cid): Make fake content-id URLs be guaranteed
+	unique: the old way (with %p on the CamelMimePart *) would
+	generate duplicates if memory was freed and re-allocated the right
+	way.
+
+	* mail-display.c (pixbuf_gen_idle, etc): Make the thumbnail cache
+	global rather than per-MailDisplay, since content-ids ought to be
+	globally unique. Also, don't leak content-id strings when the
+	pixbuf generation fails, and remove pixbufs from the cache after 5
+	minutes.
+
 	* component-factory.c (mail_load_storages): Simplify a bit using
 	camel_session_get_provider.
 
