@@ -1,3 +1,7 @@
+2001-07-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: install the 2 new category icons
+
 2001-07-19    <tigert@ximian.com>
 
 	* 16_category_strategies.png, 16_category_status.png:

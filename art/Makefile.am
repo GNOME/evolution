@@ -142,7 +142,9 @@ categories_DATA =			\
 	16_category_key-customer.png	\
 	16_category_miscellaneous.png	\
 	16_category_personal.png	\
-	16_category_phonecalls.png
+	16_category_phonecalls.png	\
+	16_category_status.png		\
+	16_category_strategies.png
 	
 appicondir = $(datadir)/pixmaps
 appicon_DATA = evolution.png
