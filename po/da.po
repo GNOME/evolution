@@ -1,4 +1,4 @@
-# Danish translation of evolution (bokmål dialect).
+# Danish translation of evolution
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Kenneth Christiansen <kenneth@ripen.dk>, 2000.
 # Keld Simonsen <keld@dkuug.dk>, 2000.
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-04-12 19:25+0200\n"
-"PO-Revision-Date: 2000-04-08 21:38+0200\n"
+"PO-Revision-Date: 2000-04-14 23:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Sæt ind"
 #: composer/e-msg-composer-address-dialog.c:192
 #: composer/e-msg-composer-address-dialog.c:200
 msgid "Paste item from clipboard"
-msgstr "Sæt ind fra ufklipstavlen"
+msgstr "Sæt ind fra udklipstavlen"
 
 #: composer/e-msg-composer-address-dialog.c:528
 msgid "Select recipients' addresses"
@@ -110,7 +110,7 @@ msgstr "Cc:"
 
 #: composer/e-msg-composer-hdrs.c:129
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "Indtast adressene som skal mottage en kopi af meddelelsen"
+msgstr "Indtast adresserne som skal modtage en kopi af meddelelsen"
 
 #: composer/e-msg-composer-hdrs.c:134
 msgid "Bcc:"
@@ -122,7 +122,7 @@ msgid ""
 "appearing in the recipient list of the message."
 msgstr ""
 "Indtast adresserne som skal modtage en kopi af meddelelsen uden at komme til "
-"syne i meddelelsens modtagerlisten."
+"syne i meddelelsens modtagerliste."
 
 #: composer/e-msg-composer-hdrs.c:141
 msgid "Subject:"
@@ -511,23 +511,5 @@ msgid ""
 "It was not possible to setup the Evolution startup files.  Please\n"
 "fix the problem, and restart Evolution"
 msgstr ""
-
-#~ msgid ""
-#~ "Evolution detected that the file `%s' is a not a directory.\n"
-#~ "\n"
-#~ "Evolution can rename the file, delete the file or shutdown and\n"
-#~ "let you fix the problem."
-#~ msgstr ""
-#~ "Evolution opdagede at filen  '%s' ikke er et katalog.\n"
-#~ "\n"
-#~ "Evolution kan omdøbe filen, slette filen eller lukke maskinen ned og\n"
-#~ "lade dig ordne problemet."
-
-#~ msgid "Online status"
-#~ msgstr "Online-status"
-
-#~ msgid "Message status"
-#~ msgstr "Meddelelsesstatus"
-
-#~ msgid "Attachment"
-#~ msgstr "Bilag"
+"Det var ikke muligt at sætte Evolutions opstartsfiler op. Venligst\n"
+"ret problemet, og genstart Evolution"
