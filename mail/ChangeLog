@@ -1,3 +1,16 @@
+2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_mail): Removed. No longer in use (hasn't
+	been since before 1.2).
+	(send_queue_send): Before enetring the main send loop, create a
+	temporary uid array containing ONLY the messages we will send
+	(ie. not any that have been marked deleted) so that we can more
+	accurately report the number of messages total that we are
+	sending. Also continue sending even if we encounter an exeption in
+	mail_send_message() (unless, of course, it is a
+	user-cancel). Merge any exceptions we get into the master
+	exception variable and ALWAYS sync/expunge the queue folder.
+
 2004-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-browser.c (emfb_set_folder): Reverted signal blocking

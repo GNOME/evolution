@@ -585,90 +585,6 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 		g_string_free (err, TRUE);
 }
 
-/* ********************************************************************** */
-
-struct _send_mail_msg {
-	struct _mail_msg msg;
-
-	CamelFilterDriver *driver;
-	char *destination;
-	CamelMimeMessage *message;
-	
-	void (*done)(char *uri, CamelMimeMessage *message, gboolean sent, void *data);
-	void *data;
-};
-
-static char *
-send_mail_desc (struct _mail_msg *mm, int done)
-{
-	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	const char *subject;
-	
-	subject = camel_mime_message_get_subject (m->message);
-	
-	if (subject)
-		return g_strdup_printf (_("Sending \"%s\""), subject);
-	else
-		return g_strdup (_("Sending message"));
-}
-
-static void
-send_mail_send (struct _mail_msg *mm)
-{
-	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	
-	mail_send_message (m->message, m->destination, m->driver, &mm->ex);
-}
-
-static void
-send_mail_sent (struct _mail_msg *mm)
-{
-	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	
-	if (m->done)
-		m->done (m->destination, m->message, !camel_exception_is_set (&mm->ex), m->data);
-}
-
-static void
-send_mail_free (struct _mail_msg *mm)
-{
-	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	
-	camel_object_unref (m->driver);
-	camel_object_unref (m->message);
-	g_free (m->destination);
-}
-
-static struct _mail_msg_op send_mail_op = {
-	send_mail_desc,
-	send_mail_send,
-	send_mail_sent,
-	send_mail_free,
-};
-
-int
-mail_send_mail (const char *uri, CamelMimeMessage *message,
-		void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data),
-		void *data)
-{
-	struct _send_mail_msg *m;
-	int id;
-	
-	m = mail_msg_new (&send_mail_op, NULL, sizeof (*m));
-	m->destination = g_strdup (uri);
-	m->message = message;
-	camel_object_ref (message);
-	m->data = data;
-	m->done = done;
-	
-	id = m->msg.seq;
-	
-	m->driver = camel_session_get_filter_driver (session, FILTER_SOURCE_OUTGOING, NULL);
-	
-	e_thread_put (mail_thread_new, (EMsg *)m);
-	return id;
-}
-
 /* ** SEND MAIL QUEUE ***************************************************** */
 
 struct _send_queue_msg {
@@ -708,58 +624,95 @@ send_queue_send(struct _mail_msg *mm)
 {
 	struct _send_queue_msg *m = (struct _send_queue_msg *)mm;
 	CamelFolder *sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
-	GPtrArray *uids;
-	int i;
+	GPtrArray *uids, *send_uids = NULL;
+	CamelException ex;
+	int i, j;
 	
 	d(printf("sending queue\n"));
 	
-	uids = camel_folder_get_uids (m->queue);
-	if (uids == NULL || uids->len == 0)
+	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;
-
-	if (m->cancel)
-		camel_operation_register (m->cancel);
-
-	for (i = 0; i < uids->len; i++) {
-		CamelMimeMessage *message;
+	
+	send_uids = g_ptr_array_sized_new (uids->len);
+	for (i = 0, j = 0; i < uids->len; i++) {
 		CamelMessageInfo *info;
-		int pc = (100 * i) / uids->len;
-		
-		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, uids->len);
 		
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info && info->flags & CAMEL_MESSAGE_DELETED)
 			continue;
 		
-		message = camel_folder_get_message (m->queue, uids->pdata[i], &mm->ex);
-		if (camel_exception_is_set (&mm->ex))
-			break;
-		
-		mail_send_message (message, m->destination, m->driver, &mm->ex);
-		
-		if (camel_exception_is_set (&mm->ex))
-			break;
-		
-		camel_folder_set_message_flags (m->queue, uids->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+		send_uids->pdata[j++] = uids->pdata[i];
 	}
-
-	if (camel_exception_is_set (&mm->ex))
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d of %d"), i+1, uids->len);
+	
+	send_uids->len = j;
+	if (send_uids->len == 0) {
+		/* nothing to send */
+		camel_folder_free_uids (m->queue, uids);
+		g_ptr_array_free (send_uids, TRUE);
+		return;
+	}
+	
+	if (m->cancel)
+		camel_operation_register (m->cancel);
+	
+	camel_exception_init (&ex);
+	
+	for (i = 0, j = 0; i < send_uids->len; i++) {
+		int pc = (100 * i) / send_uids->len;
+		CamelMimeMessage *message;
+		
+		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, send_uids->len);
+		
+		if (!(message = camel_folder_get_message (m->queue, send_uids->pdata[i], &ex))) {
+			/* I guess ignore errors where we can't get the message (should never happen anyway)? */
+			camel_exception_clear (&ex);
+			continue;
+		}
+		
+		mail_send_message (message, m->destination, m->driver, &ex);
+		if (!camel_exception_is_set (&ex)) {
+			camel_folder_set_message_flags (m->queue, send_uids->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+		} else if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
+			/* merge exceptions into one */
+			if (camel_exception_is_set (&mm->ex))
+				camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM, "%s\n\n%s", mm->ex.desc, ex.desc);
+			else
+				camel_exception_xfer (&mm->ex, &ex);
+			camel_exception_clear (&ex);
+			
+			/* keep track of the number of failures */
+			j++;
+		} else {
+			/* transfer the USER_CANCEL exeption to the async op exception and then break */
+			camel_exception_xfer (&mm->ex, &ex);
+			break;
+		}
+	}
+	
+	j += (send_uids->len - i);
+	
+	if (j > 0)
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed to send %d of %d messages"), j, send_uids->len);
+	else if (mm->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Cancelled."));
 	else
 		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
-
+	
 	if (m->driver) {
 		camel_object_unref (m->driver);
 		m->driver = NULL;
 	}
-
-	camel_folder_free_uids (m->queue, uids);
-		
-	if (!camel_exception_is_set (&mm->ex))
-		camel_folder_expunge (m->queue, &mm->ex);
 	
-	if (sent_folder)
-		camel_folder_sync (sent_folder, FALSE, NULL);
+	camel_folder_free_uids (m->queue, uids);
+	g_ptr_array_free (send_uids, TRUE);
+	
+	camel_folder_sync (m->queue, TRUE, &ex);
+	camel_exception_clear (&ex);
+	
+	if (sent_folder) {
+		camel_folder_sync (sent_folder, FALSE, &ex);
+		camel_exception_clear (&ex);
+	}
 	
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);

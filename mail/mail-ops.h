@@ -120,11 +120,6 @@ int mail_save_part (CamelMimePart *part, const char *path,
 		    void (*done)(CamelMimePart *part, char *path, int saved, void *data),
 		    void *data);
 
-int mail_send_mail (const char *uri, CamelMimeMessage *message,
-		    void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data),
-		    void *data);
-
-
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void mail_send_queue (CamelFolder *queue, const char *destination,
 		      const char *type, CamelOperation *cancel,
