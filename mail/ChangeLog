@@ -1,3 +1,17 @@
+2000-10-06  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c: Fix the locking up of the mail by only calling
+	camel functions from the camel thread, and ORBit functions from
+	the GTK thread. Watch for the message-changed signal again.
+
+	* component-factory.c (summary_fn, component_factory_init):
+	Re-enabled it, cos I think it works again.
+
+	* mail-display.h: Remove the pb_cache.
+
+	* Makefile.am: Readd the mail-summary.[ch] files and add the
+	evolution-services library to the link.
+
 2000-10-06  Chris Toshok  <toshok@helixcode.com>
 
 	* mail-ops.c (do_scan_subfolders): set the @subscribed_only

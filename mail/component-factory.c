@@ -42,10 +42,8 @@
 #include "mail-local-storage.h"
 
 #include "component-factory.h"
-#ifdef THIS_WAS_BROKEN_AND_WASTED_TIME
 #include <executive-summary/evolution-services/executive-summary-component.h>
 #include "mail-summary.h"
-#endif
 
 CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
@@ -167,7 +165,6 @@ factory_destroy (BonoboEmbeddable *embeddable,
 	gtk_main_quit ();
 }
 
-#ifdef THIS_WAS_BROKEN_AND_WASTED_TIME
 static BonoboObject *
 summary_fn (BonoboGenericFactory *factory, void *closure)
 {
@@ -177,7 +174,6 @@ summary_fn (BonoboGenericFactory *factory, void *closure)
 		NULL, create_summary_view, NULL, NULL);
 	return BONOBO_OBJECT (summary_component);
 }
-#endif
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *factory, void *closure)
@@ -210,9 +206,7 @@ component_factory_init (void)
 		return;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
-#ifdef THIS_WAS_BROKEN_AND_WASTED_TIME
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
-#endif
 
 	if (factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
@@ -220,12 +214,10 @@ component_factory_init (void)
 		exit (1);
 	}
 
-#ifdef THIS_WAS_BROKEN_AND_WASTED_TIME
 	if (summary_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Cannot initialize Evolution's mail summary component."));
 	}
-#endif
 }
 
 /* FIXME: remove */

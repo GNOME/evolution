@@ -65,6 +65,8 @@ evolution_mail_SOURCES =		\
 	mail-mlist-magic.h		\
 	mail-ops.c			\
 	mail-ops.h			\
+	mail-summary.c			\
+	mail-summary.h			\
 	mail-threads.c			\
 	mail-threads.h			\
 	mail-tools.c			\
@@ -93,6 +95,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
+	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\
