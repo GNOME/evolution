@@ -1,5 +1,10 @@
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (owner_ping_callback): Duplicate the
+	owner before pinging it.  Fixes #13802.
+
+2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c (impl_owner_unset): New.
 	(class_init): Install it.
 	(impl_unsetOwner): Just emit the "owner_unset" signal as the

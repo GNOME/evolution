@@ -180,6 +180,7 @@ owner_ping_callback (void *data)
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
 	Bonobo_Unknown owner_objref;
+	CORBA_Environment ev;
 	gboolean alive;
 
 	shell_component = EVOLUTION_SHELL_COMPONENT (data);
@@ -190,7 +191,18 @@ owner_ping_callback (void *data)
 	if (owner_objref == CORBA_OBJECT_NIL)
 		return FALSE;
 
+	/* We are duplicating the object here, as we might get an ::unsetOwner
+	   while we invoke the pinging, and this would make the objref invalid
+	   and thus crash the stubs (cfr. #13802).  */
+
+	CORBA_exception_init (&ev);
+	owner_objref = CORBA_Object_duplicate (owner_objref, &ev);
+
 	alive = bonobo_unknown_ping (owner_objref);
+
+	CORBA_Object_release (owner_objref, &ev);
+	CORBA_exception_free (&ev);
+
 	if (alive)
 		return TRUE;
 
