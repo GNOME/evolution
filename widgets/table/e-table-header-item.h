@@ -84,6 +84,13 @@ typedef struct {
 	 */
 	ETableSortInfo  *sort_info;
 	
+	guint scroll_direction : 4;
+	int last_drop_x;
+	int last_drop_y;
+	int last_drop_time;
+	GdkDragContext *last_drop_context;
+	int scroll_idle_id;
+
 	/* For adding fields. */
 	ETableHeader    *full_header;
 	ETable          *table;
