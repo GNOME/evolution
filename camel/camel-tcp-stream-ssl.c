@@ -343,7 +343,7 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	gboolean accept;
 	
 	g_return_val_if_fail (data != NULL, SECFailure);
-	g_return_val_if_fail (CAMEL_IS_SERVICE (data), SECFailure);
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM_SSL (data), SECFailure);
 	
 	ssl = CAMEL_TCP_STREAM_SSL (data);
 	service = ssl->priv->service;
