@@ -104,6 +104,11 @@ void  e_storage_set_async_xfer_folder    (EStorageSet               *storage_set
 					  EStorageSetResultCallback  callback,
 					  void                      *data);
 
+void  e_storage_set_async_remove_shared_folder (EStorageSet               *storage_set,
+						const char                *path,
+						EStorageSetResultCallback  callback,
+						void                      *data);
+
 EFolderTypeRegistry *e_storage_set_get_folder_type_registry (EStorageSet *storage_set);
 
 /* Utility functions.  */

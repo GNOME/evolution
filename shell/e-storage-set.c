@@ -774,6 +774,38 @@ e_storage_set_async_xfer_folder (EStorageSet *storage_set,
 				     storage_callback, storage_callback_data);
 }
 
+void
+e_storage_set_async_remove_shared_folder (EStorageSet *storage_set,
+					  const char *path,
+					  EStorageSetResultCallback callback,
+					  void *data)
+{
+	EStorage *storage;
+	const char *subpath;
+	StorageCallbackData *storage_callback_data;
+
+	g_return_if_fail (storage_set != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (g_path_is_absolute (path));
+	g_return_if_fail (callback != NULL);
+
+	storage = get_storage_for_path (storage_set, path, &subpath);
+
+	if (!e_storage_supports_shared_folders (storage)) {
+		(* callback) (storage_set, E_STORAGE_NOTIMPLEMENTED, data);
+		return;
+	}
+
+	storage_callback_data = storage_callback_data_new (storage_set, callback,
+							   path, NULL, OPERATION_REMOVE,
+							   data);
+
+	e_storage_async_remove_shared_folder (storage, subpath,
+					      storage_callback,
+					      storage_callback_data);
+}
+
 
 EFolderTypeRegistry *
 e_storage_set_get_folder_type_registry (EStorageSet *storage_set)

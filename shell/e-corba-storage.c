@@ -474,6 +474,126 @@ async_open_folder (EStorage *storage,
 }
 
 
+/* Shared folders.  */
+
+static gboolean
+supports_shared_folders (EStorage *storage)
+{
+	GNOME_Evolution_Storage storage_iface;
+	CORBA_boolean has_shared_folders;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	storage_iface = e_corba_storage_get_corba_objref (E_CORBA_STORAGE (storage));
+	g_assert (storage_iface != CORBA_OBJECT_NIL);
+
+	has_shared_folders = GNOME_Evolution_Storage__get_hasSharedFolders (storage_iface, &ev);
+	if (BONOBO_EX (&ev))
+		has_shared_folders = FALSE;
+
+	CORBA_exception_free (&ev);
+
+	return has_shared_folders;
+}
+
+static void
+async_folder_discovery_cb (BonoboListener *listener, char *event_name, 
+			   CORBA_any *any, CORBA_Environment *ev,
+			   gpointer user_data)
+{
+	struct async_folder_closure *closure = user_data;
+	GNOME_Evolution_Storage_FolderResult *corba_result;
+	EStorageDiscoveryCallback callback;
+	EStorageResult result;
+	char *path;
+
+	corba_result = any->_value;
+	result = e_corba_storage_corba_result_to_storage_result (corba_result->result);
+	if (result == E_STORAGE_OK)
+		path = corba_result->path;
+	else
+		path = NULL;
+
+	callback = (EStorageDiscoveryCallback)closure->callback;
+	(* callback) (closure->storage, result, path, closure->data);
+
+	bonobo_object_unref (BONOBO_OBJECT (listener));
+	g_free (closure);
+}
+
+static void
+async_discover_shared_folder (EStorage *storage,
+			      const char *owner,
+			      const char *folder_name,
+			      EStorageDiscoveryCallback callback,
+			      void *data)
+{
+	ECorbaStorage *corba_storage;
+	ECorbaStoragePrivate *priv;
+	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
+	CORBA_Environment ev;
+	struct async_folder_closure *closure;
+
+	corba_storage = E_CORBA_STORAGE (storage);
+	priv = corba_storage->priv;
+
+	closure = g_new (struct async_folder_closure, 1);
+	closure->callback = (EStorageResultCallback)callback;
+	closure->storage = storage;
+	closure->data = data;
+	listener = bonobo_listener_new (async_folder_discovery_cb, closure);
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_asyncDiscoverSharedFolder (priv->storage_interface,
+							   owner, folder_name,
+							   corba_listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		(* callback) (storage, E_STORAGE_GENERICERROR, NULL, data);
+		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_free (closure);
+	}
+	CORBA_exception_free (&ev);
+}
+
+static void
+async_remove_shared_folder (EStorage *storage,
+			    const char *path,
+			    EStorageResultCallback callback,
+			    void *data)
+{
+	ECorbaStorage *corba_storage;
+	ECorbaStoragePrivate *priv;
+	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
+	CORBA_Environment ev;
+	struct async_folder_closure *closure;
+
+	corba_storage = E_CORBA_STORAGE (storage);
+	priv = corba_storage->priv;
+
+	closure = g_new (struct async_folder_closure, 1);
+	closure->callback = callback;
+	closure->storage = storage;
+	closure->data = data;
+	listener = bonobo_listener_new (async_folder_cb, closure);
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_asyncRemoveSharedFolder (priv->storage_interface,
+							 path, corba_listener,
+							 &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		(* callback) (storage, E_STORAGE_GENERICERROR, data);
+		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_free (closure);
+	}
+	CORBA_exception_free (&ev);
+}
+
+
 static void
 corba_class_init (void)
 {
@@ -511,6 +631,9 @@ class_init (ECorbaStorageClass *klass)
 	storage_class->async_remove_folder = async_remove_folder;
 	storage_class->async_xfer_folder = async_xfer_folder;
 	storage_class->async_open_folder = async_open_folder;
+	storage_class->supports_shared_folders = supports_shared_folders;
+	storage_class->async_discover_shared_folder = async_discover_shared_folder;
+	storage_class->async_remove_shared_folder = async_remove_shared_folder;
 
 	corba_class_init ();
 

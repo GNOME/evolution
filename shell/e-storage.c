@@ -231,6 +231,31 @@ impl_async_open_folder (EStorage *storage,
 	;
 }
 
+static gboolean
+impl_supports_shared_folders (EStorage *storage)
+{
+	return FALSE;
+}
+
+static void
+impl_async_discover_shared_folder (EStorage *storage,
+				   const char *owner,
+				   const char *folder_name,
+				   EStorageDiscoveryCallback callback,
+				   void *data)
+{
+	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, NULL, data);
+}
+
+static void
+impl_async_remove_shared_folder (EStorage *storage,
+				 const char *path,
+				 EStorageResultCallback callback,
+				 void *data)
+{
+	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
+}
+
 
 /* Initialization.  */
 
@@ -251,6 +276,10 @@ class_init (EStorageClass *class)
 	class->async_remove_folder = impl_async_remove_folder;
 	class->async_xfer_folder   = impl_async_xfer_folder;
 	class->async_open_folder   = impl_async_open_folder;
+
+	class->supports_shared_folders      = impl_supports_shared_folders;
+	class->async_discover_shared_folder = impl_async_discover_shared_folder;
+	class->async_remove_shared_folder   = impl_async_remove_shared_folder;
 
 	signals[NEW_FOLDER] =
 		gtk_signal_new ("new_folder",
@@ -475,6 +504,47 @@ e_storage_async_open_folder (EStorage *storage,
 		return;
 
 	(* ES_CLASS (storage)->async_open_folder) (storage, path);
+}
+
+
+/* Shared folders.  */
+
+gboolean
+e_storage_supports_shared_folders (EStorage *storage)
+{
+	g_return_val_if_fail (storage != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
+
+	return (* ES_CLASS (storage)->supports_shared_folders) (storage);
+}
+
+void
+e_storage_async_discover_shared_folder (EStorage *storage,
+					const char *owner,
+					const char *folder_name,
+					EStorageDiscoveryCallback callback,
+					void *data)
+{
+	g_return_if_fail (storage != NULL);
+	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_if_fail (owner != NULL);
+	g_return_if_fail (folder_name != NULL);
+
+	(* ES_CLASS (storage)->async_discover_shared_folder) (storage, owner, folder_name, callback, data);
+}
+
+void
+e_storage_async_remove_shared_folder (EStorage *storage,
+				      const char *path,
+				      EStorageResultCallback callback,
+				      void *data)
+{
+	g_return_if_fail (storage != NULL);
+	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (g_path_is_absolute (path));
+
+	(* ES_CLASS (storage)->async_remove_shared_folder) (storage, path, callback, data);
 }
 
 

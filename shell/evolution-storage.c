@@ -83,6 +83,7 @@ enum {
 	UPDATE_FOLDER,
 	OPEN_FOLDER,
 	DISCOVER_SHARED_FOLDER,
+	REMOVE_SHARED_FOLDER,
 	SHOW_FOLDER_PROPERTIES,
 
 	LAST_SIGNAL
@@ -501,7 +502,25 @@ impl_Storage_asyncDiscoverSharedFolder (PortableServer_Servant servant,
 
 	obj_dup = CORBA_Object_duplicate (listener, ev);
 	gtk_signal_emit (GTK_OBJECT (storage), signals[DISCOVER_SHARED_FOLDER],
-			 user, folder_name, obj_dup);
+			 obj_dup, user, folder_name);
+}
+
+static void
+impl_Storage_asyncRemoveSharedFolder (PortableServer_Servant servant,
+				      const CORBA_char *path,
+				      const Bonobo_Listener listener,
+				      CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+	CORBA_Object obj_dup;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	obj_dup = CORBA_Object_duplicate (listener, ev);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVE_SHARED_FOLDER],
+			 obj_dup, path);
 }
 
 static void
@@ -782,9 +801,19 @@ class_init (EvolutionStorageClass *klass)
 									     discover_shared_folder),
 							  e_marshal_NONE__POINTER_POINTER_POINTER,
 							  GTK_TYPE_NONE, 3,
+							  GTK_TYPE_POINTER,
 							  GTK_TYPE_STRING,
-							  GTK_TYPE_STRING,
-							  GTK_TYPE_POINTER);
+							  GTK_TYPE_STRING);
+
+	signals[REMOVE_SHARED_FOLDER] = gtk_signal_new ("remove_shared_folder",
+							GTK_RUN_LAST,
+							object_class->type,
+							GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+									   remove_shared_folder),
+							gtk_marshal_NONE__POINTER_POINTER,
+							GTK_TYPE_NONE, 2,
+							GTK_TYPE_STRING,
+							GTK_TYPE_POINTER);
 
 	signals[SHOW_FOLDER_PROPERTIES] = gtk_signal_new ("show_folder_properties",
 							  GTK_RUN_LAST,
@@ -835,6 +864,7 @@ evolution_storage_get_epv (void)
 	epv->asyncOpenFolder           = impl_Storage_asyncOpenFolder;
 	epv->updateFolder              = impl_Storage_updateFolder;
 	epv->asyncDiscoverSharedFolder = impl_Storage_asyncDiscoverSharedFolder;
+	epv->asyncRemoveSharedFolder   = impl_Storage_asyncRemoveSharedFolder;
 	epv->addListener               = impl_Storage_addListener;
 	epv->removeListener            = impl_Storage_removeListener;
 	epv->showFolderProperties      = impl_Storage_showFolderProperties;

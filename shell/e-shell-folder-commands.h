@@ -35,6 +35,8 @@ void  e_shell_command_move_folder    (EShell *shell, EShellView *shell_view, con
 void  e_shell_command_delete_folder  (EShell *shell, EShellView *shell_view, const char *folder_path);
 void  e_shell_command_rename_folder  (EShell *shell, EShellView *shell_view, const char *folder_path);
 
+void  e_shell_command_remove_shared_folder (EShell *shell, EShellView *shell_view, const char *folder_path);
+
 void  e_shell_command_add_to_shortcut_bar (EShell *shell, EShellView *shell_view, const char *folder_path);
 
 #endif

@@ -64,6 +64,7 @@ enum _EStorageResult {
 typedef enum _EStorageResult EStorageResult;
 
 typedef void (* EStorageResultCallback) (EStorage *storage, EStorageResult result, void *data);
+typedef void (* EStorageDiscoveryCallback) (EStorage *storage, EStorageResult result, const char *path, void *data);
 
 #include "e-folder.h"
 
@@ -85,9 +86,11 @@ struct _EStorageClass {
 
 	/* Virtual methods.  */
 
-	GList      * (* get_subfolder_paths)  (EStorage *storage, const char *path);
-	EFolder    * (* get_folder)    	      (EStorage *storage, const char *path);
-	const char * (* get_name)      	      (EStorage *storage);
+	GList      * (* get_subfolder_paths)     (EStorage *storage,
+						  const char *path);
+	EFolder    * (* get_folder)    	         (EStorage *storage,
+						  const char *path);
+	const char * (* get_name)      	         (EStorage *storage);
 
 	void         (* async_create_folder)  (EStorage *storage,
 					       const char *path,
@@ -111,25 +114,35 @@ struct _EStorageClass {
 	void         (* async_open_folder)    (EStorage *storage,
 					       const char *path);
 
+	gboolean     (* supports_shared_folders)      (EStorage *storage);
+	void         (* async_discover_shared_folder) (EStorage *storage,
+						       const char *owner,
+						       const char *folder_name,
+						       EStorageDiscoveryCallback callback,
+						       void *data);
+	void         (* async_remove_shared_folder)   (EStorage *storage,
+						       const char *path,
+						       EStorageResultCallback callback,
+						       void *data);
 };
 
 
-GtkType     e_storage_get_type              (void);
-void        e_storage_construct             (EStorage   *storage,
-					     const char *name,
-					     EFolder    *root_folder);
-EStorage   *e_storage_new                   (const char *name,
-					     EFolder    *root_folder);
+GtkType     e_storage_get_type                (void);
+void        e_storage_construct               (EStorage   *storage,
+					       const char *name,
+					       EFolder    *root_folder);
+EStorage   *e_storage_new                     (const char *name,
+					       EFolder    *root_folder);
 
-gboolean    e_storage_path_is_relative      (const char *path);
-gboolean    e_storage_path_is_absolute      (const char *path);
+gboolean    e_storage_path_is_relative        (const char *path);
+gboolean    e_storage_path_is_absolute        (const char *path);
 
-GList      *e_storage_get_subfolder_paths   (EStorage   *storage,
-					     const char *path);
-EFolder    *e_storage_get_folder            (EStorage   *storage,
-					     const char *path);
+GList      *e_storage_get_subfolder_paths     (EStorage   *storage,
+					       const char *path);
+EFolder    *e_storage_get_folder              (EStorage   *storage,
+					       const char *path);
 
-const char *e_storage_get_name              (EStorage *storage);
+const char *e_storage_get_name                (EStorage *storage);
 
 /* Folder operations.  */
 
@@ -153,6 +166,18 @@ void  e_storage_async_open_folder    (EStorage               *storage,
 				      const char             *path);
 
 const char *e_storage_result_to_string  (EStorageResult result);
+
+/* Shared folders.  */
+gboolean    e_storage_supports_shared_folders      (EStorage                 *storage);
+void        e_storage_async_discover_shared_folder (EStorage                 *storage,
+						    const char               *owner,
+						    const char               *folder_name,
+						    EStorageDiscoveryCallback callback,
+						    void                     *data);
+void        e_storage_async_remove_shared_folder   (EStorage                 *storage,
+						    const char               *path,
+						    EStorageResultCallback    callback,
+						    void                     *data);
 
 /* Utility functions.  */
 

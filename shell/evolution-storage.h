@@ -109,9 +109,13 @@ struct _EvolutionStorageClass {
 			       int unread_count);
 
 	void (*discover_shared_folder) (EvolutionStorage *storage,
+					Bonobo_Listener listener,
 					const char *user,
-					const char *folder_name,
-					Bonobo_Listener listener);
+					const char *folder_name);
+
+	void (*remove_shared_folder) (EvolutionStorage *storage,
+				      Bonobo_Listener listener,
+				      const char *path);
 
 	void (*show_folder_properties) (EvolutionStorage *storage,
 					const char *path,

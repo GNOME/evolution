@@ -1,5 +1,42 @@
 2002-09-30  Dan Winship  <danw@ximian.com>
 
+	* e-shell-view-menu.c (command_remove_other_users_folder): Calls
+	e_shell_command_remove_shared_folder.
+	(file_verbs): Set up command_remove_other_users_folder.
+
+	* e-shell-folder-commands.c
+	(e_shell_command_remove_shared_folder): New. Calls
+	e_storage_set_async_remove_shared_folder with a callback to pop up
+	an error dialog if it fails.
+
+	* e-storage-set.c (e_storage_set_async_remove_shared_folder):
+	Implement. Mostly like async_remove_folder.
+
+	* e-storage.c (e_storage_supports_shared_folders,
+	e_storage_async_discover_shared_folder,
+	e_storage_async_remove_shared_folder): New methods. Default
+	implementations return FALSE, NOTIMPLEMENTED, and NOTIMPLEMENTED.
+
+	* e-corba-storage.c (supports_shared_folders,
+	async_discover_shared_folder, async_remove_shared_folder):
+	Implement using CORBA.
+
+	* Evolution-Storage.idl: add Storage_asyncRemoveSharedFolder
+
+	* e-shell-shared-folder-picker-dialog.c: Remove all the CORBA
+	stuff from here and use the new EStorage methods.
+	(setup_server_option_menu): Use e_storage_supports_shared_folders.
+	(discover_folder): Use e_storage_async_discover_shared_folder.
+
+	* evolution-storage.c (impl_Storage_asyncRemoveSharedFolder):
+	Implement this by emitting a REMOVE_SHARED_FOLDER signal.
+	(impl_Storage_asyncDiscoverSharedFolder): Make the
+	DISCOVER_SHARED_FOLDER signal put the Bonobo_Listener first like
+	all the other signals do.
+	(class_init): Set up REMOVE_SHARED_FOLDER signal.
+
+2002-09-30  Dan Winship  <danw@ximian.com>
+
 	* evolution-folder-selector-button.c (clicked): If we return from
 	evolution_shell_client_user_select_folder to find that our parent
 	window has been destroyed, unref it and bail out, since that means

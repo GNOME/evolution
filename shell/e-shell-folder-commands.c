@@ -571,6 +571,47 @@ e_shell_command_rename_folder (EShell *shell,
 }
 
 
+static void
+remove_shared_cb (EStorageSet *storage_set,
+		  EStorageResult result,
+		  void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	if (result == E_STORAGE_NOTIMPLEMENTED ||
+	    result == E_STORAGE_UNSUPPORTEDOPERATION)
+		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+			  _("Selected folder does not belong to another user"));
+	else if (result != E_STORAGE_OK)
+		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot remove folder:\n%s"), e_storage_result_to_string (result));
+}
+
+void
+e_shell_command_remove_shared_folder (EShell *shell,
+				      EShellView *shell_view,
+				      const char *folder_path)
+{
+	EStorageSet *storage_set;
+
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (shell_view != NULL || folder_path != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (folder_path != NULL || g_path_is_absolute (folder_path));
+
+	storage_set = e_shell_get_storage_set (shell);
+
+	if (folder_path == NULL)
+		folder_path = e_shell_view_get_current_path (shell_view);
+
+	e_storage_set_async_remove_shared_folder (storage_set, folder_path,
+						  remove_shared_cb, shell_view);
+}
+
+
 void
 e_shell_command_add_to_shortcut_bar (EShell *shell,
 				     EShellView *shell_view,

@@ -179,48 +179,26 @@ setup_server_option_menu (EShell *shell,
 	*storage_name_return = NULL;
 	storages = e_storage_set_get_storage_list (e_shell_get_storage_set (shell));
 	for (p = storages; p != NULL; p = p->next) {
-		GNOME_Evolution_Storage storage_iface;
-		CORBA_boolean has_shared_folders;
-		CORBA_Environment ev;
+		GtkWidget *menu_item;
+		const char *storage_name;
 
-		/* FIXME FIXME FIXME.
-
-		OK, this sucks.  Only CORBA storages can be used as shared
-		folder servers.  Eventually, there will only be CORBA
-		storages so the special case will go away automatically.  For
-		the time being, we are left with this ugliness, but it makes
-		my life easier.  */
-
-		if (! E_IS_CORBA_STORAGE (p->data))
+		if (!e_storage_supports_shared_folders (p->data))
 			continue;
 
-		CORBA_exception_init (&ev);
+		storage_name = e_storage_get_name (E_STORAGE (p->data));
 
-		storage_iface = e_corba_storage_get_corba_objref (E_CORBA_STORAGE (p->data));
-		g_assert (storage_iface != CORBA_OBJECT_NIL);
+		menu_item = gtk_menu_item_new_with_label (storage_name);
+		gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
+				    GTK_SIGNAL_FUNC (server_option_menu_item_activate_callback),
+				    storage_name_return);
+		gtk_object_set_data_full (GTK_OBJECT (menu_item), "storage_name",
+					  g_strdup (storage_name), g_free);
 
-		has_shared_folders = GNOME_Evolution_Storage__get_hasSharedFolders (storage_iface, &ev);
-		if (! BONOBO_EX (&ev) && has_shared_folders) {
-			GtkWidget *menu_item;
-			const char *storage_name;
+		gtk_widget_show (menu_item);
+		gtk_menu_append (GTK_MENU (menu), menu_item);
 
-			storage_name = e_storage_get_name (E_STORAGE (p->data));
-
-			menu_item = gtk_menu_item_new_with_label (storage_name);
-			gtk_signal_connect (GTK_OBJECT (menu_item), "activate",
-					    GTK_SIGNAL_FUNC (server_option_menu_item_activate_callback),
-					    storage_name_return);
-			gtk_object_set_data_full (GTK_OBJECT (menu_item), "storage_name",
-						  g_strdup (storage_name), g_free);
-
-			gtk_widget_show (menu_item);
-			gtk_menu_append (GTK_MENU (menu), menu_item);
-
-			if (*storage_name_return == NULL)
-				*storage_name_return = g_strdup (storage_name);
-		}
-		
-		CORBA_exception_free (&ev);
+		if (*storage_name_return == NULL)
+			*storage_name_return = g_strdup (storage_name);
 	}
 
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (widget), menu);
@@ -283,7 +261,6 @@ struct _DiscoveryData {
 	EShell *shell;
 	EShellView *parent;
 	GtkWidget *dialog;
-	EStorage *storage;
 	char *user;
 	char *folder_name;
 };
@@ -425,47 +402,38 @@ storage_destroy_callback (GtkObject *object,
 }
 
 static void
-shared_folder_discovery_listener_callback (BonoboListener *listener,
-					   char *event_name,
-					   CORBA_any *value,
-					   CORBA_Environment *ev,
-					   void *data)
+shared_folder_discovery_callback (EStorage *storage,
+				  EStorageResult result,
+				  const char *path,
+				  void *data)
 {
-	GNOME_Evolution_Storage_FolderResult *result;
 	DiscoveryData *discovery_data;
 	EShell *shell;
 	EShellView *parent;
-	EStorage *storage;
 
 	discovery_data = (DiscoveryData *) data;
 	shell = discovery_data->shell;
 	parent = discovery_data->parent;
-	storage = discovery_data->storage;
 
 	/* Make sure the progress dialog doesn't show up now. */
 	cleanup_discovery (discovery_data);
 
-	result = (GNOME_Evolution_Storage_FolderResult *) value->_value;
-	if (result->result == GNOME_Evolution_Storage_OK) {
+	if (result == E_STORAGE_OK) {
 		char *uri;
 
 		uri = g_strconcat (E_SHELL_URI_PREFIX, "/",
 				   e_storage_get_name (storage),
-				   result->path,
-				   NULL);
+				   path, NULL);
 
 		if (discovery_data->parent != NULL)
 			e_shell_view_display_uri (parent, uri, TRUE);
 		else
 			e_shell_create_view (shell, uri, NULL);
 	} else {
-		EStorageResult storage_result;
-
-		storage_result = e_corba_storage_corba_result_to_storage_result (result->result);
 		e_notice (parent ? GTK_WINDOW (parent) : NULL,
 			  GNOME_MESSAGE_BOX_ERROR,
 			  _("Could not open shared folder: %s."),
-			  e_storage_result_to_string (storage_result));
+			  e_storage_result_to_string (result));
 	}
 }
 
@@ -479,22 +447,14 @@ discover_folder (EShell *shell,
 	EStorageSet *storage_set;
 	EStorage *storage;
 	GtkWidget *dialog;
-	BonoboListener *listener;
-	GNOME_Evolution_Storage corba_iface;
-	CORBA_Environment ev;
 	DiscoveryData *discovery_data;
-
-	discovery_data = NULL;
-	dialog = NULL;
-
-	CORBA_exception_init (&ev);
 
 	storage_set = e_shell_get_storage_set (shell);
 	if (storage_set == NULL)
 		goto error;
 
 	storage = e_storage_set_get_storage (storage_set, storage_name);
-	if (storage == NULL || ! E_IS_CORBA_STORAGE (storage))
+	if (storage == NULL || ! e_storage_supports_shared_folders (storage))
 		goto error;
 
 	dialog = create_progress_dialog (shell, storage, user_email_address, folder_name);
@@ -503,7 +463,6 @@ discover_folder (EShell *shell,
 	discovery_data->dialog      = dialog;
 	discovery_data->shell       = shell;
 	discovery_data->parent      = parent;
-	discovery_data->storage     = storage;
 	discovery_data->user        = g_strdup (user_email_address);
 	discovery_data->folder_name = g_strdup (folder_name);
 
@@ -516,29 +475,17 @@ discover_folder (EShell *shell,
 	gtk_signal_connect (GTK_OBJECT (storage), "destroy",
 			    GTK_SIGNAL_FUNC (storage_destroy_callback), discovery_data);
 
-	listener = bonobo_listener_new (shared_folder_discovery_listener_callback, discovery_data);
-
-	corba_iface = e_corba_storage_get_corba_objref (E_CORBA_STORAGE (storage));
-	GNOME_Evolution_Storage_asyncDiscoverSharedFolder (corba_iface,
-							   user_email_address, folder_name,
-							   BONOBO_OBJREF (listener),
-							   &ev);
-	if (BONOBO_EX (&ev))
-		goto error;
-
-	CORBA_exception_free (&ev);
-
+	e_storage_async_discover_shared_folder (storage,
+						user_email_address,
+						folder_name,
+						shared_folder_discovery_callback,
+						discovery_data);
 	return;
 
  error:
-	if (discovery_data != NULL)
-		cleanup_discovery (discovery_data);
-
 	/* FIXME: Be more verbose?  */
 	e_notice (GTK_WINDOW (parent), GNOME_MESSAGE_BOX_ERROR,
 		  _("Cannot find the specified shared folder."));
-
-	CORBA_exception_free (&ev);
 }
 
 

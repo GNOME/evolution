@@ -429,7 +429,7 @@ command_add_folder_to_shortcut_bar (BonoboUIComponent *uih,
 }
 
 
-/* Opening other users' folders.  */
+/* Opening and removing other users' folders.  */
 
 static void
 command_open_other_users_folder (BonoboUIComponent *uih,
@@ -443,6 +443,18 @@ command_open_other_users_folder (BonoboUIComponent *uih,
 	shell = e_shell_view_get_shell (shell_view);
 
 	e_shell_show_shared_folder_picker_dialog (shell, shell_view);
+}
+
+static void
+command_remove_other_users_folder (BonoboUIComponent *uih,
+				   void *data,
+				   const char *path)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+	e_shell_command_remove_shared_folder (e_shell_view_get_shell (shell_view), shell_view,
+					      get_path_for_folder_op (shell_view));
 }
 
 
@@ -667,6 +679,7 @@ static BonoboUIVerb new_verbs [] = {
 static BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard),
 	BONOBO_UI_VERB ("FileOpenOtherUsersFolder", command_open_other_users_folder),
+	BONOBO_UI_VERB ("FileRemoveOtherUsersFolder", command_remove_other_users_folder),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
 	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
 	BONOBO_UI_VERB ("FileClose", command_close),
