@@ -983,7 +983,8 @@ struct _get_folderinfo_msg {
 	void *data;
 };
 
-static char *get_folderinfo_desc(struct _mail_msg *mm, int done)
+static char *
+get_folderinfo_desc (struct _mail_msg *mm, int done)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	char *ret, *name;
@@ -1004,7 +1005,7 @@ add_vtrash_info (CamelFolderInfo *info)
 	g_return_if_fail (info != NULL);
 	
 	for (fi = info; fi->sibling; fi = fi->sibling) {
-		if (!strcmp (fi->name, _("Trash")))
+		if (!g_strcasecmp (fi->name, _("Trash")))
 			break;
 	}
 	
@@ -1036,7 +1037,8 @@ add_vtrash_info (CamelFolderInfo *info)
 	g_free (uri);
 }
 
-static void get_folderinfo_get(struct _mail_msg *mm)
+static void
+get_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
@@ -1051,7 +1053,8 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 	camel_operation_unregister(mm->cancel);
 }
 
-static void get_folderinfo_got(struct _mail_msg *mm)
+static void
+get_folderinfo_got (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 
@@ -1066,7 +1069,8 @@ static void get_folderinfo_got(struct _mail_msg *mm)
 		m->done(m->store, m->info, m->data);
 }
 
-static void get_folderinfo_free(struct _mail_msg *mm)
+static void
+get_folderinfo_free (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 
@@ -1082,7 +1086,8 @@ static struct _mail_msg_op get_folderinfo_op = {
 	get_folderinfo_free,
 };
 
-int mail_get_folderinfo(CamelStore *store, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+int
+mail_get_folderinfo (CamelStore *store, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _get_folderinfo_msg *m;
 	int id;

@@ -1,5 +1,12 @@
 2001-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (add_vtrash_info): Use g_strcasecmp() when looking
+	for a Trash folder - it may be lowercase or something funky.
+
+	* mail-local.c (init_trash): No need to specify the vfolder
+	expression here. This code was moved into camel-vtrash-folder.c
+	ages ago.
+
 	* component-factory.c: Let VTrash folders accept/export the same
 	dnd types as normal folders.
 

@@ -52,6 +52,8 @@
 
 #include "mail-send-recv.h"
 
+#include <camel/camel-vtrash-folder.h>
+
 char *default_drafts_folder_uri;
 CamelFolder *drafts_folder = NULL;
 char *default_sent_folder_uri;
@@ -273,7 +275,8 @@ xfer_folder (EvolutionShellComponent *shell_component,
 					do_xfer_folder,
 					CORBA_Object_duplicate (listener, &ev));
 		
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_OK, &ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_OK,
+								     &ev);
 	} else
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 	CORBA_exception_free (&ev);
@@ -361,7 +364,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 }
 
 static CORBA_boolean
-destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *folder,
+destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *dest_folder,
 				const char *physical_uri,
 				const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context *destination_context,
 				const GNOME_Evolution_ShellComponentDnd_Action action,
@@ -370,7 +373,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 {
 	char *url, *in, *inptr, *inend;
 	gboolean retval = FALSE;
-	CamelFolder *source;
+	CamelFolder *folder;
 	CamelStream *stream;
 	CamelException ex;
 	GPtrArray *uids;
@@ -390,8 +393,8 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	
 	switch (type) {
 	case ACCEPTED_DND_TYPE_TEXT_URI_LIST:
-		source = mail_tool_uri_to_folder (physical_uri, NULL);
-		if (!source)
+		folder = mail_tool_uri_to_folder (physical_uri, NULL);
+		if (!folder)
 			return FALSE;
 		
 		url = g_strndup (data->bytes._buffer, data->bytes._length);
@@ -414,9 +417,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		}
 		
 		stream = camel_stream_fs_new_with_fd (fd);
-		message_rfc822_dnd (source, stream, &ex);
+		message_rfc822_dnd (folder, stream, &ex);
 		camel_object_unref (CAMEL_OBJECT (stream));
-		camel_object_unref (CAMEL_OBJECT (source));
+		camel_object_unref (CAMEL_OBJECT (folder));
 		
 		retval = !camel_exception_is_set (&ex);
 		
@@ -426,8 +429,8 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		g_free (url);
 		break;
 	case ACCEPTED_DND_TYPE_MESSAGE_RFC822:
-		source = mail_tool_uri_to_folder (physical_uri, &ex);
-		if (!source) {
+		folder = mail_tool_uri_to_folder (physical_uri, &ex);
+		if (!folder) {
 			camel_exception_clear (&ex);
 			return FALSE;
 		}
@@ -437,9 +440,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		camel_stream_write (stream, data->bytes._buffer, data->bytes._length);
 		camel_stream_reset (stream);
 		
-		message_rfc822_dnd (source, stream, &ex);
+		message_rfc822_dnd (folder, stream, &ex);
 		camel_object_unref (CAMEL_OBJECT (stream));
-		camel_object_unref (CAMEL_OBJECT (source));
+		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
 	case ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE:
 		/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
@@ -450,10 +453,10 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		inptr = strchr (in, ' ');
 		url = g_strndup (in, inptr - in);
 		
-		source = mail_tool_uri_to_folder (url, &ex);
+		folder = mail_tool_uri_to_folder (url, &ex);
 		g_free (url);
 		
-		if (!source) {
+		if (!folder) {
 			camel_exception_clear (&ex);
 			return FALSE;
 		}
@@ -471,11 +474,11 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 			inptr++;
 		}
 		
-		mail_transfer_messages (source, uids,
+		mail_transfer_messages (folder, uids,
 					action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
 					physical_uri, NULL, NULL);
 		
-		camel_object_unref (CAMEL_OBJECT (source));
+		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
 	default:
 		break;
