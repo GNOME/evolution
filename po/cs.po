@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-03-13 11:45+0100\n"
-"PO-Revision-Date: 2003-03-13 16:59+0100\n"
+"POT-Creation-Date: 2003-03-14 13:12+0100\n"
+"PO-Revision-Date: 2003-03-14 16:35+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgid "Email"
 msgstr "E-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:1764
+#: addressbook/gui/contact-editor/e-contact-editor.c:1773
 msgid "Primary"
 msgstr "Hlavní"
 
@@ -63,7 +63,7 @@ msgstr "Hl."
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/backend/ebook/e-card.c:1413
-#: addressbook/gui/contact-editor/e-contact-editor.c:1749
+#: addressbook/gui/contact-editor/e-contact-editor.c:1758
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant"
 msgstr "Asistent"
@@ -71,8 +71,8 @@ msgstr "Asistent"
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: addressbook/gui/contact-editor/e-contact-editor.c:1750
-#: addressbook/gui/contact-editor/e-contact-editor.c:1821
+#: addressbook/gui/contact-editor/e-contact-editor.c:1759
+#: addressbook/gui/contact-editor/e-contact-editor.c:1830
 msgid "Business"
 msgstr "Práce"
 
@@ -82,12 +82,12 @@ msgid "Bus"
 msgstr "Pr."
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:1753
+#: addressbook/gui/contact-editor/e-contact-editor.c:1762
 msgid "Callback"
 msgstr "Zpětný dotaz"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:1755
+#: addressbook/gui/contact-editor/e-contact-editor.c:1764
 msgid "Company"
 msgstr "Společnost"
 
@@ -98,8 +98,8 @@ msgstr "Spol."
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-editor/e-contact-editor.c:1756
-#: addressbook/gui/contact-editor/e-contact-editor.c:1822
+#: addressbook/gui/contact-editor/e-contact-editor.c:1765
+#: addressbook/gui/contact-editor/e-contact-editor.c:1831
 msgid "Home"
 msgstr "Domů"
 
@@ -115,18 +115,18 @@ msgstr "Org."
 
 #: addressbook/backend/ebook/e-card-simple.c:72
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: addressbook/gui/contact-editor/e-contact-editor.c:1760
+#: addressbook/gui/contact-editor/e-contact-editor.c:1769
 msgid "Mobile"
 msgstr "Mobilní"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1754
+#: addressbook/gui/contact-editor/e-contact-editor.c:1763
 msgid "Car"
 msgstr "Auto"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#: addressbook/gui/contact-editor/e-contact-editor.c:1752
+#: addressbook/gui/contact-editor/e-contact-editor.c:1761
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Fax"
 msgstr "Fax - práce"
@@ -136,13 +136,13 @@ msgid "Bus Fax"
 msgstr "Fax - pr."
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1758
+#: addressbook/gui/contact-editor/e-contact-editor.c:1767
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Fax"
 msgstr "Fax - domov"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1751
+#: addressbook/gui/contact-editor/e-contact-editor.c:1760
 msgid "Business 2"
 msgstr "Práce 2"
 
@@ -151,43 +151,43 @@ msgid "Bus 2"
 msgstr "Pr. 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
-#: addressbook/gui/contact-editor/e-contact-editor.c:1757
+#: addressbook/gui/contact-editor/e-contact-editor.c:1766
 msgid "Home 2"
 msgstr "Domov 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
-#: addressbook/gui/contact-editor/e-contact-editor.c:1759
+#: addressbook/gui/contact-editor/e-contact-editor.c:1768
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
 #: addressbook/backend/ebook/e-card-simple.c:85
-#: addressbook/gui/contact-editor/e-contact-editor.c:1761
-#: addressbook/gui/contact-editor/e-contact-editor.c:1823
+#: addressbook/gui/contact-editor/e-contact-editor.c:1770
+#: addressbook/gui/contact-editor/e-contact-editor.c:1832
 msgid "Other"
 msgstr "Další"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1762
+#: addressbook/gui/contact-editor/e-contact-editor.c:1771
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Other Fax"
 msgstr "Další fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1763
+#: addressbook/gui/contact-editor/e-contact-editor.c:1772
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Pager"
 msgstr "Pager"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/contact-editor/e-contact-editor.c:1765
+#: addressbook/gui/contact-editor/e-contact-editor.c:1774
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "Radio"
 msgstr "Rádio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
-#: addressbook/gui/contact-editor/e-contact-editor.c:1766
+#: addressbook/gui/contact-editor/e-contact-editor.c:1775
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Telex"
 msgstr "Telex"
@@ -199,14 +199,14 @@ msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:482
-#: addressbook/gui/contact-editor/e-contact-editor.c:1794
+#: addressbook/gui/contact-editor/e-contact-editor.c:1803
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 2"
 msgstr "2. e-mail"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:492
-#: addressbook/gui/contact-editor/e-contact-editor.c:1795
+#: addressbook/gui/contact-editor/e-contact-editor.c:1804
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Email 3"
 msgstr "3. e-mail"
@@ -391,7 +391,7 @@ msgstr "Organizační jednotka"
 msgid "Role"
 msgstr "Funkce"
 
-#: addressbook/backend/ebook/e-card.c:1440 mail/mail-format.c:932
+#: addressbook/backend/ebook/e-card.c:1440 mail/mail-format.c:930
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
@@ -795,7 +795,7 @@ msgstr "(žádný)"
 
 #: addressbook/gui/component/e-address-popup.c:472
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#: addressbook/gui/contact-editor/e-contact-editor.c:1793
+#: addressbook/gui/contact-editor/e-contact-editor.c:1802
 msgid "Primary Email"
 msgstr "Hlavní e-mail"
 
@@ -1539,7 +1539,7 @@ msgstr "Spolupráce"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
-#: addressbook/gui/contact-editor/e-contact-editor.c:1343
+#: addressbook/gui/contact-editor/e-contact-editor.c:1352
 msgid "Contact Editor"
 msgstr "Editor kontaktů"
 
@@ -2701,19 +2701,19 @@ msgstr "Zapisovatelná pole"
 msgid "Changed"
 msgstr "Změněno"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:836
+#: addressbook/gui/contact-editor/e-contact-editor.c:845
 msgid "Category editor not available."
 msgstr "Editor kategorie není dostupný"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:844
+#: addressbook/gui/contact-editor/e-contact-editor.c:853
 msgid "This contact belongs to these categories:"
 msgstr "Tento kontakt patří do těchto kategorií"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1018
+#: addressbook/gui/contact-editor/e-contact-editor.c:1027
 msgid "Save Contact as VCard"
 msgstr "Uložit kontakt jako VCard?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1064
+#: addressbook/gui/contact-editor/e-contact-editor.c:1073
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2721,7 +2721,7 @@ msgstr ""
 "Opravdu chcete\n"
 "smazat tyto kontakty?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1067
+#: addressbook/gui/contact-editor/e-contact-editor.c:1076
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -2729,11 +2729,11 @@ msgstr ""
 "Opravdu chcete\n"
 "smazat tento kontakt?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1767
+#: addressbook/gui/contact-editor/e-contact-editor.c:1776
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2371
+#: addressbook/gui/contact-editor/e-contact-editor.c:2380
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Nelze najít udělátko k políčku `%s'"
@@ -10717,10 +10717,11 @@ msgid "Autogenerated"
 msgstr "automatický"
 
 #: composer/e-msg-composer.c:2162 composer/e-msg-composer.c:2761
+#: composer/e-msg-composer.c:2762
 msgid "Compose a message"
 msgstr "Napsat zprávu"
 
-#: composer/e-msg-composer.c:2792
+#: composer/e-msg-composer.c:2793
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10728,7 +10729,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat ovládací prvek pro výběr adresy."
 
-#: composer/e-msg-composer.c:2818
+#: composer/e-msg-composer.c:2819
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10740,7 +10741,7 @@ msgstr ""
 "Ujistěte se prosím, že máte instalovanou\n"
 "správnou verzi gtkhtml a libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:2878
+#: composer/e-msg-composer.c:2879
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10748,7 +10749,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat komponentu HTML editor."
 
-#: composer/e-msg-composer.c:3894
+#: composer/e-msg-composer.c:3895
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11411,7 +11412,7 @@ msgstr "Specifická hlavička"
 msgid "Stop Processing"
 msgstr "Zastavit zpracování"
 
-#: filter/libfilter-i18n.h:38 mail/mail-format.c:905
+#: filter/libfilter-i18n.h:38 mail/mail-format.c:903
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 #: mail/message-tags.glade.h:4
 msgid "Subject"
@@ -13176,35 +13177,35 @@ msgstr "Skrýt"
 msgid "External Viewer"
 msgstr "Externí prohlížeč"
 
-#: mail/mail-display.c:1346
+#: mail/mail-display.c:1341
 msgid "Downloading images"
 msgstr "Stahování obrázků"
 
-#: mail/mail-display.c:1523
+#: mail/mail-display.c:1518
 msgid "Loading message content"
 msgstr "Načítání obsahu zprávy"
 
-#: mail/mail-display.c:1860
+#: mail/mail-display.c:1855
 msgid "Overdue:"
 msgstr "Úkoly po termínu:"
 
-#: mail/mail-display.c:1864
+#: mail/mail-display.c:1859
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "do %B %d, %Y, %l:%M %P"
 
-#: mail/mail-display.c:2215
+#: mail/mail-display.c:2210
 msgid "Open Link in Browser"
 msgstr "Otevřít odkaz v prohlížeči"
 
-#: mail/mail-display.c:2216
+#: mail/mail-display.c:2211
 msgid "Copy Link Location"
 msgstr "Kopírovat umístění odkazu"
 
-#: mail/mail-display.c:2218
+#: mail/mail-display.c:2213
 msgid "Save Link as (FIXME)"
 msgstr "Uložit odkaz jako"
 
-#: mail/mail-display.c:2220
+#: mail/mail-display.c:2215
 msgid "Save Image as..."
 msgstr "Uložit obrázek jako..."
 
@@ -13213,90 +13214,90 @@ msgstr "Uložit obrázek jako..."
 msgid "Pinging %s"
 msgstr "Zkouší se %s"
 
-#: mail/mail-format.c:637
+#: mail/mail-format.c:635
 #, c-format
 msgid "%s attachment"
 msgstr "%s příloha"
 
-#: mail/mail-format.c:679 mail/mail-format.c:1340 mail/mail-format.c:1409
-#: mail/mail-format.c:1529 mail/mail-format.c:1653 mail/mail-format.c:1678
+#: mail/mail-format.c:677 mail/mail-format.c:1331 mail/mail-format.c:1400
+#: mail/mail-format.c:1520 mail/mail-format.c:1644 mail/mail-format.c:1669
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Není možné zpracovat zprávu MIME. Zobrazí se jako zdrojový kód."
 
-#: mail/mail-format.c:756 mail/message-list.etspec.h:2
+#: mail/mail-format.c:754 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:842
+#: mail/mail-format.c:840
 msgid "Bad Address"
 msgstr "Špatná adresa"
 
-#: mail/mail-format.c:883 mail/message-list.etspec.h:7
+#: mail/mail-format.c:881 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301 mail/message-tags.glade.h:3
 msgid "From"
 msgstr "Od"
 
-#: mail/mail-format.c:887
+#: mail/mail-format.c:885
 msgid "Reply-To"
 msgstr "Odpovědět-komu"
 
-#: mail/mail-format.c:892 mail/message-list.etspec.h:14
+#: mail/mail-format.c:890 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Komu"
 
-#: mail/mail-format.c:897
+#: mail/mail-format.c:895
 msgid "Cc"
 msgstr "Kopie"
 
-#: mail/mail-format.c:902
+#: mail/mail-format.c:900
 msgid "Bcc"
 msgstr "Skrytá kopie"
 
-#: mail/mail-format.c:1452
+#: mail/mail-format.c:1443
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Tato zpráva je digitálně podepsaná. Kliknutím na ikonu zámku získáte "
 "podrobnosti."
 
-#: mail/mail-format.c:1480
+#: mail/mail-format.c:1471
 msgid "Could not create a PGP verfication context"
 msgstr "Nepodařilo se vytvořit kontext ověření PGP."
 
-#: mail/mail-format.c:1488
+#: mail/mail-format.c:1479
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná a byla shledána platnou."
 
-#: mail/mail-format.c:1495
+#: mail/mail-format.c:1486
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Tato zpráva je digitálně podepsaná, ale nelze ověřit její platnost."
 
-#: mail/mail-format.c:1759
+#: mail/mail-format.c:1750
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Odkaz na FTP server (%s)"
 
-#: mail/mail-format.c:1770
+#: mail/mail-format.c:1761
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Odkaz na lokální soubor (%s) platný na serveru \"%s\""
 
-#: mail/mail-format.c:1773
+#: mail/mail-format.c:1764
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Odkaz na lokální soubor (%s)"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1791
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Odkaz na vzdálená data (%s)"
 
-#: mail/mail-format.c:1806
+#: mail/mail-format.c:1797
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Odkaz na neznámá externí data (typ \"%s\")"
 
-#: mail/mail-format.c:1808
+#: mail/mail-format.c:1799
 msgid "Malformed external-body part."
 msgstr "Chybná část externího těla."
 
@@ -23751,23 +23752,23 @@ msgstr "Curych"
 msgid "Folder containing the Evolution Summary"
 msgstr "Adresář obsahující souhrn Evolution"
 
-#: my-evolution/e-summary-calendar.c:377 my-evolution/e-summary-calendar.c:397
+#: my-evolution/e-summary-calendar.c:380
 msgid "Appointments"
 msgstr "Události"
 
-#: my-evolution/e-summary-calendar.c:378
-msgid "No appointments"
-msgstr "Žádné události"
+#: my-evolution/e-summary-calendar.c:388
+msgid "No appointments."
+msgstr "Žádné události."
 
-#: my-evolution/e-summary-calendar.c:414
+#: my-evolution/e-summary-calendar.c:405
 msgid "%k:%M %d %B"
 msgstr "%k.%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:416
+#: my-evolution/e-summary-calendar.c:407
 msgid "%l:%M %d %B"
 msgstr "%l.%M %d %B"
 
-#: my-evolution/e-summary-calendar.c:434
+#: my-evolution/e-summary-calendar.c:425
 msgid "No description"
 msgstr "Bez popisu"
 
@@ -27760,7 +27761,7 @@ msgid "_Tasks"
 msgstr "Ú_koly"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:199
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:645
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:644
 msgid "UTC"
 msgstr "UTC"
 
@@ -28272,9 +28273,6 @@ msgstr "Generátor kalendáře pro Osobní kalendářový server."
 
 #~ msgid "Task Due: <b>"
 #~ msgstr "Termín splnění úkolu: <b>"
-
-#~ msgid "_Delete this Appointment"
-#~ msgstr "_Zrušit tuto událost"
 
 #~ msgid "Insert File"
 #~ msgstr "Vložit soubor"
