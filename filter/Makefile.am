@@ -28,8 +28,10 @@ libfilter_la_SOURCES =				\
 	filter-driver.c				\
 	filter-driver.h
 
-EXTRA_DIST = blank.xpm check.xpm filtertypes.xml
+EXTRA_DIST = blank.xpm check.xpm 		\
+	filtertypes.xml vfoldertypes.xml
 
 # basic rules.
 filterdir = $(prefix)/share/evolution
-filter_DATA = filtertypes.xml
+filter_DATA = filtertypes.xml vfoldertypes.xml
+

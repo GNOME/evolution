@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include <camel/camel-session.h>
 #include <camel/camel-folder.h>
+#include "filter-xml.h"
 
 #define FILTER_DRIVER(obj)         GTK_CHECK_CAST (obj, filter_driver_get_type (), FilterDriver)
 #define FILTER_DRIVER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_driver_get_type (), FilterDriverClass)
@@ -54,5 +55,12 @@ void filter_driver_set_global(FilterDriver *, const char *name, const char *valu
 
 /* apply rules to a folder, unmatched messages goto inbox, if not NULL */
 int filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox);
+
+/* generate the search query/action string for a filter option */
+void filter_driver_expand_option(FilterDriver *d, GString *s, GString *action, struct filter_option *op);
+
+/* get info about rules (options) */
+int filter_driver_rule_count(FilterDriver *d);
+struct filter_option *filter_driver_rule_get(FilterDriver *d, int n);
 
 #endif /* ! _FILTER_DRIVER_H */

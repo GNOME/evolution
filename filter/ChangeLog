@@ -1,3 +1,16 @@
+2000-05-27  Not Zed  <NotZed@HelixCode.com>
+
+	* vfoldertypes.xml: New file - lists rules appropriate for
+	vfolders (no actions, etc).
+
+	* Makefile.am (EXTRA_DIST): Add vfoldertypes.xml
+
+	* filter-driver.c (filter_driver_expand_option): Made public from
+	expand_filter_option.
+	(filter_driver_rule_count): find out how many user rules are
+	defined.
+	(filter_driver_rule_get): Get a user rule by index.
+
 2000-05-21  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* filter-druid.c: Don't pass an empty URL to `gtk_html_begin()'

@@ -301,46 +301,52 @@ expand_variables(GString *out, char *source, GList *args, GHashTable *globals)
 /*
   build an expression for the filter
 */
-static void
-expand_filter_option(FilterDriver *d, GString *s, GString *action, struct filter_option *op)
+void
+filter_driver_expand_option(FilterDriver *d, GString *s, GString *action, struct filter_option *op)
 {
 	GList *optionl;
 	FilterArg *arg;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 
-	g_string_append(s, "(and ");
-	optionl = op->options;
-	while (optionl) {
-		struct filter_optionrule *or = optionl->data;
-		if (or->rule->type == FILTER_XML_MATCH
-		    || or->rule->type == FILTER_XML_EXCEPT) {
-			if (or->args) {
-				arg = or->args->data;
-				if (arg) {
-					printf("arg = %s\n", arg->name);
+	if (s) {
+		g_string_append(s, "(and ");
+		optionl = op->options;
+		while (optionl) {
+			struct filter_optionrule *or = optionl->data;
+			if (or->rule->type == FILTER_XML_MATCH
+			    || or->rule->type == FILTER_XML_EXCEPT) {
+				if (or->args) {
+					arg = or->args->data;
+					if (arg) {
+						printf("arg = %s\n", arg->name);
+					}
 				}
+				expand_variables(s, or->rule->code, or->args, p->globals);
 			}
-			expand_variables(s, or->rule->code, or->args, p->globals);
+			optionl = g_list_next(optionl);
 		}
-		optionl = g_list_next(optionl);
+
+		g_string_append(s, ")");
 	}
 
-	g_string_append(s, ")");
-
-	g_string_append(action, "(begin ");
-	optionl = op->options;
-	while (optionl) {
-		struct filter_optionrule *or = optionl->data;
-		if (or->rule->type == FILTER_XML_ACTION) {
-			expand_variables(action, or->rule->code, or->args, p->globals);
-			g_string_append(action, " ");
+	if (action) {
+		g_string_append(action, "(begin ");
+		optionl = op->options;
+		while (optionl) {
+			struct filter_optionrule *or = optionl->data;
+			if (or->rule->type == FILTER_XML_ACTION) {
+				expand_variables(action, or->rule->code, or->args, p->globals);
+				g_string_append(action, " ");
+			}
+			optionl = g_list_next(optionl);
 		}
-		optionl = g_list_next(optionl);
+		g_string_append(action, ")");
 	}
-	g_string_append(action, ")");
 
-	printf("combined rule '%s'\n", s->str);
-	printf("combined action '%s'\n", action->str);
+	if (s)
+		printf("combined rule '%s'\n", s->str);
+	if (action)
+		printf("combined action '%s'\n", action->str);
 }
 
 static ESExpResult *
@@ -523,6 +529,20 @@ close_folders(FilterDriver *d)
 }
 
 int
+filter_driver_rule_count(FilterDriver *d)
+{
+	struct _FilterDriverPrivate *p = _PRIVATE(d);
+	return g_list_length(p->options);
+}
+
+struct filter_option *
+filter_driver_rule_get(FilterDriver *d, int n)
+{
+	struct _FilterDriverPrivate *p = _PRIVATE(d);
+	return g_list_nth_data(p->options, n);
+}
+
+int
 filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
@@ -549,7 +569,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 
 		s = g_string_new("");
 		a = g_string_new("");
-		expand_filter_option(d, s, a, fo);
+		filter_driver_expand_option(d, s, a, fo);
 
 		printf("searching expression %s\n", s->str);
 		p->matches = camel_folder_search_by_expression  (p->source, s->str, p->ex);
