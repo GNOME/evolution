@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
 "POT-Creation-Date: 2001-02-27 13:13-0500\n"
-"PO-Revision-Date: 2001-02-12 10:46+01:00\n"
+"PO-Revision-Date: 2001-02-28 09:08+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5181,7 +5181,7 @@ msgstr "Autentiseringstype:"
 
 #: mail/mail-config.glade.h:10
 msgid "Automatically check mail every"
-msgstr ""
+msgstr "Sjekk etter post automatisk hvert"
 
 #: mail/mail-config.glade.h:12
 msgid "Check settings"
@@ -5241,7 +5241,7 @@ msgstr "Identitet"
 
 #: mail/mail-config.glade.h:32
 msgid "Include in \"Get Mail\" operations."
-msgstr ""
+msgstr "Inkluder i \"Hent post\"-operasjonene."
 
 #: mail/mail-config.glade.h:33
 msgid "Incoming Mail Server"
@@ -5300,9 +5300,8 @@ msgid "Outgoing Mail Server"
 msgstr "E-posttjener for utgående post"
 
 #: mail/mail-config.glade.h:50
-#, fuzzy
 msgid "PGP binary path:"
-msgstr "Kryptér med PGP"
+msgstr "Sti til PGP-binærfil:"
 
 #: mail/mail-config.glade.h:51
 msgid "Password:"
@@ -5333,9 +5332,8 @@ msgid "Save password"
 msgstr "Lagre passord"
 
 #: mail/mail-config.glade.h:60
-#, fuzzy
 msgid "Select PGP binary"
-msgstr "Velg en fil"
+msgstr "Velg PGP-binærfil"
 
 #: mail/mail-config.glade.h:61
 msgid "Select signature file"
@@ -5382,9 +5380,8 @@ msgid "This server requires a secure connection (SSL)"
 msgstr "Denne tjeneren krever en sikker forbindelse (SSL)"
 
 #: mail/mail-config.glade.h:74
-#, fuzzy
 msgid "Transport"
-msgstr "Gjennomsiktig"
+msgstr "Transport"
 
 #: mail/mail-config.glade.h:75
 msgid "Type"
@@ -5417,9 +5414,8 @@ msgstr ""
 "Klikk \"Neste\" for å begynne."
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "minutes."
-msgstr "minutter"
+msgstr "minutter."
 
 #: mail/mail-config-druid.c:389
 #, c-format
