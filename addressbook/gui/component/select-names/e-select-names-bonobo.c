@@ -346,6 +346,7 @@ static BonoboUIVerb verbs [] = {
 };
 
 typedef struct {
+	GtkWidget *widget;
 	BonoboControl *control;
 	Bonobo_UIContainer remote_ui_container;
 	char *ui_xml_path;
@@ -404,21 +405,23 @@ control_activate_cb (BonoboControl *control,
 		     gboolean activate, 
 		     ControlUIClosure *closure)
 {
-	BonoboUIComponent *uic;
-
-	uic = bonobo_control_get_ui_component (control);
-
-	if (activate) {
-		merge_menu_items (control, uic, closure);
-	} else {
-		unmerge_menu_items (control, uic, closure);
-	}
+	if (activate)
+		gtk_widget_grab_focus (closure->widget); /* the ECanvas */
 }
 
 static gboolean
 widget_focus_cb (GtkWidget *w, GdkEventFocus *focus, ControlUIClosure *closure)
 {
-	control_activate_cb (closure->control, GTK_WIDGET_HAS_FOCUS (w), closure);
+	BonoboUIComponent *uic;
+
+	uic = bonobo_control_get_ui_component (closure->control);
+
+	if (GTK_WIDGET_HAS_FOCUS (w)) {
+		merge_menu_items (closure->control, uic, closure);
+	} else {
+		unmerge_menu_items (closure->control, uic, closure);
+	}
+
 	return FALSE;
 }
 
@@ -440,6 +443,7 @@ e_bonobo_control_automerge_ui (GtkWidget *w,
 	
 	closure = g_new (ControlUIClosure, 1);
 
+	closure->widget = w;
 	closure->control = control;
 	closure->ui_xml_path = g_strdup (ui_xml_path);
 	closure->app_name = g_strdup (app_name);
@@ -450,6 +454,8 @@ e_bonobo_control_automerge_ui (GtkWidget *w,
 			  G_CALLBACK (widget_focus_cb), closure);
 	g_signal_connect (w, "focus_out_event",
 			  G_CALLBACK (widget_focus_cb), closure);
+	g_signal_connect (control, "activate",
+			  G_CALLBACK (control_activate_cb), closure);
 	g_signal_connect (control, "set_frame",
 			  G_CALLBACK (control_set_frame_cb), closure);
 
