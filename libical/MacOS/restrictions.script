@@ -1,1 +1,0 @@
-directory {libical_project}# Generate source filesmake all -f restrictions.make > make.outmake.out
