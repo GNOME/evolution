@@ -372,7 +372,7 @@
       </para>
     </sect2>
 
-    <sect2 id="recieving-rsvp-response">
+    <sect2 id="receiving-rsvp-response">
       <title>Getting Responses to Meeting Requests</title>
       <para>
 	Once you get a reply to your meeting invitation, you'll need
@@ -474,7 +474,7 @@
 	</orderedlist>
       </para>
       <figure>
-        <title>Appointment Scheduing Window</title>
+        <title>Appointment Scheduling Window</title>
 	<screenshot>
 	  <screeninfo>Appointment Scheduling Window</screeninfo>
 	  <mediaobject><imageobject>

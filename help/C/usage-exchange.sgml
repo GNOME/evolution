@@ -123,8 +123,8 @@
 		  protocol to send email. Make sure that the address
 		  you have entered as your email address is exactly
 		  the one that the Exchange server has on file. This
-		  may be "yourname@exchange-server.ximian.com" rather
-		  than "yourname@ximian.com.a"
+		  may be "yourname@exchange-server.xyzcorp.com" rather
+		  than "yourname@xyzcorp.com."
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -259,8 +259,7 @@ There are, however, some features which are not available:
        to access the store. When you purchase a Ximian Connector
        license, the store will mail you the license file with
        instructions for installation. Once installed, the license file
-       unlocks the Ximian Connector functionality and you may connect
-       to an <application>Exchange</application> server.
+       unlocks the Ximian Connector functionality.
     </para>
  </sect1>
 
