@@ -46,6 +46,12 @@
              are detailed bug reporting instructions in <xref
              linkend="evolution-faq">.
           </para>
+          <para>
+            Please send comments on the guide to
+            <email>aaron@ximian.com</email>. The first person to send
+            me some good constructive criticism wins a free Ximian
+            t-shirt.
+          </para>
         </note>
       </para>
 
@@ -118,20 +124,6 @@
 
   <sect1 id="aboutbook">
       <title>About This Book</title>
-    <!-- ************** FOLLOWING PARAGRAPH FOR DRAFT ONLY ************* -->
-      <para>
-        This version of the <application>Evolution</application>
-        User's Guide is a <emphasis>draft</emphasis>.  Please send
-        comments on the guide to <email>aaron@ximian.com</email>. The
-        first person to send me some good constructive criticism wins
-        a free Ximian t-shirt. Include preferred shirt size and postal
-        address. If you would like to work on the guide please contact
-        me or see the GNOME Documentation project <ulink
-        url="http://developer.gnome.org/projects/gdp">web
-        site</ulink>.
-      </para>
-    <!-- ************* END DRAFT ONLY PARAGRAPH ************** -->
-
       <para>
         This book is divided into two parts, with several
         appendices. The first part is a <link linkend="usage">guided
