@@ -1,3 +1,15 @@
+2004-11-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #68794.
+
+	* mail-account-gui.h: moved the needs_auth checkbox to the service
+	structure so it can be checked in save_service.  removed the
+	transport_needs_auth field.  the 'source' one is always NULL.
+
+	* mail-account-gui.c (save_service): check the needs-auth checkbox
+	rather than the round-a-bout and functionless sensitivity check on
+	the widget.
+
 2004-11-03  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (efh_format_timeout): removed the fixme i

@@ -528,7 +528,7 @@ mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete
 		return FALSE;
 	
 	/* FIXME? */
-	if (gtk_toggle_button_get_active (gui->transport_needs_auth) &&
+	if (gtk_toggle_button_get_active (gui->transport.needs_auth) &&
 	    CAMEL_PROVIDER_ALLOWS (gui->transport.provider, CAMEL_URL_PART_USER)) {
 		const char *text = gtk_entry_get_text (gui->transport.username);
 		
@@ -844,9 +844,9 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		/* auth */
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH) &&
 		    !CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_AUTH))
-			gtk_widget_show (GTK_WIDGET (gui->transport_needs_auth));
+			gtk_widget_show (GTK_WIDGET (gui->transport.needs_auth));
 		else
-			gtk_widget_hide (GTK_WIDGET (gui->transport_needs_auth));
+			gtk_widget_hide (GTK_WIDGET (gui->transport.needs_auth));
 	} else
 		gtk_widget_hide (frame);
 	
@@ -865,7 +865,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		}
 		
 		build_auth_menu (&gui->transport, provider->authtypes, NULL, FALSE);
-		transport_needs_auth_toggled (gui->transport_needs_auth, gui);
+		transport_needs_auth_toggled (gui->transport.needs_auth, gui);
 	} else
 		gtk_widget_hide (frame);
 	
@@ -1948,8 +1948,8 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	gui->transport.use_ssl = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_use_ssl"));
 	construct_ssl_menu (&gui->transport);
 	gui->transport.no_ssl = glade_xml_get_widget (gui->xml, "transport_ssl_disabled");
-	gui->transport_needs_auth = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_needs_auth"));
-	g_signal_connect (gui->transport_needs_auth, "toggled",
+	gui->transport.needs_auth = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_needs_auth"));
+	g_signal_connect (gui->transport.needs_auth, "toggled",
 			  G_CALLBACK (transport_needs_auth_toggled), gui);
 	gui->transport.authtype = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_auth_omenu"));
 	gui->transport.remember = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_remember_password"));
@@ -2229,7 +2229,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	
 	if (transport_proto) {
 		if (setup_service (gui, &gui->transport, gui->account->transport))
-			gtk_toggle_button_set_active (gui->transport_needs_auth, TRUE);
+			gtk_toggle_button_set_active (gui->transport.needs_auth, TRUE);
 		gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
 		g_free (transport_proto);
 	}
@@ -2305,8 +2305,8 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config, EAccountSer
 			url->user = g_strstrip (g_strdup (str));
 	}
 	
-	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH) &&
-	    GTK_WIDGET_IS_SENSITIVE (gsvc->authtype) && gsvc->authitem && url->user) {
+	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH)
+	    && url->user && gsvc->needs_auth && gtk_toggle_button_get_active(gsvc->needs_auth)) {
 		CamelServiceAuthType *authtype;
 		
 		authtype = g_object_get_data(G_OBJECT(gsvc->authitem), "authtype");

@@ -52,6 +52,8 @@ typedef struct _MailAccountGuiService {
 	struct _GtkWidget *authitem;
 	struct _GtkToggleButton *remember;
 	struct _GtkButton *check_supported;
+
+	struct _GtkToggleButton *needs_auth;
 	
 	CamelProvider *provider;
 	CamelProviderType provider_type;
@@ -85,7 +87,6 @@ typedef struct _MailAccountGui {
 	
 	/* outgoing mail */
 	MailAccountGuiService transport;
-	struct _GtkToggleButton *transport_needs_auth;
 	
 	/* account management */
 	struct _GtkEntry *account_name;

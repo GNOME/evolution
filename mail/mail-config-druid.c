@@ -503,7 +503,7 @@ config_wizard_new (void)
 			  G_CALLBACK (transport_changed), mcw);
 	g_signal_connect (mcw->gui->transport.username, "changed",
 			  G_CALLBACK (transport_changed), mcw);
-	g_signal_connect (mcw->gui->transport_needs_auth, "toggled",
+	g_signal_connect (mcw->gui->transport.needs_auth, "toggled",
 			  G_CALLBACK (transport_changed), mcw);
 	
 	g_signal_connect (mcw->gui->account_name, "activate",
