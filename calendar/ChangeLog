@@ -1,5 +1,15 @@
 2004-02-11  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #53886
+
+	* gui/gnome-cal.c (gnome_calendar_paste_clipboard,
+	gnome_calendar_delete_selection, gnome_calendar_cut_clipboard,
+	gnome_calendar_copy_clipboard): removed g_assert_if_reached calls
+	since we might get a different widget getting the focus.
+	(get_focus_location): check the canvas's' focused item.
+
+2004-02-11  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #53271
 
 	* gui/calendar-component.c (delete_calendar_cb): remove the source from

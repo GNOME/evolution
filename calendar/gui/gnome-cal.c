@@ -476,7 +476,9 @@ get_focus_location (GnomeCalendar *gcal)
 			dv = E_DAY_VIEW (widget);
 
 			if (GTK_WIDGET_HAS_FOCUS (dv->top_canvas)
-			    || GTK_WIDGET_HAS_FOCUS (dv->main_canvas))
+			    || GNOME_CANVAS (dv->top_canvas)->focused_item != NULL
+			    || GTK_WIDGET_HAS_FOCUS (dv->main_canvas)
+			    || GNOME_CANVAS (dv->main_canvas)->focused_item != NULL)
 				return FOCUS_CALENDAR;
 			else
 				return FOCUS_OTHER;
@@ -485,7 +487,8 @@ get_focus_location (GnomeCalendar *gcal)
 		case GNOME_CAL_MONTH_VIEW:
 			wv = E_WEEK_VIEW (widget);
 
-			if (GTK_WIDGET_HAS_FOCUS (wv->main_canvas))
+			if (GTK_WIDGET_HAS_FOCUS (wv->main_canvas)
+			    || GNOME_CANVAS (wv->main_canvas)->focused_item != NULL)
 				return FOCUS_CALENDAR;
 			else
 				return FOCUS_OTHER;
@@ -2599,8 +2602,6 @@ gnome_calendar_cut_clipboard (GnomeCalendar *gcal)
 		e_calendar_view_cut_clipboard (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_cut_clipboard (E_CALENDAR_TABLE (priv->todo));
-	else
-		g_assert_not_reached ();
 }
 
 void
@@ -2617,8 +2618,6 @@ gnome_calendar_copy_clipboard (GnomeCalendar *gcal)
 		e_calendar_view_copy_clipboard (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_copy_clipboard (E_CALENDAR_TABLE (priv->todo));
-	else
-		g_assert_not_reached ();
 }
 
 void
@@ -2635,8 +2634,6 @@ gnome_calendar_paste_clipboard (GnomeCalendar *gcal)
 		e_calendar_view_paste_clipboard (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_paste_clipboard (E_CALENDAR_TABLE (priv->todo));
-	else
-		g_assert_not_reached ();
 }
 
 
@@ -2742,8 +2739,6 @@ gnome_calendar_delete_selection		(GnomeCalendar  *gcal)
 		e_calendar_view_delete_selected_events (E_CALENDAR_VIEW (view));
 	} else if (location == FOCUS_TASKPAD)
 		e_calendar_table_delete_selected (E_CALENDAR_TABLE (priv->todo));
-	else
-		g_assert_not_reached ();
 }
 
 void
