@@ -1,3 +1,7 @@
+2000-06-29  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component-factory.c: Make calendar die when evolution quits.
+
 2000-06-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c: Change of plans.  We use an
