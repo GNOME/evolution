@@ -59,9 +59,7 @@ struct _EMultiConfigDialogPrivate {
 static char *list_e_table_spec =
 	"<ETableSpecification cursor-mode=\"line\""
 	"		      selection-mode=\"browse\""
-	"                     no-headers=\"true\""
-/*        "                     horizontal-resize=\"true\""*/
-        ">"
+	"                     no-headers=\"true\">"
 	"  <ETableColumn model_col=\"0\""
 	"	         expansion=\"1.0\""
 	"                cell=\"vbox\""
