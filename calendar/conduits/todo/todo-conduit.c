@@ -854,6 +854,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG ("delete_record: deleting %s\n", uid);
 
+	e_pilot_map_remove_by_uid (ctxt->map, uid);
 	cal_client_remove_object (ctxt->client, uid);
 	
         return 0;

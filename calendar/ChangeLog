@@ -1,3 +1,14 @@
+2001-01-22  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c: Remove alarm foo for now
+
+2001-01-21  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (delete_record): Remove
+	deleted records from the pilot map so we don't have dupes in the future
+
+	* conduits/todo/todo-conduit.c (delete_record): ditto
+	
 2001-01-21  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/task-editor.c (file_delete_cb): Fix bug #1250; now

@@ -535,6 +535,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	int pos, i;
 	CalComponentText summary = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
+	GList *alist, *l;
 	char *txt;
 	
 	g_return_val_if_fail (remote != NULL, NULL);
@@ -656,33 +657,6 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		cal_component_set_rrule_list (comp, NULL);		
 	}
 
-	/* Alarm information */
-	if (appt.alarm) {
-		CalComponentAlarm *alarm;
-		CalAlarmTrigger trig;
-		
-		alarm = cal_component_alarm_new ();
-		cal_component_add_alarm (comp, alarm);
-
-		memset (&trig, 0, sizeof (trig));
-		trig.type = CAL_ALARM_TRIGGER_RELATIVE_START;
-		trig.u.rel_duration.is_neg = 1;
-		switch (appt.advanceUnits) {	
-		case advMinutes:
-			trig.u.rel_duration.minutes = appt.advance;
-			break;
-		case advHours:
-			trig.u.rel_duration.hours = appt.advance;
-			break;
-		case advDays:
-			trig.u.rel_duration.days = appt.advance;
-			break;
-		}
-		cal_component_alarm_set_trigger (alarm, trig);
-
-		cal_component_alarm_set_action (alarm, CAL_ALARM_AUDIO);
-	}
-	
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 
 	if (remote->attr & dlpRecAttrSecret)
@@ -1066,6 +1040,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG ("delete_record: deleting %s\n", uid);
 
+	e_pilot_map_remove_by_uid (ctxt->map, uid);
 	cal_client_remove_object (ctxt->client, uid);
 	
         return 0;
