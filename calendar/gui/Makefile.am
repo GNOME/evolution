@@ -180,16 +180,15 @@ libevolution_calendar_la_SOURCES =		\
 	weekday-picker.c			\
 	weekday-picker.h
 
-libevolution_calendar_la_LIBADD =							\
-	alarm-notify/libalarm.a								\
-	$(DB3_LDADD)									\
-	$(top_builddir)/widgets/menus/libmenus.la					\
-	$(top_builddir)/shell/libeshell.la						\
-	$(top_builddir)/calendar/cal-client/libcal-client.la				\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
-	dialogs/libcal-dialogs.a							\
-	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
+libevolution_calendar_la_LIBADD =					\
+	$(DB3_LDADD)							\
+	$(top_builddir)/widgets/menus/libmenus.la			\
+	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/calendar/cal-client/libcal-client.la		\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
+	dialogs/libcal-dialogs.a					\
+	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_calendar_la_LDFLAGS = -avoid-version -module

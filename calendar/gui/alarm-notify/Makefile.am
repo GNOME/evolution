@@ -16,11 +16,6 @@ $(CORBA_GENERATED_C): $(CORBA_GENERATED_H)
 
 privlibexec_PROGRAMS = evolution-alarm-notify
 
-noinst_LIBRARIES = libalarm.a
-
-libalarm_a_SOURCES =	\
-	alarm.c		\
-	alarm.h
 
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
@@ -40,6 +35,8 @@ glade_DATA =		\
 
 evolution_alarm_notify_SOURCES =	\
 	$(CORBA_GENERATED)		\
+	alarm.c				\
+	alarm.h				\
 	alarm-notify.c			\
 	alarm-notify.h			\
 	alarm-notify-dialog.c		\
@@ -53,7 +50,6 @@ evolution_alarm_notify_SOURCES =	\
 	save.h
 
 evolution_alarm_notify_LDADD =						\
-	libalarm.a							\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(EVOLUTION_CALENDAR_LIBS)

@@ -39,7 +39,6 @@
 #include <evolution-shell-client.h>
 
 #include "dialogs/cal-prefs-dialog.h"
-#include "alarm-notify/alarm.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "calendar-component.h"
