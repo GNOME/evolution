@@ -1,3 +1,10 @@
+2004-07-06  JP Rosevear  <jpr@novell.com>
+
+	Fixes #60645
+	
+	* gui/e-calendar-view.c (e_calendar_view_new_appointment_full):
+	guess when an item should be all day based on the selection time
+
 2004-07-05  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/gnome-cal.c (setup_widgets): don't set the timezone on the views

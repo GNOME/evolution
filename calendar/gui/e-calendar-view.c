@@ -1608,6 +1608,10 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 		dtstart = time (NULL);
 		dtend = dtstart + 3600;
 	}
+	/* FIXME This is a rough hack to make sure "all day" is set for */
+	if ((dtend - dtstart) % (60 * 60 * 24) == 0)
+		all_day = TRUE;
+	
 	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, all_day, meeting);
 }
 
