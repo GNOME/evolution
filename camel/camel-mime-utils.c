@@ -73,7 +73,7 @@ int free_count = 0;
 #endif
 
 /* for all non-essential warnings ... */
-#define w(x) 
+#define w(x)
 
 #define d(x)
 #define d2(x)
@@ -2388,7 +2388,7 @@ header_decode_mailbox(const char **in)
 			} else {
 				/* Fix for stupidly-broken-mailers that like to put '.''s in names unquoted */
 				/* see bug #8147 */
-				if (*inptr && *inptr != '<') {
+				while (!pre && *inptr && *inptr != '<') {
 					w(g_warning("Working around stupid mailer bug #5: unescaped characters in names"));
 					name = g_string_append_c(name, *inptr++);
 					pre = header_decode_word(&inptr);
@@ -2994,7 +2994,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		inbuf = in;
 		
 		if (e_iconv (cd, &inbuf, &inleft, &outptr, &outleft) == (size_t) -1) {
-			w(g_warning ("Conversion problem: conversion truncated: %s" g_strerror (errno)));
+			w(g_warning ("Conversion problem: conversion truncated: %s", g_strerror (errno)));
 		} else {
 			e_iconv (cd, NULL, 0, &outptr, &outleft);
 		}

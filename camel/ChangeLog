@@ -1,5 +1,12 @@
 2002-05-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_decode_mailbox): Fixed the fix for
+	stupidly-broken-mailer bug #5 to work when multiple unescaped
+	characters were in a row. Fixes bug #24140.
+
+	* camel-tcp-stream-raw.c (socket_connect): Check select() for
+	EINTR errors.
+
 	* camel-pgp-context.c (crypto_exec_with_passwd): Change the order
 	of some code so that we check if the select() failed before we
 	check for user-cancellation.
