@@ -1,4 +1,4 @@
-defaultcalendardir = $(datadir)/evolution/default_user/local/Outbox
-defaultcalendar_DATA = folder-metadata.xml
+defaultfolderdir = $(datadir)/evolution/default_user/local/Outbox
+defaultfolder_DATA = folder-metadata.xml mbox
 
-EXTRA_DIST = $(defaultcalendar_DATA)
+EXTRA_DIST = $(defaultfolder_DATA)
