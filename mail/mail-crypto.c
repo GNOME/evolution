@@ -130,7 +130,6 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
         gboolean eof_seen, diag_eof_seen, passwd_eof_seen, input_eof_seen;
         size_t passwd_remaining, passwd_incr, input_remaining, input_incr;
 	struct timeval timeout;
-        long tmp;
 
 	if ((pipe (ip_fds) < 0 ) ||
 	    (pipe (op_fds) < 0 ) ||

@@ -1,5 +1,8 @@
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
+	* mail-crypto.c, mail-format.c, message-thread.c: Fix some
+	compiler warnings.
+
 	* mail-format.c (mail_generate_reply): Fix up format of addresses.
 	(write_headers): Use CamelAddress functions to simplify this.
 

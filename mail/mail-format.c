@@ -430,6 +430,7 @@ static void
 write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 {
 	const CamelInternetAddress *recipients;
+	const char *reply_to;
 	char *string;
 
 	mail_html_write (mfd->html, mfd->stream,
@@ -441,9 +442,9 @@ write_headers (CamelMimeMessage *message, struct mail_format_data *mfd)
 			       camel_mime_message_get_from (message),
 			       TRUE, mfd->html, mfd->stream);
 
-	string = camel_mime_message_get_reply_to (message);
-	if (string) {
-		write_field_to_stream ("Reply-To:", string, FALSE,
+	reply_to = camel_mime_message_get_reply_to (message);
+	if (reply_to) {
+		write_field_to_stream ("Reply-To:", reply_to, FALSE,
 				       mfd->html, mfd->stream);
 	}
 
