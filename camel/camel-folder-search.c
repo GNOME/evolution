@@ -371,6 +371,8 @@ search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, C
 			header = search->current->from;
 		} else if (!strcasecmp(headername, "to")) {
 			header = search->current->to;
+		} else if (!strcasecmp(headername, "cc")) {
+			header = search->current->cc;
 		} else {
 			g_warning("Performing query on unknown header: %s", headername);
 		}

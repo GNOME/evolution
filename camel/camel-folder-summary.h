@@ -86,8 +86,9 @@ typedef struct _CamelFlag {
 typedef struct {
 	/* public fields */
 	gchar *subject;
-	gchar *to;
 	gchar *from;
+	gchar *to;
+	gchar *cc;
 
 	gchar *uid;
 	guint32 flags;
