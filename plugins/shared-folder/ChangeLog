@@ -1,5 +1,12 @@
 2005-03-31  Vivek Jain <jvivek@novell.com>
 	
+	**Fixes #74002
+	* share-folder-common.c : 
+	(get_cnc): return cnc as NULL if evoluiton is in offline.
+	(create_folder): return -1 if in offline
+
+2005-03-31  Vivek Jain <jvivek@novell.com>
+	
 	**Fixes #73787 (bugzilla innerweb.novell)
 	* share-folder.c : 
 	(add_right_clicked)

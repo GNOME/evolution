@@ -40,12 +40,14 @@
 #include <camel/camel-store.h>
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
+#include <camel/camel-offline-store.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-folder.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <glade/glade.h>
 #include <libgnomeui/libgnomeui.h>
+#include <widgets/misc/e-error.h>
 #include "share-folder.h"
 #define d(x)
 
@@ -212,6 +214,12 @@ create_folder (CamelStore *store, const char *full_name, void (* done) (struct _
 	struct _EMCreateFolder *m;
 	const char *parent;
 	int id;
+	
+	if (((CamelOfflineStore *) store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+		//e_error_run (NULL,  _("Cannot create GroupWise folders in offline mode."), NULL, NULL);
+		g_warning (_("Cannot Create shared folder in offline mode."));
+		return -1;
+	}
 
 	namebuf = g_strdup (full_name);
 	if (!(name = strrchr (namebuf, '/'))) {
@@ -419,6 +427,9 @@ get_cnc (CamelStore *store)
 		
 		if (!store)
 			return  NULL;
+
+		if (((CamelOfflineStore *) store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
+			return NULL;	
 
 		service = CAMEL_SERVICE(store);
 		url = service->url;
