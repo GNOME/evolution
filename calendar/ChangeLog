@@ -1,3 +1,10 @@
+2002-03-04  Damon Chaplin  <damon@ximian.com>
+
+	* gui/tasks-control.c: added support for printing the Tasks table.
+	I hacked it a bit so the user could choose portrait or landscape mode.
+	This is bug #9677. ETable printing has a few issues, though, and it
+	isn't very pretty.
+
 2002-03-04  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c (comp_subject): Prefix the subject with an
