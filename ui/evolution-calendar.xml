@@ -34,7 +34,6 @@
         <placeholder name="ComponentItems">
 	  <menuitem name="NewCalendar" verb="NewCalendar" _label="New _Calendar"
 	            _tip="Create a new calendar"/>
-	  <separator/>
         </placeholder>
       </submenu>
       <placeholder name="Print">
