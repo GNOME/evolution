@@ -1,3 +1,18 @@
+2004-08-19  Hans Petter Jansson  <hpj@ximian.com>
+
+	Makes the contact image selector use GtkFileChooser if available.
+
+	* gui/contact-editor/e-contact-editor.c (image_selected_cb): Take just
+	the editor as an argument, so we can call from other places without
+	having to supply dummy args. Rename to image_selected, since it's no
+	longer strictly a callback. Include optional code to use the new
+	GtkFileChooser.
+	(image_cleared_cb): Ditto. Rename to image_cleared.
+	(file_chooser_response): Optional response handling for GtkFileChooser.
+	(image_clicked): Include optional code to use the new GtkFileChooser.
+	Move common strings to variables. For GtkFileSelection, swap callback
+	parameters for the modified image_selected () and image_cleared ().
+
 2004-08-19  Chris Toshok  <toshok@ximian.com>
 
 	[ likely fixes #61500 ]

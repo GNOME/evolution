@@ -2447,12 +2447,17 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 }
 
 static void
-image_selected_cb (GtkWidget *widget, EContactEditor *editor)
+image_selected (EContactEditor *editor)
 {
-	const gchar *file_name;
-	GtkWidget   *image_chooser;
+	gchar     *file_name;
+	GtkWidget *image_chooser;
 
-	file_name = gtk_file_selection_get_filename (GTK_FILE_SELECTION (editor->file_selector));
+#ifdef USE_GTKFILECHOOSER
+	file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (editor->file_selector));
+#else
+	file_name = (gchar *) gtk_file_selection_get_filename (GTK_FILE_SELECTION (editor->file_selector));
+#endif
+
 	if (!file_name)
 		return;
 
@@ -2467,7 +2472,7 @@ image_selected_cb (GtkWidget *widget, EContactEditor *editor)
 }
 
 static void
-image_cleared_cb (GtkWidget *widget, EContactEditor *editor)
+image_cleared (EContactEditor *editor)
 {
 	GtkWidget *image_chooser;
 	gchar     *file_name;
@@ -2486,6 +2491,21 @@ image_cleared_cb (GtkWidget *widget, EContactEditor *editor)
 	object_changed (G_OBJECT (image_chooser), editor);
 }
 
+#ifdef USE_GTKFILECHOOSER
+
+static void
+file_chooser_response (GtkWidget *widget, gint response, EContactEditor *editor)
+{
+	if (response == GTK_RESPONSE_ACCEPT)
+		image_selected (editor);
+	else if (response == GTK_RESPONSE_NO)
+		image_cleared (editor);
+
+	gtk_widget_hide (editor->file_selector);
+}
+
+#endif
+
 static gboolean
 file_selector_deleted (GtkWidget *widget)
 {
@@ -2498,23 +2518,40 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 {
 	GtkWidget *clear_button;
 	GtkWidget *dialog;
+	const gchar *title = _("Please select an image for this contact");
+	const gchar *no_image = _("No image");
 
 	if (!editor->file_selector) {
+#ifdef USE_GTKFILECHOOSER
+		editor->file_selector = gtk_file_chooser_dialog_new (title,
+								     GTK_WINDOW (editor->app),
+								     GTK_FILE_CHOOSER_ACTION_OPEN,
+								     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+								     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+								     no_image, GTK_RESPONSE_NO,
+								     NULL);
+		gtk_dialog_set_default_response (GTK_DIALOG (editor->file_selector), GTK_RESPONSE_ACCEPT);
+
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (editor->file_selector), g_get_home_dir ());
+
+		g_signal_connect (editor->file_selector, "response",
+				  G_CALLBACK (file_chooser_response), editor);
+#else
 		/* Create the selector */
 
-		editor->file_selector = gtk_file_selection_new (_("Please select an image for this contact"));
+		editor->file_selector = gtk_file_selection_new (title);
 
 		dialog = GTK_FILE_SELECTION (editor->file_selector)->fileop_dialog;
 
-		clear_button = gtk_dialog_add_button (GTK_DIALOG (editor->file_selector), _("No image"), 0);
+		clear_button = gtk_dialog_add_button (GTK_DIALOG (editor->file_selector), no_image, 0);
 
-		g_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->ok_button),
-				  "clicked", G_CALLBACK (image_selected_cb), editor);
+		g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->ok_button),
+					  "clicked", G_CALLBACK (image_selected), editor);
 
-		g_signal_connect (clear_button,
-				  "clicked", G_CALLBACK (image_cleared_cb), editor);
+		g_signal_connect_swapped (clear_button,
+					  "clicked", G_CALLBACK (image_cleared), editor);
 
-		/* Ensure that the dialog box is hidden when the user clicks a button */
+		/* Ensure that the dialog box gets hidden when the user clicks a button */
 
 		g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (editor->file_selector)->ok_button),
 					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
@@ -2524,6 +2561,7 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 
 		g_signal_connect_swapped (clear_button,
 					  "clicked", G_CALLBACK (gtk_widget_hide), editor->file_selector); 
+#endif
 
 		g_signal_connect_after (editor->file_selector,
 					"delete-event", G_CALLBACK (file_selector_deleted),
