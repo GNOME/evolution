@@ -1,3 +1,11 @@
+2004-01-19  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-component.c
+	(get_primary_source): Implement.
+	(load_primary_selection): Use get_primary_source ().
+	(impl_requestCreateItem): Use get_primary_source (), fixing a crash
+	when we're asked to create a new item and we don't have the controls.
+
 2004-01-16  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook.c (load_source_auth_cb): Don't run

@@ -118,8 +118,8 @@ save_primary_selection (AddressbookComponent *addressbook_component)
 				 e_source_peek_uid (source), NULL);
 }
 
-static void
-load_primary_selection (AddressbookComponent *addressbook_component)
+static ESource *
+get_primary_source (AddressbookComponent *addressbook_component)
 {
 	AddressbookComponentPrivate *priv;
 	ESource *source;
@@ -133,16 +133,26 @@ load_primary_selection (AddressbookComponent *addressbook_component)
 	if (uid) {
 		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
 		g_free (uid);
-	
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	} else {
-		ESource *source;
-		
 		/* Try to create a default if there isn't one */
 		source = find_first_source (priv->source_list);
-		if (source)
-			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	}
+
+	return source;
+}
+
+static void
+load_primary_selection (AddressbookComponent *addressbook_component)
+{
+	AddressbookComponentPrivate *priv;
+	ESource *source;
+	char *uid;
+
+	priv = addressbook_component->priv;
+
+	source = get_primary_source (addressbook_component);
+	if (source)
+		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 }
 
 /* Folder popup menu callbacks */
@@ -358,7 +368,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 
 	priv = addressbook_component->priv;
 
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	selected_source = get_primary_source (addressbook_component);
 	if (!selected_source) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
 		return;
