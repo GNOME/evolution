@@ -269,7 +269,7 @@ struct prop_info {
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_MAILER,      "mailer", "mailer"), 
 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FILE_AS,     "file_as", "fileAs"),
-	E_COMPLEX_PROP (E_CARD_SIMPLE_FIELD_CATEGORIES,  "category", "category", category_populate, category_ber, category_compare),
+	E_COMPLEX_PROP (E_CARD_SIMPLE_FIELD_CATEGORIES,  "categories", "category", category_populate, category_ber, category_compare),
 
 	STRING_PROP (E_CARD_SIMPLE_FIELD_CALURI,      "caluri", "calCalURI"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FBURL,       "fburl", "calFBURL"),

@@ -1,5 +1,12 @@
 2003-01-01  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #31014 ]
+	* backend/pas/pas-backend-ldap.c: use "categories" instead of
+	"category" for the ECard field so the UI/get_supported_fields stuff
+	actually thinks its usable in the contact editor..
+
+2003-01-01  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #34883 ]
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect):
 	perform an anonymous bind as the first thing after opening the
