@@ -296,7 +296,7 @@ e_table_specification_save_to_file (ETableSpecification *specification,
 	
 	xmlDocSetRootElement (doc, e_table_specification_save_to_node (specification, doc));
 	
-	ret = xmlSaveFile (filename, doc);
+	ret = e_xml_save_file (filename, doc);
 	
 	xmlFreeDoc (doc);
 	

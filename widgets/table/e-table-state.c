@@ -211,7 +211,7 @@ e_table_state_save_to_file      (ETableState *state,
 	
 	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
 	
-	xmlSaveFile (filename, doc);
+	e_xml_save_file (filename, doc);
 	
 	xmlFreeDoc (doc);
 }

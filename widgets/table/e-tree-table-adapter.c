@@ -963,7 +963,7 @@ e_tree_table_adapter_save_expanded_state (ETreeTableAdapter *etta, const char *f
 			      save_expanded_state_func,
 			      &tar);
 	
-	xmlSaveFile (filename, doc);
+	e_xml_save_file (filename, doc);
 	
 	xmlFreeDoc (doc);
 }
