@@ -555,14 +555,20 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 
 			ical->recur->type = RECUR_MONTHLY_BY_DAY;
 			ical->recur->u.month_day =
-				gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_month_date));
+				gtk_spin_button_get_value_as_int (
+					GTK_SPIN_BUTTON (ee->recur_rr_month_date));
 		} else {
 			/* by position */
 
 			ical->recur->type = RECUR_MONTHLY_BY_POS;
 
-			ical->recur->u.month_pos = option_menu_active_number (ee->recur_rr_month_day);
-			ical->recur->u.month_day = option_menu_active_number (ee->recur_rr_month_weekday);
+			ical->recur->u.month_pos =
+				option_menu_active_number (ee->recur_rr_month_day);
+			ical->recur->u.month_day =
+				option_menu_active_number (ee->recur_rr_month_weekday);
+			ical->recur->interval =
+				gtk_spin_button_get_value_as_int (
+					GTK_SPIN_BUTTON (ee->recur_rr_month_period));
 		}
 
 		break;

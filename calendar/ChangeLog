@@ -1,3 +1,8 @@
+1998-10-12  Ji Lee <g@ucsd.edu>
+
+	* eventedit.c (ee_store_recur_rule_to_ical): The interval was
+	never being loaded from the spin button.
+
 1998-10-09  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* month-view.c (month_view_update): Create a list of children and
