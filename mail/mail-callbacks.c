@@ -344,17 +344,9 @@ composer_get_message (EMsgComposer *composer)
 		return NULL;
 	
 	/* Check for recipients */
-	for (num_addrs = 0, i = 0; i < 3 && num_addrs == 0; i++) {
+	for (num_addrs = 0, i = 0; i < 3; i++) {
 		iaddr = camel_mime_message_get_recipients (message, recipient_type[i]);
 		num_addrs += iaddr ? camel_address_length (CAMEL_ADDRESS (iaddr)) : 0;
-	}
-	
-	if (num_addrs == camel_address_length (CAMEL_ADDRESS (iaddr))) {
-		/* this means that the only recipients are Bcc's */
-		if (!ask_confirm_for_only_bcc (composer)) {
-			camel_object_unref (CAMEL_OBJECT (message));
-			return NULL;
-		}
 	}
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */
@@ -371,6 +363,14 @@ composer_get_message (EMsgComposer *composer)
 		
 		camel_object_unref (CAMEL_OBJECT (message));
 		return NULL;
+	}
+	
+	if (iaddr && num_addrs == camel_address_length (CAMEL_ADDRESS (iaddr))) {
+		/* this means that the only recipients are Bcc's */
+		if (!ask_confirm_for_only_bcc (composer)) {
+			camel_object_unref (CAMEL_OBJECT (message));
+			return NULL;
+		}
 	}
 	
 	/* Check for no subject */
