@@ -302,7 +302,6 @@ AC_CACHE_CHECK([if system has necessary structs and functions for IPv6 support],
 		getaddrinfo ("www.ximian.com", NULL, &hints, &res);
 		freeaddrinfo (res);
 	],[
-		AC_DEFINE(ENABLE_IPv6)
 		msg_ipv6=yes
 	],[
 		enable_ipv6=no
@@ -311,6 +310,9 @@ AC_CACHE_CHECK([if system has necessary structs and functions for IPv6 support],
 ])
 else
 	msg_ipv6=no
+fi
+if test "x$enable_ipv6" = "xyes"; then
+	AC_DEFINE(ENABLE_IPv6)
 fi
 AM_CONDITIONAL(ENABLE_IPv6, test "x$enable_ipv6" = "xyes")
 
