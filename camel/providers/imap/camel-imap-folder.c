@@ -283,9 +283,8 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelImapSummary *imap_summary = CAMEL_IMAP_SUMMARY (folder->summary);
 	unsigned long exists = 0, validity = 0, val, uid;
-	gboolean got_perm_flags = FALSE;
 	CamelMessageInfo *info;
-	guint32 perm_flags;
+	guint32 perm_flags = 0;
 	GData *fetch_data;
 	int i, count;
 	char *resp;
@@ -296,7 +295,7 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 	
 	for (i = 0; i < response->untagged->len; i++) {
 		resp = response->untagged->pdata[i] + 2;
-		if (!strncasecmp (resp, "FLAGS ", 6) && !got_perm_flags) {
+		if (!strncasecmp (resp, "FLAGS ", 6) && !perm_flags) {
 			resp += 6;
 			folder->permanent_flags = imap_parse_flag_list (&resp);
 		} else if (!strncasecmp (resp, "OK [PERMANENTFLAGS ", 19)) {
@@ -306,8 +305,6 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			 * even tho they do allow storing flags. *Sigh* So many fucking broken IMAP servers out there. */
 			if ((perm_flags = imap_parse_flag_list (&resp)) != 0)
 				folder->permanent_flags = perm_flags;
-			
-			got_perm_flags = TRUE;
 		} else if (!strncasecmp (resp, "OK [UIDVALIDITY ", 16)) {
 			validity = strtoul (resp + 16, NULL, 10);
 		} else if (isdigit ((unsigned char)*resp)) {
