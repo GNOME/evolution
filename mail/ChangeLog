@@ -1,3 +1,20 @@
+2004-05-28  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (d): Disable debug here too - all this code has
+	been working fine.
+
+	* em-folder-selector.c (d): Disable debug spew here too (not that
+	this debug was ever seen since it never hit those conditions).
+
+	* mail-folder-cache.c (d): Disable debug here too.
+
+	* em-folder-tree-model.c: Disable debug spewage that we don't need
+	anymore. The amount of debug spewage on the console is getting to
+	be too much to find anything.
+
+	* em-folder-tree.c (emft_expand_node): Use p+1 as the full_name
+	rather than p. Fixes bug #59187.
+
 2004-05-27  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree.c (emft_get_folder_info__got): Instead of

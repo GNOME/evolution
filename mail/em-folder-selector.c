@@ -47,7 +47,7 @@
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 
-#define d(x) x
+#define d(x)
 
 
 extern CamelSession *session;

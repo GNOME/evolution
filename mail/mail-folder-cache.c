@@ -54,7 +54,7 @@
 #include "em-folder-tree-model.h"
 
 #define w(x) 
-#define d(x) x
+#define d(x)
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */

@@ -70,7 +70,7 @@
 #include "em-folder-selection.h"
 #include "em-folder-properties.h"
 
-#define d(x) x
+#define d(x)
 
 struct _EMFolderTreePrivate {
 	GtkTreeView *treeview;
@@ -546,7 +546,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 	camel_object_unref (store);
 	
 	if (p != NULL) {
-		if (!(row = g_hash_table_lookup (si->full_hash, p)))
+		if (!(row = g_hash_table_lookup (si->full_hash, p + 1)))
 			return;
 	} else
 		row = si->row;

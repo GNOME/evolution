@@ -57,8 +57,8 @@
 #include "em-marshal.h"
 #include "em-folder-tree-model.h"
 
-#define u(x) x			/* unread count debug */
-#define d(x) x
+#define u(x)			/* unread count debug */
+#define d(x)
 
 static GType col_types[] = {
 	G_TYPE_STRING,   /* display name */
