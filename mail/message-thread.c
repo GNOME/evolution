@@ -439,7 +439,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 			while (ref) {
 				d(printf(" %s\n", ref->id));
 				if (ref->id == NULL) {
-					printf("FUCK!?\n");
+					printf("ref missing id!?\n");
 					ref = ref->next;
 					continue;
 				}
