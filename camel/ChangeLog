@@ -1,5 +1,11 @@
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c
+	(imap_get_subfolder_info_internal): Fix the case where INBOX
+	isn't returned in the folder listing.
+
+2000-09-19  Dan Winship  <danw@helixcode.com>
+
 	* camel-folder.c: (init): Removed
 	(camel_folder_init, camel_folder_construct): New object init
 	function and public object constructor to replace the old init

@@ -671,7 +671,12 @@ imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
 	}
 	
 	if (!strcmp (folder->name, namespace) && !found_inbox) {
-		g_ptr_array_add (listing, g_strdup ("INBOX"));
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->full_name = g_strdup ("INBOX");
+		fi->name = g_strdup ("INBOX");
+		/* FIXME: read/unread msg count */
+
+		g_ptr_array_add (listing, fi);
 	}
 	
 	g_free (result);
