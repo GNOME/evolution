@@ -763,19 +763,45 @@ get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *e
 	return mail_tool_uri_to_folder (uri, 0, ex);
 }
 
+
+static void
+main_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
+{
+	if (filename && *filename)
+		gnome_sound_play (filename);
+	else
+		gdk_beep ();
+	
+	g_free (filename);
+	camel_object_unref (session);
+}
+
 static void
 session_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
 {
-	if (!filename || !*filename)
-		gdk_beep ();
-	else
-		gnome_sound_play (filename);
+	MailSession *ms = (MailSession *) session;
+	
+	camel_object_ref (session);
+	
+	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_play_sound,
+			       driver, g_strdup (filename), user_data);
+}
+
+static void
+main_system_beep (CamelFilterDriver *driver, gpointer user_data)
+{
+	gdk_beep ();
 }
 
 static void
 session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 {
-	gdk_beep ();
+	MailSession *ms = (MailSession *) session;
+	
+	camel_object_ref (session);
+	
+	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_system_beep,
+			       driver, user_data, NULL);
 }
 
 static CamelFilterDriver *

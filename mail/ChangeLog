@@ -1,3 +1,12 @@
+2003-05-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #43805.
+
+	* mail-session.c (session_system_beep): Proxy the gdk_beep() call
+	to the main thread.
+	(session_play_sound): Proxy the gnome_sound_play() call to the
+	main thread.
+
 2003-05-27  Not Zed  <NotZed@Ximian.com>
 
 	* message-tag-editor.c (message_tag_editor_init): set the default
