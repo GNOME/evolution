@@ -1,6 +1,7 @@
 noinst_PROGRAMS = test-card test-client test-client-list
 
-bin_PROGRAMS = load-pine-addressbook load-gnomecard-addressbook
+bin_PROGRAMS = evolution-gnomecard-importer 		\
+	load-pine-addressbook load-gnomecard-addressbook
 
 CORBA_SOURCE =						\
 	addressbook.h					\
@@ -29,6 +30,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/ename		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/ename		\
+	-I$(top_builddir)/shell/importer		\
         $(BONOBO_GNOME_CFLAGS)				\
 	$(EXTRA_GNOME_CFLAGS)
 
@@ -100,6 +102,16 @@ test_card_LDADD =					\
 	$(top_builddir)/libversit/libversit.la		\
 	$(top_builddir)/e-util/libeutil.la
 
+evolution_gnomecard_importer_SOURCES =			\
+	evolution-gnomecard-importer.c
+evolution_gnomecard_importer_LDADD =			\
+	libebook.la					\
+	$(BONOBO_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
+	$(top_builddir)/e-util/ename/libename.la	\
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/shell/importer/libevolution-importer.la
 
 load_pine_addressbook_SOURCES =				\
 	load-pine-addressbook.c
@@ -127,3 +139,6 @@ load_gnomecard_addressbook_LDADD =			\
 
 BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
+
+oafdir = $(datadir)/oaf
+oaf_DATA = GNOME_Evolution_Addressbook_GnomeCard_Importer.oafinfo
