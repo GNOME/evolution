@@ -1,3 +1,7 @@
+2001-11-12  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: save the ldflags properly
+
 2001-11-09  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: Check to make sure pilot-link has the charset
