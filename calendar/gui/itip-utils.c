@@ -21,8 +21,11 @@
  * USA
  */
 
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-object-client.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -56,41 +59,6 @@ static icalproperty_method itip_methods_enum[] = {
     ICAL_METHOD_DECLINECOUNTER,
 };
 
-gchar *partstat_values[] = {
-	"Needs action",
-	"Accepted",
-	"Declined",
-	"Tentative",
-	"Delegated",
-	"Completed",
-	"In Progress",
-	"Unknown"
-};
-
-gchar *role_values[] = {
-	"Chair",
-	"Required Participant",
-	"Optional Participant",
-	"Non-Participant"
-};
-
-
-
-/* Note that I have to iterate and check myself because
-   ical_property_get_xxx_parameter doesn't take into account the
-   kind of parameter for which you wish to search! */
-icalparameter *
-get_icalparam_by_type (icalproperty *prop, icalparameter_kind kind)
-{
-	icalparameter *param;
-
-	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
-	     param != NULL && icalparameter_isa (param) != kind;
-	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER) );
-
-	return param;
-}
-
 static void
 error_dialog (gchar *str) 
 {
@@ -98,6 +66,84 @@ error_dialog (gchar *str)
 	
 	dlg = gnome_error_dialog (str);
 	gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+}
+
+GList *
+itip_addresses_get (void)
+{
+	static Bonobo_ConfigDatabase db = NULL;
+	CORBA_Environment ev;
+	GList *addresses = NULL;
+	gboolean have_default = FALSE;
+	gint len, i;
+
+	if (db == NULL) {
+		CORBA_exception_init (&ev);
+ 
+		db = bonobo_get_object ("wombat:", 
+					"Bonobo/ConfigDatabase", 
+					&ev);
+	
+		if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+			CORBA_exception_free (&ev);
+			return NULL;
+		}
+		
+		CORBA_exception_free (&ev);
+	}
+	
+	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
+
+	for (i = 0; i < len; i++) {
+		ItipAddress *a;
+		gchar *path;
+		
+		a = g_new0 (ItipAddress, 1);
+
+		/* get the identity info */
+		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
+		a->name = bonobo_config_get_string (db, path, NULL);
+		g_free (path);
+
+		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
+		a->address = bonobo_config_get_string (db, path, NULL);
+		g_free (path);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_is_default_%d", i);
+		a->default_address = !have_default && bonobo_config_get_boolean (db, path, NULL);
+
+		if (a->default_address)
+			have_default = TRUE;
+		g_free (path);
+
+		a->full = g_strdup_printf ("%s <%s>", a->name, a->address);
+		addresses = g_list_append (addresses, a);
+	}
+
+	/* If nothing was marked as default */
+	if (!have_default && addresses != NULL) {
+		ItipAddress *a = addresses->data;
+		
+		a->default_address = TRUE;
+	}
+	
+	return addresses;
+}
+
+void
+itip_addresses_free (GList *addresses)
+{
+	GList *l;
+	
+	for (l = addresses; l != NULL; l = l->next) {
+		ItipAddress *a = l->data;
+
+		g_free (a->name);
+		g_free (a->address);
+		g_free (a->full);
+		g_free (a);
+	}
+	g_list_free (addresses);
 }
 
 void

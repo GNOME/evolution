@@ -8,11 +8,6 @@
 #include <glib.h>
 #include <cal-util/cal-component.h>
 
-extern gchar *partstat_values[];
-extern gchar *role_values[];
-
-icalparameter * get_icalparam_by_type (icalproperty *prop, icalparameter_kind kind);
-
 typedef enum {
 	CAL_COMPONENT_METHOD_PUBLISH,
 	CAL_COMPONENT_METHOD_REQUEST,
@@ -24,6 +19,18 @@ typedef enum {
 	CAL_COMPONENT_METHOD_DECLINECOUNTER
 } CalComponentItipMethod;
 
+typedef struct {
+	gchar *name;
+	gchar *address;
+	gchar *full;
+
+	gboolean default_address;
+} ItipAddress;
+
+GList *itip_addresses_get (void);
+void itip_addresses_free (GList *addresses);
+
 void itip_send_comp (CalComponentItipMethod method, CalComponent *comp);
+
 
 #endif

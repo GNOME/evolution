@@ -1,3 +1,30 @@
+2001-07-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (clear_widgets): actually clear some
+	widgets and hide/show widgets in the default setup
+	(meeting_page_destroy): destroy the address lists
+	(meeting_page_fill_widgets): allow the user to select among their
+	identities as a new organizer, or show the existing organizer as
+	label
+	(meeting_page_fill_component): set the "MAILTO:" bit of the
+	organizer to match spec, set CN properly if we know it
+	(get_widgets): load new widgets
+	(other_clicked_cb): handle "Other Organizer" click
+	(change_clicked_cb): handle "Change Organizer" click
+	(init_widgets): listen for clicks on new buttons
+
+	* gui/dialogs/comp-editor.c (comp_editor_remove_page): remove the
+	page from our internal list and unref it
+
+	* gui/itip-utils.c (itip_addresses_get): get the configure mail
+	identities
+	(itip_addresses_free): free a list of identities returned by
+	itip_addresses_get
+
+	* gui/itip-utils.h: remove obsolete protos, and new protos
+
+	* gui/gnome-cal.html: Remove ancient file
+
 2001-07-04  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #4018 and what would be the analogous bugs for the other

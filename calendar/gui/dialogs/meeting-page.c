@@ -26,6 +26,9 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
@@ -39,10 +42,10 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
-#include <widgets/meeting-time-sel/e-meeting-time-sel.h>
 #include <e-util/e-dialog-widgets.h>
-#include <addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.h>
+#include "../Evolution-Addressbook-SelectNames.h"
 #include "../component-factory.h"
+#include "../itip-utils.h"
 #include "comp-editor-util.h"
 #include "meeting-page.h"
 
@@ -119,19 +122,36 @@ struct attendee {
 struct _MeetingPagePrivate {
 	/* List of attendees */
 	GSList *attendees;
+
+	/* List of identities */
+	GList *addresses;
+	GList *address_strings;
+	gchar *default_address;
 	
 	/* Glade XML data */
 	GladeXML *xml;
 
 	/* Widgets from the Glade file */
 	GtkWidget *main;
+	GtkWidget *organizer_table;
 	GtkWidget *organizer;
+	GtkWidget *organizer_lbl;
+	GtkWidget *other_organizer;
+	GtkWidget *other_organizer_lbl;
+	GtkWidget *other_organizer_btn;
+	GtkWidget *existing_organizer_table;
+	GtkWidget *existing_organizer;
+	GtkWidget *existing_organizer_btn;
 	GtkWidget *invite;
 	
 	/* E Table stuff */
 	ETableModel *model;
 	GtkWidget *etable;
 
+	/* For handling who the organizer is */
+	gboolean other;
+	gboolean existing;
+	
 	/* For handling the invite button */
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
@@ -245,6 +265,9 @@ meeting_page_destroy (GtkObject *object)
 	mpage = MEETING_PAGE (object);
 	priv = mpage->priv;
 
+	itip_addresses_free (priv->addresses);
+	g_list_free (priv->address_strings);
+
 	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
 				    evolution_dir);
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->etable));
@@ -298,6 +321,19 @@ clear_widgets (MeetingPage *mpage)
 	MeetingPagePrivate *priv;
 
 	priv = mpage->priv;
+
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), "");
+	gtk_entry_set_text (GTK_ENTRY (priv->other_organizer), "");
+	gtk_label_set_text (GTK_LABEL (priv->existing_organizer), "None");
+
+	gtk_widget_show (priv->organizer_table);
+	gtk_widget_hide (priv->existing_organizer_table);	
+
+	gtk_widget_hide (priv->other_organizer_lbl);
+	gtk_widget_hide (priv->other_organizer);
+
+	priv->existing = FALSE;
+	priv->other = FALSE;
 }
 
 /* fill_widgets handler for the task page */
@@ -308,6 +344,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	MeetingPagePrivate *priv;
 	CalComponentOrganizer organizer;
 	GSList *attendees, *l;
+	GList *l2;
 	
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
@@ -317,9 +354,37 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Clean the screen */
 	clear_widgets (mpage);
 
+	/* Organizer */
 	cal_component_get_organizer (comp, &organizer);
-	e_dialog_editable_set (priv->organizer, organizer.value);
+	priv->addresses = itip_addresses_get ();
+	for (l2 = priv->addresses; l2 != NULL; l2 = l2->next) {
+		ItipAddress *a = l2->data;
+		
+		priv->address_strings = g_list_append (priv->address_strings, a->full);
+		if (a->default_address)
+			priv->default_address = a->full;
+	}
+	gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
 
+	if (organizer.value != NULL) {		
+		gchar *s = e_utf8_to_gtk_string (priv->existing_organizer, organizer.value);
+
+		gtk_widget_hide (priv->organizer_table);
+		gtk_widget_show (priv->existing_organizer_table);
+		gtk_widget_hide (priv->invite);
+		
+		gtk_label_set_text (GTK_LABEL (priv->existing_organizer), s);
+		g_free (s);
+
+		priv->existing = TRUE;
+	} else {
+		gtk_widget_hide (priv->other_organizer_lbl);
+		gtk_widget_hide (priv->other_organizer);
+
+		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
+	}
+
+	/* Attendees */
 	cal_component_get_attendee_list (comp, &attendees);
 	for (l = attendees; l != NULL; l = l->next) {
 		CalComponentAttendee *att = l->data;
@@ -361,25 +426,52 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	MeetingPagePrivate *priv;
 	CalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 	GSList *attendees = NULL, *l;
-	gchar *str;
 	
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
 
-	str = e_dialog_editable_get (priv->organizer);
-	if (str == NULL || strlen (str) == 0) {		
-		if (str != NULL)
+	if (!priv->existing) {
+		gchar *addr = NULL, *cn = NULL;
+		GList *l;
+		
+		if (priv->other) {
+			addr = e_dialog_editable_get (priv->other_organizer);
+		} else {
+			gchar *str = e_dialog_editable_get (GTK_COMBO (priv->organizer)->entry);
+			for (l = priv->addresses; l != NULL; l = l->next) {
+				ItipAddress *a = l->data;
+				
+				if (!strcmp (a->full, str)) {
+					addr = g_strdup (a->address);
+					cn = g_strdup (a->name);
+				}
+			}
 			g_free (str);
-		return;
-	}
+		}
+		
+		if (addr == NULL || strlen (addr) == 0) {		
+			g_free (addr);
+			g_free (cn);		
+			return;
+		} else {
+			gchar *tmp;
+			
+			tmp = addr;
+			addr = g_strdup_printf ("MAILTO:%s", addr);
+			g_free (tmp);
+		}
 	
-	organizer.value = str;
-	cal_component_set_organizer (comp, &organizer);
-	g_free (str);
+		organizer.value = addr;
+		organizer.cn = cn;
+		cal_component_set_organizer (comp, &organizer);
+		g_free (addr);
+		g_free (cn);
+	}
 	
 	for (l = priv->attendees; l != NULL; l = l->next) {
 		struct attendee *attendee = l->data;
 		CalComponentAttendee *att = g_new0 (CalComponentAttendee, 1);
+		
 		
 		att->value = attendee->address;
 		att->member = (attendee->member && *attendee->member) ? attendee->member : NULL;
@@ -420,13 +512,29 @@ get_widgets (MeetingPage *mpage)
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);
 
+	priv->organizer_table = GW ("organizer-table");
 	priv->organizer = GW ("organizer");
+	priv->organizer_lbl = GW ("organizer-label");
+	priv->other_organizer = GW ("other-organizer");
+	priv->other_organizer_lbl = GW ("other-organizer-label");
+	priv->other_organizer_btn = GW ("other-organizer-button");
+	priv->existing_organizer_table = GW ("existing-organizer-table");
+	priv->existing_organizer = GW ("existing-organizer");
+	priv->existing_organizer_btn = GW ("existing-organizer-button");
 	priv->invite = GW ("invite");
 	
 #undef GW
 
 	return (priv->invite
-		&& priv->organizer);
+		&& priv->organizer_table
+		&& priv->organizer
+		&& priv->organizer_lbl
+		&& priv->other_organizer
+		&& priv->other_organizer_lbl
+		&& priv->other_organizer_btn
+		&& priv->existing_organizer_table
+		&& priv->existing_organizer
+		&& priv->existing_organizer_btn);
 }
 
 static void
@@ -520,6 +628,44 @@ field_changed_cb (GtkWidget *widget, gpointer data)
 		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 }
 
+/* Function called to make the organizer other than the user */
+static void
+other_clicked_cb (GtkWidget *widget, gpointer data) 
+{
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+	
+	mpage = MEETING_PAGE (data);
+	priv = mpage->priv;
+
+	gtk_widget_show (priv->other_organizer_lbl);
+	gtk_widget_show (priv->other_organizer);
+
+	gtk_label_set_text (GTK_LABEL (priv->organizer_lbl), _("Sent By:"));
+
+	priv->other = TRUE;
+}
+
+/* Function called to change the organizer */
+static void
+change_clicked_cb (GtkWidget *widget, gpointer data) 
+{
+	MeetingPage *mpage;
+	MeetingPagePrivate *priv;
+	
+	mpage = MEETING_PAGE (data);
+	priv = mpage->priv;
+
+	gtk_widget_show (priv->organizer_table);
+	gtk_widget_hide (priv->existing_organizer_table);
+	gtk_widget_show (priv->invite);
+
+	gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
+	e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
+
+	priv->existing = FALSE;
+}
+
 /* Function called to invite more people */
 static void
 invite_cb (GtkWidget *widget, gpointer data) 
@@ -553,6 +699,11 @@ init_widgets (MeetingPage *mpage)
 	/* Organizer */
 	gtk_signal_connect (GTK_OBJECT (priv->organizer), "changed",
 			    GTK_SIGNAL_FUNC (field_changed_cb), mpage);
+
+	gtk_signal_connect (GTK_OBJECT (priv->other_organizer_btn), "clicked",
+			    GTK_SIGNAL_FUNC (other_clicked_cb), mpage);
+	gtk_signal_connect (GTK_OBJECT (priv->existing_organizer_btn), "clicked",
+			    GTK_SIGNAL_FUNC (change_clicked_cb), mpage);
 
 	/* Invite button */
 	gtk_signal_connect (GTK_OBJECT (priv->invite), "clicked", 
