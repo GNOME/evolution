@@ -1,3 +1,10 @@
+2005-02-14  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-list.xml:
+	* evolution-mail-message.xml: Move a separator from the message xml
+	to the list xml, so we don't have an extra separator in the external
+	mail message display window
+
 2005-02-01  Rodney Dawes  <dobey@novell.com>
 
 	* evolution-mail-global.xml:

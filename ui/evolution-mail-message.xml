@@ -280,8 +280,6 @@
 
     <submenu name="View">
       <placeholder name="MailMessageView">
-  	<separator f="" name="emaillist"/>
-
         <submenu name="GoTo" _label="_Go To">
           <menuitem name="MailNext" verb="" _label="_Next Message"/>
           <menuitem name="MailNextUnread" verb="" _label="Next _Unread Message"/>

@@ -95,6 +95,8 @@
       <placeholder name="MailMessageView">
         <menuitem name="ViewThreaded" verb="" _label="_Threaded Message List"/>
         <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
+
+  	<separator f="" name="emaillist"/>
       </placeholder>
 
       <placeholder name="MailListView">
