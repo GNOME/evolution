@@ -1,3 +1,16 @@
+2000-03-25  Matt Loper  <matt@helixcode.com>
+
+	* shell/e-shell-view.c (get_view): Move CORBA_Environment to
+	different scope.
+
+	* ebook/e-book.c,
+	ebook/e-book.h,	
+	ebook/e-book.h,		
+	ebook/e-card-fields.h,
+	ebook/e-card.h,
+	ebook/e-commerce.h: old, removed. Up-to-date EBook stuff is kept
+	in addressbook/backend/ebook.
+
 2000-03-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/backend/ebook/e-card.c,

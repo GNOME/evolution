@@ -86,7 +86,6 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 {
   	GtkWidget *w = NULL;
 	Evolution_Shell corba_shell = CORBA_OBJECT_NIL;
-	CORBA_Environment ev;
 	EShell *shell_model = eshell_view->eshell;
 
 	/* This type could be E_FOLDER_MAIL, E_FOLDER_CONTACTS, etc */
@@ -104,9 +103,6 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		g_warning ("The shell Bonobo object does not have "
 			   "an associated CORBA object\n");
 	
-	/* initialize the corba environment */
-	CORBA_exception_init (&ev);
-
 	/* depending on the type of folder, 
 	 * we launch a different bonobo component */
 	switch (e_folder_type) {
@@ -150,9 +146,14 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 
 		/* If it does, pass our shell interface to it */
 		if (corba_sr != CORBA_OBJECT_NIL) {
+
+			CORBA_Environment ev;
+			CORBA_exception_init (&ev);
 			Evolution_ServiceRepository_set_shell (corba_sr,
 							       corba_shell,
 							       &ev);
+			CORBA_exception_free (&ev);
+	
 		} else {
 			
 			g_print ("The bonobo component for \"%s\" doesn't "
@@ -160,7 +161,7 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 				 "Evolution::ServiceRepository interface\n",
 				 e_folder_get_description (efolder));
 		}
-	
+
 		gtk_widget_show (w);
 	}
 	
