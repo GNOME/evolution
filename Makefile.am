@@ -38,7 +38,6 @@ SUBDIRS =			\
 	ui			\
         default_user            \
 	views			\
-        tools			\
 	wombat
 
 

@@ -1,3 +1,8 @@
+2002-11-11  Joe Shaw  <joe@ximian.com>
+
+	* Makefile.am (SUBDIRS): remove tools for now, it's not in
+	configure.in.
+
 2002-11-11  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (SUBDIRS): add addressbook.
