@@ -2,6 +2,10 @@
 
 	* subscribe-dialog.c (setup_subscribe_folder): Use info->name, not
 	input->full_name. Fixes #1029 in bugzilla.helixcode.com.
+	({setup,do,cleanup}_subscribe_folder): Update previous fix: Jeff
+	had changed it to use ->full_name instead of ->name because that's
+	what camel_store_subscribe_folder needed. So we need to have
+	*both* names available, one for Camel, one for the shell.
 
 2000-12-24  Christopher James Lahey  <clahey@helixcode.com>
 

@@ -268,6 +268,7 @@ typedef struct subscribe_folder_input_s {
 typedef struct subscribe_folder_data_s {
 	char *path;
 	char *name;
+	char *full_name;
 	char *url;
 } subscribe_folder_data_t;
 
@@ -303,6 +304,7 @@ setup_subscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	data->path = storage_tree_path (input->info);
 	data->name = g_strdup (input->info->name);
+	data->full_name = g_strdup (input->info->full_name);
 	data->url = g_strdup (input->info->url);
 	
 	camel_object_ref (CAMEL_OBJECT (input->store));
@@ -317,9 +319,9 @@ do_subscribe_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	mail_tool_camel_lock_up ();
 	if (input->subscribe)
-		camel_store_subscribe_folder (input->store, data->name, ex);
+		camel_store_subscribe_folder (input->store, data->full_name, ex);
 	else
-		camel_store_unsubscribe_folder (input->store, data->name, ex);
+		camel_store_unsubscribe_folder (input->store, data->full_name, ex);
 	mail_tool_camel_lock_down ();
 }
 
@@ -347,6 +349,7 @@ cleanup_subscribe_folder (gpointer in_data, gpointer op_data,
 	
 	g_free (data->path);
 	g_free (data->name);
+	g_free (data->full_name);
 	g_free (data->url);
 	
 	camel_object_unref (CAMEL_OBJECT (input->store));
