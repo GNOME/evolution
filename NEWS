@@ -5,6 +5,50 @@ Shell:
 
 Mailer:
 
+  - Fixed SMTP truncation, IMAP/SSL truncation/hangs when
+    sending/appending messages.  (Jeff)
+
+  - Implemented rename for imap/maildir folders.  Rename also tracked
+    in vfolder and filter code.  Use rename for local folders when we
+    can instead of copy/delete.  (Michael, Jeff)
+
+  - Fixed startup wizard next page race bugs. (Michael)
+
+  - Fixed toolbars vanishing, Bonobo Suxors. (Michael)
+
+  - Made filter/vfolder on mailing lists honour domains, but also
+    backward compatible.  (Michael)
+
+  - Fixed the password coming up behind the main window.  (Michael,
+    Ettore)
+
+  - Fixed numerous crash on startup/exit/while doing nothing/switching
+    folder/components, many races and other architectural errors.
+    (Michael, Jeff)
+
+  - Broke the build.  Fixed the build.  Broke the mailer so much it
+    wouldn't start, fixed the mailer so it would start, broke it again
+    .... (Michael)
+
+  - Bunch of vFolder fixes and feature completion. (Michael)
+
+  - Added a 'index body' option to configure folder.  (Michael)
+
+  - Fixed 'unread' counts, again.  (Michael)
+
+  - Fixed some problems leaking file descriptors and overusing them
+    when not necessary.  (Michael)
+
+  - Implemented iconv() caching and Solaris friendly iconv name
+    converter.  Made override display charset work in more cases.
+    (Michael, Jeff)
+
+  - Various untranslated buttons/menus and other translation issues
+    fixed.  (Michael, Jeff)
+
+  - Lots and lots and lots of other little and not so little things.
+    (Michael, Jeff, Dan, Trow)
+
 Addressbook:
 
   - General bug fixes.  (Everybody)

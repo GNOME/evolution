@@ -1,3 +1,7 @@
+2001-10-30    <NotZed@Ximian.com>
+
+	* NEWS (Mailer): My mailer news.
+
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Add oaf to the BONOBO_VFS_GNOME_CFLAGS too.
