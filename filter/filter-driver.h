@@ -25,7 +25,8 @@
 #include <gtk/gtk.h>
 #include <camel/camel-session.h>
 #include <camel/camel-folder.h>
-#include "filter-xml.h"
+
+#include "filter-context.h"
 
 #define FILTER_DRIVER(obj)         GTK_CHECK_CAST (obj, filter_driver_get_type (), FilterDriver)
 #define FILTER_DRIVER_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_driver_get_type (), FilterDriverClass)
@@ -44,21 +45,24 @@ struct _FilterDriverClass {
 	GtkObjectClass parent_class;
 };
 
-typedef CamelFolder *(*FilterFolderFetcher) (const char *uri);
+typedef CamelFolder * (*FilterGetFolderFunc) (FilterDriver *, const char *uri, void *data);
 
 guint		filter_driver_get_type	(void);
-FilterDriver      *filter_driver_new	(const char *system, const char *user, FilterFolderFetcher fetcher);
+FilterDriver      *filter_driver_new	(FilterContext *ctx, FilterGetFolderFunc fetcher, void *data);
 
-void filter_driver_set_global(FilterDriver *, const char *name, const char *value);
+/*
+  void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
 
 /* apply rules to a folder, unmatched messages goto inbox, if not NULL */
 int filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox);
 
+#if 0
 /* generate the search query/action string for a filter option */
 void filter_driver_expand_option(FilterDriver *d, GString *s, GString *action, struct filter_option *op);
 
 /* get info about rules (options) */
 int filter_driver_rule_count(FilterDriver *d);
 struct filter_option *filter_driver_rule_get(FilterDriver *d, int n);
+#endif
 
 #endif /* ! _FILTER_DRIVER_H */

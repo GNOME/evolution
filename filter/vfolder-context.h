@@ -18,44 +18,38 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _FILTER_EDITOR_H
-#define _FILTER_EDITOR_H
+#ifndef _VFOLDER_CONTEXT_H
+#define _VFOLDER_CONTEXT_H
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
 
-#if 0
-/* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
+#include "rule-context.h"
 
-#define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
-#define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
-#define IS_FILTER_EDITOR(obj)      GTK_CHECK_TYPE (obj, filter_editor_get_type ())
+#define VFOLDER_CONTEXT(obj)	GTK_CHECK_CAST (obj, vfolder_context_get_type (), VfolderContext)
+#define VFOLDER_CONTEXT_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, vfolder_context_get_type (), VfolderContextClass)
+#define IS_VFOLDER_CONTEXT(obj)      GTK_CHECK_TYPE (obj, vfolder_context_get_type ())
 
-typedef struct _FilterEditor	FilterEditor;
-typedef struct _FilterEditorClass	FilterEditorClass;
+typedef struct _VfolderContext	VfolderContext;
+typedef struct _VfolderContextClass	VfolderContextClass;
 
-struct _FilterEditor {
-	GnomeDialog parent;
-	struct _FilterEditorPrivate *priv;
+struct _VfolderContext {
+	RuleContext parent;
+	struct _VfolderContextPrivate *priv;
 
 };
 
-struct _FilterEditorClass {
-	GnomeDialogClass parent_class;
+struct _VfolderContextClass {
+	RuleContextClass parent_class;
 
 	/* virtual methods */
 
 	/* signals */
 };
 
-guint		filter_editor_get_type	(void);
-FilterEditor	*filter_editor_new	(void);
-#endif
-
-struct _FilterContext;
+guint		vfolder_context_get_type	(void);
+VfolderContext	*vfolder_context_new	(void);
 
 /* methods */
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f);
 
-#endif /* ! _FILTER_EDITOR_H */
+#endif /* ! _VFOLDER_CONTEXT_H */
 

@@ -18,44 +18,36 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _FILTER_EDITOR_H
-#define _FILTER_EDITOR_H
+#ifndef _SCORE_CONTEXT_H
+#define _SCORE_CONTEXT_H
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
 
-#if 0
-/* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
+#include "rule-context.h"
 
-#define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
-#define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
-#define IS_FILTER_EDITOR(obj)      GTK_CHECK_TYPE (obj, filter_editor_get_type ())
+#define SCORE_CONTEXT(obj)	GTK_CHECK_CAST (obj, score_context_get_type (), ScoreContext)
+#define SCORE_CONTEXT_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, score_context_get_type (), ScoreContextClass)
+#define IS_SCORE_CONTEXT(obj)      GTK_CHECK_TYPE (obj, score_context_get_type ())
 
-typedef struct _FilterEditor	FilterEditor;
-typedef struct _FilterEditorClass	FilterEditorClass;
+typedef struct _ScoreContext	ScoreContext;
+typedef struct _ScoreContextClass	ScoreContextClass;
 
-struct _FilterEditor {
-	GnomeDialog parent;
-	struct _FilterEditorPrivate *priv;
-
+struct _ScoreContext {
+	RuleContext parent;
 };
 
-struct _FilterEditorClass {
-	GnomeDialogClass parent_class;
+struct _ScoreContextClass {
+	RuleContextClass parent_class;
 
 	/* virtual methods */
 
 	/* signals */
 };
 
-guint		filter_editor_get_type	(void);
-FilterEditor	*filter_editor_new	(void);
-#endif
-
-struct _FilterContext;
+guint		score_context_get_type	(void);
+ScoreContext	*score_context_new	(void);
 
 /* methods */
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f);
 
-#endif /* ! _FILTER_EDITOR_H */
+#endif /* ! _SCORE_CONTEXT_H */
 

@@ -1,74 +1,80 @@
 <?xml version="1.0"?>
 <filterdescription>
-<ruleset type="match">
-<rule name="from-address">
-  <code>
-   (match-all (header-contains "From" ${sender}))
-  </code>
-  <description lang="en">The From address matches <source type="address" name="sender">sender(s)</source>.</description>
-</rule>
-
-<rule name="to-address">
-  <code>
-   (match-all (or (header-contains "To" ${recipient})
-                  (header-contains "Cc" ${recipient})))
-  </code>
-  <description lang="en">The To or Cc address matches <source type="address" name="recipient">recipients</source>.</description>
-</rule>
-
-<rule name="subject-contains">
-  <code>
-   (match-all (header-contains "Subject" ${words}))
-  </code>
-  <description lang="en">The Subject contains <source type="string" name="words">words</source>.</description>
-</rule>
-
-<rule name="body-contains">
-  <code>
-   (match-all (body-contains ${words}))
-  </code>
-  <description lang="en">The body contains <source type="string" name="words">words</source>.</description>
-</rule>
-
-<rule name="cc-address">
-  <code>
-    (match-all (header-contains "CC" ${self-email}))
-  </code>
-  <description lang="en">I am in the cc list.</description>
-</rule>
-
-</ruleset>
-
-<ruleset type="except">
-<rule name="except-me">
-  <code>
-    (match-all (not (header-contains "To" ${self-email})))
-  </code>
-  <description language="en">I am the recipient.</description>
-</rule>
-<rule name="not-body-contains">
-  <code>
-   (match-all (not (body-contains ${words})))
-  </code>
-  <description lang="en">The body does not contain <source type="string" name="words">words</source>.</description>
-</rule>
-</ruleset>
-
-<optionset>
-  <option type="match">
-    <description language="en">For matching messages.</description>
-  </option>
-  <option type="match">
-    <description language="en">Messages from a certain person.</description>
-    <optionrule type="match" rule="from-address"/>
-  </option>
-  <option type="match">
-    <description language="en">Messages to a certain address.</description>
-    <optionrule type="match" rule="to-address"/>
-  </option>
-  <option type="match">
-    <description language="en">Messages with a given subject.</description>
-    <optionrule type="match" rule="subject-contains"/>
-  </option>
-</optionset>
+<partset>
+ <part name="sender">
+  <title>Sender</title>
+   <input type="optionlist" name="sender-type">
+    <option value="contains">
+        <title>contains</title>
+	<code>(match-all (header-contains "From" ${sender}))</code>
+    </option>
+    <option value="not contains">
+        <title>does not contain</title>
+        <code>(match-all (not (header-contains "From" ${sender})))</code>
+    </option>
+   </input>
+   <input type="string" name="sender"/>
+ </part>
+ <part name="to">
+   <title>Recipients</title>
+   <input type="optionlist" name="recipient-type">
+    <option value="contains">
+     <title>contains</title>
+     <code>
+	(match-all (or (header-contains "To" ${recipient})
+	               (header-contains "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="not contains">
+     <title>does not contain</title>
+     <code>
+	(match-all (not (or
+                          (header-contains "To" ${recipient})
+	                  (header-contains "Cc" ${recipient}))))
+     </code>
+    </option>
+   </input>
+   <input type="address" name="recipient"/>
+ </part>
+ <part name="subject">
+   <title>Subject</title>
+   <input type="optionlist" name="subject-type">
+    <option value="contains">
+     <title>contains</title>
+     <code>
+	(match-all (header-contains "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not contains">
+     <title>does not contain</title>
+     <code>
+	(match-all (not (header-contains "Subject" ${subject})))
+     </code>
+    </option>
+   </input>
+   <input type="string" name="subject"/>
+ </part>
+ <part name="body">
+   <title>Message Body</title>
+   <input type="optionlist" name="body-type">
+    <option value="contains">
+     <title>contains</title>
+     <code>
+	(body-contains ${word})
+     </code>
+    </option>
+    <option value="not contains">
+     <title>does not contain</title>
+     <code>
+	(not (body-contains "Subject" ${word}))
+     </code>
+    </option>
+   </input>
+   <input type="string" name="word"/>
+ </part>
+ <part name="sexp">
+   <title>Expression</title>
+   <input type="code" name="code"/>
+  </part>
+</partset>
 </filterdescription>

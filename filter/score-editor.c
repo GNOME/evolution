@@ -22,42 +22,30 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
-#include "filter-editor.h"
-#include "filter-context.h"
-#include "filter-filter.h"
+#include "score-editor.h"
+#include "score-context.h"
+#include "score-rule.h"
 
 #define d(x)
 
 #if 0
-static void filter_editor_class_init	(FilterEditorClass *class);
-static void filter_editor_init	(FilterEditor *gspaper);
-static void filter_editor_finalise	(GtkObject *obj);
-
-#define _PRIVATE(x) (((FilterEditor *)(x))->priv)
-
-struct _FilterEditorPrivate {
-};
+static void score_editor_class_init	(ScoreEditorClass *class);
+static void score_editor_init	(ScoreEditor *gspaper);
 
 static GnomeDialogClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
 guint
-filter_editor_get_type (void)
+score_editor_get_type (void)
 {
 	static guint type = 0;
 	
 	if (!type) {
 		GtkTypeInfo type_info = {
-			"FilterEditor",
-			sizeof(FilterEditor),
-			sizeof(FilterEditorClass),
-			(GtkClassInitFunc)filter_editor_class_init,
-			(GtkObjectInitFunc)filter_editor_init,
+			"ScoreEditor",
+			sizeof(ScoreEditor),
+			sizeof(ScoreEditorClass),
+			(GtkClassInitFunc)score_editor_class_init,
+			(GtkObjectInitFunc)score_editor_init,
 			(GtkArgSetFunc)NULL,
 			(GtkArgGetFunc)NULL
 		};
@@ -69,49 +57,35 @@ filter_editor_get_type (void)
 }
 
 static void
-filter_editor_class_init (FilterEditorClass *class)
+score_editor_class_init (ScoreEditorClass *class)
 {
 	GtkObjectClass *object_class;
 	
 	object_class = (GtkObjectClass *)class;
 	parent_class = gtk_type_class(gnome_dialog_get_type ());
 
-	object_class->finalize = filter_editor_finalise;
 	/* override methods */
 
-	/* signals */
-
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
 }
 
 static void
-filter_editor_init (FilterEditor *o)
+score_editor_init (ScoreEditor *o)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
-}
-
-static void
-filter_editor_finalise(GtkObject *obj)
-{
-	FilterEditor *o = (FilterEditor *)obj;
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
 
 /**
- * filter_editor_new:
+ * score_editor_new:
  *
- * Create a new FilterEditor object.
+ * Create a new ScoreEditor object.
  * 
- * Return value: A new #FilterEditor object.
+ * Return value: A new #ScoreEditor object.
  **/
-FilterEditor *
-filter_editor_new(void)
+ScoreEditor *
+score_editor_new(void)
 {
-	FilterEditor *o = (FilterEditor *)gtk_type_new(filter_editor_get_type ());
+	ScoreEditor *o = (ScoreEditor *)gtk_type_new(score_editor_get_type ());
 	return o;
 }
-
 #endif
 
 
@@ -135,7 +109,7 @@ static void set_sensitive(struct _editor_data *data);
 
 static void rule_add(GtkWidget *widget, struct _editor_data *data)
 {
-	FilterFilter *rule;
+	ScoreRule *rule;
 	int result;
 	GnomeDialog *gd;
 	GtkWidget *w;
@@ -143,12 +117,10 @@ static void rule_add(GtkWidget *widget, struct _editor_data *data)
 
 	d(printf("add rule\n"));
 	/* create a new rule with 1 match and 1 action */
-	rule = filter_filter_new();
+	rule = score_rule_new();
 
 	part = rule_context_next_part(data->f, NULL);
 	filter_rule_add_part((FilterRule *)rule, filter_part_clone(part));
-	part = filter_context_next_action((FilterContext *)data->f, NULL);
-	filter_filter_add_action(rule, filter_part_clone(part));
 
 	w = filter_rule_get_widget((FilterRule *)rule, data->f);
 	gd = (GnomeDialog *)gnome_dialog_new("Add Rule", "Ok", "Cancel", NULL);
@@ -183,7 +155,7 @@ static void rule_edit(GtkWidget *widget, struct _editor_data *data)
 	d(printf("edit rule\n"));
 	rule = data->current;
 	w = filter_rule_get_widget(rule, data->f);
-	gd = (GnomeDialog *)gnome_dialog_new("Edit Rule", "Ok", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new("Edit Score Rule", "Ok", NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);
@@ -296,7 +268,7 @@ select_rule(GtkWidget *w, GtkWidget *child, struct _editor_data *data)
 	set_sensitive(data);
 }
 
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f)
+GtkWidget	*score_editor_construct	(struct _ScoreContext *f)
 {
 	GladeXML *gui;
 	GtkWidget *d, *w;
@@ -305,30 +277,20 @@ GtkWidget	*filter_editor_construct	(struct _FilterContext *f)
 	struct _editor_data *data;
 	int i;
 
-	g_assert(IS_FILTER_CONTEXT(f));
+	g_assert(IS_SCORE_CONTEXT(f));
 
 	data = g_malloc0(sizeof(*data));
 	data->f = (RuleContext *)f;
 
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "edit_filter");
-        d = glade_xml_get_widget (gui, "edit_filter");
+	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "edit_vfolder");
+        d = glade_xml_get_widget (gui, "edit_vfolder");
 	gtk_object_set_data_full((GtkObject *)d, "data", data, g_free);
 
-	gtk_window_set_title((GtkWindow *)d, "Edit Filters");
+	gtk_window_set_title((GtkWindow *)d, "Edit Score List");
 	for (i=0;i<BUTTON_LAST;i++) {
 		data->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
 		gtk_signal_connect((GtkObject *)w, "clicked", edit_buttons[i].func, data);
 	}
-
-	/* to be defined yet */
-#if 0
-        w = glade_xml_get_widget (gui, "filter_source");
-	l = GTK_MENU_SHELL(GTK_OPTION_MENU(w)->menu)->children;
-	while (l) {
-		b = l->data;
-		l = l->next;
-	}
-#endif
 
         w = glade_xml_get_widget (gui, "rule_list");
 	data->list = (GtkList *)w;

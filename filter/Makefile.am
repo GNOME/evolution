@@ -1,3 +1,7 @@
+
+gladedir = $(prefix)/share/evolution/glade
+glade_DATA = filter.glade
+
 INCLUDES = 					\
 	-I $(top_srcdir)			\
 	-I $(top_srcdir)/libibex		\
@@ -8,6 +12,7 @@ INCLUDES = 					\
 	-I $(top_builddir)/shell		\
 	-I $(GNOME_INCLUDEDIR)			\
 	$(GTKHTML_CFLAGS)			\
+	-DFILTER_GLADEDIR=\"$(gladedir)\"	\
 	-DG_LOG_DOMAIN=\"filter\"
 ##
 
@@ -15,20 +20,42 @@ noinst_LTLIBRARIES =				\
 	libfilter.la
 
 libfilter_la_SOURCES =				\
-	filter-arg-types.c			\
-	filter-arg-types.h			\
-	filter-arg.c				\
-	filter-arg.h				\
-	filter-xml.c				\
-	filter-xml.h				\
-	filter-format.c				\
-	filter-format.h				\
-	filter-druid.c				\
-	filter-druid.h				\
+	filter-code.c				\
+	filter-code.h				\
+	filter-colour.c				\
+	filter-colour.h				\
+	filter-context.c			\
+	filter-context.h			\
+	filter-driver.c				\
+	filter-driver.h				\
 	filter-editor.c				\
 	filter-editor.h				\
-	filter-driver.c				\
-	filter-driver.h
+	filter-element.c			\
+	filter-element.h			\
+	filter-filter.c				\
+	filter-filter.h				\
+	filter-folder.c				\
+	filter-folder.h				\
+	filter-input.c				\
+	filter-input.h				\
+	filter-option.c				\
+	filter-option.h				\
+	filter-part.c				\
+	filter-part.h				\
+	filter-rule.c				\
+	filter-rule.h				\
+	rule-context.c				\
+	rule-context.h				\
+	score-context.c				\
+	score-context.h				\
+	score-editor.c				\
+	score-editor.h				\
+	score-rule.c				\
+	score-rule.h				\
+	vfolder-context.c			\
+	vfolder-context.h			\
+	vfolder-editor.c			\
+	vfolder-editor.h
 
 EXTRA_DIST = blank.xpm check.xpm 		\
 	filtertypes.xml vfoldertypes.xml

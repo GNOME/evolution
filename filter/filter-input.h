@@ -18,44 +18,42 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _FILTER_EDITOR_H
-#define _FILTER_EDITOR_H
+#ifndef _FILTER_INPUT_H
+#define _FILTER_INPUT_H
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
+#include "filter-element.h"
 
-#if 0
-/* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
+#define FILTER_INPUT(obj)	GTK_CHECK_CAST (obj, filter_input_get_type (), FilterInput)
+#define FILTER_INPUT_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_input_get_type (), FilterInputClass)
+#define IS_FILTER_INPUT(obj)      GTK_CHECK_TYPE (obj, filter_input_get_type ())
 
-#define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
-#define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
-#define IS_FILTER_EDITOR(obj)      GTK_CHECK_TYPE (obj, filter_editor_get_type ())
+typedef struct _FilterInput	FilterInput;
+typedef struct _FilterInputClass	FilterInputClass;
 
-typedef struct _FilterEditor	FilterEditor;
-typedef struct _FilterEditorClass	FilterEditorClass;
+struct _FilterInput {
+	FilterElement parent;
+	struct _FilterInputPrivate *priv;
 
-struct _FilterEditor {
-	GnomeDialog parent;
-	struct _FilterEditorPrivate *priv;
-
+	char *type;		/* name of type */
+	GList *values;		/* strings */
 };
 
-struct _FilterEditorClass {
-	GnomeDialogClass parent_class;
+struct _FilterInputClass {
+	FilterElementClass parent_class;
 
 	/* virtual methods */
 
 	/* signals */
 };
 
-guint		filter_editor_get_type	(void);
-FilterEditor	*filter_editor_new	(void);
-#endif
+guint		filter_input_get_type	(void);
+FilterInput	*filter_input_new	(void);
 
-struct _FilterContext;
+FilterInput	*filter_input_new_type_name	(const char *type);
 
 /* methods */
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f);
+void		filter_input_set_value(FilterInput *fi, const char *value);
 
-#endif /* ! _FILTER_EDITOR_H */
+#endif /* ! _FILTER_INPUT_H */
 

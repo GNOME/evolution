@@ -22,20 +22,19 @@
 #include <gnome.h>
 #include <glade/glade.h>
 
-#include "filter-editor.h"
-#include "filter-context.h"
-#include "filter-filter.h"
+#include "vfolder-editor.h"
+#include "vfolder-context.h"
 
 #define d(x)
 
 #if 0
-static void filter_editor_class_init	(FilterEditorClass *class);
-static void filter_editor_init	(FilterEditor *gspaper);
-static void filter_editor_finalise	(GtkObject *obj);
+static void vfolder_editor_class_init	(VfolderEditorClass *class);
+static void vfolder_editor_init	(VfolderEditor *gspaper);
+static void vfolder_editor_finalise	(GtkObject *obj);
 
-#define _PRIVATE(x) (((FilterEditor *)(x))->priv)
+#define _PRIVATE(x) (((VfolderEditor *)(x))->priv)
 
-struct _FilterEditorPrivate {
+struct _VfolderEditorPrivate {
 };
 
 static GnomeDialogClass *parent_class;
@@ -47,17 +46,17 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 guint
-filter_editor_get_type (void)
+vfolder_editor_get_type (void)
 {
 	static guint type = 0;
 	
 	if (!type) {
 		GtkTypeInfo type_info = {
-			"FilterEditor",
-			sizeof(FilterEditor),
-			sizeof(FilterEditorClass),
-			(GtkClassInitFunc)filter_editor_class_init,
-			(GtkObjectInitFunc)filter_editor_init,
+			"VfolderEditor",
+			sizeof(VfolderEditor),
+			sizeof(VfolderEditorClass),
+			(GtkClassInitFunc)vfolder_editor_class_init,
+			(GtkObjectInitFunc)vfolder_editor_init,
 			(GtkArgSetFunc)NULL,
 			(GtkArgGetFunc)NULL
 		};
@@ -69,14 +68,14 @@ filter_editor_get_type (void)
 }
 
 static void
-filter_editor_class_init (FilterEditorClass *class)
+vfolder_editor_class_init (VfolderEditorClass *class)
 {
 	GtkObjectClass *object_class;
 	
 	object_class = (GtkObjectClass *)class;
 	parent_class = gtk_type_class(gnome_dialog_get_type ());
 
-	object_class->finalize = filter_editor_finalise;
+	object_class->finalize = vfolder_editor_finalise;
 	/* override methods */
 
 	/* signals */
@@ -85,34 +84,34 @@ filter_editor_class_init (FilterEditorClass *class)
 }
 
 static void
-filter_editor_init (FilterEditor *o)
+vfolder_editor_init (VfolderEditor *o)
 {
 	o->priv = g_malloc0(sizeof(*o->priv));
 }
 
 static void
-filter_editor_finalise(GtkObject *obj)
+vfolder_editor_finalise(GtkObject *obj)
 {
-	FilterEditor *o = (FilterEditor *)obj;
+	VfolderEditor *o = (VfolderEditor *)obj;
 
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
 
 /**
- * filter_editor_new:
+ * vfolder_editor_new:
  *
- * Create a new FilterEditor object.
+ * Create a new VfolderEditor object.
  * 
- * Return value: A new #FilterEditor object.
+ * Return value: A new #VfolderEditor object.
  **/
-FilterEditor *
-filter_editor_new(void)
+VfolderEditor *
+vfolder_editor_new(void)
 {
-	FilterEditor *o = (FilterEditor *)gtk_type_new(filter_editor_get_type ());
+	VfolderEditor *o = (VfolderEditor *)gtk_type_new(vfolder_editor_get_type ());
 	return o;
 }
-
 #endif
+
 
 
 enum {
@@ -135,28 +134,26 @@ static void set_sensitive(struct _editor_data *data);
 
 static void rule_add(GtkWidget *widget, struct _editor_data *data)
 {
-	FilterFilter *rule;
+	FilterRule *rule;
 	int result;
 	GnomeDialog *gd;
 	GtkWidget *w;
 	FilterPart *part;
-
+	
 	d(printf("add rule\n"));
 	/* create a new rule with 1 match and 1 action */
-	rule = filter_filter_new();
+	rule = filter_rule_new();
 
 	part = rule_context_next_part(data->f, NULL);
-	filter_rule_add_part((FilterRule *)rule, filter_part_clone(part));
-	part = filter_context_next_action((FilterContext *)data->f, NULL);
-	filter_filter_add_action(rule, filter_part_clone(part));
+	filter_rule_add_part(rule, filter_part_clone(part));
 
-	w = filter_rule_get_widget((FilterRule *)rule, data->f);
+	w = filter_rule_get_widget(rule, data->f);
 	gd = (GnomeDialog *)gnome_dialog_new("Add Rule", "Ok", "Cancel", NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);
 	if (result == 0) {
-		GtkListItem *item = (GtkListItem *)gtk_list_item_new_with_label(((FilterRule *)rule)->name);
+		GtkListItem *item = (GtkListItem *)gtk_list_item_new_with_label(rule->name);
 		GList *l = NULL;
 
 		gtk_object_set_data((GtkObject *)item, "rule", rule);
@@ -164,8 +161,8 @@ static void rule_add(GtkWidget *widget, struct _editor_data *data)
 		l = g_list_append(l, item);
 		gtk_list_append_items(data->list, l);
 		gtk_list_select_child(data->list, (GtkWidget *)item);
-		data->current = (FilterRule *)rule;
-		rule_context_add_rule(data->f, (FilterRule *)rule);
+		data->current = rule;
+		rule_context_add_rule(data->f, rule);
 		set_sensitive(data);
 	} else {
 		gtk_object_unref((GtkObject *)rule);
@@ -183,7 +180,7 @@ static void rule_edit(GtkWidget *widget, struct _editor_data *data)
 	d(printf("edit rule\n"));
 	rule = data->current;
 	w = filter_rule_get_widget(rule, data->f);
-	gd = (GnomeDialog *)gnome_dialog_new("Edit Rule", "Ok", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new("Edit VFolder Rule", "Ok", NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);
@@ -296,7 +293,7 @@ select_rule(GtkWidget *w, GtkWidget *child, struct _editor_data *data)
 	set_sensitive(data);
 }
 
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f)
+GtkWidget	*vfolder_editor_construct	(struct _VfolderContext *f)
 {
 	GladeXML *gui;
 	GtkWidget *d, *w;
@@ -305,30 +302,20 @@ GtkWidget	*filter_editor_construct	(struct _FilterContext *f)
 	struct _editor_data *data;
 	int i;
 
-	g_assert(IS_FILTER_CONTEXT(f));
+	g_assert(IS_VFOLDER_CONTEXT(f));
 
 	data = g_malloc0(sizeof(*data));
 	data->f = (RuleContext *)f;
 
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "edit_filter");
-        d = glade_xml_get_widget (gui, "edit_filter");
+	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "edit_vfolder");
+        d = glade_xml_get_widget (gui, "edit_vfolder");
 	gtk_object_set_data_full((GtkObject *)d, "data", data, g_free);
 
-	gtk_window_set_title((GtkWindow *)d, "Edit Filters");
+	gtk_window_set_title((GtkWindow *)d, "Edit VFolders");
 	for (i=0;i<BUTTON_LAST;i++) {
 		data->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
 		gtk_signal_connect((GtkObject *)w, "clicked", edit_buttons[i].func, data);
 	}
-
-	/* to be defined yet */
-#if 0
-        w = glade_xml_get_widget (gui, "filter_source");
-	l = GTK_MENU_SHELL(GTK_OPTION_MENU(w)->menu)->children;
-	while (l) {
-		b = l->data;
-		l = l->next;
-	}
-#endif
 
         w = glade_xml_get_widget (gui, "rule_list");
 	data->list = (GtkList *)w;

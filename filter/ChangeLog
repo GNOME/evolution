@@ -1,3 +1,10 @@
+2000-07-30  Not Zed  <NotZed@HelixCode.com>
+
+	**  Almost a total rewrite of every file, except for filter-driver
+	which just had minor updates.
+
+	The rule format has changed.
+
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c (do_delete, filter_driver_run): Update for

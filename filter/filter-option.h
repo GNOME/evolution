@@ -18,44 +18,46 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _FILTER_EDITOR_H
-#define _FILTER_EDITOR_H
+#ifndef _FILTER_OPTION_H
+#define _FILTER_OPTION_H
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
 
-#if 0
-/* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
+#include "filter-element.h"
 
-#define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
-#define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
-#define IS_FILTER_EDITOR(obj)      GTK_CHECK_TYPE (obj, filter_editor_get_type ())
+#define FILTER_OPTION(obj)	GTK_CHECK_CAST (obj, filter_option_get_type (), FilterOption)
+#define FILTER_OPTION_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_option_get_type (), FilterOptionClass)
+#define IS_FILTER_OPTION(obj)      GTK_CHECK_TYPE (obj, filter_option_get_type ())
 
-typedef struct _FilterEditor	FilterEditor;
-typedef struct _FilterEditorClass	FilterEditorClass;
+typedef struct _FilterOption	FilterOption;
+typedef struct _FilterOptionClass	FilterOptionClass;
 
-struct _FilterEditor {
-	GnomeDialog parent;
-	struct _FilterEditorPrivate *priv;
-
+struct _filter_option {
+	char *title;		/* button title */
+	char *value;		/* value, if it has one */
+	char *code;		/* used to string code segments together */
 };
 
-struct _FilterEditorClass {
-	GnomeDialogClass parent_class;
+struct _FilterOption {
+	FilterElement parent;
+	struct _FilterOptionPrivate *priv;
+
+	GList *options;
+	struct _filter_option *current;
+};
+
+struct _FilterOptionClass {
+	FilterElementClass parent_class;
 
 	/* virtual methods */
 
 	/* signals */
 };
 
-guint		filter_editor_get_type	(void);
-FilterEditor	*filter_editor_new	(void);
-#endif
-
-struct _FilterContext;
+guint		filter_option_get_type	(void);
+FilterOption	*filter_option_new	(void);
 
 /* methods */
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f);
 
-#endif /* ! _FILTER_EDITOR_H */
+#endif /* ! _FILTER_OPTION_H */
 

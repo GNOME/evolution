@@ -18,44 +18,38 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _FILTER_EDITOR_H
-#define _FILTER_EDITOR_H
+#ifndef _FILTER_COLOUR_H
+#define _FILTER_COLOUR_H
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
+#include "filter-element.h"
 
-#if 0
-/* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
+#define FILTER_COLOUR(obj)	GTK_CHECK_CAST (obj, filter_colour_get_type (), FilterColour)
+#define FILTER_COLOUR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_colour_get_type (), FilterColourClass)
+#define IS_FILTER_COLOUR(obj)      GTK_CHECK_TYPE (obj, filter_colour_get_type ())
 
-#define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
-#define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
-#define IS_FILTER_EDITOR(obj)      GTK_CHECK_TYPE (obj, filter_editor_get_type ())
+typedef struct _FilterColour	FilterColour;
+typedef struct _FilterColourClass	FilterColourClass;
 
-typedef struct _FilterEditor	FilterEditor;
-typedef struct _FilterEditorClass	FilterEditorClass;
+struct _FilterColour {
+	FilterElement parent;
+	struct _FilterColourPrivate *priv;
 
-struct _FilterEditor {
-	GnomeDialog parent;
-	struct _FilterEditorPrivate *priv;
-
+	guint16 r,g,b,a;
 };
 
-struct _FilterEditorClass {
-	GnomeDialogClass parent_class;
+struct _FilterColourClass {
+	FilterElementClass parent_class;
 
 	/* virtual methods */
 
 	/* signals */
 };
 
-guint		filter_editor_get_type	(void);
-FilterEditor	*filter_editor_new	(void);
-#endif
-
-struct _FilterContext;
+guint		filter_colour_get_type	(void);
+FilterColour	*filter_colour_new	(void);
 
 /* methods */
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f);
 
-#endif /* ! _FILTER_EDITOR_H */
+#endif /* ! _FILTER_COLOUR_H */
 

@@ -18,8 +18,8 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef _FILTER_EDITOR_H
-#define _FILTER_EDITOR_H
+#ifndef _VFOLDER_EDITOR_H
+#define _VFOLDER_EDITOR_H
 
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -27,20 +27,20 @@
 #if 0
 /* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
 
-#define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
-#define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
-#define IS_FILTER_EDITOR(obj)      GTK_CHECK_TYPE (obj, filter_editor_get_type ())
+#define VFOLDER_EDITOR(obj)	GTK_CHECK_CAST (obj, vfolder_editor_get_type (), VfolderEditor)
+#define VFOLDER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, vfolder_editor_get_type (), VfolderEditorClass)
+#define IS_VFOLDER_EDITOR(obj)      GTK_CHECK_TYPE (obj, vfolder_editor_get_type ())
 
-typedef struct _FilterEditor	FilterEditor;
-typedef struct _FilterEditorClass	FilterEditorClass;
+typedef struct _VfolderEditor	VfolderEditor;
+typedef struct _VfolderEditorClass	VfolderEditorClass;
 
-struct _FilterEditor {
+struct _VfolderEditor {
 	GnomeDialog parent;
-	struct _FilterEditorPrivate *priv;
+	struct _VfolderEditorPrivate *priv;
 
 };
 
-struct _FilterEditorClass {
+struct _VfolderEditorClass {
 	GnomeDialogClass parent_class;
 
 	/* virtual methods */
@@ -48,14 +48,14 @@ struct _FilterEditorClass {
 	/* signals */
 };
 
-guint		filter_editor_get_type	(void);
-FilterEditor	*filter_editor_new	(void);
+guint		vfolder_editor_get_type	(void);
+VfolderEditor	*vfolder_editor_new	(void);
 #endif
 
-struct _FilterContext;
+struct _VfolderContext;
 
 /* methods */
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f);
+GtkWidget	*vfolder_editor_construct	(struct _VfolderContext *f);
 
-#endif /* ! _FILTER_EDITOR_H */
+#endif /* ! _VFOLDER_EDITOR_H */
 
