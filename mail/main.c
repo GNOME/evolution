@@ -9,3 +9,6 @@
 #include <config.h>
 #include <gnome.h>
 
+main ()
+{
+}

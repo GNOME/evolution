@@ -9,6 +9,10 @@ INCLUDES = \
 	$(BONOBO_GNOME_CFLAGS)
 
 evolution_mail_SOURCES =	\
+	html-stream.c		\
+	html-stream.h		\
+	mail-display.h		\
+	mail-display.c		\
 	main.c
 
 evolution_mail_LDADD = 					\
