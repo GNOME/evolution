@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-17 20:28+0100\n"
+"POT-Creation-Date: 2004-11-24 12:11+0100\n"
 "PO-Revision-Date: 2004-10-08 14:42+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -2956,7 +2956,7 @@ msgstr "Protocol niet ondersteund"
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
 #: camel/camel-service.c:724 camel/camel-service.c:886
-#: camel/camel-service.c:1017 camel/providers/pop3/camel-pop3-store.c:474
+#: camel/camel-service.c:1019 camel/providers/pop3/camel-pop3-store.c:474
 #: camel/providers/pop3/camel-pop3-store.c:555
 msgid "Cancelled"
 msgstr "Geannuleerd"
@@ -9174,7 +9174,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1261
+#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1269
 #: mail/mail-ops.c:716 mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Geannuleerd."
@@ -9676,15 +9676,15 @@ msgstr "Opzoeken host mislukt"
 msgid "Host lookup failed: %s: %s"
 msgstr "Opzoeken host mislukt: %s: %s"
 
-#: camel/camel-service.c:1021
+#: camel/camel-service.c:1023
 msgid "Resolving address"
 msgstr "Adres wordt opgezocht"
 
-#: camel/camel-service.c:1041
+#: camel/camel-service.c:1043
 msgid "Name lookup failed"
 msgstr "Opzoeken naam mislukt"
 
-#: camel/camel-service.c:1044
+#: camel/camel-service.c:1046
 #, c-format
 msgid "Name lookup failed: %s"
 msgstr "Opzoeken naam mislukt: %s"
@@ -10473,7 +10473,7 @@ msgstr "IMAP-dienst voor %s op %s"
 #: camel/providers/imap/camel-imap-store.c:559
 #: camel/providers/imap/camel-imap-store.c:587
 #: camel/providers/imapp/camel-imapp-store.c:249
-#: camel/providers/nntp/camel-nntp-store.c:230
+#: camel/providers/nntp/camel-nntp-store.c:228
 #: camel/providers/pop3/camel-pop3-store.c:184
 #: camel/providers/smtp/camel-smtp-transport.c:278
 #: camel/providers/smtp/camel-smtp-transport.c:304
@@ -10492,8 +10492,8 @@ msgstr "SSL is niet beschikbaar"
 #: camel/providers/imap/camel-imap-store.c:861
 #: camel/providers/imap4/camel-imap4-store.c:221
 #: camel/providers/imapp/camel-imapp-store.c:246
-#: camel/providers/nntp/camel-nntp-store.c:227
-#: camel/providers/nntp/camel-nntp-store.c:245
+#: camel/providers/nntp/camel-nntp-store.c:225
+#: camel/providers/nntp/camel-nntp-store.c:243
 #: camel/providers/pop3/camel-pop3-store.c:210
 msgid "Connection cancelled"
 msgstr "Verbinding geannuleerd"
@@ -11365,7 +11365,7 @@ msgstr ""
 "Map is wellicht beschadigd, kopie opgeslagen in '%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1153
+#: camel/providers/nntp/camel-nntp-store.c:1151
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Voer het NNTP wachtwoord in voor %s@%s"
@@ -11468,28 +11468,22 @@ msgid ""
 msgstr ""
 "Deze optie zal aanmelden bij de NNTP-server met een wachtwoord platte tekst."
 
-#: camel/providers/nntp/camel-nntp-store.c:120
-#: camel/providers/nntp/camel-nntp-store.c:1263
-#, c-format
-msgid "NNTP Command failed: %s"
-msgstr "NNTP-Opdracht mislukt: %s"
-
-#: camel/providers/nntp/camel-nntp-store.c:248
+#: camel/providers/nntp/camel-nntp-store.c:246
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Kon groet van %s niet lezen: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:260
+#: camel/providers/nntp/camel-nntp-store.c:258
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "NNTP server %s retourneerde foutcode %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:429
+#: camel/providers/nntp/camel-nntp-store.c:427
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET-Nieuws via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:808
+#: camel/providers/nntp/camel-nntp-store.c:806
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11500,7 +11494,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:902
+#: camel/providers/nntp/camel-nntp-store.c:900
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11511,7 +11505,7 @@ msgstr ""
 "Groep bestaat niet. Het geselecteerde item is waarschijnlijk een "
 "bovenliggende map."
 
-#: camel/providers/nntp/camel-nntp-store.c:934
+#: camel/providers/nntp/camel-nntp-store.c:932
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11521,36 +11515,41 @@ msgstr ""
 "\n"
 "nieuwsgroep bestaat niet!"
 
-#: camel/providers/nntp/camel-nntp-store.c:959
+#: camel/providers/nntp/camel-nntp-store.c:957
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "U kan geen map aanmaken in een nieuws opslag, in plaats hiervan kunt u "
 "inschrijven."
 
-#: camel/providers/nntp/camel-nntp-store.c:967
+#: camel/providers/nntp/camel-nntp-store.c:965
 msgid "You cannot rename a folder in a News store."
 msgstr "U kan geen mappen hernoemen in een nieuws opslag."
 
-#: camel/providers/nntp/camel-nntp-store.c:975
+#: camel/providers/nntp/camel-nntp-store.c:973
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Het is niet mogelijk om een map in een nieuws opslag te verwijderen, in "
 "plaats hiervan kunt u uitschrijven."
 
-#: camel/providers/nntp/camel-nntp-store.c:1145
+#: camel/providers/nntp/camel-nntp-store.c:1143
 msgid "Authentication requested but no username provided"
 msgstr "Aanmeldingscontrole vereist maar geen gebruikersnaam gegeven"
 
-#: camel/providers/nntp/camel-nntp-store.c:1175
+#: camel/providers/nntp/camel-nntp-store.c:1155
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Aanmeldingscontrole bij server %s niet mogelijk"
 
-#: camel/providers/nntp/camel-nntp-store.c:1319
+#: camel/providers/nntp/camel-nntp-store.c:1271
+#, c-format
+msgid "NNTP Command failed: %s"
+msgstr "NNTP-Opdracht mislukt: %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:1327
 msgid "Not connected."
 msgstr "Niet verbonden."
 
-#: camel/providers/nntp/camel-nntp-store.c:1370
+#: camel/providers/nntp/camel-nntp-store.c:1380
 #, c-format
 msgid "No such folder: %s"
 msgstr "Map: %s bestaat niet"
@@ -11964,63 +11963,63 @@ msgstr "Kan bericht niet versturen: Geen ontvangers gespecificeerd."
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
 
-#: camel/providers/smtp/camel-smtp-transport.c:901
+#: camel/providers/smtp/camel-smtp-transport.c:902
 msgid "SMTP Greeting"
 msgstr "SMTP Begroeting"
 
-#: camel/providers/smtp/camel-smtp-transport.c:918
+#: camel/providers/smtp/camel-smtp-transport.c:921
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:935
+#: camel/providers/smtp/camel-smtp-transport.c:938
 msgid "HELO command failed"
 msgstr "HELO command mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1001
+#: camel/providers/smtp/camel-smtp-transport.c:1004
 msgid "SMTP Authentication"
 msgstr "SMTP Aanmelding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1007
+#: camel/providers/smtp/camel-smtp-transport.c:1010
 msgid "Error creating SASL authentication object."
 msgstr "Fout bij aanmaken van SASL aanmeldingsobject"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1024
-#: camel/providers/smtp/camel-smtp-transport.c:1035
+#: camel/providers/smtp/camel-smtp-transport.c:1027
+#: camel/providers/smtp/camel-smtp-transport.c:1038
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1041
+#: camel/providers/smtp/camel-smtp-transport.c:1044
 msgid "AUTH command failed"
 msgstr "AUTH-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1103
+#: camel/providers/smtp/camel-smtp-transport.c:1106
 msgid "Bad authentication response from server.\n"
 msgstr "Fout aanmeldingsantwoord van server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1128
+#: camel/providers/smtp/camel-smtp-transport.c:1131
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "MAIL FROM opdracht mislukt: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1145
+#: camel/providers/smtp/camel-smtp-transport.c:1148
 msgid "MAIL FROM command failed"
 msgstr "MAIL FROM-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1169
+#: camel/providers/smtp/camel-smtp-transport.c:1172
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "RCPT TO opdracht mislukt: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1188
+#: camel/providers/smtp/camel-smtp-transport.c:1191
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1227
-#: camel/providers/smtp/camel-smtp-transport.c:1285
-#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1230
+#: camel/providers/smtp/camel-smtp-transport.c:1288
+#: camel/providers/smtp/camel-smtp-transport.c:1307
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
@@ -12028,26 +12027,26 @@ msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1244
-#: camel/providers/smtp/camel-smtp-transport.c:1320
+#: camel/providers/smtp/camel-smtp-transport.c:1247
+#: camel/providers/smtp/camel-smtp-transport.c:1323
 msgid "DATA command failed"
 msgstr "DATA-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1343
+#: camel/providers/smtp/camel-smtp-transport.c:1346
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1359
+#: camel/providers/smtp/camel-smtp-transport.c:1362
 msgid "RSET command failed"
 msgstr "RSET-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1382
+#: camel/providers/smtp/camel-smtp-transport.c:1385
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1396
+#: camel/providers/smtp/camel-smtp-transport.c:1399
 msgid "QUIT command failed"
 msgstr "QUIT-opdracht mislukt: %s"
 
@@ -17719,7 +17718,7 @@ msgstr "Vertrouw deze CA voor het identificeren van web pagina's."
 
 #: smime/gui/smime-ui.glade.h:41
 msgid "View"
-msgstr "Beel_d"
+msgstr "Tonen"
 
 #: smime/gui/smime-ui.glade.h:42
 msgid "You have certificates from these organizations that identify you:"
