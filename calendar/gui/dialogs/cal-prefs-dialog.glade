@@ -537,158 +537,92 @@ Sunday
 	<spacing>6</spacing>
 
 	<widget>
-	  <class>GtkFrame</class>
-	  <name>frame10</name>
-	  <label>Display</label>
-	  <label_xalign>0</label_xalign>
-	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <class>GtkHBox</class>
+	  <name>hbox12</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
-	    <fill>True</fill>
+	    <fill>False</fill>
 	  </child>
 
 	  <widget>
-	    <class>GtkTable</class>
-	    <name>table4</name>
-	    <border_width>4</border_width>
-	    <rows>3</rows>
-	    <columns>7</columns>
-	    <homogeneous>False</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>4</column_spacing>
+	    <class>GtkLabel</class>
+	    <name>label25</name>
+	    <label>Time divisions:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>label19</name>
-	      <label>Time divisions:</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>7.45058e-09</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkAlignment</class>
-	      <name>alignment4</name>
-	      <xalign>7.45058e-09</xalign>
-	      <yalign>0.5</yalign>
-	      <xscale>0</xscale>
-	      <yscale>1</yscale>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-
-	      <widget>
-		<class>GtkOptionMenu</class>
-		<name>time_divisions</name>
-		<can_focus>True</can_focus>
-		<items>60 minutes
+	  <widget>
+	    <class>GtkOptionMenu</class>
+	    <name>time_divisions</name>
+	    <can_focus>True</can_focus>
+	    <items>60 minutes
 30 minutes
 15 minutes
 10 minutes
 05 minutes
 </items>
-		<initial_choice>0</initial_choice>
-	      </widget>
-	    </widget>
-
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>show_end_times</name>
-	      <can_focus>True</can_focus>
-	      <label>Show appointment end times in week and month views</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>7</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>compress_weekend</name>
-	      <can_focus>True</can_focus>
-	      <label>Compress weekends in month view</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>7</right_attach>
-		<top_attach>2</top_attach>
-		<bottom_attach>3</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>True</yfill>
-	      </child>
-	    </widget>
+	    <initial_choice>0</initial_choice>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
 	  </widget>
 	</widget>
 
 	<widget>
-	  <class>GtkFrame</class>
-	  <name>frame11</name>
-	  <label>Date Navigator</label>
-	  <label_xalign>0</label_xalign>
-	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <class>GtkCheckButton</class>
+	  <name>show_end_times</name>
+	  <can_focus>True</can_focus>
+	  <label>Show appointment end times in week and month views</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
-	    <fill>True</fill>
+	    <fill>False</fill>
 	  </child>
+	</widget>
 
-	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>dnav_show_week_no</name>
-	    <border_width>4</border_width>
-	    <can_focus>True</can_focus>
-	    <label>Show week numbers</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	  </widget>
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>compress_weekend</name>
+	  <can_focus>True</can_focus>
+	  <label>Compress weekends in month view</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>dnav_show_week_no</name>
+	  <can_focus>True</can_focus>
+	  <label>Show week numbers in date navigator</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
 	</widget>
       </widget>
 
@@ -696,7 +630,7 @@ Sunday
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
 	<name>label7</name>
-	<label>Calendar</label>
+	<label>Display</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -713,11 +647,13 @@ Sunday
 	<spacing>4</spacing>
 
 	<widget>
-	  <class>GtkFrame</class>
-	  <name>frame13</name>
-	  <label>Colors for Tasks</label>
-	  <label_xalign>0</label_xalign>
-	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <class>GtkTable</class>
+	  <name>table6</name>
+	  <rows>2</rows>
+	  <columns>2</columns>
+	  <homogeneous>False</homogeneous>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -725,112 +661,101 @@ Sunday
 	  </child>
 
 	  <widget>
-	    <class>GtkTable</class>
-	    <name>table6</name>
-	    <border_width>4</border_width>
-	    <rows>2</rows>
-	    <columns>2</columns>
-	    <homogeneous>False</homogeneous>
-	    <row_spacing>4</row_spacing>
-	    <column_spacing>4</column_spacing>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>label23</name>
-	      <label>Tasks due today</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0</xalign>
-	      <yalign>0.5</yalign>
+	    <class>GtkLabel</class>
+	    <name>label23</name>
+	    <label>Tasks due today:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkLabel</class>
-	      <name>label24</name>
-	      <label>Overdue tasks</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0</xalign>
-	      <yalign>0.5</yalign>
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label24</name>
+	    <label>Overdue tasks:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <child>
-		<left_attach>0</left_attach>
-		<right_attach>1</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GnomeColorPicker</class>
-	      <name>tasks_due_today_color</name>
-	      <can_focus>True</can_focus>
-	      <dither>True</dither>
-	      <use_alpha>False</use_alpha>
-	      <title>Color for tasks due today</title>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GnomeColorPicker</class>
+	    <name>tasks_due_today_color</name>
+	    <can_focus>True</can_focus>
+	    <dither>True</dither>
+	    <use_alpha>False</use_alpha>
+	    <title>Color for tasks due today</title>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GnomeColorPicker</class>
-	      <name>tasks_overdue_color</name>
-	      <can_focus>True</can_focus>
-	      <dither>True</dither>
-	      <use_alpha>False</use_alpha>
-	      <title>Color for overdue tasks</title>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>False</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GnomeColorPicker</class>
+	    <name>tasks_overdue_color</name>
+	    <can_focus>True</can_focus>
+	    <dither>True</dither>
+	    <use_alpha>False</use_alpha>
+	    <title>Color for overdue tasks</title>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
 	  </widget>
 	</widget>
       </widget>

@@ -1,3 +1,10 @@
+2001-08-06  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: In process of fixing bug
+	#6005.  The "Calendar" page is now "Display", and it has no
+	frames.  The "Task list" page has colons between the labels and
+	the color pickers, and it has no frame.
+
 2001-08-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/cal-client.c (destroy_wombat_client): added check for
