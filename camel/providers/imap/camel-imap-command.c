@@ -288,7 +288,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 			     CamelException *ex)
 {
 	CamelImapResponseType type;
-	char *respbuf, *untagged;
+	char *respbuf;
 	
 	if (camel_imap_store_readline (store, &respbuf, ex) < 0) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
@@ -312,12 +312,9 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 		
 		/* Read the rest of the response. */
 		type = CAMEL_IMAP_RESPONSE_UNTAGGED;
-		untagged = imap_read_untagged (store, respbuf, ex);
-		if (!untagged) {
+		respbuf = imap_read_untagged (store, respbuf, ex);
+		if (!respbuf)
 			type = CAMEL_IMAP_RESPONSE_ERROR;
-			g_free (respbuf);
-			respbuf = NULL;
-		}
 		
 		break;
 	case '+':
@@ -442,12 +439,14 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 			else
 				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, g_strerror (errno));
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+			g_string_free (str, TRUE);
 			goto lose;
 		}
 		if (nread < length) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					     _("Server response ended too soon."));
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+			g_string_free (str, TRUE);
 			goto lose;
 		}
 		str->str[length + 1] = '\0';
