@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-18 19:45+0200\n"
-"PO-Revision-Date: 2000-05-18 19:47+02:00\n"
+"POT-Creation-Date: 2000-05-23 11:48+0200\n"
+"PO-Revision-Date: 2000-05-23 11:48+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -39,8 +39,8 @@ msgid "Web page address:"
 msgstr "Hjemmeside:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:12
-msgid "Wants _HTML mail"
-msgstr "Vil ha _HTML e-post"
+msgid "Wants to receive _HTML mail"
+msgstr "Ønsker å motta _HTML e-post"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:13
 msgid "Address:"
@@ -140,7 +140,7 @@ msgid "Add"
 msgstr "Legg til"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:94
 msgid "Delete"
 msgstr "Slett"
 
@@ -620,7 +620,7 @@ msgid "Save the message in a specified folder"
 msgstr "Lagre meldingen i en spesifisert mappe"
 
 #: composer/e-msg-composer.c:427 composer/e-msg-composer.c:464
-#: mail/folder-browser-factory.c:139
+#: mail/folder-browser-factory.c:80
 msgid "Send"
 msgstr "Send"
 
@@ -668,123 +668,71 @@ msgstr "Legg ved"
 msgid "Attach a file"
 msgstr "Legg ved en fil"
 
-#: mail/folder-browser-factory.c:85
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release of\n"
-"the Evolution groupware suite.\n"
-"\n"
-"The Evolution team has worked hard to make Evolution as robust,\n"
-"extensible, pretty, fast and well-suited to heavy internet users as\n"
-"possible.  And we're very tired.  But we're not done -- not yet.\n"
-"\n"
-"As you explore Evolution, please understand that most of our work has\n"
-"been focused on the backend engine which drives the entire system and\n"
-"not on the user interface.  We are just cresting the hill now, though,\n"
-"and will be pouring most of our love and attention into the UI from\n"
-"here out.  But at least you know that you're not using demoware.\n"
-"\n"
-"So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
-"mail, leave stray processes running, consume 100% CPU, race, lock,\n"
-"send HTML mail to random mailing lists, and embarass you in front of\n"
-"your friends and co-workers.  Use at your own risk.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we eagerly\n"
-"await your contributions!\n"
-msgstr ""
-"Hei. Takk for at du har tatt deg tid til å laste ned denne prøveversjonen\n"
-"av Evolution gruppevare-suiten.\n"
-"\n"
-"Evolution utviklerene har arbeidet hardt for å gjøre Evolution så\n"
-"robust, utvidbart, pent, raskt og passende for tunge internettbrukere\n"
-"som overhodet mulig. Og vi er utslitt. Men vi er ikke ferdig -- ikke ennå.\n"
-"\n"
-"Ettersom du utforsker Evolution, vennligst prøv å forstå at det meste av\n"
-"arbeidet har vært fokusert på fundamentet som ligger under hele systemet\n"
-"og ikke på brukergrensesnittet. Vi er i ferd med å bestige denne høyden \n"
-"nå, og vil bruke det meste av vår tid og kjærlighet på brukergrensesnittet\n"
-"fra nå av. Men du vil i det minste ikke måtte bruke en ren demoversjon.\n"
-"\n"
-"Så, nå det det dags for den nerdete meldingen: Evolution vil: krasje,\n"
-"ødelegge din mail, etterlate seg tapte prosesser, oppta 100% av din CPU,\n"
-"låse seg, sende HTML e-post til tilfeldige e-post lister, og drite deg ut\n"
-"foran dine venner og kolleger. Bruk det på egen risiko.\n"
-"\n"
-"Vi håper at du nyter resultatene av vårt harde arbeid, og vi venter i\n"
-"spenning på at du tilbyr din hjelp!\n"
-
-#: mail/folder-browser-factory.c:114
-msgid ""
-"Thanks\n"
-"The Evolution Team\n"
-msgstr ""
-"Takk\n"
-"Evolution utviklerene\n"
-
-#: mail/folder-browser-factory.c:138
+#: mail/folder-browser-factory.c:79
 msgid "Get mail"
 msgstr "Hent e-post"
 
-#: mail/folder-browser-factory.c:138
+#: mail/folder-browser-factory.c:79
 msgid "Check for new mail"
 msgstr "Sjekk etter ny e-post"
 
-#: mail/folder-browser-factory.c:139
+#: mail/folder-browser-factory.c:80
 msgid "Send a new message"
 msgstr "Send en ny melding"
 
-#: mail/folder-browser-factory.c:140
+#: mail/folder-browser-factory.c:81
 msgid "Find"
 msgstr "Finn"
 
-#: mail/folder-browser-factory.c:140
+#: mail/folder-browser-factory.c:81
 msgid "Find messages"
 msgstr "Finn meldinger"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:85
 msgid "Reply"
 msgstr "Svar"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:85
 msgid "Reply to the sender of this message"
 msgstr "Svar til avsender av denne meldingen"
 
-#: mail/folder-browser-factory.c:145
+#: mail/folder-browser-factory.c:86
 msgid "Reply to All"
 msgstr "Svar til alle"
 
-#: mail/folder-browser-factory.c:145
+#: mail/folder-browser-factory.c:86
 msgid "Reply to all recipients of this message"
 msgstr "Svar til alle mottakere av denne meldingen"
 
-#: mail/folder-browser-factory.c:147
+#: mail/folder-browser-factory.c:88
 msgid "Forward"
 msgstr "Videresend"
 
-#: mail/folder-browser-factory.c:147
+#: mail/folder-browser-factory.c:88
 msgid "Forward this message"
 msgstr "Videresend denne meldingen"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:92
 msgid "Print"
 msgstr "Skriv ut"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:92
 msgid "Print the selected message"
 msgstr "Skriv ut den valgte meldingen"
 
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:94
 msgid "Delete this message"
 msgstr "Slett denne meldingen"
 
-#: mail/folder-browser-factory.c:170
+#: mail/folder-browser-factory.c:111
 msgid "_Expunge"
 msgstr "_Fjern"
 
-#: mail/folder-browser-factory.c:176
+#: mail/folder-browser-factory.c:117
 msgid "_Filter Druid"
 msgstr "_Filter-druide"
 
-#: mail/folder-browser-factory.c:299
+#: mail/folder-browser-factory.c:231
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Vi beklager, Evolution's mappeutforsker kan ikke initialiseres."
 
@@ -800,31 +748,31 @@ msgstr "Om forhåndsvisning av meldinger skal brukes"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
 
-#: mail/message-list.c:420
+#: mail/message-list.c:464
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:434
+#: mail/message-list.c:478
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:441
+#: mail/message-list.c:485
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:448
+#: mail/message-list.c:492
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:455
+#: mail/message-list.c:499
 msgid "Receive"
 msgstr "Motta"
 
-#: mail/message-list.c:462
+#: mail/message-list.c:506
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:469
+#: mail/message-list.c:513
 msgid "Size"
 msgstr "Størrelse"
 
@@ -964,11 +912,63 @@ msgstr "H_andlinger"
 msgid "Cannot set up local storage -- %s"
 msgstr "Kan ikke sette opp lokal lagring -- %s"
 
-#: shell/main.c:111
+#: shell/main.c:98
+msgid ""
+"Hi.  Thanks for taking the time to download this preview release of\n"
+"the Evolution groupware suite.\n"
+"\n"
+"The Evolution team has worked hard to make Evolution as robust,\n"
+"extensible, pretty, fast and well-suited to heavy internet users as\n"
+"possible.  And we're very tired.  But we're not done -- not yet.\n"
+"\n"
+"As you explore Evolution, please understand that most of our work has\n"
+"been focused on the backend engine which drives the entire system and\n"
+"not on the user interface.  We are just cresting the hill now, though,\n"
+"and will be pouring most of our love and attention into the UI from\n"
+"here out.  But at least you know that you're not using demoware.\n"
+"\n"
+"So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
+"mail, leave stray processes running, consume 100% CPU, race, lock,\n"
+"send HTML mail to random mailing lists, and embarass you in front of\n"
+"your friends and co-workers.  Use at your own risk.\n"
+"\n"
+"We hope that you enjoy the results of our hard work, and we eagerly\n"
+"await your contributions!\n"
+msgstr ""
+"Hei. Takk for at du har tatt deg tid til å laste ned denne prøveversjonen\n"
+"av Evolution gruppevare-suiten.\n"
+"\n"
+"Evolution utviklerene har arbeidet hardt for å gjøre Evolution så\n"
+"robust, utvidbart, pent, raskt og passende for tunge internettbrukere\n"
+"som overhodet mulig. Og vi er utslitt. Men vi er ikke ferdig -- ikke ennå.\n"
+"\n"
+"Ettersom du utforsker Evolution, vennligst prøv å forstå at det meste av\n"
+"arbeidet har vært fokusert på fundamentet som ligger under hele systemet\n"
+"og ikke på brukergrensesnittet. Vi er i ferd med å bestige denne høyden \n"
+"nå, og vil bruke det meste av vår tid og kjærlighet på brukergrensesnittet\n"
+"fra nå av. Men du vil i det minste ikke måtte bruke en ren demoversjon.\n"
+"\n"
+"Så, nå det det dags for den nerdete meldingen: Evolution vil: krasje,\n"
+"ødelegge din mail, etterlate seg tapte prosesser, oppta 100% av din CPU,\n"
+"låse seg, sende HTML e-post til tilfeldige e-post lister, og drite deg ut\n"
+"foran dine venner og kolleger. Bruk det på egen risiko.\n"
+"\n"
+"Vi håper at du nyter resultatene av vårt harde arbeid, og vi venter i\n"
+"spenning på at du tilbyr din hjelp!\n"
+
+#: shell/main.c:127
+msgid ""
+"Thanks\n"
+"The Evolution Team\n"
+msgstr ""
+"Takk\n"
+"Evolution utviklerene\n"
+
+#: shell/main.c:170
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kunne ikke initialisere Bonobo komponentsystemet."
 
-#: shell/main.c:126
+#: shell/main.c:185
 msgid "Cannot initialize the Evolution shell."
 msgstr "Kan ikke initialisere Evolution skallet."
 
