@@ -139,7 +139,7 @@ static const char *text[] = {
 	"Michael MacDonald",
 	"Duncan Mak",
 	"Kjartan Maraas",
-	"Garardo Marin",
+	"Gerardo Marin",
 	"Matt Martin",
 	"Carlos Perell\xC3\xB3" " Mar\xC3\xAD" "n",
 	"Dietmar Maurer",
