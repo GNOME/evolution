@@ -1,3 +1,11 @@
+2001-06-14  Damon Chaplin  <damon@ximian.com>
+
+	* e-map.[hc]: copied the EMap widget verbatim from Ximian Setup Tools.
+	Hmm. Maybe it should go in gal, but its not a very general widget.
+	
+	* Makefile.am (INCLUDES): defined MAP_DIR for e-map.c.
+	(libemiscwidgets_a_SOURCES): added e-map.[hc].
+
 2001-05-31  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-dropdown-button.c (impl_button_press_event): Removed unused

@@ -5,6 +5,7 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets/shortcut-bar	\
 	$(EXTRA_GNOME_CFLAGS)			\
+	-DMAP_DIR=\""$(datadir)/images/evolution"\"	\
 	-DG_LOG_DOMAIN=__FILE__
 
 noinst_LIBRARIES =	\
@@ -25,6 +26,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-dropdown-button.h	\
 	e-filter-bar.c		\
 	e-filter-bar.h		\
+	e-map.c			\
+	e-map.h			\
 	e-messagebox.c		\
 	e-messagebox.h		\
 	e-search-bar.c		\
