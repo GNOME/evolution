@@ -119,11 +119,12 @@ struct _MeetingPagePrivate {
 	/* For handling who the organizer is */
 	gboolean other;
 	gboolean existing;
+        gboolean updating;
 	
 	/* For handling the invite button */
-	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
+        GNOME_Evolution_Addressbook_SelectNames corba_select_names;
+  
 
-	gboolean updating;
 };
 
 
@@ -514,6 +515,7 @@ invite_entry_changed (BonoboListener    *listener,
 		      CORBA_Environment *ev,
 		      gpointer           user_data)
 {
+  g_message ("event: \"%s\", section \"%s\"", event_name, BONOBO_ARG_GET_STRING (arg));
 }
 
 static void
@@ -540,6 +542,7 @@ add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const c
 
 	CORBA_exception_free (&ev);
 
+#if 0
 	control_widget = bonobo_widget_new_control_from_objref (
 		corba_control, CORBA_OBJECT_NIL);
 
@@ -550,6 +553,7 @@ add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const c
 		pb, invite_entry_changed,
 		"Bonobo/Property:change:entry_changed",
 		NULL, NULL);
+#endif
 }
 
 static gboolean
@@ -570,6 +574,11 @@ get_select_name_dialog (MeetingPage *mpage)
 	add_section (priv->corba_select_names, "Required Participants");
 	add_section (priv->corba_select_names, "Optional Participants");
 	add_section (priv->corba_select_names, "Non-Participants");
+
+	bonobo_event_source_client_add_listener (priv->corba_select_names,
+						 invite_entry_changed,
+						 "GNOME/Evolution:changed",
+						 NULL, NULL);
 
 	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
            raising an exception in `ev'.  */

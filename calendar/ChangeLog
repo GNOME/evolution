@@ -1,3 +1,12 @@
+2001-07-17  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/dialogs/meeting-page.c (invite_entry_changed): Print
+	a g_message when the list of invited people changes
+	in the SelectNames control.
+	(add_section): #if 0/#endif out some (broken?) code.
+	(get_select_name_dialog): Listen for changes in the
+	SelectNames control.
+
 2001-07-17  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/e-timezone-dialog.c (e_timezone_dialog_destroy): destroy
