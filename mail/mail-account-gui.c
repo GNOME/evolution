@@ -77,7 +77,7 @@ get_focused_widget (GtkWidget *def, ...)
 		
 		widget = va_arg (args, GtkWidget *);
 	}
-	va_end (ap);
+	va_end (args);
 	
 	if (ret)
 		return ret;

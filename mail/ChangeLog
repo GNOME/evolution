@@ -1,3 +1,7 @@
+2001-07-09  JP Rosevear  <jpr@ximian.com>
+
+	* mail-account-gui.c (get_focused_widget): fix typo so it compiles
+
 2001-07-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (setup_mime_tables): Handle application/pgp using
