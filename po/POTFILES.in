@@ -335,9 +335,11 @@ shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
 smime/gui/certificate-manager.c
+smime/gui/certificate-viewer.c
 smime/gui/smime-ui.glade
 smime/lib/e-cert-db.c
 smime/lib/e-cert.c
+smime/lib/e-pkcs12.c
 tools/evolution-launch-composer.c
 tools/killev.c
 ui/evolution-addressbook.xml
