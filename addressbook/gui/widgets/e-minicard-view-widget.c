@@ -302,7 +302,7 @@ static void
 column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *widget)
 {
 	g_signal_emit (widget,
-		       signals [COLUMN_WIDTH_CHANGED], width, 0);
+		       signals [COLUMN_WIDTH_CHANGED], 0, width);
 }
 
 static guint
