@@ -1,3 +1,36 @@
+2002-12-10  Aaron Weber  <aaron@ximian.com>
+
+	* C/preface.xml: typo (bug 35362, "Resend" instead of "Redirect).
+	This whole section will need to be redone at some point.
+	
+2002-12-06  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.xml: add spam filtering help.
+
+2002-11-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.xml: fix typo as per bug 34152
+	
+	* C/legal.xml: redo tags for legalnotice ordering. open/close for
+	actual preface is in evolution.xml and the LEGAL entity
+	(legal.xml) is now part of the preface. the legalnotice tag itself
+	merely says "hey, go look at the preface, legal info is there due
+	to rendering issues."
+
+	* C/apx-gpl.xml: new file. GPL! 
+	
+	* C/Makefile.am: New file: apx-gpl.xml. Re-alphabetize the files
+	listed as entities, and make the \'s line up so it looks pretty.
+
+	* C/preface.xml: redo tags for legalnotice ordering. open/close
+	for actual preface is in evolution.xml and the LEGAL entity
+	(legal.xml) is now part of the preface.
+	
+	* C/evolution.xml: reorder, add GPL, put legalnotice inside
+	preface. Put actual <preface> tags in this file, so that the
+	preface could consist of sect1s which are the &LEGAL; and
+	&PREFACE; entities.
+
 2002-11-11  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-prefs.xml: fix bug 27336, which is about how the Search
