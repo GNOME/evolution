@@ -621,8 +621,9 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 	EShortcuts *shortcuts;
 	EStorageSet *storage_set;
 	EFolder *folder;
-	int group_num;
 	char *uri;
+	const char *path;
+	int group_num;
 	int unread_count;
 
 	g_return_if_fail (shell != NULL);
@@ -634,15 +635,17 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 	shortcuts = e_shell_get_shortcuts (shell);
 	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);
 
-	if (folder_path == NULL)
+	if (folder_path == NULL) {
 		uri = g_strdup (e_shell_view_get_current_uri (shell_view));
-	else
+		path = e_shell_view_get_current_path (shell_view);
+	} else {
 		uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
+		path = folder_path;
+	}
 
-	unread_count = get_folder_unread (shell, e_shell_view_get_current_path (shell_view));
-
+	unread_count = get_folder_unread (shell, path);
 	storage_set = e_shell_get_storage_set (shell);
-	folder = e_storage_set_get_folder (storage_set, e_shell_view_get_current_path (shell_view));
+	folder = e_storage_set_get_folder (storage_set, path);
 
 	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL,
 				  unread_count,
