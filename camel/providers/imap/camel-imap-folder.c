@@ -531,7 +531,7 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	 * repeatedly add the same number to the removed array.
 	 * See RFC2060 7.4.1)
 	 */
-	for (i = seq; i < summary_len; i++)
+	for (i = seq; i <= summary_len; i++)
 		g_array_append_val (removed, seq);
 
 	/* And finally update the summary. */
