@@ -28,6 +28,7 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnome/gnome-i18n.h>
+#include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-util.h>
