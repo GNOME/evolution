@@ -171,13 +171,22 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 }
 
 static void
-message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowser *mb)
+message_browser_message_list_built (MessageList *ml, MessageBrowser *mb)
 {
 	const char *uid = gtk_object_get_data (GTK_OBJECT (mb), "uid");
 	
-	g_warning ("got 'folder_loaded' event");
+	g_warning ("got 'message_list_built' event");
 	
-	message_list_select_uid (fb->message_list, uid);
+	message_list_select_uid (ml, uid);
+}
+
+static void
+message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowser *mb)
+{
+	g_warning ("got 'folder_loaded' event for '%s'", uri);
+	
+	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_list_built",
+			    message_browser_message_list_built, mb);
 }
 
 static GnomeUIInfo message_browser_toolbar [] = {

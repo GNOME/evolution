@@ -124,6 +124,7 @@ static void clear_info(char *key, ETreePath *node, MessageList *ml);
 
 enum {
 	MESSAGE_SELECTED,
+	MESSAGE_LIST_BUILT,
 	LAST_SIGNAL
 };
 
@@ -443,7 +444,7 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 	} else {
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
-		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], NULL);
+		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 }
 
@@ -1227,7 +1228,15 @@ message_list_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (MessageListClass, message_selected),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
-
+	
+	message_list_signals[MESSAGE_LIST_BUILT] =
+		gtk_signal_new ("message_list_built",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (MessageListClass, message_list_built),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+	
 	gtk_object_class_add_signals(object_class, message_list_signals, LAST_SIGNAL);
 
 	message_list_init_images ();
@@ -2009,7 +2018,7 @@ on_cursor_activated_idle (gpointer data)
 	MessageList *message_list = data;
 
 	printf("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
-	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], message_list->cursor_uid);
+	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], message_list->cursor_uid);
 
 	message_list->idle_id = 0;
 	return FALSE;
@@ -2446,17 +2455,20 @@ static void regen_list_regen(struct _mail_msg *mm)
 		m->tree = NULL;
 }
 
-static void regen_list_regened(struct _mail_msg *mm)
+static void
+regen_list_regened (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
-
+	
 	if (m->summary == NULL)
 		return;
-
+	
 	if (m->dotree)
 		build_tree(m->ml, m->tree, m->changes);
 	else
 		build_flat(m->ml, m->summary, m->changes);
+	
+	gtk_signal_emit (GTK_OBJECT (m->ml), message_list_signals[MESSAGE_LIST_BUILT]);
 }
 
 static void regen_list_free(struct _mail_msg *mm)

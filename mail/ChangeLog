@@ -1,3 +1,19 @@
+2001-05-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-browser.c (message_browser_folder_loaded): Instead of
+	calling message_list_select_uid() here, instead connect to the
+	"message_list_loaded" signal since the message-list is not built
+	yet at this point.
+	(message_browser_message_list_built): Call
+	message_list_select_uid() here instead.
+
+	* message-list.c: Lets have a new signal, MESSAGE_LIST_BUILT, that
+	gets emitted when the message-list has finished being built by one
+	of the built_*() functions.
+	(message_list_class_init): Setup the signal stuff.
+	(regen_list_regened): Emit the signal here (should this perhaps be
+	moved into each of the build_*() functions instead?).
+
 2001-05-21  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* mail-local.c: Mark a string for translation.
