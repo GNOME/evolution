@@ -149,6 +149,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			GnomeDialog *gd;
 			
 			gd = (GnomeDialog *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING);
+			efb->save_dialogue = gd;
 			gtk_window_set_title (GTK_WINDOW (gd), _("Search Editor"));
 			gtk_signal_connect (GTK_OBJECT (gd), "clicked", full_rule_editor_clicked, efb);
 			gtk_signal_connect (GTK_OBJECT (gd), "destroy", rule_editor_destroyed, efb);
