@@ -15,13 +15,28 @@
 
 static GalViewClass *gal_view_etable_parent_class;
 
+
+static void
+config_changed (ETableConfig *config, ETableState *state, GalViewEtable *view)
+{
+	if (view->state)
+		gtk_object_unref(GTK_OBJECT(view->state));
+	view->state = e_table_state_duplicate(state);
+	gal_view_changed(GAL_VIEW(view));
+}
+
 static void
 gal_view_etable_edit            (GalView *view)
 {
 	GalViewEtable *etable_view = GAL_VIEW_ETABLE(view);
-	e_table_config_new(etable_view->title,
-			   etable_view->spec,
-			   etable_view->state);
+	ETableConfig *config;
+
+	config = e_table_config_new(etable_view->title,
+				    etable_view->spec,
+				    etable_view->state);
+
+	gtk_signal_connect(GTK_OBJECT(config), "changed",
+			   GTK_SIGNAL_FUNC(config_changed), view);
 }
 
 static void  
@@ -147,7 +162,13 @@ gal_view_etable_construct  (GalViewEtable *view,
 	if (spec)
 		gtk_object_ref(GTK_OBJECT(spec));
 	view->spec = spec;
+
+	if (view->state)
+		gtk_object_unref(GTK_OBJECT(view->state));
+	view->state = e_table_state_duplicate(spec->state);
+
 	view->title = g_strdup(title);
+
 	return GAL_VIEW(view);
 }
 

@@ -196,6 +196,7 @@ view_changed (GalView *view,
 	      GalViewCollectionItem *item)
 {
 	item->changed = TRUE;
+	item->ever_changed = TRUE;
 }
 
 static GalViewCollectionItem *
@@ -269,17 +270,18 @@ load_single_dir (GalViewCollection *collection,
 		}
 		if (!found) {
 			for (i = 0; i < collection->removed_view_count; i++) {
-				if (!strcmp(id, collection->removed_view_data[i]->id))
+				if (!strcmp(id, collection->removed_view_data[i]->id)) {
 					if (!local)
 						collection->removed_view_data[i]->built_in = TRUE;
-				found = TRUE;
-				break;
+					found = TRUE;
+					break;
+				}
 			}
 		}
 
 		if (!found) {
 			GalViewCollectionItem *item = load_single_file (collection, dir, local, child);
-			if (item->filename) {
+			if (item->filename && *item->filename) {
 				collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 				collection->view_data[collection->view_count] = item;
 				collection->view_count ++;
@@ -347,6 +349,18 @@ gal_view_collection_save              (GalViewCollection *collection)
 				g_free(filename);
 			}
 		}
+	}
+	for (i = 0; i < collection->removed_view_count; i++) {
+		xmlNode *child;
+		GalViewCollectionItem *item;
+
+		item = collection->removed_view_data[i];
+
+		child = xmlNewChild(root, NULL, "GalView", NULL);
+		e_xml_set_string_prop_by_name(child, "id", item->id);
+		e_xml_set_string_prop_by_name(child, "title", item->title);
+		e_xml_set_string_prop_by_name(child, "type", item->type);
+
 	}
 	filename = g_concat_dir_and_file(collection->local_dir, "galview.xml");
 	xmlSaveFile(filename, doc);
@@ -430,6 +444,10 @@ gal_view_check_string (GalViewCollection *collection,
 
 	for (i = 0; i < collection->view_count; i++) {
 		if (!strcmp(string, collection->view_data[i]->id))
+			return FALSE;
+	}
+	for (i = 0; i < collection->removed_view_count; i++) {
+		if (!strcmp(string, collection->removed_view_data[i]->id))
 			return FALSE;
 	}
 	return TRUE;
