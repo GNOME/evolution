@@ -3492,11 +3492,11 @@ selection_received (GtkWidget *invisible,
 	icalcomp = icalparser_parse_string ((const char *) comp_str);
 	if (icalcomp) {
 		dtstart = week_view->day_starts[week_view->selection_start_day];
-		itime = icaltime_from_timet (dtstart, TRUE);
+		itime = icaltime_from_timet (dtstart, FALSE);
 		icalcomponent_set_dtstart (icalcomp, itime);
 
 		dtend = week_view->day_starts[week_view->selection_end_day + 1];
-		itime = icaltime_from_timet (dtend, TRUE);
+		itime = icaltime_from_timet (dtend, FALSE);
 		icalcomponent_set_dtend (icalcomp, itime);
 
 		comp = cal_component_new ();
