@@ -1,8 +1,13 @@
+2004-04-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.h (camel_folder_delete_message): Fix NotZed's fix
+	to not mark messages as unseen. Fixes bug #56879.
+
 2004-04-13   Sivaiah Nallagatla <snallagatla@novell.com>
 
-	*  providers/groupwise/camel-gw-listener.c
-        (add_addressbook_sources) : change the auth type string from
-	Password to plain/password 
+	* providers/groupwise/camel-gw-listener.c
+	(add_addressbook_sources): change the auth type string from
+	Password to plain/password
 
 2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
