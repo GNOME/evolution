@@ -556,7 +556,10 @@ void em_utils_add_address(struct _GtkWidget *parent, const char *email)
 	
 	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow *)win, _("Add address"));
-	
+	gtk_window_set_transient_for((GtkWindow *)win, ((GtkWindow *)parent));
+	gtk_window_set_position((GtkWindow *)win, GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_window_set_type_hint((GtkWindow *)win, GDK_WINDOW_TYPE_HINT_DIALOG);
+
 	control = bonobo_widget_new_control("OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION, CORBA_OBJECT_NIL);
 	bonobo_widget_set_property((BonoboWidget *)control, "email", TC_CORBA_string, buf, NULL);
 	g_free (buf);
