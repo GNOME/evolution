@@ -921,20 +921,42 @@ static char *
 filter_date (const void *data)
 {
 	time_t date = GPOINTER_TO_INT (data);
-	char buf[26], *p;
+	time_t nowdate = time(NULL);
+	time_t yesdate;
+	struct tm then, now, yesterday;
+	char buf[26];
 
 	if (date == 0)
 		return g_strdup ("?");
 
+	localtime_r (&date, &then);
+	localtime_r (&nowdate, &now);
+	if (then.tm_mday == now.tm_mday &&
+	    then.tm_mon == now.tm_mon &&
+	    then.tm_year == now.tm_year) {
+		strftime (buf, 26, "Today %T", &then);
+	} else {
+		yesdate = nowdate - 60 * 60 * 24;
+		localtime_r (&yesdate, &yesterday);
+		if (then.tm_mday == yesterday.tm_mday &&
+		    then.tm_mon == yesterday.tm_mon &&
+		    then.tm_year == yesterday.tm_year) {
+			strftime (buf, 26, "Yesterday %T", &then);
+		} else {
+			if (then.tm_year == now.tm_year) {
+				strftime (buf, 26, "%b %d %T", &then);
+			} else {
+				strftime (buf, 26, "%b %d %Y", &then);
+			}
+		}
+	}
+#if 0
 #ifdef CTIME_R_THREE_ARGS
 	ctime_r (&date, buf, 26);
 #else
 	ctime_r (&date, buf);
 #endif
-
-	p = strchr (buf, '\n');
-	if (p)
-		*p = '\0';
+#endif
 
 	return g_strdup (buf);
 }
