@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-18 18:52GMT\n"
+"PO-Revision-Date: 2003-01-22 23:43GMT\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: italiano <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -627,7 +627,7 @@ msgstr "Fallita autenticazione.\n"
 #: addressbook/gui/component/addressbook.c:636
 #, c-format
 msgid "%sEnter password for %s (user %s)"
-msgstr "%s Inserire la password per %s (utente %s)"
+msgstr "%sInserire la password per %s (utente %s)"
 
 #: addressbook/gui/component/addressbook.c:782
 msgid "Name begins with"
@@ -861,7 +861,7 @@ msgstr "E_limina"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
 msgid "Distinguished _name:"
-msgstr "_Nome Distintivo:"
+msgstr "_Nome distintivo:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "Email Address:"
@@ -881,7 +881,7 @@ msgstr "Evolution utilizzerà questo indirizzo di posta per autenticarsi con il s
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Finished"
-msgstr "Fine"
+msgstr "Finito"
 
 #: addressbook/gui/component/ldap-config.glade.h:33
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
@@ -1216,16 +1216,16 @@ msgstr "U_sa SSL/TLS:"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
 msgid "Using distinguished name (DN)"
-msgstr "Uso di Nome Distintivo (DN)"
+msgstr "Uso Nome Distintivo (DN)"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
 msgid "Using email address"
-msgstr "Uso di indirizzo Email"
+msgstr "Uso indirizzo Email"
 
 #: addressbook/gui/component/ldap-config.glade.h:107
 #: mail/mail-account-gui.c:59 mail/mail-config.glade.h:132
 msgid "Whenever Possible"
-msgstr "Perquanto Possibile"
+msgstr "Quando è Possibile"
 
 #: addressbook/gui/component/ldap-config.glade.h:108
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
@@ -1269,7 +1269,7 @@ msgstr "Non usare SSL/TLS"
 
 #: addressbook/gui/component/ldap-config.glade.h:117
 msgid "_Download limit:"
-msgstr "limite scaricamento:"
+msgstr "Limite scaricamento:"
 
 #: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
 #: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
@@ -1291,19 +1291,19 @@ msgstr "Attributo _Evolution:"
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_If necessary "
-msgstr "se necessario "
+msgstr "Se necessario "
 
 #: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attribute:"
-msgstr "attributo _LDAP:"
+msgstr "Attributo _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_LDAP attributes:"
-msgstr "attributi _LDAP:"
+msgstr "Attributi _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:124
 msgid "_Log in method:"
-msgstr "metodo di identificazione:"
+msgstr "Metodo di identificazione:"
 
 #: addressbook/gui/component/ldap-config.glade.h:125
 msgid "_More Options >>"
@@ -1384,7 +1384,7 @@ msgstr "Fabbrica per l'interfaccia di selezione dei nomi della Rubrica"
 #: filter/filter-rule.c:681 my-evolution/e-summary-shown.c:538
 #: shell/e-shortcuts-view.c:178
 msgid "Remove"
-msgstr "Rimuovere"
+msgstr "Rimuove"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:178
 msgid "Remove All"
@@ -4773,7 +4773,7 @@ msgstr "-rzo"
 #: calendar/gui/dialogs/recurrence-page.c:154
 #: calendar/gui/dialogs/recurrence-page.c:155
 msgid "th"
-msgstr " "
+msgstr "  "
 
 #: calendar/gui/dialogs/recurrence-page.c:629
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -5268,7 +5268,7 @@ msgstr "<b>Completata:</b>"
 
 #: calendar/gui/e-itip-control.c:648
 msgid "<b>Due:</b> "
-msgstr "<b>Dovuto a:</b>"
+msgstr "<b>In scadenza:</b>"
 
 #: calendar/gui/e-itip-control.c:685 calendar/gui/e-itip-control.c:735
 msgid "iCalendar Information"
@@ -12189,17 +12189,14 @@ msgid "Add Sc_ript"
 msgstr "Aggiungi script"
 
 #: mail/mail-config.glade.h:10
-#, fuzzy
 msgid "Add new signature..."
-msgstr "Salva firma"
+msgstr "Aggiungi nuova firma..."
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "Al_ways encrypt to myself when sending encrypted mail"
-msgstr "Cifra _sempre con la mia chiave quando invio posta cifrata"
+msgstr "Cifra sempre con la mia chiave durante l'invio di posta crittografat"
 
 #: mail/mail-config.glade.h:13
-#, fuzzy
 msgid "Alwa_ys sign outgoing messages when using this account"
 msgstr "Firmare sempre i messaggi in uscita quando si usa questo account"
 
@@ -12213,12 +12210,11 @@ msgstr "Sempre _copia carbone (Cc) a:"
 
 #: mail/mail-config.glade.h:17
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr ""
+msgstr "Sempre chiavi di fiducia nel mio mazzo di chiavi quando crittografo"
 
 #: mail/mail-config.glade.h:18
-#, fuzzy
 msgid "Attach original message"
-msgstr "Allegare un file al messaggio"
+msgstr "Allega messaggio originale"
 
 #: mail/mail-config.glade.h:19 mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -12229,40 +12225,36 @@ msgid "Authentication"
 msgstr "Autenticazione"
 
 #: mail/mail-config.glade.h:21
-#, fuzzy
 msgid "Automatically _detect links"
-msgstr "Controlla la posta _automaticamente"
+msgstr "Rileva collegamenti automaticamente"
 
 #: mail/mail-config.glade.h:22
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltico (ISO-8859-13)"
 
 #: mail/mail-config.glade.h:23
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltico (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:24
-#, fuzzy
 msgid "C_haracter set:"
-msgstr "Set di caratteri sconosciuto: %s"
+msgstr "Set di caratteri sconosciuto:"
 
 #: mail/mail-config.glade.h:25
-#, fuzzy
 msgid "C_olors"
-msgstr "C_hiudi"
+msgstr "C_olori"
 
 #: mail/mail-config.glade.h:26
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "Controlla l'ortografia durante la digitazione"
 
 #: mail/mail-config.glade.h:27
 msgid "Checking for New Mail"
 msgstr "Controllo Nuova Posta"
 
 #: mail/mail-config.glade.h:28
-#, fuzzy
 msgid "Color for _misspelled words:"
-msgstr "Colore attività di oggi"
+msgstr "Colore per errori di ortografia:"
 
 #: mail/mail-config.glade.h:29
 msgid "Composing Messages"
@@ -12293,93 +12285,80 @@ msgid "De_fault"
 msgstr "Pr_edefinito"
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Default Behavior"
-msgstr "Priorità Predefinita:"
+msgstr "Comportamento predefinito:"
 
 #: mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Default character _encoding:"
-msgstr "Codice dei caratteri predefinito: "
+msgstr "Codice dei caratteri predefinito:"
 
 #: mail/mail-config.glade.h:41
-#, fuzzy
 msgid "Deleting Mail"
-msgstr "Ricezione Posta"
+msgstr "Cancellazione Posta"
 
 #: mail/mail-config.glade.h:43
 msgid "Digital IDs..."
 msgstr "ID digitali..."
 
 #: mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Do not quote original message"
-msgstr "Impossibile aprire il messaggio"
+msgstr "Non citare il messaggio originale"
 
 #: mail/mail-config.glade.h:45
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr ""
+msgstr "Non firmare le richieste di riunione (per compatibilità con Outlook)"
 
 #: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
 msgstr "Completato"
 
 #: mail/mail-config.glade.h:47
-#, fuzzy
 msgid "Drafts _folder:"
-msgstr "Cartella delle _Bozze:"
+msgstr "Cartella delle bozze:"
 
 #: mail/mail-config.glade.h:48
 msgid "E_nable"
 msgstr "_Abilita"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "Emacs"
-msgstr "Est"
+msgstr "Emacs"
 
 #: mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Email Accounts"
-msgstr "Email contiene"
+msgstr "Cartelle Email"
 
 #: mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Email _address:"
-msgstr "Indirizzo _Email:"
+msgstr "Indirizzo email:"
 
 #: mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Empty _trash folders on exit"
-msgstr "_Svuota cestino all'uscita"
+msgstr "Svuota cestino all'uscita"
 
 #: mail/mail-config.glade.h:54
 msgid "Execute Command..."
 msgstr "Esegui comando..."
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Fi_xed -width:"
-msgstr "finisce per"
+msgstr "Larghezza fissa:"
 
 #: mail/mail-config.glade.h:56
-#, fuzzy
 msgid "Font Properties"
-msgstr "Proprietà"
+msgstr "Proprietà caratteri"
 
 #: mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Format messages in _HTML"
-msgstr "Messaggio inoltrato"
+msgstr "Formato Messaggi in _HTML"
 
 #: mail/mail-config.glade.h:58
 msgid "Get Digital ID..."
 msgstr "Prendi ID digitale..."
 
 #: mail/mail-config.glade.h:59
-#, fuzzy
 msgid "Highlight _quotations with"
-msgstr "_Evidenzia citazioni con"
+msgstr "Evidenzia citazioni con"
 
 #: mail/mail-config.glade.h:60
 msgid "IMAPv4 "
@@ -12398,14 +12377,12 @@ msgid "Kerberos "
 msgstr "Kerberos "
 
 #: mail/mail-config.glade.h:65
-#, fuzzy
 msgid "Labels and Colors"
-msgstr "Salva ed Esci"
+msgstr "Etichette e colori"
 
 #: mail/mail-config.glade.h:67
-#, fuzzy
 msgid "Loading Images"
-msgstr "Carica _Immagini"
+msgstr "Caricamento immagini"
 
 #: mail/mail-config.glade.h:68
 msgid "Mail Configuration"
@@ -12416,19 +12393,16 @@ msgid "Mailbox location"
 msgstr "Collocazione della Mailbox"
 
 #: mail/mail-config.glade.h:71
-#, fuzzy
 msgid "Message Composer"
-msgstr "Header del messaggio"
+msgstr "Compositore messaggio"
 
 #: mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Message Display"
-msgstr "Visualizzazione _Messaggio"
+msgstr "Visualizzazione messaggio"
 
 #: mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Microsoft"
-msgstr "Micronesia"
+msgstr "Microsoft"
 
 #: mail/mail-config.glade.h:76
 msgid "New Mail Notification"
@@ -12438,20 +12412,19 @@ msgstr "Notifica Nuova Posta"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr ""
+msgstr "Nota: non verrà richiesta una password fino alla prima connessione"
 
 #: mail/mail-config.glade.h:79
 msgid "On Screen fonts"
-msgstr ""
+msgstr "Caratteri sullo schermo"
 
 #: mail/mail-config.glade.h:80
 msgid "Optional Information"
 msgstr "Informazioni Opzionali"
 
 #: mail/mail-config.glade.h:82
-#, fuzzy
 msgid "Or_ganization:"
-msgstr "Organi_zzazione:"
+msgstr "Or_ganizzazione:"
 
 #: mail/mail-config.glade.h:83
 msgid "PGP/GPG _Key ID:"
@@ -12462,7 +12435,6 @@ msgid "Pick a color"
 msgstr "Scegliere un colore"
 
 #: mail/mail-config.glade.h:88
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Segnala l'invio di messaggi con solo destinatari _Bcc"
 
@@ -12471,18 +12443,16 @@ msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: mail/mail-config.glade.h:90
-#, fuzzy
 msgid "Printed Fonts"
-msgstr "Stampa i contatti selezionati"
+msgstr "Caratteri di stampa"
 
 #: mail/mail-config.glade.h:91
 msgid "Qmail maildir "
 msgstr "Qmail maildir"
 
 #: mail/mail-config.glade.h:92
-#, fuzzy
 msgid "Quote original message"
-msgstr "Impossibile aprire il messaggio"
+msgstr "Cita messaggio originale"
 
 #: mail/mail-config.glade.h:93
 msgid "Quoted"
@@ -12493,7 +12463,6 @@ msgid "Re_member this password"
 msgstr "Ri_corda questa password"
 
 #: mail/mail-config.glade.h:95
-#, fuzzy
 msgid "Re_ply-To:"
 msgstr "Rispondi-a:"
 
@@ -12502,26 +12471,22 @@ msgid "Receiving Email"
 msgstr "Ricezione Email"
 
 #: mail/mail-config.glade.h:97
-#, fuzzy
 msgid "Receiving _Options"
-msgstr "Opzioni di Ricezione"
+msgstr "_Opzioni di Ricezione"
 
 #: mail/mail-config.glade.h:98
-#, fuzzy
 msgid "Remember this _password"
-msgstr "Ricorda questa password"
+msgstr "Ricorda questa _password"
 
 #: mail/mail-config.glade.h:99
 msgid "Required Information"
 msgstr "Informazioni Richieste"
 
 #: mail/mail-config.glade.h:100
-#, fuzzy
 msgid "Restore Defaults"
-msgstr "Predefiniti"
+msgstr "Ripristina predefiniti"
 
 #: mail/mail-config.glade.h:102
-#, fuzzy
 msgid "S_ecurity"
 msgstr "Sicurezza"
 
@@ -12531,19 +12496,19 @@ msgstr "MIME sicuro (S/MIME)"
 
 #: mail/mail-config.glade.h:104
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "Seleziona font a larghezza fissa HTML"
 
 #: mail/mail-config.glade.h:105
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "Seleziona carattere HTML a larghezza fissa per la stampa"
 
 #: mail/mail-config.glade.h:106
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "Seleziona carattere HTML a larghezza variabile"
 
 #: mail/mail-config.glade.h:107
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "Seleziona carattere HTML a larghezza variabile per la stampa"
 
 #: mail/mail-config.glade.h:108 shell/glade/evolution-startup-wizard.glade.h:7
 msgid "Sending Email"
@@ -12570,22 +12535,20 @@ msgid "Server _Type: "
 msgstr "_Tipo di Server:"
 
 #: mail/mail-config.glade.h:115
-#, fuzzy
 msgid "Shortcuts _type:"
-msgstr "Collegamenti"
+msgstr "_Tipo scorciatoie:"
 
 #: mail/mail-config.glade.h:116
-#, fuzzy
 msgid "Specify _filename:"
-msgstr "Specifica nome del file:"
+msgstr "Specifica nome del _file:"
 
 #: mail/mail-config.glade.h:117
 msgid "Spell Checking Language"
-msgstr ""
+msgstr "Lingua controllo ortografico"
 
 #: mail/mail-config.glade.h:118
 msgid "Spell _Checking"
-msgstr ""
+msgstr "Controllo ortografico"
 
 #: mail/mail-config.glade.h:119
 msgid "Standard Unix mbox"
@@ -12597,6 +12560,9 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"Il risultato di questo script verrà usato come Vostra\n"
+"firma. Il nome che specificherete avrà solo scopo\n"
+"visivo."
 
 #: mail/mail-config.glade.h:123
 msgid ""
@@ -12604,17 +12570,21 @@ msgid ""
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
+"Questa pagina permette di configurare il comportamento del controllo "
+"ortografico e la lingua. L'elenco delle lingue riflette solamente le lingue di "
+"cui si ha il dizionario installato."
 
 #: mail/mail-config.glade.h:125
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
+"Battere il nome con il quale ci si vuole riferire a questo account.\n"
+"Per esempio: \"Lavoro\" o \"Personale\""
 
 #: mail/mail-config.glade.h:128
-#, fuzzy
 msgid "V_ariable-width:"
-msgstr "Variabile"
+msgstr "Larghezza variabile:"
 
 #: mail/mail-config.glade.h:129
 msgid ""
@@ -12627,14 +12597,12 @@ msgstr ""
 "Cliccare \"successivo\" per cominciare."
 
 #: mail/mail-config.glade.h:134
-#, fuzzy
 msgid "XEmacs"
-msgstr "Est"
+msgstr "XEmacs"
 
 #: mail/mail-config.glade.h:136
-#, fuzzy
 msgid "_Add Signature"
-msgstr "_File con la firma:"
+msgstr "_Aggiungi firma"
 
 #: mail/mail-config.glade.h:137
 msgid "_Always load images off the net"
@@ -12657,12 +12625,10 @@ msgid "_Automatically check for new mail"
 msgstr "Controlla la posta _automaticamente"
 
 #: mail/mail-config.glade.h:142
-#, fuzzy
 msgid "_Automatically insert smiley images"
-msgstr "Controlla la posta _automaticamente"
+msgstr "Inserisci _automaticamente immagini delle faccine"
 
 #: mail/mail-config.glade.h:143
-#, fuzzy
 msgid "_Beep when new mail arrives"
 msgstr "Emetti un suono quando arriva nuova posta"
 
@@ -12671,64 +12637,54 @@ msgid "_Certificate ID:"
 msgstr "ID del _Certificato:"
 
 #: mail/mail-config.glade.h:145
-#, fuzzy
 msgid "_Confirm when expunging a folder"
-msgstr "Chiedi conferma prima di eliminare definitivamente i messaggi"
+msgstr "_Chiedi conferma prima di eliminare definitivamente i messaggi"
 
 #: mail/mail-config.glade.h:146
-#, fuzzy
 msgid "_Default signature:"
-msgstr "Firma _HTML:"
+msgstr "Firma pre_definita:"
 
 #: mail/mail-config.glade.h:147
-#, fuzzy
 msgid "_Defaults"
-msgstr "Predefiniti"
+msgstr "Pre_definiti"
 
 #: mail/mail-config.glade.h:149
-#, fuzzy
 msgid "_Do not notify me when new mail arrives"
-msgstr "Non notificare l'arrivo di nuova posta"
+msgstr "Non notificare l'arrivo _di nuova posta"
 
 #: mail/mail-config.glade.h:151
-#, fuzzy
 msgid "_Enable"
 msgstr "Abilita"
 
 #: mail/mail-config.glade.h:152
 msgid "_Fixed-width:"
-msgstr ""
+msgstr "Larghezza _fissa:"
 
 #: mail/mail-config.glade.h:153
-#, fuzzy
 msgid "_Forward style:"
-msgstr "_Inoltra Messaggio"
+msgstr "Stile Inoltra:"
 
 #: mail/mail-config.glade.h:154
 msgid "_Full name:"
 msgstr "_Nome e cognome:"
 
 #: mail/mail-config.glade.h:156
-#, fuzzy
 msgid "_HTML Mail"
-msgstr "Posta HTML"
+msgstr "Posta _HTML"
 
 #: mail/mail-config.glade.h:158
-#, fuzzy
 msgid "_Identity"
-msgstr "Identità"
+msgstr "_Identità"
 
 #: mail/mail-config.glade.h:159
 msgid "_Load images if sender is in addressbook"
 msgstr "_Carica le immagini se il mittente è nella rubrica"
 
 #: mail/mail-config.glade.h:160
-#, fuzzy
 msgid "_Make this my default account"
-msgstr "Imposta come mio account _predefinito"
+msgstr "Imposta come _mio account predefinito"
 
 #: mail/mail-config.glade.h:161
-#, fuzzy
 msgid "_Mark messages as read after"
 msgstr "Segna i _messaggi come letti dopo"
 
@@ -12741,74 +12697,60 @@ msgid "_Never load images off the net"
 msgstr "_Non caricare mai le immagini dalla rete"
 
 #: mail/mail-config.glade.h:165
-#, fuzzy
 msgid "_Play sound file when new mail arrives"
 msgstr "Suona un file sonoro quando arriva nuova posta"
 
 #: mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"Chiedere conferma prima di inviare messaggi HTML a contatti che non li "
-"desiderano"
+msgstr "Chiedere conferma _prima di inviare messaggi HTML a contatti che non li desiderano"
 
 #: mail/mail-config.glade.h:167
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Segnala l'invio di messaggi _senza oggetto."
+msgstr "Segnala l'invio di messaggi senza oggetto."
 
 #: mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Receiving Mail"
-msgstr "Ricezione Posta"
+msgstr "_Ricezione Posta"
 
 #: mail/mail-config.glade.h:169
-#, fuzzy
 msgid "_Reply style:"
-msgstr "Rispondi a Tutti"
+msgstr "Stile _risposta:"
 
 #: mail/mail-config.glade.h:170
 msgid "_Restore defaults"
-msgstr ""
+msgstr "_Ripristina predefiniti"
 
 #: mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Script:"
-msgstr "_Sicurezza"
+msgstr "_Script:"
 
 #: mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Sending Mail"
-msgstr "Invio Posta"
+msgstr "_Spedizione Posta"
 
 #: mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Show animated images"
-msgstr "Mostra ora come"
+msgstr "Mostra immagini animate"
 
 #: mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Signatures"
-msgstr "_File con la firma:"
+msgstr "Firme"
 
 #: mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Use secure connection (SSL):"
-msgstr "Usa conn_essione sicura (SSL)"
+msgstr "_Usa connessione sicura (SSL):"
 
 #: mail/mail-config.glade.h:176
-#, fuzzy
 msgid "_Variable-width:"
-msgstr "Variabile"
+msgstr "Larghezza _Variabile:"
 
 #: mail/mail-config.glade.h:177
 msgid "_every"
 msgstr "_ogni"
 
 #: mail/mail-config.glade.h:178
-#, fuzzy
 msgid "color"
-msgstr " colore"
+msgstr "colore"
 
 #: mail/mail-config.glade.h:179
 msgid "description"
@@ -12839,14 +12781,13 @@ msgid "Save Attachment"
 msgstr "Salva Allegati"
 
 #: mail/mail-display.c:386
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create temporary file '%s': %s"
-msgstr "Impossibile creare una directory temporanea: %s"
+msgstr "Impossibile creare il file temporaneo '%s': %s"
 
 #: mail/mail-display.c:432
-#, fuzzy
 msgid "Save Attachment..."
-msgstr "Salva Allegati"
+msgstr "Salva Allegati..."
 
 #: mail/mail-display.c:433
 msgid "View Inline"
@@ -12871,23 +12812,20 @@ msgid "External Viewer"
 msgstr "Visualizzatore Esterno"
 
 #: mail/mail-display.c:1319
-#, fuzzy
 msgid "Downloading images"
-msgstr "Carica _Immagini"
+msgstr "Scaricamento immagini"
 
 #: mail/mail-display.c:1496
 msgid "Loading message content"
 msgstr "Caricamento del contenuto del messaggio"
 
 #: mail/mail-display.c:1783
-#, fuzzy
 msgid "Overdue:"
-msgstr "_Attività scadute:"
+msgstr "Scadute:"
 
 #: mail/mail-display.c:1787
-#, fuzzy
 msgid "by %B %d, %Y, %l:%M %P"
-msgstr "%b %d %l:%M %p"
+msgstr "da %B %d, %Y, %l:%M %P"
 
 #: mail/mail-display.c:2114
 msgid "Open Link in Browser"
@@ -12906,9 +12844,9 @@ msgid "Save Image as..."
 msgstr "Salva Immagine con nome..."
 
 #: mail/mail-folder-cache.c:743
-#, fuzzy, c-format
+#, c-format
 msgid "Pinging %s"
-msgstr "Scansione di \"%s\""
+msgstr "Sto facendo ping a %s"
 
 #: mail/mail-format.c:656
 #, c-format
@@ -12950,9 +12888,8 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #: mail/mail-format.c:963
-#, fuzzy
 msgid "Mailer"
-msgstr "Posta"
+msgstr "Gestore di posta"
 
 #: mail/mail-format.c:1848
 msgid "This message is digitally signed. Click the lock icon for more information."
@@ -12961,9 +12898,8 @@ msgstr ""
 "ulteriori informazioni."
 
 #: mail/mail-format.c:1875
-#, fuzzy
 msgid "Could not create a PGP verfication context"
-msgstr "Impossibile creare un contesto per la verifica PGP."
+msgstr "Impossibile creare un contesto per la verifica PGP"
 
 #: mail/mail-format.c:1884
 msgid "This message is digitally signed and has been found to be authentic."
