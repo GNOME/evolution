@@ -687,7 +687,7 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 		g_assert(rule);
 
 		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, folder);
-		filter_rule_set_name(rule, info->new->name);		
+		filter_rule_set_name(rule, info->new->full_name);
 		gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, folder);
 
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
