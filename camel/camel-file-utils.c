@@ -259,8 +259,10 @@ camel_file_util_encode_string (FILE *out, const char *str)
 
 	if (str == NULL)
 		return camel_file_util_encode_uint32 (out, 1);
-
-	len = strlen (str);
+	
+	if ((len = strlen (str)) > 65536)
+		len = 65536;
+	
 	if (camel_file_util_encode_uint32 (out, len+1) == -1)
 		return -1;
 	if (len == 0 || fwrite (str, len, 1, out) == 1)
