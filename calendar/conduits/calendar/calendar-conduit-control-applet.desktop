@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=GnomeCalendar
-Comment=Configure the GnomeCal conduit
-Exec=calendar-conduit-control-applet --cap-id=1
-Terminal=0
-Type=Application
