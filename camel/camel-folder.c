@@ -1690,7 +1690,6 @@ static CamelSessionThreadOps filter_ops = {
 	filter_free,
 };
 
-
 /* Event hooks that block emission when frozen */
 static gboolean
 folder_changed (CamelObject *obj, gpointer event_data)

@@ -124,10 +124,6 @@ struct _CamelImapStore {
 	GHashTable *authtypes;
 	
 	gboolean renaming;
-	
-#ifdef ENABLE_THREADS
-	EThread *async_thread;
-#endif
 };
 
 

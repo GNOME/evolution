@@ -192,54 +192,7 @@ camel_imap_store_finalize (CamelObject *object)
 		g_free (imap_store->base_url);
 	if (imap_store->storage_path)
 		g_free (imap_store->storage_path);
-	
-#ifdef ENABLE_THREADS
-	e_thread_destroy (imap_store->async_thread);
-#endif
 }
-
-#ifdef ENABLE_THREADS
-static void async_destroy(EThread *et, EMsg *em, void *data)
-{
-	CamelImapStore *imap_store = data;
-	CamelImapMsg *msg = (CamelImapMsg *)em;
-	
-	if (msg->free)
-		msg->free (imap_store, msg);
-	
-	g_free (msg);
-}
-
-static void async_received(EThread *et, EMsg *em, void *data)
-{
-	CamelImapStore *imap_store = data;
-	CamelImapMsg *msg = (CamelImapMsg *)em;
-
-	if (msg->receive)
-		msg->receive(imap_store, msg);
-}
-
-CamelImapMsg *camel_imap_msg_new(void (*receive)(CamelImapStore *store, struct _CamelImapMsg *m),
-				 void (*free)(CamelImapStore *store, struct _CamelImapMsg *m),
-				 size_t size)
-{
-	CamelImapMsg *msg;
-
-	g_assert(size >= sizeof(*msg));
-
-	msg = g_malloc0(size);
-	msg->receive = receive;
-	msg->free = free;
-
-	return msg;
-}
-
-void camel_imap_msg_queue(CamelImapStore *store, CamelImapMsg *msg)
-{
-	e_thread_put(store->async_thread, (EMsg *)msg);
-}
-
-#endif
 
 static void
 camel_imap_store_init (gpointer object, gpointer klass)
@@ -257,12 +210,6 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	imap_store->tag_prefix = imap_tag_prefix++;
 	if (imap_tag_prefix > 'Z')
 		imap_tag_prefix = 'A';
-	
-#ifdef ENABLE_THREADS
-	imap_store->async_thread = e_thread_new(E_THREAD_QUEUE);
-	e_thread_set_msg_destroy(imap_store->async_thread, async_destroy, imap_store);
-	e_thread_set_msg_received(imap_store->async_thread, async_received, imap_store);
-#endif /* ENABLE_THREADS */
 }
 
 CamelType
@@ -506,7 +453,6 @@ static struct {
 	{ "STARTTLS",           IMAP_CAPABILITY_STARTTLS },
 	{ NULL, 0 }
 };
-
 
 static gboolean
 imap_get_capability (CamelService *service, CamelException *ex)
