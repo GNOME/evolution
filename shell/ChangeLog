@@ -1,5 +1,13 @@
 2002-05-07  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-test-component.c (create_new_folder_selector): Use the
+	new evolution_shell_client_create_storage_set_view() call.
+
+	* evolution-shell-client.c
+	(evolution_shell_client_create_storage_set_view): New.
+
+2002-05-07  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage-set-view-factory.c
 	(evolution_storage_set_view_factory_new_view): Put the
 	EStorageSetView in an EScrollFrame.

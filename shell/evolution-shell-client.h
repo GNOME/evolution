@@ -81,6 +81,12 @@ GdkPixbuf               *evolution_shell_client_get_pixbuf_for_type      (Evolut
 									  const char           *folder_type,
 									  gboolean              mini);
 
+GtkWidget *evolution_shell_client_create_storage_set_view  (EvolutionShellClient           *shell_client,
+							    Bonobo_UIComponent              uic,
+							    Bonobo_Control                 *bonobo_control_iface_return,
+							    GNOME_Evolution_StorageSetView *storage_set_view_iface_return,
+							    CORBA_Environment              *ev);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

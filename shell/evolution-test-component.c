@@ -212,7 +212,6 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 	GNOME_Evolution_Shell corba_shell;
 	GNOME_Evolution_StorageSetView storage_set_view_iface;
 	GtkWidget *dialog;
-	Bonobo_Control control;
 	GtkWidget *control_widget;
 	CORBA_Environment ev;
 
@@ -222,25 +221,13 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 	g_assert (shell_client != NULL);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
-	control = GNOME_Evolution_Shell_createStorageSetView (corba_shell, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot create StorageSetView -- %s", BONOBO_EX_ID (&ev));
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	storage_set_view_iface = Bonobo_Unknown_queryInterface (control, "IDL:GNOME/Evolution/StorageSetView:1.0", &ev);
-	if (BONOBO_EX (&ev) || storage_set_view_iface == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot get StorageSetView interface");
-		if (BONOBO_EX (&ev))
-			g_warning ("CORBA exception -- %s", BONOBO_EX_ID (&ev));
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	GNOME_Evolution_StorageSetView__set_showCheckboxes (storage_set_view_iface, TRUE, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Cannot show checkboxes -- %s", BONOBO_EX_ID (&ev));
+	control_widget = evolution_shell_client_create_storage_set_view (shell_client,
+									 CORBA_OBJECT_NIL,
+									 NULL,
+									 &storage_set_view_iface,
+									 &ev);
+	if (control_widget == NULL) {
+		g_warning ("Can't create the StorageSetView control -- %s", BONOBO_EX_ID (&ev));
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -249,18 +236,22 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 200, 400);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
-	control_widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
 	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), control_widget);
 
-	gtk_widget_show (control_widget);
-	gtk_widget_show (dialog);
+	GNOME_Evolution_StorageSetView__set_showCheckboxes (storage_set_view_iface, TRUE, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot show checkboxes -- %s", BONOBO_EX_ID (&ev));
 
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_callback), storage_set_view_iface);
 
-	/* This is necessary to unref the StorageSetView iface.  */
+	/* This is necessary to unref the StorageSetView iface once we are done
+	   with it.  */
 	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy_callback), storage_set_view_iface);
+
+	gtk_widget_show (control_widget);
+	gtk_widget_show (dialog);
 
 	CORBA_exception_free (&ev);
 }

@@ -27,8 +27,10 @@
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
 
+#include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-widget.h>
 
 #include <gal/util/e-util.h>
 
@@ -590,6 +592,51 @@ evolution_shell_client_get_pixbuf_for_type (EvolutionShellClient *shell_client,
 
 	gdk_pixbuf_ref (pixbuf);
 	return pixbuf;
+}
+
+
+GtkWidget *
+evolution_shell_client_create_storage_set_view (EvolutionShellClient *shell_client,
+						Bonobo_UIComponent uic,
+						Bonobo_Control *bonobo_control_iface_return,
+						GNOME_Evolution_StorageSetView *storage_set_view_iface_return,
+						CORBA_Environment *ev)
+{
+	GNOME_Evolution_Shell corba_shell;
+	CORBA_Environment my_ev;
+	Bonobo_Control control;
+	GtkWidget *control_widget;
+
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), NULL);
+
+	CORBA_exception_init (&my_ev);
+	if (ev == NULL)
+		ev = &my_ev;
+
+	corba_shell = BONOBO_OBJREF (shell_client);
+
+	control = GNOME_Evolution_Shell_createStorageSetView (corba_shell, ev);
+	if (BONOBO_EX (ev)) {
+		g_warning ("Cannot create StorageSetView -- %s", BONOBO_EX_ID (ev));
+		CORBA_exception_free (&my_ev);
+		return NULL;
+	}
+
+	if (bonobo_control_iface_return != NULL)
+		*bonobo_control_iface_return = control;
+
+	control_widget = bonobo_widget_new_control_from_objref (control, uic);
+
+	if (storage_set_view_iface_return != NULL) {
+		*storage_set_view_iface_return = Bonobo_Unknown_queryInterface (control,
+										"IDL:GNOME/Evolution/StorageSetView:1.0",
+										ev);
+		if (BONOBO_EX (ev))
+			*storage_set_view_iface_return = NULL;
+	}
+
+	CORBA_exception_free (&my_ev);
+	return control_widget;
 }
 
 
