@@ -1,3 +1,8 @@
+2001-07-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Changed Company to
+	Organization here.
+
 2001-07-12  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/Makefile.am: add ldap cflags
