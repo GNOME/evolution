@@ -64,7 +64,7 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_fs_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_fs_class);
 
-	parent_class = gtk_type_class (camel_stream_get_type ());
+	parent_class = gtk_type_class (camel_seekable_stream_get_type ());
 	
 	/* virtual method definition */
 	camel_stream_fs_class->init_with_fd = _init_with_fd;
