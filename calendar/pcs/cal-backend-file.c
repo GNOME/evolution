@@ -1729,6 +1729,7 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 	CalComponent *old_comp;
 	CalComponent *comp;
 	const char *comp_uid;
+	struct icaltimetype last_modified;
 
 	/* Create a CalComponent wrapper for the icalcomponent. */
 	comp = cal_component_new ();
@@ -1744,6 +1745,10 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 		return NULL;
 	}
 
+	/* Set the LAST-MODIFIED time on the component */
+	last_modified = icaltime_from_timet (time (NULL), 0);
+	cal_component_set_last_modified (comp, &last_modified);
+	
 	/* Remove any old version of the component. */
 	old_comp = lookup_component (cbfile, comp_uid);
 	if (old_comp)

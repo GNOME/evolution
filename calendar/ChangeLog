@@ -1,3 +1,10 @@
+2002-09-25  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #27961
+
+	* pcs/cal-backend-file.c (cal_backend_file_update_object): set the
+	LAST-MODIFIED time of the components when we save them.
+
 2002-09-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-file.c (cal_backend_file_get_timezone_object,
