@@ -41,6 +41,7 @@
 #include "addressbook-storage.h"
 #include "addressbook-component.h"
 #include "addressbook.h"
+#include "addressbook/gui/merging/e-card-merging.h"
 
 
 
@@ -299,7 +300,7 @@ dnd_drop_book_open_cb (EBook *book, EBookStatus status, GList *card_list)
 	for (l = card_list; l; l = l->next) {
 		ECard *card = l->data;
 
-		e_book_add_card (book, card, NULL /* XXX */, NULL);
+		e_card_merging_book_add_card (book, card, NULL /* XXX */, NULL);
 	}
 }
 

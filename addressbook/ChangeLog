@@ -1,3 +1,43 @@
+2001-06-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-compare.c (use_common_book_cb): Null
+	terminate the strv here.
+	(e_card_locate_match): ref here instead of unref.
+
+	* backend/ebook/e-card-simple.c (e_card_simple_get): Handle a NULL
+	card here.
+
+	* contact-editor/Makefile.am (INCLUDES), gui/widgets/Makefile.am
+	(INCLUDES): Added addressbook/gui/merging here.
+
+	* contact-editor/e-contact-quick-add.c (book_ready_cb),
+	gui/component/addressbook-component.c (dnd_drop_book_open_cb),
+	gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_append_row), gui/widgets/e-addressbook-util.c
+	(add_card_cb), gui/widgets/e-addressbook-view.c
+	(selection_received), gui/widgets/e-minicard-control.c
+	(book_open_cb): Use e_card_merging_book_add_card instead of
+	e_book_add_card here.
+
+	* gui/Makefile.am (SUBDIRS): Added merging.
+
+	* gui/component/Makefile.am (evolution_addressbook_LDADD),
+	gui/widgets/Makefile.am (minicard_test_LDADD,
+	minicard_widget_test_LDADD): Added libecardmerging.a here.
+
+	* gui/merging/, gui/merging/.cvsignore, gui/merging/Makefile.am:
+	New addressbook library.
+
+	* gui/merging/e-card-duplicate-detected.glade: Glade file for
+	duplicate detected dialog.
+
+	* gui/merging/e-card-merging.c, gui/merging/e-card-merging.h: New
+	files for detecting duplicates before adding and putting up a
+	dialog if duplicates are found.
+
+	* gui/widgets/e-minicard-view.c: Include e-addressbook-util.h
+	here.
+
 2001-06-08  Chris Toshok  <toshok@ximian.com>
 
 	* contact-editor/e-contact-editor.c (e_contact_editor_new): remove

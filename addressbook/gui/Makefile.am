@@ -1,1 +1,1 @@
-SUBDIRS = widgets search component
+SUBDIRS = merging widgets search component

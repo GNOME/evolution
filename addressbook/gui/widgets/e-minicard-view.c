@@ -24,7 +24,7 @@
 
 #include "e-minicard-view.h"
 
-#include "e-contact-editor.h"
+#include "e-addressbook-util.h"
 
 #include <gtk/gtkselection.h>
 #include <gtk/gtkdnd.h>

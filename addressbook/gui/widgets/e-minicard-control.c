@@ -19,6 +19,7 @@
 
 #include "e-minicard-control.h"
 #include "e-minicard-widget.h"
+#include "e-card-merging.h"
 
 #if 0
 enum {
@@ -225,7 +226,7 @@ static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	ECard *card = closure;
-	e_book_add_card(book, card, NULL, NULL);
+	e_card_merging_book_add_card(book, card, NULL, NULL);
 	gtk_object_unref(GTK_OBJECT(card));
 }
 

@@ -3,6 +3,7 @@
 #include <config.h>
 #include "e-addressbook-model.h"
 #include "e-addressbook-table-adapter.h"
+#include "e-card-merging.h"
 #include "e-addressbook-util.h"
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
@@ -169,7 +170,7 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 		e_card_simple_set(simple, col, val);
 	}
 	e_card_simple_sync_card(simple);
-	e_book_add_card (e_addressbook_model_get_ebook (priv->model), card, NULL, NULL);
+	e_card_merging_book_add_card (e_addressbook_model_get_ebook (priv->model), card, NULL, NULL);
 	gtk_object_unref(GTK_OBJECT(simple));
 	gtk_object_unref(GTK_OBJECT(card));
 }

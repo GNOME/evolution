@@ -53,6 +53,7 @@
 #include "e-addressbook-reflow-adapter.h"
 #include "e-minicard-view-widget.h"
 #include "e-contact-save-as.h"
+#include "e-card-merging.h"
 
 #include "e-contact-editor.h"
 
@@ -1168,7 +1169,7 @@ selection_received (GtkWidget *invisible,
 		for (l = card_list; l; l = l->next) {
 			ECard *card = l->data;
 
-			e_book_add_card (view->book, card, NULL /* XXX */, NULL);
+			e_card_merging_book_add_card (view->book, card, NULL /* XXX */, NULL);
 		}
 
 		g_list_foreach (card_list, (GFunc)gtk_object_unref, NULL);

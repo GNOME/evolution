@@ -42,6 +42,7 @@
 #include <addressbook/backend/ebook/e-card.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
+#include "e-card-merging.h"
 
 static void
 e_card_quick_set_name (ECard *card, const gchar *str)
@@ -85,7 +86,7 @@ book_ready_cb (EBook *book, EBookStatus status, gpointer user_data)
 	gpointer cb_user_data = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-user-data");
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
-		e_book_add_card (book, card, NULL, NULL);
+		e_card_merging_book_add_card (book, card, NULL, NULL);
 		if (cb)
 			cb (card, cb_user_data);
 	} else {

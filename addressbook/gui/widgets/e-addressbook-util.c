@@ -26,6 +26,7 @@
 
 #include "e-addressbook-util.h"
 #include "e-contact-editor.h"
+#include "e-card-merging.h"
 
 void
 e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
@@ -84,7 +85,7 @@ add_card_cb (EContactEditor *ce, ECard *card, gpointer data)
 	EBook *book;
 
 	book = E_BOOK (data);
-	e_book_add_card (book, card, card_added_cb, NULL);
+	e_card_merging_book_add_card (book, card, card_added_cb, NULL);
 }
 
 /* Callback for the commit_card signal from the contact editor */

@@ -727,15 +727,21 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 	ECardName *name;
 	switch(type) {
 	case E_CARD_SIMPLE_INTERNAL_TYPE_STRING:
-		gtk_object_get(GTK_OBJECT(simple->card),
-			       field_data[field].ecard_field, &string,
-			       NULL);
-		return g_strdup(string);
+		if (simple->card) {
+			gtk_object_get(GTK_OBJECT(simple->card),
+				       field_data[field].ecard_field, &string,
+				       NULL);
+			return g_strdup(string);
+		} else
+			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
-		gtk_object_get(GTK_OBJECT(simple->card),
-			       field_data[field].ecard_field, &date,
-			       NULL);
-		return NULL; /* FIXME!!!! */
+		if (simple->card) {
+			gtk_object_get(GTK_OBJECT(simple->card),
+				       field_data[field].ecard_field, &date,
+				       NULL);
+			return NULL; /* FIXME!!!! */
+		} else
+			return NULL;
 	case E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS:
 		addr = e_card_simple_get_address(simple,
 						 field_data[field].list_type_index);
@@ -757,24 +763,30 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 	case E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL:
 		switch (field) {
 		case E_CARD_SIMPLE_FIELD_NAME_OR_ORG:
-			gtk_object_get(GTK_OBJECT(simple->card),
-				       "full_name", &string,
-				       NULL);
-			if (string && *string)
+			if (simple->card) {
+				gtk_object_get(GTK_OBJECT(simple->card),
+					       "full_name", &string,
+					       NULL);
+				if (string && *string)
+					return g_strdup(string);
+				gtk_object_get(GTK_OBJECT(simple->card),
+					       "org", &string,
+					       NULL);
+				if (string && *string)
+					return g_strdup(string);
+				string = e_card_simple_get_email(simple,
+								 E_CARD_SIMPLE_EMAIL_ID_EMAIL); 
 				return g_strdup(string);
-			gtk_object_get(GTK_OBJECT(simple->card),
-				       "org", &string,
-				       NULL);
-			if (string && *string)
-				return g_strdup(string);
-			string = e_card_simple_get_email(simple,
-							 E_CARD_SIMPLE_EMAIL_ID_EMAIL); 
-			return g_strdup(string);
+			} else
+				return NULL;
 		case E_CARD_SIMPLE_FIELD_FAMILY_NAME:
-			gtk_object_get (GTK_OBJECT(simple->card),
-					"name", &name,
-					NULL);
-			return g_strdup (name->family);
+			if (simple->card) {
+				gtk_object_get (GTK_OBJECT(simple->card),
+						"name", &name,
+						NULL);
+				return g_strdup (name->family);
+			} else
+				return NULL;
 		default:
 			return NULL;
 		}

@@ -419,7 +419,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 	
 	
 	/* Build up our full query from the parts. */
-
+	query_parts[p] = NULL;
 	qj = g_strjoinv (" ", query_parts);
 	if (p > 0) {
 		query = g_strdup_printf ("(or %s)", qj);
@@ -446,7 +446,7 @@ e_card_locate_match (ECard *card, ECardMatchQueryCallback cb, gpointer closure)
 
 	info = g_new (MatchSearchInfo, 1);
 	info->card = card;
-	gtk_object_unref (GTK_OBJECT (card));
+	gtk_object_ref (GTK_OBJECT (card));
 	info->cb = cb;
 	info->closure = closure;
 
