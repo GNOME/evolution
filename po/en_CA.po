@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-21 13:34-0400\n"
-"PO-Revision-Date: 2004-09-21 19:18-0400\n"
+"POT-Creation-Date: 2004-09-23 12:41-0400\n"
+"PO-Revision-Date: 2004-09-23 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -422,8 +422,8 @@ msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Address book '%s' will be removed. Are you sure you want to continue?"
 
 #: addressbook/gui/component/addressbook-view.c:814
-#: addressbook/gui/widgets/e-addressbook-view.c:1128
-#: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
+#: addressbook/gui/widgets/e-addressbook-view.c:1124
+#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:382
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -433,7 +433,7 @@ msgid "Delete"
 msgstr "Delete"
 
 #: addressbook/gui/component/addressbook-view.c:815
-#: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
+#: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:384
 msgid "Properties..."
 msgstr "Properties..."
 
@@ -453,14 +453,32 @@ msgid "%sEnter password for %s (user %s)"
 msgstr "%sEnter password for %s (user %s)"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
-msgid "EFolderList xml for the list of completion uris"
-msgstr "EFolderList xml for the list of completion uris"
+msgid "EFolderList XML for the list of completion URIs"
+msgstr "EFolderList XML for the list of completion URIs"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
+msgid "EFolderList XML for the list of completion URIs."
+msgstr "EFolderList XML for the list of completion URIs."
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "Position of the vertical pane in main view"
 msgstr "Position of the vertical pane in main view"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
+msgid "Position of the vertical pane in main view."
+msgstr "Position of the vertical pane in main view."
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
+#: mail/evolution-mail.schemas.in.in.h:71
+msgid "Show the \"Preview\" pane"
+msgstr "Show the \"Preview\" pane"
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
+#: mail/evolution-mail.schemas.in.in.h:72
+msgid "Show the \"Preview\" pane."
+msgstr "Show the \"Preview\" pane."
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
@@ -468,9 +486,21 @@ msgstr ""
 "The number of characters that must be typed before evolution will attempt to "
 "autocomplete"
 
-#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
+msgid ""
+"The number of characters that must be typed before evolution will attempt to "
+"autocomplete."
+msgstr ""
+"The number of characters that must be typed before evolution will attempt to "
+"autocomplete."
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 msgid "URI for the folder last used in the select names dialog"
 msgstr "URI for the folder last used in the select names dialog"
+
+#: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
+msgid "URI for the folder last used in the select names dialog."
+msgstr "URI for the folder last used in the select names dialog."
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -2451,97 +2481,97 @@ msgstr "Advanced..."
 msgid "Type"
 msgstr "Type"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:548
+#: addressbook/gui/widgets/e-addressbook-view.c:544
 msgid "Address Book"
 msgstr "Address Book"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:892
-#: addressbook/gui/widgets/e-addressbook-view.c:1112
-#: addressbook/gui/widgets/e-addressbook-view.c:2102
+#: addressbook/gui/widgets/e-addressbook-view.c:888
+#: addressbook/gui/widgets/e-addressbook-view.c:1108
+#: addressbook/gui/widgets/e-addressbook-view.c:2098
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Save as VCard..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1099
+#: addressbook/gui/widgets/e-addressbook-view.c:1095
 msgid "New Contact..."
 msgstr "New Contact..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1100
+#: addressbook/gui/widgets/e-addressbook-view.c:1096
 msgid "New Contact List..."
 msgstr "New Contact List..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1103
+#: addressbook/gui/widgets/e-addressbook-view.c:1099
 msgid "Go to Folder..."
 msgstr "Go to Folder..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1104
+#: addressbook/gui/widgets/e-addressbook-view.c:1100
 msgid "Import..."
 msgstr "Import..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1106
+#: addressbook/gui/widgets/e-addressbook-view.c:1102
 msgid "Search for Contacts..."
 msgstr "Search for Contacts..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1107
+#: addressbook/gui/widgets/e-addressbook-view.c:1103
 msgid "Address Book Sources..."
 msgstr "Address Book Sources..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1109
+#: addressbook/gui/widgets/e-addressbook-view.c:1105
 msgid "Pilot Settings..."
 msgstr "Pilot Settings..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1113
+#: addressbook/gui/widgets/e-addressbook-view.c:1109
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Forward Contact"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1114
+#: addressbook/gui/widgets/e-addressbook-view.c:1110
 msgid "Send Message to Contact"
 msgstr "Send Message to Contact"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1115 calendar/gui/print.c:2480
+#: addressbook/gui/widgets/e-addressbook-view.c:1111 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:5
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Print"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1117
+#: addressbook/gui/widgets/e-addressbook-view.c:1113
 msgid "Print Envelope"
 msgstr "Print Envelope"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1121
+#: addressbook/gui/widgets/e-addressbook-view.c:1117
 msgid "Copy to Address Book..."
 msgstr "Copy to Address Book..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1122
+#: addressbook/gui/widgets/e-addressbook-view.c:1118
 msgid "Move to Address Book..."
 msgstr "Move to Address Book..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1125
+#: addressbook/gui/widgets/e-addressbook-view.c:1121
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Cut"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1126
-#: calendar/gui/calendar-component.c:428 calendar/gui/tasks-component.c:374
+#: addressbook/gui/widgets/e-addressbook-view.c:1122
+#: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:380
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copy"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1127
+#: addressbook/gui/widgets/e-addressbook-view.c:1123
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Paste"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1132
+#: addressbook/gui/widgets/e-addressbook-view.c:1128
 #: calendar/gui/e-calendar-view.c:1418
 msgid "Current View"
 msgstr "Current View"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1687
+#: addressbook/gui/widgets/e-addressbook-view.c:1683
 #: calendar/gui/cal-search-bar.c:358
 msgid "Any Category"
 msgstr "Any Category"
@@ -3800,7 +3830,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendar and Tasks"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: calendar/gui/calendar-component.c:1079
+#: calendar/gui/calendar-component.c:1085
 msgid "Calendars"
 msgstr "Calendars"
 
@@ -3834,7 +3864,7 @@ msgstr "Evolution's Tasks component"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/e-tasks.c:1199 calendar/gui/print.c:1819
-#: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:889
+#: calendar/gui/tasks-component.c:425 calendar/gui/tasks-component.c:895
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
 #: camel/providers/groupwise/camel-gw-listener.c:332
@@ -4111,7 +4141,7 @@ msgstr "Location contains"
 msgid "Unmatched"
 msgstr "Unmatched"
 
-#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
+#: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:570
 #: calendar/gui/dialogs/select-source-dialog.c:112
 #: calendar/gui/gnome-cal.c:1910
 #: camel/providers/groupwise/camel-gw-listener.c:331
@@ -4149,15 +4179,15 @@ msgstr "%A %d %B %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
+#: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:525
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
-#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:521
-#: calendar/gui/calendar-component.c:526 calendar/gui/calendar-component.c:528
+#: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:527
+#: calendar/gui/calendar-component.c:532 calendar/gui/calendar-component.c:534
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -4179,16 +4209,16 @@ msgstr "%d %B"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Calendar '%s' will be removed. Are you sure you want to continue?"
 
-#: calendar/gui/calendar-component.c:426
+#: calendar/gui/calendar-component.c:432
 msgid "New Calendar"
 msgstr "New Calendar"
 
-#: calendar/gui/calendar-component.c:516
+#: calendar/gui/calendar-component.c:522
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
-#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
-#: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
+#: calendar/gui/calendar-component.c:546 calendar/gui/calendar-component.c:553
+#: calendar/gui/calendar-component.c:559 calendar/gui/calendar-component.c:561
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -4197,70 +4227,70 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-component.c:545
+#: calendar/gui/calendar-component.c:551
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
 msgstr "%d %b"
 
-#: calendar/gui/calendar-component.c:635
+#: calendar/gui/calendar-component.c:641
 msgid "Failed upgrading calendars."
 msgstr "Failed upgrading calendars."
 
-#: calendar/gui/calendar-component.c:931
+#: calendar/gui/calendar-component.c:937
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Unable to open the calendar '%s' for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:947
+#: calendar/gui/calendar-component.c:953
 msgid "There is no calendar available for creating events and meetings"
 msgstr "There is no calendar available for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:1245
+#: calendar/gui/calendar-component.c:1251
 msgid "New appointment"
 msgstr "New appointment"
 
-#: calendar/gui/calendar-component.c:1246
+#: calendar/gui/calendar-component.c:1252
 msgid "_Appointment"
 msgstr "_Appointment"
 
-#: calendar/gui/calendar-component.c:1247
+#: calendar/gui/calendar-component.c:1253
 msgid "Create a new appointment"
 msgstr "Create a new appointment"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1259
 msgid "New meeting"
 msgstr "New meeting"
 
-#: calendar/gui/calendar-component.c:1254
+#: calendar/gui/calendar-component.c:1260
 msgid "M_eeting"
 msgstr "M_eeting"
 
-#: calendar/gui/calendar-component.c:1255
+#: calendar/gui/calendar-component.c:1261
 msgid "Create a new meeting request"
 msgstr "Create a new meeting request"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1267
 msgid "New all day appointment"
 msgstr "New all day appointment"
 
-#: calendar/gui/calendar-component.c:1262
+#: calendar/gui/calendar-component.c:1268
 msgid "All Day A_ppointment"
 msgstr "All Day A_ppointment"
 
-#: calendar/gui/calendar-component.c:1263
+#: calendar/gui/calendar-component.c:1269
 msgid "Create a new all-day appointment"
 msgstr "Create a new all-day appointment"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1275
 msgid "New calendar"
 msgstr "New calendar"
 
-#: calendar/gui/calendar-component.c:1270
+#: calendar/gui/calendar-component.c:1276
 msgid "Cale_ndar"
 msgstr "Cale_ndar"
 
-#: calendar/gui/calendar-component.c:1271
+#: calendar/gui/calendar-component.c:1277
 msgid "Create a new calendar"
 msgstr "Create a new calendar"
 
@@ -6165,6 +6195,7 @@ msgstr "iCalendar Error"
 msgid "An unknown person"
 msgstr "An unknown person"
 
+#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:1096
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -7102,70 +7133,70 @@ msgstr "Print Setup"
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "Task List '%s' will be removed. Are you sure you want to continue?"
 
-#: calendar/gui/tasks-component.c:372
+#: calendar/gui/tasks-component.c:378
 msgid "New Task List"
 msgstr "New Task List"
 
-#: calendar/gui/tasks-component.c:415
+#: calendar/gui/tasks-component.c:421
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d task"
 msgstr[1] "%d tasks"
 
-#: calendar/gui/tasks-component.c:417 mail/mail-component.c:522
+#: calendar/gui/tasks-component.c:423 mail/mail-component.c:522
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", %d selected"
 msgstr[1] ", %d selected"
 
-#: calendar/gui/tasks-component.c:464
+#: calendar/gui/tasks-component.c:470
 msgid "Failed upgrading tasks."
 msgstr "Failed upgrading tasks."
 
-#: calendar/gui/tasks-component.c:758
+#: calendar/gui/tasks-component.c:764
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "Unable to open the task list '%s' for creating events and meetings"
 
-#: calendar/gui/tasks-component.c:773
+#: calendar/gui/tasks-component.c:779
 msgid "There is no calendar available for creating tasks"
 msgstr "There is no calendar available for creating tasks"
 
-#: calendar/gui/tasks-component.c:1047
+#: calendar/gui/tasks-component.c:1053
 msgid "New task"
 msgstr "New task"
 
-#: calendar/gui/tasks-component.c:1048
+#: calendar/gui/tasks-component.c:1054
 msgid "_Task"
 msgstr "_Task"
 
-#: calendar/gui/tasks-component.c:1049
+#: calendar/gui/tasks-component.c:1055
 msgid "Create a new task"
 msgstr "Create a new task"
 
-#: calendar/gui/tasks-component.c:1055
+#: calendar/gui/tasks-component.c:1061
 msgid "New assigned task"
 msgstr "New assigned task"
 
-#: calendar/gui/tasks-component.c:1056
+#: calendar/gui/tasks-component.c:1062
 msgid "Assigne_d Task"
 msgstr "Assigne_d Task"
 
-#: calendar/gui/tasks-component.c:1057
+#: calendar/gui/tasks-component.c:1063
 msgid "Create a new assigned task"
 msgstr "Create a new assigned task"
 
-#: calendar/gui/tasks-component.c:1063
+#: calendar/gui/tasks-component.c:1069
 msgid "New task list"
 msgstr "New task list"
 
-#: calendar/gui/tasks-component.c:1064
+#: calendar/gui/tasks-component.c:1070
 msgid "Task l_ist"
 msgstr "Task l_ist"
 
-#: calendar/gui/tasks-component.c:1065
+#: calendar/gui/tasks-component.c:1071
 msgid "Create a new task list"
 msgstr "Create a new task list"
 
@@ -12282,6 +12313,7 @@ msgstr "Could not create composer window."
 msgid "Unable to activate the address selector control."
 msgstr "Unable to activate the address selector control."
 
+#. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
 msgid ""
 "Unable to activate the HTML editor control.\n"
@@ -13154,7 +13186,7 @@ msgstr "starts with"
 msgid "Stop Processing"
 msgstr "Stop Processing"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1548
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1546
 #: mail/em-format-quote.c:306 mail/em-format.c:825 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
 #: smime/lib/e-cert.c:1131
@@ -13641,58 +13673,58 @@ msgstr "Pointer to remote data (%s)"
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pointer to unknown external data (\"%s\" type)"
 
-#: mail/em-format-html.c:1163
+#: mail/em-format-html.c:1161
 msgid "Formatting message"
 msgstr "Formatting message"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:193 mail/em-format.c:820
+#: mail/em-format-html.c:1437 mail/em-format-quote.c:193 mail/em-format.c:820
 #: mail/em-mailer-prefs.c:83 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:326
 msgid "From"
 msgstr "From"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:193 mail/em-format.c:821
+#: mail/em-format-html.c:1437 mail/em-format-quote.c:193 mail/em-format.c:821
 #: mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Reply-To"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:193 mail/em-format.c:822
+#: mail/em-format-html.c:1437 mail/em-format-quote.c:193 mail/em-format.c:822
 #: mail/em-mailer-prefs.c:85 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "To"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:193 mail/em-format.c:823
+#: mail/em-format-html.c:1437 mail/em-format-quote.c:193 mail/em-format.c:823
 #: mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:193 mail/em-format.c:824
+#: mail/em-format-html.c:1437 mail/em-format-quote.c:193 mail/em-format.c:824
 #: mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1552 mail/em-format-quote.c:315
+#: mail/em-format-html.c:1550 mail/em-format-quote.c:315
 #: mail/em-mailer-prefs.c:976
 msgid "Mailer"
 msgstr "Mailer"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1579
+#: mail/em-format-html.c:1577
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1582
+#: mail/em-format-html.c:1580
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1592 mail/em-format-quote.c:322 mail/em-format.c:826
+#: mail/em-format-html.c:1590 mail/em-format-quote.c:322 mail/em-format.c:826
 #: mail/em-mailer-prefs.c:89 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Date"
 
-#: mail/em-format-html.c:1615 mail/em-format.c:827 mail/em-mailer-prefs.c:90
+#: mail/em-format-html.c:1613 mail/em-format.c:827 mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Newsgroups"
 
@@ -14203,14 +14235,6 @@ msgstr "Show deleted messages (with a strike-through) in the message-list."
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
 msgstr "Show deleted messages in the message-list"
-
-#: mail/evolution-mail.schemas.in.in.h:71
-msgid "Show the \"Preview\" pane"
-msgstr "Show the \"Preview\" pane"
-
-#: mail/evolution-mail.schemas.in.in.h:72
-msgid "Show the \"Preview\" pane."
-msgstr "Show the \"Preview\" pane."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Sound file to play when new mail arrives."
@@ -15488,6 +15512,7 @@ msgstr ""
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Are you sure you want to send a message in HTML format?"
 
+#. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
@@ -15525,6 +15550,7 @@ msgstr ""
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "Are you sure you want to send a message with only BCC recipients?"
 
+#. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
@@ -15639,6 +15665,7 @@ msgstr ""
 msgid "Your message with the subject \"{0}\" was not delivered."
 msgstr "Your message with the subject \"{0}\" was not delivered."
 
+#. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
 msgid ""
 "The message was sent via the \"sendmail\" external application.  Sendmail "
@@ -15907,6 +15934,7 @@ msgstr "Cannot add vFolder \"{0}\"."
 msgid "vFolders automatically updated."
 msgstr "vFolders automatically updated."
 
+#. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
 msgid ""
 "The following vFolder(s):\n"
@@ -15926,6 +15954,7 @@ msgstr ""
 msgid "Mail filters automatically updated."
 msgstr "Mail filters automatically updated."
 
+#. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
 msgid ""
 "The following filter rule(s):\n"
@@ -15960,6 +15989,7 @@ msgstr "You must name this vFolder."
 msgid "No sources selected."
 msgstr "No sources selected."
 
+#. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
 msgid ""
 "You must specify at least one folder as a source.\n"
@@ -15976,6 +16006,7 @@ msgstr ""
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problem migrating old mail folder \"{0}\"."
 
+#. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
@@ -16005,6 +16036,7 @@ msgstr "_Append"
 msgid "Unable to read license file."
 msgstr "Unable to read licence file."
 
+#. mail:no-load-license secondary
 #: mail/mail-errors.xml.h:236
 msgid ""
 "Cannot read the license file \"{0}\", due to an\n"
@@ -16017,6 +16049,7 @@ msgstr ""
 "until\n"
 "      you can accept its licence."
 
+#. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:240
 msgid ""
 "Unable to connect to the GroupWise\n"
@@ -16025,6 +16058,7 @@ msgstr ""
 "Unable to connect to the GroupWise\n"
 "server."
 
+#. mail:gw-accountsetup-error secondary
 #: mail/mail-errors.xml.h:243
 msgid ""
 "\n"
@@ -16956,8 +16990,9 @@ msgstr "Don't ask me again"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution can import data from the following files:"
 
+#. Preview/Alpha/Beta version warning message
 #: shell/main.c:226
-#, c-format
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17041,6 +17076,7 @@ msgstr ""
 msgid "Insufficient disk space for upgrade."
 msgstr "Insufficient disk space for upgrade."
 
+#. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
 msgid ""
 "Upgrading your data and settings will require upto {0} of disk space, but "
@@ -17055,6 +17091,7 @@ msgstr ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 
+#. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
 msgid ""
 "Upgrade from previous version failed:\n"
@@ -17063,6 +17100,7 @@ msgstr ""
 "Upgrade from previous version failed:\n"
 "{0}"
 
+#. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
 msgid ""
 "{1}\n"
@@ -17085,6 +17123,7 @@ msgstr "Continue"
 msgid "Delete old data from version {0}?"
 msgstr "Delete old data from version {0}?"
 
+#. shell:upgrade-remove-1-4 secondary
 #: shell/shell-errors.xml.h:21
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
@@ -17115,6 +17154,7 @@ msgstr "_Keep Data"
 msgid "Really delete old data?"
 msgstr "Really delete old data?"
 
+#. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
@@ -17149,6 +17189,7 @@ msgstr "Cannot start Evolution"
 msgid "Evolution can not start."
 msgstr "Evolution cannot start."
 
+#. shell:noshell secondary
 #: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
@@ -17159,6 +17200,7 @@ msgstr ""
 "\n"
 "Click help for details"
 
+#. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
