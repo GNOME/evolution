@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-18 14:01+0100\n"
-"PO-Revision-Date: 2004-01-18 14:10+0100\n"
+"POT-Creation-Date: 2004-01-24 03:15+0100\n"
+"PO-Revision-Date: 2004-01-24 03:19+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Configure el autocompletado aquí"
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
-#: calendar/gui/migration.c:195 mail/importers/netscape-importer.c:1844
+#: calendar/gui/migration.c:188 mail/importers/netscape-importer.c:1844
 #: shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "Contactos"
@@ -99,19 +99,19 @@ msgstr "Control de configuración de preferencias de carpetas de Evolution"
 msgid "Manager your S/Mime certificates here"
 msgstr "Gestione sus certificados S/Mime aquí"
 
-#: addressbook/gui/component/addressbook-component.c:202
+#: addressbook/gui/component/addressbook-component.c:212
 #, c-format
 msgid "Addressbook '%s' will be removed. Are you sure you want to continue?"
 msgstr "La libreta «%s» será eliminada. ¿Seguro que quiere continuar?"
 
-#: addressbook/gui/component/addressbook-component.c:258
+#: addressbook/gui/component/addressbook-component.c:268
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "New Addressbook"
 msgstr "Libreta de direcciones nueva"
 
-#: addressbook/gui/component/addressbook-component.c:259
+#: addressbook/gui/component/addressbook-component.c:269
 #: addressbook/gui/widgets/e-addressbook-view.c:1046
-#: calendar/gui/calendar-component.c:350 calendar/gui/tasks-component.c:403
+#: calendar/gui/calendar-component.c:359 calendar/gui/tasks-component.c:407
 #: filter/libfilter-i18n.h:11 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -119,69 +119,64 @@ msgstr "Libreta de direcciones nueva"
 msgid "Delete"
 msgstr "Borrar"
 
-#: addressbook/gui/component/addressbook-component.c:260
-#: calendar/gui/calendar-component.c:351 calendar/gui/tasks-component.c:405
+#: addressbook/gui/component/addressbook-component.c:270
+#: calendar/gui/calendar-component.c:360 calendar/gui/tasks-component.c:409
 msgid "Properties..."
 msgstr "Propiedades..."
 
-#: addressbook/gui/component/addressbook-component.c:331
+#: addressbook/gui/component/addressbook-component.c:341
 msgid "New Contact"
 msgstr "Contacto nuevo"
 
-#: addressbook/gui/component/addressbook-component.c:332
+#: addressbook/gui/component/addressbook-component.c:342
 msgid "_Contact"
 msgstr "_Contacto"
 
-#: addressbook/gui/component/addressbook-component.c:333
+#: addressbook/gui/component/addressbook-component.c:343
 msgid "Create a new contact"
 msgstr "Crea un contacto nuevo"
 
-#: addressbook/gui/component/addressbook-component.c:338
+#: addressbook/gui/component/addressbook-component.c:348
 msgid "New Contact List"
 msgstr "Lista de contactos nueva"
 
-#: addressbook/gui/component/addressbook-component.c:339
+#: addressbook/gui/component/addressbook-component.c:349
 msgid "Contact _List"
 msgstr "_Lista de contactos"
 
-#: addressbook/gui/component/addressbook-component.c:340
+#: addressbook/gui/component/addressbook-component.c:350
 msgid "Create a new contact list"
 msgstr "Crea una lista de contactos nueva"
 
-#. FIXME: parent
-#: addressbook/gui/component/addressbook-config.c:244
-msgid "Could not create a directory for the new addressbook."
-msgstr "No se pudo crear el directorio para la libreta de direcciones nueva."
-
-#: addressbook/gui/component/addressbook-config.c:416
+#: addressbook/gui/component/addressbook-config.c:391
 msgid "Failed to connect to LDAP server"
 msgstr "Falló al conectarse al servidor LDAP"
 
-#: addressbook/gui/component/addressbook-config.c:440
+#: addressbook/gui/component/addressbook-config.c:415
 msgid "Failed to authenticate with LDAP server"
 msgstr "Falló al autenticarse con el servidor LDAP"
 
-#: addressbook/gui/component/addressbook-config.c:468
+#: addressbook/gui/component/addressbook-config.c:443
 msgid "Could not perform query on Root DSE"
 msgstr "No se pudo efectuar la consulta en la raíz DSE"
 
-#: addressbook/gui/component/addressbook-config.c:792
+#: addressbook/gui/component/addressbook-config.c:767
 msgid "The server responded with no supported search bases"
 msgstr "El servidor respondió con bases de búsqueda no soportadas"
 
-#: addressbook/gui/component/addressbook-config.c:1203
+#: addressbook/gui/component/addressbook-config.c:1178
 msgid "This server does not support LDAPv3 schema information"
 msgstr "Este servidor no soporta el esquema de información LDAPv3"
 
-#: addressbook/gui/component/addressbook-config.c:1225
+#: addressbook/gui/component/addressbook-config.c:1200
 msgid "Error retrieving schema information"
 msgstr "Error al obtener información del esquema"
 
-#: addressbook/gui/component/addressbook-config.c:1233
+#: addressbook/gui/component/addressbook-config.c:1208
 msgid "Server did not respond with valid schema information"
 msgstr "El servidor no respondió con una información del esquema válida"
 
-#: addressbook/gui/component/addressbook-migrate.c:45 mail/em-migrate.c:1066
+#: addressbook/gui/component/addressbook-migrate.c:45 mail/em-migrate.c:1070
 msgid "Migrating..."
 msgstr "Migrando..."
 
@@ -197,33 +192,38 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas..."
 
-#: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:1107
+#: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:1111
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Migrando «%s»:"
 
-#: addressbook/gui/component/addressbook-migrate.c:313
-#: calendar/gui/migration.c:232 calendar/gui/migration.c:297
+#. create the local source group
+#: addressbook/gui/component/addressbook-migrate.c:427
+#: calendar/gui/migration.c:225 calendar/gui/migration.c:290
 msgid "On This Computer"
 msgstr "En este equipo"
 
 #. orange
-#: addressbook/gui/component/addressbook-migrate.c:323
-#: calendar/gui/migration.c:245 calendar/gui/migration.c:310
-#: calendar/gui/migration.c:372 calendar/gui/migration.c:442
-#: filter/filter-label.c:123 mail/em-migrate.c:920 mail/mail-config.c:65
-#: mail/mail-config.glade.h:88
+#: addressbook/gui/component/addressbook-migrate.c:437
+#: calendar/gui/migration.c:238 calendar/gui/migration.c:303
+#: calendar/gui/migration.c:365 calendar/gui/migration.c:435
+#: filter/filter-label.c:123 mail/em-migrate.c:924 mail/mail-config.c:65
+#: mail/mail-config.glade.h:90
 msgid "Personal"
 msgstr "Privado"
 
 #. Create the LDAP source group
-#: addressbook/gui/component/addressbook-migrate.c:331
+#: addressbook/gui/component/addressbook-migrate.c:445
 msgid "On LDAP Servers"
 msgstr "En servidores LDAP"
 
-#: addressbook/gui/component/addressbook-migrate.c:463
+#: addressbook/gui/component/addressbook-migrate.c:578
 msgid "LDAP Servers"
 msgstr "Servidores LDAP"
+
+#: addressbook/gui/component/addressbook-migrate.c:698
+msgid "Autocompletion Settings"
+msgstr "Configuración de autocompletado"
 
 #: addressbook/gui/component/addressbook.c:273
 msgid ""
@@ -253,11 +253,13 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:285
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "El soporte de esta libreta de direcciones no pudo analizar esta consulta."
+msgstr ""
+"El soporte de esta libreta de direcciones no pudo analizar esta consulta."
 
 #: addressbook/gui/component/addressbook.c:288
 msgid "The backend for this addressbook refused to perform this query."
-msgstr "El motor para esta libreta de direcciones rehusó a efectuar esta consulta."
+msgstr ""
+"El motor para esta libreta de direcciones rehusó a efectuar esta consulta."
 
 #: addressbook/gui/component/addressbook.c:291
 msgid "This query did not complete successfully."
@@ -301,20 +303,20 @@ msgstr ""
 msgid "Unable to open addressbook"
 msgstr "No es posible abrir la libreta de direcciones"
 
-#: addressbook/gui/component/addressbook.c:706
+#: addressbook/gui/component/addressbook.c:714
 msgid "Accessing LDAP Server anonymously"
 msgstr "Accediendo al servidor LDAP anónimamente"
 
-#: addressbook/gui/component/addressbook.c:776
+#: addressbook/gui/component/addressbook.c:783
 msgid "Failed to authenticate.\n"
 msgstr "Falló al autenticarme.\n"
 
-#: addressbook/gui/component/addressbook.c:782
+#: addressbook/gui/component/addressbook.c:789
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s Introduzca la contraseña para %s (usuario %s)"
 
-#: addressbook/gui/component/addressbook.c:1054
+#: addressbook/gui/component/addressbook.c:1070
 msgid "UID of the contacts source that the view will display"
 msgstr "UID de la fuente de contactos que la vista mostrará"
 
@@ -365,7 +367,7 @@ msgstr " Mo_strar bases soportadas "
 #: calendar/gui/dialogs/new-task-list.glade.h:1
 #: calendar/gui/dialogs/task-page.glade.h:1
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
-#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:6
+#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:7
 #: mail/mail-search.glade.h:1 mail/message-tags.glade.h:1
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
@@ -409,7 +411,7 @@ msgid "Addressbook Sources"
 msgstr "Fuentes de la libreta de direcciones"
 
 #: addressbook/gui/component/ldap-config.glade.h:14 mail/mail-account-gui.c:66
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:17
 msgid "Always"
 msgstr "Siempre"
 
@@ -443,11 +445,14 @@ msgstr "Dirección de correo-e:"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Evolution will use this DN to authenticate you with the server"
-msgstr "Evolution usará este Nombre Distintivo para autenticarle con el servidor"
+msgstr ""
+"Evolution usará este Nombre Distintivo para autenticarle con el servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
-msgid "Evolution will use this email address to authenticate you with the server"
-msgstr "Evolution usará esta dirección de correo-e para autenticarle con el servidor"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
+msgstr ""
+"Evolution usará esta dirección de correo-e para autenticarle con el servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
@@ -467,7 +472,7 @@ msgid "Group:"
 msgstr "Grupo:"
 
 #: addressbook/gui/component/ldap-config.glade.h:27 mail/mail-account-gui.c:68
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:80
 msgid "Never"
 msgstr "Nunca"
 
@@ -702,7 +707,8 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:78
 msgid "This option controls how long a search will be run."
-msgstr "Esta opción controla durante cuánto tiempo va a efectuarse una búsqueda."
+msgstr ""
+"Esta opción controla durante cuánto tiempo va a efectuarse una búsqueda."
 
 #: addressbook/gui/component/ldap-config.glade.h:79
 msgid "U_se SSL/TLS:"
@@ -717,7 +723,7 @@ msgid "Using email address"
 msgstr "Usando dirección de correo-e"
 
 #: addressbook/gui/component/ldap-config.glade.h:82 mail/mail-account-gui.c:67
-#: mail/mail-config.glade.h:134
+#: mail/mail-config.glade.h:136
 msgid "Whenever Possible"
 msgstr "Cuando sea posible"
 
@@ -745,7 +751,7 @@ msgstr "Límite de _descarga:"
 #: addressbook/gui/component/ldap-config.glade.h:87
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:34
+#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:43
@@ -792,7 +798,8 @@ msgstr "búsqueda"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in.h:1
 msgid "Evolution Addressbook name selection interface"
-msgstr "Interfaz de selección de nombre de la libreta de direcciones de Evolution"
+msgstr ""
+"Interfaz de selección de nombre de la libreta de direcciones de Evolution"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:207
 msgid "Remove All"
@@ -905,7 +912,7 @@ msgstr "Colaboración"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:2010
+#: addressbook/gui/contact-editor/e-contact-editor.c:2013
 msgid "Contact Editor"
 msgstr "Editor de contactos"
 
@@ -997,10 +1004,11 @@ msgstr "_Trabajo:"
 msgid "_Categories..."
 msgstr "_Categorías..."
 
+#. FIXME: need to disable for undeletable folders
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1263
 #: calendar/gui/e-cal-view.c:1294 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1654
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:1772
 #: mail/em-folder-view.c:736 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -2039,7 +2047,7 @@ msgid "AOL Instant Messenger"
 msgstr "Mensajería instantánea de AOL"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:2834
+#: addressbook/gui/contact-editor/e-contact-editor.c:2837
 msgid "Jabber"
 msgstr "Jabber"
 
@@ -2052,12 +2060,12 @@ msgid "MSN Messenger"
 msgstr "MSN Messenger"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:2837
+#: addressbook/gui/contact-editor/e-contact-editor.c:2840
 msgid "ICQ"
 msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:116
-#: addressbook/gui/contact-editor/e-contact-editor.c:708
+#: addressbook/gui/contact-editor/e-contact-editor.c:710
 msgid "Service"
 msgstr "Servicio"
 
@@ -2071,19 +2079,19 @@ msgid "Username"
 msgstr "Nombre de usuario"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:245
-#: addressbook/gui/contact-editor/e-contact-editor.c:2524
+#: addressbook/gui/contact-editor/e-contact-editor.c:2527
 msgid "Home"
 msgstr "Domicilio"
 
 #. red
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:249
-#: filter/filter-label.c:122 mail/em-migrate.c:919 mail/mail-config.c:64
-#: mail/mail-config.glade.h:135
+#: filter/filter-label.c:122 mail/em-migrate.c:923 mail/mail-config.c:64
+#: mail/mail-config.glade.h:137
 msgid "Work"
 msgstr "Trabajo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:253
-#: addressbook/gui/contact-editor/e-contact-editor.c:2525
+#: addressbook/gui/contact-editor/e-contact-editor.c:2528
 msgid "Other"
 msgstr "Otro"
 
@@ -2114,23 +2122,23 @@ msgstr "Campos editables"
 msgid "Changed"
 msgstr "Modificados"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:722
+#: addressbook/gui/contact-editor/e-contact-editor.c:724
 msgid "Account Name"
 msgstr "Nombre de la cuenta"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1444
+#: addressbook/gui/contact-editor/e-contact-editor.c:1447
 msgid "Category editor not available."
 msgstr "No hay un editor de categorías disponible."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1452
+#: addressbook/gui/contact-editor/e-contact-editor.c:1455
 msgid "This contact belongs to these categories:"
 msgstr "Este contacto pertenece a estas categorías:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1675
+#: addressbook/gui/contact-editor/e-contact-editor.c:1678
 msgid "Save Contact as VCard"
 msgstr "Guardar contacto como VCard"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1715
+#: addressbook/gui/contact-editor/e-contact-editor.c:1718
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2138,7 +2146,7 @@ msgstr ""
 "¿Está seguro de que quiere\n"
 "borrar estos contactos?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1718
+#: addressbook/gui/contact-editor/e-contact-editor.c:1721
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -2146,23 +2154,23 @@ msgstr ""
 "¿Seguro que quiere\n"
 "borrar este contacto?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2523
+#: addressbook/gui/contact-editor/e-contact-editor.c:2526
 msgid "Business"
 msgstr "Trabajo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2833
+#: addressbook/gui/contact-editor/e-contact-editor.c:2836
 msgid "AIM"
 msgstr "AIM"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2835
+#: addressbook/gui/contact-editor/e-contact-editor.c:2838
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2836
+#: addressbook/gui/contact-editor/e-contact-editor.c:2839
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:3124
+#: addressbook/gui/contact-editor/e-contact-editor.c:3127
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "No se pudo encontrar el widget para el campo: «%s»"
@@ -2315,7 +2323,8 @@ msgstr "_Nombre de la lista:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
+msgstr ""
+"_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
@@ -2499,7 +2508,7 @@ msgstr "Reenviar contacto"
 msgid "Send Message to Contact"
 msgstr "Envía un mensaje al contacto"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1033 calendar/gui/print.c:2476
+#: addressbook/gui/widgets/e-addressbook-view.c:1033 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:5 ui/evolution-mail-message.xml.h:78
 #: ui/my-evolution.xml.h:1
@@ -2525,9 +2534,9 @@ msgstr "Cortar"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1044
-#: calendar/gui/calendar-component.c:348
+#: calendar/gui/calendar-component.c:357
 #: calendar/gui/dialogs/copy-source-dialog.c:136
-#: calendar/gui/tasks-component.c:401 ui/evolution-addressbook.xml.h:2
+#: calendar/gui/tasks-component.c:405 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copiar"
@@ -2837,8 +2846,8 @@ msgstr "Éxito"
 #: addressbook/gui/widgets/eab-gui-util.c:44
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
-#: camel/providers/pop3/camel-pop3-store.c:536
-#: camel/providers/pop3/camel-pop3-store.c:543 shell/e-shell.c:1006
+#: camel/providers/pop3/camel-pop3-store.c:540
+#: camel/providers/pop3/camel-pop3-store.c:547 shell/e-shell.c:1006
 msgid "Unknown error"
 msgstr "Error desconocido"
 
@@ -2865,11 +2874,11 @@ msgstr "Protocolo no implementado"
 #: addressbook/gui/widgets/eab-gui-util.c:50
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:599
-#: calendar/gui/e-calendar-table.c:467 calendar/gui/e-tasks.c:212
-#: calendar/gui/print.c:2345 camel/camel-service.c:734
+#: calendar/gui/e-calendar-table.c:467 calendar/gui/e-tasks.c:213
+#: calendar/gui/print.c:2349 camel/camel-service.c:734
 #: camel/camel-service.c:772 camel/camel-service.c:856
 #: camel/camel-service.c:896 camel/providers/pop3/camel-pop3-store.c:453
-#: camel/providers/pop3/camel-pop3-store.c:530
+#: camel/providers/pop3/camel-pop3-store.c:534
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -3076,12 +3085,12 @@ msgstr "Esto debería probar el reflujo del elemento lienzo"
 msgid "Print envelope"
 msgstr "Imprimir sobre"
 
-#: addressbook/printing/e-contact-print.c:1004
+#: addressbook/printing/e-contact-print.c:1008
 msgid "Print contacts"
 msgstr "Imprimir contactos"
 
-#: addressbook/printing/e-contact-print.c:1070
-#: addressbook/printing/e-contact-print.c:1097
+#: addressbook/printing/e-contact-print.c:1074
+#: addressbook/printing/e-contact-print.c:1101
 msgid "Print contact"
 msgstr "Imprimir contacto"
 
@@ -3173,7 +3182,7 @@ msgstr "Márgenes"
 msgid "Number of columns:"
 msgstr "Número de columnas:"
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:83
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:85
 msgid "Options"
 msgstr "Opciones"
 
@@ -3304,7 +3313,8 @@ msgid "Export in asynchronous mode "
 msgstr "Exportar en modo asíncrono"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode,default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 "El número de tarjetas en un archivo de salida en modo asíncrono, tamaño por "
 "omisión 100."
@@ -3314,7 +3324,8 @@ msgid "NUMBER"
 msgstr "NÚMERO"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Error en los argumentos de la línea de comandos, por favor use la opción --"
 "help para ver el uso."
@@ -3429,8 +3440,8 @@ msgid "Evolution's Tasks component"
 msgstr "Componente de Tareas de Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1058 calendar/gui/print.c:1821
-#: calendar/gui/tasks-control.c:505
+#: calendar/gui/e-tasks.c:1109 calendar/gui/print.c:1825
+#: calendar/gui/tasks-control.c:516
 #: calendar/importers/icalendar-importer.c:717
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
 msgid "Tasks"
@@ -3558,7 +3569,7 @@ msgstr "No se pudo inicializar gnome-vfs"
 msgid "Could not create the alarm notify service factory"
 msgstr "No se pudo crear la fábrica del servicio de la alarma de notificación"
 
-#: calendar/gui/alarm-notify/util.c:37 calendar/gui/e-tasks.c:110
+#: calendar/gui/alarm-notify/util.c:37 calendar/gui/e-tasks.c:111
 msgid "invalid time"
 msgstr "tiempo no válido"
 
@@ -3680,15 +3691,18 @@ msgstr "Indica si debe ocultar las áreas terminadas"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
-msgstr "Indica si debe establecer un recordatorio predeterminado para los eventos"
+msgstr ""
+"Indica si debe establecer un recordatorio predeterminado para los eventos"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr "Indica si debe mostrar las horas en formato militar en vez de usar am/pm"
+msgstr ""
+"Indica si debe mostrar las horas en formato militar en vez de usar am/pm"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
-msgstr "Indica si debe mostrar los números de la semana en el navegador de fechas"
+msgstr ""
+"Indica si debe mostrar los números de la semana en el navegador de fechas"
 
 #: calendar/gui/cal-search-bar.c:49
 msgid "Summary contains"
@@ -3702,11 +3716,11 @@ msgstr "La descripción contiene"
 msgid "Comment contains"
 msgstr "El comentario contiene"
 
-#: calendar/gui/cal-search-bar.c:357 mail/mail-ops.c:1117
+#: calendar/gui/cal-search-bar.c:357 mail/mail-ops.c:1105
 msgid "Unmatched"
 msgstr "No coincidente"
 
-#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1607
+#: calendar/gui/calendar-commands.c:116 calendar/gui/gnome-cal.c:1608
 #: mail/importers/netscape-importer.c:1843 shell/e-shortcuts.c:1086
 msgid "Calendar"
 msgstr "Agenda"
@@ -3759,7 +3773,7 @@ msgstr "%d de %B de %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:464
-#: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1499
+#: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1503
 msgid "%d %B"
 msgstr "%d de %B"
 
@@ -3768,65 +3782,65 @@ msgstr "%d de %B"
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "La Agenda «%s» será eliminada. ¿Seguro que quiere continuar?"
 
-#: calendar/gui/calendar-component.c:346
+#: calendar/gui/calendar-component.c:355
 #: calendar/gui/dialogs/calendar-setup.glade.h:13
 msgid "New Calendar"
 msgstr "Agenda nueva"
 
-#: calendar/gui/calendar-component.c:591
+#: calendar/gui/calendar-component.c:600
 msgid "New appointment"
 msgstr "Cita nueva"
 
-#: calendar/gui/calendar-component.c:592
+#: calendar/gui/calendar-component.c:601
 msgid "_Appointment"
 msgstr "_Cita"
 
-#: calendar/gui/calendar-component.c:593
+#: calendar/gui/calendar-component.c:602
 msgid "Create a new appointment"
 msgstr "Crear una cita nueva"
 
-#: calendar/gui/calendar-component.c:598
+#: calendar/gui/calendar-component.c:607
 msgid "New meeting"
 msgstr "Reunión nueva"
 
-#: calendar/gui/calendar-component.c:599
+#: calendar/gui/calendar-component.c:608
 msgid "M_eeting"
 msgstr "_Reunión"
 
-#: calendar/gui/calendar-component.c:600
+#: calendar/gui/calendar-component.c:609
 msgid "Create a new meeting request"
 msgstr "Crear una solicitud de reunión nueva"
 
-#: calendar/gui/calendar-component.c:605
+#: calendar/gui/calendar-component.c:614
 msgid "New all day appointment"
 msgstr "Cita para todo el día nueva"
 
-#: calendar/gui/calendar-component.c:606
+#: calendar/gui/calendar-component.c:615
 msgid "All _Day Appointment"
 msgstr "Cita para todo el _día"
 
-#: calendar/gui/calendar-component.c:607
+#: calendar/gui/calendar-component.c:616
 msgid "Create a new all-day appointment"
 msgstr "Crear una cita nueva para todo el día"
 
-#: calendar/gui/calendar-component.c:612
+#: calendar/gui/calendar-component.c:621
 msgid "New calendar"
 msgstr "Agenda nueva"
 
-#: calendar/gui/calendar-component.c:613
+#: calendar/gui/calendar-component.c:622
 msgid "C_alendar"
 msgstr "_Agenda"
 
-#: calendar/gui/calendar-component.c:614
+#: calendar/gui/calendar-component.c:623
 msgid "Create a new calendar"
 msgstr "Crear una agenda nueva"
 
-#: calendar/gui/calendar-component.c:681
+#: calendar/gui/calendar-component.c:690
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "no se pudo abrir la agenda «%s» para crear eventos y reuniones"
 
-#: calendar/gui/calendar-component.c:693
+#: calendar/gui/calendar-component.c:702
 msgid "There is no calendar available for creating events and meetings"
 msgstr "No hay una agenda disponible para crear eventos y reuniones"
 
@@ -3995,7 +4009,7 @@ msgstr "Envía un correo-e"
 #: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 #: calendar/gui/e-itip-control.c:939 calendar/gui/e-itip-control.glade.h:11
-#: calendar/gui/e-tasks.c:167
+#: calendar/gui/e-tasks.c:168
 msgid "Summary:"
 msgstr "Resumen:"
 
@@ -4025,7 +4039,7 @@ msgid "hour(s)"
 msgstr "hora(s)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:15
-#: calendar/gui/dialogs/calendar-setup.glade.h:40 mail/mail-config.glade.h:182
+#: calendar/gui/dialogs/calendar-setup.glade.h:40 mail/mail-config.glade.h:184
 msgid "minute(s)"
 msgstr "minuto(s)"
 
@@ -4036,7 +4050,7 @@ msgstr "comienzo de cita"
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
 #: calendar/gui/dialogs/cal-prefs-dialog.c:415 mail/em-account-prefs.c:487
-#: mail/em-composer-prefs.c:708 mail/em-composer-prefs.c:854
+#: mail/em-composer-prefs.c:712 mail/em-composer-prefs.c:858
 msgid "Enabled"
 msgstr "Habilitado"
 
@@ -4052,8 +4066,8 @@ msgstr "No eliminar"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:746
 #: calendar/gui/dialogs/cal-prefs-dialog.c:777 mail/em-account-prefs.c:315
 #: mail/em-account-prefs.c:356 mail/em-account-prefs.c:397
-#: mail/em-composer-prefs.c:675 mail/em-composer-prefs.c:693
-#: mail/em-composer-prefs.c:717
+#: mail/em-composer-prefs.c:679 mail/em-composer-prefs.c:697
+#: mail/em-composer-prefs.c:721
 msgid "Disable"
 msgstr "Desactivar"
 
@@ -4061,8 +4075,8 @@ msgstr "Desactivar"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:746
 #: calendar/gui/dialogs/cal-prefs-dialog.c:779 mail/em-account-prefs.c:315
 #: mail/em-account-prefs.c:356 mail/em-account-prefs.c:399
-#: mail/em-composer-prefs.c:675 mail/em-composer-prefs.c:693
-#: mail/em-composer-prefs.c:717
+#: mail/em-composer-prefs.c:679 mail/em-composer-prefs.c:697
+#: mail/em-composer-prefs.c:721
 msgid "Enable"
 msgstr "Activar"
 
@@ -4086,7 +4100,7 @@ msgstr "30 minutos"
 msgid "60 minutes"
 msgstr "60 minutos"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:16
 msgid "Alerts"
 msgstr "Avisos"
 
@@ -4111,7 +4125,7 @@ msgid "Days"
 msgstr "días"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:53
 msgid "E_nable"
 msgstr "_Habilitar"
 
@@ -4251,7 +4265,7 @@ msgid "_Fri"
 msgstr "_Vie"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:155
 msgid "_General"
 msgstr "_General"
 
@@ -4273,7 +4287,8 @@ msgstr "_Sáb"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Show appointment end times in week and month views"
-msgstr "Mostrar la hora del final de las citas en las vistas s_emanales y mensuales"
+msgstr ""
+"Mostrar la hora del final de las citas en las vistas s_emanales y mensuales"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Time divisions:"
@@ -4291,26 +4306,26 @@ msgstr "M_ié"
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
-#: calendar/gui/dialogs/calendar-setup.c:155
+#: calendar/gui/dialogs/calendar-setup.c:156
 msgid "You must specify a location to get the calendar from."
 msgstr "Debe especificar una ubicación de la que obtener la agenda."
 
-#: calendar/gui/dialogs/calendar-setup.c:163
+#: calendar/gui/dialogs/calendar-setup.c:164
 #, c-format
 msgid "The source location '%s' is not well-formed."
 msgstr "La ubicación fuente «%s» no está bien formada."
 
-#: calendar/gui/dialogs/calendar-setup.c:178
+#: calendar/gui/dialogs/calendar-setup.c:179
 #, c-format
 msgid "The source location '%s' is not a webcal source."
 msgstr "La ubicación fuente «%s» no es una fuente webcal."
 
-#: calendar/gui/dialogs/calendar-setup.c:213
+#: calendar/gui/dialogs/calendar-setup.c:216
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
 msgstr "El origen con nombre «%s» ya existe en el grupo seleccionado"
 
-#: calendar/gui/dialogs/calendar-setup.c:226
+#: calendar/gui/dialogs/calendar-setup.c:229
 #, c-format
 msgid ""
 "The group '%s' is remote. You must specify a location to get the calendar "
@@ -4318,10 +4333,6 @@ msgid ""
 msgstr ""
 "El grupo «%s» es remoto. Debe especificar una ubicación de la que obtener la "
 "agenda"
-
-#: calendar/gui/dialogs/calendar-setup.c:254
-msgid "Could not create directory for new calendar"
-msgstr "No se pudo crear el directorio para la agenda nueva"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Calendar Creation Assistant"
@@ -4354,7 +4365,7 @@ msgstr ""
 "introducido aquí."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:14
-#: calendar/gui/tasks-component.c:399
+#: calendar/gui/tasks-component.c:403
 msgid "New Task List"
 msgstr "Lista de tareas nueva"
 
@@ -4521,23 +4532,23 @@ msgstr "%s  No ha realizado cambios, ¿actualizar el editor?"
 msgid "Validation error: %s"
 msgstr "Error de validación: %s"
 
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2254
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2258
 msgid " to "
 msgstr " a "
 
-#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2258
+#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2262
 msgid " (Completed "
 msgstr "(Completado "
 
-#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2260
+#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2264
 msgid "Completed "
 msgstr "Completado "
 
-#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2265
+#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2269
 msgid " (Due "
 msgstr " (Vence "
 
-#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2267
+#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2271
 msgid "Due "
 msgstr "Vence "
 
@@ -4662,7 +4673,8 @@ msgstr "La tarea no pudo ser borrada porque el permiso fue denegado"
 
 #: calendar/gui/dialogs/delete-error.c:74
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr "La entrada del diario no pudo ser borrada porque el permiso fue denegado"
+msgstr ""
+"La entrada del diario no pudo ser borrada porque el permiso fue denegado"
 
 #: calendar/gui/dialogs/delete-error.c:77
 msgid "The item could not be deleted because permission was denied"
@@ -4696,7 +4708,7 @@ msgstr "Delegar en:"
 msgid "Enter Delegate"
 msgstr "Introducir un delegado"
 
-#: calendar/gui/dialogs/event-editor.c:200 calendar/gui/print.c:2291
+#: calendar/gui/dialogs/event-editor.c:200 calendar/gui/print.c:2295
 msgid "Appointment"
 msgstr "Cita"
 
@@ -4820,7 +4832,7 @@ msgstr "Hora de _inicio:"
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2068
 #: mail/em-account-prefs.c:448 mail/em-folder-view.c:745
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:82
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:445
 #: widgets/misc/e-dateedit.c:1482 widgets/misc/e-dateedit.c:1597
@@ -4949,15 +4961,18 @@ msgstr "Nombre de la lista de tareas"
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr "Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
+msgstr ""
+"Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
 
 #: calendar/gui/dialogs/recur-comp.c:54
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Está modificando una tarea que se repite, ¿qué quiere modificar?"
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr "Está modificando una entrada del diario que se repite, ¿qué quiere modificar?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+"Está modificando una entrada del diario que se repite, ¿qué quiere modificar?"
 
 #: calendar/gui/dialogs/recur-comp.c:72
 msgid "This Instance Only"
@@ -5121,7 +5136,8 @@ msgstr ""
 
 #: calendar/gui/dialogs/send-comp.c:67
 msgid "The task assignment information has been created. Send it?"
-msgstr "La información de asignación de tareas ha sido creada. ¿Desea enviarla?"
+msgstr ""
+"La información de asignación de tareas ha sido creada. ¿Desea enviarla?"
 
 #: calendar/gui/dialogs/send-comp.c:71
 msgid "The task information has changed. Send an updated version?"
@@ -5140,13 +5156,13 @@ msgstr "% _Terminado"
 #: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:597
 #: calendar/gui/e-calendar-table.c:466 calendar/gui/e-meeting-model.c:289
 #: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-store.c:187
-#: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:209
-#: calendar/gui/print.c:2342
+#: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:210
+#: calendar/gui/print.c:2346
 msgid "Completed"
 msgstr "Terminado"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
-#: calendar/gui/e-calendar-table.c:391 calendar/gui/e-tasks.c:230
+#: calendar/gui/e-calendar-table.c:391 calendar/gui/e-tasks.c:231
 #: mail/message-list.c:919
 msgid "High"
 msgstr "Alta"
@@ -5154,26 +5170,26 @@ msgstr "Alta"
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:595
 #: calendar/gui/e-cal-model-tasks.c:657 calendar/gui/e-calendar-table.c:465
-#: calendar/gui/e-tasks.c:206 calendar/gui/print.c:2339
+#: calendar/gui/e-tasks.c:207 calendar/gui/print.c:2343
 msgid "In Progress"
 msgstr "En proceso"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:393 calendar/gui/e-tasks.c:234
+#: calendar/gui/e-calendar-table.c:393 calendar/gui/e-tasks.c:235
 #: mail/message-list.c:917
 msgid "Low"
 msgstr "Baja"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:392
-#: calendar/gui/e-tasks.c:232 mail/message-list.c:918
+#: calendar/gui/e-tasks.c:233 mail/message-list.c:918
 msgid "Normal"
 msgstr "Normal"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:593
-#: calendar/gui/e-calendar-table.c:464 calendar/gui/e-tasks.c:216
-#: calendar/gui/print.c:2336
+#: calendar/gui/e-calendar-table.c:464 calendar/gui/e-tasks.c:217
+#: calendar/gui/print.c:2340
 msgid "Not Started"
 msgstr "Sin comenzar"
 
@@ -5230,8 +5246,8 @@ msgid "Con_fidential"
 msgstr "Con_fidencial"
 
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:994
-#: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:246
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:45
+#: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:247
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:46
 msgid "Description:"
 msgstr "Descripción:"
 
@@ -5419,7 +5435,7 @@ msgstr "Fecha de inicio"
 msgid "Summary"
 msgstr "Resumen"
 
-#: calendar/gui/e-cal-list-view.etspec.h:6 mail/mail-config.glade.h:180
+#: calendar/gui/e-cal-list-view.etspec.h:6 mail/mail-config.glade.h:182
 msgid "color"
 msgstr " "
 
@@ -5556,7 +5572,7 @@ msgstr "_Publicar la información de disponibilidad"
 
 #: calendar/gui/e-cal-view.c:1246 calendar/gui/e-cal-view.c:1316
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1084
-#: mail/em-folder-view.c:713 mail/em-popup.c:597 mail/em-popup.c:712
+#: mail/em-folder-view.c:713 mail/em-popup.c:659 mail/em-popup.c:774
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "Guardar _como..."
@@ -5570,7 +5586,7 @@ msgstr "C_ortar"
 
 #: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1290
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:1649 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:1765 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -5750,7 +5766,7 @@ msgstr "%02i divisiones por minuto"
 #. order but don't change the specifiers or add
 #. anything.
 #: calendar/gui/e-day-view-top-item.c:688 calendar/gui/e-day-view.c:1348
-#: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1515
+#: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1519
 msgid "%A %d %B"
 msgstr "%A %d de %B"
 
@@ -5766,13 +5782,13 @@ msgstr "%d de %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:602 calendar/gui/e-week-view.c:334
-#: calendar/gui/print.c:844
+#: calendar/gui/print.c:843
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:605 calendar/gui/e-week-view.c:337
-#: calendar/gui/print.c:846
+#: calendar/gui/print.c:845
 msgid "pm"
 msgstr "pm"
 
@@ -5892,7 +5908,7 @@ msgid "<i>None</i>"
 msgstr "<i>Ninguna<i>"
 
 #. write status
-#: calendar/gui/e-itip-control.c:962 calendar/gui/e-tasks.c:202
+#: calendar/gui/e-itip-control.c:962 calendar/gui/e-tasks.c:203
 msgid "Status:"
 msgstr "Estado:"
 
@@ -6133,69 +6149,70 @@ msgstr "El mensaje no parece estar formado correctamente"
 msgid "The message contains only unsupported requests."
 msgstr "Este mensaje sólo contiene solicitudes no soportadas."
 
-#: calendar/gui/e-itip-control.c:1513 calendar/gui/e-itip-control.c:1519
+#: calendar/gui/e-itip-control.c:1513
 msgid "The attachment does not contain a valid calendar message"
 msgstr "El adjunto no contiene un mensaje de agenda válido"
 
-#: calendar/gui/e-itip-control.c:1544
+#: calendar/gui/e-itip-control.c:1543
 msgid "The attachment has no viewable calendar items"
 msgstr "El adjunto no tiene elementos de agenda visibles"
 
-#: calendar/gui/e-itip-control.c:1775
+#: calendar/gui/e-itip-control.c:1774
 msgid "Calendar file could not be updated!\n"
 msgstr "El archivo de agenda no pudo ser actualizado\n"
 
-#: calendar/gui/e-itip-control.c:1777
+#: calendar/gui/e-itip-control.c:1776
 msgid "Update complete\n"
 msgstr "Actualización terminada\n"
 
-#: calendar/gui/e-itip-control.c:1807 calendar/gui/e-itip-control.c:1879
+#: calendar/gui/e-itip-control.c:1806 calendar/gui/e-itip-control.c:1878
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "El estado de asistencia no puede ser actualizado porque no existe el elemento"
+msgstr ""
+"El estado de asistencia no puede ser actualizado porque no existe el elemento"
 
-#: calendar/gui/e-itip-control.c:1823 calendar/gui/e-itip-control.c:1861
+#: calendar/gui/e-itip-control.c:1822 calendar/gui/e-itip-control.c:1860
 msgid "Object is invalid and cannot be updated\n"
 msgstr "El objeto es inválido y no puede ser actualizado\n"
 
-#: calendar/gui/e-itip-control.c:1833
+#: calendar/gui/e-itip-control.c:1832
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "Esta respuesta no es de un asistente. ¿Desea añadirlo como asistente?"
 
-#: calendar/gui/e-itip-control.c:1845
+#: calendar/gui/e-itip-control.c:1844
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "El estado de asistencia no pudo ser actualizado a causa de un estado "
 "inválido\n"
 
-#: calendar/gui/e-itip-control.c:1864
+#: calendar/gui/e-itip-control.c:1863
 msgid "There was an error on the CORBA system\n"
 msgstr "Hubo un error en el sistema CORBA\n"
 
-#: calendar/gui/e-itip-control.c:1867
+#: calendar/gui/e-itip-control.c:1866
 msgid "Object could not be found\n"
 msgstr "El objeto no pudo encontrarse\n"
 
-#: calendar/gui/e-itip-control.c:1870
+#: calendar/gui/e-itip-control.c:1869
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "No tiene los permisos necesarios para actualizar la agenda\n"
 
-#: calendar/gui/e-itip-control.c:1873
+#: calendar/gui/e-itip-control.c:1872
 msgid "Attendee status updated\n"
 msgstr "Estado de asistencia actualizado\n"
 
-#: calendar/gui/e-itip-control.c:1876
+#: calendar/gui/e-itip-control.c:1875
 msgid "Attendee status could not be updated!\n"
 msgstr "El estado de asistencia no pudo ser actualizado.\n"
 
-#: calendar/gui/e-itip-control.c:1907
+#: calendar/gui/e-itip-control.c:1906
 msgid "Removal Complete"
 msgstr "Eliminación terminada"
 
-#: calendar/gui/e-itip-control.c:1930 calendar/gui/e-itip-control.c:1978
+#: calendar/gui/e-itip-control.c:1929 calendar/gui/e-itip-control.c:1977
 msgid "Item sent!\n"
 msgstr "Elemento enviado.\n"
 
-#: calendar/gui/e-itip-control.c:1932 calendar/gui/e-itip-control.c:1982
+#: calendar/gui/e-itip-control.c:1931 calendar/gui/e-itip-control.c:1981
 msgid "The item could not be sent!\n"
 msgstr "El elemento no pudo ser enviado.\n"
 
@@ -6419,30 +6436,30 @@ msgstr "Hora de _inicio de la reunión:"
 msgid "Meeting _end time:"
 msgstr "Hora de _fin de la reunión:"
 
-#: calendar/gui/e-tasks.c:180
+#: calendar/gui/e-tasks.c:181
 msgid "Start Date:"
 msgstr "Fecha de inicio:"
 
-#: calendar/gui/e-tasks.c:196
+#: calendar/gui/e-tasks.c:197
 msgid "Due Date:"
 msgstr "Fecha de vencimiento:"
 
 #. write priority
-#: calendar/gui/e-tasks.c:224
+#: calendar/gui/e-tasks.c:225
 msgid "Priority:"
 msgstr "Prioridad:"
 
 #. URL
-#: calendar/gui/e-tasks.c:280
+#: calendar/gui/e-tasks.c:281
 msgid "Web Page:"
 msgstr "Página web:"
 
-#: calendar/gui/e-tasks.c:313 mail/em-folder-view.c:2127
+#: calendar/gui/e-tasks.c:314 mail/em-folder-view.c:2137
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
 
-#: calendar/gui/e-tasks.c:746 calendar/gui/gnome-cal.c:1890
+#: calendar/gui/e-tasks.c:747 calendar/gui/gnome-cal.c:1892
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6451,47 +6468,8 @@ msgstr ""
 "Error en %s:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:809
-#, c-format
-msgid "Opening tasks at %s"
-msgstr "Abriendo tareas en %s"
-
-#: calendar/gui/e-tasks.c:824
-#, c-format
-msgid ""
-"Error opening %s:\n"
-"%s"
-msgstr ""
-"Error al abrir %s:\n"
-" %s"
-
-#: calendar/gui/e-tasks.c:841
-msgid "Loading tasks"
-msgstr "Cargando tareas"
-
-#: calendar/gui/e-tasks.c:934
-msgid "Completing tasks..."
-msgstr "Terminando tareas..."
-
-#: calendar/gui/e-tasks.c:957
-msgid "Deleting selected objects..."
-msgstr "Borrando los objetos seleccionados..."
-
-#: calendar/gui/e-tasks.c:982
-msgid "Expunging"
-msgstr "Compactando"
-
-#: calendar/gui/gnome-cal.c:1755
-#, c-format
-msgid "Opening %s"
-msgstr "Abriendo %s"
-
-#: calendar/gui/gnome-cal.c:1766
-#, c-format
-msgid "Could not open '%s': %s"
-msgstr "No se pudo abrir «%s»: %s"
-
-#: calendar/gui/gnome-cal.c:1911
+#. FIXME: this doesn't remove the task list from the list or anything
+#: calendar/gui/e-tasks.c:766 calendar/gui/gnome-cal.c:1914
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6502,7 +6480,47 @@ msgstr ""
 "%s\n"
 "se ha bloqueado. Tendrá que reiniciar Evolution para usarlo otra vez"
 
-#: calendar/gui/gnome-cal.c:1919
+#: calendar/gui/e-tasks.c:841
+#, c-format
+msgid "Opening tasks at %s"
+msgstr "Abriendo tareas en %s"
+
+#: calendar/gui/e-tasks.c:862
+#, c-format
+msgid ""
+"Error opening %s:\n"
+"%s"
+msgstr ""
+"Error al abrir %s:\n"
+" %s"
+
+#: calendar/gui/e-tasks.c:882
+msgid "Loading tasks"
+msgstr "Cargando tareas"
+
+#: calendar/gui/e-tasks.c:985
+msgid "Completing tasks..."
+msgstr "Terminando tareas..."
+
+#: calendar/gui/e-tasks.c:1008
+msgid "Deleting selected objects..."
+msgstr "Borrando los objetos seleccionados..."
+
+#: calendar/gui/e-tasks.c:1033
+msgid "Expunging"
+msgstr "Compactando"
+
+#: calendar/gui/gnome-cal.c:1757
+#, c-format
+msgid "Opening %s"
+msgstr "Abriendo %s"
+
+#: calendar/gui/gnome-cal.c:1768
+#, c-format
+msgid "Could not open '%s': %s"
+msgstr "No se pudo abrir «%s»: %s"
+
+#: calendar/gui/gnome-cal.c:1922
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6513,7 +6531,7 @@ msgstr ""
 "%s\n"
 "se ha bloqueado. Tendrá que reiniciar Evolution para usarlo de nuevo"
 
-#: calendar/gui/gnome-cal.c:2797
+#: calendar/gui/gnome-cal.c:2804
 msgid "Purging"
 msgstr "Compactando"
 
@@ -6632,281 +6650,282 @@ msgstr "Debe ser un asistente del acontecimiento."
 msgid "Enter the password for %s"
 msgstr "Introduzca su contraseña para %s"
 
-#: calendar/gui/migration.c:199
+#: calendar/gui/migration.c:192
 msgid "Birthdays & Anniversaries"
 msgstr "Cumpleaños y aniversarios"
 
 #. Create the web group
-#: calendar/gui/migration.c:254
+#: calendar/gui/migration.c:247
 msgid "On The Web"
 msgstr "En la web"
 
-#: calendar/gui/print.c:502
+#: calendar/gui/print.c:500
 msgid "1st"
 msgstr "1"
 
-#: calendar/gui/print.c:502
+#: calendar/gui/print.c:500
 msgid "2nd"
 msgstr "2"
 
-#: calendar/gui/print.c:502
+#: calendar/gui/print.c:500
 msgid "3rd"
 msgstr "3"
 
-#: calendar/gui/print.c:502
+#: calendar/gui/print.c:500
 msgid "4th"
 msgstr "4"
 
-#: calendar/gui/print.c:502
+#: calendar/gui/print.c:500
 msgid "5th"
 msgstr "5"
 
-#: calendar/gui/print.c:503
+#: calendar/gui/print.c:501
 msgid "6th"
 msgstr "6"
 
-#: calendar/gui/print.c:503
+#: calendar/gui/print.c:501
 msgid "7th"
 msgstr "7"
 
-#: calendar/gui/print.c:503
+#: calendar/gui/print.c:501
 msgid "8th"
 msgstr "8"
 
-#: calendar/gui/print.c:503
+#: calendar/gui/print.c:501
 msgid "9th"
 msgstr "9"
 
-#: calendar/gui/print.c:503
+#: calendar/gui/print.c:501
 msgid "10th"
 msgstr "10"
 
-#: calendar/gui/print.c:504
+#: calendar/gui/print.c:502
 msgid "11th"
 msgstr "11"
 
-#: calendar/gui/print.c:504
+#: calendar/gui/print.c:502
 msgid "12th"
 msgstr "12"
 
-#: calendar/gui/print.c:504
+#: calendar/gui/print.c:502
 msgid "13th"
 msgstr "13"
 
-#: calendar/gui/print.c:504
+#: calendar/gui/print.c:502
 msgid "14th"
 msgstr "14"
 
-#: calendar/gui/print.c:504
+#: calendar/gui/print.c:502
 msgid "15th"
 msgstr "15"
 
-#: calendar/gui/print.c:505
+#: calendar/gui/print.c:503
 msgid "16th"
 msgstr "16"
 
-#: calendar/gui/print.c:505
+#: calendar/gui/print.c:503
 msgid "17th"
 msgstr "17"
 
-#: calendar/gui/print.c:505
+#: calendar/gui/print.c:503
 msgid "18th"
 msgstr "18"
 
-#: calendar/gui/print.c:505
+#: calendar/gui/print.c:503
 msgid "19th"
 msgstr "19"
 
-#: calendar/gui/print.c:505
+#: calendar/gui/print.c:503
 msgid "20th"
 msgstr "20"
 
-#: calendar/gui/print.c:506
+#: calendar/gui/print.c:504
 msgid "21st"
 msgstr "21"
 
-#: calendar/gui/print.c:506
+#: calendar/gui/print.c:504
 msgid "22nd"
 msgstr "22"
 
-#: calendar/gui/print.c:506
+#: calendar/gui/print.c:504
 msgid "23rd"
 msgstr "23"
 
-#: calendar/gui/print.c:506
+#: calendar/gui/print.c:504
 msgid "24th"
 msgstr "24"
 
-#: calendar/gui/print.c:506
+#: calendar/gui/print.c:504
 msgid "25th"
 msgstr "25"
 
-#: calendar/gui/print.c:507
+#: calendar/gui/print.c:505
 msgid "26th"
 msgstr "26"
 
-#: calendar/gui/print.c:507
+#: calendar/gui/print.c:505
 msgid "27th"
 msgstr "27"
 
-#: calendar/gui/print.c:507
+#: calendar/gui/print.c:505
 msgid "28th"
 msgstr "28"
 
-#: calendar/gui/print.c:507
+#: calendar/gui/print.c:505
 msgid "29th"
 msgstr "29"
 
-#: calendar/gui/print.c:507
+#: calendar/gui/print.c:505
 msgid "30th"
 msgstr "30"
 
-#: calendar/gui/print.c:508
+#: calendar/gui/print.c:506
 msgid "31st"
 msgstr "31"
 
-#: calendar/gui/print.c:582
+#: calendar/gui/print.c:581
 msgid "Su"
 msgstr "Do"
 
-#: calendar/gui/print.c:582
+#: calendar/gui/print.c:581
 msgid "Mo"
 msgstr "Lu"
 
-#: calendar/gui/print.c:582
+#: calendar/gui/print.c:581
 msgid "Tu"
 msgstr "Ma"
 
-#: calendar/gui/print.c:582
+#: calendar/gui/print.c:581
 msgid "We"
 msgstr "Mi"
 
-#: calendar/gui/print.c:583
+#: calendar/gui/print.c:582
 msgid "Th"
 msgstr "Ju"
 
-#: calendar/gui/print.c:583
+#: calendar/gui/print.c:582
 msgid "Fr"
 msgstr "Vi"
 
-#: calendar/gui/print.c:583
+#: calendar/gui/print.c:582
 msgid "Sa"
 msgstr "Sa"
 
 #. Day
-#: calendar/gui/print.c:1916
+#: calendar/gui/print.c:1920
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Día seleccionado (%a %d de %b de %Y)"
 
-#: calendar/gui/print.c:1941 calendar/gui/print.c:1945
+#: calendar/gui/print.c:1945 calendar/gui/print.c:1949
 msgid "%a %b %d"
 msgstr "%a %d de %b"
 
-#: calendar/gui/print.c:1942
+#: calendar/gui/print.c:1946
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: calendar/gui/print.c:1946 calendar/gui/print.c:1948
-#: calendar/gui/print.c:1949
+#: calendar/gui/print.c:1950 calendar/gui/print.c:1952
+#: calendar/gui/print.c:1953
 msgid "%a %b %d %Y"
 msgstr "%a %d de %b de %Y"
 
-#: calendar/gui/print.c:1953
+#: calendar/gui/print.c:1957
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Semana seleccionada (%s - %s)"
 
 #. Month
-#: calendar/gui/print.c:1961
+#: calendar/gui/print.c:1965
 msgid "Selected month (%b %Y)"
 msgstr "Mes seleccionado (%b de %Y)"
 
 #. Year
-#: calendar/gui/print.c:1968
+#: calendar/gui/print.c:1972
 msgid "Selected year (%Y)"
 msgstr "Año seleccionado (%Y)"
 
-#: calendar/gui/print.c:2293
+#: calendar/gui/print.c:2297
 msgid "Task"
 msgstr "Tarea"
 
-#: calendar/gui/print.c:2352
+#: calendar/gui/print.c:2356
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
-#: calendar/gui/print.c:2369
+#: calendar/gui/print.c:2373
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioridad: %s"
 
-#: calendar/gui/print.c:2381
+#: calendar/gui/print.c:2385
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaje completado: %i"
 
-#: calendar/gui/print.c:2393
+#: calendar/gui/print.c:2397
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: calendar/gui/print.c:2407
+#: calendar/gui/print.c:2411
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
-#: calendar/gui/print.c:2418
+#: calendar/gui/print.c:2422
 msgid "Contacts: "
 msgstr "Contactos: "
 
-#: calendar/gui/print.c:2555 calendar/gui/print.c:2641
-#: calendar/gui/print.c:2733 mail/em-format-html-print.c:147
+#: calendar/gui/print.c:2559 calendar/gui/print.c:2645
+#: calendar/gui/print.c:2737 mail/em-format-html-print.c:147
 msgid "Print Preview"
 msgstr "Vista previa"
 
-#: calendar/gui/print.c:2589
+#: calendar/gui/print.c:2593
 msgid "Print Item"
 msgstr "Imprimir elemento"
 
-#: calendar/gui/print.c:2755
+#: calendar/gui/print.c:2759
 msgid "Print Setup"
 msgstr "Configurar impresión"
 
-#: calendar/gui/tasks-component.c:354
+#: calendar/gui/tasks-component.c:347
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "La lista de tareas «%s» será eliminada. ¿Seguro que quiere continuar?"
 
-#: calendar/gui/tasks-component.c:596
+#: calendar/gui/tasks-component.c:600
 msgid "New task"
 msgstr "Tarea nueva"
 
-#: calendar/gui/tasks-component.c:597
+#: calendar/gui/tasks-component.c:601
 msgid "_Task"
 msgstr "_Tarea"
 
-#: calendar/gui/tasks-component.c:598
+#: calendar/gui/tasks-component.c:602
 msgid "Create a new task"
 msgstr "Crea una tarea nueva"
 
-#: calendar/gui/tasks-component.c:603
+#: calendar/gui/tasks-component.c:607
 msgid "New task list"
 msgstr "Lista de tareas nueva"
 
-#: calendar/gui/tasks-component.c:604
+#: calendar/gui/tasks-component.c:608
 msgid "_Task List"
 msgstr "Lista de _tareas"
 
-#: calendar/gui/tasks-component.c:605
+#: calendar/gui/tasks-component.c:609
 msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
-#: calendar/gui/tasks-component.c:672
+#: calendar/gui/tasks-component.c:676
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr "No es posible abrir la lista de tareas «%s» para crear eventos y reuniones"
+msgstr ""
+"No es posible abrir la lista de tareas «%s» para crear eventos y reuniones"
 
-#: calendar/gui/tasks-component.c:684
+#: calendar/gui/tasks-component.c:688
 msgid "There is no calendar available for creating tasks"
 msgstr "No hay una agenda disponible para crear tareas"
 
@@ -6914,12 +6933,12 @@ msgstr "No hay una agenda disponible para crear tareas"
 msgid "The URI of the tasks folder to display"
 msgstr "La URI que mostrará la carpeta de tareas"
 
-#: calendar/gui/tasks-control.c:204
+#: calendar/gui/tasks-control.c:211
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "No se pudo cargar las tareas en «%s»"
 
-#: calendar/gui/tasks-control.c:467
+#: calendar/gui/tasks-control.c:478
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -6931,11 +6950,11 @@ msgstr ""
 "\n"
 "¿Borrar realmente esas tareas?"
 
-#: calendar/gui/tasks-control.c:470
+#: calendar/gui/tasks-control.c:481
 msgid "Do not ask me again."
 msgstr "No me preguntes otra vez."
 
-#: calendar/gui/tasks-control.c:528
+#: calendar/gui/tasks-control.c:539
 msgid "Print Tasks"
 msgstr "Imprimir tareas"
 
@@ -8540,7 +8559,7 @@ msgstr "No puede exportar claves con este método de cifrado"
 msgid "Unable to create cache path"
 msgstr "No se pudo crear la ruta a la caché"
 
-#: camel/camel-data-cache.c:370
+#: camel/camel-data-cache.c:375
 #, c-format
 msgid "Could not remove cache entry: %s: %s"
 msgstr "No se pudo quitar la entrada de caché: %s: %s"
@@ -8573,7 +8592,8 @@ msgstr "Resincronizando con el servidor"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr "Copiar el contenido de la carpeta localmente para operación desconectada"
+msgstr ""
+"Copiar el contenido de la carpeta localmente para operación desconectada"
 
 #: camel/camel-disco-folder.c:101
 msgid "Downloading new messages for offline mode"
@@ -8793,7 +8813,7 @@ msgstr ""
 msgid "Failed to GPG %s: %s\n"
 msgstr "Error con GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1247 camel/camel-smime-context.c:418
+#: camel/camel-gpg-context.c:1247 camel/camel-smime-context.c:419
 #, c-format
 msgid "Could not generate signing data: %s"
 msgstr "No se pudo generar los datos de la firma: %s"
@@ -8816,10 +8836,11 @@ msgid "This is a digitally signed message part"
 msgstr "Esta parte del mensaje está firmada digitalmente"
 
 #: camel/camel-gpg-context.c:1386 camel/camel-gpg-context.c:1395
-#: camel/camel-smime-context.c:716 camel/camel-smime-context.c:727
-#: camel/camel-smime-context.c:734
+#: camel/camel-smime-context.c:717 camel/camel-smime-context.c:728
+#: camel/camel-smime-context.c:735
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr "No se pudo verificar la firma del mensaje: Formato de mensaje incorrecto"
+msgstr ""
+"No se pudo verificar la firma del mensaje: Formato de mensaje incorrecto"
 
 #: camel/camel-gpg-context.c:1402
 #, c-format
@@ -8837,7 +8858,7 @@ msgstr "No se pudo generar los datos de cifrado: %s"
 msgid "This is a digitally encrypted message part"
 msgstr "Esta parte del mensaje está cifrada digitalmente"
 
-#: camel/camel-gpg-context.c:1638 camel/camel-smime-context.c:989
+#: camel/camel-gpg-context.c:1638 camel/camel-smime-context.c:990
 msgid "Encrypted content"
 msgstr "Contenido cifrado"
 
@@ -8873,7 +8894,8 @@ msgstr "No se pudo bloquear el archivo para %s: %s"
 #: camel/camel-lock.c:154
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr "Expiró el tiempo tratando de cerrar el archivo %s. Inténtelo más tarde."
+msgstr ""
+"Expiró el tiempo tratando de cerrar el archivo %s. Inténtelo más tarde."
 
 #: camel/camel-lock.c:209
 #, c-format
@@ -9041,7 +9063,8 @@ msgstr "Reto del servidor no válido\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "El reto del servidor contiene una valor «Calidad de Protección» no válido\n"
+msgstr ""
+"El reto del servidor contiene una valor «Calidad de Protección» no válido\n"
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
@@ -9049,7 +9072,8 @@ msgstr "La respuesta del servidor no contenía información de autorización\n"
 
 #: camel/camel-sasl-digest-md5.c:868
 msgid "Server response contained incomplete authorization data\n"
-msgstr "La respuesta del servidor contenía información de autorización incompleta\n"
+msgstr ""
+"La respuesta del servidor contenía información de autorización incompleta\n"
 
 #: camel/camel-sasl-digest-md5.c:878
 msgid "Server response does not match\n"
@@ -9110,7 +9134,8 @@ msgstr ""
 
 #: camel/camel-sasl-gssapi.c:174
 msgid "The supplied context handle did not refer to a valid context."
-msgstr "El manipulador de contexto suministrado no se refiere a un contexto válido."
+msgstr ""
+"El manipulador de contexto suministrado no se refiere a un contexto válido."
 
 #: camel/camel-sasl-gssapi.c:177
 msgid "The consistency checks performed on the input_token failed."
@@ -9197,11 +9222,11 @@ msgstr "Esta opción autorizará conexiones POP antes de intentar SMTP"
 msgid "POP Source URI"
 msgstr "URI de la fuente POP"
 
-#: camel/camel-sasl-popb4smtp.c:107
+#: camel/camel-sasl-popb4smtp.c:106
 msgid "POP Before SMTP auth using an unknown transport"
 msgstr "Autenticación POP antes de SMTP usando un transporte desconocido"
 
-#: camel/camel-sasl-popb4smtp.c:112
+#: camel/camel-sasl-popb4smtp.c:111
 msgid "POP Before SMTP auth using a non-pop source"
 msgstr "Autenticación POP antes de SMTP usando una fuente no POP"
 
@@ -9270,12 +9295,12 @@ msgstr "Proveedor de correo de la carpeta virtual"
 msgid "For reading mail as a query of another set of folders"
 msgstr "Para leer correo como una búsqueda de otras carpetas"
 
-#: camel/camel-session.c:352 camel/camel-session.c:402
+#: camel/camel-session.c:351 camel/camel-session.c:401
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "No hay proveedor para el protocolo «%s»"
 
-#: camel/camel-session.c:525
+#: camel/camel-session.c:524
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -9289,47 +9314,47 @@ msgstr ""
 msgid "Enter security pass-phrase for `%s'"
 msgstr "Introduzca su frase de paso para %s"
 
-#: camel/camel-smime-context.c:513
+#: camel/camel-smime-context.c:514
 msgid "Unverified"
 msgstr "Sin verificar"
 
-#: camel/camel-smime-context.c:515
+#: camel/camel-smime-context.c:516
 msgid "Good signature"
 msgstr "Firma buena"
 
-#: camel/camel-smime-context.c:517
+#: camel/camel-smime-context.c:518
 msgid "Bad signature"
 msgstr "Firma mala"
 
-#: camel/camel-smime-context.c:519
+#: camel/camel-smime-context.c:520
 msgid "Content tampered with or altered in transit"
 msgstr "El contenido ha sido falsificado o alterado en tránsito"
 
-#: camel/camel-smime-context.c:521
+#: camel/camel-smime-context.c:522
 msgid "Signing certificate not found"
 msgstr "Certificado firmante no encontrado"
 
-#: camel/camel-smime-context.c:523
+#: camel/camel-smime-context.c:524
 msgid "Signing certificate not trusted"
 msgstr "Certificado firmante sin confianza"
 
-#: camel/camel-smime-context.c:525
+#: camel/camel-smime-context.c:526
 msgid "Signature algorithm unknown"
 msgstr "Algoritmo de firma desconocido"
 
-#: camel/camel-smime-context.c:527
+#: camel/camel-smime-context.c:528
 msgid "Siganture algorithm unsupported"
 msgstr "Algoritmo de firma no soportado"
 
-#: camel/camel-smime-context.c:529
+#: camel/camel-smime-context.c:530
 msgid "Malformed signature"
 msgstr "Firma mal formada"
 
-#: camel/camel-smime-context.c:531
+#: camel/camel-smime-context.c:532
 msgid "Processing error"
 msgstr "Error de procesamiento"
 
-#: camel/camel-smime-context.c:646
+#: camel/camel-smime-context.c:647
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
 msgstr "Firmante: %s <%s>: %s\n"
@@ -9338,16 +9363,16 @@ msgstr "Firmante: %s <%s>: %s\n"
 msgid "Cannot get folder: Invalid operation on this store"
 msgstr "No se pudo obtener la carpeta: Operación no válida en este almacén"
 
-#: camel/camel-store.c:273
+#: camel/camel-store.c:274
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "No se pudo crear la carpeta: Operación no válida en este almacén"
 
-#: camel/camel-store.c:791 mail/importers/netscape-importer.c:1842
-#: mail/mail-ops.c:1102
+#: camel/camel-store.c:792 mail/importers/netscape-importer.c:1842
+#: mail/mail-ops.c:1125
 msgid "Trash"
 msgstr "Papelera"
 
-#: camel/camel-store.c:793 filter/libfilter-i18n.h:35 mail/mail-ops.c:1108
+#: camel/camel-store.c:794 filter/libfilter-i18n.h:35 mail/mail-ops.c:1129
 #: ui/evolution-mail-message.xml.h:46
 msgid "Junk"
 msgstr "Basura"
@@ -9366,7 +9391,8 @@ msgstr "No se pudo descifrar la firma del certificado"
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr "No se pudo descifrar la firma de la Lista de Revocación de Certificados"
+msgstr ""
+"No se pudo descifrar la firma de la Lista de Revocación de Certificados"
 
 #: camel/camel-tcp-stream-openssl.c:576
 msgid "Unable to decode issuer's public key"
@@ -9579,22 +9605,22 @@ msgstr "No existe el mensaje %s en %s"
 msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr "No se pudo copiar o mover mensajes a una Carpeta Virtual"
 
-#: camel/camel-vee-store.c:340
+#: camel/camel-vee-store.c:360
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "No se pudo borrar la carpeta: %s: Operación no válida"
 
-#: camel/camel-vee-store.c:361
+#: camel/camel-vee-store.c:381
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
 msgstr "No se pudo borrar la carpeta: %s: No existe tal carpeta"
 
-#: camel/camel-vee-store.c:374
+#: camel/camel-vee-store.c:394
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
 msgstr "No se pudo renombrar la carpeta: %s: Operación no válida"
 
-#: camel/camel-vee-store.c:382
+#: camel/camel-vee-store.c:402
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "No se pudo cambiarle el nombre a la carpeta: %s: No existe"
@@ -9644,7 +9670,7 @@ msgstr "Para acceder a servidores Novell Groupwise"
 #: camel/providers/imap/camel-imap-provider.c:89
 #: camel/providers/imapp/camel-imapp-provider.c:65
 #: camel/providers/nntp/camel-nntp-provider.c:71
-#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:87
+#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:89
 msgid "Password"
 msgstr "Contraseña"
 
@@ -9657,10 +9683,10 @@ msgstr ""
 "plano."
 
 #. default charset used in mail view
-#: camel/providers/groupwise/camel-gw-listener.c:296
-#: camel/providers/groupwise/camel-gw-listener.c:297
+#: camel/providers/groupwise/camel-gw-listener.c:298
+#: camel/providers/groupwise/camel-gw-listener.c:299
 #: mail/em-folder-view.c:1542 mail/em-folder-view.c:1580
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:42
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -9730,12 +9756,12 @@ msgstr "La carpeta fue destruida y recreada en el servidor."
 msgid "Scanning for changed messages"
 msgstr "Buscando mensajes modificados"
 
-#: camel/providers/imap/camel-imap-folder.c:1911
+#: camel/providers/imap/camel-imap-folder.c:1910
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "No se pudo descargar el mensaje: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1948
+#: camel/providers/imap/camel-imap-folder.c:1941
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9751,25 +9777,25 @@ msgstr ""
 "No se pudo obtener el mensaje; %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1948
+#: camel/providers/imap/camel-imap-folder.c:1941
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "No existe ese mensaje"
 
-#: camel/providers/imap/camel-imap-folder.c:1971
-#: camel/providers/imap/camel-imap-folder.c:2567
+#: camel/providers/imap/camel-imap-folder.c:1964
+#: camel/providers/imap/camel-imap-folder.c:2560
 #: camel/providers/nntp/camel-nntp-folder.c:205
 msgid "This message is not currently available"
 msgstr "Este mensaje no está disponible actualmente"
 
-#: camel/providers/imap/camel-imap-folder.c:2231
-#: camel/providers/imap/camel-imap-folder.c:2301
+#: camel/providers/imap/camel-imap-folder.c:2224
+#: camel/providers/imap/camel-imap-folder.c:2294
 msgid "Fetching summary information for new messages"
 msgstr "Obteniendo información de los nuevos mensajes"
 
-#: camel/providers/imap/camel-imap-folder.c:2605
+#: camel/providers/imap/camel-imap-folder.c:2598
 msgid "Could not find message body in FETCH response."
 msgstr "No se pudo encontrar el cuerpo del mensaje en la respuesta de FETCH."
 
@@ -9931,7 +9957,8 @@ msgstr "No existe la carpeta %s"
 
 #: camel/providers/imap/camel-imap-store.c:2017
 #, c-format
-msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
 "El nombre de la carpeta «%s» es inválido porque no puede contener el "
 "carácter de retorno de carro «%c»"
@@ -10360,7 +10387,7 @@ msgstr "No se pudo cerrar la carpeta origen %s: %s"
 msgid "Could not close temp folder: %s"
 msgstr "No se pudo cerrar la carpeta temporal: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1410
+#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1526
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "No se pudo cambiar el nombre a la carpeta: %s"
@@ -10578,8 +10605,10 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "No se pudo guardar el archivo de lista de grupo para %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr "Mostrar carpetas en notación corta (ej: c.o.linux en vez de xomp.os.linux)"
+msgid ""
+"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgstr ""
+"Mostrar carpetas en notación corta (ej: c.o.linux en vez de xomp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
@@ -10654,7 +10683,8 @@ msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:793
 msgid "You cannot create a folder in a News store: subscribe instead."
-msgstr "No puede crear una carpeta en un almacén de Noticias: suscríbase en su lugar."
+msgstr ""
+"No puede crear una carpeta en un almacén de Noticias: suscríbase en su lugar."
 
 #: camel/providers/nntp/camel-nntp-store.c:801
 msgid "You cannot rename a folder in a News store."
@@ -10752,7 +10782,7 @@ msgstr "Borrar tras %s día(s)"
 msgid "Disable support for all POP3 extensions"
 msgstr "Deshabilitar soporte para todas las extensiones POP3"
 
-#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:86
+#: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:88
 msgid "POP"
 msgstr "POP"
 
@@ -10796,7 +10826,7 @@ msgid "Could not connect to POP server %s"
 msgstr "No se pudo conectar con el servidor POP: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:409
-#: camel/providers/pop3/camel-pop3-store.c:519
+#: camel/providers/pop3/camel-pop3-store.c:523
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -10813,20 +10843,21 @@ msgstr "SASL «%s» Falló el inicio de sesión para servidor POP %s: %s"
 #: camel/providers/pop3/camel-pop3-store.c:437
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr "No se pudo iniciar sesión en el servidor POP %s: Error del protocolo SASL"
+msgstr ""
+"No se pudo iniciar sesión en el servidor POP %s: Error del protocolo SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:456
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "No se pudo autenticarme en el servidor POP %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:478
+#: camel/providers/pop3/camel-pop3-store.c:482
 #, c-format
 msgid "%sPlease enter the POP password for %s@%s"
 msgstr "%s Escriba la contraseña POP para %s@%s"
 
-#: camel/providers/pop3/camel-pop3-store.c:533
-#: camel/providers/pop3/camel-pop3-store.c:540
+#: camel/providers/pop3/camel-pop3-store.c:537
+#: camel/providers/pop3/camel-pop3-store.c:544
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -10835,13 +10866,13 @@ msgstr ""
 "No se pudo conectar con el servidor POP %s.\n"
 "Error al enviar la contraseña: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:639
+#: camel/providers/pop3/camel-pop3-store.c:643
 #, c-format
 msgid "No such folder `%s'."
 msgstr "No existe la carpeta «%s»."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:113
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -10849,7 +10880,8 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr "Para enviar correo pasándoselo al programa «sendmail» en el sistema local."
+msgstr ""
+"Para enviar correo pasándoselo al programa «sendmail» en el sistema local."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -10893,7 +10925,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Entregar correo por medio de sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:103
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:105
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -10947,7 +10979,8 @@ msgstr "El usuario no es local: lo reenviaré a <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr "Acción solicitada del correo no realizada: el mailbox no está disponible"
+msgstr ""
+"Acción solicitada del correo no realizada: el mailbox no está disponible"
 
 #: camel/providers/smtp/camel-smtp-transport.c:198
 msgid "Requested action not taken: mailbox unavailable"
@@ -10963,7 +10996,8 @@ msgstr "El usuario no es local: pruebe con <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
-msgstr "Acción solicitada no realizada: la capacidad del sistema es insuficiente"
+msgstr ""
+"Acción solicitada no realizada: la capacidad del sistema es insuficiente"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
@@ -11027,7 +11061,8 @@ msgstr "Error de respuesta en STARTTLS"
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "El servidor SMTP %s no implementa el método de autenticación requerido %s."
+msgstr ""
+"El servidor SMTP %s no implementa el método de autenticación requerido %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
@@ -11311,7 +11346,8 @@ msgid "Attach file(s)"
 msgstr "Adjuntar archivo(s)"
 
 #: composer/e-msg-composer.c:656
-msgid "Cannot sign outgoing message: No signing certificate set for from account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for from account"
 msgstr ""
 "No se puede firmar el correo saliente: No hay establecido un certificado de "
 "firma para la cuenta remitente"
@@ -11479,7 +11515,8 @@ msgstr ""
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr "<b>(El editor contiene un mensaje sin texto, que no puede editarse)</b>"
+msgstr ""
+"<b>(El editor contiene un mensaje sin texto, que no puede editarse)</b>"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -11489,11 +11526,11 @@ msgstr "La suite de trabajo en grupo Ximian Evolution"
 msgid "Ximian Evolution (Unstable)"
 msgstr "Ximian Evolution (inestable)"
 
-#: data/evolution.keys.in.h:1
+#: data/evolution.keys.in.in.h:1
 msgid "address card"
 msgstr "tarjeta de dirección"
 
-#: data/evolution.keys.in.h:2
+#: data/evolution.keys.in.in.h:2
 msgid "calendar information"
 msgstr "información de agenda"
 
@@ -11852,20 +11889,20 @@ msgstr ""
 "Error en la expresión regular «%s»:\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/em-migrate.c:918
-#: mail/mail-config.c:63 mail/mail-config.glade.h:66
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/em-migrate.c:922
+#: mail/mail-config.c:63 mail/mail-config.glade.h:68
 msgid "Important"
 msgstr "Importante"
 
 #. forest green
-#: filter/filter-label.c:124 mail/em-migrate.c:921 mail/mail-config.c:66
-#: mail/mail-config.glade.h:125
+#: filter/filter-label.c:124 mail/em-migrate.c:925 mail/mail-config.c:66
+#: mail/mail-config.glade.h:127
 msgid "To Do"
 msgstr "Tareas pendientes"
 
 #. blue
-#: filter/filter-label.c:125 mail/em-migrate.c:922 mail/mail-config.c:67
-#: mail/mail-config.glade.h:70
+#: filter/filter-label.c:125 mail/em-migrate.c:926 mail/mail-config.c:67
+#: mail/mail-config.glade.h:72
 msgid "Later"
 msgstr "Más tarde"
 
@@ -11969,7 +12006,7 @@ msgstr "hace"
 msgid "months"
 msgstr "meses"
 
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:183
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:185
 msgid "seconds"
 msgstr "segundos"
 
@@ -12135,8 +12172,8 @@ msgid "is not Flagged"
 msgstr "no está marcado"
 
 #: filter/libfilter-i18n.h:36
-msgid "Junk test"
-msgstr "Test de correo no deseado"
+msgid "Junk Test"
+msgstr "Test de correo basura"
 
 #: filter/libfilter-i18n.h:37 mail/em-folder-view.c:744
 #: widgets/misc/e-expander.c:189
@@ -12244,7 +12281,7 @@ msgstr "comienza por"
 msgid "Stop Processing"
 msgstr "Parar el proceso"
 
-#: filter/libfilter-i18n.h:64 mail/em-format-html.c:1552 mail/em-format.c:712
+#: filter/libfilter-i18n.h:64 mail/em-format-html.c:1562 mail/em-format.c:712
 #: mail/em-mailer-prefs.c:72 mail/message-list.etspec.h:13
 #: mail/message-tag-followup.c:305 smime/lib/e-cert.c:1074
 msgid "Subject"
@@ -12254,8 +12291,8 @@ msgstr "Asunto"
 msgid "Unset Status"
 msgstr "Sin estado"
 
-#: filter/rule-context.c:684 filter/rule-editor.c:241 filter/rule-editor.c:326
-#: mail/mail-vfolder.c:950
+#: filter/rule-context.c:682 filter/rule-editor.c:241 filter/rule-editor.c:326
+#: mail/mail-vfolder.c:979
 #, c-format
 msgid "Rule name '%s' is not unique, choose another."
 msgstr "El nombre de la regla «%s» no es único, elija otro."
@@ -12329,7 +12366,8 @@ msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 "Configure las preferencias de correo incluyendo seguridad y visualización de "
 "mensajes, aquí"
@@ -12370,7 +12408,7 @@ msgstr "Componente del visor de carpetas de correo de Evolution"
 msgid "Evolution Mail preferences control"
 msgstr "Control de preferencias de Evolution"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:799
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:805
 #: mail/importers/elm-importer.c:526 mail/importers/netscape-importer.c:2085
 #: mail/importers/pine-importer.c:572
 msgid "Mail"
@@ -12380,7 +12418,7 @@ msgstr "Correo"
 msgid "Mail Accounts"
 msgstr "Cuentas de correo"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:73
+#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:75
 msgid "Mail Preferences"
 msgstr "Opciones de correo"
 
@@ -12405,28 +12443,28 @@ msgstr "Nombre de la cuenta"
 msgid "Protocol"
 msgstr "Protocolo"
 
-#: mail/em-composer-prefs.c:226 mail/em-composer-prefs.c:349
-#: mail/mail-config.c:1250
+#: mail/em-composer-prefs.c:226 mail/em-composer-prefs.c:353
+#: mail/mail-config.c:1251
 msgid "Unnamed"
 msgstr "Sin nombre"
 
-#: mail/em-composer-prefs.c:334
+#: mail/em-composer-prefs.c:337
 msgid "You must specify a valid script name."
 msgstr "Debe especificar un nombre de script válido."
 
-#: mail/em-composer-prefs.c:392 mail/em-composer-prefs.c:454
+#: mail/em-composer-prefs.c:396 mail/em-composer-prefs.c:458
 msgid "[script]"
 msgstr " [guión]"
 
-#: mail/em-composer-prefs.c:858
+#: mail/em-composer-prefs.c:862
 msgid "Language(s)"
 msgstr "Idioma(s)"
 
-#: mail/em-composer-prefs.c:900
+#: mail/em-composer-prefs.c:904
 msgid "Add script signature"
 msgstr "Añadir script de firma"
 
-#: mail/em-composer-prefs.c:920
+#: mail/em-composer-prefs.c:924
 msgid "Signature(s)"
 msgstr "Firma(s)"
 
@@ -12485,7 +12523,7 @@ msgstr ""
 "No se pudo abrir la carpeta de borradores para esta cuenta.\n"
 "¿Quiere usar la carpeta de borradores predeterminada?"
 
-#: mail/em-folder-browser.c:130
+#: mail/em-folder-browser.c:132
 msgid "Create _Virtual Folder From Search..."
 msgstr "Crear una carpeta _virtual de la búsqueda..."
 
@@ -12498,7 +12536,7 @@ msgstr "<pinche aquí para seleccionar una carpeta>"
 msgid "Create New Folder"
 msgstr "Crear carpeta nueva"
 
-#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1189
+#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1305
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Especifique donde crear la carpeta:"
@@ -12509,144 +12547,146 @@ msgid "Folder _name:"
 msgstr "_Nombre de la carpeta:"
 
 #. On This Computer is always first and VFolders is always last
-#: mail/em-folder-tree-model.c:197 mail/em-folder-tree-model.c:199
-#: mail/mail-component.c:214
+#: mail/em-folder-tree-model.c:195 mail/em-folder-tree-model.c:197
+#: mail/mail-component.c:212
 msgid "On this Computer"
 msgstr "En este equipo"
 
-#: mail/em-folder-tree-model.c:201 mail/em-folder-tree-model.c:203
-#: mail/mail-vfolder.c:809
+#: mail/em-folder-tree-model.c:199 mail/em-folder-tree-model.c:201
+#: mail/mail-vfolder.c:827
 msgid "VFolders"
 msgstr "Carpetas virtuales"
 
-#: mail/em-folder-tree-model.c:211 mail/em-folder-tree-model.c:213
+#: mail/em-folder-tree-model.c:209 mail/em-folder-tree-model.c:211
 msgid "UNMATCHED"
 msgstr "NO COINCIDENTE"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:239 mail/em-folder-tree-model.c:241
+#: mail/em-folder-tree-model.c:237 mail/em-folder-tree-model.c:239
 #: shell/e-shortcuts.c:1085
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
-#: mail/em-folder-tree-model.c:666 mail/em-utils.c:2085
+#: mail/em-folder-tree-model.c:424 mail/em-folder-tree-model.c:714
+msgid "Loading..."
+msgstr "Cargando..."
+
+#: mail/em-folder-tree-model.c:1279 mail/em-utils.c:2085
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "No se pudo crear el directorio temporal: %s"
 
-#: mail/em-folder-tree-model.c:675
+#: mail/em-folder-tree-model.c:1288
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "No se pudo crear el almacenamiento del buzón temporal: %s"
 
-#: mail/em-folder-tree-model.c:684
+#: mail/em-folder-tree-model.c:1297
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "No se pudo crear la carpeta del buzón temporal: %s"
 
-#: mail/em-folder-tree-model.c:699
+#: mail/em-folder-tree-model.c:1312
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "No se pudo copiar los mensajes a la carpeta buzón temporal: %s"
 
-#: mail/em-folder-tree-model.c:881 mail/em-folder-tree-model.c:1171
-msgid "Loading..."
-msgstr "Cargando..."
-
-#: mail/em-folder-tree.c:1067 mail/em-folder-tree.c:1154
+#: mail/em-folder-tree.c:1183 mail/em-folder-tree.c:1270
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:1083 mail/em-folder-tree.c:1096
+#: mail/em-folder-tree.c:1199 mail/em-folder-tree.c:1212
 #: mail/em-folder-view.c:621 mail/em-folder-view.c:635
 #: shell/e-shell-importer.c:1060
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
-#: mail/em-folder-tree.c:1189
+#: mail/em-folder-tree.c:1305
 msgid "Create folder"
 msgstr "Crear carpeta"
 
-#: mail/em-folder-tree.c:1306
+#: mail/em-folder-tree.c:1422
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "No se pudo borrar la carpeta: %s"
 
-#: mail/em-folder-tree.c:1327
+#: mail/em-folder-tree.c:1443
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "¿Seguro que quiere borrar la carpeta «%s» y todas sus subcarpetas?"
 
-#: mail/em-folder-tree.c:1337 shell/e-shell-folder-commands.c:416
+#: mail/em-folder-tree.c:1453 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Borrar «%s»"
 
-#: mail/em-folder-tree.c:1371 shell/e-shell-folder-commands.c:534
+#: mail/em-folder-tree.c:1487 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Renombrar la carpeta «%s» a:"
 
-#: mail/em-folder-tree.c:1373 shell/e-shell-folder-commands.c:541
+#: mail/em-folder-tree.c:1489 shell/e-shell-folder-commands.c:541
 msgid "Rename Folder"
 msgstr "Renombrar carpeta"
 
-#: mail/em-folder-tree.c:1397 shell/e-shell-folder-commands.c:554
+#: mail/em-folder-tree.c:1513 shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
-msgstr "Ya existe una carpeta llamada «%s». por favor, use un nombre diferente."
+msgstr ""
+"Ya existe una carpeta llamada «%s». por favor, use un nombre diferente."
 
-#: mail/em-folder-tree.c:1497
+#: mail/em-folder-tree.c:1613
 msgid "Folder properties"
 msgstr "Propiedades de la carpeta"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/em-folder-tree.c:1503
+#: mail/em-folder-tree.c:1619
 msgid "Properties"
 msgstr "Propiedades"
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-tree.c:1512
+#: mail/em-folder-tree.c:1628
 msgid "Folder Name"
 msgstr "Nombre de la carpeta"
 
-#: mail/em-folder-tree.c:1523
+#: mail/em-folder-tree.c:1639
 msgid "Total messages"
 msgstr "Mensajes en total"
 
-#: mail/em-folder-tree.c:1535
+#: mail/em-folder-tree.c:1651
 msgid "Unread messages"
 msgstr "Mensajes no leídos"
 
-#: mail/em-folder-tree.c:1644 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:1760 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:34
 msgid "_View"
 msgstr "_Ver"
 
-#: mail/em-folder-tree.c:1645
+#: mail/em-folder-tree.c:1761
 msgid "Open in _New Window"
 msgstr "Abrir en una ventana _nueva"
 
-#: mail/em-folder-tree.c:1650
+#: mail/em-folder-tree.c:1766
 msgid "_Move"
 msgstr "_Mover"
 
-#: mail/em-folder-tree.c:1653
+#. FIXME: need to disable for nochildren folders
+#: mail/em-folder-tree.c:1770
 msgid "_New Folder..."
 msgstr "Carpeta _nueva..."
 
-#: mail/em-folder-tree.c:1655 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:1773 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "_Renombrar"
 
-#: mail/em-folder-tree.c:1658 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:1776 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "_Propiedades..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:712 mail/em-popup.c:596
+#: mail/em-folder-view.c:712 mail/em-popup.c:658
 msgid "_Edit as New Message..."
 msgstr "_Editar como un mensaje nuevo..."
 
@@ -12658,17 +12698,17 @@ msgstr "Im_primir"
 msgid "_Reply to Sender"
 msgstr "Responder al _remitente"
 
-#: mail/em-folder-view.c:718 mail/em-popup.c:716
+#: mail/em-folder-view.c:718 mail/em-popup.c:778
 #: ui/evolution-mail-message.xml.h:86
 msgid "Reply to _List"
 msgstr "Responder a la _lista"
 
-#: mail/em-folder-view.c:719 mail/em-popup.c:717
+#: mail/em-folder-view.c:719 mail/em-popup.c:779
 #: ui/evolution-mail-message.xml.h:85
 msgid "Reply to _All"
 msgstr "Responder a _todos"
 
-#: mail/em-folder-view.c:720 mail/em-popup.c:719
+#: mail/em-folder-view.c:720 mail/em-popup.c:781
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Forward"
 msgstr "Reen_viar"
@@ -12781,7 +12821,7 @@ msgstr "Imprimir mensaje"
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
-#: mail/em-folder-view.c:2125
+#: mail/em-folder-view.c:2132
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
@@ -12904,32 +12944,32 @@ msgstr "Certificado no es visible"
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "No se pudo interpretar el mensaje S/MIME: Error desconocido"
 
-#: mail/em-format-html-display.c:941 mail/em-format-html.c:1073
+#: mail/em-format-html-display.c:941 mail/em-format-html.c:1075
 #: mail/em-format.c:1270
 msgid "Unsupported signature format"
 msgstr "Formato de firma no soportado"
 
-#: mail/em-format-html-display.c:949 mail/em-format-html.c:1081
+#: mail/em-format-html-display.c:949 mail/em-format-html.c:1083
 msgid "Unknown error verifying signature"
 msgstr "Error desconocido al verificar la firma"
 
-#: mail/em-format-html-display.c:1063
+#: mail/em-format-html-display.c:1064
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Terminado el %d de %B de %Y, %l:%M %p"
 
-#: mail/em-format-html-display.c:1071
+#: mail/em-format-html-display.c:1072
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#: mail/em-format-html-display.c:1074
+#: mail/em-format-html-display.c:1075
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "antes del %d de %B de %Y, %l:%M %p"
 
-#: mail/em-format-html-display.c:1144
+#: mail/em-format-html-display.c:1145
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: mail/em-format-html-display.c:1145
+#: mail/em-format-html-display.c:1146
 msgid "_Hide"
 msgstr "_Ocultar"
 
@@ -12943,80 +12983,80 @@ msgstr "Página %d de %d"
 msgid "Retrieving `%s'"
 msgstr "Obteniendo «%s»"
 
-#: mail/em-format-html.c:842
+#: mail/em-format-html.c:844
 msgid "Malformed external-body part."
 msgstr "Parte externa al cuerpo del mensaje mal escrita."
 
-#: mail/em-format-html.c:872
+#: mail/em-format-html.c:874
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Puntero a sitio FTP (%s)"
 
-#: mail/em-format-html.c:883
+#: mail/em-format-html.c:885
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Puntero a archivo local (%s) valido en «%s»"
 
-#: mail/em-format-html.c:885
+#: mail/em-format-html.c:887
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Puntero a archivo local (%s)"
 
-#: mail/em-format-html.c:906
+#: mail/em-format-html.c:908
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Puntero a sitio FTP (%s)"
 
-#: mail/em-format-html.c:917
+#: mail/em-format-html.c:919
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Puntero a datos externos desconocidos (tipo «%s»)"
 
-#: mail/em-format-html.c:1059
+#: mail/em-format-html.c:1061
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "No se pudo analizar el mensaje MIME. Mostrando la fuente."
 
-#: mail/em-format-html.c:1176
+#: mail/em-format-html.c:1177
 msgid "Formatting message"
 msgstr "Formateando el mensaje"
 
-#: mail/em-format-html.c:1452 mail/em-format.c:707 mail/em-mailer-prefs.c:67
+#: mail/em-format-html.c:1453 mail/em-format.c:707 mail/em-mailer-prefs.c:67
 #: mail/message-list.etspec.h:7 mail/message-tag-followup.c:301
 msgid "From"
 msgstr "De"
 
-#: mail/em-format-html.c:1452 mail/em-format.c:708 mail/em-mailer-prefs.c:68
+#: mail/em-format-html.c:1453 mail/em-format.c:708 mail/em-mailer-prefs.c:68
 msgid "Reply-To"
 msgstr "Responder a"
 
-#: mail/em-format-html.c:1452 mail/em-format.c:709 mail/em-mailer-prefs.c:69
+#: mail/em-format-html.c:1453 mail/em-format.c:709 mail/em-mailer-prefs.c:69
 #: mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Para"
 
-#: mail/em-format-html.c:1452 mail/em-format.c:710 mail/em-mailer-prefs.c:70
+#: mail/em-format-html.c:1453 mail/em-format.c:710 mail/em-mailer-prefs.c:70
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1452 mail/em-format.c:711 mail/em-mailer-prefs.c:71
+#: mail/em-format-html.c:1453 mail/em-format.c:711 mail/em-mailer-prefs.c:71
 msgid "Bcc"
 msgstr "Cco"
 
-#: mail/em-format-html.c:1559 mail/em-mailer-prefs.c:631
+#: mail/em-format-html.c:1569 mail/em-mailer-prefs.c:632
 msgid "Mailer"
 msgstr "Transporte"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1585
+#: mail/em-format-html.c:1595
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1588
+#: mail/em-format-html.c:1598
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1600 mail/em-format.c:713 mail/em-mailer-prefs.c:73
+#: mail/em-format-html.c:1610 mail/em-format.c:713 mail/em-mailer-prefs.c:73
 #: mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Fecha"
@@ -13040,11 +13080,11 @@ msgstr ""
 "Este mensaje está firmado digitalmente pero no se puede verificar su "
 "autenticidad."
 
-#: mail/em-junk-filter.c:73
+#: mail/em-junk-filter.c:72
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (integrado)"
 
-#: mail/em-migrate.c:1074
+#: mail/em-migrate.c:1078
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
@@ -13056,57 +13096,62 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas..."
 
-#: mail/em-migrate.c:1689 mail/em-migrate.c:1704
+#: mail/em-migrate.c:1770 mail/em-migrate.c:1785
 #, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
 msgstr "Falló  al migrar las cachés de identificación de usuario pop3 : %s"
 
-#: mail/em-migrate.c:1769 mail/em-migrate.c:1919
+#: mail/em-migrate.c:1873 mail/em-migrate.c:1974
+#, c-format
+msgid "Failed to migrate folder expand state: %s"
+msgstr "Falló  al migrar el extado de expansión de la carpeta : %s"
+
+#: mail/em-migrate.c:2098 mail/em-migrate.c:2267
 #, c-format
 msgid "Failed to create directory `%s': %s"
 msgstr "Fallo al crear directorio  «%s»: %s"
 
-#: mail/em-migrate.c:1781
+#: mail/em-migrate.c:2110
 #, c-format
 msgid "Failed to open store for `%s': %s"
 msgstr "Fallo al abrir almacén para «%s»: %s"
 
-#: mail/em-popup.c:606
+#: mail/em-popup.c:668
 msgid "Save As..."
 msgstr "Guardar como..."
 
-#: mail/em-popup.c:624
+#: mail/em-popup.c:686
 #, c-format
 msgid "untitled_image.%s"
 msgstr "imagen_sin_título.%s"
 
-#: mail/em-popup.c:713
+#: mail/em-popup.c:775
 msgid "Set as _Background"
 msgstr "Establecer como _fondo"
 
-#: mail/em-popup.c:715
+#: mail/em-popup.c:777
 msgid "_Reply to sender"
 msgstr "_Responder al remitente"
 
-#: mail/em-popup.c:763
+#: mail/em-popup.c:825
 msgid "_Open Link in Browser"
 msgstr "_Abrir enlace en el navegador"
 
-#: mail/em-popup.c:764
+#: mail/em-popup.c:826
 msgid "Se_nd message to..."
 msgstr "E_nviar un mensaje a..."
 
-#: mail/em-popup.c:765
+#: mail/em-popup.c:827
 msgid "_Add to Addressbook"
 msgstr "_Añadir a la libreta de direcciones"
 
-#: mail/em-popup.c:871
+#: mail/em-popup.c:933
 #, c-format
 msgid "Open in %s..."
 msgstr "Abrir en %s..."
 
 #: mail/em-subscribe-editor.c:605
-msgid "This store does not support subscriptions, or the are not enabled."
+msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Este almacén no soporta suscripciones, o no están activadas."
 
 #: mail/em-subscribe-editor.c:634
@@ -13230,68 +13275,72 @@ msgid "Check incoming mail being junk"
 msgstr "Comprobar si el correo entrante es basura"
 
 #: mail/evolution-mail.schemas.in.in.h:4
+msgid "Check incoming mail being junk for IMAP accounts"
+msgstr "Comprobar si el correo entrante es basura en las cuentas IMAP"
+
+#: mail/evolution-mail.schemas.in.in.h:5
 msgid "Citation highlight colour"
 msgstr "Color de resaltado de citas"
 
-#: mail/evolution-mail.schemas.in.in.h:5
+#: mail/evolution-mail.schemas.in.in.h:6
 msgid "Citation highlight colour."
 msgstr "Color de resaltado de citas."
 
-#: mail/evolution-mail.schemas.in.in.h:6
+#: mail/evolution-mail.schemas.in.in.h:7
 msgid "Default charset in which to compose messages"
 msgstr "Conjunto de caracteres predeterminado para redactar mensajes"
 
-#: mail/evolution-mail.schemas.in.in.h:7
+#: mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages."
 msgstr "Conjunto de caracteres predeterminado para redactar mensajes."
 
-#: mail/evolution-mail.schemas.in.in.h:8
+#: mail/evolution-mail.schemas.in.in.h:9
 msgid "Default charset in which to display messages"
 msgstr "Conjunto de caracteres predeterminado para mostrar mensajes"
 
-#: mail/evolution-mail.schemas.in.in.h:9
+#: mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to display messages."
 msgstr "Conjunto de caracteres predeterminado para mostrar mensajes."
 
-#: mail/evolution-mail.schemas.in.in.h:10
+#: mail/evolution-mail.schemas.in.in.h:11
 msgid "Default forward style"
 msgstr "Estilo de reenvío predeterminado"
 
-#: mail/evolution-mail.schemas.in.in.h:11
+#: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default reply style"
 msgstr "Estilo de respuesta predeterminado"
 
-#: mail/evolution-mail.schemas.in.in.h:12
+#: mail/evolution-mail.schemas.in.in.h:13
 msgid "Draw spelling error indicators on words as you type."
 msgstr ""
 "Dibujar indicadores de errores tipográficos en las palabras mientras se "
 "escribe."
 
-#: mail/evolution-mail.schemas.in.in.h:13
+#: mail/evolution-mail.schemas.in.in.h:14
 msgid "Empty Trash folders on exit"
 msgstr "Vaciar papeleras al salir"
 
-#: mail/evolution-mail.schemas.in.in.h:14
+#: mail/evolution-mail.schemas.in.in.h:15
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Vaciar todas las papeleras al salir de Evolution."
 
-#: mail/evolution-mail.schemas.in.in.h:15
+#: mail/evolution-mail.schemas.in.in.h:16
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Habilitar modo cursor, para que pueda ver un cursor cuando lee correo."
 
-#: mail/evolution-mail.schemas.in.in.h:16
+#: mail/evolution-mail.schemas.in.in.h:17
 msgid "Enable/disable caret mode"
 msgstr "Habilitar/deshabilitar modo cursor"
 
-#: mail/evolution-mail.schemas.in.in.h:17
+#: mail/evolution-mail.schemas.in.in.h:18
 msgid "Height of the message-list pane"
 msgstr "Altura del panel de lista de mensajes"
 
-#: mail/evolution-mail.schemas.in.in.h:18
+#: mail/evolution-mail.schemas.in.in.h:19
 msgid "Height of the message-list pane."
 msgstr "Altura del panel de vista de mensajes."
 
-#: mail/evolution-mail.schemas.in.in.h:19
+#: mail/evolution-mail.schemas.in.in.h:20
 msgid ""
 "If there isn't a builtin viewer for a particular mime-type inside Evolution, "
 "any mime-types appearing in this list which map to a bonobo-component viewer "
@@ -13302,15 +13351,15 @@ msgstr ""
 "visor de componentes bonobo en la base de datos de Gnome puede usarse para "
 "mostrar el contenido."
 
-#: mail/evolution-mail.schemas.in.in.h:20
+#: mail/evolution-mail.schemas.in.in.h:21
 msgid "List of Labels and their associated colours"
 msgstr "Lista de etiquetas y sus colores asociados"
 
-#: mail/evolution-mail.schemas.in.in.h:21
+#: mail/evolution-mail.schemas.in.in.h:22
 msgid "List of accounts"
 msgstr "Lista de cuentas"
 
-#: mail/evolution-mail.schemas.in.in.h:22
+#: mail/evolution-mail.schemas.in.in.h:23
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
@@ -13319,11 +13368,11 @@ msgstr ""
 "lista contiene cadenas nombrando subdirectorios relativos a /apps/evolution/"
 "mail/accounts."
 
-#: mail/evolution-mail.schemas.in.in.h:23
+#: mail/evolution-mail.schemas.in.in.h:24
 msgid "List of custom headers and whether they are enabled."
 msgstr "Lista de cabeceras personalizadas y si están activadas."
 
-#: mail/evolution-mail.schemas.in.in.h:24
+#: mail/evolution-mail.schemas.in.in.h:25
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:colour where colour uses the HTML hex encoding."
@@ -13332,15 +13381,15 @@ msgstr ""
 "lista contiene cadenas con el nombre:color donde color usa la codificación "
 "hex HTML."
 
-#: mail/evolution-mail.schemas.in.in.h:25
+#: mail/evolution-mail.schemas.in.in.h:26
 msgid "List of mime types to check for bonobo component viewers"
 msgstr "Lista de tipos mime de comprobación de visores de componentes bonobo"
 
-#: mail/evolution-mail.schemas.in.in.h:26
+#: mail/evolution-mail.schemas.in.in.h:27
 msgid "Load images for HTML messages over http"
 msgstr "Cargar imágenes para mensajes HTML sobre http"
 
-#: mail/evolution-mail.schemas.in.in.h:27
+#: mail/evolution-mail.schemas.in.in.h:28
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
@@ -13350,161 +13399,169 @@ msgstr ""
 "Nunca cargar imágenes desde la red 1 - Cargar imágenes si el remitente está "
 "en la libreta de direcciones 2 - Siempre cargar imágenes desde la red"
 
-#: mail/evolution-mail.schemas.in.in.h:28
+#: mail/evolution-mail.schemas.in.in.h:29
 msgid "Log filter actions"
 msgstr "Registrar acciones de filtrado"
 
-#: mail/evolution-mail.schemas.in.in.h:29
+#: mail/evolution-mail.schemas.in.in.h:30
 msgid "Log filter actions to the specified log file."
 msgstr "Registrar acciones de filtrado en el archivo de registro especificado."
 
-#: mail/evolution-mail.schemas.in.in.h:30
+#: mail/evolution-mail.schemas.in.in.h:31
 msgid "Logfile to log filter actions"
 msgstr "Archivo de registro para registrar las acciones de filtrado"
 
-#: mail/evolution-mail.schemas.in.in.h:31
+#: mail/evolution-mail.schemas.in.in.h:32
 msgid "Logfile to log filter actions."
 msgstr "Archivo de registro para registrar las acciones de filtrado."
 
-#: mail/evolution-mail.schemas.in.in.h:32
+#: mail/evolution-mail.schemas.in.in.h:33
 msgid "Mark as Seen after specified timeout"
 msgstr "Marcar como visto después del tiempo especificado"
 
-#: mail/evolution-mail.schemas.in.in.h:33
+#: mail/evolution-mail.schemas.in.in.h:34
 msgid "Mark as Seen after specified timeout."
 msgstr "Marcar como visto después del tiempo especificado."
 
-#: mail/evolution-mail.schemas.in.in.h:34
+#: mail/evolution-mail.schemas.in.in.h:35
 msgid "Mark citations in the message \"Preview\""
 msgstr "Marcar citas textuales en la vista preliminar del mensaje"
 
-#: mail/evolution-mail.schemas.in.in.h:35
+#: mail/evolution-mail.schemas.in.in.h:36
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Marcar citas textuales en la vista preliminar del mensaje."
 
-#: mail/evolution-mail.schemas.in.in.h:36
+#: mail/evolution-mail.schemas.in.in.h:37
 msgid "Message-display style (normal, full headers, source)"
 msgstr "Estilo del mensaje (normal, cabeceras completas, fuente)"
 
-#: mail/evolution-mail.schemas.in.in.h:37
+#: mail/evolution-mail.schemas.in.in.h:38
 msgid "New Mail Notify sound file"
 msgstr "Archivo de sonido de notificación de correo nuevo"
 
-#: mail/evolution-mail.schemas.in.in.h:38
+#: mail/evolution-mail.schemas.in.in.h:39
 msgid "New Mail Notify type"
 msgstr "Tipo de notificación de correo nuevo"
 
-#: mail/evolution-mail.schemas.in.in.h:39
+#: mail/evolution-mail.schemas.in.in.h:40
 msgid "Prompt on empty subject"
 msgstr "Preguntar si el asunto está en blanco"
 
-#: mail/evolution-mail.schemas.in.in.h:40
+#: mail/evolution-mail.schemas.in.in.h:41
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Preguntar al usuario cuando intenta compactar una carpeta."
 
-#: mail/evolution-mail.schemas.in.in.h:41
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+#: mail/evolution-mail.schemas.in.in.h:42
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Preguntar al usuario cuando intenta enviar un mensaje sin un asunto."
 
-#: mail/evolution-mail.schemas.in.in.h:42
+#: mail/evolution-mail.schemas.in.in.h:43
 msgid "Prompt when user expunges"
 msgstr "Preguntar cuando el usuario compacta"
 
-#: mail/evolution-mail.schemas.in.in.h:43
+#: mail/evolution-mail.schemas.in.in.h:44
 msgid "Prompt when user only fills Bcc"
 msgstr "Preguntar cuando el usuario sólo rellena el campo CCo"
 
-#: mail/evolution-mail.schemas.in.in.h:44
+#: mail/evolution-mail.schemas.in.in.h:45
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr "Preguntar al mandar mensajes en HTML a contactos que no los quieren."
 
-#: mail/evolution-mail.schemas.in.in.h:45
+#: mail/evolution-mail.schemas.in.in.h:46
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "Preguntar al mandar mensajes que sin destinatarios Para o Cc"
 
-#: mail/evolution-mail.schemas.in.in.h:46
+#: mail/evolution-mail.schemas.in.in.h:47
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Preguntar cuando el usuario intenta enviar HTML no deseado"
 
-#: mail/evolution-mail.schemas.in.in.h:47
+#: mail/evolution-mail.schemas.in.in.h:48
 msgid "Recognize links in text and replace them."
 msgstr "Reconocer enlaces en el texto y reemplazarlos."
 
-#: mail/evolution-mail.schemas.in.in.h:48
+#: mail/evolution-mail.schemas.in.in.h:49
 msgid "Recognize smileys in text and replace them with images."
 msgstr "Reconocer emoticonos en el texto y reemplazarlos con imágenes."
 
-#: mail/evolution-mail.schemas.in.in.h:49
+#: mail/evolution-mail.schemas.in.in.h:50
 msgid "Run junk test on incoming mail"
 msgstr "Ejecutar la prueba de basura en el correo entrante"
 
-#: mail/evolution-mail.schemas.in.in.h:50
+#: mail/evolution-mail.schemas.in.in.h:51
+msgid ""
+"Run junk test on incoming mail for IMAP accounts (only valid if "
+"check_incoming is set to true)"
+msgstr "Ejecutar el test de correo basura en el correo entrante de las cuentas IMAP (sólo válido si check_incoming está puesto a «true»)"
+
+#: mail/evolution-mail.schemas.in.in.h:52
 msgid "S3kr3t 0pt10n"
 msgstr "S3kr3t 0pt10n"
 
-#: mail/evolution-mail.schemas.in.in.h:51
+#: mail/evolution-mail.schemas.in.in.h:53
 msgid "S3kr3t 0pt10n."
 msgstr "S3kr3t 0pt10n."
 
-#: mail/evolution-mail.schemas.in.in.h:52
+#: mail/evolution-mail.schemas.in.in.h:54
 msgid "Send HTML mail by default"
 msgstr "Enviar correo en HTML por omisión"
 
-#: mail/evolution-mail.schemas.in.in.h:53
+#: mail/evolution-mail.schemas.in.in.h:55
 msgid "Send HTML mail by default."
 msgstr "Enviar correo en HTML por omisión."
 
-#: mail/evolution-mail.schemas.in.in.h:54
+#: mail/evolution-mail.schemas.in.in.h:56
 msgid "Show Animations"
 msgstr "Mostrar animaciones"
 
-#: mail/evolution-mail.schemas.in.in.h:55
+#: mail/evolution-mail.schemas.in.in.h:57
 msgid "Show animated images as animations."
 msgstr "Mostrar imágenes animadas como animaciones."
 
-#: mail/evolution-mail.schemas.in.in.h:56
+#: mail/evolution-mail.schemas.in.in.h:58
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Mostrar mensajes borrados (tachados) en la lista de mensajes."
 
-#: mail/evolution-mail.schemas.in.in.h:57
+#: mail/evolution-mail.schemas.in.in.h:59
 msgid "Show deleted messages in the message-list"
 msgstr "Mostrar mensajes borrados en la lista de mensajes"
 
-#: mail/evolution-mail.schemas.in.in.h:58
+#: mail/evolution-mail.schemas.in.in.h:60
 msgid "Show the \"Preview\" pane"
 msgstr "Mostrar el panel de vista previa"
 
-#: mail/evolution-mail.schemas.in.in.h:59
+#: mail/evolution-mail.schemas.in.in.h:61
 msgid "Show the \"Preview\" pane."
 msgstr "Mostrar el panel de vista previa."
 
-#: mail/evolution-mail.schemas.in.in.h:60
+#: mail/evolution-mail.schemas.in.in.h:62
 msgid "Sound file to play when new mail arrives."
 msgstr "Reproducir un archivo de sonido cuando llegue correo nuevo."
 
-#: mail/evolution-mail.schemas.in.in.h:61
+#: mail/evolution-mail.schemas.in.in.h:63
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "Especifica el tipo de notificación de correo nuevo que el usuario desea usar."
+msgstr ""
+"Especifica el tipo de notificación de correo nuevo que el usuario desea usar."
 
-#: mail/evolution-mail.schemas.in.in.h:62
+#: mail/evolution-mail.schemas.in.in.h:64
 msgid "Spell check inline"
 msgstr "Comprobación ortográfica en línea"
 
-#: mail/evolution-mail.schemas.in.in.h:63
+#: mail/evolution-mail.schemas.in.in.h:65
 msgid "Terminal font"
 msgstr "Tipografía del terminal"
 
-#: mail/evolution-mail.schemas.in.in.h:64
+#: mail/evolution-mail.schemas.in.in.h:66
 msgid "The terminal font for mail display"
 msgstr "La tipografía de terminal para mostrar el correo"
 
-#: mail/evolution-mail.schemas.in.in.h:65
+#: mail/evolution-mail.schemas.in.in.h:67
 msgid "The variable width font for mail display"
 msgstr "La letra de anchura variable para mostrar el correo"
 
-#: mail/evolution-mail.schemas.in.in.h:66
+#: mail/evolution-mail.schemas.in.in.h:68
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
@@ -13516,105 +13573,113 @@ msgstr ""
 "estructura XML es &lt;header enabled&gt; - establece activado si la cabecera "
 "se debe mostrar en la vista de correo."
 
-#: mail/evolution-mail.schemas.in.in.h:67
+#: mail/evolution-mail.schemas.in.in.h:69
 msgid "Thread the message list."
 msgstr "Lista de mensajes por conversaciones."
 
-#: mail/evolution-mail.schemas.in.in.h:68
+#: mail/evolution-mail.schemas.in.in.h:70
 msgid "Thread the message-list"
 msgstr "Lista de mensajes por conversaciones"
 
-#: mail/evolution-mail.schemas.in.in.h:69
+#: mail/evolution-mail.schemas.in.in.h:71
 msgid "Thread the message-list based on Subject"
 msgstr "Conversaciones basadas en el asunto"
 
-#: mail/evolution-mail.schemas.in.in.h:70
+#: mail/evolution-mail.schemas.in.in.h:72
 msgid "Timeout for marking message as Seen"
 msgstr "Temporización para marcar un mensaje como visto"
 
-#: mail/evolution-mail.schemas.in.in.h:71
+#: mail/evolution-mail.schemas.in.in.h:73
 msgid "Timeout for marking message as Seen."
 msgstr "Temporización para marcar un mensaje como visto."
 
-#: mail/evolution-mail.schemas.in.in.h:72
+#: mail/evolution-mail.schemas.in.in.h:74
 msgid "UID string of the default account."
 msgstr "Cadena UID para la cuenta predeterminada."
 
-#: mail/evolution-mail.schemas.in.in.h:73
+#: mail/evolution-mail.schemas.in.in.h:75
 msgid "Use Spamasssassin daemon and client"
 msgstr "Usar el demonio y cliente de Spamassassin"
 
-#: mail/evolution-mail.schemas.in.in.h:74
+#: mail/evolution-mail.schemas.in.in.h:76
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
 msgstr "Usar el demonio y cliente de Spamassassin (spamc/spamd)"
 
-#: mail/evolution-mail.schemas.in.in.h:75
+#: mail/evolution-mail.schemas.in.in.h:77
 msgid "Use custom fonts"
 msgstr "Usar tipografía personalizada"
 
-#: mail/evolution-mail.schemas.in.in.h:76
+#: mail/evolution-mail.schemas.in.in.h:78
 msgid "Use custom fonts for displaying mail"
 msgstr "Usar tipografía personalizada para mostrar el correo"
 
-#: mail/evolution-mail.schemas.in.in.h:77
+#: mail/evolution-mail.schemas.in.in.h:79
 msgid "Use only local spam tests."
 msgstr "Usar sólo los tests de spam local."
 
-#: mail/evolution-mail.schemas.in.in.h:78
+#: mail/evolution-mail.schemas.in.in.h:80
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Usar sólo los tests de spam local (Sin DNS)"
 
-#: mail/evolution-mail.schemas.in.in.h:79
+#: mail/evolution-mail.schemas.in.in.h:81
 msgid "Variable width font"
 msgstr "Tipografía de anchura variable"
 
-#: mail/evolution-mail.schemas.in.in.h:80
+#: mail/evolution-mail.schemas.in.in.h:82
 msgid "View/Bcc menu item is checked"
 msgstr "El elemento del menú «Ver/Cco» está marcado"
 
-#: mail/evolution-mail.schemas.in.in.h:81
+#: mail/evolution-mail.schemas.in.in.h:83
 msgid "View/Bcc menu item is checked."
 msgstr "El elemento del menú «Ver/Cco» está marcado."
 
-#: mail/evolution-mail.schemas.in.in.h:82
+#: mail/evolution-mail.schemas.in.in.h:84
 msgid "View/Cc menu item is checked"
 msgstr "El elemento del menú «Ver/Cc» está marcado"
 
-#: mail/evolution-mail.schemas.in.in.h:83
+#: mail/evolution-mail.schemas.in.in.h:85
 msgid "View/Cc menu item is checked."
 msgstr "El elemento del menú «Ver/Cc» está marcado."
 
-#: mail/evolution-mail.schemas.in.in.h:84
+#: mail/evolution-mail.schemas.in.in.h:86
 msgid "View/From menu item is checked"
 msgstr "El elemento del menú «Ver/Desde» está marcado"
 
-#: mail/evolution-mail.schemas.in.in.h:85
+#: mail/evolution-mail.schemas.in.in.h:87
 msgid "View/From menu item is checked."
 msgstr "El elemento del menú «Ver/Desde» está marcado."
 
-#: mail/evolution-mail.schemas.in.in.h:86
+#: mail/evolution-mail.schemas.in.in.h:88
 msgid "View/PostTo menu item is checked"
 msgstr "El elemento del menú «Ver/Publicar en» está marcado"
 
-#: mail/evolution-mail.schemas.in.in.h:87
+#: mail/evolution-mail.schemas.in.in.h:89
 msgid "View/PostTo menu item is checked."
 msgstr "El elemento del menú «Ver/Publicar en» está marcado."
 
-#: mail/evolution-mail.schemas.in.in.h:88
+#: mail/evolution-mail.schemas.in.in.h:90
 msgid "View/ReplyTo menu item is checked"
 msgstr "El elemento del menú «Ver/Responder a» está marcado"
 
-#: mail/evolution-mail.schemas.in.in.h:89
+#: mail/evolution-mail.schemas.in.in.h:91
 msgid "View/ReplyTo menu item is checked."
 msgstr "El elemento del menú «Ver/Responder a» está marcado."
 
-#: mail/evolution-mail.schemas.in.in.h:90
+#: mail/evolution-mail.schemas.in.in.h:92
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
 "Indica si se debe o no volver al hilado de conversaciones por asuntos cuando "
 "los mensajes no contienen cabeceras In-Reply-To o References"
+
+#: mail/evolution-mail.schemas.in.in.h:93
+msgid "port for starting user runned spamd"
+msgstr "puerto pariniciar el spamd ejecutado por el usuario"
+
+#: mail/evolution-mail.schemas.in.in.h:94
+msgid "spamd port"
+msgstr "puerto spamd"
 
 #: mail/importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in.h:1
 msgid "Evolution Elm importer"
@@ -13831,15 +13896,15 @@ msgstr "No ha rellenado toda la información requerida."
 msgid "Evolution Account Editor"
 msgstr "Editor de cuentas de Evolution"
 
-#: mail/mail-account-gui.c:756 mail/mail-config.glade.h:155
+#: mail/mail-account-gui.c:756 mail/mail-config.glade.h:157
 msgid "_Host:"
 msgstr "_Host:"
 
-#: mail/mail-account-gui.c:760 mail/mail-config.glade.h:129
+#: mail/mail-account-gui.c:760 mail/mail-config.glade.h:131
 msgid "User_name:"
 msgstr "_Nombre de usuario:"
 
-#: mail/mail-account-gui.c:764 mail/mail-config.glade.h:164
+#: mail/mail-account-gui.c:764 mail/mail-config.glade.h:166
 msgid "_Path:"
 msgstr "R_uta:"
 
@@ -13891,23 +13956,23 @@ msgstr ""
 "    «%s»\n"
 "Y han sido actualizadas."
 
-#: mail/mail-component.c:438
+#: mail/mail-component.c:436
 msgid "New Mail Message"
 msgstr "Mensaje de correo nuevo"
 
-#: mail/mail-component.c:439
+#: mail/mail-component.c:437
 msgid "_Mail Message"
 msgstr "_Mensaje de correo"
 
-#: mail/mail-component.c:440
+#: mail/mail-component.c:438
 msgid "Compose a new mail message"
 msgstr "Redacta un mensaje de correo nuevo"
 
-#: mail/mail-component.c:576
+#: mail/mail-component.c:577
 msgid "URI of the mail source that the view will display"
 msgstr "URI de la fuente de correo que la vista mostrará"
 
-#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:65
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:67
 msgid "Identity"
 msgstr "Identidad"
 
@@ -13951,7 +14016,7 @@ msgstr ""
 "no está seguro, pregúntele a su administrador de sistemas o a su Proveedor "
 "de Servicios de Internet."
 
-#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:11
+#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:12
 msgid "Account Management"
 msgstr "Gestión de la cuenta"
 
@@ -13969,123 +14034,127 @@ msgstr ""
 "Por favor escriba un nombre para esta cuenta en el espacio de abajo. Este "
 "nombre sólo se usará para mostrar información."
 
-#: mail/mail-config.c:1090
+#: mail/mail-config.c:1091
 msgid "Checking Service"
 msgstr "Comprobando el servicio"
 
-#: mail/mail-config.c:1168 mail/mail-config.c:1172
+#: mail/mail-config.c:1169 mail/mail-config.c:1173
 msgid "Connecting to server..."
 msgstr "Conectando al servidor..."
 
 #: mail/mail-config.glade.h:3
+msgid "    "
+msgstr "    "
+
+#: mail/mail-config.glade.h:4
 msgid " _Check for supported types "
 msgstr "_Comprobar tipos soportados "
 
-#: mail/mail-config.glade.h:4
+#: mail/mail-config.glade.h:5
 msgid "(SSL is not supported in this build of Evolution)"
 msgstr "(SSL no está soportado en esta compilación de Evolution)"
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:6
 msgid "(SSL is not supported in this build of evolution)"
 msgstr "(SSL no está implementado en esta compilación de Evolution)"
 
-#: mail/mail-config.glade.h:7
+#: mail/mail-config.glade.h:8
 msgid "<b>_Displayed Mail Headers</b>"
 msgstr "<b>Cabeceras de correo _visibles</b>"
 
-#: mail/mail-config.glade.h:8
+#: mail/mail-config.glade.h:9
 msgid "A_lso encrypt to self when sending encrypted mail"
 msgstr "_También cifrar a mí mismo cuando envíe correo cifrado"
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:10
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:11
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
-#: mail/mail-config.glade.h:12
+#: mail/mail-config.glade.h:13
 msgid "Add Sc_ript"
 msgstr "Añadir sc_ript"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:14
 msgid "Add new signature..."
 msgstr "Añadir firma nueva..."
 
-#: mail/mail-config.glade.h:14
+#: mail/mail-config.glade.h:15
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "S_iempre cifrarme a mí mismo cuando envíe correo cifrado"
 
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:18
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr "Siempre mandar copia de carbón oc_ulta (Cco) a:"
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:19
 msgid "Always _carbon-copy (Cc) to:"
 msgstr "Siempre mandar _copia de carbón (Cc) a:"
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:20
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Siempre _confiar en las claves de mi anillo cuando cifre"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:21
 msgid "Attach original message"
 msgstr "Adjuntar mensaje original"
 
-#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:22 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Adjunto"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:23
 msgid "Authentication"
 msgstr "Autenticación"
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-13)"
 msgstr "Báltico (ISO-8859-13)"
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:25
 msgid "Baltic (ISO-8859-4)"
 msgstr "Báltico (ISO-8859-4)"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:26
 msgid "C_haracter set:"
 msgstr "Conjunto de carac_teres:"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:27
 msgid "C_olors"
 msgstr "C_olores"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:28
 msgid "Check _Incoming Mail"
 msgstr "Comprobar si hay correo _entrante"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:29
 msgid "Check spelling while I _type"
 msgstr "Verificar orto_grafía mientras se escribe"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:30
 msgid "Checking for New Mail"
 msgstr "Comprobando si hay correo nuevo"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:31
 msgid "Checks incoming mail messages to be Junk"
 msgstr "Comprueba si el correo entrante es basura"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:32
 msgid "Color for _misspelled words:"
 msgstr "Color para las palabras _mal escritas"
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:33
 msgid "Composing Messages"
 msgstr "Redacción de mensajes"
 
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:34
 msgid "Configuration"
 msgstr "Configuración"
 
-#: mail/mail-config.glade.h:34
+#: mail/mail-config.glade.h:35
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -14101,273 +14170,278 @@ msgstr ""
 "\n"
 "Pulse «Finalizar» para guardar su configuración."
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:41
 msgid "De_fault"
 msgstr "_Predeterminada"
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:43
 msgid "Default Behavior"
 msgstr "Comportamiento predefinido"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:44
 msgid "Default character _encoding:"
 msgstr "_Codificación de caracteres predeterminada: "
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:45
 msgid "Deleting Mail"
 msgstr "Borrado del correo"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:47
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "Firm_ar digitalmente el correo saliente (por omisión)"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:48
+msgid "Do _Not Check Incoming Mail For IMAP Accounts"
+msgstr "No comprobar correo entrante de las cuentas IMAP"
+
+#: mail/mail-config.glade.h:49
 msgid "Do not quote original message"
 msgstr "No citar el mensaje original"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:50
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
+msgstr ""
+"No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
-#: mail/mail-config.glade.h:49 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:51 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "Hecho"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:52
 msgid "Drafts _folder:"
 msgstr "Carpeta de _borradores:"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:54
 msgid "Email Accounts"
 msgstr "Cuentas de correo"
 
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:55
 msgid "Email _address:"
 msgstr "Dir_ección de correo:"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:56
 msgid "Empty _trash folders on exit"
 msgstr "Vaciar _papelera al salir"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:57
 msgid "Encry_ption certificate:"
 msgstr "Certificado de _cifrado:"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:58
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:59
 msgid "Execute Command..."
 msgstr "Ejecutar comando..."
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:60
 msgid "Fi_xed -width:"
 msgstr "A_nchura fija:"
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:61
 msgid "Filter Options"
 msgstr "Opciones de filtros"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:62
 msgid "Font Properties"
 msgstr "Propiedades de tipografías"
 
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:63
 msgid "Format messages in _HTML"
 msgstr "Dar formato _HTML a los mensajes"
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:64
 msgid "H_eaders"
 msgstr "_Cabeceras"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:65
 msgid "Highlight _quotations with"
 msgstr "_Resaltar texto citado con este color:"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:66
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:69
 msgid "Inline"
 msgstr "Incluido en línea"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:70
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:71
 msgid "Labels and Colors"
 msgstr "Etiquetas y colores"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:73
 msgid "Loading Images"
 msgstr "Carga de imágenes"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:74
 msgid "Mail Configuration"
 msgstr "Configuración del correo"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:76
 msgid "Mailbox location"
 msgstr "Localización del Mailbox"
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:77
 msgid "Message Composer"
 msgstr "Editor de mensajes"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:78
 msgid "Message Display"
 msgstr "Pantalla del mensaje"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:79
 msgid "Message Fonts"
 msgstr "Tipografías del mensaje"
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:81
 msgid "New Mail Notification"
 msgstr "Notificación de correo nuevo"
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:83
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr "Nota: No se le pedirá una contraseña hasta que conecte por primera vez"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:84
 msgid "Optional Information"
 msgstr "Información opcional"
 
-#: mail/mail-config.glade.h:84
+#: mail/mail-config.glade.h:86
 msgid "Or_ganization:"
 msgstr "Organi_zación:"
 
-#: mail/mail-config.glade.h:85
+#: mail/mail-config.glade.h:87
 msgid "PGP/GPG _Key ID:"
 msgstr "ID de c_lave GPG/PGP:"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:91
 msgid "Pick a color"
 msgstr "Elija un color"
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:92
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Preguntar al mandar mensajes que tan sólo tengan definido el _Cco"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:93
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:94
 msgid "Printed Fonts"
 msgstr "Tipografías impresas"
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:95
 msgid "Qmail maildir "
 msgstr "Maildir estilo Qmail"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:96
 msgid "Quote original message"
 msgstr "Citar el mensaje original"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:97
 msgid "Quoted"
 msgstr "Citado"
 
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:98
 msgid "Re_member this password"
 msgstr "Re_cuerda esta contraseña"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:99
 msgid "Re_ply-To:"
 msgstr "Res_ponder a:"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:100
 msgid "Receiving Email"
 msgstr "Recibiendo mensajes"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:101
 msgid "Receiving _Options"
 msgstr "_Opciones de recepción"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:102
 msgid "Remember this _password"
 msgstr "Recuerda esta co_ntraseña"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:103
 msgid "Required Information"
 msgstr "Información requerida"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:104
 msgid "Restore Defaults"
 msgstr "Volver a predeterminados"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:106
 msgid "S_ecurity"
 msgstr "S_eguridad"
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:107
 msgid "Secure MIME (S/MIME)"
 msgstr "MIME seguro (S/MIME)"
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:108
 msgid "Select HTML fixed width font"
 msgstr "Selecciona letra de anchura fija para HTML"
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:109
 msgid "Select HTML fixed width font for printing"
 msgstr "Selecciona letra de anchura fija en HTML para imprimir"
 
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:110
 msgid "Select HTML variable width font"
 msgstr "Selecciona letra de anchura variable en HTML"
 
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:111
 msgid "Select HTML variable width font for printing"
 msgstr "Selecciona letra de anchura variable en HTML para imprimir"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:112
 msgid "Sending Email"
 msgstr "Enviando correo"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:114
 msgid "Sent _messages folder:"
 msgstr "Carpeta de _mensajes enviados:"
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:115
 msgid "Sent and Draft Messages"
 msgstr "Mensajes enviados y borradores"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:116
 msgid "Ser_ver requires authentication"
 msgstr "El ser_vidor requiere autenticación"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:117
 msgid "Server Configuration"
 msgstr "Configuración del servidor"
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:118
 msgid "Server _Type: "
 msgstr "_Tipo de servidor:"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:119
 msgid "Si_gning certificate:"
 msgstr "Certificado de _firma:"
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:120
 msgid "Specify _filename:"
 msgstr "Especificar nombre de a_rchivo:"
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:121
 msgid "Spell _Checking"
 msgstr "O_rtografía"
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:122
 msgid "Standard Unix mbox"
 msgstr "Mailbox estándar de Unix"
 
-#: mail/mail-config.glade.h:121
+#: mail/mail-config.glade.h:123
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -14377,7 +14451,7 @@ msgstr ""
 "firma. El nombre que especifique será usado\n"
 "únicamente para mostrarlo por pantalla."
 
-#: mail/mail-config.glade.h:124
+#: mail/mail-config.glade.h:126
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
@@ -14387,7 +14461,7 @@ msgstr ""
 "y el idioma. La lista de idiomas de abajo refleja únicamente los idiomas "
 "para los cuales hay instalado un diccionario."
 
-#: mail/mail-config.glade.h:126
+#: mail/mail-config.glade.h:128
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -14395,15 +14469,15 @@ msgstr ""
 " Teclee el nombre por el que quiere identificar a esta cuenta.\n"
 " Por ejemplo: «Trabajo» o «Personal»"
 
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:130
 msgid "Use _Daemon"
 msgstr "Usar _demonio"
 
-#: mail/mail-config.glade.h:130
+#: mail/mail-config.glade.h:132
 msgid "V_ariable-width:"
 msgstr "An_chura variable:"
 
-#: mail/mail-config.glade.h:131
+#: mail/mail-config.glade.h:133
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -14413,167 +14487,167 @@ msgstr ""
 "\n"
 "Pulse «Adelante» para comenzar. "
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:138
 msgid "_Add Signature"
 msgstr "_Añadir firma"
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:139
 msgid "_Always load images off the net"
 msgstr "C_argar siempre las imágenes desde la red"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:140
 msgid "_Always sign outgoing messages when using this account"
 msgstr "Firm_ar siempre el correo saliente al usar esta cuenta"
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:141
 msgid "_Authentication Type: "
 msgstr "Tipo de _autenticación: "
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:142
 msgid "_Authentication type: "
 msgstr "Tipo de _autenticación: "
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:143
 msgid "_Automatically check for new mail every"
 msgstr "Comprobar el correo _automáticamente cada"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:144
 msgid "_Automatically insert smiley images"
 msgstr "Insertar emoticonos _automáticamente"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:145
 msgid "_Beep when new mail arrives"
 msgstr "E_mitir un pitido cuando llegue correo nuevo"
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:146
 msgid "_Confirm when expunging a folder"
 msgstr "_Confirmar antes de compactar una carpeta"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:147
 msgid "_Default signature:"
 msgstr "_Firma predeterminada:"
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:148
 msgid "_Defaults"
 msgstr "Pre_determinados"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:149
 msgid "_Do not notify me when new mail arrives"
 msgstr "_No notificarme cuando llegue correo nuevo"
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:151
 msgid "_Enable"
 msgstr "_Habilitar"
 
-#: mail/mail-config.glade.h:150
+#: mail/mail-config.glade.h:152
 msgid "_Encrypt outgoing messages (by default)"
 msgstr "_Cifrar mensajes salientes (por omisión)"
 
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:153
 msgid "_Forward style:"
 msgstr "_Estilo de reenvío:"
 
-#: mail/mail-config.glade.h:152
+#: mail/mail-config.glade.h:154
 msgid "_Full name:"
 msgstr "Nombre _completo:"
 
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:156
 msgid "_HTML Mail"
 msgstr "Correo en _HTML"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:158
 msgid "_Identity"
 msgstr "_Identidad"
 
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:159
 msgid "_Junk"
 msgstr "_Basura"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:160
 msgid "_Load images if sender is in address book"
 msgstr "_Cargar imágenes si el remitente está en la libreta de direcciones"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:161
 msgid "_Local Tests Only"
 msgstr "Pruebas _locales únicamente"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:162
 msgid "_Make this my default account"
 msgstr "_Hacer que ésta sea mi cuenta predeterminada"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
 msgstr "_Marcar mensajes como leídos tras"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:164
 msgid "_Name:"
 msgstr "_Nombre:"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:165
 msgid "_Never load images off the net"
 msgstr "_No cargar nunca imágenes desde la red"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:167
 msgid "_Play sound file when new mail arrives"
 msgstr "Reproducir un archivo de _sonido cuando llegue correo nuevo"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:168
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "_Preguntar al mandar mensajes en HTML a contactos que no los quieren"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Pr_eguntar al mandar mensajes con el asunto vacío"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:170
 msgid "_Receiving Mail"
 msgstr "_Recepción de correo"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:171
 msgid "_Reply style:"
 msgstr "Estilo de _respuesta:"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:172
 msgid "_Restore defaults"
 msgstr "_Restablecer predeterminados"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:173
 msgid "_Script:"
 msgstr "_Guión:"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:174
 msgid "_Select..."
 msgstr "_Seleccionar..."
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:175
 msgid "_Sending Mail"
 msgstr "En_vío de correo"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:176
 msgid "_Show animated images"
 msgstr "Mo_strar imágenes animadas"
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:177
 msgid "_Signatures"
 msgstr "_Firmas"
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:178
 msgid "_Standard Font:"
 msgstr "Tipografía _estándar"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:179
 msgid "_Terminal Font:"
 msgstr "Tipografía del _terminal"
 
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:180
 msgid "_Use secure connection (SSL):"
 msgstr "U_sar conexiones seguras (SSL)"
 
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:181
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
-#: mail/mail-config.glade.h:181
+#: mail/mail-config.glade.h:183
 msgid "description"
 msgstr "descripción"
 
@@ -14669,63 +14743,63 @@ msgstr "Copiando mensajes a %s"
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: mail/mail-ops.c:1243
+#: mail/mail-ops.c:1236
 msgid "Forwarded messages"
 msgstr "Mensaje reenviados"
 
-#: mail/mail-ops.c:1286
+#: mail/mail-ops.c:1279
 #, c-format
 msgid "Opening folder %s"
 msgstr "Abriendo carpeta %s"
 
-#: mail/mail-ops.c:1358
+#: mail/mail-ops.c:1351
 #, c-format
 msgid "Opening store %s"
 msgstr "Abriendo sitio %s"
 
-#: mail/mail-ops.c:1436
+#: mail/mail-ops.c:1429
 #, c-format
 msgid "Removing folder %s"
 msgstr "Eliminando carpeta %s"
 
-#: mail/mail-ops.c:1530
+#: mail/mail-ops.c:1523
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: mail/mail-ops.c:1581
+#: mail/mail-ops.c:1574
 msgid "Refreshing folder"
 msgstr "Actualizando carpeta"
 
-#: mail/mail-ops.c:1617 mail/mail-ops.c:1668
+#: mail/mail-ops.c:1610 mail/mail-ops.c:1661
 msgid "Expunging folder"
 msgstr "Compactando carpeta"
 
-#: mail/mail-ops.c:1665
+#: mail/mail-ops.c:1658
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: mail/mail-ops.c:1666
+#: mail/mail-ops.c:1659
 msgid "Local Folders"
 msgstr "Carpetas locales"
 
-#: mail/mail-ops.c:1749
+#: mail/mail-ops.c:1742
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Obteniendo mensaje %s"
 
-#: mail/mail-ops.c:1821
+#: mail/mail-ops.c:1814
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Obteniendo %d mensajes(s)"
 
-#: mail/mail-ops.c:1905
+#: mail/mail-ops.c:1898
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Guardando %d mensaje(s)"
 
-#: mail/mail-ops.c:1953
+#: mail/mail-ops.c:1946
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -14734,7 +14808,7 @@ msgstr ""
 "No se pudo crear el archivo de salida: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1981
+#: mail/mail-ops.c:1974
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -14743,11 +14817,11 @@ msgstr ""
 "Error guardando mensajes en: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2052
+#: mail/mail-ops.c:2045
 msgid "Saving attachment"
 msgstr "Guardando adjunto"
 
-#: mail/mail-ops.c:2069
+#: mail/mail-ops.c:2062
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -14756,22 +14830,22 @@ msgstr ""
 "No se pudo crear el archivo de salida: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2099
+#: mail/mail-ops.c:2092
 #, c-format
 msgid "Could not write data: %s"
 msgstr "No se pudo escribir datos: %s"
 
-#: mail/mail-ops.c:2247
+#: mail/mail-ops.c:2240
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Desconectando de %s"
 
-#: mail/mail-ops.c:2247
+#: mail/mail-ops.c:2240
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Reconectar a %s"
 
-#: mail/mail-ops.c:2349
+#: mail/mail-ops.c:2342
 msgid "Changing junk status"
 msgstr "Cambiando el estado de correo basura"
 
@@ -14851,11 +14925,11 @@ msgstr "Introduzca su contraseña para %s"
 msgid "Enter Password"
 msgstr "Introduzca contraseña"
 
-#: mail/mail-session.c:298
+#: mail/mail-session.c:301
 msgid "_Remember this password"
 msgstr "_Recuerda esta contraseña"
 
-#: mail/mail-session.c:299
+#: mail/mail-session.c:302
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Recordar esta clave durante el resto de esta sesión"
 
@@ -14918,7 +14992,7 @@ msgstr "Configurando carpeta virtual: %s"
 msgid "Updating vfolders for uri: %s"
 msgstr "Actualizando carpetas virtuales para la URI: %s"
 
-#: mail/mail-vfolder.c:482
+#: mail/mail-vfolder.c:498
 #, c-format
 msgid ""
 "The following vFolder(s):\n"
@@ -14931,20 +15005,20 @@ msgstr ""
 "    «%s»\n"
 "Y han sido actualizadas."
 
-#: mail/mail-vfolder.c:868
+#: mail/mail-vfolder.c:897
 msgid "vFolders"
 msgstr "Carpetas virtuales"
 
-#: mail/mail-vfolder.c:907
+#: mail/mail-vfolder.c:936
 msgid "Edit VFolder"
 msgstr "Editar carpeta virtual"
 
-#: mail/mail-vfolder.c:927
+#: mail/mail-vfolder.c:956
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
 msgstr "Tratando de editar una carpeta virtual «%s» que no existe."
 
-#: mail/mail-vfolder.c:999
+#: mail/mail-vfolder.c:1028
 msgid "New VFolder"
 msgstr "Nueva carpeta virtual"
 
@@ -15008,7 +15082,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:3089
+#: mail/message-list.c:3100
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -15181,8 +15255,10 @@ msgstr ""
 "desarrollo de Evolution no se mostrará."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr "Lista de rutas a las carpetas que serán sincronizadas para uso en desconexión"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
+msgstr ""
+"Lista de rutas a las carpetas que serán sincronizadas para uso en desconexión"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Path to the default calendar folder"
@@ -15563,7 +15639,8 @@ msgstr "No ha especificado un nombre de carpeta."
 
 #: shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr "El nombre de la carpeta no puede contener el carácter de retorno de carro."
+msgstr ""
+"El nombre de la carpeta no puede contener el carácter de retorno de carro."
 
 #: shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
@@ -15579,7 +15656,8 @@ msgstr "'.' y '..' son nombres reservados de carpetas."
 
 #: shell/e-shell-view-menu.c:90 shell/e-shell-window-commands.c:59
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "Las utilidades GNOME Pilot no parecen estar instaladas en este sistema."
+msgstr ""
+"Las utilidades GNOME Pilot no parecen estar instaladas en este sistema."
 
 #: shell/e-shell-view-menu.c:98 shell/e-shell-window-commands.c:67
 #, c-format
@@ -15629,7 +15707,8 @@ msgid "Work Offline"
 msgstr "Trabajar desconectado"
 
 #: shell/e-shell-window.c:324
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution está conectado.  Pulse este botón para trabajar "
 "desconectado."
@@ -15639,7 +15718,8 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution está en proceso de desconectarse."
 
 #: shell/e-shell-window.c:337
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution está desconectado.  Pulse este botón para trabajar "
 "conectado."
@@ -15995,7 +16075,7 @@ msgstr "No me preguntes más veces"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution puede importar datos de los siguiente s archivos:"
 
-#: shell/main.c:119 shell/main.c:617
+#: shell/main.c:119 shell/main.c:632
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -16060,40 +16140,41 @@ msgid ""
 "The data hasn't been deleted, but it will not be seen by this version of "
 "Evolution.\n"
 msgstr ""
-"Atención: Evolution no pudo actualizar todos sus datos de la versión %d.%d.%d.\n"
+"Atención: Evolution no pudo actualizar todos sus datos de la versión %d.%d.%"
+"d.\n"
 "Los datos no se han borrado, pero no se verán con esta versión de "
 "Evolution.\n"
 
-#: shell/main.c:469
+#: shell/main.c:490
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "No se pudo acceder a la shell de Ximian Evolution."
 
-#: shell/main.c:478
+#: shell/main.c:499
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "No se pudo inicializar la shell de Ximian Evolution: %s"
 
-#: shell/main.c:584
+#: shell/main.c:599
 msgid "Start Evolution activating the specified component"
 msgstr "Iniciar Evolution activando el componente especificado"
 
-#: shell/main.c:586
+#: shell/main.c:601
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
-#: shell/main.c:588
+#: shell/main.c:603
 msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
-#: shell/main.c:591
+#: shell/main.c:606
 msgid "Forcibly shut down all evolution components"
 msgstr "Forzar el cierre de todos los componentes de Evolution"
 
-#: shell/main.c:594
+#: shell/main.c:609
 msgid "Send the debugging output of all components to a file."
 msgstr "Envía la salida de depurado de todos los componente a un archivo."
 
-#: shell/main.c:621
+#: shell/main.c:636
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -16316,7 +16397,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Tiene certificados de estas organizaciones que le identifican:"
 
 #: smime/gui/smime-ui.glade.h:44
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "Tiene certificados en el archivo que identifican a estas autoridades de "
 "certificación:"
@@ -16990,7 +17072,8 @@ msgstr "Abre una ventana para escribir un mensaje de correo"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Elimina permanentemente todos los mensajes borrados de todas las carpetas"
+msgstr ""
+"Elimina permanentemente todos los mensajes borrados de todas las carpetas"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
@@ -17049,8 +17132,10 @@ msgid "Hide _Read Messages"
 msgstr "Oculta_r mensajes leídos"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
-msgstr "Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
+msgstr ""
+"Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
@@ -18268,6 +18353,13 @@ msgstr "Texto"
 msgid "Find _Now"
 msgstr "Buscar _ahora"
 
+#~ msgid "Could not create a directory for the new addressbook."
+#~ msgstr ""
+#~ "No se pudo crear el directorio para la libreta de direcciones nueva."
+
+#~ msgid "Could not create directory for new calendar"
+#~ msgstr "No se pudo crear el directorio para la agenda nueva"
+
 #~ msgid "Birthdays"
 #~ msgstr "Cumpleaños"
 
@@ -18307,9 +18399,6 @@ msgstr "Buscar _ahora"
 
 #~ msgid "Rename this calendar to"
 #~ msgstr "Renombrar esta agenda a"
-
-#~ msgid "    "
-#~ msgstr "    "
 
 #~ msgid "<b>Alarm Action</b>"
 #~ msgstr "<b>Acción de la alarma</b>"
@@ -28337,4 +28426,3 @@ msgstr "Buscar _ahora"
 
 #~ msgid "th"
 #~ msgstr "º"
-
