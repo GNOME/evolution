@@ -1,3 +1,7 @@
+2003-11-19  Rodney Dawes  <dobey@ximian.com>
+
+	* it.po: Fixed msgstr missing ending \n
+
 2003-11-19  Marco Ciampa <ciampix@libero.it>
 
 	*  it.po: Updated italian translation

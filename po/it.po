@@ -14002,7 +14002,7 @@ msgstr ""
 "Evolution ha cercato di importare le impostazioni dalle\n"
 "seguenti applicazioni: Pine, Netscape, Elm, iCalendar ma\n"
 "non ha trovato impostazioni da importare. Se si desidera\n"
-"provare ancora, fare clic sul tasto \"Indietro\"."
+"provare ancora, fare clic sul tasto \"Indietro\".\n"
 
 #: shell/e-shell-importer.c:219 shell/e-shell-importer.c:250
 #, c-format
