@@ -1,5 +1,10 @@
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Don't generate the Makefiles under `camel/tests'
+	for now.
+	
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Bump required GAL version to 0.7.
 
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
