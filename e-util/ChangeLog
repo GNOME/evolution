@@ -1,3 +1,8 @@
+2001-10-01  Dan Winship  <danw@ximian.com>
+
+	* e-passwords.c (e_passwords_ask_password): New, copied/renamed
+	from mailer and gnome-libs.
+
 2001-09-30  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (libeutil_la_SOURCES): add e-passwords.[ch]

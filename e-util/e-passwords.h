@@ -26,6 +26,7 @@
 
 #include <glib.h>
 #include <bonobo/bonobo-ui-component.h>
+#include <gtk/gtkwindow.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,11 +35,24 @@ extern "C" {
 
 void        e_passwords_init              (void);
 void        e_passwords_shutdown          (void);
+
 void        e_passwords_remember_password (const char *key);
 void        e_passwords_add_password      (const char *key, const char *passwd);
 const char *e_passwords_get_password      (const char *key);
 void        e_passwords_forget_password   (const char *key);
 void        e_passwords_forget_passwords  (void);
+
+typedef enum {
+	E_PASSWORDS_DO_NOT_REMEMBER,
+	E_PASSWORDS_REMEMBER_FOR_SESSION,
+	E_PASSWORDS_REMEMBER_FOREVER
+} EPasswordsRememberType;
+
+char *      e_passwords_ask_password      (const char *title, const char *key,
+					   const char *prompt, gboolean secret,
+					   EPasswordsRememberType remember_type,
+					   gboolean *remember,
+					   GtkWindow *parent);
 
 #ifdef __cplusplus
 }

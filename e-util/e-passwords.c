@@ -23,8 +23,19 @@
  * USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "e-passwords.h"
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkcheckbutton.h>
 
 static char *decode_base64 (char *base64);
 
@@ -137,6 +148,97 @@ e_passwords_add_password (const char *key, const char *passwd)
 {
 	g_hash_table_insert (passwords, (gpointer)key, (gpointer)passwd);
 }
+
+
+/**
+ * e_passwords_ask_password:
+ * @title: title for the password dialog
+ * @key: key to store the password under
+ * @prompt: prompt string
+ * @secret: whether or not the password text should be ***ed out
+ * @remember_type: whether or not to offer to remember the password,
+ * and for how long.
+ * @remember: on input, the default state of the remember checkbox.
+ * on output, the state of the checkbox when the dialog was closed.
+ * @parent: parent window of the dialog, or %NULL
+ *
+ * Asks the user for a password.
+ *
+ * Return value: the password, or %NULL if the user cancelled the
+ * operation. *@remember will be set if the return value is non-%NULL
+ * and @remember_type is not E_PASSWORDS_DO_NOT_REMEMBER.
+ **/
+char *
+e_passwords_ask_password (const char *title, const char *key,
+			  const char *prompt, gboolean secret,
+			  EPasswordsRememberType remember_type,
+			  gboolean *remember,
+			  GtkWindow *parent)
+{
+	GtkWidget *dialog;
+	GtkWidget *check, *entry;
+	char *password;
+	int button;
+
+	dialog = gnome_message_box_new (prompt, GNOME_MESSAGE_BOX_QUESTION,
+					GNOME_STOCK_BUTTON_OK, 
+					GNOME_STOCK_BUTTON_CANCEL,
+					NULL);
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+	if (parent)
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
+
+	/* Password entry */
+	entry = gtk_entry_new();
+	if (secret)
+		gtk_entry_set_visibility (GTK_ENTRY(entry), FALSE);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), 
+			    entry, FALSE, FALSE, 4);
+	gtk_widget_show (entry);
+	gtk_widget_grab_focus (entry);
+
+	/* If Return is pressed in the text entry, propagate to the buttons */
+	gnome_dialog_editable_enters (GNOME_DIALOG(dialog), GTK_EDITABLE(entry));
+
+	/* Remember the password? */
+	if (remember_type != E_PASSWORDS_DO_NOT_REMEMBER) {
+		const char *label;
+
+		if (remember_type == E_PASSWORDS_REMEMBER_FOREVER)
+			label = _("Remember this password");
+		else
+			label = _("Remember this password for the remainder of this session");
+		check = gtk_check_button_new_with_label (label);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
+					      *remember);
+
+		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+				  check, TRUE, FALSE, 4);
+		gtk_widget_show (check);
+	}
+
+	gtk_widget_show (dialog);
+	button = gnome_dialog_run (GNOME_DIALOG (dialog));
+
+	if (button == 0) {
+		password = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
+		*remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
+
+		if (*remember || remember_type == E_PASSWORDS_REMEMBER_FOREVER)
+			e_passwords_add_password (key, password);
+		if (*remember && remember_type == E_PASSWORDS_REMEMBER_FOREVER)
+			e_passwords_remember_password (key);
+	} else
+		password = NULL;
+
+	gnome_dialog_close (GNOME_DIALOG (dialog));
+	return password;
+}
+
+
 
 static char *base64_alphabet =
 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
