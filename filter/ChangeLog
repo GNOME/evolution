@@ -1,5 +1,10 @@
 2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_run): Now takes a
+	CamelMessageInfo argument in preparation for handling scoring
+
+2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_run): Modified to return a
 	boolean value specifying whether or not the message was filtered
 	into a folder other than the default. The default mailbox can now

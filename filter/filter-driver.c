@@ -374,7 +374,7 @@ free_key (gpointer key, gpointer value, gpointer user_data)
 #endif
 
 gboolean
-filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
+filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
 		   CamelFolder *inbox, enum _filter_source_t sourcetype,
 		   gpointer unhook_func, gpointer unhook_data,
 		   gboolean self_destruct, CamelException *ex)
@@ -394,7 +394,7 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
 	p->terminated = FALSE;
 	p->deleted = FALSE;
 	p->message = message;
-	p->info = g_new0 (CamelMessageInfo, 1);
+	p->info = info;
 	
 	/* setup runtime data */
 	p->folders = g_hash_table_new (g_str_hash, g_str_equal);

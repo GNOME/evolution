@@ -54,7 +54,7 @@ FilterDriver  *filter_driver_new     (FilterContext *ctx, FilterGetFolderFunc fe
 /*void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
 
 /* filter a message - returns TRUE if the message was filtered into some location other than inbox */
-gboolean filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
+gboolean filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
 			    CamelFolder *inbox, enum _filter_source_t sourcetype,
 			    gpointer unhook_func, gpointer unhook_data,
 			    gboolean self_destruct, CamelException *ex);
