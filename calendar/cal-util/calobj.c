@@ -676,15 +676,23 @@ store_list (VObject *o, char *prop, GList *values, char sep)
 		len += strlen (l->data) + 1;
 
 	result = g_malloc (len);
-	for (p = result, l = values; l; l = l->next){
+
+	for (p = result, l = values; l; l = l->next) {
 		int len = strlen (l->data);
 		
 		strcpy (p, l->data);
-		p [len] = sep;
-		p += len+1;
+
+		if (l->next) {
+			p [len] = sep;
+			p += len+1;
+		} else
+			p += len;
 	}
+
+	*p = 0;
+
 	addPropValue (o, prop, result);
-	g_free (p);
+	g_free (result);
 }
 
 static char *recur_type_name [] = { "D", "W", "MP", "MD", "YM", "YD" };

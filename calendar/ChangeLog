@@ -2,6 +2,7 @@
 
 	* calobj.c (ical_new): Added mandatory status property.
 	(ical_object_to_vobject): Only store "related" list if it exists.
+	(store_list): Add terminating null char and free the correct data.
 
 	* main.c (save_calendar_cmd): Implemented calendar saving.
 	(open_calendar_cmd): Implemented calendar loading.
