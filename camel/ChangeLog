@@ -1,3 +1,8 @@
+2002-07-26  Peter Williams  <peterw@ximian.com>
+
+	* Revert Jeff's previous change, it broke local
+	folders. Uninitialized exceptions or something.
+	
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	If we're gonna do an elite hack, lets do it right.

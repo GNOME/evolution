@@ -91,9 +91,10 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 	struct stat st;
 	CamelFolder *folder = NULL;
 
-	if (!((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex))
+	(void) ((CamelStoreClass *)parent_class)->get_folder(store, folder_name, flags, ex);
+	if (camel_exception_is_set(ex))
 		return NULL;
-	
+
 	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	tmp = g_strdup_printf("%s/tmp", name);
 	cur = g_strdup_printf("%s/cur", name);
