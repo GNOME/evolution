@@ -1,3 +1,7 @@
+2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-popup.c: Add license & config.h
+
 2004-02-11  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_test_spamd): if spamc is not
