@@ -93,6 +93,9 @@ int	icaltimezone_set_component		(icaltimezone	*zone,
  * Converting times between timezones.
  */
 
+/* This converts the icaltimetype from one timezone to another. Note that it
+   does not convert DATE values. If you need to do that, you should clear the
+   is_date field first. */
 void	icaltimezone_convert_time		(struct icaltimetype *tt,
 						 icaltimezone	*from_zone,
 						 icaltimezone	*to_zone);

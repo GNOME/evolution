@@ -8,6 +8,7 @@ DIRS = \
 	America			\
 	America/Indiana		\
 	America/Kentucky	\
+	America/North_Dakota	\
 	Antarctica		\
 	Arctic			\
 	Asia			\

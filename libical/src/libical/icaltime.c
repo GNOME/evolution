@@ -73,6 +73,10 @@ icaltime_from_timet(time_t tm, int is_date)
     return tt;
 }
 
+/* Note that DATE values and floating values do not have their own timezones,
+   so you should use the default or current timezone in that case.
+   This assumes that if is_date is set, the time_t points to the start of the
+   day in the given zone, so be very careful about using it. */
 struct icaltimetype 
 icaltime_from_timet_with_zone(time_t tm, int is_date, icaltimezone *zone)
 {
@@ -89,24 +93,24 @@ icaltime_from_timet_with_zone(time_t tm, int is_date, icaltimezone *zone)
     tt.year   = t.tm_year + 1900;
     tt.month  = t.tm_mon + 1;
     tt.day    = t.tm_mday;
-
+    tt.hour   = t.tm_hour;
+    tt.minute = t.tm_min;
+    tt.second = t.tm_sec;
+    tt.is_date = 0; 
     tt.is_utc = (zone == utc_zone) ? 1 : 0;
-    tt.is_date = is_date; 
     tt.is_daylight = 0;
     tt.zone = NULL;
 
+    /* Use our timezone functions to convert to the required timezone. */
+    icaltimezone_convert_time (&tt, utc_zone, zone);
+
+    tt.is_date = is_date; 
+
+    /* If it is a DATE value, make sure hour, minute & second are 0. */
     if (is_date) { 
-	/* We don't convert DATE values between timezones. */
 	tt.hour   = 0;
 	tt.minute = 0;
 	tt.second = 0;
-    } else {
-	tt.hour   = t.tm_hour;
-	tt.minute = t.tm_min;
-	tt.second = t.tm_sec;
-
-	/* Use our timezone functions to convert to the required timezone. */
-	icaltimezone_convert_time (&tt, utc_zone, zone);
     }
 
     return tt;
@@ -229,7 +233,12 @@ time_t icaltime_as_timet(struct icaltimetype tt)
 
 }
 
-time_t icaltime_as_timet_with_zone(struct icaltimetype tt, icaltimezone *zone)
+/* Note that DATE values and floating values do not have their own timezones,
+   so you should use the default or current timezone in that case.
+   If is_date is set, the time_t returned points to the start of the day in
+   the given zone. */
+time_t
+icaltime_as_timet_with_zone(struct icaltimetype tt, icaltimezone *zone)
 {
     icaltimezone *utc_zone;
     struct tm stm;
@@ -243,9 +252,11 @@ time_t icaltime_as_timet_with_zone(struct icaltimetype tt, icaltimezone *zone)
 	return 0;
     }
 
+    /* Clear the is_date flag, so we can convert the time. */
+    tt.is_date = 0;
+
     /* Use our timezone functions to convert to UTC. */
-    if (!tt.is_date)
-	icaltimezone_convert_time (&tt, zone, utc_zone);
+    icaltimezone_convert_time (&tt, zone, utc_zone);
 
     /* Copy the icaltimetype to a struct tm. */
     memset (&stm, 0, sizeof (struct tm));
@@ -405,12 +416,24 @@ short icaltime_day_of_week(struct icaltimetype t){
     stm.tm_year = t.year - 1900;
     stm.tm_mon = t.month - 1;
     stm.tm_mday = t.day;
-    stm.tm_hour = 0;
+    stm.tm_hour = 12;
     stm.tm_min = 0;
     stm.tm_sec = 0;
     stm.tm_isdst = -1;
 
     mktime (&stm);
+
+    if (stm.tm_year != t.year - 1900
+	|| stm.tm_mon != t.month - 1
+	|| stm.tm_mday != t.day)
+      printf ("WARNING: icaltime_day_of_week: mktime() changed our date!!\n");
+
+#if 0
+    printf ("Day of week %i/%i/%i (%i/%i/%i) -> %i (0=Sun 6=Sat)\n",
+	    t.day, t.month, t.year,
+	    stm.tm_mday, stm.tm_mon + 1, stm.tm_year + 1900,
+	    stm.tm_wday);
+#endif
 
     return stm.tm_wday + 1;
 }
@@ -423,7 +446,7 @@ short icaltime_start_doy_of_week(struct icaltimetype t){
     stm.tm_year = t.year - 1900;
     stm.tm_mon = t.month - 1;
     stm.tm_mday = t.day;
-    stm.tm_hour = 0;
+    stm.tm_hour = 12;
     stm.tm_min = 0;
     stm.tm_sec = 0;
     stm.tm_isdst = -1;
@@ -466,7 +489,7 @@ short icaltime_week_number(struct icaltimetype ictt)
     stm.tm_year = ictt.year - 1900;
     stm.tm_mon = ictt.month - 1;
     stm.tm_mday = ictt.day;
-    stm.tm_hour = 0;
+    stm.tm_hour = 12;
     stm.tm_min = 0;
     stm.tm_sec = 0;
     stm.tm_isdst = -1;

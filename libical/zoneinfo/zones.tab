@@ -76,6 +76,7 @@
 +0095600 -0840500 America/Costa_Rica
 -0153500 -0560500 America/Cuiaba
 +0121100 -0690000 America/Curacao
++0764600 -0184000 America/Danmarkshavn
 +0640400 -1392500 America/Dawson
 +0594600 -1201400 America/Dawson_Creek
 +0394421 -1045903 America/Denver
@@ -132,6 +133,7 @@
 +0490100 -0881600 America/Nipigon
 +0643004 -1652423 America/Nome
 -0035100 -0322500 America/Noronha
++0470659 -1011757 America/North_Dakota/Center
 +0085800 -0793200 America/Panama
 +0660800 -0654400 America/Pangnirtung
 +0055000 -0551000 America/Paramaribo
@@ -192,7 +194,8 @@
 +0425400 +0743600 Asia/Bishkek
 +0045600 +1145500 Asia/Brunei
 +0223200 +0882200 Asia/Calcutta
-+0293400 +1063500 Asia/Chungking
++0480400 +1143000 Asia/Choibalsan
++0293400 +1063500 Asia/Chongqing
 +0065600 +0795100 Asia/Colombo
 +0333000 +0361800 Asia/Damascus
 +0234300 +0902500 Asia/Dhaka
@@ -231,6 +234,7 @@
 +0164700 +0961000 Asia/Rangoon
 +0243800 +0464300 Asia/Riyadh
 +0104500 +1064000 Asia/Saigon
++0465800 +1424200 Asia/Sakhalin
 +0394000 +0664800 Asia/Samarkand
 +0373300 +1265800 Asia/Seoul
 +0311400 +1212800 Asia/Shanghai

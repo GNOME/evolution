@@ -1,3 +1,40 @@
+2001-10-22  Damon Chaplin  <damon@ximian.com>
+
+	* zoneinfo/*: updated all files again, placing current RDATEs first,
+	so Outlook uses those. Also fixed a few bugs in vzic which resulted in
+	a few changes.
+	
+	* zoneinfo/Makefile.am (DIRS): added America/North_Dakota.
+
+2001-10-22  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_get_utc_offset): 
+	(icaltimezone_get_utc_offset_of_utc_time): if we go off the start of
+	the changes array, return the TZOFFSETFROM of the first change.
+	Also changed the maximum year to 2037.
+
+	* src/libical/icaltime.c (icaltime_day_of_week):
+	(icaltime_start_doy_of_week):
+	(icaltime_week_number): init tm_hour to 12. Sometimes mktime()
+	adjusts the time, if that local time doesn't actually exist, leading
+	to the wrong day being returned. It is unlikely to adjust by 12 hours.
+	(icaltime_as_timet_with_zone): 
+	(icaltime_from_timet_with_zone): change it back so it does convert
+	DATE values to/from the timezone. time_t values don't really go well
+	with DATE values, so be very careful when using them. We now assume
+	that the time_t points to the start of the day in the given timezone.
+	(We used to assume it pointed to the start of the day in UTC, but
+	that meant it was actually incorrect wrt the displayed calendar.)
+
+	* src/libical/icalrecur.c (expand_year_days): for FREQ=YEARLY with no
+	modifiers, we add one day, using the month and day from DTSTART.
+	(next_year): make sure we never go past 2037.
+
+	* scripts/mkderivedproperties.pl: Updated to allow DTSTART, DTEND, DUE
+	and RECURRENCE-ID to be set with DATE values. I think it now handles
+	all properties which can take DATE values, except RDATE which uses
+	DATE-TIME-PERIOD.
+
 2001-10-19  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/icalproperty.c (icalproperty_remove_parameter):
