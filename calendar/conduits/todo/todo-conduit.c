@@ -780,7 +780,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 
 	if (!is_empty_time (todo.due)) {
-		due = tm_to_icaltimetype (&todo.due, FALSE);
+		due = tm_to_icaltimetype (&todo.due, TRUE);
 		dt.value = &due;
 		cal_component_set_due (comp, &dt);
 	}

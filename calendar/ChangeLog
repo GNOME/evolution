@@ -1,5 +1,14 @@
 2003-03-21  JP Rosevear  <jpr@ximian.com>
 
+	Fixes #32248
+	
+	* conduits/todo/todo-conduit.c (comp_from_remote_record): make
+	sure the due date is actually a date
+
+2003-03-21  JP Rosevear  <jpr@ximian.com>
+	
+	Fixes #31660
+	
 	* conduits/calendar/calendar-conduit.c (rrules_mostly_equal):
 	check if the rrules are equal other than until/count
 	(find_last_cb): update the data with the start timet
