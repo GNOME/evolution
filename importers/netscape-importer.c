@@ -291,7 +291,7 @@ netscape_filter_parse_conditions (NsFilter *nsf, FILE *f, char *condition)
 		if (!strcmp (type, ns_filter_condition_types[FROM])) {
 			cond->type = FROM;
 		} else if (!strcmp (type, ns_filter_condition_types[SUBJECT])) {
-			cond->type = FROM;
+			cond->type = SUBJECT;
 		} else if (!strcmp (type, ns_filter_condition_types[TO])) {
 			cond->type = TO;
 		} else if (!strcmp (type, ns_filter_condition_types[CC])) {

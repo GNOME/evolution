@@ -1,3 +1,7 @@
+2002-05-27  Iain Holmes <iain@ximian.com>
+
+	* netscape-importer.c: Apply patch from Christian to fix a typo.
+
 2002-04-29  Iain Holmes <iain@ximian.com>
 
 	* Makefile.am: Link the netscape importer against camel, filters and
