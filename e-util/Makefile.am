@@ -35,6 +35,8 @@ libeutil_la_SOURCES =			\
 	e-memory.h			\
 	e-msgport.c			\
 	e-msgport.h			\
+	e-path.c			\
+	e-path.h			\
 	e-sexp.c			\
 	e-sexp.h			\
 	e-dbhash.c			\
