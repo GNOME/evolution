@@ -1,3 +1,12 @@
+2001-08-27  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Check if we are trying
+	to reply to a message with no From: field, and try to do something
+	graceful in that case. (Bug #7028)
+
+	* mail-display.c (ebook_callback): Add paranoid checks for the
+	case of a message with a From: field. (Also maybe bug #7028)
+
 2001-08-27  Iain Holmes  <iain@ximian.com>
 
 	* mail-config-druid.c (druid_finish): Free the list and hash table.

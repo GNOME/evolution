@@ -660,7 +660,12 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		return NULL;
 	
 	sender = camel_mime_message_get_from (message);
-	camel_internet_address_get (sender, 0, &name, &address);
+	if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
+		camel_internet_address_get (sender, 0, &name, &address);
+	} else {
+		name = _("an unknown sender");
+	}
+	
 	date = camel_mime_message_get_date (message, NULL);
 	
 	strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),

@@ -952,11 +952,14 @@ ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
 
 	if (card && md->current_message) {
 		const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
-		const char *md_name, *md_addr;
+		const char *md_name = NULL, *md_addr = NULL;
 
-		if (camel_internet_address_get (from, 0, &md_name, &md_addr) &&
-		    !strcmp (addr, md_addr))
-			mail_display_load_images (md);
+		/* We are extra anal, in case we are dealing with some sort of pathological message
+		   w/o a From: header. */
+		if (from != NULL && camel_internet_address_get (from, 0, &md_name, &md_addr)) {
+			if (md_addr != NULL && strcmp (addr, md_addr))
+				mail_display_load_images (md);
+		}
 	}
 }
 
