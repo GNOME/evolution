@@ -17,7 +17,7 @@
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
 
-/*#define E_TREE_USE_TREE_SELECTION*/
+#define E_TREE_USE_TREE_SELECTION
 
 #ifdef E_TREE_USE_TREE_SELECTION
 #include <gal/e-table/e-tree-selection-model.h>
