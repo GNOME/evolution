@@ -47,7 +47,7 @@ evolution_executive_summary_SOURCES =		\
 	metar.h
 
 evolution_executive_summary_LDADD = 					\
-	$(top_builddir)/shell/libeshell.a		\
+	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
@@ -66,7 +66,7 @@ oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Summary.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-@XML_I18N_MERGE_OAF_RULES@
+@XML_I18N_MERGE_OAF_RULE@
 
 EXTRA_DIST = $(oaf_in_files) $(oaf_DATA) $(Location_DATA)
 
