@@ -21,8 +21,8 @@
 	 _label="_Work Offline"
 	 _tip="Toggle whether we are working offline."/>
 
-    <cmd name="HelpAbout" _label="About Evolution..."
-	 _tip="Show information about Evolution"
+    <cmd name="HelpAbout" _label="About Ximian Evolution..."
+	 _tip="Show information about Ximian Evolution"
 	 pixtype="stock" pixname="About"/>
   </commands>
 
@@ -148,7 +148,7 @@
       <separator/>
 
       <menuitem name="HelpFAQ" verb=""
-		_label="Evolution _FAQ"/>
+		_label="Ximian Evolution _FAQ"/>
 
       <separator/>
 
@@ -158,7 +158,7 @@
       <separator/>
 
       <menuitem name="HelpAbout" verb=""
-		_label="_About Evolution..."/>
+		_label="_About Ximian Evolution..."/>
 
     </submenu>
   </menu>
