@@ -189,20 +189,14 @@ find_server (EItipControl *itip, ECalComponent *comp)
 			ESource *source;
 			ECal *ecal;
 			icalcomponent *icalcomp;
-			GError *error = NULL;
 			
 			source = m->data;
 			ecal = start_calendar_server (itip, source, priv->type);
 			
-			if (ecal && e_cal_get_object (ecal, uid, NULL, &icalcomp, &error)) {
-				if (error && error->code == E_CALENDAR_STATUS_OK) {
-					icalcomponent_free (icalcomp);
-					g_error_free (error);
+			if (ecal && e_cal_get_object (ecal, uid, NULL, &icalcomp, NULL)) {
+				icalcomponent_free (icalcomp);
 
-					return ecal;
-				}
-
-				g_clear_error (&error);
+				return ecal;
 			}
 		}		
 	}

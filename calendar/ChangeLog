@@ -1,3 +1,8 @@
+2004-05-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (find_server): proper look for figuring out
+	if the object is on the server
+
 2004-05-20  JP Rosevear  <jpr@novell.com>
 
 	* gui/tag-calendar.c (tag_calendar_by_comp): pass the client
