@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-17 14:14+0100\n"
-"PO-Revision-Date: 2004-03-17 21:31+0100\n"
+"POT-Creation-Date: 2004-03-18 03:15+0100\n"
+"PO-Revision-Date: 2004-03-18 19:29+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1044,7 +1044,7 @@ msgstr "Adresa _WWW stránky:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
 #: addressbook/gui/widgets/eab-contact-display.c:316
-#: addressbook/gui/widgets/eab-contact-display.c:335
+#: addressbook/gui/widgets/eab-contact-display.c:337
 msgid "Address"
 msgstr "Adresa"
 
@@ -2613,7 +2613,7 @@ msgid "Company Phone"
 msgstr "Firemní telefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: addressbook/gui/widgets/eab-contact-display.c:520 smime/lib/e-cert.c:774
+#: addressbook/gui/widgets/eab-contact-display.c:522 smime/lib/e-cert.c:774
 msgid "Email"
 msgstr "E-mail"
 
@@ -2664,6 +2664,7 @@ msgid "Manager"
 msgstr "Vedoucí"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
+#: addressbook/gui/widgets/eab-contact-display.c:336
 msgid "Mobile Phone"
 msgstr "Mobilní telefon"
 
@@ -2672,7 +2673,7 @@ msgid "Nickname"
 msgstr "Přezdívka"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: addressbook/gui/widgets/eab-contact-display.c:345
+#: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "Note"
 msgstr "Poznámka"
 
@@ -2818,7 +2819,7 @@ msgid "map"
 msgstr "mapa"
 
 #: addressbook/gui/widgets/eab-contact-display.c:242
-#: addressbook/gui/widgets/eab-contact-display.c:496
+#: addressbook/gui/widgets/eab-contact-display.c:498
 msgid "List Members"
 msgstr "Členové seznamu"
 
@@ -2840,6 +2841,7 @@ msgid "Video Conferencing"
 msgstr "Videokonference:"
 
 #: addressbook/gui/widgets/eab-contact-display.c:314
+#: addressbook/gui/widgets/eab-contact-display.c:335
 msgid "Phone"
 msgstr "Telefon"
 
@@ -2856,19 +2858,19 @@ msgid "WWW"
 msgstr "WWW"
 
 #: addressbook/gui/widgets/eab-contact-display.c:333
-#: addressbook/gui/widgets/eab-contact-display.c:555
+#: addressbook/gui/widgets/eab-contact-display.c:557
 msgid "Blog"
 msgstr "Blog"
 
-#: addressbook/gui/widgets/eab-contact-display.c:338
+#: addressbook/gui/widgets/eab-contact-display.c:340
 msgid "personal"
 msgstr "osobní"
 
-#: addressbook/gui/widgets/eab-contact-display.c:516
+#: addressbook/gui/widgets/eab-contact-display.c:518
 msgid "Job Title"
 msgstr "Název pozice"
 
-#: addressbook/gui/widgets/eab-contact-display.c:547
+#: addressbook/gui/widgets/eab-contact-display.c:549
 msgid "Home page"
 msgstr "Pager domů"
 
@@ -5263,7 +5265,7 @@ msgid "Undefined"
 msgstr "Nedefinováno"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-msgid "_Date Completed:"
+msgid "_Date completed:"
 msgstr "_Datum dokončení:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
@@ -5317,11 +5319,11 @@ msgid "Folder:"
 msgstr "Složka:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-msgid "Sta_rt Date:"
+msgid "Sta_rt date:"
 msgstr "_Začátek:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
-msgid "_Due Date:"
+msgid "_Due date:"
 msgstr "_Termín dokončení:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:2
@@ -5487,7 +5489,6 @@ msgid "Description"
 msgstr "Popis"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
-#: calendar/gui/e-calendar-table.etspec.h:13
 msgid "Start Date"
 msgstr "Začátek"
 
@@ -5762,20 +5763,24 @@ msgid "Complete"
 msgstr "Dokončeno"
 
 #: calendar/gui/e-calendar-table.etspec.h:8
-msgid "Completion Date"
+msgid "Completion date"
 msgstr "Datum dokončení"
 
 #: calendar/gui/e-calendar-table.etspec.h:10
-msgid "Due Date"
+msgid "Due date"
 msgstr "Termín dokončení"
 
 #: calendar/gui/e-calendar-table.etspec.h:11
-msgid "Geographical Position"
+msgid "Geographical position"
 msgstr "Zeměpisná poloha"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Priority"
 msgstr "Naléhavost"
+
+#: calendar/gui/e-calendar-table.etspec.h:13
+msgid "Start date"
+msgstr "Začátek"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 msgid "Task sort"
@@ -8640,7 +8645,7 @@ msgstr "Nemohu vytvořit cestu cache"
 msgid "Could not remove cache entry: %s: %s"
 msgstr "Nemohu odstranit položku cache: %s: %s"
 
-#: camel/camel-disco-diary.c:185
+#: camel/camel-disco-diary.c:194
 #, c-format
 msgid ""
 "Could not write log entry: %s\n"
@@ -8651,7 +8656,7 @@ msgstr ""
 "Další operace na tomto serveru se při dalším\n"
 "připojení k síti nezopakují."
 
-#: camel/camel-disco-diary.c:248
+#: camel/camel-disco-diary.c:257
 #, c-format
 msgid ""
 "Could not open `%s':\n"
@@ -8662,7 +8667,7 @@ msgstr ""
 "%s\n"
 "Změny provedené v této složce nebudou sesynchronizovány."
 
-#: camel/camel-disco-diary.c:282
+#: camel/camel-disco-diary.c:293
 msgid "Resynchronizing with server"
 msgstr "Obnovuji synchronizaci se serverem"
 
@@ -8679,7 +8684,7 @@ msgstr "Stahuji nové zprávy pro režim odpojení"
 msgid "Preparing folder '%s' for offline"
 msgstr "Připravuji složku '%s' pro práci při odpojení"
 
-#: camel/camel-disco-store.c:367
+#: camel/camel-disco-store.c:372
 msgid "You must be working online to complete this operation"
 msgstr "Pro dokončení této operace musíte pracovat on-line"
 
@@ -9821,12 +9826,12 @@ msgstr "Složka byl zrušena a znovu vytvořena na serveru."
 msgid "Scanning for changed messages"
 msgstr "Hledám změněné zprávy"
 
-#: camel/providers/imap/camel-imap-folder.c:1924
+#: camel/providers/imap/camel-imap-folder.c:1926
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Nemohu přijmout zprávu: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1955
+#: camel/providers/imap/camel-imap-folder.c:1972
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9842,25 +9847,25 @@ msgstr ""
 "Nemohu získat zprávu: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1955
+#: camel/providers/imap/camel-imap-folder.c:1972
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "Taková zpráva neexistuje"
 
-#: camel/providers/imap/camel-imap-folder.c:1978
-#: camel/providers/imap/camel-imap-folder.c:2574
+#: camel/providers/imap/camel-imap-folder.c:1995
+#: camel/providers/imap/camel-imap-folder.c:2591
 #: camel/providers/nntp/camel-nntp-folder.c:205
 msgid "This message is not currently available"
 msgstr "Tato zpráva není právě dostupná"
 
-#: camel/providers/imap/camel-imap-folder.c:2238
-#: camel/providers/imap/camel-imap-folder.c:2308
+#: camel/providers/imap/camel-imap-folder.c:2255
+#: camel/providers/imap/camel-imap-folder.c:2325
 msgid "Fetching summary information for new messages"
 msgstr "Stahuji souhrnné informace pro nové zprávy"
 
-#: camel/providers/imap/camel-imap-folder.c:2612
+#: camel/providers/imap/camel-imap-folder.c:2629
 msgid "Could not find message body in FETCH response."
 msgstr "Nemohu nalézt tělo zprávy v odpovědi FETCH."
 
@@ -10269,7 +10274,7 @@ msgstr "Nemohu odstranit složku `%s': %s"
 msgid "not a maildir directory"
 msgstr "není adresář maildir"
 
-#: camel/providers/local/camel-maildir-store.c:383
+#: camel/providers/local/camel-maildir-store.c:336
 #: camel/providers/local/camel-spool-store.c:286
 #: camel/providers/local/camel-spool-store.c:316
 #, c-format
@@ -12353,7 +12358,7 @@ msgstr "začíná na"
 msgid "Stop Processing"
 msgstr "Zastavit zpracování"
 
-#: filter/libfilter-i18n.h:64 mail/em-format-html.c:1481
+#: filter/libfilter-i18n.h:64 mail/em-format-html.c:1512
 #: mail/em-format-quote.c:301 mail/em-format.c:747 mail/em-mailer-prefs.c:72
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 #: smime/lib/e-cert.c:1079
@@ -13084,53 +13089,53 @@ msgstr "Odkaz na vzdálená data (%s)"
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Odkaz na neznámá externí data (typ \"%s\")"
 
-#: mail/em-format-html.c:1098
+#: mail/em-format-html.c:1129
 msgid "Formatting message"
 msgstr "Formátuji zprávu"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:742
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:742
 #: mail/em-mailer-prefs.c:67 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Od"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:743
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:743
 #: mail/em-mailer-prefs.c:68
 msgid "Reply-To"
 msgstr "Odpovědět-komu"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:744
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:744
 #: mail/em-mailer-prefs.c:69 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Komu"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:745
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:745
 #: mail/em-mailer-prefs.c:70
 msgid "Cc"
 msgstr "Kopie"
 
-#: mail/em-format-html.c:1375 mail/em-format-quote.c:191 mail/em-format.c:746
+#: mail/em-format-html.c:1406 mail/em-format-quote.c:191 mail/em-format.c:746
 #: mail/em-mailer-prefs.c:71
 msgid "Bcc"
 msgstr "Skrytá kopie"
 
 #. pseudo-header
-#: mail/em-format-html.c:1485 mail/em-format-quote.c:308
+#: mail/em-format-html.c:1516 mail/em-format-quote.c:308
 #: mail/em-mailer-prefs.c:729
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1512
+#: mail/em-format-html.c:1543
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1515
+#: mail/em-format-html.c:1546
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1525 mail/em-format-quote.c:315 mail/em-format.c:748
+#: mail/em-format-html.c:1556 mail/em-format-quote.c:315 mail/em-format.c:748
 #: mail/em-mailer-prefs.c:73 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
