@@ -45,7 +45,6 @@
 	(folder_browser_ui_set_selection_state): And here too.
 
 2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
->>>>>>> 1.1890
 
 	* mail-account-gui.c (service_check_supported): Don't allow an
 	auth-type to be set when saving the service.
