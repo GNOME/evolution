@@ -374,7 +374,7 @@ merge_menu_items (BonoboControl *control, BonoboUIComponent *uic, ControlUIClosu
 
 		bonobo_ui_component_freeze (uic, NULL);
 
-		bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
+		bonobo_ui_util_set_ui (uic, PREFIX,
 				       closure->ui_xml_path,
 				       closure->app_name, NULL);
 

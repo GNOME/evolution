@@ -79,6 +79,7 @@ INCLUDES =						\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
+	-DPREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 glade_DATA = 					\

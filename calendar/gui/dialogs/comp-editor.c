@@ -198,7 +198,7 @@ setup_widgets (CompEditor *editor)
 					  "/evolution/UIConf/kvps");
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
-	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR,
+	bonobo_ui_util_set_ui (priv->uic, PREFIX,
 			       EVOLUTION_UIDIR "/evolution-comp-editor.xml",
 			       "evolution-calendar", NULL);
 	e_pixmaps_update (priv->uic, pixmaps);

@@ -33,6 +33,7 @@ INCLUDES =						\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
 	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
+	-DPREFIX=\""$(prefix)"\"			\
 	-DG_DISABLE_DEPRECATED				\
 	-DGTK_DISABLE_DEPRECATED			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"

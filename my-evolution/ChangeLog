@@ -1,3 +1,11 @@
+2003-04-18  Rodney Dawes  <dobey@ximian.com>
+
+	[#21499]
+
+	* Makefile.am:
+	* e-summary-factory.c:
+	Use PREFIX instead of EVOLUTION_DATADIR for bonobo_ui_util_set_ui ()
+	
 2003-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#39693]

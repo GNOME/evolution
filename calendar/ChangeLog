@@ -1,3 +1,14 @@
+2003-04-18  Rodney Dawes  <dobey@ximian.com>
+
+	Fixes #21499
+
+	* gui/Makefile.am:
+	* gui/calendar-commands.c:
+	* gui/tasks-control.c:
+	* gui/dialogs/Makefile.am:
+	* gui/dialogs/comp-editor.c:
+	Use PREFIX instead of EVOLUTION_DATADIR for bonobo_ui_util_set_ui ()
+	
 2003-04-17  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #41459

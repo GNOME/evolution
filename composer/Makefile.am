@@ -65,6 +65,7 @@ INCLUDES =								\
 	-DEVOLUTION_IMAGESDIR=\"$(imagesdir)\"				\
 	-DEVOLUTION_UIDIR=\"$(evolutionuidir)\"				\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"				\
+	-DPREFIX=\"$(prefix)\"						\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	-DG_DISABLE_DEPRECATED						\
 	-DGTK_DISABLE_DEPRECATED					\

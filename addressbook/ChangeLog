@@ -1,3 +1,15 @@
+2003-04-18  Rodney Dawes  <dobey@ximian.com>
+
+	[ fixes #21499 ]
+	* gui/component/Makefile.am:
+	* gui/component/addressbook.c:
+	* gui/component/select-names/e-select-names-bonobo.c:
+	* gui/contact-editor/Makefile.am:
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-list-editor/Makefile.am:
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	Use PREFIX instead of EVOLUTION_DATADIR for bonobo_ui_util_set_ui ()
+	
 2003-04-15  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #41252 ]

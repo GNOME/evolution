@@ -12,6 +12,7 @@ INCLUDES =							\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DLOCATIONDIR=\""$(Locationdir)"\"			\
+	-DPREFIX=\""$(prefix)"\"	\
 	-DG_LOG_DOMAIN=\"evolution-executive-summary\"		\
 	$(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
 

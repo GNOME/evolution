@@ -322,7 +322,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	bonobo_ui_component_freeze (uic, NULL);
 
-	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR,
+	bonobo_ui_util_set_ui (uic, PREFIX,
 			       EVOLUTION_UIDIR "/evolution-tasks.xml",
 			       "evolution-tasks",
 			       NULL);

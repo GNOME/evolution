@@ -312,7 +312,7 @@ ui_add (FolderBrowser *fb, const char *name, BonoboUIVerb verb[], EPixmap pixcac
 	/*bonobo_ui_component_freeze (uic, NULL);*/
 	
 	file = g_strconcat (EVOLUTION_UIDIR "/evolution-mail-", name, ".xml", NULL);
-	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, file, "evolution-mail", NULL);
+	bonobo_ui_util_set_ui (uic, PREFIX, file, "evolution-mail", NULL);
 	g_free (file);
 	
 	e_pixmaps_update (uic, pixcache);

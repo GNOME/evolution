@@ -1,3 +1,12 @@
+2003-04-18  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am:
+	* folder-browser-ui.c:
+	* mail-signature-editor.c:
+	* message-browser.c:
+	Use PREFIX instead of EVOLUTION_DATADIR for bonobo_ui_util_set_ui ().
+	Fixes bug #21499.
+	
 2003-04-17  Not Zed  <NotZed@Ximian.com>
 
 	* mail-signature-editor.c (menu_help): remove the help menu item

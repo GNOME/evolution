@@ -1,3 +1,10 @@
+2003-04-18  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am:
+	* e-msg-composer.c:
+	Use PREFIX instead of EVOLUTION_DATADIR for bonobo_ui_util_set_ui ().
+	Fixes bug #21499.
+	
 2003-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (file_name_focus_out_cb): Return

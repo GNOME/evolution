@@ -28,6 +28,7 @@ INCLUDES = 								\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
+	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 noinst_LTLIBRARIES = libcal-dialogs.la

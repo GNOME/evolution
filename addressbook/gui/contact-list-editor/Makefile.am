@@ -11,6 +11,7 @@ INCLUDES =						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)\""	\
+	-DPREFIX=\""$(prefix)"\"			\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	-DG_DISABLE_DEPRECATED				\
 	-DGTK_DISABLE_DEPRECATED			\

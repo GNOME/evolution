@@ -559,7 +559,7 @@ create_ui (EContactListEditor *ce)
 	bonobo_ui_component_add_verb_list_with_data (
 		ce->uic, verbs, ce);
 
-	bonobo_ui_util_set_ui (ce->uic, EVOLUTION_DATADIR,
+	bonobo_ui_util_set_ui (ce->uic, PREFIX,
 			       EVOLUTION_UIDIR "/evolution-contact-list-editor.xml",
 			       "evolution-contact-list-editor", NULL);
 
