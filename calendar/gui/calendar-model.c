@@ -990,6 +990,7 @@ set_classification (CalComponent *comp,
 static void
 set_completed (CalendarModel *model, CalComponent *comp, const void *value)
 {
+	CalendarModelPrivate *priv = model->priv;
 	ECellDateEditValue *dv = (ECellDateEditValue*) value;
 
 	if (!dv) {
@@ -997,10 +998,17 @@ set_completed (CalendarModel *model, CalComponent *comp, const void *value)
 	} else {
 		time_t t;
 
-		/* We assume that COMPLETED is entered in the current timezone,
-		   even though it gets stored in UTC. */
-		t = icaltime_as_timet_with_zone (dv->tt, dv->zone);
-
+		if (dv->tt.is_date) {
+			/* If its a date, it will be floating, 
+			   but completed needs a date time value */
+			dv->tt.is_date = FALSE;
+			t = icaltime_as_timet_with_zone (dv->tt, priv->zone);
+		} else {
+			/* We assume that COMPLETED is entered in the current timezone,
+			   even though it gets stored in UTC. */
+			t = icaltime_as_timet_with_zone (dv->tt, dv->zone);
+		}
+		
 		ensure_task_complete (comp, t);
 	}
 }
