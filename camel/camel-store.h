@@ -62,7 +62,7 @@ typedef struct {
 	void (*init) (CamelStore *store, CamelSession *session, gchar *url_name);
 	void (*set_separator) (CamelStore *store, gchar sep);
 	gchar (*get_separator) (CamelStore *store);
-	CamelFolder * (*get_folder) (CamelStore *store, gchar *folder_name);
+	CamelFolder * (*get_folder) (CamelStore *store, const gchar *folder_name);
 	CamelFolder * (*get_root_folder) (CamelStore *store);
 	CamelFolder * (*get_default_folder) (CamelStore *store);
 
@@ -74,9 +74,9 @@ typedef struct {
 /* Standard Gtk function */
 GtkType camel_store_get_type (void);
 
-void camel_store_init(CamelStore *store, CamelSession *session, gchar *url_name);
-CamelFolder *camel_store_get_folder(CamelStore *store, gchar *folder_name);
-gchar camel_store_get_separator(CamelStore *store);
+void camel_store_init (CamelStore *store, CamelSession *session, gchar *url_name);
+CamelFolder *camel_store_get_folder (CamelStore *store, const gchar *folder_name);
+gchar camel_store_get_separator (CamelStore *store);
 
 #ifdef __cplusplus
 }

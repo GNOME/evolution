@@ -124,7 +124,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 {
 	g_assert(folder);
 	g_assert(parent_store);
-
+	
 	folder->parent_store = parent_store;
 }
 
@@ -166,21 +166,21 @@ _close (CamelFolder *folder, gboolean expunge)
 
 
 static void
-_set_name(CamelFolder *folder, const gchar *name)
+_set_name (CamelFolder *folder, const gchar *name)
 {
 	gchar separator;
 	gchar *full_name;
 	const gchar *parent_full_name;
-
+	
 	g_assert (folder);
 	g_assert (name);
 	g_assert (folder->parent_store);
-
+	
 	if (folder->name) g_free(folder->name);
 	if (folder->full_name) g_free (folder->full_name);
 	
 	separator = camel_store_get_separator (folder->parent_store);
-		
+	
 	if (folder->parent_folder) {
 		parent_full_name = camel_folder_get_full_name (folder->parent_folder);
 		full_name = g_strdup_printf ("%s%d%s", parent_full_name, separator, name);
@@ -188,10 +188,10 @@ _set_name(CamelFolder *folder, const gchar *name)
 	} else {
 		full_name = g_strdup (name);
 	}
-
+	
 	folder->name = g_strdup (name);
 	folder->full_name = full_name;
-
+	
 }
 
 
@@ -215,8 +215,8 @@ camel_folder_set_name (CamelFolder *folder, const gchar *name)
 static void
 _set_full_name (CamelFolder *folder, const gchar *name)
 {
-    if (folder->full_name) g_free(folder->full_name);
-    folder->full_name = g_strdup (name);
+	if (folder->full_name) g_free(folder->full_name);
+	folder->full_name = g_strdup (name);
 }
 
 
@@ -292,7 +292,7 @@ camel_folder_get_full_name (CamelFolder *folder)
 static gboolean
 _can_hold_folders (CamelFolder *folder)
 {
-    return folder->can_hold_folders;
+	return folder->can_hold_folders;
 }
 
 
@@ -311,7 +311,7 @@ _can_hold_folders (CamelFolder *folder)
 static gboolean
 _can_hold_messages (CamelFolder *folder)
 {
-    return folder->can_hold_messages;
+	return folder->can_hold_messages;
 }
 
 
@@ -319,7 +319,7 @@ _can_hold_messages (CamelFolder *folder)
 static gboolean
 _exists (CamelFolder *folder)
 {
-    return FALSE;
+	return FALSE;
 }
 
 
@@ -336,7 +336,7 @@ _exists (CamelFolder *folder)
 gboolean
 camel_folder_exists (CamelFolder *folder)
 {
-    return (CF_CLASS(folder)->exists (folder));
+	return (CF_CLASS(folder)->exists (folder));
 }
 
 
@@ -353,7 +353,7 @@ camel_folder_exists (CamelFolder *folder)
 static gboolean
 _is_open (CamelFolder *folder)
 {
-    return (folder->open_state==FOLDER_OPEN);
+	return (folder->open_state == FOLDER_OPEN);
 } 
 
 
@@ -367,15 +367,15 @@ _get_folder (CamelFolder *folder, const gchar *folder_name)
 	gchar *full_name;
 	const gchar *current_folder_full_name;
 	gchar separator;
-
+	
 	g_assert (folder);
 	g_assert (folder_name);
-
+	
 	if (!folder->parent_store) return NULL;
 	
 	current_folder_full_name = camel_folder_get_full_name (folder);
 	if (!current_folder_full_name) return NULL;
-
+	
 	separator = camel_store_get_separator (folder->parent_store);
 	full_name = g_strdup_printf ("%s%d%s", current_folder_full_name, separator, folder_name);
 	
@@ -398,7 +398,7 @@ _get_folder (CamelFolder *folder, const gchar *folder_name)
  *        could not be obtained
  **/
 CamelFolder *
-camel_folder_get_folder(CamelFolder *folder, gchar *folder_name)
+camel_folder_get_folder (CamelFolder *folder, gchar *folder_name)
 {
 	return (CF_CLASS(folder)->get_folder(folder,folder_name));
 }
@@ -427,22 +427,22 @@ _create(CamelFolder *folder)
 	gchar dich_result;
 	CamelFolder *parent;
 	gchar sep;
-
+	
 	g_assert (folder);
 	g_assert (folder->parent_store);
 	g_assert (folder->name);
-
+	
 	if (CF_CLASS(folder)->exists (folder))
 		return TRUE;
-
+	
 	sep = camel_store_get_separator (folder->parent_store);	
 	if (folder->parent_folder)
 		camel_folder_create (folder->parent_folder);
 	else {   
 		if (folder->full_name) {
 			dich_result = string_dichotomy (
-				folder->full_name, sep, &prefix, NULL,
-				STRING_DICHOTOMY_STRIP_TRAILING | STRING_DICHOTOMY_RIGHT_DIR);
+							folder->full_name, sep, &prefix, NULL,
+							STRING_DICHOTOMY_STRIP_TRAILING | STRING_DICHOTOMY_RIGHT_DIR);
 			if (dich_result!='o') {
 				g_warning("I have to handle the case where the path is not OK\n"); 
 				return FALSE;
@@ -456,7 +456,7 @@ _create(CamelFolder *folder)
 	return TRUE;
 }
 
-	
+
 /**
  * camel_folder_create: create the folder object on the physical store
  * @folder: folder object to create
@@ -472,7 +472,7 @@ _create(CamelFolder *folder)
  * Return value: 
  **/
 gboolean
-camel_folder_create(CamelFolder *folder)
+camel_folder_create (CamelFolder *folder)
 {
 	return (CF_CLASS(folder)->create(folder));
 }
@@ -512,13 +512,13 @@ _delete (CamelFolder *folder, gboolean recurse)
 	gboolean ok;
 	
 	g_assert(folder);
-
+	
 	/* method valid only on closed folders */
 	if (folder->open_state != FOLDER_CLOSE) return FALSE;
-
+	
 	/* delete all messages in the folder */
 	CF_CLASS(folder)->delete_messages(folder);
-
+	
 	subfolders = CF_CLASS(folder)->list_subfolders(folder); 
 	if (recurse) { /* delete subfolders */
 		if (subfolders) {
@@ -567,7 +567,7 @@ gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse)
  * Return value: 
  **/
 static gboolean 
-_delete_messages(CamelFolder *folder)
+_delete_messages (CamelFolder *folder)
 {
 	return TRUE;
 }
@@ -662,9 +662,9 @@ camel_folder_get_parent_store (CamelFolder *folder)
  * Return value:  open mode of the folder
  **/
 static CamelFolderOpenMode
-_get_mode(CamelFolder *folder)
+_get_mode (CamelFolder *folder)
 {
-    return folder->open_mode;
+	return folder->open_mode;
 }
 
 
@@ -677,16 +677,16 @@ _get_mode(CamelFolder *folder)
  * Return value:  open mode of the folder
  **/
 CamelFolderOpenMode
-camel_folder_get_mode(CamelFolder *folder)
+camel_folder_get_mode (CamelFolder *folder)
 {
-    return CF_CLASS(folder)->get_mode(folder);
+	return CF_CLASS(folder)->get_mode(folder);
 }
 
 
 
 
 static GList *
-_list_subfolders(CamelFolder *folder)
+_list_subfolders (CamelFolder *folder)
 {
 	return NULL;
 }
@@ -703,7 +703,7 @@ _list_subfolders(CamelFolder *folder)
 GList *
 camel_folder_list_subfolders (CamelFolder *folder)
 {
-    return CF_CLASS(folder)->list_subfolders(folder);
+	return CF_CLASS(folder)->list_subfolders(folder);
 }
 
 
@@ -728,7 +728,7 @@ _expunge (CamelFolder *folder)
 GList *
 camel_folder_expunge (CamelFolder *folder)
 {
-    return CF_CLASS (folder)->expunge (folder);
+	return CF_CLASS (folder)->expunge (folder);
 }
 
 
@@ -757,3 +757,4 @@ camel_folder_get_message (CamelFolder *folder, gint number)
 {
 	return CF_CLASS (folder)->get_message (folder, number);
 }
+

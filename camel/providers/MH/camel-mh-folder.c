@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-
+#include <config.h> 
 #include <sys/stat.h> 
 #include <unistd.h>
 #include <sys/types.h>
@@ -54,7 +54,7 @@ static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 {
-	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_mh_folder_class);
+	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS (camel_mh_folder_class);
 
 	parent_class = gtk_type_class (camel_folder_get_type ());
 		
@@ -126,12 +126,13 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 static void
 _set_name (CamelFolder *folder, const gchar *name)
 {
-	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
 	const gchar *root_dir_path;
 	gchar *full_name;
 	const gchar *parent_full_name;
 	gchar separator;
-
+	
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::set_name\n");
 	g_assert(folder);
 	g_assert(name);
 	g_assert(folder->parent_store);
@@ -143,9 +144,15 @@ _set_name (CamelFolder *folder, const gchar *name)
 	
 	separator = camel_store_get_separator (folder->parent_store);
 	root_dir_path = camel_mh_store_get_toplevel_dir (CAMEL_MH_STORE(folder->parent_store));
-	
+
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::set_name full_name is %s\n", folder->full_name);
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::set_name root_dir_path is %s\n", root_dir_path);
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::separator is %c\n", separator);
+
 	mh_folder->directory_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
 
+	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::set_name mh_folder->directory_path is %s\n", mh_folder->directory_path);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::set_name\n");
 }
 
 
@@ -158,14 +165,21 @@ _exists (CamelFolder *folder)
 	gint stat_error;
 	gboolean exists;
 
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::exists\n");
 	g_assert (folder);
-
+	
 	if (!mh_folder->directory_path)  return FALSE;
-
+	
 	stat_error = stat (mh_folder->directory_path, &stat_buf);
-	if (stat_error == -1)  return FALSE;
+	if (stat_error == -1)  {
+		CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::exists when executing stat on %s, stat_error = %d\n", 
+				      mh_folder->directory_path, stat_error);
+		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
+		return FALSE;
+	}
+	exists = S_ISDIR (stat_buf.st_mode);
 
-	exists = S_ISDIR(stat_buf.st_mode);
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::exists\n");
 	return exists;
 }
 
@@ -321,8 +335,10 @@ _list_subfolders(CamelFolder *folder)
 		/* is it a directory ? */
 		if ((stat_error != -1) && S_ISDIR (stat_buf.st_mode)) {
 			/* yes, add it to the list */
-			CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::list_subfolders adding  %s\n", entry_name);
-			subfolder_name_list = g_list_append (subfolder_name_list, g_strdup (entry_name));
+			if (entry_name[0] != '.') {
+				CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::list_subfolders adding  %s\n", entry_name);
+				subfolder_name_list = g_list_append (subfolder_name_list, g_strdup (entry_name));
+			}
 		}
 		/* read next entry */
 		dir_entry = readdir (dir_handle);

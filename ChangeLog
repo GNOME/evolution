@@ -1,4 +1,35 @@
-1999-08-05  bertrand  <Bertrand.Guiheneuf@aful.org>
+1999-08-06  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/providers/MH/camel-mh-folder.c (_exists): add debug information
+	(_list_subfolders): test if first char in folder name is not '.'
+	before adding it to the folder list.
+
+	* camel/camel-store.c (_init): 
+	disable session check temporarily
+	(_get_separator): 
+	(_get_folder): new static func. 
+	Fixed several oddities in class definition. 
+
+	* camel/providers/MH/camel-mh-store.c (camel_mh_store_get_type): 
+	parent type is CAMEL_STORE_TYPE not CAMEL_FOLDER_TYPE
+
+	* camel/camel-store.c: 
+	prent class is CamelServiceClass not GtkObjectClass
+
+	* camel/url-util.c : 
+	cosmetic changes + use of const when possible.
+	(find_host):
+	fix a bug: when there is no host and no port don't skip the '/'
+	all static find_* func are now named _func_*  
+	(g_url_free): destructor func.
+	cache field has been disabled. Constructing the url string
+	won't be too slow and will occur rarely enough that we
+	do not need to add complexity to this code. 
+
+	* camel/providers/MH/camel-mh-store.c: 
+	parent class is CamelStorClass not GtkObjectClass
+
+1999-08-05  
 
 	* tests/test4.c: 
 	test mh provider.

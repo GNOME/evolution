@@ -23,7 +23,7 @@
 #include <config.h>
 #include "camel-store.h"
 
-static GtkObjectClass *parent_class=NULL;
+static CamelServiceClass *parent_class = NULL;
 
 /* Returns the class for a CamelStore */
 #define CS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
@@ -32,7 +32,8 @@ static void _set_separator(CamelStore *store, gchar sep);
 static CamelFolder *_get_root_folder(CamelStore *store);
 static CamelFolder *_get_default_folder(CamelStore *store);
 static void _init(CamelStore *store, CamelSession *session, gchar *url_name);
-
+static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name);
+static gchar _get_separator (CamelStore *store);
 
 
 static void
@@ -43,8 +44,8 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	/* virtual method definition */
 	camel_store_class->init = _init;
 	camel_store_class->set_separator = _set_separator;
-	camel_store_class->get_separator = camel_store_get_separator;
-	camel_store_class->get_folder = camel_store_get_folder;
+	camel_store_class->get_separator = _get_separator;
+	camel_store_class->get_folder = _get_folder;
 	camel_store_class->get_root_folder = _get_root_folder;
 	camel_store_class->get_default_folder = _get_default_folder;
 	/* virtual method overload */
@@ -95,7 +96,7 @@ camel_store_get_type (void)
  * 
  **/
 void 
-camel_store_init(CamelStore *store, CamelSession *session, gchar *url_name)
+camel_store_init (CamelStore *store, CamelSession *session, gchar *url_name)
 {
 	g_assert(store);
 	CS_CLASS(store)->init (store, session, url_name);
@@ -118,8 +119,8 @@ static void
 _init (CamelStore *store, CamelSession *session, gchar *url_name)
 {
 	
-	
-	g_assert(session);
+#warning re-enable assertion here.
+	/*  g_assert(session); */
 	g_assert(url_name);
 
 	store->session = session;
@@ -144,6 +145,16 @@ _set_separator (CamelStore *store, gchar sep)
 
 
 
+
+
+static gchar
+_get_separator (CamelStore *store)
+{
+	g_assert(store);
+	return store->separator;
+}
+
+
 /** 
  * camel_store_get_separator: return the character which separates this folder 
  * path from the folders names in a lower level of hierarchy.
@@ -154,11 +165,20 @@ _set_separator (CamelStore *store, gchar sep)
 gchar
 camel_store_get_separator (CamelStore *store)
 {
-	g_assert(store);
-	return store->separator;
+	return  CS_CLASS(store)->get_separator (store);
 }
 
 
+
+
+
+
+
+static CamelFolder *
+_get_folder (CamelStore *store, const gchar *folder_name)
+{
+	return NULL;
+}
 
 
 /** 
@@ -179,10 +199,9 @@ camel_store_get_separator (CamelStore *store)
  * Return value: the folder
  **/
 CamelFolder *
-camel_store_get_folder (CamelStore *store, gchar *folder_name)
+camel_store_get_folder (CamelStore *store, const gchar *folder_name)
 {
-
-	return NULL;
+	return CS_CLASS(store)->get_folder (store, folder_name);
 }
 
 

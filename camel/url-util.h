@@ -39,11 +39,15 @@ typedef struct {
 	gchar *port;
 	gchar *path;
 
-	/* used only as a cache */
-	gchar *url_string;
 } Gurl;
 
-Gurl *g_url_new (gchar *url_string);
+/* the cache system has been disabled because it would 
+   need the user to use accessors instead of modifying the 
+   structure field. As the speed is not so important here, 
+   I chose not to use it */
+
+Gurl *g_url_new (const gchar *url_string);
+void g_url_free (Gurl *url);
 
 #ifdef __cplusplus
 }

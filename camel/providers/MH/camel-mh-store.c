@@ -23,25 +23,42 @@
 
 #include "camel-mh-store.h"
 #include "camel-mh-folder.h"
+#include "url-util.h"
 
-static GtkObjectClass *parent_class=NULL;
+static CamelStoreClass *parent_class=NULL;
 
 /* Returns the class for a CamelMhStore */
-#define CS_CLASS(so) CAMEL_MH_STORE_CLASS (GTK_OBJECT(so)->klass)
+#define CMHS_CLASS(so) CAMEL_MH_STORE_CLASS (GTK_OBJECT(so)->klass)
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
+static void _init (CamelStore *store, CamelSession *session, gchar *url_name);
+static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name);
 
 
 static void
 camel_mh_store_class_init (CamelMhStoreClass *camel_mh_store_class)
 {
+	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_mh_store_class);
+
 	parent_class = gtk_type_class (camel_store_get_type ());
 	
 	/* virtual method definition */
 	/* virtual method overload */
+	camel_store_class->init = _init;
+	camel_store_class->get_folder = _get_folder;
 }
 
 
 
+static void
+camel_mh_store_init (gpointer object, gpointer klass)
+{
+	CamelMhStore *mh_store = CAMEL_MH_STORE (object);
+	CamelStore *store = CAMEL_STORE (object);
+	
+	store->separator = '/';
+}
 
 
 
@@ -58,13 +75,13 @@ camel_mh_store_get_type (void)
 			sizeof (CamelMhStore),
 			sizeof (CamelMhStoreClass),
 			(GtkClassInitFunc) camel_mh_store_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_mh_store_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_mh_store_type = gtk_type_unique (CAMEL_FOLDER_TYPE, &camel_mh_store_info);
+		camel_mh_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_mh_store_info);
 	}
 	
 	return camel_mh_store_type;
@@ -86,4 +103,51 @@ const gchar *
 camel_mh_store_get_toplevel_dir (CamelMhStore *store)
 {
 	return store->toplevel_dir;
+}
+
+
+
+static void 
+_init (CamelStore *store, CamelSession *session, gchar *url_name)
+{
+	CamelMhStore *mh_store = CAMEL_MH_STORE (store);
+	Gurl *store_url;
+	
+	g_assert (url_name);
+	/* call parent implementation */
+	parent_class->init (store, session, url_name);
+	
+	
+	/* find the path in the URL*/
+	store_url = g_url_new (url_name);
+
+	g_return_if_fail (store_url);
+	g_return_if_fail (store_url->path); 
+	
+	mh_store->toplevel_dir = g_strdup (store_url->path); 
+	g_url_free (store_url);
+
+	
+	
+}
+
+
+static CamelFolder *
+_get_folder (CamelStore *store, const gchar *folder_name)
+{
+	CamelMhFolder *new_mh_folder;
+	CamelFolder *new_folder;
+
+	/* check if folder has already been created */
+	/* call the standard routine for that when  */
+	/* it is done ... */
+
+	new_mh_folder =  gtk_type_new (CAMEL_MH_FOLDER_TYPE);
+	new_folder = CAMEL_FOLDER (new_mh_folder);
+
+	CF_CLASS (new_folder)->init_with_store (new_folder, store);
+	CF_CLASS (new_folder)->set_name (new_folder, folder_name);
+	
+	
+	return new_folder;
 }
