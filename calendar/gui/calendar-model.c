@@ -839,7 +839,6 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	case CAL_COMPONENT_FIELD_ICON:
 	{
 		ItipAddress *ia;		
-		CalComponentOrganizer organizer;		
 		GSList *attendees = NULL, *sl;		
 		gint retval = 0;
 
@@ -1087,8 +1086,11 @@ set_percent (CalComponent *comp, const void *value)
 
 		if (percent == 100)
 			ensure_task_complete (comp, -1);
-		else
+		else {
 			ensure_task_not_complete (comp);
+			if (percent > 0)
+				cal_component_set_status (comp, ICAL_STATUS_INPROCESS);
+		}
 	}
 }
 
@@ -1195,6 +1197,10 @@ set_status (CalComponent *comp, const char *value)
 		percent = 0;
 		cal_component_set_percent (comp, &percent);
 		cal_component_set_completed (comp, NULL);
+	} else if (status == ICAL_STATUS_INPROCESS) {	
+		ensure_task_not_complete (comp);	
+		percent = 50;
+		cal_component_set_percent (comp, &percent);
 	} else if (status == ICAL_STATUS_COMPLETED) {
 		ensure_task_complete (comp, -1);
 	}

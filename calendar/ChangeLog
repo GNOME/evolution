@@ -1,10 +1,17 @@
-2002-07-24    <jpr@ximian.com>
+2002-07-24  JP Rosevear  <jpr@ximian.com>
 
+	* gui/calendar-model.c (set_percent): set status to in progress if
+	the percent is between 0 and 100
+	(set_status): if the value is set to in process, change the
+	percent to 50
+	
+2002-07-24  JP Rosevear  <jpr@ximian.com>
+	
 	* cal-util/timeutil.c (time_day_of_year): add a day for the leap
 	year only if we are currently counting Feb., not if the month
 	passed in is Feb.  Fixes #23446.
 
-2002-07-23    <jpr@ximian.com>
+2002-07-23  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_realize): use proper meeting icon
 
