@@ -32,7 +32,6 @@
 #include "evolution-storage.h"
 
 #include "evolution-shell-component.h"
-#include "folder-browser.h"
 #include "mail-component.h"
 #include "mail-vfolder.h"
 #include "mail-tools.h"
