@@ -314,7 +314,7 @@ sub GeneratePot{
         unlink(".headerlock");
 
         print "Removing generated header (.h) files...";
-#	system("rm ./tmp/ -rf");
+	system("rm ./tmp/ -rf");
     }
     print "done\n";
 }
