@@ -1,3 +1,10 @@
+2003-04-28  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #41779 ]
+	* gui/component/e-address-popup.c (mini_wizard_container_add): we
+	don't need to call gtk_widget_destroy on the old child, since
+	gtk_container_remove will unref it for us.
+
 2003-04-23  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #37351 ]

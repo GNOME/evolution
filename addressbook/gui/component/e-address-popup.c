@@ -42,6 +42,7 @@
 #include <addressbook/gui/contact-editor/e-contact-quick-add.h>
 #include <addressbook/gui/widgets/e-minicard-widget.h>
 #include <addressbook/gui/widgets/e-addressbook-util.h>
+#include "e-util/e-gui-utils.h"
 
 /*
  * Some general scaffolding for our widgets.  Think of this as a really, really
@@ -73,7 +74,6 @@ mini_wizard_container_add (MiniWizard *wiz, GtkWidget *w)
 		GtkWidget *oldw = (GtkWidget *) iter->data;
 		iter = g_list_next (iter);
 		gtk_container_remove (GTK_CONTAINER (wiz->vbox), oldw);
-		gtk_widget_destroy (oldw);
 	}
 	gtk_container_add (GTK_CONTAINER (wiz->vbox), w);
 }
