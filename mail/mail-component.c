@@ -647,8 +647,9 @@ mail_control_new (void)
 	BonoboPropertyBag *pbag;
 
 	view_widget = em_folder_browser_new ();
+	em_folder_view_set_statusbar ((EMFolderView *) view_widget, FALSE);
 	gtk_widget_show (view_widget);
-
+	
 	view_control = bonobo_control_new (view_widget);
 	pbag = bonobo_property_bag_new (get_prop, set_prop, view_control);
   

@@ -1,5 +1,10 @@
 2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-component.c (mail_control_new): Disable the
+	bonobo-ui-component statusbar when using the EMFolderBrowser
+	outside of the mail component. This prevents the Connector
+	component from having 2 status bars.
+
 	* em-popup.c: #include <libgnomevfs/gnome-vfs-mime.h>
 	(em_popup_create_menu): Wrap item->label with _() so
 	that the strings get translated properly.
