@@ -209,7 +209,7 @@ main (int argc, char **argv)
 	add_matching_repo_id ("IDL:GNOME/Evolution/IntelligentImporter:1.0");
 	add_matching_repo_id ("IDL:GNOME/Spell/Checker:0.1");
 
-	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify");
+	add_matching_iid ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_2");
 	add_matching_iid ("OAFIID:GNOME_GtkHTML_Editor_Factory:3.0");
 
 	g_hash_table_foreach_remove (components, kill_component, NULL);

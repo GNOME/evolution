@@ -1,3 +1,7 @@
+2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* tools/killev.c (main): kill Evo 2.0's alarm daemon, not 1.4's.
+
 2003-11-19  JP Rosevear <jpr@ximian.com>
 	
 	* MAINTAINERS: Update
