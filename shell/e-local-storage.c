@@ -47,6 +47,7 @@
 
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-path.h"
@@ -546,6 +547,12 @@ impl_get_name (EStorage *storage)
 	return E_LOCAL_STORAGE_NAME;
 }
 
+static const char *
+impl_get_display_name (EStorage *storage)
+{
+	return _("Local Folders");
+}
+
 
 /* Creating folders.  */
 
@@ -900,6 +907,7 @@ class_init (ELocalStorageClass *class)
 	object_class->destroy              = impl_destroy;
 
 	storage_class->get_name            = impl_get_name;
+	storage_class->get_display_name    = impl_get_display_name;
 	storage_class->async_create_folder = impl_async_create_folder;
 	storage_class->async_remove_folder = impl_async_remove_folder;
 	storage_class->async_xfer_folder   = impl_async_xfer_folder;

@@ -267,6 +267,20 @@ get_name (EStorage *storage)
 	return priv->name;
 }
 
+static const char *
+get_display_name (EStorage *storage)
+{
+	ECorbaStorage *corba_storage;
+	ECorbaStoragePrivate *priv;
+
+	corba_storage = E_CORBA_STORAGE (storage);
+	priv = corba_storage->priv;
+
+	/* FIXME: Abstract a display_name, return it.  Necessary
+           changes to the IDL and EvolutionStorage required. */
+	return priv->name;
+}
+
 struct async_folder_closure {
 	EStorageResultCallback callback;
 	EStorage *storage;
@@ -440,6 +454,7 @@ class_init (ECorbaStorageClass *klass)
 
 	storage_class = E_STORAGE_CLASS (klass);
 	storage_class->get_name = get_name;
+	storage_class->get_display_name = get_display_name;
 	storage_class->async_create_folder = async_create_folder;
 	storage_class->async_remove_folder = async_remove_folder;
 

@@ -178,6 +178,12 @@ impl_get_name (EStorage *storage)
 	return _("(No name)");
 }
 
+static const char *
+impl_get_display_name (EStorage *storage)
+{
+	return _("(No name)");
+}
+
 static void
 impl_async_create_folder (EStorage *storage,
 			  const char *path,
@@ -225,6 +231,7 @@ class_init (EStorageClass *class)
 	class->get_subfolder_paths = impl_get_subfolder_paths;
 	class->get_folder          = impl_get_folder;
 	class->get_name            = impl_get_name;
+	class->get_display_name    = impl_get_display_name;
 	class->async_create_folder = impl_async_create_folder;
 	class->async_remove_folder = impl_async_remove_folder;
 	class->async_xfer_folder   = impl_async_xfer_folder;
@@ -354,6 +361,15 @@ e_storage_get_name (EStorage *storage)
 	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
 
 	return (* ES_CLASS (storage)->get_name) (storage);
+}
+
+const char *
+e_storage_get_display_name (EStorage *storage)
+{
+	g_return_val_if_fail (storage != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
+
+	return (* ES_CLASS (storage)->get_display_name) (storage);
 }
 
 /**

@@ -85,6 +85,7 @@ struct _EStorageClass {
 	GList      * (* get_subfolder_paths)  (EStorage *storage, const char *path);
 	EFolder    * (* get_folder)    	      (EStorage *storage, const char *path);
 	const char * (* get_name)      	      (EStorage *storage);
+	const char * (* get_display_name)     (EStorage *storage);
 
 	void         (* async_create_folder)  (EStorage *storage,
 					       const char *path,
@@ -123,6 +124,7 @@ EFolder    *e_storage_get_folder            (EStorage   *storage,
 					     const char *path);
 
 const char *e_storage_get_name                (EStorage *storage);
+const char *e_storage_get_display_name        (EStorage *storage);
 const char *e_storage_get_toplevel_node_uri   (EStorage *storage);
 const char *e_storage_get_toplevel_node_type  (EStorage *storage);
 

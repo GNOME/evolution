@@ -1429,8 +1429,12 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 	}
 
 	storage = e_storage_set_get_storage (storage_set, path + 1);
-	if (storage != NULL && col == 0)
-		return (void *) e_storage_get_name (storage);
+	if (storage != NULL) {
+		if (col == 0)
+			return (void *) e_storage_get_display_name (storage);
+		else
+			return TRUE;
+	}
 
 	return _("My Evolution");
 }

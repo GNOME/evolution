@@ -1,3 +1,27 @@
+2001-07-20  Jason Leach  <jleach@ximian.com>
+
+	[This is a better way to have "Local Folders" be shown as the
+	local storage name without breaking current user's shortcuts.]
+
+	* e-corba-storage.c (get_display_name): Implement this, but it's
+	only returning the real name now.  Need to change the IDL soon to
+	let corba storages have separated display names.
+	
+	* e-shortcuts.c (e_shortcuts_add_default_group): Set these default
+	shortcut URI's back to evolution:/local/
+
+	* e-shell-view.h (DEFAULT_URI): Set this back to
+	"evolution:/local/Inbox"
+	
+	* e-storage-set-view.c (etree_value_at): Get the display name for
+	a storage rather than it's true name.
+
+	* e-local-storage.c (impl_get_display_name): Implemented for the
+	local folder (to return a translated "Local Folders").
+
+	* e-storage.c (e_storage_get_display_name): New virtual function
+	for retrieving the display name.
+
 2001-07-19  Jason Leach  <jleach@ximian.com>
 
 	* e-local-storage.h: Make the local storage name "Local Folders"
