@@ -359,7 +359,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 
 		if (itip_organizer_is_user (comp, client) &&
 		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-				   client, comp, TRUE)) {
+					   client, comp, TRUE)) {
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
 				client, NULL);
 		}
@@ -762,7 +762,7 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 			child_kind = icalcomponent_isa (subcomp);
 			if (child_kind == ICAL_VEVENT_COMPONENT)
 				e_calendar_view_add_event (cal_view, client, selected_time_start, 
-						      default_zone, subcomp, in_top_canvas);
+							   default_zone, subcomp, in_top_canvas);
 			else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
 				icaltimezone *zone;
 
@@ -1628,7 +1628,7 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 {
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
 		if (itip_organizer_is_user (comp, client) &&
-				send_component_dialog (toplevel, client, comp, new))
+		    send_component_dialog (toplevel, client, comp, new))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL);
 	} else {
 		g_message (G_STRLOC ": Could not update the object!");

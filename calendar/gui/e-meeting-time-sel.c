@@ -414,7 +414,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 
 	button = gtk_button_new_with_label ("");
 	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (button)->child),
-					  _("_Invite Others..."));
+					  _("Add attendees from addressbook"));
 	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (button)->child));
 	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
 	gtk_widget_show (button);

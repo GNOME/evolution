@@ -1,3 +1,8 @@
+2004-05-31 Priyanshu Raj <Priyanshu@students.iiit.net>
+
+	*Bug #51968 "Invite others.." button confusing in Appointment
+	editor dialog(Fixed)"
+
 2004-05-29  Priyanshu Raj <priyanshu@students.iiit.net>
 
 	* Bug #48134: Menu items in Scheduling tab should have sentence
