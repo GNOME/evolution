@@ -4,7 +4,7 @@ bin_PROGRAMS = evolution-netscape-importer 	\
 	evolution-gnomecard-importer
 
 INCLUDES = 				\
-	-DGNOMELOCALEDIR=\""$(localedir)"\"	\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\"	\
 	-I$(top_srcdir)			\
 	-I$(top_builddir)/shell			\

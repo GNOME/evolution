@@ -720,6 +720,9 @@ main (int argc,
 {
 	CORBA_ORB orb;
 
+	bindtextdomain(PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain(PACKAGE);
+	
 	gnome_init_with_popt_table ("Evolution-Pine-Importer",
 				    VERSION, argc, argv, oaf_popt_options, 0,
 				    NULL);
