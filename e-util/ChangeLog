@@ -1,3 +1,8 @@
+2000-09-07  Federico Mena Quintero  <federico@helixcode.com>
+
+	* e-canvas.c (emit_event): Remove incorrect optimization.  Events
+	are read-only!
+
 2000-09-04  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-unicode.c: Added new font code, but comment it out now

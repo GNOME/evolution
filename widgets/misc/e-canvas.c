@@ -149,7 +149,7 @@ is_descendant (GnomeCanvasItem *item, GnomeCanvasItem *parent)
 static int
 emit_event (GnomeCanvas *canvas, GdkEvent *event)
 {
-	/*GdkEvent ev;*/
+	GdkEvent ev;
 	gint finished;
 	GnomeCanvasItem *item;
 	GnomeCanvasItem *parent;
@@ -205,16 +205,14 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	 * offsets of the fields in the event structures.
 	 */
 
-	/*ev = *event;*/
+	ev = *event;
 
-	switch (event->type) {
+	switch (ev.type) {
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY:
 		gnome_canvas_window_to_world (canvas,
-					      event->crossing.x, 
-					      event->crossing.y,
-					      &(event->crossing.x), 
-					      &(event->crossing.y));
+					      ev.crossing.x, ev.crossing.y,
+					      &ev.crossing.x, &ev.crossing.y);
 		break;
 
 	case GDK_MOTION_NOTIFY:
@@ -223,10 +221,8 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	case GDK_3BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		gnome_canvas_window_to_world (canvas,
-					      event->motion.x, 
-					      event->motion.y,
-					      &(event->motion.x), 
-					      &(event->motion.y));
+					      ev.motion.x, ev.motion.y,
+					      &ev.motion.x, &ev.motion.y);
 		break;
 
 	default:
@@ -252,7 +248,7 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 		gtk_object_ref (GTK_OBJECT (item));
 
 		gtk_signal_emit_by_name (GTK_OBJECT (item), "event",
-					 event,
+					 &ev,
 					 &finished);
 
 		if (GTK_OBJECT_DESTROYED (item))
