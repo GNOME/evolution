@@ -49,7 +49,7 @@ INCLUDES =						\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-privlib_LTLIBRARIES = libeselectnames.la
+noinst_LTLIBRARIES = libeselectnames.la
 
 libeselectnames_la_SOURCES = 			\
 	$(IDL_GENERATED)			\

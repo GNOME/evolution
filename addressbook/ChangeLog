@@ -1,3 +1,10 @@
+2003-09-05  Dan Winship  <danw@ximian.com>
+
+	* gui/component/select-names/Makefile.am: Make libeselectnames.la
+	be noinst: it depends on a symbol in libevolution-addressbook
+	(addressbook_load_uri), so it's not usable as a standalone library
+	anyway.
+
 2003-09-04  Dan Winship  <danw@ximian.com>
 
 	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD):
