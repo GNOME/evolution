@@ -130,6 +130,8 @@ buttons_DATA = 				\
 	add-service.png			\
 	compose-message.png		\
 	copy-message.png		\
+	copy.png			\
+	cut.png				\
 	dayview.xpm			\
 	delete-message.png		\
 	fetch-mail.png			\
@@ -140,6 +142,7 @@ buttons_DATA = 				\
 	next-message.png		\
 	new_appointment.png		\
 	new_task.png			\
+	paste.png			\
 	previous-message.png		\
 	print.png			\
 	print-preview-24.png		\

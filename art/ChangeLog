@@ -1,3 +1,8 @@
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
+	* Makefile.am (buttons_DATA): added cut.png, copy.png & paste.png,
+	so we can use them for the tasks toolbar.
+
 2001-08-18  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am (images_DATA): added 16_copy.png, 16_customize.png,
