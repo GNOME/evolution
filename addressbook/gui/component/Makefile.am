@@ -1,3 +1,6 @@
+CPPFLAGS =					\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
+
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"	\
 	$(EXTRA_GNOME_CFLAGS)				\
@@ -19,6 +22,7 @@ bin_PROGRAMS =	\
 	evolution-addressbook
 
 evolution_addressbook_SOURCES = 	\
+	e-ldap-server-dialog.c          \
 	addressbook-factory.c		\
 	addressbook.c			\
 	addressbook.h
@@ -43,6 +47,9 @@ else
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = addressbook.gnorba
 endif
+
+gladedir   = $(datadir)/evolution/glade
+glade_DATA = ldap-server-dialog.glade
 
 EXTRA_DIST = 			\
 	addressbook.gnorba	\

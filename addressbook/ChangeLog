@@ -1,5 +1,28 @@
 2000-04-30  Chris Toshok  <toshok@helixcode.com>
 
+	* gui/component/Makefile.am (evolution_addressbook_SOURCES): added
+	e-ldap-server-dialog.c
+	(glade_DATA): added ldap-server-dialog.glade
+
+	* gui/component/ldap-server-dialog.glade: new file.
+
+	* gui/component/e-ldap-server-dialog.h: new file.
+
+	* gui/component/e-ldap-server-dialog.c: new file, contains logic
+	associated with ldap server dialog.
+
+	* gui/component/addressbook.c (control_deactivate): remove the
+	directory server menu item.
+	(null_cb): do nothing callback for e_book_load_uri call.  should
+	change to (at the very least) pop up a dialog if there was an
+	error.
+	(new_server_cb): new function - really just switches to a
+	particular ldap server, since the information isn't saved
+	anywhere.
+	(control_activate): add directory server menu item.
+
+2000-04-30  Chris Toshok  <toshok@helixcode.com>
+
 	* backend/ebook/e-book.c (e_book_load_uri): create the book
 	listener here, since it's destroyed in unload_uri.
 	(e_book_construct): remove the book listener construction here.

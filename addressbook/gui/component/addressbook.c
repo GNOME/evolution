@@ -20,6 +20,7 @@
 #include <e-util/e-canvas.h>
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
+#include "e-ldap-server-dialog.h"
 
 #ifdef USING_OAF
 #define CONTROL_FACTORY_ID "OAFIID:control-factory:addressbook:3e10597b-0591-4d45-b082-d781b7aa6e17"
@@ -32,6 +33,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	/* how to remove a menu item */
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Contact"); 
+	bonobo_ui_handler_menu_remove (uih, "/Actions/New Directory Server");
 
 	/* remove our toolbar */
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
@@ -42,34 +44,6 @@ do_nothing_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	printf ("Yow! I am called back!\n");
 }
- 
-
-#define BLANK_VCARD        \
-"BEGIN:VCARD
-"            \
-"FN:
-"                    \
-"N:
-"                     \
-"BDAY:
-"                  \
-"TEL;WORK:
-"              \
-"TEL;CELL:
-"              \
-"EMAIL;INTERNET:
-"        \
-"EMAIL;INTERNET:
-"        \
-"ADR;WORK;POSTAL:
-"       \
-"ADR;HOME;POSTAL;INTL:
-"  \
-"END:VCARD
-"              \
-"
-"
-
 
 static void
 card_added_cb (EBook* book, EBookStatus status, const char *id,
@@ -122,6 +96,42 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
+null_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+}
+
+static void
+new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	EMinicardView *minicard_view = E_MINICARD_VIEW (user_data);
+	ELDAPServer server;
+	char *uri;
+	EBook *book;
+
+	/* fill in the defaults */
+	server.host = g_strdup("");
+	server.port = 389;
+	server.description = g_strdup("");
+	server.rootdn = g_strdup("");
+
+	e_ldap_server_editor_show (&server);
+
+	gtk_object_get(GTK_OBJECT(minicard_view), "book", &book, NULL);
+	g_assert (E_IS_BOOK (book));
+	
+	/* XXX write out the new server info */
+
+	/* now update the view */
+	uri = g_strdup_printf ("ldap://%s:%d/%s", server.host, server.port, server.rootdn);
+
+	e_book_unload_uri (book);
+
+	if (! e_book_load_uri (book, uri, null_cb, NULL)) {
+		g_warning ("error calling load_uri!\n");
+	}
+}
+
+static void
 find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	gint result;
@@ -143,7 +153,6 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 
-	
 	/* If the user clicks "okay"...*/
 	if (result == 0) {
 		search_text = gtk_entry_get_text(GTK_ENTRY(search_entry));
@@ -221,7 +230,6 @@ make_quick_search_widget (GtkSignalFunc start_search_func,
 	return search_vbox;
 }
 
-
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  EMinicardView *minicard_view)
@@ -240,6 +248,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, new_contact_cb,
+					 (gpointer)minicard_view);
+
+	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Directory Server",
+					 N_("N_ew Directory Server"),       
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, new_server_cb,
 					 (gpointer)minicard_view);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
@@ -261,7 +276,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 			    FALSE, TRUE, 0);
 	
 	gtk_widget_show_all (hbox);
-	
+
 	toolbar_control = bonobo_control_new (hbox);
 	bonobo_ui_handler_dock_add (
 		uih, "/Toolbar",
