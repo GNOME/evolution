@@ -1,3 +1,12 @@
+2004-03-22  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c: 
+	* em-mailer-prefs.c: Add Newsgroups to the default header list.
+
+	* em-format-html.c (efh_format_header): handle the newsgroups
+	header, output news: url's.  For bug #??? i can't recall, i closed
+	it already!
+
 2004-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #54800.

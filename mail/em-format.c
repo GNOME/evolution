@@ -735,6 +735,7 @@ em_format_clear_headers(EMFormat *emf)
 		g_free(eh);
 }
 
+/* note: also copied in em-mailer-prefs.c */
 static const struct {
 	const char *name;
 	guint32 flags;
@@ -746,6 +747,7 @@ static const struct {
 	{ N_("Bcc"), EM_FORMAT_HEADER_BOLD },
 	{ N_("Subject"), EM_FORMAT_HEADER_BOLD },
 	{ N_("Date"), EM_FORMAT_HEADER_BOLD },
+	{ N_("Newsgroups"), EM_FORMAT_HEADER_BOLD },
 	{ "x-evolution-mailer", 0 }, /* DO NOT translate */
 };
 
