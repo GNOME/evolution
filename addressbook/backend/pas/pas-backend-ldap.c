@@ -1072,14 +1072,23 @@ pas_backend_ldap_process_get_vcard (PASBackend *backend,
 				    PASRequest *req)
 {
 	PASBackendLDAP *bl;
+	ECardSimple *simple;
 
 	bl = PAS_BACKEND_LDAP (pas_book_get_backend (book));
 
-	/* XXX use ldap_search */
+	simple = search_for_dn (bl, req->id);
 
-	pas_book_respond_get_vcard (book,
-				    GNOME_Evolution_Addressbook_BookListener_Success,
-				    "");
+	if (simple) {
+		pas_book_respond_get_vcard (book,
+					    GNOME_Evolution_Addressbook_BookListener_Success,
+					    e_card_simple_get_vcard (simple));
+		gtk_object_unref (GTK_OBJECT (simple));
+	}
+	else {
+		pas_book_respond_get_vcard (book,
+					    GNOME_Evolution_Addressbook_BookListener_CardNotFound,
+					    "");
+	}
 }
 
 
