@@ -24,6 +24,10 @@
 #define MAIL_CONFIG_H
 
 #include <gtk/gtk.h>
+
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <camel/camel.h>
 
 #include "e-util/e-account.h"
@@ -99,6 +103,8 @@ void mail_config_init (void);
 void mail_config_clear (void);
 void mail_config_write (void);
 void mail_config_write_on_exit (void);
+
+GConfClient *mail_config_get_gconf_client (void);
 
 /* General Accessor functions */
 gboolean mail_config_is_configured            (void);

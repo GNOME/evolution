@@ -246,7 +246,7 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	GString *str;
 	int i;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/unwanted_html", NULL))
 		return TRUE;
@@ -279,7 +279,7 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 	gboolean show_again, res;
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/empty_subject", NULL))
 		return TRUE;
@@ -299,7 +299,7 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	const char *first_text;
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/only_bcc", NULL))
 		return TRUE;
@@ -414,7 +414,7 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	EAccount *account;
 	int i;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	/* We should do all of the validity checks based on the composer, and not on
 	   the created message, as extra interaction may occur when we get the message
@@ -763,7 +763,7 @@ create_msg_composer (EAccount *account, gboolean post, const char *url)
 	if (account == NULL)
 		account = mail_config_get_default_account ();
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
 	if (post)
@@ -996,7 +996,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	time_t date;
 	char *url;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	if (mode == REPLY_POST) {
 		composer = e_msg_composer_new_post ();
@@ -1499,7 +1499,7 @@ forward (GtkWidget *widget, gpointer user_data)
 	MailConfigForwardStyle style;
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	style = gconf_client_get_int (gconf, "/apps/evolution/mail/format/forward_style", NULL);
 	
 	if (style == MAIL_CONFIG_FORWARD_ATTACHED)
@@ -1660,7 +1660,7 @@ transfer_msg_done (gboolean ok, void *data)
 	int row;
 	
 	if (ok && !FOLDER_BROWSER_IS_DESTROYED (fb)) {
-		gconf = gconf_client_get_default ();
+		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 		
 		row = e_tree_row_of_node (fb->message_list->tree,
@@ -1960,11 +1960,9 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	if (GTK_WIDGET_HAS_FOCUS (fb->message_list)) {
-		etsm = e_tree_get_selection_model (fb->message_list->tree);
-		
-		e_selection_model_invert_selection (etsm);
-	}
+	etsm = e_tree_get_selection_model (fb->message_list->tree);
+	
+	e_selection_model_invert_selection (etsm);
 }
 
 /* flag all selected messages. Return number flagged */
@@ -2545,8 +2543,6 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	gconf = gconf_client_get_default ();
-	
 	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 	
@@ -2555,6 +2551,7 @@ delete_msg (GtkWidget *button, gpointer user_data)
 		row = e_tree_row_of_node (fb->message_list->tree,
 					  e_tree_get_cursor (fb->message_list->tree));
 		
+		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 		
 		/* If this is the last message and deleted messages
@@ -2679,7 +2676,7 @@ confirm_expunge (FolderBrowser *fb)
 	gboolean res, show_again;
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/expunge", NULL))
 		return TRUE;

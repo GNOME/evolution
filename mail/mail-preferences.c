@@ -29,7 +29,6 @@
 
 #include "mail-preferences.h"
 
-#include <gconf/gconf.h>
 #include <gal/util/e-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
 #include "widgets/misc/e-charset-picker.h"
@@ -81,7 +80,7 @@ mail_preferences_class_init (MailPreferencesClass *klass)
 static void
 mail_preferences_init (MailPreferences *preferences)
 {
-	preferences->gconf = gconf_client_get_default ();
+	preferences->gconf = mail_config_get_gconf_client ();
 }
 
 static void
@@ -90,7 +89,6 @@ mail_preferences_finalise (GObject *obj)
 	MailPreferences *prefs = (MailPreferences *) obj;
 	
 	g_object_unref (prefs->gui);
-	g_object_unref (prefs->gconf);
 	
         ((GObjectClass *)(parent_class))->finalize (obj);
 }

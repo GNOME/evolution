@@ -44,6 +44,7 @@
 
 #include "e-util/e-meta.h"
 
+#include "mail-config.h"
 #include "mail-callbacks.h" /* almost all the verbs */
 #include "mail-session.h" /* mail_session_forget_passwords */
 
@@ -517,14 +518,14 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	GConfClient *gconf;
 	int style;
 	
+	gconf = mail_config_get_gconf_client ();
+	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy(fb->sensitise_state);
 		fb->sensitise_state = NULL;
 	}
 	
 	ui_add (fb, "message", message_verbs, message_pixcache);
-	
-	gconf = gconf_client_get_default ();
 	
 	/* Display Style */
 	style = gconf_client_get_int (gconf, "/apps/evolution/mail/display/message_style", NULL);
@@ -559,7 +560,7 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	GConfClient *gconf;
 	int state;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy (fb->sensitise_state);
@@ -613,14 +614,14 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	GConfClient *gconf;
 	int paned_size;
 	
+	gconf = mail_config_get_gconf_client ();
+	
 	if (fb->sensitise_state) {
 		g_hash_table_destroy (fb->sensitise_state);
 		fb->sensitise_state = NULL;
 	}
 	
 	ui_add (fb, "global", global_verbs, global_pixcache);
-	
-	gconf = gconf_client_get_default ();
 	
 	/* (Pre)view pane size (do this first because it affects the
            preview settings - see folder_browser_set_message_preview()

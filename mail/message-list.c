@@ -2218,7 +2218,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 		
 		camel_object_ref (camel_folder);
 		
-		gconf = gconf_client_get_default ();
+		gconf = mail_config_get_gconf_client ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 		message_list->hidedeleted = hide_deleted && !(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 		
@@ -2858,7 +2858,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 		}
 	}
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 #ifndef BROKEN_ETREE
 	/* this can sometimes crash,so ... */

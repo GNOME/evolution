@@ -1,3 +1,86 @@
+2003-06-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-tag-followup.c (get_week_start_day): Use mail-config's
+	gconf client.
+	(target_date_new): Same.
+
+	* message-list.c (message_list_set_folder): Use mail-config's
+	gconf client.
+	(mail_regen_list): Same.
+
+	* mail-tools.c (mail_tool_quote_message): Use mail-config's gconf
+	client.
+	(mail_tool_forward_message): Same.
+
+	* mail-session.c (main_get_filter_driver): Use mail-config's gconf
+	client.
+
+	* mail-preferences.c (mail_preferences_init): Use mail-config's
+	gconf client.
+	(mail_preferences_finalise): Don't unref the gconf client.
+
+	* mail-format.c (write_headers): Use mail-config's gconf client.
+	(mail_format_data_wrapper_write_to_stream): Same.
+	(handle_text_plain): And here.
+
+	* mail-display.c (save_data_cb): Use mail-config's gconf client.
+	(save_part): Same.
+	(on_url_requested): Here too.
+	(mail_text_write): And here.
+	(mail_display_init): And here.
+	(mail_display_destroy): Here too.
+	(mail_display_new): Again here.
+
+	* mail-composer-prefs.c (sig_add_cb): Use mail-config's gconf
+	client.
+	(mail_composer_prefs_construct): Same.
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Use
+	mail-config's gconf client.
+	(ask_confirm_for_empty_subject): Same.
+	(ask_confirm_for_only_bcc): Here too.
+	(composer_get_message): And here.
+	(create_msg_composer): Again here.
+	(mail_generate_reply): Same.
+	(forward): And here.
+	(transfer_msg_done): "
+	(delete_msg): "
+	(confirm_expunge): "
+
+	* component-factory.c (owner_unset_cb): Use mail-config's gconf
+	client.
+
+	* folder-browser-ui.c (folder_browser_ui_add_message): Use the
+	mailer's gconf client.
+	(folder_browser_ui_add_list): Same.
+	(folder_browser_ui_add_global): Here too.
+
+	* folder-browser.c (save_cursor_pos): Use the mailer's gconf
+	client.
+	(folder_browser_set_message_preview): Same.
+	(folder_browser_toggle_preview): Here too.
+	(folder_browser_toggle_threads): And here.
+	(folder_browser_toggle_hide_deleted): Here as well.
+	(folder_browser_set_message_display_style): And here.
+	(fb_resize_cb): Here.
+	(paned_realised): And here.
+	(done_message_selected): And everywhere...
+
+	* mail-account-gui.c (sig_add_new_signature): Use the mailer gconf
+	client.
+
+	* mail-config.c (mail_config_get_gconf_client): New function to
+	return the global GConfClient used by the mailer.
+	(mail_config_write_on_exit): On exit, free our objects and such.
+	(mail_config_signature_run_script): Use config->gconf.
+
+2003-06-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (invert_selection): Get rid of the if-focused
+	code, that will always prevent the etree from getting the
+	selection inverted because the menu item will always have focus at
+	this time. Fix for bug #43972.
+
 2003-06-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #22542

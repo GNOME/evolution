@@ -160,12 +160,9 @@ folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser;
 	CORBA_Environment ev;
-	GConfClient *gconf;
 	
 	folder_browser = FOLDER_BROWSER (object);
-	
-	gconf = gconf_client_get_default ();
-	
+		
 	CORBA_exception_init (&ev);
 	
 	if (folder_browser->seen_id != 0) {
@@ -1121,7 +1118,7 @@ save_cursor_pos (FolderBrowser *fb)
 	e_tree_get_cell_geometry (fb->message_list->tree, row, 0,
 				  NULL, &y, NULL, &height);
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	
 	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (fb->message_list));
@@ -1156,9 +1153,9 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 	
 	folder_browser->preview_shown = show_preview;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
-	
+
 	if (show_preview) {
 		y = save_cursor_pos (folder_browser);
 		gtk_paned_set_position (GTK_PANED (folder_browser->vpaned), paned_size);
@@ -1300,13 +1297,17 @@ folder_browser_toggle_preview (BonoboUIComponent           *component,
 {
 	FolderBrowser *fb = user_data;
 	gboolean bstate;
+	GConfClient *gconf;
 
 	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
 	
 	bstate = atoi(state);
 	e_meta_set_bool(fb->meta, "show_preview", bstate);
-	gconf_client_set_bool (gconf_client_get_default(), "/apps/evolution/mail/display/show_preview", bstate, NULL);
+	
+	gconf = mail_config_get_gconf_client ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/show_preview", bstate, NULL);
+	
 	folder_browser_set_message_preview (fb, bstate);
 }
 
@@ -1320,13 +1321,17 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 	FolderBrowser *fb = user_data;
 	int prev_state;
 	gboolean bstate;
+	GConfClient *gconf;
 	
 	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
 
 	bstate = atoi(state);
 	e_meta_set_bool(fb->meta, "thread_list", bstate);
-	gconf_client_set_bool (gconf_client_get_default (), "/apps/evolution/mail/display/thread_list", bstate, NULL);
+	
+	gconf = mail_config_get_gconf_client ();
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/thread_list", bstate, NULL);
+	
 	message_list_set_threaded (fb->message_list, bstate);
 	
 	prev_state = fb->selection_state;
@@ -1347,7 +1352,7 @@ folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
 	if (type != Bonobo_UIComponent_STATE_CHANGED || fb->message_list == NULL)
 		return;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	gconf_client_set_bool (gconf, "/apps/evolution/mail/display/show_deleted",
 			       !atoi (state), NULL);
 	
@@ -1372,9 +1377,7 @@ folder_browser_set_message_display_style (BonoboUIComponent           *component
 	    || fb->message_list == NULL)
 		return;
 	
-	gconf = gconf_client_get_default ();
-	
-	printf ("message display style: %s\n", path);
+	gconf = mail_config_get_gconf_client ();
 	
 	for (i = 0; i < MAIL_CONFIG_DISPLAY_MAX; i++) {
 		if (strstr (message_display_styles[i], path)) {
@@ -1383,6 +1386,7 @@ folder_browser_set_message_display_style (BonoboUIComponent           *component
 			
 			if (fb->pref_master)
 				gconf_client_set_int (gconf, "/apps/evolution/mail/display/message_style", i, NULL);
+			
 			return;
 		}
 	}
@@ -2313,12 +2317,12 @@ static gboolean
 fb_resize_cb (GtkWidget *w, GdkEventButton *e, FolderBrowser *fb)
 {
 	GConfClient *gconf;
-
-	gconf = gconf_client_get_default ();
-
-	if (GTK_WIDGET_REALIZED (w) && fb->preview_shown)
+	
+	if (GTK_WIDGET_REALIZED (w) && fb->preview_shown) {
+		gconf = mail_config_get_gconf_client ();
 		gconf_client_set_int (gconf, "/apps/evolution/mail/display/paned_size", gtk_paned_get_position (GTK_PANED (w)), NULL);
-
+	}
+	
 	return FALSE;
 }
 
@@ -2326,9 +2330,11 @@ fb_resize_cb (GtkWidget *w, GdkEventButton *e, FolderBrowser *fb)
 static void
 paned_realised(GtkWidget *w, FolderBrowser *fb)
 {
+	GConfClient *gconf;
 	int size;
-
-	size = gconf_client_get_int (gconf_client_get_default (), "/apps/evolution/mail/display/paned_size", NULL);
+	
+	gconf = mail_config_get_gconf_client ();
+	size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	gtk_paned_set_position (GTK_PANED (fb->vpaned), size);
 }
 
@@ -2415,12 +2421,10 @@ done_message_selected (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	GConfClient *gconf;
 	int timeout;
 	
-	gconf = gconf_client_get_default ();
-	
 	if (folder != fb->folder || fb->mail_display == NULL)
 		return;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	timeout = gconf_client_get_int (gconf, "/apps/evolution/mail/display/mark_seen_timeout", NULL);
 	
 	info = camel_folder_get_message_info (fb->folder, uid);

@@ -45,8 +45,9 @@
 
 #include "e-util/e-meta.h"
 
-#include "mail-vfolder.h"
 #include "mail.h" /*session*/
+#include "mail-config.h"
+#include "mail-vfolder.h"
 #include "mail-format.h"
 #include "mail-tools.h"
 #include "mail-local.h"
@@ -360,7 +361,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 	char *text, *colour;
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	/* We pass "want_plain" for "cite", since if it's HTML, we'll
@@ -430,7 +431,7 @@ mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
 	gboolean send_html;
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
 	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message), !send_html, quoted);

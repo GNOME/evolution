@@ -976,7 +976,7 @@ write_headers (MailDisplayStream *stream, MailDisplay *md, CamelMimeMessage *mes
 	GConfClient *gconf;
 	int xmask, i;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	xmask = gconf_client_get_int (gconf, "/apps/evolution/mail/display/xmailer_mask", NULL);
 	
 	/* My favorite thing to do... muck around with colors so we respect people's stupid themes.
@@ -1130,7 +1130,7 @@ mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay
 		GConfClient *gconf;
 		char *charset;
 		
-		gconf = gconf_client_get_default ();
+		gconf = mail_config_get_gconf_client ();
 		
 		content_type = camel_data_wrapper_get_mime_type_field (wrapper);
 		
@@ -1236,7 +1236,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	GdkColor colour;
 	char *buf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	if (!md->printing) {

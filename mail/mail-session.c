@@ -40,6 +40,7 @@
 #include "filter/filter-context.h"
 #include "filter/filter-filter.h"
 #include "mail.h"
+#include "mail-config.h"
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
@@ -815,7 +816,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	RuleContext *fc;
 	long notify;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";

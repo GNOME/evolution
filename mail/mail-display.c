@@ -255,7 +255,7 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 	
 	/* preserve the pathname */
 	dir = g_path_get_dirname (gtk_file_selection_get_filename (file_select));
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	gconf_client_set_string (gconf, "/apps/evolution/mail/save_dir", dir, NULL);
 	g_free (dir);
 	
@@ -328,7 +328,7 @@ save_part (CamelMimePart *part)
 	camel_object_ref (part);
 	
 	home = getenv ("HOME");
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	dir = gconf_client_get_string (gconf, "/apps/evolution/mail/save_dir", NULL);
 	filename = make_safe_filename (dir ? dir : (home ? home : ""), part);
 	g_free (dir);
@@ -1248,7 +1248,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	CamelMedium *medium;
 	GByteArray *ba;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_if_fail (urls != NULL);
@@ -1720,7 +1720,7 @@ mail_text_write (MailDisplayStream *stream, MailDisplay *md, CamelMimePart *part
 	GdkColor colour;
 	char *buf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	
 	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	
@@ -2059,7 +2059,7 @@ mail_display_init (GObject *object)
 	g_object_ref (mail_display->invisible);
 	gtk_object_sink ((GtkObject *) mail_display->invisible);
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	style = gconf_client_get_int (gconf, "/apps/evolution/mail/format/message_display_style", NULL);
 	mail_display->display_style     = style;
 	
@@ -2113,10 +2113,9 @@ mail_display_destroy (GtkObject *object)
 	}
 	
 	if (mail_display->priv && mail_display->priv->display_notify_id) {
-		GConfClient *gconf = gconf_client_get_default ();
+		GConfClient *gconf = mail_config_get_gconf_client ();
 		gconf_client_notify_remove (gconf, mail_display->priv->display_notify_id);
 		mail_display->priv->display_notify_id = 0;
-		g_object_unref (gconf);
 	}
 	
 	g_free (mail_display->priv);
@@ -2710,14 +2709,13 @@ mail_display_new (void)
 		gtk_selection_add_target (mail_display->invisible,
 					  clipboard_atom, GDK_SELECTION_TYPE_STRING, 1);
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	gtk_html_set_animate (GTK_HTML (html), gconf_client_get_bool (gconf, "/apps/evolution/mail/display/animate_images", NULL));
-
+	
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display",GCONF_CLIENT_PRELOAD_NONE, NULL);
 	mail_display->priv->display_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display",
 									 display_notify, mail_display, NULL, NULL);
-	g_object_unref (gconf);
-
+	
 	mail_display->scroll = GTK_SCROLLED_WINDOW (scroll);
 	mail_display->html = GTK_HTML (html);
 	g_object_ref (mail_display->html);

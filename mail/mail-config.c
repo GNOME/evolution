@@ -38,9 +38,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
-
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
@@ -653,9 +650,20 @@ mail_config_write_on_exit (void)
 	
 	/* now do cleanup */
 	mail_config_clear ();
+	
+	g_object_unref (config->gconf);
+	g_ptr_array_free (config->mime_types, TRUE);
+	
+	g_free (config);
 }
 
 /* Accessor functions */
+GConfClient *
+mail_config_get_gconf_client (void)
+{
+	return config->gconf;
+}
+
 gboolean
 mail_config_is_configured (void)
 {
@@ -1560,15 +1568,12 @@ mail_config_signature_run_script (gchar *script)
 		CamelStreamMem *memstream;
 		CamelMimeFilter *charenc;
 		CamelStream *stream;
-		GConfClient *gconf;
 		GByteArray *buffer;
 		char *charset;
 		char *content;
 		
 		/* parent process */
 		close (in_fds[1]);
-		
-		gconf = gconf_client_get_default ();
 		
 		stream = camel_stream_fs_new_with_fd (in_fds[0]);
 		
@@ -1591,7 +1596,7 @@ mail_config_signature_run_script (gchar *script)
 			filtered_stream = camel_stream_filter_new_with_stream (stream);
 			camel_object_unref (stream);
 			
-			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
+			charset = gconf_client_get_string (config->gconf, "/apps/evolution/mail/composer/charset", NULL);
 			charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
 			camel_stream_filter_add (filtered_stream, charenc);
 			camel_object_unref (charenc);

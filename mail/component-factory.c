@@ -913,12 +913,13 @@ static struct {
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
-	GConfClient *gconf;
 	CORBA_Environment ev;
+	GConfClient *gconf;
 	int i;
 	EIterator *it;
-
-	gconf = gconf_client_get_default ();
+	
+	gconf = mail_config_get_gconf_client ();
+	
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
 		g_signal_handler_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
 	

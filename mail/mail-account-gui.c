@@ -42,6 +42,7 @@
 #include "mail-send-recv.h"
 #include "mail-signature-editor.h"
 #include "mail-composer-prefs.h"
+#include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail.h"
@@ -1302,7 +1303,7 @@ sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 	
 	sig_switch_to_list (w, gui);
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
 	parent = gtk_widget_get_toplevel (w);

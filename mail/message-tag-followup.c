@@ -221,10 +221,9 @@ completed_toggled (GtkToggleButton *button, gpointer user_data)
 static int
 get_week_start_day (void)
 {
-	/* FIXME: make sure the gconf key is correct? */
 	GConfClient *gconf;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	return gconf_client_get_int (gconf, "/apps/evolution/calendar/display/week_start_day", NULL);
 }
 
@@ -255,9 +254,8 @@ target_date_new (const char *s1, const char *s2, int i1, int i2)
 	/* Note that this is 0 (Sun) to 6 (Sat), conver to 0 (mon) to 6 (sun) */
 	start = (get_week_start_day () + 6) % 7;
 	
-	/* FIXME: make sure the calendar gconf key is correct */
 	if (locale_supports_12_hour_format ()) {
-		gconf = gconf_client_get_default ();
+		gconf = mail_config_get_gconf_client ();
 		time_24hour = gconf_client_get_bool (gconf, "/apps/evolution/calendar/display/use_24hour_format", NULL);
 	}
 	

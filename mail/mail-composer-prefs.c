@@ -281,7 +281,7 @@ sig_add_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 	gboolean send_html;
 	GtkWidget *parent;
 	
-	gconf = gconf_client_get_default ();
+	gconf = mail_config_get_gconf_client ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
 	parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
@@ -796,7 +796,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	int style;
 	char *buf;
 	
-	prefs->gconf = gconf_client_get_default ();
+	prefs->gconf = mail_config_get_gconf_client ();
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "composer_tab", NULL);
 	prefs->gui = gui;
