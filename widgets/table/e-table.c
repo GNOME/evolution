@@ -831,16 +831,16 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 					       e_table->group_info_change_id);
 		gtk_object_unref(GTK_OBJECT(e_table->sort_info));
 	}
-	e_table->sort_info = state->sort_info;
-	if (e_table->sort_info) {
-		gtk_object_ref(GTK_OBJECT(e_table->sort_info));
+	if (state->sort_info) {
+		e_table->sort_info = e_table_sort_info_duplicate(state->sort_info);
 		e_table->group_info_change_id =
-			gtk_signal_connect (
-				GTK_OBJECT (e_table->sort_info),
-				"group_info_changed",
-				GTK_SIGNAL_FUNC (sort_info_changed),
-				e_table);
+			gtk_signal_connect (GTK_OBJECT (e_table->sort_info),
+					    "group_info_changed",
+					    GTK_SIGNAL_FUNC (sort_info_changed),
+					    e_table);
 	}
+	else
+		e_table->sort_info = NULL;
 
 	if (e_table->sorter)
 		gtk_object_set(GTK_OBJECT(e_table->sorter),

@@ -428,3 +428,20 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 	return grouping;
 }
 
+ETableSortInfo *
+e_table_sort_info_duplicate (ETableSortInfo *info)
+{
+	ETableSortInfo *new_info;
+
+	new_info = e_table_sort_info_new();
+
+	new_info->group_count = info->group_count;
+	new_info->groupings = g_new(ETableSortColumn, new_info->group_count);
+	memmove(new_info->groupings, info->groupings, sizeof (ETableSortColumn) * new_info->group_count);
+
+	new_info->sort_count = info->sort_count;
+	new_info->sortings = g_new(ETableSortColumn, new_info->sort_count);
+	memmove(new_info->sortings, info->sortings, sizeof (ETableSortColumn) * new_info->sort_count);
+
+	return new_info;
+}

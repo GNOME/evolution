@@ -70,5 +70,6 @@ void              e_table_sort_info_load_from_node      (ETableSortInfo   *info,
 							 gdouble           state_version);
 xmlNode          *e_table_sort_info_save_to_node        (ETableSortInfo   *info,
 							 xmlNode          *parent);
+ETableSortInfo   *e_table_sort_info_duplicate           (ETableSortInfo   *info);
 
 #endif /* _E_TABLE_SORT_INFO_H_ */

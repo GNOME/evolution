@@ -56,6 +56,9 @@ typedef struct {
 
 typedef struct {
 	GtkObjectClass parent_class;
+
+	/* Signals */
+	void        (*changed)        (ETableConfig *config);
 } ETableConfigClass;
 
 GtkType       e_table_config_get_type  (void);

@@ -26,6 +26,13 @@
 
 static GtkObjectClass *config_parent_class;
 
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
+static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
+
 static void
 config_destroy (GtkObject *object)
 {
@@ -42,11 +49,36 @@ config_destroy (GtkObject *object)
 }
 
 static void
-config_class_init (GtkObjectClass *klass)
+e_table_config_changed       (ETableConfig *config, ETableState *state)
 {
-	config_parent_class = gtk_type_class (PARENT_TYPE);
+	g_return_if_fail (config != NULL);
+	g_return_if_fail (E_IS_TABLE_CONFIG (config));
+
+	gtk_signal_emit(GTK_OBJECT(config),
+			e_table_config_signals [CHANGED],
+			state);
+}
+
+static void
+config_class_init (GtkObjectClass *object_class)
+{
+	ETableConfigClass *klass = E_TABLE_CONFIG_CLASS(object_class);
+
+	config_parent_class   = gtk_type_class (PARENT_TYPE);
 	
-	klass->destroy = config_destroy;
+	klass->changed        = NULL;
+
+	object_class->destroy = config_destroy;
+
+	e_table_config_signals [CHANGED] =
+		gtk_signal_new ("changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableConfigClass, changed),
+				gtk_marshal_NONE__OBJECT,
+				GTK_TYPE_NONE, 1, E_TABLE_STATE_TYPE);
+
+	gtk_object_class_add_signals (object_class, e_table_config_signals, LAST_SIGNAL);
 }
 
 static ETableColumnSpecification *
@@ -351,6 +383,15 @@ dialog_destroyed (GtkObject *dialog, ETableConfig *config)
 	gtk_object_destroy (GTK_OBJECT (config));
 }
 
+static void
+dialog_apply (GnomePropertyBox *pbox, gint page_num, ETableConfig *config)
+{
+	if (page_num != -1)
+		return;
+
+	e_table_config_changed (config, config->state);
+}
+
 /*
  * Invoked by the Glade auto-connect code
  */
@@ -361,6 +402,7 @@ e_table_proxy_gtk_combo_text_new (void)
 	return gtk_combo_text_new (TRUE);
 }
 
+#if 0
 static GtkWidget *
 configure_dialog (GladeXML *gui, const char *widget_name, ETableConfig *config)
 {
@@ -370,6 +412,7 @@ configure_dialog (GladeXML *gui, const char *widget_name, ETableConfig *config)
 
 	return w;
 }
+#endif
 
 static void
 connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, void *cback)
@@ -633,6 +676,10 @@ setup_gui (ETableConfig *config)
 	gtk_signal_connect (
 		GTK_OBJECT (config->dialog_toplevel), "destroy",
 		GTK_SIGNAL_FUNC (dialog_destroyed), config);
+
+	gtk_signal_connect (
+		GTK_OBJECT (config->dialog_toplevel), "apply",
+		GTK_SIGNAL_FUNC (dialog_apply), config);
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 }
