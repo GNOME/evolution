@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Factory for the Notes control"/>
+                       _value="Factory for the Notes control"/>
 
 </oaf_server>
 
@@ -22,7 +22,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="A sample Bonobo control which displays an addressbook."/>
+                       _value="A sample Bonobo control which displays an addressbook."/>
 
 </oaf_server>
 
@@ -35,7 +35,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Factory for the Evolution notes component."/>
+	               _value="Factory for the Evolution notes component."/>
 
 </oaf_server>
 
@@ -47,7 +47,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Evolution component for handling mail."/>
+	               _value="Evolution component for handling mail."/>
 
 </oaf_server>
 

@@ -23,10 +23,13 @@ notes_test_SOURCES = 			\
 	test-notes.c
 
 oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Evolution_Notes.oafinfo
+oaf_in_files = GNOME_Evolution_Notes.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+
+@XML_I18N_MERGE_OAF_RULE@
 
 notes_test_LDADD =					\
 	$(BONOBO_HTML_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)
 
-EXTRA_DIST= $(oaf_DATA)
+EXTRA_DIST= $(oaf_in_files) $(oaf_DATA)
