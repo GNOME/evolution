@@ -1,3 +1,17 @@
+2002-07-12  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-summary.c (free_summary_item): free the
+	full_name (as well as given_name.  oops.)
+	(pas_backend_summary_new): new summaries are version 3.0 now.
+	(pas_backend_summary_load_item): all loaded summaries should be
+	3.0+, as we fail to load versions lower than that.
+	(pas_backend_summary_load_header): if the summary isn't version
+	3.0 fail out, as we need to rebuild the entire file to cache the
+	full_name fields.
+	(pas_backend_summary_save_item): save out the full_name.
+	(pas_backend_summary_add_card): put the item's full_name in the
+	card.
+
 2002-07-12  Dan Winship  <danw@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c

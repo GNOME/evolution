@@ -58,6 +58,7 @@ struct _PASBackendSummaryPrivate {
 typedef struct {
 	char *id;
 	char *nickname;
+	char *full_name;
 	char *given_name;
 	char *surname;
 	char *file_as;
@@ -71,6 +72,7 @@ typedef struct {
 	   it's not stored on disk. */
 	guint16 id_len;
 	guint16 nickname_len;
+	guint16 full_name_len; /* version 3.0 field */
 	guint16 given_name_len;
 	guint16 surname_len;
 	guint16 file_as_len;
@@ -90,14 +92,17 @@ typedef struct {
 
 #define PAS_SUMMARY_FILE_VERSION_1_0 1000
 #define PAS_SUMMARY_FILE_VERSION_2_0 2000
+#define PAS_SUMMARY_FILE_VERSION_3_0 3000
 
-#define PAS_SUMMARY_FILE_VERSION PAS_SUMMARY_FILE_VERSION_2_0
+#define PAS_SUMMARY_FILE_VERSION PAS_SUMMARY_FILE_VERSION_3_0
 
 static void
 free_summary_item (PASBackendSummaryItem *item)
 {
 	g_free (item->id);
 	g_free (item->nickname);
+	g_free (item->full_name);
+	g_free (item->given_name);
 	g_free (item->surname);
 	g_free (item->file_as);
 	g_free (item->email_1);
@@ -125,7 +130,7 @@ pas_backend_summary_new (const char *summary_path, int flush_timeout_millis)
 
 	summary->priv->summary_path = g_strdup (summary_path);
 	summary->priv->flush_timeout_millis = flush_timeout_millis;
-	summary->priv->file_version = PAS_SUMMARY_FILE_VERSION_1_0;
+	summary->priv->file_version = PAS_SUMMARY_FILE_VERSION_3_0;
 
 	return summary;
 }
@@ -246,40 +251,20 @@ pas_backend_summary_load_header (PASBackendSummary *summary, FILE *fp,
 
 	header->file_version = ntohl (header->file_version);
 
+	if (header->file_version < PAS_SUMMARY_FILE_VERSION) {
+		return FALSE; /* this will cause the entire summary to be rebuilt */
+	}
+
 	rv = fread (&header->num_items, sizeof (header->num_items), 1, fp);
 	if (rv != 1)
 		return FALSE;
 
 	header->num_items = ntohl (header->num_items);
 
-	if (header->file_version == PAS_SUMMARY_FILE_VERSION) {
-		rv = fread (&header->summary_mtime, sizeof (header->summary_mtime), 1, fp);
-		if (rv != 1)
-			return FALSE;
-		header->summary_mtime = ntohl (header->summary_mtime);
-	}
-	else {
-		if (header->file_version == PAS_SUMMARY_FILE_VERSION_1_0) {
-			/* the header lacks the mtime of the file.
-			   set it to the mtime of the on-disk file,
-			   and we'll save it out properly next time */
-			int fd;
-			struct stat sb;
-
-			fd = fileno (fp);
-			if (fstat (fd, &sb) == -1) {
-				g_warning ("error fstat'ing summary file.");
-				/* just set the mtime to zero and hope for the best */
-				header->summary_mtime = 0;
-			}
-			header->summary_mtime = sb.st_mtime;
-			summary->priv->upgraded = TRUE;
-		}
-		else {
-			/* unknown version */
-			return FALSE;
-		}
-	}
+	rv = fread (&header->summary_mtime, sizeof (header->summary_mtime), 1, fp);
+	if (rv != 1)
+		return FALSE;
+	header->summary_mtime = ntohl (header->summary_mtime);
 
 	return TRUE;
 }
@@ -309,7 +294,7 @@ pas_backend_summary_load_item (PASBackendSummary *summary,
 	char *buf;
 	FILE *fp = summary->priv->fp;
 
-	if (summary->priv->file_version <= PAS_SUMMARY_FILE_VERSION_2_0) {
+	if (summary->priv->file_version >= PAS_SUMMARY_FILE_VERSION_3_0) {
 		PASBackendSummaryDiskItem disk_item;
 		int rv = fread (&disk_item, sizeof (disk_item), 1, fp);
 		if (rv != 1)
@@ -317,6 +302,7 @@ pas_backend_summary_load_item (PASBackendSummary *summary,
 
 		disk_item.id_len = ntohs (disk_item.id_len);
 		disk_item.nickname_len = ntohs (disk_item.nickname_len);
+		disk_item.full_name_len = ntohs (disk_item.full_name_len);
 		disk_item.given_name_len = ntohs (disk_item.given_name_len);
 		disk_item.surname_len = ntohs (disk_item.surname_len);
 		disk_item.file_as_len = ntohs (disk_item.file_as_len);
@@ -342,6 +328,15 @@ pas_backend_summary_load_item (PASBackendSummary *summary,
 				return FALSE;
 			}
 			item->nickname = buf;
+		}
+
+		if (disk_item.full_name_len) {
+			buf = read_string (fp, disk_item.full_name_len);
+			if (!buf) {
+				free_summary_item (item);
+				return FALSE;
+			}
+			item->full_name = buf;
 		}
 
 		if (disk_item.given_name_len) {
@@ -553,6 +548,9 @@ pas_backend_summary_save_item (PASBackendSummary *summary, FILE *fp, PASBackendS
 	len = item->given_name ? strlen (item->given_name) : 0;
 	disk_item.given_name_len = htons (len);
 
+	len = item->full_name ? strlen (item->full_name) : 0;
+	disk_item.full_name_len = htons (len);
+
 	len = item->surname ? strlen (item->surname) : 0;
 	disk_item.surname_len = htons (len);
 
@@ -575,6 +573,8 @@ pas_backend_summary_save_item (PASBackendSummary *summary, FILE *fp, PASBackendS
 	if (!save_string (item->id, fp))
 		return FALSE;
 	if (!save_string (item->nickname, fp))
+		return FALSE;
+	if (!save_string (item->full_name, fp))
 		return FALSE;
 	if (!save_string (item->given_name, fp))
 		return FALSE;
@@ -676,6 +676,7 @@ pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
 
 	new_item->id         = g_strdup (e_card_simple_get_id (simple));
 	new_item->nickname   = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_NICKNAME);
+	new_item->full_name = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
 	new_item->given_name = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_GIVEN_NAME);
 	new_item->surname    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FAMILY_NAME);
 	new_item->file_as    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FILE_AS);
@@ -693,6 +694,7 @@ pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
 	summary->priv->size += sizeof (PASBackendSummaryItem);
 	summary->priv->size += new_item->id ? strlen (new_item->id) : 0;
 	summary->priv->size += new_item->nickname ? strlen (new_item->nickname) : 0;
+	summary->priv->size += new_item->full_name ? strlen (new_item->full_name) : 0;
 	summary->priv->size += new_item->given_name ? strlen (new_item->given_name) : 0;
 	summary->priv->size += new_item->surname ? strlen (new_item->surname) : 0;
 	summary->priv->size += new_item->file_as ? strlen (new_item->file_as) : 0;
@@ -1033,6 +1035,7 @@ pas_backend_summary_get_summary_vcard(PASBackendSummary *summary, const char *id
 		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_GIVEN_NAME, item->given_name);
 		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FAMILY_NAME, item->surname);
 		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_NICKNAME, item->nickname);
+		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, item->full_name);
 		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL, item->email_1);
 		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL_2, item->email_2);
 		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL_3, item->email_3);
