@@ -124,7 +124,7 @@
 		  you have entered as your email address is exactly
 		  the one that the Exchange server has on file. This
 		  may be "yourname@exchange-server.ximian.com" rather
-		  than "yourname@ximian.com."
+		  than "yourname@ximian.com.a"
 		</para>
 	      </listitem>
 	    </varlistentry>
