@@ -38,7 +38,9 @@ static CamelProvider news_provider = {
 
 	CAMEL_PROVIDER_IS_REMOTE,
 
-	{ 0, 0 }
+	{ 0, 0 },
+
+	NULL
 };
 
 static CamelProvider nntp_provider = {
@@ -52,7 +54,9 @@ static CamelProvider nntp_provider = {
 
 	CAMEL_PROVIDER_IS_REMOTE,
 
-	{ 0, 0 }
+	{ 0, 0 },
+
+	NULL
 };
 
 void
@@ -64,10 +68,10 @@ camel_provider_module_init (CamelSession *session)
 	nntp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
 		camel_nntp_transport_get_type();
 #endif
-
+	
+	news_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	nntp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+	
 	camel_session_register_provider (session, &news_provider);
 	camel_session_register_provider (session, &nntp_provider);
 }
-
-
-

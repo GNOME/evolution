@@ -1,3 +1,8 @@
+2000-08-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/nntp/camel-nntp-provider.c (camel_provider_module_init): 
+	Initialize the service_cache for the news/nntp providers
+
 2000-08-03  Peter Williams  <peterw@helixcode.com>
 
 	* providers/nntp/Makefile.am (INCLUDES): Add -I$(top_srcdir) to
