@@ -1,3 +1,8 @@
+1999-11-09  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* gnome-pilot.m4: uses test -r instead of test -e, was reported as 
+	a portability bug wrt solaris.
+
 1999-10-31  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* gnome-pilot.m4: added PILOT_LINK_CHECK, used by
