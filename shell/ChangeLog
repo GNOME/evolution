@@ -1,3 +1,15 @@
+2003-04-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* apps_evolution_shell.schemas: Increase the default value for
+	/schemas/apps/evolution/shell/view_defaults/folder_bar/width to
+	200. 	[#41002]
+
+	* evolution-shell-component.c (owner_ping_callback): Enable this
+	again.
+	(setup_owner_pinging): Same.
+	(impl_setOwner): Check if the shell is in-process and, if so, call
+	setup_owner_pinging().
+
 2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-setup.c (e_setup_check_config): Free the temporary string.

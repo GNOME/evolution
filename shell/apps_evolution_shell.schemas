@@ -230,7 +230,7 @@
       <applyto>/apps/evolution/shell/view_defaults/folder_bar/width</applyto>
       <owner>evolution</owner>
       <type>int</type>
-      <default>100</default>
+      <default>200</default>
       <locale name="C">
         <short>Default width of the folder bar pane</short>
       </locale>

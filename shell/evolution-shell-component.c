@@ -204,7 +204,6 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 
 /* Owner pinging.  */
 
-#if 0
 static gboolean
 owner_ping_callback (void *data)
 {
@@ -266,8 +265,6 @@ setup_owner_pinging (EvolutionShellComponent *shell_component)
 
 	priv->ping_timeout_id = g_timeout_add (PING_DELAY, owner_ping_callback, shell_component);
 }
-
-#endif
 
 
 /* CORBA interface implementation.  */
@@ -405,12 +402,10 @@ impl_setOwner (PortableServer_Servant servant,
 	       const CORBA_char *evolution_homedir,
 	       CORBA_Environment *ev)
 {
-	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
 
-	bonobo_object = bonobo_object_from_servant (servant);
-	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
 	priv = shell_component->priv;
 
 	if (priv->owner_client != NULL) {
@@ -435,15 +430,16 @@ impl_setOwner (PortableServer_Servant servant,
 	}
 
 	if (ev->_major == CORBA_NO_EXCEPTION) {
+		BonoboObject *local_object;
+
 		priv->owner_client = evolution_shell_client_new (shell);
 		g_signal_emit (shell_component, signals[OWNER_SET], 0, priv->owner_client, evolution_homedir);
 
-#if 0
-		/* Disable this for now, it seems to cause trouble for local
-	   	   components.  We should be checking wether the component is
-	   	   local, and disable the pinging in that case. */
-		setup_owner_pinging (shell_component);
-#endif
+		/* Set up pinging of the shell (to realize if it's gone unexpectedly) when in the
+		   non-local case.  */
+		local_object = bonobo_object (ORBit_small_get_servant (shell));
+		if (local_object == NULL)
+			setup_owner_pinging (shell_component);
 	}
 }
 
