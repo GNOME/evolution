@@ -947,6 +947,11 @@ config_button_up (GtkWidget *widget, ETableConfig *config)
 	int i;
 
 	e_table_selected_row_foreach (config->shown, add_column, &columns);
+
+	/* if no columns left, just return */
+	if (columns == NULL)
+		return;
+
 	columns = g_list_reverse (columns);
 
 	new_shown = g_new (int, config->temp_state->col_count);
@@ -997,6 +1002,11 @@ config_button_down (GtkWidget *widget, ETableConfig *config)
 	int i;
 
 	e_table_selected_row_foreach (config->shown, add_column, &columns);
+
+	/* if no columns left, just return */
+	if (columns == NULL)
+		return;
+
 
 	new_shown = g_new (int, config->temp_state->col_count);
 	new_expansions = g_new (double, config->temp_state->col_count);

@@ -56,6 +56,7 @@
 #include <string.h> /* strcmp() */
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-unicode.h"
 #include "e-table-item.h"
@@ -135,6 +136,7 @@ static void
 e_cell_combo_init			(ECellCombo	*ecc)
 {
 	GtkWidget *frame;
+	AtkObject *a11y;
 
 	/* We create one popup window for the ECell, since there will only
 	   ever be one popup in use at a time. */
@@ -166,6 +168,9 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	gtk_container_set_focus_hadjustment (GTK_CONTAINER (ecc->popup_list),
 					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
 	gtk_widget_show (ecc->popup_list);
+
+	a11y = gtk_widget_get_accessible (ecc->popup_list);
+	atk_object_set_name (a11y, _("popup list"));
 
 	g_signal_connect (ecc->popup_list,
 			  "selection_changed",
@@ -285,6 +290,7 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 	if (error_code != 0)
 		g_warning ("Failed to get pointer grab (%i)", error_code);
 	gtk_grab_add (ecc->popup_window);
+	gdk_keyboard_grab (ecc->popup_list->window, TRUE, time);
 
 	return TRUE;
 }
@@ -516,6 +522,7 @@ e_cell_combo_list_button_press(GtkWidget *popup_list, GdkEvent *event, ECellComb
 	e_cell_combo_update_cell (ecc);
 	gtk_grab_remove (ecc->popup_window);
 	gdk_pointer_ungrab (event->button.time);
+	gdk_keyboard_ungrab (event->button.time);
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
@@ -555,6 +562,7 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 
 	gtk_grab_remove (ecc->popup_window);
 	gdk_pointer_ungrab (event->button.time);
+	gdk_keyboard_ungrab (event->button.time);
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
@@ -596,6 +604,7 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 	   update the cell to reflect the new selection. */
 	gtk_grab_remove (ecc->popup_window);
 	gdk_pointer_ungrab (event->time);
+	gdk_keyboard_ungrab (event->time);
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
@@ -625,6 +634,7 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 
 	gtk_grab_remove (ecc->popup_window);
 	gdk_pointer_ungrab (event->time);
+	gdk_keyboard_ungrab (event->time);
 	gtk_widget_hide (ecc->popup_window);
 
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);

@@ -59,6 +59,7 @@
 
 #define d(x)
 #define DO_SELECTION 1
+#define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
 
 #if d(!)0
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
@@ -93,6 +94,15 @@ enum {
 	E_SELECTION_PRIMARY,
 	E_SELECTION_CLIPBOARD
 };
+
+/* signals */
+enum {
+	TEXT_INSERTED,
+	TEXT_DELETED,
+	LAST_SIGNAL
+};
+
+static guint signals [LAST_SIGNAL] = { 0 };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
@@ -1698,6 +1708,30 @@ e_cell_text_class_init (GObjectClass *object_class)
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
+	signals [TEXT_INSERTED] = 
+		g_signal_new ("text_inserted",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (ECellTextClass, text_inserted),
+			      NULL, NULL,
+			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
+			      G_TYPE_NONE, 5,
+			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
+			      G_TYPE_INT, G_TYPE_INT);
+
+	signals [TEXT_DELETED] = 
+		g_signal_new ("text_deleted",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (ECellTextClass, text_deleted),
+			      NULL, NULL,
+			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
+			      G_TYPE_NONE, 5,
+			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
+			      G_TYPE_INT, G_TYPE_INT);
+
+
+
 	g_object_class_install_property (object_class, PROP_STRIKEOUT_COLUMN,
 					 g_param_spec_int ("strikeout_column",
 							   _("Strikeout Column"),
@@ -2182,6 +2216,8 @@ _delete_selection (ECellTextView *text_view)
 	memmove (sp, ep, length);
 
 	edit->selection_end = edit->selection_start;
+
+	g_signal_emit (VIEW_TO_CELL (text_view), signals[TEXT_DELETED], 0, text_view, edit->selection_start, ep-sp, edit->row, edit->model_col);
 }
 
 /* fixme: */
@@ -2209,6 +2245,8 @@ _insert (ECellTextView *text_view, char *string, int value)
 
 	edit->selection_start += value;
 	edit->selection_end = edit->selection_start;
+
+	g_signal_emit (VIEW_TO_CELL (text_view), signals[TEXT_INSERTED], 0, text_view, edit->selection_end-value, value, edit->row, edit->model_col);
 }
 
 static void
@@ -2777,4 +2815,40 @@ e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row)
 	command.action = E_TEP_DELETE;
 	command.position = E_TEP_SELECTION;
 	e_cell_text_view_command (edit->tep, &command, edit);
+}
+
+/**
+ * e_cell_text_get_text_by_view:
+ * @cell_view: the given cell view
+ * @col: column of the given cell in the model
+ * @row: row of the given cell in the model
+ * 
+ * Get the cell's text directly from CellEdit,
+ * during editting this cell, the cell's text value maybe inconsistant
+ * with the text got from table_model.
+ * The caller should free the text after using it.
+ *
+ * This API is most likely to be used by a11y implementations.
+ */
+char *
+e_cell_text_get_text_by_view (ECellView *cell_view, gint col, gint row)
+{
+	ECellTextView *ectv;
+	CellEdit *edit;
+	gchar	*ret, *model_text;
+
+	ectv = (ECellTextView *)cell_view;
+	edit = ectv->edit;
+	
+	if (edit && ectv->edit->row == row && ectv->edit->model_col == col) { /* being editted now */
+		ret = g_strdup (edit->text);
+	} else{
+		model_text = e_cell_text_get_text (E_CELL_TEXT (cell_view->ecell), 
+					     cell_view->e_table_model, col, row);
+		ret = g_strdup (model_text);
+		e_cell_text_free_text (E_CELL_TEXT (cell_view->ecell), model_text);
+	}
+
+	return ret;
+
 }

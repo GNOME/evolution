@@ -66,6 +66,7 @@ typedef struct {
 	 * signals
 	 */
 	void (*cursor_change) (ETableClickToAdd *etcta, gint row, gint col);
+	void (*style_set) (ETableClickToAdd *etcta, GtkStyle *previous_style);
 } ETableClickToAddClass;
 
 GType      e_table_click_to_add_get_type (void);

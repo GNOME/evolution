@@ -29,7 +29,8 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <atk/atkregistry.h>
-
+#include <atk/atkutil.h>
+#include <atk/atkgobjectaccessible.h>
 #include "e-table-header.h"
 #include "e-table-click-to-add.h"
 #include "e-table-defines.h"
@@ -44,6 +45,7 @@
 
 enum {
 	CURSOR_CHANGE,
+	STYLE_SET,
 	LAST_SIGNAL
 };
 
@@ -70,6 +72,26 @@ etcta_cursor_change (GtkObject *object, gint row, gint col, ETableClickToAdd *et
 	g_signal_emit (etcta,
 		       etcta_signals [CURSOR_CHANGE], 0,
 		       row, col);
+}
+
+static void
+etcta_style_set (ETableClickToAdd *etcta, GtkStyle *previous_style)
+{
+	GtkWidget *widget = GTK_WIDGET(GNOME_CANVAS_ITEM(etcta)->canvas);
+
+	if (etcta->rect) {
+		gnome_canvas_item_set (etcta->rect,
+					"outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL], 
+					"fill_color_gdk", &widget->style->bg[GTK_STATE_NORMAL],
+					NULL );
+
+	}
+
+	if (etcta->text)
+		gnome_canvas_item_set (etcta->text,
+					"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					NULL);
+
 }
 
 static void
@@ -215,6 +237,33 @@ etcta_set_property (GObject *object, guint prop_id, const GValue *value, GParamS
 }
 
 static void
+create_rect_and_text (ETableClickToAdd *etcta)
+{
+	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM(etcta)->canvas);
+
+	if (!etcta->rect)
+		etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
+					    gnome_canvas_rect_get_type(),
+					    "x1", (double) 0,
+					    "y1", (double) 0,
+					    "x2", (double) etcta->width - 1,
+					    "y2", (double) etcta->height - 1,
+					    "outline_color_gdk", &widget->style->fg[GTK_STATE_NORMAL], 
+					    "fill_color_gdk", &widget->style->bg[GTK_STATE_NORMAL],
+					    NULL);
+
+	if (!etcta->text)
+		etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
+					    e_text_get_type(),
+					    "text", etcta->message ? etcta->message : "",
+					    "anchor", GTK_ANCHOR_NW,
+					    "width", etcta->width - 4,
+					    "draw_background", FALSE,
+					    "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					    NULL);
+}
+
+static void
 etcta_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ETableClickToAdd *etcta;
@@ -248,23 +297,7 @@ etcta_realize (GnomeCanvasItem *item)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 
-	etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
-					    gnome_canvas_rect_get_type(),
-					    "x1", (double) 0,
-					    "y1", (double) 0,
-					    "x2", (double) etcta->width - 1,
-					    "y2", (double) etcta->height - 1,
-					    "outline_color", "black", 
-					    "fill_color", "white",
-					    NULL);
-
-	etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
-					    e_text_get_type(),
-					    "text", etcta->message ? etcta->message : "",
-					    "anchor", GTK_ANCHOR_NW,
-					    "width", etcta->width - 4,
-					    "draw_background", FALSE,
-					    NULL);
+	create_rect_and_text (etcta);
 	e_canvas_item_move_absolute (etcta->text, 2, 2);
 
 	if (GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)
@@ -448,6 +481,7 @@ etcta_class_init (ETableClickToAddClass *klass)
 	etcta_parent_class = g_type_class_ref (PARENT_OBJECT_TYPE);
 
 	klass->cursor_change = NULL;
+	klass->style_set     = etcta_style_set;
 
 	object_class->dispose      = etcta_dispose;
 	object_class->set_property = etcta_set_property;
@@ -501,6 +535,16 @@ etcta_class_init (ETableClickToAddClass *klass)
 			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
+	etcta_signals [STYLE_SET] =
+		g_signal_new ("style_set",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableClickToAddClass, style_set),
+			      NULL, NULL,
+			      e_marshal_NONE__OBJECT,
+			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
+
+
 	atk_registry_set_factory_type (atk_get_default_registry (),
 					E_TABLE_CLICK_TO_ADD_TYPE,
 					gal_a11y_e_table_click_to_add_factory_get_type ());
@@ -511,6 +555,7 @@ static void
 etcta_init (GnomeCanvasItem *item)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
+	AtkObject *a11y;
 
 	etcta->one = NULL;
 	etcta->model = NULL;
@@ -527,6 +572,12 @@ etcta_init (GnomeCanvasItem *item)
 			 G_CALLBACK (etcta_cursor_change), etcta);
 
 	e_canvas_item_set_reflow_callback(item, etcta_reflow);
+
+	/* create its a11y object at this time if accessibility is enabled*/
+	if (atk_get_root () != NULL) {
+        	a11y = atk_gobject_accessible_for_object (G_OBJECT (etcta));
+		atk_object_set_name (a11y, _("click to add"));
+	}
 }
 
 E_MAKE_TYPE(e_table_click_to_add, "ETableClickToAdd", ETableClickToAdd, etcta_class_init, etcta_init, PARENT_OBJECT_TYPE)
@@ -549,25 +600,6 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 		gtk_object_destroy(GTK_OBJECT (etcta->row));
 		etcta->row = NULL;
 	}
-	if (!etcta->rect) {
-		etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
-						    gnome_canvas_rect_get_type(),
-						    "x1", (double) 0,
-						    "y1", (double) 0,
-						    "x2", (double) etcta->width - 1,
-						    "y2", (double) etcta->height - 1,
-						    "outline_color", "black",
-						    "fill_color", "white",
-						    NULL);
-	}
-	if (!etcta->text) {
-		etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
-						    e_text_get_type(),
-						    "text", etcta->message ? etcta->message : "",
-						    "anchor", GTK_ANCHOR_NW,
-						    "width", etcta->width - 4,
-						    "draw_background", FALSE,
-						    NULL);
-		e_canvas_item_move_absolute (etcta->text, 3, 3);
-	}
+	create_rect_and_text (etcta);
+	e_canvas_item_move_absolute (etcta->text, 3, 3);
 }

@@ -201,7 +201,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	
 	selected = flags & E_CELL_SELECTED;
 
-	if (value >= toggle->n_states){
+	if (value < 0 || value >= toggle->n_states){
 		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
 			   value, toggle->n_states);
 		return;

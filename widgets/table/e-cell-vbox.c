@@ -42,17 +42,12 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "gal/util/e-util.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-vbox.h"
 #include "e-table-item.h"
 #include "e-cell-vbox.h"
 
 #define PARENT_TYPE e_cell_get_type ()
-
-typedef struct {
-	ECellView     cell_view;
-	int           subcell_view_count;
-	ECellView   **subcell_views;
-	int          *model_cols;
-} ECellVboxView;
 
 static ECellClass *parent_class;
 
@@ -443,6 +438,8 @@ e_cell_vbox_class_init (GObjectClass *object_class)
 #endif
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
+
+	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_VBOX_TYPE, gal_a11y_e_cell_vbox_new);
 }
 
 static void

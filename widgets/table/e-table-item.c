@@ -44,6 +44,7 @@
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/util/e-util.h"
+#include "gal/a11y/e-table/gal-a11y-e-table-item.h"
 #include "gal/util/e-i18n.h"
 #include <string.h>
 #include <stdlib.h>
@@ -1647,6 +1648,7 @@ eti_init (GnomeCanvasItem *item)
 	eti->cursor_y2                 = -1;
 
 	eti->rows                      = -1;
+	eti->cols                      = -1;
 
 	eti->frozen_count              = 0;
 	eti->queue_show_cursor         = FALSE;
@@ -2669,9 +2671,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_KP_Down:
 			if ((e->key.state & GDK_MOD1_MASK)
 			    && ((e->key.keyval == GDK_Down ) || (e->key.keyval == GDK_KP_Down))) {
-				gint view_col = model_to_view_col(eti, cursor_col);
-				if (eti_e_cell_event (eti, eti->cell_views [view_col], e, ((GdkEventKey *)e)->time, cursor_col, view_col, model_to_view_row(eti, cursor_row),  E_CELL_CURSOR))
-					return TRUE;
+				gint view_col = model_to_view_col(eti, cursor_col);				
+				if ((view_col >= 0) && (view_col < eti->cols))
+					if (eti_e_cell_event (eti, eti->cell_views [view_col], e, ((GdkEventKey *)e)->time, cursor_col, view_col, model_to_view_row(eti, cursor_row),  E_CELL_CURSOR))
+						return TRUE;
 			} else
 			return_val = e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 			break;
@@ -3124,10 +3127,8 @@ eti_class_init (GObjectClass *object_class)
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
-        atk_registry_set_factory_type (atk_get_default_registry (),
-				       E_TABLE_ITEM_TYPE,
-				       gal_a11y_e_table_item_factory_get_type ());
-
+	/* A11y Init */
+	gal_a11y_e_table_item_init ();
 }
 
 E_MAKE_TYPE (e_table_item,

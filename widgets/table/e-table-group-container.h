@@ -84,6 +84,16 @@ typedef struct {
 	ETableGroupClass parent_class;
 } ETableGroupContainerClass;
 
+typedef struct {
+        ETableGroup *child;
+        void *key;
+        char *string;
+        GnomeCanvasItem *text;
+        GnomeCanvasItem *rect;
+        gint count;
+} ETableGroupContainerChildNode;
+
+
 ETableGroup *e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header, ETableHeader     *header,
 						ETableModel *model, ETableSortInfo *sort_info, int n);
 void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,

@@ -59,15 +59,6 @@ enum {
 	PROP_UNIFORM_ROW_HEIGHT
 };
 
-typedef struct {
-	ETableGroup *child;
-	void *key;
-	char *string;
-	GnomeCanvasItem *text;
-	GnomeCanvasItem *rect;
-	gint count;
-} ETableGroupContainerChildNode;
-
 static EPrintable *
 etgc_get_printable (ETableGroup *etg);
 

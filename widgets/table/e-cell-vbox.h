@@ -50,6 +50,13 @@ typedef struct {
 } ECellVbox;
 
 typedef struct {
+	ECellView     cell_view;
+	int           subcell_view_count;
+	ECellView   **subcell_views;
+	int          *model_cols;
+} ECellVboxView;
+
+typedef struct {
 	ECellClass parent_class;
 } ECellVboxClass;
 

@@ -84,6 +84,9 @@ typedef struct {
 	char *(*get_text)  (ECellText *cell, ETableModel *model, int col, int row);
 	void  (*free_text) (ECellText *cell, char *text);
 	void  (*set_value) (ECellText *cell, ETableModel *model, int col, int row, const char *text);
+	/* signal handlers */
+	void (*text_inserted) (ECellText *cell, ECellView *cell_view, int pos, int len, int row, int model_col);
+	void (*text_deleted)  (ECellText *cell, ECellView *cell_view, int pos, int len, int row, int model_col);
 } ECellTextClass;
 
 GType      e_cell_text_get_type (void);
@@ -115,6 +118,9 @@ void e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row);
 
 /* Deletes selected text */
 void e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row);
+
+/* get text directly from view, both col and row are model format */
+char *e_cell_text_get_text_by_view (ECellView *cell_view, gint col, gint row);
 
 G_END_DECLS
 
