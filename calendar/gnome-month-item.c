@@ -14,10 +14,38 @@
 
 /* These are indices into the items array of a GnomeMonthItem structure */
 enum {
-	ITEM_HEAD_GROUP = 0,
-	ITEM_HEAD_BOX   = 7,
-	ITEM_HEAD_LABEL = 14
+	ITEM_HEAD_GROUP = 0,	/* 7 groups */
+	ITEM_HEAD_BOX   = 7,	/* 7 boxes */
+	ITEM_HEAD_LABEL = 14,	/* 7 labels */
+	ITEM_DAY_GROUP  = 21,	/* 42 groups */
+	ITEM_DAY_BOX    = 63,	/* 42 boxes */
+	ITEM_DAY_LABEL  = 105	/* 42 labels */
 };
+
+
+/* Number of days in a month, for normal and leap years */
+static int days_in_month[2][12] = {
+	{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+	{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+};
+
+/* The weird month of September 1752, where 3 Sep through 13 Sep were eliminated due to the
+ * Gregorian reformation.
+ */
+static int sept_1752[42] = {
+	 0,  0,  1,  2, 14, 15, 16,
+	17, 18, 19, 20, 21, 22, 23,
+	24, 25, 26, 27, 28, 29, 30,
+	 0,  0,  0,  0,  0,  0,  0,
+	 0,  0,  0,  0,  0,  0,  0,
+	 0,  0,  0,  0,  0,  0,  0
+};
+
+#define REFORMATION_DAY 639787		/* First day of the reformation, counted from 1 Jan 1 */
+#define MISSING_DAYS 11			/* They corrected out 11 days */
+#define THURSDAY 4			/* First day of reformation */
+#define SATURDAY 6
+
 
 enum {
 	ARG_0,
@@ -28,10 +56,12 @@ enum {
 	ARG_WIDTH,
 	ARG_HEIGHT,
 	ARG_ANCHOR,
-	ARG_PADDING,
+	ARG_HEAD_PADDING,
+	ARG_DAY_PADDING,
 	ARG_DAY_NAMES,
 	ARG_HEADING_HEIGHT,
 	ARG_HEADING_ANCHOR,
+	ARG_DAY_ANCHOR,
 	ARG_START_ON_MONDAY
 };
 
@@ -92,10 +122,12 @@ gnome_month_item_class_init (GnomeMonthItemClass *class)
 	gtk_object_add_arg_type ("GnomeMonthItem::width", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_WIDTH);
 	gtk_object_add_arg_type ("GnomeMonthItem::height", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("GnomeMonthItem::anchor", GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_ANCHOR);
-	gtk_object_add_arg_type ("GnomeMonthItem::padding", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_PADDING);
+	gtk_object_add_arg_type ("GnomeMonthItem::head_padding", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_HEAD_PADDING);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_padding", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_DAY_PADDING);
 	gtk_object_add_arg_type ("GnomeMonthItem::day_names", GTK_TYPE_POINTER, GTK_ARG_READABLE, ARG_DAY_NAMES);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_height", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_HEADING_HEIGHT);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_anchor", GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_HEADING_ANCHOR);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_anchor", GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_DAY_ANCHOR);
 	gtk_object_add_arg_type ("GnomeMonthItem::start_on_monday", GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_START_ON_MONDAY);
 
 	object_class->destroy = gnome_month_item_destroy;
@@ -177,10 +209,10 @@ reshape_headings (GnomeMonthItem *mitem)
 
 		/* Label */
 		get_label_anchor (mitem->head_anchor,
-				  mitem->padding,
-				  mitem->padding,
-				  width - mitem->padding,
-				  mitem->head_height - mitem->padding,
+				  mitem->head_padding,
+				  mitem->head_padding,
+				  width - mitem->head_padding,
+				  mitem->head_height - mitem->head_padding,
 				  &x, &y);
 
 		gnome_canvas_item_set (mitem->items[ITEM_HEAD_LABEL + i],
@@ -191,6 +223,54 @@ reshape_headings (GnomeMonthItem *mitem)
 	}
 }
 
+/* Resets the position of the days in the calendar */
+static void
+reshape_days (GnomeMonthItem *mitem)
+{
+	double width, height;
+	double x, y;
+	int row, col;
+	int i;
+
+	width = mitem->width / 7;
+	height = (mitem->height - mitem->head_height) / 6;
+
+	i = 0;
+
+	for (row = 0; row < 6; row++)
+		for (col = 0; col < 7; col++) {
+			/* Group */
+			gnome_canvas_item_set (mitem->items[ITEM_DAY_GROUP + i],
+					       "x", width * col,
+					       "y", mitem->head_height + height * row,
+					       NULL);
+
+			/* Box */
+			gnome_canvas_item_set (mitem->items[ITEM_DAY_BOX + i],
+					       "x1", 0.0,
+					       "y1", 0.0,
+					       "x2", width,
+					       "y2", height,
+					       NULL);
+
+			/* Label */
+			get_label_anchor (mitem->day_anchor,
+					  mitem->day_padding,
+					  mitem->day_padding,
+					  width - mitem->day_padding,
+					  height - mitem->day_padding,
+					  &x, &y);
+
+			gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+					       "x", x,
+					       "y", y,
+					       "anchor", mitem->day_anchor,
+					       NULL);
+
+			i++;
+		}
+}
+
 /* Changes the positions and resizes the items in the calendar to match the new size of the
  * calendar.
  */
@@ -198,6 +278,7 @@ static void
 reshape (GnomeMonthItem *mitem)
 {
 	reshape_headings (mitem);
+	reshape_days (mitem);
 }
 
 /* Creates the items for the day name headings */
@@ -227,9 +308,65 @@ create_headings (GnomeMonthItem *mitem)
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_HEAD_GROUP + i]),
 					       gnome_canvas_text_get_type (),
 					       "fill_color", "white",
-					       "font", "-adobe-helvetica-medium-r-normal--12-*-72-72-p-*-iso8859-1",
+					       "font", "-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1",
 					       NULL);
 	}
+}
+
+/* Set the day numbers in the monthly calendar */
+static void
+set_days (GnomeMonthItem *mitem)
+{
+	int i;
+	char buf[100];
+
+	/* FIXME: actually calculate the numbers */
+
+	for (i = 0; i < 42; i++) {
+		sprintf (buf, "%d", i);
+		gnome_canvas_item_set (mitem->items[ITEM_DAY_LABEL + i],
+				       "text", buf,
+				       NULL);
+	}
+}
+
+/* Creates the items for the days */
+static void
+create_days (GnomeMonthItem *mitem)
+{
+	int i;
+	char buf[100];
+	GdkColor *c;
+
+	/* Just create the items; they will be positioned and configured by a call to reshape() */
+
+	for (i = 0; i < 42; i++) {
+		/* Group */
+		mitem->items[ITEM_DAY_GROUP + i] =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem),
+					       gnome_canvas_group_get_type (),
+					       NULL);
+
+		/* Box */
+		c = &GTK_WIDGET (GNOME_CANVAS_ITEM (mitem)->canvas)->style->bg[GTK_STATE_NORMAL];
+		sprintf (buf, "#%04x%04x%04x", c->red, c->green, c->blue);
+		mitem->items[ITEM_DAY_BOX + i] =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_DAY_GROUP + i]),
+					       gnome_canvas_rect_get_type (),
+					       "outline_color", "black",
+					       "fill_color", buf,
+					       NULL);
+
+		/* Label */
+		mitem->items[ITEM_DAY_LABEL + i] =
+			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_DAY_GROUP + i]),
+					       gnome_canvas_text_get_type (),
+					       "fill_color", "black",
+					       "font", "-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1",
+					       NULL);
+	}
+
+	set_days (mitem);
 }
 
 /* Returns a normalized day index (as in sunday to saturday) based on a visible day index */
@@ -261,14 +398,17 @@ create_items (GnomeMonthItem *mitem)
 	/*  7 heading groups
 	 *  7 heading boxes
 	 *  7 heading labels
+	 * 42 day groups
+	 * 42 day boxes
+	 * 42 day labels
 	 * ------------------
-	 * 21 items total
+	 * 147 items total
 	 */
 
-	mitem->items = g_new (GnomeCanvasItem *, 21);
+	mitem->items = g_new (GnomeCanvasItem *, 147);
 
 	create_headings (mitem);
-	/* FIXME */
+	create_days (mitem);
 
 	/* Initialize by default to three-letter day names */
 
@@ -303,9 +443,11 @@ gnome_month_item_init (GnomeMonthItem *mitem)
 	mitem->width = 150.0; /* not unreasonable defaults, I hope */
 	mitem->height = 100.0;
 	mitem->anchor = GTK_ANCHOR_NW;
-	mitem->padding = 0.0;
+	mitem->head_padding = 0.0;
+	mitem->day_padding = 2.0;
 	mitem->head_height = 14.0;
 	mitem->head_anchor = GTK_ANCHOR_CENTER;
+	mitem->day_anchor = GTK_ANCHOR_CENTER;
 }
 
 GnomeCanvasItem *
@@ -470,8 +612,13 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		reanchor (mitem);
 		break;
 
-	case ARG_PADDING:
-		mitem->padding = fabs (GTK_VALUE_DOUBLE (*arg));
+	case ARG_HEAD_PADDING:
+		mitem->head_padding = fabs (GTK_VALUE_DOUBLE (*arg));
+		reshape (mitem);
+		break;
+
+	case ARG_DAY_PADDING:
+		mitem->day_padding = fabs (GTK_VALUE_DOUBLE (*arg));
 		reshape (mitem);
 		break;
 
@@ -502,6 +649,11 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_HEADING_ANCHOR:
 		mitem->head_anchor = GTK_VALUE_ENUM (*arg);
+		reshape (mitem);
+		break;
+
+	case ARG_DAY_ANCHOR:
+		mitem->day_anchor = GTK_VALUE_ENUM (*arg);
 		reshape (mitem);
 		break;
 
@@ -551,8 +703,12 @@ gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_ENUM (*arg) = mitem->anchor;
 		break;
 
-	case ARG_PADDING:
-		GTK_VALUE_DOUBLE (*arg) = mitem->padding;
+	case ARG_HEAD_PADDING:
+		GTK_VALUE_DOUBLE (*arg) = mitem->head_padding;
+		break;
+
+	case ARG_DAY_PADDING:
+		GTK_VALUE_DOUBLE (*arg) = mitem->day_padding;
 		break;
 
 	case ARG_HEADING_HEIGHT:
@@ -561,6 +717,10 @@ gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_HEADING_ANCHOR:
 		GTK_VALUE_ENUM (*arg) = mitem->head_anchor;
+		break;
+
+	case ARG_DAY_ANCHOR:
+		GTK_VALUE_ENUM (*arg) = mitem->day_anchor;
 		break;
 
 	case ARG_START_ON_MONDAY:

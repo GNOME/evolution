@@ -36,12 +36,15 @@ struct _GnomeMonthItem {
 	double width, height;		/* Size of calendar */
 	GtkAnchorType anchor;		/* Anchor side for calendar */
 
-	double padding;			/* Padding to use between division lines and text */
+	double head_padding;		/* Padding to use between heading lines and text */
+	double day_padding;		/* Padding to use between day number lines and text */
 
 	char *day_names[7];		/* Names to use for the day labels, starting from Sunday */
 
 	double head_height;		/* Height of the headings row */
 	GtkAnchorType head_anchor;	/* Anchor side for the heading labels */
+
+	GtkAnchorType day_anchor;	/* Anchor side for the day number labels */
 
 	GnomeCanvasItem **items;	/* All the items that make up the calendar */
 
