@@ -56,7 +56,7 @@
 		type="toggle" state="0"/>
 		
 		<cmd name="ViewAttach" _label="Show attachments" _tip="Show / hide attachments"
-		type="toggle" state="0"/> 
+		type="toggle" state="0"/>
 		
                 <cmd name="SecurityPGPSign" _label="PGP Sign" _tip="Sign this message with your PGP key"
 		type="toggle" state="0"/>
