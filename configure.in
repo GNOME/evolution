@@ -349,9 +349,44 @@ main (void)
 		LIBS="$LIBS_save"
 		CPPFLAGS="$CPPFLAGS_save"
 	])
+fi
+
+if test $ac_cv_db3_lib_check = yes; then
+	DB3_LDADD="$with_db3_libs/libdb3.a"
+else
+	AC_CACHE_CHECK([for -ldb-3.1 3.1.17], ac_cv_db3_lib_db31_check,
+	[
+		LIBS_save="$LIBS"
+		LIBS="$with_db3_libs/libdb-3.1.a $LIBS"
+		CPPFLAGS_save="$CPPFLAGS"
+		CPPFLAGS="$CPPFLAGS $DB3_CFLAGS"
 	
-	if test $ac_cv_db3_lib_db3_check = yes; then
-		DB3_LDADD="$with_db3_libs/libdb3.a"
+		AC_TRY_RUN([
+#if $HAVE_DB3_DB_H_INTERNAL
+#include <db3/db.h>
+#else
+#include <db.h>
+#endif
+int
+main (void)
+{
+	int major, minor, patch;
+	db_version (&major, &minor, &patch);
+	if (major == 3 &&
+	    minor == 1 &&
+	    patch == 17)
+		return 0;
+	else
+		return 1;
+}
+], ac_cv_db3_lib_db31_check=yes, ac_cv_db3_lib_db31_check=no)
+	
+		LIBS="$LIBS_save"
+		CPPFLAGS="$CPPFLAGS_save"
+	])
+	
+	if test $ac_cv_db3_lib_db31_check = yes; then
+		DB3_LDADD="$with_db3_libs/libdb-3.1.a"
 	else
 		AC_ERROR(Didn't find libdb 3.1.17 libraries.  You must have libdb version 3.1.17 installed to compile evolution)
 	fi

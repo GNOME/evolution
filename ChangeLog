@@ -1,3 +1,8 @@
+2001-06-11  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: Update configure checks for RedHat. /me beats a
+	sleep cat to death
+
 2001-06-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Bumped required version of gal to 0.8.99.2.
