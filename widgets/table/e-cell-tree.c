@@ -167,6 +167,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	/* only draw the tree effects if we're the active sort */
 	if (/* XXX */ TRUE) {
+		GdkPixbuf *node_image;
+		int node_image_width = 0, node_image_height = 0;
+		ETreePath *parent_node;
+
 		node = e_cell_tree_get_node (tree_model, row);
 
 		offset = offset_of_node (tree_model, node);
@@ -174,12 +178,22 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		expanded = e_tree_model_node_is_expanded (tree_model, node);
 		subcell_offset = offset;
 
+		if (expanded)
+			node_image = e_tree_model_node_get_opened_pixbuf (tree_model, node);
+		else
+			node_image = e_tree_model_node_get_closed_pixbuf (tree_model, node);
+
+		if (node_image) {
+			node_image_width = gdk_pixbuf_get_width (node_image);
+			node_image_height = gdk_pixbuf_get_height (node_image);
+		}
+
 		/*
 		 * Be a nice citizen: clip to the region we are supposed to draw on
 		 */
 		rect.x = x1;
 		rect.y = y1;
-		rect.width = offset;
+		rect.width = subcell_offset + node_image_width;
 		rect.height = y2 - y1;
 	
 		gdk_gc_set_clip_rectangle (tree_view->gc, &rect);
@@ -222,41 +236,57 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			/* now traverse back up to the root of the tree, checking at
 			   each level if the node has siblings, and drawing the
 			   correct vertical pipe for it's configuration. */
-			node = e_tree_model_node_get_parent (tree_model, node);
+			parent_node = e_tree_model_node_get_parent (tree_model, node);
 			offset -= INDENT_AMOUNT;
-			while (node && visible_depth_of_node (tree_model, node) != 0) {
-				if (e_tree_model_node_get_next(tree_model, node)) {
+			while (parent_node && visible_depth_of_node (tree_model, parent_node) != 0) {
+				if (e_tree_model_node_get_next(tree_model, parent_node)) {
 					gdk_draw_line (drawable, tree_view->gc,
 						       rect.x + offset - INDENT_AMOUNT / 2,
 						       rect.y,
 						       rect.x + offset - INDENT_AMOUNT / 2,
 						       rect.y + rect.height);
 				}
-				node = e_tree_model_node_get_parent (tree_model, node);
+				parent_node = e_tree_model_node_get_parent (tree_model, parent_node);
 				offset -= INDENT_AMOUNT;
 			}
 		}
 
 		/* now draw our icon if we're expandable */
 		if (expandable) {
-			GdkPixbuf *image = (expanded 
-					    ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
-					    : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
-			int width, height;
+			GdkPixbuf *image;
+			int image_width, image_height;
 
-			width = gdk_pixbuf_get_width(image);
-			height = gdk_pixbuf_get_height(image);
+			image = (expanded 
+				 ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
+				 : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
+
+			image_width = gdk_pixbuf_get_width(image);
+			image_height = gdk_pixbuf_get_height(image);
 
 			gdk_pixbuf_render_to_drawable_alpha (image,
 							     drawable,
 							     0, 0,
-							     x1 + subcell_offset - INDENT_AMOUNT / 2 - width / 2,
-							     y1 + (y2 - y1) / 2 - height / 2,
-							     width, height,
+							     x1 + subcell_offset - INDENT_AMOUNT / 2 - image_width / 2,
+							     y1 + (y2 - y1) / 2 - image_height / 2,
+							     image_width, image_height,
 							     GDK_PIXBUF_ALPHA_BILEVEL,
 							     128,
 							     GDK_RGB_DITHER_NORMAL,
-							     width, 0);
+							     image_width, 0);
+		}
+
+		if (node_image) {
+			gdk_pixbuf_render_to_drawable_alpha (node_image,
+							     drawable,
+							     0, 0,
+							     x1 + subcell_offset,
+							     y1 + (y2 - y1) / 2 - node_image_height / 2,
+							     node_image_width, node_image_height,
+							     GDK_PIXBUF_ALPHA_BILEVEL,
+							     128,
+							     GDK_RGB_DITHER_NORMAL,
+							     node_image_width, 0);
+			subcell_offset += node_image_width;
 		}
 	}
 

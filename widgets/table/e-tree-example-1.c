@@ -20,6 +20,8 @@
 #include "tree-expanded.xpm"
 #include "tree-unexpanded.xpm"
 
+GdkPixbuf *tree_expanded_pixbuf;
+GdkPixbuf *tree_unexpanded_pixbuf;
 
 #define COLS 4
 
@@ -127,7 +129,9 @@ add_sibling (GtkButton *button, gpointer data)
 	parent_node = e_tree_model_node_get_parent (e_tree_model, selected_node);
 
 	e_tree_model_node_insert_before (e_tree_model, parent_node,
-					 selected_node, g_strdup("User added sibling"));
+					 selected_node,
+					 NULL, NULL,
+					 g_strdup("User added sibling"));
 
 }
 
@@ -146,7 +150,8 @@ add_child (GtkButton *button, gpointer data)
 	g_assert (selected_node);
 
 	e_tree_model_node_insert (e_tree_model, selected_node,
-				  0, g_strdup("User added child"));
+				  0, NULL, NULL,
+				  g_strdup("User added child"));
 }
 
 static void
@@ -224,7 +229,6 @@ static void
 create_tree (void)
 {
 	GtkWidget *window, *frame, *button, *vbox;
-	GdkPixbuf *tree_expanded_pixbuf, *tree_unexpanded_pixbuf;
 	ECell *cell_left_just;
 	ECell *cell_tree;
 	ETableHeader *e_table_header;
@@ -241,14 +245,19 @@ create_tree (void)
 
 	/* create a root node with 5 children */
 	root_node = e_tree_model_node_insert (e_tree_model, NULL,
-					      0, g_strdup("Root Node"));
+					      0, NULL, NULL,
+					      g_strdup("Root Node"));
 
 	for (i = 0; i < 5; i++){
 		ETreePath *n = e_tree_model_node_insert (e_tree_model,
-							 root_node, 0, g_strdup("First level of children"));
+							 root_node, 0,
+							 tree_expanded_pixbuf, tree_unexpanded_pixbuf,
+							 g_strdup("First level of children"));
 		for (j = 0; j < 5; j ++) {
 			e_tree_model_node_insert (e_tree_model,
-						  n, 0, g_strdup("Second level of children"));
+						  n, 0,
+						  NULL, NULL,
+						  g_strdup("Second level of children"));
 		}
 	}
 
@@ -273,12 +282,6 @@ create_tree (void)
 	 */
 	cell_left_just = e_cell_text_new (E_TABLE_MODEL(e_tree_model), NULL, GTK_JUSTIFY_LEFT);
 
-	/*
-	 * Create our pixbuf for expanding/unexpanding
-	 */
-	tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_expanded_xpm);
-	tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_unexpanded_xpm);
-	
 	/* 
 	 * This renderer is used for the tree column (the leftmost one), and
 	 * has as its subcell renderer the text renderer.  this means that
@@ -377,6 +380,12 @@ main (int argc, char *argv [])
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
+	/*
+	 * Create our pixbuf for expanding/unexpanding
+	 */
+	tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_expanded_xpm);
+	tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_unexpanded_xpm);
+	
 	create_tree ();
 	
 	gtk_main ();

@@ -1,3 +1,19 @@
+2000-06-23  Chris Toshok  <toshok@helixcode.com>
+
+	* e-tree-example-1.c (create_tree): use the expanded/unexpanded
+	pixbufs as node pixbufs for the first level of children, to test
+	the drawing.
+
+	* e-tree-model.c (e_tree_model_node_get_closed_pixbuf): new function.
+	(e_tree_model_node_get_opened_pixbuf): same.
+	(e_tree_model_node_insert): add opened/closed pixbuf argument.
+	(e_tree_model_node_insert_before): same.
+
+	* e-tree-model.h: add prototypes for opened/closed pixbuf
+	accessors, and add them to the e_tree_model_node_insert_* calls.
+
+	* e-cell-tree.c (ect_draw): add opened/closed pixbuf drawing per node.
+
 2000-06-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.c: Make the table not move around as you resize.

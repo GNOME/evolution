@@ -3,6 +3,7 @@
 #define _E_TREE_MODEL_H_
 
 #include "e-table-model.h"
+#include "gdk-pixbuf/gdk-pixbuf.h"
 
 #define E_TREE_MODEL_TYPE        (e_tree_model_get_type ())
 #define E_TREE_MODEL(o)          (GTK_CHECK_CAST ((o), E_TREE_MODEL_TYPE, ETreeModel))
@@ -68,8 +69,8 @@ ETreePath *e_tree_model_node_get_next   (ETreeModel *etree, ETreePath *path);
 ETreePath *e_tree_model_node_get_prev   (ETreeModel *etree, ETreePath *path);
 
 /* node operations */
-ETreePath *e_tree_model_node_insert        (ETreeModel *etree, ETreePath *parent, int position, gpointer node_data);
-ETreePath *e_tree_model_node_insert_before (ETreeModel *etree, ETreePath *parent, ETreePath *sibling, gpointer node_data);
+ETreePath *e_tree_model_node_insert        (ETreeModel *etree, ETreePath *parent, int position, GdkPixbuf *opened_pixbuf, GdkPixbuf *closed_pixbuf, gpointer node_data);
+ETreePath *e_tree_model_node_insert_before (ETreeModel *etree, ETreePath *parent, ETreePath *sibling, GdkPixbuf *opened_pixbuf, GdkPixbuf *closed_pixbuf, gpointer node_data);
 gpointer   e_tree_model_node_remove        (ETreeModel *etree, ETreePath *path);
 
 /* node accessors */
@@ -84,6 +85,8 @@ guint    e_tree_model_node_depth                   (ETreeModel *etree, ETreePath
 guint    e_tree_model_node_num_visible_descendents (ETreeModel *etm, ETreePath *node);
 gpointer e_tree_model_node_get_data                (ETreeModel *etm, ETreePath *node);
 void     e_tree_model_node_set_data                (ETreeModel *etm, ETreePath *node, gpointer node_data);
+GdkPixbuf *e_tree_model_node_get_opened_pixbuf     (ETreeModel *etm, ETreePath *node);
+GdkPixbuf *e_tree_model_node_get_closed_pixbuf     (ETreeModel *etm, ETreePath *node);
 
 /* display oriented routines */
 ETreePath *e_tree_model_node_at_row           (ETreeModel *etree, int row);
