@@ -33,7 +33,7 @@ struct _ESelectNamesTextModel {
 };
 
 struct _ESelectNamesTextModelClass {
-	ETextModel parent_class;
+	ETextModelClass parent_class;
 };
 
 ETextModel *e_select_names_text_model_new  (ESelectNamesModel *source);

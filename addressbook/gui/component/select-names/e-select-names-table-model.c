@@ -111,10 +111,7 @@ fill_in_info (ESelectNamesTableModel *model)
 		EIterator *iterator = e_list_get_iterator(list);
 		int count = 0;
 		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-			const ESelectNamesModelData *data = e_iterator_get(iterator);
-			if (data->type != E_SELECT_NAMES_MODEL_DATA_TYPE_SEPARATION_MATERIAL) {
-				count ++;
-			}
+			count ++;
 		}
 		model->count = count;
 		model->data = g_new(ESelectNamesTableModelData, count);
@@ -134,8 +131,6 @@ fill_in_info (ESelectNamesTableModel *model)
 				model->data[count].name =  g_strdup(data->string);
 				model->data[count].email = g_strdup(data->string);
 				count ++;
-				break;
-			case E_SELECT_NAMES_MODEL_DATA_TYPE_SEPARATION_MATERIAL:
 				break;
 			}
 		}

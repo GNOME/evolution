@@ -40,7 +40,7 @@ struct _ESelectNamesTableModel {
 };
 
 struct _ESelectNamesTableModelClass {
-	ETableModel parent_class;
+	ETableModelClass parent_class;
 };
 
 ETableModel *e_select_names_table_model_new  (ESelectNamesModel *source);

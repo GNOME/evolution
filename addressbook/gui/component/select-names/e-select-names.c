@@ -28,6 +28,7 @@
 #include <addressbook/gui/component/e-addressbook-model.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include "e-select-names-table-model.h"
 
 static void e_select_names_init		(ESelectNames		 *card);
 static void e_select_names_class_init	(ESelectNamesClass	 *klass);
@@ -248,7 +249,7 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 }
 
 void
-e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
+e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, ESelectNamesModel *source)
 {
 	ESelectNamesChild *child;
 	GtkWidget *button;
@@ -288,7 +289,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
 			 GTK_FILL, GTK_FILL,
 			 0, 0);
 	
-	model = e_cardlist_model_new();
+	model = e_select_names_table_model_new(source);
 	header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
 	e_table_header_add_column (header, e_table_col_new (0, "Full Name", 1.0, 20, cell_left_just,

@@ -15,6 +15,7 @@
 #include "e-select-names-manager.h"
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
+#include "e-select-names.h"
 #include "widgets/e-text/e-entry.h"
 
 /* Object argument IDs */
@@ -154,6 +155,9 @@ section_copy(const void *sec, void *data)
 	newsec = g_new(ESelectNamesManagerSection, 1);
 	newsec->id = g_strdup(section->id);
 	newsec->title = g_strdup(section->title);
+	newsec->model = section->model;
+	if (newsec->model)
+		gtk_object_ref(GTK_OBJECT(newsec->model));
 	return newsec;
 }
 
@@ -163,6 +167,8 @@ section_free(void *sec, void *data)
 	ESelectNamesManagerSection *section = sec;
 	g_free(section->id);
 	g_free(section->title);
+	if (section->model)
+		gtk_object_unref(GTK_OBJECT(section->model));
 	g_free(section);
 }
 
@@ -184,6 +190,7 @@ void                          e_select_names_manager_add_section               (
 	section = g_new(ESelectNamesManagerSection, 1);
 	section->id = g_strdup(id);
 	section->title = g_strdup(title);
+	section->model = e_select_names_model_new();
 	e_list_append(manager->sections, section);
 	section_free(section, manager);
 }
@@ -195,7 +202,7 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 	ETextModel *model;
 	EIterator *iterator;
 	iterator = e_list_get_iterator(manager->sections);
-	for (; e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		const ESelectNamesManagerSection *section = e_iterator_get(iterator);
 		if (!strcmp(section->id, id)) {
 			entry = GTK_WIDGET(e_entry_new());
@@ -212,11 +219,27 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 void                          e_select_names_manager_activate_dialog           (ESelectNamesManager *manager,
 										char *id)
 {
+	ESelectNames *names = E_SELECT_NAMES(e_select_names_new());
+	EIterator *iterator;
+	iterator = e_list_get_iterator(manager->sections);
+	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		const ESelectNamesManagerSection *section = e_iterator_get(iterator);
+		e_select_names_add_section(names, section->id, section->title, section->model);
+	}
+	gtk_widget_show(GTK_WIDGET(names));
 }
 
 /* Of type ECard */
 EList                    *e_select_names_manager_get_cards                 (ESelectNamesManager *manager,
 									    char *id)
 {
+	EIterator *iterator;
+	iterator = e_list_get_iterator(manager->sections);
+	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		const ESelectNamesManagerSection *section = e_iterator_get(iterator);
+		if (!strcmp(section->id, id)) {
+			
+		}
+	}
 	return NULL;
 }

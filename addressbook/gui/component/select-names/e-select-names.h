@@ -25,6 +25,7 @@
 #include <glade/glade.h>
 #include <e-util/e-list.h>
 #include <widgets/e-table/e-table.h>
+#include "e-select-names-model.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -73,7 +74,8 @@ GtkWidget *e_select_names_new         (void);
 GtkType    e_select_names_get_type    (void);
 void       e_select_names_add_section (ESelectNames *e_select_names,
 				       char         *name,
-				       char         *id);
+				       char         *id,
+				       ESelectNamesModel *source);
 /* Returns a ref counted list of addresses. */
 EList     *e_select_names_get_section (ESelectNames *e_select_names,
 				       char         *id);

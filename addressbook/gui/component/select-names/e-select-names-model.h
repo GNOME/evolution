@@ -29,7 +29,6 @@ typedef struct _ESelectNamesModelClass ESelectNamesModelClass;
 enum _ESelectNamesModelDataType {
 	E_SELECT_NAMES_MODEL_DATA_TYPE_CARD,
 	E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS,
-	E_SELECT_NAMES_MODEL_DATA_TYPE_SEPARATION_MATERIAL,
 };
 
 struct _ESelectNamesModelData {

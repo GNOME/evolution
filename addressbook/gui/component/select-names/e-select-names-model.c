@@ -199,12 +199,56 @@ EList                    *e_select_names_model_get_data                 (ESelect
 	return model->data;
 }
 
+static void
+e_select_names_model_changed           (ESelectNamesModel *model)
+{
+	gtk_signal_emit(GTK_OBJECT(model),
+			e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
+}
+
 void
 e_select_names_model_insert            (ESelectNamesModel *model,
-					EIterator *iterator, /* Must be one of the iterators in the model. */
+					EIterator *iterator, /* Must be one of the iterators in the model, or NULL if the list is empty. */
 					int index,
 					char *data)
 {
+	gchar **strings = g_strsplit(data, ",", -1);
+	int i;
+	if (iterator == NULL) {
+		ESelectNamesModelData new = {E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS, NULL, ""};
+
+		e_list_append(model->data, &new);
+		iterator = e_list_get_iterator(model->data);
+
+		index = 0;
+	}
+	if (strings[0]) {
+		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
+		gchar *temp = g_strdup_printf("%.*s%s%s", index, node->string, strings[0], node->string + index);
+		g_free(node->string);
+		node->string = temp;
+	}
+	for (i = 0; strings[i]; i++) {
+		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
+		gchar *temp = g_strdup_printf("%.*s", index, node->string);
+		gchar *temp2 = g_strdup_printf("%s%s", strings[0], node->string + index);
+
+		g_free(node->string);
+		node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
+		node->string = temp;
+		if (node->card)
+			gtk_object_unref(GTK_OBJECT(node->card));
+		node->card = NULL;
+
+		node = g_new(ESelectNamesModelData, 1);
+		node->type = E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS;
+		node->card = NULL;
+		node->string = temp2;
+		e_iterator_insert(iterator, node, 0);
+		g_free(node->string);
+		g_free(node);
+	}
+	e_select_names_model_changed(model);
 }
 
 void
@@ -214,6 +258,11 @@ e_select_names_model_insert_length     (ESelectNamesModel *model,
 					char *data,
 					int length)
 {
+	gchar *string = g_new(char, length + 1);
+	strncpy(string, data, length);
+	string[length] = 0;
+	e_select_names_model_insert(model, iterator, index, string);
+	g_free(string);
 }
 
 void
@@ -222,15 +271,77 @@ e_select_names_model_delete            (ESelectNamesModel *model,
 					int index,
 					int length)
 {
+	while (length > 0 && e_iterator_is_valid(iterator)) {
+		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
+		int this_length = strlen(node->string);
+		if (this_length <= index + length) {
+			gchar *temp = g_strdup_printf("%.*s", index, node->string);
+			g_free(node->string);
+			node->string = temp;
+			length -= this_length - index;
+		} else {
+			gchar *temp = g_strdup_printf("%.*s%s", index, node->string, node->string + index + length);
+			g_free(node->string);
+			node->string = temp;
+			length = 0;
+		}
+		
+		if (length > 0) {
+			e_iterator_next(iterator);
+			if (e_iterator_is_valid(iterator)) {
+				ESelectNamesModelData *node2 = (void *) e_iterator_get(iterator);
+				gchar *temp = g_strdup_printf("%s%s", node->string, node2->string);
+				g_free(node2->string);
+				node2->string = temp;
+				e_iterator_prev(iterator);
+				e_iterator_delete(iterator);
+			}
+		}
+	}
+	e_select_names_model_changed(model);
 }
 
 void
 e_select_names_model_replace           (ESelectNamesModel *model,
 					EIterator *iterator, /* Must be one of the iterators in the model. */
 					int index,
-					int replacement_length,
+					int length,
 					char *data)
 {
+	while (length > 0 && e_iterator_is_valid(iterator)) {
+		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
+		int this_length = strlen(node->string);
+		if (this_length <= index + length) {
+			gchar *temp = g_strdup_printf("%.*s", index, node->string);
+			g_free(node->string);
+			node->string = temp;
+			length -= this_length - index;
+		} else {
+			gchar *temp = g_strdup_printf("%.*s%s", index, node->string, node->string + index + length);
+			g_free(node->string);
+			node->string = temp;
+			length = 0;
+		}
+
+		if (length > 0) {
+			e_iterator_next(iterator);
+			if (e_iterator_is_valid(iterator)) {
+				ESelectNamesModelData *node2 = (void *) e_iterator_get(iterator);
+				gchar *temp = g_strdup_printf("%s%s", node->string, node2->string);
+				g_free(node2->string);
+				node2->string = temp;
+				e_iterator_prev(iterator);
+				e_iterator_delete(iterator);
+			}
+		}
+	}
+	if (!e_iterator_is_valid(iterator)) {
+		ESelectNamesModelData *node;
+		e_iterator_last(iterator);
+		node = (void *) e_iterator_get(iterator);
+		index = strlen(node->string);
+	}
+	e_select_names_model_insert (model, iterator, index, data);
 }
 
 

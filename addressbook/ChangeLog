@@ -1,3 +1,37 @@
+2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c (new_server_cb): Since
+	ELDAPServer->port is a char *, allocate a string with the number
+	389 contained.
+
+	* gui/component/addressbook.c: Make the select names test test the
+	new code instead of the old way of getting to an ESelectNames
+	dialog.
+
+	* gui/component/select-names/e-select-names-manager.c: Coded
+	storing the model for each section, creating an entry and
+	returning it, and for activating the dialog.  Wrote a bit of the
+	get_cards code, but not all of it.
+
+	* gui/component/select-names/e-select-names-model.c,
+	gui/component/select-names/e-select-names-model.h: Coded all of
+	the code needed to make ESelectNamesTextModel work (it doesn't
+	yet, but all the code should be there.)  Removed
+	E_SELECT_NAMES_MODEL_DATA_TYPE_SEPARATION_MATERIAL.
+
+	* gui/component/select-names/e-select-names-table-model.c,
+	gui/component/select-names/e-select-names-text-model.c: Changed
+	these to compensate for removal of
+	E_SELECT_NAMES_MODEL_DATA_TYPE_SEPARATION_MATERIAL.
+
+	* gui/component/select-names/e-select-names-table-model.h,
+	gui/component/select-names/e-select-names-text-model.h: Fixed some
+	silly typos.
+
+	* gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h: Added a parameter to
+	add_section that lets you specify the source ESelectNamesModel.
+	
 2000-07-06  Chris Toshok  <toshok@helixcode.com>
 
 	* gui/component/e-ldap-storage.h: add scope to ELDAPServer, and

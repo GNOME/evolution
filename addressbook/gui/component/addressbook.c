@@ -27,6 +27,7 @@
 
 #include <e-addressbook-model.h>
 #include <select-names/e-select-names.h>
+#include <select-names/e-select-names-manager.h>
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-ldap-server-dialog.h"
@@ -194,10 +195,10 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	/* fill in the defaults */
 	server->name = g_strdup("");
 	server->host = g_strdup("");
-	server->port = 389;
+	server->port = g_strdup_printf("%d", 389);
 	server->description = g_strdup("");
 	server->rootdn = g_strdup("");
-	server->uri = g_strdup_printf ("ldap://%s:%d/%s", server->host, server->port, server->rootdn);
+	server->uri = g_strdup_printf ("ldap://%s:%s/%s", server->host, server->port, server->rootdn);
 	e_ldap_server_editor_show (server);
 
 	if (view->view)
@@ -408,14 +409,41 @@ print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 static void
+open_dialog(GtkWidget *button, ESelectNamesManager *manager)
+{
+	char *id = gtk_object_get_data(GTK_OBJECT(button), "id");
+	e_select_names_manager_activate_dialog(manager, id);
+}
+
+static void
 test_select_names_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	ESelectNames *names = E_SELECT_NAMES(e_select_names_new());
+	ESelectNamesManager *manager = e_select_names_manager_new();
+	GtkWidget *window;
+	GtkWidget *table;
+	int row = 0;
+	char *sections[] = {"to", "from", "cc"};
+	char *titles[] = {N_("To"), N_("From"), N_("Cc")};
+
+	for (row = 0; row < 3; row ++)
+		e_select_names_manager_add_section(manager, sections[row], _(titles[row]));
+
+
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	table = gtk_table_new(3, 2, FALSE);
 	
-	e_select_names_add_section(names, _("To"), "to");
-	e_select_names_add_section(names, _("From"), "from");
-	e_select_names_add_section(names, _("Cc"), "cc");
-	gtk_widget_show(GTK_WIDGET(names));
+	for (row = 0; row < 3; row ++) {
+		GtkWidget *button = gtk_button_new_with_label(_(titles[row]));
+		GtkWidget *entry = e_select_names_manager_create_entry(manager, sections[row]);
+
+		gtk_object_set_data(GTK_OBJECT(button), "id", g_strdup(sections[row]));
+		gtk_signal_connect(GTK_OBJECT(button), "clicked",
+				   GTK_SIGNAL_FUNC(open_dialog), manager);
+		gtk_table_attach(GTK_TABLE(table), button, 0, 1, row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
+		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 0);
+	}
+	gtk_container_add(GTK_CONTAINER(window), table);
+	gtk_widget_show_all(window);
 }
 
 static GnomeUIInfo gnome_toolbar [] = {

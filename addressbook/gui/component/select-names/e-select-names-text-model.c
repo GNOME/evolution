@@ -146,7 +146,7 @@ e_select_names_text_model_insert      	(ETextModel *model, gint position, gchar 
 						    position,
 						    text);
 		} else {
-			position -= this_length;
+			position -= this_length + 1;
 		}
 	}
 }
@@ -165,8 +165,9 @@ e_select_names_text_model_insert_length (ETextModel *model, gint position, gchar
 							   position,
 							   text,
 							   length);
+			break;
 		} else {
-			position -= this_length;
+			position -= this_length + 1;
 		}
 	}
 }
@@ -184,8 +185,9 @@ e_select_names_text_model_delete        (ETextModel *model, gint position, gint 
 						    iterator,
 						    position,
 						    length);
+			break;
 		} else {
-			position -= this_length;
+			position -= this_length + 1;
 		}
 	}
 }
@@ -204,8 +206,10 @@ e_select_names_text_model_model_changed (ESelectNamesModel     *source,
 	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		const ESelectNamesModelData *data = e_iterator_get(iterator);
 		length += strlen(data->string);
+		length ++;
 		length_count++;
 	}
+	length --;
 
 	g_free(model->lengths);
 	model->lengths = g_new(int, length_count + 1);
@@ -221,8 +225,10 @@ e_select_names_text_model_model_changed (ESelectNamesModel     *source,
 		strcpy(stringp, data->string);
 		this_length = strlen(stringp);
 		stringp += this_length;
+		*(stringp++) = ',';
 		*(lengthsp++) = this_length;
 	}
+	stringp --;
 	*stringp = 0;
 	*lengthsp = -1;
 	g_free(E_TEXT_MODEL(model)->text);
