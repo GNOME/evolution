@@ -965,20 +965,27 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	const char *folder_name;
 	int status = 0;
 	int need_sep = 0;
+	CamelURL *url;
 	int i;
 	
 	service_url = camel_service_get_url (CAMEL_SERVICE (camel_folder_get_parent_store (folder)));
+	url = camel_url_new (service_url, NULL);
+	g_free (service_url);
+	
 	folder_name = camel_folder_get_full_name (folder);
 	
-	/* Add a separator unless the first char of folder_name or the last char of service_url is '/' */
-	need_sep = (folder_name && *folder_name != '/');
-	if (service_url && *service_url && !need_sep) {
-		need_sep = (service_url[strlen (service_url)-1] != '/');
+	if (folder_name && *folder_name != '/') {
+		char *path;
+		
+		path = g_strdup_printf ("/%s", folder_name);
+		camel_url_set_path (url, path);
+		g_free (path);
+	} else {
+		camel_url_set_path (url, folder_name);
 	}
 	
-	source_url = g_strdup_printf ("%s%s%s", service_url, need_sep ? "/" : "",
-				      folder_name);
-	g_free (service_url);
+	source_url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	camel_url_free (url);
 	
 	if (uids == NULL) {
 		uids = camel_folder_get_uids (folder);

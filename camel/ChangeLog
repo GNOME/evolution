@@ -1,3 +1,10 @@
+2002-03-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder):
+	Construct the source_url the right way. The previous way was
+	generating urls like pop://fejj@ximian.com;keep_on_server/inbox
+	which is wrong.
+
 2002-03-26  Not Zed  <NotZed@Ximian.com>
 
 	* camel-text-index.c (text_index_normalise): Changed to use just
