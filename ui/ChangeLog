@@ -1,5 +1,9 @@
 2001-08-17  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-addressbook.xml: changed 'Search for Contacts'.
+
+2001-08-17  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-contact-editor.xml: changed 'Send contact to other'
 	to 'Forward Contact' and capitalized 'Send message to Contact' to
 	be consistent with address book.

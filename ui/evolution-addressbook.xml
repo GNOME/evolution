@@ -102,7 +102,7 @@
                 <placeholder name="ComponentToolsPlaceholder">
 			<submenu name="Tools" _label="_Tools">
 				<menuitem name="ToolSearch" verb=""
-				 _label="_Search for contacts"
+				 _label="_Search for Contacts"
 				 pixtype="stock" pixname="Search" />
 	        	        <menuitem name="AddressbookConfig" verb=""
 	        	         _label="_Addressbook Sources..."
