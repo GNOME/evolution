@@ -781,8 +781,6 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 	if (e_table->header)
 		gtk_object_unref(GTK_OBJECT(e_table->header));
 	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
-	if (e_table->header)
-		gtk_object_ref(GTK_OBJECT(e_table->header));
 
 	gtk_object_set (GTK_OBJECT (e_table->header),
 			"width", (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width),

@@ -241,7 +241,7 @@ ecp_unrealize (ECellView *ecv)
 {
 	ECellPopupView *ecp_view = (ECellPopupView *) ecv;
 
-	e_cell_realize (ecp_view->child_view);
+	e_cell_unrealize (ecp_view->child_view);
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (ecv);

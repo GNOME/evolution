@@ -798,8 +798,6 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			}
 		}
 
-		else
-			return 0;
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
