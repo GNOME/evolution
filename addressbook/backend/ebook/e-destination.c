@@ -1285,6 +1285,9 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 				if (list_email)
 					e_destination_set_email (list_dest, list_email);
 				
+				g_free (list_name);
+				g_free (list_email);
+
 				list_dests = g_list_append (list_dests, list_dest);
 			}
 		} else if (!strcmp (node->name, "book_uri")) {
@@ -1310,14 +1313,22 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 	
 	e_destination_clear (dest);
 	
-	if (name)
+	if (name) {
 		e_destination_set_name (dest, name);
-	if (email)
+		g_free (name);
+	}
+	if (email) {
 		e_destination_set_email (dest, email);
-	if (book_uri)
+		g_free (email);
+	}
+	if (book_uri) {
 		e_destination_set_book_uri (dest, book_uri);
-	if (card_uid)
+		g_free (book_uri);
+	}
+	if (card_uid) {
 		e_destination_set_card_uid (dest, card_uid, email_num);
+		g_free (card_uid);
+	}
 	if (list_dests)
 		dest->priv->list_dests = list_dests;
 
