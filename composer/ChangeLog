@@ -1,3 +1,8 @@
+2003-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (popup_menu_event): Fix some
+	compiler warnings introduced by the previous commit.
+
 2002-07-14  Maxx Cao  <maxx.cao@sun.com>
 
 	** For bug #45826
