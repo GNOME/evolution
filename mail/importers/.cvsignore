@@ -7,6 +7,6 @@ Makefile.in
 *.bbg
 *.da
 *.gcov
-*.oaf
+*.server
 *.lo
 *.la
