@@ -1,3 +1,8 @@
+2001-06-29  Tuomas Kuosmanen  <tigert@ximian.com>
+
+	* next-message.png, previous-message.png: New icons to replace
+	the  < > arrows in the mailer. 
+
 2001-06-29  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (images_DATA): add contact-is-a-list.png
