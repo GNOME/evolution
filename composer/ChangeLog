@@ -1,3 +1,10 @@
+2002-08-14  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (from_changed_cb): Don't turn on pgp signing if
+	this is an iMIP message and pgp_no_imip_sign is set.
+	(e_msg_composer_set_body): If setting a text/calendar body and
+	pgp_no_imip_sign is true, turn off signing.
+
 2002-08-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (do_exit): Make the warning dialog display the

@@ -2329,7 +2329,10 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 	if (hdrs->account) {
 		const MailConfigAccount *account = hdrs->account;
 		
-		e_msg_composer_set_pgp_sign (composer, account->pgp_always_sign);
+		e_msg_composer_set_pgp_sign (composer,
+					     account->pgp_always_sign &&
+					     (!account->pgp_no_imip_sign || !composer->mime_type ||
+					      g_strncasecmp (composer->mime_type, "text/calendar", 13) != 0));
 		e_msg_composer_set_smime_sign (composer, account->smime_always_sign);
 		update_auto_recipients (hdrs, UPDATE_AUTO_CC, account->always_cc ? account->cc_addrs : NULL);
 		update_auto_recipients (hdrs, UPDATE_AUTO_BCC, account->always_bcc ? account->bcc_addrs : NULL);
@@ -3863,6 +3866,12 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 	composer->mime_body = g_strdup (body);
 	g_free (composer->mime_type);
 	composer->mime_type = g_strdup (mime_type);
+
+	if (g_strncasecmp (composer->mime_type, "text/calendar", 13) == 0) {
+		EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
+		if (hdrs->account && hdrs->account->pgp_no_imip_sign)
+			e_msg_composer_set_pgp_sign (composer, FALSE);
+	}
 }
 
 
