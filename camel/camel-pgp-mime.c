@@ -205,7 +205,7 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
  **/
 void
 camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, const char *userid,
-			  CamelPgpHashType hash, CamelException *ex)
+			  CamelCipherHash hash, CamelException *ex)
 {
 	CamelMimePart *part, *signed_part;
 	CamelMultipart *multipart;
@@ -270,15 +270,15 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	
 	/* construct the container multipart/signed */
 	switch (hash) {
-	case CAMEL_PGP_HASH_TYPE_MD5:
+	case CAMEL_CIPHER_HASH_MD5:
 		hash_type = "pgp-md5";
 		break;
-	case CAMEL_PGP_HASH_TYPE_SHA1:
+	case CAMEL_CIPHER_HASH_SHA1:
 		hash_type = "pgp-sha1";
 		break;
 	default:
 		/* set a reasonable default */
-		hash = CAMEL_PGP_HASH_TYPE_SHA1;
+		hash = CAMEL_CIPHER_HASH_SHA1;
 		hash_type = "pgp-sha1";
 		break;
 	}
@@ -313,9 +313,9 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
  * @mime_part: a multipart/signed MIME Part
  * @ex: exception
  *
- * Returns a CamelPgpValidity on success or NULL on fail.
+ * Returns a CamelCipherValidity on success or NULL on fail.
  **/
-CamelPgpValidity *
+CamelCipherValidity *
 camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, CamelException *ex)
 {
 	CamelDataWrapper *wrapper;
@@ -324,7 +324,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream, *sigstream;
-	CamelPgpValidity *valid;
+	CamelCipherValidity *valid;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);

@@ -52,36 +52,31 @@
 #include <unistd.h>
 #include <signal.h>
 
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#define PGP_LOCK(ctx)   g_mutex_lock (((CamelPgpContext *) ctx)->priv->lock)
-#define PGP_UNLOCK(ctx) g_mutex_unlock (((CamelPgpContext *) ctx)->priv->lock);
-#else
-#define PGP_LOCK(ctx)
-#define PGP_UNLOCK(ctx)
-#endif
-
 #define d(x)
 
 struct _CamelPgpContextPrivate {
-	CamelSession *session;
 	CamelPgpType type;
 	char *path;
-	
-#ifdef ENABLE_THREADS
-	GMutex *lock;
-#endif
 };
 
-static CamelObjectClass *parent_class;
+static int                  pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
+				      CamelStream *istream, CamelStream *ostream, CamelException *ex);
+static int                  pgp_clearsign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
+					   CamelStream *istream, CamelStream *ostream, CamelException *ex);
+static CamelCipherValidity *pgp_verify (CamelCipherContext *context, CamelStream *istream,
+					CamelStream *sigstream, CamelException *ex);
+static int                  pgp_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
+					 GPtrArray *recipients, CamelStream *istream, CamelStream *ostream,
+					 CamelException *ex);
+static int                  pgp_decrypt (CamelCipherContext *context, CamelStream *istream, CamelStream *ostream,
+					 CamelException *ex);
+
+static CamelCipherContextClass *parent_class;
 
 static void
 camel_pgp_context_init (CamelPgpContext *context)
 {
 	context->priv = g_new0 (struct _CamelPgpContextPrivate, 1);
-#ifdef ENABLE_THREADS
-	context->priv->lock = g_mutex_new ();
-#endif
 }
 
 static void
@@ -89,13 +84,7 @@ camel_pgp_context_finalise (CamelObject *o)
 {
 	CamelPgpContext *context = (CamelPgpContext *)o;
 	
-	camel_object_unref (CAMEL_OBJECT (context->priv->session));
-	
 	g_free (context->priv->path);
-	
-#ifdef ENABLE_THREADS
-	g_mutex_free (context->priv->lock);
-#endif
 	
 	g_free (context->priv);
 }
@@ -103,7 +92,16 @@ camel_pgp_context_finalise (CamelObject *o)
 static void
 camel_pgp_context_class_init (CamelPgpContextClass *camel_pgp_context_class)
 {
-	parent_class = camel_type_get_global_classfuncs (camel_object_get_type ());
+	CamelCipherContextClass *camel_cipher_context_class =
+		CAMEL_CIPHER_CONTEXT_CLASS (camel_pgp_context_class);
+	
+	parent_class = CAMEL_CIPHER_CONTEXT_CLASS (camel_type_get_global_classfuncs (camel_cipher_context_get_type ()));
+	
+	camel_cipher_context_class->sign = pgp_sign;
+	camel_cipher_context_class->clearsign = pgp_clearsign;
+	camel_cipher_context_class->verify = pgp_verify;
+	camel_cipher_context_class->encrypt = pgp_encrypt;
+	camel_cipher_context_class->decrypt = pgp_decrypt;
 }
 
 CamelType
@@ -112,7 +110,7 @@ camel_pgp_context_get_type (void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register (camel_object_get_type (),
+		type = camel_type_register (camel_pgp_context_get_type (),
 					    "CamelPgpContext",
 					    sizeof (CamelPgpContext),
 					    sizeof (CamelPgpContextClass),
@@ -121,7 +119,7 @@ camel_pgp_context_get_type (void)
 					    (CamelObjectInitFunc) camel_pgp_context_init,
 					    (CamelObjectFinalizeFunc) camel_pgp_context_finalise);
 	}
-
+	
 	return type;
 }
 
@@ -148,8 +146,7 @@ camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *pat
 	
 	context = CAMEL_PGP_CONTEXT (camel_object_new (CAMEL_PGP_CONTEXT_TYPE));
 	
-	camel_object_ref (CAMEL_OBJECT (session));
-	context->priv->session = session;
+	camel_cipher_context_construct (CAMEL_CIPHER_CONTEXT (context), session);
 	
 	context->priv->type = type;
 	context->priv->path = g_strdup (path);
@@ -484,23 +481,11 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
  *                     Public crypto functions
  *----------------------------------------------------------------------*/
 
-/**
- * camel_pgp_sign:
- * @context: PGP Context
- * @userid: private key to use to sign the stream
- * @hash: preferred Message-Integrity-Check hash algorithm
- * @istream: input stream
- * @ostream: output stream
- * @ex: exception
- *
- * PGP signs the input stream and writes the resulting signature to the output stream.
- *
- * Return value: 0 for success or -1 for failure.
- **/
-int
-camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType hash,
-		CamelStream *istream, CamelStream *ostream, CamelException *ex)
+static int
+pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
+	  CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
+	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
 	GByteArray *plaintext;
 	CamelStream *stream;
 	char *argv[20];
@@ -511,8 +496,6 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 	int passwd_fds[2];
 	char passwd_fd[32];
 	int retval, i;
-	
-	PGP_LOCK(context);
 	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
@@ -527,7 +510,7 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 		goto exception;
 	}
 	
-	passphrase = pgp_get_passphrase (context->priv->session, context->priv->type, (char *) userid);
+	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, (char *) userid);
 	if (!passphrase) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("No password provided."));
@@ -542,13 +525,13 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 	}
 	
 	switch (hash) {
-	case CAMEL_PGP_HASH_TYPE_DEFAULT:
+	case CAMEL_CIPHER_HASH_DEFAULT:
 		hash_str = NULL;
 		break;
-	case CAMEL_PGP_HASH_TYPE_MD5:
+	case CAMEL_CIPHER_HASH_MD5:
 		hash_str = "MD5";
 		break;
-	case CAMEL_PGP_HASH_TYPE_SHA1:
+	case CAMEL_CIPHER_HASH_SHA1:
 		hash_str = "SHA1";
 		break;
 	default:
@@ -645,9 +628,7 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 				      "%s", diagnostics);
 		g_free (diagnostics);
 		g_free (ciphertext);
-		pgp_forget_passphrase (context->priv->session, context->priv->type, (char *) userid);
-		
-		PGP_UNLOCK(context);
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 		
 		return -1;
 	}
@@ -657,8 +638,6 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
 	g_free (ciphertext);
 	
-	PGP_UNLOCK(context);
-	
 	return 0;
 	
  exception:
@@ -666,33 +645,19 @@ camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType h
 	g_byte_array_free (plaintext, TRUE);
 	
 	if (passphrase) {
-		pgp_forget_passphrase (context->priv->session, context->priv->type, (char *) userid);
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 		g_free (passphrase);
 	}
-	
-	PGP_UNLOCK(context);
 	
 	return -1;
 }
 
 
-/**
- * camel_pgp_clearsign:
- * @context: PGP Context
- * @userid: key id or email address of the private key to sign with
- * @hash: preferred Message-Integrity-Check hash algorithm
- * @istream: input stream
- * @ostream: output stream
- * @ex: exception
- *
- * PGP clearsigns the input stream and writes the resulting clearsign to the output stream.
- *
- * Return value: 0 for success or -1 for failure.
- **/
-int
-camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashType hash,
-		     CamelStream *istream, CamelStream *ostream, CamelException *ex)
+static int
+pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
+	       CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
+	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
 	GByteArray *plaintext;
 	CamelStream *stream;
 	char *argv[15];
@@ -703,8 +668,6 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 	int passwd_fds[2];
 	char passwd_fd[32];
 	int retval, i;
-	
-	PGP_LOCK(context);
 	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
@@ -719,7 +682,7 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 		goto exception;
 	}
 	
-	passphrase = pgp_get_passphrase (context->priv->session, context->priv->type, (char *) userid);
+	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, (char *) userid);
 	if (!passphrase) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("No password provided."));
@@ -734,13 +697,13 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 	}
 	
 	switch (hash) {
-	case CAMEL_PGP_HASH_TYPE_DEFAULT:
+	case CAMEL_CIPHER_HASH_DEFAULT:
 		hash_str = NULL;
 		break;
-	case CAMEL_PGP_HASH_TYPE_MD5:
+	case CAMEL_CIPHER_HASH_MD5:
 		hash_str = "MD5";
 		break;
-	case CAMEL_PGP_HASH_TYPE_SHA1:
+	case CAMEL_CIPHER_HASH_SHA1:
 		hash_str = "SHA1";
 		break;
 	default:
@@ -836,15 +799,13 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 				      "%s", diagnostics);
 		g_free (diagnostics);
 		g_free (ciphertext);
-		pgp_forget_passphrase (context->priv->session, context->priv->type, (char *) userid);
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	}
 	
 	g_free (diagnostics);
 	
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
 	g_free (ciphertext);
-	
-	PGP_UNLOCK(context);
 	
 	return 0;
 	
@@ -853,11 +814,9 @@ camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashT
 	g_byte_array_free (plaintext, TRUE);
 	
 	if (passphrase) {
-		pgp_forget_passphrase (context->priv->session, context->priv->type, (char *) userid);
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 		g_free (passphrase);
 	}
-	
-	PGP_UNLOCK(context);
 	
 	return -1;
 }
@@ -885,27 +844,12 @@ swrite (CamelStream *istream)
 }
 
 
-/**
- * camel_pgp_verify:
- * @context: PGP Context
- * @istream: input stream
- * @sigstream: optional detached-signature stream
- * @ex: exception
- *
- * Verifies the PGP signature. If @istream is a clearsigned stream,
- * you should pass %NULL as the sigstream parameter. Otherwise
- * @sigstream is assumed to be the signature stream and is used to
- * verify the integirity of the @istream.
- *
- * Return value: a CamelPgpValidity structure containing information
- * about the integrity of the input stream or %NULL if PGP failed to
- * execute at all.
- **/
-CamelPgpValidity *
-camel_pgp_verify (CamelPgpContext *context, CamelStream *istream,
-		  CamelStream *sigstream, CamelException *ex)
+static CamelCipherValidity *
+pgp_verify (CamelCipherContext *ctx, CamelStream *istream,
+	    CamelStream *sigstream, CamelException *ex)
 {
-	CamelPgpValidity *valid = NULL;
+	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
+	CamelCipherValidity *valid = NULL;
 	GByteArray *plaintext;
 	CamelStream *stream;
 	char *argv[20];
@@ -914,8 +858,6 @@ camel_pgp_verify (CamelPgpContext *context, CamelStream *istream,
 	int passwd_fds[2];
 	char *sigfile = NULL;
 	int retval, i, clearlen;
-	
-	PGP_LOCK(context);
 	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
@@ -1009,29 +951,27 @@ camel_pgp_verify (CamelPgpContext *context, CamelStream *istream,
 		g_free (sigfile);
 	}
 	
-	valid = camel_pgp_validity_new ();
+	valid = camel_cipher_validity_new ();
 	
 	if (retval != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);
 		
-		camel_pgp_validity_set_valid (valid, FALSE);
+		camel_cipher_validity_set_valid (valid, FALSE);
 	} else {
-		camel_pgp_validity_set_valid (valid, TRUE);
+		camel_cipher_validity_set_valid (valid, TRUE);
 	}
 	
 	if (diagnostics) {
 		char *desc;
 		
 		desc = e_utf8_from_locale_string (diagnostics);
-		camel_pgp_validity_set_description (valid, desc);
+		camel_cipher_validity_set_description (valid, desc);
 		g_free (desc);
 	}
 	
 	g_free (diagnostics);
 	g_free (cleartext);
-	
-	PGP_UNLOCK(context);
 	
 	return valid;
 	
@@ -1039,31 +979,15 @@ camel_pgp_verify (CamelPgpContext *context, CamelStream *istream,
 	
 	g_byte_array_free (plaintext, TRUE);
 	
-	PGP_UNLOCK(context);
-	
 	return NULL;
 }
 
 
-/**
- * camel_pgp_encrypt:
- * @context: PGP Context
- * @sign: sign as well as encrypt
- * @userid: key id (or email address) to use when signing (assuming @sign is %TRUE)
- * @recipients: an array of recipient key ids and/or email addresses
- * @istream: cleartext input stream
- * @ostream: ciphertext output stream
- * @ex: exception
- *
- * PGP encrypts (and optionally signs) the cleartext input stream and
- * writes the resulting ciphertext to the output stream.
- *
- * Return value: 0 for success or -1 for failure.
- **/
-int
-camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, GPtrArray *recipients,
-		   CamelStream *istream, CamelStream *ostream, CamelException *ex)
+static int
+pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArray *recipients,
+	     CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
+	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
 	GPtrArray *recipient_list = NULL;
 	GByteArray *plaintext;
 	CamelStream *stream;
@@ -1074,8 +998,6 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 	int passwd_fds[2];
 	char passwd_fd[32];
 	char *passphrase = NULL;
-	
-	PGP_LOCK(context);
 	
 	/* get the plaintext in a form we can use */
 	plaintext = g_byte_array_new ();
@@ -1092,7 +1014,7 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 	
 	if (sign) {
 		/* we only need a passphrase if we intend on signing */
-		passphrase = pgp_get_passphrase (context->priv->session, context->priv->type,
+		passphrase = pgp_get_passphrase (ctx->session, context->priv->type,
 						 (char *) userid);
 		if (!passphrase) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -1249,10 +1171,8 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 		g_free (diagnostics);
 		g_free (ciphertext);
 		if (sign)
-			pgp_forget_passphrase (context->priv->session, context->priv->type,
+			pgp_forget_passphrase (ctx->session, context->priv->type,
 					       (char *) userid);
-		
-		PGP_UNLOCK(context);
 		
 		return -1;
 	}
@@ -1262,8 +1182,6 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
 	g_free (ciphertext);
 	
-	PGP_UNLOCK(context);
-	
 	return 0;
 	
  exception:
@@ -1272,31 +1190,18 @@ camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid, 
 	
 	if (sign) {
 		g_free (passphrase);
-		pgp_forget_passphrase (context->priv->session, context->priv->type, (char *) userid);
+		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	}
-	
-	PGP_UNLOCK(context);
 	
 	return -1;
 }
 
 
-/**
- * camel_pgp_encrypt:
- * @context: PGP Context
- * @ciphertext: ciphertext stream (ie input stream)
- * @cleartext: cleartext stream (ie output stream)
- * @ex: exception
- *
- * PGP decrypts the ciphertext input stream and writes the resulting
- * cleartext to the output stream.
- *
- * Return value: 0 for success or -1 for failure.
- **/
-int
-camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
-		   CamelStream *ostream, CamelException *ex)
+static int
+pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
+	     CamelStream *ostream, CamelException *ex)
 {
+	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
 	GByteArray *ciphertext;
 	CamelStream *stream;
 	char *argv[15];
@@ -1308,7 +1213,7 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 	char passwd_fd[32];
 	int retval, i;
 	
-	PGP_LOCK(context);
+	ctx = CAMEL_CIPHER_CONTEXT (context);
 	
 	/* get the ciphertext in a form we can use */
 	ciphertext = g_byte_array_new ();
@@ -1324,7 +1229,7 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 		goto exception;
 	}
 	
-	passphrase = pgp_get_passphrase (context->priv->session, context->priv->type, NULL);
+	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, NULL);
 	if (!passphrase) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("No password provided."));
@@ -1395,9 +1300,7 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 		g_free (plaintext);
 		g_free (diagnostics);
 		
-		pgp_forget_passphrase (context->priv->session, context->priv->type, NULL);
-		
-		PGP_UNLOCK(context);
+		pgp_forget_passphrase (ctx->session, context->priv->type, NULL);
 		
 		return -1;
 	}
@@ -1407,8 +1310,6 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 	camel_stream_write (ostream, plaintext, plainlen);
 	g_free (plaintext);
 	
-	PGP_UNLOCK(context);
-	
 	return 0;
 	
  exception:
@@ -1416,94 +1317,9 @@ camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream,
 	g_byte_array_free (ciphertext, TRUE);
 	
 	if (passphrase) {
-		pgp_forget_passphrase (context->priv->session, context->priv->type, NULL);
+		pgp_forget_passphrase (ctx->session, context->priv->type, NULL);
 		g_free (passphrase);
 	}
 	
-	PGP_UNLOCK(context);
-	
 	return -1;
-}
-
-
-/* PGP vailidity stuff */
-struct _CamelPgpValidity {
-	gboolean valid;
-	gchar *description;
-};
-
-CamelPgpValidity *
-camel_pgp_validity_new (void)
-{
-	CamelPgpValidity *validity;
-	
-	validity = g_new (CamelPgpValidity, 1);
-	validity->valid = FALSE;
-	validity->description = NULL;
-	
-	return validity;
-}
-
-void
-camel_pgp_validity_init (CamelPgpValidity *validity)
-{
-	g_assert (validity != NULL);
-	
-	validity->valid = FALSE;
-	validity->description = NULL;
-}
-
-gboolean
-camel_pgp_validity_get_valid (CamelPgpValidity *validity)
-{
-	if (validity == NULL)
-		return FALSE;
-	
-	return validity->valid;
-}
-
-void
-camel_pgp_validity_set_valid (CamelPgpValidity *validity, gboolean valid)
-{
-	g_assert (validity != NULL);
-	
-	validity->valid = valid;
-}
-
-gchar *
-camel_pgp_validity_get_description (CamelPgpValidity *validity)
-{
-	if (validity == NULL)
-		return NULL;
-	
-	return validity->description;
-}
-
-void
-camel_pgp_validity_set_description (CamelPgpValidity *validity, const gchar *description)
-{
-	g_assert (validity != NULL);
-	
-	g_free (validity->description);
-	validity->description = g_strdup (description);
-}
-
-void
-camel_pgp_validity_clear (CamelPgpValidity *validity)
-{
-	g_assert (validity != NULL);
-	
-	validity->valid = FALSE;
-	g_free (validity->description);
-	validity->description = NULL;
-}
-
-void
-camel_pgp_validity_free (CamelPgpValidity *validity)
-{
-	if (validity == NULL)
-		return;
-	
-	g_free (validity->description);
-	g_free (validity);
 }

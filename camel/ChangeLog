@@ -1,3 +1,14 @@
+2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-mime.c: Updated to reflect the few changes made to the
+	CamelPgpContext class.
+
+	* camel-pgp-context.c: Updated to subclass of CamelCipherContext.
+
+	* camel-cipher-context.[c,h]: New base class for
+	CamelPgpContext. Also contains the replacement for
+	CamelPgpValidity, CamelCipherValidity.
+
 2001-04-12  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-filter-crlf.c (filter): Fix a pair of array bounds

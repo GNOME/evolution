@@ -24,6 +24,7 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 \
 libcamel_la_SOURCES = 				\
 	broken-date-parser.c			\
 	camel-address.c				\
+	camel-cipher-context.c			\
 	camel-data-wrapper.c			\
 	camel-exception.c			\
 	camel-filter-driver.c			\
@@ -97,6 +98,7 @@ libcamelinclude_HEADERS =			\
 	broken-date-parser.h			\
 	camel-address.h				\
 	camel-charset-map.h			\
+	camel-cipher-context.h			\
 	camel-data-wrapper.h			\
 	camel-exception-list.def		\
 	camel-exception.h			\

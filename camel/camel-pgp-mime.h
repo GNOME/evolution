@@ -41,12 +41,12 @@ gboolean camel_pgp_mime_is_rfc2015_encrypted (CamelMimePart *part);
 void camel_pgp_mime_part_sign (CamelPgpContext *context,
 			       CamelMimePart **mime_part,
 			       const char *userid,
-			       CamelPgpHashType hash,
+			       CamelCipherHash hash,
 			       CamelException *ex);
 
-CamelPgpValidity *camel_pgp_mime_part_verify (CamelPgpContext *context,
-					      CamelMimePart *mime_part,
-					      CamelException *ex);
+CamelCipherValidity *camel_pgp_mime_part_verify (CamelPgpContext *context,
+						 CamelMimePart *mime_part,
+						 CamelException *ex);
 
 void camel_pgp_mime_part_encrypt (CamelPgpContext *context,
 				  CamelMimePart **mime_part,

@@ -20,22 +20,13 @@
  *
  */
 
-/* Once I figure out a nice API for S/MIME, it may be ideal to make a
- * new klass `CamelSecurityContext' or somesuch and have
- * CamelPgpContext (and the future CamelSMIMEContext) subclass it.
- *
- * The virtual functions could be sign, (clearsign maybe?,) verify, encrypt, and decrypt
- *
- * I could also make CamelPgpValidity more generic, maybe call it
- * CamelSignatureValidity or somesuch.
- */
-
 #ifndef CAMEL_PGP_CONTEXT_H
 #define CAMEL_PGP_CONTEXT_H
 
 #include <camel/camel-session.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-exception.h>
+#include <camel/camel-cipher-context.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,63 +46,32 @@ typedef enum {
 	CAMEL_PGP_TYPE_GPG
 } CamelPgpType;
 
-typedef enum {
-	CAMEL_PGP_HASH_TYPE_DEFAULT,
-	CAMEL_PGP_HASH_TYPE_MD5,
-	CAMEL_PGP_HASH_TYPE_SHA1
-} CamelPgpHashType;
-
 typedef struct _CamelPgpContext {
-	CamelObject parent_object;
+	CamelCipherContext parent_object;
 	
 	struct _CamelPgpContextPrivate *priv;
 	
 } CamelPgpContext;
 
 typedef struct _CamelPgpContextClass {
-	CamelObjectClass parent_class;
+	CamelCipherContextClass parent_class;
 	
 } CamelPgpContextClass;
-
-typedef struct _CamelPgpValidity CamelPgpValidity;
 
 CamelType         camel_pgp_context_get_type (void);
 
 CamelPgpContext  *camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *path);
 
 /* PGP routines */
-int               camel_pgp_sign (CamelPgpContext *context, const char *userid, CamelPgpHashType hash,
-				  CamelStream *istream, CamelStream *ostream, CamelException *ex);
+#define camel_pgp_sign(c, u, h, i, o, e) camel_cipher_sign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
 
-int               camel_pgp_clearsign (CamelPgpContext *context, const char *userid, CamelPgpHashType hash,
-				       CamelStream *istream, CamelStream *ostream, CamelException *ex);
+#define camel_pgp_clearsign(c, u, h, i, o, e) camel_cipher_clearsign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
 
-CamelPgpValidity *camel_pgp_verify (CamelPgpContext *context, CamelStream *istream, CamelStream *sigstream,
-				    CamelException *ex);
+#define camel_pgp_verify(c, i, s, e) camel_cipher_verify (CAMEL_CIPHER_CONTEXT (c), i, s, e)
 
-int               camel_pgp_encrypt (CamelPgpContext *context, gboolean sign, const char *userid,
-				     GPtrArray *recipients, CamelStream *istream, CamelStream *ostream,
-				     CamelException *ex);
+#define camel_pgp_encrypt(c, s, u, r, i, o, e) camel_cipher_encrypt (CAMEL_CIPHER_CONTEXT (c), s, u, r, i, o, e)
 
-int               camel_pgp_decrypt (CamelPgpContext *context, CamelStream *istream, CamelStream *ostream,
-				     CamelException *ex);
-
-/* CamelPgpValidity utility functions */
-CamelPgpValidity *camel_pgp_validity_new (void);
-
-void              camel_pgp_validity_init (CamelPgpValidity *validity);
-
-gboolean          camel_pgp_validity_get_valid (CamelPgpValidity *validity);
-
-void              camel_pgp_validity_set_valid (CamelPgpValidity *validity, gboolean valid);
-
-gchar            *camel_pgp_validity_get_description (CamelPgpValidity *validity);
-
-void              camel_pgp_validity_set_description (CamelPgpValidity *validity, const gchar *description);
-
-void              camel_pgp_validity_clear (CamelPgpValidity *validity);
-
-void              camel_pgp_validity_free (CamelPgpValidity *validity);
+#define camel_pgp_decrypt(c, i, o, e) camel_cipher_decrypt (CAMEL_CIPHER_CONTEXT (c), i, o, e)
 
 #ifdef __cplusplus
 }
