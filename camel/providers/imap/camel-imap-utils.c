@@ -30,6 +30,25 @@
 
 #define d(x) x
 
+static char *esexp_keys[] = { "and", "or", "body-contains", "header-contains", "match-all", NULL };
+static char *imap_keys[]  = { "", "OR", "BODY", "HEADER", NULL };
+
+struct sexp_node {
+	struct sexp_node *l_node, *r_node;
+	char *function;
+	char *data;
+};
+
+static char *get_quoted_token (char *string, int *len);
+static char *get_token (char *string, int *len);
+struct sexp_node *get_sexp_node (const char *exp);
+static void print_node (struct sexp_node *node, int depth);
+static const char *get_func (struct sexp_node *node);
+static char *get_data (struct sexp_node *node);
+static char *str_sexp_node (struct sexp_node *node);
+static void free_sexp_node (struct sexp_node *node);
+
+
 char *
 imap_next_word (char *buf)
 {
@@ -98,289 +117,362 @@ imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, 
 	return TRUE;
 }
 
-struct prop_info {
-	char *query_prop;
-	char *imap_attr;
-} prop_info_table[] = {
-	/* query prop,            imap attr */
-	{ "body-contains",        "BODY"     },
-	{ "header-contains",      "HEADER"   }
-};
+static char *
+get_quoted_token (char *string, int *len)
+{
+	char *ep;
+	
+	for (ep = string + 1; *ep; ep++)
+		if (*ep == '"' && *(ep - 1) != '\\')
+			break;
+	if (*ep)
+		ep++;
+	
+	*len = ep - string;
+	
+	return g_strndup (string, *len);
+}
 
-static int num_prop_infos = sizeof (prop_info_table) / sizeof (prop_info_table[0]);
+static char *
+get_token (char *string, int *len)
+{
+	char *p, *ep;
+	
+	for (p = string; *p && *p == ' '; p++);
+	
+	if (*p == '"') {
+		char *token;
+		int i;
 
-static gchar *
-query_prop_to_imap (gchar *query_prop)
+		token = get_quoted_token (p, &i);
+
+		*len = i + (p - string);
+		
+		return token;
+	}
+	
+	for (ep = p; *ep && *ep != ' ' && *ep != ')'; ep++);
+	
+	*len = ep - string;
+	
+	return g_strndup (p, *len);
+}
+
+struct sexp_node *
+get_sexp_node (const char *exp)
+{
+	struct sexp_node *node = NULL;
+	char *left_exp, *right_exp, *this_exp;
+	char *p, *ep;
+	int len, pbal;
+	
+	if (exp && *exp) {	
+		node = g_malloc0 (sizeof (struct sexp_node));
+		node->l_node = NULL;
+		node->r_node = NULL;
+		node->function = NULL;
+		node->data = NULL;
+		
+		p = (char *) exp + 1;
+		for (ep = p, pbal = 1; *ep && pbal; ep++) {
+			if (*ep == '(')
+				pbal++;
+			if (*ep == ')')
+				pbal--;
+		}
+		
+		this_exp = g_strndup (p, (gint)(ep - p));
+		
+		for (left_exp = ep; *left_exp && *left_exp != '('; left_exp++);
+		left_exp = g_strdup (left_exp);
+		
+		for (right_exp = this_exp; *right_exp && *right_exp != '('; right_exp++);
+		pbal = 1;
+		for (ep = right_exp; *ep && pbal; ep++) {
+			if (*ep == '(')
+				pbal++;
+			if (*ep == ')')
+				pbal--;
+		}
+		right_exp = g_strndup (right_exp, (gint)(ep - right_exp));
+		
+		/* fill in the node */
+		node->function = get_token (this_exp, &len);
+		p = this_exp + len;
+		for (ep = p; *ep && *ep != '(' && *ep != ')'; ep++);
+		node->data = g_strndup (p, (gint)(ep - p));
+		
+		g_strstrip (node->data);
+
+		node->l_node = get_sexp_node (left_exp);
+		node->r_node = get_sexp_node (right_exp);
+
+		g_free (this_exp);
+		g_free (left_exp);
+		g_free (right_exp);
+	}
+	
+	return node;
+}
+
+static void
+print_node (struct sexp_node *node, int depth)
 {
 	int i;
-
-	for (i = 0; i < num_prop_infos; i ++)
-		if (!strcmp (query_prop, prop_info_table[i].query_prop))
-			return prop_info_table[i].imap_attr;
-
-	return NULL;
+	
+	for (i = 0; i < depth; i++)
+		d(fprintf (stderr, "   "));
+	
+	d(fprintf (stderr, "%s\n", node->function));
+	
+	if (*node->data) {
+		for (i = 0; i < depth + 1; i++)
+			d(fprintf (stderr, "   "));
+		
+		d(fprintf (stderr, "%s\n", node->data));
+	}
+	
+	if (node->r_node)
+		print_node (node->r_node, depth + 1);
+	
+	if (node->l_node)
+		print_node (node->l_node, depth);
 }
 
-static ESExpResult *
-func_and (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+static const char *
+get_func (struct sexp_node *node)
 {
-	GList **list = data;
-	ESExpResult *r;
-	char **strings;
+	int i;
 	
-	if (argc > 0) {
-		int i;
-		
-		strings = g_malloc0 (argc + 3);
-		strings[0] = g_strdup ("(AND");
-		strings[argc+3 - 2] = g_strdup (")");
-		strings[argc+3 - 1] = NULL;
-		
-		for (i = 0; i < argc; i++) {
-			GList *list_head = *list;
-			strings[argc - i] = (*list)->data;
-			*list = g_list_remove_link (*list, *list);
-			g_list_free_1 (list_head);
+	for (i = 0; esexp_keys[i]; i++)
+		if (!strncmp (esexp_keys[i], node->function, strlen (node->function)))
+			break;
+	
+	if (esexp_keys[i])
+		return imap_keys[i];
+	else
+		return node->function;
+}
+
+static char *
+get_data (struct sexp_node *node)
+{
+	GPtrArray *args;
+	const char *func;
+	char *data, *token, *p;
+	int i, len;
+	
+	func = get_func (node);
+	
+	args = g_ptr_array_new ();
+	
+	p = node->data;
+	while (p && *p) {
+		token = get_token (p, &len);
+		g_ptr_array_add (args, token);
+		p += len;
+	}
+	
+	if (func && !strcmp ("HEADER", func) && args->len > 0)
+		string_unquote (args->pdata[0]);
+	
+	if (args->len > 0) {
+		data = g_strjoinv (" ", (char **) args->pdata);
+	} else {
+		data = g_strdup ("");
+	}
+	
+	for (i = 0; i < args->len; i++)
+		g_free (args->pdata[i]);
+	
+	g_ptr_array_free (args, TRUE);
+	
+	return data;
+}
+
+static char *
+str_sexp_node (struct sexp_node *node)
+{
+	char *node_str, *data, *str, *l_str, *r_str;
+	const char *func;
+	
+	func = get_func (node);
+	data = get_data (node);
+	
+	if (func) {
+		if (*data)
+			str = g_strdup_printf ("%s %s", func, data);
+		else
+			str = g_strdup (func);
+	} else {
+		str = NULL;
+	}
+	
+	g_free (data);
+	
+	r_str = NULL;
+	if (node->r_node)
+		r_str = str_sexp_node (node->r_node);
+	
+	l_str = NULL;
+	if (node->l_node)
+		l_str = str_sexp_node (node->l_node);
+	
+	if (str) {
+		if (r_str) {
+			if (l_str)
+				node_str = g_strdup_printf ("%s %s %s", str, r_str, l_str);
+			else
+				node_str = g_strdup_printf ("%s %s", str, r_str);
+		} else {
+			if (l_str)
+				node_str = g_strdup_printf ("%s %s", str, l_str);
+			else
+				node_str = g_strdup_printf ("%s", str);
 		}
-		
-		*list = g_list_prepend (*list, g_strjoinv (" ", strings));
-		
-		for (i = 0 ; i < argc + 2; i++)
-			g_free (strings[i]);
-		
-		g_free (strings);
-	}
-	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
-	
-	return r;
-}
-
-static ESExpResult *
-func_or (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	GList **list = data;
-	ESExpResult *r;
-	char **strings;
-	
-	if (argc > 0) {
-		int i;
-		
-		strings = g_malloc0 (argc+3);
-		strings[0] = g_strdup ("(OR");
-		strings[argc+3 - 2] = g_strdup (")");
-		strings[argc+3 - 1] = NULL;
-		for (i = 0; i < argc; i++) {
-			GList *list_head = *list;
-			strings[argc - i] = (*list)->data;
-			*list = g_list_remove_link (*list, *list);
-			g_list_free_1 (list_head);
+	} else {
+		if (r_str) {
+			if (l_str)
+				node_str = g_strdup_printf ("%s %s", r_str, l_str);
+			else
+				node_str = g_strdup_printf ("%s", r_str);
+		} else {
+			if (l_str)
+				node_str = g_strdup_printf ("%s", l_str);
+			else
+				node_str = g_strdup ("");
 		}
-		
-		*list = g_list_prepend (*list, g_strjoinv (" ", strings));
-		
-		for (i = 0 ; i < argc + 2; i++)
-			g_free (strings[i]);
-		
-		g_free (strings);
 	}
 	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
+	g_free (str);
+	g_free (l_str);
+	g_free (r_str);
 	
-	return r;
+	return node_str;
 }
 
-static ESExpResult *
-func_not (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+static void
+free_sexp_node (struct sexp_node *node)
 {
-	GList **list = data;
-	ESExpResult *r;
+	if (node->r_node)
+		free_sexp_node (node->r_node);
 	
-	/* just replace the head of the list with the NOT of it. */
-	if (argc > 0) {
-		char *term = (*list)->data;
-		(*list)->data = g_strdup_printf ("(NOT %s)", term);
-		g_free (term);
-	}
+	if (node->l_node)
+		free_sexp_node (node->l_node);
 	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
-	
-	return r;
+	g_free (node->function);
+	g_free (node->data);
+	g_free (node);
 }
-
-static ESExpResult *
-func_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	GList **list = data;
-	ESExpResult *r;
-	
-	if (argc == 2
-	    && argv[0]->type == ESEXP_RES_STRING
-	    && argv[1]->type == ESEXP_RES_STRING) {
-		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
-		char *imap_attr = query_prop_to_imap (propname);
-		gboolean one_star = FALSE;
-		
-		if (strlen (str) == 0)
-			one_star = TRUE;
-		
-		if (imap_attr)
-			*list = g_list_prepend (*list,
-						g_strdup_printf ("(%s=*%s%s)",
-								 imap_attr,
-								 str,
-								 one_star ? "" : "*"));
-	}
-	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
-	
-	return r;
-}
-
-static ESExpResult *
-func_is (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	GList **list = data;
-	ESExpResult *r;
-	
-	if (argc == 2
-	    && argv[0]->type == ESEXP_RES_STRING
-	    && argv[1]->type == ESEXP_RES_STRING) {
-		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
-		char *imap_attr = query_prop_to_imap (propname);
-		
-		if (imap_attr)
-			*list = g_list_prepend (*list,
-						g_strdup_printf ("(%s=%s)",
-								 imap_attr, str));
-	}
-	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
-	
-	return r;
-}
-
-static ESExpResult *
-func_beginswith (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	GList **list = data;
-	ESExpResult *r;
-	
-	if (argc == 2
-	    && argv[0]->type == ESEXP_RES_STRING
-	    && argv[1]->type == ESEXP_RES_STRING) {
-		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
-		char *imap_attr = query_prop_to_imap (propname);
-		gboolean one_star = FALSE;
-		
-		if (strlen(str) == 0)
-			one_star = TRUE;
-		
-		if (imap_attr)
-			*list = g_list_prepend (*list,
-						g_strdup_printf ("(%s=%s*)",
-								 imap_attr,
-								 str));
-	}
-	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
-
-	return r;
-}
-
-static ESExpResult *
-func_endswith (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	GList **list = data;
-	ESExpResult *r;
-	
-	if (argc == 2
-	    && argv[0]->type == ESEXP_RES_STRING
-	    && argv[1]->type == ESEXP_RES_STRING) {
-		char *propname = argv[0]->value.string;
-		char *str = argv[1]->value.string;
-		char *imap_attr = query_prop_to_imap (propname);
-		gboolean one_star = FALSE;
-		
-		if (strlen (str) == 0)
-			one_star = TRUE;
-		
-		if (imap_attr)
-			*list = g_list_prepend (*list,
-						g_strdup_printf ("(%s=*%s)",
-								 imap_attr,
-								 str));
-	}
-	
-	r = e_sexp_result_new(ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
-	
-	return r;
-}
-
-/* 'builtin' functions */
-static struct {
-	char *name;
-	ESExpFunc *func;
-	int type;		/* set to 1 if a function can perform shortcut evaluation, or
-				   doesn't execute everything, 0 otherwise */
-} symbols[] = {
-	{ "and", func_and, 0 },
-	{ "or", func_or, 0 },
-	{ "not", func_not, 0 },
-	{ "contains", func_contains, 0 },
-	{ "is", func_is, 0 },
-	{ "beginswith", func_beginswith, 0 },
-	{ "endswith", func_endswith, 0 },
-};
 
 char *
 imap_translate_sexp (const char *expression)
 {
-	ESExp *sexp;
-	ESExpResult *r;
-	gchar *retval;
-	GList *list = NULL;
+	struct sexp_node *root;
+	char *sexp;
+	
+	root = get_sexp_node (expression);
+	
+	d(print_node (root, 0));
+	d(fprintf (stderr, "\n"));
+	
+	sexp = str_sexp_node (root);
+	
+	free_sexp_node (root);
+	
+	return sexp;
+}
+
+
+
+
+
+
+
+
+
+
+#ifdef _ALL_HELL_BROKE_LOOSE_
+static char *
+stresexptree (ESExpTerm *node)
+{
+	char *node_str, *func, *str, *l_str, *r_str;
 	int i;
 	
-	sexp = e_sexp_new ();
+	for (i = 0; esexp_keys[i]; i++)
+		if (!strncmp (esexp_keys[i], node->func->sym->name, strlen (node->func->sym->name)))
+			break;
 	
-	for (i = 0; i < sizeof (symbols) / sizeof (symbols[0]); i++) {
-		if (symbols[i].type == 1) {
-			e_sexp_add_ifunction (sexp, 0, symbols[i].name,
-					      (ESExpIFunc *)symbols[i].func, &list);
+	if (esexp_keys[i])
+		func = imap_keys[i];
+	else
+		func = node->func->sym->name;
+	
+	if (func) {
+		if (*node->var->name)
+			str = g_strdup_printf ("%s %s", func, node->var->name);
+		else
+			str = g_strdup (func);
+	} else {
+		str = NULL;
+	}
+	
+	r_str = NULL;
+	if (node->r_node)
+		r_str = str_sexp_node (node->r_node);
+	
+	l_str = NULL;
+	if (node->l_node)
+		l_str = str_sexp_node (node->l_node);
+	
+	if (str) {
+		if (r_str) {
+			if (l_str)
+				node_str = g_strdup_printf ("(%s (%s)) %s", str, r_str, l_str);
+			else
+				node_str = g_strdup_printf ("(%s %s)", str, r_str);
 		} else {
-			e_sexp_add_function (sexp, 0, symbols[i].name,
-					     symbols[i].func, &list);
+			if (l_str)
+				node_str = g_strdup_printf ("(%s) %s", str, l_str);
+			else
+				node_str = g_strdup_printf ("(%s)", str);
+		}
+	} else {
+		if (r_str) {
+			if (l_str)
+				node_str = g_strdup_printf ("(%s) %s", r_str, l_str);
+			else
+				node_str = g_strdup_printf ("%s", r_str);
+		} else {
+			if (l_str)
+				node_str = g_strdup_printf ("%s", l_str);
+			else
+				node_str = g_strdup ("");
 		}
 	}
 	
-	e_sexp_input_text (sexp, expression, strlen (expression));
-	e_sexp_parse (sexp);
+	g_free (str);
+	g_free (l_str);
+	g_free (r_str);
 	
-	r = e_sexp_eval (sexp);
-	
-	gtk_object_unref (GTK_OBJECT (sexp));
-	e_sexp_result_free (r);
-	
-	if (list->next) {
-		g_warning ("conversion to imap expression string failed");
-		retval = NULL;
-		g_list_foreach (list, (GFunc)g_free, NULL);
-	} else {
-		retval = list->data;
-	}
-	
-	g_list_free (list);
-	
-	return retval;
+	return node_str;
 }
+
+char *
+imap_translate_sexp (const char *expression)
+{
+	ESExp *esexp;
+	char *sexp;
+	
+	esexp = e_sexp_new ();
+	
+	e_sexp_input_text (esexp, expression, strlen (expression));
+	e_sexp_parse (esexp);
+	
+	sexp = stresexptree (esexp->tree);
+	
+	gtk_object_unref (GTK_OBJECT (esexp));
+	
+	return sexp;
+}
+#endif /* _ALL_HELL_BROKE_LOOSE_ */

@@ -1439,7 +1439,7 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	}
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "SEARCH %s", sexp);
+					      &result, "UID SEARCH %s", sexp);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);

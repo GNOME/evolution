@@ -1,3 +1,13 @@
+2000-08-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-utils.c (imap_translate_sexp): New and
+	improved sexp parser. An honest try at using e-sexp is wrapped in
+	a #ifdef at the bottom of the file but is currently not used
+
+	* providers/imap/camel-imap-folder.c (imap_search_by_expression):
+	We want to do a UID SEARCH so we get UIDs back instead of sequence
+	numbers
+
 2000-08-01  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/mh: New mh provider implementation.
@@ -15,8 +25,9 @@
 
 2000-07-31  Peter Williams  <peterw@helixcode.com>
 
-	* providers/vee/camel-vee-folder.c (vee_search_by_expression): Add a NULL
-	to the matches pointer array so that g_strfreev knows where the end is.
+	* providers/vee/camel-vee-folder.c (vee_search_by_expression): Add
+	a NULL to the matches pointer array so that g_strfreev knows where
+	the end is.
 
 2000-07-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
