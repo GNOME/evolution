@@ -1,3 +1,9 @@
+2003-11-27  Charles Zhang  <charles.zhang@sun.com>
+
+	* mail-account-editor.c (construct): connect "changed" signal.
+	(mail_account_editor_changed): change signal handler.
+	Fixes bug #48998.
+
 2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-offline-handler.c: Remove all the syncFolder stuff since
