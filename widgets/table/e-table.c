@@ -449,7 +449,8 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlNode *xmlGrouping;
 	int no_header;
 	int row = 0;
-	
+
+	GtkWidget *internal_table;
 	GtkWidget *scrollframe;
 
 	xmlRoot = xmlDocGetRootElement (xmlSpec);
@@ -498,29 +499,37 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 		E_SCROLL_FRAME (scrollframe),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
-	
-	gtk_container_add (
-		GTK_CONTAINER (scrollframe),
-		GTK_WIDGET (e_table->table_canvas));
-	gtk_widget_show (scrollframe);
-	
+
+	internal_table = gtk_table_new(1, 2, FALSE);
 	if (!no_header) {
 		/*
 		 * The header
 		 */
 		gtk_table_attach (
-				  GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
+				  GTK_TABLE (internal_table), GTK_WIDGET (e_table->header_canvas),
 				  0, 1, 0, 1,
 				  GTK_FILL | GTK_EXPAND,
 				  GTK_FILL, 0, 0);
 		row ++;
 	}
+	gtk_table_attach (GTK_TABLE (internal_table), GTK_WIDGET (e_table->table_canvas),
+			  0, 1, 0 + row, 1 + row,
+			  GTK_FILL | GTK_EXPAND,
+			  GTK_FILL | GTK_EXPAND,
+			  0, 0);
+	gtk_widget_show(internal_table);
+	
+	gtk_container_add (
+		GTK_CONTAINER (scrollframe),
+		internal_table);
+	gtk_widget_show (scrollframe);
+	
 	/*
 	 * The body
 	 */
 	gtk_table_attach (
 		GTK_TABLE (e_table), GTK_WIDGET (scrollframe),
-		0, 1, 0 + row, 1 + row,
+		0, 1, 0, 1,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_EXPAND, 0, 0);
 		

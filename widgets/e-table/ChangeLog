@@ -1,3 +1,9 @@
+2000-06-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-model.c: Small syntactic changes.
+
+	* e-table.c: Moved the table header into the scrolled view.
+
 2000-06-11  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (table_test_LDADD): Link with libemiscwidgets.a.
