@@ -1178,3 +1178,227 @@ size_t e_strftime_fix_am_pm(char *s, size_t max, const char *fmt, const struct t
 	return(ret);
 }
 
+/**
+ * e_flexible_strtod:
+ * @nptr:    the string to convert to a numeric value.
+ * @endptr:  if non-NULL, it returns the character after
+ *           the last character used in the conversion.
+ * 
+ * Converts a string to a gdouble value.  This function detects
+ * strings either in the standard C locale or in the current locale.
+ *
+ * This function is typically used when reading configuration files or
+ * other non-user input that should not be locale dependent, but may
+ * have been in the past.  To handle input from the user you should
+ * normally use the locale-sensitive system strtod function.
+ *
+ * To convert from a double to a string in a locale-insensitive way, use
+ * @g_ascii_dtostr.
+ * 
+ * Return value: the gdouble value.
+ **/
+gdouble
+e_flexible_strtod (const gchar *nptr,
+		   gchar      **endptr)
+{
+	gchar *fail_pos;
+	gdouble val;
+	struct lconv *locale_data;
+	const char *decimal_point;
+	int decimal_point_len;
+	const char *p, *decimal_point_pos;
+	const char *end = NULL; /* Silence gcc */
+	char *copy, *c;
+
+	g_return_val_if_fail (nptr != NULL, 0);
+
+	fail_pos = NULL;
+
+	locale_data = localeconv ();
+	decimal_point = locale_data->decimal_point;
+	decimal_point_len = strlen (decimal_point);
+
+	g_assert (decimal_point_len != 0);
+
+	decimal_point_pos = NULL;
+	if (!strcmp (decimal_point, "."))
+		return strtod (nptr, endptr);
+
+	p = nptr;
+
+	/* Skip leading space */
+	while (isspace ((guchar)*p))
+		p++;
+
+	/* Skip leading optional sign */
+	if (*p == '+' || *p == '-')
+		p++;
+
+	if (p[0] == '0' &&
+	    (p[1] == 'x' || p[1] == 'X')) {
+		p += 2;
+		/* HEX - find the (optional) decimal point */
+
+		while (isxdigit ((guchar)*p))
+			p++;
+
+		if (*p == '.') {
+			decimal_point_pos = p++;
+             
+			while (isxdigit ((guchar)*p))
+				p++;
+             
+			if (*p == 'p' || *p == 'P')
+				p++;
+			if (*p == '+' || *p == '-')
+				p++;
+			while (isdigit ((guchar)*p))
+				p++;
+			end = p;
+		} else if (strncmp (p, decimal_point, decimal_point_len) == 0) {
+			return strtod (nptr, endptr);
+		}
+	} else {
+		while (isdigit ((guchar)*p))
+			p++;
+
+		if (*p == '.') {
+			decimal_point_pos = p++;
+
+			while (isdigit ((guchar)*p))
+				p++;
+
+			if (*p == 'e' || *p == 'E')
+				p++;
+			if (*p == '+' || *p == '-')
+				p++;
+			while (isdigit ((guchar)*p))
+				p++;
+			end = p;
+		} else if (strncmp (p, decimal_point, decimal_point_len) == 0) {
+			return strtod (nptr, endptr);
+		}
+	}
+	/* For the other cases, we need not convert the decimal point */
+  
+	if (!decimal_point_pos)
+		return strtod (nptr, endptr);
+
+	/* We need to convert the '.' to the locale specific decimal point */
+	copy = g_malloc (end - nptr + 1 + decimal_point_len);
+
+	c = copy;
+	memcpy (c, nptr, decimal_point_pos - nptr);
+	c += decimal_point_pos - nptr;
+	memcpy (c, decimal_point, decimal_point_len);
+	c += decimal_point_len;
+	memcpy (c, decimal_point_pos + 1, end - (decimal_point_pos + 1));
+	c += end - (decimal_point_pos + 1);
+	*c = 0;
+
+	val = strtod (copy, &fail_pos);
+
+	if (fail_pos) {
+		if (fail_pos > decimal_point_pos)
+			fail_pos = (char *)nptr + (fail_pos - copy) - (decimal_point_len - 1);
+		else
+			fail_pos = (char *)nptr + (fail_pos - copy);
+	}
+
+	g_free (copy);
+
+	if (endptr)
+		*endptr = fail_pos;
+
+	return val;
+}
+
+/**
+ * e_ascii_dtostr:
+ * @buffer: A buffer to place the resulting string in
+ * @buf_len: The length of the buffer.
+ * @format: The printf-style format to use for the
+ *          code to use for converting. 
+ * @d: The double to convert
+ *
+ * Converts a double to a string, using the '.' as
+ * decimal_point. To format the number you pass in
+ * a printf-style formating string. Allowed conversion
+ * specifiers are eEfFgG. 
+ * 
+ * If you want to generates enough precision that converting
+ * the string back using @g_strtod gives the same machine-number
+ * (on machines with IEEE compatible 64bit doubles) use the format
+ * string "%.17g". If you do this it is guaranteed that the size
+ * of the resulting string will never be larger than
+ * @G_ASCII_DTOSTR_BUF_SIZE bytes.
+ *
+ * Return value: The pointer to the buffer with the converted string.
+ **/
+gchar *
+e_ascii_dtostr (gchar       *buffer,
+		gint         buf_len,
+		const gchar *format,
+		gdouble      d)
+{
+	struct lconv *locale_data;
+	const char *decimal_point;
+	int decimal_point_len;
+	gchar *p;
+	int rest_len;
+	gchar format_char;
+
+	g_return_val_if_fail (buffer != NULL, NULL);
+	g_return_val_if_fail (format[0] == '%', NULL);
+	g_return_val_if_fail (strpbrk (format + 1, "'l%") == NULL, NULL);
+ 
+	format_char = format[strlen (format) - 1];
+  
+	g_return_val_if_fail (format_char == 'e' || format_char == 'E' ||
+			      format_char == 'f' || format_char == 'F' ||
+			      format_char == 'g' || format_char == 'G',
+			      NULL);
+
+	if (format[0] != '%')
+		return NULL;
+
+	if (strpbrk (format + 1, "'l%"))
+		return NULL;
+
+	if (!(format_char == 'e' || format_char == 'E' ||
+	      format_char == 'f' || format_char == 'F' ||
+	      format_char == 'g' || format_char == 'G'))
+		return NULL;
+
+
+	g_snprintf (buffer, buf_len, format, d);
+
+	locale_data = localeconv ();
+	decimal_point = locale_data->decimal_point;
+	decimal_point_len = strlen (decimal_point);
+
+	g_assert (decimal_point_len != 0);
+
+	if (strcmp (decimal_point, ".")) {
+		p = buffer;
+
+		if (*p == '+' || *p == '-')
+			p++;
+
+		while (isdigit ((guchar)*p))
+			p++;
+
+		if (strncmp (p, decimal_point, decimal_point_len) == 0) {
+			*p = '.';
+			p++;
+			if (decimal_point_len > 1) {
+				rest_len = strlen (p + (decimal_point_len-1));
+				memmove (p, p + (decimal_point_len-1),
+					 rest_len);
+				p[rest_len] = 0;
+			}
+		}
+	}
+
+	return buffer;
+}

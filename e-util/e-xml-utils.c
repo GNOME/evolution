@@ -30,6 +30,7 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 
 xmlNode *
 e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
@@ -329,7 +330,7 @@ e_xml_get_double_prop_by_name_with_default (const xmlNode *parent, const xmlChar
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		(void) sscanf (prop, "%lf", &ret_val);
+		ret_val = e_flexible_strtod (prop, NULL);
 		xmlFree (prop);
 	}
 	return ret_val;
@@ -338,18 +339,17 @@ e_xml_get_double_prop_by_name_with_default (const xmlNode *parent, const xmlChar
 void
 e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gdouble value)
 {
-	gchar *valuestr;
+	char buffer[E_ASCII_DTOSTR_BUF_SIZE];
 
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
 	if (fabs (value) < 1e9 && fabs (value) > 1e-5) {
-		valuestr = g_strdup_printf ("%f", value);
+		e_ascii_dtostr (buffer, sizeof (buffer), "%.17f", value);
 	} else {
-		valuestr = g_strdup_printf ("%.*g", DBL_DIG, value);
+		e_ascii_dtostr (buffer, sizeof (buffer), "%.17g", value);
 	}
-	xmlSetProp (parent, prop_name, valuestr);
-	g_free (valuestr);
+	xmlSetProp (parent, prop_name, buffer);
 }
 
 gchar *

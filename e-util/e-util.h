@@ -68,155 +68,169 @@ typedef enum {
 	E_FOCUS_START,
 	E_FOCUS_END
 } EFocus;
-int       g_str_compare                                                    (const void       *x,
-									    const void       *y);
-int       g_int_compare                                                    (const void       *x,
-									    const void       *y);
-char     *e_strdup_strip                                                   (const char       *string);
-
-void      e_free_object_list                                               (GList            *list);
-void      e_free_object_slist                                              (GSList           *list);
-void      e_free_string_list                                               (GList            *list);
-void      e_free_string_slist                                              (GSList           *list);
-
-char     *e_read_file                                                      (const char       *filename);
-int       e_write_file                                                     (const char       *filename,
-									    const char       *data,
-									    int               flags);
-int       e_mkdir_hier                                                     (const char       *path,
-									    mode_t            mode);
+int       g_str_compare                                                    (const void        *x,
+									    const void        *y);
+int       g_int_compare                                                    (const void        *x,
+									    const void        *y);
+char     *e_strdup_strip                                                   (const char        *string);
+void      e_free_object_list                                               (GList             *list);
+void      e_free_object_slist                                              (GSList            *list);
+void      e_free_string_list                                               (GList             *list);
+void      e_free_string_slist                                              (GSList            *list);
+char     *e_read_file                                                      (const char        *filename);
+int       e_write_file                                                     (const char        *filename,
+									    const char        *data,
+									    int                flags);
+int       e_mkdir_hier                                                     (const char        *path,
+									    mode_t             mode);
 
 gchar   **e_strsplit                                                	   (const gchar      *string,
 								    	    const gchar      *delimiter,
 								    	    gint              max_tokens);
-gchar    *e_strstrcase                                                     (const gchar      *haystack,
-									    const gchar      *needle);
-void      e_filename_make_safe                                             (gchar            *string);
-gchar    *e_format_number                                                  (gint              number);
-gchar    *e_format_number_float                                            (gfloat            number);
-gboolean  e_create_directory                                               (gchar            *directory);
+gchar    *e_strstrcase                                                     (const gchar       *haystack,
+									    const gchar       *needle);
+void      e_filename_make_safe                                             (gchar             *string);
+gchar    *e_format_number                                                  (gint               number);
+gchar    *e_format_number_float                                            (gfloat             number);
+gboolean  e_create_directory                                               (gchar             *directory);
 
 
 typedef int (*ESortCompareFunc) (const void *first,
 				 const void *second,
 				 gpointer    closure);
-void      e_sort                                                           (void             *base,
-									    size_t            nmemb,
-									    size_t            size,
-									    ESortCompareFunc  compare,
-									    gpointer          closure);
-void      e_bsearch                                                        (const void       *key,
-									    const void       *base,
-									    size_t            nmemb,
-									    size_t            size,
-									    ESortCompareFunc  compare,
-									    gpointer          closure,
-									    size_t           *start,
-									    size_t           *end);
-size_t    e_strftime_fix_am_pm                                             (char             *s,
-									    size_t            max,
-									    const char       *fmt,
-									    const struct tm  *tm);
-void      e_marshal_INT__INT_INT_POINTER                                   (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__INT_POINTER_INT_POINTER                           (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL                        (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL                      (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL                        (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_sort                                                           (void              *base,
+									    size_t             nmemb,
+									    size_t             size,
+									    ESortCompareFunc   compare,
+									    gpointer           closure);
+void      e_bsearch                                                        (const void        *key,
+									    const void        *base,
+									    size_t             nmemb,
+									    size_t             size,
+									    ESortCompareFunc   compare,
+									    gpointer           closure,
+									    size_t            *start,
+									    size_t            *end);
+size_t    e_strftime_fix_am_pm                                             (char              *s,
+									    size_t             max,
+									    const char        *fmt,
+									    const struct tm   *tm);
+
+
+/* String to/from double conversion functions */
+gdouble   e_flexible_strtod                                                (const gchar       *nptr,
+									    gchar            **endptr);
+/* 29 bytes should enough for all possible values that
+ * g_ascii_dtostr can produce with the %.17g format.
+ * Then add 10 for good measure */
+#define E_ASCII_DTOSTR_BUF_SIZE (29 + 10)
+gchar    *e_ascii_dtostr                                                   (gchar             *buffer,
+									    gint               buf_len,
+									    const gchar       *format,
+									    gdouble            d);
+
+
+/* Marshallers */
+void      e_marshal_INT__INT_INT_POINTER                                   (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_INT__INT_POINTER_INT_POINTER                           (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOL                        (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOL                      (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL                        (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_NONE__INT_INT_POINTER_POINTER_UINT_UINT e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT
-void      e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT                  (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT                  (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_UINT_UINT e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_INT_INT
-void      e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_INT_INT          (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_NONE__INT_POINTER_INT_POINTER_POINTER_INT_INT          (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_NONE__INT_INT_POINTER_UINT e_marshal_NONE__INT_INT_POINTER_INT
-void      e_marshal_NONE__INT_INT_POINTER_INT                              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_NONE__INT_INT_POINTER_INT                              (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_NONE__INT_POINTER_INT_POINTER_UINT e_marshal_NONE__INT_POINTER_INT_POINTER_INT
-void      e_marshal_NONE__INT_POINTER_INT_POINTER_INT                      (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_NONE__INT_POINTER_INT_POINTER_INT                      (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_BOOL__INT_INT_POINTER_INT_INT_UINT e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT
-void      e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT                      (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT                      (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_UINT e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT
-void      e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_BOOL__INT_POINTER_INT_POINTER_INT_INT_INT              (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_UINT_UINT e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT
-void      e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT          (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT          (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 #define e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_UINT_UINT e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_INT_INT
-void      e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_INT_INT  (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__POINTER_POINTER_INT                              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__INT_POINTER_INT_POINTER                          (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER                                   (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER_POINTER                           (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER                   (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER_POINTER           (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
-void      e_marshal_INT__OBJECT_POINTER                                    (GtkObject        *object,
-									    GtkSignalFunc     func,
-									    gpointer          func_data,
-									    GtkArg           *args);
+void      e_marshal_NONE__INT_POINTER_INT_POINTER_INT_INT_POINTER_INT_INT  (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_NONE__POINTER_POINTER_INT                              (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_NONE__INT_POINTER_INT_POINTER                          (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_INT__POINTER_POINTER                                   (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_INT__POINTER_POINTER_POINTER                           (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER                   (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER_POINTER           (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
+void      e_marshal_INT__OBJECT_POINTER                                    (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 
 #ifdef __cplusplus
