@@ -1,5 +1,12 @@
 2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (on_link_clicked): Handle digest: urls.
+
+	* mail-format.c (setup_mime_tables): Add a handler for multipart/digest.
+	(handle_multipart_digest): Handle multipart/digest parts.
+
+2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* folder-browser.c (folder_browser_set_folder): Set the folder on
 	a folder-browser object.
 

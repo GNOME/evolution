@@ -46,6 +46,8 @@
 #include "e-searching-tokenizer.h"
 #include "folder-browser-factory.h"
 #include "mail-stream-gtkhtml.h"
+#include "folder-browser-window.h"
+#include "folder-browser.h"
 #include "mail-display.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -217,17 +219,46 @@ mail_display_jump_to_anchor (MailDisplay *md, const char *url)
 }
 
 static void
+mail_display_digest_clicked (MailDisplay *md, const char *url)
+{
+	FolderBrowser *fb, *parent_fb;
+	CamelFolder *digest;
+	CamelStore *store;
+	GtkWidget *window;
+	
+	parent_fb = (FolderBrowser *) gtk_widget_get_ancestor (GTK_WIDGET (md), FOLDER_BROWSER_TYPE);
+	
+	store = camel_digest_store_new (url);
+	
+	digest = camel_digest_folder_new (store, md->current_message);
+	camel_object_unref (CAMEL_OBJECT (store));
+	if (!digest)
+		return;
+	
+	fb = (FolderBrowser *) folder_browser_new (parent_fb->shell, NULL);
+	folder_browser_set_message_preview (fb, TRUE);
+	folder_browser_set_folder (fb, digest, url);
+	camel_object_unref (CAMEL_OBJECT (digest));
+	gtk_widget_show (GTK_WIDGET (fb));
+	
+	window = folder_browser_window_new (fb);
+	gtk_widget_show (window);
+}
+
+static void
 on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
-	if (!g_strncasecmp (url, "news:", 5) ||
-	    !g_strncasecmp (url, "nntp:", 5))
+	if (!g_strncasecmp (url, "news:", 5) || !g_strncasecmp (url, "nntp:", 5)) {
 		g_warning ("Can't handle news URLs yet.");
-	else if (!g_strncasecmp (url, "mailto:", 7))
+	} else if (!g_strncasecmp (url, "mailto:", 7)) {
 		send_to_url (url);
-	else if (*url == '#')
+	} else if (!g_strncasecmp (url, "digest:", 7)) {
+		mail_display_digest_clicked (md, url);
+	} else if (*url == '#') {
 		mail_display_jump_to_anchor (md, url);
-	else
+	} else {
 		gnome_url_show (url);
+	}
 }
 
 static void 

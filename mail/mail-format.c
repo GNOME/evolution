@@ -92,6 +92,9 @@ static gboolean handle_multipart_encrypted   (CamelMimePart *part,
 static gboolean handle_multipart_signed      (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
+static gboolean handle_multipart_digest      (CamelMimePart *part,
+					      const char *mime_type,
+					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
 static gboolean handle_message_rfc822        (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
@@ -364,6 +367,8 @@ setup_mime_tables (void)
 			     handle_multipart_encrypted);
 	g_hash_table_insert (mime_function_table, "multipart/signed",
 			     handle_multipart_signed);
+	g_hash_table_insert (mime_function_table, "multipart/digest",
+			     handle_multipart_digest);
 	
 	/* RFC 2046 says unrecognized text subtypes can be treated
 	 * as text/plain (as long as you recognize the character set),
@@ -1690,6 +1695,22 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 		output = format_mime_part (part, md, html, stream);
 	}
 
+	return TRUE;
+}
+
+static gboolean
+handle_multipart_digest (CamelMimePart *part, const char *mime_type,
+			 MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
+{
+	CamelDataWrapper *wrapper =
+		camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	
+	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	
+	gtk_html_stream_printf (stream, "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"digest:\"><img src=\"%s\">%s</a>",
+				get_url_for_icon (EVOLUTION_ICONSDIR "/envelope.png", md),
+				U_("View messages..."));
+	
 	return TRUE;
 }
 
