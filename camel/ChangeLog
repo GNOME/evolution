@@ -1,0 +1,50 @@
+2000-02-18  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-search.h
+	(camel_mbox_folder_search_by_expression): Added exception to call,
+	and fixed caller.
+
+	* providers/mbox/camel-mbox-search.c
+	(camel_mbox_folder_search_by_expression): Major changes, to use
+	the sexp evaluator from filter/filter-sexp.c to implement the
+	searching.
+	(func_body_contains): Changed to support multiple strings in 1
+	command (results or'd together)
+
+	* url-util.c (g_url_new): Fixed a typo (colon == 0 isn't right),
+	and made it so full url's are absolute pathed (Dan, this is how it
+	has to work!).  Also, always include a path part, even if it is an
+	empty string.
+
+2000-02-16  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/Makefile.am (libcamelmbox_la_LIBADD): Added
+	libfilter to link line (temporarily?).  Required for
+	filter-sexp.
+
+2000-02-13  NotZed  <notzed@zedzone.helixcode.com>
+
+	* providers/mbox/camel-mbox-search.c: New file, implements the
+	search api for mbox folders.
+
+	* providers/mbox/Makefile.am: Link with ibex.
+
+	* camel-folder.c (camel_folder_has_search_capability): Api
+	additions.
+	(camel_folder_search_by_expression): Ditto.
+
+2000-02-12  NotZed  <notzed@zedzone.helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c (_set_name): Setup index
+	filename as well.
+	(_init_with_store): Init index filename.  Hmm, none of these
+	names ever seem to get free'd (FIXME?)
+
+	* providers/mbox/camel-mbox-folder.h: Add index file name.
+
+2000-02-12  NotZed  <notzed@helixcode.com>
+
+	* camel-folder.h: Add folder search functions.
+
+	** Created ChangeLog just for camel **
+	 - refer to ../ChangeLog for changes prior to this date.

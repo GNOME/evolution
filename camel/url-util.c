@@ -124,10 +124,15 @@ Gurl *g_url_new (const gchar* url_string)
 		g_url->port = NULL;
 	}
 
-	if (slash && *(slash + 1))
-		g_url->path = g_strdup (slash);
-	else
-		g_url->path = NULL;
+	/* setup a fallback, if relative, then empty string, else
+	   it will be from root */
+	if (slash == NULL) {
+		slash = "/";
+	}
+	if (slash && *slash && g_url->protocol == NULL)
+		slash++;
+
+	g_url->path = g_strdup (slash);
 
 	return g_url;
 }

@@ -1129,5 +1129,5 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 static CamelFolderSummary *
 search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex)
 {
-	return camel_mbox_folder_search_by_expression(folder, expression);
+	return camel_mbox_folder_search_by_expression(folder, expression, ex);
 }
