@@ -1,3 +1,8 @@
+2001-09-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Convert
+	the names to the locale charset.
+
 2001-09-19  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (create_folders): Pass the actual unread

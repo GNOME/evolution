@@ -206,39 +206,44 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	GString *str;
 	GtkWidget *mbox;
 	gint i, button;
-
-	if (! mail_config_get_confirm_unwanted_html ()) {
+	
+	if (!mail_config_get_confirm_unwanted_html ()) {
 		g_message ("doesn't want to see confirm html messages!");
 		return TRUE;
 	}
-
+	
 	/* FIXME: this wording sucks */
-	str = g_string_new (_("You are sending an HTML-formatted mail, but the following recipients' "
-			      "contact records do not indicate that they want to receive such messages:\n"));
+	str = g_string_new (_("You are sending an HTML-formatted message, but the following recipients "
+			      "do not want HTML-formatted mail:\n"));
 	for (i = 0; recipients[i] != NULL; ++i) {
-		if (! e_destination_get_html_mail_pref (recipients[i])) {
-			gchar *name = g_strdup_printf ("     %s\n", e_destination_get_textrep (recipients[i]));
-			g_string_append (str, name);
+		if (!e_destination_get_html_mail_pref (recipients[i])) {
+			char *buf, *name;
+			
+			name = e_destination_get_textrep (recipients[i]);
+			buf = e_utf8_to_locale_string (name);
 			g_free (name);
+			
+			g_string_sprintfa (str, "     %s\n", buf);
+			g_free (buf);
 		}
 	}
-
+	
 	g_string_append (str, _("Send anyway?"));
-
+	
 	mbox = e_message_box_new (str->str,
 				  E_MESSAGE_BOX_QUESTION,
 				  GNOME_STOCK_BUTTON_YES,
 				  GNOME_STOCK_BUTTON_NO,
 				  NULL);
-
-	g_string_free (str, 0);
-
+	
+	g_string_free (str, TRUE);
+	
 	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
 			    msgbox_destroyed, &show_again);
 	
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
 	
-	if (! show_again) {
+	if (!show_again) {
 		mail_config_set_confirm_unwanted_html (show_again);
 		g_message ("don't show HTML warning again");
 	}
