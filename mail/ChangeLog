@@ -1,9 +1,13 @@
 2004-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-format-html-display.c (efhd_attachment_button): Protect
+	against using NULL pixbufs. Gets rid of a lot of console warning
+	spewage on my system.
+
 	* em-folder-view.c (emfv_list_key_press): Removed Delete/KP_Delete
 	from here. Now handled via the bonobo-ui menu accels. Fixes bug #53504.
 
-2004-02-25    <rodo@ximian.com>
+2004-02-25  Radek Doulik  <rodo@ximian.com>
 
 	* mail-session.c (main_get_filter_driver): set seen flag for junk
 	messages

@@ -1256,12 +1256,15 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 			em_format_html_job_queue(efh, job);
 		}
 	} else {
-		GdkPixbuf *pixbuf = e_icon_for_mime_type(simple_type, 24);
-		GdkPixbuf *mini = gdk_pixbuf_scale_simple(pixbuf, 24, 24, GDK_INTERP_BILINEAR);
-
-		gtk_image_set_from_pixbuf((GtkImage *)w, mini);
-		g_object_unref(mini);
-		g_object_unref(pixbuf);
+		GdkPixbuf *pixbuf, *mini;
+		
+		if ((pixbuf = e_icon_for_mime_type (simple_type, 24))) {
+			if ((mini = gdk_pixbuf_scale_simple (pixbuf, 24, 24, GDK_INTERP_BILINEAR))) {
+				gtk_image_set_from_pixbuf ((GtkImage *) w, mini);
+				g_object_unref (mini);
+			}
+			g_object_unref (pixbuf);
+		}
 	}
 
 	drag_types[0].target = simple_type;
