@@ -279,7 +279,7 @@ em_junk_sa_test_spamd (void)
 		   i = 0;
 		   argv [i++] = "/bin/sh";
 		   argv [i++] = "-c";
-		   argv [i++] = "ps ax|grep -v grep|grep -E 'spamd.*(\\-L|\\-\\-local)'|grep -E -v '\\-p|\\-\\-port'";
+		   argv [i++] = "ps ax|grep -v grep|grep -E 'spamd.*(\\-L|\\-\\-local)'|grep -E -v '\\ \\-p\\ |\\ \\-\\-port\\ '";
 		   argv[i] = NULL;
 
 		   if (pipe_to_sa (NULL, NULL, argv) != 0) {

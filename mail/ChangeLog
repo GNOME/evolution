@@ -1,3 +1,10 @@
+2004-06-21  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_test_spamd): make sure we test for
+	-p and --port only and not for other options as --pidfile
+
+	Fixes #60260
+
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
 	** See #31027.
