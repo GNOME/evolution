@@ -1,3 +1,9 @@
+2003-03-11  Not Zed  <NotZed@Ximian.com>
+
+	* mail-vfolder.c (vfolder_editor_response): Fix the response code,
+	because some bastard changed the filter/* code and didn't fix the
+	callers.  Partial fix for #39165.
+
 2003-03-10  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am (libevolution_mail_la_SOURCES): removed main.c from

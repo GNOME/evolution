@@ -811,7 +811,7 @@ vfolder_editor_response (GtkWidget *dialog, int button, void *data)
 	sprintf(user, "%s/vfolders.xml", evolution_dir);
 
 	switch(button) {
-	case GTK_RESPONSE_OK:
+	case GTK_RESPONSE_ACCEPT:
 		rule_context_save((RuleContext *)context, user);
 		break;
 	default:
