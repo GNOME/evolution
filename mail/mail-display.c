@@ -318,7 +318,7 @@ mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
 /**
  * mail_display_set_message:
  * @mail_display: the mail display object
- * @mime_message: the input camel medium
+ * @medium: the input camel medium, or %NULL
  *
  * Makes the mail_display object show the contents of the medium
  * param. This means feeding mail_display->body_stream and
@@ -333,30 +333,30 @@ mail_display_set_message (MailDisplay *mail_display,
 	GtkAdjustment *adj;
 
 	/*
-	 * for the moment, camel-formatter deals only with 
-	 * mime messages, but in the future, it should be 
-	 * able to deal with any medium.
-	 * It can work on pretty much data wrapper, but in 
-	 * fact, only the medium class has the distinction 
-	 * header / body 
+	 * For the moment, we deal only with CamelMimeMessage, but in
+	 * the future, we should be able to deal with any medium.
 	 */
-	if (!CAMEL_IS_MIME_MESSAGE (medium))
+	if (medium && !CAMEL_IS_MIME_MESSAGE (medium))
 		return;
 
 	/* Clean up from previous message. */
 	if (mail_display->current_message)
 		gtk_object_unref (GTK_OBJECT (mail_display->current_message));
 
-	mail_display->current_message = CAMEL_MIME_MESSAGE (medium);
-	gtk_object_ref (GTK_OBJECT (medium));
+	mail_display->current_message = (CamelMimeMessage*)medium;
 
-	gtk_object_set_data (GTK_OBJECT (mail_display->html), "message", medium);
 	stream = gtk_html_begin (mail_display->html);
 	mail_html_write (mail_display->html, stream, "%s%s", HTML_HEADER,
 			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
-	mail_format_mime_message (CAMEL_MIME_MESSAGE (medium),
-				  mail_display->html, stream,
-				  CAMEL_MIME_MESSAGE (medium));
+
+	if (medium) {
+		gtk_object_ref (GTK_OBJECT (medium));
+		gtk_object_set_data (GTK_OBJECT (mail_display->html),
+				     "message", medium);
+		mail_format_mime_message (CAMEL_MIME_MESSAGE (medium),
+					  mail_display->html, stream,
+					  CAMEL_MIME_MESSAGE (medium));
+	}
 
 	mail_html_write (mail_display->html, stream, "</BODY></HTML>\n");
 	gtk_html_end (mail_display->html, stream, GTK_HTML_STREAM_OK);

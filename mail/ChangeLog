@@ -1,3 +1,13 @@
+2000-07-03  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (select_msg): call mail_display_set_message with
+	NULL if the message we tried to select doesn't exist (probably
+	meaning we tried to selecte the first message and the folder is
+	empty.)
+
+	* mail-display.c (mail_display_set_message): deal with NULL as an
+	input (meaning "undisplay previous message and display nothing").
+
 2000-07-02  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (real_fetch_mail): Remove hack to redisplay the

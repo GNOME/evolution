@@ -145,12 +145,13 @@ static void
 select_msg (MessageList *message_list, gint row)
 {
 	CamelException ex;
-	CamelMimeMessage *message = NULL;
+	CamelMimeMessage *message;
 	CamelMessageInfo *msg_info;
+	MailDisplay *md = message_list->parent_folder_browser->mail_display;
 
 	camel_exception_init (&ex);
 
-	msg_info = get_message_info(message_list, row);
+	msg_info = get_message_info (message_list, row);
 	if (msg_info) {
 		message = camel_folder_get_message (message_list->folder, 
 						    msg_info->uid, &ex);
@@ -159,19 +160,17 @@ select_msg (MessageList *message_list, gint row)
 				ex.desc?ex.desc:"unknown_reason");
 			return;
 		}
-	}
 
-	if (message) {
 		if (message_list->seen_id)
 			gtk_timeout_remove (message_list->seen_id);
 
-		mail_display_set_message (message_list->parent_folder_browser->mail_display,
-					  CAMEL_MEDIUM (message));
+		mail_display_set_message (md, CAMEL_MEDIUM (message));
 		gtk_object_unref (GTK_OBJECT (message));
 
 		message_list->seen_id =
 			gtk_timeout_add (1500, mark_msg_seen, message_list);
-	}
+	} else
+		mail_display_set_message (md, NULL);
 }
 
 /*
