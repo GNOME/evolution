@@ -447,11 +447,12 @@ update_node(ETreeTableAdapter *etta, ETreePath path)
 {
 	ETreePath parent = e_tree_model_node_get_parent(etta->priv->source, path);
 	gboolean expanded = e_tree_table_adapter_node_is_expanded (etta, path);
-	delete_node(etta, parent, path);
 	if (e_tree_model_node_is_root(etta->priv->source, path))
 		generate_tree(etta, path);
-	else
+	else {
+		delete_node(etta, parent, path);
 		insert_node(etta, parent, path);
+	}
 
 	if (expanded != e_tree_model_get_expanded_default (etta->priv->source))
 		e_tree_table_adapter_node_set_expanded (etta, path, expanded);
