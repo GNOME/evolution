@@ -1025,7 +1025,7 @@ e_destination_reverting_is_a_good_idea (EDestination *dest)
 	len = g_utf8_strlen (textrep, -1);
 	old_len = g_utf8_strlen (dest->priv->old_textrep, -1);
 
-	if (len < old_len/2)
+	if (len <= old_len/2)
 		return FALSE;
 
 	return TRUE;
