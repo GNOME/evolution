@@ -157,14 +157,14 @@ enum {
 static guint message_list_signals [LAST_SIGNAL] = {0, };
 
 static struct {
-	gchar *icon_name;
+	char *icon_name;
 	GdkPixbuf  *pixbuf;
 } states_pixmaps [] = {
 	{ "stock_mail-unread",			NULL },
 	{ "stock_mail-open",			NULL },
 	{ "stock_mail-replied",			NULL },
-    { "stock_mail-unread-multiple",	NULL },
-    { "stock_mail-open-multiple",	NULL },
+	{ "stock_mail-unread-multiple",	NULL },
+	{ "stock_mail-open-multiple",	NULL },
 	{ "",					NULL },
 	{ "stock_attach",			NULL },
 	{ "stock_mail-priority-high",	NULL },

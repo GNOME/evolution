@@ -1,3 +1,11 @@
+2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-composer-prefs.h: Removed variables that got re-added with
+	the icon-theme patch somehow.
+
+	* em-account-prefs.c: Don't bother keeping global references to
+	the enable_pixbuf anymore, since it's unnecessary.
+
 2004-04-19  Michael Terry  <mike@mterry.name>
 
 	* GNOME_Evolution_Mail.server.in.in:

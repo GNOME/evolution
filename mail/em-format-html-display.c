@@ -966,7 +966,7 @@ static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
 	time_t date;
 	char due_date[128];
 	struct tm due_tm;
-	gchar *iconpath;
+	char *iconpath;
 
 	if (emf->folder == NULL || emf->uid == NULL
 	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->uid, "follow-up")) == NULL

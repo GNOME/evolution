@@ -76,12 +76,7 @@ struct _EMComposerPrefs {
 	GtkTreeView *language;
 	CORBA_sequence_GNOME_Spell_Language *language_seq;
 	gboolean spell_active;
-
-	char *language_str;
-	char *language_str_orig;
-	GdkColor spell_error_color;
-	GdkColor spell_error_color_orig;
-
+	
 	GdkPixbuf *enabled_pixbuf;
 	GtkWidget *spell_able_button;
 	
