@@ -1,3 +1,18 @@
+2003-08-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47224.  Hook onto clicked rather than button_pressed,
+	so that dnd works.
+	
+	* mail-display.c (inline_toggle): toggle a part inline.
+	(button_press): change back to only handle button clicked events,
+	renamed to inline_button_clicked.
+	(do_attachment_header): hook onto clicked rather than
+	button_press_event, and move key_press_event to
+	inline_button_pressed.
+	(do_signature): Same.
+	(inline_button_pressed): handle inline button key press event
+	explicitly.
+
 2003-07-29  Not Zed  <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (mail_note_store): add a CamelOperation for
