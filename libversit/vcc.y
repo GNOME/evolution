@@ -1160,8 +1160,10 @@ static VObject* Parse_MIMEHelper()
     vObjList = 0;
     curObj = 0;
 
-    if (yyparse() != 0)
+    if (yyparse() != 0) {
+	finiLex();
 	return 0;
+    }
 
     finiLex();
     return vObjList;
