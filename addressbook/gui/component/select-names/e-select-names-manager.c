@@ -411,7 +411,7 @@ read_completion_books_from_db (ESelectNamesManager *manager, EConfigListener *db
 {
 	char *val;
 
-	val = e_config_listener_get_string (db, "/apps/Evolution/Addressbook/Completion/uris");
+	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
 
 	if (val) {
 		g_free (manager->cached_folder_list);
@@ -428,10 +428,10 @@ uris_listener (EConfigListener *db, const char *key,
 	char *val;
 
 	/* return if it's not the key we're interested in */
-	if (!strcmp (key, "/apps/Evolution/Addressbook/Completion/uris"))
+	if (!strcmp (key, "/apps/evolution/addressbook/completion/uris"))
 		return;
 
-	val = e_config_listener_get_string (db, "/apps/Evolution/Addressbook/Completion/uris");
+	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
 
 	if (val) {
 		if (!manager->cached_folder_list || strcmp (val, manager->cached_folder_list)) {
@@ -556,17 +556,17 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 }
 
 static void
-e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *manager)
+e_select_names_response(ESelectNames *dialog, gint response_id, ESelectNamesManager *manager)
 {
-	gnome_dialog_close(GNOME_DIALOG(dialog));
+	gtk_widget_destroy (GTK_DIALOG (dialog));
 
-	switch(button) {
-	case 0:
+	switch(response_id) {
+	case GTK_RESPONSE_OK:
 		e_select_names_manager_discard_saved_models (manager);
 		g_signal_emit (manager, e_select_names_manager_signals[OK], 0);
 		break;
 
-	case 1:
+	case GTK_RESPONSE_CANCEL:
 		e_select_names_manager_revert_to_saved_models (manager);
 		g_signal_emit (manager, e_select_names_manager_signals[CANCEL], 0);
 		break;
@@ -608,9 +608,9 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 		e_select_names_set_default (manager->names, id);
 
 		g_signal_connect(manager->names, 
-				   "clicked",
-				   G_CALLBACK(e_select_names_clicked),
-				   manager);
+				 "response",
+				 G_CALLBACK(e_select_names_response),
+				 manager);
 
 		g_object_weak_ref (G_OBJECT (manager->names), clear_widget, &manager->names);
 

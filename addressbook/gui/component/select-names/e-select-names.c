@@ -22,8 +22,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table-without.h>
@@ -56,8 +54,8 @@ static void update_query (GtkWidget *widget, ESelectNames *e_select_names);
 
 extern EvolutionShellClient *global_shell_client;
 
-static GnomeDialogClass *parent_class = NULL;
-#define PARENT_TYPE gnome_dialog_get_type()
+static GtkDialogClass *parent_class = NULL;
+#define PARENT_TYPE gtk_dialog_get_type()
 
 /* The arguments we take */
 enum {
@@ -336,7 +334,7 @@ folder_selected (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *
 	addressbook_model_set_uri(e_select_names, e_select_names->model, folder->physicalUri);
 
 	e_config_listener_set_string (e_book_get_config_database(),
-				      "/Addressbook/select_names_uri", folder->physicalUri);
+				      "/apps/evolution/addressbook/select_names/last_used_uri", folder->physicalUri);
 }
 
 static void
@@ -390,7 +388,7 @@ status_message (EAddressbookModel *model, const gchar *message, ESelectNames *e_
 }
 
 static void
-categories_changed (GtkWidget *widget, gint value, ESelectNames *e_select_names)
+categories_changed (GtkWidget *widget, ESelectNames *e_select_names)
 {
 	update_query (widget, e_select_names);
 }
@@ -442,7 +440,6 @@ e_select_names_create_categories (gchar *name,
 				  gchar *string1, gchar *string2,
 				  gint int1, gint int2)
 {
-#ifdef PENDING_PORT_WORK
 	ECategoriesMasterList *ecml;
 	GtkWidget *option_menu;
 
@@ -451,9 +448,6 @@ e_select_names_create_categories (gchar *name,
 	g_object_unref (ecml);
 
 	return option_menu;
-#else
-	return gtk_label_new ("e_select_names_create_categories\nneeds work");
-#endif
 }
 
 static void
@@ -488,14 +482,16 @@ e_select_names_init (ESelectNames *e_select_names)
 	}
 	gtk_widget_ref(widget);
 	gtk_widget_unparent(widget);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(e_select_names)->vbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(e_select_names)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
-	gnome_dialog_append_buttons(GNOME_DIALOG(e_select_names),
-				    GNOME_STOCK_BUTTON_OK,
-				    GNOME_STOCK_BUTTON_CANCEL,
-				    NULL);
-	gnome_dialog_set_default(GNOME_DIALOG(e_select_names), 0);
+	gtk_dialog_add_buttons (GTK_DIALOG (e_select_names),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (e_select_names),
+					 GTK_RESPONSE_OK);
 
 	gtk_window_set_title(GTK_WINDOW(e_select_names), _("Select Contacts from Addressbook")); 
 	gtk_window_set_policy(GTK_WINDOW(e_select_names), FALSE, TRUE, FALSE);
@@ -511,7 +507,7 @@ e_select_names_init (ESelectNames *e_select_names)
 		e_select_names->status_message = NULL;
 	if (e_select_names->status_message) {
 		g_signal_connect (e_select_names->model, "status_message",
-				    G_CALLBACK (status_message), e_select_names);
+				  G_CALLBACK (status_message), e_select_names);
 		g_object_weak_ref (G_OBJECT (e_select_names->status_message), clear_widget, &e_select_names->status_message);
 	}
 
@@ -520,33 +516,36 @@ e_select_names_init (ESelectNames *e_select_names)
 		e_select_names->categories = NULL;
 	if (e_select_names->categories) {
 		g_signal_connect(e_select_names->categories, "changed",
-				   G_CALLBACK(categories_changed), e_select_names);
+				 G_CALLBACK(categories_changed), e_select_names);
 		g_object_weak_ref (G_OBJECT (e_select_names->categories), clear_widget, &e_select_names->categories);
 	}
+	gtk_widget_show (e_select_names->categories);
 
 	e_select_names->select_entry = glade_xml_get_widget (gui, "entry-select");
 	if (e_select_names->select_entry && !GTK_IS_ENTRY (e_select_names->select_entry))
 		e_select_names->select_entry = NULL;
 	if (e_select_names->select_entry) {
 		g_signal_connect(e_select_names->select_entry, "changed",
-				   G_CALLBACK(select_entry_changed), e_select_names);
+				 G_CALLBACK(select_entry_changed), e_select_names);
 		g_signal_connect(e_select_names->select_entry, "activate",
-				   G_CALLBACK(update_query), e_select_names);
+				 G_CALLBACK(update_query), e_select_names);
 		g_object_weak_ref (G_OBJECT (e_select_names->select_entry), clear_widget, &e_select_names->select_entry);
 	}
 
 	button  = glade_xml_get_widget (gui, "button-find");
 	if (button && GTK_IS_BUTTON (button))
 		g_signal_connect(button, "clicked",
-				   G_CALLBACK(update_query), e_select_names);
+				 G_CALLBACK(update_query), e_select_names);
 
-	contacts_uri = e_config_listener_get_string_with_default (db, "/Addressbook/select_names_uri", NULL, NULL);
+	contacts_uri = e_config_listener_get_string_with_default (db, "/apps/evolution/addressbook/select_names/last_used_uri", NULL, NULL);
 	if (!contacts_uri) {
-		contacts_uri = e_config_listener_get_string_with_default (db, "/DefaultFolders/contacts_uri",
+		contacts_uri = e_config_listener_get_string_with_default (db, "/apps/evolution/shell/default_folders/contacts_uri",
 									  NULL, NULL);
 	}
-	if (!contacts_uri) {
-		filename = gnome_util_prepend_user_home("evolution/local/Contacts");
+	if (!contacts_uri || !contacts_uri[0]) {
+		if (contacts_uri)
+			g_free (contacts_uri);
+		filename = g_build_filename (g_get_home_dir(), "evolution/local/Contacts", NULL);
 		contacts_uri = g_strdup_printf("file://%s", filename);
 		g_free (filename);
 	}
@@ -559,12 +558,13 @@ e_select_names_init (ESelectNames *e_select_names)
 						    selector_types);
 	if (button && EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button))
 		g_signal_connect(button, "selected",
-				   G_CALLBACK(folder_selected), e_select_names);
+				 G_CALLBACK(folder_selected), e_select_names);
+	gtk_widget_show (button);
 
 	g_signal_connect (e_table_scrolled_get_table (e_select_names->table), "double_click",
-			    G_CALLBACK (add_address), e_select_names);
+			  G_CALLBACK (add_address), e_select_names);
 	g_signal_connect (e_table_scrolled_get_table (e_select_names->table), "selection_change",
-			    G_CALLBACK (selection_change), e_select_names);
+			  G_CALLBACK (selection_change), e_select_names);
 	selection_change (e_table_scrolled_get_table (e_select_names->table), e_select_names);
 
 	addressbook_model_set_uri(e_select_names, e_select_names->model, contacts_uri);
@@ -707,11 +707,12 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 {
 	ESelectNamesChild *child;
 	GtkWidget *button;
-	GtkWidget *alignment;
 	GtkWidget *label;
+	GtkWidget *alignment;
 	GtkTable *table;
 	char *label_text;
 	ETable *etable;
+	PangoLayout *layout;
 
 	GtkWidget *sw;
 	GtkWidget *recipient_table;
@@ -737,25 +738,15 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 
 	alignment = gtk_alignment_new(0, 0, 1, 0);
 
-	button = gtk_button_new ();
-
-	label = e_entry_new ();
-	g_object_set(label,
-		     "draw_background", FALSE,
-		     "draw_borders", FALSE,
-		     "draw_button", TRUE,
-		     "editable", FALSE,
-		     "text", "",
-		     "use_ellipsis", FALSE,
-		     "justification", GTK_JUSTIFY_CENTER,
-		     NULL);
-
 	label_text = g_strconcat (child->title, " ->", NULL);
-	g_object_set (label,
-		      "text", label_text,
-		      "emulate_label_resize", TRUE,
-		      NULL);
+
+	label = gtk_label_new ("");
+
+	gtk_label_set_markup (GTK_LABEL(label), label_text);
+
 	g_free (label_text);
+
+	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), label);
 	child->label = label;
 	child->button = button;
@@ -763,7 +754,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	gtk_container_add(GTK_CONTAINER(alignment), button);
 	gtk_widget_show_all(alignment);
 	g_signal_connect(button, "clicked",
-			   G_CALLBACK(button_clicked), child);
+			 G_CALLBACK(button_clicked), child);
 	gtk_table_attach(table, alignment,
 			 0, 1,
 			 e_select_names->child_count,
@@ -782,24 +773,24 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 		      NULL);
 
 	g_signal_connect (recipient_table,
-			    "popup",
-			    G_CALLBACK (section_right_click_cb),
-			    child);
+			  "popup",
+			  G_CALLBACK (section_right_click_cb),
+			  child);
 
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sw), recipient_table);
 	
 #if 0
 	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable)), "right_click",
-			   G_CALLBACK(section_right_click_cb), child);
+			 G_CALLBACK(section_right_click_cb), child);
 	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable)), "double_click",
-			   G_CALLBACK(remove_address), child);
+			 G_CALLBACK(remove_address), child);
 #endif
 
 
 	g_signal_connect (child->source,
-			    "changed",
-			    G_CALLBACK (sync_table_and_models),
-			    e_select_names);
+			  "changed",
+			  G_CALLBACK (sync_table_and_models),
+			  e_select_names);
 	
 	gtk_widget_show_all (sw);
 	
@@ -871,10 +862,12 @@ e_select_names_set_default (ESelectNames *e_select_names,
 
 	if (e_select_names->def) {
 		child = g_hash_table_lookup(e_select_names->children, e_select_names->def);
-		if (child)
-			g_object_set (E_ENTRY (child->label)->item,
-				      "bold", FALSE,
-				      NULL);
+		if (child) {
+			GtkWidget *label = child->label;
+
+			/* set the previous default to non-bold */
+			gtk_label_set_markup (GTK_LABEL (label), child->title);
+		}
 	}
 
 	g_free(e_select_names->def);
@@ -882,9 +875,13 @@ e_select_names_set_default (ESelectNames *e_select_names,
 
 	if (e_select_names->def) {
 		child = g_hash_table_lookup(e_select_names->children, e_select_names->def);
-		if (child)
-			g_object_set (E_ENTRY (child->label)->item,
-				      "bold", TRUE,
-				      NULL);
+		if (child) {
+			GtkWidget *label = child->label;
+			char *markup = g_strconcat ("<b>", child->title, "</b>", NULL);
+
+			/* set the new default to bold */
+			gtk_label_set_markup (GTK_LABEL (label), markup);
+			g_free (markup);
+		}
 	}
 }

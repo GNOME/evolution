@@ -22,8 +22,7 @@
 
 #include <glib.h>
 #include <gtk/gtkwidget.h>
-#include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table.h>
 #include <gal/e-table/e-table-scrolled.h>
@@ -58,7 +57,7 @@ typedef struct _ESelectNamesFolder ESelectNamesFolder;
 
 struct _ESelectNames
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 	
 	/* item specific fields */
 	GladeXML *gui;
@@ -78,7 +77,7 @@ struct _ESelectNames
 
 struct _ESelectNamesClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 

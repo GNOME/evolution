@@ -1,3 +1,27 @@
+2002-11-26  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(read_completion_books_from_db): use new schema for
+	completion/uris.
+	(uris_listener): same.
+
+	* gui/component/select-names/e-select-names.h: Convert to
+	GtkDialog from GnomeDialog.
+	
+	* gui/component/select-names/e-select-names.c: Convert to
+	GtkDialog from GnomeDialog.
+	(folder_selected): use new schema for last_used_uri.
+	(e_select_names_init): same.
+	(e_select_names_set_default): use pango markup to set
+	bold/not-bold.
+	(e_select_names_add_section): don't bother creating an EEntry, we
+	can use pango and a normal label.  This also keeps us from
+	wrapping "contacts ->" at the '-'.
+
+	* gui/component/apps_evolution_addressbook.schemas: new file.
+
+	* gui/component/Makefile.am: add the schema stuff.
+
 2002-11-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c (query_for_supported_bases):

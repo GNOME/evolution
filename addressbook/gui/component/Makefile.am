@@ -68,6 +68,18 @@ evolution_addressbook_LDADD =								\
 # not done yet:
 #	$(top_builddir)/filter/libfilter.la
 
+# GConf schemas
+
+schemadir   = $(GCONF_SCHEMA_FILE_DIR)
+schema_DATA = apps_evolution_addressbook.schemas
+
+install-data-local:
+	if test -z "$(DESTDIR)" ; then \
+		for p in $(schema_DATA) ; do \
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
+		done \
+	fi
+
 server_in_files = GNOME_Evolution_Addressbook.server.in.in
 
 serverdir = $(libdir)/bonobo/servers
