@@ -1,3 +1,11 @@
+2001-02-16  Federico Mena Quintero  <federico@ximian.com>
+
+	* pcs/cal-factory.c (CalFactoryPrivate): Added a `registered'
+	field.
+	(cal_factory_oaf_register): New function; now the factory performs
+	its own registration with OAF.
+	(cal_factory_destroy): Unregister from OAF if appropriate.
+
 2001-02-19  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/Makefile.am: Remove PISOCK_LIBDIR

@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include <libgnomevfs/gnome-vfs.h>
+#include <cal-client/cal-client.h>
 #include "alarm-notify.h"
 
 
@@ -109,7 +111,7 @@ alarm_notify_init (AlarmNotify *an)
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
 
-	/* FIXME */
+	priv->uri_client_hash = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
 }
 
 /* Destroy handler for the alarm notify system */
@@ -126,6 +128,9 @@ alarm_notify_destroy (GtkObject *object)
 	priv = an->priv;
 
 	/* FIXME */
+
+	g_hash_table_destroy (priv->uri_client_hash);
+	priv->uri_client_hash = NULL;
 
 	g_free (priv);
 	an->priv = NULL;
@@ -145,13 +150,47 @@ AlarmNotify_addCalendar (PortableServer_Servant servant,
 			 CORBA_Environment *ev)
 {
 	AlarmNotify *an;
+	AlarmNotifyPrivate *priv;
 	GnomeVFSURI *uri;
 	CalClient *client;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
+	priv = an->priv;
 
 	uri = gnome_vfs_uri_new (str_uri);
 	if (!uri) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI,
+				     NULL);
+		return;
+	}
+
+	client = g_hash_table_lookup (priv->uri_client_hash, uri);
+
+	if (client) {
+		gnome_vfs_uri_unref (uri);
+
+		gtk_object_ref (GTK_OBJECT (client));
+		return;
+	}
+
+	client = cal_client_new ();
+
+	if (client) {
+		g_hash_table_insert (priv->uri_client_hash, uri);
+		alarm_queue_add_client (client);
+
+		if (!cal_client_open_calendar (client, str_uri, FALSE)) {
+			gtk_object_unref (GTK_OBJECT (client));
+			client = NULL;
+		}
+	} else {
+		gnome_vfs_uri_unref (uri);
+
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError,
+				     NULL);
+		return;
 	}
 }
 
@@ -162,10 +201,22 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 			    CORBA_Environment *ev)
 {
 	AlarmNotify *an;
+	AlarmNotifyPrivate *priv;
+	CalClient *client;
+	char *orig_uri;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
+	priv = an->priv;
 
-	/* FIXME */
+	if (!g_hash_table_lookup_extended (priv->uri_client_hash, uri, &orig_uri, &client)) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound);
+		return;
+	}
+
+	gtk_object_unref (client);
+
+	/* FIXME: do we need to do anything else? */
 }
 
 /**

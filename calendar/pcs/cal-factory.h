@@ -60,10 +60,13 @@ struct _CalFactoryClass {
 
 GtkType cal_factory_get_type (void);
 
-CalFactory *cal_factory_construct (CalFactory *factory, GNOME_Evolution_Calendar_CalFactory corba_factory);
+CalFactory *cal_factory_construct (CalFactory *factory,
+				   GNOME_Evolution_Calendar_CalFactory corba_factory);
 GNOME_Evolution_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *object);
 
 CalFactory *cal_factory_new (void);
+
+gboolean cal_factory_oaf_register (CalFactory *factory);
 
 void cal_factory_register_method (CalFactory *factory, const char *method, GtkType backend_type);
 

@@ -30,6 +30,12 @@ INCLUDES = 						\
 gladedir   = $(datadir)/evolution/glade
 
 evolution_alarm_notify_SOURCES =	\
+	alarm.c				\
+	alarm.h				\
+	alarm-notify.c			\
+	alarm-notify.h			\
+	alarm-queue.c			\
+	alarm-queue.h			\
 	notify-main.c
 
 evolution_alarm_notify_LDADD =								\

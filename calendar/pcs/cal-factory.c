@@ -24,12 +24,16 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <gtk/gtksignal.h>
+#include <liboaf/liboaf.h>
 #include "cal.h"
 #include "cal-backend.h"
 #include "cal-factory.h"
 #include "job.h"
 
 
+
+/* OAF ID for registration */
+#define CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
 
 /* Private part of the CalFactory structure */
 struct _CalFactoryPrivate {
@@ -38,6 +42,9 @@ struct _CalFactoryPrivate {
 
 	/* Hash table from GnomeVFSURI structures to CalBackend objects */
 	GHashTable *backends;
+
+	/* Whether we have been registered with OAF yet */
+	guint registered : 1;
 };
 
 
@@ -136,6 +143,7 @@ cal_factory_init (CalFactory *factory)
 
 	priv->methods = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->backends = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
+	priv->registered = FALSE;
 }
 
 /* Frees a method/GtkType * pair from the methods hash table */
@@ -188,6 +196,14 @@ cal_factory_destroy (GtkObject *object)
 	g_hash_table_foreach (priv->backends, free_backend, NULL);
 	g_hash_table_destroy (priv->backends);
 	priv->backends = NULL;
+
+	if (priv->registered) {
+		CORBA_Object obj;
+
+		obj = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
+		oaf_active_server_unregister (CAL_FACTORY_OAF_ID, obj);
+		priv->registered = FALSE;
+	}
 
 	g_free (priv);
 	factory->priv = NULL;
@@ -667,6 +683,57 @@ str_tolower (const char *s)
 			*p = tolower (*p);
 
 	return str;
+}
+
+/**
+ * cal_factory_oaf_register:
+ * @factory: A calendar factory.
+ * 
+ * Registers a calendar factory with the OAF object activation daemon.  This
+ * function must be called before any clients can activate the factory.
+ * 
+ * Return value: TRUE on success, FALSE otherwise.
+ **/
+gboolean
+cal_factory_oaf_register (CalFactory *factory)
+{
+	CalFactoryPrivate *priv;
+	OAF_RegistrationResult result;
+	CORBA_Object obj;
+
+	g_return_val_if_fail (factory != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_FACTORY (factory), FALSE);
+
+	priv = factory->priv;
+
+	g_return_val_if_fail (!priv->registered, FALSE);
+
+	obj = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
+	result = oaf_active_server_register (CAL_FACTORY_OAF_ID, obj);
+
+	switch (result) {
+	case OAF_REG_SUCCESS:
+		priv->registered = TRUE;
+		return TRUE;
+
+	case OAF_REG_NOT_LISTED:
+		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
+			   "not listed");
+		break;
+
+	case OAF_REG_ALREADY_ACTIVE:
+		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
+			   "already active");
+		break;
+
+	case OAF_REG_ERROR:
+	default:
+		g_message ("cal_factory_oaf_register(): Cannot register the calendar factory: "
+			   "generic error");
+		break;
+	}
+
+	return FALSE;
 }
 
 /**

@@ -188,11 +188,20 @@ module Calendar {
 
 	/* Interface to the alarm notification service */
 	interface AlarmNotify : Bonobo::Unknown {
+		exception InvalidURI {};
+		exception BackendContactError {};
+		exception NotFound {};
+
 		/* Adds a calendar to the alarm notification system */
-		void addCalendar (in string uri);
+		void addCalendar (in string uri)
+			raises (InvalidURI, BackendContactError);
 
 		/* Removes a calendar from the alarm notification system */
-		void removeCalendar (in string uri);
+		void removeCalendar (in string uri)
+			raises (NotFound);
+
+		/* Makes the alarm notification daemon unconditionally exit */
+		void die ();
 	};
 };
 
