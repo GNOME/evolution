@@ -1,5 +1,13 @@
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #71312.
+
+	* em-folder-view.c (em_folder_view_open_selected): if we're
+	looking at a vfolder, then look open the original folder if we need
+	to perform any edits.
+
+2005-02-01  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #71310
 
 	* em-composer-prefs.c (sig_add_script_response): force a save of

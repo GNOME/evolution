@@ -405,6 +405,7 @@ mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **
 	return folder;
 }
 
+/* FIXME: This should be a property on CamelFolder */
 char *
 mail_tools_folder_to_url (CamelFolder *folder)
 {
