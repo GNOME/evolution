@@ -81,7 +81,8 @@ AC_DEFUN([GNOME_CHECK_GUILE],
 	AC_SUBST(GUILE_LIBS)
 	AC_SUBST(GUILE_INCS)
 
-	LDFLAGS="$saved_ldflags $GUILE_LIBS"
+	saved_LIBS="$LIBS"
+	LIBS="$LIBS $GUILE_LIBS"
 	CPPFLAGS="$saved_cppflags $GUILE_INCS"
 
 	AC_MSG_CHECKING(whether guile works)
@@ -108,6 +109,7 @@ AC_DEFUN([GNOME_CHECK_GUILE],
 		ac_cv_guile_found=no
 	fi
 
+	LIBS="$saved_LIBS"
 	LDFLAGS="$saved_ldflags"
 	CPPFLAGS="$saved_cppflags"
 
