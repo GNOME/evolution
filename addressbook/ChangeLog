@@ -1,5 +1,24 @@
 2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/select-names/e-select-names-manager.c: Make the
+	entry widgets we create editable.
+
+	* gui/component/select-names/e-select-names-model.c: Use
+	e_strsplit instead of g_strsplit.  Fixed an off by 1 error.
+
+	* gui/component/select-names/e-select-names-table-model.c: When
+	the model changes, send a model changed signal.
+
+	* gui/component/select-names/e-select-names-text-model.c: Made
+	changing this work correctly if it's empty.  Made change signals
+	propagate properly.  Is a bit better about freeing iterators when
+	done.
+
+	* gui/component/select-names/e-select-names.c: Made the finished
+	lists be in order instead of being sorted.
+
+2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/addressbook.c (new_server_cb): Since
 	ELDAPServer->port is a char *, allocate a string with the number
 	389 contained.

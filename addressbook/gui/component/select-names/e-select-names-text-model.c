@@ -125,11 +125,17 @@ e_select_names_text_model_set_text    	(ETextModel *model, gchar *text)
 	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
 	
 	e_iterator_reset(iterator);
+	if (!e_iterator_is_valid(iterator)) {
+		gtk_object_unref(GTK_OBJECT(iterator));
+		iterator = NULL;
+	}
 	e_select_names_model_replace(source,
 				     iterator,
 				     0,
 				     strlen(model->text),
 				     text);
+	if (iterator)
+		gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 static void
@@ -141,14 +147,21 @@ e_select_names_text_model_insert      	(ETextModel *model, gint position, gchar 
 	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		int this_length = get_length(iterator);
 		if (position <= this_length) {
-			e_select_names_model_insert(source,
-						    iterator,
-						    position,
-						    text);
+			break;
 		} else {
 			position -= this_length + 1;
 		}
 	}
+	if (!e_iterator_is_valid(iterator)) {
+		gtk_object_unref(GTK_OBJECT(iterator));
+		iterator = NULL;
+	}
+	e_select_names_model_insert(source,
+				    iterator,
+				    position,
+				    text);
+	if (iterator)
+		gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 static void
@@ -160,16 +173,22 @@ e_select_names_text_model_insert_length (ETextModel *model, gint position, gchar
 	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		int this_length = get_length(iterator);
 		if (position <= this_length) {
-			e_select_names_model_insert_length(source,
-							   iterator,
-							   position,
-							   text,
-							   length);
 			break;
 		} else {
 			position -= this_length + 1;
 		}
 	}
+	if (!e_iterator_is_valid(iterator)) {
+		gtk_object_unref(GTK_OBJECT(iterator));
+		iterator = NULL;
+	}
+	e_select_names_model_insert_length(source,
+					   iterator,
+					   position,
+					   text,
+					   length);
+	if (iterator)
+		gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 static void
@@ -190,6 +209,8 @@ e_select_names_text_model_delete        (ETextModel *model, gint position, gint 
 			position -= this_length + 1;
 		}
 	}
+	if (iterator)
+		gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 static void
@@ -233,6 +254,7 @@ e_select_names_text_model_model_changed (ESelectNamesModel     *source,
 	*lengthsp = -1;
 	g_free(E_TEXT_MODEL(model)->text);
 	E_TEXT_MODEL(model)->text = string;
+	e_text_model_changed(E_TEXT_MODEL(model));
 }
 
 

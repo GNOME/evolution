@@ -263,6 +263,7 @@ e_select_names_table_model_model_changed (ESelectNamesModel     *source,
 					  ESelectNamesTableModel *model)
 {
 	clear_info(model);
+	e_table_model_changed(E_TABLE_MODEL(model));
 }
 
 /* Set_arg handler for the model */

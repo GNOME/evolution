@@ -209,6 +209,7 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 			model = e_select_names_text_model_new(section->model);
 			gtk_object_set(GTK_OBJECT(entry),
 				       "model", model,
+				       "editable", TRUE,
 				       NULL);
 			return entry;
 		}

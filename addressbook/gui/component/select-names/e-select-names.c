@@ -103,6 +103,14 @@ e_select_names_class_init (ESelectNamesClass *klass)
 	<grouping> <leaf column=\"0\" ascending=\"1\"/> </grouping>    \
 </ETableSpecification>"
 
+#define SPEC2 "<ETableSpecification no-header=\"1\">    	       \
+	<columns-shown>                  			       \
+		<column> 0 </column>     			       \
+                <column> 2 </column>                                   \
+	</columns-shown>                 			       \
+	<grouping> </grouping>                                         \
+</ETableSpecification>"
+
 GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2);
 
 static void
@@ -294,7 +302,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	cell_left_just = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
 	e_table_header_add_column (header, e_table_col_new (0, "Full Name", 1.0, 20, cell_left_just,
 							    g_str_compare, TRUE), 0);
-	etable = e_table_new (header, model, SPEC);
+	etable = e_table_new (header, model, SPEC2);
 
 	child->model = model;
 	gtk_object_ref(GTK_OBJECT(child->model));

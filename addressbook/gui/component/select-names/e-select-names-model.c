@@ -13,6 +13,7 @@
 #include <gtk/gtk.h>
 
 #include "e-select-names-model.h"
+#include "e-util/e-util.h"
 
 enum {
 	E_SELECT_NAMES_MODEL_CHANGED,
@@ -212,7 +213,7 @@ e_select_names_model_insert            (ESelectNamesModel *model,
 					int index,
 					char *data)
 {
-	gchar **strings = g_strsplit(data, ",", -1);
+	gchar **strings = e_strsplit(data, ",", -1);
 	int i;
 	if (iterator == NULL) {
 		ESelectNamesModelData new = {E_SELECT_NAMES_MODEL_DATA_TYPE_STRING_ADDRESS, NULL, ""};
@@ -228,7 +229,7 @@ e_select_names_model_insert            (ESelectNamesModel *model,
 		g_free(node->string);
 		node->string = temp;
 	}
-	for (i = 0; strings[i]; i++) {
+	for (i = 1; strings[i]; i++) {
 		ESelectNamesModelData *node = (void *) e_iterator_get(iterator);
 		gchar *temp = g_strdup_printf("%.*s", index, node->string);
 		gchar *temp2 = g_strdup_printf("%s%s", strings[0], node->string + index);
