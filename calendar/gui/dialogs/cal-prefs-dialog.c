@@ -331,6 +331,9 @@ cal_prefs_dialog_button_clicked	(GtkWidget	*dialog,
 	/* OK & Close buttons close the dialog. */
 	if (button == 0 || button == 2)
 		gtk_widget_hide (priv->dialog);
+
+	/* FIXME: Handle button 3 (Help). */
+
 }
 
 

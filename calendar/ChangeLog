@@ -1,3 +1,8 @@
+2001-07-30  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: added Help button. Though of
+	course it doesn't do anything yet.
+
 2001-07-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c: Mark strings for translation
@@ -178,6 +183,7 @@
 	value from cal_component_get_as_string and don't call
 	GNOME_Evolution_Calendar_Cal_updateObjects if NULL
 
+>>>>>>> 1.1002
 2001-07-25  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor.c (pixmaps): used the new print preview icon.
