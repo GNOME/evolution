@@ -399,7 +399,7 @@ forget_password (CamelSession *session, CamelService *service, const char *item,
 /* ********************************************************************** */
 
 static GtkDialog *message_dialog;
-static EDList message_list = E_DLIST_INITIALISER(password_list);
+static EDList message_list = E_DLIST_INITIALISER(message_list);
 
 struct _user_message_msg {
 	struct _mail_msg msg;
