@@ -1,5 +1,9 @@
 2002-01-27  Kevin Breit  <mrproper@ximian.com>
 
+	* C/config-prefs.sgml: Added information regarding types of search scopes
+
+	* C/usage-contact.sgml: Fixed some linking brokenness
+
 	* C/apx-gloss.sgml: Added Search Base as an entry
 	Added Search Scope as an entry
 

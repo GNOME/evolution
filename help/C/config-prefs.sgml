@@ -824,7 +824,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Search base</term>
+		  <term><glossterm linkend="search-base">Search base</glossterm></term>
 		  <listitem>
 		    <para>
 		      The base entry to use for all your searches.
@@ -834,10 +834,40 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Search scope</term>
+		  <term><glossterm linkend="search-scope">Search scope</glossterm></term>
 		  <listitem>
 		    <para>
-		      How broad the search is in the directory.
+		      How broad the search is in the directory.  The
+		      following options are available:
+		      <variablelist>
+			<varlistentry>
+			  <term>Base</term>
+			  <listitem>
+			    <para>
+			      Searches just the Search Base.  Most of the time,
+			      not very useful.
+			    </para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>One</term>
+			  <listitem>
+			    <para>
+			      Searches the Search Base and one entry
+			      below it.
+			    </para>
+			  </listitem>
+			</varlistentry>
+			<varlistentry>
+			  <term>Sub</term>
+			  <listitem>
+			    <para>
+			      Searches the Search Base and all entries
+			      below it.
+			    </para>
+			  </listitem>
+			</varlistentry>
+		      </variablelist>
 		    </para>
 		  </listitem>
 		</varlistentry>

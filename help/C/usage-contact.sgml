@@ -578,7 +578,7 @@
       <para>
 	For information about setting up
 	<application>Evolution</application> to use LDAP, please refer
-	to <xref linkend="conifg-prefs-contact-ldap-add" />
+	to <xref linkend="config-prefs-contact-ldap-add" />
       </para>
     </sect2>
   </sect1>
