@@ -52,8 +52,8 @@ struct _ETrie {
 	GPtrArray *fail_states;
 	gboolean icase;
 	
-	E_Memchunk *match_chunks;
-	E_Memchunk *state_chunks;
+	EMemchunk *match_chunks;
+	EMemchunk *state_chunks;
 };
 
 
