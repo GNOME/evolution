@@ -15,6 +15,7 @@
 #include <icaltypes.h>
 #include <ical.h>
 #include <time.h>
+#include <Evolution-Composer.h>
 
 #include "e-itip-control.h"
 #include <cal-util/cal-component.h>
@@ -23,6 +24,8 @@
 
 #define DEFAULT_WIDTH 400
 #define DEFAULT_HEIGHT 300
+
+#define COMPOSER_OAFID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
 
 extern gchar *evolution_dir;
 
@@ -140,12 +143,6 @@ itip_control_size_request_cb (GtkWidget *widget, GtkRequisition *requisition)
 	requisition->height = DEFAULT_HEIGHT;
 }
 
-static void
-itip_control_size_allocation_cb (GtkWidget *widget, GtkRequisition *requisition)
-{
-	widget->requisition.height = requisition->height;
-	widget->requisition.width = requisition->width;
-}
 
 static void
 cal_loaded_cb (GtkObject *object, CalClientGetStatus status, gpointer data)
@@ -182,9 +179,8 @@ cal_loaded_cb (GtkObject *object, CalClientGetStatus status, gpointer data)
 }
 
 static void
-add_button_clicked_cb (GtkWidget *widget, gpointer data)
+update_calendar (EItipControlPrivate *priv)
 {
-	EItipControlPrivate *priv = data;
 	gchar cal_uri[255];
 	CalClient *client;
 
@@ -210,6 +206,179 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 	return;
 }
 
+static void
+add_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControlPrivate *priv = data;
+
+	update_calendar (priv);
+
+	return;
+}
+
+static void
+change_my_status (icalparameter_partstat status, EItipControlPrivate *priv)
+{
+	icalproperty *prop;
+
+	prop = find_attendee (priv->comp, priv->my_address);
+	if (prop) {
+		icalparameter *param;
+
+		icalproperty_remove_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+		param = icalparameter_new_partstat (status);
+		icalproperty_add_parameter (prop, param);
+	}
+}
+
+static void
+send_itip_reply (EItipControlPrivate *priv)
+{
+	BonoboObjectClient *bonobo_server;
+	Evolution_Composer composer_server;
+	CORBA_Environment ev;
+	Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+	Evolution_Composer_Recipient *recipient;
+	CORBA_char *subject;
+	CalComponentText caltext;
+	CORBA_char *content_type, *filename, *description, *attach_data;
+	CORBA_boolean show_inline;
+	CORBA_char tempstr[200];
+	
+	CORBA_exception_init (&ev);
+
+	/* First, I obtain an object reference that represents the Composer. */
+	bonobo_server = bonobo_object_activate (COMPOSER_OAFID, 0);
+
+	g_return_if_fail (bonobo_server != NULL);
+
+	composer_server = bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_server));
+
+	/* Now I have to make a CORBA sequence that represents a recipient list with
+	   one item, for the organizer. */
+	to_list = Evolution_Composer_RecipientList__alloc ();
+	to_list->_maximum = 1;
+	to_list->_length = 1; 
+	to_list->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (1);
+
+	recipient = &(to_list->_buffer[0]);
+	recipient->name = CORBA_string_alloc (0);  /* FIXME: we may want an actual name here. */
+	recipient->name[0] = '\0';
+	recipient->address = CORBA_string_alloc (strlen (priv->organizer));
+	strcpy (recipient->address, priv->organizer);
+
+	cc_list = Evolution_Composer_RecipientList__alloc ();
+	cc_list->_maximum = cc_list->_length = 0;
+	bcc_list = Evolution_Composer_RecipientList__alloc ();
+	bcc_list->_maximum = bcc_list->_length = 0;
+
+	cal_component_get_summary (priv->cal_comp, &caltext);
+	subject = CORBA_string_alloc (strlen (caltext.value));
+	strcpy (subject, caltext.value);
+	
+	Evolution_Composer_set_headers (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	sprintf (tempstr, "text/calendar;METHOD=REPLY");
+	content_type = CORBA_string_alloc (strlen (tempstr));
+	strcpy (content_type, tempstr);
+	filename = CORBA_string_alloc (0);
+	filename[0] = '\0';
+	sprintf (tempstr, "Calendar attachment");
+	description = CORBA_string_alloc (strlen (tempstr));
+	strcpy (description, tempstr);
+	show_inline = FALSE;
+
+	/* I need to create an encapsulating iCalendar component, and stuff our reply event
+	   into it. */
+	{
+		icalcomponent *comp;
+		icalproperty *prop;
+		icalvalue *value;
+		gchar *ical_string;
+
+		comp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
+		
+		prop = icalproperty_new (ICAL_PRODID_PROPERTY);
+		value = icalvalue_new_text ("-//HelixCode/Evolution//EN");
+		icalproperty_set_value (prop, value);
+		icalcomponent_add_property (comp, prop);
+
+		prop = icalproperty_new (ICAL_VERSION_PROPERTY);
+		value = icalvalue_new_text ("2.0");
+		icalproperty_set_value (prop, value);
+		icalcomponent_add_property (comp, prop);
+
+		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
+		value = icalvalue_new_text ("REPLY");
+		icalproperty_set_value (prop, value);
+		icalcomponent_add_property (comp, prop);
+
+		icalcomponent_remove_component (priv->main_comp, priv->comp);
+		icalcomponent_add_component (comp, priv->comp);
+
+		ical_string = icalcomponent_as_ical_string (comp);
+		attach_data = CORBA_string_alloc (strlen (ical_string));
+		strcpy (attach_data, ical_string);
+
+		icalcomponent_remove_component (comp, priv->comp);
+		icalcomponent_add_component (priv->main_comp, priv->comp);
+		icalcomponent_free (comp);
+
+	}
+	
+	Evolution_Composer_attach_data (composer_server, 
+					content_type, filename, description,
+					show_inline, attach_data,
+					&ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	Evolution_Composer_show (composer_server, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	
+	CORBA_exception_free (&ev);
+
+	/* Here is where we free our graciously-allocated memory. */
+	if (CORBA_sequence_get_release (to_list) != FALSE)
+		CORBA_free (to_list->_buffer);
+
+	CORBA_free (to_list);
+	CORBA_free (cc_list);
+	CORBA_free (bcc_list);
+
+	CORBA_free (subject);
+	CORBA_free (content_type);
+	CORBA_free (filename);
+	CORBA_free (description);
+	CORBA_free (attach_data);
+
+}
+
+static void
+accept_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControlPrivate *priv = data;
+
+	change_my_status (ICAL_PARTSTAT_ACCEPTED, priv);
+	send_itip_reply (priv);
+	update_calendar (priv);
+	
+	return;
+}
 
 /*
  * Bonobo::PersistStream
@@ -472,6 +641,9 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 				gtk_box_pack_start (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
 				gtk_box_pack_start (GTK_BOX (priv->button_box), decline_button, FALSE, FALSE, 3);
 				gtk_box_pack_start (GTK_BOX (priv->button_box), tentative_button, FALSE, FALSE, 3);
+
+				gtk_signal_connect (GTK_OBJECT (accept_button), "clicked",
+						    GTK_SIGNAL_FUNC (accept_button_clicked_cb), priv);
 
 				gtk_widget_show (accept_button);
 				gtk_widget_show (decline_button);
