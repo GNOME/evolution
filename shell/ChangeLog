@@ -1,3 +1,8 @@
+2000-09-15  Dan Winship  <danw@helixcode.com>
+
+	* e-storage.c (get_path_for_physical_uri_foreach): foreach_data
+	should be set to the caller-supplied data, not the tree item data.
+
 2000-09-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-setup.c (setup_sent_folder): New function to set up the `Sent'
