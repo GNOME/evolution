@@ -1,7 +1,5 @@
 # List of source files containing translatable strings.
 # Please keep this list in alphabetic order.
-#camel/providers/cache/camel-cache-map.c
-#camel/providers/cache/camel-cache-store.c
 addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in
 addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in
 addressbook/backend/ebook/e-card-simple.c
@@ -179,9 +177,6 @@ camel/providers/local/camel-spool-folder.c
 camel/providers/local/camel-spool-store.c
 camel/providers/local/camel-spool-summary.c
 camel/providers/local/camel-spoold-store.c
-#camel/providers/nntp/camel-nntp-auth.c
-#camel/providers/nntp/camel-nntp-folder.c
-#camel/providers/nntp/camel-nntp-grouplist.c
 camel/providers/nntp/camel-nntp-provider.c
 camel/providers/nntp/camel-nntp-store.c
 camel/providers/nntp/camel-nntp-summary.c
@@ -207,15 +202,6 @@ e-util/e-dialog-utils.c
 e-util/e-passwords.c
 e-util/e-pilot-settings.c
 e-util/e-time-utils.c
-#executive-summary/GNOME_Evolution_Summary.oaf.in
-#executive-summary/component/component-factory.c
-#executive-summary/component/e-summary-callbacks.c
-#executive-summary/component/e-summary-url.c
-#executive-summary/component/e-summary.c
-#executive-summary/component/main.c
-#executive-summary/test-service/GNOME_Evolution_Summary_rdf.oaf.in
-#executive-summary/test-service/GNOME_Evolution_Summary_test.oaf.in
-#executive-summary/test-service/rdf-summary.c
 filter/filter-datespec.c
 filter/filter-editor.c
 filter/filter-filter.c
