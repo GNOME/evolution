@@ -1,6 +1,6 @@
-<chapter id="usage-exchange">
-  <title>The Ximian Connector for Microsoft Exchange</title>
-  <para>
+  <chapter id="usage-exchange">
+    <title>The Ximian Connector for Microsoft Exchange</title>
+    <para>
     The Ximian Connector for Microsoft Exchange allows Ximian
     Evolution clients to access accounts on Microsoft Exchange 2000
     servers. It is available through Ximian Red Carpet in its own
@@ -10,16 +10,16 @@
     regular Ximian Evolution client, the Ximian Connector for
     Microsoft Exchange is proprietary software and source code is not
     available.
-  </para>
-  <para>
-    The Ximian Connector offers a significant price advantage over
-    other Exchange access methods for Linux and UNIX systems:
+    </para>
+    <para>
+      The Ximian Connector offers a significant price advantage over
+      other Exchange access methods for Linux and UNIX systems:
     <variablelist>
 
-      <varlistentry>
-	<term>Dual Computer Installation:</term>
-	<listitem>
-	  <para>
+	<varlistentry>
+	  <term>Dual Computer Installation:</term>
+	  <listitem>
+	    <para>
              The purchase of a second computer for each client imposes
              a very heavy expense burden and is exceptionally
              inconvenient.
@@ -85,9 +85,11 @@
 	      <term>Remote <application>Exchange</application> Information Store</term>
 	      <listitem>
 		<para>
-		  Allows you to access mail, address 
-		  book, and calendars, and task folders on an <application>Exchange
-		    2000</application> server from <application>Evolution</application>. 
+		  Allows you to access mail, address book (including
+		  Global Address List folder), and calendars, and task
+		  folders on an <application>Exchange
+		  2000</application> server from
+		  <application>Evolution</application>.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -135,9 +137,9 @@
 		<para>
 		  Allows <application>Evolution</application> users to
 		  schedule meetings and view attendee availability for
-		  other users
-		  (<application>Evolution</application>/<application>Outlook</application>)
-		  on <application>Exchange</application>.
+		  other users (<application>Evolution</application> or
+		  <application>Outlook</application> users) on
+		  <application>Exchange</application>.
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -198,28 +200,31 @@ There are, however, some features which are not available:
 
 	      <listitem>
 		<para>
-		  Access to shared and public folders
+		  Access to shared and public folders is not
+		  available, although the Global Address List is
+		  available.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-                Journal and Notes components
+                Journal and Notes components are not available.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Work Offline (disconnected mode) support
+		Work Offline (disconnected mode) support is not functional.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-               "Recall Message"
+               "Recall Message" function does not work yet.
 	      </para>
 	    </listitem>
 
 	    <listitem>
 	      <para>
-               Creation of an automatic "out-of-office" reply message
+               Creation of an automatic "out-of-office" reply messages
+               is not available.
 	      </para>
 	    </listitem>
 
@@ -259,8 +264,8 @@ There are, however, some features which are not available:
     <title>Configuration</title>
     <para>
       Once you have installed the Connector, you need to set up access
-      for your <application>Exchange</application>account on both the <application>Exchange</application>server and within
-      Evolution.
+      for your <application>Exchange</application>account on both the
+      <application>Exchange</application>server and within Evolution.
     </para>
 
        <sect2 id="config-server">
@@ -274,18 +279,21 @@ There are, however, some features which are not available:
 	    </para>
 	  </listitem>
 	  <listitem>
-	    <para> 
-	      You are permitted to access the account with
-	      WebDAV. This is the default setting for the <application>Exchange</application>server,
-	      so unless your system administrator has specifically turned
-	      it off, no changes should be necessary.
+	    <para> You are permitted to access the account with
+	      WebDAV. This is the default setting for the
+	      <application>Exchange</application>server, so unless
+	      your system administrator has specifically turned it
+	      off, no changes should be necessary.
 	    </para>
 	  </listitem>
 	</itemizedlist>
       </para>
       <para>
 	The Ximian website knowledge base, at <ulink type="http"
-						     url="http://support.ximian.com">support.ximian.com</ulink>, has additional information about checking to make sure that your <application>Exchange</application>server will accept connections from Ximian Evolution.
+	url="http://support.ximian.com">support.ximian.com</ulink>,
+	has additional information about checking to make sure that
+	your <application>Exchange</application>server will accept
+	connections from Ximian Evolution.
       </para>
     </sect2>
     
@@ -311,13 +319,30 @@ There are, however, some features which are not available:
 	  
 	  <listitem>
 	    <para>
-	      Under the <guilabel>Receiving Mail</guilabel> tab, select
-	      <guilabel>Microsoft Exchange</guilabel> as your server
-	      type. Enter your name of your server next to
+	      Under the <guilabel>Receiving Mail</guilabel> tab,
+	      select <guilabel>Microsoft Exchange</guilabel> as your
+	      server type. Enter your name of your server next to
 	      <guilabel>Host</guilabel>, and the user name for your
-	      account next to <guilabel>Username</guilabel>.  If your
-	      server uses a Secure Socket Layer connection, click the
-	      <guilabel>Use Secure Connection (SSL)</guilabel> checkbox.
+	      account next to <guilabel>Username</guilabel>. If your
+	      server supports SSL (Secure Socket Layer) encryption, it
+	      you can check the <guilabel>Use SSL</guilabel> box to
+	      take advantage of more secure data transfers.
+	    </para>
+	  </listitem>
+
+ 
+	    <listitem>
+	      <para>
+	        If you would like to create and use the Global Address
+	        List maintained on your Exchange server, click the tab
+	        labelled <guilabel>Receiving Options</guilabel> and
+	        check the box labelled <guilabel>Create a Global
+	        Address List folder</guilabel>.  The Global Address
+	        List (GAL) is maintained by your system administrator
+	        and you cannot add, change, or remove items from it
+	        using Ximian Evolution. However, you can use it to
+	        invite people to meetings and to look up addresses and
+	        other information.
 	    </para>
 	  </listitem>
 	  
@@ -327,8 +352,8 @@ There are, however, some features which are not available:
 	      <guilabel>Microsoft Exchange</guilabel> as your server
 	      type, and enter the server name as the
 	      <guilabel>Host</guilabel>. You do not need to use the
-	      <application>Exchange</application>server to send mail if you prefer to use another
-	      server or server type.
+	      <application>Exchange</application>server to send mail
+	      if you prefer to use another server or server type.
 	    </para>
 	  </listitem>
 	  
@@ -348,13 +373,21 @@ There are, however, some features which are not available:
 	  </listitem>
 	</orderedlist>
       </para>
+
+	<para>
+          Once you have made these changes, quit
+          <application>Evolution</application>, then start it up
+          again. Changes to the Ximian Connector accounts
+          configuration are not active until you have restarted the
+          application.
+       </para>
       
       <para>
 	If you would like to create a new account for your Exchange
 	server, click the <guibutton>Add</guibutton> button in the
 	accounts list. The account creation assistant will guide you
 	through the process, which is described in <xref
-							 linkend="usage-mainwindow-starting">. 
+	linkend="usage-mainwindow-starting">.
       </para>
     </sect2>
   </sect1>
@@ -362,28 +395,53 @@ There are, however, some features which are not available:
   <sect1 id="access">
     <title>Accessing the <application>Exchange</application>Server</title>
     <para>
-      Like IMAP and LDAP data, information for <application>Exchange</application>accounts is
-      stored on the server, not on your desktop computer.  This means
-      that you can access it from multiple locations. It also means
-      that your Microsoft <application>Exchange</application>account information is in a
-      seperate folder tree from the <guilabel>Local</guilabel> tree
-      in your folder bar. You'll see it below the local tree, with
-      the name you gave the account. If you have multiple accounts,
-      you will have multiple folder trees.
+      Like IMAP and LDAP data, information for
+      <application>Exchange</application>accounts is stored on the
+      server, not on your desktop computer.  This means that you can
+      access it from multiple locations. It also means that your
+      Microsoft <application>Exchange</application>account information
+      is in a seperate folder tree from the <guilabel>Local</guilabel>
+      tree in your folder bar. You'll see it below the local tree,
+      with the name you gave the account. If you have multiple
+      accounts, you will have multiple folder trees.
     </para>
     <para>
       Click on any of the folder tree items to visit them; you may
       have to enter your server password.  You can now create contact
       cards, send and receive email as you would normally. If there
       are items in your local calendar or addressbook that you'd like
-      to add to your <application>Exchange</application>stores, you can copy and paste them
-      over, or just drag items from one folder to another as you
-      would with two local stores.
+      to add to your <application>Exchange</application>stores, you
+      can copy and paste them over, or just drag items from one folder
+      to another as you would with two local stores.
     </para>
+
+      <note id="save-to-local-or-exchange">
+	<title>Saving Attached Addresses and Appointments</title>
+	<para>
+          If you are using both an Exchange account and a local mail
+          account, you should be aware that whenever you save an email
+          address or appointment from an email message, it will be
+          saved in your Exchange contacts list or calendar, rather
+          than in your local account.
+       </para>
+      </note>
+
+   <tip id="gal-empty">
+	<title>The Global Address List Is Empty At First</title>
+	<para>
+          To avoid unnecessary strain on the server, the GAL will
+          appear empty until you have searched for something in it.
+          If you want to display all the cards in the list, click in
+          the search box and press <keycap>Enter</keycap>.  This
+          enters a blank search: since every card contains a blank in
+          it, every card will appear.
+        </para>
+      </tip>
     <para>
       In addition, when you schedule a meeting with your calendar on
-      the <application>Exchange</application>server, you can check when other local Exchange
-      users are busy according to their <application>Exchange</application>calendars. To do so: 
+      the <application>Exchange</application>server, you can check
+      when other local Exchange users are busy according to their
+      <application>Exchange</application>calendars. To do so:
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
@@ -392,17 +450,19 @@ There are, however, some features which are not available:
 	</listitem>
 
 	<listitem>
-	  <para> Choose <menuchoice>
-	      <guimenu>Actions</guimenu>
+	  <para> Choose <menuchoice> <guimenu>Actions</guimenu>
 	      <guimenuitem>Schedule Meeting</guimenuitem>
-	    </menuchoice> in the meeting editor window.
+	      </menuchoice> in the meeting editor window.
           </para>
 	</listitem>
 
 	<listitem>
 	  <para> Add attendees, either by entering their email address
             into the list, or by clicking the <guibutton>Invite
-            Others</guibutton> button. 
+            Others</guibutton> button. When doing so, it's best to use
+            the Global Address List (GAL).  Choose the GAL from the
+            drop-down list of address sources at the top of the dialog
+            box.
          </para>
 	</listitem>
 	<listitem>
