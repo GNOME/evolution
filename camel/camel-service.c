@@ -161,10 +161,6 @@ service_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
 	for (i = 0; i < args->argc; i++) {
 		tag = args->argv[i].tag;
 		
-		/* make sure this arg wasn't already handled */
-		if (tag & CAMEL_ARG_IGNORE)
-			continue;
-		
 		/* make sure this is an arg we're supposed to handle */
 		if ((tag & CAMEL_ARG_TAG) <= CAMEL_SERVICE_ARG_FIRST ||
 		    (tag & CAMEL_ARG_TAG) >= CAMEL_SERVICE_ARG_FIRST + 100)

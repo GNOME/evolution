@@ -1,8 +1,15 @@
 2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* providers/imap/camel-imap-store.c (imap_setv): Only ignore if
-	(tag & CAMEL_ARG_TAG) == CAMEL_ARG_IGNORE, not if (tag &
-	CAMEL_ARG_IGNORE) is true.
+	Thanks to Christian Kellner for pointing out these bugs (and
+	submitting the original patch for service_setv)
+
+	* camel-service.c (service_setv): Don't use (tag &
+	CAMEL_ARG_IGNORE) to determine if we should ignore this
+	tag. CAMEL_ARG_IGNORE is not a bit flag.
+
+	* providers/imap/camel-imap-store.c (imap_setv): Don't use (tag &
+	CAMEL_ARG_IGNORE) to determine if we should ignore this
+	tag. CAMEL_ARG_IGNORE is not a bit flag.
 
 2004-06-16  Jeffrey Stedfast  <fejj@ximian.com>
 
