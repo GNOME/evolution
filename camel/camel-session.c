@@ -22,6 +22,7 @@
  */
 #include <config.h>
 #include "camel-session.h"
+#include "string-utils.h"
 
 static GtkObjectClass *parent_class=NULL;
 
@@ -45,8 +46,8 @@ camel_session_class_init (CamelSessionClass *camel_session_class)
 static void
 camel_session_init (CamelSession *session)
 {
-	session->store_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
-	session->transport_provider_list = g_hash_table_new (g_str_hash, g_str_equal);
+	session->store_provider_list = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	session->transport_provider_list = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 }
 
 
@@ -128,4 +129,77 @@ camel_session_get_store_from_provider (CamelSession *session, CamelProvider *pro
 #warning set the url to a useful value.
 	camel_store_init(store, session, NULL);
 	return store;
+}
+
+
+
+
+/**
+ * camel_session_get_store_for_protocol: get the store associated to a protocol
+ * @session: CamelSession object
+ * @protocol: protocol name 
+ * 
+ * Return a CamelStore object associated to a given
+ * store protocol. If a provider has been set for this
+ * protocol in the session @session using 
+ * camel_session_set_provider (), then a store 
+ * obtained from this provider is return.
+ * Otherwise, if one or more  provider corresponding 
+ * to this protocol has been registered (See 
+ * camel_provider_register_as_module), the last registered
+ * one is used. 
+ * 
+ * Return value: store associated to this protocol or NULL if no provider was found. 
+ **/
+CamelStore *
+camel_session_get_store_for_protocol (CamelSession *session, const gchar *protocol)
+{
+	CamelProvider *provider = NULL;
+	CamelStore *new_store;
+
+	/* look if there is a provider assiciated to this
+	   protocol in this session */
+	provider = CAMEL_PROVIDER (g_hash_table_lookup (session->store_provider_list, protocol));
+	if (!provider)
+		/* no provider was found in this session, look 
+		   if there is a registered provider for this 
+		   protocol */
+		provider = camel_provider_get_for_protocol (protocol, PROVIDER_STORE);
+	
+	if (!provider) return NULL;
+	
+	new_store = (CamelStore *)gtk_type_new (provider->object_type);
+	return new_store;
+}
+
+
+
+
+/**
+ * camel_session_get_store: get a store object for an URL
+ * @session: session object
+ * @url_string: url 
+ * 
+ * return a store corresponding to an URL. 
+ * 
+ * Return value: the store, or NULL if no provider correponds to the protocol
+ **/
+CamelStore *
+camel_session_get_store (CamelSession *session, const gchar *url_string)
+{
+	Gurl *url = NULL;
+	CamelStore *new_store = NULL;
+
+	url = g_url_new (url_string);
+	g_return_val_if_fail (url, NULL);
+	
+	if (url->protocol) {
+		new_store = camel_session_get_store_for_protocol (session, url->protocol);
+		if (new_store)
+			camel_store_init (new_store, session, url_string);
+	}
+	g_url_free (url);
+	
+	return new_store;
+
 }

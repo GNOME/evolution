@@ -60,6 +60,9 @@ GList   *string_split           (const gchar *string, char sep,
 void     string_trim            (gchar *string, const gchar *chars,
 				 StringTrimOption options);
 
+gint g_strcase_equal (gconstpointer a, gconstpointer b);
+guint g_strcase_hash (gconstpointer v);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -26,6 +26,7 @@
 #include <config.h>
 #include "string-utils.h"
 #include "camel-log.h"
+#include "string.h"
 
 
 
@@ -251,3 +252,46 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 
 
 
+/***/
+/* use these two funcs for case insensitive hash table */
+
+gint 
+g_strcase_equal (gconstpointer a, gconstpointer b)
+{
+	return (g_strcasecmp ((gchar *)a, (gchar *)b) == 0);
+}
+
+
+/* modified g_str_hash from glib/gstring.c
+   because it would have been too slow to
+   us g_strdown() on the string */
+/* a char* hash function from ASU */
+guint
+g_strcase_hash (gconstpointer v)
+{
+	const char *s = (char*)v;
+	const char *p;
+	char c;
+	guint h=0, g;
+	
+	for(p = s; *p != '\0'; p += 1) {
+		c = isupper ((guchar)*p) ? tolower ((guchar)*p) : *p;
+		h = ( h << 4 ) + c;
+		if ( ( g = h & 0xf0000000 ) ) {
+			h = h ^ (g >> 24);
+			h = h ^ g;
+		}
+  }
+
+  return h /* % M */;
+}
+
+
+
+
+
+
+
+
+
+/***/

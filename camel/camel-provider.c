@@ -72,7 +72,9 @@ camel_provider_register (CamelProvider *provider)
 		// camel_provider_unref (CAMEL_PROVIDER (old_provider_node->data));
 		old_provider_node->data = provider;
 	} else {
-		_provider_list = g_list_append (_provider_list, provider);
+		/* be careful, we use prepend here, so that last registered
+		   providers come first */
+		_provider_list = g_list_prepend (_provider_list, provider);
 	}
 	// camel_provider_ref (provider);
 	
@@ -122,3 +124,60 @@ camel_provider_register_as_module (const gchar *module_path)
 
  
 } 
+
+
+
+
+/* 
+   be careful to this function, @a is expected to be
+   a provider, @b a protocol name (const gchar *)
+*/
+static gint        
+_provider_protocol_find (gconstpointer a, gconstpointer b)
+{
+	CamelProvider *provider_a = CAMEL_PROVIDER (a);
+	const gchar *name_b = (const gchar *)b;
+
+	return g_strcasecmp ( provider_a->name, name_b);
+}
+
+/**
+ * camel_provider_get_for_protocol: get a registered provider for a protocol
+ * @protocol: protocol name (case insensitive)
+ * @type: provider type (transport, store, ...)
+ * 
+ * Look into the list of registered provider if 
+ * one correspond both to the protocol name 
+ * and to the protocol type. When several providerss
+ * exist for a same protocol, the last registered
+ * is returned.
+ * 
+ * Return value: Matching provider or NULL if none exists. 
+ **/
+const CamelProvider *
+camel_provider_get_for_protocol (const gchar *protocol, ProviderType type)
+{
+	GList *found_provider_node;
+	CamelProvider *found_provider = NULL;
+	
+	g_assert (protocol);
+	g_return_val_if_fail (_provider_list, NULL);
+	 
+	/* we've got a compilation warning here because of bad prototype of
+	   g_list_find_custom (), don't worry about that */
+	do {
+		found_provider_node = g_list_find_custom (_provider_list, (gconstpointer)protocol, _provider_name_cmp);
+		/* we will get the last registered provider 
+		   here because providers are registered 
+		   using g_list_prepend(). This is a bit
+		   dangerous however because we rely on 
+		   the way g_list_find_custom() is implemented.
+		   This should be changed one day */		
+		if (found_provider_node)
+			found_provider = (CamelProvider*)found_provider_node->data;
+		else found_provider = NULL;
+	}
+	while (found_provider && (found_provider->provider_type != type));
+	
+	return found_provider;
+}

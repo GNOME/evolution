@@ -1,5 +1,21 @@
 1999-08-12  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-session.c (camel_session_get_store): 
+	new function: returns a store for an URL. 
+	(camel_session_get_store_for_protocol): 
+	new functionc: returns a store for a given 
+	store protocol (as IMAP/POP/MH ...)
+	* camel/string-utils.c (g_strcase_equal): 
+	(g_strcase_hash): case insensitive hash table
+	funcs.
+
+	* camel/camel-session.c (camel_session_init): hash table
+	keys are case insensitive.
+
+	* camel/camel-provider.c (camel_provider_get_for_protocol): 
+	new function, returns the last registered 
+	provider for a protocol.
+
 	* camel/providers/MH/camel-mh-provider.c: 
 	new file. MH provider registration stuff.
 

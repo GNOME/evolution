@@ -54,6 +54,7 @@ typedef struct {
 
 void camel_provider_register (CamelProvider *provider);
 const CamelProvider *camel_provider_register_as_module (const gchar *module_path);
+const CamelProvider *camel_provider_get_for_protocol (const gchar *protocol, ProviderType type);
 
 
 #ifdef __cplusplus
