@@ -56,7 +56,8 @@ struct _EShortcutsViewClass {
 
 	void (* activate_shortcut) (EShortcutsView *view,
 				    EShortcuts *shortcuts,
-				    const char *uri);
+				    const char *uri,
+				    gboolean in_new_window);
 
 	void (* hide_requested) (EShortcutsView *view);
 };

@@ -346,15 +346,13 @@ struct _ShortcutRightClickMenuData {
 typedef struct _ShortcutRightClickMenuData ShortcutRightClickMenuData;
 
 static void
-activate_shortcut_cb (GtkWidget *widget,
-		      void *data)
+open_shortcut_helper (ShortcutRightClickMenuData *menu_data,
+		      gboolean in_new_window)
 {
-	ShortcutRightClickMenuData *menu_data;
 	EShortcutsView *shortcuts_view;
 	EShortcuts *shortcuts;
 	const EShortcutItem *shortcut_item;
 
-	menu_data = (ShortcutRightClickMenuData *) data;
 	shortcuts_view = menu_data->shortcuts_view;
 	shortcuts = shortcuts_view->priv->shortcuts;
 
@@ -363,7 +361,21 @@ activate_shortcut_cb (GtkWidget *widget,
 		return;
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts_view), signals[ACTIVATE_SHORTCUT],
-			 shortcuts, shortcut_item->uri);
+			 shortcuts, shortcut_item->uri, in_new_window);
+}
+
+static void
+open_shortcut_cb (GtkWidget *widget,
+		  void *data)
+{
+	open_shortcut_helper ((ShortcutRightClickMenuData *) data, FALSE);
+}
+
+static void
+open_shortcut_in_new_window_cb (GtkWidget *widget,
+				void *data)
+{
+	open_shortcut_helper ((ShortcutRightClickMenuData *) data, TRUE);
 }
 
 static void
@@ -382,8 +394,10 @@ remove_shortcut_cb (GtkWidget *widget,
 }
 
 static GnomeUIInfo shortcut_right_click_menu_uiinfo[] = {
-	GNOMEUIINFO_ITEM       (N_("Activate"), N_("Activate this shortcut"),
-				activate_shortcut_cb, NULL),
+	GNOMEUIINFO_ITEM       (N_("Open"), N_("Open the folder linked to this shortcut"),
+				open_shortcut_cb, NULL), 
+	GNOMEUIINFO_ITEM       (N_("Open in New Window"), N_("Open the folder linked to this shortcut in a new window"),
+				open_shortcut_in_new_window_cb, NULL),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("Remove"), N_("Remove this shortcut from the shortcut bar"),
 				remove_shortcut_cb, GNOME_STOCK_MENU_CLOSE),
@@ -468,7 +482,7 @@ item_selected (EShortcutBar *shortcut_bar,
 		return;
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts_view), signals[ACTIVATE_SHORTCUT],
-			 shortcuts, shortcut_item->uri);
+			 shortcuts, shortcut_item->uri, FALSE);
 }
 
 static void
@@ -523,10 +537,11 @@ class_init (EShortcutsViewClass *klass)
 				GTK_RUN_LAST | GTK_RUN_ACTION,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (EShortcutsViewClass, activate_shortcut),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
+				e_marshal_NONE__POINTER_POINTER_INT,
+				GTK_TYPE_NONE, 3,
 				GTK_TYPE_POINTER,
-				GTK_TYPE_STRING);
+				GTK_TYPE_STRING,
+				GTK_TYPE_BOOL);
 
 	signals[HIDE_REQUESTED] =
 		gtk_signal_new ("hide_requested",

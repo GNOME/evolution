@@ -494,13 +494,17 @@ static void
 activate_shortcut_cb (EShortcutsView *shortcut_view,
 		      EShortcuts *shortcuts,
 		      const char *uri,
+		      gboolean in_new_window,
 		      void *data)
 {
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
 
-	e_shell_view_display_uri (shell_view, uri);
+	if (in_new_window)
+		e_shell_create_view (e_shell_view_get_shell (shell_view), uri);
+	else
+		e_shell_view_display_uri (shell_view, uri);
 }
 
 /* Callback when user chooses "Hide shortcut bar" via a right click */

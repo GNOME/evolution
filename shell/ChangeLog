@@ -1,10 +1,28 @@
-2001-06-30  Federico Mena Quintero  <federico@ximian.com>
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
-	* e-storage-set-view.c (popup_folder_menu): Pass the event time to
-	gtk_menu_popup() so that we can release the button and have the
-	menu stay up.
+	* e-shell-view.c (activate_shortcut_cb): Receive an @in_new_window
+	arg as well.
 
-2001-06-29  Ettore Perazzoli  <ettore@ximian.com>
+	* e-shortcuts-view.c: Added a new "Open in New Window" right-click
+	menu item.  Renamed "Activate" to "Open".
+	(class_init): Update the installation of the "activate_shortcut"
+	signal for the additional @in_new_window_arg.
+	(open_shortcut_helper): New helper function.
+	(open_shortcut_cb): Renamed from `open_shortcut_cb'.  Changed to
+	use `open_shortcut_helper'
+	(open_shortcut_in_new_window_cb): New.
+	(item_selected): Pass %FALSE as the @in_new_window arg for
+	"activate_shortcut".
+
+	* e-shortcuts.c (save_shortcuts): Set the "name" and "type"
+	properties for the <item> nodes too.
+	(load_shortcuts): Change `shortcut_group_title' to be an `xmlChar
+	(shortcut_set): New helper function.
+	(shortcut_update): New helper function.
+	(update_shortcut_and_emit_signal): New helper function.
+	(e_shortcuts_update_shortcut): Use it.
+
+2001-07-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	This is a first shoot at making shortcuts renameable [#3719];
 	unfinished.  Also, it causes the shortcut bar to stop displaying
@@ -64,6 +82,12 @@
 
 	* e-shortcuts.h: New typedef EShortcutItem.
 
+2001-06-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-storage-set-view.c (popup_folder_menu): Pass the event time to
+	gtk_menu_popup() so that we can release the button and have the
+	menu stay up.
+
 2001-06-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-shortcuts-view-model.c (load_all_shortcuts_into_model):
@@ -106,8 +130,8 @@
 	different incarnations involving updates to an shortcut bar having
 	shortcuts to non-existent folders.  Also, this fixes #1643,
 	shortcuts not visible until you enable an IMAP account, and #2436,
-	i.e. misbehavior of shortcut groups when IMAP or invalid shortcuts
-	are involved.]
+	misbehavior of shortcut groups when IMAP or invalid shortcuts are
+	involved.]
 
 	* e-shortcuts-view-model.c (load_group_into_model): Add the
 	shortcuts that point to folders that don't exist yet, too.

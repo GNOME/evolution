@@ -138,6 +138,31 @@ shortcut_item_new (const char *uri,
 }
 
 static void
+shortcut_item_update (EShortcutItem *shortcut_item,
+		      const char *uri,
+		      const char *name,
+		      const char *type)
+{
+	if (name == NULL)
+		name = g_basename (uri);
+
+	if (shortcut_item->uri != uri) {
+		g_free (shortcut_item->uri);
+		shortcut_item->uri  = g_strdup (uri);
+	}
+
+	if (shortcut_item->name != name) {
+		g_free (shortcut_item->name);
+		shortcut_item->name  = g_strdup (name);
+	}
+
+	if (shortcut_item->type != type) {
+		g_free (shortcut_item->type);
+		shortcut_item->type  = g_strdup (type);
+	}
+}
+
+static void
 shortcut_item_free (EShortcutItem *shortcut_item)
 {
 	g_free (shortcut_item->uri);
@@ -175,6 +200,43 @@ shortcut_group_free (ShortcutGroup *group)
 
 
 /* Utility functions.  */
+
+static void
+update_shortcut_and_emit_signal (EShortcuts *shortcuts,
+				 EShortcutItem *shortcut_item,
+				 int group_num,
+				 int num,
+				 const char *uri,
+				 const char *name,
+				 const char *type)
+{
+	shortcut_item_update (shortcut_item, uri, name, type);
+	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+}
+
+static void
+override_shortcut_name_and_type_from_storage_set (EShortcuts *shortcuts,
+						  EShortcutItem *shortcut_item)
+{
+	EShortcutsPrivate *priv;
+	EFolder *folder;
+
+	priv = shortcuts->priv;
+
+	/* If it is not an evolution: link, there is not much we can do.  */
+	if (strncmp (shortcut_item->uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0)
+		return;
+
+	folder = e_storage_set_get_folder (priv->storage_set,
+					   shortcut_item->uri + E_SHELL_URI_PREFIX_LEN);
+	if (folder == NULL)
+		return;
+
+	shortcut_item_update (shortcut_item,
+			      shortcut_item->uri,
+			      NULL,
+			      e_folder_get_type_string (folder));
+}
 
 static void
 unload_shortcuts (EShortcuts *shortcuts)
@@ -235,12 +297,12 @@ load_shortcuts (EShortcuts *shortcuts,
 
 	for (p = root->childs; p != NULL; p = p->next) {
 		ShortcutGroup *shortcut_group;
-		char *shortcut_group_title;
+		xmlChar *shortcut_group_title;
 
 		if (strcmp ((char *) p->name, "group") != 0)
 			continue;
 
-		shortcut_group_title = (char *) xmlGetProp (p, "title");
+		shortcut_group_title = xmlGetProp (p, "title");
 		if (shortcut_group_title == NULL)
 			continue;
 
@@ -256,15 +318,34 @@ load_shortcuts (EShortcuts *shortcuts,
 		xmlFree (shortcut_group_title);
 
 		for (q = p->childs; q != NULL; q = q->next) {
+			EShortcutItem *shortcut_item;
 			xmlChar *uri;
+			xmlChar *name;
+			xmlChar *type;
 
 			if (strcmp ((char *) q->name, "item") != 0)
 				continue;
 
-			uri = xmlNodeListGetString (doc, q->childs, 1);
+			uri  = xmlNodeListGetString (doc, q->childs, 1);
+			name = xmlGetProp (q, "name");
+			type = xmlGetProp (q, "type");
+			
+			shortcut_item = shortcut_item_new (uri, name, type);
+
+			/* The name and type are the ones we saved from the
+			   last session.  If the folder is in the storage, we
+			   have to get the type and name from this storage.  */
+			override_shortcut_name_and_type_from_storage_set (shortcuts, shortcut_item);
+
 			shortcut_group->shortcuts = g_slist_prepend (shortcut_group->shortcuts,
-								     shortcut_item_new (uri, NULL, NULL));
-			xmlFree (uri);
+								     shortcut_item);
+
+			if (uri != NULL)
+				xmlFree (uri);
+			if (name != NULL)
+				xmlFree (name);
+			if (type != NULL)
+				xmlFree (type);
 		}
 		shortcut_group->shortcuts = g_slist_reverse (shortcut_group->shortcuts);
 
@@ -275,6 +356,11 @@ load_shortcuts (EShortcuts *shortcuts,
 	priv->groups = g_slist_reverse (priv->groups);
 
 	xmlFreeDoc (doc);
+
+	/* After loading, we always have to re-save ourselves as we have merged
+	   the information we have with the information we got from the
+	   StorageSet.  */
+	make_dirty (shortcuts);
 
 	return TRUE;
 }
@@ -305,9 +391,15 @@ save_shortcuts (EShortcuts *shortcuts,
 
 		for (q = group->shortcuts; q != NULL; q = q->next) {
 			EShortcutItem *shortcut;
+			xmlNode *shortcut_node;
 
 			shortcut = (EShortcutItem *) q->data;
-			xmlNewChild (group_node, NULL, (xmlChar *) "item", (xmlChar *) shortcut->uri);
+			shortcut_node = xmlNewChild (group_node, NULL, (xmlChar *) "item", (xmlChar *) shortcut->uri);
+
+			if (shortcut->name != NULL)
+				xmlSetProp (shortcut_node, (xmlChar *) "name", shortcut->name);
+			if (shortcut->type != NULL)
+				xmlSetProp (shortcut_node, (xmlChar *) "type", shortcut->type);
 		}
 	}
 
@@ -384,7 +476,7 @@ schedule_idle (EShortcuts *shortcuts)
 	if (priv->save_idle_id != 0)
 		return;
 
-	gtk_idle_add (idle_cb, shortcuts);
+	priv->save_idle_id = gtk_idle_add (idle_cb, shortcuts);
 }
 
 static void
@@ -396,6 +488,48 @@ make_dirty (EShortcuts *shortcuts)
 
 	priv->dirty = TRUE;
 	schedule_idle (shortcuts);
+}
+
+static void
+update_shortcuts_by_path (EShortcuts *shortcuts,
+			  const char *path)
+{
+	EShortcutsPrivate *priv;
+	EFolder *folder;
+	const GSList *p, *q;
+	char *evolution_uri;
+	int group_num, num;
+
+	priv = shortcuts->priv;
+	folder = e_storage_set_get_folder (priv->storage_set, path);
+
+	evolution_uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+
+	group_num = 0;
+	for (p = priv->groups; p != NULL; p = p->next, group_num++) {
+		ShortcutGroup *group;
+
+		group = (ShortcutGroup *) p->data;
+		num = 0;
+		for (q = group->shortcuts; q != NULL; q = q->next, num++) {
+			EShortcutItem *shortcut_item;
+
+			shortcut_item = (EShortcutItem *) q->data;
+
+			if (strcmp (shortcut_item->uri, evolution_uri) == 0)
+				update_shortcut_and_emit_signal (shortcuts,
+								 shortcut_item,
+								 group_num,
+								 num,
+								 evolution_uri,
+								 NULL,
+								 e_folder_get_type_string (folder));
+		}
+	}
+
+	g_free (evolution_uri);
+
+	make_dirty (shortcuts);
 }
 
 
@@ -412,6 +546,35 @@ view_destroyed_cb (GtkObject *object,
 	priv = shortcuts->priv;
 
 	priv->views = g_slist_remove (priv->views, object);
+}
+
+
+/* Signal handlers for the EStorageSet.  */
+
+static void
+storage_set_new_folder_callback (EStorageSet *storage_set,
+				 const char *path,
+				 void *data)
+{
+	EShortcuts *shortcuts;
+
+	shortcuts = E_SHORTCUTS (data);
+
+	update_shortcuts_by_path (shortcuts, path);
+	make_dirty (shortcuts);
+}
+
+static void
+storage_set_updated_folder_callback (EStorageSet *storage_set,
+				     const char *path,
+				     void *data)
+{
+	EShortcuts *shortcuts;
+
+	shortcuts = E_SHORTCUTS (data);
+
+	update_shortcuts_by_path (shortcuts, path);
+	make_dirty (shortcuts);
 }
 
 
@@ -547,9 +710,13 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 
 	priv = shortcuts->priv;
 
-	/* FIXME: Get rid of the storage set, we dont' need it here.  */
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
+
+	gtk_signal_connect (GTK_OBJECT (storage_set), "new_folder",
+			    GTK_SIGNAL_FUNC (storage_set_new_folder_callback), shortcuts);
+	gtk_signal_connect (GTK_OBJECT (storage_set), "updated_folder",
+			    GTK_SIGNAL_FUNC (storage_set_updated_folder_callback), shortcuts);
 
 	gtk_object_ref (GTK_OBJECT (folder_type_registry));
 	priv->folder_type_registry = folder_type_registry;
@@ -804,13 +971,8 @@ e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
 
 	shortcut_item = get_item (shortcuts, group_num, num);
-	g_free (shortcut_item->uri);
 
-	shortcut_item->uri  = g_strdup (uri);
-	shortcut_item->name = g_strdup (name);
-	shortcut_item->type = g_strdup (type);
-
-	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+	update_shortcut_and_emit_signal (shortcuts, shortcut_item, group_num, num, uri, name, type);
 }
 
 
