@@ -334,8 +334,6 @@ pas_backend_file_get_vcard (PASBook *book, const char *id)
 		/* error */
 		return g_strdup (""); /* XXX */
 	}
-
-	return g_strdup ("blah blah blah");
 }
 
 static char *

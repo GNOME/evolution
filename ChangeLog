@@ -1,3 +1,8 @@
+2000-03-27  Chris Toshok  <toshok@laptoph.xtoph.org>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_get_vcard): remove unneeded g_strdup;
+
 2000-03-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/backend/ebook/test-card.c: Fixed some warnings.
