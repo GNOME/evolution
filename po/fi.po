@@ -10363,7 +10363,7 @@ msgstr "Valitse kansio"
 
 #: ../mail/em-account-editor.c:1817
 msgid "Automatically check for _new mail every"
-msgstr "T_arkasta onko uutta postia joka"
+msgstr "T_arkista onko uutta postia joka"
 
 #. Most sections for this is auto-generated fromt the camel config
 #: ../mail/em-account-editor.c:2086 ../mail/em-account-editor.c:2164
@@ -14113,12 +14113,12 @@ msgid ""
 "messenger"
 msgstr ""
 "Hae ja yhdistä säännöllisin väliajoin yhteystiedot ja kuvat "
-"_pikaviestimestäni"
+"_pikaviestimistä"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:448
 msgid "Synchronize with _buddy list now"
-msgstr "Hae ja yhdistä _kaverilistan kanssa nyt"
+msgstr "Yhdistä tiedot _pikaviestimistä"
 
 #: ../plugins/calendar-weather/calendar-weather.c:54
 #: ../plugins/calendar-weather/calendar-weather.c:60
