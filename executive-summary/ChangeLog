@@ -1,3 +1,15 @@
+2001-02-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* component/component-factory.c (component_destroy_cb): Removed
+	this unused function.
+
+	* evolution-services/executive-summary-html-view.c
+	(impl_GNOME_Evolution_Summary_HTMLView_handleURI): Changed the
+	declaration of this function to match the signature in the
+	generated header file.
+
+	* test-service/rdf-summary.c (property_control): Added a cast here.
+
 2001-02-14  Iain Holmes  <iain@ximian.com>
 
 	* evolution-services/executive-summary-html-view.c 

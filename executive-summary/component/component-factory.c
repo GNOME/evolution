@@ -99,13 +99,6 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 }
 
 static void
-component_destroy_cb (GtkObject *object,
-		      gpointer user_data)
-{
-	gtk_main_quit ();
-}
-
-static void
 factory_destroy (BonoboObject *component,
 		 gpointer dummy)
 {

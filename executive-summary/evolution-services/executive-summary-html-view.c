@@ -97,7 +97,7 @@ impl_GNOME_Evolution_Summary_HTMLView_getHtml (PortableServer_Servant servant,
 
 static void
 impl_GNOME_Evolution_Summary_HTMLView_handleURI (PortableServer_Servant servant,
-						 CORBA_char *uri,
+						 const CORBA_char *uri,
 						 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
