@@ -315,7 +315,7 @@ nntp_store_query_auth_types_connected (CamelService *service, CamelException *ex
 
 static CamelFolder *
 nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
-		       gboolean get_folder, CamelException *ex)
+		       guint32 flags, CamelException *ex)
 {
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
 

@@ -925,10 +925,12 @@ shared_is_of_type (CamelObjectShared * sh, CamelType ctype, gboolean is_obj)
 							      parent));
 	}
 
-	g_warning
+	/* this isn't an error, e.g. CAMEL_IS_FOLDER(folder), its upto  the
+	   caller to handle the false case */
+	/*g_warning
 		("shared_is_of_type: %s of `%s' (@%p) is not also %s of `%s'",
 		 targtype, camel_type_to_name (sh->type), sh, targtype,
-		 camel_type_to_name (ctype));
+		 camel_type_to_name (ctype));*/
 
 	camel_type_lock_down ();
 	return FALSE;

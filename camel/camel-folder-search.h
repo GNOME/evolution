@@ -46,6 +46,7 @@ struct _CamelFolderSearch {
 	CamelFolder *folder;	/* folder for current search */
 	GPtrArray *summary;	/* summary array for current search */
 	CamelMessageInfo *current; /* current message info, when searching one by one */
+	CamelMimeMessage *current_message; /* cache of current message, if required */
 	ibex *body_index;
 };
 

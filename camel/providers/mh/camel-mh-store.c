@@ -41,7 +41,7 @@
 #define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static char *get_name(CamelService * service, gboolean brief);
-static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboolean create, CamelException * ex);
+static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex);
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static char *get_folder_name(CamelStore * store, const char *folder_name, CamelException * ex);
@@ -102,7 +102,7 @@ const gchar *camel_mh_store_get_toplevel_dir(CamelMhStore * store)
 	return url->path;
 }
 
-static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboolean create, CamelException * ex)
+static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
 	char *name;
 	struct stat st;
@@ -118,7 +118,7 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 			g_free (name);
 			return NULL;
 		}
-		if (!create) {
+		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 					     "Folder `%s' does not exist.", folder_name);
 			g_free (name);
@@ -141,7 +141,7 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 	}
 	g_free(name);
 
-	return camel_mh_folder_new (store, folder_name, ex);
+	return camel_mh_folder_new(store, folder_name, flags, ex);
 }
 
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex)

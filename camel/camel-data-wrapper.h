@@ -86,8 +86,7 @@ GMimeContentField * camel_data_wrapper_get_mime_type_field      (CamelDataWrappe
 void                camel_data_wrapper_set_mime_type_field      (CamelDataWrapper *data_wrapper,
 								 GMimeContentField *mime_type);
 
-int                 camel_data_wrapper_construct_from_stream    (CamelDataWrapper *data_wrapper,
-								 CamelStream *stream);
+int                 camel_data_wrapper_construct_from_stream    (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,68 @@
+2000-10-18  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-part.c (add_header): No, we must not encode the
+	headers here.  These interfaces ARE raw interfaces as they are
+	defined in camel_medium.  Also removed a bogus/meaningless FIXME.
+	(set_header): Likewise here, we must not.
+	(process_header): Removed another bogus comment.
+
+	* camel-object.c (shared_is_of_type): Comment out the spitting of
+	a big warning when we're trying to determine types from code.
+
+	* providers/mbox/camel-mbox-summary.c
+	(message_info_new_from_parser): Only call ibex funcitons if we
+	have an index.
+
+	* providers/mh/camel-mh-summary.c (camel_mh_summary_add): Only
+	call ibex functions if we have an index.
+	(remove_summary): Likewise.
+	(camel_mh_summary_check): Likewise.
+
+	* providers/nntp/camel-nntp-store.c (nntp_store_get_folder):
+	get_folder -> flags argument.
+
+	* providers/vee/camel-vee-store.c (vee_get_folder): create->flags.
+
+	* providers/pop3/camel-pop3-store.c (get_folder): Changed create
+	-> flags.
+
+	* providers/imap/camel-imap-store.c (get_folder): Added flags
+	argument.
+
+	* providers/mh/camel-mh-folder.c (camel_mh_folder_new): Added
+	flags argument, and fixed code appropriately.
+
+	* providers/mh/camel-mh-store.c (get_folder): Added flags argument.
+
+	* camel-folder-search.c (message_body_contains): Perform a regex
+	match on the contents of messages.  This wont quite work yet as
+	message contents are encoded when written to a stream.
+	(build_match_regex): Converts a number of strings into a regex
+	matching pattern, escaping special chars.
+	(match_message): match a single message from a folder, by uid.
+	Slow.
+	(search_body_contains): Changed to support matching where no index
+	is supplied.  Matches are performed by retrieving message
+	contents, etc.
+	() WTF?  camel should not be including any widget headers.
+	
+	* providers/mbox/camel-mbox-folder.c (camel_mbox_folder_new):
+	Added flags argument.
+	(mbox_refresh_info): Changed into a NOP, the refresh info code
+	moved into the new function.
+	(camel_mbox_folder_new): If we have an index requested, build one,
+	otherwise, remove an old one, or just dont do anything.
+
+	* providers/mbox/camel-mbox-store.c (get_folder): Changed create
+	to flags, changed code to suit.
+
+	* camel-store.c (camel_store_get_folder): Changed create to flags.
+	(get_folder_internal): And here.
+	(get_folder): And here too.
+
+	* camel-store.h (camel_store_get_folder): Change the create
+	argument to be a flags argument.
+
 2000-10-17  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): Remove

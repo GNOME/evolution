@@ -39,14 +39,11 @@
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CMBOXF_CLASS(so) CAMEL_MBOX_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-static char *get_name (CamelService *service, gboolean brief);
-static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
-				gboolean create, CamelException *ex);
-static void delete_folder (CamelStore *store, const char *folder_name,
-			   CamelException *ex);
+static char *get_name(CamelService *service, gboolean brief);
+static CamelFolder *get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
+static void delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
-static char *get_folder_name (CamelStore *store, const char *folder_name,
-			      CamelException *ex);
+static char *get_folder_name(CamelStore *store, const char *folder_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 gboolean fast, gboolean recursive,
 					 gboolean subscribed_only,
@@ -109,55 +106,53 @@ camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 }
 
 static CamelFolder *
-get_folder (CamelStore *store, const char *folder_name, gboolean create,
-	    CamelException *ex)
+get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	char *name;
 	struct stat st;
 
-	name = g_strdup_printf ("%s%s", CAMEL_SERVICE (store)->url->path,
-				folder_name);
+	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 
-	if (stat (name, &st) == -1) {
+	if (stat(name, &st) == -1) {
 		int fd;
 
 		if (errno != ENOENT) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not open file `%s':"
-					      "\n%s", name,
-					      g_strerror (errno));
-			g_free (name);
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     "Could not open file `%s':"
+					     "\n%s", name,
+					     g_strerror(errno));
+			g_free(name);
 			return NULL;
 		}
-		if (!create) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					      "Folder `%s' does not exist.",
-					      folder_name);
-			g_free (name);
+		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					     "Folder `%s' does not exist.",
+					     folder_name);
+			g_free(name);
 			return NULL;
 		}
 
-		fd = open (name, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0600);
 		if (fd == -1) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not create file `%s':"
-					      "\n%s", name,
-					      g_strerror (errno));
-			g_free (name);
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     "Could not create file `%s':"
+					     "\n%s", name,
+					     g_strerror(errno));
+			g_free(name);
 			return NULL;
 		}
-		g_free (name);
-		close (fd);
-	} else if (!S_ISREG (st.st_mode)) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      "`%s' is not a regular file.",
-				      name);
-		g_free (name);
+		g_free(name);
+		close(fd);
+	} else if (!S_ISREG(st.st_mode)) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     "`%s' is not a regular file.",
+				     name);
+		g_free(name);
 		return NULL;
 	} else
-		g_free (name);
+		g_free(name);
 
-	return camel_mbox_folder_new (store, folder_name, ex);
+	return camel_mbox_folder_new(store, folder_name, flags, ex);
 }
 
 static void

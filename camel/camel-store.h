@@ -64,13 +64,16 @@ struct _CamelStore
 };
 
 
+/* open mode for folder */
+#define CAMEL_STORE_FOLDER_CREATE (1<<0)
+#define CAMEL_STORE_FOLDER_BODY_INDEX (1<<1)
 
 typedef struct {
 	CamelServiceClass parent_class;
 
 	CamelFolder *   (*get_folder)               (CamelStore *store,
 						     const char *folder_name,
-						     gboolean create,
+						     guint32 flags,
 						     CamelException *ex);
 
 	void            (*delete_folder)            (CamelStore *store,
@@ -122,7 +125,7 @@ CamelType camel_store_get_type (void);
 /* public methods */
 CamelFolder *    camel_store_get_folder         (CamelStore *store,
 					         const char *folder_name,
-						 gboolean create,
+						 guint32 flags,
 					         CamelException *ex);
 CamelFolder *    camel_store_get_root_folder    (CamelStore *store,
 					         CamelException *ex);

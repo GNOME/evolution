@@ -161,7 +161,7 @@ int		camel_mh_summary_add(CamelMhSummary * mhs, const char *name, int forceindex
 	mp = camel_mime_parser_new();
 	camel_mime_parser_scan_from(mp, FALSE);
 	camel_mime_parser_init_with_fd(mp, fd);
-	if (forceindex || !ibex_contains_name(mhs->index, (char *)name)) {
+	if (mhs->index && (forceindex || !ibex_contains_name(mhs->index, (char *)name))) {
 		d(printf("forcing indexing of message content\n"));
 		camel_folder_summary_set_index((CamelFolderSummary *)mhs, mhs->index);
 	} else {
@@ -180,7 +180,8 @@ static void
 remove_summary(char *key, CamelMessageInfo *info, CamelMhSummary *mhs)
 {
 	d(printf("removing message %s from summary\n", key));
-	ibex_unindex(mhs->index, info->uid);
+	if (mhs->index)
+		ibex_unindex(mhs->index, info->uid);
 	camel_folder_summary_remove((CamelFolderSummary *)mhs, info);
 }
 
@@ -219,7 +220,7 @@ int		camel_mh_summary_check(CamelMhSummary * mhs, int forceindex)
 		}
 		if (c==0) {
 			info = camel_folder_summary_uid((CamelFolderSummary *)mhs, d->d_name);
-			if (info == NULL || (!ibex_contains_name(mhs->index, d->d_name))) {
+			if (info == NULL || (mhs->index && (!ibex_contains_name(mhs->index, d->d_name)))) {
 				/* need to add this file to the summary */
 				if (info != NULL) {
 					g_hash_table_remove(left, info->uid);

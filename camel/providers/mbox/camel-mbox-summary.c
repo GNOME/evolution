@@ -228,10 +228,10 @@ message_info_new_from_parser(CamelFolderSummary *s, CamelMimeParser *mp)
 		mbi->frompos = camel_mime_parser_tell_start_from(mp);
 
 		/* do we want to index this message as we add it, as well? */
-		if (mbs->index_force
-		    || (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0
-		    || !ibex_contains_name(mbs->index, mi->uid)) {
-			
+		if (mbs->index
+		    && (mbs->index_force
+			|| (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) != 0
+			|| !ibex_contains_name(mbs->index, mi->uid))) {
 			camel_folder_summary_set_index(s, mbs->index);
 		} else {
 			camel_folder_summary_set_index(s, NULL);
@@ -387,7 +387,7 @@ camel_mbox_summary_load(CamelMboxSummary *mbs, int forceindex)
 		for (i = 0; i < camel_folder_summary_count(s); i++) {
 			CamelMessageInfo *mi = camel_folder_summary_index(s, i);
 
-			if (!ibex_contains_name(mbs->index, mi->uid)) {
+			if (mbs->index && !ibex_contains_name(mbs->index, mi->uid)) {
 				minstart = ((CamelMboxMessageInfo *) mi)->frompos;
 				printf("Found unindexed message: %s\n", mi->uid);
 				break;

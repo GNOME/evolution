@@ -171,11 +171,13 @@ CamelType camel_mbox_folder_get_type(void)
 }
 
 CamelFolder *
-camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, CamelException *ex)
+camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex)
 {
 	CamelFolder *folder;
 	CamelMboxFolder *mbox_folder;
 	const char *root_dir_path, *name;
+	struct stat st;
+	int forceindex;
 
 	folder = CAMEL_FOLDER (camel_object_new (CAMEL_MBOX_FOLDER_TYPE));
 	mbox_folder = (CamelMboxFolder *)folder;
@@ -195,10 +197,31 @@ camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, CamelExce
 	mbox_folder->folder_dir_path = g_strdup_printf("%s/%s.sdb", root_dir_path, full_name);
 	mbox_folder->index_file_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
 
-	mbox_refresh_info (folder, ex);
-	if (camel_exception_is_set (ex)) {
+	/* if we have no index file, force it */
+	forceindex = stat(mbox_folder->index_file_path, &st) == -1;
+	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
+
+		mbox_folder->index = ibex_open(mbox_folder->index_file_path, O_CREAT | O_RDWR, 0600);
+		if (mbox_folder->index == NULL) {
+			/* yes, this isn't fatal at all */
+			g_warning("Could not open/create index file: %s: indexing not performed", strerror(errno));
+			forceindex = FALSE;
+		}
+	} else {
+		/* if we do have an index file, remove it */
+		if (forceindex == FALSE) {
+			unlink(mbox_folder->index_file_path);
+		}
+		forceindex = FALSE;
+	}
+	/* no summary (disk or memory), and we're proverbially screwed */
+	mbox_folder->summary = camel_mbox_summary_new(mbox_folder->summary_file_path,
+						      mbox_folder->folder_file_path, mbox_folder->index);
+	if (mbox_folder->summary == NULL || camel_mbox_summary_load(mbox_folder->summary, forceindex) == -1) {
+		camel_exception_set(ex, CAMEL_EXCEPTION_FOLDER_INVALID,	/* FIXME: right error code */
+				    "Could not create summary");
 		camel_object_unref (CAMEL_OBJECT (folder));
-		folder = NULL;
+		return NULL;
 	}
 
 	return folder;
@@ -207,27 +230,8 @@ camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, CamelExce
 static void
 mbox_refresh_info (CamelFolder *folder, CamelException *ex)
 {
-	CamelMboxFolder *mbox_folder = (CamelMboxFolder *) folder;
-	struct stat st;
-	int forceindex;
-
-	/* if we have no index file, force it */
-	forceindex = stat(mbox_folder->index_file_path, &st) == -1;
-
-	mbox_folder->index = ibex_open(mbox_folder->index_file_path, O_CREAT | O_RDWR, 0600);
-	if (mbox_folder->index == NULL) {
-		/* yes, this isn't fatal at all */
-		g_warning("Could not open/create index file: %s: indexing not performed", strerror(errno));
-	}
-
-	/* no summary (disk or memory), and we're proverbially screwed */
-	mbox_folder->summary = camel_mbox_summary_new(mbox_folder->summary_file_path,
-						      mbox_folder->folder_file_path, mbox_folder->index);
-	if (mbox_folder->summary == NULL || camel_mbox_summary_load(mbox_folder->summary, forceindex) == -1) {
-		camel_exception_set(ex, CAMEL_EXCEPTION_FOLDER_INVALID,	/* FIXME: right error code */
-				    "Could not create summary");
-		return;
-	}
+	/* we are always in a consistent state, or fix it when we need to */
+	return;
 }
 
 static void

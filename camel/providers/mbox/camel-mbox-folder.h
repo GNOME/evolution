@@ -69,10 +69,11 @@ typedef struct {
 
 
 /* public methods */
-CamelFolder *camel_mbox_folder_new (CamelStore *parent_store, const char *full_name, CamelException *ex);
+/* flags are taken from CAMEL_STORE_FOLDER_* flags */
+CamelFolder *camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex);
 
 /* Standard Camel function */
-CamelType camel_mbox_folder_get_type (void);
+CamelType camel_mbox_folder_get_type(void);
 
 #ifdef __cplusplus
 }

@@ -26,10 +26,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib.h>
+#include <regex.h>
 
 #include <gal/widgets/e-unicode.h>
 #include "camel-folder-search.h"
 #include "string-utils.h"
+
+#include "camel-exception.h"
+#include "camel-medium.h"
+#include "camel-multipart.h"
+#include "camel-mime-message.h"
+#include "gmime-content-field.h"
+#include "camel-stream-mem.h"
 
 #define d(x) x
 #define r(x) x
@@ -436,11 +444,112 @@ g_lib_sux_htor(char *key, int value, struct _glib_sux_donkeys *fuckup)
 	g_ptr_array_add(fuckup->uids, key);
 }
 
+/* performs a 'slow' content-based match */
+static gboolean
+message_body_contains(CamelDataWrapper *object, regex_t *pattern)
+{
+	CamelDataWrapper *containee;
+	int truth = FALSE;
+	int parts, i;
+
+	containee = camel_medium_get_content_object(CAMEL_MEDIUM(object));
+
+	if (containee == NULL)
+		return FALSE;
+
+	/* TODO: I find it odd that get_part and get_content_object do not
+	   add a reference, probably need fixing for multithreading */
+
+	/* using the object types is more accurate than using the mime/types */
+	if (CAMEL_IS_MULTIPART(containee)) {
+		parts = camel_multipart_get_number(CAMEL_MULTIPART(containee));
+		for (i=0;i<parts && truth==FALSE;i++) {
+			CamelDataWrapper *part = (CamelDataWrapper *)camel_multipart_get_part(CAMEL_MULTIPART(containee), i);
+			if (part) {
+				truth = message_body_contains(part, pattern);
+			}
+		}
+	} else if (CAMEL_IS_MIME_MESSAGE(containee)) {
+		/* for messages we only look at its contents */
+		truth = message_body_contains((CamelDataWrapper *)containee, pattern);
+	} else if (gmime_content_field_is_type(CAMEL_DATA_WRAPPER(containee)->mime_type, "text", "*")) {
+		/* for all other text parts, we look inside, otherwise we dont care */
+		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
+
+		camel_data_wrapper_write_to_stream(containee, (CamelStream *)mem);
+		camel_stream_write((CamelStream *)mem, "", 1);
+		truth = regexec(pattern, mem->buffer->data, 0, NULL, 0) == 0;
+		camel_object_unref((CamelObject *)mem);
+	}
+	return truth;
+}
+
+/* builds the regex into pattern */
+static int
+build_match_regex(regex_t *pattern, int argc, struct _ESExpResult **argv)
+{
+	GString *match = g_string_new("");
+	int c, i, count=0, err;
+	char *word;
+
+	/* build a regex pattern we can use to match the words, we OR them together */
+	if (argc>1)
+		g_string_append_c(match, '(');
+	for (i=0;i<argc;i++) {
+		if (argv[i]->type == ESEXP_RES_STRING) {
+			if (count > 0)
+				g_string_append_c(match, '|');
+			/* escape any special chars (not sure if this list is complete) */
+			word = argv[i]->value.string;
+			while ((c = *word++)) {
+				if (strchr("*\\.()[]^$+", c) != NULL) {
+					g_string_append_c(match, '\\');
+				}
+				g_string_append_c(match, c);
+			}
+			count++;
+		} else {
+			g_warning("Invalid type passed to body-contains match function");
+		}
+	}
+	if (argc>1)
+		g_string_append_c(match, ')');
+	err = regcomp(pattern, match->str, REG_EXTENDED|REG_ICASE|REG_NOSUB);
+	if (err != 0) {
+		char buffer[1024]; /* dont really care if its longer than this ... */
+		
+		regerror(err, pattern, buffer, 1023);
+		g_warning("Internal error with search pattern: %s: %s", match->str, buffer);
+		regfree(pattern);
+	}
+	d(printf("Built regex: '%s'\n", match->str));
+	g_string_free(match, TRUE);
+	return err;
+}
+
+static int
+match_message(CamelFolder *folder, const char *uid, regex_t *pattern)
+{
+	CamelMimeMessage *msg;
+	int truth = FALSE;
+	CamelException *ex;
+
+	ex = camel_exception_new();
+	msg = camel_folder_get_message(folder, uid, ex);
+	if (!camel_exception_is_set(ex) && msg!=NULL) {
+		truth = message_body_contains((CamelDataWrapper *)msg, pattern);
+		camel_object_unref((CamelObject *)msg);
+	}
+	camel_exception_free(ex);
+	return truth;
+}
+
 static ESExpResult *
 search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
 {
 	ESExpResult *r;
 	int i, j;
+	regex_t pattern;
 
 	if (search->current) {
 		int truth = FALSE;
@@ -454,8 +563,14 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 					g_warning("Invalid type passed to body-contains match function");
 				}
 			}
+		} else if (search->folder) {
+			/* we do a 'slow' direct search */
+			if (build_match_regex(&pattern, argc, argv) == 0) {
+				truth = match_message(search->folder, search->current->uid, &pattern);
+				regfree(&pattern);
+			}
 		} else {
-			g_warning("Cannot perform indexed body query with no index");
+			g_warning("Cannot perform indexed body query with no index or folder set");
 		}
 		r->value.bool = truth;
 	} else {
@@ -487,7 +602,23 @@ search_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 				r->value.ptrarray = lambdafoo.uids;
 				g_hash_table_destroy(ht);
 			}
+		} else if (search->folder) {
+			/* do a slow search */
+			r->value.ptrarray = g_ptr_array_new();
+			if (build_match_regex(&pattern, argc, argv) == 0) {
+				if (search->summary) {
+					for (i=0;i<search->summary->len;i++) {
+						CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
+
+						if (match_message(search->folder, info->uid, &pattern))
+							g_ptr_array_add(r->value.ptrarray, info->uid);
+					}
+				} /* else?  we could always get the summary from the folder, but then
+				     we need to free it later somehow */
+				regfree(&pattern);
+			}
 		} else {
+			g_warning("Cannot perform indexed body query with no index or folder set");
 			r->value.ptrarray = g_ptr_array_new();
 		}
 	}

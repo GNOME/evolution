@@ -158,7 +158,7 @@ CamelType camel_mh_folder_get_type(void)
 }
 
 CamelFolder *
-camel_mh_folder_new(CamelStore *parent_store, const char *full_name, CamelException *ex)
+camel_mh_folder_new(CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex)
 {
 	CamelFolder *folder;
 	CamelMhFolder *mh_folder;
@@ -185,11 +185,20 @@ camel_mh_folder_new(CamelStore *parent_store, const char *full_name, CamelExcept
 
 	/* if we have no index file, force it */
 	forceindex = stat(mh_folder->index_file_path, &st) == -1;
-
-	mh_folder->index = ibex_open(mh_folder->index_file_path, O_CREAT | O_RDWR, 0600);
-	if (mh_folder->index == NULL) {
-		/* yes, this isn't fatal at all */
-		g_warning("Could not open/create index file: %s: indexing not performed", strerror(errno));
+	/* check if we need to setup an index */
+	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
+		mh_folder->index = ibex_open(mh_folder->index_file_path, O_CREAT | O_RDWR, 0600);
+		if (mh_folder->index == NULL) {
+			/* yes, this isn't fatal at all */
+			g_warning("Could not open/create index file: %s: indexing not performed", strerror(errno));
+			forceindex = FALSE;
+		}
+	} else {
+		/* if we do have an index file, remove it */
+		if (forceindex == FALSE) {
+			unlink(mh_folder->index_file_path);
+		}
+		forceindex = FALSE;
 	}
 
 	/* no summary (disk or memory), and we're proverbially screwed */

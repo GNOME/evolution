@@ -60,13 +60,13 @@ struct _CamelStreamMemClass {
 CamelType camel_stream_mem_get_type (void);
 
 /* public methods */
-CamelStream *camel_stream_mem_new (void);
-CamelStream *camel_stream_mem_new_with_byte_array (GByteArray *buffer);
-CamelStream *camel_stream_mem_new_with_buffer (const char *buffer, size_t len);
+CamelStream *camel_stream_mem_new(void);
+CamelStream *camel_stream_mem_new_with_byte_array(GByteArray *buffer);
+CamelStream *camel_stream_mem_new_with_buffer(const char *buffer, size_t len);
 
 /* these are really only here for implementing classes */
-void camel_stream_mem_set_byte_array (CamelStreamMem *, GByteArray *buffer);
-void camel_stream_mem_set_buffer (CamelStreamMem *, const char *buffer, size_t len);
+void camel_stream_mem_set_byte_array(CamelStreamMem *, GByteArray *buffer);
+void camel_stream_mem_set_buffer(CamelStreamMem *, const char *buffer, size_t len);
 
 #ifdef __cplusplus
 }

@@ -187,8 +187,6 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	/* known, the job is done in the parsing routine. If not,         */
 	/* we simply add the header in a raw fashion                      */
 
-	/* FIXME: MUST check fields for validity before adding them! */
-
 	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
 	switch (header_type) {
 	case HEADER_DESCRIPTION: /* raw header->utf8 conversion */
@@ -197,7 +195,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		mime_part->description = g_strstrip (text);
 		break;
 	case HEADER_DISPOSITION:
-		set_disposition (mime_part, header_value);
+		set_disposition(mime_part, header_value);
 		break;
 	case HEADER_CONTENT_ID:
 		text = header_msgid_decode(header_value);
@@ -214,7 +212,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		mime_part->content_MD5 = g_strdup(header_value);
 		break;
 	case HEADER_CONTENT_TYPE: 
-		gmime_content_field_construct_from_string (mime_part->content_type, header_value);
+		gmime_content_field_construct_from_string(mime_part->content_type, header_value);
 		break;
 	default:
 		return FALSE;
@@ -225,37 +223,39 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 /* Note: It is my understanding that we need to encode the values here as they are
    not being encoded at the header_raw_* level. */
 
+/*
+   NO: This is absolutely wrong.  The medium interface is entirely raw.
+   You cannot just go blingingly encoding headers because it depends entirely
+   on the header being encoded.  process_header decodes and mirrors the
+   known headers, appropriately, and we just add this raw header to our
+   list.
+
+   Please read the comments, they explained it already!!!!!!!
+*/
+
 static void
 set_header (CamelMedium *medium, const char *header_name, const void *header_value)
 {
 	CamelMimePart *part = CAMEL_MIME_PART (medium);
-	char *encoded_value = header_encode_string (header_value);
 	
-	process_header (medium, header_name, encoded_value);
-	header_raw_replace (&part->headers, header_name, encoded_value, -1);
-	
-	g_free (encoded_value);
+	process_header(medium, header_name, header_value);
+	header_raw_replace(&part->headers, header_name, header_value, -1);
 }
 
 static void
 add_header (CamelMedium *medium, const char *header_name, const void *header_value)
 {
 	CamelMimePart *part = CAMEL_MIME_PART (medium);
-	char *encoded_value = header_encode_string (header_value);
 	
 	/* Try to parse the header pair. If it corresponds to something   */
 	/* known, the job is done in the parsing routine. If not,         */
 	/* we simply add the header in a raw fashion                      */
 
-	/* FIXME: MUST check fields for validity before adding them! */
-
 	/* If it was one of the headers we handled, it must be unique, set it instead of add */
-	if (process_header (medium, header_name, encoded_value))
-		header_raw_replace (&part->headers, header_name, encoded_value, -1);
+	if (process_header(medium, header_name, header_value))
+		header_raw_replace(&part->headers, header_name, header_value, -1);
 	else
-		header_raw_append (&part->headers, header_name, encoded_value, -1);
-	
-	g_free (encoded_value);
+		header_raw_append(&part->headers, header_name, header_value, -1);
 }
 
 static void
@@ -473,10 +473,10 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 /**********************************************************************/
 
 static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
-	CamelMedium *medium = CAMEL_MEDIUM (data_wrapper);
+	CamelMimePart *mp = CAMEL_MIME_PART(data_wrapper);
+	CamelMedium *medium = CAMEL_MEDIUM(data_wrapper);
 	CamelDataWrapper *content;
 	int total = 0;
 	int count;
@@ -494,12 +494,10 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 		while (h) {
 			if (h->value == NULL){
-				g_warning ("h->value is NULL here for %s", h->name);
+				g_warning("h->value is NULL here for %s", h->name);
 				count = 0;
 			} else {
-				count = camel_stream_printf(
-					stream, "%s%s%s\n", h->name,
-					isspace(h->value[0]) ? ":" : ": ", h->value);
+				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(h->value[0]) ? ":" : ": ", h->value);
 			}
 			if (count == -1)
 				return -1;
@@ -508,12 +506,12 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		}
 	}
 
-	count = camel_stream_write (stream, "\n", 1);
+	count = camel_stream_write(stream, "\n", 1);
 	if (count == -1)
 		return -1;
 	total += count;
 
-	content = camel_medium_get_content_object (medium);
+	content = camel_medium_get_content_object(medium);
 	if (content) {
 		/* I dont really like this here, but i dont know where else it might go ... */
 #define CAN_THIS_GO_ELSEWHERE
@@ -569,7 +567,7 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		}
 
 #endif
-		count = camel_data_wrapper_write_to_stream (content, stream);
+		count = camel_data_wrapper_write_to_stream(content, stream);
 		if (filter_stream) {
 			camel_stream_flush((CamelStream *)filter_stream);
 			camel_object_unref((CamelObject *)filter_stream);

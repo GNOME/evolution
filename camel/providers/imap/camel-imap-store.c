@@ -57,8 +57,7 @@ static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
 static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
-static CamelFolder *get_folder (CamelStore *store, const char *folder_name, gboolean create,
-				CamelException *ex);
+static CamelFolder *get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
@@ -420,7 +419,7 @@ imap_create (CamelImapStore *store, const char *folder_path, CamelException *ex)
 }
 
 static CamelFolder *
-get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
+get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelFolder *new_folder = NULL;
@@ -429,7 +428,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 
 	folder_path = camel_imap_store_folder_path (imap_store, folder_name);
 	if (!imap_folder_exists (imap_store, folder_path, &selectable, ex)) {
-		if (!create) {
+		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
 			g_free (folder_path);
 			return NULL;
 		}

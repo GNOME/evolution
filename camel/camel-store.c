@@ -37,7 +37,7 @@ static CamelServiceClass *parent_class = NULL;
 #define CS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
-				gboolean create, CamelException *ex);
+				guint32 flags, CamelException *ex);
 static void delete_folder (CamelStore *store, const char *folder_name,
 			   CamelException *ex);
 static void rename_folder (CamelStore *store, const char *old_name,
@@ -130,11 +130,10 @@ camel_store_get_type (void)
 
 
 static CamelFolder *
-get_folder (CamelStore *store, const char *folder_name,
-	    gboolean create, CamelException *ex)
+get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
-	g_warning ("CamelStore::get_folder not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
+	g_warning("CamelStore::get_folder not implemented for `%s'",
+		  camel_type_to_name(CAMEL_OBJECT_GET_TYPE(store)));
 	return NULL;
 }
 
@@ -242,21 +241,19 @@ uncache_folder (CamelStore *store, CamelFolder *folder)
 
 
 static CamelFolder *
-get_folder_internal (CamelStore *store, const char *folder_name,
-		     gboolean create, CamelException *ex)
+get_folder_internal(CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	CamelFolder *folder = NULL;
 
 	/* Try cache first. */
-	folder = CS_CLASS (store)->lookup_folder (store, folder_name);
+	folder = CS_CLASS(store)->lookup_folder(store, folder_name);
 
 	if (!folder) {
-		folder = CS_CLASS (store)->get_folder (store, folder_name,
-						       create, ex);
+		folder = CS_CLASS(store)->get_folder(store, folder_name, flags, ex);
 		if (!folder)
 			return NULL;
 
-		CS_CLASS (store)->cache_folder (store, folder_name, folder);
+		CS_CLASS(store)->cache_folder(store, folder_name, folder);
 	}
 
 	return folder;
@@ -280,15 +277,14 @@ get_folder_internal (CamelStore *store, const char *folder_name,
  * Return value: the folder
  **/
 CamelFolder *
-camel_store_get_folder (CamelStore *store, const char *folder_name,
-			gboolean create, CamelException *ex)
+camel_store_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	char *name;
 	CamelFolder *folder = NULL;
 
-	name = CS_CLASS (store)->get_folder_name (store, folder_name, ex);
+	name = CS_CLASS(store)->get_folder_name(store, folder_name, ex);
 	if (name) {
-		folder = get_folder_internal (store, name, create, ex);
+		folder = get_folder_internal(store, name, flags, ex);
 		g_free (name);
 	}
 	return folder;

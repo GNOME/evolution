@@ -62,7 +62,7 @@ typedef struct {
 } CamelMhFolderClass;
 
 /* public methods */
-CamelFolder *camel_mh_folder_new(CamelStore *parent_store, const char *full_name, CamelException *ex);
+CamelFolder *camel_mh_folder_new(CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_mh_folder_get_type(void);
