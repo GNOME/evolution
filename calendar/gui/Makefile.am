@@ -95,8 +95,6 @@ gnomecal_SOURCES =				\
 	year-view.c				\
 	year-view.h
 
-#	calendar.c				\
-#	calendar.h				\
 #	calobj.c				\
 #	calobj.h				\
 #	icalendar.c				\

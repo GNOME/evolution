@@ -11,9 +11,7 @@
 #include "calendar.h"
 #include "eventedit.h"
 #include "main.h"
-#include "alarm.h"
 #include "cal-util/timeutil.h"
-#include "cal-client/cal-client-alarm.h"
 
 
 static void event_editor_class_init (EventEditorClass *class);
@@ -21,9 +19,9 @@ static void event_editor_init       (EventEditor      *ee);
 static void event_editor_destroy    (GtkObject        *object);
 
 GtkWidget* make_spin_button (int val, int low, int high);
-void ee_create_ae (GtkTable *table, char *str, CalendarAlarmUI *alarm, enum AlarmType type, 
+void ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, 
 		   int y, gboolean control_sens, GtkSignalFunc dirty_func);
-void ee_store_alarm (CalendarAlarmUI *alarm, enum AlarmType type);
+void ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type);
 
 /* Note: do not i18n these strings, they are part of the vCalendar protocol */
 static char *class_names [] = { "PUBLIC", "PRIVATE", "CONFIDENTIAL" };
@@ -306,25 +304,19 @@ timesel_new (void)
  * Set the sensitive state depending on whether the alarm enabled flag.
  */
 static void
-ee_alarm_setting (CalendarAlarmUI *alarm, int sensitive)
+ee_alarm_setting (CalendarAlarm *alarm, int sensitive)
 {
-	enum AlarmType type;
-
 	gtk_widget_set_sensitive (GTK_WIDGET (alarm->w_count), sensitive);
 	gtk_widget_set_sensitive (GTK_WIDGET (alarm->w_timesel), sensitive);
 
-	type = cal_client_alarm_get_type (alarm->alarm_handle);
-
-	if (type == ALARM_PROGRAM || type == ALARM_MAIL){
-		gtk_widget_set_sensitive (GTK_WIDGET (alarm->w_entry),
-					  sensitive);
-		gtk_widget_set_sensitive (GTK_WIDGET (alarm->w_label),
-					  sensitive);
+	if (alarm->type == ALARM_PROGRAM || alarm->type == ALARM_MAIL){
+		gtk_widget_set_sensitive (GTK_WIDGET (alarm->w_entry), sensitive);
+		gtk_widget_set_sensitive (GTK_WIDGET (alarm->w_label), sensitive);
 	}
 }
 
 static void
-alarm_toggle (GtkToggleButton *toggle, CalendarAlarmUI *alarm)
+alarm_toggle (GtkToggleButton *toggle, CalendarAlarm *alarm)
 {
 	ee_alarm_setting (alarm, toggle->active);
 }
@@ -333,13 +325,13 @@ alarm_toggle (GtkToggleButton *toggle, CalendarAlarmUI *alarm)
 #define FS  (GTK_FILL | GTK_SHRINK)
 
 void
-ee_create_ae (GtkTable *table, char *str, CalendarAlarmUI *alarm, enum AlarmType type, int y, gboolean control_sens, GtkSignalFunc dirty_func)
+ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, int y, gboolean control_sens, GtkSignalFunc dirty_func)
 {
 	GtkWidget *entry;
 
 	alarm->w_enabled = gtk_check_button_new_with_label (str);
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (alarm->w_enabled), 
-				   cal_client_alarm_get_enabled (alarm->alarm_handle));
+				     alarm->enabled);
 	if (control_sens)
 		gtk_signal_connect (GTK_OBJECT (alarm->w_enabled), "toggled",
 				    GTK_SIGNAL_FUNC (alarm_toggle), alarm);
@@ -348,9 +340,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarmUI *alarm, enum AlarmType
 				    GTK_SIGNAL_FUNC (dirty_func), NULL);
 	gtk_table_attach (table, alarm->w_enabled, 0, 1, y, y+1, FS, FS, 0, 0);
 
-	alarm->w_count =
-		make_spin_button (cal_client_alarm_get_count (alarm->alarm_handle),
-				  0, 10000);
+	alarm->w_count = make_spin_button (alarm->count, 0, 10000);
 	if (dirty_func)
 		gtk_signal_connect (GTK_OBJECT (alarm->w_count), "changed",
 				    GTK_SIGNAL_FUNC (dirty_func), NULL);
@@ -358,8 +348,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarmUI *alarm, enum AlarmType
 	
 	alarm->w_timesel = timesel_new ();
 	/* is there a "changed" signal which we can connect to? */
-	gtk_option_menu_set_history (GTK_OPTION_MENU (alarm->w_timesel),
-				     cal_client_alarm_get_units (alarm->alarm_handle));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (alarm->w_timesel), alarm->units);
 	gtk_table_attach (table, alarm->w_timesel, 2, 3, y, y+1, FS, FS, 0, 0);
 	
 	switch (type){
@@ -369,8 +358,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarmUI *alarm, enum AlarmType
 		gtk_table_attach (table, alarm->w_label, 3, 4, y, y+1, FS, FS, 0, 0);
 		alarm->w_entry = gtk_entry_new ();
 		gtk_table_attach (table, alarm->w_entry, 4, 5, y, y+1, FXS, FS, 0, 0);
-		gtk_entry_set_text (GTK_ENTRY (alarm->w_entry),
-				    cal_client_alarm_get_data (alarm->alarm_handle));
+		gtk_entry_set_text (GTK_ENTRY (alarm->w_entry), alarm->data ? alarm->data : "");
 		if (dirty_func)
 			gtk_signal_connect (GTK_OBJECT (alarm->w_entry), 
 					    "changed",
@@ -384,8 +372,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarmUI *alarm, enum AlarmType
 		gtk_table_attach (table, alarm->w_label, 3, 4, y, y+1, FS, FS, 0, 0);
 		alarm->w_entry = gnome_file_entry_new ("alarm-program", _("Select program to run at alarm time"));
 		entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (alarm->w_entry));
-		gtk_entry_set_text (GTK_ENTRY (entry),
-				    cal_client_alarm_get_data (alarm->alarm_handle));
+		gtk_entry_set_text (GTK_ENTRY (entry), alarm->data ? alarm->data : "");
 		gtk_table_attach (table, alarm->w_entry, 4, 5, y, y+1, FXS, FS, 0, 0);
 		if (dirty_func)
 			gtk_signal_connect (GTK_OBJECT (entry), 
@@ -399,8 +386,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarmUI *alarm, enum AlarmType
 	}
 
 	if (control_sens)
-		ee_alarm_setting (alarm,
-				  cal_client_alarm_get_enabled (alarm->alarm_handle));
+		ee_alarm_setting (alarm, alarm->enabled);
 	else
 		ee_alarm_setting (alarm, TRUE);
 }
@@ -421,14 +407,10 @@ ee_alarm_widgets (EventEditor *ee)
 	mailto  = gtk_label_new (_("Mail to:"));
 	mailte  = gtk_entry_new ();
 
-	ee_create_ae (GTK_TABLE (table), _("Display"),
-		      &ee->dalarmui, ALARM_DISPLAY, 1, TRUE, NULL);
-	ee_create_ae (GTK_TABLE (table), _("Audio"),
-		      &ee->aalarmui, ALARM_AUDIO, 2, TRUE, NULL);
-	ee_create_ae (GTK_TABLE (table), _("Program"),
-		      &ee->palarmui, ALARM_PROGRAM, 3, TRUE, NULL);
-	ee_create_ae (GTK_TABLE (table), _("Mail"),
-		      &ee->malarmui, ALARM_MAIL, 4, TRUE, NULL);
+	ee_create_ae (GTK_TABLE (table), _("Display"), &ee->ical->dalarm, ALARM_DISPLAY, 1, TRUE, NULL);
+	ee_create_ae (GTK_TABLE (table), _("Audio"),   &ee->ical->aalarm, ALARM_AUDIO, 2, TRUE, NULL);
+	ee_create_ae (GTK_TABLE (table), _("Program"), &ee->ical->palarm, ALARM_PROGRAM, 3, TRUE, NULL);
+	ee_create_ae (GTK_TABLE (table), _("Mail"),    &ee->ical->malarm, ALARM_MAIL, 4, TRUE, NULL);
 	
 	return l;
 }
@@ -466,36 +448,31 @@ ee_classification_widgets (EventEditor *ee)
 }
 
 /*
- * Retrieves the information from the CalendarAlarmUI widgets and stores them
- * on the CalendarAlarmUI generic values
+ * Retrieves the information from the CalendarAlarm widgets and stores them
+ * on the CalendarAlarm generic values
  */
 void
-ee_store_alarm (CalendarAlarmUI *alarm, enum AlarmType type)
+ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type)
 {
 	GtkWidget *item;
 	GtkMenu   *menu;
 	GList     *child;
 	int idx;
-
-	/*	
+	
 	if (alarm->data){
 		g_free (alarm->data);
 		alarm->data = 0;
 	}
-	*/
 	
-	cal_client_alarm_set_enabled (alarm->alarm_handle,
-				GTK_TOGGLE_BUTTON (alarm->w_enabled)->active);
+	alarm->enabled = GTK_TOGGLE_BUTTON (alarm->w_enabled)->active;
 
-	if (! cal_client_alarm_get_enabled (alarm->alarm_handle))
+	if (!alarm->enabled)
 		return;
 	
 	if (type == ALARM_PROGRAM)
-		cal_client_alarm_set_data (alarm->alarm_handle,
-					   gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (alarm->w_entry))));
+		alarm->data = g_strdup (gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (alarm->w_entry))));
 	if (type == ALARM_MAIL)
-		cal_client_alarm_set_data (alarm->alarm_handle,
-			   gtk_entry_get_text (GTK_ENTRY (alarm->w_entry)));
+		alarm->data = g_strdup (gtk_entry_get_text (GTK_ENTRY (alarm->w_entry)));
 
 	/* Find out the index */
 	menu = GTK_MENU (GTK_OPTION_MENU (alarm->w_timesel)->menu);
@@ -504,10 +481,9 @@ ee_store_alarm (CalendarAlarmUI *alarm, enum AlarmType type)
 	
 	for (idx = 0, child = GTK_MENU_SHELL (menu)->children; child->data != item; child = child->next)
 		idx++;
-
-	cal_client_alarm_set_units (alarm->alarm_handle, idx);
-	cal_client_alarm_set_count (alarm->alarm_handle,
-          gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (alarm->w_count)));
+	
+	alarm->units = idx;
+	alarm->count = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (alarm->w_count));
 }
 
 static void
@@ -528,10 +504,10 @@ ee_store_general_values_to_ical (EventEditor *ee)
 
 	ical->summary = gtk_editable_get_chars (GTK_EDITABLE (ee->general_summary), 0, -1);
 
-	ee_store_alarm (&ee->dalarmui, ALARM_DISPLAY);
-	ee_store_alarm (&ee->aalarmui, ALARM_AUDIO);
-	ee_store_alarm (&ee->palarmui, ALARM_PROGRAM);
-	ee_store_alarm (&ee->malarmui, ALARM_MAIL);
+	ee_store_alarm (&ical->dalarm, ALARM_DISPLAY);
+	ee_store_alarm (&ical->aalarm, ALARM_AUDIO);
+	ee_store_alarm (&ical->palarm, ALARM_PROGRAM);
+	ee_store_alarm (&ical->malarm, ALARM_MAIL);
 
 	for (idx = 2; list; list = list->next) {
 		if (GTK_TOGGLE_BUTTON (list->data)->active)
