@@ -2,7 +2,8 @@
 
 INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir) -I$(top_srcdir)/camel \
 	-I$(includedir) -I$(top_srcdir)/camel/providers/pop3 \
-	-I$(top_srcdir)/camel/providers/mbox
+	-I$(top_srcdir)/camel/providers/mbox -I$(top_srcdir)/camel/providers/nntp
+
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/libibex/libibex.la 	\
@@ -31,6 +32,13 @@ test9_LDADD = \
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
+test12_LDADD = \
+	$(top_builddir)/camel/libcamel.la 	\
+	$(top_builddir)/camel/providers/nntp/libcamelnntp.la 	\
+	$(top_builddir)/libibex/libibex.la 	\
+	$(GNOME_LIBDIR) 			\
+	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
+
 test_movemail_LDADD = \
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/camel/libcamel.la 	\
@@ -53,6 +61,7 @@ noinst_PROGRAMS =  	\
 	test9		\
 	test10		\
 	test11		\
+	test12		\
 	test-movemail	\
 	$(THREAD_RELATED_TESTS)
 

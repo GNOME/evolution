@@ -1,3 +1,12 @@
+2000-04-14  Chris Toshok  <toshok@helixcode.com>
+
+	* tests/.cvsignore: add test12
+
+	* tests/test12.c (main): add test for nntp stuff.
+
+	* tests/Makefile.am (noinst_PROGRAMS): same.
+
+
 2000-04-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/backend/ebook/e-card.c,
