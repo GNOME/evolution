@@ -14,8 +14,7 @@ INCLUDES =						\
 	$(CAMEL_CFLAGS)					\
 	$(GNOME_INCLUDEDIR)				\
 	$(GTK_INCLUDEDIR) 				\
-	-DG_LOG_DOMAIN=\"camel-sendmail-provider\"	\
-	-DG_DISABLE_DEPRECATED
+	-DG_LOG_DOMAIN=\"camel-sendmail-provider\"
 
 libcamelsendmail_la_SOURCES = 			\
 	camel-sendmail-provider.c		\

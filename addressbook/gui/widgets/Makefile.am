@@ -11,10 +11,6 @@ INCLUDES =										\
 	-I$(top_srcdir)/addressbook/gui/component	\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
-	-DG_DISABLE_DEPRECATED				\
-	-DGTK_DISABLE_DEPRECATED			\
-	-DLIBGNOME_DISABLE_DEPRECATED			\
-	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 CORBA_COMPOSER_SOURCE_H	=			\

@@ -21,10 +21,6 @@ INCLUDES =									\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
 	$(LDAP_CFLAGS)						\
-	-DG_DISABLE_DEPRECATED					\
-	-DGTK_DISABLE_DEPRECATED				\
-	-DLIBGNOME_DISABLE_DEPRECATED				\
-	-DLIBGNOMEUI_DISABLE_DEPRECATED				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 component_LTLIBRARIES = libevolution-addressbook.la

@@ -1,3 +1,7 @@
+2004-02-16  JP Rosevear <jpr@ximian.com>
+
+	* */Makefile.am: remove disable deprecated flags
+
 2004-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-file-utils.c (camel_file_util_encode_string): Since
