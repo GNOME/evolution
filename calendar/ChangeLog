@@ -1,5 +1,23 @@
 2000-12-01  Federico Mena Quintero  <federico@helixcode.com>
 
+	Fixes bug #918.
+
+	* gui/weekday-picker.c (WeekdayPickerPrivate): Added a field for a
+	set of blocked days.
+	(weekday_picker_set_blocked_days): New function to configure a set
+	of days that cannot be modified by the user.
+	(weekday_picker_get_blocked_days): Query function for the above.
+	(day_event_cb): Block the appropriate days from being modified.
+
+	* gui/event-editor.c (get_start_weekday_mask): New function to
+	compute a day mask for the start day of a calendar component.
+	(set_recur_special_defaults): New function to set sane defaults
+	for the recurrence special widgets.
+	(fill_recurrence_widgets): Use set_recur_special_defaults().
+	(make_recur_weekly_special): Block the appropriate days.
+
+2000-12-01  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/control-factory.c (set_prop): Removed debugging message.
 	(control_factory_init): Ditto.
 

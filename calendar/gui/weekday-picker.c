@@ -38,6 +38,9 @@ struct _WeekdayPickerPrivate {
 	/* Selected days; see weekday_picker_set_days() */
 	guint8 day_mask;
 
+	/* Blocked days; these cannot be modified */
+	guint8 blocked_day_mask;
+
 	/* Metrics */
 	int font_ascent, font_descent;
 	int max_letter_width;
@@ -167,6 +170,9 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 		else
 			i++;
 	}
+
+	if (priv->blocked_day_mask & (0x1 << i))
+		return TRUE;
 
 	if (priv->day_mask & (0x1 << i))
 		day_mask = priv->day_mask & ~(0x1 << i);
@@ -512,6 +518,49 @@ weekday_picker_get_days (WeekdayPicker *wp)
 
 	priv = wp->priv;
 	return priv->day_mask;
+}
+
+/**
+ * weekday_picker_set_blocked_days:
+ * @wp: A weekday picker.
+ * @blocked_day_mask: Bitmask with the days to be blocked.
+ * 
+ * Sets the days that the weekday picker will prevent from being modified by the
+ * user.  The @blocked_day_mask is specified in the same way as in
+ * weekday_picker_set_days().
+ **/
+void
+weekday_picker_set_blocked_days (WeekdayPicker *wp, guint8 blocked_day_mask)
+{
+	WeekdayPickerPrivate *priv;
+
+	g_return_if_fail (wp != NULL);
+	g_return_if_fail (IS_WEEKDAY_PICKER (wp));
+
+	priv = wp->priv;
+	priv->blocked_day_mask = blocked_day_mask;
+}
+
+/**
+ * weekday_picker_get_blocked_days:
+ * @wp: A weekday picker.
+ * 
+ * Queries the set of days that the weekday picker prevents from being modified
+ * by the user.
+ * 
+ * Return value: Bit mask of blocked days, with the same format as that returned
+ * by weekday_picker_get_days().
+ **/
+guint
+weekday_picker_get_blocked_days (WeekdayPicker *wp)
+{
+	WeekdayPickerPrivate *priv;
+
+	g_return_val_if_fail (wp != NULL, 0);
+	g_return_val_if_fail (IS_WEEKDAY_PICKER (wp), 0);
+
+	priv = wp->priv;
+	return priv->blocked_day_mask;
 }
 
 /**

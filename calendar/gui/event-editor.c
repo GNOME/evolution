@@ -124,6 +124,7 @@ struct _EventEditorPrivate {
 	/* For weekly recurrences, created by hand */
 	GtkWidget *recurrence_weekday_picker;
 	guint8 recurrence_weekday_day_mask;
+	guint8 recurrence_weekday_blocked_day_mask;
 
 	/* For monthly recurrences, created by hand */
 	GtkWidget *recurrence_month_index_spin;
@@ -401,6 +402,7 @@ make_recur_weekly_special (EventEditor *ee)
 
 	weekday_picker_set_week_starts_on_monday (wp, week_starts_on_monday);
 	weekday_picker_set_days (wp, priv->recurrence_weekday_day_mask);
+	weekday_picker_set_blocked_days (wp, priv->recurrence_weekday_blocked_day_mask);
 
 	gtk_signal_connect (GTK_OBJECT (wp), "changed",
 			    GTK_SIGNAL_FUNC (recur_weekday_picker_changed_cb), ee);
@@ -1411,6 +1413,50 @@ fill_exception_widgets (EventEditor *ee)
 	cal_component_free_exdate_list (list);
 }
 
+/* Computes a weekday mask for the start day of a calendar component, for use in
+ * a WeekdayPicker widget.
+ */
+static guint8
+get_start_weekday_mask (CalComponent *comp)
+{
+	CalComponentDateTime dt;
+	guint8 retval;
+
+	cal_component_get_dtstart (comp, &dt);
+
+	if (dt.value) {
+		time_t t;
+		struct tm tm;
+
+		t = icaltime_as_timet (*dt.value);
+		tm = *localtime (&t);
+
+		retval = 0x1 << tm.tm_wday;
+	} else
+		retval = 0;
+
+	cal_component_free_datetime (&dt);
+
+	return retval;
+}
+
+/* Sets some sane defaults for the data sources for the recurrence special
+ * widgets, even if they will not be used immediately.
+ */
+static void
+set_recur_special_defaults (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	guint8 mask;
+
+	priv = ee->priv;
+
+	mask = get_start_weekday_mask (priv->comp);
+
+	priv->recurrence_weekday_day_mask = mask;
+	priv->recurrence_weekday_blocked_day_mask = mask;
+}
+
 /* Fills in the recurrence widgets with the values from the calendar component.
  * This function is particularly tricky because it has to discriminate between
  * recurrences we support for editing and the ones we don't.  We only support at
@@ -1434,6 +1480,10 @@ fill_recurrence_widgets (EventEditor *ee)
 	g_assert (priv->comp != NULL);
 
 	fill_exception_widgets (ee);
+
+	/* Set up defaults for the special widgets */
+
+	set_recur_special_defaults (ee);
 
 	/* No recurrences? */
 
