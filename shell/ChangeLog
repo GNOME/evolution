@@ -1,3 +1,7 @@
+2001-07-03  Iain Holmes  <iain@ximian.com>
+
+	* importer/Makefile.am: Add bonobo-conf stuff
+
 2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	[The following makes the shell able to create the `shortcuts.xml'

@@ -46,6 +46,7 @@ libevolution_importerinclude_HEADERS = 	\
 
 libevolution_importer_la_LIBADD =	\
 	$(top_builddir)/e-util/libeutil.la	\
+	$(BONOBO_CONF_LIBS)			\
 	$(EXTRA_GNOME_LIBS)		\
 	$(GTKHTML_LIBS)
 
