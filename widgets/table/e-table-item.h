@@ -5,9 +5,9 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-selection-model.h>
 #include <gal/e-table/e-table-defines.h>
 #include <gal/e-table/e-table-tooltip.h>
+#include <gal/widgets/e-selection-model.h>
 #include <gal/widgets/e-printable.h>
 
 BEGIN_GNOME_DECLS
@@ -24,7 +24,7 @@ typedef struct {
 	ETableHeader    *header;
 
 	ETableModel     *source_model;
-	ETableSelectionModel *selection;
+	ESelectionModel *selection;
 
 	int              x1, y1;
 	int              minimum_width, width, height;

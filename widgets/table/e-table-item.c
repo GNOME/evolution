@@ -50,7 +50,7 @@ enum {
 	ARG_0,
 	ARG_TABLE_HEADER,
 	ARG_TABLE_MODEL,
-	ARG_TABLE_SELECTION_MODEL,
+	ARG_SELECTION_MODEL,
 	ARG_TABLE_HORIZONTAL_DRAW_GRID,
 	ARG_TABLE_VERTICAL_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
@@ -70,9 +70,9 @@ enum {
 static int eti_get_height (ETableItem *eti);
 static int eti_row_height (ETableItem *eti, int row);
 static void e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierType state);
-static void eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem *eti);
-static void eti_cursor_activated (ETableSelectionModel *selection, int row, int col, ETableItem *eti);
-static void eti_selection_change (ETableSelectionModel *selection, ETableItem *eti);
+static void eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti);
+static void eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *eti);
+static void eti_selection_change (ESelectionModel *selection, ETableItem *eti);
 #if 0
 static void eti_request_region_show (ETableItem *eti,
 				     int start_col, int start_row,
@@ -352,7 +352,7 @@ eti_remove_table_model (ETableItem *eti)
  * Invoked to release the table model associated with this ETableItem
  */
 static void
-eti_remove_table_selection_model (ETableItem *eti)
+eti_remove_selection_model (ETableItem *eti)
 {
 	if (!eti->selection)
 		return;
@@ -841,7 +841,7 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 }
 
 static void
-eti_add_table_selection_model (ETableItem *eti, ETableSelectionModel *selection)
+eti_add_selection_model (ETableItem *eti, ESelectionModel *selection)
 {
 	g_assert (eti->selection == NULL);
 	
@@ -945,7 +945,7 @@ eti_destroy (GtkObject *object)
 
 	eti_remove_header_model (eti);
 	eti_remove_table_model (eti);
-	eti_remove_table_selection_model (eti);
+	eti_remove_selection_model (eti);
 
 	if (eti->height_cache_idle_id)
 		g_source_remove(eti->height_cache_idle_id);
@@ -988,10 +988,10 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		eti_add_table_model (eti, E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg)));
 		break;
 		
-	case ARG_TABLE_SELECTION_MODEL:
-		eti_remove_table_selection_model (eti);
+	case ARG_SELECTION_MODEL:
+		eti_remove_selection_model (eti);
 		if (GTK_VALUE_OBJECT (*arg))
-			eti_add_table_selection_model (eti, E_TABLE_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg)));
+			eti_add_selection_model (eti, E_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg)));
 		break;
 		
 	case ARG_LENGTH_THRESHOLD:
@@ -1703,7 +1703,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			
 			if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
 
-				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
+				if ((!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, col, row)) {
 					e_table_item_enter_edit (eti, col, row);
 				}
 
@@ -1889,7 +1889,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				break;
 			}
 			
-			if (eti->cursor_mode != E_CURSOR_LINE && cursor_col != view_to_model_col(eti, 0))
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
+					 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
+			if ((!return_val) && eti->cursor_mode != E_CURSOR_LINE && cursor_col != view_to_model_col(eti, 0))
 				eti_cursor_move_left (eti);
 			break;
 			
@@ -1899,7 +1901,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				break;
 			}
 
-			if (eti->cursor_mode != E_CURSOR_LINE && cursor_col != view_to_model_col(eti, eti->cols - 1))
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
+					 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
+			if ((!return_val) && eti->cursor_mode != E_CURSOR_LINE && cursor_col != view_to_model_col(eti, eti->cols - 1))
 				eti_cursor_move_right (eti);
 			break;
 			
@@ -1964,7 +1968,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					       NULL);
 
 				if (cursor_col >= 0 && cursor_row >= 0 && return_val &&
-				    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
+				    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->table_model, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row))) {
 					e_table_item_enter_edit (eti, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row));
 				}
 				break;
@@ -2002,7 +2006,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				gint col, row;
 				row = model_to_view_row(eti, cursor_row);
 				col = model_to_view_col(eti, cursor_col);
-				if (col != -1 && row != -1 && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
+				if (col != -1 && row != -1 && e_table_model_is_cell_editable(eti->table_model, col, row)) {
 					e_table_item_enter_edit (eti, col, row);
 				}
 			}
@@ -2093,8 +2097,8 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
 	gtk_object_add_arg_type ("ETableItem::ETableModel", E_TABLE_MODEL_TYPE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
-	gtk_object_add_arg_type ("ETableItem::table_selection_model", E_TABLE_SELECTION_MODEL_TYPE,
-				 GTK_ARG_WRITABLE, ARG_TABLE_SELECTION_MODEL);
+	gtk_object_add_arg_type ("ETableItem::selection_model", E_SELECTION_MODEL_TYPE,
+				 GTK_ARG_WRITABLE, ARG_SELECTION_MODEL);
 	gtk_object_add_arg_type ("ETableItem::horizontal_draw_grid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HORIZONTAL_DRAW_GRID);
 	gtk_object_add_arg_type ("ETableItem::vertical_draw_grid", GTK_TYPE_BOOL,
@@ -2249,7 +2253,7 @@ e_table_item_get_focused_column (ETableItem *eti)
 }
 
 static void
-eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem *eti)
+eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti)
 {
 	int view_row;
 	int view_col;
@@ -2281,7 +2285,7 @@ eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem
 }
 
 static void
-eti_cursor_activated (ETableSelectionModel *selection, int row, int col, ETableItem *eti)
+eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *eti)
 {
 	int view_row;
 	int view_col;
@@ -2304,7 +2308,7 @@ eti_cursor_activated (ETableSelectionModel *selection, int row, int col, ETableI
 }
 
 static void
-eti_selection_change (ETableSelectionModel *selection, ETableItem *eti)
+eti_selection_change (ESelectionModel *selection, ETableItem *eti)
 {
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;

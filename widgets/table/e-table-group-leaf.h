@@ -37,7 +37,7 @@ typedef struct {
 	guint draw_focus : 1;
 	ECursorMode cursor_mode;
 
-	ETableSelectionModel *table_selection_model;
+	ESelectionModel *selection_model;
 } ETableGroupLeaf;
 
 typedef struct {

@@ -472,7 +472,7 @@ et_build_item (ETree *et)
 					 e_table_item_get_type(),
 					 "ETableHeader", et->header,
 					 "ETableModel", et->etta,
-					 "table_selection_model", et->selection,
+					 "selection_model", et->selection,
 					 "horizontal_draw_grid", et->horizontal_draw_grid,
 					 "vertical_draw_grid", et->vertical_draw_grid,
 					 "drawfocus", et->draw_focus,

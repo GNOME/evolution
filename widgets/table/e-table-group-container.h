@@ -43,7 +43,7 @@ typedef struct {
 	int n;
 	int length_threshold;
 
-	ETableSelectionModel *table_selection_model;
+	ESelectionModel *selection_model;
 
 	guint horizontal_draw_grid : 1;
 	guint vertical_draw_grid : 1;

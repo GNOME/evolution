@@ -1166,3 +1166,10 @@ e_tree_sorted_model_to_view_path  (ETreeSorted    *ets,
 	return path;
 }
 
+int
+e_tree_sorted_orig_position       (ETreeSorted    *ets,
+				   ETreePath       path)
+{
+	ETreeSortedPath *sorted_path = path;
+	return sorted_path->orig_position;
+}

@@ -38,7 +38,7 @@ enum {
 	ARG_TABLE_VERTICAL_DRAW_GRID,
 	ARG_TABLE_DRAW_FOCUS,
 	ARG_CURSOR_MODE,
-	ARG_TABLE_SELECTION_MODEL,
+	ARG_SELECTION_MODEL,
 	ARG_LENGTH_THRESHOLD,
 };
 
@@ -99,8 +99,8 @@ etgc_destroy (GtkObject *object)
 	if (etgc->sort_info)
 		gtk_object_unref (GTK_OBJECT(etgc->sort_info));
 
-	if (etgc->table_selection_model)
-		gtk_object_unref (GTK_OBJECT(etgc->table_selection_model));
+	if (etgc->selection_model)
+		gtk_object_unref (GTK_OBJECT(etgc->selection_model));
 
 	if (etgc->rect)
 		gtk_object_destroy (GTK_OBJECT(etgc->rect));
@@ -415,7 +415,7 @@ create_child_node (ETableGroupContainer *etgc, void *val)
 			      "vertical_draw_grid", etgc->vertical_draw_grid,
 			      "drawfocus", etgc->draw_focus,
 			      "cursor_mode", etgc->cursor_mode,
-			      "table_selection_model", etgc->table_selection_model,
+			      "selection_model", etgc->selection_model,
 			      "length_threshold", etgc->length_threshold,
 			      "minimum_width", etgc->minimum_width - GROUP_INDENT,
 			      NULL);
@@ -535,7 +535,7 @@ static void
 etgc_add_all (ETableGroup *etg)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
-	ESorter *sorter = E_SELECTION_MODEL(etgc->table_selection_model)->sorter;
+	ESorter *sorter = etgc->selection_model->sorter;
 	int *array;
 	int count;
 
@@ -706,16 +706,16 @@ etgc_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_TABLE_SELECTION_MODEL:
-		if (etgc->table_selection_model)
-			gtk_object_unref(GTK_OBJECT(etgc->table_selection_model));
-		etgc->table_selection_model = E_TABLE_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg));
-		if (etgc->table_selection_model)
-			gtk_object_ref(GTK_OBJECT(etgc->table_selection_model));
+	case ARG_SELECTION_MODEL:
+		if (etgc->selection_model)
+			gtk_object_unref(GTK_OBJECT(etgc->selection_model));
+		etgc->selection_model = E_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg));
+		if (etgc->selection_model)
+			gtk_object_ref(GTK_OBJECT(etgc->selection_model));
 		for (list = etgc->children; list; list = g_list_next (list)) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			gtk_object_set (GTK_OBJECT(child_node->child),
-					"table_selection_model", etgc->table_selection_model,
+					"selection_model", etgc->selection_model,
 					NULL);
 		}
 		break;
@@ -825,8 +825,8 @@ etgc_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_FOCUS);
 	gtk_object_add_arg_type ("ETableGroupContainer::cursor_mode", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_CURSOR_MODE);
-	gtk_object_add_arg_type ("ETableGroupContainer::table_selection_model", GTK_TYPE_OBJECT,
-				 GTK_ARG_WRITABLE, ARG_TABLE_SELECTION_MODEL);
+	gtk_object_add_arg_type ("ETableGroupContainer::selection_model", E_SELECTION_MODEL_TYPE,
+				 GTK_ARG_WRITABLE, ARG_SELECTION_MODEL);
 	gtk_object_add_arg_type ("ETableGroupContainer::length_threshold", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 
@@ -934,7 +934,7 @@ etgc_init (GtkObject *object)
 	container->draw_focus = 1;
 	container->cursor_mode = E_CURSOR_SIMPLE;
 	container->length_threshold = -1;
-	container->table_selection_model = NULL;
+	container->selection_model = NULL;
 }
 
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);

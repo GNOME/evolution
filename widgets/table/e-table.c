@@ -590,7 +590,7 @@ et_build_groups (ETable *et)
 			      "drawfocus", et->draw_focus,
 			      "cursor_mode", et->cursor_mode,
 			      "length_threshold", et->length_threshold,
-			      "table_selection_model", et->selection,
+			      "selection_model", et->selection,
 			      NULL);
 
 	gtk_signal_connect (GTK_OBJECT (et->group), "cursor_change",
