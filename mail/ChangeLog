@@ -1,3 +1,11 @@
+2003-12-01  Not Zed  <NotZed@Ximian.com>
+
+	* mail-security.glade: added some padding to the security details
+	frames.
+
+	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
+	some cosmetic layout changes.
+
 2003-11-27  Charles Zhang  <charles.zhang@sun.com>
 
 	* mail-account-editor.c (construct): connect "changed" signal.

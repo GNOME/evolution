@@ -650,22 +650,26 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 
 	vbox = glade_xml_get_widget(xml, "signature_vbox");
 	w = gtk_label_new(_(smime_sign_table[po->valid->sign.status].description));
+	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	if (po->valid->sign.description) {
 		w = gtk_label_new(po->valid->sign.description);
-		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
+		gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
+		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 	gtk_widget_show_all(vbox);
 
 	vbox = glade_xml_get_widget(xml, "encryption_vbox");
 	w = gtk_label_new(_(smime_encrypt_table[po->valid->encrypt.status].description));
+	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	if (po->valid->encrypt.description) {
 		w = gtk_label_new(po->valid->encrypt.description);
-		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
+		gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
+		gtk_label_set_line_wrap((GtkLabel *)w, FALSE);
 		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 	gtk_widget_show_all(vbox);
