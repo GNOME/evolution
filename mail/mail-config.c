@@ -131,6 +131,10 @@ typedef struct {
 	MailConfigLabel labels[5];
 
 	gboolean signature_info;
+
+	/* readonly fields from calendar */
+	int week_start_day;
+	int time_24hour;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -586,6 +590,17 @@ config_import_old_signatures ()
 	}
 }
 
+/* copied from calendar-config */
+static gboolean
+locale_supports_12_hour_format(void)
+{
+	char s[16];
+	time_t t = 0;
+
+	strftime(s, sizeof s, "%p", gmtime (&t));
+	return s[0] != '\0';
+}
+
 static void
 config_read (void)
 {
@@ -955,6 +970,13 @@ config_read (void)
 
 	config->signature_info = bonobo_config_get_boolean_with_default (config->db,
 	        "/Mail/Info/show_signature_editor_info", TRUE, NULL);
+
+	config->week_start_day = bonobo_config_get_long_with_default(config->db, "/Calendar/Display/WeekStartDay", 1, NULL);
+	if (locale_supports_12_hour_format()) {
+		config->time_24hour = bonobo_config_get_boolean_with_default(config->db, "/Calendar/Display/Use24HourFormat", FALSE, NULL);
+	} else {
+		config->time_24hour = TRUE;
+	}
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -3092,3 +3114,16 @@ mail_config_set_show_signature_info (gboolean show)
 {
 	config->signature_info = show;
 }
+
+int
+mail_config_get_week_start_day(void)
+{
+	return config->week_start_day;
+}
+
+int
+mail_config_get_time_24hour(void)
+{
+	return config->time_24hour;
+}
+

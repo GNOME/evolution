@@ -1,3 +1,13 @@
+2002-08-07  Not Zed  <NotZed@Ximian.com>
+
+	* message-tag-followup.c (target_date_new): Set the week start day
+	from the calendar prefs, do same for 24 hour format.  See #23423.
+
+	* mail-config.c (config_read): Added week_start_day from
+	Calendar/Display config.  Also time_24hour format.
+	(mail_config_get_week_start_day): 
+	(mail_config_get_time_24hour): And read-only accessors.
+
 2002-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c (save_metainfo): Save to a temporary file first

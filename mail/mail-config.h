@@ -322,6 +322,9 @@ gchar * mail_config_signature_run_script (gchar *script);
 gboolean mail_config_get_show_signature_info (void);
 void     mail_config_set_show_signature_info (gboolean show);
 
+int mail_config_get_week_start_day(void);
+int mail_config_get_time_24hour(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
