@@ -1,3 +1,23 @@
+2000-11-28  Federico Mena Quintero  <federico@helixcode.com>
+
+	Upgrade of the alarm framework.  We now access alarms by a unique
+	identifier.  This UID is added as an extension property to alarm
+	subcomponents when their parent components are scanned by
+	CalComponent.
+
+	* cal-util/cal-component.c (CalComponentPrivate): Added a hash
+	table of alarm UIDs -> alarm properties.
+	(cal_component_init): Initialize priv->alarm_uid_hash.
+	(free_icalcomponent): Free the elements in the
+	priv->alarm_uid_hash.
+	(scan_alarm): New function to add scan an alarm subcomponent and
+	ensure that it has an alarm UID extension property so that we can
+	add it to our mapping table.
+	(cal_component_get_first_alarm): Removed function.
+	(cal_component_get_next_alarm): Removed function.
+	(cal_component_get_alarm_uids): New function.
+	(cal_component_get_alarm): New function.
+
 2000-11-28  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c (local_record_to_pilot_record): Return
