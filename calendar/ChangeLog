@@ -1,3 +1,7 @@
+2003-11-05  JP Rosevear <jpr@ximian.com>
+
+	* gui/migration.c: fix typo
+
 2003-11-05  Larry Ewing  <lewing@ximian.com>
 
 	* gui/migration.c (process_old_dir): add a unimplemented warning
