@@ -1,3 +1,8 @@
+2003-04-04  Chris Toshok  <toshok@ximian.com>
+
+	* acinclude.m4 (EVO_LDAP_CHECK): bleah, add "" in for the "no"
+	case in with_static_ldap.
+
 2003-04-03  Chris Toshok  <toshok@ximian.com>
 
 	* acinclude.m4 (EVO_LDAP_CHECK): the existence of libldap.la
