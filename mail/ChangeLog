@@ -1,3 +1,10 @@
+2001-11-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (ml_tree_value_at): Use GINT_TO_POINTER here for
+	platforms where simply casting an int to void * won't work.
+	(build_flat_diff, main_folder_changed): Call
+	e_tree_model_pre_change here.
+
 2001-11-02    <NotZed@Ximian.com>
 
 	* message-browser.c (message_browser_message_list_built):

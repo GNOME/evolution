@@ -839,7 +839,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		child = e_tree_model_node_get_first_child(etm, path);
 		if (child && !e_tree_node_is_expanded(message_list->tree, path)
 		    && (msg_info->flags & CAMEL_MESSAGE_SEEN)) {
-			return (void *)subtree_unread(message_list, child);
+			return GINT_TO_POINTER (subtree_unread (message_list, child));
 		}
 
 		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
@@ -1795,8 +1795,10 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 	d(printf("Changing messages to view:\n"));
 	for (i = 0; i < changes->uid_changed->len; i++) {
 		ETreePath *node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
-		if (node)
+		if (node) {
+			e_tree_model_pre_change (ml->model);
 			e_tree_model_node_data_changed (ml->model, node);
+		}
 	}
 
 #ifdef TIMEIT
@@ -1856,8 +1858,10 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 		if (changes->uid_added->len == 0 && changes->uid_removed->len == 0 && changes->uid_changed->len < 100) {
 			for (i = 0; i < changes->uid_changed->len; i++) {
 				ETreePath node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
-				if (node)
+				if (node) {
+					e_tree_model_pre_change (ml->model);
 					e_tree_model_node_data_changed (ml->model, node);
+				}
 			}
 			
 			camel_folder_change_info_free (changes);
