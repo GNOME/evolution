@@ -8670,7 +8670,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:229
 #, c-format
 msgid "SASL `%s' Login failed: %s"
-msgstr "Prijava SASL `%s' ni uspela"
+msgstr "Prijava SASL `%s' ni uspela: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:240
 msgid "SASL Protocol error"
