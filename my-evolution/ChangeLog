@@ -1,3 +1,11 @@
+2003-03-27  Not Zed  <NotZed@Ximian.com>
+
+	** see bug #40141
+	
+	* e-summary-preferences.c (config_control_destroy_cb): Dont save
+	prefs here, but restore the last saved.
+	(config_control_apply_cb): save preferences here.
+
 2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-mail.c: New member physical_uri in struct

@@ -1214,19 +1214,16 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	}
 	global_preferences->display_folders = get_folders_from_view(pd->mail->storage_set_view);
 
+	e_summary_preferences_save (global_preferences);
+
   	e_summary_reconfigure_all ();
 }
 
 static void
-config_control_destroy_cb (EvolutionConfigControl *config_control,
-			   void *data)
+config_control_destroy_cb (EvolutionConfigControl *config_control, void *data)
 {
-	PropertyData *pd;
-
-	pd = (PropertyData *) data;
-
-	e_summary_preferences_save (global_preferences);
-	free_property_dialog (pd);
+	e_summary_preferences_restore(global_preferences);
+	free_property_dialog ((PropertyData *)data);
 }
 
 BonoboObject *
