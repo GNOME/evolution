@@ -120,6 +120,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	create_vfolder_storage (shell_component);
 	create_imap_storage (shell_component);
+	create_news_storage (shell_component);
 }
 
 static void
@@ -325,6 +326,85 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 
 		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
 		buf = g_strdup_printf ("%s/%s", source, path);
+		g_print ("Adding %s\n", path);
+		evolution_storage_new_folder (storage, path, "mail", buf, "description");
+	}
+
+ cleanup:
+	camel_exception_free (ex);
+}
+
+static void
+create_news_storage (EvolutionShellComponent *shell_component)
+{
+	/* FIXME: KLUDGE! */
+	extern gchar *evolution_dir;
+	Evolution_Shell corba_shell;
+	EvolutionStorage *storage;
+	char *cpath, *source, *server, *p;
+	CamelStore *store;
+	CamelFolder *folder;
+	CamelException *ex;
+	GPtrArray *lsub;
+	int i, max;
+
+	cpath = g_strdup_printf ("=%s/config=/news/source", evolution_dir);
+	source = gnome_config_get_string (cpath);
+	g_free (cpath);
+
+	if (!source || strncasecmp (source, "news://", 7))
+		return;
+	
+	corba_shell = evolution_shell_component_get_owner (shell_component);
+	if (corba_shell == CORBA_OBJECT_NIL) {
+		g_warning ("We have no shell!?");
+		g_free (source);
+		return;
+	}
+
+	server = source + 7;
+	for (p = server; *p && *p != '/'; p++);
+
+	server = g_strndup (server, (gint)(p - server));
+	
+	storage = evolution_storage_new (server);
+	g_free (server);
+
+	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
+		g_warning ("Cannot register storage");
+		g_free (source);
+		return;
+	}
+
+	/* save the storage for later */
+	gtk_object_set_data (GTK_OBJECT (shell_component), "e-storage", storage);
+	
+	ex = camel_exception_new ();
+	
+	store = camel_session_get_store (session, source, ex);
+	if (!store) {
+		goto cleanup;
+	}
+	
+	camel_service_connect (CAMEL_SERVICE (store), ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+		goto cleanup;
+	}
+
+	folder = camel_store_get_root_folder (store, ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+		goto cleanup;
+	}
+
+	/* we need a way to set the namespace */
+	lsub = camel_folder_get_subfolder_names (folder, ex);
+
+	max = lsub->len;
+	for (i = 0; i < max; i++) {
+		char *path, *buf;
+
+		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
+		buf = g_strdup_printf ("%s%s", source, path);
 		g_print ("Adding %s\n", path);
 		evolution_storage_new_folder (storage, path, "mail", buf, "description");
 	}

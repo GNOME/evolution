@@ -1,3 +1,12 @@
+2000-06-22  Chris Toshok  <toshok@helixcode.com>
+
+	* folder-browser.c (folder_browser_load_folder): add handling for
+	loading "news:" folders.
+
+	* component-factory.c (create_news_storage): add a root for news
+	source.
+	(owner_set_cb): call create_news_storage.
+
 2000-06-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (folder_browser_load_folder): Updated to

@@ -131,6 +131,15 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 				g_free (folder_name);
 			}
 		}
+	} else if (!strncmp(name, "news:", 5)) {
+		store = camel_session_get_store (session, name, ex);
+		if (store) {
+			const char *folder_name;
+
+			folder_name = name + 5;
+
+			new_folder = camel_store_get_folder (store, folder_name, FALSE, ex);
+		}
 	} else if (!strncmp (name, "file:", 5)) {
 		/* Change "file:" to "mbox:". */
 		store_name = g_strdup_printf ("mbox:%s", name + 5);
