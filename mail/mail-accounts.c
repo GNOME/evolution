@@ -42,6 +42,7 @@
 #ifdef ENABLE_NNTP
 #include "mail-account-editor-news.h"
 #endif
+#include "mail-send-recv.h"
 #include "mail-session.h"
 
 static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
@@ -302,6 +303,7 @@ mail_delete (GtkButton *button, gpointer data)
 		/* remove it from the config file */
 		dialog->accounts = mail_config_remove_account (account);
 		mail_config_write ();
+		mail_autoreceive_setup ();
 		
 		gtk_clist_remove (dialog->mail_accounts, sel);
 		
@@ -773,7 +775,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
 			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
 
-	dialog->timeout_toggle = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "checkMarkTimeout"));
+	dialog->timeout_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "checkMarkTimeout"));
 	gtk_toggle_button_set_active (dialog->timeout_toggle, mail_config_get_do_seen_timeout ());
 	gtk_signal_connect (GTK_OBJECT (dialog->timeout_toggle), "toggled",
 			    GTK_SIGNAL_FUNC (timeout_toggled), dialog);
