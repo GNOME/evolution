@@ -1,3 +1,21 @@
+1999-05-10  Bertrand Guiheneuf  <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-mime-part.c (__camel_mime_part_get_header_lines): 
+	(__camel_mime_part_set_header_lines): 
+	(__camel_mime_part_get_content_languages): 
+	(__camel_mime_part_set_content_languages): 
+	(__camel_mime_part_get_encoding): 
+	(__camel_mime_part_set_encoding): 
+	(__camel_mime_part_get_content_MD5): 
+	(__camel_mime_part_set_content_MD5): 
+	(__camel_mime_part_get_content_id): 
+	(__camel_mime_part_set_content_id): 
+	A bunch of new set/get func.
+
+	* camel/gstring-util.c (g_string_list_free): 
+	convenience function for string list 
+	complete deallocation.
+
 1999-05-09  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-mime-part.c (__camel_mime_part_add_header): 

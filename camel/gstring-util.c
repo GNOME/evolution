@@ -201,7 +201,27 @@ g_string_equal_for_hash (gconstpointer v, gconstpointer v2)
  * 
  * Return value: 
  **/
-guint g_string_hash (gconstpointer v)
+guint 
+g_string_hash (gconstpointer v)
 {
 	return g_str_hash(((const GString*)v)->str);
+}
+
+
+
+
+/* utility func : frees a GString element in a GList */
+static void 
+__g_string_list_free_string (gpointer data, gpointer user_data)
+{
+	GString *string = (GString *)data;
+	g_string_free(string, TRUE);
+}
+
+
+void 
+g_string_list_free (GList *string_list)
+{
+	g_list_foreach(string_list, __g_string_list_free_string, NULL);
+	g_list_free(string_list);
 }

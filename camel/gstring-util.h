@@ -49,6 +49,7 @@ void g_string_append_g_string(GString *dest_string, GString *other_string);
 
 gboolean g_string_equal_for_hash (gconstpointer v, gconstpointer v2);
 guint g_string_hash (gconstpointer v);
+void g_string_list_free (GList *string_list);
 
 #ifdef __cplusplus
 }

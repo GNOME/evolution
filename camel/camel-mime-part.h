@@ -51,9 +51,11 @@ typedef struct
 	GString *description;
 	GString *disposition;
 	GString *content_id;
-	GString *content_md5;
+	GString *content_MD5;
+	GList *content_languages;
 	GString *encoding;
-	GList *languages;
+	GString *filename;
+	GList *header_lines;
 
 } CamelMimePart;
 
