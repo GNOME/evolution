@@ -1,3 +1,8 @@
+2002-09-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (save_part_save): Use 0666 as the create mode so that
+	the user's umask is used to it's fullest.
+
 2002-09-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (idldir, idl_DATA): add these and install Mailer.idl

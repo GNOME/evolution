@@ -2035,7 +2035,7 @@ save_part_save (struct _mail_msg *mm)
 	CamelDataWrapper *data;
 	const char *charset;
 	
-	stream_fs = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	stream_fs = camel_stream_fs_new_with_name (m->path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (stream_fs == NULL) {
 		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot create output file: %s:\n %s"),
