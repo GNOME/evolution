@@ -91,19 +91,19 @@ match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer c
 		}
 
 		widget = glade_xml_get_widget (ui, "custom-old-card");
-		gtk_object_set (GTK_OBJECT (widget),
-				"card", match,
-				NULL);
+		g_object_set (widget,
+			      "card", match,
+			      NULL);
 
 		widget = glade_xml_get_widget (ui, "custom-new-card");
-		gtk_object_set (GTK_OBJECT (widget),
-				"card", card,
-				NULL);
+		g_object_set (widget,
+			      "card", card,
+			      NULL);
 
 		widget = glade_xml_get_widget (ui, "dialog-duplicate-contact");
 
-		gtk_signal_connect (GTK_OBJECT (widget), "clicked",
-				    GTK_SIGNAL_FUNC (clicked), lookup);
+		g_signal_connect (widget, "clicked",
+				  G_CALLBACK (clicked), lookup);
 	}
 }
 

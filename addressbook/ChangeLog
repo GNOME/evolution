@@ -1,5 +1,67 @@
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/test-reflow.c: port work.
+
+	* gui/widgets/test-minicard-view.c: port work.
+
+	* gui/widgets/e-minicard.[ch]: port work.
+	
+	* gui/widgets/e-minicard-widget.c: port work.
+
+	* gui/widgets/e-minicard-view.c: port work.
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_size_allocate): gtk_->g_ change i missed.
+	(e_minicard_view_widget_reflow): same.
+
+	* gui/widgets/e-minicard-label.c: port work.
+
+	* gui/widgets/e-minicard-control.c (get_prop): gtk_->g_ change i
+	missed.
+
+	* gui/widgets/e-addressbook-view.c (setup_menus): ifdef this
+	PENDING_PORT_WORK for now.
+	(has_email_address_1): gtk_->g_ change i missed.
+	(print): remove the PENDING_PORT_WORK from here, as the print_*
+	symbols now resolve.
+	(delete): gtk_->g_ changes.
+	(new_card): same.
+	(new_list): same.
+	(sources): same.
+	(create_minicard_view): same.
+	(table_double_click): same.
+	(create_table_view): same.
+	(e_contact_print_destroy): same.
+	(e_contact_print_button): same.
+	(e_addressbook_view_print): same, and remove the PENDING_PORT_WORK
+	ifdef.
+	(e_addressbook_view_print_preview): same.
+	(do_remove): gtk_->g_ changes.
+	(e_addressbook_view_save_state): same.
+	(view_transfer_cards): same.
+
+	* gui/widgets/e-addressbook-view.h (struct _EAddressbookView):
+	GtkObject -> GObject.
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):
+	GnomeDialog -> GtkDialog.
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_set_value_at): a gtk_->g_ change i missed.
+	(e_addressbook_table_adapter_class_init): gtk_type_class ->
+	g_type_class_peek_parent.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(addressbook_get_property): use g_object_get_property for
+	aggregated properties.
+	(e_addressbook_reflow_adapter_class_init): gtk_type_class ->
+	g_type_class_peek_parent.
+
+	* gui/merging/e-card-merging.c (match_query_callback): some misc
+	gtk_->g_ changes i missed.
+
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names-model.h: parent class
 	is GObjectClass.
 

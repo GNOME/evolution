@@ -80,9 +80,9 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpoi
   gnome_canvas_item_set( reflow,
 			 "minimum_width", (double) allocation->width,
 			 NULL );
-  gtk_object_get(GTK_OBJECT(reflow),
-		 "width", &width,
-		 NULL);
+  g_object_get(reflow,
+	       "width", &width,
+	       NULL);
   width = MAX(width, allocation->width);
   gnome_canvas_set_scroll_region(GNOME_CANVAS( canvas ), 0, 0, width - 1, allocation->height - 1);
   gnome_canvas_item_set( rect,
@@ -94,9 +94,9 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpoi
 static void resize(GnomeCanvas *canvas, gpointer data)
 {
 	double width;
-	gtk_object_get(GTK_OBJECT(reflow),
-		       "width", &width,
-		       NULL);
+	g_object_get(reflow,
+		     "width", &width,
+		     NULL);
 	width = MAX(width, last_alloc.width);
 	gnome_canvas_set_scroll_region(canvas , 0, 0, width - 1, last_alloc.height - 1);
 	gnome_canvas_item_set( rect,

@@ -25,6 +25,7 @@
 
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas.h>
@@ -33,8 +34,8 @@
 
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
-static void e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_minicard_label_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_label_realize (GnomeCanvasItem *item);
 static void e_minicard_label_unrealize (GnomeCanvasItem *item);
@@ -46,15 +47,15 @@ static GnomeCanvasGroupClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_WIDTH,
-	ARG_HEIGHT,
-	ARG_HAS_FOCUS,
-	ARG_FIELD,
-	ARG_FIELDNAME,
-	ARG_TEXT_MODEL,
-	ARG_MAX_FIELD_NAME_WIDTH,
-	ARG_EDITABLE
+	PROP_0,
+	PROP_WIDTH,
+	PROP_HEIGHT,
+	PROP_HAS_FOCUS,
+	PROP_FIELD,
+	PROP_FIELDNAME,
+	PROP_TEXT_MODEL,
+	PROP_MAX_FIELD_NAME_WIDTH,
+	PROP_EDITABLE
 };
 
 GType
@@ -84,39 +85,78 @@ e_minicard_label_get_type (void)
 static void
 e_minicard_label_class_init (EMinicardLabelClass *klass)
 {
-  GtkObjectClass *object_class;
-  GnomeCanvasItemClass *item_class;
+	GObjectClass *object_class;
+	GnomeCanvasItemClass *item_class;
 
-  object_class = (GtkObjectClass*) klass;
-  item_class = (GnomeCanvasItemClass *) klass;
+	object_class = G_OBJECT_CLASS (klass);
+	item_class = (GnomeCanvasItemClass *) klass;
 
-  parent_class = gtk_type_class (gnome_canvas_group_get_type ());
-  
-  gtk_object_add_arg_type ("EMinicardLabel::width", GTK_TYPE_DOUBLE, 
-			   GTK_ARG_READWRITE, ARG_WIDTH); 
-  gtk_object_add_arg_type ("EMinicardLabel::height", GTK_TYPE_DOUBLE, 
-			   GTK_ARG_READABLE, ARG_HEIGHT);
-  gtk_object_add_arg_type ("EMinicardLabel::has_focus", GTK_TYPE_BOOL, 
-			   GTK_ARG_READWRITE, ARG_HAS_FOCUS);
-  gtk_object_add_arg_type ("EMinicardLabel::field", GTK_TYPE_STRING, 
-			   GTK_ARG_READWRITE, ARG_FIELD);
-  gtk_object_add_arg_type ("EMinicardLabel::fieldname", GTK_TYPE_STRING, 
-			   GTK_ARG_READWRITE, ARG_FIELDNAME);
-  gtk_object_add_arg_type ("EMinicardLabel::text_model", GTK_TYPE_OBJECT,
-			   GTK_ARG_READWRITE, ARG_TEXT_MODEL);
-  gtk_object_add_arg_type ("EMinicardLabel::max_field_name_length", GTK_TYPE_DOUBLE,
-			   GTK_ARG_READWRITE, ARG_MAX_FIELD_NAME_WIDTH);
-  gtk_object_add_arg_type ("EMinicardLabel::editable", GTK_TYPE_BOOL, 
-			   GTK_ARG_READWRITE, ARG_EDITABLE);
- 
-  object_class->set_arg = e_minicard_label_set_arg;
-  object_class->get_arg = e_minicard_label_get_arg;
-  /*  object_class->destroy = e_minicard_label_destroy; */
-  
-  /* GnomeCanvasItem method overrides */
-  item_class->realize     = e_minicard_label_realize;
-  item_class->unrealize   = e_minicard_label_unrealize;
-  item_class->event       = e_minicard_label_event;
+	parent_class = g_type_class_peek_parent (klass);
+
+	object_class->set_property = e_minicard_label_set_property;
+	object_class->get_property = e_minicard_label_get_property;
+	/*  object_class->destroy = e_minicard_label_destroy; */
+
+	g_object_class_install_property (object_class, PROP_WIDTH,
+					 g_param_spec_double ("width",
+							      _("Width"),
+							      /*_( */"XXX blurb" /*)*/,
+							      0.0, G_MAXDOUBLE, 10.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_HEIGHT,
+					 g_param_spec_double ("height",
+							      _("Height"),
+							      /*_( */"XXX blurb" /*)*/,
+							      0.0, G_MAXDOUBLE, 10.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_HAS_FOCUS,
+					 g_param_spec_boolean ("has_focus",
+							       _("Has Focus"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FIELD,
+					 g_param_spec_string ("field",
+							      _("Field"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FIELDNAME,
+					 g_param_spec_string ("fieldname",
+							      _("Field Name"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_TEXT_MODEL,
+					 g_param_spec_object ("text_model",
+							      _("Text Model"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_TEXT_MODEL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_MAX_FIELD_NAME_WIDTH,
+					 g_param_spec_double ("max_field_name_length",
+							      _("Max field name length"),
+							      /*_( */"XXX blurb" /*)*/,
+							      -1.0, G_MAXDOUBLE, -1.0,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EDITABLE,
+					 g_param_spec_boolean ("editable",
+							       _("Editable"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	/* GnomeCanvasItem method overrides */
+	item_class->realize     = e_minicard_label_realize;
+	item_class->unrealize   = e_minicard_label_unrealize;
+	item_class->event       = e_minicard_label_event;
 }
 
 static void
@@ -134,82 +174,83 @@ e_minicard_label_init (EMinicardLabel *minicard_label)
 }
 
 static void
-e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	GnomeCanvasItem *item;
 	EMinicardLabel *e_minicard_label;
+	GnomeCanvasItem *item;
 
-	item = GNOME_CANVAS_ITEM (o);
-	e_minicard_label = E_MINICARD_LABEL (o);
-	
-	switch (arg_id){
-	case ARG_WIDTH:
-		e_minicard_label->width = GTK_VALUE_DOUBLE (*arg);
+	e_minicard_label = E_MINICARD_LABEL (object);
+	item = GNOME_CANVAS_ITEM (object);	
+
+	switch (prop_id){
+	case PROP_WIDTH:
+		e_minicard_label->width = g_value_get_double (value);
 		e_minicard_label_resize_children(e_minicard_label);
 		e_canvas_item_request_reflow (item);
 		break;
-	case ARG_HAS_FOCUS:
-		if (e_minicard_label->field && (GTK_VALUE_ENUM(*arg) != E_FOCUS_NONE))
+	case PROP_HAS_FOCUS:
+		if (e_minicard_label->field && (g_value_get_boolean (value) != E_FOCUS_NONE))
 			e_canvas_item_grab_focus(e_minicard_label->field, FALSE);
 		break;
-	case ARG_FIELD:
-		gnome_canvas_item_set( e_minicard_label->field, "text", GTK_VALUE_STRING (*arg), NULL );
+	case PROP_FIELD:
+		gnome_canvas_item_set( e_minicard_label->field, "text", g_value_get_string (value), NULL );
 		break;
-	case ARG_FIELDNAME:
-		gnome_canvas_item_set( e_minicard_label->fieldname, "text", GTK_VALUE_STRING (*arg), NULL );
+	case PROP_FIELDNAME:
+		gnome_canvas_item_set( e_minicard_label->fieldname, "text", g_value_get_string (value), NULL );
 		break;
-	case ARG_TEXT_MODEL:
-		gnome_canvas_item_set( e_minicard_label->field, "model", GTK_VALUE_OBJECT (*arg), NULL);
+	case PROP_TEXT_MODEL:
+		gnome_canvas_item_set( e_minicard_label->field, "model", g_value_get_object (value), NULL);
 		break;
-	case ARG_MAX_FIELD_NAME_WIDTH:
-		e_minicard_label->max_field_name_length = GTK_VALUE_DOUBLE (*arg);
+	case PROP_MAX_FIELD_NAME_WIDTH:
+		e_minicard_label->max_field_name_length = g_value_get_double (value);
 		break;
-	case ARG_EDITABLE:
-		e_minicard_label->editable = GTK_VALUE_BOOL (*arg);
+	case PROP_EDITABLE:
+		e_minicard_label->editable = g_value_get_boolean (value);
 		g_object_set (e_minicard_label->field, "editable", e_minicard_label->editable, NULL);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_minicard_label_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_minicard_label_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	EMinicardLabel *e_minicard_label;
-	char *temp;
-	ETextModel *tempmodel;
 
 	e_minicard_label = E_MINICARD_LABEL (object);
 
-	switch (arg_id) {
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = e_minicard_label->width;
+	switch (prop_id) {
+	case PROP_WIDTH:
+		g_value_set_double (value, e_minicard_label->width);
 		break;
-	case ARG_HEIGHT:
-		GTK_VALUE_DOUBLE (*arg) = e_minicard_label->height;
+	case PROP_HEIGHT:
+		g_value_set_double (value, e_minicard_label->height);
 		break;
-	case ARG_HAS_FOCUS:
-		GTK_VALUE_ENUM (*arg) = e_minicard_label->has_focus ? E_FOCUS_CURRENT : E_FOCUS_NONE;
+	case PROP_HAS_FOCUS:
+		g_value_set_boolean (value, e_minicard_label->has_focus ? E_FOCUS_CURRENT : E_FOCUS_NONE);
 		break;
-	case ARG_FIELD:
-		gtk_object_get( GTK_OBJECT( e_minicard_label->field ), "text", &temp, NULL );
-		GTK_VALUE_STRING (*arg) = temp;
+	case PROP_FIELD:
+		g_object_get_property (G_OBJECT (e_minicard_label->field),
+				       "text", value);
 		break;
-	case ARG_FIELDNAME:
-		gtk_object_get( GTK_OBJECT( e_minicard_label->fieldname ), "text", &temp, NULL );
-		GTK_VALUE_STRING (*arg) = temp;
+	case PROP_FIELDNAME:
+		g_object_get_property (G_OBJECT (e_minicard_label->fieldname),
+				       "text", value);
 		break;
-	case ARG_TEXT_MODEL:
-		gtk_object_get( GTK_OBJECT( e_minicard_label->field ), "model", &tempmodel, NULL );
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(tempmodel);
+	case PROP_TEXT_MODEL:
+		g_object_get_property (G_OBJECT (e_minicard_label->field),
+				       "model", value);
 		break;
-	case ARG_MAX_FIELD_NAME_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = e_minicard_label->max_field_name_length;
+	case PROP_MAX_FIELD_NAME_WIDTH:
+		g_value_set_double (value, e_minicard_label->max_field_name_length);
 		break;
-	case ARG_EDITABLE:
-		GTK_VALUE_BOOL (*arg) = e_minicard_label->editable;
+	case PROP_EDITABLE:
+		g_value_set_boolean (value, e_minicard_label->editable);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
@@ -428,16 +469,16 @@ e_minicard_label_reflow(GnomeCanvasItem *item, int flags)
 
 	old_height = e_minicard_label->height;
 
-	gtk_object_get(GTK_OBJECT(e_minicard_label->fieldname), 
-		       "text_height", &text_height,
-		       NULL);
+	g_object_get(e_minicard_label->fieldname, 
+		     "text_height", &text_height,
+		     NULL);
 
 	e_minicard_label->height = text_height;
 
 
-	gtk_object_get(GTK_OBJECT(e_minicard_label->field), 
-		       "text_height", &text_height,
-		       NULL);
+	g_object_get(e_minicard_label->field, 
+		     "text_height", &text_height,
+		     NULL);
 
 	if (e_minicard_label->height < text_height)
 		e_minicard_label->height = text_height;

@@ -72,7 +72,7 @@ struct _EAddressbookView
 	char  *query;
 	guint editable : 1;
 
-	GtkObject *object;
+	GObject *object;
 	GtkWidget *widget;
 	GtkWidget *current_alphabet_widget;
 

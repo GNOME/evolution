@@ -73,7 +73,7 @@ struct _EMinicard
 	GdkPixbuf *list_icon_pixbuf;
 	double list_icon_size;
 
-	GtkObject *editor;
+	GObject *editor;
 
 	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;

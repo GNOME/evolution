@@ -49,13 +49,13 @@ get_prop (BonoboPropertyBag *bag,
 	  CORBA_Environment *ev,
 	  gpointer           user_data)
 {
-	GtkObject *clock = user_data;
+	GObject *clock = user_data;
 
 	switch (arg_id) {
 
 	case PROP_RUNNING:
 	{
-		gboolean b = GPOINTER_TO_UINT (gtk_object_get_data (clock, RUNNING_KEY));
+		gboolean b = GPOINTER_TO_UINT (g_object_get_data (clock, RUNNING_KEY));
 		BONOBO_ARG_SET_BOOLEAN (arg, b);
 		break;
 	}

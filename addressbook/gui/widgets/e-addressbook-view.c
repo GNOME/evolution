@@ -370,6 +370,7 @@ writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 static void
 init_collection (void)
 {
+#ifdef PENDING_PORT_WORK
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *galview;
@@ -400,6 +401,7 @@ init_collection (void)
 
 		gal_view_collection_load(collection);
 	}
+#endif
 }
 
 static void
@@ -612,9 +614,9 @@ has_email_address_1(gint model_row,
 
 	card = e_addressbook_model_peek_card(view->model, model_row);
 
-	gtk_object_get (GTK_OBJECT (card),
-			"email", &email,
-			NULL);
+	g_object_get (G_OBJECT (card),
+		      "email", &email,
+		      NULL);
 
 	if (e_list_length (email) > 0)
 		*has_email = TRUE;
@@ -671,7 +673,6 @@ send_to (GtkWidget *widget, CardAndBook *card_and_book)
 static void
 print (GtkWidget *widget, CardAndBook *card_and_book)
 {
-#ifdef PENDING_PORT_WORK
 	GList *cards = get_card_list (card_and_book);
 	if (cards) {
 		if (cards->next)
@@ -680,7 +681,6 @@ print (GtkWidget *widget, CardAndBook *card_and_book)
 			gtk_widget_show(e_contact_print_card_dialog_new(cards->data));
 		e_free_object_list(cards);
 	}
-#endif
 }
 
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
@@ -722,9 +722,9 @@ delete (GtkWidget *widget, CardAndBook *card_and_book)
 		GList *list = get_card_list(card_and_book);
 		GList *iterator;
 
-		gtk_object_get(GTK_OBJECT(card_and_book->view->model),
-			       "book", &book,
-			       NULL);
+		g_object_get(card_and_book->view->model,
+			     "book", &book,
+			     NULL);
 
 		for (iterator = list; iterator; iterator = iterator->next) {
 			ECard *card = iterator->data;
@@ -761,9 +761,9 @@ new_card (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	EBook *book;
 
-	gtk_object_get(GTK_OBJECT(card_and_book->view->model),
-		       "book", &book,
-		       NULL);
+	g_object_get(card_and_book->view->model,
+		     "book", &book,
+		     NULL);
 	e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, TRUE);
 }
 
@@ -772,9 +772,9 @@ new_list (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	EBook *book;
 
-	gtk_object_get(GTK_OBJECT(card_and_book->view->model),
-		       "book", &book,
-		       NULL);
+	g_object_get(card_and_book->view->model,
+		     "book", &book,
+		     NULL);
 	e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, TRUE);
 }
 
@@ -786,7 +786,7 @@ sources (GtkWidget *widget, CardAndBook *card_and_book)
 	GNOME_Evolution_ShellView shell_view;
 	CORBA_Environment ev;
 
-	control = gtk_object_get_data (GTK_OBJECT (gcal), "control");
+	control = g_object_get_data (G_OBJECT (gcal), "control");
 	if (control == NULL)
 		return;
 
@@ -1132,7 +1132,7 @@ create_minicard_view (EAddressbookView *view)
 			 G_CALLBACK(minicard_right_click), view);
 
 
-	view->object = GTK_OBJECT(minicard_view);
+	view->object = G_OBJECT(minicard_view);
 	view->widget = minicard_hbox;
 
 	scrollframe = e_scroll_frame_new (NULL, NULL);
@@ -1177,9 +1177,9 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 		ECard *card = e_addressbook_model_get_card(model, row);
 		EBook *book;
 
-		gtk_object_get(GTK_OBJECT(model),
-			       "book", &book,
-			       NULL);
+		g_object_get(model,
+			     "book", &book,
+			     NULL);
 		
 		g_assert (E_IS_BOOK (book));
 
@@ -1333,7 +1333,7 @@ create_table_view (EAddressbookView *view)
 	   initial layout.  It does the rest.  */
 	table = e_table_scrolled_new_from_spec_file (adapter, NULL, EVOLUTION_ETSPECDIR "/e-addressbook-view.etspec", NULL);
 
-	view->object = GTK_OBJECT(adapter);
+	view->object = G_OBJECT(adapter);
 	view->widget = table;
 
 	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(table)), "double_click",
@@ -1398,8 +1398,8 @@ change_view_type (EAddressbookView *view, EAddressbookViewType view_type)
 static void
 e_contact_print_destroy(GnomeDialog *dialog, gpointer data)
 {
-	ETableScrolled *table = gtk_object_get_data(GTK_OBJECT(dialog), "table");
-	EPrintable *printable = gtk_object_get_data(GTK_OBJECT(dialog), "printable");
+	ETableScrolled *table = g_object_get_data(G_OBJECT(dialog), "table");
+	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
 	g_object_unref (printable);
 	g_object_unref (table);
 }
@@ -1409,7 +1409,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 {
 	GnomePrintMaster *master;
 	GnomePrintContext *pc;
-	EPrintable *printable = gtk_object_get_data(GTK_OBJECT(dialog), "printable");
+	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
 	GtkWidget *preview;
 	switch( button ) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
@@ -1516,16 +1516,15 @@ e_addressbook_view_discard_menus (EAddressbookView *view)
 void
 e_addressbook_view_print(EAddressbookView *view)
 {
-#ifdef PENDING_PORT_WORK
 	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD) {
 		char *query;
 		EBook *book;
 		GtkWidget *print;
 
-		gtk_object_get (GTK_OBJECT(view->model),
-				"query", &query,
-				"book", &book,
-				NULL);
+		g_object_get (view->model,
+			      "query", &query,
+			      "book", &book,
+			      NULL);
 		print = e_contact_print_dialog_new(book, query);
 		g_free(query);
 		gtk_widget_show_all(print);
@@ -1538,7 +1537,7 @@ e_addressbook_view_print(EAddressbookView *view)
 		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 						       NULL, NULL, NULL);
 
-		gtk_object_get(GTK_OBJECT(view->widget), "table", &etable, NULL);
+		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
 
 		g_object_ref (view->widget);
@@ -1550,23 +1549,21 @@ e_addressbook_view_print(EAddressbookView *view)
 				 "clicked", G_CALLBACK(e_contact_print_button), NULL);
 		g_signal_connect(dialog,
 				 "destroy", G_CALLBACK(e_contact_print_destroy), NULL);
-		g_widget_show(dialog);
+		gtk_widget_show(dialog);
 	}
-#endif
 }
 
 void
 e_addressbook_view_print_preview(EAddressbookView *view)
 {
-#ifdef PENDING_PORT_WORK
 	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD) {
 		char *query;
 		EBook *book;
 
-		gtk_object_get (GTK_OBJECT(view->model),
-				"query", &query,
-				"book", &book,
-				NULL);
+		g_object_get (view->model,
+			      "query", &query,
+			      "book", &book,
+			      NULL);
 		e_contact_print_preview(book, query);
 		g_free(query);
 	} else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
@@ -1574,13 +1571,15 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 		ETable *etable;
 		GnomePrintMaster *master;
 		GnomePrintContext *pc;
+		GnomePrintConfig *config;
 		GtkWidget *preview;
 
-		gtk_object_get(GTK_OBJECT(view->widget), "table", &etable, NULL);
+		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
 
 		master = gnome_print_master_new();
-		gnome_print_master_set_copies (master, 1, FALSE);
+		config = gnome_print_master_get_config (master);
+		gnome_print_config_set_int (config, GNOME_PRINT_KEY_NUM_COPIES, 1);
 		pc = gnome_print_master_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
@@ -1604,7 +1603,6 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 		g_object_unref (master);
 		g_object_unref (printable);
 	}
-#endif
 }
 
 static void
@@ -1622,9 +1620,9 @@ do_remove (int i, gpointer user_data)
 	ECard *card;
 	EAddressbookView *view = user_data;
 
-	gtk_object_get (GTK_OBJECT(view->model),
-			"book", &book,
-			NULL);
+	g_object_get (view->model,
+		      "book", &book,
+		      NULL);
 
 	card = e_addressbook_model_get_card (view->model, i);
 
@@ -1748,9 +1746,9 @@ e_addressbook_view_save_state (EAddressbookView *view, const char *filename)
 	case E_ADDRESSBOOK_VIEW_MINICARD: {
 		int column_width;
 		e_xml_set_string_prop_by_name (node, "style", "minicard");
-		gtk_object_get (GTK_OBJECT (view->object),
-				"column_width", &column_width,
-				NULL);
+		g_object_get (view->object,
+			      "column_width", &column_width,
+			      NULL);
 		e_xml_set_integer_prop_by_name (node, "column-width", column_width);
 		break;	
 	}
@@ -1898,9 +1896,9 @@ view_transfer_cards (EAddressbookView *view, gboolean delete_from_source)
 	GList *cards;
 	GtkWindow *parent_window;
 
-	gtk_object_get(GTK_OBJECT(view->model), 
-		       "book", &book,
-		       NULL);
+	g_object_get(view->model, 
+		     "book", &book,
+		     NULL);
 	cards = get_selected_cards (view);
 	parent_window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
 

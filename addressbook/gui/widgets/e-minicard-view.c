@@ -44,11 +44,11 @@ static EReflowClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_ADAPTER,
-	ARG_BOOK,
-	ARG_QUERY,
-	ARG_EDITABLE
+	PROP_0,
+	PROP_ADAPTER,
+	PROP_BOOK,
+	PROP_QUERY,
+	PROP_EDITABLE
 };
 
 
@@ -132,9 +132,9 @@ set_empty_message (EMinicardView *view)
 	gboolean editable = FALSE;
 
 	if (view->adapter) {
-		gtk_object_get (GTK_OBJECT (view->adapter),
-				"editable", &editable,
-				NULL);
+		g_object_get (view->adapter,
+			      "editable", &editable,
+			      NULL);
 	}
 
 	if (editable)
@@ -164,22 +164,23 @@ adapter_changed (EMinicardView *view)
 }
 
 static void
-e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_minicard_view_set_property (GObject *object,
+			      guint prop_id,
+			      const GValue *value,
+			      GParamSpec *pspec)
 {
-	GnomeCanvasItem *item;
 	EMinicardView *view;
 
-	item = GNOME_CANVAS_ITEM (o);
-	view = E_MINICARD_VIEW (o);
+	view = E_MINICARD_VIEW (object);
 	
-	switch (arg_id){
-	case ARG_ADAPTER:
+	switch (prop_id){
+	case PROP_ADAPTER:
 		if (view->adapter) {
 			if (view->writable_status_id) {
 				EAddressbookModel *model;
-				gtk_object_get (GTK_OBJECT (view->adapter),
-						"model", &model,
-						NULL);
+				g_object_get (view->adapter,
+					      "model", &model,
+					      NULL);
 				if (model) {
 					g_signal_handler_disconnect (model, view->writable_status_id);
 				}
@@ -188,7 +189,7 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			g_object_unref (view->adapter);
 		}
 		view->writable_status_id = 0;
-		view->adapter = GTK_VALUE_POINTER (*arg);
+		view->adapter = g_value_get_object (value);
 		g_object_ref (view->adapter);
 		adapter_changed (view);
 		g_object_set (view,
@@ -196,9 +197,9 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			      NULL);
 		if (view->adapter) {
 			EAddressbookModel *model;
-			gtk_object_get (GTK_OBJECT (view->adapter),
-					"model", &model,
-					NULL);
+			g_object_get (view->adapter,
+				      "model", &model,
+				      NULL);
 			if (model) {
 				view->writable_status_id =
 					g_signal_connect (model, "writable_status",
@@ -207,60 +208,63 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 							    
 		}
 		break;
-	case ARG_BOOK:
+	case PROP_BOOK:
 		g_object_set (view->adapter,
-			      "book", GTK_VALUE_OBJECT (*arg),
+			      "book", g_value_get_object (value),
 			      NULL);
 		set_empty_message (view);
 		break;
-	case ARG_QUERY:
+	case PROP_QUERY:
 		g_object_set (view->adapter,
-			      "query", GTK_VALUE_STRING (*arg),
+			      "query", g_value_get_string (value),
 			      NULL);
 		break;
-	case ARG_EDITABLE:
+	case PROP_EDITABLE:
 		g_object_set (view->adapter,
-			      "editable", GTK_VALUE_BOOL (*arg),
+			      "editable", g_value_get_boolean (value),
 			      NULL);
 		set_empty_message (view);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_minicard_view_get_property (GObject *object,
+			      guint prop_id,
+			      GValue *value,
+			      GParamSpec *pspec)
 {
 	EMinicardView *view;
 
 	view = E_MINICARD_VIEW (object);
 
-	switch (arg_id) {
-	case ARG_ADAPTER:
-		GTK_VALUE_POINTER (*arg) = view->adapter;
+	switch (prop_id) {
+	case PROP_ADAPTER:
+		g_value_set_object (value, view->adapter);
 		break;
-	case ARG_BOOK:
-		gtk_object_get (GTK_OBJECT (view->adapter),
-					    "book", &GTK_VALUE_OBJECT (*arg),
-					    NULL);
+	case PROP_BOOK:
+		g_object_get_property (G_OBJECT (view->adapter),
+				       "book", value);
 		break;
-	case ARG_QUERY:
-		gtk_object_get (GTK_OBJECT (view->adapter),
-					    "query", &GTK_VALUE_STRING (*arg),
-					    NULL);
+	case PROP_QUERY:
+		g_object_get_property (G_OBJECT (view->adapter),
+				       "query", value);
 		break;
-	case ARG_EDITABLE:
-		gtk_object_get (GTK_OBJECT (view->adapter),
-					    "editable", &GTK_VALUE_BOOL (*arg),
-					    NULL);
+	case PROP_EDITABLE:
+		g_object_get_property (G_OBJECT (view->adapter),
+				       "editable", value);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_minicard_view_destroy (GtkObject *object)
+e_minicard_view_dispose (GObject *object)
 {
 	EMinicardView *view = E_MINICARD_VIEW(object);
 
@@ -272,9 +276,9 @@ e_minicard_view_destroy (GtkObject *object)
 	if (view->adapter) {
 		if (view->writable_status_id) {
 			EAddressbookModel *model;
-			gtk_object_get (GTK_OBJECT (view->adapter),
-					"model", &model,
-					NULL);
+			g_object_get (view->adapter,
+				      "model", &model,
+				      NULL);
 			if (model) {
 				g_signal_handler_disconnect (model, view->writable_status_id);
 			}
@@ -285,7 +289,7 @@ e_minicard_view_destroy (GtkObject *object)
 	view->writable_status_id = 0;
 	view->adapter = NULL;
 
-	GTK_OBJECT_CLASS(parent_class)->destroy (object);
+	G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static guint
@@ -309,11 +313,11 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (((GdkEventButton *)event)->button == 1) {
 			gboolean editable;
 
-			gtk_object_get(GTK_OBJECT(view->adapter), "editable", &editable, NULL);
+			g_object_get(view->adapter, "editable", &editable, NULL);
   
 			if (editable) {
 				EBook *book;
-				gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
+				g_object_get(view, "book", &book, NULL);
  
 				if (book && E_IS_BOOK (book))
 					e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
@@ -387,9 +391,9 @@ do_remove (int i, gpointer user_data)
 	EBookCallback cb = viewcbclosure->cb;
 	gpointer closure = viewcbclosure->closure;
 
-	gtk_object_get (GTK_OBJECT(view->adapter),
-			"book", &book,
-			NULL);
+	g_object_get (view->adapter,
+		      "book", &book,
+		      NULL);
 
 	card = e_addressbook_reflow_adapter_get_card (view->adapter, i);
 
@@ -411,9 +415,9 @@ compare_to_utf_str (EMinicard *card, const char *utf_str)
 
 	if (card->card) {
 		char *file_as;
-		gtk_object_get(GTK_OBJECT(card->card),
-			       "file_as", &file_as,
-			       NULL);
+		g_object_get(card->card,
+			     "file_as", &file_as,
+			     NULL);
 		if (file_as)
 			return g_utf8_strcasecmp (file_as, utf_str);
 		else
@@ -427,28 +431,47 @@ compare_to_utf_str (EMinicard *card, const char *utf_str)
 static void
 e_minicard_view_class_init (EMinicardViewClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 	EReflowClass *reflow_class;
 	
-	object_class = (GtkObjectClass*) klass;
+	object_class = G_OBJECT_CLASS (klass);
 	item_class = (GnomeCanvasItemClass *) klass;
 	reflow_class = (EReflowClass *) klass;
 	
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 	
-	object_class->set_arg         = e_minicard_view_set_arg;
-	object_class->get_arg         = e_minicard_view_get_arg;
-	object_class->destroy         = e_minicard_view_destroy;
+	object_class->set_property    = e_minicard_view_set_property;
+	object_class->get_property    = e_minicard_view_get_property;
+	object_class->dispose         = e_minicard_view_dispose;
 
-	gtk_object_add_arg_type ("EMinicardView::adapter", GTK_TYPE_OBJECT, 
-				 GTK_ARG_READWRITE, ARG_ADAPTER);
-	gtk_object_add_arg_type ("EMinicardView::book", GTK_TYPE_OBJECT, 
-				 GTK_ARG_READWRITE, ARG_BOOK);
-	gtk_object_add_arg_type ("EMinicardView::query", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_QUERY);
-	gtk_object_add_arg_type ("EMinicardView::editable", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_EDITABLE);
+	g_object_class_install_property (object_class, PROP_ADAPTER, 
+					 g_param_spec_object ("adapter",
+							      _("Adapter"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_BOOK, 
+					 g_param_spec_object ("book",
+							      _("Book"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_BOOK,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_QUERY, 
+					 g_param_spec_string ("query",
+							      _("Query"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EDITABLE, 
+					 g_param_spec_boolean ("editable",
+							       _("Editable"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
 
 	signals [RIGHT_CLICK] =
 		g_signal_new ("right_click",

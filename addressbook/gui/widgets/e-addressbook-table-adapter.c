@@ -157,9 +157,9 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 		e_card_simple_set(priv->simples[row],
 				  col,
 				  val);
-		gtk_object_get(GTK_OBJECT(priv->simples[row]),
-			       "card", &card,
-			       NULL);
+		g_object_get(priv->simples[row],
+			     "card", &card,
+			     NULL);
 
 		e_card_merging_book_commit_card(e_addressbook_model_get_ebook(priv->model),
 						card, card_modified_cb, NULL);
@@ -251,7 +251,7 @@ e_addressbook_table_adapter_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->destroy = addressbook_destroy;
 

@@ -310,28 +310,19 @@ addressbook_get_property (GObject *object, guint prop_id, GValue *value, GParamS
 
 	switch (prop_id) {
 	case PROP_BOOK: {
-		EBook *book;
-		g_object_get (GTK_OBJECT (priv->model),
-			      "book", &book,
-			      NULL);
-
-		g_value_set_object (value, book);
+		g_object_get_property (priv->model,
+				       "book", value);
 		break;
 	}
 	case PROP_QUERY: {
 		char *query;
-		g_object_get (priv->model,
-			      "query", &query,
-			      NULL);
-		g_value_set_string (value, query);
+		g_object_get_property (priv->model,
+				       "query", value);
 		break;
 	}
 	case PROP_EDITABLE: {
-		gboolean editable;
-		g_object_get (priv->model,
-			      "editable", &editable,
-			      NULL);
-		g_value_set_boolean (value, editable);
+		g_object_get_property (priv->model,
+				       "editable", value);
 		break;
 	}
 	case PROP_MODEL:
@@ -348,7 +339,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 {
 	EReflowModelClass *model_class = (EReflowModelClass *) object_class;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (object_class);
 
 	object_class->set_property = addressbook_set_property;
 	object_class->get_property = addressbook_get_property;

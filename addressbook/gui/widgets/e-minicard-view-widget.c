@@ -355,9 +355,9 @@ e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocatio
 		gnome_canvas_item_set( view->emv,
 				       "minimum_width", (double) allocation->width,
 				       NULL );
-		gtk_object_get(GTK_OBJECT(view->emv),
-			       "width", &width,
-			       NULL);
+		g_object_get(view->emv,
+			     "width", &width,
+			     NULL);
 		width = MAX(width, allocation->width);
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (view), 0, 0, width - 1, allocation->height - 1);
 	}
@@ -372,9 +372,9 @@ e_minicard_view_widget_reflow(ECanvas *canvas)
 	if (E_CANVAS_CLASS(parent_class)->reflow)
 		E_CANVAS_CLASS(parent_class)->reflow (canvas);
 
-	gtk_object_get(GTK_OBJECT(view->emv),
-		       "width", &width,
-		       NULL);
+	g_object_get(view->emv,
+		     "width", &width,
+		     NULL);
 	width = MAX(width, GTK_WIDGET(canvas)->allocation.width);
 	gnome_canvas_set_scroll_region(GNOME_CANVAS(canvas), 0, 0, width - 1, GTK_WIDGET(canvas)->allocation.height - 1);
 }
