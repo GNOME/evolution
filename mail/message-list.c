@@ -1101,17 +1101,17 @@ message_list_init (GtkObject *object)
 	 *		    GTK_SIGNAL_FUNC (select_row), message_list);
 	 */
 
-	gtk_signal_connect (GTK_OBJECT (message_list->etable), "cursor_change",
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))), "cursor_change",
 			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
 
-	gtk_signal_connect (GTK_OBJECT (message_list->etable), "click",
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))), "click",
 			    GTK_SIGNAL_FUNC (on_click), message_list);
 	
 	/* drag & drop */
-	e_table_drag_source_set (E_TABLE (message_list->etable), GDK_BUTTON1_MASK,
+	e_table_drag_source_set (e_table_scrolled_get_table(E_TABLE_SCROLLED (message_list->etable)), GDK_BUTTON1_MASK,
 				 drag_types, num_drag_types, GDK_ACTION_MOVE);
 	
-	gtk_signal_connect (GTK_OBJECT (message_list->etable), "drag_data_get",
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table(E_TABLE_SCROLLED(message_list->etable))), "drag_data_get",
 			    GTK_SIGNAL_FUNC (message_list_drag_data_get), message_list);
 	
 	gtk_widget_show (message_list->etable);
