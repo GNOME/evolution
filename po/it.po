@@ -12722,7 +12722,7 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:26
 msgid "Load images for HTML messages over http"
-msgstr ""
+msgstr "Carica le immagini dei messaggi HTML attraverso l'http"
 
 #: mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -12741,31 +12741,31 @@ msgstr "Azioni di filtraggio sul file log specificato."
 
 #: mail/evolution-mail.schemas.in.in.h:30
 msgid "Logfile to log filter actions"
-msgstr ""
+msgstr "File di log per controllare le azioni dei filtri"
 
 #: mail/evolution-mail.schemas.in.in.h:31
 msgid "Logfile to log filter actions."
-msgstr ""
+msgstr "File di log per controllare le azioni dei filtri."
 
 #: mail/evolution-mail.schemas.in.in.h:32
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "Segna come letto dopo un tempo specificato"
 
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "Segna come letto dopo un tempo specificato."
 
 #: mail/evolution-mail.schemas.in.in.h:34
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "Segna le citazioni nell'anteprima del messaggio"
 
 #: mail/evolution-mail.schemas.in.in.h:35
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "Segna le citazioni nell'anteprima del messaggio."
 
 #: mail/evolution-mail.schemas.in.in.h:36
 msgid "Message-display style (normal, full headers, source)"
-msgstr ""
+msgstr "Stile di visualizzazione messaggio (normale, intestazioni complete, sorgente)"
 
 #: mail/evolution-mail.schemas.in.in.h:37
 msgid "New Mail Notify sound file"
@@ -12777,24 +12777,24 @@ msgstr "Nuovo tipo di notifica nuova posta"
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "Segnala se l'oggetto è vuoto"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr ""
+msgstr "Avverte l'utente quando si cerca di eliminare una cartella."
 
 #: mail/evolution-mail.schemas.in.in.h:41
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
+msgstr "Avverte l'utente quando si cerca di spedire un messaggio sprovvisto di oggetto."
 
 #: mail/evolution-mail.schemas.in.in.h:42
 msgid "Prompt when user expunges"
-msgstr ""
+msgstr "Avverte l'utente quando elimina qualcosa"
 
 #: mail/evolution-mail.schemas.in.in.h:43
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "Avverte l'utente quando si compila solo il campo Bcc"
 
 #: mail/evolution-mail.schemas.in.in.h:44
 msgid ""
@@ -12810,27 +12810,27 @@ msgstr "Segnala l'invio di messaggi senza i campi A o Cc."
 
 #: mail/evolution-mail.schemas.in.in.h:46
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr ""
+msgstr "Avverte l'utente quando si cerca di spedire HTML non desiderato"
 
 #: mail/evolution-mail.schemas.in.in.h:47
 msgid "Recognize links in text and replace them."
-msgstr ""
+msgstr "Riconosce i collegamenti nel testo e li sostituisce."
 
 #: mail/evolution-mail.schemas.in.in.h:48
 msgid "Recognize smileys in text and replace them with images."
-msgstr ""
+msgstr "Riconosce le faccine nel testo e le sostituisce con delle immagini."
 
 #: mail/evolution-mail.schemas.in.in.h:49
 msgid "Run junk test on incoming mail"
-msgstr ""
+msgstr "Esegue dei controlli sullo spam sulla posta ricevuta"
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "S3kr3t 0pt10n"
-msgstr ""
+msgstr "OpZiOnE SeGrEtA"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "S3kr3t 0pt10n."
-msgstr ""
+msgstr "OpZiOnE SeGrEtA"
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "Send HTML mail by default"
