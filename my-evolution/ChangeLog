@@ -1,8 +1,14 @@
+2002-08-07  Dan Winship  <danw@ximian.com>
+
+	* e-summary-mail.c (update_folder_cb): Only get folder info if
+	this is a folder we're displaying.
+
 2002-08-07  Anna Marie Dirks  <anna@ximian.com>
 
-	* e-summary-shown.c (e_summary_shown_init): Added an alignment to make
-	button position be the same as the other buttons of this type in evo.
-	(add_clicked): make this buttons sensitive when there is no proper 
+	* e-summary-shown.c (e_summary_shown_init): Added an alignment to
+	make button position be the same as the other buttons of this type
+	in evo.
+	(add_clicked): make this buttons sensitive when there is no proper
 	selection
 	(remove_clicked): same thing with the button
 

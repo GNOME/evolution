@@ -259,36 +259,20 @@ update_folder_cb (EvolutionStorageListener *listener,
 		  int unread_count,
 		  StorageInfo *si)
 {
-	char *evolution_dir;
-	char *proto;
-	char *uri;
+	ESummaryMailFolder *mail_folder;
+	GList *p;
 
-	if (strcmp (si->name, _("VFolders")) == 0) {
-		evolution_dir = gnome_util_prepend_user_home ("evolution/vfolder");
-		uri = g_strdup_printf ("vfolder:%s#%s", evolution_dir,
-				       path + 1);
-		g_free (evolution_dir);
-	} else if (strcmp (si->name, _("Local Folders")) == 0) {
-		evolution_dir = gnome_util_prepend_user_home ("evolution/local");
-		proto = g_strconcat ("file://", evolution_dir, NULL);
-		g_free (evolution_dir);
-		uri = e_path_to_physical (proto, path);
-	} else {
-		GNOME_Evolution_Folder *folder;
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		folder = GNOME_Evolution_Storage_getFolderAtPath (si->storage, path, &ev);
-
-		if (BONOBO_EX (&ev))
-			return;
-
-		uri = g_strdup (folder->physicalUri);
-		CORBA_free (folder);
-		CORBA_exception_free (&ev);
+	mail_folder = g_hash_table_lookup (folder_store->folders, path);
+	if (mail_folder == NULL) {
+		return;
 	}
 
-	g_idle_add (e_summary_mail_idle_get_info, uri);
+	for (p = folder_store->shown; p; p = p->next) {
+		if (p->data == mail_folder) {
+			g_idle_add (e_summary_mail_idle_get_info, mail_folder->path);
+			return;
+		}
+	}
 }
 
 static void
