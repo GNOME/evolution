@@ -1,5 +1,9 @@
 2001-12-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (filter_folder_free): Argh, don't notify about new
+	mail here.
+	(fetch_mail_fetch): Notify about new mail here instead.
+
 	* mail-accounts.c (construct): Setup the new-mail-notification
 	widgets.
 	(notify_command_changed): Update the command-line for new mail
