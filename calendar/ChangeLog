@@ -1,5 +1,12 @@
 2001-01-15  JP Rosevear  <jpr@ximian.com>
 
+	* pcs/cal-backend.c (cal_backend_compute_changes): accomadate tasks
+	in their new dir
+
+	* conduits/todo/todo-conduit.c (start_calendar_server): ditto
+
+2001-01-15  JP Rosevear  <jpr@ximian.com>
+
 	* conduits/todo/todo-conduit.c (print_local): prevent segfaults and
 	buffer overflows.
 	(print_remote): ditto

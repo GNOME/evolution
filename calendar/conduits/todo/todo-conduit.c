@@ -207,7 +207,7 @@ start_calendar_server (EToDoConduitContext *ctxt)
 
 	/* FIX ME */
 	ctxt->calendar_file = g_concat_dir_and_file (g_get_home_dir (),
-			       "evolution/local/Calendar/calendar.ics");
+			       "evolution/local/Tasks/tasks.ics");
 
 	gtk_signal_connect (GTK_OBJECT (ctxt->client), "cal_loaded",
 			    start_calendar_server_cb, ctxt);
@@ -231,7 +231,7 @@ map_name (EToDoConduitContext *ctxt)
 {
 	char *filename;
 	
-	filename = g_strdup_printf ("%s/evolution/local/Calendar/pilot-map-todo-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
+	filename = g_strdup_printf ("%s/evolution/local/Tasks/pilot-map-todo-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
 
 	return filename;
 }
