@@ -1,3 +1,8 @@
+2004-03-01  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/print.c: (print_date_label): ignore the timezone info of all-day
+	events.
+
 2004-02-27  JP Rosevear <jpr@ximian.com>
 
 	* gui/gnome-cal.h: remove proto

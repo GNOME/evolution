@@ -2215,7 +2215,7 @@ print_date_label (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 	e_cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
 		start_zone = get_zone_from_tzid (client, datetime.tzid);
-		if (!start_zone)
+		if (!start_zone || datetime.value->is_date)
 			start_zone = calendar_config_get_icaltimezone ();
 		start = icaltime_as_timet_with_zone (*datetime.value,
 						     start_zone);
@@ -2225,7 +2225,7 @@ print_date_label (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 	e_cal_component_get_dtend (comp, &datetime);
 	if (datetime.value) {
 		end_zone = get_zone_from_tzid (client, datetime.tzid);
-		if (!end_zone)
+		if (!end_zone || datetime.value->is_date)
 			end_zone = calendar_config_get_icaltimezone ();
 		end = icaltime_as_timet_with_zone (*datetime.value,
 						   end_zone);
@@ -2235,7 +2235,7 @@ print_date_label (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 	e_cal_component_get_due (comp, &datetime);
 	if (datetime.value) {
 		due_zone = get_zone_from_tzid (client, datetime.tzid);
-		if (!due_zone)
+		if (!due_zone || datetime.value->is_date)
 			due_zone = calendar_config_get_icaltimezone ();
 		due = icaltime_as_timet_with_zone (*datetime.value,
 						   due_zone);
