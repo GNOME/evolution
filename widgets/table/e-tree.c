@@ -976,11 +976,11 @@ et_build_item (ETree *et)
 }
 
 static void
-et_canvas_realize (GtkWidget *canvas, ETree *e_tree)
+et_canvas_style_set (GtkWidget *widget, GtkStyle *prev_style)
 {
 	gnome_canvas_item_set(
-		e_tree->priv->white_item,
-		"fill_color_gdk", &GTK_WIDGET(e_tree->priv->table_canvas)->style->base[GTK_STATE_NORMAL],
+		E_TREE(widget)->priv->white_item,
+		"fill_color_gdk", &widget->style->base[GTK_STATE_NORMAL],
 		NULL);
 }
 
@@ -1096,9 +1096,6 @@ e_tree_setup_table (ETree *e_tree)
 
 	g_signal_connect (e_tree->priv->white_item, "event",
 			  G_CALLBACK (white_item_event), e_tree);
-	g_signal_connect (
-		e_tree->priv->table_canvas, "realize",
-		G_CALLBACK(et_canvas_realize), e_tree);
 	g_signal_connect (
 		gnome_canvas_root (e_tree->priv->table_canvas), "event",
 		G_CALLBACK(et_canvas_root_event), e_tree);
@@ -3003,7 +3000,7 @@ e_tree_class_init (ETreeClass *class)
 
 	widget_class->grab_focus       = et_grab_focus;
 	widget_class->unrealize        = et_unrealize;
-
+	widget_class->style_set        = et_canvas_style_set;
 	widget_class->focus            = et_focus;
 
 	class->cursor_change           = NULL;
