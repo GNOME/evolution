@@ -698,6 +698,31 @@ et_canvas_button_press (GtkWidget *canvas, GdkEventButton *event, ETree *e_tree)
 	return FALSE;
 }
 
+/* Handler for focus events in the table_canvas; we have to repaint ourselves
+ * and give the focus to some ETableItem.
+ */
+static gint
+table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	GnomeCanvas *canvas;
+	ETree *tree;
+
+	gtk_widget_queue_draw (widget);
+
+	if (!event->in)
+		return TRUE;
+
+	canvas = GNOME_CANVAS (widget);
+	tree = E_TREE (data);
+
+	if (!canvas->focused_item) {
+		e_table_item_set_cursor (E_TABLE_ITEM (tree->priv->item), 0, 0);
+		gnome_canvas_item_grab_focus (tree->priv->item);
+	}
+
+	return TRUE;
+}
+
 static void
 e_tree_setup_table (ETree *e_tree)
 {
@@ -707,10 +732,10 @@ e_tree_setup_table (ETree *e_tree)
 		GTK_SIGNAL_FUNC (tree_canvas_size_allocate), e_tree);
 	gtk_signal_connect (
 		GTK_OBJECT (e_tree->priv->table_canvas), "focus_in_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_tree);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_tree);
 	gtk_signal_connect (
 		GTK_OBJECT (e_tree->priv->table_canvas), "focus_out_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_tree);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_tree);
 
 	gtk_signal_connect (
 		GTK_OBJECT (e_tree->priv->table_canvas), "drag_begin",

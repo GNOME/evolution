@@ -538,7 +538,7 @@ group_start_drag (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *e
 {
 	int return_val = 0;
 	gtk_signal_emit (GTK_OBJECT (et),
-			 et_signals [KEY_PRESS],
+			 et_signals [START_DRAG],
 			 row, col, event, &return_val);
 	return return_val;
 }
@@ -731,6 +731,52 @@ et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETable *e_table)
 	return FALSE;
 }
 
+/* Finds the first descendant of the group that is an ETableItem and focuses it */
+static void
+focus_first_etable_item (ETableGroup *group)
+{
+	GnomeCanvasGroup *cgroup;
+	GList *l;
+
+	cgroup = GNOME_CANVAS_GROUP (group);
+
+	for (l = cgroup->item_list; l; l = l->next) {
+		GnomeCanvasItem *i;
+
+		i = GNOME_CANVAS_ITEM (l->data);
+
+		if (E_IS_TABLE_GROUP (i))
+			focus_first_etable_item (E_TABLE_GROUP (i));
+		else if (E_IS_TABLE_ITEM (i)) {
+			e_table_item_set_cursor (E_TABLE_ITEM (i), 0, 0);
+			gnome_canvas_item_grab_focus (i);
+		}
+	}
+}
+
+/* Handler for focus events in the table_canvas; we have to repaint ourselves
+ * always, and also give the focus to some ETableItem if we get focused.
+ */
+static gint
+table_canvas_focus_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
+{
+	GnomeCanvas *canvas;
+	ETable *etable;
+
+	gtk_widget_queue_draw (widget);
+
+	if (!event->in)
+		return TRUE;
+
+	canvas = GNOME_CANVAS (widget);
+	etable = E_TABLE (data);
+
+	if (!canvas->focused_item)
+		focus_first_etable_item (etable->group);
+
+	return TRUE;
+}
+
 static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header,
 		     ETableModel *model)
@@ -741,10 +787,10 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		GTK_SIGNAL_FUNC (table_canvas_size_allocate), e_table);
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "focus_in_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_table);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_table);
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->table_canvas), "focus_out_event",
-		GTK_SIGNAL_FUNC (gtk_widget_queue_draw), e_table);
+		GTK_SIGNAL_FUNC (table_canvas_focus_event_cb), e_table);
 
 	gtk_signal_connect (
 		GTK_OBJECT (e_table), "drag_begin",
