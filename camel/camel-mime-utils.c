@@ -794,8 +794,8 @@ header_decode_lwsp(const char **in)
 
 	d2(printf("is ws: '%s'\n", *in));
 
-	while (is_lwsp(*inptr) || *inptr =='(') {
-		while (is_lwsp(*inptr)) {
+	while (is_lwsp(*inptr) || *inptr =='(' && *inptr != '\0') {
+		while (is_lwsp(*inptr) && inptr != '\0') {
 			d2(printf("(%c)", *inptr));
 			inptr++;
 		}
@@ -805,7 +805,7 @@ header_decode_lwsp(const char **in)
 		if (*inptr == '(') {
 			int depth = 1;
 			inptr++;
-			while (depth && (c=*inptr)) {
+			while (depth && (c=*inptr) && *inptr != '\0') {
 				if (c=='\\' && inptr[1]) {
 					inptr++;
 				} else if (c=='(') {
@@ -1122,7 +1122,7 @@ header_decode_quoted_string(const char **in)
 		/* first, calc length */
 		inptr++;
 		intmp = inptr;
-		while ( (c = *intmp++) && c!= '"' ) {
+		while ( (c = *intmp++) && c!= '"' && c != '\0') {
 			if (c=='\\' && *intmp) {
 				intmp++;
 				skip++;
@@ -1130,7 +1130,7 @@ header_decode_quoted_string(const char **in)
 		}
 		outlen = intmp-inptr-skip;
 		out = outptr = g_malloc(outlen+1);
-		while ( (c = *inptr++) && c!= '"' ) {
+		while ( (c = *inptr++) && c!= '"' && c != '\0') {
 			if (c=='\\' && *inptr) {
 				c = *inptr++;
 			}
