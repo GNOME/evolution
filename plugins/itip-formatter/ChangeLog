@@ -1,5 +1,10 @@
 2005-01-07  JP Rosevear  <jpr@novell.com>
 
+	* itip-formatter.c (view_response_cb): ensure there is only one
+	attendee in the RSVP even if the user is duplicated
+
+2005-01-07  JP Rosevear  <jpr@novell.com>
+	
 	* itip-view.h: protos
 
 	* itip-view.c (rsvp_toggled_cb): set comment sensitivity

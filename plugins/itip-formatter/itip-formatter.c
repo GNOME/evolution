@@ -927,7 +927,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 icalvalue *value;
                 const char *attendee, *comment;
                 GSList *l, *list = NULL;
-
+		gboolean found;
+		
                 comp = e_cal_component_clone (pitip->comp);		
                 if (comp == NULL)
                         return;
@@ -941,6 +942,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
                 ical_comp = e_cal_component_get_icalcomponent (comp);
 
 		/* Remove all attendees except the one we are responding as */
+		found = FALSE;
                 for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
                      prop != NULL;
                      prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
@@ -955,8 +957,13 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			
                         text = g_strdup (itip_strip_mailto (attendee));
                         text = g_strstrip (text);
-                        if (g_strcasecmp (pitip->my_address, text))
+			
+			/* We do this to ensure there is at most one
+			 * attendee in the response */
+                        if (found || g_strcasecmp (pitip->my_address, text))
                                 list = g_slist_prepend (list, prop);
+			else if (!g_strcasecmp (pitip->my_address, text))
+				found = TRUE;
                         g_free (text);			
                 }
 
