@@ -84,7 +84,7 @@ struct _EMeetingModelPrivate
 static char *sections[] = {N_("Chair Persons"), 
 			   N_("Required Participants"), 
 			   N_("Optional Participants"), 
-			   N_("Non-Participants"),
+			   N_("Resources"),
 			   NULL};
 static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 				     ICAL_ROLE_REQPARTICIPANT,
@@ -455,7 +455,8 @@ set_value_at (ETableModel *etm, int col, int row, const void *val)
 	EMeetingModel *im;
 	EMeetingModelPrivate *priv;
 	EMeetingAttendee *ia;
-
+	icalparameter_cutype type;
+	
 	im = E_MEETING_MODEL (etm);	
 	priv = im->priv;
 
@@ -471,7 +472,12 @@ set_value_at (ETableModel *etm, int col, int row, const void *val)
 		e_meeting_attendee_set_member (ia, g_strdup (val));
 		break;
 	case E_MEETING_MODEL_TYPE_COL:
+		type = text_to_type (val);
 		e_meeting_attendee_set_cutype (ia, text_to_type (val));
+		if (type == ICAL_CUTYPE_RESOURCE) {
+			e_meeting_attendee_set_role (ia, ICAL_ROLE_NONPARTICIPANT);
+			e_table_model_cell_changed (etm, E_MEETING_MODEL_ROLE_COL, row);
+		}		
 		break;
 	case E_MEETING_MODEL_ROLE_COL:
 		e_meeting_attendee_set_role (ia, text_to_role (val));
@@ -1775,6 +1781,8 @@ process_section (EMeetingModel *im, EDestination **destv, icalparameter_role rol
 
 			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", address));
 			e_meeting_attendee_set_role (ia, role);
+			if (role == ICAL_ROLE_NONPARTICIPANT)
+				e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
 			e_meeting_attendee_set_cn (ia, g_strdup (name));
 		}
 	}

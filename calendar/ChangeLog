@@ -1,5 +1,12 @@
 2002-08-22  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-meeting-model.c (process_section): if its a
+	non-participant, add it as a resource to match dialog label
+	(set_value_at): if the type is set to be a resource, switch the
+	role to non-participant by default
+
+2002-08-22  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/calendar-model.c (set_completed): if the value given is a
 	date, convert to a time in the current zone
 
