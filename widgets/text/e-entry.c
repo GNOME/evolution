@@ -170,10 +170,13 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		     EEntry *entry)
 {
 	int xthick, ythick;
+	PangoContext *context;
+	PangoFontMetrics *metrics;
 	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (requisition != NULL);
+
 
 	if (entry->priv->draw_borders) {
 		xthick = 2 * widget->style->xthickness;
@@ -197,9 +200,15 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 
 	d(g_print("%s: width = %d\n", __FUNCTION__, requisition->width));
 
-	requisition->height = (2 + gtk_style_get_font (widget->style)->ascent +
-			       gtk_style_get_font (widget->style)->descent +
+	context = gtk_widget_get_pango_context (widget);
+	metrics = pango_context_get_metrics (context, gtk_widget_get_style (widget)->font_desc, NULL);
+
+	requisition->height = (2 +
+			       PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) +
+					     pango_font_metrics_get_descent (metrics)) +
 			       ythick);
+
+	pango_font_metrics_unref (metrics);
 }
 
 static gint
