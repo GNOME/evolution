@@ -30,7 +30,7 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
-#include <widgets/misc/e-url-button.h>
+#include <widgets/misc/e-url-entry.h>
 #include "e-util/e-dialog-widgets.h"
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"
@@ -53,8 +53,8 @@ struct _TaskDetailsPagePrivate {
 
 	GtkWidget *completed_date;
 
+	GtkWidget *url_entry;
 	GtkWidget *url;
-	GtkWidget *url_button;
 
 	gboolean updating;
 };
@@ -169,8 +169,9 @@ task_details_page_init (TaskDetailsPage *tdpage)
 	priv->percent_complete = NULL;
 	
 	priv->completed_date = NULL;
+
+	priv->url_entry = NULL;
 	priv->url = NULL;
-	priv->url_button = NULL;
 
 	priv->updating = FALSE;
 }
@@ -479,8 +480,8 @@ get_widgets (TaskDetailsPage *tdpage)
 
 	priv->completed_date = GW ("completed-date");
 
-	priv->url = GW ("url");
-	priv->url_button = GW ("url_button");
+	priv->url_entry = GW ("url_entry");
+	priv->url = e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry));
 	
 #undef GW
 
@@ -672,9 +673,6 @@ init_widgets (TaskDetailsPage *tdpage)
 					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
 					   tdpage, NULL);
 
-	/* Connect the url button to the url entry */
-	e_url_button_set_entry (E_URL_BUTTON (priv->url_button), priv->url);
-	
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
 	   to update the other 2. */

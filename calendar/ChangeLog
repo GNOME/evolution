@@ -1,5 +1,13 @@
 2002-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/task-details-page.glade: change custom widget
+	creator to e_url_entry_new
+
+	* gui/dialogs/task-details-page.c (get_widgets): get the url entry
+	and its entry
+
+2002-02-08  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/task-details-page.glade: add a custom widget created
 	with e_url_button_new
 
