@@ -2025,6 +2025,7 @@ mail_display_new (void)
 	MailDisplay *mail_display = gtk_type_new (mail_display_get_type ());
 	GtkWidget *scroll, *html;
 	GdkAtom clipboard_atom;
+	HTMLTokenizer *tok;
 
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
@@ -2038,7 +2039,9 @@ mail_display_new (void)
 	gtk_widget_show (GTK_WIDGET (scroll));
 
 	html = gtk_html_new ();
-	html_engine_set_tokenizer (GTK_HTML (html)->engine, e_searching_tokenizer_new ());
+	tok = e_searching_tokenizer_new ();
+	html_engine_set_tokenizer (GTK_HTML (html)->engine, tok);
+	gtk_object_unref (GTK_OBJECT (tok));
 
 	gtk_html_set_default_content_type (GTK_HTML (html),
 					   "text/html; charset=utf-8");
