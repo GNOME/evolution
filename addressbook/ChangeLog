@@ -1,3 +1,11 @@
+2005-03-03   Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/component/addressbook.c (load_source_auth_cb):
+	Make sure LoadSourceData has call back installed
+	before calling it. cb is NULL when called from 
+	auth_required_cb 
+	Fixes #73206 
+	
 2005-02-26   Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/widgets/e-addressbook-view.c :

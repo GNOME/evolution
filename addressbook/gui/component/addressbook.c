@@ -98,7 +98,8 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 						_("Accessing LDAP Server anonymously"));
 				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 				gtk_widget_show (dialog);
-				data->cb (book, E_BOOK_ERROR_OK, data->closure);
+				if (data->cb)
+					data->cb (book, E_BOOK_ERROR_OK, data->closure);
 				free_load_source_data (data);
 				return;
 			}
