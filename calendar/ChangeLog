@@ -1,3 +1,15 @@
+2001-04-26  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-model.c (get_is_overdue): Replace "<" by "<=" in
+	the comparison for due dates against the current time.  This makes
+	tasks appear immediately as red when you click Now in the due date
+	popup field.
+
+	This is not a complete solution to the more general problem of
+	tasks staying the same color even if they become overdue while the
+	task list remains the same on the screen.  This has been logged as
+	bug #2399.
+
 2001-04-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/dialogs/Makefile.am (INCLUDES): Add `$(EXTRA_GNOME_CFLAGS)'.

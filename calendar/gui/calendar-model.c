@@ -603,11 +603,14 @@ get_is_overdue (CalComponent *comp)
 			goto out;
 		}
 
-		/* Third, are we overdue as of right now? */
+		/* Third, are we overdue as of right now?  We use <= in the
+		 * comparison below so that the table entries change color
+		 * immediately.
+		 */
 
 		t = icaltime_as_timet (*dt.value);
 
-		if (t < time (NULL))
+		if (t <= time (NULL))
 			retval = TRUE;
 		else
 			retval = FALSE;

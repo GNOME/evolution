@@ -63,7 +63,6 @@ funny_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 static void
 funny_times_init (void)
 {
-	alarm_add ((time_t) 987654321L, funny_trigger_cb, NULL, NULL); /* Apr 19 04:25:21 2001 UTC */
 	alarm_add ((time_t) 999999999L, funny_trigger_cb, NULL, NULL); /* Sep  9 01:46:39 2001 UTC */
 }
 
