@@ -45,6 +45,8 @@
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-moniker-util.h>
 
+#include <gal/widgets/e-gui-utils.h>
+
 #include "e-shell-folder-creation-dialog.h"
 #include "e-shell-folder-selection-dialog.h"
 
@@ -504,31 +506,6 @@ command_work_online (BonoboUIComponent *uih,
 }
 
 
-/* Unimplemented commands.  */
-
-#define DEFINE_UNIMPLEMENTED(func)					\
-static void								\
-func (BonoboUIComponent *uic, void *data, const char *path)		\
-{									\
-	g_warning ("e-shell-view-menu.c: %s: not implemented.", #func);	\
-}									\
-
-static void
-command_new_mail_message (BonoboUIComponent *uih,
-			  gpointer          data,
-			  const char *path)
-{
-	CORBA_Environment ev;
-	Bonobo_Unknown object;
-	
-	CORBA_exception_init (&ev);
-	object = bonobo_get_object ("OAFIID:GNOME_Evolution_Mail_Composer!visible=1",
-				    "Bonobo/Unknown", &ev);
-
-	CORBA_exception_free (&ev);
-}
-
-
 static void
 new_shortcut_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_selection_dialog,
 				  void *data)
@@ -597,18 +574,39 @@ command_new_shortcut (BonoboUIComponent *uih,
 	gtk_widget_show (folder_selection_dialog);
 }
 	
-DEFINE_UNIMPLEMENTED (command_new_contact)
-DEFINE_UNIMPLEMENTED (command_new_task_request)
+
+/* Tools menu.  */
 
+static void
+command_pilot_settings (BonoboUIComponent *uih,
+			void *data,
+			const char *path)
+{
+        char *args[] = {
+                "gpilotd-control-applet",
+                NULL
+        };
+        int pid;
+
+        args[0] = gnome_is_program_in_path ("gpilotd-control-applet");
+        if (!args[0]) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("The GNOME Pilot tools do not appear to be installed on this system."));
+		return;
+        }
+
+        pid = gnome_execute_async (NULL, 4, args);
+        g_free (args[0]);
+
+        if (pid == -1)
+                e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("Error executing %s."), args[0]);
+}
+
+
 BonoboUIVerb new_verbs [] = {
 	BONOBO_UI_VERB ("NewFolder", command_new_folder),
 	BONOBO_UI_VERB ("NewShortcut", command_new_shortcut),
-	BONOBO_UI_VERB ("NewMailMessage", command_new_mail_message),
 		  
-	BONOBO_UI_VERB ("NewAppointment", command_new_shortcut),
-	BONOBO_UI_VERB ("NewContact", command_new_contact),
-	BONOBO_UI_VERB ("NewTask", command_new_task_request),
-
 	BONOBO_UI_VERB_END
 };
 
@@ -634,6 +632,12 @@ BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB ("RenameFolder", command_rename_folder),
 
 	BONOBO_UI_VERB ("AddFolderToShortcutBar", command_add_folder_to_shortcut_bar),
+
+	BONOBO_UI_VERB_END
+};
+
+BonoboUIVerb tools_verbs[] = {
+	BONOBO_UI_VERB ("PilotSettings", command_pilot_settings),
 
 	BONOBO_UI_VERB_END
 };
@@ -769,6 +773,8 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	bonobo_ui_component_add_verb_list_with_data (uic, file_verbs, shell_view);
 	bonobo_ui_component_add_verb_list_with_data (uic, folder_verbs, shell_view);
 	bonobo_ui_component_add_verb_list_with_data (uic, new_verbs, shell_view);
+
+	bonobo_ui_component_add_verb_list_with_data (uic, tools_verbs, shell_view);
 
 	bonobo_ui_component_add_verb_list (uic, help_verbs);
 
