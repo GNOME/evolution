@@ -1,5 +1,10 @@
 2000-01-25  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-client.c cal-client.h: New files with the calendar client
+	object.
+
+2000-01-25  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-factory.c (CalFactory_load): Check that the listener is not
 	nil and emit and exception if it is.
 
