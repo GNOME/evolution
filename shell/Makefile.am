@@ -117,6 +117,8 @@ evolution_SOURCES =				\
 	e-storage.h				\
 	evolution-storage-set-view.c		\
 	evolution-storage-set-view.h		\
+	evolution-storage-set-view-listener.c	\
+	evolution-storage-set-view-listener.h	\
 	evolution-storage-set-view-factory.c	\
 	evolution-storage-set-view-factory.h	\
 	main.c

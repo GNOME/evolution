@@ -1,3 +1,8 @@
+2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-storage-set-view-listener.c: New.
+	* evolution-storage-set-view-listener.h: New.
+
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
 	* evolution-storage-set-view.c (impl_StorageSetView_add_listener): fix typo.
