@@ -1,3 +1,10 @@
+2002-06-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
+	Don't enable fields if the editor isn't editable and the
+	widget_field_mappings lists this field as being desensitize for
+	read only.
+
 2002-06-11  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #17332 ]

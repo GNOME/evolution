@@ -2434,6 +2434,10 @@ enable_writable_fields(EContactEditor *editor)
 
 		enabled = (g_hash_table_lookup (supported_hash, field) != NULL);
 
+		if (widget_field_mappings[i].desensitize_for_read_only && !editor->editable) {
+			enabled = FALSE;
+		}
+
 		enable_widget (w, enabled);
 	}
 
