@@ -28,6 +28,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkhbox.h>
@@ -48,6 +49,9 @@
 typedef struct {
 	/* Glade XML data */
 	GladeXML *xml;
+
+	/* The alarm action selected */
+	CalAlarmAction action;
 
 	/* Toplevel */
 	GtkWidget *toplevel;
@@ -185,6 +189,18 @@ setup_select_names (Dialog *dialog)
 	return TRUE;
 }
 
+static void
+palarm_options_changed_cb (GtkEditable *entry, gpointer user_data)
+{
+	const gchar *text;
+	Dialog *dialog = user_data;
+
+	text = gtk_entry_get_text (GTK_ENTRY (dialog->palarm_program));
+	if (text && *text)
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, TRUE);
+	else
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, FALSE);
+}
 
 /* Callback used when the repeat toggle button is toggled.  We sensitize the
  * repeat group options as appropriate.
@@ -200,6 +216,29 @@ repeat_toggle_toggled_cb (GtkToggleButton *toggle, gpointer data)
 	active = gtk_toggle_button_get_active (toggle);
 
 	gtk_widget_set_sensitive (dialog->repeat_group, active);
+
+	/* activate the 'OK' button */
+	if (dialog->action == CAL_ALARM_PROCEDURE)
+		palarm_options_changed_cb (GTK_EDITABLE (dialog->palarm_program), dialog);
+}
+
+static void
+repeat_spin_button_changed_cb (GtkWidget *spin, gpointer user_data)
+{
+	Dialog *dialog = user_data;
+
+	if (dialog->action == CAL_ALARM_PROCEDURE)
+		palarm_options_changed_cb (GTK_EDITABLE (dialog->palarm_program), dialog);
+}
+
+
+static void
+repeat_unit_changed_cb (GtkWidget *option_menu, gpointer user_data)
+{
+	Dialog *dialog = user_data;
+
+	if (dialog->action == CAL_ALARM_PROCEDURE)
+		palarm_options_changed_cb (GTK_EDITABLE (dialog->palarm_program), dialog);
 }
 
 /* Hooks the widget signals */
@@ -208,8 +247,16 @@ init_widgets (Dialog *dialog)
 {
 	/* Alarm repeat */
 
-	g_signal_connect((dialog->repeat_toggle), "toggled",
-			    G_CALLBACK (repeat_toggle_toggled_cb), dialog);
+	g_signal_connect (G_OBJECT (dialog->repeat_toggle), "toggled",
+			  G_CALLBACK (repeat_toggle_toggled_cb), dialog);
+
+	g_signal_connect (G_OBJECT (dialog->repeat_quantity), "value_changed",
+			  G_CALLBACK (repeat_spin_button_changed_cb), dialog);
+	g_signal_connect (G_OBJECT (dialog->repeat_value), "value_changed",
+			  G_CALLBACK (repeat_spin_button_changed_cb), dialog);
+
+	g_signal_connect (G_OBJECT (dialog->repeat_unit), "changed",
+			  G_CALLBACK (repeat_unit_changed_cb), dialog);
 }
 
 /* Fills the audio alarm widgets with the values from the alarm component */
@@ -400,7 +447,6 @@ alarm_to_repeat_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 	e_dialog_option_menu_set (dialog->repeat_unit, units, duration_units_map);
 }
 
-
 /* Fills the widgets with the values from the alarm component */
 static void
 alarm_to_dialog (Dialog *dialog, CalComponentAlarm *alarm)
@@ -450,6 +496,13 @@ alarm_to_dialog (Dialog *dialog, CalComponentAlarm *alarm)
 		gtk_widget_hide (dialog->malarm_group);
 		gtk_widget_show (dialog->palarm_group);
 		alarm_to_palarm_widgets (dialog, alarm);
+
+		/* make sure the 'OK' button is disabled while the program entry is empty */
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog->toplevel), GTK_RESPONSE_OK, FALSE);
+		g_signal_connect (G_OBJECT (dialog->palarm_program), "changed",
+				  G_CALLBACK (palarm_options_changed_cb), dialog);
+		g_signal_connect (G_OBJECT (dialog->palarm_args), "changed",
+				  G_CALLBACK (palarm_options_changed_cb), dialog);
 		break;
 
 	case CAL_ALARM_UNKNOWN:
@@ -460,6 +513,8 @@ alarm_to_dialog (Dialog *dialog, CalComponentAlarm *alarm)
 		g_assert_not_reached ();
 		return;
 	}
+
+	dialog->action = action;
 }
 
 

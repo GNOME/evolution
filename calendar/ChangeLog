@@ -1,3 +1,15 @@
+2003-07-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #41676
+
+	* gui/dialogs/alarm-options.c (palarm_options_changed_cb,
+	  repeat_spin_button_changed_cb, repeat_unit_changed_cb): new callbacks for
+	managing modifications in the 'Run a program' alarm case.
+	(repeat_toggle_toggled_cb): if the alarm being edited has a
+	procedure action, call palarm_options_changed_cb.
+	(init_widgets): connect new callbacks.
+	(alarm_to_dialog): disable 'OK' button if a procedure alarm.
+
 2003-07-10  Harry Lu <harry.lu@sun.com>
 
 	Fixes #46075.
