@@ -1,3 +1,21 @@
+2004-05-20  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fixes bug #42295 and the infinite loop part of bug #58766 (these 2
+	bugs are almost identical, except the server responses are broken
+	in different ways).
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Remove
+	the kludge to re-SELECT the folder to force a re-FETCH of
+	message-info's. This 1) doesn't do what it was meant to do and 2)
+	has a tendency to cause infinite loops with broken servers such as
+	Courier-IMAP.
+	(imap_update_summary): Rework the loop that adds messages to the
+	summary such that if we encounetr an error, we break out and set
+	an exception (we can keep the messages up to the point of failure,
+	but none after that because otherwise our uid-to-seqid mapping
+	would be inconsistant with that of the server and could
+	potentially cause data loss).
+
 2004-05-20  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message):

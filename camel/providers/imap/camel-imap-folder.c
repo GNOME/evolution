@@ -2459,19 +2459,33 @@ imap_update_summary (CamelFolder *folder, int exists,
 		mi = messages->pdata[i];
 		if (!mi) {
 			g_warning ("No information for message %d", i + first);
-			continue;
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Incomplete server response: no information provided for message %d"),
+					      i + first);
+			break;
 		}
 		uid = (char *)camel_message_info_uid(mi);
 		if (uid[0] == 0) {
 			g_warning("Server provided no uid: message %d", i + first);
-			continue;
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Incomplete server response: no UID provided for message %d"),
+					      i + first);
+			break;
 		}
 		info = camel_folder_summary_uid(folder->summary, uid);
 		if (info) {
+			for (seq = 0; seq < camel_folder_summary_count (folder->summary); seq++) {
+				if (folder->summary->messages->pdata[seq] == info)
+					break;
+			}
+			
 			g_warning("Message already present? %s", camel_message_info_uid(mi));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Unexpected server response: Identical UIDs provided for messages %d and %d"),
+					      seq + 1, i + first);
+			
 			camel_folder_summary_info_free(folder->summary, info);
-			camel_folder_summary_info_free(folder->summary, mi);
-			continue;
+			break;
 		}
 		
 		camel_folder_summary_add (folder->summary, mi);
@@ -2480,26 +2494,13 @@ imap_update_summary (CamelFolder *folder, int exists,
 		if ((mi->flags & CAMEL_IMAP_MESSAGE_RECENT))
 			camel_folder_change_info_recent_uid(changes, camel_message_info_uid (mi));
 	}
-	g_ptr_array_free (messages, TRUE);
 	
-	/* Kludge around Microsoft Exchange 5.5 IMAP - See bug #5348 for details */
-	if (camel_folder_summary_count (folder->summary) != exists) {
-		CamelImapStore *imap_store = (CamelImapStore *) folder->parent_store;
-		CamelImapResponse *response;
-		
-		/* forget the currently selected folder */
-		if (imap_store->current_folder) {
-			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
-			imap_store->current_folder = NULL;
-		}
-		
-		/* now re-select it and process the EXISTS response */
-		response = camel_imap_command (imap_store, folder, ex, NULL);
-		if (response) {
-			camel_imap_folder_selected (folder, response, NULL);
-			camel_imap_response_free (imap_store, response);
-		}
+	for ( ; i < messages->len; i++) {
+		if ((mi = messages->pdata[i]))
+			camel_folder_summary_info_free(folder->summary, mi);
 	}
+	
+	g_ptr_array_free (messages, TRUE);
 	
 	return;
 	
