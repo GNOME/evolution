@@ -1,3 +1,8 @@
+2002-05-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (view_msg): Oops, create a message-browser
+	window here, not a folder-browser-window window.
+
 2002-05-29  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c: moved spell checking options to separate

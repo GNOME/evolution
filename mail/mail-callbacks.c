@@ -517,11 +517,13 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	gtk_object_ref (GTK_OBJECT (composer));
 	gtk_widget_hide (GTK_WIDGET (composer));
 	e_msg_composer_set_enable_autosave (composer, FALSE);
+	
 	mail_send_mail (transport->url, message, composer_sent_cb, send);
 }
 
 static void
-append_mail_cleanup (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, char *appended_uid, void *data)
+append_mail_cleanup (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
+		     int ok, char *appended_uid, void *data)
 {
 	camel_message_info_free (info);
 	if (appended_uid)
@@ -3135,7 +3137,7 @@ do_view_message (CamelFolder *folder, char *uid, CamelMimeMessage *message, void
 		GtkWidget *mb;
 		
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		mb = folder_browser_window_new (fb);
+		mb = message_browser_new (fb->shell, fb->uri, uid);
 		gtk_widget_show (mb);
 	}
 }
