@@ -856,7 +856,6 @@ e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
 	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
-//	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
 
 	if (!e_cal_open (client, FALSE, NULL)) {
 		g_hash_table_remove (priv->clients, str_uri);

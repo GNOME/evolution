@@ -95,7 +95,7 @@ copy_source (CopySourceDialogData *csdd)
 					      &icalcomp, NULL)) {
 				e_cal_modify_object (dest_client, icalcomp, CALOBJ_MOD_ALL, NULL);
 			} else {
-				e_cal_create_object (dest_client, icalcomp, (char **) &uid, NULL);
+				e_cal_create_object (dest_client, l->data, (char **) &uid, NULL);
 				g_free ((gpointer) uid);
 			}
 		}

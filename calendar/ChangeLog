@@ -1,5 +1,8 @@
 2003-11-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/copy-source-dialog.c (copy_source): use the correct
+	icalcomponent when calling e_cal_create_object.
+
 	* gui/tasks-control.c (sensitize_commands): no need to have a
 	selection for Paste to work.
 
