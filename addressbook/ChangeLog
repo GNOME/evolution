@@ -2,6 +2,8 @@
 
 	* printing/Makefile.am: Don't link to libibex anymore.
 
+	* conduit/Makefile.am: Same.
+
 2002-04-26  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

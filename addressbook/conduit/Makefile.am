@@ -22,7 +22,6 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\
 	$(top_builddir)/camel/libcamel-static.la	 		\
-	$(top_builddir)/libibex/libibex.la				\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 e-address.conduit: e-address.conduit.in Makefile
