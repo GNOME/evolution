@@ -76,7 +76,7 @@ pas_backend_create_card (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->create_card != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->create_card) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->create_card) (backend, book, req);
 }
 
 void
@@ -90,7 +90,7 @@ pas_backend_remove_cards (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove_cards != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->remove_cards) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->remove_cards) (backend, book, req);
 }
 
 void
@@ -104,7 +104,7 @@ pas_backend_modify_card (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->modify_card != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->modify_card) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->modify_card) (backend, book, req);
 }
 
 void
@@ -118,7 +118,7 @@ pas_backend_check_connection (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->check_connection != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->check_connection) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->check_connection) (backend, book, req);
 }
 
 void
@@ -132,7 +132,7 @@ pas_backend_get_vcard (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_vcard != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_vcard) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_vcard) (backend, book, req);
 }
 
 void
@@ -146,7 +146,7 @@ pas_backend_get_cursor (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_cursor != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_cursor) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_cursor) (backend, book, req);
 }
 
 void
@@ -160,7 +160,7 @@ pas_backend_get_book_view (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_book_view != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_book_view) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_book_view) (backend, book, req);
 }
 
 void
@@ -174,7 +174,7 @@ pas_backend_get_completion_view (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_completion_view != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_completion_view) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_completion_view) (backend, book, req);
 }
 
 void
@@ -188,7 +188,7 @@ pas_backend_get_changes (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_changes != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_changes) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_changes) (backend, book, req);
 }
 
 void
@@ -202,7 +202,7 @@ pas_backend_authenticate_user (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->authenticate_user != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->authenticate_user) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->authenticate_user) (backend, book, req);
 }
 
 void
@@ -216,7 +216,7 @@ pas_backend_get_supported_fields (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_supported_fields != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_supported_fields) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_supported_fields) (backend, book, req);
 }
 
 void
@@ -230,7 +230,7 @@ pas_backend_get_supported_auth_methods (PASBackend *backend,
 
 	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods != NULL);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods) (backend, book, req);
 }
 
 static void

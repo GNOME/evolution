@@ -1,3 +1,20 @@
+2003-03-26  Philip Zhao  <philip.zhao@sun.com>
+
+	[ fixes bug #39170 ]
+	* backend/pas/pas-backend.c (pas_backend_create_card): remove
+	'return'.
+	(pas_backend_remove_cards): same.
+	(pas_backend_modify_card): same.
+	(pas_backend_check_connection): same.
+	(pas_backend_get_vcard): same.
+	(pas_backend_get_cursor): same.
+	(pas_backend_get_book_view): same.
+	(pas_backend_get_completion_view): same.
+	(pas_backend_get_changes): same.
+	(pas_backend_authenticate_user): same.
+	(pas_backend_get_supported_fields): same.
+	(pas_backend_get_supported_auth_methods): same.
+
 2003-03-26  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (local_record_from_ecard): append the
