@@ -282,8 +282,24 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 		if (!backend)
 			goto out;
 
-		if (!pas_backend_load_uri (backend, uri))
+		if (!pas_backend_load_uri (backend, uri) ) {
+			/* tell the listener that we failed to open the book */
+			CORBA_exception_init (&ev);
+
+			GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
+					   listener, GNOME_Evolution_Addressbook_BookListener_RepositoryOffline,
+					   CORBA_OBJECT_NIL,
+					   &ev);
+
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("pas_book_respond_open: Exception "
+					   "responding to BookListener!\n");
+			}
+
+			CORBA_exception_free (&ev);
+			
 			goto out;
+		}
 
 		pas_backend_add_client (backend, listener);
 
