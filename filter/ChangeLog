@@ -4,7 +4,7 @@
 	row. Fixes bug #3725.
 	(rule_delete): Scroll to the selected row.
 	(rule_move): After moving the row, re-select it and then scroll to
-	make sure that it is still visible.
+	make sure that it is still visible. Fixes bug #7800.
 
 2003-01-02  Jeffrey Stedfast  <fejj@ximian.com>
 
