@@ -786,7 +786,7 @@ e_format_number (gint number)
 			grouping++;
 		case 0:
 			divider = epow10(last_count);
-			if(!list && (number/divider) > 0) {
+			if((!list && (number/divider) > 0) || number > divider) {
 				group = g_strdup_printf("%0*d", initial_grouping, number % divider);
 			} else {
 				group = g_strdup_printf("%d", number % divider);
