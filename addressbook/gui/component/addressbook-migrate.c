@@ -167,7 +167,6 @@ check_for_conflict (ESourceGroup *group, char *name)
 	for (s = sources; s; s = s->next) {
 		ESource *source = E_SOURCE (s->data);
 
-		printf ("checking %s against %s\n", e_source_peek_name (source), name);
 		if (!strcmp (e_source_peek_name (source), name))
 			return TRUE;
 	}
@@ -201,8 +200,6 @@ get_source_name (ESourceGroup *group, const char *path)
 			g_string_append (s, p[j]);
 		}
 
-		printf ("attempting %s\n", s->str);
-
 		conflict = check_for_conflict (group, s->str);
 
 
@@ -229,7 +226,6 @@ migrate_contacts (EBook *old_book, EBook *new_book)
 	int num_contacts;
 
 	/* both books are loaded, start the actual migration */
-	printf ("starting contact copy\n");
 	e_book_get_contacts (old_book, query, &contacts, NULL);
 
 	num_contacts = g_list_length (contacts);
@@ -268,8 +264,6 @@ migrate_contact_folder (char *old_path, ESourceGroup *dest_group, char *source_n
 
 	dialog_set_folder_name (source_name);
 
-	printf ("migrating `%s' to `%s'\n", old_uri, e_source_get_uri (new_source));
-	
 	old_book = e_book_new ();
 	if (!e_book_load_source (old_book, old_source, TRUE, &e)) {
 		g_warning ("failed to load source book for migration: `%s'", e->message);
@@ -355,11 +349,6 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 
 	dirs = find_addressbook_dirs (old_path, TRUE);
 
-	printf ("found the following dirs to migrate:\n");
-	for (l = dirs; l; l = l->next) {
-		printf ("l->data = %s\n", (char*)l->data);
-	}
-
 	/* migrate the local addressbook first, to OnThisComputer/Personal */
 	local_contact_folder = g_build_filename (g_get_home_dir (), "/evolution/local/Contacts",
 						 NULL);
@@ -383,6 +372,8 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 		g_free (source_name);
 	}
 
+	g_list_foreach (dirs, (GFunc)g_free, NULL);
+	g_list_free (dirs);
 	g_free (local_contact_folder);
 	g_free (old_path);
 

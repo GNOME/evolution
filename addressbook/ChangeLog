@@ -1,5 +1,13 @@
 2004-01-06  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-migrate.c (check_for_conflict): remove
+	spew.
+	(migrate_contacts): same.
+	(migrate_contact_folder): same.
+	(migrate_local_folders): same, and plug a leak.
+
+2004-01-06  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
 	add addressbook-migrate.[ch].
 
