@@ -99,7 +99,7 @@ e_msg_composer_select_file (EMsgComposer *composer, const char *title)
 	GtkFileSelection *selection;
 	char *name = NULL;
 
-	selection = run_selector(composer, _("Attach file(s)"), TRUE, NULL);
+	selection = run_selector (composer, title, TRUE, NULL);
 	if (selection) {
 		name = g_strdup(gtk_file_selection_get_filename(selection));
 		gtk_widget_destroy((GtkWidget *)selection);

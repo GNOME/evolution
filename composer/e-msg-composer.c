@@ -1179,33 +1179,45 @@ show_attachments (EMsgComposer *composer,
 }
 
 static void
-save (EMsgComposer *composer, const char *file_name)
+save (EMsgComposer *composer, const char *default_filename)
 {
 	CORBA_Environment ev;
-	char *my_file_name;
+	char *filename;
 	int fd;
 	
-	if (file_name != NULL)
-		my_file_name = g_strdup (file_name);
+	if (default_filename != NULL)
+		filename = g_strdup (default_filename);
 	else
-		my_file_name = e_msg_composer_select_file (composer, _("Save as..."));
+		filename = e_msg_composer_select_file (composer, _("Save as..."));
 	
-	if (my_file_name == NULL)
+	if (filename == NULL)
 		return;
 	
-	/* check to see if we already have the file */
-	if ((fd = open (my_file_name, O_RDONLY | O_CREAT | O_EXCL, 0777)) == -1) {
+	/* check to see if we already have the file and that we can create it */
+	if ((fd = open (filename, O_RDONLY | O_CREAT | O_EXCL, 0777)) == -1) {
+		int resp, errnosav = errno;
 		GtkWidget *dialog;
-		int resp;
-
-		dialog = gtk_message_dialog_new(GTK_WINDOW(composer),
-						GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-						_("File exists, overwrite?"));
-		resp = gtk_dialog_run(GTK_DIALOG(dialog));
-		gtk_widget_destroy(dialog);
-		if (resp != GTK_RESPONSE_YES) {
-			g_free(my_file_name);
+		struct stat st;
+		
+		if (stat (filename, &st) == 0 && S_ISREG (st.st_mode)) {
+			dialog = gtk_message_dialog_new (GTK_WINDOW (composer),
+							 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+							 _("File exists, overwrite?"));
+			resp = gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			if (resp != GTK_RESPONSE_YES) {
+				g_free (filename);
+				return;
+			}
+		} else {
+			dialog = gtk_message_dialog_new (GTK_WINDOW (composer),
+							 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+							 _("Error saving file: %s"), g_strerror (errnosav));
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			g_free (filename);
 			return;
 		}
 	} else
@@ -1213,20 +1225,19 @@ save (EMsgComposer *composer, const char *file_name)
 	
 	CORBA_exception_init (&ev);
 	
-	Bonobo_PersistFile_save (composer->persist_file_interface, my_file_name, &ev);
+	Bonobo_PersistFile_save (composer->persist_file_interface, filename, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		char *tmp = g_path_get_basename(my_file_name);
-
-		e_notice (composer, GTK_MESSAGE_ERROR,
-			  _("Error saving file: %s"), tmp);
+		char *tmp = g_path_get_basename (filename);
+		
+		e_notice (composer, GTK_MESSAGE_ERROR, _("Error saving file: %s"), tmp);
 		g_free(tmp);
 	} else
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "saved", &ev);
 
 	CORBA_exception_free (&ev);
 	
-	g_free (my_file_name);
+	g_free (filename);
 }
 
 static void

@@ -1,3 +1,14 @@
+2003-09-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (save): Don't blindly claim that the file
+	exists and then ask the user if he/she would like to overwrite
+	it. First check that the file even exists, if not - then we've got
+	a different error. Fixes bug #48759.
+
+	* e-msg-composer-select-file.c (e_msg_composer_select_file): Use
+	the proper selector title, otherwise it says "Attach files" when
+	we are trying to save a message.
+
 2003-09-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (get_default_charset): Same as
