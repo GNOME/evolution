@@ -1,3 +1,9 @@
+2003-03-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-gssapi.c (gssapi_challenge): If we are using the
+	heimdal krb5 implementation, don't free outbuf ever. Seems to
+	segfault if we do.
+
 2003-03-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-enriched.c (enriched_to_html): Use strncasecmp

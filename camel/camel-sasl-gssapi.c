@@ -264,7 +264,9 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		
 		challenge = g_byte_array_new ();
 		g_byte_array_append (challenge, outbuf.value, outbuf.length);
+#ifndef HAVE_HEIMDAL_KRB5
 		gss_release_buffer (&minor, &outbuf);
+#endif
 		break;
 	case GSSAPI_STATE_COMPLETE:
 		if (token == NULL) {
@@ -285,7 +287,9 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		if (outbuf.length < 4) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					     _("Bad authentication response from server."));
+#ifndef HAVE_HEIMDAL_KRB5
 			gss_release_buffer (&minor, &outbuf);
+#endif
 			return NULL;
 		}
 		
@@ -302,7 +306,10 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		memcpy (inbuf.value, outbuf.value, 4);
 		str[0] = DESIRED_SECURITY_LAYER;
 		memcpy (str + 4, sasl->service->url->user, inbuf.length - 4);
+		
+#ifndef HAVE_HEIMDAL_KRB5
 		gss_release_buffer (&minor, &outbuf);
+#endif
 		
 		major = gss_wrap (&minor, priv->ctx, FALSE, qop, &inbuf, &conf_state, &outbuf);
 		if (major != GSS_S_COMPLETE) {
@@ -314,7 +321,10 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		g_free (str);
 		challenge = g_byte_array_new ();
 		g_byte_array_append (challenge, outbuf.value, outbuf.length);
+		
+#ifndef HAVE_HEIMDAL_KRB5
 		gss_release_buffer (&minor, &outbuf);
+#endif
 		
 		priv->state = GSSAPI_STATE_AUTHENTICATED;
 		
