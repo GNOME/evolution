@@ -670,8 +670,8 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 
 		EPopupMenu menu[] = {
 			{N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
-			{N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
-			{N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+			{N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
+			{N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
 			{N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
 			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
