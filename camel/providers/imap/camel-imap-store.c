@@ -2142,6 +2142,9 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	/* FIXME: should use imap_build_folder_info, note the differences with param setting tho */
 
 	si = camel_imap_store_summary_add_from_full(imap_store->summary, dir, sep?sep:'/');
+	if (si == NULL)
+		return NULL;
+
 	newflags = (si->info.flags & CAMEL_STORE_INFO_FOLDER_SUBSCRIBED) | (flags & ~CAMEL_STORE_INFO_FOLDER_SUBSCRIBED);
 	if (si->info.flags != newflags) {
 		si->info.flags = newflags;

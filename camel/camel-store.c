@@ -62,7 +62,7 @@ static void delete_folder (CamelStore *store, const char *folder_name,
 static void rename_folder (CamelStore *store, const char *old_name,
 			   const char *new_name, CamelException *ex);
 
-static void store_sync (CamelStore *store, CamelException *ex);
+static void store_sync (CamelStore *store, int expunge, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
 					 guint32 flags, CamelException *ex);
 static void free_folder_info (CamelStore *store, CamelFolderInfo *tree);
@@ -635,7 +635,7 @@ camel_store_get_junk (CamelStore *store, CamelException *ex)
 }
 
 static void
-store_sync (CamelStore *store, CamelException *ex)
+store_sync (CamelStore *store, int expunge, CamelException *ex)
 {
 	if (store->folders) {
 		GPtrArray *folders;
@@ -659,23 +659,22 @@ store_sync (CamelStore *store, CamelException *ex)
 /**
  * camel_store_sync:
  * @store: a CamelStore
+ * @expunge: do we expunge deleted messages too?
  * @ex: a CamelException
  *
  * Syncs any changes that have been made to the store object and its
  * folders with the real store.
  **/
 void
-camel_store_sync (CamelStore *store, CamelException *ex)
+camel_store_sync(CamelStore *store, int expunge, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	CS_CLASS (store)->sync (store, ex);
+	CS_CLASS(store)->sync(store, expunge, ex);
 }
 
-
 static CamelFolderInfo *
-get_folder_info (CamelStore *store, const char *top,
-		 guint32 flags, CamelException *ex)
+get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	w(g_warning ("CamelStore::get_folder_info not implemented for `%s'",
 		     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store))));
@@ -764,8 +763,7 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
  * camel_store_free_folder_info.
  **/
 CamelFolderInfo *
-camel_store_get_folder_info (CamelStore *store, const char *top,
-			     guint32 flags, CamelException *ex)
+camel_store_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *info;
 	

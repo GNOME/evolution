@@ -1,5 +1,14 @@
 2004-02-04  Not Zed  <NotZed@Ximian.com>
 
+	* camel-store.c (camel_store_sync): added 'expunge' parameter,
+	easier 'empty trash on exit' call.
+
+2004-02-04  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c
+	(parse_list_response_as_folder_info): if we can't add the folder
+	to the summary {i.e. duplicate}, then ignore it.  See #53836.
+
 	* camel-store.c (camel_store_delete_folder): changed order around,
 	first try to delete and only remove from the object bag if the
 	delete worked.  If vjunk/vtrash enabled, don't allow those to be

@@ -298,7 +298,7 @@ set_status (CamelDiscoStore *disco_store, CamelDiscoStoreStatus status,
 	if (disco_store->status == status)
 		return;
 
-	camel_store_sync (CAMEL_STORE (disco_store), ex);
+	camel_store_sync (CAMEL_STORE (disco_store), FALSE, ex);
 	if (camel_exception_is_set (ex))
 		return;
 	if (!camel_service_disconnect (CAMEL_SERVICE (disco_store), TRUE, ex))
