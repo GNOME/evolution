@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ximian Evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-07 23:37+0100\n"
-"PO-Revision-Date: 2003-12-07 23:39+0100\n"
+"POT-Creation-Date: 2003-12-22 08:45+0100\n"
+"PO-Revision-Date: 2003-12-22 08:46+0100\n"
 "Last-Translator: Igor Nestorović <jung@one.ekof.bg.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -11921,7 +11921,7 @@ msgstr "Одговори на _листу"
 msgid "Reply to _All"
 msgstr "Одговори _Свима"
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1797 ui/evolution-mail-message.xml.h:98
 msgid "_Forward"
 msgstr "Просл_еди"
 
@@ -26895,8 +26895,8 @@ msgid "Display the previous unread message"
 msgstr "Прикажи претходну непрочитану поруку"
 
 #: ui/evolution-mail-message.xml.h:28
-msgid "F_orward"
-msgstr "На_пред"
+msgid "F_orward As..."
+msgstr "Про_следи као..."
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -27134,10 +27134,6 @@ msgstr "_Копирај у директоријум"
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
 msgstr "_Направи филтер од поруке"
-
-#: ui/evolution-mail-message.xml.h:98
-msgid "_Forward Message"
-msgstr "Про_следи поруку"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Go To"
@@ -27983,6 +27979,9 @@ msgstr "Основни процес локалних датотека Еволу
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Основни процес локалних датотека Еволуције адресара"
+
+#~ msgid "_Forward Message"
+#~ msgstr "Про_следи поруку"
 
 #~ msgid "Host lookup failed: cannot create thread: %s"
 #~ msgstr "Неуспело налажење домаћина: не може да образује нит: %s"
