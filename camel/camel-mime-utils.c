@@ -3900,6 +3900,8 @@ static struct {
 	/* X-BeenThere: gnome-hackers@gnome.org */
 	/* X-BeenThere: gnome-hackers */
 	{ "X-BeenThere", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },
+	/* List-Unsubscribe:  <mailto:gnome-hackers-unsubscribe@gnome.org> */
+	{ "List-Unsubscribe", "<mailto:(.+)-unsubscribe@([^ \n\t\r>]*)" },
 };
 
 char *

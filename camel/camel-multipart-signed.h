@@ -91,6 +91,8 @@ CamelType camel_multipart_signed_get_type (void);
 /* public methods */
 CamelMultipartSigned *camel_multipart_signed_new           (void);
 
+CamelStream *camel_multipart_signed_get_content_stream(CamelMultipartSigned *mps, CamelException *ex);
+
 int		      camel_multipart_signed_sign	   (CamelMultipartSigned *mps, CamelCipherContext *context,
 							    CamelMimePart *content, const char *uiserid,
 							    CamelCipherHash hash, CamelException *ex);

@@ -521,7 +521,7 @@ sm_status_description(NSSCMSVerificationStatus status)
 }
 
 static CamelCipherValidity *
-sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelMimePart *extpart, CamelException *ex)
+sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelStream *extstream, CamelException *ex)
 {
 	struct _CamelSMIMEContextPrivate *p = ((CamelSMIMEContext *)context)->priv;
 	NSSCMSSignedData *sigd = NULL;
@@ -559,7 +559,7 @@ sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelMimePart *
 
 			/* need to build digests of the content */
 			if (!NSS_CMSSignedData_HasDigests(sigd)) {
-				if (extpart == NULL) {
+				if (extstream == NULL) {
 					camel_exception_setv(ex, 1, "Digests missing from enveloped data");
 					goto fail;
 				}
@@ -578,7 +578,7 @@ sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelMimePart *
 				}
 
 				mem = (CamelStreamMem *)camel_stream_mem_new();
-				camel_cipher_canonical_to_stream(extpart, CAMEL_MIME_FILTER_CANON_CRLF, (CamelStream *)mem);
+				camel_stream_write_to_stream(extstream, (CamelStream *)mem);
 				NSS_CMSDigestContext_Update(digcx, mem->buffer->data, mem->buffer->len);
 				camel_object_unref(mem);
 
@@ -677,37 +677,47 @@ sm_verify(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
 	NSSCMSDecoderContext *dec;
 	NSSCMSMessage *cmsg;
 	CamelStreamMem *mem;
-	CamelCipherValidity *valid;
+	CamelStream *constream;
+	CamelCipherValidity *valid = NULL;
 	CamelContentType *ct;
 	const char *tmp;
-	CamelMimePart *extpart, *sigpart;
+	CamelMimePart *sigpart;
 	CamelDataWrapper *dw;
 
 	dw = camel_medium_get_content_object((CamelMedium *)ipart);
 	ct = dw->mime_type;
 
+	/* FIXME: we should stream this to the decoder */
+	mem = (CamelStreamMem *)camel_stream_mem_new();
+	
 	if (camel_content_type_is(ct, "multipart", "signed")) {
 		CamelMultipart *mps = (CamelMultipart *)dw;
 
 		tmp = camel_content_type_param(ct, "protocol");
-		extpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_CONTENT);
-		sigpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
 		if (!CAMEL_IS_MULTIPART_SIGNED(mps)
 		    || tmp == NULL
-		    || g_ascii_strcasecmp(tmp, context->sign_protocol) != 0
-		    || extpart == NULL
-		    || sigpart == NULL) {
+		    || g_ascii_strcasecmp(tmp, context->sign_protocol) != 0) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot verify message signature: Incorrect message format"));
-			return NULL;
+			goto fail;
+		}
+
+		constream = camel_multipart_signed_get_content_stream((CamelMultipartSigned *)mps, ex);
+		if (constream == NULL)
+			goto fail;
+
+		sigpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
+		if (sigpart == NULL) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Cannot verify message signature: Incorrect message format"));
+			goto fail;
 		}
 	} else if (camel_content_type_is(ct, "application", "x-pkcs7-mime")) {
-		extpart = NULL;
 		sigpart = ipart;
 	} else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot verify message signature: Incorrect message format"));
-		return NULL;
+		goto fail;
 	}
 
 	dec = NSS_CMSDecoder_Start(NULL, 
@@ -715,20 +725,21 @@ sm_verify(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
 				   sm_get_passwd, context,	/* password callback    */
 				   NULL, NULL); /* decrypt key callback */
 
-	/* FIXME: we should stream this to the decoder */
-	mem = (CamelStreamMem *)camel_stream_mem_new();
 	camel_data_wrapper_decode_to_stream(camel_medium_get_content_object((CamelMedium *)sigpart), (CamelStream *)mem);
 	(void)NSS_CMSDecoder_Update(dec, mem->buffer->data, mem->buffer->len);
-	camel_object_unref(mem);
 	cmsg = NSS_CMSDecoder_Finish(dec);
 	if (cmsg == NULL) {
 		camel_exception_setv(ex, 1, "Decoder failed");
-		return NULL;
+		goto fail;
 	}
-
-	valid = sm_verify_cmsg(context, cmsg, extpart, ex);
-
+	
+	valid = sm_verify_cmsg(context, cmsg, constream, ex);
+	
 	NSS_CMSMessage_Destroy(cmsg);
+fail:
+	camel_object_unref(mem);
+	if (constream)
+		camel_object_unref(constream);
 
 	return valid;
 }

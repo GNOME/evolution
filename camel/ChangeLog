@@ -1,3 +1,18 @@
+2003-11-28  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-utils.c (mail_list_magic[]): Added list-unsubscribe
+	header match.
+
+2003-11-26  Not Zed  <NotZed@Ximian.com>
+
+	* camel-smime-context.c (sm_verify_cmsg): take a stream rather
+	than a part for the content.
+	(sm_verify): get the content directly as a stream.
+
+	* camel-multipart-signed.c
+	(camel_multipart_signed_get_content_stream): new api to get the
+	content stream which will match the signed version.
+
 2003-11-26  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: make sure we always dist the smime stuff
