@@ -118,7 +118,6 @@ e_book_use_address_book_by_uri (const char *uri, EBookCommonCallback cb, gpointe
 	}
 }
 
-#if PENDING_PORT_WORK
 EConfigListener *
 e_book_get_config_database ()
 {
@@ -129,7 +128,6 @@ e_book_get_config_database ()
 
 	return config_db;
 }
-#endif
 
 static EBook *common_default_book = NULL;
 
@@ -206,7 +204,6 @@ set_default_book_uri_local (void)
 static void
 set_default_book_uri_from_config_db (void)
 {
-#if PENDING_PORT_WORK
 	char *val;
 	EConfigListener* config_db;
 
@@ -217,7 +214,6 @@ set_default_book_uri_from_config_db (void)
 		default_book_uri = e_book_expand_uri (val);
 		g_free (val);
 	} else
-#endif
 		set_default_book_uri_local ();
 }
 

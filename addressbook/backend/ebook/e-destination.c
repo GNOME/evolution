@@ -31,6 +31,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "e-book.h"
+#include "e-book-marshal.h"
 #include "e-book-util.h"
 #include <gal/widgets/e-unicode.h>
 #include <gnome-xml/parser.h>
@@ -90,7 +91,7 @@ static void e_destination_clear_strings (EDestination *);
 static GObjectClass *parent_class;
 
 static void
-e_destination_destroy (GObject *obj)
+e_destination_dispose (GObject *obj)
 {
 	EDestination *dest = E_DESTINATION (obj);
 
@@ -114,7 +115,7 @@ e_destination_class_init (EDestinationClass *klass)
 
 	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
-	object_class->destroy = e_destination_destroy;
+	object_class->dispose = e_destination_dispose;
 
 	e_destination_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -162,9 +163,9 @@ e_destination_get_type (void)
 			sizeof (EDestination),
 			0,    /* n_preallocs */
 			(GInstanceInitFunc) e_destination_init
-
-			dest_type = g_type_register_static (G_TYPE_OBJECT, "EDestination", &dest_info, 0);
 		};
+
+		dest_type = g_type_register_static (G_TYPE_OBJECT, "EDestination", &dest_info, 0);
 	}
 
 	return dest_type;
@@ -370,6 +371,7 @@ e_destination_is_valid (const EDestination *dest)
 gboolean
 e_destination_equal (const EDestination *a, const EDestination *b)
 {
+#ifdef PENDING_PORT_WORK
 	const struct _EDestinationPrivate *pa, *pb;
 	const char *na, *nb;
 	
@@ -401,7 +403,7 @@ e_destination_equal (const EDestination *a, const EDestination *b)
 	
 	if (!g_strcasecmp (e_destination_get_email (a), e_destination_get_email (b)))
 		return TRUE;
-	
+#endif
 	return FALSE;
 }
 
@@ -680,6 +682,7 @@ e_destination_get_email_num (const EDestination *dest)
 const gchar *
 e_destination_get_name (const EDestination *dest)
 {
+#ifdef PENDING_PORT_WORK
 	struct _EDestinationPrivate *priv;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -717,12 +720,15 @@ e_destination_get_name (const EDestination *dest)
 	}
 	
 	return priv->name;
-	
+#else
+	return "e_destination_get_name needs port work";
+#endif	
 }
 
 const gchar *
 e_destination_get_email (const EDestination *dest)
 {
+#ifdef PENDING_PORT_WORK
 	struct _EDestinationPrivate *priv;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -767,11 +773,15 @@ e_destination_get_email (const EDestination *dest)
 	}
 	
 	return priv->email;
+#else
+	return "e_destination_get_email needs port work";
+#endif
 }
 
 const gchar *
 e_destination_get_address (const EDestination *dest)
 {
+#ifdef PENDING_PORT_WORK
 	struct _EDestinationPrivate *priv;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -813,6 +823,9 @@ e_destination_get_address (const EDestination *dest)
 	}
 	
 	return priv->addr;
+#else
+	return "e_destination_get_address needs port work";
+#endif
 }
 
 void
@@ -835,6 +848,7 @@ e_destination_set_raw (EDestination *dest, const gchar *raw)
 const gchar *
 e_destination_get_textrep (const EDestination *dest)
 {
+#ifdef PENDING_PORT_WORK
 	const char *name, *email;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -865,6 +879,9 @@ e_destination_get_textrep (const EDestination *dest)
 		return email;
 	
 	return "";
+#else
+	return "e_destination_get_textrep needs port work";
+#endif
 }
 
 gboolean

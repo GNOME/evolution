@@ -1,9 +1,10 @@
 noinst_PROGRAMS = test-card test-client test-client-list
 
-#bin_PROGRAMS =	evolution-vcard-importer 	\
-#		evolution-ldif-importer		\
-#		load-pine-addressbook		\
-#		load-gnomecard-addressbook
+# PENDING_PORT_WORK
+# bin_PROGRAMS =	evolution-vcard-importer 	\
+# 		evolution-ldif-importer		\
+# 		load-pine-addressbook		\
+# 		load-gnomecard-addressbook
 
 CORBA_SOURCE =				\
 	addressbook.h			\
@@ -48,9 +49,9 @@ libebook_la_SOURCES =					\
 	e-card-cursor.c					\
 	e-card-simple.c					\
 	e-card.c					\
-	e-card-compare.c
+	e-card-compare.c				\
+	e-destination.c
 
-#	e-destination.c
 
 libebookincludedir = $(includedir)/evolution/ebook
 
@@ -90,35 +91,35 @@ e-book-marshal.c: e-book-marshal.h
 
 MARSHAL_GENERATED = e-book-marshal.c e-book-marshal.h
 
-test_client_SOURCES =					\
-	test-client.c
+# test_client_SOURCES =					\
+# 	test-client.c
 
-test_client_LDADD =					\
-	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/e-util/libeutil.la
+# test_client_LDADD =					\
+# 	libebook.la					\
+# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+# 	$(top_builddir)/libversit/libversit.a		\
+# 	$(top_builddir)/e-util/ename/libename.la	\
+# 	$(top_builddir)/e-util/libeutil.la
 
-test_client_list_SOURCES =				\
-	test-client-list.c
+# test_client_list_SOURCES =				\
+# 	test-client-list.c
 
-test_client_list_LDADD =				\
-	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
+# test_client_list_LDADD =				\
+# 	libebook.la					\
+# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+# 	$(top_builddir)/e-util/ename/libename.la	\
+# 	$(top_builddir)/libversit/libversit.a		\
+# 	$(top_builddir)/e-util/libeutil.la
 
-test_card_SOURCES =					\
-	test-card.c
+# test_card_SOURCES =					\
+# 	test-card.c
 
-test_card_LDADD =					\
-	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
+# test_card_LDADD =					\
+# 	libebook.la					\
+# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+# 	$(top_builddir)/e-util/ename/libename.la	\
+# 	$(top_builddir)/libversit/libversit.a		\
+# 	$(top_builddir)/e-util/libeutil.la
 
 # evolution_vcard_importer_SOURCES = \
 # 	evolution-vcard-importer.c
@@ -175,14 +176,11 @@ CLEANFILES    = $(BUILT_SOURCES)
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-oafdir = $(datadir)/oaf
-oaf_in_files =	GNOME_Evolution_Addressbook_VCard_Importer.oaf.in \
-		GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+serversdir = $(libdir)/bonobo/servers
+server_in_files = GNOME_Evolution_Addressbook_VCard_Importer.server.in \
+		  GNOME_Evolution_Addressbook_LDIF_Importer.server.in
+servers_DATA = $(server_in_files:.server.in=.server)
 
-@XML_I18N_MERGE_OAF_RULE@
+@INTLTOOL_SERVER_RULE@
 
-# add this back when you add the file to the archive ;)
-#	GNOME_Evolution_Addressbook_Pine_Importer.oafinfo
-
-EXTRA_DIST = $(oaf_in_files) $(oaf_DATA) e-book-marshal.list
+EXTRA_DIST = $(server_in_files) $(servers_DATA) e-book-marshal.list

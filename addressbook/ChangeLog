@@ -1,3 +1,24 @@
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/.cvsignore: ignore the generated marshaller files.
+
+	* backend/ebook/e-destination.c (e_destination_dispose): rename
+	e_destination_destroy.
+	(e_destination_equal): ifdef this out for now, PENDING_PORT_WORK.
+	(e_destination_get_name): same.
+	(e_destination_get_email): same.
+	(e_destination_get_address): same.
+	(e_destination_get_textrep): same.
+
+	* backend/ebook/Makefile.am: don't build the executables
+	(importers and loaders) for now.  Also, s/oaf/server, and use
+	INTLTOOL_SERVER_RULE.
+
+	* backend/ebook/e-book-util.c (e_book_get_config_database):
+	un-#ifdef this.
+	(e_book_default_book_open): un-#ifdef ths code in here that relies
+	on the e_config_listener.
+
 2002-11-05  Dan Winship  <danw@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (send_pending_adds): copy a
