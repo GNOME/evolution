@@ -48,6 +48,7 @@
 #include "mail-session.h"
 
 #include <evolution-wizard.h>
+#include <e-util/e-account.h>
 
 static void mail_config_druid_class_init (MailConfigDruidClass *class);
 static void mail_config_druid_destroy    (GtkObject *obj);
@@ -467,6 +468,7 @@ make_account (void)
 	
 	account = g_new0 (MailConfigAccount, 1);
 	account->enabled = TRUE;
+	account->uid = e_account_gen_uid ();
 	
 	account->id = g_new0 (MailConfigIdentity, 1);
 	name = g_get_real_name ();

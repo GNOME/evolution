@@ -59,6 +59,7 @@ typedef struct {
 
 typedef struct {
 	char *name;
+	char *uid;
 	
 	gboolean enabled;
 	

@@ -1,3 +1,17 @@
+2003-01-16  Dan Winship  <danw@ximian.com>
+
+	* mail-config.h (MailConfigAccount): Add a UID field (to match
+	EAccount), which never changes and can be used by gconf watchers
+	to distinguish an account rename from a deletion and creation.
+
+	* mail-config.c (account_copy): Create a new UID on the new
+	account.
+	(account_new_from_xml): Read the UID. (If it doesn't have one,
+	make one.)
+	(account_to_xml): Write the UID.
+
+	* mail-config-druid.c (make_account): add a UID to each account
+
 2003-01-15  Not Zed  <NotZed@Ximian.com>
 
 	* mail-accounts.c (account_able_clicked): Change the

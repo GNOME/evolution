@@ -54,6 +54,7 @@
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
+#include <e-util/e-account.h>
 #include <e-util/e-url.h>
 #include <e-util/e-passwords.h>
 #include "mail.h"
@@ -207,6 +208,7 @@ account_copy (const MailConfigAccount *account)
 	
 	new = g_new0 (MailConfigAccount, 1);
 	new->name = g_strdup (account->name);
+	new->uid = e_account_gen_uid ();
 	
 	new->enabled = account->enabled;
 	
@@ -242,6 +244,7 @@ account_destroy (MailConfigAccount *account)
 		return;
 	
 	g_free (account->name);
+	g_free (account->uid);
 	
 	identity_destroy (account->id);
 	service_destroy (account->source);
@@ -355,8 +358,13 @@ account_new_from_xml (char *in)
 	
 	account = g_new0 (MailConfigAccount, 1);
 	account->name = xml_get_prop (node, "name");
+	account->uid = xml_get_prop (node, "uid");
 	account->enabled = xml_get_bool (node, "enabled");
 	
+	/* temporary pre-1.4 back compat */
+	if (!account->uid)
+		account->uid = e_account_gen_uid ();
+
 	node = node->children;
 	while (node != NULL) {
 		if (!strcmp (node->name, "identity")) {
@@ -428,7 +436,7 @@ account_new_from_xml (char *in)
 			account->pgp_encrypt_to_self = xml_get_bool (node, "encrypt-to-self");
 			account->pgp_always_trust = xml_get_bool (node, "always-trust");
 			account->pgp_always_sign = xml_get_bool (node, "always-sign");
-			account->pgp_no_imip_sign = !xml_get_bool (node, "sign-imip");
+			account->pgp_no_imip_sign = xml_get_bool (node, "no-imip-sign");
 			
 			if (node->children) {
 				cur = node->children;
@@ -480,6 +488,7 @@ account_to_xml (MailConfigAccount *account)
 	xmlDocSetRootElement (doc, root);
 	
 	xmlSetProp (root, "name", account->name);
+	xmlSetProp (root, "uid", account->uid);
 	xmlSetProp (root, "enabled", account->enabled ? "true" : "false");
 	
 	id = xmlNewChild (root, NULL, "identity", NULL);
@@ -528,7 +537,7 @@ account_to_xml (MailConfigAccount *account)
 	xmlSetProp (node, "encrypt-to-self", account->pgp_encrypt_to_self ? "true" : "false");
 	xmlSetProp (node, "always-trust", account->pgp_always_trust ? "true" : "false");
 	xmlSetProp (node, "always-sign", account->pgp_always_sign ? "true" : "false");
-	xmlSetProp (node, "sign-imip", !account->pgp_no_imip_sign ? "true" : "false");
+	xmlSetProp (node, "no-imip-sign", account->pgp_no_imip_sign ? "true" : "false");
 	if (account->pgp_key)
 		xmlNewTextChild (node, NULL, "key-id", account->pgp_key);
 	
