@@ -1,3 +1,8 @@
+1999-01-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-week-view.c (gncal_week_view_set): Add the month to the
+	date range display label.
+
 1999-01-08  Nat Friedman  <nat@nat.org>
 
 	* main.c: Converted some more stuff to use the standards.
