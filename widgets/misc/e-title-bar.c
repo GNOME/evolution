@@ -99,6 +99,9 @@ close_button_realize_cb (GtkWidget *widget,
 
 	gtk_container_add (GTK_CONTAINER (priv->close_button), priv->close_button_gtk_pixmap);
 	gtk_widget_show (priv->close_button_gtk_pixmap);
+
+	gdk_pixmap_unref (close_button_pixmap);
+	gdk_bitmap_unref (close_button_mask);
 }
 
 static void
