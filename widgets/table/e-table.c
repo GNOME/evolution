@@ -261,10 +261,13 @@ sort_info_changed (ETableSortInfo *info, ETable *et)
 static void
 e_table_setup_header (ETable *e_table)
 {
+	char *pointer;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
 	GTK_WIDGET_UNSET_FLAGS (e_table->header_canvas, GTK_CAN_FOCUS);
 
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
+
+	pointer = g_strdup_printf("%p", e_table);
 
 	e_table->header_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->header_canvas),
@@ -272,9 +275,11 @@ e_table_setup_header (ETable *e_table)
 		"ETableHeader", e_table->header,
 		"full_header", e_table->full_header,
 		"sort_info", e_table->sort_info,
-		"dnd_code", "(unset)",
+		"dnd_code", pointer,
 		"table", e_table,
 		NULL);
+
+	g_free(pointer);
 
 	gtk_signal_connect (
 		GTK_OBJECT (e_table->header_canvas), "size_allocate",
