@@ -1,3 +1,8 @@
+2002-04-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* glade/e-shell-config-default-folders.glade: Minor label tweaks; 
+	changed "Default folders" to "Default Folders", and added accelerators.
+
 2002-04-18  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-shell-view.c (impl_ShellView_show_settings): emit

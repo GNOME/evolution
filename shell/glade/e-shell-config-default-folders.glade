@@ -33,7 +33,7 @@
     <widget>
       <class>GtkFrame</class>
       <name>default_folder_frame</name>
-      <label>Default folders</label>
+      <label>Default Folders</label>
       <label_xalign>0</label_xalign>
       <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
       <child>
@@ -55,7 +55,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label1</name>
-	  <label>Mail:</label>
+	  <label>_Mail:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -81,7 +81,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label4</name>
-	  <label>Tasks:</label>
+	  <label>_Tasks:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -107,7 +107,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label3</name>
-	  <label>Contacts:</label>
+	  <label>_Contacts:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -133,7 +133,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label2</name>
-	  <label>Calendar:</label>
+	  <label>C_alendar:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
