@@ -900,6 +900,128 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 	}
 }
 
+static char *
+name_to_style(const ECardName *name, char *company, int style)
+{
+	char *string;
+	char *strings[4], **stringptr;
+	char *substring;
+	switch (style) {
+	case 0:
+		stringptr = strings;
+		if (name->family && *name->family)
+			*(stringptr++) = name->family;
+		if (name->given && *name->given)
+			*(stringptr++) = name->given;
+		*stringptr = NULL;
+		string = g_strjoinv(", ", strings);
+		break;
+	case 1:
+		stringptr = strings;
+		if (name->given && *name->given)
+			*(stringptr++) = name->given;
+		if (name->family && *name->family)
+			*(stringptr++) = name->family;
+		*stringptr = NULL;
+		string = g_strjoinv(" ", strings);
+		break;
+	case 2:
+		string = g_strdup(company);
+		break;
+	case 3: /* Fall Through */
+	case 4:
+		stringptr = strings;
+		if (name->family && *name->family)
+			*(stringptr++) = name->family;
+		if (name->given && *name->given)
+			*(stringptr++) = name->given;
+		*stringptr = NULL;
+		substring = g_strjoinv(", ", strings);
+		if (!(company && *company))
+			company = "";
+		if (style == 3)
+			string = g_strdup_printf("%s (%s)", substring, company);
+		else
+			string = g_strdup_printf("%s (%s)", company, substring);
+		g_free(substring);
+		break;
+	default:
+		string = g_strdup("");
+	}
+	return string;
+}
+
+static int
+file_as_get_style (ECardSimple *simple)
+{
+	char *filestring = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FILE_AS);
+	char *trystring;
+	char *full_name = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
+	char *company = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
+	ECardName *name = NULL;
+	int i;
+	int style;
+	style = 0;
+	if (!full_name)
+		full_name = g_strdup("");
+	if (!company)
+		company = g_strdup("");
+	if (filestring) {
+
+		name = e_card_name_from_string(full_name);
+		
+		if (!name) {
+			goto end;
+		}
+
+		style = -1;
+		
+		for (i = 0; i < 5; i++) {
+			trystring = name_to_style(name, company, i);
+			if (!strcmp(trystring, filestring)) {
+				g_free(trystring);
+				style = i;
+				goto end;
+			}
+			g_free(trystring);
+		}
+	}		
+ end:
+		
+	g_free(filestring);
+	g_free(full_name);
+	g_free(company);
+	if (name)
+		e_card_name_free(name);
+	
+	return style;
+}
+
+static void
+file_as_set_style(ECardSimple *simple, int style)
+{
+	if (style != -1) {
+		char *string;
+		char *full_name = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
+		char *company = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_ORG);
+		ECardName *name;
+		
+		if (!full_name)
+			full_name = g_strdup("");
+		if (!company)
+			company = g_strdup("");
+		name = e_card_name_from_string(full_name);
+		if (name) {
+			string = name_to_style(name, company, style);
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FILE_AS, string);
+			g_free(string);
+		}
+		g_free(full_name);
+		g_free(company);
+		e_card_name_free(name);
+	}
+}
+
 void            e_card_simple_set            (ECardSimple          *simple,
 					      ECardSimpleField      field,
 					      const char           *data)
@@ -907,36 +1029,49 @@ void            e_card_simple_set            (ECardSimple          *simple,
 	ECardSimpleInternalType type = field_data[field].type;
 	ECardAddrLabel *address;
 	ECardPhone *phone;
-	switch(type) {
-	case E_CARD_SIMPLE_INTERNAL_TYPE_STRING:
+	int style;
+	switch (field) {
+	case E_CARD_SIMPLE_FIELD_FULL_NAME:
+	case E_CARD_SIMPLE_FIELD_ORG:
+		style = file_as_get_style(simple);
 		gtk_object_set(GTK_OBJECT(simple->card),
 			       field_data[field].ecard_field, data,
 			       NULL);
+		file_as_set_style(simple, style);
 		break;
-	case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
-		break; /* FIXME!!!! */
-	case E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS:
-		address = e_card_address_label_new();
-		address->data = (char *) data;
-		e_card_simple_set_address(simple,
-					  field_data[field].list_type_index,
-					  address);
-		address->data = NULL;
-		e_card_address_label_free(address);
-		break;
-	case E_CARD_SIMPLE_INTERNAL_TYPE_PHONE:
-		phone = e_card_phone_new();
-		phone->number = (char *) data;
-		e_card_simple_set_phone(simple,
-					field_data[field].list_type_index,
-					phone);
-		phone->number = NULL;
-		e_card_phone_free(phone);
-		break;
-	case E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL:
-		e_card_simple_set_email(simple,
-					field_data[field].list_type_index,
-					data);
+	default:
+		switch(type) {
+		case E_CARD_SIMPLE_INTERNAL_TYPE_STRING:
+			gtk_object_set(GTK_OBJECT(simple->card),
+				       field_data[field].ecard_field, data,
+				       NULL);
+			break;
+		case E_CARD_SIMPLE_INTERNAL_TYPE_DATE:
+			break; /* FIXME!!!! */
+		case E_CARD_SIMPLE_INTERNAL_TYPE_ADDRESS:
+			address = e_card_address_label_new();
+			address->data = (char *) data;
+			e_card_simple_set_address(simple,
+						  field_data[field].list_type_index,
+						  address);
+			address->data = NULL;
+			e_card_address_label_free(address);
+			break;
+		case E_CARD_SIMPLE_INTERNAL_TYPE_PHONE:
+			phone = e_card_phone_new();
+			phone->number = (char *) data;
+			e_card_simple_set_phone(simple,
+						field_data[field].list_type_index,
+						phone);
+			phone->number = NULL;
+			e_card_phone_free(phone);
+			break;
+		case E_CARD_SIMPLE_INTERNAL_TYPE_EMAIL:
+			e_card_simple_set_email(simple,
+						field_data[field].list_type_index,
+						data);
+			break;
+		}
 		break;
 	}
 }
