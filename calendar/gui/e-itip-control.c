@@ -36,10 +36,12 @@
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <ical.h>
 #include <cal-util/cal-component.h>
+#include <cal-util/timeutil.h>
 #include <cal-client/cal-client.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
@@ -433,18 +435,32 @@ set_button_status (EItipControl *itip)
 }
 
 static void
-write_label_piece (time_t t, char *buffer, int size, const char *stext, const char *etext)
+write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
+		   char *buffer, int size,
+		   const char *stext, const char *etext, gboolean is_utc)
 {
-	struct tm *tmp_tm;
-	int len;
+	EItipControlPrivate *priv;
+	struct tm tmp_tm;
 	char time_buf[64], *time_utf8;
+	icaltimezone *zone = NULL;
+	char *display_name;
 
-	/* FIXME: Convert to an appropriate timezone. */
-	tmp_tm = localtime (&t);
+	priv = itip->priv;
+
+	/* If we have been passed a UTC value, i.e. for the COMPLETED property,
+	   we convert it to the current timezone to display. */
+	if (is_utc) {
+		char *location = calendar_config_get_timezone ();
+		zone = icaltimezone_get_builtin_timezone (location);
+		icaltimezone_convert_time (dt->value, icaltimezone_get_utc_timezone (), zone);
+	}
+
+	tmp_tm = icaltimetype_to_tm (dt->value);
+
 	if (stext != NULL)
 		strcat (buffer, stext);
 
-	e_time_format_date_and_time (tmp_tm,
+	e_time_format_date_and_time (&tmp_tm,
 				     calendar_config_get_24_hour_format (),
 				     FALSE, FALSE,
 				     time_buf, sizeof (time_buf));
@@ -453,44 +469,59 @@ write_label_piece (time_t t, char *buffer, int size, const char *stext, const ch
 	strcat (buffer, time_utf8);
 	g_free (time_utf8);
 
+	if (!is_utc && dt->tzid) {
+		zone = icalcomponent_get_timezone (priv->top_level, dt->tzid);
+	}
+
+	/* Output timezone after time, e.g. " America/New_York". */
+	if (zone) {
+		display_name = icaltimezone_get_display_name (zone);
+		/* These are ASCII strings, so should be OK as UTF-8.*/
+		if (display_name) {
+			strcat (buffer, " ");
+			strcat (buffer, display_name);
+		}
+	}
+
 	if (etext != NULL)
 		strcat (buffer, etext);
 }
 
 static void
-set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
+set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
+		CalComponent *comp)
 {
+	EItipControlPrivate *priv;
 	CalComponentDateTime datetime;
-	time_t start = 0, end = 0, complete = 0, due = 0;
 	static char buffer[1024];
-	gboolean wrote = FALSE;
+	gboolean wrote = FALSE, task_completed = FALSE;
 	CalComponentVType type;
+
+	priv = itip->priv;
 
 	type = cal_component_get_vtype (comp);
 
-	/* FIXME: timezones. */
 	buffer[0] = '\0';
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
-		start = icaltime_as_timet (*datetime.value);
 		switch (type) {
 		case CAL_COMPONENT_EVENT:
-			write_label_piece (start, buffer, 1024,
+			write_label_piece (itip, &datetime, buffer, 1024,
 					   U_("Meeting begins: <b>"),
-					   "</b><br>");
+					   "</b><br>", FALSE);
 			break;
 		case CAL_COMPONENT_TODO:
-			write_label_piece (start, buffer, 1024,
+			write_label_piece (itip, &datetime, buffer, 1024,
 					   U_("Task begins: <b>"),
-					   "</b><br>");
+					   "</b><br>", FALSE);
 			break;
 		case CAL_COMPONENT_FREEBUSY:
-			write_label_piece (start, buffer, 1024,
+			write_label_piece (itip, &datetime, buffer, 1024,
 					   U_("Free/Busy info begins: <b>"),
-					   "</b><br>");
+					   "</b><br>", FALSE);
 			break;
 		default:
-			write_label_piece (start, buffer, 1024, U_("Begins: <b>"), "</b><br>");
+			write_label_piece (itip, &datetime, buffer, 1024, U_("Begins: <b>"), "</b><br>", FALSE);
 		}
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
@@ -500,17 +531,16 @@ set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
 	buffer[0] = '\0';
 	cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
-		end = icaltime_as_timet (*datetime.value);
 		switch (type) {
 		case CAL_COMPONENT_EVENT:
-			write_label_piece (end, buffer, 1024, U_("Meeting ends: <b>"), "</b><br>");
+			write_label_piece (itip, &datetime, buffer, 1024, U_("Meeting ends: <b>"), "</b><br>", FALSE);
 			break;
 		case CAL_COMPONENT_FREEBUSY:
-			write_label_piece (end, buffer, 1024, U_("Free/Busy info ends: <b>"),
-					   "</b><br>");
+			write_label_piece (itip, &datetime, buffer, 1024, U_("Free/Busy info ends: <b>"),
+					   "</b><br>", FALSE);
 			break;
 		default:
-			write_label_piece (end, buffer, 1024, U_("Ends: <b>"), "</b><br>");
+			write_label_piece (itip, &datetime, buffer, 1024, U_("Ends: <b>"), "</b><br>", FALSE);
 		}
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
@@ -521,18 +551,19 @@ set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
 	datetime.tzid = NULL;
 	cal_component_get_completed (comp, &datetime.value);
 	if (type == CAL_COMPONENT_TODO && datetime.value) {
-		complete = icaltime_as_timet (*datetime.value);
-		write_label_piece (complete, buffer, 1024, U_("Task Completed: <b>"), "</b><br>");
+		/* Pass TRUE as is_utc, so it gets converted to the current
+		   timezone. */
+		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Completed: <b>"), "</b><br>", TRUE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
+		task_completed = TRUE;
 	}
 	cal_component_free_datetime (&datetime);
 
 	buffer[0] = '\0';
 	cal_component_get_due (comp, &datetime);
-	if (type == CAL_COMPONENT_TODO && complete == 0 && datetime.value) {
-		due = icaltime_as_timet (*datetime.value);
-		write_label_piece (due, buffer, 1024, U_("Task Due: <b>"), "</b><br>");
+	if (type == CAL_COMPONENT_TODO && !task_completed && datetime.value) {
+		write_label_piece (itip, &datetime, buffer, 1024, U_("Task Due: <b>"), "</b><br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -683,7 +714,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	set_message (GTK_HTML (priv->html), html_stream, itip_title, FALSE);
 
 	/* Date information */
-	set_date_label (GTK_HTML (priv->html), html_stream, priv->comp);
+	set_date_label (itip, GTK_HTML (priv->html), html_stream, priv->comp);
 
 	/* Summary */
 	cal_component_get_summary (priv->comp, &text);
@@ -1316,14 +1347,30 @@ send_freebusy (EItipControl *itip)
 	time_t start, end;
 	GtkWidget *dialog;
 	GList *comp_list;
+	icaltimezone *zone;
 
 	priv = itip->priv;
 
-	/* FIXME: timezones and free these. */
 	cal_component_get_dtstart (priv->comp, &datetime);
-	start = icaltime_as_timet (*datetime.value);
+	if (datetime.tzid) {
+		zone = icalcomponent_get_timezone (priv->top_level,
+						   datetime.tzid);
+	} else {
+		zone = NULL;
+	}
+	start = icaltime_as_timet_with_zone (*datetime.value, zone);
+	cal_component_free_datetime (&datetime);
+
 	cal_component_get_dtend (priv->comp, &datetime);
-	end = icaltime_as_timet (*datetime.value);
+	if (datetime.tzid) {
+		zone = icalcomponent_get_timezone (priv->top_level,
+						   datetime.tzid);
+	} else {
+		zone = NULL;
+	}
+	end = icaltime_as_timet_with_zone (*datetime.value, zone);
+	cal_component_free_datetime (&datetime);
+
 	comp_list = cal_client_get_free_busy (priv->event_client, NULL, start, end);
 
 	if (comp_list) {

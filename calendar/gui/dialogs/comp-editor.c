@@ -1008,11 +1008,26 @@ comp_editor_focus (CompEditor *editor)
 	raise_and_focus (priv->window);
 }
 
+/* This sets the focus to the toplevel, so any field being edited is committed.
+   FIXME: In future we may also want to check some of the fields are valid,
+   e.g. the EDateEdit fields. */
+static void
+commit_all_fields (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+
+	priv = editor->priv;
+
+	gtk_window_set_focus (GTK_WINDOW (priv->window), NULL);
+}
+
 /* Menu Commands */
 static void
 save_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
+
+	commit_all_fields (editor);
 
 	save_comp_with_send (editor);
 }
@@ -1021,6 +1036,8 @@ static void
 save_close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
+
+	commit_all_fields (editor);
 
 	if (save_comp_with_send (editor))
 		close_dialog (editor);
@@ -1091,6 +1108,8 @@ save_as_cmd (GtkWidget *widget, gpointer data)
 	
 	priv = editor->priv;
 	
+	commit_all_fields (editor);
+
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save As...")));
 	path = g_strdup_printf ("%s/", g_get_home_dir ());
 	gtk_file_selection_set_filename (fs, path);
@@ -1131,6 +1150,8 @@ print_cmd (GtkWidget *widget, gpointer data)
 	CompEditor *editor = COMP_EDITOR (data);
 	CalComponent *comp;
 	
+	commit_all_fields (editor);
+
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, FALSE);
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -1142,6 +1163,8 @@ print_preview_cmd (GtkWidget *widget, gpointer data)
 	CompEditor *editor = COMP_EDITOR (data);
 	CalComponent *comp;
 	
+	commit_all_fields (editor);
+
 	comp = comp_editor_get_current_comp (editor);
 	print_comp (comp, editor->priv->client, TRUE);
 	gtk_object_unref (GTK_OBJECT (comp));
@@ -1162,6 +1185,8 @@ static void
 close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
+
+	commit_all_fields (editor);
 
 	if (prompt_to_save_changes (editor, TRUE))
 		close_dialog (editor);

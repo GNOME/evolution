@@ -566,8 +566,6 @@ icaltimetype_to_tm_with_zone (struct icaltimetype *itt,
 	tm.tm_isdst = -1;
 
 	g_return_val_if_fail (itt != NULL, tm);
-	g_return_val_if_fail (from_zone != NULL, tm);
-	g_return_val_if_fail (to_zone != NULL, tm);
 
 	itt_copy = *itt;
 

@@ -1495,7 +1495,10 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	psi.month = month;
 
 	/* Get a few config settings. */
-	psi.compress_weekend = calendar_config_get_compress_weekend ();
+	if (multi_week_view)
+		psi.compress_weekend = calendar_config_get_compress_weekend ();
+	else
+		psi.compress_weekend = TRUE;
 	psi.use_24_hour_format = calendar_config_get_24_hour_format ();
 
 	/* We convert this from (0 = Sun, 6 = Sat) to (0 = Mon, 6 = Sun). */
@@ -1837,9 +1840,15 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	week_start_day = calendar_config_get_week_start_day ();
 	week_begin = time_week_begin_with_zone (at, week_start_day, zone);
 	/* If the week starts on a Sunday, we have to show the Saturday first,
-	   since the weekend is compressed. */
-	if (week_start_day == 0)
-		week_begin = time_add_day_with_zone (week_begin, -1, zone);
+	   since the weekend is compressed. If the original date passed in was
+	   a Saturday, we need to move on to the next Saturday, else we move
+	   back to the last one. */
+	if (week_start_day == 0) {
+		if (tm.tm_wday == 6)
+			week_begin = time_add_day_with_zone (week_begin, 6, zone);
+		else
+			week_begin = time_add_day_with_zone (week_begin, -1, zone);
+	}
 	week_end = time_add_day_with_zone (week_begin, 6, zone);
 
 	week_begin_tm = *convert_timet_to_struct_tm (week_begin, zone);
@@ -1955,18 +1964,24 @@ print_week_view (GnomePrintContext *pc, GnomeCalendar *gcal, time_t date,
 	char buf[100];
 	time_t when;
 	gint week_start_day;
+	struct tm tm;
 
 	header = top - HEADER_HEIGHT;
 
 	/* FIXME: What is the name supposed to be for? */
 	gnome_print_beginpage (pc, "Calendar Week View");
 
+	tm = *convert_timet_to_struct_tm (date, zone);
 	week_start_day = calendar_config_get_week_start_day ();
 	when = time_week_begin_with_zone (date, week_start_day, zone);
 	/* If the week starts on a Sunday, we have to show the Saturday first,
 	   since the weekend is compressed. */
-	if (week_start_day == 0)
-		when = time_add_day_with_zone (when, -1, zone);
+	if (week_start_day == 0) {
+		if (tm.tm_wday == 6)
+			when = time_add_day_with_zone (when, 6, zone);
+		else
+			when = time_add_day_with_zone (when, -1, zone);
+	}
 
 	/* Print the main week view. */
 	print_week_summary (pc, gcal, when, FALSE, 1, 0,

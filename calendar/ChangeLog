@@ -1,3 +1,36 @@
+2001-10-27  Damon Chaplin  <damon@ximian.com>
+
+	* gui/print.c (print_week_view): 
+	(range_selector_new): when the week start day is set to Sunday, we
+	have to be careful to make sure we print the correct week, since
+	the previous Saturday is actually printed first. Fixes bug #13687.
+	(print_week_summary): always set compress_weekend to true if
+	multi_week_view is FALSE (i.e. we are printing the week view).
+	Fixes bug #13688.
+
+	* gui/e-itip-control.c (send_freebusy): use the timezones from the
+	DTSTART and DTEND.
+	(write_label_piece): output the date-time and the timezone after it.
+	Note that we may want to convert it to the current timezone and display
+	that as well. Also converted COMPLETED to the current timezone.
+	And fixed all uses of old timezone functions.
+
+	* gui/dialogs/comp-editor.c (commit_all_fields): added function to
+	set the focus in the window to NULL, so all fields lose their focus,
+	so they emit "changed" signals and update their values if needed.
+	We call this when most menu commands are used, e.g. 'Save and Close',
+	'Print' etc. Fixes bug #11434. In future we should also check fields
+	are valid and show dialogs if they are not.
+
+	* gui/calendar-model.c (get_completed): use the completed value
+	properly. Fixes bug #13694.
+
+	* cal-util/timeutil.c (icaltimetype_to_tm_with_zone): don't check
+	from_zone and to_zone != NULL. A NULL zone is valid, it is for
+	floating times.
+
+2001-10-27  Federico Mena Quintero  <federico@ximian.com>
+
 2001-10-27  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_text_item_event): Cancel editing

@@ -432,7 +432,6 @@ get_completed	(CalendarModel *model,
 		 int row)
 {
 	CalendarModelPrivate *priv;
-	CalComponentDateTime dt;
 	CalendarModelObjectData *object_data;
 	struct icaltimetype *completed;
 
@@ -446,7 +445,7 @@ get_completed	(CalendarModel *model,
 
 		if (completed) {
 			object_data->completed = g_new (ECellDateEditValue, 1);
-			object_data->completed->tt = *dt.value;
+			object_data->completed->tt = *completed;
 			object_data->completed->zone = icaltimezone_get_utc_timezone ();
 			cal_component_free_icaltimetype (completed);
 		} else {
