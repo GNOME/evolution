@@ -187,8 +187,6 @@ cursor_destroy(GtkObject *object, gpointer data)
 static void
 view_destroy(GtkObject *object, gpointer data)
 {
-	CORBA_Environment ev;
-	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBook           *book = (PASBook *)data;
 	PASBackendFile    *bf;
 	EIterator         *iterator;
@@ -207,18 +205,7 @@ view_destroy(GtkObject *object, gpointer data)
 		g_warning ("Failed to remove from book_views list");
 	gtk_object_unref(GTK_OBJECT(iterator));
 
-	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
-
-	CORBA_exception_init(&ev);
-
-	GNOME_Evolution_Addressbook_Book_unref(corba_book, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("view_destroy: Exception unreffing "
-			  "corba book.\n");
-	}
-
-	CORBA_exception_free(&ev);
+	bonobo_object_unref(BONOBO_OBJECT(book));
 }
 
 static void
@@ -991,25 +978,13 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	CORBA_Environment ev;
 	PASBookView       *book_view;
-	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBackendFileBookView view;
 	PASBackendFileSearchContext ctx;
 	EIterator *iterator;
 
 	g_return_if_fail (req->listener != NULL);
 	
-	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
-
-	CORBA_exception_init(&ev);
-
-	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
-			  "corba book.\n");
-	}
-
-	CORBA_exception_free(&ev);
+	bonobo_object_ref(BONOBO_OBJECT(book));
 
 	book_view = pas_book_view_new (req->listener);
 
@@ -1033,11 +1008,20 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
-
 	pas_backend_file_search (bf, book, e_iterator_get(iterator));
 	gtk_object_unref(GTK_OBJECT(iterator));
 
 	g_free(req->search);
+	CORBA_exception_init(&ev);
+
+	bonobo_object_release_unref (req->listener, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("pas_backend_file_process_get_book_view: Exception unreffing "
+			  "listener.\n");
+	}
+
+	CORBA_exception_free(&ev);
 }
 
 static void
@@ -1048,25 +1032,13 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	CORBA_Environment ev;
 	PASBookView       *book_view;
-	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBackendFileBookView view;
 	PASBackendFileChangeContext ctx;
 	EIterator *iterator;
 
 	g_return_if_fail (req->listener != NULL);
 
-	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
-
-	CORBA_exception_init(&ev);
-
-	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
-			  "corba book.\n");
-	}
-
-	CORBA_exception_free(&ev);
+	bonobo_object_ref(BONOBO_OBJECT(book));
 
 	book_view = pas_book_view_new (req->listener);
 
@@ -1100,6 +1072,15 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	gtk_object_unref(GTK_OBJECT(iterator));
 
 	g_free(req->search);
+	CORBA_exception_init(&ev);
+	bonobo_object_release_unref (req->listener, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("pas_backend_file_process_get_changed: Exception unreffing "
+			  "listener.\n");
+	}
+
+	CORBA_exception_free(&ev);
 }
 
 static void

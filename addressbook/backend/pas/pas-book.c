@@ -144,7 +144,7 @@ pas_book_queue_get_book_view (PASBook *book, const GNOME_Evolution_Addressbook_B
 	
 	CORBA_exception_init (&ev);
 
-	req->listener = CORBA_Object_duplicate(listener, &ev);
+	req->listener = bonobo_object_dup_ref(listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_queue_get_book_view: Exception "
@@ -168,7 +168,7 @@ pas_book_queue_get_changes (PASBook *book, const GNOME_Evolution_Addressbook_Boo
 	
 	CORBA_exception_init (&ev);
 
-	req->listener = CORBA_Object_duplicate(listener, &ev);
+	req->listener = bonobo_object_dup_ref(listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_queue_get_changes: Exception "

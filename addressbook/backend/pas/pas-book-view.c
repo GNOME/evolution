@@ -185,17 +185,9 @@ pas_book_view_construct (PASBookView                *book_view,
 		return FALSE;
 	}
 
-	CORBA_Object_duplicate (listener, &ev);
+	bonobo_object_dup_ref (listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("Unable to duplicate listener object in pas-book-view.c\n");
-		CORBA_exception_free (&ev);
-
-		return FALSE;
-	}
-
-	GNOME_Evolution_Addressbook_BookViewListener_ref (listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("Unable to ref listener object in pas-book-view.c\n");
+		g_warning("Unable to duplicate & ref listener object in pas-book-view.c\n");
 		CORBA_exception_free (&ev);
 
 		return FALSE;
@@ -245,21 +237,12 @@ pas_book_view_destroy (GtkObject *object)
 	CORBA_Environment   ev;
 
 	CORBA_exception_init (&ev);
-
-	GNOME_Evolution_Addressbook_BookViewListener_unref (book_view->priv->listener, &ev);
+	bonobo_object_release_unref (book_view->priv->listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 
 		return;
 	}
-
-	CORBA_Object_release (book_view->priv->listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		CORBA_exception_free (&ev);
-
-		return;
-	}
-
 	CORBA_exception_free (&ev);
 
 	g_free (book_view->priv);

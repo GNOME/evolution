@@ -1975,35 +1975,16 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 {
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	CORBA_Environment ev;
-	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBookView       *book_view;
 	PASBackendLDAPBookView *view;
 
 	g_return_if_fail (req->listener != NULL);
 
-	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
-
-	CORBA_exception_init(&ev);
-
-	GNOME_Evolution_Addressbook_Book_ref(corba_book, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
-			  "corba book.\n");
-	}
-
-	CORBA_exception_free(&ev);
-
 	book_view = pas_book_view_new (req->listener);
 
+	bonobo_object_ref(BONOBO_OBJECT(book));
 	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
 			   GTK_SIGNAL_FUNC(view_destroy), book);
-
-	pas_book_respond_get_book_view (book,
-		(book_view != NULL
-		 ? GNOME_Evolution_Addressbook_BookListener_Success 
-		 : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
-		book_view);
 
 	view = g_new0(PASBackendLDAPBookView, 1);
 	view->book_view = book_view;
@@ -2012,7 +1993,22 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 
 	bl->priv->book_views = g_list_prepend(bl->priv->book_views, view);
 
+	pas_book_respond_get_book_view (book,
+		(book_view != NULL
+		 ? GNOME_Evolution_Addressbook_BookListener_Success 
+		 : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
+		book_view);
+
 	pas_backend_ldap_search (bl, book, view);
+
+	g_free (req->search);
+	CORBA_exception_init(&ev);
+	bonobo_object_release_unref(req->listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
+			  "corba book.\n");
+	}
+	CORBA_exception_free(&ev);
 
 }
 
