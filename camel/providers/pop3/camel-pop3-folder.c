@@ -163,9 +163,11 @@ pop3_generate_uids (CamelFolder *folder, int count, CamelException *ex)
 		camel_object_unref (CAMEL_OBJECT (stream));
 		
 		uid = base64_encode_simple (digest, 16);
-		if (uid && *uid)
-			g_ptr_array_add (uids, uid);
+		uids->pdata[i] = uid;
 	}
+	
+	if (i < count)
+		g_ptr_array_set_size (uids, i);
 	
 	return uids;
 	

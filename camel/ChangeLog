@@ -1,3 +1,10 @@
+2001-08-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_generate_uids):
+	Oops. Fixed a mis-use of GPtrArray. If we set_size, then using
+	g_ptr_array_add will assume `size' elements have already been
+	initialized and will start appending on to the end.
+
 2001-08-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (pgp_verify): Turn on --batch and reenable
