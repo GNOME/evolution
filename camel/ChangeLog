@@ -1,3 +1,22 @@
+2004-09-24  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-store.c (camel_vee_store_finalise): free the unmatched
+	uid values as well.
+
+	* camel-vee-folder.c (vee_folder_remove_folder): lock main folder
+	summary lock before doing the unmatched stuff, so the order is
+	right.
+
+2004-08-25  Ed Catmur  <ed@catmur.co.uk>
+
+	** See bug #63881.
+
+	* camel-vee-store.c:
+	* camel-vee-folder.c: move the unmatched
+	folder onto the camel-vee-store object.  Removede the global
+ 	unmatched folder and associated locks/etc, fixed all the code up
+	to work with the new unmatched folder, if present.
+
 2004-09-27  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-spool-folder.c (camel_spool_folder_new):
