@@ -1,5 +1,8 @@
+imagesdir = $(datadir)/images/evolution
+
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
 
 noinst_LTLIBRARIES = libeutil.la

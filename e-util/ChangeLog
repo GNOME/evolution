@@ -1,3 +1,10 @@
+2000-05-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Add imagesdir support.
+
+	* e-gui-utils.c, e-gui-utils.h: Added e_create_image_widget for
+	glade use.
+
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-xml-utils.c: xmlGetProp appears to return malloced memory.
