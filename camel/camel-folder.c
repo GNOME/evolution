@@ -1092,7 +1092,7 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
 {
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info = NULL;
-
+	
 	/* Default implementation. */
 	
 	/* we alredy have the lock, dont deadlock */
@@ -1146,6 +1146,11 @@ camel_folder_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uids != NULL);
+	
+	if (source == dest) {
+		/* source and destination folders are the same, do nothing. */
+		return;
+	}
 	
 	CAMEL_FOLDER_LOCK(source, lock);
 	

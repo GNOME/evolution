@@ -1,3 +1,8 @@
+2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.c (camel_folder_copy_messages_to): if source ==
+	dest, just no-op.
+
 2001-07-05  Peter Williams  <peterw@ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_finalise): Move this before the
