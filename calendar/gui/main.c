@@ -153,6 +153,9 @@ main (int argc, char **argv)
 
 	launch_alarm_daemon ();
 
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
 	bonobo_main ();
 
 	alarm_done ();

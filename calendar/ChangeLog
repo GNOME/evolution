@@ -1,3 +1,9 @@
+2001-12-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* gui/main.c (main): Push GdkRGB visual and colormap.
+
 2001-12-13  Damon Chaplin  <damon@ximian.com>
 
 	* zones.h: new file to contain all timezone names for translation.
