@@ -19,12 +19,16 @@
 
 struct _GalViewMenusPrivate {
 	GalViewCollection *collection;
+	int collection_changed_id;
 	BonoboUIVerb *verbs;
+	BonoboUIComponent *component;
 };
 
 #define PARENT_TYPE (gtk_object_get_type())
 
 static GtkObjectClass *gvm_parent_class;
+static void collection_changed (GalViewCollection *collection,
+				GalViewMenus *gvm);
 
 typedef struct {
 	GalViewCollection *collection;
@@ -37,8 +41,12 @@ free_verbs (GalViewMenus *gvm)
 	BonoboUIVerb *verbs;
 	if (gvm->priv->verbs) {
 		for (verbs = gvm->priv->verbs + 1; verbs->cname; verbs++) {
-			CollectionAndView *cnv = verbs->user_data;
+			CollectionAndView *cnv;
 
+			if (gvm->priv->component)
+				bonobo_ui_component_remove_verb(gvm->priv->component, verbs->cname);
+
+			cnv = verbs->user_data;
 			g_free(verbs->cname);
 
 			gtk_object_unref(GTK_OBJECT(cnv->collection));
@@ -51,13 +59,23 @@ free_verbs (GalViewMenus *gvm)
 }
 
 static void
+remove_xml (GalViewMenus *gvm)
+{
+}
+
+static void
 gvm_destroy (GtkObject *object)
 {
 	GalViewMenus *gvm = GAL_VIEW_MENUS (object);
 
+	if (gvm->priv->collection && gvm->priv->collection_changed_id != 0) {
+		gtk_signal_disconnect(GTK_OBJECT(gvm->priv->collection), gvm->priv->collection_changed_id);
+	}
+
 	if (gvm->priv->collection)
 		gtk_object_unref(GTK_OBJECT(gvm->priv->collection));
 	free_verbs(gvm);
+	remove_xml(gvm);
 	g_free(gvm->priv);
 	gvm->priv = NULL;
 
@@ -77,7 +95,9 @@ gvm_init (GalViewMenus *gvm)
 {
 	gvm->priv = g_new(GalViewMenusPrivate, 1);
 	gvm->priv->collection = NULL;
+	gvm->priv->collection_changed_id = 0;
 	gvm->priv->verbs = NULL;
+	gvm->priv->component = NULL;
 }
 
 E_MAKE_TYPE(gal_view_menus, "GalViewMenus", GalViewMenus, gvm_class_init, gvm_init, PARENT_TYPE);
@@ -99,6 +119,9 @@ gal_view_menus_construct (GalViewMenus      *gvm,
 	if (collection)
 		gtk_object_ref(GTK_OBJECT(collection));
 	gvm->priv->collection = collection;
+
+	gtk_signal_connect(GTK_OBJECT(collection), "changed",
+			   GTK_SIGNAL_FUNC(collection_changed), gvm);
 	return gvm;
 }
 
@@ -149,11 +172,15 @@ build_menus(GalViewMenus *menus)
 
 	length = gal_view_collection_get_count(collection);
 	for (i = 0; i < length; i++) {
+		char *verb;
 		GalViewCollectionItem *item = gal_view_collection_get_view_item(collection, i);
 		menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 		bonobo_ui_node_set_attr(menuitem, "name", item->id);
 		bonobo_ui_node_set_attr(menuitem, "_label", item->title);
-		bonobo_ui_node_set_attr(menuitem, "verb", item->id);
+
+		verb = g_strdup_printf("DefineViews:%s", item->id);
+		bonobo_ui_node_set_attr(menuitem, "verb", verb);
+		g_free(verb);
 	}
 
 	menuitem = bonobo_ui_node_new_child(submenu, "separator");
@@ -193,7 +220,7 @@ build_verbs (GalViewMenus *menus)
 	int i;
 	
 	verb            = verbs;
-	verb->cname     = "DefineViews";
+	verb->cname     = g_strdup("DefineViews");
 	verb->cb        = (BonoboUIVerbFn) define_views;
 	verb->user_data = menus;
 	verb->dummy     = NULL;
@@ -209,7 +236,7 @@ build_verbs (GalViewMenus *menus)
 		gtk_object_ref(GTK_OBJECT(cnv->view));
 		gtk_object_ref(GTK_OBJECT(cnv->collection));
 
-		verb->cname     = item->id;
+		verb->cname     = g_strdup_printf("DefineViews:%s", item->id);
 		verb->cb        = show_view;
 		verb->user_data = cnv;
 		verb->dummy     = NULL;
@@ -225,16 +252,38 @@ build_verbs (GalViewMenus *menus)
 	return verbs;
 }
 
+static void
+build_stuff (GalViewMenus      *gvm,
+	     CORBA_Environment *ev)
+{
+	char *xml;
 
-void          gal_view_menus_apply     (GalViewMenus      *menus,
+	remove_xml(gvm);
+	xml = build_menus(gvm);
+	bonobo_ui_component_set_translate(gvm->priv->component, "/", xml, ev);
+	g_free(xml);
+
+	free_verbs(gvm);
+	gvm->priv->verbs = build_verbs(gvm);
+	bonobo_ui_component_add_verb_list(gvm->priv->component, gvm->priv->verbs);
+}
+
+void          gal_view_menus_apply     (GalViewMenus      *gvm,
 					BonoboUIComponent *component,
 					CORBA_Environment *ev)
 {
-	char *xml = build_menus(menus);
-	bonobo_ui_component_set_translate(component, "/", xml, ev);
-	g_free(xml);
+	gvm->priv->component = component;
 
-	free_verbs(menus);
-	menus->priv->verbs = build_verbs(menus);
-	bonobo_ui_component_add_verb_list(component, menus->priv->verbs);
+	build_stuff (gvm, ev);
+}
+
+static void
+collection_changed (GalViewCollection *collection,
+		    GalViewMenus *gvm)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	build_stuff(gvm, &ev);
+	CORBA_exception_free (&ev);
 }

@@ -1,3 +1,8 @@
+2001-03-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* menus/gal-view-menus.c (collection_changed): Rebuild when the
+	collection changes.
+
 2001-01-27  Jason Leach  <jasonleach@usa.net>
 
 	* cvs remove all files in shortcut-bar/, this widget is now in
