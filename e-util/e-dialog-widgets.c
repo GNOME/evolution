@@ -245,7 +245,7 @@ get_toggle_value (GtkToggleButton *toggle, gpointer value_var, gpointer info)
 {
 	gboolean *value;
 
-	value = (gboolean *) value;
+	value = (gboolean *) value_var;
 	*value = e_dialog_toggle_get (GTK_WIDGET (toggle));
 }
 
