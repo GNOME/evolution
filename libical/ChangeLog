@@ -1,3 +1,8 @@
+2002-06-07  JP Rosevear  <jpr@ximian.com>
+
+	* src/libical/icalparameter.c (icalparameter_as_ical_string):
+	quote if the item contains a comma
+
 2001-12-18  Dan Winship  <danw@ximian.com>
 
 	* configure.in (AC_OUTPUT): Remove src/libicalss/Makefile and

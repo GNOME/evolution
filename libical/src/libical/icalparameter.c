@@ -248,7 +248,7 @@ icalparameter_as_ical_string (icalparameter* parameter)
         int qm = 0;
 
 	/* Encapsulate the property in quotes if necessary */
-	if (strchr (impl->string, ';') != 0 || strchr (impl->string, ':') != 0) {
+	if (strpbrk(impl->string, ";:,") != 0) {
 		icalmemory_append_char (&buf, &buf_ptr, &buf_size, '"');
 		qm = 1;
 	}
