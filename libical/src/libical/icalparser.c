@@ -4,6 +4,7 @@
   CREATOR: eric 04 August 1999
   
   $Id$
+  $Locker$
     
  The contents of this file are subject to the Mozilla Public License
  Version 1.0 (the "License"); you may not use this file except in
@@ -734,15 +735,10 @@ icalcomponent* icalparser_add_line(icalparser* parser,
 		break;
 	    }
 
-	    if (name[0] == 'X' && name[1] == '-')
-	        kind = ICAL_X_PARAMETER;
-	    else
-	        kind = icalenum_string_to_parameter_kind(name);
+	    kind = icalenum_string_to_parameter_kind(name);
 
 	    if (kind != ICAL_NO_PARAMETER){
 		param = icalparameter_new_from_string(kind,pvalue);
-		if (kind == ICAL_X_PARAMETER)
-		    icalparameter_set_xname (param, name);
 	    } else {
 		/* Error. Failed to parse the parameter*/
 		/* 'tail' defined above */

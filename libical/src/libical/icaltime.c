@@ -4,6 +4,7 @@
   CREATOR: eric 02 June 2000
   
   $Id$
+  $Locker$
     
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
@@ -222,6 +223,7 @@ int icaltime_compare(struct icaltimetype a,struct icaltimetype b)
     }
 
 }
+
 int
 icaltime_compare_date_only (struct icaltimetype a, struct icaltimetype b)
 {
@@ -406,3 +408,4 @@ struct icaldurationtype  icaltime_subtract(struct icaltimetype t1,
 
 
 }
+

@@ -6,6 +6,7 @@
   
   $Id$
 
+
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
  This program is free software; you can redistribute it and/or modify
@@ -392,33 +393,9 @@ icalproperty_set_parameter (icalproperty* prop,icalparameter* parameter)
 void
 icalproperty_remove_parameter (icalproperty* prop, icalparameter_kind kind)
 {
-<<<<<<< icalproperty.c
-    struct icalproperty_impl *p = (struct icalproperty_impl*)prop;
-    icalparameter *param;
-    pvl_elem elem;
-=======
     pvl_elem p;     
     struct icalproperty_impl *impl = (struct icalproperty_impl*)prop;
->>>>>>> 1.1.1.5
 
-<<<<<<< icalproperty.c
-    icalerror_check_arg_rv((prop!=0),"prop");
-
-    /* This routine is now implemented, so disregard the following
-       assertion. */
-    /*    assert(0); */
-
-    elem = pvl_head (p->parameters);
-    while (elem != NULL) {
-        param = (icalparameter *)pvl_data (elem);
-        if (icalparameter_isa (param) == kind) {
-            pvl_remove (p->parameters, elem);
-            icalparameter_free (param);
-            break;
-        }
-        elem = pvl_next (elem);
-    }
-=======
     icalerror_check_arg_rv((prop!=0),"prop");
     
     for(p=pvl_head(impl->parameters);p != 0; p = pvl_next(p)){
@@ -429,7 +406,6 @@ icalproperty_remove_parameter (icalproperty* prop, icalparameter_kind kind)
             break;
         }
     }                       
->>>>>>> 1.1.1.5
 }
 
 

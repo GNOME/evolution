@@ -6,6 +6,7 @@
   DESCRIPTION:
   
   $Id$
+  $Locker$
 
   (C) COPYRIGHT 1999 Eric Busboom 
   http://www.softwarestudio.org

@@ -6,7 +6,8 @@
   
   DESCRIPTION:
   
-  $Id: icallexer.l,v 1.5 2000/12/11 23:01:19 federico Exp $
+  $Id: icallexer.l,v 1.6 2000/12/12 00:27:39 federico Exp $
+  $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
   http://www.softwarestudio.org

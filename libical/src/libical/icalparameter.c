@@ -4,6 +4,8 @@
   CREATOR: eric 09 May 1999
   
   $Id$
+  $Locker$
+    
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
@@ -134,14 +136,9 @@ icalparameter_new_clone(icalparameter* param)
     return new;
 }
 
-#if 0
-
-<<<<<<< icalparameter.c
-=======
 #if 1
 /* The following code is meant to replace most of the case-switch
    statements, but it is still a work in progress */
->>>>>>> 1.1.1.5
 struct param_string_map {
 	icalparameter_kind kind;
 	int val; /* Actually, union of several types of enums */
@@ -651,7 +648,8 @@ icalparameter* icalparameter_new_from_string(icalparameter_kind kind, char* val)
 
 	case ICAL_X_PARAMETER:
 	{
-		param = icalparameter_new_x(val);
+		param = icalparameter_new(ICAL_FBTYPE_PARAMETER);
+		icalparameter_set_xvalue(param,val);
 	    break;
 	}
 
@@ -729,10 +727,7 @@ icalparameter_as_ical_string (icalparameter* parameter)
     buf_ptr = buf;
     impl = (struct icalparameter_impl*)parameter;
 
-    if (impl->kind == ICAL_X_PARAMETER)
-        kind_string = impl->x_name;
-    else
-        kind_string = icalenum_parameter_kind_to_string(impl->kind);
+    kind_string = icalenum_parameter_kind_to_string(impl->kind);
 
     if (impl->kind == ICAL_NO_PARAMETER || 
 	impl->kind == ICAL_ANY_PARAMETER || 

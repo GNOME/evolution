@@ -3,7 +3,9 @@
  FILE: icalmemory.h
  CREATOR: eric 30 June 1999
 
+
  $Id$
+ $Locker$
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of either: 
