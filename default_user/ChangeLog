@@ -1,5 +1,10 @@
 2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	Reversed my last change, folders with spaces in the name breaks
+	configure
+
+2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* local/Makefile.am: Renamed Sentbox to Sent\ Mail
 
 	* local/Sent\ Mail/*: Updated

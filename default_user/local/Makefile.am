@@ -4,5 +4,5 @@ SUBDIRS =					\
 	Drafts					\
 	Inbox					\
 	Outbox					\
-	Sent\ Mail				\
+	Sentbox					\
 	Trash
