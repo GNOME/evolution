@@ -124,45 +124,45 @@
 
 		<toolitem name="MailGet" verb=""
 		_label="Get Mail" _descr="Send queued mail and retrieve new mail"
-		pixtype="stock" pixname="Receive Mail"/>
+		pixtype="pixbuf"/>
 
 		<toolitem name="MailCompose" verb=""
 		_label="Compose" _descr="Compose a new message"
-		pixtype="stock" pixname="New Mail"/>
+		pixtype="pixbuf"/>
 
 		<toolitem type="separator"/>
 
 		<toolitem name="Reply" verb="MessageReplySndr"
 		_label="Reply" _descr="Reply to the sender of this message"
-		pixtype="stock" pixname="Reply to Mail"/>
+		pixtype="pixbuf"/>
 
 		<toolitem name="ReplyAll" verb="MessageReplyAll"
 		_label="Reply to All" _descr="Reply to all recipients of this message"
-		pixtype="stock" pixname="Reply to Mail"/>
+		pixtype="pixbuf"/>
 
 		<toolitem name="Forward" verb="MessageForward"
 		_label="Forward" _descr="Forward this message"
-		pixtype="stock" pixname="Forward Mail"/>
+		pixtype="pixbuf"/>
 
 		<toolitem type="separator"/>
 
 		<toolitem name="Move" verb="MessageMove"
 		_label="Move" _descr="Move message to a new folder"
-		pixtype="stock" pixname="Send Mail"/>
+		pixtype="pixbuf"/>
 
 		<toolitem name="Copy" verb="MessageCopy"
 		_label="Copy" _descr="Copy message to a new folder"
-		pixtype="stock" pixname="Send Mail"/>
+		pixtype="pixbuf"/>
 
 		<toolitem type="separator"/>
 
 		<toolitem name="Print" verb="MessagePrint"
 		_label="Print" _descr="Print the selected message"
-		pixtype="stock" pixname="Print"/>
+		pixtype="pixbuf"/>
 
 		<toolitem name="Delete" verb="MessageDelete"
 		_label="Delete" _descr="Delete this message"
-		pixtype="stock" pixname="Trash"/>
+		pixtype="pixbuf"/>
 
 	</dockitem>
 </Root>

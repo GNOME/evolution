@@ -122,21 +122,21 @@ set_pixmap (Bonobo_UIContainer container,
 	    const char        *xml_path,
 	    const char        *icon)
 {
-/*
- * FIXME: this is broken, and needs fixing
- * we probably want just to pass a filename in as filename
- * and not to have the mess with gnome_pixmap_file as well.
- */
-/*	char *path, *parent_path;
+	char *path, *parent_path;
 	xmlNode *node;
+	GdkPixbuf *pixbuf;
 
 	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
 
+	pixbuf = gdk_pixbuf_new_from_file (path);
+	g_return_if_fail (pixbuf != NULL);
+	
 	node = bonobo_ui_container_get_tree (container, xml_path, FALSE, NULL);
 
 	g_return_if_fail (node != NULL);
 
-	bonobo_ui_util_xml_set_pix_fname (node, path);
+	bonobo_ui_util_xml_set_pixbuf (node, pixbuf);
+	gdk_pixbuf_unref (pixbuf);
 
 	parent_path = bonobo_ui_xml_get_parent_path (xml_path);
 	bonobo_ui_component_set_tree (NULL, container, parent_path, node, NULL);
@@ -144,7 +144,7 @@ set_pixmap (Bonobo_UIContainer container,
 	xmlFreeNode (node);
 
 	g_free (parent_path);
-	g_free (path);*/
+	g_free (path);
 }
 
 static void

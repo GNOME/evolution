@@ -1,6 +1,7 @@
 2000-09-14  Michael Meeks  <michael@helixcode.com>
 
 	* folder-browser-factory.c: move fn to bonobo.
+	(set_pixmap): update.
 
 2000-09-14  Christopher James Lahey  <clahey@helixcode.com>
 
