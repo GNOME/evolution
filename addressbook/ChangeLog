@@ -1,3 +1,10 @@
+2004-01-24  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component/select-names/e-select-names.c (e_select_names_init):
+	Select Contacts from Address Book, not Contents
+
+	Fixes #53263
+
 2004-01-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-migrate.c (migrate_local_folders):
