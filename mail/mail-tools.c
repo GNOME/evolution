@@ -253,23 +253,23 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 	int offset = 0;
-
+	
 	g_return_val_if_fail (uri != NULL, NULL);
-
+	
 	folder = mail_folder_cache_try_folder (uri);
 	if (folder) {
 		camel_object_ref (CAMEL_OBJECT (folder));
 		return folder;
 	}
-
+	
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
-
+	
 	url = camel_url_new (uri + offset, ex);
 	if (!url) {
 		return NULL;
 	}
-
+	
 	if (!strcmp (url->protocol, "vfolder")) {
 		folder = vfolder_uri_to_folder (uri, ex);
 	} else {
@@ -287,7 +287,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 				else
 					name = "";
 			}
-
+			
 			if (offset)
 				folder = camel_store_get_trash (store, ex);
 			else
@@ -296,7 +296,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 			camel_object_unref (CAMEL_OBJECT (store));
 		}
 	}
-
+	
 	if (camel_exception_is_set (ex)) {
 		if (folder) {
 			camel_object_unref (CAMEL_OBJECT (folder));
@@ -304,9 +304,9 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		}
 	} else
 		mail_folder_cache_note_folder (uri, folder);
-
+	
 	camel_url_free (url);
-
+	
 	return folder;
 }
 

@@ -52,8 +52,6 @@
 
 #include "mail-send-recv.h"
 
-#include <camel/camel-vtrash-folder.h>
-
 char *default_drafts_folder_uri;
 CamelFolder *drafts_folder = NULL;
 char *default_sent_folder_uri;

@@ -1,4 +1,14 @@
+2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (init_trash): Use CAMEL_VTRASH_NAME.
+
+	* mail-ops.c (add_vtrash_info): Use CAMEL_VTRASH_NAME.
+
+	* folder-browser.c: turned off some debugging
+
 2001-07-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (transfer_msg): Disallow vtrash for now...
 
 	* mail-ops.c (add_vtrash_info): Use g_strcasecmp() when looking
 	for a Trash folder - it may be lowercase or something funky.

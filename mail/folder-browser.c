@@ -54,7 +54,7 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 
-#define d(x) x
+#define d(x)
 
 #define PARENT_TYPE (gtk_table_get_type ())
 

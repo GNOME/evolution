@@ -1016,14 +1016,14 @@ add_vtrash_info (CamelFolderInfo *info)
 	g_return_if_fail (info != NULL);
 	
 	for (fi = info; fi->sibling; fi = fi->sibling) {
-		if (!g_strcasecmp (fi->name, _("Trash")))
+		if (!strcmp (fi->name, CAMEL_VTRASH_NAME))
 			break;
 	}
 	
 	/* create our vTrash URL */
 	url = camel_url_new (info->url, NULL);
 	g_free (url->path);
-	url->path = g_strdup_printf ("/%s", _("Trash"));
+	url->path = g_strdup_printf ("/%s", CAMEL_VTRASH_NAME);
 	uri = camel_url_to_string (url, 0);
 	camel_url_free (url);
 	
