@@ -179,7 +179,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 			  etfc);
 
 	gtk_widget_pop_colormap ();
-	gtk_widget_show(widget);
+	gtk_widget_show_all(widget);
 }
 
 static void

@@ -1506,6 +1506,8 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 						 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
 						 128, info, E_I18N_DOMAIN);
+	g_object_ref (popup);
+	gtk_object_sink (GTK_OBJECT (popup));
 	g_signal_connect (popup, "selection-done",
 			  G_CALLBACK (free_popup_info), info);
 	e_popup_menu (popup, (GdkEvent *) event);

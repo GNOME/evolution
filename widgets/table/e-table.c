@@ -1444,8 +1444,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->domain = g_strdup (specification->domain);
 
-	e_table->domain = g_strdup (specification->domain);
-
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->use_click_to_add_end = specification->click_to_add_end;
 	e_table->click_to_add_message = e_utf8_from_locale_string (dgettext (e_table->domain, specification->click_to_add_message));
