@@ -452,6 +452,11 @@ eti_init (GnomeCanvasItem *item)
 	eti->selection_mode = GTK_SELECTION_SINGLE;
 }
 
+#define gray50_width 2
+#define gray50_height 2
+static const char gray50_bits[] = {
+	0x02, 0x01, };
+
 static void
 eti_realize (GnomeCanvasItem *item)
 {
@@ -474,9 +479,13 @@ eti_realize (GnomeCanvasItem *item)
 	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]);
 
 	eti->focus_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (eti->focus_gc, &canvas_widget->style->black);
-	gdk_gc_set_line_attributes (eti->focus_gc, 2, GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
-
+	gdk_gc_set_foreground (eti->focus_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]);
+	gdk_gc_set_background (eti->focus_gc, &canvas_widget->style->fg [GTK_STATE_NORMAL]);
+	eti->stipple = gdk_bitmap_create_from_data (NULL, gray50_bits, gray50_width, gray50_height);
+	gdk_gc_set_ts_origin (eti->focus_gc, 0, 0);
+	gdk_gc_set_stipple (eti->focus_gc, eti->stipple);
+	gdk_gc_set_fill (eti->focus_gc, GDK_OPAQUE_STIPPLED);
+	
 	/*
 	 *
 	 */
@@ -497,6 +506,8 @@ eti_unrealize (GnomeCanvasItem *item)
 	eti->grid_gc = NULL;
 	gdk_gc_unref (eti->focus_gc);
 	eti->focus_gc = NULL;
+	gdk_bitmap_unref (eti->stipple);
+	eti->stipple = NULL;
 	
 	eti_unrealize_cell_views (eti);
 
@@ -636,21 +647,38 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				f_y2 = yd + height;
 				f_found = TRUE;
 			}
-	
+
 			xd += ecol->width;
 		}
 		yd += height + 1;
-		gdk_draw_line (drawable, eti->grid_gc,
-			       eti->x1 - x, yd -1, eti->x1 + eti->width - x, yd -1);
+
+		if (eti->draw_grid)
+			gdk_draw_line (
+				drawable, eti->grid_gc,
+				eti->x1 - x, yd -1, eti->x1 + eti->width - x, yd -1);
 	}
 
+	if (eti->draw_grid){
+		int xd = x_offset;
+		
+		for (col = first_col; col < last_col; col++){
+			ETableCol *ecol = e_table_header_get_column (eti->header, col);
+
+			gdk_draw_line (
+				drawable, eti->grid_gc,
+				xd, y_offset, xd, yd);
+
+			xd += ecol->width;
+		}
+	}
+	
 	/*
 	 * Draw focus
 	 */
 	if (f_found && eti->draw_focus){
 		gdk_draw_rectangle (
 			drawable, eti->focus_gc, FALSE,
-			f_x1 - 1, f_y1 - 1, f_x2 - f_x1 + 2 , f_y2 - f_y1 + 2);
+			f_x1 + 1, f_y1, f_x2 - f_x1 - 2, f_y2 - f_y1 - 1);
 	}
 }
 

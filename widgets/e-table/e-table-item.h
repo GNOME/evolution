@@ -32,6 +32,7 @@ typedef struct {
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
 	GdkGC           *focus_gc;
+	GdkBitmap       *stipple;
 
 	unsigned int     draw_grid:1;
 	unsigned int     draw_focus:1;

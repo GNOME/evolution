@@ -1,5 +1,8 @@
 1999-11-28  Miguel de Icaza  <miguel@gnu.org>
 
+	* e-table-item.c (eti_draw): Focus inside, not outside.
+	(eti_realize): Enhance our focus gc.
+
 	* e-cell-text.c (ect_enter_edit, ect_leave_edit): New methods;
 	They implement editing.
 
