@@ -1,3 +1,8 @@
+2001-08-23  Peter Williams  <peterw@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Eek, let the user create
+	new accounts if old_account == NULL.
+
 2001-08-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (destination_folder_handle_drop): Check to
