@@ -338,17 +338,14 @@ void icalrecur_add_bydayrules(struct icalrecur_parser *parser, const char* vals)
 	    sign = 1;
 	}
 
-	weekno = 0;
 	/* Get Optional weekno */
-	if( sscanf(t,"%d",&weekno) != 0){
-	    if (n != 0){
-		int weeknolen = (n-t)-3; /* 3 -> one for \0, 2 for day name */
-		/* could use abs(log10(weekno))+1, but that needs libm */
-		t += weeknolen;
-	    } else {
-		t = end -2;
-	    }
-	}
+	weekno = strtol(t,&t,10);
+
+	/* Outlook/Exchange generate "BYDAY=MO, FR" and "BYDAY=2 TH".
+	 * Cope with that.
+	 */
+	if (*t == ' ')
+	    t++;
 
 	wd = icalrecur_string_to_weekday(t);
 
