@@ -1,3 +1,10 @@
+2001-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: More fixes for NSPR and NSS checks - use fixed it
+	to use AC_CHECK_HEADERS instead of AC_CHECK_FILES. Also made it
+	not default the nspr lib path to /usr/lib/mozilla which may not be
+	in the user's library path when checking for nspr libs.
+
 2001-03-20  Jakub Steiner <jimmac@ximian.com>
 
 	* art/48_send-receive.png: send-receive for the s/r dialog
