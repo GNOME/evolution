@@ -319,7 +319,7 @@ camel_mime_parser_init (CamelMimeParser *obj)
 }
 
 static void
-camel_mime_parser_finalize(CamelObject *o)
+camel_mime_parser_finalise(CamelObject *o)
 {
 	struct _header_scan_state *s = _PRIVATE(o);
 #ifdef PURIFY
@@ -340,7 +340,7 @@ camel_mime_parser_get_type (void)
 					    (CamelObjectClassInitFunc) camel_mime_parser_class_init,
 					    NULL,
 					    (CamelObjectInitFunc) camel_mime_parser_init,
-					    (CamelObjectFinalizeFunc) camel_mime_parser_finalize);
+					    (CamelObjectFinalizeFunc) camel_mime_parser_finalise);
 	}
 	
 	return type;

@@ -19,6 +19,8 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+/* dont touch this file without my permission - Michael */
+
 #include <config.h>
 
 #include <stdio.h>
@@ -1031,6 +1033,9 @@ header_decode_text (const char *in, int inlen)
 }
 
 #if 0     /* This is broken */
+
+/* so in what way is it broken? */
+
 /* decodes a simple text, rfc822 */
 static char *
 header_decode_text(const char *in, int inlen)

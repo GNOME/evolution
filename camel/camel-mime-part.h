@@ -68,9 +68,7 @@ struct _CamelMimePart
 	GList *content_languages;
 	CamelMimePartEncodingType encoding;
 	
-	GByteArray *temp_message_buffer;
 	GMimeContentField *content_type;
-	CamelStream *content_input_stream;
 
 	struct _header_raw *headers; /* mime headers */
 };

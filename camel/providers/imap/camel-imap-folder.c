@@ -706,10 +706,10 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		}
 		
 		/* construct the CamelMessageInfo */
-		info->subject = camel_summary_format_string (h, "subject");
-		info->from = camel_summary_format_address (h, "from");
-		info->to = camel_summary_format_address (h, "to");
-		info->cc = camel_summary_format_address (h, "cc");
+		info->subject = camel_folder_summary_format_string (h, "subject");
+		info->from = camel_folder_summary_format_address (h, "from");
+		info->to = camel_folder_summary_format_address (h, "to");
+		info->cc = camel_folder_summary_format_address (h, "cc");
 		info->user_flags = NULL;
 		info->date_sent = header_decode_date (header_raw_find (&h, "date", NULL), NULL);
 		received = header_raw_find (&h, "received", NULL);
@@ -832,10 +832,10 @@ imap_get_message_info_internal (CamelFolder *folder, guint id, CamelException *e
 	}
 	
 	/* construct the CamelMessageInfo */
-	info->subject = camel_summary_format_string (h, "subject");
-	info->from = camel_summary_format_address (h, "from");
-	info->to = camel_summary_format_address (h, "to");
-	info->cc = camel_summary_format_address (h, "cc");
+	info->subject = camel_folder_summary_format_string (h, "subject");
+	info->from = camel_folder_summary_format_address (h, "from");
+	info->to = camel_folder_summary_format_address (h, "to");
+	info->cc = camel_folder_summary_format_address (h, "cc");
 	info->user_flags = NULL;
 	info->date_sent = header_decode_date (header_raw_find (&h, "date", NULL), NULL);
 	received = header_raw_find (&h, "received", NULL);

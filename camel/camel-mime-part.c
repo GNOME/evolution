@@ -133,9 +133,6 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	camel_mime_part->content_MD5          = NULL;
 	camel_mime_part->content_languages    = NULL;
 	camel_mime_part->encoding             = CAMEL_MIME_PART_ENCODING_DEFAULT;
-
-	camel_mime_part->temp_message_buffer  = NULL;	
-	camel_mime_part->content_input_stream = NULL;
 }
 
 
@@ -150,10 +147,8 @@ camel_mime_part_finalize (CamelObject *object)
 	string_list_free (mime_part->content_languages);
 	header_disposition_unref(mime_part->disposition);
 	
-	if (mime_part->content_type) gmime_content_field_unref (mime_part->content_type);
-	if (mime_part->temp_message_buffer) g_byte_array_free (mime_part->temp_message_buffer, TRUE);
-
-	if (mime_part->content_input_stream) camel_object_unref (CAMEL_OBJECT (mime_part->content_input_stream));
+	if (mime_part->content_type)
+		gmime_content_field_unref (mime_part->content_type);
 
 	header_raw_clear(&mime_part->headers);
 }

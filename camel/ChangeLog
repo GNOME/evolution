@@ -1,3 +1,30 @@
+2000-10-11  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-part.h (struct _CamelMimePart): Removed
+	temp_message_buffer, and content_input_stream fields which seem to
+	have come from nowhere, and are unused.
+
+	* camel-mime-utils.c: Added a note about touching this file.
+	Nobody is to touch it without asking me first.  That goes for you
+	too Jeff.
+	(header_decode_text): In what way is this broken?
+
+2000-10-10  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_summary_internal):
+	Fix camel_summary_* function rename
+	(imap_get_message_info_internal): Likewise.
+
+	* camel-mime-parser.c (camel_mime_parser_finalise): Fixed a spelling mistake.
+
+	* camel-folder-summary.c (camel_summary_format_address): Uh, why
+	do we encode and then decode here ... sigh.  This is not the way
+	to fix this.
+	(camel_folder_summary_format_address): Renamed to a proper name,
+	this was only supposed to be a private function.
+	(camel_folder_summary_format_string): Likewise.  Oh i see why it
+	was made public, code reuse by cut & paste.  Joy.
+
 2000-10-11  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-store.c (nntp_store_unsubscribe_folder): remove the leading '/'.
@@ -44,6 +71,7 @@
 	* providers/nntp/camel-nntp-newsrc.c: robustification and bug
 	fixes.
 
+>>>>>>> 1.527
 2000-10-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-folder-summary.c (camel_summary_format_address): Decode
