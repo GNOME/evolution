@@ -1015,7 +1015,9 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	
 	for (i = 1; i <= num; i++) {
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-						      &result, "FETCH %d BODY.PEEK[HEADER]", i);
+						      &result, "FETCH %d BODY[HEADER.FIELDS "
+						      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
+						      "REFERENCES IN-REPLY-TO)]", i);
 		
 		if (status != CAMEL_IMAP_OK) {
 			CamelService *service = CAMEL_SERVICE (folder->parent_store);
@@ -1263,9 +1265,10 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	}
 
 	/* we don't have a cached copy, so fetch it */
-	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "UID FETCH %s BODY.PEEK[HEADER]", uid);
+					      &result, "UID FETCH %s BODY[HEADER.FIELDS "
+					      "(SUBJECT FROM TO CC DATE MESSAGE-ID "
+					      "REFERENCES IN-REPLY-TO)]", uid);
 
 	if (status != CAMEL_IMAP_OK) {
 		g_free (result);

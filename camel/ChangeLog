@@ -1,3 +1,9 @@
+2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_summary): Don't
+	fetch the entire RFC822 header, just fetch the fields we want.
+	(imap_get_message_info): Same.
+
 2000-07-13  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-filter-basic.c (camel_mime_filter_basic_new_type):
@@ -8,7 +14,7 @@
 	* camel-mime-utils.c (quoted_encode_step): Actually count the
 	characters output sofar (it never counted any).  Bunch of other
 	fixes.
-	(quoted_encode_close): Also flush out final character, if ther's
+	(quoted_encode_close): Also flush out final character, if there's
 	one.
 
 2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
