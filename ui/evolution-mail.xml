@@ -48,13 +48,20 @@
      pixtype="pixbuf" accel="*Control**Shift*r"
      _tip="Send a single mail in reply to all the selected mail"/>
 
-    <cmd name="MessageForwardAttached" _label="Forward"
-     pixtype="pixbuf" accel="*Control*j"
+    <cmd name="MessageForward" _label="Forward"
+     pixtype="pixbuf" accel="*Control*f"
      _tip="Forward the selected mail to someone"/>
 
-    <cmd name="MessageForwardInlined" _label="Forward inline"
+    <cmd name="MessageForwardAttached" _label="Forward attached"
+     pixtype="pixbuf" accel="*Control*j"
+     _tip="Forward the selected mail to someone as an attachment"/>
+
+    <cmd name="MessageForwardInline" _label="Forward inline"
      _tip="Forward this message in-line with your mail, so you can edit it"
      accel="*Control**Shift*j"/>
+
+    <cmd name="MessageForwardQuoted" _label="Forward quoted"
+     _tip="Forward this message quoted like a reply"/>
 
     <cmd name="MessageMarkAsRead" _label="Mark As Read"
      _tip="Mark the selected messages as having been read" accel="*Control*k"/>
@@ -233,25 +240,19 @@
       	    pixtype="pixbuf"
       	    accel="*Control**Shift*r"/>
 
-      	    <menuitem name="MessageForwardAttached" verb=""
+      	    <menuitem name="MessageForward" verb=""
       	    _label="_Forward"
              pixtype="pixbuf"
       	     accel="*Control*f"/>
       	    
       	    <submenu name="ForwardAs" _label="Forward As">
-                <menuitem name="MessageForwardInlined" verb=""
-      	  	 _label="_Inline"
-      	  	 accel="*Control**Shift*j"/>
+      	  	  <menuitem verb="MessageForwardAttached"/>      	  
+                  <menuitem verb="MessageForwardInline"/>
+		  <menuitem verb="MessageForwardQuoted"/>
 
-      	  	 <menuitem name="MessageForwardQuoted" verb=""
-      	  	  _label="_Quoted"/>
+		  <separator/>
 
-      	  	  <menuitem verb="MessageForwardAttached"
-      	  	  _label="_Attachment"/>
-      	  
-      	  	 <separator/>
-      	  		    
-      	  	 <menuitem name="Redirect" verb=""
+		  <menuitem name="Redirect" verb=""
       	  	  _label="Redirect (FIXME: implement me)"/>
       	    </submenu>
       	    
@@ -359,7 +360,7 @@
     _label="Reply to All" priority="1" _tip="Reply to all recipients of this message"
     pixtype="pixbuf"/>
 
-    <toolitem name="Forward" verb="MessageForwardAttached"
+    <toolitem name="Forward" verb="MessageForward"
     _label="Forward" priority="1" _tip="Forward this message"
     pixtype="pixbuf"/>
 

@@ -1,3 +1,11 @@
+2001-05-14  Dan Winship  <danw@ximian.com>
+
+	* evolution-mail.xml: Redo forwarding stuff so there's "Forward",
+	"ForwardAttached", "ForwardInline" (not "inlined"), and
+	"ForwardQuoted", where the first uses a default style. Make
+	Actions->Forward and the toolbar Forward button use the default
+	style.
+
 2001-05-12  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* evolution-mail.xml: add pixmaps for MessageCopy and
