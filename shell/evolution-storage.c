@@ -453,16 +453,19 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 static void
 impl_Storage_asyncOpenFolder (PortableServer_Servant servant,
 			      const CORBA_char *path,
+			      Bonobo_Listener listener,
 			      CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
+	CORBA_Object obj_dup;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
+	obj_dup = CORBA_Object_duplicate (listener, ev);
 	g_signal_emit (storage, signals[OPEN_FOLDER], 0,
-		       path);
+		       obj_dup, path);
 }
 
 static void
@@ -762,8 +765,9 @@ evolution_storage_class_init (EvolutionStorageClass *klass)
 				G_SIGNAL_RUN_LAST,
 				G_STRUCT_OFFSET (EvolutionStorageClass, open_folder),
 				NULL, NULL,
-				e_shell_marshal_NONE__STRING,
-				G_TYPE_NONE, 1,
+				e_shell_marshal_NONE__POINTER_STRING,
+				G_TYPE_NONE, 2,
+				G_TYPE_POINTER,
 				G_TYPE_STRING);
 
 	signals[DISCOVER_SHARED_FOLDER] 

@@ -246,21 +246,6 @@ storage_removed_folder_cb (EStorage *storage,
 	g_free (full_path);
 }
 
-static void
-storage_close_folder_cb (EStorage *storage,
-			 const char *path,
-			 void *data)
-{
-	EStorageSet *storage_set;
-	char *full_path;
-
-	storage_set = E_STORAGE_SET (data);
-
-	full_path = make_full_path (storage, path);
-	g_signal_emit (storage_set, signals[CLOSE_FOLDER], 0, full_path);
-	g_free (full_path);
-}
-
 
 static EStorage *
 get_storage_for_path (EStorageSet *storage_set,
@@ -549,8 +534,6 @@ e_storage_set_add_storage (EStorageSet *storage_set,
 			  G_CALLBACK (storage_updated_folder_cb), storage_set);
 	g_signal_connect (storage, "removed_folder",
 			  G_CALLBACK (storage_removed_folder_cb), storage_set);
-	g_signal_connect (storage, "close_folder",
-			  G_CALLBACK (storage_close_folder_cb), storage_set);
 
 	priv->storages = g_list_append (priv->storages, storage);
 
@@ -664,6 +647,19 @@ e_storage_set_get_folder (EStorageSet *storage_set,
 
 
 static void
+async_open_cb (EStorage *storage, EStorageResult result,
+	       const char *path, gpointer storage_set)
+{
+	if (result != E_STORAGE_OK) {
+		char *full_path;
+
+		full_path = make_full_path (storage, path);
+		g_signal_emit (storage_set, signals[CLOSE_FOLDER], 0, full_path);
+		g_free (full_path);
+	}
+}
+
+static void
 storage_set_view_folder_opened (EStorageSetView *storage_set_view,
 				const char *path,
 				EStorageSet *storage_set)
@@ -675,7 +671,8 @@ storage_set_view_folder_opened (EStorageSetView *storage_set_view,
 	if (storage == NULL)
 		return;
 
-	e_storage_async_open_folder (storage, subpath);
+	e_storage_async_open_folder (storage, subpath,
+				     async_open_cb, storage_set);
 }
 
 GtkWidget *

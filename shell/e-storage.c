@@ -64,7 +64,6 @@ enum {
 	NEW_FOLDER,
 	UPDATED_FOLDER,
 	REMOVED_FOLDER,
-	CLOSE_FOLDER,
 	LAST_SIGNAL
 };
 
@@ -229,9 +228,11 @@ impl_async_xfer_folder (EStorage *storage,
 
 static void
 impl_async_open_folder (EStorage *storage,
-			const char *path)
+			const char *path,
+			EStorageDiscoveryCallback callback,
+			void *data)
 {
-	;
+	(*callback) (storage, E_STORAGE_NOTIMPLEMENTED, path, data);
 }
 
 static gboolean
@@ -307,15 +308,6 @@ class_init (EStorageClass *class)
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EStorageClass, removed_folder),
-			      NULL, NULL,
-			      e_shell_marshal_NONE__STRING,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
-	signals[CLOSE_FOLDER] =
-		g_signal_new ("close_folder",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EStorageClass, close_folder),
 			      NULL, NULL,
 			      e_shell_marshal_NONE__STRING,
 			      G_TYPE_NONE, 1,
@@ -498,17 +490,21 @@ e_storage_async_xfer_folder (EStorage *storage,
 
 void
 e_storage_async_open_folder (EStorage *storage,
-			     const char *path)
+			     const char *path,
+			     EStorageDiscoveryCallback callback,
+			     void *data)
 {
 	g_return_if_fail (storage != NULL);
 	g_return_if_fail (E_IS_STORAGE (storage));
 	g_return_if_fail (path != NULL);
 	g_return_if_fail (g_path_is_absolute (path));
 
-	if (g_hash_table_lookup (storage->priv->pseudofolders, path) == NULL)
+	if (g_hash_table_lookup (storage->priv->pseudofolders, path) == NULL) {
+		(* callback) (storage, E_STORAGE_OK, path, data);
 		return;
+	}
 
-	(* ES_CLASS (storage)->async_open_folder) (storage, path);
+	(* ES_CLASS (storage)->async_open_folder) (storage, path, callback, data);
 }
 
 
@@ -741,8 +737,6 @@ e_storage_has_subfolders (EStorage *storage,
 	g_return_val_if_fail (message != NULL, FALSE);
 
 	priv = storage->priv;
-
-	g_signal_emit (storage, signals[CLOSE_FOLDER], 0, path);
 
 	if (g_hash_table_lookup (priv->pseudofolders, path))
 		return TRUE;

@@ -458,44 +458,83 @@ async_xfer_folder (EStorage *storage,
 	CORBA_exception_free (&ev);
 }
 
+struct async_open_closure {
+	EStorageDiscoveryCallback callback;
+	EStorage *storage;
+	void *data;
+	char *path;
+};
+
+static void
+async_open_cb (BonoboListener *listener, const char *event_name, 
+	       const CORBA_any *any, CORBA_Environment *ev,
+	       gpointer user_data)
+{
+	struct async_open_closure *closure = user_data;
+	GNOME_Evolution_Storage_Result *corba_result;
+	EStorageResult result;
+
+	corba_result = any->_value;
+	result = e_corba_storage_corba_result_to_storage_result (*corba_result);
+
+	(* closure->callback) (closure->storage, result, closure->path, closure->data);
+
+	bonobo_object_unref (BONOBO_OBJECT (listener));
+	g_free (closure->path);
+	g_free (closure);
+}
+
 static gboolean
 async_open_folder_idle (gpointer data)
 {
-	gpointer *pair = data;
-
-	EStorage *storage = pair[0];
-	char *path = pair[1];
-
+	struct async_open_closure *closure = data;
+	EStorage *storage = closure->storage;
 	ECorbaStorage *corba_storage;
+	BonoboListener *listener;
+	Bonobo_Listener corba_listener;
 	CORBA_Environment ev;
 
 	corba_storage = E_CORBA_STORAGE (storage);
-
-	if (corba_storage->priv != NULL) {
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Storage_asyncOpenFolder (corba_storage->priv->storage_interface,
-							 path, &ev);
-		CORBA_exception_free (&ev);
+	if (corba_storage->priv == NULL) {
+		(* closure->callback) (storage, E_STORAGE_GENERICERROR,
+				       closure->path, closure->data);
+		g_free (closure->path);
+		g_free (closure);
+		return FALSE;
 	}
 
-	g_object_unref (storage);
-	g_free (path);
-	g_free (pair);
+	listener = bonobo_listener_new (async_open_cb, closure);
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (listener));
 
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_asyncOpenFolder (corba_storage->priv->storage_interface,
+						 closure->path, corba_listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		(* closure->callback) (storage, E_STORAGE_GENERICERROR,
+				       closure->path, closure->data);
+		bonobo_object_unref (BONOBO_OBJECT (listener));
+		g_free (closure->path);
+		g_free (closure);
+	}
+	CORBA_exception_free (&ev);
 	return FALSE;
 }
 
 static void
 async_open_folder (EStorage *storage,
-		   const char *path)
+		   const char *path,
+		   EStorageDiscoveryCallback callback,
+		   void *data)
 {
-	gpointer *pair = g_new (gpointer, 2);
-	pair[0] = storage;
-	g_object_ref (storage);
-	pair[1] = g_strdup (path);
+	struct async_open_closure *closure;
 
-	g_idle_add (async_open_folder_idle, pair);
+	closure = g_new (struct async_open_closure, 1);
+	closure->callback = callback;
+	closure->storage = storage;
+	closure->data = data;
+	closure->path = g_strdup (path);
+
+	g_idle_add (async_open_folder_idle, closure);
 }
 
 

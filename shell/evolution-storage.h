@@ -104,6 +104,7 @@ struct _EvolutionStorageClass {
 			     gboolean remove_source);
 
 	void (*open_folder) (EvolutionStorage *storage,
+			     const Bonobo_Listener listener,
 			     const char *path);
 
 	void (*update_folder) (EvolutionStorage *storage,

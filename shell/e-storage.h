@@ -112,7 +112,9 @@ struct _EStorageClass {
 					       void *data);
 
 	void         (* async_open_folder)    (EStorage *storage,
-					       const char *path);
+					       const char *path,
+					       EStorageDiscoveryCallback callback,
+					       void *data);
 
 	gboolean     (* supports_shared_folders)       (EStorage *storage);
 	void         (* async_discover_shared_folder)  (EStorage *storage,
@@ -165,8 +167,10 @@ void  e_storage_async_xfer_folder    (EStorage               *storage,
 				      const gboolean          remove_source,
 				      EStorageResultCallback  callback,
 				      void                   *data);
-void  e_storage_async_open_folder    (EStorage               *storage,
-				      const char             *path);
+void  e_storage_async_open_folder    (EStorage                  *storage,
+				      const char                *path,
+				      EStorageDiscoveryCallback  callback,
+				      void                      *data);
 
 const char *e_storage_result_to_string  (EStorageResult result);
 

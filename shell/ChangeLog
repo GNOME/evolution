@@ -1,3 +1,36 @@
+2003-03-14  Dan Winship  <danw@ximian.com>
+
+	* Evolution-Storage.idl (asyncOpenFolder): add a Bonobo::Listener
+	to this like the other async interfaces, rather than having a
+	hacky way to signal failure.
+
+	* evolution-storage.c (impl_Storage_asyncOpenFolder): Update to
+	take a listener and emit it as part of the signal
+	(evolution_storage_class_init): update OPEN_FOLDER signal
+	prototype.
+
+	* e-shell-marshal.list (NONE:POINTER,STRING): add, for changed
+	EvolutionStorage open_folder signal
+
+	* e-storage.c (e_storage_async_open_folder): add a callback arg
+	(impl_async_open_folder): call the callback with NOTIMPLEMENTED.
+	(class_init): remove the CLOSE_FOLDER signal
+	(e_storage_has_subfolders): Don't emit CLOSE_FOLDER since it
+	doesn't exist any more, and this function is used for that side
+	effect any more anyway.
+
+	* e-corba-storage.c (async_open_folder): add the callback arg and
+	create a proper closure.
+	(async_open_folder_idle): Call the callback in case of error.
+	Create a listener and pass that to the CORBA call.
+	(async_open_cb): Listener callback.
+
+	* e-storage-set.c (storage_set_view_folder_opened): Pass a
+	callback to e_storage_async_open_folder.
+	(async_open_cb): emit CLOSE_FOLDER if the open failed
+	(storage_close_folder_cb): Remove this since the signal no longer
+	exists.
+	
 2003-03-11  Dan Winship  <danw@ximian.com>
 
 	* e-shell-startup-wizard.c (start_wizard): If the wizard factory
