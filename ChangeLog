@@ -1,3 +1,7 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* tests/test-movemail.c: Reverted removal of e_setup_base_dir.
+
 2000-06-02  Jesus Bravo Alvarez  <jba@pobox.com>
 
 	* configure.in: Added pt (Portuguese) to ALL_LINGUAS
