@@ -1,3 +1,7 @@
+2001-02-08  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Upped the version number of gal required to 0.5.
+
 2001-02-07  JP Rosevear  <jpr@ximian.com>
 
 	* README: Update to latest requirements
