@@ -1,3 +1,11 @@
+2001-10-23  Damon Chaplin  <damon@ximian.com>
+
+	* cal-util/cal-component.c (cal_component_event_dates_match): make sure
+	we free all the CalComponentDateTime's when we are finished.
+
+	* gui/gnome-cal.c (gnome_calendar_notify_dates_shown_changed): just
+	return if no time range is set.
+
 2001-10-23  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c

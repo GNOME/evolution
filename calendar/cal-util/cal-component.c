@@ -4991,6 +4991,7 @@ cal_component_event_dates_match	(CalComponent *comp1,
 {
 	CalComponentDateTime comp1_dtstart, comp1_dtend;
 	CalComponentDateTime comp2_dtstart, comp2_dtend;
+	gboolean retval = TRUE;
 
 	cal_component_get_dtstart (comp1, &comp1_dtstart);
 	cal_component_get_dtend   (comp1, &comp1_dtend);
@@ -4999,32 +5000,50 @@ cal_component_event_dates_match	(CalComponent *comp1,
 
 	/* If either value is NULL they must both be NULL to match. */
 	if (comp1_dtstart.value == NULL || comp2_dtstart.value == NULL) {
-		if (comp1_dtstart.value != comp2_dtstart.value)
-			return FALSE;
+		if (comp1_dtstart.value != comp2_dtstart.value) {
+			retval = FALSE;
+			goto out;
+		}
 	} else {
 		if (icaltime_compare (*comp1_dtstart.value,
-				      *comp2_dtstart.value))
-			return FALSE;
+				      *comp2_dtstart.value)) {
+			retval = FALSE;
+			goto out;
+		}
 	}
 
 	if (comp1_dtend.value == NULL || comp2_dtend.value == NULL) {
-		if (comp1_dtend.value != comp2_dtend.value)
-			return FALSE;
+		if (comp1_dtend.value != comp2_dtend.value) {
+			retval = FALSE;
+			goto out;
+		}
 	} else {
 		if (icaltime_compare (*comp1_dtend.value,
-				      *comp2_dtend.value))
-			return FALSE;
+				      *comp2_dtend.value)) {
+			retval = FALSE;
+			goto out;
+		}
 	}
 
 	/* Now check the timezones. */
 	if (!cal_component_strings_match (comp1_dtstart.tzid,
-					  comp2_dtstart.tzid))
-		return FALSE;
+					  comp2_dtstart.tzid)) {
+		retval = FALSE;
+		goto out;
+	}
 
 	if (!cal_component_strings_match (comp1_dtend.tzid,
-					  comp2_dtend.tzid))
-		return FALSE;
+					  comp2_dtend.tzid)) {
+		retval = FALSE;
+	}
 
-	return TRUE;
+ out:
+
+	cal_component_free_datetime (&comp1_dtstart);
+	cal_component_free_datetime (&comp1_dtend);
+	cal_component_free_datetime (&comp2_dtstart);
+	cal_component_free_datetime (&comp2_dtend);
+
+	return retval;
 }
 

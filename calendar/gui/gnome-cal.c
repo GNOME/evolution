@@ -2554,7 +2554,10 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
+	/* If no time range is set yet, just return. */
+	if (!gnome_calendar_get_visible_time_range (gcal, &start_time,
+						    &end_time))
+		return;
 
 	/* We check if the visible date range has changed, and only emit the
 	   signal if it has. (This makes sure we only change the folder title
