@@ -213,29 +213,40 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				command.action = E_TEP_MOVE;
 			switch(key.keyval) {
 			case GDK_Home:
+			case GDK_KP_Home:
 				if (key.state & GDK_CONTROL_MASK)
 					command.position = E_TEP_START_OF_BUFFER;
 				else
 					command.position = E_TEP_START_OF_LINE;
 				break;
 			case GDK_End:
+			case GDK_KP_End:
 				if (key.state & GDK_CONTROL_MASK)
 					command.position = E_TEP_END_OF_BUFFER;
 				else
 					command.position = E_TEP_END_OF_LINE;
 				break;
-			case GDK_Page_Up: command.position = E_TEP_BACKWARD_PAGE; break;
-			case GDK_Page_Down: command.position = E_TEP_FORWARD_PAGE; break;
+			case GDK_Page_Up:
+			case GDK_KP_Page_Up: command.position = E_TEP_BACKWARD_PAGE; break;
+
+			case GDK_Page_Down:
+			case GDK_KP_Page_Down: command.position = E_TEP_FORWARD_PAGE; break;
 				/* CUA has Ctrl-Up/Ctrl-Down as paragraph up down */
-			case GDK_Up:        command.position = E_TEP_BACKWARD_LINE; break;
-			case GDK_Down:      command.position = E_TEP_FORWARD_LINE; break;
+			case GDK_Up:
+			case GDK_KP_Up:        command.position = E_TEP_BACKWARD_LINE; break;
+
+			case GDK_Down:
+			case GDK_KP_Down:      command.position = E_TEP_FORWARD_LINE; break;
+
 			case GDK_Left:
+			case GDK_KP_Left:
 				if (key.state & GDK_CONTROL_MASK)
 					command.position = E_TEP_BACKWARD_WORD;
 				else
 					command.position = E_TEP_BACKWARD_CHARACTER;
 				break;
-			case GDK_Right:     
+			case GDK_Right:
+			case GDK_KP_Right:
 				if (key.state & GDK_CONTROL_MASK)
 					command.position = E_TEP_FORWARD_WORD;
 				else
@@ -254,6 +265,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				command.position = E_TEP_END_OF_LINE;
 				break;
 			case GDK_Insert:
+			case GDK_KP_Insert:
 				if (key.state & GDK_SHIFT_MASK) {
 					command.action = E_TEP_PASTE;
 					command.position = E_TEP_SELECTION;
@@ -261,10 +273,11 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 					command.action = E_TEP_COPY;
 					command.position = E_TEP_SELECTION;
 				} else {
-				/* gtk_toggle_insert(text) -- IMPLEMENT */
+				/* gtk_toggle_insert(text) -- IMPLEMENT -- FIXME */
 				}
 				break;
 			case GDK_Delete:
+			case GDK_KP_Delete:
 				if (key.state & GDK_CONTROL_MASK){
 					command.action = E_TEP_DELETE;
 					command.position = E_TEP_FORWARD_WORD;
@@ -281,11 +294,15 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 				}
 				break;
 			case GDK_Tab:
+			case GDK_KP_Tab:
+			case GDK_ISO_Left_Tab:
+			case GDK_3270_BackTab:
 				/* Don't insert literally */
 				command.action = E_TEP_NOP;
 				command.position = E_TEP_SELECTION;
 				break;
 			case GDK_Return:
+			case GDK_KP_Enter:
 				if (key.state & GDK_CONTROL_MASK) {
 					command.action = E_TEP_ACTIVATE;
 					command.position = E_TEP_SELECTION;
