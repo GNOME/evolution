@@ -183,13 +183,13 @@ static GnomeUIInfo main_menu[] = {
 			pixtype="stock" pixname="Save"/>
 
 		        <menuitem name="SaveAs" verb="ContactEditorSaveAs"
-			_label="Save _As"
+			_label="Save _As..."
 			pixtype="stock" pixname="SaveAs"/>
 
 			<separator/>
 
 		        <menuitem name="Delete" verb="ContactEditorDelete"
-			_label="Delete"
+			_label="Delete..."
 			pixtype="stock" pixname="Trash"/>
 
 			<separator/>
@@ -197,9 +197,13 @@ static GnomeUIInfo main_menu[] = {
 			<placeholder name="Print">
 
 				<menuitem name="Print" verb="ContactEditorPrint"
-				_label="_Print"
+				_label="_Print..."
 				pixtype="stock" pixname="Print"/>
-				
+
+				<menuitem name="PrintEnv" verb="ContactEditorPrintEnvelope"
+				_label="Print En_velope..."
+				pixtype="stock" pixname="Print"/>
+
 			</placeholder>
 
 			<separator/>
@@ -222,7 +226,7 @@ static GnomeUIInfo main_menu[] = {
 		_tip="Print this item" verb="ContactEditorPrint"
 		pixtype="stock" pixname="Print"/>
 
-		<toolitem name="Delete" _label="Delete"
+		<toolitem name="Delete" _label="Delete..."
 		_tip="Delete this item" verb="ContactEditorDelete"
 		pixtype="stock" pixname="Trash"/>
 
