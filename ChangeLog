@@ -1,3 +1,8 @@
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in (UPGRADE_REVISION): bump to 7 for new contact list
+	migration.
+
 2004-04-08  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in (UPGRADE_REVISION): add a new variable that should
