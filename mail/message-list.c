@@ -1263,7 +1263,7 @@ save_node_state(MessageList *ml, FILE *out, ETreePath *node)
 				if (id_is_uid(data)) {
 					info = camel_folder_get_message_info(ml->folder, id_uid(data));
 					if (info) {
-						fprintf(out, "%s\n", info->message_id);
+						fprintf(out, "%08x%08x\n", info->message_id.id.part.hi, info->message_id.id.part.lo);
 					}
 				} else {
 					fprintf(out, "%s\n", data);
@@ -1435,9 +1435,11 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 			id = new_id_from_uid(c->message->uid);
 			g_hash_table_insert(ml->uid_rowmap, id_uid(id), GINT_TO_POINTER ((*row)++));
 			if (c->child) {
-				if (c->message && c->message->message_id)
-					expanded = !g_hash_table_lookup(expanded_nodes, c->message->message_id) != 0;
-				else
+				if (c->message) {
+					char key[17];
+					sprintf(key, "%08x%08x", c->message->message_id.id.part.hi, c->message->message_id.id.part.lo);
+					expanded = !g_hash_table_lookup(expanded_nodes, key) != 0;
+				} else
 					expanded = TRUE;
 			}
 		} else {
@@ -1493,9 +1495,11 @@ add_node_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _conta
 		g_hash_table_remove(ml->uid_rowmap, id_uid(id));
 		g_hash_table_insert(ml->uid_rowmap, id_uid(id), GINT_TO_POINTER (*row));
 		if (c->child) {
-			if (c->message && c->message->message_id)
-				expanded = !g_hash_table_lookup(expanded_nodes, c->message->message_id) != 0;
-			else
+			if (c->message) {
+				char key[17];
+				sprintf(key, "%08x%08x", c->message->message_id.id.part.hi, c->message->message_id.id.part.lo);
+				expanded = !g_hash_table_lookup(expanded_nodes, key) != 0;
+			} else
 				expanded = TRUE;
 		}
 	} else {

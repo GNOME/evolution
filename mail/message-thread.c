@@ -100,8 +100,8 @@ prune_empty(struct _container **cp)
 	while (lastc->next) {
 		c = lastc->next;
 
-		d(printf("checking message %p %p (%s)\n", c,
-			 c->message, c->message?c->message->message_id:"<empty>"));
+		d(printf("checking message %p %p (%.8s)\n", c,
+			 c->message, c->message?c->message->message_id.id.hash:"<empty>"));
 		if (c->message == NULL) {
 			if (c->child == NULL) {
 				d(printf("removing empty node\n"));
@@ -320,7 +320,7 @@ dump_tree_rec(struct _tree_info *info, struct _container *c, int depth)
 			g_hash_table_insert(info->visited, c, c);
 		}
 		if (c->message) {
-			printf("%s %p Subject: %s <%s>\n", p, c, c->message->subject, c->message->message_id);
+			printf("%s %p Subject: %s <%.8s>\n", p, c, c->message->subject, c->message->message_id.id.hash);
 			count += 1;
 		} else {
 			printf("%s %p <empty>\n", p, c);
@@ -424,6 +424,18 @@ sort_thread(struct _container **cp)
 	*cp = head;
 }
 
+static guint id_hash(void *key)
+{
+	CamelSummaryMessageID *id = (CamelSummaryMessageID *)key;
+
+	return id->id.part.lo;
+}
+
+static gint id_equal(void *a, void *b)
+{
+	return ((CamelSummaryMessageID *)a)->id.id == ((CamelSummaryMessageID *)b)->id.id;
+}
+
 /* NOTE: This function assumes you have obtained the relevant locks for
    the folder, BEFORE calling it */
 struct _thread_messages *
@@ -431,8 +443,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 {
 	GHashTable *id_table, *no_id_table;
 	int i;
-	struct _container *c, *p, *child, *head;
-	struct _header_references *ref;
+	struct _container *c, *child, *head;
 	struct _thread_messages *thread;
 
 #ifdef TIMEIT
@@ -442,19 +453,19 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 	gettimeofday(&start, NULL);
 #endif
 
-	id_table = g_hash_table_new(g_str_hash, g_str_equal);
+	id_table = g_hash_table_new((GHashFunc)id_hash, (GCompareFunc)id_equal);
 	no_id_table = g_hash_table_new(NULL, NULL);
 	for (i=0;i<uids->len;i++) {
 		const CamelMessageInfo *mi;
-		mi = camel_folder_get_message_info (folder, uids->pdata[i]);
+		mi = camel_folder_get_message_info(folder, uids->pdata[i]);
 
 		if (mi == NULL) {
 			g_warning("Folder doesn't contain uid %s", (char *)uids->pdata[i]);
 			continue;
 		}
 
-		if (mi->message_id) {
-			c = g_hash_table_lookup(id_table, mi->message_id);
+		if (mi->message_id.id.id) {
+			c = g_hash_table_lookup(id_table, &mi->message_id);
 			/* check for duplicate messages */
 			if (c) {
 				/* if duplicate, just make out it is a no-id message,  but try and insert it
@@ -463,9 +474,9 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 				c = g_malloc0(sizeof(*c));
 				g_hash_table_insert(no_id_table, (void *)mi, c);
 			} else {
-				d(printf("doing : %s\n", mi->message_id));
+				d(printf("doing : %.8s\n", mi->message_id.id.hash));
 				c = g_malloc0(sizeof(*c));
-				g_hash_table_insert(id_table, mi->message_id, c);
+				g_hash_table_insert(id_table, (void *)&mi->message_id, c);
 			}
 		} else {
 			d(printf("doing : (no message id)\n"));
@@ -476,32 +487,25 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 		c->message = mi;
 		c->order = i;
 		child = c;
-		ref = mi->references;
-		p = NULL;
-		head = NULL;
-		d(printf("references:\n"));
-		while (ref) {
-			if (ref->id == NULL) {
-				/* this shouldn't actually happen, and indicates
-				   some problems in camel */
-				d(printf("ref missing id!?\n"));
-				ref = ref->next;
-				continue;
-			}
+		if (mi->references) {
+			int j;
 
-			d(printf("looking up reference: %s\n", ref->id));
-			c = g_hash_table_lookup(id_table, ref->id);
-			if (c == NULL) {
-				d(printf("not found\n"));
-				c = g_malloc0(sizeof(*c));
-				g_hash_table_insert(id_table, ref->id, c);
+			d(printf("references:\n"));
+			for (j=0;j<mi->references->size;j++) {
+				/* should never be empty, but just incase */
+				if (mi->references->references[j].id.id == 0)
+					continue;
+
+				c = g_hash_table_lookup(id_table, &mi->references->references[j]);
+				if (c == NULL) {
+					d(printf("not found\n"));
+					c = g_malloc0(sizeof(*c));
+					g_hash_table_insert(id_table, &mi->references->references[j], c);
+				}
+				if (c!=child)
+					container_parent_child(c, child);
+				child = c;
 			}
-			if (c!=child)
-				container_parent_child(c, child);
-			child = c;
-			if (head == NULL)
-				head = c;
-			ref = ref->next;
 		}
 	}
 

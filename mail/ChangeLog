@@ -1,3 +1,16 @@
+2000-11-20  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (save_node_state): Save out the md5 hash of the
+	messageid as hex, since thats all we have for those nodes.
+	(build_subtree): Expand the messageid to a hex string first, then
+	check it.
+	(add_node_diff): And the same here.
+
+	* message-thread.c (thread_messages): Changed for changes to
+	messageid/references items.
+	(id_hash, id_equal): New functions to hash on the binary message id hash.
+	(thread_messages): removed some more no longer used dead code.
+
 2000-11-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (e_mail_address_compare): New comparison function
