@@ -1,3 +1,9 @@
+2003-02-27  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/Makefile.am: link to versist libtool object
+
+	* conduits/calendar/Makefile.am: ditto
+	
 2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
 
 	This makes alarm notification work.
