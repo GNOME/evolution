@@ -420,16 +420,15 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 		OfflineProgressListenerServant *progress_listener_servant;
 		ComponentInfo *component_info;
 		CORBA_Environment ev;
-		const char *id;
 
 		offline_interface = get_offline_interface (info->iface);
 		if (offline_interface == CORBA_OBJECT_NIL)
 			continue;
 
-		if (! create_progress_listener (offline_handler, id,
+		if (! create_progress_listener (offline_handler, info->id,
 						&progress_listener_interface,
 						&progress_listener_servant)) {
-			g_warning ("Cannot create the Evolution::OfflineProgressListener interface for `%s'", id);
+			g_warning ("Cannot create the Evolution::OfflineProgressListener interface for `%s'", info->id);
 			continue;
 		}
 
@@ -438,7 +437,7 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 		GNOME_Evolution_Offline_prepareForOffline (offline_interface, &active_connection_list, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("Cannot prepare component component to go offline -- %s [%s]",
-				   id, BONOBO_EX_REPOID (&ev));
+				   info->id, BONOBO_EX_REPOID (&ev));
 
 			progress_listener_servant_free (progress_listener_servant);
 			
@@ -454,7 +453,7 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 
 		priv->num_total_connections += active_connection_list->_length;
 
-		component_info = component_info_new (id,
+		component_info = component_info_new (info->id,
 						     offline_interface,
 						     progress_listener_interface,
 						     progress_listener_servant,

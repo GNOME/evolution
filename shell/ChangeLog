@@ -1,3 +1,8 @@
+2004-02-18  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-offline-handler.c (prepare_for_offline): remove id, and
+	use info->id for create_progress_listener.  Fixes #53649.
+
 2004-02-10  JP Rosevear <jpr@ximian.com>
 
 	* Remove dead files
