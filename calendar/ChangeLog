@@ -1,3 +1,11 @@
+1999-07-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* calobj.c (ical_object_create_from_vobject): Generate unique IDs
+	on Vevents we load that lack it.  WE need this for the old
+	gnome calendar generated files (ie, before now :-).
+
+	Required to sync with the Palm
+
 1999-07-19  Matt Martin <matt@abacusnet.net>
 
 	* timeutil.c (time_from_isodate): Handle the 'Z' parameter to the

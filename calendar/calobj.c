@@ -585,8 +585,10 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	if (has (o, VCUniqueStringProp)){
 		ical->uid = g_strdup (str_val (vo));
 		free (the_str);
+	} else {
+		ical->uid = ical_gen_uid ();
 	}
-	
+
 	/* seq */
 	if (has (o, VCSequenceProp)){
 		ical->seq = atoi (str_val (vo));
