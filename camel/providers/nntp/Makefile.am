@@ -28,11 +28,12 @@ libcamelnntp_la_SOURCES = 			\
 
 libcamelnntpinclude_HEADERS =			\
 	camel-nntp-auth.h			\
-	camel-nntp-resp-codes.h			\
 	camel-nntp-folder.h			\
 	camel-nntp-grouplist.h			\
 	camel-nntp-newsrc.h			\
+	camel-nntp-resp-codes.h			\
 	camel-nntp-store.h			\
+	camel-nntp-types.h			\
 	camel-nntp-utils.h
 
 libcamelnntp_la_LDFLAGS = -version-info 0:0:0

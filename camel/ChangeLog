@@ -1,3 +1,8 @@
+2000-10-23  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/Makefile.am (libcamelnntpinclude_HEADERS): add
+	camel-nntp-types.h.
+
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-command.c (imap_read_untagged): Fix a
