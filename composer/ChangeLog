@@ -1,3 +1,9 @@
+2003-10-30  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c: Turn on SMIME_SUPPORTED.
+	(build_message): move some of the security code around, and fix
+	up smime code.
+
 2003-10-08  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-composer.c (corba_recipientlist_to_destv): EDestination =>
