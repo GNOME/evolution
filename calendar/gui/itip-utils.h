@@ -32,7 +32,7 @@ ItipAddress *itip_addresses_get_default (void);
 void itip_address_free (ItipAddress *address);
 void itip_addresses_free (GList *addresses);
 
-gboolean itip_organizer_is_user (CalComponent *comp);
+gboolean itip_organizer_is_user (CalComponent *comp, CalClient *client);
 gboolean itip_sentby_is_user (CalComponent *comp);
 
 const gchar *itip_strip_mailto (const gchar *address);

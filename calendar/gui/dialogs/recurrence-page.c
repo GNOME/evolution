@@ -606,6 +606,12 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 
 	type = e_dialog_radio_get (priv->none, type_map);
 
+	/* We can't preview that well for instances right now */
+	if (cal_component_is_instance (priv->comp))
+		gtk_widget_set_sensitive (priv->preview_calendar, FALSE);
+	else
+		gtk_widget_set_sensitive (priv->preview_calendar, TRUE);
+
 	if (GTK_BIN (priv->custom_warning_bin)->child)
 		gtk_widget_destroy (GTK_BIN (priv->custom_warning_bin)->child);
 
@@ -895,8 +901,8 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 		g_assert (dt != NULL);
 		if (!icaltime_is_valid_time (*dt->value)) {
 			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage),
-								   _("Recurrent date is wrong"),
-								   exception_list);
+								   _("Recurrence date is invalid"),
+								   priv->exception_list);
 			return FALSE;
 		}
 
@@ -926,13 +932,14 @@ preview_recur (RecurrencePage *rpage)
 	CalComponent *comp;
 	CalComponentDateTime cdt;
 	GSList *l;
-
+	icaltimezone *zone = NULL;
+	
 	priv = rpage->priv;
 
 	/* If our component has not been set yet through ::fill_widgets(), we
 	 * cannot preview the recurrence.
 	 */
-	if (!priv->comp)
+	if (!priv->comp || cal_component_is_instance (priv->comp))
 		return;
 
 	/* Create a scratch component with the start/end and
@@ -943,6 +950,10 @@ preview_recur (RecurrencePage *rpage)
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
 	cal_component_get_dtstart (priv->comp, &cdt);
+	if (cdt.tzid != NULL) {
+		if (cal_client_get_timezone (COMP_EDITOR_PAGE (rpage)->client, cdt.tzid, &zone) != CAL_CLIENT_GET_SUCCESS)
+			zone = icaltimezone_get_builtin_timezone_from_tzid (cdt.tzid);
+	}
 	cal_component_set_dtstart (comp, &cdt);
 	cal_component_free_datetime (&cdt);
 
@@ -969,7 +980,7 @@ preview_recur (RecurrencePage *rpage)
 	fill_component (rpage, comp);
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      COMP_EDITOR_PAGE (rpage)->client, TRUE, FALSE);
+			      COMP_EDITOR_PAGE (rpage)->client, zone, TRUE, FALSE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -2015,19 +2026,18 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 	/* Update the weekday picker if necessary */
 	mask = get_start_weekday_mask (priv->comp);
-	if (mask == priv->weekday_blocked_day_mask)
-		return;
-
-	priv->weekday_day_mask = priv->weekday_day_mask | mask;
-	priv->weekday_blocked_day_mask = mask;
-
-	if (priv->weekday_picker != NULL) {
-		weekday_picker_set_days (WEEKDAY_PICKER (priv->weekday_picker),
-					 priv->weekday_day_mask);
-		weekday_picker_set_blocked_days (WEEKDAY_PICKER (priv->weekday_picker),
-						 priv->weekday_blocked_day_mask);
+	if (mask != priv->weekday_blocked_day_mask) {
+		priv->weekday_day_mask = priv->weekday_day_mask | mask;
+		priv->weekday_blocked_day_mask = mask;
+		
+		if (priv->weekday_picker != NULL) {
+			weekday_picker_set_days (WEEKDAY_PICKER (priv->weekday_picker),
+						 priv->weekday_day_mask);
+			weekday_picker_set_blocked_days (WEEKDAY_PICKER (priv->weekday_picker),
+							 priv->weekday_blocked_day_mask);
+		}
 	}
-
+	
 	/* Make sure the preview gets updated. */
 	preview_recur (rpage);
 }

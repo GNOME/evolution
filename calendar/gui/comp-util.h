@@ -39,6 +39,7 @@ gboolean cal_comp_util_compare_event_timezones (CalComponent *comp,
 gboolean cal_comp_is_on_server (CalComponent *comp,
 				CalClient *client);
 
-CalComponent *cal_comp_event_new_with_defaults (void);
+CalComponent *cal_comp_event_new_with_defaults (CalClient *client);
+CalComponent *cal_comp_task_new_with_defaults (CalClient *client);
 
 #endif

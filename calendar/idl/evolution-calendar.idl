@@ -48,6 +48,13 @@ module Calendar {
 	const CalObjType TYPE_JOURNAL = 1 << 2;
 	const CalObjType TYPE_ANY     = 0x07;
 
+	/* Flags for getting UID sequences */
+	typedef long CalObjModType;
+	const CalObjModType MOD_THIS          = 1 << 0;
+	const CalObjModType MOD_THISANDPRIOR  = 1 << 1;
+	const CalObjModType MOD_THISANDFUTURE = 1 << 2;
+	const CalObjModType MOD_ALL           = 0x07;
+
 	/* Flags for getting URI sequences */
 	typedef long CalMode;
 	const CalMode MODE_LOCAL   = 1 << 0;
@@ -70,7 +77,7 @@ module Calendar {
 
 	/* Used to store a time_t */
 	typedef unsigned long Time_t;
-
+	
 	/* An instance of a calendar component that actually occurs.  These are
 	 * "virtual" objects in that they are used to represent instances of
 	 * recurring events and alarms.  "Real" objects just contain the
@@ -139,10 +146,16 @@ module Calendar {
 
 		/* Check write permissions for calendar */
 		boolean isReadOnly ();
+		
+		/* Information on how to schedule */
+		string getStaticCapabilities ();
 
 		/* Return the email address associated with this calendar,
 		   if any. */
 		string getEmailAddress ()
+			raises (NotFound);
+
+		string getAlarmEmailAddress ()
 			raises (NotFound);
 
 		/* For going online/offline */
@@ -151,6 +164,9 @@ module Calendar {
 		/* Gets the number of components of the specified types */
 		long countObjects (in CalObjType type);
 
+		/* Get a default object of a given type */
+		CalObj getDefaultObject (in CalObjType type);
+		
 		/* Gets a component based on its URI */
 		CalObj getObject (in CalObjUID uid)
 			raises (NotFound);
@@ -208,11 +224,11 @@ module Calendar {
 		 * object after this call, and call getObject to get the
 		 * updated version.
 		 */
-		void updateObjects (in CalObj calobj)
+		void updateObjects (in CalObj calobj, in CalObjModType mod)
 			raises (InvalidObject, PermissionDenied);
 
 		/* Removes a component */
-		void removeObject (in CalObjUID uid)
+		void removeObject (in CalObjUID uid, in CalObjModType mod)
 			raises (NotFound, PermissionDenied);
 
 		/* Sends a component */

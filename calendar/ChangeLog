@@ -7,6 +7,50 @@
 
 	* gui/dialogs/event-page.c (update_time): ditto
 
+2003-01-31  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #35598
+	
+	* gui/dialogs/task-details-page.c
+	(task_details_page_fill_widgets): count a status of needs action
+	as a status of none (not started)
+	(date_changed_cb): set the option menu to a status of none
+	(status_changed): no need to handle needs action status now
+
+	* gui/dialogs/task-details-page.glade: remove needs-action menu
+	item
+
+2003-01-30  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #36763	
+		
+	* gui/dialogs/alarm-page.c (add_clicked_cb): if no address was set
+	for an email alarm, set the default
+	(button_options_clicked_cb): pass the default email address
+
+	* gui/dialogs/alarm-options.h (alarm_options_dialog_run): update proto
+
+	* gui/dialogs/alarm-options.c (alarm_to_malarm_widgets): if there
+	are no email attendees, default to the passed in value
+	(alarm_options_dialog_run): take and track an email param
+
+	* pcs/cal.c (impl_Cal_get_alarm_email_address): implement by
+	calling backend method
+	(cal_class_init): set alarm email address method implementation
+
+	* pcs/cal-backend.h: add new virtual proto
+
+	* pcs/cal-backend.c (cal_backend_class_init): set alarm email
+	address virtual method to NULL
+	(cal_backend_get_alarm_email_address): call backend method
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): set alarm
+	email address method
+	(cal_backend_file_get_alarm_email_address): implement by returning
+	NULL
+
+	* idl/evolution-calendar.idl: add getAlarmEmailAddress method
+
 2003-30-01 Ronald Kuetemeier <ronald@kuetemeier.com>
 
 	Fixes #35572
@@ -15,6 +59,76 @@
 	notification time when we update the config to last notification, so
 	alarms will not get trigged again if a new calendar window is opened.
 
+2003-01-29  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #37102
+	
+	* gui/dialogs/task-editor.c (set_menu_sens): don't allow task
+	assignment if the backend says not to
+
+2003-01-28  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (fill_component): kill warning
+	(preview_recur): display the recurrences in the dtstart timezone
+	if possible
+
+	* gui/gnome-cal.c (dn_query_obj_updated_cb): pass NULL to use
+	default tag zone
+
+	* gui/tag-calendar.c (tag_calendar_by_comp): allow display zone
+	for the tagged calendar to be passed in
+	(prepare_tag): use the passed in timezone for display if non-null
+
+	* gui/tag-calendar.h (tag_calendar_by_comp): update proto
+
+2003-01-28  JP Rosevear  <jpr@ximian.com>
+	
+	* gui/dialogs/recurrence-page.c (recurrence_page_set_dates): make
+	sure we always update the preview
+
+2003-01-27  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (add_record): make sure to create a
+	unique uid for the record
+
+	* conduits/calendar/calendar-conduit.c (add_record): ditto
+
+2003-01-24  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (e_todo_context_new): init default
+	comp and timezone to NULL
+	(e_todo_context_destroy): unref default comp
+	(pre_sync): et the default comp via the client and set the default
+	timezone
+	(add_record): pass the default comp as the base comp
+
+	* conduits/calendar/calendar-conduit.c (e_calendar_context_new):
+	init default comp to NULL
+	(e_calendar_context_destroy): unref default comp
+	(pre_sync): get the default comp via the client
+	(add_record): pass the default comp as the base comp
+
+2003-01-24  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	only add the recurrence rule if its not an instance
+
+2003-01-22  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-control-factory.c (set_data_idle_cb): idle call back to
+	set control data
+	(pstream_load): set the data in an idle callback to avoid deadlock
+	(get_prop): handle view_only
+	(set_prop): ditto
+	(itip_control_factory): add view_only
+
+	* gui/e-itip-control.h: add protos
+
+	* gui/e-itip-control.c (write_html): only write out the options if
+	we aren't in view_only mode
+	(e_itip_control_set_view_only): accessor
+	(e_itip_control_get_view_only): ditto
+	
 2003-01-22  Jack Jia  <jack.jia@sun.com>
 
 	Fixes #34927
@@ -23,6 +137,321 @@
 	to process the data when it can not open free-busy url correctly.
 	Don't try to close the invalid handle.
 
+2003-01-20  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #36909
+	
+	* gui/dialogs/alarm-page.c (button_options_clicked_cb): indicate
+	whether the options dialog should allow repeating
+
+	* gui/dialogs/alarm-options.h: update proto
+
+	* gui/dialogs/alarm-options.c (alarm_to_repeat_widgets): if
+	repeating is not allowed, sensitize the widgets appropriately
+	(alarm_options_dialog_run): store the repeat param
+
+2003-01-16  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_append_row): guard against
+	saving before the calendar is open
+
+	* gui/e-day-view.c (e_day_view_key_press): ditto
+	
+2003-01-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/comp-editor.c (page_changed_cb): change warning
+	dialog to not mention email
+	(page_summary_changed_cb): ditto
+	(page_dates_changed_cb): ditto
+
+2003-01-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_organizer_is_user): make the compare case
+	insensitive
+
+2003-01-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): don't
+	allow the organizer to be changed if its not an email address
+
+	* gui/e-day-view.c, calendar-model.c, e-week-view.c,
+	task-editor.c, event-editor.c, comp-editor.c, meeting-page.c: pass
+	additional param
+
+	* gui/itip-utils.c (itip_organizer_is_user): take client as param,
+	and if organizer-not-email-address and email address and organizer
+	match, assume the user is the organizer
+
+	* gui/itip-utils.h: update proto
+
+	* pcs/cal.c (build_fb_seq): set the max
+
+2003-01-09  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-model.c
+	(e_meeting_model_add_attendee_with_defaults): correct typo and set
+	rsvp appropriately
+
+2003-01-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/send-comp.c (send_component_dialog): if save
+	schedules, return FALSE for now
+
+2003-01-03  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (sensitize_recur_widgets):
+	de-sensitize the preview widget if we are viewing an instance
+	(preview_recur): return if the comp is an instance
+
+2003-01-02  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/event-page.glade: name the show time frame
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets) 
+	(event_page_init): init show time frame
+	(event_page_fill_widgets): hide/show frame as needed
+	(get_widgets): get the frame
+
+2003-01-02  JP Rosevear  <jpr@ximian.com>
+	
+	* gui/alarm-notify/alarm-queue.c (mail_notification): kill mail
+	notification code
+
+	* cal-client/cal-client.c (load_static_capabilities): grab static
+	capabilities string
+	(check_capability): see if a capability is in the string
+	(cal_client_get_one_alarm_only): accessor
+	(cal_client_get_organizer_must_attend): use check_capability
+	(cal_client_get_static_capability): ditto
+
+	* cal-client/cal-client.h: new, changed protos
+
+	* idl/evolution-calendar.idl: change over getSchedulingInformation
+	to a more general getStaticCapabilities call
+
+	* pcs/cal-backend-file.c
+	(cal_backend_file_get_static_capabilities): return
+	"no-email-alarms"
+
+	* pcs/cal-backend.c (cal_backend_get_static_capabilities): ditto
+
+	* pcs/cal-backend.h: ditto
+
+	* pcs/cal.c (impl_Cal_get_static_capabilities): ditto
+
+2002-12-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (get_default_address): utility
+	routine to snag address info
+
+	* gui/alarm-notify/Makefile.am: build composer idl
+
+2002-12-20  JP Rosevear  <jpr@ximian.com>
+
+	* *.c: pass client param for send an cancel params
+	
+	* gui/dialogs/send-comp.c (send_component_dialog): take client as
+	a parm and if save schedules return true right away
+
+	* gui/dialogs/send-comp.h: update proto
+
+	* gui/dialogs/cancel-comp.c (cancel_component_dialog): take client
+	as a param and if we are deleting and schedule saves, return true
+	right away
+
+	* gui/dialogs/cancel-comp.h (cancel_component_dialog): update proto
+
+2002-12-20  JP Rosevear  <jpr@ximian.com>
+	
+	* gui/dialogs/alarm-options.glade: add Send To: button
+
+	* gui/dialogs/alarm-options.c (addressbook_clicked_cb): display
+	dialog
+	(setup_select_names): attach above to Send To: button clicked
+	signal
+
+2002-12-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/alarm-options.c (get_widgets): get mail alarm
+	widgets
+	(setup_select_names): add the select names widget
+	(alarm_to_malarm_widgets): show the attendees and description
+	(alarm_to_dialog): set the title for mail alarms properly
+	(malarm_widgets_to_alarm): save attendees and descriptions in
+	alarm
+	(alarm_options_dialog_run): call setup_select_names
+
+	* gui/dialogs/alarm-page.c: add email to alarm types
+
+	* gui/dialogs/alarm-options.glade: add mail alarm widgets
+
+	* gui/dialogs/alarm-page.glade: add email to alarm types
+
+	* cal-util/cal-component.c (scan_attendee): kill unnecessary
+	CalComponent param
+	(scan_property): don't pass same
+	(set_attendee_list): take an icalcomp instead of a CalComponent
+	(cal_component_set_attendee_list): pass same
+	(scan_alarm_property): if its an attendee, scan it
+	(make_alarm): set attendee_list member to null
+	(cal_component_alarm_new): ditto
+	(cal_component_alarm_free): free attendee list
+	(cal_component_alarm_get_attendee_list): return attendee list
+	(cal_component_alarm_set_attendee_list): set attendee list
+	(cal_component_alarm_has_attendees): return true if alarm has attendees
+
+	* cal-util/cal-component.h: new protos
+
+2002-12-18  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_append_row): use
+	cal_comp_task_new_with_defaults
+
+	* gui/comp-editor-factory.c (get_default_task): ditto
+
+	* gui/e-tasks.c (e_tasks_new_task): ditto
+
+	* gui/gnome-cal.c (gnome_calendar_new_task): ditto
+
+	* gui/comp-util.h (cal_comp_task_new_with_defaults): new proto
+
+	* gui/comp-util.c (cal_comp_task_new_with_defaults): new utility
+	routine
+
+2002-12-18  JP Rosevear  <jpr@ximian.com>
+	
+	* cal-util/cal-util.c (generate_absolute_triggers): skip omitted
+	alarm types
+	(add_alarm_occurrences_cb): ditto
+	(cal_util_generate_alarms_for_list): take/pass omit param
+	(cal_util_generate_alarms_for_comp): ditto
+
+	* cal-util/cal-util.h: update protos
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_alarms_for_object):
+	add omit param
+	(cal_backend_file_get_alarms_in_range): ditto
+
+	* pcs/cal-backend.c (cal_backend_get_scheduling_information):
+	remove dead param
+
+2002-12-17  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.h: delete proto
+
+	* gui/dialogs/meeting-page.c: remove dead routine
+
+2002-12-17  JP Rosevear  <jpr@ximian.com>
+	
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): we don't
+	need to add the organizer as an attendee ourselves, just set the
+	edit level properly
+
+	* gui/dialogs/task-editor.c (task_editor_edit_comp): ditto
+
+	* gui/comp-util.c (cal_comp_event_new_with_defaults): take client
+	as arg so we can obtain the default from the backend
+	
+	* gui/comp-editor-factory.c (get_default_event): pass
+	cal_comp_event_new_with_defaults the new param
+
+	* gui/gnome-cal.c (gnome_calendar_new_appointment_for): ditto
+
+	* gui/e-week-view.c (e_week_view_key_press): ditto
+
+	* gui/e-day-view.c (e_day_view_key_press): ditto
+
+	* gui/calendar-model.c (calendar_model_append_row): ditto
+
+	* gui/comp-util.h (cal_comp_event_new_with_defaults): update proto
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_default_object):
+	return appropriate default object
+
+	* pcs/cal-backend.c (cal_backend_get_default_object): call
+	get_default_backend class method
+
+	* pcs/cal-backend.h: add proto
+
+	* pcs/cal.c (impl_Cal_get_default_object): implement
+	(cal_class_init): set handler for getDefaultObject call
+
+	* idl/evolution-calendar.idl: remove always schedule from
+	SchedulingInformation and add getDefaultObject call
+
+	* cal-client/cal-client.c (cal_client_get_default_object): gets a
+	default object from the server
+	(cal_client_init): remove always_schedule
+	(load_scheduling_info): ditto
+
+	* cal-client/cal-client.h: add a proto, delete a proto
+
+2002-12-16  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (right_click_cb): if the attendee is
+	not fully editable, don't allow deletion
+	(meeting_page_construct): keep the default organizer as an itip
+	address
+	(meeting_page_get_default_organizer): return the default organizer
+
+	* gui/dialogs/meeting-page.h: new proto
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp): we set
+	appropriate edit levels now for users and if the backend always
+	schedules we always show the meeting pages and add the organizer
+	as an attendee
+
+	* gui/dialogs/task-editor.c (task_editor_edit_comp): same
+
+	* gui/e-meeting-model.c (is_cell_editable): use the edit level of
+	the attendee to determine if cell is editable
+	(init): we no longer keep the attendee list of restricted
+
+	* gui/e-meeting-attendee.c (e_meeting_attendee_get_edit_level): accessor
+	(e_meeting_attendee_set_edit_level): ditto
+
+	* gui/e-meeting-attendee.h: new protos and edit level enum
+
+	* cal-client/cal-client.c (load_scheduling_info): load the
+	scheduling info
+	(cal_client_get_always_schedule): accessor
+	(cal_client_get_organizer_must_attend): ditto
+	(cal_client_get_save_schedules): ditto
+	(cal_client_init): init scheduling data members
+
+	* cal-client/cal-client.h: accessors for scheduling information
+
+	* pcs/cal-backend-file.c
+	(cal_backend_file_get_scheduling_information): implement the new
+	virtual method
+
+	* pcs/cal-backend.c (cal_backend_get_scheduling_information): call
+	the class specific method
+
+	* pcs/cal-backend.h: add virtual method
+
+	* idl/evolution-calendar.idl: add a getSchedulingInformation call
+	which describes how the backend does its scheduling
+
+	* pcs/cal.c (impl_Cal_get_scheduling_information): implement above
+
+2002-12-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c: pass NULL as parent to recur dialog
+
+	* gui/e-week-view.c: ditto
+
+	* gui/dialogs/comp-editor.c (prompt_to_save_changes): show recur
+	dialog after prompting, not before
+	(save_cmd): ditto
+	(save_close_cmd): ditto
+	(real_edit_comp): don't show recur dialog before opening
+
+	* gui/dialogs/recur-comp.h (recur_component_dialog): update proto
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): take a parent
+	argument and set the dialog parent if non-null
+	
 2002-12-11  Jack Jia  <jack.jia@sun.com>
 
 	Fixes #34933
@@ -33,6 +462,54 @@
 	* gui/e-week-view.c (e_day_view_on_editing_stopped): Don't update
 	appointment if both the old and the new summary texts are empty.
 
+2002-12-10  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_show_popup_menu): mask out "make
+	moveable" if its an instance
+
+	* gui/e-day-view.c (e_day_view_on_event_right_click): ditto
+
+2002-12-09  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): if its
+	an instance, show the recur comp dialog and modify it based on the
+	response (or not if cancel is hit)
+
+	* gui/e-day-view.c (e_day_view_finish_long_event_resize): if its
+	an instance, show the recur comp dialog and modify it based on the
+	response (or not if cancel is hit)
+	(e_day_view_finish_resize): ditto
+	(e_day_view_on_editing_stopped): ditto
+	(e_day_view_on_top_canvas_drag_data_received): ditto
+	(e_day_view_on_main_canvas_drag_data_received): ditto
+
+	* gui/dialogs/comp-editor.c (real_edit_comp): reflect changes in
+	proto of recur_component_dialog
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): use ok/cancel
+	instead and radio buttons for the mod type
+
+	* gui/dialogs/recur-comp.h: update proto
+
+2002-12-06  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_long_event_click): allow
+	dragging if its an instance
+	(e_day_view_on_event_click): ditto
+	(e_day_view_on_top_canvas_motion): ditto
+	(e_day_view_on_main_canvas_motion): ditto
+
+2002-12-06  JP Rosevear  <jpr@ximian.com>
+	
+	* gui/dialogs/comp-editor.c (save_comp): if its an instance,
+	update with the mod type
+	(real_edit_comp): ask the user what instances they want to change
+
+	* gui/dialogs/recur-comp.[hc]: new dialog to ask user what
+	recurrences to modify
+
+	* gui/dialogs/Makefile.am: Compile new files
+	
 2002-12-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #35003
@@ -109,6 +586,57 @@
 
 	* cal-client/cal-client.c (cal_client_construct): removed extra call
 	to CORBA_exception_init.
+
+2002-11-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_delete_occurrence): if its an
+	instance, just remove with THIS mod
+
+	* gui/e-week-view.c (e_week_view_on_delete_occurrence): ditto
+	
+	* cal-client/cal-client.c (cal_client_remove_object_with_mod):
+	send the mod parameter to the backend
+	(cal_client_remove_object): implement with above
+	(cal_client_update_object_with_mod): send the mod parameter to the
+	backend
+	(cal_client_update_object): implement with above
+
+	* cal-client/cal-client.h: new protos
+
+2002-11-14  JP Rosevear  <jpr@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_is_read_only): return
+	booleans in the pre conditions
+	(cal_client_update_object): pass mod param
+	(cal_client_update_objects): ditto
+	(cal_client_remove_object): ditto
+	(cal_client_ensure_timezone_on_server): ditto
+
+	* pcs/cal.c (impl_Cal_update_objects): take mod param
+	(impl_Cal_remove_object): ditto
+
+	* pcs/cal-backend.h: fix protos
+
+	* pcs/cal-backend.c (cal_backend_update_objects): take mod param
+	(cal_backend_remove_object): ditto
+
+	* pcs/cal-backend-file.c (cal_backend_file_update_objects): take
+	mod param
+	(cal_backend_file_remove_object): ditto
+
+	* cal-util/cal-util.h: add mod enum
+
+	* cal-util/cal-recur.c (cal_recur_generate_instances_of_rule): if
+	its an instance, just report the instance
+
+	* cal-util/cal-component.h: new protos
+
+	* cal-util/cal-component.c (cal_component_is_instance): indicate
+	whether the component is an instance or not
+	(cal_component_free_range): free a range
+
+	* idl/evolution-calendar.idl: get remove and update to take mod
+	type
 
 2002-10-24  JP Rosevear  <jpr@ximian.com>
 	

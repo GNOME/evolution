@@ -458,7 +458,7 @@
 
       <widget>
 	<class>GtkFrame</class>
-	<name>frame33</name>
+	<name>show-time-frame</name>
 	<label>Show Time As</label>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>

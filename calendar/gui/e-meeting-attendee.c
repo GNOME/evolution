@@ -46,6 +46,8 @@ struct _EMeetingAttendeePrivate {
 	gchar *cn;
 	gchar *language;
 
+	EMeetingAttendeeEditLevel edit_level;
+
 	gboolean has_calendar_info;
 
 	GArray *busy_periods;
@@ -167,6 +169,7 @@ init (EMeetingAttendee *ia)
 	priv->cn = string_test (NULL);
 	priv->language = string_test (NULL);
 
+	priv->edit_level = E_MEETING_ATTENDEE_EDIT_FULL;
 	priv->has_calendar_info = FALSE;
 	
 	priv->busy_periods = g_array_new (FALSE, FALSE, sizeof (EMeetingFreeBusyPeriod));
@@ -614,6 +617,34 @@ e_meeting_attendee_get_atype (EMeetingAttendee *ia)
 	
 	return E_MEETING_ATTENDEE_OPTIONAL_PERSON;
 }
+
+
+EMeetingAttendeeEditLevel
+e_meeting_attendee_get_edit_level (EMeetingAttendee *ia)
+{
+	EMeetingAttendeePrivate *priv;
+	
+	g_return_val_if_fail (ia != NULL, E_MEETING_ATTENDEE_EDIT_NONE);
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), E_MEETING_ATTENDEE_EDIT_NONE);
+
+	priv = ia->priv;
+
+	return priv->edit_level;
+}
+
+void 
+e_meeting_attendee_set_edit_level (EMeetingAttendee *ia, EMeetingAttendeeEditLevel level)
+{
+	EMeetingAttendeePrivate *priv;
+	
+	g_return_if_fail (ia != NULL);
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
+
+	priv = ia->priv;
+
+	priv->edit_level = level;
+}
+
 
 static gint
 compare_times (EMeetingTime *time1,

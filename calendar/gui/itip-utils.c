@@ -158,20 +158,31 @@ itip_addresses_free (GList *addresses)
 }
 
 gboolean
-itip_organizer_is_user (CalComponent *comp)
+itip_organizer_is_user (CalComponent *comp, CalClient *client)
 {
 	CalComponentOrganizer organizer;
 	GList *addresses, *l;
 	const char *strip;
 	gboolean user_org = FALSE;
-	
+
 	if (!cal_component_has_organizer (comp))
 		return FALSE;
 
 	cal_component_get_organizer (comp, &organizer);
 	if (organizer.value != NULL) {
+
 		strip = itip_strip_mailto (organizer.value);
 
+		if (cal_client_get_static_capability (client, "organizer-not-email-address")) { 
+			const char *email;
+			
+			email = cal_client_get_email_address (client);
+			if (email && !g_strcasecmp (email, strip))
+				return TRUE;
+
+			return FALSE;
+		}
+	
 		addresses = itip_addresses_get ();
 		for (l = addresses; l != NULL; l = l->next) {
 			ItipAddress *a = l->data;
@@ -696,7 +707,7 @@ comp_limit_attendees (CalComponent *comp)
 }
 
 static void
-comp_sentby (CalComponent *comp)
+comp_sentby (CalComponent *comp, CalClient *client)
 {
 	CalComponentOrganizer organizer;
 	
@@ -716,7 +727,7 @@ comp_sentby (CalComponent *comp)
 		return;
 	}
 
-	if (!itip_organizer_is_user (comp) && !itip_sentby_is_user (comp)) {
+	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp)) {
 		ItipAddress *a = itip_addresses_get_default ();
 		
 		organizer.value = g_strdup (organizer.value);
@@ -875,14 +886,14 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 	/* Comply with itip spec */
 	switch (method) {
 	case CAL_COMPONENT_METHOD_PUBLISH:
-		comp_sentby (clone);
+		comp_sentby (clone, client);
 		cal_component_set_attendee_list (clone, NULL);
 		break;
 	case CAL_COMPONENT_METHOD_REQUEST:
-		comp_sentby (clone);
+		comp_sentby (clone, client);
 		break;
 	case CAL_COMPONENT_METHOD_CANCEL:
-		comp_sentby (clone);
+		comp_sentby (clone, client);
 		break;	
 	case CAL_COMPONENT_METHOD_REPLY:
 		break;

@@ -1,8 +1,8 @@
-/* Evolution calendar - Alarm options dialog
+/* Evolution calendar - Recur calendar component dialog
  *
  * Copyright (C) 2001 Ximian, Inc.
  *
- * Authors: Federico Mena-Quintero <federico@ximian.com>
+ * Author: Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,11 +18,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ALARM_OPTIONS_H
-#define ALARM_OPTIONS_H
+#ifndef RECUR_COMP_H
+#define RECUR_COMP_H
 
+#include <gtk/gtkwidget.h>
 #include <cal-util/cal-component.h>
+#include <cal-util/cal-util.h>
 
-gboolean alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean repeat);
+gboolean recur_component_dialog (CalComponent *comp,
+				 CalObjModType *mod,
+				 GtkWindow *parent);
 
 #endif

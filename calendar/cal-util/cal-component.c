@@ -34,6 +34,21 @@
 /* Extension property for alarm components so that we can reference them by UID */
 #define EVOLUTION_ALARM_UID_PROPERTY "X-EVOLUTION-ALARM-UID"
 
+
+struct attendee {
+	icalproperty *prop;
+	icalparameter *cutype_param;
+	icalparameter *member_param;
+	icalparameter *role_param;
+	icalparameter *partstat_param;
+	icalparameter *rsvp_param;
+	icalparameter *delto_param;
+	icalparameter *delfrom_param;
+	icalparameter *sentby_param;
+	icalparameter *cn_param;
+	icalparameter *language_param;
+};
+
 /* Private part of the CalComponent structure */
 struct _CalComponentPrivate {
 	/* The icalcomponent we wrap */
@@ -44,21 +59,6 @@ struct _CalComponentPrivate {
 	icalproperty *uid;
 
 	icalproperty *status;
-
-	struct attendee {
-		icalproperty *prop;
-		icalparameter *cutype_param;
-		icalparameter *member_param;
-		icalparameter *role_param;
-		icalparameter *partstat_param;
-		icalparameter *rsvp_param;
-		icalparameter *delto_param;
-		icalparameter *delfrom_param;
-		icalparameter *sentby_param;
-		icalparameter *cn_param;
-		icalparameter *language_param;
-	};
-	
 	GSList *attendee_list;
 	
 	icalproperty *categories;
@@ -175,6 +175,8 @@ struct _CalComponentAlarm {
 	icalproperty *duration;
 	icalproperty *repeat;
 	icalproperty *trigger;
+
+	GSList *attendee_list;
 };
 
 
@@ -471,7 +473,7 @@ cal_component_clone (CalComponent *comp)
 
 /* Scans an attendee property */
 static void
-scan_attendee (CalComponent *comp, GSList **attendee_list, icalproperty *prop) 
+scan_attendee (GSList **attendee_list, icalproperty *prop) 
 {
 	struct attendee *attendee;
 	
@@ -603,7 +605,7 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		break;
 
 	case ICAL_ATTENDEE_PROPERTY:
-		scan_attendee (comp, &priv->attendee_list, prop);
+		scan_attendee (&priv->attendee_list, prop);
 		break;
 
 	case ICAL_CATEGORIES_PROPERTY:
@@ -3595,6 +3597,19 @@ cal_component_has_simple_recurrence (CalComponent *comp)
 	return simple;
 }
 
+gboolean 
+cal_component_is_instance (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+
+	return !(priv->recur_id.recur_time.prop == NULL);
+}
+
 /**
  * cal_component_get_sequence:
  * @comp: A calendar component object.
@@ -4021,14 +4036,11 @@ get_attendee_list (GSList *attendee_list, GSList **al)
 
 /* Sets a text list value */
 static void
-set_attendee_list (CalComponent *comp,
+set_attendee_list (icalcomponent *icalcomp,
 		   GSList **attendee_list,
 		   GSList *al)
 {
-	CalComponentPrivate *priv;
 	GSList *l;
-
-	priv = comp->priv;
 
 	/* Remove old attendees */
 
@@ -4038,7 +4050,7 @@ set_attendee_list (CalComponent *comp,
 		attendee = l->data;
 		g_assert (attendee->prop != NULL);
 
-		icalcomponent_remove_property (priv->icalcomp, attendee->prop);
+		icalcomponent_remove_property (icalcomp, attendee->prop);
 		icalproperty_free (attendee->prop);
 		g_free (attendee);
 	}
@@ -4058,7 +4070,7 @@ set_attendee_list (CalComponent *comp,
 		attendee = g_new0 (struct attendee, 1);
 
 		attendee->prop = icalproperty_new_attendee (a->value);
-		icalcomponent_add_property (priv->icalcomp, attendee->prop);
+		icalcomponent_add_property (icalcomp, attendee->prop);
 
 		if (a->member) {
 			attendee->member_param = icalparameter_new_member (a->member);
@@ -4149,7 +4161,7 @@ cal_component_set_attendee_list (CalComponent *comp, GSList *attendee_list)
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	set_attendee_list (comp, &priv->attendee_list, attendee_list);
+	set_attendee_list (priv->icalcomp, &priv->attendee_list, attendee_list);
 }
 
 gboolean
@@ -4261,6 +4273,14 @@ cal_component_free_datetime (CalComponentDateTime *dt)
 
 	g_free (dt->value);
 	g_free ((char*)dt->tzid);
+}
+
+void 
+cal_component_free_range (CalComponentRange *range)
+{
+	g_return_if_fail (range != NULL);
+
+	cal_component_free_datetime (&range->datetime);
 }
 
 /**
@@ -4620,6 +4640,10 @@ scan_alarm_property (CalComponentAlarm *alarm, icalproperty *prop)
 		alarm->trigger = prop;
 		break;
 
+	case ICAL_ATTENDEE_PROPERTY:
+		scan_attendee (&alarm->attendee_list, prop);
+		break;
+		
 	case ICAL_X_PROPERTY:
 		xname = icalproperty_get_x_name (prop);
 		g_assert (xname != NULL);
@@ -4653,7 +4677,8 @@ make_alarm (icalcomponent *subcomp)
 	alarm->duration = NULL;
 	alarm->repeat = NULL;
 	alarm->trigger = NULL;
-
+	alarm->attendee_list = NULL;
+	
 	for (prop = icalcomponent_get_first_property (subcomp, ICAL_ANY_PROPERTY);
 	     prop;
 	     prop = icalcomponent_get_next_property (subcomp, ICAL_ANY_PROPERTY))
@@ -4806,7 +4831,8 @@ cal_component_alarm_new (void)
 	alarm->duration = NULL;
 	alarm->repeat = NULL;
 	alarm->trigger = NULL;
-
+	alarm->attendee_list = NULL;
+	
 	return alarm;
 }
 
@@ -4839,6 +4865,8 @@ cal_component_alarm_clone (CalComponentAlarm *alarm)
 void
 cal_component_alarm_free (CalComponentAlarm *alarm)
 {
+	GSList *l;
+	
 	g_return_if_fail (alarm != NULL);
 
 	g_assert (alarm->icalcomp != NULL);
@@ -4856,6 +4884,11 @@ cal_component_alarm_free (CalComponentAlarm *alarm)
 	alarm->repeat = NULL;
 	alarm->trigger = NULL;
 
+	for (l = alarm->attendee_list; l != NULL; l = l->next)
+		g_free (l->data);
+	g_slist_free (alarm->attendee_list);
+	alarm->attendee_list = NULL;
+	
 	g_free (alarm);
 }
 
@@ -5319,6 +5352,35 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 		}
 	}
 }
+
+void 
+cal_component_alarm_get_attendee_list (CalComponentAlarm *alarm, GSList **attendee_list)
+{
+	g_return_if_fail (alarm != NULL);
+	
+	get_attendee_list (alarm->attendee_list, attendee_list);
+}
+
+void 
+cal_component_alarm_set_attendee_list (CalComponentAlarm *alarm, GSList *attendee_list)
+{
+	g_return_if_fail (alarm != NULL);
+
+	set_attendee_list (alarm->icalcomp, &alarm->attendee_list, attendee_list);
+}
+
+gboolean 
+cal_component_alarm_has_attendees (CalComponentAlarm *alarm)
+{
+
+	g_return_val_if_fail (alarm != NULL, FALSE);
+
+	if (g_slist_length (alarm->attendee_list) > 0)
+		return TRUE;
+	
+	return FALSE;	
+}
+
 
 /**
  * cal_component_alarm_get_icalcomponent

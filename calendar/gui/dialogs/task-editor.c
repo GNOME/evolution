@@ -137,7 +137,8 @@ set_menu_sens (TaskEditor *te)
  	user = comp_editor_get_user_org (COMP_EDITOR (te));
 	read_only = cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (te)));
  
-  	sens = priv->assignment_shown || read_only;
+  	sens = cal_client_get_static_capability (comp_editor_get_cal_client (COMP_EDITOR (te)), "no-task-assignment")
+						 || priv->assignment_shown || read_only;
   	comp_editor_set_ui_prop (COMP_EDITOR (te), 
   				 "/commands/ActionAssignTask", 
   				 "sensitive", sens ? "0" : "1");
@@ -231,6 +232,7 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	TaskEditor *te;
 	TaskEditorPrivate *priv;
 	CalComponentOrganizer organizer;
+	CalClient *client;
 	GSList *attendees = NULL;
 	
 	te = TASK_EDITOR (editor);
@@ -241,12 +243,13 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	if (parent_class->edit_comp)
 		parent_class->edit_comp (editor, comp);
 
+	client = comp_editor_get_cal_client (COMP_EDITOR (editor));
+
 	/* Get meeting related stuff */
 	cal_component_get_organizer (comp, &organizer);
 	cal_component_get_attendee_list (comp, &attendees);
-
+	
 	/* Clear things up */
-	e_meeting_model_restricted_clear (priv->model);
 	e_meeting_model_remove_all_attendees (priv->model);
 
 	if (attendees == NULL) {
@@ -254,46 +257,64 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 		priv->assignment_shown = FALSE;
 	} else {
 		GSList *l;
+		GList *addresses, *ll;
+		int row;
 
-		if (!priv->assignment_shown)
+		if (!priv->assignment_shown) {
 			comp_editor_append_page (COMP_EDITOR (te),
 						 COMP_EDITOR_PAGE (priv->meet_page),
 						 _("Assignment"));
-
+		}
+	
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *ca = l->data;
-			EMeetingAttendee *ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
-			
+			EMeetingAttendee *ia;
+
+			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
+			if (!comp_editor_get_user_org (editor))
+				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
 			e_meeting_model_add_attendee (priv->model, ia);
+			
 			gtk_object_unref (GTK_OBJECT (ia));
 		}
 
- 		if (organizer.value != NULL) {
- 			GList *addresses, *l;
- 			const char *strip;
- 			int row;
- 
- 			strip = itip_strip_mailto (organizer.value);
-			
- 			addresses = itip_addresses_get ();
- 			for (l = addresses; l != NULL; l = l->next) {
- 				ItipAddress *a = l->data;
- 				
- 				if (e_meeting_model_find_attendee (priv->model, a->address, &row))
- 					e_meeting_model_restricted_add (priv->model, row);
- 			}
- 			itip_addresses_free (addresses);
- 		}
+		addresses = itip_addresses_get ();
+		for (ll = addresses; ll != NULL; ll = ll->next) {
+			EMeetingAttendee *ia;
+			ItipAddress *a = ll->data;
+				
+			ia = e_meeting_model_find_attendee (priv->model, a->address, &row);
+			if (ia != NULL)
+				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+		}
+		itip_addresses_free (addresses);
 
- 		if (comp_editor_get_user_org (editor))
- 			e_meeting_model_restricted_clear (priv->model);
+		/* If we aren't the organizer we can still change our own status */
+		if (!comp_editor_get_user_org (editor)) {
+			addresses = itip_addresses_get ();
+			for (ll = addresses; ll != NULL; ll = ll->next) {
+				EMeetingAttendee *ia;
+				ItipAddress *a = ll->data;
+				
+				ia = e_meeting_model_find_attendee (priv->model, a->address, &row);
+				if (ia != NULL)
+					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+			}
+			itip_addresses_free (addresses);
+		} else if (cal_client_get_organizer_must_attend (client)) {
+			EMeetingAttendee *ia;
 
-		priv->assignment_shown = TRUE;		
+			ia = e_meeting_model_find_attendee (priv->model, organizer.value, &row);
+			if (ia != NULL)
+				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
+		}
+		
+		priv->assignment_shown = TRUE;
 	}
 	cal_component_free_attendee_list (attendees);
 
 	set_menu_sens (te);
-	comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown && itip_organizer_is_user (comp));
+	comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown && itip_organizer_is_user (comp, client));
 
 	priv->updating = FALSE;
 }
@@ -427,7 +448,7 @@ cancel_task_cmd (GtkWidget *widget, gpointer data)
 	CalComponent *comp;
 	
 	comp = comp_editor_get_current_comp (COMP_EDITOR (te));
-	if (cancel_component_dialog (comp, FALSE)) {
+	if (cancel_component_dialog (comp_editor_get_cal_client (COMP_EDITOR (te)), comp, FALSE)) {
 		comp_editor_send_comp (COMP_EDITOR (te), CAL_COMPONENT_METHOD_CANCEL);
 		comp_editor_delete_comp (COMP_EDITOR (te));
 	}

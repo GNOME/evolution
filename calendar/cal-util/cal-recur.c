@@ -769,6 +769,8 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 		elem.data = prop;
 		elem.next = NULL;
 		rrules = &elem;
+	} else if (cal_component_is_instance (comp)) {
+		single_rule = FALSE;
 	} else {
 		single_rule = FALSE;
 

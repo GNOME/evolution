@@ -48,7 +48,7 @@ static void cal_backend_class_init (CalBackendClass *class);
 
 static guint cal_backend_signals[LAST_SIGNAL];
 
-#define CLASS(backend) (CAL_BACKEND_CLASS (G_OBJECT_GET_CLASS (backend)))
+#define CLASS(backend) (CAL_BACKEND_CLASS (GTK_OBJECT (backend)->klass))
 
 
 
@@ -96,14 +96,14 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[LAST_CLIENT_GONE] =
 		gtk_signal_new ("last_client_gone",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalBackendClass, last_client_gone),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 	cal_backend_signals[CAL_ADDED] =
 		gtk_signal_new ("cal_added",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalBackendClass, cal_added),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
@@ -111,7 +111,7 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[OPENED] =
 		gtk_signal_new ("opened",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalBackendClass, opened),
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
@@ -119,7 +119,7 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[OBJ_UPDATED] =
 		gtk_signal_new ("obj_updated",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalBackendClass, obj_updated),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -127,7 +127,7 @@ cal_backend_class_init (CalBackendClass *class)
 	cal_backend_signals[OBJ_REMOVED] =
 		gtk_signal_new ("obj_removed",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (CalBackendClass, obj_removed),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
@@ -142,6 +142,8 @@ cal_backend_class_init (CalBackendClass *class)
 
 	class->get_uri = NULL;
 	class->get_email_address = NULL;
+	class->get_alarm_email_address = NULL;
+	class->get_static_capabilities = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
 	class->is_read_only = NULL;
@@ -201,6 +203,26 @@ cal_backend_get_email_address (CalBackend *backend)
 
 	g_assert (CLASS (backend)->get_email_address != NULL);
 	return (* CLASS (backend)->get_email_address) (backend);
+}
+
+const char *
+cal_backend_get_alarm_email_address (CalBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_alarm_email_address != NULL);
+	return (* CLASS (backend)->get_alarm_email_address) (backend);
+}
+
+const char *
+cal_backend_get_static_capabilities (CalBackend *backend)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_static_capabilities != NULL);
+	return (* CLASS (backend)->get_static_capabilities) (backend);
 }
 
 /* Callback used when a Cal is destroyed */
@@ -425,6 +447,16 @@ cal_backend_get_n_objects (CalBackend *backend, CalObjType type)
 
 	g_assert (CLASS (backend)->get_n_objects != NULL);
 	return (* CLASS (backend)->get_n_objects) (backend, type);
+}
+
+char *
+cal_backend_get_default_object (CalBackend *backend, CalObjType type)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_default_object != NULL);
+	return (* CLASS (backend)->get_default_object) (backend, type);
 }
 
 /**
@@ -721,14 +753,14 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
  * result of the operation.
  **/
 CalBackendResult
-cal_backend_update_objects (CalBackend *backend, const char *calobj)
+cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 	g_return_val_if_fail (calobj != NULL, FALSE);
 
 	g_assert (CLASS (backend)->update_objects != NULL);
-	return (* CLASS (backend)->update_objects) (backend, calobj);
+	return (* CLASS (backend)->update_objects) (backend, calobj, mod);
 }
 
 /**
@@ -743,14 +775,14 @@ cal_backend_update_objects (CalBackend *backend, const char *calobj)
  * result of the operation.
  **/
 CalBackendResult
-cal_backend_remove_object (CalBackend *backend, const char *uid)
+cal_backend_remove_object (CalBackend *backend, const char *uid, CalObjModType mod)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 	g_return_val_if_fail (uid != NULL, FALSE);
 
 	g_assert (CLASS (backend)->remove_object != NULL);
-	return (* CLASS (backend)->remove_object) (backend, uid);
+	return (* CLASS (backend)->remove_object) (backend, uid, mod);
 }
 
 CalBackendSendResult

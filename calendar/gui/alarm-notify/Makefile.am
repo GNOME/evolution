@@ -1,14 +1,21 @@
 CORBA_GENERATED =				\
+        Evolution-Composer.h              		\
+        Evolution-Composer-common.c       		\
+        Evolution-Composer-skels.c        		\
+        Evolution-Composer-stubs.c			\
 	evolution-calendar.h			\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
 
-idls = $(top_srcdir)/calendar/idl/evolution-calendar.idl
+idls = 								\
+	$(top_srcdir)/composer/Evolution-Composer.idl		\
+	$(top_srcdir)/calendar/idl/evolution-calendar.idl
 
 idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_GENERATED): $(idls)
+	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../../../composer/Evolution-Composer.idl
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
 bin_PROGRAMS = evolution-alarm-notify

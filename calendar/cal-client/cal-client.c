@@ -49,7 +49,11 @@ struct _CalClientPrivate {
 
 	/* Email address associated with this calendar, or NULL */
 	char *email_address;
+	char *alarm_email_address;
 
+	/* Scheduling info */
+	char *capabilities;
+	
 	/* The calendar factories we are contacting */
 	GList *factories;
 
@@ -245,6 +249,8 @@ cal_client_init (CalClient *client)
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
 	priv->email_address = NULL;
+	priv->alarm_email_address = NULL;
+	priv->capabilities = FALSE;
 	priv->factories = NULL;
 	priv->timezones = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->w_client = NULL;
@@ -379,6 +385,14 @@ cal_client_destroy (GtkObject *object)
 	if (priv->email_address) {
 		g_free (priv->email_address);
 		priv->email_address = NULL;
+	}
+	if (priv->alarm_email_address) {
+		g_free (priv->email_address);
+		priv->email_address = NULL;
+	}
+	if (priv->capabilities) {
+		g_free (priv->capabilities);
+		priv->capabilities = NULL;
 	}
 
 	g_hash_table_foreach (priv->timezones, free_timezone, NULL);
@@ -1053,8 +1067,8 @@ cal_client_is_read_only (CalClient *client)
 	CORBA_Environment ev;
 	CORBA_boolean read_only;
 
-	g_return_val_if_fail (client != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+	g_return_val_if_fail (client != NULL, TRUE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), TRUE);
 
 	priv = client->priv;
 
@@ -1105,6 +1119,101 @@ cal_client_get_email_address (CalClient *client)
 	}
 
 	return priv->email_address;
+}
+
+const char *
+cal_client_get_alarm_email_address (CalClient *client)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
+
+	if (priv->alarm_email_address == NULL) {
+		CORBA_Environment ev;
+		CORBA_char *email_address;
+
+		CORBA_exception_init (&ev);
+		email_address = GNOME_Evolution_Calendar_Cal_getAlarmEmailAddress (priv->cal, &ev);
+		if (!BONOBO_EX (&ev)) {
+			priv->alarm_email_address = g_strdup (email_address);
+			CORBA_free (email_address);
+		}
+		CORBA_exception_free (&ev);
+	}
+
+	return priv->alarm_email_address;
+}
+
+static void
+load_static_capabilities (CalClient *client) 
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	char *cap;
+	
+	priv = client->priv;
+
+	if (priv->capabilities)
+		return;
+	
+	CORBA_exception_init (&ev);
+	cap = GNOME_Evolution_Calendar_Cal_getStaticCapabilities (priv->cal, &ev);
+	if (!BONOBO_EX (&ev))
+		priv->capabilities = g_strdup (cap);
+	else
+		priv->capabilities = g_strdup ("");	
+	CORBA_exception_free (&ev);
+}
+
+static gboolean
+check_capability (CalClient *client, const char *cap) 
+{
+	CalClientPrivate *priv;
+	
+	priv = client->priv;
+
+	load_static_capabilities (client);
+	if (strstr (priv->capabilities, cap))
+		return TRUE;
+	
+	return FALSE;
+}
+
+gboolean
+cal_client_get_one_alarm_only (CalClient *client)
+{
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	return check_capability (client, "one-alarm-only");
+}
+
+gboolean 
+cal_client_get_organizer_must_attend (CalClient *client)
+{
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	return check_capability (client, "organizer-must-attend");
+}
+
+gboolean
+cal_client_get_static_capability (CalClient *client, const char *cap)
+{
+	return check_capability (client, cap);
+}
+
+gboolean 
+cal_client_get_save_schedules (CalClient *client)
+{
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	return check_capability (client, "save-schedules");
 }
 
 /* Converts our representation of a calendar component type into its CORBA representation */
@@ -1191,6 +1300,75 @@ struct _CalClientGetTimezonesData {
 	CalClientGetStatus status;
 };
 
+CalClientGetStatus 
+cal_client_get_default_object (CalClient *client, CalObjType type, CalComponent **comp)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CalObj comp_str;
+	CalClientGetStatus retval;
+	icalcomponent *icalcomp;
+	CalClientGetTimezonesData cb_data;
+
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_GET_NOT_FOUND);
+
+	g_return_val_if_fail (comp != NULL, CAL_CLIENT_GET_NOT_FOUND);
+
+	retval = CAL_CLIENT_GET_NOT_FOUND;
+	*comp = NULL;
+
+	CORBA_exception_init (&ev);
+	comp_str = GNOME_Evolution_Calendar_Cal_getDefaultObject (priv->cal, type, &ev);
+
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
+		goto out;
+	else if (BONOBO_EX (&ev)) {		
+		g_message ("cal_client_get_object(): could not get the object");
+		goto out;
+	}
+
+	icalcomp = icalparser_parse_string (comp_str);
+	CORBA_free (comp_str);
+
+	if (!icalcomp) {
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		goto out;
+	}
+
+	*comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (*comp, icalcomp)) {
+		icalcomponent_free (icalcomp);
+		gtk_object_unref (GTK_OBJECT (*comp));
+		*comp = NULL;
+
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		goto out;
+	}
+
+	/* Now make sure we have all timezones needed for this object.
+	   We do this to try to avoid any problems caused by getting a timezone
+	   in the middle of other code. Any calls to ORBit result in a 
+	   recursive call of the GTK+ main loop, which can cause problems for
+	   code that doesn't expect it. Currently GnomeCanvas has problems if
+	   we try to get a timezone in the middle of a redraw, and there is a
+	   resize pending, which leads to an assert failure and an abort. */
+	cb_data.client = client;
+	cb_data.status = CAL_CLIENT_GET_SUCCESS;
+	icalcomponent_foreach_tzid (icalcomp,
+				    cal_client_get_object_timezones_cb,
+				    &cb_data);
+
+	retval = cb_data.status;
+
+ out:
+
+	CORBA_exception_free (&ev);
+	return retval;
+}
 
 /**
  * cal_client_get_object:
@@ -2379,21 +2557,8 @@ cal_client_get_component_as_string (CalClient *client,
 							    TRUE);
 }
 
-/**
- * cal_client_update_object:
- * @client: A calendar client.
- * @comp: A calendar component object.
- *
- * Asks a calendar to update a component.  Any existing component with the
- * specified component's UID will be replaced.  The client program should not
- * assume that the object is actually in the server's storage until it has
- * received the "obj_updated" notification signal.
- *
- * Return value: a #CalClientResult value indicating the result of the
- * operation.
- **/
 CalClientResult
-cal_client_update_object (CalClient *client, CalComponent *comp)
+cal_client_update_object_with_mod (CalClient *client, CalComponent *comp, CalObjModType mod)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -2416,7 +2581,7 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 		return CAL_CLIENT_RESULT_INVALID_OBJECT;
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
+	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, mod, &ev);
 	g_free (obj_string);
 	
 	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
@@ -2434,6 +2599,27 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 
 	CORBA_exception_free (&ev);
 	return retval;
+}
+
+
+/**
+ * cal_client_update_object:
+ * @client: A calendar client.
+ * @comp: A calendar component object.
+ *
+ * Asks a calendar to update a component.  Any existing component with the
+ * specified component's UID will be replaced.  The client program should not
+ * assume that the object is actually in the server's storage until it has
+ * received the "obj_updated" notification signal.
+ *
+ * Return value: a #CalClientResult value indicating the result of the
+ * operation.
+ **/
+CalClientResult
+cal_client_update_object (CalClient *client, CalComponent *comp)
+{
+
+	return cal_client_update_object_with_mod (client, comp, CALOBJ_MOD_ALL);
 }
 
 /**
@@ -2475,7 +2661,7 @@ cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
 	obj_string = icalcomponent_as_ical_string (icalcomp);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
+	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, GNOME_Evolution_Calendar_MOD_ALL, &ev);
 
 	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
 		retval = CAL_CLIENT_RESULT_INVALID_OBJECT;
@@ -2494,21 +2680,8 @@ cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
 	return retval;
 }
 
-
-/**
- * cal_client_remove_object:
- * @client: A calendar client.
- * @uid: Unique identifier of the calendar component to remove.
- * 
- * Asks a calendar to remove a component.  If the server is able to remove the
- * component, all clients will be notified and they will emit the "obj_removed"
- * signal.
- * 
- * Return value: a #CalClientResult value indicating the result of the
- * operation.
- **/
 CalClientResult
-cal_client_remove_object (CalClient *client, const char *uid)
+cal_client_remove_object_with_mod (CalClient *client, const char *uid, CalObjModType mod)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -2523,7 +2696,7 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	g_return_val_if_fail (uid != NULL, CAL_CLIENT_RESULT_NOT_FOUND);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Cal_removeObject (priv->cal, (char *) uid, &ev);
+	GNOME_Evolution_Calendar_Cal_removeObject (priv->cal, (char *) uid, mod, &ev);
 
 	if (BONOBO_USER_EX (&ev,  ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
 		retval = CAL_CLIENT_RESULT_INVALID_OBJECT;
@@ -2540,6 +2713,24 @@ cal_client_remove_object (CalClient *client, const char *uid)
 
 	CORBA_exception_free (&ev);
 	return retval;
+}
+
+/**
+ * cal_client_remove_object:
+ * @client: A calendar client.
+ * @uid: Unique identifier of the calendar component to remove.
+ * 
+ * Asks a calendar to remove a component.  If the server is able to remove the
+ * component, all clients will be notified and they will emit the "obj_removed"
+ * signal.
+ * 
+ * Return value: a #CalClientResult value indicating the result of the
+ * operation.
+ **/
+CalClientResult
+cal_client_remove_object (CalClient *client, const char *uid)
+{
+	return cal_client_remove_object_with_mod (client, uid, CALOBJ_MOD_ALL);
 }
 
 CalClientResult
@@ -2687,7 +2878,7 @@ cal_client_ensure_timezone_on_server (CalClient *client, icaltimezone *zone)
 	g_string_free (vcal_string, FALSE);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
+	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, GNOME_Evolution_Calendar_MOD_ALL, &ev);
 	g_free (obj_string);
 	
 	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))

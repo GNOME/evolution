@@ -21,13 +21,13 @@
 #ifndef CAL_CLIENT_H
 #define CAL_CLIENT_H
 
-#include <glib/gmacros.h>
+#include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/cal-util.h>
 #include <cal-client/cal-query.h>
 
-G_BEGIN_DECLS
+BEGIN_GNOME_DECLS
 
 
 
@@ -148,10 +148,20 @@ const char *cal_client_get_uri (CalClient *client);
 gboolean cal_client_is_read_only (CalClient *client);
 
 const char *cal_client_get_email_address (CalClient *client);
+const char *cal_client_get_alarm_email_address (CalClient *client);
+
+gboolean cal_client_get_one_alarm_only (CalClient *client);
+gboolean cal_client_get_organizer_must_attend (CalClient *client);
+gboolean cal_client_get_save_schedules (CalClient *client);
+gboolean cal_client_get_static_capability (CalClient *client, const char *cap);
 
 gboolean cal_client_set_mode (CalClient *client, CalMode mode);
 
 int cal_client_get_n_objects (CalClient *client, CalObjType type);
+
+CalClientGetStatus cal_client_get_default_object (CalClient *client,
+						  CalObjType type,
+						  CalComponent **comp);
 
 CalClientGetStatus cal_client_get_object (CalClient *client,
 					  const char *uid,
@@ -185,11 +195,13 @@ gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 /* Add or update a single object. When adding an object only builtin timezones
    are allowed. To use external VTIMEZONE data call update_objects() instead.*/
 CalClientResult cal_client_update_object (CalClient *client, CalComponent *comp);
+CalClientResult cal_client_update_object_with_mod (CalClient *client, CalComponent *comp, CalObjModType mod);
 
 /* Add or update multiple objects, possibly including VTIMEZONE data. */
 CalClientResult cal_client_update_objects (CalClient *client, icalcomponent *icalcomp);
 
 CalClientResult cal_client_remove_object (CalClient *client, const char *uid);
+CalClientResult cal_client_remove_object_with_mod (CalClient *client, const char *uid, CalObjModType mod);
 
 CalClientSendResult cal_client_send_object (CalClient *client, icalcomponent *icalcomp, 
 					    icalcomponent **new_icalcomp, GList **users,
@@ -208,6 +220,6 @@ char* cal_client_get_component_as_string (CalClient *client,
 
 
 
-G_END_DECLS
+END_GNOME_DECLS
 
 #endif

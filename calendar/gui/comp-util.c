@@ -257,7 +257,7 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
  * Return value: A newly-created calendar component.
  **/
 CalComponent *
-cal_comp_event_new_with_defaults (void)
+cal_comp_event_new_with_defaults (CalClient *client)
 {
 	CalComponent *comp;
 	int interval;
@@ -267,10 +267,9 @@ cal_comp_event_new_with_defaults (void)
 	icalproperty *icalprop;
 	CalAlarmTrigger trigger;
 
-	comp = cal_component_new ();
-
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
-
+	if (cal_client_get_default_object (client, CALOBJ_TYPE_EVENT, &comp) != CAL_CLIENT_GET_SUCCESS)
+		return NULL;
+	
 	if (!calendar_config_get_use_default_reminder ())
 		return comp;
 
@@ -317,6 +316,17 @@ cal_comp_event_new_with_defaults (void)
 
 	cal_component_add_alarm (comp, alarm);
 	cal_component_alarm_free (alarm);
+
+	return comp;
+}
+
+CalComponent *
+cal_comp_task_new_with_defaults (CalClient *client)
+{
+	CalComponent *comp;
+
+	if (cal_client_get_default_object (client, CALOBJ_TYPE_TODO, &comp) != CAL_CLIENT_GET_SUCCESS)
+		return NULL;
 
 	return comp;
 }

@@ -853,7 +853,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		if (cal_component_has_recurrences (comp))
 			return GINT_TO_POINTER (1);
 
-		if (itip_organizer_is_user (comp))
+		if (itip_organizer_is_user (comp, priv->client))
 			return GINT_TO_POINTER (3);
 		
 		cal_component_get_attendee_list (comp, &attendees);
@@ -1382,14 +1382,23 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
+	/* Guard against saving before the calendar is open */
+	if (!(priv->client && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED))
+		return;
+
 	/* FIXME: This should support other types of components, but for now it
 	 * is only used for the task list.
 	 */
-	if (priv->new_comp_vtype == CAL_COMPONENT_EVENT)
-		comp = cal_comp_event_new_with_defaults ();
-	else {
+	switch (priv->new_comp_vtype) {
+	case CAL_COMPONENT_EVENT:
+		comp = cal_comp_event_new_with_defaults (priv->client);
+		break;
+	case CAL_COMPONENT_TODO:
+		comp = cal_comp_task_new_with_defaults (priv->client);
+		break;
+	default:
 		comp = cal_component_new ();
-		cal_component_set_new_vtype (comp, priv->new_comp_vtype);
+		cal_component_set_new_vtype (comp, priv->new_comp_vtype);		
 	}
 
 	set_categories (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_CATEGORIES, row));

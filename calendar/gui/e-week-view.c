@@ -55,6 +55,7 @@
 #include "dialogs/delete-comp.h"
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
+#include "dialogs/recur-comp.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "cal-util/timeutil.h"
@@ -3279,8 +3280,21 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);
 
-		if (cal_client_update_object (week_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
-			if (itip_organizer_is_user (event->comp) && send_component_dialog (event->comp, FALSE))
+		if (cal_component_is_instance (event->comp)) {
+			CalObjModType mod;
+			
+			if (recur_component_dialog (event->comp, &mod, NULL)) {
+				if (cal_client_update_object_with_mod (week_view->client, event->comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
+					if (itip_organizer_is_user (event->comp, week_view->client) 
+					    && send_component_dialog (week_view->client, event->comp, FALSE))
+						itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, 
+								week_view->client, NULL);
+				} else {
+					g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
+				}
+			}
+		} else if (cal_client_update_object (week_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
+			if (itip_organizer_is_user (event->comp, week_view->client) && send_component_dialog (week_view->client, event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						week_view->client, NULL);
 		} else {
@@ -3404,6 +3418,9 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	week_view = E_WEEK_VIEW (widget);
 
+	if (cal_client_get_load_state (week_view->client) != CAL_CLIENT_LOAD_LOADED)
+		return TRUE;
+
 	/* The Escape key aborts a resize operation. */
 #if 0
 	if (week_view->resize_drag_pos != E_WEEK_VIEW_POS_NONE) {
@@ -3430,7 +3447,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
 
 	/* Add a new event covering the selected range. */
-	comp = cal_comp_event_new_with_defaults ();
+	comp = cal_comp_event_new_with_defaults (week_view->client);
 
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
@@ -3506,7 +3523,12 @@ enum {
 	 * To disable cut and copy for meetings the user is not the
 	 * organizer of
 	 */
-	MASK_MEETING_ORGANIZER = 32
+	MASK_MEETING_ORGANIZER = 32,
+
+	/*
+	 * To disable things not valid for instances
+	 */
+	MASK_INSTANCE = 64
 };
 
 static EPopupMenu main_items [] = {
@@ -3561,7 +3583,7 @@ static EPopupMenu child_items [] = {
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Delete"), e_week_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_week_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_week_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE | MASK_INSTANCE),
 	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_week_view_on_delete_occurrence, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
 	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_week_view_on_delete_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
 
@@ -3616,10 +3638,13 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		else
 			hide_mask |= MASK_RECURRING;
 
+		if (cal_component_is_instance (event->comp))
+			hide_mask |= MASK_INSTANCE;
+
 		if (cal_component_has_organizer (event->comp)) {
 			disable_mask |= MASK_MEETING;
 
-			if (!itip_organizer_is_user (event->comp))
+			if (!itip_organizer_is_user (event->comp, week_view->client))
 				disable_mask |= MASK_MEETING_ORGANIZER;
 		}
 	}
@@ -3890,6 +3915,16 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
+	if (cal_component_is_instance (event->comp)) {
+		const char *uid;
+
+		cal_component_get_uid (event->comp, &uid);
+		if (cal_client_remove_object_with_mod (week_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
+			g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
+
+		return;
+	}
+
 	/* We must duplicate the CalComponent, or we won't know it has changed
 	   when we get the "update_event" callback. */
 
@@ -3918,8 +3953,8 @@ e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
 				     GTK_WIDGET (week_view))) {
 		const char *uid;
 
-		if (itip_organizer_is_user (event->comp) 
-		    && cancel_component_dialog (event->comp, TRUE))
+		if (itip_organizer_is_user (event->comp, week_view->client) 
+		    && cancel_component_dialog (week_view->client, event->comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, week_view->client, NULL);
 
 		cal_component_get_uid (event->comp, &uid);
@@ -3977,8 +4012,8 @@ e_week_view_on_cut (GtkWidget *widget, gpointer data)
  	event = &g_array_index (week_view->events, EWeekViewEvent,
  				week_view->popup_event_num);
  
-	if (itip_organizer_is_user (event->comp) 
-	    && cancel_component_dialog (event->comp, TRUE))
+	if (itip_organizer_is_user (event->comp, week_view->client) 
+	    && cancel_component_dialog (week_view->client, event->comp, TRUE))
 		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, week_view->client, NULL);
 
  	cal_component_get_uid (event->comp, &uid);
@@ -4324,7 +4359,7 @@ selection_received (GtkWidget *invisible,
 
 		cal_client_update_object (week_view->client, comp);
 
-		if (itip_organizer_is_user (comp) && send_component_dialog (comp, TRUE))
+		if (itip_organizer_is_user (comp, week_view->client) && send_component_dialog (week_view->client, comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, week_view->client, NULL);
 
 		g_free (uid);

@@ -101,6 +101,49 @@ impl_Cal_get_email_address (PortableServer_Servant servant,
 
 	return str_email_address_copy;
 }
+		       
+/* Cal::get_alarm_email_address method */
+static CORBA_char *
+impl_Cal_get_alarm_email_address (PortableServer_Servant servant,
+				  CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	const char *str_email_address;
+	CORBA_char *str_email_address_copy;
+	
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+	
+	str_email_address = cal_backend_get_alarm_email_address (priv->backend);
+	if (str_email_address == NULL) {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+		return CORBA_OBJECT_NIL;
+	}
+
+	str_email_address_copy = CORBA_string_dup (str_email_address);
+
+	return str_email_address_copy;
+}
+
+/* Cal::getSchedulingInformation method */
+static CORBA_char *
+impl_Cal_get_static_capabilities (PortableServer_Servant servant,
+				  CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	const char *cap;
+	CORBA_char *cap_copy;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	cap = cal_backend_get_static_capabilities (priv->backend);
+	cap_copy = CORBA_string_dup (cap == NULL ? "" : cap);
+
+	return cap_copy;
+}
 
 /* Converts a calendar object type from its CORBA representation to our own
  * representation.
@@ -144,6 +187,28 @@ impl_Cal_get_n_objects (PortableServer_Servant servant,
 	t = uncorba_obj_type (type);
 	n = cal_backend_get_n_objects (priv->backend, t);
 	return n;
+}
+
+/* Cal::get_object method */
+static GNOME_Evolution_Calendar_CalObj
+impl_Cal_get_default_object (PortableServer_Servant servant,
+			     GNOME_Evolution_Calendar_CalObjType type,
+			     CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	GNOME_Evolution_Calendar_CalObj calobj_copy;
+	char *calobj;
+	
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	calobj = cal_backend_get_default_object (priv->backend, type);
+	calobj_copy = CORBA_string_dup (calobj);
+	g_free (calobj);
+
+	return calobj_copy;
 }
 
 /* Cal::get_object method */
@@ -290,6 +355,7 @@ build_fb_seq (GList *obj_list)
 
 	seq = GNOME_Evolution_Calendar_CalObjSeq__alloc ();
 	CORBA_sequence_set_release (seq, TRUE);
+	seq->_maximum = n;
 	seq->_length = n;
 	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObj_allocbuf (n);
 
@@ -427,6 +493,7 @@ impl_Cal_get_alarms_for_object (PortableServer_Servant servant,
 static void
 impl_Cal_update_objects (PortableServer_Servant servant,
 			 const GNOME_Evolution_Calendar_CalObj calobj,
+			 const GNOME_Evolution_Calendar_CalObjModType mod,
 			 CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -436,7 +503,7 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_update_objects (priv->backend, calobj);
+	result = cal_backend_update_objects (priv->backend, calobj, mod);
 	switch (result) {
 	case CAL_BACKEND_RESULT_INVALID_OBJECT :
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
@@ -456,6 +523,7 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 static void
 impl_Cal_remove_object (PortableServer_Servant servant,
 			const GNOME_Evolution_Calendar_CalObjUID uid,
+			const GNOME_Evolution_Calendar_CalObjModType mod,
 			CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -465,7 +533,7 @@ impl_Cal_remove_object (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_remove_object (priv->backend, uid);
+	result = cal_backend_remove_object (priv->backend, uid, mod);
 	switch (result) {
 	case CAL_BACKEND_RESULT_INVALID_OBJECT :
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
@@ -747,8 +815,11 @@ cal_class_init (CalClass *klass)
 	epv->_get_uri = impl_Cal_get_uri;
 	epv->isReadOnly = impl_Cal_is_read_only;
 	epv->getEmailAddress = impl_Cal_get_email_address;
+	epv->getAlarmEmailAddress = impl_Cal_get_alarm_email_address;
+	epv->getStaticCapabilities = impl_Cal_get_static_capabilities;
 	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;
+	epv->getDefaultObject = impl_Cal_get_default_object;
 	epv->getObject = impl_Cal_get_object;
 	epv->setDefaultTimezone = impl_Cal_set_default_timezone;
 	epv->getTimezoneObject = impl_Cal_get_timezone_object;

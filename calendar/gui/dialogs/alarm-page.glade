@@ -201,6 +201,7 @@
 	    <items>Display a message
 Play a sound
 Run a program
+Send an Email
 </items>
 	    <initial_choice>0</initial_choice>
 	    <child>
@@ -284,6 +285,7 @@ end of appointment
 	    <name>button-options</name>
 	    <can_focus>True</can_focus>
 	    <label>_Options...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -362,6 +364,7 @@ end of appointment
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>_Add</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -370,6 +373,7 @@ end of appointment
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>_Delete</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>

@@ -48,6 +48,7 @@
 #include "send-comp.h"
 #include "changed-comp.h"
 #include "cancel-comp.h"
+#include "recur-comp.h"
 #include "comp-editor.h"
 
 
@@ -74,6 +75,8 @@ struct _CompEditorPrivate {
 	gboolean changed;
 	gboolean needs_send;
 
+	CalObjModType mod;
+	
  	gboolean existing_org;
  	gboolean user_org;
 	
@@ -248,6 +251,7 @@ comp_editor_init (CompEditor *editor)
 	priv->pages = NULL;
 	priv->changed = FALSE;
 	priv->needs_send = FALSE;
+	priv->mod = CALOBJ_MOD_ALL;
  	priv->existing_org = FALSE;
  	priv->user_org = FALSE;
  	priv->warned = FALSE;
@@ -323,7 +327,7 @@ save_comp (CompEditor *editor)
 	}
 	
 	/* If we are not the organizer, we don't update the sequence number */
-	if (!cal_component_has_organizer (clone) || itip_organizer_is_user (clone))
+	if (!cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client))
 		cal_component_commit_sequence (clone);
 	else
 		cal_component_abort_sequence (clone);
@@ -333,7 +337,10 @@ save_comp (CompEditor *editor)
 
 	priv->updating = TRUE;
 
-	result = cal_client_update_object (priv->client, priv->comp);
+	if (cal_component_is_instance (priv->comp))
+		result = cal_client_update_object_with_mod (priv->client, priv->comp, priv->mod);
+	else
+		result = cal_client_update_object (priv->client, priv->comp);
 	if (result != CAL_CLIENT_RESULT_SUCCESS) {
 		GtkWidget *dlg;
 		char *msg;
@@ -380,8 +387,8 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
- 	if (send && send_component_dialog (priv->comp, !priv->existing_org)) {
- 		if (itip_organizer_is_user (priv->comp))
+ 	if (send && send_component_dialog (priv->client, priv->comp, !priv->existing_org)) {
+ 		if (itip_organizer_is_user (priv->comp, priv->client))
  			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
  		else
  			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REPLY);
@@ -417,6 +424,10 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 
 	switch (save_component_dialog (GTK_WINDOW (editor))) {
 	case 0: /* Save */
+		if (cal_component_is_instance (priv->comp))
+			if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+				return FALSE;
+
 		if (send && save_comp_with_send (editor))
 			return TRUE;
 		else if (!send && save_comp (editor))
@@ -939,9 +950,9 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 
 	if (comp)
 		priv->comp = cal_component_clone (comp);
-
+	
  	priv->existing_org = cal_component_has_organizer (comp);
- 	priv->user_org = itip_organizer_is_user (comp);
+ 	priv->user_org = itip_organizer_is_user (comp, priv->client);
  	priv->warned = FALSE;
  		
 	set_title_from_comp (editor);
@@ -1188,8 +1199,15 @@ static void
 save_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
 
 	commit_all_fields (editor);
+
+	if (cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+			return;
 
 	save_comp_with_send (editor);
 }
@@ -1198,8 +1216,15 @@ static void
 save_close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
-
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+	
 	commit_all_fields (editor);
+
+	if (cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+			return;
 
 	if (save_comp_with_send (editor))
 		close_dialog (editor);
@@ -1251,8 +1276,8 @@ delete_cmd (GtkWidget *widget, gpointer data)
 	vtype = cal_component_get_vtype (priv->comp);
 
 	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor))) {
-		if (itip_organizer_is_user (priv->comp) 
-		    && cancel_component_dialog (priv->comp, TRUE))
+		if (itip_organizer_is_user (priv->comp, priv->client) 
+		    && cancel_component_dialog (priv->client, priv->comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, priv->comp, priv->client, NULL);
 
 		delete_comp (editor);
@@ -1319,7 +1344,7 @@ page_changed_cb (GtkObject *obj, gpointer data)
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Changes made to this item may be discarded if an update arrives via email"));
+			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
 	
@@ -1343,7 +1368,7 @@ page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Changes made to this item may be discarded if an update arrives via email"));
+			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
 }
@@ -1367,7 +1392,7 @@ page_dates_changed_cb (GtkObject *obj,
 
 	if (!priv->warned && priv->existing_org && !priv->user_org) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_INFO,
-			  _("Changes made to this item may be discarded if an update arrives via email"));
+			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
 	}
 }

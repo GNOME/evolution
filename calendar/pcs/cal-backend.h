@@ -24,6 +24,7 @@
 #ifndef CAL_BACKEND_H
 #define CAL_BACKEND_H
 
+#include <libgnome/gnome-defs.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/cal-component.h>
 #include "pcs/evolution-calendar.h"
@@ -31,7 +32,7 @@
 #include "pcs/cal.h"
 #include "pcs/query.h"
 
-G_BEGIN_DECLS
+BEGIN_GNOME_DECLS
 
 
 
@@ -93,7 +94,10 @@ struct _CalBackendClass {
 	const char *(* get_uri) (CalBackend *backend);
 
 	const char *(* get_email_address) (CalBackend *backend);
-
+	const char *(* get_alarm_email_address) (CalBackend *backend);
+	
+	const char *(* get_static_capabilities) (CalBackend *backend);
+	
 	CalBackendOpenStatus (* open) (CalBackend *backend, const char *uristr,
 				       gboolean only_if_exists);
 
@@ -110,6 +114,7 @@ struct _CalBackendClass {
 
 	/* General object acquirement and information related virtual methods */
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
+	char *(* get_default_object) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	CalComponent *(* get_object_component) (CalBackend *backend, const char *uid);
 	char *(* get_timezone_object) (CalBackend *backend, const char *tzid);
@@ -131,8 +136,8 @@ struct _CalBackendClass {
 		time_t start, time_t end, gboolean *object_found);
 
 	/* Object manipulation virtual methods */
-	CalBackendResult (* update_objects) (CalBackend *backend, const char *calobj);
-	CalBackendResult (* remove_object) (CalBackend *backend, const char *uid);
+	CalBackendResult (* update_objects) (CalBackend *backend, const char *calobj, CalObjModType mod);
+	CalBackendResult (* remove_object) (CalBackend *backend, const char *uid, CalObjModType mod);
 
 	CalBackendSendResult (* send_object) (CalBackend *backend, const char *calobj, char **new_calobj,
 					      GNOME_Evolution_Calendar_UserList **user_list,
@@ -149,6 +154,9 @@ GtkType cal_backend_get_type (void);
 const char *cal_backend_get_uri (CalBackend *backend);
 
 const char *cal_backend_get_email_address (CalBackend *backend);
+const char *cal_backend_get_alarm_email_address (CalBackend *backend);
+
+const char *cal_backend_get_static_capabilities (CalBackend *backend);
 
 void cal_backend_add_cal (CalBackend *backend, Cal *cal);
 
@@ -167,6 +175,8 @@ CalMode cal_backend_get_mode (CalBackend *backend);
 void cal_backend_set_mode (CalBackend *backend, CalMode mode);
 
 int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
+
+char *cal_backend_get_default_object (CalBackend *backend, CalObjType type);
 
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
 
@@ -197,9 +207,9 @@ GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
 	CalBackendGetAlarmsForObjectResult *result);
 
 
-CalBackendResult cal_backend_update_objects (CalBackend *backend, const char *calobj);
+CalBackendResult cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod);
 
-CalBackendResult cal_backend_remove_object (CalBackend *backend, const char *uid);
+CalBackendResult cal_backend_remove_object (CalBackend *backend, const char *uid, CalObjModType mod);
 
 CalBackendSendResult cal_backend_send_object (CalBackend *backend, const char *calobj, char **new_calobj,
 					      GNOME_Evolution_Calendar_UserList **user_list, 
@@ -215,6 +225,6 @@ void cal_backend_obj_removed (CalBackend *backend, const char *uid);
 
 
 
-G_END_DECLS
+END_GNOME_DECLS
 
 #endif

@@ -1,3 +1,4 @@
+
 /* Evolution calendar - Alarm page of the calendar component dialogs
  *
  * Copyright (C) 2001 Ximian, Inc.
@@ -90,7 +91,15 @@ static const int action_map[] = {
 	CAL_ALARM_DISPLAY,
 	CAL_ALARM_AUDIO,
 	CAL_ALARM_PROCEDURE,
+	CAL_ALARM_EMAIL,
 	-1
+};
+
+static const char *action_map_cap[] = {
+	"no-display-alarms",
+	"no-audio-alarms",
+	"no-procedure-alarms",
+	"no-email-alarms"
 };
 
 static const int value_map[] = {
@@ -472,6 +481,22 @@ get_alarm_string (CalComponentAlarm *alarm)
 	return str;
 }
 
+static void
+sensitize_buttons (AlarmPage *apage)
+{
+	AlarmPagePrivate *priv;
+	CalClient *client;
+	GtkCList *clist;
+	
+	priv = apage->priv;
+	
+	client = COMP_EDITOR_PAGE (apage)->client;
+	clist = GTK_CLIST (priv->list);
+
+	gtk_widget_set_sensitive (priv->add, cal_client_get_one_alarm_only (client) && clist->rows > 0 ? FALSE : TRUE);
+	gtk_widget_set_sensitive (priv->delete, clist->rows > 0 ? TRUE : FALSE);
+}
+
 /* Appends an alarm to the list */
 static void
 append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
@@ -492,7 +517,7 @@ append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 	gtk_clist_select_row (clist, i, 0);
 	g_free (c[0]);
 
-	gtk_widget_set_sensitive (priv->delete, TRUE);
+	sensitize_buttons (apage);
 }
 
 /* fill_widgets handler for the alarm page */
@@ -504,8 +529,10 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	CalComponentText text;
 	GList *alarms, *l;
 	GtkCList *clist;
+	GtkWidget *menu;
 	CompEditorPageDates dates;
-
+	int i;
+	
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
@@ -547,6 +574,16 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_obj_uid_list_free (alarms);
 
  out:
+
+	/* Alarm types */
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->action));
+	for (i = 0, l = GTK_MENU_SHELL (menu)->children; action_map[i] != -1; i++, l = l->next) {
+		if (cal_client_get_static_capability (page->client, action_map_cap[i]))
+			gtk_widget_set_sensitive (l->data, FALSE);
+		else
+			gtk_widget_set_sensitive (l->data, TRUE);
+	}
+	
 
 	priv->updating = FALSE;
 }
@@ -731,7 +768,8 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	AlarmPagePrivate *priv;
 	CalComponentAlarm *alarm;
 	CalAlarmTrigger trigger;
-
+	CalAlarmAction action;
+	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
@@ -765,7 +803,24 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	}
 	cal_component_alarm_set_trigger (alarm, trigger);
 
-	cal_component_alarm_set_action (alarm, e_dialog_option_menu_get (priv->action, action_map));
+	action = e_dialog_option_menu_get (priv->action, action_map);
+	cal_component_alarm_set_action (alarm, action);
+	if (action == CAL_ALARM_EMAIL && !cal_component_alarm_has_attendees (alarm)) {
+		const char *email;
+		
+		email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
+		if (email != NULL) {
+			CalComponentAttendee *a;
+			GSList attendee_list;
+
+			a = g_new0 (CalComponentAttendee, 1);
+			a->value = email;
+			attendee_list.data = a;
+			attendee_list.next = NULL;
+			cal_component_alarm_set_attendee_list (alarm, &attendee_list);
+			g_free (a);
+		}
+	}
 
 	append_reminder (apage, alarm);
 }
@@ -792,10 +847,7 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 	if (sel >= clist->rows)
 		sel--;
 
-	if (clist->rows > 0)
-		gtk_clist_select_row (clist, sel, 0);
-	else
-		gtk_widget_set_sensitive (priv->delete, FALSE);
+	sensitize_buttons (apage);
 }
 
 /* Callback used when the alarm options button is clicked */
@@ -804,14 +856,18 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-
+	gboolean repeat;
+	const char *email;
+	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
 	cal_component_alarm_set_action (priv->alarm,
 					e_dialog_option_menu_get (priv->action, action_map));
 
-	if (!alarm_options_dialog_run (priv->alarm))
+	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client, "no-alarm-repeat");
+	email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
+	if (!alarm_options_dialog_run (priv->alarm, email, repeat))
 		g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
 }
 

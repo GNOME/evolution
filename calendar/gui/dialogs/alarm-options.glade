@@ -15,6 +15,7 @@
 <widget>
   <class>GtkWindow</class>
   <name>alarm-options-toplevel</name>
+  <visible>False</visible>
   <title></title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -264,21 +265,85 @@ days
     </widget>
 
     <widget>
-      <class>GtkLabel</class>
+      <class>GtkVBox</class>
       <name>malarm-group</name>
-      <visible>False</visible>
-      <label>Evolution does not yet support email notification for reminders.  You will not be able to edit the options for this reminder.</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>True</wrap>
-      <xalign>0.5</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
+      <homogeneous>False</homogeneous>
+      <spacing>4</spacing>
       <child>
 	<padding>0</padding>
 	<expand>False</expand>
 	<fill>False</fill>
       </child>
+
+      <widget>
+	<class>GtkScrolledWindow</class>
+	<name>scrolledwindow2</name>
+	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	  <pack>GTK_PACK_END</pack>
+	</child>
+
+	<widget>
+	  <class>GtkText</class>
+	  <name>malarm-description</name>
+	  <can_focus>True</can_focus>
+	  <editable>True</editable>
+	  <text></text>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>label7</name>
+	<label>Message to Send</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	  <pack>GTK_PACK_END</pack>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkHBox</class>
+	<name>malarm-address-group</name>
+	<homogeneous>False</homogeneous>
+	<spacing>4</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>malarm-addressbook</name>
+	  <can_focus>True</can_focus>
+	  <label>Send To:</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>Placeholder</class>
+	</widget>
+      </widget>
     </widget>
 
     <widget>
