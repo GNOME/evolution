@@ -2,6 +2,7 @@
 
 	* e-shell-view-menu.c (command_run_bugbuddy): New function; allows
 	users to submit a bug.
+	(command_run_bugbuddy): Implemented with jacob's patch.
 
 2000-05-09  Ettore Perazzoli  <ettore@helixcode.com>
 

@@ -44,10 +44,29 @@ command_quit (GtkWidget *widget,
 }
 
 static void
-command_run_bugbuddy (GtkWidget *widget, gpointer data)
+command_run_bugbuddy (GtkWidget *menuitem, gpointer data)
 {
-
-	
+        int pid;
+        char *args[] = {
+                "bug-buddy",
+                "--sm-disable",
+                "--package=evolution",
+                "--package-ver="VERSION,
+                NULL
+        };
+        args[0] = gnome_is_program_in_path ("bug-buddy");
+        if (!args[0]) {
+                /* you might have to call gnome_dialog_run() on the
+                 * dialog returned here, I don't remember...
+                 */
+                gnome_error_dialog (_("Bug buddy was not found in your $PATH."));
+        }
+        pid = gnome_execute_async (NULL, 4, args);
+        g_free (args[0]);
+        if (pid == -1) {
+                /* same as above */
+                gnome_error_dialog (_("Bug buddy could not be run."));
+        }
 }
 
 
@@ -205,6 +224,7 @@ GnomeUIInfo e_shell_view_menu [] = {
 
 	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, menu_tools },
 	{ GNOME_APP_UI_SUBTREE, N_("_Actions"), NULL, menu_actions },
+	GNOMEUIINFO_MENU_HELP_TREE (menu_help),
 
 #warning Should provide a help menu here;  Bonobo needs it
 
