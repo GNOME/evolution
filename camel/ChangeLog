@@ -1,3 +1,8 @@
+2003-09-08  Rodney Dawes  <dobey@ixmian.com>
+
+	* camel-service.c: #include sys/types.h and sys/time.h, fixes
+	portability as per the patch in bug #21480
+	
 2003-09-05  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_noop): call

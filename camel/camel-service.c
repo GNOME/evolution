@@ -27,6 +27,8 @@
 #include <config.h>
 #endif
 
+#include <sys/types.h>
+#include <sys/time.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
