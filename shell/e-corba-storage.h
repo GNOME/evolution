@@ -65,6 +65,7 @@ EStorage *e_corba_storage_new        (const char                    *toplevel_no
 				      const GNOME_Evolution_Storage  storage_interface,
 				      const char                    *name);
 
+GNOME_Evolution_Storage e_corba_storage_get_corba_objref (ECorbaStorage *corba_storage);
 /* FIXME: I don't like this call.  */
 const GNOME_Evolution_StorageListener  e_corba_storage_get_StorageListener  (ECorbaStorage *corba_storage);
 

@@ -585,5 +585,14 @@ e_corba_storage_get_StorageListener (ECorbaStorage *corba_storage)
 	return corba_storage->priv->storage_listener_interface;
 }
 
+GNOME_Evolution_Storage
+e_corba_storage_get_corba_objref (ECorbaStorage *corba_storage)
+{
+	g_return_val_if_fail (corba_storage != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (E_IS_CORBA_STORAGE (corba_storage), CORBA_OBJECT_NIL);
+
+	return corba_storage->priv->storage_interface;
+}
+
 
 E_MAKE_TYPE (e_corba_storage, "ECorbaStorage", ECorbaStorage, class_init, init, PARENT_TYPE)

@@ -29,6 +29,7 @@
 #include "e-corba-storage.h"
 
 #include "e-corba-storage-registry.h"
+#include <bonobo/bonobo-exception.h>
 
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
@@ -36,6 +37,8 @@ static BonoboObjectClass *parent_class = NULL;
 
 struct _ECorbaStorageRegistryPrivate {
 	EStorageSet *storage_set;
+
+	GSList *listeners;
 };
 
 
@@ -64,6 +67,33 @@ create_servant (void)
 	CORBA_exception_free (&ev);
 
 	return servant;
+}
+
+static void
+listener_notify (Bonobo_Listener listener,
+		 GNOME_Evolution_StorageRegistry_MessageType type,
+		 const char *name)
+{
+	CORBA_any any;
+	GNOME_Evolution_StorageRegistry_NotifyResult nr;
+	CORBA_Environment ev;
+	
+	nr.type = type;
+	nr.name = CORBA_string_dup (name ? name : "");
+
+	any._type = (CORBA_TypeCode) TC_GNOME_Evolution_StorageRegistry_NotifyResult;
+	any._value = &nr;
+
+	CORBA_exception_init (&ev);
+	Bonobo_Listener_event (listener,
+			       "Evolution::StorageRegistry::NotifyResult",
+			       &any, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Could not send notify event for %s\n%s", name,
+			   CORBA_exception_id (&ev));
+	}
+
+	CORBA_exception_free (&ev);
 }
 
 static GNOME_Evolution_StorageListener
@@ -110,6 +140,35 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 	return listener_interface;
 }
 
+static GNOME_Evolution_Storage
+impl_StorageRegistry_getStorageByName (PortableServer_Servant servant,
+				       const CORBA_char *name,
+				       CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ECorbaStorageRegistry *storage_registry;
+	ECorbaStorageRegistryPrivate *priv;
+	GNOME_Evolution_Storage corba_storage;
+	EStorage *storage;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
+	priv = storage_registry->priv;
+
+	storage = e_storage_set_get_storage (priv->storage_set, name);
+	if (storage == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_StorageRegistry_NotFound,
+				     NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	corba_storage = CORBA_Object_duplicate (e_corba_storage_get_corba_objref
+						(E_CORBA_STORAGE (storage)), ev);
+
+	return corba_storage;
+}
+
 static void
 impl_StorageRegistry_removeStorageByName (PortableServer_Servant servant,
 					  const CORBA_char *name,
@@ -135,6 +194,109 @@ impl_StorageRegistry_removeStorageByName (PortableServer_Servant servant,
 	/* FIXME: Yucky to get the storage by name and then remove it.  */
 	/* FIXME: Check failure.  */
 	e_storage_set_remove_storage (priv->storage_set, storage);
+}
+
+static void
+storage_set_foreach (EStorageSet *set,
+		     Bonobo_Listener listener)
+{
+	GList *storage_list, *p;
+
+	storage_list = e_storage_set_get_storage_list (set);
+	for (p = storage_list; p; p = p->next) {
+		const char *name;
+
+		name = e_storage_get_name (E_STORAGE (p->data));
+
+		listener_notify (listener, GNOME_Evolution_StorageRegistry_STORAGE_CREATED, name);
+		gtk_object_unref (GTK_OBJECT (p->data));
+	}
+	
+	g_list_free (storage_list);
+}
+
+static GSList *
+find_listener (GSList *p,
+	       Bonobo_Listener listener)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	for (; p; p = p->next) {
+		if (CORBA_Object_is_equivalent (p->data, listener, &ev) == TRUE) {
+			CORBA_exception_free (&ev);
+			return p;
+		}
+	}
+
+	CORBA_exception_free (&ev);
+	return NULL;
+}
+
+static void
+impl_StorageRegistry_addListener (PortableServer_Servant servant,
+				  Bonobo_Listener listener,
+				  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ECorbaStorageRegistry *storage_registry;
+	ECorbaStorageRegistryPrivate *priv;
+	Bonobo_Listener listener_copy;
+	CORBA_Environment ev2;
+	
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
+	priv = storage_registry->priv;
+
+	if (find_listener (priv->listeners, listener) != NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_StorageRegistry_AlreadyListening,
+				     NULL);
+		return;
+	}
+
+	CORBA_exception_init (&ev2);
+	listener_copy = CORBA_Object_duplicate ((CORBA_Object) listener, &ev2);
+	if (BONOBO_EX (&ev2)) {
+		g_warning ("EvolutionStorageRegistry -- Cannot duplicate listener.");
+		CORBA_exception_free (&ev2);
+		return;
+	}
+
+	CORBA_exception_free (&ev2);
+	priv->listeners = g_slist_prepend (priv->listeners, listener_copy);
+	storage_set_foreach (priv->storage_set, listener_copy);
+}
+
+static void
+impl_StorageRegistry_removeListener (PortableServer_Servant servant,
+				     Bonobo_Listener listener,
+				     CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ECorbaStorageRegistry *storage_registry;
+	ECorbaStorageRegistryPrivate *priv;
+	CORBA_Environment ev2;
+	GList *p;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
+	priv = storage_registry->priv;
+
+	p = find_listener (priv->listeners, listener);
+	if (p == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_StorageRegistry_NotFound,
+				     NULL);
+		return;
+	}
+
+	CORBA_exception_init (&ev2);
+	CORBA_Object_release ((CORBA_Object) p->data, &ev2);
+	CORBA_exception_free (&ev2);
+	
+	priv->listeners = g_slist_remove_link (priv->listeners, p);
+	g_list_free (p);
 }
 
 
@@ -173,8 +335,11 @@ corba_class_init (void)
 
 	epv = g_new0 (POA_GNOME_Evolution_StorageRegistry__epv, 1);
 	epv->addStorage          = impl_StorageRegistry_addStorage;
+	epv->getStorageByName    = impl_StorageRegistry_getStorageByName;
 	epv->removeStorageByName = impl_StorageRegistry_removeStorageByName;
-
+	epv->addListener         = impl_StorageRegistry_addListener;
+	epv->removeListener      = impl_StorageRegistry_removeListener;
+	
 	vepv = &storage_registry_vepv;
 	vepv->_base_epv                     = base_epv;
 	vepv->Bonobo_Unknown_epv            = bonobo_object_get_epv ();
@@ -201,7 +366,8 @@ init (ECorbaStorageRegistry *corba_storage_registry)
 
 	priv = g_new (ECorbaStorageRegistryPrivate, 1);
 	priv->storage_set = NULL;
-
+	priv->listeners = NULL;
+	
 	corba_storage_registry->priv = priv;
 }
 

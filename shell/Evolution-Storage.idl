@@ -87,7 +87,18 @@ module Evolution {
 	interface StorageRegistry : Bonobo::Unknown {
 		exception Exists {};
 		exception NotFound {};
+		exception AlreadyListening {};
 
+		enum MessageType {
+			STORAGE_CREATED,
+			STORAGE_DESTROYED
+		};
+
+		struct NotifyResult {
+			MessageType type;
+			string name;
+		};
+		
 		/* FIXME: The toplevel attributes should probably be attributes
                    of the storage instead of being passed here.  */
 		StorageListener addStorage (in Storage storage,
@@ -95,8 +106,17 @@ module Evolution {
 					    in string toplevel_node_uri,
 					    in string toplevel_node_type)
 			raises (Exists);
+		
+		Storage getStorageByName (in string name)
+			raises (NotFound);
 
 		void removeStorageByName (in string name)
+			raises (NotFound);
+
+		void addListener (in Bonobo::Listener listener)
+			raises (AlreadyListening);
+
+		void removeListener (in Bonobo::Listener listener)
 			raises (NotFound);
 	};
 };
