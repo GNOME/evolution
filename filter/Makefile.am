@@ -70,7 +70,8 @@ libfilter_la_DEPENDENCIES = libfilter-i18n.h
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\
-	$(error_in_files)			\
+	$(error_DATA)				\
+	$(error_i18n)				\
 	ChangeLog.pre-1-4			\
 	filter-marshal.list			\
 	filtertypes.xml				\
@@ -82,10 +83,11 @@ EXTRA_DIST =					\
 filterdir = $(privdatadir)
 filter_DATA = filtertypes.xml vfoldertypes.xml searchtypes.xml
 
-error_in_files = filter-errors.xml.in
-error_DATA = $(error_in_files:.xml.in=.xml)
+error_DATA = filter-errors.xml
+error_i18n = $(error_DATA:.xml=.xml.h)
 errordir = $(privdatadir)/errors
-@INTLTOOL_XML_RULE@
+%.xml.h: %.xml
+	$(top_builddir)/e-util/e-error-tool $^
 
 libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
 	echo "/* Automatically generated. Do not edit. */" > $@;	      \
@@ -95,3 +97,6 @@ libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
 
 MARSHAL_GENERATED = filter-marshal.c filter-marshal.h
 @EVO_MARSHAL_RULE@
+
+BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_i18n)
+CLEANFILES = $(BUILT_SOURCES)
