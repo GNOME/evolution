@@ -334,11 +334,11 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 static CORBA_boolean
 destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *folder,
 				  const char *physical_uri,
+				  const char *folder_type,
 				  const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
 				  GNOME_Evolution_ShellComponentDnd_Action * suggested_action_return,
 				  gpointer user_data)
 {
-	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
 	*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
 	return TRUE;
 }
@@ -358,6 +358,7 @@ dnd_drop_book_open_cb (EBook *book, EBookStatus status, GList *card_list)
 static CORBA_boolean
 destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *folder,
 				const char *physical_uri,
+				const char *folder_type,
 				const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
 				const GNOME_Evolution_ShellComponentDnd_Action action,
 				const GNOME_Evolution_ShellComponentDnd_Data * data,

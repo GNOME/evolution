@@ -80,6 +80,7 @@ module ShellComponentDnd {
 		   @default_action and @non_default_action we want to be
 		   performed when the drop happens.  */
 		boolean handleMotion (in string physical_uri,
+				      in string folder_type,
 				      in Context destination_context,
 				      out Action suggested_action);
 
@@ -87,6 +88,7 @@ module ShellComponentDnd {
 		   object, and we are supposed to perform the operation
 		   requested.  */
 		boolean handleDrop (in string physical_uri,
+				    in string folder_type,
 				    in Context destination_context,
 				    in Action action,
 				    in Data data);

@@ -1,5 +1,26 @@
 2001-10-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (tree_drag_data_received): Pass the
+	@folder_type to ::handleDrop.
+
+	* evolution-shell-component-dnd.c
+	(impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion):
+	New arg @folder_type.
+	(impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop):
+	Likewise.
+
+	* evolution-shell-component-dnd.h: Add @folder_type to
+	`DndDestinationFolderHandleDropFn' and
+	`DndDestinationFolderHandleMotionFn'.
+
+	* e-storage-set-view.c (tree_drag_motion): Pass the folder type to
+	`::handleMotion'.
+
+	* Evolution-ShellComponentDnd.idl: Pass @folder_type in
+	::handleDrop and ::handleMotion.
+
+2001-10-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (command_about_box): Use EShellAboutBox.
 	(zero_pointer): Removed.
 

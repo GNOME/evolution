@@ -96,11 +96,13 @@ typedef struct _EvolutionShellComponentDndDestinationFolderClass EvolutionShellC
 
 typedef CORBA_boolean (*DndDestinationFolderHandleMotionFn)(EvolutionShellComponentDndDestinationFolder *folder,
 							    const char *physical_uri,
+							    const char *folder_type,
 							    const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
 							    GNOME_Evolution_ShellComponentDnd_Action * suggested_action_return,
 							    gpointer closure);
 typedef CORBA_boolean (*DndDestinationFolderHandleDropFn)(EvolutionShellComponentDndDestinationFolder *folder,
 							  const char *physical_uri,
+							  const char *folder_type,
 							  const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
 							  const GNOME_Evolution_ShellComponentDnd_Action action,
 							  const GNOME_Evolution_ShellComponentDnd_Data * data,

@@ -1,3 +1,11 @@
+2001-10-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c
+	(destination_folder_handle_motion): Get @folder_type here too [to
+	match the changes in the EvolutionShellComponentDnd interface].
+	Also, remove a debugging message.
+	(destination_folder_handle_drop): Likewise.
+
 2001-10-18  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (add_menu_item):

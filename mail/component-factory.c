@@ -404,14 +404,13 @@ get_dnd_selection (EvolutionShellComponent *shell_component,
 static CORBA_boolean
 destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *folder,
 				  const char *physical_uri,
+				  const char *folder_type,
 				  const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context *destination_context,
 				  GNOME_Evolution_ShellComponentDnd_Action *suggested_action_return,
 				  gpointer user_data)
 {
 	const char *noselect;
 	CamelURL *url;
-	
-	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
 	
 	url = camel_url_new (physical_uri, NULL);
 	noselect = camel_url_get_param (url, "noselect");
@@ -464,6 +463,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 static CORBA_boolean
 destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *dest_folder,
 				const char *physical_uri,
+				const char *folder_type,
 				const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context *destination_context,
 				const GNOME_Evolution_ShellComponentDnd_Action action,
 				const GNOME_Evolution_ShellComponentDnd_Data *data,

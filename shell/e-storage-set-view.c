@@ -1099,6 +1099,7 @@ tree_drag_motion (ETree *tree,
 	
 	can_handle = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion (destination_folder_interface,
 										       e_folder_get_physical_uri (folder),
+										       e_folder_get_type_string (folder),
 										       &corba_context,
 										       &suggested_action,
 										       &ev);
@@ -1252,6 +1253,7 @@ tree_drag_data_received (ETree *etree,
 				/* pass off the data to the component's DestinationFolderInterface */
 				handled = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop (destination_folder_interface,
 													  e_folder_get_physical_uri (folder),
+													  e_folder_get_type_string (folder),
 													  &corba_context,
 													  convert_gdk_drag_action_to_corba (context->action),
 													  &corba_data,

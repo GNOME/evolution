@@ -288,6 +288,7 @@ dnd_destination_destroy (GtkObject *object)
 static CORBA_boolean
 impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion (PortableServer_Servant servant,
 								       const CORBA_char* physical_uri,
+								       const CORBA_char *folder_type,
 								       const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
 								       GNOME_Evolution_ShellComponentDnd_Action * suggested_action, CORBA_Environment * ev)
 {
@@ -299,12 +300,13 @@ impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion (PortableS
 	folder = EVOLUTION_SHELL_COMPONENT_DND_DESTINATION_FOLDER (bonobo_object);
 	priv = folder->priv;
 
-	return priv->handle_motion (folder, physical_uri, destination_context, suggested_action, priv->user_data);
+	return priv->handle_motion (folder, physical_uri, folder_type, destination_context, suggested_action, priv->user_data);
 }
 
 static CORBA_boolean 
 impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop (PortableServer_Servant servant,
-								     const CORBA_char* physical_uri,
+								     const CORBA_char *physical_uri,
+								     const CORBA_char *folder_type,
 								     const GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context * destination_context,
 								     const GNOME_Evolution_ShellComponentDnd_Action action,
 								     const GNOME_Evolution_ShellComponentDnd_Data * data, CORBA_Environment * ev)
@@ -317,7 +319,7 @@ impl_GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleDrop (PortableSer
 	folder = EVOLUTION_SHELL_COMPONENT_DND_DESTINATION_FOLDER (bonobo_object);
 	priv = folder->priv;
 
-	return priv->handle_drop (folder, physical_uri, destination_context, action, data, priv->user_data);
+	return priv->handle_drop (folder, physical_uri, folder_type, destination_context, action, data, priv->user_data);
 }
 
 static POA_GNOME_Evolution_ShellComponentDnd_DestinationFolder__vepv DestinationFolder_vepv;
