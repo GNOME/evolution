@@ -28,12 +28,13 @@
 #endif
 
 #include <string.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-exception.h>
+#include "camel-folder.h"
+#include "camel-exception.h"
 #include "camel-store.h"
 #include "camel-mime-message.h"
 #include "string-utils.h"
 #include "e-util/e-memory.h"
+#include "camel-operation.h"
 
 #include "camel-private.h"
 
@@ -1203,9 +1204,15 @@ static void
 move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
 {
 	int i;
+
+	camel_operation_start(NULL, _("Moving messages"));
 	
-	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++)
+	for (i = 0; i < uids->len && !camel_exception_is_set (ex); i++) {
 		move_message_to (source, uids->pdata[i], dest, ex);
+		camel_operation_progress(NULL, i * 100 / uids->len);
+	}
+
+	camel_operation_end(NULL);
 }
 
 /**

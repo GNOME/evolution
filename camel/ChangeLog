@@ -1,3 +1,14 @@
+2001-09-10    <NotZed@Ximian.com>
+
+	* camel-folder.c (move_messages_to): Progress reporting while
+	moving messages.
+
+	* camel-store.c (camel_store_delete_folder): Make sure we remove
+	the folder from our vtrash, if we have it in our opened set, and
+	also remove it from our hashtable.
+	(camel_store_rename_folder): Remove the old folder name from the
+	folder cahce, if it is there.
+
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-charset-map.c (camel_charset_to_iconv): Get rid of the

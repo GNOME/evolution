@@ -293,7 +293,26 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 void
 camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
+
 	CAMEL_STORE_LOCK(store, folder_lock);
+
+	/* if we deleted a folder, force it out of the cache, and also out of the vtrash if setup */
+	if (store->folders) {
+		CamelFolder *folder;
+		char *key;
+
+		CAMEL_STORE_LOCK(store, cache_lock);
+		if (g_hash_table_lookup_extended(store->folders, folder_name, &key, (void **)&folder)) {
+			g_hash_table_remove(store->folders, key);
+			g_free(key);
+			CAMEL_STORE_UNLOCK(store, cache_lock);
+			if (store->vtrash)
+				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
+		} else {
+			CAMEL_STORE_UNLOCK(store, cache_lock);
+		}
+	}
+
 	CS_CLASS (store)->delete_folder (store, folder_name, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
@@ -319,7 +338,19 @@ rename_folder (CamelStore *store, const char *old_name,
 void
 camel_store_rename_folder (CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
+	char *key;
+	CamelFolder *folder;
+
 	CAMEL_STORE_LOCK(store, folder_lock);
+
+	/* remove the old name from the cache if it is there */
+	CAMEL_STORE_LOCK(store, cache_lock);
+	if (g_hash_table_lookup_extended(store->folders, old_name, &key, (void **)&folder)) {
+		g_hash_table_remove(store->folders, key);
+		g_free(key);
+	}
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+
 	CS_CLASS (store)->rename_folder (store, old_name, new_name, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
