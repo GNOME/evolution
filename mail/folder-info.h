@@ -34,6 +34,7 @@ extern "C" {
 
 GtkType evolution_folder_info_get_type (void);
 gboolean evolution_folder_info_factory_init (void);
+BonoboObject *evolution_folder_info_new (void);
 
 void evolution_folder_info_notify_ready (void);
 

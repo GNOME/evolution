@@ -1,7 +1,7 @@
 SUBDIRS = importers
 
-libexec_PROGRAMS =				\
-	evolution-mail
+#libexec_PROGRAMS =				\
+#	evolution-mail
 #	evolution-mail-upgrade
 
 importerdir = $(privlibdir)/evolution-mail-importers
@@ -34,6 +34,9 @@ INCLUDES =							\
 	-DGTK_DISABLE_DEPRECATED				\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
+componentdir = $(COMPONENT_DIR)
+component_LTLIBRARIES = libevolution-mail.la
+
 EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mailer.h		\
 	Mailer-common.c		\
@@ -53,7 +56,7 @@ $(IDL_GENERATED): $(SPELL_IDL)
 
 Spell-impl.o: Spell.h
 
-evolution_mail_SOURCES =		\
+libevolution_mail_la_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	$(IDL_GENERATED)		\
 	component-factory.c		\
@@ -140,7 +143,7 @@ evolution_mail_SOURCES =		\
 #	mail-font-prefs.c		\
 #	mail-font-prefs.h
 
-evolution_mail_LDADD =						\
+libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
 	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
@@ -155,7 +158,7 @@ evolution_mail_LDADD =						\
 	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(EVOLUTION_MAIL_LIBS)
 
-evolution_mail_LDFLAGS =				\
+libevolution_mail_la_LDFLAGS =				\
 	-export-dynamic
 
 #evolution_mail_upgrade_SOURCES = upgrade-mailer.c
@@ -169,7 +172,7 @@ server_in_files = GNOME_Evolution_Mail.server.in.in
 serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 
 gladedir   = $(datadir)/evolution/glade

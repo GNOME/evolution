@@ -81,7 +81,6 @@ gint mail_config_druid_get_auto_check_minutes (MailConfigDruid *druid);
 char *mail_config_druid_get_transport_url (MailConfigDruid *druid);
 gboolean mail_config_druid_get_save_transport_password (MailConfigDruid *druid);
 gboolean mail_config_druid_get_transport_requires_auth (MailConfigDruid *druid);
-void evolution_mail_config_wizard_init (void);
 
 #ifdef __cplusplus
 }

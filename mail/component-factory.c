@@ -943,9 +943,8 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
 	GConfClient *gconf;
 	int i;
-	
+
 	gconf = gconf_client_get_default ();
-	
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
 		g_signal_handler_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
 	
@@ -1596,3 +1595,112 @@ mail_storages_foreach (GHFunc func, gpointer data)
 {
 	g_hash_table_foreach (storages_hash, func, data);
 }
+
+
+
+#include <signal.h>
+
+#include <bonobo/bonobo-shlib-factory.h>
+#include "folder-info.h"
+#include "mail-preferences.h"
+#include "mail-composer-prefs.h"
+
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ControlFactory"
+
+#define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig"
+#define WIZARD_IID "OAFIID:GNOME_Evolution_Mail_Wizard"
+#define FOLDER_INFO_IID "OAFIID:GNOME_Evolution_FolderInfo"
+
+static BonoboObject *
+factory (BonoboGenericFactory *factory,
+	 const char *component_id,
+	 void *closure)
+{
+	printf("Activating component '%s'\n", component_id);
+
+	if (strcmp (component_id, COMPONENT_ID) == 0)
+		return create_component();
+	else if (strcmp(component_id, MAIL_CONFIG_IID) == 0)
+		return (BonoboObject *)g_object_new (evolution_mail_config_get_type (), NULL);
+	else if (strcmp(component_id, FOLDER_INFO_IID) == 0)
+		return evolution_folder_info_new();
+	else if (strcmp(component_id, WIZARD_IID) == 0)
+		return evolution_mail_config_wizard_new();
+
+#warning "font prefs"
+#define MAIL_FONT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_FontPrefs_ConfigControl"
+
+	else if (strcmp (component_id, MAIL_ACCOUNTS_CONTROL_ID) == 0
+		 || strcmp (component_id, MAIL_PREFERENCES_CONTROL_ID) == 0
+		 || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0
+		 || strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID) == 0)
+		return config_control_factory_cb(factory, component_id, evolution_shell_client_corba_objref (global_shell_client));
+
+	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
+	return NULL;
+}
+
+/* The GNOME SEGV handler will lose if it's not run from the main Gtk
+ * thread. So if we crash in another thread, redirect the signal.
+ */
+static void (*gnome_segv_handler) (int);
+
+static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
+
+static void
+segv_redirect (int sig)
+{
+	if (pthread_self () == mail_gui_thread)
+		gnome_segv_handler (sig);
+	else {
+		pthread_kill (mail_gui_thread, sig);
+		/* We can't return from the signal handler or the
+		 * thread may SEGV again. But we can't pthread_exit,
+		 * because then the thread may get cleaned up before
+		 * bug-buddy can get a stack trace. So we block by
+		 * trying to lock a mutex we know is already locked.
+		 */
+		g_static_mutex_lock (&segv_mutex);
+	}
+}
+
+
+static Bonobo_Unknown
+make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_Environment *ev)
+{
+	struct sigaction sa, osa;
+	static int init = 0;
+
+	if (!init) {
+		sigaction (SIGSEGV, NULL, &osa);
+		if (osa.sa_handler != SIG_DFL) {
+			sa.sa_flags = 0;
+			sigemptyset (&sa.sa_mask);
+			sa.sa_handler = segv_redirect;
+			sigaction (SIGSEGV, &sa, NULL);
+			sigaction (SIGBUS, &sa, NULL);
+			sigaction (SIGFPE, &sa, NULL);
+			
+			sa.sa_handler = SIG_IGN;
+			sigaction (SIGXFSZ, &sa, NULL);
+			gnome_segv_handler = osa.sa_handler;
+			g_static_mutex_lock (&segv_mutex);
+		}
+		
+		/* init ? */
+		mail_config_init ();
+		mail_msg_init ();
+		init = 1;
+	}
+
+	return bonobo_shlib_factory_std (FACTORY_ID, poa, impl_ptr, factory, NULL, ev);
+}
+
+static BonoboActivationPluginObject plugin_list[] = {
+	{FACTORY_ID, make_factory},
+	{ NULL }
+};
+const  BonoboActivationPlugin Bonobo_Plugin_info = {
+	plugin_list, "Evolution Mail component factory"
+};
+

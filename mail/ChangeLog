@@ -1,5 +1,27 @@
 2003-01-09  Not Zed  <NotZed@Ximian.com>
 
+	* mail-config-druid.c: Added druidpagestart1 to the pages list.
+	(construct): Change the limits on the page initialisation, and
+	widget_show_all on the page rather than the content.
+
+	* GNOME_Evolution_Mail.server.in.in: Make Mail a shlib component.
+
+	* folder-info.c (evolution_folder_info_factory_init): Removed.
+	(evolution_folder_info_factory_fn): renamed to evolution_folder_info_new().
+
+	*  mail-config-druid.c  (evolution_mail_config_wizard_factory_fn):
+	Renamed to evolution_mail_config_wizard_new().
+	(evolution_mail_config_wizard_init): Removed.
+
+	* mail-config-factory.c (mail_config_register_factory): Remove.
+	(config_control_factory_cb): make this public.
+
+	* Makefile.am: setup evolution-mail as a shared library.
+
+	* component-factory.c (make_factory): implement the bonobo-plugin
+	factory for shlib operation.  Also, preliminary work to setup mailer-specific 
+	(factory): Implement the factory which starts various components.
+
 	* mail-config.c (xml_get_prop): g_free->xmlFree
 	(account_to_xml): copy xml memory to glib memory when adding the 0
 	on the end of the string.

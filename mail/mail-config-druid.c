@@ -491,6 +491,7 @@ static const char *pages[] = {
 	"transport_page",
 	"management_page",
 	"finish_page",
+	"druidpagestart1",
 	NULL
 };
 
@@ -678,7 +679,7 @@ construct (MailConfigDruid *druid)
 		g_signal_connect(page, "back", G_CALLBACK (back_func), druid);
 		g_signal_connect(page, "finish", G_CALLBACK (finish_func), druid);
 
-		if (i !=  5) {
+		if (i < 5) {
 			Bonobo_Control control;
 			GtkWidget *w;
 			CORBA_Environment ev;
@@ -695,8 +696,9 @@ construct (MailConfigDruid *druid)
 
 			w = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
 			gtk_box_pack_start (GTK_BOX (dpage->vbox), w, TRUE, TRUE, 0);
-			gtk_widget_show_all (w);
 		}
+		gtk_widget_show_all (page);
+
 	}
 	g_signal_connect(druid->druid, "cancel", G_CALLBACK(druid_cancel), druid);
 
@@ -984,10 +986,8 @@ wizard_free (MailConfigWizard *wizard)
 	g_free (wizard);
 }
 
-static BonoboObject *
-evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
-					 const char *id,
-					 void *closure)
+BonoboObject *
+evolution_mail_config_wizard_new(void)
 {
 	EvolutionWizard *wizard;
         MailConfigAccount *account;
@@ -1016,20 +1016,4 @@ evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
         g_signal_connect(wizard, "help", G_CALLBACK (wizard_help_cb), gui);
 	
         return BONOBO_OBJECT (wizard);
-}
-
-void
-evolution_mail_config_wizard_init (void)
-{
-	BonoboGenericFactory *factory;
-
-	factory = bonobo_generic_factory_new (WIZARD_IID,
-					      evolution_mail_config_wizard_factory_fn, NULL);
-
-	if (factory == NULL) {
-		g_warning ("Error starting factory");
-		return;
-	}
-
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 }

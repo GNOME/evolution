@@ -10,8 +10,6 @@
 #include <config.h>
 #endif
 
-#include "folder-info.h"
-
 #include "Mailer.h"
 
 #include <glib.h>
@@ -21,6 +19,8 @@
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-exception.h>
+
+#include "folder-info.h"
 
 #include "mail.h"
 #include "mail-mt.h"
@@ -139,7 +139,7 @@ mail_get_info (const char *foldername,
 	
 	m = mail_msg_new (&get_info_op, NULL, sizeof (*m));
 	
-/* 	g_print ("Folder: %s", foldername); */
+ 	/*g_print ("Folder: %s", foldername);*/
 	m->foldername = g_strdup (foldername);
 	
 	CORBA_exception_init (&ev);
@@ -225,10 +225,8 @@ get_prop (BonoboPropertyBag *bag,
 	}
 }
 
-static BonoboObject *
-evolution_folder_info_factory_fn (BonoboGenericFactory *factory,
-				  const char *id,
-				  void *closure)
+BonoboObject *
+evolution_folder_info_new (void)
 {
 	EvolutionFolderInfo *info;
 	BonoboPropertyBag *pb;
@@ -249,27 +247,6 @@ evolution_folder_info_factory_fn (BonoboGenericFactory *factory,
 	folder_infos = g_slist_append (folder_infos, info);
 	
 	return BONOBO_OBJECT (info);
-}
-
-gboolean
-evolution_folder_info_factory_init (void)
-{
-	BonoboGenericFactory *factory;
-	
-	folder_infos = NULL;
-	ready = FALSE;
-	
-	factory = bonobo_generic_factory_new (FOLDER_INFO_IID,
-					      evolution_folder_info_factory_fn,
-					      NULL);
-	
-	if (factory == NULL) {
-		g_warning ("Error starting FolderInfo");
-		return FALSE;
-	}
-	
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-	return TRUE;
 }
 
 void

@@ -62,7 +62,7 @@ config_control_apply_cb (EvolutionConfigControl *config_control, void *user_data
 	data->apply (data->prefs);
 }
 
-static BonoboObject *
+BonoboObject *
 config_control_factory_cb (BonoboGenericFactory *factory, const char *component_id, void *user_data)
 {
 	GNOME_Evolution_Shell shell = (GNOME_Evolution_Shell) user_data;
@@ -119,21 +119,4 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 	g_object_weak_ref ((GObject *) control, (GWeakNotify) config_control_destroy_cb, data);
 	
 	return BONOBO_OBJECT (control);
-}
-
-gboolean
-mail_config_register_factory (GNOME_Evolution_Shell shell)
-{
-	g_return_val_if_fail (shell != CORBA_OBJECT_NIL, FALSE);
-	
-	factory = bonobo_generic_factory_new (CONFIG_CONTROL_FACTORY_ID,
-					      config_control_factory_cb,
-					      shell);
-	
-	if (factory != NULL) {
-		return TRUE;
-	} else {
-		g_warning ("Cannot register factory %s", CONFIG_CONTROL_FACTORY_ID);
-		return FALSE;
-	}
 }

@@ -2,6 +2,19 @@
 
   <!-- Folder display control -->
 
+  <!-- (factory) -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ControlFactory"
+	      type="shlib"
+	      location="@COMPONENTDIR@/libevolution-mail.so">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/ObjectFactory:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="description" type="string"
+		   _value="Factory for the controls exported by the Evolution Mailer"/>
+  </oaf_server>
+
   <!-- (control) -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Control"
 	      type="factory"
@@ -16,24 +29,11 @@
 		   _value="Evolution mail folder display component."/>
   </oaf_server>
 
-  <!-- (factory) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ControlFactory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/ObjectFactory:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="description" type="string"
-		   _value="Evolution mail folder factory component."/>
-  </oaf_server>
-
   <!-- Shell Component -->
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ShellComponent"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
@@ -50,21 +50,9 @@
 
   <!-- Summary component, for showing info in the summary -->
 
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:Bonobo/Unknown:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="description" type="string"
-		   _value="Factory for the Mail Summary component."/>
-  </oaf_server>
-
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponent"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponentFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution:Summary:ComponentFactory:1.0"/>
@@ -76,23 +64,10 @@
 
   <!-- Message composer -->
 
-  <!-- (factory) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerFactory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/GenericFactory:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="description" type="string"
-		   _value="Factory for the Evolution composer."/>
-  </oaf_server>
-
   <!-- (composer) -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Composer"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ComposerFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution:Composer:1.0"/>
@@ -103,19 +78,10 @@
 		   _value="Evolution mail composer."/>
   </oaf_server>
 
-  <!-- Config Wizard interface -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_MailConfig_Factory"
-              type="exe"
-              location="@LIBEXECDIR@/evolution-mail">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/GenericFactory:1.0"/>
-    </oaf_attribute>
-  </oaf_server>
-
+  <!-- MailConfig interface -->
   <oaf_server iid="OAFIID:GNOME_Evolution_MailConfig"
               type="factory"
-              location="OAFIID:GNOME_Evolution_MailConfig_Factory">
+              location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/MailConfig:1.0"/>
@@ -125,47 +91,11 @@
                    _value="Mail configuration interface"/>
   </oaf_server>
 
-  <!-- MailConfig interface -->
-
-  <!-- (factory) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_MailConfig_Factory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/GenericFactory:1.0"/>
-    </oaf_attribute>
-  </oaf_server>
-
-  <!-- (interface) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_MailConfig"
-	      type="factory"
-	      location="OAFIID:GNOME_Evolution_MailConfig_Factory">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution/MailConfig:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="description" type="string"
-		   _value="Mail configuration interface"/>
-  </oaf_server>
-
   <!-- FolderInfo interface -->
 
-  <!-- (factory) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_FolderInfo_Factory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/GenericFactory:1.0"/>
-    </oaf_attribute>
-  </oaf_server>
-
-  <!-- (interface) -->
   <oaf_server iid="OAFIID:GNOME_Evolution_FolderInfo"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_FolderInfo_Factory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/FolderInfo:1.0"/>
@@ -174,35 +104,19 @@
 
   <!-- Startup Wizard -->
 
-  <!-- (factory) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Wizard_Factory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
-  </oaf_server>
-
   <!-- (wizard) -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Wizard"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_Wizard_Factory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
   </oaf_server>
 
 
   <!-- Configuration pages -->
 
-  <!-- (factory) -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory"
-	      type="exe"
-	      location="@LIBEXECDIR@/evolution-mail">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/GenericFactory:1.0"/>
-    </oaf_attribute>
-  </oaf_server>
-
   <!-- Account Editor -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Accounts_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
@@ -231,7 +145,7 @@
   <!-- Mail Preferences -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Preferences_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
@@ -256,7 +170,7 @@
   <!-- Font Preferences -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_FontPrefs_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
@@ -281,7 +195,7 @@
   <!-- Composer Preferences -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
 	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory">
+	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
