@@ -933,7 +933,7 @@ e_meeting_model_add_attendee_with_defaults (EMeetingModel *im)
 	e_meeting_attendee_set_role (ia, text_to_role (str));
 	g_free (str);	
 	str = init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_RSVP_COL);
-	e_meeting_attendee_set_role (ia, text_to_boolean (str));
+	e_meeting_attendee_set_rsvp (ia, text_to_boolean (str));
 	g_free (str);
 	
 	e_meeting_attendee_set_delto (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_DELTO_COL));
