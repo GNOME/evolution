@@ -1050,7 +1050,7 @@ save_msg (GtkWidget *widget, gpointer user_data)
 void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
-	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 }
 
 void

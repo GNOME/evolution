@@ -120,7 +120,7 @@ view_delete_msg (GtkWidget *button, gpointer user_data)
 {
 	mail_view_data *data = (mail_view_data *) user_data;
 
-	camel_folder_set_message_flags(data->source, data->uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+	camel_folder_set_message_flags(data->source, data->uid, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 }
 
 static void
