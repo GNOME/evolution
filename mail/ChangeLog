@@ -1,3 +1,30 @@
+2003-11-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (mail_vfolder_delete_uri): User vfolder rules
+	should be in ${evolution_dir}/mail/vfolders.xml rather than
+	${evolution_dir}/vfolders.xml
+	(mail_vfolder_rename_uri): Same.
+	(store_folder_deleted): Here too.
+	(store_folder_renamed): And here.
+	(vfolder_load_storage): Again here.
+	(vfolder_editor_response): Same.
+	(edit_rule_response): And here.
+	(new_rule_clicked): Here too.
+
+	* mail-session.c (main_get_filter_driver): User filter rules
+	should be in ${evolution_dir}/mail/filters.xml rather than
+	${evolution_dir}/filters.xml
+
+	* mail-autofilter.c (filter_gui_add_from_message): Same.
+	(mail_filter_rename_uri): And here.
+	(mail_filter_delete_uri): Here too.
+
+	* em-utils.c (filter_editor_response): Again here.
+	(em_utils_edit_filters): Same.
+
+	* em-migrate.c (em_migrate_filter_file): Same (also for
+	vfolders.xml)
+
 2003-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.[c,h]: New source files to migrate from the old mail

@@ -355,7 +355,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	g_return_if_fail (msg != NULL);
 	
 	fc = filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml",
+	user = g_strdup_printf ("%s/mail/filters.xml",
 				mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
@@ -377,7 +377,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	GList *changed;
 	
 	fc = filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	
@@ -402,7 +402,7 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 	GList *deleted;
 	
 	fc = filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	user = g_strdup_printf ("%s/mail/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	system = EVOLUTION_PRIVDATADIR "/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
 	

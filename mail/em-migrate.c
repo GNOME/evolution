@@ -43,6 +43,8 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+#include <gal/util/e-xml-utils.h>
+
 #include "mail-component.h"
 
 #include "em-migrate.h"
@@ -472,6 +474,130 @@ em_migrate_local_folders (EMMigrateSession *session)
 }
 
 
+static xmlNodePtr
+xml_find_node (xmlNodePtr parent, const char *name)
+{
+	xmlNodePtr node;
+	
+	node = parent->children;
+	while (node != NULL) {
+		if (node->name && !strcmp (node->name, name))
+			return node;
+		
+		node = node->next;
+	}
+	
+	return NULL;
+}
+
+static int
+em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelException *ex)
+{
+	char *path, *uri, *new;
+	xmlNodePtr node;
+	xmlDocPtr doc;
+	int retval;
+	
+	path = g_strdup_printf ("%s/evolution/%s", g_get_home_dir (), filename);
+	
+	if (!(doc = xmlParseFile (path))) {
+		/* can't parse - this means nothing to upgrade */
+		g_free (path);
+		return 0;
+	}
+	
+	g_free (path);
+	
+	if (!(node = xmlDocGetRootElement (doc))) {
+		/* document contains no root node - nothing to upgrade */
+		xmlFreeDoc (doc);
+		return 0;
+	}
+	
+	if (!node->name || strcmp (node->name, "filteroptions") != 0) {
+		/* root node is not <filteroptions>, nothing to upgrade */
+		xmlFreeDoc (doc);
+		return 0;
+	}
+	
+	if (!(node = xml_find_node (node, "ruleset"))) {
+		/* no ruleset node, nothing to upgrade */
+		xmlFreeDoc (doc);
+		return 0;
+	}
+	
+	node = node->children;
+	while (node != NULL) {
+		if (node->name && !strcmp (node->name, "rule")) {
+			xmlNodePtr actionset, part, val, n;
+			
+			if ((actionset = xml_find_node (node, "actionset"))) {
+				/* filters.xml */
+				part = actionset->children;
+				while (part != NULL) {
+					if (part->name && !strcmp (part->name, "part")) {
+						val = part->children;
+						while (val != NULL) {
+							if (val->name && !strcmp (val->name, "value")) {
+								char *type;
+								
+								type = xmlGetProp (val, "type");
+								if (type && !strcmp (type, "folder")) {
+									if ((n = xml_find_node (val, "folder"))) {
+										uri = xmlGetProp (n, "uri");
+										new = em_uri_from_camel (uri);
+										xmlFree (uri);
+										
+										xmlSetProp (n, "uri", new);
+										g_free (new);
+									}
+								}
+								
+								xmlFree (type);
+							}
+							
+							val = val->next;
+						}
+					}
+					
+					part = part->next;
+				}
+			} else if ((actionset = xml_find_node (node, "sources"))) {
+				/* vfolders.xml */
+				n = actionset->children;
+				while (n != NULL) {
+					if (n->name && !strcmp (n->name, "folder")) {
+						uri = xmlGetProp (n, "uri");
+						new = em_uri_from_camel (uri);
+						xmlFree (uri);
+						
+						xmlSetProp (n, "uri", new);
+						g_free (new);
+					}
+					
+					n = n->next;
+				}
+			}
+		}
+		
+		node = node->next;
+	}
+	
+	path = g_strdup_printf ("%s/mail/%s", evolution_dir, filename);
+	if ((retval = e_xml_save_file (path, doc)) == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to migrate `%s': %s"),
+				      filename, g_strerror (errno));
+	}
+	
+	g_free (path);
+	
+	xmlFreeDoc (doc);
+	
+	return retval;
+}
+
+
 int
 em_migrate (MailComponent *component, CamelException *ex)
 {
@@ -531,6 +657,12 @@ em_migrate (MailComponent *component, CamelException *ex)
 	g_free (session->srcdir);
 	
 	camel_object_unref (session);
+	
+	if (em_migrate_filter_file (evolution_dir, "filters.xml", ex) == -1)
+		return -1;
+	
+	if (em_migrate_filter_file (evolution_dir, "vfolders.xml", ex) == -1)
+		return -1;
 	
 	return 0;
 }

@@ -70,6 +70,8 @@
 #include <bonobo/bonobo-widget.h>
 
 
+#define d(x) x
+
 #define MESSAGE_RFC822_TYPE   "message/rfc822"
 #define TEXT_URI_LIST_TYPE    "text/uri-list"
 #define UID_LIST_TYPE         "x-uid-list"
@@ -1009,7 +1011,7 @@ mail_component_init (MailComponent *component)
 			GtkWidget *dialog;
 			
 			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-							 _("Some of your mail folders were unable to be migrated:\n%s"),
+							 _("The following error occured while migrating your mail data:\n%s"),
 							 camel_exception_get_description (&ex));
 			
 			g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
@@ -1286,8 +1288,9 @@ char *em_uri_from_camel(const char *curi)
 	if (path[0] == '/')
 		path++;
 	euri = g_strdup_printf("email://%s/%s", uid, path);
-	printf("em uri from camel '%s' -> '%s'\n", curi, euri);
-
+	
+	d(printf("em uri from camel '%s' -> '%s'\n", curi, euri));
+	
 	return euri;
 }
 
@@ -1313,7 +1316,6 @@ char *em_uri_to_camel(const char *euri)
 	g_assert(eurl->host != NULL);
 
 	if (strcmp(eurl->user, "local") == 0 && strcmp(eurl->host, "local") == 0) {
-		/* FIXME: needs to track real local store location */
 		curi = g_strdup_printf("mbox:%s/.evolution/mail/local#%s", g_get_home_dir(), eurl->path);
 		camel_url_free(eurl);
 		return curi;
@@ -1344,7 +1346,7 @@ char *em_uri_to_camel(const char *euri)
 	camel_url_free(eurl);
 	camel_url_free(curl);
 
-	printf("em uri to camel '%s' -> '%s'\n", euri, curi);
+	d(printf("em uri to camel '%s' -> '%s'\n", euri, curi));
 
 	return curi;
 }
