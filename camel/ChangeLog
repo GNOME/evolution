@@ -1,3 +1,10 @@
+2000-12-29  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder.c (camel_folder_move_message_to): REmove warning,
+	this isn't really deprecated, sigh.
+
+	* camel-mime-utils.c (header_fold): Comment out some debug.
+
 2001-01-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* providers/maildir/, providers/mbox/, providers/mh/: Removed

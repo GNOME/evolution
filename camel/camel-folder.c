@@ -1162,8 +1162,6 @@ camel_folder_move_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (CAMEL_IS_FOLDER (dest));
 	g_return_if_fail (uid != NULL);
 
-	g_warning("CamelFolder.move_message_to() is a deprecated api");
-
 	CAMEL_FOLDER_LOCK(source, lock);
 
 	if (source->parent_store == dest->parent_store)

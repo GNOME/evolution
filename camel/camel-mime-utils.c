@@ -3149,9 +3149,9 @@ header_fold(const char *in, int headerlen)
 		} else {
 			len = strlen(inptr);
 		}
-		printf("next word '%.*s'\n", len, inptr);
+		d(printf("next word '%.*s'\n", len, inptr));
 		if (outlen + len > CAMEL_FOLD_SIZE) {
-			printf("outlen = %d wordlen = %d\n", outlen, len);
+			d(printf("outlen = %d wordlen = %d\n", outlen, len));
 			g_string_append(out, "\n\t");
 			outlen = 1;
 			/* check for very long words, just cut them up */
