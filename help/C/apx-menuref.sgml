@@ -1,6 +1,7 @@
 <!--
 <!DOCTYPE Appendix PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
+
 <appendix id="menuref">
   <title>Menu Reference</title>
   <para>
@@ -304,8 +305,194 @@
   <sect1 id="menuref-mail-editor">
     <title>The Message Composer Menus</title>
     <para>
-      Kevin might do this section.
+      The message composition window has its own set of menus:
+      <guimenu>File</guimenu>, which controls operations on files and
+      data, <guimenu>Edit</guimenu>, for text editing,
+      <guimenu>Format</guimenu>, which controls the file format of
+      messages you send, <guimenu>View</guimenu>, to set how you view
+      the message, and <guimenu>Insert</guimenu>, which holds tools
+      for embedding files and other items in messages.  Here's what's in them:
     </para>
+    <sect2 id="menuref-mail-editor-file">
+      <title>The Message Composer File Menu</title>
+      <para>
+        <variablelist>
+	  <varlistentry>
+	      <term><guimenu>Open</guimenu></term>
+	      <listitem><para>
+		 Open a text file or a draft mail message.
+	      </para></listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term><guimenu>Save</guimenu></term>
+	      <listitem><para>
+		 Save a mail message as a text file.
+	      </para></listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term><guimenu>Save As</guimenu></term>
+	      <listitem><para> 
+		Choose a file name and location for
+		a message you want to save as a text file.
+	      </para></listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term><guimenu>Save in Folder</guimenu></term>
+	      <listitem><para>
+		 Save a message as a draft, rather than 
+		 as a seperate text file. (FIXME: should be removed, and 
+		 functionality subsumed under "Save As").
+	      </para></listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term><guimenu>Insert Text File</guimenu></term>
+	      <listitem><para>
+		   Open a text file and insert it into 
+		   the current message. (FIXME: belongs under "Insert").
+	      </para></listitem>
+	    </varlistentry>
+	  
+	    <varlistentry>
+	      <term><guimenu>Send</guimenu></term>
+	      <listitem><para>
+		  Sends the message immediately.
+	      </para></listitem>
+	    </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenu>Close</guimenu></term>
+	    <listitem><para>
+		 Closes the message composer.  If you have not done so, 
+		 <application>Evolution</application>
+		 will ask you if you want to save your message.
+	      </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+    <sect2 id="menuref-mail-editor-edit">
+      <title>The Message Composer Edit Menu</title>
+      <para>
+          The <guimenu>Edit</guimenu> menu in the message composer
+          contains the following items.  Keyboard shortcuts are listed
+          next to the items in the menus themselves.
+
+        <variablelist>
+
+	  <varlistentry>
+	    <term><guimenuitem>Undo</guimenuitem></term>
+	    <listitem><para>
+                Undoes the last action you performed.
+	    </para></listitem>
+	  </varlistentry>
+
+    	  <varlistentry>
+	    <term><guimenuitem>Redo</guimenuitem></term>
+	    <listitem><para>
+               If you change your mind about Undoing something, 
+               you can always use this item.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Cut</guimenuitem></term>
+	    <listitem><para>
+                Removes the selected text from the text entry window and 
+                retains it in the system "clipboard" memory, ready for pasting.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Copy</guimenuitem></term>
+	    <listitem><para>
+              Copies selected text to the system clipboard without deleting it.
+              The text can then be inserted elsewhere with the 
+              <guimenuitem>Paste</guimenuitem> command.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Paste</guimenuitem></term>
+	    <listitem><para>
+                Inserts the contents of the system clipboard at the 
+                location of the cursor.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Find</guimenuitem></term>
+	    <listitem><para>
+               Enter a phrase and find your match in your message body.
+               As with <guimenuitem>Find Regex</guimenuitem>, 
+               <guimenuitem>Find Again</guimenuitem>, and
+               <guimenuitem>Replace</guimenuitem>, <application>Evolution</application>
+                will offer you the option to search forwards or backwards, and.
+
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Find Regex</guimenuitem></term>
+	    <listitem><para>
+               If you are familiar with regular expressions, often called 
+               "regexes," you can search for something more complicated, 
+               using wildcards and boolean logic. If you're not familiar with 
+               them, there are numerous resources for you on the web.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Find Again</guimenuitem></term>
+	    <listitem><para>
+              Repeats your last search.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Replace</guimenuitem></term>
+	    <listitem><para>
+               Enter a word or phrase and the word or phrase with which you'd like
+               to replace it.  
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Properties</guimenuitem></term>
+	    <listitem><para>
+               This item brings up the Message Composer Properties Capplet, 
+               a portion of the GNOME Control Center that determines the 
+               key bindings for the message composer.  Help for this capplet is 
+               available directly from the Control Center. (FIXME: Write that help doc too).
+	    </para></listitem>
+	  </varlistentry>
+
+	</variablelist>
+      </para>
+    </sect2>
+<!--    
+	    <varlistentry>
+	      <term><guimenu>View</guimenu></term>
+	      <listitem><para>
+	       </para></listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term><guimenu>Insert</guimenu></term>
+	      <listitem><para>
+	       </para></listitem>
+	    </varlistentry>
+	</variablelist>
+      </para>
+
+-->
+
+
+
+
   </sect1>
   
 <sect1 id="menuref-cal">
