@@ -28,6 +28,7 @@ images_DATA = \
 	import.xpm			\
 	inbox-16.png			\
 	inbox-full-16.png		\
+   meeting-request.png \
 	move_message.xpm		\
 	offline.png			\
 	online.png			\

@@ -1,3 +1,8 @@
+2001-09-05  Jakub Steiner <jimmac@ximian.com>
+
+	* meeting-request.png: for the inline .ics stuff
+	* Makefile.am (images_DATA): add the icon file
+
 2001-09-04  Jakub Steiner <jimmac@ximian.com>
 
 	* timezone-48.png: for the timezone configuration step in the
