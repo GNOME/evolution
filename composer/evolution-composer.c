@@ -29,6 +29,7 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <bonobo/bonobo-item-handler.h>
 #include "evolution-composer.h"
+#include "mail/mail-config.h"
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
@@ -346,6 +347,13 @@ E_MAKE_TYPE (evolution_composer, "EvolutionComposer", EvolutionComposer, class_i
 static BonoboObject *
 factory_fn (BonoboGenericFactory *factory, void *closure)
 {
+	if (!mail_config_is_configured ()) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Could not create composer window, because you "
+			    "have not yet\nconfigured any identities in the "
+			    "mail component."));
+		return NULL;
+	}
 	return BONOBO_OBJECT (evolution_composer_new ());
 }
 
