@@ -1,3 +1,10 @@
+2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_edit): Set the default size of the dialog to
+	600x400, which seems to be a nice size that fits all the widgets
+	into it.
+	(rule_add): Same.
+
 2001-04-26  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS

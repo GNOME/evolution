@@ -242,6 +242,7 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 	
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), rules, TRUE, TRUE, 0);
@@ -300,6 +301,7 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 	
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), rules, TRUE, TRUE, 0);
@@ -456,7 +458,7 @@ rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const
 {
 	GtkWidget *w;
 	int i;
-
+	
 	re->context = context;
 	gtk_object_ref((GtkObject *)context);
 
@@ -474,5 +476,6 @@ rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const
 
 	rule_editor_set_source(re, source);
 
-	gnome_dialog_append_buttons((GnomeDialog *)re, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
+	gnome_dialog_append_buttons ((GnomeDialog *)re, GNOME_STOCK_BUTTON_OK,
+				     GNOME_STOCK_BUTTON_CANCEL, NULL);
 }
