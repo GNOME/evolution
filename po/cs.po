@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-04 03:13+0100\n"
-"PO-Revision-Date: 2004-03-04 15:23+0100\n"
+"POT-Creation-Date: 2004-03-05 14:15+0100\n"
+"PO-Revision-Date: 2004-03-05 19:20+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -142,31 +142,31 @@ msgstr "Seznam kon_taktů"
 msgid "Create a new contact list"
 msgstr "Vytvořit nový seznam kontaktů"
 
-#: addressbook/gui/component/addressbook-config.c:398
+#: addressbook/gui/component/addressbook-config.c:399
 msgid "Failed to connect to LDAP server"
 msgstr "Nemohu se připojit k serveru LDAP."
 
-#: addressbook/gui/component/addressbook-config.c:422
+#: addressbook/gui/component/addressbook-config.c:423
 msgid "Failed to authenticate with LDAP server"
 msgstr "Nemohu se autentizovat u serveru LDAP"
 
-#: addressbook/gui/component/addressbook-config.c:450
+#: addressbook/gui/component/addressbook-config.c:451
 msgid "Could not perform query on Root DSE"
 msgstr "Nemohu se dotázat na kořenový DSE"
 
-#: addressbook/gui/component/addressbook-config.c:774
+#: addressbook/gui/component/addressbook-config.c:777
 msgid "The server responded with no supported search bases"
 msgstr "V odpovědi serveru nejsou podporované základy vyhledávání"
 
-#: addressbook/gui/component/addressbook-config.c:1185
+#: addressbook/gui/component/addressbook-config.c:1198
 msgid "This server does not support LDAPv3 schema information"
 msgstr "Tento server nepodporuje schéma informací LDAPv3"
 
-#: addressbook/gui/component/addressbook-config.c:1207
+#: addressbook/gui/component/addressbook-config.c:1220
 msgid "Error retrieving schema information"
 msgstr "Chyba při načítání informací o schématu"
 
-#: addressbook/gui/component/addressbook-config.c:1215
+#: addressbook/gui/component/addressbook-config.c:1228
 msgid "Server did not respond with valid schema information"
 msgstr "Server neodpověděl platnou informací o schématu"
 
@@ -992,7 +992,7 @@ msgstr "Ka_tegorie..."
 
 #. FIXME: need to disable for undeletable folders
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1300
+#: calendar/gui/dialogs/meeting-page.c:651 calendar/gui/e-cal-view.c:1300
 #: calendar/gui/e-cal-view.c:1331 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2237
 #: mail/em-folder-view.c:775 ui/evolution-addressbook.xml.h:33
@@ -3500,7 +3500,7 @@ msgid "Evolution's Tasks component"
 msgstr "Komponenta Úkoly Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1101 calendar/gui/print.c:1820
+#: calendar/gui/e-tasks.c:1134 calendar/gui/print.c:1820
 #: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:709
 msgid "Tasks"
@@ -4031,7 +4031,7 @@ msgstr "hodin"
 msgid "minutes"
 msgstr "minut"
 
-#: calendar/gui/dialogs/alarm-page.c:798
+#: calendar/gui/dialogs/alarm-page.c:800
 msgid "Action/Trigger"
 msgstr "Akce/spuštění"
 
@@ -4807,23 +4807,31 @@ msgstr "Plánování"
 msgid "Meeting"
 msgstr "Schůzka"
 
-#: calendar/gui/dialogs/event-page.c:606 calendar/gui/dialogs/task-page.c:510
+#: calendar/gui/dialogs/event-page.c:458
+msgid "Event with no start date"
+msgstr "Událost bez počátečního data"
+
+#: calendar/gui/dialogs/event-page.c:461
+msgid "Event with no end date"
+msgstr "Událost bez konečného data"
+
+#: calendar/gui/dialogs/event-page.c:615 calendar/gui/dialogs/task-page.c:512
 msgid "Start date is wrong"
 msgstr "Počáteční datum je chybné"
 
-#: calendar/gui/dialogs/event-page.c:616
+#: calendar/gui/dialogs/event-page.c:625
 msgid "End date is wrong"
 msgstr "Konečné datum je chybné"
 
-#: calendar/gui/dialogs/event-page.c:639
+#: calendar/gui/dialogs/event-page.c:648
 msgid "Start time is wrong"
 msgstr "Počáteční čas je chybný"
 
-#: calendar/gui/dialogs/event-page.c:646
+#: calendar/gui/dialogs/event-page.c:655
 msgid "End time is wrong"
 msgstr "Konečný čas je chybný"
 
-#: calendar/gui/dialogs/event-page.c:1225
+#: calendar/gui/dialogs/event-page.c:1234
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Nemohu otevřít kalendář '%s'."
@@ -4914,19 +4922,19 @@ msgstr "_Začátek:"
 msgid "None"
 msgstr "žádný"
 
-#: calendar/gui/dialogs/meeting-page.c:416
+#: calendar/gui/dialogs/meeting-page.c:418
 msgid "The organizer selected no longer has an account."
 msgstr "Vybraný organizátor už nemá účet."
 
-#: calendar/gui/dialogs/meeting-page.c:422
+#: calendar/gui/dialogs/meeting-page.c:424
 msgid "An organizer is required."
 msgstr "Je požadován organizátor."
 
-#: calendar/gui/dialogs/meeting-page.c:437
+#: calendar/gui/dialogs/meeting-page.c:439
 msgid "At least one attendee is required."
 msgstr "Je požadován alespoň jeden účastník."
 
-#: calendar/gui/dialogs/meeting-page.c:645
+#: calendar/gui/dialogs/meeting-page.c:647
 msgid "_Delegate To..."
 msgstr "_Postoupit komu..."
 
@@ -5112,7 +5120,7 @@ msgstr "_"
 msgid "occurrences"
 msgstr "opakování"
 
-#: calendar/gui/dialogs/recurrence-page.c:2334
+#: calendar/gui/dialogs/recurrence-page.c:2336
 msgid "Date/Time"
 msgstr "Datum/čas"
 
@@ -5145,7 +5153,7 @@ msgid "_No recurrence"
 msgstr "_Bez opakování"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
-#: composer/e-msg-composer-attachment-bar.c:444
+#: composer/e-msg-composer-attachment-bar.c:451
 msgid "_Remove"
 msgstr "_Odstranit"
 
@@ -5211,7 +5219,7 @@ msgstr "Byla vytvořena informace o předání úkolu. Poslat ji?"
 msgid "The task information has changed. Send an updated version?"
 msgstr "Informace o úkolu se změnila. Poslat aktualizovanou verzi?"
 
-#: calendar/gui/dialogs/task-details-page.c:402
+#: calendar/gui/dialogs/task-details-page.c:404
 msgid "Completed date is wrong"
 msgstr "Čas dokončení je chybný"
 
@@ -5295,16 +5303,16 @@ msgstr "Základní"
 msgid "Assignment"
 msgstr "Předání"
 
-#: calendar/gui/dialogs/task-page.c:483
+#: calendar/gui/dialogs/task-page.c:485
 msgid "Due date is wrong"
 msgstr "Datum splnění je chybné"
 
-#: calendar/gui/dialogs/task-page.c:543 calendar/gui/e-cal-model-tasks.c:738
+#: calendar/gui/dialogs/task-page.c:545 calendar/gui/e-cal-model-tasks.c:738
 #: calendar/gui/e-cal-model-tasks.c:766
 msgid "Due date is before start date!"
 msgstr "Datum splnění je před počátečním datem!"
 
-#: calendar/gui/dialogs/task-page.c:808
+#: calendar/gui/dialogs/task-page.c:810
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "Nemohu otevřít úkoly v '%s'."
@@ -6511,7 +6519,7 @@ msgstr "WWW stránka:"
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
 
-#: calendar/gui/e-tasks.c:736 calendar/gui/gnome-cal.c:1916
+#: calendar/gui/e-tasks.c:769 calendar/gui/gnome-cal.c:1916
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6521,7 +6529,7 @@ msgstr ""
 " %s"
 
 #. FIXME: this doesn't remove the task list from the list or anything
-#: calendar/gui/e-tasks.c:755 calendar/gui/gnome-cal.c:1937
+#: calendar/gui/e-tasks.c:788 calendar/gui/gnome-cal.c:1937
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6532,12 +6540,12 @@ msgstr ""
 "%s\n"
 " spadla."
 
-#: calendar/gui/e-tasks.c:835
+#: calendar/gui/e-tasks.c:868
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Otevírám úkoly v %s"
 
-#: calendar/gui/e-tasks.c:856
+#: calendar/gui/e-tasks.c:889
 #, c-format
 msgid ""
 "Error opening %s:\n"
@@ -6546,19 +6554,19 @@ msgstr ""
 "Chyba při otevírání %s:\n"
 "%s"
 
-#: calendar/gui/e-tasks.c:875
+#: calendar/gui/e-tasks.c:908
 msgid "Loading tasks"
 msgstr "Načítám úkoly"
 
-#: calendar/gui/e-tasks.c:977
+#: calendar/gui/e-tasks.c:1010
 msgid "Completing tasks..."
 msgstr "Dokončuji úkoly..."
 
-#: calendar/gui/e-tasks.c:1000
+#: calendar/gui/e-tasks.c:1033
 msgid "Deleting selected objects..."
 msgstr "Mažu vybrané objekty..."
 
-#: calendar/gui/e-tasks.c:1025
+#: calendar/gui/e-tasks.c:1058
 msgid "Expunging"
 msgstr "Čistím"
 
@@ -9823,12 +9831,12 @@ msgstr "Složka byl zrušena a znovu vytvořena na serveru."
 msgid "Scanning for changed messages"
 msgstr "Hledám změněné zprávy"
 
-#: camel/providers/imap/camel-imap-folder.c:1913
+#: camel/providers/imap/camel-imap-folder.c:1917
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Nemohu přijmout zprávu: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1944
+#: camel/providers/imap/camel-imap-folder.c:1948
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9844,25 +9852,25 @@ msgstr ""
 "Nemohu získat zprávu: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1944
+#: camel/providers/imap/camel-imap-folder.c:1948
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "Taková zpráva neexistuje"
 
-#: camel/providers/imap/camel-imap-folder.c:1967
-#: camel/providers/imap/camel-imap-folder.c:2563
+#: camel/providers/imap/camel-imap-folder.c:1971
+#: camel/providers/imap/camel-imap-folder.c:2567
 #: camel/providers/nntp/camel-nntp-folder.c:205
 msgid "This message is not currently available"
 msgstr "Tato zpráva není právě dostupná"
 
-#: camel/providers/imap/camel-imap-folder.c:2227
-#: camel/providers/imap/camel-imap-folder.c:2297
+#: camel/providers/imap/camel-imap-folder.c:2231
+#: camel/providers/imap/camel-imap-folder.c:2301
 msgid "Fetching summary information for new messages"
 msgstr "Stahuji souhrnné informace pro nové zprávy"
 
-#: camel/providers/imap/camel-imap-folder.c:2601
+#: camel/providers/imap/camel-imap-folder.c:2605
 msgid "Could not find message body in FETCH response."
 msgstr "Nemohu nalézt tělo zprávy v odpovědi FETCH."
 
@@ -9945,7 +9953,7 @@ msgstr "IMAP služba pro %s na %s"
 
 #: camel/providers/imap/camel-imap-store.c:601
 #: camel/providers/imap/camel-imap-store.c:621
-#: camel/providers/imapp/camel-imapp-store.c:233
+#: camel/providers/imapp/camel-imapp-store.c:231
 #: camel/providers/nntp/camel-nntp-store.c:140
 #: camel/providers/pop3/camel-pop3-store.c:175
 #: camel/providers/smtp/camel-smtp-transport.c:269
@@ -9962,7 +9970,7 @@ msgstr "SSL není k dispozici"
 
 #: camel/providers/imap/camel-imap-store.c:618
 #: camel/providers/imap/camel-imap-store.c:850
-#: camel/providers/imapp/camel-imapp-store.c:230
+#: camel/providers/imapp/camel-imapp-store.c:228
 #: camel/providers/nntp/camel-nntp-store.c:137
 #: camel/providers/nntp/camel-nntp-store.c:155
 #: camel/providers/pop3/camel-pop3-store.c:192
@@ -10002,7 +10010,7 @@ msgid "No support for authentication type %s"
 msgstr "Typ autentizace %s není podporován"
 
 #: camel/providers/imap/camel-imap-store.c:1303
-#: camel/providers/imapp/camel-imapp-store.c:346
+#: camel/providers/imapp/camel-imapp-store.c:344
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sUveďte IMAP heslo pro %s@%s"
@@ -10072,7 +10080,7 @@ msgstr ""
 "\n"
 " !!! NEPOUŽÍVEJTE PRO DŮLEŽITÉ E-MAILY !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:330
+#: camel/providers/imapp/camel-imapp-store.c:328
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Nemohu se spojit s POP serverem na %s"
@@ -11268,34 +11276,34 @@ msgstr "Vypršel čas požadavku QUIT: %s"
 msgid "QUIT response error"
 msgstr "Chyba odpovědi QUIT"
 
-#: composer/e-msg-composer-attachment-bar.c:103
+#: composer/e-msg-composer-attachment-bar.c:104
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
-#: composer/e-msg-composer-attachment-bar.c:106
+#: composer/e-msg-composer-attachment-bar.c:107
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
-#: composer/e-msg-composer-attachment-bar.c:109
+#: composer/e-msg-composer-attachment-bar.c:110
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1476
+#: composer/e-msg-composer-attachment-bar.c:301 mail/em-utils.c:1476
 msgid "attachment"
 msgstr "příloha"
 
-#: composer/e-msg-composer-attachment-bar.c:445
+#: composer/e-msg-composer-attachment-bar.c:452
 msgid "Remove selected items from the attachment list"
 msgstr "Odstranit vybrané položky ze seznamu příloh"
 
-#: composer/e-msg-composer-attachment-bar.c:476
+#: composer/e-msg-composer-attachment-bar.c:483
 msgid "Add attachment..."
 msgstr "Přidat přílohu..."
 
-#: composer/e-msg-composer-attachment-bar.c:477
+#: composer/e-msg-composer-attachment-bar.c:484
 msgid "Attach a file to the message"
 msgstr "Přiložit soubor ke zprávě"
 
@@ -12664,7 +12672,7 @@ msgstr "%s"
 
 #: mail/em-folder-tree.c:1843 mail/em-folder-tree.c:1856
 #: mail/em-folder-view.c:660 mail/em-folder-view.c:674
-#: mail/importers/evolution-mbox-importer.c:118
+#: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Vyberte složku"
 
@@ -13147,22 +13155,22 @@ msgstr ""
 "\n"
 "Počkejte prosím, než Evolution převede vaše složky..."
 
-#: mail/em-migrate.c:1800 mail/em-migrate.c:1815
+#: mail/em-migrate.c:1843 mail/em-migrate.c:1858
 #, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
 msgstr "Nemohu převést cache uid pop3: %s"
 
-#: mail/em-migrate.c:1903 mail/em-migrate.c:2004
+#: mail/em-migrate.c:1946 mail/em-migrate.c:2047
 #, c-format
 msgid "Failed to migrate folder expand state: %s"
 msgstr "Nemohu převést stav rozbalení složky: %s"
 
-#: mail/em-migrate.c:2128 mail/em-migrate.c:2300
+#: mail/em-migrate.c:2171 mail/em-migrate.c:2343
 #, c-format
 msgid "Failed to create directory `%s': %s"
 msgstr "Nemohu vytvořit adresář `%s': %s"
 
-#: mail/em-migrate.c:2140
+#: mail/em-migrate.c:2183
 #, c-format
 msgid "Failed to open store for `%s': %s"
 msgstr "Nemohu otevřít úložiště pro `%s': %s"
@@ -13797,15 +13805,15 @@ msgid "Evolution is importing your old Elm mail"
 msgstr "Evolution importuje vaši starou poštu Elm"
 
 #: mail/importers/elm-importer.c:89
-#: mail/importers/evolution-mbox-importer.c:219
-#: mail/importers/evolution-outlook-importer.c:215
+#: mail/importers/evolution-mbox-importer.c:220
+#: mail/importers/evolution-outlook-importer.c:225
 #: mail/importers/netscape-importer.c:1220 mail/importers/pine-importer.c:117
 msgid "Importing..."
 msgstr "Importuji..."
 
 #: mail/importers/elm-importer.c:91
-#: mail/importers/evolution-mbox-importer.c:221
-#: mail/importers/evolution-outlook-importer.c:217
+#: mail/importers/evolution-mbox-importer.c:222
+#: mail/importers/evolution-outlook-importer.c:227
 #: mail/importers/netscape-importer.c:1222 mail/importers/pine-importer.c:119
 msgid "Please wait"
 msgstr "Čekejte, prosím"
@@ -13826,22 +13834,22 @@ msgstr ""
 msgid "Elm"
 msgstr "Elm"
 
-#: mail/importers/evolution-mbox-importer.c:115
+#: mail/importers/evolution-mbox-importer.c:116
 msgid "Destination folder:"
 msgstr "Cílová složka:"
 
-#: mail/importers/evolution-mbox-importer.c:118
+#: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder to import into"
 msgstr "Vyberte složku, kam importovat"
 
-#: mail/importers/evolution-mbox-importer.c:218
-#: mail/importers/evolution-outlook-importer.c:214
+#: mail/importers/evolution-mbox-importer.c:219
+#: mail/importers/evolution-outlook-importer.c:224
 #: mail/importers/mail-importer.c:220
 #, c-format
 msgid "Importing `%s'"
 msgstr "Importuji `%s'"
 
-#: mail/importers/evolution-outlook-importer.c:261
+#: mail/importers/evolution-outlook-importer.c:271
 #: mail/importers/mail-importer.c:134
 msgid "Importing mailbox"
 msgstr "Importuji mailbox"
