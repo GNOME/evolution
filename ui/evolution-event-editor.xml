@@ -38,7 +38,7 @@
 
 </menu>
 
-<dockitem name="Toolbar"relief="none" behavior="exclusive"
+<dockitem name="Toolbar" relief="none" behavior="exclusive"
 	  _tip="Main toolbar" hlook="both_horiz" vlook="icon">
 
         <placeholder name="Actions">

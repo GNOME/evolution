@@ -1,5 +1,9 @@
 2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
 
+	* evolution-event-editor.xml: Fix an attributes typo.
+
+2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
+
 	* evolution-comp-editor.xml: Fix an attributes typo and add stock
 	icon identifiers to silence warning spew.
 
