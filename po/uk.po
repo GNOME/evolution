@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-01-29 13:03+0200\n"
-"PO-Revision-Date: 2003-01-29 06:20--500\n"
+"PO-Revision-Date: 2003-01-29 14:30--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -859,7 +859,7 @@ msgstr "Дозволити запити (небезпечно!)"
 #: mail/mail-config.glade.h:1
 #: mail/subscribe-dialog.glade.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
 #, fuzzy
@@ -874,7 +874,7 @@ msgstr "Перевірка типів, що підтримуються"
 #: mail/mail-config.glade.h:6
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: addressbook/gui/component/ldap-config.glade.h:5
 msgid "1234"
@@ -1087,9 +1087,8 @@ msgid "Specifying a display name is the last required step in configuring an LDA
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:62
-#, fuzzy
 msgid "Step 1: Server Information"
-msgstr "Вихідна інформація"
+msgstr "Крок 1: Інформація про сервер"
 
 #: addressbook/gui/component/ldap-config.glade.h:63
 msgid "Step 2: Connecting to Server"
@@ -1097,7 +1096,7 @@ msgstr "Крок 2: З'єднання з сервером"
 
 #: addressbook/gui/component/ldap-config.glade.h:64
 msgid "Step 3: Searching the Directory"
-msgstr ""
+msgstr "Крок 3: Пошук каталогу"
 
 #: addressbook/gui/component/ldap-config.glade.h:65
 msgid "Step 4: Display Name"
@@ -2663,11 +2662,10 @@ msgid "Save Contact as VCard"
 msgstr "Зберегти контакти як VCard"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1052
-#, fuzzy
 msgid "Are you sure you want\n"
 "to delete these contacts?"
 msgstr "Ви впевнені, що хочете\n"
-" стерти ці контакти?"
+"стерти ці контакти?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1055
 msgid "Are you sure you want\n"
@@ -2697,9 +2695,9 @@ msgid "E-mail"
 msgstr "Е-пошта"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving %s: %s"
-msgstr "Помилка збереження файлу: %s"
+msgstr "Помилка запису %s: %s"
 
 #. This is a filename. Translators take note.
 #: addressbook/gui/contact-editor/e-contact-save-as.c:106
@@ -3189,9 +3187,8 @@ msgstr "Стерти"
 #: addressbook/gui/widgets/e-addressbook-view.c:881
 #: calendar/gui/e-day-view.c:3672
 #: calendar/gui/e-week-view.c:3505
-#, fuzzy
 msgid "Current View"
-msgstr "Поточний рік"
+msgstr "Поточний вигляд"
 
 #. Minicard view stuff
 #. Translators: put here a list of labels you want to see on buttons in
@@ -3297,9 +3294,8 @@ msgstr "Ширина"
 
 #: addressbook/gui/widgets/e-minicard-label.c:109
 #: addressbook/gui/widgets/e-minicard.c:146
-#, fuzzy
 msgid "Height"
-msgstr "Висота:"
+msgstr "Висота"
 
 #: addressbook/gui/widgets/e-minicard-label.c:116
 #: addressbook/gui/widgets/e-minicard.c:154
@@ -4421,7 +4417,6 @@ msgid "T_hu"
 msgstr "Чтв"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "Task List"
 msgstr "Список завдань"
 
@@ -4463,7 +4458,7 @@ msgstr "Робочий тиждень"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
-msgstr ""
+msgstr "Робочі дні:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "_12 hour (AM/PM)"
@@ -4943,15 +4938,13 @@ msgstr "Запросити інших..."
 #: calendar/gui/dialogs/recurrence-page.c:132
 #: calendar/gui/dialogs/recurrence-page.c:152
 #: calendar/gui/dialogs/recurrence-page.c:162
-#, fuzzy
 msgid "st"
-msgstr "1."
+msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.c:133
 #: calendar/gui/dialogs/recurrence-page.c:153
-#, fuzzy
 msgid "nd"
-msgstr "2."
+msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.c:134
 #: calendar/gui/dialogs/recurrence-page.c:154
@@ -5249,9 +5242,8 @@ msgid "_Open"
 msgstr "Відкрити"
 
 #: calendar/gui/e-calendar-table.c:950
-#, fuzzy
 msgid "_Save as..."
-msgstr "Зберегти як..."
+msgstr "З_берегти як..."
 
 #: calendar/gui/e-calendar-table.c:951
 #: calendar/gui/e-day-view.c:3696
@@ -5298,9 +5290,8 @@ msgid "_Paste"
 msgstr "Вставити"
 
 #: calendar/gui/e-calendar-table.c:961
-#, fuzzy
 msgid "_Assign Task"
-msgstr "Призначити завдання"
+msgstr "_Призначити завдання"
 
 #: calendar/gui/e-calendar-table.c:962
 #, fuzzy
@@ -5448,9 +5439,8 @@ msgstr "Нова щоденна подія"
 
 #: calendar/gui/e-day-view.c:3655
 #: calendar/gui/e-week-view.c:3492
-#, fuzzy
 msgid "New Meeting"
-msgstr "Засідання"
+msgstr "Нове засідання"
 
 #: calendar/gui/e-day-view.c:3657
 #: calendar/gui/e-week-view.c:3493
@@ -5482,9 +5472,8 @@ msgstr "Опублікувати інформацію про зайнятіст�
 #: calendar/gui/e-day-view.c:3686
 #: calendar/gui/e-week-view.c:3516
 #: ui/evolution.xml.h:62
-#, fuzzy
 msgid "_Settings..."
-msgstr "Параметри"
+msgstr "_Параметри..."
 
 #: calendar/gui/e-day-view.c:3695
 #: calendar/gui/e-week-view.c:3523
@@ -5495,9 +5484,8 @@ msgstr "Зберегти як..."
 
 #: calendar/gui/e-day-view.c:3707
 #: calendar/gui/e-week-view.c:3535
-#, fuzzy
 msgid "_Schedule Meeting..."
-msgstr "Планувати зустріч"
+msgstr "За_планувати зустріч..."
 
 #: calendar/gui/e-day-view.c:3708
 #: calendar/gui/e-week-view.c:3536
@@ -5980,9 +5968,8 @@ msgid "Optional Participants"
 msgstr "Необов'язкові учасники"
 
 #: calendar/gui/e-meeting-model.c:84
-#, fuzzy
 msgid "Resources"
-msgstr "Ресурс"
+msgstr "Ресурси"
 
 #: calendar/gui/e-meeting-model.c:208
 #: calendar/gui/e-meeting-model.c:225
@@ -6171,9 +6158,8 @@ msgid "Error on %s:\n"
 msgstr "Помилка запуску %s"
 
 #: calendar/gui/e-tasks.c:554
-#, fuzzy
 msgid "Completing tasks..."
-msgstr "Дата завершення"
+msgstr "Завершення завдання..."
 
 #: calendar/gui/e-tasks.c:577
 #, fuzzy
@@ -6657,14 +6643,12 @@ msgid "Can't call getFolderAtPath on storage: %s"
 msgstr ""
 
 #: calendar/importers/icalendar-importer.c:484
-#, fuzzy
 msgid "Reminder!!"
-msgstr "Нагадування"
+msgstr "Нагадування!"
 
 #: calendar/importers/icalendar-importer.c:698
-#, fuzzy
 msgid "Calendar Events"
-msgstr "Календарне повідомлення"
+msgstr "Календарні події"
 
 #: calendar/importers/icalendar-importer.c:723
 #, fuzzy
@@ -6779,9 +6763,8 @@ msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Виконання пошуку не дало логічного значення"
 
 #: calendar/pcs/query.c:1483
-#, fuzzy
 msgid "Parse error"
-msgstr "Інша помилка"
+msgstr "Помилка аналізу"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -7514,7 +7497,7 @@ msgstr ""
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Азія/Аден"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
@@ -7526,7 +7509,7 @@ msgstr ""
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Азія/Анадир"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
@@ -7558,15 +7541,15 @@ msgstr "Азія/Бангкок"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Азія/Бейрут"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Азія/Бішкек"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Азія/Бруней"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
@@ -7582,11 +7565,11 @@ msgstr ""
 
 #: calendar/zones.h:205
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "Азія/Коломбо"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Азія/Дамаск"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
@@ -7606,7 +7589,7 @@ msgstr "Азія/Душанбе"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Азія/Ґаза"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
@@ -7630,7 +7613,7 @@ msgstr "Азія/Стамбул"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Азія/Джакарта"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
@@ -7638,7 +7621,7 @@ msgstr ""
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Азія/Єрусалим"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
@@ -7650,7 +7633,7 @@ msgstr "Азія/Камчатка"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Азія/Карачі"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
@@ -7658,7 +7641,7 @@ msgstr ""
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Азія/Катманду"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
@@ -7733,7 +7716,7 @@ msgstr "Азія/Пхеньян"
 
 #: calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr ""
+msgstr "Азія/Катар"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
@@ -7757,7 +7740,7 @@ msgstr "Азія/Сахалін"
 
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Азія/Самарканд"
 
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
@@ -7773,7 +7756,7 @@ msgstr "Азія/Синґапур"
 
 #: calendar/zones.h:252
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "Азія/Тайпей"
 
 #: calendar/zones.h:253
 msgid "Asia/Tashkent"
@@ -7801,7 +7784,7 @@ msgstr ""
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "Азія/Уланбатор"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
@@ -7825,7 +7808,7 @@ msgstr ""
 
 #: calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Азія/Єреван"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
@@ -8721,9 +8704,8 @@ msgid "This is a digitally signed message part"
 msgstr "Цю частина повідомлення підписано цифровим підписом"
 
 #: camel/camel-multipart-signed.c:679
-#, fuzzy
 msgid "parse error"
-msgstr "Інша помилка"
+msgstr "помилка аналізу"
 
 #: camel/camel-provider.c:132
 #, c-format
@@ -9272,9 +9254,9 @@ msgid "Could not parse URL `%s'"
 msgstr "Неможливо проаналізувати URL \"%s\""
 
 #: camel/camel-vee-folder.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Error storing `%s': %s"
-msgstr "Помилка запуску %s"
+msgstr "Помилка збереження \"%s\": %s"
 
 #: camel/camel-vee-folder.c:656
 #, c-format
@@ -10114,9 +10096,8 @@ msgstr "Неможливо отримати повідомлення: %s\n"
 "  %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:500
-#, fuzzy
 msgid "Unknown reason"
-msgstr "Невідомі опади"
+msgstr "Невідома причина"
 
 #: camel/providers/pop3/camel-pop3-provider.c:38
 msgid "Message storage"
@@ -10451,14 +10432,13 @@ msgid "SMTP Greeting"
 msgstr "Привітання SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:927
-#, fuzzy, c-format
+#, c-format
 msgid "HELO request timed out: %s"
-msgstr "Затримка відповіді на RSET: %s"
+msgstr "Затримка відповіді на HELO: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:949
-#, fuzzy
 msgid "HELO response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на HELO"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
@@ -10488,9 +10468,8 @@ msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на MAIL FROM: %s: пошту не відіслано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1165
-#, fuzzy
 msgid "MAIL FROM response error"
-msgstr "Помилка відповіді на MAIL FROM: %s: пошту не відіслано"
+msgstr "Помилка відповіді на MAIL FROM"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1189
 #, c-format
@@ -10511,9 +10490,8 @@ msgstr "Затримка відповіді на DATA: %s: пошту не ві�
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1273
-#, fuzzy
 msgid "DATA response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на DATA"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1313
 #: camel/providers/smtp/camel-smtp-transport.c:1336
@@ -10522,9 +10500,8 @@ msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "Вийшов час при надсиланні DATA: надсилання припинено: %s: пошту не відіслано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1356
-#, fuzzy
 msgid "DATA termination response error"
-msgstr "Невірна автенфікація від сервера."
+msgstr "Помілка відповіді на завершення DATA"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1379
 #, c-format
@@ -10532,19 +10509,17 @@ msgid "RSET request timed out: %s"
 msgstr "Затримка відповіді на RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1399
-#, fuzzy
 msgid "RSET response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на RSET"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1422
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT request timed out: %s"
-msgstr "Перевищено час очікування відповіді на AUTH: %s"
+msgstr "Затримка відповіді на QUIT: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1442
-#, fuzzy
 msgid "QUIT response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на QUIT"
 
 #: composer/e-msg-composer-attachment-bar.c:102
 #, c-format
@@ -11422,7 +11397,7 @@ msgstr ""
 #: filter/libfilter-i18n.h:18
 #: mail/folder-browser.c:1822
 msgid "Label"
-msgstr ""
+msgstr "Позначка"
 
 #: filter/libfilter-i18n.h:19
 msgid "Mailing list"
@@ -12867,9 +12842,8 @@ msgid "Labels and Colors"
 msgstr "Зберегти та закрити"
 
 #: mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Loading Images"
-msgstr "Завантажити зображення"
+msgstr "Завантаження зображень"
 
 #: mail/mail-config.glade.h:69
 msgid "Mail Configuration"
@@ -13085,14 +13059,12 @@ msgstr ""
 "Щоб піти далі натисніть \"Далі\""
 
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "XEmacs"
-msgstr "Схід"
+msgstr "XEmacs"
 
 #: mail/mail-config.glade.h:135
-#, fuzzy
 msgid "_Add Signature"
-msgstr "Підпис HTML:"
+msgstr "_Додати підпис"
 
 #: mail/mail-config.glade.h:136
 msgid "_Always load images off the net"
@@ -13261,9 +13233,8 @@ msgid "_every"
 msgstr "кожні"
 
 #: mail/mail-config.glade.h:177
-#, fuzzy
 msgid "color"
-msgstr " колір"
+msgstr "колір"
 
 #: mail/mail-config.glade.h:178
 msgid "description"
@@ -13310,9 +13281,8 @@ msgid "Could not create temporary file '%s': %s"
 msgstr "Неможливо створити тимчасовий каталог: %s"
 
 #: mail/mail-display.c:451
-#, fuzzy
 msgid "Save Attachment..."
-msgstr "Зберегти долучення"
+msgstr "Зберегти долучення..."
 
 #: mail/mail-display.c:452
 msgid "View Inline"
@@ -13337,9 +13307,8 @@ msgid "External Viewer"
 msgstr "Зовнішня програма перегляду"
 
 #: mail/mail-display.c:1333
-#, fuzzy
 msgid "Downloading images"
-msgstr "Завантажити зображення"
+msgstr "Звантаження зображень"
 
 #: mail/mail-display.c:1510
 msgid "Loading message content"
@@ -15325,7 +15294,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:303
 msgid "Brno"
-msgstr ""
+msgstr "Брно"
 
 #: my-evolution/Locations.h:304
 msgid "Broadus"
@@ -16113,7 +16082,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:506
 msgid "Cordoba"
-msgstr ""
+msgstr "Кордоба"
 
 #: my-evolution/Locations.h:507
 msgid "Cordova"
@@ -16121,7 +16090,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:508
 msgid "Cork"
-msgstr ""
+msgstr "Корк"
 
 #: my-evolution/Locations.h:509
 msgid "Coro"
@@ -16149,7 +16118,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:515
 msgid "Cortez"
-msgstr ""
+msgstr "Кортез"
 
 #: my-evolution/Locations.h:516
 msgid "Corumba"
@@ -16477,7 +16446,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:603
 msgid "Dnipropetrovsk"
-msgstr ""
+msgstr "Дніпропетровськ"
 
 #: my-evolution/Locations.h:604
 msgid "Dobbiaco"
@@ -16630,7 +16599,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:643
 msgid "Edmonton"
-msgstr ""
+msgstr "Едмонтон"
 
 #: my-evolution/Locations.h:644
 msgid "Edmonton/Villeneuve"
@@ -17566,7 +17535,7 @@ msgstr "Ґаяна"
 
 #: my-evolution/Locations.h:880
 msgid "Habana"
-msgstr ""
+msgstr "Габана"
 
 #: my-evolution/Locations.h:881
 msgid "Hachijojima Airport"
@@ -17604,7 +17573,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:890
 msgid "Halifax"
-msgstr ""
+msgstr "Галіфакс"
 
 #: my-evolution/Locations.h:891
 msgid "Hamamatsu Ab"
@@ -17940,7 +17909,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:977
 msgid "Ibiza"
-msgstr ""
+msgstr "Ібіца"
 
 #: my-evolution/Locations.h:979
 msgid "Ichikawa"
@@ -17992,7 +17961,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:992
 msgid "Indiana"
-msgstr ""
+msgstr "Індіана"
 
 #: my-evolution/Locations.h:993
 msgid "Indianapolis"
@@ -18164,7 +18133,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1039
 msgid "Jersey"
-msgstr ""
+msgstr "Джерсі"
 
 #: my-evolution/Locations.h:1040
 msgid "Jinotega"
@@ -18308,7 +18277,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1076
 msgid "Katowice"
-msgstr ""
+msgstr "Катовіце"
 
 #: my-evolution/Locations.h:1077
 msgid "Kavala"
@@ -22108,7 +22077,7 @@ msgstr "Організація"
 
 #: my-evolution/Locations.h:2045
 msgid "Seattle"
-msgstr ""
+msgstr "Сіетл"
 
 #: my-evolution/Locations.h:2046
 #, fuzzy
@@ -22168,9 +22137,8 @@ msgid "Sexton Summit"
 msgstr ""
 
 #: my-evolution/Locations.h:2059
-#, fuzzy
 msgid "Shanghai"
-msgstr "Півтони"
+msgstr "Шанхай"
 
 #: my-evolution/Locations.h:2060
 msgid "Shannon"
@@ -22329,9 +22297,8 @@ msgid "Skive"
 msgstr "Зберегти"
 
 #: my-evolution/Locations.h:2097
-#, fuzzy
 msgid "Skopje"
-msgstr "Зупинити"
+msgstr "Скоп'є"
 
 #: my-evolution/Locations.h:2098
 #, fuzzy
@@ -26474,9 +26441,8 @@ msgid "_Mail:"
 msgstr "Пошта"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
-#, fuzzy
 msgid "_Tasks:"
-msgstr "Завдання"
+msgstr "_Завдання:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
 msgid "Folder name:"
