@@ -65,7 +65,7 @@ module Evolution {
 		/* Pop up a new editing dialog for the item with the specified
 		   @item_type_name.  */
 		void requestCreateItem (in string item_type_name)
-			raises (UnknownType);
+			raises (UnknownType, Failed);
 
 
 		/*** URI handling (e.g. for the command-line, "evolution

@@ -1,5 +1,9 @@
 2004-01-15  JP Rosevear <jpr@ximian.com>
 
+	* main.c (kill_dataserver): kill the correct binary, tidy includes
+
+2004-01-15  JP Rosevear <jpr@ximian.com>
+
 	* main.c (detect_version): move version detection here
 
 	* e-config-upgrade.c: remove it from here; clean out all the

@@ -20,7 +20,9 @@
  * Author: Ettore Perazzoli
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-gtk-utils.h"
@@ -28,7 +30,6 @@
 
 #include "e-icon-factory.h"
 #include "e-shell-constants.h"
-#include "e-shell-window.h"	/* FIXME */
 
 #include "e-shell.h"
 
@@ -178,7 +179,7 @@ kill_dataserver (void)
 	g_print ("(Killing old version of evolution-data-server...)\n");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-data-server 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-data-server 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.0 2> /dev/null");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
