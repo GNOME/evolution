@@ -38,15 +38,15 @@
 
 gboolean camel_verbose_debug = FALSE;
 
+#ifdef HAVE_NSS
 static void
 camel_shutdown (void)
 {
-#ifdef HAVE_NSS
 	NSS_Shutdown ();
 	
 	PR_Cleanup ();
-#endif /* HAVE_NSS */
 }
+#endif /* HAVE_NSS */
 
 gint
 camel_init (const char *configdir, gboolean nss_init)

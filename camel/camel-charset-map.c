@@ -1,11 +1,41 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; -*- */
+
+/* 
+ * Authors:
+ *   Michael Zucchi <notzed@ximian.com>
+ *   Dan Winship <danw@ximian.com>
+ *
+ * Copyright 2000, 2001 Ximian, Inc. (http://www.ximian.com)
+ *
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 
 /*
-  if you want to build the charset map, add the root directory of
-  libunicode to the include path and define BUILD_MAP,
-  then run it as 
+  if you want to build the charset map, compile this with something like:
+    gcc -DBUILD_MAP camel-charset-map.c `glib-config --cflags`
+  (plus any -I/-L/-l flags you need for iconv), then run it as 
     ./a.out > camel-charset-map-private.h
+
+  Note that the big-endian variant isn't tested...
 
   The tables genereated work like this:
 
@@ -15,117 +45,83 @@
 */
 
 #ifdef BUILD_MAP
-#include "iso/iso8859-2.h"
-#include "iso/iso8859-3.h"
-#include "iso/iso8859-4.h"
-#include "iso/iso8859-5.h"
-#include "iso/iso8859-6.h"
-#include "iso/iso8859-7.h"
-#include "iso/iso8859-8.h"
-#include "iso/iso8859-9.h"
-#include "iso/iso8859-10.h"
-#include "iso/iso8859-13.h"
-#include "iso/iso8859-14.h"
-#include "iso/iso8859-15.h"
-#include "iso/windows-1250.h"
-#include "iso/windows-1252.h"
-#include "iso/windows-1257.h"
-#include "iso/koi8-r.h"
-#include "iso/koi8-u.h"
-#include "iso/tis620.2533-1.h"
-#include "iso/armscii-8.h"
-#include "iso/georgian-academy.h"
-#include "iso/georgian-ps.h"
-#include "msft/cp932.h"
-#include "jis/shiftjis.h"
+#include <iconv.h>
+#include <glib.h>
 
 static struct {
-	unsigned short *table;
 	char *name;
-	int type;		/* type of table */
 	unsigned int bit;	/* assigned bit */
 } tables[] = {
-	{ iso8859_2_table, "iso-8859-2", 0, 0} ,
-	{ iso8859_3_table, "iso-8859-3", 0, 0} ,
-	{ iso8859_4_table, "iso-8859-4", 0, 0},
-	{ iso8859_5_table, "iso-8859-5", 0, 0},
-/* apparently -6 has special digits? */
-	{ iso8859_6_table, "iso-8859-6", 0, 0},
-	{ iso8859_7_table, "iso-8859-7", 0, 0},
-	{ iso8859_8_table, "iso-8859-8", 0, 0},
-	{ iso8859_9_table, "iso-8859-9", 0, 0},
-	{ iso8859_10_table, "iso-8859-10", 0, 0},
-	{ iso8859_13_table, "iso-8859-13", 0, 0},
-	{ iso8859_14_table, "iso-8859-14", 0, 0},
-	{ iso8859_15_table, "iso-8859-15", 0, 0},
-	{ windows_1250_table, "windows-1250", 0, 0},
-	{ windows_1252_table, "windows-1252", 0, 0},
-	{ windows_1257_table, "windows-1257", 0, 0},
-	{ koi8_r_table, "koi8-r", 0, 0},
-	{ koi8_u_table, "koi8-u", 0, 0},
-	{ tis_620_table, "tis620.2533-1", 0, 0},
-	{ armscii_8_table, "armscii-8", 0, 0},
-	{ georgian_academy_table, "georgian-academy", 0, 0},
-	{ georgian_ps_table, "georgian-ps", 0, 0},
-	{ cp932_table, "CP932", 1, 0},
-	{ sjis_table, "Shift-JIS", 1, 0},
-	{ 0, 0}
+	/* These are the 8bit character sets (other than iso-8859-1,
+	 * which is special-cased) which are supported by both other
+	 * mailers and the GNOME environment. Note that the order
+	 * they're listed in is the order they'll be tried in, so put
+	 * the more-popular ones first.
+	 */
+	{ "iso-8859-2", 0 },	/* Central/Eastern European */
+	{ "iso-8859-4", 0 },	/* Baltic */
+	{ "koi8-r", 0 },	/* Russian */
+	{ "windows-1251", 0 },	/* Russian */
+	{ "koi8-u", 0 },	/* Ukranian */
+	{ "iso-8859-5", 0 },	/* Least-popular Russian encoding */
+	{ "iso-8859-7", 0 },	/* Greek */
+	{ "iso-8859-9", 0 },	/* Turkish */
+	{ "iso-8859-13", 0 },	/* Baltic again */
+	{ "iso-8859-15", 0 },	/* New-and-improved iso-8859-1, but most
+				 * programs that support this support UTF8
+				 */
+	{ 0, 0 }
 };
 
 unsigned int encoding_map[256 * 256];
 
-static void
-add_bigmap(unsigned short **table, int bit)
-{
-	int i;
-	int j;
-
-	for (i=0;i<256;i++) {
-		unsigned short *tab = table[i];
-		if (tab) {
-			for (j=0;j<256;j++) {
-				if (tab[j])
-					encoding_map[tab[j]] |= bit;
-			}
-		}
-	}
-}
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+#define UCS "UCS-4BE"
+#else
+#define UCS "UCS-4LE"
+#endif
 
 void main(void)
 {
 	int i, j;
-	unsigned short *tab;
 	int max, min;
 	int bit = 0x01;
 	int k;
 	int bytes;
-
-#if 0
-	/* iso-latin-1 (not needed-detected in code) */
-	for (i=0;i<256;i++) {
-		encoding_map[i] |= bit;
-	}
-	bit <<= 1;
-#endif
+	iconv_t cd;
+	char in[128];
+	guint32 out[128];
+	char *inptr, *outptr;
+	size_t inlen, outlen;
 
 	/* dont count the terminator */
 	bytes = ((sizeof(tables)/sizeof(tables[0]))+7-1)/8;
 
-	/* the other latin charsets */
-	for (j=0;tables[j].table;j++) {
-		switch (tables[j].type) {
-		case 0:		/* table from 128-256 */
-			tab = tables[j].table;
-			for (i=0;i<128;i++) {
-				/* 0-127 is the common */
-				encoding_map[i] |= bit;
-				encoding_map[tab[i]] |= bit;
+	for (i = 0; i < 128; i++)
+		in[i] = i + 128;
+
+	for (j = 0; tables[j].name; j++) {
+		cd = iconv_open (UCS, tables[j].name);
+		inptr = in;
+		outptr = (char *)(out);
+		inlen = sizeof (in);
+		outlen = sizeof (out);
+		while (iconv (cd, &inptr, &inlen, &outptr, &outlen) == -1) {
+			if (errno == EILSEQ) {
+				inptr++;
+				inlen--;
+			} else {
+				printf ("%s\n", strerror (errno));
+				exit (1);
 			}
-			break;
-		case 1:		/* sparse table */
-			add_bigmap(tables[j].table, bit);
-			break;
 		}
+		iconv_close (cd);
+
+		for (i = 0; i < 128 - outlen / 4; i++) {
+			encoding_map[i] |= bit;
+			encoding_map[out[i]] |= bit;
+		}
+
 		tables[j].bit = bit;
 		bit <<= 1;
 	}
@@ -178,7 +174,7 @@ void main(void)
 	printf("\n};\n\n");
 
 	printf("struct {\n\tconst char *name;\n\tunsigned int bit;\n} camel_charinfo[] = {\n");
-	for (j=0;tables[j].table;j++) {
+	for (j=0;tables[j].name;j++) {
 		printf("\t{ \"%s\", 0x%04x },\n", tables[j].name, tables[j].bit);
 	}
 	printf("};\n\n");

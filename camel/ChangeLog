@@ -1,3 +1,20 @@
+2001-05-30  Dan Winship  <danw@ximian.com>
+
+	* camel-charset-map.c: Redo the BUILD_MAP code to not depend on
+	libunicode. Now it only generates a map of "popular" 8bit
+	encodings. (It's not worthwhile to support obscure encodings,
+	because any mailer that supports them will support UTF8 too. And
+	Chinese and Japanese use mostly the same UTF8 characters so you
+	need to decide between those encodings based on the locale or
+	the charset of the message you're replying to or the input
+	method you used. So this is sufficient for camel_charset_best's
+	use.)
+
+	* camel-charset-map-private.h: Regenerated.
+
+	* camel.c (camel_shutdown): Move #ifdefs around to prevent a
+	warning.
+
 2001-05-29  Dan Winship  <danw@ximian.com>
 
 	* camel-disco-diary.c: Code for logging and replaying offline
