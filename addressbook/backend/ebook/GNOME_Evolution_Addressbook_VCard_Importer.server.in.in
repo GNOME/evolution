@@ -8,8 +8,8 @@
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-		       _value="Factory to import VCard files into Evolution."/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution VCard importer"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_Importer"
@@ -21,9 +21,9 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution:menu_name" type="string"
-		       value="VCard (.vcf, .gcrd)"/>
-	<oaf_attribute name="description" type="string"
-		       _value="Imports VCard files into Evolution."/>
+		       _value="VCard (.vcf, .gcrd)"/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution VCard Importer"/>
 </oaf_server>
 
 </oaf_info>

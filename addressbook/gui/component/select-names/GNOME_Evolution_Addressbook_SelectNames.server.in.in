@@ -9,8 +9,8 @@
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-                       _value="Factory for the Addressbook's name selection interface"/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Addressbook name selection interface"/>
 
 </oaf_server>
 -->
@@ -23,8 +23,8 @@
 		<item value="IDL:GNOME/Evolution/Addressbook/SelectNames"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-                       _value="Evolution's addressbook name selection interface."/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Addressbook name selection interface"/>
 
 </oaf_server>
 

@@ -8,8 +8,8 @@
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-                       _value="Factory for the controls exported by the Evolution Addressbook"/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Addressbook"/>
 
 </oaf_server>
 
@@ -28,9 +28,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       _value="Evolution Addressbook minicard viewer"/>
-	<oaf_attribute name="description" type="string"
-	               _value="Control that displays an Evolution addressbook minicard."/>
+		       _value="Evolution Addressbook card viewer"/>
 
 </oaf_server>
 
@@ -43,8 +41,8 @@
 		<item value="IDL:GNOME/Control:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-                       _value="A sample Bonobo control which displays an addressbook."/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Addressbook folder viewer"/>
 
 </oaf_server>
 
@@ -56,8 +54,8 @@
 		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-	               _value="Evolution component for handling contacts."/>
+	<oaf_attribute name="name" type="string"
+	               _value="Evolution Addressbook component"/>
 
 	<oaf_attribute name="evolution:shell_component_icon" type="string"
 		       value="evolution-contacts.png"/>
@@ -75,8 +73,8 @@
 		<item value="IDL:GNOME/Control:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-		       _value="A Bonobo control for displaying an address."/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution Addressbook address viewer"/>
 
 </oaf_server>
 
@@ -89,8 +87,8 @@
 		<item value="IDL:GNOME/Control:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-		       _value="A Bonobo control for an address popup."/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution Addressbook address pop-up"/>
 
 </oaf_server>
 
@@ -117,8 +115,8 @@
 
 	<oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
     
-	<oaf_attribute name="description" type="string"
-		       _value="Configuration control for the Evolution Addressbook Storages."/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution Addressbook LDAP Configuration Control"/>
 
 </oaf_server>
 

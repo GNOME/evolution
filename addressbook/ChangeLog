@@ -1,3 +1,17 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Clean up
+	server names.
+
+	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in: 
+	Likewise
+
+	* backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in:
+	Likewise. Also mark the evolution:menu_name for i18n.
+
+	* backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in:
+	Likewise
+
 2003-04-03  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-minicard-label.c (e_minicard_label_event): set
