@@ -270,7 +270,7 @@ e_contact_text_height(GnomePrintContext *pc, GnomeFont *font, double width, gcha
 {
 	int line_count = e_contact_divide_text(pc, font, width, text, NULL);
 	return line_count * (gnome_font_get_ascender(font) + gnome_font_get_descender(font)) +
-		line_count * .2 * font->size;
+		(line_count - 1) * .2 * font->size;
 }
 
 #if 0
@@ -454,7 +454,7 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 		       "file_as", &file_as,
 		       NULL);
 	if (ctxt->style->print_using_grey)
-		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + ctxt->style->headings_font->size * .2, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as) - ctxt->style->headings_font->size * .2, .85, .85, .85);
+		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + ctxt->style->headings_font->size * .3, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as) - ctxt->style->headings_font->size * .3, .85, .85, .85);
 	e_contact_output(ctxt->pc, ctxt->style->headings_font, ctxt->x + 2, ctxt->y, column_width - 4, file_as);
 	ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
 	ctxt->y -= ctxt->style->headings_font->size * .2;

@@ -1,9 +1,18 @@
+2000-07-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-book-view-listener.c: Remove the idle handler
+	when we're destroyed.
+
+	* printing/e-contact-print.c: Fixed the spacing on the card
+	header.
+
 2000-07-20  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.oafinfo: Fixed the oaf info.
 
-	* gui/minicard/.cvsignore, gui/minicard/Makefile.am: Added a test
-	for the minicard widget.
+	* gui/minicard/.cvsignore, gui/minicard/Makefile.am,
+	gui/minicard/e-minicard-widget-test.c: Added a test for the
+	minicard widget.
 
 	* gui/minicard/e-minicard-control.c: Fixed the mime type.
 

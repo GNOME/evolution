@@ -283,6 +283,9 @@ e_book_view_listener_destroy (GtkObject *object)
 	EBookViewListener     *listener = E_BOOK_VIEW_LISTENER (object);
 	GList             *l;
 
+	if (listener->priv->idle_id)
+		g_source_remove(listener->priv->idle_id);
+
 	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
 		EBookViewListenerResponse *resp = l->data;
 		if (resp->id)
