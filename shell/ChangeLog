@@ -1,3 +1,9 @@
+2001-04-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-setup.c (e_setup): If we have a local folder named "Trash" of
+	type "mail", rename it to "Trash.old" so that the new
+	vfolder-based trash type gets installed.
+
 2001-03-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-storage-set-view.c: Include <gal/util/e-util.h> here.
