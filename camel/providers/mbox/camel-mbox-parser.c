@@ -106,6 +106,16 @@ clear_message_info (CamelMboxParserMessageInfo *preparsing_info)
 
 
 
+/**
+ * new_parser: create a new parser object
+ * @fd: file descriptor opened on the mbox file
+ * @message_delimiter: the string that announce the start of a new message.
+ * 
+ * Create a new parser object. This object is the place where are 
+ * stored all the information concerning the parsing process. 
+ * 
+ * Return value: The newly created parser object.
+ **/
 static CamelMboxPreParser *
 new_parser (int fd,
 	    const gchar *message_delimiter) 
@@ -134,10 +144,18 @@ new_parser (int fd,
 
 
 
+/**
+ * parser_free: free the parser object
+ * @parser: the parser objet to free.
+ * 
+ * it is important to notice that all structures allocated
+ * in new_parser () are freed ** EXCEPT ** the message
+ * information array, i.e. the preparsed_messages 
+ * field. 
+ **/
 void 
 parser_free (CamelMboxPreParser *parser)
 {
-	
 	g_free (parser->buffer);
 	g_free (parser->message_delimiter);
 	g_string_free (parser->tmp_string, TRUE);
@@ -149,7 +167,14 @@ parser_free (CamelMboxPreParser *parser)
 
 
 /* ** handle exceptions here */
-/* read the first chunk of data in the buffer */
+/**
+ * initialize_buffer: read the first chunk of data in the buffer
+ * @parser: parser object to fill
+ * @first_position: position to start the read at
+ * 
+ * read the first chunk of data from the mbox file. 
+ * 
+ **/
 static void 
 initialize_buffer (CamelMboxPreParser *parser,
 		   guint first_position)
@@ -177,7 +202,8 @@ initialize_buffer (CamelMboxPreParser *parser,
 	/* ** check for an error here */
 
 	parser->last_position = buf_nb_read;
-	if (buf_nb_read < (MBOX_PARSER_BUF_SIZE - parser->left_chunk_size))
+
+	if (buf_nb_read == 0)
 		parser->eof =TRUE;
 
 	parser->current_position = parser->left_chunk_size;
@@ -186,12 +212,23 @@ initialize_buffer (CamelMboxPreParser *parser,
 
 
 
-/* read next data in the mbox file */
+/**
+ * read_next_buffer_chunk: read the next chunk of data in the mbox file
+ * @parser: parser object
+ * 
+ * read the next chunk of data in the mbox file. 
+ * Routine copies the last part of the buffer at 
+ * the begining are concatenate the read data to
+ * it. This allows strcmp of keywords in the buffer,
+ * until the last postion. That means you can 
+ * do a strcmp (buffer, keyword) for any of the
+ * keyword defined at the begining of this file. 
+ * 
+ **/
 static void 
 read_next_buffer_chunk (CamelMboxPreParser *parser)
 {
 	gint buf_nb_read;
-
 
 	g_assert (parser);
 	
@@ -210,9 +247,9 @@ read_next_buffer_chunk (CamelMboxPreParser *parser)
 	} while ((buf_nb_read == -1) && (errno == EINTR));
 	/* ** check for an error here */
 
-
 	parser->last_position = buf_nb_read;
-	if (buf_nb_read < (MBOX_PARSER_BUF_SIZE - parser->left_chunk_size))
+
+	if (buf_nb_read == 0)
 		parser->eof =TRUE;
 
 	parser->current_position = 0;
@@ -221,7 +258,15 @@ read_next_buffer_chunk (CamelMboxPreParser *parser)
 
 
 
-/* read next char in the buffer */
+/**
+ * goto_next_char: go one postion forward in the buffer
+ * @parser: parser object
+ * 
+ * goto one position forward in the buffer. If necessary, 
+ * read the next chunk of data in the file, possibly
+ * raising the parser->eof flag. 
+ * 
+ **/
 static void 
 goto_next_char (CamelMboxPreParser *parser) 
 {	
@@ -238,7 +283,13 @@ goto_next_char (CamelMboxPreParser *parser)
 
 
 
-/* advance n_chars in the buffer */
+
+/**
+ * advance_n_chars: go n positions forward in the buffer.
+ * @parser: parser object
+ * @n: number of characters to advance. 
+ * 
+ **/
 static void
 advance_n_chars (CamelMboxPreParser *parser, guint n) 
 {	
@@ -271,6 +322,17 @@ advance_n_chars (CamelMboxPreParser *parser, guint n)
    store the previous message information and 
    clean the temporary structure used to store 
    the informations */
+
+
+/**
+ * new_message_detected: routine to call when a new message has been detected
+ * @parser: parser object.
+ * 
+ * this routine must be called when the keyword determining the 
+ * begining of a new message has been detected. It pushes the
+ * information fetched for the last message into the message information
+ * array. Also, it gets the parser to the end of the line. 
+ **/
 static void 
 new_message_detected (CamelMboxPreParser *parser)
 {
@@ -291,12 +353,13 @@ new_message_detected (CamelMboxPreParser *parser)
 
 	/* go to the end of the line */
 	do {
+
 		c = parser->buffer[parser->current_position];
 		goto_next_char (parser);	
-		//printf ("%c", c);
+
 	} while (c != '\n');
 	
-	//printf ("\n");
+	/* save message position in the message information structure */
 	(parser->current_message_info).message_position = parser->real_position;
 
 	parser->is_pending_message = TRUE;
@@ -308,10 +371,25 @@ new_message_detected (CamelMboxPreParser *parser)
 
 
 
-/* read a header value and put it in the string pointer
-   to by header_content. This routine stops on a 
-   the first character after the last newline of the 
-   header content. 
+
+/**
+ * read_header: read the header content contained after the current position.
+ * @parser: the parser object.
+ * @header_content: a pointer on a (char *) variable to feed with the obtained header string. 
+ * 
+ * This routine must be called when the parser has detected a header 
+ * and it wants the header content to be stored. The parser current position 
+ * must EXACTELY be located at the begining of the header content line. 
+ * For example, if the file contains the line : 
+ *     from:Bertrand Guiheneuf <bertrand@helixcode.com>
+ *
+ * When this routine is called, the parser must be located 
+ * on the "B" of "Bertrand".
+ * 
+ * When this routine returns, the parser is located just 
+ * after the "\n" at the end of the header content.
+ *
+ **/
 */
 static void 
 read_header (CamelMboxPreParser *parser, gchar **header_content)
@@ -377,10 +455,17 @@ read_header (CamelMboxPreParser *parser, gchar **header_content)
 
 
 
-/* read the begining of the message and put it in the message
-   summary field. If we the search ended on a newline, returns 
-   %TRUE, else returns %FALSE   
-*/
+
+/**
+ * read_message_begining: read the first characters of a message body
+ * @parser: parser object
+ * @message_summary: a pointer on a (gchar *) variable where the obtained string will be stored. 
+ * 
+ * Read the first lines of a message. When calling this routine, the
+ * parser must be located at the begining of the message body. 
+ * 
+ * Return value: if the parsing inside this routine last read a newline, then %TRUE is returned, otherwise %FALSE is returned
+ **/
 static gboolean
 read_message_begining (CamelMboxPreParser *parser, gchar **message_summary)
 {
