@@ -1,3 +1,7 @@
+2004-08-13  Rodrigo Moya <rodrigo@novell.com>
+
+	* e-categories-config.c: include gtkdialog.h rather than gnome-dialog.h.
+
 2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* e-dialog-utils.c: Optionally use GtkFileChooser if compiled

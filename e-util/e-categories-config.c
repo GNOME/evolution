@@ -9,7 +9,7 @@
  */
 
 #include <string.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/widgets/e-categories.h>
