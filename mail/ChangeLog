@@ -1,3 +1,16 @@
+2001-03-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (pgp_mime_part_sign_prepare_part): New function to
+	prepare the mime part and any subparts for pgp signing.
+	(pgp_mime_part_sign_restore_part): New convenience function to
+	undo the prepare_part.
+	(pgp_mime_part_sign): Don't assume the part passed in is a leaf
+	part, we could very easily get a multipart (and in fact were which
+	is why people have been having unexpected results when signing
+	messages with attachments) and set the encoding as if it were a
+	leaf part. Use our 2 new convenience functions to set the
+	encoding(s) instead.
+
 2001-03-15  Miguel de Icaza  <miguel@ximian.com>
 
 	* folder-browser-factory.c (folder_browser_setup_view_menus): Fix

@@ -214,6 +214,64 @@ mail_crypto_is_pkcs7_mime (CamelMimePart *mime_part)
 	return FALSE;
 }
 
+static void
+pgp_mime_part_sign_restore_part (CamelMimePart *mime_part, GSList *encodings)
+{
+	CamelDataWrapper *wrapper;
+	
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	if (!wrapper)
+		return;
+	
+	if (CAMEL_IS_MULTIPART (wrapper)) {
+		int parts, i;
+		
+		parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
+		for (i = 0; i < parts; i++) {
+			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
+			
+			pgp_mime_part_sign_restore_part (part, encodings);
+			encodings = encodings->next;
+		}
+	} else {
+		CamelMimePartEncodingType encoding;
+		
+		encoding = GPOINTER_TO_INT (encodings->data);
+		
+		camel_mime_part_set_encoding (mime_part, encoding);
+	}
+}
+
+static void
+pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
+{
+	CamelDataWrapper *wrapper;
+	int parts, i;
+	
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	if (!wrapper)
+		return;
+	
+	if (CAMEL_IS_MULTIPART (wrapper)) {
+		parts = camel_multipart_get_number (CAMEL_MULTIPART (wrapper));
+		for (i = 0; i < parts; i++) {
+			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
+			
+			pgp_mime_part_sign_prepare_part (part, encodings);
+		}
+	} else {
+		CamelMimePartEncodingType encoding;
+		
+		encoding = camel_mime_part_get_encoding (mime_part);
+		
+		/* the encoding should really be QP or Base64 */
+		if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
+			camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+		
+		*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+	}
+}
+
 
 /**
  * pgp_mime_part_sign:
@@ -231,7 +289,6 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 {
 	CamelMimePart *part, *signed_part;
 	CamelMultipart *multipart;
-	CamelMimePartEncodingType encoding;
 	CamelContentType *mime_type;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlf_filter, *from_filter;
@@ -239,6 +296,7 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	GByteArray *content;
 	gchar *signature;
 	gchar *hash_type = NULL;
+	GSList *encodings = NULL;
 	
 	g_return_if_fail (*mime_part != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_PART (*mime_part));
@@ -246,11 +304,9 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	g_return_if_fail (hash != PGP_HASH_TYPE_NONE);
 	
 	part = *mime_part;
-	encoding = camel_mime_part_get_encoding (part);
 	
-	/* the encoding should really be QP or Base64 */
-	if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
-		camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+	/* Prepare all the parts for signing... */
+	pgp_mime_part_sign_prepare_part (part, &encodings);
 	
 	/* get the cleartext */
 	content = g_byte_array_new ();
@@ -273,9 +329,13 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	g_byte_array_free (content, TRUE);
 	if (camel_exception_is_set (ex)) {
 		/* restore the original encoding */
-		camel_mime_part_set_encoding (part, encoding);
+		pgp_mime_part_sign_restore_part (part, encodings);
+		g_slist_free (encodings);
 		return;
 	}
+	
+	/* we don't need these anymore... */
+	g_slist_free (encodings);
 	
 	/* construct the pgp-signature mime part */
 	fprintf (stderr, "signature:\n%s\n", signature);
