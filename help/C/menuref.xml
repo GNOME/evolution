@@ -81,7 +81,7 @@
 	      <para>       
                   <menuchoice><guimenu>File</guimenu>
 		  <guisubmenu>New</guisubmenu>
-		  <guimenuitem>Evolution Bar Shortcut</guimenuitem> </menuchoice> or 
+		  <guimenuitem>Shortcut</guimenuitem> </menuchoice> or 
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
 		  <keycap>Shift</keycap>

@@ -75,14 +75,25 @@
     </para>
     
     <para>
-      The contact editor window has two tabs,
-      <guilabel>General</guilabel>, for basic contact information, and
+      The contact editor window has three tabs,
+      <guilabel>General</guilabel>, for basic contact information,
       <guilabel>Details</guilabel>, for a more specific description of
-      the person.  In addition, it contains a <guimenu>File</guimenu>
-      menu and a toolbar with three items: <guilabel>Save and
-      Close</guilabel>, <guilabel>Print</guilabel>, and
-      <guilabel>Delete</guilabel>.
+      the person, and <guilabel>Collaboration</guilabel> for
+      information about scheduling and working closely with them.  In
+      addition, it contains a <guimenu>File</guimenu> menu and an
+      <guimenu>Actions</guimenu> menu. Under
+      <guimenu>Actions</guimenu> you will find <guimenuitem>Forward
+      Contact</guimenuitem>, which opens a new message with the card
+      already attached, and <guimenuitem>Send Message to
+      Contact</guimenuitem>, which will open a new message to the
+      contact.
       </para>
+      <para>
+      The toolbar is relatively simple: <guilabel>Save and
+      Close</guilabel>, <guilabel>Print</guilabel>,
+      <guilabel>Close</guilabel>, and <guilabel>Delete</guilabel>.
+      </para>
+   
     
     <figure id="usage-contact-editor-fig">
       <title>Evolution Contact Editor</title>
@@ -542,8 +553,7 @@
       As noted before, when you get information about a person in
       the mail or in a calendar entry, you can add it to an address
       card.  To do so, right click on any email address or email
-      message, and select <guimenuitem>Add Address
-	Card</guimenuitem> from the menu that appears.
+      message, and select <guimenuitem>Add Sender to Address Book</guimenuitem> from the menu that appears.
       <application> Evolution</application> can also add cards from a
       hand-held device during HotSync operation.  For more
       information about that, see <xref linkend="usage-sync"/>.

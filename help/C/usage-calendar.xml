@@ -8,7 +8,8 @@
      <para>
       This chapter will show you how to use the Ximian Evolution
       Calendar to manage your schedule alone or in conjunction with
-      peers.
+      peers. To learn about importing calendar data, see <xref
+      linkend="importing-mail" />, which covers the Import tool.
      </para>
 
     <sect1 id ="usage-calendar-view"> 
@@ -121,11 +122,12 @@
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Click 
+	      Select 
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Calendar Settings</guimenuitem>
-	      </menuchoice>
+		<guimenuitem>Settings</guimenuitem> </menuchoice>, and
+		click the <guilabel>Calendar And Tasks</guilabel> icon
+		in the settings dialog.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -163,9 +165,9 @@
          </para>
       </note>
       <para>
-         You can have as many
-         <guilabel>Alarms</guilabel>, any time prior to the appointment
-         you've scheduled.  You can have one alarm of each of the following types:
+         You can have several
+         <guilabel>Reminders</guilabel>, any time prior to the appointment
+         you've scheduled.  You can have one reminder of each of the following types:
           <variablelist>
            <varlistentry>
 	    <term><guilabel>Display:</guilabel></term>
@@ -283,7 +285,7 @@
 	If you want, you can alter an appointment
 	summary in the calendar view by clicking on it and typing. You
 	can change other settings by right-clicking on the appointment then
-	choosing <guimenuitem>Edit this Appointment</guimenuitem>.
+	choosing <guimenuitem>Open</guimenuitem>.
       </para>
     </sect2>
     <sect2 id="usage-calendar-rsvp">
@@ -331,9 +333,9 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      If you have multiple Evolution identities, choose the
+	      If you have multiple Evolution email accounts, choose the
 	      one you'll use by selecting an item in the
-	      <guilabel>Sent By</guilabel> field.
+	      <guilabel>Organizer</guilabel> field.
 	    </para>
 	  </listitem>
 	  <listitem>

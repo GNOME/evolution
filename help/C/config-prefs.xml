@@ -15,7 +15,7 @@
         Evolution 1.2 brings with it a redesigned comprehensive
         settings window that you can open by choosing <menuchoice>
         <guimenu>Tools</guimenu>
-        <guimenuitem>Configure</guimenuitem></menuchoice>, no matter
+        <guimenuitem>Settings</guimenuitem></menuchoice>, no matter
         where you are in Evolution. On the left half of the settings
         window is a column, similar to the Evolution shortcut bar,
         which lets you choose which portion of Evolution to
@@ -390,7 +390,7 @@ smtp.omniport.com:143
 	  </listitem>
 	  </varlistentry>
 	  <varlistentry> 
-	    <term>Special Folders</term>
+	    <term>Defaults</term>
            <listitem>
 	    <para>
               Here, you can decide where this account will store the
@@ -628,27 +628,29 @@ smtp.omniport.com:143
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>First day of the week</term>
+	    <term>Week Starts</term>
 	    <listitem>
 	      <para>You can set weeks to start on Sunday or on Monday.</para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Start of day</term>
+	    <term>Day Begins</term>
 	    <listitem>
 	      <para>
-		Says what time of the day your weekday starts.  This
-		will show all times till the end of the day,
-		regardless of there is an appointment during the time
-		period.
+		Set the beginning of a normal workday. If you work odd
+		hours, or want to make sure that your early-morning
+		appointments are displayed, you may find this option useful.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>End of day</term>
+	    <term>Day Ends</term>
 	    <listitem>
 	      <para>
-		Sets the time the day ends at.
+		Set the end of a normal workday. If you work odd
+		hours, or want to make sure that your evening
+		appointments are displayed, you may find this option
+		useful.
 	      </para>
 	    </listitem>
 	  </varlistentry>

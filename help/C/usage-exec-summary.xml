@@ -181,7 +181,7 @@
 	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		<guimenuitem>Settings</guimenuitem> </menuchoice> and
 		select the Summary Preferences tool.
 	    </para>
 	  </listitem>
@@ -201,18 +201,13 @@
 	    </para>
 	  </listitem>
 	</orderedlist>
-	<tip id="measurments">
-	  <title>Metric or Imperial?</title>
-	  <para>
-	    <application>Evolution</application> supports both
-	    Imperial and Metric measurement for weather
-	    reports. Imperial units are sometimes called British
-	    units, but are used almost exclusively in the United
-	    States. Britain, and most of the rest of the world, use
-	    metric units.
-	  </para>
-	</tip>
       </para>
+      <para>
+        Below the list of cities, you can select the time, in seconds,
+        between updates, and whether you wish to see temperatures in Celsius
+        or Farenheit.
+      </para>
+
     </sect2>
     <sect2 id="customizing-feeds">
       <title>Customizing Your News Feeds</title>
@@ -224,9 +219,9 @@
 	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		<guimenuitem>Settings</guimenuitem> </menuchoice> and
 		select the Summary Preferences tool. Then, choose the
-		<guilabel>News</guilabel> tab.
+		<guilabel>News Feeds</guilabel> tab.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -249,7 +244,8 @@
       </para>
       <para>
         You can also add your own news feeds. Evolution will display
-        RDF format news feeds from the website of your choice.
+        RDF formatted XML news feeds from the website of your
+        choice. For most sites, it's a file called "index.rdf."
       </para>
 
     </sect2>
@@ -263,7 +259,7 @@
 	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		<guimenuitem>Settings</guimenuitem> </menuchoice> and
 		select the Summary Preferences tool.
 	    </para>
 	  </listitem>	
@@ -274,12 +270,13 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the mail folder you want to see in the preview on the left.
+              Expand the folder tree to the folders you wish to
+              display in the Summary.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Add</guibutton>.
+	      Click the checkbox to the left of that folder.
 	    </para>
 	  </listitem>
 	</orderedlist>
@@ -295,7 +292,7 @@
 	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Configure</guimenuitem> </menuchoice> and
+		<guimenuitem>Settings</guimenuitem> </menuchoice> and
 		select the Summary Preferences tool.
 	    </para>
 	  </listitem>

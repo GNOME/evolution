@@ -212,7 +212,7 @@
     <para>
       Now that you've had a look around the
       <interface>Inbox</interface>, it's time to check for new mail.
-      Click <guibutton>Get Mail</guibutton> in the toolbar to check
+      Click <guibutton>Send/Receive</guibutton> in the toolbar to check
       your mail.  If you haven't entered any mail settings yet, the
       <interface>setup assistant</interface> will ask you for the
       information it needs to check your email.
@@ -272,9 +272,10 @@
                   </listitem>
                 <listitem>
                    <para>
-                      In <application>Evolution</application>
-                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
-                      Settings</guimenuitem></menuchoice>, and pick the account
+                      In <application>Evolution</application>, select
+                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>
+                      Settings</guimenuitem></menuchoice>, go to the
+                      Mail Accounts configuration tool, and pick the account
                       you'd like to use to share mail. You may want to
                       create a new account just for this source of
                       mail.
@@ -285,8 +286,9 @@
                       Under the <guilabel>Receiving Mail</guilabel>
                       tab, select the type of mail file that your
                       other mail application uses, and then enter the
-                      full path to that file.
-                   </para>
+                      full path to that location. A typical choice
+                   would be mbox files, with the path /home/username/Mail/.
+                 </para>
                   </listitem>
                 <listitem>
                    <para>
@@ -307,7 +309,7 @@
 	  news source to your configuration (see <xref
 	  linkend="config-prefs-network-news"/>). The news server will
 	  appear as a remote server, and will look quite similar to an
-	  IMAP folder.  When you click <guibutton>Get Mail</guibutton>,
+        IMAP folder.  When you click <guibutton>Send/Receive</guibutton>,
 	  <application>Evolution</application> will also check for news
 	  messages.
 	</para>
@@ -412,102 +414,36 @@
          </menuchoice>.  
 
          If you want <application>Ximian Evolution</application> to
-         load remotely hosted images more often, go to the
-         <guilabel>Display</guilabel> tab of the
+         load remotely hosted images more often, select
          <menuchoice>
 	   <guimenu>Tools</guimenu>
-	   <guimenuitem>Mail Settings</guimenuitem>
-         </menuchoice> dialog.
+	   <guimenuitem>Settings</guimenuitem> </menuchoice> and go to
+	   the mail settings tool. There, click the <guilabel>HTML
+           Mail</guilabel> tab and select one of the items there: <guilabel>Never load images off the net</guilabel>, <guilabel>Load images if sender is in addressbook</guilabel>, or <guilabel>Always load images off the net.</guilabel>
       </para>
       <note id="http-proxy">
 	<title>Loading Images from the Net through an HTTP Proxy</title>
         <para>
-           If you use an HTTP proxy,
-           <application>Evolution</application> must be able to find
+           If you use an HTTP proxy (as in many large organizations),
+          <application>Evolution</application> must be able to find
            it through the <systemitem>gnome-vfs</systemitem> subsystem
            before it can load images from the Internet.  This is also
            the case if you wish to access weather and news information
-           through the Summary tool. You can tell the GNOME Virtual
-           File System about your HTTP proxy in one of two ways:
-            <variablelist>
-	    <varlistentry>
-	      <term>Configure it with Nautilus</term>
-	      <listitem>
-		<para>
-                 <orderedlist numeration="arabic">
-		    <listitem>
-		      <para>
-			Open a Nautilus window
-	               </para>
-		    </listitem>
-      		    <listitem>
-		      <para>
-	                 Select <menuchoice>
-			  <guimenu>Preferences</guimenu>
-			  <guimenuitem>Edit Preferences</guimenuitem>
-			</menuchoice>.
-	               </para>
-		    </listitem>
-      		    <listitem>
-		      <para>
-			Go to the <guilabel>Navigation</guilabel> tab.
-	               </para>
-		    </listitem>
-      		    <listitem>
-		      <para>
-			Click the <guilabel>Use HTTP Proxy</guilabel>
-			checkbox and enter the location of your HTTP
-			proxy in the <guilabel>Location</guilabel> field.
-	               </para>
-		    </listitem>
-		  </orderedlist>
-                </para>
-	      </listitem>
-	    </varlistentry>
-	    <varlistentry>
-	      <term>Configure it with the gconftool command</term>
-	      <listitem>
-	      <para>
-                 <orderedlist numeration="arabic">
-		    <listitem>
-		      <para>
-                        Open a terminal.
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-                        gconftool --type=bool --set /system/gnome-vfs/use-http-proxy "TRUE"
-                        </command>
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-      gconftool --type=string --set /system/gnome-vfs/http-proxy-host "your-proxy-url"
-                        </command>
-                      </para>
-		    </listitem>
-		    <listitem>
-		      <para>
-                        Enter the command 
-                        <command>
-                        gconftool --type=int --set /system/gnome-vfs/http-proxy-port "8080"
-                        </command>                  
-                      </para>
-		    </listitem>
-		  </orderedlist>
-                </para>
-		<para>
-                  For more information about the gconftool command,
-                  read the gconftool man page.
-                </para>
-	      </listitem>
-	    </varlistentry>
-	  </variablelist>
+           through the Summary tool. 
          </para>
+         <para>
+           If you are using GNOME 1.4, you will need to configure this
+           in the Nautilus <guilabel>Preferences</guilabel>
+         dialog. However, in GNOME 2.0 and later, you can use the
+         GNOME Control Center. Select
+         <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
+         from your menu panel or from the GNOME menu, and then click
+         the <guibutton>Network Proxies</guibutton> button in the
+         <guilabel>System Settings</guilabel> category. Select the
+         <guilabel>Use an HTTP network proxy</guilabel> check box and
+         then enter information about your proxy. If you are not sure,
+         check with your ISP or system administrator.
+       </para>
       </note>
      </sect3>
     </sect2>
@@ -520,7 +456,7 @@
          <menuchoice> <guimenu>File</guimenu>
          <guisubmenu>New</guisubmenu> <guimenuitem>
          Mail Message</guimenuitem></menuchoice>, or by pressing the
-         <guibutton>Compose</guibutton> button in the Inbox toolbar.
+         <guibutton>New</guibutton> button in the Inbox toolbar.
          When you do so, the <interface>New Message</interface> window
          will open, as shown in <xref
          linkend="usage-mail-newmsg-fig"/>.
@@ -753,7 +689,7 @@
 	</tip>
         </sect3>
 			 
-			 <sect3 id="usage-mail-getnsend-send-to">
+        <sect3 id="usage-mail-getnsend-send-to">
 	      <title>Choosing Recipients Quickly</title>
 	      <para>
 		If you have created address cards in the contact manager,
@@ -764,13 +700,12 @@
           with more than one card, Evolution will open a dialog box to
           ask you which person you meant. 
 
-<!-- Also, <application>Evolution</application> will add a
+<!-- 
+     Also, <application>Evolution</application> will add a
           domain to any unqualified addresses.  By default, this is
           your domain, but you can choose which one mail preferences
-          dialog. NOTE: Bug filed on this: it's not available now,
-          but may be in the future. 
+          dialog. NOTE: ex-feature, may be reinstated, but probably not. 
 -->
-
           </para>
 
           <para>
@@ -795,8 +730,8 @@
         <title>Replying to Email Messages</title>
         <para>
            To reply to a message, press the
-           <guibutton>Reply:</guibutton> button while it is selected,
-           or choose <guimenuitem>Reply to Sender:</guimenuitem> from
+           <guibutton>Reply</guibutton> button while it is selected,
+           or choose <guimenuitem>Reply to Sender</guimenuitem> from
            the message's right-click menu.  That will open the
            <interface>message composer</interface>.  The
            <guilabel>To:</guilabel> and <guilabel>Subject:</guilabel>
@@ -891,7 +826,7 @@
         <para>
            <variablelist>
             <varlistentry>
-              <term><guimenuitem>Find:</guimenuitem></term>
+              <term><guimenuitem>Find</guimenuitem></term>
               <listitem><para> Enter a word or phrase, and
               <application>Evolution</application> will find it
               in your message.
@@ -899,7 +834,7 @@
             </varlistentry>
 
             <varlistentry>
-              <term><guimenuitem>Find Regex:</guimenuitem></term>
+              <term><guimenuitem>Find Regex</guimenuitem></term>
               <listitem>
                 <para>
                   Find a regex, also called a
@@ -910,14 +845,14 @@
             </varlistentry>
 
             <varlistentry>
-              <term><guimenuitem>Find Again:</guimenuitem></term>
+              <term><guimenuitem>Find Again</guimenuitem></term>
               <listitem><para>
                    Select this item to repeat the last search you performed.
               </para></listitem>
             </varlistentry>
 
             <varlistentry>
-               <term><guimenuitem>Replace:</guimenuitem></term>
+               <term><guimenuitem>Replace</guimenuitem></term>
                <listitem><para>
                  Find a word or phrase, and replace it with
                  something else.
@@ -986,7 +921,7 @@
             into four categories:
             <variablelist>
              <varlistentry>
-             <term>Headers and lists:</term>
+             <term>Headers and lists</term>
               <listitem>
                 <para>
                   At the left edge of the toolbar, you can choose
@@ -1013,7 +948,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Text style:</term>
+	    <term>Text style</term>
 	    <listitem>
 	      <para>
 		Use these buttons to determine the way your letters
@@ -1031,7 +966,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-              <term>Alignment:</term>
+              <term>Alignment</term>
 	    <listitem>
 	      <para>
 		Located next to the text style buttons, these three
@@ -1045,7 +980,7 @@
 	  </varlistentry>
 
             <varlistentry>
-              <term>Indentation rules:</term>
+              <term>Indentation rules</term>
               <listitem>
                 <para>
                   The button with the arrow pointing left will reduce
@@ -1056,7 +991,7 @@
           </varlistentry>
 
             <varlistentry>
-              <term>Color Selection:</term>
+              <term>Color Selection</term>
               <listitem>
                 <para>
                   At the far right is the color section tool.  The
@@ -1078,7 +1013,7 @@
            spruce up your email to make it more interesting:
 	<variablelist>
 	  <varlistentry>
-	    <term><guimenuitem>Link:</guimenuitem></term>
+	    <term><guimenuitem>Insert Link</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Lets you link some text to a website.  Use this tool to put hyperlinks in your HTML
@@ -1116,7 +1051,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guimenuitem>Image:</guimenuitem></term>
+	    <term><guimenuitem>Insert Image</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Lets you put an image alongside text.
@@ -1124,11 +1059,6 @@
 	      <para>
 		To insert an image into your email:
 		<orderedlist numeration="arabic">
-		  <listitem>
-		    <para>
-		      Open a new email by clicking <guibutton>New Message</guibutton>
-		    </para>
-		  </listitem>
 		  <listitem>
 		    <para>
 		      Make sure that you have the
@@ -1163,7 +1093,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guimenuitem>Rule:</guimenuitem></term>
+	    <term><guimenuitem>Insert Rule</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Inserts a horizontal line into the text to help divide two
@@ -1172,12 +1102,7 @@
 	      <para>
 		To insert a rule:
 		<orderedlist numeration="arabic">
-		  <listitem>
-		    <para>
-		      Open a new email by clicking <guibutton>New Message</guibutton>
-		    </para>
-		  </listitem>
-		  <listitem>
+       		  <listitem>
 		    <para>
 		      Make sure that you have the
 		      <menuchoice>
@@ -1223,20 +1148,15 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Table:</term>
+	    <term>Insert Table</term>
 	    <listitem>
 	      <para>
 		Inserts a table into the text to help divide two
 		sections.
 	      </para>
 	      <para>
-		To insert a rule:
+		To insert a table:
 		<orderedlist numeration="arabic">
-		  <listitem>
-		    <para>
-		      Open a new email by clicking <guibutton>New Message</guibutton>
-		    </para>
-		  </listitem>
 		  <listitem>
 		    <para>
 		      Make sure that you have the
@@ -1254,12 +1174,15 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Select the <guibutton>Template</guibutton> you wish to use.  Each template has a slightly different feel and layout.
+		      Select the table <guibutton>Template</guibutton>
+                    you wish to use.  Each has a slightly different feel and
+                    layout.
 		    </para>
 		  </listitem>
 		  <listitem>
 		    <para>
-		      If you so desire, you may change the other options such as: number of rows, columns, spacing of each cell, and more.
+                      If you so desire, you may change the number of
+                      rows, columns, spacing of each cell, and so forth.
 		    </para>
 		  </listitem>
 		  <listitem>
@@ -1269,91 +1192,19 @@
 		  </listitem>
 		</orderedlist>
 	      </para>
+
+                <para>
+                  Once the table is in place, you can right-click on
+                  it and get a list of ways to alter it, such as
+                  changing its background color, expanding it, or
+                  deleting a row or cell.
+                </para>
 	    </listitem>
 	  </varlistentry>
-	</variablelist>
-	To add a hyperlink to your HTML message:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Select the text you want to display as a link.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Right click on text and select
-	      <guimenuitem>Link</guimenuitem>
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Enter the address you wish to link to in the
-	      <guilabel>URL</guilabel> field.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Press <guibutton>OK</guibutton>.
-	    </para>
-	  </listitem>
-	</orderedlist>
-      </para>
-
-      <para>
-	To add an image to your HTML message:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	     Select
-	      <menuchoice>
-		<guimenu>Insert</guimenu>
-		<guimenuitem>Image</guimenuitem>
-	      </menuchoice>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guibutton>Browse</guibutton> to select the image
-	      you want to include in your email.
-	    </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
-	    Along the right side of the window, choose the alignment,
-	    border, and other attributes of the image. If you change
-	    the size attributes, the image will be shrunk or stretched
-	    to fit the size you have chosen.
-	    </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
-	     If you would like to make the image a clickable link,
-	     enter a URL in the <guilabel>Link</guilabel> tab of the
-	     window.
-	    </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
-	      When you are finished, press
-	      <guibutton>Insert</guibutton> to include the image in
-	      your message.
-	    </para>
-	  </listitem>
-	</orderedlist>
-      </para>
-      <para>
-        You can insert an image into the background of your message by
-        right-clicking on the message background and selecting
-        <guimenuitem>Page</guimenuitem>. From that dialog, you may
-        also select background color and set other general options
-        about the HTML message you are composing.
-     </para>
-      <sect3 id="html-templates">
-	<title>HTML Templates</title>
-	<para>
+          <varlistentry>
+            <term>Templates</term>
+            <listitem>
+              <para>
           <application>Evolution</application> not only allows you to
 	  decorate your email with HTML text and graphics, but
 	  provides you with prebuilt templates for you to use when
@@ -1363,11 +1214,6 @@
 	<para>
 	  To include a template into your HTML based email:
 	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
-		Create a new email by clicking <guibutton>New Message</guibutton>.
-	      </para>
-	    </listitem>
 	    <listitem>
 	      <para>
 		Make sure that the
@@ -1429,105 +1275,12 @@
 	      </para>
 	    </listitem>
 	  </orderedlist>
-	</para>
-      </sect3>
-      <sect3 id="composer-tables">
-	<title>Tables in Email</title>
-	<para>
-	  <application>Evolution</application> allows you to put
-	  tables in your HTML email to help organize your thoughts.
-	  These tables are a simplified version of what you might find
-	  in a spreadsheet program like
-	  <application>Gnumeric</application>.
-	</para>
-	<para>
-	  To include a table in your email:
-	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
-		Create a new email by clicking <guibutton>New Message</guibutton>.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Make sure you have the
-		<menuchoice>
-		  <guimenu>
-		    Format
-		  </guimenu>
-		  <guimenuitem>
-		    HTML
-		  </guimenuitem>
-		</menuchoice>
-		selector checked.
-	      </para>
-	    </listitem>
-
-	    <listitem>
-	      <para>
-	      Select
-		<menuchoice>
-		  <guimenu>
-		    Insert
-		  </guimenu>
-		  <guimenuitem>
-		    Table
-		  </guimenuitem>
-		</menuchoice>
-		or click the <guiicon>Table</guiicon> button in the
-		toolbar.
-	      </para>
-	    </listitem>
-
-	    <listitem>
-	      <para>
-		Select the template, or style, you want to use for the
-		table.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Set the number of rows and columns you want.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Click the <guibutton>Insert</guibutton> button.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Click in a cell and type to insert text into the table.
-	      </para>
-	    </listitem>
-	  </orderedlist>
-	</para>
-	<para>
-	  You can also edit a table after creation.  Just right-click
-	  on it and select <guimenuitem>Table</guimenuitem> to open
-	  the table editing window again. Or, you can select items
-	  from the <guimenu>Table Delete</guimenu> and <guimenu>Table
-	  Insert</guimenu> menus.
-	  </para>
-	
-	<para>
-	  <tip id="table-tip">
-	  <title>Deleting an Entire Table</title>
-	  <para>
-	    You can delete an entire table by right-clicking on
-            a table or other HTML object in a message, and selecting
-	  <menuchoice>
-	    <guimenu>Table Delete</guimenu>
-	    <guimenuitem>Table</guimenuitem> </menuchoice>.  In an
-	    HMTL message, your signature, templates, and image
-	    inclusions all have tables around them, and you can remove
-	    them completely and quickly with this shortcut.
-	  </para>
-         </tip>
         </para>
-
-      </sect3>
-    </sect2>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</para>
+</sect2>
     
     <sect2 id="usage-mail-getnsend-fwd">
         <title>Forwarding Mail</title>
@@ -1551,16 +1304,19 @@
         </para>
         <para>
           To forward a message you are reading, press
-          <guibutton>Forward</guibutton> on the toolbar, or select
-          <menuchoice> <guimenu>Message</guimenu>
-          <guimenuitem>Forward</guimenuitem> </menuchoice>.  If you
-          prefer to forward the message <glossterm linkend="inline">inline</glossterm>
+          <guibutton>Forward</guibutton> on the toolbar, select
+          <menuchoice> <guimenu>Actions</guimenu>
+          <guimenuitem>Forward</guimenuitem> </menuchoice>, or press
+          <keycombo
+action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
+          you prefer to forward the message <glossterm
+          linkend="inline">inline</glossterm>
           instead of attached, select <menuchoice>
-          <guimenu>Message</guimenu> <guimenuitem>Forward
+          <guimenu>Actions</guimenu> <guimenuitem>Forward
           Inline</guimenuitem> </menuchoice> from the menu.  Choose an
           addressee as you would when sending a new message; the
-          subject will already be entered, but you can alter it.
-          Enter your comments on the message in the
+          subject will already be entered, although you can alter it
+          if you wish.  Enter your comments on the message in the
           <interface>composition frame</interface>, and press
           <guibutton>Send</guibutton>.
         </para>
@@ -1630,115 +1386,6 @@
 	</itemizedlist>
       </para>
     </sect2>
-    <sect2 id="fancy-mail">
-      <title>Making Your Email More Fancy</title>
-      <para>
-	<application>Evolution</application> can do a lot with email
-	by utilizing the HTML features.  Making an email functional
-	and visually attractive can be challenging.  The following
-	section provides tips to make your mail functional, while
-	being more visually attractive than ever.
-      </para>
-      <sect3 id="sections-bolded-title">
-	<title>Sections Outlined in Bold</title>
-	<para>
-	  Indented sections are a great way to categorize and group
-	  your thoughts together.  Below is an example of indented
-	  text with headings to help separate your thoughts into the
-	  proper sections:
-	  <figure>
-	    <title>Indented Text with Headlines</title>
-	    <screenshot>
-	      <screeninfo></screeninfo>
-	      <graphic  format="PNG" fileref="figures/outline" srccredit="Kevin Breit"/>
-	    </screenshot>
-	  </figure>
-	</para>
-	<para>
-	  This message is not only more attractive, but more
-	  informative.  Each section is broken down into subsections.
-	  The title for each section is in bold text, with the
-	  following content indented.
-	</para>
-	<para>
-	You may want to increase the size of your section headlines
-	instead of merely putting them in bold.  Header size 4 is
-	often the best choice, since it is not too large.  You can
-	change your text to size 4 by selecting it and pressing
-	Ctrl+4.  You can set your text to the normal text size by
-	hitting Ctrl+0.
-	</para>
-      </sect3>
-      <sect3 id="bulleted-lists">
-	<title>Bulleted Lists</title>
-	<para>
-	  Select the <guimenuitem>Bulleted List</guimenuitem> option
-	  from the text style drop-down box to begin making a bulleted
-	  list. <application>Evolution</application> will handle the
-	  word wrap and indentation for you.  If you prefer to send
-	  the message in plain text, you can still write it up in
-	  HTML, and <application>Evolution</application> will convert
-	  to a well-formed plain-text bulleted list, using asterisks
-	  instead of HTML bullets.
-	</para>
-      </sect3>
-      <sect3 id="inline-images">
-	<title>Images In Your Email</title>
-	<para>
-	  Images can help people to understand your point.  You can
-	  even use a HTML Picture Frame Template in
-	  <application>Evolution</application>, which looks very
-	  attractive and sets your image off from the rest of your
-	  message with a border and caption.
-	</para>
-	<para>
-	  If you do choose to use images, try to keep them narrow.  If
-	  your images are wider than 400 pixels, the image may not fit
-	  in the whole email window, making it hard for your reader to
-	  read the email and view the image.  Consider using a smaller
-	  version ("thumbnail") of your image, and offering a link to
-	  the larger version your readers can view in a web browser if
-	  they want.
-	  <figure>
-	    <title>Images in an email</title>
-	    <screenshot>
-	      <screeninfo></screeninfo>
-	      <graphic  format="PNG" fileref="figures/small_desktop" srccredit="Kevin Breit"/>
-	    </screenshot>
-	  </figure>
-	</para>
-      </sect3>
-      <sect3 id="color-suggestions">
-	<title>Coloring Your Text</title>
-	<para>
-	  Colors can help bring words or sentences out for emphasis.  You
-	  should choose your colors carefully though, as the wrong color
-	  can be distracting.  Some good colors to use would be:
-	  <itemizedlist>
-	    <listitem>
-	      <para>
-		Light brown
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Dull purple
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Dark red
-	      </para>
-	    </listitem>
-	  </itemizedlist>
-	  <!-- Include a screenshot -->
-	  Notice how these colors are similar saturation <!-- Confirm I am using the right word -->
-	</para>
-	<para>
-	  Happy mailing!
-	</para>
-      </sect3>
-    </sect2>
   </sect1>
   <sect1 id="rsvp-stuff">
     <title>RSVPs in Mail</title>
@@ -1760,7 +1407,7 @@
   Your options are:
       <variablelist>
 	<varlistentry>
-	  <term>Accept:</term>
+	  <term>Accept</term>
 	  <listitem>
 	    <para>
 	  Select this entry if you will attend the meeting.  When you
@@ -1771,7 +1418,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>Tentatively Accept:</term>
+	  <term>Tentatively Accept</term>
 	  <listitem>
 	    <para>
 	  Select this entry if you will probably attend the meeting.
@@ -1783,7 +1430,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>Decline:</term>
+	  <term>Decline</term>
 	  <listitem>
 	    <para>
 	  Select this item if you will be unable to attend the
@@ -1796,7 +1443,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>RSVP:</term>
+	  <term>RSVP</term>
 	  <listitem>
 	    <para>
 	     Check this box if you would like your response sent to
@@ -1940,7 +1587,12 @@
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
-		Open your account preferences.
+                Select
+                <menuchoice>
+                  <guimenu>Tools</guimenu>
+                  <guimenuitem>Settings</guimenuitem>
+                </menuchoice>, go to the Mail Account settings, and
+                select the account with which you want to use encryption.
 	      </para>
 	    </listitem>
 	    <listitem>
@@ -1971,7 +1623,7 @@
 	<para>
 	  This manual covers version 1.0.6 of GPG.  If your version is
 	  different, this may not be entirely accurate.  You may find
-	  out your version number by typing in: <command>gpg
+	  out your version number by typing in the command: <command>gpg
 	  --version</command>.
 	</para>
       </tip>

@@ -141,6 +141,12 @@
 	  </listitem>
 	  <listitem>
 	    <para>
+	      Reply-To: If you want to have replies sent to another
+	      email address, enter it here (optional).
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
 	      Organization: The company where you work, or the
 	      organization you represent when you send email
 	      (optional).
@@ -192,7 +198,7 @@
 
 		<listitem>
 		  <para>
-		    Standard Unix mbox spools: If you want
+		    Standard Unix mbox spool or directory: If you want
 		    to read and store mail in the mail spool on your
 		    local system, choose this option. You'll need to
 		    provide the path to the mail spool
@@ -231,6 +237,7 @@
 		  </para>
 		</listitem>
 
+<!-- not using this anymore
 		<listitem>
 		  <para>
 		    Directory Tree of mbox files: If you wish to use a
@@ -241,8 +248,8 @@
 		    Evolution, while storing mail on your local system
 		    in mbox format.
 		  </para>
-		</listitem>
-
+                </listitem>
+-->
 		<listitem>
 		  <para>
 		    None: Select this if you do not plan to
@@ -541,6 +548,31 @@
 	</itemizedlist>
       </para>
     </sect2>
+
+    <sect2 id="step-three-b">
+      <title>Account Management</title>
+      <para>
+        This is a very short section. You can pick two things: the
+        name for the account, and whether it is the default account.
+      </para>
+      <para>
+        The name you choose for the account is used for display within
+        Evolution, and is not sent with any emails.  The suggested
+        name is your email address, but you can use other words or
+        phrases, like "Work," "Personal" or "First Account" if you
+        like.
+      </para>
+      <para>
+        If you check the box next to the label <guilabel>Make this my
+      default account</guilabel>, Evolution will assume that you will
+      send messages from this most often, and will set the
+      "From" selector to this account whenever you open a new message. Only one account can be the default.
+    </para>
+    <para>
+      If you have not done so already, you may also be asked to choose
+      a time zone.
+    </para>
+  </sect2>
 
   <sect2 id="fourth-step">
       <title>Importing Mail (Optional)</title>
@@ -1000,6 +1032,14 @@ the workaround described in the note below.
 	 </listitem>
 
 	<listitem>
+	   <para>
+	    <guilabel>Tasks</guilabel>, for your task list. Portions
+            of your task list are reflected in the calendar, as well
+            as in the summary folder.
+	   </para>
+	 </listitem>
+
+	<listitem>
 	    <para>
 	    <guilabel>Trash</guilabel>, a vFolder view of all the
 	    messages you have marked for deletion but not yet
@@ -1031,7 +1071,8 @@ the workaround described in the note below.
 	      <menuchoice> <guimenu>File</guimenu>
 		<guisubmenu>New</guisubmenu>
 		<guimenuitem>Folder</guimenuitem></menuchoice>
-	      <keycombo action="simul">
+	or press the keyboard shortcut 
+                <keycombo action="simul">
 		<keycap>Shift</keycap>
 		<keycap>Ctrl</keycap>
 		<keycap>E</keycap>
@@ -1185,6 +1226,19 @@ the workaround described in the note below.
           <interface>Calendar</interface> and the <interface>Contact
           Manager</interface>, it's color, network, and layout
           configuration.
+          </para></listitem>
+        </varlistentry>
+
+
+
+       <varlistentry>
+          <term> <guimenu>Search</guimenu>:</term>
+          <listitem><para>
+             Select menu items here to search for messages, or for
+          phrases within a message. You can also see previous searches
+          you have made.  In addition to the <guimenu>Search</guimenu>
+          menu, there is a text entry box in the toolbar that you can
+          use to search for messages.
           </para></listitem>
         </varlistentry>
 

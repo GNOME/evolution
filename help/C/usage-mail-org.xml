@@ -1,4 +1,4 @@
-x<chapter id="usage-mail-organize">
+<chapter id="usage-mail-organize">
     <title>Organizing and Managing your Email</title>
     <para>
       Even if you only get a few email messages a day, you probably
@@ -17,7 +17,7 @@ x<chapter id="usage-mail-organize">
       old information.
     </para>
     <sect2 id="importing-mail">
-      <title>Importing Email</title>
+      <title>Importing Email and Other Data</title>
       <para>
         <application>Ximian Evolution</application> can import the
         following types of files:
@@ -53,6 +53,15 @@ x<chapter id="usage-mail-organize">
                 Email file format used by Microsoft Outlook Express
                 4. For other versions of Microsoft Outlook and Outlook Express, see
                 the workaround described in the note below.
+              </para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>LDAP Data Interchange Format (LDIF):</term>
+            <listitem>
+              <para>
+                A standard data format for address book cards.
               </para>
             </listitem>
           </varlistentry>
@@ -247,15 +256,6 @@ x<chapter id="usage-mail-organize">
 	      </para></listitem>
 	  </varlistentry>
 	  
-	  <varlistentry>
-	    <term><guimenuitem>Group By this Field</guimenuitem>:</term>
-	    <listitem><para>
-	      Groups messages instead of sorting them. This makes each contact
-	      with identical properties in the specified field to be placed in
-	      its own group and physically separated from others. 
-	    </para></listitem>
-	  </varlistentry>
-	  
 	<varlistentry>
 	  <term><guimenuitem>Remove this
 	      Column</guimenuitem>:</term> 
@@ -269,14 +269,12 @@ x<chapter id="usage-mail-organize">
 	</varlistentry>
 	  
 	  <varlistentry>
-	    <term><guimenuitem>Field
-		Chooser</guimenuitem>:</term> <listitem><para> 
-	      When you choose this item, a list
-	      of column headers will appear; just drag and drop them into
-	      place between two existing headers. A red arrow will
-	      appear to show you where you're about to put the
-	      column.  
-          </para></listitem>
+	    <term><guimenuitem>Customize Current
+	      View</guimenuitem>:</term> <listitem><para> Choose this
+	      item to pick a more complex sort order for messages, or
+	      to choose which columns of information about your
+	      messages you wish to display
+            </para></listitem>
 	</varlistentry>
 	</variablelist>
       </para>
@@ -395,17 +393,19 @@ x<chapter id="usage-mail-organize">
     
     <para>
       If you think you'll want to return to a search again, you can
-      save it as a virtual folder by selecting <guilabel>Store
-	Search as vFolder</guilabel>.
+      save it and execute it later. Just click <guilabel> Save
+      Search</guilabel> from the <guimenu>Search</guimenu> menu. Then,
+      you can run that search on any folder by selecting it from the
+      <guimenu>Search</guimenu> menu. You may also want to create a
+      vFolder instead; see <xref
+      linkend="usage-mail-organize-vfolders" /> for more detail.
     </para>
 
       <para>
          When you're done with the search, go back to seeing all your
          messages by choosing <guimenuitem>Show All</guimenuitem> from
-         the <guilabel>Search</guilabel> drop-down box. If you're
-         sneaky, just enter a blank search: since every message has at
-         least one space in it, you'll see every message in the
-         folder.
+         the <guilabel>Search</guilabel> drop-down box, or enter a
+         blank search.
       </para>
 
       <para>
@@ -609,11 +609,18 @@ x<chapter id="usage-mail-organize">
 		
 		<listitem>
 		  <para>
-		    Regex Match - If you know your way around a
+		    Expression - If you know your way around a
 		    <glossterm
 		    linkend="regular-expression">regex</glossterm>, or
 		    regular expression, put your knowledge to use
-		    here.
+		    here. This allows you to search for complex
+		    patterns of letters, so that you can find, for
+		    example, all words that start with a and ends with
+		    m, and are between six and fifteen letters long,
+		    or all messages that declare a particular header
+		    twice. For information about how to use regular
+		    expressions, check the manual page for the
+		    <command>grep</command> command.
 		  </para>
 		</listitem>
 		
@@ -1048,7 +1055,7 @@ x<chapter id="usage-mail-organize">
 	    <para>
 	    <menuchoice>
 	      <guimenu>Tools</guimenu>
-	      <guimenuitem>vFolder Editor</guimenuitem>
+	      <guimenuitem>Virtual Folder Editor</guimenuitem>
 	    </menuchoice>
 	    </para>
 	  </listitem>
@@ -1120,6 +1127,13 @@ x<chapter id="usage-mail-organize">
 		  </para></listitem>
 		
 		<listitem><para>
+		    Label - This works the same way as the <guilabel>Score</guilabel> 
+		    option, although it allows you to select from various labels applied to the message,
+                such as <guilabel>Important, Personal, To Do,
+                Work</guilabel> or <guilabel>Later</guilabel>.
+		  </para></listitem>
+		
+		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
 		    important) to 3 (most important). You can have vFolders set the
 		    priority of messages you receive, and then have other
@@ -1181,7 +1195,7 @@ x<chapter id="usage-mail-organize">
 		</listitem>
 		<listitem>
 		  <para>
-		    All local folders
+		    With all local folders
 		  </para>
 		</listitem>
 		<listitem>
