@@ -1040,6 +1040,8 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	gtk_layout_get_vadjustment (GTK_LAYOUT (e_tree->priv->table_canvas))->step_increment = 20;
 	gtk_adjustment_changed(gtk_layout_get_vadjustment (GTK_LAYOUT (e_tree->priv->table_canvas)));
+	gtk_layout_get_hadjustment (GTK_LAYOUT (e_tree->priv->table_canvas))->step_increment = 20;
+	gtk_adjustment_changed(gtk_layout_get_hadjustment (GTK_LAYOUT (e_tree->priv->table_canvas)));
 
 	if (!specification->no_headers) {
 		/*
@@ -1345,6 +1347,10 @@ set_scroll_adjustments   (ETree *tree,
 	if (vadjustment != NULL) {
 		vadjustment->step_increment = 20;
 		gtk_adjustment_changed(vadjustment);
+	}
+	if (hadjustment != NULL) {
+		hadjustment->step_increment = 20;
+		gtk_adjustment_changed(hadjustment);
 	}
 
 	gtk_layout_set_hadjustment (GTK_LAYOUT(tree->priv->table_canvas),
