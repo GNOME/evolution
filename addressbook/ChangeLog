@@ -1,3 +1,9 @@
+2001-10-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c (addressbook_height),
+	gui/widgets/e-minicard.c (remodel): Fixed these to determine the
+	fields to use properly.
+
 2001-10-02  Jon Trowbridge  <trow@gnu.org>
 
 	* gui/component/select-names/e-select-names-completion.c
