@@ -708,7 +708,38 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	editor->source_passwd = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourcePasswd"));
 	gtk_entry_set_text (editor->source_passwd, url && url->passwd ? url->passwd : "");
 	editor->source_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtSourcePath"));
-	gtk_entry_set_text (editor->source_path, url && url->path ? url->path : "");
+	if (url && url->path && *(url->path)) {
+		GList *providers;
+		CamelProvider *provider = NULL;
+		
+		providers = camel_session_list_providers (session, TRUE);
+		while (providers) {
+			provider = providers->data;
+			
+			if (strcmp (provider->domain, "mail")) {
+				provider = NULL;
+				providers = providers->next;
+				continue;
+			}
+			
+			if (provider->object_types[CAMEL_PROVIDER_STORE] && provider->flags & CAMEL_PROVIDER_IS_SOURCE)
+				if (!url || !g_strcasecmp (provider->protocol, url->protocol))
+					break;
+			
+			provider = NULL;
+			providers = providers->next;
+		}
+		
+		if (provider) {
+			if (provider->url_flags & CAMEL_URL_PATH_IS_ABSOLUTE)
+				gtk_entry_set_text (editor->source_path, url->path);
+			else
+				gtk_entry_set_text (editor->source_path, url->path + 1);
+		} else {
+			/* we've got a serious problem if we ever get to here */
+			g_assert_not_reached ();
+		}
+	}
 	editor->save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSavePasswd"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));

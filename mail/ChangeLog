@@ -1,3 +1,9 @@
+2001-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (construct): Strip the leading "/" from
+	the Namespace/Path entry if the provider doesn't require absolute
+	pathnames.
+
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* Makefile.am: xml-i18n-tools setup.
