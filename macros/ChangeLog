@@ -1,3 +1,10 @@
+Sun Apr 23 12:15:14 2000  George Lebl <jirka@5z.com>
+
+	* gnome.m4: add an extra lib of docklets.  These checks are
+	  braindamaged though, they don't fail and thus gnome-core for
+	  example compiles without gnomecc.  There need to be separate .m4
+	  files or checks
+
 2000-04-19  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* gnome-pilot.m4 (PILOT_LIBS): Changed the error string for gnome-pilot
