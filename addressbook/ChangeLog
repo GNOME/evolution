@@ -1,5 +1,10 @@
 2002-04-24  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/ldap-config.c: Updated this for the new
+	e_table_memory_store_insert function prototype.
+
+2002-04-24  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names.c,
 	gui/component/select-names/e-select-names.h,
 	gui/component/select-names/select-names.glade (folder_browse):

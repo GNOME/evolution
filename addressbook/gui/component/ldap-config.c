@@ -336,15 +336,11 @@ addressbook_add_server_druid_finish (GnomeDruidPage *druid_page, GtkWidget *gnom
 {
 	AddressbookSource *source = addressbook_dialog_get_source (sdialog);
 	AddressbookDialog *dialog = sdialog->addressbook_dialog;
-	void *source_data[2];
 
 	printf ("in finish (%s,%s)\n", source->name, source->host);
 
-	source_data[0] = source->name;
-	source_data[1] = source->host;
-
 	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
-				     -1, source_data, source);
+				     -1, source, source->name, source->host);
 
 	evolution_config_control_changed (dialog->config_control);
 
@@ -639,7 +635,7 @@ do_ldap_root_dse_query (ETableModel *model, AddressbookSource *source, char ***r
 
 	for (i = 0; values[i]; i++)
 		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (model),
-					     -1, (void**)&values[i], GINT_TO_POINTER(i));
+					     -1, GINT_TO_POINTER(i), values[i]);
 
 	*rvalues = values;
 
@@ -867,7 +863,7 @@ objectclasses_add_foreach (int model_row, AddressbookSourceDialog *dialog)
 	e_table_memory_store_remove (E_TABLE_MEMORY_STORE (dialog->objectclasses_server_model), model_row);
 	/* XXX remove from the server array */
 	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->objectclasses_evolution_model),
-				     -1, (void**)&oc->oc_names[0], oc);
+				     -1, oc, oc->oc_names[0]);
 	/* XXX add to the evolution array */
 }
 
@@ -894,7 +890,7 @@ objectclasses_remove_foreach (int model_row, AddressbookSourceDialog *dialog)
 	e_table_memory_store_remove (E_TABLE_MEMORY_STORE (dialog->objectclasses_evolution_model), model_row);
 	/* XXX remove from the evolution array */
 	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->objectclasses_server_model),
-				     -1, (void**)&oc->oc_names[0], oc);
+				     -1, oc, oc->oc_names[0]);
 	/* XXX add to the server array */
 }
 
@@ -934,7 +930,7 @@ objectclasses_restore_default (GtkWidget *item, AddressbookSourceDialog *dialog)
 		LDAPObjectClass *oc = g_ptr_array_index (dialog->default_objectclasses, i);
 		g_ptr_array_add (dialog->evolution_objectclasses, oc);
 		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->objectclasses_evolution_model),
-					     i, (void**)&oc->oc_names[0], oc);
+					     i, oc, oc->oc_names[0]);
 	}
 }
 
@@ -1216,7 +1212,7 @@ edit_dialog_switch_page (GtkNotebook *notebook,
 			for (i = 0; i < sdialog->server_objectclasses->len; i ++) {
 				LDAPObjectClass *oc = g_ptr_array_index (sdialog->server_objectclasses, i);
 				e_table_memory_store_insert (E_TABLE_MEMORY_STORE (sdialog->objectclasses_server_model),
-							     -1, (void**)&oc->oc_names[0], oc);
+							     -1, oc, oc->oc_names[0]);
 			}
 			gtk_widget_set_sensitive (page->child, TRUE);
 		}
@@ -1235,7 +1231,6 @@ edit_dialog_store_change (AddressbookSourceDialog *sdialog)
 	AddressbookSource *source = addressbook_dialog_get_source (sdialog);
 	AddressbookDialog *dialog = sdialog->addressbook_dialog;
 	AddressbookSource *old_source;
-	void *source_data[2];
 
 	/* check the display name for uniqueness */
 	if (FALSE /* XXX */) {
@@ -1248,11 +1243,8 @@ edit_dialog_store_change (AddressbookSourceDialog *sdialog)
 	e_table_memory_store_remove (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
 				     sdialog->source_model_row);
 
-	source_data[0] = source->name;
-	source_data[1] = source->host;
-
 	e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
-				     sdialog->source_model_row, source_data, source);
+				     sdialog->source_model_row, source, source->name, source->host);
 
 	/* and let the config control know about the change */
 	evolution_config_control_changed (dialog->config_control);
@@ -1541,15 +1533,11 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 	l = addressbook_storage_get_sources ();
 	for (; l != NULL; l = l->next) {
 		AddressbookSource *source;
-		void *source_data[2];
 
 		source = addressbook_source_copy ((AddressbookSource*)l->data);
 
-		source_data[0] = source->name;
-		source_data[1] = source->host;
-
 		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (dialog->sourcesModel),
-					     -1, source_data, source);
+					     -1, source, source->name, source->host);
 	}
 
 	esm = e_table_get_selection_model (e_table_scrolled_get_table (E_TABLE_SCROLLED(dialog->sourcesTable)));
