@@ -1,3 +1,8 @@
+1999-09-01  Havoc Pennington  <hp@pobox.com>
+
+	* gnome-xml-check.m4: If you're going to AC_PATH_PROG then use the
+	prog you find :-)	
+
 1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
 
 	* removed gnome-conduit-check.m4 - it should be distributed with
