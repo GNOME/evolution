@@ -201,7 +201,7 @@ generate_html (gpointer data)
 			CalComponentText text;
 			CalClientGetStatus status;
 			CalComponentDateTime start, end;
-			time_t start_t;
+			time_t start_t, dt;
 			struct tm *start_tm;
 
 			uid = l->data;
@@ -218,14 +218,18 @@ generate_html (gpointer data)
 
 			start_str = g_new (char, 20);
 			start_tm = localtime (&start_t);
-			strftime (start_str, 19, _("%I:%M%p"), start_tm);
+			dt = start_t - t;
+			/* 86400 == 1 day
+			   604800 == 1 week
+			   Otherwise: Month */
+			if (dt < 86400) {
+				strftime (start_str, 19, _("%l:%M%p"), start_tm);
+			} else if (dt < 604800) {
+				strftime (start_str, 19, _("%a %l:%M%p"), start_tm);
+			} else {
+				strftime (start_str, 19, _("%d %B"), start_tm);
+			}
 
-#if 0
-			end_str = g_new (char, 20);
-			end_t = icaltime_as_timet (*end.value);
-			end_tm = localtime (&end_t);
-			strftime (end_str, 19, _("%I:%M%p"), end_tm);
-#endif
 			tmp = g_strdup_printf ("<img align=\"middle\" src=\"es-appointments.png\" "
 					       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 					       "<font size=\"-1\"><a href=\"#\">%s, %s</a></font><br>", 
