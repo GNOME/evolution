@@ -46,7 +46,7 @@
   <dockitem name="Toolbar" 
             relief="none" 
             behavior="exclusive"
-	    _tip="Main toolbar" 
+	    _tip="Main toolbar">
     <placeholder name="MailMessageToolbar"/>
     <separator f="" name="emailmessage"/>
     <placeholder name="MailNextButtons"/>
