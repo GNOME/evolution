@@ -536,9 +536,6 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
 				      default_read_only ? "0" : "1",
 				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
-				      n_selected == 0 || selected_read_only ? "0" : "1",
-				      NULL);
 
 	/* occurrence-related menu items */
 	has_recurrences = FALSE;
@@ -550,6 +547,9 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 		}
 	}
 
+	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
+				      n_selected == 0 || selected_read_only || has_recurrences ? "0" : "1",
+				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/DeleteOccurrence", "sensitive",
 				      has_recurrences ? "1" : "0",
 				      NULL);

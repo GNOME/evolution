@@ -1,5 +1,13 @@
 2004-03-15  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #48112
+
+	* gui/calendar-commands.c (calendar_control_sensitize_calendar_commands):
+	disable the 'Delete' menu item on recurring meetings, since 'Delete all
+	Occurrences' already deals with that.
+
+2004-03-15  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #35577
 
 	* gui/e-cal-view.c (e_calendar_view_delete_selected_occurrence):
