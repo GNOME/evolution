@@ -1,3 +1,7 @@
+2001-12-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: s/PREVIEW_RELEASE/VERSION_COMMENT
+
 2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Add a AC_DEFINE for PREVIEW_RELEASE which is a
