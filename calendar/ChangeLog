@@ -1,3 +1,17 @@
+2002-08-08  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (users_has_attendee): check for an attendee in
+	the list
+	(comp_to_list): only add the user if they aren't on the list
+	(comp_server_send): don't remove the users, pass back the list
+	(itip_send_comp): send to server before doing comp_minimal
+
+	* gui/dialogs/comp-editor.c (real_send_comp): edit and save the
+	updated comp
+
+	* pcs/cal.c (impl_Cal_send_object): copy the correct item to pass
+	back
+
 2002-08-08  Dan Winship  <danw@ximian.com>
 
 	* pcs/query-backend.c (query_backend_new): Initialize

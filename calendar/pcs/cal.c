@@ -460,7 +460,7 @@ impl_Cal_send_object (PortableServer_Servant servant,
 	result = cal_backend_send_object (priv->backend, calobj, &new_calobj, user_list);
 	switch (result) {
 	case CAL_BACKEND_SEND_SUCCESS:
-		calobj_copy = CORBA_string_dup (calobj);
+		calobj_copy = CORBA_string_dup (new_calobj);
 		g_free (new_calobj);
 
 		return calobj_copy;

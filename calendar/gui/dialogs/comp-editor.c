@@ -954,13 +954,20 @@ static void
 real_send_comp (CompEditor *editor, CalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
-
+	CalComponent *tmp_comp;
+	
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	priv = editor->priv;
 
 	itip_send_comp (method, priv->comp, priv->client, NULL);
+
+	tmp_comp = priv->comp;
+	gtk_object_ref (GTK_OBJECT (tmp_comp));
+	comp_editor_edit_comp (editor, tmp_comp);
+	gtk_object_unref (GTK_OBJECT (tmp_comp));
+	save_comp (editor);
 }
 
 

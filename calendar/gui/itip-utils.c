@@ -351,39 +351,27 @@ comp_toplevel_with_zones (CalComponentItipMethod method, CalComponent *comp, Cal
 	return top_level;
 }
 
-static icalproperty *
-comp_has_attendee (icalcomponent *ical_comp, const char *address)
+static gboolean
+users_has_attendee (GList *users, const char *address)
 {
-	icalproperty *prop;
+	GList *l;
 
-	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-	     prop != NULL;
-	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
-	{
-		icalvalue *value;
-		const char *attendee;
-
-		value = icalproperty_get_value (prop);
-		if (!value)
-			continue;
-
-		attendee = icalvalue_get_string (value);
-
-		if (!g_strcasecmp (address, attendee))
-			break;
+	for (l = users; l != NULL; l = l->next) {
+		if (!g_strcasecmp (address, l->data))
+			return TRUE;
 	}
-	
-	return prop;
+
+	return FALSE;
 }
 
 static GNOME_Evolution_Composer_RecipientList *
-comp_to_list (CalComponentItipMethod method, CalComponent *comp)
+comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 {
 	GNOME_Evolution_Composer_RecipientList *to_list;
 	GNOME_Evolution_Composer_Recipient *recipient;
 	CalComponentOrganizer organizer;
 	GSList *attendees, *l;
-	gint cntr, len;
+	gint len;
 
 	switch (method) {
 	case CAL_COMPONENT_METHOD_REQUEST:
@@ -399,18 +387,23 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 		
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		to_list->_maximum = len;
-		to_list->_length = len;
+		to_list->_length = 0;
 		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
 		
-		for (cntr = 0, l = attendees; cntr < len; cntr++, l = l->next) {
+		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *att = l->data;
-			
-			recipient = &(to_list->_buffer[cntr]);
+
+			if (users_has_attendee (users, att->value))
+				continue;
+
+			recipient = &(to_list->_buffer[to_list->_length]);
 			if (att->cn)
 				recipient->name = CORBA_string_dup (att->cn);
 			else
 				recipient->name = CORBA_string_dup ("");
 			recipient->address = CORBA_string_dup (itip_strip_mailto (att->value));
+			
+			to_list->_length++;
 		}
 		cal_component_free_attendee_list (attendees);
 		break;
@@ -555,46 +548,28 @@ comp_content_type (CalComponent *comp, CalComponentItipMethod method)
 
 }
 
-static icalcomponent *
+static GList *
 comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
 {
 	CalClientResult result;
 	icalcomponent *top_level, *new_top_level = NULL;
-	GList *users;
+	GList *users = NULL;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	result = cal_client_send_object (client, top_level, &new_top_level, &users);
 
 	if (result == CAL_CLIENT_SEND_SUCCESS) {
-		icalcomponent *ical_comp, *clone;
-		icalproperty *prop;
-		GList *l;
+		icalcomponent *ical_comp;
 		
 		ical_comp = icalcomponent_get_inner (new_top_level);
-		clone = icalcomponent_new_clone (ical_comp);
-		
-		for (l = users; l != NULL; l = l->next) {
-			prop = comp_has_attendee (ical_comp, l->data);
-			if (prop != NULL)
-				icalcomponent_remove_property (ical_comp, prop);
-		}
-
-		cal_component_set_icalcomponent (comp, clone);
-
-		if (icalcomponent_count_properties (ical_comp, ICAL_ATTENDEE_PROPERTY) == 0) {
-			icalcomponent_free (new_top_level);
-			icalcomponent_free (top_level);
-			return NULL;
-		}
+		icalcomponent_remove_component (new_top_level, ical_comp);
+		cal_component_set_icalcomponent (comp, ical_comp);
+		icalcomponent_free (new_top_level);
 	}
-
-	/* Just return what was sent if something broke */
-	if (new_top_level == NULL)
-		return top_level;
 
 	icalcomponent_free (top_level);
 
-	return new_top_level;
+	return users;
 }
 
 static gboolean
@@ -839,6 +814,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	GNOME_Evolution_Composer composer_server;
 	CalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
+	GList *users;
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
@@ -854,18 +830,17 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
 	g_return_if_fail (bonobo_server != NULL);
 	composer_server = BONOBO_OBJREF (bonobo_server);
+	
+	/* Give the server a chance to manipulate the comp */
+	users = comp_server_send (method, send_comp, client, zones);
 
+	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp);
 	if (comp == NULL)
 		goto cleanup;
-	
-	/* Give the server a chance to manipulate the comp */
-	top_level = comp_server_send (method, comp, client, zones);
-	if (top_level == NULL)
-		goto cleanup;
-	
+
 	/* Recipients */
-	to_list = comp_to_list (method, comp);
+	to_list = comp_to_list (method, comp, users);
 	if (to_list == NULL)
 		goto cleanup;
 	
@@ -887,6 +862,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	/* Content type */
 	content_type = comp_content_type (comp, method);
 
+	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string (top_level);
 	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
 	attach_data->_length = strlen (ical_string) + 1;
