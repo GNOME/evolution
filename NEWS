@@ -1,9 +1,12 @@
-Version 0.5, "insert-code-name-here", insert-date-here
-------------------------------------------------------
+Version 0.5, "Salamander", 2000-09-12
+-------------------------------------
 
 Shell:
 
   - Switched to using ETree (Chris Toshok, Ettore)
+
+  - Added interfaces to change the string displayed in the tree view
+    as the name of the folder.  (Ettore)
 
 Calendar:
 
@@ -26,7 +29,9 @@ Mailer:
 
   - Filters (but not vfolders) are now more powerful: they can check
     any message header, and can do regexp searches on the headers and
-    body. (Jeff) A first draft of an automated mailing list recognizer
+    body. (Jeff)
+
+  - A first draft of an automated mailing list recognizer
     has been added. (It will need more/better rules.) (Ettore)
 
   - Attachments are handled differently now. All attachments always
@@ -38,7 +43,7 @@ Mailer:
 
   - Lots of i18n/charset fixing. (Lauris)
 
-  - Shiny new icons (Tuomas)
+  - Shiny new icons. (Tuomas)
 
   - Giant menu reorganization. Most message operations are now in the
     "Message" menu, and folder operations in the "Folder" menu.
@@ -56,7 +61,7 @@ Mailer:
     directly. (Peter)
 
   - Reply To All will now remove your own addresses from the recipient
-    lists (Jesse Pavel)
+    lists. (Jesse Pavel)
 
   - Folders are synced when you switch to another folder now. (Dan)
 
