@@ -1,9 +1,16 @@
 <Root>
+
+  <keybindings>
+
+	<accel name="D" verb="MessageDelete"/>
+
+  </keybindings>
+
   <menu>
+
     <submenu name="File" _label="_File">
 
-      <placeholder name="Print">
-
+	<placeholder name="Print">
 
         <menuitem name="Print" verb="PrintMessage"
         _label="Print message..."
