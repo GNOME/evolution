@@ -1,3 +1,8 @@
+2002-09-24  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_query_changed): Always do a
+	search if the query changed.  For #31060 & #29625.
+
 2002-09-23  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.c (mail_config_signature_run_script): pass name of
