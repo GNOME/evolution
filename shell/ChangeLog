@@ -1,3 +1,15 @@
+2003-02-25  Dan Winship  <danw@ximian.com>
+
+	* e-shell-startup-wizard.c (connect_page, make_importer_page): Use
+	g_signal_connect_after to connect to the "prepare" signal to work
+	around a GnomeDruidPageStandard bug (b.g.o 81869)
+	(e_shell_startup_wizard_create): Remove the "return TRUE" that was
+	added here a while back to disable the startup wizard.
+
+	* glade/evolution-startup-wizard.glade: Change "Next" and "Finish"
+	in the text to "Forward" and "Apply" to match the gnome 2 druid
+	buttons.
+
 2003-02-24  Rodney Dawes  <dobey@ximian.com>
 
 	* e-shell-view.c: Doh, forgot to remove the e-gray-bar.h include

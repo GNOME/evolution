@@ -385,12 +385,19 @@ connect_page (GtkWidget *page,
 {
 	g_signal_connect (page, "next",
 			  G_CALLBACK (next_func), data);
-	g_signal_connect (page, "prepare",
-			  G_CALLBACK (prepare_func), data);
 	g_signal_connect (page, "back",
 			  G_CALLBACK (back_func), data);
 	g_signal_connect (page, "finish",
 			  G_CALLBACK (finish_func), data);
+
+	/* At least in 2.0 (and probably 2.2 too),
+	 * GnomeDruidPageStandard is broken and you need to
+	 * connect_after to "prepare" or else its default method will
+	 * run after your signal handler and undo its button
+	 * sensitivity changes.
+	 */
+	g_signal_connect_after (page, "prepare",
+				G_CALLBACK (prepare_func), data);
 }
 
 static MailDialogPage *
@@ -807,8 +814,8 @@ make_importer_page (SWData *data)
 	page->page = glade_xml_get_widget (data->wizard, "import-page");
 	g_return_val_if_fail (page->page != NULL, NULL);
 
-	g_signal_connect (page->page, "prepare",
-			  G_CALLBACK (prepare_importer_page), data);
+	g_signal_connect_after (page->page, "prepare",
+				G_CALLBACK (prepare_importer_page), data);
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
 	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 4);
 
@@ -846,8 +853,6 @@ e_shell_startup_wizard_create (void)
 	GConfClient *client;
 	SWData *data;
 	GSList *accounts;
-
-	return TRUE;
 
 	client = gconf_client_get_default ();
 	accounts = gconf_client_get_list (client, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, NULL);
