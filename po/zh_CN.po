@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-13 03:17+0200\n"
-"PO-Revision-Date: 2004-06-14 11:42+0800\n"
+"POT-Creation-Date: 2004-06-15 03:11+0200\n"
+"PO-Revision-Date: 2004-06-15 13:56+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -733,8 +733,7 @@ msgstr "<b>工作</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:178
-#: addressbook/gui/widgets/eab-contact-display.c:334
-#: addressbook/gui/widgets/eab-contact-display.c:353
+#: addressbook/gui/widgets/eab-contact-display.c:331
 msgid "AIM"
 msgstr "AIM"
 
@@ -905,8 +904,8 @@ msgid ""
 msgstr "您确定要删除此联系人吗？"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#: addressbook/gui/widgets/eab-contact-display.c:343
-#: addressbook/gui/widgets/eab-contact-display.c:364
+#: addressbook/gui/widgets/eab-contact-display.c:350
+#: addressbook/gui/widgets/eab-contact-display.c:365
 msgid "Address"
 msgstr "地址"
 
@@ -1894,31 +1893,28 @@ msgstr "津巴布韦"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:179
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: addressbook/gui/widgets/eab-contact-display.c:337
-#: addressbook/gui/widgets/eab-contact-display.c:356
+#: addressbook/gui/widgets/eab-contact-display.c:334
 msgid "Jabber"
 msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:180
-#: addressbook/gui/widgets/eab-contact-display.c:339
-#: addressbook/gui/widgets/eab-contact-display.c:358
+#: addressbook/gui/widgets/eab-contact-display.c:336
 msgid "Yahoo"
 msgstr "雅虎"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:181
-#: addressbook/gui/widgets/eab-contact-display.c:338
-#: addressbook/gui/widgets/eab-contact-display.c:357
+#: addressbook/gui/widgets/eab-contact-display.c:335
 msgid "MSN"
 msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: addressbook/gui/widgets/eab-contact-display.c:336
-#: addressbook/gui/widgets/eab-contact-display.c:355
+#: addressbook/gui/widgets/eab-contact-display.c:333
 msgid "ICQ"
 msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:183
+#: addressbook/gui/widgets/eab-contact-display.c:332
 msgid "GroupWise"
 msgstr "GroupWise"
 
@@ -2271,80 +2267,75 @@ msgid "map"
 msgstr "地图"
 
 #: addressbook/gui/widgets/eab-contact-display.c:259
-#: addressbook/gui/widgets/eab-contact-display.c:525
+#: addressbook/gui/widgets/eab-contact-display.c:526
 msgid "List Members"
 msgstr "列出成员"
 
-#: addressbook/gui/widgets/eab-contact-display.c:321
-#: addressbook/gui/widgets/eab-contact-display.c:323
+#: addressbook/gui/widgets/eab-contact-display.c:322
+#: addressbook/gui/widgets/eab-contact-display.c:324
 msgid "E-mail"
 msgstr "电子邮件"
 
-#: addressbook/gui/widgets/eab-contact-display.c:332
+#: addressbook/gui/widgets/eab-contact-display.c:345
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Organization"
 msgstr "组织"
 
-#: addressbook/gui/widgets/eab-contact-display.c:333
+#: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "Position"
 msgstr "位置"
 
-#: addressbook/gui/widgets/eab-contact-display.c:335
-#: addressbook/gui/widgets/eab-contact-display.c:354
-msgid "Groupwise"
-msgstr "Groupwise"
-
-#: addressbook/gui/widgets/eab-contact-display.c:340
+#: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "Video Conferencing"
 msgstr "视频会议"
 
-#: addressbook/gui/widgets/eab-contact-display.c:341
-#: addressbook/gui/widgets/eab-contact-display.c:362
+#: addressbook/gui/widgets/eab-contact-display.c:348
+#: addressbook/gui/widgets/eab-contact-display.c:363
 msgid "Phone"
 msgstr "电话"
 
-#: addressbook/gui/widgets/eab-contact-display.c:342
+#: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Fax"
 msgstr "传真"
 
-#: addressbook/gui/widgets/eab-contact-display.c:346
+#: addressbook/gui/widgets/eab-contact-display.c:353
 msgid "work"
 msgstr "工作"
 
-#: addressbook/gui/widgets/eab-contact-display.c:359
+#: addressbook/gui/widgets/eab-contact-display.c:360
 msgid "WWW"
 msgstr "WWW"
 
-#: addressbook/gui/widgets/eab-contact-display.c:360
-#: addressbook/gui/widgets/eab-contact-display.c:579
+#: addressbook/gui/widgets/eab-contact-display.c:361
+#: addressbook/gui/widgets/eab-contact-display.c:580
 msgid "Blog"
 msgstr "Blog"
 
-#: addressbook/gui/widgets/eab-contact-display.c:363
+#: addressbook/gui/widgets/eab-contact-display.c:364
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Mobile Phone"
 msgstr "移动电话"
 
-#: addressbook/gui/widgets/eab-contact-display.c:367
+#: addressbook/gui/widgets/eab-contact-display.c:368
 msgid "personal"
 msgstr "个人"
 
-#: addressbook/gui/widgets/eab-contact-display.c:374
+#: addressbook/gui/widgets/eab-contact-display.c:375
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Note"
 msgstr "注释"
 
-#: addressbook/gui/widgets/eab-contact-display.c:540
+#: addressbook/gui/widgets/eab-contact-display.c:541
 msgid "Job Title"
 msgstr "职称"
 
-#: addressbook/gui/widgets/eab-contact-display.c:544
+#: addressbook/gui/widgets/eab-contact-display.c:545
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "电子邮件"
 
-#: addressbook/gui/widgets/eab-contact-display.c:571
+#: addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Home page"
 msgstr "主页"
 
@@ -4636,7 +4627,7 @@ msgstr "授权于(_D)..."
 #: calendar/gui/dialogs/meeting-page.c:655
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1392
-#: mail/em-folder-tree.c:2583 mail/em-folder-view.c:919
+#: mail/em-folder-tree.c:2584 mail/em-folder-view.c:919
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -9712,51 +9703,45 @@ msgid "Cannot sync flags to folder `%s': Bad command"
 msgstr "无法选择文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-folder.c:567
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Unknown"
-msgstr "无法获取文件夹：%s：%s"
+msgstr "无法销毁文件夹“%s”：未知"
 
 #: camel/providers/imap4/camel-imap4-folder.c:572
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Bad command"
-msgstr "无法选择文件夹“%s”：无效的命令"
+msgstr "无法销毁文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-folder.c:748
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
 msgstr ""
-"无法从文件夹 %2$s 获取邮件：%1$s\n"
-"  %3$s"
+"无法从文件夹“%2$s”获取邮件 %1$s：没有这样的邮件"
 
 #: camel/providers/imap4/camel-imap4-folder.c:753
 #, c-format
 msgid "Cannot get message %s from folder `%s': Bad command"
-msgstr ""
-"无法从文件夹“%2$s”获取邮件 %1$s：命令无效"
+msgstr "无法从文件夹“%2$s”获取邮件 %1$s：命令无效"
 
 #: camel/providers/imap4/camel-imap4-folder.c:878
 #, c-format
 msgid "Cannot append message to folder `%s': Unknown error"
-msgstr "无法将邮件附加到 mh 文件夹：%s：未知错误"
+msgstr "无法将邮件附加到文件夹“%s”：未知错误"
 
 #: camel/providers/imap4/camel-imap4-folder.c:907
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to folder `%s': Bad command"
-msgstr "无法选择文件夹“%s”：无效的命令"
+msgstr "无法将邮件附加到文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-folder.c:986
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr ""
-"无法从文件夹 %2$s 获取邮件：%1$s\n"
-"  %3$s"
+msgstr "无法将邮件从文件夹“%s”移动到文件夹“%s”：未知"
 
 #: camel/providers/imap4/camel-imap4-folder.c:990
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-msgstr ""
-"无法从文件夹 %2$s 获取邮件：%1$s\n"
-"  %3$s"
+msgstr "无法将邮件从文件夹“%s”复制到文件夹“%s”：未知"
 
 #: camel/providers/imap4/camel-imap4-folder.c:998
 #, c-format
@@ -9794,9 +9779,8 @@ msgid "IMAPv4rev1"
 msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
-#, fuzzy
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "IMAP 服务器上的邮件的读写。"
+msgstr "IMAPv4rev1 服务器上的邮件的读写。试验性！"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
 msgid ""
@@ -10656,9 +10640,7 @@ msgstr "无法将邮件附加到 mh 文件夹：%s：%s"
 #: camel/providers/local/camel-mh-store.c:219
 #, c-format
 msgid "Could not create folder `%s': %s"
-msgstr ""
-"无法创建文件夹“%s”："
-"%s"
+msgstr "无法创建文件夹“%s”：%s"
 
 #: camel/providers/local/camel-mh-store.c:231
 #, c-format
@@ -10893,7 +10875,8 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"收取新闻组出错：\n\n"
+"收取新闻组出错：\n"
+"\n"
 "%s"
 
 #: camel/providers/nntp/camel-nntp-store.c:872
@@ -11300,94 +11283,94 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP 服务器 %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "通过 %s 发送 SMTP 邮件"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: service not connected."
 msgstr "无法发送邮件：服务未连接。"
 
-#: camel/providers/smtp/camel-smtp-transport.c:692
+#: camel/providers/smtp/camel-smtp-transport.c:683
 msgid "Cannot send message: sender address not valid."
 msgstr "无法发送邮件：发件人地址不合法。"
 
-#: camel/providers/smtp/camel-smtp-transport.c:696
+#: camel/providers/smtp/camel-smtp-transport.c:687
 msgid "Sending message"
 msgstr "发送邮件"
 
-#: camel/providers/smtp/camel-smtp-transport.c:711
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
 msgstr "无法发送邮件：没有定义收件人。"
 
-#: camel/providers/smtp/camel-smtp-transport.c:722
+#: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "无法发送邮件：一个或多个非法收件人"
 
-#: camel/providers/smtp/camel-smtp-transport.c:894
+#: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
 msgstr "SMTP 欢迎"
 
-#: camel/providers/smtp/camel-smtp-transport.c:943
+#: camel/providers/smtp/camel-smtp-transport.c:934
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO 命令失败：%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:960
+#: camel/providers/smtp/camel-smtp-transport.c:951
 msgid "HELO command failed"
 msgstr "HELO 命令失败"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1026
+#: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
 msgstr "SMTP 认证"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1032
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
 msgstr "创建 SASL 认证对象错误。"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1049
-#: camel/providers/smtp/camel-smtp-transport.c:1060
+#: camel/providers/smtp/camel-smtp-transport.c:1040
+#: camel/providers/smtp/camel-smtp-transport.c:1051
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH 命令失败：%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1066
+#: camel/providers/smtp/camel-smtp-transport.c:1057
 msgid "AUTH command failed"
 msgstr "AUTH 命令失败"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1128
+#: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
 msgstr "来自服务器的错误认证应答。\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1153
+#: camel/providers/smtp/camel-smtp-transport.c:1144
 #, fuzzy, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "IMAP 命令失败：%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1170
+#: camel/providers/smtp/camel-smtp-transport.c:1161
 #, fuzzy
 msgid "MAIL FROM command failed"
 msgstr "IMAP 命令失败：%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1194
+#: camel/providers/smtp/camel-smtp-transport.c:1185
 #, fuzzy, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "无法创建 sendmail 进程：%s：邮件未发送"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> 失败"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1252
-#: camel/providers/smtp/camel-smtp-transport.c:1310
-#: camel/providers/smtp/camel-smtp-transport.c:1329
+#: camel/providers/smtp/camel-smtp-transport.c:1243
+#: camel/providers/smtp/camel-smtp-transport.c:1301
+#: camel/providers/smtp/camel-smtp-transport.c:1320
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA 命令失败：%s：邮件未发送"
@@ -11395,26 +11378,26 @@ msgstr "DATA 命令失败：%s：邮件未发送"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1269
-#: camel/providers/smtp/camel-smtp-transport.c:1345
+#: camel/providers/smtp/camel-smtp-transport.c:1260
+#: camel/providers/smtp/camel-smtp-transport.c:1336
 msgid "DATA command failed"
 msgstr "DATP 命令失败"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1368
+#: camel/providers/smtp/camel-smtp-transport.c:1359
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET 命令失败：%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1384
+#: camel/providers/smtp/camel-smtp-transport.c:1375
 msgid "RSET command failed"
 msgstr "RSET 命令失败"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1407
+#: camel/providers/smtp/camel-smtp-transport.c:1398
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT 命令失败：%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1421
+#: camel/providers/smtp/camel-smtp-transport.c:1412
 msgid "QUIT command failed"
 msgstr "QUIT 命令失败"
 
@@ -11523,16 +11506,16 @@ msgstr[0] "附加了 <b>%d</b> 个文件"
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "隐藏附件栏(将附件拖至此处)(_A)"
 
-#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3224
+#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3208
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "显示附件栏(将附件拖至此处)(_A)"
 
-#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3113
-#: composer/e-msg-composer.c:3114
+#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3100
+#: composer/e-msg-composer.c:3101
 msgid "Compose a message"
 msgstr "撰写邮件"
 
-#: composer/e-msg-composer.c:4270
+#: composer/e-msg-composer.c:4254
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11765,8 +11748,7 @@ msgid ""
 "installed."
 msgstr ""
 "无法激活 HTML 编辑器组件。\n"
-"请确定您的 gtkhtml 和 libgtkhtml 所安装的版"
-"本正确。"
+"请确定您的 gtkhtml 和 libgtkhtml 所安装的版本正确。"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -12416,19 +12398,19 @@ msgstr "添加签名脚本"
 msgid "Signature(s)"
 msgstr "签名"
 
-#: mail/em-composer-utils.c:888
+#: mail/em-composer-utils.c:887
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 转发的邮件 --------"
 
-#: mail/em-composer-utils.c:1495
+#: mail/em-composer-utils.c:1501
 msgid "an unknown sender"
 msgstr "未知的发件人"
 
 #. translators: attribution string used when quoting messages,
 #. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-composer-utils.c:1505
+#: mail/em-composer-utils.c:1511
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-msgstr "在%Y年%m月%d日的%H:%M，%%s写道："
+msgstr "在%Y年%m月%d日的%H:%M%%+05d，%%s写道："
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
@@ -12464,7 +12446,7 @@ msgstr "<单击此处以便选择文件夹>"
 msgid "Create New Folder"
 msgstr "创建新文件夹"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2309
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2310
 #: mail/mail-component.c:719
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
@@ -12534,52 +12516,52 @@ msgstr "复制(_O)"
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
-#: mail/em-folder-tree.c:2309 mail/mail-component.c:719
+#: mail/em-folder-tree.c:2310 mail/mail-component.c:719
 msgid "Create folder"
 msgstr "创建文件夹"
 
-#: mail/em-folder-tree.c:2498
+#: mail/em-folder-tree.c:2499
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "把文件夹“%s”重命名为："
 
-#: mail/em-folder-tree.c:2500
+#: mail/em-folder-tree.c:2501
 msgid "Rename Folder"
 msgstr "重命名文件夹"
 
-#: mail/em-folder-tree.c:2571 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2572 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "查看(_V)"
 
-#: mail/em-folder-tree.c:2572
+#: mail/em-folder-tree.c:2573
 msgid "Open in _New Window"
 msgstr "在新窗口中打开(_N)"
 
-#: mail/em-folder-tree.c:2576
+#: mail/em-folder-tree.c:2577
 msgid "_Copy..."
 msgstr "复制(_C)..."
 
-#: mail/em-folder-tree.c:2577
+#: mail/em-folder-tree.c:2578
 msgid "_Move..."
 msgstr "移动(_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2581
+#: mail/em-folder-tree.c:2582
 msgid "_New Folder..."
 msgstr "新建文件夹(_N)..."
 
-#: mail/em-folder-tree.c:2584
+#: mail/em-folder-tree.c:2585
 msgid "_Rename..."
 msgstr "重命名(_R)..."
 
-#: mail/em-folder-tree.c:2587 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2588 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "属性(_P)"
 
 #: mail/em-folder-tree-model.c:199 mail/em-folder-tree-model.c:201
-#: mail/mail-vfolder.c:888
+#: mail/mail-vfolder.c:869
 msgid "VFolders"
 msgstr "虚拟文件夹"
 
@@ -12897,7 +12879,7 @@ msgstr "格式化邮件"
 
 #. pseudo-header
 #: mail/em-format-html.c:1523 mail/em-format-quote.c:309
-#: mail/em-mailer-prefs.c:930
+#: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "邮件程序"
 
@@ -13039,8 +13021,7 @@ msgstr ""
 #: mail/em-migrate.c:1602
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr ""
-"无法创建新文件夹“%s”：%s"
+msgstr "无法创建新文件夹“%s”：%s"
 
 #: mail/em-migrate.c:1628
 #, c-format
@@ -13075,8 +13056,7 @@ msgstr "创建到“%s”的管道失败：%s"
 #: mail/em-migrate.c:2576
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr ""
-"无法在“%s”创建本地邮件文件夹：%s"
+msgstr "无法在“%s”创建本地邮件文件夹：%s"
 
 #: mail/em-migrate.c:2594
 msgid ""
@@ -14952,7 +14932,8 @@ msgstr "真的要删除文件夹“{0}”及其全部子文件夹吗?？"
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr "如果您删除了文件夹，其中的全部内容及其子文件夹的全部内容都将会被永久删除。"
+msgstr ""
+"如果您删除了文件夹，其中的全部内容及其子文件夹的全部内容都将会被永久删除。"
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
@@ -15462,15 +15443,15 @@ msgstr "更新“%s:%s”的虚拟文件夹"
 msgid "Updating vFolders for '%s'"
 msgstr "更新“%s”的虚拟文件夹"
 
-#: mail/mail-vfolder.c:958
+#: mail/mail-vfolder.c:939
 msgid "vFolders"
 msgstr "虚拟文件夹"
 
-#: mail/mail-vfolder.c:997
+#: mail/mail-vfolder.c:978
 msgid "Edit VFolder"
 msgstr "编辑虚拟文件夹"
 
-#: mail/mail-vfolder.c:1081
+#: mail/mail-vfolder.c:1062
 msgid "New VFolder"
 msgstr "新建虚拟文件夹"
 
@@ -16182,14 +16163,18 @@ msgstr "输入新密码"
 msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
-msgstr "发行给：\n  主题：%s\n"
+msgstr ""
+"发行给：\n"
+"  主题：%s\n"
 
 #: smime/gui/e-cert-selector.c:122
 #, c-format
 msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
-msgstr "发行者：\n  主题：%s\n"
+msgstr ""
+"发行者：\n"
+"  主题：%s\n"
 
 #: smime/gui/e-cert-selector.c:169
 msgid "Select certificate"
