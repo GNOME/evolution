@@ -27,10 +27,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <gtk/gtksignal.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dialog.h>
 
 #include "e-dropdown-button.h"
 #include "e-filter-bar.h"
@@ -60,38 +57,32 @@ static void rule_changed (FilterRule *rule, gpointer user_data);
 
 /* rule editor thingy */
 static void
-rule_editor_destroyed (GtkWidget *w, EFilterBar *efb)
+rule_editor_destroyed (EFilterBar *efb, GObject *deadbeef)
 {
-	efb->save_dialogue = NULL;
+	efb->save_dialog = NULL;
 	e_search_bar_set_menu_sensitive (E_SEARCH_BAR (efb), E_FILTERBAR_SAVE_ID, TRUE);
 	gtk_widget_set_sensitive (E_SEARCH_BAR (efb)->entry, TRUE);
 }
 
 /* FIXME: need to update the popup menu to match any edited rules, sigh */
 static void
-full_rule_editor_clicked (GtkWidget *dialog, int button, void *data)
+full_rule_editor_response (GtkWidget *dialog, int response, void *data)
 {
 	EFilterBar *efb = data;
 	
-	switch (button) {
-	case 0:
+	if (response == GTK_RESPONSE_OK)
 		rule_context_save (efb->context, efb->userrules);
-	case 1:
-	default:
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-	case -1:
-		break;
-	}
+	
+	gtk_widget_destroy (dialog);
 }
 
 static void
-rule_editor_clicked (GtkWidget *dialog, int button, void *data)
+rule_editor_response (GtkWidget *dialog, int response, void *data)
 {
 	EFilterBar *efb = data;
 	FilterRule *rule;
 	
-	switch (button) {
-	case 0:
+	if (response == GTK_RESPONSE_OK) {
 		rule = g_object_get_data (G_OBJECT (dialog), "rule");
 		if (rule) {
 			if (!filter_rule_validate (rule))
@@ -101,35 +92,38 @@ rule_editor_clicked (GtkWidget *dialog, int button, void *data)
 			/* FIXME: check return */
 			rule_context_save (efb->context, efb->userrules);
 		}
-	case 1:
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-	case -1:
-		break;
 	}
+	
+	gtk_widget_destroy (dialog);
 }
 
 static void
-rule_advanced_clicked (GtkWidget *dialog, int button, void *data)
+rule_advanced_response (GtkWidget *dialog, int response, void *data)
 {
 	EFilterBar *efb = data;
 	FilterRule *rule;
-
-	switch (button) {
-	case 0:			/* 'ok' */
-	case 1:
-		rule = g_object_get_data (G_OBJECT (dialog), "rule");
+	
+	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY) {
+		rule = g_object_get_data ((GObject *) dialog, "rule");
 		if (rule) {
+			if (!filter_rule_validate (rule))
+				return;
+			
 			efb->current_query = rule;
 			g_object_ref (rule);
 			g_signal_emit_by_name (efb, "query_changed");
+			
+			if (response == GTK_RESPONSE_APPLY) {
+				if (!rule_context_find_rule (efb->context, rule->name, rule->source))
+					rule_context_add_rule (efb->context, rule);
+				/* FIXME: check return */
+				rule_context_save (efb->context, efb->userrules);
+			}
 		}
-		if (button == 1)
-			rule_editor_clicked (dialog, 0, data);
-	case 2:
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-	case -1:
-		break;
 	}
+	
+	if (response != GTK_RESPONSE_APPLY)
+		gtk_widget_destroy (dialog);
 }
 
 static void
@@ -139,8 +133,8 @@ do_advanced (ESearchBar *esb)
 	
 	d(printf("Advanced search!\n"));
 	
-	if (!efb->save_dialogue && !efb->setquery) {
-		GtkWidget *w, *gd;
+	if (!efb->save_dialog && !efb->setquery) {
+		GtkWidget *dialog, *w;
 		FilterRule *rule;
 		
 		if (efb->current_query)
@@ -150,28 +144,28 @@ do_advanced (ESearchBar *esb)
 		
 		w = filter_rule_get_widget (rule, efb->context);
 		filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
-		gd = gnome_dialog_new (_("Advanced Search"),
-				       GNOME_STOCK_BUTTON_OK,
-				       _("Save"),
-				       GNOME_STOCK_BUTTON_CANCEL,
-				       NULL);
-		efb->save_dialogue = gd;
-		gnome_dialog_set_default (GNOME_DIALOG (gd), 0);
+		/* FIXME: get the toplevel window... */
+		dialog = gtk_dialog_new_with_buttons (_("Advanced Search"), NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+						      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						      GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,
+						      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 		
-		gtk_window_set_resizable (GTK_WINDOW (gd), TRUE);
-		gtk_window_set_default_size (GTK_WINDOW (gd), 600, 300);
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
-		gtk_widget_show (gd);
+		efb->save_dialog = dialog;
+		
+		gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+		gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 300);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
+		
 		g_object_ref (rule);
-		g_object_set_data_full (G_OBJECT (gd), "rule", rule, (GDestroyNotify) g_object_unref);
-
-		g_signal_connect (gd, "clicked", G_CALLBACK (rule_advanced_clicked), efb);
-		g_signal_connect (gd, "destroy", G_CALLBACK (rule_editor_destroyed), efb);
+		g_object_set_data_full ((GObject *) dialog, "rule", rule, (GDestroyNotify) g_object_unref);
+		
+		g_signal_connect (dialog, "response", G_CALLBACK (rule_advanced_response), efb);
+		g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
 		
 		e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
 		gtk_widget_set_sensitive (esb->entry, FALSE);
 		
-		gtk_widget_show (gd);
+		gtk_widget_show (dialog);
 	}
 }
 
@@ -179,53 +173,52 @@ static void
 menubar_activated (ESearchBar *esb, int id, void *data)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
-
+	GtkWidget *dialog, *w;
+	
 	switch (id) {
 	case E_FILTERBAR_EDIT_ID:
-		if (!efb->save_dialogue) {
-			GnomeDialog *gd;
+		if (!efb->save_dialog) {
+			efb->save_dialog = dialog = (GtkWidget *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING);
 			
-			gd = (GnomeDialog *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING);
-			efb->save_dialogue = (GtkWidget *) gd;
-			gtk_window_set_title (GTK_WINDOW (gd), _("Search Editor"));
-			g_signal_connect (gd, "clicked", G_CALLBACK (full_rule_editor_clicked), efb);
-			g_signal_connect (gd, "destroy", G_CALLBACK (rule_editor_destroyed), efb);
-			gtk_widget_show (GTK_WIDGET (gd));
+			gtk_window_set_title (GTK_WINDOW (dialog), _("Search Editor"));
+			g_signal_connect (dialog, "response", G_CALLBACK (full_rule_editor_response), efb);
+			g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
+			gtk_widget_show (dialog);
 		}
 		break;
 	case E_FILTERBAR_SAVE_ID:
-		if (efb->current_query && !efb->save_dialogue) {
-			GtkWidget *w;
-			GtkWidget *gd;
+		if (efb->current_query && !efb->save_dialog) {
 			FilterRule *rule;
 			char *name, *text;
-
+			
 			rule = filter_rule_clone (efb->current_query);
-			text = e_search_bar_get_text(esb);
-			name = g_strdup_printf("%s %s", rule->name, text&&text[0]?text:"''");
-			g_free(text);
-			filter_rule_set_name(rule, name);
-			g_free(name);
-
+			text = e_search_bar_get_text (esb);
+			name = g_strdup_printf ("%s %s", rule->name, text && text[0] ? text : "''");
+			filter_rule_set_name (rule, name);
+			g_free (text);
+			g_free (name);
+			
 			w = filter_rule_get_widget (rule, efb->context);
 			filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
-			gd = gnome_dialog_new (_("Save Search"), GNOME_STOCK_BUTTON_OK,
-					       GNOME_STOCK_BUTTON_CANCEL, NULL);
-			efb->save_dialogue = gd;
-			gnome_dialog_set_default (GNOME_DIALOG (gd), 0);
-			gtk_window_set_default_size (GTK_WINDOW (gd), 600, 300);
+			/* FIXME: get the toplevel window... */
+			dialog = gtk_dialog_new_with_buttons (_("Save Search"), NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+							      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+							      GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+			efb->save_dialog = dialog;
 			
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
-			gtk_widget_show (gd);
+			gtk_window_set_default_size (GTK_WINDOW (dialog), 500, 300);
+			
+			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
+			
 			g_object_ref (rule);
-			g_object_set_data_full (G_OBJECT (gd), "rule", rule, (GDestroyNotify) g_object_unref);
-			g_signal_connect (gd, "clicked", G_CALLBACK (rule_editor_clicked), efb);
-			g_signal_connect (gd, "destroy", G_CALLBACK (rule_editor_destroyed), efb);
+			g_object_set_data_full ((GObject *) dialog, "rule", rule, (GDestroyNotify) g_object_unref);
+			g_signal_connect (dialog, "response", G_CALLBACK (rule_editor_response), efb);
+			g_object_weak_ref ((GObject *) dialog, (GWeakNotify) rule_editor_destroyed, efb);
 			
 			e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
 			gtk_widget_set_sensitive (esb->entry, FALSE);
 			
-			gtk_widget_show (gd);
+			gtk_widget_show (dialog);
 		}
 		
 		d(printf("Save menu\n"));
@@ -253,7 +246,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		}
 	}
 	
-	g_signal_stop_emission_by_name((esb), "menu_activated");
+	g_signal_stop_emission_by_name (esb, "menu_activated");
 }
 
 static void
@@ -267,7 +260,7 @@ option_changed (ESearchBar *esb, void *data)
 	
 	switch (id) {
 	case E_FILTERBAR_ADVANCED_ID:
-		do_advanced(esb);
+		do_advanced (esb);
 		break;
 	default:
 		if (id >= efb->option_base && id < efb->option_base + efb->option_rules->len) {
@@ -291,7 +284,7 @@ dup_item_no_subitems (ESearchBarItem *dest,
 		      const ESearchBarItem *src)
 {
 	g_assert (src->subitems == NULL);
-
+	
 	dest->id = src->id;
 	dest->text = g_strdup (src->text);
 	dest->subitems = NULL;
@@ -308,7 +301,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	char *source;
 	GSList *gtksux = NULL;
 	int num;
-
+	
 	/* So gtk calls a signal again if you connect to it WHILE inside a changed event.
 	   So this snot is to work around that shit fucked up situation */
 	for (i=0;i<rules->len;i++)
@@ -510,14 +503,19 @@ context_changed (RuleContext *context, gpointer user_data)
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
 	ESearchBar *esb = E_SEARCH_BAR (user_data);
-
+	
+	/* just generate whole menu again */
 	generate_menu (esb, efb->default_items);
 }
 
 static void
 context_rule_removed (RuleContext *context, FilterRule *rule, gpointer user_data)
 {
-	/*gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, efb);*/
+	EFilterBar *efb = E_FILTER_BAR (user_data);
+	ESearchBar *esb = E_SEARCH_BAR (user_data);
+	
+	/* just generate whole menu again */
+	generate_menu (esb, efb->default_items);
 }
 
 static void
@@ -525,7 +523,7 @@ rule_changed (FilterRule *rule, gpointer user_data)
 {
 	EFilterBar *efb = E_FILTER_BAR (user_data);
 	ESearchBar *esb = E_SEARCH_BAR (user_data);
-
+	
 	/* just generate whole menu again */
 	generate_menu (esb, efb->default_items);
 }
@@ -576,7 +574,10 @@ dispose (GObject *object)
 	g_return_if_fail (E_IS_FILTER_BAR (object));
 	
 	bar = E_FILTER_BAR (object);
-
+	
+	if (bar->context != NULL && bar->userrules != NULL)
+		rule_context_save (bar->context, bar->userrules);
+	
 	if (bar->menu_rules != NULL) {
 		clear_rules(bar, bar->menu_rules);
 		clear_rules(bar, bar->option_rules);

@@ -1,3 +1,8 @@
+2003-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c: Updated to use GtkDialog instead of
+	GnomeDialog. Also fixed bug #39550 while I was at it.
+
 2003-03-10  Rodney Dawes  <dobey@ximian.com>
 
 	* e-calendar.c: Use GtkArrow instead of pixmaps
