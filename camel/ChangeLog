@@ -1,3 +1,19 @@
+2000-09-26  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c
+	(imap_get_message_count_internal): Quote the folder name as it may
+	contain spaces.
+	(imap_get_subfolder_info_internal): Same.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response): Do
+	proper unquoting for folder names.
+	(func_get_current_date): Implemented.
+
+	* providers/imap/camel-imap-store.c
+	(imap_folder_exists): Quote the folder name as it may have spaces.
+	(imap_create): Same.
+	(check_current_folder): Same.
+
 2000-09-22  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c

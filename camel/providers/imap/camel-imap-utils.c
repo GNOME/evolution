@@ -111,7 +111,7 @@ func_and (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	GList **list = data;
 	ESExpResult *r;
 	
-	fprintf (stderr, "in AND func (argc = %d)\n", argc);
+	d(fprintf (stderr, "in AND func (argc = %d)\n", argc));
 	if (argc > 0) {
 		char **strings;
 		int i;
@@ -122,14 +122,14 @@ func_and (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		for (i = 0; i < argc; i++) {
 			GList *list_head = *list;
 			
-			fprintf (stderr, "\tAND func: %s\n", (*list) ? (char *) (*list)->data : "(null)");
+			d(fprintf (stderr, "\tAND func: %s\n", (*list) ? (char *) (*list)->data : "(null)"));
 			strings[argc - (i+1)] = (*list) ? (*list)->data : g_strdup ("");
 			*list = g_list_remove_link (*list, *list);
 			g_list_free_1 (list_head);
 		}
 		
 		*list = g_list_prepend (*list, g_strjoinv (" ", strings));
-		fprintf (stderr, "%s\n", (char *) (*list)->data);
+		d(fprintf (stderr, "%s\n", (char *) (*list)->data));
 		
 		for (i = 0 ; i < argc; i ++)
 			g_free (strings[i]);
@@ -149,7 +149,7 @@ func_or (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	GList **list = data;
 	ESExpResult *r;
 	
-	fprintf (stderr, "in OR func (argc = %d)\n", argc);
+	d(fprintf (stderr, "in OR func (argc = %d)\n", argc));
 	if (argc == 2 && (*list)->data && (*list)->next && (*list)->next->data) {
 		char **strings;
 		int i;
@@ -161,14 +161,14 @@ func_or (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 		for (i = 0; i < 2; i++) {
 			GList *list_head = *list;
 			
-			fprintf (stderr, "\tOR func: %s\n", (*list) ? (char *) (*list)->data : "(null)");
+			d(fprintf (stderr, "\tOR func: %s\n", (*list) ? (char *) (*list)->data : "(null)"));
 			strings[argc - i] = (*list) ? (*list)->data : g_strdup ("");
 			*list = g_list_remove_link (*list, *list);
 			g_list_free_1 (list_head);
 		}
 		
 		*list = g_list_prepend (*list, g_strjoinv (" ", strings));
-		fprintf (stderr, "%s\n", (char *) (*list)->data);
+		d(fprintf (stderr, "%s\n", (char *) (*list)->data));
 		
 		for (i = 0 ; i < argc + 2; i ++)
 			g_free (strings[i]);
@@ -188,13 +188,13 @@ func_not (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	GList **list = data;
 	ESExpResult *r;
 	
-	fprintf (stderr, "in NOT func\n");
+	d(fprintf (stderr, "in NOT func\n"));
 	/* just replace the head of the list with the NOT of it. */
 	if (argc > 0) {
 		char *term = (*list)->data;
 		
 		(*list)->data = g_strdup_printf ("NOT %s", term);
-		fprintf (stderr, "%s\n", (char *) (*list)->data);
+		d(fprintf (stderr, "%s\n", (char *) (*list)->data));
 		g_free (term);
 	}
 	
@@ -233,7 +233,7 @@ func_lt (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	time_t date = (time_t) (argv[1])->value.number;
 	ESExpResult *r;
 	
-	fprintf (stderr, "in less-than func: (%d) (%s) (%d)\n", argc, type, (int) date);
+	d(fprintf (stderr, "in less-than func: (%d) (%s) (%d)\n", argc, type, (int) date));
 	if (argc > 0) {
 		char *string, *date_str;
 		
@@ -263,7 +263,7 @@ func_gt (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	time_t date = (time_t) (argv[1])->value.number;
 	ESExpResult *r;
 	
-	fprintf (stderr, "in greater-than func: (%d) (%s) (%d)\n", argc, type, (int) date);
+	d(fprintf (stderr, "in greater-than func: (%d) (%s) (%d)\n", argc, type, (int) date));
 	if (argc > 0) {
 		char *string, *date_str;
 		
@@ -293,7 +293,7 @@ func_eq (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 	time_t date = (time_t) (argv[1])->value.number;
 	ESExpResult *r;
 	
-	fprintf (stderr, "in equal-to func: (%d) (%s) (%d)\n", argc, type, (int) date);
+	d(fprintf (stderr, "in equal-to func: (%d) (%s) (%d)\n", argc, type, (int) date));
 	if (argc > 0) {
 		char *string, *date_str;
 		
@@ -424,11 +424,10 @@ func_get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, 
 static ESExpResult *
 func_get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	/* FIXME: what do I do here? */
 	ESExpResult *r;
 	
-	r = e_sexp_result_new (ESEXP_RES_BOOL);
-	r->value.bool = FALSE;
+	r = e_sexp_result_new (ESEXP_RES_INT);
+	r->value.number = time (NULL);
 	
 	return r;
 }
@@ -504,9 +503,9 @@ imap_create_flag_list (guint32 flags)
 {
 	GString *gstr;
 	char *flag_list;
-
+	
 	gstr = g_string_new ("(");
-
+	
 	if (flags & CAMEL_MESSAGE_ANSWERED)
 		g_string_append (gstr, "\\Answered ");
 	if (flags & CAMEL_MESSAGE_DELETED)
@@ -517,12 +516,12 @@ imap_create_flag_list (guint32 flags)
 		g_string_append (gstr, "\\Flagged ");
 	if (flags & CAMEL_MESSAGE_SEEN)
 		g_string_append (gstr, "\\Seen ");
-
+	
 	if (gstr->str[gstr->len - 1] == ' ')
 		gstr->str[gstr->len - 1] = ')';
 	else
 		g_string_append_c (gstr, ')');
-
+	
 	flag_list = gstr->str;
 	g_string_free (gstr, FALSE);
 	return flag_list;
@@ -533,10 +532,10 @@ imap_parse_flag_list (const char *flag_list)
 {
 	guint32 flags = 0;
 	int len;
-
+	
 	if (*flag_list++ != '(')
 		return 0;
-
+	
 	while (*flag_list != ')') {
 		len = strcspn (flag_list, " )");
 		if (!g_strncasecmp (flag_list, "\\Answered", len))
@@ -549,11 +548,11 @@ imap_parse_flag_list (const char *flag_list)
 			flags |= CAMEL_MESSAGE_FLAGGED;
 		else if (!g_strncasecmp (flag_list, "\\Seen", len))
 			flags |= CAMEL_MESSAGE_SEEN;
-
+		
 		flag_list += len;
 		if (*flag_list == ' ')
 			flag_list++;
 	}
-
+	
 	return flags;
 }
