@@ -1,3 +1,10 @@
+2003-02-03  Jack Jia  <jack.jia@sun.com>
+
+	[ the fix for #33672 ]
+	* gui/component/addressbook-component.c (remove_folder): delete the 
+	file addressbook.db.summary, and replace "unlink" with a gnome-vfs 
+	function "gnome_vfs_unlink_from_uri".
+	
 2003-01-23  Sean Gao  <Sean.Gao@Sun.COM>
 
 	[ fixes bug #34898 ]

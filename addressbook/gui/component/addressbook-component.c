@@ -132,9 +132,11 @@ remove_folder (EvolutionShellComponent *shell_component,
 	       void *closure)
 {
 	CORBA_Environment ev;
-	char *addressbook_db_path, *subdir_path;
+	char *addressbook_db_path, *addressbook_db_summary, *subdir_path;
 	struct stat sb;
 	int rv;
+	GnomeVFSURI *dir_uri, *data_uri, *summary_uri;
+	GnomeVFSResult data_result, summary_result;
 
 	CORBA_exception_init(&ev);
 
@@ -171,26 +173,43 @@ remove_folder (EvolutionShellComponent *shell_component,
 		CORBA_exception_free(&ev);
 		return;
 	}
-
+	
 	addressbook_db_path = g_concat_dir_and_file (physical_uri + 7, "addressbook.db");
-	rv = unlink (addressbook_db_path);
+	addressbook_db_summary = g_concat_dir_and_file (physical_uri + 7, "addressbook.db.summary");
+	
+	data_uri = gnome_vfs_uri_new (addressbook_db_path);
+	summary_uri = gnome_vfs_uri_new (addressbook_db_summary);
+
 	g_free (addressbook_db_path);
-	if (rv == 0) {
+	g_free (addressbook_db_summary);
+
+	if (!data_uri || !summary_uri) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-								     GNOME_Evolution_ShellComponentListener_OK,
-								     &ev);
+				GNOME_Evolution_ShellComponentListener_INVALID_URI,
+				&ev);
+		CORBA_exception_free (&ev);
+		return;
 	}
-	else {
-		if (errno == EACCES || errno == EPERM)
-			GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-							     GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-							     &ev);
-		else
-			GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-							     GNOME_Evolution_ShellComponentListener_INVALID_URI, /*XXX*/
-							     &ev);
+	
+	data_result = gnome_vfs_unlink_from_uri (data_uri);
+	summary_result = gnome_vfs_unlink_from_uri (summary_uri);
+	if ((data_result == GNOME_VFS_OK || data_result == GNOME_VFS_ERROR_NOT_FOUND) && (summary_result == GNOME_VFS_OK || summary_result == GNOME_VFS_ERROR_NOT_FOUND))
+	{
+		 GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+				 GNOME_Evolution_ShellComponentListener_OK,
+				 &ev);
+	} else {
+		 GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+				 GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+				 &ev);
 	}
-	CORBA_exception_free(&ev);
+	
+	if (data_uri)
+		gnome_vfs_uri_unref (data_uri);
+	if (summary_uri)
+		gnome_vfs_uri_unref (summary_uri);
+	
+	CORBA_exception_free (&ev);
 }
 
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
