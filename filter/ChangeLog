@@ -1,3 +1,8 @@
+2000-07-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c: Updated to reflect changes made to 
+	camel-folder.
+
 2000-06-30  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* filter-xml.c (filter_load_optionset_file): Check for failure

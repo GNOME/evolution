@@ -422,7 +422,7 @@ do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 
 				printf("appending message %s\n", (char *)m->data);
 
-				mm = camel_folder_get_message_by_uid(p->source, m->data, p->ex);
+				mm = camel_folder_get_message(p->source, m->data, p->ex);
 				camel_folder_append_message(outbox, mm, p->ex);
 				gtk_object_unref((GtkObject *)mm);
 
@@ -614,13 +614,13 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 			if (inbox) {
 				printf("Applying default rule to message %s\n", uid);
 
-				mm = camel_folder_get_message_by_uid(p->source, all->pdata[i], p->ex);
+				mm = camel_folder_get_message(p->source, all->pdata[i], p->ex);
 				camel_folder_append_message(inbox, mm, p->ex);
 				gtk_object_unref((GtkObject *)mm);
 				camel_folder_set_message_flags(p->source, all->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED, p->ex);
 			}
 		} else {
-			camel_folder_delete_message_by_uid(p->source, uid, p->ex);
+			camel_folder_delete_message(p->source, uid, p->ex);
 		}
 	}
 	camel_folder_free_uids(p->source, all);
