@@ -1,5 +1,8 @@
 2001-08-28  Peter Williams  <peterw@ximian.com>
 
+	* providers/imap/camel-imap-store.c (create_folder): Whoops.
+	Double-free and FMR = bad.
+
 	* camel-remote-store.c (remote_send_string): Don't reveal the
 	user's IMAP password if their server supports LITERALPLUS. Also
 	add some more dashes to make it line up nicely :-)

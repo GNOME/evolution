@@ -1075,12 +1075,12 @@ create_folder (CamelStore *store, const char *parent_name,
                    recursive directory structure */
 		pathnames = imap_parse_folder_name (imap_store, folder_name);
 		full_name = imap_concat (imap_store, parent_name, pathnames[0]);
-		g_free (pathnames);
+		g_free (pathnames[0]);
 		parent = root = get_folder_info_online (store, full_name, 0, ex);
 		g_free (full_name);
 		for (i = 1; parent && pathnames[i]; i++) {
 			full_name = imap_concat (imap_store, parent_name, pathnames[i]);
-			g_free (pathnames);
+			g_free (pathnames[i]);
 			fi = get_folder_info_online (store, full_name, 0, ex);
 			g_free (full_name);
 			
@@ -1091,6 +1091,7 @@ create_folder (CamelStore *store, const char *parent_name,
 			parent->child = fi;
 			parent = fi;
 		}
+		g_free (pathnames);
 	} else
 		root = NULL;
 	
