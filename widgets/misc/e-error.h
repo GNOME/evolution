@@ -52,4 +52,6 @@ struct _GtkWidget *e_error_newv(struct _GtkWindow *parent, const char *tag, cons
 int e_error_run(struct _GtkWindow *parent, const char *tag, const char *arg0, ...);
 int e_error_runv(struct _GtkWindow *parent, const char *tag, const char *arg0, va_list ap);
 
+void e_error_default_parent(struct _GtkWindow *parent);
+
 #endif /* !_E_ERROR_H */

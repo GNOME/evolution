@@ -1,3 +1,10 @@
+2004-05-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-error.c (e_error_default_parent): set a default error parent
+	fallback.
+	(e_error_newv): if parent is null, see if we have a default still
+	alive, and use that.  warn if not.
+
 2004-05-20  JP Rosevear  <jpr@novell.com>
 
 	* e-task-widget.c (e_task_widget_construct): only unref the mask
