@@ -1,3 +1,7 @@
+2004-02-24  JP Rosevear <jpr@ximian.com>
+
+	* gui/Makefile.am: fix includes for builddir != srcdir
+
 2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* lib/e-pkcs12.c: #include <config.h>

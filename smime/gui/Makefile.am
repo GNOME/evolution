@@ -1,9 +1,11 @@
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-smime\"		\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/smime/lib			\
-	-I$(top_srcdir)/shell				\
 	-I$(top_builddir)				\
+	-I$(top_srcdir)/smime/lib			\
+	-I$(top_builddir)/smime/lib			\
+	-I$(top_srcdir)/shell				\
+	-I$(top_builddir)/shell				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
