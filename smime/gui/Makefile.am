@@ -21,7 +21,8 @@ INCLUDES =						\
 noinst_LTLIBRARIES = libevolution-smime.la
 
 libevolution_smime_la_SOURCES = 	\
-	certificate-manager.c
+	certificate-manager.c		\
+	certificate-manager.h
 
 libevolution_smime_la_LIBADD =			\
 	$(top_builddir)/smime/lib/libessmime.la	\
