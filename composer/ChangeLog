@@ -1,3 +1,8 @@
+2004-01-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (autosave_manager_query_load_orphans):
+	s/unsaved files/unsaved messages/ as per bug #45407.
+
 2004-01-08  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (set_editor_signature): add an assertion for no
