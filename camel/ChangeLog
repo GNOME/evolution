@@ -1,3 +1,15 @@
+2004-11-21 Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* providers/groupwise/camel-groupwise-provider.c : added 
+	a setting to mark the account for offline usuage 
+
+	* providers/groupwise/came-gw-listener.c 
+	(add_esource) (modify_esource) : changed the prototypes
+	to pass CamelUrl instead of individual properties 
+	Add offline_sync property on e-sources if account is 
+	marked for offline
+
+
 2004-11-18  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-stream.c:
