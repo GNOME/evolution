@@ -187,6 +187,10 @@ load_file_fn (EvolutionImporter *importer,
 {
 	VCardImporter *gci;
 
+	if (check_file_is_vcard (filename) == FALSE) {
+		return FALSE;
+	}
+
 	gci = (VCardImporter *) closure;
 	gci->filename = g_strdup (filename);
 	gci->folderpath = g_strdup (folderpath);

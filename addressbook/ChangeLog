@@ -1,3 +1,8 @@
+2001-09-04  Iain Holmes  <iain@ximian.com>
+
+	* backend/ebook/evolution-vcard-importer.c (load_file_fn): Return FALSE
+	if the file isn't a valid VCard file.
+
 2001-08-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	I18n fixes (mainly making buttons on the right side less Anglocentric :-)
