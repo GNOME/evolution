@@ -568,13 +568,13 @@
    <option value="is">
     <title>is</title>
     <code>
-      (match-all (= (get-source) ${source}))
+      (match-all (header-source ${source}))
     </code>
    </option>
    <option value="is-not">
     <title>is not</title>
     <code>
-      (match-all (not (= (get-source) ${source})))
+      (match-all (not (header-source ${source})))
     </code>
    </option>
   </input>

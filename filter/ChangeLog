@@ -1,3 +1,8 @@
+2002-09-19  Not Zed  <NotZed@Ximian.com>
+
+	* filtertypes.xml: Changed source account, use header-source
+	rather than (= (get-source) ...)
+
 2002-09-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filtertypes.xml: Add a Run Once action to run a command only
