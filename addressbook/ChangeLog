@@ -1,3 +1,9 @@
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c (add_creatable_item): Pass
+	"contacts" as the @folder_type to
+	evolution_shell_component_add_user_creatable_item().
+
 2002-07-31  Chris Toshok  <toshok@ximian.com>
 
 	[ roll in the following change from the 1.0 branch.]

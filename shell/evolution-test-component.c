@@ -588,14 +588,17 @@ register_component (void)
 	evolution_shell_component_add_user_creatable_item (shell_component, "Stuff",
 							   "New Stuff", "New _Stuff",
 							   "Create some new stuff",
+							   NULL,
 							   '\0', NULL);
 	evolution_shell_component_add_user_creatable_item (shell_component, "MoreStuff",
 							   "New More Stuff", "New _More Stuff",
 							   "Create more stuff",
+							   NULL,
 							   'n', NULL);
 	evolution_shell_component_add_user_creatable_item (shell_component, "FolderSelector",
 							   "Folder Selector", "New Folder _Selector",
 							   "Show a folder selector",
+							   NULL,
 							   's', NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",

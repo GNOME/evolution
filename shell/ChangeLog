@@ -1,3 +1,42 @@
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c (register_component): Pass NULL for
+	@folder_type to
+	evolution_shell_component_add_user_creatable_item().
+
+	* e-shell-user-creatable-items-handler.c: New member folder_type
+	in struct MenuItem.
+	(ensure_menu_items): Initialize ->folder_type.
+	(item_is_default): New helper function.
+	(create_menu_xml): New arg @folder_type.  Put the items on the top
+	using item_is_default().
+	(shell_view_view_changed_callback): Pass the folder type to
+	create_menu_xml().
+
+	* evolution-shell-component.c: New member folder_type in
+	UserCreatableItemType.
+	(user_creatable_item_type_new): New arg @folder_type.
+	(user_creatable_item_type_free): Free ->folder_type.
+	(evolution_shell_component_add_user_creatable_item): New arg
+	@folder_type.
+	(impl__get_userCreatableItemTypes): Set ->folderType in the
+	returned CORBA structs.
+
+	* Evolution-ShellComponent.idl: New member folderType in struct
+	UserCreatableItemType.
+
+	* e-shell-user-creatable-items-handler.c: New member component_id
+	in struct MenuItem.  Removed member menu_xml from
+	EShellUserCreatableItemsHandlerPrivate.
+	(init): No need to initialize menu_xml here anymore.
+	(impl_destroy): ...And no need to free here, either.
+	(setup_menu_xml): New, derived from ensure_menu_xml().  This
+	orders the menu so that the items for the current component go at
+	the top.
+	(create_menu_xml): Removed.
+	(e_shell_user_creatable_items_handler_attach_menus): Set up
+	properly for the current component ID, using setup_menu_xml().
+
 2002-07-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-folder-selector-button.c

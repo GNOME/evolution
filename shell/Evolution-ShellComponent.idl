@@ -14,21 +14,6 @@ module GNOME {
 module Evolution {
 	interface Shell;
 
-	/* Definition for a folder type.  */
-	struct FolderType {
-		string name;
-		string iconName;
-
-		string displayName;
-		string description;
-
-		boolean userCreatable;
-
-		sequence<string> acceptedDndTypes;
-		sequence<string> exportedDndTypes;
-	};
-	typedef sequence<FolderType> FolderTypeList;
-
 	/* URI schemas, e.g. mailto:.  */
 	typedef string URISchema;
 	typedef sequence<URISchema> URISchemaList;
@@ -42,8 +27,29 @@ module Evolution {
 		string tooltip;
 		char menuShortcut;
 		Icon icon;
+
+		// This specifies the folder type for which this user creatable
+		// type is a default type.
+		string folderType;
 	};
 	typedef sequence<UserCreatableItemType> UserCreatableItemTypeList;
+
+	/* Definition for a folder type.  */
+	struct FolderType {
+		string name;
+		string iconName;
+
+		string displayName;
+		string description;
+
+		boolean userCreatable;
+
+		sequence<string> acceptedDndTypes;
+		sequence<string> exportedDndTypes;
+
+		UserCreatableItemTypeList userCreatableItemTypes;
+	};
+	typedef sequence<FolderType> FolderTypeList;
 
 	interface ShellComponentListener;
 

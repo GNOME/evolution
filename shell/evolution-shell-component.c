@@ -52,6 +52,7 @@ struct _UserCreatableItemType {
 	char *tooltip;
 	char menu_shortcut;
 	GdkPixbuf *icon;
+	char *folder_type;
 };
 typedef struct _UserCreatableItemType UserCreatableItemType;
 
@@ -98,6 +99,7 @@ user_creatable_item_type_new (const char *id,
 			      const char *description,
 			      const char *menu_description,
 			      const char *tooltip,
+			      const char *folder_type,
 			      char menu_shortcut,
 			      GdkPixbuf *icon)
 {
@@ -109,6 +111,7 @@ user_creatable_item_type_new (const char *id,
 	type->menu_description = g_strdup (menu_description);
 	type->tooltip          = g_strdup (tooltip);
 	type->menu_shortcut    = menu_shortcut;
+	type->folder_type      = g_strdup (folder_type);
 
 	if (icon == NULL)
 		type->icon = NULL;
@@ -124,6 +127,7 @@ user_creatable_item_type_free (UserCreatableItemType *type)
 	g_free (type->id);
 	g_free (type->description);
 	g_free (type->menu_description);
+	g_free (type->folder_type);
 
 	if (type->icon != NULL)
 		gdk_pixbuf_unref (type->icon);
@@ -369,6 +373,7 @@ impl__get_userCreatableItemTypes (PortableServer_Servant servant,
 		corba_type->description     = CORBA_string_dup (type->description);
 		corba_type->menuDescription = CORBA_string_dup (type->menu_description);
 		corba_type->tooltip         = CORBA_string_dup (type->tooltip != NULL ? type->tooltip : "");
+		corba_type->folderType      = CORBA_string_dup (type->folder_type != NULL ? type->folder_type : "");
 		corba_type->menuShortcut    = type->menu_shortcut;
 
 		e_store_corba_icon_from_pixbuf (type->icon, & corba_type->icon);
@@ -1054,6 +1059,7 @@ evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *she
 						    const char *description,
 						    const char *menu_description,
 						    const char *tooltip,
+						    const char *folder_type,
 						    char menu_shortcut,
 						    GdkPixbuf *icon)
 {
@@ -1068,7 +1074,7 @@ evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *she
 
 	priv = shell_component->priv;
 
-	type = user_creatable_item_type_new (id, description, menu_description, tooltip, menu_shortcut, icon);
+	type = user_creatable_item_type_new (id, description, menu_description, tooltip, folder_type, menu_shortcut, icon);
 
 	priv->user_creatable_item_types = g_slist_prepend (priv->user_creatable_item_types, type);
 }

@@ -646,6 +646,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 		    const char *description,
 		    const char *menu_description,
 		    const char *tooltip,
+		    const char *folder_type,
 		    char menu_shortcut,
 		    const char *icon_name)
 {
@@ -665,6 +666,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 							   description,
 							   menu_description,
 							   tooltip,
+							   folder_type,
 							   menu_shortcut,
 							   icon);
 
@@ -705,22 +707,22 @@ create_object (void)
 	add_creatable_item (shell_component, CREATE_MEETING_ID,
 			    _("New meeting"), _("_Meeting"),
 			    _("Create a new meeting request"),
-			    's', "meeting-request.png");
+			    "calendar", 's', "meeting-request.png");
 
 	add_creatable_item (shell_component, CREATE_TASK_ID,
 			    _("New task"), _("_Task"),
 			    _("Create a new task"),
-			    't', "new_task-16.png");
+			    "tasks", 't', "new_task-16.png");
 
 	add_creatable_item (shell_component, CREATE_ALLDAY_EVENT_ID,
 			    _("New All Day Appointment"), _("All _Day Appointment"),
 			    _("Create a new all-day appointment"),
-			    'd', "new_all_day_event.png");
+			    "calendar", 'd', "new_all_day_event.png");
 
 	add_creatable_item (shell_component, CREATE_EVENT_ID,
 			    _("New appointment"), _("_Appointment"),
 			    _("Create a new appointment"),
-			    'a', "new_appointment.xpm");
+			    "calendar", 'a', "new_appointment.xpm");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (sc_user_create_new_item_cb), NULL);

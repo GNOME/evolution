@@ -993,12 +993,14 @@ create_component (void)
 	
 	evolution_shell_component_add_user_creatable_item (shell_component, "post",
 							   _("New Message Post"), _("_Post Message"),
-							   _("Post a new mail message"), 'p',
+							   _("Post a new mail message"),
+							   "mail", 'p',
 							   new_mail_icon);
 	
 	evolution_shell_component_add_user_creatable_item (shell_component, "message",
 							   _("New Mail Message"), _("_Mail Message"),
-							   _("Compose a new mail message"), 'm',
+							   _("Compose a new mail message"),
+							   "mail", 'm',
 							   new_mail_icon);
 	
 	if (new_mail_icon != NULL)

@@ -194,6 +194,7 @@ void  evolution_shell_component_add_user_creatable_item  (EvolutionShellComponen
 							  const char              *description,
 							  const char              *menu_description,
 							  const char              *tooltip,
+							  const char     	  *folder_type,
 							  char                     menu_shortcut,
 							  GdkPixbuf               *icon);
 

@@ -547,6 +547,7 @@ add_creatable_item (EvolutionShellComponent *shell_component,
 							   description,
 							   menu_description,
 							   tooltip,
+							   "contacts",
 							   menu_shortcut,
 							   icon);
 

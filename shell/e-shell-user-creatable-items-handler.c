@@ -71,6 +71,8 @@ struct _MenuItem {
 	char *verb;
 	char *tooltip;
 	GdkPixbuf *icon;
+	char *component_id;
+	char *folder_type;
 };
 typedef struct _MenuItem MenuItem;
 
@@ -86,9 +88,6 @@ struct _EShellUserCreatableItemsHandlerPrivate {
 	   creatable type.  This pointer always points to one of the menu items
 	   in ->menu_items.  */
 	const MenuItem *default_menu_item;
-
-	/* XML to describe the menu.  */
-	char *menu_xml;
 };
 
 
@@ -217,13 +216,14 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 				type = (const GNOME_Evolution_UserCreatableItemType *) component->type_list->_buffer + i;
 
 				item = g_new (MenuItem, 1);
-				item->label    = type->menuDescription;
-				item->shortcut = type->menuShortcut;
-				item->verb     = create_verb_from_component_number_and_type_id (component_num, type->id);
-				item->tooltip  = type->tooltip;
+				item->label        = type->menuDescription;
+				item->shortcut     = type->menuShortcut;
+				item->verb         = create_verb_from_component_number_and_type_id (component_num, type->id);
+				item->tooltip      = type->tooltip;
+				item->component_id = g_strdup (evolution_shell_component_client_get_id (component->component_client));
+				item->folder_type  = g_strdup (type->folderType);
 
-				if (strcmp (evolution_shell_component_client_get_id (component->component_client),
-					    EVOLUTION_MAIL_OAFIID) == 0
+				if (strcmp (item->component_id, EVOLUTION_MAIL_OAFIID) == 0
 				    && strcmp (type->id, "message") == 0)
 					default_verb = item->verb;
 
@@ -272,6 +272,8 @@ free_menu_items (GSList *menu_items)
 
 		if (item->icon != NULL)
 			gdk_pixbuf_unref (item->icon);
+
+		g_free (item->component_id);
 
 		g_free (item);
 	}
@@ -348,54 +350,115 @@ get_default_action_for_view (EShellUserCreatableItemsHandler *handler,
 
 /* The XML description for "File -> New".  */
 
+/* This adds a menu item for @item.  If @first is true, the keyboard shortcut
+   is going to be "Control-N" instead of whatever the component defines.  */
 static void
-ensure_menu_xml (EShellUserCreatableItemsHandler *handler)
+append_xml_for_menu_item (GString *xml,
+			  const MenuItem *item,
+			  gboolean first)
+{
+	char *encoded_label;
+	char *encoded_tooltip;
+
+	encoded_label = bonobo_ui_util_encode_str (item->label);
+	g_string_sprintfa (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
+			   item->verb, item->verb, encoded_label);
+
+	if (first)
+		g_string_sprintfa (xml, " accel=\"*Control*N\"");
+	else if (item->shortcut != '\0')
+		g_string_sprintfa (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
+
+	if (item->icon != NULL)
+		g_string_sprintfa (xml, " pixtype=\"pixbuf\" pixname=\"%s\"",
+				   bonobo_ui_util_pixbuf_to_xml (item->icon));
+
+	encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
+	g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
+
+	g_string_append (xml, "/> ");
+
+	g_free (encoded_label);
+	g_free (encoded_tooltip);
+}
+
+static gboolean
+item_is_default (const MenuItem *item,
+		 const char *folder_type,
+		 const char *component_id)
+{
+	if (component_id == NULL || folder_type == NULL)
+		return FALSE;
+
+	if (item->folder_type != NULL && *item->folder_type != 0) {
+		if (strcmp (item->folder_type, folder_type) == 0)
+			return TRUE;
+		else
+			return FALSE;
+	}
+
+	if (strcmp (item->component_id, component_id) == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static char *
+create_menu_xml (EShellUserCreatableItemsHandler *handler,
+		 const char *folder_type,
+		 const char *component_id)
 {
 	EShellUserCreatableItemsHandlerPrivate *priv;
 	GString *xml;
 	GSList *p;
+	char *retval;
 
 	priv = handler->priv;
-	if (priv->menu_xml != NULL)
-		return;
 
 	ensure_menu_items (handler);
 
 	xml = g_string_new ("");
 
 	g_string_append (xml, "<placeholder name=\"ComponentItems\">");
+	g_string_append (xml, "<placeholder name=\"EShellUserCreatableItemsPlaceholder\">");
 
-	for (p = priv->menu_items; p != NULL; p = p->next) {
-		const MenuItem *item;
-		char *encoded_label;
-		char *encoded_tooltip;
+	/* 1. Add all the elements that are default for this component.  (Note
+	   that we don't need to do any sorting since the items are already
+	   sorted alphabetically.)  */
+	if (component_id != NULL) {
+		gboolean first = TRUE;
 
-		item = (const MenuItem *) p->data;
+		for (p = priv->menu_items; p != NULL; p = p->next) {
+			const MenuItem *item;
 
-		encoded_label = bonobo_ui_util_encode_str (item->label);
-		g_string_sprintfa (xml, "<menuitem name=\"New:%s\" verb=\"%s\" label=\"%s\"",
-				   item->verb, item->verb, encoded_label);
-
-		if (item->shortcut != '\0')
-			g_string_sprintfa (xml, " accel=\"*Control**Shift*%c\"", item->shortcut);
-
-		if (item->icon != NULL)
-			g_string_sprintfa (xml, " pixtype=\"pixbuf\" pixname=\"%s\"",
-					   bonobo_ui_util_pixbuf_to_xml (item->icon));
-
-		encoded_tooltip = bonobo_ui_util_encode_str (item->tooltip);
-		g_string_sprintfa (xml, " tip=\"%s\"", encoded_tooltip);
-
-		g_string_append (xml, "/> ");
-
-		g_free (encoded_label);
-		g_free (encoded_tooltip);
+			item = (const MenuItem *) p->data;
+			if (item_is_default (item, folder_type, component_id)) {
+				append_xml_for_menu_item (xml, item, first);
+				first = FALSE;
+			}
+		}
 	}
 
-	g_string_append (xml, "</placeholder>");
+	/* 2. Add a separator. */
+	if (component_id != NULL)
+		g_string_sprintfa (xml, "<separator f=\"\" name=\"EShellUserCreatableItemsHandlerSeparator\"/>");
 
-	priv->menu_xml = xml->str;
+	/* 3. Add the elements that are not default for this component.  */
+	for (p = priv->menu_items; p != NULL; p = p->next) {
+		const MenuItem *item;
+
+		item = (const MenuItem *) p->data;
+		if (! item_is_default (item, folder_type, component_id))
+			append_xml_for_menu_item (xml, item, FALSE);
+	}
+
+	g_string_append (xml, "</placeholder>"); /* EShellUserCreatableItemsPlaceholder */
+	g_string_append (xml, "</placeholder>"); /* ComponentItems */
+
+	retval = xml->str;
 	g_string_free (xml, FALSE);
+
+	return retval;
 }
 
 
@@ -581,7 +644,9 @@ shell_view_view_changed_callback (EShellView *shell_view,
 	EShellUserCreatableItemsHandlerPrivate *priv;
 	GtkWidget *combo_button_widget;
 	GtkTooltips *tooltips;
+	BonoboUIComponent *ui_component;
 	const MenuItem *default_menu_item;
+	char *menu_xml;
 
 	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (data);
 	priv = handler->priv;
@@ -605,6 +670,17 @@ shell_view_view_changed_callback (EShellView *shell_view,
 
 	e_combo_button_set_icon (E_COMBO_BUTTON (combo_button_widget), default_menu_item->icon);
 	gtk_tooltips_set_tip (tooltips, combo_button_widget, default_menu_item->tooltip, NULL);
+
+	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
+	bonobo_ui_component_rm (ui_component, "/menu/File/New/ComponentItems/EShellUserCreatableItemsPlaceholder", NULL);
+	bonobo_ui_component_rm (ui_component, "/popups/NewPopup/ComponentItems/EShellUserCreatableItemsPlaceholder", NULL);
+
+	menu_xml = create_menu_xml (handler,
+				    e_shell_view_get_current_folder_type (shell_view),
+				    e_shell_view_get_current_component_id (shell_view));
+	bonobo_ui_component_set (ui_component, "/menu/File/New", menu_xml, NULL);
+	bonobo_ui_component_set (ui_component, "/popups/NewPopup", menu_xml, NULL);
+	g_free (menu_xml);
 }
 
 
@@ -624,8 +700,6 @@ impl_destroy (GtkObject *object)
 		component_free ((Component *) p->data);
 
 	g_slist_free (priv->components);
-
-	g_free (priv->menu_xml);
 
 	free_menu_items (priv->menu_items);
 
@@ -650,7 +724,6 @@ init (EShellUserCreatableItemsHandler *shell_user_creatable_items_handler)
 
 	priv = g_new (EShellUserCreatableItemsHandlerPrivate, 1);
 	priv->components 	= NULL;
-	priv->menu_xml   	= NULL;
 	priv->menu_items 	= NULL;
 	priv->default_menu_item = NULL;
 
@@ -681,7 +754,6 @@ e_shell_user_creatable_items_handler_add_component  (EShellUserCreatableItemsHan
 	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
 
 	priv = handler->priv;
-	g_return_if_fail (priv->menu_xml == NULL);
 
 	priv->components = g_slist_prepend (priv->components, component_new (id, shell_component_client));
 }
@@ -702,6 +774,7 @@ e_shell_user_creatable_items_handler_attach_menus (EShellUserCreatableItemsHandl
 {
 	BonoboUIComponent *ui_component;
 	EShellUserCreatableItemsHandlerPrivate *priv;
+	char *menu_xml;
 
 	g_return_if_fail (handler != NULL);
 	g_return_if_fail (E_IS_SHELL_USER_CREATABLE_ITEMS_HANDLER (handler));
@@ -714,13 +787,16 @@ e_shell_user_creatable_items_handler_attach_menus (EShellUserCreatableItemsHandl
 	gtk_signal_connect (GTK_OBJECT (shell_view), "view_changed",
 			    GTK_SIGNAL_FUNC (shell_view_view_changed_callback), handler);
 
-	ensure_menu_xml (handler);
-
 	add_verbs (handler, shell_view);
+	menu_xml = create_menu_xml (handler,
+				    e_shell_view_get_current_component_id (shell_view),
+				    e_shell_view_get_current_folder_type (shell_view));
 
 	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
-	bonobo_ui_component_set (ui_component, "/menu/File/New", priv->menu_xml, NULL);
-	bonobo_ui_component_set (ui_component, "/popups/NewPopup", priv->menu_xml, NULL);
+	bonobo_ui_component_set (ui_component, "/menu/File/New", menu_xml, NULL);
+	bonobo_ui_component_set (ui_component, "/popups/NewPopup", menu_xml, NULL);
+
+	g_free (menu_xml);
 }
 
 
