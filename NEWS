@@ -12,9 +12,17 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #14705 -- iMIP compatibility with versions of Outlook. (Better fix
 	      for the pseudo-fix in 1.0.1). We now support Outlook in
-	      both Workgroup and Internet-Only modes.
+	      both Workgroup and Internet-Only modes (Dan)
     #19054 -- Minimum number of alarm repetitions should be 1. (Federico)
-    #20780 -- Better subjects in iMIP messages
+    #19234 -- BYMONTH off-by-one in RRULE:FREQ=YEARLY (Damon)
+    #20510 -- Load free busy info as attendees are added (JP)
+    #20022 -- Itip addresses are case sensitive (JP)
+    #20226 -- Timezone data missing from some itip replies (JP)
+    #20346 -- Calendar should indicate if backend dies (Rodrigo)
+    #20780 -- Better subjects in iMIP messages (Dan)
+    #20787 -- Accepted/declined messages aren't always clear (JP)
+    #20800 -- Sorting of free busy information in schedule page does
+	      not work (JP)
 
   * Shell
 
