@@ -291,18 +291,29 @@ composer_sent_cb(char *uri, CamelMimeMessage *message, gboolean sent, void *data
 static CamelMimeMessage *
 composer_get_message (EMsgComposer *composer)
 {
-	CamelMimeMessage *message;
+	static char *recipient_type[] = {
+		CAMEL_RECIPIENT_TYPE_TO,
+		CAMEL_RECIPIENT_TYPE_CC,
+		CAMEL_RECIPIENT_TYPE_BCC
+	};
 	const CamelInternetAddress *iaddr;
-	const char *subject;
 	const MailConfigAccount *account;
+	CamelMimeMessage *message;
+	const char *subject;
+	int num_addrs, i;
 	
 	message = e_msg_composer_get_message (composer);
 	if (message == NULL)
 		return NULL;
 	
-	/* Check for no recipients */
-	iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-	if (!iaddr || CAMEL_ADDRESS (iaddr)->addresses->len == 0) {
+	/* Check for recipients */
+	for (num_addrs = 0, i = 0; i < 3 && num_addrs == 0; i++) {
+		iaddr = camel_mime_message_get_recipients (message, recipient_type[i]);
+		num_addrs += iaddr ? camel_address_length (CAMEL_ADDRESS (iaddr)) : 0;
+	}
+	
+	/* I'm sensing a lack of love, er, I mean recipients. */
+	if (num_addrs == 0) {
 		GtkWidget *message_box;
 		
 		message_box = gnome_message_box_new (_("You must specify recipients in order to "
@@ -325,7 +336,7 @@ composer_get_message (EMsgComposer *composer)
 			return NULL;
 		}
 	}
-
+	
 	/* Add info about the sending account */
 	account = e_msg_composer_get_preferred_account (composer);
 	if (account) {
@@ -333,7 +344,7 @@ composer_get_message (EMsgComposer *composer)
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
 	}
-
+	
 	return message;
 }
 
@@ -359,7 +370,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (!message)
 		return;
 	transport = mail_config_get_default_transport ();
-
+	
 	send = g_malloc (sizeof (*send));
 	send->psd = psd;
 	send->composer = composer;

@@ -1,3 +1,9 @@
+2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (composer_get_message): Allow the message to be
+	sent even if there are no To recipients but only as long as there
+	are other recipients defined.
+
 2001-06-21  Jason Leach  <jleach@ximian.com>
 
 	* component-factory.c (mail_remove_storage): Deregister the
@@ -6,7 +12,7 @@
 
 2001-06-20  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* folder-browser.c: More than on accel key is a tad
+	* folder-browser.c: More than one accel key is a tad
 	confusing.
 	
 2001-06-19  Jeffrey Stedfast  <fejj@ximian.com>
