@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-08-17 18:42+0200\n"
+"POT-Creation-Date: 2001-08-18 19:48+0200\n"
 "PO-Revision-Date: 2000-07-28 03:15+0200\n"
 "Last-Translator: Andraz Tori <andraz.tori1@guest.arnes.si>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -467,15 +467,17 @@ msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
 msgstr ""
-"Te podatke potrebuje vaš strežnik ldap za določitev katera vozlišča naj se uporabljajo za iskanja. Za več podatkov se obrnite na svojega administratorja."
+"Te podatke potrebuje vaš strežnik ldap za določitev katera vozlišča naj se "
+"uporabljajo za iskanja. Za več podatkov se obrnite na svojega "
+"administratorja."
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
 msgstr ""
-"To je izhodiščno vozlišče vseh vaših iskanj na strežniku ldap. Za več podatkov "
-"se obrnite na svojega administratorja."
+"To je izhodiščno vozlišče vseh vaših iskanj na strežniku ldap. Za več "
+"podatkov se obrnite na svojega administratorja."
 
 #: addressbook/gui/component/addressbook-config.glade.h:18
 msgid "This is the name of the server where your addressbook is located."
@@ -490,7 +492,8 @@ msgid ""
 "This name will be used to identify your account. It is for display purposes "
 "only."
 msgstr ""
-"To ime bo uporabljeno za identifikacijo vašega računa. Uporablja se le za prikaz."
+"To ime bo uporabljeno za identifikacijo vašega računa. Uporablja se le za "
+"prikaz."
 
 #: addressbook/gui/component/addressbook-config.glade.h:21
 msgid "_Account name:"
@@ -529,6 +532,7 @@ msgid "Other Contacts"
 msgstr "Drugo stiki"
 
 #: addressbook/gui/component/addressbook.c:372
+#, c-format
 msgid "Please enter your email address and password for access to %s"
 msgstr "Prosim vpišite naslov svoje e-pošte in geslo za %s"
 
@@ -1929,6 +1933,7 @@ msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:426
+#, c-format
 msgid "%d"
 msgstr "%d"
 
@@ -2755,7 +2760,8 @@ msgid ""
 "zone.\n"
 " Use the right mouse button to zoom out."
 msgstr ""
-"Uporabite lev miškin gumb za povečavo območja zemljevida in izbiro časovnega pasu.\n"
+"Uporabite lev miškin gumb za povečavo območja zemljevida in izbiro časovnega "
+"pasu.\n"
 " Uporabite desni miškin gumb za pomanjšavo."
 
 #: calendar/gui/dialogs/event-editor.c:156
@@ -3118,6 +3124,7 @@ msgstr "Dnevniški zapis se je spremenil. Pošlji posodobljeno različico?"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
+#, no-c-format
 msgid "% Complete"
 msgstr "% končano"
 
@@ -3379,6 +3386,7 @@ msgid "Delete _All Occurrences"
 msgstr "Zbriši _vse pojavitve"
 
 #: calendar/gui/e-itip-control.c:617
+#, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> je izdal(a) podatke o sestanku."
 
@@ -3405,6 +3413,7 @@ msgid "Meeting Update"
 msgstr "Posodobitev sestanka"
 
 #: calendar/gui/e-itip-control.c:632
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> želi dobiti najnovejše podatke o sestanku."
 
@@ -3413,6 +3422,7 @@ msgid "Meeting Update Request"
 msgstr "Zahtevek za posodobitev sestanka"
 
 #: calendar/gui/e-itip-control.c:637
+#, c-format
 msgid "<b>%s</b> has replyed to a meeting request."
 msgstr "<b>%s</b> je odgovoril(a) na zahtevek po sestanku."
 
@@ -3467,6 +3477,7 @@ msgid "Task Update"
 msgstr "Posodobitev naloge"
 
 #: calendar/gui/e-itip-control.c:680
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> želi dobiti najnovejše podatke o nalogi."
 
@@ -3497,6 +3508,7 @@ msgid "Bad Task Message"
 msgstr "Nerazumljivo sporočilo o nalogi"
 
 #: calendar/gui/e-itip-control.c:713
+#, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> je objavil(a) podatke o zasedenosti."
 
@@ -3505,6 +3517,7 @@ msgid "Free/Busy Information"
 msgstr "Podatki o zasedenosti"
 
 #: calendar/gui/e-itip-control.c:718
+#, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> zahteva vaše podatke o zasedenosti."
 
@@ -3513,6 +3526,7 @@ msgid "Free/Busy Request"
 msgstr "Zahtevek po podatkih o zasedenosti"
 
 #: calendar/gui/e-itip-control.c:723
+#, c-format
 msgid "<b>%s</b> has replyed to a free/busy request."
 msgstr "<b>%s</b> je odgovoril(a) na zahtevek po podatkih o zasedenosti."
 
@@ -3841,6 +3855,7 @@ msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
 #: calendar/gui/print.c:1846
+#, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Izbran teden (%s - %s)"
 
@@ -4006,7 +4021,9 @@ msgstr "has-categories? pričakuje vsaj 1 argument"
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
-msgstr "has-categories? pričakuje, da so vsi argumenti nizi ali da je natanko en argument boolean neresničen (#f)"
+msgstr ""
+"has-categories? pričakuje, da so vsi argumenti nizi ali da je natanko en "
+"argument boolean neresničen (#f)"
 
 #: calendar/pcs/query.c:967
 msgid "Evaluation of the search expression did not yield a boolean value"
@@ -4150,10 +4167,12 @@ msgid "Invalid type in body-contains, expecting string"
 msgstr "Neveljaven tip v body-contains, pričakovan niz"
 
 #: camel/camel-lock-client.c:110
+#, c-format
 msgid "Cannot build locking helper pipe: %s"
 msgstr "Nisem mogel ustvariti cevi za pomoč pri zaklepanju: %s"
 
 #: camel/camel-lock-client.c:123
+#, c-format
 msgid "Cannot fork locking helper: %s"
 msgstr "Ne morem razvejiti pomočnika za zaklepanje: %s"
 
@@ -4163,6 +4182,7 @@ msgid "Could not lock '%s': protocol error with lock-helper"
 msgstr "Nisem mogel zakleniti '%s': napaka v protokolu s programom lock-helper"
 
 #: camel/camel-lock-client.c:212
+#, c-format
 msgid "Could not lock '%s'"
 msgstr "Nisem se mogel zakleniti '%s'"
 
@@ -5056,6 +5076,7 @@ msgstr "Delam povzetek mape"
 
 #: camel/providers/local/camel-mbox-summary.c:254
 #: camel/providers/local/camel-spool-summary.c:384
+#, c-format
 msgid "Could not open folder: %s: summarizing from position %ld: %s"
 msgstr "Nisem mogel odpreti mape: %s: povzetek delam od položaja %ld dalje: %s"
 
@@ -5066,6 +5087,7 @@ msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr "Usodna napaka razčlenjevanja pošte na mestu %ld v mapi %s"
 
 #: camel/providers/local/camel-mbox-summary.c:371
+#, c-format
 msgid "Cannot summarize folder: %s: %s"
 msgstr "Ne morem narediti povzetka mape: %s: %s"
 
@@ -5078,6 +5100,7 @@ msgstr "Uskljajujem mapo %s"
 
 #: camel/providers/local/camel-mbox-summary.c:507
 #: camel/providers/local/camel-mbox-summary.c:708
+#, c-format
 msgid "Could not open folder to summarize: %s: %s"
 msgstr "Nisem mogel odpreti mape za izdelavo povzetka: %s: %s"
 
@@ -5150,14 +5173,17 @@ msgid "Cannot open MH directory path: %s: %s"
 msgstr "Ne morem odpreti poštnega imenika MH: %s: %s"
 
 #: camel/providers/local/camel-spool-folder.c:465
+#, c-format
 msgid "Cannot append message to spool file: %s: %s"
 msgstr "Ne morem pripeti sporočila k datoteki vrste 'spool': %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:132
+#, c-format
 msgid "Spool `%s' does not exist or is not a regular file"
 msgstr "Datoteka vrste 'spool' `%s' ne obstaja ali ni običajna datoteka"
 
 #: camel/providers/local/camel-spool-store.c:159
+#, c-format
 msgid "Folder `%s/%s' does not exist."
 msgstr "Mapa `%s/%s' ne obstaja."
 
@@ -5166,6 +5192,7 @@ msgid "Spool stores do not have an inbox"
 msgstr "Shramba vrste 'Spool' nima dohodnega predala"
 
 #: camel/providers/local/camel-spool-store.c:186
+#, c-format
 msgid "Spool mail file %s"
 msgstr "Datoteka vrste 'spool' s pošto %s"
 
@@ -5191,10 +5218,12 @@ msgstr "Nisem mogel odpreti mape za izdelavo povzetka %s: %s"
 #: camel/providers/local/camel-spool-summary.c:784
 #: camel/providers/local/camel-spool-summary.c:793
 #: camel/providers/local/camel-spool-summary.c:802
+#, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Nisem mogel uskladiti začasne mape %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:817
+#, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Nisem mogel uskladiti mape vrste 'spool' %s: %s"
 
@@ -5901,6 +5930,7 @@ msgstr ""
 "Želite uporabiti privzeto mapo osnutkov?"
 
 #: composer/e-msg-composer.c:1047
+#, c-format
 msgid "Error accessing file: %s"
 msgstr "Napaka ob dostopanju do datoteke: %s"
 
@@ -5909,6 +5939,7 @@ msgid "Unable to retrieve message from editor"
 msgstr "Od urejevalnika nisem uspel dobiti sporočila"
 
 #: composer/e-msg-composer.c:1061
+#, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
@@ -6068,6 +6099,7 @@ msgid "%Y/%m/%d"
 msgstr "%d/%m/%Y"
 
 #: e-util/e-time-utils.c:242
+#, c-format
 msgid "%x"
 msgstr "%x"
 
@@ -7075,7 +7107,8 @@ msgid ""
 " \n"
 " Really erase these messages? "
 msgstr ""
-"Ta operacija bo trajno zbrisala vsa sporočila označena kot zbrisana. Če boste nadaljevali ne boste mogli več do teh sporočil. \n"
+"Ta operacija bo trajno zbrisala vsa sporočila označena kot zbrisana. Če "
+"boste nadaljevali ne boste mogli več do teh sporočil. \n"
 " \n"
 " Resnično zbriši ta sporočila? "
 
@@ -7159,6 +7192,7 @@ msgstr "Evolucijin druid za račune"
 #. * what shortcut to insert?
 #.
 #: mail/mail-config.c:1534
+#, c-format
 msgid "%s: Inbox"
 msgstr "%s: Dohdona pošta"
 
@@ -7665,6 +7699,7 @@ msgid "Save Image as..."
 msgstr "Shrani sliko kot..."
 
 #: mail/mail-folder-cache.c:147
+#, c-format
 msgid "%d new"
 msgstr "%d novih"
 
@@ -7679,10 +7714,12 @@ msgid "%d hidden"
 msgstr "%d skritih"
 
 #: mail/mail-folder-cache.c:161
+#, c-format
 msgid "%d selected"
 msgstr "%d izbranih"
 
 #: mail/mail-folder-cache.c:170
+#, c-format
 msgid "%d unsent"
 msgstr "%d neposlanih"
 
@@ -7692,6 +7729,7 @@ msgid "%d total"
 msgstr "skupaj %d"
 
 #: mail/mail-format.c:623
+#, c-format
 msgid "%s attachment"
 msgstr "priloga %s"
 
@@ -7764,6 +7802,7 @@ msgid "Pointer to local file (%s)"
 msgstr "Kazalec na lokalno datoteko (%s)"
 
 #: mail/mail-format.c:2109
+#, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Kazalec na oddaljen podatek (%s)"
 
@@ -7931,10 +7970,12 @@ msgid "Retrieving message %s"
 msgstr "Prenašam sporočilo %s"
 
 #: mail/mail-ops.c:1751
+#, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Prenašam %d sporočil"
 
 #: mail/mail-ops.c:1837
+#, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Shranjujem %d sporočil"
 
@@ -8070,6 +8111,7 @@ msgid "(No subject)"
 msgstr "(brez zadeve)"
 
 #: mail/message-browser.c:127
+#, c-format
 msgid "%s - Message"
 msgstr "%s - sporočilo"
 
@@ -8146,10 +8188,12 @@ msgid "Size"
 msgstr "Velikost"
 
 #: mail/subscribe-dialog.c:166
+#, c-format
 msgid "Scanning folders under %s on \"%s\""
 msgstr "Pregledujem mape pod %s na \"%s\""
 
 #: mail/subscribe-dialog.c:168
+#, c-format
 msgid "Scanning root-level folders on \"%s\""
 msgstr "Pregledujem korenske mape na \"%s\""
 
@@ -8305,11 +8349,11 @@ msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "Komponenta povzetka ni mogla inicializirati Bonoba.\n"
 
 #: my-evolution/metar.c:29
-msgid "°F"
+msgid "�F"
 msgstr "°F"
 
 #: my-evolution/metar.c:29
-msgid "°C"
+msgid "�C"
 msgstr "°C"
 
 #: my-evolution/metar.c:33
@@ -9678,10 +9722,14 @@ msgstr ""
 "Napaka: %s"
 
 #: shell/e-setup.c:235
+#, c-format
 msgid ""
 "An error occurred in copying files into\n"
 "`%s'."
-msgstr "Ob kopiranju datotek v\n`%s'\n se je zgodila napaka."
+msgstr ""
+"Ob kopiranju datotek v\n"
+"`%s'\n"
+" se je zgodila napaka."
 
 #: shell/e-setup.c:308
 #, c-format
@@ -9750,6 +9798,7 @@ msgid "Move folder"
 msgstr "Prestavi mapo"
 
 #: shell/e-shell-folder-commands.c:357
+#, c-format
 msgid ""
 "Cannot delete folder:\n"
 "%s"
@@ -10269,6 +10318,7 @@ msgid "Evolution can import data from the following files:"
 msgstr "Evolucija lahko uvozi podatke iz sledečih datotek:"
 
 #: shell/main.c:95
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -10291,7 +10341,7 @@ msgstr ""
 "\n"
 "Če najdete hrošča, ga prosimo sporočite na bugzilla.ximian.com.\n"
 "Ta izdelek prihaja brez kakršnihkoli zagotovil in ni primeren za\n"
-"osebe, ki doživljajo nasilne napade jeze.\n" 
+"osebe, ki doživljajo nasilne napade jeze.\n"
 "\n"
 "Upamo, da boste uživali sadove našega trdega dela in nestrpno\n"
 "pričakujemo vaše prispevke!\n"
@@ -10309,6 +10359,7 @@ msgid "Cannot access the Evolution shell."
 msgstr "Ne morem dostopati do lupine Evolucije."
 
 #: shell/main.c:184
+#, c-format
 msgid "Cannot initialize the Evolution shell: %s"
 msgstr "Ne morem inicializirati lupine Evolucije: %s"
 
@@ -13781,8 +13832,8 @@ msgstr "init_bonobo(): nisem mogel inicializirati Bonoba"
 #~ "Ta sestanek ima pravila ponovitev po meri, ki ne morejo biti urejana "
 #~ "znotraj Evolucije.\n"
 #~ "\n"
-#~ "Vendar se bo sestanek ponovil pravočasno in bo  pravilno prikazan v pogledu "
-#~ "koledarja."
+#~ "Vendar se bo sestanek ponovil pravočasno in bo  pravilno prikazan v "
+#~ "pogledu koledarja."
 
 #~ msgid "may"
 #~ msgstr "maj"
