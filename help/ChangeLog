@@ -1,3 +1,7 @@
+2000-07-17  Federico Mena Quintero  <federico@helixcode.com>
+
+	* Makefile.am (SUBDIRS): Added the devel directory.
+
 2000-06-28  Peter Williams  <peterw@curious-george.helixcode.com>
 
 	* C/Makefile.am (SGML_FILES): Don't depend on the newly-removed

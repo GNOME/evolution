@@ -1,3 +1,9 @@
+2000-07-17  Federico Mena Quintero  <federico@helixcode.com>
+
+	* configure.in (AC_OUTPUT): Added the doc/devel Makefiles.
+	(EVOLUTION_DIR): Substitute EVOLUTION_DIR for the top_srcdir.
+	Added checks for gtk-doc.
+
 2000-07-12  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in: Make gnome-print-0.20 mandatory.  We will bail out
