@@ -1,5 +1,10 @@
 2001-05-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (composer_postpone_cb): Don't free the
+	folder-info here, instead have mail_append_mail() call our new
+	function, append_mail_cleanup() which'll free the
+	folder-info. This fixes the problem of send-later segfaulting.
+
 	* message-list.c (message_list_set_folder): Make the message-list
 	respect the "hide deleted messages" setting. Fixes bug #2248.
 

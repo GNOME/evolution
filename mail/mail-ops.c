@@ -860,24 +860,25 @@ void
 mail_append_mail (CamelFolder *folder,
 		  CamelMimeMessage *message,
 		  CamelMessageInfo *info,
-		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data), void *data)
+		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data),
+		  void *data)
 {
 	struct _append_msg *m;
-
+	
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-
-	m = mail_msg_new(&append_mail_op, NULL, sizeof(*m));
+	
+	m = mail_msg_new (&append_mail_op, NULL, sizeof (*m));
 	m->folder = folder;
-	camel_object_ref((CamelObject *)folder);
+	camel_object_ref (CAMEL_OBJECT (folder));
 	m->message = message;
-	camel_object_ref((CamelObject *)message);
+	camel_object_ref (CAMEL_OBJECT (message));
 	m->info = info;
-
+	
 	m->done = done;
 	m->data = data;
-
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	
+	e_thread_put (mail_thread_new, (EMsg *)m);
 }
 
 /* ** TRANSFER MESSAGES **************************************************** */

@@ -368,6 +368,12 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	mail_send_mail (transport->url, message, composer_sent_cb, send);
 }
 
+static void
+append_mail_cleanup (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+{
+	camel_message_info_free (info);
+}
+
 void
 composer_postpone_cb (EMsgComposer *composer, gpointer data)
 {
@@ -382,9 +388,8 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	info = camel_message_info_new ();
 	info->flags = CAMEL_MESSAGE_SEEN;
 	
-	mail_append_mail (outbox_folder, message, info, NULL, NULL);
+	mail_append_mail (outbox_folder, message, info, append_mail_cleanup, NULL);
 	camel_object_unref (CAMEL_OBJECT (message));
-	camel_message_info_free (info);
 	
 	if (psd) {
 		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);
