@@ -1397,7 +1397,7 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 			g_ptr_array_remove (model->priv->objects, comp_data);
 			free_comp_data (comp_data);
 
-			e_table_model_row_deleted (E_TABLE_MODEL (model), i);
+			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
 		}
 	}
 

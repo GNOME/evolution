@@ -1,5 +1,10 @@
 2004-03-25  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-cal-model.c (remove_client): fix off by one error when
+	emitting deleted signal
+
+2004-03-25  JP Rosevear <jpr@ximian.com>
+
 	Fixes #53499
 	
 	* gui/gnome-cal.c (setup_widgets): don't give the state file to
