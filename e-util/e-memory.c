@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2000 Helix Code Inc.
+ * Copyright (c) 2000, 2001 Helix Code Inc.
  *
- * Author: Michael Zucchi <notzed@helixcode.com>
+ * Authors: Michael Zucchi <notzed@ximian.com>
+ *	    Jacob Berkman <jacob@ximian.com>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +28,17 @@
 #include <glib.h>
 
 #define s(x)			/* strv debug */
+#define p(x)   /* poolv debug */
+#define p2(x)   /* poolv assertion checking */
+
+/* #define PROFILE_POOLV */
+
+#ifdef PROFILE_POOLV
+#include <time.h>
+#define pp(x) x
+#else
+#define pp(x)
+#endif
 
 /*#define TIMEIT*/
 
@@ -588,7 +600,7 @@ e_strv_set_ref(struct _EStrv *strv, int index, char *str)
 {
 	struct _e_strvunpacked *s;
 
-	s(printf("set ref %d '%s'\n ", index, str));
+	s(printf("set ref %d '%s'\nawkmeharder: %s\n ", index, str, str));
 
 	if (strv->length != STRV_UNPACKED)
 		s = strv_unpack(strv);
@@ -621,7 +633,7 @@ e_strv_set_ref_free(struct _EStrv *strv, int index, char *str)
 {
 	struct _e_strvunpacked *s;
 
-	s(printf("set ref %d '%s'\n ", index, str));
+	s(printf("set ref %d '%s'\nawkmeevenharder: %s\n ", index, str, str));
 
 	if (strv->length != STRV_UNPACKED)
 		s = strv_unpack(strv);
@@ -783,6 +795,318 @@ e_strv_destroy(struct _EStrv *strv)
 	s(printf("freeing strv=%p\n", strv));
 
 	g_free(strv);
+}
+
+
+
+/* string pool stuff */
+
+/* TODO:
+    garbage collection, using the following technique:
+      Create a memchunk for each possible size of poolv, and allocate every poolv from those
+      To garbage collect, scan all memchunk internally, ignoring any free areas (or mark each
+        poolv when freeing it - set length 0?), and find out which strings are not anywhere,
+	then free them.
+
+    OR:
+       Just keep a refcount in the hashtable, instead of duplicating the key pointer.
+
+   either would also require a free for the mempool, so ignore it for now */
+
+/*#define POOLV_REFCNT*/ /* Define to enable refcounting code that does
+			automatic garbage collection of unused strings */
+
+static GHashTable *poolv_pool = NULL;
+static EMemPool *poolv_mempool = NULL;
+
+#ifdef PROFILE_POOLV
+static gulong poolv_hits = 0;
+static gulong poolv_misses = 0;
+#endif
+
+#ifdef G_THREADS_ENABLED
+static GStaticMutex poolv_mutex = G_STATIC_MUTEX_INIT;
+#endif
+
+struct _EPoolv {
+	unsigned char length;
+	char *s[1];
+};
+
+/**
+ * e_poolv_new: @size: The number of elements in the poolv, maximum of 254 elements.
+ *
+ * create a new poolv (string vector which shares a global string
+ * pool).  poolv's can be used to work with arrays of strings which
+ * save memory by eliminating duplicated allocations of the same
+ * string.
+ *
+ * this is useful when you have a log of read-only strings that do not
+ * go away and are duplicated a lot (such as email headers).
+ *
+ * we should probably in the future ref count the strings contained in
+ * the hash table, but for now let's not.
+ *
+ * Return value: new pooled string vector
+ **/
+EPoolv *
+e_poolv_new(unsigned int size)
+{
+	EPoolv *poolv;
+
+	g_assert(size < 255);
+
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_lock(&poolv_mutex);
+#endif
+	if (!poolv_pool)
+		poolv_pool = g_hash_table_new(g_str_hash, g_str_equal);
+
+	if (!poolv_mempool)
+		poolv_mempool = e_mempool_new(32 * 1024, 512, E_MEMPOOL_ALIGN_BYTE);
+
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_unlock(&poolv_mutex);
+#endif
+
+	poolv = g_malloc0(sizeof (*poolv) + (size - 1) * sizeof (char *));
+	poolv->length = size;
+
+	p(g_print ("new poolv=%p\tsize=%d\n", poolv, sizeof(*poolv) + (size-1)*sizeof(char *)));
+
+	return poolv;
+}
+
+/**
+ * e_poolv_cpy:
+ * @dest: destination pooled string vector
+ * @src: source pooled string vector
+ *
+ * Copy the contents of a pooled string vector
+ *
+ * Return value: @dest
+ **/
+EPoolv *
+e_poolv_cpy(EPoolv *dest, const EPoolv *src)
+{
+#ifdef POOLV_REFCNT
+	int i;
+	unsigned int ref;
+	char *key;
+#endif
+
+	p2(g_return_val_if_fail (dest != NULL, NULL));
+	p2(g_return_val_if_fail (src != NULL, NULL));
+
+	if (dest->length != src->length) {
+		e_poolv_destroy(dest);
+		dest = e_poolv_new(src->length);
+	}
+
+#ifdef POOLV_REFCNT
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_lock(&poolv_mutex);
+#endif
+	/* ref new copies */
+	for (i=0;i<src->length;i++) {
+		if (src->s[i]) {
+			if (g_hash_table_lookup_extended(poolv_pool, src->s[i], (void **)&key, (void **)&ref)) {
+				g_hash_table_insert(poolv_pool, key, (void *)(ref+1));
+			} else {
+				g_assert_not_reached();
+			}
+		}
+	}
+
+	/* unref the old ones */
+	for (i=0;i<dest->length;i++) {
+		if (dest->s[i]) {
+			if (g_hash_table_lookup_extended(poolv_pool, dest->s[i], (void **)&key, (void **)&ref)) {
+				/* if ref == 1 free it */
+				g_assert(ref > 0);
+				g_hash_table_insert(poolv_pool, key, (void *)(ref-1));
+			} else {
+				g_assert_not_reached();
+			}
+		}
+	}
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_unlock(&poolv_mutex);
+#endif
+#endif
+
+	memcpy(dest->s, src->s, src->length * sizeof (char *));
+
+	return dest;
+}
+
+#ifdef PROFILE_POOLV
+static void
+poolv_profile_update (void)
+{
+	static time_t last_time = 0;
+	time_t new_time;
+
+	new_time = time (NULL);
+	if (new_time - last_time < 5)
+		return;
+
+	printf("poolv profile: %lu hits, %lu misses: %d%% hit rate\n", 
+	       poolv_hits, poolv_misses, 
+	       (int)(100.0 * ((double) poolv_hits / (double) (poolv_hits + poolv_misses))));
+
+	last_time = new_time;
+}
+#endif
+
+/**
+ * e_poolv_set:
+ * @poolv: pooled string vector
+ * @index: index in vector of string
+ * @str: string to set
+ * @freeit: whether the caller is releasing its reference to the
+ * string
+ *
+ * Set a string vector reference.  If the caller will no longer be
+ * referencing the string, freeit should be TRUE.  Otherwise, this
+ * will duplicate the string if it is not found in the pool.
+ *
+ * Return value: @poolv
+ **/
+EPoolv *
+e_poolv_set (EPoolv *poolv, int index, char *str, int freeit)
+{
+#ifdef POOLV_REFCNT
+	unsigned int ref;
+	char *key;
+#endif
+
+	p2(g_return_val_if_fail (poolv != NULL, NULL));
+
+	g_assert(index >=0 && index < poolv->length);
+
+	p(g_print ("setting %d `%s'\n", index, str));
+
+	if (!str) {
+#ifdef POOLV_REFCNT
+		if (poolv->s[index]) {
+			if (g_hash_table_lookup_extended(poolv_pool, poolv->s[index], (void **)&key, (void **)&ref)) {
+				g_assert(ref > 0);
+				g_hash_table_insert(poolv_pool, key, (void *)(ref-1));
+			} else {
+				g_assert_not_reached();
+			}
+		}
+#endif
+		poolv->s[index] = NULL;
+		return poolv;
+	}
+
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_lock(&poolv_mutex);
+#endif
+
+#ifdef POOLV_REFCNT
+	if (g_hash_table_lookup_extended(poolv_pool, str, (void **)&key, (void **)&ref)) {
+		g_hash_table_insert(poolv_pool, key, (void *)(ref+1));
+		poolv->s[index] = key;
+# ifdef PROFILE_POOLV
+		poolv_hits++;
+		poolv_profile_update ();
+# endif
+	} else {
+# ifdef PROFILE_POOLV
+		poolv_misses++;
+		poolv_profile_update ();
+# endif
+		poolv->s[index] = e_mempool_strdup(poolv_mempool, str);
+		g_hash_table_insert(poolv_pool, poolv->s[index], (void *)1);
+	}
+
+#else  /* !POOLV_REFCNT */
+	if ((poolv->s[index] = g_hash_table_lookup(poolv_pool, str)) != NULL) {
+# ifdef PROFILE_POOLV
+		poolv_hits++;
+		poolv_profile_update ();
+# endif
+	} else {
+# ifdef PROFILE_POOLV
+		poolv_misses++;
+		poolv_profile_update ();
+# endif
+		poolv->s[index] = e_mempool_strdup(poolv_mempool, str);
+		g_hash_table_insert(poolv_pool, poolv->s[index], poolv->s[index]);
+	}
+#endif /* !POOLV_REFCNT */
+
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_unlock(&poolv_mutex);
+#endif
+
+	if (freeit)
+		g_free(str);
+
+	return poolv;
+}
+
+/**
+ * e_poolv_get:
+ * @poolv: pooled string vector
+ * @index: index in vector of string
+ *
+ * Retrieve a string by index.  This could possibly just be a macro.
+ *
+ * Since the pool is never freed, this string does not need to be
+ * duplicated, but should not be modified.
+ *
+ * Return value: string at that index.
+ **/
+const char *
+e_poolv_get(EPoolv *poolv, int index)
+{
+	g_assert(poolv != NULL);
+	g_assert(index>= 0 && index < poolv->length);
+
+	p(g_print ("get %d = `%s'\n", index, poolv->s[index]));
+
+	return poolv->s[index]?poolv->s[index]:"";
+}
+
+/**
+ * e_poolv_destroy:
+ * @poolv: pooled string vector to free
+ *
+ * Free a pooled string vector.  This doesn't free the strings from
+ * the vector, however.
+ **/
+void
+e_poolv_destroy(EPoolv *poolv)
+{
+#ifdef POOLV_REFCNT
+	int i;
+	unsigned int ref;
+	char *key;
+
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_lock(&poolv_mutex);
+#endif
+	for (i=0;i<poolv->length;i++) {
+		if (poolv->s[i]) {
+			if (g_hash_table_lookup_extended(poolv_pool, poolv->s[i], (void **)&key, (void **)&ref)) {
+				/* if ref == 1 free it */
+				g_assert(ref > 0);
+				g_hash_table_insert(poolv_pool, key, (void *)(ref-1));
+			} else {
+				g_assert_not_reached();
+			}
+		}
+	}
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_unlock(&poolv_mutex);
+#endif
+#endif
+
+	g_free(poolv);
 }
 
 #if 0

@@ -1,7 +1,8 @@
 /*
- * Copyright (C) 2000, Helix Code Inc.
+ * Copyright (C) 2001, Helix Code Inc.
  *
- * Author: Michael Zucchi <notzed@helixcode.com>
+ * Authors: Michael Zucchi <notzed@ximian.com>
+ *	    Jacob Berkman <jacob@ximian.com>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -61,5 +62,14 @@ EStrv *e_strv_set(EStrv *strv, int index, const char *str);
 EStrv *e_strv_pack(EStrv *strv);
 char *e_strv_get(EStrv *strv, int index);
 void e_strv_destroy(EStrv *strv);
+
+/* poolv's are similar to strv's, but they store common strings */
+typedef struct _EPoolv EPoolv;
+
+EPoolv *e_poolv_new(unsigned int size);
+EPoolv *e_poolv_cpy(EPoolv *dest, const EPoolv *src);
+EPoolv *e_poolv_set(EPoolv *poolv, int index, char *str, int freeit);
+const char *e_poolv_get(EPoolv *poolv, int index);
+void e_poolv_destroy(EPoolv *poolv);
 
 #endif /* ! _E_MEMORY_H */

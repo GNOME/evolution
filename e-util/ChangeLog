@@ -1,3 +1,25 @@
+2001-04-26  Not Zed  <NotZed@Ximian.com>
+
+	* e-memory.c (e_poolv_get): Modified to match e_strv_get
+	behaviour.  Assert on bad cases, and return "" rather than NULL
+	for empty/unset strings.
+	(e_poolv_new): Simplify the mutex cases, only have a single mutex
+	for mempool and hashtable references.
+	(e_poolv_set): Simplify mutex code.  Fixed a #ifdef orde prob in
+	profile stuff.  Always copy string to our own memory when we add
+	it to the hash, even if we free it; I think this would have led to
+	dangling references otherwise.
+	(e_poolv_destroy): Renamed from poolv_free, for consistency with
+	the rest of the allocators here.
+	(e_poolv_set): Add optional refcounting code here, not currently
+	enabled/used, but should make proper string collection work
+	easily.
+	(e_poolv_destroy): Unrefcount the strings here.
+	(e_poolv_cpy): Add refcounting code here.
+
+	* e-memory.[ch]: Applied Jacob's patches <jacob@ximian.com> for
+	'e-poolv' type, added his name to the authors list.
+
 2001-04-24  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (check_size): If the buffer is too small, making
