@@ -9242,7 +9242,7 @@ msgstr "Nov _dogodek"
 
 #: ui/evolution-calendar.xml.h:23 ui/evolution-mail-message.xml.h:48
 msgid "Next"
-msgstr "Naprej"
+msgstr "Naslednje"
 
 #: ui/evolution-calendar.xml.h:25
 msgid "Open Calendar"
@@ -9904,7 +9904,7 @@ msgstr "Predogled sporoèika, ki bo natisnjeno"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Previous"
-msgstr "Prej¹nji"
+msgstr "Prej¹nje"
 
 #: ui/evolution-mail-message.xml.h:54
 msgid "Print Message..."
