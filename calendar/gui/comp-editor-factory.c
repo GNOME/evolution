@@ -315,7 +315,7 @@ get_default_event (gboolean all_day)
 	zone = icaltimezone_get_builtin_timezone (location);
 
 	if (all_day) {
-		itt = icaltime_today ();
+		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
 
 		dt.value = &itt;
 		dt.tzid = icaltimezone_get_tzid (zone);
