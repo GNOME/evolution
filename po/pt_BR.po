@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.3\n"
-"POT-Creation-Date: 2002-03-18 14:38-0500\n"
+"POT-Creation-Date: 2002-03-19 13:08-0500\n"
 "PO-Revision-Date: 2002-01-30 17:16-0200\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"

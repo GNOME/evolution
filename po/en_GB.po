@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
-"POT-Creation-Date: 2002-03-18 14:38-0500\n"
+"POT-Creation-Date: 2002-03-19 13:08-0500\n"
 "PO-Revision-Date: 2000-10-22 16:19+0100\n"
 "Last-Translator: Robert Brady <rwb197@zepler.org>\n"
 "Language-Team: \n"

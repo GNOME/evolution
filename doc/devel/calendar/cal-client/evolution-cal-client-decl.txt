@@ -234,6 +234,16 @@ CalClient *client, icaltimezone *zone
 CalClient *client, const char *str_uri, gboolean only_if_exists
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_client_open_default_calendar</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, gboolean only_if_exists
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_open_default_tasks</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, gboolean only_if_exists
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_client_uri_list</NAME>
 <RETURNS>GList  *</RETURNS>
 CalClient *client, CalMode mode

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2002-03-18 14:38-0500\n"
+"POT-Creation-Date: 2002-03-19 13:08-0500\n"
 "PO-Revision-Date: 2000-04-16 16:33+01:00\n"
 "Last-Translator: Tiago Antão <tiagoantao@bigfoot.com>\n"
 "Language-Team: Gnome Portuguese <gnome@poli.org>\n"

@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-03-18 14:38-0500\n"
+"POT-Creation-Date: 2002-03-19 13:08-0500\n"
 "PO-Revision-Date: 2001-09-17 15:10+0200\n"
 "Last-Translator: Manuel A. Fernández Montecelo <manuel@sindominio.net>\n"
 "Language-Team: Galician <trasno@ceu.fi.udc.es>\n"

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
-"POT-Creation-Date: 2002-03-18 14:38-0500\n"
+"POT-Creation-Date: 2002-03-19 13:08-0500\n"
 "PO-Revision-Date: 2001-03-23 02:12+0900\n"
 "Last-Translator: ChiDeok, Hwang <hwang@mizi.co.kr>\n"
 "Language-Team: korean <ko@li.org>\n"

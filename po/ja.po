@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20010612\n"
-"POT-Creation-Date: 2002-03-18 14:38-0500\n"
+"POT-Creation-Date: 2002-03-19 13:08-0500\n"
 "PO-Revision-Date: 2002-02-12 20:57+0900\n"
 "Last-Translator: Takuo KITAME <kitame@debian.org>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"

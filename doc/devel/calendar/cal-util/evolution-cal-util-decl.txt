@@ -1,188 +1,3 @@
-<USER_FUNCTION>
-<NAME>CalRecurInstanceFn</NAME>
-<RETURNS>gboolean </RETURNS>
-CalComponent *comp,
-					 time_t        instance_start,
-					 time_t        instance_end,
-					 gpointer      data
-</USER_FUNCTION>
-<USER_FUNCTION>
-<NAME>CalRecurResolveTimezoneFn</NAME>
-<RETURNS>icaltimezone *</RETURNS>
-const char   *tzid,
-							 gpointer      data
-</USER_FUNCTION>
-<FUNCTION>
-<NAME>cal_recur_generate_instances</NAME>
-<RETURNS>void 	</RETURNS>
-CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data,CalRecurResolveTimezoneFn tz_cb,gpointer		   tz_cb_data,icaltimezone		*default_timezone
-</FUNCTION>
-<TYPEDEF>
-<NAME>CalObjInstance</NAME>
-typedef struct {
-	char *uid;			/* UID of the object */
-	time_t start;			/* Start time of instance */
-	time_t end;			/* End time of instance */
-} CalObjInstance;
-</TYPEDEF>
-<FUNCTION>
-<NAME>cal_obj_instance_list_free</NAME>
-<RETURNS>void  </RETURNS>
-GList *list
-</FUNCTION>
-<ENUM>
-<NAME>CalObjType</NAME>
-typedef enum {
-	CALOBJ_TYPE_EVENT   = 1 << 0,
-	CALOBJ_TYPE_TODO    = 1 << 1,
-	CALOBJ_TYPE_JOURNAL = 1 << 2,
-	CALOBJ_TYPE_ANY     = 0x07
-} CalObjType;
-</ENUM>
-<ENUM>
-<NAME>CalMode</NAME>
-typedef enum {
-	CAL_MODE_INVALID = -1,
-	CAL_MODE_LOCAL   = 1 << 0,
-	CAL_MODE_REMOTE  = 1 << 1,
-	CAL_MODE_ANY     = 0x07
-} CalMode;
-</ENUM>
-<FUNCTION>
-<NAME>cal_obj_uid_list_free</NAME>
-<RETURNS>void  </RETURNS>
-GList *list
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_util_new_top_level</NAME>
-<RETURNS>icalcomponent  *</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_util_generate_alarms_for_comp</NAME>
-<RETURNS>CalComponentAlarms  *</RETURNS>
-CalComponent *comp,time_t start,time_t end,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_util_generate_alarms_for_list</NAME>
-<RETURNS>int  </RETURNS>
-GList *comps,time_t start,time_t end,GSList **comp_alarms,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_util_resolve_tzid</NAME>
-<RETURNS>icaltimezone  *</RETURNS>
-const char *tzid, gpointer data
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_util_priority_to_string</NAME>
-<RETURNS>char  *</RETURNS>
-int priority
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_util_priority_from_string</NAME>
-<RETURNS>int  </RETURNS>
-const char *string
-</FUNCTION>
-<FUNCTION>
-<NAME>time_days_in_month</NAME>
-<RETURNS>int 	</RETURNS>
-int year, int month
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_of_year</NAME>
-<RETURNS>int 	</RETURNS>
-int day, int month, int year
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_of_week</NAME>
-<RETURNS>int 	</RETURNS>
-int day, int month, int year
-</FUNCTION>
-<FUNCTION>
-<NAME>time_is_leap_year</NAME>
-<RETURNS>gboolean  </RETURNS>
-int year
-</FUNCTION>
-<FUNCTION>
-<NAME>time_leap_years_up_to</NAME>
-<RETURNS>int 	</RETURNS>
-int year
-</FUNCTION>
-<FUNCTION>
-<NAME>isodate_from_time_t</NAME>
-<RETURNS>char    *</RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_from_isodate</NAME>
-<RETURNS>time_t 	</RETURNS>
-const char *str
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_day</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, int days
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_week</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, int weeks
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_begin</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_end</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_day_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, int days, icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_week_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, int weeks, icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_month_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, int months, icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_year_begin_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_month_begin_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_week_begin_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, int week_start_day,icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_begin_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_end_with_zone</NAME>
-<RETURNS>time_t 	</RETURNS>
-time_t time, icaltimezone *zone
-</FUNCTION>
-<FUNCTION>
-<NAME>time_to_gdate_with_zone</NAME>
-<RETURNS>void  </RETURNS>
-GDate *date, time_t time, icaltimezone *zone
-</FUNCTION>
 <MACRO>
 <NAME>CAL_COMPONENT_TYPE</NAME>
 #define CAL_COMPONENT_TYPE            (cal_component_get_type ())
@@ -238,7 +53,9 @@ typedef enum {
 	CAL_COMPONENT_FIELD_COLOR,		/* not a real field */
 	CAL_COMPONENT_FIELD_STATUS,
 	CAL_COMPONENT_FIELD_COMPONENT,		/* not a real field */
+#if 0
 	CAL_COMPONENT_FIELD_LOCATION,
+#endif
 	CAL_COMPONENT_FIELD_NUM_FIELDS
 } CalComponentField;
 </ENUM>
@@ -1004,4 +821,189 @@ CalComponentAlarm *alarm, CalAlarmTrigger *trigger
 <NAME>cal_component_alarm_set_trigger</NAME>
 <RETURNS>void  </RETURNS>
 CalComponentAlarm *alarm, CalAlarmTrigger trigger
+</FUNCTION>
+<USER_FUNCTION>
+<NAME>CalRecurInstanceFn</NAME>
+<RETURNS>gboolean </RETURNS>
+CalComponent *comp,
+					 time_t        instance_start,
+					 time_t        instance_end,
+					 gpointer      data
+</USER_FUNCTION>
+<USER_FUNCTION>
+<NAME>CalRecurResolveTimezoneFn</NAME>
+<RETURNS>icaltimezone *</RETURNS>
+const char   *tzid,
+							 gpointer      data
+</USER_FUNCTION>
+<FUNCTION>
+<NAME>cal_recur_generate_instances</NAME>
+<RETURNS>void 	</RETURNS>
+CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data,CalRecurResolveTimezoneFn tz_cb,gpointer		   tz_cb_data,icaltimezone		*default_timezone
+</FUNCTION>
+<TYPEDEF>
+<NAME>CalObjInstance</NAME>
+typedef struct {
+	char *uid;			/* UID of the object */
+	time_t start;			/* Start time of instance */
+	time_t end;			/* End time of instance */
+} CalObjInstance;
+</TYPEDEF>
+<FUNCTION>
+<NAME>cal_obj_instance_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
+</FUNCTION>
+<ENUM>
+<NAME>CalObjType</NAME>
+typedef enum {
+	CALOBJ_TYPE_EVENT   = 1 << 0,
+	CALOBJ_TYPE_TODO    = 1 << 1,
+	CALOBJ_TYPE_JOURNAL = 1 << 2,
+	CALOBJ_TYPE_ANY     = 0x07
+} CalObjType;
+</ENUM>
+<ENUM>
+<NAME>CalMode</NAME>
+typedef enum {
+	CAL_MODE_INVALID = -1,
+	CAL_MODE_LOCAL   = 1 << 0,
+	CAL_MODE_REMOTE  = 1 << 1,
+	CAL_MODE_ANY     = 0x07
+} CalMode;
+</ENUM>
+<FUNCTION>
+<NAME>cal_obj_uid_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_new_top_level</NAME>
+<RETURNS>icalcomponent  *</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_generate_alarms_for_comp</NAME>
+<RETURNS>CalComponentAlarms  *</RETURNS>
+CalComponent *comp,time_t start,time_t end,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_generate_alarms_for_list</NAME>
+<RETURNS>int  </RETURNS>
+GList *comps,time_t start,time_t end,GSList **comp_alarms,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data,icaltimezone *default_timezone
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_resolve_tzid</NAME>
+<RETURNS>icaltimezone  *</RETURNS>
+const char *tzid, gpointer data
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_priority_to_string</NAME>
+<RETURNS>char  *</RETURNS>
+int priority
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_priority_from_string</NAME>
+<RETURNS>int  </RETURNS>
+const char *string
+</FUNCTION>
+<FUNCTION>
+<NAME>time_days_in_month</NAME>
+<RETURNS>int 	</RETURNS>
+int year, int month
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_of_year</NAME>
+<RETURNS>int 	</RETURNS>
+int day, int month, int year
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_of_week</NAME>
+<RETURNS>int 	</RETURNS>
+int day, int month, int year
+</FUNCTION>
+<FUNCTION>
+<NAME>time_is_leap_year</NAME>
+<RETURNS>gboolean  </RETURNS>
+int year
+</FUNCTION>
+<FUNCTION>
+<NAME>time_leap_years_up_to</NAME>
+<RETURNS>int 	</RETURNS>
+int year
+</FUNCTION>
+<FUNCTION>
+<NAME>isodate_from_time_t</NAME>
+<RETURNS>char    *</RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_from_isodate</NAME>
+<RETURNS>time_t 	</RETURNS>
+const char *str
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_day</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int days
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_week</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int weeks
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_begin</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_end</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_day_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int days, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_week_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int weeks, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_month_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int months, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_year_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_month_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_week_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int week_start_day,icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_end_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_to_gdate_with_zone</NAME>
+<RETURNS>void  </RETURNS>
+GDate *date, time_t time, icaltimezone *zone
 </FUNCTION>

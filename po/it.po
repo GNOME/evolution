@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2002-03-18 14:38-0500\n"
+"POT-Creation-Date: 2002-03-19 13:08-0500\n"
 "PO-Revision-Date: 2002-01-19 18:07+01:00\n"
 "Last-Translator: Clara Tattoni  <clara.tattoni@libero.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
