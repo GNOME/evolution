@@ -1,3 +1,17 @@
+2000-05-16  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-folder.c:
+	* providers/nntp/camel-nntp-folder.h:
+	* providers/nntp/camel-nntp-provider.c: 
+	* providers/nntp/camel-nntp-store.c: 
+	* providers/nntp/camel-nntp-utils.c: 
+	* providers/nntp/camel-nntp-utils.h: 
+	get things working with new camel summary stuff.
+
+	* providers/nntp/camel-nntp-summary.c: 
+	* providers/nntp/camel-nntp-summary.h: 
+	removed files since camel-folder-summary does all we need.
+
 2000-05-15  Jeffrey Stedfast  <fejj@stampede.org>
 
 	* providers/smtp/camel-smtp-transport.c: Added some preliminary

@@ -33,7 +33,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-GArray *camel_nntp_get_headers (CamelStore *store, CamelNNTPFolder *nntp_folder, CamelException *ex);
+void camel_nntp_get_headers (CamelStore *store, CamelNNTPFolder *nntp_folder, CamelException *ex);
 
 #ifdef __cplusplus
 }

@@ -19,13 +19,11 @@ libcamelnntp_la_SOURCES = 			\
 	camel-nntp-folder.c			\
 	camel-nntp-provider.c			\
 	camel-nntp-store.c			\
-	camel-nntp-summary.c			\
 	camel-nntp-utils.c
 
 libcamelnntpinclude_HEADERS =			\
 	camel-nntp-folder.h			\
-	camel-nntp-store.h			\
-	camel-nntp-summary.h
+	camel-nntp-store.h
 
 
 libcamelnntp_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 

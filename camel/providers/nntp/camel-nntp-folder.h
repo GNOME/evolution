@@ -35,7 +35,6 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
-#include "camel-nntp-summary.h"
 
 /*  #include "camel-store.h" */
 
@@ -49,6 +48,7 @@ typedef struct {
 	CamelFolder parent_object;
 
 	gchar *summary_file_path;  /* contains the messages summary */
+	CamelFolderSummary *summary;
 } CamelNNTPFolder;
 
 

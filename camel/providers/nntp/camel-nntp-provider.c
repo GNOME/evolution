@@ -3,7 +3,7 @@
 
 /* 
  * Authors :
- *   Dan Winship <danw@helixcode.com>
+ *   Chris Toshok <toshok@helixcode.com>
  *
  * Copyright (C) 2000 Helix Code, Inc. (www.helixcode.com)
  *
@@ -56,15 +56,13 @@ camel_provider_module_init (CamelSession *session)
 {
 	news_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_nntp_store_get_type();
-	nntp_provider.object_types[CAMEL_PROVIDER_STORE] =
-		camel_nntp_store_get_type();
 #ifdef NOTYET
 	nntp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
 		camel_nntp_transport_get_type();
 #endif
 
-	camel_session_register_provider (session", &news_provider);
-	camel_session_register_provider (session", &nntp_provider);
+	camel_session_register_provider (session, &news_provider);
+	camel_session_register_provider (session, &nntp_provider);
 }
 
 

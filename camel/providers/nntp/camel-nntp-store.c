@@ -37,6 +37,7 @@
 
 #include "libgnome/libgnome.h"
 
+#include "camel-folder-summary.h"
 #include "camel-nntp-store.h"
 #include "camel-nntp-folder.h"
 #include "camel-stream-buffer.h"
@@ -113,9 +114,6 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	CamelNNTPFolder *new_nntp_folder;
 	CamelFolder *new_folder;
 
-	/* XXX */
-	folder_name = "netscape.public.mozilla.announce";
-
 	/* check if folder has already been created */
 	/* call the standard routine for that when  */
 	/* it is done ... */
@@ -152,7 +150,6 @@ void
 camel_nntp_store_open (CamelNNTPStore *store, CamelException *ex)
 {
 	CamelService *service = CAMEL_SERVICE (store);
-
 	if (!camel_service_is_connected (service))
 		nntp_connect (service, ex);
 }
@@ -177,8 +174,8 @@ nntp_connect (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	struct sockaddr_in sin;
-	int fd, status, apoplen;
-	char *buf, *apoptime, *pass;
+	int fd;
+	char *buf;
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
 
 	if (!service_class->connect (service, ex))
@@ -209,7 +206,7 @@ nntp_connect (CamelService *service, CamelException *ex)
 						  CAMEL_STREAM_BUFFER_READ);
 
 	/* Read the greeting */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex /* XX check this */);
 	if (!buf) {
 		return -1;
 	}
@@ -217,6 +214,11 @@ nntp_connect (CamelService *service, CamelException *ex)
 	g_free (buf);
 
 	/* get a list of extensions that the server supports */
+	if (CAMEL_NNTP_OK == camel_nntp_command (store, NULL, "LIST EXTENSIONS")) {
+		char *ext_response = camel_nntp_command_get_additional_data(store);
+
+		g_free (ext_response);
+	}
 
 	return TRUE;
 }
@@ -284,12 +286,12 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 	}
 
 	/* Send the command */
-	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf));
+	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf), ex /* XXX */);
 	g_free (cmdbuf);
-	camel_stream_write (store->ostream, "\r\n", 2);
+	camel_stream_write (store->ostream, "\r\n", 2, ex /* XXX */);
 
 	/* Read the response */
-	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex /* XXX */);
 	resp_code = atoi (respbuf);
 
 	if (resp_code < 400)
@@ -314,6 +316,7 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
  * a NNTP command.
  * @store: the NNTP store
  *
+ * This command gets the additional data returned by
  * This command gets the additional data returned by "multi-line" POP
  * commands, such as LIST, RETR, TOP, and UIDL. This command _must_
  * be called after a successful (CAMEL_NNTP_OK) call to
@@ -330,10 +333,11 @@ camel_nntp_command_get_additional_data (CamelNNTPStore *store)
 	GPtrArray *data;
 	char *buf;
 	int i, status = CAMEL_NNTP_OK;
+	CamelException *ex = camel_exception_new();
 
 	data = g_ptr_array_new ();
 	while (1) {
-		buf = camel_stream_buffer_read_line (stream);
+		buf = camel_stream_buffer_read_line (stream, ex /* XXX */);
 		if (!buf) {
 			status = CAMEL_NNTP_FAIL;
 			break;
@@ -382,8 +386,16 @@ camel_nntp_store_subscribe_group (CamelStore *store,
 
 	if (CAMEL_NNTP_OK  == camel_nntp_command ( CAMEL_NNTP_STORE (store),
 						   &ret, "GROUP %s", group_name)) {
+		/* we create an empty summary file here, so that when
+                   the group is opened we'll know we need to build it. */
 		gchar *summary_file;
+		int fd;
 		summary_file = g_strdup_printf ("%s/%s-ev-summary", root_dir, group_name);
+		
+		fd = open (summary_file, O_CREAT | O_RDWR, 0666);
+		close (fd);
+
+		g_free (summary_file);
 	}
 	if (ret) g_free (ret);
 
@@ -420,7 +432,8 @@ camel_nntp_store_list_subscribed_groups(CamelStore *store)
 	gchar *root_dir = camel_nntp_store_get_toplevel_dir(CAMEL_NNTP_STORE(store));
 
 	dir_handle = opendir (root_dir);
-	
+	g_return_val_if_fail (dir_handle, NULL);
+
 	/* read the first entry in the directory */
 	dir_entry = readdir (dir_handle);
 	while ((stat_error != -1) && (dir_entry != NULL)) {
