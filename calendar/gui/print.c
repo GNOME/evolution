@@ -1039,6 +1039,8 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	GtkWidget *radio;
 	GSList *group;
 	char text[1024];
+	char str1[512];
+	char str2[512];
 	struct tm tm;
 	time_t week_begin, week_end;
 	struct tm week_begin_tm, week_end_tm;
@@ -1062,46 +1064,20 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 	week_begin_tm = *localtime (&week_begin);
 	week_end_tm = *localtime (&week_end);
 
-	/* FIXME: how to make this localization-friendly? */
-
 	if (week_begin_tm.tm_mon == week_end_tm.tm_mon) {
-		char month[128];
-		char day1[128];
-		char day2[128];
-
-		strftime (month, sizeof (month), _("%a"), &week_begin_tm);
-		strftime (day1, sizeof (day1), _("%b"), &week_begin_tm);
-		strftime (day2, sizeof (day2), _("%b"), &week_end_tm);
-
-		g_snprintf (text, sizeof (text), _("Current week (%s %s %d - %s %d %d)"),
-			    day1, month, week_begin_tm.tm_mday,
-			    day2, week_end_tm.tm_mday,
-			    week_begin_tm.tm_year + 1900);
+		strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
+		strftime (str2, sizeof (str2), _("%a %d %Y"), &week_end_tm);
 	} else {
-		char month1[128];
-		char month2[128];
-		char day1[128];
-		char day2[128];
-
-		strftime (month1, sizeof (month1), _("%a"), &week_begin_tm);
-		strftime (month2, sizeof (month2), _("%a"), &week_end_tm);
-		strftime (day1, sizeof (day1), _("%b"), &week_begin_tm);
-		strftime (day2, sizeof (day2), _("%b"), &week_end_tm);
-
-		if (week_begin_tm.tm_year == week_end_tm.tm_year)
-			g_snprintf (text, sizeof (text),
-				    _("Current week (%s %s %d - %s %s %d %d)"),
-				    day1, month1, week_begin_tm.tm_mday,
-				    day2, month2, week_end_tm.tm_mday,
-				    week_begin_tm.tm_year + 1900);
-		else
-			g_snprintf (text, sizeof (text),
-				    _("Current week (%s %s %d %d - %s %s %d %d)"),
-				    day1, month1, week_begin_tm.tm_mday,
-				    week_begin_tm.tm_year + 1900,
-				    day2, month2, week_end_tm.tm_mday,
-				    week_end_tm.tm_year + 1900);
+		if (week_begin_tm.tm_year == week_end_tm.tm_year) {
+			strftime (str1, sizeof (str1), _("%a %b %d"), &week_begin_tm);
+			strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
+		} else {
+			strftime (str1, sizeof (str1), _("%a %b %d %Y"), &week_begin_tm);
+			strftime (str2, sizeof (str2), _("%a %b %d %Y"), &week_end_tm);
+		}
 	}
+
+	g_snprintf (text, sizeof (text), _("Current week (%s - %s)"), str1, str2);
 
 	radio = gtk_radio_button_new_with_label (group, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
@@ -1109,7 +1085,7 @@ range_selector_new (GtkWidget *dialog, time_t at, int *view)
 
 	/* Month */
 
-	strftime (text, sizeof (text), _("Current month (%a %Y)"), &tm);
+	strftime (text, sizeof (text), _("Current month (%b %Y)"), &tm);
 	radio = gtk_radio_button_new_with_label (group, text);
 	group = gtk_radio_button_group (GTK_RADIO_BUTTON (radio));
 	gtk_box_pack_start (GTK_BOX (box), radio, FALSE, FALSE, 0);

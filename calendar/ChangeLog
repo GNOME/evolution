@@ -1,3 +1,11 @@
+2000-10-04  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/print.c (range_selector_new): Fix strftime() %a versus %b
+	confusion.  Fixes bugzilla #644.
+	(range_selector_new): Fix the whole localization mess by making
+	better use of strftime().  Now we generate whole date strings at a
+	time and compose them later.  Fixes bugzilla #643.
+
 2000-10-02  Jesse Pavel   <jpavel@helixcode.com>
 
 	* gui/e-meeting-edit.c: added support for the ROLE and RSVP parameters
