@@ -1432,6 +1432,7 @@ struct _PopupInfo {
 	GtkWidget *win;
 	guint destroy_timeout;
 	guint widget_destroy_handle;
+	gboolean hidden;
 };
 
 /* Aiieee!  Global Data! */
@@ -1449,22 +1450,9 @@ popup_info_free (PopupInfo *pop)
 }
 
 static void
-popup_widget_destroy_cb (GtkWidget *w, gpointer user_data)
-{
-	PopupInfo *pop = (PopupInfo *) user_data;
-
-	gtk_widget_destroy (pop->win);
-}
-
-static void
 popup_window_destroy_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *pop = (PopupInfo *) user_data;
-
-	if (pop->widget_destroy_handle) {
-		gtk_signal_disconnect (GTK_OBJECT (pop->w), pop->widget_destroy_handle);
-		pop->widget_destroy_handle = 0;
-	}
 
 	the_popup = NULL;
 
@@ -1489,6 +1477,7 @@ popup_enter_cb (GtkWidget *w, GdkEventCrossing *ev, gpointer user_data)
 
 	if (pop->destroy_timeout)
 		gtk_timeout_remove (pop->destroy_timeout);
+	pop->destroy_timeout = 0;
 
 	return 0;
 }
@@ -1500,7 +1489,9 @@ popup_leave_cb (GtkWidget *w, GdkEventCrossing *ev, gpointer user_data)
 
 	if (pop->destroy_timeout)
 		gtk_timeout_remove (pop->destroy_timeout);
-	pop->destroy_timeout = gtk_timeout_add (500, popup_timeout_cb, pop);
+
+	if (!pop->hidden)
+		pop->destroy_timeout = gtk_timeout_add (500, popup_timeout_cb, pop);
 
 	return 0;
 }
@@ -1511,10 +1502,14 @@ popup_realize_cb (GtkWidget *widget, gpointer user_data)
 	PopupInfo *pop = (PopupInfo *) user_data;
 
 	gtk_widget_add_events (pop->win, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
-	gtk_widget_add_events (pop->w, GDK_BUTTON_PRESS_MASK);
 
-	if (pop->destroy_timeout == 0)
-		pop->destroy_timeout = gtk_timeout_add (5000, popup_timeout_cb, pop);
+	if (pop->destroy_timeout == 0) {
+		if (!pop->hidden) {
+			pop->destroy_timeout = gtk_timeout_add (5000, popup_timeout_cb, pop);
+		} else {
+			pop->destroy_timeout = 0;
+		}
+	}
 }
 
 static void
@@ -1534,7 +1529,7 @@ popup_size_allocate_cb (GtkWidget *widget, GtkAllocation *alloc, gpointer user_d
 
 }
 
-static GtkWidget *
+static PopupInfo *
 make_popup_window (GtkWidget *w)
 {
 	PopupInfo *pop = g_new0 (PopupInfo, 1);
@@ -1553,11 +1548,6 @@ make_popup_window (GtkWidget *w)
 
 	gtk_window_set_policy (GTK_WINDOW (pop->win), FALSE, FALSE, FALSE);
 
-
-	pop->widget_destroy_handle = gtk_signal_connect (GTK_OBJECT (w),
-							 "destroy",
-							 GTK_SIGNAL_FUNC (popup_widget_destroy_cb),
-							 pop);
 	gtk_signal_connect (GTK_OBJECT (pop->win),
 			    "destroy",
 			    GTK_SIGNAL_FUNC (popup_window_destroy_cb),
@@ -1583,29 +1573,35 @@ make_popup_window (GtkWidget *w)
 	gtk_widget_show (fr);
 	gtk_widget_show (pop->win);
 
-	return pop->win;
+	return pop;
 }
 
-/* Copied from e-shell-view.c */
-static GtkWidget *
-find_socket (GtkContainer *container)
+static void
+listener_cb (BonoboListener    *listener,
+	     char              *event_name,
+	     CORBA_any         *any,
+	     CORBA_Environment *ev,
+	     gpointer           user_data)
 {
-        GList *children, *tmp;
+	PopupInfo *pop;
+	char *type;
 
-        children = gtk_container_children (container);
-        while (children) {
-                if (BONOBO_IS_SOCKET (children->data))
-                        return children->data;
-                else if (GTK_IS_CONTAINER (children->data)) {
-                        GtkWidget *socket = find_socket (children->data);
-                        if (socket)
-                                return socket;
-                }
-                tmp = children->next;
-                g_list_free_1 (children);
-                children = tmp;
-        }
-        return NULL;
+	pop = user_data;
+
+	if (pop->destroy_timeout)
+		gtk_timeout_remove (pop->destroy_timeout);
+	pop->destroy_timeout = 0;
+	
+	type = bonobo_event_subtype (event_name);
+
+	if (!strcmp (type, "Destroy")) {
+		gtk_widget_destroy (GTK_WIDGET (pop->win));
+	} else if (!strcmp (type, "Hide")) {
+		pop->hidden = TRUE;
+		gtk_widget_hide (GTK_WIDGET (pop->win));
+	}
+
+	g_free (type);
 }
 
 static int
@@ -1618,9 +1614,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 		if (event->button == 3) {
 			HTMLEngine *e;
 			HTMLPoint *point;
-			GtkWidget *socket;
 			GtkWidget *popup_thing;
-			GtkWidget *win;
 
 			e     = GTK_HTML (widget)->engine;
 			point = html_engine_get_point_at (e, event->x + e->x_offset, event->y + e->y_offset, FALSE);
@@ -1633,24 +1627,20 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 				src = html_object_get_src (point->object);
 
 				if (url && !g_strncasecmp (url, "mailto:", 7)) {
+					PopupInfo *pop;
 
 					popup_thing = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 										 CORBA_OBJECT_NIL);
-
-					socket = find_socket (GTK_CONTAINER (popup_thing));
 
 					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
 								    "email", url+7,
 								    NULL);
 					
-					win = make_popup_window (popup_thing);
-					gtk_signal_connect_object (GTK_OBJECT (socket),
-								   "destroy",
-								   GTK_SIGNAL_FUNC (gtk_widget_destroy),
-								   GTK_OBJECT (win));
+					pop = make_popup_window (popup_thing);
 
-
-					
+					bonobo_event_source_client_add_listener (
+						bonobo_widget_get_objref (BONOBO_WIDGET (popup_thing)),
+						listener_cb, NULL, NULL, pop);
 
 				} else if (url || src) {
 				        gint hide_mask = 0;

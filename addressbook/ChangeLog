@@ -1,3 +1,29 @@
+2001-08-22  jacob berkman  <jacob@ximian.com>
+
+	* gui/component/e-address-popup.c (emit_event): emit an event from
+	our event source
+	(contact_editor_cb): emit a destroy event so our control frame can
+	be destroyed.
+	(edit_contact_info_cb): emit a hide event so our control frame can
+	be hidden
+	(e_address_popup_cardify):
+	(add_contacts_cb): emit the destroy event
+	(e_address_popup_factory_new_control): don't unref our object at
+	widget destroy time as that was really really broken
+	(e_address_popup_factory_new_control): create an event source and
+	aggregate ourself with it
+
+	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
+	display a nicer warning when we can't find a widget for a given
+	field
+	(e_contact_editor_raise): only raise if there is a window
+
+	* gui/contact-editor/contact-editor.glade: name some widgets that
+	got unnamed, and set the first entry as defaultable
+
+	* gui/contact-editor/e-contact-editor.c: envelope printing is
+	disabled in 1.0
+
 2001-08-22  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_get_email): make

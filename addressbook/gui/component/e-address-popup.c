@@ -883,18 +883,36 @@ e_address_popup_new (void)
 }
 
 static void
+emit_event (EAddressPopup *pop, const char *event)
+{
+	if (pop->es) {
+		BonoboArg *arg;
+
+		arg = bonobo_arg_new (BONOBO_ARG_BOOLEAN);
+		BONOBO_ARG_SET_BOOLEAN (arg, TRUE);
+		bonobo_event_source_notify_listeners_full (pop->es,
+							   "GNOME/Evolution/Addressbook/AddressPopup",
+							   "Event",
+							   event,
+							   arg, NULL);
+		bonobo_arg_release (arg);
+	}	
+}
+
+static void
 contact_editor_cb (EBook *book, gpointer closure)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
 	EContactEditor *ce = e_addressbook_show_contact_editor (book, pop->card, FALSE, TRUE);
-	e_contact_editor_raise (ce);	
+	emit_event (pop, "Destroy");
+	e_contact_editor_raise (ce);
 }
 
 static void
 edit_contact_info_cb (EAddressPopup *pop)
 {
+	emit_event (pop, "Hide");
 	e_book_use_local_address_book (contact_editor_cb, pop);
-	gtk_widget_destroy (GTK_WIDGET (pop));
 }
 
 static void
@@ -932,8 +950,7 @@ add_contacts_cb (EAddressPopup *pop)
 			e_contact_quick_add_free_form (pop->email, NULL, NULL);
 
 	}
-
-	gtk_widget_destroy (GTK_WIDGET (pop));
+	emit_event (pop, "Destroy");
 }
 
 static void
@@ -997,7 +1014,8 @@ e_address_popup_ambiguous_email_add (EAddressPopup *pop, const GList *cards)
 		
 	card_picker_init (wiz, cards, pop->name, pop->email);
 
-	gtk_widget_destroy (GTK_WIDGET (pop));
+	emit_event (pop, "Destroy");
+
 	gtk_container_add (GTK_CONTAINER (win), wiz->body);
 	gtk_widget_show_all (win);
 }
@@ -1144,16 +1162,14 @@ e_address_popup_factory_new_control (void)
 {
         BonoboControl *control;
         BonoboPropertyBag *bag;
+	EAddressPopup *addy;
 	GtkWidget *w;
 
 	w = e_address_popup_new ();
+	addy = E_ADDRESS_POPUP (w);
+
 	control = bonobo_control_new (w);
 	gtk_widget_show (w);
-
-	gtk_signal_connect_object (GTK_OBJECT (w),
-				   "destroy",
-				   GTK_SIGNAL_FUNC (bonobo_object_unref),
-				   GTK_OBJECT (control));
 
         bag = bonobo_property_bag_new (get_prop, set_prop, w);
         bonobo_property_bag_add (bag, "name", PROPERTY_NAME,
@@ -1170,6 +1186,10 @@ e_address_popup_factory_new_control (void)
 
         bonobo_control_set_properties (control, bag);
         bonobo_object_unref (BONOBO_OBJECT (bag));
+
+	addy->es = bonobo_event_source_new ();
+	bonobo_object_add_interface (BONOBO_OBJECT (control),
+				     BONOBO_OBJECT (addy->es));
 
         return control;
 }

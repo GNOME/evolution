@@ -698,6 +698,7 @@
 	<widget>
 	  <class>GtkEntry</class>
 	  <name>entry-fullname</name>
+	  <can_default>True</can_default>
 	  <has_default>True</has_default>
 	  <can_focus>True</can_focus>
 	  <has_focus>True</has_focus>
@@ -1603,7 +1604,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label21</name>
+	  <name>accellabel-fileas</name>
 	  <label>File A_s:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
@@ -1630,7 +1631,7 @@
 
 	<widget>
 	  <class>GtkLabel</class>
-	  <name>label22</name>
+	  <name>accellabel-web</name>
 	  <label>_Web page address:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>

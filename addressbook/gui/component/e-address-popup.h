@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-defs.h>
 #include <addressbook/backend/ebook/e-card.h>
+#include <bonobo/bonobo-event-source.h>
 
 BEGIN_GNOME_DECLS
 
@@ -63,6 +64,8 @@ struct _EAddressPopup {
 	guint query_tag;
 	gboolean multiple_matches;
 	ECard *card;
+
+	BonoboEventSource *es;
 };
 
 struct _EAddressPopupClass {

@@ -1055,8 +1055,9 @@ EPixmap pixmaps[] = {
 	E_PIXMAP ("/commands/ContactEditorSaveAs", "save-as-16.png"),
 	E_PIXMAP ("/commands/ContactEditorDelete", "evolution-trash-mini.png"),
 	E_PIXMAP ("/commands/ContactEditorPrint", "print.xpm"),
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
 	E_PIXMAP ("/commands/ContactEditorPrintEnvelope", "print.xpm"),
-
+#endif
 	E_PIXMAP ("/Toolbar/ContactEditorSave", "buttons/save-24.png"),
 	E_PIXMAP ("/Toolbar/ContactEditorDelete", "buttons/delete-message.png"),
 	E_PIXMAP ("/Toolbar/ContactEditorPrint", "buttons/print.png"),
@@ -1340,6 +1341,9 @@ e_contact_editor_new (EBook *book,
 		      gboolean editable)
 {
 	EContactEditor *ce;
+
+	g_return_val_if_fail (E_IS_BOOK (book), NULL);
+	g_return_val_if_fail (E_IS_CARD (card), NULL);
 
 	ce = E_CONTACT_EDITOR (gtk_type_new (E_CONTACT_EDITOR_TYPE));
 
@@ -2185,11 +2189,23 @@ enable_writable_fields(EContactEditor *editor)
 	/* handle the label next to the dropdown widgets */
 
 	for (i = 0; i < num_widget_field_mappings; i ++) {
-		gboolean enabled = g_hash_table_lookup (supported_hash,
-							e_card_simple_get_ecard_field (simple,
-										       widget_field_mappings[i].field_id)) != NULL;
-		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-							       widget_field_mappings[i].widget_name), enabled);
+		gboolean enabled;
+		GtkWidget *w;
+		const char *field;
+
+		w = glade_xml_get_widget(editor->gui, widget_field_mappings[i].widget_name);
+		if (!w) {
+			g_warning (_("Could not find widget for a field: `%s'"),
+				   widget_field_mappings[i].widget_name);
+			continue;
+		}
+
+		field = e_card_simple_get_ecard_field (simple,
+						       widget_field_mappings[i].field_id);
+
+		enabled = (g_hash_table_lookup (supported_hash, field) != NULL);
+
+		gtk_widget_set_sensitive (w, enabled);
 	}
 
 	g_hash_table_destroy (dropdown_hash);
@@ -2464,7 +2480,9 @@ extract_info(EContactEditor *editor)
 void
 e_contact_editor_raise (EContactEditor *editor)
 {
-	gdk_window_raise (GTK_WIDGET (editor->app)->window);
+	/* FIXME: perhaps we should raise at realize time */
+	if (GTK_WIDGET (editor->app)->window)
+		gdk_window_raise (GTK_WIDGET (editor->app)->window);
 }
 
 /**
