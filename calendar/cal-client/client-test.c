@@ -30,6 +30,7 @@
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-main.h>
 #include "cal-client.h"
+#include "cal-util/cal-component.h"
 
 static CalClient *client1;
 static CalClient *client2;
@@ -132,8 +133,20 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		    (status == CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED) ? "method not supported" :
 		    "unknown status value"));
 
-	if (status == CAL_CLIENT_OPEN_SUCCESS)
+	if (status == CAL_CLIENT_OPEN_SUCCESS) {
+		CalComponent *comp;
+
+		/* get free/busy information */
+		cal_client_get_free_busy (client, 0, time (NULL), &comp);
+		if (IS_CAL_COMPONENT (comp)) {
+			char *comp_str = cal_component_get_as_string (comp);
+			gtk_object_unref (GTK_OBJECT (comp));
+			cl_printf (client, "Free/Busy -> %s\n", comp_str);
+			g_free (comp_str);
+		}
+
 		g_idle_add (list_uids, client);
+	}
 	else
 		gtk_object_unref (GTK_OBJECT (client));
 }
@@ -197,6 +210,8 @@ create_client (CalClient **client, const char *uri, gboolean only_if_exists)
 int
 main (int argc, char **argv)
 {
+	char *dir;
+
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
@@ -208,8 +223,11 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
-	create_client (&client1, "/tmp/calendar.ics", FALSE);
+	dir = g_strdup_printf ("%s/evolution/local/Calendar/calendar.ics", g_get_home_dir ());
+	create_client (&client1, dir, FALSE);
 	create_client (&client2, "/cvs/evolution/calendar/cal-client/test.ics", TRUE);
+
+	g_free (dir);
 
 	bonobo_main ();
 	return 0;

@@ -1,5 +1,8 @@
 2001-07-30  Rodrigo Moya <rodrigo@ximian.com>
 
+	* cal-client/client-test.c (cal_opened_cb): call cal_client_get_free_busy
+	for testing the new method
+
 	* pcs/cal-backend-file.c (cal_backend_file_get_free_busy): implemented
 
 2001-07-27  JP Rosevear  <jpr@ximian.com>
