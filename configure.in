@@ -468,6 +468,7 @@ calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/dialogs/Makefile
 filter/Makefile
+notes/Makefile
 wombat/Makefile
 art/Makefile
 default_user/Makefile
