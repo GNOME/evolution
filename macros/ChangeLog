@@ -1,3 +1,8 @@
+2000-01-20  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-objc-checks.m4: Look for sched_yield in -lrt, too.
+	Suggested by Drazen Kazar <dave@srce.hr>.
+
 2000-01-16  Vadim Strizhevsky  <vadim@optonline.net>
 
 	* gnome-pilot.m4: Fix typo in PILOT_LINK_HOOK.
