@@ -2367,7 +2367,7 @@ header_decode_mailbox(const char **in)
 			} else {
 				/* Fix for stupidly-broken-mailers that like to put '.''s in names unquoted */
 				/* see bug #8147 */
-				if (*inptr && *inptr != '<') {
+				while (!pre && *inptr && *inptr != '<') {
 					w(g_warning("Working around stupid mailer bug #5: unescaped characters in names"));
 					name = g_string_append_c(name, *inptr++);
 					pre = header_decode_word(&inptr);
