@@ -153,6 +153,17 @@ pas_book_queue_get_supported_fields (PASBook *book)
 	pas_book_queue_request (book, req);
 }
 
+static void
+pas_book_queue_get_supported_auth_methods (PASBook *book)
+{
+	PASRequest *req;
+
+	req     = g_new0 (PASRequest, 1);
+	req->op = GetSupportedAuthMethods;
+
+	pas_book_queue_request (book, req);
+}
+
 
 static void
 pas_book_queue_get_book_view (PASBook *book, const GNOME_Evolution_Addressbook_BookViewListener listener, const char *search)
@@ -365,6 +376,15 @@ impl_GNOME_Evolution_Addressbook_Book_getSupportedFields (PortableServer_Servant
 	pas_book_queue_get_supported_fields (book);
 }
 
+static void
+impl_GNOME_Evolution_Addressbook_Book_getSupportedAuthMethods (PortableServer_Servant servant,
+							       CORBA_Environment *ev)
+{
+	PASBook *book = PAS_BOOK (bonobo_object (servant));
+
+	pas_book_queue_get_supported_auth_methods (book);
+}
+
 /**
  * pas_book_get_backend:
  */
@@ -575,6 +595,43 @@ pas_book_respond_get_supported_fields (PASBook *book,
 	g_object_unref (fields);
 
 	GNOME_Evolution_Addressbook_BookListener_notifySupportedFields (
+			book->priv->listener, status,
+			&stringlist,
+			&ev);
+
+	CORBA_exception_free (&ev);
+
+	CORBA_free(stringlist._buffer);
+}
+
+void
+pas_book_respond_get_supported_auth_methods (PASBook *book,
+					     GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
+					     EList   *auth_methods)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_Addressbook_stringlist stringlist;
+	int num_auth_methods;
+	EIterator *iter;
+	int i;
+
+	CORBA_exception_init (&ev);
+
+	num_auth_methods = e_list_length (auth_methods);
+
+	stringlist._buffer = CORBA_sequence_CORBA_string_allocbuf (num_auth_methods);
+	stringlist._maximum = num_auth_methods;
+	stringlist._length = num_auth_methods;
+
+	iter = e_list_get_iterator (auth_methods);
+
+	for (i = 0; e_iterator_is_valid (iter); e_iterator_next (iter), i ++) {
+		stringlist._buffer[i] = CORBA_string_dup (e_iterator_get(iter));
+	}
+
+	g_object_unref (auth_methods);
+
+	GNOME_Evolution_Addressbook_BookListener_notifySupportedAuthMethods (
 			book->priv->listener, status,
 			&stringlist,
 			&ev);
@@ -861,6 +918,9 @@ pas_book_free_request (PASRequest *req)
 	case GetSupportedFields:
 		/* nothing to free */
 		break;
+	case GetSupportedAuthMethods:
+		/* nothing to free */
+		break;
 	}
 
 	g_free (req);
@@ -927,18 +987,19 @@ pas_book_class_init (PASBookClass *klass)
 
 	epv = &klass->epv;
 
-	epv->getVCard              = impl_GNOME_Evolution_Addressbook_Book_getVCard;
-	epv->authenticateUser      = impl_GNOME_Evolution_Addressbook_Book_authenticateUser;
-	epv->addCard               = impl_GNOME_Evolution_Addressbook_Book_addCard;
-	epv->removeCard            = impl_GNOME_Evolution_Addressbook_Book_removeCard;
-	epv->modifyCard            = impl_GNOME_Evolution_Addressbook_Book_modifyCard;
-	epv->checkConnection       = impl_GNOME_Evolution_Addressbook_Book_checkConnection;
-	epv->getStaticCapabilities = impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities;
-	epv->getSupportedFields    = impl_GNOME_Evolution_Addressbook_Book_getSupportedFields;
-	epv->getCursor             = impl_GNOME_Evolution_Addressbook_Book_getCursor;
-	epv->getBookView           = impl_GNOME_Evolution_Addressbook_Book_getBookView;
-	epv->getCompletionView     = impl_GNOME_Evolution_Addressbook_Book_getCompletionView;
-	epv->getChanges            = impl_GNOME_Evolution_Addressbook_Book_getChanges;
+	epv->getVCard                = impl_GNOME_Evolution_Addressbook_Book_getVCard;
+	epv->authenticateUser        = impl_GNOME_Evolution_Addressbook_Book_authenticateUser;
+	epv->addCard                 = impl_GNOME_Evolution_Addressbook_Book_addCard;
+	epv->removeCard              = impl_GNOME_Evolution_Addressbook_Book_removeCard;
+	epv->modifyCard              = impl_GNOME_Evolution_Addressbook_Book_modifyCard;
+	epv->checkConnection         = impl_GNOME_Evolution_Addressbook_Book_checkConnection;
+	epv->getStaticCapabilities   = impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities;
+	epv->getSupportedFields      = impl_GNOME_Evolution_Addressbook_Book_getSupportedFields;
+	epv->getSupportedAuthMethods = impl_GNOME_Evolution_Addressbook_Book_getSupportedAuthMethods;
+	epv->getCursor               = impl_GNOME_Evolution_Addressbook_Book_getCursor;
+	epv->getBookView             = impl_GNOME_Evolution_Addressbook_Book_getBookView;
+	epv->getCompletionView       = impl_GNOME_Evolution_Addressbook_Book_getCompletionView;
+	epv->getChanges              = impl_GNOME_Evolution_Addressbook_Book_getChanges;
 }
 
 static void

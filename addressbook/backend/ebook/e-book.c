@@ -481,12 +481,38 @@ e_book_do_response_get_supported_fields (EBook                 *book,
 
 	if (op->cb) {
 		if (op->active)
-			((EBookFieldsCallback) op->cb) (book, resp->status, resp->fields, op->closure);
+			((EBookFieldsCallback) op->cb) (book, resp->status, resp->list, op->closure);
 		else
 			((EBookFieldsCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 
-	g_object_unref(resp->fields);
+	g_object_unref(resp->list);
+
+	e_book_op_free (op);
+}
+
+static void
+e_book_do_response_get_supported_auth_methods (EBook                 *book,
+					       EBookListenerResponse *resp)
+{
+	EBookOp *op;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_get_supported_auth_methods: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+
+	if (op->cb) {
+		if (op->active)
+			((EBookAuthMethodsCallback) op->cb) (book, resp->status, resp->list, op->closure);
+		else
+			((EBookAuthMethodsCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+	}
+
+	g_object_unref(resp->list);
 
 	e_book_op_free (op);
 }
@@ -530,6 +556,9 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 		break;
 	case GetSupportedFieldsResponse:
 		e_book_do_response_get_supported_fields (book, resp);
+		break;
+	case GetSupportedAuthMethodsResponse:
+		e_book_do_response_get_supported_auth_methods (book, resp);
 		break;
 
 	case OpenProgressEvent:
@@ -860,6 +889,38 @@ e_book_get_supported_fields (EBook              *book,
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_get_supported_fields: Exception "
 			   "during get_supported_fields!\n");
+		CORBA_exception_free (&ev);
+		e_book_unqueue_op (book);
+		return 0;
+	}
+
+	CORBA_exception_free (&ev);
+
+	return tag;
+}
+
+guint
+e_book_get_supported_auth_methods (EBook                   *book,
+				   EBookAuthMethodsCallback cb,
+				   gpointer                 closure)
+{
+	CORBA_Environment ev;
+	guint tag;
+
+	CORBA_exception_init (&ev);
+
+	if (book->priv->load_state != URILoaded) {
+		g_warning ("e_book_unload_uri: No URI is loaded!\n");
+		return 0;
+	}
+
+	tag = e_book_queue_op (book, cb, closure, NULL);
+
+	GNOME_Evolution_Addressbook_Book_getSupportedAuthMethods(book->priv->corba_book, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_get_supported_auth_methods: Exception "
+			   "during get_supported_auth_methods!\n");
 		CORBA_exception_free (&ev);
 		e_book_unqueue_op (book);
 		return 0;

@@ -60,6 +60,7 @@ typedef void (*EBookCardCallback)     (EBook *book, EBookStatus status, ECard *c
 typedef void (*EBookCursorCallback)   (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure);
 typedef void (*EBookBookViewCallback) (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure);
 typedef void (*EBookFieldsCallback)   (EBook *book, EBookStatus status, EList *fields, gpointer closure);
+typedef void (*EBookAuthMethodsCallback) (EBook *book, EBookStatus status, EList *auth_methods, gpointer closure);
 
 /* Creating a new addressbook. */
 EBook    *e_book_new                      (void);
@@ -78,6 +79,9 @@ guint     e_book_get_supported_fields     (EBook                 *book,
 					   EBookFieldsCallback    cb,
 					   gpointer               closure);
 
+guint     e_book_get_supported_auth_methods (EBook                    *book,
+					     EBookAuthMethodsCallback  cb,
+					     gpointer                  closure);
 
 /* User authentication. */
 void      e_book_authenticate_user        (EBook                 *book,

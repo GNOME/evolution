@@ -1,5 +1,60 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (query_ldap_root_dse): build up
+	the list of supported auth_methods.
+	(pas_backend_ldap_process_get_supported_auth_methods): respond
+	with the list of auth methods we've built up.
+	(pas_backend_ldap_dispose): unref the auth_method list.
+	(pas_backend_ldap_class_init): hook up
+	pas_backend_ldap_process_get_supported_auth_methods.
+
+	* backend/pas/pas-backend.c
+	(pas_backend_get_supported_auth_methods): new function.
+	(process_client_requests): add clause for GetSupportedAuthMethods.
+
+	* backend/pas/pas-backend.h: add prototype for
+	pas_backend_get_supported_auth_methods, and add it to the class
+	vtable.
+
+	* backend/pas/pas-book.h: add GetSupportedAuthMethods enum member
+	and PASGetSupportedAuthMethodsRequest. and add prototype for
+	pas_book_respond_get_supported_auth_methods.
+
+	* backend/pas/pas-book.c
+	(pas_book_queue_get_supported_auth_methods): new function.
+	(impl_GNOME_Evolution_Addressbook_Book_getSupportedAuthMethods):
+	new function.
+	(pas_book_respond_get_supported_auth_methods): new function.
+	(pas_book_free_request): add clause for GetSupportedAuthMethods.
+	(pas_book_class_init): hook up getSupportedAuthMethods.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_queue_get_supported_fields_response): fields ->
+	list.
+	(e_book_listener_queue_get_supported_auth_methods_response): new
+	function.
+	(impl_BookListener_response_get_supported_auth_methods): new
+	function.
+	(e_book_listener_class_init): hook up
+	epv->notifySupportedAuthMethods.
+
+	* backend/ebook/e-book-listener.h: add
+	GetSupportedAuthMethodsResponse enum member, and change the field
+	name from "fields" to list (and use it for both GetSupportedFields
+	and GetSupportedAuthMethods)
+
+	* backend/ebook/e-book.c (e_book_get_supported_auth_methods): new
+	function.
+	(e_book_do_response_get_supported_auth_methods): new function.
+
+	* backend/ebook/e-book.h: add prototype for
+	e_book_get_supported_auth_methods.
+
+	* backend/idl/addressbook.idl: add getSupportedAuthMethods IDL
+	call.
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-book-factory.c (backend_last_client_gone_cb):
 	deal with backends that might not have loaded successfully
 	(they'll have a NULL uri).

@@ -44,6 +44,9 @@
 
 #include <stdlib.h>
 
+/* this is broken currently, don't enable it */
+/*#define ENABLE_SASL_BINDS*/
+
 typedef enum {
 	PAS_BACKEND_LDAP_TLS_NO,
 	PAS_BACKEND_LDAP_TLS_ALWAYS,
@@ -109,6 +112,7 @@ struct _PASBackendLDAPPrivate {
 	LDAP     *ldap;
 
 	EList    *supported_fields;
+	EList    *supported_auth_methods;
 
 	/* whether or not there's support for the objectclass we need
            to store all our additional fields */
@@ -585,8 +589,25 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 
 	values = ldap_get_values (ldap, resp, "supportedSASLMechanisms");
 	if (values) {
-		for (i = 0; values[i]; i++)
+		char *auth_method;
+		if (bl->priv->supported_auth_methods)
+			g_object_unref (bl->priv->supported_auth_methods);
+		bl->priv->supported_auth_methods = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
+
+		auth_method = g_strdup_printf ("ldap/simple-binddn|%s", _());
+		e_list_append (bl->priv->supported_auth_methods, auth_method);
+		g_free (auth_method);
+
+		auth_method = g_strdup_printf ("ldap/simple-email|%s");
+		e_list_append (bl->priv->supported_auth_methods, auth_method);
+		g_free (auth_method);
+
+		for (i = 0; values[i]; i++) {
+			auth_method = g_strdup_printf ("sasl/%s|%s", values[i], values[i]);
+			e_list_append (bl->priv->supported_auth_methods, auth_method);
+			g_free (auth_method);
 			g_message ("supported SASL mechanism: %s", values[i]);
+		}
 		ldap_value_free (values);
 	}
 
@@ -3129,6 +3150,9 @@ pas_backend_ldap_process_check_connection (PASBackend *backend,
 	pas_book_report_connection (book, bl->priv->connected);
 }
 
+#define LDAP_SIMPLE_PREFIX "ldap/simple-"
+#define SASL_PREFIX "sasl/"
+
 static void
 pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 					    PASBook    *book,
@@ -3138,51 +3162,78 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 	int ldap_error;
 	char *dn = NULL;
 
-	if (!strcmp (req->auth_method, "ldap/simple-email")) {
-		LDAPMessage    *res, *e;
-		char *query = g_strdup_printf ("(mail=%s)", req->user);
+	if (!strncasecmp (req->auth_method, LDAP_SIMPLE_PREFIX, strlen (LDAP_SIMPLE_PREFIX))) {
+       
+		if (!strcmp (req->auth_method, "ldap/simple-email")) {
+			LDAPMessage    *res, *e;
+			char *query = g_strdup_printf ("(mail=%s)", req->user);
 
-		ldap_error = ldap_search_s (bl->priv->ldap,
-					    bl->priv->ldap_rootdn,
-					    bl->priv->ldap_scope,
-					    query,
-					    NULL, 0, &res);
-		g_free (query);
+			ldap_error = ldap_search_s (bl->priv->ldap,
+						    bl->priv->ldap_rootdn,
+						    bl->priv->ldap_scope,
+						    query,
+						    NULL, 0, &res);
+			g_free (query);
 
-		if (ldap_error == LDAP_SUCCESS) {
-			char *entry_dn;
+			if (ldap_error == LDAP_SUCCESS) {
+				char *entry_dn;
 
-			e = ldap_first_entry (bl->priv->ldap, res);
+				e = ldap_first_entry (bl->priv->ldap, res);
 
-			entry_dn = ldap_get_dn (bl->priv->ldap, e);
-			dn = g_strdup(entry_dn);
+				entry_dn = ldap_get_dn (bl->priv->ldap, e);
+				dn = g_strdup(entry_dn);
 
-			ldap_memfree (entry_dn);
-			ldap_msgfree (res);
+				ldap_memfree (entry_dn);
+				ldap_msgfree (res);
+			}
+			else {
+				pas_book_respond_authenticate_user (book,
+								    GNOME_Evolution_Addressbook_BookListener_PermissionDenied);
+				return;
+			}
 		}
-		else {
+		else if (!strcmp (req->auth_method, "ldap/simple-binddn")) {
+			dn = g_strdup (req->user);
+		}
+
+		/* now authenticate against the DN we were either supplied or queried for */
+		printf ("simple auth as %s\n", dn);
+		ldap_error = ldap_simple_bind_s(bl->priv->ldap,
+						dn,
+						req->passwd);
+
+		pas_book_respond_authenticate_user (book,
+						    ldap_error_to_response (ldap_error));
+	}
+#ifdef ENABLE_SASL_BINDS
+	else if (!strncasecmp (req->auth_method, SASL_PREFIX, strlen (SASL_PREFIX))) {
+		g_print ("sasl bind (mech = %s) as %s", req->auth_method + strlen (SASL_PREFIX), req->user);
+		ldap_error = ldap_sasl_bind_s (bl->priv->ldap,
+					       NULL,
+					       req->auth_method + strlen (SASL_PREFIX),
+					       req->passwd,
+					       NULL,
+					       NULL,
+					       NULL);
+
+		if (ldap_error == LDAP_NOT_SUPPORTED)
 			pas_book_respond_authenticate_user (book,
-						    GNOME_Evolution_Addressbook_BookListener_PermissionDenied);
-			return;
-		}
+							    GNOME_Evolution_Addressbook_BookListener_UnsupportedAuthenticationMethod);
+		else
+			pas_book_respond_authenticate_user (book,
+							    ldap_error_to_response (ldap_error));
 	}
-	else if (!strcmp (req->auth_method, "ldap/simple-binddn")) {
-		dn = g_strdup (req->user);
+#endif
+	else {
+		pas_book_respond_authenticate_user (book,
+					    GNOME_Evolution_Addressbook_BookListener_UnsupportedAuthenticationMethod);
+		return;
 	}
-
-	/* now authenticate against the DN we were either supplied or queried for */
-	printf ("authenticating as %s\n", dn);
-	ldap_error = ldap_simple_bind_s(bl->priv->ldap,
-					dn,
-					req->passwd);
-
-	bl->priv->auth_dn = dn;
-	bl->priv->auth_passwd = g_strdup (req->passwd);
-
-	pas_book_respond_authenticate_user (book,
-					    ldap_error_to_response (ldap_error));
 
 	if (ldap_error == LDAP_SUCCESS) {
+		bl->priv->auth_dn = dn;
+		bl->priv->auth_passwd = g_strdup (req->passwd);
+
 		pas_backend_set_is_writable (backend, TRUE);
 
 		/* force a requery on the root dse since some ldap
@@ -3216,6 +3267,19 @@ pas_backend_ldap_process_get_supported_fields (PASBackend *backend,
 	pas_book_respond_get_supported_fields (book,
 					       GNOME_Evolution_Addressbook_BookListener_Success,
 					       bl->priv->supported_fields);
+}
+
+static void
+pas_backend_ldap_process_get_supported_auth_methods (PASBackend *backend,
+						     PASBook    *book,
+						     PASGetSupportedAuthMethodsRequest *req)
+
+{
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+
+	pas_book_respond_get_supported_auth_methods (book,
+						     GNOME_Evolution_Addressbook_BookListener_Success,
+						     bl->priv->supported_auth_methods);
 }
 
 static GNOME_Evolution_Addressbook_BookListener_CallStatus
@@ -3377,6 +3441,9 @@ pas_backend_ldap_dispose (GObject *object)
 		if (bl->priv->supported_fields)
 			g_object_unref (bl->priv->supported_fields);
 
+		if (bl->priv->supported_auth_methods)
+			g_object_unref (bl->priv->supported_auth_methods);
+
 		g_free (bl->priv->uri);
 
 		g_free (bl->priv);
@@ -3416,6 +3483,7 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	parent_class->get_changes             = pas_backend_ldap_process_get_changes;
 	parent_class->authenticate_user       = pas_backend_ldap_process_authenticate_user;
 	parent_class->get_supported_fields    = pas_backend_ldap_process_get_supported_fields;
+	parent_class->get_supported_auth_methods = pas_backend_ldap_process_get_supported_auth_methods;
 
 	object_class->dispose = pas_backend_ldap_dispose;
 }

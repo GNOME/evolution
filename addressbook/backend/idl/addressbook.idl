@@ -103,6 +103,30 @@ module Addressbook {
 
 		void getSupportedFields ();
 
+		/*
+		 * This function returns a list of strings
+		 * representing the auth methods (e.g. SASL mechs)
+		 * that a backend/server supports.
+		 *
+		 * Some examples are:
+		 *
+		 * "ldap/simple-email|By email Address"
+		 * "sasl/CRAM-MD5|CRAM-MD5(SASL)"
+		 *
+		 * The format should be:
+		 *
+		 * <class>/<type>|<i18nized string>
+		 *
+		 * "i18nized string" is shown in the UI, and should be
+		 * a user friendly representation of the auth method.
+		 *
+		 * in the case of SASL auth mechs, the text trailing
+		 * the '/' should be the proper name of the mechanism,
+		 * as it will be passed unchanged to the backend auth
+		 * function (eg. ldap_sasl_bind)
+		 */
+		void getSupportedAuthMethods ();
+
 		string getStaticCapabilities ();
 
 		string getName ();
@@ -120,6 +144,7 @@ module Addressbook {
 			AuthenticationFailed,
 			AuthenticationRequired,
 			UnsupportedField,
+			UnsupportedAuthenticationMethod,
 			TLSNotAvailable,
 			NoSuchBook,
 
@@ -147,6 +172,8 @@ module Addressbook {
 		void notifyAuthenticationResult (in CallStatus status);
 
 		void notifySupportedFields (in CallStatus status, in stringlist fields);
+
+		void notifySupportedAuthMethods (in CallStatus status, in stringlist fields);
 
 		/**
 		 * notifyConnectionStatus:

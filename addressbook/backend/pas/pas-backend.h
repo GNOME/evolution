@@ -64,6 +64,7 @@ typedef struct {
 	void (*get_changes) (PASBackend *backend, PASBook *book, PASGetChangesRequest *req);
 	void (*authenticate_user) (PASBackend *backend, PASBook *book, PASAuthenticateUserRequest *req);
 	void (*get_supported_fields) (PASBackend *backend, PASBook *book, PASGetSupportedFieldsRequest *req);
+	void (*get_supported_auth_methods) (PASBackend *backend, PASBook *book, PASGetSupportedAuthMethodsRequest *req);
 
 	/* Notification signals */
 	void (* last_client_gone) (PASBackend *backend);
@@ -121,6 +122,9 @@ void        pas_backend_authenticate_user        (PASBackend             *backen
 void        pas_backend_get_supported_fields     (PASBackend             *backend,
 						  PASBook                *book,
 						  PASGetSupportedFieldsRequest *req);
+void        pas_backend_get_supported_auth_methods (PASBackend             *backend,
+						    PASBook                *book,
+						    PASGetSupportedAuthMethodsRequest *req);
 
 
 GType       pas_backend_get_type                 (void);

@@ -220,6 +220,20 @@ pas_backend_get_supported_fields (PASBackend *backend,
 	return (* PAS_BACKEND_GET_CLASS (backend)->get_supported_fields) (backend, book, req);
 }
 
+void
+pas_backend_get_supported_auth_methods (PASBackend *backend,
+					PASBook *book,
+					PASGetSupportedAuthMethodsRequest *req)
+{
+	g_return_if_fail (PAS_IS_BACKEND (backend));
+	g_return_if_fail (PAS_IS_BOOK (book));
+	g_return_if_fail (req != NULL);
+
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods != NULL);
+
+	return (* PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods) (backend, book, req);
+}
+
 static void
 process_client_requests (PASBook *book, gpointer user_data)
 {
@@ -275,6 +289,10 @@ process_client_requests (PASBook *book, gpointer user_data)
 
 	case GetSupportedFields:
 		pas_backend_get_supported_fields (backend, book, &req->get_supported_fields);
+		break;
+
+	case GetSupportedAuthMethods:
+		pas_backend_get_supported_auth_methods (backend, book, &req->get_supported_auth_methods);
 		break;
 	}
 

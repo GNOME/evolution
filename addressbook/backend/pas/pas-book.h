@@ -41,7 +41,8 @@ typedef enum {
 	GetChanges,
 	CheckConnection,
 	AuthenticateUser,
-	GetSupportedFields
+	GetSupportedFields,
+	GetSupportedAuthMethods
 } PASOperation;
 
 typedef struct {
@@ -103,20 +104,25 @@ typedef struct {
 	PASOperation op;
 } PASGetSupportedFieldsRequest;
 
-typedef union {
-	PASOperation                 op;
+typedef struct {
+	PASOperation op;
+} PASGetSupportedAuthMethodsRequest;
 
-	PASCreateCardRequest         create;
-	PASRemoveCardRequest         remove;
-	PASModifyCardRequest         modify;
-	PASGetVCardRequest           get_vcard;
-	PASGetCursorRequest          get_cursor;
-	PASGetBookViewRequest        get_book_view;
-	PASGetCompletionViewRequest  get_completion_view;
-	PASGetChangesRequest         get_changes;
-	PASCheckConnectionRequest    check_connection;
-	PASAuthenticateUserRequest   auth_user;
-	PASGetSupportedFieldsRequest get_supported_fields;
+typedef union {
+	PASOperation                      op;
+
+	PASCreateCardRequest              create;
+	PASRemoveCardRequest              remove;
+	PASModifyCardRequest              modify;
+	PASGetVCardRequest                get_vcard;
+	PASGetCursorRequest               get_cursor;
+	PASGetBookViewRequest             get_book_view;
+	PASGetCompletionViewRequest       get_completion_view;
+	PASGetChangesRequest              get_changes;
+	PASCheckConnectionRequest         check_connection;
+	PASAuthenticateUserRequest        auth_user;
+	PASGetSupportedFieldsRequest      get_supported_fields;
+	PASGetSupportedAuthMethodsRequest get_supported_auth_methods;
 } PASRequest;
 
 struct _PASBook {
@@ -158,6 +164,9 @@ void                    pas_book_respond_authenticate_user (PASBook             
 void                    pas_book_respond_get_supported_fields (PASBook *book,
 							       GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 							       EList   *fields);
+void                    pas_book_respond_get_supported_auth_methods (PASBook *book,
+								     GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
+								     EList   *fields);
 
 void                    pas_book_respond_get_cursor     (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
