@@ -395,13 +395,16 @@ e_calendar_table_on_double_click (ETable *table,
 
 
 static GnomeUIInfo e_calendar_table_popup_uiinfo[] = {
-	{ GNOME_APP_UI_ITEM, N_("Open..."),
-	  N_("Open the task"), e_calendar_table_on_open_task,
-	  NULL, NULL, 0, 0, 0, 0 },
 	{ GNOME_APP_UI_ITEM, N_("Mark Complete"),
 	  N_("Mark the task complete"), e_calendar_table_on_mark_task_complete,
 	  NULL, NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Delete"),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_ITEM, N_("Edit this task..."),
+	  N_("Edit the task"), e_calendar_table_on_open_task,
+	  NULL, NULL, 0, 0, 0, 0 },
+	{ GNOME_APP_UI_ITEM, N_("Delete this task"),
 	  N_("Delete the task"), e_calendar_table_on_delete_task,
 	  NULL, NULL, 0, 0, 0, 0 },
 

@@ -1,5 +1,14 @@
 2001-02-06  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-week-view.c (e_week_view_show_popup_menu): Make the menus more
+	consistent
+
+	* gui/e-day-view.c (e_day_view_on_event_right_click): ditto
+
+	* gui/e-calendar-table.c: ditto
+
+2001-02-06  JP Rosevear  <jpr@ximian.com>
+	
 	* cal-util/cal-component.c (cal_component_set_categories): If the
 	categories string is empty, remove the property
 	(get_period_list): Fixes from clahey to handle the new rdate

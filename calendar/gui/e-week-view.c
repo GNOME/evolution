@@ -3213,16 +3213,23 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	static struct menu_item child_items[] = {
 		{ N_("Edit this appointment..."), (GtkSignalFunc) e_week_view_on_edit_appointment, NULL, TRUE },
 		{ N_("Delete this appointment"), (GtkSignalFunc) e_week_view_on_delete_appointment, NULL, TRUE },
+
 		{ NULL, NULL, NULL, TRUE },
+
 		{ N_("New appointment..."), (GtkSignalFunc) e_week_view_on_new_appointment, NULL, TRUE }
 	};
 
 	static struct menu_item recur_child_items[] = {
-		{ N_("Edit this appointment..."), (GtkSignalFunc) e_week_view_on_edit_appointment, NULL, TRUE },
 		{ N_("Make this appointment movable"), (GtkSignalFunc) e_week_view_on_unrecur_appointment, NULL, TRUE },
+
+		{ NULL, NULL, NULL, TRUE },
+
+		{ N_("Edit this appointment..."), (GtkSignalFunc) e_week_view_on_edit_appointment, NULL, TRUE },
 		{ N_("Delete this occurrence"), (GtkSignalFunc) e_week_view_on_delete_occurrence, NULL, TRUE },
 		{ N_("Delete all occurrences"), (GtkSignalFunc) e_week_view_on_delete_appointment, NULL, TRUE },
+
 		{ NULL, NULL, NULL, TRUE },
+
 		{ N_("New appointment..."), (GtkSignalFunc) e_week_view_on_new_appointment, NULL, TRUE }
 	};
 
@@ -3243,13 +3250,13 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		not_being_edited = TRUE;
 
 		if (cal_component_has_recurrences (event->comp)) {
-			num_items = 6;
+			num_items = 7;
 			context_menu = &recur_child_items[0];
 			context_menu[0].sensitive = not_being_edited;
-			context_menu[1].sensitive = not_being_edited;
 			context_menu[2].sensitive = not_being_edited;
 			context_menu[3].sensitive = not_being_edited;
-			context_menu[5].sensitive = have_selection;
+			context_menu[4].sensitive = not_being_edited;
+			context_menu[6].sensitive = have_selection;
 		} else {
 			num_items = 4;
 			context_menu = &child_items[0];
