@@ -758,6 +758,14 @@ int e_mutex_unlock(EMutex *m)
 	return -1;
 }
 
+void e_mutex_assert_locked(EMutex *m)
+{
+	g_return_if_fail (m->type == E_MUTEX_REC);
+	pthread_mutex_lock(&m->mutex);
+	g_assert(m->owner == pthread_self());
+	pthread_mutex_unlock(&m->mutex);
+}
+
 #ifdef STANDALONE
 EMsgPort *server_port;
 

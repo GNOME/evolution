@@ -1,5 +1,8 @@
 2001-05-01  Dan Winship  <danw@ximian.com>
 
+	* e-msgport.c (e_mutex_assert_locked): Debugging routine. (Only
+	works for recursive mutexes right now.)
+
 	* e-html-utils.c (e_text_to_html_full): Don't use g_utf8_next_char
 	on text that isn't valid UTF8, since it won't work (and might even
 	get into an infinite loop).
