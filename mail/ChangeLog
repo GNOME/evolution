@@ -1,3 +1,9 @@
+2004-12-07  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* mail-config.glade: add mnemonic for buttons, labels, etc.
+	* mail-dialogs.glade:add mnemonic for buttons, labels, etc.
+	* message-tags.glade:add mnemonic for buttons, labels, etc.
+
 2004-12-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component-factory.c (make_factory): and put them here
