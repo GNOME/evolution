@@ -1830,15 +1830,12 @@ static gboolean
 e_cell_text_retrieve_surrounding_cb (GtkIMContext *context,
 				ECellTextView        *tv)
 {
-	int cur_pos = 0;
 	CellEdit *edit = tv->edit;
-
-	cur_pos = g_utf8_pointer_to_offset (edit->text, edit->text + edit->selection_start);
 
 	gtk_im_context_set_surrounding (context,
 					edit->text,
 					strlen (edit->text),
-					cur_pos
+					MIN (edit->selection_start, edit->selection_end)
 					);
 	
 	return TRUE;
@@ -1850,11 +1847,25 @@ e_cell_text_delete_surrounding_cb   (GtkIMContext *context,
 				gint          n_chars,
 				ECellTextView        *tv)
 {
+	int begin_pos, end_pos;
+	glong text_len;
 	CellEdit *edit = tv->edit;
 
-	gtk_editable_delete_text (GTK_EDITABLE (edit),
-				  edit->selection_end + offset,
-				  edit->selection_end + offset + n_chars);
+	text_len = g_utf8_strlen (edit->text, -1);
+	begin_pos = g_utf8_pointer_to_offset (edit->text,
+			                      edit->text + MIN (edit->selection_start, edit->selection_end));
+	begin_pos += offset;
+	end_pos = begin_pos + n_chars;
+	if(begin_pos < 0 || text_len < begin_pos)
+		return FALSE;
+	if(end_pos > text_len)
+		end_pos = text_len;
+	edit->selection_start = g_utf8_offset_to_pointer (edit->text, begin_pos)
+		                - edit->text;
+	edit->selection_end = g_utf8_offset_to_pointer (edit->text, end_pos)
+		              - edit->text;
+
+	_delete_selection (tv);
 
 	return TRUE;
 }

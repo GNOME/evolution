@@ -921,6 +921,9 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 						max_x = E_REFLOW_BORDER_WIDTH;
 						max_x += (reflow->column_width + E_REFLOW_FULL_GUTTER) * reflow->column_count;
 						if ( button->y >= E_REFLOW_BORDER_WIDTH && button->y <= reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER && max_x > button->x ) {
+							/* don't allow to drag the first line*/
+							if (e_reflow_pick_line(reflow, button->x) == 0)
+								return TRUE;
 							reflow->which_column_dragged = e_reflow_pick_line(reflow, button->x);
 							reflow->start_x = reflow->which_column_dragged * (reflow->column_width + E_REFLOW_FULL_GUTTER) - E_REFLOW_DIVIDER_WIDTH / 2;
 							reflow->temp_column_width = reflow->column_width;

@@ -3848,7 +3848,7 @@ e_text_retrieve_surrounding_cb (GtkIMContext *context,
 	gtk_im_context_set_surrounding (context,
 					text->text,
 					strlen (text->text),
-					g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text);
+					g_utf8_offset_to_pointer (text->text, MIN (text->selection_start, text->selection_end)) - text->text);
 	
 	return TRUE;
 }
@@ -3859,9 +3859,9 @@ e_text_delete_surrounding_cb   (GtkIMContext *context,
 				gint          n_chars,
 				EText        *text)
 {
-	gtk_editable_delete_text (GTK_EDITABLE (text),
-				  text->selection_end + offset,
-				  text->selection_end + offset + n_chars);
+	e_text_model_delete (text->model,
+		             MIN (text->selection_start, text->selection_end) + offset,
+			     n_chars);
 
 	return TRUE;
 }
