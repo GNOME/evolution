@@ -2251,7 +2251,7 @@
    <title>Contacts and Cards</title>
    <para>Contacts are the individuals you have chosen to add to your address book so you can keep track of information about them and send e-mail to them. In Evolution, an individual contact is called a card.</para>
 
-   <section id="bsqchx3">
+   <section id="usage-contact-cards">
     <title>The Contact Editor</title>
     <para>If you want to add or change cards, you use the contact editor. To change a card that already exists, double-click it to open the contact editor window. If you want to create a new card, click the New button in the toolbar to open the same window, with blank entry boxes for you to fill in.</para>
     <mediaobject id="usage-contact-editor-fig"><imageobject><imagedata format="PNG" fileref="figures/evo_contacteditor_a.png"/></imageobject></mediaobject>

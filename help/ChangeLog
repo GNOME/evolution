@@ -1,3 +1,9 @@
+2004-11-05  JP Rosevear  <jpr@novell.com>
+
+	Fixes #68742
+	
+	* C/evolution.xml: fix section id
+
 2004-10-11  Rodney Dawes  <dobey@novell.com>
 
 	* C/Makefile.am: Add new images to figures
