@@ -49,6 +49,8 @@ struct _CalFactory {
 
 struct _CalFactoryClass {
 	BonoboObjectClass parent_class;
+
+	void (* last_calendar_gone) (CalFactory *factory);
 };
 
 GtkType cal_factory_get_type (void);

@@ -36,6 +36,12 @@ typedef struct {
 
 
 
+/* Signal IDs */
+enum {
+	LAST_CALENDAR_GONE,
+	LAST_SIGNAL
+};
+
 static void cal_factory_class_init (CalFactoryClass *class);
 static void cal_factory_init (CalFactory *factory);
 static void cal_factory_destroy (GtkObject *object);
@@ -43,6 +49,8 @@ static void cal_factory_destroy (GtkObject *object);
 static POA_Evolution_Calendar_CalFactory__vepv cal_factory_vepv;
 
 static BonoboObjectClass *parent_class;
+
+static guint cal_factory_signals[LAST_SIGNAL];
 
 
 
@@ -95,6 +103,16 @@ cal_factory_class_init (CalFactoryClass *class)
 	object_class = (GtkObjectClass *) class;
 
 	parent_class = gtk_type_class (bonobo_object_get_type ());
+
+	cal_factory_signals[LAST_CALENDAR_GONE] =
+		gtk_signal_new ("last_calendar_gone",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalFactoryClass, last_calendar_gone),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, cal_factory_signals, LAST_SIGNAL);
 
 	object_class->destroy = cal_factory_destroy;
 
@@ -276,10 +294,10 @@ backend_destroy_cb (GtkObject *object, gpointer data)
 	g_hash_table_remove (priv->backends, orig_uri);
 	gnome_vfs_uri_unref (orig_uri);
 
-	/* If there are no more backends, then the factory can go away */
+	/* Notify upstream if there are no more backends */
 
 	if (g_hash_table_size (priv->backends) == 0)
-		bonobo_object_unref (BONOBO_OBJECT (factory));
+		gtk_signal_emit (GTK_OBJECT (factory), cal_factory_signals[LAST_CALENDAR_GONE]);
 }
 
 /* Adds a backend to the calendar factory's hash table */

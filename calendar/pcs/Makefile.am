@@ -1,5 +1,5 @@
 INCLUDES =						\
-	-DG_LOG_DOMAIN=\"pcs\"				\
+	-DG_LOG_DOMAIN=\"wombat-pcs\"			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
@@ -35,3 +35,6 @@ libpcs_a_SOURCES =		\
 	icalendar.h		\
 	job.c			\
 	job.h
+
+BUILT_SOURCES = $(CORBA_GENERATED)
+CLEANFILES += $(BUILT_SOURCES)
