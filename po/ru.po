@@ -438,7 +438,8 @@ msgstr "Настройте здесь доступ к серверу катал�
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:6
 msgid "Control that displays an Evolution addressbook minicard."
-msgstr "Управляющий элемент, отображающий миникарточку адресной книги Evolution."
+msgstr ""
+"Управляющий элемент, отображающий миникарточку адресной книги Evolution."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
 msgid "Directory Servers"
@@ -454,7 +455,7 @@ msgstr "Компонент Evolution для обработки контакто�
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
 msgid "Factory for the Addressbook Minicard control"
-msgstr "Фабрика для управляющего элемента миникаторчки адресной книги."
+msgstr "Фабрика для управляющего элемента миникарточки адресной книги."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:11
 msgid "Factory for the Addressbook's address displayer"
@@ -686,11 +687,13 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:968
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "База данных для этой адресной книги не смогла обработать текущий запрос."
+msgstr ""
+"База данных для этой адресной книги не смогла обработать текущий запрос."
 
 #: addressbook/gui/component/addressbook.c:971
 msgid "The backend for this addressbook refused to perform this query."
-msgstr "База данных для этой адресной книги отказалась обрабатывать текущий запрос."
+msgstr ""
+"База данных для этой адресной книги отказалась обрабатывать текущий запрос."
 
 #: addressbook/gui/component/addressbook.c:975
 msgid "This query did not complete successfully."
@@ -1724,7 +1727,7 @@ msgstr "Бурунди"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Cambodia"
-msgstr "Кажбоджа"
+msgstr "Камбоджа"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Cameroon"
@@ -1991,7 +1994,7 @@ msgstr "Гондурас"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:227
 #: my-evolution/Locations.h:946
 msgid "Hong Kong"
-msgstr "Гонгконг"
+msgstr "Гонконг"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:228
 #: my-evolution/Locations.h:966
@@ -2451,7 +2454,7 @@ msgstr "Швеция"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:332
 #: my-evolution/Locations.h:2181
 msgid "Switzerland"
-msgstr "Щвейцария"
+msgstr "Швейцария"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:333
 #: my-evolution/Locations.h:2203
@@ -2592,7 +2595,7 @@ msgid ""
 "to delete this contact?"
 msgstr ""
 "Вы действительно хотите\n"
-"удалит этот контакт?"
+"удалить этот контакт?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
@@ -2617,7 +2620,7 @@ msgstr "TTY/TDD"
 #: addressbook/gui/contact-editor/e-contact-editor.c:2455
 #, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Не удается удалить найти элемент управления для поля: \"%s\""
+msgstr "Не удается найти элемент управления для поля: \"%s\""
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 msgid "Contact Quick-Add"
@@ -4334,7 +4337,8 @@ msgstr "перед каждой встречей"
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
-msgstr "Удаляемое событие является встречей, хотите отправитьуведомление об отмене?"
+msgstr ""
+"Удаляемое событие является встречей, хотите отправить уведомление об отмене?"
 
 #: calendar/gui/dialogs/cancel-comp.c:59
 msgid "Are you sure you want to cancel and delete this meeting?"
@@ -4916,7 +4920,8 @@ msgstr "Информация о встрече была изменена. Отп
 
 #: calendar/gui/dialogs/send-comp.c:66
 msgid "The task assignment information has been created. Send it?"
-msgstr "Информация о назначении задачи была изменена. Отправить обновлённую версию?"
+msgstr ""
+"Информация о назначении задачи была изменена. Отправить обновлённую версию?"
 
 #: calendar/gui/dialogs/send-comp.c:70
 msgid "The task information has changed. Send an updated version?"
@@ -5498,7 +5503,7 @@ msgstr "<b>%s</b> запрашивает ваше присутствие на с
 
 #: calendar/gui/e-itip-control.c:1303
 msgid "Meeting Proposal"
-msgstr "Прредложение собрания"
+msgstr "Предложение собрания"
 
 #: calendar/gui/e-itip-control.c:1307
 #, c-format
@@ -5688,11 +5693,13 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1921
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "Этот ответ пришел не от текущего участника.  Добавить его, как участника?"
+msgstr ""
+"Этот ответ пришел не от текущего участника.  Добавить его, как участника?"
 
 #: calendar/gui/e-itip-control.c:1933
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
+msgstr ""
+"Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
 #: calendar/gui/e-itip-control.c:1957
 msgid "You don't have the right permissions to update the calendar\n"
@@ -6361,8 +6368,10 @@ msgid "Print Setup"
 msgstr "Настройка печати"
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
-msgstr "Не удается создать окно задач. Пожалуйста, проверьте настройки ORBit и OAF."
+msgid ""
+"Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgstr ""
+"Не удается создать окно задач. Пожалуйста, проверьте настройки ORBit и OAF."
 
 #: calendar/gui/tasks-control.c:147
 msgid "The URI of the tasks folder to display"
@@ -6406,7 +6415,7 @@ msgid ""
 msgstr ""
 "Evolution попробовала взять задачи из вашей папки календаря и автоматически "
 "перенести их в новую папку задач.\n"
-"Некоторые из задач не смогли быть перенесены, поэтому процессможно повторить "
+"Некоторые из задач не смогли быть перенесены, поэтому процесс можно повторить "
 "в будущем."
 
 #: calendar/gui/tasks-migrate.c:120
@@ -6686,7 +6695,7 @@ msgstr "Африка/Хараре"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr "Африка/Йоханесбург"
+msgstr "Африка/Йоханнесбург"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
@@ -7030,11 +7039,11 @@ msgstr "Америка/Джуно"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr "Америка/Кентуки/Луисвиль"
+msgstr "Америка/Кентукки/Луисвиль"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr "Америка/Кентуки/Монтицелло"
+msgstr "Америка/Кентукки/Монтицелло"
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
@@ -7414,7 +7423,7 @@ msgstr "Азия/Харбин"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr "Азия/Гонгконг"
+msgstr "Азия/Гонконг"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
@@ -7654,7 +7663,7 @@ msgstr "Атлантика/Мадера"
 
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr "Атлантика/Рейкъявик"
+msgstr "Атлантика/Рейкьявик"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
@@ -7782,7 +7791,7 @@ msgstr "Европа/Киев"
 
 #: calendar/zones.h:305
 msgid "Europe/Lisbon"
-msgstr "Европа/Лисабон"
+msgstr "Европа/Лиссабон"
 
 #: calendar/zones.h:306
 msgid "Europe/Ljubljana"
@@ -7870,7 +7879,7 @@ msgstr "Европа/Стокгольм"
 
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr "Европа/Таллинн"
+msgstr "Европа/Таллин"
 
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
@@ -8289,7 +8298,8 @@ msgstr "Неподдерживаемая операция: поиск выраж
 #: camel/camel-folder.c:1201
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
+msgstr ""
+"Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
 
 #: camel/camel-folder.c:1319
 msgid "Moving messages"
@@ -8350,7 +8360,8 @@ msgstr "Нет данных"
 
 #: camel/camel-gpg-context.c:830
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Не удается зашифровать это сообщение: Не определены корректные получатели"
+msgstr ""
+"Не удается зашифровать это сообщение: Не определены корректные получатели"
 
 #: camel/camel-gpg-context.c:1082
 #, c-format
@@ -8382,7 +8393,8 @@ msgstr "Сбой при исполнении gpg."
 #: camel/camel-gpg-context.c:1290
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Не удается проверить подпись сообщения: не удается создать временный файл: %s"
+msgstr ""
+"Не удается проверить подпись сообщения: не удается создать временный файл: %s"
 
 #: camel/camel-lock-client.c:111
 #, c-format
@@ -8504,7 +8516,8 @@ msgstr "Ошибка обработки"
 #: camel/camel-provider.c:131
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr "Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
+msgstr ""
+"Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
 
 #: camel/camel-provider.c:140
 #, c-format
@@ -9192,7 +9205,8 @@ msgstr "Пространство имен"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
+msgstr ""
+"Применить фильтры к новым сообщениям в папке \"Входящие\" на этом сервере"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -9708,7 +9722,7 @@ msgstr "Спул \"%s\" не является обычным файлом или
 #: camel/providers/local/camel-spool-store.c:150
 #, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "Папка \"%s%s\" не существует."
+msgstr "Папка \"%s/%s\" не существует."
 
 #: camel/providers/local/camel-spool-store.c:176
 #, c-format
@@ -10203,7 +10217,8 @@ msgstr "Не удается отправить сообщение: не опре
 
 #: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
-msgstr "Не удается отправить сообщение: указано несколько некорректных получателей"
+msgstr ""
+"Не удается отправить сообщение: указан один или  несколько некорректных получателей"
 
 #: camel/providers/smtp/camel-smtp-transport.c:881
 msgid "SMTP Greeting"
@@ -10275,7 +10290,8 @@ msgstr "Ошибка при ответе на DATA"
 #: camel/providers/smtp/camel-smtp-transport.c:1336
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr "Превышено время отправки DATA: сообщение прервано: %s: почта не отправлена"
+msgstr ""
+"Превышено время отправки DATA: сообщение прервано: %s: почта не отправлена"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1356
 msgid "DATA termination response error"
@@ -10544,7 +10560,7 @@ msgid ""
 "Unable to activate address selector control."
 msgstr ""
 "Не удается создать окно редактора:\n"
-"Не удается активировать упраляющий элемент выбора адреса."
+"Не удается активировать управляющий элемент выбора адреса."
 
 #: composer/e-msg-composer.c:2822
 msgid ""
@@ -10995,7 +11011,7 @@ msgstr "указанное вами время"
 
 #: filter/filter.glade.h:28
 msgid "vFolder Sources"
-msgstr "Источники виртуалных папкок"
+msgstr "Источники виртуальных папок"
 
 #: filter/filter.glade.h:30
 msgid "with all active remote folders"
@@ -11318,7 +11334,7 @@ msgid ""
 "Evolution has found GnomeCard files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
-"Обноружены файлы GnomeCard.\n"
+"Обнаружены файлы GnomeCard.\n"
 "Хотите импортировать их в Evolution?"
 
 #: importers/netscape-importer.c:70
@@ -12221,8 +12237,8 @@ msgid ""
 "purposes only."
 msgstr ""
 "Вы почти закончили процесс настройки почты. Наименование, сервер "
-"входящейпочты и метод передачи исходящей почты, указанные вами, будут "
-"объединеныдля создания почтовой учётной записи Evolution. Пожалуйста, "
+"входящей почты и метод передачи исходящей почты, указанные вами, будут "
+"объединены для создания почтовой учётной записи Evolution. Пожалуйста, "
 "введите имя для этой учётной записи в строке ниже. Это имя будет "
 "использовано только для отображения."
 
@@ -12290,7 +12306,8 @@ msgstr "Всегда шифровать моим ключом при отпра�
 
 #: mail/mail-config.glade.h:15
 msgid "Alwa_ys sign outgoing messages when using this account"
-msgstr "Всегда подписывать исходящие сообщения при использовании этой учётной записи"
+msgstr ""
+"Всегда подписывать исходящие сообщения при использовании этой учётной записи"
 
 #: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
@@ -12338,7 +12355,7 @@ msgstr "_Цвета"
 
 #: mail/mail-config.glade.h:28
 msgid "Check spelling while I _type"
-msgstr "Проверять офографию в процессе ввода _текста"
+msgstr "Проверять орфографию в процессе ввода _текста"
 
 #: mail/mail-config.glade.h:29
 msgid "Checking for New Mail"
@@ -12667,7 +12684,7 @@ msgid ""
 "dictionary installed."
 msgstr ""
 "Эта страница позволяет вам настроить языки и поведение при проверке "
-"орфографии. В списке языков отображаны те, для которых у вас установлены "
+"орфографии. В списке языков отображены те, для которых у вас установлены "
 "словари."
 
 #: mail/mail-config.glade.h:127
@@ -12798,7 +12815,8 @@ msgstr "_Воспроизводить звуковой файл при прих�
 
 #: mail/mail-config.glade.h:168
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "_Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
+msgstr ""
+"_Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
 
 #: mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
@@ -12862,7 +12880,7 @@ msgstr "Не удается создать контекст S/MIME certonly"
 
 #: mail/mail-crypto.c:148
 msgid "Could not create a S/MIME encryption context."
-msgstr "Не удается создать контекст нифрования S/MIME"
+msgstr "Не удается создать контекст шифрования S/MIME"
 
 #: mail/mail-crypto.c:180
 msgid "Could not create a S/MIME envelope context."
@@ -13404,7 +13422,7 @@ msgstr "Настройка виртуальной папки: %s"
 #: mail/mail-vfolder.c:202
 #, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "Обновление виртульных папок для uri: %s"
+msgstr "Обновление виртуальных папок для uri: %s"
 
 #: mail/mail-vfolder.c:447
 #, c-format
@@ -13869,7 +13887,7 @@ msgstr "Alborg"
 
 #: my-evolution/Locations.h:47
 msgid "Albuquerque"
-msgstr "Альбукерк"
+msgstr "Альбукерке"
 
 #: my-evolution/Locations.h:48
 msgid "Alderney"
@@ -14409,7 +14427,7 @@ msgstr "Barquisimeto"
 
 #: my-evolution/Locations.h:188
 msgid "Barranquilla/Ernestocortissoz"
-msgstr "Барранкилья"
+msgstr "Барранкилья/Ernestocortissoz"
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
@@ -15053,7 +15071,7 @@ msgstr "Ханаан"
 
 #: my-evolution/Locations.h:355
 msgid "Canarias/Fuerteventura"
-msgstr "Канарские о-ва/о-в фуэнтевентура"
+msgstr "Канарские о-ва/о-в Фуэртевентура"
 
 #: my-evolution/Locations.h:356
 msgid "Canarias/Gran Canaria"
@@ -15889,7 +15907,7 @@ msgstr "Dekalb/Peachtree"
 
 #: my-evolution/Locations.h:573
 msgid "Delaware"
-msgstr "Делавер"
+msgstr "Делавэр"
 
 #: my-evolution/Locations.h:574
 msgid "Del Bajio"
@@ -16153,7 +16171,7 @@ msgstr "О-Клер"
 
 #: my-evolution/Locations.h:642
 msgid "Edinburgh"
-msgstr "Единбург"
+msgstr "Эдинбург"
 
 #: my-evolution/Locations.h:643
 msgid "Edmonton"
@@ -16161,7 +16179,7 @@ msgstr "Эдмонтон"
 
 #: my-evolution/Locations.h:644
 msgid "Edmonton/Villeneuve"
-msgstr "Эдмонтон//Villeneuve"
+msgstr "Эдмонтон/Villeneuve"
 
 #: my-evolution/Locations.h:645
 msgid "Eduardo Gomes International"
@@ -16637,7 +16655,7 @@ msgstr "Франкфорт"
 
 #: my-evolution/Locations.h:768
 msgid "Frankfurt/Main"
-msgstr "Франкфорт-на-Майне"
+msgstr "Франкфурт-на-Майне"
 
 #: my-evolution/Locations.h:769
 msgid "Franklin"
@@ -18014,7 +18032,7 @@ msgstr "Kolding/Vandrup"
 
 #: my-evolution/Locations.h:1128
 msgid "Koln/Bonn"
-msgstr "Колн/Бонн"
+msgstr "Кёльн/Бонн"
 
 #: my-evolution/Locations.h:1129
 msgid "Komatsu Ab"
@@ -18610,7 +18628,7 @@ msgstr "Мадисон"
 
 #: my-evolution/Locations.h:1282
 msgid "Madras/Minambakkam"
-msgstr "Мадрас"
+msgstr "Мадрас/Минамбаккам"
 
 #: my-evolution/Locations.h:1283
 msgid "Madrid (Barajas)"
@@ -20382,7 +20400,7 @@ msgstr "Педрас-Неграс"
 
 #: my-evolution/Locations.h:1739
 msgid "Pierre"
-msgstr "Пирр//"
+msgstr "Пирр"
 
 #: my-evolution/Locations.h:1740
 msgid "Pietersburg"
@@ -23570,7 +23588,7 @@ msgstr "Моя погода"
 
 #: my-evolution/e-summary-weather.c:268
 msgid "There was an error downloading data for"
-msgstr "Произогла ошибка загрузки данных для"
+msgstr "Произошла ошибка загрузки данных для"
 
 #: my-evolution/e-summary-weather.c:489
 msgid "Weather"
@@ -23586,7 +23604,7 @@ msgstr "Подождите пожалуйста..."
 
 #: my-evolution/e-summary.c:594 ui/my-evolution.xml.h:2
 msgid "Print Summary"
-msgstr "Напеечатать Сводку"
+msgstr "Напечатать Сводку"
 
 #: my-evolution/e-summary.c:640
 msgid "Printing of Summary failed"
@@ -23735,7 +23753,7 @@ msgstr "Небольшой моросящий дождь"
 
 #: my-evolution/metar.c:130
 msgid "Moderate drizzle"
-msgstr "Уменренный моросящий дождь"
+msgstr "Умеренный моросящий дождь"
 
 #: my-evolution/metar.c:131
 msgid "Heavy drizzle"
@@ -23963,7 +23981,7 @@ msgstr "Заносы кристаллов льда"
 
 #: my-evolution/metar.c:197
 msgid "Showers of ice crystals"
-msgstr "Ливни с кристалами льда"
+msgstr "Ливни с кристаллами льда"
 
 #: my-evolution/metar.c:198
 msgid "Drifting ice crystals"
@@ -24621,7 +24639,7 @@ msgstr "В окрестностях пыльная буря"
 
 #: my-evolution/metar.c:414
 msgid "Light duststorm"
-msgstr "Небоьшая пыльная буря"
+msgstr "Небольшая пыльная буря"
 
 #: my-evolution/metar.c:415
 msgid "Moderate duststorm"
@@ -24937,7 +24955,8 @@ msgstr ""
 
 #: shell/e-setup.c:131
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr "Пожалуйста, нажмите \"Ок\", чтобы установить файлы или \"Отмена\" для выхода."
+msgstr ""
+"Пожалуйста, нажмите \"Ок\", чтобы установить файлы или \"Отмена\" для выхода."
 
 #: shell/e-setup.c:171
 msgid "Could not update files correctly"
@@ -25186,7 +25205,7 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Выберите файл, импортиремый вами в Evolution и выберите тип файла из "
+"Выберите файл, импортируемый вами в Evolution и выберите тип файла из "
 "списка.\n"
 "\n"
 "Вы можете выбрать \"Автоматический\" если вы не знаете его, а Evolution "
@@ -25290,7 +25309,7 @@ msgid ""
 "Scanning for existing setups"
 msgstr ""
 "Пожалуйста подождите...\n"
-"Сканирование существующих настроекк"
+"Сканирование существующих настроек"
 
 #: shell/e-shell-importer.c:788 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
@@ -25499,7 +25518,7 @@ msgid ""
 "has unexpectedly quit. You will need to quit Evolution and restart\n"
 "in order to access that data again."
 msgstr ""
-"Компонент Evolution, поддерживющеий работу с папками типа \"%s\"\n"
+"Компонент Evolution, поддерживающий работу с папками типа \"%s\"\n"
 "неожиданно завершил работу. Вам необходимо перезагрузить Evolution\n"
 "для получения доступа к вашим данным."
 
@@ -25927,7 +25946,8 @@ msgstr ""
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
+msgstr ""
+"Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
