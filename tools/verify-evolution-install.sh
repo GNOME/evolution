@@ -42,10 +42,12 @@ check_config() {
     #bigname=$1
     #cfgname=$2
     #pkgname=$3
-    eval $1=\${$1-\`which $2\`}
+    eval $1=\${$1-$2}
 
     eval val=\$$1
-    if test ! -x $val ; then
+    if which $val </dev/null 1>/dev/null 2>&1 ; then
+	:
+    else
 	problem="Cannot find $2 or it ($val) is not executable"
 	rpmsolution="Install or reinstall the '$3-devel' package"
 	debsolution="Install or reinstall the $3 development libraries." #FIXME
@@ -351,7 +353,7 @@ ${1}Conf.sh should be installed into `$GNOME_CONFIG --libdir`"
 #prep
 if test -d /var/lib/rpm ; then
     rpmsystem=yes
-    RPM=${RPM_PROG-`which rpm`}
+    RPM=${RPM_PROG-rpm}
 
     $RPM --version 1>/dev/null 2>/dev/null </dev/null
     if test x$? != x0 ; then
@@ -403,8 +405,10 @@ check_prefix OAF_CONFIG oaf
 versionparse3 "`$OAF_CONFIG --version`" "0.4.0" "oaf"
 check_bin oafd
 
-OAF_CLIENT=${OAF_CLIENT-`which oaf-client`}
-if test ! -x ${OAF_CLIENT-notexecutable} ; then
+OAF_CLIENT=${OAF_CLIENT-oaf-client}
+if which $OAF_CLIENT </dev/null >/dev/null 2>&1 ; then
+    :
+else
     problem="oaf-client couldn't be found"
     rpmsolution="Install the 'oaf-devel' package"
     debsolution="Install the oaf development libraries"
@@ -420,7 +424,7 @@ check_oafinfo oafd oaf
 check_config GCONF_CONFIG gconf-config GConf
 check_prefix GCONF_CONFIG GConf
 versionparse2 "`$GCONF_CONFIG --version`" "0.5" GConf
-if test x"`which gconfd-1`" != x ; then
+if which gconfd-1 </dev/null >/dev/null 2>/dev/null; then
     check_oafinfo gconfd-1 GConf
     check_bin gconfd-1
 else
