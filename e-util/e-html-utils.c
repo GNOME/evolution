@@ -54,6 +54,7 @@ static int special_chars[] = {
 };
 
 #define is_addr_char(c) (isprint (c) && !(special_chars[c] & 1))
+#define is_addr_char_no_pipes(c) (is_addr_char(c) && (c) != '|')
 #define is_trailing_garbage(c) (!isprint(c) || (special_chars[c] & 2))
 
 static char *
@@ -88,13 +89,13 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 	char *addr;
 
 	/* *cur points to the '@'. Look backward for a valid local-part */
-	for (start = *cur; start - 1 >= linestart && is_addr_char (*(start - 1)); start--)
+	for (start = *cur; start - 1 >= linestart && is_addr_char_no_pipes (*(start - 1)); start--)
 		;
 	if (start == *cur)
 		return NULL;
 
 	/* Now look forward for a valid domain part */
-	for (end = *cur + 1, dot = NULL; is_addr_char (*end); end++) {
+	for (end = *cur + 1, dot = NULL; is_addr_char_no_pipes (*end); end++) {
 		if (*end == '.' && !dot)
 			dot = end;
 	}

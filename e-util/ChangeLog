@@ -1,3 +1,10 @@
+2001-07-12  Jon Trowbridge  <trow@ximian.com>
+
+	* e-html-utils.c: Added is_addr_char_no_pipes macro, which specifically
+	does not consider '|' ("pipe") to be a legal address character.
+	(email_address_extract): Use is_addr_char_no_pipes when looking for
+	e-mail addresses to turn into HTML links. (Bug #3940)
+
 2001-07-05  Not Zed  <NotZed@Ximian.com>
 
 	* e-memory.c: Added some malloc check stuff.
