@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name=Address conduit 
+Name[da]=Udstående
+Name[es]=Enlace de direcciones
+Name[fr]=Conduit Adresses
+Name[no]=Oppgaver
+Name[sv]=Adresser
+Name[tr]=Adres parçasý
+Comment=Configure the address conduit
+Comment[da]=Konfigurér Udstående
+Comment[es]=Configurar el enlace de direcciones
+Comment[fr]=Configuration du conduit Adresses
+Comment[no]=Konfigurér oppgavelisten
+Comment[sv]=Konfigurera adresskanalen
+Comment[tr]=Adres parçasýnýn ayarlarý
+Exec=address-conduit-control-applet --cap-id=1
+Terminal=0
+Type=Application
