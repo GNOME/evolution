@@ -54,7 +54,7 @@ AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
 AC_SUBST(HAVE_JW)
 
 dnl Initialize xml-i18n-tools
-AM_PROG_XML_I18N_TOOLS
+AC_PROG_INTLTOOL
 
 dnl Initialize libtool
 AM_PROG_LIBTOOL
