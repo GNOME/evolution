@@ -1,3 +1,10 @@
+2003-03-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.glade: Convert to libglade-2's format.
+
+	* e-msg-composer.c (set_editor_signature): E_MSG_COMPOSER_HDRS
+	(composer->hdrs)->account->id can never be NULL anymore.
+
 2003-03-25  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c: Update for e_notice move

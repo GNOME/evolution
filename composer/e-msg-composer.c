@@ -2894,22 +2894,21 @@ create_composer (int visible_mask)
 static void
 set_editor_signature (EMsgComposer *composer)
 {
+	EAccountIdentity *id;
+	GSList *signatures;
+	
 	/* printf ("set_editor_signature\n"); */
-	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id) {
-		EAccountIdentity *id;
-		GSList *signatures;
-		
-		id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
-		
-		signatures = mail_config_get_signature_list ();
-		
-		composer->signature = g_slist_nth_data (signatures, id->def_signature);
-		composer->auto_signature = id->auto_signature;
-		
-		/* printf ("auto: %d\n", id->auto_signature); */
-		
-		sig_select_item (composer);
-	}
+	id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
+	
+	signatures = mail_config_get_signature_list ();
+	
+	composer->signature = g_slist_nth_data (signatures, id->def_signature);
+	composer->auto_signature = id->auto_signature;
+	
+	/* printf ("auto: %d\n", id->auto_signature); */
+	
+	sig_select_item (composer);
+	
 	/* printf ("set_editor_signature end\n"); */
 }
 
