@@ -1,3 +1,17 @@
+2000-10-20  Jesse Pavel <jpavel@helixcode.com>
+
+	* gui/e-meeting-editor.c: added more (working) integration with the
+	meeting schedular.
+	 
+2000-10-20  Jesse Pavel <jpavel@helixcode.com>
+
+	* cal-utils/cal-component.c: in set_datetime(), I put an #if 0'd portion
+	of the code back into operation, because the icalproperty_remove_parameter()
+	function is now implemented.
+
+	* gui/e-meeting-editor.c: added more (unworking) integration with the
+	meeting schedular.
+
 2000-10-20  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal-backend.c (cal_backend_destroy): New destroy
@@ -81,6 +95,7 @@
 	to 1 rather than 0, so if you move the hpane you'll see the date
 	navigator.
 
+>>>>>>> 1.631
 2000-10-19  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/event-editor.[ch]: added a public function which causes the

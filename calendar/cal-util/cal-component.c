@@ -1633,11 +1633,8 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 			icalproperty_add_parameter (datetime->prop, datetime->tzid_param);
 		}
 	} else if (datetime->tzid_param) {
-#if 0
-		/* FIXME: this fucking routine will assert(0) since it is not implemented */
 		icalproperty_remove_parameter (datetime->prop, ICAL_TZID_PARAMETER);
 		icalparameter_free (datetime->tzid_param);
-#endif
 		datetime->tzid_param = NULL;
 	}
 }
@@ -2837,11 +2834,8 @@ cal_component_set_summary (CalComponent *comp, CalComponentText *summary)
 						    priv->summary.altrep_param);
 		}
 	} else if (priv->summary.altrep_param) {
-#if 0
-		/* FIXME: this fucking routine will assert(0) since it is not implemented */
 		icalproperty_remove_parameter (priv->summary.prop, ICAL_ALTREP_PARAMETER);
 		icalparameter_free (priv->summary.altrep_param);
-#endif
 		priv->summary.altrep_param = NULL;
 	}
 }

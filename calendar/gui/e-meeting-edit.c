@@ -433,12 +433,9 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 	if (button_num == 0) {
 		/* The user clicked "Set Time". */
-		CalComponentDateTime dtstart, dtend;
                 gint start_year, start_month, start_day, start_hour, start_minute, 
 		     end_year, end_month, end_day, end_hour, end_minute;
 		CalComponentDateTime cal_dtstart, cal_dtend;
-		struct tm tmstart, tmend;
-		time_t timet, timet_start, timet_end;
 
 
 		e_meeting_time_selector_get_meeting_time (mts,
@@ -456,35 +453,19 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 		cal_component_get_dtstart (priv->comp, &cal_dtstart);
 		cal_component_get_dtend (priv->comp, &cal_dtend);
 
+		cal_dtstart.value->second = 0;
+		cal_dtstart.value->minute = start_minute;
+		cal_dtstart.value->hour = start_hour;
+		cal_dtstart.value->day = start_day;
+		cal_dtstart.value->month = start_month;
+		cal_dtstart.value->year = start_year;
 
-		timet = time (NULL);
-		tmstart = tmend = *(localtime (&timet));
-		tmstart.tm_sec = 0;
-		tmstart.tm_min = start_minute;
-		tmstart.tm_hour = start_hour;
-		tmstart.tm_mday = start_day;
-		tmstart.tm_year = start_year;
-		/* It seems that we can leave the rest of the struct tm fields
-		   as they are, because in probing through the mktime.c sources,
-		   I think that they go unused in that function. */
-		
-		tmend.tm_sec = 0;
-		tmend.tm_min = end_minute;
-		tmend.tm_hour = end_hour;
-		tmend.tm_mday = end_day;
-		tmend.tm_year = end_year;
-		
-		/* Now we must convert the meeting time selector format into
-		   the iCal format, and then convert that into the CalComponent
-		   format; finally, we need to set a new time for the CalComponent,
-		   and tell the meeting editor widget to reload its child widgets. */
-		
-
-		timet_start = mktime (&tmstart);
-		timet_end = mktime (&tmend);
-
-		*(cal_dtstart.value) = icaltime_from_timet (timet_start, TRUE, FALSE);
-		*(cal_dtend.value) = icaltime_from_timet (timet_end, TRUE, FALSE);
+		cal_dtend.value->second = 0;
+		cal_dtend.value->minute = end_minute;
+		cal_dtend.value->hour = end_hour;
+		cal_dtend.value->day = end_day;
+		cal_dtend.value->month = end_month;
+		cal_dtend.value->year = end_year;
 
 		cal_component_set_dtstart (priv->comp, &cal_dtstart);
 		cal_component_set_dtend (priv->comp, &cal_dtend);
@@ -493,6 +474,8 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 		cal_component_free_datetime (&cal_dtend);
 
 		event_editor_update_widgets (priv->ee);	
+
+		priv->dirty = TRUE;
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
