@@ -667,7 +667,7 @@ static BonoboUIVerb new_verbs [] = {
 };
 
 static BonoboUIVerb file_verbs [] = {
-	/* BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard), */
+	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard),
 	BONOBO_UI_VERB ("FileOpenOtherUsersFolder", command_open_other_users_folder),
 	BONOBO_UI_VERB ("FileRemoveOtherUsersFolder", command_remove_other_users_folder),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),

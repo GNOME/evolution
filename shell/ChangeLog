@@ -1,5 +1,7 @@
 2002-11-18  Not Zed  <NotZed@Ximian.com>
 
+	* e-shell-view-menu.c (file_verbs[]): re-enable importer wizard.
+
 	* importer/importer.c (dialog_response_cb): from clicked_cb.
 	(start_import): gtkdialogise.
 
