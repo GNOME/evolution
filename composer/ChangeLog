@@ -1,3 +1,8 @@
+2000-05-25  Not Zed  <NotZed@HelixCode.com>
+
+	* e-msg-composer.c (build_message): Use camel_data_wrapper_new
+	instead of camel_simple_data_wrapper_new.
+
 2000-05-17  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (build_message): Use
