@@ -1,3 +1,6 @@
+2001-01-24  Iain Holmes  <iain@ximian.com>
+
+	* importer/GNOME_Evolution_Importer.idl: Removed the busy exception.
 2001-01-19  Iain Holmes  <iain@ximian.com>
 
 	* importer/GNOME_Evolution_Importer.idl: Make the processItem oneway.
