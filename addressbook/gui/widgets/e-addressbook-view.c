@@ -929,7 +929,7 @@ static EPopupItem eabv_popup_items[] = {
 	{ E_POPUP_ITEM, "90.moveto", N_("Move to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
 
 	{ E_POPUP_BAR, "a0.bar" },
-	{ E_POPUP_BAR, "b0.cut", N_("Cut"), cut, NULL, "stock_cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, "b0.cut", N_("Cut"), cut, NULL, "stock_cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
 	{ E_POPUP_ITEM, "c0.copy", N_("Copy"), copy, NULL, "stock_copy", 0, EAB_POPUP_SELECT_ANY },
 	{ E_POPUP_ITEM, "d0.paste", N_("Paste"), paste, NULL, "stock_paste", 0, EAB_POPUP_SELECT_EDITABLE },
 	{ E_POPUP_ITEM, "e0.delete", N_("Delete"), delete, NULL, "stock_delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_ANY },
