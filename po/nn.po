@@ -8881,7 +8881,7 @@ msgid "No provider available for protocol `%s'"
 msgstr ""
 
 #: camel/camel-session.c:545
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Could not create directory %s:\n"
 "%s"

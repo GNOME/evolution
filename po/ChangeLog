@@ -1,3 +1,7 @@
+2003-05-11  Abel Cheung  <maddog@linux.org.hk>
+
+	* en_AU.po, nn.po, sk.po: Mark wrong entry as fuzzy (msgfmt check failed).
+
 2003-05-06  Marco Ciampa  <ciampix@libero.it>
 
         * it.po: Updated italian translation.

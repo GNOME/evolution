@@ -2978,7 +2978,7 @@ msgid "Display Cards"
 msgstr "Zobraziť karty"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:213
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
