@@ -817,18 +817,18 @@ folder_toggle_cb (ETable *table, int row, int col, GdkEvent *event, gpointer dat
 
 static BonoboUIVerb verbs [] = {
 	/* File Menu */
-	BONOBO_UI_UNSAFE_VERB ("FileCloseWin", subscribe_close),
+	BONOBO_UI_VERB ("FileCloseWin", subscribe_close),
 
 	/* Edit Menu */
-	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", subscribe_select_all),
-	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", subscribe_invert_selection),
+	BONOBO_UI_VERB ("EditSelectAll", subscribe_select_all),
+	BONOBO_UI_VERB ("EditInvertSelection", subscribe_invert_selection),
 	
 	/* Folder Menu / Toolbar */
-	BONOBO_UI_UNSAFE_VERB ("SubscribeFolder", subscribe_folders),
-	BONOBO_UI_UNSAFE_VERB ("UnsubscribeFolder", unsubscribe_folders),
+	BONOBO_UI_VERB ("SubscribeFolder", subscribe_folders),
+	BONOBO_UI_VERB ("UnsubscribeFolder", unsubscribe_folders),
 
 	/* Toolbar Specific */
-	BONOBO_UI_UNSAFE_VERB ("RefreshList", subscribe_refresh_list),
+	BONOBO_UI_VERB ("RefreshList", subscribe_refresh_list),
 
 	BONOBO_UI_VERB_END
 };

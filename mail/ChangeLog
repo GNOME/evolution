@@ -1,3 +1,10 @@
+2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
+
+	* mail-callbacks.c (print_msg): Fix proto.
+	(print_preview_msg): Fix proto.
+
+	* subscribe-dialog.c: Remove more UNSAFE macros.
+
 2001-01-09  Jason Leach  <jasonleach@usa.net>
 
 	* mail-display.c (pixmap_press): Bugfix for #1077: scrollwheel
