@@ -108,9 +108,7 @@ evolution_calendar_SOURCES =			\
 	tasks-migrate.c				\
 	tasks-migrate.h				\
 	weekday-picker.c			\
-	weekday-picker.h			\
-	widget-util.c				\
-	widget-util.h
+	weekday-picker.h
 
 evolution_calendar_LDADD =								\
 	alarm-notify/libalarm.a								\
