@@ -395,11 +395,18 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		e_date_edit_set_time (E_DATE_EDIT (priv->due_date), -1);
 	}
 
-	get_tz_status = cal_client_get_timezone (page->client, d.tzid, &zone);
-	/* FIXME: Handle error better. */
-	if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
-		g_warning ("Couldn't get timezone from server: %s",
-			   d.tzid ? d.tzid : "");
+	/* Note that if we are creating a new task, the timezones may not be
+	   on the server, so we try to get the builtin timezone with the TZID
+	   first. */
+	zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
+	if (!zone) {
+		get_tz_status = cal_client_get_timezone (page->client, d.tzid,
+							 &zone);
+		/* FIXME: Handle error better. */
+		if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
+		  g_warning ("Couldn't get timezone from server: %s",
+			     d.tzid ? d.tzid : "");
+	}
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->due_timezone),
 				       zone);
 
@@ -419,11 +426,15 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		e_date_edit_set_time (E_DATE_EDIT (priv->start_date), -1);
 	}
 
-	get_tz_status = cal_client_get_timezone (page->client, d.tzid, &zone);
-	/* FIXME: Handle error better. */
-	if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
-		g_warning ("Couldn't get timezone from server: %s",
-			   d.tzid ? d.tzid : "");
+	zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
+	if (!zone) {
+		get_tz_status = cal_client_get_timezone (page->client, d.tzid,
+							 &zone);
+		/* FIXME: Handle error better. */
+		if (get_tz_status != CAL_CLIENT_GET_SUCCESS)
+			g_warning ("Couldn't get timezone from server: %s",
+				   d.tzid ? d.tzid : "");
+	}
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
 				       zone);
 

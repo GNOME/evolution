@@ -86,8 +86,8 @@ comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
 	if (comp_complete) {
 		complete = *comp_complete;
 		dates->complete = &complete;
+		cal_component_free_icaltimetype (comp_complete);
 	}
-	cal_component_free_icaltimetype (comp_complete);
 }
 
 static void
