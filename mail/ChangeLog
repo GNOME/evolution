@@ -1,3 +1,11 @@
+2000-10-09  Chris Toshok  <toshok@helixcode.com>
+
+	* subscribe-dialog.c, subscribe-dialog.h: use our own etable to
+	display the stores, and get them from the mail-config api.  put
+	#if 0'ed code in place to add/remove the folders from the shell
+	when they're subscribed/unsusbcribed.  also, react to double
+	clicks in the folder etable by toggling subscription status.
+
 2000-10-08  Iain Holmes  <iain@helixcode.com>
 
 	* mail-summary.c (create_summary_view): Updated to use new icon code.
