@@ -259,7 +259,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 
 			cur_pos = cur_msg_info->message_position 
 				+ cur_msg_info->end_of_headers_offset;
-
+			
 			copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
 			if (camel_exception_get_id (ex)) {
 				close (fd1);
@@ -280,7 +280,8 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 		} 
 		cur_msg_info->message_position += cur_offset;
 	}
-
+	
+	
 	bytes_to_copy = end_of_last_message - cur_pos;
 		copy_file_chunk (fd1, fd2, bytes_to_copy, ex);
 
@@ -342,7 +343,7 @@ parsed_information_to_mbox_summary (GArray *parsed_information)
 	guint cur_msg;
 	CamelMboxParserMessageInfo *cur_msg_info;
 	GArray *mbox_summary;
-	CamelMboxSummaryInformation cur_sum_info;
+	CamelMboxSummaryInformation *cur_sum_info;
 
 	mbox_summary = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
 	mbox_summary =  g_array_set_size (mbox_summary, parsed_information->len);
@@ -350,25 +351,24 @@ parsed_information_to_mbox_summary (GArray *parsed_information)
 	for (cur_msg = 0; cur_msg < parsed_information->len; cur_msg++) {
 		
 		cur_msg_info = (CamelMboxParserMessageInfo *)(parsed_information->data) + cur_msg;
+		cur_sum_info = (CamelMboxSummaryInformation *)(mbox_summary->data) + cur_msg;
 
-		cur_sum_info.position = cur_msg_info->message_position;
+		cur_sum_info->position = cur_msg_info->message_position;
 
-		cur_sum_info.x_evolution_offset = cur_msg_info->x_evolution_offset;
+		cur_sum_info->x_evolution_offset = cur_msg_info->x_evolution_offset;
 
-		cur_sum_info.uid = cur_msg_info->uid;
+		cur_sum_info->uid = cur_msg_info->uid;
 
-		cur_sum_info.status = cur_msg_info->status;
+		cur_sum_info->status = cur_msg_info->status;
 
-		cur_sum_info.subject = cur_msg_info->subject;
+		cur_sum_info->subject = cur_msg_info->subject;
 		cur_msg_info->subject = NULL;
 
-		cur_sum_info.sender =  cur_msg_info->from;
+		cur_sum_info->sender =  cur_msg_info->from;
 		cur_msg_info->from = NULL;
 	
-		cur_sum_info.to =  cur_msg_info->to;
-		cur_msg_info->to = NULL;
-	
-		g_array_append_vals (mbox_summary, &cur_sum_info, 1);
+		cur_sum_info->to =  cur_msg_info->to;
+		cur_msg_info->to = NULL;		
 		
 	}
 	

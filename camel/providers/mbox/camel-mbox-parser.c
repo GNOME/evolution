@@ -620,7 +620,7 @@ camel_mbox_parse_file (int fd,
 			}
 			
 			/* is the next part a message delimiter ? */
-			if (g_strncasecmp (parser->buffer + parser->current_position, 
+			if (strncmp (parser->buffer + parser->current_position, 
 					   parser->message_delimiter, 
 					   parser->message_delimiter_length) == 0) {
 				

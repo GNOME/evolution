@@ -1,5 +1,22 @@
 2000-01-18  bertrand  <bertrand@helixcode.com>
 
+	* tests/test9.c:
+	tests for summary and parsing process of mbox files. 
+
+	* camel/providers/mbox/camel-mbox-parser.c (camel_mbox_parse_file): do
+	not use case insensitive comp to detect message separators. Kill 
+	some nasty bugs in netscape file parsing,
+
+	* camel/providers/mbox/camel-mbox-utils.c (parsed_information_to_mbox_summary): 
+	don't use g_array_append but write directly inside the
+	array data instead. Better performance and bug fix. 
+
+	* camel/providers/mbox/camel-mbox-summary.c (camel_mbox_load_summary): 
+	fix the name and bugs. 
+
+	* camel/camel-folder-summary.h: update the class
+	method definition to match the public defs. 
+
 	* camel/providers/mbox/camel-mbox-summary.c (camel_mbox_save_summary): 
 	(mbox_load_summary): summary file read/write routines. 
 

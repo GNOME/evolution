@@ -55,10 +55,10 @@ typedef struct {
 
 
 void 
-camel_mbox_save_summary (CamelMboxSummary *, const gchar *filename, CamelException *ex);
+camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, CamelException *ex);
 
 CamelMboxSummary *
-mbox_load_summary (const gchar *filename, CamelException *ex);
+camel_mbox_load_summary (const gchar *filename, CamelException *ex);
 
 
 

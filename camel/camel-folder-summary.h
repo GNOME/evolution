@@ -85,8 +85,8 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
-	const GList *  (*get_subfolder_info_list) (CamelFolderSummary *summary);
-	const GList *  (*get_message_info_list) (CamelFolderSummary *summary);
+	const GArray *  (*get_subfolder_info_list) (CamelFolderSummary *summary);
+	const GArray *  (*get_message_info_list) (CamelFolderSummary *summary);
 
 } CamelFolderSummaryClass;
 

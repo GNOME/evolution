@@ -63,12 +63,13 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 		}
 	
 	/* compute and write the mbox file md5 signature */
-	md5_get_digest_from_file (filename, summary->md5_digest);
+	//md5_get_digest_from_file (filename, summary->md5_digest);
 
 	/* write the number of messages  + the md5 signatures */
 	write (fd, summary, sizeof (guint) +  sizeof (guchar) * 16);
 	       
 	
+	printf ("%d %d\n", summary->nb_message, summary->message_info->len);
 	for (cur_msg=0; cur_msg < summary->nb_message; cur_msg++) {
 
 		msg_info = (CamelMboxSummaryInformation *)(summary->message_info->data) + cur_msg;
@@ -79,6 +80,7 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 		       sizeof (guint32) + sizeof (guint) + 
 		       sizeof (guint32) + sizeof (guchar));
 		
+		//printf ("IN iewr subject = %s\n", msg_info->subject);
 		/* write subject */
 		field_lgth = msg_info->subject ? strlen (msg_info->subject) : 0;
 		write (fd, &field_lgth, sizeof (guint));
@@ -116,7 +118,7 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 
 
 CamelMboxSummary *
-mbox_load_summary (const gchar *filename, CamelException *ex)
+camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 {
 	CamelMboxSummaryInformation *msg_info;
 	guint cur_msg;
@@ -198,5 +200,15 @@ mbox_load_summary (const gchar *filename, CamelException *ex)
 	close (fd);
 	return summary;
 }
+
+
+
+
+
+
+
+
+
+
 
 

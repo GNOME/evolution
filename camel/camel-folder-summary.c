@@ -65,8 +65,8 @@ camel_folder_summary_init (gpointer   object,  gpointer   klass)
 	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (object);
 
 	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Entering\n");
-	summary->subfolder_info_list = g_array_new (FALSE, FALSE, sizeof (CamelFolderInfo);
-	summary->message_info_list = g_array_new (FALSE, FALSE, sizeof (CamelMessageInfo);
+	summary->subfolder_info_list = g_array_new (FALSE, FALSE, sizeof (CamelFolderInfo));
+	summary->message_info_list = g_array_new (FALSE, FALSE, sizeof (CamelMessageInfo));
 	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Leaving\n");
 }
 
