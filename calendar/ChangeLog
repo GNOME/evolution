@@ -1,5 +1,11 @@
 2004-06-15  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/dialogs/meeting-page.c (meeting_page_construct): connect
+	to "client_changed" signal on the page.
+	(client_changed_cb): new callback.
+	(sensitize_widgets): new function.
+	(meeting_page_fill_widgets): call sensitize_widgets().
+
 	* gui/e-meeting-time-sel.[ch]
 	(e_meeting_time_selector_set_read_only): new function.
 	(e_meeting_time_selector_construct): store some missing buttons

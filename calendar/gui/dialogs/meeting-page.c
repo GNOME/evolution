@@ -393,6 +393,8 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	
 	priv->updating = FALSE;
 
+	sensitize_widgets (mpage);
+
 	return TRUE;
 }
 
@@ -598,6 +600,30 @@ init_widgets (MeetingPage *mpage)
 }
 
 static void
+sensitize_widgets (MeetingPage *mpage)
+{
+	gboolean read_only;
+	MeetingPagePrivate *priv = mpage->priv;
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, NULL))
+		read_only = TRUE;
+
+	gtk_widget_set_sensitive (priv->organizer, !read_only);
+	gtk_widget_set_sensitive (priv->existing_organizer_btn, !read_only);
+	gtk_widget_set_sensitive (priv->add, !read_only);
+	gtk_widget_set_sensitive (priv->invite, !read_only);
+	gtk_widget_set_sensitive (priv->list_view, !read_only);
+}
+
+static void
+client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
+{
+	MeetingPage *mpage = MEETING_PAGE (page);
+
+	sensitize_widgets (mpage);
+}
+
+static void
 popup_delete_cb (GtkWidget *widget, gpointer data) 
 {
 	MeetingPage *mpage = MEETING_PAGE (data);
@@ -794,6 +820,9 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	
 	/* Init the widget signals */
 	init_widgets (mpage);
+
+	g_signal_connect_after (G_OBJECT (mpage), "client_changed",
+				G_CALLBACK (client_changed_cb), NULL);
 
 	return mpage;
 }

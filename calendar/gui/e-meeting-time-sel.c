@@ -1268,14 +1268,14 @@ e_meeting_time_selector_set_read_only (EMeetingTimeSelector *mts, gboolean read_
 {
 	g_return_if_fail (IS_E_MEETING_TIME_SELECTOR (mts));
 
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->list_view), !read_only);
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->display_main), !read_only);
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->add_attendees_button), !read_only);
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->autopick_down_button), !read_only);
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->autopick_button), !read_only);
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->autopick_up_button), !read_only);
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->start_date_edit), !read_only);
-	gtk_widget_set_sensitive (GTK_WIDGET (mts->end_date_edit), !read_only);
+	gtk_widget_set_sensitive (mts->list_view, !read_only);
+	gtk_widget_set_sensitive (mts->display_main, !read_only);
+	gtk_widget_set_sensitive (mts->add_attendees_button, !read_only);
+	gtk_widget_set_sensitive (mts->autopick_down_button, !read_only);
+	gtk_widget_set_sensitive (mts->autopick_button, !read_only);
+	gtk_widget_set_sensitive (mts->autopick_up_button, !read_only);
+	gtk_widget_set_sensitive (mts->start_date_edit, !read_only);
+	gtk_widget_set_sensitive (mts->end_date_edit, !read_only);
 }
 
 /*
