@@ -86,7 +86,7 @@
 #include <camel/camel-charset-map.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-charset.h>
-#ifdef SMIME_SUPPORTED
+#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 #include <camel/camel-smime-context.h>
 #endif
 
@@ -551,7 +551,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 	/* Setup working recipient list if we're encrypting */
 	if (composer->pgp_encrypt
-#ifdef SMIME_SUPPORTED
+#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 	    || composer->smime_encrypt
 #endif
 		) {
