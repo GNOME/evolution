@@ -436,7 +436,6 @@ cal_client_construct (CalClient *client)
 
 /**
  * cal_client_new:
- * @void:
  *
  * Creates a new calendar client.  It should be initialized by calling
  * cal_client_load_calendar() or cal_client_create_calendar().
@@ -591,12 +590,11 @@ cal_client_get_n_objects (CalClient *client, CalObjType type)
  * cal_client_get_object:
  * @client: A calendar client.
  * @uid: Unique identifier for a calendar object.
+ * @ico: Return value for the calendar object.
  *
  * Queries a calendar for a calendar object based on its unique identifier.
  *
- * Return value: The string representation of a complete calendar wrapping the
- * sought object, or NULL if no object had the specified UID.  A complete
- * calendar is returned because you also need the timezone data.
+ * Return value: Result code based on the status of the operation.
  **/
 CalClientGetStatus
 cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)

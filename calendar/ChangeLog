@@ -1,3 +1,9 @@
+2000-07-17  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client/cal-client.c (cal_client_get_object): Fixed inline
+	docs.
+	(cal_client_new): Ditto.
+
 2000-07-14  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (CalComponentAlarm): New internal
