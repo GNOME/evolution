@@ -316,6 +316,8 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 		eti_compute_height (eti);
 	
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
+
+	eti_item_region_redraw (eti, 0, 0, eti->width, eti->height);
 }
 
 static void

@@ -75,6 +75,8 @@ e_table_group_container_list_free(ETableGroupContainer *etgc)
 {
 	ETableGroupContainerChildNode *child_node;
 	GList *list;
+	if ( etgc->idle )
+		g_source_remove( etgc->idle );
 	for ( list = etgc->children; list; list = g_list_next(list) ) {
 		child_node = (ETableGroupContainerChildNode *) list->data;
 		e_table_group_container_child_node_free(etgc, child_node);
@@ -87,9 +89,16 @@ etgc_destroy (GtkObject *object)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
 
-	gdk_font_unref(etgc->font);
-	gtk_object_unref(GTK_OBJECT(etgc->ecol));
-	gtk_object_destroy(GTK_OBJECT(etgc->rect));
+	if ( etgc->font ) {
+		gdk_font_unref(etgc->font);
+		etgc->font = NULL;
+	}
+	if ( etgc->ecol ) {
+		gtk_object_unref(GTK_OBJECT(etgc->ecol));
+	}
+	if ( etgc->rect ) {
+		gtk_object_destroy(GTK_OBJECT(etgc->rect));
+	}	
 	e_table_group_container_list_free(etgc);
 
 	GTK_OBJECT_CLASS (etgc_parent_class)->destroy (object);
@@ -502,8 +511,6 @@ etgc_unrealize (GnomeCanvasItem *item)
 
 	etgc = E_TABLE_GROUP_CONTAINER (item);
 	
-	etgc->font = NULL;
-	
 	if (GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->unrealize)
 		(* GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->unrealize) (item);
 }
@@ -512,7 +519,7 @@ static void
 compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
 {
 	/* FIXME : What a hack, eh? */
-	gchar *text = g_strdup_printf("%s : %s (%d items)", etgc->ecol->text, (gchar *)child_node->key, (gint) child_node->count);
+	gchar *text = g_strdup_printf("%s : %s (%d item%s)", etgc->ecol->text, (gchar *)child_node->key, (gint) child_node->count, child_node->count == 1 ? "" : "s" );
 	gnome_canvas_item_set(child_node->text, 
 			      "text", text,
 			      NULL);
