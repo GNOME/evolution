@@ -91,35 +91,38 @@ e-book-marshal.c: e-book-marshal.h
 
 MARSHAL_GENERATED = e-book-marshal.c e-book-marshal.h
 
-# test_client_SOURCES =					\
-# 	test-client.c
+test_client_SOURCES =					\
+	test-client.c
 
-# test_client_LDADD =					\
-# 	libebook.la					\
-# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-# 	$(top_builddir)/libversit/libversit.a		\
-# 	$(top_builddir)/e-util/ename/libename.la	\
-# 	$(top_builddir)/e-util/libeutil.la
+test_client_LDADD =					\
+	libebook.la					\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/libversit/libversit.a		\
+	$(top_builddir)/e-util/ename/libename.la	\
+	$(top_builddir)/e-util/libeutil.la
 
-# test_client_list_SOURCES =				\
-# 	test-client-list.c
+test_client_list_SOURCES =				\
+	test-client-list.c
 
-# test_client_list_LDADD =				\
-# 	libebook.la					\
-# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-# 	$(top_builddir)/e-util/ename/libename.la	\
-# 	$(top_builddir)/libversit/libversit.a		\
-# 	$(top_builddir)/e-util/libeutil.la
+test_client_list_LDADD =				\
+	libebook.la					\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/e-util/ename/libename.la	\
+	$(top_builddir)/libversit/libversit.a		\
+	$(top_builddir)/e-util/libeutil.la
 
-# test_card_SOURCES =					\
-# 	test-card.c
+test_card_SOURCES =					\
+	test-card.c
 
-# test_card_LDADD =					\
-# 	libebook.la					\
-# 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-# 	$(top_builddir)/e-util/ename/libename.la	\
-# 	$(top_builddir)/libversit/libversit.a		\
-# 	$(top_builddir)/e-util/libeutil.la
+test_card_LDADD =					\
+	libebook.la					\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/e-util/ename/libename.la	\
+	$(top_builddir)/libversit/libversit.a		\
+	$(top_builddir)/e-util/libeutil.la
 
 # evolution_vcard_importer_SOURCES = \
 # 	evolution-vcard-importer.c

@@ -80,27 +80,6 @@ static gchar *name_synonyms[][2] = {
 	{ NULL, NULL }
 };
 
-static int
-utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len)
-{
-	gchar *s1 = g_utf8_casefold(str1, len);
-	gchar *s2 = g_utf8_casefold(str2, len);
-	int rv;
-
-	rv = g_utf8_collate (s1, s2);
-
-	g_free (s1);
-	g_free (s2);
-
-	return rv;
-}
-
-static int
-utf8_casefold_collate (const gchar *str1, const gchar *str2)
-{
-	return utf8_casefold_collate_len (str1, str2, -1);
-}
-
 static gboolean
 name_fragment_match (const gchar *a, const gchar *b, gboolean strict)
 {
@@ -122,7 +101,7 @@ name_fragment_match (const gchar *a, const gchar *b, gboolean strict)
 		len = MIN (g_utf8_strlen (a, -1), g_utf8_strlen (b, -1));
 	}
 
-	return !utf8_casefold_collate_len (a, b, len);
+	return !e_utf8_casefold_collate_len (a, b, len);
 }
 
 static gboolean
@@ -139,12 +118,12 @@ name_fragment_match_with_synonyms (const gchar *a, const gchar *b, gboolean stri
 	/* Check for nicknames.  Yes, the linear search blows. */
 	for (i=0; name_synonyms[i][0]; ++i) {
 
-		if (!utf8_casefold_collate (name_synonyms[i][0], a)
-		    && !utf8_casefold_collate (name_synonyms[i][1], b))
+		if (!e_utf8_casefold_collate (name_synonyms[i][0], a)
+		    && !e_utf8_casefold_collate (name_synonyms[i][1], b))
 			return TRUE;
 		
-		if (!utf8_casefold_collate (name_synonyms[i][0], b)
-		    && !utf8_casefold_collate (name_synonyms[i][1], a))
+		if (!e_utf8_casefold_collate (name_synonyms[i][0], b)
+		    && !e_utf8_casefold_collate (name_synonyms[i][1], a))
 			return TRUE;
 	}
 
@@ -241,7 +220,7 @@ e_card_compare_name_to_string_full (ECard *card, const gchar *str, gboolean allo
 			if (familyv && this_part_match == E_CARD_MATCH_PART_NONE) {
 				for (j = 0; familyv[j]; ++j) {
 					if (allow_partial_matches ? name_fragment_match_with_synonyms (familyv[j], namev[i], allow_partial_matches)
-					    : !utf8_casefold_collate (familyv[j], namev[i])) {
+					    : !e_utf8_casefold_collate (familyv[j], namev[i])) {
 
 						this_part_match = E_CARD_MATCH_PART_FAMILY_NAME;
 
@@ -330,7 +309,7 @@ e_card_compare_name (ECard *card1, ECard *card2)
 	if (a->family && b->family) {
 		++possible;
 		/* We don't allow "loose matching" (i.e. John vs. Jon) on family names */
-		if (! utf8_casefold_collate (a->family, b->family)) {
+		if (! e_utf8_casefold_collate (a->family, b->family)) {
 			++matches;
 			family_match = TRUE;
 		}

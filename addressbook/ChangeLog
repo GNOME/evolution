@@ -1,5 +1,21 @@
 2002-11-07  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/Makefile.am: tests are linking now, and link in
+	libcamel.la.
+
+	* backend/ebook/e-destination.c (e_destination_get_name): un-ifdef
+	since camel is compiling.
+	(e_destination_get_email): same.
+	(e_destination_get_address): same.
+	(e_destination_get_textrep): same.
+
+	* backend/ebook/e-card-compare.c (name_fragment_match): use e_utf8_casefold_*.
+	(name_fragment_match_with_synonyms): same.
+	(e_card_compare_name_to_string_full): same.
+	(e_card_compare_name): same.
+
+2002-11-07  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-book-util.h: add prototypes for e_utf8_casefold_collate{_len}
 
 	* backend/ebook/e-book-util.c (e_utf8_casefold_collate_len): move

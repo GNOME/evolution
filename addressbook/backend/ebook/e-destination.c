@@ -372,7 +372,6 @@ e_destination_is_valid (const EDestination *dest)
 gboolean
 e_destination_equal (const EDestination *a, const EDestination *b)
 {
-#ifdef PENDING_PORT_WORK
 	const struct _EDestinationPrivate *pa, *pb;
 	const char *na, *nb;
 	
@@ -399,13 +398,11 @@ e_destination_equal (const EDestination *a, const EDestination *b)
 	/* Just in case name returns NULL */
 	na = e_destination_get_name (a);
 	nb = e_destination_get_name (b);
-	if ((na || nb) && !(na && nb && ! g_utf8_strcasecmp (na, nb)))
+	if ((na || nb) && !(na && nb && ! e_utf8_casefold_collate (na, nb)))
 		return FALSE;
 	
 	if (!g_strcasecmp (e_destination_get_email (a), e_destination_get_email (b)))
 		return TRUE;
-#endif
-	return FALSE;
 }
 
 void
@@ -683,7 +680,6 @@ e_destination_get_email_num (const EDestination *dest)
 const gchar *
 e_destination_get_name (const EDestination *dest)
 {
-#ifdef PENDING_PORT_WORK
 	struct _EDestinationPrivate *priv;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -721,15 +717,11 @@ e_destination_get_name (const EDestination *dest)
 	}
 	
 	return priv->name;
-#else
-	return "e_destination_get_name needs port work";
-#endif	
 }
 
 const gchar *
 e_destination_get_email (const EDestination *dest)
 {
-#ifdef PENDING_PORT_WORK
 	struct _EDestinationPrivate *priv;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -774,15 +766,11 @@ e_destination_get_email (const EDestination *dest)
 	}
 	
 	return priv->email;
-#else
-	return "e_destination_get_email needs port work";
-#endif
 }
 
 const gchar *
 e_destination_get_address (const EDestination *dest)
 {
-#ifdef PENDING_PORT_WORK
 	struct _EDestinationPrivate *priv;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -824,9 +812,6 @@ e_destination_get_address (const EDestination *dest)
 	}
 	
 	return priv->addr;
-#else
-	return "e_destination_get_address needs port work";
-#endif
 }
 
 void
@@ -849,7 +834,6 @@ e_destination_set_raw (EDestination *dest, const gchar *raw)
 const gchar *
 e_destination_get_textrep (const EDestination *dest)
 {
-#ifdef PENDING_PORT_WORK
 	const char *name, *email;
 	
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
@@ -880,9 +864,6 @@ e_destination_get_textrep (const EDestination *dest)
 		return email;
 	
 	return "";
-#else
-	return "e_destination_get_textrep needs port work";
-#endif
 }
 
 gboolean
