@@ -355,7 +355,7 @@ msgstr "Завантаження..."
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:272
 msgid "Error in search expression."
-msgstr "Помилка у реґулярному виразі."
+msgstr "Помилка у регулярному виразі."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1123
 msgid "Adding card to LDAP server..."
@@ -367,7 +367,7 @@ msgstr "Видалення картки з сервера LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1462
 msgid "Modifying card from LDAP server..."
-msgstr "Змина картки на сервері LDAP..."
+msgstr "Зміна картки на сервері LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2586
 msgid "Restarting search."
@@ -375,7 +375,7 @@ msgstr "Почати пошук знову."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2678
 msgid "Receiving LDAP search results..."
-msgstr "Отримання результатів пошузу на LDAP..."
+msgstr "Отримання результатів пошуку на LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:2759
 #, fuzzy
@@ -502,7 +502,7 @@ msgstr "Контакти"
 #: addressbook/gui/component/addressbook-component.c:72
 msgid "Folder containing contact information"
 msgstr ""
-"Тека, що містисть контактну інформацію"
+"Тека, що містить контактну інформацію"
 
 #: addressbook/gui/component/addressbook-component.c:74
 msgid "LDAP Server"
@@ -642,7 +642,7 @@ msgstr "Додати до контактів"
 
 #: addressbook/gui/component/e-address-popup.c:1046
 msgid "Merge E-Mail Address"
-msgstr "Об'єднати електронін адреси"
+msgstr "Об'єднати електронні адреси"
 
 #: addressbook/gui/component/e-address-widget.c:364
 msgid "Disable Queries"
@@ -687,7 +687,7 @@ msgstr "Помилка завантаження файлу: %s"
 #, fuzzy
 msgid "Server did not respond with valid schema information"
 msgstr ""
-"Відповідь серера IMAP не містить "
+"Відповідь сервера IMAP не містить "
 "інформації про %s"
 
 #: addressbook/gui/component/addressbook-config.c:1613
@@ -847,7 +847,7 @@ msgstr ""
 #: addressbook/gui/component/ldap-config.glade.h:35
 #, fuzzy
 msgid "LDAP Configuration Assistant"
-msgstr "Конфіґурація"
+msgstr "Конфігурація"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
 #, fuzzy
@@ -1502,7 +1502,7 @@ msgstr "США"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:129
 msgid "Afghanistan"
-msgstr "Афґаністан"
+msgstr "Афганістан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:130
 #: my-evolution/Locations.h:42
@@ -1524,7 +1524,7 @@ msgstr "Андорра"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:134
 msgid "Angola"
-msgstr "Анґола"
+msgstr "Ангола"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:135
 msgid "Anguilla"
@@ -1541,7 +1541,7 @@ msgstr "Антіґуа і Барбуда"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:138
 #: my-evolution/Locations.h:120
 msgid "Argentina"
-msgstr "Арґентина"
+msgstr "Аргентина"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "Armenia"
@@ -1563,7 +1563,7 @@ msgstr "Австрія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Azerbaijan"
-msgstr "Азейбарджан"
+msgstr "Азербайджан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:144
 #: my-evolution/Locations.h:161
@@ -1577,7 +1577,7 @@ msgstr "Бахрейн"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Bangladesh"
-msgstr "Банґладеш"
+msgstr "Бангладеш"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Barbados"
@@ -1590,7 +1590,7 @@ msgstr "Білорусь"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:149
 #: my-evolution/Locations.h:216
 msgid "Belgium"
-msgstr "Бельґія"
+msgstr "Бельгія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:150
 #: my-evolution/Locations.h:218
@@ -1714,7 +1714,7 @@ msgstr "Коморос"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:177
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Congo"
-msgstr "Конґо"
+msgstr "Конго"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "Cook Islands"
@@ -1788,11 +1788,11 @@ msgstr "Сальвадор"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Equatorial Guinea"
-msgstr "Екваторіальна Ґвінея"
+msgstr "Екваторіальна Гвінея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Eritrea"
-msgstr "Ерітрея"
+msgstr "Еритрея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:196
 #: my-evolution/Locations.h:684
@@ -1827,7 +1827,7 @@ msgstr "Франція"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "French Guiana"
-msgstr "Французька Ґвінея"
+msgstr "Французька Гвінея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "French Polynesia"
@@ -1839,7 +1839,7 @@ msgstr "Французькі Південні Території"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Gabon"
-msgstr "Ґабон"
+msgstr "Габон"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Gambia"
@@ -1857,12 +1857,12 @@ msgstr "Німеччина"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "Ghana"
-msgstr "Ґана"
+msgstr "Гана"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:211
 #: my-evolution/Locations.h:815
 msgid "Gibraltar"
-msgstr "Ґібралтар"
+msgstr "Гібралтар"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 #: my-evolution/Locations.h:846
@@ -1871,28 +1871,28 @@ msgstr "Греція"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Greenland"
-msgstr "Ґренландія"
+msgstr "Гренландія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Grenada"
-msgstr "Ґренада"
+msgstr "Гренада"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Guadeloupe"
-msgstr "Ґваделупа"
+msgstr "Гваделупа"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Guam"
-msgstr "Ґуам"
+msgstr "Гуам"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 #: my-evolution/Locations.h:867
 msgid "Guatemala"
-msgstr "Ґватемала"
+msgstr "Гватемала"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Guinea"
-msgstr "Ґвінея"
+msgstr "Гвінея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Guinea-bissau"
@@ -1923,7 +1923,7 @@ msgstr "Гондурас"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:225
 #: my-evolution/Locations.h:946
 msgid "Hong Kong"
-msgstr "Гонґ Конґ"
+msgstr "Гонг Конг"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 #: my-evolution/Locations.h:966
@@ -1951,7 +1951,7 @@ msgstr "Ірландія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Israel"
-msgstr "Ізраіль"
+msgstr "Ізраїль"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:232
 #: my-evolution/Locations.h:1016
@@ -2034,7 +2034,7 @@ msgstr "Литва"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:249
 #: my-evolution/Locations.h:1268
 msgid "Luxembourg"
-msgstr "Люксембурґ"
+msgstr "Люксембург"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Macau"
@@ -2046,7 +2046,7 @@ msgstr "Македонія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Madagascar"
-msgstr "Мадаґаскар"
+msgstr "Мадагаскар"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Malawi"
@@ -2054,11 +2054,11 @@ msgstr "Малаві"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Malaysia"
-msgstr "Малазія"
+msgstr "Малайзія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Maldives"
-msgstr "Мальдиви"
+msgstr "Мальдіви"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Mali"
@@ -2108,7 +2108,7 @@ msgstr "Монако"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Mongolia"
-msgstr "Монґолія"
+msgstr "Монголія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Montserrat"
@@ -2117,7 +2117,7 @@ msgstr "Монцеррат"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 #: my-evolution/Locations.h:1470
 msgid "Morocco"
-msgstr "Морокко"
+msgstr "Марокко"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mozambique"
@@ -2142,11 +2142,11 @@ msgstr "Непал"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:275
 #: my-evolution/Locations.h:1531
 msgid "Netherlands"
-msgstr "Голандія"
+msgstr "Голландія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Netherlands Antilles"
-msgstr "Голандські Антили"
+msgstr "Голландські Антили"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "New Caledonia"
@@ -2160,15 +2160,15 @@ msgstr "Нова Зеландія"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 #: my-evolution/Locations.h:1562
 msgid "Nicaragua"
-msgstr "Нікараґуа"
+msgstr "Нікарагуа"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Niger"
-msgstr "Ніґер"
+msgstr "Нігер"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Nigeria"
-msgstr "Ніґерія"
+msgstr "Нігерія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Niue"
@@ -2186,7 +2186,7 @@ msgstr "Північні Маріанські острови"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:285
 #: my-evolution/Locations.h:1587
 msgid "Norway"
-msgstr "Норвеґія"
+msgstr "Норвегія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:286
 #: my-evolution/Locations.h:1632
@@ -2196,7 +2196,7 @@ msgstr "Оман"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:287
 #: my-evolution/Locations.h:1673
 msgid "Pakistan"
-msgstr "Пакістан"
+msgstr "Пакистан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Palau"
@@ -2213,12 +2213,12 @@ msgstr "Панама"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Papua New Guinea"
-msgstr "Папуа Нова Ґвінея"
+msgstr "Папуа Нова Гвінея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 #: my-evolution/Locations.h:1688
 msgid "Paraguay"
-msgstr "Параґвай"
+msgstr "Парагвай"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:293
 #: my-evolution/Locations.h:1723
@@ -2227,7 +2227,7 @@ msgstr "Перу"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Philippines"
-msgstr "Філіпіни"
+msgstr "Філіппіни"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Pitcairn"
@@ -2241,7 +2241,7 @@ msgstr "Польща"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 #: my-evolution/Locations.h:1791
 msgid "Portugal"
-msgstr "Портуґалія"
+msgstr "Португалія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 #: my-evolution/Locations.h:1824
@@ -2301,7 +2301,7 @@ msgstr "Саудівська Аравія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Senegal"
-msgstr "Сенеґал"
+msgstr "Сенегал"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Seychelles"
@@ -2314,7 +2314,7 @@ msgstr "Сьєрра Леоне"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 #: my-evolution/Locations.h:2090
 msgid "Singapore"
-msgstr "Синґапур"
+msgstr "Сінгапур"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:315
 #: my-evolution/Locations.h:2103
@@ -2337,7 +2337,7 @@ msgstr "Сомалі"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 #: my-evolution/Locations.h:2119
 msgid "South Africa"
-msgstr "Південня Африка"
+msgstr "Південна Африка"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "South Georgia And The South Sandwich Islands"
@@ -2367,7 +2367,7 @@ msgstr "Судан"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:326
 #: my-evolution/Locations.h:2176
 msgid "Suriname"
-msgstr "Сурінам"
+msgstr "Суринам"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Svalbard And Jan Mayen Islands"
@@ -2380,7 +2380,7 @@ msgstr "Свазіленд"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:329
 #: my-evolution/Locations.h:2181
 msgid "Sweden"
-msgstr "Шведція"
+msgstr "Швеція"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:330
 #: my-evolution/Locations.h:2183
@@ -2394,7 +2394,7 @@ msgstr "Тайвань"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Tajikistan"
-msgstr "Таджикістан"
+msgstr "Таджикистан"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:333
 #, fuzzy
@@ -2403,11 +2403,11 @@ msgstr "Танзанія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "Thailand"
-msgstr "Тайланд"
+msgstr "Таїланд"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "Togo"
-msgstr "Тоґо"
+msgstr "Того"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Tokelau"
@@ -2419,7 +2419,7 @@ msgstr "Тонґа"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "Trinidad And Tobago"
-msgstr "Трінідад і Тобаґо"
+msgstr "Трінідад і Тобаго"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "Tunisia"
@@ -2444,7 +2444,7 @@ msgstr "Тувалу"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Uganda"
-msgstr "Уґанда"
+msgstr "Уганда"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:345
 #: my-evolution/Locations.h:2334
@@ -2467,7 +2467,7 @@ msgstr ""
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 #: my-evolution/Locations.h:2348
 msgid "Uruguay"
-msgstr "Уруґвай"
+msgstr "Уругвай"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Uzbekistan"
@@ -2503,7 +2503,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Western Sahara"
-msgstr "Північка Сахара"
+msgstr "Північна Сахара"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:358
 #: my-evolution/Locations.h:2512
@@ -2513,7 +2513,7 @@ msgstr "Ємен"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:359
 #: my-evolution/Locations.h:2524
 msgid "Yugoslavia"
-msgstr "Юґославія"
+msgstr "Югославія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Zambia"
@@ -2728,7 +2728,7 @@ msgstr ""
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
 msgid "Duplicate Contact Detected"
-msgstr "Виявлено продуюльований контакт"
+msgstr "Виявлено продубльований контакт"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
 msgid "New Contact:"
@@ -2736,7 +2736,7 @@ msgstr "Новий контакт:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
 msgid "Original Contact:"
-msgstr "Ориґінальний контакт:"
+msgstr "Оригінальний контакт:"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:5
 msgid ""
@@ -2963,7 +2963,7 @@ msgstr "Автомобільний телефон"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:351
 msgid "Business Phone 2"
-msgstr "Робочий телеофн 2"
+msgstr "Робочий телефон 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:352
 msgid "Home Phone 2"
@@ -3800,7 +3800,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
-msgstr "З цими арґументами:"
+msgstr "З цими аргументами:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:83
 #, fuzzy
@@ -4052,7 +4052,7 @@ msgstr ""
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Show week _numbers in date navigator"
 msgstr ""
-"Показати номера тижнів у навіґаторі дат"
+"Показати номера тижнів у навігаторі дат"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Sta_rt of day:"
@@ -4674,7 +4674,7 @@ msgstr "Кожен"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "Exceptions"
-msgstr "Вийнятки"
+msgstr "Винятки"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "Preview"
@@ -5639,7 +5639,7 @@ msgstr "Вибраний місяць (%b %Y)"
 #. Year
 #: calendar/gui/print.c:1915
 msgid "Selected year (%Y)"
-msgstr "Вібраний рік (%Y)"
+msgstr "Вибраний рік (%Y)"
 
 #: calendar/gui/print.c:2430
 msgid "Print Calendar"
@@ -5913,7 +5913,7 @@ msgstr ""
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr "Африка/Каір"
+msgstr "Африка/Каїр"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
@@ -6122,7 +6122,7 @@ msgstr ""
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr "Америка/Боґота"
+msgstr "Америка/Богота"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
@@ -6160,7 +6160,7 @@ msgstr "Американська Самоа"
 
 #: calendar/zones.h:79
 msgid "America/Chicago"
-msgstr "Америка/Чикаґо"
+msgstr "Америка/Чикаго"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
@@ -6246,15 +6246,15 @@ msgstr ""
 
 #: calendar/zones.h:99
 msgid "America/Grenada"
-msgstr "Америка/Ґренада"
+msgstr "Америка/Гренада"
 
 #: calendar/zones.h:100
 msgid "America/Guadeloupe"
-msgstr "Америка/Ґваделупа"
+msgstr "Америка/Гваделупа"
 
 #: calendar/zones.h:101
 msgid "America/Guatemala"
-msgstr "Америка/Ґватемала"
+msgstr "Америка/Гватемала"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
@@ -6390,7 +6390,7 @@ msgstr ""
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr "Америка/Монтеррей"
+msgstr "Америка/Монтерей"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
@@ -6430,7 +6430,7 @@ msgstr "Американська Самоа"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr "Америка/Північна Дакота/Сентр"
+msgstr "Америка/Північна Дакота/Центр"
 
 #: calendar/zones.h:143
 msgid "America/Panama"
@@ -6660,7 +6660,7 @@ msgstr "Азія/Ашґабад"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr "Азія/Баґдад"
+msgstr "Азія/Багдад"
 
 #: calendar/zones.h:196
 msgid "Asia/Bahrain"
@@ -6672,7 +6672,7 @@ msgstr "Азія/Баку"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr "Азія/Банґкок"
+msgstr "Азія/Бангкок"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
@@ -6733,7 +6733,7 @@ msgstr ""
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr "Азія/Гонґ Конґ"
+msgstr "Азія/Гонг Конг"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
@@ -6801,7 +6801,7 @@ msgstr ""
 
 #: calendar/zones.h:230
 msgid "Asia/Magadan"
-msgstr "Азія/Маґадан"
+msgstr "Азія/Магадан"
 
 #: calendar/zones.h:231
 msgid "Asia/Manila"
@@ -6822,7 +6822,7 @@ msgstr "Азія/Новосибірськ"
 
 #: calendar/zones.h:235
 msgid "Asia/Omsk"
-msgstr "Азія/Омск"
+msgstr "Азія/Омськ"
 
 #: calendar/zones.h:236
 msgid "Asia/Phnom_Penh"
@@ -6870,7 +6870,7 @@ msgstr "Азія/Шанхай"
 
 #: calendar/zones.h:247
 msgid "Asia/Singapore"
-msgstr "Азія/Сінґапур"
+msgstr "Азія/Сінгапур"
 
 #: calendar/zones.h:248
 msgid "Asia/Taipei"
@@ -6922,7 +6922,7 @@ msgstr "Азія/Якутськ"
 
 #: calendar/zones.h:260
 msgid "Asia/Yekaterinburg"
-msgstr "Азія/Єкатеринбурґ"
+msgstr "Азія/Єкатеринбург"
 
 #: calendar/zones.h:261
 msgid "Asia/Yerevan"
@@ -6974,7 +6974,7 @@ msgstr ""
 
 #: calendar/zones.h:273
 msgid "Australia/Adelaide"
-msgstr "Австралія/Аделаіда"
+msgstr "Австралія/Аделаїда"
 
 #: calendar/zones.h:274
 #, fuzzy
@@ -7038,7 +7038,7 @@ msgstr "Європа/Белфаст"
 
 #: calendar/zones.h:287
 msgid "Europe/Belgrade"
-msgstr "Європа/Белґрад"
+msgstr "Європа/Белград"
 
 #: calendar/zones.h:288
 msgid "Europe/Berlin"
@@ -7074,7 +7074,7 @@ msgstr "Європа/Дублін"
 
 #: calendar/zones.h:296
 msgid "Europe/Gibraltar"
-msgstr "Європа/Ґібралтар"
+msgstr "Європа/Гібралтар"
 
 #: calendar/zones.h:297
 msgid "Europe/Helsinki"
@@ -7086,7 +7086,7 @@ msgstr "Європа/Стамбул"
 
 #: calendar/zones.h:299
 msgid "Europe/Kaliningrad"
-msgstr "Європа/Калінінґрад"
+msgstr "Європа/Калінінград"
 
 #: calendar/zones.h:300
 msgid "Europe/Kiev"
@@ -7106,7 +7106,7 @@ msgstr "Європа/Лондон"
 
 #: calendar/zones.h:304
 msgid "Europe/Luxembourg"
-msgstr "Європа/Люксембурґ"
+msgstr "Європа/Люксембург"
 
 #: calendar/zones.h:305
 msgid "Europe/Madrid"
@@ -7215,7 +7215,7 @@ msgstr "Європа/Варшава"
 
 #: calendar/zones.h:331
 msgid "Europe/Zagreb"
-msgstr "Європа/Заґреб"
+msgstr "Європа/Загреб"
 
 #: calendar/zones.h:332
 msgid "Europe/Zaporozhye"
@@ -7258,7 +7258,7 @@ msgstr "Індія"
 #: calendar/zones.h:341
 #, fuzzy
 msgid "Indian/Maldives"
-msgstr "Мальдиви"
+msgstr "Мальдіви"
 
 #: calendar/zones.h:342
 #, fuzzy
@@ -7654,7 +7654,7 @@ msgstr ""
 #, c-format
 msgid "Could not check mail file %s: %s"
 msgstr ""
-"Неможлипо перевірити поштовий файл %s: %s"
+"Неможливо перевірити поштовий файл %s: %s"
 
 #: camel/camel-movemail.c:121
 #, c-format
@@ -7711,7 +7711,7 @@ msgstr ""
 #, c-format
 msgid "Error copying mail temp file: %s"
 msgstr ""
-"Помилка копиювання тимчасового "
+"Помилка копіювання тимчасового "
 "поштового файлу: %s"
 
 #: camel/camel-pgp-context.c:193
@@ -8112,7 +8112,7 @@ msgstr "Сертифікату підпису \"%s\" не існує."
 #: camel/camel-smime-context.c:249
 #, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr "Сертифікату шишрування \"%s\" не існує."
+msgstr "Сертифікату шифрування \"%s\" не існує."
 
 #: camel/camel-smime-context.c:419 camel/camel-smime-context.c:430
 #: camel/camel-smime-context.c:536 camel/camel-smime-context.c:546
@@ -8245,7 +8245,7 @@ msgstr ""
 #: camel/camel-vtrash-folder.c:117
 msgid "You cannot copy messages from this trash folder."
 msgstr ""
-"Ви неможете скопіювати повідомлення з "
+"Ви не можете скопіювати повідомлення з "
 "цієї теки смітника."
 
 #: camel/providers/imap/camel-imap-command.c:352
@@ -8269,7 +8269,7 @@ msgstr ""
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr ""
-"Відповідь серера IMAP не містить "
+"Відповідь сервера IMAP не містить "
 "інформації про %s"
 
 #: camel/providers/imap/camel-imap-command.c:646
@@ -8371,7 +8371,7 @@ msgstr "IMAP"
 #: camel/providers/imap/camel-imap-provider.c:65
 msgid "For reading and storing mail on IMAP servers."
 msgstr ""
-"Для зчитування та збереження плшти на "
+"Для зчитування та збереження пошти на "
 "серверах IMAP."
 
 #: camel/providers/imap/camel-imap-provider.c:82
@@ -8421,7 +8421,7 @@ msgstr "Невірна тека \"%s\""
 #: camel/providers/imap/camel-imap-store.c:1276
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr ""
-"Батьківська тека не дозволяє розміщути "
+"Батьківська тека не дозволяє розміщати "
 "підтеки"
 
 #: camel/providers/local/camel-local-provider.c:48
@@ -8560,7 +8560,7 @@ msgstr ""
 #, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
 msgstr ""
-"Неможливо додати повідомлення у тку maildir: "
+"Неможливо додати повідомлення у теку maildir: "
 "%s: %s"
 
 #: camel/providers/local/camel-maildir-folder.c:209
@@ -9191,7 +9191,7 @@ msgstr "Не вдалося відіслати повідомлення: %s"
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
 msgstr ""
-"sendmail завершився сиґналом %s: пошту не "
+"sendmail завершився сигналом %s: пошту не "
 "відіслано."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:185
@@ -9227,13 +9227,13 @@ msgstr ""
 msgid "Syntax error, command unrecognized"
 msgstr ""
 "Синтаксична помилка, команду не "
-"розпизнано"
+"розпізнано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:176
 msgid "Syntax error in parameters or arguments"
 msgstr ""
 "Синтаксична помилка у параметрах чи "
-"арґументах"
+"аргументах"
 
 #: camel/providers/smtp/camel-smtp-transport.c:178
 msgid "Command not implemented"
@@ -9241,7 +9241,7 @@ msgstr "Команди не реалізовано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:180
 msgid "Command parameter not implemented"
-msgstr "Парамера команди не реалізовано"
+msgstr "Параметр команди не реалізований"
 
 #: camel/providers/smtp/camel-smtp-transport.c:182
 msgid "System status, or system help reply"
@@ -9990,7 +9990,7 @@ msgstr "Ви забули вибрати дату."
 
 #: filter/filter-datespec.c:196
 msgid "You have chosen an invalid date."
-msgstr "Ви вибради невірну дату."
+msgstr "Ви вибрали невірну дату."
 
 #: filter/filter-datespec.c:271
 msgid ""
@@ -10086,7 +10086,7 @@ msgid ""
 "Error in regular expression '%s':\n"
 "%s"
 msgstr ""
-"Помилка у реґулярному виразі \"%s\":\n"
+"Помилка у регулярному виразі \"%s\":\n"
 "%s"
 
 #: filter/filter-part.c:518 shell/evolution-test-component.c:47
@@ -10115,10 +10115,9 @@ msgstr ""
 
 #: filter/filter-rule.c:764
 msgid "if all criteria are met"
-msgstr "якщо всі відповідоє всім критеріям"
+msgstr "якщо відповідає всім критеріям"
 
 #: filter/filter-rule.c:769
-#, fuzzy
 msgid "if any criterion are met"
 msgstr "якщо відповідає будь-якому критерію"
 
@@ -10136,7 +10135,7 @@ msgstr "вихідні"
 
 #: filter/filter.glade.h:1
 msgid "Edit Filters"
-msgstr "Редагування вільтрів"
+msgstr "Редагування фільтрів"
 
 #: filter/filter.glade.h:2
 msgid "Edit VFolders"
@@ -10224,7 +10223,7 @@ msgstr "не містить"
 
 #: filter/libfilter-i18n.h:14
 msgid "does not end with"
-msgstr "не закінчуєтьтся на"
+msgstr "не закінчується на"
 
 #: filter/libfilter-i18n.h:15
 msgid "does not exist"
@@ -10537,9 +10536,8 @@ msgid "Settings"
 msgstr "Параметри"
 
 #: importers/netscape-importer.c:2131
-#, fuzzy
 msgid "Mail Filters"
-msgstr "Редагування вільтрів"
+msgstr "Поштові фільтри"
 
 #: importers/netscape-importer.c:2154
 msgid ""
@@ -10643,7 +10641,7 @@ msgstr ""
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:16
 msgid "Mail configuration interface"
-msgstr "Інтерфейс конфіґурації пошти"
+msgstr "Інтерфейс конфігурації пошти"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:17
 msgid "This Page can be used to configure the Fonts"
@@ -10943,7 +10941,7 @@ msgstr "Фабрика для імпортування mbox у Evolutuion."
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:2
 msgid "Imports mbox files into Evolution"
-msgstr "Імпорутує файли mbox у Evolution"
+msgstr "Імпортує файли mbox у Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:1
 msgid "Factory to import Outlook Express 4 mails into Evolution"
@@ -11155,7 +11153,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:977
 msgid "an unknown sender"
-msgstr "невідомий відпраник"
+msgstr "невідомий відправник"
 
 #: mail/mail-callbacks.c:981
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
@@ -11488,7 +11486,7 @@ msgstr "Підготувати повідомлення"
 
 #: mail/mail-config.glade.h:30
 msgid "Configuration"
-msgstr "Конфіґурація"
+msgstr "Конфігурація"
 
 #: mail/mail-config.glade.h:31
 msgid ""
@@ -11631,7 +11629,7 @@ msgstr "Завантажити зображення"
 
 #: mail/mail-config.glade.h:69
 msgid "Mail Configuration"
-msgstr "Конфіґурація пошти"
+msgstr "Конфігурація пошти"
 
 #: mail/mail-config.glade.h:71
 msgid "Mailbox location"
@@ -11648,18 +11646,16 @@ msgid "Message Display"
 msgstr "Показати повідомлення"
 
 #: mail/mail-config.glade.h:74
-#, fuzzy
 msgid "Microsoft"
-msgstr "Мікронезія"
+msgstr "Microsoft"
 
 #: mail/mail-config.glade.h:75
 msgid "NNTP Server:"
 msgstr "Сервер NNTP:"
 
 #: mail/mail-config.glade.h:77
-#, fuzzy
 msgid "New Mail Notification"
-msgstr "Конфіґурація пошти"
+msgstr "Повідомляти про нову пошту"
 
 #: mail/mail-config.glade.h:78
 #, fuzzy
@@ -11675,14 +11671,12 @@ msgid "Optional Information"
 msgstr "Необов'язкова інформація"
 
 #: mail/mail-config.glade.h:82
-#, fuzzy
 msgid "Or_ganization:"
 msgstr "Організація:"
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "PGP/GPG _Key ID:"
-msgstr "Ідентифікатор ключа PGP:"
+msgstr "Ідентифікатор ключа PGP/GPG:"
 
 #: mail/mail-config.glade.h:87
 msgid "Pick a color"
@@ -11696,9 +11690,8 @@ msgstr ""
 "визначено отримувачів"
 
 #: mail/mail-config.glade.h:89
-#, fuzzy
 msgid "Pretty Good Privacy (PGP/GPG)"
-msgstr "Pretty Good Privacy"
+msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: mail/mail-config.glade.h:90
 #, fuzzy
@@ -11727,7 +11720,6 @@ msgid "Re_member this password"
 msgstr "Запам'ятати цей пароль"
 
 #: mail/mail-config.glade.h:97
-#, fuzzy
 msgid "Re_ply-To:"
 msgstr "Відповідати на:"
 
@@ -11736,12 +11728,10 @@ msgid "Receiving Email"
 msgstr "Отримання пошти"
 
 #: mail/mail-config.glade.h:99
-#, fuzzy
 msgid "Receiving _Options"
 msgstr "Параметри отримання"
 
 #: mail/mail-config.glade.h:100
-#, fuzzy
 msgid "Remember this _password"
 msgstr "Запам'ятати цей пароль"
 
@@ -11750,7 +11740,6 @@ msgid "Required Information"
 msgstr "Необхідна інформація"
 
 #: mail/mail-config.glade.h:103
-#, fuzzy
 msgid "S_ecurity"
 msgstr "Безпека"
 
@@ -11781,14 +11770,12 @@ msgid "Select HTML variable width font for printing"
 msgstr ""
 
 #: mail/mail-config.glade.h:110
-#, fuzzy
 msgid "Select PGP program"
-msgstr "Вибрати назви"
+msgstr "Вибрати програму PGP"
 
 #: mail/mail-config.glade.h:111
-#, fuzzy
 msgid "Select a signature file"
-msgstr "Файл підпису:"
+msgstr "Вибрати файл підпису"
 
 #: mail/mail-config.glade.h:112
 #, fuzzy
@@ -11815,7 +11802,7 @@ msgstr "Сервер вимагає автенфікації"
 
 #: mail/mail-config.glade.h:118
 msgid "Server Configuration"
-msgstr "Конфіґурація сервера"
+msgstr "Конфігурація сервера"
 
 #: mail/mail-config.glade.h:119
 msgid "Server _Type: "
@@ -12257,7 +12244,7 @@ msgstr "Вказівник на віддалені дані (%s)"
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
-"Вказівник на невідомі завнішні дані (типу "
+"Вказівник на невідомі зовнішні дані (типу "
 "\"%s\")"
 
 #: mail/mail-format.c:2167
@@ -12519,7 +12506,7 @@ msgstr "Знайти у повідомленні"
 
 #: mail/mail-search.c:321
 msgid "Case Sensitive"
-msgstr "Реґістрова чутливість"
+msgstr "Регістрова чутливість"
 
 #: mail/mail-search.c:323
 msgid "Search Forward"
@@ -12946,7 +12933,7 @@ msgstr "Акапулько"
 #: my-evolution/Locations.h:12
 #, fuzzy
 msgid "Acarigua"
-msgstr "Нікараґуа"
+msgstr "Нікарагуа"
 
 #: my-evolution/Locations.h:13
 msgid "Adak"
@@ -12963,12 +12950,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:16
 msgid "Adelaide"
-msgstr "Аделаіда"
+msgstr "Аделаїда"
 
 #: my-evolution/Locations.h:17
-#, fuzzy
 msgid "Aden"
-msgstr "Шведція"
+msgstr "Аден"
 
 #: my-evolution/Locations.h:18
 #, fuzzy
@@ -12999,7 +12985,7 @@ msgstr ""
 #: my-evolution/Locations.h:24
 #, fuzzy
 msgid "Agen"
-msgstr "Арґентина"
+msgstr "Аргентина"
 
 #: my-evolution/Locations.h:25
 #, fuzzy
@@ -13105,7 +13091,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:50
 msgid "Alexandria"
-msgstr "Александрія"
+msgstr "Олександрія"
 
 #: my-evolution/Locations.h:51
 msgid "Alexandria-Esler"
@@ -13127,7 +13113,7 @@ msgstr "Алґерія"
 #: my-evolution/Locations.h:56
 #, fuzzy
 msgid "Algona"
-msgstr "Анґола"
+msgstr "Ангола"
 
 #: my-evolution/Locations.h:57
 msgid "Alicante"
@@ -13157,7 +13143,7 @@ msgstr "Додатково"
 #: my-evolution/Locations.h:63
 #, fuzzy
 msgid "Alma"
-msgstr "Анґола"
+msgstr "Ангола"
 
 #: my-evolution/Locations.h:64
 #, fuzzy
@@ -13231,7 +13217,7 @@ msgstr "Вірменія"
 #: my-evolution/Locations.h:79
 #, fuzzy
 msgid "Amendola"
-msgstr "Анґола"
+msgstr "Ангола"
 
 #: my-evolution/Locations.h:80
 #, fuzzy
@@ -13270,7 +13256,7 @@ msgstr ""
 #: my-evolution/Locations.h:88
 #, fuzzy
 msgid "Ancona"
-msgstr "Анґола"
+msgstr "Ангола"
 
 #: my-evolution/Locations.h:89
 msgid "Andahuayla"
@@ -13326,7 +13312,7 @@ msgstr ""
 #: my-evolution/Locations.h:101
 #, fuzzy
 msgid "Anniston"
-msgstr "Афґаністан"
+msgstr "Афганістан"
 
 #: my-evolution/Locations.h:102
 msgid "Antalya"
@@ -13339,7 +13325,7 @@ msgstr "Антарктика"
 #: my-evolution/Locations.h:104
 #, fuzzy
 msgid "Antigo"
-msgstr "Анґола"
+msgstr "Ангола"
 
 #: my-evolution/Locations.h:105
 #, fuzzy
@@ -13354,7 +13340,7 @@ msgstr "Антіґуа і Барбуда"
 #: my-evolution/Locations.h:107
 #, fuzzy
 msgid "Antofagasta"
-msgstr "Афґаністан"
+msgstr "Афганістан"
 
 #: my-evolution/Locations.h:108
 msgid "Antwerpen/Deurne"
@@ -13419,7 +13405,7 @@ msgstr "Алґерія"
 #: my-evolution/Locations.h:122
 #, fuzzy
 msgid "Arizona"
-msgstr "Арґентина"
+msgstr "Аризона"
 
 #: my-evolution/Locations.h:123
 msgid "Arkansas"
@@ -13825,7 +13811,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:217
 msgid "Belgorod"
-msgstr "Бєлґород"
+msgstr "Бєлгород"
 
 #: my-evolution/Locations.h:219
 #, fuzzy
@@ -14039,7 +14025,7 @@ msgstr "Тіло"
 
 #: my-evolution/Locations.h:268
 msgid "Bogota/Eldorado"
-msgstr "Боґота (Ельдорадо)"
+msgstr "Богота (Ельдорадо)"
 
 #: my-evolution/Locations.h:269
 #, fuzzy
@@ -14318,7 +14304,7 @@ msgstr "Місце"
 
 #: my-evolution/Locations.h:334
 msgid "Cairo"
-msgstr "Каір"
+msgstr "Каїр"
 
 #: my-evolution/Locations.h:335
 msgid "Calabozo"
@@ -14689,7 +14675,7 @@ msgstr ""
 #: my-evolution/Locations.h:419
 #, fuzzy
 msgid "Cherbourg"
-msgstr "Люксембурґ"
+msgstr "Люксембург"
 
 #: my-evolution/Locations.h:420
 #, fuzzy
@@ -16306,7 +16292,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:806
 msgid "Gdansk"
-msgstr "Ґданськ"
+msgstr "Гданськ"
 
 #: my-evolution/Locations.h:807
 msgid "Geneve"
@@ -16663,7 +16649,7 @@ msgstr "Фукуока (аеропорт)"
 
 #: my-evolution/Locations.h:892
 msgid "Hamburg"
-msgstr "Гамбурґ"
+msgstr "Гамбург"
 
 #: my-evolution/Locations.h:893
 msgid "Hamburg-Finkenwerder"
@@ -17049,7 +17035,7 @@ msgstr "В тілі"
 
 #: my-evolution/Locations.h:986
 msgid "Illinois"
-msgstr "Ілліноіс"
+msgstr "Іллінойс"
 
 #: my-evolution/Locations.h:987
 #, fuzzy
@@ -18291,7 +18277,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1286
 msgid "Magadan"
-msgstr "Маґадан"
+msgstr "Магадан"
 
 #: my-evolution/Locations.h:1287
 msgid "Magdalena"
@@ -18843,15 +18829,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:1411
 msgid "Minneapolis"
-msgstr "Міннеаполіс"
+msgstr "Мінеаполіс"
 
 #: my-evolution/Locations.h:1412
 msgid "Minneapolis [2]"
-msgstr "Міннеаполіс [2]"
+msgstr "Мінеаполіс [2]"
 
 #: my-evolution/Locations.h:1413
 msgid "Minneapolis [3]"
-msgstr "Міннеаполіс [3]"
+msgstr "Мінеаполіс [3]"
 
 #: my-evolution/Locations.h:1414
 #, fuzzy
@@ -19715,7 +19701,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1613
 msgid "Ohio"
-msgstr "Агайо"
+msgstr "Огайо"
 
 #: my-evolution/Locations.h:1614
 #, fuzzy
@@ -19842,11 +19828,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1643
 msgid "Oregon"
-msgstr "Ореґон"
+msgstr "Орегон"
 
 #: my-evolution/Locations.h:1644
 msgid "Orenburg"
-msgstr "Оренбурґ"
+msgstr "Оренбург"
 
 #: my-evolution/Locations.h:1645
 #, fuzzy
@@ -19990,9 +19976,8 @@ msgid "Palmer"
 msgstr "Пейджер"
 
 #: my-evolution/Locations.h:1680
-#, fuzzy
 msgid "Palm Springs"
-msgstr "Параметри пошти"
+msgstr "Палм Спрінгс"
 
 #: my-evolution/Locations.h:1681
 msgid "Palo Alto"
@@ -20035,9 +20020,8 @@ msgid "Paris/Le Bourget"
 msgstr ""
 
 #: my-evolution/Locations.h:1692
-#, fuzzy
 msgid "Paris/Orly"
-msgstr "Первинна е-пошта"
+msgstr "Париж/Орлі"
 
 #: my-evolution/Locations.h:1693
 msgid "Parkersburg"
@@ -20184,15 +20168,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:1727
 msgid "Petropavlovsk-Kamchatsky"
-msgstr ""
+msgstr "Петропавловськ-Камчатський"
 
 #: my-evolution/Locations.h:1728
 msgid "Petrozavodsk"
-msgstr "Петрозавадськ"
+msgstr "Петрозаводськ"
 
 #: my-evolution/Locations.h:1729
 msgid "Philadelphia"
-msgstr ""
+msgstr "Філаделфія"
 
 #: my-evolution/Locations.h:1730
 #, fuzzy
@@ -20268,9 +20252,8 @@ msgid "Pirassununga"
 msgstr ""
 
 #: my-evolution/Locations.h:1747
-#, fuzzy
 msgid "Pisa"
-msgstr "Пакістан"
+msgstr "Піза"
 
 #: my-evolution/Locations.h:1748
 msgid "Pisco"
@@ -20293,9 +20276,8 @@ msgid "Plovdiv"
 msgstr "Пловдив"
 
 #: my-evolution/Locations.h:1753
-#, fuzzy
 msgid "Plymouth"
-msgstr "місяць"
+msgstr "Плімут"
 
 #: my-evolution/Locations.h:1754
 msgid "Pocatello"
@@ -20323,46 +20305,40 @@ msgid "Point Hope"
 msgstr "Надрукувати конверт"
 
 #: my-evolution/Locations.h:1760
-#, fuzzy
 msgid "Point Lay"
-msgstr "Надрукувати зведення"
+msgstr ""
 
 #: my-evolution/Locations.h:1761
-#, fuzzy
 msgid "Point Mugu"
-msgstr "Надрукувати повідомлення"
+msgstr ""
 
 #: my-evolution/Locations.h:1762
 msgid "Point Piedras Blanca"
 msgstr ""
 
 #: my-evolution/Locations.h:1763
-#, fuzzy
 msgid "Poitiers"
-msgstr "Властивості"
+msgstr ""
 
 #: my-evolution/Locations.h:1765
 msgid "Pompano Beach"
 msgstr ""
 
 #: my-evolution/Locations.h:1766
-#, fuzzy
 msgid "Ponca City"
-msgstr "Список телефонів"
+msgstr ""
 
 #: my-evolution/Locations.h:1767
-#, fuzzy
 msgid "Ponce"
-msgstr "Немає"
+msgstr ""
 
 #: my-evolution/Locations.h:1768
 msgid "Ponta Pora"
 msgstr ""
 
 #: my-evolution/Locations.h:1769
-#, fuzzy
 msgid "Pontiac"
-msgstr "Контакти"
+msgstr "Понтіак"
 
 #: my-evolution/Locations.h:1770
 msgid "Pope AFB"
@@ -20373,23 +20349,20 @@ msgid "Poplar Bluff"
 msgstr ""
 
 #: my-evolution/Locations.h:1772
-#, fuzzy
 msgid "Poprad"
-msgstr "Польща"
+msgstr ""
 
 #: my-evolution/Locations.h:1773
-#, fuzzy
 msgid "Port Alexander"
-msgstr "Надрукувати календар"
+msgstr ""
 
 #: my-evolution/Locations.h:1774
 msgid "Port Alsworth"
 msgstr ""
 
 #: my-evolution/Locations.h:1775
-#, fuzzy
 msgid "Port Angeles"
-msgstr "Надрукувати конверт"
+msgstr ""
 
 #: my-evolution/Locations.h:1776
 msgid "Port-Au-Prince"
@@ -20397,73 +20370,63 @@ msgstr ""
 
 #: my-evolution/Locations.h:1777
 msgid "Port Elizabeth"
-msgstr ""
+msgstr "Порт Елізабет"
 
 #: my-evolution/Locations.h:1778
-#, fuzzy
 msgid "Porterville"
-msgstr "Перегляд"
+msgstr ""
 
 #: my-evolution/Locations.h:1779
-#, fuzzy
 msgid "Port Hardy"
-msgstr "Надрукувати картку"
+msgstr ""
 
 #: my-evolution/Locations.h:1780
-#, fuzzy
 msgid "Port Hedland"
-msgstr "Польща"
+msgstr ""
 
 #: my-evolution/Locations.h:1781
 msgid "Port Heiden"
 msgstr ""
 
 #: my-evolution/Locations.h:1782
-#, fuzzy
 msgid "Portland"
-msgstr "Польща"
+msgstr ""
 
 #: my-evolution/Locations.h:1783
-#, fuzzy
 msgid "Porto"
-msgstr "Порт:"
+msgstr ""
 
 #: my-evolution/Locations.h:1784
-#, fuzzy
 msgid "Porto Alegre"
-msgstr "Поступ"
+msgstr ""
 
 #: my-evolution/Locations.h:1785
 msgid "Porto Alegre Apt"
 msgstr ""
 
 #: my-evolution/Locations.h:1786
-#, fuzzy
 msgid "Portoroz"
-msgstr "Книжна"
+msgstr ""
 
 #: my-evolution/Locations.h:1787
-#, fuzzy
 msgid "Porto Santo"
-msgstr "Книжна"
+msgstr ""
 
 #: my-evolution/Locations.h:1788
 msgid "Porto Velho"
 msgstr ""
 
 #: my-evolution/Locations.h:1789
-#, fuzzy
 msgid "Port Said"
-msgstr "Книжна"
+msgstr ""
 
 #: my-evolution/Locations.h:1790
 msgid "Portsmouth"
 msgstr ""
 
 #: my-evolution/Locations.h:1792
-#, fuzzy
 msgid "Posadas"
-msgstr "Польща"
+msgstr ""
 
 #: my-evolution/Locations.h:1793
 msgid "Potosi"
@@ -20478,9 +20441,8 @@ msgid "Pownal"
 msgstr ""
 
 #: my-evolution/Locations.h:1796
-#, fuzzy
 msgid "Poza Rica"
-msgstr "Коста Ріка"
+msgstr ""
 
 #: my-evolution/Locations.h:1797
 msgid "Poznan"
@@ -20499,9 +20461,8 @@ msgid "Prescott"
 msgstr ""
 
 #: my-evolution/Locations.h:1801
-#, fuzzy
 msgid "Presidente Prudente"
-msgstr "Перегляд друку"
+msgstr ""
 
 #: my-evolution/Locations.h:1802
 msgid "Presque Isle"
@@ -20516,122 +20477,104 @@ msgid "Pretoria"
 msgstr "Преторія"
 
 #: my-evolution/Locations.h:1805
-#, fuzzy
 msgid "Preveza"
-msgstr "Перегляд"
+msgstr ""
 
 #: my-evolution/Locations.h:1806
 msgid "Price-Carbon"
 msgstr ""
 
 #: my-evolution/Locations.h:1807
-#, fuzzy
 msgid "Pristina"
-msgstr "Традиційний"
+msgstr ""
 
 #: my-evolution/Locations.h:1808
-#, fuzzy
 msgid "Providence"
-msgstr "Штат/область:"
+msgstr ""
 
 #: my-evolution/Locations.h:1809
-#, fuzzy
 msgid "Provincetown"
-msgstr "Перегляд"
+msgstr ""
 
 #: my-evolution/Locations.h:1810
-#, fuzzy
 msgid "Provo"
-msgstr "Проф."
+msgstr ""
 
 #: my-evolution/Locations.h:1811
 msgid "Pskov"
 msgstr "Псков"
 
 #: my-evolution/Locations.h:1812
-#, fuzzy
 msgid "Pucallpa"
-msgstr "Палау"
+msgstr ""
 
 #: my-evolution/Locations.h:1813
 msgid "Pudahuel"
 msgstr ""
 
 #: my-evolution/Locations.h:1814
-#, fuzzy
 msgid "Puebla"
-msgstr "Публічне"
+msgstr ""
 
 #: my-evolution/Locations.h:1815
-#, fuzzy
 msgid "Pueblo"
-msgstr "Публічне"
+msgstr ""
 
 #: my-evolution/Locations.h:1816
-#, fuzzy
 msgid "Puerto Barrios"
-msgstr "Пуерто Ріко"
+msgstr ""
 
 #: my-evolution/Locations.h:1817
 msgid "Puerto Cabezas"
 msgstr ""
 
 #: my-evolution/Locations.h:1818
-#, fuzzy
 msgid "Puerto Escondido"
-msgstr "Пуерто Ріко"
+msgstr ""
 
 #: my-evolution/Locations.h:1819
-#, fuzzy
 msgid "Puerto Lempira"
-msgstr "Пуерто Ріко"
+msgstr ""
 
 #: my-evolution/Locations.h:1820
-#, fuzzy
 msgid "Puerto Limon"
-msgstr "Пуерто Ріко"
+msgstr ""
 
 #: my-evolution/Locations.h:1821
 msgid "Puerto Maldonado"
 msgstr ""
 
 #: my-evolution/Locations.h:1822
-#, fuzzy
 msgid "Puerto Montt"
-msgstr "Пуерто Ріко"
+msgstr ""
 
 #: my-evolution/Locations.h:1823
-#, fuzzy
 msgid "Puerto Plata"
-msgstr "Пуерто Ріко"
+msgstr ""
 
 #: my-evolution/Locations.h:1825
-#, fuzzy
 msgid "Puerto Suarez"
-msgstr "Надрукувати зведення"
+msgstr ""
 
 #: my-evolution/Locations.h:1826
 msgid "Puerto Vallarta"
 msgstr ""
 
 #: my-evolution/Locations.h:1827
-#, fuzzy
 msgid "Pula"
-msgstr "Палау"
+msgstr ""
 
 #: my-evolution/Locations.h:1828
-#, fuzzy
 msgid "Pullman"
-msgstr "Польща"
+msgstr ""
 
 #: my-evolution/Locations.h:1829
 msgid "Punta Arenas"
 msgstr ""
 
 #: my-evolution/Locations.h:1830
-#, fuzzy
 msgid "Punta Cana"
-msgstr "Надрукувати календар"
+msgstr ""
 
 #: my-evolution/Locations.h:1831
 msgid "Punta Gorda"
@@ -20654,9 +20597,8 @@ msgid "Pyongyang"
 msgstr ""
 
 #: my-evolution/Locations.h:1837
-#, fuzzy
 msgid "Quantico"
-msgstr "Питання"
+msgstr ""
 
 #: my-evolution/Locations.h:1838
 msgid "Quebec"
@@ -20692,7 +20634,7 @@ msgstr "Рабат"
 
 #: my-evolution/Locations.h:1846
 msgid "Raduzhny"
-msgstr "Радужний"
+msgstr "Райдужний"
 
 #: my-evolution/Locations.h:1847
 msgid "Rafha"
@@ -20707,9 +20649,8 @@ msgid "Randolph AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:1850
-#, fuzzy
 msgid "Rapid City"
-msgstr "Відповісти всім"
+msgstr ""
 
 #: my-evolution/Locations.h:1851
 msgid "Rapid City-Ellsworth AFB"
@@ -20720,38 +20661,32 @@ msgid "Ras Al Khaimah"
 msgstr ""
 
 #: my-evolution/Locations.h:1853
-#, fuzzy
 msgid "Rawlins"
-msgstr "Дощ"
+msgstr ""
 
 #: my-evolution/Locations.h:1854
-#, fuzzy
 msgid "Reading"
-msgstr "Верхні колонтитули"
+msgstr ""
 
 #: my-evolution/Locations.h:1855
-#, fuzzy
 msgid "Rebun Island"
-msgstr "Буве"
+msgstr ""
 
 #: my-evolution/Locations.h:1856
-#, fuzzy
 msgid "Recife"
-msgstr "Отримано"
+msgstr ""
 
 #: my-evolution/Locations.h:1857
 msgid "Red Bluff"
 msgstr ""
 
 #: my-evolution/Locations.h:1858
-#, fuzzy
 msgid "Redding"
-msgstr "Верхні колонтитули"
+msgstr ""
 
 #: my-evolution/Locations.h:1859
-#, fuzzy
 msgid "Redig"
-msgstr "Прочитано"
+msgstr ""
 
 #: my-evolution/Locations.h:1860
 msgid "Redmond"
@@ -20770,100 +20705,84 @@ msgid "Reggio Calabria"
 msgstr ""
 
 #: my-evolution/Locations.h:1864
-#, fuzzy
 msgid "Regina"
-msgstr "Реґіони"
+msgstr "Регіна"
 
 #: my-evolution/Locations.h:1865
 msgid "Reims-Champagne"
 msgstr ""
 
 #: my-evolution/Locations.h:1866
-#, fuzzy
 msgid "Rennes"
-msgstr "Нагадування"
+msgstr ""
 
 #: my-evolution/Locations.h:1867
-#, fuzzy
 msgid "Reno"
-msgstr "Видалити"
+msgstr ""
 
 #: my-evolution/Locations.h:1868
-#, fuzzy
 msgid "Renton"
-msgstr "Лебанон"
+msgstr ""
 
 #: my-evolution/Locations.h:1869
 msgid "Resistencia"
 msgstr ""
 
 #: my-evolution/Locations.h:1870
-#, fuzzy
 msgid "Reus"
-msgstr "Правила"
+msgstr ""
 
 #: my-evolution/Locations.h:1871
-#, fuzzy
 msgid "Reyes"
-msgstr "Заголовок"
+msgstr ""
 
 #: my-evolution/Locations.h:1872
 msgid "Reykjavik"
 msgstr ""
 
 #: my-evolution/Locations.h:1873
-#, fuzzy
 msgid "Reynosa"
-msgstr "Перезавантажити"
+msgstr ""
 
 #: my-evolution/Locations.h:1874
-#, fuzzy
 msgid "Rhinelander"
-msgstr "Фінляндія"
+msgstr ""
 
 #: my-evolution/Locations.h:1875
-#, fuzzy
 msgid "Rhode Island"
-msgstr "Буве"
+msgstr ""
 
 #: my-evolution/Locations.h:1876
-#, fuzzy
 msgid "Riberalta"
-msgstr "Ґібралтар"
+msgstr ""
 
 #: my-evolution/Locations.h:1877
 msgid "Richmond"
-msgstr ""
+msgstr "Річмонд"
 
 #: my-evolution/Locations.h:1878
-#, fuzzy
 msgid "Rickenbacker"
-msgstr "Прізвисько"
+msgstr ""
 
 #: my-evolution/Locations.h:1879
-#, fuzzy
 msgid "Rieti"
-msgstr "Гаїті"
+msgstr ""
 
 #: my-evolution/Locations.h:1880
-#, fuzzy
 msgid "Rifle"
-msgstr "Мобільний"
+msgstr ""
 
 #: my-evolution/Locations.h:1881
-#, fuzzy
 msgid "Riga"
-msgstr "Праворуч:"
+msgstr "Ріга"
 
 #: my-evolution/Locations.h:1882
-#, fuzzy
 msgid "Rijeka"
-msgstr "Прочитано"
+msgstr ""
 
 #: my-evolution/Locations.h:1883
-#, fuzzy
 msgid "Rimini"
-msgstr "Румунія"
+msgstr ""
 
 #: my-evolution/Locations.h:1884
 msgid "Rio De Janeiro"
@@ -20875,35 +20794,31 @@ msgstr ""
 
 #: my-evolution/Locations.h:1886
 msgid "Rio Grande"
-msgstr "Ріо Ґранде"
+msgstr "Ріо Гранде"
 
 #: my-evolution/Locations.h:1887
-#, fuzzy
 msgid "Rioja"
-msgstr "Радіо"
+msgstr ""
 
 #: my-evolution/Locations.h:1888
-#, fuzzy
 msgid "Rio / Jacarepagua"
-msgstr "Нікараґуа"
+msgstr ""
 
 #: my-evolution/Locations.h:1889
 msgid "Rionegro/J.M.Cordova"
 msgstr ""
 
 #: my-evolution/Locations.h:1890
-#, fuzzy
 msgid "Rishiri Island"
-msgstr "Британські Вірджинові острови"
+msgstr ""
 
 #: my-evolution/Locations.h:1891
 msgid "Rivas"
 msgstr ""
 
 #: my-evolution/Locations.h:1892
-#, fuzzy
 msgid "Rivera"
-msgstr "Ліберія"
+msgstr ""
 
 #: my-evolution/Locations.h:1893
 msgid "Riverside"
@@ -20922,28 +20837,24 @@ msgid "Rivne"
 msgstr "Рівне"
 
 #: my-evolution/Locations.h:1897
-#, fuzzy
 msgid "Rivolto"
-msgstr "Evolution"
+msgstr ""
 
 #: my-evolution/Locations.h:1898
-#, fuzzy
 msgid "Riyadh"
-msgstr "Прочитано"
+msgstr ""
 
 #: my-evolution/Locations.h:1899
 msgid "Roanoke"
 msgstr ""
 
 #: my-evolution/Locations.h:1900
-#, fuzzy
 msgid "Roatan"
-msgstr "Хорватія"
+msgstr ""
 
 #: my-evolution/Locations.h:1901
-#, fuzzy
 msgid "Robore"
-msgstr "перед"
+msgstr ""
 
 #: my-evolution/Locations.h:1902
 msgid "Rochester"
@@ -20954,9 +20865,8 @@ msgid "Rockford"
 msgstr "Рокфорд"
 
 #: my-evolution/Locations.h:1904
-#, fuzzy
 msgid "Rockland"
-msgstr "Польща"
+msgstr "Рокленд"
 
 #: my-evolution/Locations.h:1905
 msgid "Rockport"
@@ -20975,14 +20885,12 @@ msgid "Rodos"
 msgstr "Родос"
 
 #: my-evolution/Locations.h:1909
-#, fuzzy
 msgid "Rogers"
-msgstr "Теки"
+msgstr ""
 
 #: my-evolution/Locations.h:1910
-#, fuzzy
 msgid "Roma/Ciampino"
-msgstr "Румунія"
+msgstr ""
 
 #: my-evolution/Locations.h:1911
 msgid "Roma/Fiumicino"
@@ -21009,36 +20917,32 @@ msgid "Roosevelt"
 msgstr ""
 
 #: my-evolution/Locations.h:1918
-#, fuzzy
 msgid "Roros"
-msgstr "Коморос"
+msgstr ""
 
 #: my-evolution/Locations.h:1919
 msgid "Rorvik/Ryum"
 msgstr ""
 
 #: my-evolution/Locations.h:1920
-#, fuzzy
 msgid "Rosario"
-msgstr "Радіо"
+msgstr "Розаріо"
 
 #: my-evolution/Locations.h:1921
 msgid "Roseburg"
 msgstr ""
 
 #: my-evolution/Locations.h:1922
-#, fuzzy
 msgid "Roseglen"
-msgstr "Мобільний"
+msgstr ""
 
 #: my-evolution/Locations.h:1923
-#, fuzzy
 msgid "Rost"
-msgstr "Комп'ютер"
+msgstr ""
 
 #: my-evolution/Locations.h:1924
 msgid "Rostov-Na-Donu"
-msgstr ""
+msgstr "Ростов-на-Дону"
 
 #: my-evolution/Locations.h:1925
 msgid "Roswell"
@@ -21057,9 +20961,8 @@ msgid "Ruidoso-Sierra Blanca"
 msgstr ""
 
 #: my-evolution/Locations.h:1929
-#, fuzzy
 msgid "Rurrenabaque"
-msgstr "Повторення"
+msgstr ""
 
 #: my-evolution/Locations.h:1930
 msgid "Russell"
@@ -21070,9 +20973,8 @@ msgid "Russia"
 msgstr "Росія"
 
 #: my-evolution/Locations.h:1932
-#, fuzzy
 msgid "Rutland"
-msgstr "Бутан"
+msgstr ""
 
 #: my-evolution/Locations.h:1933
 msgid "Rygge"
@@ -21091,9 +20993,8 @@ msgid "Sabine Pass"
 msgstr ""
 
 #: my-evolution/Locations.h:1937
-#, fuzzy
 msgid "Sacramento"
-msgstr "Відділ"
+msgstr "Сакраменто"
 
 #: my-evolution/Locations.h:1938
 msgid "Sacramento-Woodland"
@@ -21104,9 +21005,8 @@ msgid "Safford-Municipal Airport"
 msgstr ""
 
 #: my-evolution/Locations.h:1940
-#, fuzzy
 msgid "Saginaw"
-msgstr "Іспанія"
+msgstr ""
 
 #: my-evolution/Locations.h:1941
 msgid "Saint Anthony"
@@ -21125,74 +21025,64 @@ msgid "Saint-Etienne-Boutheon"
 msgstr ""
 
 #: my-evolution/Locations.h:1945
-#, fuzzy
 msgid "Saint Mary's"
-msgstr "Сан Маріно"
+msgstr "Санта Марія"
 
 #: my-evolution/Locations.h:1946
-#, fuzzy
 msgid "Saint Mawgan"
-msgstr "Сан Маріно"
+msgstr ""
 
 #: my-evolution/Locations.h:1947
 msgid "Saint-Nazaire-Montoir"
 msgstr ""
 
 #: my-evolution/Locations.h:1948
-#, fuzzy
 msgid "Saint Paul"
-msgstr "Санта Лючія"
+msgstr ""
 
 #: my-evolution/Locations.h:1949
-#, fuzzy
 msgid "Saiq"
-msgstr "Іспанія"
+msgstr ""
 
 #: my-evolution/Locations.h:1950
 msgid "Salalah"
 msgstr ""
 
 #: my-evolution/Locations.h:1951
-#, fuzzy
 msgid "Salem"
-msgstr "Зберегти"
+msgstr "Салем"
 
 #: my-evolution/Locations.h:1952
-#, fuzzy
 msgid "Salida"
-msgstr "Сомалі"
+msgstr "Саліда"
 
 #: my-evolution/Locations.h:1953
 msgid "Salida-Harriet"
 msgstr ""
 
 #: my-evolution/Locations.h:1954
-#, fuzzy
 msgid "Salina"
-msgstr "Сомалі"
+msgstr "Саліна"
 
 #: my-evolution/Locations.h:1955
-#, fuzzy
 msgid "Salinas"
-msgstr "Сомалі"
+msgstr "Салінас"
 
 #: my-evolution/Locations.h:1956
 msgid "Salisbury"
 msgstr ""
 
 #: my-evolution/Locations.h:1957
-#, fuzzy
 msgid "Salmon"
-msgstr "Самоа"
+msgstr ""
 
 #: my-evolution/Locations.h:1958
 msgid "Salmon (2)"
 msgstr ""
 
 #: my-evolution/Locations.h:1959
-#, fuzzy
 msgid "Salta"
-msgstr "Мальта"
+msgstr ""
 
 #: my-evolution/Locations.h:1960
 msgid "Saltillo"
@@ -21203,9 +21093,8 @@ msgid "Salt Lake City"
 msgstr "Солт-Лейк-Ситі"
 
 #: my-evolution/Locations.h:1962
-#, fuzzy
 msgid "Salto"
-msgstr "Сбт"
+msgstr ""
 
 #: my-evolution/Locations.h:1963
 msgid "Salt point"
@@ -21229,23 +21118,20 @@ msgid "Samos"
 msgstr "Самоа"
 
 #: my-evolution/Locations.h:1968
-#, fuzzy
 msgid "Samsun"
-msgstr "Ндл"
+msgstr "Самсун"
 
 #: my-evolution/Locations.h:1969
-#, fuzzy
 msgid "Sana'A"
-msgstr "Пісок"
+msgstr ""
 
 #: my-evolution/Locations.h:1970
 msgid "San Andres Isla/Sesquicentenario"
 msgstr ""
 
 #: my-evolution/Locations.h:1971
-#, fuzzy
 msgid "San Angelo"
-msgstr "Сан Маріно"
+msgstr ""
 
 #: my-evolution/Locations.h:1972
 msgid "San Antonio"
@@ -21264,29 +21150,24 @@ msgid "San Antonio-Stinson"
 msgstr ""
 
 #: my-evolution/Locations.h:1976
-#, fuzzy
 msgid "San Carlos"
-msgstr "Сан Маріно"
+msgstr "Сан Карлос"
 
 #: my-evolution/Locations.h:1977
-#, fuzzy
 msgid "Sandane"
-msgstr "Пісок"
+msgstr ""
 
 #: my-evolution/Locations.h:1978
-#, fuzzy
 msgid "Sandberg"
-msgstr "Відправник"
+msgstr ""
 
 #: my-evolution/Locations.h:1979
-#, fuzzy
 msgid "Sanderson"
-msgstr "Відправник"
+msgstr ""
 
 #: my-evolution/Locations.h:1980
-#, fuzzy
 msgid "San Diego"
-msgstr "Сан Маріно"
+msgstr "Сан Дієго"
 
 #: my-evolution/Locations.h:1981
 msgid "San Diego-Brown"
@@ -21327,9 +21208,8 @@ msgid "Sanford"
 msgstr "Пісок"
 
 #: my-evolution/Locations.h:1990
-#, fuzzy
 msgid "San Francisco"
-msgstr "Сан Маріно"
+msgstr "Сан Франциско"
 
 #: my-evolution/Locations.h:1991
 #, fuzzy
@@ -21346,9 +21226,8 @@ msgid "San Joaquin"
 msgstr "Сан Маріно"
 
 #: my-evolution/Locations.h:1994
-#, fuzzy
 msgid "San Jose"
-msgstr "Зберегти та закрити"
+msgstr "Сан Хосе"
 
 #: my-evolution/Locations.h:1995
 msgid "San Jose De Chiquitos"
@@ -21363,9 +21242,8 @@ msgid "San Jose-Santa Clara"
 msgstr ""
 
 #: my-evolution/Locations.h:1998
-#, fuzzy
 msgid "San Juan"
-msgstr "Сан Маріно"
+msgstr "Сан Хуан"
 
 #: my-evolution/Locations.h:1999
 msgid "Sankt-Peterburg"
@@ -21394,14 +21272,12 @@ msgid "San Nicholas Island"
 msgstr ""
 
 #: my-evolution/Locations.h:2005
-#, fuzzy
 msgid "San Salvador"
-msgstr "Сальвадор"
+msgstr "Сан Сальвадор"
 
 #: my-evolution/Locations.h:2006
-#, fuzzy
 msgid "San Sebastian"
-msgstr "Сан Маріно"
+msgstr "Сан Себаст'ян"
 
 #: my-evolution/Locations.h:2007
 #, fuzzy
@@ -21421,18 +21297,16 @@ msgid "Santa Fe"
 msgstr "Санта Фе"
 
 #: my-evolution/Locations.h:2011
-#, fuzzy
 msgid "Santa Maria"
-msgstr "Сан Маріно"
+msgstr "Санта Марія"
 
 #: my-evolution/Locations.h:2012
 msgid "Santa Marta/Simon Bolivar"
 msgstr ""
 
 #: my-evolution/Locations.h:2013
-#, fuzzy
 msgid "Santa Monica"
-msgstr "Санта Лючія"
+msgstr "Санта Моніка"
 
 #: my-evolution/Locations.h:2014
 #, fuzzy
@@ -21453,9 +21327,8 @@ msgid "Santa Rosa de Copan"
 msgstr ""
 
 #: my-evolution/Locations.h:2018
-#, fuzzy
 msgid "Santiago"
-msgstr "Санта Лючія"
+msgstr "Сант'яго"
 
 #: my-evolution/Locations.h:2019
 msgid "Santiago de Cuba"
@@ -21532,7 +21405,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2037
 msgid "Savannah"
-msgstr ""
+msgstr "Савана"
 
 #: my-evolution/Locations.h:2038
 msgid "Savannah-Hunter AAF"
@@ -21578,9 +21451,8 @@ msgid "Scranton"
 msgstr "Організація"
 
 #: my-evolution/Locations.h:2048
-#, fuzzy
 msgid "Seattle"
-msgstr "US-Letter"
+msgstr "Сіетл"
 
 #: my-evolution/Locations.h:2049
 #, fuzzy
@@ -21773,7 +21645,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2093
 msgid "Sitka"
-msgstr ""
+msgstr "Сітка"
 
 #: my-evolution/Locations.h:2094
 msgid "Sivas"
@@ -21943,9 +21815,8 @@ msgid "Springbok"
 msgstr ""
 
 #: my-evolution/Locations.h:2135
-#, fuzzy
 msgid "Springfield"
-msgstr "Спрощений"
+msgstr "Спрінгфілд"
 
 #: my-evolution/Locations.h:2136
 msgid "Stampede Pass"
@@ -21975,9 +21846,8 @@ msgid "Staverton"
 msgstr "Зберегти"
 
 #: my-evolution/Locations.h:2142
-#, fuzzy
 msgid "Stavropol"
-msgstr "Зупинити"
+msgstr "Ставрополь"
 
 #: my-evolution/Locations.h:2143
 msgid "St Cloud"
@@ -22145,7 +22015,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2184
 msgid "Sydney"
-msgstr ""
+msgstr "Сідней"
 
 #: my-evolution/Locations.h:2185
 msgid "Syktyvkar"
@@ -22157,7 +22027,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2187
 msgid "Syracuse"
-msgstr "Сиракузи"
+msgstr "Сіракузи"
 
 #: my-evolution/Locations.h:2188
 msgid "Szczecin"
@@ -22257,9 +22127,8 @@ msgid "Talara"
 msgstr "Талара"
 
 #: my-evolution/Locations.h:2211
-#, fuzzy
 msgid "Talinn"
-msgstr "Тайвань"
+msgstr "Талін"
 
 #: my-evolution/Locations.h:2212
 msgid "Talkeetna"
@@ -22278,9 +22147,8 @@ msgid "Tamanrasset/Aguenna"
 msgstr ""
 
 #: my-evolution/Locations.h:2216
-#, fuzzy
 msgid "Tampa"
-msgstr "Японія"
+msgstr "Тампа"
 
 #: my-evolution/Locations.h:2217
 msgid "Tampa-Macdill AFB"
@@ -22526,9 +22394,8 @@ msgid "Tokyo New International Airport"
 msgstr "Токіо (новий міжнародний аеропорт)"
 
 #: my-evolution/Locations.h:2273
-#, fuzzy
 msgid "Toledo"
-msgstr "Перемикнути"
+msgstr "Толедо"
 
 #: my-evolution/Locations.h:2274
 #, fuzzy
@@ -22648,9 +22515,8 @@ msgid "Trieste"
 msgstr "Тест"
 
 #: my-evolution/Locations.h:2300
-#, fuzzy
 msgid "Trinidad"
-msgstr "Смерч"
+msgstr "Трінідад"
 
 #: my-evolution/Locations.h:2301
 msgid "Tripoli"
@@ -22844,7 +22710,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2350
 msgid "Utah"
-msgstr " Юта"
+msgstr "Юта"
 
 #: my-evolution/Locations.h:2351
 msgid "Utica"
@@ -22987,9 +22853,8 @@ msgid "Vermillion"
 msgstr ""
 
 #: my-evolution/Locations.h:2384
-#, fuzzy
 msgid "Vermont"
-msgstr "місяць"
+msgstr "Вермонт"
 
 #: my-evolution/Locations.h:2385
 #, fuzzy
@@ -23176,7 +23041,7 @@ msgstr "Варшава"
 
 #: my-evolution/Locations.h:2429
 msgid "Washington"
-msgstr "Вашінґтон"
+msgstr "Вашингтон"
 
 #: my-evolution/Locations.h:2430
 msgid "Washington/Dulles"
@@ -23414,9 +23279,8 @@ msgid "Wiscasset"
 msgstr ""
 
 #: my-evolution/Locations.h:2484
-#, fuzzy
 msgid "Wisconsin"
-msgstr "Мікронезія"
+msgstr "Вісконсін"
 
 #: my-evolution/Locations.h:2485
 msgid "Wisconsin Rapids"
@@ -23525,7 +23389,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2509
 msgid "Yekaterinburg"
-msgstr "Єкатеринбурґ"
+msgstr "Єкатеринбург"
 
 #: my-evolution/Locations.h:2510
 msgid "Yellowknife"
@@ -23607,7 +23471,7 @@ msgstr "Календар"
 
 #: my-evolution/Locations.h:2531
 msgid "Zagreb"
-msgstr "Заґреб"
+msgstr "Загреб"
 
 #: my-evolution/Locations.h:2532
 msgid "Zakinthos"
@@ -23694,7 +23558,7 @@ msgstr "Слово дня на Dictionary.com"
 
 #: my-evolution/e-summary-preferences.c:492
 msgid "Quotes of the Day"
-msgstr "Цитати для"
+msgstr "Цитати дня"
 
 #: my-evolution/e-summary-preferences.c:720
 msgid "Add a news feed"
@@ -23723,15 +23587,13 @@ msgstr ""
 
 #. Fixme: nice GFX version
 #: my-evolution/e-summary-shown.c:472
-#, fuzzy
 msgid "Add ->"
-msgstr "Додати"
+msgstr "Додати -> "
 
 #. Fixme: Ditto
 #: my-evolution/e-summary-shown.c:479
-#, fuzzy
 msgid "<- Remove"
-msgstr "Видалити"
+msgstr "<- Видалити"
 
 #: my-evolution/e-summary-shown.c:487 my-evolution/e-summary-table.c:58
 #, fuzzy
@@ -25563,16 +25425,16 @@ msgstr "Гаразд"
 
 #: shell/e-shell.c:2135
 msgid "Invalid arguments"
-msgstr "Невірні арґументи"
+msgstr "Невірні аргументи"
 
 #: shell/e-shell.c:2137
 msgid "Cannot register on OAF"
-msgstr "Неможливо зараєструватись на OAF"
+msgstr "Неможливо зареєструватись на OAF"
 
 #: shell/e-shell.c:2139
 msgid "Configuration Database not found"
 msgstr ""
-"Не знайдено конфіґураційної бази даних"
+"Не знайдено конфігураційної бази даних"
 
 #: shell/e-shell.c:2141 shell/e-storage.c:487
 msgid "Generic error"
@@ -25614,7 +25476,7 @@ msgstr "Малі піктограми"
 
 #: shell/e-shortcuts-view.c:225
 msgid "Show the shortcuts as small icons"
-msgstr "Показувати ярликі як малі піктограми"
+msgstr "Показувати ярлики як малі піктограми"
 
 #: shell/e-shortcuts-view.c:227
 msgid "_Large Icons"
@@ -25623,7 +25485,7 @@ msgstr "Великі піктограми"
 #: shell/e-shortcuts-view.c:228
 msgid "Show the shortcuts as large icons"
 msgstr ""
-"Показувати ярликі як великі піктограми"
+"Показувати ярлики як великі піктограми"
 
 #: shell/e-shortcuts-view.c:239
 msgid "_New Group..."
@@ -25827,7 +25689,7 @@ msgstr ""
 
 #: shell/evolution-shell-component.c:1049
 msgid "Invalid argument"
-msgstr "Невірний арґумент"
+msgstr "Невірний аргумент"
 
 #: shell/evolution-shell-component.c:1051
 msgid "Already has an owner"
@@ -25964,7 +25826,7 @@ msgstr "Імпорт файлу (крок 3 з 3)"
 
 #: shell/importer/import.glade.h:5
 msgid "Importer Type (step 1 of 3)"
-msgstr "Тип імпортера (скрок 1 з 3)"
+msgstr "Тип імпортера (крок 1 з 3)"
 
 #: shell/importer/import.glade.h:6
 msgid "Select Importers (step 2 of 3)"
@@ -26118,7 +25980,7 @@ msgstr "Вставити буфер обміну"
 #, fuzzy
 msgid "Previews the contacts to be printed"
 msgstr ""
-"Переглянути календар, що буде надрукувано"
+"Переглянути календар, що буде надруковано"
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Print selected contacts"
@@ -26126,7 +25988,7 @@ msgstr "Надрукувати вибрані контакти"
 
 #: ui/evolution-addressbook.xml.h:22
 msgid "Save selected contacts as a VCard."
-msgstr "Зберегти вибраний контак як vCard."
+msgstr "Зберегти вибраний контакт як vCard."
 
 #: ui/evolution-addressbook.xml.h:23
 msgid "Select All"
@@ -26241,7 +26103,7 @@ msgstr "Місяць"
 #: ui/evolution-calendar.xml.h:15
 msgid "Previews the calendar to be printed"
 msgstr ""
-"Переглянути календар, що буде надрукувано"
+"Переглянути календар, що буде надруковано"
 
 #: ui/evolution-calendar.xml.h:16 ui/evolution-comp-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:12
@@ -26304,7 +26166,7 @@ msgstr "Головна панель інструментів"
 msgid "Preview the printed item"
 msgstr ""
 "Переглянути повідомлення, що буде "
-"надрукувано"
+"надруковано"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
 msgid "Print this item"
@@ -26594,7 +26456,7 @@ msgstr ""
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
 msgstr ""
-"Тимчасово сзовати вибрані повідомлення"
+"Тимчасово сховати вибрані повідомлення"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
@@ -26911,7 +26773,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Original Si_ze"
-msgstr "Ориґінальний розмір"
+msgstr "Оригінальний розмір"
 
 #: ui/evolution-mail-message.xml.h:61
 #, fuzzy
@@ -26927,7 +26789,7 @@ msgstr "Попереднє важливе повідомлення"
 msgid "Preview the message to be printed"
 msgstr ""
 "Переглянути повідомлення, що буде "
-"надрукувано"
+"надруковано"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Previous"
@@ -26949,7 +26811,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:74
 msgid "Reset the text to its original size"
-msgstr "Повернути ориґінальнир розмір тексту"
+msgstr "Повернути оригінальний розмір тексту"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "S_earch Message..."
@@ -27001,7 +26863,7 @@ msgstr "Розмір тексту"
 
 #: ui/evolution-mail-message.xml.h:86
 msgid "Un-delete the selected messages"
-msgstr "Відновити вібрані повідомлення"
+msgstr "Відновити вибрані повідомлення"
 
 #: ui/evolution-mail-message.xml.h:87
 msgid "VFolder on Mailing _List..."
@@ -27375,7 +27237,6 @@ msgid "Delete selected tasks"
 msgstr "Стерти вибрані завдання"
 
 #: ui/evolution-tasks.xml.h:8
-#, fuzzy
 msgid "Mar_k as Complete"
 msgstr "Позначити як виконане"
 
@@ -27384,15 +27245,13 @@ msgid "Paste task from the clipboard"
 msgstr "Вставити завдання з буферу обміну"
 
 #: ui/evolution-tasks.xml.h:11
-#, fuzzy
 msgid "Previews the list of tasks to be printed"
 msgstr ""
-"Переглянути календар, що буде надрукувано"
+"Переглянути список завдань, що буде надруковано"
 
 #: ui/evolution-tasks.xml.h:13
-#, fuzzy
 msgid "Print the list of tasks"
-msgstr "Надрукувати це повідомлення"
+msgstr "Надрукувати список завдань"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
@@ -27709,7 +27568,7 @@ msgstr "Китайський"
 
 #: widgets/misc/e-charset-picker.c:62
 msgid "Cyrillic"
-msgstr "Кирилічний"
+msgstr "Кириличний"
 
 #: widgets/misc/e-charset-picker.c:63
 msgid "Greek"
