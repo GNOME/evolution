@@ -105,7 +105,27 @@ New features:
     - Improved address selection dialog (for sending mail and meeting
       requests).
 
-    - Better support of LDAPS.
+    - Improved feedback for search results for all backends and the
+      UI.
+
+    - SSL/STARTTLS suport for LDAP.
+
+    - Caches are built for local addressbooks to speed up
+      autocompletion.
+
+    - Fixed wombat/addressbook crashes dealing with autocompletion, it
+      should be much more stable now.
+
+    - Categories on LDAP are now stored using a multivalued attribute
+      (category) instead of a comma separated list (categories), so
+      searches on categories in ldap actually work.  The old attribute
+      is deprecated and should not be used.
+
+    - Standardized some of the static properties of addressbooks, and
+      removed some local addressbook logic from the frontend.
+
+    - When editing contacts from the composer entries (To:, CC:), pop
+      up the right kind of editor based on the contact type.
 
   * Mail
 
