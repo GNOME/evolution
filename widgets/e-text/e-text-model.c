@@ -131,7 +131,10 @@ e_text_model_destroy (GtkObject *object)
 static gchar *
 e_text_model_real_get_text(ETextModel *model)
 {
-	return model->text;
+	if (model->text)
+		return model->text;
+	else
+		return "";
 }
 
 static void
