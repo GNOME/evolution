@@ -2392,11 +2392,13 @@ e_table_get_cell_geometry (ETable *table,
 
 	e_table_group_get_cell_geometry(table->group, &row, &col, x_return, y_return, width_return, height_return);
 
-	if (x_return)
+	if (x_return && table->table_canvas)
 		(*x_return) -= GTK_LAYOUT(table->table_canvas)->hadjustment->value;
 	if (y_return) {
-		(*y_return) -= GTK_LAYOUT(table->table_canvas)->vadjustment->value;
-		(*y_return) += GTK_WIDGET(table->header_canvas)->allocation.height;
+		if (table->table_canvas)
+			(*y_return) -= GTK_LAYOUT(table->table_canvas)->vadjustment->value;
+		if (table->header_canvas)
+			(*y_return) += GTK_WIDGET(table->header_canvas)->allocation.height;
 	}
 }
 
