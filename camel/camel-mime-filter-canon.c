@@ -135,7 +135,11 @@ filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, si
 						if (o[-1] == '\r')
 							o--;
 					}
+				} else if (flags & CAMEL_MIME_FILTER_CANON_CRLF) {
+					/* empty line */
+					*o++ = '\r';
 				}
+				
 				*o++ = c;
 				start = inptr;
 				starto = o;
