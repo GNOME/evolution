@@ -1,4 +1,4 @@
-bin_PROGRAMS = test-card test-client
+bin_PROGRAMS = test-card test-client test-client-list
 
 corbadir = $(sysconfdir)/CORBA/servers
 
@@ -57,6 +57,18 @@ test_client_SOURCES =					\
 	test-client.c
 
 test_client_LDADD =					\
+	$(GTK_LIBS)					\
+	$(GNOME_LIBDIR)					\
+	$(GNOMEGNORBA_LIBS)				\
+	$(INTLLIBS)					\
+	-lbonobo					\
+	$(ebook_libs)					\
+	$(top_builddir)/libversit/libversit.la
+
+test_client_list_SOURCES =				\
+	test-client-list.c
+
+test_client_list_LDADD =				\
 	$(GTK_LIBS)					\
 	$(GNOME_LIBDIR)					\
 	$(GNOMEGNORBA_LIBS)				\

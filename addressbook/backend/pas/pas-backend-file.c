@@ -234,7 +234,6 @@ pas_backend_file_build_all_cards_list(PASBackend *backend,
 		  /* don't include the version in the list of cards */
 		  if (!strcmp (id, PAS_BACKEND_FILE_VERSION_NAME)) {
 			  g_free(id);
-			  continue;
 		  }
 		  else {
 			  g_free(id);
@@ -295,7 +294,7 @@ pas_backend_file_process_get_all_cards (PASBackend *backend,
 
 	gtk_signal_connect(GTK_OBJECT(cursor), "destroy",
 			   GTK_SIGNAL_FUNC(cursor_destroy), cursor_data);
-
+	
 	pas_book_respond_get_cursor (
 		book,
 		(db_error == 0 

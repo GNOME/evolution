@@ -1,5 +1,16 @@
 2000-03-28  Christopher James Lahey  <clahey@helixcode.com>
 
+	* addressbook/backend/pas/pas-backend-file.c: Removed an infinite
+	loop.
+
+	* addressbook/backend/ebook/test-client-list.c: New test that
+	doesn't add an extra database item.
+
+	* addressbook/backend/ebook/Makefile.am,
+	addressbook/backend/ebook/.cvsignore: Added test-client-list.
+
+2000-03-28  Christopher James Lahey  <clahey@helixcode.com>
+
 	* addressbook/backend/pas/pas-card-cursor.c: Fixed memory
 	allocation.
 
