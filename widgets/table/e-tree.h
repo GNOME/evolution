@@ -259,6 +259,9 @@ void            e_tree_load_expanded_state        (ETree                *et,
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
 
+/* This function is only needed in single_selection_mode. */
+void            e_tree_right_click_up             (ETree                *et);
+
 END_GNOME_DECLS
 
 #endif /* _E_TREE_H_ */

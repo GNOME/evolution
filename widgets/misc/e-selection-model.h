@@ -36,6 +36,8 @@ typedef struct {
 
 	GtkSelectionMode mode;
 	ECursorMode cursor_mode;
+
+	int old_selection;
 } ESelectionModel;
 
 typedef struct {
@@ -70,7 +72,6 @@ typedef struct {
 	void     (*selection_changed)   (ESelectionModel *esm);
 
 } ESelectionModelClass;
-
 GtkType   e_selection_model_get_type             (void);
 void      e_selection_model_do_something         (ESelectionModel *esm,
 						  guint            row,
@@ -80,6 +81,11 @@ gboolean  e_selection_model_maybe_do_something   (ESelectionModel *esm,
 						  guint            row,
 						  guint            col,
 						  GdkModifierType  state);
+void      e_selection_model_right_click_down     (ESelectionModel *selection,
+						  guint            row,
+						  guint            col,
+						  GdkModifierType  state);
+void      e_selection_model_right_click_up       (ESelectionModel *selection);
 gint      e_selection_model_key_press            (ESelectionModel *esm,
 						  GdkEventKey     *key);
 void      e_selection_model_select_as_key_press  (ESelectionModel *esm,

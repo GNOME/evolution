@@ -117,6 +117,7 @@ e_selection_model_init (ESelectionModel *selection)
 {
 	selection->mode = GTK_SELECTION_MULTIPLE;
 	selection->cursor_mode = E_CURSOR_SIMPLE;
+	selection->old_selection = -1;
 }
 
 static void
@@ -376,6 +377,8 @@ e_selection_model_do_something (ESelectionModel *selection,
 	gint ctrl_p = state & GDK_CONTROL_MASK;
 	int row_count;
 
+	selection->old_selection = -1;
+
 	if (row == -1 && col != -1)
 		row = 0;
 	if (col == -1 && row != -1)
@@ -428,6 +431,8 @@ e_selection_model_maybe_do_something      (ESelectionModel *selection,
 					   guint            col,
 					   GdkModifierType  state)
 {
+	selection->old_selection = -1;
+
 	if (e_selection_model_is_row_selected(selection, row)) {
 		e_selection_model_change_cursor(selection, row, col);
 		gtk_signal_emit(GTK_OBJECT(selection),
@@ -436,6 +441,28 @@ e_selection_model_maybe_do_something      (ESelectionModel *selection,
 	} else {
 		e_selection_model_do_something(selection, row, col, state);
 		return TRUE;
+	}
+}
+
+void
+e_selection_model_right_click_down (ESelectionModel *selection,
+				    guint            row,
+				    guint            col,
+				    GdkModifierType  state)
+{
+	if (selection->mode == GTK_SELECTION_SINGLE) {
+		selection->old_selection = e_selection_model_cursor_row (selection);
+		e_selection_model_select_single_row (selection, row);
+	} else {
+		e_selection_model_maybe_do_something (selection, row, col, state);
+	}
+}
+
+void
+e_selection_model_right_click_up (ESelectionModel *selection)
+{
+	if (selection->mode == GTK_SELECTION_SINGLE && selection->old_selection != -1) {
+		e_selection_model_select_single_row (selection, selection->old_selection);
 	}
 }
 
@@ -449,6 +476,8 @@ e_selection_model_select_as_key_press (ESelectionModel *selection,
 
 	gint shift_p = state & GDK_SHIFT_MASK;
 	gint ctrl_p = state & GDK_CONTROL_MASK;
+
+	selection->old_selection = -1;
 
 	switch (selection->mode) {
 	case GTK_SELECTION_BROWSE:
@@ -514,6 +543,8 @@ gint
 e_selection_model_key_press      (ESelectionModel *selection,
 				  GdkEventKey          *key)
 {
+	selection->old_selection = -1;
+
 	switch (key->keyval) {
 	case GDK_Up:
 	case GDK_KP_Up:

@@ -1528,6 +1528,12 @@ e_tree_get_tooltip (ETree *et)
 	return E_CANVAS(et->priv->table_canvas)->tooltip_window;
 }
 
+void
+e_tree_right_click_up (ETree *et)
+{
+	e_selection_model_right_click_up(et->priv->selection);
+}
+
 /**
  * e_tree_get_model:
  * @et: the ETree

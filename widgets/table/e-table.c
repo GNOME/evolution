@@ -1406,6 +1406,12 @@ e_table_get_printable (ETable *e_table)
 	return e_table_group_get_printable(e_table->group);
 }
 
+void
+e_table_right_click_up (ETable *table)
+{
+	e_selection_model_right_click_up(E_SELECTION_MODEL(table->selection));
+}
+
 static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
