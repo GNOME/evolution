@@ -136,6 +136,7 @@ user_creatable_item_type_free (UserCreatableItemType *type)
 	g_free (type->id);
 	g_free (type->description);
 	g_free (type->menu_description);
+	g_free (type->tooltip);
 	g_free (type->folder_type);
 
 	if (type->icon != NULL)
@@ -820,6 +821,8 @@ impl_finalize (GObject *object)
 
 		g_free (folder_type->name);
 		g_free (folder_type->icon_name);
+		g_free (folder_type->display_name);
+		g_free (folder_type->description);
 		g_strfreev (folder_type->exported_dnd_types);
 		g_strfreev (folder_type->accepted_dnd_types);
 
