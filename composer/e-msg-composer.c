@@ -1881,40 +1881,7 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 	GList *list, *tail, *node;
 	int i, n = 0;
 	
-	switch (mode) {
-	case UPDATE_AUTO_CC:
-		destv = e_msg_composer_hdrs_get_cc (hdrs);
-		break;
-	case UPDATE_AUTO_BCC:
-		destv = e_msg_composer_hdrs_get_bcc (hdrs);
-		break;
-	default:
-		g_assert_not_reached ();
-	}
-	
 	tail = list = NULL;
-	if (destv) {
-		for (i = 0; destv[i]; i++) {
-			if (!e_destination_is_auto_recipient (destv[i])) {
-				node = g_list_alloc ();
-				node->data = e_destination_copy (destv[i]);
-				node->next = NULL;
-				
-				if (tail) {
-					node->prev = tail;
-					tail->next = node;
-				} else {
-					node->prev = NULL;
-					list = node;
-				}
-				
-				tail = node;
-				n++;
-			}
-		}
-		
-		e_destination_freev (destv);
-	}
 	
 	if (auto_addrs) {
 		iaddr = camel_internet_address_new ();
@@ -1952,6 +1919,40 @@ update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs
 		}
 		
 		camel_object_unref (CAMEL_OBJECT (iaddr));
+	}
+	
+	switch (mode) {
+	case UPDATE_AUTO_CC:
+		destv = e_msg_composer_hdrs_get_cc (hdrs);
+		break;
+	case UPDATE_AUTO_BCC:
+		destv = e_msg_composer_hdrs_get_bcc (hdrs);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	
+	if (destv) {
+		for (i = 0; destv[i]; i++) {
+			if (!e_destination_is_auto_recipient (destv[i])) {
+				node = g_list_alloc ();
+				node->data = e_destination_copy (destv[i]);
+				node->next = NULL;
+				
+				if (tail) {
+					node->prev = tail;
+					tail->next = node;
+				} else {
+					node->prev = NULL;
+					list = node;
+				}
+				
+				tail = node;
+				n++;
+			}
+		}
+		
+		e_destination_freev (destv);
 	}
 	
 	destv = e_destination_list_to_vector_sized (list, n);
