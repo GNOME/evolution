@@ -611,6 +611,9 @@ dnl these 2 enable's are inverses of each other
 AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla libnss for SSL support.],
 	enable_nss="$enableval", enable_nss="yes")
 
+AC_ARG_ENABLE(smime, [ --enable-smime=[yes,no]            Attempt to use Mozilla libnss for SMIME support (this requires --enable-nss)],
+	enable_smime="$enableval", enable_smime="yes")
+
 dnl AC_ARG_ENABLE(openssl, [  --enable-openssl=[no,yes]        Attempt to use OpenSSL for SSL support.],
 dnl 	enable_openssl="$enableval", enable_openssl="no")
 dnl 
@@ -644,8 +647,10 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		PKG_CHECK_MODULES(NSS, mozilla-nss, have_nss="yes")
 		if test "x${have_nss}" = "xyes"; then
 			msg_ssl="yes (Mozilla NSS)"
-			msg_smime="yes (Mozilla NSS)"
-			enable_smime="yes"
+			if test "$enable_smime" = "xyes"; then
+				AC_DEFINE(ENABLE_SMIME,1,[Define if SMIME should be enabled])
+				msg_smime="yes (Mozilla NSS)"
+			fi				    
 			mozilla_nspr="mozilla-nspr"
 			mozilla_nss="mozilla-nss"
 			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
@@ -799,8 +804,10 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		 		else
 					msg_ssl="yes (Mozilla NSS)"
 				fi # static_nss
-				msg_smime="yes (Mozilla NSS)"
-				enable_smime="yes"
+				if test "$enable_smime" = "yes"; then
+					AC_DEFINE(ENABLE_SMIME,1,[Define if SMIME should be enabled])
+					msg_smime="yes (Mozilla NSS)"
+				fi
 				MANUAL_NSS_LIBS="-L$with_nss_libs $nsslibs"
 			else
 				MANUAL_NSS_CFLAGS=""
