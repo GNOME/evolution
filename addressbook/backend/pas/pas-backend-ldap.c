@@ -958,29 +958,14 @@ typedef struct {
 static ECardSimple *
 search_for_dn (PASBackendLDAP *bl, const char *dn)
 {
-#if 0
-	char **attrs;
-#endif
-	char *query;
 	LDAP *ldap = bl->priv->ldap;
 	LDAPMessage    *res, *e;
 	ECardSimple *result = NULL;
 
-#if 0
-	/* this is broken because if we (say) modify the cn and can't
-           modify the dn (because it overlaps), we lose the ability to
-           search by that component of the dn. */
-	attrs = ldap_explode_dn (dn, 0);
-	query = g_strdup_printf ("(%s)", attrs[0]);
-	printf ("searching for %s\n", query);
-#else
-	query = g_strdup ("(objectclass=*)");
-#endif
-
 	if (ldap_search_s (ldap,
-			   bl->priv->ldap_rootdn,
-			   bl->priv->ldap_scope,
-			   query,
+			   dn,
+			   LDAP_SCOPE_BASE,
+			   "(objectclass=*)",
 			   NULL, 0, &res) != -1) {
 		e = ldap_first_entry (ldap, res);
 		while (NULL != e) {
@@ -995,7 +980,6 @@ search_for_dn (PASBackendLDAP *bl, const char *dn)
 		ldap_msgfree(res);
 	}
 
-	g_free (query);
 	return result;
 }
 
@@ -1628,6 +1612,12 @@ func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 			*list = g_list_prepend(*list,
 					       g_strdup_printf("(%s=%s)",
 							       ldap_attr, str));
+		else {
+			g_warning ("unknown query property\n");
+			/* we want something that'll always be false */
+			*list = g_list_prepend(*list,
+					       g_strdup("objectClass=MyBarnIsBiggerThanYourBarn"));
+		}
 	}
 
 	r = e_sexp_result_new(f, ESEXP_RES_BOOL);

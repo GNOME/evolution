@@ -1,3 +1,8 @@
+2001-06-15  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (search_for_dn): implement this
+	properly, using base and (objectclass=*).
+
 2001-06-14  Chris Toshok  <toshok@ximian.com>
 
 	* contact-editor/e-contact-editor.c (delete_cb): save ourselves a
