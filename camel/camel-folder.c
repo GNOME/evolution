@@ -122,6 +122,11 @@ static const CamelMessageInfo *summary_get_by_uid (CamelFolder *folder,
 static GList *search_by_expression (CamelFolder *folder, const char *exp,
 				    CamelException *ex);
 
+static void            copy_message_to       (CamelFolder *source,
+					      const char *uid,
+					      CamelFolder *dest,
+					      CamelException *ex);
+
 static void            move_message_to       (CamelFolder *source,
 					      const char *uid,
 					      CamelFolder *dest,
@@ -164,6 +169,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->free_summary = free_summary;
 	camel_folder_class->search_by_expression = search_by_expression;
 	camel_folder_class->summary_get_by_uid = summary_get_by_uid;
+	camel_folder_class->copy_message_to = copy_message_to;
 	camel_folder_class->move_message_to = move_message_to;
 
 	/* virtual method overload */
@@ -1018,6 +1024,50 @@ camel_folder_search_by_expression (CamelFolder *folder, const char *expression,
 	g_return_val_if_fail (folder->has_search_capability, NULL);
 
 	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
+}
+
+
+static void
+copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
+		 CamelException *ex)
+{
+	CamelMimeMessage *msg;
+
+	/* Default implementation. */
+	
+	msg = camel_folder_get_message_by_uid (source, uid, ex);
+	if (!msg)
+		return;
+	camel_folder_append_message (dest, msg, ex);
+	gtk_object_unref (GTK_OBJECT (msg));
+	if (camel_exception_is_set (ex))
+		return;
+}
+
+/**
+ * camel_folder_copy_message_to:
+ * @source: source folder
+ * @uid: UID of message in @source
+ * @dest: destination folder
+ * @ex: a CamelException
+ *
+ * This copies a message from one folder to another. If the @source and
+ * @dest folders have the same parent_store, this may be more efficient
+ * than a camel_folder_append_message().
+ **/
+void
+camel_folder_copy_message_to (CamelFolder *source, const char *uid,
+			      CamelFolder *dest, CamelException *ex)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (source));
+	g_return_if_fail (CAMEL_IS_FOLDER (dest));
+	g_return_if_fail (uid != NULL);
+
+	if (source->parent_store == dest->parent_store) {
+		return CF_CLASS (source)->copy_message_to (source, uid,
+							   dest, ex);
+	} else
+		return copy_message_to (source, uid, dest, ex);
 }
 
 

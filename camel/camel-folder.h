@@ -162,6 +162,11 @@ typedef struct {
 	const CamelMessageInfo * (*summary_get_by_uid) (CamelFolder *,
 							const char *uid);
 
+	void (*copy_message_to) (CamelFolder *source,
+				 const char *uid,
+				 CamelFolder *destination,
+				 CamelException *ex);
+	
 	void (*move_message_to) (CamelFolder *source,
 				 const char *uid,
 				 CamelFolder *destination,

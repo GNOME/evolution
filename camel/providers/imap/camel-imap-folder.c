@@ -62,13 +62,10 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 		       CamelException *ex);
 
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
-#if 0
-static gboolean imap_exists (CamelFolder *folder, CamelException *ex);
-static gboolean imap_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
-static gboolean imap_delete_messages (CamelFolder *folder, CamelException *ex);
-#endif
 static gint imap_get_message_count (CamelFolder *folder, CamelException *ex);
 static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
+static void imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
+static void imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static GPtrArray *imap_get_uids (CamelFolder *folder, CamelException *ex);
 static gboolean imap_parse_subfolder_line (gchar *buf, gchar **flags, gchar **sep, gchar **folder);
 static GPtrArray *imap_get_subfolder_names (CamelFolder *folder, CamelException *ex);
@@ -78,13 +75,6 @@ static CamelMimeMessage *imap_get_message_by_uid (CamelFolder *folder, const gch
 						  CamelException *ex);
 
 static void imap_expunge (CamelFolder *folder, CamelException *ex);
-
-#if 0
-static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, 
-			      CamelFolder *dest_folder, CamelException *ex);
-static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, 
-				      CamelException *ex);
-#endif
 
 static void imap_delete_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
@@ -126,6 +116,8 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->get_message_by_uid = imap_get_message_by_uid;
 	camel_folder_class->append_message = imap_append_message;
 	camel_folder_class->delete_message_by_uid = imap_delete_message_by_uid;
+	camel_folder_class->copy_message_to = imap_copy_message_to;
+	camel_folder_class->move_message_to = imap_move_message_to;
 	
 	camel_folder_class->get_summary = imap_get_summary;
 	camel_folder_class->summary_get_by_uid = imap_summary_get_by_uid;
@@ -453,8 +445,6 @@ imap_get_message_count (CamelFolder *folder, CamelException *ex)
 	return imap_folder->count;
 }
 
-/* TODO: Optimize this later - there may be times when moving/copying a message from the
-   same IMAP store in which case we'd want to use IMAP's COPY command */
 static void
 imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
@@ -510,6 +500,39 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	g_free (folder_path);
 }
 
+static void
+imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex)
+{
+	CamelStore *store = CAMEL_STORE (source->parent_store);
+	CamelURL *url = CAMEL_SERVICE (store)->url;
+	char *result, *folder_path;
+	int status;
+	
+	if (url && url->path && *(url->path + 1) && strcmp (destination->full_name, "INBOX"))
+		folder_path = g_strdup_printf ("%s/%s", url->path + 1, destination->full_name);
+	else
+		folder_path = g_strdup (destination->full_name);
+	
+	status = camel_imap_command (CAMEL_IMAP_STORE (store), NULL, &result,
+				     "COPY %s %s", uid, folder_path);
+	
+	if (status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (store);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not COPY message %s to %s on IMAP server %s: %s.",
+				      uid, folder_path, service->url->host,
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
+		g_free (result);
+		g_free (folder_path);
+		return;
+	}
+
+	g_free (result);
+	g_free (folder_path);
+}
+
+/* FIXME: Duplication of code! */
 static void
 imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex)
 {

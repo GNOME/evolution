@@ -1,10 +1,16 @@
 2000-06-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-folder.c (camel_folder_copy_message_to): New function, to
+	copy a message from one folder to another. The default
+	implementation just uses append_message, but providers can 
+	implement more efficient versions for use when both folders are on 
+	the same store.
+
 	* broken-date-parser.[c,h]: Utilities for parsing broken
 	date strings.
 	
 	* providers/imap/camel-imap-folder.c (imap_move_message_to): 
-	Implemented.
+	(imap_copy_message_to): Implemented.
 
 	* camel-mime-utils.c (header_decode_date): Wrote some code to try
 	and un-mangle broken date formats and then parse that new string 
