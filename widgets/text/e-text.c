@@ -519,9 +519,16 @@ e_text_destroy (GtkObject *object)
 static void
 e_text_text_model_changed (ETextModel *model, EText *text)
 {
+	gint model_len = e_text_model_get_text_length (model);
 	text->text = e_text_model_get_text(model);
 	e_text_free_lines(text);
+
 	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
+
+	/* Make sure our selection doesn't extend past the bounds of our text. */
+	text->selection_start = CLAMP (text->selection_start, 0, model_len);
+	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
+
 	text->needs_split_into_lines = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
 }
