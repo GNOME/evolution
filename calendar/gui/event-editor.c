@@ -119,8 +119,8 @@ typedef struct {
 
 /* Signal IDs */
 enum {
-	SAVE_ICAL_OBJECT,
-	ICAL_OBJECT_RELEASED,
+	SAVE_EVENT_OBJECT,
+	RELEASED_EVENT_OBJECT,
 	EDITOR_CLOSED,
 	LAST_SIGNAL
 };
@@ -194,20 +194,20 @@ event_editor_class_init (EventEditorClass *class)
 
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
-	event_editor_signals[SAVE_ICAL_OBJECT] =
-		gtk_signal_new ("save_ical_object",
+	event_editor_signals[SAVE_EVENT_OBJECT] =
+		gtk_signal_new ("save_event_object",
 				GTK_RUN_FIRST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (EventEditorClass, save_ical_object),
+				GTK_SIGNAL_OFFSET (EventEditorClass, save_event_object),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 
-	event_editor_signals[ICAL_OBJECT_RELEASED] =
-		gtk_signal_new ("ical_object_released",
+	event_editor_signals[RELEASED_EVENT_OBJECT] =
+		gtk_signal_new ("released_event_object",
 				GTK_RUN_FIRST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (EventEditorClass, ical_object_released),
+				GTK_SIGNAL_OFFSET (EventEditorClass, released_event_object),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
@@ -1083,11 +1083,13 @@ dialog_to_comp_object (EventEditor *ee)
 	}
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
+
+	cal_component_commit_sequence (comp);
 }
 
-/* Emits the "save_ical_object" signal if the event editor is editing an object. */
+/* Emits the "save_event_object" signal if the event editor is editing an object. */
 static void
-save_ical_object (EventEditor *ee)
+save_event_object (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	char *title;
@@ -1103,7 +1105,7 @@ save_ical_object (EventEditor *ee)
 	gtk_window_set_title (GTK_WINDOW (priv->app), title);
 	g_free (title);
 
-	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[SAVE_ICAL_OBJECT],
+	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[SAVE_EVENT_OBJECT],
 			 priv->comp);
 }
 
@@ -1126,7 +1128,7 @@ close_dialog (EventEditor *ee)
 		const char *uid;
 		
 		cal_component_get_uid (priv->comp, &uid);
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED], uid);
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[RELEASED_EVENT_OBJECT], uid);
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}
@@ -1143,7 +1145,7 @@ file_save_cb (GtkWidget *widget, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
-	save_ical_object (ee);
+	save_event_object (ee);
 }
 
 /* File/Close callback */
@@ -1356,7 +1358,7 @@ tb_save_and_close_cb (GtkWidget *widget, gpointer data)
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
-	save_ical_object (ee);
+	save_event_object (ee);
 	close_dialog (ee);
 }
 
@@ -1541,7 +1543,7 @@ event_editor_set_ical_object (EventEditor *ee, CalComponent *comp)
 		const char *uid;
 
 		cal_component_get_uid (priv->comp, &uid);
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED], uid);
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[RELEASED_EVENT_OBJECT], uid);
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}

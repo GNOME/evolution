@@ -1,3 +1,22 @@
+2000-08-24  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/gnome-cal.c (save_event_object_cb): Make signal
+	names saner
+	(released_event_object_cb): ditto
+	(gnome_calendar_edit_object): ditto
+
+	* gui/event-editor.h: Make signal names saner
+
+	* gui/event-editor.c (event_editor_class_init): Make signal
+	names saner now that we don't use ical object
+	(save_event_object): ditto with callback names
+	(file_save_cb): ditto
+	(tb_save_and_close_cb): ditto
+	(event_editor_set_ical_object): ditto
+
+	* gui/e-day-view.c (e_day_view_update_event): Umm, 
+	!= CAL_COMPONENT_EVENT (I hope that wasn't me!)
+
 2000-08-24  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_on_new_appointment): Do not alloc

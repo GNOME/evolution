@@ -1308,9 +1308,20 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 	gnome_calendar_update_gtk_calendar (gcal);
 }
 
+/* Callback used when an event editor requests that an object be saved */
+static void
+save_event_object_cb (EventEditor *ee, CalComponent *comp, gpointer data)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	if (!cal_client_update_object (gcal->client, comp))
+		g_message ("save_event_object_cb(): Could not update the object!");
+}
+
 /* Callback used when an event editor finishes editing an object */
 static void
-ical_object_released_cb (EventEditor *ee, const char *uid, gpointer data)
+released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
 {
 	GnomeCalendar *gcal;
 	gboolean result;
@@ -1333,17 +1344,6 @@ static void
 editor_closed_cb (EventEditor *ee, gpointer data)
 {
 	gtk_object_unref (GTK_OBJECT (ee));
-}
-
-/* Callback used when an event editor requests that an object be saved */
-static void
-save_ical_object_cb (EventEditor *ee, CalComponent *comp, gpointer data)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-	if (!cal_client_update_object (gcal->client, comp))
-		g_message ("save_ical_object_cb(): Could not update the object!");
 }
 
 void
@@ -1371,14 +1371,18 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 		 */
 
 		g_hash_table_insert (gcal->object_editor_hash, g_strdup (uid), ee);
-		gtk_signal_connect (GTK_OBJECT (ee), "ical_object_released",
-				    GTK_SIGNAL_FUNC (ical_object_released_cb), gcal);
+
+
+		gtk_signal_connect (GTK_OBJECT (ee), "save_event_object",
+				    GTK_SIGNAL_FUNC (save_event_object_cb),
+				    gcal);
+
+		gtk_signal_connect (GTK_OBJECT (ee), "released_event_object",
+				    GTK_SIGNAL_FUNC (released_event_object_cb),
+				    gcal);
 
 		gtk_signal_connect (GTK_OBJECT (ee), "editor_closed",
 				    GTK_SIGNAL_FUNC (editor_closed_cb), gcal);
-
-		gtk_signal_connect (GTK_OBJECT (ee), "save_ical_object",
-				    GTK_SIGNAL_FUNC (save_ical_object_cb), gcal);
 
 		event_editor_set_ical_object (EVENT_EDITOR (ee), comp);
 	}
