@@ -1065,6 +1065,8 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	if (!(info = camel_folder_summary_index (summary, seqid - 1)))
 		return;
 	
+	imap4_summary->expunged_changed = TRUE;
+	
 	changes = camel_folder_change_info_new ();
 	camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
 	camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
@@ -1101,6 +1103,11 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 	g_return_val_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary), -1);
 	
 	engine = ((CamelIMAP4Store *) imap4_summary->folder->parent_store)->engine;
+	
+	if (imap4_summary->expunged_changed && imap4_summary->exists_changed) {
+		if (imap4_summary->exists == camel_folder_summary_count (summary))
+			imap4_summary->exists_changed = FALSE;
+	}
 	
 	if (imap4_summary->uidvalidity_changed) {
 		first = 1;

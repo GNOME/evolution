@@ -15,6 +15,9 @@
 	were removed or otherwise updated.
 	(camel_imap4_summary_expunge): Use seqid-1 to determine the actual
 	summary index.
+	(camel_imap4_summary_flush_updates): Added some logic to
+	distinguish between EXISTS value changing because it changed and
+	because messages got expunged.
 
 	* providers/imap4/camel-imap4-folder.c (imap4_sync): Flush updates
 	after an EXPUNGE and don't unset expunge if we didn't delete
