@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2003-01-06 06:07+0100\n"
-"PO-Revision-Date: 2003-01-14 11:02+EDT\n"
+"PO-Revision-Date: 2003-02-03 10:16+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -1438,7 +1438,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "Add_ress..."
-msgstr "አድራሻ"
+msgstr "አድራሻ..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "Anni_versary:"
@@ -1446,7 +1446,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "Birthda_y:"
-msgstr "የልደት በዓል"
+msgstr "የልደት በዓል፦"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "C_ontacts..."
@@ -1456,7 +1456,7 @@ msgstr ""
 #: calendar/gui/dialogs/event-page.glade.h:3
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Ca_tegories..."
-msgstr "ምድብ"
+msgstr "ምድብ... (_T)"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "Collaboration"
@@ -5988,7 +5988,7 @@ msgstr ""
 
 #: calendar/gui/itip-utils.c:458 calendar/gui/itip-utils.c:567
 msgid "Event information"
-msgstr ""
+msgstr "የኩነቶች መረጃ"
 
 #: calendar/gui/itip-utils.c:460 calendar/gui/itip-utils.c:569
 msgid "Task information"
@@ -6359,7 +6359,7 @@ msgstr ""
 
 #: calendar/importers/icalendar-importer.c:695
 msgid "Calendar Events"
-msgstr ""
+msgstr "የቀን መቁጠሪያ ኩነቶች"
 
 #: calendar/importers/icalendar-importer.c:720
 msgid ""
@@ -13116,7 +13116,7 @@ msgstr ""
 #: mail/message-browser.c:214
 #, c-format
 msgid "%s - Message"
-msgstr "%s - መልእክት"
+msgstr "%s - መልዕክት"
 
 #: mail/message-list.c:737
 msgid "Unseen"
@@ -27292,7 +27292,7 @@ msgstr "ጥያቄ"
 
 #: widgets/misc/e-messagebox.c:182
 msgid "Message"
-msgstr "መልእክት"
+msgstr "መልዕክት"
 
 #: widgets/misc/e-search-bar.c:521
 msgid "_Find Now"
