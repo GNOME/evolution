@@ -1,3 +1,8 @@
+2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-combo-button.c: New.
+	* e-combo-button.h: New.
+
 2001-11-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-filter-bar.c (menubar_activated): Mark the dialogue as already
