@@ -47,11 +47,15 @@ static void oc_destroy (gpointer obj, gpointer user)
 static void
 folder_browser_destroy (GtkObject *object)
 {
-	FolderBrowser *folder_browser = FOLDER_BROWSER (object);
+	FolderBrowser *folder_browser;
+	CORBA_Environment ev;
 
-	/*if (folder_browser->shell)
-	 *	CORBA_free (folder_browser->shell);
-	 */
+	folder_browser = FOLDER_BROWSER (object);
+
+	CORBA_exception_init (&ev);
+
+	if (folder_browser->shell != CORBA_OBJECT_NIL)
+		CORBA_Object_release (folder_browser->shell, &ev);
 
 	if (folder_browser->uri)
 		g_free (folder_browser->uri);
@@ -74,6 +78,8 @@ folder_browser_destroy (GtkObject *object)
 		g_slist_foreach (folder_browser->filter_menu_paths, oc_destroy, NULL);
 		g_slist_free (folder_browser->filter_menu_paths);
 	}
+
+	CORBA_exception_free (&ev);
 
 	folder_browser_parent_class->destroy (object);
 }
@@ -458,15 +464,29 @@ my_folder_browser_init (GtkObject *object)
 }
 
 GtkWidget *
-folder_browser_new (Evolution_Shell shell)
+folder_browser_new (const Evolution_Shell shell)
 {
-	static int serial;
-	FolderBrowser *folder_browser = gtk_type_new (folder_browser_get_type ());
+	static int serial = 0;
+	CORBA_Environment ev;
+	FolderBrowser *folder_browser;
+
+	CORBA_exception_init (&ev);
+
+	folder_browser = gtk_type_new (folder_browser_get_type ());
 
 	my_folder_browser_init (GTK_OBJECT (folder_browser));
 	folder_browser->uri = NULL;
 	folder_browser->serial = serial++;
-	folder_browser->shell = shell;
+
+	folder_browser->shell = CORBA_Object_duplicate (shell, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		folder_browser->shell = CORBA_OBJECT_NIL;
+		gtk_widget_destroy (GTK_WIDGET (folder_browser));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	CORBA_exception_free (&ev);
 
 	return GTK_WIDGET (folder_browser);
 }

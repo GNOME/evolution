@@ -1,3 +1,13 @@
+2000-09-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* folder-browser.c (folder_browser_new): @shell made const.
+	`CORBA_Object_duplicate()' it before storing it.
+	(folder_browser_destroy): Free the shell object with
+	`CORBA_Object_release()', not `CORBA_free()'.
+
+	* folder-browser-factory.c (folder_browser_factory_new_control):
+	@shell made const.
+
 2000-09-05  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (make_safe_filename): 

@@ -62,12 +62,14 @@ struct fb_ondemand_closure {
 	gchar *path;
 };
 
-GtkType        folder_browser_get_type (void);
-GtkWidget     *folder_browser_new      (Evolution_Shell shell);
-gboolean       folder_browser_set_uri (FolderBrowser *folder_browser, 
-				       const char *uri);
-void           folder_browser_set_message_preview (FolderBrowser *folder_browser,
-						   gboolean show_message_preview);
-void           folder_browser_clear_search (FolderBrowser *fb);
+GtkType    folder_browser_get_type             (void);
+GtkWidget *folder_browser_new                  (const Evolution_Shell  shell);
+
+gboolean   folder_browser_set_uri              (FolderBrowser         *folder_browser,
+						const char            *uri);
+
+void       folder_browser_set_message_preview  (FolderBrowser         *folder_browser,
+						gboolean               show_message_preview);
+void       folder_browser_clear_search         (FolderBrowser         *fb);
 
 #endif /* _FOLDER_BROWSER_H_ */
