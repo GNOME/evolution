@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-06-29 18:21+0000\n"
-"PO-Revision-Date: 2000-06-29 18:23+00:00\n"
+"POT-Creation-Date: 2000-06-30 17:28+0000\n"
+"PO-Revision-Date: 2000-06-30 17:37+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +14,7 @@ msgstr ""
 
 #: addressbook/backend/ebook/load-pine-addressbook.c:41
 #: addressbook/gui/component/addressbook-factory.c:57
+#: calendar/gui/calendar-pilot-sync.c:138
 #: calendar/gui/evolution-calendar-control.c:64 calendar/gui/main.c:68
 msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
@@ -1486,70 +1487,62 @@ msgstr "Не удалось запустить сервер gnomecal"
 msgid "Could not read pilot's DateBook application block"
 msgstr ""
 
-#: calendar/gui/calendar-pilot-sync.c:60
+#: calendar/gui/calendar-pilot-sync.c:68
 msgid "Specifies the port on which the Pilot is"
 msgstr "Укажите порт, на котором находится Пилот"
 
-#: calendar/gui/calendar-pilot-sync.c:60
+#: calendar/gui/calendar-pilot-sync.c:68
 msgid "PORT"
 msgstr "ПОРТ"
 
-#: calendar/gui/calendar-pilot-sync.c:62
+#: calendar/gui/calendar-pilot-sync.c:70
 msgid "If you want to debug the attributes on records"
 msgstr "Если вы хотите отлаживать аттрибуты на записях"
 
-#: calendar/gui/calendar-pilot-sync.c:64
+#: calendar/gui/calendar-pilot-sync.c:72
 msgid "Only syncs from desktop to pilot"
 msgstr "Только синхронизовать со стола в Пилот"
 
-#: calendar/gui/calendar-pilot-sync.c:66
+#: calendar/gui/calendar-pilot-sync.c:74
 msgid "Only syncs from pilot to desktop"
 msgstr "Только синхронизовать из Пилота на стол"
 
-#: calendar/gui/calendar-pilot-sync.c:89
+#: calendar/gui/calendar-pilot-sync.c:97
 msgid "Can not create Pilot socket\n"
 msgstr "Невозможно создать сокет Пилота\n"
 
-#: calendar/gui/calendar-pilot-sync.c:96
+#: calendar/gui/calendar-pilot-sync.c:104
 #, c-format
 msgid "Can not bind to device %s\n"
 msgstr "Невозможно связать устройство %s\n"
 
-#: calendar/gui/calendar-pilot-sync.c:99
+#: calendar/gui/calendar-pilot-sync.c:107
 msgid "Failed to get a connection from the Pilot device"
 msgstr "Сбой установления соединения с Пилотом"
 
-#: calendar/gui/calendar-pilot-sync.c:102
+#: calendar/gui/calendar-pilot-sync.c:111
 msgid "pi_accept failed"
 msgstr ""
 
-#: calendar/gui/calendar-pilot-sync.c:167
-msgid "\tObject did not exist, creating a new one\n"
-msgstr "Объект не существует, создается новый\n"
-
-#: calendar/gui/calendar-pilot-sync.c:174
+#: calendar/gui/calendar-pilot-sync.c:211
 msgid ""
 "\tObject has been modified on desktop and on the pilot, desktop takes "
 "precedence\n"
 msgstr "Объект был изменен и на столе и в Пилоте, стол имеет преимущество\n"
 
-#: calendar/gui/calendar-pilot-sync.c:475
+#: calendar/gui/calendar-pilot-sync.c:531
 msgid "No description"
 msgstr "Нет описания"
 
-#: calendar/gui/calendar-pilot-sync.c:547
-msgid "Syncing with the pilot..."
-msgstr "Синхронизация с Пилотом..."
-
-#: calendar/gui/calendar-pilot-sync.c:554
+#: calendar/gui/calendar-pilot-sync.c:692
 msgid "Could not open DatebookDB on the Pilot"
 msgstr "Не удалось открыть DatebookDB в Пилоте"
 
-#: calendar/gui/calendar-pilot-sync.c:555
+#: calendar/gui/calendar-pilot-sync.c:693
 msgid "Unable to open DatebookDB"
 msgstr "Невозможно открыть DatebookDB"
 
-#: calendar/gui/calendar-pilot-sync.c:617
+#: calendar/gui/calendar-pilot-sync.c:728
 msgid "Synced DateBook from Pilot to GnomeCal"
 msgstr "Синхронизованный Datebook из Пилота в GnomeCal"
 
@@ -2651,7 +2644,7 @@ msgstr "gnome-unknown.xpm"
 msgid "Enabled"
 msgstr "Включено"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:752
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:753
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -2659,7 +2652,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:753
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:754
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -2668,7 +2661,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:754
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:755
 msgid "Paste"
 msgstr "Вставить"
 
@@ -2835,86 +2828,85 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:459
+#: composer/e-msg-composer.c:460
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:470
+#: composer/e-msg-composer.c:471
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Ошибка сохранения файла: %s"
 
-#: composer/e-msg-composer.c:490
+#: composer/e-msg-composer.c:491
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Ошибка при загрузке файла: %s"
 
-#: composer/e-msg-composer.c:539
+#: composer/e-msg-composer.c:540
 msgid "Open file"
 msgstr "Открыть файл"
 
-#: composer/e-msg-composer.c:605
+#: composer/e-msg-composer.c:606
 msgid "Discard this message?"
 msgstr "Отменить это сообщение"
 
-#: composer/e-msg-composer.c:710
+#: composer/e-msg-composer.c:711
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:710
+#: composer/e-msg-composer.c:711
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:713 composer/e-msg-composer.c:750
-#: mail/folder-browser-factory.c:36
+#: composer/e-msg-composer.c:714 composer/e-msg-composer.c:751
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:713
+#: composer/e-msg-composer.c:714
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:721
+#: composer/e-msg-composer.c:722
 msgid "View _attachments"
 msgstr "Просмотреть вложения"
 
-#: composer/e-msg-composer.c:721
+#: composer/e-msg-composer.c:722
 msgid "View/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:750
+#: composer/e-msg-composer.c:751
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:752
+#: composer/e-msg-composer.c:753
 msgid "Cut selected region into the clipboard"
 msgstr "Вырезать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:753
+#: composer/e-msg-composer.c:754
 msgid "Copy selected region into the clipboard"
 msgstr "Скопировать выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:754
+#: composer/e-msg-composer.c:755
 msgid "Paste selected region into the clipboard"
 msgstr "Вставить выделенную область в буфер обмена"
 
-#: composer/e-msg-composer.c:755
+#: composer/e-msg-composer.c:756
 msgid "Undo"
 msgstr "Откат"
 
-#: composer/e-msg-composer.c:755
+#: composer/e-msg-composer.c:756
 msgid "Undo last operation"
 msgstr "Отменить последнюю операцию"
 
-#: composer/e-msg-composer.c:757
+#: composer/e-msg-composer.c:758
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:757
+#: composer/e-msg-composer.c:758
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer.c:919
+#: composer/e-msg-composer.c:916
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
@@ -2950,7 +2942,7 @@ msgstr ""
 "<h2>Создать правило фильтрации</h2><p>Выберите одно из приведенных ниже "
 "правил, затем продолжите его настройку.</p>"
 
-#: mail/component-factory.c:206
+#: mail/component-factory.c:207
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
@@ -2963,8 +2955,12 @@ msgid "Check for new mail"
 msgstr "Проверить почтовый ящик"
 
 #: mail/folder-browser-factory.c:36
-msgid "Send a new message"
-msgstr "Отправить новое сообщение"
+msgid "Compose"
+msgstr "Создать"
+
+#: mail/folder-browser-factory.c:36
+msgid "Compose a new message"
+msgstr "Создать новое сообщение"
 
 #: mail/folder-browser-factory.c:37
 msgid "Find messages"
@@ -3166,11 +3162,11 @@ msgstr "Способы доставки"
 msgid "Send messages in HTML format"
 msgstr "Отправлять сообщения в формате HTML"
 
-#: mail/mail-ops.c:334
+#: mail/mail-ops.c:342
 msgid "Fetching mail"
 msgstr "Получение почты"
 
-#: mail/mail-ops.c:346
+#: mail/mail-ops.c:354
 msgid ""
 "This message has no subject.\n"
 "Really send?"
