@@ -1,3 +1,13 @@
+2004-01-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #53276
+
+	* gui/dialogs/copy-source-dialog.c (show_error): new function to
+	create an error message dialog.
+	(copy_source): check if the destination calendar is read only, and
+	if so, don't try to copy components over. Fixed leaks. Call show_error
+	to display meaningful error messages.
+
 2004-01-26  JP Rosevear <jpr@ximian.com>
 
 	* gui/migration.c (migrate_ical_folder): add the source to the
