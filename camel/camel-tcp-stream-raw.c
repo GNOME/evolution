@@ -390,8 +390,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	
 	g_return_val_if_fail (host != NULL, -1);
 	
-	fd = socket_connect (host, port);
-	if (fd == -1)
+	if ((fd = socket_connect (host, port)) == -1)
 		return -1;
 	
 	raw->sockfd = fd;

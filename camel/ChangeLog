@@ -1,3 +1,7 @@
+2004-04-30  Priit Laes  <amd@tt.ee>
+
+	* providers/nntp/camel-nntp-summary.c: Fix typo. #53466.
+
 2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c: Change the UID_SET_LIMIT to

@@ -330,7 +330,7 @@ camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, 
 
 	if (ret < 0)
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				     _("Could not get messages: unspecificed error"));
+				     _("Could not get messages: unspecified error"));
 
 	return ret;
 }
