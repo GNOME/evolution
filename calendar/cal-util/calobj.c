@@ -1570,7 +1570,7 @@ alarm_compute_offset (CalendarAlarm *a)
 CalObjFindStatus
 ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico)
 {
-#if 1
+#if 0
 	icalcomponent* comp = NULL;
 	icalcomponent *subcomp;
 	iCalObject    *ical;
@@ -1678,7 +1678,7 @@ ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **i
 }
 
 
-#if 0
+#if 1
 /* Creates a VObject with the base information of a calendar */
 static VObject *
 get_calendar_base_vobject (void)
@@ -1722,7 +1722,7 @@ get_calendar_base_vobject (void)
 char *
 ical_object_to_string (iCalObject *ico)
 {
-#if 1
+#if 0
 	icalcomponent *top = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
 	char *out_cal_string;
 	icalcomponent *comp;
