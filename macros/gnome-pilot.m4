@@ -41,8 +41,21 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	if test x$PISOCK_INCLUDEDIR = x; then
 	    AC_CHECK_HEADER(pi-version.h, [], [
 	    AC_CHECK_HEADER(libpisock/pi-version.h, [PISOCK_INCLUDEDIR="-I/usr/include/libpisock"
-	                                             piversion_include="libpisock/pi-version.h"],
-	    AC_MSG_ERROR("Unable to find pi-version.h")) ])
+	                                             piversion_include="libpisock/pi-version.h"
+						     AC_SUBST(PISOCK_INCLUDEDIR)
+                                                    ], [
+	    AC_CHECK_HEADER($prefix/include/pi-version.h, [PISOCK_INCLUDEDIR="-I$prefix/include/libpisock"
+	                                                   piversion_include="$prefix/include/pi-version.h"
+						           if test x$PISOCK_LIBDIR = x; then
+							      echo Assuming libpisock in $prefix/lib
+							      PISOCK_LIBDIR="-L$prefix/lib"
+							      PISOCK_LIBS="-lpisock"
+						              AC_SUBST(PISOCK_LIBDIR)
+						              AC_SUBST(PISOCK_LIBS)
+                                                           fi							  ],
+	    AC_MSG_ERROR("Unable to find pi-version.h")) 
+	    ])
+	    ])
 	fi
 	
 	AC_SUBST(PISOCK_INCLUDEDIR)
@@ -129,7 +142,7 @@ AC_DEFUN([GNOME_PILOT_HOOK],[
 
 AC_DEFUN([GNOME_PILOT_CHECK],[
 	if test x$1 = x; then
-		GNOME_PILOT_HOOK(0.9.3,[],nofailure)
+		GNOME_PILOT_HOOK(0.9.5,[],nofailure)
 	else
 		GNOME_PILOT_HOOK($1,[],nofailure)
 	fi
