@@ -1,3 +1,8 @@
+2003-07-24  Yuedong Du  <yuedong.du@sun.com>
+                                                                                             
+        * e-shell-offline-handler.c: (dialog_response_cb): fix crash when user escape the
+        dialog. see bug #46700.
+                                                                                             
 2003-07-22  Antonio Xu  <antonio.xu@sun.com>
 
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect

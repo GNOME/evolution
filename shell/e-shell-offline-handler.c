@@ -625,6 +625,7 @@ dialog_response_cb (GtkDialog *dialog,
 		break;
 
 	case GTK_RESPONSE_CANCEL:
+	case GTK_RESPONSE_DELETE_EVENT:
 		dialog_handle_cancel (dialog, offline_handler);
 		break;
 
