@@ -1,3 +1,8 @@
+2003-06-10  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_and_string_free):
+	free the structure as well.
+
 2003-06-09  Larry Ewing  <lewing@ximian.com>
 
 	* listener.c (insert_paragraph_before): free the return values.

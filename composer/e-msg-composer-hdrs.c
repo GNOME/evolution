@@ -140,6 +140,7 @@ e_msg_composer_hdrs_and_string_free (EMsgComposerHdrsAndString *emchas)
 	if (emchas->hdrs)
 		g_object_unref (emchas->hdrs);
 	g_free (emchas->string);
+	g_free (emchas);
 }
 
 static EMsgComposerHdrsAndString *
