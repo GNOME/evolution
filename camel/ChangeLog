@@ -35,6 +35,23 @@
 	remove IMAP-isms that shouldn't be in the generic code. This still
 	isn't tested, because we're stuck behind a NAT right now...
 
+	* providers/imap/camel-imap-store.c: Add an "authtypes" hash table
+	to CamelImapStore recording the supported authtypes.
+	(connect_to_server): Record supported authtypes in the authtypes
+	hash rather than the capabilities bitmask, since now the IMAP code
+	is no longer responsible for keeping track of which authtypes we
+	support.
+	(query_auth_types): Use camel_sasl_authtype_list to get the
+	SASL-supported authtypes.
+	(try_auth): New function to try a SASL auth mechanism. Sort of
+	formerly imap_try_kerberos_v4_auth.
+	(imap_connect): Get rid of the krb4-specific bits and genericize
+	them for any SASL authtype.
+
+	* providers/imap/Makefile.am: Remove camel-imap-auth.[ch] (moved
+	into camel-imap-store.c since it's now constant size) and the
+	KRB4_CFLAGS and KRB4_LDFLAGS references.
+
 2001-03-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-anonymous.c (anon_challenge): Don't base64 encode the

@@ -50,10 +50,8 @@ typedef enum {
 #define IMAP_CAPABILITY_IMAP4REV1		(1 << 1)
 #define IMAP_CAPABILITY_STATUS			(1 << 2)
 #define IMAP_CAPABILITY_NAMESPACE		(1 << 3)
-#define IMAP_CAPABILITY_AUTH_KERBEROS_V4	(1 << 4)
-#define IMAP_CAPABILITY_AUTH_GSSAPI		(1 << 5)
-#define IMAP_CAPABILITY_UIDPLUS			(1 << 6)
-#define IMAP_CAPABILITY_LITERALPLUS		(1 << 7)
+#define IMAP_CAPABILITY_UIDPLUS			(1 << 4)
+#define IMAP_CAPABILITY_LITERALPLUS		(1 << 5)
 
 struct _CamelImapStore {
 	CamelRemoteStore parent_object;	
@@ -65,6 +63,7 @@ struct _CamelImapStore {
 	
 	CamelImapServerLevel server_level;
 	guint32 capabilities;
+	GHashTable *authtypes;
 	
 	char *namespace, dir_sep, *storage_path, *base_url;
 	

@@ -17,11 +17,9 @@ INCLUDES = -I.. \
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
 	$(GTK_INCLUDEDIR)			\
-	$(KRB4_CFLAGS)				\
 	-DG_LOG_DOMAIN=\"camel-imap-provider\"	
 
 libcamelimap_la_SOURCES = 			\
-	camel-imap-auth.c			\
 	camel-imap-command.c			\
 	camel-imap-folder.c			\
 	camel-imap-provider.c			\
@@ -32,7 +30,6 @@ libcamelimap_la_SOURCES = 			\
 	camel-imap-wrapper.c
 
 libcamelimapinclude_HEADERS =			\
-	camel-imap-auth.h			\
 	camel-imap-command.h			\
 	camel-imap-folder.h			\
 	camel-imap-search.h			\
@@ -42,7 +39,7 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-utils.h			\
 	camel-imap-wrapper.h
 
-libcamelimap_la_LDFLAGS = $(KRB4_LDFLAGS) -version-info 0:0:0
+libcamelimap_la_LDFLAGS = -version-info 0:0:0
 
 noinst_HEADERS =				\
 	camel-imap-private.h
