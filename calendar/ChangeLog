@@ -1,3 +1,9 @@
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): Allocate enough space for the
+	string!  (was missing the null terminator) Possibly fixes #13924.
+	Thanks a *LOT* to Michael Zucchi for running this through Purify.
+
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel-item.c

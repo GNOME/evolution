@@ -718,9 +718,9 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 
 	ical_string = comp_string (method, comp);	
 	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
-	attach_data->_length = strlen (ical_string);
+	attach_data->_length = strlen (ical_string) + 1;
 	attach_data->_maximum = attach_data->_length;	
-	attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);	
+	attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
 	strcpy (attach_data->_buffer, ical_string);
 
 	GNOME_Evolution_Composer_attachData (composer_server, 
