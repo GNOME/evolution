@@ -31,7 +31,6 @@ struct _MailDisplay {
 	
 	CamelMimeMessage *current_message;
 	GData **data;
-	GHashTable *thumbnail_cache;
 };
 
 typedef struct {
