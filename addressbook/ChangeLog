@@ -1,3 +1,9 @@
+2004-01-26  Radek Doulik  <rodo@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (selection_received): make sure
+	we pass \0 terminated string to eab_contact_list_from_string
+	[it may fix #51743]
+
 2004-01-25  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #51171 ]

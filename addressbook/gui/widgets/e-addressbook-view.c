@@ -1905,13 +1905,19 @@ selection_received (GtkWidget *invisible,
 		    guint time,
 		    EABView *view)
 {
-	if (selection_data->length < 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
+	if (selection_data->length <= 0 || selection_data->type != GDK_SELECTION_TYPE_STRING) {
 		return;
-	}
-	else {
-		/* XXX make sure selection_data->data = \0 terminated */
-		GList *contact_list = eab_contact_list_from_string (selection_data->data);
+	} else {
+		GList *contact_list;
 		GList *l;
+		char *str = NULL;
+
+		if (selection_data->data [selection_data->length - 1] != 0) {
+			str = g_malloc0 (selection_data->length + 1);
+			memcpy (str, selection_data->data, selection_data->length);
+			contact_list = eab_contact_list_from_string (str);
+		} else
+			contact_list = eab_contact_list_from_string (selection_data->data);
 		
 		for (l = contact_list; l; l = l->next) {
 			EContact *contact = l->data;
@@ -1922,6 +1928,7 @@ selection_received (GtkWidget *invisible,
 
 		g_list_foreach (contact_list, (GFunc)g_object_unref, NULL);
 		g_list_free (contact_list);
+		g_free (str);
 	}
 }
 
