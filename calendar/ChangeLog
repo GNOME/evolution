@@ -1,3 +1,8 @@
+2004-06-23  Jeffrey Stedfast  <fejj@novell.com>
+
+	* conduits/todo/todo-conduit.c: Bump the version to 0.1.5 to help
+	track down bug #59726.
+
 2004-06-23  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/comp-editor.c (comp_editor_init): set the window

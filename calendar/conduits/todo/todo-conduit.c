@@ -21,7 +21,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #define G_LOG_DOMAIN "etodoconduit"
 
@@ -45,7 +48,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.4"
+#define CONDUIT_VERSION "0.1.5"
 
 #define DEBUG_TODOCONDUIT 1
 /* #undef DEBUG_TODOCONDUIT */
