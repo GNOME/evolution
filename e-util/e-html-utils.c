@@ -1,6 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-html-utils.c
-/* 
  * Copyright (C) 2000  Helix Code, Inc.
  * Author: Dan Winship <danw@helixcode.com>
  *
@@ -135,7 +134,7 @@ e_text_to_html (const char *input, unsigned int flags)
 
 	while (*cur) {
 		if (isalpha (*cur) && (flags & E_TEXT_TO_HTML_CONVERT_URLS)) {
-			char *tmpurl = NULL, *refurl, *dispurl;
+			char *tmpurl = NULL, *refurl = NULL, *dispurl = NULL;
 
 			if (!strncasecmp (cur, "http://", 7) ||
 			    !strncasecmp (cur, "https://", 8) ||

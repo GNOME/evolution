@@ -22,6 +22,9 @@
 
 #include <glib.h>
 #include <gtk/gtkobject.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include "e-util.h"
 
@@ -51,4 +54,53 @@ e_free_object_list (GList *list)
 		gtk_object_unref (GTK_OBJECT (p->data));
 
 	g_list_free (list);
+}
+
+#define BUFF_SIZE 1024
+
+char *
+e_read_file(const char *filename)
+{
+	int fd;
+	char buffer[BUFF_SIZE];
+	GList *list = NULL, *list_iterator;
+	GList *lengths = NULL, *lengths_iterator;
+	int length = 0;
+	int bytes;
+	char *ret_val;
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return NULL;
+	bytes = read(fd, buffer, BUFF_SIZE);
+	while (bytes) {
+		if (bytes > 0) {
+			list = g_list_prepend(list, g_strndup(buffer, bytes));
+			lengths = g_list_prepend(lengths, GINT_TO_POINTER(bytes));
+			length += bytes;
+		} else {
+			if (errno != EINTR) {
+				close(fd);
+				g_list_foreach(list, (GFunc) g_free, NULL);
+				g_list_free(list);
+				g_list_free(lengths);
+				return NULL;
+			}
+		}
+		bytes = read(fd, buffer, BUFF_SIZE);
+	}
+	ret_val = g_new(char, length + 1);
+	ret_val[length] = 0;
+	lengths_iterator = lengths;
+	list_iterator = list;
+	for ( ; list_iterator; list_iterator = list_iterator->next, lengths_iterator = lengths_iterator->next) {
+		int this_length = GPOINTER_TO_INT(lengths_iterator->data);
+		length -= this_length;
+		memcpy(ret_val + length, list_iterator->data, this_length);
+	}
+	close(fd);
+	g_list_foreach(list, (GFunc) g_free, NULL);
+	g_list_free(list);
+	g_list_free(lengths);
+	return ret_val;
 }

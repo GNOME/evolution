@@ -35,5 +35,6 @@ int g_str_compare(const void *x, const void *y);
 int g_int_compare(const void *x, const void *y);
 
 void e_free_object_list (GList *list);
+char *e_read_file(const char *filename);
 
 #endif /* _E_UTIL_H_ */
