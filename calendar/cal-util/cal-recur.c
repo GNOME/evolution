@@ -463,9 +463,9 @@ cal_recur_generate_instances (CalComponent		*comp,
 			      gpointer                   cb_data)
 {
 	CalComponentDateTime dtstart, dtend;
-	time_t dtstart_time;
+	time_t dtstart_time, dtend_time;
 	GSList *rrules, *rdates, *exrules, *exdates;
-	CalObjTime interval_start, interval_end, event_start;
+	CalObjTime interval_start, interval_end, event_start, event_end;
 	CalObjTime chunk_start, chunk_end;
 	gint days, seconds, year;
 
@@ -484,6 +484,11 @@ cal_recur_generate_instances (CalComponent		*comp,
 	}
 
 	dtstart_time = icaltime_as_timet (*dtstart.value);
+	if (dtend.value)
+		dtend_time = icaltime_as_timet (*dtend.value);
+	else
+		dtend_time = time_day_end (dtstart_time);
+
 
 	cal_component_get_rrule_list (comp, &rrules);
 	cal_component_get_rdate_list (comp, &rdates);
@@ -494,13 +499,6 @@ cal_recur_generate_instances (CalComponent		*comp,
 	   intersects the given interval. */
 
 	if (!(rrules || rdates || exrules || exdates)) {
-		time_t dtend_time;
-
-		if (dtend.value)
-			dtend_time = icaltime_as_timet (*dtend.value);
-		else
-			dtend_time = time_day_end (dtstart_time);
-
 		if ((end && dtstart_time < end && dtend_time > start)
 		    || (end == 0 && dtend_time > start)) {
 			(* cb) (comp, dtstart_time, dtend_time, cb_data);
@@ -514,13 +512,14 @@ cal_recur_generate_instances (CalComponent		*comp,
 	cal_object_time_from_time (&interval_end, end);
 
 	cal_object_time_from_time (&event_start, dtstart_time);
-
+	cal_object_time_from_time (&event_end, dtend_time);
+	
 	/* Calculate the duration of the event, which we use for all
 	   occurrences. We can't just subtract start from end since that may
 	   be affected by daylight-saving time. We also don't want to just
 	   use the number of seconds, since leap seconds will then cause a
 	   problem. So we want a value of days + seconds. */
-	cal_object_compute_duration (&interval_start, &interval_end,
+	cal_object_compute_duration (&event_start, &event_end,
 				     &days, &seconds);
 
 	/* Expand the recurrence for each year between start & end, or until
@@ -1169,11 +1168,11 @@ cal_obj_generate_set_default	(RecurData *recur_data,
 				 CalObjTime *occ)
 {
 	GArray *occs;
-#if 0
+
 	g_print ("Generating set for %i/%i/%i %02i:%02i:%02i\n",
 		 occ->day, occ->month, occ->year, occ->hour, occ->minute,
 		 occ->second);
-#endif
+
 	/* We start with just the one time in the set. */
 	occs = g_array_new (FALSE, FALSE, sizeof (CalObjTime));
 	g_array_append_vals (occs, occ, 1);

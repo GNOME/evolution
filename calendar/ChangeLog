@@ -1,5 +1,11 @@
 2000-09-05  JP Rosevear  <jpr@helixcode.com>
 
+	* cal-util/cal-recur.c (cal_recur_generate_instances): Compute
+	the event duration using the event start/end times, not the
+	interval times.
+
+2000-09-05  JP Rosevear  <jpr@helixcode.com>
+
 	* cal-util/cal-recur.c (cal_recur_from_icalrecurrencetype): Check
 	to see if r->enddate is (time_t)-1 and set to 0 if so
 
