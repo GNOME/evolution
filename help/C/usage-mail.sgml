@@ -1947,6 +1947,12 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	integrated into your identity in
 	<application>Evolution</application>.
       </para>
+      <note>
+	<title>What is my Key ID again?</title>
+	<para>
+	  <application>Evolution</application> requires that you know your key ID.  If you don't remember it, you can find it by typing <command>gpg --list-keys</command> in a console window.  Your key ID will be an eight character string with random numbers and letters.
+	</para>
+      </note>
     </sect2>
 
     <sect2 id="encrypt-sending">

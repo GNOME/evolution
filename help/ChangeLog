@@ -1,3 +1,7 @@
+2001-09-29  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Slightly improved encryption documentation.
+
 2001-09-26  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-sync.sgml: Polish, describe names of conduits.
