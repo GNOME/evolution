@@ -1,3 +1,10 @@
+2003-09-16  Jeremy Katz  <katzj@redhat.com>
+
+	* rule-context.c (rule_context_add_part_set): type should be a GType.
+	(rule_context_add_rule_set): Likewise.
+	* rule-context.h: Update prototypes.  Use GType instead of int for
+	type in _part_set_map and _rule_set_map.
+
 2003-08-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #42636.
