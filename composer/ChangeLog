@@ -1,3 +1,8 @@
+2000-01-12  bertrand  <bertrand@helixcode.com>
+
+	* Makefile.am (evolution_msg_composer_LDADD): 
+	use $(EXTRA_GNOME_LIBS_THREADS) to link with gthread
+
 1999-11-17  Ettore Perazzoli  <ettore@gnu.org>
 
 	* Makefile.am: New Makefile to compile the message composer

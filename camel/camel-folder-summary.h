@@ -43,6 +43,9 @@ extern "C" {
 #define CAMEL_FOLDER_SUMMARY_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FOLDER_SUMMARY_TYPE, CamelFolderSummaryClass))
 #define CAMEL_IS_FOLDER_SUMMARY(o)    (GTK_CHECK_TYPE((o), CAMEL_FOLDER_SUMMARY_TYPE))
 
+
+
+
 typedef struct {
 	gchar *name;
 	gint nb_message;
@@ -51,6 +54,9 @@ typedef struct {
 	
 	GHashTable *extended_fields;
 } CamelFolderInfo;
+
+
+
 
 typedef struct {
 	gchar *subject;
@@ -62,14 +68,16 @@ typedef struct {
 } CamelMessageInfo;
 
 
-typedef struct 
-{
+
+
+typedef struct {
 	GtkObject parent_object;
 
 	GList *subfolder_info_list; /* informations on subfolders */
 	GList *message_info_list;   /* informations on messages */
 
 } CamelFolderSummary;
+
 
 
 
@@ -90,6 +98,8 @@ GtkType camel_folder_summary_get_type (void);
 
 /* public methods */
 CamelFolderSummary *camel_folder_summary_new ();
+
+/* get information about the messages and the subfolders in the directory */
 const GList *camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary);
 const GList *camel_folder_summary_get_message_info_list (CamelFolderSummary *summary);
 

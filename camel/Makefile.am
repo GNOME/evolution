@@ -61,7 +61,6 @@ libcamel_la_SOURCES = 				\
 	data-wrapper-repository.c		\
 	gmime-base64.c				\
 	gmime-content-field.c			\
-	gmime-rfc2047.c				\
 	gmime-utils.c				\
 	gstring-util.c				\
 	hash-table-utils.c			\

@@ -1,3 +1,28 @@
+2000-01-12  bertrand  <bertrand@helixcode.com>
+
+	* tests/Makefile.am (noinst_PROGRAMS): 
+	remove non updated tests from the build 
+	process. 
+
+	* corrected a bunch of bugs 
+	
+	* camel/providers/mbox/camel-mbox-parser.c 
+	(camel_mbox_parse_file): 
+	parser the subject and date.
+	
+
+	* camel/providers/mbox/camel-mbox-parser.c 
+	(camel_mbox_parse_file): added the ability to 
+	follow the parsing progression. 
+	
+	* camel/providers/mbox/camel-mbox-parser.h: 
+	parse the x-evolution field. 
+
+	* camel/Makefile.am (libcamel_la_SOURCES): 
+	disabled gmime-rfc2047 as it depends on libunicode
+	and is not used for the moment. 
+
+
 2000-01-12    <clahey@galapagos.helixcode.com>
 
 	* widgets/e-minicard.c, widgets/e-minicard.h: Added a resize
