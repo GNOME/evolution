@@ -308,7 +308,6 @@ icalcomponent_create_from_ical_object (iCalObject *ical)
 static
 struct icaltimetype timet_to_icaltime (time_t tt)
 {
-	extern long timezone;
 	struct tm *t;
 	struct icaltimetype i;
 

@@ -1,3 +1,9 @@
+2000-05-11  Dan Winship  <danw@helixcode.com>
+
+	* pcs/icalendar-save.c (timet_to_icaltime): remove unused timezone
+	variable to make this compile on BSD systems (where timezone is
+	the name of a function)
+
 2000-05-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (gnome_calendar_update_all): Removed unused
