@@ -28,6 +28,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
+#include <gal/widgets/e-unicode.h>
 #include <e-util/e-sexp.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/timeutil.h>
@@ -497,6 +498,240 @@ func_occur_in_time_range (ESExp *esexp, int argc, ESExpResult **argv, void *data
 	return result;
 }
 
+/* Returns whether a list of CalComponentText items matches the specified string */
+static gboolean
+matches_text_list (GSList *text_list, const char *str)
+{
+	GSList *l;
+	gboolean matches;
+
+	matches = FALSE;
+
+	for (l = text_list; l; l = l->next) {
+		CalComponentText *text;
+
+		text = l->data;
+		g_assert (text->value != NULL);
+
+		if (e_utf8_strstrcase (text->value, str) != NULL) {
+			matches = TRUE;
+			break;
+		}
+	}
+
+	return matches;
+}
+
+/* Returns whether the comments in a component matches the specified string */
+static gboolean
+matches_comment (CalComponent *comp, const char *str)
+{
+	GSList *list;
+	gboolean matches;
+
+	cal_component_get_comment_list (comp, &list);
+	matches = matches_text_list (list, str);
+	cal_component_free_text_list (list);
+
+	return matches;
+}
+
+/* Returns whether the description in a component matches the specified string */
+static gboolean
+matches_description (CalComponent *comp, const char *str)
+{
+	GSList *list;
+	gboolean matches;
+
+	cal_component_get_description_list (comp, &list);
+	matches = matches_text_list (list, str);
+	cal_component_free_text_list (list);
+
+	return matches;
+}
+
+/* Returns whether the summary in a component matches the specified string */
+static gboolean
+matches_summary (CalComponent *comp, const char *str)
+{
+	CalComponentText text;
+
+	cal_component_get_summary (comp, &text);
+
+	if (!text.value)
+		return FALSE;
+
+	return e_utf8_strstrcase (text.value, str) != NULL;
+}
+
+/* Returns whether any text field in a component matches the specified string */
+static gboolean
+matches_any (CalComponent *comp, const char *str)
+{
+	/* As an optimization, and to make life easier for the individual
+	 * predicate functions, see if we are looking for the empty string right
+	 * away.
+	 */
+	if (strlen (str) == 0)
+		return TRUE;
+
+	return (matches_comment (comp, str)
+		|| matches_description (comp, str)
+		|| matches_summary (comp, str));
+}
+
+/* (contains? FIELD STR)
+ *
+ * FIELD - string, name of field to match (any, comment, description, summary)
+ * STR - string, match string
+ *
+ * Returns a boolean indicating whether the specified field contains the
+ * specified string.
+ */
+static ESExpResult *
+func_contains (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	Query *query;
+	QueryPrivate *priv;
+	CalComponent *comp;
+	const char *field;
+	const char *str;
+	gboolean matches;
+	ESExpResult *result;
+
+	query = QUERY (data);
+	priv = query->priv;
+
+	g_assert (priv->next_comp != NULL);
+	comp = priv->next_comp;
+
+	/* Check argument types */
+
+	if (argc != 2) {
+		e_sexp_fatal_error (esexp, _("contains? expects 2 arguments"));
+		return NULL;
+	}
+
+	if (argv[0]->type != ESEXP_RES_STRING) {
+		e_sexp_fatal_error (esexp, _("contains? expects argument 1 "
+					     "to be a string"));
+		return NULL;
+	}
+	field = argv[0]->value.string;
+
+	if (argv[1]->type != ESEXP_RES_STRING) {
+		e_sexp_fatal_error (esexp, _("contains? expects argument 2 "
+					     "to be a string"));
+		return NULL;
+	}
+	str = argv[1]->value.string;
+
+	/* See if it matches */
+
+	if (strcmp (field, "any") == 0)
+		matches = matches_any (comp, str);
+	else if (strcmp (field, "comment") == 0)
+		matches = matches_comment (comp, str);
+	else if (strcmp (field, "description") == 0)
+		matches = matches_description (comp, str);
+	else if (strcmp (field, "summary") == 0)
+		matches = matches_summary (comp, str);
+	else {
+		e_sexp_fatal_error (esexp, _("contains? expects argument 1 to "
+					     "be one of \"any\", \"summary\", \"description\""));
+		return NULL;
+	}
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
+	result->value.bool = matches;
+
+	return result;
+}
+
+/* (has-categories? STR+)
+ *
+ * STR - At least one string specifying a category
+ *
+ * Returns a boolean indicating whether the component has all the specified
+ * categories.
+ */
+static ESExpResult *
+func_has_categories (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	Query *query;
+	QueryPrivate *priv;
+	CalComponent *comp;
+	int i;
+	GSList *categories;
+	gboolean matches;
+	ESExpResult *result;
+
+	query = QUERY (data);
+	priv = query->priv;
+
+	g_assert (priv->next_comp != NULL);
+	comp = priv->next_comp;
+
+	/* Check argument types */
+
+	if (argc < 1) {
+		e_sexp_fatal_error (esexp, _("has-categories? expects at least 1 argument"));
+		return NULL;
+	}
+
+	for (i = 0; i < argc; i++)
+		if (argv[i]->type != ESEXP_RES_STRING) {
+			e_sexp_fatal_error (esexp, _("has-categories? expects all arguments "
+						     "to be strings"));
+			return NULL;
+		}
+
+	/* Search categories */
+
+	cal_component_get_categories_list (comp, &categories);
+	if (!categories) {
+		result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
+		result->value.bool = FALSE;
+
+		return result;
+	}
+
+	matches = TRUE;
+
+	for (i = 0; i < argc; i++) {
+		const char *sought;
+		GSList *l;
+		gboolean has_category;
+
+		sought = argv[i]->value.string;
+
+		has_category = FALSE;
+
+		for (l = categories; l; l = l->next) {
+			const char *category;
+
+			category = l->data;
+
+			if (strcmp (category, sought) == 0) {
+				has_category = TRUE;
+				break;
+			}
+		}
+
+		if (!has_category) {
+			matches = FALSE;
+			break;
+		}
+	}
+
+	cal_component_free_categories_list (categories);
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
+	result->value.bool = matches;
+
+	return result;
+}
+
 
 
 /* Adds a component to our the UIDs hash table and notifies the client */
@@ -612,7 +847,9 @@ static struct {
 
 	/* Component-related functions */
 	{ "get-vtype", func_get_vtype },
-	{ "occur-in-time-range?", func_occur_in_time_range }
+	{ "occur-in-time-range?", func_occur_in_time_range },
+	{ "contains?", func_contains },
+	{ "has-categories?", func_has_categories }
 };
 
 /* Initializes a sexp by interning our own symbols */
@@ -681,7 +918,7 @@ match_component (Query *query, const char *uid,
 			&ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("process_component_cb(): Could not notify the listener of "
+			g_message ("match_component(): Could not notify the listener of "
 				   "an evaluation error");
 
 		CORBA_exception_free (&ev);
@@ -696,7 +933,7 @@ match_component (Query *query, const char *uid,
 			&ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("process_component_cb(): Could not notify the listener of "
+			g_message ("match_component(): Could not notify the listener of "
 				   "an unexpected result value type when evaluating the "
 				   "search expression");
 
@@ -730,7 +967,6 @@ process_component_cb (gpointer data)
 	if (!priv->pending_uids) {
 		g_assert (priv->n_pending == 0);
 
-		g_source_remove (priv->idle_id);
 		priv->idle_id = 0;
 		return FALSE;
 	}
@@ -751,10 +987,14 @@ process_component_cb (gpointer data)
 
 	g_list_free_1 (l);
 
+	bonobo_object_ref (BONOBO_OBJECT (query));
+
 	match_component (query, uid,
 			 TRUE,
 			 priv->pending_total - priv->n_pending,
 			 priv->pending_total);
+
+	bonobo_object_unref (BONOBO_OBJECT (query));
 
 	g_free (uid);
 
@@ -841,6 +1081,7 @@ backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer da
 
 	if (status == CAL_BACKEND_OPEN_SUCCESS) {
 		g_assert (cal_backend_is_loaded (backend));
+		g_assert (priv->idle_id == 0);
 
 		priv->idle_id = g_idle_add (start_query_cb, query);
 	}
@@ -854,8 +1095,12 @@ backend_obj_updated_cb (CalBackend *backend, const char *uid, gpointer data)
 
 	query = QUERY (data);
 
+	bonobo_object_ref (BONOBO_OBJECT (query));
+
 	match_component (query, uid, FALSE, 0, 0);
 	remove_from_pending (query, uid);
+
+	bonobo_object_unref (BONOBO_OBJECT (query));
 }
 
 /* Callback used when a component is removed from the backend */
@@ -868,8 +1113,12 @@ backend_obj_removed_cb (CalBackend *backend, const char *uid, gpointer data)
 	query = QUERY (data);
 	priv = query->priv;
 
+	bonobo_object_ref (BONOBO_OBJECT (query));
+
 	remove_component (query, uid);
 	remove_from_pending (query, uid);
+
+	bonobo_object_unref (BONOBO_OBJECT (query));
 }
 
 /**
@@ -928,9 +1177,10 @@ query_construct (Query *query,
 
 	/* Queue the query to be started asynchronously */
 
-	if (cal_backend_is_loaded (priv->backend))
+	if (cal_backend_is_loaded (priv->backend)) {
+		g_assert (priv->idle_id == 0);
 		priv->idle_id = g_idle_add (start_query_cb, query);
-	else
+	} else
 		gtk_signal_connect (GTK_OBJECT (priv->backend), "opened",
 				    GTK_SIGNAL_FUNC (backend_opened_cb),
 				    query);
@@ -938,6 +1188,16 @@ query_construct (Query *query,
 	return query;
 }
 
+/**
+ * query_new:
+ * @backend: Calendar backend that the query object will monitor.
+ * @ql: Listener for query results.
+ * @sexp: Sexp that defines the query.
+ * 
+ * Creates a new query engine object that monitors a calendar backend.
+ * 
+ * Return value: A newly-created query object, or NULL on failure.
+ **/
 Query *
 query_new (CalBackend *backend,
 	   GNOME_Evolution_Calendar_QueryListener ql,
@@ -946,5 +1206,10 @@ query_new (CalBackend *backend,
 	Query *query;
 
 	query = QUERY (gtk_type_new (QUERY_TYPE));
-	return query_construct (query, backend, ql, sexp);
+	if (!query_construct (query, backend, ql, sexp)) {
+		bonobo_object_unref (BONOBO_OBJECT (query));
+		return NULL;
+	}
+
+	return query;
 }

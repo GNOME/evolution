@@ -1,3 +1,25 @@
+2001-04-15  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/gnome-cal.c (setup_widgets): Create the ESearchBar thingy.
+	(search_bar_query_changed_cb): Build the different queries based
+	on the type and string.
+
+	* pcs/query.c (backend_obj_updated_cb): Ref the query while we are
+	notifying the listener so that it will not disappear from under us.
+	(backend_obj_removed_cb): Likewise.
+	(process_component_cb): Likewise.
+	(func_contains): New function to match text fields.
+	(matches_comment): New function to match comment lists.
+	(matches_description): New function to match description lists.
+	(matches_summary): New function to match summaries.
+	(matches_any): New function to match any text field.
+	(func_has_categories): New function to match categories.
+
+2001-04-14  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/notify-main.c (main): Initialize the trigger
+	and queue systems.
+
 2001-04-13  Dan Winship  <danw@ximian.com>
 
 	* cal-util/timeutil.c (time_from_isodate): Fix the syntactic bogon
