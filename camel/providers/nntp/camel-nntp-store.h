@@ -59,8 +59,6 @@ extern "C" {
 typedef struct _CamelNNTPStore CamelNNTPStore;
 typedef struct _CamelNNTPStoreClass CamelNNTPStoreClass;
 
-#include "camel-nntp-grouplist.h"
-
 struct _CamelNNTPStore {
 	CamelDiscoStore parent_object;	
 	
