@@ -268,6 +268,13 @@ owner_unset_callback (EvolutionShellComponent *shell_component,
 	g_idle_add_full (G_PRIORITY_LOW, owner_unset_idle_callback, NULL, NULL);
 }
 
+static void
+user_create_new_item_callback (EvolutionShellComponent *shell_component,
+			       const char *id)
+{
+	g_print ("\n*** Should create -- %s\n", id);
+}
+
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *factory,
@@ -284,6 +291,12 @@ factory_fn (BonoboGenericFactory *factory,
 			    GTK_SIGNAL_FUNC (owner_set_callback), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_callback), NULL);
+
+	evolution_shell_component_add_user_creatable_item (shell_component, "Stuff", "New Stuff", "New _Stuff", '\0');
+	evolution_shell_component_add_user_creatable_item (shell_component, "MoreStuff", "New More Stuff", "New _More Stuff", 'n');
+
+	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
+			    GTK_SIGNAL_FUNC (user_create_new_item_callback), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }

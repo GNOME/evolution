@@ -88,6 +88,8 @@ struct _EShellPrivate {
 
 	EComponentRegistry *component_registry;
 
+	EShellUserCreatableItemsHandler *user_creatable_items_handler;
+
 	/* ::StorageRegistry interface handler.  */
 	ECorbaStorageRegistry *corba_storage_registry; /* <aggregate> */
 
@@ -575,10 +577,14 @@ setup_components (EShell *shell,
 
 		info = info_list->_buffer + i;
 
-		if (! e_component_registry_register_component (priv->component_registry, info->iid))
+		if (! e_component_registry_register_component (priv->component_registry, info->iid)) {
 			g_warning ("Cannot activate Evolution component -- %s", info->iid);
-		else
+		} else {
+			e_shell_user_creatable_items_handler_add_component
+				(priv->user_creatable_items_handler,
+				 e_component_registry_get_component_by_id (priv->component_registry, info->iid));
 			g_print ("Evolution component activated successfully -- %s\n", info->iid);
+		}
 
 		if (splash != NULL)
 			e_splash_set_icon_highlight (splash, i, TRUE);
@@ -707,6 +713,9 @@ destroy (GtkObject *object)
 	if (priv->component_registry != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->component_registry));
 
+	if (priv->user_creatable_items_handler != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->user_creatable_items_handler));
+
 	for (p = priv->views; p != NULL; p = p->next) {
 		EShellView *view;
 
@@ -795,22 +804,23 @@ init (EShell *shell)
 
 	priv->views = NULL;
 
-	priv->iid                    = NULL;
-	priv->local_directory        = NULL;
-	priv->storage_set            = NULL;
-	priv->local_storage          = NULL;
-	priv->summary_storage        = NULL;
-	priv->shortcuts              = NULL;
-	priv->component_registry     = NULL;
-	priv->folder_type_registry   = NULL;
-	priv->uri_schema_registry    = NULL;
-	priv->corba_storage_registry = NULL;
-	priv->activity_handler       = NULL;
-	priv->corba_shortcuts        = NULL;
-	priv->offline_handler        = NULL;
-	priv->crash_type_names       = NULL;
-	priv->line_status            = E_SHELL_LINE_STATUS_ONLINE;
-	priv->db                     = CORBA_OBJECT_NIL;
+	priv->iid                          = NULL;
+	priv->local_directory              = NULL;
+	priv->storage_set                  = NULL;
+	priv->local_storage                = NULL;
+	priv->summary_storage              = NULL;
+	priv->shortcuts                    = NULL;
+	priv->component_registry           = NULL;
+	priv->user_creatable_items_handler = NULL;
+	priv->folder_type_registry         = NULL;
+	priv->uri_schema_registry          = NULL;
+	priv->corba_storage_registry       = NULL;
+	priv->activity_handler             = NULL;
+	priv->corba_shortcuts              = NULL;
+	priv->offline_handler              = NULL;
+	priv->crash_type_names             = NULL;
+	priv->line_status                  = E_SHELL_LINE_STATUS_ONLINE;
+	priv->db                           = CORBA_OBJECT_NIL;
 
 	shell->priv = priv;
 }
@@ -895,6 +905,8 @@ e_shell_construct (EShell *shell,
 
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
+
+	priv->user_creatable_items_handler = e_shell_user_creatable_items_handler_new ();
 
 	if (show_splash)
 		setup_components (shell, E_SPLASH (splash));
@@ -1552,6 +1564,24 @@ e_shell_get_config_db (EShell *shell)
 	g_return_val_if_fail (shell != NULL, CORBA_OBJECT_NIL);
 
 	return shell->priv->db;
+}
+
+EComponentRegistry *
+e_shell_get_component_registry (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->component_registry;
+}
+
+EShellUserCreatableItemsHandler *
+e_shell_get_user_creatable_items_handler (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->user_creatable_items_handler;
 }
 
 

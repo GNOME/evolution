@@ -42,6 +42,14 @@
 
 static GtkObjectClass *parent_class = NULL;
 
+struct _UserCreatableItemType {
+	char *id;
+	char *description;
+	char *menu_description;
+	char menu_shortcut;
+};
+typedef struct _UserCreatableItemType UserCreatableItemType;
+
 struct _EvolutionShellComponentPrivate {
 	GList *folder_types;	/* EvolutionShellComponentFolderType */
 	GList *external_uri_schemas; /* char * */
@@ -55,6 +63,8 @@ struct _EvolutionShellComponentPrivate {
 
 	EvolutionShellClient *owner_client;
 
+	GSList *user_creatable_item_types; /* UserCreatableItemType */
+
 	void *closure;
 };
 
@@ -63,10 +73,41 @@ enum {
 	OWNER_UNSET,
 	DEBUG,
 	HANDLE_EXTERNAL_URI,
+	USER_CREATE_NEW_ITEM,
 	LAST_SIGNAL
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+
+/* UserCreatableItemType handling.  */
+
+static UserCreatableItemType *
+user_creatable_item_type_new (const char *id,
+			      const char *description,
+			      const char *menu_description,
+			      char menu_shortcut)
+{
+	UserCreatableItemType *type;
+
+	type = g_new (UserCreatableItemType, 1);
+	type->id               = g_strdup (id);
+	type->description      = g_strdup (description);
+	type->menu_description = g_strdup (menu_description);
+	type->menu_shortcut    = menu_shortcut;
+
+	return type;
+}
+
+static void
+user_creatable_item_type_free (UserCreatableItemType *type)
+{
+	g_free (type->id);
+	g_free (type->description);
+	g_free (type->menu_description);
+
+	g_free (type);
+}
 
 
 /* Helper functions.  */
@@ -127,8 +168,8 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 /* CORBA interface implementation.  */
 
 static GNOME_Evolution_FolderTypeList *
-impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
-					  CORBA_Environment *ev)
+impl__get_supported_types (PortableServer_Servant servant,
+			   CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -168,8 +209,8 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 }
 
 static GNOME_Evolution_URISchemaList *
-impl_ShellComponent__get_external_uri_schemas (PortableServer_Servant servant,
-					       CORBA_Environment *ev)
+impl__get_external_uri_schemas (PortableServer_Servant servant,
+				CORBA_Environment *ev)
 {
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
@@ -205,6 +246,42 @@ impl_ShellComponent__get_external_uri_schemas (PortableServer_Servant servant,
 	}
 
 	return uri_schema_list;
+}
+
+static GNOME_Evolution_UserCreatableItemTypeList *
+impl__get_user_creatable_item_types (PortableServer_Servant servant,
+				     CORBA_Environment *ev)
+{
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+	GNOME_Evolution_UserCreatableItemTypeList *list;
+	GSList *p;
+	int i;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
+	priv = shell_component->priv;
+
+	list = GNOME_Evolution_UserCreatableItemTypeList__alloc ();
+	list->_maximum = g_slist_length (priv->user_creatable_item_types);
+	list->_length  = list->_maximum;
+	list->_buffer  = CORBA_sequence_GNOME_Evolution_UserCreatableItemType_allocbuf (list->_maximum);
+
+	for (p = priv->user_creatable_item_types, i = 0; p != NULL; p = p->next, i ++) {
+		GNOME_Evolution_UserCreatableItemType *corba_type;
+		const UserCreatableItemType *type;
+
+		corba_type = list->_buffer + i;
+		type = (const UserCreatableItemType *) p->data;
+
+		corba_type->id              = CORBA_string_dup (type->id);
+		corba_type->description     = CORBA_string_dup (type->description);
+		corba_type->menuDescription = CORBA_string_dup (type->menu_description);
+		corba_type->menuShortcut    = type->menu_shortcut;
+	}
+
+	CORBA_sequence_set_release (list, TRUE);
+
+	return list;
 }
 
 static void
@@ -449,6 +526,22 @@ impl_populateFolderContextMenu (PortableServer_Servant servant,
 	bonobo_object_unref (BONOBO_OBJECT (uic));
 }
 
+static void
+impl_userCreateNewItem (PortableServer_Servant servant,
+			const CORBA_char *id,
+			CORBA_Environment *ev)
+{
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
+	priv = shell_component->priv;
+
+	/* FIXME: Check that the type is good.  */
+
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[USER_CREATE_NEW_ITEM], id);
+}
+
 
 /* GtkObject methods.  */
 
@@ -458,7 +551,7 @@ destroy (GtkObject *object)
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
 	CORBA_Environment ev;
-	GList *p;
+	GSList *p;
 
 	shell_component = EVOLUTION_SHELL_COMPONENT (object);
 
@@ -486,6 +579,10 @@ destroy (GtkObject *object)
 	g_list_free (priv->folder_types);
 
 	e_free_string_list (priv->external_uri_schemas);
+
+	for (p = priv->user_creatable_item_types; p != NULL; p = p->next)
+		user_creatable_item_type_free ((UserCreatableItemType *) p->data);
+	g_slist_free (priv->user_creatable_item_types);
 
 	g_free (priv);
 
@@ -538,21 +635,32 @@ class_init (EvolutionShellComponentClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
+	signals[USER_CREATE_NEW_ITEM]
+		= gtk_signal_new ("user_create_new_item",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, user_create_new_item),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	epv->_get_supported_types      = impl_ShellComponent__get_supported_types;
-	epv->_get_external_uri_schemas = impl_ShellComponent__get_external_uri_schemas;
-	epv->setOwner                  = impl_setOwner; 
-	epv->unsetOwner                = impl_unsetOwner; 
-	epv->debug                     = impl_debug; 
-	epv->createView                = impl_createView; 
-	epv->handleExternalURI         = impl_handleExternalURI; 
-	epv->createFolderAsync         = impl_createFolderAsync; 
-	epv->removeFolderAsync         = impl_removeFolderAsync; 
-	epv->xferFolderAsync           = impl_xferFolderAsync; 
-	epv->populateFolderContextMenu = impl_populateFolderContextMenu; 
+	epv->_get_supported_types           = impl__get_supported_types;
+	epv->_get_external_uri_schemas      = impl__get_external_uri_schemas;
+	epv->_get_user_creatable_item_types = impl__get_user_creatable_item_types;
+	epv->setOwner                       = impl_setOwner; 
+	epv->unsetOwner                     = impl_unsetOwner; 
+	epv->debug                          = impl_debug; 
+	epv->createView                     = impl_createView; 
+	epv->handleExternalURI              = impl_handleExternalURI; 
+	epv->createFolderAsync              = impl_createFolderAsync; 
+	epv->removeFolderAsync              = impl_removeFolderAsync; 
+	epv->xferFolderAsync                = impl_xferFolderAsync; 
+	epv->populateFolderContextMenu      = impl_populateFolderContextMenu;
+	epv->userCreateNewItem              = impl_userCreateNewItem;
 }
 
 static void
@@ -674,6 +782,30 @@ evolution_shell_component_get_owner  (EvolutionShellComponent *shell_component)
 	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component), NULL);
 
 	return shell_component->priv->owner_client;
+}
+
+
+void
+evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *shell_component,
+						    const char *id,
+						    const char *description,
+						    const char *menu_description,
+						    char menu_shortcut)
+{
+	EvolutionShellComponentPrivate *priv;
+	UserCreatableItemType *type;
+
+	g_return_if_fail (shell_component != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component));
+	g_return_if_fail (id != NULL);
+	g_return_if_fail (description != NULL);
+	g_return_if_fail (menu_description != NULL);
+
+	priv = shell_component->priv;
+
+	type = user_creatable_item_type_new (id, description, menu_description, menu_shortcut);
+
+	priv->user_creatable_item_types = g_slist_prepend (priv->user_creatable_item_types, type);
 }
 
 

@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <ctype.h>
 
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
@@ -49,6 +50,7 @@
 #include <gal/widgets/e-scroll-frame.h>
 
 #include "widgets/misc/e-clipped-label.h"
+#include "widgets/misc/e-bonobo-widget.h"
 
 #include "evolution-shell-view.h"
 
@@ -1210,6 +1212,9 @@ e_shell_view_construct (EShellView *shell_view,
 					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), view,
 					GTK_OBJECT (view));
 
+	e_shell_user_creatable_items_handler_setup_menus (e_shell_get_user_creatable_items_handler (priv->shell),
+							  priv->ui_component);
+
 	return view;
 }
 
@@ -1710,7 +1715,7 @@ get_control_for_uri (EShellView *shell_view,
 		return NULL;
 
 	container = bonobo_ui_component_get_container (priv->ui_component);
-	control = bonobo_widget_new_control_from_objref (corba_control, container);
+	control = e_bonobo_widget_new_control_from_objref (corba_control, container);
 
 	socket = find_socket (GTK_CONTAINER (control));
 	destroy_connection_id = gtk_signal_connect (GTK_OBJECT (socket), "destroy",

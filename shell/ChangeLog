@@ -1,3 +1,56 @@
+2001-08-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (e_shell_view_construct): Add the menu items
+	using the EShellUserCreatableItemsHandler.
+
+	* e-shell-user-creatable-items-handler.c: New.
+	* e-shell-user-creatable-items-handler.h: New.
+
+	* e-shell.c: New member `user_creatable_items_handler' in
+	`EShellPrivate'.
+	(init): Initialize to NULL.
+	(destroy): Unref.
+	(e_shell_construct): Create here.
+	(e_shell_get_user_creatable_items_handler): New accessor.
+	(setup_components): Add the registered components to the
+	user_creatable_items_handler.
+
+	* evolution-test-component.c (factory_fn): Add a couple sample
+	user-creatable items.
+	(user_create_new_item_callback): New callback for the
+	"user_create_new_item" signal on the EvolutionShellComponent.
+	(factory_fn): Connect.
+
+	* e-shell.c (e_shell_get_component_registry): New.
+
+	* evolution-shell-component.c: New enum value
+	`USER_CREATE_NEW_ITEM'.  New member `user_create_item_types' in
+	`_EvolutionShellComponentPrivate'.
+	(init): Init to NULL.
+	(impl_destroy): Free it.
+	(user_creatable_item_type_free): New helper function.
+	(user_creatable_item_type_new): New helper function.
+	(impl_userCreateNewItem): New, implementation for
+	::userCreateNewItem.
+	(class_init): Install the "user_create_new_item" signal and the
+	userCreateNewItem impl.
+	(impl__get_external_uri_schemas): Renamed from
+	`impl_ShellComponent__get_external_uri_schemas'.
+	(impl___get_supported_types): Renamed from
+	`impl_ShellComponent__get_supported_types'.
+	(impl__get_user_creatable_item_types): New, implementation for the
+	`user_creatable_item_types' attribute.
+	(class_init): Install it.
+	(evolution_shell_component_add_user_creatable_item): New.
+
+	* evolution-shell-component.h: Added signal
+	`user_create_new_item'.
+
+	* Evolution-ShellComponent.idl: Added typedefs
+	`UserCreatableItemType', `UserCreatableItemTypeList'.  New
+	attribute `user_creatable_item_types'.
+	(userCreateNewItem): New.
+
 2001-08-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-component-registry.c (destroy): Chain to the destroy handler

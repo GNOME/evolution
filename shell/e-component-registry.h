@@ -26,8 +26,6 @@
 
 #include <gtk/gtkobject.h>
 
-#include "e-shell.h"
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -43,6 +41,9 @@ extern "C" {
 typedef struct _EComponentRegistry        EComponentRegistry;
 typedef struct _EComponentRegistryPrivate EComponentRegistryPrivate;
 typedef struct _EComponentRegistryClass   EComponentRegistryClass;
+
+#include "e-shell.h"
+#include "evolution-shell-component-client.h"
 
 struct _EComponentRegistry {
 	GtkObject parent;

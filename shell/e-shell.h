@@ -39,9 +39,11 @@ typedef struct _EShellClass   EShellClass;
 
 #include "Evolution.h"
 
+#include "e-component-registry.h"
 #include "e-shortcuts.h"
 #include "e-shell-view.h"
 #include "e-uri-schema-registry.h"
+#include "e-shell-user-creatable-items-handler.h"
 #include "e-local-storage.h"
 
 
@@ -126,7 +128,9 @@ void              e_shell_go_offline       (EShell     *shell,
 void              e_shell_go_online        (EShell     *shell,
 					    EShellView *action_view);
 
-Bonobo_ConfigDatabase e_shell_get_config_db (EShell     *shell);
+Bonobo_ConfigDatabase            e_shell_get_config_db                     (EShell *shell);
+EComponentRegistry              *e_shell_get_component_registry            (EShell *shell);
+EShellUserCreatableItemsHandler *e_shell_get_user_creatable_items_handler  (EShell *shell);
 
 
 const char *e_shell_construct_result_to_string (EShellConstructResult result);

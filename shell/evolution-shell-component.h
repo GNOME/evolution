@@ -43,6 +43,7 @@ extern "C" {
 #define EVOLUTION_IS_SHELL_COMPONENT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_SHELL_COMPONENT))
 
 #define EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/popups/FolderPopup/ComponentPlaceholder"
+
 
 typedef struct _EvolutionShellComponent        EvolutionShellComponent;
 typedef struct _EvolutionShellComponentPrivate EvolutionShellComponentPrivate;
@@ -138,6 +139,9 @@ struct _EvolutionShellComponentClass {
 
 	void (* handle_external_uri) (EvolutionShellComponent *shell_component,
 				      const char *uri);
+
+	void (* user_create_new_item) (EvolutionShellComponent *shell_component,
+				       const char *id);
 };
 
 
@@ -162,6 +166,12 @@ EvolutionShellComponent *evolution_shell_component_new        (const EvolutionSh
 							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
 							       void                                               *closure);
 EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                            *shell_component);
+
+void  evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *shell_component,
+							  const char              *id,
+							  const char              *description,
+							  const char              *menu_description,
+							  char                     menu_shortcut);
 
 #ifdef cplusplus
 }

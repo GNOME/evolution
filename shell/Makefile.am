@@ -125,6 +125,8 @@ evolution_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
+	e-shell-user-creatable-items-handler.c	\
+	e-shell-user-creatable-items-handler.h	\
 	e-shell-utils.c				\
 	e-shell-utils.h				\
 	e-shell-view-menu.c			\
