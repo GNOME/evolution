@@ -737,20 +737,24 @@ do_exit (EMsgComposer *composer)
 	GtkWidget *label;
 	gint button;
 	
-	dialog = gnome_dialog_new (_("Evolution"),
-				   GNOME_STOCK_BUTTON_YES,      /* Save */
-				   GNOME_STOCK_BUTTON_NO,       /* Don't save */
-				   GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
-				   NULL);
-	
-	label = gtk_label_new (_("This message has not been sent.\n\nDo you wish to save your changes?"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show (label);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	
-	exit_dialog_cb (button, composer);
+	if (E_MSG_COMPOSER_HDRS (composer->hdrs)->has_changed) {
+		dialog = gnome_dialog_new (_("Evolution"),
+					   GNOME_STOCK_BUTTON_YES,      /* Save */
+					   GNOME_STOCK_BUTTON_NO,       /* Don't save */
+					   GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
+					   NULL);
+		
+		label = gtk_label_new (_("This message has not been sent.\n\nDo you wish to save your changes?"));
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
+		gtk_widget_show (label);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
+		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
+		exit_dialog_cb (button, composer);
+	} else {
+		gtk_widget_destroy (GTK_WIDGET (composer));
+	}
 }
 
 /* Menu callbacks.  */
@@ -1406,8 +1410,8 @@ e_msg_composer_construct (EMsgComposer *composer)
 	/* Set focus on the `To:' field.
 	
 	   gtk_widget_grab_focus (e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs)));
-	GTK_WIDGET_SET_FLAGS (composer->editor, GTK_CAN_FOCUS);
-	gtk_window_set_focus (GTK_WINDOW (composer), composer->editor); */
+	   GTK_WIDGET_SET_FLAGS (composer->editor, GTK_CAN_FOCUS);
+	   gtk_window_set_focus (GTK_WINDOW (composer), composer->editor); */
 	gtk_widget_grab_focus (composer->editor);
 }
 

@@ -215,6 +215,13 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 	return control_widget;
 }
 
+static void
+entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
+{
+	/* Set the has_changed var to TRUE */
+	hdrs->has_changed = TRUE;
+}
+
 static GtkWidget *
 add_header (EMsgComposerHdrs *hdrs,
 	    const gchar *name,
@@ -275,6 +282,9 @@ add_header (EMsgComposerHdrs *hdrs,
 				  2, 2);
 		
 		gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
+		
+		gtk_signal_connect (GTK_OBJECT (entry), "changed",
+				    GTK_SIGNAL_FUNC (entry_changed), hdrs);
 	}
 	
 	priv->num_hdrs++;
@@ -386,8 +396,10 @@ init (EMsgComposerHdrs *hdrs)
 	priv->tooltips = gtk_tooltips_new ();
 
 	priv->num_hdrs = 0;
-
+	
 	hdrs->priv = priv;
+	
+	hdrs->has_changed = FALSE;
 }
 
 

@@ -47,6 +47,8 @@ struct _EMsgComposerHdrs {
 	GtkTable parent;
 
 	EMsgComposerHdrsPrivate *priv;
+	
+	gboolean has_changed;
 };
 
 struct _EMsgComposerHdrsClass {

@@ -1,3 +1,12 @@
+2001-01-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (do_exit): If the headers have changed, then
+	continue with the prompt else just destroy the window.
+
+	* e-msg-composer-hdrs.c (init): Initialize has_changed to FALSE.
+	(entry_changed): New callback to set the value of has_changed.
+	(add_header): Attach the "changed" signal.
+
 2001-01-02  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit): 
