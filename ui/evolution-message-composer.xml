@@ -22,7 +22,7 @@
 		<cmd name="FileInsertFile" _label="Insert text file..."
 		_tip="Insert a file as text into the message"/>
 
-		<cmd name="FileSend" _label="Send" _tip="Send the message now"
+		<cmd name="FileSend" _label="Send" _tip="Send this message now"
 		accel="*Ctrl*Return"
                 pixtype="stock" pixname="Send Mail"/>
 
@@ -59,8 +59,15 @@
                 <cmd name="SecurityPGPEncrypt" _label="PGP Encrypt" _tip="Encrypt this message with PGP"
 		type="toggle" state="0"/>
 
-	</commands>
+                <cmd name="SecuritySMimeSign" _label="S/MIME Sign" 
+                _tip="Sign this message with your S/MIME Signature Certificate"
+		type="toggle" state="0" hidden="1"/>
 
+                <cmd name="SecuritySMimeEncrypt" _label="S/MIME Encrypt" 
+                _tip="Encrypt this message with your S/MIME Encryption Cetificate"
+		type="toggle" state="0" hidden="1"/>
+
+	</commands>
 
         <keybindings>
 
@@ -138,6 +145,10 @@
 
                         <menuitem name="SecurityPGPEncrypt" verb="" _label="PGP Encrypt"/>
 
+                        <menuitem name="SecuritySMimeSign" verb="" _label="S/MIME Sign"/>
+
+                        <menuitem name="SecuritySMimeEncrypt" verb="" _label="S/MIME Encrypt"/>
+
                 </submenu>
 
 		<submenu name="Help" _label="_Help">
@@ -156,7 +167,7 @@
 
 	<dockitem name="Toolbar" behavior="exclusive" hlook="text" vlook="icon">
 
-		<toolitem name="FileSend" verb=""  _tip="Send this message now" priority="1"/>
+		<toolitem name="FileSend" verb="" priority="1"/>
 
 		<toolitem name="FileAttach" verb=""/>
 
