@@ -76,6 +76,7 @@ e_request_string (GtkWindow *parent,
 	entry = gtk_entry_new ();
 	gtk_entry_set_text (GTK_ENTRY (entry), default_string);
 	gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
+	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
 	gtk_box_pack_start (GTK_BOX (vbox), entry, TRUE, TRUE, 3);
 	
 	gtk_widget_grab_focus (entry);
