@@ -11,3 +11,5 @@ libversit_la_SOURCES =	\
 	vcaltmp.h
 
 EXTRA_DIST = README.TXT vcaltest.c vctest.c
+
+YFLAGS=-pversit_
