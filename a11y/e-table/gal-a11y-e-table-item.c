@@ -1011,16 +1011,19 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 	GET_PRIVATE (a11y)->parent = parent;
 	GET_PRIVATE (a11y)->index_in_parent = index_in_parent;
 
-	g_return_val_if_fail (item->cols > 0 && item->rows > 0, NULL);
+	g_return_val_if_fail (item->cols >= 0 && item->rows >= 0, NULL);
 	/* Initialize cell data. */
 	n = item->cols * item->rows;
 	GET_PRIVATE (a11y)->cols = item->cols;
 	GET_PRIVATE (a11y)->rows = item->rows;
-	GET_PRIVATE (a11y)->cell_data = g_malloc0(n*sizeof(gpointer));
-
-	/* memory error. */
-	if ( GET_PRIVATE (a11y) == NULL)
-		return NULL;
+	if (n > 0) {
+		GET_PRIVATE (a11y)->cell_data = g_malloc0(n*sizeof(gpointer));
+		/* memory error. */
+		if ( GET_PRIVATE (a11y)->cell_data == NULL)
+			return NULL;
+	} else
+		GET_PRIVATE (a11y)->cell_data = NULL;
+		
 
         GET_PRIVATE (a11y)->columns = e_table_header_get_columns (item->header);                                                                                
         if ( GET_PRIVATE (a11y)->columns == NULL)
