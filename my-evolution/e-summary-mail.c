@@ -37,7 +37,7 @@
 #include <Evolution.h>
 #include <evolution-storage-listener.h>
 
-#include "Mail.h"
+#include "Mailer.h"
 #include "e-summary.h"
 #include "e-summary-mail.h"
 #include "e-summary-table.h"

@@ -62,7 +62,7 @@
 #include "e-summary.h"
 #include "e-summary-preferences.h"
 #include "my-evolution-html.h"
-#include "Mail.h"
+#include "Mailer.h"
 
 #include <Evolution.h>
 
