@@ -1,3 +1,20 @@
+2004-01-27  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.c (dialog_to_source): set the
+	relative_uri of a local source to be its uid.
+
+	* gui/component/addressbook-migrate.c
+	(migrate_contact_folder_to_source): remove the dest_group arg,
+	since we don't use it.
+	(migrate_contact_folder): set the relative uri of the source to be
+	its uid.
+	(PERSONAL_RELATIVE_URI): "Personal" -> "system".
+	(create_groups): don't actually make the directory hierarchy for
+	the personal folder here.  let e-d-s do that.  Also remove
+	OnThisComputer from the base uri.
+	(migrate_local_folders): track change to
+	migrate_contact_folder_to_source.
+
 2004-01-26  Chris Toshok  <toshok@ximian.com>
 
 	[ Should fix #53361 and other migration problems/crashes ]

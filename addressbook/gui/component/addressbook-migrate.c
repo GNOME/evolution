@@ -282,7 +282,7 @@ migrate_contacts (EBook *old_book, EBook *new_book)
 }
 
 static void
-migrate_contact_folder_to_source (char *old_path, ESourceGroup *dest_group, ESource *new_source)
+migrate_contact_folder_to_source (char *old_path, ESource *new_source)
 {
 	char *old_uri = g_strdup_printf ("file://%s", old_path);
 	GError *e = NULL;
@@ -327,15 +327,16 @@ migrate_contact_folder (char *old_path, ESourceGroup *dest_group, char *source_n
 	ESource *new_source;
 
 	new_source = e_source_new (source_name, source_name);
+	e_source_set_relative_uri (new_source, e_source_peek_uid (new_source));
 	e_source_group_add_source (dest_group, new_source, -1);
 
-	migrate_contact_folder_to_source (old_path, dest_group, new_source);
+	migrate_contact_folder_to_source (old_path, new_source);
 
 	g_object_unref (new_source);
 }
 
 #define LDAP_BASE_URI "ldap://"
-#define PERSONAL_RELATIVE_URI "Personal"
+#define PERSONAL_RELATIVE_URI "system"
 
 static void
 create_groups (AddressbookComponent *component,
@@ -347,13 +348,13 @@ create_groups (AddressbookComponent *component,
 	GSList *groups;
 	ESourceGroup *group;
 	ESource *source = NULL;
-	char *base_uri, *base_uri_proto, *new_dir;
+	char *base_uri, *base_uri_proto;
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
 
 	base_uri = g_build_filename (addressbook_component_peek_base_directory (component),
-				     "/addressbook/local/OnThisComputer/",
+				     "/addressbook/local/",
 				     NULL);
 
 	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
@@ -397,14 +398,10 @@ create_groups (AddressbookComponent *component,
 
 	if (!source) {
 		/* Create the default Person addressbook */
-		new_dir = g_build_filename (base_uri, "Personal/", NULL);
-		if (!e_mkdir_hier (new_dir, 0700)) {
-			source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
-			e_source_group_add_source (*on_this_computer, source, -1);
+		source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+		e_source_group_add_source (*on_this_computer, source, -1);
 
-			*personal_source = source;
-		}
-		g_free (new_dir);
+		*personal_source = source;
 	}
 
 	if (!*on_ldap_servers) {
@@ -430,11 +427,11 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 
 	dirs = e_folder_map_local_folders (old_path, "contacts");
 
-	/* migrate the local addressbook first, to OnThisComputer/Personal */
+	/* migrate the local addressbook first, to local/system */
 	local_contact_folder = g_build_filename (g_get_home_dir (), "/evolution/local/Contacts",
 						 NULL);
 	if (personal_source)
-		migrate_contact_folder_to_source (local_contact_folder, on_this_computer, personal_source);
+		migrate_contact_folder_to_source (local_contact_folder, personal_source);
 
 	for (l = dirs; l; l = l->next) {
 		char *source_name;

@@ -257,7 +257,7 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 
 		relative_uri = e_source_peek_relative_uri (source);
 		if (!relative_uri || !strlen (relative_uri))
-			e_source_set_relative_uri (source, e_source_peek_name (source));
+			e_source_set_relative_uri (source, e_source_peek_uid (source));
 	}
 
 	if (!temporary && !e_source_peek_group (source))
