@@ -100,6 +100,7 @@ static void
 model_and_selection_free (ModelAndSelection *mns)
 {
 	gtk_object_unref(GTK_OBJECT(mns->adapter));
+	e_selection_model_right_click_up(mns->selection);
 	gtk_object_unref(GTK_OBJECT(mns->selection));
 	g_free(mns);
 }
