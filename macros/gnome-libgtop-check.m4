@@ -153,3 +153,30 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 AC_DEFUN([GNOME_INIT_LIBGTOP],[
 	GNOME_LIBGTOP_HOOK($1,[ifelse([$3], [], :, [$3])],$2)
 ])
+
+dnl
+dnl GNOME_LIBGTOP_DOCU
+dnl
+dnl checks whether the documentation of LibGTop is installed
+dnl
+
+AC_DEFUN([GNOME_LIBGTOP_DOCU],
+[
+	AC_REQUIRE([GNOME_LIBGTOP_HOOK])
+
+	helpdir="$LIBGTOP_DATADIR/gnome/help/libgtop"
+
+	AC_MSG_CHECKING(whether you have the LibGTop Documentation)
+
+	if test -f "$helpdir/C/topic.dat" ; then
+	  have_libgtop_docu=yes
+	  AC_DEFINE(HAVE_LIBGTOP_DOCU)
+	else
+	  have_libgtop_docu=no
+	fi
+
+	AC_MSG_RESULT($have_libgtop_docu)
+
+	AM_CONDITIONAL(HAVE_LIBGTOP_DOCU, test x$have_libgtop_docu = xyes)
+])
+
