@@ -54,7 +54,9 @@
 #include <gal/util/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"
+#include "e-util/e-account-list.h"
 
+#include "mail-config.h"
 #include "mail-component.h" /* for em_uri_from_camel() */
 #include "em-migrate.h"
 #include "mail-vfolder.h"
@@ -1750,6 +1752,42 @@ em_upgrade_xml_1_4 (xmlDocPtr doc)
 }
 
 static int
+em_upgrade_accounts_1_4 (void)
+{
+	EAccountList *accounts;
+	EIterator *iter;
+	
+	if (!(accounts = mail_config_get_accounts ()))
+		return 0;
+	
+	iter = e_list_get_iterator ((EList *) accounts);
+	while (e_iterator_is_valid (iter)) {
+		EAccount *account = (EAccount *) e_iterator_get (iter);
+		char *url;
+		
+		if (account->drafts_folder_uri) {
+			url = upgrade_xml_uris_1_4 (account->drafts_folder_uri);
+			g_free (account->drafts_folder_uri);
+			account->drafts_folder_uri = url;
+		}
+		
+		if (account->sent_folder_uri) {
+			url = upgrade_xml_uris_1_4 (account->sent_folder_uri);
+			g_free (account->sent_folder_uri);
+			account->sent_folder_uri = url;
+		}
+		
+		e_iterator_next (iter);
+	}
+	
+	g_object_unref (iter);
+	
+	mail_config_save_accounts ();
+	
+	return 0;
+}
+
+static int
 em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 {
 	GString *oldpath, *newpath;
@@ -2123,6 +2161,9 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	g_free (session->srcdir);
 	
 	camel_object_unref (session);
+	
+	if (em_upgrade_accounts_1_4 () == -1)
+		return -1;
 	
 	if (em_upgrade_xml_1_4 (filters) == -1)
 		return -1;

@@ -1585,7 +1585,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	gui->drafts_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "drafts_button"));
 	g_signal_connect (gui->drafts_folder_button, "selected", G_CALLBACK (folder_selected), &gui->drafts_folder_uri);
 	if (account->drafts_folder_uri)
-		gui->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
+		gui->drafts_folder_uri = em_uri_to_camel (account->drafts_folder_uri);
 	else
 		gui->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->drafts_folder_button, gui->drafts_folder_uri);
@@ -1594,7 +1594,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	gui->sent_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "sent_button"));
 	g_signal_connect (gui->sent_folder_button, "selected", G_CALLBACK (folder_selected), &gui->sent_folder_uri);
 	if (account->sent_folder_uri)
-		gui->sent_folder_uri = g_strdup (account->sent_folder_uri);
+		gui->sent_folder_uri = em_uri_to_camel (account->sent_folder_uri);
 	else
 		gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
@@ -2006,20 +2006,20 @@ mail_account_gui_save (MailAccountGui *gui)
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */
 	if (mail_config_get_account_by_source_url (gui->drafts_folder_uri) ||
-		!strncmp (gui->drafts_folder_uri, "file:", 5)) {
-		new->drafts_folder_uri = g_strdup (gui->drafts_folder_uri);
+		!strncmp (gui->drafts_folder_uri, "mbox:", 5)) {
+		new->drafts_folder_uri = em_uri_from_camel (gui->drafts_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		new->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+		new->drafts_folder_uri = em_uri_from_camel (default_drafts_folder_uri);
 	}
 	
 	/* Check to make sure that the Sent folder uri is "valid" before assigning it */
 	if (mail_config_get_account_by_source_url (gui->sent_folder_uri) ||
-		!strncmp (gui->sent_folder_uri, "file:", 5)) {
-		new->sent_folder_uri = g_strdup (gui->sent_folder_uri);
+		!strncmp (gui->sent_folder_uri, "mbox:", 5)) {
+		new->sent_folder_uri = em_uri_from_camel (gui->sent_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		new->sent_folder_uri = g_strdup (default_sent_folder_uri);
+		new->sent_folder_uri = em_uri_from_camel (default_sent_folder_uri);
 	}
 	
 	new->always_cc = gtk_toggle_button_get_active (gui->always_cc);
@@ -2036,7 +2036,7 @@ mail_account_gui_save (MailAccountGui *gui)
 #if defined (HAVE_NSS)
 	new->smime_sign_default = gtk_toggle_button_get_active (gui->smime_sign_default);
 	new->smime_sign_key = g_strdup (gtk_entry_get_text (gui->smime_sign_key));
-
+	
 	new->smime_encrypt_default = gtk_toggle_button_get_active (gui->smime_encrypt_default);
 	new->smime_encrypt_key = g_strdup (gtk_entry_get_text (gui->smime_encrypt_key));
 	new->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);

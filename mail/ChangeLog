@@ -1,5 +1,18 @@
 2004-01-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes for bug #53251.
+
+	* mail-account-gui.c (mail_account_gui_new): Convert the account
+	drafts/sent folder uris to camel uris.
+	(mail_account_gui_save): Convert drafts/sent camel uris into
+	mailer uris when setting them on the account. Also, don't compare
+	against file: anymore since those uris don't exist anymore.
+
+	* em-migrate.c (em_upgrade_accounts_1_4): Update the drafts/sent
+	folder uris.
+
+2004-01-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-tree.c (tree_drag_begin): Set priv->drag_row.
 
 2004-01-26 Aaron Weber <aaron@ximian.com>
