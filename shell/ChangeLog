@@ -1,3 +1,7 @@
+2001-08-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (etree_icon_at): Remove debugging message.
+
 2001-08-15  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view-menu.c (command_help): Don't hardcode/build a help
@@ -42,6 +46,7 @@
 	* e-corba-storage.c (impl_StorageListener_notifyFolderCreated):
 	Pass the passed-in unread_count to e_storage_new_folder.
 
+>>>>>>> 1.617
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gray-bar.c (impl_style_set): Chain to the parent class.
