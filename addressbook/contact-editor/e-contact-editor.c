@@ -261,7 +261,7 @@ style_makes_sense(const ECardName *name, char *company, int style)
 			return FALSE;
 	case 3: /* Fall Through */
 	case 4:
-		if (company && *company && ((name->given && *name->given) || (name->family && *name->family)))
+		if (company && *company && name && ((name->given && *name->given) || (name->family && *name->family)))
 			return TRUE;
 		else
 			return FALSE;
@@ -279,19 +279,23 @@ name_to_style(const ECardName *name, char *company, int style)
 	switch (style) {
 	case 0:
 		stringptr = strings;
-		if (name->family && *name->family)
-			*(stringptr++) = name->family;
-		if (name->given && *name->given)
-			*(stringptr++) = name->given;
+		if (name) {
+			if (name->family && *name->family)
+				*(stringptr++) = name->family;
+			if (name->given && *name->given)
+				*(stringptr++) = name->given;
+		}
 		*stringptr = NULL;
 		string = g_strjoinv(", ", strings);
 		break;
 	case 1:
 		stringptr = strings;
-		if (name->given && *name->given)
-			*(stringptr++) = name->given;
-		if (name->family && *name->family)
-			*(stringptr++) = name->family;
+		if (name) {
+			if (name->given && *name->given)
+				*(stringptr++) = name->given;
+			if (name->family && *name->family)
+				*(stringptr++) = name->family;
+		}
 		*stringptr = NULL;
 		string = g_strjoinv(" ", strings);
 		break;
@@ -301,10 +305,12 @@ name_to_style(const ECardName *name, char *company, int style)
 	case 3: /* Fall Through */
 	case 4:
 		stringptr = strings;
-		if (name->family && *name->family)
-			*(stringptr++) = name->family;
-		if (name->given && *name->given)
-			*(stringptr++) = name->given;
+		if (name) {
+			if (name->family && *name->family)
+				*(stringptr++) = name->family;
+			if (name->given && *name->given)
+				*(stringptr++) = name->given;
+		}
 		*stringptr = NULL;
 		substring = g_strjoinv(", ", strings);
 		if (!(company && *company))
@@ -330,8 +336,6 @@ file_as_get_style (EContactEditor *editor)
 	ECardName *name = editor->name;
 	int i;
 	int style;
-
-	if (!name) return 0;
 
 	filestring = e_utf8_gtk_entry_get_text(file_as);
 
@@ -1015,7 +1019,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->email_list = NULL;
 	e_contact_editor->phone_list = NULL;
 	e_contact_editor->address_list = NULL;
-	e_contact_editor->name = NULL;
+	e_contact_editor->name = e_card_name_new();
 	e_contact_editor->company = g_strdup("");
 	
 	e_contact_editor->email_choice = 0;
@@ -1118,6 +1122,9 @@ e_contact_editor_destroy (GtkObject *object) {
 	
 	if (e_contact_editor->simple)
 		gtk_object_unref(GTK_OBJECT(e_contact_editor->simple));
+
+	if (e_contact_editor->name)
+		e_card_name_free(e_contact_editor->name);
 
 	g_free (e_contact_editor->company);
 
