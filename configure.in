@@ -645,7 +645,8 @@ else
 	AC_MSG_RESULT(no)
 fi
 
-AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of Mozilla nss3 includes.])
+AC_ARG_WITH(nss-includes, [  --with-nss-includes=PREFIX     Location of Mozilla nss3 includes.],
+	with_nss_includes="$withval", with_nss_includes="no")
 have_nss_includes="no"
 if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 	AC_MSG_CHECKING(for Mozilla nss3 includes in $with_nss_includes)
@@ -667,7 +668,8 @@ else
 	AC_MSG_RESULT(no)
 fi
 
-AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX     	Location of Mozilla nss3 libs/includes.])
+AC_ARG_WITH(nss-libs, [  --with-nss-libs=PREFIX     	Location of Mozilla nss3 libs/includes.],
+	with_nss_libs="$withval", with_nss_libs="no")
 msg_nss="no"
 if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
