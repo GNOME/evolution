@@ -1,5 +1,16 @@
 2003-03-25  Dan Winship  <danw@ximian.com>
 
+	* mail-account-editor.c: Update for e_notice move
+	(apply_changes): Pass a parent_window to e_notice
+
+	* mail-account-gui.c: Update for e_notice move.
+	(mail_account_gui_save): Pass a parent_window to e_notice
+
+	* mail-callbacks.c: Update for e_notice move
+	* mail-local.c: Likewise
+	* mail-signature-editor.c: Likewise
+	* mail-vfolder.c: Likewise
+
 	* component-factory.c (interactive_cb): Update prototype
 
 2003-03-25  Not Zed  <NotZed@Ximian.com>

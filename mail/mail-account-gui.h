@@ -58,7 +58,6 @@ typedef struct {
 } MailAccountGuiService;
 
 typedef struct {
-	GtkWidget *top;
 	EAccount *account;
 	MailAccountsTab *dialog;
 	GladeXML *xml;

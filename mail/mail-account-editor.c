@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <camel/camel-url.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <e-util/e-dialog-utils.h>
 
 #include "mail-account-editor.h"
 #include "mail-session.h"
@@ -99,7 +99,7 @@ apply_changes (MailAccountEditor *editor)
 	if (page != -1) {
 		gtk_notebook_set_current_page (editor->notebook, page);
 		gtk_widget_grab_focus (incomplete);
-		e_notice (NULL, GTK_MESSAGE_ERROR, _("You have not filled in all of the required information."));
+		e_notice (editor, GTK_MESSAGE_ERROR, _("You have not filled in all of the required information."));
 		return FALSE;
 	}
 	

@@ -34,8 +34,7 @@
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-account-list.h>
-
-#include <gal/widgets/e-gui-utils.h>
+#include <e-util/e-dialog-utils.h>
 
 #include "evolution-folder-selector-button.h"
 #include "mail-account-gui.h"
@@ -1878,7 +1877,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	account = mail_config_get_account_by_name (new_name);
 	
 	if (account && account != new) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, _("You may not create two accounts with the same name."));
+		e_notice (gui->account_name, GTK_MESSAGE_ERROR, _("You may not create two accounts with the same name."));
 		return FALSE;
 	}
 	

@@ -41,7 +41,7 @@
 #include "mail-ops.h"
 #include "mail-mt.h"
 
-#include "gal/widgets/e-gui-utils.h"
+#include "e-util/e-dialog-utils.h"
 
 #include "camel/camel.h"
 #include "camel/camel-vee-folder.h"

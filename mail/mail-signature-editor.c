@@ -31,7 +31,7 @@
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
 
-#include <gal/widgets/e-gui-utils.h>
+#include <e-util/e-dialog-utils.h>
 
 #include "e-msg-composer.h"
 #include "mail-signature-editor.h"

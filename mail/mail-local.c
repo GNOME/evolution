@@ -37,7 +37,7 @@
 #include <glade/glade.h>
 
 #include "e-util/e-path.h"
-#include <gal/widgets/e-gui-utils.h>
+#include "e-util/e-dialog-utils.h"
 #include <gal/util/e-xml-utils.h>
 
 #include "Evolution.h"

@@ -45,7 +45,6 @@
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>
 #include <gal/e-table/e-table.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <filter/filter-editor.h>
 
