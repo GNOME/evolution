@@ -267,7 +267,7 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 	};
 	CamelMimePart *part;
 	MailMimeHandler *handler;
-	int mask;
+	int mask = 0;
 
 	if (event->button != 3)
 		return FALSE;
@@ -398,8 +398,8 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		 * destruction path that we have to balance out to
 		 * prevent problems.
 		 */
-		bonobo_object_ref (bonobo_widget_get_client_site (
-			BONOBO_WIDGET (embedded)));
+		bonobo_object_ref (BONOBO_OBJECT(bonobo_widget_get_client_site (
+			BONOBO_WIDGET (embedded))));
 	} else
 		embedded = bonobo_widget_new_control (component->iid, NULL);
 	CORBA_free (component);
@@ -550,7 +550,7 @@ static void
 redisplay (MailDisplay *md, gboolean unscroll)
 {
 	GtkAdjustment *adj;
-	gfloat oldv;
+	gfloat oldv = 0;
 
 	if (!unscroll) {
 		adj = e_scroll_frame_get_vadjustment (md->scroll);
