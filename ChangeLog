@@ -1,3 +1,7 @@
+2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Upped the required version of gal in evolution.
+
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* art/Makefile.am (images_DATA): Add the missing .xpm files.
