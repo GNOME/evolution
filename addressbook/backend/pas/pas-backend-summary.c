@@ -27,6 +27,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include <netinet/in.h>
 
@@ -525,7 +526,7 @@ save_string (const char *str, FILE *fp)
 {
 	int rv;
 
-	if (!str)
+	if (!str || !*str)
 		return TRUE;
 
 	rv = fwrite (str, strlen (str), 1, fp);
@@ -624,7 +625,7 @@ pas_backend_summary_save (PASBackendSummary *summary)
 	for (i = 0; i < summary->priv->items->len; i ++) {
 		PASBackendSummaryItem *item = g_ptr_array_index (summary->priv->items, i);
 		if (!pas_backend_summary_save_item (summary, fp, item)) {
-			g_warning ("failed to write an item to new summary file");
+			g_warning ("failed to write an item to new summary file, errno = %d", errno);
 			goto lose;
 		}
 	}

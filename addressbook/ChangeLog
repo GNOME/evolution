@@ -1,3 +1,9 @@
+2002-07-27  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-summary.c (save_string): don't save
+	empty strings.
+	(pas_backend_summary_save): print out the errno when we fail.
+
 2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c: Don't set up the ContactNew and
