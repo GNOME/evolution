@@ -92,6 +92,11 @@ static int             construct_from_parser           (CamelMimePart *, CamelMi
 /* forward references */
 static void set_disposition (CamelMimePart *mime_part, const gchar *disposition);
 
+/* format output of headers */
+static int write_references(CamelStream *stream, struct _header_raw *h);
+static int write_fold(CamelStream *stream, struct _header_raw *h);
+static int write_raw(CamelStream *stream, struct _header_raw *h);
+
 
 /* loads in a hash table the set of header names we */
 /* recognize and associate them with a unique enum  */
@@ -109,14 +114,16 @@ init_header_name_table()
 	g_hash_table_insert (header_name_table, "Content-Type", (gpointer)HEADER_CONTENT_TYPE);
 
 	header_formatted_table = g_hash_table_new(g_strcase_hash, g_strcase_equal);
-	g_hash_table_insert(header_formatted_table, "Content-Type", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Content-Disposition", (void *)1);
-	g_hash_table_insert(header_formatted_table, "To", (void *)1);
-	g_hash_table_insert(header_formatted_table, "From", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Reply-To", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Cc", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Bcc", (void *)1);
-	g_hash_table_insert(header_formatted_table, "Message-ID", (void *)1);
+	g_hash_table_insert(header_formatted_table, "Content-Type", write_raw);
+	g_hash_table_insert(header_formatted_table, "Content-Disposition", write_raw);
+	g_hash_table_insert(header_formatted_table, "To", write_raw);
+	g_hash_table_insert(header_formatted_table, "From", write_raw);
+	g_hash_table_insert(header_formatted_table, "Reply-To", write_raw);
+	g_hash_table_insert(header_formatted_table, "Cc", write_raw);
+	g_hash_table_insert(header_formatted_table, "Bcc", write_raw);
+	g_hash_table_insert(header_formatted_table, "Message-ID", write_raw);
+	g_hash_table_insert(header_formatted_table, "In-Reply-To", write_raw);
+	g_hash_table_insert(header_formatted_table, "References", write_references);
 }
 
 static void
@@ -547,6 +554,72 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 /**********************************************************************/
 
 static int
+write_references(CamelStream *stream, struct _header_raw *h)
+{
+	int len, out, total;
+	char *v, *ids, *ide;
+
+	/* this is only approximate, based on the next >, this way it retains any content
+	   from the original which may not be properly formatted, etc.  It also doesn't handle
+	   the case where an individual messageid is too long, however thats a bad mail to
+	   start with ... */
+
+	v = h->value;
+	len = strlen(h->name)+1;
+	total = camel_stream_printf(stream, "%s%s", h->name, isspace(v[0])?":":": ");
+	if (total == -1)
+		return -1;
+	while (*v) {
+		ids = v;
+		ide = strchr(ids+1, '>');
+		if (ide)
+			v = ++ide;
+		else
+			ide = v = strlen(ids)+ids;
+
+		if (len>0 && len + (ide - ids) >= CAMEL_FOLD_SIZE) {
+			out = camel_stream_printf(stream, "\n\t");
+			if (out == -1)
+				return -1;
+			total += out;
+			len = 0;
+		}
+		out = camel_stream_write(stream, ids, ide-ids);
+		if (out == -1)
+			return -1;
+		len += out;
+		total += out;
+	}
+	camel_stream_write(stream, "\n", 1);
+
+	return total;
+}
+
+#if 0
+/* not needed - yet - handled by default case */
+static int
+write_fold(CamelStream *stream, struct _header_raw *h)
+{
+	char *val;
+	int count;
+
+	val = header_fold(h->value, strlen(h->name));
+	count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
+	g_free(val);
+
+	return count;
+}
+#endif
+
+static int
+write_raw(CamelStream *stream, struct _header_raw *h)
+{
+	char *val = h->value;
+
+	return camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
+}
+
+static int
 write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART(data_wrapper);
@@ -567,6 +640,7 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
 		char *val;
+		int (*writefn)(CamelStream *stream, struct _header_raw *);
 		
 		/* fold/write the headers.   But dont fold headers that are already formatted
 		   (e.g. ones with parameter-lists, that we know about, and have created) */
@@ -575,12 +649,12 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			if (val == NULL) {
 				g_warning("h->value is NULL here for %s", h->name);
 				count = 0;
-			} else if (g_hash_table_lookup(header_formatted_table, h->name) == NULL) {
+			} else if ((writefn = g_hash_table_lookup(header_formatted_table, h->name)) == NULL) {
 				val = header_fold(val, strlen(h->name));
 				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
 				g_free(val);
 			} else {
-				count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(val[0]) ? ":" : ": ", val);
+				count = writefn(stream, h);
 			}
 			if (count == -1)
 				return -1;

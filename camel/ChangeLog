@@ -1,3 +1,21 @@
+2002-02-27  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part.c (init_header_name_table): Changed header
+	formatted table to contain a pointer to an output function, and
+	added in-reply-to and references headers.
+	(write_references): New function to write out references header,
+	folded properly.  It only approximates based on the last >, but it
+	should be adequate and will also handle invalid headers.
+	(write_fold): Function to write out headers folded.  Since this is
+	the default it isn't required.
+	(write_raw): Write out an already formatted header, e.g. most of
+	the rest.
+	(write_to_stream): Lookup header output function, if we have one,
+	use that, otherwise fold header using basic (dumb) function.
+
+	This is all for #14779.  A better fix is probably do have the
+	headers always stored formatted, but that can wait.
+
 2002-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-digest-folder.c (camel_digest_folder_new): Allow all
