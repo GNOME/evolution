@@ -1,3 +1,20 @@
+2000-04-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* addressbook/backend/ebook/e-card-cursor.h: #include
+	"addressbook/backend/ebook" to make sure we pick up the right
+	addressbook.h.  Butt ugly, but at least it makes it possible for
+	me to build Evolution.
+
+	* addressbook/gui/minicard/Makefile.am (INCLUDES): Use
+	`$(builddir)' so that we pick up the IDL-generated includes
+	correctly.
+	* addressbook/backend/pas/Makefile.am: Likewise.  Also use
+	`$(srcdir)'.
+
+	* addressbook/backend/ebook/Makefile.am: Use `$(srcdir)' so that
+	it works with builddir != srcdir.
+	* addressbook/backend/pas/Makefile.am: Likewise.
+
 2000-04-14  Chris Toshok  <toshok@helixcode.com>
 
 	* addressbook/backend/pas/pas-backend-ldap.c

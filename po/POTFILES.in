@@ -4,7 +4,6 @@ composer/e-msg-composer-attachment.c
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
 e-util/e-setup.c
-libversit/vcc.c
 libversit/vobject.c
 mail/folder-browser-factory.c
 mail/folder-browser.c

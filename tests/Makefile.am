@@ -55,3 +55,5 @@ noinst_PROGRAMS =  	\
 	test11		\
 	test-movemail	\
 	$(THREAD_RELATED_TESTS)
+
+#	test-formatter	

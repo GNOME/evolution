@@ -1,6 +1,7 @@
 INCLUDES =					\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
 	-I$(top_srcdir)/addressbook/contact-editor	\
+	-I$(top_builddir)/addressbook/backend/ebook	\
 	-I$(top_srcdir)/widgets/e-text		\
 	-I$(top_srcdir)/e-util			\
 	$(GNOME_INCLUDEDIR)

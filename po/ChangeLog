@@ -1,3 +1,8 @@
+2000-04-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* POTFILES.in: Removed `libversit/vcc.c' as its auto-generated and
+	breaks.
+
 2000-04-12  Pablo Saratxaga <pablo@mandrakesoft.com>
 
 	* da.po: Updated Danish file

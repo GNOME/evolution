@@ -9,20 +9,20 @@ CORBA_SOURCE =						\
 	addressbook-skels.c
 
 idls =							\
-	../idl/addressbook.idl
+	$(srcdir)/../idl/addressbook.idl
 
 idl_flags = `$(GNOME_CONFIG) --cflags idl`
 
 $(CORBA_SOURCE): $(idls)
-	$(ORBIT_IDL) ../idl/addressbook.idl $(idl_flags)
+	$(ORBIT_IDL) $(srcdir)/../idl/addressbook.idl $(idl_flags)
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
 	-DG_LOG_DOMAIN=\"EBook\"			\
+	-I$(builddir)					\
 	-I$(srcdir) -I$(top_srcdir) 			\
-	-I. 						\
-	-I.. 						\
-	-I$(top_builddir)				\
+	-I$(srcdir)/.					\
+	-I$(srcdir)/..					\
         -I$(includedir)                                 \
         $(GNOME_INCLUDEDIR)
 

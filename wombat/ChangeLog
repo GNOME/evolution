@@ -1,3 +1,10 @@
+2000-04-15  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (INCLUDES): Added
+	`-I$(top_builddir)/addressbook/backend/pas', and
+	`-I$(top_builddir)/calendar/pcs' because that's where the
+	IDL-generated files go.
+
 2000-04-14  Chris Toshok  <toshok@helixcode.com>
 
 	* Makefile.am (wombat_LDADD): use BONOBO_VFS_GNOME_LIBS instead of

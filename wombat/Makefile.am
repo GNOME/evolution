@@ -4,7 +4,9 @@ INCLUDES =						\
 	-I$(top_srcdir)/e-util				\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend/pas		\
+	-I$(top_builddir)/addressbook/backend/pas	\
 	-I$(top_srcdir)/calendar/pcs			\
+	-I$(top_builddir)/calendar/pcs			\
 	-I$(top_srcdir)/calendar/cal-util		\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
