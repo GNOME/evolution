@@ -40,10 +40,6 @@
 #include "camel-imap-private.h"
 #include <camel/camel-exception.h>
 
-#define d(x) x
-
-extern int camel_verbose_debug;
-
 static gboolean imap_command_start (CamelImapStore *store, CamelFolder *folder,
 				    const char *cmd, CamelException *ex);
 CamelImapResponse *imap_read_response (CamelImapStore *store,
@@ -174,8 +170,6 @@ static gboolean
 imap_command_start (CamelImapStore *store, CamelFolder *folder,
 		    const char *cmd, CamelException *ex)
 {
-	ssize_t nwritten;
-	
 	/* Check for current folder */
 	if (folder && folder != store->current_folder) {
 		CamelImapResponse *response;
@@ -194,39 +188,10 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
 	}
 	
 	/* Send the command */
-#if d(!)0
-	if (camel_verbose_debug) {
-		const char *mask;
-		
-		if (!strncmp ("LOGIN \"", cmd, 7))
-			mask = "LOGIN \"xxx\" xxx";
-		else if (!strncmp ("LOGIN {", cmd, 7))
-			mask = "LOGIN {N+}\r\nxxx {N+}\r\nxxx";
-		else if (!strncmp ("LOGIN ", cmd, 6))
-			mask = "LOGIN xxx xxx";
-		else
-			mask = cmd;
-		
-		fprintf (stderr, "sending : %c%.5d %s\r\n", store->tag_prefix, store->command, mask);
-	}
-#endif
-	
-	nwritten = camel_stream_printf (store->ostream, "%c%.5d %s\r\n",
-					store->tag_prefix, store->command++, cmd);
-	
-	if (nwritten == -1) {
-		if (errno == EINTR)
-			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-					     _("Operation cancelled"));
-		else
-			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					     g_strerror (errno));
-		
-		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
-		return FALSE;
-	}
-	
-	return TRUE;
+	return camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex,
+					       "%c%.5d %s\r\n",
+					       store->tag_prefix,
+					       store->command++, cmd) != -1;
 }
 
 /**
@@ -240,7 +205,7 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
  * after camel_imap_command() or camel_imap_command_response() returns
  * a continuation response.
  * 
- * This function assumes you have an exclusive lock on the imap stream.
+ * This function assumes you have an exclusive lock on the remote stream.
  *
  * Return value: as for camel_imap_command(). On failure, the store's
  * command_lock will be released.
@@ -249,11 +214,15 @@ CamelImapResponse *
 camel_imap_command_continuation (CamelImapStore *store, const char *cmd,
 				 size_t cmdlen, CamelException *ex)
 {
-	if (!camel_imap_store_connected (store, ex))
+	CamelStream *stream;
+	
+	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return NULL;
 	
-	if (camel_stream_write (store->ostream, cmd, cmdlen) == -1 ||
-	    camel_stream_write (store->ostream, "\r\n", 2) == -1) {
+	stream = CAMEL_REMOTE_STORE (store)->ostream;
+	
+	if (camel_stream_write (stream, cmd, cmdlen) == -1 ||
+	    camel_stream_write (stream, "\r\n", 2) == -1) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Operation cancelled"));
@@ -290,32 +259,26 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	CamelImapResponseType type;
 	char *respbuf;
 	
-	if (camel_imap_store_readline (store, &respbuf, ex) < 0) {
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
+					  &respbuf, ex) < 0) {
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		return CAMEL_IMAP_RESPONSE_ERROR;
 	}
 	
 	switch (*respbuf) {
 	case '*':
-		if (!g_strncasecmp (respbuf, "* BYE", 5)) {
-			/* Connection was lost, no more data to fetch */
-			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Server unexpectedly disconnected: %s"),
-					      _("Unknown error")); /* g_strerror (104));  FIXME after 1.0 is released */
-			store->connected = FALSE;
-			g_free (respbuf);
-			respbuf = NULL;
-			type = CAMEL_IMAP_RESPONSE_ERROR;
-			break;
-		}
-		
-		/* Read the rest of the response. */
 		type = CAMEL_IMAP_RESPONSE_UNTAGGED;
+		
+		/* Read the rest of the response if it is multi-line. */
 		respbuf = imap_read_untagged (store, respbuf, ex);
 		if (!respbuf)
 			type = CAMEL_IMAP_RESPONSE_ERROR;
-		
+		else if (!g_strncasecmp (respbuf, "* BYE", 5)) {
+			/* Connection was lost, no more data to fetch */
+			store->connected = FALSE;
+			g_free (respbuf);
+			type = CAMEL_IMAP_RESPONSE_ERROR;
+		}
 		break;
 	case '+':
 		type = CAMEL_IMAP_RESPONSE_CONTINUATION;
@@ -329,7 +292,6 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	if (type == CAMEL_IMAP_RESPONSE_ERROR ||
 	    type == CAMEL_IMAP_RESPONSE_TAGGED)
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
-	
 	return type;
 }
 
@@ -432,21 +394,21 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		/* Read the literal */
 		str = g_string_sized_new (length + 2);
 		str->str[0] = '\n';
-		nread = camel_stream_read (store->istream, str->str + 1, length);
+		nread = camel_stream_read (CAMEL_REMOTE_STORE (store)->istream,
+					   str->str + 1, length);
 		if (nread == -1) {
 			if (errno == EINTR)
-				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+				camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
 			else
-				camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, g_strerror (errno));
+				camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
 			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
-			g_string_free (str, TRUE);
 			goto lose;
 		}
 		if (nread < length) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					     _("Server response ended too soon."));
-			camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
-			g_string_free (str, TRUE);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Server response ended too soon."));
+			camel_service_disconnect (CAMEL_SERVICE (store),
+						  FALSE, NULL);
 			goto lose;
 		}
 		str->str[length + 1] = '\0';
@@ -459,6 +421,10 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		 *     against any completely correct server.
 		 *   - WU-imapd 12.264 (at least) will cheerily pass
 		 *     NULs along if they are embedded in the message
+		 *   - The only cause of embedded NULs we've seen is an
+		 *     Evolution base64-encoder bug that sometimes
+		 *     inserts a NUL into the last line when it
+		 *     shouldn't.
 		 */
 		
 		s = d = str->str + 1;
@@ -491,7 +457,8 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		g_ptr_array_add (data, str);
 		
 		/* Read the next line. */
-		if (camel_imap_store_readline (store, &line, ex) < 0)
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
+						  &line, ex) < 0)
 			goto lose;
 	}
 	
@@ -614,14 +581,12 @@ camel_imap_response_extract (CamelImapStore *store,
 	int len = strlen (type), i;
 	char *resp;
 	
-	len = strlen (type);
-	
 	for (i = 0; i < response->untagged->len; i++) {
 		resp = response->untagged->pdata[i];
 		/* Skip "* ", and initial sequence number, if present */
 		strtoul (resp + 2, &resp, 10);
 		if (*resp == ' ')
-			resp = (char *) imap_next_word (resp);
+			resp = imap_next_word (resp);
 		
 		if (!g_strncasecmp (resp, type, len))
 			break;
@@ -722,17 +687,13 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 					arglen += strlen (store->namespace) + 1;
 			}
 			g_ptr_array_add (args, string);
-			if (imap_is_atom(string)) {
-				len += arglen;
-			} else {
-				if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
-					len += arglen + 15;
-				else
-					len += arglen * 2;
-			}
+			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
+				len += arglen + 15;
+			else
+				len += arglen * 2;
 			start = p + 1;
 			break;
-
+			
 		case '%':
 			start = p;
 			break;
@@ -773,28 +734,17 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 		case 'S':
 		case 'F':
 			string = args->pdata[i++];
-			if (*p == 'F') {
-				char *mailbox;
-				
-				mailbox = imap_namespace_concat (store, string);
-				string = imap_mailbox_encode (mailbox, strlen (mailbox));
-				g_free (mailbox);
-			}
-
-			if (imap_is_atom(string)) {
-				op += sprintf(op, "%s", string);
+			if (*p == 'F')
+				string = imap_namespace_concat (store, string);
+			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
+				op += sprintf (op, "{%d+}\r\n%s",
+					       strlen (string), string);
 			} else {
-				if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
-					op += sprintf (op, "{%d+}\r\n%s",
-						       strlen (string), string);
-				} else {
-					char *quoted = imap_quote_string (string);
-
-					op += sprintf (op, "%s", quoted);
-					g_free (quoted);
-				}
+				char *quoted = imap_quote_string (string);
+				
+				op += sprintf (op, "%s", quoted);
+				g_free (quoted);
 			}
-
 			if (*p == 'F')
 				g_free (string);
 			break;

@@ -1,4 +1,3 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -20,27 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-
 #ifndef _CAMEL_MIME_UTILS_H
 #define _CAMEL_MIME_UTILS_H
-
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
 
 #include <time.h>
 #include <glib.h>
 
-/* maximum recommended size of a line from header_fold() */
+/* maximum size of a line from header_fold() */
 #define CAMEL_FOLD_SIZE (77)
-/* maximum hard size of a line from header_fold() */
-#define CAMEL_FOLD_MAX_SIZE (998)
-
-#define CAMEL_UUDECODE_STATE_INIT   (0)
-#define CAMEL_UUDECODE_STATE_BEGIN  (1 << 16)
-#define CAMEL_UUDECODE_STATE_END    (1 << 17)
-#define CAMEL_UUDECODE_STATE_MASK   (CAMEL_UUDECODE_STATE_BEGIN | CAMEL_UUDECODE_STATE_END)
 
 /* a list of references for this message */
 struct _header_references {
@@ -152,8 +138,8 @@ char *header_content_encoding_decode(const char *in);
 /* raw headers */
 void header_raw_append(struct _header_raw **list, const char *name, const char *value, int offset);
 void header_raw_append_parse(struct _header_raw **list, const char *header, int offset);
-const char *header_raw_find(struct _header_raw **list, const char *name, int *offset);
-const char *header_raw_find_next(struct _header_raw **list, const char *name, int *offset, const char *last);
+const char *header_raw_find(struct _header_raw **list, const char *name, int *ofset);
+const char *header_raw_find_next(struct _header_raw **list, const char *name, int *ofset, const char *last);
 void header_raw_replace(struct _header_raw **list, const char *name, const char *value, int offset);
 void header_raw_remove(struct _header_raw **list, const char *name);
 void header_raw_fold(struct _header_raw **list);
@@ -168,8 +154,6 @@ char *header_unfold (const char *in);
 
 /* decode a header which is a simple token */
 char *header_token_decode (const char *in);
-
-int header_decode_int (const char **in);
 
 /* decode/encode a string type, like a subject line */
 char *header_decode_string (const char *in, const char *default_charset);
@@ -188,8 +172,7 @@ char *header_msgid_decode (const char *in);
 /* generate msg id */
 char *header_msgid_generate (void);
 
-/* decode a References or In-Reply-To header */
-struct _header_references *header_references_inreplyto_decode (const char *in);
+/* decode a References header */
 struct _header_references *header_references_decode(const char *in);
 void header_references_list_clear(struct _header_references **list);
 void header_references_list_append_asis(struct _header_references **list, char *ref);
@@ -208,12 +191,12 @@ size_t base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int
 size_t base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
 size_t base64_encode_close(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
 
-size_t uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save);
+size_t uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save, char *uulen);
 
 size_t uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
-		      guint32 *save);
+		      guint32 *save, char *uulen);
 size_t uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
-		       guint32 *save);
+		       guint32 *save, char *uulen);
 
 size_t quoted_decode_step(unsigned char *in, size_t len, unsigned char *out, int *savestate, int *saveme);
 
@@ -222,9 +205,5 @@ size_t quoted_encode_close(unsigned char *in, size_t len, unsigned char *out, in
 
 char *base64_encode_simple (const char *data, size_t len);
 size_t base64_decode_simple (char *data, size_t len);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
 
 #endif /* ! _CAMEL_MIME_UTILS_H */

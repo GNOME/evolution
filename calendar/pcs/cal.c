@@ -393,24 +393,12 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	CalBackendResult result;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_update_objects (priv->backend, calobj);
-	switch (result) {
-	case CAL_BACKEND_RESULT_INVALID_OBJECT :
+	if (!cal_backend_update_objects (priv->backend, calobj))
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
-		break;
-	case CAL_BACKEND_RESULT_NOT_FOUND :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		break;
-	case CAL_BACKEND_RESULT_PERMISSION_DENIED :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
-		break;
-	default :
-	}
 }
 
 /* Cal::remove_object method */
@@ -421,24 +409,12 @@ impl_Cal_remove_object (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	CalBackendResult result;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_remove_object (priv->backend, uid);
-	switch (result) {
-	case CAL_BACKEND_RESULT_INVALID_OBJECT :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
-		break;
-	case CAL_BACKEND_RESULT_NOT_FOUND :
+	if (!cal_backend_remove_object (priv->backend, uid))
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
-		break;
-	case CAL_BACKEND_RESULT_PERMISSION_DENIED :
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
-		break;
-	default :
-	}
 }
 
 /* Cal::getQuery implementation */
@@ -457,7 +433,7 @@ impl_Cal_get_query (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	query = cal_backend_get_query (priv->backend, ql, sexp);
+	query = query_new (priv->backend, ql, sexp);
 	if (!query) {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate);
 		return CORBA_OBJECT_NIL;

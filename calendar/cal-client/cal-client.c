@@ -408,10 +408,6 @@ cal_opened_cb (CalListener *listener,
 		client_status = CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED;
 		goto error;
 
-	case GNOME_Evolution_Calendar_Listener_PERMISSION_DENIED :
-		client_status = CAL_CLIENT_OPEN_PERMISSION_DENIED;
-		goto error;
-
 	default:
 		g_assert_not_reached ();
 	}
@@ -800,7 +796,7 @@ static char *
 get_default_uri (gboolean tasks)
 {
 	Bonobo_ConfigDatabase db;
-	char *uri;
+	char *uri, *fall_back = NULL;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -812,19 +808,19 @@ get_default_uri (gboolean tasks)
 		return NULL;
  	}
 
+	CORBA_exception_free (&ev);
+
+	fall_back = get_fall_back_uri (tasks);
 	if (tasks)
-		uri = bonobo_config_get_string (db, "/DefaultFolders/tasks_uri", &ev);
+		uri = bonobo_config_get_string_with_default (db, "/Calendar/DefaultTasksUri", 
+							     fall_back, NULL);
 	else
-		uri = bonobo_config_get_string (db, "/DefaultFolders/calendar_uri", &ev);
+		uri = bonobo_config_get_string_with_default (db, "/Calendar/DefaultUri",
+							     fall_back, NULL);
+	g_free (fall_back);
+	
 	bonobo_object_release_unref (db, NULL);
 
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		uri = get_fall_back_uri (tasks);
-	} else {
-		uri = cal_util_expand_uri (uri, tasks);
-	}
-	
 	return uri;
 }
 
@@ -2244,6 +2240,7 @@ cal_client_get_component_as_string (CalClient *client,
 							    TRUE);
 }
 
+
 /**
  * cal_client_update_object:
  * @client: A calendar client.
@@ -2254,49 +2251,47 @@ cal_client_get_component_as_string (CalClient *client,
  * assume that the object is actually in the server's storage until it has
  * received the "obj_updated" notification signal.
  *
- * Return value: a #CalClientResult value indicating the result of the
- * operation.
+ * Return value: TRUE on success, FALSE on specifying an invalid component.
  **/
-CalClientResult
+gboolean
 cal_client_update_object (CalClient *client, CalComponent *comp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	CalClientResult retval;
+	gboolean retval;
 	char *obj_string;
 
-	g_return_val_if_fail (client != NULL, CAL_CLIENT_RESULT_INVALID_OBJECT);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
 
-	g_return_val_if_fail (comp != NULL, CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (comp != NULL, FALSE);
+
+	retval = FALSE;
 
 	cal_component_commit_sequence (comp);
 
 	obj_string = cal_client_get_component_as_string_internal (client,
 								  comp, FALSE);
 	if (obj_string == NULL)
-		return CAL_CLIENT_RESULT_INVALID_OBJECT;
+		return FALSE;
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
 	g_free (obj_string);
 	
 	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
-		retval = CAL_CLIENT_RESULT_INVALID_OBJECT;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
-		retval = CAL_CLIENT_RESULT_NOT_FOUND;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied))
-		retval = CAL_CLIENT_RESULT_PERMISSION_DENIED;
+	    goto out;
 	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_update_object(): could not update the object");
-		retval = CAL_CLIENT_RESULT_CORBA_ERROR;
+		goto out;
 	}
-	else
-		retval = CAL_CLIENT_RESULT_SUCCESS;
 
+	retval = TRUE;
+
+ out:
 	CORBA_exception_free (&ev);
 	return retval;
 }
@@ -2316,25 +2311,26 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
  * server's storage until it has received the "obj_updated" notification
  * signal.
  *
- * Return value: a #CalClientResult value indicating the result of the
- * operation.
+ * Return value: TRUE on success, FALSE on specifying an invalid component.
  **/
-CalClientResult
+gboolean
 cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	CalClientResult retval;
+	gboolean retval;
 	char *obj_string;
 
-	g_return_val_if_fail (client != NULL, CAL_CLIENT_RESULT_INVALID_OBJECT);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
 	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED,
-			      CAL_CLIENT_RESULT_INVALID_OBJECT);
+			      FALSE);
 
-	g_return_val_if_fail (icalcomp != NULL, CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	retval = FALSE;
 
 	/* Libical owns this memory, using one of its temporary buffers. */
 	obj_string = icalcomponent_as_ical_string (icalcomp);
@@ -2343,20 +2339,18 @@ cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
 	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
 
 	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
-		retval = CAL_CLIENT_RESULT_INVALID_OBJECT;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
-		retval = CAL_CLIENT_RESULT_NOT_FOUND;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied))
-		retval = CAL_CLIENT_RESULT_PERMISSION_DENIED;
+		goto out;
 	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_update_objects(): could not update the objects");
-		retval = CAL_CLIENT_RESULT_CORBA_ERROR;
+		goto out;
 	}
-	else
-		retval = CAL_CLIENT_RESULT_SUCCESS;
 
+	retval = TRUE;
+
+ out:
 	CORBA_exception_free (&ev);
 	return retval;
+
 }
 
 
@@ -2369,40 +2363,41 @@ cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
  * component, all clients will be notified and they will emit the "obj_removed"
  * signal.
  * 
- * Return value: a #CalClientResult value indicating the result of the
- * operation.
+ * Return value: TRUE on success, FALSE on specifying a UID for a component that
+ * is not in the server.  Returning FALSE is normal; the object may have
+ * disappeared from the server before the client has had a chance to receive the
+ * corresponding notification.
  **/
-CalClientResult
+gboolean
 cal_client_remove_object (CalClient *client, const char *uid)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	CalClientResult retval;
+	gboolean retval;
 
-	g_return_val_if_fail (client != NULL, CAL_CLIENT_RESULT_INVALID_OBJECT);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
 
-	g_return_val_if_fail (uid != NULL, CAL_CLIENT_RESULT_NOT_FOUND);
+	g_return_val_if_fail (uid != NULL, FALSE);
+
+	retval = FALSE;
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_removeObject (priv->cal, (char *) uid, &ev);
 
-	if (BONOBO_USER_EX (&ev,  ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
-		retval = CAL_CLIENT_RESULT_INVALID_OBJECT;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
-		retval = CAL_CLIENT_RESULT_NOT_FOUND;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied))
-		retval = CAL_CLIENT_RESULT_PERMISSION_DENIED;
+	if (BONOBO_USER_EX (&ev,  ex_GNOME_Evolution_Calendar_Cal_NotFound))
+		goto out;
 	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_remove_object(): could not remove the object");
-		retval = CAL_CLIENT_RESULT_CORBA_ERROR;
+		goto out;
 	}
-	else
-		retval = CAL_CLIENT_RESULT_SUCCESS;
 
+	retval = TRUE;
+
+ out:
 	CORBA_exception_free (&ev);
 	return retval;
 }

@@ -322,8 +322,11 @@ e_shell_command_copy_folder (EShell *shell,
 				   get_folder_name (shell, folder_path));
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
-	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Copy folder"),
-								       caption, uri, NULL);
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
+								       _("Copy folder"),
+								       caption,
+								       uri,
+								       NULL, NULL);
 
 	g_free (caption);
 	g_free (uri);
@@ -366,8 +369,11 @@ e_shell_command_move_folder (EShell *shell,
 				   get_folder_name (shell, folder_path));
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, folder_path, NULL);
-	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, _("Move folder"),
-								       caption, uri, NULL);
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
+								       _("Move folder"),
+								       caption,
+								       uri,
+								       NULL, NULL);
 
 	g_free (caption);
 	g_free (uri);
@@ -396,30 +402,38 @@ delete_cb (EStorageSet *storage_set,
 static int
 delete_dialog (EShellView *shell_view, const char *utf8_folder)
 {
-	GtkWidget *dialog;
+	GnomeDialog *dialog;
 	char *title;
+	GtkWidget *question_label;
 	char *question;
 	char *folder_name;
 
-	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), (char *) utf8_folder);
-
+	/* Popup a dialog asking if they are sure they want to delete
+           the folder */
+	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), 
+					    (char *)utf8_folder);
 	title = g_strdup_printf (_("Delete \"%s\""), folder_name);
-	question = g_strdup_printf (_("Really delete folder \"%s\"?"), folder_name);
 
-	dialog = gnome_message_box_new (question,
-					GNOME_MESSAGE_BOX_QUESTION,
-					_("Delete"),
-					GNOME_STOCK_BUTTON_CANCEL,
-					NULL);
-	gtk_window_set_title (GTK_WINDOW (dialog), title);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (shell_view));
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-
+	dialog = GNOME_DIALOG (gnome_dialog_new (title,
+						 GNOME_STOCK_BUTTON_YES,
+						 GNOME_STOCK_BUTTON_NO,
+						 NULL));
 	g_free (title);
+	gnome_dialog_set_parent (dialog, GTK_WINDOW (shell_view));
+
+	/* "Are you sure..." label */
+	question = g_strdup_printf (_("Are you sure you want to remove the \"%s\" folder?"),
+				    folder_name);
+	question_label = gtk_label_new (question);	
+	gtk_widget_show (question_label);
+
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), question_label, FALSE, TRUE, 2);
 	g_free (folder_name);
 	g_free (question);
 
-	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	gnome_dialog_set_default (dialog, 1);
+
+	return gnome_dialog_run_and_close (dialog);
 }
 
 void
@@ -510,8 +524,7 @@ e_shell_command_rename_folder (EShell *shell,
 	EStorageSet *storage_set;
 	EFolder *folder;
 	RenameCallbackData *callback_data;
-	const char *old_name;
-	char *old_name_locale;
+	const char *old_name, *old_name_locale;
 	char *prompt;
 	char *new_name;
 	char *old_base_path;
@@ -530,7 +543,10 @@ e_shell_command_rename_folder (EShell *shell,
 	folder = e_storage_set_get_folder (storage_set, folder_path);
 	g_return_if_fail (folder != NULL);
 
-	old_name = e_folder_get_name (folder);
+	/* Note that we don't need to get the display name here, as the stock
+	   folders cannot be renamed anyway.  */
+	old_name = g_basename (folder_path);
+
 	old_name_locale = e_utf8_to_locale_string (old_name);
 	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name_locale);
 	g_free (old_name_locale);
@@ -559,8 +575,8 @@ e_shell_command_rename_folder (EShell *shell,
 		return;
 	}
 
-	old_base_path = g_dirname (folder_path);
-	new_path = g_concat_dir_and_file (old_base_path, new_name);
+	old_base_path = g_strndup (folder_path, old_name - folder_path);
+	new_path = g_strconcat (old_base_path, new_name, NULL);
 
 	callback_data = rename_callback_data_new (shell_view, new_path);
 	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, callback_data);

@@ -167,12 +167,14 @@ attributetype ( 1.3.6.1.4.1.8506.1.2.25
 	SUP name
 	SINGLE-VALUE )
 
+# deprecated - use calEntry and its attributes from RFC 2739
 attributetype ( 1.3.6.1.4.1.8506.1.2.26
 	NAME 'calendarURI'
         EQUALITY caseExactIA5Match
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
 	SINGLE-VALUE )
 
+# deprecated - use calEntry and its attributes from RFC 2739
 attributetype ( 1.3.6.1.4.1.8506.1.2.27
 	NAME 'freeBusyURI'
         EQUALITY caseExactIA5Match

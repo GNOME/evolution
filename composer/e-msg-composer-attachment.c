@@ -158,7 +158,7 @@ e_msg_composer_attachment_new (const char *file_name,
 	CamelDataWrapper *wrapper;
 	CamelStream *stream;
 	struct stat statbuf;
-	char *mime_type;
+	gchar *mime_type;
 	char *filename;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
@@ -201,7 +201,11 @@ e_msg_composer_attachment_new (const char *file_name,
 	camel_object_unref (CAMEL_OBJECT (wrapper));
 	
 	camel_mime_part_set_disposition (part, disposition);
-	filename = e_utf8_from_locale_string (g_basename (file_name));
+	if (strchr (file_name, '/'))
+		filename = e_utf8_from_locale_string (strrchr (file_name, '/') + 1);
+	else
+		filename = e_utf8_from_locale_string (file_name);
+	
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
 	
@@ -434,8 +438,8 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	
 	if (attachment != NULL) {
 		CamelContentType *content_type;
-		const char *disposition;
 		char *type;
+		const char *disposition;
 		
 		set_entry (editor_gui, "file_name_entry",
 			   camel_mime_part_get_filename (attachment->body));

@@ -9,7 +9,6 @@
 #include <liboaf/liboaf.h>
 
 #include "e-book.h"
-#include "e-book-util.h"
 
 #define TEST_VCARD                   \
 "BEGIN:VCARD

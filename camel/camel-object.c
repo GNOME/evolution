@@ -1,9 +1,11 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *
- *
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* camel-object.c: Base class for Camel */
+
+/*
  * Author:
- *  Michael Zucchi <notzed@ximian.com>
+ *  Dan Winship <danw@ximian.com>
  *
- * Copyright 2000-2002 Ximian, Inc. (www.ximian.com)
+ * Copyright 2000 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -24,11 +26,8 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
 #include <string.h>
 #include "camel-object.h"
-
-#include <e-util/e-memory.h>
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
@@ -36,12 +35,37 @@
 #endif
 
 /* I just mashed the keyboard for these... */
-#define CAMEL_OBJECT_MAGIC           	 0x77A344ED
-#define CAMEL_OBJECT_CLASS_MAGIC     	 0xEE26A997
-#define CAMEL_OBJECT_FINALISED_MAGIC       0x84AC365F
-#define CAMEL_OBJECT_CLASS_FINALISED_MAGIC 0x7621ABCD
+#define CAMEL_OBJECT_MAGIC_VALUE           0x77A344EF
+#define CAMEL_OBJECT_CLASS_MAGIC_VALUE     0xEE26A990
+#define CAMEL_OBJECT_FINALIZED_VALUE       0x84AC3656
+#define CAMEL_OBJECT_CLASS_FINALIZED_VALUE 0x7621ABCD
+
+#define DEFAULT_PREALLOCS 8
+
+#define BAST_CASTARD 1		/* Define to return NULL when casts fail */
+
+#define NULL_PREP_VALUE ((gpointer)make_global_classfuncs)	/* See camel_object_class_declare_event */
 
 /* ** Quickie type system ************************************************* */
+
+typedef struct _CamelTypeInfo
+{
+	CamelType self;
+	CamelType parent;
+	const gchar *name;
+
+	size_t instance_size;
+	GMemChunk *instance_chunk;
+	CamelObjectInitFunc instance_init;
+	CamelObjectFinalizeFunc instance_finalize;
+	GList *free_instances;
+
+	size_t classfuncs_size;
+	CamelObjectClassInitFunc class_init;
+	CamelObjectClassFinalizeFunc class_finalize;
+	CamelObjectClass *global_classfuncs;
+}
+CamelTypeInfo;
 
 /* A 'locked' hooklist, that is only allocated on demand */
 typedef struct _CamelHookList {
@@ -66,558 +90,642 @@ typedef struct _CamelHookPair
 {
 	struct _CamelHookPair *next; /* next MUST be the first member */
 
-	unsigned int id:30;
-	unsigned int flags:2;	/* removed, etc */
+	unsigned int flags;	/* removed, etc */
 
 	const char *name;	/* points to the key field in the classes preplist, static memory */
-	union {
-		CamelObjectEventHookFunc event;
-		CamelObjectEventPrepFunc prep;
-	} func;
+	CamelObjectEventHookFunc func;
 	void *data;
 } CamelHookPair;
 
-/* ********************************************************************** */
+/* ************************************************************************ */
+
+static void camel_type_lock_up (void);
+static void camel_type_lock_down (void);
+
+static void obj_init (CamelObject * obj);
+static void obj_finalize (CamelObject * obj);
+static void obj_class_init (CamelObjectClass * class);
+static void obj_class_finalize (CamelObjectClass * class);
+
+static gboolean shared_is_of_type (CamelObjectShared * sh, CamelType ctype,
+				   gboolean is_obj);
+static void make_global_classfuncs (CamelTypeInfo * type_info);
 
 static void camel_object_free_hooks(CamelObject *o);
 
-/* ********************************************************************** */
+/* ************************************************************************ */
 
-static pthread_mutex_t chunks_lock = PTHREAD_MUTEX_INITIALIZER;
+G_LOCK_DEFINE_STATIC (type_system);
+G_LOCK_DEFINE_STATIC (type_system_level);
+static GPrivate *type_system_locklevel = NULL;
 
-static EMemChunk *pair_chunks;
-static EMemChunk *hook_chunks;
-static unsigned int pair_id = 1;
+G_LOCK_DEFINE_STATIC (refcount);
 
-static EMutex *type_lock;
-
-static GHashTable *type_table;
-static EMemChunk *type_chunks;
-
-CamelType camel_object_type;
-
-#ifdef ENABLE_THREADS
-#define P_LOCK(l) (pthread_mutex_lock(&l))
-#define P_UNLOCK(l) (pthread_mutex_unlock(&l))
-#define E_LOCK(l) (e_mutex_lock(l))
-#define E_UNLOCK(l) (e_mutex_unlock(l))
-#define CLASS_LOCK(k) (g_mutex_lock((((CamelObjectClass *)k)->lock)))
-#define CLASS_UNLOCK(k) (g_mutex_unlock((((CamelObjectClass *)k)->lock)))
-#else
-#define P_LOCK(l)
-#define P_UNLOCK(l)
-#define E_LOCK(l)
-#define E_UNLOCK(l)
-#define CLASS_LOCK(k)
-#define CLASS_UNLOCK(k)
-#endif
-
-static struct _CamelHookPair *
-pair_alloc(void)
-{
-	CamelHookPair *pair;
-
-	P_LOCK(chunks_lock);
-	pair = e_memchunk_alloc(pair_chunks);
-	pair->id = pair_id++;
-	if (pair_id == 0)
-		pair_id = 1;
-	P_UNLOCK(chunks_lock);
-
-	return pair;
-}
-
-static void
-pair_free(CamelHookPair *pair)
-{
-	g_assert(pair_chunks != NULL);
-
-	P_LOCK(chunks_lock);
-	e_memchunk_free(pair_chunks, pair);
-	P_UNLOCK(chunks_lock);
-}
-
-static struct _CamelHookList *
-hooks_alloc(void)
-{
-	CamelHookList *hooks;
-
-	P_LOCK(chunks_lock);
-	hooks = e_memchunk_alloc(hook_chunks);
-	P_UNLOCK(chunks_lock);
-
-	return hooks;
-}
-
-static void
-hooks_free(CamelHookList *hooks)
-{
-	g_assert(hook_chunks != NULL);
-
-	P_LOCK(chunks_lock);
-	e_memchunk_free(hook_chunks, hooks);
-	P_UNLOCK(chunks_lock);
-}
-
-/* not checked locked, who cares, only required for people that want to redefine root objects */
-void
-camel_type_init(void)
-{
-	static int init = FALSE;
-
-	if (init)
-		return;
-
-	init = TRUE;
-	pair_chunks = e_memchunk_new(16, sizeof(CamelHookPair));
-	hook_chunks = e_memchunk_new(16, sizeof(CamelHookList));
-	type_lock = e_mutex_new(E_MUTEX_REC);
-	type_chunks = e_memchunk_new(32, sizeof(CamelType));
-	type_table = g_hash_table_new(NULL, NULL);
-}
+static gboolean type_system_initialized = FALSE;
+static GHashTable *ctype_to_typeinfo = NULL;
+static GHashTable *name_to_typeinfo = NULL;
+static const CamelType camel_object_type = 1;
+static CamelType cur_max_type = CAMEL_INVALID_TYPE;
 
 /* ************************************************************************ */
 
-/* Should this return the object to the caller? */
-static void
-cobject_init (CamelObject *o, CamelObjectClass *klass)
-{
-	o->klass = klass;
-	o->magic = CAMEL_OBJECT_MAGIC;
-	o->ref_count = 1;
-	o->flags = 0;
-}
+#define LOCK_VAL (GPOINTER_TO_INT (g_private_get (type_system_locklevel)))
+#define LOCK_SET( val ) g_private_set (type_system_locklevel, GINT_TO_POINTER (val))
 
 static void
-cobject_finalise(CamelObject *o)
+camel_type_lock_up (void)
 {
-	g_assert(o->ref_count == 0);
+	G_LOCK (type_system_level);
 
-	camel_object_free_hooks(o);
+	if (type_system_locklevel == NULL)
+		type_system_locklevel = g_private_new (GINT_TO_POINTER (0));
 
-	o->magic = CAMEL_OBJECT_FINALISED_MAGIC;
-	o->klass = NULL;
-}
-
-static int
-cobject_getv(CamelObject *o, CamelException *ex, CamelArgGetV *args)
-{
-	int i;
-	guint32 tag;
-
-	for (i=0;i<args->argc;i++) {
-		CamelArgGet *arg = &args->argv[i];
-
-		tag = arg->tag;
-
-		switch (tag & CAMEL_ARG_TAG) {
-		case CAMEL_OBJECT_ARG_DESCRIPTION:
-			*arg->ca_str = (char *)o->klass->name;
-			break;
-		}
+	if (LOCK_VAL == 0) {
+		G_UNLOCK (type_system_level);
+		G_LOCK (type_system);
+		G_LOCK (type_system_level);
 	}
 
-	/* could have flags or stuff here? */
-	return 0;
-}
+	LOCK_SET (LOCK_VAL + 1);
 
-static int
-cobject_setv(CamelObject *o, CamelException *ex, CamelArgV *args)
-{
-	/* could have flags or stuff here? */
-	return 0;
+	G_UNLOCK (type_system_level);
 }
 
 static void
-cobject_free(CamelObject *o, guint32 tag, void *value)
+camel_type_lock_down (void)
 {
-	/* do nothing */
+	G_LOCK (type_system_level);
+
+	if (type_system_locklevel == NULL) {
+		g_warning
+			("camel_type_lock_down: lock down before a lock up?");
+		type_system_locklevel = g_private_new (GINT_TO_POINTER (0));
+		G_UNLOCK (type_system_level);
+		return;
+	}
+
+	LOCK_SET (LOCK_VAL - 1);
+
+	if (LOCK_VAL == 0)
+		G_UNLOCK (type_system);
+
+	G_UNLOCK (type_system_level);
+}
+
+void
+camel_type_init (void)
+{
+	CamelTypeInfo *obj_info;
+
+	camel_type_lock_up ();
+
+	if (type_system_initialized) {
+		g_warning ("camel_type_init: type system already initialized.");
+		camel_type_lock_down ();
+		return;
+	}
+
+	type_system_initialized = TRUE;
+	ctype_to_typeinfo = g_hash_table_new (g_direct_hash, g_direct_equal);
+	name_to_typeinfo = g_hash_table_new (g_str_hash, g_str_equal);
+	
+	obj_info = g_new (CamelTypeInfo, 1);
+	obj_info->self = camel_object_type;
+	obj_info->parent = CAMEL_INVALID_TYPE;
+	obj_info->name = "CamelObject";
+
+	obj_info->instance_size = sizeof (CamelObject);
+	obj_info->instance_chunk =
+		g_mem_chunk_create (CamelObject, DEFAULT_PREALLOCS,
+				    G_ALLOC_ONLY);
+	obj_info->instance_init = obj_init;
+	obj_info->instance_finalize = obj_finalize;
+	obj_info->free_instances = NULL;
+
+	obj_info->classfuncs_size = sizeof (CamelObjectClass);
+	obj_info->class_init = obj_class_init;
+	obj_info->class_finalize = obj_class_finalize;
+
+	g_hash_table_insert (ctype_to_typeinfo,
+			     GINT_TO_POINTER (CAMEL_INVALID_TYPE), NULL);
+	g_hash_table_insert (ctype_to_typeinfo,
+			     GINT_TO_POINTER (camel_object_type), obj_info);
+	g_hash_table_insert (name_to_typeinfo, (gpointer) obj_info->name, obj_info);
+	
+	/* Sigh. Ugly */
+	make_global_classfuncs (obj_info);
+
+	cur_max_type = camel_object_type;
+
+	camel_type_lock_down ();
+}
+
+CamelType
+camel_type_register (CamelType parent, const gchar * name,
+		     size_t instance_size, size_t classfuncs_size,
+		     CamelObjectClassInitFunc class_init,
+		     CamelObjectClassFinalizeFunc class_finalize,
+		     CamelObjectInitFunc instance_init,
+		     CamelObjectFinalizeFunc instance_finalize)
+{
+	CamelTypeInfo *parent_info;
+	CamelTypeInfo *obj_info;
+	gchar *chunkname;
+
+	g_return_val_if_fail (parent != CAMEL_INVALID_TYPE,
+			      CAMEL_INVALID_TYPE);
+	g_return_val_if_fail (name, CAMEL_INVALID_TYPE);
+	g_return_val_if_fail (instance_size, CAMEL_INVALID_TYPE);
+	g_return_val_if_fail (classfuncs_size, CAMEL_INVALID_TYPE);
+
+	camel_type_lock_up ();
+
+	if (type_system_initialized == FALSE) {
+		G_UNLOCK (type_system);
+		camel_type_init ();
+		G_LOCK (type_system);
+	}
+	
+	obj_info = g_hash_table_lookup (name_to_typeinfo, name);
+	if (obj_info != NULL) {
+		/* looks like we've already registered this type... */
+		camel_type_lock_down ();
+		return obj_info->self;
+	}
+	
+	parent_info =
+		g_hash_table_lookup (ctype_to_typeinfo,
+				     GINT_TO_POINTER (parent));
+
+	if (parent_info == NULL) {
+		g_warning
+			("camel_type_register: no such parent type %d of class `%s'",
+			 parent, name);
+		camel_type_lock_down ();
+		return CAMEL_INVALID_TYPE;
+	}
+
+	if (parent_info->instance_size > instance_size) {
+		g_warning
+			("camel_type_register: instance of class `%s' would be smaller than parent `%s'",
+			 name, parent_info->name);
+		camel_type_lock_down ();
+		return CAMEL_INVALID_TYPE;
+	}
+
+	if (parent_info->classfuncs_size > classfuncs_size) {
+		g_warning
+			("camel_type_register: classfuncs of class `%s' would be smaller than parent `%s'",
+			 name, parent_info->name);
+		camel_type_lock_down ();
+		return CAMEL_INVALID_TYPE;
+	}
+
+	cur_max_type++;
+
+	obj_info = g_new (CamelTypeInfo, 1);
+	obj_info->self = cur_max_type;
+	obj_info->parent = parent;
+	obj_info->name = name;
+
+	obj_info->instance_size = instance_size;
+	chunkname =
+		g_strdup_printf ("chunk for instances of Camel type `%s'",
+				 name);
+	obj_info->instance_chunk =
+		g_mem_chunk_new (chunkname, instance_size,
+				 instance_size * DEFAULT_PREALLOCS,
+				 G_ALLOC_ONLY);
+	g_free (chunkname);
+	obj_info->instance_init = instance_init;
+	obj_info->instance_finalize = instance_finalize;
+	obj_info->free_instances = NULL;
+
+	obj_info->classfuncs_size = classfuncs_size;
+	obj_info->class_init = class_init;
+	obj_info->class_finalize = class_finalize;
+
+	g_hash_table_insert (ctype_to_typeinfo,
+			     GINT_TO_POINTER (obj_info->self), obj_info);
+	g_hash_table_insert (name_to_typeinfo, (gpointer) obj_info->name, obj_info);
+
+	/* Sigh. Ugly. */
+	make_global_classfuncs (obj_info);
+
+	camel_type_lock_down ();
+	return obj_info->self;
+}
+
+CamelObjectClass *
+camel_type_get_global_classfuncs (CamelType type)
+{
+	CamelTypeInfo *type_info;
+
+	g_return_val_if_fail (type != CAMEL_INVALID_TYPE, NULL);
+
+	camel_type_lock_up ();
+	type_info =
+		g_hash_table_lookup (ctype_to_typeinfo,
+				     GINT_TO_POINTER (type));
+	camel_type_lock_down ();
+
+	g_return_val_if_fail (type_info != NULL, NULL);
+
+	return type_info->global_classfuncs;
+}
+
+const gchar *
+camel_type_to_name (CamelType type)
+{
+	CamelTypeInfo *type_info;
+
+	g_return_val_if_fail (type != CAMEL_INVALID_TYPE,
+			      "(the invalid type)");
+
+	camel_type_lock_up ();
+	type_info =
+		g_hash_table_lookup (ctype_to_typeinfo,
+				     GINT_TO_POINTER (type));
+	camel_type_lock_down ();
+
+	g_return_val_if_fail (type_info != NULL,
+			      "(a bad type parameter was specified)");
+
+	return type_info->name;
+}
+
+/* ** The CamelObject ***************************************************** */
+
+static void
+obj_init (CamelObject * obj)
+{
+	obj->s.magic = CAMEL_OBJECT_MAGIC_VALUE;
+	obj->ref_count = 1;
+	obj->hooks = NULL;
+	obj->in_event = 0;
+	obj->destroying = 0;
 }
 
 static void
-cobject_class_init(CamelObjectClass *klass)
+obj_finalize (CamelObject * obj)
 {
-	klass->magic = CAMEL_OBJECT_CLASS_MAGIC;
+	g_return_if_fail (obj->s.magic == CAMEL_OBJECT_MAGIC_VALUE);
+	g_return_if_fail (obj->ref_count == 0);
+	g_return_if_fail (obj->in_event == 0);
 
-	klass->getv = cobject_getv;
-	klass->setv = cobject_setv;
-	klass->free = cobject_free;
+	obj->s.magic = CAMEL_OBJECT_FINALIZED_VALUE;
 
-	camel_object_class_add_event(klass, "finalize", NULL);
+	camel_object_free_hooks(obj);
 }
 
 static void
-cobject_class_finalise(CamelObjectClass * klass)
+obj_class_init (CamelObjectClass * class)
 {
-	klass->magic = CAMEL_OBJECT_CLASS_FINALISED_MAGIC;
+	class->s.magic = CAMEL_OBJECT_CLASS_MAGIC_VALUE;
 
-	g_free(klass);
+	camel_object_class_declare_event (class, "finalize", NULL);
+}
+
+static void
+obj_class_finalize (CamelObjectClass * class)
+{
+	g_return_if_fail (class->s.magic == CAMEL_OBJECT_CLASS_MAGIC_VALUE);
+
+	class->s.magic = CAMEL_OBJECT_CLASS_FINALIZED_VALUE;
+
+	if (class->event_to_preplist) {
+		/* FIXME: This leaks the preplist slist entries */
+		g_hash_table_foreach (class->event_to_preplist,
+				      (GHFunc) g_free, NULL);
+		g_hash_table_destroy (class->event_to_preplist);
+		class->event_to_preplist = NULL;
+	}
 }
 
 CamelType
 camel_object_get_type (void)
 {
-	if (camel_object_type == CAMEL_INVALID_TYPE) {
-		camel_type_init();
-
-		camel_object_type = camel_type_register(NULL, "CamelObject", /*, 0, 0*/
-							sizeof(CamelObject), sizeof(CamelObjectClass),
-							cobject_class_init, cobject_class_finalise,
-							cobject_init, cobject_finalise);
-	}
+	if (type_system_initialized == FALSE)
+		camel_type_init ();
 
 	return camel_object_type;
 }
 
-static void
-camel_type_class_init(CamelObjectClass *klass, CamelObjectClass *type)
-{
-	if (type->parent)
-		camel_type_class_init(klass, type->parent);
-
-	if (type->klass_init)
-		type->klass_init(klass);
-}
-
-CamelType
-camel_type_register (CamelType parent, const char * name,
-		     /*unsigned int ver, unsigned int rev,*/
-		     size_t object_size, size_t klass_size,
-		     CamelObjectClassInitFunc class_init,
-		     CamelObjectClassFinalizeFunc class_finalise,
-		     CamelObjectInitFunc object_init,
-		     CamelObjectFinalizeFunc object_finalise)
-{
-	CamelObjectClass *klass;
-	/*int offset;
-	  size_t size;*/
-
-	if (parent != NULL && parent->magic != CAMEL_OBJECT_CLASS_MAGIC) {
-		g_warning("camel_type_register: invalid junk parent class for '%s'", name);
-		return NULL;
-	}
-
-	E_LOCK(type_lock);
-
-	/* Have to check creation, it might've happened in another thread before we got here */
-	klass = g_hash_table_lookup(type_table, name);
-	if (klass != NULL) {
-		if (klass->klass_size != klass_size || klass->object_size != object_size
-		    || klass->klass_init != class_init || klass->klass_finalise != class_finalise
-		    || klass->init != object_init || klass->finalise != object_finalise) {
-			g_warning("camel_type_register: Trying to re-register class '%s'", name);
-			klass = NULL;
-		}
-		E_UNLOCK(type_lock);
-		return klass;
-	}
-
-	/* this is for objects with no parent as part of their struct ('interfaces'?) */
-	/*offset = parent?parent->klass_size:0;
-	offset = (offset + 3) & (~3);
-
-	size = offset + klass_size;
-
-	klass = g_malloc0(size);
-
-	klass->klass_size = size;
-	klass->klass_data = offset;
-
-	offset = parent?parent->object_size:0;
-	offset = (offset + 3) & (~3);
-
-	klass->object_size = offset + object_size;
-	klass->object_data = offset;*/
-
-	if (parent
-	    && klass_size < parent->klass_size) {
-		g_warning("camel_type_register: '%s' has smaller class size than parent '%s'", name, parent->name);
-		E_UNLOCK(type_lock);
-		return NULL;
-	}
-
-	klass = g_malloc0(klass_size);
-	klass->klass_size = klass_size;
-	klass->object_size = object_size;	
-#ifdef ENABLE_THREADS
-	klass->lock = g_mutex_new();
-#endif
-	klass->instance_chunks = e_memchunk_new(8, object_size);
-
-	klass->parent = parent;
-	if (parent) {
-		klass->next = parent->child;
-		parent->child = klass;
-	}
-	klass->name = name;
-
-	/*klass->version = ver;
-	  klass->revision = rev;*/
-
-	klass->klass_init = class_init;
-	klass->klass_finalise = class_finalise;
-
-	klass->init = object_init;
-	klass->finalise = object_finalise;
-
-	/* setup before class init, incase class init func uses the type or looks it up ? */
-	g_hash_table_insert(type_table, (void *)name, klass);
-
-	camel_type_class_init(klass, klass);
-
-	E_UNLOCK(type_lock);
-
-	return klass;
-}
-
-static void
-camel_object_init(CamelObject *o, CamelObjectClass *klass, CamelType type)
-{
-	if (type->parent)
-		camel_object_init(o, klass, type->parent);
-
-	if (type->init)
-		type->init(o, klass);
-}
-
 CamelObject *
-camel_object_new(CamelType type)
+camel_object_new (CamelType type)
 {
-	CamelObject *o;
+	CamelTypeInfo *type_info;
+	GSList *parents = NULL;
+	GSList *head = NULL;
+	CamelObject *instance;
 
-	if (type == NULL)
+	g_return_val_if_fail (type != CAMEL_INVALID_TYPE, NULL);
+
+	/* Look up the type */
+
+	camel_type_lock_up ();
+
+	type_info =
+		g_hash_table_lookup (ctype_to_typeinfo,
+				     GINT_TO_POINTER (type));
+
+	if (type_info == NULL) {
+		g_warning
+			("camel_object_new: trying to create object of invalid type %d",
+			 type);
+		camel_type_lock_down ();
 		return NULL;
+	}
 
-	if (type->magic != CAMEL_OBJECT_CLASS_MAGIC)
-		return NULL;
+	/* Grab an instance out of the freed ones if possible, alloc otherwise */
 
-	CLASS_LOCK(type);
-	o = e_memchunk_alloc0(type->instance_chunks);
+	if (type_info->free_instances) {
+		GList *first;
 
-#ifdef CAMEL_OBJECT_TRACK_INSTANCES
-	if (type->instances)
-		type->instances->prev = o;
-	o->next = type->instances;
-	o->prev = NULL;
-	type->instances = o;
+		first = g_list_first (type_info->free_instances);
+		instance = first->data;
+		type_info->free_instances =
+			g_list_remove_link (type_info->free_instances, first);
+		g_list_free_1 (first);
+		memset (instance, 0, type_info->instance_size);
+	} else {
+		instance = g_mem_chunk_alloc0 (type_info->instance_chunk);
+	}
+
+	/* Init the instance and classfuncs a bit */
+
+	instance->s.type = type;
+	instance->classfuncs = type_info->global_classfuncs;
+
+	/* Loop through the parents in simplest -> most complex order, initing the class and instance.
+
+	 * When parent = CAMEL_INVALID_TYPE and we're at the end of the line, _lookup returns NULL
+	 * because we inserted it as corresponding to CAMEL_INVALID_TYPE. Clever, eh?
+	 */
+
+	while (type_info) {
+		parents = g_slist_prepend (parents, type_info);
+		type_info =
+			g_hash_table_lookup (ctype_to_typeinfo,
+					     GINT_TO_POINTER (type_info->
+							      parent));
+	}
+
+	head = parents;
+
+	for (; parents && parents->data; parents = parents->next) {
+		CamelTypeInfo *thisinfo;
+
+		thisinfo = parents->data;
+		if (thisinfo->instance_init)
+			(thisinfo->instance_init) (instance);
+	}
+
+	g_slist_free (head);
+
+	camel_type_lock_down ();
+	return instance;
+}
+
+#ifdef camel_object_ref
+#undef camel_object_ref
 #endif
 
-	CLASS_UNLOCK(type);
-	camel_object_init(o, type, type);
+void
+camel_object_ref (CamelObject * obj)
+{
+	g_return_if_fail (CAMEL_IS_OBJECT (obj));
 
-	return o;
+	G_LOCK (refcount);
+	obj->ref_count++;
+	G_UNLOCK (refcount);
 }
 
-void
-camel_object_ref(CamelObject *o)
-{
-	CLASS_LOCK(o->klass);
-	o->ref_count++;
-	CLASS_UNLOCK(o->klass);
-}
+#ifdef camel_object_unref
+#undef camel_object_unref
+#endif
 
 void
-camel_object_unref(CamelObject *o)
+camel_object_unref (CamelObject * obj)
 {
-	register CamelObjectClass *klass = o->klass, *k;
-	
-	CLASS_LOCK(klass);
-	o->ref_count--;
-	if (o->ref_count > 0
-	    || (o->flags & CAMEL_OBJECT_DESTROY)) {
-		CLASS_UNLOCK(klass);
+	CamelTypeInfo *type_info;
+	CamelTypeInfo *iter;
+	GSList *parents = NULL;
+	GSList *head = NULL;
+
+	g_return_if_fail (CAMEL_IS_OBJECT (obj));
+
+	G_LOCK (refcount);
+	obj->ref_count--;
+
+	if (obj->ref_count > 0) {
+		G_UNLOCK (refcount);
 		return;
 	}
 
-	o->flags |= CAMEL_OBJECT_DESTROY;
+	G_UNLOCK (refcount);
 
-	CLASS_UNLOCK(klass);
+	/* If the object already had its last unref, do not begin the
+	 * destruction process again. This can happen if, for example,
+	 * the object sends an event in its finalize handler (vfolders
+	 * do this).
+	 */
 
-	camel_object_trigger_event(o, "finalize", NULL);
+	if (obj->destroying)
+		return;
+	
+	obj->destroying = 1;
 
-	k = klass;
-	while (k) {
-		if (k->finalise)
-			k->finalise(o);
-		k = k->parent;
+	/* Send the finalize event */
+
+	camel_object_trigger_event (obj, "finalize", NULL);
+
+	/* Destroy it! hahaha! */
+
+	camel_type_lock_up ();
+
+	type_info =
+		g_hash_table_lookup (ctype_to_typeinfo,
+				     GINT_TO_POINTER (obj->s.type));
+
+	if (type_info == NULL) {
+		g_warning
+			("camel_object_unref: seemingly valid object has a bad type %d",
+			 obj->s.type);
+		camel_type_lock_down ();
+		return;
 	}
 
-	o->magic = CAMEL_OBJECT_FINALISED_MAGIC;
+	/* Loop through the parents in most complex -> simplest order, finalizing the class 
+	 * and instance.
+	 *
+	 * When parent = CAMEL_INVALID_TYPE and we're at the end of the line, _lookup returns NULL
+	 * because we inserted it as corresponding to CAMEL_INVALID_TYPE. Clever, eh?
+	 *
+	 * Use iter to preserve type_info for free_{instance,classfunc}s
+	 */
 
-	CLASS_LOCK(klass);
-#ifdef CAMEL_OBJECT_TRACK_INSTANCES
-	if (o->prev)
-		o->prev->next = o->next;
-	else
-		klass->instances = o->next;
-	if (o->next)
-		o->next->prev = o->prev;
+	iter = type_info;
+
+	while (iter) {
+		parents = g_slist_prepend (parents, iter);
+		iter =
+			g_hash_table_lookup (ctype_to_typeinfo,
+					     GINT_TO_POINTER (iter->parent));
+	}
+
+	/* ok, done with the type stuff, and our data pointers
+	 * won't go bad. */
+	camel_type_lock_down ();
+
+	parents = g_slist_reverse (parents);
+	head = parents;
+
+	for (; parents && parents->data; parents = parents->next) {
+		CamelTypeInfo *thisinfo;
+
+		thisinfo = parents->data;
+		if (thisinfo->instance_finalize)
+			(thisinfo->instance_finalize) (obj);
+	}
+
+	g_slist_free (head);
+
+	/* Sanity check */
+
+	if (obj->ref_count != 0)
+		g_warning ("camel_object_unref: destroyed object %s at %p somehow got"
+			   " referenced in destruction chain.",
+			   camel_type_to_name (obj->s.type),
+			   obj);
+
+	/* A little bit of cleaning up.
+
+	 * Don't erase the type, so we can peek at it if a finalized object
+	 * is check_cast'ed somewhere.  Fill it with gunk to help detect
+	 * other invalid ref's of it.
+	 */
+
+	memset (obj, 0xEB, type_info->instance_size);
+	obj->s.type = type_info->self;
+	obj->s.magic = CAMEL_OBJECT_FINALIZED_VALUE;
+
+	/* Tuck away the pointer for use in a new object */
+
+	camel_type_lock_up ();
+
+	type_info->free_instances =
+		g_list_prepend (type_info->free_instances, obj);
+
+	camel_type_lock_down ();
+}
+
+gboolean
+camel_object_is_of_type (CamelObject * obj, CamelType ctype)
+{
+	return shared_is_of_type ((CamelObjectShared *) obj, ctype, TRUE);
+}
+
+gboolean
+camel_object_class_is_of_type (CamelObjectClass * class, CamelType ctype)
+{
+	return shared_is_of_type ((CamelObjectShared *) class, ctype, FALSE);
+}
+
+#ifdef BAST_CASTARD
+#define ERRVAL NULL
+#else
+#define ERRVAL obj
 #endif
-	e_memchunk_free(klass->instance_chunks, o);
-	CLASS_UNLOCK(klass);
-}
-
-const char *
-camel_type_to_name (CamelType type)
-{
-	if (type == NULL)
-		return "(NULL class)";
-
-	if (type->magic == CAMEL_OBJECT_CLASS_MAGIC)
-		return type->name;
-
-	return "(Junk class)";
-}
-
-CamelType camel_name_to_type(const char *name)
-{
-	/* TODO: Load a class off disk (!) */
-
-	return g_hash_table_lookup(type_table, name);
-}
-
-static char *
-desc_data(CamelObject *o, int ok)
-{
-	char *what;
-
-	if (o == NULL)
-		what = g_strdup("NULL OBJECT");
-	else if (o->magic == ok)
-		what = NULL;
-	else if (o->magic == CAMEL_OBJECT_MAGIC)
-		what = g_strdup_printf("CLASS '%s'", ((CamelObjectClass *)o)->name);
-	else if (o->magic == CAMEL_OBJECT_CLASS_MAGIC)
-		what = g_strdup_printf("CLASS '%s'", ((CamelObjectClass *)o)->name);
-	else if (o->magic == CAMEL_OBJECT_FINALISED_MAGIC)
-		what = g_strdup_printf("finalised OBJECT");
-	else if (o->magic == CAMEL_OBJECT_CLASS_FINALISED_MAGIC)
-		what = g_strdup_printf("finalised CLASS");
-	else 
-		what = g_strdup_printf("junk data");
-
-	return what;
-}
-
-static gboolean
-check_magic(void *o, CamelType ctype, int isob)
-{
-	char *what, *to;
-
-	what = desc_data(o, isob?CAMEL_OBJECT_MAGIC:CAMEL_OBJECT_CLASS_MAGIC);
-	to = desc_data((CamelObject *)ctype, CAMEL_OBJECT_CLASS_MAGIC);
-
-	if (what || to) {
-		if (what == NULL) {
-			if (isob)
-				what = g_strdup_printf("OBJECT '%s'", ((CamelObject *)o)->klass->name);
-			else
-				what = g_strdup_printf("OBJECT '%s'", ((CamelObjectClass *)o)->name);
-		}		
-		if (to == NULL)
-			to = g_strdup_printf("OBJECT '%s'", ctype->name);
-		g_warning("Trying to check %s is %s", what, to);
-		g_free(what);
-		g_free(to);
-
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-gboolean
-camel_object_is (CamelObject *o, CamelType ctype)
-{
-	CamelObjectClass *k;
-
-	g_return_val_if_fail(check_magic(o, ctype, TRUE), FALSE);
-
-	k = o->klass;
-	while (k) {
-		if (k == ctype)
-			return TRUE;
-		k = k->parent;
-	}
-
-	return FALSE;
-}
-
-gboolean
-camel_object_class_is (CamelObjectClass *k, CamelType ctype)
-{
-	g_return_val_if_fail(check_magic(k, ctype, FALSE), FALSE);
-
-	while (k) {
-		if (k == ctype)
-			return TRUE;
-		k = k->parent;
-	}
-
-	return FALSE;
-}
 
 CamelObject *
-camel_object_cast(CamelObject *o, CamelType ctype)
+camel_object_check_cast (CamelObject * obj, CamelType ctype)
 {
-	CamelObjectClass *k;
-
-	g_return_val_if_fail(check_magic(o, ctype, TRUE), NULL);
-
-	k = o->klass;
-	while (k) {
-		if (k == ctype)
-			return o;
-		k = k->parent;
-	}
-
-	g_warning("Object %p (class '%s') doesn't have '%s' in its hierarchy", o, o->klass->name, ctype->name);
-
-	return NULL;
+	if (shared_is_of_type ((CamelObjectShared *) obj, ctype, TRUE))
+		return obj;
+	return ERRVAL;
 }
 
 CamelObjectClass *
-camel_object_class_cast(CamelObjectClass *k, CamelType ctype)
+camel_object_class_check_cast (CamelObjectClass * class, CamelType ctype)
 {
-	CamelObjectClass *r = k;
-
-	g_return_val_if_fail(check_magic(k, ctype, FALSE), NULL);
-
-	while (k) {
-		if (k == ctype)
-			return r;
-		k = k->parent;
-	}
-
-	g_warning("Class '%s' doesn't have '%s' in its hierarchy", r->name, ctype->name);
-
-	return NULL;
+	if (shared_is_of_type ((CamelObjectShared *) class, ctype, FALSE))
+		return class;
+	return ERRVAL;
 }
 
-void
-camel_object_class_add_event(CamelObjectClass *klass, const char *name, CamelObjectEventPrepFunc prep)
+#undef ERRVAL
+
+gchar *
+camel_object_describe (CamelObject * obj)
 {
-	CamelHookPair *pair;
+	if (obj == NULL)
+		return g_strdup ("a NULL pointer");
 
-	g_return_if_fail (name);
-
-	pair = klass->hooks;
-	while (pair) {
-		if (strcmp(pair->name, name) == 0) {
-			g_warning("camel_object_class_add_event: `%s' is already declared for '%s'\n",
-				  name, klass->name);
-			return;
-		}
-		pair = pair->next;
+	if (obj->s.magic == CAMEL_OBJECT_MAGIC_VALUE) {
+		return g_strdup_printf ("an instance of `%s' at %p",
+					camel_type_to_name (obj->s.type),
+					obj);
+	} else if (obj->s.magic == CAMEL_OBJECT_FINALIZED_VALUE) {
+		return g_strdup_printf ("a finalized instance of `%s' at %p",
+					camel_type_to_name (obj->s.type),
+					obj);
+	} else if (obj->s.magic == CAMEL_OBJECT_CLASS_MAGIC_VALUE) {
+		return g_strdup_printf ("the classfuncs of `%s' at %p",
+					camel_type_to_name (obj->s.type),
+					obj);
+	} else if (obj->s.magic == CAMEL_OBJECT_CLASS_FINALIZED_VALUE) {
+		return
+			g_strdup_printf
+			("the finalized classfuncs of `%s' at %p",
+			 camel_type_to_name (obj->s.type), obj);
 	}
 
-	pair = pair_alloc();
-	pair->name = name;
-	pair->func.prep = prep;
-	pair->flags = 0;
+	return g_strdup ("not a CamelObject");
+}
 
-	pair->next = klass->hooks;
-	klass->hooks = pair;
+/* This is likely to be called in the class_init callback,
+ * and the type will likely be somewhat uninitialized. 
+ * Is this a problem? We'll see....
+ */
+void
+camel_object_class_declare_event (CamelObjectClass * class,
+				  const gchar * name,
+				  CamelObjectEventPrepFunc prep)
+{
+	g_return_if_fail (CAMEL_IS_OBJECT_CLASS (class));
+	g_return_if_fail (name);
+
+	if (class->event_to_preplist == NULL)
+		class->event_to_preplist =
+			g_hash_table_new (g_str_hash, g_str_equal);
+	else if (g_hash_table_lookup (class->event_to_preplist, name) != NULL) {
+		g_warning
+			("camel_object_class_declare_event: event `%s' already declared for `%s'",
+			 name, camel_type_to_name (class->s.type));
+		return;
+	}
+
+	/* AIEEEEEEEEEEEEEEEEEEEEEE
+
+	 * I feel so naughty. Since it's valid to declare an event and not
+	 * provide a hook, it should be valid to insert a NULL value into
+	 * the table. However, then our lookup in trigger_event would be
+	 * ambiguous, not telling us whether the event is undefined or whether
+	 * it merely has no hook.
+	 *
+	 * So we create an 'NULL prep' value that != NULL... specifically, it
+	 * equals the address of one of our static functions , because that
+	 * can't possibly be your hook.
+	 *
+	 * Just don't forget to check for the 'evil value' and it'll work,
+	 * I promise.
+	 */
+
+	if (prep == NULL)
+		prep = NULL_PREP_VALUE;
+
+	g_hash_table_insert (class->event_to_preplist, g_strdup (name), prep);
 }
 
 /* free hook data */
@@ -626,17 +734,18 @@ static void camel_object_free_hooks(CamelObject *o)
 	CamelHookPair *pair, *next;
 
 	if (o->hooks) {
+
 		g_assert(o->hooks->depth == 0);
 		g_assert((o->hooks->flags & CAMEL_HOOK_PAIR_REMOVED) == 0);
 
 		pair = o->hooks->list;
 		while (pair) {
 			next = pair->next;
-			pair_free(pair);
+			g_free(pair);
 			pair = next;
 		}
 		e_mutex_destroy(o->hooks->lock);
-		hooks_free(o->hooks);
+		g_free(o->hooks);
 		o->hooks = NULL;
 	}
 }
@@ -656,7 +765,7 @@ static CamelHookList *camel_object_get_hooks(CamelObject *o)
 		pthread_mutex_lock(&lock);
 #endif
 		if (o->hooks == NULL) {
-			hooks = hooks_alloc();
+			hooks = g_malloc(sizeof(*o->hooks));
 #ifdef ENABLE_THREADS
 			hooks->lock = e_mutex_new(E_MUTEX_REC);
 #endif
@@ -684,37 +793,34 @@ static CamelHookList *camel_object_get_hooks(CamelObject *o)
 #define camel_object_unget_hooks(o)
 #endif
 
-unsigned int
-camel_object_hook_event(CamelObject * obj, const char * name, CamelObjectEventHookFunc func, void *data)
+void
+camel_object_hook_event (CamelObject * obj, const char * name,
+			 CamelObjectEventHookFunc func, void *data)
 {
-	CamelHookPair *pair, *hook;
+	CamelHookPair *pair;
+	const char *prepname;
+	CamelObjectEventPrepFunc prep;
 	CamelHookList *hooks;
-	int id;
 
-	g_return_val_if_fail (CAMEL_IS_OBJECT (obj), 0);
-	g_return_val_if_fail (name != NULL, 0);
-	g_return_val_if_fail (func != NULL, 0);
+	g_return_if_fail (CAMEL_IS_OBJECT (obj));
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (func != NULL);
 
-	hook = obj->klass->hooks;
-	while (hook) {
-		if (strcmp(hook->name, name) == 0)
-			goto setup;
-		hook = hook->next;
+	/* first, does this event exist? */
+	if (obj->classfuncs->event_to_preplist == NULL
+	    || !g_hash_table_lookup_extended(obj->classfuncs->event_to_preplist, name,
+					     (void **)&prepname, (void **)&prep)) {
+		g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
+			  name, camel_type_to_name (obj->s.type));
+		return;
 	}
 
-	g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
-		  name, obj->klass->name);
-
-	return 0;
-
-setup:
 	/* setup hook pair */
-	pair = pair_alloc();
-	pair->name = hook->name;	/* effectively static! */
-	pair->func.event = func;
+	pair = g_malloc(sizeof(*pair));
+	pair->name = prepname;	/* effectively static! */
+	pair->func = func;
 	pair->data = data;
 	pair->flags = 0;
-	id = pair->id;
 
 	/* get the hook list object, locked, link in new event hook, unlock */
 	hooks = camel_object_get_hooks(obj);
@@ -722,55 +828,14 @@ setup:
 	hooks->list = pair;
 	hooks->list_length++;
 	camel_object_unget_hooks(obj);
-
-	return id;
 }
 
 void
-camel_object_remove_event(CamelObject * obj, unsigned int id)
+camel_object_unhook_event (CamelObject * obj, const char * name,
+			   CamelObjectEventHookFunc func, void *data)
 {
-	CamelHookList *hooks;
-	CamelHookPair *pair, *parent;
-
-	g_return_if_fail (CAMEL_IS_OBJECT (obj));
-	g_return_if_fail (id != 0);
-
-	if (obj->hooks == NULL) {
-		g_warning("camel_object_unhook_event: trying to unhook `%d` from an instance of `%s' with no hooks",
-			  id, obj->klass->name);
-		return;
-	}
-
-	/* scan hooks for this event, remove it, or flag it if we're busy */
-	hooks = camel_object_get_hooks(obj);
-	parent = (CamelHookPair *)&hooks->list;
-	pair = parent->next;
-	while (pair) {
-		if (pair->id == id
-		    && (pair->flags & CAMEL_HOOK_PAIR_REMOVED) == 0) {
-			if (hooks->depth > 0) {
-				pair->flags |= CAMEL_HOOK_PAIR_REMOVED;
-				hooks->flags |= CAMEL_HOOK_PAIR_REMOVED;
-			} else {
-				parent->next = pair->next;
-				pair_free(pair);
-				hooks->list_length--;
-			}
-			camel_object_unget_hooks(obj);
-			return;
-		}
-		parent = pair;
-		pair = pair->next;
-	}
-	camel_object_unget_hooks(obj);
-
-	g_warning("camel_object_unhook_event: cannot find hook id %d in instance of `%s'",
-		  id, obj->klass->name);
-}
-
-void
-camel_object_unhook_event(CamelObject * obj, const char * name, CamelObjectEventHookFunc func, void *data)
-{
+	char *prepname;
+	CamelObjectEventPrepFunc prep;
 	CamelHookList *hooks;
 	CamelHookPair *pair, *parent;
 
@@ -780,7 +845,16 @@ camel_object_unhook_event(CamelObject * obj, const char * name, CamelObjectEvent
 
 	if (obj->hooks == NULL) {
 		g_warning("camel_object_unhook_event: trying to unhook `%s` from an instance of `%s' with no hooks",
-			  name, obj->klass->name);
+			  name, camel_type_to_name(obj->s.type));
+		return;
+	}
+
+	/* get event name static pointer */
+	if (obj->classfuncs->event_to_preplist == NULL
+	    || !g_hash_table_lookup_extended(obj->classfuncs->event_to_preplist, name,
+					     (void **)&prepname, (void **)&prep)) {
+		g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
+			  name, camel_type_to_name (obj->s.type));
 		return;
 	}
 
@@ -789,16 +863,16 @@ camel_object_unhook_event(CamelObject * obj, const char * name, CamelObjectEvent
 	parent = (CamelHookPair *)&hooks->list;
 	pair = parent->next;
 	while (pair) {
-		if (pair->func.event == func
+		if (pair->name == prepname
+		    && pair->func == func
 		    && pair->data == data
-		    && strcmp(pair->name, name) == 0
 		    && (pair->flags & CAMEL_HOOK_PAIR_REMOVED) == 0) {
 			if (hooks->depth > 0) {
 				pair->flags |= CAMEL_HOOK_PAIR_REMOVED;
 				hooks->flags |= CAMEL_HOOK_PAIR_REMOVED;
 			} else {
 				parent->next = pair->next;
-				pair_free(pair);
+				g_free(pair);
 				hooks->list_length--;
 			}
 			camel_object_unget_hooks(obj);
@@ -810,35 +884,32 @@ camel_object_unhook_event(CamelObject * obj, const char * name, CamelObjectEvent
 	camel_object_unget_hooks(obj);
 
 	g_warning("camel_object_unhook_event: cannot find hook/data pair %p/%p in an instance of `%s' attached to `%s'",
-		  func, data, obj->klass->name, name);
+		  func, data, camel_type_to_name (obj->s.type), name);
 }
 
 void
 camel_object_trigger_event (CamelObject * obj, const char * name, void *event_data)
 {
-	CamelHookList *hooks;
-	CamelHookPair *pair, **pairs, *parent, *hook;
-	int i, size;
+	CamelObjectEventPrepFunc prep;
 	const char *prepname;
+	CamelHookList *hooks;
+	CamelHookPair *pair, **pairs, *parent;
+	int i, size;
 
 	g_return_if_fail (CAMEL_IS_OBJECT (obj));
 	g_return_if_fail (name);
 
-	hook = obj->klass->hooks;
-	while (hook) {
-		if (strcmp(hook->name, name) == 0)
-			goto trigger;
-		hook = hook->next;
+	/* get event name static pointer/prep func */
+	if (obj->classfuncs->event_to_preplist == NULL
+	    || !g_hash_table_lookup_extended(obj->classfuncs->event_to_preplist, name,
+					     (void **)&prepname, (void **)&prep)) {
+		g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
+			  name, camel_type_to_name (obj->s.type));
+		return;
 	}
 
-	g_warning("camel_object_trigger_event: trying to trigger unknown event `%s' in class `%s'",
-		  name, obj->klass->name);
-
-	return;
-
-trigger:
 	/* try prep function, if false, then quit */
-	if (hook->func.prep != NULL && !hook->func.prep(obj, event_data))
+	if (prep != NULL_PREP_VALUE && !prep(obj, event_data))
 		return;
 
 	/* also, no hooks, dont bother going further */
@@ -848,14 +919,13 @@ trigger:
 	/* lock the object for hook emission */
 	camel_object_ref(obj);
 	hooks = camel_object_get_hooks(obj);
-	
+
 	if (hooks->list) {
 		/* first, copy the items in the list, and say we're in an event */
 		hooks->depth++;
 		pair = hooks->list;
 		size = 0;
 		pairs = alloca(sizeof(pairs[0]) * hooks->list_length);
-		prepname = hook->name;
 		while (pair) {
 			if (pair->name == prepname)
 				pairs[size++] = pair;
@@ -866,7 +936,7 @@ trigger:
 		for (i=0;i<size;i++) {
 			pair = pairs[i];
 			if ((pair->flags & CAMEL_HOOK_PAIR_REMOVED) == 0)
-				(pair->func.event) (obj, event_data, pair->data);
+				(pair->func) (obj, event_data, pair->data);
 		}
 		hooks->depth--;
 
@@ -877,7 +947,7 @@ trigger:
 			while (pair) {
 				if (pair->flags & CAMEL_HOOK_PAIR_REMOVED) {
 					parent->next = pair->next;
-					pair_free(pair);
+					g_free(pair);
 					hooks->list_length--;
 				} else {
 					parent = pair;
@@ -892,138 +962,154 @@ trigger:
 	camel_object_unref(obj);
 }
 
-/* get/set arg methods */
-int camel_object_set(void *vo, CamelException *ex, ...)
+/* ** Static helpers ****************************************************** */
+
+static gboolean
+shared_is_of_type (CamelObjectShared * sh, CamelType ctype, gboolean is_obj)
 {
-	CamelArgV args;
-	CamelObject *o = vo;
-	CamelObjectClass *klass = o->klass;
-	int ret = 0;
+	CamelTypeInfo *type_info;
+	gchar *targtype;
 
-	g_return_val_if_fail(CAMEL_IS_OBJECT(o), -1);
+	if (is_obj)
+		targtype = "instance";
+	else
+		targtype = "classdata";
 
-	camel_argv_start(&args, ex);
+	if (ctype == CAMEL_INVALID_TYPE) {
+		g_warning
+			("shared_is_of_type: trying to cast to CAMEL_INVALID_TYPE");
+		return FALSE;
+	}
 
-	while (camel_argv_build(&args) && ret == 0)
-		ret = klass->setv(o, ex, &args);
-	if (ret == 0)
-		ret = klass->setv(o, ex, &args);
+	if (sh == NULL) {
+		g_warning
+			("shared_is_of_type: trying to cast NULL to %s of `%s'",
+			 targtype, camel_type_to_name (ctype));
+		return FALSE;
+	}
 
-	camel_argv_end(&args);
+	if (sh->magic == CAMEL_OBJECT_FINALIZED_VALUE) {
+		g_warning
+			("shared_is_of_type: trying to cast finalized instance "
+			 "of `%s' into %s of `%s'",
+			 camel_type_to_name (sh->type), targtype,
+			 camel_type_to_name (ctype));
+		return FALSE;
+	}
 
-	return ret;
-}
+	if (sh->magic == CAMEL_OBJECT_CLASS_FINALIZED_VALUE) {
+		g_warning
+			("shared_is_of_type: trying to cast finalized classdata "
+			 "of `%s' into %s of `%s'",
+			 camel_type_to_name (sh->type), targtype,
+			 camel_type_to_name (ctype));
+		return FALSE;
+	}
 
-int camel_object_setv(void *vo, CamelException *ex, CamelArgV *args)
-{
-	g_return_val_if_fail(CAMEL_IS_OBJECT(vo), -1);
+	if (is_obj) {
+		if (sh->magic == CAMEL_OBJECT_CLASS_MAGIC_VALUE) {
+			g_warning
+				("shared_is_of_type: trying to cast classdata "
+				 "of `%s' into instance of `%s'",
+				 camel_type_to_name (sh->type),
+				 camel_type_to_name (ctype));
+			return FALSE;
+		}
 
-	return ((CamelObject *)vo)->klass->setv(vo, ex, args);
-}
+		if (sh->magic != CAMEL_OBJECT_MAGIC_VALUE) {
+			g_warning
+				("shared_is_of_type: trying to cast junk data "
+				 "into instance of `%s'",
+				 camel_type_to_name (ctype));
+			return FALSE;
+		}
+	} else {
+		if (sh->magic == CAMEL_OBJECT_MAGIC_VALUE) {
+			g_warning
+				("shared_is_of_type: trying to cast instance "
+				 "of `%s' into classdata of `%s'",
+				 camel_type_to_name (sh->type),
+				 camel_type_to_name (ctype));
+			return FALSE;
+		}
 
-int camel_object_get(void *vo, CamelException *ex, ...)
-{
-	CamelObject *o = vo;
-	CamelArgGetV args;
-	CamelObjectClass *klass = o->klass;
-	int ret = 0;
+		if (sh->magic != CAMEL_OBJECT_CLASS_MAGIC_VALUE) {
+			g_warning
+				("shared_is_of_type: trying to cast junk data "
+				 "into classdata of `%s'",
+				 camel_type_to_name (ctype));
+			return FALSE;
+		}
+	}
 
-	g_return_val_if_fail(CAMEL_IS_OBJECT(o), -1);
+	camel_type_lock_up ();
 
-	camel_argv_start(&args, ex);
+	type_info =
+		g_hash_table_lookup (ctype_to_typeinfo,
+				     GINT_TO_POINTER (sh->type));
 
-	while (camel_arggetv_build(&args) && ret == 0)
-		ret = klass->getv(o, ex, &args);
-	if (ret == 0)
-		ret = klass->getv(o, ex, &args);
+	if (type_info == NULL) {
+		g_warning ("shared_is_of_type: seemingly valid %s has "
+			   "bad type %d.", targtype, sh->type);
+		camel_type_lock_down ();
+		return FALSE;
+	}
 
-	camel_argv_end(&args);
+	while (type_info) {
+		if (type_info->self == ctype) {
+			camel_type_lock_down ();
+			return TRUE;
+		}
 
-	return ret;
-}
+		type_info =
+			g_hash_table_lookup (ctype_to_typeinfo,
+					     GINT_TO_POINTER (type_info->
+							      parent));
+	}
 
-int camel_object_getv(void *vo, CamelException *ex, CamelArgGetV *args)
-{
-	g_return_val_if_fail(CAMEL_IS_OBJECT(vo), -1);
+	/* this isn't an error, e.g. CAMEL_IS_FOLDER(folder), its upto  the
+	   caller to handle the false case */
+	/*g_warning
+		("shared_is_of_type: %s of `%s' (@%p) is not also %s of `%s'",
+		 targtype, camel_type_to_name (sh->type), sh, targtype,
+		 camel_type_to_name (ctype));*/
 
-	return ((CamelObject *)vo)->klass->getv(vo, ex, args);
-}
-
-/* free an arg object, you can only free objects 1 at a time */
-void camel_object_free(void *vo, guint32 tag, void *value)
-{
-	g_return_if_fail(CAMEL_IS_OBJECT(vo));
-
-	/* We could also handle freeing of args differently
-
-	   Add a 'const' bit to the arg type field,
-	   specifying that the object should not be freed.
-	   
-	   And, add free handlers for any pointer objects which are
-	   not const.  The free handlers would be hookpairs off of the
-	   class.
-
-	   Then we handle the basic types OBJ,STR here, and pass PTR
-	   types to their appropriate handler, without having to pass
-	   through the invocation heirarchy of the free method.
-
-	   This would also let us copy and do other things with args
-	   we can't do, but i can't see a use for that yet ...  */
-
-	((CamelObject *)vo)->klass->free(vo, tag, value);
+	camel_type_lock_down ();
+	return FALSE;
 }
 
 static void
-object_class_dump_tree_rec(CamelType root, int depth)
+make_global_classfuncs (CamelTypeInfo * type_info)
 {
-	char *p;
-#ifdef CAMEL_OBJECT_TRACK_INSTANCES
-	struct _CamelObject *o;
-#endif
+	CamelObjectClass *funcs;
+	GSList *parents;
+	GSList *head;
 
-	p = alloca(depth*2+1);
-	memset(p, ' ', depth*2);
-	p[depth*2] = 0;
+	g_assert (type_info);
 
-	while (root) {
-		CLASS_LOCK(root);
-		printf("%sClass: %s\n", p, root->name);
-		/*printf("%sVersion: %u.%u\n", p, root->version, root->revision);*/
-		if (root->hooks) {
-			CamelHookPair *pair = root->hooks;
+	funcs = g_malloc0 (type_info->classfuncs_size);
+	funcs->s.type = type_info->self;
 
-			while (pair) {
-				printf("%s  event '%s' prep %p\n", p, pair->name, pair->func.prep);
-				pair = pair->next;
-			}
-		}
-#ifdef CAMEL_OBJECT_TRACK_INSTANCES
-		o = root->instances;
-		while (o) {
-			printf("%s instance %p [%d]\n", p, o, o->ref_count);
-			/* todo: should lock hooks while it scans them */
-			if (o->hooks) {
-				CamelHookPair *pair = o->hooks->list;
+	type_info->global_classfuncs = funcs;
 
-				while (pair) {
-					printf("%s  hook '%s' func %p data %p\n", p, pair->name, pair->func.event, pair->data);
-					pair = pair->next;
-				}
-			}
-			o = o->next;
-		}
-#endif
-		CLASS_UNLOCK(root);
-
-		if (root->child)
-			object_class_dump_tree_rec(root->child, depth+1);
-
-		root = root->next;
+	parents = NULL;
+	while (type_info) {
+		parents = g_slist_prepend (parents, type_info);
+		type_info =
+			g_hash_table_lookup (ctype_to_typeinfo,
+					     GINT_TO_POINTER (type_info->
+							      parent));
 	}
-}
 
-void
-camel_object_class_dump_tree(CamelType root)
-{
-	object_class_dump_tree_rec(root, 0);
+	head = parents;
+
+	for (; parents && parents->data; parents = parents->next) {
+		CamelTypeInfo *thisinfo;
+
+		thisinfo = parents->data;
+		if (thisinfo->class_init)
+			(thisinfo->class_init) (funcs);
+	}
+
+	g_slist_free (head);
 }

@@ -358,7 +358,7 @@ static gboolean
 retry_timeout_cb (gpointer data)
 {
 	RetryData *retry_data = data;
-	
+
 	if (cal_client_get_load_state (retry_data->client) != CAL_CLIENT_LOAD_LOADED) {
 		cal_client_open_calendar (retry_data->client, retry_data->str_uri, FALSE);
 	}
@@ -458,7 +458,9 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			lc->refcount = 1;
 			g_hash_table_insert (priv->uri_client_hash,
 					     g_strdup (str_uri), lc);
+
 		} else {
+			remove_uri_to_load (uri);
 			gtk_object_unref (GTK_OBJECT (client));
 			client = NULL;
 		}

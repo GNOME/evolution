@@ -24,7 +24,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <iconv.h>
 
 #include "camel-imap-utils.h"
 #include "camel-imap-summary.h"
@@ -33,247 +32,18 @@
 
 #define d(x) x
 
-const char *
+char *
 imap_next_word (const char *buf)
 {
-	const char *word;
+	char *word;
 	
 	/* skip over current word */
-	word = buf;
-	while (*word && *word != ' ')
-		word++;
+	for (word = (char *)buf; *word && *word != ' '; word++);
 	
 	/* skip over white space */
-	while (*word && *word == ' ')
-		word++;
+	for ( ; *word && *word == ' '; word++);
 	
 	return word;
-}
-
-
-static void
-imap_namespace_destroy (struct _namespace *namespace)
-{
-	struct _namespace *node, *next;
-	
-	node = namespace;
-	while (node) {
-		next = node->next;
-		g_free (node->prefix);
-		g_free (node);
-		node = next;
-	}
-}
-
-void
-imap_namespaces_destroy (struct _namespaces *namespaces)
-{
-	if (namespaces) {
-		imap_namespace_destroy (namespaces->personal);
-		imap_namespace_destroy (namespaces->other);
-		imap_namespace_destroy (namespaces->shared);
-		g_free (namespaces);
-	}
-}
-
-static gboolean
-imap_namespace_decode (const char **in, struct _namespace **namespace)
-{
-	struct _namespace *list, *tail, *node;
-	const char *inptr;
-	char *astring;
-	size_t len;
-	
-	inptr = *in;
-	
-	list = NULL;
-	tail = (struct _namespace *) &list;
-	
-	if (g_strncasecmp (inptr, "NIL", 3) != 0) {
-		if (*inptr++ != '(')
-			goto exception;
-		
-		while (*inptr && *inptr != ')') {
-			if (*inptr++ != '(')
-				goto exception;
-			
-			node = g_new (struct _namespace, 1);
-			node->next = NULL;
-			
-			/* get the namespace prefix */
-			astring = imap_parse_astring (&inptr, &len);
-			if (!astring) {
-				g_free (node);
-				goto exception;
-			}
-			
-			/* decode IMAP's modified UTF-7 into UTF-8 */
-			node->prefix = imap_mailbox_decode (astring, len);
-			g_free (astring);
-			if (!node->prefix) {
-				g_free (node);
-				goto exception;
-			}
-			
-			tail->next = node;
-			tail = node;
-			
-			/* get the namespace directory delimiter */
-			inptr = imap_next_word (inptr);
-			
-			if (!g_strncasecmp (inptr, "NIL", 3)) {
-				inptr = imap_next_word (inptr);
-				node->delim = '\0';
-			} else if (*inptr++ == '"') {
-				if (*inptr == '\\')
-					inptr++;
-				
-				node->delim = *inptr++;
-				
-				if (*inptr++ != '"')
-					goto exception;
-			} else
-				goto exception;
-			
-			if (*inptr == ' ') {
-				/* parse extra flags... for now we
-                                   don't save them, but in the future
-                                   we may want to? */
-				while (*inptr == ' ')
-					inptr++;
-				
-				while (*inptr && *inptr != ')') {
-					/* this should be a QSTRING or ATOM */
-					inptr = imap_next_word (inptr);
-					if (*inptr == '(') {
-						/* skip over the param list */
-						imap_skip_list (&inptr);
-					}
-					
-					while (*inptr == ' ')
-						inptr++;
-				}
-			}
-			
-			if (*inptr++ != ')')
-				goto exception;
-			
-			/* there shouldn't be spaces according to the
-                           ABNF grammar, but we all know how closely
-                           people follow specs */
-			while (*inptr == ' ')
-				inptr++;
-		}
-		
-		if (*inptr == ')')
-			inptr++;
-	} else {
-		inptr += 3;
-	}
-	
-	*in = inptr;
-	*namespace = list;
-	
-	return TRUE;
-	
- exception:
-	
-	/* clean up any namespaces we may have allocated */
-	imap_namespace_destroy (list);
-	
-	return FALSE;
-}
-
-static void
-namespace_dump (struct _namespace *namespace)
-{
-	struct _namespace *node;
-	
-	if (namespace) {
-		printf ("(");
-		node = namespace;
-		while (node) {
-			printf ("(\"%s\" ", node->prefix);
-			if (node->delim)
-				printf ("\"%c\")", node->delim);
-			else
-				printf ("NUL)");
-			
-			node = node->next;
-			if (node)
-				printf (" ");
-		}
-		
-		printf (")");
-	} else {
-		printf ("NIL");
-	}
-}
-
-static void
-namespaces_dump (struct _namespaces *namespaces)
-{
-	printf ("namespace dump: ");
-	namespace_dump (namespaces->personal);
-	printf (" ");
-	namespace_dump (namespaces->other);
-	printf (" ");
-	namespace_dump (namespaces->shared);
-	printf ("\n");
-}
-
-struct _namespaces *
-imap_parse_namespace_response (const char *response)
-{
-	struct _namespaces *namespaces;
-	const char *inptr;
-	
-	printf ("parsing: %s\n", response);
-	
-	if (*response != '*')
-		return NULL;
-	
-	inptr = imap_next_word (response);
-	if (g_strncasecmp (inptr, "NAMESPACE", 9) != 0)
-		return NULL;
-	
-	inptr = imap_next_word (inptr);
-	
-	namespaces = g_new (struct _namespaces, 1);
-	namespaces->personal = NULL;
-	namespaces->other = NULL;
-	namespaces->shared = NULL;
-	
-	if (!imap_namespace_decode (&inptr, &namespaces->personal))
-		goto exception;
-	
-	if (*inptr != ' ')
-		goto exception;
-	
-	while (*inptr == ' ')
-		inptr++;
-	
-	if (!imap_namespace_decode (&inptr, &namespaces->other))
-		goto exception;
-	
-	if (*inptr != ' ')
-		goto exception;
-	
-	while (*inptr == ' ')
-		inptr++;
-	
-	if (!imap_namespace_decode (&inptr, &namespaces->shared))
-		goto exception;
-	
-	namespaces_dump (namespaces);
-	
-	return namespaces;
-	
- exception:
-	
-	imap_namespaces_destroy (namespaces);
-	
-	return NULL;
 }
 
 /**
@@ -292,8 +62,8 @@ imap_parse_namespace_response (const char *response)
 gboolean
 imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, char *sep, char **folder)
 {
-	const char *word;
-	size_t len;
+	char *word;
+	int len;
 	
 	if (*buf != '*')
 		return FALSE;
@@ -346,34 +116,22 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		return FALSE;
 	
 	if (folder) {
-		char *astring, *mailbox;
-		size_t nlen;
+		char *real_name;
+		int n_len;
 		
 		/* get the folder name */
 		word = imap_next_word (word);
-		astring = imap_parse_astring (&word, &len);
-		if (!astring)
-			return FALSE;
-		
-		mailbox = imap_mailbox_decode (astring, strlen (astring));
-		g_free (astring);
-		if (!mailbox)
-			return FALSE;
-		
-		nlen = strlen (store->namespace);
-		
-		if (!strncmp (mailbox, store->namespace, nlen)) {
-			/* strip off the namespace */
-			if (nlen > 0)
-				memmove (mailbox, mailbox + nlen, (len - nlen) + 1);
-			*folder = mailbox;
-		} else if (!g_strcasecmp (mailbox, "INBOX")) {
-			*folder = mailbox;
+		real_name = imap_parse_astring (&word, &len);
+		n_len = strlen (store->namespace);
+		if (!strncmp (real_name, store->namespace, n_len))
+			*folder = g_strdup (real_name + n_len);
+		else if (!g_strcasecmp (real_name, "INBOX")) {
+			*folder = g_strdup (real_name);
 		} else {
-			g_warning ("IMAP folder name \"%s\" does not begin with \"%s\"", mailbox, store->namespace);
-			*folder = mailbox;
+			g_warning ("IMAP folder name \"%s\" does not begin with \"%s\"", real_name, store->namespace);
+			*folder = g_strdup (real_name);
 		}
-		
+		g_free (real_name);
 		return *folder != NULL;
 	}
 	
@@ -500,68 +258,22 @@ imap_parse_flag_list (char **flag_list_p)
 	return flags;
 }
 
-/*
- From rfc2060
-
-ATOM_CHAR       ::= <any CHAR except atom_specials>
-
-atom_specials   ::= "(" / ")" / "{" / SPACE / CTL / list_wildcards /
-                    quoted_specials
-
-CHAR            ::= <any 7-bit US-ASCII character except NUL,
-                     0x01 - 0x7f>
-
-CTL             ::= <any ASCII control character and DEL,
-                        0x00 - 0x1f, 0x7f>
-
-SPACE           ::= <ASCII SP, space, 0x20>
-
-list_wildcards  ::= "%" / "*"
-
-quoted_specials ::= <"> / "\"
-*/
-
-static unsigned char imap_atom_specials[256] = {
-/* 00 */0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 10 */0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* 20 */0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1,
-/* 30 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-/* 40 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-/* 50 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1,
-/* 60 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-/* 70 */1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0,
+static char imap_atom_specials[128] = {
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 
 };
-
-#define imap_is_atom_char(c) ((imap_atom_specials[(c)&0xff] & 0x01) != 0)
-
-gboolean
-imap_is_atom(const char *in)
-{
-	register unsigned char c;
-	register const char *p = in;
-
-	while ((c = (unsigned char)*p)) {
-		if (!imap_is_atom_char(c))
-			return FALSE;
-		p++;
-	}
-
-	/* check for empty string */
-	return p!=in;
-}
+#define imap_is_atom_char(ch) (isprint (ch) && !imap_atom_specials[ch])
 
 /**
  * imap_parse_string_generic:
  * @str_p: a pointer to a string
- * @len: a pointer to a size_t to return the length in
+ * @len: a pointer to an int to return the length in
  * @type: type of string (#IMAP_STRING, #IMAP_ASTRING, or #IMAP_NSTRING)
  * to parse.
  *
@@ -580,16 +292,16 @@ imap_is_atom(const char *in)
  * latter, it will point to the character after the NIL.)
  **/
 char *
-imap_parse_string_generic (const char **str_p, size_t *len, int type)
+imap_parse_string_generic (char **str_p, int *len, int type)
 {
-	const char *str = *str_p;
+	char *str = *str_p;
 	char *out;
 	
 	if (!str)
 		return NULL;
 	else if (*str == '"') {
 		char *p;
-		size_t size;
+		int size;
 		
 		str++;
 		size = strcspn (str, "\"") + 1;
@@ -630,13 +342,13 @@ imap_parse_string_generic (const char **str_p, size_t *len, int type)
 		*len = 0;
 		return NULL;
 	} else if (type == IMAP_ASTRING && imap_is_atom_char ((unsigned char)*str)) {
-		while (imap_is_atom_char ((unsigned char) *str))
+		while (imap_is_atom_char ((unsigned char)*str))
 			str++;
 		
 		*len = str - *str_p;
-		out = g_strndup (*str_p, *len);
+		str = g_strndup (*str_p, *len);
 		*str_p += *len;
-		return out;
+		return str;
 	} else {
 		*str_p = NULL;
 		return NULL;
@@ -644,19 +356,19 @@ imap_parse_string_generic (const char **str_p, size_t *len, int type)
 }
 
 static inline void
-skip_char (const char **in, char ch)
+skip_char (char **str_p, char ch)
 {
-	if (*in && **in == ch)
-		*in = *in + 1;
+	if (*str_p && **str_p == ch)
+		*str_p = *str_p + 1;
 	else
-		*in = NULL;
+		*str_p = NULL;
 }
 
 /* Skip atom, string, or number */
 static void
-skip_asn (const char **str_p)
+skip_asn (char **str_p)
 {
-	const char *str = *str_p;
+	char *str = *str_p;
 	
 	if (!str)
 		return;
@@ -675,7 +387,7 @@ skip_asn (const char **str_p)
 	} else if (*str == '{') {
 		unsigned long len;
 		
-		len = strtoul (str + 1, (char **) &str, 10);
+		len = strtoul (str + 1, &str, 10);
 		if (*str != '}' || *(str + 1) != '\n' ||
 		    strlen (str + 2) < len) {
 			*str_p = NULL;
@@ -693,7 +405,7 @@ skip_asn (const char **str_p)
 }
 
 void
-imap_skip_list (const char **str_p)
+imap_skip_list (char **str_p)
 {
 	skip_char (str_p, '(');
 	while (*str_p && **str_p != ')') {
@@ -708,10 +420,9 @@ imap_skip_list (const char **str_p)
 }
 
 static void
-parse_params (const char **parms_p, CamelContentType *type)
+parse_params (char **parms_p, CamelContentType *type)
 {
-	const char *parms = *parms_p;
-	char *name, *value;
+	char *parms = *parms_p, *name, *value;
 	int len;
 	
 	if (!g_strncasecmp (parms, "nil", 3)) {
@@ -751,18 +462,18 @@ parse_params (const char **parms_p, CamelContentType *type)
  * @folder: an imap folder
  * @ci: a CamelMessageContentInfo to fill in
  *
- * This fills in @ci with data from *@body_p. On success *@body_p
+ * This filles in @ci with data from *@body_p. On success *@body_p
  * will point to the character after the body. On failure, it will be
  * set to %NULL and @ci will be unchanged.
  **/
 void
-imap_parse_body (const char **body_p, CamelFolder *folder,
+imap_parse_body (char **body_p, CamelFolder *folder,
 		 CamelMessageContentInfo *ci)
 {
-	const char *body = *body_p;
+	char *body = *body_p;
 	CamelMessageContentInfo *child;
 	CamelContentType *type;
-	size_t len;
+	int len;
 	
 	if (!body || *body++ != '(') {
 		*body_p = NULL;
@@ -777,6 +488,7 @@ imap_parse_body (const char **body_p, CamelFolder *folder,
 		
 		/* Parse the child body parts */
 		children = g_ptr_array_new ();
+		i = 0;
 		while (body && *body == '(') {
 			child = camel_folder_summary_content_info_new (folder->summary);
 			g_ptr_array_add (children, child);
@@ -818,7 +530,7 @@ imap_parse_body (const char **body_p, CamelFolder *folder,
 		/* single part */
 		char *main_type, *subtype;
 		char *id, *description, *encoding;
-		guint32 size = 0;
+		guint32 size;
 		
 		main_type = imap_parse_string (&body, &len);
 		skip_char (&body, ' ');
@@ -845,7 +557,7 @@ imap_parse_body (const char **body_p, CamelFolder *folder,
 		encoding = imap_parse_string (&body, &len);
 		skip_char (&body, ' ');
 		if (body)
-			size = strtoul (body, (char **) &body, 10);
+			size = strtoul (body, &body, 10);
 		
 		child = NULL;
 		if (header_content_type_is (type, "message", "rfc822")) {
@@ -858,11 +570,10 @@ imap_parse_body (const char **body_p, CamelFolder *folder,
 				camel_folder_summary_content_info_free (folder->summary, child);
 			skip_char (&body, ' ');
 			if (body)
-				strtoul (body, (char **) &body, 10);
-			child->parent = ci;
+				strtoul (body, &body, 10);
 		} else if (header_content_type_is (type, "text", "*")) {
 			if (body)
-				strtoul (body, (char **) &body, 10);
+				strtoul (body, &body, 10);
 		}
 		
 		if (body) {
@@ -1101,7 +812,7 @@ imap_uid_array_free (GPtrArray *arr)
 char *
 imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 {
-	size_t len;
+	int len;
 	
 	len = strlen (prefix);
 	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
@@ -1119,7 +830,7 @@ imap_namespace_concat (CamelImapStore *store, const char *name)
 		else
 			return g_strdup ("");
 	}
-	
+
 	if (!g_strcasecmp (name, "INBOX"))
 		return g_strdup ("INBOX");
 	
@@ -1127,268 +838,6 @@ imap_namespace_concat (CamelImapStore *store, const char *name)
 		g_warning ("Trying to concat NULL namespace to \"%s\"!", name);
 		return g_strdup (name);
 	}
-	
+
 	return imap_concat (store, store->namespace, name);
-}
-
-
-#define UTF8_TO_UTF7_LEN(len)  ((len * 3) + 8)
-#define UTF7_TO_UTF8_LEN(len)  (len)
-
-enum {
-	MODE_USASCII,
-	MODE_AMPERSAND,
-	MODE_MODUTF7
-};
-
-#define is_usascii(c)  (((c) >= 0x20 && (c) <= 0x25) || ((c) >= 0x27 && (c) <= 0x7e))
-#define encode_mode(c) (is_usascii (c) ? MODE_USASCII : (c) == '&' ? MODE_AMPERSAND : MODE_MODUTF7)
-
-char *
-imap_mailbox_encode (const unsigned char *in, size_t inlen)
-{
-	const unsigned char *start, *inptr, *inend;
-	unsigned char *mailbox, *m, *mend;
-	size_t inleft, outleft, conv;
-	char *inbuf, *outbuf;
-	iconv_t cd;
-	int mode;
-	
-	cd = (iconv_t) -1;
-	m = mailbox = g_malloc (UTF8_TO_UTF7_LEN (inlen) + 1);
-	mend = mailbox + UTF8_TO_UTF7_LEN (inlen);
-	
-	start = inptr = in;
-	inend = in + inlen;
-	mode = MODE_USASCII;
-	
-	while (inptr < inend) {
-		int new_mode;
-		
-		new_mode = encode_mode (*inptr);
-		
-		if (new_mode != mode) {
-			switch (mode) {
-			case MODE_USASCII:
-				memcpy (m, start, inptr - start);
-				m += (inptr - start);
-				break;
-			case MODE_AMPERSAND:
-				while (start < inptr) {
-					*m++ = '&';
-					*m++ = '-';
-					start++;
-				}
-				break;
-			case MODE_MODUTF7:
-				inbuf = (char *) start;
-				inleft = inptr - start;
-				outbuf = (char *) m;
-				outleft = mend - m;
-				
-				if (cd == (iconv_t) -1)
-					cd = iconv_open ("UTF-7", "UTF-8");
-				
-				conv = iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
-				if (conv == (size_t) -1) {
-					g_warning ("error converting mailbox to UTF-7!");
-				}
-				iconv (cd, NULL, NULL, &outbuf, &outleft);
-				
-				/* shift into modified UTF-7 mode (overwrite UTF-7's '+' shift)... */
-				*m++ = '&';
-				
-				while (m < (unsigned char *) outbuf) {
-					/* replace '/' with ',' */
-					if (*m == '/')
-						*m = ',';
-					
-					m++;
-				}
-				
-				break;
-			}
-			
-			mode = new_mode;
-			start = inptr;
-		}
-		
-		inptr++;
-	}
-	
-	switch (mode) {
-	case MODE_USASCII:
-		memcpy (m, start, inptr - start);
-		m += (inptr - start);
-		break;
-	case MODE_AMPERSAND:
-		while (start < inptr) {
-			*m++ = '&';
-			*m++ = '-';
-			start++;
-		}
-		break;
-	case MODE_MODUTF7:
-		inbuf = (char *) start;
-		inleft = inptr - start;
-		outbuf = (char *) m;
-		outleft = mend - m;
-		
-		if (cd == (iconv_t) -1)
-			cd = iconv_open ("UTF-7", "UTF-8");
-		
-		conv = iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
-		if (conv == (size_t) -1) {
-			g_warning ("error converting mailbox to UTF-7!");
-		}
-		iconv (cd, NULL, NULL, &outbuf, &outleft);
-		
-		/* shift into modified UTF-7 mode (overwrite UTF-7's '+' shift)... */
-		*m++ = '&';
-		
-		while (m < (unsigned char *) outbuf) {
-			/* replace '/' with ',' */
-			if (*m == '/')
-				*m = ',';
-			
-			m++;
-		}
-		
-		break;
-	}
-	
-	*m = '\0';
-	
-	if (cd != (iconv_t) -1)
-		iconv_close (cd);
-	
-	return mailbox;
-}
-
-
-char *
-imap_mailbox_decode (const unsigned char *in, size_t inlen)
-{
-	const unsigned char *start, *inptr, *inend;
-	unsigned char *mailbox, *m, *mend;
-	unsigned char mode_switch;
-	iconv_t cd;
-	
-	cd = (iconv_t) -1;
-	m = mailbox = g_malloc (UTF7_TO_UTF8_LEN (inlen) + 1);
-	mend = mailbox + UTF7_TO_UTF8_LEN (inlen);
-	
-	start = inptr = in;
-	inend = in + inlen;
-	mode_switch = '&';
-	
-	while (inptr < inend) {
-		if (*inptr == mode_switch) {
-			if (mode_switch == '&') {
-				/* mode switch from US-ASCII to UTF-7 */
-				mode_switch = '-';
-				memcpy (m, start, inptr - start);
-				m += (inptr - start);
-				start = inptr;
-			} else if (mode_switch == '-') {
-				/* mode switch from UTF-7 to US-ASCII or an ampersand (&) */
-				mode_switch = '&';
-				start++;
-				if (start == inptr) {
-					/* we had the sequence "&-" which becomes "&" when decoded */
-					*m++ = '&';
-				} else {
-					char *buffer, *inbuf, *outbuf;
-					size_t buflen, outleft, conv;
-					
-					buflen = (inptr - start) + 2;
-					inbuf = buffer = alloca (buflen);
-					*inbuf++ = '+';
-					while (start < inptr) {
-						*inbuf++ = *start == ',' ? '/' : *start;
-						start++;
-					}
-					*inbuf = '-';
-					
-					inbuf = buffer;
-					outbuf = (char *) m;
-					outleft = mend - m;
-					
-					if (cd == (iconv_t) -1)
-						cd = iconv_open ("UTF-8", "UTF-7");
-					
-					conv = iconv (cd, &inbuf, &buflen, &outbuf, &outleft);
-					if (conv == (size_t) -1) {
-						g_warning ("error decoding mailbox: %.*s", inlen, in);
-					}
-					iconv (cd, NULL, NULL, NULL, NULL);
-					
-					m = (unsigned char *) outbuf;
-				}
-				
-				/* point to the char after the '-' */
-				start = inptr + 1;
-			}
-		}
-		
-		inptr++;
-	}
-	
-	if (*inptr == mode_switch) {
-		if (mode_switch == '&') {
-			/* the remaining text is US-ASCII */
-			memcpy (m, start, inptr - start);
-			m += (inptr - start);
-			start = inptr;
-		} else if (mode_switch == '-') {
-			/* We've got encoded UTF-7 or else an ampersand */
-			start++;
-			if (start == inptr) {
-				/* we had the sequence "&-" which becomes "&" when decoded */
-				*m++ = '&';
-			} else {
-				char *buffer, *inbuf, *outbuf;
-				size_t buflen, outleft, conv;
-				
-				buflen = (inptr - start) + 2;
-				inbuf = buffer = alloca (buflen);
-				*inbuf++ = '+';
-				while (start < inptr) {
-					*inbuf++ = *start == ',' ? '/' : *start;
-					start++;
-				}
-				*inbuf = '-';
-				
-				inbuf = buffer;
-				outbuf = (char *) m;
-				outleft = mend - m;
-				
-				if (cd == (iconv_t) -1)
-					cd = iconv_open ("UTF-8", "UTF-7");
-				
-				conv = iconv (cd, &inbuf, &buflen, &outbuf, &outleft);
-				if (conv == (size_t) -1) {
-					g_warning ("error decoding mailbox: %.*s", inlen, in);
-				}
-				iconv (cd, NULL, NULL, NULL, NULL);
-				
-				m = (unsigned char *) outbuf;
-			}
-		}
-	} else {
-		if (mode_switch == '-') {
-			/* illegal encoded mailbox... */
-			g_warning ("illegal mailbox name encountered: %.*s", inlen, in);
-		}
-		
-		memcpy (m, start, inptr - start);
-		m += (inptr - start);
-	}
-	
-	*m = '\0';
-	
-	if (cd != (iconv_t) -1)
-		iconv_close (cd);
-	
-	return mailbox;
 }

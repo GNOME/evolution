@@ -2,211 +2,292 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001 Ximian, Inc. (www.ximian.com)
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
  *
  */
-
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include "mail-accounts.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-messagebox.h>
-#include <gal/e-table/e-table-memory-store.h>
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/e-table/e-cell-toggle.h>
-#include <gal/util/e-unicode-i18n.h>
-#include <gal/widgets/e-unicode.h>
 #include <camel/camel-url.h>
+#include <camel/camel-pgp-context.h>
 
-#include <bonobo/bonobo-generic-factory.h>
+#include <gal/widgets/e-unicode.h>
+
+#include "widgets/misc/e-charset-picker.h"
 
 #include "mail.h"
+#include "mail-accounts.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
 #include "mail-account-editor.h"
+#ifdef ENABLE_NNTP
 #include "mail-account-editor-news.h"
+#endif
 #include "mail-send-recv.h"
+#include "mail-session.h"
 
 #include "art/mark.xpm"
 
-#define USE_ETABLE 0
+static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
+static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
+static void mail_accounts_dialog_finalise   (GtkObject *obj);
+static void mail_unselect                   (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data);
 
-static void mail_accounts_tab_class_init (MailAccountsTabClass *class);
-static void mail_accounts_tab_init       (MailAccountsTab *prefs);
-static void mail_accounts_tab_finalise   (GtkObject *obj);
+static MailConfigDruid *druid = NULL;
+static MailAccountEditor *editor = NULL;
+#ifdef ENABLE_NNTP
+static MailAccountEditorNews *news_editor = NULL;
+#endif
 
-static void mail_accounts_load (MailAccountsTab *tab);
-
-static GdkPixbuf *disabled_pixbuf = NULL;
-static GdkPixbuf *enabled_pixbuf = NULL;
-
-static GtkVBoxClass *parent_class = NULL;
-
+static GnomeDialogClass *parent_class;
 
 GtkType
-mail_accounts_tab_get_type (void)
+mail_accounts_dialog_get_type ()
 {
 	static GtkType type = 0;
 	
 	if (!type) {
 		GtkTypeInfo type_info = {
-			"MailAccountsTab",
-			sizeof (MailAccountsTab),
-			sizeof (MailAccountsTabClass),
-			(GtkClassInitFunc) mail_accounts_tab_class_init,
-			(GtkObjectInitFunc) mail_accounts_tab_init,
+			"MailAccountsDialog",
+			sizeof (MailAccountsDialog),
+			sizeof (MailAccountsDialogClass),
+			(GtkClassInitFunc) mail_accounts_dialog_class_init,
+			(GtkObjectInitFunc) mail_accounts_dialog_init,
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gtk_vbox_get_type (), &type_info);
+		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
 	}
 	
 	return type;
 }
 
 static void
-mail_accounts_tab_class_init (MailAccountsTabClass *klass)
+mail_accounts_dialog_class_init (MailAccountsDialogClass *class)
 {
 	GtkObjectClass *object_class;
 	
-	object_class = (GtkObjectClass *) klass;
-	parent_class = gtk_type_class (gtk_vbox_get_type ());
+	object_class = (GtkObjectClass *) class;
+	parent_class = gtk_type_class (gnome_dialog_get_type ());
 	
-	object_class->finalize = mail_accounts_tab_finalise;
+	object_class->finalize = mail_accounts_dialog_finalise;
 	/* override methods */
 	
-	
-	/* setup static data */
-	disabled_pixbuf = NULL;
-	enabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
 }
 
 static void
-mail_accounts_tab_init (MailAccountsTab *prefs)
+mail_accounts_dialog_init (MailAccountsDialog *o)
 {
-	prefs->druid = NULL;
-	prefs->editor = NULL;
-	
-	gdk_pixbuf_render_pixmap_and_mask (enabled_pixbuf, &prefs->mark_pixmap, &prefs->mark_bitmap, 128);
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &(o->mark_pixmap), &(o->mark_bitmap), 128);
+	gdk_pixbuf_unref (pixbuf);
 }
 
 static void
-mail_accounts_tab_finalise (GtkObject *obj)
+mail_accounts_dialog_finalise (GtkObject *obj)
 {
-	MailAccountsTab *prefs = (MailAccountsTab *) obj;
+	MailAccountsDialog *dialog = (MailAccountsDialog *) obj;
 	
-	gtk_object_unref (GTK_OBJECT (prefs->gui));
-	gdk_pixmap_unref (prefs->mark_pixmap);
-	gdk_bitmap_unref (prefs->mark_bitmap);
-	
+	gtk_object_unref (GTK_OBJECT (dialog->gui));
+	gdk_pixmap_unref (dialog->mark_pixmap);
+	gdk_bitmap_unref (dialog->mark_bitmap);
+
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
 static void
-account_add_finished (GtkWidget *widget, gpointer user_data)
+load_accounts (MailAccountsDialog *dialog)
+{
+	const MailConfigAccount *account, *default_account;
+	const GSList *node = dialog->accounts;
+	int i = 0;
+	
+	gtk_clist_freeze (dialog->mail_accounts);
+	
+	gtk_clist_clear (dialog->mail_accounts);
+	
+	default_account = mail_config_get_default_account ();
+	
+	while (node) {
+		CamelURL *url;
+		char *text[3];
+		
+		account = node->data;
+		
+		if (account->source && account->source->url)
+			url = camel_url_new (account->source->url, NULL);
+		else
+			url = NULL;
+		
+		text[0] = "";
+		text[1] = e_utf8_to_gtk_string (GTK_WIDGET (dialog->mail_accounts), account->name);
+		text[2] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
+					   (account == default_account) ? _(" (default)") : "");
+		
+		if (url)
+			camel_url_free (url);
+		
+		gtk_clist_append (dialog->mail_accounts, text);
+		g_free (text[1]);
+		g_free (text[2]);
+		
+		if (account->source->enabled)
+			gtk_clist_set_pixmap (dialog->mail_accounts, i, 0, 
+					      dialog->mark_pixmap, 
+					      dialog->mark_bitmap);
+		
+		/* set the account on the row */
+		gtk_clist_set_row_data (dialog->mail_accounts, i, (gpointer) account);
+		
+		node = node->next;
+		i++;
+	}
+	
+	gtk_clist_thaw (dialog->mail_accounts);
+	
+	/* 
+	 * The selection gets cleared when we rebuild the clist, but no
+	 * unselect event is emitted.  So we simulate it here.
+	 * I hate the clist.
+	 */
+	mail_unselect (dialog->mail_accounts, 0, 0, NULL, dialog);
+}
+
+
+/* mail callbacks */
+static void
+mail_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	MailConfigAccount *account = gtk_clist_get_row_data (clist, row);
+	
+	dialog->accounts_row = row;
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), TRUE);
+	if (account->source && account->source->enabled)
+		gtk_label_set_text (GTK_LABEL (GTK_BIN (dialog->mail_able)->child), _("Disable"));
+	else
+		gtk_label_set_text (GTK_LABEL (GTK_BIN (dialog->mail_able)->child), _("Enable"));
+}
+
+static void
+mail_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	
+	dialog->accounts_row = -1;
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), FALSE);
+	
+	/*
+	 * If an insensitive button in a button box has the focus, and if you hit tab,
+	 * there is a segfault.  I think that this might be a gtk bug.  Anyway, this
+	 * is a workaround.
+	 */
+	gtk_widget_grab_focus (GTK_WIDGET (dialog->mail_add));
+}
+
+static void
+mail_add_finished (GtkWidget *widget, gpointer data)
 {
 	/* Either Cancel or Finished was clicked in the druid so reload the accounts */
-	MailAccountsTab *prefs = user_data;
+	MailAccountsDialog *dialog = data;
 	
-	prefs->druid = NULL;
-	mail_accounts_load (prefs);
+	dialog->accounts = mail_config_get_accounts ();
+	load_accounts (dialog);
+	druid = NULL;
 }
 
 static void
-account_add_clicked (GtkButton *button, gpointer user_data)
+mail_add (GtkButton *button, gpointer data)
 {
-	MailAccountsTab *prefs = (MailAccountsTab *) user_data;
+	MailAccountsDialog *dialog = data;
 	
-	if (prefs->druid == NULL) {
-		prefs->druid = (GtkWidget *) mail_config_druid_new (prefs->shell);
-		gtk_signal_connect (GTK_OBJECT (prefs->druid), "destroy",
-				    GTK_SIGNAL_FUNC (account_add_finished), prefs);
+	if (druid == NULL) {
+		druid = mail_config_druid_new (dialog->shell);
+		gtk_signal_connect (GTK_OBJECT (druid), "destroy",
+				    GTK_SIGNAL_FUNC (mail_add_finished), dialog);
 		
-		gtk_widget_show (prefs->druid);
+		gtk_widget_show (GTK_WIDGET (druid));
 	} else {
-		gdk_window_raise (prefs->druid->window);
+		gdk_window_raise (GTK_WIDGET (druid)->window);
 	}
 }
 
 static void
-account_edit_finished (GtkWidget *widget, gpointer user_data)
+mail_editor_destroyed (GtkWidget *widget, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
-	
-	prefs->editor = NULL;
-	mail_accounts_load (prefs);
+	load_accounts (MAIL_ACCOUNTS_DIALOG (data));
+	editor = NULL;
 }
 
 static void
-account_edit_clicked (GtkButton *button, gpointer user_data)
+mail_edit (GtkButton *button, gpointer data)
 {
-	MailAccountsTab *prefs = (MailAccountsTab *) user_data;
+	MailAccountsDialog *dialog = data;
 	
-	if (prefs->editor == NULL) {
-		int row;
-#if USE_ETABLE		
-		row = e_table_get_cursor_row (prefs->table);
-#else
-		row = prefs->table->selection ? GPOINTER_TO_INT (prefs->table->selection->data) : -1;
-#endif
-		if (row >= 0) {
+	if (editor == NULL) {
+		if (dialog->accounts_row >= 0) {
 			MailConfigAccount *account;
-			GtkWidget *window;
 			
-			window = gtk_widget_get_ancestor (GTK_WIDGET (prefs), GTK_TYPE_WINDOW);
-			
-#if USE_ETABLE
-			account = e_table_memory_get_data (E_TABLE_MEMORY (prefs->model), row);
-#else
-			account = gtk_clist_get_row_data (prefs->table, row);
-#endif
-			prefs->editor = (GtkWidget *) mail_account_editor_new (account, GTK_WINDOW (window), prefs);
-			gtk_signal_connect (GTK_OBJECT (prefs->editor), "destroy",
-					    GTK_SIGNAL_FUNC (account_edit_finished),
-					    prefs);
-			gtk_widget_show (prefs->editor);
+			account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
+			editor = mail_account_editor_new (account);
+			gnome_dialog_set_parent (GNOME_DIALOG (editor), GTK_WINDOW (dialog));
+			gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+					    GTK_SIGNAL_FUNC (mail_editor_destroyed),
+					    dialog);
+			gtk_widget_show (GTK_WIDGET (editor));
 		}
 	} else {
-		gdk_window_raise (prefs->editor->window);
+		gdk_window_raise (GTK_WIDGET (editor)->window);
 	}
 }
 
 static void
-account_delete_clicked (GtkButton *button, gpointer user_data)
+mail_double_click (GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
-	const MailConfigAccount *account;
+	if (event->type == GDK_2BUTTON_PRESS)
+		mail_edit (NULL, data);
+}
+
+static void
+mail_delete (GtkButton *button, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	MailConfigAccount *account;
 	GnomeDialog *confirm;
-	const GSList *list;
-	int row, ans;
-	
-#if USE_ETABLE
-	row = e_table_get_cursor_row (prefs->table);
-#else
-	row = prefs->table->selection ? GPOINTER_TO_INT (prefs->table->selection->data) : -1;
-#endif
+	int ans;
 	
 	/* make sure we have a valid account selected and that we aren't editing anything... */
-	if (row < 0 || prefs->editor != NULL)
+	if (dialog->accounts_row < 0 || editor != NULL)
 		return;
 	
 	confirm = GNOME_DIALOG (gnome_message_box_new (_("Are you sure you want to delete this account?"),
@@ -217,281 +298,102 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
 	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
 	gtk_window_set_title (GTK_WINDOW (confirm), _("Really delete account?"));
-	gnome_dialog_set_parent (confirm, GTK_WINDOW (prefs));
+	gnome_dialog_set_parent (confirm, GTK_WINDOW (dialog));
 	ans = gnome_dialog_run_and_close (confirm);
 	
 	if (ans == 0) {
-		int select, len;
+		int sel, row, len;
 		
-#if USE_ETABLE
-		account = e_table_memory_get_data (E_TABLE_MEMORY (prefs->model), row);
-#else
-		account = gtk_clist_get_row_data (prefs->table, row);
-#endif
+		sel = dialog->accounts_row;
+		
+		account = gtk_clist_get_row_data (dialog->mail_accounts, sel);
 		
 		/* remove it from the folder-tree in the shell */
 		if (account->source && account->source->url && account->source->enabled)
 			mail_remove_storage_by_uri (account->source->url);
 		
 		/* remove it from the config file */
-		list = mail_config_remove_account ((MailConfigAccount *) account);
-		
+		dialog->accounts = mail_config_remove_account (account);
 		mail_config_write ();
-		
 		mail_autoreceive_setup ();
 		
-#if USE_ETABLE
-		e_table_memory_store_remove (E_TABLE_MEMORY_STORE (prefs->model), row);
-#else
-		gtk_clist_remove (prefs->table, row);
-#endif		
+		gtk_clist_remove (dialog->mail_accounts, sel);
 		
-		len = list ? g_slist_length ((GSList *) list) : 0;
+		len = dialog->accounts ? g_slist_length ((GSList *) dialog->accounts) : 0;
 		if (len > 0) {
-			select = row >= len ? len - 1 : row;
-#if USE_ETABLE
-			e_table_set_cursor_row (prefs->table, select);
-#else
-			gtk_clist_select_row (prefs->table, select, 0);
-#endif
+			row = sel >= len ? len - 1 : sel;
+			load_accounts (dialog);
+			gtk_clist_select_row (dialog->mail_accounts, row, 0);
 		} else {
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), FALSE);
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), FALSE);
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), FALSE);
+			dialog->accounts_row = -1;
+			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), FALSE);
 		}
 	}
 }
 
 static void
-account_default_clicked (GtkButton *button, gpointer user_data)
+mail_default (GtkButton *button, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
+	MailAccountsDialog *dialog = data;
 	const MailConfigAccount *account;
-	int row;
 	
-#if USE_ETABLE
-	row = e_table_get_cursor_row (prefs->table);
-#else
-	row = prefs->table->selection ? GPOINTER_TO_INT (prefs->table->selection->data) : -1;
-#endif
-	
-	if (row >= 0) {
-#if USE_ETABLE
-		account = e_table_memory_get_data (E_TABLE_MEMORY (prefs->model), row);
-#else
-		account = gtk_clist_get_row_data (prefs->table, row);
-#endif
+	if (dialog->accounts_row >= 0) {
+		int row;
 		
+		row = dialog->accounts_row;
+		account = gtk_clist_get_row_data (dialog->mail_accounts, row);
 		mail_config_set_default_account (account);
-		
 		mail_config_write ();
-		
-		mail_accounts_load (prefs);
+		load_accounts (dialog);
+		gtk_clist_select_row (dialog->mail_accounts, row, 0);
 	}
 }
 
 static void
-account_able_clicked (GtkButton *button, gpointer user_data)
+mail_able (GtkButton *button, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
+	MailAccountsDialog *dialog = data;
 	const MailConfigAccount *account;
-	int row;
 	
-#if USE_ETABLE
-	row = e_table_get_cursor_row (prefs->table);
-#else
-	row = prefs->table->selection ? GPOINTER_TO_INT (prefs->table->selection->data) : -1;
-#endif
-	
-	if (row >= 0) {
-#if USE_ETABLE
-		account = e_table_memory_get_data (E_TABLE_MEMORY (prefs->model), row);
-#else
-		account = gtk_clist_get_row_data (prefs->table, row);
-#endif
+	if (dialog->accounts_row >= 0) {
+		int row;
 		
+		row = dialog->accounts_row;
+		account = gtk_clist_get_row_data (dialog->mail_accounts, row);
 		account->source->enabled = !account->source->enabled;
 		
 		if (account->source && account->source->url) {
 			if (account->source->enabled)
-				mail_load_storage_by_uri (prefs->shell, account->source->url, account->name);
+				mail_load_storage_by_uri (dialog->shell, account->source->url, account->name);
 			else
 				mail_remove_storage_by_uri (account->source->url);
 		}
 		
-#if USE_ETABLE
-		
-#else	
-		if (account->source->enabled)
-			gtk_clist_set_pixmap (prefs->table, row, 0, 
-					      prefs->mark_pixmap, 
-					      prefs->mark_bitmap);
-		else
-			gtk_clist_set_pixmap (prefs->table, row, 0, NULL, NULL);
-		
-		gtk_clist_select_row (prefs->table, row, 0);
-#endif
-		
 		mail_autoreceive_setup ();
-		
 		mail_config_write ();
+		load_accounts (dialog);
+		gtk_clist_select_row (dialog->mail_accounts, row, 0);
 	}
 }
-
-#if USE_ETABLE
-static void
-account_cursor_change (ETable *table, int row, gpointer user_data)
-{
-	MailAccountsTab *prefs = user_data;
-	
-	if (row >= 0) {
-		const MailConfigAccount *account;
-		
-		account = e_table_memory_get_data (E_TABLE_MEMORY (prefs->model), row);
-		if (account->source && account->source->enabled)
-			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->mail_able)->child), _("Disable"));
-		else
-			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->mail_able)->child), _("Enable"));
-		
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), TRUE);
-	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), FALSE);
-		
-		gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
-	}
-}
-
-static void
-account_double_click (ETable *table, int row, int col, GdkEvent *event, gpointer user_data)
-{
-	account_edit_clicked (NULL, user_data);
-}
-#else
-static void
-account_cursor_change (GtkCList *table, int row, int column, GdkEventButton *event, gpointer user_data)
-{
-	MailAccountsTab *prefs = user_data;
-	
-	if (row >= 0) {
-		const MailConfigAccount *account;
-		
-		account = gtk_clist_get_row_data (prefs->table, row);
-		if (account->source && account->source->enabled)
-			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->mail_able)->child), _("Disable"));
-		else
-			gtk_label_set_text (GTK_LABEL (GTK_BIN (prefs->mail_able)->child), _("Enable"));
-		
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), TRUE);
-		
-		if (event && event->type == GDK_2BUTTON_PRESS)
-			account_edit_clicked (NULL, user_data);
-	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_delete), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), FALSE);
-		
-		gtk_widget_grab_focus (GTK_WIDGET (prefs->mail_add));
-	}
-}
-#endif
-
-
-static void
-mail_accounts_load (MailAccountsTab *prefs)
-{
-	const GSList *node;
-	int row = 0;
-	
-#if USE_ETABLE
-	e_table_memory_freeze (E_TABLE_MEMORY (prefs->model));
-	
-	e_table_memory_store_clear (E_TABLE_MEMORY_STORE (prefs->model));
-#else
-	gtk_clist_freeze (prefs->table);
-	
-	gtk_clist_clear (prefs->table);
-#endif
-	
-	node = mail_config_get_accounts ();
-	while (node) {
-		const MailConfigAccount *account;
-		CamelURL *url;
-		
-		account = node->data;
-		
-		url = account->source && account->source->url ? camel_url_new (account->source->url, NULL) : NULL;
-		
-#if USE_ETABLE
-		e_table_memory_store_insert_list (E_TABLE_MEMORY_STORE (prefs->model),
-						  row, GINT_TO_POINTER (account->source->enabled),
-						  account->name,
-						  url && url->protocol ? url->protocol : U_("None"));
-		
-		e_table_memory_set_data (E_TABLE_MEMORY (prefs->model), row, (gpointer) account);
-#else
-		{
-			char *text[3];
-			
-			text[0] = NULL;
-			text[1] = e_utf8_to_gtk_string (GTK_WIDGET (prefs->table), account->name);
-			text[2] = url && url->protocol ? url->protocol : (char *) _("None");
-			
-			gtk_clist_insert (prefs->table, row, text);
-			
-			g_free (text[1]);
-			
-			if (account->source->enabled)
-				gtk_clist_set_pixmap (prefs->table, row, 0, 
-						      prefs->mark_pixmap, 
-						      prefs->mark_bitmap);
-			
-			gtk_clist_set_row_data (prefs->table, row, (gpointer) account);
-		}
-#endif
-		
-		if (url)
-			camel_url_free (url);
-		
-		node = node->next;
-		row++;
-	}
-	
-#if USE_ETABLE
-	e_table_memory_thaw (E_TABLE_MEMORY (prefs->model));
-#else
-	gtk_clist_thaw (prefs->table);
-#endif
-}
-
 
 #ifdef ENABLE_NNTP
 static void
-news_load (MailAccountsTab *prefs)
+load_news (MailAccountsDialog *dialog)
 {
 	const MailConfigService *service;
-	const GSList *node;
+	const GSList *node = dialog->news;
 	int i = 0;
+
+	gtk_clist_freeze (dialog->news_accounts);
 	
-	gtk_clist_freeze (prefs->news);
-	
-	gtk_clist_clear (prefs->news);
-	
-	node = mail_config_get_news ();
+	gtk_clist_clear (dialog->news_accounts);
 	
 	while (node) {
 		CamelURL *url;
-		char *text[1];
+		gchar *text[1];
 		
 	        service = node->data;
 		
@@ -505,129 +407,127 @@ news_load (MailAccountsTab *prefs)
 		if (url)
 			camel_url_free (url);
 		
-		gtk_clist_append (prefs->news, text);
+		gtk_clist_append (dialog->news_accounts, text);
 		g_free (text[0]);
 		
 		/* set the account on the row */
-		gtk_clist_set_row_data (prefs->news, i, (gpointer) service);
+		gtk_clist_set_row_data (dialog->news_accounts, i, (gpointer) service);
 		
 		node = node->next;
 		i++;
 	}
 	
-	gtk_clist_thaw (prefs->news);
+	gtk_clist_thaw (dialog->news_accounts);
 }
 
 
 /* news callbacks */
 static void
-news_select_row (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer user_data)
+news_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
+	MailAccountsDialog *dialog = data;
 	
-	prefs->news_row = row;
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_edit), TRUE);
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_delete), TRUE);
+	dialog->news_row = row;
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_edit), TRUE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_delete), TRUE);
 }
 
 static void
-news_unselect_row (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer user_data)
+news_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
+	MailAccountsDialog *dialog = data;
 	
-	prefs->news_row = -1;
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_edit), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_delete), FALSE);
+	dialog->news_row = -1;
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_edit), FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_delete), FALSE);
 }
 
 static void
-news_editor_destroyed (GtkWidget *widget, gpointer user_data)
+news_editor_destroyed (GtkWidget *widget, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
-	
-	news_load (prefs);
-	prefs->news_editor = NULL;
+	load_news (MAIL_ACCOUNTS_DIALOG (data));
+	news_editor = NULL;
 }
 
 static void
-news_edit_clicked (GtkButton *button, gpointer user_data)
+news_edit (GtkButton *button, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
+	MailAccountsDialog *dialog = data;
 	
-	if (prefs->news_editor == NULL) {
-		if (prefs->news_row >= 0) {
+	if (news_editor == NULL) {
+		if (dialog->news_row >= 0) {
 			MailConfigService *service;
 			
-			service = gtk_clist_get_row_data (prefs->news, prefs->news_row);
-			prefs->news_editor = mail_account_editor_news_new (service);
-			gtk_signal_connect (GTK_OBJECT (prefs->news_editor), "destroy",
+			service = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
+			news_editor = mail_account_editor_news_new (service);
+			gtk_signal_connect (GTK_OBJECT (news_editor), "destroy",
 					    GTK_SIGNAL_FUNC (news_editor_destroyed),
-					    prefs);
-			gtk_widget_show (GTK_WIDGET (prefs->news_editor));
+					    dialog);
+			gtk_widget_show (GTK_WIDGET (news_editor));
 		}
 	} else {
-		gdk_window_raise (GTK_WIDGET (prefs->news_editor)->window);
+		gdk_window_raise (GTK_WIDGET (news_editor)->window);
 	}
 }
 
 static void 
-news_add_destroyed (GtkWidget *widget, gpointer user_data)
+news_add_destroyed (GtkWidget *widget, gpointer data)
 {
-	gpointer *send = user_data;
-	MailAccountsTab *prefs;
+	gpointer *send = data;
+	MailAccountsDialog *dialog;
 	MailConfigService *service;
-	
+
 	service = send[0];
-	prefs = send[1];
-	g_free (send);
+	dialog = send[1];
+	g_free(send);
+
+	dialog->news = mail_config_get_news ();
+	load_news (dialog);
+
+	mail_load_storage_by_uri(dialog->shell, service->url, NULL);
 	
-	news_load (prefs);
+	dialog->news = mail_config_get_news ();
+	load_news (dialog);
 	
-	mail_load_storage_by_uri (prefs->shell, service->url, NULL);
-	
-	/* FIXME: why do we re-load? */
-	news_load (prefs);
 }
 
 static void
-news_add_clicked (GtkButton *button, gpointer user_data)
+news_add (GtkButton *button, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
+	MailAccountsDialog *dialog = data;
 	MailConfigService *service;
 	gpointer *send;
 	
-	if (prefs->news_editor == NULL) {
+	if (news_editor == NULL) {
 		send = g_new (gpointer, 2);
 		
 		service = g_new0 (MailConfigService, 1);
 		service->url = NULL;
 		
-		prefs->news_editor = mail_account_editor_news_new (service);
+		news_editor = mail_account_editor_news_new (service);
 		send[0] = service;
-		send[1] = prefs;
-		gtk_signal_connect (GTK_OBJECT (prefs->news_editor), "destroy",
+		send[1] = dialog;
+		gtk_signal_connect (GTK_OBJECT (news_editor), "destroy",
 				    GTK_SIGNAL_FUNC (news_add_destroyed),
 				    send);
-		gtk_widget_show (GTK_WIDGET (prefs->news_editor));
+		gtk_widget_show (GTK_WIDGET (news_editor));
 	} else {
-		gdk_window_raise (GTK_WIDGET (prefs->news_editor)->window);
+		gdk_window_raise (GTK_WIDGET (news_editor)->window);
 	}
 }
 
 static void
-news_delete_clicked (GtkButton *button, gpointer user_data)
+news_delete (GtkButton *button, gpointer data)
 {
-	MailAccountsTab *prefs = user_data;
-	GtkWidget *window, *label;
+	MailAccountsDialog *dialog = data;
 	MailConfigService *server;
 	GnomeDialog *confirm;
+	GtkWidget *label;
 	int ans;
 	
 	/* don't allow user to delete an account if he might be editing it */
-	if (prefs->news_row < 0 || prefs->news_editor != NULL)
+	if (dialog->news_row < 0 || news_editor != NULL)
 		return;
-	
-	window = gtk_widget_get_ancestor (GTK_WIDGET (prefs), GTK_TYPE_WINDOW);
 	
 	confirm = GNOME_DIALOG (gnome_dialog_new (_("Are you sure you want to delete this news account?"),
 						  GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO, NULL));
@@ -637,14 +537,13 @@ news_delete_clicked (GtkButton *button, gpointer user_data)
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_box_pack_start (GTK_BOX (confirm->vbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (label);
-	gnome_dialog_set_parent (confirm, GTK_WINDOW (window));
+	gnome_dialog_set_parent (confirm, GTK_WINDOW (dialog));
 	ans = gnome_dialog_run_and_close (confirm);
 	
 	if (ans == 0) {
-		const GSList *servers;
 		int row, len;
 		
-		server = gtk_clist_get_row_data (prefs->news, prefs->news_row);
+		server = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
 		
 		/* remove it from the folder-tree in the shell */
 		if (server && server->url) {
@@ -670,194 +569,426 @@ news_delete_clicked (GtkButton *button, gpointer user_data)
 		}
 		
 		/* remove it from the config file */
-		servers = mail_config_remove_news (server);
+		dialog->news = mail_config_remove_news (server);
 		mail_config_write ();
 		
-		gtk_clist_remove (prefs->news, prefs->news_row);
+		gtk_clist_remove (dialog->news_accounts, dialog->news_row);
 		
-		len = servers ? g_slist_length ((GSList *) servers) : 0;
+		len = dialog->news ? g_slist_length ((GSList *) dialog->news) : 0;
 		if (len > 0) {
-			row = prefs->news_row;
+			row = dialog->news_row;
 			row = row >= len ? len - 1 : row;
-			gtk_clist_select_row (prefs->news, row, 0);
+			gtk_clist_select_row (dialog->news_accounts, row, 0);
 		} else {
-			prefs->news_row = -1;
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_edit), FALSE);
-			gtk_widget_set_sensitive (GTK_WIDGET (prefs->news_delete), FALSE);
+			dialog->news_row = -1;
+			gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_edit), FALSE);
+			gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_delete), FALSE);
 		}
 	}
 }
 #endif /* ENABLE_NNTP */
 
-
-GtkWidget *mail_accounts_etable_new (char *widget_name, char *string1, char *string2,
-				     int int1, int int2);
-
-#if USE_ETABLE
-GtkWidget *
-mail_accounts_etable_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+/* temp widget callbacks */
+static void
+send_html_toggled (GtkToggleButton *button, gpointer data)
 {
-	ETableModel *model;
-	ETableExtras *extras;
-	GdkPixbuf *images[2];
-	ETableMemoryStoreColumnInfo columns[] = {
-		E_TABLE_MEMORY_STORE_INTEGER,
-		E_TABLE_MEMORY_STORE_STRING,
-		E_TABLE_MEMORY_STORE_STRING,
-		E_TABLE_MEMORY_STORE_TERMINATOR,
-	};
-	
-	extras = e_table_extras_new ();
-	
-	images[0] = disabled_pixbuf;   /* disabled */
-	images[1] = enabled_pixbuf;    /* enabled */
-	e_table_extras_add_cell (extras, "render_able", e_cell_toggle_new (0, 2, images));
-	
-	model = e_table_memory_store_new (columns);
-	
-	return e_table_scrolled_new_from_spec_file (model, extras, EVOLUTION_ETSPECDIR "/mail-accounts.etspec", NULL);
+	mail_config_set_send_html (gtk_toggle_button_get_active (button));
 }
-#else
-GtkWidget *
-mail_accounts_etable_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+
+static void
+citation_highlight_toggled (GtkToggleButton *button, gpointer data)
 {
-	GtkWidget *table, *scrolled;
-	char *titles[3];
+	mail_config_set_citation_highlight (gtk_toggle_button_get_active (button));
+}
+
+static void
+timeout_toggled (GtkToggleButton *button, gpointer data)
+{
+	mail_config_set_do_seen_timeout (gtk_toggle_button_get_active (button));
+}
+
+static void
+citation_color_set (GnomeColorPicker *cp, guint r, guint g, guint b, guint a)
+{
+	guint32 rgb;
+
+	rgb   = r >> 8;
+	rgb <<= 8;
+	rgb  |= g >> 8;
+	rgb <<= 8;
+	rgb  |= b >> 8;
+
+	mail_config_set_citation_color (rgb);
+}
+
+/* FIXME: */
+
+static void
+timeout_changed (GtkEntry *entry, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	gint val;
 	
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	val = (gint) (gtk_spin_button_get_value_as_float (dialog->timeout) * 1000);
 	
-	titles[0] = _("Enabled");
-	titles[1] = _("Account name");
-	titles[2] = _("Protocol");
-	table = gtk_clist_new_with_titles (3, titles);
-	gtk_clist_set_selection_mode (GTK_CLIST (table), GTK_SELECTION_SINGLE);
-	gtk_clist_column_titles_show (GTK_CLIST (table));
+	mail_config_set_mark_as_seen_timeout (val);
+}
+
+static void
+pgp_path_changed (GtkEntry *entry, gpointer data)
+{
+	CamelPgpType type;
+	const char *path;
 	
-	gtk_container_add (GTK_CONTAINER (scrolled), table);
+	path = gtk_entry_get_text (entry);
 	
-	gtk_object_set_data (GTK_OBJECT (scrolled), "table", table);
+	type = mail_config_pgp_type_detect_from_path (path);
 	
-	gtk_widget_show (scrolled);
-	gtk_widget_show (table);
+	mail_config_set_pgp_path (path && *path ? path : NULL);
+	mail_config_set_pgp_type (type);
+}
+
+static void
+filter_log_path_changed (GtkEntry *entry, gpointer data)
+{
+	const char *path;
 	
-	return scrolled;
+	path = gtk_entry_get_text (entry);
+	
+	mail_config_set_filter_log_path (path && *path ? path : NULL);
+}
+
+static void
+set_color (GnomeColorPicker *cp)
+{
+	guint32 rgb = mail_config_get_citation_color ();
+
+	gnome_color_picker_set_i8 (cp, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
+}
+
+static void
+images_radio_toggled (GtkWidget *radio, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio)))
+		return;
+	
+	if (radio == (GtkWidget *)dialog->images_always)
+		mail_config_set_http_mode (MAIL_CONFIG_HTTP_ALWAYS);
+	else if (radio == (GtkWidget *)dialog->images_sometimes)
+		mail_config_set_http_mode (MAIL_CONFIG_HTTP_SOMETIMES);
+	else
+		mail_config_set_http_mode (MAIL_CONFIG_HTTP_NEVER);
+}
+
+static void
+empty_trash_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_empty_trash_on_exit (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+prompt_empty_subject_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_prompt_empty_subject (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+prompt_bcc_only_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_prompt_only_bcc (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+prompt_unwanted_html_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_confirm_unwanted_html (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+#if 0
+/* Note: Please see construct() for a reason as to why these 2 options are disabled */
+static void
+thread_list_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_thread_list (NULL, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+show_preview_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_show_preview (NULL, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
 }
 #endif
 
 static void
-mail_accounts_tab_construct (MailAccountsTab *prefs)
+filter_log_toggled (GtkWidget *toggle, gpointer data)
 {
-	GtkWidget *toplevel, *widget;
-	GladeXML *gui;
+	mail_config_set_filter_log (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+confirm_expunge_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_confirm_expunge (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
+forward_style_activated (GtkWidget *item, gpointer data)
+{
+	int style = GPOINTER_TO_INT (data);
+
+	mail_config_set_default_forward_style (style);
+}
+
+static void
+attach_forward_style_signal (GtkWidget *item, gpointer data)
+{
+	int *num = data;
+
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    forward_style_activated, GINT_TO_POINTER (*num));
+	(*num)++;
+}
+
+static void
+charset_menu_deactivate (GtkWidget *menu, gpointer data)
+{
+	char *charset;
+
+	charset = e_charset_picker_get_charset (menu);
+	if (charset) {
+		mail_config_set_default_charset (charset);
+		g_free (charset);
+	}
+}
+
+static void
+dialog_destroy (GtkWidget *dialog, gpointer user_data)
+{
+	if (druid)
+		gtk_widget_destroy (GTK_WIDGET (druid));
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "accounts_tab");
-	prefs->gui = gui;
+	if (editor)
+		gtk_widget_destroy (GTK_WIDGET (editor));
+	
+#ifdef ENABLE_NNTP
+	if (news_editor)
+		gtk_widget_destroy (GTK_WIDGET (news_editor));
+#endif
+}
+
+static void
+construct (MailAccountsDialog *dialog)
+{
+	GladeXML *gui;
+	GtkWidget *notebook, *menu;
+	int num;
+	
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
+	dialog->gui = gui;
 	
 	/* get our toplevel widget */
-#ifdef ENABLE_NNTP
-	toplevel = glade_xml_get_widget (gui, "toplevel_notebook");
-#else
-	toplevel = glade_xml_get_widget (gui, "toplevel");
-#endif
+	notebook = glade_xml_get_widget (gui, "notebook");
 	
 	/* reparent */
-	gtk_widget_ref (toplevel);
-	gtk_container_remove (GTK_CONTAINER (toplevel->parent), toplevel);
-	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
-	gtk_widget_unref (toplevel);
+	gtk_widget_reparent (notebook, GNOME_DIALOG (dialog)->vbox);
 	
-	widget = glade_xml_get_widget (gui, "etableMailAccounts");
+	/* give our dialog an Close button and title */
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Mail Settings"));
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, TRUE);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
+	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_OK);
 	
-#if USE_ETABLE
-	prefs->table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-	prefs->model = prefs->table->model;
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (dialog_destroy), dialog);
 	
-	gtk_signal_connect (GTK_OBJECT (prefs->table), "cursor_change",
-			    account_cursor_change, prefs);
-	
-	gtk_signal_connect (GTK_OBJECT (prefs->table), "double_click",
-			    account_double_click, prefs);
-	
-	mail_accounts_load (prefs);
-#else
-	prefs->table = GTK_CLIST (gtk_object_get_data (GTK_OBJECT (widget), "table"));
-	gtk_clist_set_column_justification (prefs->table, 0, GTK_JUSTIFY_RIGHT);
-	
-	gtk_signal_connect (GTK_OBJECT (prefs->table), "select-row",
-			    account_cursor_change, prefs);
-	
-	mail_accounts_load (prefs);
-	
-	{
-		int col;
-		
-		for (col = 0;  col < 3; col++) {
-			gtk_clist_set_column_auto_resize (prefs->table, col, TRUE);
-		}
-	}
-#endif
-	
-	prefs->mail_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAdd"));
-	gtk_signal_connect (GTK_OBJECT (prefs->mail_add), "clicked",
-			    account_add_clicked, prefs);
-	
-	prefs->mail_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountEdit"));
-	gtk_signal_connect (GTK_OBJECT (prefs->mail_edit), "clicked",
-			    account_edit_clicked, prefs);
-	
-	prefs->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountDelete"));
-	gtk_signal_connect (GTK_OBJECT (prefs->mail_delete), "clicked",
-			    account_delete_clicked, prefs);
-	
-	prefs->mail_default = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountDefault"));
-	gtk_signal_connect (GTK_OBJECT (prefs->mail_default), "clicked",
-			    account_default_clicked, prefs);
-	
-	prefs->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdAccountAble"));
-	gtk_signal_connect (GTK_OBJECT (prefs->mail_able), "clicked",
-			    account_able_clicked, prefs);
+	dialog->mail_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "select-row",
+			    GTK_SIGNAL_FUNC (mail_select), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "unselect-row",
+			    GTK_SIGNAL_FUNC (mail_unselect), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "button_press_event",
+			    mail_double_click, dialog);
+	dialog->mail_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailAdd"));
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_add), "clicked",
+			    GTK_SIGNAL_FUNC (mail_add), dialog);
+	dialog->mail_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailEdit"));
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_edit), "clicked",
+			    GTK_SIGNAL_FUNC (mail_edit), dialog);
+	dialog->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailDelete"));
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_delete), "clicked",
+			    GTK_SIGNAL_FUNC (mail_delete), dialog);
+	dialog->mail_default = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailDefault"));
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_default), "clicked",
+			    GTK_SIGNAL_FUNC (mail_default), dialog);
+	dialog->mail_able = GTK_BUTTON (glade_xml_get_widget (gui, "cmdMailAble"));
+	gtk_signal_connect (GTK_OBJECT (dialog->mail_able), "clicked",
+			    GTK_SIGNAL_FUNC (mail_able), dialog);
 	
 #ifdef ENABLE_NNTP
-	prefs->news = GTK_CLIST (gtk_object_get_data (GTK_OBJECT (widget), "clistNews"));
-	gtk_signal_connect (GTK_OBJECT (prefs->news), "select-row",
-			    news_select_row, prefs);
-	gtk_signal_connect (GTK_OBJECT (prefs->news), "unselect-row",
-			    news_unselect_row, prefs);
+	dialog->news_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistNews"));
+	gtk_signal_connect (GTK_OBJECT (dialog->news_accounts), "select-row",
+			    GTK_SIGNAL_FUNC (news_select), dialog);
+	gtk_signal_connect (GTK_OBJECT (dialog->news_accounts), "unselect-row",
+			    GTK_SIGNAL_FUNC (news_unselect), dialog);
+	dialog->news_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsAdd"));
+	gtk_signal_connect (GTK_OBJECT (dialog->news_add), "clicked",
+			    GTK_SIGNAL_FUNC (news_add), dialog);
+	dialog->news_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsEdit"));
+	gtk_signal_connect (GTK_OBJECT (dialog->news_edit), "clicked",
+			    GTK_SIGNAL_FUNC (news_edit), dialog);
+	dialog->news_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsDelete"));
+	gtk_signal_connect (GTK_OBJECT (dialog->news_delete), "clicked",
+			    GTK_SIGNAL_FUNC (news_delete), dialog);
+#else
+	/* remove the news tab since we don't support nntp */
+	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
+#endif
 	
-	news_load (prefs);
+	/* Display page */
+	dialog->citation_highlight = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chckHighlightCitations"));
+	gtk_toggle_button_set_active (dialog->citation_highlight, mail_config_get_citation_highlight ());
+	gtk_signal_connect (GTK_OBJECT (dialog->citation_highlight), "toggled",
+			    GTK_SIGNAL_FUNC (citation_highlight_toggled), dialog);
+	dialog->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerCitations"));
+	set_color (dialog->citation_color);
+	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
+			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
 	
-	prefs->news_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsAdd"));
-	gtk_signal_connect (GTK_OBJECT (prefs->news_add), "clicked",
-			    news_add_clicked, prefs);
+	dialog->timeout_toggle = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "checkMarkTimeout"));
+	gtk_toggle_button_set_active (dialog->timeout_toggle, mail_config_get_do_seen_timeout ());
+	gtk_signal_connect (GTK_OBJECT (dialog->timeout_toggle), "toggled",
+			    GTK_SIGNAL_FUNC (timeout_toggled), dialog);
 	
-	prefs->mail_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsEdit"));
-	gtk_signal_connect (GTK_OBJECT (prefs->news_edit), "clicked",
-			    news_edit_clicked, prefs);
+	dialog->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
+	gtk_spin_button_set_value (dialog->timeout, (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
+	gtk_signal_connect (GTK_OBJECT (dialog->timeout), "changed",
+			    GTK_SIGNAL_FUNC (timeout_changed), dialog);
 	
-	prefs->mail_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdNewsDelete"));
-	gtk_signal_connect (GTK_OBJECT (prefs->news_delete), "clicked",
-			    news_delete_clicked, prefs);
+	dialog->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioImagesNever"));
+	gtk_toggle_button_set_active (dialog->images_never, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_NEVER);
+	gtk_signal_connect (GTK_OBJECT (dialog->images_never), "toggled",
+			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
+	dialog->images_sometimes = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioImagesSometimes"));
+	gtk_toggle_button_set_active (dialog->images_sometimes, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES);
+	gtk_signal_connect (GTK_OBJECT (dialog->images_sometimes), "toggled",
+			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
+	dialog->images_always = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioImagesAlways"));
+	gtk_toggle_button_set_active (dialog->images_always, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS);
+	gtk_signal_connect (GTK_OBJECT (dialog->images_always), "toggled",
+			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
+	
+#if 0
+	/* These options are disabled because they are completely non-intuitive and evil */
+	dialog->thread_list = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkThreadedList"));
+	gtk_toggle_button_set_active (dialog->thread_list, mail_config_get_thread_list (NULL));
+	gtk_signal_connect (GTK_OBJECT (dialog->thread_list), "toggled",
+			    GTK_SIGNAL_FUNC (thread_list_toggled), dialog);
+	
+	dialog->show_preview = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowPreview"));
+	gtk_toggle_button_set_active (dialog->show_preview, mail_config_get_show_preview (NULL));
+	gtk_signal_connect (GTK_OBJECT (dialog->show_preview), "toggled",
+			    GTK_SIGNAL_FUNC (show_preview_toggled), dialog);
+#endif
+	
+	/* Composer page */
+	dialog->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
+	gtk_toggle_button_set_active (dialog->send_html, mail_config_get_send_html ());
+	gtk_signal_connect (GTK_OBJECT (dialog->send_html), "toggled",
+			    GTK_SIGNAL_FUNC (send_html_toggled), dialog);
+	
+	dialog->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
+	gtk_option_menu_set_history (dialog->forward_style, mail_config_get_default_forward_style ());
+	/* Hm. This sucks... */
+	num = 0;
+	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (dialog->forward_style)),
+			       attach_forward_style_signal, &num);
+	
+	dialog->prompt_empty_subject = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptEmptySubject"));
+	gtk_toggle_button_set_active (dialog->prompt_empty_subject, mail_config_get_prompt_empty_subject ());
+	gtk_signal_connect (GTK_OBJECT (dialog->prompt_empty_subject), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_empty_subject_toggled), dialog);
+	
+	dialog->prompt_bcc_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptBccOnly"));
+	gtk_toggle_button_set_active (dialog->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
+	gtk_signal_connect (GTK_OBJECT (dialog->prompt_bcc_only), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_bcc_only_toggled), dialog);
+
+	dialog->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
+	gtk_toggle_button_set_active (dialog->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
+	gtk_signal_connect (GTK_OBJECT (dialog->prompt_unwanted_html), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_unwanted_html_toggled), dialog);
+	
+	/* Other page */
+	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->pgp_path)),
+			    mail_config_get_pgp_path ());
+	gnome_file_entry_set_default_path (dialog->pgp_path, mail_config_get_pgp_path ());
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->pgp_path)),
+			    "changed", GTK_SIGNAL_FUNC (pgp_path_changed), dialog);
+	
+	dialog->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
+	menu = e_charset_picker_new (mail_config_get_default_charset ());
+	gtk_option_menu_set_menu (dialog->charset, GTK_WIDGET (menu));
+	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
+			    GTK_SIGNAL_FUNC (charset_menu_deactivate), NULL);
+	
+	dialog->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
+	gtk_toggle_button_set_active (dialog->empty_trash, mail_config_get_empty_trash_on_exit ());
+	gtk_signal_connect (GTK_OBJECT (dialog->empty_trash), "toggled",
+			    GTK_SIGNAL_FUNC (empty_trash_toggled), dialog);
+	
+	dialog->filter_log = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkFilterLog"));
+	gtk_toggle_button_set_active (dialog->filter_log, mail_config_get_filter_log ());
+	gtk_signal_connect (GTK_OBJECT (dialog->filter_log), "toggled",
+			    GTK_SIGNAL_FUNC (filter_log_toggled), dialog);
+	
+	dialog->filter_log_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileFilterLog"));
+	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->filter_log_path)),
+			    mail_config_get_filter_log_path ());
+	gnome_file_entry_set_default_path (dialog->filter_log_path, mail_config_get_filter_log_path ());
+	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->filter_log_path)),
+			    "changed", GTK_SIGNAL_FUNC (filter_log_path_changed), dialog);
+	
+	dialog->confirm_expunge = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkConfirmExpunge"));
+	gtk_toggle_button_set_active (dialog->confirm_expunge, mail_config_get_confirm_expunge ());
+	gtk_signal_connect (GTK_OBJECT (dialog->confirm_expunge), "toggled",
+			    GTK_SIGNAL_FUNC (confirm_expunge_toggled), dialog);
+	
+	/* now to fill in the clists */
+	dialog->accounts_row = -1;
+	dialog->accounts = mail_config_get_accounts ();
+	if (dialog->accounts) {
+		load_accounts (dialog);
+		gtk_clist_select_row (dialog->mail_accounts, 0, 0);
+	} else {
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
+	}
+	
+#ifdef ENABLE_NNTP
+	dialog->news_row = -1;
+	dialog->news = mail_config_get_news ();
+	if (dialog->news) {
+		load_news (dialog);
+		gtk_clist_select_row (dialog->news_accounts, 0, 0);
+	} else {
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_edit), FALSE);
+		gtk_widget_set_sensitive (GTK_WIDGET (dialog->news_delete), FALSE);
+	}
 #endif /* ENABLE_NNTP */
 }
 
-
-GtkWidget *
-mail_accounts_tab_new (GNOME_Evolution_Shell shell)
+MailAccountsDialog *
+mail_accounts_dialog_new (GNOME_Evolution_Shell shell)
 {
-	MailAccountsTab *new;
+	MailAccountsDialog *new;
 	
-	new = (MailAccountsTab *) gtk_type_new (mail_accounts_tab_get_type ());
-	mail_accounts_tab_construct (new);
+	new = (MailAccountsDialog *) gtk_type_new (mail_accounts_dialog_get_type ());
+	construct (new);
 	new->shell = shell;
 	
-	return (GtkWidget *) new;
-}
-
-
-void
-mail_accounts_tab_apply (MailAccountsTab *prefs)
-{
-	/* nothing to do here... */
+	return new;
 }

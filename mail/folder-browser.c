@@ -3,7 +3,7 @@
  *  Authors: Miguel De Icaza <miguel@ximian.com>
  *           Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2000,2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2000,2001 Ximain, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -38,11 +38,8 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-pixmap.h>
 
 #include <gtkhtml/htmlengine.h>
-#include <gtkhtml/htmlobject.h>
-#include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/htmlengine-edit-cut-and-paste.h>
 
 #include "filter/vfolder-rule.h"
@@ -58,22 +55,19 @@
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "mail-tools.h"
+#include "message-list.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "folder-browser-ui.h"
-#include "message-tag-followup.h"
 
 #include "mail-local.h"
 #include "mail-config.h"
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
-
-/* maybe this shooudlnt be private ... */
-#include "camel/camel-search-private.h"
 
 #define d(x) 
 
@@ -136,11 +130,6 @@ folder_browser_finalise (GtkObject *object)
 	
 	CORBA_exception_init (&ev);
 	
-	g_free (folder_browser->loading_uid);
-	g_free (folder_browser->pending_uid);
-	g_free (folder_browser->new_uid);
-	g_free (folder_browser->loaded_uid);
-	
 	if (folder_browser->search_full)
 		gtk_object_unref (GTK_OBJECT (folder_browser->search_full));
 	
@@ -165,9 +154,9 @@ folder_browser_finalise (GtkObject *object)
 	
 	CORBA_exception_free (&ev);
 	
-	if (folder_browser->view_instance) {
-		gtk_object_unref (GTK_OBJECT (folder_browser->view_instance));
-		folder_browser->view_instance = NULL;
+	if (folder_browser->view_collection) {
+		gtk_object_unref (GTK_OBJECT (folder_browser->view_collection));
+		folder_browser->view_collection = NULL;
 	}
 	
 	if (folder_browser->view_menus) {
@@ -180,7 +169,7 @@ folder_browser_finalise (GtkObject *object)
 	
 	if (folder_browser->clipboard_selection)
 		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
-	
+
 	if (folder_browser->sensitise_state) {
 		g_hash_table_destroy(folder_browser->sensitise_state);
 		folder_browser->sensitise_state = NULL;
@@ -218,7 +207,7 @@ folder_browser_destroy (GtkObject *object)
 	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
-	
+
 	if (folder_browser->get_id != -1) {
 		mail_msg_cancel(folder_browser->get_id);
 		folder_browser->get_id = -1;
@@ -313,7 +302,6 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 			for (i = 0; i < uids->len; i++)
 				g_free (uids->pdata[i]);
 			g_ptr_array_free (uids, TRUE);
-			g_free (msg);
 			return;
 		}
 		
@@ -323,7 +311,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		if (uids->len == 1) {
 			filename = camel_mime_message_get_subject (message);
 			if (!filename)
-				filename = _("Unknown");
+				filename = "Unknown";
 		} else
 			filename = "mbox";
 		
@@ -389,7 +377,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					bytes->data, bytes->len);
 		
-		g_byte_array_free (bytes, TRUE);
+		g_byte_array_free (bytes, FALSE);
 	}
 	break;
 	case DND_TARGET_TYPE_X_EVOLUTION_MESSAGE:
@@ -417,7 +405,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					array->data, array->len);
 		
-		g_byte_array_free (array, TRUE);
+		g_byte_array_free (array, FALSE);
 	}
 	break;
 	default:
@@ -450,7 +438,7 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 		
 		/* append the message to the folder... */
 		info = g_new0 (CamelMessageInfo, 1);
-		camel_folder_append_message (dest, msg, info, NULL, ex);
+		camel_folder_append_message (dest, msg, info, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		
 		if (camel_exception_is_set (ex))
@@ -730,7 +718,7 @@ static void
 update_status_bar(FolderBrowser *fb)
 {
 	CORBA_Environment ev;
-	int tmp, total;
+	int tmp;
 	GString *work;
 	extern CamelFolder *outbox_folder, *sent_folder;
 
@@ -739,49 +727,44 @@ update_status_bar(FolderBrowser *fb)
 	    || fb->shell_view == CORBA_OBJECT_NIL)
 		return;
 
-	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
-		total = camel_folder_get_message_count(fb->folder);
-	} else {
-		GPtrArray *sum = camel_folder_get_summary(fb->folder);
-		int i;
-
-		if (sum) {
-			total = 0;
-			for (i=0;i<sum->len;i++) {
-				CamelMessageInfo *info = sum->pdata[i];
-				
-				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
-					total++;
-			}
-			camel_folder_free_summary(fb->folder, sum);
-		} else {
-			total = camel_folder_get_message_count(fb->folder);
-		}
-	}
-	
 	work = g_string_new("");
 	g_string_sprintfa(work, _("%d new"), camel_folder_get_unread_message_count(fb->folder));
 	tmp = message_list_hidden(fb->message_list);
-	if (0 < tmp && tmp < total) {
+	if (tmp) {
 		g_string_append(work, _(", "));
-		if (tmp < total / 2)
-			g_string_sprintfa(work, _("%d hidden"), tmp);
-		else  
-			g_string_sprintfa(work, _("%d visible"), total - tmp);
+		g_string_sprintfa(work, _("%d hidden"), tmp);
 	}
 	tmp = e_selection_model_selected_count(e_tree_get_selection_model(fb->message_list->tree));
 	if (tmp) {
 		g_string_append(work, _(", "));
 		g_string_sprintfa(work, _("%d selected"), tmp);
 	}
-	g_string_append(work, _(", "));
+	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
+		tmp = camel_folder_get_message_count(fb->folder);
+	} else {
+		GPtrArray *sum = camel_folder_get_summary(fb->folder);
+		int i;
 
+		if (sum) {
+			tmp = 0;
+			for (i=0;i<sum->len;i++) {
+				CamelMessageInfo *info = sum->pdata[i];
+				
+				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
+					tmp++;
+			}
+			camel_folder_free_summary(fb->folder, sum);
+		} else {
+			tmp = camel_folder_get_message_count(fb->folder);
+		}
+	}
+	g_string_append(work, _(", "));
 	if (fb->folder == outbox_folder)
-		g_string_sprintfa(work, _("%d unsent"), total);
+		g_string_sprintfa(work, _("%d unsent"), tmp);
 	else if (fb->folder == sent_folder)
-		g_string_sprintfa(work, _("%d sent"), total);
+		g_string_sprintfa(work, _("%d sent"), tmp);
 	else
-		g_string_sprintfa(work, _("%d total"), total);
+		g_string_sprintfa(work, _("%d total"), tmp);
 
 	CORBA_exception_init(&ev);
 	GNOME_Evolution_ShellView_setFolderBarLabel(fb->shell_view, work->str, &ev);
@@ -861,11 +844,6 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	camel_object_hook_event(CAMEL_OBJECT(fb->folder), "message_changed",
 				folder_changed, fb);
 
-	if (fb->view_instance != NULL && fb->view_menus != NULL)
-		folder_browser_ui_discard_view_menus (fb);
-
-	folder_browser_ui_setup_view_menus (fb);
-
 	/* when loading a new folder, nothing is selected initially */
 
 	if (fb->uicomp)
@@ -874,23 +852,6 @@ got_folder(char *uri, CamelFolder *folder, void *data)
  done:	
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [FOLDER_LOADED], fb->uri);
 	gtk_object_unref (GTK_OBJECT (fb));
-}
-
-void
-folder_browser_set_folder (FolderBrowser *fb, CamelFolder *folder, const char *uri)
-{
-	g_return_if_fail (IS_FOLDER_BROWSER (fb));
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	
-	if (fb->get_id != -1) {
-		/* FIXME: cancel the get_folder request? */
-	}
-	
-	g_free (fb->uri);
-	fb->uri = g_strdup (uri);
-	
-	gtk_object_ref (GTK_OBJECT (fb));
-	got_folder (NULL, folder, fb);
 }
 
 void
@@ -1073,7 +1034,7 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 	} else {
 		e_paned_set_position (E_PANED (folder_browser->vpaned), 10000);
 		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
-		mail_display_set_message (folder_browser->mail_display, NULL, NULL);
+		mail_display_set_message(folder_browser->mail_display, NULL);
 		folder_browser_ui_message_loaded(folder_browser);
 	}
 }
@@ -1083,13 +1044,11 @@ enum {
 };
 
 static ESearchBarItem folder_browser_search_menu_items[] = {
-	E_FILTERBAR_ADVANCED,
-	{ NULL, 0, NULL },
+	E_FILTERBAR_RESET,
 	E_FILTERBAR_SAVE,
+	{ N_("Create vFolder from Search"),  ESB_SAVE, NULL  },
 	E_FILTERBAR_EDIT,
-	{ NULL, 0, NULL },
-	{ N_("Create _Virtual Folder From Search..."), ESB_SAVE, NULL  },
-	{ NULL, -1, NULL }
+	{ NULL,                           -1, NULL           }
 };
 
 static void
@@ -1119,8 +1078,6 @@ folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const c
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	ESearchingTokenizer *st;
 	GList *partl;
-	struct _camel_search_words *words;
-	int i;
 
 	st = E_SEARCHING_TOKENIZER (fb->mail_display->html->engine->ht); 
 
@@ -1139,12 +1096,7 @@ folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const c
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
 			if (input)
 				filter_input_set_value(input, query);
-
-			words = camel_search_words_split(query);
-			for (i=0;i<words->len;i++)
-				e_searching_tokenizer_add_secondary_search_string (st, words->words[i]->word);
-			camel_search_words_free(words);
-
+			e_searching_tokenizer_set_secondary_search_string (st, query);
 		} else if(!strcmp(part->name, "sender")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
 			if (input)
@@ -1288,7 +1240,6 @@ folder_browser_charset_changed (BonoboUIComponent           *component,
 	}
 }
 
-/* external api to vfolder/filter on X, based on current message */
 void
 vfolder_subject (GtkWidget *w, FolderBrowser *fb)
 {
@@ -1317,7 +1268,7 @@ vfolder_mlist (GtkWidget *w, FolderBrowser *fb)
 	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
 	if (name) {
 		g_strstrip (name);
-		vfolder_gui_add_from_mlist(name, fb->uri);
+		vfolder_gui_add_from_mlist(fb->mail_display->current_message, name, fb->uri);
 		g_free(name);
 	}
 }
@@ -1353,84 +1304,6 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 		g_free(name);
 	}
 }
-
-/* ************************************************************ */
-
-/* popup api to vfolder/filter on X, based on current selection */
-struct _filter_data {
-	CamelFolder *folder;
-	char *uid;
-	int type;
-	char *uri;
-	char *mlist;
-};
-
-static void
-filter_data_free(struct _filter_data *fdata)
-{
-	g_free(fdata->uid);
-	g_free(fdata->uri);
-	if (fdata->folder)
-		camel_object_unref((CamelObject *)fdata->folder);
-	g_free(fdata->mlist);
-	g_free(fdata);
-}
-
-static void
-vfolder_type_got_message(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *d)
-{
-	struct _filter_data *data = d;
-
-	if (msg)
-		vfolder_gui_add_from_message(msg, data->type, data->uri);
-
-	filter_data_free(data);
-}
-
-static void
-vfolder_type_uid(struct _filter_data *fdata, int type)
-{
-	struct _filter_data *data;
-
-	/* sigh, we need to copy this because the menu will free the one we got passed in */
-	data = g_malloc0(sizeof(*data));
-	data->type = type;
-	data->uri = fdata->uri;
-	fdata->uri = NULL;
-	mail_get_message(fdata->folder, fdata->uid, vfolder_type_got_message, data, mail_thread_new);
-}
-
-static void vfolder_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_SUBJECT); }
-static void vfolder_sender_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_FROM); }
-static void vfolder_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_TO); }
-static void vfolder_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ vfolder_gui_add_from_mlist(fdata->mlist, fdata->uri); }
-
-static void
-filter_type_got_message(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *d)
-{
-	struct _filter_data *data = d;
-
-	if (msg)
-		filter_gui_add_from_message(msg, data->type);
-
-	filter_data_free(data);
-}
-
-static void
-filter_type_uid(struct _filter_data *fdata, int type)
-{
-	struct _filter_data *data;
-
-	/* sigh, we need to copy this because the menu will free the one we got passed in */
-	data = g_malloc0(sizeof(*data));
-	data->type = type;
-	mail_get_message(fdata->folder, fdata->uid, filter_type_got_message, data, mail_thread_new);
-}
-
-static void filter_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_SUBJECT); }
-static void filter_sender_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_type_uid(fdata, AUTO_FROM); }
-static void filter_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_TO); }
-static void filter_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_gui_add_from_mlist(fdata->mlist); }
 
 void
 hide_none(GtkWidget *w, FolderBrowser *fb)
@@ -1538,229 +1411,75 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 	}
 }
 
-#if 0
-struct _colour_data {
-	FolderBrowser *fb;
-	guint32 rgb;
-};
-
-#define COLOUR_NONE (~0)
-
-static void
-colourise_msg (GtkWidget *widget, gpointer user_data)
-{
-	struct _colour_data *data = user_data;
-	char *colour = NULL;
-	GPtrArray *uids;
-	int i;
-	
-	if (data->rgb != COLOUR_NONE) {
-		colour = alloca (8);
-		sprintf (colour, "#%.2x%.2x%.2x", (data->rgb & 0xff0000) >> 16,
-			 (data->rgb & 0xff00) >> 8, data->rgb & 0xff);
-	}
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (data->fb->message_list, enumerate_msg, uids);
-	for (i = 0; i < uids->len; i++) {
-		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "colour", colour);
-	}
-	g_ptr_array_free (uids, TRUE);
-}
-
-static void
-colour_closures_free (GPtrArray *closures)
-{
-	struct _colour_data *data;
-	int i;
-	
-	for (i = 0; i < closures->len; i++) {
-		data = closures->pdata[i];
-		gtk_object_unref (GTK_OBJECT (data->fb));
-		g_free (data);
-	}
-	g_ptr_array_free (closures, TRUE);
-}
-#endif
-
-struct _label_data {
-	FolderBrowser *fb;
-	int label;
-};
-
-static void
-set_msg_label (GtkWidget *widget, gpointer user_data)
-{
-	struct _label_data *data = user_data;
-	GPtrArray *uids;
-	char *label;
-	int i;
-	
-	if (data->label != -1)
-		label = g_strdup_printf ("%d", data->label);
-	else
-		label = NULL;
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (data->fb->message_list, enumerate_msg, uids);
-	for (i = 0; i < uids->len; i++) {
-		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "label", label);
-	}
-	g_ptr_array_free (uids, TRUE);
-	
-	g_free (label);
-}
-
-static void
-label_closures_free (GPtrArray *closures)
-{
-	struct _label_data *data;
-	int i;
-	
-	for (i = 0; i < closures->len; i++) {
-		data = closures->pdata[i];
-		gtk_object_unref (GTK_OBJECT (data->fb));
-		g_free (data);
-	}
-	g_ptr_array_free (closures, TRUE);
-}
-
-
 enum {
-	SELECTION_SET              = 1<<1,
-	CAN_MARK_READ              = 1<<2,
-	CAN_MARK_UNREAD            = 1<<3,
-	CAN_DELETE                 = 1<<4,
-	CAN_UNDELETE               = 1<<5,
-	IS_MAILING_LIST            = 1<<6,
-	CAN_RESEND                 = 1<<7,
-	CAN_MARK_IMPORTANT         = 1<<8,
-	CAN_MARK_UNIMPORTANT       = 1<<9,
-	CAN_FLAG_FOR_FOLLOWUP      = 1<<10,
-	CAN_FLAG_COMPLETED         = 1<<11,
-	CAN_CLEAR_FLAG             = 1<<12,
-	CAN_ADD_SENDER             = 1<<13
+	SELECTION_SET   = 2,
+	CAN_MARK_READ   = 4,
+	CAN_MARK_UNREAD = 8,
+	CAN_DELETE      = 16,
+	CAN_UNDELETE    = 32,
+	IS_MAILING_LIST = 64,
+	CAN_RESEND      = 128,
+	CAN_MARK_IMPORTANT = 256,
+	CAN_MARK_UNIMPORTANT = 512
 };
 
 #define MLIST_VFOLDER (3)
 #define MLIST_FILTER (8)
 
 static EPopupMenu filter_menu[] = {
-	E_POPUP_ITEM_CC (N_("VFolder on _Subject"),        GTK_SIGNAL_FUNC (vfolder_subject_uid),   NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("VFolder on Se_nder"),         GTK_SIGNAL_FUNC (vfolder_sender_uid),    NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("VFolder on _Recipients"),     GTK_SIGNAL_FUNC (vfolder_recipient_uid), NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("VFolder on Mailing _List"),   GTK_SIGNAL_FUNC (vfolder_mlist_uid),     NULL, SELECTION_SET | IS_MAILING_LIST),
+	{ N_("VFolder on _Subject"),        NULL, GTK_SIGNAL_FUNC (vfolder_subject),   NULL, SELECTION_SET },
+	{ N_("VFolder on Se_nder"),         NULL, GTK_SIGNAL_FUNC (vfolder_sender),    NULL, SELECTION_SET },
+	{ N_("VFolder on _Recipients"),     NULL, GTK_SIGNAL_FUNC (vfolder_recipient), NULL, SELECTION_SET },
+	{ N_("VFolder on Mailing _List"),   NULL, GTK_SIGNAL_FUNC (vfolder_mlist),     NULL, SELECTION_SET | IS_MAILING_LIST },
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM_CC (N_("Filter on Sub_ject"),         GTK_SIGNAL_FUNC (filter_subject_uid),    NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("Filter on Sen_der"),          GTK_SIGNAL_FUNC (filter_sender_uid),     NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("Filter on Re_cipients"),      GTK_SIGNAL_FUNC (filter_recipient_uid),  NULL, SELECTION_SET),
-	E_POPUP_ITEM_CC (N_("Filter on _Mailing List"),    GTK_SIGNAL_FUNC (filter_mlist_uid),      NULL, SELECTION_SET | IS_MAILING_LIST),
+	{ N_("Filter on Sub_ject"),         NULL, GTK_SIGNAL_FUNC (filter_subject),    NULL, SELECTION_SET },
+	{ N_("Filter on Sen_der"),          NULL, GTK_SIGNAL_FUNC (filter_sender),     NULL, SELECTION_SET },
+	{ N_("Filter on Re_cipients"),      NULL, GTK_SIGNAL_FUNC (filter_recipient),  NULL, SELECTION_SET },
+	{ N_("Filter on _Mailing List"),    NULL, GTK_SIGNAL_FUNC (filter_mlist),      NULL, SELECTION_SET | IS_MAILING_LIST },
 	
 	E_POPUP_TERMINATOR
 };
 
-static EPopupMenu label_menu[] = {
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (N_("None"), NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_SEPARATOR,
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
-	E_POPUP_TERMINATOR
-};
 
 static EPopupMenu context_menu[] = {
-	E_POPUP_ITEM (N_("_Open"),                    GTK_SIGNAL_FUNC (open_msg),          0),
-	E_POPUP_ITEM (N_("_Edit as New Message..."),  GTK_SIGNAL_FUNC (resend_msg),        CAN_RESEND),
-	E_POPUP_ITEM (N_("_Save As..."),              GTK_SIGNAL_FUNC (save_msg),          0),
-	E_POPUP_ITEM (N_("_Print"),                   GTK_SIGNAL_FUNC (print_msg),         0),
+	{ N_("_Open"),                      NULL, GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
+	{ N_("_Edit as New Message..."),    NULL, GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
+	{ N_("_Save As..."),                NULL, GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
+	{ N_("_Print"),                     NULL, GTK_SIGNAL_FUNC (print_msg),        NULL,  SELECTION_SET },
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("_Reply to Sender"),         GTK_SIGNAL_FUNC (reply_to_sender),   0),
-	E_POPUP_ITEM (N_("Reply to _List"),           GTK_SIGNAL_FUNC (reply_to_list),     0),
-	E_POPUP_ITEM (N_("Reply to _All"),            GTK_SIGNAL_FUNC (reply_to_all),      0),
-	E_POPUP_ITEM (N_("_Forward"),                 GTK_SIGNAL_FUNC (forward),           0),
+	{ N_("_Reply to Sender"),           NULL, GTK_SIGNAL_FUNC (reply_to_sender),  NULL,  0 },
+	{ N_("Reply to _List"),        	    NULL, GTK_SIGNAL_FUNC (reply_to_list),    NULL,  0 },
+	{ N_("Reply to _All"),              NULL, GTK_SIGNAL_FUNC (reply_to_all),     NULL,  0 },
+	{ N_("_Forward"),                   NULL, GTK_SIGNAL_FUNC (forward),          NULL,  0 },
+	{ "", NULL, (NULL), NULL,  0 },
+	{ N_("Mar_k as Read"),              NULL, GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
+	{ N_("Mark as U_nread"),            NULL, GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
+	{ N_("Mark as _Important"),         NULL, GTK_SIGNAL_FUNC (mark_as_important), NULL, CAN_MARK_IMPORTANT },
+	{ N_("Mark as Unim_portant"),       NULL, GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, CAN_MARK_UNIMPORTANT },
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("Follo_w Up..."),            GTK_SIGNAL_FUNC (flag_for_followup),       CAN_FLAG_FOR_FOLLOWUP),
-	E_POPUP_ITEM (N_("Fla_g Completed"),          GTK_SIGNAL_FUNC (flag_followup_completed), CAN_FLAG_COMPLETED),
-	E_POPUP_ITEM (N_("Cl_ear Flag"),              GTK_SIGNAL_FUNC (flag_followup_clear),     CAN_CLEAR_FLAG),
-	
-	/* separator here? */
-	
-	E_POPUP_ITEM (N_("Mar_k as Read"),            GTK_SIGNAL_FUNC (mark_as_seen),        CAN_MARK_READ),
-	E_POPUP_ITEM (N_("Mark as _Unread"),          GTK_SIGNAL_FUNC (mark_as_unseen),      CAN_MARK_UNREAD),
-	E_POPUP_ITEM (N_("Mark as _Important"),       GTK_SIGNAL_FUNC (mark_as_important),   CAN_MARK_IMPORTANT),
-	E_POPUP_ITEM (N_("_Mark as Unimportant"),     GTK_SIGNAL_FUNC (mark_as_unimportant), CAN_MARK_UNIMPORTANT),
+	{ N_("_Move to Folder..."),         NULL, GTK_SIGNAL_FUNC (move_msg_cb),      NULL,  0 },
+	{ N_("_Copy to Folder..."),         NULL, GTK_SIGNAL_FUNC (copy_msg_cb),      NULL,  0 },
+	{ N_("_Delete"),                    NULL, GTK_SIGNAL_FUNC (delete_msg),       NULL, CAN_DELETE },
+	{ N_("_Undelete"),                  NULL, GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("_Delete"),                  GTK_SIGNAL_FUNC (delete_msg),          CAN_DELETE),
-	E_POPUP_ITEM (N_("U_ndelete"),                GTK_SIGNAL_FUNC (undelete_msg),        CAN_UNDELETE),
+	{ N_("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  SELECTION_SET },
+	  { "",                             NULL, GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
 	
-	E_POPUP_SEPARATOR,
-	
-	E_POPUP_ITEM (N_("Mo_ve to Folder..."),       GTK_SIGNAL_FUNC (move_msg_cb),          0),
-	E_POPUP_ITEM (N_("_Copy to Folder..."),       GTK_SIGNAL_FUNC (copy_msg_cb),          0),
-	
-	E_POPUP_SEPARATOR,
-	
-	E_POPUP_SUBMENU (N_("Label"),                 label_menu,                             0),
-	
-	E_POPUP_SEPARATOR,
-	
-	E_POPUP_ITEM (N_("Add Sender to Address_book"), GTK_SIGNAL_FUNC (addrbook_sender), SELECTION_SET | CAN_ADD_SENDER),
-	
-	E_POPUP_SEPARATOR,
-	
-	E_POPUP_ITEM (N_("Appl_y Filters"),             GTK_SIGNAL_FUNC (apply_filters),      0),
-	
-	E_POPUP_SEPARATOR,
-	
-	E_POPUP_SUBMENU (N_("Crea_te Rule From Message"), filter_menu,                        SELECTION_SET),
+	{ N_("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },
+	{ "",                               NULL, GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
+	{ N_("Create Ru_le From Message"),  NULL, GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
 	
 	E_POPUP_TERMINATOR
 };
 
-/* Note: this must be kept in sync with the context_menu!!! */
-static char *context_pixmaps[] = {
-	NULL, /* Open */
-	NULL, /* Edit */
-	"save-as-16.png",
-	"print.xpm",
-	NULL,
-	"reply.xpm",
-	NULL, /* Reply to List */
-	"reply_to_all.xpm",
-	"forward.xpm",
-	NULL,
-	"flag-for-followup-16.png",
-	NULL, /* Flag */
-	NULL, /* Clear */
-	"mail-read.xpm",
-	"mail-new.xpm",
-	"priority-high.xpm",
-	NULL, /* Mark as Unimportant */
-	NULL,
-	"evolution-trash-mini.png",
-	"undelete_message-16.png",
-	NULL,
-	"move_message.xpm",
-	"copy_16_message.xpm",
-	NULL,
-	NULL, /* Label */
-	NULL,
-	NULL, /* Add Sender to Addressbook */
-	NULL,
-	NULL, /* Apply Filters */
-	NULL,
-	NULL, /* Create Rule from Message */
-};
 
 struct cmpf_data {
 	ETree *tree;
@@ -1773,7 +1492,7 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 {
 	int tx, ty, tw, th;
 	struct cmpf_data *closure = user_data;
-	
+
 	gdk_window_get_origin (GTK_WIDGET (closure->tree)->window, x, y);
 	e_tree_get_cell_geometry (closure->tree, closure->row, closure->col,
 				  &tx, &ty, &tw, &th);
@@ -1781,67 +1500,44 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 	*y += ty + th / 2;
 }
 
-static gboolean
-followup_tag_complete (const char *tag_value)
-{
-	struct _FollowUpTag *tag;
-	gboolean ret;
-	
-	tag = message_tag_followup_decode (tag_value);
-	ret = tag->completed != (time_t) 0 ? TRUE : FALSE;
-	g_free (tag);
-	
-	return ret;
-}
-
-static void
-setup_popup_icons (void)
-{
-	int i;
-	
-	for (i = 0; context_menu[i].name; i++) {
-		if (context_pixmaps[i]) {
-			char *filename;
-			
-			filename = g_strdup_printf ("%s/%s", EVOLUTION_IMAGES, context_pixmaps[i]);
-			context_menu[i].pixmap_widget = gnome_pixmap_new_from_file (filename);
-			g_free (filename);
-		}
-	}
-}
-
 /* handle context menu over message-list */
-static int
+static gint
 on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, FolderBrowser *fb)
 {
+	extern CamelFolder *sent_folder;
 	CamelMessageInfo *info;
-	GPtrArray *uids, *closures;
+	GPtrArray *uids;
 	int enable_mask = 0;
 	int hide_mask = 0;
 	int i;
 	char *mlist = NULL;
 	GtkMenu *menu;
-	struct _filter_data *fdata = NULL;
 	
-	if (!folder_browser_is_sent (fb)) {
+	if (fb->folder != sent_folder) {
 		enable_mask |= CAN_RESEND;
 		hide_mask |= CAN_RESEND;
+	}
+	
+	if (fb->mail_display->current_message == NULL) {
+		enable_mask |= SELECTION_SET;
 	} else {
-		enable_mask |= CAN_ADD_SENDER;
-		hide_mask |= CAN_ADD_SENDER;
+		char *mname, *p, c, *o;
+		
+		mname = header_raw_check_mailing_list (&((CamelMimePart *)fb->mail_display->current_message)->headers);
+		/* Escape the mailing list name before showing it */
+		if (mname) {
+			mlist = alloca (strlen (mname)+2);
+			p = mname;
+			o = mlist;
+			while ((c = *p++)) {
+				if (c == '_')
+					*o++ = '_';
+				*o++ = c;
+			}
+			*o = 0;
+			g_free (mname);
+		}
 	}
-	
-	if (folder_browser_is_drafts (fb)) {
-		enable_mask |= CAN_ADD_SENDER;
-		hide_mask |= CAN_ADD_SENDER;
-	}
-	
-	if (fb->folder == outbox_folder) {
-		enable_mask |= CAN_ADD_SENDER;
-		hide_mask |= CAN_ADD_SENDER;
-	}
-	
-	enable_mask |= SELECTION_SET;
 	
 	/* get a list of uids */
 	uids = g_ptr_array_new ();
@@ -1854,45 +1550,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gboolean have_unseen = FALSE;
 		gboolean have_important = FALSE;
 		gboolean have_unimportant = FALSE;
-		gboolean have_flag_for_followup = FALSE;
-		gboolean have_flag_completed = FALSE;
-		gboolean have_flag_incomplete = FALSE;
-		gboolean have_unflagged = FALSE;
-		const char *tag;
 		
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
 			if (info == NULL)
 				continue;
-			
-			if (i == 0 && uids->len == 1) {
-				const char *mname, *p;
-				char c, *o;
-				
-				/* used by filter/vfolder from X callbacks */
-				fdata = g_malloc0(sizeof(*fdata));
-				fdata->uid = g_strdup(uids->pdata[i]);
-				fdata->uri = g_strdup(fb->uri);
-				fdata->folder = fb->folder;
-				camel_object_ref((CamelObject *)fdata->folder);
-				
-				enable_mask &= ~SELECTION_SET;
-				mname = camel_message_info_mlist(info);
-				if (mname && mname[0]) {
-					fdata->mlist = g_strdup(mname);
-					
-					/* Escape the mailing list name before showing it */
-					mlist = alloca (strlen (mname)+2);
-					p = mname;
-					o = mlist;
-					while ((c = *p++)) {
-						if (c == '_')
-							*o++ = '_';
-						*o++ = c;
-					}
-					*o = 0;
-				}
-			}
 			
 			if (info->flags & CAMEL_MESSAGE_SEEN)
 				have_seen = TRUE;
@@ -1908,15 +1570,6 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				have_important = TRUE;
 			else
 				have_unimportant = TRUE;
-			
-			if ((tag = camel_tag_get (&info->user_tags, "follow-up"))) {
-				have_flag_for_followup = TRUE;
-				if (followup_tag_complete (tag))
-					have_flag_completed = TRUE;
-				else
-					have_flag_incomplete = TRUE;
-			} else
-				have_unflagged = TRUE;
 			
 			camel_folder_free_message_info (fb->folder, info);
 			
@@ -1939,43 +1592,29 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		if (!have_important)
 			enable_mask |= CAN_MARK_UNIMPORTANT;
 		
-		if (!have_flag_for_followup)
-			enable_mask |= CAN_CLEAR_FLAG;
-		if (!have_unflagged)
-			enable_mask |= CAN_FLAG_FOR_FOLLOWUP;
-		if (!have_flag_incomplete)
-			enable_mask |= CAN_FLAG_COMPLETED;
-		
 		/*
 		 * Hide items that wont get used.
 		 */
-		if (!(have_unseen && have_seen)) {
+		if (!(have_unseen && have_seen)){
 			if (have_seen)
 				hide_mask |= CAN_MARK_READ;
 			else
 				hide_mask |= CAN_MARK_UNREAD;
 		}
 		
-		if (!(have_undeleted && have_deleted)) {
+		if (!(have_undeleted && have_deleted)){
 			if (have_deleted)
 				hide_mask |= CAN_DELETE;
 			else
 				hide_mask |= CAN_UNDELETE;
 		}
 		
-		if (!(have_important && have_unimportant)) {
+		if (!(have_important && have_unimportant)){
 			if (have_important)
 				hide_mask |= CAN_MARK_IMPORTANT;
 			else
 				hide_mask |= CAN_MARK_UNIMPORTANT;
 		}
-		
-		if (!have_flag_for_followup)
-			hide_mask |= CAN_CLEAR_FLAG;
-		if (!have_unflagged)
-			hide_mask |= CAN_FLAG_FOR_FOLLOWUP;
-		if (!have_flag_incomplete)
-			hide_mask |= CAN_FLAG_COMPLETED;
 	}
 	
 	/* free uids */
@@ -1983,73 +1622,18 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		g_free (uids->pdata[i]);
 	g_ptr_array_free (uids, TRUE);
 	
-	/* generate the "Filter on Mailing List" menu item name */
+	/* generate the "Filter on Mailing List menu item name */
 	if (mlist == NULL) {
 		enable_mask |= IS_MAILING_LIST;
-		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on _Mailing List"));
-		filter_menu[MLIST_VFOLDER].name = g_strdup (_("VFolder on M_ailing List"));
+		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on Mailing List"));
+		filter_menu[MLIST_VFOLDER].name = g_strdup (_("VFolder on Mailing List"));
 	} else {
-		filter_menu[MLIST_FILTER].name = g_strdup_printf (_("Filter on _Mailing List (%s)"), mlist);
-		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on M_ailing List (%s)"), mlist);
+		filter_menu[MLIST_FILTER].name = g_strdup_printf (_("Filter on Mailing List (%s)"), mlist);
+		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on Mailing List (%s)"), mlist);
 	}
-	
-	/* create the label/colour menu */
-	closures = g_ptr_array_new ();
-	label_menu[0].closure = g_new (struct _label_data, 1);
-	g_ptr_array_add (closures, label_menu[0].closure);
-	gtk_object_ref (GTK_OBJECT (fb));
-	((struct _label_data *) label_menu[0].closure)->fb = fb;
-	((struct _label_data *) label_menu[0].closure)->label = -1;
-	
-	for (i = 0; i < 5; i++) {
-		struct _label_data *closure;
-		GdkPixmap *pixmap;
-		GdkColormap *map;
-		GdkColor color;
-		guint32 rgb;
-		GdkGC *gc;
-		
-		rgb = mail_config_get_label_color (i);
-		
-		color.red = ((rgb & 0xff0000) >> 8) | 0xff;
-		color.green = (rgb & 0xff00) | 0xff;
-		color.blue = ((rgb & 0xff) << 8) | 0xff;
-		
-		map = gdk_colormap_get_system ();
-		gdk_color_alloc (map, &color);
-		
-		pixmap = gdk_pixmap_new (GTK_WIDGET (fb)->window, 16, 16, -1);
-		gc = gdk_gc_new (GTK_WIDGET (fb)->window);
-		gdk_gc_set_foreground (gc, &color);
-		gdk_draw_rectangle (pixmap, gc, TRUE, 0, 0, 16, 16);
-		gdk_gc_unref (gc);
-		
-		closure = g_new (struct _label_data, 1);
-		gtk_object_ref (GTK_OBJECT (fb));
-		closure->fb = fb;
-		closure->label = i;
-		
-		g_ptr_array_add (closures, closure);
-		
-		label_menu[i + 2].name = e_utf8_to_locale_string (mail_config_get_label_name (i));
-		label_menu[i + 2].pixmap_widget = gtk_pixmap_new (pixmap, NULL);
-		label_menu[i + 2].closure = closure;
-	}
-	
-	setup_popup_icons ();
-	
-	for (i = 0; i < sizeof (filter_menu) / sizeof (filter_menu[0]); i++)
-		filter_menu[i].closure = fdata;
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
-	
-	gtk_object_set_data_full (GTK_OBJECT (menu), "label_closures",
-				  closures, (GtkDestroyNotify) label_closures_free);
-	
-	if (fdata)
-		gtk_object_set_data_full (GTK_OBJECT (menu), "filter_data",
-					  fdata, (GtkDestroyNotify) filter_data_free);
 	
 	if (event->type == GDK_KEY_PRESS) {
 		struct cmpf_data closure;
@@ -2067,76 +1651,28 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	g_free (filter_menu[MLIST_FILTER].name);
 	g_free (filter_menu[MLIST_VFOLDER].name);
 	
-	/* free the label/colour menu */
-	for (i = 0; i < 5; i++) {
-		g_free (label_menu[i + 2].name);
-	}
-	
 	return TRUE;
 }
 
-static int
-html_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data)
-{
-	FolderBrowser *fb = data;
-	HTMLEngine *engine;
-	HTMLPoint *point;
-	ETreePath *path;
-	int row;
-	
-	if (event->type != GDK_BUTTON_PRESS || event->button != 3)
-		return FALSE;
-	
-	engine = GTK_HTML (widget)->engine;
-	point = html_engine_get_point_at (engine, event->x + engine->x_offset,
-					  event->y + engine->y_offset, FALSE);
-	
-	if (point) {
-		/* don't popup a menu if the mouse is hovering over a
-                   url or a source image because those situations are
-                   handled in mail-display.c's button_press_event
-                   callback */
-		const char *src, *url;
-		
-		url = html_object_get_url (point->object);
-		src = html_object_get_src (point->object);
-		
-		if (url || src) {
-			html_point_destroy (point);
-			return FALSE;
-		}
-		
-		html_point_destroy (point);
-	}	
-	
-	path = e_tree_get_cursor (fb->message_list->tree);
-	row = e_tree_row_of_node (fb->message_list->tree, path);
-	
-	on_right_click (fb->message_list->tree, row, path, 2,
-			(GdkEvent *) event, fb);
-	
-	return TRUE;
-}
-
-static int
+static gint
 on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 {
 	FolderBrowser *fb = data;
 	ETreePath *path;
 	int row;
-	
+
 	if (key->state & GDK_CONTROL_MASK)
 		return FALSE;
-	
+
 	path = e_tree_get_cursor (fb->message_list->tree);
 	row = e_tree_row_of_node (fb->message_list->tree, path);
-	
+
 	switch (key->keyval) {
 	case GDK_Delete:
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
 		return TRUE;
-		
+
 	case GDK_Menu:
 		on_right_click (fb->message_list->tree, row, path, 2,
 				(GdkEvent *)key, fb);
@@ -2145,7 +1681,7 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 		toggle_as_important (NULL, fb, NULL);
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
@@ -2318,15 +1854,12 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 {
 	FolderBrowser *fb = data;
 	int timeout = mail_config_get_mark_as_seen_timeout ();
-	const char *followup;
 	
 	if (folder != fb->folder || fb->mail_display == NULL)
 		return;
 	
-	followup = camel_folder_get_message_user_tag (folder, uid, "follow-up");
-	
-	mail_display_set_message (fb->mail_display, (CamelMedium *) msg, followup);
-	
+	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
+
 	/* FIXME: should this signal be emitted here?? */
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
 	
@@ -2375,7 +1908,7 @@ do_message_selected (FolderBrowser *fb)
 			fb->loading_uid = g_strdup (fb->new_uid);
 			mail_get_message (fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
 		} else {
-			mail_display_set_message (fb->mail_display, NULL, NULL);
+			mail_display_set_message (fb->mail_display, NULL);
 		}
 	}
 	
@@ -2398,28 +1931,6 @@ on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 		fb->loading_id = gtk_timeout_add (100, (GtkFunction)do_message_selected, fb);
 }
 
-static gboolean
-on_message_list_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
-{
-	FolderBrowser *fb = (FolderBrowser *) user_data;
-	
-	printf ("got focus!\n");
-	folder_browser_ui_message_list_focus (fb);
-	
-	return FALSE;
-}
-
-static gboolean
-on_message_list_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
-{
-	FolderBrowser *fb = (FolderBrowser *) user_data;
-	
-	printf ("got unfocus!\n");
-	folder_browser_ui_message_list_unfocus (fb);
-	
-	return FALSE;
-}
-
 static void
 folder_browser_init (GtkObject *object)
 {
@@ -2435,7 +1946,7 @@ my_folder_browser_init (GtkObject *object)
 	FolderBrowser *fb = FOLDER_BROWSER (object);
 	int i;
 	
-	fb->view_instance = NULL;
+	fb->view_collection = NULL;
 	fb->view_menus = NULL;
 
 	fb->pref_master = FALSE;
@@ -2456,8 +1967,6 @@ my_folder_browser_init (GtkObject *object)
 	
 	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
 			    "key_press_event", GTK_SIGNAL_FUNC (on_key_press), fb);
-	gtk_signal_connect (GTK_OBJECT (fb->mail_display->html),
-			    "button_press_event", GTK_SIGNAL_FUNC (html_button_press_event), fb);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "key_press", GTK_SIGNAL_FUNC (etree_key), fb);
@@ -2467,12 +1976,6 @@ my_folder_browser_init (GtkObject *object)
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "double_click", GTK_SIGNAL_FUNC (on_double_click), fb);
-	
-	gtk_signal_connect (GTK_OBJECT (fb->message_list), "focus_in_event",
-			    GTK_SIGNAL_FUNC (on_message_list_focus_in), fb);
-	
-	gtk_signal_connect (GTK_OBJECT (fb->message_list), "focus_out_event",
-			    GTK_SIGNAL_FUNC (on_message_list_focus_out), fb);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_selected",
 			    on_message_selected, fb);
@@ -2535,13 +2038,10 @@ folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 	}
 
 	CORBA_exception_free (&ev);
-	
-	if (uri) {
-		folder_browser->uri = g_strdup (uri);
-		gtk_object_ref (GTK_OBJECT (folder_browser));
-		folder_browser->get_id = mail_get_folder (folder_browser->uri, 0, got_folder,
-							  folder_browser, mail_thread_new);
-	}
+
+	folder_browser->uri = g_strdup (uri);
+	gtk_object_ref (GTK_OBJECT (folder_browser));
+	folder_browser->get_id = mail_get_folder (folder_browser->uri, 0, got_folder, folder_browser, mail_thread_new);
 
 	return GTK_WIDGET (folder_browser);
 }

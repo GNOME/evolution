@@ -237,7 +237,6 @@ mail_tool_destroy_xevolution (XEvolution *xev)
 	g_free (xev->source);
 	g_free (xev->transport);
 	g_free (xev->account);
-	g_free (xev->format);
 	g_free (xev->fcc);
 	g_free (xev);
 }
@@ -340,15 +339,11 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 	gboolean want_plain;
 	gchar *text;
 	
+	want_plain = !mail_config_get_send_html ();
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	/* We pass "want_plain" for "cite", since if it's HTML, we'll
 	 * do the citing ourself below.
 	 */
-	/* FIXME the citing logic has changed and we basically never want_plain
-	 * to be true now, but I don't want to remove all that logic until I
-	 * am sure --Larry
-	 */
-	want_plain = FALSE;
 	text = mail_get_message_body (contents, want_plain, want_plain);
 	
 	/* Set the quoted reply text. */
@@ -369,7 +364,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 					    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
 					    credits ? credits : "",
 					    mail_config_get_citation_color (),
-					    want_plain ? "" : "<blockquote type=cite><i>",
+					    want_plain ? "" : "<blockquote><i>",
 					    text,
 					    want_plain ? "" : "</i></blockquote>");
 		g_free (text);
@@ -391,7 +386,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 gchar *
 mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
 {
-	char *title, *body, *ret;
+	gchar *title, *body, *ret;
 	
 	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message),
 				      !mail_config_get_send_html (),

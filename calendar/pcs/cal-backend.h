@@ -47,17 +47,8 @@ BEGIN_GNOME_DECLS
 typedef enum {
 	CAL_BACKEND_OPEN_SUCCESS,	/* Loading OK */
 	CAL_BACKEND_OPEN_ERROR,		/* We need better error reporting in libversit */
-	CAL_BACKEND_OPEN_NOT_FOUND,
-	CAL_BACKEND_OPEN_PERMISSION_DENIED
+	CAL_BACKEND_OPEN_NOT_FOUND
 } CalBackendOpenStatus;
-
-/* Update and Remove result values */
-typedef enum {
-	CAL_BACKEND_RESULT_SUCCESS,
-	CAL_BACKEND_RESULT_INVALID_OBJECT,
-	CAL_BACKEND_RESULT_NOT_FOUND,
-	CAL_BACKEND_RESULT_PERMISSION_DENIED
-} CalBackendResult;
 
 /* Result codes for ::get_alarms_in_range() */
 typedef enum {
@@ -90,10 +81,6 @@ struct _CalBackendClass {
 
 	gboolean (* is_loaded) (CalBackend *backend);
 
-	Query *(* get_query) (CalBackend *backend,
-			      GNOME_Evolution_Calendar_QueryListener ql,
-			      const char *sexp);
-
 	/* Mode relate virtual methods */
 	CalMode (* get_mode) (CalBackend *backend);
 	void    (* set_mode) (CalBackend *backend, CalMode mode);	
@@ -121,8 +108,8 @@ struct _CalBackendClass {
 		time_t start, time_t end, gboolean *object_found);
 
 	/* Object manipulation virtual methods */
-	CalBackendResult (* update_objects) (CalBackend *backend, const char *calobj);
-	CalBackendResult (* remove_object) (CalBackend *backend, const char *uid);
+	gboolean (* update_objects) (CalBackend *backend, const char *calobj);
+	gboolean (* remove_object) (CalBackend *backend, const char *uid);
 
 	/* Timezone related virtual methods */
 	icaltimezone *(* get_timezone) (CalBackend *backend, const char *tzid);
@@ -140,10 +127,6 @@ CalBackendOpenStatus cal_backend_open (CalBackend *backend, const char *uristr,
 				       gboolean only_if_exists);
 
 gboolean cal_backend_is_loaded (CalBackend *backend);
-
-Query *cal_backend_get_query (CalBackend *backend,
-			      GNOME_Evolution_Calendar_QueryListener ql,
-			      const char *sexp);
 
 CalMode cal_backend_get_mode (CalBackend *backend);
 void cal_backend_set_mode (CalBackend *backend, CalMode mode);
@@ -179,9 +162,9 @@ GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
 	CalBackendGetAlarmsForObjectResult *result);
 
 
-CalBackendResult cal_backend_update_objects (CalBackend *backend, const char *calobj);
+gboolean cal_backend_update_objects (CalBackend *backend, const char *calobj);
 
-CalBackendResult cal_backend_remove_object (CalBackend *backend, const char *uid);
+gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
 
 icaltimezone* cal_backend_get_timezone (CalBackend *backend, const char *tzid);
 icaltimezone* cal_backend_get_default_timezone (CalBackend *backend);

@@ -2,8 +2,7 @@
 /* camel-mime-part-utils : Utility for mime parsing and so on
  *
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
- *          Michael Zucchi <notzed@ximian.com>
- *          Jeffrey Stedfast <fejj@ximian.com>
+ * 	    Michael Zucchi <notzed@ximian.com>
  *
  * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
  *
@@ -38,7 +37,6 @@
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
-#include "camel-multipart-signed.h"
 #include "camel-seekable-substream.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-filter.h"
@@ -46,7 +44,6 @@
 #include "camel-mime-filter-basic.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-crlf.h"
-#include "camel-mime-filter-save.h"
 #include "camel-html-parser.h"
 #include "camel-charset-map.h"
 
@@ -100,106 +97,61 @@ check_html_charset(char *buffer, int length)
 	return charset;
 }
 
-static GByteArray *
-convert_buffer (GByteArray *in, const char *to, const char *from)
+static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *from)
 {
-	size_t inleft, outleft, outlen, converted = 0;
+	iconv_t ic;
+	size_t inlen, outlen;
+	char *inbuf, *outbuf;
+	char *buffer;
 	GByteArray *out = NULL;
-	const char *inbuf;
-	char *outbuf;
-	iconv_t cd;
-	
-	if (in->len == 0)
-		return g_byte_array_new();
+	int i = 2;
 
 	d(printf("converting buffer from %s to %s: '%.*s'\n", from, to, (int)in->len, in->data));
-	
-	cd = e_iconv_open(to, from);
-	if (cd == (iconv_t) -1) {
-		g_warning ("Cannot convert from '%s' to '%s': %s", from, to, g_strerror (errno));
+
+	ic = e_iconv_open(to, from);
+	if (ic == (iconv_t) -1) {
+		g_warning("Cannot convert from '%s' to '%s': %s", from, to, strerror(errno));
 		return NULL;
 	}
-	
-	outlen = in->len * 2 + 16;
-	out = g_byte_array_new ();
-	g_byte_array_set_size (out, outlen);
-	
-	inbuf = in->data;
-	inleft = in->len;
-	
-	do {
-		outbuf = out->data + converted;
-		outleft = outlen - converted;
-		
-		converted = e_iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
-		if (converted == (size_t) -1) {
-			if (errno != E2BIG && errno != EINVAL)
-				goto fail;
-		}
-		
-		/*
-		 * E2BIG   There is not sufficient room at *outbuf.
-		 *
-		 * We just need to grow our outbuffer and try again.
-		 */
-		
-		converted = outlen - outleft;
-		if (errno == E2BIG) {
-			outlen += inleft * 2 + 16;
-			out = g_byte_array_set_size (out, outlen);
-			outbuf = out->data + converted;
-		}
-		
-	} while (errno == E2BIG && inleft > 0);
-	
-	/*
-	 * EINVAL  An  incomplete  multibyte sequence has been encoun­
-	 *         tered in the input.
-	 *
-	 * We'll just have to ignore it...
-	 */
-	
-	/* flush the iconv conversion */
-	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
-	
-	/* now set the true length on the GByteArray */
-	converted = outlen - outleft;
-	g_byte_array_set_size (out, converted);
-	
-	e_iconv_close (cd);
-	
-	return out;
-	
- fail:
-	g_warning ("Cannot convert from '%s' to '%s': %s", from, to, g_strerror (errno));
-	
-	g_byte_array_free (out, TRUE);
-	
-	e_iconv_close (cd);
-	
-	return NULL;
-}
 
-/* We don't really use the charset argument except for debugging... */
-static gboolean
-broken_windows_charset (GByteArray *buffer, const char *charset)
-{
-	register unsigned char *inptr;
-	unsigned char *inend;
-	
-	inptr = buffer->data;
-	inend = inptr + buffer->len;
-	
-	while (inptr < inend) {
-		register unsigned char c = *inptr++;
-		
-		if (c >= 128 && c <= 159) {
-			g_warning ("Encountered Windows charset parading as %s", charset);
-			return TRUE;
+	do {
+		/* make plenty of space? */
+		outlen = in->len * i + 16;
+		buffer = g_malloc(outlen);
+
+		inbuf = in->data;
+		inlen = in->len;
+		outbuf = buffer;
+
+		if (e_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen) == (size_t) -1) {
+			g_free(buffer);
+			g_warning("conversion failed: %s", strerror(errno));
+			/* we didn't have enough space */
+			if (errno == E2BIG && i<6) {
+				i++;
+				continue;
+			}
+			break;
 		}
-	}
-	
-	return FALSE;
+
+		out = g_byte_array_new();
+		g_byte_array_append(out, buffer, (in->len*i+16) - outlen);
+
+		/* close off the conversion */
+		outbuf = buffer;
+		outlen = in->len * i + 16;
+		if (e_iconv(ic, NULL, 0, &outbuf, &outlen) != (size_t) -1)
+			g_byte_array_append(out, buffer, (in->len*i+16) - outlen);
+		g_free(buffer);
+
+		d(printf("converted: '%.*s'\n", (int)out->len, out->data));
+
+		break;
+	} while (1);
+
+	e_iconv_close(ic);
+
+	return out;
 }
 
 static gboolean
@@ -219,31 +171,28 @@ static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
 {
 	CamelMimeFilter *fdec = NULL, *fcrlf = NULL;
-	CamelMimeFilterBasicType enctype = 0;
 	int len, decid = -1, crlfid = -1;
 	struct _header_content_type *ct;
-	const char *charset = NULL;
 	GByteArray *buffer;
 	char *encoding, *buf;
+	const char *charset = NULL;
+	CamelMimeFilterBasicType enctype = 0;
 	CamelStream *mem;
-	
-	d(printf ("simple_data_wrapper_construct_from_parser()\n"));
+
+	d(printf("constructing data-wrapper\n"));
 	
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
-	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
+	encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
 	if (encoding) {
-		if (!strcasecmp (encoding, "base64")) {
+		if (!strcasecmp(encoding, "base64")) {
 			d(printf("Adding base64 decoder ...\n"));
 			enctype = CAMEL_MIME_FILTER_BASIC_BASE64_DEC;
-		} else if (!strcasecmp (encoding, "quoted-printable")) {
+		} else if (!strcasecmp(encoding, "quoted-printable")) {
 			d(printf("Adding quoted-printable decoder ...\n"));
 			enctype = CAMEL_MIME_FILTER_BASIC_QP_DEC;
-		} else if (!strcasecmp (encoding, "x-uuencode")) {
-			d(printf("Adding uudecoder ...\n"));
-			enctype = CAMEL_MIME_FILTER_BASIC_UU_DEC;
 		}
 		g_free (encoding);
-		
+
 		if (enctype != 0) {
 			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(enctype);
 			decid = camel_mime_parser_filter_add (mp, fdec);
@@ -276,32 +225,21 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		charset = check_html_charset(buffer->data, buffer->len);
 	
 	/* if we need to do charset conversion, see if we can/it works/etc */
-	if (charset && !(strcasecmp (charset, "us-ascii") == 0
-			 || strcasecmp (charset, "utf-8") == 0
-			 || strncasecmp (charset, "x-", 2) == 0)) {
+	if (charset && !(strcasecmp(charset, "us-ascii") == 0
+			 || strcasecmp(charset, "utf-8") == 0
+			 || strncasecmp(charset, "x-", 2) == 0)) {
 		GByteArray *out;
 		
-		/* You often see Microsoft Windows users announcing their texts
-		 * as being in ISO-8859-1 even when in fact they contain funny
-		 * characters from the Windows-CP1252 superset.
-		 */
-		if (!strncasecmp (charset, "iso-8859", 8)) {
-			/* check for Windows-specific chars... */
-			if (broken_windows_charset (buffer, charset)) {
-				charset = camel_charset_iso_to_windows (charset);
-				charset = e_iconv_charset_name (charset);
-			}
-		}
-		
-		out = convert_buffer (buffer, "UTF-8", charset);
+		out = convert_buffer(buffer, "UTF-8", charset);
 		if (out) {
 			/* converted ok, use this data instead */
 			g_byte_array_free(buffer, TRUE);
 			buffer = out;
 		} else {
-			/* else failed to convert, leave as raw? */
 			g_warning("Storing text as raw, unknown charset '%s' or invalid format", charset);
+			/* else failed to convert, leave as raw? */
 			dw->rawtext = TRUE;
+			/* should we change the content-type header? */
 		}
 	} else if (header_content_type_is (ct, "text", "*")) {
 		if (charset == NULL) {
@@ -316,9 +254,10 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 			dw->rawtext = !g_utf8_validate (buffer->data, buffer->len, NULL);
 		}
 	}
-	
+			
+
 	d(printf("message part kept in memory!\n"));
-	
+		
 	mem = camel_stream_mem_new_with_byte_array(buffer);
 	camel_data_wrapper_construct_from_stream(dw, mem);
 	camel_object_unref((CamelObject *)mem);
@@ -337,30 +276,46 @@ void
 camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParser *mp)
 {
 	CamelDataWrapper *content = NULL;
+	char *buf;
+	int len;
 	
 	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
-		/* multipart/signed is some fucked up type that we must treat as binary data, fun huh, idiots. */
-		if (header_content_type_is(camel_mime_parser_content_type(mp), "multipart", "signed")) {
-			content = (CamelDataWrapper *)camel_multipart_signed_new();
-			camel_multipart_construct_from_parser((CamelMultipart *)content, mp);
-		} else {
-			content = camel_data_wrapper_new ();
-			simple_data_wrapper_construct_from_parser (content, mp);
-		}
+		content = camel_data_wrapper_new ();
+		simple_data_wrapper_construct_from_parser (content, mp);
 		break;
 	case HSCAN_MESSAGE:
 		d(printf("Creating message part\n"));
 		content = (CamelDataWrapper *) camel_mime_message_new ();
 		camel_mime_part_construct_from_parser ((CamelMimePart *)content, mp);
 		break;
-	case HSCAN_MULTIPART:
+	case HSCAN_MULTIPART: {
+		struct _header_content_type *content_type;
+		CamelDataWrapper *bodypart;
+
+		/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 		d(printf("Creating multi-part\n"));
-		content = (CamelDataWrapper *)camel_multipart_new();
-		camel_multipart_construct_from_parser((CamelMultipart *)content, mp);
+		content = (CamelDataWrapper *)camel_multipart_new ();
+
+		content_type = camel_mime_parser_content_type (mp);
+		camel_multipart_set_boundary ((CamelMultipart *)content,
+					      header_content_type_param (content_type, "boundary"));
+		
+		while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_MULTIPART_END) {
+			camel_mime_parser_unstep (mp);
+			bodypart = (CamelDataWrapper *)camel_mime_part_new ();
+			camel_mime_part_construct_from_parser ((CamelMimePart *)bodypart, mp);
+			camel_multipart_add_part ((CamelMultipart *)content, (CamelMimePart *)bodypart);
+			camel_object_unref ((CamelObject *)bodypart);
+		}
+		
+		/* these are only return valid data in the MULTIPART_END state */
+		camel_multipart_set_preface ((CamelMultipart *)content, camel_mime_parser_preface (mp));
+		camel_multipart_set_postface ((CamelMultipart *)content, camel_mime_parser_postface (mp));
+		
 		d(printf("Created multi-part\n"));
-		break;
+		break; }
 	default:
 		g_warning("Invalid state encountered???: %d", camel_mime_parser_state (mp));
 	}

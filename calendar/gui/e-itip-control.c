@@ -37,7 +37,6 @@
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <bonobo/bonobo-exception.h>
 #include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
@@ -48,8 +47,6 @@
 #include <cal-client/cal-client.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <evolution-shell-client.h>
-#include <evolution-folder-selector-button.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-itip-control.h"
@@ -63,11 +60,9 @@ struct _EItipControlPrivate {
 	GtkWidget *prev;
 #endif
 
-	GPtrArray *event_clients;
 	CalClient *event_client;
-	GPtrArray *task_clients;
 	CalClient *task_client;
-	
+
 	char *vcalendar;
 	CalComponent *comp;
 	icalcomponent *main_comp;
@@ -122,11 +117,6 @@ struct _EItipControlPrivate {
 <input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
 #endif
 
-extern EvolutionShellClient *global_shell_client;	
-
-static const char *calendar_types[] = { "calendar", NULL };
-static const char *tasks_types[] = { "tasks", NULL };
-
 static void class_init	(EItipControlClass	 *klass);
 static void init	(EItipControl		 *itip);
 static void destroy	(GtkObject               *obj);
@@ -136,7 +126,6 @@ static void prev_clicked_cb (GtkWidget *widget, gpointer data);
 static void next_clicked_cb (GtkWidget *widget, gpointer data);
 #endif
 static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data);
-static gboolean object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data);
 static void ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar *encoding, gpointer data);
 
 static GtkVBoxClass *parent_class = NULL;
@@ -196,35 +185,10 @@ start_calendar_server_cb (CalClient *cal_client,
 }
 
 static CalClient *
-start_calendar_server (char *uri)
+start_calendar_server (gboolean tasks)
 {
 	CalClient *client;
-	gboolean success = FALSE;
-
-	client = cal_client_new ();
-
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
-			    start_calendar_server_cb, &success);
-
-	cal_client_open_calendar (client, uri, TRUE);
-			
-	/* run a sub event loop to turn cal-client's async load
-	   notification into a synchronous call */
-	gtk_main ();
-
-	if (success)
-		return client;
-
-	gtk_object_unref (GTK_OBJECT (client));
-	
-	return NULL;
-}
-
-static CalClient *
-start_default_server (gboolean tasks)
-{
-	CalClient *client;
-	gboolean success = FALSE;
+	gboolean success;
 
 	client = cal_client_new ();
 
@@ -238,7 +202,7 @@ start_default_server (gboolean tasks)
 		if (!cal_client_open_default_calendar (client, FALSE))
 			goto error;
 	}
-	
+			
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
 	gtk_main ();
@@ -249,88 +213,6 @@ start_default_server (gboolean tasks)
  error:
 	gtk_object_unref (GTK_OBJECT (client));
 	
-	return NULL;
-}
-
-static GPtrArray *
-get_servers (EvolutionShellClient *shell_client, const char *possible_types[], gboolean tasks)
-{
-	GNOME_Evolution_StorageRegistry registry;
-	GNOME_Evolution_StorageRegistry_StorageList *storage_list;
-	GPtrArray *servers;
-	int i, j, k;
-	CORBA_Environment ev;
-	
-	servers = g_ptr_array_new ();
-	
-	bonobo_object_ref (BONOBO_OBJECT (shell_client));
-	registry = evolution_shell_client_get_storage_registry_interface (shell_client);
-
-	CORBA_exception_init (&ev);
-	storage_list = GNOME_Evolution_StorageRegistry_getStorageList (registry, &ev);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return servers;
-	}
-	
-	for (i = 0; i < storage_list->_length; i++) {
-		GNOME_Evolution_Storage storage;
-		GNOME_Evolution_FolderList *folder_list;
-		
-		storage = storage_list->_buffer[i];
-		folder_list = GNOME_Evolution_Storage__get_folderList (storage, &ev);
-
-		for (j = 0; j < folder_list->_length; j++) {
-			GNOME_Evolution_Folder folder;
-			
-			folder = folder_list->_buffer[j];
-			for (k = 0; possible_types[k] != NULL; k++) {
-				CalClient *client;
-				char *uri;
-
-				if (strcmp (possible_types[k], folder.type))
-					continue;
-
-				uri = cal_util_expand_uri (folder.physicalUri, tasks);
-				client = start_calendar_server (uri);
-				if (client != NULL)
-					g_ptr_array_add (servers, client);			
-				g_free (uri);
-
-				break;
-			}
-		}
-
-		CORBA_free (folder_list);		
-	}
-	
-	bonobo_object_unref (BONOBO_OBJECT (shell_client));
-
-	return servers;
-}
-
-static CalClient *
-find_server (GPtrArray *servers, CalComponent *comp)
-{
-	const char *uid;
-	int i;
-
-	cal_component_get_uid (comp, &uid);	
-	for (i = 0; i < servers->len; i++) {
-		CalClient *client;
-		CalComponent *found_comp;
-		CalClientGetStatus status;
-		
-		client = g_ptr_array_index (servers, i);
-		status = cal_client_get_object (client, uid, &found_comp);
-		if (status == CAL_CLIENT_GET_SUCCESS) {
-			gtk_object_unref (GTK_OBJECT (found_comp));
-			gtk_object_ref (GTK_OBJECT (client));
-
-			return client;
-		}
-	}
-
 	return NULL;
 }
 
@@ -367,15 +249,19 @@ init (EItipControl *itip)
 #endif
 
 	/* Get the cal clients */
-	priv->event_clients = get_servers (global_shell_client, calendar_types, FALSE);
-	priv->event_client = NULL;
-	priv->task_clients = get_servers (global_shell_client, tasks_types, TRUE);
-	priv->task_client = NULL;
-	
+	priv->event_client = start_calendar_server (FALSE);
+	if (priv->event_client == NULL)
+		g_warning ("Unable to start calendar client");
+
+	priv->task_client = start_calendar_server (TRUE);
+	if (priv->task_client == NULL)
+		g_warning ("Unable to start calendar client");
+
 	/* Html Widget */
 	priv->html = gtk_html_new ();
 	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
 					   "text/html; charset=utf-8");
+
 	gtk_widget_show (priv->html);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
@@ -390,9 +276,6 @@ init (EItipControl *itip)
 
 	gtk_signal_connect (GTK_OBJECT (priv->html), "url_requested",
 			    url_requested_cb, itip);
-	gtk_signal_connect (GTK_OBJECT (priv->html), "object_requested",
-			    GTK_SIGNAL_FUNC (object_requested_cb),
-			    itip);
 	gtk_signal_connect (GTK_OBJECT (priv->html), "submit",
 			    ok_clicked_cb, itip);
 
@@ -432,8 +315,7 @@ destroy (GtkObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
 	EItipControlPrivate *priv;
-	int i;
-	
+
 	priv = itip->priv;
 
 	clean_up (itip);
@@ -441,12 +323,8 @@ destroy (GtkObject *obj)
 	itip_addresses_free (priv->addresses);
 	priv->addresses = NULL;
 
-	for (i = 0; i < priv->event_clients->len; i++) 
-		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->event_clients, i)));
-	g_ptr_array_free (priv->event_clients, TRUE);
-	for (i = 0; i < priv->task_clients->len; i++) 
-		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->task_clients, i)));
-	g_ptr_array_free (priv->task_clients, TRUE);
+	gtk_object_unref (GTK_OBJECT (priv->event_client));
+	gtk_object_unref (GTK_OBJECT (priv->task_client));
 
 	g_free (priv);
 
@@ -939,12 +817,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	gtk_html_write (GTK_HTML (priv->html), html_stream, HTML_SEP, strlen (HTML_SEP));
 
 	/* Options */
-	if (options != NULL) {
-		const_html = "</td></tr><tr><td valign=\"center\">";
-		gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen (const_html));
+	if (options != NULL)
 		gtk_html_write (GTK_HTML (priv->html), html_stream, options, strlen (options));
-	}
-	
+
 	const_html = "</td></tr></table>";
 	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
 
@@ -958,11 +833,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 
 static char*
-get_publish_options (gboolean selector)
+get_publish_options ()
 {
-	char *html;
-	
-	html = g_strdup_printf ("<form><b>%s</b>&nbsp"
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
 				"<select NAME=\"action\" SIZE=\"1\"> "
 				"<option VALUE=\"U\">%s</option>"
 				"</select>&nbsp &nbsp "
@@ -971,24 +844,12 @@ get_publish_options (gboolean selector)
 				U_("Choose an action:"),
 				U_("Update"),
 				U_("OK"));
-
-	if (selector) {
-		char *sel;
-		
-		sel = g_strconcat (html, "<object classid=\"gtk:label\">", NULL);
-		g_free (html);
-		html = sel;
-	}
-	
-	return html;
 }
 
 static char*
-get_request_options (gboolean selector)
+get_request_options ()
 {
-	char *html;
-	
-	html = g_strdup_printf ("<form><b>%s</b>&nbsp"
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
 				"<select NAME=\"action\" SIZE=\"1\"> "
 				"<option VALUE=\"A\">%s</option> "
 				"<option VALUE=\"T\">%s</option> "
@@ -1002,16 +863,6 @@ get_request_options (gboolean selector)
 				U_("Decline"),
 				U_("RSVP"),
 				U_("OK"));
-
-	if (selector) {
-		char *sel;
-		
-		sel = g_strconcat (html, "<object classid=\"gtk:label\">", NULL);
-		g_free (html);
-		html = sel;
-	}
-	
-	return html;
 }
 
 static char*
@@ -1073,7 +924,7 @@ get_real_item (EItipControl *itip)
 	EItipControlPrivate *priv;
 	CalComponent *comp;
 	CalComponentVType type;
-	CalClientGetStatus status = CAL_CLIENT_GET_NOT_FOUND;
+	CalClientGetStatus status;
 	const char *uid;
 	
 	priv = itip->priv;
@@ -1083,12 +934,10 @@ get_real_item (EItipControl *itip)
 
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
-		if (priv->event_client != NULL)
-			status = cal_client_get_object (priv->event_client, uid, &comp);
+		status = cal_client_get_object (priv->event_client, uid, &comp);
 		break;
 	case CAL_COMPONENT_TODO:
-		if (priv->task_client != NULL)
-			status = cal_client_get_object (priv->task_client, uid, &comp);
+		status = cal_client_get_object (priv->task_client, uid, &comp);
 		break;
 	default:
 		status = CAL_CLIENT_GET_NOT_FOUND;
@@ -1110,23 +959,21 @@ show_current_event (EItipControl *itip)
 
 	priv = itip->priv;
 
-	priv->event_client = find_server (priv->event_clients, priv->comp);
-	
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
 		itip_desc = U_("<b>%s</b> has published meeting information.");
 		itip_title = U_("Meeting Information");
-		options = get_publish_options (priv->event_client ? FALSE : TRUE);
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REQUEST:
 		itip_desc = U_("<b>%s</b> requests your presence at a meeting.");
 		itip_title = U_("Meeting Proposal");
-		options = get_request_options (priv->event_client ? FALSE : TRUE);
+		options = get_request_options ();
 		break;
 	case ICAL_METHOD_ADD:
 		itip_desc = U_("<b>%s</b> wishes to add to an existing meeting.");
 		itip_title = U_("Meeting Update");
-		options = get_publish_options (priv->event_client ? FALSE : TRUE);
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REFRESH:
 		itip_desc = U_("<b>%s</b> wishes to receive the latest meeting information.");
@@ -1182,23 +1029,21 @@ show_current_todo (EItipControl *itip)
 
 	priv = itip->priv;
 
-	priv->task_client = find_server (priv->task_clients, priv->comp);
-
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
 		itip_desc = U_("<b>%s</b> has published task information.");
 		itip_title = U_("Task Information");
-		options = get_publish_options (priv->task_client ? FALSE : TRUE);
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REQUEST:
 		itip_desc = U_("<b>%s</b> requests you perform a task.");
 		itip_title = U_("Task Proposal");
-		options = get_request_options (priv->task_client ? FALSE : TRUE);
+		options = get_request_options ();
 		break;
 	case ICAL_METHOD_ADD:
 		itip_desc = U_("<b>%s</b> wishes to add to an existing task.");
 		itip_title = U_("Task Update");
-		options = get_publish_options (priv->task_client ? FALSE : TRUE);
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REFRESH:
 		itip_desc = U_("<b>%s</b> wishes to receive the latest task information.");
@@ -1334,12 +1179,6 @@ show_current (EItipControl *itip)
 
 	if (priv->comp)
 		gtk_object_unref (GTK_OBJECT (priv->comp));
-	if (priv->event_client != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->event_client));
-	priv->event_client = NULL;
-	if (priv->task_client != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->task_client));
-	priv->task_client = NULL;
 
 	/* Strip out alarms for security purposes */
 	alarm_iter = icalcomponent_begin_component (priv->ical_comp, ICAL_VALARM_COMPONENT);
@@ -1548,7 +1387,6 @@ update_item (EItipControl *itip)
 	CalClient *client;
 	CalComponentVType type;
 	GtkWidget *dialog;
-	CalClientResult result;
 
 	priv = itip->priv;
 
@@ -1561,27 +1399,10 @@ update_item (EItipControl *itip)
 	clone = icalcomponent_new_clone (priv->ical_comp);
 	icalcomponent_add_component (priv->top_level, clone);
 
-	result = cal_client_update_objects (client, priv->top_level);
-	switch (result) {
-	case CAL_CLIENT_RESULT_INVALID_OBJECT :
-		dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
-		break;
-	case CAL_CLIENT_RESULT_CORBA_ERROR :
-		dialog = gnome_warning_dialog (_("There was an error on the CORBA system\n"));
-		break;
-	case CAL_CLIENT_RESULT_NOT_FOUND :
-		dialog = gnome_warning_dialog (_("Object could not be found\n"));
-		break;
-	case CAL_CLIENT_RESULT_PERMISSION_DENIED :
-		dialog = gnome_warning_dialog (_("You don't have permissions to update the calendar\n"));
-		break;
-	case CAL_CLIENT_RESULT_SUCCESS :
-		dialog = gnome_ok_dialog (_("Update complete\n"));
-		break;
-	default :
+	if (!cal_client_update_objects (client, priv->top_level))
 		dialog = gnome_warning_dialog (_("Calendar file could not be updated!\n"));
-		break;
-	}
+	else
+		dialog = gnome_ok_dialog (_("Update complete\n"));
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 	icalcomponent_remove_component (priv->top_level, clone);
@@ -1593,11 +1414,10 @@ update_attendee_status (EItipControl *itip)
 	EItipControlPrivate *priv;
 	CalClient *client;
 	CalClientGetStatus status;
-	CalComponent *comp = NULL;
+	CalComponent *comp;
 	CalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
-	CalClientResult result;
 
 	priv = itip->priv;
 
@@ -1607,12 +1427,6 @@ update_attendee_status (EItipControl *itip)
 	else
 		client = priv->event_client;
 
-	if (client == NULL) {
-		dialog = gnome_warning_dialog (_("Attendee status can not be updated "
-						 "because the item no longer exists"));
-		goto cleanup;
-	}
-	
 	/* Obtain our version */
 	cal_component_get_uid (priv->comp, &uid);
 	status = cal_client_get_object (client, uid, &comp);
@@ -1629,10 +1443,11 @@ update_attendee_status (EItipControl *itip)
 					      itip_strip_mailto (a->value));
 			
 			if (prop == NULL) {
-				dialog = gnome_question_dialog_modal (_("This response is not from a current "
+				dialog = gnome_question_dialog_modal (_("This response is not from a current"
 									"attendee.  Add as an attendee?"),
 								      NULL, NULL);
 				if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == GNOME_YES) {
+					icalparameter *param;
 					change_status (cal_component_get_icalcomponent (comp),
 						       itip_strip_mailto (a->value),
 						       a->status);
@@ -1653,34 +1468,17 @@ update_attendee_status (EItipControl *itip)
 			}
 		}
 
-		result = cal_client_update_object (client, comp);
-		switch (result) {
-		case CAL_CLIENT_RESULT_INVALID_OBJECT :
-			dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
-			break;
-		case CAL_CLIENT_RESULT_CORBA_ERROR :
-			dialog = gnome_warning_dialog (_("There was an error on the CORBA system\n"));
-			break;
-		case CAL_CLIENT_RESULT_NOT_FOUND :
-			dialog = gnome_warning_dialog (_("Object could not be found\n"));
-			break;
-		case CAL_CLIENT_RESULT_PERMISSION_DENIED :
-			dialog = gnome_warning_dialog (_("You don't have permissions to update the calendar\n"));
-			break;
-		case CAL_CLIENT_RESULT_SUCCESS :
-			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
-			break;
-		default :
+		if (!cal_client_update_object (client, comp))
 			dialog = gnome_warning_dialog (_("Attendee status could not be updated!\n"));
-		}
+		else
+			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
 	} else {
 		dialog = gnome_warning_dialog (_("Attendee status can not be updated "
 						 "because the item no longer exists"));
 	}
 
  cleanup:
-	if (comp != NULL)
-		gtk_object_unref (GTK_OBJECT (comp));
+	gtk_object_unref (GTK_OBJECT (comp));
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
@@ -1701,11 +1499,8 @@ remove_item (EItipControl *itip)
 	else
 		client = priv->event_client;
 
-	if (client == NULL)
-		return;
-	
 	cal_component_get_uid (priv->comp, &uid);
-	if (cal_client_remove_object (client, uid) == CAL_CLIENT_RESULT_SUCCESS) {
+	if (cal_client_remove_object (client, uid)) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
@@ -1826,28 +1621,6 @@ next_clicked_cb (GtkWidget *widget, gpointer data)
 #endif
 
 static void
-button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder, gpointer data)
-{
-	EItipControl *itip = E_ITIP_CONTROL (data);
-	EItipControlPrivate *priv;
-	CalComponentVType type;
-	char *uri;
-	
-	priv = itip->priv;
-	
-	type = cal_component_get_vtype (priv->comp);
-	if (type == CAL_COMPONENT_TODO)
-		uri = cal_util_expand_uri (folder->physicalUri, TRUE);
-	else
-		uri = cal_util_expand_uri (folder->physicalUri, FALSE);
-
-	gtk_object_unref (GTK_OBJECT (priv->event_client));
-	priv->event_client = start_calendar_server (uri);
-
-	g_free (uri);
-}
-
-static void
 url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data)
 {	unsigned char buffer[4096];
 	int len, fd;
@@ -1876,46 +1649,6 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 
  cleanup:
 	g_free (path);
-}
-
-static gboolean
-object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data) 
-{
-	EItipControl *itip = E_ITIP_CONTROL (data);
-	EItipControlPrivate *priv;
-	GtkWidget *button;
-	CalComponentVType vtype;
-	
-	priv = itip->priv;	
-
-	vtype = cal_component_get_vtype (priv->comp);
-
-	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
-		button = evolution_folder_selector_button_new (
-			global_shell_client, _("Select Calendar Folder"),
-			calendar_config_default_calendar_folder (), 
-			calendar_types);
-		priv->event_client = start_default_server (FALSE);
-		break;
-	case CAL_COMPONENT_TODO:
-		button = evolution_folder_selector_button_new (
-			global_shell_client, _("Select Tasks Folder"),
-			calendar_config_default_tasks_folder (), 
-			tasks_types);
-		priv->task_client = start_default_server (TRUE);
-		break;
-	default:
-		button = NULL;
-	}
-
-	gtk_signal_connect (GTK_OBJECT (button), "selected", 
-			    button_selected_cb, itip);
-	
-	gtk_container_add (GTK_CONTAINER (eb), button);
-	gtk_widget_show (button);
-
-	return TRUE;
 }
 
 static void

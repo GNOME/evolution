@@ -1320,7 +1320,7 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 		return;
 	}
 
-	if (cal_client_update_object (priv->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
+	if (!cal_client_update_object (priv->client, comp))
 		g_message ("calendar_model_set_value_at(): Could not update the object!");
 }
 
@@ -1399,7 +1399,7 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	set_complete (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_COMPLETE, row));
 	set_status (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_STATUS, row));
 
-	if (cal_client_update_object (priv->client, comp) != CAL_CLIENT_RESULT_SUCCESS) {
+	if (!cal_client_update_object (priv->client, comp)) {
 		/* FIXME: Show error dialog. */
 		g_message ("calendar_model_append_row(): Could not add new object!");
 	}
@@ -1891,7 +1891,7 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 	calendar_model_set_status_message (model, NULL);
 
 	if (status != CAL_QUERY_DONE_SUCCESS)
-		g_warning ("query done: %s\n", error_str);
+		fprintf (stderr, "query done: %s\n", error_str);
 }
 
 /* Callback used when an evaluation error occurs when running a query */
@@ -1906,7 +1906,7 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 
 	calendar_model_set_status_message (model, NULL);
 
-	g_warning ("eval error: %s\n", error_str);
+	fprintf (stderr, "eval error: %s\n", error_str);
 }
 
 /* Builds a complete query sexp for the calendar model by adding the predicates
@@ -1987,7 +1987,6 @@ update_query (CalendarModel *model)
 
 	if (!priv->query) {
 		g_message ("update_query(): Could not create the query");
-		calendar_model_set_status_message (model, NULL);
 		return;
 	}
 
@@ -2270,7 +2269,7 @@ calendar_model_mark_task_complete (CalendarModel *model,
 
 	ensure_task_complete (comp, -1);
 
-	if (cal_client_update_object (priv->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
+	if (!cal_client_update_object (priv->client, comp))
 		g_message ("calendar_model_mark_task_complete(): Could not update the object!");
 }
 
