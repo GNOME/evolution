@@ -152,6 +152,7 @@ create_optionmenu (EMsgComposerHdrs *hdrs,
 		accounts = mail_config_get_accounts ();
 		while (accounts) {
 			const MailConfigAccount *account;
+			char *label;
 			
 			account = accounts->data;
 			
@@ -161,7 +162,15 @@ create_optionmenu (EMsgComposerHdrs *hdrs,
 				continue;
 			}
 			
-			item = gtk_menu_item_new_with_label (account->name);
+			if (strcmp (account->name, account->id->address))
+				label = g_strdup_printf ("%s <%s> (%s)", account->id->name,
+							 account->id->address, account->name);
+			else
+				label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
+			    
+			item = gtk_menu_item_new_with_label (label);
+			g_free (label);
+			
 			gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
 					    GTK_SIGNAL_FUNC (from_changed), hdrs);
