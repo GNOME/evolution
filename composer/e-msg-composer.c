@@ -406,10 +406,22 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	
 	stream = camel_stream_mem_new_with_byte_array (data);
 	
+	/* convert the stream to the appropriate charset */
+	if (charset && strcasecmp (charset, "UTF-8") != 0) {
+		CamelStreamFilter *filter_stream;
+		CamelMimeFilterCharset *filter;
+		
+		filter_stream = camel_stream_filter_new_with_stream (stream);
+		camel_object_unref (stream);
+		
+		stream = (CamelStream *) filter_stream;
+		filter = camel_mime_filter_charset_new_convert ("UTF-8", charset);
+		camel_stream_filter_add (filter_stream, (CamelMimeFilter *) filter);
+		camel_object_unref (filter);
+	}
+	
 	/* construct the content object */
 	plain = camel_data_wrapper_new ();
-	plain->rawtext = FALSE;
-	
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
 	
@@ -438,7 +450,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		
 		html = camel_data_wrapper_new ();
-		html->rawtext = FALSE;
 		
 		stream = camel_stream_mem_new_with_byte_array (data);
 		camel_data_wrapper_construct_from_stream (html, stream);
@@ -1398,14 +1409,14 @@ autosave_manager_query_load_orphans (AutosaveManager *am, GtkWindow *parent)
 	if (match != NULL) {
 		GtkWidget *dialog;
 
-		dialog = gtk_message_dialog_new(parent,
-						GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-						_("Ximian Evolution has found unsaved files from a previous session.\n"
-						  "Would you like to try to recover them?"));
+		dialog = gtk_message_dialog_new (parent,
+						 GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+						 _("Ximian Evolution has found unsaved files from a previous session.\n"
+						   "Would you like to try to recover them?"));
 		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
-		load = gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_YES;
-		gtk_widget_destroy(dialog);
+		load = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+		gtk_widget_destroy (dialog);
 	}
 	
 	while (match != NULL) {

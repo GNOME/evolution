@@ -753,14 +753,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			const char *charset;
 			char *type;
 			
-			/* assume that if a charset is set, that the content is in UTF-8
-			 * or else already has rawtext set to TRUE */
-			if (!(charset = header_content_type_param (content_type, "charset"))) {
-				/* Let camel know that this text part was read in raw and thus is not in
-				 * UTF-8 format so that when it writes this part out, it doesn't try to
-				 * convert it from UTF-8 into the @default_charset charset. */
-				content->rawtext = TRUE;
-			}
+			charset = header_content_type_param (content_type, "charset");
 			
 			stream = camel_stream_null_new ();
 			filter_stream = camel_stream_filter_new_with_stream (stream);
