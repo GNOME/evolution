@@ -76,9 +76,6 @@ camel_smime_context_finalise (CamelObject *o)
 {
 	CamelSMimeContext *context = (CamelSMimeContext *)o;
 	
-	CERT_ClosePermCertDB (context->priv->certdb);
-	g_free (context->priv->certdb);
-	
 	g_free (context->priv);
 }
 
@@ -141,16 +138,9 @@ camel_smime_context_new (CamelSession *session, const char *certdb)
 	camel_cipher_context_construct (CAMEL_CIPHER_CONTEXT (context), session);
 	
 	handle = CERT_CertGetDefaultCertDBHandle ();
-	if (certdb) {
-		if (!CERT_OpenCertDBFilename (handle, (char *) certdb, FALSE)) {
-			g_free (handle);
-			return NULL;
-		}
-	} else {
-		if (!CERT_OpenVolatileCertDB (handle)) {
-			g_free (handle);
-			return NULL;
-		}
+	if (!certdb) {
+		camel_object_unref (CAMEL_OBJECT (context));
+		return NULL;
 	}
 	
 	context->priv->certdb = handle;

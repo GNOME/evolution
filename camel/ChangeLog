@@ -1,5 +1,13 @@
 2001-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-smime-context.c (camel_smime_context_finalise): Don't
+	close or free (it wasn't allocated) the certdb.
+	(camel_smime_context_new): If we get a NULL certdb handle, then
+	don't bother trying to create a new certdb handle since NSS_Init*
+	should have done that.
+
+2001-05-15  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* Makefile.am: Don't use EXTRA_GNOME_*, use the new CAMEL_*
 	variables so we don't link in tons of extra cruft that we don't
 	need.
