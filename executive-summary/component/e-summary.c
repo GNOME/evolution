@@ -358,7 +358,7 @@ make_control_html (ESummaryWindow *window,
 
 	html = g_strdup_printf ("<table><tr><td><a href=\"close://%d\">"
 				"<img src=\"service-close.png\" border=\"0\">"
-				"</a></td><td>", id);
+				"</a></td></tr><tr><td>", id);
 
 	tmp = html;
 	if (!config) {
@@ -506,7 +506,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	ESummaryPrivate *priv;
 	GList *windows;
 	char *service_table = "<table numcols=\"3\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" height=\"100%\">";
-	int numwindows;
+	int numwindows, numrows;
 	int i, j, k;
 
 	g_return_val_if_fail (esummary != NULL, FALSE);
@@ -545,10 +545,15 @@ e_summary_rebuild_page (ESummary *esummary)
 	numwindows = g_list_length (priv->window_list) - 1;
 
 	windows = priv->window_list;
-	for (i = 0; i < numwindows / 3; i++) {
+	if ( (numwindows % 3) == 0)
+		numrows = numwindows / 3;
+	else
+		numrows = (numwindows / 3) + 1;
+
+	for (i = 0; i < numrows; i++) {
 		GList *window = windows;
 
-		g_print ("i: %d/%d\n", i, numwindows);
+		g_print ("i: %d/%d\n", i, numrows);
 		/* Do the same row twice: 
 		   Once for the title, once for the contents */
 		for (j = 0; j < 2; j++) {
