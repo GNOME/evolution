@@ -1,5 +1,9 @@
 2001-10-26  Christian Rose  <menthos@menthos.com>
 
+	* sv.po: Updated Swedish translation.
+
+2001-10-26  Christian Rose  <menthos@menthos.com>
+
 	* POTFILES.in: Removed the reference to the non-existant
 	"wombat/GNOME_Evolution_Wombat.oaf.in".
 

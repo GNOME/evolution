@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.127 2001/10/26 15:04:28 menthos Exp $
+# $Id: sv.po,v 1.128 2001/10/26 15:26:25 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-26 16:35+0200\n"
-"PO-Revision-Date: 2001-10-23 02:59+0200\n"
+"POT-Creation-Date: 2001-10-26 17:25+0200\n"
+"PO-Revision-Date: 2001-10-26 17:25+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -613,10 +613,10 @@ msgstr "VCard för %s"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1433
+#: addressbook/conduit/address-conduit.c:1514
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1378
-#: calendar/conduits/todo/todo-conduit.c:1091
+#: calendar/conduits/calendar/calendar-conduit.c:1420
+#: calendar/conduits/todo/todo-conduit.c:1122
 #: calendar/gui/alarm-notify/notify-main.c:172 calendar/gui/main.c:63
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
@@ -669,28 +669,28 @@ msgstr "Mottar LDAP-sökresultat..."
 msgid "Restarting search."
 msgstr "Startar om sökningen."
 
-#: addressbook/conduit/address-conduit.c:241
+#: addressbook/conduit/address-conduit.c:288
 msgid "Cursor could not be loaded\n"
 msgstr "Markören kunde inte läsas in\n"
 
-#: addressbook/conduit/address-conduit.c:254
+#: addressbook/conduit/address-conduit.c:301
 msgid "EBook not loaded\n"
 msgstr "EBook inte inläst\n"
 
-#: addressbook/conduit/address-conduit.c:997
-#: calendar/conduits/calendar/calendar-conduit.c:930
-#: calendar/conduits/todo/todo-conduit.c:662
+#: addressbook/conduit/address-conduit.c:1075
+#: calendar/conduits/calendar/calendar-conduit.c:967
+#: calendar/conduits/todo/todo-conduit.c:692
 msgid "Could not start wombat server"
 msgstr "Kunde inte starta wombat-server"
 
-#: addressbook/conduit/address-conduit.c:998
-#: calendar/conduits/calendar/calendar-conduit.c:931
-#: calendar/conduits/todo/todo-conduit.c:663
+#: addressbook/conduit/address-conduit.c:1076
+#: calendar/conduits/calendar/calendar-conduit.c:968
+#: calendar/conduits/todo/todo-conduit.c:693
 msgid "Could not start wombat"
 msgstr "Kunde inte starta wombat"
 
-#: addressbook/conduit/address-conduit.c:1028
-#: addressbook/conduit/address-conduit.c:1031
+#: addressbook/conduit/address-conduit.c:1106
+#: addressbook/conduit/address-conduit.c:1109
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
@@ -2924,18 +2924,18 @@ msgstr "Låg"
 msgid "Undefined"
 msgstr "Odefinierad"
 
-#: calendar/conduits/calendar/calendar-conduit.c:886
-#: calendar/conduits/todo/todo-conduit.c:617
+#: calendar/conduits/calendar/calendar-conduit.c:923
+#: calendar/conduits/todo/todo-conduit.c:647
 msgid "Error while communicating with calendar server"
 msgstr "Fel vid kommunikation med kalenderserver"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1012
-#: calendar/conduits/calendar/calendar-conduit.c:1015
+#: calendar/conduits/calendar/calendar-conduit.c:1050
+#: calendar/conduits/calendar/calendar-conduit.c:1053
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunde inte läsa pilotens kalenderprogramblock"
 
-#: calendar/conduits/todo/todo-conduit.c:725
-#: calendar/conduits/todo/todo-conduit.c:728
+#: calendar/conduits/todo/todo-conduit.c:752
+#: calendar/conduits/todo/todo-conduit.c:755
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunde inte läsa pilotens att-göra-programblock"
 
@@ -11612,7 +11612,7 @@ msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
 
 #: shell/e-shell-about-box.c:44
 msgid "Brought to you by"
-msgstr ""
+msgstr "Presenterades av"
 
 #: shell/e-shell-folder-commands.c:176
 msgid "Cannot move a folder over itself."
@@ -11884,20 +11884,17 @@ msgid "Closing connections..."
 msgstr "Kopplar från anslutningar..."
 
 #: shell/e-shell-startup-wizard.c:160
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not start the Evolution Mailer Assistant interface\n"
 "(%s)"
 msgstr ""
-"(%s:%d)Kunde inte starta gränssnittet för Evolution-epostguiden\n"
-"%s"
+"Kunde inte starta gränssnittet för Evolution-epostguiden\n"
+"(%s)"
 
 #: shell/e-shell-startup-wizard.c:170
-#, fuzzy
 msgid "Could not start the Evolution Mailer Assistant interface\n"
-msgstr ""
-"(%s:%d)Kunde inte starta gränssnittet för Evolution-epostguiden\n"
-"%s"
+msgstr "Kunde inte starta gränssnittet för Evolution-epostguiden\n"
 
 #: shell/e-shell-startup-wizard.c:743
 msgid ""
@@ -11945,9 +11942,8 @@ msgid "Error executing %s."
 msgstr "Fel vid körning av %s."
 
 #: shell/e-shell-view-menu.c:672
-#, fuzzy
 msgid "_Work Online"
-msgstr "Arbeta ansluten"
+msgstr "A_rbeta ansluten"
 
 #: shell/e-shell-view-menu.c:685 ui/evolution.xml.h:51
 msgid "_Work Offline"
@@ -12491,24 +12487,20 @@ msgstr "Kan inte initiera Bonobo-komponentsystemet."
 
 #: tools/evolution-addressbook-export.c:36
 #: tools/evolution-addressbook-import.c:46
-#, fuzzy
 msgid "Error loading default addressbook."
-msgstr "Fel vid inläsning av filen: %s"
+msgstr "Fel vid inläsning av standardadressboken."
 
 #: tools/evolution-addressbook-export.c:46
-#, fuzzy
 msgid "Output File"
-msgstr "Öppna fil"
+msgstr "Utdatafil"
 
 #: tools/evolution-addressbook-import.c:67
-#, fuzzy
 msgid "Input File"
-msgstr "Infoga fil"
+msgstr "Indatafil"
 
 #: tools/evolution-addressbook-import.c:80
-#, fuzzy
 msgid "No filename provided."
-msgstr "Inget mappnamn är angivet."
+msgstr "Inget filnamn är angivet."
 
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:5
 #: ui/evolution-tasks.xml.h:3
@@ -13492,9 +13484,8 @@ msgid "F_ormat"
 msgstr "F_ormat"
 
 #: ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "H_TML"
-msgstr "HTML"
+msgstr "H_TML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Inline Text _File..."
