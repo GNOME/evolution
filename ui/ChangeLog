@@ -1,3 +1,8 @@
+2000-10-08  Damon Chaplin  <damon@helixcode.com>
+
+	* evolution-calendar.xml: moved the calendar settings menu item to the
+	Settings menu and renamed it to "Calendar Preferences".
+
 2000-10-09  Michael Meeks  <michael@helixcode.com>
 
 	* *.xml: s/Menu_//

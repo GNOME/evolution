@@ -40,7 +40,11 @@
 			<menuitem name="Appointment" _label="_New appointment..."
 			verb="EditNewAppointment" _tip="Create a new appointment"/>
 
-			<menuitem name="Preferences" _label="Preferences"
+		</submenu>
+
+		<submenu name="Settings">
+
+			<menuitem name="Preferences" _label="Calendar Preferences..."
 			verb="CalendarPreferences" _tip="Alter preferences"/>
 
 		</submenu>
