@@ -1,3 +1,14 @@
+2002-03-25  Dan Winship  <danw@ximian.com>
+
+	* e-shell.c (e_shell_construct): Register a "working" folder type
+	with the hourglass icon. (Would eventually like an animated gif,
+	when ETable supports that.)
+
+	* e-storage.c (e_storage_has_subfolders): Use "working" rather
+	than "noselect" as the folder type.
+
+	* e-shell-view.c (get_view_for_uri): Simplify a bit.
+
 2002-03-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-settings-dialog.c (get_language_list): Removed.

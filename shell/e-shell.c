@@ -1101,6 +1101,10 @@ e_shell_construct (EShell *shell,
 					      "noselect", "empty.gif",
 					      "noselect", "", FALSE,
 					      0, NULL, 0, NULL);
+	e_folder_type_registry_register_type (priv->folder_type_registry,
+					      "working", "working-16.png",
+					      "working", "", FALSE,
+					      0, NULL, 0, NULL);
 
 	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */

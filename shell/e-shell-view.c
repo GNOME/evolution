@@ -2069,7 +2069,7 @@ get_view_for_uri (EShellView *shell_view,
 		return NULL;
 
 	folder_type = get_type_for_folder (shell_view, path, &physical_uri);
-	if (folder_type == NULL || strcmp (folder_type, "noselect") == 0)
+	if (folder_type == NULL || physical_uri == NULL)
 		return NULL;
 
 	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));

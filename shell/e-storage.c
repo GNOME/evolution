@@ -663,7 +663,7 @@ e_storage_has_subfolders (EStorage *storage,
 		/* FIXME: close parent */
 	}
 
-	pseudofolder = e_folder_new (message, "noselect", "");
+	pseudofolder = e_folder_new (message, "working", "");
 	if (strcmp (path, "/") == 0)
 		pseudofolder_path = g_strdup_printf ("/%s", message);
 	else
