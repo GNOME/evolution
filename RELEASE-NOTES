@@ -18,6 +18,9 @@ of Evolution.  When you start Evolution 1.1.1 for the first time, it
 will automatically migrate your configuration so that it will work as
 expected with this version.
 
+
+RETURNING TO 1.0.x
+
 If you want to return to a 1.0.x version after trying 1.1.1, you have
 to restore the original configuration files.  From the command-line,
 you can do the following, after having quit Evolution:
@@ -55,6 +58,7 @@ This applies to the search bar, the filter rules and the vfolder
 rules.  Filter rules and vfolder rules might need to be re-adjusted
 after you upgrade to version 1.1.1.
 
+
 IMAP FOLDER NAME CHANGES (I18N)
 
 If you created any folder names using non-ASCII characters using prior
@@ -72,3 +76,11 @@ Also note that if such folder names do not display properly that it is
 purely cosmetic and may be fixed by renaming the folder(s) in
 question.
 
+
+KNOWN BUGS
+
+If you have any unnamed contact lists in any of your addressbook
+folders, you might experience hangs and/or crashes when specifying
+destination addresses, for example when composing meeting requests.
+Giving a name to all the contact lists will fix the problem.  This
+problem will be fixed in the next Evolution release.
