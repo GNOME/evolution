@@ -156,6 +156,7 @@ load_pages (EShellSettingsDialog *dialog)
 	EShellSettingsDialogPrivate *priv;
 	Bonobo_ServerInfoList *control_list;
 	CORBA_Environment ev;
+	const GList *l;
 	GSList *language_list;
 	GList *page_list;
 	GList *p;
@@ -174,7 +175,10 @@ load_pages (EShellSettingsDialog *dialog)
 
 	CORBA_exception_free (&ev);
 
-	language_list = e_get_language_list ();
+	/* Great, one uses GList the other GSList (!) */
+	l = gnome_i18n_get_language_list("LC_MESSAGES");
+	for (language_list=NULL;l;l=l->next)
+		language_list = g_slist_append(language_list, l->data);
 
 	page_list = NULL;
 	for (i = 0; i < control_list->_length; i ++) {
@@ -235,6 +239,7 @@ load_pages (EShellSettingsDialog *dialog)
 
 		CORBA_exception_free (&ev);
 	}
+	g_slist_free(language_list);
 
 	page_list = sort_page_list (page_list);
 	for (p = page_list, i = 0; p != NULL; p = p->next, i++) {
@@ -263,7 +268,6 @@ load_pages (EShellSettingsDialog *dialog)
 	}
 
 	g_list_free (page_list);
-	e_free_language_list (language_list);
 	CORBA_free (control_list);
 }
 

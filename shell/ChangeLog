@@ -1,3 +1,11 @@
+2004-04-30  Not Zed  <NotZed@Ximian.com>
+
+	* e-component-registry.c (query_components): do the same as below.
+
+	* e-shell-settings-dialog.c (load_pages): use
+	gnome_i18n_get_language_list instead of e_get_language_list(), and
+	use the right locale option.  Fixes #53398.
+
 2004-04-28  Rodney Dawes  <dobey@ximian.com>
 
 	* main.c (main): Call gnome_program_init with PACKAGE "-" BASE_VERSION
