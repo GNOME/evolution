@@ -504,12 +504,17 @@ struct _e_strv {
 	char data[1];		/* data follows */
 };
 
+struct _s_strv_string {
+	char *string;		/* the string to output */
+	char *free;		/* a string to free, if we referenced it */
+};
+
 struct _e_strvunpacked {
 	unsigned char type;	/* we overload last to indicate this is unpacked */
 	MemPool *pool;		/* pool of memory for strings */
 	struct _e_strv *source;	/* if we were converted from a packed one, keep the source around for a while */
 	unsigned int length;
-	char *strings[1];	/* string array follows */
+	struct _s_strv_string strings[1]; /* the string array data follows */
 };
 
 /**
@@ -536,7 +541,7 @@ e_strv_new(int size)
 
 	g_assert(size<255);
 
-	s = g_malloc(sizeof(*s) + (size-1)*sizeof(char *));
+	s = g_malloc(sizeof(*s) + (size-1)*sizeof(s->strings[0]));
 	s(printf("new strv=%p, size = %d bytes\n", s, sizeof(*s) + (size-1)*sizeof(char *)));
 	s->type = STRV_UNPACKED;
 	s->pool = NULL;
@@ -562,7 +567,7 @@ strv_unpack(struct _e_strv *strv)
 		if (i>0)
 			while (*p++)
 				;
-		s->strings[i] = p;
+		s->strings[i].string = p;
 	}
 	s->source = strv;
 	s->type = STRV_UNPACKED;
@@ -594,13 +599,46 @@ e_strv_set_ref(struct _e_strv *strv, int index, char *str)
 
 	s(printf("set ref %d '%s'\n ", index, str));
 
-	if (strv->length != STRV_UNPACKED) {
+	if (strv->length != STRV_UNPACKED)
 		s = strv_unpack(strv);
-	} else {
+	else
 		s = (struct _e_strvunpacked *)strv;
-	}
 
-	s->strings[index] = str;
+	s->strings[index].string = str;
+
+	return (struct _e_strv *)s;
+}
+
+/**
+ * e_strv_set_ref_free:
+ * @strv: 
+ * @index: 
+ * @str: 
+ * 
+ * Set a string by reference, similar to set_ref, but also
+ * free the string when finished with it.  The string
+ * is not copied until the strv is packed, and not at
+ * all if the index is overwritten.
+ * 
+ * Return value: @strv if already unpacked, otherwise an packed
+ * EStrv.
+ **/
+struct _e_strv *
+e_strv_set_ref_free(struct _e_strv *strv, int index, char *str)
+{
+	struct _e_strvunpacked *s;
+
+	s(printf("set ref %d '%s'\n ", index, str));
+
+	if (strv->length != STRV_UNPACKED)
+		s = strv_unpack(strv);
+	else
+		s = (struct _e_strvunpacked *)strv;
+
+	s->strings[index].string = str;
+	if (s->strings[index].free)
+		g_free(s->strings[index].free);
+	s->strings[index].free = str;
 
 	return (struct _e_strv *)s;
 }
@@ -627,17 +665,16 @@ e_strv_set(struct _e_strv *strv, int index, const char *str)
 
 	s(printf("set %d '%s'\n", index, str));
 
-	if (strv->length != STRV_UNPACKED) {
+	if (strv->length != STRV_UNPACKED)
 		s = strv_unpack(strv);
-	} else {
+	else
 		s = (struct _e_strvunpacked *)strv;
-	}
 
 	if (s->pool == NULL)
 		s->pool = e_mempool_new(1024, 512, E_MEMPOOL_ALIGN_BYTE);
 
-	s->strings[index] = e_mempool_alloc(s->pool, strlen(str)+1);
-	strcpy(s->strings[index], str);
+	s->strings[index].string = e_mempool_alloc(s->pool, strlen(str)+1);
+	strcpy(s->strings[index].string, str);
 
 	return (struct _e_strv *)s;
 }
@@ -666,22 +703,21 @@ e_strv_pack(struct _e_strv *strv)
 		s(printf("packing string\n"));
 
 		len = 0;
-		for (i=0;i<s->length;i++) {
-			len += s->strings[i]?strlen(s->strings[i])+1:1;
-		}
+		for (i=0;i<s->length;i++)
+			len += s->strings[i].string?strlen(s->strings[i].string)+1:1;
+
 		strv = g_malloc(sizeof(*strv) + len);
 		s(printf("allocating strv=%p, size = %d\n", strv, sizeof(*strv)+len));
 		strv->length = s->length;
 		dst = strv->data;
 		for (i=0;i<s->length;i++) {
-			if ((src = s->strings[i])) {
+			if ((src = s->strings[i].string)) {
 				while ((*dst++ = *src++))
 					;
 			} else {
 				*dst++ = 0;
 			}
 		}
-
 		e_strv_destroy((struct _e_strv *)s);
 	}
 	return strv;
@@ -714,7 +750,7 @@ e_strv_get(struct _e_strv *strv, int index)
 		return p;
 	} else {
 		s = (struct _e_strvunpacked *)strv;
-		return s->strings[index]?s->strings[index]:"";
+		return s->strings[index].string?s->strings[index].string:"";
 	}
 }
 
@@ -729,6 +765,7 @@ void
 e_strv_destroy(struct _e_strv *strv)
 {
 	struct _e_strvunpacked *s;
+	int i;
 
 	s(printf("freeing strv\n"));
 
@@ -738,6 +775,10 @@ e_strv_destroy(struct _e_strv *strv)
 			e_mempool_destroy(s->pool);
 		if (s->source)
 			e_strv_destroy(s->source);
+		for (i=0;i<s->length;i++) {
+			if (s->strings[i].free)
+				g_free(s->strings[i].free);
+		}
 	}
 
 	s(printf("freeing strv=%p\n", strv));

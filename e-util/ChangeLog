@@ -5,6 +5,10 @@
 	searching.
 	(e_mempool_strdup): Doh, and allocate enough for the terminating
 	NUL at that.
+	(e_strv_set_ref_free): New function, set a reference to a string
+	that is then owned/free'd by the strv.
+	(e_strv_destroy): If there are any strings to destroy, free them
+	here.
 
 2000-11-21  Not Zed  <NotZed@HelixCode.com>
 

@@ -56,6 +56,7 @@ typedef struct _e_strv EStrv;
 
 EStrv *e_strv_new(int size);
 EStrv *e_strv_set_ref(EStrv *strv, int index, char *str);
+EStrv *e_strv_set_ref_free(EStrv *strv, int index, char *str);
 EStrv *e_strv_set(EStrv *strv, int index, const char *str);
 EStrv *e_strv_pack(EStrv *strv);
 char *e_strv_get(EStrv *strv, int index);
