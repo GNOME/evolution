@@ -1,7 +1,8 @@
-2001-07-13  Carlos Perelló Marín <carlos@gnome-db.org>
+2001-07-19  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* es.po: Some QA.
-
+	* nn.po: Updated Norwegian (nynorsk) translation.
+	* no.po: Updated Norwegian (bokmål) translation.
+	
 2001-07-13  Zbigniew Chyla  <chyla@gnome.pl>
 
 	* pl.po: Updated Polish translation.
