@@ -26,6 +26,41 @@
   <!-- ============== End of Figure ============================= --> 
 
   </para>
+
+  <para>
+    <inlinegraphic fileref="fig/full-1"></inlinegraphic>
+    <guilabel>Event List</guilabel>
+  </para>
+  
+  <para>
+    The <guilabel>Event List</guilabel> is responsible for showing you all of
+    your scheduled events, whether they are all day events or simply one time
+    events that last a half an hour.
+  </para>
+
+  <para>
+    <inlinegraphic fileref="fig/full-2"></inlinegraphic>
+    <guilabel>Todo List</guilabel>
+  </para>
+  
+  <para>
+    The <guilabel>Todo List</guilabel> compliments the <guilabel>Event List
+    </guilabel> as it keeps track of your chores or tasks which don't have
+    any time associated with them.  These may include "Clean Room" or "Call
+    Repairman".
+  </para>
+
+  <para>
+    <inlinegraphic fileref="fig/full-3"></inlinegraphic>
+    <guilabel>Calendar Window</guilabel>
+  </para>
+  
+  <para>
+    The <guilabel>Calendar Window</guilabel> has a graphical representation of
+    the calendar, so you can select what days to view in the <guilabel>Event
+    List</guilabel>.
+  </para>
+  
     <sect1 id ="usage-calendar-view"> 
     <title>Ways of Looking at your Calendar</title>
 
