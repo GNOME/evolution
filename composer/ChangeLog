@@ -1,3 +1,15 @@
+2002-04-09  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-hdrs.c (set_recipients_from_destv): Use decode
+	rather than unformat - the e_destination was changed (long time
+	ago) to rfc2047 encode the addresses, so we should decode
+	likewise.  Should fix #16158.
+
+	* e-msg-composer.c (next_word): g_utf8_next_char never returns
+	NULL, it just skips to the next character.  So like normal string
+	code, we just check for a nul explicitly.  Fixes a bug found while
+	checking #16158.
+
 2002-04-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #3980.

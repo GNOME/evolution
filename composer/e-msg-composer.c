@@ -4269,6 +4269,8 @@ next_word (const gchar *s, const gchar **sr)
 			begin = s;
 			cited = FALSE;
 			uc = g_utf8_get_char (s);
+			if (uc == 0)
+				return NULL;
 			s  = g_utf8_next_char (s);
 		} while (!html_selection_spell_word (uc, &cited) && !cited && s);
 
@@ -4283,9 +4285,9 @@ next_word (const gchar *s, const gchar **sr)
 			while (html_selection_spell_word (uc, &cited_end) || (!cited && cited_end)) {
 				cited_end = FALSE;
 				s  = g_utf8_next_char (s);
-				if (!s)
-					break;
 				uc = g_utf8_get_char (s);
+				if (uc == 0)
+					break;
 			}
 			*sr = s;
 			return s ? g_strndup (begin, s - begin) : g_strdup (begin);

@@ -665,7 +665,7 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 					seen_hidden_list = TRUE;
 				}
 				
-				camel_address_unformat (CAMEL_ADDRESS (target), text_addr);
+				camel_address_decode (CAMEL_ADDRESS (target), text_addr);
 			}
 		}
 	}
@@ -681,7 +681,7 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 					seen_hidden_list = TRUE;
 				}
 				
-				camel_address_unformat (CAMEL_ADDRESS (target), text_addr);
+				camel_address_decode (CAMEL_ADDRESS (target), text_addr);
 			}
 		}
 	}
@@ -690,7 +690,7 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 		for (i = 0; bcc_destv[i] != NULL; ++i) {
 			text_addr = e_destination_get_address (bcc_destv[i]);
 			if (text_addr && *text_addr) {				
-				camel_address_unformat (CAMEL_ADDRESS (bcc_addr), text_addr);
+				camel_address_decode (CAMEL_ADDRESS (bcc_addr), text_addr);
 			}
 		}
 	}
