@@ -71,6 +71,21 @@ get_current_page (GnomeCalendar *gcal)
 	return GTK_NOTEBOOK (gcal->notebook)->cur_page->child;
 }
 
+char *
+gnome_calendar_get_current_view_name (GnomeCalendar *gcal)
+{
+	GtkWidget *page = get_current_page (gcal);
+
+	if (page == gcal->day_view)
+		return "dayview";
+	else if (page == gcal->week_view)
+		return "weekview";
+	else if (page == gcal->year_view)
+		return "yearview";
+	else
+		return "dayview";
+}
+
 void
 gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 {
@@ -132,6 +147,20 @@ gnome_calendar_dayjump (GnomeCalendar *gcal, time_t time)
 {
 	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->notebook), 0);
 	gnome_calendar_goto (gcal, time);
+}
+
+void
+gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
+{
+	int page = 0;
+
+	if (strcmp (page_name, "dayview") == 0)
+		page = 0;
+	else if (strcmp (page_name, "weekview") == 0)
+		page = 1;
+	else if (strcmp (page_name, "yearview") == 0)
+		page = 2;
+	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->notebook), page);
 }
 
 GtkWidget *

@@ -1,3 +1,15 @@
+1998-07-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* main.c: Add support for --view flag.
+	(session_save_state): Save the view mode;
+	(new_calendar): Now takes a view mode flag.
+
+	* gnome-cal.c (gnome_calendar_get_current_view_name): New
+	function for enhancing the session management support for
+	gnomecal. 
+	(gnome_calendar_set_view): New function that makes a given page
+	active. 
+
 1998-07-01  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* gncal.desktop: Added Portuguese translation.

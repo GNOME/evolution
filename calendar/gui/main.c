@@ -43,7 +43,7 @@ int active_calendars = 0;
 /* A list of all of the calendars started */
 GList *all_calendars = NULL;
 
-static void new_calendar (char *full_name, char *calendar_file, char *geometry);
+static void new_calendar (char *full_name, char *calendar_file, char *geometry, char *view);
 
 /* For dumping part of a calendar */
 static time_t from_t, to_t;
@@ -226,14 +226,14 @@ today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 static void
 new_calendar_cmd (GtkWidget *widget, void *data)
 {
-	new_calendar (full_name, NULL, NULL);
+	new_calendar (full_name, NULL, NULL, NULL);
 }
 
 static void
 open_ok (GtkWidget *widget, GtkFileSelection *fs)
 {
 	/* FIXME: find out who owns this calendar and use that name */
-	new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL);
+	new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL);
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
@@ -393,7 +393,7 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 }
 
 static void
-new_calendar (char *full_name, char *calendar_file, char *geometry)
+new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 {
 	GtkWidget   *toplevel;
 	char        *title;
@@ -411,6 +411,9 @@ new_calendar (char *full_name, char *calendar_file, char *geometry)
 	g_free (title);
 	setup_menu (toplevel);
 
+	if (page)
+		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page);
+	
 	if (calendar_file && g_file_exists (calendar_file)) 
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
 	else
@@ -436,7 +439,8 @@ process_dates (void)
 
 enum {
 	GEOMETRY_KEY = -1,
-	USERFILE_KEY = -2
+	USERFILE_KEY = -2,
+	VIEW_KEY     = -3
 };
 
 static struct argp_option argp_options [] = {
@@ -445,12 +449,15 @@ static struct argp_option argp_options [] = {
 	{ "file",         	'F', N_("FILE"),     0, N_("File to load calendar from"),           1 },
 	{ "userfile", USERFILE_KEY,  NULL,           0, N_("Load the user calendar"),               1 },
 	{ "geometry", GEOMETRY_KEY,  N_("GEOMETRY"), 0, N_("Geometry for starting up"),             1 },
+	{ "view",     VIEW_KEY,      N_("VIEW"),     0, N_("The startup view mode"),                1 },
 	{ "to",                 't', N_("DATE"),     0, N_("Specifies ending date [for --events]"), 1 },
 	{ NULL, 0, NULL, 0, NULL, 0 },
 };
 
+/* Lists used to startup various GnomeCalendars */
 static GList *start_calendars;
 static GList *start_geometries;
+static GList *start_views;
 
 static int
 same_day (struct tm *a, struct tm *b)
@@ -532,6 +539,10 @@ parse_an_arg (int key, char *arg, struct argp_state *state)
 		 */
 		arg = COOKIE_USER_HOME_DIR;
 		/* fall trough */
+
+	case VIEW_KEY:
+		start_views = g_list_append (start_views, arg);
+		break;
 		
 	case 'F':
 		start_calendars = g_list_append (start_calendars, arg);
@@ -570,7 +581,7 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 		    GnomeInteractStyle  interact_style, gint fast, gpointer client_data)
 {
 	char *sess_id;
-	char **argv = (char **) g_malloc (sizeof (char *) * ((active_calendars * 4) + 3));
+	char **argv = (char **) g_malloc (sizeof (char *) * ((active_calendars * 6) + 3));
 	GList *l, *free_list = 0;
 	int   i;
 
@@ -591,6 +602,8 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 		}
 		argv [i++] = "--geometry";
 		argv [i++] = geometry;
+		argv [i++] = "--view";
+		argv [i++] = gnome_calendar_get_current_view_name (gcal);
 		free_list = g_list_append (free_list, geometry);
 		calendar_save (gcal->cal, gcal->cal->filename);
 	}
@@ -633,15 +646,17 @@ main(int argc, char *argv[])
 	 * the geometry specificied -if any-
 	 */
 	if (start_calendars){
-		GList *p, *g;
+		GList *p, *g, *v;
 		char *title;
 
 		p = start_calendars;
 		g = start_geometries;
+		v = start_views;
 		while (p){
 			char *file = p->data;
 			char *geometry = g ? g->data : NULL;
-
+			char *page_name = v ? v->data : NULL;
+			
 			if (file == COOKIE_USER_HOME_DIR)
 				file = user_calendar_file;
 			
@@ -649,17 +664,20 @@ main(int argc, char *argv[])
 				title = full_name;
 			else
 				title = file;
-			new_calendar (title, file, geometry);
-
+			new_calendar (title, file, geometry, page_name);
+			
 			p = p->next;
 			if (g)
 				g = g->next;
+			if (v)
+				v = v->next;
 		}
 		g_list_free (p);
 	} else {
 		char *geometry = start_geometries ? start_geometries->data : NULL;
+		char *page_name = start_views ? start_views->data : NULL;
 		
-		new_calendar (full_name, user_calendar_file, geometry);
+		new_calendar (full_name, user_calendar_file, geometry, page_name);
 	}
 	gtk_main ();
 	return 0;
