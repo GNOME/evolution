@@ -21,7 +21,7 @@
  * Author: Ettore Perazzoli
  */
 
-/* The shortcut list goes this:
+/* The shortcut list goes like this:
 
    <?xml version="1.0"?>
    <shortcuts>
