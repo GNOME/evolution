@@ -2316,12 +2316,17 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 	priv->show_checkboxes = show;
 
 	state = e_tree_get_state_object (E_TREE (storage_set_view));
-	g_free (state->columns);
 	state->col_count = show ? 2 : 1;
-	state->columns = g_new(int, state->col_count);
+	state->columns = g_renew (int, state->columns, state->col_count);
 	state->columns [state->col_count - 1] = 0;
 	if (show)
 		state->columns [0] = 1;
+
+	state->expansions = g_renew (double, state->expansions, state->col_count);
+	state->expansions [0] = 1.0;
+	if (show)
+		state->expansions [1] = 1.0;
+
 	e_tree_set_state_object (E_TREE (storage_set_view), state);
 
 	priv->has_checkbox_func = has_checkbox_func;
