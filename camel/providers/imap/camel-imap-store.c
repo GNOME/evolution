@@ -1387,7 +1387,7 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 			return NULL;
 		}
 	}
-	
+
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = dir;
 	if (sep && name)
@@ -1398,7 +1398,7 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 	url = camel_url_new (imap_store->base_url, NULL);
 	g_free (url->path);
 	url->path = g_strdup_printf ("/%s", dir);
-	if (flags & IMAP_LIST_FLAG_NOSELECT)
+	if (flags & IMAP_LIST_FLAG_NOSELECT || fi->name[0] == 0)
 		camel_url_set_param (url, "noselect", "yes");
 	fi->url = camel_url_to_string (url, 0);
 	camel_url_free (url);
