@@ -934,7 +934,7 @@ update_for_current_uri (EShellView *shell_view)
 						   path);
 
 	if (folder == NULL)
-		folder_name = _("None");
+		folder_name = g_strdup (_("None"));
 	else
 		folder_name = e_utf8_to_gtk_string ((GtkWidget *) shell_view, e_folder_get_name (folder));
 
