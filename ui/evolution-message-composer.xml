@@ -30,7 +30,7 @@
 		<cmd name="DeleteAll" _label="_Delete all"
 		_tip="Delete all but signature"/>
 
-		<cmd name="FormatHtml" _label="H_TML" _tip="Send the mail in HTML format"
+		<cmd name="FormatHtml" _label="HT_ML" _tip="Send the mail in HTML format"
 		type="toggle" state="0"/> 
 		
 		<cmd name="ViewFrom" _label="_From Field"

@@ -1,3 +1,8 @@
+2002-07-23  Larry Ewing  <lewing@ximian.com>
+
+	* evolution-message-composer.xml: changed accel for HTML from T to
+	M to avoid conflict with other menu items.
+
 2002-07-22  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-message-composer.xml: removed insert file as gtkhtml
