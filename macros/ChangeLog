@@ -1,3 +1,10 @@
+1998-10-01  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4 (libgtop_postinstall): 
+	Added `AC_SUBST(libgtop_postinstall)'. This is used in
+	`src/daemon/Makefile.am' to make the server suid root or
+	sgid kmem if required.
+
 1998-09-28  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: Make it accept libgtop >= 0.25.0 again.

@@ -123,6 +123,7 @@ main (void)
 	  libgtop_sysdeps_dir=freebsd
 	  libgtop_use_machine_h=yes
 	  libgtop_need_server=yes
+	  libgtop_postinstall='chgrp kmem $(bindir)/libgtop_server && chmod 2755 $(bindir)/libgtop_server'
 	  ;;
 	*)
 	  libgtop_sysdeps_dir=stub
@@ -134,6 +135,7 @@ main (void)
 	AC_MSG_RESULT($libgtop_sysdeps_dir)
 
 	AC_SUBST(libgtop_sysdeps_dir)
+	AC_SUBST(libgtop_postinstall)
 	AC_SUBST(libgtop_have_sysinfo)
 
 	AC_MSG_CHECKING(for machine.h in libgtop sysdeps dir)
