@@ -1,3 +1,10 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* tools/Makefile.am: subst in $(toolsdir) instead of $(bindir)
+
+	* tools/evolution-addressbook-clean.in:
+	s/EVOLUTION_BINDIR/EVOLUTION_TOOLSDIR/
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Define and AC_SUBST privlibexecdir, privdatadir,

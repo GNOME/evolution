@@ -9,7 +9,7 @@ sub do_system
     }
 }
 
-$filename = `@EVOLUTION_BINDIR@/evolution-addressbook-export`;
+$filename = `@EVOLUTION_TOOLSDIR@/evolution-addressbook-export`;
 if ($? != 0) {
     $! = $?;
     die $!;
@@ -17,8 +17,8 @@ if ($? != 0) {
 
 $HOME = $ENV{"HOME"};
 
-system ("@EVOLUTION_BINDIR@/killev");
+system ("@EVOLUTION_TOOLSDIR@/killev");
 do_system ("/bin/mv ${HOME}/evolution/local/Contacts/addressbook.db ${HOME}/evolution/local/Contacts/addressbook-backup.db");
-do_system ("@EVOLUTION_BINDIR@/evolution-addressbook-import --input-file $filename");
+do_system ("@EVOLUTION_TOOLSDIR@/evolution-addressbook-import --input-file $filename");
 do_system ("/bin/rm $filename");
 

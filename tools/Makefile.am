@@ -1,4 +1,4 @@
-toolsdir = $(datadir)/evolution-$(BASE_VERSION)/tools
+toolsdir = $(privdatadir)/tools
 
 tools_SCRIPTS =				\
 	csv2vcard			\
@@ -16,7 +16,6 @@ INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-tools\"		\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)				\
-	-DEVOLUTION_BINDIR=\""$(bindir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"		\
@@ -40,10 +39,10 @@ evolution_addressbook_import_LDADD =				\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/menus/libmenus.la
 
-evolution_addressbook_export_LDADD =					\
+evolution_addressbook_export_LDADD =				\
 	$(evolution_addressbook_import_LDADD)
 
-evolution_addressbook_abuse_LDADD =					\
+evolution_addressbook_abuse_LDADD =				\
 	$(evolution_addressbook_import_LDADD)
 
 CLEANFILES = evolution-addressbook-clean
@@ -51,6 +50,6 @@ CLEANFILES = evolution-addressbook-clean
 
 evolution-addressbook-clean: evolution-addressbook-clean.in Makefile
 ## Use sed and then mv to avoid problems if the user interrupts.
-	sed -e 's?\@EVOLUTION_BINDIR\@?$(bindir)?g' \
+	sed -e 's?\@EVOLUTION_TOOLSDIR\@?$(toolsdir)?g' \
 	   < $(srcdir)/evolution-addressbook-clean.in > evolution-addressbook-clean.tmp \
 	  && mv evolution-addressbook-clean.tmp evolution-addressbook-clean
