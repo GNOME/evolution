@@ -1,3 +1,20 @@
+2000-05-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail.h: Added a prototype for providers_config()
+	which is the callback for a new menu item that
+	will construct a configuration dialog for the camel
+	providers and identities and display it
+
+	* mail-config.c: Added some code to construct the 
+	new providers dialog and a bunch of callbacks (most 
+	of which are not yet useful)
+
+	* mail-ops.c: Added the code for the providers_confi()
+	callback
+
+	* folder-browser-factory.c: Added the 
+	"Tools/Camel Providers Configuration ..." menu item
+
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Switched to using "cursor_change" signal instead
