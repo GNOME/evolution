@@ -80,14 +80,12 @@ gchar    *e_strstrcase                                                     (cons
 void      e_filename_make_safe                                             (gchar            *string);
 gchar    *e_format_number                                                  (gint              number);
 gchar    *e_format_number_float                                            (gfloat            number);
-
 gboolean  e_create_directory                                               (gchar            *directory);
 
 
 typedef int (*ESortCompareFunc) (const void *first,
 				 const void *second,
 				 gpointer    closure);
-
 void      e_sort                                                           (void             *base,
 									    size_t            nmemb,
 									    size_t            size,
@@ -99,11 +97,8 @@ void      e_bsearch                                                        (cons
 									    size_t            size,
 									    ESortCompareFunc  compare,
 									    gpointer          closure,
-									    size_t	     *start,
-									    size_t	     *end);
-
-
-
+									    size_t           *start,
+									    size_t           *end);
 void      e_marshal_INT__INT_INT_POINTER                                   (GtkObject        *object,
 									    GtkSignalFunc     func,
 									    gpointer          func_data,
@@ -192,11 +187,15 @@ void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER                   (GtkO
 									    GtkSignalFunc     func,
 									    gpointer          func_data,
 									    GtkArg           *args);
+void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkObject        *object,
+									    GtkSignalFunc     func,
+									    gpointer          func_data,
+									    GtkArg           *args);
+void      e_marshal_INT__OBJECT_POINTER                                    (GtkObject        *object,
+									    GtkSignalFunc     func,
+									    gpointer          func_data,
+									    GtkArg           *args);
 
-void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkObject       *object,
-                                                                            GtkSignalFunc    func,
-                                                                            gpointer         func_data,
-                                                                            GtkArg          *args);
 
 #ifdef __cplusplus
 }

@@ -22,6 +22,9 @@
 #define __E_REFLOW_H__
 
 #include <libgnomeui/gnome-canvas.h>
+#include <gal/widgets/e-reflow-model.h>
+#include <gal/widgets/e-selection-model.h>
+#include <gal/util/e-sorter-array.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,6 +49,8 @@ extern "C" {
 #define E_IS_REFLOW_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_REFLOW_TYPE))
 
 
+typedef struct EReflowPriv    EReflowPriv;
+
 typedef struct _EReflow       EReflow;
 typedef struct _EReflowClass  EReflowClass;
 
@@ -54,30 +59,50 @@ struct _EReflow
 	GnomeCanvasGroup parent;
 	
 	/* item specific fields */
-	GList *items; /* Of type GnomeCanvasItem */
-	GList *columns; /* Of type GList of type GnomeCanvasItem (points into items) */
+	EReflowModel *model;
+	guint model_changed_id;
+	guint model_items_inserted_id;
+	guint model_item_changed_id;
+
+	ESelectionModel *selection;
+	guint selection_changed_id;
+	ESorterArray *sorter;
+
+	GtkAdjustment *adjustment;
+	guint adjustment_changed_id;
+	guint adjustment_value_changed_id;
+	guint set_scroll_adjustments_id;
+
+	int *heights;
+	GnomeCanvasItem **items;
+	int count;
+	int allocated_count;
+
+	int *columns;
 	gint column_count; /* Number of columnns */
 
 	GnomeCanvasItem *empty_text;
 	gchar *empty_message;
-	
+
 	double minimum_width;
 	double width;
 	double height;
-       
+
 	double column_width;
 
-	int idle;
+	int incarnate_idle_id;
 
 	/* These are all for when the column is being dragged. */
-	gboolean column_drag;
 	gdouble start_x;
 	gint which_column_dragged;
 	double temp_column_width;
 	double previous_temp_column_width;
 
+	guint column_drag : 1;
+
 	guint need_height_update : 1;
 	guint need_column_resize : 1;
+	guint need_reflow_columns : 1;
 
 	guint default_cursor_shown : 1;
 	GdkCursor *arrow_cursor;
@@ -88,8 +113,7 @@ struct _EReflowClass
 {
 	GnomeCanvasGroupClass parent_class;
 
-	/* Virtual methods. */
-	void (* add_item) (EReflow *reflow, GnomeCanvasItem *item, gint *position);
+	int (*selection_event) (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event);
 };
 
 /* 
@@ -98,18 +122,10 @@ struct _EReflowClass
  * should also do an ECanvas parent reflow request if its size
  * changes.
  */
-void     e_reflow_add_item       (EReflow         *e_reflow,
-				  GnomeCanvasItem *item,
-				  gint            *position);
 GtkType  e_reflow_get_type       (void);
-
-/* Internal usage only: */
-void     e_reflow_post_add_item  (EReflow         *e_reflow,
-				  GnomeCanvasItem *item);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-
 
 #endif /* __E_REFLOW_H__ */

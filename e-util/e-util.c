@@ -678,6 +678,27 @@ e_marshal_NONE__POINTER_INT_INT_INT (GtkObject       *object,
                  func_data);
 }
 
+typedef int (*GtkSignal_INT__OBJECT_POINTER) (GtkObject *,
+					      GtkObject *, gpointer,
+					      gpointer user_data);
+void
+e_marshal_INT__OBJECT_POINTER (GtkObject *object,
+			       GtkSignalFunc func,
+			       gpointer func_data,
+			       GtkArg *args)
+{
+	GtkSignal_INT__OBJECT_POINTER rfunc;
+	int *return_val;
+
+	rfunc = (GtkSignal_INT__OBJECT_POINTER) func;
+	return_val = GTK_RETLOC_INT (args[2]);
+
+	*return_val = (*rfunc) (object,
+				GTK_VALUE_OBJECT  (args[0]),
+				GTK_VALUE_POINTER (args[1]),
+				func_data);
+}
+
 gchar**
 e_strsplit (const gchar *string,
 	    const gchar *delimiter,
