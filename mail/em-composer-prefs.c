@@ -390,6 +390,8 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 					/* we're just editing an existing signature script */
 					g_free (sig->name);
 					sig->name = g_strdup (name);
+					g_free(sig->filename);
+					sig->filename = g_strdup(script);
 					e_signature_list_change (mail_config_get_signatures (), sig);
 				} else {
 					sig = mail_config_signature_new (script, TRUE, TRUE);
@@ -399,6 +401,8 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 					g_object_unref (sig);
 				}
 				
+				mail_config_save_signatures();
+
 				gtk_widget_hide (prefs->sig_script_dialog);
 				g_strfreev (argv);
 				g_free (script);

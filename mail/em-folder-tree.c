@@ -279,7 +279,6 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	GdkPixbuf *pixbuf = NULL;
 	gboolean is_store;
 	guint32 flags;
-	char *full_name;
 	
 	if (!initialised) {
 		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("stock_folder", E_ICON_SIZE_MENU);
@@ -292,27 +291,33 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		initialised = TRUE;
 	}
 	
-	gtk_tree_model_get (model, iter, COL_STRING_FULL_NAME, &full_name,
-			    COL_BOOL_IS_STORE, &is_store, COL_UINT_FLAGS, &flags, -1);
-	if (!is_store && full_name != NULL) {
-		if (!g_ascii_strcasecmp (full_name, "Inbox"))
+	gtk_tree_model_get (model, iter, COL_BOOL_IS_STORE, &is_store, COL_UINT_FLAGS, &flags, -1);
+
+	if (!is_store) {
+		switch((flags & CAMEL_FOLDER_TYPE_MASK)) {
+		case CAMEL_FOLDER_TYPE_INBOX:
 			pixbuf = folder_icons[FOLDER_ICON_INBOX];
-		else if (!g_ascii_strcasecmp (full_name, "Outbox"))
+			break;
+		case CAMEL_FOLDER_TYPE_OUTBOX:
 			pixbuf = folder_icons[FOLDER_ICON_OUTBOX];
-		else if (!strcmp (full_name, CAMEL_VTRASH_NAME))
+			break;
+		case CAMEL_FOLDER_TYPE_TRASH:
 			pixbuf = folder_icons[FOLDER_ICON_TRASH];
-		else if (!strcmp (full_name, CAMEL_VJUNK_NAME))
+			break;
+		case CAMEL_FOLDER_TYPE_JUNK:
 			pixbuf = folder_icons[FOLDER_ICON_JUNK];
-		else if (flags & CAMEL_FOLDER_SHARED_TO_ME) 
-			pixbuf = folder_icons[FOLDER_ICON_SHARED_TO_ME];
-		else if (flags & CAMEL_FOLDER_SHARED_BY_ME) 
-			pixbuf = folder_icons[FOLDER_ICON_SHARED_BY_ME];
-		else
-			pixbuf = folder_icons[FOLDER_ICON_NORMAL];
+			break;
+		default:
+			if (flags & CAMEL_FOLDER_SHARED_TO_ME) 
+				pixbuf = folder_icons[FOLDER_ICON_SHARED_TO_ME];
+			else if (flags & CAMEL_FOLDER_SHARED_BY_ME) 
+				pixbuf = folder_icons[FOLDER_ICON_SHARED_BY_ME];
+			else
+				pixbuf = folder_icons[FOLDER_ICON_NORMAL];
+		}
 	}
 		
 	g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
-	g_free (full_name);
 }
 
 static void

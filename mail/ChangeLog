@@ -1,5 +1,20 @@
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree-model.c (sort_cb): use the type hint to sort for
+	inbox, not the name.
+	(emft_is_special_local_folder): removed.
+	(em_folder_tree_model_set_folder_info): special-case the
+	local-store case, handle translated names and the name hints.
+
+	* em-folder-tree.c (render_pixbuf): use the camel folderinfo
+	folder type to determine the icon, don't hardcode based on name.
+
+	** See bug #71310
+
+	* em-composer-prefs.c (sig_add_script_response): force a save of
+	the signatures as soon as they change.  Also save the script name
+	if we were just editing it, not just the signature name.
+
 	** See bug #71312.
 
 	* em-folder-view.c (em_folder_view_open_selected): if we're
