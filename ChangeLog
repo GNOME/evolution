@@ -1,5 +1,11 @@
 2000-11-27  JP Rosevear  <jpr@helixcode.com>
 
+	* AUTHORS: Update - hopefully I assigned blame correctly :-)
+
+	* MAINTAINERS: ditto
+
+2000-11-27  JP Rosevear  <jpr@helixcode.com>
+
 	* configure.in: Correct the bonobo version error message
 
 	* README: Update
