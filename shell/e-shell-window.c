@@ -598,7 +598,7 @@ impl_dispose (GObject *object)
 	}
 
 	if (priv->tooltips != NULL) {
-		g_object_unref (priv->tooltips);
+		gtk_object_destroy (priv->tooltips);
 		priv->tooltips = NULL;
 	}
 
@@ -780,6 +780,14 @@ e_shell_window_peek_bonobo_ui_component (EShellWindow *window)
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
 
 	return window->priv->ui_component;
+}
+
+GtkWidget *
+e_shell_window_peek_task_bar (EShellWindow *window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+
+	return window->priv->task_bar;
 }
 
 void

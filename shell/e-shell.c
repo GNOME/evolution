@@ -28,6 +28,7 @@
 
 #include "e-util/e-dialog-utils.h"
 
+#include "e-activity-handler.h"
 #include "e-setup.h"
 #include "e-shell-constants.h"
 #include "e-shell-settings-dialog.h"
@@ -89,6 +90,9 @@ struct _EShellPrivate {
 
 	/* Settings Dialog */
 	GtkWidget *settings_dialog;
+
+	/* The handler for the ::Activity interface.  */
+	EActivityHandler *activity_handler;   /* <aggregate> */
 	
 	/* Whether the shell is succesfully initialized.  This is needed during
 	   the start-up sequence, to avoid CORBA calls to do make wrong things
@@ -133,6 +137,18 @@ get_config_start_offline (void)
 	g_object_unref (client);
 
 	return value;
+}
+
+/* Set up the ::Activity interface.  */
+static void
+setup_activity_interface (EShell *shell)
+{
+	EActivityHandler *activity_handler;
+
+	activity_handler = e_activity_handler_new ();
+
+	bonobo_object_add_interface (BONOBO_OBJECT (shell), BONOBO_OBJECT (activity_handler));
+	shell->priv->activity_handler = activity_handler;
 }
 
 
@@ -333,6 +349,8 @@ create_window (EShell *shell,
 	g_signal_connect (window, "delete_event", G_CALLBACK (window_delete_event_cb), shell);
 	g_object_weak_ref (G_OBJECT (window), window_weak_notify, shell);
 
+	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (e_shell_window_peek_task_bar (window)));
+
 	shell->priv->windows = g_list_prepend (shell->priv->windows, window);
 
 	g_signal_emit (shell, signals[NEW_WINDOW_CREATED], 0, window);
@@ -388,6 +406,9 @@ impl_dispose (GObject *object)
 		gtk_widget_destroy (priv->settings_dialog);
 		priv->settings_dialog = NULL;
 	}
+
+	/* No unreffing for this as it is aggregate.  */
+	/* bonobo_object_unref (BONOBO_OBJECT (priv->activity_handler)); */
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -473,6 +494,8 @@ e_shell_init (EShell *shell)
 	priv->user_creatable_items_handler = e_user_creatable_items_handler_new (priv->component_registry);
 
 	shell->priv = priv;
+
+	setup_activity_interface (shell);
 }
 
 

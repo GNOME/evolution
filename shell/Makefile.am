@@ -155,6 +155,8 @@ libeshell_la_LIBADD =				\
 evolution_SOURCES =				\
 	$(SELECT_NAMES_IDL_GENERATED)		\
 	$(DATASERVER_IDL_GENERATED)		\
+	e-activity-handler.c			\
+	e-activity-handler.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
 	e-config-upgrade.c			\

@@ -1,5 +1,21 @@
 2003-11-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-window.c (impl_dispose): Destroy the tooltips instead of
+	unreffing them.
+
+	* e-shell.c (struct _EShellPrivate): New member activity_handler.
+	(setup_activity_interface): New.
+	(impl_dispose): Add a comment about why we must not unref
+	activity_handler here.
+	(create_window): Attach the task bar to the new window.
+
+	* e-shell-window.c (e_shell_window_peek_task_bar): New.
+
+	* e-activity-handler.c: Add back.
+	* e-activity-handler.h: Add back.
+
+2003-11-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-window.c (struct _EShellWindowPrivate): New members
 	status_bar, offline_toggle, offline_toggle_image, menu_hint_label,
 	task_bar, tooltips.
