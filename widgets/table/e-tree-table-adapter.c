@@ -1008,8 +1008,6 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 
-	e_table_model_pre_change(E_TABLE_MODEL(etta));
-
 	for (child = root->xmlChildrenNode; child; child = child->next) {
 		char *id;
 
