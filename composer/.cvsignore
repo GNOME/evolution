@@ -9,10 +9,10 @@ Composer-stubs.c
 Composer-skels.c
 Composer-common.c
 Composer.h
-HTMLEditor-stubs.c
-HTMLEditor-skels.c
-HTMLEditor.h
-HTMLEditor-common.c
+Editor-stubs.c
+Editor-skels.c
+Editor.h
+Editor-common.c
 Evolution-Addressbook-SelectNames-common.c
 Evolution-Addressbook-SelectNames-skels.c
 Evolution-Addressbook-SelectNames-stubs.c
