@@ -464,6 +464,22 @@ set_owner_on_components (EShell *shell)
 
 /* EShellView destruction callback.  */
 
+static int
+view_deleted_cb (GtkObject *object,
+		 GdkEvent *ev,
+		 gpointer data)
+{
+	EShell *shell;
+
+	g_assert (E_IS_SHELL_VIEW (object));
+
+	shell = E_SHELL (data);
+	e_shell_save_settings (shell);
+
+	/* Destroy it */
+	return FALSE;
+}
+
 static void
 view_destroy_cb (GtkObject *object,
 		 gpointer data)
@@ -476,7 +492,6 @@ view_destroy_cb (GtkObject *object,
 	shell->priv->views = g_list_remove (
 		shell->priv->views, object);
 
-	save_settings_for_views (shell);
 	if (shell->priv->views == NULL) {
 		/* FIXME: This looks like a Bonobo bug to me.  */
 		bonobo_object_ref (BONOBO_OBJECT (shell));
@@ -523,7 +538,10 @@ destroy (GtkObject *object)
 		gtk_signal_disconnect_by_func (
 			GTK_OBJECT (view),
 			GTK_SIGNAL_FUNC (view_destroy_cb), shell);
-		
+		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
+					       GTK_SIGNAL_FUNC (view_deleted_cb),
+					       shell);
+
 		gtk_object_destroy (GTK_OBJECT (view));
 	}
 
@@ -737,6 +755,8 @@ e_shell_new_view (EShell *shell,
 	view = e_shell_view_new (shell);
 
 	gtk_widget_show (GTK_WIDGET (view));
+	gtk_signal_connect (GTK_OBJECT (view), "delete-event",
+			    GTK_SIGNAL_FUNC (view_deleted_cb), shell);
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
@@ -1016,7 +1036,8 @@ e_shell_quit (EShell *shell)
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	e_shell_save_settings (shell);
+	if (shell->priv->views)
+		e_shell_save_settings (shell); 
 
 	priv = shell->priv;
 

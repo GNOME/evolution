@@ -90,8 +90,7 @@ static gboolean
 check_evolution_directory (const char *evolution_directory)
 {
 	GtkWidget *dialog;
-	GtkWidget *scroller, *clist;
-	GtkWidget *label;
+	GtkWidget *label1, *label2;
 	gboolean retval;
 	GList *newfiles, *l;
 	char *defaultdir;
@@ -104,31 +103,19 @@ check_evolution_directory (const char *evolution_directory)
 	if (newfiles == NULL)
 		return TRUE;
 
-	dialog = gnome_dialog_new (_("Evolution Installation"),
-				   GNOME_STOCK_BUTTON_OK, 
-				   GNOME_STOCK_BUTTON_CANCEL,
+	dialog = gnome_dialog_new (_("Evolution installation"),
+				   GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
-	label = gtk_label_new (_("Since Evolution was installed,"
-				 "\nthe following files need to be updated"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
-			    TRUE, TRUE, 0);
-	scroller = gtk_scrolled_window_new (NULL, NULL);
-	clist = gtk_clist_new (1);
-	gtk_clist_column_titles_hide (GTK_CLIST (clist));
+	
+	label1 = gtk_label_new (_("This new version of Evolution needs to install additional files\ninto your personal Evolution directory"));
+	label2 = gtk_label_new (_("Please click \"OK\" to install the files, or \"Cancel\" to exit."));
+	
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label1, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label2, TRUE, TRUE, 0);
+	
+	gtk_widget_show (label1);
+	gtk_widget_show (label2);
 
-	for (l = newfiles; l; l = l->next) {
-		char *row[1];
-
-		row[0] = l->data;
-		gtk_clist_append (GTK_CLIST (clist), row);
-	}
-
-	gtk_container_add (GTK_CONTAINER (scroller), clist);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), scroller,
-			    TRUE, TRUE, 0);
-
-	gtk_widget_show (label);
-	gtk_widget_show_all (scroller);
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 	if (result != 0)

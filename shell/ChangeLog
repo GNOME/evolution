@@ -1,3 +1,16 @@
+2000-10-17  Iain Holmes  <iain@helixcode.com>
+	
+	* e-shell.c (view_deleted_cb): Save the settings before the
+	view is destroyed.
+	(e_shell_quit): Don't save the settings when there are no views.
+
+2000-10-16  Iain Holmes  <iain@helixcode.com>
+
+	* e-setup.c (check_evolution_directory): Better dialog.
+
+	* e-splash.c (icon_free): Don't unref the canvas item.
+	(e_splash_construct): Add a frame round the splash screen.
+
 2000-10-16  Dan Winship  <danw@helixcode.com>
 
 	* evolution-storage-set-view-factory.c

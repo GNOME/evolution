@@ -13,6 +13,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <e-util/e-list.h>
+#include "e-select-names.h"
 
 #define E_TYPE_SELECT_NAMES_MANAGER            (e_select_names_manager_get_type ())
 #define E_SELECT_NAMES_MANAGER(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_SELECT_NAMES_MANAGER, ESelectNamesManager))
@@ -29,7 +30,7 @@ struct _ESelectNamesManager {
 	EList *sections;
 	EList *entries;
 
-	GHashTable *id_to_names;
+	ESelectNames *names;
 };
 
 struct _ESelectNamesManagerClass {

@@ -406,10 +406,12 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 	
 	/* FIXME: I just don't feel like implementing the folder-browser-passing
 	 * garbage. */
+	/* FIXME: We really need some way to get the folder_browser into this
+	   function */
 	if (!check_send_configuration (NULL) || !folder ||
 	    !msg || !uid)
 		return;
-	
+
 	psd = g_new (struct post_send_data, 1);
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
@@ -435,6 +437,9 @@ reply_to_sender (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
+	if (!check_send_configuration (fb))
+		return;
+
 	mail_reply (fb->folder, fb->mail_display->current_message, 
 	       fb->message_list->cursor_uid, FALSE);
 }
@@ -443,7 +448,10 @@ void
 reply_to_all (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	
+
+	if (!check_send_configuration (fb))
+		return;
+
 	mail_reply (fb->folder, fb->mail_display->current_message, 
 	       fb->message_list->cursor_uid, TRUE);
 }
