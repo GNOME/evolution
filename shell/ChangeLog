@@ -1,3 +1,21 @@
+2000-07-23  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view-menu.c: Converted to use `bonobo_ui_handler_*()'
+	stuff directly, instead of converting from GnomeUIInfo.
+	(command_quit): Update arg types for BonoboUIHandler.
+	(command_run_bugbuddy): Likewise.
+	(command_about_box): Likewise.
+	(command_new_task): Removed.
+	(command_new_journal_entry): Removed.
+	(menu_create_file_new): New.
+	(menu_create_file): New.
+	(menu_create_edit): New.
+	(menu_create_view): New.
+	(menu_create_tools): New.
+	(menu_create_actions): New.
+	(e_shell_view_menu_setup): Create menus using them instead of
+	converting from GnomeUIInfo.
+
 2000-07-22  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell.c (e_shell_construct): Don't unref NULL shortcuts, you

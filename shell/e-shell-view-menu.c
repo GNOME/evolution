@@ -79,8 +79,9 @@ folder_bar_mode_changed_cb (EShellView *shell_view,
 
 /* Command callbacks.  */
 static void
-command_quit (GtkWidget *widget,
-	      gpointer data)
+command_quit (BonoboUIHandler *uih,
+	      void *data,
+	      const char *path)
 {
 	EShellView *shell_view;
 	EShell *shell;
@@ -92,7 +93,9 @@ command_quit (GtkWidget *widget,
 }
 
 static void
-command_run_bugbuddy (GtkWidget *menuitem, gpointer data)
+command_run_bugbuddy (BonoboUIHandler *uih,
+		      void *data,
+		      const char *path)
 {
         int pid;
         char *args[] = {
@@ -124,7 +127,9 @@ zero_pointer(GtkObject *object, void **pointer)
 }
 
 static void
-command_about_box (GtkWidget *menuitem, gpointer data)
+command_about_box (BonoboUIHandler *uih,
+		   void *data,
+		   const char *path)
 {
 	static GtkWidget *about_box = NULL;
 
@@ -171,7 +176,9 @@ command_about_box (GtkWidget *menuitem, gpointer data)
 }
 
 static void
-command_help (BonoboUIHandler *uih, void *data, const char *path)
+command_help (BonoboUIHandler *uih,
+	      void *data,
+	      const char *path)
 {
 	char *url;
 
@@ -355,7 +362,7 @@ command_create_folder (BonoboUIHandler *uih,
 
 #define DEFINE_UNIMPLEMENTED(func)					\
 static void								\
-func (GtkWidget *widget, gpointer data)					\
+func (BonoboUIHandler *uih, void *data, const char *path)		\
 {									\
 	g_warning ("EShellView: %s: not implemented.", __FUNCTION__);	\
 }									\
@@ -363,144 +370,231 @@ func (GtkWidget *widget, gpointer data)					\
 DEFINE_UNIMPLEMENTED (command_new_shortcut)
 DEFINE_UNIMPLEMENTED (command_new_mail_message)
 DEFINE_UNIMPLEMENTED (command_new_contact)
-DEFINE_UNIMPLEMENTED (command_new_task)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
-DEFINE_UNIMPLEMENTED (command_new_journal_entry)
 
 
-/*
- * FIXME
- *
- * This menu is actually pretty dynamic, it changes de values of various entries
- * depending on the current data being displayed
- *
- * This is currently only a placeholder.  We need to figure what to do about this.
- */
-static GnomeUIInfo menu_file_new [] = {
+static void
+menu_create_file_new (BonoboUIHandler *uih,
+		      void *data)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/File/New",
+					    _("_New"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
 
-	{ GNOME_APP_UI_ITEM, N_("View"),
-	  NULL, command_new_view, NULL,
-	  NULL, 0, 0, 'v', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/View",
+					 _("_View"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 'v', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					 command_new_view, data);
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/View",
+					 _("_Folder"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 'f', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					 command_new_folder, data);
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/Evolution bar shortcut",
+					 _("Evolution bar _shortcut"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 's', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					 command_new_shortcut, data);
+
+	bonobo_ui_handler_menu_new_separator (uih, "/File/New/Separator1", -1);
 	
-	{ GNOME_APP_UI_ITEM, N_("_Folder"),
-	  NULL, command_new_folder, NULL,
-	  NULL, 0, 0, 'f', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/Mail message",
+					 _("_Mail message (FIXME)"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 'm', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					 command_new_mail_message, data);
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/Appointment",
+					 _("_Appointment (FIXME)"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 'a', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					 command_new_shortcut, data);
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/Contact",
+					 _("_Contact (FIXME)"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 'c', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					 command_new_contact, data);
+	bonobo_ui_handler_menu_new_item (uih, "/File/New/Contact",
+					 _("_Task (FIXME)"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 't', GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+					 command_new_task_request, data);
+}
 
-	{ GNOME_APP_UI_ITEM, N_("Evolution _Bar Shortcut"),
-	  NULL, command_new_shortcut, NULL,
-	  NULL, 0, 0, 's', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+static void
+menu_create_file (BonoboUIHandler *uih,
+		  void *data)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/File",
+					    _("_File"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
 
-	GNOMEUIINFO_SEPARATOR,
+	menu_create_file_new (uih, data);
 
-	{ GNOME_APP_UI_ITEM, N_("_Mail message (FIXME)"),
-	  N_("Composes a new mail message"), command_new_mail_message, NULL,
-	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Appointment (FIXME)"),
-	  N_("Composes a new mail message"), command_new_mail_message, NULL,
-	  NULL, 0, 0, 'a', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Contact (FIXME)"), NULL,
-	  command_new_contact, NULL,
-	  NULL, 0, 0, 'c', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Task (FIXME)"), NULL,
-	  command_new_task, NULL,
-	  NULL, 0, 0, 'k', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Task _Request (FIXME)"), NULL,
-	  command_new_task_request, NULL,
-	  NULL, 0, 0, 'u', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Journal Entry (FIXME)"), NULL,
-	  command_new_journal_entry, NULL,
-	  NULL, 0, 0, 'j', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator1", -1);
 
-	GNOMEUIINFO_END
-};
+	bonobo_ui_handler_menu_new_item (uih, "/File/Go to folder",
+					 _("_Go to folder..."),
+					 _("Display a different folder"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_goto_folder, data);
 
-static GnomeUIInfo menu_file [] = {
-	GNOMEUIINFO_SUBTREE_STOCK (N_("_New"), menu_file_new, GNOME_STOCK_MENU_NEW),
+	bonobo_ui_handler_menu_new_item (uih, "/File/Create new folder",
+					 _("_Create new folder..."),
+					 _("Create a new folder"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_create_folder, data);
 
-	GNOMEUIINFO_SEPARATOR,
-	
-	GNOMEUIINFO_ITEM_NONE (N_("_Go to folder..."), N_("Display a different folder"),
-			       command_goto_folder),
-	GNOMEUIINFO_ITEM_NONE (N_("_Create new folder..."), N_("Create a new folder"),
-			       command_create_folder),
+	bonobo_ui_handler_menu_new_separator (uih, "/File/Separator2", -1);
 
-	GNOMEUIINFO_SEPARATOR,
-	
-	GNOMEUIINFO_MENU_EXIT_ITEM(command_quit, NULL),
+	bonobo_ui_handler_menu_new_item (uih, "/File/Exit",
+					 _("E_xit..."),
+					 _("Create a new folder"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_EXIT,
+					 0, 0,
+					 command_quit, data);
+}
 
-	GNOMEUIINFO_END
-};
+static void
+menu_create_edit (BonoboUIHandler *uih,
+		  void *data)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/Edit",
+					    _("_Edit"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
+}
 
-static GnomeUIInfo menu_edit [] = {
-	GNOMEUIINFO_END
-};
+static void
+menu_create_view (BonoboUIHandler *uih,
+		  void *data)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/View",
+					    _("_View"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
 
-static GnomeUIInfo menu_view [] = {
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Show _shortcut bar"),
-	  N_("Show the shortcut bar"), command_toggle_shortcut_bar, NULL,
-	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Show _folder bar"),
-	  N_("Show the folder bar"), command_toggle_folder_bar, NULL,
-	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },		
-	GNOMEUIINFO_END
-};
+	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Show shortcut bar",
+					       _("Show _shortcut bar"),
+					       _("Show the shortcut bar"),
+					       -1,
+					       0, 0,
+					       command_toggle_shortcut_bar, data);
+	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Show folder bar",
+					       _("Show _folder bar"),
+					       _("Show the folder bar"),
+					       -1,
+					       0, 0,
+					       command_toggle_folder_bar, data);
+}
 
-static GnomeUIInfo menu_tools [] = {
-	GNOMEUIINFO_END
-};
+static void
+menu_create_tools (BonoboUIHandler *uih,
+		   void *data)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/Tools",
+					    _("_Tools"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
+}
 
-static GnomeUIInfo menu_actions [] = {
-	GNOMEUIINFO_END
-};
+static void
+menu_create_actions (BonoboUIHandler *uih,
+		     void *data)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/Actions",
+					    _("_Actions"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
+}
 
-static GnomeUIInfo menu_help [] = {
-	GNOMEUIINFO_MENU_ABOUT_ITEM(command_about_box, NULL),
+static void
+menu_create_help (BonoboUIHandler *uih,
+		  void *data)
+{
+	bonobo_ui_handler_menu_new_subtree (uih, "/Help",
+					    _("_Help"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
 
-	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("Help _Index"), NULL,
-	  command_help, "index.html",
-	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Getting _Started"), NULL,
-	  command_help, "usage-mainwindow.html",
-	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Using the _Mailer"), NULL,
-	  command_help, "usage-mail.html",
-	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Using the _Calendar"), NULL,
-	  command_help, "usage-calendar.html",
-	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Using the Cont_act Manager"), NULL,
-	  command_help, "usage-contact.html",
-	  NULL, 0, 0, 0, 0 },
+	bonobo_ui_handler_menu_new_item (uih, "/Help/Help index",
+					 _("Help _index"),
+					 NULL,
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_help, "index.html");
+	bonobo_ui_handler_menu_new_item (uih, "/Help/Getting started",
+					 _("Getting _started"),
+					 NULL,
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_help, "usage-mainwindow.html");
+	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the mailer",
+					 _("Using the _mailer"),
+					 NULL,
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_help, "usage-mail.html");
+	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the calendar",
+					 _("Using the _calendar"),
+					 NULL,
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_help, "usage-calendar.html");
+	bonobo_ui_handler_menu_new_item (uih, "/Help/Using the contact manager",
+					 _("Using the c_ontact manager"),
+					 NULL,
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_help, "usage-contact.html");
 
-	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("_Submit bug report"),
-	  N_("Submit bug-report via bug-buddy"), command_run_bugbuddy, NULL,
-	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	GNOMEUIINFO_END
-};
+	bonobo_ui_handler_menu_new_separator (uih, "/Help/Separator1", -1);
 
-
-/* Menu bar.  */
+	bonobo_ui_handler_menu_new_item (uih, "/Help/Submit bug report",
+					 _("_Submit bug report"),
+					 _("Submit bug report using Bug Buddy"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_run_bugbuddy, data);
 
-static GnomeUIInfo menu [] = {
-	GNOMEUIINFO_MENU_FILE_TREE (menu_file),
-	GNOMEUIINFO_MENU_EDIT_TREE (menu_edit),
-	GNOMEUIINFO_MENU_VIEW_TREE (menu_view),
+	bonobo_ui_handler_menu_new_separator (uih, "/Help/Separator2", -1);
 
-	/* FIXME: add Favorites here */
-
-	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, menu_tools },
-	{ GNOME_APP_UI_SUBTREE, N_("_Actions"), NULL, menu_actions },
-
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo menu_2 [] = {
-	GNOMEUIINFO_MENU_HELP_TREE (menu_help),
-
-	GNOMEUIINFO_END
-};
+	bonobo_ui_handler_menu_new_item (uih, "/Help/About Evolution",
+					 _("_About Evolution..."),
+					 _("Show information about Evolution"),
+					 -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0,
+					 command_about_box, data);
+}
 
 
 /* FIXME these must match the corresponding setup in the GnomeUIInfo and this sucks sucks.  */
@@ -510,7 +604,6 @@ static GnomeUIInfo menu_2 [] = {
 void
 e_shell_view_menu_setup (EShellView *shell_view)
 {
-	BonoboUIHandlerMenuItem *list;
 	BonoboUIHandler *uih;
 
 	g_return_if_fail (shell_view != NULL);
@@ -518,14 +611,12 @@ e_shell_view_menu_setup (EShellView *shell_view)
 
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
-	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (menu, shell_view);
-	bonobo_ui_handler_menu_add_list (uih, "/", list);
-	bonobo_ui_handler_menu_free_list (list);
-
-	/* Parse the Help menu without bashing over the user_data */
-	list = bonobo_ui_handler_menu_parse_uiinfo_list (menu_2);
-	bonobo_ui_handler_menu_add_list (uih, "/", list);
-	bonobo_ui_handler_menu_free_list (list);
+	menu_create_file (uih, shell_view);
+	menu_create_edit (uih, shell_view);
+	menu_create_view (uih, shell_view);
+	menu_create_tools (uih, shell_view);
+	menu_create_actions (uih, shell_view);
+	menu_create_help (uih, shell_view);
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
 			    GTK_SIGNAL_FUNC (shortcut_bar_mode_changed_cb),
