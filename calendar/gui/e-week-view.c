@@ -930,7 +930,15 @@ e_week_view_expose_event (GtkWidget *widget,
 	return FALSE;
 }
 
-
+/**
+ * e_week_view_get_next_tab_event
+ * @week_view: the week_view widget operate on
+ * @direction: GTK_DIR_TAB_BACKWARD or GTK_DIR_TAB_FORWARD.
+ * @current_event_num and @current_span_num: current status.
+ * @next_event_num: the event number focus should go next.
+ *                  -1 indicates focus should go to week_view widget.
+ * @next_span_num: always return 0.
+ **/
 static gboolean
 e_week_view_get_next_tab_event (EWeekView *week_view,
 				GtkDirectionType direction,
@@ -962,10 +970,18 @@ e_week_view_get_next_tab_event (EWeekView *week_view,
 		return FALSE;
 	}
 
-	if (event_num < 0)
+	if (event_num == -1)
+		/* backward, out of event range, go to week view widget
+		 */
+		*next_event_num = -1;
+	else if (event_num < -1)
+		/* backward from week_view, go to the last event
+		 */
 		*next_event_num = week_view->events->len - 1;
 	else if (event_num >= week_view->events->len)
-		*next_event_num = 0;
+		/* forward, out of event range, go to week view widget
+		 */
+		*next_event_num = -1;
 	else
 		*next_event_num = event_num;
 	return TRUE;
@@ -996,6 +1012,13 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 						     &new_event_num,
 						     &new_span_num))
 			return FALSE;
+
+		if (new_event_num == -1) {
+			/* focus should go to week_view widget
+			 */
+			gtk_widget_grab_focus (widget);
+			return TRUE;
+		}
 
 		editable = e_week_view_start_editing_event (week_view,
 							    new_event_num,

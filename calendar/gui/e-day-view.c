@@ -5037,6 +5037,13 @@ e_day_view_focus (GtkWidget *widget, GtkDirectionType direction)
 					    &new_day, &new_event_num))
 		return FALSE;
 
+	if ((new_day == -1) && (new_event_num == -1)) {
+		/* focus should go to the day view widget itself
+		 */
+		gtk_widget_grab_focus (GTK_WIDGET(day_view));
+		return TRUE;
+	}
+
 	if (new_day != E_DAY_VIEW_LONG_EVENT && new_day != -1) {
 		if (e_day_view_get_event_rows (day_view, new_day, new_event_num,
 					       &start_row, &end_row))
@@ -5050,6 +5057,20 @@ e_day_view_focus (GtkWidget *widget, GtkDirectionType direction)
 	return TRUE;
 }
 
+/**
+ * e_day_view_get_extreme_event
+ * @day_view: the day view widget operates on
+ * @start_day, @end_day: range of search, both inclusive
+ * @first: %TURE indicate to return the data for the first event in the range,
+ *         %FALSE to return data for the last event in the range.
+ * @day_out: out value, day of the event found. -1 for no event found.
+ * @event_num_out: out value, event number of the event found.
+ *                  -1 for no event found.
+ *
+ * Get day and event_num value for the first or last event found in the day range.
+ *
+ * Return value: %TRUE, if a event found.
+ **/
 static gboolean
 e_day_view_get_extreme_event (EDayView *day_view, gint start_day,
 			      gint end_day, gboolean first,
@@ -5086,6 +5107,18 @@ e_day_view_get_extreme_event (EDayView *day_view, gint start_day,
 	return FALSE;
 }
 
+/**
+ * e_day_view_get_extreme_long_event
+ * @day_view: the day view widget operates on
+ * @first: %TURE indicate to return the data for the first event in the range,
+ *         %FALSE to return data for the last event in the range.
+ * @event_num_out: out value, event number of the event found.
+ *                  -1 for no event found.
+ *
+ * Similar to e_day_view_get_extreme_event, but run for long events.
+ *
+ * Return value: %TRUE, if a event found.
+ **/
 static gboolean
 e_day_view_get_extreme_long_event (EDayView *day_view, gboolean first,
 				   gint *day_out, gint *event_num_out)
@@ -5108,6 +5141,20 @@ e_day_view_get_extreme_long_event (EDayView *day_view, gboolean first,
 	return FALSE;
 }
 
+/**
+ * e_day_view_get_next_tab_event
+ * @day_view: the day view widget operates on
+ * @direction: GTK_DIR_TAB_BACKWARD or GTK_DIR_TAB_FORWARD
+ * @day_out: out value, day of the event found. -1 for no event found.
+ * @event_num_out: out value, event number of the event found.
+ *                  -1 for no event found.
+ *
+ * Decide on which event the focus should go next. 
+ * if ((day_out == -1) && (event_num_out == -1)) is true, focus should go
+ * to day_view widget itself.
+ *
+ * Return value: %TRUE, if a event found.
+ **/
 static gboolean
 e_day_view_get_next_tab_event (EDayView *day_view, GtkDirectionType direction,
 			       gint *day_out, gint *event_num_out)
@@ -5142,36 +5189,53 @@ e_day_view_get_next_tab_event (EDayView *day_view, GtkDirectionType direction,
 	/* not current editing event, set to first long event if there is one
 	 */
 	if (new_day == -1) {
-		if (e_day_view_get_extreme_long_event (day_view, TRUE,
-						       day_out, event_num_out))
-			return TRUE;
+		if (direction == GTK_DIR_TAB_FORWARD) {
+			if (e_day_view_get_extreme_long_event (day_view, TRUE,
+							       day_out,
+							       event_num_out))
+				return TRUE;
 
-		/* no long event, set to first normal event if there is one
-		 */
-		return e_day_view_get_extreme_event (day_view, 0,
-						     days_shown - 1, TRUE,
-						     day_out, event_num_out);
+			/* no long event, set to first event if there is
+			 */
+			e_day_view_get_extreme_event (day_view, 0,
+						      days_shown - 1, TRUE,
+						      day_out, event_num_out);
+			/* go to event if found, or day view widget
+			 */
+			return TRUE;
+		}
+		else {
+			if (e_day_view_get_extreme_event (day_view, 0,
+							  days_shown - 1, FALSE,
+							  day_out, event_num_out))
+				return TRUE;
+
+			/* no event, set to last long event if there is
+			 */
+			e_day_view_get_extreme_long_event (day_view, FALSE,
+							   day_out,
+							   event_num_out);
+
+			/* go to long event if found, or day view widget
+			 */
+			return TRUE;
+		}
 	}
 	/* go backward from the first long event */
 	else if ((new_day == E_DAY_VIEW_LONG_EVENT) && (new_event_num < 0)) {
-		if (e_day_view_get_extreme_event (day_view, 0,
-						  days_shown - 1, FALSE,
-						  day_out, event_num_out))
-			return TRUE;
-		return e_day_view_get_extreme_long_event (day_view, FALSE,
-							  day_out,
-							  event_num_out);
+		/* let focus go to day view widget in this case
+		 */
+		return TRUE;
 	}
 	/* go forward from the last long event */
 	else if ((new_day == E_DAY_VIEW_LONG_EVENT) &&
 		 (new_event_num >= day_view->long_events->len)) {
-		if (e_day_view_get_extreme_event (day_view, 0,
-						  days_shown - 1, TRUE,
-						  day_out, event_num_out))
-			return TRUE;
-		return e_day_view_get_extreme_long_event (day_view, TRUE,
-							  day_out,
-							  event_num_out);
+		e_day_view_get_extreme_event (day_view, 0,
+					      days_shown - 1, TRUE,
+					      day_out, event_num_out);
+		/* go to the next main item event if found or day view widget
+		 */
+		return TRUE;
 	}
 
 	/* go backward from the first event in current editting day */
@@ -5182,31 +5246,28 @@ e_day_view_get_next_tab_event (EDayView *day_view, GtkDirectionType direction,
 						  new_day - 1, FALSE,
 						  day_out, event_num_out))
 			return TRUE;
-		else if (e_day_view_get_extreme_long_event (day_view, FALSE,
-							    day_out,
-							    event_num_out))
-			return TRUE;
-		return e_day_view_get_extreme_event (day_view, new_day,
-						     days_shown - 1, FALSE,
-						     day_out, event_num_out);
+		/* try to find a long event
+		 */
+		e_day_view_get_extreme_long_event (day_view, FALSE,
+						   day_out, event_num_out);
+		/* go to a long event if found, or day view widget
+		 */
+		return TRUE;
 	}
 	/* go forward from the last event in current editting day */
 	else if ((new_day < E_DAY_VIEW_LONG_EVENT) &&
 		 (new_event_num >= day_view->events[new_day]->len)) {
 		/* try to find a event from the next day in days shown
 		 */
-		if (e_day_view_get_extreme_event (day_view, (new_day + 1),
-						  days_shown - 1, TRUE,
-						  day_out, event_num_out))
-			return TRUE;
-		else if (e_day_view_get_extreme_long_event (day_view, TRUE,
-							    day_out,
-							    event_num_out))
-			return TRUE;
-		return e_day_view_get_extreme_event (day_view, 0,
-						     new_day, TRUE,
-						     day_out, event_num_out);
+		e_day_view_get_extreme_event (day_view, (new_day + 1),
+					      days_shown - 1, TRUE,
+					      day_out, event_num_out);
+		/* go to a event found, or day view widget
+		 */
+		return TRUE;
 	}
+	/* in the normal case
+	 */
 	*day_out = new_day;
 	*event_num_out = new_event_num;
 	return TRUE;

@@ -1,3 +1,15 @@
+2003-07-29  Bolian Yin <bolian.yin@sun.com>
+                                                                                                               
+        Fixes #46847
+                                                                                                               
+        * gui/e-day-view.c (e_day_view_get_next_tab_event, e_day_view_focus):
+         add day view widget in the tab loop of events.
+        * gui/e-week-view.c (e_week_view_get_next_tab_event, e_week_view_focus):
+         add week view widget in the tab loop of events.
+                                                                                                               
+        Also: add some comments in gui/e-day-view.c and gui/e-week-view.c
+              remove two compile warnings in gui/e-day-view.c
+                                                                                                               
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-view.[ch] (e_cal_view_delete_selected_occurrence):
