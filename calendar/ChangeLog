@@ -1,5 +1,10 @@
 2003-11-16  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-cal-model.c (e_cal_view_objects_added_cb): emit the added
+	signal for the correct rows
+
+2003-11-16  JP Rosevear <jpr@ximian.com>
+
 	* gui/tasks-component.c (is_in_uids): copy in here
 	(update_uris_for_selection): save the selection
 	(update_selection): update the selection when its changed

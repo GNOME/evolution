@@ -1139,25 +1139,22 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 	ECalModel *model = (ECalModel *) user_data;
 	ECalModelPrivate *priv;
 	GList *l;
-	int start_row;
-	
+
 	priv = model->priv;
 
-	e_table_model_pre_change (E_TABLE_MODEL (model));
-
-	start_row = priv->objects->len ? priv->objects->len - 1 : 0;
-	
 	for (l = objects; l; l = l->next) {
 		ECalModelComponent *comp_data;
+
+		e_table_model_pre_change (E_TABLE_MODEL (model));
 
 		comp_data = g_new0 (ECalModelComponent, 1);
 		comp_data->client = e_cal_view_get_client (query);
 		comp_data->icalcomp = icalcomponent_new_clone (l->data);
 
 		g_ptr_array_add (priv->objects, comp_data);
-	}
 
-	e_table_model_rows_inserted (E_TABLE_MODEL (model), start_row, priv->objects->len - start_row);
+		e_table_model_row_inserted (E_TABLE_MODEL (model), priv->objects->len - 1);
+	}
 }
 
 static void
