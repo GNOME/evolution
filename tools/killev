@@ -1,68 +1,129 @@
-#!/bin/sh
-# FIXME: Sigh, we need a less gross way of doing this.
+#!/usr/bin/perl
 
-sysname=`uname -s`
+# Interfaces of CORBA servers that need to die.
+@idls = ("IDL:GNOME/Evolution/ShellComponent:1.0",
+	 "IDL:GNOME/Evolution/CalFactory:1.0",
+	 "IDL:GNOME/Evolution/BookFactory:1.0",
+         "IDL:GNOME/Evolution/Importer:1.0",
+	 "IDL:GNOME/Evolution/IntelligentImporter:1.0",
+	 "IDL:GNOME/Evolution/Shell:1.0",
+	 "IDL:GNOME/Spell/Checker:0.1");
 
-if [ "$sysname" = "SunOS" ]; then
-	killcmd="pkill"
-else
-	killcmd="killall"
-fi
-   
-$killcmd -9 wombat 2>/dev/null
-$killcmd -9 lt-wombat 2>/dev/null
 
-$killcmd -9 evolution-addressbook 2>/dev/null
-$killcmd -9 evolution-addres 2>/dev/null
-$killcmd -9 lt-evolution-addressbook 2>/dev/null
-$killcmd -9 lt-evolution-add 2>/dev/null
+# IIDs of specific CORBA servers that need to die that don't implement
+# useful interfaces (for querying, anyway)
+@iids = ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
+	 "OAFIID:GNOME_GtkHTML_Editor_Factory",
+	 "OAFIID:Bonobo_Moniker_xmldb_Factory");
 
-$killcmd -9 evolution-calendar 2>/dev/null
-$killcmd -9 evolution-calend 2>/dev/null
-$killcmd -9 lt-evolution-calendar 2>/dev/null
-$killcmd -9 lt-evolution-cal 2>/dev/null
-$killcmd -9 lt-gnomecal 2>/dev/null
+##
+## You shouldn't have to change anything below this point
+##
 
-$killcmd -9 evolution-mail 2>/dev/null
-$killcmd -9 lt-evolution-mail 2>/dev/null
-$killcmd -9 lt-evolution-mai 2>/dev/null
+$sysname=`uname -s`;
 
-$killcmd -9 evolution-executive-summary 2>/dev/null
-$killcmd -9 evolution-execut 2>/dev/null
-$killcmd -9 lt-evolution-executive-summary 2>/dev/null
-$killcmd -9 lt-evolution-exe 2>/dev/null
+if ($sysname == "SunOS") {
+	$killcmd="pkill";
+}
+else {
+	$killcmd="killall";
+}
 
-$killcmd -9 evolution 2>/dev/null
+sub kill_exe {
+	my ($exe_name) = @_;
+	my $lt_name = "lt-$exe_name";
+	my $sub_exe_name = substr ($exe_name, 0, 16);
+	my $sub_lt_name = substr ($lt_name, 0, 16);
 
-$killcmd -9 rdf-summary 2>/dev/null
-$killcmd -9 lt-rdf-summary 2>/dev/null
+	printf ("killing $exe_name\n");
 
-$killcmd -9 evolution-elm-importer 2>/dev/null
-$killcmd -9 evolution-elm-im 2>/dev/null
-$killcmd -9 evolution-pine-importer 2>/dev/null
-$killcmd -9 evolution-pine-i 2>/dev/null
-$killcmd -9 evolution-netscape-importer 2>/dev/null
-$killcmd -9 evolution-netsca 2>/dev/null
-$killcmd -9 evolution-vcard-importer 2>/dev/null
-$killcmd -9 evolution-vcard- 2>/dev/null
-$killcmd -9 evolution-ldif-importer 2>/dev/null
-$killcmd -9 evolution-ldif-i 2>/dev/null
+	`$killcmd -9 $exe_name 2> /dev/null`;
+	`$killcmd -9 $lt_name 2> /dev/null`;
+	`$killcmd -9 $sub_exe_name 2> /dev/null`;
+	`$killcmd -9 $sub_lt_name 2> /dev/null`;
+}
 
-$killcmd -9 evolution-alarm-notify 2>/dev/null
-$killcmd -9 evolution-alarm- 2>/dev/null
+sub kill_exes {
+	while (($key, $value) = each %things_to_kill) {
+		&kill_exe($key);
+	}
+}
 
-$killcmd -9 lt-gnome-spell-component 2>/dev/null
-$killcmd -9 lt-gnome-spell-c 2>/dev/null
-$killcmd -9 gnome-spell-component 2>/dev/null
-$killcmd -9 gnome-spell-comp 2>/dev/null
+sub add_exe {
+	my ($exe_name) = @_;
+	$things_to_kill{$exe_name} = $exe_name;
+}
 
-$killcmd -9 lt-gnome-gtkhtml-editor 2>/dev/null
-$killcmd -9 lt-gnome-gtkhtml 2>/dev/null
-$killcmd -9 gnome-gtkhtml-editor 2>/dev/null
-$killcmd -9 gnome-gtkhtml-ed 2>/dev/null
+sub add_factory {
+	my ($factory_iid) = @_;
 
-$killcmd -9 lt-bonobo-moniker-xmldb 2>/dev/null
-$killcmd -9 lt-bonobo-monike 2>/dev/null
-$killcmd -9 bonobo-moniker-xmldb 2>/dev/null
-$killcmd -9 bonobo-moniker-x 2>/dev/null
+	open (FACTORY_QUERY, "oaf-client -q -s \"iid == '$factory_iid'\"|");
+	while (<FACTORY_QUERY>) {
+		if (/type exe, location (.*)$/) {
+			&add_exe ($1);
+		}
+	}
+	close (FACTORY_QUERY);
+}
 
+# we need to do separate queries for iids because cvs OAF loses when
+# you do more than one 'iid ==' separated by OR's.  It returns a list
+# of all CORBA servers.  Cool, eh?
+
+sub run_iid_query {
+	my $iid_query;
+
+	for ($i = 0; $i < @iids; $i++) {
+		$iid_query = "iid == '$iids[$i]'";
+
+		#printf ("$iid_query\n");
+
+		open (QUERY, "oaf-client -q -s \"$iid_query\"|");
+		while (<QUERY>) {
+			if (/type exe, location (.*)$/) {
+				&add_exe ($1);
+			}
+			elsif (/type factory, location (.*)$/) {
+				&add_factory ($1);
+			}
+		}
+		close (QUERY);
+        }
+}
+
+sub run_query {
+	my ($idl_query, $iid_query, $oaf_query);
+
+	$idl_query = "";
+	for ($i = 0; $i < @idls; $i++) {
+		$idl_query .= "repo_ids.has('$idls[$i]')";
+		$idl_query .= " OR " if ($i < @idls - 1);
+        }
+
+	#$iid_query = "";
+	#for ($i = 0; $i < @iids; $i++) {
+	#	$iid_query .= "iid == '$iids[$i]'";
+	#	$iid_query .= " OR " if ($i < @iids - 1);
+        #}
+
+	$oaf_query = $idl_query;
+	#$oaf_query .= " OR $iid_query" if (@iids > 0);
+
+	#printf ("$oaf_query\n");
+	
+	open (QUERY, "oaf-client -q -s \"$oaf_query\"|");
+
+	while (<QUERY>) {
+		if (/type exe, location (.*)$/) {
+			&add_exe ($1);
+		}
+		elsif (/type factory, location (.*)$/) {
+			&add_factory ($1);
+		}
+	}
+	close (QUERY);
+}
+
+&run_query ();
+&run_iid_query ();
+&kill_exes();
