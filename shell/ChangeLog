@@ -1,5 +1,10 @@
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (setup_widgets): Add some little padding to the
+	title bar so it looks nicer.
+
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-gray-bar.c (impl_style_set): Removed.
 	(class_init): Don't override that method anymore.
 	(e_gray_bar_new): Call `endarken_style()' here instead.

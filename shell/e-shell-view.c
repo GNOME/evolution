@@ -847,7 +847,7 @@ setup_widgets (EShellView *shell_view)
 
 	gray_bar = e_gray_bar_new ();
 	gtk_container_add (GTK_CONTAINER (gray_bar), priv->folder_title_bar);
-	gtk_box_pack_start (GTK_BOX (priv->view_vbox), gray_bar, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->view_vbox), gray_bar, FALSE, FALSE, 2);
 
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_hpaned, TRUE, TRUE, 0);
 
