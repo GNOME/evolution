@@ -20,13 +20,9 @@
  */
 
 #include <config.h>
-
-#include <string.h>
-#include <glib.h>
+#include <gnome.h>
 #include <gnome-xml/xmlmemory.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
+
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-rule.h"
@@ -748,3 +744,10 @@ filter_rule_find_list (GList * l, const char *name, const char *source)
 	
 	return NULL;
 }
+
+#ifdef FOR_TRANSLATIONS_ONLY
+
+static char *list[] = {
+  N_("incoming"), N_("outgoing")
+};
+#endif

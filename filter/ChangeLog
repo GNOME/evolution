@@ -1,7 +1,8 @@
-2001-03-30  Kjartan Maraas  <kmaraas@gnome.org>
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* *.*: Fix headers. Remove unneccesary ones and replace
-	with more finegrained ones where needed.
+	* filter-rule.c: Added #ifdef FOR_TRANSLATIONS_ONLY section
+	containing strings to make gettext pick them up. Solves
+	#1971 in bugzilla. (rule directions not translated.)
 	
 2001-03-22  Jeffrey Stedfast  <fejj@ximian.com>
 
