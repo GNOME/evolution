@@ -1,5 +1,7 @@
 2002-07-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor-news.[c,h]: Removed.
+
 	* mail-accounts.c: Removed special-case code for NNTP support.
 
 	* mail-account-gui.c (mail_account_gui_setup): Allow configuration
