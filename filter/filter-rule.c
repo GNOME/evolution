@@ -138,6 +138,21 @@ filter_rule_new ()
 	return o;
 }
 
+FilterRule *
+filter_rule_clone(FilterRule *base, RuleContext *f)
+{
+	xmlNodePtr xml;
+	FilterRule *rule;
+
+	/* TODO: do this more directly/efficiently */
+	xml = filter_rule_xml_encode(base);
+	rule = gtk_type_new(((GtkObject *)base)->klass->type);
+	filter_rule_xml_decode(rule, xml, f);
+	xmlFreeNodeList(xml);
+
+	return rule;
+}
+
 void
 filter_rule_set_name (FilterRule *fr, const char *name)
 {

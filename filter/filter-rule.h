@@ -73,6 +73,8 @@ struct _FilterRuleClass {
 guint		filter_rule_get_type	(void);
 FilterRule	*filter_rule_new	(void);
 
+FilterRule 	*filter_rule_clone	(FilterRule *base, struct _RuleContext *f);
+
 /* methods */
 void		filter_rule_set_name	(FilterRule *fr, const char *name);
 void		filter_rule_set_source	(FilterRule *fr, const char *source);
