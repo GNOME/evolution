@@ -149,27 +149,6 @@ conduits_DATA =				\
 	evo-48-address-conduit.png  	\
 	evo-48-todo-conduit.png
 
-categoriesdir = $(datadir)/images/evolution/categories
-categories_DATA =				\
-	16_category_birthday.png		\
-	16_category_business.png		\
-	16_category_favorites.png		\
-	16_category_gifts.png			\
-	16_category_goals.png			\
-	16_category_holiday.png			\
-	16_category_holiday-cards.png		\
-	16_category_hot-contacts.png		\
-	16_category_ideas.png			\
-	16_category_international.png		\
-	16_category_key-customer.png		\
-	16_category_miscellaneous.png		\
-	16_category_personal.png		\
-	16_category_phonecalls.png		\
-	16_category_status.png			\
-	16_category_strategies.png		\
-	16_category_suppliers.png		\
-	16_category_time-and-expenses.png
-
 appicondir = $(datadir)/pixmaps
 appicon_DATA = evolution.png
 
@@ -204,6 +183,5 @@ EXTRA_DIST = \
 	$(images_DATA)			\
 	$(buttons_DATA)			\
 	$(conduits_DATA)		\
-	$(appicon_DATA)			\
-	$(categories_DATA)
+	$(appicon_DATA)
 
