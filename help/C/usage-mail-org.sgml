@@ -1015,27 +1015,29 @@
 		  </para>
 		</listitem>
 	      </itemizedlist>
-	
-         </para>
-     </listitem>
-   </orderedlist>
-</para>
-<para>
-Remote folders are considered active if you are connected to the
-server; you must be connected to your mail server for the vFolder to
-include any messages from that source.
-</para>
-<para>
+	      
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+      <para>
+	Remote folders are considered active if you are connected to the
+	server; you must be connected to your mail server for the vFolder to
+	include any messages from that source.
+      </para>
+      <para>
       <figure id="usage-mail-vfolder-fig-createrule">
 	<title>Selecting a vFolder Rule</title>
 	<screenshot>
 	  <screeninfo>Creating a vFolder Rule</screeninfo>
-	  <mediaobject><imageobject><imagedata
-	  fileref="figures/vfolder-createrule-fig" format="png"
-	  srccredit="Aaron Weber">
-	  </imageobject></mediaobject>
-	</screenshot>
-      </figure>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/vfolder-createrule-fig" format="PNG"
+			   srccredit="Aaron Weber">
+	      </imageobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
       </para>
     </sect2>
   </sect1>

@@ -1,3 +1,13 @@
+2002-01-27  Kevin Breit  <mrproper@ximian.com>
+
+	* C/apx-gloss.sgml: Added Search Base as an entry
+	Added Search Scope as an entry
+
+	* C/config-prefs.sgml: Fixed indenting, I guess.
+
+	* C/usage-contact.sgml: Rewrote LDAP introduction paragraph
+	Added information about setting up Evolution to use LDAP.  It's just a lazy xref.
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* sgmldocs.make: Use `-f' instead of `-e' so installation of

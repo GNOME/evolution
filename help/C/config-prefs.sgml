@@ -751,19 +751,19 @@ smtp.omniport.com:143
     </sect2>
    </sect1>
 
-   <sect1 id="config-prefs-contact">
-      <title>Managing the Addressbook</title>
-	<para>
-          The addressbook does not have a large list of configuration
-          settings, but those that are there can be found in the
-          <guimenu>Tools</guimenu> menu.
-        </para>
+  <sect1 id="config-prefs-contact">
+    <title>Managing the Addressbook</title>
+    <para>
+      The addressbook does not have a large list of configuration
+      settings, but those that are there can be found in the
+      <guimenu>Tools</guimenu> menu.
+    </para>
       
-        <sect2 id="config-prefs-contact-ldap-add">
-           <title>Adding Directory Servers</title>
-           <para>
-              To add a new LDAP server to your available contact
-              folders:
+    <sect2 id="config-prefs-contact-ldap-add">
+      <title>Adding Directory Servers</title>
+      <para>
+	To add a new <glossterm linkend="ldap">LDAP</glossterm> server
+	to your available contact folders:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -772,22 +772,25 @@ smtp.omniport.com:143
 		<guimenu>Tools</guimenu>
 		<guimenuitem>Addressbook Sources</guimenuitem>
 	      </menuchoice>
+	      from the menu.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Add</guibutton>.
+	      Click the <guibutton>Add</guibutton> button on the right
+	      side.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Enter the server information.
+	      Enter the server information:
 	      <variablelist>
 		<varlistentry>
 		  <term>Account name</term>
 		  <listitem>
 		    <para>
-		      The name that you see on the screen.  This could be anything you wish.
+		      The name that you see on the screen.  This could
+		      be anything you wish.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -803,7 +806,9 @@ smtp.omniport.com:143
 		  <term>My server requires authentication</term>
 		  <listitem>
 		    <para>
-		      Select this if the server needs a password to access the addressbook.
+		      Select this if the server requires
+		      <application>Evolution</application> to provide
+		      a server in order to access the LDAP contacts.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -811,7 +816,10 @@ smtp.omniport.com:143
 		  <term>Port</term>
 		  <listitem>
 		    <para>
-		      The internet port to connect to in order to access the database.  This is normally 389.
+		      The internet port
+		      <application>Evolution</application> connects to
+		      in order to access the LDAP database.  This is
+		      normally 389.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -819,7 +827,9 @@ smtp.omniport.com:143
 		  <term>Search base</term>
 		  <listitem>
 		    <para>
-		      The base node to use for all your searches.  Contact your administrator for information about setting this up.
+		      The base entry to use for all your searches.
+		      Contact your administrator for information about
+		      the correct settings.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -827,7 +837,7 @@ smtp.omniport.com:143
 		  <term>Search scope</term>
 		  <listitem>
 		    <para>
-How broad the search is in the directory.
+		      How broad the search is in the directory.
 		    </para>
 		  </listitem>
 		</varlistentry>
@@ -841,7 +851,9 @@ How broad the search is in the directory.
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>OK</guibutton> to permanenty make changes or <guibutton>Apply</guibutton> to temporarily set the changes.
+	      Click <guibutton>OK</guibutton> to permanenty make
+	      changes or <guibutton>Apply</guibutton> to temporarily
+	      set the changes.
 	    </para>
 	  </listitem>
 	</orderedlist>

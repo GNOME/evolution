@@ -335,31 +335,53 @@
   </glossdef>
  </glossentry>
 
- <glossentry id="sendmail">
-  <glossterm>Sendmail:</glossterm>
-  <glossdef>
-   <para>
-      As its name implies, <application>sendmail</application> is a
-      program which sends mail.  <application>Evolution</application>
-      can use it instead of <glossterm>SMTP:</glossterm>; some people
-      prefer it because it offers more flexibility, but is more
-      difficult to set up.
-   </para>
-  </glossdef>
- </glossentry>
+  <glossentry id="search-base">
+    <glossterm>Search Base:</glossterm>
+    <glossdef>
+      <para>
+	LDAP can break contact lists into many groups.  The Search
+	Base tells LDAP the top group to use.  How much of the Search
+	Base that is searched is set by the <glossterm
+	linkend="search-scope">Search Scope</glossterm> option.
+      </para>
+    </glossdef>
+  </glossentry>
 
+  <glossentry id="search-scope">
+    <glossterm>Search Scope:</glossterm>
+    <glossdef>
+      <para>
+	Search Scope states how much of the <glossterm
+	linkend="search-base">Search Base</glossterm> to search.
+      </para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="sendmail">
+    <glossterm>Sendmail:</glossterm>
+    <glossdef>
+      <para>
+	As its name implies, <application>sendmail</application> is a
+	program which sends mail.  <application>Evolution</application>
+	can use it instead of <glossterm>SMTP:</glossterm>; some people
+	prefer it because it offers more flexibility, but is more
+	difficult to set up.
+      </para>
+    </glossdef>
+  </glossentry>
+  
 
- <glossentry id="shortcut-bar">
-  <glossterm>Shortcut Bar:</glossterm>
-  <glossdef>
-   <para>
-     A portion of <application>Evolution</application> which offers
-     users fast access to the most frequently used portions of the
-     application.
-   </para>
-  </glossdef>
- </glossentry>
-
+  <glossentry id="shortcut-bar">
+    <glossterm>Shortcut Bar:</glossterm>
+    <glossdef>
+      <para>
+	A portion of <application>Evolution</application> which offers
+	users fast access to the most frequently used portions of the
+	application.
+      </para>
+    </glossdef>
+  </glossentry>
+  
   <glossentry id="signature">
    <glossterm>Signature:</glossterm>
    <glossdef>
