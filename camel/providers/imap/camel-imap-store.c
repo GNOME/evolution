@@ -2129,8 +2129,8 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 	if (imap_max_depth == 0) {
 		name = getenv("CAMEL_IMAP_MAX_DEPTH");
 		if (name) {
-			imap_max_depth = atoi(name);
-			imap_max_depth = MIN(imap_max_depth, 2);
+			imap_max_depth = atoi (name);
+			imap_max_depth = MIN (MAX (imap_max_depth, 0), 2);
 		} else
 			imap_max_depth = 10;
 	}
@@ -2150,16 +2150,16 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 
 	folders_out = g_ptr_array_new();
 	folders = g_ptr_array_new();
-
+	
 	/* first get working list of names */
-	get_folders_online (imap_store, name[0]?name:"%", folders, FALSE, ex);
+	get_folders_online (imap_store, name[0]?name:"%", folders, flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, ex);
 	for (i=0; i<folders->len && !haveinbox; i++) {
 		fi = folders->pdata[i];
 		haveinbox = (strcasecmp(fi->full_name, "INBOX")) == 0;
 	}
 
 	if (!haveinbox && top == imap_store->namespace)
-		get_folders_online(imap_store, "INBOX", folders, FALSE, ex);
+		get_folders_online(imap_store, "INBOX", folders, flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, ex);
 
 	for (i=0; i<folders->len; i++)
 		p = g_slist_prepend(p, folders->pdata[i]);
@@ -2192,7 +2192,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 				char *n;
 				
 				n = imap_concat(imap_store, fi->full_name, "%");
-				get_folders_online(imap_store, n, folders, FALSE, ex);
+				get_folders_online(imap_store, n, folders, flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, ex);
 				g_free(n);
 
 				if (folders->len > 0)
