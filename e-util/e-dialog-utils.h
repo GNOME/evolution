@@ -23,24 +23,23 @@
 #ifndef E_DIALOG_UTILS_H
 #define E_DIALOG_UTILS_H
 
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkwidget.h>
-#include <libgnomeui/gnome-types.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkmessagedialog.h>
 
-void       e_dialog_set_transient_for        (GtkWindow        *dialog,
-					      GtkWidget        *parent_widget);
-void       e_dialog_set_transient_for_xid    (GtkWindow        *dialog,
-					      GdkNativeWindow   xid);
+void  e_notice                       (gpointer         parent,
+				      GtkMessageType   type,
+				      const char      *format,
+				      ...);
+void  e_notice_with_xid              (GdkNativeWindow  parent,
+				      GtkMessageType   type,
+				      const char      *format,
+				      ...);
 
-/* FIXME These functions should go away completely at some point.  */
+void  e_dialog_set_transient_for     (GtkWindow       *dialog,
+				      GtkWidget       *parent_widget);
+void  e_dialog_set_transient_for_xid (GtkWindow       *dialog,
+				      GdkNativeWindow  xid);
 
-#ifndef GNOME_DISABLE_DEPRECATED
-void       e_gnome_dialog_set_parent         (GnomeDialog      *dialog,
-					      GtkWindow        *parent);
-#endif
-
-char      *e_file_dialog_save                (const char       *title);
+char *e_file_dialog_save             (const char      *title);
 
 
 #endif

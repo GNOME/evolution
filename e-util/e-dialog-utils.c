@@ -24,8 +24,6 @@
 
 #include "e-dialog-utils.h"
 
-#include <glib.h>
-#include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 
 #include <gtk/gtkfilesel.h>
@@ -34,8 +32,75 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-uidefs.h>
+
+
+/**
+ * e_notice:
+ * @parent: the dialog's parent window, or %NULL
+ * @type: the type of dialog (%GTK_MESSAGE_INFO, %GTK_MESSAGE_WARNING,
+ * or %GTK_MESSAGE_ERROR)
+ * @format: printf-style format string, followed by arguments
+ *
+ * Convenience function to show a dialog with a message and an "OK"
+ * button.
+ **/
+void
+e_notice (gpointer parent, GtkMessageType type, const char *format, ...)
+{
+	GtkWidget *dialog;
+	va_list args;
+	char *str;
+
+	va_start (args, format);
+	str = g_strdup_vprintf (format, args);
+	dialog = gtk_message_dialog_new (NULL,
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 type,
+					 GTK_BUTTONS_OK,
+					 "%s",
+					 str);
+	va_end (args);
+	g_free (str);
+	
+	if (parent)
+		e_dialog_set_transient_for (GTK_WINDOW (dialog), parent);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+}
+
+/**
+ * e_notice_with_xid:
+ * @parent: the dialog's parent window, or %NULL
+ * @type: the type of dialog (%GTK_MESSAGE_INFO, %GTK_MESSAGE_WARNING,
+ * or %GTK_MESSAGE_ERROR)
+ * @format: printf-style format string, followed by arguments
+ *
+ * Like e_notice(), but takes a GdkNativeWindow for the parent
+ * window argument.
+ **/
+void
+e_notice_with_xid (GdkNativeWindow parent, GtkMessageType type, const char *format, ...)
+{
+	GtkWidget *dialog;
+	va_list args;
+	char *str;
+
+	va_start (args, format);
+	str = g_strdup_vprintf (format, args);
+	dialog = gtk_message_dialog_new (NULL,
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 type,
+					 GTK_BUTTONS_OK,
+					 "%s",
+					 str);
+	va_end (args);
+	g_free (str);
+	
+	if (parent)
+		e_dialog_set_transient_for_xid (GTK_WINDOW (dialog), parent);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+}
 
 
 /* Tests whether or not an X Window is being managed by the
@@ -156,25 +221,12 @@ e_dialog_set_transient_for_xid (GtkWindow *dialog,
 
 
 static void
-e_gnome_dialog_parent_destroyed (GnomeDialog *dialog, GObject *deadbeef)
-{
-	gnome_dialog_close (GNOME_DIALOG (dialog));
-}
-
-void
-e_gnome_dialog_set_parent (GnomeDialog *dialog, GtkWindow *parent)
-{
-	gnome_dialog_set_parent (dialog, parent);
-	g_object_weak_ref ((GObject *) parent, (GWeakNotify) e_gnome_dialog_parent_destroyed, dialog);
-}
-
-static void
 save_ok (GtkWidget *widget, gpointer data)
 {
 	GtkWidget *fs;
 	char **filename = data;
 	const char *path;
-	int btn = GNOME_YES;
+	int btn = GTK_RESPONSE_YES;
 	
 	fs = gtk_widget_get_toplevel (widget);
 	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
@@ -182,12 +234,18 @@ save_ok (GtkWidget *widget, gpointer data)
 	if (g_file_test (path, G_FILE_TEST_IS_REGULAR)) {
 		GtkWidget *dlg;
 		
-		dlg = gnome_question_dialog_modal (_("A file by that name already exists.\n"
-						     "Overwrite it?"), NULL, NULL);
-		btn = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		dlg = gtk_message_dialog_new (GTK_WINDOW (fs), 0,
+					      GTK_MESSAGE_QUESTION,
+					      GTK_BUTTONS_YES_NO,
+					      _("A file by that name already exists.\n"
+						"Overwrite it?"));
+		gtk_window_set_title (GTK_WINDOW (dlg), _("Overwrite file?"));
+
+		btn = gtk_dialog_run (GTK_DIALOG (dlg));
+		gtk_widget_destroy (dlg);
 	}
 	
-	if (btn == GNOME_YES)
+	if (btn == GTK_RESPONSE_YES)
 		*filename = g_strdup (path);
 	
 	gtk_main_quit ();
