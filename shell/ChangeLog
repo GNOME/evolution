@@ -1,5 +1,11 @@
 2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Increase the size of the border of the hbox slightly to make the
+	title bar a bit nicer.
+
+2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-component-registry.c (component_free): Invoke `::unset_owner'
 	on the component before releasing it.
 

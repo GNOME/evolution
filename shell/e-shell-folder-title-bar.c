@@ -309,6 +309,7 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 #endif
 
 	priv->hbox = gtk_hbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->hbox), 2);
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE, 0);
 
 	gtk_widget_show (priv->hbox);
