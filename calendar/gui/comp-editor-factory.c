@@ -22,7 +22,9 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtkmessagedialog.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-i18n.h>
 #include <evolution-calendar.h>
 #include <e-util/e-url.h>
 #include <cal-client/cal-client.h>
@@ -437,6 +439,7 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 	OpenClient *oc;
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
+	GtkWidget *dialog = NULL;
 
 	oc = data;
 	factory = oc->factory;
@@ -449,7 +452,9 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		return;
 
 	case CAL_CLIENT_OPEN_ERROR:
-		g_message ("cal_opened_cb(): Error while opening the calendar");
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Error while opening the calendar"));
 		break;
 
 	case CAL_CLIENT_OPEN_NOT_FOUND:
@@ -458,13 +463,24 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		return;
 
 	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
-		g_message ("cal_opened_cb(): Method not supported when opening the calendar");
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Method not supported when opening the calendar"));
 		break;
 
+	case CAL_CLIENT_OPEN_PERMISSION_DENIED :
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Permission denied to open the calendar"));
+		break;
+		
 	default:
 		g_assert_not_reached ();
 		return;
 	}
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
 	g_hash_table_remove (priv->uri_client_hash, oc->uri);
 	free_client (oc);
