@@ -1,3 +1,8 @@
+2001-10-09  Dan Winship  <danw@ximian.com>
+
+	* gui/e-meeting-model.c (process_free_busy_comp): Fix incorrect
+	variable name check.
+
 2001-10-03  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): refactor functionality into

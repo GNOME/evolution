@@ -1015,7 +1015,7 @@ process_free_busy_comp (EMeetingAttendee *ia, icalcomponent *fb_comp, icalcompon
 		default:
 		}
 			
-		if (fbtype != E_MEETING_FREE_BUSY_LAST) {
+		if (busy_type != E_MEETING_FREE_BUSY_LAST) {
 			fb.start = convert_time (fb.start, NULL, view_zone);
 			fb.end = convert_time (fb.end, NULL, view_zone);
 			e_meeting_attendee_add_busy_period (ia,
