@@ -33,7 +33,6 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	    else
 		AC_MSG_ERROR("Unable to find libpisock. Try ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.")
 	    fi
-	    piversion_include="pi-version.h"
 	    AC_SUBST(PISOCK_INCLUDEDIR)
 	    AC_SUBST(PISOCK_LIBDIR)
 	fi
@@ -58,6 +57,10 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 		[testplversion=$enableval],
 		[ testplversion=yes ]
 	)
+
+	if test x$piversion_include = x; then
+		piversion_include="pi-version.h"
+	fi
 
 	if test x$testplversion = xyes; then
 		AC_MSG_CHECKING(for pilot-link version >= $1)
