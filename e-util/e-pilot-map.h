@@ -34,6 +34,8 @@ struct _EPilotMap
 	GHashTable *uid_map;
 
 	time_t since;
+
+	gboolean write_touched_only;
 };
 
 gboolean e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pid);

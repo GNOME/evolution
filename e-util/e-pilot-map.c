@@ -33,14 +33,65 @@ typedef struct
 {
 	char *uid;
 	gboolean archived;
+	gboolean touched;
 } EPilotMapPidNode;
 
 typedef struct
 {
 	guint32 pid;
 	gboolean archived;
+	gboolean touched;
 } EPilotMapUidNode;
 
+typedef struct
+{
+	gboolean touched_only;
+	xmlNodePtr root;
+} EPilotMapWriteData;
+
+static void
+real_e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived, gboolean touch)
+{
+	char *new_uid;
+	guint32 *new_pid;
+	EPilotMapPidNode *pnode;
+	EPilotMapUidNode *unode;
+	gpointer key, value;
+
+	g_return_if_fail (map != NULL);
+	g_return_if_fail (uid != NULL);
+
+	new_pid = g_new (guint32, 1);
+	*new_pid = pid;
+
+	new_uid = g_strdup (uid);
+
+	pnode = g_new0 (EPilotMapPidNode, 1);
+	pnode->uid = new_uid;
+	pnode->archived = archived;
+	if (touch)
+		pnode->touched = TRUE;
+	
+	unode = g_new0 (EPilotMapUidNode, 1);
+	unode->pid = pid;
+	unode->archived = archived;
+	if (touch)
+		unode->touched = TRUE;
+	
+	if (g_hash_table_lookup_extended (map->pid_map, new_pid, &key, &value)) {
+		g_hash_table_remove (map->pid_map, new_pid);
+		g_free (key);
+		g_free (value);
+	}
+	if (g_hash_table_lookup_extended (map->uid_map, new_uid, &key, &value)) {
+		g_hash_table_remove (map->uid_map, new_uid);
+		g_free (key);
+		g_free (value);
+	}
+	
+	g_hash_table_insert (map->pid_map, new_pid, pnode);
+	g_hash_table_insert (map->uid_map, new_uid, unode);
+}
 
 static void
 map_set_node_timet (xmlNodePtr node, const char *name, time_t t)
@@ -94,26 +145,30 @@ map_sax_start_element (void *data, const xmlChar *name,
 		g_assert (uid != NULL);
 		g_assert (pid != 0 || archived);
 
-		e_pilot_map_insert (map, pid, uid, archived);
+		real_e_pilot_map_insert (map, pid, uid, archived, FALSE);
 	}
 }
 
 static void
 map_write_foreach (gpointer key, gpointer value, gpointer data)
 {
-	xmlNodePtr root = data;
-	xmlNodePtr mnode;
+	EPilotMapWriteData *wd = data;
+	xmlNodePtr root = wd->root;
 	char *uid = key;
 	EPilotMapUidNode *unode = value;
-	char *pidstr;
+	xmlNodePtr mnode;
 
+	if (wd->touched_only && !unode->touched)
+		return;
+	
 	mnode = xmlNewChild (root, NULL, "map", NULL);
-
 	xmlSetProp (mnode, "uid", uid);
 
 	if (unode->archived) {
 		xmlSetProp (mnode, "archived", "1");
 	} else {
+		char *pidstr;
+
 		pidstr = g_strdup_printf ("%d", unode->pid);
 		xmlSetProp (mnode, "pilot_id", pidstr);
 		g_free (pidstr);
@@ -155,41 +210,7 @@ e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid)
 void 
 e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived)
 {
-	char *new_uid;
-	guint32 *new_pid;
-	EPilotMapPidNode *pnode;
-	EPilotMapUidNode *unode;
-	gpointer key, value;
-
-	g_return_if_fail (map != NULL);
-	g_return_if_fail (uid != NULL);
-
-	new_pid = g_new (guint32, 1);
-	*new_pid = pid;
-
-	new_uid = g_strdup (uid);
-
-	pnode = g_new0 (EPilotMapPidNode, 1);
-	pnode->uid = new_uid;
-	pnode->archived = archived;
-	
-	unode = g_new0 (EPilotMapUidNode, 1);
-	unode->pid = pid;
-	unode->archived = archived;
-
-	if (g_hash_table_lookup_extended (map->pid_map, new_pid, &key, &value)) {
-		g_hash_table_remove (map->pid_map, new_pid);
-		g_free (key);
-		g_free (value);
-	}
-	if (g_hash_table_lookup_extended (map->uid_map, new_uid, &key, &value)) {
-		g_hash_table_remove (map->uid_map, new_uid);
-		g_free (key);
-		g_free (value);
-	}
-	
-	g_hash_table_insert (map->pid_map, new_pid, pnode);
-	g_hash_table_insert (map->uid_map, new_uid, unode);
+	real_e_pilot_map_insert (map, pid, uid, archived, TRUE);
 }
 
 void 
@@ -291,6 +312,8 @@ e_pilot_map_read (const char *filename, EPilotMap **map)
 			return -1;
 		}
 	}
+
+	new_map->write_touched_only = FALSE;
 	
 	*map = new_map;
 	
@@ -300,6 +323,7 @@ e_pilot_map_read (const char *filename, EPilotMap **map)
 int
 e_pilot_map_write (const char *filename, EPilotMap *map)
 {
+	EPilotMapWriteData wd;
 	xmlDocPtr doc;
 	int ret;
 
@@ -315,7 +339,9 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 	map->since = time (NULL);
 	map_set_node_timet (doc->root, "timestamp", map->since);
 
-	g_hash_table_foreach (map->uid_map, map_write_foreach, doc->root);
+	wd.touched_only = map->write_touched_only;
+	wd.root = doc->root;
+	g_hash_table_foreach (map->uid_map, map_write_foreach, &wd);
 	
 	/* Write the file */
 	xmlSetDocCompressMode (doc, 0);

@@ -1,5 +1,17 @@
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
+	* e-pilot-map.c (real_e_pilot_map_insert): take an extra param on
+	whether to mark touched
+	(map_sax_start_element): use above
+	(e_pilot_map_insert): ditto
+	(e_pilot_map_write): pass in extra info to foreach call
+	(map_write_foreach): if we are in touched only mode, write out the
+	map only if its been touched
+
+	* e-pilot-map.h: add new member
+
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+	
 	* e-pilot-map.c (map_sax_start_element): add archived records
 	with pilot id of 0
 	(map_write_foreach): use the uid map for writing
