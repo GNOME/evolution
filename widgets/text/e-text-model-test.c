@@ -38,7 +38,9 @@ main (int argc, gchar **argv)
   gnome_init ("ETextModelTest", "0.0", argc, argv);
 
   model = e_text_model_uri_new ();
-  e_text_model_set_text (model, "My favorite website is http://www.ximian.com.  My next favorite is http://www.gnome.org.");
+  e_text_model_set_text (model, "My favorite website is http://www.ximian.com.  My next favorite is www.assbarn.com.");
+
+  describe_model (model);
 
   win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   
@@ -52,9 +54,9 @@ main (int argc, gchar **argv)
 				e_text_get_type (),
 				"model", model,
 				"font", "-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1",
-				"anchor", GTK_ANCHOR_SOUTH_WEST,
+				"anchor", GTK_ANCHOR_NORTH_WEST,
 				"line_wrap", TRUE,
-				"width", 150.0,
+				"width", 300.0,
 				"editable", TRUE,
 				NULL);
 

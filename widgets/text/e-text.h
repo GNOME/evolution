@@ -110,6 +110,7 @@ struct _EText {
 	
 	ETextModel *model;
 	gint model_changed_signal_id;
+	gint model_position_signal_id;
 
 	char *text;			/* Text to display */
 	gpointer lines;			/* Text split into lines (private field) */
@@ -210,6 +211,9 @@ struct _EText {
 
 	gint dbl_timeout;               /* Double click timeout */
 	gint tpl_timeout;               /* Triple click timeout */
+
+	guint32 rgba_object;            /* RGBA color for objects */
+	GdkGC *gc_object;               /* GC for drawing objects */
 };
 
 struct _ETextClass {

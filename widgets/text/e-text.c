@@ -128,6 +128,7 @@ static void e_text_get_selection(EText *text, GdkAtom selection, guint32 time);
 static void e_text_supply_selection (EText *text, guint time, GdkAtom selection, guchar *data, gint length);
 
 static void e_text_text_model_changed(ETextModel *model, EText *text);
+static void e_text_text_model_position(ETextModel *model, gint position, EText *text);
 
 static void _get_tep(EText *text);
 
@@ -331,6 +332,11 @@ e_text_init (EText *text)
 				   "changed",
 				   GTK_SIGNAL_FUNC(e_text_text_model_changed),
 				   text);
+	text->model_position_signal_id =
+		gtk_signal_connect(GTK_OBJECT(text->model),
+				   "position",
+				   GTK_SIGNAL_FUNC(e_text_text_model_position),
+				   text);
 
 	text->anchor = GTK_ANCHOR_CENTER;
 	text->justification = GTK_JUSTIFY_LEFT;
@@ -387,6 +393,8 @@ e_text_init (EText *text)
 	text->dbl_timeout = 0;
 	text->tpl_timeout = 0;
 
+	text->rgba_object = 0x0000ffff;
+
 	text->draw_background = FALSE;
 	
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
@@ -406,6 +414,9 @@ e_text_destroy (GtkObject *object)
 	if (text->model_changed_signal_id)
 		gtk_signal_disconnect(GTK_OBJECT(text->model), 
 				      text->model_changed_signal_id);
+	if (text->model_position_signal_id)
+		gtk_signal_disconnect(GTK_OBJECT(text->model),
+				      text->model_position_signal_id);
 
 	if (text->model)
 		gtk_object_unref(GTK_OBJECT(text->model));
@@ -465,13 +476,45 @@ e_text_destroy (GtkObject *object)
 }
 
 static void
+fix_selection (EText *text)
+{
+	gint len = strlen (text->text);
+
+	if (text->selection_start > len) {
+		text->selection_start = len;
+	}
+	if (text->selection_end > len) {
+		text->selection_end = len;
+	}
+}
+
+static void
 e_text_text_model_changed (ETextModel *model, EText *text)
 {
+	gint len;
+
 	text->text = e_text_model_get_text(model);
+	len = strlen (text->text);
+
+	fix_selection (text);
+
 	e_text_free_lines(text);
 	gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
+	text->needs_redraw = 1;
 	text->needs_split_into_lines = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
+}
+
+static void
+e_text_text_model_position (ETextModel *model, gint position, EText *text)
+{
+	/*
+	  For now, something very simple.  We can worry about things
+	  like preserving a multi-char selection later.
+	*/
+	
+	text->selection_start = position;
+	text->selection_end = position;
 }
 
 static void
@@ -798,6 +841,9 @@ text_width_with_objects (ETextModel *model, gint object_num,
 	gchar *c;
 	gint width = 0;
 
+	if (text == NULL)
+		return 0;
+
 	while (*text && numbytes > 0) {
 
 		c = text;
@@ -849,11 +895,14 @@ static void
 text_draw_with_objects (ETextModel *model, gint object_num,
 			GdkDrawable *drawable,
 			EFont *font, EFontStyle style,
-			GdkGC *gc,
+			GdkGC *gc, GdkGC *obj_gc,
 			gint x, gint y,
 			gchar *text, gint numbytes)
 {
 	gchar *c;
+
+	if (text == NULL)
+		return;
 	
 	while (*text && numbytes > 0) {
 		
@@ -871,16 +920,20 @@ text_draw_with_objects (ETextModel *model, gint object_num,
 			const gchar *obj_str;
 			gint start_x = x;
 			gint len;
+
+			if (obj_gc == NULL)
+				obj_gc = gc;
+
 			g_assert (object_num < e_text_model_object_count (model));
 
 			obj_str = e_text_model_get_nth_object (model, object_num);
 
 			len = strlen (obj_str);
-			e_font_draw_utf8_text (drawable, font, style, gc, x, y, obj_str, len);
+			e_font_draw_utf8_text (drawable, font, style, obj_gc, x, y, obj_str, len);
 			x += e_font_utf8_text_width (font, style, obj_str, len);
 
 			/* We underline our objects. */
-			gdk_draw_line (drawable, gc, start_x, y+1, x, y+1);
+			gdk_draw_line (drawable, obj_gc, start_x, y+1, x, y+1);
 
 			++object_num;
 			++c;
@@ -1169,6 +1222,9 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if ( text->model_changed_signal_id )
 			gtk_signal_disconnect(GTK_OBJECT(text->model),
 					      text->model_changed_signal_id);
+		if ( text->model_position_signal_id )
+			gtk_signal_disconnect(GTK_OBJECT(text->model),
+					      text->model_position_signal_id);
 		gtk_object_unref(GTK_OBJECT(text->model));
 		text->model = E_TEXT_MODEL(GTK_VALUE_OBJECT (*arg));
 		gtk_object_ref(GTK_OBJECT(text->model));
@@ -1177,6 +1233,11 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			gtk_signal_connect(GTK_OBJECT(text->model),
 					   "changed",
 					   GTK_SIGNAL_FUNC(e_text_text_model_changed),
+					   text);
+		text->model_position_signal_id =
+			gtk_signal_connect(GTK_OBJECT(text->model),
+					   "position",
+					   GTK_SIGNAL_FUNC(e_text_text_model_position),
 					   text);
 
 		e_text_free_lines(text);
@@ -1773,7 +1834,7 @@ e_text_realize (GnomeCanvasItem *item)
 		(* parent_class->realize) (item);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
-	
+
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	if (text->font == NULL) {
@@ -1948,6 +2009,16 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	canvas = GNOME_CANVAS_ITEM(text)->canvas;
 
 	fg_gc = GTK_WIDGET(canvas)->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+
+	if (text->rgba_object && text->gc_object == NULL && text->gc) {
+		GdkColor c;
+		c.pixel = gnome_canvas_get_color_pixel (item->canvas, text->rgba_object);
+
+		text->gc_object = gdk_gc_new (item->canvas->layout.bin_window);
+		gdk_gc_copy (text->gc_object, text->gc);
+		gdk_gc_set_foreground (text->gc_object, &c);
+	}
+
 	
 	if (text->draw_borders || text->draw_background) {
 		gdouble thisx = item->x1 - x;
@@ -2071,6 +2142,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
+							text->gc_object,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2079,6 +2151,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							fg_gc,
+							text->gc_object,
 							xpos - x + text_width_with_objects (text->model, lines->first_obj,
 											    text->font, E_FONT_PLAIN,
 											    lines->text,
@@ -2090,6 +2163,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
+							text->gc_object,
 							xpos - x + text_width_with_objects (text->model, lines->first_obj,
 											    text->font, E_FONT_PLAIN,
 											    lines->text,
@@ -2102,6 +2176,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
+							text->gc_object,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2128,6 +2203,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
+							text->gc_object,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2144,6 +2220,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							drawable,
 							text->font, E_FONT_PLAIN,
 							text->gc,
+							text->gc_object,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -3297,6 +3374,8 @@ _delete_selection(EText *text)
 		e_text_model_delete(text->model, text->selection_end, text->selection_start - text->selection_end);
 		text->selection_start = text->selection_end;
 	}
+
+	fix_selection (text);
 }
 
 static void
@@ -3305,8 +3384,13 @@ _insert(EText *text, char *string, int value)
 	if (value > 0) {
 		e_text_model_insert_length(text->model, text->selection_start, string, value);
 		
-		text->selection_start += value;
-		text->selection_end = text->selection_start;
+		/*
+		  text->selection_start += value;
+		  text->selection_end = text->selection_start;
+		*/
+
+		fix_selection (text);
+
 	}
 }
 
@@ -3315,6 +3399,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 {
 	EText *text = E_TEXT(data);
 	int sel_start, sel_end;
+
 	switch (command->action) {
 	case E_TEP_MOVE:
 		text->selection_start = _get_position(text, command);
