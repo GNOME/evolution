@@ -56,5 +56,6 @@ void subscribe_select_all   (BonoboUIHandler *uih, void *user_data, const char *
 void subscribe_unselect_all (BonoboUIHandler *uih, void *user_data, const char *path);
 void subscribe_folder       (GtkWidget *widget, gpointer user_data);
 void unsubscribe_folder     (GtkWidget *widget, gpointer user_data);
+void subscribe_refresh_list (GtkWidget *widget, gpointer user_data);
 
 #endif /* _SUBSCRIBE_CONTROL_H_ */

@@ -1,5 +1,14 @@
 2000-09-27  Chris Toshok  <toshok@helixcode.com>
 
+	* subscribe-control.c (subscribe_refresh_list): new function.
+
+	* subscribe-control.h (subscribe_refresh_list): new prototype.
+
+	* subscribe-control-factory.c (update_pixmaps): add RefreshList
+	pixmap.  also, add it to the verbs list.
+	
+2000-09-27  Chris Toshok  <toshok@helixcode.com>
+
 	* mail-types.h: add SubscribeControl typedef.
 
 	* Makefile.am (evolution_mail_SOURCES): add the subscribe stuff.

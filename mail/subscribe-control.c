@@ -19,14 +19,15 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-tree-simple.h>
 
+#include "art/empty.xpm"
 #include "art/mark.xpm"
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
 #define ETABLE_SPEC "<ETableSpecification>                    	       \
 	<columns-shown>                  			       \
-		<column> 1 </column>     			       \
 		<column> 0 </column>     			       \
+		<column> 1 </column>     			       \
 		<column> 2 </column>     			       \
 	</columns-shown>                 			       \
 	<grouping></grouping>                                         \
@@ -51,6 +52,12 @@ char *headers [COL_LAST] = {
   "Description",
 };
 
+/* per node structure */
+typedef struct {
+	gboolean subscribed;
+} SubscribeData;
+
+
 static GtkObjectClass *subscribe_control_parent_class;
 
 void
@@ -65,14 +72,63 @@ subscribe_unselect_all (BonoboUIHandler *uih,
 {
 }
 
+static void
+subscribe_folder_foreach (int model_row, gpointer closure)
+{
+	SubscribeControl *sc = SUBSCRIBE_CONTROL (closure);
+	ETreePath *node = e_tree_model_node_at_row (sc->model, model_row);
+	SubscribeData *data = e_tree_model_node_get_data (sc->model, node);
+
+	printf ("subscribe: row %d, node_data %p\n", model_row,
+		e_tree_model_node_get_data (sc->model, node));
+
+	data->subscribed = TRUE;
+
+	e_tree_model_node_changed (sc->model, node);
+}
+
 void
 subscribe_folder (GtkWidget *widget, gpointer user_data)
 {
+	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
+
+	printf ("subscribe_folder called\n");
+
+	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->table)->table,
+				      subscribe_folder_foreach, sc);
 }
+
+static void
+unsubscribe_folder_foreach (int model_row, gpointer closure)
+{
+	SubscribeControl *sc = SUBSCRIBE_CONTROL (closure);
+	ETreePath *node = e_tree_model_node_at_row (sc->model, model_row);
+	SubscribeData *data = e_tree_model_node_get_data (sc->model, node);
+
+	printf ("unsubscribe: row %d, node_data %p\n", model_row,
+		e_tree_model_node_get_data (sc->model, node));
+
+	data->subscribed = FALSE;
+
+	e_tree_model_node_changed (sc->model, node);
+}
+
 
 void
 unsubscribe_folder (GtkWidget *widget, gpointer user_data)
 {
+	SubscribeControl *sc = SUBSCRIBE_CONTROL (user_data);
+
+	printf ("unsubscribe_folder called\n");
+
+	e_table_selected_row_foreach (E_TABLE_SCROLLED(sc->table)->table,
+				      unsubscribe_folder_foreach, sc);
+}
+
+void
+subscribe_refresh_list (GtkWidget *widget, gpointer user_data)
+{
+	printf ("subscribe_refresh_list\n");
 }
 
 gboolean
@@ -198,12 +254,13 @@ etree_icon_at (ETreeModel *etree, ETreePath *path, void *model_data)
 static void*
 etree_value_at (ETreeModel *etree, ETreePath *path, int col, void *model_data)
 {
+	SubscribeData *data = e_tree_model_node_get_data (etree, path);
 	if (col == COL_FOLDER_NAME)
 		return "Folder Name";
 	else if (col == COL_FOLDER_DESCRIPTION)
 		return "Folder Description";
 	else /* COL_FOLDER_SUBSCRIBED */
-		return 1; /* XXX */
+		return GINT_TO_POINTER(data->subscribed);
 }
 
 static void
@@ -261,13 +318,16 @@ subscribe_control_gui_init (SubscribeControl *sc)
 	e_tree_model_root_node_set_visible (sc->model, FALSE);
 
 
-	for (i = 0; i < 100; i ++)
+	for (i = 0; i < 100; i ++) {
+		SubscribeData *data = g_new (SubscribeData, 1);
+		data->subscribed = FALSE;
 		e_tree_model_node_insert (sc->model, sc->root,
-					  0, NULL);
+					  0, data);
+	}
 
 	e_table_header = e_table_header_new ();
 
-	toggles[0] = NULL;
+	toggles[0] = gdk_pixbuf_new_from_xpm_data ((const char **)empty_xpm);
 	toggles[1] = gdk_pixbuf_new_from_xpm_data ((const char **)mark_xpm);
 
 	cells[2] = e_cell_text_new (E_TABLE_MODEL(sc->model), NULL, GTK_JUSTIFY_LEFT);
@@ -295,6 +355,10 @@ subscribe_control_gui_init (SubscribeControl *sc)
 	}
 
 	sc->table = e_table_scrolled_new (e_table_header, E_TABLE_MODEL(sc->model), ETABLE_SPEC);
+
+	gtk_object_set (GTK_OBJECT (E_TABLE_SCROLLED (sc->table)->table),
+			"cursor_mode", E_TABLE_CURSOR_LINE,
+			NULL);
 
 	gtk_table_attach (
 		GTK_TABLE (sc), sc->table,

@@ -42,7 +42,10 @@ static BonoboUIVerb verbs [] = {
 	/* Folder Menu */
 	BONOBO_UI_VERB ("SubscribeFolder", subscribe_folder),
 	BONOBO_UI_VERB ("UnsubscribeFolder", unsubscribe_folder),
-	
+
+	/* Toolbar Specific */
+	BONOBO_UI_VERB ("RefreshList", subscribe_refresh_list),
+
 	BONOBO_UI_VERB_END
 };
 
@@ -69,8 +72,9 @@ set_pixmap (Bonobo_UIContainer container,
 static void
 update_pixmaps (Bonobo_UIContainer container)
 {
-	set_pixmap (container, "/Toolbar/SubscribeFolder", "fetch-mail.png");
-	set_pixmap (container, "/Toolbar/UnsubscribeFolder", "compose-message.png");
+	set_pixmap (container, "/Toolbar/SubscribeFolder", "fetch-mail.png"); /* XXX */
+	set_pixmap (container, "/Toolbar/UnsubscribeFolder", "compose-message.png"); /* XXX */
+	set_pixmap (container, "/Toolbar/RefreshList", "forward.png"); /* XXX */
 }
 
 static void
