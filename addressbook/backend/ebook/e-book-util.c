@@ -27,9 +27,12 @@
 #include <config.h>
 #include "e-book-util.h"
 
-#include <glib.h>
-#include <glib-object.h>
-#include <e-util/e-config-listener.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <bonobo/bonobo-listener.h>
+#include <bonobo/bonobo-event-source.h>
 #include "e-card-compare.h"
 
 typedef struct _CommonBookInfo CommonBookInfo;
@@ -54,7 +57,7 @@ e_book_expand_uri (const char *uri)
 			char *ret_val;
 			char *file_name;
 
-			file_name = g_build_filename(uri + offset, "addressbook.db", NULL);
+			file_name = g_concat_dir_and_file(uri + offset, "addressbook.db");
 			ret_val = g_strdup_printf("file://%s", file_name);
 			g_free(file_name);
 			return ret_val; 
@@ -114,18 +117,18 @@ e_book_use_address_book_by_uri (const char *uri, EBookCommonCallback cb, gpointe
 
 	book = e_book_new ();
 	if (! e_book_load_address_book_by_uri (book, uri, got_uri_book_cb, info)) {
-		g_object_unref (book);
+		gtk_object_unref (GTK_OBJECT (book));
 		g_free (info);
 	}
 }
 
-EConfigListener *
-e_book_get_config_database ()
+Bonobo_ConfigDatabase
+e_book_get_config_database (CORBA_Environment *ev)
 {
-	static EConfigListener *config_db;
+	static Bonobo_ConfigDatabase config_db;
 
 	if (config_db == NULL)
-		config_db = e_config_listener_new ();
+		config_db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", ev);
 
 	return config_db;
 }
@@ -143,7 +146,7 @@ got_default_book_cb (EBook *book, EBookStatus status, gpointer closure)
 		   default book got loaded twice. */
 
 		if (common_default_book) {
-			g_object_unref (book);
+			gtk_object_unref (GTK_OBJECT (book));
 			book = common_default_book;
 		}
 		
@@ -180,7 +183,7 @@ e_book_use_default_book (EBookCommonCallback cb, gpointer closure)
 
 	book = e_book_new ();
 	if (! e_book_load_default_book (book, got_default_book_cb, info)) {
-		g_object_unref (book);
+		gtk_object_unref (GTK_OBJECT (book));
 		g_free (info);
 	}
 }
@@ -192,9 +195,7 @@ set_default_book_uri_local (void)
 {
 	char *filename;
 
-	filename = g_build_filename (g_get_home_dir(),
-				     "evolution/local/Contacts/addressbook.db",
-				     NULL);
+	filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
 	default_book_uri = g_strdup_printf ("file://%s", filename);
 	g_free (filename);
 }
@@ -214,33 +215,37 @@ set_default_book_uri (char *val)
 	}
 }
 
-#define DEFAULT_CONTACTS_URI_PATH "/apps/evolution/shell/default_folders/contacts_uri"
 static void
-default_folder_listener (EConfigListener *cl, const char *key, gpointer data)
+default_folder_listener (BonoboListener *listener, char *event_name, 
+			 CORBA_any *any, CORBA_Environment *ev,
+			 gpointer user_data)
 {
+	Bonobo_ConfigDatabase config_db;
 	char *val;
 
-	if (strcmp (key, DEFAULT_CONTACTS_URI_PATH))
-		return;
-
-	val = e_config_listener_get_string (cl, DEFAULT_CONTACTS_URI_PATH);
+	config_db = e_book_get_config_database (ev);
+	val = bonobo_config_get_string (config_db, "/DefaultFolders/contacts_uri", ev);
 
 	set_default_book_uri (val);
 }
 
 static void
-set_default_book_uri_from_config_db (void)
+set_default_book_uri_from_bonobo_conf (void)
 {
 	char *val;
-	EConfigListener* config_db;
+	Bonobo_ConfigDatabase config_db;
+	CORBA_Environment ev;
 
-	config_db = e_book_get_config_database ();
-	val = e_config_listener_get_string_with_default (config_db, DEFAULT_CONTACTS_URI_PATH, NULL, NULL);
+	CORBA_exception_init (&ev);
+	config_db = e_book_get_config_database (&ev);
+	val = bonobo_config_get_string (config_db, "/DefaultFolders/contacts_uri", &ev);
 
-	g_signal_connect (config_db,
-			  "key_changed",
-			  G_CALLBACK (default_folder_listener), NULL);
+	bonobo_event_source_client_add_listener (config_db, default_folder_listener,
+						 "Bonobo/ConfigDatabase:change/DefaultFolders:contacts_uri",
+						 NULL,
+						 NULL);
 
+	CORBA_exception_free (&ev);
 	set_default_book_uri (val);
 }
 
@@ -303,7 +308,7 @@ char*
 e_book_get_default_book_uri ()
 {
 	if (!default_book_uri)
-		set_default_book_uri_from_config_db ();
+		set_default_book_uri_from_bonobo_conf ();
 
 	return default_book_uri;
 }
@@ -331,15 +336,15 @@ struct _SimpleQueryInfo {
 static void
 book_add_simple_query (EBook *book, SimpleQueryInfo *info)
 {
-	GList *pending = g_object_get_data (G_OBJECT(book), "sq_pending");
+	GList *pending = gtk_object_get_data (GTK_OBJECT (book), "sq_pending");
 	pending = g_list_prepend (pending, info);
-	g_object_set_data (G_OBJECT (book), "sq_pending", pending);
+	gtk_object_set_data (GTK_OBJECT (book), "sq_pending", pending);
 }
 
 static SimpleQueryInfo *
 book_lookup_simple_query (EBook *book, guint tag)
 {
-	GList *pending = g_object_get_data (G_OBJECT (book), "sq_pending");
+	GList *pending = gtk_object_get_data (GTK_OBJECT (book), "sq_pending");
 	while (pending) {
 		SimpleQueryInfo *sq = pending->data;
 		if (sq->tag == tag)
@@ -352,7 +357,7 @@ book_lookup_simple_query (EBook *book, guint tag)
 static void
 book_remove_simple_query (EBook *book, SimpleQueryInfo *info)
 {
-	GList *pending = g_object_get_data (G_OBJECT (book), "sq_pending");
+	GList *pending = gtk_object_get_data (GTK_OBJECT (book), "sq_pending");
 	GList *i;
 
 	for (i=pending; i != NULL; i = g_list_next (i)) {
@@ -362,17 +367,17 @@ book_remove_simple_query (EBook *book, SimpleQueryInfo *info)
 			break;
 		}
 	}
-	g_object_set_data (G_OBJECT (book), "sq_pending", pending);
+	gtk_object_set_data (GTK_OBJECT (book), "sq_pending", pending);
 }
 
 static guint
 book_issue_tag (EBook *book)
 {
-	gpointer ptr = g_object_get_data (G_OBJECT (book), "sq_tag");
+	gpointer ptr = gtk_object_get_data (GTK_OBJECT (book), "sq_tag");
 	guint tag = GPOINTER_TO_UINT (ptr);
 	if (tag == 0)
 		tag = 1;
-	g_object_set_data (G_OBJECT (book), "sq_tag", GUINT_TO_POINTER (tag+1));
+	gtk_object_set_data (GTK_OBJECT (book), "sq_tag", GUINT_TO_POINTER (tag+1));
 	return tag;
 }
 
@@ -383,7 +388,7 @@ simple_query_new (EBook *book, const char *query, EBookSimpleQueryCallback cb, g
 
 	sq->tag = book_issue_tag (book);
 	sq->book = book;
-	g_object_ref (book);
+	gtk_object_ref (GTK_OBJECT (book));
 	sq->query = g_strdup (query);
 	sq->cb = cb;
 	sq->closure = closure;
@@ -399,17 +404,17 @@ static void
 simple_query_disconnect (SimpleQueryInfo *sq)
 {
 	if (sq->add_tag) {
-		g_signal_handler_disconnect (sq->view, sq->add_tag);
+		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->add_tag);
 		sq->add_tag = 0;
 	}
 
 	if (sq->seq_complete_tag) {
-		g_signal_handler_disconnect (sq->view, sq->seq_complete_tag);
+		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->seq_complete_tag);
 		sq->seq_complete_tag = 0;
 	}
 
 	if (sq->view) {
-		g_object_unref (sq->view);
+		gtk_object_unref (GTK_OBJECT (sq->view));
 		sq->view = NULL;
 	}
 }
@@ -425,9 +430,9 @@ simple_query_free (SimpleQueryInfo *sq)
 	g_free (sq->query);
 
 	if (sq->book)
-		g_object_unref (sq->book);
+		gtk_object_unref (GTK_OBJECT (sq->book));
 
-	g_list_foreach (sq->cards, (GFunc) g_object_unref, NULL);
+	g_list_foreach (sq->cards, (GFunc) gtk_object_unref, NULL);
 	g_list_free (sq->cards);
 
 	g_free (sq);
@@ -442,7 +447,7 @@ simple_query_card_added_cb (EBookView *view, const GList *cards, gpointer closur
 		return;
 
 	sq->cards = g_list_concat (sq->cards, g_list_copy ((GList *) cards));
-	g_list_foreach ((GList *) cards, (GFunc) g_object_ref, NULL);
+	g_list_foreach ((GList *) cards, (GFunc) gtk_object_ref, NULL);
 }
 
 static void
@@ -476,12 +481,16 @@ simple_query_book_view_cb (EBook *book, EBookStatus status, EBookView *book_view
 	}
 
 	sq->view = book_view;
-	g_object_ref (book_view);
+	gtk_object_ref (GTK_OBJECT (book_view));
 
-	sq->add_tag = g_signal_connect (sq->view, "card_added",
-					G_CALLBACK (simple_query_card_added_cb), sq);
-	sq->seq_complete_tag = g_signal_connect (sq->view, "sequence_complete",
-						 G_CALLBACK (simple_query_sequence_complete_cb), sq);
+	sq->add_tag = gtk_signal_connect (GTK_OBJECT (sq->view),
+					  "card_added",
+					  GTK_SIGNAL_FUNC (simple_query_card_added_cb),
+					  sq);
+	sq->seq_complete_tag = gtk_signal_connect (GTK_OBJECT (sq->view),
+						   "sequence_complete",
+						   GTK_SIGNAL_FUNC (simple_query_sequence_complete_cb),
+						   sq);
 }
 
 guint
@@ -779,26 +788,3 @@ e_book_query_address_default (const gchar *email,
 
 	e_book_use_default_book (have_address_book_open_cb, info);
 }
-
-/* bad place for this i know. */
-int
-e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len)
-{
-	gchar *s1 = g_utf8_casefold(str1, len);
-	gchar *s2 = g_utf8_casefold(str2, len);
-	int rv;
-
-	rv = g_utf8_collate (s1, s2);
-
-	g_free (s1);
-	g_free (s2);
-
-	return rv;
-}
-
-int
-e_utf8_casefold_collate (const gchar *str1, const gchar *str2)
-{
-	return e_utf8_casefold_collate_len (str1, str2, -1);
-}
-

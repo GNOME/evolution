@@ -23,10 +23,6 @@
 #ifndef _E_CONFIG_PAGE_H_
 #define _E_CONFIG_PAGE_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gnome.h>
 
 #ifdef __cplusplus
@@ -35,10 +31,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_CONFIG_PAGE			(e_config_page_get_type ())
-#define E_CONFIG_PAGE(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CONFIG_PAGE, EConfigPage))
-#define E_CONFIG_PAGE_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CONFIG_PAGE, EConfigPageClass))
-#define E_IS_CONFIG_PAGE(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONFIG_PAGE))
-#define E_IS_CONFIG_PAGE_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONFIG_PAGE))
+#define E_CONFIG_PAGE(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_CONFIG_PAGE, EConfigPage))
+#define E_CONFIG_PAGE_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_CONFIG_PAGE, EConfigPageClass))
+#define E_IS_CONFIG_PAGE(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_CONFIG_PAGE))
+#define E_IS_CONFIG_PAGE_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_CONFIG_PAGE))
 
 
 typedef struct _EConfigPage        EConfigPage;

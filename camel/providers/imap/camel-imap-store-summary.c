@@ -32,7 +32,7 @@
 
 #include "camel-file-utils.h"
 
-#include "string-utils.h"
+#include "hash-table-utils.h"
 #include "e-util/md5-utils.h"
 #include "e-util/e-memory.h"
 
@@ -366,7 +366,7 @@ CamelImapStoreNamespace *camel_imap_store_summary_namespace_new(CamelImapStoreSu
 	CamelImapStoreNamespace *ns;
 	char *p;
 	int len;
-
+	
 	ns = g_malloc0(sizeof(*ns));
 	ns->full_name = g_strdup(full_name);
 	len = strlen(ns->full_name)-1;

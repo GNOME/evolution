@@ -906,8 +906,8 @@ imap_forget_folder (CamelImapStore *imap_store, const char *folder_name, CamelEx
 	if (cache)
 		camel_imap_message_cache_clear (cache);
 	
-	camel_object_unref (cache);
-	camel_object_unref (summary);
+	camel_object_unref (CAMEL_OBJECT (cache));
+	camel_object_unref (CAMEL_OBJECT (summary));
 	
 	unlink (summary_file);
 	g_free (summary_file);
@@ -951,6 +951,13 @@ imap_check_folder_still_extant (CamelImapStore *imap_store, const char *full_nam
 	return TRUE;
 }
 
+static void
+copy_folder(char *key, CamelFolder *folder, GPtrArray *out)
+{
+	g_ptr_array_add(out, folder);
+	camel_object_ref((CamelObject *)folder);
+}
+
 /* This is a little 'hack' to avoid the deadlock conditions that would otherwise
    ensue when calling camel_folder_refresh_info from inside a lock */
 /* NB: on second thougts this is probably not entirely safe, but it'll do for now */
@@ -965,7 +972,10 @@ imap_store_refresh_folders (CamelImapStore *store, CamelException *ex)
 	GPtrArray *folders;
 	int i;
 	
-	folders = camel_object_bag_list(CAMEL_STORE (store)->folders);
+	folders = g_ptr_array_new();
+	CAMEL_STORE_LOCK(store, cache_lock);
+	g_hash_table_foreach (CAMEL_STORE (store)->folders, (GHFunc)copy_folder, folders);
+	CAMEL_STORE_UNLOCK(store, cache_lock);
 	
 	for (i = 0; i <folders->len; i++) {
 		CamelFolder *folder = folders->pdata[i];
@@ -982,12 +992,12 @@ imap_store_refresh_folders (CamelImapStore *store, CamelException *ex)
 			 * after being offline */
 			
 			namedup = g_strdup (folder->full_name);
-			camel_object_unref(folder);
+			camel_object_unref((CamelObject *)folder);
 			imap_folder_effectively_unsubscribed (store, namedup, ex);
 			imap_forget_folder (store, namedup, ex);
 			g_free (namedup);
 		} else
-			camel_object_unref(folder);
+			camel_object_unref((CamelObject *)folder);
 	}
 	
 	g_ptr_array_free (folders, TRUE);
@@ -2188,25 +2198,30 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 				} else {
 					fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
 					/* if we have this folder open, and the unread count has changed, update */
-					folder = camel_object_bag_get(CAMEL_STORE(imap_store)->folders, fi->full_name);
-					if (folder && fi->unread_message_count != camel_folder_get_unread_message_count(folder)) {
+					CAMEL_STORE_LOCK(imap_store, cache_lock);
+					folder = g_hash_table_lookup(CAMEL_STORE(imap_store)->folders, fi->full_name);
+					if (folder && fi->unread_message_count != camel_folder_get_unread_message_count(folder))
+						camel_object_ref(folder);
+					else
+						folder = NULL;
+					CAMEL_STORE_UNLOCK(imap_store, cache_lock);
+					if (folder) {
 						CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, ex);
 						fi->unread_message_count = camel_folder_get_unread_message_count(folder);
-					}
-					if (folder)
 						camel_object_unref(folder);
-
+					}
 				}
 		
 				CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			} else {
 				/* since its cheap, get it if they're open */
-				folder = camel_object_bag_get(CAMEL_STORE(imap_store)->folders, fi->full_name);
-				if (folder) {
+				CAMEL_STORE_LOCK(imap_store, cache_lock);
+				folder = g_hash_table_lookup(CAMEL_STORE(imap_store)->folders, fi->full_name);
+				if (folder)
 					fi->unread_message_count = camel_folder_get_unread_message_count(folder);
-					camel_object_unref(folder);
-				} else
+				else
 					fi->unread_message_count = -1;
+				CAMEL_STORE_UNLOCK(imap_store, cache_lock);
 			}
 
 			if (fi->child)

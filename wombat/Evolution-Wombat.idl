@@ -1,8 +1,10 @@
 /*
- * The Evolution Personal Organization Server.
+ * Wombat interfaces.
  *
- * Copyright 2000, Ximian, Inc.
+ * Copyright (C) 2000, 2001, 2002, Ximian, Inc.
  */
+
+#include <Bonobo.idl>
 
 module GNOME {
 module Evolution {
@@ -13,7 +15,10 @@ module Evolution {
 	};
 
 	interface Config {
+	};
 
+	interface WombatInterfaceCheck : Bonobo::Unknown {
+		readonly attribute string interfaceVersion;
 	};
 };
 };

@@ -77,4 +77,4 @@ get_uri_without_password (const char *full_uri)
 	e_uri_free (uri);
 
 	return uristr;
- }
+}

@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
 #include <stdio.h>
-#include <string.h>
 
+#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
@@ -15,7 +15,8 @@
 #include <e-util/e-path.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory"
-#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer"
+
+static BonoboGenericFactory *factory = NULL;
 
 typedef struct {
 	char *filename;
@@ -30,7 +31,7 @@ static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	ECard *card = E_CARD(closure);
-	g_object_unref(card);
+	gtk_object_unref(GTK_OBJECT(card));
 }
 
 static void
@@ -149,7 +150,7 @@ check_file_is_vcard (const char *filename)
 		return FALSE;
 	}
 
-	if (g_ascii_strncasecmp (line, "BEGIN:VCARD", 11) == 0) {
+	if (g_strncasecmp (line, "BEGIN:VCARD", 11) == 0) {
 		result = TRUE;
 	} else {
 		result = FALSE;
@@ -172,7 +173,7 @@ support_format_fn (EvolutionImporter *importer,
 		return check_file_is_vcard (filename);
 	}
 	for (i = 0; supported_extensions[i] != NULL; i++) {
-		if (g_ascii_strcasecmp (supported_extensions[i], ext) == 0)
+		if (g_strcasecmp (supported_extensions[i], ext) == 0)
 			return check_file_is_vcard (filename);
 	}
 
@@ -180,10 +181,10 @@ support_format_fn (EvolutionImporter *importer,
 }
 
 static void
-importer_destroy_cb (gpointer data,
-		     GObject *where_object_was)
+importer_destroy_cb (GtkObject *object,
+		     VCardImporter *gci)
 {
-	bonobo_main_quit ();
+	gtk_main_quit ();
 }
 
 static gboolean
@@ -211,24 +212,55 @@ load_file_fn (EvolutionImporter *importer,
 					   
 static BonoboObject *
 factory_fn (BonoboGenericFactory *_factory,
-	    const char *component_id,
 	    void *closure)
 {
 	EvolutionImporter *importer;
 	VCardImporter *gci;
 
-	if (!strcmp (component_id, COMPONENT_IID)) {
-		gci = g_new (VCardImporter, 1);
-		importer = evolution_importer_new (support_format_fn, load_file_fn, 
-						   process_item_fn, NULL, gci);
+	gci = g_new (VCardImporter, 1);
+	importer = evolution_importer_new (support_format_fn, load_file_fn, 
+					   process_item_fn, NULL, gci);
 	
-		g_object_weak_ref (G_OBJECT (importer),
-				   importer_destroy_cb, gci);
-	}
-	else {
-		g_warning (COMPONENT_FACTORY_IID, ": Don't know what to do with %s", component_id);
-		return NULL;
-	}
+	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
+			    GTK_SIGNAL_FUNC (importer_destroy_cb), gci);
+	
+	return BONOBO_OBJECT (importer);
 }
 
-BONOBO_ACTIVATION_FACTORY (COMPONENT_FACTORY_IID, "Evolution VCard Importer Factory", VERSION, factory_fn, NULL);
+static void
+importer_init (void)
+{
+	if (factory != NULL)
+		return;
+
+	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_IID, 
+					      factory_fn, NULL);
+
+	if (factory == NULL) {
+		g_error ("Unable to create factory");
+	}
+
+	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+}
+
+int
+main (int argc,
+      char **argv)
+{
+	CORBA_ORB orb;
+	
+	gnome_init_with_popt_table ("Evolution-VCard-Importer",
+				    PACKAGE, argc, argv, oaf_popt_options, 0,
+				    NULL);
+	orb = oaf_init (argc, argv);
+	if (bonobo_init (orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
+		g_error ("Could not initialize Bonobo.");
+	}
+
+	importer_init ();
+	bonobo_main ();
+
+	return 0;
+}
+
+

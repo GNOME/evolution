@@ -1,0 +1,412 @@
+  <preface id="introduction">
+    <title>Introduction</title> 
+
+     <para>
+       Welcome to the users guide for Ximian Evolution and Ximian
+       Connector for Microsoft Exchange 2000. This section of the
+       manual will tell you a bit about what you've got waiting for
+       you. First, however, we have some legal information.
+     </para>
+
+      <sect1 id="actual-legal-info">
+          <title>Legal Information and Licensing</title>
+       <para>
+         Permission is granted to copy, distribute and/or modify this
+         document under the terms of the GNU Free Documentation
+         License, Version 1.1 or any later version published by the
+         Free Software Foundation with no Invariant Sections, no
+         Front-Cover Texts, and no Back-Cover Texts. You will find a
+         copy of the <citetitle>GNU Free Documentation
+         License</citetitle> attached to this manual in <xref
+         linkend="apx-fdl">.  You may also obtain a copy of the
+         license from the Free Software Foundation by visiting <ulink
+         type="http" url="http://www.fsf.org">their Web site</ulink>
+         or by writing to: Free Software Foundation, Inc., 59 Temple
+         Place - Suite 330, Boston, MA 02111-1307, USA.
+       </para>
+
+       <para>
+         The actual application Ximian Evolution is covered by the GNU
+         General Public License (GPL), and its source code is
+         available from the GNOME cvs repository at <ulink
+         url="http://cvs.gnome.org">cvs.gnome.org</ulink>. You will
+         find a copy of the GPL attached to this document in <xref
+         linkend="apx-gpl">. You may also obtain a copy of the license
+         from the Free Software Foundation by visiting <ulink
+         type="http" url="http://www.fsf.org">their Web site</ulink>
+         or by writing to: Free Software Foundation, Inc., 59 Temple
+         Place - Suite 330, Boston, MA 02111-1307, USA.
+       </para>
+
+        <para>
+         Ximian Connector for Microsoft Exchange 2000 is not Free
+         Software. There are certain restrictions on its usage, and it
+         may not be redistributed. Before downloading it you must
+         agree to the terms of license, which will be (or have been)
+         presented to you upon download. You may review the terms of
+         license for Ximian Connector at <ulink
+         url="http://support.ximian.com/q?92">http://support.ximian.com/q?92</ulink>.
+       </para>
+       </sect1>
+
+      <sect1 id="organization">
+        <title>How This Book is Organized</title>
+      <para>
+        This book is divided into two parts, with several
+        appendices. The first part is a <link linkend="usage">guided
+        tour</link>, which will explain how to use
+        <application>Evolution</application>.  If you are new to
+        <application>Evolution</application> or to groupware in
+        general, this section is for you. The second section, covering
+        <link linkend="config">configuration</link>, is targeted at
+        more advanced users, but anyone who wants to change the way
+        <application>Evolution</application> looks or acts can benefit
+        from reading it.  
+      </para>
+      </sect1>
+
+      <sect1 id="typography">
+        <title>Typographical Conventions</title>
+	<para>
+          In this book, we'll mark some words with special typography:
+          <simplelist>
+	    <member><application>Applications</application></member>
+	    <member><command>Commands</command> you type at the command line</member>
+	    <member><guilabel>Labels</guilabel> for buttons and other portions of the graphical interface</member>
+
+            <member> Menu selections look like this:
+                       <menuchoice>
+                          <guimenu>Menu</guimenu>
+                          <guisubmenu>Submenu</guisubmenu> 
+                          <guimenuitem>Menu Item</guimenuitem>
+                     </menuchoice>
+            </member>
+	    <member><guibutton>Buttons</guibutton> you can
+            click</member> <member><userinput>Anything you type
+            in</userinput></member> <member><computeroutput>Text
+            output from a computer</computeroutput></member>
+	  <member><glossterm linkend="apx-gloss">Words</glossterm>
+            that are defined in the <xref linkend="apx-gloss">.</member>
+	  </simplelist>
+</para>
+<para>
+We'll provide assorted bits of additional information in tips set off from the rest of the book, as well. 
+
+	  <tip id="example-tip">
+	      <title>Tip</title>
+	      <para>
+		Tips and bits of extra information will look like
+		this.
+	      </para>
+	    </tip>
+</para>
+
+<para>
+Examples are also set off from the rest of the text.  They look like this:
+
+	  <example>
+	    <title>Example Example</title>
+	    <para>
+	      This is what an example looks like.  We'll provide
+	      examples for some of the more complicated tasks you
+	      might be performing.
+	    </para>
+	  </example>
+</para>
+<para>
+Lastly, we'll have warnings, in cases where you should be careful:
+
+	    <warning id="example-warning">
+	      <title>Example Warning</title>
+	      <para>
+		This is what a warning looks like. If there's a chance
+		you'll run into trouble, we'll warn you beforehand.
+	      </para>
+	  </warning>
+        </para>
+    </sect1>
+
+
+    <sect1 id="other-help">
+      <title>Additional Help Sources</title>
+      <para>
+        You can find additional help in three places. For information
+        about command-line options, open a terminal window and type
+        <command> man evolution</command> or <command>evolution
+        --help</command>. For support, late-breaking news, and errata,
+        visit the Ximian support center at <ulink
+        url="http://support.ximian.com">support.ximian.com</ulink>.
+      </para>
+    </sect1>
+
+    <sect1 id="whats-new-in-one-two">
+      <title>What's New in Evolution 1.2</title>
+      <para>
+        If you're already familiar with Ximian Evolution 1.0, our new
+        version has a lot to add.  Here are some of the new and
+        changed features. Ximian Connector for Microsoft Exchange also
+        has new features, which are covered in "new-in-connector-one-two">.
+        <variablelist>
+	  <varlistentry>
+	    <term>Evolution Settings Interface</term>
+	    <listitem>
+	      <para>
+                The preferences dialogs have been completely
+                overhauled. There is now a single configuration dialog
+                window for all components of the program, and you can
+                access it from anywhere. To change your preferences,
+                select 
+                 <menuchoice>
+		  <guimenu>
+                      Tools
+                  </guimenu>
+		  <guimenuitem>
+                     Preferences
+                  </guimenuitem>
+		</menuchoice>. Detailed help for the preferences
+		dialogs has been added to <xref
+		linkend="config-prefs">.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Mail Composer Autocomplete</term>
+	    <listitem>
+	      <para>
+                Email addresses in the message composer can now work
+                with LDAP address books. Add your LDAP address book to
+                the list of folders searched for address completion in
+                the <guilabel>Folder Settings</guilabel> section of
+                the Settings dialog.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Performance Improvements</term>
+	    <listitem>
+	      <para>
+                Startup time has decreased, POP server interactions
+                are more efficient, and indexing of locally cached
+                mail is now faster.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Mail Composer HTML Improvements</term>
+	    <listitem>
+	      <para>
+                 Pasting into the mail composer from another message
+                or from a web page preserves the HTML formatting of
+                the source document. Multiple levels of reply
+                quotation in messages are clearer and use a vertical
+                blue line on the left side to indicate quotation. Text
+                "smileys" are now automatically converted to small
+                images displaying the appropriate emotion. You can
+                turn this option off in the
+                <guilabel>Composer</guilabel> section of the Settings
+                dialog.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Signature Editor</term>
+	    <listitem>
+	      <para>
+                 There is now a signature editor, which can be used to
+                 create plain text or HTML signatures. 
+                 click the the <guilabel>Signatures</guilabel> tab in
+                 the Composer Settings section of the Evolution
+                 Settings window.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Keyboard Navigation Overhaul</term>
+	    <listitem>
+              <para>
+                All unmodified letter keys have changed function-- the
+                <keycap>N</keycap> and <keycap>P</keycap> keys, for
+                example, no longer take you to the next you to the
+                next or previous message.  Pressing a letter will now
+                take you to the nearest message whose data in the sort
+                column begins with that letter. That is, if you press
+                N and you are sorting your list by sender, you will
+                move to a message from Nadine. If you are sorting by
+                subject, you'll move to the message about
+                nectarines. This should also work in the folder list
+                for folder navigation.
+              </para>
+	      <para>
+               This means that the old single letter shortcuts have
+               changed as well.  The new shortcuts:
+                <simplelist>
+		  <member>
+                    <keycap>,</keycap> (comma) and <keycap>.</keycap>
+                    (period) are now the keyboard shortcuts for Next
+                    and Previous unread messages. You can also use the
+                    square brackets <keycap>]</keycap> and
+                    <keycap>[</keycap>.
+                 </member>
+		 <member>
+                   <keycap>`</keycap> (backtick) toggles
+                   the message preview pane.
+                 </member>
+		</simplelist>
+                Shortcuts that use the <keycap>Control</keycap> key
+                have not changed.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Added Functionality for the "New" Button</term>
+	    <listitem>
+	      <para>
+                The <guibutton>New</guibutton> now has a menu next to
+                it. As in Evolution 1.0, you can click the button once
+                to get a new item for the Evolution tool you're
+                using. However, if you click the small arrow menu to
+                the right of the button, you will find a menu that
+                allows you to create new items for the rest of
+                Evolution: All day appointments, regular appointments,
+                tasks and meetings for the calendar; mail messages for
+                the mail tool; and contacts and contact lists for the
+                address book.
+               </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Import Tool Now Imports Netscape Filters</term>
+	    <listitem>
+	      <para>
+                You can now import your filters, as well as your email
+                messages, from the Netscape mail client.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Folder Naming Internationalization</term>
+	    <listitem>
+	      <para>
+                You can now use Unicode (UTF-8) characters in the
+                names for IMAP folders.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Executive Summary now Reads IMAP</term>
+	    <listitem>
+	      <para>
+                The Executive Summary tool in Evolution now displays
+                email messages in IMAP as well as local mail folders. 
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Filters and vFolders Notice Moved or Missing Folders</term>
+	    <listitem>
+	      <para>
+                vFolders and filters now notice if you move or delete
+                a folder that they use.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>vFolder "Original Location" Feature</term>
+	    <listitem>
+	      <para>
+                vFolders can now display the actual folder location
+                for each message they contain.  To do so, right click
+                on the column headers in the message list of any
+                vFolder, select <guimenuitem>Add a
+                Column</guimenuitem>, and drag the <guibutton>Original
+                Location</guibutton> item into position.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>New Criteria and Actions</term>
+	    <listitem>
+	      <para>
+                 There are many new filter criteria and actions,
+                 including additional message flags such as Flag for
+                 Followup.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+         <varlistentry>
+	    <term>Folder Selection for Offline Mode</term>
+	    <listitem>
+              <para>
+               You may now select which network folders which will be
+               cached locally when you go into Offline mode. This
+               setting may be changed from the Folders section of the
+               Evolution Settings window.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Redirect (Bounce) Feature Added</term>
+	    <listitem>
+	      <para>
+               This feature is also sometimes known as "Bounce" or
+               "Resend." To resend a message with all its headers
+               instead of merely forwarding it, select the message and
+               choose
+                 <menuchoice>
+		  <guimenu>
+                      Actions
+                  </guimenu>
+		  <guisubmenu>
+                     Forward
+                  </guisubmenu>
+		  <guimenuitem>
+                      Redirect
+                  </guimenuitem>
+		</menuchoice>.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Digest-mode Display of Forwarded Messages</term>
+	    <listitem>
+	      <para>
+                Messages that contain multiple forwarded messages are
+                now displayed as a digest rather than inline or as a
+                series of attachments.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>New Mail Notification</term>
+	    <listitem>
+	      <para>
+                When new mail arrives, you may opt to have Evolution
+                beep or play a sound file that you specify.
+             </para>
+	    </listitem>
+	  </varlistentry>
+
+	</variablelist>
+      </para>
+    </sect1>
+</preface>
+

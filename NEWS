@@ -1,5 +1,190 @@
-Evolution 1.1.3, 2002-??-??
+Evolution 1.2.2, 2002-02-04
 ---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Calendar
+
+    #34927 -- Crash when entreing wrong URL of attendee in
+             "Collaboration" tab.  (Jack Jia)
+    #34933 -- The question window "Send an update version" pops up
+              inappropriately.  (Jack Jia)
+    #35003 -- Passwords sometimes displayed on the status
+              bar. (Rodrigo)
+
+  * Addressbook
+
+    #25541 -- Sensitivity issues in the contact editor.  (Toshok)
+    #33672 -- Folder deletion. (Jack Jia)
+    #34883 -- Do anonymous bind initially in ldap backend. (Toshok)
+    #34897 -- Address book crash when search. (Toshok)
+    #34898 -- Handle modifications of contact list members in the
+              minicard view.  (Sean Gao)
+    #34900 -- Hang when closing file selector using the window manager.
+              (Jack Jia)
+    #35153 -- Changing default contact folder requires restart.  (Toshok)
+    #36375 -- Fix typo in ldap backend that was keeping "other_fax" from 
+              working.  (Sean Gao)
+
+  * Summary
+
+    #36557 -- Adding a mail folder to the Summary sometimes crashes
+              it.  (Harry Lu)
+
+  * Mailer
+
+    #36862 -- Fix the account creation wizard so that deleting the
+              SASL AUTH username and then unchecking the 
+              "Needs authentication" checkbox won't disallow 
+              continuing with the account creation.  (Jeff)
+
+    #33525 -- Trying to delete "unmatched" vfolder crashed evolution.
+              (Antonio Xu)
+
+Other fixes:
+
+  * Mailer
+
+    - Do more sanity checking to make sure the addressbook didn't give
+      us recipients with empty addresses.  (Jeff)
+    - Fixed a possible crash when deleting IMAP folders.  (Jeff)
+    - Correctly create the x-evolution-messages drag-n-drop clipboard
+      buffer.  (Jeff)
+    - Fixed a bug in the PGP/MIME code that would sometimes duplicate
+      the last line of text being signed.  (Jeff)
+    - Don't canonicalize any MIME parts that we are attempting to
+      verify using PGP/MIME.  (Jeff)
+
+  * Summary
+
+    - Added Finland locations to the weather station list (Pekka
+      Pietikainen).
+
+  * Other
+
+    - Fixed a problem compiling Evolution without conduit support on
+      MacOS X.  (Ettore)
+    - Use $(DESTDIR) appropriately when installing the default_user
+      directory.  (Max Horn)
+    - Updated docs.  (Aaron)
+
+Updated translations:
+
+  - es (Pablo Gonzalo del Campo)
+  - et (T√µivo Leedj√§rv)
+  - hu (Andras Timar)
+  - it (Marco Ciampa, Alessio Frusciante)
+  - lv (Peteris Krisjanis)
+  - no (Kjartan Maraas)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - ru (Andrew V. Samoilov)
+  - sk (Stanislav Visnovsky)
+  - sv (Christian Rose)
+  - tr (Fatih Demir)
+  - uk (Andrew V. Samoilov)
+  - zh_CN (Yuedong Du)
+
+
+Evolution 1.2.1, 2002-12-05
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #16870 -- Fix CR/LF check for empty lines in LDIF importer.  (Sean Gao)
+    #28945 -- Contact lists saved as invalid vCards.  (Toshok)
+    #31763 -- Find button missing from Select Contacts from Addressbook
+              dialog.  (Toshok)
+    #32352 -- The LDAP backend should be much more robust in the face of more
+              restrictive ACL's.  (Toshok)
+    #33097 -- Fix crash when changing autocomplete folder list.  Also
+              fixes #30323, #33930, and #33332.  (Toshok)
+    #34254 -- Fix case sensitive nature of vCard importer.  (Sean Gao)
+
+  * Calendar
+
+    #30993 -- Meeting request for recurring meeting should describe
+              the recurrence.  (Dan)
+
+  * Mail
+
+    #32932 -- Reopening  a Draft loses References/In-Reply-To headers.
+              (Jeff)
+    #33309 -- Errror while 'Scanning folders in "IMAP server
+              exchange.xxx.xxx"' (Michael)
+    #33933 -- Sorting by subject does not result in expected order  (Jeff)
+    #34975 -- Unable to see Inbox on SunOne IMAP server.  (Jeff)
+    #34882 -- Forwarded messages use the wrong account.  (Jeff)
+    #34315 -- Files silently lost when doing Drag and Drop.  (Jeff)
+    #34327 -- Dragging doesn't work for non-inline attachments. (Harry Lu)
+    #34975 -- Unable to view Inbox on SunOne IMAP server  (Jeff)
+
+Other fixes:
+
+  * Addressbook
+
+    - Fix scope problem where scopes would be saved as "base" and
+      "one" instead of "one" and "sub" repectively.  (Toshok)
+    - Fixed a possible (and very probable) crash involving the
+      minicard view.  (Toshok)
+    - Fixed a crash in the file backend.  (Toshok)
+
+  * Calendar
+
+    - Fixed a bunch of memory leaks related to email meeting
+      scheduling.  (Hans)
+    - Make the libical grammar files work with newer versions of
+      Bison.
+
+  * Mail
+
+    - Make the stop button work better when using SSL connections.
+      (Michael)
+
+  * Shell
+
+    - Kill old wombat processes to avoid problems for users who
+      upgrade.  (Ettore)
+    - Fixed some localization problems.  (Dan)
+    - Fixed the leaks in the settings dialog.  (Ettore)
+
+  * Other
+
+    - Fixed compliance of the .omf files with the OMF 1.0 DTD.
+      (Frederic Crozat)
+
+  * Mailer
+
+    - Fixed SSL streams to have cancellable reads and writes.
+    - Auto-subscribe the user to his/her IMAP INBOX
+
+New features:
+
+  - evolution-launch-composer command-line tool to open up the
+    composer with attachments.  (Chris Lahey, Federico)
+
+Updated translations:
+
+  - de (Christian Neumair)
+  - et (Tıivo Leedj‰rv)
+  - fr (Joaquim Fellmann)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+
+
+Evolution 1.2.0, 2002-11-06
+---------------------------
+
+Changes since 1.1.90:
+
+  - Made the default width of the mail filter editing dialog larger.
+    (Dan)
+
+  - Removed the development warning at startup.  (Ettore)
+
+
+Evolution 1.1.90, 2002-10-28
+----------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 

@@ -1,27 +1,19 @@
 SUBDIRS = glade importer
 
-INCLUDES =									\
-	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED				\
-	-DBONOBO_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED			\
-	-I$(top_srcdir)/widgets							\
-	-I$(top_srcdir)/widgets/misc						\
-	-I$(top_srcdir)/libical/src/libical					\
-	-I$(top_builddir)/libical/src/libical					\
-	-I$(top_srcdir)								\
-	-DEVOLUTION_IMAGES=\""$(datadir)/evolution-$(BASE_VERSION)/images"\"	\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"				\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"					\
-	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution-$(BASE_VERSION)/glade\"	\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"				\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"				\
-	-DPREFIX=\"$(prefix)\"							\
-	-DSYSCONFDIR=\""$(sysconfdir)"\"					\
-	-DDATADIR=\""$(datadir)"\"						\
-	-DLIBDIR=\""$(datadir)"\"						\
-	-DG_LOG_DOMAIN=\"evolution-shell\"					\
+INCLUDES = -O							\
+	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/misc				\
+	-I$(top_srcdir)/libical/src/libical			\
+	-I$(top_builddir)/libical/src/libical			\
+	-I$(top_srcdir)						\
+	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"	\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
+	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"	\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
+	-DPREFIX=\"$(prefix)\"					\
+	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(SHELL_CFLAGS)
-
-noinst_PROGRAMS = evolution evolution-test-component
 
 # Shell CORBA stuff
 
@@ -41,53 +33,58 @@ IDLS = \
 	Evolution-common.idl			\
 	Evolution.idl
 
-IDL_GENERATED_H = \
-	Evolution.h
-
-IDL_GENERATED_C = 		\
+IDL_GENERATED = \
+	Evolution.h		\
 	Evolution-common.c	\
 	Evolution-skels.c	\
 	Evolution-stubs.c
 
-IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
+Evolution-impl.o: Evolution.h
 
-$(IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
-
-$(IDL_GENERATED_C): $(IDL_GENERATED_H)
-
+$(IDL_GENERATED): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+		$(srcdir)/Evolution.idl
 
 # SelectNames CORBA stuff
 
 SELECT_NAMES_IDL = \
 	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
-SELECT_NAMES_IDL_GENERATED_H =			\
-	Evolution-Addressbook-SelectNames.h
-
-SELECT_NAMES_IDL_GENERATED_C = 			   \
+SELECT_NAMES_IDL_GENERATED = 			   \
+	Evolution-Addressbook-SelectNames.h	   \
 	Evolution-Addressbook-SelectNames-common.c \
 	Evolution-Addressbook-SelectNames-skels.c  \
 	Evolution-Addressbook-SelectNames-stubs.c
 
-SELECT_NAMES_IDL_GENERATED = $(SELECT_NAMES_IDL_GENERATED_C) $(SELECT_NAMES_IDL_GENERATED_H)
+$(SELECT_NAMES_IDL_GENERATED): $(SELECT_NAMES_IDL)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
+		$(SELECT_NAMES_IDL)
 
-$(SELECT_NAMES_IDL_GENERATED_H): $(SELECT_NAMES_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(SELECT_NAMES_IDL)
+# Wombat CORBA stuff
 
-$(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
+WOMBAT_IDL = $(top_srcdir)/wombat/Evolution-Wombat.idl
 
+WOMBAT_IDL_GENERATED =				\
+	Evolution-Wombat.h			\
+	Evolution-Wombat-common.c		\
+	Evolution-Wombat-skels.c		\
+	Evolution-Wombat-stubs.c
+
+$(WOMBAT_IDL_GENERATED): $(WOMBAT_IDL)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` $(WOMBAT_IDL)
 
 # IDL install
+
+idldir = $(datadir)/idl
 
 idl_DATA = $(IDLS)
 
 # Shell library
 
-privlib_LTLIBRARIES =	\
+lib_LTLIBRARIES =	\
 	libeshell.la
 
-eshellincludedir = $(includedir)/evolution-$(BASE_VERSION)/shell
+eshellincludedir = $(includedir)/evolution/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
@@ -130,13 +127,15 @@ libeshell_la_SOURCES = 				\
 	evolution-storage-set-view-listener.c	\
 	evolution-storage.c			\
 	evolution-wizard.c			\
-	e-shell-marshal.c			\
 	$(eshellinclude_HEADERS)
 
 # Evolution executable
 
+bin_PROGRAMS = evolution
+
 evolution_SOURCES =				\
 	$(SELECT_NAMES_IDL_GENERATED)		\
+	$(WOMBAT_IDL_GENERATED)			\
 	e-activity-handler.c			\
 	e-activity-handler.h			\
 	e-component-info.c			\
@@ -245,9 +244,10 @@ evolution_LDADD =							\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(SHELL_LIBS)
 
-evolution_LDFLAGS = -export-dynamic
-
 # Test component
+
+noinst_PROGRAMS =			\
+	evolution-test-component
 
 evolution_test_component_SOURCES =	\
 	evolution-test-component.c
@@ -257,69 +257,35 @@ evolution_test_component_LDADD = 	\
 	$(SHELL_LIBS)
 
 install-test-component: evolution-test-component
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution-test-component $(DESTDIR)$(bindir)/evolution-test-component
-	$(mkinstalldirs) $(DESTDIR)$(serverdir)
-	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.server $(DESTDIR)$(serverdir)/GNOME_Evolution_TestComponent.server
+	$(mkinstalldirs) $(DESTDIR)$(oafdir)
+	$(INSTALL_DATA) $(srcdir)/GNOME_Evolution_TestComponent.oaf $(DESTDIR)$(oafdir)/GNOME_Evolution_TestComponent.oaf
 
 # Misc stuff
 
-serverdir = $(libdir)/bonobo/servers
-server_in_files = GNOME_Evolution_Shell.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@BINDIR\@|$(bindir)|" $< > $@
+oafdir = $(datadir)/oaf
+oaf_in_files = GNOME_Evolution_Shell.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
-etspec_DATA = e-storage-set-view.etspec
+etspecdir = $(datadir)/evolution/etspec/
+etspec_DATA = \
+	e-storage-set-view.etspec
 
-@INTLTOOL_SERVER_RULE@
+@XML_I18N_MERGE_OAF_RULE@
 
 icons = 			\
 	check-empty.xpm		\
 	check-filled.xpm	\
 	check-missing.xpm
 
-# GConf schemas
-
-schemadir   = $(GCONF_SCHEMA_FILE_DIR)
-schema_DATA = apps_evolution_shell.schemas
-
-install-data-local:
-	if test -z "$(DESTDIR)" ; then												\
-		for p in $(schema_DATA) ; do											\
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p;	\
-		done														\
-	fi
-
-install-exec-local:
-	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)
-
-
-# GLib marshalling cruft
-
-e-shell-marshal.h: e-shell-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --header > e-shell-marshal.h.tmp \
-	&& mv e-shell-marshal.h.tmp e-shell-marshal.h ) \
-	|| ( rm -f e-shell-marshal.h.tmp && exit 1 )
-
-e-shell-marshal.c: e-shell-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --body > e-shell-marshal.c.tmp \
-	&& mv e-shell-marshal.c.tmp e-shell-marshal.c ) \
-	|| ( rm -f e-shell-marshal.c.tmp && exit 1 )
-
-MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
-
-# Extra dist stuff
-
 EXTRA_DIST = 					\
 	$(IDLS)					\
-	$(server_in_files)			\
-	$(server_DATA)				\
+	$(oaf_in_files)				\
+	$(oaf_DATA)				\
 	$(etspec_DATA)				\
-	$(schema_DATA)				\
 	$(icons)				\
-	GNOME_Evolution_TestComponent.server	\
-	e-shell-marshal.list			\
+	GNOME_Evolution_TestComponent.oaf	\
 	evolution-nognome.in
 
 # Purify support
@@ -336,8 +302,8 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED)
-CLEANFILES = $(BUILT_SOURCES)
+CLEANFILES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

@@ -15,8 +15,6 @@
 #undef HAVE_TM_GMTOFF
 #undef HAVE_KRB4
 #undef NEED_KRB_SENDAUTH_PROTO
-#undef HAVE_HEIMDAL_KRB5
-#undef HAVE_MIT_KRB5
 #undef HAVE_KRB5
 #undef HAVE_NSS
 #undef HAVE_OPENSSL
@@ -28,7 +26,6 @@
 #undef HAVE_BROKEN_SPOOL
 #undef ENABLE_PEDANTIC_PGPMIME
 #undef HAVE_KDE_APPLNK
-#undef GETTEXT_PACKAGE
 
 /* db3 version */
 #undef EVOLUTION_DB_VERSION_MAJOR
@@ -37,9 +34,6 @@
 
 /* Sub-version identification string.  */
 #undef SUB_VERSION
-
-/* Base version number (eg. "1.4" for "1.4.7").  */
-#undef BASE_VERSION
 
 /* Preview-release string */
 #undef VERSION_COMMENT
@@ -55,3 +49,7 @@
 
 /* Define to `int' if your system doesn't have `socklen_t'. */
 #undef socklen_t
+
+/* Define to the path to a program to kill processes given the name
+   (eg. "killall" or "killp").  */
+#undef KILL_PROCESS_CMD

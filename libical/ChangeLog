@@ -1,8 +1,11 @@
-2002-12-19  Joe Shaw  <joe@ximian.com>
+2002-11-30  Hans Petter Jansson  <hpj@ximian.com>
 
-	* configure.in: Add AC_CONFIG_AUX_DIR(..) so it looks for ylwrap in
-	the toplevel evolution directory and not our directory.  Fixes the
-	build for automake >= 1.5
+	* scripts/mkderivedparameters.pl: Generate code to free old
+	string value when a new one is set.
+
+	* src/libical/icalperiod.c (icalperiodtype_as_ical_string):
+	Callers expect a temporary string, and thus won't free it, so
+	allocate returned memory from the temporary ring.
 
 2002-11-26  Rodrigo Moya <rodrigo@ximian.com>
 
