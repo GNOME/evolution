@@ -10,38 +10,21 @@
 #include "gnome-cal.h"
 #include "gnome-month-item.h"
 #include "main.h"
+#include "mark.h"
 #include "timeutil.h"
 
 
+/* Updates the specified month item by marking it appropriately from the calendar the dialog refers
+ * to. */
 static void
-highlight_current_day (GnomeMonthItem *mitem)
+update (GnomeMonthItem *mitem, GtkWidget *dialog)
 {
-	struct tm *tm;
-	time_t t;
-	GnomeCanvasItem *label;
-	int i;
+	GnomeCalendar *gcal;
 
-	t = time (NULL);
-	tm = localtime (&t);
+	gcal = GNOME_CALENDAR (gtk_object_get_data (GTK_OBJECT (dialog), "gnome_calendar"));
 
-	/* First clear all the days to normal */
-
-	for (i = 0; i < 42; i++) {
-		label = gnome_month_item_num2child (mitem, i + GNOME_MONTH_ITEM_DAY_LABEL);
-		gnome_canvas_item_set (label,
-				       "fill_color", "black",
-				       NULL);
-	}
-
-	/* Highlight the current day, if appropriate */
-
-	if ((mitem->year == (tm->tm_year + 1900)) && (mitem->month == tm->tm_mon)) {
-		i = gnome_month_item_day2index (mitem, tm->tm_mday);
-		label = gnome_month_item_num2child (mitem, i + GNOME_MONTH_ITEM_DAY_LABEL);
-		gnome_canvas_item_set (label,
-				       "fill_color", "blue",
-				       NULL);
-	}
+	unmark_month_item (mitem);
+	mark_month_item (mitem, gcal->cal);
 }
 
 /* Callback used when the year adjustment is changed */
@@ -54,7 +37,7 @@ year_changed (GtkAdjustment *adj, GtkWidget *dialog)
 	gnome_canvas_item_set (mitem,
 			       "year", (int) adj->value,
 			       NULL);
-	highlight_current_day (GNOME_MONTH_ITEM (mitem));
+	update (GNOME_MONTH_ITEM (mitem), dialog);
 }
 
 /* Creates the year control with its adjustment */
@@ -99,7 +82,7 @@ month_toggled (GtkToggleButton *toggle, gpointer data)
 	gnome_canvas_item_set (mitem,
 			       "month", GPOINTER_TO_INT (data),
 			       NULL);
-	highlight_current_day (GNOME_MONTH_ITEM (mitem));
+	update (GNOME_MONTH_ITEM (mitem), dialog);
 }
 
 /* Creates the months control */
@@ -236,7 +219,7 @@ create_days (GtkWidget *dialog, GnomeCalendar *gcal, int day, int month, int yea
 			       "start_on_monday", week_starts_on_monday,
 			       "heading_color", "white",
 			       NULL);
-	highlight_current_day (GNOME_MONTH_ITEM (mitem));
+	update (GNOME_MONTH_ITEM (mitem), dialog);
 
 	gtk_object_set_data (GTK_OBJECT (dialog), "month_item", mitem);
 

@@ -10,6 +10,7 @@
 #include <libgnomeui/gnome-canvas-text.h>
 #include "year-view.h"
 #include "main.h"
+#include "mark.h"
 #include "timeutil.h"
 
 
@@ -284,107 +285,7 @@ year_view_update (YearView *yv, iCalObject *object, int flags)
 	if (object && ((flags & CHANGE_SUMMARY) == flags))
 		return;
 
-	year_view_set (yv, time_year_begin (yv->year));
-}
-
-/* Unmarks all the days in the year view by setting their boxes and labels to the default colors */
-static void
-unmark_days (YearView *yv)
-{
-	GnomeCanvasItem *item;
-	int i, j;
-
-	for (i = 0; i < 12; i++)
-		for (j = 0; j < 42; j++) {
-			/* Box */
-
-			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (yv->mitems[i]),
-							   GNOME_MONTH_ITEM_DAY_BOX + j);
-			gnome_canvas_item_set (item,
-					       "fill_color", "#d6d6d6d6d6d6",
-					       NULL);
-
-			/* Label */
-
-			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (yv->mitems[i]),
-							   GNOME_MONTH_ITEM_DAY_LABEL + j);
-			gnome_canvas_item_set (item,
-					       "fill_color", "black",
-					       NULL);
-		}
-}
-
-/* Marks all the days that fall into the specified time span */
-static void
-mark_event (YearView *yv, time_t start, time_t end)
-{
-	time_t t;
-	struct tm tm;
-	int day_index;
-	GnomeCanvasItem *mitem, *item;
-
-	tm = *localtime (&start);
-	end = time_end_of_day (end);
-
-	for (t = start; t < end; t += 60 * 60 * 24) {
-		mktime (&tm); /* normalize the time */
-
-		/* We need this comparison because an event may span more than one year (!).
-		 * Yes, this is not the most efficient way of doing this (we could just clip
-		 * the event to the current year), but it will do for now.
-		 */
-
-		if ((tm.tm_year + 1900) == yv->year) {
-			/* Figure out the month item and day index that correspond to this time */
-
-			mitem = yv->mitems[tm.tm_mon];
-			day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mitem), tm.tm_mday);
-			g_assert (day_index != -1);
-
-			/* Mark the day box */
-
-			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem),
-							   GNOME_MONTH_ITEM_DAY_BOX + day_index);
-			gnome_canvas_item_set (item,
-					       "fill_color", "tan",
-					       NULL);
-
-			/* Mark the day label */
-
-			item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem),
-							   GNOME_MONTH_ITEM_DAY_LABEL + day_index);
-			gnome_canvas_item_set (item,
-					       "fill_color", "black",
-					       NULL);
-		}
-
-		/* Next day */
-
-		tm.tm_mday++;
-	}
-}
-
-/* Queries the calendar for all the events in the current year and marks the days that have at least
- * one event in them.
- */
-static void
-mark_days (YearView *yv)
-{
-	time_t year_begin, year_end;
-	GList *list, *l;
-	CalendarObject *co;
-
-	year_begin = time_year_begin (yv->year);
-	year_end = time_year_end (yv->year);
-
-	list = calendar_get_events_in_range (yv->calendar->cal, year_begin, year_end);
-
-	for (l = list; l; l = l->next) {
-		co = l->data;
-		mark_event (yv, co->ev_start, co->ev_end);
-	}
-
-	calendar_destroy_event_list (list);
+	year_view_set (yv, time_year_begin (time_from_day (yv->year, 0, 1)));
 }
 
 void
@@ -415,8 +316,12 @@ year_view_set (YearView *yv, time_t year)
 				       "month", i,
 				       NULL);
 
-	unmark_days (yv);
-	mark_days (yv);
+	/* Unmark and re-mark all the months */
+
+	for (i = 0; i < 12; i++) {
+		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
+		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
+	}
 }
 
 void
@@ -432,5 +337,5 @@ year_view_time_format_changed (YearView *yv)
 				       "start_on_monday", week_starts_on_monday,
 				       NULL);
 
-	year_view_set (yv, time_year_begin (yv->year));
+	year_view_set (yv, time_year_begin (time_from_day (yv->year, 0, 1)));
 }

@@ -1028,6 +1028,8 @@ gncal_full_day_destroy (GtkObject *object)
 	}
 
 	g_list_free (fullday->children);
+	fullday->children = NULL;
+
 	g_free (fullday->drag_info);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)

@@ -20,7 +20,7 @@ int    get_time_t_hour          (time_t t);
 int    isodiff_to_secs          (char *str);
 char   *isodiff_from_secs       (int secs);
 
-time_t time_add_minutes  (time_t time, int minutes);
+time_t time_add_minutes (time_t time, int minutes);
 time_t time_add_day (time_t time, int days);
 time_t time_add_week (time_t time, int weeks);
 time_t time_add_month (time_t time, int months);
@@ -33,19 +33,40 @@ time_t time_add_year (time_t time, int years);
  */
 char *format_simple_hour (int hour, int use_am_pm);
 
-/* Converts the specified date to a time_t at the start of the specified day */
+/* Returns the number of days in the specified month.  Years are full years (starting from year 1).
+ * Months are in [0, 11].
+ */
+int time_days_in_month (int year, int month);
+
+/* Converts the specified date to a time_t at the start of the specified day.  Years are full years
+ * (starting from year 1).  Months are in [0, 11].  Days are 1-based.
+ */
 time_t time_from_day (int year, int month, int day);
 
 time_t time_start_of_day (time_t t);
 time_t time_end_of_day   (time_t t);
 time_t time_day_hour     (time_t t, int hour);
-time_t time_year_begin   (int    year);
-time_t time_year_end     (int    year);
-time_t time_week_begin   (time_t t);
-time_t parse_date        (char *str);
-time_t time_month_begin  (time_t t);
-time_t time_month_end    (time_t t);
 
+/* These two functions take a time value and return the beginning or end of the corresponding year,
+ * respectively.
+ */
+time_t time_year_begin (time_t t);
+time_t time_year_end (time_t t);
+
+/* These two functions take a time value and return the beginning or end of the corresponding month,
+ * respectively.
+ */
+time_t time_month_begin (time_t t);
+time_t time_month_end (time_t t);
+
+/* These functions take a time value and return the beginning or end of the corresponding week,
+ * respectively.
+ */
+time_t time_week_begin (time_t t);
+time_t time_week_end (time_t t);
+
+time_t parse_date (char *str);
 void print_time_t (time_t t);
+
 
 #endif

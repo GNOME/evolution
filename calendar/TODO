@@ -1,5 +1,8 @@
 BUGS:
 
+- Goto dialog: fix recoloring of marked days when a LeaveNotify event
+  is gotten for an item.
+
 - Recurrence end date is wrong.  An event that repeats daily will not
   be included in the ending date of the recurrence (off-by-one error?).
 

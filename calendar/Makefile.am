@@ -38,6 +38,8 @@ gnomecal_SOURCES = \
 	goto.c			\
 	main.c			\
 	main.h			\
+	mark.c			\
+	mark.h			\
 	month-view.c		\
 	month-view.h		\
 	popup-menu.c		\

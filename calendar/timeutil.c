@@ -171,6 +171,30 @@ time_day_hour (time_t t, int hour)
 	return mktime (&tm);
 }
 
+/* Number of days in a month, for normal and leap years */
+static const int days_in_month[2][12] = {
+	{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+	{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+};
+
+/* Returns whether the specified year is a leap year */
+static int
+is_leap_year (int year)
+{
+	if (year <= 1752)
+		return !(year % 4);
+	else
+		return (!(year % 4) && (year % 100)) || !(year % 400);
+}
+
+int
+time_days_in_month (int year, int month)
+{
+	g_return_val_if_fail (year >= 1900, 0);
+	g_return_val_if_fail ((month >= 0) && (month < 12), 0);
+
+	return days_in_month [is_leap_year (year)][month];
+}
 
 time_t
 time_from_day (int year, int month, int day)
@@ -213,36 +237,60 @@ time_end_of_day (time_t t)
 }
 
 time_t
-time_year_begin (int year)
+time_year_begin (time_t t)
 {
 	struct tm tm;
-	time_t retval;
-	
+
+	tm = *localtime (&t);
 	tm.tm_hour = 0;
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
-	tm.tm_year = year - 1900;
 	tm.tm_mon  = 0;
 	tm.tm_mday = 1;
-	tm.tm_isdst = -1;
-	
-	retval = mktime (&tm);
-	return retval;
+
+	return mktime (&tm);
 }
 
 time_t
-time_year_end (int year)
+time_year_end (time_t t)
 {
 	struct tm tm;
-	
+
+	tm = *localtime (&t);
 	tm.tm_hour = 23;
 	tm.tm_min  = 59;
 	tm.tm_sec  = 59;
-	tm.tm_year = year - 1900;
 	tm.tm_mon  = 11;
 	tm.tm_mday = 31;
-	tm.tm_isdst = -1;
-	
+
+	return mktime (&tm);
+}
+
+time_t
+time_month_begin (time_t t)
+{
+	struct tm tm;
+
+	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_mday = 1;
+
+	return mktime (&tm);
+}
+
+time_t
+time_month_end (time_t t)
+{
+	struct tm tm;
+
+	tm = *localtime (&t);
+	tm.tm_hour = 23;
+	tm.tm_min  = 59;
+	tm.tm_sec  = 59;
+	tm.tm_mday = time_days_in_month (tm.tm_year + 1900, tm.tm_mon);
+
 	return mktime (&tm);
 }
 

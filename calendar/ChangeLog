@@ -1,3 +1,36 @@
+1998-08-29  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* mark.[ch]: New files with utility functions to mark calendars
+	with their events.
+
+	* mark.c (mark_month_item): New public function to mark a month
+	item with events.
+	(unmark_month_item): New public function to unmark all the days in
+	a month item to their default appearance.
+
+	* year-view.c (year_view_set): Use the new unmark_month_item() and
+	mark_month_item() to mark the months with events.
+
+	* goto.c (update): New function that updates the calendar in the
+	Go-to dialog by marking the days.
+
+	* timeutil.c (time_year_begin): Modified to take a time_t value.
+	(time_year_end): Likewise.
+	(time_month_begin): Actually implemented this function, which was
+	in the header file but not here.
+	(time_days_in_month): New public function that returns the number
+	of days in a month.
+
+	* Makefile.am (gnomecal_SOURCES): Added mark.[ch] to the sources.
+
+	* year-view.c (unmark_days): Use unmark_month_item().
+
+	* gncal-full-day.c (gncal_full_day_destroy): Fixed crash when
+	destroying the full day view.  The full day's destroy method is
+	unusual in that it destroys the list of child widgets itself, as
+	it does not have a remove method, so it needs to reset the list to
+	NULL.
+
 1998-08-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gnome-month-item.c (build_month): Now does the correct thing

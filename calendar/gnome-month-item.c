@@ -15,7 +15,7 @@
 
 
 /* Number of days in a month, for normal and leap years */
-static int days_in_month[2][12] = {
+static const int days_in_month[2][12] = {
 	{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
 	{ 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 };
@@ -23,7 +23,7 @@ static int days_in_month[2][12] = {
 /* The weird month of September 1752, where 3 Sep through 13 Sep were eliminated due to the
  * Gregorian reformation.
  */
-static int sept_1752[42] = {
+static const int sept_1752[42] = {
 	 0,  0,  1,  2, 14, 15, 16,
 	17, 18, 19, 20, 21, 22, 23,
 	24, 25, 26, 27, 28, 29, 30,
