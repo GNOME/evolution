@@ -44,6 +44,7 @@
 
 #include "e-shell.h"
 #include "e-shell-view.h"
+#include "e-local-storage.h" /* for E_LOCAL_STORAGE_NAME */
 #include "e-shell-folder-selection-dialog.h"
 
 #include "importer/evolution-importer-client.h"
@@ -341,6 +342,7 @@ start_import (const char *folderpath,
 	ImporterComponentData *icd;
 	char *label;
 	char *real_iid;
+	char *localpath;
 	struct stat buf;
 	
 	if (stat (filename, &buf) == -1) {
@@ -350,6 +352,15 @@ start_import (const char *folderpath,
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, message);
 		g_free (message);
 
+		return;
+	}
+
+	/* Only allow importing to /local */
+	localpath = "/" E_LOCAL_STORAGE_NAME "/";
+	if (strncmp (folderpath, localpath, strlen (localpath))) {
+		char *message;
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("You may only import to local folders"));
 		return;
 	}
 
