@@ -3,6 +3,12 @@ Evolution 1.4.5, 2003-09-12
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #46706 - Evo hangs when forward one contact. (gilbert.fang@sun.com)
+
+  * Calendar
+
   * Calendar
 
     #29032 - "% finished" changes if status is touched (Hans Petter)
@@ -65,6 +71,13 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              (Calvin Liu)
 
 Other bugs fixed:
+
+  * Addressbook
+
+    - unref the EComponentListener before unloading the CORBA object. (Rodrigo)
+    - Chain lots of destroy/dispose methods throughout the addressbook,
+      and free some double free/unrefs.  (Hans Petter)
+    - Build/install related fixes for libebook/libeselectnames. (Dan)
 
   * Calendar
 
