@@ -419,7 +419,7 @@ migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_co
 	/* migrate the local addressbook first, to OnThisComputer/Personal */
 	local_contact_folder = g_build_filename (g_get_home_dir (), "/evolution/local/Contacts",
 						 NULL);
-	source_name = "Personal";
+	source_name = _("Personal");
 	migrate_contact_folder (local_contact_folder, on_this_computer, source_name);
 
 	for (l = dirs; l; l = l->next) {
