@@ -1,5 +1,22 @@
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel.c (camel_init): So it turns out that NSS_Init *isn't*
+	idempotent, so we have to protect against initializing it more
+	than once(contrary to what their design specs suggest).
+
+	* camel-session.c (camel_session_get_service): Use
+	camel_exception_is_set() - Makes no difference but it's more
+	consistant with how we normally do it.
+
+	* camel-provider.h (CAMEL_URL_ALLOW_SSL): We don't need this.
+
+	* providers/imap/camel-imap-provider.c: Define the imaps provider.
+	(camel_provider_module_init): Register the imaps provider.
+
+	* camel-provider.c (camel_provider_init): Only add the protocol to
+	the hash table if it's non empty. Also, g_strdup() the filename
+	into the hash table.
+
 	* providers/imap/camel-imap-store.c (camel_imap_store_init): Eek!
 	So the service's URL isn't set until after this is
 	initialized. This means we can't check for SSL here.

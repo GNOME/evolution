@@ -61,8 +61,7 @@ camel_provider_init (void)
 	DIR *dir;
 	struct dirent *d;
 	char *p, *name, buf[80];
-	FILE *f;
-
+	
 	providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 
 	dir = opendir (CAMEL_PROVIDERDIR);
@@ -73,30 +72,35 @@ camel_provider_init (void)
 	}
 
 	while ((d = readdir (dir))) {
+		FILE *fp;
+		
 		p = strchr (d->d_name, '.');
 		if (!p || strcmp (p, ".urls") != 0)
 			continue;
 
 		name = g_strdup_printf ("%s/%s", CAMEL_PROVIDERDIR, d->d_name);
-		f = fopen (name, "r");
-		if (!f) {
+		fp = fopen (name, "r");
+		if (!fp) {
 			g_warning ("Could not read provider info file %s: %s",
 				   name, g_strerror (errno));
 			g_free (name);
 			continue;
 		}
-
+		
 		p = strrchr (name, '.');
 		strcpy (p, ".so");
-		while ((fgets (buf, sizeof (buf), f))) {
+		while ((fgets (buf, sizeof (buf), fp))) {
 			buf[sizeof (buf) - 1] = '\0';
 			p = strchr (buf, '\n');
 			if (p)
 				*p = '\0';
-
-			g_hash_table_insert (providers, g_strdup (buf), name);
+			
+			if (*buf)
+				g_hash_table_insert (providers, g_strdup (buf), g_strdup (name));
 		}
-		fclose (f);
+		
+		g_free (name);
+		fclose (fp);
 	}
 
 	closedir (dir);

@@ -308,8 +308,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		path = g_hash_table_lookup (session->modules, url->protocol);
 		if (path) {
 			camel_provider_load (session, path, ex);
-			if (camel_exception_get_id (ex) !=
-			    CAMEL_EXCEPTION_NONE) {
+			if (camel_exception_is_set (ex)) {
 				camel_url_free (url);
 				CAMEL_SESSION_UNLOCK(session, lock);
 				return NULL;

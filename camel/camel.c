@@ -27,8 +27,8 @@
 #include "camel.h"
 #include <unicode.h>
 #ifdef HAVE_NSS
-#include <mozilla/nspr.h>
-#include <mozilla/prthread.h>
+#include <nspr.h>
+#include <prthread.h>
 #include <nss.h>
 #include <ssl.h>
 #endif /* HAVE_NSS */
@@ -36,7 +36,7 @@
 gboolean camel_verbose_debug = FALSE;
 
 gint
-camel_init (const char *certdb)
+camel_init (const char *certdb_dir, gboolean nss_init)
 {
 #ifdef ENABLE_THREADS
 #ifdef G_THREADS_ENABLED	
@@ -52,14 +52,16 @@ camel_init (const char *certdb)
 	unicode_init ();
 	
 #ifdef HAVE_NSS
-	PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);
-	
-	if (NSS_Init ("/home/fejj/.mozilla/default") == SECFailure) {
-		g_warning ("Failed to initialize NSS");
-		return -1;
+	if (nss_init) {
+		PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);
+		
+		if (NSS_Init ("/home/fejj/.mozilla/default") == SECFailure) {
+			g_warning ("Failed to initialize NSS");
+			return -1;
+		}
+		
+		NSS_SetDomesticPolicy ();
 	}
-	
-	NSS_SetDomesticPolicy ();
 	
 	SSL_OptionSetDefault (SSL_ENABLE_SSL2, PR_TRUE);
 	SSL_OptionSetDefault (SSL_ENABLE_SSL3, PR_TRUE);

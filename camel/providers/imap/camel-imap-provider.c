@@ -46,23 +46,54 @@ static CamelProvider imap_provider = {
 	CAMEL_PROVIDER_IS_STORAGE,
 
 	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST |
-	CAMEL_URL_ALLOW_PATH | CAMEL_URL_ALLOW_AUTH |
-	CAMEL_URL_ALLOW_SSL,
+	CAMEL_URL_ALLOW_PATH | CAMEL_URL_ALLOW_AUTH,
 
 	{ 0, 0 },
 
 	NULL
 };
 
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+static CamelProvider imaps_provider = {
+	"imaps",
+	N_("Secure IMAPv4"),
+
+	N_("For reading and storing mail on IMAP servers over an SSL connection."),
+
+	"mail",
+
+	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE |
+	CAMEL_PROVIDER_IS_STORAGE,
+
+	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST |
+	CAMEL_URL_ALLOW_PATH | CAMEL_URL_ALLOW_AUTH,
+
+	{ 0, 0 },
+
+	NULL
+};
+#endif /* HAVE_NSS or HAVE_OPENSSL */
+
 void
 camel_provider_module_init (CamelSession *session)
 {
 	imap_provider.object_types[CAMEL_PROVIDER_STORE] =
-		camel_imap_store_get_type();
-
+		camel_imap_store_get_type ();
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	imaps_provider.object_types[CAMEL_PROVIDER_STORE] = 
+		camel_imap_store_get_type ();
+#endif
+	
 	imap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
-
+	
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	imaps_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
+#endif
+	
 	camel_session_register_provider (session, &imap_provider);
+#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	camel_session_register_provider (session, &imaps_provider);
+#endif
 }
 
 static void
