@@ -948,8 +948,10 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	response = camel_imap_command (imap_store, NULL, NULL,
 				       "SELECT %F", folder_name);
 	if (!response) {
-		if (!flags & CAMEL_STORE_FOLDER_CREATE)
+		if (!flags & CAMEL_STORE_FOLDER_CREATE) {
+			CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 			return no_such_folder (folder_name, ex);
+		}
 		
 		response = camel_imap_command (imap_store, NULL, ex,
 					       "CREATE %F", folder_name);
