@@ -227,7 +227,6 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 				CAMEL_STORE_LOCK(store, cache_lock);
 				
 				g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
-				camel_object_ref (CAMEL_OBJECT (folder));
 				
 				camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
 				CAMEL_STORE_UNLOCK(store, cache_lock);
@@ -439,6 +438,16 @@ sync_folder (gpointer key, gpointer folder, gpointer ex)
 {
 	if (!camel_exception_is_set (ex))
 		camel_folder_sync (folder, FALSE, ex);
+	
+	camel_object_unref (CAMEL_OBJECT (folder));
+	g_free (key);
+}
+
+static void
+copy_folder_cache (gpointer key, gpointer folder, gpointer hash)
+{
+	g_hash_table_insert ((GHashTable *) hash, g_strdup (key), folder);
+	camel_object_ref (CAMEL_OBJECT (folder));
 }
 
 static void
@@ -446,12 +455,19 @@ store_sync (CamelStore *store, CamelException *ex)
 {
 	if (store->folders) {
 		CamelException internal_ex;
-	
+		GHashTable *hash;
+		
+		hash = g_hash_table_new (CS_CLASS (store)->hash_folder_name,
+					 CS_CLASS (store)->compare_folder_name);
+		
 		camel_exception_init (&internal_ex);
 		CAMEL_STORE_LOCK(store, cache_lock);
-		g_hash_table_foreach (store->folders, sync_folder, &internal_ex);
+		g_hash_table_foreach (store->folders, copy_folder_cache, hash);
 		CAMEL_STORE_UNLOCK(store, cache_lock);
 		camel_exception_xfer (ex, &internal_ex);
+		
+		g_hash_table_foreach (hash, sync_folder, &internal_ex);
+		g_hash_table_destroy (hash);
 	}
 }
 
