@@ -65,6 +65,7 @@
 #include <widgets/misc/e-dateedit.h>
 #include "component-factory.h"
 #include "calendar-config.h"
+#include "e-meeting-utils.h"
 #include "e-meeting-time-sel-item.h"
 
 /* An array of hour strings for 24 hour time, "0:00" .. "23:00". */
@@ -139,8 +140,6 @@ static void e_meeting_time_selector_table_vadjustment_changed (GtkAdjustment *ad
 static void e_meeting_time_selector_on_canvas_realized (GtkWidget *widget,
 							EMeetingTimeSelector *mts);
 
-static gint e_meeting_time_selector_compare_times (EMeetingTime*time1,
-						   EMeetingTime*time2);
 static void e_meeting_time_selector_on_options_button_clicked (GtkWidget *button,
 							       EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
@@ -211,7 +210,9 @@ static void e_meeting_time_selector_update_end_date_edit (EMeetingTimeSelector *
 static void e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_update_dates_shown (EMeetingTimeSelector *mts);
 
-static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
+static void rows_inserted_cb (ETableModel *etm, int row, int count, gpointer data);
+static void cell_changed_cb (ETableModel *etm, int row, int col, gpointer data);
+static void rows_deleted_cb (ETableModel *etm, int row, int count, gpointer data);
 static void sort_info_changed_cb (ETableSortInfo *info, gpointer data);
 
 static GtkTableClass *parent_class;
@@ -354,9 +355,11 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 		gtk_object_ref (GTK_OBJECT (mts->model));
 
 	gtk_signal_connect (GTK_OBJECT (mts->model), "model_rows_inserted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), mts);
+			    GTK_SIGNAL_FUNC (rows_inserted_cb), mts);
+	gtk_signal_connect (GTK_OBJECT (mts->model), "model_cell_changed",
+			    GTK_SIGNAL_FUNC (cell_changed_cb), mts);
 	gtk_signal_connect (GTK_OBJECT (mts->model), "model_rows_deleted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), mts);
+			    GTK_SIGNAL_FUNC (rows_deleted_cb), mts);
 
 	mts->etable = GTK_WIDGET (e_meeting_model_etable_from_model (mts->model,
 								EVOLUTION_ETSPECDIR "/e-meeting-time-sel.etspec",
@@ -1228,6 +1231,35 @@ e_meeting_time_selector_set_zoomed_out (EMeetingTimeSelector *mts,
 	gtk_widget_queue_draw (mts->display_main);
 }
 
+static void
+e_meeting_time_selector_refresh_cb (gpointer data) 
+{
+	EMeetingTimeSelector *mts = data;
+	gtk_widget_queue_draw (mts->display_top);
+	gtk_widget_queue_draw (mts->display_main);
+}
+
+static void
+e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, gboolean all)
+{
+	EMeetingTime start, end;
+	
+	start = mts->meeting_start_time;
+	g_date_subtract_days (&start.date, E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE);
+	start.hour = 0;
+	start.minute = 0;
+	end = mts->meeting_end_time;
+	g_date_add_days (&end.date, E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER);
+	end.hour = 0;
+	end.minute = 0;	
+
+	if (all)
+		e_meeting_model_refresh_all_busy_periods (mts->model, &start, &end, 
+							  e_meeting_time_selector_refresh_cb, mts);
+	else
+		e_meeting_model_refresh_busy_periods (mts->model, row, &start, &end, 
+						      e_meeting_time_selector_refresh_cb, mts);
+}
 
 EMeetingTimeSelectorAutopickOption
 e_meeting_time_selector_get_autopick_option (EMeetingTimeSelector *mts)
@@ -1280,32 +1312,6 @@ e_meeting_time_selector_attendee_set_send_meeting_to (EMeetingTimeSelector *mts,
 	attendee->send_meeting_to = send_meeting_to;
 }
 #endif
-
-static gint
-e_meeting_time_selector_compare_times (EMeetingTime*time1,
-				       EMeetingTime*time2)
-{
-	gint day_comparison;
-
-	day_comparison = g_date_compare (&time1->date,
-					 &time2->date);
-	if (day_comparison != 0)
-		return day_comparison;
-
-	if (time1->hour < time2->hour)
-		return -1;
-	if (time1->hour > time2->hour)
-		return 1;
-
-	if (time1->minute < time2->minute)
-		return -1;
-	if (time1->minute > time2->minute)
-		return 1;
-
-	/* The start times are exactly the same. */
-	return 0;
-}
-
 
 /*
  * DEBUGGING ROUTINES - functions to output various bits of data.
@@ -1437,35 +1443,15 @@ e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
 }
 
 static void
-e_meeting_time_selector_refresh_cb (gpointer data) 
-{
-	EMeetingTimeSelector *mts = data;
-	gtk_widget_queue_draw (mts->display_top);
-	gtk_widget_queue_draw (mts->display_main);
-}
-
-static void
 e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
 					     EMeetingTimeSelector *mts)
 {
-	EMeetingTime start, end;
-	
 	/* Make sure the menu pops down, which doesn't happen by default if
 	   keyboard accelerators are used. */
 	if (GTK_WIDGET_VISIBLE (mts->options_menu))
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
-
-	start = mts->meeting_start_time;
-	g_date_subtract_days (&start.date, E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE);
-	start.hour = 0;
-	start.minute = 0;
-	end = mts->meeting_end_time;
-	g_date_add_days (&end.date, E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER);
-	end.hour = 0;
-	end.minute = 0;	
-	e_meeting_model_refresh_busy_periods (mts->model, &start, &end, 
-					      e_meeting_time_selector_refresh_cb, mts);
+	e_meeting_time_selector_refresh_free_busy (mts, 0, TRUE);
 }
 
 
@@ -1590,10 +1576,10 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 					   available, in case we don't find any
 					   free resources. */
 					if (forward) {
-						if (!resource_free || e_meeting_time_selector_compare_times (resource_free, &period->end) > 0)
+						if (!resource_free || e_meeting_time_compare_times (resource_free, &period->end) > 0)
 							resource_free = &period->end;
 					} else {
-						if (!resource_free || e_meeting_time_selector_compare_times (resource_free, &period->start) < 0)
+						if (!resource_free || e_meeting_time_compare_times (resource_free, &period->start) < 0)
 							resource_free = &period->start;
 					}
 
@@ -1897,13 +1883,13 @@ e_meeting_time_selector_find_time_clash (EMeetingTimeSelector *mts,
 		/* If the period starts at or after the end time, there is no
 		   clash and we are finished. The busy periods are sorted by
 		   their start times, so all the rest will be later. */
-		if (e_meeting_time_selector_compare_times (&period->start, end_time) >= 0)
+		if (e_meeting_time_compare_times (&period->start, end_time) >= 0)
 			return NULL;
 
 		/* If the period ends after the start time, we have found a
 		   clash. From the above test we already know the busy period
 		   isn't completely after the meeting time. */
-		if (e_meeting_time_selector_compare_times (&period->end, start_time) > 0)
+		if (e_meeting_time_compare_times (&period->end, start_time) > 0)
 			return period;
 
 		period_num++;
@@ -2178,7 +2164,7 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 	mtstime.minute = minute;
 
 	/* If the time hasn't changed, just return. */
-	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_start_time) == 0)
+	if (e_meeting_time_compare_times (&mtstime, &mts->meeting_start_time) == 0)
 		return;
 
 	/* Calculate the current meeting duration. */
@@ -2226,14 +2212,14 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 	mtstime.minute = minute;
 
 	/* If the time hasn't changed, just return. */
-	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_end_time) == 0)
+	if (e_meeting_time_compare_times (&mtstime, &mts->meeting_end_time) == 0)
 		return;
 
 	/* Set the new end time. */
 	mts->meeting_end_time = mtstime;
 
 	/* If the start time is after the end time, set it to the same time. */
-	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_start_time) <= 0) {
+	if (e_meeting_time_compare_times (&mtstime, &mts->meeting_start_time) <= 0) {
 		/* We set it first, before updating the widget, so the signal
 		   handler will just return. */
 		mts->meeting_start_time = mtstime;
@@ -2392,9 +2378,9 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	e_meeting_time_selector_fix_time_overflows (&drag_time);
 
 	/* Now make sure we are between first_time & last_time. */
-	if (e_meeting_time_selector_compare_times (&drag_time, &first_time) < 0)
+	if (e_meeting_time_compare_times (&drag_time, &first_time) < 0)
 		drag_time = first_time;
-	if (e_meeting_time_selector_compare_times (&drag_time, &last_time) > 0)
+	if (e_meeting_time_compare_times (&drag_time, &last_time) > 0)
 		drag_time = last_time;
 
 	/* Set the meeting start or end time to drag_time. */
@@ -2404,23 +2390,23 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 		time_to_set = &mts->meeting_end_time;
 
 	/* If the time is unchanged, just return. */
-	if (e_meeting_time_selector_compare_times (time_to_set, &drag_time) == 0)
+	if (e_meeting_time_compare_times (time_to_set, &drag_time) == 0)
 		return;
 
 	/* Don't let an empty occur for all day events */
 	if (mts->all_day
 	    && mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START
-	    && e_meeting_time_selector_compare_times (&mts->meeting_end_time, &drag_time) == 0)
+	    && e_meeting_time_compare_times (&mts->meeting_end_time, &drag_time) == 0)
 		return;
 	else if (mts->all_day
 		&& mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
-		&& e_meeting_time_selector_compare_times (&mts->meeting_start_time, &drag_time) == 0)
+		&& e_meeting_time_compare_times (&mts->meeting_start_time, &drag_time) == 0)
 		return;
 	
 	*time_to_set = drag_time;
 
 	/* Check if the start time and end time need to be switched. */
-	if (e_meeting_time_selector_compare_times (&mts->meeting_start_time,
+	if (e_meeting_time_compare_times (&mts->meeting_start_time,
 						   &mts->meeting_end_time) > 0) {
 		drag_time = mts->meeting_start_time;
 		mts->meeting_start_time = mts->meeting_end_time;
@@ -2548,7 +2534,7 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 		time_to_set = &mts->meeting_end_time;
 
 	/* If the time is unchanged, just return. */
-	if (e_meeting_time_selector_compare_times (time_to_set, &drag_time) == 0) {
+	if (e_meeting_time_compare_times (time_to_set, &drag_time) == 0) {
 		GDK_THREADS_LEAVE ();
 		goto scroll;
 	}
@@ -2556,17 +2542,17 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	/* Don't let an empty occur for all day events */
 	if (mts->all_day
 	    && mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START
-	    && e_meeting_time_selector_compare_times (&mts->meeting_end_time, &drag_time) == 0)
+	    && e_meeting_time_compare_times (&mts->meeting_end_time, &drag_time) == 0)
 		goto scroll;
 	else if (mts->all_day
 		&& mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
-		&& e_meeting_time_selector_compare_times (&mts->meeting_start_time, &drag_time) == 0)
+		&& e_meeting_time_compare_times (&mts->meeting_start_time, &drag_time) == 0)
 		goto scroll;
 
 	*time_to_set = drag_time;
 
 	/* Check if the start time and end time need to be switched. */
-	if (e_meeting_time_selector_compare_times (&mts->meeting_start_time, &mts->meeting_end_time) > 0) {
+	if (e_meeting_time_compare_times (&mts->meeting_start_time, &mts->meeting_end_time) > 0) {
 		drag_time = mts->meeting_start_time;
 		mts->meeting_start_time = mts->meeting_end_time;
 		mts->meeting_end_time = drag_time;
@@ -2845,7 +2831,37 @@ e_meeting_time_selector_calculate_time_position (EMeetingTimeSelector *mts,
 }
 
 static void
-row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
+rows_inserted_cb (ETableModel *etm, int row, int count, gpointer data)
+{
+	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
+	int i;
+	
+	/* Update the scroll region. */
+	e_meeting_time_selector_update_main_canvas_scroll_region (mts);
+
+	/* Redraw */
+	gtk_widget_queue_draw (mts->display_top);
+	gtk_widget_queue_draw (mts->display_main);
+
+	/* Get the latest free/busy info */
+	for (i = 0; i < count; i++)
+		e_meeting_time_selector_refresh_free_busy (mts, row + i, FALSE);
+}
+
+static void
+cell_changed_cb (ETableModel *etm, int col, int row, gpointer data)
+{
+	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
+
+	if (col != E_MEETING_MODEL_ADDRESS_COL)
+		return;
+
+	/* Get the latest free/busy info */
+	e_meeting_time_selector_refresh_free_busy (mts, row, FALSE);
+}
+
+static void
+rows_deleted_cb (ETableModel *etm, int row, int count, gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
 
