@@ -197,6 +197,54 @@ pixbuf_height (ECellView *ecell_view, int model_col, int view_col, int row)
     return gdk_pixbuf_get_height (pixbuf) + 6;
 }
 
+/*
+ * ECell::print method
+ */
+static void
+pixbuf_print (ECellView *ecell_view, GnomePrintContext *context, 
+	      int model_col, int view_col, int row,
+	      double width, double height)
+{
+	GdkPixbuf *pixbuf;
+	int scale;
+
+	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+	if (pixbuf == NULL)
+		return;
+	scale = gdk_pixbuf_get_height (pixbuf);
+	
+	gnome_print_gsave(context);
+
+	gnome_print_translate (context, 0, (height - scale) / 2);
+	gnome_print_scale (context, scale, scale);
+	gnome_print_pixbuf (context, pixbuf);
+	
+	gnome_print_grestore(context);
+}
+
+static gdouble
+pixbuf_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+		     int model_col, int view_col, int row,
+		     double width)
+{
+	GdkPixbuf *pixbuf;
+
+	if (row == -1) {
+		if (e_table_model_row_count (ecell_view->e_table_model) > 0) {
+			row = 0;
+		} else {
+			return 6;
+		}
+	}
+	
+	pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+	if (!pixbuf)
+		return 0;
+	
+	/* We give ourselves 3 pixels of padding on either side */
+	return gdk_pixbuf_get_height (pixbuf);
+}
+
 static gint
 pixbuf_max_width (ECellView *ecell_view, int model_col, int view_col)
 {
@@ -308,6 +356,8 @@ e_cell_pixbuf_class_init (GtkObjectClass *object_class)
 	ecc->draw = pixbuf_draw;
 	ecc->event = pixbuf_event;
 	ecc->height = pixbuf_height;
+	ecc->print = pixbuf_print;
+	ecc->print_height = pixbuf_print_height;
 	ecc->max_width = pixbuf_max_width;
 
 	parent_class = gtk_type_class (E_CELL_TYPE);

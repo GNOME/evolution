@@ -311,7 +311,6 @@ etog_print (ECellView *ecell_view, GnomePrintContext *context,
 {
 	ECellToggle *toggle = E_CELL_TOGGLE(ecell_view->ecell);
 	GdkPixbuf *image;
-	int scale;
 	const int value = GPOINTER_TO_INT (
 		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 
@@ -323,24 +322,10 @@ etog_print (ECellView *ecell_view, GnomePrintContext *context,
 
 	gnome_print_gsave(context);
 
-	if (gnome_print_moveto(context, 2, 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, width - 2, 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, width - 2, height - 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, 2, height - 2) == -1)
-				/* FIXME */;
-	if (gnome_print_lineto(context, 2, 2) == -1)
-				/* FIXME */;
-	if (gnome_print_clip(context) == -1)
-				/* FIXME */;
-
 	image = toggle->images[value];
-	scale = MIN (width - 4, height - 4);
 
-	gnome_print_translate (context, 2, (height - scale) / 2);
-	gnome_print_scale (context, scale, scale);
+	gnome_print_translate (context, 0, (height - toggle->height) / 2);
+	gnome_print_scale (context, toggle->height, toggle->height);
 	gnome_print_pixbuf (context, image);
 	
 	gnome_print_grestore(context);

@@ -3197,7 +3197,7 @@ e_table_item_calculate_print_widths (ETableHeader *eth, gdouble width)
 	double extra;
 	double expansion;
 	int last_resizable = -1;
-	gdouble scale = 300.0L / 70.0L;
+	gdouble scale = 1.0L;
 	gdouble *widths = g_new(gdouble, e_table_header_count(eth));
 	/* - 1 to account for the last pixel border. */
 	extra = width - 1;
