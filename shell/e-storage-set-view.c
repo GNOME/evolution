@@ -39,11 +39,12 @@
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
-#define ETABLE_SPEC "<ETableSpecification no-header=\"1\">             \
-	<columns-shown>                  			       \
+#define ETABLE_SPEC "<ETableSpecification no-headers=\"1\" cursor-mode=\"line\"> \
+  <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_tree\" compare=\"string\"/> \
+	<ETableState>                   			       \
 		<column> 0 </column>     			       \
-	</columns-shown>                 			       \
-	<grouping></grouping>                                          \
+	        <grouping></grouping>                                  \
+	</ETableState>                  			       \
 </ETableSpecification>"
 
 
@@ -889,8 +890,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 			      EStorageSet *storage_set)
 {
 	EStorageSetViewPrivate *priv;
-	ETableCol *ecol;
-	ETableHeader *e_table_header;
+	ETableExtras *extras;
 	ECell *cell_left_just;
 	ECell *cell_tree;
 
@@ -916,21 +916,19 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	priv->root_node = e_tree_model_node_insert (priv->etree_model, NULL, -1, "/Root Node");
 
-	e_table_header = e_table_header_new ();
 	cell_left_just = e_cell_text_new (E_TABLE_MODEL (priv->etree_model), NULL, GTK_JUSTIFY_LEFT);
 	cell_tree = e_cell_tree_new (E_TABLE_MODEL (priv->etree_model),
 				     NULL, NULL, /* let the tree default its own +'s and -'s */
 				     TRUE, cell_left_just);
 
-	ecol = e_table_col_new (0, "Folder", 80, 20, cell_tree, g_str_compare, TRUE);
-	e_table_header_add_column (e_table_header, ecol, 0);
+	extras = e_table_extras_new();
+	e_table_extras_add_cell(extras, "cell_left_just", cell_left_just);
+	e_table_extras_add_cell(extras, "cell_tree", cell_tree);
 
-	e_table_construct (E_TABLE (storage_set_view), e_table_header, E_TABLE_MODEL(priv->etree_model),
-			   ETABLE_SPEC);
+	e_table_construct (E_TABLE (storage_set_view), E_TABLE_MODEL(priv->etree_model), extras,
+			   ETABLE_SPEC, NULL);
 
-	gtk_object_set (GTK_OBJECT (storage_set_view),
-			"cursor_mode", E_TABLE_CURSOR_LINE,
-			NULL);
+	gtk_object_sink (GTK_OBJECT (extras));
 
 	e_table_drag_source_set (E_TABLE (storage_set_view), GDK_BUTTON1_MASK,
 				 drag_types, num_drag_types, GDK_ACTION_MOVE);
