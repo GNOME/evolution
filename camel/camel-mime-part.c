@@ -545,6 +545,7 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART(data_wrapper);
 	CamelMedium *medium = CAMEL_MEDIUM(data_wrapper);
+	CamelStream *ostream = stream;
 	CamelDataWrapper *content;
 	int total = 0;
 	int count;
@@ -556,11 +557,11 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 #ifndef NO_WARNINGS
 #warning content-languages should be stored as a header
 #endif
-
+	
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
 		char *val;
-
+		
 		/* fold/write the headers.   But dont fold headers that are already formatted
 		   (e.g. ones with parameter-lists, that we know about, and have created) */
 		while (h) {
@@ -581,12 +582,12 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			h = h->next;
 		}
 	}
-
+	
 	count = camel_stream_write(stream, "\n", 1);
 	if (count == -1)
 		return -1;
 	total += count;
-
+	
 	content = camel_medium_get_content_object(medium);
 	if (content) {
 		/* I dont really like this here, but i dont know where else it might go ... */
@@ -595,14 +596,23 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		CamelMimeFilter *filter = NULL;
 		CamelStreamFilter *filter_stream = NULL;
 		CamelMimeFilter *charenc = NULL;
+		const char *filename;
 		const char *charset;
-
-		switch(mp->encoding) {
+		
+		switch (mp->encoding) {
 		case CAMEL_MIME_PART_ENCODING_BASE64:
 			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_ENC);
 			break;
 		case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
 			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_ENC);
+			break;
+		case CAMEL_MIME_PART_ENCODING_UUENCODE:
+			filename = camel_mime_part_get_filename (mp);
+			count = camel_stream_printf (ostream, "begin 644 %s\n", filename ? filename : "untitled");
+			if (count == -1)
+				return -1;
+			total += count;
+			filter = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_UU_ENC);
 			break;
 		default:
 			break;
@@ -617,33 +627,34 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		
 		if (filter || charenc) {
 			filter_stream = camel_stream_filter_new_with_stream(stream);
-
+			
 			/* if we have a character encoder, add that always */
 			if (charenc) {
 				camel_stream_filter_add(filter_stream, charenc);
 				camel_object_unref((CamelObject *)charenc);
 			}
-
+			
 			/* we only re-do crlf on encoded blocks */
 			if (filter && header_content_type_is(mp->content_type, "text", "*")) {
 				CamelMimeFilter *crlf = camel_mime_filter_crlf_new(CAMEL_MIME_FILTER_CRLF_ENCODE,
 										   CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-
+				
 				camel_stream_filter_add(filter_stream, crlf);
 				camel_object_unref((CamelObject *)crlf);
-
 			}
-
+			
 			if (filter) {
 				camel_stream_filter_add(filter_stream, filter);
 				camel_object_unref((CamelObject *)filter);
 			}
-
+			
 			stream = (CamelStream *)filter_stream;
 		}
 
 #endif
+		
 		count = camel_data_wrapper_write_to_stream(content, stream);
+		
 		if (filter_stream) {
 			camel_stream_flush((CamelStream *)filter_stream);
 			camel_object_unref((CamelObject *)filter_stream);
@@ -651,9 +662,17 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 		if (count == -1)
 			return -1;
 		total += count;
+		
+		if (mp->encoding == CAMEL_MIME_PART_ENCODING_UUENCODE) {
+			count = camel_stream_write (ostream, "end\n", 4);
+			if (count == -1)
+				return -1;
+			total += count;
+		}
 	} else {
 		g_warning("No content for medium, nothing to write");
 	}
+	
 	return total;
 }
 
@@ -750,7 +769,8 @@ static const char *encodings[] = {
 	"8bit",
 	"base64",
 	"quoted-printable",
-	"binary"
+	"binary",
+	"x-uuencode",
 };
 
 const char *

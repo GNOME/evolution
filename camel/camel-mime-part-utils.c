@@ -97,7 +97,8 @@ check_html_charset(char *buffer, int length)
 	return charset;
 }
 
-static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *from)
+static GByteArray *
+convert_buffer (GByteArray *in, const char *to, const char *from)
 {
 	iconv_t ic;
 	int inlen, outlen, i=2;
@@ -189,9 +190,12 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		} else if (!strcasecmp(encoding, "quoted-printable")) {
 			d(printf("Adding quoted-printable decoder ...\n"));
 			enctype = CAMEL_MIME_FILTER_BASIC_QP_DEC;
+		} else if (!strcasecmp (encoding, "x-uuencode")) {
+			d(printf("Adding uudecoder ...\n"));
+			enctype = CAMEL_MIME_FILTER_BASIC_UU_DEC;
 		}
 		g_free (encoding);
-
+		
 		if (enctype != 0) {
 			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(enctype);
 			decid = camel_mime_parser_filter_add (mp, fdec);

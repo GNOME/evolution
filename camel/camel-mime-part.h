@@ -50,6 +50,7 @@ enum _CamelMimePartEncodingType {
         CAMEL_MIME_PART_ENCODING_BASE64,
         CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE,
         CAMEL_MIME_PART_ENCODING_BINARY,
+	CAMEL_MIME_PART_ENCODING_UUENCODE,
         CAMEL_MIME_PART_NUM_ENCODINGS
 };
 typedef enum _CamelMimePartEncodingType CamelMimePartEncodingType;
