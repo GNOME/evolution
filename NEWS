@@ -12,6 +12,14 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
    #62911 - ITIP control blocks mailer opening calendar (JP)
    #54101 - In itip control had "Birthdays & Anniversaries" as calendar (JP)
 
+ * Mail
+
+   #63189 - Deleting IMAP folders is too aggressive  (Michael)
+   #63504 - Don't send IMAP commands to a disconnected socket  (Jeff)
+   #63177 - Can't drag folder to "On This Computer"  (Jeff)
+   #62812 - Crash when parent of search window is closed  (Jeff)
+   #62963 - C99-isms in smime/gui/cert-trust-dialog.c  (Michael)
+
 Other bugs
 
   * Calendar
