@@ -1,28 +1,27 @@
 SUBDIRS = . ename
 
-eutilincludedir = $(privincludedir)/e-util
-econdincludedir = $(privincludedir)/e-conduit
-edb3includedir  = $(privincludedir)/e-db3util
+imagesdir = $(datadir)/images/evolution
+
+eutilincludedir = $(includedir)/evolution/e-util
+econdincludedir = $(includedir)/evolution/e-conduit
+edb3includedir = $(includedir)/evolution/e-db3util
 
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
-	-DG_DISABLE_DEPRECATED						\
-	-DGTK_DISABLE_DEPRECATED					\
 	$(DB3_CFLAGS)							\
-	$(GNOME_PILOT_CFLAGS)						\
+	$(PISOCK_CFLAGS)						\
 	$(E_UTIL_CFLAGS)
 
 privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
 noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
 
 eutilinclude_HEADERS = 				\
-	e-account-list.h			\
-	e-account.h				\
-	e-categories-config.h			\
+	e-bonobo-factory-util.h			\
 	e-categories-master-list-wombat.h	\
+	e-categories-config.h			\
 	e-component-listener.h			\
 	e-config-listener.h			\
 	e-corba-utils.h				\
@@ -37,7 +36,6 @@ eutilinclude_HEADERS = 				\
 	e-list-iterator.h			\
 	e-list.h				\
 	e-memory.h				\
-	e-meta.h				\
 	e-mktemp.h				\
 	e-msgport.h				\
 	e-passwords.h				\
@@ -46,17 +44,15 @@ eutilinclude_HEADERS = 				\
 	e-request.h				\
 	e-sexp.h				\
 	e-time-utils.h				\
-	e-trie.h				\
 	e-url.h					\
 	e-xml-hash-utils.h			\
 	md5-utils.h
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
-	e-account-list.c			\
-	e-account.c				\
-	e-categories-config.c			\
+	e-bonobo-factory-util.c			\
 	e-categories-master-list-wombat.c	\
+	e-categories-config.c			\
 	e-component-listener.c			\
 	e-config-listener.c			\
 	e-corba-utils.c				\
@@ -71,7 +67,6 @@ libeutil_la_SOURCES =				\
 	e-list-iterator.c			\
 	e-list.c				\
 	e-memory.c				\
-	e-meta.c				\
 	e-mktemp.c				\
 	e-msgport.c				\
 	e-passwords.c				\
@@ -80,39 +75,15 @@ libeutil_la_SOURCES =				\
 	e-request.c				\
 	e-sexp.c				\
 	e-time-utils.c				\
-	e-trie.c				\
 	e-url.c					\
-	e-util-marshal.c			\
 	e-xml-hash-utils.c			\
 	md5-utils.c
-
-# GLib marshalling cruft
-
-e-util-marshal.h: e-util-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.h.tmp \
-	&& mv e-util-marshal.h.tmp e-util-marshal.h ) \
-	|| ( rm -f e-util-marshal.h.tmp && exit 1 )
-
-e-util-marshal.c: e-util-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.c.tmp \
-	&& mv e-util-marshal.c.tmp e-util-marshal.c ) \
-	|| ( rm -f e-util-marshal.c.tmp && exit 1 )
-
-MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
-
-
-# FIXME TODO
-#	e-passwords.c
-#       bonobo-factory-util.[ch]
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)
 libeutil_static_la_LDFLAGS = -all-static
-# Make sure libeutil.la and libeutil-static.la are not built in
-# parallel when using a parallel make; libtool can't handle that.
-libeutil_static_la_DEPENDENCIES = libeutil.la
 
 econdinclude_HEADERS =		\
 	e-pilot-map.h		\
@@ -128,7 +99,7 @@ pilot_sources = \
 if ENABLE_PILOT_CONDUITS
 pilot_compile = $(pilot_sources)
 else
-pilot_compile = 
+pilot_compile = e-pilot-settings.c e-pilot-settings.h
 endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
@@ -136,7 +107,7 @@ libeconduit_la_SOURCES = $(pilot_compile)
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = -all-static
 
-EXTRA_DIST = $(pilot_sources) e-util-marshal.list
+EXTRA_DIST = $(pilot_sources)
 
 edb3include_HEADERS =			\
 	e-db3-utils.h			\
@@ -146,6 +117,3 @@ libedb3util_la_SOURCES =		\
 	$(edb3include_HEADERS)		\
 	e-db3-utils.c			\
 	e-dbhash.c
-
-BUILT_SOURCES = $(MARSHAL_GENERATED)
-CLEANFILES    = $(BUILT_SOURCES)

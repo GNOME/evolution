@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-summary-preferences.c
  *
- * Copyright (C) 2001, 2002 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -26,11 +26,13 @@
 
 #include <gtk/gtk.h>
 
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 
 #include <libgnomeui/gnome-propertybox.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include <glade/glade.h>
 #include <stdio.h>
@@ -42,11 +44,9 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 
-#include <gconf/gconf-client.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 #include <shell/evolution-storage-set-view-listener.h>
-
-#include <string.h>
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
@@ -55,125 +55,335 @@
 
 #include "evolution-config-control.h"
 
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
+
 static ESummaryPrefs *global_preferences = NULL;
 static GNOME_Evolution_Shell global_shell = NULL;
+
+static char *default_folders[2] = {
+	"/local/Inbox", "/local/Outbox"
+};
+
+static void
+make_initial_mail_list (ESummaryPrefs *prefs)
+{
+	char *evolution_dir;
+	GList *folders = NULL;
+	int i;
+	
+	evolution_dir = gnome_util_prepend_user_home ("evolution");
+	for (i = 0; i < 2; i++) {
+		ESummaryPrefsFolder *folder;
+
+		folder = g_new (ESummaryPrefsFolder, 1);
+		folder->evolution_uri = g_strconcat ("evolution:", default_folders[i], NULL);
+		folder->physical_uri = g_strconcat ("file://", evolution_dir, default_folders[i], NULL);
+		
+		folders = g_list_append (folders, folder);
+	}
+
+	g_free (evolution_dir);
+	prefs->display_folders = folders;
+}
+
+static void
+make_initial_rdf_list (ESummaryPrefs *prefs)
+{
+	GList *rdfs;
+
+	rdfs = g_list_prepend (NULL, g_strdup ("http://linuxtoday.com/backend/my-netscape.rdf"));
+	rdfs = g_list_append (rdfs, g_strdup ("http://www.salon.com/feed/RDF/salon_use.rdf"));
+	
+	prefs->rdf_urls = rdfs;
+}
+
+static void
+make_initial_weather_list (ESummaryPrefs *prefs)
+{
+	/* translators: Put a list of codes for locations you want to see in
+	   My Evolution by default here. You can find the list of all
+	   stations and their codes in Evolution sources.
+	   (evolution/my-evolution/Locations)
+	   Codes are seperated with : eg. "KBOS:EGAA"*/
+	char *default_stations = _("KBOS"), **stations_v, **p;
+	GList *stations = NULL;
+
+	stations_v = g_strsplit (default_stations, ":", 0);
+	g_assert (stations_v != NULL);
+	for (p = stations_v; *p != NULL; p++) {
+		stations = g_list_prepend (stations, *p);
+	}
+	g_free (stations_v);
+
+	prefs->stations = g_list_reverse (stations);
+}
+
+/* Load the prefs off disk */
+
+static char *
+vector_from_str_list (GList *strlist)
+{
+	char *vector;
+	GString *str;
+
+	if (strlist == NULL) {
+		return g_strdup ("");
+	}
+
+	str = g_string_new ("");
+	for (; strlist; strlist = strlist->next) {
+		g_string_append (str, strlist->data);
+
+		/* No space at end */
+		if (strlist->next) {
+			g_string_append (str, " !<-->! ");
+		}
+	}
+
+	vector = str->str;
+	g_string_free (str, FALSE);
+
+	return vector;
+}
+
+static GList *
+str_list_from_vector (const char *vector)
+{
+	GList *strlist = NULL;
+	char **tokens, **t;
+
+	t = tokens = g_strsplit (vector, " !<-->! ", 8196);
+
+	if (tokens == NULL) {
+		return NULL;
+	}
+
+	for (; *tokens; tokens++) {
+		strlist = g_list_prepend (strlist, g_strdup (*tokens));
+	}
+
+	g_strfreev (t);
+
+	strlist = g_list_reverse (strlist);
+	return strlist;
+}
+
+static GList *
+folder_list_from_vector (const char *vector)
+{
+	GList *flist = NULL;
+	char **tokens, **t;
+
+	t = tokens = g_strsplit (vector, " !<-->! ", 8196);
+	if (tokens == NULL) {
+		return NULL;
+	}
+
+	for (tokens = t; *tokens; tokens += 2) {
+		ESummaryPrefsFolder *folder;
+		const char *evolution_uri;
+		const char *physical_uri;
+
+		evolution_uri = *tokens;
+		if (evolution_uri == NULL || strncmp (evolution_uri, "evolution:", 10) != 0)
+			break;
+
+		physical_uri = *(tokens + 1);
+		if (physical_uri == NULL)
+			break;
+
+		folder = g_new (ESummaryPrefsFolder, 1);
+		folder->evolution_uri = g_strdup (evolution_uri);
+		folder->physical_uri = g_strdup (physical_uri);
+
+		flist = g_list_prepend (flist, folder);
+	}
+
+	g_strfreev (t);
+
+	flist = g_list_reverse (flist);
+	return flist;
+}
+
+static char *
+vector_from_folder_list (GList *flist)
+{
+	char *vector;
+	GString *string;
+
+	if (flist == NULL) {
+		return g_strdup ("");
+	}
+
+	string = g_string_new ("");
+	for (; flist; flist = flist->next) {
+		ESummaryPrefsFolder *folder;
+
+		folder = flist->data;
+		string = g_string_append (string, folder->evolution_uri);
+		string = g_string_append (string, " !<-->! ");
+		string = g_string_append (string, folder->physical_uri);
+
+		if (flist->next != NULL) {
+			string = g_string_append (string, " !<-->! ");
+		}
+	}
+
+	vector = string->str;
+	g_string_free (string, FALSE);
+
+	return vector;
+}
 
 gboolean
 e_summary_preferences_restore (ESummaryPrefs *prefs)
 {
-	GConfClient *gconf_client;
-	GSList *path_list;
-	GSList *uri_list;
-	GSList *p, *q;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+	char *vector;
 
 	g_return_val_if_fail (prefs != NULL, FALSE);
 
-	gconf_client = gconf_client_get_default ();
-
-	path_list = gconf_client_get_list (gconf_client, "/apps/evolution/summary/mail/folder_evolution_uris",
-					   GCONF_VALUE_STRING, NULL);
-	uri_list = gconf_client_get_list (gconf_client, "/apps/evolution/summary/mail/folder_physical_uris",
-					  GCONF_VALUE_STRING, NULL);
-
-	prefs->display_folders = NULL;
-	for (p = path_list, q = uri_list; p != NULL && q != NULL; p = p->next, q = q->next) {
-		ESummaryPrefsFolder *folder;
-
-		folder = g_new (ESummaryPrefsFolder, 1);
-		folder->evolution_uri = p->data;
-		folder->physical_uri = q->data;
-		prefs->display_folders = g_slist_append(prefs->display_folders, folder);
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Wombat. Using defaults");
+		CORBA_exception_free (&ev);
+		return FALSE;
 	}
 
-	g_slist_free (path_list);
-	g_slist_free (uri_list);
+	CORBA_exception_free (&ev);
+	vector = bonobo_config_get_string (db, "My-Evolution/Mail/display_folders-1.2", &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error getting Mail/display_folders. Using defaults");
+		CORBA_exception_free (&ev);
+		make_initial_mail_list (prefs);
+	} else {
+		prefs->display_folders = folder_list_from_vector (vector);
+		g_free (vector);
+	}
 
-	prefs->show_full_path = gconf_client_get_bool (gconf_client, "/apps/evolution/summary/mail/show_full_paths", NULL);
+	prefs->show_full_path = bonobo_config_get_boolean (db, "My-Evolution/Mail/show_full_path", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Mail/show_full_path. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 
-	prefs->rdf_urls = gconf_client_get_list (gconf_client, "/apps/evolution/summary/rdf/uris",
-						 GCONF_VALUE_STRING, NULL);
 
-	prefs->rdf_refresh_time = gconf_client_get_int (gconf_client, "/apps/evolution/summary/rdf/refresh_time", NULL);
+	vector = bonobo_config_get_string (db, "My-Evolution/RDF/rdf_urls", &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error getting RDF/rdf_urls");
+		CORBA_exception_free (&ev);
+		bonobo_object_release_unref (db, NULL);
+		return FALSE;
+	}
+	prefs->rdf_urls = str_list_from_vector (vector);
+  	g_free (vector);
 
-	prefs->limit = gconf_client_get_int (gconf_client, "/apps/evolution/summary/rdf/max_items", NULL);
+	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/rdf_refresh_time", 600, NULL);
 
-	prefs->stations = gconf_client_get_list (gconf_client, "/apps/evolution/summary/weather/stations",
-						 GCONF_VALUE_STRING, NULL);
+	prefs->limit = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/limit", 10, NULL);
 
-	if (gconf_client_get_bool (gconf_client, "/apps/evolution/summary/weather/use_metric", NULL))
-		prefs->units = UNITS_METRIC;
-	else
-		prefs->units = UNITS_IMPERIAL;
+	vector = bonobo_config_get_string (db, "My-Evolution/Weather/stations", &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error getting Weather/stations");
+		CORBA_exception_free (&ev);
+		bonobo_object_release_unref (db, NULL);
+		return FALSE;
+	}
+	prefs->stations = str_list_from_vector (vector);
+  	g_free (vector);
 
-	prefs->weather_refresh_time = gconf_client_get_int (gconf_client, "/apps/evolution/summary/weather/refresh_time",
-							    NULL);
+	prefs->units = bonobo_config_get_long (db, "My-Evolution/Weather/units", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Weather/units. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	prefs->weather_refresh_time = bonobo_config_get_long (db, "My-Evolution/Weather/weather_refresh_time", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Weather/weather_refresh_time. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
 	
-	prefs->days = gconf_client_get_int (gconf_client, "/apps/evolution/summary/calendar/days_shown", NULL);
-	if (gconf_client_get_bool (gconf_client, "/apps/evolution/summary/tasks/show_all", NULL))
-		prefs->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
-	else
-		prefs->show_tasks = E_SUMMARY_CALENDAR_ONE_DAY;
+	prefs->days = bonobo_config_get_long (db, "My-Evolution/Schedule/days", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Schedule/days. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 
-	g_object_unref (gconf_client);
+	prefs->show_tasks = bonobo_config_get_long (db, "My-Evolution/Schedule/show_tasks", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Schedule/show_tasks. Using defaults");
+		bonobo_object_release_unref (db, NULL);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	bonobo_object_release_unref (db, NULL);
 	return TRUE;
 }
 
+/* Write prefs to disk */
 void
 e_summary_preferences_save (ESummaryPrefs *prefs)
 {
-	GConfClient *gconf_client;
-	GSList *evolution_uri_list, *physical_uri_list;
-	GSList *p;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+	char *vector;
 
-	gconf_client = gconf_client_get_default ();
+	g_return_if_fail (prefs != NULL);
 
-	evolution_uri_list = NULL;
-	physical_uri_list = NULL;
-	for (p = prefs->display_folders; p != NULL; p = p->next) {
-		const ESummaryPrefsFolder *folder;
-
-		folder = (const ESummaryPrefsFolder *) p->data;
-		evolution_uri_list = g_slist_prepend (evolution_uri_list, folder->evolution_uri);
-		physical_uri_list = g_slist_prepend (physical_uri_list, folder->physical_uri);
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot save preferences");
+		CORBA_exception_free (&ev);
+		return;
 	}
-	evolution_uri_list = g_slist_reverse (evolution_uri_list);
-	physical_uri_list = g_slist_reverse (physical_uri_list);
+	CORBA_exception_free (&ev);
 
-	gconf_client_set_list (gconf_client, "/apps/evolution/summary/mail/folder_evolution_uris",
-			       GCONF_VALUE_STRING, evolution_uri_list, NULL);
-	gconf_client_set_list (gconf_client, "/apps/evolution/summary/mail/folder_physical_uris",
-			       GCONF_VALUE_STRING, physical_uri_list, NULL);
+	vector = vector_from_folder_list (prefs->display_folders);
+	bonobo_config_set_string (db, "My-Evolution/Mail/display_folders-1.2", vector, NULL);
+  	g_free (vector); 
 
-	g_slist_free (evolution_uri_list);
-	g_slist_free (physical_uri_list);
+	bonobo_config_set_boolean (db, "My-Evolution/Mail/show_full_path", prefs->show_full_path, NULL);
 
-	gconf_client_set_bool (gconf_client, "/apps/evolution/summary/mail/show_full_paths", prefs->show_full_path, NULL);
+	vector = vector_from_str_list (prefs->rdf_urls);
+	bonobo_config_set_string (db, "My-Evolution/RDF/rdf_urls", vector, NULL);
+  	g_free (vector); 
 
-	gconf_client_set_list (gconf_client, "/apps/evolution/summary/rdf/uris",
-			       GCONF_VALUE_STRING, prefs->rdf_urls, NULL);
+	bonobo_config_set_long (db, "My-Evolution/RDF/rdf_refresh_time", prefs->rdf_refresh_time, NULL);
+	bonobo_config_set_long (db, "My-Evolution/RDF/limit", prefs->limit, NULL);
 
-	gconf_client_set_int (gconf_client, "/apps/evolution/summary/rdf/refresh_time", prefs->rdf_refresh_time, NULL);
-	gconf_client_set_int (gconf_client, "/apps/evolution/summary/rdf/max_items", prefs->limit, NULL);
+	vector = vector_from_str_list (prefs->stations);
+	bonobo_config_set_string (db, "My-Evolution/Weather/stations", vector, NULL);
+  	g_free (vector); 
 
-	gconf_client_set_list (gconf_client, "/apps/evolution/summary/weather/stations",
-			       GCONF_VALUE_STRING, prefs->stations, NULL);
+	bonobo_config_set_long (db, "My-Evolution/Weather/units", prefs->units, NULL);
+	bonobo_config_set_long (db, "My-Evolution/Weather/weather_refresh_time", prefs->weather_refresh_time, NULL);
 
-	gconf_client_set_bool (gconf_client, "/apps/evolution/summary/weather/use_metric",
-			       prefs->units == UNITS_METRIC, NULL);
-	gconf_client_set_int (gconf_client, "/apps/evolution/summary/weather/refresh_time",
-			      prefs->weather_refresh_time, NULL);
+	bonobo_config_set_long (db, "My-Evolution/Schedule/days", prefs->days, NULL);
+	bonobo_config_set_long (db, "My-Evolution/Schedule/show_tasks", prefs->show_tasks, NULL);
 
-	gconf_client_set_int (gconf_client, "/apps/evolution/summary/calendar/days_shown",
-			      prefs->days, NULL);
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (db, &ev);
+	CORBA_exception_free (&ev);
 
-	gconf_client_set_bool (gconf_client, "/apps/evolution/summary/tasks/show_all",
-			       prefs->show_tasks == E_SUMMARY_CALENDAR_ALL_TASKS, NULL);
-
-	g_object_unref (gconf_client);
+	bonobo_object_release_unref (db, NULL);
 }
 
 static void
-free_str_list (GSList *list)
+free_str_list (GList *list)
 {
 	for (; list; list = list->next) {
 		g_free (list->data);
@@ -181,7 +391,7 @@ free_str_list (GSList *list)
 }
 
 static void
-free_folder_list (GSList *list)
+free_folder_list (GList *list)
 {
 	for (; list; list = list->next) {
 		ESummaryPrefsFolder *f = list->data;
@@ -197,39 +407,39 @@ e_summary_preferences_free (ESummaryPrefs *prefs)
 {
 	if (prefs->display_folders) {
 		free_folder_list (prefs->display_folders);
-		g_slist_free (prefs->display_folders);
+		g_list_free (prefs->display_folders);
 	}
 
 	if (prefs->rdf_urls) {
 		free_str_list (prefs->rdf_urls);
-		g_slist_free (prefs->rdf_urls);
+		g_list_free (prefs->rdf_urls);
 	}
 
 	if (prefs->stations) {
 		free_str_list (prefs->stations);
-		g_slist_free (prefs->stations);
+		g_list_free (prefs->stations);
 	}
 
 	g_free (prefs);
 }
 
-static GSList *
-copy_str_list (GSList *list)
+static GList *
+copy_str_list (GList *list)
 {
-	GSList *list_copy = NULL;
+	GList *list_copy = NULL;
 
 	for (; list; list = list->next) {
-		list_copy = g_slist_prepend (list_copy, g_strdup (list->data));
+		list_copy = g_list_prepend (list_copy, g_strdup (list->data));
 	}
 
-	list_copy = g_slist_reverse (list_copy);
+	list_copy = g_list_reverse (list_copy);
 	return list_copy;
 }
 
-static GSList *
-copy_folder_list (GSList *list)
+static GList *
+copy_folder_list (GList *list)
 {
-	GSList *list_copy = NULL;
+	GList *list_copy = NULL;
 
 	for (; list; list = list->next) {
 		ESummaryPrefsFolder *f1, *f2;
@@ -239,10 +449,10 @@ copy_folder_list (GSList *list)
 		f2->evolution_uri = g_strdup (f1->evolution_uri);
 		f2->physical_uri = g_strdup (f1->physical_uri);
 
-		list_copy = g_slist_prepend (list_copy, f2);
+		list_copy = g_list_prepend (list_copy, f2);
 	}
 
-	list_copy = g_slist_reverse (list_copy);
+	list_copy = g_list_reverse (list_copy);
 	return list_copy;
 }
 
@@ -282,7 +492,27 @@ e_summary_preferences_init (void)
 	prefs = g_new0 (ESummaryPrefs, 1);
 	global_preferences = prefs;
 	
-	e_summary_preferences_restore (prefs);
+	if (e_summary_preferences_restore (prefs) == TRUE) {
+		return prefs;
+	}
+
+	/* Defaults */
+	
+	/* Mail */
+	make_initial_mail_list (prefs);
+
+	/* RDF */
+	make_initial_rdf_list (prefs);
+	prefs->rdf_refresh_time = 600;
+	prefs->limit = 10;
+
+	/* Weather */
+	make_initial_weather_list (prefs);
+	prefs->units = UNITS_METRIC;
+	prefs->weather_refresh_time = 600;
+
+	prefs->days = E_SUMMARY_CALENDAR_ONE_DAY;
+	prefs->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
 
 	return prefs;
 }
@@ -290,8 +520,6 @@ e_summary_preferences_init (void)
 ESummaryPrefs *
 e_summary_preferences_get_global (void)
 {
-	g_assert(global_preferences);
-
 	return global_preferences;
 }
 
@@ -302,7 +530,7 @@ struct _MailPage {
 	GtkWidget *add, *remove;
 
 	GHashTable *model;
-	GSList *tmp_list;
+	GList *tmp_list;
 };
 
 struct _RDFPage {
@@ -311,7 +539,7 @@ struct _RDFPage {
 	GtkWidget *new_button, *delete_url;
 
 	GHashTable *default_hash, *model;
-	GSList *known, *tmp_list;
+	GList *known, *tmp_list;
 };
 
 struct _WeatherPage {
@@ -320,7 +548,7 @@ struct _WeatherPage {
 	GtkWidget *add, *remove;
 
 	GHashTable *model;
-	GSList *tmp_list;
+	GList *tmp_list;
 };
 
 struct _CalendarPage {
@@ -381,7 +609,7 @@ static struct _RDFInfo rdfs[] = {
 };
 
 static void
-save_known_rdfs (GSList *rdfs)
+save_known_rdfs (GList *rdfs)
 {
 	FILE *handle;
 	char *rdf_file;
@@ -417,7 +645,7 @@ static gboolean
 rdf_is_shown (PropertyData *pd,
 	      const char *url)
 {
-	GSList *p;
+	GList *p;
 
 	for (p = global_preferences->rdf_urls; p; p = p->next) {
 		if (strcmp (p->data, url) == 0) {
@@ -443,7 +671,6 @@ fill_rdf_etable (GtkWidget *widget,
 	}
 
 	ess = E_SUMMARY_SHOWN (widget);
-	e_summary_shown_freeze (ess);
 
 	/* Fill the defaults first */
 	for (i = 0; rdfs[i].url; i++) {
@@ -453,7 +680,7 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->showable = TRUE;
 		entry->data = &rdfs[i];
 		
-		e_summary_shown_add_node (ess, TRUE, entry, NULL, FALSE, NULL);
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
 
 		if (rdf_is_shown (pd, rdfs[i].url) == TRUE) {
 			entry = g_new (ESummaryShownModelEntry, 1);
@@ -462,10 +689,10 @@ fill_rdf_etable (GtkWidget *widget,
 			entry->showable = TRUE;
 			entry->data = &rdfs[i];
 			
-			e_summary_shown_add_node (ess, FALSE, entry, NULL, FALSE, NULL);
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
 		}
 
-		pd->rdf->known = g_slist_append (pd->rdf->known, &rdfs[i]);
+		pd->rdf->known = g_list_append (pd->rdf->known, &rdfs[i]);
 
 		g_hash_table_insert (pd->rdf->default_hash, rdfs[i].url, &rdfs[i]);
 	}
@@ -483,7 +710,6 @@ fill_rdf_etable (GtkWidget *widget,
 	}
 
 	if (handle == NULL) {
-		e_summary_shown_thaw (ess);
 		return;
 	}
 
@@ -512,7 +738,7 @@ fill_rdf_etable (GtkWidget *widget,
 		info->name = g_strdup (tokens[1]);
 		info->custom = TRUE;
 		
-		pd->rdf->known = g_slist_append (pd->rdf->known, info);
+		pd->rdf->known = g_list_append (pd->rdf->known, info);
 
 		entry = g_new (ESummaryShownModelEntry, 1);
 		entry->location = g_strdup (info->url);
@@ -520,7 +746,7 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->showable = TRUE;
 		entry->data = info;
 		
-		e_summary_shown_add_node (ess, TRUE, entry, NULL, FALSE, NULL);
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
 
 		if (rdf_is_shown (pd, tokens[0]) == TRUE) {
 			entry = g_new (ESummaryShownModelEntry, 1);
@@ -529,14 +755,13 @@ fill_rdf_etable (GtkWidget *widget,
 			entry->showable = TRUE;
 			entry->data = info;
 			
-			e_summary_shown_add_node (ess, FALSE, entry, NULL, FALSE, NULL);
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
 		}
 
 		g_strfreev (tokens);
 	}
 
 	fclose (handle);
-	e_summary_shown_thaw (ess);
 }
 
 static void
@@ -561,8 +786,8 @@ add_dialog_clicked_cb (GtkWidget *widget,
 		       PropertyData *pd)
 {
 	if (button == 0) {
-		const char *url;
-		const char *name;
+		char *url;
+		char *name;
 
 		name = gtk_entry_get_text (GTK_ENTRY (pd->new_name_entry));
 		url = gtk_entry_get_text (GTK_ENTRY (pd->new_url_entry));
@@ -577,7 +802,7 @@ add_dialog_clicked_cb (GtkWidget *widget,
 			info->name = g_strdup (name);
 			info->custom = TRUE;
 
-			pd->rdf->known = g_slist_append (pd->rdf->known, info);
+			pd->rdf->known = g_list_append (pd->rdf->known, info);
 
 			entry = g_new (ESummaryShownModelEntry, 1);
 			entry->location = g_strdup (info->url);
@@ -586,7 +811,7 @@ add_dialog_clicked_cb (GtkWidget *widget,
 			entry->data = info;
 			
 			e_summary_shown_add_node (E_SUMMARY_SHOWN (pd->rdf->etable), TRUE,
-						  entry, NULL, FALSE, NULL);
+						  entry, NULL, TRUE, NULL);
 
 			/* Should we add to shown? */
 
@@ -615,8 +840,10 @@ rdf_new_url_clicked_cb (GtkButton *button,
 	add_dialog = gnome_dialog_new (_("Add a news feed"),
 				       GNOME_STOCK_BUTTON_OK,
 				       GNOME_STOCK_BUTTON_CANCEL, NULL);
-	g_signal_connect (add_dialog, "clicked", G_CALLBACK (add_dialog_clicked_cb), pd);
-	g_signal_connect (add_dialog, "destroy", G_CALLBACK (gtk_widget_destroyed), &add_dialog);
+	gtk_signal_connect (GTK_OBJECT (add_dialog), "clicked",
+			    GTK_SIGNAL_FUNC (add_dialog_clicked_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (add_dialog), "destroy",
+			    GTK_SIGNAL_FUNC (gtk_widget_destroyed), &add_dialog);
 
 	label = gtk_label_new (_("Enter the URL of the news feed you wish to add"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
@@ -658,7 +885,7 @@ rdf_delete_url_cb (GtkButton *button,
 		}
 		
 		e_summary_shown_remove_node (E_SUMMARY_SHOWN (pd->rdf->etable), TRUE, entry);
-		pd->rdf->known = g_slist_remove (pd->rdf->known, entry->data);
+		pd->rdf->known = g_list_remove (pd->rdf->known, entry->data);
 		
 		/* FIXME: Remove from shown side as well */
 	}
@@ -861,45 +1088,52 @@ make_property_dialog (PropertyData *pd)
 	mail->storage_set_view = glade_xml_get_widget (pd->xml, "mail-custom");
 	g_return_val_if_fail (mail->storage_set_view != NULL, FALSE);
 
-	listener = g_object_get_data (G_OBJECT (mail->storage_set_view), "listener");
-	g_signal_connect (listener, "folder-toggled", G_CALLBACK (storage_set_changed), pd);
+	listener = gtk_object_get_data (GTK_OBJECT (mail->storage_set_view),
+					"listener");
+	gtk_signal_connect (GTK_OBJECT (listener), "folder-toggled",
+			    GTK_SIGNAL_FUNC (storage_set_changed), pd);
 
 	mail->fullpath = glade_xml_get_widget (pd->xml, "checkbutton1");
 	g_return_val_if_fail (mail->fullpath != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mail->fullpath),
 				      global_preferences->show_full_path);
-	g_signal_connect (mail->fullpath, "toggled", G_CALLBACK (mail_show_full_path_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (mail->fullpath), "toggled",
+			    GTK_SIGNAL_FUNC (mail_show_full_path_toggled_cb), pd);
 	
 	/* RDF */
 	rdf = pd->rdf = g_new0 (struct _RDFPage, 1);
 	rdf->etable = glade_xml_get_widget (pd->xml, "rdf-custom");
 	g_return_val_if_fail (rdf->etable != NULL, FALSE);
 
-	g_signal_connect (rdf->etable, "item-changed", G_CALLBACK (rdf_etable_item_changed_cb), pd);
-	g_signal_connect (rdf->etable, "selection-changed", G_CALLBACK (rdf_etable_selection_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (rdf->etable), "item-changed",
+			    GTK_SIGNAL_FUNC (rdf_etable_item_changed_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (rdf->etable), "selection-changed",
+			    GTK_SIGNAL_FUNC (rdf_etable_selection_cb), pd);
 	
 	fill_rdf_etable (rdf->etable, pd);
 	rdf->refresh = glade_xml_get_widget (pd->xml, "spinbutton1");
 	g_return_val_if_fail (rdf->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->refresh),
 				   (float) global_preferences->rdf_refresh_time);
-	g_signal_connect (GTK_SPIN_BUTTON (rdf->refresh)->adjustment, "value_changed",
-			  G_CALLBACK (rdf_refresh_value_changed_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->refresh)->adjustment), "value_changed",
+			    GTK_SIGNAL_FUNC (rdf_refresh_value_changed_cb), pd);
 
 	rdf->limit = glade_xml_get_widget (pd->xml, "spinbutton4");
 	g_return_val_if_fail (rdf->limit != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->limit), 
 				   (float) global_preferences->limit);
-	g_signal_connect (GTK_SPIN_BUTTON (rdf->limit)->adjustment, "value_changed",
-			  G_CALLBACK (rdf_limit_value_changed_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->limit)->adjustment), "value_changed",
+			    GTK_SIGNAL_FUNC (rdf_limit_value_changed_cb), pd);
 
 	rdf->new_button = glade_xml_get_widget (pd->xml, "button11");
 	g_return_val_if_fail (rdf->limit != NULL, FALSE);
-	g_signal_connect (rdf->new_button, "clicked", G_CALLBACK (rdf_new_url_clicked_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (rdf->new_button), "clicked",
+			    GTK_SIGNAL_FUNC (rdf_new_url_clicked_cb), pd);
 
 	rdf->delete_url = glade_xml_get_widget (pd->xml, "delete-button");
 	g_return_val_if_fail (rdf->delete_url != NULL, FALSE);
-	g_signal_connect (rdf->delete_url, "clicked", G_CALLBACK (rdf_delete_url_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (rdf->delete_url), "clicked",
+			    GTK_SIGNAL_FUNC (rdf_delete_url_cb), pd);
 	
 	/* Weather */
 	weather = pd->weather = g_new (struct _WeatherPage, 1);
@@ -908,7 +1142,9 @@ make_property_dialog (PropertyData *pd)
 	weather->etable = glade_xml_get_widget (pd->xml, "weather-custom");
 	g_return_val_if_fail (weather->etable != NULL, FALSE);
 
-	g_signal_connect (weather->etable, "item-changed", G_CALLBACK (weather_etable_item_changed_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (weather->etable), "item-changed",
+			    GTK_SIGNAL_FUNC (weather_etable_item_changed_cb),
+			    pd);
 
 	fill_weather_etable (E_SUMMARY_SHOWN (weather->etable), pd);
 
@@ -916,20 +1152,24 @@ make_property_dialog (PropertyData *pd)
 	g_return_val_if_fail (weather->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (weather->refresh),
 				   (float) global_preferences->weather_refresh_time);
-	g_signal_connect (GTK_SPIN_BUTTON (weather->refresh)->adjustment, "value-changed",
-			  G_CALLBACK (weather_refresh_value_changed_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (weather->refresh)->adjustment),
+					"value-changed",
+					GTK_SIGNAL_FUNC (weather_refresh_value_changed_cb),
+					pd);
 
 	weather->metric = glade_xml_get_widget (pd->xml, "radiobutton7");
 	g_return_val_if_fail (weather->metric != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->metric),
 				      (global_preferences->units == UNITS_METRIC));
-	g_signal_connect (weather->metric, "toggled", G_CALLBACK (weather_metric_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (weather->metric), "toggled",
+			    GTK_SIGNAL_FUNC (weather_metric_toggled_cb), pd);
 
 	weather->imperial = glade_xml_get_widget (pd->xml, "radiobutton8");
 	g_return_val_if_fail (weather->imperial != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->imperial),
 				      (global_preferences->units == UNITS_IMPERIAL));
-	g_signal_connect (weather->imperial, "toggled", G_CALLBACK (weather_imperial_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (weather->imperial), "toggled",
+			    GTK_SIGNAL_FUNC (weather_imperial_toggled_cb), pd);
 
 	/* Calendar */
 	calendar = pd->calendar = g_new (struct _CalendarPage, 1);
@@ -937,37 +1177,43 @@ make_property_dialog (PropertyData *pd)
 	g_return_val_if_fail (calendar->one != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->one),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_DAY));
-	g_signal_connect (calendar->one, "toggled", G_CALLBACK (calendar_one_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (calendar->one), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_one_toggled_cb), pd);
 
 	calendar->five = glade_xml_get_widget (pd->xml, "radiobutton4");
 	g_return_val_if_fail (calendar->five != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->five),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_FIVE_DAYS));
-	g_signal_connect (calendar->five, "toggled", G_CALLBACK (calendar_five_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (calendar->five), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_five_toggled_cb), pd);
 
 	calendar->week = glade_xml_get_widget (pd->xml, "radiobutton5");
 	g_return_val_if_fail (calendar->week != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->week),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_WEEK));
-	g_signal_connect (calendar->week, "toggled", G_CALLBACK (calendar_week_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (calendar->week), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_week_toggled_cb), pd);
 
 	calendar->month = glade_xml_get_widget (pd->xml, "radiobutton6");
 	g_return_val_if_fail (calendar->month != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->month),
 				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_MONTH));
-	g_signal_connect (calendar->month, "toggled", G_CALLBACK (calendar_month_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (calendar->month), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_month_toggled_cb), pd);
 
 	calendar->all = glade_xml_get_widget (pd->xml, "radiobutton1");
 	g_return_val_if_fail (calendar->all != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->all),
 				      (global_preferences->show_tasks == E_SUMMARY_CALENDAR_ALL_TASKS));
-	g_signal_connect (calendar->all, "toggled", G_CALLBACK (calendar_all_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (calendar->all), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_all_toggled_cb), pd);
 
 	calendar->today = glade_xml_get_widget (pd->xml, "radiobutton2");
 	g_return_val_if_fail (calendar->today != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->today),
 				      (global_preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS));
-	g_signal_connect (calendar->today, "toggled", G_CALLBACK (calendar_today_toggled_cb), pd);
+	gtk_signal_connect (GTK_OBJECT(calendar->today), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_today_toggled_cb), pd);
 
 	return TRUE;
 }
@@ -976,28 +1222,29 @@ static void
 free_property_dialog (PropertyData *pd)
 {
 	if (pd->rdf) {
-		g_slist_free (pd->rdf->known);
+		g_list_free (pd->rdf->known);
 
 		free_str_list (pd->rdf->tmp_list);
-		g_slist_free (pd->rdf->tmp_list);
+		g_list_free (pd->rdf->tmp_list);
 		g_free (pd->rdf);
 	}
 	if (pd->mail) {
 		free_str_list (pd->mail->tmp_list);
-		g_slist_free (pd->mail->tmp_list);
+		g_list_free (pd->mail->tmp_list);
 		g_free (pd->mail);
 	}
 	if (pd->weather) {
 		free_str_list (pd->weather->tmp_list);
-		g_slist_free (pd->weather->tmp_list);
+		g_list_free (pd->weather->tmp_list);
 		g_free (pd->weather);
 	}
 	if (pd->calendar) {
 		g_free (pd->calendar);
 	}
 
-	if (pd->xml)
-		g_object_unref (pd->xml);
+	if (pd->xml) {
+		gtk_object_unref (GTK_OBJECT (pd->xml));
+	}
 
 	g_free (pd);
 }
@@ -1013,7 +1260,7 @@ set_selected_folders (GNOME_Evolution_StorageSetView view)
 {
 	GNOME_Evolution_FolderList *list;
 	CORBA_Environment ev;
-	GSList *l;
+	GList *l;
 	int i, count;
 	
 	for (count = 0, l = global_preferences->display_folders; l;
@@ -1090,8 +1337,8 @@ e_summary_preferences_make_mail_table (PropertyData *pd)
 	CORBA_exception_free (&ev);
 
 	widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
-	g_object_set_data (G_OBJECT (widget), "listener", listener);
-	g_object_set_data (G_OBJECT (widget), "corba_view", view);
+	gtk_object_set_data (GTK_OBJECT (widget), "listener", listener);
+	gtk_object_set_data (GTK_OBJECT (widget), "corba_view", view);
 
 	set_selected_folders (view);
 	return widget;
@@ -1118,24 +1365,24 @@ add_shown_to_list (gpointer key,
 		   gpointer data)
 {
 	ESummaryShownModelEntry *item;
-	GSList **list;
+	GList **list;
 
 	item = (ESummaryShownModelEntry *) value;
-	list = (GSList **) data;
+	list = (GList **) data;
 
-	*list = g_slist_prepend (*list, g_strdup (item->location));
+	*list = g_list_prepend (*list, g_strdup (item->location));
 }
 
-static GSList *
+static GList *
 get_folders_from_view (GtkWidget *view)
 {
 	GNOME_Evolution_StorageSetView set_view;
 	GNOME_Evolution_FolderList *list;
 	CORBA_Environment ev;
-	GSList *out_list = NULL;
+	GList *out_list = NULL;
 	int i;
 	
-	set_view = g_object_get_data (G_OBJECT (view), "corba_view");
+	set_view = gtk_object_get_data (GTK_OBJECT (view), "corba_view");
 	CORBA_exception_init (&ev);
 
 	list = GNOME_Evolution_StorageSetView__get_checkedFolders (set_view, &ev);
@@ -1155,7 +1402,7 @@ get_folders_from_view (GtkWidget *view)
 		f = g_new (ESummaryPrefsFolder, 1);
 		f->evolution_uri = g_strdup (folder.evolutionUri);
 		f->physical_uri = g_strdup (folder.physicalUri);
-		out_list = g_slist_append (out_list, f);
+		out_list = g_list_append (out_list, f);
 	}
 	
 	return out_list;
@@ -1171,7 +1418,7 @@ config_control_apply_cb (EvolutionConfigControl *control,
 
 	if (pd->rdf->tmp_list) {
 		free_str_list (pd->rdf->tmp_list);
-		g_slist_free (pd->rdf->tmp_list);
+		g_list_free (pd->rdf->tmp_list);
 		pd->rdf->tmp_list = NULL;
 	}
 	/* Take each news feed which is on and add it
@@ -1181,7 +1428,7 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	
 	if (global_preferences->rdf_urls) {
 		free_str_list (global_preferences->rdf_urls);
-		g_slist_free (global_preferences->rdf_urls);
+		g_list_free (global_preferences->rdf_urls);
 	}
 	
 	global_preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
@@ -1189,7 +1436,7 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	/* Weather */
 	if (pd->weather->tmp_list) {
 		free_str_list (pd->weather->tmp_list);
-		g_slist_free (pd->weather->tmp_list);
+		g_list_free (pd->weather->tmp_list);
 		pd->weather->tmp_list = NULL;
 	}
 	
@@ -1197,44 +1444,51 @@ config_control_apply_cb (EvolutionConfigControl *control,
 			      add_shown_to_list, &pd->weather->tmp_list);
 	if (global_preferences->stations) {
 		free_str_list (global_preferences->stations);
-		g_slist_free (global_preferences->stations);
+		g_list_free (global_preferences->stations);
 	}
 	global_preferences->stations = copy_str_list (pd->weather->tmp_list);
 	
 	/* Folders */
 	if (pd->mail->tmp_list) {
 		free_str_list (pd->mail->tmp_list);
-		g_slist_free (pd->mail->tmp_list);
+		g_list_free (pd->mail->tmp_list);
 		pd->mail->tmp_list = NULL;
 	}
+#if 0
+	g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
+#endif
 	
 	if (global_preferences->display_folders) {
 		free_folder_list (global_preferences->display_folders);
-		g_slist_free (global_preferences->display_folders);
+		g_list_free (global_preferences->display_folders);
 	}
-	global_preferences->display_folders = get_folders_from_view(pd->mail->storage_set_view);
-
-	e_summary_preferences_save (global_preferences);
+	global_preferences->display_folders = get_folders_from_view (pd->mail->storage_set_view);
 
   	e_summary_reconfigure_all ();
 }
 
 static void
-config_control_destroy_cb (EvolutionConfigControl *config_control, void *data)
+config_control_destroy_cb (EvolutionConfigControl *config_control,
+			   void *data)
 {
-	e_summary_preferences_restore(global_preferences);
-	free_property_dialog ((PropertyData *)data);
+	PropertyData *pd;
+
+	pd = (PropertyData *) data;
+
+	e_summary_preferences_save (global_preferences);
+	free_property_dialog (pd);
 }
 
-BonoboObject *
-e_summary_preferences_create_control (void)
+static BonoboObject *
+factory_fn (BonoboGenericFactory *generic_factory,
+	    void *data)
 {
 	PropertyData *pd;
 	GtkWidget *widget;
 
 	pd = g_new0 (PropertyData, 1);
 
-	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL, NULL);
+	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL);
 	g_return_val_if_fail (pd->xml != NULL, NULL);
 
 	widget = glade_xml_get_widget (pd->xml, "notebook");
@@ -1247,20 +1501,26 @@ e_summary_preferences_create_control (void)
 	gtk_widget_ref (widget);
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
 
-	gtk_widget_show_all (widget);
+	gtk_widget_show (widget);
 	pd->config_control = evolution_config_control_new (widget);
 
 	gtk_widget_unref (widget);
 
-	g_signal_connect (pd->config_control, "apply", G_CALLBACK (config_control_apply_cb), pd);
-	g_signal_connect (pd->config_control, "destroy", G_CALLBACK (config_control_destroy_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (pd->config_control), "apply",
+			    GTK_SIGNAL_FUNC (config_control_apply_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (pd->config_control), "destroy",
+			    GTK_SIGNAL_FUNC (config_control_destroy_cb), pd);
 
 	return BONOBO_OBJECT (pd->config_control);
 }
 
-/* FIXME this kinda sucks.  */
-void
-e_summary_preferences_init_control (GNOME_Evolution_Shell corba_shell)
+gboolean
+e_summary_preferences_register_config_control_factory (GNOME_Evolution_Shell corba_shell)
 {
+	if (bonobo_generic_factory_new (FACTORY_ID, factory_fn, NULL) == NULL)
+		return FALSE;
+
 	global_shell = corba_shell;
+	
+	return TRUE;
 }

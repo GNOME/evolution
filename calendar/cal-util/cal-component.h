@@ -22,21 +22,21 @@
 #ifndef CAL_COMPONENT_H
 #define CAL_COMPONENT_H
 
-#include <glib/gmacros.h>
+#include <libgnome/gnome-defs.h>
 #include <time.h>
-#include <glib-object.h>
+#include <gtk/gtkobject.h>
 #include <ical.h>
 
-G_BEGIN_DECLS
+BEGIN_GNOME_DECLS
 
 
 
 #define CAL_COMPONENT_TYPE            (cal_component_get_type ())
-#define CAL_COMPONENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAL_COMPONENT_TYPE, CalComponent))
-#define CAL_COMPONENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), CAL_COMPONENT_TYPE,	\
+#define CAL_COMPONENT(obj)            (GTK_CHECK_CAST ((obj), CAL_COMPONENT_TYPE, CalComponent))
+#define CAL_COMPONENT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_COMPONENT_TYPE,	\
 				       CalComponentClass))
-#define IS_CAL_COMPONENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_COMPONENT_TYPE))
-#define IS_CAL_COMPONENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_COMPONENT_TYPE))
+#define IS_CAL_COMPONENT(obj)         (GTK_CHECK_TYPE ((obj), CAL_COMPONENT_TYPE))
+#define IS_CAL_COMPONENT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_COMPONENT_TYPE))
 
 /* Types of calendar components to be stored by a CalComponent, as per RFC 2445.
  * We don't put the alarm component type here since we store alarms as separate
@@ -184,19 +184,19 @@ typedef struct _CalComponentClass CalComponentClass;
 typedef struct _CalComponentPrivate CalComponentPrivate;
 
 struct _CalComponent {
-	GObject object;
+	GtkObject object;
 
 	/* Private data */
 	CalComponentPrivate *priv;
 };
 
 struct _CalComponentClass {
-	GObjectClass parent_class;
+	GtkObjectClass parent_class;
 };
 
 /* Calendar component */
 
-GType cal_component_get_type (void);
+GtkType cal_component_get_type (void);
 
 char *cal_component_gen_uid (void);
 
@@ -444,6 +444,6 @@ icalcomponent *cal_component_alarm_get_icalcomponent (CalComponentAlarm *alarm);
 
 
 
-G_END_DECLS
+END_GNOME_DECLS
 
 #endif

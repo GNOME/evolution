@@ -4,9 +4,8 @@
  * Copyright (C) 2002  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -30,8 +29,8 @@
 #include <gal/util/e-util.h>
 
 
-#define PARENT_TYPE bonobo_object_get_type ()
-static BonoboObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_x_object_get_type ()
+static BonoboXObjectClass *parent_class = NULL;
 
 
 static CORBA_char *
@@ -43,15 +42,15 @@ impl__get_interfaceVersion (PortableServer_Servant servant,
 
 
 static void
-wombat_interface_check_class_init (WombatInterfaceCheckClass *class)
+class_init (WombatInterfaceCheckClass *class)
 {
-	parent_class = g_type_class_ref (PARENT_TYPE);
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	class->epv._get_interfaceVersion = impl__get_interfaceVersion;
 }
 
 static void
-wombat_interface_check_init (WombatInterfaceCheck *interface_check)
+init (WombatInterfaceCheck *interface_check)
 {
 	/* (Nothing to initialize here.)  */
 }
@@ -60,11 +59,11 @@ wombat_interface_check_init (WombatInterfaceCheck *interface_check)
 WombatInterfaceCheck *
 wombat_interface_check_new (void)
 {
-	return g_object_new (WOMBAT_TYPE_INTERFACE_CHECK, NULL);
+	return gtk_type_new (WOMBAT_TYPE_INTERFACE_CHECK);
 }
 
 
-BONOBO_TYPE_FUNC_FULL (WombatInterfaceCheck,
-		       GNOME_Evolution_WombatInterfaceCheck,
-		       PARENT_TYPE,
-		       wombat_interface_check)
+E_MAKE_X_TYPE (wombat_interface_check, "WombatInterfaceCheck", WombatInterfaceCheck,
+	       class_init, init, PARENT_TYPE,
+	       POA_GNOME_Evolution_WombatInterfaceCheck__init,
+	       GTK_STRUCT_OFFSET (WombatInterfaceCheckClass, epv))

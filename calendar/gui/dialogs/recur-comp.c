@@ -24,9 +24,11 @@
 
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-uidefs.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
+#include "widgets/misc/e-messagebox.h"
 #include "recur-comp.h"
 
 
@@ -39,7 +41,7 @@ recur_component_dialog (CalComponent *comp,
 	char *str;
 	GtkWidget *dialog, *rb1, *rb2, *rb3, *hbox;
 	CalComponentVType vtype;
-	gboolean ret;
+	int btn;
 	
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CALOBJ_MOD_THIS);
 
@@ -63,12 +65,15 @@ recur_component_dialog (CalComponent *comp,
 		return CALOBJ_MOD_THIS;
 	}
 
+	dialog = e_message_box_new (str, E_MESSAGE_BOX_QUESTION,
+				    GNOME_STOCK_BUTTON_OK,
+				    GNOME_STOCK_BUTTON_CANCEL,
+				    NULL);
 
-	dialog = gtk_message_dialog_new(parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
 	g_free (str);
 	
 	hbox = gtk_hbox_new (FALSE, 2);
-	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), hbox);
+	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), hbox);
 	rb1 = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
 	gtk_container_add (GTK_CONTAINER (hbox), rb1);
 
@@ -78,8 +83,13 @@ recur_component_dialog (CalComponent *comp,
 	gtk_container_add (GTK_CONTAINER (hbox), rb3);
 
 	gtk_widget_show_all (hbox);
-
-	ret = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;
+	
+	gtk_widget_hide (e_message_box_get_checkbox (E_MESSAGE_BOX (dialog)));
+	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+	if (parent != NULL)
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
+	
+	btn = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1)))
 		*mod = CALOBJ_MOD_THIS;
@@ -90,5 +100,5 @@ recur_component_dialog (CalComponent *comp,
 
 	gtk_widget_destroy (dialog);
 
-	return ret;
+	return btn == 0 ? TRUE : FALSE;
 }

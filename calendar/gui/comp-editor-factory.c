@@ -22,9 +22,10 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkmessagedialog.h>
 #include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <evolution-calendar.h>
 #include <e-util/e-url.h>
 #include <cal-client/cal-client.h>
@@ -91,7 +92,7 @@ struct CompEditorFactoryPrivate {
 
 static void comp_editor_factory_class_init (CompEditorFactoryClass *class);
 static void comp_editor_factory_init (CompEditorFactory *factory);
-static void comp_editor_factory_finalize (GObject *object);
+static void comp_editor_factory_destroy (GtkObject *object);
 
 static void impl_editExisting (PortableServer_Servant servant,
 			       const CORBA_char *str_uri,
@@ -102,29 +103,29 @@ static void impl_editNew (PortableServer_Servant servant,
 			  const GNOME_Evolution_Calendar_CalObjType type,
 			  CORBA_Environment *ev);
 
-static BonoboObjectClass *parent_class = NULL;
+static BonoboXObjectClass *parent_class = NULL;
 
 
 
-BONOBO_TYPE_FUNC_FULL (CompEditorFactory,
-		       GNOME_Evolution_Calendar_CompEditorFactory,
-		       BONOBO_OBJECT_TYPE,
-		       comp_editor_factory);
+BONOBO_X_TYPE_FUNC_FULL (CompEditorFactory,
+			 GNOME_Evolution_Calendar_CompEditorFactory,
+			 BONOBO_X_OBJECT_TYPE,
+			 comp_editor_factory);
 
 /* Class initialization function for the component editor factory */
 static void
 comp_editor_factory_class_init (CompEditorFactoryClass *class)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
-	object_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_peek_parent (class);
+	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
 
 	class->epv.editExisting = impl_editExisting;
 	class->epv.editNew = impl_editNew;
 
-	object_class->finalize = comp_editor_factory_finalize;
+	object_class->destroy = comp_editor_factory_destroy;
 }
 
 /* Object initialization function for the component editor factory */
@@ -160,7 +161,7 @@ free_client (OpenClient *oc)
 	g_free (oc->uri);
 	oc->uri = NULL;
 
-	g_object_unref (oc->client);
+	gtk_object_unref (GTK_OBJECT (oc->client));
 	oc->client = NULL;
 
 	for (l = oc->pending; l; l = l->next) {
@@ -187,7 +188,7 @@ free_client_cb (gpointer key, gpointer value, gpointer data)
 
 /* Destroy handler for the component editor factory */
 static void
-comp_editor_factory_finalize (GObject *object)
+comp_editor_factory_destroy (GtkObject *object)
 {
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
@@ -205,8 +206,8 @@ comp_editor_factory_finalize (GObject *object)
 	g_free (priv);
 	factory->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -283,7 +284,7 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	default:
 		g_message ("edit_exiting(): Unsupported object type %d", (int) vtype);
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 		return;
 	}
 
@@ -292,7 +293,8 @@ edit_existing (OpenClient *oc, const char *uid)
 	comp_editor_focus (editor);
 
 	oc->editor_count++;
-	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), oc);
+	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+			    GTK_SIGNAL_FUNC (editor_destroy_cb), oc);
 
 	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 }
@@ -381,7 +383,8 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	comp_editor_focus (editor);
 
 	oc->editor_count++;
-	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), oc);
+	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+			    GTK_SIGNAL_FUNC (editor_destroy_cb), oc);
 
 	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 }
@@ -438,7 +441,6 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 	OpenClient *oc;
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
-	GtkWidget *dialog = NULL;
 
 	oc = data;
 	factory = oc->factory;
@@ -451,9 +453,7 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		return;
 
 	case CAL_CLIENT_OPEN_ERROR:
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Error while opening the calendar"));
+	        gnome_error_dialog (_("Error while opening the calendar"));
 		break;
 
 	case CAL_CLIENT_OPEN_NOT_FOUND:
@@ -462,24 +462,17 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		return;
 
 	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Method not supported when opening the calendar"));
+		gnome_error_dialog (_("Method not supported when opening the calendar"));
 		break;
 
 	case CAL_CLIENT_OPEN_PERMISSION_DENIED :
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-						 _("Permission denied to open the calendar"));
+		gnome_error_dialog (_("Permission denied to open calendar"));
 		break;
-		
+
 	default:
 		g_assert_not_reached ();
 		return;
 	}
-
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
 
 	g_hash_table_remove (priv->uri_client_hash, oc->uri);
 	free_client (oc);
@@ -512,17 +505,18 @@ open_client (CompEditorFactory *factory, const char *uristr)
 	oc->pending = NULL;
 	oc->open = FALSE;
 
-	g_signal_connect (oc->client, "cal_opened", G_CALLBACK (cal_opened_cb), oc);
-
-	g_hash_table_insert (priv->uri_client_hash, oc->uri, oc);
+	gtk_signal_connect (GTK_OBJECT (oc->client), "cal_opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), oc);
 
 	if (!cal_client_open_calendar (oc->client, uristr, FALSE)) {
 		g_free (oc->uri);
-		g_object_unref (oc->client);
+		gtk_object_unref (GTK_OBJECT (oc->client));
 		g_free (oc);
 
 		return NULL;
 	}
+
+	g_hash_table_insert (priv->uri_client_hash, oc->uri, oc);
 
 	return oc;
 }
@@ -659,7 +653,7 @@ impl_editNew (PortableServer_Servant servant,
 CompEditorFactory *
 comp_editor_factory_new (void)
 {
-	return g_object_new (TYPE_COMP_EDITOR_FACTORY, NULL);
+	return gtk_type_new (TYPE_COMP_EDITOR_FACTORY);
 }
 
 

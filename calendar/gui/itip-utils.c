@@ -26,15 +26,20 @@
 
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-object-client.h>
 #include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkwidget.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/util/e-util.h>
 #include <ical.h>
 #include <Evolution-Composer.h>
-#include <e-util/e-dialog-utils.h>
 #include <e-util/e-time-utils.h>
+#include <e-util/e-config-listener.h>
 #include <cal-util/timeutil.h>
 #include <cal-util/cal-util.h>
 #include "calendar-config.h"
@@ -64,49 +69,130 @@ static icalproperty_method itip_methods_enum[] = {
     ICAL_METHOD_DECLINECOUNTER,
 };
 
-static EAccountList *accounts = NULL;
+static EConfigListener *config = NULL;
 
-EAccountList *
-itip_addresses_get (void)
+static ItipAddress *
+get_address (long num) 
 {
-	if (accounts == NULL)
-		accounts = e_account_list_new(gconf_client_get_default());
+	ItipAddress *a;
+	gchar *path;
+		
+	a = g_new0 (ItipAddress, 1);
 
-	return accounts;
+	/* get the identity info */
+	path = g_strdup_printf ("/Mail/Accounts/identity_name_%ld", num);
+	a->name = e_config_listener_get_string_with_default (config, path, NULL, NULL);
+	g_free (path);
+
+	path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", num);
+	a->address = e_config_listener_get_string_with_default (config, path, NULL, NULL);
+	a->address = g_strstrip (a->address);
+	g_free (path);
+
+	a->full = g_strdup_printf ("%s <%s>", a->name, a->address);
+
+	return a;
 }
 
-EAccount *
+GList *
+itip_addresses_get (void)
+{
+	GList *addresses = NULL;
+	glong len, def, i;
+
+	if (config == NULL)
+		config = e_config_listener_new ();
+	
+	len = e_config_listener_get_long_with_default (config, "/Mail/Accounts/num", 0, NULL);
+	def = e_config_listener_get_long_with_default (config, "/Mail/Accounts/default_account", 0, NULL);
+
+	for (i = 0; i < len; i++) {
+		ItipAddress *a;
+
+		a = get_address (i);
+		if (i == def)
+			a->default_address = TRUE;
+
+		addresses = g_list_append (addresses, a);
+	}
+
+	return addresses;
+}
+
+ItipAddress *
 itip_addresses_get_default (void)
 {
-	return (EAccount *)e_account_list_get_default(itip_addresses_get());
+	ItipAddress *a;
+	glong def;
+
+	if (config == NULL)
+		config = e_config_listener_new ();
+	
+	def = e_config_listener_get_long_with_default (config, "/Mail/Accounts/default_account", 0, NULL);
+
+	a = get_address (def);
+	a->default_address = TRUE;
+
+	return a;
+}
+
+void
+itip_address_free (ItipAddress *address) 
+{
+	g_free (address->name);
+	g_free (address->address);
+	g_free (address->full);
+	g_free (address);
+}
+
+void
+itip_addresses_free (GList *addresses)
+{
+	GList *l;
+	
+	for (l = addresses; l != NULL; l = l->next) {
+		ItipAddress *a = l->data;
+		itip_address_free (a);
+	}
+	g_list_free (addresses);
 }
 
 gboolean
 itip_organizer_is_user (CalComponent *comp, CalClient *client)
 {
 	CalComponentOrganizer organizer;
+	GList *addresses, *l;
 	const char *strip;
 	gboolean user_org = FALSE;
-	
+
 	if (!cal_component_has_organizer (comp))
 		return FALSE;
 
 	cal_component_get_organizer (comp, &organizer);
 	if (organizer.value != NULL) {
 
-  		strip = itip_strip_mailto (organizer.value);
-  
- 		if (cal_client_get_static_capability (client, "organizer-not-email-address")) { 
- 			const char *email;
- 			
- 			email = cal_client_get_cal_address (client);
- 			if (email && !g_strcasecmp (email, strip))
- 				return TRUE;
- 
- 			return FALSE;
- 		}
- 	
-		user_org = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		strip = itip_strip_mailto (organizer.value);
+
+		if (cal_client_get_static_capability (client, "organizer-not-email-address")) { 
+			const char *email;
+			
+			email = cal_client_get_cal_address (client);
+			if (email && !g_strcasecmp (email, strip))
+				return TRUE;
+
+			return FALSE;
+		}
+	
+		addresses = itip_addresses_get ();
+		for (l = addresses; l != NULL; l = l->next) {
+			ItipAddress *a = l->data;
+			
+			if (!g_strcasecmp (a->address, strip)) {
+				user_org = TRUE;
+				break;
+			}
+		}
+		itip_addresses_free (addresses);
 	}
 
 	return user_org;
@@ -116,6 +202,7 @@ gboolean
 itip_sentby_is_user (CalComponent *comp)
 {
 	CalComponentOrganizer organizer;
+	GList *addresses, *l;
 	const char *strip;
 	gboolean user_sentby = FALSE;
 	
@@ -125,7 +212,17 @@ itip_sentby_is_user (CalComponent *comp)
 	cal_component_get_organizer (comp, &organizer);
 	if (organizer.sentby != NULL) {
 		strip = itip_strip_mailto (organizer.sentby);
-		user_sentby = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+
+		addresses = itip_addresses_get ();
+		for (l = addresses; l != NULL; l = l->next) {
+			ItipAddress *a = l->data;
+			
+			if (!g_strcasecmp (a->address, strip)) {
+				user_sentby = TRUE;
+				break;
+			}
+		}
+		itip_addresses_free (addresses);
 	}
 
 	return user_sentby;
@@ -258,7 +355,7 @@ comp_from (CalComponentItipMethod method, CalComponent *comp)
 	case CAL_COMPONENT_METHOD_ADD:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("An organizer must be set."));
 			return NULL;
 		}
@@ -293,7 +390,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 		cal_component_get_attendee_list (comp, &attendees);
 		len = g_slist_length (attendees);
 		if (len <= 0) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("At least one attendee is necessary"));
 			cal_component_free_attendee_list (attendees);
 			return NULL;
@@ -303,22 +400,13 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 		to_list->_maximum = len;
 		to_list->_length = 0;
 		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
-
-		cal_component_get_organizer (comp, &organizer);
-		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("An organizer must be set."));
-			return NULL;
-		}
-
+		
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *att = l->data;
 
 			if (users_has_attendee (users, att->value))
 				continue;
-			else if (!g_strcasecmp (att->value, organizer.value))
-				continue;
-			
+
 			recipient = &(to_list->_buffer[to_list->_length]);
 			if (att->cn)
 				recipient->name = CORBA_string_dup (att->cn);
@@ -338,7 +426,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("An organizer must be set."));
 			return NULL;
 		}
@@ -382,15 +470,15 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 	else {
 		switch (cal_component_get_vtype (comp)) {
 		case CAL_COMPONENT_EVENT:
-			description = _("Event information");
+			description = U_("Event information");
 		case CAL_COMPONENT_TODO:
-			description = _("Task information");
+			description = U_("Task information");
 		case CAL_COMPONENT_JOURNAL:
-			description = _("Journal information");
+			description = U_("Journal information");
 		case CAL_COMPONENT_FREEBUSY:
-			description = _("Free/Busy information");
+			description = U_("Free/Busy information");
 		default:
-			description = _("Calendar information");
+			description = U_("Calendar information");
 		}
 	}
 
@@ -410,13 +498,13 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
-				prefix = _("Accepted");
+				prefix = U_("Accepted");
 				break;
 			case ICAL_PARTSTAT_TENTATIVE:
-				prefix = _("Tentatively Accepted");
+				prefix = U_("Tentatively Accepted");
 				break;
 			case ICAL_PARTSTAT_DECLINED:
-				prefix = _("Declined");
+				prefix = U_("Declined");
 				break;
 			default:
 				break;
@@ -426,23 +514,23 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 		break;
 
 	case CAL_COMPONENT_METHOD_ADD:
-		prefix = _("Updated");
+		prefix = U_("Updated");
 		break;
 
 	case CAL_COMPONENT_METHOD_CANCEL:
-		prefix = _("Cancel");
+		prefix = U_("Cancel");
 		break;
 
 	case CAL_COMPONENT_METHOD_REFRESH:
-		prefix = _("Refresh");
+		prefix = U_("Refresh");
 		break;
 
 	case CAL_COMPONENT_METHOD_COUNTER:
-		prefix = _("Counter-proposal");
+		prefix = U_("Counter-proposal");
 		break;
 
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
-		prefix = _("Declined");
+		prefix = U_("Declined");
 		break;
 
 	default:
@@ -491,11 +579,11 @@ comp_description (CalComponent *comp)
 
         switch (cal_component_get_vtype (comp)) {
         case CAL_COMPONENT_EVENT:
-                return CORBA_string_dup (_("Event information"));
+                return CORBA_string_dup (U_("Event information"));
         case CAL_COMPONENT_TODO:
-                return CORBA_string_dup (_("Task information"));
+                return CORBA_string_dup (U_("Task information"));
         case CAL_COMPONENT_JOURNAL:
-                return CORBA_string_dup (_("Journal information"));
+                return CORBA_string_dup (U_("Journal information"));
         case CAL_COMPONENT_FREEBUSY:
                 cal_component_get_dtstart (comp, &dt);
                 if (dt.value)
@@ -510,18 +598,18 @@ comp_description (CalComponent *comp)
                 if (start != NULL && end != NULL) {
                         char *tmp, *tmp_utf;
                         tmp = g_strdup_printf (_("Free/Busy information (%s to %s)"), start, end);
-			tmp_utf = g_locale_to_utf8 (tmp, -1, NULL, NULL, NULL);
+                        tmp_utf = e_utf8_from_locale_string (tmp);
                         description = CORBA_string_dup (tmp_utf);
                         g_free (tmp_utf);
                         g_free (tmp);
                 } else {
-                        description = CORBA_string_dup (_("Free/Busy information"));
+                        description = CORBA_string_dup (U_("Free/Busy information"));
                 }
                 g_free (start);
                 g_free (end);
                 return description;
         default:
-                return CORBA_string_dup (_("iCalendar information"));
+                return CORBA_string_dup (U_("iCalendar information"));
         }
 }
 
@@ -547,7 +635,7 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 		
 		retval = TRUE;
 	} else if (result == CAL_CLIENT_SEND_BUSY) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, error_msg);
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, error_msg);
 
 		retval = FALSE;
 	}
@@ -561,11 +649,13 @@ static gboolean
 comp_limit_attendees (CalComponent *comp) 
 {
 	icalcomponent *icomp;
+	GList *addresses;
 	icalproperty *prop;
 	gboolean found = FALSE, match = FALSE;
 	GSList *l, *list = NULL;
 
 	icomp = cal_component_get_icalcomponent (comp);
+	addresses = itip_addresses_get ();	
 
 	for (prop = icalcomponent_get_first_property (icomp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
@@ -574,6 +664,7 @@ comp_limit_attendees (CalComponent *comp)
 		icalvalue *value;
 		const char *attendee;
 		char *text;
+		GList *l;
 
 		/* If we've already found something, just erase the rest */
 		if (found) {
@@ -589,7 +680,12 @@ comp_limit_attendees (CalComponent *comp)
 
 		text = g_strdup (itip_strip_mailto (attendee));
 		text = g_strstrip (text);
-		found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, text) != NULL;
+		for (l = addresses; l != NULL; l = l->next) {
+			ItipAddress *a = l->data;
+
+			if (!g_strcasecmp (a->address, text))
+				found = match = TRUE;
+		}
 		g_free (text);
 		
 		if (!match)
@@ -605,6 +701,8 @@ comp_limit_attendees (CalComponent *comp)
 	}
 	g_slist_free (list);
 
+	itip_addresses_free (addresses);
+
 	return found;
 }
 
@@ -615,25 +713,25 @@ comp_sentby (CalComponent *comp, CalClient *client)
 	
 	cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
-		EAccount *a = itip_addresses_get_default ();
+		ItipAddress *a = itip_addresses_get_default ();
 
-		organizer.value = g_strdup_printf ("MAILTO:%s", a->id->address);
+		organizer.value = g_strdup_printf ("MAILTO:%s", a->address);
 		organizer.sentby = NULL;
-		organizer.cn = a->id->name;
+		organizer.cn = a->name;
 		organizer.language = NULL;
 		
 		cal_component_set_organizer (comp, &organizer);
 		g_free ((char *) organizer.value);
-		g_object_unref(a);
+		itip_address_free (a);
 		
 		return;
 	}
 
 	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp)) {
-		EAccount *a = itip_addresses_get_default ();
+		ItipAddress *a = itip_addresses_get_default ();
 		
 		organizer.value = g_strdup (organizer.value);
-		organizer.sentby = g_strdup_printf ("MAILTO:%s", a->id->address);
+		organizer.sentby = g_strdup_printf ("MAILTO:%s", a->address);
 		organizer.cn = g_strdup (organizer.cn);
 		organizer.language = g_strdup (organizer.language);
 		
@@ -643,7 +741,7 @@ comp_sentby (CalComponent *comp, CalClient *client)
 		g_free ((char *)organizer.sentby);
 		g_free ((char *)organizer.cn);
 		g_free ((char *)organizer.language);
-		g_object_unref(a);
+		itip_address_free (a);
 	}
 }
 static CalComponent *
@@ -668,7 +766,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 		cal_component_set_attendee_list (clone, attendees);
 
 		if (!comp_limit_attendees (clone)) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				  _("You must be an attendee of the event."));
 			goto error;
 		}
@@ -719,7 +817,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	return clone;
 
  error:
-	g_object_unref (clone);
+	gtk_object_unref (GTK_OBJECT (clone));
 	return NULL;
 }
 
@@ -804,7 +902,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 	case CAL_COMPONENT_METHOD_REFRESH:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, TRUE);
-		g_object_unref (clone);
+		gtk_object_unref (GTK_OBJECT (clone));
 		clone = temp_clone;
 		break;
 	case CAL_COMPONENT_METHOD_COUNTER:
@@ -812,7 +910,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, FALSE);
-		g_object_unref (clone);
+		gtk_object_unref (GTK_OBJECT (clone));
 		clone = temp_clone;
 		break;
 	default:
@@ -826,7 +924,8 @@ gboolean
 itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CalClient *client, icalcomponent *zones)
 {
-	CORBA_Object *composer_server;
+	BonoboObjectClient *bonobo_server;
+	GNOME_Evolution_Composer composer_server;
 	CalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	GList *users;
@@ -843,12 +942,9 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_init (&ev);
 
 	/* Obtain an object reference for the Composer. */
-	composer_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Could not activate composer: %s", bonobo_exception_get_text (&ev));
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
+	g_return_val_if_fail (bonobo_server != NULL, FALSE);
+	composer_server = BONOBO_OBJREF (bonobo_server);
 	
 	/* Give the server a chance to manipulate the comp */
 	if (method != CAL_COMPONENT_METHOD_PUBLISH) {
@@ -884,9 +980,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 
 	/* Set recipients, subject */
 	GNOME_Evolution_Composer_setHeaders (composer_server, from, to_list, cc_list, bcc_list, subject, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Unable to set composer headers while sending iTip message: %s",
-			   bonobo_exception_get_text (&ev));
+	if (BONOBO_EX (&ev)) {		
+		g_warning ("Unable to set composer headers while sending iTip message");
 		goto cleanup;
 	}
 
@@ -950,7 +1045,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_free (&ev);
 
 	if (comp != NULL)
-		g_object_unref (comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 

@@ -13,18 +13,17 @@
 #define __E_CARD_SIMPLE_H__
 
 #include <time.h>
-#include <glib-object.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-types.h>
 #include <e-util/e-list.h>
 
 #define E_TYPE_CARD_SIMPLE            (e_card_simple_get_type ())
-#define E_CARD_SIMPLE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CARD_SIMPLE, ECardSimple))
-#define E_CARD_SIMPLE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CARD_SIMPLE, ECardSimpleClass))
-#define E_IS_CARD_SIMPLE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CARD_SIMPLE))
-#define E_IS_CARD_SIMPLE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CARD_SIMPLE))
-#define E_CARD_SIMPLE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_CARD_SIMPLE, ECardSimpleClass))
+#define E_CARD_SIMPLE(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD_SIMPLE, ECardSimple))
+#define E_CARD_SIMPLE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_CARD_SIMPLE, ECardSimpleClass))
+#define E_IS_CARD_SIMPLE(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_CARD_SIMPLE))
+#define E_IS_CARD_SIMPLE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_CARD_SIMPLE))
 
 typedef enum _ECardSimplePhoneId ECardSimplePhoneId;
 typedef enum _ECardSimpleEmailId ECardSimpleEmailId;
@@ -139,7 +138,7 @@ typedef struct _ECardSimple ECardSimple;
 typedef struct _ECardSimpleClass ECardSimpleClass;
 
 struct _ECardSimple {
-	GObject object;
+	GtkObject object;
 	ECard *card;
 
 	GList *temp_fields;
@@ -153,7 +152,7 @@ struct _ECardSimple {
 };
 
 struct _ECardSimpleClass {
-	GObjectClass parent_class;
+	GtkObjectClass parent_class;
 };
 
 typedef void (*ECardSimpleArbitraryCallback) (const ECardArbitrary *arbitrary, gpointer closure);
@@ -227,7 +226,8 @@ ECardSimpleField            e_card_simple_map_phone_to_field     (ECardSimplePho
 ECardSimpleField            e_card_simple_map_email_to_field     (ECardSimpleEmailId            email_id);
 ECardSimpleField            e_card_simple_map_address_to_field   (ECardSimpleAddressId          address_id);
 
-GType                       e_card_simple_get_type               (void);
+/* Standard Gtk function */			      
+GtkType                     e_card_simple_get_type               (void);
 
 #endif /* ! __E_CARD_SIMPLE_H__ */
 

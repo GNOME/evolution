@@ -1052,20 +1052,25 @@ search_system_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, Came
 	return r;
 }
 
-static ESExpResult *
-search_user_tag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
+static ESExpResult *search_user_tag(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
 {
-	const char *value = NULL;
 	ESExpResult *r;
-	
+
 	r(printf("executing user-tag\n"));
-	
-	if (argc == 1)
-		value = camel_tag_get (&search->current->user_tags, argv[0]->value.string);
-	
-	r = e_sexp_result_new(f, ESEXP_RES_STRING);
-	r->value.string = g_strdup (value ? value : "");
-	
+
+	/* are we inside a match-all? */
+	if (search->current) {
+		const char *value = NULL;
+		if (argc == 1) {
+			value = camel_tag_get(&search->current->user_tags, argv[0]->value.string);
+		}
+		r = e_sexp_result_new(f, ESEXP_RES_STRING);
+		r->value.string = g_strdup(value?value:"");
+	} else {
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new();
+	}
+
 	return r;
 }
 

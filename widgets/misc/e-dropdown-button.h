@@ -23,10 +23,6 @@
 #ifndef _E_DROPDOWN_BUTTON_H_
 #define _E_DROPDOWN_BUTTON_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkmenu.h>
 
@@ -36,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_DROPDOWN_BUTTON		  (e_dropdown_button_get_type ())
-#define E_DROPDOWN_BUTTON(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DROPDOWN_BUTTON, EDropdownButton))
-#define E_DROPDOWN_BUTTON_CLASS(klass)	  (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_DROPDOWN_BUTTON, EDropdownButtonClass))
-#define E_IS_DROPDOWN_BUTTON(obj)	  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_DROPDOWN_BUTTON))
-#define E_IS_DROPDOWN_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_DROPDOWN_BUTTON))
+#define E_DROPDOWN_BUTTON(obj)		  (GTK_CHECK_CAST ((obj), E_TYPE_DROPDOWN_BUTTON, EDropdownButton))
+#define E_DROPDOWN_BUTTON_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_DROPDOWN_BUTTON, EDropdownButtonClass))
+#define E_IS_DROPDOWN_BUTTON(obj)	  (GTK_CHECK_TYPE ((obj), E_TYPE_DROPDOWN_BUTTON))
+#define E_IS_DROPDOWN_BUTTON_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_DROPDOWN_BUTTON))
 
 
 typedef struct _EDropdownButton        EDropdownButton;

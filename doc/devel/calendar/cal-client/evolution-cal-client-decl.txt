@@ -172,9 +172,39 @@ CalClient *client
 CalClient *client
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_client_get_email_address</NAME>
+<NAME>cal_client_get_cal_address</NAME>
 <RETURNS>const char  *</RETURNS>
 CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_alarm_email_address</NAME>
+<RETURNS>const char  *</RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_ldap_attribute</NAME>
+<RETURNS>const char  *</RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_one_alarm_only</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_organizer_must_attend</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_save_schedules</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_static_capability</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, const char *cap
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_set_mode</NAME>
@@ -185,6 +215,11 @@ CalClient *client, CalMode mode
 <NAME>cal_client_get_n_objects</NAME>
 <RETURNS>int  </RETURNS>
 CalClient *client, CalObjType type
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_default_object</NAME>
+<RETURNS>CalClientGetStatus  </RETURNS>
+CalClient *client,CalObjType type,CalComponent **comp
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_object</NAME>
@@ -242,6 +277,11 @@ CalClient *client, const char *uid,time_t start, time_t end,CalComponentAlarms *
 CalClient *client, CalComponent *comp
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_client_update_object_with_mod</NAME>
+<RETURNS>CalClientResult  </RETURNS>
+CalClient *client, CalComponent *comp, CalObjModType mod
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_client_update_objects</NAME>
 <RETURNS>CalClientResult  </RETURNS>
 CalClient *client, icalcomponent *icalcomp
@@ -250,6 +290,11 @@ CalClient *client, icalcomponent *icalcomp
 <NAME>cal_client_remove_object</NAME>
 <RETURNS>CalClientResult  </RETURNS>
 CalClient *client, const char *uid
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_remove_object_with_mod</NAME>
+<RETURNS>CalClientResult  </RETURNS>
+CalClient *client, const char *uid, CalObjModType mod
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_send_object</NAME>

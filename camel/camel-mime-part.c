@@ -29,10 +29,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+
 #include <errno.h>
 
 #include <gal/util/e-iconv.h>
 
+#include "hash-table-utils.h"
 #include "camel-mime-parser.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-filter.h"
@@ -211,7 +213,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 {
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	CamelHeaderType header_type;
-	const char *charset;
+	const char *charset, *p;
 	char *text;
 
 	/* Try to parse the header pair. If it corresponds to something   */
@@ -222,10 +224,9 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 	switch (header_type) {
 	case HEADER_DESCRIPTION: /* raw header->utf8 conversion */
 		g_free (mime_part->description);
-		if (mime_part->content_type) {
-			charset = header_content_type_param (mime_part->content_type, "charset");
-			charset = e_iconv_charset_name (charset);
-		} else
+		if (mime_part->content_type)
+			charset = e_iconv_charset_name(header_content_type_param(mime_part->content_type, "charset"));
+		else
 			charset = NULL;
 		mime_part->description = g_strstrip (header_decode_string (header_value, charset));
 		break;
@@ -488,7 +489,7 @@ camel_mime_part_set_encoding (CamelMimePart *mime_part,
 				 "Content-Transfer-Encoding", text);
 }
 
-CamelMimePartEncodingType
+const CamelMimePartEncodingType
 camel_mime_part_get_encoding (CamelMimePart *mime_part)
 {
 	return mime_part->encoding;
@@ -517,7 +518,7 @@ camel_mime_part_get_content_languages (CamelMimePart *mime_part)
 /* **** Content-Type: */
 
 void 
-camel_mime_part_set_content_type (CamelMimePart *mime_part, const gchar *content_type)
+camel_mime_part_set_content_type (CamelMimePart *mime_part, gchar *content_type)
 {
 	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
 				 "Content-Type", content_type);
@@ -632,8 +633,11 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 	d(printf("mime_part::write_to_stream\n"));
 
 	/* FIXME: something needs to be done about this ... */
-	/* TODO: content-languages header? */
-
+	/* FIXME: need to count these bytes too */
+#ifndef NO_WARNINGS
+#warning content-languages should be stored as a header
+#endif
+	
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
 		char *val;
@@ -797,6 +801,10 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	}
 
 	d(printf("mime_part::construct_from_parser() leaving\n"));
+#ifndef NO_WARNINGS
+#warning "Need to work out how to detect a (fatally) bad parse in the parser"
+#endif
+
 	err = camel_mime_parser_errno(mp);
 	if (err != 0) {
 		errno = err;

@@ -1,6 +1,4 @@
-2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
-
-	Part of fix for #34095
+2002-11-30  Hans Petter Jansson  <hpj@ximian.com>
 
 	* scripts/mkderivedparameters.pl: Generate code to free old
 	string value when a new one is set.
@@ -8,41 +6,6 @@
 	* src/libical/icalperiod.c (icalperiodtype_as_ical_string):
 	Callers expect a temporary string, and thus won't free it, so
 	allocate returned memory from the temporary ring.
-
-2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
-
-	* src/libical/Makefile.am (libical_static_la_DEPENDENCIES): Make
-	libical-static.la depend on libical-evolution.la so they they are
-	not built in parallel by a parallel make, since that would break
-	libtool.
-
-2003-02-07  Christian Neumair  <chris@gnome-de.org>
-
-	* .cvsignore: Added missing files.
-	* configure.in: Added AC_PREREQ as defined in ../configure.in.
-
-2003-02-06  Dan Winship  <danw@ximian.com>
-
-	* configure.in: AC_SUBST privlibdir, privincludedir, privdatadir
-	(sent from ../configure). Add descriptions to AC_DEFINEs. Don't
-	bother checking for python since we don't build it anyway.
-
-	* acconfig.h: Gone
-
-	* src/libical/Makefile.am: install library in privlibdir and
-	headers under privincludedir. Look for zone files in privdatadir
-
-	* src/libicalvcal/Makefile.am: install in privlibdir
-
-	* zoneinfo/Makefile.am (zoneinfodatadir): define in terms of
-	privdatadir
-	(install-data-local): update
-
-2002-12-19  Joe Shaw  <joe@ximian.com>
-
-	* configure.in: Add AC_CONFIG_AUX_DIR(..) so it looks for ylwrap in
-	the toplevel evolution directory and not our directory.  Fixes the
-	build for automake >= 1.5
 
 2002-11-26  Rodrigo Moya <rodrigo@ximian.com>
 

@@ -5,10 +5,9 @@
 #include "e-addressbook-table-adapter.h"
 #include "e-card-merging.h"
 #include "e-addressbook-util.h"
-#include "ebook/e-destination.h"
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-#include <libxml/xmlmemory.h>
+#include <gnome-xml/tree.h>
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 #include <gnome.h>
 
 struct _EAddressbookTableAdapterPrivate {
@@ -21,7 +20,7 @@ struct _EAddressbookTableAdapterPrivate {
 };
 
 #define PARENT_TYPE e_table_model_get_type()
-static ETableModelClass *parent_class;
+ETableModelClass *parent_class;
 
 #define COLS (E_CARD_SIMPLE_FIELD_LAST)
 
@@ -31,14 +30,14 @@ unlink_model(EAddressbookTableAdapter *adapter)
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	int i;
 
-	g_signal_handler_disconnect (priv->model,
-				     priv->create_card_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->remove_card_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->modify_card_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->model_changed_id);
+	gtk_signal_disconnect(GTK_OBJECT (priv->model),
+			      priv->create_card_id);
+	gtk_signal_disconnect(GTK_OBJECT (priv->model),
+			      priv->remove_card_id);
+	gtk_signal_disconnect(GTK_OBJECT (priv->model),
+			      priv->modify_card_id);
+	gtk_signal_disconnect(GTK_OBJECT (priv->model),
+			      priv->model_changed_id);
 
 	priv->create_card_id = 0;
 	priv->remove_card_id = 0;
@@ -48,12 +47,12 @@ unlink_model(EAddressbookTableAdapter *adapter)
 	/* free up the existing mapping if there is one */
 	if (priv->simples) {
 		for (i = 0; i < priv->count; i ++)
-			g_object_unref (priv->simples[i]);
+			gtk_object_unref (GTK_OBJECT (priv->simples[i]));
 		g_free (priv->simples);
 		priv->simples = NULL;
 	}
 
-	g_object_unref (priv->model);
+	gtk_object_unref(GTK_OBJECT(priv->model));
 
 	priv->model = NULL;
 }
@@ -67,7 +66,7 @@ build_simple_mapping(EAddressbookTableAdapter *adapter)
 	/* free up the existing mapping if there is one */
 	if (priv->simples) {
 		for (i = 0; i < priv->count; i ++)
-			g_object_unref (priv->simples[i]);
+			gtk_object_unref (GTK_OBJECT (priv->simples[i]));
 		g_free (priv->simples);
 	}
 
@@ -76,7 +75,7 @@ build_simple_mapping(EAddressbookTableAdapter *adapter)
 	priv->simples = g_new (ECardSimple*, priv->count);
 	for (i = 0; i < priv->count; i ++) {
 		priv->simples[i] = e_card_simple_new (e_addressbook_model_card_at (priv->model, i));
-		g_object_ref (priv->simples[i]);
+		gtk_object_ref (GTK_OBJECT (priv->simples[i]));
 	}
 }
 
@@ -124,8 +123,8 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 		EDestination *dest = e_destination_import (value);
 		if (dest) {
 			/* XXX blech, we leak this */
-			value = g_strdup (e_destination_get_textrep (dest, TRUE));
-			g_object_unref (dest);
+			value = g_strdup (e_destination_get_address (dest));
+			gtk_object_unref (GTK_OBJECT (dest));
 		}
 	}
 
@@ -138,6 +137,7 @@ static void
 card_modified_cb (EBook* book, EBookStatus status,
 		  gpointer user_data)
 {
+	/* g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__); */
 	if (status != E_BOOK_STATUS_SUCCESS)
 		e_addressbook_error_dialog (_("Error modifying card"), status);
 }
@@ -157,9 +157,9 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 		e_card_simple_set(priv->simples[row],
 				  col,
 				  val);
-		g_object_get(priv->simples[row],
-			     "card", &card,
-			     NULL);
+		gtk_object_get(GTK_OBJECT(priv->simples[row]),
+			       "card", &card,
+			       NULL);
 
 		e_card_merging_book_commit_card(e_addressbook_model_get_ebook(priv->model),
 						card, card_modified_cb, NULL);
@@ -210,8 +210,8 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	}
 	e_card_simple_sync_card(simple);
 	e_card_merging_book_add_card (e_addressbook_model_get_ebook (priv->model), card, NULL, NULL);
-	g_object_unref (simple);
-	g_object_unref (card);
+	gtk_object_unref(GTK_OBJECT(simple));
+	gtk_object_unref(GTK_OBJECT(card));
 }
 
 /* This function duplicates the value passed to it. */
@@ -251,7 +251,7 @@ e_addressbook_table_adapter_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
 
-	parent_class = g_type_class_peek_parent (object_class);
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = addressbook_destroy;
 
@@ -313,7 +313,7 @@ remove_card (EAddressbookModel *model,
 
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 
-	g_object_unref (priv->simples[index]);
+	gtk_object_unref (GTK_OBJECT (priv->simples[index]));
 	memmove (priv->simples + index, priv->simples + index + 1, (priv->count - index - 1) * sizeof (ECardSimple *));
 	priv->count --;
 	e_table_model_rows_deleted (E_TABLE_MODEL (adapter), index, 1);
@@ -328,9 +328,9 @@ modify_card (EAddressbookModel *model,
 
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 
-	g_object_unref (priv->simples[index]);
+	gtk_object_unref (GTK_OBJECT (priv->simples[index]));
 	priv->simples[index] = e_card_simple_new (e_addressbook_model_card_at (priv->model, index));
-	g_object_ref (priv->simples[index]);
+	gtk_object_ref (GTK_OBJECT (priv->simples[index]));
 	e_table_model_row_changed (E_TABLE_MODEL (adapter), index);
 }
 
@@ -343,25 +343,24 @@ model_changed (EAddressbookModel *model,
 	e_table_model_changed (E_TABLE_MODEL (adapter));
 }
 
-GType
+GtkType
 e_addressbook_table_adapter_get_type (void)
 {
-	static GType type = 0;
+	static GtkType type = 0;
 
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (EAddressbookTableAdapterClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) e_addressbook_table_adapter_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
+	if (!type){
+		GtkTypeInfo info = {
+			"EAddressbookTableAdapter",
 			sizeof (EAddressbookTableAdapter),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) e_addressbook_table_adapter_init,
+			sizeof (EAddressbookTableAdapterClass),
+			(GtkClassInitFunc) e_addressbook_table_adapter_class_init,
+			(GtkObjectInitFunc) e_addressbook_table_adapter_init,
+			NULL, /* reserved 1 */
+			NULL, /* reserved 2 */
+			(GtkClassInitFunc) NULL
 		};
 
-		type = g_type_register_static (PARENT_TYPE, "EAddressbookTableAdapter", &info, 0);
+		type = gtk_type_unique (PARENT_TYPE, &info);
 	}
 
 	return type;
@@ -374,24 +373,24 @@ e_addressbook_table_adapter_construct (EAddressbookTableAdapter *adapter,
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	priv->model = model;
-	g_object_ref (priv->model);
+	gtk_object_ref (GTK_OBJECT (priv->model));
 
-	priv->create_card_id = g_signal_connect(priv->model,
-						"card_added",
-						G_CALLBACK(create_card),
-						adapter);
-	priv->remove_card_id = g_signal_connect(priv->model,
-						"card_removed",
-						G_CALLBACK(remove_card),
-						adapter);
-	priv->modify_card_id = g_signal_connect(priv->model,
-						"card_changed",
-						G_CALLBACK(modify_card),
-						adapter);
-	priv->model_changed_id = g_signal_connect(priv->model,
-						  "model_changed",
-						  G_CALLBACK(model_changed),
+	priv->create_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
+						  "card_added",
+						  GTK_SIGNAL_FUNC(create_card),
 						  adapter);
+	priv->remove_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
+						  "card_removed",
+						  GTK_SIGNAL_FUNC(remove_card),
+						  adapter);
+	priv->modify_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
+						  "card_changed",
+						  GTK_SIGNAL_FUNC(modify_card),
+						  adapter);
+	priv->model_changed_id = gtk_signal_connect(GTK_OBJECT(priv->model),
+						    "model_changed",
+						    GTK_SIGNAL_FUNC(model_changed),
+						    adapter);
 
 	build_simple_mapping (adapter);
 }
@@ -401,7 +400,7 @@ e_addressbook_table_adapter_new (EAddressbookModel *model)
 {
 	EAddressbookTableAdapter *et;
 
-	et = g_object_new(E_TYPE_ADDRESSBOOK_TABLE_ADAPTER, NULL);
+	et = gtk_type_new (e_addressbook_table_adapter_get_type ());
 
 	e_addressbook_table_adapter_construct (et, model);
 

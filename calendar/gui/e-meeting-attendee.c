@@ -26,7 +26,6 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <gal/util/e-util.h>
 #include "e-meeting-attendee.h"
 
 struct _EMeetingAttendeePrivate {
@@ -75,8 +74,31 @@ static void destroy	(GtkObject *obj);
 
 static GtkObjectClass *parent_class = NULL;
 
-E_MAKE_TYPE (e_meeting_attendee, "EMeetingAttendee", EMeetingAttendee,
-	     class_init, init, GTK_TYPE_OBJECT);
+
+GtkType
+e_meeting_attendee_get_type (void)
+{
+	static GtkType type = 0;
+
+	if (type == 0)
+	{
+		static const GtkTypeInfo info =
+		{
+			"EMeetingAttendee",
+			sizeof (EMeetingAttendee),
+			sizeof (EMeetingAttendeeClass),
+			(GtkClassInitFunc) class_init,
+			(GtkObjectInitFunc) init,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+
+		type = gtk_type_unique (gtk_object_get_type (), &info);
+	}
+
+	return type;
+}
 
 static void
 class_init (EMeetingAttendeeClass *klass)
@@ -85,17 +107,19 @@ class_init (EMeetingAttendeeClass *klass)
 
 	object_class = GTK_OBJECT_CLASS (klass);
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = gtk_type_class (gtk_object_get_type ());
 
 	signals[CHANGED] =
 		gtk_signal_new ("changed",
 				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
+				object_class->type,
 				GTK_SIGNAL_OFFSET (EMeetingAttendeeClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
- 	object_class->destroy = destroy;
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
+	object_class->destroy = destroy;
 }
 
 static gchar *
@@ -192,7 +216,7 @@ destroy (GtkObject *obj)
 GtkObject *
 e_meeting_attendee_new (void)
 {
-	return g_object_new (E_TYPE_MEETING_ATTENDEE, NULL);
+	return gtk_type_new (E_TYPE_MEETING_ATTENDEE);
 }
 
 GtkObject *
@@ -200,7 +224,7 @@ e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca)
 {
 	EMeetingAttendee *ia;
 	
-	ia = E_MEETING_ATTENDEE (g_object_new (E_TYPE_MEETING_ATTENDEE, NULL));
+	ia = E_MEETING_ATTENDEE (gtk_type_new (E_TYPE_MEETING_ATTENDEE));
 
 	e_meeting_attendee_set_address (ia, g_strdup (ca->value));
 	e_meeting_attendee_set_member (ia, g_strdup (ca->member));

@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <glib.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "cal-component.h"
 #include "timeutil.h"
@@ -180,11 +181,11 @@ struct _CalComponentAlarm {
 
 
 
-static void cal_component_class_init (CalComponentClass *klass);
-static void cal_component_init (CalComponent *comp, CalComponentClass *klass);
-static void cal_component_finalize (GObject *object);
+static void cal_component_class_init (CalComponentClass *class);
+static void cal_component_init (CalComponent *comp);
+static void cal_component_destroy (GtkObject *object);
 
-static GObjectClass *parent_class;
+static GtkObjectClass *parent_class;
 
 
 
@@ -196,23 +197,24 @@ static GObjectClass *parent_class;
  *
  * Return value: The type ID of the #CalComponent class.
  **/
-GType
+GtkType
 cal_component_get_type (void)
 {
-	static GType cal_component_type = 0;
+	static GtkType cal_component_type = 0;
 
 	if (!cal_component_type) {
-		static GTypeInfo info = {
-                        sizeof (CalComponentClass),
-                        (GBaseInitFunc) NULL,
-                        (GBaseFinalizeFunc) NULL,
-                        (GClassInitFunc) cal_component_class_init,
-                        NULL, NULL,
-                        sizeof (CalComponent),
-                        0,
-                        (GInstanceInitFunc) cal_component_init
-                };
-		cal_component_type = g_type_register_static (G_TYPE_OBJECT, "CalComponent", &info, 0);
+		static const GtkTypeInfo cal_component_info = {
+			"CalComponent",
+			sizeof (CalComponent),
+			sizeof (CalComponentClass),
+			(GtkClassInitFunc) cal_component_class_init,
+			(GtkObjectInitFunc) cal_component_init,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		cal_component_type = gtk_type_unique (GTK_TYPE_OBJECT, &cal_component_info);
 	}
 
 	return cal_component_type;
@@ -220,20 +222,20 @@ cal_component_get_type (void)
 
 /* Class initialization function for the calendar component object */
 static void
-cal_component_class_init (CalComponentClass *klass)
+cal_component_class_init (CalComponentClass *class)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
+	object_class = (GtkObjectClass *) class;
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
-	object_class->finalize = cal_component_finalize;
+	object_class->destroy = cal_component_destroy;
 }
 
 /* Object initialization function for the calendar component object */
 static void
-cal_component_init (CalComponent *comp, CalComponentClass *klass)
+cal_component_init (CalComponent *comp)
 {
 	CalComponentPrivate *priv;
 
@@ -356,9 +358,9 @@ free_icalcomponent (CalComponent *comp, gboolean free)
 	priv->need_sequence_inc = FALSE;
 }
 
-/* Finalize handler for the calendar component object */
+/* Destroy handler for the calendar component object */
 static void
-cal_component_finalize (GObject *object)
+cal_component_destroy (GtkObject *object)
 {
 	CalComponent *comp;
 	CalComponentPrivate *priv;
@@ -376,8 +378,8 @@ cal_component_finalize (GObject *object)
 	g_free (priv);
 	comp->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -433,7 +435,7 @@ cal_component_gen_uid (void)
 CalComponent *
 cal_component_new (void)
 {
-	return CAL_COMPONENT (g_object_new (CAL_COMPONENT_TYPE, NULL));
+	return CAL_COMPONENT (gtk_type_new (CAL_COMPONENT_TYPE));
 }
 
 /**
@@ -4785,7 +4787,7 @@ cal_component_alarms_free (CalComponentAlarms *alarms)
 	g_return_if_fail (alarms != NULL);
 
 	g_assert (alarms->comp != NULL);
-	g_object_unref (G_OBJECT (alarms->comp));
+	gtk_object_unref (GTK_OBJECT (alarms->comp));
 
 	for (l = alarms->alarms; l; l = l->next) {
 		CalAlarmInstance *instance;

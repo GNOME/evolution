@@ -29,30 +29,28 @@ figs = \
 	figures/small_desktop.png		\
 	figures/summary.png			\
 	figures/vfolder-createrule-fig.png
-figdir = figures
-docname = evolution-1.4
-lang = C
-omffile = evolution-1.4-C.omf
-entities =	\
-	apx-authors.xml		\
-	apx-bugs.xml		\
-	apx-fdl.xml		\
-	apx-gloss.xml		\
-	apx-gpl.xml		\
-	config-prefs.xml	\
-	config-sync.xml		\
-	legal.xml		\
-	menuref.xml		\
-	preface.xml		\
-	usage-calendar.xml	\
-	usage-contact.xml	\
-	usage-exec-summary.xml	\
-	usage-exchange.xml	\
-	usage-mail-org.xml	\
-	usage-mail.xml		\
-	usage-mainwindow.xml	\
-	usage-print.xml		\
-	usage-sync.xml
 
-include $(top_srcdir)/help/xmldocs.make
+docname = evolution
+lang = C
+omffile = evolution-C.omf
+sgml_ents =	\
+	apx-authors.sgml	\
+	apx-bugs.sgml		\
+	apx-gloss.sgml		\
+	apx-fdl.sgml		\
+	apx-gpl.sgml		\
+	config-prefs.sgml	\
+	config-sync.sgml	\
+	menuref.sgml		\
+	preface.sgml		\
+	usage-calendar.sgml	\
+	usage-contact.sgml	\
+	usage-exec-summary.sgml	\
+	usage-exchange.sgml	\
+	usage-mail-org.sgml	\
+	usage-mail.sgml		\
+	usage-mainwindow.sgml	\
+	usage-print.sgml	\
+	usage-sync.sgml
+include $(top_srcdir)/help/sgmldocs.make
 dist-hook: app-dist-hook

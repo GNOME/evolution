@@ -26,11 +26,12 @@
 #include <string.h>
 #include <ical.h>
 #include <glib.h>
-#include <gtk/gtklabel.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <bonobo-activation/bonobo-activation.h>
+#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
+#include <gal/unicode/gunicode.h>
 #include <ebook/e-destination.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
@@ -282,11 +283,11 @@ comp_editor_create_contacts_component (void)
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
-	corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0,
-								 NULL, &ev);
+	corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0,
+						   NULL, &ev);
 
 	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
-           raising an exception in `ev'.  Is this true with BonoboActivation? */
+           raising an exception in `ev'.  */
 	if (ev._major != CORBA_NO_EXCEPTION
 	    || corba_select_names == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot activate -- %s", SELECT_NAMES_OAFID);
@@ -337,7 +338,7 @@ comp_editor_create_contacts_control (GNOME_Evolution_Addressbook_SelectNames cor
 }
 
 
-void
+Bonobo_EventSource_ListenerId
 comp_editor_connect_contacts_changed (GtkWidget *contacts_entry,
 				      BonoboListenerCallbackFn changed_cb,
 				      gpointer changed_cb_data)
@@ -348,7 +349,7 @@ comp_editor_connect_contacts_changed (GtkWidget *contacts_entry,
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (contacts_entry));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 
-	bonobo_event_source_client_add_listener (
+	return bonobo_event_source_client_add_listener (
 		pb, changed_cb,
 		"Bonobo/Property:change:entry_changed",
 		NULL, changed_cb_data);
@@ -380,8 +381,8 @@ parse_contact_string (const char *value, char **name, char **email)
 		return;
 	}
 
-	lbracket = g_utf8_strchr (value, g_utf8_strlen (value, 0), '<');
-	rbracket = g_utf8_strchr (value, g_utf8_strlen (value, 0), '>');
+	lbracket = g_utf8_strchr (value, '<');
+	rbracket = g_utf8_strchr (value, '>');
 
 	if (!lbracket || !rbracket || rbracket < lbracket) {
 		*name = g_strdup (value);
@@ -421,9 +422,6 @@ comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 	int i;
 
 	cal_component_get_contact_list (comp, &contact_list);
-	if (!contact_list)
-		return;
-
 	dest_array = g_ptr_array_new ();
 	for (elem = contact_list; elem; elem = elem->next) {
 		CalComponentText *t = elem->data;
@@ -449,14 +447,14 @@ comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 #endif
 
 	bonobo_widget_set_property (BONOBO_WIDGET (contacts_entry),
-				    "destinations", TC_CORBA_string, contacts_string, NULL);
+				    "destinations", contacts_string, NULL);
 
 	g_free (contacts_string);
 
 	/* We free all dest_array except the last NULL we added. */
 	for (i = 0; i < dest_array->len - 1; i++) {
 		dest = g_ptr_array_index (dest_array, i);
-		g_object_unref((dest));
+		gtk_object_unref (GTK_OBJECT (dest));
 	}
 	g_ptr_array_free (dest_array, TRUE);
 }
@@ -474,7 +472,7 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 	int i;
 
 	bonobo_widget_get_property (BONOBO_WIDGET (contacts_entry),
-				    "destinations", TC_CORBA_string, &contacts_string, NULL);
+				    "destinations", &contacts_string, NULL);
 #if 0
 	g_print ("Contacts string: %s\n", contacts_string ? contacts_string : "");
 #endif
@@ -506,7 +504,7 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 
 			contact_list = g_slist_prepend (contact_list, t);
 
-			g_object_unref((contact_destv[i]));
+			gtk_object_unref (GTK_OBJECT (contact_destv[i]));
 		}
 	}
 	g_free (contact_destv);

@@ -1,54 +1,6 @@
-2003-03-26  Chris Toshok  <toshok@ximian.com>
+2002-11-03  Jeffrey Stedfast  <fejj@ximian.com>
 
-	[ fixes #40212 ]
-	* evolution-contact-editor.xml: change accelerator for Save
-	As... to Control-Shift-s
-
-	* evolution-contact-list-editor.xml: same.
-
-2003-03-20  JP Rosevear  <jpr@ximian.com>
-
-	* evolution.xml: remove conduit settings as a separate entry
-
-2003-02-28  Ettore Perazzoli  <ettore@ximian.com>
-
-	* evolution-mail-message.xml: Make "MessageReplyList" and
-	"MessagePostReply" have no pixbuf.
-	* evolution-mail-global.xml: Same with "MailPost".
-
-2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
-
-	* evolution-event-editor.xml: Fix an attributes typo.
-
-2003-02-23  Hans Petter Jansson  <hpj@ximian.com>
-
-	* evolution-comp-editor.xml: Fix an attributes typo and add stock
-	icon identifiers to silence warning spew.
-
-2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (uidir): Removed (this is now defined in
-	configure.in).
-
-2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	* evolution-message-composer.xml: Change hlook value for "Toolbar"
-	to be "both_horiz".
-	* evolution-signature-editor.xml: Likewise.
-	* evolution-mail-messagedisplay.xml: Likewise.
-	* evolution-event-editor.xml: Likewise.
-	* evolution-contact-list-editor.xml: Likewise.
-	* evolution-contact-editor.xml: Likewise.
-	* evolution-comp-editor.xml: Likewise.
-
-2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
-
-	* evolution.xml: Change hlook value for Toolbar to be
-	"both_horiz".
-
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (uidir): Install in $(datadir)/gnome-2.0/ui.
+	* evolution-mail-message.xml: Fix for bug #33173
 
 2002-10-28  Ettore Perazzoli  <ettore@ximian.com>
 

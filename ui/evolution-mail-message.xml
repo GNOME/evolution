@@ -92,7 +92,8 @@
 
     <cmd name="MessagePostReply"
      _tip="Post a reply to a message in a Public folder"
-     accel=""/>
+     accel=""
+     pixtype="pixbuf"/>
 
     <cmd name="MessageRedirect"
      _tip="Redirect (bounce) the selected message to someone"
@@ -105,7 +106,8 @@
 
     <cmd name="MessageReplyList"
      _tip="Compose a reply to the mailing list of the selected message"
-     accel=""/>
+     accel=""
+     pixtype="pixbuf"/>
 
     <cmd name="MessageReplySender"
      _tip="Compose a reply to the sender of the selected message"

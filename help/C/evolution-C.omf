@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE omf PUBLIC "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" "http://scrollkeeper.sourceforge.net/dtds/scrollkeeper-omf-1.0/scrollkeeper-omf.dtd">
+<omf>
+  <resource>
+   <creator>
+     Ximian, Inc.
+   </creator>
+    <title>
+      Evolution Manual
+    </title>
+    <date>2002</date>
+    <subject category="GNOME|Applications"/>
+    <format mime="text/html"/>
+    <identifier url="index.html"/>
+    <language code="C"/>
+    <relation seriesid="6a2207d8-8aa4-11d6-8cb4-f0bb5a765891"/>
+  </resource>
+</omf>

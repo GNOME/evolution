@@ -26,14 +26,17 @@
 #include <fcntl.h>
 #include <gtk/gtkfilesel.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtk.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 #include <errno.h>
 #include <string.h>
 #include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
 
-static gint file_exists(GtkFileSelection *filesel, const char *filename);
+static int file_exists(GtkFileSelection *filesel, const char *filename);
 
 typedef struct {
 	GtkFileSelection *filesel;
@@ -53,23 +56,21 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	if (error == EEXIST) {
 		response = file_exists(info->filesel, filename);
 		switch (response) {
-			case GTK_RESPONSE_ACCEPT : /* Overwrite */
+			case 0 : /* Overwrite */
 				e_write_file(filename, info->vcard, O_WRONLY | O_CREAT | O_TRUNC);
 				break;
-			case GTK_RESPONSE_REJECT : /* cancel */
+			case 1 : /* cancel */
 				return;
 		}
 	} else if (error != 0) {
 		GtkWidget *dialog;
 		char *str;
 
-		str = g_strdup_printf (_("Error saving %s: %s"), filename, strerror(errno));
-		dialog = gtk_message_dialog_new (GTK_WINDOW (info->filesel),
-						 GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_OK,
-						 str);
+		str = g_strdup_printf ("Error saving %s: %s", filename, strerror(errno));
+		dialog = gnome_message_box_new (str, GNOME_MESSAGE_BOX_ERROR, GNOME_STOCK_BUTTON_OK, NULL);
 		g_free (str);
+
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (info->filesel));
 
 		gtk_widget_show (dialog);
 		
@@ -86,9 +87,8 @@ close_it(GtkWidget *widget, SaveAsInfo *info)
 }
 
 static void
-destroy_it(void *data, GObject *where_the_object_was)
+destroy_it(GtkWidget *widget, SaveAsInfo *info)
 {
-	SaveAsInfo *info = data;
 	g_free (info->vcard);
 	g_free (info);
 }
@@ -122,25 +122,29 @@ e_contact_save_as(char *title, ECard *card, GtkWindow *parent_window)
 	GtkFileSelection *filesel;
 	char *file;
 	char *name;
+	char *locale_name;
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
 
 	filesel = GTK_FILE_SELECTION(gtk_file_selection_new(title));
 
-	g_object_get (card,
-		      "file_as", &name,
-		      NULL);
-	file = make_safe_filename (g_get_home_dir(), name);
+	gtk_object_get (GTK_OBJECT (card),
+			"file_as", &name,
+			NULL);
+	locale_name = e_utf8_to_locale_string (name);
+	file = make_safe_filename (g_get_home_dir(), locale_name);
 	gtk_file_selection_set_filename (filesel, file);
 	g_free (file);
+	g_free (locale_name);
 
 	info->filesel = filesel;
 	info->vcard = e_card_get_vcard(card);
 
-	g_signal_connect(filesel->ok_button, "clicked",
-			 G_CALLBACK (save_it), info);
-	g_signal_connect(filesel->cancel_button, "clicked",
-			 G_CALLBACK (close_it), info);
-	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel->ok_button), "clicked",
+			   save_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel->cancel_button), "clicked",
+			   close_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel), "destroy",
+			   destroy_it, info);
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),
@@ -161,13 +165,15 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 
 	/* This is a filename. Translators take note. */
 	if (list && list->data && list->next == NULL) {
-		char *name, *file;
-		g_object_get (list->data,
-			      "file_as", &name,
-			      NULL);
-		file = make_safe_filename (g_get_home_dir(), name);
+		char *name, *locale_name, *file;
+		gtk_object_get (GTK_OBJECT (list->data),
+				"file_as", &name,
+				NULL);
+		locale_name = e_utf8_to_locale_string (name);
+		file = make_safe_filename (g_get_home_dir(), locale_name);
 		gtk_file_selection_set_filename (filesel, file);
 		g_free (file);
+		g_free (locale_name);
 	} else {
 		char *file;
 		file = make_safe_filename (g_get_home_dir(), _("list"));
@@ -178,11 +184,12 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 	info->filesel = filesel;
 	info->vcard = e_card_list_get_vcard (list);
 	
-	g_signal_connect(filesel->ok_button, "clicked",
-			 G_CALLBACK (save_it), info);
-	g_signal_connect(filesel->cancel_button, "clicked",
-			 G_CALLBACK (close_it), info);
-	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel->ok_button), "clicked",
+			   save_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel->cancel_button), "clicked",
+			   close_it, info);
+	gtk_signal_connect(GTK_OBJECT(filesel), "destroy",
+			   destroy_it, info);
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),
@@ -193,24 +200,31 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 	gtk_widget_show(GTK_WIDGET(filesel));
 }
 
-static gint
+static int
 file_exists(GtkFileSelection *filesel, const char *filename)
 {
-	GtkWidget *dialog;
-	gint response;
+	GnomeDialog *dialog = NULL;
+	GtkWidget *label;
+	GladeXML *gui = NULL;
+	int result = 0;
+	char *string;
 
-	dialog = gtk_message_dialog_new (GTK_WINDOW (filesel),
-					 0,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_NONE,
-					 _("%s already exists\nDo you want to overwrite it?"), filename);
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/file-exists.glade", NULL);
+	dialog = GNOME_DIALOG(glade_xml_get_widget(gui, "dialog-exists"));
+	
+	label = glade_xml_get_widget (gui, "label-exists");
+	if (GTK_IS_LABEL (label)) {
+		string = g_strdup_printf (_("%s already exists\nDo you want to overwrite it?"), filename);
+		gtk_label_set_text (GTK_LABEL (label), string);
+		g_free (string);
+	}
 
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-				_("Overwrite"), GTK_RESPONSE_ACCEPT,
-				NULL);
+	gnome_dialog_set_parent(dialog, GTK_WINDOW(filesel));
 
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-	return response;
+	gtk_widget_show (GTK_WIDGET (dialog));
+	result = gnome_dialog_run_and_close(dialog);
+
+	g_free(gui);
+
+	return result;
 }

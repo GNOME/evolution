@@ -1,6 +1,6 @@
 SUBDIRS = local
 
-defaultdir = $(privdatadir)/default_user
+defaultdir = $(datadir)/evolution/default_user
 default_DATA = addressbook-sources.xml searches.xml vfolders.xml
 
 EXTRA_DIST = $(default_DATA)

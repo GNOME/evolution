@@ -88,11 +88,8 @@ module Evolution {
 
 		/* Notify the component of whether the shell is currently
 		 * running in interactive mode or not.  (I.e. basically,
-		 * whether there are any Evolution windows on the screen.)
-		 * @new_view_xid is an X Window ID ("None" if
-		 * @now_interactive is FALSE) */
-		void interactive (in boolean now_interactive,
-				  in unsigned long new_view_xid);
+		 * whether there are any Evolution windows on the screen.)  */
+		void interactive (in boolean now_interactive);
 
 		/* Send debugging output to the file specified.  */
 		void debug (in string log_path);
