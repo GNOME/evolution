@@ -36,14 +36,12 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "camel/camel-exception.h"
-#include "camel/camel-url.h"
-#include "camel/string-utils.h"
-#include "camel/camel-stream-mem.h"
-#include "camel/camel-session.h"
-#include "camel/camel-data-cache.h"
+#include <camel/camel-url.h>
+#include <camel/string-utils.h>
+#include <camel/camel-session.h>
+#include <camel/camel-tcp-stream-raw.h>
+#include <camel/camel-tcp-stream-ssl.h>
 
-#include "camel-nntp-stream.h"
 #include "camel-nntp-summary.h"
 #include "camel-nntp-store.h"
 #include "camel-nntp-folder.h"
@@ -53,15 +51,15 @@
 extern int camel_verbose_debug;
 #define dd(x) (camel_verbose_debug?(x):0)
 
-#define NNTP_PORT 119
+#define NNTP_PORT  119
+#define NNTPS_PORT 563
 
 #define DUMP_EXTENSIONS
 
 /* define if you want the subscribe ui to show folders in tree form */
 /* #define INFO_AS_TREE */
 
-static CamelRemoteStoreClass *remote_store_class = NULL;
-
+static CamelStoreClass *parent_class = NULL;
 static CamelServiceClass *service_class = NULL;
 
 /* Returns the class for a CamelNNTPStore */
@@ -69,56 +67,172 @@ static CamelServiceClass *service_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+
+enum {
+	USE_SSL_NEVER,
+	USE_SSL_ALWAYS,
+	USE_SSL_WHEN_POSSIBLE
+};
+
 static gboolean
-nntp_store_connect (CamelService *service, CamelException *ex)
+connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 {
-	unsigned char *line;
+	CamelNNTPStore *store = (CamelNNTPStore *) service;
+	CamelStream *tcp_stream;
+	gboolean retval = FALSE;
+	unsigned char *buf;
 	unsigned int len;
-	int ret = FALSE;
-	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
-
+	struct hostent *h;
+	int port, ret;
+	
 	CAMEL_NNTP_STORE_LOCK(store, command_lock);
-
+		
 	/* setup store-wide cache */
 	if (store->cache == NULL) {
 		char *root;
-
-		root = camel_session_get_storage_path(service->session, service, ex);
+		
+		root = camel_session_get_storage_path (service->session, service, ex);
 		if (root == NULL)
 			goto fail;
-
-		store->cache = camel_data_cache_new(root, 0, ex);
-		g_free(root);
+		
+		store->cache = camel_data_cache_new (root, 0, ex);
+		g_free (root);
 		if (store->cache == NULL)
 			goto fail;
-
+		
 		/* Default cache expiry - 2 weeks old, or not visited in 5 days */
-		camel_data_cache_set_expire_age(store->cache, 60*60*24*14);
-		camel_data_cache_set_expire_access(store->cache, 60*60*24*5);
+		camel_data_cache_set_expire_age (store->cache, 60*60*24*14);
+		camel_data_cache_set_expire_access (store->cache, 60*60*24*5);
 	}
-
-	if (CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex) == FALSE)
+	
+	h = camel_service_gethost (service, ex);
+	if (!h)
 		goto fail;
-
-	store->stream = (CamelNNTPStream *)camel_nntp_stream_new(((CamelRemoteStore *)service)->ostream);
-	if (camel_nntp_stream_line(store->stream, &line, &len) == -1)
+	
+	port = service->url->port ? service->url->port : NNTP_PORT;
+	
+#ifdef HAVE_SSL
+	if (ssl_mode != USE_SSL_NEVER) {
+		port = service->url->port ? service->url->port : NNTPS_PORT;
+		tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
+	} else {
+		tcp_stream = camel_tcp_stream_raw_new ();
+	}
+#else
+	tcp_stream = camel_tcp_stream_raw_new ();
+#endif /* HAVE_SSL */
+	
+	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
+	camel_free_host (h);
+	if (ret == -1) {
+		if (errno == EINTR)
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     _("Connection cancelled"));
+		else
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Could not connect to %s (port %d): %s"),
+					      service->url->host, port, g_strerror (errno));
+		
+		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		
 		goto fail;
-
-	len = strtoul(line, (char **)&line, 10);
-	if (len != 200 && len != 201)
+	}
+	
+	store->stream = (CamelNNTPStream *) camel_nntp_stream_new (tcp_stream);
+	camel_object_unref (CAMEL_OBJECT (tcp_stream));
+	
+	/* Read the greeting, if any. */
+	if (camel_nntp_stream_line (store->stream, &buf, &len) == -1) {
+		if (errno == EINTR)
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     _("Connection cancelled"));
+		else
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Could not read greeting from %s: %s"),
+					      service->url->host, g_strerror (errno));
+		
+		camel_object_unref (CAMEL_OBJECT (store->stream));
+		store->stream = NULL;
+		
 		goto fail;
-
+	}
+	
+	len = strtoul (buf, (char **) &buf, 10);
+	if (len != 200 && len != 201) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("NNTP server %s returned error code %d: %s"),
+				      service->url->host, len, buf);
+		
+		camel_object_unref (CAMEL_OBJECT (store->stream));
+		store->stream = NULL;
+		
+		goto fail;
+	}
+	
 	/* set 'reader' mode & ignore return code */
-	camel_nntp_command(store, (char **)&line, "mode reader");
-	ret = TRUE;
-fail:
+	camel_nntp_command (store, (char **) &buf, "mode reader");
+	retval = TRUE;
+	
+ fail:
 	CAMEL_NNTP_STORE_UNLOCK(store, command_lock);
+	
+	return retval;
+}
 
-	return ret;
+static struct {
+	char *value;
+	int mode;
+} ssl_options[] = {
+	{ "",              USE_SSL_ALWAYS        },
+	{ "always",        USE_SSL_ALWAYS        },
+	{ "when-possible", USE_SSL_WHEN_POSSIBLE },
+	{ "never",         USE_SSL_NEVER         },
+	{ NULL,            USE_SSL_NEVER         },
+};
+
+static gboolean
+nntp_connect (CamelService *service, CamelException *ex)
+{
+#ifdef HAVE_SSL
+	const char *use_ssl;
+	int i, ssl_mode;
+	
+	use_ssl = camel_url_get_param (service->url, "use_ssl");
+	if (use_ssl) {
+		for (i = 0; ssl_options[i].value; i++)
+			if (!strcmp (ssl_options[i].value, use_ssl))
+				break;
+		ssl_mode = ssl_options[i].mode;
+	} else
+		ssl_mode = USE_SSL_NEVER;
+	
+	if (ssl_mode == USE_SSL_ALWAYS) {
+		/* Connect via SSL */
+		return connect_to_server (service, ssl_mode, ex);
+	} else if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
+		/* If the server supports SSL, use it */
+		if (!connect_to_server (service, ssl_mode, ex)) {
+			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE) {
+				/* The ssl port seems to be unavailable, fall back to plain NNTP */
+				camel_exception_clear (ex);
+				return connect_to_server (service, USE_SSL_NEVER, ex);
+			} else {
+				return FALSE;
+			}
+		}
+		
+		return TRUE;
+	} else {
+		/* User doesn't care about SSL */
+		return connect_to_server (service, ssl_mode, ex);
+	}
+#else
+	return connect_to_server (service, USE_SSL_NEVER, ex);
+#endif
 }
 
 static gboolean
-nntp_store_disconnect (CamelService *service, gboolean clean, CamelException *ex)
+nntp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
 	char *line;
@@ -162,11 +276,9 @@ static CamelServiceAuthType password_authtype = {
 static GList *
 nntp_store_query_auth_types (CamelService *service, CamelException *ex)
 {
-	GList *prev;
-	
 	g_warning ("nntp::query_auth_types: not implemented. Defaulting.");
-	prev = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types (service, ex);
-	return g_list_prepend (prev, &password_authtype);
+	
+	return g_list_append (NULL, &password_authtype);
 }
 
 static CamelFolder *
@@ -301,21 +413,20 @@ nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_nntp_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
 
-	remote_store_class = CAMEL_REMOTE_STORE_CLASS(camel_type_get_global_classfuncs 
-						      (camel_remote_store_get_type ()));
+	parent_class = CAMEL_STORE_CLASS (camel_type_get_global_classfuncs (camel_store_get_type ()));
 
 	service_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method overload */
-	camel_service_class->connect = nntp_store_connect;
-	camel_service_class->disconnect = nntp_store_disconnect;
+	camel_service_class->connect = nntp_connect;
+	camel_service_class->disconnect = nntp_disconnect;
 	camel_service_class->query_auth_types = nntp_store_query_auth_types;
 	camel_service_class->get_name = nntp_store_get_name;
-
+	
 	camel_store_class->get_folder = nntp_store_get_folder;
 	camel_store_class->get_folder_info = nntp_store_get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
-
+	
 	camel_store_class->folder_subscribed = nntp_store_folder_subscribed;
 	camel_store_class->subscribe_folder = nntp_store_subscribe_folder;
 	camel_store_class->unsubscribe_folder = nntp_store_unsubscribe_folder;
@@ -324,12 +435,9 @@ nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 static void
 nntp_store_init (gpointer object, gpointer klass)
 {
-	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE(object);
 	CamelStore *store = CAMEL_STORE (object);
 	struct _CamelNNTPStorePrivate *p;
-
-	remote_store->default_port = NNTP_PORT;
 
 	store->flags = CAMEL_STORE_SUBSCRIPTIONS;
 
@@ -346,14 +454,16 @@ camel_nntp_store_get_type (void)
 {
 	static CamelType camel_nntp_store_type = CAMEL_INVALID_TYPE;
 	
-	if (camel_nntp_store_type == CAMEL_INVALID_TYPE)	{
-		camel_nntp_store_type = camel_type_register (CAMEL_REMOTE_STORE_TYPE, "CamelNNTPStore",
-							     sizeof (CamelNNTPStore),
-							     sizeof (CamelNNTPStoreClass),
-							     (CamelObjectClassInitFunc) nntp_store_class_init,
-							     NULL,
-							     (CamelObjectInitFunc) nntp_store_init,
-							     (CamelObjectFinalizeFunc) nntp_store_finalise);
+	if (camel_nntp_store_type == CAMEL_INVALID_TYPE) {
+		camel_nntp_store_type =
+			camel_type_register (CAMEL_STORE_TYPE,
+					     "CamelNNTPStore",
+					     sizeof (CamelNNTPStore),
+					     sizeof (CamelNNTPStoreClass),
+					     (CamelObjectClassInitFunc) nntp_store_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) nntp_store_init,
+					     (CamelObjectFinalizeFunc) nntp_store_finalise);
 	}
 	
 	return camel_nntp_store_type;
@@ -376,6 +486,14 @@ int camel_nntp_store_set_folder(CamelNNTPStore *store, CamelFolder *folder, Came
 	return ret;
 }
 
+static gboolean
+nntp_connected (CamelNNTPStore *store, CamelException *ex)
+{
+	if (store->stream == NULL)
+		return camel_service_connect (CAMEL_SERVICE (store), ex);
+	return TRUE;
+}
+
 /* Enter owning lock */
 int
 camel_nntp_command(CamelNNTPStore *store, char **line, const char *fmt, ...)
@@ -389,9 +507,9 @@ camel_nntp_command(CamelNNTPStore *store, char **line, const char *fmt, ...)
 
 	e_mutex_assert_locked(store->priv->command_lock);
 
-	if (!camel_remote_store_connected((CamelRemoteStore *)store, NULL))
+	if (!nntp_connected (store, NULL))
 		return -1;
-
+	
 	/* Check for unprocessed data, ! */
 	if (store->stream->mode == CAMEL_NNTP_STREAM_DATA) {
 		g_warning("Unprocessed data left in stream, flushing");

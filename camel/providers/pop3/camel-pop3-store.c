@@ -182,6 +182,9 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					      _("Could not connect to %s (port %d): %s"),
 					      service->url->host, port, g_strerror (errno));
+		
+		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		
 		return FALSE;
 	}
 	

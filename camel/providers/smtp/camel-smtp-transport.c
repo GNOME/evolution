@@ -277,6 +277,8 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 				      service->url->host, port,
 				      g_strerror (errno));
 		
+		camel_object_unref (CAMEL_OBJECT (tcp_stream));
+		
 		return FALSE;
 	}
 	

@@ -28,11 +28,15 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
-#include "camel/camel-remote-store.h"
-#include "camel/camel-exception.h"
-#include "camel/camel-folder.h"
+#include <camel/camel-store.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-data-cache.h>
+#include <camel/camel-exception.h>
+#include <camel/camel-folder.h>
+
+#include "camel-nntp-stream.h"
 
 #define CAMEL_NNTP_STORE_TYPE     (camel_nntp_store_get_type ())
 #define CAMEL_NNTP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_NNTP_STORE_TYPE, CamelNNTPStore))
@@ -52,24 +56,24 @@ typedef struct _CamelNNTPStore CamelNNTPStore;
 typedef struct _CamelNNTPStoreClass CamelNNTPStoreClass;
 
 struct _CamelNNTPStore {
-	CamelRemoteStore parent_object;	
-
+	CamelStore parent_object;	
+	
 	struct _CamelNNTPStorePrivate *priv;
-
+	
 	guint32 extensions;
-
+	
 	gboolean posting_allowed;
-
-	struct _CamelNNTPStream *stream;
-	struct _CamelStreamMem *mem;
-
-	struct _CamelDataCache *cache;
-
+	
+	CamelNNTPStream *stream;
+	CamelStreamMem *mem;
+	
+	CamelDataCache *cache;
+	
 	char *current_folder;
 };
 
 struct _CamelNNTPStoreClass {
-	CamelRemoteStoreClass parent_class;
+	CamelStoreClass parent_class;
 
 };
 
