@@ -1,5 +1,10 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* mail-mt.c (mail_msg_received): If we have a cancellation setup,
+	destroy it immediately, to save fd's.
+	(mail_msg_cancel): Check cancel != NULL.
+	(mail_msg_free): Same.
+
 	* folder-info.c: Comment out the Folder: and you've got mail
 	prints.
 

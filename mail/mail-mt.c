@@ -206,7 +206,9 @@ void mail_msg_free(void *msg)
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
 
-	camel_operation_unref(m->cancel);
+	if (m->cancel)
+		camel_operation_unref(m->cancel);
+
 	camel_exception_clear(&m->ex);
 	/*g_free(m->priv->what);*/
 	g_free(m->priv);
@@ -277,7 +279,7 @@ void mail_msg_cancel(unsigned int msgid)
 	MAIL_MT_LOCK(mail_msg_lock);
 	m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
 
-	if (m)
+	if (m && m->cancel)
 		camel_operation_cancel(m->cancel);
 
 	MAIL_MT_UNLOCK(mail_msg_lock);
@@ -500,6 +502,10 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 	if (m->ops->describe_msg) {
 		camel_operation_end(m->cancel);
 		camel_operation_unregister(m->cancel);
+		MAIL_MT_LOCK(mail_msg_lock);
+		camel_operation_unref(m->cancel);
+		m->cancel = NULL;
+		MAIL_MT_UNLOCK(mail_msg_lock);
 	}
 }
 
@@ -909,7 +915,8 @@ static void do_op_status(struct _mail_msg *mm)
 				MAIL_MT_UNLOCK (mail_msg_lock);
 				if (activity)
 					gtk_object_unref (GTK_OBJECT (activity));
-				camel_operation_unref (msg->cancel);
+				if (msg->cancel)
+					camel_operation_unref (msg->cancel);
 				camel_exception_clear (&msg->ex);
 				g_free (msg->priv);
 				g_free (msg);
