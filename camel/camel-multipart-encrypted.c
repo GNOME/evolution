@@ -282,6 +282,8 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 	encrypted_part = camel_multipart_get_part (CAMEL_MULTIPART (mpe), CAMEL_MULTIPART_ENCRYPTED_CONTENT);
 	mime_type = camel_mime_part_get_content_type (encrypted_part);
 	if (!header_content_type_is (mime_type, "application", "octet-stream")) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Failed to decrypt MIME part: invalid structure"));
 		camel_object_unref (encrypted_part);
 		camel_object_unref (version_part);
 		return NULL;

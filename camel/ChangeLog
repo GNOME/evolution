@@ -1,3 +1,9 @@
+2002-07-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-multipart-encrypted.c (camel_multipart_encrypted_decrypt):
+	Don't forget to set an appropriate exception before returning
+	NULL.
+
 2002-07-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (get_message_cb): Make sure message is
