@@ -1,3 +1,12 @@
+2000-09-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (mail_generate_reply): Applied Jesse's patch that
+	will append a signature to the replied message text
+
+	* folder-browser-factory.c: Changed "Send & Receieve" back to "Get
+	Mail" temporarily so that the toolbar buttons don't all get
+	stretched to some weird proportion
+
 2000-09-03  JP Rosevear  <jpr@helixcode.com>
 
 	* mail-config.c (mail_config_add_news): Copy the passed in item

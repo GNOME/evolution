@@ -1630,18 +1630,24 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	gboolean want_plain, is_html;
 	const char *repl_to, *message_id, *references;
 	GList *to, *cc;
-
+	MailConfigIdentity *id;
+	gchar *sig_file = NULL;
+	
 	want_plain = !mail_config_send_html ();
-
+	
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	text = mail_get_message_body (contents, want_plain, &is_html);
 	
-	composer = E_MSG_COMPOSER (e_msg_composer_new ());
+	id = mail_config_get_default_identity ();
+	if (id)
+	      sig_file = id->sig;
+	
+	composer = E_MSG_COMPOSER (e_msg_composer_new_with_sig_file (sig_file));
 	
 	/* Set the quoted reply text. */
 	if (text) {
 		char *repl_text;
-
+		
 		if (is_html) {
 			repl_text = g_strdup_printf ("<blockquote><i>\n%s\n"
 						     "</i></blockquote>\n",
@@ -1649,7 +1655,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 		} else {
 			char *s, *d, *quoted_text;
 			int lines, len;
-
+			
 			/* Count the number of lines in the body. If
 			 * the text ends with a \n, this will be one
 			 * too high, but that's ok. Allocate enough
@@ -1658,10 +1664,10 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 			for (s = text, lines = 0; s; s = strchr (s + 1, '\n'))
 				lines++;
 			quoted_text = g_malloc (strlen (text) + lines * 2);
-
+			
 			s = text;
 			d = quoted_text;
-
+			
 			/* Copy text to quoted_text line by line,
 			 * prepending "> ".
 			 */
@@ -1675,7 +1681,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 					break;
 				d += len + 3;
 			}
-
+			
 			/* Now convert that to HTML. */
 			repl_text = e_text_to_html (quoted_text,
 						    E_TEXT_TO_HTML_PRE);
@@ -1685,19 +1691,19 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 		g_free (repl_text);
 		g_free (text);
 	}
-
+	
 	/* Set the recipients */
 	repl_to = camel_mime_message_get_reply_to (message);
 	if (!repl_to)
 		repl_to = camel_mime_message_get_from (message);
 	to = g_list_append (NULL, (gpointer)repl_to);
-
+	
 	if (to_all) {
 		const CamelInternetAddress *recip;
 		const char *name, *addr;
 		char *fulladdr;
 		int i;
-
+		
 		recip = camel_mime_message_get_recipients (message, 
 			CAMEL_RECIPIENT_TYPE_TO);
 		i = 0;
@@ -1710,21 +1716,19 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 				fulladdr = g_strdup (addr);
 			cc = g_list_append (cc, fulladdr);
 		}
-
-		recip = camel_mime_message_get_recipients (message,
-			CAMEL_RECIPIENT_TYPE_CC);
+		
+		recip = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 		i = 0;
 		while (camel_internet_address_get (recip, i++, &name, &addr)) {
 			if (*name) {
-				fulladdr = g_strdup_printf ("\"%s\" <%s>",
-							    name, addr);
+				fulladdr = g_strdup_printf ("\"%s\" <%s>", name, addr);
 			} else
 				fulladdr = g_strdup (addr);
 			cc = g_list_append (cc, fulladdr);
 		}
 	} else
 		cc = NULL;
-
+	
 	/* Set the subject of the new message. */
 	subject = (char *)camel_mime_message_get_subject (message);
 	if (!subject)
@@ -1735,12 +1739,12 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 		else
 			subject = g_strdup_printf ("Re: %s", subject);
 	}
-
+	
 	e_msg_composer_set_headers (composer, to, cc, NULL, subject);
 	g_list_free (to);
 	g_list_free (cc);
 	g_free (subject);
-
+	
 	/* Add In-Reply-To and References. */
 	message_id = camel_medium_get_header (CAMEL_MEDIUM (message),
 					      "Message-Id");
@@ -1757,8 +1761,9 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 						   reply_refs);
 			g_free (reply_refs);
 		}
-	} else if (references)
+	} else if (references) {
 		e_msg_composer_add_header (composer, "References", references);
-
+	}
+	
 	return composer;
 }

@@ -30,7 +30,7 @@
 static GList *control_list = NULL;
 
 static GnomeUIInfo gnome_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("Send & Receive"), N_("Send queued mail and retrieve new mail"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Get Mail"), N_("Send queued mail and retrieve new mail"),
 				send_receieve_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
 	GNOMEUIINFO_ITEM_STOCK (N_("Compose"), N_("Compose a new message"), compose_msg, GNOME_STOCK_PIXMAP_MAIL_NEW),
 
