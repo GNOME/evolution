@@ -877,6 +877,7 @@ _get_message (CamelFolder *folder, gint number)
 CamelMimeMessage *
 camel_folder_get_message (CamelFolder *folder, gint number)
 {
+#warning this code has nothing to do here. 
 	CamelMimeMessage *a_message;
 	CamelMimeMessage *new_message = NULL;
 	GList *message_node;

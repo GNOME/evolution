@@ -1,5 +1,8 @@
 1999-09-21  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-folder-pt-proxy.c (_async_close): 
+	implemented.
+
 	* configure.in:
 	Check pthreads.
 

@@ -523,7 +523,7 @@ _async_open (gpointer param)
 	
 	open_folder_param = (_OpenFolderParam *)param;
 	
-	folder =open_folder_param->folder;
+	folder = open_folder_param->folder;
 	
 	CF_CLASS (folder)->open (folder, open_folder_param->mode);
 	g_free (param);
@@ -555,28 +555,100 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 
 
 /* folder->close implementation */
+typedef struct {
+	CamelFolder *folder;
+	gboolean expunge;
+} _CloseFolderParam;
+
+static void  
+_async_close (gpointer param)
+{
+	_CloseFolderParam *close_folder_param;
+	CamelFolder *folder;
+	
+	close_folder_param = (_CloseFolderParam *)param;
+	
+	folder = close_folder_param->folder;
+	
+	CF_CLASS (folder)->close (folder, close_folder_param->expunge);
+	g_free (param);
+	_notify_availability (folder, 'a');
+
+}
+
 static void
 _close (CamelFolder *folder, gboolean expunge)
 {
-	if (expunge) camel_folder_expunge (folder, FALSE);
-	folder->open_state = FOLDER_CLOSE;
+	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
+	_CloseFolderParam *param;
+	CamelOp *op;
+
+	op = camel_op_new ();
+	
+	param = g_new (_CloseFolderParam, 1);
+	param->folder = proxy_folder->real_folder;
+	param->expunge = expunge;
+	
+	op->func = _async_close;
+	op->param =  param;
+	
+	_op_exec_or_plan_for_exec (proxy_folder, op);
 }
 
 
 
+/* folder->set_name implementation */
+
+typedef struct {
+	CamelFolder *folder;
+	const gchar *name;
+} _SetNameFolderParam;
+
+static void  
+_async_set_name (gpointer param)
+{
+	_SetNameFolderParam *set_name_folder_param;
+	CamelFolder *folder;
+	
+	set_name_folder_param = (_SetNameFolderParam *)param;
+	
+	folder = set_name_folder_param->folder;
+	
+	CF_CLASS (folder)->set_name (folder, set_name_folder_param->expunge);
+	g_free (param);
+	_notify_availability (folder, 'a');
+
+}
 
 static void
 _set_name (CamelFolder *folder, const gchar *name)
 {
+	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
+	_SetNameFolderParam *param;
+	CamelOp *op;
 
+	op = camel_op_new ();
+	
+	param = g_new (_SetNameFolderParam, 1);
+	param->folder = proxy_folder->real_folder;
+	param->name = name;
+	
+	op->func = _async_set_name;
+	op->param =  param;
+	
+	_op_exec_or_plan_for_exec (proxy_folder, op);
 }
 
 
-
+/* folder->get_name implementation */
+/* this one i not executed in a thread */
 static const gchar *
 _get_name (CamelFolder *folder)
 {
-	return folder->name;
+	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
+	
+	return CF_CLASS (proxy_folder->real_folder)->
+		get_name (proxy_folder->real_folder);
 }
 
 
@@ -585,7 +657,10 @@ _get_name (CamelFolder *folder)
 static const gchar *
 _get_full_name (CamelFolder *folder)
 {
-	return folder->full_name;
+	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
+	
+	return CF_CLASS (proxy_folder->real_folder)->
+		get_full_name (proxy_folder->real_folder);
 }
 
 
