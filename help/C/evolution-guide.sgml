@@ -8,9 +8,6 @@
 <!ENTITY CONFIG-SETUPASSIST SYSTEM "config-setupassist.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
-<!ENTITY DEVEL-ACTION SYSTEM "devel-action.sgml">
-<!ENTITY DEVEL-SCRIPT SYSTEM "devel-script.sgml">
-<!ENTITY DEVEL-COMPONENT SYSTEM "devel-component.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
@@ -98,24 +95,6 @@ standardize on second person, not 1st pers. plural.
     &CONFIG-SETUPASSIST;
     &CONFIG-PREFS;
     &CONFIG-SYNC;
-  </part>
-  <part id="devel">
-    <title>Developing for Evolution</title>
-    <subtitle>An Introduction for the Happy Few</subtitle>
-    <partintro>
-      <para>
-        There are three levels of developing for
-        <application>Evolution</application>.  You can write actions.
-        You can write scripts.  And you can write full-fledged
-        Evolution components.  This paragraph will eventually describe
-        what that means, if the entire part is not phased out of this
-        manual.
-      </para>
-    </partintro>
-    
-    &DEVEL-ACTION;
-    &DEVEL-SCRIPT;
-    &DEVEL-COMPONENT;
   </part>
   &APX-GLOSS;
   &APX-BUGS;

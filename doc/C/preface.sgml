@@ -111,7 +111,7 @@
     <!-- ************* END DRAFT ONLY PARAGRAPH ************** -->
 
       <para>
-        This book is divided into three sections. The first section is
+        This book is divided into two sections. The first section is
         a <link linkend="usage">guided tour</link>&mdash; it will
         explain how to use <application>Evolution</application>.  If
         you are new to <application>Evolution</application> or to
@@ -119,21 +119,7 @@
         section, covering <link linkend="config">configuration</link>,
         is targeted at advanced users and administrators.  If you are
         a network administrator, you may find yourself referring to
-        this section frequently.  The third section is a quick <link
-        linkend="devel">developer's guide</link>, for power users and
-        hackers.  If you want to add advanced scripting to
-        <application>Evolution</application>, write your own
-        embeddable components, or simply want to find out just how
-        powerful <application>Evolution</application> can be, this is
-        the section for you.
-      </para>
-      <para>
-        Throughout the book, you'll find examples, tips and warnings
-        to help you along.  Most of them are decent, hardworking
-        pieces of information, and genuinely try to be helpful. Some
-        of the tips, entitled <emphasis>Bad Ideas</emphasis>,
-        are, in fact, out to trick you.  Please don't follow their
-        advice, no matter how appealing it may sound.
+        this section frequently.
       </para>
       <formalpara>
         <title>Typographical conventions</title>
