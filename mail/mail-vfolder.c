@@ -295,7 +295,10 @@ vfolder_gui_add_rule(VfolderRule *rule)
 	GnomeDialog *gd;
 
 	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
-	gd = (GnomeDialog *)gnome_dialog_new("New VFolder", "Ok", "Cancel", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new(_("New VFolder"),
+					     GNOME_STOCK_BUTTON_OK,
+					     GNOME_STOCK_BUTTON_CANCEL,
+					     NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);

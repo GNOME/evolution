@@ -924,12 +924,14 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 		gtk_table_attach (GTK_TABLE (table), 
 				  item->auth_optionmenu, 
 				  1, 2, row, row + 1, 
-				  GTK_FILL | GTK_EXPAND,
-				  0, 0, 0);
+				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+				  0, 0);
 
 		item->auth_detect = gtk_button_new_with_label (_("Detect supported types..."));
 		gtk_table_attach (GTK_TABLE (table), item->auth_detect, 
-				  2, 3, row, row + 1, 0, 0, 0, 0);
+				  2, 3, row, row + 1,
+				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+				  0, 0);
 		gtk_widget_set_sensitive (item->auth_detect, FALSE);
 		gtk_signal_connect (GTK_OBJECT (item->auth_detect), 
 				    "clicked",
@@ -1069,6 +1071,8 @@ service_page_new (const char *label_text, GSList *services)
 
 		gtk_menu_append (GTK_MENU (menu), spitem->item);
 		page->items = g_list_append (page->items, spitem);
+
+		gtk_widget_show (spitem->item);
 	}
 
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (page->optionmenu), menu);
@@ -1135,7 +1139,7 @@ transport_page_new (GSList *transports)
 	MailDialogTransportPage *page = g_new0 (MailDialogTransportPage, 1);
 	GtkWidget *html;
 
-	page->page = service_page_new ("Mail transport type:", transports);
+	page->page = service_page_new (_("Mail transport type:"), transports);
 	page->vbox = page->page->vbox;
 	
 	html = html_new (FALSE);

@@ -134,7 +134,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					     NULL);
 	
 	bonobo_ui_handler_menu_new_item (uih, "/File/<Print Placeholder>/Print message...",
-					 _("_Print message"),
+					 _("_Print Message"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_PRINT,
@@ -142,63 +142,80 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	bonobo_ui_handler_menu_new_separator (uih, "/File/<Print Placeholder>/separator1", -1);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/Edit Message", _("E_dit Message"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_MAIL_NEW,
-					 0, 0, edit_message, folder_browser);
-	
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/View Message", 
-					 _("_View Message"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
-					 GNOME_STOCK_MENU_MAIL_NEW,
-					 0, 0, view_message, folder_browser);
+	bonobo_ui_handler_menu_new_subtree (uih, "/<Component Placeholder>/Folder",
+					    _("F_older"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
 
-  	bonobo_ui_handler_menu_new_separator (uih, "/Actions/separator1", -1);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/Mark all seen",
-					 _("_Mark all messages seen"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, mark_all_seen, folder_browser);	
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", _("_Expunge"),
+	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Folder/Expunge",
+					 _("_Expunge"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
 					 GNOME_STOCK_MENU_TRASH,
 					 0, 0, expunge_folder, folder_browser);
 
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Mail Filters ...", _("Mail _Filters ..."),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE,
-					 0,
-					 0, 0, filter_edit, folder_browser);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/vFolder Editor ...", _("_vFolder Editor ..."),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE,
-					 0,
-					 0, 0, vfolder_edit_vfolders, folder_browser);
-
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Mail Configuration ...", _("_Mail Configuration ..."),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE,
-					 0,
-					 0, 0, (void *) mail_config, NULL);
-	
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Forget Passwords", _("Forget _Passwords"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE,
-					 0,
-					 0, 0, forget_passwords, NULL);
-	
-
-	bonobo_ui_handler_menu_new_item (uih, "/Tools/Configure Folder", _("_Configure Folder"),
+	bonobo_ui_handler_menu_new_item (uih, "<Component Placeholder>/Folder/Configure Folder",
+					 _("_Configure Folder"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE,
 					 0,
 					 0, 0, configure_folder, folder_browser);
 
+	bonobo_ui_handler_menu_new_subtree (uih, "/<Component Placeholder>/Message",
+					    _("_Message"),
+					    NULL, -1,
+					    BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					    0, 0);
+
+	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Message/Edit",
+					 _("E_dit"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_MAIL,
+					 0, 0, edit_message, folder_browser);
+	
+	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Message/View", 
+					 _("_View"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_MAIL,
+					 0, 0, view_message, folder_browser);
+
+	bonobo_ui_handler_menu_new_item (uih, "/<Component Placeholder>/Message/Mark as Read",
+					 _("_Mark as Read"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, mark_all_seen, folder_browser);
+
+	bonobo_ui_handler_menu_new_item (uih, "/Settings/Mail Filters ...",
+					 _("Mail _Filters ..."),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, filter_edit, folder_browser);
+
+	bonobo_ui_handler_menu_new_item (uih, "/Settings/vFolder Editor ...",
+					 _("_vFolder Editor ..."),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, vfolder_edit_vfolders, folder_browser);
+
+	bonobo_ui_handler_menu_new_item (uih, "/Settings/Mail Configuration ...",
+					 _("_Mail Configuration ..."),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, (void *) mail_config, NULL);
+	
+	bonobo_ui_handler_menu_new_item (uih, "/Settings/Forget Passwords",
+					 _("Forget _Passwords"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, forget_passwords, NULL);
+	
 	create_ondemand_hooks (fb, uih);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
@@ -242,15 +259,21 @@ control_deactivate (BonoboControl *control,
 	bonobo_ui_handler_menu_remove (uih, "/File/<Print Placeholder>/Print message...");
 
 	bonobo_ui_handler_menu_remove (uih, "/View/Threaded");
-	bonobo_ui_handler_menu_remove (uih, "/Actions/Mark all seen");
-	bonobo_ui_handler_menu_remove (uih, "/Actions/Edit Message");
-	bonobo_ui_handler_menu_remove (uih, "/Actions/View Message");
-	bonobo_ui_handler_menu_remove (uih, "/Actions/Expunge");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Filters ...");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/vFolder Editor ...");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Configuration ...");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Forget Passwords");
-	bonobo_ui_handler_menu_remove (uih, "/Tools/Configure Folder");
+
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Folder");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Folder/Expunge");
+
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message/Edit");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message/View");
+	bonobo_ui_handler_menu_remove (uih, "/<Component Placeholder>/Message/Mark as Read");
+
+	bonobo_ui_handler_menu_remove (uih, "/Settings/Mail Filters ...");
+	bonobo_ui_handler_menu_remove (uih, "/Settings/vFolder Editor ...");
+	bonobo_ui_handler_menu_remove (uih, "/Settings/Mail Configuration ...");
+	bonobo_ui_handler_menu_remove (uih, "/Settings/Forget Passwords");
+	bonobo_ui_handler_menu_remove (uih, "/Settings/Configure Folder");
+
 	bonobo_ui_handler_dock_remove (uih, toolbar_name);
 	g_free (toolbar_name);
 

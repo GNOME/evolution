@@ -31,6 +31,8 @@ int
 main (int argc, char *argv [])
 {
 	CORBA_ORB orb;
+	
+	/* free (malloc (10));*/
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);

@@ -1,3 +1,27 @@
+2000-08-17  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-vfolder.c (vfolder_gui_add_rule): Use stock OK/Cancel
+	buttons and add i18n support.
+
+	* folder-browser-factory.c (control_activate): Changed menu item
+	label from "Mark all messages seen" to "Mark All Messages as
+	Read".  Changed capitalization of some other menu items.
+	(control_activate): Put the message- and folder- related menu
+	items in new "Message" and "Folder" subtrees which are created in
+	the `<Component Placeholder>' item created by the shell.
+	(control_deactivate): Updated accordingly.
+	(control_activate): Put the filter and vfolder editors, the mail
+	configuration and the "forget password" command into the
+	"settings" menu.
+	(control_deactivate): Updated accordingly.
+
+	* mail-config-gui.c (transport_page_new): Add translation mark.
+	(service_page_new): Show the menu items before appending them.
+	(service_page_item_new): Use `GTK_FILL' for the "Detect supported
+	types..." button.
+
+	* local-config.glade: Change the apply button into an ok button.
+
 2000-08-17  Peter Williams  <peterw@helixcode.com>
 
 	Implement filtering on demand.
