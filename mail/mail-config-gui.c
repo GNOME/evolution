@@ -1216,7 +1216,6 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 		iddialog->dialog = gnome_dialog_new (_("Add Identity"), NULL);
 
 	gtk_window_set_modal (GTK_WINDOW (iddialog->dialog), TRUE);
-	gtk_window_set_default_size (GTK_WINDOW (sdialog->dialog), 380, 450);
 	gtk_window_set_policy (GTK_WINDOW (iddialog->dialog), 
 			       FALSE, TRUE, FALSE);
 	gnome_dialog_set_parent (GNOME_DIALOG (iddialog->dialog),

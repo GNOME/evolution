@@ -1,5 +1,9 @@
 2000-08-11  JP Rosevear  <jpr@helixcode.com>
 
+	* mail-config-gui.c (identity_dialog): sdialog, not iddialog
+
+2000-08-11  JP Rosevear  <jpr@helixcode.com>
+
 	* mail-config-gui.c (news_edit_clicked): Check nrow, not srow.
 
 2000-08-11  JP Rosevear  <jpr@helixcode.com>
