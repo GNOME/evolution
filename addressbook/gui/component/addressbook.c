@@ -22,6 +22,7 @@
 #include <gal/widgets/e-unicode.h>
 
 #include "e-util/e-categories-master-list-wombat.h"
+#include "e-util/e-sexp.h"
 #include "select-names/e-select-names.h"
 #include "select-names/e-select-names-manager.h"
 
@@ -684,18 +685,20 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 	}
 	else {
 		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
+			GString *s = g_string_new ("");
+			e_sexp_encode_string (s, search_word);
 			switch (search_type) {
 			case ESB_ANY:
-				search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")",
-								search_word);
+				search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" %s)",
+								s->str);
 				break;
 			case ESB_FULL_NAME:
-				search_query = g_strdup_printf ("(contains \"full_name\" \"%s\")",
-								search_word);
+				search_query = g_strdup_printf ("(contains \"full_name\" %s)",
+								s->str);
 				break;
 			case ESB_EMAIL:
-				search_query = g_strdup_printf ("(contains \"email\" \"%s\")",
-								search_word);
+				search_query = g_strdup_printf ("(contains \"email\" %s)",
+								s->str);
 				break;
 			case ESB_CATEGORY:
 				subid = e_search_bar_get_subitem_id (esb);
@@ -713,6 +716,7 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 				search_query = g_strdup ("(contains \"full_name\" \"\")");
 				break;
 			}
+			g_string_free (s, TRUE);
 		} else
 			search_query = g_strdup ("(contains \"full_name\" \"\")");
 
