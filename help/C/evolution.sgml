@@ -12,8 +12,8 @@
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
 <!ENTITY CONFIG-ENCRYPTION SYSTEM "config-encryption.sgml">
-<!-- <!ENTITY MENUREF SYSTEM "menuref.sgml"> REMOVED THIS FOR NOW -->
-<!ENTITY FAQ SYSTEM "evolution-faq.sgml">
+<!-- <!ENTITY FAQ SYSTEM "evolution-faq.sgml"> Just link to the web page-->
+<!ENTITY MENUREF SYSTEM "menuref.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-COMMON-TASKS SYSTEM "apx-common-tasks.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
@@ -119,27 +119,13 @@ implemented. -->
     &CONFIG-SYNC;
   </part>
 
-<!-- COMMENTED OUT MENUREF SECTION 
-  <part>  
-    <title>Comprehensive Menu reference</title>
-    <partintro>
-      <para>
-        The following reference covers all, or nearly all, of the
-        menus and menu commands that
-        <application>Evolution</application> has to offer you.
-      </para>
-    </partintro>
- &MENUREF;
-  </part>
-COMMENTED OUT MENUREF -->
-
-  &FAQ;
+<!--  &FAQ; Just link to the webpage -->
+  &MENUREF;
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 
 
 </book>
-
 
 
 

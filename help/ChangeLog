@@ -1,3 +1,16 @@
+2001-08-17  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exec-summary.sgml: s/My Evolution/Summary/
+
+	* C/preface.sgml: Moved "Quickref" stuff to Menuref file.
+
+	* C/usage-mainwindow.sgml: removed reference to faq.
+
+	* C/menuref.sgml: Gutted. Filled with "quickref" stuff.
+
+	* C/evolution.sgml: Removed FAQ. Re-added menuref. Menuref is now
+	the "quick reference" section.
+
 2001-08-17  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Wrote documentation about HTML templates.

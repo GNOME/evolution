@@ -251,8 +251,8 @@
 	<application>Evolution</application> cannot import directly.
 	To import files from Outlook 2000, you will need to boot to
 	Windows, import the files into Mozilla mail, then reboot and
-	import from Mozilla.  Please see the <xref linkend="evolution-faq">FAQ for more
-	information.
+	import from Mozilla.  Please see the FAQ at the Ximian website
+	for more information.
       </para>
     </note>     
 
@@ -630,10 +630,9 @@
 	</note>
 
     <para>
-      Right-clicking will bring up a menu for just about anything
-      in GNOME, and <application>Evolution</application> is no
-      exception.  If you right-click on a folder, you'll have a
-      menu with the following options:
+      Right-clicking will bring up a menu for just about anything in
+      <application>Evolution</application>.  If you right-click on a
+      folder, you'll have a menu with the following options:
       <itemizedlist>
 	<listitem><para><guimenuitem>View</guimenuitem>, to view the folder. </para></listitem>
 	<listitem><para><guimenuitem>Open in New Window</guimenuitem>, to see it in a new Evolution window. </para></listitem>
@@ -644,10 +643,8 @@
 	<listitem><para><guimenuitem>Create New Folder</guimenuitem>, to create another folder in the same location. </para></listitem>
 	<listitem><para><guimenuitem>Add to Shortcut Bar</guimenuitem>, to add the folder to your shortcut bar. </para></listitem>
 	<listitem><para><guimenuitem>Properties</guimenuitem>, to view or change the folder properties. </para></listitem>
-
       </itemizedlist>
     </para>
-
     <para>
       You can also rearrange folders and messages by dragging and
       dropping them.

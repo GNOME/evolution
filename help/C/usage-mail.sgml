@@ -42,16 +42,16 @@
     <para>
       However, <application>Evolution</application> has some important
       differences.  First, it's built to handle very large amounts of
-      mail without slowing down or crashing.  Both the <link
+      mail.  Both the <link
       linkend="usage-mail-organize-filters">filtering</link> and <link
       linkend="usage-mail-organize-search">searching</link> functions
       were built for speed and efficiency on gargantuan volumes of
       mail. There's also the <application>Evolution</application>
-      <link linkend="usage-mail-organize-vFolders">Virtual
-      Folder</link>, an advanced organizational feature not found in
-      mainstream mail clients.  If you get a lot of mail, or if you keep
-      every message you get in case you need to refer to it later,
-      you'll find this feature especially useful.
+      <link linkend="usage-mail-organize-vFolders">vFolder</link>, an
+      advanced organizational feature not found in mainstream mail
+      clients.  If you get a lot of mail, or if you keep every message
+      you get in case you need to refer to it later, you'll find this
+      feature especially useful.
     </para>
   </abstract>
 

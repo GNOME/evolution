@@ -1,23 +1,23 @@
 <chapter id="usage-exec-summary">
-   <title>My Evolution</title>
+   <title>Using the Ximian Evolution Summary</title>
     <para>
-       My Evolution is designed to show you a
+       The Ximian Evolution Summary is designed to show you a
        summary of important information: the appointments for a given
-       day, important email, and so forth. To see your My Evolution, 
-       click on the <guibutton>My Evolution</guibutton>
+       day, important email, and so forth. To see the Summary, 
+       click on the <guibutton>Summary</guibutton>
        button in the shortcut bar, or select the
-       <guilabel>My Evolution</guilabel> folder in the folder
+       <guilabel>Summary</guilabel> folder in the folder
        bar.
     </para>
 
     <sect1 id="exec-intro">
-      <title>Introducing My Evolution</title>
+      <title>Introducing Summary</title>
       <para>
-        The first thing you'll want to do with My Evolution
+        The first thing you'll want to do with Summary
         is add a service. Go to
       <menuchoice>
 	<guimenu>Tools</guimenu>
-	<guimenuitem>My Evolution Settings</guimenuitem>
+	<guimenuitem>Summary Settings</guimenuitem>
       </menuchoice>
       then select one of the available
       services.  Services may vary depending upon your system, but
@@ -78,7 +78,7 @@
 	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>My Evolution Settings</guimenuitem>
+		<guimenuitem>Summary Settings</guimenuitem>
 	      </menuchoice>
 	      from the menubar.
 	    </para>
@@ -101,14 +101,14 @@
     <sect2 id="delete-components">
       <title>Deleting Components</title>
       <para>
-	To remove a service from My Evolution, do the following:
+	To remove a service from Summary, do the following:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
 	      Choose
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>My Evolution Settings</guimenuitem>
+		<guimenuitem>Summary Settings</guimenuitem>
 	      </menuchoice>
 	      from the menubar.
 	    </para>
@@ -131,10 +131,10 @@
 	your needs.  For instance, you may choose that you want to use different
 	city choices than the default settings.
 	<application>Evolution</application> lets you configure all the
-	components in My Evolution.
+	components in Summary.
       </para>
       <sect3 id="modifying-components-mail">
-	<title>Customizing My Evolution Mail Summary</title>
+	<title>Customizing Summary Mail Summary</title>
 	<para>
 	  To modify mail:
 	  <orderedlist numeration="arabic">
@@ -143,7 +143,7 @@
 		Choose
 		<menuchoice>
 		  <guimenu>Tools</guimenu>
-		  <guimenuitem>My Evolution Settings</guimenuitem>
+		  <guimenuitem>Summary Settings</guimenuitem>
 		</menuchoice>
 		from the menubar.
 	      </para>
