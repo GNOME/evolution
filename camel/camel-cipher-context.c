@@ -49,9 +49,6 @@ struct _CamelCipherContextPrivate {
 
 static int                  cipher_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 					 CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static int                  cipher_clearsign (CamelCipherContext *context, const char *userid,
-					      CamelCipherHash hash, CamelStream *istream,
-					      CamelStream *ostream, CamelException *ex);
 static CamelCipherValidity *cipher_verify (CamelCipherContext *context, CamelCipherHash hash,
 					   CamelStream *istream, CamelStream *sigstream,
 					   CamelException *ex);
@@ -95,7 +92,6 @@ camel_cipher_context_class_init (CamelCipherContextClass *camel_cipher_context_c
 	parent_class = camel_type_get_global_classfuncs (camel_object_get_type ());
 	
 	camel_cipher_context_class->sign = cipher_sign;
-	camel_cipher_context_class->clearsign = cipher_clearsign;
 	camel_cipher_context_class->verify = cipher_verify;
 	camel_cipher_context_class->encrypt = cipher_encrypt;
 	camel_cipher_context_class->decrypt = cipher_decrypt;
@@ -206,46 +202,6 @@ camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherH
 }
 
 
-static int
-cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-		  CamelStream *istream, CamelStream *ostream, CamelException *ex)
-{
-	camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-			     _("Clearsigning is not supported by this cipher"));
-	return -1;
-}
-
-/**
- * camel_cipher_clearsign:
- * @context: Cipher Context
- * @userid: key id or email address of the private key to sign with
- * @hash: preferred Message-Integrity-Check hash algorithm
- * @istream: input stream
- * @ostream: output stream
- * @ex: exception
- *
- * Clearsigns the input stream and writes the resulting clearsign to the output stream.
- *
- * Return value: 0 for success or -1 for failure.
- **/
-int
-camel_cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-			CamelStream *istream, CamelStream *ostream, CamelException *ex)
-{
-	int retval;
-	
-	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
-	
-	CIPHER_LOCK(context);
-	
-	retval = CCC_CLASS (context)->clearsign (context, userid, hash, istream, ostream, ex);
-	
-	CIPHER_UNLOCK(context);
-	
-	return retval;
-}
-
-
 static CamelCipherValidity *
 cipher_verify (CamelCipherContext *context, CamelCipherHash hash, CamelStream *istream,
 	       CamelStream *sigstream, CamelException *ex)
@@ -254,6 +210,7 @@ cipher_verify (CamelCipherContext *context, CamelCipherHash hash, CamelStream *i
 			     _("Verifying is not supported by this cipher"));
 	return NULL;
 }
+
 
 /**
  * camel_cipher_verify:

@@ -65,9 +65,6 @@ typedef struct _CamelCipherContextClass {
 	int                   (*sign)      (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 					    CamelStream *istream, CamelStream *ostream, CamelException *ex);
 	
-	int                   (*clearsign) (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-					    CamelStream *istream, CamelStream *ostream, CamelException *ex);
-	
 	CamelCipherValidity * (*verify)    (CamelCipherContext *context, CamelCipherHash hash,
 					    CamelStream *istream, CamelStream *sigstream,
 					    CamelException *ex);
@@ -94,9 +91,6 @@ void                 camel_cipher_context_construct (CamelCipherContext *context
 int                  camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 					CamelStream *istream, CamelStream *ostream, CamelException *ex);
 
-int                  camel_cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
-					     CamelStream *istream, CamelStream *ostream, CamelException *ex);
-
 CamelCipherValidity *camel_cipher_verify (CamelCipherContext *context, CamelCipherHash hash,
 					  CamelStream *istream, CamelStream *sigstream,
 					  CamelException *ex);
@@ -109,8 +103,8 @@ int                  camel_cipher_decrypt (CamelCipherContext *context, CamelStr
 					   CamelException *ex);
 
 /* cipher context util routines */
-CamelCipherHash	     camel_cipher_id_to_hash(CamelCipherContext *context, const char *id);
-const char *	     camel_cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash);
+CamelCipherHash	     camel_cipher_id_to_hash (CamelCipherContext *context, const char *id);
+const char *	     camel_cipher_hash_to_id (CamelCipherContext *context, CamelCipherHash hash);
 
 /* CamelCipherValidity utility functions */
 CamelCipherValidity *camel_cipher_validity_new (void);

@@ -53,9 +53,6 @@ static void camel_gpg_context_finalise   (CamelObject *obj);
 
 static int                  gpg_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 				      CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static int                  gpg_clearsign (CamelCipherContext *context, const char *userid,
-					   CamelCipherHash hash, CamelStream *istream,
-					   CamelStream *ostream, CamelException *ex);
 static CamelCipherValidity *gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 					CamelStream *istream, CamelStream *sigstream,
 					CamelException *ex);
@@ -99,7 +96,6 @@ camel_gpg_context_class_init (CamelGpgContextClass *klass)
 	parent_class = CAMEL_CIPHER_CONTEXT_CLASS (camel_type_get_global_classfuncs (camel_cipher_context_get_type ()));
 	
 	cipher_class->sign = gpg_sign;
-	cipher_class->clearsign = gpg_clearsign;
 	cipher_class->verify = gpg_verify;
 	cipher_class->encrypt = gpg_encrypt;
 	cipher_class->decrypt = gpg_decrypt;
@@ -1199,15 +1195,6 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	gpg_ctx_free (gpg);
 	
 	return 0;
-}
-
-
-static int
-gpg_clearsign (CamelCipherContext *context, const char *userid,
-	       CamelCipherHash hash, CamelStream *istream,
-	       CamelStream *ostream, CamelException *ex)
-{
-	return -1;
 }
 
 

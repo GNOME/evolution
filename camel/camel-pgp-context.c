@@ -68,9 +68,6 @@ struct _CamelPgpContextPrivate {
 
 static int                  pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 				      CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static int                  pgp_clearsign (CamelCipherContext *context, const char *userid,
-					   CamelCipherHash hash, CamelStream *istream,
-					   CamelStream *ostream, CamelException *ex);
 static CamelCipherValidity *pgp_verify (CamelCipherContext *context, CamelCipherHash hash,
 					CamelStream *istream, CamelStream *sigstream,
 					CamelException *ex);
@@ -115,7 +112,6 @@ camel_pgp_context_class_init (CamelPgpContextClass *camel_pgp_context_class)
 	parent_class = CAMEL_CIPHER_CONTEXT_CLASS (camel_type_get_global_classfuncs (camel_cipher_context_get_type ()));
 	
 	camel_cipher_context_class->sign = pgp_sign;
-	camel_cipher_context_class->clearsign = pgp_clearsign;
 	camel_cipher_context_class->verify = pgp_verify;
 	camel_cipher_context_class->encrypt = pgp_encrypt;
 	camel_cipher_context_class->decrypt = pgp_decrypt;
@@ -752,177 +748,6 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 		
 		return -1;
-	}
-	
-	g_free (diagnostics);
-	
-	camel_stream_write (ostream, ciphertext, strlen (ciphertext));
-	g_free (ciphertext);
-	
-	return 0;
-	
- exception:
-	
-	g_byte_array_free (plaintext, TRUE);
-	
-	if (passphrase) {
-		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
-		pass_free (passphrase);
-	}
-	
-	return -1;
-}
-
-
-static int
-pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
-	       CamelStream *istream, CamelStream *ostream, CamelException *ex)
-{
-	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
-	GByteArray *plaintext;
-	CamelStream *stream;
-	char *argv[20];
-	char *ciphertext = NULL;
-	char *diagnostics = NULL;
-	char *passphrase = NULL;
-	char *hash_str = NULL;
-	int passwd_fds[2];
-	char passwd_fd[32];
-	int retval, i;
-	
-	/* check for the now unsupported pgp 2.6.x type */
-	if (context->priv->type == CAMEL_PGP_TYPE_PGP2) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     "PGP 2.6.x is no longer supported.");
-		return -1;
-	}
-	
-	/* get the plaintext in a form we can use */
-	plaintext = g_byte_array_new ();
-	stream = camel_stream_mem_new ();
-	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), plaintext);
-	camel_stream_write_to_stream (istream, stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
-	
-	if (!plaintext->len) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot sign this message: no plaintext to clearsign"));
-		goto exception;
-	}
-	
-	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, (char *) userid);
-	if (!passphrase) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-				     _("Cannot sign this message: no password provided"));
-		goto exception;
-	}
-	
-	if (pipe (passwd_fds) < 0) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot sign this message: couldn't create pipe to GPG/PGP: %s"),
-				      g_strerror (errno));
-		goto exception;
-	}
-	
-	hash_str = hash_string (context, hash);
-	
-	i = 0;
-	switch (context->priv->type) {
-	case CAMEL_PGP_TYPE_GPG:
-		argv[i++] = "gpg";
-		
-		argv[i++] = "--clearsign";
-		
-		if (hash_str) {
-			argv[i++] = "--digest-algo";
-			argv[i++] = hash_str;
-		}
-		
-		if (userid) {
-			argv[i++] = "-u";
-			argv[i++] = (char *) userid;
-		}
-		
-		argv[i++] = "--verbose";
-		argv[i++] = "--no-secmem-warning";
-		argv[i++] = "--no-greeting";
-		argv[i++] = "--yes";
-		argv[i++] = "--always-trust";
-		argv[i++] = "--batch";
-		
-		argv[i++] = "--armor";
-		
-		argv[i++] = "--output";
-		argv[i++] = "-";            /* output to stdout */
-		
-		argv[i++] = "--passphrase-fd";
-		sprintf (passwd_fd, "%d", passwd_fds[0]);
-		argv[i++] = passwd_fd;
-		break;
-	case CAMEL_PGP_TYPE_PGP5:
-		argv[i++] = "pgps";
-		
-		if (hash_str)
-			argv[i++] = hash_str;
-		
-		if (userid) {
-			argv[i++] = "-u";
-			argv[i++] = (char *) userid;
-		}
-		
-		argv[i++] = "-f";  /* -f means act as a unix-style filter */
-		argv[i++] = "-v";  /* -v means verbose diagnostic messages */
-		argv[i++] = "-z";  /* FIXME: do we want this option!? */
-		argv[i++] = "-a";  /* -a means ascii armor */
-		argv[i++] = "-o";  /* -o specifies an output stream */
-		argv[i++] = "-";   /* ...in this case, stdout */
-		
-		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
-		putenv (passwd_fd);
-		break;
-	case CAMEL_PGP_TYPE_PGP2:
-	case CAMEL_PGP_TYPE_PGP6:
-		argv[i++] = "pgp";
-		
-		if (hash_str)
-			argv[i++] = hash_str;
-		
-		if (userid) {
-			argv[i++] = "-u";
-			argv[i++] = (char *) userid;
-		}
-		
-		argv[i++] = "-f";  /* -f means act as a unix-style filter */
-		argv[i++] = "-l";  /* -l means show longer more descriptive diagnostic messages */
-		argv[i++] = "-a";  /* -a means ascii armor */
-		argv[i++] = "-o";  /* -o specifies an output stream */
-		argv[i++] = "-";   /* ...in this case, stdout */
-		
-		argv[i++] = "-st";
-		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
-		putenv (passwd_fd);
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
-	}
-	
-	argv[i++] = NULL;
-	
-	retval = crypto_exec_with_passwd (context->priv->path, argv,
-					  plaintext->data, plaintext->len,
-					  passwd_fds, passphrase,
-					  &ciphertext, NULL,
-					  &diagnostics);
-	
-	g_byte_array_free (plaintext, TRUE);
-	pass_free (passphrase);
-	
-	if (retval != 0 || !*ciphertext) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
-		g_free (diagnostics);
-		g_free (ciphertext);
-		pgp_forget_passphrase (ctx->session, context->priv->type, (char *) userid);
 	}
 	
 	g_free (diagnostics);

@@ -1,5 +1,13 @@
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (gpg_clearsign): Removed (never did anything
+	anyway).
+
+	* camel-pgp-context.c (pgp_clearsign): Removed.
+
+	* camel-cipher-context.c (camel_cipher_clearsign): Removed unused
+	method.
+
 	* camel-multipart-encrypted.[c,h]: New class implementing the
 	multipart/encrypted content type. Contains methods for encrypting
 	and decrypting a multipart/encrypted MIME object.
