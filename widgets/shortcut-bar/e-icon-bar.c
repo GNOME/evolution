@@ -538,6 +538,9 @@ flatten_alpha (GdkPixbuf *image, guint rgb)
 		rgb, ~rgb);
 }
 
+/*
+ * Creates a 24-bits RGB value from a GdkColor
+ */
 static guint
 rgb_from_gdk_color (GdkColor *color)
 {
