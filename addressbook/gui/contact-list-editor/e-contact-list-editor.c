@@ -703,6 +703,7 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 			     guint info, guint time, EContactListEditor *editor)
 {
 	char *target_type;
+	gboolean changed = FALSE;
 
 	target_type = gdk_atom_name (selection_data->target);
 
@@ -720,10 +721,17 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 							       simple);
 
 				gtk_object_unref (GTK_OBJECT (simple));
+
+				changed = TRUE;
 			}
 		}
 		g_list_foreach (card_list, (GFunc)gtk_object_unref, NULL);
 		g_list_free (card_list);
+	}
+
+	if (changed && !editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
 	}
 }
 
