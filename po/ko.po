@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-22 03:16+0900\n"
+"POT-Creation-Date: 2004-02-19 16:14-0500\n"
 "PO-Revision-Date: 2004-01-05 01:31+0900\n"
 "Last-Translator: Young-Ho, Cha <ganadist at mizi.com>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -448,7 +448,7 @@ msgstr "점수 사용"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:173
+#: calendar/gui/alarm-notify/notify-main.c:182
 msgid "Could not initialize Bonobo"
 msgstr "Bonobo를 초기화 할 수 없습니다"
 
@@ -561,7 +561,7 @@ msgstr "Evolution 주소록 폴더 뷰"
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:628
-#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
+#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1846
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
 msgstr "연락처"
@@ -2799,7 +2799,7 @@ msgstr "프로토콜이 지원되지 않습니다"
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
+#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2313
 #: camel/camel-service.c:830 camel/camel-service.c:884
 #: camel/camel-service.c:906 camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
@@ -2897,7 +2897,7 @@ msgstr "형태"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:398
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
-#: mail/importers/pine-importer.c:577
+#: mail/importers/pine-importer.c:580
 msgid "Addressbook"
 msgstr "주소록"
 
@@ -2945,7 +2945,7 @@ msgstr "주소 전달"
 msgid "Send Message to Contact"
 msgstr "연락처로 메세지 보내기"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2439
+#: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2445
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:1
@@ -3642,11 +3642,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "이 메세지를 다시 보지 않습니다."
 
-#: calendar/gui/alarm-notify/notify-main.c:176
+#: calendar/gui/alarm-notify/notify-main.c:185
 msgid "Could not initialize gnome-vfs"
 msgstr "gnome-vfs를 초기화 할 수 없습니다"
 
-#: calendar/gui/alarm-notify/notify-main.c:185
+#: calendar/gui/alarm-notify/notify-main.c:194
 msgid "Could not create the alarm notify service factory"
 msgstr "알람 기능 서비스 팩토리를 만들 수가 없습니다"
 
@@ -3691,7 +3691,7 @@ msgstr "%Y년 %B %d일"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:447
-#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1509
+#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1515
 msgid "%d %B"
 msgstr "%B %d일"
 
@@ -3701,7 +3701,7 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1543
-#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
+#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1845
 #: my-evolution/my-evolution.glade.h:2 shell/e-local-storage.c:177
 #: shell/e-shortcuts.c:1085
 msgid "Calendar"
@@ -3720,9 +3720,9 @@ msgid "Public folder containing appointments and events"
 msgstr ""
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
-#: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
+#: calendar/gui/print.c:1795 calendar/gui/tasks-control.c:487
 #: calendar/importers/icalendar-importer.c:655
-#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
+#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1847
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
 msgid "Tasks"
@@ -3831,20 +3831,20 @@ msgstr "바쁨"
 
 #: calendar/gui/calendar-model.c:750 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2298
+#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2304
 msgid "Not Started"
 msgstr "시작 안함"
 
 #: calendar/gui/calendar-model.c:753 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2301
+#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2307
 msgid "In Progress"
 msgstr "진행중"
 
 #: calendar/gui/calendar-model.c:756 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:476 calendar/gui/e-meeting-model.c:294
-#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2304
+#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2310
 msgid "Completed"
 msgstr "완료됨"
 
@@ -4366,27 +4366,27 @@ msgid "Validation error: %s"
 msgstr "알 수 없는 오류: %s"
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2216
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2222
 msgid " to "
 msgstr "부터 "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2220
+#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2226
 msgid " (Completed "
 msgstr " (완료됨 "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2222
+#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2228
 msgid "Completed "
 msgstr "완료됨 "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2227
+#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2233
 msgid " (Due "
 msgstr " (기한 "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2229
+#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2235
 msgid "Due "
 msgstr "기한 "
 
@@ -4552,7 +4552,7 @@ msgstr ""
 msgid "Enter Delegate"
 msgstr ""
 
-#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2253
+#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2259
 msgid "Appointment"
 msgstr "약속"
 
@@ -5263,7 +5263,7 @@ msgstr ""
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1423
-#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1525
+#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1531
 msgid "%A %d %B"
 msgstr "%B %d일 %A"
 
@@ -5276,13 +5276,13 @@ msgstr "%m %d"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:638 calendar/gui/e-week-view.c:360
-#: calendar/gui/print.c:809
+#: calendar/gui/print.c:815
 msgid "am"
 msgstr "오전"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:641 calendar/gui/e-week-view.c:363
-#: calendar/gui/print.c:811
+#: calendar/gui/print.c:817
 msgid "pm"
 msgstr "오후"
 
@@ -6219,82 +6219,82 @@ msgid "Sa"
 msgstr "토"
 
 #. Day
-#: calendar/gui/print.c:1875
+#: calendar/gui/print.c:1881
 msgid "Selected day (%a %b %d %Y)"
 msgstr "선택된 날(%Y년 %b %d일 %a)"
 
-#: calendar/gui/print.c:1900 calendar/gui/print.c:1904
+#: calendar/gui/print.c:1906 calendar/gui/print.c:1910
 msgid "%a %b %d"
 msgstr "%b %d %a"
 
-#: calendar/gui/print.c:1901
+#: calendar/gui/print.c:1907
 msgid "%a %d %Y"
 msgstr "%Y %d %a"
 
-#: calendar/gui/print.c:1905 calendar/gui/print.c:1907
-#: calendar/gui/print.c:1908
+#: calendar/gui/print.c:1911 calendar/gui/print.c:1913
+#: calendar/gui/print.c:1914
 msgid "%a %b %d %Y"
 msgstr "%Y년 %b %d일 %a"
 
-#: calendar/gui/print.c:1912
+#: calendar/gui/print.c:1918
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "선택된 주 (%s - %s)"
 
 #. Month
-#: calendar/gui/print.c:1920
+#: calendar/gui/print.c:1926
 msgid "Selected month (%b %Y)"
 msgstr "선택된 달 (%Y년 %b)"
 
 #. Year
-#: calendar/gui/print.c:1927
+#: calendar/gui/print.c:1933
 msgid "Selected year (%Y)"
 msgstr "선택한 년도 (%Y)"
 
-#: calendar/gui/print.c:2255
+#: calendar/gui/print.c:2261
 msgid "Task"
 msgstr "작업"
 
-#: calendar/gui/print.c:2314
+#: calendar/gui/print.c:2320
 #, c-format
 msgid "Status: %s"
 msgstr "상태: %s"
 
-#: calendar/gui/print.c:2331
+#: calendar/gui/print.c:2337
 #, c-format
 msgid "Priority: %s"
 msgstr "우선순위: %s"
 
-#: calendar/gui/print.c:2343
+#: calendar/gui/print.c:2349
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "퍼센트 완료: %i"
 
-#: calendar/gui/print.c:2355
+#: calendar/gui/print.c:2361
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: calendar/gui/print.c:2369
+#: calendar/gui/print.c:2375
 #, c-format
 msgid "Categories: %s"
 msgstr "분류: %s"
 
-#: calendar/gui/print.c:2380
+#: calendar/gui/print.c:2386
 msgid "Contacts: "
 msgstr "연락처:"
 
-#: calendar/gui/print.c:2518 calendar/gui/print.c:2604
-#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2952
+#: calendar/gui/print.c:2524 calendar/gui/print.c:2610
+#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2950
 #: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "인쇄 미리 보기"
 
-#: calendar/gui/print.c:2552
+#: calendar/gui/print.c:2558
 msgid "Print Item"
 msgstr "항목 인쇄"
 
-#: calendar/gui/print.c:2625
+#: calendar/gui/print.c:2631
 msgid "Print Setup"
 msgstr "인쇄 설정"
 
@@ -8855,7 +8855,7 @@ msgid "Error in application verification"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:699 camel/camel-tcp-stream-ssl.c:823
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Issuer:            %s\n"
 "Subject:           %s\n"
@@ -9101,7 +9101,7 @@ msgstr "새 편지 확인중"
 msgid "Check for new messages in all folders"
 msgstr "모든 폴더에서 새 메세지 확인"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1178
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1180
 msgid "Folders"
 msgstr "폴더"
 
@@ -11250,7 +11250,7 @@ msgstr "보다 적음"
 msgid "Score"
 msgstr "점수"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1824
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1822
 msgid "Sender"
 msgstr "보낸이"
 
@@ -11351,34 +11351,34 @@ msgid "Please wait"
 msgstr "잠시 기다리십시오"
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:1808
-#: importers/pine-importer.c:365 mail/importers/elm-importer.c:157
-#: mail/importers/netscape-importer.c:1759 mail/importers/pine-importer.c:288
+#: importers/pine-importer.c:365 mail/importers/elm-importer.c:159
+#: mail/importers/netscape-importer.c:1761 mail/importers/pine-importer.c:290
 #, c-format
 msgid "Importing %s as %s"
 msgstr ""
 
 #: importers/elm-importer.c:375 importers/netscape-importer.c:1917
-#: importers/pine-importer.c:471 mail/importers/elm-importer.c:392
-#: mail/importers/netscape-importer.c:1887 mail/importers/pine-importer.c:425
+#: importers/pine-importer.c:471 mail/importers/elm-importer.c:395
+#: mail/importers/netscape-importer.c:1889 mail/importers/pine-importer.c:427
 #, c-format
 msgid "Scanning %s"
 msgstr ""
 
 #: importers/elm-importer.c:525 importers/netscape-importer.c:2128
 #: importers/pine-importer.c:637 mail/component-factory.c:117
-#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:526
-#: mail/importers/netscape-importer.c:2085 mail/importers/pine-importer.c:572
+#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:530
+#: mail/importers/netscape-importer.c:2088 mail/importers/pine-importer.c:575
 #: my-evolution/my-evolution.glade.h:4
 msgid "Mail"
 msgstr "편지"
 
-#: importers/elm-importer.c:545 mail/importers/elm-importer.c:547
+#: importers/elm-importer.c:545 mail/importers/elm-importer.c:551
 msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
 msgstr ""
 
-#: importers/elm-importer.c:574 mail/importers/elm-importer.c:568
+#: importers/elm-importer.c:574 mail/importers/elm-importer.c:572
 msgid "Elm"
 msgstr "ELM"
 
@@ -11430,38 +11430,38 @@ msgid "Evolution is importing your old Netscape data"
 msgstr ""
 
 #. Fill in the new fields
-#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1842
+#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1844
 #: mail/mail-ops.c:1116 shell/e-local-storage.c:184
 msgid "Trash"
 msgstr "휴지통"
 
-#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1995
+#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1997
 #, fuzzy
 msgid "Scanning mail filters"
 msgstr "로컬 편지 파일 %s"
 
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
-#: mail/importers/netscape-importer.c:2006 mail/importers/pine-importer.c:520
+#: mail/importers/netscape-importer.c:2008 mail/importers/pine-importer.c:522
 #, fuzzy
 msgid "Scanning directory"
 msgstr "IMAP 폴더를 살펴봅니다"
 
-#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2015
+#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2017
 #: shell/e-shell-startup-wizard.c:556
 #, fuzzy
 msgid "Starting import"
 msgstr "시작 날짜(_S):"
 
-#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2090
+#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2093
 msgid "Settings"
 msgstr "설정"
 
-#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2095
+#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2098
 #, fuzzy
 msgid "Mail Filters"
 msgstr "거르게 편집"
 
-#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2119
+#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2122
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -11471,13 +11471,13 @@ msgstr ""
 msgid "Evolution is importing your old Pine data"
 msgstr ""
 
-#: importers/pine-importer.c:663 mail/importers/pine-importer.c:599
+#: importers/pine-importer.c:663 mail/importers/pine-importer.c:602
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
 
-#: importers/pine-importer.c:691 mail/importers/pine-importer.c:618
+#: importers/pine-importer.c:691 mail/importers/pine-importer.c:621
 msgid "Pine"
 msgstr "Pine"
 
@@ -12056,20 +12056,20 @@ msgstr ""
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%Y-%m-%d %a %H:%M, %%s 쓰기를:"
 
-#: mail/mail-callbacks.c:1704 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1702 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "메세지를 옮김"
 
-#: mail/mail-callbacks.c:1706 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1704 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "메세지를 복사"
 
-#: mail/mail-callbacks.c:2348
+#: mail/mail-callbacks.c:2346
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "정말로 모든 메세지 %d개를 고치겠습니까?"
 
-#: mail/mail-callbacks.c:2364
+#: mail/mail-callbacks.c:2362
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12077,7 +12077,7 @@ msgstr ""
 "임시 보관함 폴더에 저장한 메세지만\n"
 "고칠 수 있습니다."
 
-#: mail/mail-callbacks.c:2397
+#: mail/mail-callbacks.c:2395
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12085,16 +12085,16 @@ msgstr ""
 "보낸 편지함에 있는 메세지만\n"
 "다시 보낼 수 있습니다."
 
-#: mail/mail-callbacks.c:2407
+#: mail/mail-callbacks.c:2405
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "정말로 모든 메세지 %d개를 다시 보내겠습니까?"
 
-#: mail/mail-callbacks.c:2428
+#: mail/mail-callbacks.c:2426
 msgid "No Message Selected"
 msgstr "아무 메세지도 선택하지 않았습니다"
 
-#: mail/mail-callbacks.c:2469
+#: mail/mail-callbacks.c:2467
 #, fuzzy, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12103,22 +12103,22 @@ msgstr ""
 "메세지를 얻을 수 없음: %s\n"
 "  %s"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2472
 #, fuzzy, c-format
 msgid ""
 "`%s' already exists.\n"
 "Overwrite it?"
 msgstr "파일이 있습니다, 덮어쓸까요?"
 
-#: mail/mail-callbacks.c:2515
+#: mail/mail-callbacks.c:2513
 msgid "Save Message As..."
 msgstr "다른 이름으로 메세지 저장..."
 
-#: mail/mail-callbacks.c:2517
+#: mail/mail-callbacks.c:2515
 msgid "Save Messages As..."
 msgstr "다른 이름으로 메세지 저장..."
 
-#: mail/mail-callbacks.c:2690
+#: mail/mail-callbacks.c:2688
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -12126,31 +12126,31 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2785
+#: mail/mail-callbacks.c:2783
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:2793
+#: mail/mail-callbacks.c:2791
 msgid "Filters"
 msgstr "거르개"
 
-#: mail/mail-callbacks.c:2834
+#: mail/mail-callbacks.c:2832
 #, c-format
 msgid "Page %d of %d"
 msgstr "%2$d페이지 중 %1$d페이지"
 
-#: mail/mail-callbacks.c:2890
+#: mail/mail-callbacks.c:2888
 msgid "Print Message"
 msgstr "메세지 인쇄"
 
-#: mail/mail-callbacks.c:2958
+#: mail/mail-callbacks.c:2956
 msgid "Printing of message failed"
 msgstr "메세지 인쇄 중 실패"
 
-#: mail/mail-callbacks.c:3153
+#: mail/mail-callbacks.c:3151
 #, fuzzy, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "정말로 separate windows %d 메세지를 모두 지울까요?"
@@ -24881,7 +24881,7 @@ msgstr "폴더 더하기"
 msgid "Drafts"
 msgstr "임시 보관함"
 
-#: shell/e-local-storage.c:180 shell/e-shell-view.c:481
+#: shell/e-local-storage.c:180 shell/e-shell-view.c:483
 #: shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "받은 편지함"
@@ -25385,27 +25385,27 @@ msgid "(No folder displayed)"
 msgstr "(보여줄 폴더가 없음)"
 
 # <folder_name> (<unread_count>)
-#: shell/e-shell-view.c:2040
+#: shell/e-shell-view.c:2042
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: shell/e-shell-view.c:2042
+#: shell/e-shell-view.c:2044
 msgid "(None)"
 msgstr "(없음)"
 
-#: shell/e-shell-view.c:2083
+#: shell/e-shell-view.c:2085
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution은 온라인 상태입니다.  오프라인 상태로 작업하려면 이 단추를 "
 "누르십시오."
 
-#: shell/e-shell-view.c:2090
+#: shell/e-shell-view.c:2092
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution은 오프라인 상태로 가는 중입니다."
 
-#: shell/e-shell-view.c:2096
+#: shell/e-shell-view.c:2098
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""

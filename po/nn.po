@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-08 21:03+0100\n"
+"POT-Creation-Date: 2004-02-19 16:14-0500\n"
 "PO-Revision-Date: 2004-02-08 21:25+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.0.2\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
@@ -453,7 +453,7 @@ msgstr "Bruk poeng"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:172
+#: calendar/gui/alarm-notify/notify-main.c:182
 msgid "Could not initialize Bonobo"
 msgstr "Kunne ikkje initialisere Bonobo"
 
@@ -566,7 +566,7 @@ msgstr "Evolution adressebok mappevisar"
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:628
-#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
+#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1846
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
 msgstr "Kontakter"
@@ -944,7 +944,8 @@ msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution vil bruka dette DN-et til å autentisera deg mot tenaren"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
-msgid "Evolution will use this email address to authenticate you with the server"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
 msgstr ""
 "Evolution kjem til å bruke denne e-postaddressa for å autentisere deg "
 "ovanfor tenaren"
@@ -1049,7 +1050,8 @@ msgstr ""
 msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
-msgstr "Det siste steget i å setja opp ein LDAP-tenar er å setja eit visingsnamn."
+msgstr ""
+"Det siste steget i å setja opp ein LDAP-tenar er å setja eit visingsnamn."
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Server Information"
@@ -2981,7 +2983,7 @@ msgstr "Type"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:398
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
-#: mail/importers/pine-importer.c:577
+#: mail/importers/pine-importer.c:580
 msgid "Addressbook"
 msgstr "Adressebok"
 
@@ -3745,11 +3747,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "Ikkje spør om dette programmet fleire gongar."
 
-#: calendar/gui/alarm-notify/notify-main.c:175
+#: calendar/gui/alarm-notify/notify-main.c:185
 msgid "Could not initialize gnome-vfs"
 msgstr "Klarte ikkje å initialisere gnome-vfs"
 
-#: calendar/gui/alarm-notify/notify-main.c:184
+#: calendar/gui/alarm-notify/notify-main.c:194
 #, fuzzy
 msgid "Could not create the alarm notify service factory"
 msgstr "Kan ikkje laga factory for alarmtenesta"
@@ -3801,13 +3803,14 @@ msgid "%d %B"
 msgstr "%d. %b"
 
 #: calendar/gui/calendar-commands.c:834
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Kunne ikkje oppretta ei kalendervising. Kontroller ORBit- og OAF-oppsettet "
 "ditt."
 
 #: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1543
-#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
+#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1845
 #: my-evolution/my-evolution.glade.h:2 shell/e-local-storage.c:177
 #: shell/e-shortcuts.c:1085
 msgid "Calendar"
@@ -3830,7 +3833,7 @@ msgstr "Offentleg mappe som inneheld avtalar og hendingar"
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1795 calendar/gui/tasks-control.c:487
 #: calendar/importers/icalendar-importer.c:655
-#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
+#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1847
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
 msgid "Tasks"
@@ -4433,7 +4436,8 @@ msgstr "før kvar avtale"
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
-msgstr "Hendinga som vert sletta er eit møte. Vil du senda ut ei melding om avlysing?"
+msgstr ""
+"Hendinga som vert sletta er eit møte. Vil du senda ut ei melding om avlysing?"
 
 #: calendar/gui/dialogs/cancel-comp.c:61
 #, fuzzy
@@ -4464,7 +4468,8 @@ msgstr ""
 #: calendar/gui/dialogs/cancel-comp.c:79
 #, fuzzy
 msgid "Are you sure you want to cancel and delete this journal entry?"
-msgstr "Er du sikker på at du vil kansellera og sletta denne journaloppføringa?"
+msgstr ""
+"Er du sikker på at du vil kansellera og sletta denne journaloppføringa?"
 
 #: calendar/gui/dialogs/changed-comp.c:59
 #, fuzzy
@@ -4510,7 +4515,8 @@ msgstr "Journalopføringa er endra."
 #: calendar/gui/dialogs/changed-comp.c:100
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
+msgstr ""
+"%s  Du har gjort endringar. Forkast desse endringane og oppdater redigering?"
 
 #: calendar/gui/dialogs/changed-comp.c:102
 #, c-format
@@ -4910,8 +4916,10 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Du endrar ei oppgåve som skal gjerast fleire gongar. Kva vil du endra?"
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr "Du endrar ei journaloppføring som står fleire gongar. Kva vil du endra?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+"Du endrar ei journaloppføring som står fleire gongar. Kva vil du endra?"
 
 #: calendar/gui/dialogs/recur-comp.c:72
 msgid "This Instance Only"
@@ -4929,7 +4937,8 @@ msgstr "Alle instansane"
 
 #: calendar/gui/dialogs/recurrence-page.c:535
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr "Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
+msgstr ""
+"Denne avtalen skal gjenta seg på ein måte som Evolution ikkje kan redigera."
 
 #: calendar/gui/dialogs/recurrence-page.c:809
 msgid "Recurrence date is invalid"
@@ -5915,7 +5924,8 @@ msgstr "Fri/ledig forespørsel"
 #: calendar/gui/e-itip-control.c:1431
 #, fuzzy, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
+msgstr ""
+"<b>%s</b> har svart på ein førespurnad etter ledig/oppteken-informasjon."
 
 #: calendar/gui/e-itip-control.c:1432
 msgid "Free/Busy Reply"
@@ -5974,7 +5984,8 @@ msgstr "Kalenderfila kan ikkje oppdaterast!\n"
 
 #: calendar/gui/e-itip-control.c:1923 calendar/gui/e-itip-control.c:1989
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
+msgstr ""
+"Deltakarstatus kan ikkje oppdaterast, for oppføringa finst ikkje lenger."
 
 #: calendar/gui/e-itip-control.c:1944
 msgid "This response is not from a current attendee.  Add as an attendee?"
@@ -5984,7 +5995,8 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1956
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
+msgstr ""
+"Deltakarstatusen kan ikkje oppdaterast på grunn av ein ugyldig status!\n"
 
 #: calendar/gui/e-itip-control.c:1980
 #, fuzzy
@@ -8576,7 +8588,8 @@ msgstr "Klarte ikkje å dekode melding."
 #: camel/camel-gpg-context.c:1395
 #, fuzzy, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Kan ikkje stadfesta signaturen på meldinga: Kan ikkje laga mellombels fil: %s"
+msgstr ""
+"Kan ikkje stadfesta signaturen på meldinga: Kan ikkje laga mellombels fil: %s"
 
 #: camel/camel-lock-client.c:111
 #, fuzzy, c-format
@@ -9421,7 +9434,7 @@ msgstr "Ser etter ny e-post"
 msgid "Check for new messages in all folders"
 msgstr "Sjå etter ny e-post i alle mappene"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1178
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1180
 msgid "Folders"
 msgstr "Mapper"
 
@@ -9457,7 +9470,8 @@ msgstr "Passord"
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr "Dette valet let deg kopla til ein IMAP-tenar med eit klartekst-passord."
+msgstr ""
+"Dette valet let deg kopla til ein IMAP-tenar med eit klartekst-passord."
 
 #: camel/providers/imap/camel-imap-store.c:457
 #, c-format
@@ -9538,7 +9552,8 @@ msgstr "Mappa «%s» finst ikkje"
 
 #: camel/providers/imap/camel-imap-store.c:1841
 #, fuzzy, c-format
-msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Mappenamnet «%s» er ugyldig, avdi det inneheld teiknet «%c»"
 
 #: camel/providers/imap/camel-imap-store.c:1853
@@ -10425,7 +10440,8 @@ msgstr "Feil i svar på STARTTLS"
 #: camel/providers/smtp/camel-smtp-transport.c:467
 #, fuzzy, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
+msgstr ""
+"SMTP-tenaren «%s» støttar ikkje den etterspurde autentiseringstypen %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:505
 #, fuzzy, c-format
@@ -11740,28 +11756,28 @@ msgid "Please wait"
 msgstr "Vent litt"
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:1808
-#: importers/pine-importer.c:365 mail/importers/elm-importer.c:157
-#: mail/importers/netscape-importer.c:1759 mail/importers/pine-importer.c:288
+#: importers/pine-importer.c:365 mail/importers/elm-importer.c:159
+#: mail/importers/netscape-importer.c:1761 mail/importers/pine-importer.c:290
 #, c-format
 msgid "Importing %s as %s"
 msgstr "Importerar %s som %s"
 
 #: importers/elm-importer.c:375 importers/netscape-importer.c:1917
-#: importers/pine-importer.c:471 mail/importers/elm-importer.c:392
-#: mail/importers/netscape-importer.c:1887 mail/importers/pine-importer.c:425
+#: importers/pine-importer.c:471 mail/importers/elm-importer.c:395
+#: mail/importers/netscape-importer.c:1889 mail/importers/pine-importer.c:427
 #, fuzzy, c-format
 msgid "Scanning %s"
 msgstr "Søker gjennom %s"
 
 #: importers/elm-importer.c:525 importers/netscape-importer.c:2128
 #: importers/pine-importer.c:637 mail/component-factory.c:117
-#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:526
-#: mail/importers/netscape-importer.c:2085 mail/importers/pine-importer.c:572
+#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:530
+#: mail/importers/netscape-importer.c:2088 mail/importers/pine-importer.c:575
 #: my-evolution/my-evolution.glade.h:4
 msgid "Mail"
 msgstr "E-post"
 
-#: importers/elm-importer.c:545 mail/importers/elm-importer.c:547
+#: importers/elm-importer.c:545 mail/importers/elm-importer.c:551
 msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
@@ -11769,7 +11785,7 @@ msgstr ""
 "Evolution har funne e-post-filer frå Elm.\n"
 "Vil du importera desse filene til Evolution?"
 
-#: importers/elm-importer.c:574 mail/importers/elm-importer.c:568
+#: importers/elm-importer.c:574 mail/importers/elm-importer.c:572
 msgid "Elm"
 msgstr "Elm"
 
@@ -11844,37 +11860,37 @@ msgid "Evolution is importing your old Netscape data"
 msgstr "Evolution importerer gamle Netscape-data"
 
 #. Fill in the new fields
-#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1842
+#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1844
 #: mail/mail-ops.c:1116 shell/e-local-storage.c:184
 msgid "Trash"
 msgstr "Papirkorg"
 
-#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1995
+#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1997
 #, fuzzy
 msgid "Scanning mail filters"
 msgstr "Søker gjennom e-postfilter"
 
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
-#: mail/importers/netscape-importer.c:2006 mail/importers/pine-importer.c:520
+#: mail/importers/netscape-importer.c:2008 mail/importers/pine-importer.c:522
 #, fuzzy
 msgid "Scanning directory"
 msgstr "Søker gjennom katalog"
 
-#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2015
+#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2017
 #: shell/e-shell-startup-wizard.c:556
 msgid "Starting import"
 msgstr "Startar importering"
 
-#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2090
+#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2093
 msgid "Settings"
 msgstr "Innstillingar"
 
-#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2095
+#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2098
 #, fuzzy
 msgid "Mail Filters"
 msgstr "E-postfilter"
 
-#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2119
+#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2122
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -11886,7 +11902,7 @@ msgstr ""
 msgid "Evolution is importing your old Pine data"
 msgstr "Evolution importerar dine galme Pine-data"
 
-#: importers/pine-importer.c:663 mail/importers/pine-importer.c:599
+#: importers/pine-importer.c:663 mail/importers/pine-importer.c:602
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
@@ -11894,7 +11910,7 @@ msgstr ""
 "Evolution har funne Pine e-postfiler.\n"
 "Vil du importere desse inn i Evolution?"
 
-#: importers/pine-importer.c:691 mail/importers/pine-importer.c:618
+#: importers/pine-importer.c:691 mail/importers/pine-importer.c:621
 msgid "Pine"
 msgstr "Pine"
 
@@ -11903,7 +11919,8 @@ msgid "Composer Preferences"
 msgstr "Redigerarinstillingar"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr "Set opp e-postinnstillingar, inkludert tryggleik og meldingsvising"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -13297,7 +13314,8 @@ msgstr ""
 #: mail/mail-config.glade.h:158
 #, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
+msgstr ""
+"S_pør ved sending av HTML-meldingar til kontaktar som ikkje vil ha slike"
 
 #: mail/mail-config.glade.h:159
 #, fuzzy
@@ -13514,7 +13532,8 @@ msgid "Bcc"
 msgstr "Bcc:"
 
 #: mail/mail-format.c:1644
-msgid "This message is digitally signed. Click the lock icon for more information."
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 
 #: mail/mail-format.c:1672
@@ -25481,7 +25500,8 @@ msgstr "Vi_s full sti til mapper"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Configure special folders and offline folder behavior here"
-msgstr "Set opp spesielle mapper og åtferd får mappene når du arbeider fråkopla her."
+msgstr ""
+"Set opp spesielle mapper og åtferd får mappene når du arbeider fråkopla her."
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:2
 #, fuzzy
@@ -25529,7 +25549,7 @@ msgstr "Legg til mappe"
 msgid "Drafts"
 msgstr "Kladd"
 
-#: shell/e-local-storage.c:180 shell/e-shell-view.c:481
+#: shell/e-local-storage.c:180 shell/e-shell-view.c:483
 #: shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "Innboks"
@@ -26010,7 +26030,8 @@ msgstr "«.» og «..» er resverte mappenamn."
 
 #: shell/e-shell-view-menu.c:89
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
+msgstr ""
+"GNOME Pilot-verktøya ser ikkje ut til å vera installerte på denne maskinen."
 
 #: shell/e-shell-view-menu.c:97
 #, fuzzy, c-format
@@ -26068,26 +26089,30 @@ msgstr "Arbeid fråkopla"
 msgid "(No folder displayed)"
 msgstr "(Ingen mappe vist)"
 
-#: shell/e-shell-view.c:2040
+#: shell/e-shell-view.c:2042
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: shell/e-shell-view.c:2042
+#: shell/e-shell-view.c:2044
 msgid "(None)"
 msgstr "(Ingen)"
 
-#: shell/e-shell-view.c:2083
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
-msgstr "Ximian Evolution er tilkopla. Klikk på denne knappen for å arbeida fråkopla."
+#: shell/e-shell-view.c:2085
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
+msgstr ""
+"Ximian Evolution er tilkopla. Klikk på denne knappen for å arbeida fråkopla."
 
-#: shell/e-shell-view.c:2090
+#: shell/e-shell-view.c:2092
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution held på å kopla frå."
 
-#: shell/e-shell-view.c:2096
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
-msgstr "Ximian Evolution er fråkopla. Klikk på denne knappen for å arbeida tilkopla."
+#: shell/e-shell-view.c:2098
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
+msgstr ""
+"Ximian Evolution er fråkopla. Klikk på denne knappen for å arbeida tilkopla."
 
 #: shell/e-shell.c:175
 #, c-format
@@ -27289,7 +27314,8 @@ msgid "Hide _Read Messages"
 msgstr "Skjul _lesne meldingar"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Gøym dei sletta meldingane i staden for å visa dei gjennomstreka"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -29732,4 +29758,3 @@ msgstr "Evolutions addressebok minikortlesar"
 
 #~ msgid "<dd><b>The weather server could not be contacted</b></dd>"
 #~ msgstr "<dd><b>Klarte ikkje å kontakte vêrtenaren</b></dd>"
-

@@ -9,10 +9,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-1-4.hi\n"
-"POT-Creation-Date: 2003-09-20 11:22+0200\n"
+"POT-Creation-Date: 2004-02-19 16:14-0500\n"
 "PO-Revision-Date: 2003-10-17 17:21+0530\n"
 "Last-Translator: vivek <vivek_rai@hotmail.com>\n"
-"Language-Team: Gnome Hindi Team <indlinux-hindi-gnome@lists.sourceforge.net>\n"
+"Language-Team: Gnome Hindi Team <indlinux-hindi-gnome@lists.sourceforge."
+"net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -273,7 +274,6 @@ msgid "Manager"
 msgstr "प्रबन्धक"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#, fuzzy
 msgid "Man"
 msgstr ""
 
@@ -405,7 +405,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:970
 msgid "Mailer"
 msgstr ""
 
@@ -470,12 +470,12 @@ msgstr ""
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:173
+#: calendar/gui/alarm-notify/notify-main.c:182
 msgid "Could not initialize Bonobo"
 msgstr "बोनोबो चालू नहीं कर सकते"
 
 #: addressbook/backend/pas/pas-backend-file.c:464
-#: addressbook/backend/pas/pas-backend-ldap.c:3050
+#: addressbook/backend/pas/pas-backend-ldap.c:3051
 msgid "Searching..."
 msgstr "खोज जारी..."
 
@@ -509,11 +509,11 @@ msgstr ""
 msgid "Modifying card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2961
+#: addressbook/backend/pas/pas-backend-ldap.c:2962
 msgid "Receiving LDAP search results..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3070
+#: addressbook/backend/pas/pas-backend-ldap.c:3071
 msgid "Error performing search"
 msgstr "खोज में त्रुटि"
 
@@ -585,7 +585,7 @@ msgstr "इवल्यूशन पता-सूची फोल्डर द�
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:628
-#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
+#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1846
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
 msgstr "संपर्क"
@@ -693,7 +693,6 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/addressbook.c:517
-#, fuzzy
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -701,15 +700,12 @@ msgid ""
 "retrieving OpenLDAP from the link below.\n"
 msgstr ""
 
-#:msgstr "के बाद"
 #: addressbook/gui/component/addressbook.c:527
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the server\n"
 "is unreachable."
-msgstr ""
-"पता-सूची खोलने में असफल. या तो आपने गलत URI दिया है, या फिर"
-"सरवर उपलब्ध नहीं है."
+msgstr "पता-सूची खोलने में असफल. या तो आपने गलत URI दिया है, या फिरसरवर उपलब्ध नहीं है."
 
 #: addressbook/gui/component/addressbook.c:547
 msgid "Unable to open addressbook"
@@ -725,8 +721,7 @@ msgstr "प्रमाणिकरण असफल\n"
 
 #: addressbook/gui/component/addressbook.c:660
 #: addressbook/gui/component/addressbook.c:663
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s %s (उपयोगक %s) के लिए कूटशब्द दें"
 
@@ -952,7 +947,8 @@ msgstr "सरवर से प्रमाणिकरण के लिए, इ
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 #, fuzzy
-msgid "Evolution will use this email address to authenticate you with the server"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
 msgstr "सरवर से प्रमाणिकरण के लिए, इवल्यूशन इस पते का प्रयोग करेगा"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
@@ -1314,7 +1310,7 @@ msgstr "सब हटाएं"
 # gnome-session/session-properties.c:101
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
-#: composer/e-msg-composer-attachment-bar.c:450
+#: composer/e-msg-composer-attachment-bar.c:464
 msgid "Remove"
 msgstr "हटाएँ"
 
@@ -1373,9 +1369,7 @@ msgstr "संपर्क दिखाएं"
 msgid ""
 "Type a name into the entry, or\n"
 "select one from the list below:"
-msgstr ""
-"नाम टाइप करें, या"
-"निम्न सूची में से चुनें"
+msgstr "नाम टाइप करें, यानिम्न सूची में से चुनें"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Category:"
@@ -1568,7 +1562,6 @@ msgstr "अफगानिस्तान"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:137
 #: my-evolution/Locations.h:42
-#, fuzzy
 msgid "Albania"
 msgstr ""
 
@@ -2686,8 +2679,7 @@ msgid "E-_mail:"
 msgstr "ई-पत्र:"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error saving %s: %s"
 msgstr "%s: %s को संग्रहित करने में ऋुटि"
 
@@ -2701,8 +2693,7 @@ msgid "list"
 msgstr "सूची"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:208
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
@@ -2978,10 +2969,9 @@ msgstr ""
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:747 camel/camel-service.c:788
-#: camel/camel-service.c:878 camel/camel-service.c:921
-#: camel/providers/pop3/camel-pop3-store.c:443
+#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2313
+#: camel/camel-service.c:830 camel/camel-service.c:884
+#: camel/camel-service.c:906 camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
 msgstr "निरस्त"
@@ -3041,8 +3031,7 @@ msgid "Error removing card"
 msgstr "कार्ड हटाने में ऋुटि"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:197
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
@@ -3084,7 +3073,7 @@ msgstr "प्रकार"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:398
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
-#: mail/importers/pine-importer.c:577
+#: mail/importers/pine-importer.c:580
 msgid "Addressbook"
 msgstr ""
 
@@ -3132,7 +3121,7 @@ msgstr ""
 msgid "Send Message to Contact"
 msgstr "संपर्क को सन्देश भेजें"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2439
+#: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2445
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:1
@@ -3814,8 +3803,7 @@ msgid "Evolution Alarm"
 msgstr "इवाल्यूशन अलार्म"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:366
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Alarm on %s"
 msgstr "%s का अलार्म"
 
@@ -3873,11 +3861,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:176
+#: calendar/gui/alarm-notify/notify-main.c:185
 msgid "Could not initialize gnome-vfs"
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:185
+#: calendar/gui/alarm-notify/notify-main.c:194
 msgid "Could not create the alarm notify service factory"
 msgstr ""
 
@@ -3922,17 +3910,18 @@ msgstr "%A %d %B %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:447
-#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1509
+#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1515
 msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:834
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 
 # libgnomeui/gnome-dateedit.c:745
 #: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1543
-#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
+#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1845
 #: my-evolution/my-evolution.glade.h:2 shell/e-local-storage.c:177
 #: shell/e-shortcuts.c:1085
 msgid "Calendar"
@@ -3951,9 +3940,9 @@ msgid "Public folder containing appointments and events"
 msgstr ""
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
-#: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:644
-#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
+#: calendar/gui/print.c:1795 calendar/gui/tasks-control.c:487
+#: calendar/importers/icalendar-importer.c:655
+#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1847
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
 msgid "Tasks"
@@ -4065,20 +4054,20 @@ msgstr "व्यस्त"
 
 #: calendar/gui/calendar-model.c:750 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2298
+#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2304
 msgid "Not Started"
 msgstr "शुरू नहीं"
 
 #: calendar/gui/calendar-model.c:753 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2301
+#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2307
 msgid "In Progress"
 msgstr "प्रगति में"
 
 #: calendar/gui/calendar-model.c:756 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:476 calendar/gui/e-meeting-model.c:294
-#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2304
+#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2310
 msgid "Completed"
 msgstr "पूर्ण"
 
@@ -4091,9 +4080,9 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
-#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
-#: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2084
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1261
+#: mail/mail-account-gui.c:1693 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
@@ -4236,6 +4225,10 @@ msgstr "घंटे"
 #: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
 msgid "minutes"
 msgstr "मिनट"
+
+#: calendar/gui/dialogs/alarm-page.c:796
+msgid "Action/Trigger"
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -4613,23 +4606,23 @@ msgstr ""
 msgid "Validation error: %s"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2216
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2222
 msgid " to "
 msgstr " को "
 
-#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2220
+#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2226
 msgid " (Completed "
 msgstr " (सम्पूर्न हुआ "
 
-#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2222
+#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2228
 msgid "Completed "
 msgstr "पूरा हुआ "
 
-#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2227
+#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2233
 msgid " (Due "
 msgstr " (अपेक्षित "
 
-#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2229
+#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2235
 msgid "Due "
 msgstr ""
 
@@ -4680,7 +4673,7 @@ msgstr "नहीं"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
-#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1171
+#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1177
 msgid "Save as..."
 msgstr ""
 
@@ -4797,7 +4790,7 @@ msgstr "को सौंपें :"
 msgid "Enter Delegate"
 msgstr ""
 
-#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2253
+#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2259
 msgid "Appointment"
 msgstr ""
 
@@ -5000,7 +4993,8 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:72
@@ -5060,9 +5054,14 @@ msgstr ""
 msgid "on the"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:1357
+#: calendar/gui/dialogs/recurrence-page.c:1358
 msgid "occurrences"
 msgstr ""
+
+#: calendar/gui/dialogs/recurrence-page.c:2325
+#, fuzzy
+msgid "Date/Time"
+msgstr "दिन/समय:"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
@@ -5136,7 +5135,7 @@ msgid ""
 "Do you wish to save your changes?"
 msgstr ""
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1585
 msgid "_Discard Changes"
 msgstr ""
 
@@ -5261,8 +5260,7 @@ msgid "1 hour"
 msgstr "1 घंटा"
 
 #: calendar/gui/e-alarm-list.c:421
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d minutes"
 msgstr "%d मिनट"
 
@@ -5272,8 +5270,7 @@ msgid "1 minute"
 msgstr "1 मिनट"
 
 #: calendar/gui/e-alarm-list.c:429
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d सेकन्ड"
 
@@ -5291,14 +5288,12 @@ msgid "Unknown action to be performed"
 msgstr ""
 
 #: calendar/gui/e-alarm-list.c:491
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "पहले"
 
 #: calendar/gui/e-alarm-list.c:494
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "के बाद"
 
@@ -5308,14 +5303,12 @@ msgid "%s at the start of the appointment"
 msgstr "%s एप्वाइन्टमेन्ट के चालू होने पर"
 
 #: calendar/gui/e-alarm-list.c:508
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "पहले"
 
 #: calendar/gui/e-alarm-list.c:511
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "के बाद"
 
@@ -5325,8 +5318,7 @@ msgid "%s at the end of the appointment"
 msgstr "%s एप्वाइन्टमेन्ट के अन्त होने पर"
 
 #: calendar/gui/e-alarm-list.c:540
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s at %s"
 msgstr "%s, %s में"
 
@@ -5496,7 +5488,7 @@ msgstr "अलार्म"
 
 # libgnomeprintui/gnome-print-copies.c:250
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:578
 msgid "Complete"
 msgstr "पूर्ण"
 
@@ -5562,7 +5554,7 @@ msgstr ""
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1423
-#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1525
+#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1531
 msgid "%A %d %B"
 msgstr ""
 
@@ -5575,13 +5567,13 @@ msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:638 calendar/gui/e-week-view.c:360
-#: calendar/gui/print.c:809
+#: calendar/gui/print.c:815
 msgid "am"
 msgstr "पुर्वान्ह"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:641 calendar/gui/e-week-view.c:363
-#: calendar/gui/print.c:811
+#: calendar/gui/print.c:817
 msgid "pm"
 msgstr "अपरान्ह"
 
@@ -5795,11 +5787,11 @@ msgstr ""
 #: calendar/gui/e-itip-control.c:1062 calendar/gui/e-itip-control.c:1270
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
 #: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
-#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
-#: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1589
+#: camel/camel-gpg-context.c:1640 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:943 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "अज्ञात"
 
@@ -5846,8 +5838,9 @@ msgid "Send Latest Information"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
-#: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
+#: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
+#: shell/e-shell-startup-wizard.c:781 shell/evolution-shell-component.c:1185
+#: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "निरस्त"
 
@@ -5875,8 +5868,7 @@ msgid "Meeting Proposal"
 msgstr "गेष्टी प्रस्ताव"
 
 #: calendar/gui/e-itip-control.c:1305
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> ."
 
@@ -5885,8 +5877,7 @@ msgid "Meeting Update"
 msgstr "गोष्टी परिवर्तन"
 
 #: calendar/gui/e-itip-control.c:1310
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> n."
 
@@ -5914,8 +5905,7 @@ msgstr "गोष्ठी निरस्त करें"
 
 #: calendar/gui/e-itip-control.c:1334 calendar/gui/e-itip-control.c:1401
 #: calendar/gui/e-itip-control.c:1436
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> ने अपाढ्य उत्तर दिया."
 
@@ -6325,14 +6315,11 @@ msgid "You don't have permission to open the folder in `%s'"
 msgstr ""
 
 #: calendar/gui/e-tasks.c:486 calendar/gui/gnome-cal.c:1918
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
-msgstr ""
-"ऋुटि: %s में"
-" %s"
+msgstr "ऋुटि: %s में %s"
 
 #: calendar/gui/e-tasks.c:557
 msgid "Completing tasks..."
@@ -6490,7 +6477,7 @@ msgid "Counter-proposal"
 msgstr ""
 
 #: calendar/gui/itip-utils.c:518
-#,fuzzy, c-format
+#, fuzzy, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "व्यस्त (%s to %s)"
 
@@ -6531,85 +6518,83 @@ msgid "Sa"
 msgstr ""
 
 #. Day
-#: calendar/gui/print.c:1875
+#: calendar/gui/print.c:1881
 msgid "Selected day (%a %b %d %Y)"
 msgstr ""
 
-#: calendar/gui/print.c:1900 calendar/gui/print.c:1904
+#: calendar/gui/print.c:1906 calendar/gui/print.c:1910
 msgid "%a %b %d"
 msgstr ""
 
-#: calendar/gui/print.c:1901
+#: calendar/gui/print.c:1907
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: calendar/gui/print.c:1905 calendar/gui/print.c:1907
-#: calendar/gui/print.c:1908
+#: calendar/gui/print.c:1911 calendar/gui/print.c:1913
+#: calendar/gui/print.c:1914
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/print.c:1912
+#: calendar/gui/print.c:1918
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr ""
 
 #. Month
-#: calendar/gui/print.c:1920
+#: calendar/gui/print.c:1926
 msgid "Selected month (%b %Y)"
 msgstr ""
 
 #. Year
-#: calendar/gui/print.c:1927
+#: calendar/gui/print.c:1933
 msgid "Selected year (%Y)"
 msgstr ""
 
-#: calendar/gui/print.c:2255
+#: calendar/gui/print.c:2261
 msgid "Task"
 msgstr ""
 
-#: calendar/gui/print.c:2314
+#: calendar/gui/print.c:2320
 #, c-format
 msgid "Status: %s"
 msgstr ""
 
-#: calendar/gui/print.c:2331
+#: calendar/gui/print.c:2337
 #, c-format
 msgid "Priority: %s"
 msgstr "प्राथमिक्ता: %s"
 
-#: calendar/gui/print.c:2343
-#, c-format
-#, fuzzy
+#: calendar/gui/print.c:2349
+#, fuzzy, c-format
 msgid "Percent Complete: %i"
 msgstr "पूरा"
 
-#: calendar/gui/print.c:2355
+#: calendar/gui/print.c:2361
 #, c-format
 msgid "URL: %s"
 msgstr "यू आर एल : %s"
 
-#: calendar/gui/print.c:2369
-#, c-format
-#, fuzzy
+#: calendar/gui/print.c:2375
+#, fuzzy, c-format
 msgid "Categories: %s"
 msgstr "वर्ग : %s"
 
-#: calendar/gui/print.c:2380
+#: calendar/gui/print.c:2386
 msgid "Contacts: "
 msgstr "संपर्क: "
 
-#: calendar/gui/print.c:2518 calendar/gui/print.c:2604
-#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2948
+#: calendar/gui/print.c:2524 calendar/gui/print.c:2610
+#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2950
 #: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "प्रिंट पूर्व दर्शन"
 
-#: calendar/gui/print.c:2552
+#: calendar/gui/print.c:2558
 #, fuzzy
 msgid "Print Item"
 msgstr "अदद प्रिन्ट करें"
 
-#: calendar/gui/print.c:2625
+#: calendar/gui/print.c:2631
 msgid "Print Setup"
 msgstr "प्रिंट समायोजन"
 
@@ -6661,23 +6646,23 @@ msgstr ""
 msgid "vCalendar files (.vcf)"
 msgstr ""
 
-#: calendar/importers/icalendar-importer.c:403
+#: calendar/importers/icalendar-importer.c:414
 msgid "Reminder!!"
 msgstr ""
 
-#: calendar/importers/icalendar-importer.c:637
+#: calendar/importers/icalendar-importer.c:648
 #, fuzzy
 msgid "Calendar Events"
 msgstr "पांचांग के अवसर"
 
-#: calendar/importers/icalendar-importer.c:662
+#: calendar/importers/icalendar-importer.c:673
 #, fuzzy
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr "Evolution पांचांग Evolution?"
 
-#: calendar/importers/icalendar-importer.c:669
+#: calendar/importers/icalendar-importer.c:680
 msgid "Gnome Calendar"
 msgstr ""
 
@@ -8769,8 +8754,7 @@ msgid "Failed to create create child process '%s': %s"
 msgstr ""
 
 #: camel/camel-filter-driver.c:744
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Invalid message stream received from %s: %s"
 msgstr "अवैध"
 
@@ -8779,14 +8763,12 @@ msgid "Syncing folders"
 msgstr ""
 
 #: camel/camel-filter-driver.c:1021 camel/camel-filter-driver.c:1394
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "ऋुटि"
 
 #: camel/camel-filter-driver.c:1030 camel/camel-filter-driver.c:1400
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "ऋुटि"
 
@@ -8842,8 +8824,7 @@ msgid "Invalid arguments to (user-tag)"
 msgstr "अवैध"
 
 #: camel/camel-filter-search.c:657 camel/camel-filter-search.c:665
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "ऋुटि"
 
@@ -8893,7 +8874,7 @@ msgstr ""
 msgid "Copying messages"
 msgstr ""
 
-#: camel/camel-gpg-context.c:762
+#: camel/camel-gpg-context.c:769
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8901,48 +8882,48 @@ msgid ""
 "%s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:777
+#: camel/camel-gpg-context.c:783
 msgid "Failed to parse gpg userid hint."
 msgstr ""
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:808
 msgid "Failed to parse gpg passphrase request."
 msgstr ""
 
-#: camel/camel-gpg-context.c:810
+#: camel/camel-gpg-context.c:816
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
 
-#: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
-#: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
+#: camel/camel-gpg-context.c:836 camel/camel-gpg-context.c:1312
+#: camel/camel-gpg-context.c:1418 camel/camel-gpg-context.c:1488
+#: camel/camel-gpg-context.c:1544 mail/mail-send-recv.c:574
 #, fuzzy
 msgid "Cancelled."
 msgstr "निरस्त."
 
-#: camel/camel-gpg-context.c:839
+#: camel/camel-gpg-context.c:854
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
-#: camel/camel-gpg-context.c:845
+#: camel/camel-gpg-context.c:860
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:872
 #, fuzzy
 msgid "No data provided"
 msgstr "नहीं"
 
-#: camel/camel-gpg-context.c:895
+#: camel/camel-gpg-context.c:910
 #, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "नहीं."
 
-#: camel/camel-gpg-context.c:1172
+#: camel/camel-gpg-context.c:1187
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8950,25 +8931,25 @@ msgid ""
 "%s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:1177
+#: camel/camel-gpg-context.c:1192
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr ""
 
-#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
-#: camel/camel-gpg-context.c:1624
+#: camel/camel-gpg-context.c:1303 camel/camel-gpg-context.c:1588
+#: camel/camel-gpg-context.c:1639
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
-#: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
-#: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
-#: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
+#: camel/camel-gpg-context.c:1333 camel/camel-gpg-context.c:1410
+#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1535 camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1610 camel/camel-gpg-context.c:1661
 msgid "Failed to execute gpg."
 msgstr ""
 
-#: camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1395
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -9054,20 +9035,17 @@ msgid "(Unknown error)"
 msgstr "(अज्ञात ऋुटि)"
 
 #: camel/camel-movemail.c:261
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error reading mail file: %s"
 msgstr "ऋुटि पाइल : %s को पढने में"
 
 #: camel/camel-movemail.c:272
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error writing mail temp file: %s"
 msgstr "ऋुटि"
 
 #: camel/camel-movemail.c:465 camel/camel-movemail.c:532
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error copying mail temp file: %s"
 msgstr "ऋुटि"
 
@@ -9120,24 +9098,21 @@ msgid "Authentication failed."
 msgstr "प्रमाणिकरण."
 
 #: camel/camel-sasl-anonymous.c:119
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr "अवैध"
 
 #: camel/camel-sasl-anonymous.c:131
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr "अवैध"
 
 #: camel/camel-sasl-anonymous.c:143
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Invalid trace information:\n"
 "%s"
@@ -9349,40 +9324,25 @@ msgstr ""
 msgid "URL '%s' needs a path component"
 msgstr ""
 
-#: camel/camel-service.c:752
+#: camel/camel-service.c:801
 #, c-format
 msgid "Resolving: %s"
 msgstr ""
 
-#: camel/camel-service.c:786 camel/camel-service.c:919
+#: camel/camel-service.c:803
+msgid "Resolving address"
+msgstr ""
+
+#: camel/camel-service.c:828
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr ""
 
-#: camel/camel-service.c:807 camel/camel-service.c:940
-#, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr ""
-
-#: camel/camel-service.c:821
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr ""
-
-#: camel/camel-service.c:824
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr ""
-
-#: camel/camel-service.c:883
-msgid "Resolving address"
-msgstr ""
-
-#: camel/camel-service.c:956
+#: camel/camel-service.c:860
 msgid "Host lookup failed: host not found"
 msgstr ""
 
-#: camel/camel-service.c:959
+#: camel/camel-service.c:863
 msgid "Host lookup failed: unknown reason"
 msgstr ""
 
@@ -9395,8 +9355,7 @@ msgid "For reading mail as a query of another set of folders"
 msgstr ""
 
 #: camel/camel-session.c:355 camel/camel-session.c:405
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "नहीं pour"
 
@@ -9408,8 +9367,7 @@ msgid ""
 msgstr ""
 
 #: camel/camel-smime-context.c:171
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Please enter your password for %s"
 msgstr "कृपया %s के लिए कूट शब्द दें"
 
@@ -9652,8 +9610,7 @@ msgid "Could not parse URL `%s'"
 msgstr ""
 
 #: camel/camel-vee-folder.c:618
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error storing `%s': %s"
 msgstr "ऋुटि: `%s': %s को संग्रहित करने में"
 
@@ -9820,7 +9777,7 @@ msgstr "नये संदेशों की जांच जारी"
 msgid "Check for new messages in all folders"
 msgstr "हर फोल्डर में नये संदेशों की जांच करें"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1178
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1180
 #, fuzzy
 msgid "Folders"
 msgstr ""
@@ -9915,14 +9872,13 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/smtp/camel-smtp-transport.c:477
 #, c-format
 msgid "No support for authentication type %s"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1108
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%s %s@%s के लिए IMAP कूटशब्द दें "
 
@@ -9940,14 +9896,14 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1498
 #: camel/providers/imap/camel-imap-store.c:1640
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "No such folder %s"
 msgstr "नहीं"
 
 #: camel/providers/imap/camel-imap-store.c:1841
 #, c-format
-msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:1853
@@ -9961,8 +9917,7 @@ msgstr ""
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:354
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "~%s (%s)"
 msgstr "~%s (%s)"
 
@@ -9975,8 +9930,7 @@ msgstr ""
 
 #. a full path + protocol
 #: camel/providers/local/camel-local-folder.c:365
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
@@ -10270,8 +10224,7 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:527
 #: camel/providers/local/camel-spool-summary.c:162
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Cannot open temporary mailbox: %s"
 msgstr "संदेश खोलने मे असमर्थ: %s"
 
@@ -10312,8 +10265,7 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:906
 #: camel/providers/local/camel-mbox-summary.c:932
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error writing to temp mailbox: %s"
 msgstr "ऋुटि"
 
@@ -10434,8 +10386,7 @@ msgid ""
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:234
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "No such folder: %s"
 msgstr "नहीं"
 
@@ -10451,8 +10402,7 @@ msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:404
 #: camel/providers/nntp/camel-nntp-summary.c:505
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s: Scanning new messages"
 msgstr "%s: नए सन्देशों की खोज जारी"
 
@@ -10475,9 +10425,9 @@ msgid "Retrieving POP summary"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-folder.c:262
-#: camel/providers/pop3/camel-pop3-folder.c:429
-#: camel/providers/pop3/camel-pop3-folder.c:490
-#: camel/providers/pop3/camel-pop3-folder.c:508
+#: camel/providers/pop3/camel-pop3-folder.c:430
+#: camel/providers/pop3/camel-pop3-folder.c:491
+#: camel/providers/pop3/camel-pop3-folder.c:509
 msgid "User cancelled"
 msgstr ""
 
@@ -10490,27 +10440,27 @@ msgstr ""
 msgid "Expunging deleted messages"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-folder.c:403
+#: camel/providers/pop3/camel-pop3-folder.c:404
 #, c-format
 msgid "No message with uid %s"
 msgstr ""
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
-#: camel/providers/pop3/camel-pop3-folder.c:410
+#: camel/providers/pop3/camel-pop3-folder.c:411
 #, c-format
 msgid "Retrieving POP message %d"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-folder.c:432
-#: camel/providers/pop3/camel-pop3-folder.c:493
-#: camel/providers/pop3/camel-pop3-folder.c:500
-#: camel/providers/pop3/camel-pop3-folder.c:511
+#: camel/providers/pop3/camel-pop3-folder.c:433
+#: camel/providers/pop3/camel-pop3-folder.c:494
+#: camel/providers/pop3/camel-pop3-folder.c:501
+#: camel/providers/pop3/camel-pop3-folder.c:512
 #, c-format
 msgid "Cannot get message %s: %s"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-folder.c:500
+#: camel/providers/pop3/camel-pop3-folder.c:501
 msgid "Unknown reason"
 msgstr ""
 
@@ -10523,8 +10473,7 @@ msgid "Leave messages on server"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-provider.c:43
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Delete after %s day(s)"
 msgstr "के बाद"
 
@@ -10579,8 +10528,7 @@ msgid ""
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:415
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "लाग इन pour POP"
 
@@ -10595,8 +10543,7 @@ msgid "Failed to authenticate on POP server %s: %s"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:468
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%sPlease enter the POP password for %s@%s"
 msgstr "%s %s@%s के लिए POP कूटशब्द दें"
 
@@ -10609,8 +10556,7 @@ msgid ""
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:629
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "No such folder `%s'."
 msgstr "नहीं."
 
@@ -10788,134 +10734,128 @@ msgstr "प्रमाणिकरण"
 msgid "Welcome response error"
 msgstr "आपका स्वागत है."
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
-#, c-format
-#, fuzzy
+#: camel/providers/smtp/camel-smtp-transport.c:334
+#: camel/providers/smtp/camel-smtp-transport.c:373
+#, fuzzy, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:335
 msgid "server does not appear to support SSL"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:349
 #, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:364
 msgid "STARTTLS response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
-#, c-format
-#, fuzzy
+#: camel/providers/smtp/camel-smtp-transport.c:467
+#, fuzzy, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
-#, c-format
-#, fuzzy
+#: camel/providers/smtp/camel-smtp-transport.c:505
+#, fuzzy, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
-#, c-format
-#, fuzzy
+#: camel/providers/smtp/camel-smtp-transport.c:524
+#, fuzzy, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
 "%s\n"
 "\n"
 msgstr "SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
-#, c-format
-#, fuzzy
+#: camel/providers/smtp/camel-smtp-transport.c:657
+#, fuzzy, c-format
 msgid "SMTP server %s"
 msgstr "SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
-#, c-format
-#, fuzzy
+#: camel/providers/smtp/camel-smtp-transport.c:659
+#, fuzzy, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: sender address not valid."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
+#: camel/providers/smtp/camel-smtp-transport.c:682 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:697
 msgid "Cannot send message: no recipients defined."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: one or more invalid recipients"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:880
+#: camel/providers/smtp/camel-smtp-transport.c:871
 #, fuzzy
 msgid "SMTP Greeting"
 msgstr "SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:927
+#: camel/providers/smtp/camel-smtp-transport.c:920
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:949
+#: camel/providers/smtp/camel-smtp-transport.c:942
 msgid "HELO response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1015
+#: camel/providers/smtp/camel-smtp-transport.c:1008
 #, fuzzy
 msgid "SMTP Authentication"
 msgstr "SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1021
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 #, fuzzy
 msgid "Error creating SASL authentication object."
 msgstr "ऋुटि."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1038
-#: camel/providers/smtp/camel-smtp-transport.c:1050
+#: camel/providers/smtp/camel-smtp-transport.c:1031
+#: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1059
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 msgid "AUTH request failed."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1120
+#: camel/providers/smtp/camel-smtp-transport.c:1113
 #, fuzzy
 msgid "Bad authentication response from server.\n"
 msgstr "सरवर द्वारा अवैध प्रमाणिकरण उत्तर.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1145
+#: camel/providers/smtp/camel-smtp-transport.c:1138
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1165
+#: camel/providers/smtp/camel-smtp-transport.c:1158
 msgid "MAIL FROM response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1189
+#: camel/providers/smtp/camel-smtp-transport.c:1182
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1211
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1250
+#: camel/providers/smtp/camel-smtp-transport.c:1243
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr ""
@@ -10923,35 +10863,35 @@ msgstr ""
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1270
+#: camel/providers/smtp/camel-smtp-transport.c:1263
 msgid "DATA response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1311
-#: camel/providers/smtp/camel-smtp-transport.c:1334
+#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1327
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1354
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "DATA termination response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1377
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1397
+#: camel/providers/smtp/camel-smtp-transport.c:1390
 msgid "RSET response error"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1420
+#: camel/providers/smtp/camel-smtp-transport.c:1413
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1440
+#: camel/providers/smtp/camel-smtp-transport.c:1433
 msgid "QUIT response error"
 msgstr ""
 
@@ -10971,34 +10911,32 @@ msgid "%.0fG"
 msgstr ""
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:313 mail/mail-display.c:226
+#: composer/e-msg-composer-attachment-bar.c:320 mail/mail-display.c:229
 msgid "attachment"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:451
+#: composer/e-msg-composer-attachment-bar.c:465
 msgid "Remove selected items from the attachment list"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:481
+#: composer/e-msg-composer-attachment-bar.c:495
 #, fuzzy
 msgid "Add attachment..."
 msgstr "अटैचमैन्ट जोडें..."
 
-#: composer/e-msg-composer-attachment-bar.c:482
+#: composer/e-msg-composer-attachment-bar.c:496
 #, fuzzy
 msgid "Attach a file to the message"
 msgstr "संदेश में फाइल संलग्न करें"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "फाइल %s: %s संलग्न ना हो सकी"
 
 #: composer/e-msg-composer-attachment.c:176
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "फाइल %s: %s संलग्न ना हो सकी: असामान्य फाइल"
 
@@ -11120,87 +11058,80 @@ msgstr ""
 msgid "Posting destination"
 msgstr ""
 
-#: composer/e-msg-composer-select-file.c:102
 #: composer/e-msg-composer-select-file.c:119
 #, fuzzy
 msgid "Attach file(s)"
 msgstr "संलग्न करें-अटैच"
 
-#: composer/e-msg-composer.c:542
+#: composer/e-msg-composer.c:548
 msgid "Could not create a PGP signature context"
 msgstr ""
 
-#: composer/e-msg-composer.c:821
-#, c-format
-#, fuzzy
+#: composer/e-msg-composer.c:827
+#, fuzzy, c-format
 msgid ""
 "Error while reading file %s:\n"
 "%s"
-msgstr ""
-"ऋुटि पाइल : %s को पढने में"
-"%s"
+msgstr "ऋुटि पाइल : %s को पढने में%s"
 
-#: composer/e-msg-composer.c:1184
+#: composer/e-msg-composer.c:1192
 msgid "File exists, overwrite?"
 msgstr "फाइल अस्तित्व में है, उसी पर पुन लिखें"
 
-#: composer/e-msg-composer.c:1202
-#, c-format
-#, fuzzy
+#: composer/e-msg-composer.c:1203 composer/e-msg-composer.c:1219
+#, fuzzy, c-format
 msgid "Error saving file: %s"
 msgstr "ऋुटि पाइल : %s को संग्रहित करने में"
 
-#: composer/e-msg-composer.c:1225
-#, c-format
-#, fuzzy
+#: composer/e-msg-composer.c:1242
+#, fuzzy, c-format
 msgid "Error loading file: %s"
 msgstr "ऋुटि पाइल : %s को पाने में"
 
-#: composer/e-msg-composer.c:1263
-#, c-format
-#, fuzzy
+#: composer/e-msg-composer.c:1280
+#, fuzzy, c-format
 msgid "Error accessing file: %s"
 msgstr "ऋुटि पाइल : %s को पाने में"
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1288
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
-#: composer/e-msg-composer.c:1278
+#: composer/e-msg-composer.c:1295
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1285
+#: composer/e-msg-composer.c:1302
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1294
+#: composer/e-msg-composer.c:1311
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1303
+#: composer/e-msg-composer.c:1320
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1400
+#: composer/e-msg-composer.c:1417
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1563
+#: composer/e-msg-composer.c:1580
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -11208,35 +11139,35 @@ msgid ""
 "Do you wish to save your changes?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1572
+#: composer/e-msg-composer.c:1589
 msgid "Warning: Modified Message"
 msgstr ""
 
-#: composer/e-msg-composer.c:1604
+#: composer/e-msg-composer.c:1621
 msgid "Open file"
 msgstr "फाइल खोलें"
 
-#: composer/e-msg-composer.c:2028
+#: composer/e-msg-composer.c:2045
 msgid "Signature:"
 msgstr ""
 
-#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1262
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
-#: composer/e-msg-composer.c:2912
+#: composer/e-msg-composer.c:2261 composer/e-msg-composer.c:2928
+#: composer/e-msg-composer.c:2929
 #, fuzzy
 msgid "Compose a message"
 msgstr "संदेश लिखें"
 
-#: composer/e-msg-composer.c:2943
+#: composer/e-msg-composer.c:2960
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2971
+#: composer/e-msg-composer.c:2988
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -11244,13 +11175,13 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr ""
 
-#: composer/e-msg-composer.c:3038
+#: composer/e-msg-composer.c:3055
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr ""
 
-#: composer/e-msg-composer.c:4073
+#: composer/e-msg-composer.c:4090
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11431,7 +11362,7 @@ msgstr ""
 "इस नाम की एक फाइल पहले से मौजूद है.\n"
 "उसके उपर लिखें?"
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:199
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:202
 msgid "Overwrite file?"
 msgstr ""
 
@@ -11554,8 +11485,7 @@ msgid "1 minute ago"
 msgstr ""
 
 #: filter/filter-datespec.c:66
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d minutes ago"
 msgstr "मिनट"
 
@@ -11564,8 +11494,7 @@ msgid "1 hour ago"
 msgstr ""
 
 #: filter/filter-datespec.c:67
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d hours ago"
 msgstr "घन्टे"
 
@@ -11574,8 +11503,7 @@ msgid "1 day ago"
 msgstr ""
 
 #: filter/filter-datespec.c:68
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d days ago"
 msgstr "दिन"
 
@@ -11584,8 +11512,7 @@ msgid "1 week ago"
 msgstr ""
 
 #: filter/filter-datespec.c:69
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d weeks ago"
 msgstr "सप्ताह"
 
@@ -11594,8 +11521,7 @@ msgid "1 month ago"
 msgstr ""
 
 #: filter/filter-datespec.c:70
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d months ago"
 msgstr "महीने"
 
@@ -11604,8 +11530,7 @@ msgid "1 year ago"
 msgstr ""
 
 #: filter/filter-datespec.c:71
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d years ago"
 msgstr "साल"
 
@@ -11658,7 +11583,7 @@ msgid "You must specify a folder."
 msgstr ""
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:438
-#: mail/mail-account-gui.c:1510 mail/mail-account-gui.c:1524
+#: mail/mail-account-gui.c:1511 mail/mail-account-gui.c:1525
 msgid "Select Folder"
 msgstr ""
 
@@ -12064,7 +11989,7 @@ msgstr ""
 msgid "Score"
 msgstr "स्कोर"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1820
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1822
 msgid "Sender"
 msgstr ""
 
@@ -12100,7 +12025,7 @@ msgstr ""
 msgid "Stop Processing"
 msgstr ""
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:941
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "विषय"
@@ -12166,15 +12091,15 @@ msgid "Please wait"
 msgstr "कृपया प्रतीक्षा करें."
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:1808
-#: importers/pine-importer.c:365 mail/importers/elm-importer.c:157
-#: mail/importers/netscape-importer.c:1759 mail/importers/pine-importer.c:288
+#: importers/pine-importer.c:365 mail/importers/elm-importer.c:159
+#: mail/importers/netscape-importer.c:1761 mail/importers/pine-importer.c:290
 #, c-format
 msgid "Importing %s as %s"
 msgstr ""
 
 #: importers/elm-importer.c:375 importers/netscape-importer.c:1917
-#: importers/pine-importer.c:471 mail/importers/elm-importer.c:392
-#: mail/importers/netscape-importer.c:1887 mail/importers/pine-importer.c:425
+#: importers/pine-importer.c:471 mail/importers/elm-importer.c:395
+#: mail/importers/netscape-importer.c:1889 mail/importers/pine-importer.c:427
 #, c-format
 msgid "Scanning %s"
 msgstr ""
@@ -12184,8 +12109,8 @@ msgstr ""
 # 48x48/emblems/emblem-mail.icon.in.h:1
 #: importers/elm-importer.c:525 importers/netscape-importer.c:2128
 #: importers/pine-importer.c:637 mail/component-factory.c:117
-#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:526
-#: mail/importers/netscape-importer.c:2085 mail/importers/pine-importer.c:572
+#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:530
+#: mail/importers/netscape-importer.c:2088 mail/importers/pine-importer.c:575
 #: my-evolution/my-evolution.glade.h:4
 #, fuzzy
 msgid "Mail"
@@ -12201,13 +12126,13 @@ msgstr ""
 "#-#-#-#-#  nautilus.HEAD.hi.po (nautilus 2.x)  #-#-#-#-#\n"
 "पत्र"
 
-#: importers/elm-importer.c:545 mail/importers/elm-importer.c:547
+#: importers/elm-importer.c:545 mail/importers/elm-importer.c:551
 msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
 msgstr ""
 
-#: importers/elm-importer.c:574 mail/importers/elm-importer.c:568
+#: importers/elm-importer.c:574 mail/importers/elm-importer.c:572
 msgid "Elm"
 msgstr ""
 
@@ -12261,7 +12186,7 @@ msgstr ""
 # #-#-#-#-#  gnome-session.HEAD.hi.po (gnome-session 2.4)  #-#-#-#-#
 # gnome-session/gsm-client-row.c:56
 #. Fill in the new fields
-#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1842
+#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1844
 #: mail/mail-ops.c:1116 shell/e-local-storage.c:184
 #, fuzzy
 msgid "Trash"
@@ -12277,30 +12202,30 @@ msgstr ""
 "#-#-#-#-#  nautilus.HEAD.hi.po (nautilus 2.x)  #-#-#-#-#\n"
 "ट्रेश"
 
-#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1995
+#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1997
 msgid "Scanning mail filters"
 msgstr ""
 
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
-#: mail/importers/netscape-importer.c:2006 mail/importers/pine-importer.c:520
+#: mail/importers/netscape-importer.c:2008 mail/importers/pine-importer.c:522
 msgid "Scanning directory"
 msgstr ""
 
-#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2015
+#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2017
 #: shell/e-shell-startup-wizard.c:556
 msgid "Starting import"
 msgstr ""
 
 # gnome-session/gsm-client-row.c:59
-#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2090
+#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2093
 msgid "Settings"
 msgstr "समायोजन"
 
-#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2095
+#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2098
 msgid "Mail Filters"
 msgstr ""
 
-#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2119
+#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2122
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -12310,13 +12235,13 @@ msgstr ""
 msgid "Evolution is importing your old Pine data"
 msgstr ""
 
-#: importers/pine-importer.c:663 mail/importers/pine-importer.c:599
+#: importers/pine-importer.c:663 mail/importers/pine-importer.c:602
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
 
-#: importers/pine-importer.c:691 mail/importers/pine-importer.c:618
+#: importers/pine-importer.c:691 mail/importers/pine-importer.c:621
 msgid "Pine"
 msgstr ""
 
@@ -12326,7 +12251,8 @@ msgid "Composer Preferences"
 msgstr "संयोजक प्राथमिकताएं"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -12471,8 +12397,7 @@ msgid "Cannot register storage with shell"
 msgstr ""
 
 #: mail/folder-browser-ui.c:486
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Properties for \"%s\""
 msgstr "%s के गुण"
 
@@ -12480,14 +12405,13 @@ msgstr "%s के गुण"
 msgid "Properties"
 msgstr "विशेषताएँ"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
+#: mail/folder-browser.c:329 mail/mail-display.c:400 mail/mail-display.c:932
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr ""
 
 #: mail/folder-browser.c:804
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d new"
 msgstr "%d नया"
 
@@ -12497,8 +12421,7 @@ msgid ", "
 msgstr ""
 
 #: mail/folder-browser.c:809
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d hidden"
 msgstr "%d छुपे हुए"
 
@@ -12508,26 +12431,22 @@ msgid "%d visible"
 msgstr ""
 
 #: mail/folder-browser.c:816
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d selected"
 msgstr "%d चुने"
 
 #: mail/folder-browser.c:821
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d unsent"
 msgstr "%d नहीं भेजे"
 
 #: mail/folder-browser.c:823
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d sent"
 msgstr "%d भेजे"
 
 #: mail/folder-browser.c:825
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%d total"
 msgstr "%d कुल"
 
@@ -12598,7 +12517,7 @@ msgstr ""
 msgid "Reply to _All"
 msgstr ""
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1797 ui/evolution-mail-message.xml.h:98
 #, fuzzy
 msgid "_Forward"
 msgstr ""
@@ -12764,7 +12683,7 @@ msgid "You have not filled in all of the required information."
 msgstr ""
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:146
+#: mail/mail-account-editor.c:155
 #, fuzzy
 msgid "Evolution Account Editor"
 msgstr "इवाल्यूशन खाता संशोधक"
@@ -12782,7 +12701,7 @@ msgstr "उपोगक_नाम:"
 msgid "_Path:"
 msgstr "पाथ (_P)"
 
-#: mail/mail-account-gui.c:1886
+#: mail/mail-account-gui.c:1887
 msgid "You may not create two accounts with the same name."
 msgstr ""
 
@@ -12829,8 +12748,7 @@ msgid "Protocol"
 msgstr ""
 
 #: mail/mail-autofilter.c:74
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Mail to %s"
 msgstr "%s को पत्र"
 
@@ -12840,14 +12758,12 @@ msgid "Subject is %s"
 msgstr ""
 
 #: mail/mail-autofilter.c:254
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Mail from %s"
 msgstr "%s से पत्र"
 
 #: mail/mail-autofilter.c:271
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s mailing list"
 msgstr "%s पत्र भेजने की सूची"
 
@@ -12938,81 +12854,79 @@ msgstr ""
 msgid "You must specify recipients in order to send this message."
 msgstr ""
 
-#: mail/mail-callbacks.c:724
+#: mail/mail-callbacks.c:728
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1189
+#: mail/mail-callbacks.c:1193
 msgid "an unknown sender"
 msgstr ""
 
-#: mail/mail-callbacks.c:1193
+#: mail/mail-callbacks.c:1197
 #, fuzzy
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr " %a %d/%m/%Y  %H:%M, बजे %%s ने लिखा:"
 
-#: mail/mail-callbacks.c:1700 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1702 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:1702 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1704 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:2344
-#, c-format
-#, fuzzy
+#: mail/mail-callbacks.c:2346
+#, fuzzy, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "क्या आप सचमुच इन सारे %d संदेशों को संशोधित करना चाहते हैं?"
 
-#: mail/mail-callbacks.c:2360
+#: mail/mail-callbacks.c:2362
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:2393
+#: mail/mail-callbacks.c:2395
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:2403
-#, c-format
-#, fuzzy
+#: mail/mail-callbacks.c:2405
+#, fuzzy, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "क्या आप सचमुच इन सारे %d संदेशों को फिर से भेजना चाहते हैं?"
 
-#: mail/mail-callbacks.c:2424
+#: mail/mail-callbacks.c:2426
 #, fuzzy
 msgid "No Message Selected"
 msgstr "कोई सन्देश चुना नहीं गया"
 
-#: mail/mail-callbacks.c:2465
+#: mail/mail-callbacks.c:2467
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
 " %s"
 msgstr ""
 
-#: mail/mail-callbacks.c:2470
+#: mail/mail-callbacks.c:2472
 #, c-format
 msgid ""
 "`%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2511
+#: mail/mail-callbacks.c:2513
 msgid "Save Message As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:2513
+#: mail/mail-callbacks.c:2515
 msgid "Save Messages As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:2686
+#: mail/mail-callbacks.c:2688
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -13020,36 +12934,33 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2781
-#, c-format
-#, fuzzy
+#: mail/mail-callbacks.c:2783
+#, fuzzy, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr "ऋुटि"
 
-#: mail/mail-callbacks.c:2789
+#: mail/mail-callbacks.c:2791
 msgid "Filters"
 msgstr "फिल्टर्स"
 
-#: mail/mail-callbacks.c:2830
-#, c-format
-#, fuzzy
+#: mail/mail-callbacks.c:2832
+#, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "पृष्ट"
 
-#: mail/mail-callbacks.c:2886
+#: mail/mail-callbacks.c:2888
 #, fuzzy
 msgid "Print Message"
 msgstr "सन्देश प्रिन्ट करें"
 
-#: mail/mail-callbacks.c:2954
+#: mail/mail-callbacks.c:2956
 msgid "Printing of message failed"
 msgstr ""
 
-#: mail/mail-callbacks.c:3149
-#, c-format
-#, fuzzy
+#: mail/mail-callbacks.c:3151
+#, fuzzy, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "क्या आप सचमुच इन सारे %d संदेशों को नई विन्डो में खोलना चाहते हैं? "
 
@@ -13079,57 +12990,57 @@ msgstr "स्क्रिप्ट हस्ताक्षर जोडें"
 msgid "Signature(s)"
 msgstr ""
 
-#: mail/mail-config-druid.c:380 mail/mail-config.glade.h:61
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:61
 msgid "Identity"
 msgstr "आयडेंटीटी"
 
-#: mail/mail-config-druid.c:382
+#: mail/mail-config-druid.c:369
 #, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"कृपया अपना नाम और ई-मेल पता बताएं. ये \"वैकल्पिक\" जानकारी अनिवार्य नहीं है, "
-"पर अगर आप  चाहें तो आपके भेजे पत्रों में शामिल की जाएगी."
+"कृपया अपना नाम और ई-मेल पता बताएं. ये \"वैकल्पिक\" जानकारी अनिवार्य नहीं है, पर अगर "
+"आप  चाहें तो आपके भेजे पत्रों में शामिल की जाएगी."
 
-#: mail/mail-config-druid.c:388 mail/mail-config-druid.c:395
+#: mail/mail-config-druid.c:375 mail/mail-config-druid.c:382
 msgid "Receiving Mail"
 msgstr ""
 
-#: mail/mail-config-druid.c:390
+#: mail/mail-config-druid.c:377
 #, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"कृपया अपनी आने वाली पत्र के सरवर के बारे में जानकारी दें. यदि आप असमन्जस में हैं, "
-"तो अपने इन्टरनेट सेवा प्रदानकर्ता से सम्पर्क करें."
+"कृपया अपनी आने वाली पत्र के सरवर के बारे में जानकारी दें. यदि आप असमन्जस में हैं, तो अपने "
+"इन्टरनेट सेवा प्रदानकर्ता से सम्पर्क करें."
 
-#: mail/mail-config-druid.c:397
+#: mail/mail-config-druid.c:384
 #, fuzzy
 msgid "Please select among the following options"
 msgstr "कृपया निम्न विकल्पों मे से कोई चुनें."
 
-#: mail/mail-config-druid.c:400
+#: mail/mail-config-druid.c:387
 msgid "Sending Mail"
 msgstr ""
 
-#: mail/mail-config-druid.c:402
+#: mail/mail-config-druid.c:389
 #, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"कृपया अपनी पत्र भेजने की विधी के बारे में जानकारी दें. यदि आप असमन्जस में हैं,  "
-"तो अपने इन्टरनेट सेवा प्रदानकर्ता से सम्पर्क करें. "
+"कृपया अपनी पत्र भेजने की विधी के बारे में जानकारी दें. यदि आप असमन्जस में हैं,  तो अपने "
+"इन्टरनेट सेवा प्रदानकर्ता से सम्पर्क करें. "
 
-#: mail/mail-config-druid.c:407 mail/mail-config.glade.h:10
+#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:10
 #, fuzzy
 msgid "Account Management"
 msgstr "खाते का प्रबंधन"
 
-#: mail/mail-config-druid.c:409
+#: mail/mail-config-druid.c:396
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -13818,96 +13729,94 @@ msgstr ""
 msgid "Could not create a S/MIME decode context."
 msgstr ""
 
-#: mail/mail-display.c:196
+#: mail/mail-display.c:199
 #, c-format
 msgid ""
 "File `%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
 
-#: mail/mail-display.c:339
+#: mail/mail-display.c:342
 msgid "Save Attachment"
 msgstr ""
 
-#: mail/mail-display.c:412
+#: mail/mail-display.c:415
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr ""
 
-#: mail/mail-display.c:484
+#: mail/mail-display.c:487
 #, fuzzy
 msgid "Save Attachment..."
 msgstr "संलग्न."
 
-#: mail/mail-display.c:485
+#: mail/mail-display.c:488
 msgid "View Inline"
 msgstr ""
 
-#: mail/mail-display.c:486
-#, c-format
-#, fuzzy
+#: mail/mail-display.c:489
+#, fuzzy, c-format
 msgid "Open in %s..."
 msgstr "%s... में खोलें"
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:549
 #, c-format
 msgid "View Inline (via %s)"
 msgstr ""
 
-#: mail/mail-display.c:550
+#: mail/mail-display.c:553
 #, fuzzy
 msgid "Hide"
 msgstr "शीर्ष"
 
-#: mail/mail-display.c:570
+#: mail/mail-display.c:573
 msgid "External Viewer"
 msgstr ""
 
-#: mail/mail-display.c:1356
+#: mail/mail-display.c:1363
 msgid "Downloading images"
 msgstr ""
 
-#: mail/mail-display.c:1533
+#: mail/mail-display.c:1540
 msgid "Loading message content"
 msgstr ""
 
-#: mail/mail-display.c:1880
+#: mail/mail-display.c:1887
 msgid "Overdue:"
 msgstr ""
 
-#: mail/mail-display.c:1884
+#: mail/mail-display.c:1891
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr ""
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2248
 msgid "Open Link in Browser"
 msgstr ""
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2249
 msgid "Copy Link Location"
 msgstr ""
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2251
 msgid "Save Link as (FIXME)"
 msgstr ""
 
-#: mail/mail-display.c:2246
+#: mail/mail-display.c:2253
 msgid "Save Image as..."
 msgstr ""
 
-#: mail/mail-folder-cache.c:745
+#: mail/mail-folder-cache.c:746
 #, c-format
 msgid "Pinging %s"
 msgstr ""
 
-#: mail/mail-format.c:668
-#, c-format
-#, fuzzy
+#: mail/mail-format.c:672
+#, fuzzy, c-format
 msgid "%s attachment"
 msgstr "%s सम्मिल्लित"
 
-#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
-#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
+#: mail/mail-format.c:714 mail/mail-format.c:1532 mail/mail-format.c:1601
+#: mail/mail-format.c:1721 mail/mail-format.c:1845 mail/mail-format.c:1870
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 
@@ -13922,7 +13831,7 @@ msgstr ""
 # libgnomeui/gnome-scores.c:97
 # #-#-#-#-#  libgnomeui.HEAD.hi.po (libgnomeui-2.0.hi)  #-#-#-#-#
 # libgnomeui/gnome-scores.c:97
-#: mail/mail-format.c:788 mail/message-list.etspec.h:2
+#: mail/mail-format.c:792 mail/message-list.etspec.h:2
 #, fuzzy
 msgid "Date"
 msgstr ""
@@ -13940,76 +13849,77 @@ msgstr ""
 "#-#-#-#-#  libgnomeui.HEAD.hi.po (libgnomeui-2.0.hi)  #-#-#-#-#\n"
 "दिनांक"
 
-#: mail/mail-format.c:874
+#: mail/mail-format.c:878
 #, fuzzy
 msgid "Bad Address"
 msgstr "अवैध पता"
 
-#: mail/mail-format.c:915 mail/message-list.etspec.h:7
+#: mail/mail-format.c:919 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "यहाँ से"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:923
 msgid "Reply-To"
 msgstr ""
 
-#: mail/mail-format.c:924 mail/message-list.etspec.h:14
+#: mail/mail-format.c:928 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "इन को"
 
-#: mail/mail-format.c:929
+#: mail/mail-format.c:933
 #, fuzzy
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:934
+#: mail/mail-format.c:938
 #, fuzzy
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1640
-msgid "This message is digitally signed. Click the lock icon for more information."
+#: mail/mail-format.c:1644
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1672
 msgid "Could not create a PGP verfication context"
 msgstr ""
 
-#: mail/mail-format.c:1676
+#: mail/mail-format.c:1680
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1683
+#: mail/mail-format.c:1687
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1947
+#: mail/mail-format.c:1951
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1958
+#: mail/mail-format.c:1962
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:1961
+#: mail/mail-format.c:1965
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1988
+#: mail/mail-format.c:1992
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1994
+#: mail/mail-format.c:1998
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:1996
+#: mail/mail-format.c:2000
 msgid "Malformed external-body part."
 msgstr ""
 
@@ -14060,18 +13970,14 @@ msgid "You cannot change the format of a non-local folder."
 msgstr ""
 
 #: mail/mail-mt.c:257
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Error while '%s':\n"
 "%s"
-msgstr ""
-"ऋुटि: `%s' में"
-"%s"
+msgstr "ऋुटि: `%s' में%s"
 
 #: mail/mail-mt.c:260
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Error while performing operation:\n"
 "%s"
@@ -14247,33 +14153,33 @@ msgstr ""
 msgid "(Untitled Message)"
 msgstr "(विषयहीन संदेश)"
 
-#: mail/mail-search.c:236
+#: mail/mail-search.c:234
 msgid "Untitled Message"
 msgstr ""
 
-#: mail/mail-search.c:238
+#: mail/mail-search.c:236
 msgid "Empty Message"
 msgstr ""
 
-#: mail/mail-search.c:287
+#: mail/mail-search.c:283
 #, fuzzy
 msgid "Find in Message"
 msgstr "खोजें"
 
-#: mail/mail-search.c:320
+#: mail/mail-search.c:316
 msgid "Case Sensitive"
 msgstr "केस सेंसिटिव"
 
-#: mail/mail-search.c:322
+#: mail/mail-search.c:317
 msgid "Search Forward"
 msgstr ""
 
-#: mail/mail-search.c:342
+#: mail/mail-search.c:334
 #, fuzzy
 msgid "Find:"
 msgstr "खोजें:"
 
-#: mail/mail-search.c:346
+#: mail/mail-search.c:338
 msgid "Matches:"
 msgstr ""
 
@@ -14306,11 +14212,11 @@ msgstr ""
 msgid "Cancel _All"
 msgstr "निरस्त करें"
 
-#: mail/mail-send-recv.c:391
+#: mail/mail-send-recv.c:390
 msgid "Updating..."
 msgstr "अपडेट किया जा रहा है"
 
-#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
+#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:442
 msgid "Waiting..."
 msgstr ""
 
@@ -14319,8 +14225,7 @@ msgid "User canceled operation."
 msgstr ""
 
 #: mail/mail-session.c:259
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Enter Password for %s"
 msgstr "कूटशब्द "
 
@@ -14449,8 +14354,7 @@ msgid "(No subject)"
 msgstr "विषय"
 
 #: mail/message-browser.c:235
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s - Message"
 msgstr "%s - सन्देश"
 
@@ -28412,8 +28316,7 @@ msgid ""
 msgstr ""
 
 #: shell/e-folder-list.c:122 shell/evolution-folder-selector-button.c:128
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "\"%s\" in \"%s\""
 msgstr "%s  में %s "
 
@@ -28426,7 +28329,7 @@ msgstr "फोल्डर जोडें"
 msgid "Drafts"
 msgstr ""
 
-#: shell/e-local-storage.c:180 shell/e-shell-view.c:481
+#: shell/e-local-storage.c:180 shell/e-shell-view.c:483
 #: shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "इनबाक्स"
@@ -28554,8 +28457,7 @@ msgid "Really delete folder \"%s\"?"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:416
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Delete \"%s\""
 msgstr "काटो\"%s\" "
 
@@ -28626,11 +28528,9 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"इवाल्यूशन में आयात करने के लिए फाइल चुनें, और उसका प्रकार सूची से चुनें."
-".\n"
+"इवाल्यूशन में आयात करने के लिए फाइल चुनें, और उसका प्रकार सूची से चुनें..\n"
 "\n"
-"यदि आप फाइल प्रकार नहीं जानते, \"स्वचालित\" चुनें, इवाल्यूशन "
-"प्रयास करेगा."
+"यदि आप फाइल प्रकार नहीं जानते, \"स्वचालित\" चुनें, इवाल्यूशन प्रयास करेगा."
 
 #: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:724
 msgid "Please select the information that you would like to import:"
@@ -28684,14 +28584,12 @@ msgid ""
 msgstr ""
 
 #: shell/e-shell-importer.c:509
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error starting %s"
 msgstr "ऋुटि"
 
 #: shell/e-shell-importer.c:523
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error loading %s"
 msgstr "ऋुटि: %s को पाने में"
 
@@ -28754,8 +28652,7 @@ msgid "Starting Intelligent Importers"
 msgstr ""
 
 #: shell/e-shell-importer.c:884 shell/e-shell-startup-wizard.c:679
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "From %s:"
 msgstr "द्वारा %s:"
 
@@ -28829,6 +28726,20 @@ msgstr ""
 msgid "Cannot find the specified shared folder."
 msgstr ""
 
+#: shell/e-shell-startup-wizard.c:771
+msgid ""
+"If you quit the Evolution Setup Assistant now, all of the information that "
+"you have entered will be forgotten. You will need to run this assistant "
+"again before using Evolution.\n"
+"\n"
+"Do you want to quit using the Assistant now?"
+msgstr ""
+
+#: shell/e-shell-startup-wizard.c:782
+#, fuzzy
+msgid "Quit Assistant"
+msgstr "सहायक"
+
 #: shell/e-shell-user-creatable-items-handler.c:587
 #: shell/e-shell-user-creatable-items-handler.c:643
 #: widgets/misc/e-charset-picker.c:109
@@ -28862,8 +28773,7 @@ msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr ""
 
 #: shell/e-shell-view-menu.c:97
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Error executing %s."
 msgstr "ऋुटि."
 
@@ -28917,26 +28827,28 @@ msgstr "कार्य"
 msgid "(No folder displayed)"
 msgstr "(कोइ फोल्डर नहीं दिखाए गए)"
 
-#: shell/e-shell-view.c:2040
+#: shell/e-shell-view.c:2042
 #, c-format
 msgid "%s (%d)"
 msgstr ""
 
-#: shell/e-shell-view.c:2042
+#: shell/e-shell-view.c:2044
 #, fuzzy
 msgid "(None)"
 msgstr "कोइ नहीं"
 
-#: shell/e-shell-view.c:2083
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+#: shell/e-shell-view.c:2085
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 
-#: shell/e-shell-view.c:2090
+#: shell/e-shell-view.c:2092
 msgid "Ximian Evolution is in the process of going offline."
 msgstr ""
 
-#: shell/e-shell-view.c:2096
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+#: shell/e-shell-view.c:2098
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 
 #: shell/e-shell.c:175
@@ -29203,8 +29115,7 @@ msgid "%s (...)"
 msgstr ""
 
 #: shell/e-task-widget.c:216
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% पूरा हुआ)"
 
@@ -29213,8 +29124,7 @@ msgid "<click here to select a folder>"
 msgstr ""
 
 #: shell/evolution-shell-component-utils.c:124
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "%s\n"
 "\n"
@@ -29225,8 +29135,7 @@ msgstr ""
 "अज्ञात  ऋुटि"
 
 #: shell/evolution-shell-component-utils.c:127
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "%s\n"
 "\n"
@@ -29238,8 +29147,7 @@ msgstr ""
 "%s"
 
 #: shell/evolution-shell-component-utils.c:134
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "%s\n"
 "\n"
@@ -29552,8 +29460,7 @@ msgid "Send the debugging output of all components to a file."
 msgstr ""
 
 #: shell/main.c:578
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
@@ -30385,7 +30292,8 @@ msgid "Hide _Read Messages"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:9
@@ -30580,8 +30488,25 @@ msgid "Display the previous unread message"
 msgstr ""
 
 #: ui/evolution-mail-message.xml.h:28
-msgid "F_orward"
+#, fuzzy
+msgid "F_orward As..."
 msgstr ""
+"#-#-#-#-#  balsa.balsa-2-0.hi.po (Balsa 2.x)  #-#-#-#-#\n"
+"आगे बढ़ाएँ\n"
+"#-#-#-#-#  balsa.HEAD.hi.po (Balsa 2.x)  #-#-#-#-#\n"
+"आगे बढ़ाएँ\n"
+"#-#-#-#-#  epiphany.gnome-2-4.hi.po (epiphany.HEAD.hi)  #-#-#-#-#\n"
+"आगे\n"
+"#-#-#-#-#  gpdf.HEAD.hi.po (Nautilus media HEAD)  #-#-#-#-#\n"
+"आगे बढ़ाएँ\n"
+"#-#-#-#-#  gucharmap.HEAD.hi.po (gucharmap.hi)  #-#-#-#-#\n"
+"आगे\n"
+"#-#-#-#-#  nautilus.gnome-2-4.hi.po (nautilus 2.x)  #-#-#-#-#\n"
+"आगे करें\n"
+"#-#-#-#-#  nautilus.HEAD.hi.po (nautilus 2.x)  #-#-#-#-#\n"
+"आगे करें\n"
+"#-#-#-#-#  yelp.gnome-2-4.hi.po (Yelp 2.4 )  #-#-#-#-#\n"
+"आगे बढ़ना"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -30874,10 +30799,6 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
-msgstr ""
-
-#: ui/evolution-mail-message.xml.h:98
-msgid "_Forward Message"
 msgstr ""
 
 #: ui/evolution-mail-message.xml.h:99
@@ -32360,7 +32281,7 @@ msgstr ""
 msgid "_Find Now"
 msgstr "खोजें"
 
-#: widgets/misc/e-search-bar.c:538
+#: widgets/misc/e-search-bar.c:538 widgets/misc/e-search-bar.c:928
 #, fuzzy
 msgid "_Clear"
 msgstr ""
@@ -32439,24 +32360,9 @@ msgstr ""
 "#-#-#-#-#  scaffold.HEAD.hi.po (scaffold VERSION)  #-#-#-#-#\n"
 "पाठ्य"
 
-#: widgets/misc/e-search-bar.c:928
-#, fuzzy
-msgid "Clear"
-msgstr ""
-"#-#-#-#-#  anjuta.ANJUTA_1_2_0.hi.po (anjuta2 VERSION)  #-#-#-#-#\n"
-"खाली\n"
-"#-#-#-#-#  gcalctool.HEAD.hi.po (gcalctool.HEAD.hi)  #-#-#-#-#\n"
-"खाली\n"
-"#-#-#-#-#  gnome-utils.gnome-2-4.hi.po (gnome-utils-2.0.hi)  #-#-#-#-#\n"
-"खाली\n"
-"#-#-#-#-#  gnome-utils.HEAD.hi.po (gnome-utils 2.0)  #-#-#-#-#\n"
-"खाली\n"
-"#-#-#-#-#  gnumeric.HEAD.hi.po (gnumeric HEAD)  #-#-#-#-#\n"
-"साफ़"
-
 #: widgets/misc/e-search-bar.c:930
 #, fuzzy
-msgid "Find Now"
+msgid "Find _Now"
 msgstr "खोजें"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
@@ -32473,3 +32379,16 @@ msgstr "Evolution पांचांग"
 msgid "Evolution Addressbook local file backend"
 msgstr ""
 
+#, fuzzy
+#~ msgid "Clear"
+#~ msgstr ""
+#~ "#-#-#-#-#  anjuta.ANJUTA_1_2_0.hi.po (anjuta2 VERSION)  #-#-#-#-#\n"
+#~ "खाली\n"
+#~ "#-#-#-#-#  gcalctool.HEAD.hi.po (gcalctool.HEAD.hi)  #-#-#-#-#\n"
+#~ "खाली\n"
+#~ "#-#-#-#-#  gnome-utils.gnome-2-4.hi.po (gnome-utils-2.0.hi)  #-#-#-#-#\n"
+#~ "खाली\n"
+#~ "#-#-#-#-#  gnome-utils.HEAD.hi.po (gnome-utils 2.0)  #-#-#-#-#\n"
+#~ "खाली\n"
+#~ "#-#-#-#-#  gnumeric.HEAD.hi.po (gnumeric HEAD)  #-#-#-#-#\n"
+#~ "साफ़"

@@ -1,3 +1,103 @@
+Evolution 1.4.6, 2004-02-18
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #50583 - Freeze when add a user to local meeting (Leon Zhang)
+    #49912 - Contacts list crash issue (Leon Zhang)
+    #48538 - Can not move & rename contact folders (Gilbert Fang)
+
+  * Calendar
+
+    #51337 - Unlocalized strings in calendar/appointment dialogs (Yong Sun)
+    #51052 - Import error (Yong Sun)
+    #50387 - Importing a .vcf to local calendar crashes (Harry Lu)
+
+  * Mail
+
+    #54319 - Message-list blank even tho there are messages (Jeff Stedfast)
+    #50535 - Doesn't handle EHLO errors proper (Jeff Stedfast)
+    #50485 - Problems with accentuated gpg passphrases (Jeff Stedfast)
+    #50096 - GroupWise attachments and indexing (Jeff Stedfast)
+    #45504 - Warning Dialogs "Error while 'Fetching Mail" On POP3 
+	     auto download (Michael Zucchi)
+    #49357 - Email date is incorrect (Jeff Stedfast)
+    #46006 - Attempted ESMTP handshake with invalid IPv6 address (Jeff Stedfast)
+    #41610 - Crash if remote POP reports 0 byte len messag e(Michael Zucchi)
+    #48759 - Strange behaviour with save as dialog (Jeff Stedfast)
+    #47638 - Default charset is empty (Jeff Stedfast)
+    #48466 - Properties window open after attachment removed (Charles Zhang)
+    #48166 - Size filter doesnt remember the size (Jeff Stedfast)
+    #53530 - Duplicate of attachments are seen on forward as Redirect (Bill Zhu)
+    #48998 - Apply Button always remain activated (Charles Zhang)
+    #51551 - Encoding of the Organization is UNKNOWN (Suresh Chandrasekharan)
+    #40917 - backspace shouldn't highlight the whole remaining string in 
+	     Setup Assistant (Suresh Chandrasekharan)
+    #47878 - Change "Helvetica" to "Sans Regular" for printing footers (Rodney Dawes)
+    #32996 - Can select VFolders as Offline folders in Evolution 
+	     Settings (Michael Zucchi)
+    #39410 - "Work offline" does not propobly sync all mails in "offline folders"
+	     (Michael Zucchi)
+    #48290 - Selecting inverse theme causes text to be printed white-on-white (Antonio Zu)
+
+Other bugs fixed:
+
+  * Addressbook
+
+    - Memory corruption if corba exception when loading ebook (Chris Toshok)
+
+  * Calendar
+
+    - Break lines for UTF8 correctly when printing (Yong Sun)
+    - Alarm daemon ref counting fixes (Rodrigo Moya)
+    - Use local timezone for component if timezone cannot be found (Harry Lu)
+    - Only allow numbers in recurrence "for" entry (Harry Lu)
+    - Only allow numbers alarm repeat count and alarm time (Harry Lu)
+    - Only allow numbers in percent complete (Harry Lu)
+    - Store last alarm notification time properly (Harry Lu)
+
+  * Mail
+
+    - Enable forward/backward search toggle (Suresh Chandrasekharan)
+    - Dialog cleanup (Rodney Dawes)
+    - Use gnome thumbnail handling for scaling if possible (Frederic Crozat)
+    - Handle broken image/pjpeg mime type (Jeff Stedfast)
+    - 64 bit fixes (Jeff Stedfast, Jeremy Katz)
+    - Better detection of broken dates (Frederic Crozat)
+
+  * Summary
+
+    - Make sure we only show today's tasks if configured that way (Gary Ekker)
+
+  * Miscellanous
+
+    - Fix mem chunk locking (for SMP machines) (Zan Lynx)
+    - Build fixes (Frederic Crozat, Jeff Stedfast)
+    - Remove disable deprecated flags (JP Rosevear)
+    - Translation encodings (Carlos Perello Marin)
+
+Updated translations:
+	- nn (Asmund Skjaeveland)
+	- ja (Takeshi AIHANA)
+	- es (Francisco Javier F. Serrador, Ismael Olea, Pablo Gonzalo del Campo)
+	- fi (Ilkka Tuohela)
+	- cs (Miloslav Trmac)
+	- pt_BR (Gustavo Maciel Dias Vieira)
+	- ko (Changwoo Ryu)
+	- ga (Paul Duffy)
+	- sv (Christian Rose)
+	- pt (Duarte Loreto)
+	- sr (Danilo Segan)
+	- nl (Vincent van Adrighem)
+	- et (Toivo Leedjarv, Ivar Smolin, Priit Laes)
+	- no (Kjartan Maraas) 
+	- hi (Guntupalli Karunakar)
+	- sq (Laurent Dhima)
+	- sk (Stanislav Visnovsky)
+	- sv (Christian Rose)
+
 Evolution 1.4.5, 2003-09-15
 ---------------------------
 
@@ -104,7 +204,7 @@ Other bugs fixed:
 
 Updated translations:
 
-    - ca (Enric Balletbò i Serra)
+    - ca (Enric BalletbÃ² i Serra)
     - cs (Miloslav Trmac)
     - cy (Dafydd Harries)
     - de (Christian Neumair, Stephan Richter, Claudia Walenzyk)
@@ -119,7 +219,7 @@ Updated translations:
     - no (Kjartan Maraas)
     - pl (Artur Flinta)
     - pt (Duarte Loreto)
-    - sr (Danilo Šegan)
+    - sr (Danilo Å egan)
     - sv (Christian Rose)
     - sv (Christian Rose)
     - zh_CN (Wang Jian)
@@ -162,7 +262,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #46018 - Cannot paste cut/copied mail into empty folder.
              (Antonio Xu)
     #46346 - Wrong default for startup dialog about restoring
-             autosaved items.  (Michel D�nzer)
+             autosaved items.  (Michel Dänzer)
     #46398 - Crash when dragging files to message list.  (Federico)
     #45826 - Shift+f10 should activate popup menu when focus on
              attachment.  (Maxx Cao)
@@ -197,7 +297,7 @@ Updated translations:
   - pl (Artur Flinta)
   - pt (Duarte Loreto)
   - pt_BR (Gustavo Maciel Dias Vieira)
-  - sr (Danilo Šegan)
+  - sr (Danilo Å egan)
   - sv (Christian Rose)
 
 

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.15\n"
-"POT-Creation-Date: 2003-09-15 14:36-0400\n"
+"POT-Creation-Date: 2004-02-19 16:14-0500\n"
 "PO-Revision-Date: 2001-09-12 16:59+0800\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Română <ro@li.org>\n"
@@ -404,7 +404,7 @@ msgstr "Organizaţie"
 msgid "Role"
 msgstr "Rol"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:970
 #, fuzzy
 msgid "Mailer"
 msgstr ""
@@ -471,12 +471,12 @@ msgstr "Punctaj"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:173
+#: calendar/gui/alarm-notify/notify-main.c:182
 msgid "Could not initialize Bonobo"
 msgstr "Nu pot iniţializa Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:464
-#: addressbook/backend/pas/pas-backend-ldap.c:3050
+#: addressbook/backend/pas/pas-backend-ldap.c:3051
 msgid "Searching..."
 msgstr "Caut..."
 
@@ -512,11 +512,11 @@ msgstr "Şterge card de la serverul LDAP..."
 msgid "Modifying card from LDAP server..."
 msgstr "Modificare card pentru serverul LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2961
+#: addressbook/backend/pas/pas-backend-ldap.c:2962
 msgid "Receiving LDAP search results..."
 msgstr "Primesc rezultatele căutării LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3070
+#: addressbook/backend/pas/pas-backend-ldap.c:3071
 #, fuzzy
 msgid "Error performing search"
 msgstr "Eroare ştergere card"
@@ -595,8 +595,8 @@ msgid "Evolution Addressbook folder viewer"
 msgstr "Vizualizor agendă minicard Evolution"
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:625
-#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
+#: addressbook/gui/component/addressbook-component.c:628
+#: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1846
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
 msgstr "Contacte"
@@ -623,29 +623,29 @@ msgstr "Contacte"
 msgid "Public folder containing contact information"
 msgstr "Dosar conţinând informaţie de contact"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "New Contact"
 msgstr "Contact nou"
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:582
 msgid "_Contact"
 msgstr "_Contact"
 
-#: addressbook/gui/component/addressbook-component.c:580
+#: addressbook/gui/component/addressbook-component.c:583
 #, fuzzy
 msgid "Create a new contact"
 msgstr "Crează contact nou"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact List"
 msgstr "Listă contacte nouă"
 
-#: addressbook/gui/component/addressbook-component.c:583
+#: addressbook/gui/component/addressbook-component.c:586
 #, fuzzy
 msgid "Contact _List"
 msgstr "_Contact"
 
-#: addressbook/gui/component/addressbook-component.c:584
+#: addressbook/gui/component/addressbook-component.c:587
 #, fuzzy
 msgid "Create a new contact list"
 msgstr "Crează listă nouă de contacte"
@@ -1299,7 +1299,7 @@ msgstr "Şterge tot"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
-#: composer/e-msg-composer-attachment-bar.c:450
+#: composer/e-msg-composer-attachment-bar.c:464
 msgid "Remove"
 msgstr "Şterge"
 
@@ -3030,10 +3030,9 @@ msgstr "Protocol nesuportat"
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2307
-#: camel/camel-service.c:747 camel/camel-service.c:788
-#: camel/camel-service.c:878 camel/camel-service.c:921
-#: camel/providers/pop3/camel-pop3-store.c:443
+#: calendar/gui/e-calendar-table.c:477 calendar/gui/print.c:2313
+#: camel/camel-service.c:830 camel/camel-service.c:884
+#: camel/camel-service.c:906 camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
 msgstr "Revocat"
@@ -3137,7 +3136,7 @@ msgstr "Tip"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:398
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
-#: mail/importers/pine-importer.c:577
+#: mail/importers/pine-importer.c:580
 msgid "Addressbook"
 msgstr "Agendă"
 
@@ -3194,7 +3193,7 @@ msgstr "Înaintează _anexat"
 msgid "Send Message to Contact"
 msgstr "Trimite mesaj la contact"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2439
+#: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2445
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:1
@@ -3231,7 +3230,7 @@ msgstr "Copiază"
 msgid "Paste"
 msgstr "Lipeşte"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:10
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3923,11 +3922,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "Nu mă întreba din nou"
 
-#: calendar/gui/alarm-notify/notify-main.c:176
+#: calendar/gui/alarm-notify/notify-main.c:185
 msgid "Could not initialize gnome-vfs"
 msgstr "Nu pot iniţializa gnome-vfs"
 
-#: calendar/gui/alarm-notify/notify-main.c:185
+#: calendar/gui/alarm-notify/notify-main.c:194
 msgid "Could not create the alarm notify service factory"
 msgstr "Nu pot crea procesatorul servicului de notificare alarmă"
 
@@ -3975,7 +3974,7 @@ msgstr "%A, %d %B %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:447
-#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1509
+#: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1515
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -3985,7 +3984,7 @@ msgid ""
 msgstr "Nu pot crea vederea calendar. Verificaţi setările pentru ORBit si OAF"
 
 #: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1543
-#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
+#: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1845
 #: my-evolution/my-evolution.glade.h:2 shell/e-local-storage.c:177
 #: shell/e-shortcuts.c:1085
 msgid "Calendar"
@@ -4005,9 +4004,9 @@ msgid "Public folder containing appointments and events"
 msgstr ""
 
 #: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
-#: calendar/gui/print.c:1789 calendar/gui/tasks-control.c:487
-#: calendar/importers/icalendar-importer.c:644
-#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
+#: calendar/gui/print.c:1795 calendar/gui/tasks-control.c:487
+#: calendar/importers/icalendar-importer.c:655
+#: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1847
 #: my-evolution/e-summary-tasks.c:329 my-evolution/e-summary-tasks.c:338
 #: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
 msgid "Tasks"
@@ -4129,20 +4128,20 @@ msgstr "Ocupat"
 
 #: calendar/gui/calendar-model.c:750 calendar/gui/calendar-model.c:1178
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2298
+#: calendar/gui/e-calendar-table.c:474 calendar/gui/print.c:2304
 msgid "Not Started"
 msgstr "Nepornit"
 
 #: calendar/gui/calendar-model.c:753 calendar/gui/calendar-model.c:1180
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2301
+#: calendar/gui/e-calendar-table.c:475 calendar/gui/print.c:2307
 msgid "In Progress"
 msgstr "În derulare"
 
 #: calendar/gui/calendar-model.c:756 calendar/gui/calendar-model.c:1182
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:476 calendar/gui/e-meeting-model.c:294
-#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2304
+#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2310
 msgid "Completed"
 msgstr "Terminat"
 
@@ -4158,9 +4157,9 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
-#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1260
-#: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2084
+#: mail/folder-browser.c:1776 mail/mail-account-gui.c:1261
+#: mail/mail-account-gui.c:1693 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
@@ -4305,6 +4304,10 @@ msgstr "ore"
 #: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
 msgid "minutes"
 msgstr "minute"
+
+#: calendar/gui/dialogs/alarm-page.c:796
+msgid "Action/Trigger"
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
@@ -4697,23 +4700,23 @@ msgstr "%s Nu aţi făcut modificări, actualizaţi editorul?"
 msgid "Validation error: %s"
 msgstr "Eroare necunoscută: %s"
 
-#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2216
+#: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2222
 msgid " to "
 msgstr " la "
 
-#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2220
+#: calendar/gui/dialogs/comp-editor-util.c:191 calendar/gui/print.c:2226
 msgid " (Completed "
 msgstr " (Terminat "
 
-#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2222
+#: calendar/gui/dialogs/comp-editor-util.c:193 calendar/gui/print.c:2228
 msgid "Completed "
 msgstr "Terminat "
 
-#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2227
+#: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2233
 msgid " (Due "
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2229
+#: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2235
 msgid "Due "
 msgstr ""
 
@@ -4765,7 +4768,7 @@ msgstr "Nu există rezumat"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
-#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1171
+#: calendar/gui/e-week-view.c:3950 composer/e-msg-composer.c:1177
 msgid "Save as..."
 msgstr "Salvează ca..."
 
@@ -4884,7 +4887,7 @@ msgstr "Delegat la:"
 msgid "Enter Delegate"
 msgstr "Şterse"
 
-#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2253
+#: calendar/gui/dialogs/event-editor.c:199 calendar/gui/print.c:2259
 msgid "Appointment"
 msgstr "Întâlnire"
 
@@ -5061,7 +5064,7 @@ msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:36
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:58
 #: mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Stare"
@@ -5156,9 +5159,14 @@ msgstr "ziua"
 msgid "on the"
 msgstr "în"
 
-#: calendar/gui/dialogs/recurrence-page.c:1357
+#: calendar/gui/dialogs/recurrence-page.c:1358
 msgid "occurrences"
 msgstr "apariţii"
+
+#: calendar/gui/dialogs/recurrence-page.c:2325
+#, fuzzy
+msgid "Date/Time"
+msgstr "Data/Ora"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 #, fuzzy
@@ -5238,7 +5246,7 @@ msgstr ""
 "Această semnătură a fost modificată, dar n-a fost salvată.\n"
 "Doriţi să salvaţi modificările?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1585
 msgid "_Discard Changes"
 msgstr ""
 
@@ -5567,7 +5575,7 @@ msgid "Alarms"
 msgstr "Alarme"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1156
-#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:584
+#: camel/camel-filter-driver.c:1251 mail/mail-send-recv.c:578
 msgid "Complete"
 msgstr "Terminat"
 
@@ -5636,7 +5644,7 @@ msgstr "%02i diviziuni minute"
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1423
-#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1525
+#: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1531
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -5649,13 +5657,13 @@ msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:638 calendar/gui/e-week-view.c:360
-#: calendar/gui/print.c:809
+#: calendar/gui/print.c:815
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:641 calendar/gui/e-week-view.c:363
-#: calendar/gui/print.c:811
+#: calendar/gui/print.c:817
 msgid "pm"
 msgstr "pm"
 
@@ -5890,11 +5898,11 @@ msgstr " Refuză "
 #: calendar/gui/e-itip-control.c:1062 calendar/gui/e-itip-control.c:1270
 #: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
 #: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:759
-#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1574
-#: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:775 camel/camel-gpg-context.c:1589
+#: camel/camel-gpg-context.c:1640 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:943 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Necunoscut"
 
@@ -5947,8 +5955,9 @@ msgid "Send Latest Information"
 msgstr "Informaţie"
 
 #: calendar/gui/e-itip-control.c:1211 calendar/gui/itip-utils.c:439
-#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:446
-#: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
+#: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
+#: shell/e-shell-startup-wizard.c:781 shell/evolution-shell-component.c:1185
+#: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Renunţă"
 
@@ -6670,89 +6679,89 @@ msgid "Sa"
 msgstr "Sâ"
 
 #. Day
-#: calendar/gui/print.c:1875
+#: calendar/gui/print.c:1881
 #, fuzzy
 msgid "Selected day (%a %b %d %Y)"
 msgstr "Ziua curentă (%a %b %d %Y)"
 
-#: calendar/gui/print.c:1900 calendar/gui/print.c:1904
+#: calendar/gui/print.c:1906 calendar/gui/print.c:1910
 msgid "%a %b %d"
 msgstr "%a %b %d"
 
-#: calendar/gui/print.c:1901
+#: calendar/gui/print.c:1907
 msgid "%a %d %Y"
 msgstr "%a %d %Y"
 
-#: calendar/gui/print.c:1905 calendar/gui/print.c:1907
-#: calendar/gui/print.c:1908
+#: calendar/gui/print.c:1911 calendar/gui/print.c:1913
+#: calendar/gui/print.c:1914
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
 
-#: calendar/gui/print.c:1912
+#: calendar/gui/print.c:1918
 #, fuzzy, c-format
 msgid "Selected week (%s - %s)"
 msgstr "Săptămâna curentă (%s - %s)"
 
 #. Month
-#: calendar/gui/print.c:1920
+#: calendar/gui/print.c:1926
 #, fuzzy
 msgid "Selected month (%b %Y)"
 msgstr "Luna curentă (%b %Y)"
 
 #. Year
-#: calendar/gui/print.c:1927
+#: calendar/gui/print.c:1933
 #, fuzzy
 msgid "Selected year (%Y)"
 msgstr "Anul curent (%Y)"
 
-#: calendar/gui/print.c:2255
+#: calendar/gui/print.c:2261
 #, fuzzy
 msgid "Task"
 msgstr "Sarcină"
 
-#: calendar/gui/print.c:2314
+#: calendar/gui/print.c:2320
 #, fuzzy, c-format
 msgid "Status: %s"
 msgstr "_Stare"
 
-#: calendar/gui/print.c:2331
+#: calendar/gui/print.c:2337
 #, fuzzy, c-format
 msgid "Priority: %s"
 msgstr "_Prioritate:"
 
-#: calendar/gui/print.c:2343
+#: calendar/gui/print.c:2349
 #, fuzzy, c-format
 msgid "Percent Complete: %i"
 msgstr "Întâlnire încheiată:"
 
-#: calendar/gui/print.c:2355
+#: calendar/gui/print.c:2361
 #, fuzzy, c-format
 msgid "URL: %s"
 msgstr "URL:"
 
-#: calendar/gui/print.c:2369
+#: calendar/gui/print.c:2375
 #, fuzzy, c-format
 msgid "Categories: %s"
 msgstr ""
 "\n"
 "Categorii:  "
 
-#: calendar/gui/print.c:2380
+#: calendar/gui/print.c:2386
 #, fuzzy
 msgid "Contacts: "
 msgstr "Contacte"
 
-#: calendar/gui/print.c:2518 calendar/gui/print.c:2604
-#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2948
+#: calendar/gui/print.c:2524 calendar/gui/print.c:2610
+#: calendar/gui/tasks-control.c:564 mail/mail-callbacks.c:2950
 #: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "Previzualizează tipărirea"
 
-#: calendar/gui/print.c:2552
+#: calendar/gui/print.c:2558
 msgid "Print Item"
 msgstr "Tipăreşte elementul"
 
-#: calendar/gui/print.c:2625
+#: calendar/gui/print.c:2631
 msgid "Print Setup"
 msgstr "Setează tipărirea"
 
@@ -6806,17 +6815,17 @@ msgstr "Mesaj calendar"
 msgid "vCalendar files (.vcf)"
 msgstr ""
 
-#: calendar/importers/icalendar-importer.c:403
+#: calendar/importers/icalendar-importer.c:414
 #, fuzzy
 msgid "Reminder!!"
 msgstr "Reaminteşte"
 
-#: calendar/importers/icalendar-importer.c:637
+#: calendar/importers/icalendar-importer.c:648
 #, fuzzy
 msgid "Calendar Events"
 msgstr "Mesaj calendar"
 
-#: calendar/importers/icalendar-importer.c:662
+#: calendar/importers/icalendar-importer.c:673
 #, fuzzy
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
@@ -6825,7 +6834,7 @@ msgstr ""
 "Evolution a găsit fişiere de mail Pine.\n"
 "Doriţi să le importaţi în Evolution?"
 
-#: calendar/importers/icalendar-importer.c:669
+#: calendar/importers/icalendar-importer.c:680
 #, fuzzy
 msgid "Gnome Calendar"
 msgstr "Deschide calendar"
@@ -8719,7 +8728,7 @@ msgstr "Copiez mesaje"
 msgid "Copying messages"
 msgstr "Copiez mesajele în %s"
 
-#: camel/camel-gpg-context.c:762
+#: camel/camel-gpg-context.c:769
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8727,47 +8736,47 @@ msgid ""
 "%s"
 msgstr ""
 
-#: camel/camel-gpg-context.c:777
+#: camel/camel-gpg-context.c:783
 msgid "Failed to parse gpg userid hint."
 msgstr ""
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:808
 msgid "Failed to parse gpg passphrase request."
 msgstr ""
 
-#: camel/camel-gpg-context.c:810
+#: camel/camel-gpg-context.c:816
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
 
-#: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
-#: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:580
+#: camel/camel-gpg-context.c:836 camel/camel-gpg-context.c:1312
+#: camel/camel-gpg-context.c:1418 camel/camel-gpg-context.c:1488
+#: camel/camel-gpg-context.c:1544 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "Anulat."
 
-#: camel/camel-gpg-context.c:839
+#: camel/camel-gpg-context.c:854
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 
-#: camel/camel-gpg-context.c:845
+#: camel/camel-gpg-context.c:860
 #, fuzzy, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Răspuns neaşteptat de la serverul IMAP: %s"
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:872
 #, fuzzy
 msgid "No data provided"
 msgstr "Nici un destinatar specificat"
 
-#: camel/camel-gpg-context.c:895
+#: camel/camel-gpg-context.c:910
 #, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Nu pot trimite mesajul: destinatar neprecizat."
 
-#: camel/camel-gpg-context.c:1172
+#: camel/camel-gpg-context.c:1187
 #, fuzzy, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8775,26 +8784,26 @@ msgid ""
 "%s"
 msgstr "Eşec la decodarea mesajului."
 
-#: camel/camel-gpg-context.c:1177
+#: camel/camel-gpg-context.c:1192
 #, fuzzy, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Eşec la decodarea mesajului."
 
-#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
-#: camel/camel-gpg-context.c:1624
+#: camel/camel-gpg-context.c:1303 camel/camel-gpg-context.c:1588
+#: camel/camel-gpg-context.c:1639
 #, fuzzy, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Eşec la decodarea mesajului."
 
-#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
-#: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
-#: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
-#: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
+#: camel/camel-gpg-context.c:1333 camel/camel-gpg-context.c:1410
+#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1535 camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1610 camel/camel-gpg-context.c:1661
 #, fuzzy
 msgid "Failed to execute gpg."
 msgstr "Eşec la decodarea mesajului."
 
-#: camel/camel-gpg-context.c:1380
+#: camel/camel-gpg-context.c:1395
 #, fuzzy, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "Nu pot crea fişier temp: %s"
@@ -9183,42 +9192,27 @@ msgstr "URL '%s' necesită o componentă gazdă"
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' necesită o componentă de cale"
 
-#: camel/camel-service.c:752
+#: camel/camel-service.c:801
 #, c-format
 msgid "Resolving: %s"
 msgstr "Rezolv: %s"
 
-#: camel/camel-service.c:786 camel/camel-service.c:919
-#, c-format
-msgid "Failure in name lookup: %s"
-msgstr "Eşec la căutarea numelui: %s"
-
-#: camel/camel-service.c:807 camel/camel-service.c:940
-#, fuzzy, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Eşec la căutarea gazdei: %s: motiv necunoscut"
-
-#: camel/camel-service.c:821
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr "Eşec la căutarea gazdei: %s: gazdă negăsită"
-
-#: camel/camel-service.c:824
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr "Eşec la căutarea gazdei: %s: motiv necunoscut"
-
-#: camel/camel-service.c:883
+#: camel/camel-service.c:803
 #, fuzzy
 msgid "Resolving address"
 msgstr "Rezolv: %s"
 
-#: camel/camel-service.c:956
+#: camel/camel-service.c:828
+#, c-format
+msgid "Failure in name lookup: %s"
+msgstr "Eşec la căutarea numelui: %s"
+
+#: camel/camel-service.c:860
 #, fuzzy
 msgid "Host lookup failed: host not found"
 msgstr "Eşec la căutarea gazdei: %s: gazdă negăsită"
 
-#: camel/camel-service.c:959
+#: camel/camel-service.c:863
 #, fuzzy
 msgid "Host lookup failed: unknown reason"
 msgstr "Eşec la căutarea gazdei: %s: motiv necunoscut"
@@ -9670,7 +9664,7 @@ msgstr "Verific mailurile noi"
 msgid "Check for new messages in all folders"
 msgstr "Verific mesajele noi în toate dosarele"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1178
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1180
 msgid "Folders"
 msgstr "Dosare"
 
@@ -9760,7 +9754,7 @@ msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "Serverul IMAP %s nu suportă tipul cerut de autentificare %s"
 
 #: camel/providers/imap/camel-imap-store.c:1085
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/smtp/camel-smtp-transport.c:477
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Tip de autentificare nesuportat %s"
@@ -10346,9 +10340,9 @@ msgid "Retrieving POP summary"
 msgstr "Primesc sumarul POP"
 
 #: camel/providers/pop3/camel-pop3-folder.c:262
-#: camel/providers/pop3/camel-pop3-folder.c:429
-#: camel/providers/pop3/camel-pop3-folder.c:490
-#: camel/providers/pop3/camel-pop3-folder.c:508
+#: camel/providers/pop3/camel-pop3-folder.c:430
+#: camel/providers/pop3/camel-pop3-folder.c:491
+#: camel/providers/pop3/camel-pop3-folder.c:509
 #, fuzzy
 msgid "User cancelled"
 msgstr "Operaţia anulată"
@@ -10363,29 +10357,29 @@ msgstr "Nu pot lua dosarul: %s: %s"
 msgid "Expunging deleted messages"
 msgstr "Decupează mesajele selectate"
 
-#: camel/providers/pop3/camel-pop3-folder.c:403
+#: camel/providers/pop3/camel-pop3-folder.c:404
 #, c-format
 msgid "No message with uid %s"
 msgstr "Nici un mesaj cu uid %s"
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
-#: camel/providers/pop3/camel-pop3-folder.c:410
+#: camel/providers/pop3/camel-pop3-folder.c:411
 #, c-format
 msgid "Retrieving POP message %d"
 msgstr "Primesc mesajul POP %d"
 
-#: camel/providers/pop3/camel-pop3-folder.c:432
-#: camel/providers/pop3/camel-pop3-folder.c:493
-#: camel/providers/pop3/camel-pop3-folder.c:500
-#: camel/providers/pop3/camel-pop3-folder.c:511
+#: camel/providers/pop3/camel-pop3-folder.c:433
+#: camel/providers/pop3/camel-pop3-folder.c:494
+#: camel/providers/pop3/camel-pop3-folder.c:501
+#: camel/providers/pop3/camel-pop3-folder.c:512
 #, fuzzy, c-format
 msgid "Cannot get message %s: %s"
 msgstr ""
 "Nu pot lua mesajul: %s\n"
 "  %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:500
+#: camel/providers/pop3/camel-pop3-folder.c:501
 #, fuzzy
 msgid "Unknown reason"
 msgstr "Precipitaţie necunoscută"
@@ -10670,40 +10664,40 @@ msgstr "Necesită autentificare"
 msgid "Welcome response error"
 msgstr "Răspuns de eroare RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:334
+#: camel/providers/smtp/camel-smtp-transport.c:373
 #, fuzzy, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr ""
 "Nu mă pot conecta la serverul POP.\n"
 "Eroare la trimiterea numelui utilizator: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:335
 #, fuzzy
 msgid "server does not appear to support SSL"
 msgstr "Mesajul nu pare a fi formatat corespunzător."
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:349
 #, fuzzy, c-format
 msgid "STARTTLS request timed out: %s"
 msgstr "Comanda AUTH a expirat: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:364
 #, fuzzy
 msgid "STARTTLS response error"
 msgstr "Răspuns de eroare RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:467
 #, fuzzy, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "Serverul SMTP %s nu suportă tipul cerut de autentificare %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:505
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sIntroduceţi vă rog parola SMTP pentru %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:524
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10714,92 +10708,92 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "Server SMTP %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "SMTP mail livrat prin %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: sender address not valid."
 msgstr "Nu pot trimite mesajul: adresa expeditorului invalidă."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:637
+#: camel/providers/smtp/camel-smtp-transport.c:682 mail/mail-ops.c:637
 msgid "Sending message"
 msgstr "Trimit mesaj"
 
-#: camel/providers/smtp/camel-smtp-transport.c:706
+#: camel/providers/smtp/camel-smtp-transport.c:697
 msgid "Cannot send message: no recipients defined."
 msgstr "Nu pot trimite mesajul: destinatar neprecizat."
 
-#: camel/providers/smtp/camel-smtp-transport.c:715
+#: camel/providers/smtp/camel-smtp-transport.c:706
 #, fuzzy
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Nu pot trimite mesajul: destinatar neprecizat."
 
-#: camel/providers/smtp/camel-smtp-transport.c:880
+#: camel/providers/smtp/camel-smtp-transport.c:871
 #, fuzzy
 msgid "SMTP Greeting"
 msgstr "Întâlnire"
 
-#: camel/providers/smtp/camel-smtp-transport.c:927
+#: camel/providers/smtp/camel-smtp-transport.c:920
 #, fuzzy, c-format
 msgid "HELO request timed out: %s"
 msgstr "Timp expirat pentru cererea RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:949
+#: camel/providers/smtp/camel-smtp-transport.c:942
 #, fuzzy
 msgid "HELO response error"
 msgstr "Răspuns de eroare RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1015
+#: camel/providers/smtp/camel-smtp-transport.c:1008
 #, fuzzy
 msgid "SMTP Authentication"
 msgstr "Autentificare"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1021
+#: camel/providers/smtp/camel-smtp-transport.c:1014
 msgid "Error creating SASL authentication object."
 msgstr "Eroare la crearea obiectului de autentificare SASL"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1038
-#: camel/providers/smtp/camel-smtp-transport.c:1050
+#: camel/providers/smtp/camel-smtp-transport.c:1031
+#: camel/providers/smtp/camel-smtp-transport.c:1043
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Comanda AUTH a expirat: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1059
+#: camel/providers/smtp/camel-smtp-transport.c:1052
 msgid "AUTH request failed."
 msgstr "Eşec la cererea AUTH."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1120
+#: camel/providers/smtp/camel-smtp-transport.c:1113
 msgid "Bad authentication response from server.\n"
 msgstr "Răspuns de la server: autentificare eşuată.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1145
+#: camel/providers/smtp/camel-smtp-transport.c:1138
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Comanda MAIL FROM a expirat: %s: mailul nu a fost trimis"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1165
+#: camel/providers/smtp/camel-smtp-transport.c:1158
 #, fuzzy
 msgid "MAIL FROM response error"
 msgstr "Răspuns de eroare la comanda MAIL FROM: %s: mailul nu a fost trimis"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1189
+#: camel/providers/smtp/camel-smtp-transport.c:1182
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Comanda RCPT TO a expirat: %s: mailul nu a fost trimis"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1211
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1250
+#: camel/providers/smtp/camel-smtp-transport.c:1243
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Comanda DATA a expirat: %s: mailul nu a fost trimis"
@@ -10807,38 +10801,38 @@ msgstr "Comanda DATA a expirat: %s: mailul nu a fost trimis"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1270
+#: camel/providers/smtp/camel-smtp-transport.c:1263
 #, fuzzy
 msgid "DATA response error"
 msgstr "Răspuns de eroare RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1311
-#: camel/providers/smtp/camel-smtp-transport.c:1334
+#: camel/providers/smtp/camel-smtp-transport.c:1304
+#: camel/providers/smtp/camel-smtp-transport.c:1327
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "DATA - timp expirat: terminarea mesajului: %s: mailul nu a fost trimis"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1354
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 #, fuzzy
 msgid "DATA termination response error"
 msgstr "Răspuns de la server de autentificare eşuată."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1377
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Timp expirat pentru cererea RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1397
+#: camel/providers/smtp/camel-smtp-transport.c:1390
 #, fuzzy
 msgid "RSET response error"
 msgstr "Răspuns de eroare RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1420
+#: camel/providers/smtp/camel-smtp-transport.c:1413
 #, fuzzy, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Comanda AUTH a expirat: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1440
+#: camel/providers/smtp/camel-smtp-transport.c:1433
 #, fuzzy
 msgid "QUIT response error"
 msgstr "Răspuns de eroare RSET: %s"
@@ -10859,19 +10853,19 @@ msgid "%.0fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:313 mail/mail-display.c:226
+#: composer/e-msg-composer-attachment-bar.c:320 mail/mail-display.c:229
 msgid "attachment"
 msgstr "anexă"
 
-#: composer/e-msg-composer-attachment-bar.c:451
+#: composer/e-msg-composer-attachment-bar.c:465
 msgid "Remove selected items from the attachment list"
 msgstr "Scoate articolele selectate din lista de anexe"
 
-#: composer/e-msg-composer-attachment-bar.c:481
+#: composer/e-msg-composer-attachment-bar.c:495
 msgid "Add attachment..."
 msgstr "Adaugă anexă..."
 
-#: composer/e-msg-composer-attachment-bar.c:482
+#: composer/e-msg-composer-attachment-bar.c:496
 msgid "Attach a file to the message"
 msgstr "Anexează un fişier la mesaj"
 
@@ -10981,18 +10975,17 @@ msgstr "Port:"
 msgid "Posting destination"
 msgstr "Descriere:"
 
-#: composer/e-msg-composer-select-file.c:102
 #: composer/e-msg-composer-select-file.c:119
 #, fuzzy
 msgid "Attach file(s)"
 msgstr "Anexează un fisier"
 
-#: composer/e-msg-composer.c:542
+#: composer/e-msg-composer.c:548
 #, fuzzy
 msgid "Could not create a PGP signature context"
 msgstr "Nu pot crea un context pentru o semnătură PGP."
 
-#: composer/e-msg-composer.c:821
+#: composer/e-msg-composer.c:827
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -11001,30 +10994,30 @@ msgstr ""
 "Eroare la citirea fişierului: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1184
+#: composer/e-msg-composer.c:1192
 msgid "File exists, overwrite?"
 msgstr "Fişierul există, suprascriu?"
 
-#: composer/e-msg-composer.c:1202
+#: composer/e-msg-composer.c:1203 composer/e-msg-composer.c:1219
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Eroare la salvarea fişierului: %s"
 
-#: composer/e-msg-composer.c:1225
+#: composer/e-msg-composer.c:1242
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Eroare la încărcarea fişierului: %s"
 
-#: composer/e-msg-composer.c:1263
+#: composer/e-msg-composer.c:1280
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Eroare la accesarea fişierului: %s"
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1288
 msgid "Unable to retrieve message from editor"
 msgstr "Nu pot primi mesajul de la editor"
 
-#: composer/e-msg-composer.c:1278
+#: composer/e-msg-composer.c:1295
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -11033,7 +11026,7 @@ msgstr ""
 "Nu pot căuta în fişierul: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1285
+#: composer/e-msg-composer.c:1302
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -11042,7 +11035,7 @@ msgstr ""
 "Nu pot trunchia fişierul: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1294
+#: composer/e-msg-composer.c:1311
 #, fuzzy, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -11051,7 +11044,7 @@ msgstr ""
 "Nu pot căuta în fişierul: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1303
+#: composer/e-msg-composer.c:1320
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -11060,7 +11053,7 @@ msgstr ""
 "Eroare la salvarea automată a mesajului: %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1400
+#: composer/e-msg-composer.c:1417
 #, fuzzy
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
@@ -11069,7 +11062,7 @@ msgstr ""
 "Evolution a găsit fişiere nesalvate într-o sesiune anterioară.\n"
 "Doriţi să încerc o restaurare?"
 
-#: composer/e-msg-composer.c:1563
+#: composer/e-msg-composer.c:1580
 #, fuzzy, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -11079,36 +11072,36 @@ msgstr ""
 "Acest mesaj nu a fost trimis.\n"
 "Doriţi să salvaţi modificările?"
 
-#: composer/e-msg-composer.c:1572
+#: composer/e-msg-composer.c:1589
 #, fuzzy
 msgid "Warning: Modified Message"
 msgstr "Mesaje înaintate"
 
-#: composer/e-msg-composer.c:1604
+#: composer/e-msg-composer.c:1621
 msgid "Open file"
 msgstr "Deschide fişier"
 
-#: composer/e-msg-composer.c:2028
+#: composer/e-msg-composer.c:2045
 #, fuzzy
 msgid "Signature:"
 msgstr "Salvează semnătura"
 
-#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2085 mail/mail-account-gui.c:1262
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
-#: composer/e-msg-composer.c:2912
+#: composer/e-msg-composer.c:2261 composer/e-msg-composer.c:2928
+#: composer/e-msg-composer.c:2929
 msgid "Compose a message"
 msgstr "Compune un mesaj"
 
-#: composer/e-msg-composer.c:2943
+#: composer/e-msg-composer.c:2960
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2971
+#: composer/e-msg-composer.c:2988
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -11119,7 +11112,7 @@ msgstr ""
 "Nu pot crea fereastra de compunere pentru că n-aţi configurat încă\n"
 "nici o identitate în componenţa mailului."
 
-#: composer/e-msg-composer.c:3038
+#: composer/e-msg-composer.c:3055
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -11128,7 +11121,7 @@ msgstr ""
 "Nu pot crea fereastra de compunere pentru că n-aţi configurat încă\n"
 "nici o identitate în componenţa mailului."
 
-#: composer/e-msg-composer.c:4073
+#: composer/e-msg-composer.c:4090
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11306,7 +11299,7 @@ msgstr ""
 "Fişier al cărui nume există deja.\n"
 "Îl suprascrieţi?"
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:199
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:202
 msgid "Overwrite file?"
 msgstr "Suprascrieţi fişierul?"
 
@@ -11545,7 +11538,7 @@ msgid "You must specify a folder."
 msgstr "Nume stil:"
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:438
-#: mail/mail-account-gui.c:1510 mail/mail-account-gui.c:1524
+#: mail/mail-account-gui.c:1511 mail/mail-account-gui.c:1525
 msgid "Select Folder"
 msgstr "Alege dosar"
 
@@ -11558,7 +11551,7 @@ msgstr ""
 "Eroare în expresia regulată '%s':\n"
 "%s"
 
-#: filter/filter-label.c:121 filter/libfilter-i18n.h:17 mail/mail-config.c:65
+#: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:65
 #: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1454
 msgid "Important"
 msgstr "Important"
@@ -11761,227 +11754,227 @@ msgid "Beep"
 msgstr "Mărime"
 
 #: filter/libfilter-i18n.h:7
-msgid "Copy to Folder"
-msgstr "Copiază în dosar"
-
-#: filter/libfilter-i18n.h:8
-msgid "Date received"
-msgstr "Date recepţionate"
-
-#: filter/libfilter-i18n.h:9
-msgid "Date sent"
-msgstr "Date trimise"
-
-#: filter/libfilter-i18n.h:11
-msgid "Deleted"
-msgstr "Şterse"
-
-#: filter/libfilter-i18n.h:12
-msgid "Do Not Exist"
-msgstr "Nu există"
-
-#: filter/libfilter-i18n.h:13
-msgid "Draft"
-msgstr "Ciornă"
-
-#: filter/libfilter-i18n.h:14
-msgid "Exist"
-msgstr "Există"
-
-#: filter/libfilter-i18n.h:15
-msgid "Expression"
-msgstr "Expresie"
-
-#: filter/libfilter-i18n.h:16
-msgid "Follow Up"
-msgstr ""
-
-#: filter/libfilter-i18n.h:18 mail/folder-browser.c:1824
-#, fuzzy
-msgid "Label"
-msgstr "eticheta26"
-
-#: filter/libfilter-i18n.h:19
-msgid "Mailing list"
-msgstr "Lista de mail"
-
-#: filter/libfilter-i18n.h:20
-msgid "Message Body"
-msgstr "Corp mesaj"
-
-#: filter/libfilter-i18n.h:21
-msgid "Message Header"
-msgstr "Antet mesaj"
-
-#: filter/libfilter-i18n.h:22
-msgid "Move to Folder"
-msgstr "Mută in dosar"
-
-#: filter/libfilter-i18n.h:23
-#, fuzzy
-msgid "Pipe Message to Shell Command"
-msgstr "Trimite mesaj la contact"
-
-#: filter/libfilter-i18n.h:24
-#, fuzzy
-msgid "Play Sound"
-msgstr "Redă sunetul:"
-
-#: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:68
-msgid "Read"
-msgstr "Citeşte"
-
-#: filter/libfilter-i18n.h:26
-msgid "Recipients"
-msgstr "Destinatari"
-
-#: filter/libfilter-i18n.h:27
-msgid "Regex Match"
-msgstr "Potrivire regex"
-
-#: filter/libfilter-i18n.h:28
-msgid "Replied to"
-msgstr "Răspuns la"
-
-#: filter/libfilter-i18n.h:29 filter/score-rule.c:184 filter/score-rule.c:186
-#: mail/message-list.etspec.h:10
-msgid "Score"
-msgstr "Punctaj"
-
-#: filter/libfilter-i18n.h:30 mail/mail-callbacks.c:1820
-msgid "Sender"
-msgstr "Expeditor"
-
-#: filter/libfilter-i18n.h:31
-msgid "Set Status"
-msgstr "Setează starea"
-
-#: filter/libfilter-i18n.h:32
-#, fuzzy
-msgid "Shell Command"
-msgstr "Companie"
-
-#: filter/libfilter-i18n.h:33
-msgid "Size (kB)"
-msgstr "Mărime (kB)"
-
-#: filter/libfilter-i18n.h:34
-msgid "Source Account"
-msgstr "Cont sursă"
-
-#: filter/libfilter-i18n.h:35
-msgid "Specific header"
-msgstr "Antet specific"
-
-#: filter/libfilter-i18n.h:37
-msgid "Stop Processing"
-msgstr "Opresc procesarea"
-
-#: filter/libfilter-i18n.h:38 mail/mail-format.c:937
-#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
-msgid "Subject"
-msgstr "Subiect"
-
-#: filter/libfilter-i18n.h:39
-#, fuzzy
-msgid "Unset Status"
-msgstr "Setează starea"
-
-#: filter/libfilter-i18n.h:40
 msgid "contains"
 msgstr "conţine"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:8
+msgid "Copy to Folder"
+msgstr "Copiază în dosar"
+
+#: filter/libfilter-i18n.h:9
+msgid "Date received"
+msgstr "Date recepţionate"
+
+#: filter/libfilter-i18n.h:10
+msgid "Date sent"
+msgstr "Date trimise"
+
+#: filter/libfilter-i18n.h:12
+msgid "Deleted"
+msgstr "Şterse"
+
+#: filter/libfilter-i18n.h:13
 msgid "does not contain"
 msgstr "nu conţine"
 
-#: filter/libfilter-i18n.h:42
+#: filter/libfilter-i18n.h:14
 msgid "does not end with"
 msgstr "nu se termină cu"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:15
 msgid "does not exist"
 msgstr "nu există"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:16
 #, fuzzy
 msgid "does not return"
 msgstr "nu există"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:17
 msgid "does not sound like"
 msgstr "nu sună ca"
 
-#: filter/libfilter-i18n.h:46
+#: filter/libfilter-i18n.h:18
 msgid "does not start with"
 msgstr "nu începe cu"
 
-#: filter/libfilter-i18n.h:47
+#: filter/libfilter-i18n.h:19
+msgid "Do Not Exist"
+msgstr "Nu există"
+
+#: filter/libfilter-i18n.h:20
+msgid "Draft"
+msgstr "Ciornă"
+
+#: filter/libfilter-i18n.h:21
 msgid "ends with"
 msgstr "se termină cu"
 
-#: filter/libfilter-i18n.h:48
+#: filter/libfilter-i18n.h:22
+msgid "Exist"
+msgstr "Există"
+
+#: filter/libfilter-i18n.h:23
 msgid "exists"
 msgstr "există"
 
-#: filter/libfilter-i18n.h:49
-#, fuzzy
-msgid "is Flagged"
-msgstr "Marcat"
+#: filter/libfilter-i18n.h:24
+msgid "Expression"
+msgstr "Expresie"
 
-#: filter/libfilter-i18n.h:50
+#: filter/libfilter-i18n.h:25
+msgid "Follow Up"
+msgstr ""
+
+#: filter/libfilter-i18n.h:27
+msgid "is"
+msgstr "este"
+
+#: filter/libfilter-i18n.h:28
 #, fuzzy
 msgid "is after"
 msgstr "a fost după"
 
-#: filter/libfilter-i18n.h:51
+#: filter/libfilter-i18n.h:29
 #, fuzzy
 msgid "is before"
 msgstr "a fost înainte"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:30
+#, fuzzy
+msgid "is Flagged"
+msgstr "Marcat"
+
+#: filter/libfilter-i18n.h:31
 msgid "is greater than"
 msgstr "e mai mare decât"
 
-#: filter/libfilter-i18n.h:53
+#: filter/libfilter-i18n.h:32
 msgid "is less than"
 msgstr "e mai mic decât"
 
-#: filter/libfilter-i18n.h:54
+#: filter/libfilter-i18n.h:33
+msgid "is not"
+msgstr "nu este"
+
+#: filter/libfilter-i18n.h:34
 #, fuzzy
 msgid "is not Flagged"
 msgstr "Marcat"
 
-#: filter/libfilter-i18n.h:55
-msgid "is not"
-msgstr "nu este"
-
-#: filter/libfilter-i18n.h:56
-msgid "is"
-msgstr "este"
-
-#: filter/libfilter-i18n.h:57
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1824
 #, fuzzy
-msgid "returns greater than"
-msgstr "e mai mare decât"
+msgid "Label"
+msgstr "eticheta26"
 
-#: filter/libfilter-i18n.h:58
+#: filter/libfilter-i18n.h:36
+msgid "Mailing list"
+msgstr "Lista de mail"
+
+#: filter/libfilter-i18n.h:37
+msgid "Message Body"
+msgstr "Corp mesaj"
+
+#: filter/libfilter-i18n.h:38
+msgid "Message Header"
+msgstr "Antet mesaj"
+
+#: filter/libfilter-i18n.h:39
+msgid "Move to Folder"
+msgstr "Mută in dosar"
+
+#: filter/libfilter-i18n.h:40
 #, fuzzy
-msgid "returns less than"
-msgstr "e mai mic decât"
+msgid "Pipe Message to Shell Command"
+msgstr "Trimite mesaj la contact"
 
-#: filter/libfilter-i18n.h:59
+#: filter/libfilter-i18n.h:41
+#, fuzzy
+msgid "Play Sound"
+msgstr "Redă sunetul:"
+
+#: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:68
+msgid "Read"
+msgstr "Citeşte"
+
+#: filter/libfilter-i18n.h:43
+msgid "Recipients"
+msgstr "Destinatari"
+
+#: filter/libfilter-i18n.h:44
+msgid "Regex Match"
+msgstr "Potrivire regex"
+
+#: filter/libfilter-i18n.h:45
+msgid "Replied to"
+msgstr "Răspuns la"
+
+#: filter/libfilter-i18n.h:46
 #, fuzzy
 msgid "returns"
 msgstr "Ocupat"
 
-#: filter/libfilter-i18n.h:60
+#: filter/libfilter-i18n.h:47
+#, fuzzy
+msgid "returns greater than"
+msgstr "e mai mare decât"
+
+#: filter/libfilter-i18n.h:48
+#, fuzzy
+msgid "returns less than"
+msgstr "e mai mic decât"
+
+#: filter/libfilter-i18n.h:49 filter/score-rule.c:184 filter/score-rule.c:186
+#: mail/message-list.etspec.h:10
+msgid "Score"
+msgstr "Punctaj"
+
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1822
+msgid "Sender"
+msgstr "Expeditor"
+
+#: filter/libfilter-i18n.h:51
+msgid "Set Status"
+msgstr "Setează starea"
+
+#: filter/libfilter-i18n.h:52
+#, fuzzy
+msgid "Shell Command"
+msgstr "Companie"
+
+#: filter/libfilter-i18n.h:53
+msgid "Size (kB)"
+msgstr "Mărime (kB)"
+
+#: filter/libfilter-i18n.h:54
 msgid "sounds like"
 msgstr "sună ca"
 
-#: filter/libfilter-i18n.h:61
+#: filter/libfilter-i18n.h:55
+msgid "Source Account"
+msgstr "Cont sursă"
+
+#: filter/libfilter-i18n.h:56
+msgid "Specific header"
+msgstr "Antet specific"
+
+#: filter/libfilter-i18n.h:57
 msgid "starts with"
 msgstr "începe cu"
+
+#: filter/libfilter-i18n.h:59
+msgid "Stop Processing"
+msgstr "Opresc procesarea"
+
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:941
+#: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
+msgid "Subject"
+msgstr "Subiect"
+
+#: filter/libfilter-i18n.h:61
+#, fuzzy
+msgid "Unset Status"
+msgstr "Setează starea"
 
 #: filter/rule-context.c:664 filter/rule-editor.c:241 filter/rule-editor.c:326
 #: mail/mail-vfolder.c:917
@@ -12044,8 +12037,8 @@ msgid "Please wait"
 msgstr "se termină cu"
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:1808
-#: importers/pine-importer.c:365 mail/importers/elm-importer.c:157
-#: mail/importers/netscape-importer.c:1759 mail/importers/pine-importer.c:288
+#: importers/pine-importer.c:365 mail/importers/elm-importer.c:159
+#: mail/importers/netscape-importer.c:1761 mail/importers/pine-importer.c:290
 #, fuzzy, c-format
 msgid "Importing %s as %s"
 msgstr ""
@@ -12053,21 +12046,21 @@ msgstr ""
 "Start %s"
 
 #: importers/elm-importer.c:375 importers/netscape-importer.c:1917
-#: importers/pine-importer.c:471 mail/importers/elm-importer.c:392
-#: mail/importers/netscape-importer.c:1887 mail/importers/pine-importer.c:425
+#: importers/pine-importer.c:471 mail/importers/elm-importer.c:395
+#: mail/importers/netscape-importer.c:1889 mail/importers/pine-importer.c:427
 #, fuzzy, c-format
 msgid "Scanning %s"
 msgstr "Trimit \"%s\""
 
 #: importers/elm-importer.c:525 importers/netscape-importer.c:2128
 #: importers/pine-importer.c:637 mail/component-factory.c:117
-#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:526
-#: mail/importers/netscape-importer.c:2085 mail/importers/pine-importer.c:572
+#: mail/folder-browser-ui.c:360 mail/importers/elm-importer.c:530
+#: mail/importers/netscape-importer.c:2088 mail/importers/pine-importer.c:575
 #: my-evolution/my-evolution.glade.h:4
 msgid "Mail"
 msgstr "Mail"
 
-#: importers/elm-importer.c:545 mail/importers/elm-importer.c:547
+#: importers/elm-importer.c:545 mail/importers/elm-importer.c:551
 msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
@@ -12075,7 +12068,7 @@ msgstr ""
 "Evolution a găsit fişiere de mail Elm.\n"
 "Doriţi să le importaţi în Evolution?"
 
-#: importers/elm-importer.c:574 mail/importers/elm-importer.c:568
+#: importers/elm-importer.c:574 mail/importers/elm-importer.c:572
 msgid "Elm"
 msgstr ""
 
@@ -12129,38 +12122,38 @@ msgid "Evolution is importing your old Netscape data"
 msgstr ""
 
 #. Fill in the new fields
-#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1842
+#: importers/netscape-importer.c:1872 mail/importers/netscape-importer.c:1844
 #: mail/mail-ops.c:1116 shell/e-local-storage.c:184
 msgid "Trash"
 msgstr "Gunoi"
 
-#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1995
+#: importers/netscape-importer.c:2028 mail/importers/netscape-importer.c:1997
 #, fuzzy
 msgid "Scanning mail filters"
 msgstr "Fişier mail-uri locale %s"
 
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
-#: mail/importers/netscape-importer.c:2006 mail/importers/pine-importer.c:520
+#: mail/importers/netscape-importer.c:2008 mail/importers/pine-importer.c:522
 #, fuzzy
 msgid "Scanning directory"
 msgstr "Scanez dosarul IMAP"
 
-#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2015
+#: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2017
 #: shell/e-shell-startup-wizard.c:556
 #, fuzzy
 msgid "Starting import"
 msgstr "_Data început:"
 
-#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2090
+#: importers/netscape-importer.c:2133 mail/importers/netscape-importer.c:2093
 msgid "Settings"
 msgstr "Setări"
 
-#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2095
+#: importers/netscape-importer.c:2138 mail/importers/netscape-importer.c:2098
 #, fuzzy
 msgid "Mail Filters"
 msgstr "Editează filtre"
 
-#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2119
+#: importers/netscape-importer.c:2161 mail/importers/netscape-importer.c:2122
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -12172,7 +12165,7 @@ msgstr ""
 msgid "Evolution is importing your old Pine data"
 msgstr ""
 
-#: importers/pine-importer.c:663 mail/importers/pine-importer.c:599
+#: importers/pine-importer.c:663 mail/importers/pine-importer.c:602
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
@@ -12180,7 +12173,7 @@ msgstr ""
 "Evolution a găsit fişiere de mail Pine.\n"
 "Doriţi să le importaţi în Evolution?"
 
-#: importers/pine-importer.c:691 mail/importers/pine-importer.c:618
+#: importers/pine-importer.c:691 mail/importers/pine-importer.c:621
 #, fuzzy
 msgid "Pine"
 msgstr "Tipăreşte"
@@ -12354,7 +12347,7 @@ msgstr "Proprietăţi pentru \"%s\""
 msgid "Properties"
 msgstr "Proprietăţi"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
+#: mail/folder-browser.c:329 mail/mail-display.c:400 mail/mail-display.c:932
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nu pot crea directorul temporar: %s"
@@ -12456,7 +12449,7 @@ msgstr "Răspunde la _listă"
 msgid "Reply to _All"
 msgstr "Răspunde la toţi"
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1797 ui/evolution-mail-message.xml.h:98
 msgid "_Forward"
 msgstr "_Înaintează"
 
@@ -12619,7 +12612,7 @@ msgid "You have not filled in all of the required information."
 msgstr "Nu aţi completat toată informaţia cerută."
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:146
+#: mail/mail-account-editor.c:155
 msgid "Evolution Account Editor"
 msgstr "Editor de conturi Evolution"
 
@@ -12638,7 +12631,7 @@ msgstr "Nume utilizator:"
 msgid "_Path:"
 msgstr "Cale:"
 
-#: mail/mail-account-gui.c:1886
+#: mail/mail-account-gui.c:1887
 msgid "You may not create two accounts with the same name."
 msgstr ""
 
@@ -12810,7 +12803,7 @@ msgstr ""
 msgid "You must specify recipients in order to send this message."
 msgstr "Trebuie să specificaţi un destinatar pentru a trimite acest mesaj."
 
-#: mail/mail-callbacks.c:724
+#: mail/mail-callbacks.c:728
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -12818,29 +12811,29 @@ msgstr ""
 "Nu pot deschide dosarul cu ciorne pentru acest cont.\n"
 "Doriţi să folosiţi dosarul cu ciorne implicit?"
 
-#: mail/mail-callbacks.c:1189
+#: mail/mail-callbacks.c:1193
 #, fuzzy
 msgid "an unknown sender"
 msgstr "Eroare necunoscută"
 
-#: mail/mail-callbacks.c:1193
+#: mail/mail-callbacks.c:1197
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr ""
 
-#: mail/mail-callbacks.c:1700 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1702 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Mută mesaj(e) în"
 
-#: mail/mail-callbacks.c:1702 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1704 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Copiază mesaje(le) în"
 
-#: mail/mail-callbacks.c:2344
+#: mail/mail-callbacks.c:2346
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Sunteţi sigur că doriţi să editaţi toate cele %d mesaje?"
 
-#: mail/mail-callbacks.c:2360
+#: mail/mail-callbacks.c:2362
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12848,7 +12841,7 @@ msgstr ""
 "Puteţi numai să editaţi mesajele\n"
 "salvate în dosarul Ciorne"
 
-#: mail/mail-callbacks.c:2393
+#: mail/mail-callbacks.c:2395
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12856,16 +12849,16 @@ msgstr ""
 "Puteţi numai să retrimiteţi mesajele\n"
 "din dosarul Trimise"
 
-#: mail/mail-callbacks.c:2403
+#: mail/mail-callbacks.c:2405
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Sunteţi sigur că doriţi să retrimiteţi toate cele %d mesaje?"
 
-#: mail/mail-callbacks.c:2424
+#: mail/mail-callbacks.c:2426
 msgid "No Message Selected"
 msgstr "Nici un mesaj selectat"
 
-#: mail/mail-callbacks.c:2465
+#: mail/mail-callbacks.c:2467
 #, fuzzy, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12874,7 +12867,7 @@ msgstr ""
 "Nu pot lua mesajul: %s\n"
 "  %s"
 
-#: mail/mail-callbacks.c:2470
+#: mail/mail-callbacks.c:2472
 #, fuzzy, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12883,15 +12876,15 @@ msgstr ""
 "Fişier al cărui nume există deja.\n"
 "Îl suprascrieţi?"
 
-#: mail/mail-callbacks.c:2511
+#: mail/mail-callbacks.c:2513
 msgid "Save Message As..."
 msgstr "Salvează mesajul ca..."
 
-#: mail/mail-callbacks.c:2513
+#: mail/mail-callbacks.c:2515
 msgid "Save Messages As..."
 msgstr "Salvează mesajele ca..."
 
-#: mail/mail-callbacks.c:2686
+#: mail/mail-callbacks.c:2688
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -12899,7 +12892,7 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2781
+#: mail/mail-callbacks.c:2783
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12908,24 +12901,24 @@ msgstr ""
 "Eroare la încarcarea informaţiei de filtrare:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2789
+#: mail/mail-callbacks.c:2791
 msgid "Filters"
 msgstr "_Filtre..."
 
-#: mail/mail-callbacks.c:2830
+#: mail/mail-callbacks.c:2832
 #, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "Primesc mesajul %d din %d"
 
-#: mail/mail-callbacks.c:2886
+#: mail/mail-callbacks.c:2888
 msgid "Print Message"
 msgstr "Tipăreşte mesaj"
 
-#: mail/mail-callbacks.c:2954
+#: mail/mail-callbacks.c:2956
 msgid "Printing of message failed"
 msgstr "Tipărirea mesajului nereuşită"
 
-#: mail/mail-callbacks.c:3149
+#: mail/mail-callbacks.c:3151
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -12963,11 +12956,11 @@ msgstr "Adaugă criteriu"
 msgid "Signature(s)"
 msgstr "Semnătură HTML:"
 
-#: mail/mail-config-druid.c:380 mail/mail-config.glade.h:61
+#: mail/mail-config-druid.c:367 mail/mail-config.glade.h:61
 msgid "Identity"
 msgstr "Identitate"
 
-#: mail/mail-config-druid.c:382
+#: mail/mail-config-druid.c:369
 #, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
@@ -12978,12 +12971,12 @@ msgstr ""
 "\"de mai jos nu e necesar să le completaţi decât dacă doriţi să includeţi "
 "această informaţie în emailul pe care-l trimiteţi"
 
-#: mail/mail-config-druid.c:388 mail/mail-config-druid.c:395
+#: mail/mail-config-druid.c:375 mail/mail-config-druid.c:382
 #, fuzzy
 msgid "Receiving Mail"
 msgstr "Primesc mail"
 
-#: mail/mail-config-druid.c:390
+#: mail/mail-config-druid.c:377
 #, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
@@ -12993,16 +12986,16 @@ msgstr ""
 "Dacă nu ştiţi ce fel de server folosiţi, contactaţi administratorul "
 "dumneavoastră de sistem sau furnizorul de serviciu Internet."
 
-#: mail/mail-config-druid.c:397
+#: mail/mail-config-druid.c:384
 msgid "Please select among the following options"
 msgstr ""
 
-#: mail/mail-config-druid.c:400
+#: mail/mail-config-druid.c:387
 #, fuzzy
 msgid "Sending Mail"
 msgstr "Trimit mail"
 
-#: mail/mail-config-druid.c:402
+#: mail/mail-config-druid.c:389
 #, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
@@ -13012,11 +13005,11 @@ msgstr ""
 "Dacă nu ştiţi ce protocol folosiţi, contactaţi administratorul dumneavostră "
 "de sistem sau furnizorul de serviciu Internet."
 
-#: mail/mail-config-druid.c:407 mail/mail-config.glade.h:10
+#: mail/mail-config-druid.c:394 mail/mail-config.glade.h:10
 msgid "Account Management"
 msgstr "Management cont"
 
-#: mail/mail-config-druid.c:409
+#: mail/mail-config-druid.c:396
 #, fuzzy
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
@@ -13710,7 +13703,7 @@ msgstr "Nu pot crea un context pentru anvelopa S/MIME."
 msgid "Could not create a S/MIME decode context."
 msgstr "Nu pot crea contextul pentru decodarea S/MIME."
 
-#: mail/mail-display.c:196
+#: mail/mail-display.c:199
 #, fuzzy, c-format
 msgid ""
 "File `%s' already exists.\n"
@@ -13719,169 +13712,169 @@ msgstr ""
 "Fişier al cărui nume există deja.\n"
 "Îl suprascrieţi?"
 
-#: mail/mail-display.c:339
+#: mail/mail-display.c:342
 msgid "Save Attachment"
 msgstr "Salvează anexa"
 
-#: mail/mail-display.c:412
+#: mail/mail-display.c:415
 #, fuzzy, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Nu pot crea temporar mbox `%s': %s"
 
-#: mail/mail-display.c:484
+#: mail/mail-display.c:487
 #, fuzzy
 msgid "Save Attachment..."
 msgstr "Salvează anexa"
 
-#: mail/mail-display.c:485
+#: mail/mail-display.c:488
 msgid "View Inline"
 msgstr "Vedere inline"
 
-#: mail/mail-display.c:486
+#: mail/mail-display.c:489
 #, c-format
 msgid "Open in %s..."
 msgstr "Deschide în %s..."
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:549
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Vedere inline (via %s)"
 
-#: mail/mail-display.c:550
+#: mail/mail-display.c:553
 msgid "Hide"
 msgstr "Ascund"
 
-#: mail/mail-display.c:570
+#: mail/mail-display.c:573
 msgid "External Viewer"
 msgstr "Vizualizator extern"
 
-#: mail/mail-display.c:1356
+#: mail/mail-display.c:1363
 #, fuzzy
 msgid "Downloading images"
 msgstr "Încarcă _imaginile"
 
-#: mail/mail-display.c:1533
+#: mail/mail-display.c:1540
 msgid "Loading message content"
 msgstr "Încarc conţinut mesaj"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1887
 #, fuzzy
 msgid "Overdue:"
 msgstr "Termen depăşit"
 
-#: mail/mail-display.c:1879
+#: mail/mail-display.c:1891
 #, fuzzy
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2248
 msgid "Open Link in Browser"
 msgstr "Deschide legătura în navigator"
 
-#: mail/mail-display.c:2237
+#: mail/mail-display.c:2249
 msgid "Copy Link Location"
 msgstr "Copiază legătura către locaţia"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2251
 msgid "Save Link as (FIXME)"
 msgstr "Salvează legătura ca (FIXME)"
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2253
 #, fuzzy
 msgid "Save Image as..."
 msgstr "Salvează imaginea ca..."
 
-#: mail/mail-folder-cache.c:745
+#: mail/mail-folder-cache.c:746
 #, fuzzy, c-format
 msgid "Pinging %s"
 msgstr "Trimit \"%s\""
 
-#: mail/mail-format.c:668
+#: mail/mail-format.c:672
 #, c-format
 msgid "%s attachment"
 msgstr "%s anexă"
 
-#: mail/mail-format.c:710 mail/mail-format.c:1528 mail/mail-format.c:1597
-#: mail/mail-format.c:1717 mail/mail-format.c:1841 mail/mail-format.c:1866
+#: mail/mail-format.c:714 mail/mail-format.c:1532 mail/mail-format.c:1601
+#: mail/mail-format.c:1721 mail/mail-format.c:1845 mail/mail-format.c:1870
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Nu pot parsa mesajul MIME. Afişez ca sursă."
 
-#: mail/mail-format.c:788 mail/message-list.etspec.h:2
+#: mail/mail-format.c:792 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
 
-#: mail/mail-format.c:874
+#: mail/mail-format.c:878
 #, fuzzy
 msgid "Bad Address"
 msgstr "Adresa email:"
 
-#: mail/mail-format.c:915 mail/message-list.etspec.h:7
+#: mail/mail-format.c:919 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "De la"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:923
 msgid "Reply-To"
 msgstr "Răspuns-la:"
 
-#: mail/mail-format.c:924 mail/message-list.etspec.h:14
+#: mail/mail-format.c:928 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "La"
 
-#: mail/mail-format.c:929
+#: mail/mail-format.c:933
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:934
+#: mail/mail-format.c:938
 #, fuzzy
 msgid "Bcc"
 msgstr "Bcc:"
 
-#: mail/mail-format.c:1640
+#: mail/mail-format.c:1644
 #, fuzzy
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr "Acest mesaj este semnat digital şi este autentic."
 
-#: mail/mail-format.c:1668
+#: mail/mail-format.c:1672
 #, fuzzy
 msgid "Could not create a PGP verfication context"
 msgstr "Nu pot crea un context pentru o verificare PGP."
 
-#: mail/mail-format.c:1676
+#: mail/mail-format.c:1680
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Acest mesaj este semnat digital şi este autentic."
 
-#: mail/mail-format.c:1683
+#: mail/mail-format.c:1687
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Acest mesaj este semnat digital dar nu se poate dovedi că e autentic."
 
-#: mail/mail-format.c:1947
+#: mail/mail-format.c:1951
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Indicator către site-ul FTP (%s)"
 
-#: mail/mail-format.c:1958
+#: mail/mail-format.c:1962
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Indicator către fişierul local (%s) valid pe site-ul \"%s\""
 
-#: mail/mail-format.c:1961
+#: mail/mail-format.c:1965
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Indicator către fişierul local (%s)"
 
-#: mail/mail-format.c:1988
+#: mail/mail-format.c:1992
 #, fuzzy, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Indicator către site-ul FTP (%s)"
 
-#: mail/mail-format.c:1994
+#: mail/mail-format.c:1998
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Indicator către o dată externă necunoscută (tip \"%s\")"
 
-#: mail/mail-format.c:1996
+#: mail/mail-format.c:2000
 msgid "Malformed external-body part."
 msgstr "Corpul extern al mesajului parţial deformat."
 
@@ -14135,33 +14128,33 @@ msgstr "Deconectare de la %s"
 msgid "(Untitled Message)"
 msgstr "(Mesaj fără titlu)"
 
-#: mail/mail-search.c:236
+#: mail/mail-search.c:234
 #, fuzzy
 msgid "Untitled Message"
 msgstr "(Mesaj fără titlu)"
 
-#: mail/mail-search.c:238
+#: mail/mail-search.c:236
 #, fuzzy
 msgid "Empty Message"
 msgstr "Mesaj"
 
-#: mail/mail-search.c:287
+#: mail/mail-search.c:283
 msgid "Find in Message"
 msgstr "Găseşte în mesaj"
 
-#: mail/mail-search.c:320
+#: mail/mail-search.c:316
 msgid "Case Sensitive"
 msgstr ""
 
-#: mail/mail-search.c:322
+#: mail/mail-search.c:317
 msgid "Search Forward"
 msgstr "Caută înainte"
 
-#: mail/mail-search.c:342
+#: mail/mail-search.c:334
 msgid "Find:"
 msgstr "Găseşte:"
 
-#: mail/mail-search.c:346
+#: mail/mail-search.c:338
 msgid "Matches:"
 msgstr "Potriviri:"
 
@@ -14194,11 +14187,11 @@ msgstr "Trimite & Primeşte mailul"
 msgid "Cancel _All"
 msgstr "Renunţă"
 
-#: mail/mail-send-recv.c:391
+#: mail/mail-send-recv.c:390
 msgid "Updating..."
 msgstr "Actualizez..."
 
-#: mail/mail-send-recv.c:391 mail/mail-send-recv.c:448
+#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:442
 msgid "Waiting..."
 msgstr "Aştept..."
 
@@ -26715,7 +26708,7 @@ msgstr "Alege dosar"
 msgid "Drafts"
 msgstr "Ciornă"
 
-#: shell/e-local-storage.c:180 shell/e-shell-view.c:481
+#: shell/e-local-storage.c:180 shell/e-shell-view.c:483
 #: shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "Inbox"
@@ -27139,6 +27132,20 @@ msgstr ""
 "Nu pot crea dosarulul precizat:\n"
 "%s"
 
+#: shell/e-shell-startup-wizard.c:771
+msgid ""
+"If you quit the Evolution Setup Assistant now, all of the information that "
+"you have entered will be forgotten. You will need to run this assistant "
+"again before using Evolution.\n"
+"\n"
+"Do you want to quit using the Assistant now?"
+msgstr ""
+
+#: shell/e-shell-startup-wizard.c:782
+#, fuzzy
+msgid "Quit Assistant"
+msgstr "Asistent"
+
 #: shell/e-shell-user-creatable-items-handler.c:587
 #: shell/e-shell-user-creatable-items-handler.c:643
 #: widgets/misc/e-charset-picker.c:109
@@ -27225,17 +27232,17 @@ msgstr "Lucrează deconectat"
 msgid "(No folder displayed)"
 msgstr "(Nici un dosar afişat)"
 
-#: shell/e-shell-view.c:2040
+#: shell/e-shell-view.c:2042
 #, fuzzy, c-format
 msgid "%s (%d)"
 msgstr "%s (...)"
 
-#: shell/e-shell-view.c:2042
+#: shell/e-shell-view.c:2044
 #, fuzzy
 msgid "(None)"
 msgstr "(Fără nume)"
 
-#: shell/e-shell-view.c:2083
+#: shell/e-shell-view.c:2085
 #, fuzzy
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
@@ -27243,12 +27250,12 @@ msgstr ""
 "Evolution este actualmente conectat. Daţi clic pe buton pentru a lucra "
 "deconectat."
 
-#: shell/e-shell-view.c:2090
+#: shell/e-shell-view.c:2092
 #, fuzzy
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Evolution este în proces de deconectare."
 
-#: shell/e-shell-view.c:2096
+#: shell/e-shell-view.c:2098
 #, fuzzy
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
@@ -28594,7 +28601,7 @@ msgstr "Afişează mesajul necitit precedent"
 
 #: ui/evolution-mail-message.xml.h:28
 #, fuzzy
-msgid "F_orward"
+msgid "F_orward As..."
 msgstr "Înaintează"
 
 #: ui/evolution-mail-message.xml.h:29
@@ -28854,10 +28861,6 @@ msgstr "Copiază în folder"
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
 msgstr "_Crează filtru din mesaj"
-
-#: ui/evolution-mail-message.xml.h:98
-msgid "_Forward Message"
-msgstr "Înaintează mesaj"
 
 #: ui/evolution-mail-message.xml.h:99
 #, fuzzy
@@ -29727,7 +29730,7 @@ msgstr "_Caută"
 msgid "_Find Now"
 msgstr "Legătura DN:"
 
-#: widgets/misc/e-search-bar.c:538
+#: widgets/misc/e-search-bar.c:538 widgets/misc/e-search-bar.c:928
 #, fuzzy
 msgid "_Clear"
 msgstr "Şterge"
@@ -29746,14 +29749,9 @@ msgstr ""
 msgid "Text"
 msgstr "Test"
 
-#: widgets/misc/e-search-bar.c:928
-#, fuzzy
-msgid "Clear"
-msgstr "Şterge"
-
 #: widgets/misc/e-search-bar.c:930
 #, fuzzy
-msgid "Find Now"
+msgid "Find _Now"
 msgstr "Legătura DN:"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
@@ -29771,6 +29769,23 @@ msgstr "Evolution calendar iTip/iMip vizualizator"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Vizualizor agendă minicard Evolution"
+
+#, fuzzy
+#~ msgid "Host lookup failed: cannot create thread: %s"
+#~ msgstr "Eşec la căutarea gazdei: %s: motiv necunoscut"
+
+#~ msgid "Host lookup failed: %s: host not found"
+#~ msgstr "Eşec la căutarea gazdei: %s: gazdă negăsită"
+
+#~ msgid "Host lookup failed: %s: unknown reason"
+#~ msgstr "Eşec la căutarea gazdei: %s: motiv necunoscut"
+
+#~ msgid "_Forward Message"
+#~ msgstr "Înaintează mesaj"
+
+#, fuzzy
+#~ msgid "Clear"
+#~ msgstr "Şterge"
 
 #~ msgid "Save As..."
 #~ msgstr "Salvează ca..."
