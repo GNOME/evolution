@@ -70,7 +70,7 @@ struct _EMinicard
 	GnomeCanvasItem *header_rect;
 	GnomeCanvasItem *header_text;
 
-	EContactEditor *editor;
+	GtkObject *editor;
 
 	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;

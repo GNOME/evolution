@@ -1,5 +1,20 @@
 2001-06-28  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-view.c (table_double_click): pop up
+	list editor for lists, contact editor otherwise.
+
+	* gui/widgets/e-minicard.c (e_minicard_event): same.
+
+	* gui/widgets/e-minicard.h (struct _EMinicard): change "editor" to
+	GtkOjbect, since it can be either a contact editor or contact list
+	editor.
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_is_cell_editable): don't allow editting of any fields
+	except the name and file_as for lists.
+
+2001-06-28  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-list-editor/Makefile.am (INCLUDES): remove ancient
 	e-table include, and add include for contact-editor so we can
 	reuse the confirm_delete dialog.

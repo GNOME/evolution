@@ -481,7 +481,10 @@ table_double_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, E
 		
 		g_assert (E_IS_BOOK (book));
 
-		e_addressbook_show_contact_editor (book, card, FALSE, view->editable);
+		if (e_card_evolution_list (card))
+			e_addressbook_show_contact_list_editor (book, card, FALSE, view->editable);
+		else
+			e_addressbook_show_contact_editor (book, card, FALSE, view->editable);
 	}
 }
 

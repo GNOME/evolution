@@ -438,10 +438,10 @@ card_modified_cb (EBook* book, EBookStatus status, gpointer user_data)
 
 /* Callback used when the contact editor is closed */
 static void
-editor_closed_cb (EContactEditor *ce, gpointer data)
+editor_closed_cb (GtkObject *editor, gpointer data)
 {
 	EMinicard *minicard = data;
-	gtk_object_unref (GTK_OBJECT (ce));
+	gtk_object_unref (GTK_OBJECT (editor));
 	minicard->editor = NULL;
 }
 
@@ -528,7 +528,10 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
 			if (e_minicard->editor) {
-				e_contact_editor_raise(e_minicard->editor);
+				if (e_card_evolution_list (e_minicard->card))
+					e_contact_list_editor_raise (E_CONTACT_LIST_EDITOR(e_minicard->editor));
+				else
+					e_contact_editor_raise(E_CONTACT_EDITOR(e_minicard->editor));
 			} else {
 				EBook *book = NULL;
 				if (E_IS_MINICARD_VIEW(item->parent)) {
@@ -538,11 +541,19 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 
 				if (book != NULL) {
-					e_minicard->editor = e_addressbook_show_contact_editor (book, e_minicard->card,
-												FALSE, e_minicard->editable);  
-					gtk_object_ref (GTK_OBJECT (e_minicard->editor));
+					if (e_card_evolution_list (e_minicard->card)) {
+						EContactListEditor *editor = e_addressbook_show_contact_list_editor (book, e_minicard->card,
+														     FALSE, e_minicard->editable);
+						e_minicard->editor = GTK_OBJECT (editor);
+					}
+					else {
+						EContactEditor *editor = e_addressbook_show_contact_editor (book, e_minicard->card,
+													    FALSE, e_minicard->editable);
+						e_minicard->editor = GTK_OBJECT (editor);
+					}
+					gtk_object_ref (e_minicard->editor);
 
-					gtk_signal_connect (GTK_OBJECT (e_minicard->editor), "editor_closed",
+					gtk_signal_connect (e_minicard->editor, "editor_closed",
 							    GTK_SIGNAL_FUNC (editor_closed_cb), e_minicard);
 
 				}
