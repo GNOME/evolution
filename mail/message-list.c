@@ -1116,7 +1116,7 @@ static char *
 message_list_get_layout (MessageList *message_list)
 {
 	/* Default: Status, Attachments, Priority, From, Subject, Date */
-	return g_strdup ("<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">"
+	return g_strdup ("<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\" draw-focus=\"true\" selection-mode=\"browse\">"
 			 "<ETableColumn model_col= \"0\" _title=\"Status\" pixbuf=\"status\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_message_status\" compare=\"integer\" sortable=\"false\"/>"
 			 "<ETableColumn model_col= \"1\" _title=\"Flagged\" pixbuf=\"flagged\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_flagged\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"2\" _title=\"Score\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
@@ -1285,9 +1285,6 @@ message_list_construct (MessageList *message_list)
 		e_table_scrolled_get_table (E_TABLE_SCROLLED (message_list));
 	g_free (spec);
 	gtk_object_sink (GTK_OBJECT (extras));
-
-	gtk_object_set (GTK_OBJECT (message_list->table), "drawfocus",
-			FALSE, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (message_list->table), "cursor_change",
 			    GTK_SIGNAL_FUNC (on_cursor_change_cmd),

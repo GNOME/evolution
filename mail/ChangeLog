@@ -1,3 +1,11 @@
+2001-01-21  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c (message_list_get_layout): Added
+	draw-focus="true" and selection-mode="browse" attributes to the
+	ETableSpecification.
+	(message_list_construct): Removed setting the "draw_focus"
+	argument since it doesn't exist any more.
+
 2001-01-21  Not Zed  <NotZed@Ximian.com>
 
 	* mail-mt.c (mail_msg_new): Init a cancel field in the message.
