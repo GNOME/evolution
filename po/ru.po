@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-12-01 14:47+0300\n"
-"PO-Revision-Date: 2000-12-01 15:10+03:00\n"
+"POT-Creation-Date: 2000-12-04 19:12+0300\n"
+"PO-Revision-Date: 2000-12-04 19:15+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1442,7 +1442,7 @@ msgstr "Значение процента должно быть между 0 и 100, включительно"
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr "Приоритет должен быть между 1 и 9, включительно"
 
-#: calendar/gui/control-factory.c:126
+#: calendar/gui/control-factory.c:125
 msgid "The URI that the calendar will display"
 msgstr "URI, который будет показывать календарь"
 
@@ -1573,7 +1573,7 @@ msgstr "Первый день недели:"
 msgid "Fri"
 msgstr "Пят"
 
-#: calendar/gui/event-editor.c:397 po/tmp/cal-prefs-dialog.glade.h:28
+#: calendar/gui/event-editor.c:421 po/tmp/cal-prefs-dialog.glade.h:28
 msgid "Friday"
 msgstr "Пятница"
 
@@ -1601,7 +1601,7 @@ msgstr "Еще не просроченные задания:"
 msgid "Mon"
 msgstr "Пон"
 
-#: calendar/gui/event-editor.c:393 po/tmp/cal-prefs-dialog.glade.h:35
+#: calendar/gui/event-editor.c:417 po/tmp/cal-prefs-dialog.glade.h:35
 msgid "Monday"
 msgstr "Понедельник"
 
@@ -1617,7 +1617,7 @@ msgstr "Просроченные задания:"
 msgid "Pick a color"
 msgstr "Выбрать цвет"
 
-#: filter/libfilter-i18n.h:19 po/tmp/cal-prefs-dialog.glade.h:39
+#: filter/libfilter-i18n.h:16 po/tmp/cal-prefs-dialog.glade.h:39
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -1633,7 +1633,7 @@ msgstr "Напоминания"
 msgid "Sat"
 msgstr "Суб"
 
-#: calendar/gui/event-editor.c:398 po/tmp/cal-prefs-dialog.glade.h:43
+#: calendar/gui/event-editor.c:422 po/tmp/cal-prefs-dialog.glade.h:43
 msgid "Saturday"
 msgstr "Суббота"
 
@@ -1658,7 +1658,7 @@ msgstr "Начало дня:"
 msgid "Sun"
 msgstr "Вск"
 
-#: calendar/gui/event-editor.c:399 po/tmp/cal-prefs-dialog.glade.h:49
+#: calendar/gui/event-editor.c:423 po/tmp/cal-prefs-dialog.glade.h:49
 msgid "Sunday"
 msgstr "Воскресенье"
 
@@ -1670,7 +1670,7 @@ msgstr "Панель заданий"
 msgid "Thu"
 msgstr "Чтв"
 
-#: calendar/gui/event-editor.c:396 po/tmp/cal-prefs-dialog.glade.h:52
+#: calendar/gui/event-editor.c:420 po/tmp/cal-prefs-dialog.glade.h:52
 msgid "Thursday"
 msgstr "Четверг"
 
@@ -1690,7 +1690,7 @@ msgstr "Формат времени:"
 msgid "Tue"
 msgstr "Втр"
 
-#: calendar/gui/event-editor.c:394 po/tmp/cal-prefs-dialog.glade.h:57
+#: calendar/gui/event-editor.c:418 po/tmp/cal-prefs-dialog.glade.h:57
 msgid "Tuesday"
 msgstr "Вторник"
 
@@ -1702,7 +1702,7 @@ msgstr "Видимые таймеры"
 msgid "Wed"
 msgstr "Срд"
 
-#: calendar/gui/event-editor.c:395 po/tmp/cal-prefs-dialog.glade.h:60
+#: calendar/gui/event-editor.c:419 po/tmp/cal-prefs-dialog.glade.h:60
 msgid "Wednesday"
 msgstr "Среда"
 
@@ -1722,21 +1722,21 @@ msgstr "секунд."
 msgid "Edit Task"
 msgstr "Правка задания"
 
-#: calendar/gui/dialogs/task-editor.c:662 calendar/gui/event-editor.c:319
+#: calendar/gui/dialogs/task-editor.c:662 calendar/gui/event-editor.c:320
 msgid "No summary"
 msgstr "Нет итога"
 
-#: calendar/gui/dialogs/task-editor.c:668 calendar/gui/event-editor.c:325
+#: calendar/gui/dialogs/task-editor.c:668 calendar/gui/event-editor.c:326
 #, c-format
 msgid "Appointment - %s"
 msgstr "Встреча - %s"
 
-#: calendar/gui/dialogs/task-editor.c:671 calendar/gui/event-editor.c:328
+#: calendar/gui/dialogs/task-editor.c:671 calendar/gui/event-editor.c:329
 #, c-format
 msgid "Task - %s"
 msgstr "Задание - %s"
 
-#: calendar/gui/dialogs/task-editor.c:674 calendar/gui/event-editor.c:331
+#: calendar/gui/dialogs/task-editor.c:674 calendar/gui/event-editor.c:332
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Журнальная запись - %s"
@@ -1845,7 +1845,7 @@ msgstr "Пометить как выполненное"
 msgid "Mark the task complete"
 msgstr "Пометить задание как выполненное"
 
-#: calendar/gui/e-calendar-table.c:334 filter/libfilter-i18n.h:8
+#: calendar/gui/e-calendar-table.c:334 filter/libfilter-i18n.h:7
 #: mail/folder-browser.c:493 mail/mail-view.c:165
 #: po/tmp/event-editor-dialog.glade.h:12 po/tmp/evolution-addressbook.xml.h:8
 #: po/tmp/evolution-event-editor.xml.h:19 po/tmp/evolution-mail.xml.h:11
@@ -1918,38 +1918,38 @@ msgstr "Удалить все случаи"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/event-editor.c:313
+#: calendar/gui/event-editor.c:314
 msgid "Edit Appointment"
 msgstr "Правка встречи"
 
-#: calendar/gui/event-editor.c:368
+#: calendar/gui/event-editor.c:391
 msgid "on"
 msgstr "в"
 
-#: calendar/gui/event-editor.c:392 calendar/gui/getdate.y:424
+#: calendar/gui/event-editor.c:416 calendar/gui/getdate.y:424
 #: filter/filter-datespec.c:65
 msgid "day"
 msgstr "день"
 
-#: calendar/gui/event-editor.c:517
+#: calendar/gui/event-editor.c:541
 msgid "on the"
 msgstr ""
 
-#: calendar/gui/event-editor.c:524
+#: calendar/gui/event-editor.c:548
 msgid "th"
 msgstr "ый"
 
-#: calendar/gui/event-editor.c:678
+#: calendar/gui/event-editor.c:702
 msgid "occurrences"
 msgstr "случаи"
 
-#: calendar/gui/event-editor.c:795
+#: calendar/gui/event-editor.c:819
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Эта встреча имеет правила повторения, которые не могут быть отредактированы "
 "в Evolution."
 
-#: calendar/gui/event-editor.c:2875 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:2939 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
@@ -2579,11 +2579,11 @@ msgstr "Просмотр печати"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
-#: calendar/gui/weekday-picker.c:345 widgets/misc/e-calendar-item.c:416
+#: calendar/gui/weekday-picker.c:351 widgets/misc/e-calendar-item.c:416
 msgid "MTWTFSS"
 msgstr "ПВСЧПСВ"
 
-#: calendar/gui/weekday-picker.c:347 calendar/gui/weekday-picker.c:437
+#: calendar/gui/weekday-picker.c:353 calendar/gui/weekday-picker.c:443
 msgid "SMTWTFS"
 msgstr "ПВСЧПСВ"
 
@@ -2713,12 +2713,12 @@ msgstr "URL \\\"%s\\\" нуждается в компоненте хоста"
 msgid "URL '%s' needs a path component"
 msgstr "URL \\\"%s\\\" нуждается в компоненте пути"
 
-#: camel/camel-service.c:486
+#: camel/camel-service.c:488
 #, c-format
 msgid "No such host %s."
 msgstr "Нет такого хоста %s."
 
-#: camel/camel-service.c:489
+#: camel/camel-service.c:491
 #, c-format
 msgid "Temporarily unable to look up hostname %s."
 msgstr "Временно невозможно найти имя хоста %s."
@@ -3190,7 +3190,7 @@ msgstr ""
 "Не удалось подключиться к POP серверу.\n"
 "Ошибка отправки пароля: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:553
+#: camel/providers/pop3/camel-pop3-store.c:555
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Нет такой папки \"%s\""
@@ -3613,7 +3613,7 @@ msgstr ""
 "Ошибка в регулярном выражении \"%s\":\n"
 "%s"
 
-#: filter/filter-message-search.c:377 filter/filter-message-search.c:445
+#: filter/filter-message-search.c:379 filter/filter-message-search.c:447
 #, c-format
 msgid "Failed to perform regex search on message header: %s"
 msgstr "Сбой выполнения поиска рег.выражения в заголовке сообщения: %s"
@@ -3684,183 +3684,179 @@ msgid "vFolder Sources"
 msgstr "Источники вирт.папки"
 
 #. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2 mail/message-list.c:557
-msgid "Answered"
-msgstr "Отвечено"
-
-#: filter/libfilter-i18n.h:3
+#: filter/libfilter-i18n.h:2
 msgid "Assign Colour"
 msgstr "Связать цвет"
 
-#: filter/libfilter-i18n.h:4
+#: filter/libfilter-i18n.h:3
 msgid "Assign Score"
 msgstr "Связать подсчет"
 
-#: filter/libfilter-i18n.h:5
+#: filter/libfilter-i18n.h:4
 msgid "Copy to Folder"
 msgstr "Скопировать в папку"
 
-#: filter/libfilter-i18n.h:6
+#: filter/libfilter-i18n.h:5
 msgid "Date received"
 msgstr "Дата получения"
 
-#: filter/libfilter-i18n.h:7
+#: filter/libfilter-i18n.h:6
 msgid "Date sent"
 msgstr "Дата отправки"
 
-#: filter/libfilter-i18n.h:9
-msgid "Deleted"
-msgstr "Удаленное"
-
-#: filter/libfilter-i18n.h:10
-msgid "Draft"
-msgstr "Черновики"
-
-#: filter/libfilter-i18n.h:11
+#: filter/libfilter-i18n.h:8
 msgid "Expression"
 msgstr "Выражение"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:9
 msgid "Flagged"
 msgstr ""
 
-#: filter/libfilter-i18n.h:13
+#: filter/libfilter-i18n.h:10
 msgid "Forward to Address"
 msgstr "Переслать по адресу"
 
-#: filter/libfilter-i18n.h:14
+#: filter/libfilter-i18n.h:11
 msgid "Message Body"
 msgstr "Тело сообщения"
 
-#: filter/libfilter-i18n.h:15
+#: filter/libfilter-i18n.h:12
 msgid "Message Header"
 msgstr "Заголовок сообщения"
 
-#: filter/libfilter-i18n.h:16
+#: filter/libfilter-i18n.h:13
 msgid "Message was received"
 msgstr "Сообщение было получено"
 
-#: filter/libfilter-i18n.h:17
+#: filter/libfilter-i18n.h:14
 msgid "Message was sent"
 msgstr "Сообщение было отправлено"
 
-#: filter/libfilter-i18n.h:18
+#: filter/libfilter-i18n.h:15
 msgid "Move to Folder"
 msgstr "Переместить в папку"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:17
+msgid "Read"
+msgstr "Прочесть"
+
+#: filter/libfilter-i18n.h:18
 msgid "Recipients"
 msgstr "Получатели"
 
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:19
 msgid "Regex Match"
 msgstr "Совпадение рег.выражения"
 
-#: filter/libfilter-i18n.h:22 mail/message-list.c:554
-msgid "Seen"
-msgstr "Прочитанное"
+#: filter/libfilter-i18n.h:20
+msgid "Replied to"
+msgstr "Ответить"
 
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:21
 msgid "Sender"
 msgstr "Отправитель"
 
-#: filter/libfilter-i18n.h:24
-msgid "Set Flag"
-msgstr "Установить флаг"
+#: filter/libfilter-i18n.h:22
+msgid "Set Status"
+msgstr "Установить состояние"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:23
 msgid "Source"
 msgstr "Источник"
 
-#: filter/libfilter-i18n.h:26
+#: filter/libfilter-i18n.h:24
 msgid "Specific header"
 msgstr "Специфический заголовок"
 
-#: filter/libfilter-i18n.h:27
+#: filter/libfilter-i18n.h:25
+msgid "Status"
+msgstr "Состояние"
+
+#: filter/libfilter-i18n.h:26
 msgid "Stop Processing"
 msgstr "Остановить обработку"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:27
 msgid "Subject"
 msgstr "Тема"
 
-#: filter/libfilter-i18n.h:29
+#: filter/libfilter-i18n.h:28
 msgid "after"
 msgstr "после"
 
-#: filter/libfilter-i18n.h:30
+#: filter/libfilter-i18n.h:29
 msgid "before"
 msgstr "до"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:30
 msgid "contains"
 msgstr "содержит"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:31
 msgid "does not contain"
 msgstr "не содержит"
 
-#: filter/libfilter-i18n.h:33
+#: filter/libfilter-i18n.h:32
 msgid "does not end with"
 msgstr "не заканчивается на"
 
-#: filter/libfilter-i18n.h:34
+#: filter/libfilter-i18n.h:33
 msgid "does not exist"
 msgstr "не существует."
 
-#: filter/libfilter-i18n.h:35
+#: filter/libfilter-i18n.h:34
 msgid "does not sound like"
 msgstr "звучит не как"
 
-#: filter/libfilter-i18n.h:36
+#: filter/libfilter-i18n.h:35
 msgid "does not start with"
 msgstr "не начинается с"
 
-#: filter/libfilter-i18n.h:37
+#: filter/libfilter-i18n.h:36
 msgid "ends with"
 msgstr "заканчивается на"
 
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:37
 msgid "exists"
 msgstr "cуществует"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:38
 msgid "is greater than"
 msgstr "больше чем"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:39
 msgid "is less than"
 msgstr "меньше чем"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:40
 msgid "is not"
 msgstr "не является"
 
-#: filter/libfilter-i18n.h:42
+#: filter/libfilter-i18n.h:41
 msgid "is"
 msgstr "является"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:42
 msgid "on or after"
 msgstr "на или после"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:43
 msgid "on or before"
 msgstr "на или до"
 
-#: filter/libfilter-i18n.h:45
+#: filter/libfilter-i18n.h:44
 msgid "sounds like"
 msgstr "звучит как"
 
-#: filter/libfilter-i18n.h:46
+#: filter/libfilter-i18n.h:45
 msgid "starts with"
 msgstr "начинается с"
 
-#: filter/libfilter-i18n.h:47
+#: filter/libfilter-i18n.h:46
 msgid "was after"
 msgstr "было после"
 
-#: filter/libfilter-i18n.h:48
+#: filter/libfilter-i18n.h:47
 msgid "was before"
 msgstr "было до"
 
@@ -3982,8 +3978,8 @@ msgid "Forward"
 msgstr "Переслать"
 
 #: mail/folder-browser.c:486 po/tmp/evolution-mail.xml.h:18
-msgid "Forward as Attachment"
-msgstr "Переслать как вложение"
+msgid "Forward inline"
+msgstr "Переслать встроенное"
 
 #: mail/folder-browser.c:488
 msgid "Mark as Read"
@@ -4133,7 +4129,7 @@ msgstr "Печать сообщения"
 msgid "Printing of message failed"
 msgstr "Сбой печати сообщения"
 
-#: mail/mail-config-gui.c:432
+#: mail/mail-config-gui.c:433
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
@@ -4143,59 +4139,63 @@ msgstr ""
 "почты. Вы можете также, дополнительно, ввести название вашей организации и "
 "название файла, в котором хранится ваша подпись."
 
-#: mail/mail-config-gui.c:445
+#: mail/mail-config-gui.c:446
 msgid "Full name:"
 msgstr "Полное имя:"
 
-#: mail/mail-config-gui.c:469
+#: mail/mail-config-gui.c:470
 msgid "Email address:"
 msgstr "Эл.адрес:"
 
-#: mail/mail-config-gui.c:484
+#: mail/mail-config-gui.c:485
 msgid "Organization:"
 msgstr "Организация:"
 
-#: mail/mail-config-gui.c:495
+#: mail/mail-config-gui.c:496
 msgid "Signature file:"
 msgstr "Файл подписи:"
 
-#: mail/mail-config-gui.c:500 po/tmp/mail-config.glade.h:19
+#: mail/mail-config-gui.c:501 po/tmp/mail-config.glade.h:19
 msgid "Signature File"
 msgstr "Файл подписи"
 
-#: mail/mail-config-gui.c:906
+#: mail/mail-config-gui.c:922
 msgid "Server:"
 msgstr "Сервер:"
 
-#: mail/mail-config-gui.c:912
+#: mail/mail-config-gui.c:928
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: mail/mail-config-gui.c:918
+#: mail/mail-config-gui.c:934
 msgid "Path:"
 msgstr "Путь:"
 
-#: mail/mail-config-gui.c:927
+#: mail/mail-config-gui.c:943
 msgid "Authentication:"
 msgstr "Идентификация:"
 
-#: mail/mail-config-gui.c:940
+#: mail/mail-config-gui.c:956
 msgid "Detect supported types..."
 msgstr "Определить поддерживаемые типы..."
 
-#: mail/mail-config-gui.c:967
+#: mail/mail-config-gui.c:968
+msgid "Remember this password"
+msgstr "Запомнить этот пароль"
+
+#: mail/mail-config-gui.c:991
 msgid "Don't delete messages from server"
 msgstr "Не удалять сообщения с сервера"
 
-#: mail/mail-config-gui.c:979
+#: mail/mail-config-gui.c:1003
 msgid "Test Settings"
 msgstr "Установки теста"
 
-#: mail/mail-config-gui.c:1106
+#: mail/mail-config-gui.c:1130
 msgid "Mail source type:"
 msgstr "Тип источника почты:"
 
-#: mail/mail-config-gui.c:1111 mail/mail-config-gui.c:1159
+#: mail/mail-config-gui.c:1135 mail/mail-config-gui.c:1183
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -4209,11 +4209,11 @@ msgstr ""
 "Если сервер требует идентификации, то щелкните на кнопке \"Определить "
 "поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1130
+#: mail/mail-config-gui.c:1154
 msgid "News source type:"
 msgstr "Новый тип источника:"
 
-#: mail/mail-config-gui.c:1135
+#: mail/mail-config-gui.c:1159
 msgid ""
 "Select the kind of news server you have, and enter the relevant information "
 "about it.\n"
@@ -4227,54 +4227,54 @@ msgstr ""
 "Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить "
 "поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1154
+#: mail/mail-config-gui.c:1178
 msgid "Mail transport type:"
 msgstr "Тип передачи почты:"
 
-#: mail/mail-config-gui.c:1209
+#: mail/mail-config-gui.c:1233
 msgid "Add Identity"
 msgstr "Добавить именование"
 
-#: mail/mail-config-gui.c:1211
+#: mail/mail-config-gui.c:1235
 msgid "Edit Identity"
 msgstr "Правка именования"
 
-#: mail/mail-config-gui.c:1309
+#: mail/mail-config-gui.c:1333
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#: mail/mail-config-gui.c:1311
+#: mail/mail-config-gui.c:1335
 msgid "Edit Source"
 msgstr "Правка источника"
 
-#: mail/mail-config-gui.c:1406
+#: mail/mail-config-gui.c:1430
 msgid "Add News Server"
 msgstr "Добавить сервер новостей"
 
-#: mail/mail-config-gui.c:1408
+#: mail/mail-config-gui.c:1432
 msgid "Edit News Server"
 msgstr "Правка сервера новостей"
 
-#: mail/mail-config-gui.c:2229
+#: mail/mail-config-gui.c:2253
 #, c-format
 msgid "Testing \"%s\""
 msgstr "Проверка \"%s\""
 
-#: mail/mail-config-gui.c:2231
+#: mail/mail-config-gui.c:2255
 #, c-format
 msgid "Test connection to \"%s\""
 msgstr "Проверка соединения с \"%s\""
 
-#: mail/mail-config-gui.c:2272
+#: mail/mail-config-gui.c:2296
 msgid "The connection was successful!"
 msgstr "Соединение было успешным!"
 
-#: mail/mail-config-gui.c:2322
+#: mail/mail-config-gui.c:2346
 #, c-format
 msgid "Querying authorization capabilities of \"%s\""
 msgstr "Запрос возможностей авторизации от \"%s\""
 
-#: mail/mail-config-gui.c:2324
+#: mail/mail-config-gui.c:2348
 #, c-format
 msgid "Query authorization at \"%s\""
 msgstr "Запрос авторизации от \"%s\""
@@ -4968,30 +4968,38 @@ msgstr "Распечатать выделенное сообщение"
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/message-list.c:551
+#: mail/message-list.c:554
 msgid "Unseen"
 msgstr "Непрочитанное"
 
-#: mail/message-list.c:825
+#: mail/message-list.c:557
+msgid "Seen"
+msgstr "Прочитанное"
+
+#: mail/message-list.c:560
+msgid "Answered"
+msgstr "Отвечено"
+
+#: mail/message-list.c:828
 #, c-format
 msgid "[ %s ]"
 msgstr "[ %s ]"
 
 #. well, we could scan more children, build up a (more accurate) list, but this should do ok
-#: mail/message-list.c:837 mail/message-list.c:852
+#: mail/message-list.c:840 mail/message-list.c:855
 #, c-format
 msgid "%s, et al."
 msgstr "%s, и т.д."
 
-#: mail/message-list.c:839 mail/message-list.c:854
+#: mail/message-list.c:842 mail/message-list.c:857
 msgid "<unknown>"
 msgstr "<неизвестное>"
 
-#: mail/message-list.c:2137
+#: mail/message-list.c:2140
 msgid "Rebuilding message view"
 msgstr "Перестроение окна сообщения"
 
-#: mail/message-list.c:2139
+#: mail/message-list.c:2142
 msgid "Rebuild message view"
 msgstr "Перестроить окно сообщения"
 
@@ -5314,7 +5322,7 @@ msgid "The specified type is not supported in this storage"
 msgstr "Указанный тип не поддерживается для этого носителя"
 
 #: po/tmp/evolution-event-editor.xml.h:125
-#: po/tmp/evolution-message-composer.xml.h:45 po/tmp/evolution.xml.h:36
+#: po/tmp/evolution-message-composer.xml.h:45 po/tmp/evolution.xml.h:34
 #: shell/e-storage-set-view.c:235
 msgid "_View"
 msgstr "Просмотр"
@@ -5414,7 +5422,7 @@ msgstr "Поиск"
 msgid "Find a contact"
 msgstr "Поиск контакта"
 
-#: po/tmp/evolution-addressbook.xml.h:12 po/tmp/evolution-calendar.xml.h:18
+#: po/tmp/evolution-addressbook.xml.h:12 po/tmp/evolution-calendar.xml.h:19
 msgid "New"
 msgstr "Новый"
 
@@ -5439,18 +5447,14 @@ msgid "View all contacts"
 msgstr "Просмотреть все контакты"
 
 #: po/tmp/evolution-addressbook.xml.h:19
-msgid "_New Contact"
-msgstr "Новый контакт"
-
-#: po/tmp/evolution-addressbook.xml.h:20
 msgid "_Print Contacts..."
 msgstr "Напечатать контакты..."
 
-#: po/tmp/evolution-addressbook.xml.h:21
+#: po/tmp/evolution-addressbook.xml.h:20
 msgid "_Search for contacts"
 msgstr "Поиск контактов"
 
-#: po/tmp/evolution-addressbook.xml.h:22
+#: po/tmp/evolution-addressbook.xml.h:21
 #: po/tmp/evolution-event-editor.xml.h:123
 msgid "_Tools"
 msgstr "Инструменты"
@@ -5468,48 +5472,48 @@ msgid "Alter preferences"
 msgstr "Другие настройки"
 
 #: po/tmp/evolution-calendar.xml.h:8
+msgid "Ca_lendar"
+msgstr "Календарь"
+
+#: po/tmp/evolution-calendar.xml.h:9
 msgid "Calendar Preferences..."
 msgstr "Настройки календаря..."
 
-#: po/tmp/evolution-calendar.xml.h:9
+#: po/tmp/evolution-calendar.xml.h:10
 msgid "Create a new appointment"
 msgstr "Создать новую встречу"
 
-#: po/tmp/evolution-calendar.xml.h:10
+#: po/tmp/evolution-calendar.xml.h:11
 msgid "Create a new calendar"
 msgstr "Создать новый календарь"
 
-#: po/tmp/evolution-calendar.xml.h:11
+#: po/tmp/evolution-calendar.xml.h:12
 msgid "Day"
 msgstr "День"
 
-#: po/tmp/evolution-calendar.xml.h:12
+#: po/tmp/evolution-calendar.xml.h:13
 msgid "Go back in time"
 msgstr "Перейти в прошлое"
 
-#: po/tmp/evolution-calendar.xml.h:13
+#: po/tmp/evolution-calendar.xml.h:14
 msgid "Go forward in time"
 msgstr "Перейти в будущее"
 
-#: po/tmp/evolution-calendar.xml.h:14
+#: po/tmp/evolution-calendar.xml.h:15
 msgid "Go to"
 msgstr "Перейти к"
 
-#: po/tmp/evolution-calendar.xml.h:15
+#: po/tmp/evolution-calendar.xml.h:16
 msgid "Go to a specific date"
 msgstr "Перейти к указанной дате"
 
-#: po/tmp/evolution-calendar.xml.h:16
+#: po/tmp/evolution-calendar.xml.h:17
 msgid "Go to present time"
 msgstr "Перейти к настоящему времени"
 
-#: po/tmp/evolution-calendar.xml.h:17
+#: po/tmp/evolution-calendar.xml.h:18
 msgid "Month"
 msgstr "Месяц"
-
-#: po/tmp/evolution-calendar.xml.h:19
-msgid "New Ca_lendar"
-msgstr "Новый календарь"
 
 #: po/tmp/evolution-calendar.xml.h:20 po/tmp/evolution-event-editor.xml.h:74
 msgid "Next"
@@ -5555,27 +5559,19 @@ msgstr "Сегодня"
 msgid "Week"
 msgstr "Неделя"
 
-#: po/tmp/evolution-calendar.xml.h:32 po/tmp/evolution.xml.h:33
+#: po/tmp/evolution-calendar.xml.h:32 po/tmp/evolution.xml.h:31
 msgid "_New"
 msgstr "Новый"
 
 #: po/tmp/evolution-calendar.xml.h:33
-msgid "_New appointment..."
-msgstr "Новая встреча..."
-
-#: po/tmp/evolution-calendar.xml.h:34
-msgid "_Open"
-msgstr "Открыть"
-
-#: po/tmp/evolution-calendar.xml.h:35
 msgid "_Open Calendar"
 msgstr "Открыть календарь"
 
-#: po/tmp/evolution-calendar.xml.h:36
+#: po/tmp/evolution-calendar.xml.h:34
 msgid "_Print this calendar"
 msgstr "Напечатать этот календарь"
 
-#: po/tmp/evolution-calendar.xml.h:37
+#: po/tmp/evolution-calendar.xml.h:35
 msgid "_Save Calendar As"
 msgstr "Сохранить календарь как"
 
@@ -5636,7 +5632,7 @@ msgstr "Послать сообщение к контакту..."
 #: po/tmp/evolution-contact-editor.xml.h:19
 #: po/tmp/evolution-event-editor.xml.h:110
 #: po/tmp/evolution-message-composer.xml.h:40
-#: po/tmp/evolution-subscribe.xml.h:16 po/tmp/evolution.xml.h:27
+#: po/tmp/evolution-subscribe.xml.h:16 po/tmp/evolution.xml.h:25
 msgid "_File"
 msgstr "Файл"
 
@@ -6025,7 +6021,7 @@ msgstr "Отладка"
 
 #: po/tmp/evolution-event-editor.xml.h:109
 #: po/tmp/evolution-message-composer.xml.h:39
-#: po/tmp/evolution-subscribe.xml.h:15 po/tmp/evolution.xml.h:26
+#: po/tmp/evolution-subscribe.xml.h:15 po/tmp/evolution.xml.h:24
 msgid "_Edit"
 msgstr "Правка"
 
@@ -6038,7 +6034,7 @@ msgid "_Forms"
 msgstr "Формы"
 
 #: po/tmp/evolution-event-editor.xml.h:113
-#: po/tmp/evolution-message-composer.xml.h:41 po/tmp/evolution.xml.h:30
+#: po/tmp/evolution-message-composer.xml.h:41 po/tmp/evolution.xml.h:28
 msgid "_Help"
 msgstr "Справка"
 
@@ -6115,12 +6111,12 @@ msgid "Get Mail"
 msgstr "Получить почту"
 
 #: po/tmp/evolution-mail.xml.h:21
-msgid "Mail _Filters..."
-msgstr "Почтовые фильтры..."
+msgid "Mail _Filters"
+msgstr "Почтовые фильтры"
 
 #: po/tmp/evolution-mail.xml.h:22
-msgid "Manage Subscriptions..."
-msgstr "Управление подписками..."
+msgid "Manage Subscriptions"
+msgstr "Управление подписками"
 
 #: po/tmp/evolution-mail.xml.h:23
 msgid "Mar_k As Read"
@@ -6219,8 +6215,8 @@ msgid "_Invert Selection"
 msgstr "Обратить выделение"
 
 #: po/tmp/evolution-mail.xml.h:54
-msgid "_Mail Configuration..."
-msgstr "Настройка почты..."
+msgid "_Mail Configuration"
+msgstr "Настройка почты"
 
 #: po/tmp/evolution-mail.xml.h:55
 msgid "_Message"
@@ -6259,8 +6255,8 @@ msgid "_VFolder on Subject"
 msgstr "Вирт.папка по теме"
 
 #: po/tmp/evolution-mail.xml.h:64
-msgid "_Virtual Folder Editor..."
-msgstr "Редактор виртуальных папок..."
+msgid "_Vitrual Folder Editor"
+msgstr "Редактор виртуальных папок"
 
 #.
 #. * Translatable strings file generated by extract-ui.
@@ -6399,106 +6395,98 @@ msgstr "Отказаться"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/evolution.xml.h:6
-msgid "Create a new folder"
-msgstr "Создать новую папку"
-
-#: po/tmp/evolution.xml.h:7
 msgid "Display a different folder"
 msgstr "Показать другую папку"
 
-#: po/tmp/evolution.xml.h:8
+#: po/tmp/evolution.xml.h:7
 msgid "E_xit"
 msgstr "Выход"
 
-#: po/tmp/evolution.xml.h:9
+#: po/tmp/evolution.xml.h:8
 msgid "Evolution bar _shortcut"
 msgstr "Строка ярлыков Evolution"
 
-#: po/tmp/evolution.xml.h:10
+#: po/tmp/evolution.xml.h:9
 msgid "Exit the program"
 msgstr "Выйти из программы"
 
-#: po/tmp/evolution.xml.h:11
+#: po/tmp/evolution.xml.h:10
 msgid "Getting _Started"
 msgstr "Краткое руководство"
 
-#: po/tmp/evolution.xml.h:12
+#: po/tmp/evolution.xml.h:11
 msgid "Show information about Evolution"
 msgstr "Показать информацию о программе Evolution"
 
-#: po/tmp/evolution.xml.h:13
+#: po/tmp/evolution.xml.h:12
 msgid "Show the _Folder Bar"
 msgstr "Показать строку папок"
 
-#: po/tmp/evolution.xml.h:14
+#: po/tmp/evolution.xml.h:13
 msgid "Show the _Shortcut Bar"
 msgstr "Показать строку закладок"
 
-#: po/tmp/evolution.xml.h:15
+#: po/tmp/evolution.xml.h:14
 msgid "Submit _Bug Report"
 msgstr "Отправить сообщение об ошибке"
 
-#: po/tmp/evolution.xml.h:16
-msgid "Submit bug report using Bug Buddy"
-msgstr "Отправить сообщение об ошибке используя Bug Buddy"
+#: po/tmp/evolution.xml.h:15
+msgid "Submit bug report using Bug Buddy."
+msgstr "Отправить сообщение об ошибке используя Bug Buddy."
 
-#: po/tmp/evolution.xml.h:17
+#: po/tmp/evolution.xml.h:16
 msgid "Toggle whether to show the folder bar"
 msgstr "Переключить отображение строки папок"
 
-#: po/tmp/evolution.xml.h:18
+#: po/tmp/evolution.xml.h:17
 msgid "Toggle whether to show the shortcut bar"
 msgstr "Переключить отображение строки закладок"
 
-#: po/tmp/evolution.xml.h:19
+#: po/tmp/evolution.xml.h:18
 msgid "Using the C_ontact Manager"
 msgstr "Использование диспетчера контактов"
 
-#: po/tmp/evolution.xml.h:20
+#: po/tmp/evolution.xml.h:19
 msgid "Using the _Calendar"
 msgstr "Использование календаря"
 
-#: po/tmp/evolution.xml.h:21
+#: po/tmp/evolution.xml.h:20
 msgid "Using the _Mailer"
 msgstr "Использование почты"
 
-#: po/tmp/evolution.xml.h:22
+#: po/tmp/evolution.xml.h:21
 msgid "_About Evolution..."
 msgstr "О программе..."
 
-#: po/tmp/evolution.xml.h:23
+#: po/tmp/evolution.xml.h:22
 msgid "_Appointment (FIXME)"
 msgstr "Встреча (FIXME)"
 
-#: po/tmp/evolution.xml.h:24
+#: po/tmp/evolution.xml.h:23
 msgid "_Contact (FIXME)"
 msgstr "Контакт (FIXME)"
 
-#: po/tmp/evolution.xml.h:25
-msgid "_Create New Folder..."
-msgstr "Создать новую папку..."
-
-#: po/tmp/evolution.xml.h:28
+#: po/tmp/evolution.xml.h:26
 msgid "_Folder"
 msgstr "Папка"
 
-#: po/tmp/evolution.xml.h:29
+#: po/tmp/evolution.xml.h:27
 msgid "_Go to Folder..."
 msgstr "Перейти к папке..."
 
-#: po/tmp/evolution.xml.h:31
+#: po/tmp/evolution.xml.h:29
 msgid "_Index"
 msgstr "Индекс"
 
-#: po/tmp/evolution.xml.h:32
+#: po/tmp/evolution.xml.h:30
 msgid "_Mail message (FIXME)"
 msgstr "Почтовое сообщение (FIXME)"
 
-#: po/tmp/evolution.xml.h:34
+#: po/tmp/evolution.xml.h:32
 msgid "_Settings"
 msgstr "Установки"
 
-#: po/tmp/evolution.xml.h:35
+#: po/tmp/evolution.xml.h:33
 msgid "_Task (FIXME)"
 msgstr "Задание (FIXME)"
 
@@ -6642,7 +6630,8 @@ msgstr "Для хранения локальной почты в почтовых каталогах формата mbox"
 
 #: camel/providers/local/camel-local-provider.c:58
 msgid "UNIX qmail maildir-format mail files (CamelLocal version)"
-msgstr "Почтовые файлы в формате почтовых каталогов UNIX qmail (версия CamelLocal)"
+msgstr ""
+"Почтовые файлы в формате почтовых каталогов UNIX qmail (версия CamelLocal)"
 
 #: camel/providers/local/camel-local-provider.c:59
 msgid "For storing local mail in qmail maildir directories"
