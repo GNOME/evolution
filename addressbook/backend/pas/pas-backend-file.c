@@ -986,12 +986,6 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
 			   GTK_SIGNAL_FUNC(view_destroy), book);
 
-	pas_book_respond_get_book_view (book,
-		   (book_view != NULL
-		    ? GNOME_Evolution_Addressbook_BookListener_Success 
-		    : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
-		   book_view);
-
 	view.book_view = book_view;
 	view.search = req->search;
 	view.search_sexp = NULL;
@@ -1000,6 +994,12 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	ctx.card = NULL;
 
 	e_list_append(bf->priv->book_views, &view);
+
+	pas_book_respond_get_book_view (book,
+		   (book_view != NULL
+		    ? GNOME_Evolution_Addressbook_BookListener_Success 
+		    : GNOME_Evolution_Addressbook_BookListener_CardNotFound /* XXX */),
+		   book_view);
 
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
