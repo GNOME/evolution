@@ -1,3 +1,9 @@
+2004-06-22    <jpr@novell.com>
+
+	* gui/dialogs/recurrence-page.glade: fix mnemonics
+
+	* gui/dialogs/event-page.glade: ditto
+
 2004-06-22  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/comp-editor.c: kill warnings
