@@ -1,3 +1,7 @@
+2002-11-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* wombat-client.h: compilation fixes for GNOME 2 porting.
+
 2002-07-12  Peter Williams  <peterw@ximian.com>
 
 	* wombat-client.h: Oops, change wombat.h -> Evolution-Wombat.h

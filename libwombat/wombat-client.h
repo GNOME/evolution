@@ -22,11 +22,10 @@
 #ifndef WOMBAT_CLIENT_H
 #define WOMBAT_CLIENT_H
 
-#include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-xobject.h>
 #include "Evolution-Wombat.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 #define WOMBAT_TYPE_CLIENT            (wombat_client_get_type())
 #define WOMBAT_CLIENT(obj)            GTK_CHECK_CAST(obj, WOMBAT_TYPE_CLIENT, WombatClient)
@@ -68,6 +67,6 @@ WombatClient *wombat_client_new       (WombatClientGetPasswordFn get_password_fn
 				       gpointer fn_data);
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif
