@@ -87,19 +87,19 @@ e_select_names_class_init (ESelectNamesClass *klass)
 	object_class->destroy = e_select_names_destroy;
 }
 
-#define SPEC "<ETableSpecification no-headers=\"true\">    	       \
-  <ETableColumn model_col= \"34\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
+#define SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\"> \
+  <ETableColumn model_col= \"35\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
 	        <grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
 	</ETableState>                  			       \
 </ETableSpecification>"
 
-#define SPEC2 "<ETableSpecification no-headers=\"true\">    	       \
+#define SPEC2 "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\"> \
   <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
-        	<grouping> </grouping>                                 \
+        	<grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
 	</ETableState>                  			       \
 </ETableSpecification>"
 
@@ -138,10 +138,6 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	g_free(uri);
 	g_free(filename);
 	table = e_table_scrolled_new (model, NULL, SPEC, NULL);
-
-	gtk_object_set(GTK_OBJECT(table),
-		       "cursor_mode", E_TABLE_CURSOR_LINE,
-		       NULL);
 
 	gtk_object_set_data(GTK_OBJECT(table), "model", model);
 	return table;
@@ -335,10 +331,6 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	
 	gtk_signal_connect(GTK_OBJECT(etable), "double_click",
 			   GTK_SIGNAL_FUNC(remove_address), child);
-
-	gtk_object_set(GTK_OBJECT(etable),
-		       "cursor_mode", E_TABLE_CURSOR_LINE,
-		       NULL);
 
 	child->model = model;
 	child->source = source;

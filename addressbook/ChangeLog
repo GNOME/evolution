@@ -1,3 +1,12 @@
+2000-10-18  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card-simple.c: Change NAME_OR_ORG to return the
+	email address if both name and organization are taken.
+
+	* gui/component/select-names/e-select-names.c: Fixed up the spec
+	strings in this class.  Removed the "cursor_mode" argument to
+	ETable since it's part of the spec now.
+
 2000-10-17  Iain Holmes  <iain@helixcode.com>
 
 	* contact-editor/contact-editor.glade: Change the initial dialog 

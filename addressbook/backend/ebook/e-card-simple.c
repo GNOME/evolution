@@ -767,6 +767,10 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 			gtk_object_get(GTK_OBJECT(simple->card),
 				       "org", &string,
 				       NULL);
+			if (string && *string)
+				return g_strdup(string);
+			string = e_card_simple_get_email(simple,
+							 E_CARD_SIMPLE_EMAIL_ID_EMAIL); 
 			return g_strdup(string);
 		case E_CARD_SIMPLE_FIELD_FAMILY_NAME:
 			gtk_object_get (GTK_OBJECT(simple->card),
