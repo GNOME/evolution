@@ -1068,6 +1068,8 @@ eti_table_model_pre_change (ETableModel *table_model, ETableItem *eti)
 	eti_check_cursor_bounds (eti);
 	if (eti_editing (eti))
 		e_table_item_leave_edit_(eti);
+	eti->motion_row = -1;
+	eti->motion_col = -1;
 	eti_freeze (eti);
 }
 
