@@ -231,7 +231,7 @@ update (EMsgComposerAttachmentBar *bar)
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
-		image = header_content_type_is (content_type, "image", "*");
+		image = camel_content_type_is (content_type, "image", "*");
 		
 		if (image && attachment->pixbuf_cache == NULL) {
 			CamelDataWrapper *wrapper;
@@ -304,7 +304,7 @@ update (EMsgComposerAttachmentBar *bar)
 		} else {
 			char *mime_type;
 			
-			mime_type = header_content_type_simple (content_type);
+			mime_type = camel_content_type_simple (content_type);
 			pixbuf = e_icon_for_mime_type (mime_type, 48);
 			g_free (mime_type);
 			gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, label);
@@ -725,7 +725,7 @@ attach_to_multipart (CamelMultipart *multipart,
 	content = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
 	
 	if (!CAMEL_IS_MULTIPART (content)) {
-		if (header_content_type_is (content_type, "text", "*")) {
+		if (camel_content_type_is (content_type, "text", "*")) {
 			CamelMimePartEncodingType encoding;
 			CamelStreamFilter *filter_stream;
 			CamelMimeFilterBestenc *bestenc;
@@ -733,7 +733,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			const char *charset;
 			char *type;
 			
-			charset = header_content_type_param (content_type, "charset");
+			charset = camel_content_type_param (content_type, "charset");
 			
 			stream = camel_stream_null_new ();
 			filter_stream = camel_stream_filter_new_with_stream (stream);
@@ -762,8 +762,8 @@ attach_to_multipart (CamelMultipart *multipart,
 			
 			if (!charset) {
 				/* looks kinda nasty, but this is how ya have to do it */
-				header_content_type_set_param (content_type, "charset", default_charset);
-				type = header_content_type_format (content_type);
+				camel_content_type_set_param (content_type, "charset", default_charset);
+				type = camel_content_type_format (content_type);
 				camel_mime_part_set_content_type (attachment->body, type);
 				g_free (type);
 			}

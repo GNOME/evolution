@@ -1,3 +1,9 @@
+2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c:
+	* e-msg-composer-attachment.c:
+	* e-msg-composer.c: Updated for namespace changes in Camel.
+
 2003-09-17  Not Zed  <NotZed@Ximian.com>
 
 	** Merge in mail-refactor-2-branch

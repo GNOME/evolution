@@ -220,7 +220,7 @@ e_msg_composer_attachment_new (const char *file_name,
            workaround, don't set a Content-Id on these parts. Fixes
            bug #10032 */
 	/* set the Content-Id */
-	content_id = header_msgid_generate ();
+	content_id = camel_header_msgid_generate ();
 	camel_mime_part_set_content_id (part, content_id);
 	g_free (content_id);
 #endif
@@ -438,7 +438,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 	set_entry (editor_gui, "description_entry",
 		   camel_mime_part_get_description (attachment->body));
 	content_type = camel_mime_part_get_content_type (attachment->body);
-	type = header_content_type_simple (content_type);
+	type = camel_content_type_simple (content_type);
 	set_entry (editor_gui, "mime_type_entry", type);
 	g_free (type);
 	
