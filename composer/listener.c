@@ -50,6 +50,8 @@ resolve_image_url (HTMLEditorListener *l, gchar *url)
 {
 	gchar *cid = NULL;
 
+	printf ("resolve_image_url %s\n", url);
+
 	if (!strncmp (url, "file:", 5)) {
 		gchar *id;
 
@@ -59,6 +61,7 @@ resolve_image_url (HTMLEditorListener *l, gchar *url)
 			g_hash_table_insert (l->composer->inline_images, g_strdup (url + 5), id);
 		}
 		cid = g_strconcat ("cid:", id, NULL);
+		printf ("resolved to %s\n", cid);
 	}
 
 	return cid;
