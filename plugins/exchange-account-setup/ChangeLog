@@ -1,5 +1,10 @@
 2005-01-18  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-ask-password.c (validate_exchange_user): Reading the return
+	value of user validation function. Fixes #71385
+
+2005-01-18  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-ask-password.c (validate_exchange_user): Filling up
 	user name so that page check doesn't fail. Fixes #71384 
 

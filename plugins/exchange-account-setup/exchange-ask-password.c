@@ -70,7 +70,7 @@ validate_exchange_user (void *data)
 	CamelProviderValidate *validate;
 	CamelURL *url=NULL;
 	CamelProvider *provider = NULL;
-	gboolean valid = TRUE;
+	gboolean valid = FALSE;
 	char *account_url, *url_string; 
 	const char *source_url;
 	static int count = 0;
@@ -105,10 +105,9 @@ validate_exchange_user (void *data)
 			}
 		}
 
-		validate->validate_user (url, owa_entry_text, NULL); 
+		valid = validate->validate_user (url, owa_entry_text, NULL); 
 	}
-	else
-		valid = FALSE; 
+
 	/* FIXME: need to check for return value */
 	if (valid) {
 		count ++;
@@ -118,6 +117,7 @@ validate_exchange_user (void *data)
 		e_account_set_string (target_account->account, 
 				      E_ACCOUNT_TRANSPORT_URL, url_string);
 	}
+	
 	camel_url_free (url);
 	g_free (account_url);
 	return valid;
