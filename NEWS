@@ -130,6 +130,14 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #23763 -- Problem with appointments that cross a day boundary and
 		pilot sync
 
+  * gal-0.20.1
+
+    - #24179 -- Character set conversion problem under tr_TR locale. (Radek)
+    - #24879 -- Crash on folder change. (Mike)
+    - #28591 -- Crash on startup w/ connector installed. (Mike)
+    - #28853 -- Crash when deleting tasks in task editor. (Mike)
+    - #30249 -- Allow Tree searching without a sort column. (Mike)
+
 Other fixes:
 
   * Shell
