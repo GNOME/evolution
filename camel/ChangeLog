@@ -1,5 +1,13 @@
 2002-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-utils.c
+	(imap_parse_namespace_response): New function to parse a NAMESPACE
+	response properly.
+	(imap_namespaces_destroy): New function to destroy the returned
+	structure from the above function.
+
+2002-05-15  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-service.c (service_setv): Only reconnect if we are already
 	connected, if we are in a disconnected state then no need to
 	reconnect.

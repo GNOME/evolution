@@ -1770,7 +1770,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		}
 		
 		if (body)
-			imap_parse_body (&body, folder, mi->content);
+			imap_parse_body ((const char **) &body, folder, mi->content);
 		
 		if (fetch_data)
 			g_datalist_clear (&fetch_data);
@@ -2326,7 +2326,7 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 				response += 7;
 			}
 
-			body = imap_parse_nstring (&response, &body_len);
+			body = imap_parse_nstring ((const char **) &response, &body_len);
 			if (!response) {
 				g_free (part_spec);
 				break;
@@ -2341,7 +2341,7 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			   !g_strncasecmp (response, "BODYSTRUCTURE ", 14)) {
 			response = strchr (response, ' ') + 1;
 			start = response;
-			imap_skip_list (&response);
+			imap_skip_list ((const char **) &response);
 			g_datalist_set_data_full (&data, "BODY", g_strndup (start, response - start), g_free);
 		} else if (!g_strncasecmp (response, "UID ", 4)) {
 			int len;

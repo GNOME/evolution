@@ -39,12 +39,241 @@ imap_next_word (const char *buf)
 	const char *word;
 	
 	/* skip over current word */
-	for (word = buf; *word && *word != ' '; word++);
+	word = buf;
+	while (*word && *word != ' ')
+		word++;
 	
 	/* skip over white space */
-	for ( ; *word && *word == ' '; word++);
+	while (*word && *word == ' ')
+		word++;
 	
 	return word;
+}
+
+
+static void
+imap_namespace_destroy (struct _namespace *namespace)
+{
+	struct _namespace *node, *next;
+	
+	node = namespace;
+	while (node) {
+		next = node->next;
+		g_free (node->prefix);
+		g_free (node);
+		node = next;
+	}
+}
+
+void
+imap_namespaces_destroy (struct _namespaces *namespaces)
+{
+	if (namespaces) {
+		imap_namespace_destroy (namespaces->personal);
+		imap_namespace_destroy (namespaces->other);
+		imap_namespace_destroy (namespaces->shared);
+		g_free (namespaces);
+	}
+}
+
+static gboolean
+imap_namespace_decode (const char **in, struct _namespace **namespace)
+{
+	struct _namespace *list, *tail, *node;
+	const char *inptr;
+	char *astring;
+	size_t len;
+	
+	inptr = *in;
+	
+	list = NULL;
+	tail = (struct _namespace *) &list;
+	
+	if (g_strncasecmp (inptr, "NIL", 3) != 0) {
+		if (*inptr++ != '(')
+			goto exception;
+		
+		while (*inptr && *inptr != ')') {
+			if (*inptr++ != '(')
+				goto exception;
+			
+			node = g_new (struct _namespace, 1);
+			node->next = NULL;
+			
+			/* get the namespace prefix */
+			astring = imap_parse_astring (&inptr, &len);
+			if (!astring) {
+				g_free (node);
+				goto exception;
+			}
+			
+			/* decode IMAP's modified UTF-7 into UTF-8 */
+			node->prefix = imap_mailbox_decode (astring, len);
+			g_free (astring);
+			if (!node->prefix) {
+				g_free (node);
+				goto exception;
+			}
+			
+			tail->next = node;
+			tail = node;
+			
+			/* get the namespace directory delimiter */
+			inptr = imap_next_word (inptr);
+			
+			if (!g_strncasecmp (inptr, "NIL", 3)) {
+				inptr = imap_next_word (inptr);
+				node->delim = '\0';
+			} else if (*inptr++ == '"') {
+				if (*inptr == '\\')
+					inptr++;
+				
+				node->delim = *inptr++;
+				
+				if (*inptr++ != '"')
+					goto exception;
+			} else
+				goto exception;
+			
+			if (*inptr == ' ') {
+				/* parse extra flags... for now we
+                                   don't save them, but in the future
+                                   we may want to? */
+				while (*inptr == ' ')
+					inptr++;
+				
+				while (*inptr && *inptr != ')') {
+					/* this should be a QSTRING or ATOM */
+					inptr = imap_next_word (inptr);
+					if (*inptr == '(') {
+						/* skip over the param list */
+						imap_skip_list (&inptr);
+					}
+					
+					while (*inptr == ' ')
+						inptr++;
+				}
+			}
+			
+			if (*inptr++ != ')')
+				goto exception;
+			
+			/* there shouldn't be spaces according to the
+                           ABNF grammar, but we all know how closely
+                           people follow specs */
+			while (*inptr == ' ')
+				inptr++;
+		}
+		
+		if (*inptr == ')')
+			inptr++;
+	} else {
+		inptr += 3;
+	}
+	
+	*in = inptr;
+	*namespace = list;
+	
+	return TRUE;
+	
+ exception:
+	
+	/* clean up any namespaces we may have allocated */
+	imap_namespace_destroy (list);
+	
+	return FALSE;
+}
+
+static void
+namespace_dump (struct _namespace *namespace)
+{
+	struct _namespace *node;
+	
+	if (namespace) {
+		printf ("(");
+		node = namespace;
+		while (node) {
+			printf ("(\"%s\" ", node->prefix);
+			if (node->delim)
+				printf ("\"%c\")", node->delim);
+			else
+				printf ("NUL)");
+			
+			node = node->next;
+			if (node)
+				printf (" ");
+		}
+		
+		printf (")");
+	} else {
+		printf ("NIL");
+	}
+}
+
+static void
+namespaces_dump (struct _namespaces *namespaces)
+{
+	printf ("namespace dump: ");
+	namespace_dump (namespaces->personal);
+	printf (" ");
+	namespace_dump (namespaces->other);
+	printf (" ");
+	namespace_dump (namespaces->shared);
+	printf ("\n");
+}
+
+struct _namespaces *
+imap_parse_namespace_response (const char *response)
+{
+	struct _namespaces *namespaces;
+	const char *inptr;
+	
+	printf ("parsing: %s\n", response);
+	
+	if (*response != '*')
+		return NULL;
+	
+	inptr = imap_next_word (response);
+	if (g_strncasecmp (inptr, "NAMESPACE", 9) != 0)
+		return NULL;
+	
+	inptr = imap_next_word (inptr);
+	
+	namespaces = g_new (struct _namespaces, 1);
+	namespaces->personal = NULL;
+	namespaces->other = NULL;
+	namespaces->shared = NULL;
+	
+	if (!imap_namespace_decode (&inptr, &namespaces->personal))
+		goto exception;
+	
+	if (*inptr != ' ')
+		goto exception;
+	
+	while (*inptr == ' ')
+		inptr++;
+	
+	if (!imap_namespace_decode (&inptr, &namespaces->other))
+		goto exception;
+	
+	if (*inptr != ' ')
+		goto exception;
+	
+	while (*inptr == ' ')
+		inptr++;
+	
+	if (!imap_namespace_decode (&inptr, &namespaces->shared))
+		goto exception;
+	
+	namespaces_dump (namespaces);
+	
+	return namespaces;
+	
+ exception:
+	
+	imap_namespaces_destroy (namespaces);
+	
+	return NULL;
 }
 
 /**
@@ -122,7 +351,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		
 		/* get the folder name */
 		word = imap_next_word (word);
-		astring = imap_parse_astring ((char **) &word, &len);
+		astring = imap_parse_astring (&word, &len);
 		if (!astring)
 			return FALSE;
 		
@@ -351,9 +580,9 @@ imap_is_atom(const char *in)
  * latter, it will point to the character after the NIL.)
  **/
 char *
-imap_parse_string_generic (char **str_p, size_t *len, int type)
+imap_parse_string_generic (const char **str_p, size_t *len, int type)
 {
-	char *str = *str_p;
+	const char *str = *str_p;
 	char *out;
 	
 	if (!str)
@@ -401,13 +630,13 @@ imap_parse_string_generic (char **str_p, size_t *len, int type)
 		*len = 0;
 		return NULL;
 	} else if (type == IMAP_ASTRING && imap_is_atom_char ((unsigned char)*str)) {
-		while (imap_is_atom_char ((unsigned char)*str))
+		while (imap_is_atom_char ((unsigned char) *str))
 			str++;
 		
 		*len = str - *str_p;
-		str = g_strndup (*str_p, *len);
+		out = g_strndup (*str_p, *len);
 		*str_p += *len;
-		return str;
+		return out;
 	} else {
 		*str_p = NULL;
 		return NULL;
@@ -415,19 +644,19 @@ imap_parse_string_generic (char **str_p, size_t *len, int type)
 }
 
 static inline void
-skip_char (char **str_p, char ch)
+skip_char (const char **in, char ch)
 {
-	if (*str_p && **str_p == ch)
-		*str_p = *str_p + 1;
+	if (*in && **in == ch)
+		*in = *in + 1;
 	else
-		*str_p = NULL;
+		*in = NULL;
 }
 
 /* Skip atom, string, or number */
 static void
-skip_asn (char **str_p)
+skip_asn (const char **str_p)
 {
-	char *str = *str_p;
+	const char *str = *str_p;
 	
 	if (!str)
 		return;
@@ -446,7 +675,7 @@ skip_asn (char **str_p)
 	} else if (*str == '{') {
 		unsigned long len;
 		
-		len = strtoul (str + 1, &str, 10);
+		len = strtoul (str + 1, (char **) &str, 10);
 		if (*str != '}' || *(str + 1) != '\n' ||
 		    strlen (str + 2) < len) {
 			*str_p = NULL;
@@ -464,7 +693,7 @@ skip_asn (char **str_p)
 }
 
 void
-imap_skip_list (char **str_p)
+imap_skip_list (const char **str_p)
 {
 	skip_char (str_p, '(');
 	while (*str_p && **str_p != ')') {
@@ -479,9 +708,10 @@ imap_skip_list (char **str_p)
 }
 
 static void
-parse_params (char **parms_p, CamelContentType *type)
+parse_params (const char **parms_p, CamelContentType *type)
 {
-	char *parms = *parms_p, *name, *value;
+	const char *parms = *parms_p;
+	char *name, *value;
 	int len;
 	
 	if (!g_strncasecmp (parms, "nil", 3)) {
@@ -526,10 +756,10 @@ parse_params (char **parms_p, CamelContentType *type)
  * set to %NULL and @ci will be unchanged.
  **/
 void
-imap_parse_body (char **body_p, CamelFolder *folder,
+imap_parse_body (const char **body_p, CamelFolder *folder,
 		 CamelMessageContentInfo *ci)
 {
-	char *body = *body_p;
+	const char *body = *body_p;
 	CamelMessageContentInfo *child;
 	CamelContentType *type;
 	size_t len;
@@ -615,7 +845,7 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 		encoding = imap_parse_string (&body, &len);
 		skip_char (&body, ' ');
 		if (body)
-			size = strtoul (body, &body, 10);
+			size = strtoul (body, (char **) &body, 10);
 		
 		child = NULL;
 		if (header_content_type_is (type, "message", "rfc822")) {
@@ -628,11 +858,11 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 				camel_folder_summary_content_info_free (folder->summary, child);
 			skip_char (&body, ' ');
 			if (body)
-				strtoul (body, &body, 10);
+				strtoul (body, (char **) &body, 10);
 			child->parent = ci;
 		} else if (header_content_type_is (type, "text", "*")) {
 			if (body)
-				strtoul (body, &body, 10);
+				strtoul (body, (char **) &body, 10);
 		}
 		
 		if (body) {
