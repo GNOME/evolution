@@ -1,5 +1,11 @@
 2001-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (transfer_msg_done): Move the message-list
+	cursor to the next message.
+	(transfer_msg): If we are moving messages, then pass
+	transfer_msg_done() to mail_transfer_messages() so when it
+	finishes it can move the cursor to the next undeleted message.
+
 	* mail-format.c (try_inline_pgp): Check that the special PGP lines
 	begin and end with \n so as to avoid matching against quoted PGP
 	lines.

@@ -1221,6 +1221,30 @@ forward (GtkWidget *widget, gpointer user_data)
 }
 
 static void
+transfer_msg_done (gboolean ok, void *data)
+{
+	FolderBrowser *fb = data;
+	int row;
+	
+	if (ok && !FOLDER_BROWSER_IS_DESTROYED (fb)) {
+		row = e_tree_row_of_node (fb->message_list->tree,
+					  e_tree_get_cursor (fb->message_list->tree));
+		
+		/* If this is the last message and deleted messages
+                   are hidden, select the previous */
+		if ((row + 1 == e_tree_row_count (fb->message_list->tree))
+		    && mail_config_get_hide_deleted ())
+			message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
+					     0, CAMEL_MESSAGE_DELETED, FALSE);
+		else
+			message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
+					     0, 0, FALSE);
+	}
+	
+	gtk_object_unref (GTK_OBJECT (fb));
+}
+
+static void
 transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 {
 	const char *allowed_types[] = { "mail", "vtrash", NULL };
@@ -1256,8 +1280,15 @@ transfer_msg (FolderBrowser *fb, gboolean delete_from_source)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-	mail_transfer_messages (fb->folder, uids, delete_from_source,
-				physical, 0, NULL, NULL);
+	
+	if (delete_from_source) {
+		gtk_object_ref (GTK_OBJECT (fb));
+		mail_transfer_messages (fb->folder, uids, delete_from_source,
+					physical, 0, transfer_msg_done, fb);
+	} else {
+		mail_transfer_messages (fb->folder, uids, delete_from_source,
+					physical, 0, NULL, NULL);
+	}
 }
 
 void
