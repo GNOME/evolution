@@ -36,7 +36,6 @@ SUBDIRS = 			\
 	filter			\
 	addressbook		\
 	calendar		\
-	my-evolution		\
         art                     \
 	composer		\
 	mail			\

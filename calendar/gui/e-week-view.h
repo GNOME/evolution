@@ -331,9 +331,6 @@ struct _EWeekView
 	gchar *pm_string;
 	gint am_string_width;
 	gint pm_string_width;
-
-	/* The default category for new events */
-	char *default_category;
 };
 
 struct _EWeekViewClass
@@ -352,9 +349,6 @@ void	   e_week_view_get_first_day_shown	(EWeekView	*week_view,
 						 GDate		*date);
 void	   e_week_view_set_first_day_shown	(EWeekView	*week_view,
 						 GDate		*date);
-
-void       e_week_view_set_default_category	(EWeekView	*week_view,
-						 const char	*category);
 
 /* The selected time range. The EWeekView will show the corresponding
    month and the days between start_time and end_time will be selected.
@@ -395,8 +389,6 @@ void	   e_week_view_set_24_hour_format	(EWeekView	*week_view,
 						 gboolean	 use_24_hour);
 
 void       e_week_view_delete_occurrence        (EWeekView      *week_view);
-
-void       e_week_view_unrecur_appointment      (EWeekView *week_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   e_week_view_get_num_events_selected	(EWeekView	*week_view);

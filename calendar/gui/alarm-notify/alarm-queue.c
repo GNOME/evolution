@@ -227,7 +227,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 	if (remove_alarm) {
 		cqa->expecting_update = TRUE;
 		cal_client_discard_alarm (cqa->parent_client->client, cqa->alarms->comp,
-					  qa->instance->auid);
+					  qa->instance->auid, NULL);
 		cqa->expecting_update = FALSE;
 	}
 

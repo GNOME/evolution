@@ -25,9 +25,8 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 
-#include "addressbook/backend/ebook/e-book.h"
-#include "addressbook/backend/ebook/e-card.h"
-#include "addressbook/backend/ebook/e-card-simple.h"
+#include "addressbook/backend/ebook/e-book-async.h"
+#include "addressbook/backend/ebook/e-contact.h"
 
 G_BEGIN_DECLS
 
@@ -56,8 +55,7 @@ struct _EContactEditor
 	
 	/* item specific fields */
 	EBook *book;
-	ECard *card;
-	ECardSimple *simple;
+	EContact *contact;
 
 	/* UI handler */
 	BonoboUIComponent *uic;
@@ -74,20 +72,18 @@ struct _EContactEditor
 	GList *phone_list;
 	GList *address_list;
 
-	ECardName *name;
+	EContactName *name;
 	char *company;
 
-	ECardSimpleEmailId email_choice;
-	ECardSimplePhoneId phone_choice[4];
-	ECardSimpleAddressId address_choice;
-	ECardSimpleAddressId address_mailing;
+	EContactField email_choice;
+	EContactField phone_choice[4];
+	EContactField address_choice;
+	EContactField address_mailing;
 	
-	GList *arbitrary_fields;
+	/* Whether we are editing a new contact or an existing one */
+	guint is_new_contact : 1;
 
-	/* Whether we are editing a new card or an existing one */
-	guint is_new_card : 1;
-
-	/* Whether the card has been changed since bringing up the contact editor */
+	/* Whether the contact has been changed since bringing up the contact editor */
 	guint changed : 1;
 
 	/* Whether the contact editor will accept modifications */
@@ -96,8 +92,10 @@ struct _EContactEditor
 	/* Whether the fullname will accept modifications */
 	guint fullname_editable : 1;
 
+#if notyet
 	/* Whether each of the addresses are editable */
 	gboolean address_editable[E_CARD_SIMPLE_ADDRESS_ID_LAST];
+#endif
 
 	/* Whether an async wombat call is in progress */
 	guint in_async_call : 1;
@@ -111,15 +109,15 @@ struct _EContactEditorClass
 
 	/* Notification signals */
 
-	void (* card_added)    (EContactEditor *ce, EBookStatus status, ECard *card);
-	void (* card_modified) (EContactEditor *ce, EBookStatus status, ECard *card);
-	void (* card_deleted)  (EContactEditor *ce, EBookStatus status, ECard *card);
-	void (* editor_closed) (EContactEditor *ce);
+	void (* contact_added)    (EContactEditor *ce, EBookStatus status, EContact *contact);
+	void (* contact_modified) (EContactEditor *ce, EBookStatus status, EContact *contact);
+	void (* contact_deleted)  (EContactEditor *ce, EBookStatus status, EContact *contact);
+	void (* editor_closed)    (EContactEditor *ce);
 };
 
 EContactEditor *e_contact_editor_new                (EBook          *book,
-						     ECard          *card,
-						     gboolean        is_new_card,
+						     EContact       *contact,
+						     gboolean        is_new_contact,
 						     gboolean        editable);
 GType           e_contact_editor_get_type           (void);
 

@@ -10,6 +10,8 @@ evolution-calendar.h
 evolution-calendar-common.lo
 evolution-calendar-skels.lo
 evolution-calendar-stubs.lo
+cal-marshal.c
+cal-marshal.h
 *.lo
 *.la
 client-test

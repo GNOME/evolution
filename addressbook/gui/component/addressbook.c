@@ -24,7 +24,6 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gtk/gtkframe.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkmessagedialog.h>
@@ -41,23 +40,20 @@
 #include "e-util/e-categories-master-list-wombat.h"
 #include "e-util/e-sexp.h"
 #include "e-util/e-passwords.h"
-#include "select-names/e-select-names.h"
-#include "select-names/e-select-names-manager.h"
 
 #include "evolution-shell-component-utils.h"
 #include "evolution-activity-client.h"
 #include "e-contact-editor.h"
-#include "e-contact-save-as.h"
 #include "addressbook-config.h"
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
-#include "addressbook/gui/widgets/e-addressbook-util.h"
+#include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/printing/e-contact-print.h"
+#include "addressbook/util/eab-book-util.h"
 
-#include <ebook/e-book.h>
-#include <ebook/e-book-util.h>
+#include <ebook/e-book-async.h>
 #include <widgets/misc/e-search-bar.h>
 #include <widgets/misc/e-filter-bar.h>
 
@@ -73,7 +69,7 @@ static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 
 typedef struct {
 	gint refs;
-	EAddressbookView *view;
+	EABView *view;
 	ESearchBar *search;
 	gint        ecml_changed_id;
 	GtkWidget *vbox;
@@ -100,7 +96,7 @@ save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_save_as(view->view);
+		eab_view_save_as(view->view);
 }
 
 static void
@@ -108,7 +104,7 @@ view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_view(view->view);
+		eab_view_view(view->view);
 }
 
 static void
@@ -117,7 +113,7 @@ search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 	AddressbookView *view = (AddressbookView *) user_data;
 
 	if (view->view)
-		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
+		gtk_widget_show(eab_search_dialog_new(view->view));
 }
 
 static void
@@ -125,7 +121,7 @@ delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view) {
-		e_addressbook_view_delete_selection(view->view);
+		eab_view_delete_selection(view->view);
 	}
 }
 
@@ -134,7 +130,7 @@ print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_print(view->view);
+		eab_view_print(view->view);
 }
 
 static void
@@ -142,7 +138,7 @@ print_preview_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_print_preview(view->view);
+		eab_view_print_preview(view->view);
 }
 
 static void
@@ -150,7 +146,7 @@ stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_stop(view->view);
+		eab_view_stop(view->view);
 }
 
 static void
@@ -158,7 +154,7 @@ cut_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_cut(view->view);
+		eab_view_cut(view->view);
 }
 
 static void
@@ -166,7 +162,7 @@ copy_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_copy(view->view);
+		eab_view_copy(view->view);
 }
 
 static void
@@ -174,7 +170,7 @@ paste_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_paste(view->view);
+		eab_view_paste(view->view);
 }
 
 static void
@@ -182,7 +178,7 @@ select_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *pat
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_select_all (view->view);
+		eab_view_select_all (view->view);
 }
 
 static void
@@ -190,7 +186,7 @@ send_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_send (view->view);
+		eab_view_send (view->view);
 }
 
 static void
@@ -198,7 +194,7 @@ send_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_send_to (view->view);
+		eab_view_send_to (view->view);
 }
 
 static void
@@ -206,7 +202,7 @@ copy_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_copy_to_folder (view->view);
+		eab_view_copy_to_folder (view->view);
 }
 
 static void
@@ -214,7 +210,7 @@ move_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	if (view->view)
-		e_addressbook_view_move_to_folder (view->view);
+		eab_view_move_to_folder (view->view);
 }
 
 static void
@@ -224,7 +220,7 @@ forget_passwords_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-update_command_state (EAddressbookView *eav, AddressbookView *view)
+update_command_state (EABView *eav, AddressbookView *view)
 {
 	BonoboUIComponent *uic;
 
@@ -239,78 +235,78 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSaveAsVCard",
 					      "sensitive",
-					      e_addressbook_view_can_save_as (view->view) ? "1" : "0", NULL);
+					      eab_view_can_save_as (view->view) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsView",
 					      "sensitive",
-					      e_addressbook_view_can_view (view->view) ? "1" : "0", NULL);
+					      eab_view_can_view (view->view) ? "1" : "0", NULL);
 
 		/* Print Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPrint",
 					      "sensitive",
-					      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
+					      eab_view_can_print (view->view) ? "1" : "0", NULL);
 
 		/* Print Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPrintPreview",
 					      "sensitive",
-					      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
+					      eab_view_can_print (view->view) ? "1" : "0", NULL);
 
 		/* Delete Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactDelete",
 					      "sensitive",
-					      e_addressbook_view_can_delete (view->view) ? "1" : "0", NULL);
+					      eab_view_can_delete (view->view) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsCut",
 					      "sensitive",
-					      e_addressbook_view_can_cut (view->view) ? "1" : "0", NULL);
+					      eab_view_can_cut (view->view) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsCopy",
 					      "sensitive",
-					      e_addressbook_view_can_copy (view->view) ? "1" : "0", NULL);
+					      eab_view_can_copy (view->view) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPaste",
 					      "sensitive",
-					      e_addressbook_view_can_paste (view->view) ? "1" : "0", NULL);
+					      eab_view_can_paste (view->view) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSelectAll",
 					      "sensitive",
-					      e_addressbook_view_can_select_all (view->view) ? "1" : "0", NULL);
+					      eab_view_can_select_all (view->view) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSendContactToOther",
 					      "sensitive",
-					      e_addressbook_view_can_send (view->view) ? "1" : "0", NULL);
+					      eab_view_can_send (view->view) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSendMessageToContact",
 					      "sensitive",
-					      e_addressbook_view_can_send_to (view->view) ? "1" : "0", NULL);
+					      eab_view_can_send_to (view->view) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsMoveToFolder",
 					      "sensitive",
-					      e_addressbook_view_can_move_to_folder (view->view) ? "1" : "0", NULL);
+					      eab_view_can_move_to_folder (view->view) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsCopyToFolder",
 					      "sensitive",
-					      e_addressbook_view_can_copy_to_folder (view->view) ? "1" : "0", NULL);
+					      eab_view_can_copy_to_folder (view->view) ? "1" : "0", NULL);
 
 		/* Stop */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactStop",
 					      "sensitive",
-					      e_addressbook_view_can_stop (view->view) ? "1" : "0", NULL);
+					      eab_view_can_stop (view->view) ? "1" : "0", NULL);
 	}
 
 	addressbook_view_unref (view);
 }
 
 static void
-change_view_type (AddressbookView *view, EAddressbookViewType view_type)
+change_view_type (AddressbookView *view, EABViewType view_type)
 {
 	g_object_set (view->view, "type", view_type, NULL);
 }
@@ -379,7 +375,7 @@ control_activate (BonoboControl     *control,
 			       EVOLUTION_UIDIR "/evolution-addressbook.xml",
 			       "evolution-addressbook", NULL);
 
-	e_addressbook_view_setup_menus (view->view, uic);
+	eab_view_setup_menus (view->view, uic);
 
 	e_pixmaps_update (uic, pixmaps);
 
@@ -401,25 +397,21 @@ control_activate_cb (BonoboControl *control,
 	if (activate) {
 		control_activate (control, uic, view);
 		if (activate && view->view && view->view->model)
-			e_addressbook_model_force_folder_bar_message (view->view->model);
+			eab_model_force_folder_bar_message (view->view->model);
 
 		/* if the book failed to load, we kick off another
 		   load here */
 
 		if (view->failed_to_load && view->uri) {
 			EBook *book;
-			char *uri_data;
 
 			book = e_book_new ();
-			uri_data = e_book_expand_uri (view->uri);
 
-			addressbook_load_uri (book, uri_data, book_open_cb, view);
-
-			g_free(uri_data);
+			addressbook_load_uri (book, view->uri, book_open_cb, view);
 		}
 	} else {
 		bonobo_ui_component_unset_container (uic, NULL);
-		e_addressbook_view_discard_menus (view->view);
+		eab_view_discard_menus (view->view);
 	}
 }
 
@@ -482,7 +474,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	AddressbookView *view = closure;
 
-	if (status == E_BOOK_STATUS_SUCCESS) {
+	if (status == E_BOOK_ERROR_OK) {
 		view->failed_to_load = FALSE;
 		g_object_set(view->view,
 			     "book", book,
@@ -596,8 +588,8 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	LoadUriData *data = closure;
 
-	if (status != E_BOOK_STATUS_SUCCESS) {
-		if (status == E_BOOK_STATUS_CANCELLED) {
+	if (status != E_BOOK_ERROR_OK) {
+		if (status == E_BOOK_ERROR_CANCELLED) {
 			/* the user clicked cancel in the password dialog */
 			GtkWidget *dialog;
 			dialog = gtk_message_dialog_new (NULL,
@@ -607,7 +599,7 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 							 _("Accessing LDAP Server anonymously"));
 			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 			gtk_widget_show (dialog);
-			data->cb (book, E_BOOK_STATUS_SUCCESS, data->closure);
+			data->cb (book, E_BOOK_ERROR_OK, data->closure);
 			g_free (data->clean_uri);
 			g_free (data);
 			return;
@@ -682,15 +674,15 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 			user = source->email_addr;
 		if (!user)
 			user = "";
-		e_book_authenticate_user (book, user, password ? password : pass_dup,
-					  addressbook_storage_auth_type_to_string (source->auth),
-					  cb, closure);
+		e_book_async_authenticate_user (book, user, password ? password : pass_dup,
+						addressbook_storage_auth_type_to_string (source->auth),
+						cb, closure);
 		g_free (pass_dup);
 		return;
 	}
 	else {
 		/* they hit cancel */
-		cb (book, E_BOOK_STATUS_CANCELLED, closure);
+		cb (book, E_BOOK_ERROR_CANCELLED, closure);
 	}
 }
 
@@ -699,7 +691,7 @@ load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	LoadUriData *load_uri_data = closure;
 
-	if (status == E_BOOK_STATUS_SUCCESS && book != NULL) {
+	if (status == E_BOOK_ERROR_OK && book != NULL) {
 
 		/* check if the addressbook needs authentication */
 
@@ -728,18 +720,18 @@ addressbook_load_uri (EBook *book, const char *uri,
 	load_uri_data->cb = cb;
 	load_uri_data->closure = closure;
 
-	e_book_load_uri (book, uri, load_uri_cb, load_uri_data);
+	e_book_async_load_uri (book, uri, load_uri_cb, load_uri_data);
 }
 
 void
-addressbook_load_default_book (EBook *book, EBookCallback cb, gpointer closure)
+addressbook_load_default_book (EBookCallback cb, gpointer closure)
 {
 	LoadUriData *load_uri_data = g_new (LoadUriData, 1);
 
 	load_uri_data->cb = cb;
 	load_uri_data->closure = closure;
 
-	e_book_load_default_book (book, load_uri_cb, load_uri_data);
+	e_book_async_get_default_addressbook (load_uri_cb, load_uri_data);
 }
 
 static void
@@ -751,14 +743,12 @@ set_prop (BonoboPropertyBag *bag,
 {
 	AddressbookView *view = user_data;
 
-	char *uri_data;
-	
 	switch (arg_id) {
 
 	case PROPERTY_FOLDER_URI_IDX:
 		if (view->uri) {
 			/* we've already had a uri set on this view, so unload it */
-			e_book_unload_uri (view->book); 
+			e_book_async_unload_uri (view->book); 
 			g_free (view->uri);
 		} else {
 			view->book = e_book_new ();
@@ -768,11 +758,7 @@ set_prop (BonoboPropertyBag *bag,
 
 		view->uri = g_strdup(BONOBO_ARG_GET_STRING (arg));
 		
-		uri_data = e_book_expand_uri (view->uri);
-
-		addressbook_load_uri (view->book, uri_data, book_open_cb, view);
-
-		g_free(uri_data);
+		addressbook_load_uri (view->book, view->uri, book_open_cb, view);
 
 		break;
 		
@@ -800,19 +786,6 @@ static ESearchBarItem addressbook_search_option_items[] = {
 };
 
 static void
-alphabet_state_changed (EAddressbookView *eav, gunichar letter, AddressbookView *view)
-{
-	view->ignore_search_changes = TRUE;
-	if (letter == 0) {
-		e_search_bar_set_item_id (view->search, ESB_FULL_NAME);
-		e_search_bar_set_text (view->search, "");
-	} else {
-		e_search_bar_set_item_id (view->search, ESB_FULL_NAME);
-	}
-	view->ignore_search_changes = FALSE;
-}
-
-static void
 addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 {
 	ECategoriesMasterList *master_list;
@@ -830,7 +803,7 @@ addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 		     NULL);
 
 	if (search_type == ESB_ADVANCED) {
-		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
+		gtk_widget_show(eab_search_dialog_new(view->view));
 	}
 	else {
 		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
@@ -890,7 +863,7 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 		     NULL);
 
 	if (search_type == ESB_ADVANCED) {
-		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
+		gtk_widget_show(eab_search_dialog_new(view->view));
 	}
 }
 
@@ -916,7 +889,7 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 }
 
 static void
-set_status_message (EAddressbookView *eav, const char *message, AddressbookView *view)
+set_status_message (EABView *eav, const char *message, AddressbookView *view)
 {
 
 	if (!message || !*message) {
@@ -925,6 +898,7 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 			view->activity = NULL;
 		}
 	}
+#if 0				/* EPFIXME */
 	else if (!view->activity) {
 		int display;
 		char *clientid = g_strdup_printf ("%p", view);
@@ -937,6 +911,7 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 
 		g_free (clientid);
 	}
+#endif
 	else {
 		evolution_activity_client_update (view->activity, message, -1.0);
 	}
@@ -944,12 +919,12 @@ set_status_message (EAddressbookView *eav, const char *message, AddressbookView 
 }
 
 static void
-search_result (EAddressbookView *eav, EBookViewStatus status, AddressbookView *view)
+search_result (EABView *eav, EBookViewStatus status, AddressbookView *view)
 {
 	char *str = NULL;
 
 	switch (status) {
-	case E_BOOK_VIEW_STATUS_SUCCESS:
+	case E_BOOK_VIEW_STATUS_OK:
 		return;
 	case E_BOOK_VIEW_STATUS_SIZE_LIMIT_EXCEEDED:
 		str = _("More cards matched this query than either the server is \n"
@@ -963,14 +938,13 @@ search_result (EAddressbookView *eav, EBookViewStatus status, AddressbookView *v
 			"more specific or raise the time limit in the directory server\n"
 			"preferences for this addressbook.");
 		break;
-	case E_BOOK_VIEW_STATUS_INVALID_QUERY:
+	case E_BOOK_VIEW_ERROR_INVALID_QUERY:
 		str = _("The backend for this addressbook was unable to parse this query.");
 		break;
-	case E_BOOK_VIEW_STATUS_QUERY_REFUSED:
+	case E_BOOK_VIEW_ERROR_QUERY_REFUSED:
 		str = _("The backend for this addressbook refused to perform this query.");
 		break;
-	case E_BOOK_VIEW_STATUS_OTHER_ERROR:
-	case E_BOOK_VIEW_STATUS_UNKNOWN:
+	case E_BOOK_VIEW_ERROR_OTHER_ERROR:
 		str = _("This query did not complete successfully.");
 		break;
 	}
@@ -988,7 +962,7 @@ search_result (EAddressbookView *eav, EBookViewStatus status, AddressbookView *v
 }
 
 static void
-set_folder_bar_label (EAddressbookView *eav, const char *message, AddressbookView *view)
+set_folder_bar_label (EABView *eav, const char *message, AddressbookView *view)
 {
 	CORBA_Environment ev;
 	GNOME_Evolution_ShellView shell_view_interface;
@@ -1021,18 +995,6 @@ set_folder_bar_label (EAddressbookView *eav, const char *message, AddressbookVie
 	CORBA_exception_free (&ev);
 
 	bonobo_object_release_unref (shell_view_interface, NULL);
-}
-
-/* Our global singleton config database */
-static Bonobo_ConfigDatabase config_db = NULL;
-
-Bonobo_ConfigDatabase
-addressbook_config_database (CORBA_Environment *ev)
-{
-	if (config_db == NULL)
-		config_db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", ev);
-
-	return config_db;
 }
 
 static int
@@ -1098,10 +1060,6 @@ BonoboControl *
 addressbook_new_control (void)
 {
 	AddressbookView *view;
-	GtkWidget *frame;
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 
 	view = g_new0 (AddressbookView, 1);
 	view->refs = 1;
@@ -1125,15 +1083,13 @@ addressbook_new_control (void)
 	g_signal_connect (view->search, "search_activated",
 			  G_CALLBACK (addressbook_search_activated), view);
 
-	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
-	gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (view->view));
-	gtk_box_pack_start (GTK_BOX (view->vbox), frame,
+	view->view = EAB_VIEW(eab_view_new());
+	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET (view->view),
 			    TRUE, TRUE, 0);
 
 	/* create the initial view */
-	change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
+	change_view_type (view, EAB_VIEW_TABLE);
 
-	gtk_widget_show (frame);
 	gtk_widget_show (view->vbox);
 	gtk_widget_show (GTK_WIDGET(view->view));
 	gtk_widget_show (GTK_WIDGET(view->search));
@@ -1142,36 +1098,24 @@ addressbook_new_control (void)
 
 	bonobo_property_bag_add (view->properties,
 				 PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
-				 BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
+				 BONOBO_ARG_STRING, NULL,
+				 _("URI of the contacts that the control will display"), 0);
 
 	bonobo_control_set_properties (view->control,
 				       bonobo_object_corba_objref (BONOBO_OBJECT (view->properties)),
 				       NULL);
 
-	g_signal_connect (view->view,
-			  "status_message",
-			  G_CALLBACK(set_status_message),
-			  view);
+	g_signal_connect (view->view, "status_message",
+			  G_CALLBACK(set_status_message), view);
 
-	g_signal_connect (view->view,
-			  "search_result",
-			  G_CALLBACK(search_result),
-			  view);
+	g_signal_connect (view->view, "search_result",
+			  G_CALLBACK(search_result), view);
 
-	g_signal_connect (view->view,
-			  "folder_bar_message",
-			  G_CALLBACK(set_folder_bar_label),
-			  view);
+	g_signal_connect (view->view, "folder_bar_message",
+			  G_CALLBACK(set_folder_bar_label), view);
 
-	g_signal_connect (view->view,
-			  "command_state_change",
-			  G_CALLBACK(update_command_state),
-			  view);
-	
-	g_signal_connect (view->view,
-			  "alphabet_state_change",
-			  G_CALLBACK(alphabet_state_changed),
-			  view);
+	g_signal_connect (view->view, "command_state_change",
+			  G_CALLBACK(update_command_state), view);
 	
 	view->uri = NULL;
 

@@ -29,6 +29,8 @@ typedef struct _EBookViewListener EBookViewListener;
 typedef struct _EBookViewListenerClass EBookViewListenerClass;
 typedef struct _EBookViewListenerPrivate EBookViewListenerPrivate;
 
+typedef struct _EBookViewListenerResponse EBookViewListenerResponse;
+
 struct _EBookViewListener {
 	BonoboObject           parent;
 	EBookViewListenerPrivate *priv;
@@ -42,38 +44,44 @@ struct _EBookViewListenerClass {
 	/*
 	 * Signals
 	 */
-	void (*responses_queued) (void);
+	void (*response) (EBookViewListener *listener, EBookViewListenerResponse *response);
+
+
+	/* Padding for future expansion */
+	void (*_ebook_reserved0) (void);
+	void (*_ebook_reserved1) (void);
+	void (*_ebook_reserved2) (void);
+	void (*_ebook_reserved3) (void);
+	void (*_ebook_reserved4) (void);
 };
 
 typedef enum {
 	/* Async events */
-	CardAddedEvent,
-	CardsRemovedEvent,
-	CardModifiedEvent,
+	ContactsAddedEvent,
+	ContactsRemovedEvent,
+	ContactsModifiedEvent,
 	SequenceCompleteEvent,
 	StatusMessageEvent,
 } EBookViewListenerOperation;
 
-typedef struct {
+struct _EBookViewListenerResponse {
 	EBookViewListenerOperation  op;
 
 	/* For SequenceComplete */
 	EBookViewStatus             status;
 
-	/* For CardsRemovedEvent */
+	/* For ContactsRemovedEvent */
 	GList                  *ids;
 
-	/* For Card[Added|Modified]Event */
-	GList                  *cards; /* Of type ECard. */
+	/* For Contact[sAdded|Modified]Event */
+	GList                  *contacts; /* Of type EContact. */
 
 	/* For StatusMessageEvent */
 	char                   *message;
 	
-} EBookViewListenerResponse;
+};
 
 EBookViewListener         *e_book_view_listener_new            (void);
-int                        e_book_view_listener_check_pending  (EBookViewListener *listener);
-EBookViewListenerResponse *e_book_view_listener_pop_response   (EBookViewListener *listener);
 GType                      e_book_view_listener_get_type       (void);
 void                       e_book_view_listener_stop           (EBookViewListener *listener);
 

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* addressbook-component.h
  *
- * Copyright (C) 2000  Ximian, Inc.
+ * Copyright (C) 2003  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -17,16 +17,43 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Ettore Perazzoli
+ * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifndef _ADDRESSBOOK_COMPONENT_H
-#define _ADDRESSBOOK_COMPONENT_H
+#ifndef _ADDRESSBOOK_COMPONENT_H_
+#define _ADDRESSBOOK_COMPONENT_H_
 
-#include "evolution-shell-component.h"
-#include "evolution-storage.h"
+#include <bonobo/bonobo-object.h>
 
-BonoboObject         *addressbook_component_init              (void);
-EvolutionShellClient *addressbook_component_get_shell_client  (void);
+#include "Evolution.h"
 
-#endif /* _ADDRESSBOOK_COMPONENT_H */
+#define ADDRESSBOOK_TYPE_COMPONENT			(addressbook_component_get_type ())
+#define ADDRESSBOOK_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), ADDRESSBOOK_TYPE_COMPONENT, AddressbookComponent))
+#define ADDRESSBOOK_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), ADDRESSBOOK_TYPE_COMPONENT, AddressbookComponentClass))
+#define ADDRESSBOOK_IS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), ADDRESSBOOK_TYPE_COMPONENT))
+#define ADDRESSBOOK_IS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), ADDRESSBOOK_TYPE_COMPONENT))
+
+
+typedef struct _AddressbookComponent        AddressbookComponent;
+typedef struct _AddressbookComponentPrivate AddressbookComponentPrivate;
+typedef struct _AddressbookComponentClass   AddressbookComponentClass;
+
+struct _AddressbookComponent {
+	BonoboObject parent;
+
+	AddressbookComponentPrivate *priv;
+};
+
+struct _AddressbookComponentClass {
+	BonoboObjectClass parent_class;
+
+	POA_GNOME_Evolution_Component__epv epv;
+};
+
+
+GType addressbook_component_get_type (void);
+
+AddressbookComponent *addressbook_component_peek (void);
+
+
+#endif /* _ADDRESSBOOK_COMPONENT_H_ */

@@ -15,7 +15,6 @@
 #include <bonobo/bonobo-object.h>
 #include <ebook/addressbook.h>
 #include <ebook/e-book-types.h>
-#include <e-util/e-list.h>
 
 #define E_TYPE_BOOK_LISTENER        (e_book_listener_get_type ())
 #define E_BOOK_LISTENER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_BOOK_LISTENER, EBookListener))
@@ -29,6 +28,7 @@ G_BEGIN_DECLS
 typedef struct _EBookListener EBookListener;
 typedef struct _EBookListenerClass EBookListenerClass;
 typedef struct _EBookListenerPrivate EBookListenerPrivate;
+typedef struct _EBookListenerResponse  EBookListenerResponse;
 
 struct _EBookListener {
 	BonoboObject           parent;
@@ -39,20 +39,30 @@ struct _EBookListenerClass {
 	BonoboObjectClass parent;
 
 	POA_GNOME_Evolution_Addressbook_BookListener__epv epv;
+
 	/*
 	 * Signals
 	 */
-	void (*responses_queued) (void);
+
+	void (*response) (EBookListener *listener, EBookListenerResponse *response);
+
+	/* Padding for future expansion */
+	void (*_ebook_reserved0) (void);
+	void (*_ebook_reserved1) (void);
+	void (*_ebook_reserved2) (void);
+	void (*_ebook_reserved3) (void);
+	void (*_ebook_reserved4) (void);
 };
 
 typedef enum {
 	/* Async responses */
 	OpenBookResponse,
-	CreateCardResponse,
-	RemoveCardResponse,
-	ModifyCardResponse,
-	GetCardResponse,
-	GetCursorResponse,
+	RemoveBookResponse,
+	CreateContactResponse,
+	RemoveContactResponse,
+	ModifyContactResponse,
+	GetContactResponse,
+	GetContactListResponse,
 	GetBookViewResponse,
 	GetChangesResponse,
 	AuthenticationResponse,
@@ -62,28 +72,22 @@ typedef enum {
 	/* Async events */
 	LinkStatusEvent,
 	WritableStatusEvent,
-	OpenProgressEvent,
+	ProgressEvent,
 } EBookListenerOperation;
 
-typedef struct {
+struct _EBookListenerResponse {
 	EBookListenerOperation  op;
 
 	/* For most Response notifications */
 	EBookStatus             status;
 
-	/* For OpenBookResponse */
-	GNOME_Evolution_Addressbook_Book          book;
-
-	/* For GetCursorResponse */
-	GNOME_Evolution_Addressbook_CardCursor    cursor;
-
 	/* For GetBookViewReponse */
 	GNOME_Evolution_Addressbook_BookView      book_view;
 
 	/* For GetSupportedFields/GetSupportedAuthMethods */
-	EList                                    *list;
+	GList                                    *list;
 
-	/* For OpenProgressEvent */
+	/* For ProgressEvent */
 	char                   *msg;
 	short                   percent;
 
@@ -96,12 +100,10 @@ typedef struct {
 	/* For Card[Added|Removed|Modified]Event */
 	char                   *id;
 	char                   *vcard;
-} EBookListenerResponse;
+};
 
 
 EBookListener         *e_book_listener_new            (void);
-int                    e_book_listener_check_pending  (EBookListener *listener);
-EBookListenerResponse *e_book_listener_pop_response   (EBookListener *listener);
 GType                  e_book_listener_get_type       (void);
 void                   e_book_listener_stop           (EBookListener *listener);
 

@@ -78,7 +78,7 @@
 	      </child>
 
 	      <child>
-		<widget class="Custom" id="custom7">
+		<widget class="Custom" id="list-image">
 		  <property name="visible">True</property>
 		  <property name="creation_function">e_create_image_widget</property>
 		  <property name="string1">evolution-contacts-plain.png</property>

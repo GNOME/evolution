@@ -22,7 +22,7 @@
 
 #include <gtk/gtkdialog.h>
 #include <glade/glade.h>
-#include <ebook/e-card.h>
+#include <ebook/e-contact.h>
 
 G_BEGIN_DECLS
 
@@ -49,8 +49,10 @@ struct _EContactEditorAddress
 {
 	GtkDialog parent;
 	
+#if notyet
 	/* item specific fields */
 	ECardDeliveryAddress *address;
+#endif
 
 	guint editable : 1;
 
@@ -63,7 +65,7 @@ struct _EContactEditorAddressClass
 };
 
 
-GtkWidget *e_contact_editor_address_new(const ECardDeliveryAddress *name);
+GtkWidget *e_contact_editor_address_new(/* XXX not yet const ECardDeliveryAddress *name*/);
 GType      e_contact_editor_address_get_type (void);
 
 G_END_DECLS

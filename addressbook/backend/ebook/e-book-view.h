@@ -13,7 +13,6 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <ebook/e-card.h>
 #include <ebook/e-book-view-listener.h>
 
 #define E_TYPE_BOOK_VIEW           (e_book_view_get_type ())
@@ -42,11 +41,18 @@ struct _EBookViewClass {
 	/*
 	 * Signals.
 	 */
-	void (* card_changed)      (EBookView *book_view, const GList *cards);
-	void (* card_removed)      (EBookView *book_view, const GList *ids);
-	void (* card_added)        (EBookView *book_view, const GList *cards);
+	void (* contacts_changed)  (EBookView *book_view, const GList *contacts);
+	void (* contacts_removed)  (EBookView *book_view, const GList *ids);
+	void (* contacts_added)    (EBookView *book_view, const GList *contacts);
 	void (* sequence_complete) (EBookView *book_view, EBookViewStatus status);
 	void (* status_message)    (EBookView *book_view, const char *message);
+
+	/* Padding for future expansion */
+	void (*_ebook_reserved0) (void);
+	void (*_ebook_reserved1) (void);
+	void (*_ebook_reserved2) (void);
+	void (*_ebook_reserved3) (void);
+	void (*_ebook_reserved4) (void);
 };
 
 /* Creating a new addressbook. */
@@ -56,6 +62,7 @@ GType              e_book_view_get_type               (void);
 
 void               e_book_view_set_book               (EBookView *book_view, struct _EBook *book);
 
+void               e_book_view_start                  (EBookView *book_view);
 void               e_book_view_stop                   (EBookView *book_view);
 
 G_END_DECLS

@@ -26,9 +26,8 @@
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
 
-#include "addressbook/backend/ebook/e-book.h"
-#include "addressbook/backend/ebook/e-card.h"
-#include "addressbook/backend/ebook/e-card-simple.h"
+#include "addressbook/backend/ebook/e-book-async.h"
+#include "addressbook/backend/ebook/e-contact.h"
 
 G_BEGIN_DECLS
 
@@ -48,7 +47,7 @@ struct _EContactListEditor
 
 	/* item specific fields */
 	EBook *book;
-	ECard *card;
+	EContact *contact;
 
 	/* UI handler */
 	BonoboUIComponent *uic;
@@ -62,12 +61,19 @@ struct _EContactListEditor
 	GtkWidget *list_name_entry;
 	GtkWidget *add_button;
 	GtkWidget *remove_button;
+	GtkWidget *list_image_button;
 	GtkWidget *visible_addrs_checkbutton;
+	GtkWidget *list_image;
+	int list_image_width;
+	int list_image_height;
 
-	/* Whether we are editing a new card or an existing one */
+	char *image_buf;
+	int   image_buf_size;
+
+	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;
 
-	/* Whether the card has been changed since bringing up the contact editor */
+	/* Whether the contact has been changed since bringing up the contact editor */
 	guint changed : 1;
 
 	/* Whether the contact editor will accept modifications */
@@ -83,14 +89,14 @@ struct _EContactListEditorClass
 
 	/* Notification signals */
 
-	void (* list_added)    (EContactListEditor *cle, EBookStatus status, ECard *card);
-	void (* list_modified) (EContactListEditor *cle, EBookStatus status, ECard *card);
-	void (* list_deleted)  (EContactListEditor *cle, EBookStatus status, ECard *card);
+	void (* list_added)    (EContactListEditor *cle, EBookStatus status, EContact *contact);
+	void (* list_modified) (EContactListEditor *cle, EBookStatus status, EContact *contact);
+	void (* list_deleted)  (EContactListEditor *cle, EBookStatus status, EContact *contact);
 	void (* editor_closed) (EContactListEditor *cle);
 };
 
 EContactListEditor *e_contact_list_editor_new                (EBook *book,
-							      ECard *list_card,
+							      EContact *list_contact,
 							      gboolean is_new_list,
 							      gboolean editable);
 GType               e_contact_list_editor_get_type           (void);

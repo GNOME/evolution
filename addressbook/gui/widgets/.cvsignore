@@ -10,8 +10,8 @@ minicard-test
 minicard-view-test
 minicard-widget-test
 reflow-test
-e-addressbook-marshal.c
-e-addressbook-marshal.h
+eab-marshal.c
+eab-marshal.h
 Evolution-Composer-stubs.c
 Evolution-Composer-skels.c
 Evolution-Composer-common.c

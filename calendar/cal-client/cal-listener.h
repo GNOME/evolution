@@ -23,6 +23,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include "evolution-calendar.h"
+#include "cal-client-types.h"
 
 G_BEGIN_DECLS
 
@@ -48,24 +49,44 @@ typedef struct {
 	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Calendar_Listener__epv epv;
+
+	/* Signals */
+	void (*read_only) (CalListener *listener, ECalendarStatus status, gboolean read_only);
+	void (*cal_address) (CalListener *listener, ECalendarStatus status, const char *address);
+	void (*alarm_address) (CalListener *listener, ECalendarStatus status, const char *address);
+	void (*ldap_attribute) (CalListener *listener, ECalendarStatus status, const char *ldap_attribute);
+	void (*static_capabilities) (CalListener *listener, ECalendarStatus status, const char *capabilities);
+
+	void (*open) (CalListener *listener, ECalendarStatus status);
+	void (*remove) (CalListener *listener, ECalendarStatus status);
+
+	void (*create_object) (CalListener *listener, ECalendarStatus status, const char *id);
+	void (*modify_object) (CalListener *listener, ECalendarStatus status);
+	void (*remove_object) (CalListener *listener, ECalendarStatus status);
+
+	void (*discard_alarm) (CalListener *listener, ECalendarStatus status);
+
+ 	void (*receive_objects) (CalListener *listener, ECalendarStatus status);
+ 	void (*send_objects) (CalListener *listener, ECalendarStatus status);
+
+	void (*default_object) (CalListener *listener, ECalendarStatus status, const char *object);
+	void (*object) (CalListener *listener, ECalendarStatus status, const char *object);
+	void (*object_list) (CalListener *listener, ECalendarStatus status, GList **objects);
+
+	void (*get_timezone) (CalListener *listener, ECalendarStatus status, const char *object);
+	void (*add_timezone) (CalListener *listener, ECalendarStatus status, const char *tzid);
+	void (*set_default_timezone) (CalListener *listener, ECalendarStatus status, const char *tzid);
+
+	void (*get_changes) (CalListener *listener, ECalendarStatus status, GList *changes);
+	void (*get_free_busy) (CalListener *listener, ECalendarStatus status, GList *freebusy);
+	
+	void (*query) (CalListener *listener, ECalendarStatus status, GNOME_Evolution_Calendar_Query query);
 } CalListenerClass;
 
 /* Notification functions */
-typedef void (* CalListenerCalOpenedFn) (CalListener *listener,
-					 GNOME_Evolution_Calendar_Listener_OpenStatus status,
-					 GNOME_Evolution_Calendar_Cal cal,
-					 gpointer data);
-
 typedef void (* CalListenerCalSetModeFn) (CalListener *listener,
 					  GNOME_Evolution_Calendar_Listener_SetModeStatus status,
 					  GNOME_Evolution_Calendar_CalMode mode,
-					  gpointer data);
-
-typedef void (* CalListenerObjUpdatedFn) (CalListener *listener,
-					  const CORBA_char *uid,
-					  gpointer data);
-typedef void (* CalListenerObjRemovedFn) (CalListener *listener,
-					  const CORBA_char *uid,
 					  gpointer data);
 
 typedef void (* CalListenerErrorOccurredFn) (CalListener *listener,
@@ -80,18 +101,12 @@ typedef void (* CalListenerCategoriesChangedFn) (CalListener *listener,
 GType cal_listener_get_type (void);
 
 CalListener *cal_listener_construct (CalListener *listener,
-				     CalListenerCalOpenedFn cal_opened_fn,
 				     CalListenerCalSetModeFn cal_set_mode_fn,
-				     CalListenerObjUpdatedFn obj_updated_fn,
-				     CalListenerObjRemovedFn obj_removed_fn,
 				     CalListenerErrorOccurredFn error_occurred_fn,
 				     CalListenerCategoriesChangedFn categories_changed_fn,
 				     gpointer fn_data);
 
-CalListener *cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
-			       CalListenerCalSetModeFn cal_set_mode_fn,
-			       CalListenerObjUpdatedFn obj_updated_fn,
-			       CalListenerObjRemovedFn obj_removed_fn,
+CalListener *cal_listener_new (CalListenerCalSetModeFn cal_set_mode_fn,
 			       CalListenerErrorOccurredFn error_occurred_fn,
 			       CalListenerCategoriesChangedFn categories_changed_fn,
 			       gpointer fn_data);

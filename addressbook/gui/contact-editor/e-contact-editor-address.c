@@ -420,7 +420,9 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 
 	gtk_window_set_resizable(GTK_WINDOW(e_contact_editor_address), TRUE);
 
+#if notyet
 	e_contact_editor_address->address = NULL;
+#endif
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fulladdr.glade", NULL, NULL);
 	e_contact_editor_address->gui = gui;
@@ -453,22 +455,26 @@ e_contact_editor_address_dispose (GObject *object)
 		e_contact_editor_address->gui = NULL;
 	}
 
+#if notyet
 	if (e_contact_editor_address->address) {
 		e_card_delivery_address_unref(e_contact_editor_address->address);
 		e_contact_editor_address->address = NULL;
 	}
+#endif
 
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 GtkWidget*
-e_contact_editor_address_new (const ECardDeliveryAddress *address)
+e_contact_editor_address_new (/* XXX notyet const ECardDeliveryAddress *address*/)
 {
 	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_ADDRESS, NULL);
+#if notyet
 	g_object_set (widget,
 		      "address", address,
 		      NULL);
+#endif
 	return widget;
 }
 
@@ -482,9 +488,11 @@ e_contact_editor_address_set_property (GObject *object, guint prop_id,
 	
 	switch (prop_id){
 	case PROP_ADDRESS:
+#if notyet
 		e_card_delivery_address_unref(e_contact_editor_address->address);
 		e_contact_editor_address->address = e_card_delivery_address_copy(g_value_get_pointer (value));
 		fill_in_info(e_contact_editor_address);
+#endif
 		break;
 	case PROP_EDITABLE: {
 		int i;
@@ -540,7 +548,9 @@ e_contact_editor_address_get_property (GObject *object, guint prop_id,
 	switch (prop_id) {
 	case PROP_ADDRESS:
 		extract_info(e_contact_editor_address);
+#if notyet
 		g_value_set_pointer (value, e_card_delivery_address_ref(e_contact_editor_address->address));
+#endif
 		break;
 	case PROP_EDITABLE:
 		g_value_set_boolean (value, e_contact_editor_address->editable ? TRUE : FALSE);
@@ -566,6 +576,7 @@ fill_in_field(EContactEditorAddress *editor, char *field, char *string)
 static void
 fill_in_info(EContactEditorAddress *editor)
 {
+#if notyet
 	ECardDeliveryAddress *address = editor->address;
 	if (address) {
 		fill_in_field(editor, "entry-street" , address->street );
@@ -576,6 +587,7 @@ fill_in_info(EContactEditorAddress *editor)
 		fill_in_field(editor, "entry-code"   , address->code   );
 		fill_in_field(editor, "entry-country", address->country);
 	}
+#endif
 }
 
 static char *
@@ -591,6 +603,7 @@ extract_field(EContactEditorAddress *editor, char *field)
 static void
 extract_info(EContactEditorAddress *editor)
 {
+#if notyet
 	ECardDeliveryAddress *address = editor->address;
 	if (!address) {
 		address = e_card_delivery_address_new();
@@ -603,4 +616,5 @@ extract_info(EContactEditorAddress *editor)
 	address->region  = extract_field(editor, "entry-region" );
 	address->code    = extract_field(editor, "entry-code"   );
 	address->country = extract_field(editor, "entry-country");
+#endif
 }

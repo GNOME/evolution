@@ -16,7 +16,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "e-select-names-table-model.h"
-#include "addressbook/backend/ebook/e-card-simple.h"
+#include "addressbook/backend/ebook/e-contact.h"
 
 /* Object argument IDs */
 enum {
@@ -118,21 +118,19 @@ fill_in_info (ESelectNamesTableModel *model)
 		model->data = g_new(ESelectNamesTableModelData, count);
 
 		for (i = 0; i < count; ++i) {
-			const EDestination *dest = e_select_names_model_get_destination (model->source, i);
-			ECard *card = dest ? e_destination_get_card (dest) : NULL;
+			const EABDestination *dest = e_select_names_model_get_destination (model->source, i);
+			EContact *contact = dest ? eab_destination_get_contact (dest) : NULL;
 
-			if (card) {
-				ECardSimple *simple = e_card_simple_new(card);
-				model->data[i].name =  e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_NAME_OR_ORG);
+			if (contact) {
+				model->data[i].name =  e_contact_get(contact, E_CONTACT_FULL_NAME);
 				if (model->data[i].name == 0)
 					model->data[i].name = g_strdup("");
-				model->data[i].email = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_EMAIL);
+				model->data[i].email = e_contact_get(contact, E_CONTACT_EMAIL_1);
 				if (model->data[i].email == 0)
 					model->data[i].email = g_strdup("");
-				g_object_unref(simple);
 			} else {
-				const gchar *name = e_destination_get_name (dest);
-				const gchar *email = e_destination_get_email (dest);
+				const gchar *name = eab_destination_get_name (dest);
+				const gchar *email = eab_destination_get_email (dest);
 
 				model->data[i].name =  g_strdup (name && *name ? name : email);
 				model->data[i].email = g_strdup (email);

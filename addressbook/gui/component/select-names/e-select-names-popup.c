@@ -39,10 +39,11 @@
 #include <gtk/gtklabel.h>
 #include <libgnome/gnome-i18n.h>
 
-#include <addressbook/backend/ebook/e-book-util.h>
+#include <addressbook/util/eab-book-util.h>
 #include <addressbook/gui/contact-editor/e-contact-editor.h>
+#include <addressbook/gui/contact-list-editor/e-contact-list-editor.h>
 #include <addressbook/gui/contact-editor/e-contact-quick-add.h>
-#include "e-addressbook-util.h"
+#include "eab-gui-util.h"
 #include "e-select-names-popup.h"
 
 #define LIST_ICON_FILENAME "contact-list-16.png"
@@ -51,13 +52,13 @@
 typedef struct _PopupInfo PopupInfo;
 struct _PopupInfo {
 	ESelectNamesTextModel *text_model;
-	EDestination *dest;
+	EABDestination *dest;
 	gint pos;
 	gint index;
 };
 
 static PopupInfo *
-popup_info_new (ESelectNamesTextModel *text_model, EDestination *dest, gint pos, gint index)
+popup_info_new (ESelectNamesTextModel *text_model, EABDestination *dest, gint pos, gint index)
 {
 	PopupInfo *info = g_new0 (PopupInfo, 1);
 	info->text_model = text_model;
@@ -97,29 +98,29 @@ popup_info_cleanup (GtkWidget *w, gpointer info)
 
 /* You are in a maze of twisty little callbacks, all alike... */
 
+#if TOO_MANY_MENU_ITEMS
 static void
 make_contact_editor_cb (EBook *book, gpointer user_data)
 {
 	if (book) {
-		EDestination *dest = E_DESTINATION (user_data);
-		ECard *card;
+		EABDestination *dest = EAB_DESTINATION (user_data);
+		EContact *contact;
 
-		card = (ECard *) e_destination_get_card (dest);
-		if (e_card_evolution_list (card)) {
+		contact = (EContact *) eab_destination_get_contact (dest);
+		if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
 			EContactListEditor *ce;
-			ce = e_addressbook_show_contact_list_editor (book, card, FALSE, TRUE);
+			ce = e_addressbook_show_contact_list_editor (book, contact, FALSE, TRUE);
 			e_contact_list_editor_raise (ce);
 		}
 		else {
 			EContactEditor *ce;
-			ce = e_addressbook_show_contact_editor (book, card, FALSE, TRUE);
+			ce = e_addressbook_show_contact_editor (book, contact, FALSE, TRUE);
 			e_contact_editor_raise (ce);
 		}
 		g_object_unref (dest);
 	}
 }
 
-#if TOO_MANY_MENU_ITEMS
 static void
 edit_contact_info_cb (GtkWidget *w, gpointer user_data)
 {
@@ -137,7 +138,7 @@ change_email_num_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *info = (PopupInfo *) user_data;
 	gint n;
-	EDestination *dest;
+	EABDestination *dest;
 	
 	if (info == NULL) 
 		return;
@@ -147,9 +148,9 @@ change_email_num_cb (GtkWidget *w, gpointer user_data)
 
 	n = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (w), "number"));
 
-	if (n != e_destination_get_email_num (info->dest)) {
-		dest = e_destination_new ();
-		e_destination_set_card (dest, e_destination_get_card (info->dest), n);
+	if (n != eab_destination_get_email_num (info->dest)) {
+		dest = eab_destination_new ();
+		eab_destination_set_contact (dest, eab_destination_get_contact (info->dest), n);
 		e_select_names_model_replace (info->text_model->source, info->index, dest);
 	}
 }
@@ -174,7 +175,7 @@ toggle_html_mail_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *info = (PopupInfo *) user_data;
 	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM (w);
-	const EDestination *dest;
+	const EABDestination *dest;
 
 	if (info == NULL)
 		return;
@@ -182,19 +183,19 @@ toggle_html_mail_cb (GtkWidget *w, gpointer user_data)
 	dest = info->dest;
 
 	item = GTK_CHECK_MENU_ITEM (item);
-	e_destination_set_html_mail_pref ((EDestination *) dest, item->active);
+	eab_destination_set_html_mail_pref ((EABDestination *) dest, item->active);
 }
 #endif
 
 static void
-populate_popup_card (GtkWidget *pop, gboolean list, PopupInfo *info)
+populate_popup_contact (GtkWidget *pop, gboolean list, PopupInfo *info)
 {
 	GtkWidget *image;
-	ECard *card;
-	EIterator *iterator;
+	EContact *contact;
 	GtkWidget *menuitem;
+	GList *email_list;
 
-	card = e_destination_get_card (info->dest);
+	contact = eab_destination_get_contact (info->dest);
 
 #if TOO_MANY_MENU_ITEMS
 	menuitem = gtk_separator_menu_item_new();
@@ -224,7 +225,7 @@ populate_popup_card (GtkWidget *pop, gboolean list, PopupInfo *info)
 
 	menuitem = gtk_check_menu_item_new_with_label (_("Send HTML Mail?"));
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
-					e_destination_get_html_mail_pref (info->dest));
+					eab_destination_get_html_mail_pref (info->dest));
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (toggle_html_mail_cb),
 			  info);
@@ -232,25 +233,27 @@ populate_popup_card (GtkWidget *pop, gboolean list, PopupInfo *info)
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (pop), menuitem);
 #endif
 
-	if (card->email) {
+	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+
+	if (email_list) {
 		menuitem = gtk_separator_menu_item_new();
 		gtk_widget_show (menuitem);
 		gtk_menu_shell_prepend (GTK_MENU_SHELL (pop), menuitem);
 		
-		if (e_list_length (card->email) > 1) {
+		if (g_list_length (email_list) > 1) {
+			GList *l;
 			GSList *radiogroup = NULL;
-			gint n = e_destination_get_email_num (info->dest);
-			gint j = e_list_length (card->email) - 1;
+			gint n = eab_destination_get_email_num (info->dest);
+			gint j = g_list_length (email_list) - 1;
 
-			iterator = e_list_get_iterator (card->email);
-			for (e_iterator_last (iterator); e_iterator_is_valid (iterator); e_iterator_prev (iterator)) {
-				char *email = (char *)e_iterator_get (iterator);
+			for (l = g_list_last (email_list); l; l = l->prev) {
+				char *email = l->data;
 				char *label = NULL;
 
 				if (!strncmp (email, "<?xml", 5)) {
-					EDestination *dest = e_destination_import (email);
+					EABDestination *dest = eab_destination_import (email);
 					if (dest) {
-						label = g_strdup (e_destination_get_textrep (dest, TRUE));
+						label = g_strdup (eab_destination_get_textrep (dest, TRUE));
 						g_object_unref (dest);
 					}
 				}
@@ -280,13 +283,14 @@ populate_popup_card (GtkWidget *pop, gboolean list, PopupInfo *info)
 
 				g_free (label);
 			}
-
-			g_object_unref (iterator);
 		} else {
-			menuitem = gtk_menu_item_new_with_label (e_destination_get_email (info->dest));
+			menuitem = gtk_menu_item_new_with_label (eab_destination_get_email (info->dest));
 			gtk_widget_show (menuitem);
 			gtk_menu_shell_prepend (GTK_MENU_SHELL (pop), menuitem);
 		}
+
+		g_list_foreach (email_list, (GFunc)g_free, NULL);
+		g_list_free (email_list);
 	}
 
 	menuitem = gtk_separator_menu_item_new ();
@@ -297,7 +301,7 @@ populate_popup_card (GtkWidget *pop, gboolean list, PopupInfo *info)
 					 ? EVOLUTION_IMAGESDIR "/" LIST_ICON_FILENAME
 					 : EVOLUTION_IMAGESDIR "/" CONTACT_ICON_FILENAME);
 	gtk_widget_show (image);
-	menuitem = gtk_image_menu_item_new_with_label (e_destination_get_name (info->dest));
+	menuitem = gtk_image_menu_item_new_with_label (eab_destination_get_name (info->dest));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
 				       image);
 	gtk_widget_show (menuitem);
@@ -308,11 +312,11 @@ static void
 quick_add_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *info = (PopupInfo *) user_data;
-	e_contact_quick_add_free_form (e_destination_get_address (info->dest), NULL, NULL);
+	e_contact_quick_add_free_form (eab_destination_get_address (info->dest), NULL, NULL);
 }
 
 static void
-populate_popup_nocard (GtkWidget *pop, PopupInfo *info)
+populate_popup_nocontact (GtkWidget *pop, PopupInfo *info)
 {
 	const gchar *str;
 	GtkWidget *menuitem;
@@ -331,7 +335,7 @@ populate_popup_nocard (GtkWidget *pop, PopupInfo *info)
 #if TOO_MANY_MENU_ITEMS
 	menuitem = gtk_check_menu_item_new_with_label (_("Send HTML Mail?"));
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menuitem),
-					e_destination_get_html_mail_pref (info->dest));
+					eab_destination_get_html_mail_pref (info->dest));
 	g_signal_connect (menuitem, "toggled",
 			  G_CALLBACK (toggle_html_mail_cb),
 			  info);
@@ -343,9 +347,9 @@ populate_popup_nocard (GtkWidget *pop, PopupInfo *info)
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (pop), menuitem);
 
-	str = e_destination_get_name (info->dest);
+	str = eab_destination_get_name (info->dest);
 	if (! (str && *str))
-		str = e_destination_get_email (info->dest);
+		str = eab_destination_get_email (info->dest);
 	if (! (str && *str))
 		str = _("Unnamed Contact");
 
@@ -360,7 +364,7 @@ e_select_names_populate_popup (GtkWidget *menu, ESelectNamesTextModel *text_mode
 {
 	ESelectNamesModel *model;
 	PopupInfo *info;
-	EDestination *dest;
+	EABDestination *dest;
 	gint index;
 
 	g_return_if_fail (GTK_IS_MENU_SHELL (menu));
@@ -375,16 +379,16 @@ e_select_names_populate_popup (GtkWidget *menu, ESelectNamesTextModel *text_mode
 		return;
 
 	/* XXX yuck, why does this return a const? */
-	dest = (EDestination *)e_select_names_model_get_destination (model, index);
-	if (e_destination_is_empty (dest))
+	dest = (EABDestination *)e_select_names_model_get_destination (model, index);
+	if (eab_destination_is_empty (dest))
 		return;
 
 	info = popup_info_new (text_model, dest, pos, index);
 	
-	if (e_destination_contains_card (dest)) {
-		populate_popup_card (menu, e_destination_is_evolution_list (dest), info);
+	if (eab_destination_get_contact (dest)) {
+		populate_popup_contact (menu, eab_destination_is_evolution_list (dest), info);
 	} else {
-		populate_popup_nocard (menu, info);
+		populate_popup_nocontact (menu, info);
 	}
 
 	/* Clean up our info item after we've made our selection. */

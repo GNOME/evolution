@@ -37,17 +37,17 @@
 #include <libgnomeui/gnome-app.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <addressbook/backend/ebook/e-book.h>
-#include <addressbook/backend/ebook/e-book-util.h>
-#include <addressbook/backend/ebook/e-card.h>
+#include <addressbook/util/eab-book-util.h>
+#include <addressbook/backend/ebook/e-contact.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
-#include "e-card-merging.h"
+#include "eab-contact-merging.h"
 
 typedef struct _QuickAdd QuickAdd;
 struct _QuickAdd {
 	gchar *name;
 	gchar *email;
-	ECard *card;
+	EContact *contact;
 
 	EContactQuickAddCallback cb;
 	gpointer closure;
@@ -63,7 +63,7 @@ static QuickAdd *
 quick_add_new (void)
 {
 	QuickAdd *qa = g_new0 (QuickAdd, 1);
-	qa->card = e_card_new ("");
+	qa->contact = e_contact_new ();
 	qa->refs = 1;
 	return qa;
 }
@@ -84,7 +84,7 @@ quick_add_unref (QuickAdd *qa)
 		if (qa->refs == 0) {
 			g_free (qa->name);
 			g_free (qa->email);
-			g_object_unref (qa->card);
+			g_object_unref (qa->contact);
 			g_free (qa);
 		}
 	}
@@ -93,7 +93,8 @@ quick_add_unref (QuickAdd *qa)
 static void
 quick_add_set_name (QuickAdd *qa, const gchar *name)
 {
-	ECardName *card_name;
+#if notyet
+	EContactName *card_name;
 
 	if (name == qa->name)
 		return;
@@ -108,23 +109,19 @@ quick_add_set_name (QuickAdd *qa, const gchar *name)
 			NULL);
 
 	e_card_name_unref (card_name);
+#endif
 }
 
 static void
 quick_add_set_email (QuickAdd *qa, const gchar *email)
 {
-	ECardSimple *simple;
-
 	if (email == qa->email)
 		return;
 
 	g_free (qa->email);
 	qa->email = g_strdup (email);
 
-	simple = e_card_simple_new (qa->card);
-	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_EMAIL, email);
-	e_card_simple_sync_card (simple);
-	g_object_unref (simple);
+	e_contact_set (qa->contact, E_CONTACT_EMAIL_1, (char*)email);
 }
 
 static void
@@ -132,10 +129,10 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (status == E_BOOK_STATUS_SUCCESS) {
-		e_card_merging_book_add_card (book, qa->card, NULL, NULL);
+	if (status == E_BOOK_ERROR_OK) {
+		eab_merging_book_add_contact (book, qa->contact, NULL, NULL);
 		if (qa->cb)
-			qa->cb (qa->card, qa->closure);
+			qa->cb (qa->contact, qa->closure);
 		g_object_unref (book);
 	} else {
 		/* Something went wrong. */
@@ -149,14 +146,11 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-quick_add_merge_card (QuickAdd *qa)
+quick_add_merge_contact (QuickAdd *qa)
 {
-	EBook *book;
-
 	quick_add_ref (qa);
 
-	book = e_book_new ();
-	addressbook_load_default_book (book, merge_cb, qa);
+	addressbook_load_default_book (merge_cb, qa);
 }
 
 
@@ -165,14 +159,14 @@ quick_add_merge_card (QuickAdd *qa)
  */
 
 static void
-card_added_cb (EContactEditor *ce, EBookStatus status, ECard *card, gpointer closure)
+contact_added_cb (EContactEditor *ce, EBookStatus status, EContact *contact, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) g_object_get_data (G_OBJECT (ce), "quick_add");
 
 	if (qa) {
 
 		if (qa->cb)
-			qa->cb (qa->card, qa->closure);
+			qa->cb (qa->contact, qa->closure);
 	
 		/* We don't need to unref qa because we set_data_full below */
 		g_object_set_data (G_OBJECT (ce), "quick_add", NULL);
@@ -196,13 +190,13 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
-	if (status != E_BOOK_STATUS_SUCCESS) {
+	if (status != E_BOOK_ERROR_OK) {
 		if (book)
 			g_object_unref (book);
 		g_warning ("Couldn't open local address book.");
 		quick_add_unref (qa);
 	} else {
-		EContactEditor *contact_editor = e_contact_editor_new (book, qa->card, TRUE, TRUE /* XXX */);
+		EContactEditor *contact_editor = e_contact_editor_new (book, qa->contact, TRUE, TRUE /* XXX */);
 
 		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
 		g_object_set (contact_editor,
@@ -210,14 +204,14 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 				NULL);
 
 		/* We pass this via object data, so that we don't get a dangling pointer referenced if both
-		   the "card_added" and "editor_closed" get emitted.  (Which, based on a backtrace in bugzilla,
+		   the "contact_added" and "editor_closed" get emitted.  (Which, based on a backtrace in bugzilla,
 		   I think can happen and cause a crash. */
 		g_object_set_data_full (G_OBJECT (contact_editor), "quick_add", qa,
 					(GDestroyNotify) quick_add_unref);
 
 		g_signal_connect (contact_editor,
-				  "card_added",
-				  G_CALLBACK (card_added_cb),
+				  "contact_added",
+				  G_CALLBACK (contact_added_cb),
 				  NULL);
 		g_signal_connect (contact_editor,
 				  "editor_closed",
@@ -229,11 +223,9 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-edit_card (QuickAdd *qa)
+edit_contact (QuickAdd *qa)
 {
-	EBook *book;
-	book = e_book_new ();
-	addressbook_load_default_book (book, ce_have_book, qa);
+	addressbook_load_default_book (ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2
@@ -272,12 +264,12 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 	if (button == GTK_RESPONSE_OK) {
 
 		/* OK */
-		quick_add_merge_card (qa);
+		quick_add_merge_contact (qa);
 
 	} else if (button == QUICK_ADD_RESPONSE_EDIT_FULL) {
 		
 		/* EDIT FULL */
-		edit_card (qa);
+		edit_contact (qa);
 
 	} else {
 		/* CANCEL */

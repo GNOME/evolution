@@ -30,9 +30,8 @@
 
 #include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/widgets/e-addressbook-table-adapter.h>
-#include <addressbook/gui/component/e-cardlist-model.h>
-#include <addressbook/backend/ebook/e-book.h>
-#include <addressbook/backend/ebook/e-book-util.h>
+#include <addressbook/backend/ebook/e-book-async.h>
+#include <addressbook/util/eab-book-util.h>
 #include <addressbook/gui/component/addressbook-component.h>
 #include <addressbook/gui/component/addressbook-storage.h>
 #include <addressbook/gui/component/addressbook.h>
@@ -40,7 +39,7 @@
 #include <shell/evolution-folder-selector-button.h>
 
 #include "e-select-names.h"
-#include <addressbook/backend/ebook/e-card-simple.h>
+#include <addressbook/backend/ebook/e-contact.h>
 #include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-option-menu.h>
 #include <gal/e-text/e-entry.h>
@@ -113,7 +112,7 @@ GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *str
 GtkWidget *e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2);
 
 static void
-search_result (EAddressbookModel *model, EBookViewStatus status, ESelectNames *esn)
+search_result (EABModel *model, EBookViewStatus status, ESelectNames *esn)
 {
 	sync_table_and_models (NULL, esn);
 }
@@ -131,19 +130,15 @@ set_book(EBook *book, EBookStatus status, ESelectNames *esn)
 }
 
 static void
-addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model, const char *uri)
+addressbook_model_set_uri(ESelectNames *e_select_names, EABModel *model, const char *uri)
 {
 	EBook *book;
-	char *book_uri;
-
-	book_uri = e_book_expand_uri (uri);
 
 	/* If uri == the current uri, then we don't have to do anything */
-	book = e_addressbook_model_get_ebook (model);
+	book = eab_model_get_ebook (model);
 	if (book) {
 		const gchar *current_uri = e_book_get_uri (book);
-		if (current_uri && !strcmp (book_uri, current_uri)) {
-			g_free (book_uri);
+		if (current_uri && !strcmp (uri, current_uri)) {
 			return;
 		}
 	}
@@ -152,25 +147,28 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 
 	g_object_ref(e_select_names);
 	g_object_ref(model);
-	addressbook_load_uri(book, book_uri, (EBookCallback) set_book, e_select_names);
-
-	g_free (book_uri);
+	addressbook_load_uri(book, uri, (EBookCallback) set_book, e_select_names);
 }
 
 static void *
-card_key (ECard *card)
+contact_key (const EContact *contact)
 {
-	EBook *book;
+	EBook *book = NULL;
 	const gchar *book_uri;
 	
-	if (card == NULL)
+	if (contact == NULL)
 		return NULL;
 
-	g_assert (E_IS_CARD (card));
+	g_assert (E_IS_CONTACT (contact));
 
-	book = e_card_get_book (card);
+#if notyet
+	/* XXX we need a way to reproduce this here somehow.. or at
+	   least make sure we never collide between two contacts in
+	   different books. */
+	book = e_contact_get_book (contact);
+#endif
 	book_uri = book ? e_book_get_uri (book) : "NoBook";
-	return g_strdup_printf ("%s|%s", book_uri ? book_uri : "NoURI", e_card_get_id (card));
+	return g_strdup_printf ("%s|%s", book_uri ? book_uri : "NoURI", (char*)e_contact_get_const ((EContact*)contact, E_CONTACT_UID));
 }
 
 static void
@@ -180,14 +178,14 @@ sync_one_model (gpointer k, gpointer val, gpointer closure)
 	ESelectNamesChild *child = val;
 	ESelectNamesModel *model = child->source;
 	gint i, count;
-	ECard *card;
+	EContact *contact;
 	void *key;
 	
 	count = e_select_names_model_count (model);
 	for (i = 0; i < count; ++i) {
-		card = e_select_names_model_get_card (model, i);
-		if (card) {
-			key = card_key (card);
+		contact = e_select_names_model_get_contact (model, i);
+		if (contact) {
+			key = contact_key (contact);
 			e_table_without_hide (etw, key);
 			g_free (key);
 		}
@@ -206,21 +204,19 @@ real_add_address_cb (int model_row, gpointer closure)
 {
 	ESelectNamesChild *child = closure;
 	ESelectNames *names = child->names;
-	ECard *card;
-	EDestination *dest = e_destination_new ();
+	const EContact *contact;
+	EABDestination *dest = eab_destination_new ();
 	gint mapped_row;
 
 	mapped_row = e_table_subset_view_to_model_row (E_TABLE_SUBSET (names->without), model_row);
 
-	card = e_addressbook_model_get_card (E_ADDRESSBOOK_MODEL(names->model), mapped_row);
+	contact = eab_model_contact_at (EAB_MODEL(names->model), mapped_row);
 	
-	if (card != NULL) {
-		e_destination_set_card (dest, card, 0);
+	if (contact != NULL) {
+		eab_destination_set_contact (dest, (EContact*)contact, 0);
 
 		e_select_names_model_append (child->source, dest);
 		e_select_names_model_clean (child->source, FALSE);
-
-		g_object_unref(card);
 	}
 }
 
@@ -266,10 +262,9 @@ selection_change (ETable *table, ESelectNames *names)
 static void *
 esn_get_key_fn (ETableModel *source, int row, void *closure)
 {
-	EAddressbookModel *model = E_ADDRESSBOOK_MODEL (closure);
-	ECard *card = e_addressbook_model_get_card (model, row);
-	void *key = card_key (card);
-	g_object_unref (card);
+	EABModel *model = EAB_MODEL (closure);
+	const EContact *contact = eab_model_contact_at (model, row);
+	void *key = contact_key (contact);
 	return key;
 }
 
@@ -297,11 +292,11 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 {
 	ETableModel *adapter;
 	ETableModel *without;
-	EAddressbookModel *model;
+	EABModel *model;
 	GtkWidget *table;
 
-	model = e_addressbook_model_new ();
-	adapter = E_TABLE_MODEL (e_addressbook_table_adapter_new (model));
+	model = eab_model_new ();
+	adapter = E_TABLE_MODEL (eab_table_adapter_new (model));
 
 	g_object_set(model,
 		     "editable", FALSE,
@@ -340,7 +335,7 @@ folder_selected (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *
 {
 	addressbook_model_set_uri(e_select_names, e_select_names->model, folder->physicalUri);
 
-	e_config_listener_set_string (e_book_get_config_database(),
+	e_config_listener_set_string (eab_get_config_database(),
 				      "/apps/evolution/addressbook/select_names/last_used_uri", folder->physicalUri);
 }
 
@@ -392,7 +387,7 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 }
 
 static void
-status_message (EAddressbookModel *model, const gchar *message, ESelectNames *e_select_names)
+status_message (EABModel *model, const gchar *message, ESelectNames *e_select_names)
 {
 	if (message == NULL)
 		gtk_label_set_text (GTK_LABEL (e_select_names->status_message), "");
@@ -424,7 +419,7 @@ select_entry_changed (GtkWidget *widget, ESelectNames *e_select_names)
 			int model_row = e_table_view_to_model_row (table, i);
 			char *row_strcoll_string =
 				g_utf8_collate_key (e_table_model_value_at (e_select_names->without,
-									    E_CARD_SIMPLE_FIELD_NAME_OR_ORG,
+									    E_CONTACT_FULL_NAME,
 									    model_row),
 						    -1);
 			if (g_utf8_collate (select_strcoll_string, row_strcoll_string) <= 0) {
@@ -637,12 +632,14 @@ e_select_names_new (EvolutionShellClient *shell_client)
 
 	e_select_names = g_object_new (E_TYPE_SELECT_NAMES, NULL);
 
-	db = e_book_get_config_database ();
+	db = eab_get_config_database ();
 	contacts_uri = e_config_listener_get_string_with_default (
 		db, "/apps/evolution/addressbook/select_names/last_used_uri",
 		NULL, NULL);
+#if notyet
 	if (!contacts_uri)
 		contacts_uri = g_strdup (e_book_get_default_book_uri ());
+#endif
 
 	button = glade_xml_get_widget (e_select_names->gui, "folder-selector");
 	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),

@@ -1,8 +1,238 @@
-2003-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+2003-10-21  Rodrigo Moya <rodrigo@ximian.com>
 
-	* conduits/calendar/Makefile.am: Fixed for libical changes.
+	* gui/calendar-component.c (calendar_component_init): fixed
+	a leak caused by only freeing 'base_uri' in some cases.
+
+2003-10-21  JP Rosevear <jpr@ximian.com>
+
+	* gui/control-factory.c (get_prop): fix parse error
+	(set_prop): gnome_calendar_open was renamed
+
+	* conduits/todo/todo-conduit.c (start_calendar_server): adapt to
+	the cal_client_new changes and the lack of a default calendar
+	routine
+	(pre_sync): don't have to pass a type for the default object any
+	more
+
+	* conduits/calendar/calendar-conduit.c (start_calendar_server):
+	adapt to the cal_client_new changes and the lack of a default
+	calendar routine
+	(pre_sync): don't have to pass a type for the default object any
+	more
+
+	* cal-client/cal-client.c (cal_client_open_async): add FIXME
+	comment
+
+2003-10-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c: store recurrences per object.
+	(free_object): free correctly the CalBackendFileObject's
+	contained in 'priv->comp_uid_hash'.
+	(lookup_component, check_dup_uid, add_component, remove_component,
+	match_object_sexp):
+	adapted to changes in comp_uid_hash.
+	
+2003-10-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.[ch] (gnome_calendar_add_event_uri): renamed
+	from gnome_calendar_open.
+
+	* gui/calendar-component.c (load_uri_for_source): call
+	gnome_calendar_add_event_uri instead of setting the URI property on
+	the Bonobo control.
+
+2003-10-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/migration.c (process_calendar_dir): process subfolders.
+
+2003-10-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/migration.[ch] (migrate_old_calendars): new function.
+
+	* gui/calendar-component.c (calendar_component_init): call
+	the above function to migrate from old setups.
+
+	* gui/Makefile.am: added new files.
+
+2003-10-17  Jeffrey Stedfast <fejj@ximian.com>
+	
+	* conduits/calendar/Makefile.am: Fixed for libical build changes.
 
 	* conduits/todo/Makefile.am: Same.
+
+2003-10-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.c (on_print): call
+	e_cal_view_get_visible_time_range, not the gnome_calendar_
+	version.
+	(e_cal_view_new_appointment_for, e_cal_view_new_appointment,
+	e_cal_view_edit_appointment): new functions.
+
+	* gui/gnome-cal.[ch] (gnome_calendar_new_appointment_for,
+	gnome_calendar_new_appointment, gnome_calendar_edit_object):
+	removed these functions, now available in e-cal-view.
+
+	* gui/calendar-commands.c:
+	* gui/e-day-view.c:
+	* gui/e-week-view-event-item.c:
+	* gui/e-week-view.c: replaced calls to gnome_calendar_* with
+	e_cal_view_* equivalents.
+
+2003-10-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.[ch] (e_cal_view_get_default_category):
+	(e_cal_view_set_default_category): new functions.
+	(e_cal_view_destroy): free the default_category field.
+
+	* gui/e-day-view.[ch] (e_day_view_set_default_category):
+	removed obsolete function.
+	(e_day_view_init, e_day_view_destroy, e_day_view_do_key_press):
+	use the ECalView's default_category.
+
+	* gui/e-week-view.[ch] (e_week_view_set_default_category):
+	removed obsolete function.
+	(e_week_view_init, e_week_view_destroy, e_week_view_do_key_press):
+	use the ECalView's default_category.
+
+	* gui/gnome-cal.c (gnome_calendar_set_query): set the query
+	also on the list view by using the priv->views array.
+	(search_bar_category_changed_cb, gnome_calendar_set_default_client):
+	use the priv->views array.
+	(gnome_calendar_get_calendar_model): return the model for the
+	current view widget.
+	(gnome_calendar_open): removed tasks opening code.
+
+2003-10-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/new-calendar.c (new_calendar_dialog): if the user
+	presses Cancel, just terminate.
+
+2003-10-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (calendar_component_init): create
+	directories for the newly-created calendars.
+
+	* gui/dialogs/new-calendar.c (create_new_source_with_group): use
+	e_mkdir_hier instead of mkdir.
+
+2003-10-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-component.c (calendar_component_init): if no groups
+	are present in the configuration, create the "On This Computer"
+	group and the "Personal" and "Work" calendars on it.
+
+	* gui/dialogs/new-calendar.c (new_calendar_dialog): moved the
+	source creation...
+	(create_new_source_with_group): ...here, and made the code create
+	the directory for the new calendar.
+
+2003-10-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-select-names-editable.c (e_selct_names_editable_get_address):
+	EDestination -> EABDestination.
+
+	* gui/gnome-cal.c (setup_widgets): evolution_dir -> ".evolution".
+
+2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-select-names-editable.c (e_select_names_editable_get_address):
+	use EABDestination instead of EDestination.
+
+	* gui/gnome-cal.c (gnome_calendar_open): disabled tasks opening code.
+
+2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-meeting-list-view.c: adapted to new addressbook API.
+
+	* gui/e-meeting-store.c: adapted to new addressbook API.
+	(find_zone): fixed usage of icalcomponent where an icalproperty
+	is expected.
+	(refresh_busy_periods): fixed call to cal_client_get_free_busy().
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	added missing variable.
+	
+2003-10-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/dialogs/meeting-page.c: #include <gal/e-table/e-table.h>
+
+2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-meeting-list-view.c (start_addressbook_server):
+	updated to new addressbook API.
+	(book_open_cb): removed unneeded function, since we load
+	the local addressbook synchronously.
+
+2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/Makefile.am: added missing header directories.
+
+	* pcs/cal-factory.h: include <libical/ical.h>, not <ical.h>.
+
+	* gui/dialogs/meeting-page.c: added missing headers.
+	(meeting_page_construct): free 'backend_address' as returned
+	by cal_client_get_cal_address(). Removed code to create the
+	meeting model's ETable not removed with the merge.
+
+	* gui/e-meeting-list-view.c: updated addressbook headers.
+
+	* gui/gnome-cal.h: added missing ',' in the GnomeCalendarViewType
+	enum.
+	
+2003-10-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_update_query): dont set status
+	messages here, already set in e_cal_view_update_query.
+	(update_query): removed this function.
+	(e_day_view_recalc_day_starts): call e_day_view_update_query,
+	not update_query.
+
+	* gui/e-week-view.c (e_week_view_update_query): dont set status
+	messages here, already set in e_cal_view_update_query.
+
+	* gui/gnome-cal.c (adjust_query_for_view): new function to adjust
+	the query for the visible time range on a given view.
+	(gnome_calendar_set_query): call adjust_query_for_view for each
+	one of the views.
+
+2003-10-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.c (e_cal_view_init): connect to signals on the
+	model we create here, so that we get notifications for changes.
+
+	* gui/gnome-cal.c (gnome_calendar_set_query): set the query
+	on all models.
+	(gnome_calendar_open): update the date navigator query.
+
+2003-10-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal.c (cal_notify_timezone_requested): never send NULL
+	strings to ORBit.
+
+	* gui/e-cal-view.c (e_cal_view_create_popup_menu): removed
+	unneeded variables. Also, fixed a typo that was making the
+	menu options be disabled when they should be enabled.
+
+2003-10-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.[ch] (e_cal_model_get_client_for_uri): new function.
+
+	* gui/gnome-cal.[ch] (gnome_calendar_set_default_client): new function.
+
+	* gui/calendar-component.c (primary_source_selection_changed_callback):
+	set the default client on the calendar view to be the primary
+	selection on the source list.
+
+2003-10-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/new-calendar.c (new_calendar_dialog): set a default group
+	on the calendar group option menu and create the source if all checks
+	are passed.
+
+2003-10-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/new-calendar.c (new_calendar_dialog): set up widgets
+	loaded from the Glade file.
 
 2003-10-10  Hans Petter Jansson  <hpj@ximian.com>
 
@@ -43,6 +273,66 @@
 
 	* gui/e-cal-list-view.[ch]: Implement ECalListView, subclassing
 	ECalView.
+
+2003-10-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/dialogs/new-calendar.[ch]: added new widget, which implements
+	the dialog to create new calendars.
+
+	* gui/dialogs/new-calendar.glade: basic mockup of the dialog.
+
+	* gui/dialogs/Makefile.am: added new files.
+
+	* gui/calendar-commands.c (file_new_calendar_cb): open the new calendar
+	dialog to allow user to create a new cal.
+
+2003-10-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/control-factory.c (calendar_properties_init): pass the
+	BonoboControl to get_prop/set_prop.
+	(get_prop): obtain the GnomeCalendar from the control.
+	(set_prop): ditto, and when the URI property is changed,
+	sensitize the UI as approppriate.
+
+	* gui/calendar-commands.c (calendar_control_sensitize_calendar_commands):
+	made this function public.
+
+	* gui/calendar-commands.h: added new prototype.
+
+2003-10-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-commands.c (file_new_calendar_cb,
+	file_new_appointment_cb, file_new_event_cb, file_new_meeting_cb,
+	file_new_task_cb): callbacks for "New..." verbs.
+	(sensitize_calendar_commands): sensitize new verbs, and made it
+	sensitize correctly based on the set of clients currently loaded.
+	(sensitize_taskpad_commands): likewise.
+
+2003-10-09  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-cal-model.c (get_classification): Adapt to libical API changes.
+	(ecm_set_value_at): Break after each case, so we don't set the passed value
+	in more than one field.
+
+2003-10-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.c (e_cal_view_delete_selected_occurrence):
+	* cal-client/cal-client.c (cal_client_remove_object): added missing
+	argument when calling cal_client_remove_object_with_mod().
+
+2003-10-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: added missing 'rid' argument to the
+	removeObject method.
+
+	* cal-client/cal-client.c (cal_client_remove_object_with_mod):
+	* pcs/cal-backend.h:
+	* pcs/cal-backend.c (cal_backend_remove_object):
+	* pcs/cal-backend-sync.h:
+	* pcs/cal-backend-sync.c (cal_backend_sync_remove_object,
+	_cal_backend_remove_object):
+	* pcs/cal-backend-file.c (cal_backend_file_remove_object):
+	* pcs/cal.c (impl_cal_removeObject): adapted to changes in IDL.
 
 2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -90,6 +380,165 @@
 	* gui/dialogs/task-details-page.glade: Make percent-complete of
 	task details dialog numeric only.
 
+2003-10-08  Chris Toshok  <toshok@ximian.com>
+
+	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_construct):
+	EDestination => EABDestination, and e_destination =>
+	eab_destination.
+	(e_delegate_dialog_get_delegate): same.
+	(e_delegate_dialog_get_delegate_name): same.
+
+	* gui/dialogs/comp-editor-util.c: remove unnecessary #include of
+	e-destination.h.
+
+	* gui/dialogs/alarm-options.c (alarm_to_malarm_widgets):
+	EDestination => EABDestination, and e_destination =>
+	eab_destination.
+	(malarm_widgets_to_alarm): same.
+
+	* gui/e-meeting-model.c (book_open_cb): track change to error
+	return codes.
+	(start_addressbook_server): use
+	e_book_async_get_default_addressbook.
+	(contacts_cb): rename cursor_cb to this, as we no longer get
+	passed a cursur, and we don't need to check the email address
+	since the query is now "is" instead of "contains".
+	(refresh_busy_periods): use an "is" query, and use
+	e_book_async_get_contacts instead of getting a CardCursor.
+	(process_section): this takes an EABDestination** instead of a
+	SimpleCardList*, which is gone.
+	(select_names_ok_cb): get "destinations" instead of
+	"simple_card_list".
+
+2003-10-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_is_read_only): fixed
+	documentation comments.
+
+	* gui/calendar-commands.c (sensitize_calendar_commands): figure
+	out read-only menu items to disable based on the currently
+	selected object's CalClient.
+
+2003-10-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c: set better error m,essages on the
+	E_CALENDAR_CHECK_STATUS macro.
+	(cal_client_get_error_message): new function.
+
+	* cal-client/cal-client.h: added new prototype.
+
+	* gui/dialogs/comp-editor.c (save_comp): use the GError argument
+	for the cal_client_create/_modify_object calls, and display the
+	error message coming from the backend.
+
+	* gui/comp-util.c (cal_comp_is_on_server): likewise.
+
+2003-10-07  Dan Winship  <danw@ximian.com>
+
+	* idl/evolution-calendar.idl (getDefaultObject): Remove the "type"
+	arg; the backend knows what type it is
+
+	* pcs/cal.c (impl_Cal_getDefaultObject): Likewise
+
+	* pcs/cal-backend.c (cal_backend_get_default_object): Likewise
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_get_default_object,
+	_cal_backend_get_default_object): Likewise
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_default_object):
+	Likewise. (Use cal_backend_get_kind() instead.)
+
+	* cal-client/cal-client.c (cal_client_get_default_object):
+	Likewise
+
+	* gui/comp-util.c (cal_comp_event_new_with_defaults,
+	cal_comp_task_new_with_defaults): Update calls to
+	cal_client_get_default_object().
+
+	* pcs/cal-backend-sync.c (_cal_backend_get_static_capabilities):
+	Use the right cal notification
+
+2003-10-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_create_component_with_defaults):
+	dont clone NULL icalcomponent's.
+
+2003-10-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_get_default_client): make sure we
+	always return a default client, if possible, since we rely on having
+	a default client in many places.
+
+	* gui/e-day-view.c (e_day_view_do_key_press): dont create event if
+	e_cal_model_create_component_with_defaults returns NULL.
+
+	* gui/e-week-view.c (e_week_view_do_key_press): dont create event if
+	e_cal_model_create_component_with_defaults returns NULL.
+	
+2003-10-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_create_component_with_defaults):
+	make sure the component has always an UID.
+
+	* gui/e-day-view.c  (e_day_view_find_event_from_uid):
+	* gui/e-week-view.c (e_week_view_find_event_from_uid): check
+	pointers passed to strcmp().
+
+2003-10-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): added missing call to
+	cal_client_open().
+
+	* cal-client/cal-client.c (cal_client_new): fixed documentation
+	comments.
+	(cal_client_open): emit CAL_OPENED signal with appropriate status codes.
+	(open_sync): dont emit CAL_OPENED signal, it's already emitted in
+	cal_client_open().
+
+2003-10-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/comp-editor-factory.c (open_client):
+	* gui/gnome-cal.c (gnome_calendar_open, gnome_calendar_construct):
+	* gui/calendar-offline-handler.c (backend_go_offline, backend_go_online,
+	calendar_offline_handler_init): adapted to changes in cal_client and
+	manage GError's returned by cal_client_open.
+
+	* gui/e-itip-control.c: dont run anymore sub event loops.
+	(start_calendar_server): use synchronous interface for opening calendars.
+	(start_default_server): renamed it from *_async.
+	(start_calendar_server_cb): removed unneeded function.
+	(object_requested_cb): use sync interface.
+
+	* gui/e-tasks.c (e_tasks_construct): dont create the CalClient here.
+	(e_tasks_open): do it here, where we've got all the info needed.
+
+	* importers/icalendar-importer.c (update_single_object): killed warning.
+	(ical_importer_new, vcal_importer_new): don't create CalClient's here.
+	(load_file_fn): create them here.
+	(vcal_load_file_fn): and here.
+	(gnome_calendar_import_data_fn): fixed usage of cal_client_*.
+
+	* */*: integrated JP's changes for synchronous open's in cal_client
+	and one model per view instead of one model for all views.
+	
+2003-10-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_modify_object): return FALSE
+	if the icalcomponent is NULL.
+
+	* gui/e-day-view.c (e_day_view_finish_resize): commit sequence on
+	CalComponent after changing start/end dates.
+
+2003-10-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (process_component):
+	* gui/e-week-view.c (process_component): expand recurrences here.
+
+2003-09-30  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (match_recurrence_sexp): removed.
+	(match_object_sexp): dont expand recurrences here.
+
 2003-09-30  Mike Kestner <mkestner@ximian.com>
 
 	* cal-util/cal-util-marshal.list : new VOID:STRING,STRING,STRING
@@ -113,6 +562,519 @@
 
 	* conduits/calendar/Makefile.am: ditto	
 	
+2003-09-26  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal-backend.c (cal_backend_class_init): remove cal_added
+	signal
+
+2003-09-26  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal.h: add protos
+
+	* pcs/cal.c (cal_get_backend): accessor
+	(cal_get_listener): ditto
+
+	* pcs/cal-factory.c (impl_CalFactory_getCal): update to new
+	routine name
+
+	* pcs/cal-backend.h: add protos
+	
+	* pcs/cal-backend.c (cal_backend_init): init client mutex
+	(cal_backend_finalize): destroy client mutex
+	(cal_destroy_cb): just remove the client
+	(listener_died_cb): remove the client, the listener died so it
+	can't really do anything
+	(last_client_gone): signal the last client gone
+	(cal_backend_add_client): add a client with locking and listen for
+	the death of the listener
+	(cal_backend_remove_client): remove client
+
+2003-09-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-sync.c (_cal_backend_create_object): only free the
+	returned UID if it's not NULL.
+
+	* pcs/cal.c (cal_notify_object_created): dont send NULL strings to
+	ORBit code.
+
+2003-09-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/comp-util.c (cal_comp_is_on_server): free the icalcomponent
+	returned from cal_client_get_object, and return TRUE if we find
+	the component on the backend.
+
+	* gui/e-day-view.c (process_component):
+	* gui/e-week-view.c (process_component): added missing case, so that
+	we also display recurrent meetings starting before the time range and
+	ending after the time range.
+
+	* cal-client/cal-listener.c (impl_notifyReadOnly): pass the
+	'read_only' argument to the signal callback correctly (a gboolean
+	not a 'gboolean *').
+
+	* gui/comp-editor-factory.c (resolve_pending_requests): removed
+	the g_assert on 'oc->pending != NULL', since there are now cases
+	(local calendar) where we get to call this function (cal_opened_cb)
+	with no pending requests yet.
+
+2003-09-25  JP Rosevear <jpr@ximian.com>
+
+	* gui/calendar-commands.c (publish_freebusy_cmd): adapt to new
+	get_free_busy api
+
+	* conduits/calendar/calendar-conduit.c (post_sync): ditto
+	(pre_sync): ditto
+
+	* conduits/todo/todo-conduit.c (pre_sync): ditto
+	(post_sync): ditto
+
+	* gui/e-meeting-model.c (refresh_busy_periods): ditto
+
+	* gui/e-itip-control.c (send_freebusy): ditto
+
+	* gui/e-cal-view.c (on_publish): ditto
+
+	* cal-client/cal-listener.h: add signals
+
+	* cal-client/cal-listener.c (build_change_list): move here from
+	cal-client.c
+	(impl_notifyChanges): implement
+	(build_free_busy_list): util to create the GList of free busy
+	objects
+	(impl_notifyFreeBusy): implement
+	(cal_listener_class_init): set free busy and changes epv methods,
+	add signals
+
+	* cal-client/cal-client.h: update protos
+
+	* cal-client/cal-client.c (cal_get_changes_cb): get changes call
+	back
+	(cal_get_free_busy_cb): get free busy call back
+	(cal_client_init): listen for free busy and changes signals
+	(cal_client_get_changes): convert to new threaded sync api
+	(cal_client_get_free_busy): ditto
+
+	* pcs/cal.h: add protos
+
+	* pcs/cal.c: remove dead type conversion function
+	(impl_Cal_getChanges): implement by just calling, no return stuff
+	(impl_Cal_getFreeBusy): ditto
+	(cal_notify_changes): do getChanges callback
+	(cal_notify_free_busy): do getFreeBusy callback
+
+	* pcs/cal-backend.h: update protos, vmethods
+	
+	* pcs/cal-backend.c (cal_backend_get_free_busy): call through
+	(cal_backend_get_changes): ditto
+
+	* pcs/cal-backend-sync.h: add vmethods, protos
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_get_changes): call
+	through
+	(cal_backend_sync_get_free_busy): ditto
+	(_cal_backend_get_changes): backend implementation, notify
+	(_cal_backend_get_free_busy): ditto
+	(cal_backend_sync_class_init): set free busy and changes
+	implementations
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_free_busy): convert
+	to sync backend method
+	(cal_backend_file_compute_changes_foreach_key): remove from the
+	hash here
+	(cal_backend_file_compute_changes): no need to build the sequence
+	here
+	(cal_backend_file_get_changes): convert to sync backend method
+	(cal_backend_file_class_init): set sync backend methods for free
+	busy and changes
+
+	* idl/evolution-calendar.idl: convert getChanges and getFreeBusy
+	to new async api
+
+2003-09-25  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend.h: remove dead result enums
+
+	* pcs/cal-backend.c: fix comments
+
+	* idl/evolution-calendar.idl: remove dead exceptions
+
+2003-09-25  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal.c (cal_notify_default_object): send back the empty
+	string if the object is NULL
+	(cal_notify_object): ditto
+
+2003-09-25  JP Rosevear <jpr@ximian.com>
+
+	* gui/comp-editor-factory.c (edit_existing): convert to api
+	changes
+
+	* conduits/todo/todo-conduit.c (local_record_from_uid): ditto
+	(pre_sync): ditto
+
+	* conduits/calendar/calendar-conduit.c (local_record_from_uid):
+	ditto
+	(pre_sync): ditto
+
+	* importers/icalendar-importer.c (update_single_object): ditto
+
+	* gui/dialogs/comp-editor.c (obj_updated_cb): ditto
+
+	* gui/e-itip-control.c (get_real_item): ditto
+	(find_server): ditto
+
+	* gui/comp-util.c (cal_comp_is_on_server): ditto
+	(cal_comp_event_new_with_defaults): ditto
+	(cal_comp_task_new_with_defaults): ditto
+
+	* cal-client/cal-listener.h: add signals
+
+	* cal-client/cal-listener.c (impl_notifyDefaultObjectRequested):
+	implement
+	(impl_notifyObjectRequested): ditto
+	(cal_listener_class_init): set above epv implementations, add signals
+
+	* cal-client/cal-client.h: update protos
+
+	* cal-client/cal-client.c (cal_default_object_requested_cb): get
+	default object callback
+	(cal_object_requested_cb): get object callback
+	(cal_client_init): listen for get and get default object signals
+	(cal_client_get_default_object): convert to new sync api
+	(cal_client_get_object): ditto
+
+	* pcs/cal.h: add protos
+
+	* pcs/cal.c (impl_Cal_getDefaultObject): just call the backend, it
+	does the notification now
+	(impl_Cal_getObject): ditto
+	(cal_notify_default_object): do getDefaultObject response
+	(cal_notify_object): do getObject response
+
+	* pcs/cal-backend.h: remove vmethods, protos
+
+	* pcs/cal-backend.c: remove a couple of dead functions
+	(cal_backend_class_init): get_object_component is no longer a
+	vmethod
+	(cal_backend_get_default_object): call through
+	(cal_backend_get_object): ditto
+
+	* pcs/cal-backend-sync.h: add protos, vmethods
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_get_default_object):
+	call through
+	(cal_backend_sync_get_object): ditto
+	(_cal_backend_discard_alarm): pass correct params to
+	cal_notify_discard_alarm
+	(_cal_backend_get_default_object): call through and notify
+	(_cal_backend_get_object): ditto
+	(cal_backend_sync_class_init): set backend implementations
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_default_object):
+	convert to sync backend method
+	(cal_backend_file_get_object): ditto
+	(cal_backend_file_compute_changes_foreach_key): just look up the
+	component rather than using the backend vmethod
+	(cal_backend_file_remove_object): return valid sync status codes
+	(cal_backend_file_class_init): move get_object, get_default_object
+	to sync class
+
+	* idl/evolution-calendar.idl: convert getObject and
+	getDefaultObject to new async idl
+
+2003-09-25  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal.c (impl_Cal_discardAlarm): just call the backend
+	function, it does the notification
+	(cal_notify_alarm_discarded): notify of discard alarm call
+
+	* pcs/cal-backend.h: update proto
+
+	* pcs/cal-backend.c (cal_backend_discard_alarm): call through
+
+	* pcs/cal-backend-sync.h: add proto, vmethod
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_discard_alarm): call
+	through
+	(_cal_backend_discard_alarm): call through and notify
+	(cal_backend_sync_class_init): set discard alarm implementation
+
+	* pcs/cal-backend-file.c (cal_backend_file_discard_alarm): match
+	sync backend vmethod
+	(cal_backend_file_class_init): set alarm vmethod implementation
+
+	* idl/evolution-calendar.idl: switch discardAlarm to new api
+
+	* gui/alarm-notify/alarm-queue.c (remove_queued_alarm): match new
+	api
+
+	* cal-client/cal-listener.h: add signal
+
+	* cal-client/cal-listener.c (impl_notifyAlarmDiscarded): implement
+	(cal_listener_class_init): add alarm, send, receive epv functions,
+	alarm signal
+
+	* cal-client/cal-client.h: update proto
+
+	* cal-client/cal-client.c (cal_alarm_discarded_cb): discardAlarm
+	callback
+	(cal_client_init): listen to discard alarm signal
+	(cal_client_discard_alarm): implement with new threaded sync api
+
+2003-09-25  JP Rosevear <jpr@ximian.com>
+
+	* idl/evolution-calendar.idl: remove unused user exceptions
+
+2003-09-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-util.[ch] (cal_backend_util_fill_alarm_instances_seq):
+	removed unneeded function.
+
+2003-09-24  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/*/*.c: adjust to new timezone api calls
+
+	* gui/*.c: ditto
+
+	* gui/dialogs/*.c: ditto
+
+	* cal-client/cal-listener.h: add new signals
+
+	* cal-client/cal-listener.c (convert_status): convert invalid
+	object as well
+	(impl_notifyTimezoneRequested): implement
+	(impl_notifyDefaultTimezoneSet): ditto
+	(cal_listener_class_init): set epv implementations for timezone
+	functions
+	(cal_listener_class_init): create timezone response signals
+
+	* cal-client/cal-client.h: update protos
+
+	* cal-client/cal-client.c: fix return values all over the place
+	(cal_get_timezone_cb): getTimezone response
+	(cal_query_cb): setDefaultTimezone response
+	(cal_client_init): listen for new response signals
+	(cal_client_get_timezone): implement using new thread sync api
+	(cal_client_ensure_timezone_on_server): use add timezone call
+	(cal_client_set_default_timezone): oimplement using new thread sync
+	api
+
+	* cal-client/cal-client-types.h: add invalid object status code
+
+	* idl/evolution-calendar.idl: getQuery no longer raises any user
+	exceptions, remove dead types and exceptions
+
+2003-09-24  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal.h: new protos
+
+	* pcs/cal.c (impl_Cal_getTimezone): call backend implementation
+	(impl_Cal_addTimezone): ditto
+	(impl_Cal_setDefaultTimezone): ditto
+	(cal_class_init): set epv implementations of timezone functions
+	(cal_notify_timezone_requested): notify of get timezone response
+	(cal_notify_default_timezone_set): notify of default timezone
+	being set
+
+	* pcs/cal-backend.h: new vmethods, protos
+
+	* pcs/cal-backend.c (cal_backend_class_init): init new timezone
+	vmethods
+	(cal_backend_get_timezone): call through
+	(cal_backend_set_default_timezone): ditto
+	(cal_backend_add_timezone): ditto
+	(cal_backend_internal_get_default_timezone): ditto
+	(cal_backend_internal_get_timezone): ditto
+
+	* pcs/cal-backend-sync.h: add vmethods, protos
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_get_timezone): call
+	through
+	(cal_backend_sync_set_default_timezone): ditto
+	(_cal_backend_set_default_timezone): call through and notify
+	(_cal_backend_get_timezone): ditto
+	(cal_backend_sync_class_init): set backend implementations for new
+	funcs
+
+	* pcs/cal-backend-object-sexp.c (func_occur_in_time_range): get
+	time_t values based on the zone
+
+	* pcs/cal-backend-file.c: reorg so we don't have to prototype
+	everything
+	(cal_backend_file_get_timezone): implement the sync backend way
+	(cal_backend_file_add_timezone): ditto
+	(cal_backend_file_set_default_timezone): ditto
+	(cal_backend_file_internal_get_default_timezone): internal method,
+	for sexp comparison
+	(cal_backend_file_internal_get_timezone): ditto
+
+	* idl/evolution-calendar.idl: convert timezone routines to async
+	api
+
+2003-09-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-object-sexp.c (func_occur_in_time_range): dont expand
+	recurrences, since they are supposed to be expanded in the backends.
+	(instance_occur_cb, resolve_tzid): removed unneeded functions.
+
+	* pcs/cal-backend-file.c (cal_backend_file_add_timezone): guard against
+	adding the timezone if it's already there.
+
+2003-09-23  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal.c (cal_notify_object_created): notify with the object,
+	not the uid
+
+	* gui/e-cal-model.c (add_new_client): don't listen for
+	non-existent signal
+
+2003-09-23  JP Rosevear <jpr@ximian.com>
+
+	* cal-client/cal-client.h: remove dead proto
+
+2003-09-23  JP Rosevear <jpr@ximian.com>
+
+	* cal-client/cal-client.h: remove send result enum
+
+	* gui/itip-utils.c (comp_server_send): use the new send_objects
+	routine
+
+2003-09-23  JP Rosevear <jpr@ximian.com>
+
+	* cal-client/cal-client.h: remove send result enum
+
+2003-09-23  JP Rosevear <jpr@ximian.com>
+
+	* cal-client/cal-client.h: remove enum, protos
+
+	* cal-client/cal-client.c: remove remove status enum typing
+
+2003-09-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/icalendar-importer.c (update_objects): new function
+	to manage the update of components, taking into account
+	VTIMEZONE components.
+	(process_item_fn, gnome_calendar_import_data_fn): use
+	update_objects instead of cal_client_update_objects.
+
+2003-09-23  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal.h: update proto
+
+	* pcs/cal.c (impl_Cal_addTimezone): just call add_timezone, it
+	does the notification
+	(cal_notify_object_created): only notify the query if the object
+	matches
+	(cal_notify_object_removed): ditto
+
+	* pcs/cal-backend.h: update proto, vmethod
+
+	* pcs/cal-backend.c (cal_backend_add_timezone): returns void
+
+	* pcs/cal-backend-sync.h: update proto, vmethod
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_remove_object): add the
+	object as an out param
+	(_cal_backend_remove_object): get the object and pass it in the
+	notification
+
+	* pcs/cal-backend-file.c (cal_backend_file_create_object): kill
+	cal_backend_file_update_objects call, its more efficient to create
+	the comp ourselves; stamp the creation time, add the component to
+	the toplevel
+	(cal_backend_file_modify_object): kill the
+	cal_backend_file_update_objects call, add the component to the
+	toplevel
+	(cal_backend_file_remove_object): pass back the object when
+	removing
+
+2003-09-23  JP Rosevear  <jpr@ximian.com>
+
+	* cal-client/cal-query.c (cal_query_finalize): disconnect the
+	signal handlers
+
+	* cal-client/cal-client.c (cal_client_get_query): unref the
+	listener when done
+
+2003-09-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.c (selection_received): add VTIMEZONE components
+	contained in the clipboard data to the backend.
+
+2003-09-22  JP Rosevear <jpr@ximian.com>
+
+	* gui/dialogs/comp-editor.c (save_comp): modify and create instead
+	of update, simplify mod code
+
+2003-09-22  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_finish_long_event_resize): modify
+	the object instead of update, simplify the instance handling
+	(e_day_view_finish_resize): ditto
+	(e_day_view_on_top_canvas_drag_data_received): ditto
+	(e_day_view_on_main_canvas_drag_data_received): ditto
+
+2003-09-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_get_alarms_in_range): use
+	'has-alarms' function in the search expression.
+
+	* pcs/cal-backend-object-sexp.c (func_has_alarms): new SExp function.
+
+2003-09-22  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): create the
+	object if its not on the server or modify it if it is
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): we return if
+	there is no text and it *not* on the server
+
+2003-09-22  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): create the
+	object if its not on the server or modify it if it is
+
+2003-09-22  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.h: remove proto
+
+	* gui/gnome-cal.c: remove gnome_calendar_unrecur_selection
+
+	* gui/e-week-view.h: remove proto
+
+	* gui/e-week-view.c: remove e_week_view_unrecur_appointment
+
+	* gui/e-day-view.h: remove proto
+
+	* gui/e-day-view.c: remove e_day_view_unrecur_appointment
+
+	* gui/e-cal-view.c: remove on_unrecur_appointment (this is handled
+	better via recurrence id's now)
+
+2003-09-22  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-itip-control.c (update_attendee_status): ifdef out, leave
+	temporarily for reference, but otherwise it shouldn't be needed
+	(update_item): switch to using receive objects
+	(ok_clicked_cb): update item when receiving a reply
+
+	* gui/e-calendar-table.c (selection_received): switch to using
+	create object from update_objects
+
+	* gui/e-cal-view.c (selection_received_add_event): util routine to
+	prevent duplication
+	(selection_received): use above
+
+	* gui/e-cal-model.c (ecm_set_value_at): switch to using modify
+	object from update_objects
+	(ecm_append_row): switch to using create object from
+	update_objects
+
+	* gui/e-cal-model-calendar.c (ecmc_set_value_at): switch to using
+	modify object from update_objects
+
+	* gui/e-cal-model-tasks.c (ecmt_set_value_at): ditto
+
 2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* cal-util/Makefile.am (libical_util_la_LIBADD):
@@ -121,9 +1083,176 @@
 	* importers/Makefile.am (libevolution_calendar_importers_la_LIBADD):
 	libicalvcal.la -> libicalvcal-evolution.la
 
+	
+2003-09-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: removed getAlarmsInRange and
+	getAlarmsForObject methods.
+
+	* pcs/cal.c (impl_Cal_getAlarmsInRange, impl_Cal_getAlarmsForObject):
+	removed unneeded CORBA methods.
+	(cal_class_init): dont set removed methods in the epv.
+
+	* pcs/cal-backend.[ch]: removed get_alarms_in_range and
+	get_alarms_for_object virtual methods.
+	(cal_backend_get_alarms_in_range, cal_backend_get_alarms_for_object):
+	removed.
+	(cal_backend_class_init): dont set removed virtual methods.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_alarms_in_range,
+	cal_backend_file_get_alarms_for_object): removed.
+	(cal_backend_file_class_init): dont set removed virtual methods.
+
+2003-09-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_get_alarms_in_range): changed
+	to use queries.
+	(build_component_alarms_list): create the alarm list from a list
+	of iCalendar strings.
+	(build_alarm_instance_list): removed.
+	(cal_client_get_alarms_for_object): dont call the CORBA methods,
+	just get alarms by itself.
+
+2003-09-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-listener.[ch]: added "add_timezone" signal.
+	(impl_notifyTimezoneAdded): implemented new CalListener method.
+	(cal_listener_class_init): create "add_timezone" signal for the class.
+
+	* cal-client/cal-client.[ch] (cal_client_add_timezone): new function.
+	(cal_client_init): connect to "add_timezone" signal on the
+	CalListener.
+	(cal_add_timezone_cb): callback for the "add_timezone" signal.
+
+2003-09-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: added 'notifyTimezoneAdded' method
+	to the Calendar::Listener interface.
+
+	* pcs/cal-backend-sync.[ch] (cal_backend_sync_add_timezone):
+	(_cal_backend_add_timezone): new functions for the new virtual
+	method implementation.
+
+	* pcs/cal.[ch] (cal_notify_timezone_added): new function.
+
+	* pcs/cal-backend-file.c (cal_backend_add_timezone): converted to
+	return a CalBackendSyncStatus.
+	(cal_backend_file_class_init): the 'add_timezone' method we implement
+	is the one in the CalBackendSync class.
+	(cancel_receive_object): added missing 'return'.
+	(free_cal_component): removed unused function.
+
+2003-09-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_add_timezone): added new
+	virtual method implementation.
+
+	* pcs/cal.c (impl_Cal_addTimezone): check return value from
+	cal_backend_add_timezone, and set an exception if an error is
+	returned.
+
+2003-09-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: added addTimezone method.
+
+	* pcs/cal.c (impl_Cal_addTimezone): implemented new method.
+	(cal_class_init): set new method on the epv.
+
+	* pcs/cal-backend.[ch]: added 'add_timezone' virtual method.
+	(cal_backend_add_timezone): implemented new virtual method.
+
+	* pcs/cal-backend-file.c (cal_backend_file_modify_object): it's
+	cal_component_get_as_string, not cal_component_as_string.
+
+	* cal-client/cal-client.c (cal_client_ensure_timezone_on_server):
+	dont use anymore updateObjects method, use addTimezone instead.
+	
 2003-09-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* conduits/todo/Makefile.am: removed libwombat reference.
+
+2003-09-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_create_object): return
+	the UID of the added object.
+	(cal_backend_file_remove_object): ditto for old_object.
+
+2003-09-15  JP Rosevear <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (replace_record): switch to modify
+	object
+	(add_record): switch to using create object
+
+	* conduits/calendar/calendar-conduit.c (process_multi_day): switch
+	to using create object
+	(add_record): switch to using create object
+	(replace_record): switch to modify object
+
+	* cal-client/cal-listener.h: add signals
+
+	* cal-client/cal-listener.c (impl_notifyObjectsReceived):
+	implement listener method
+	(build_object_list): ditto
+	(cal_listener_class_init): create receive_objects and send_objects
+	signals
+
+	* cal-client/cal-client.h: add, update protos
+
+	* cal-client/cal-client.c (cal_objects_received_cb):
+	receive_objects callback
+	(cal_objects_sent_cb): send_objects callback
+	(cal_client_init): listen for above signals
+	(cal_client_create_object): pass back uid
+	(cal_client_receive_objects): implement
+	(cal_client_send_objects): ditto
+
+	* idl/evolution-calendar.idl: add receive/send objects methods and
+	yank updateObjects
+
+	* pcs/cal.h: add protos
+
+	* pcs/cal.c (impl_Cal_receiveObjects): implement
+	(impl_Cal_sendObjects): ditto
+	(cal_class_init): add epv methods
+	(cal_notify_objects_received): notify of objects received call,
+	updating queries
+	(cal_notify_objects_sent): notify of objects sent
+
+	* pcs/cal-backend.h: remove proto
+
+	* pcs/cal-backend.c (cal_backend_class_init): remove obj_updated
+	signal
+	(cal_backend_class_init): init vmethods properly
+	(cal_backend_receive_objects): call through
+	(cal_backend_send_objects): ditto
+
+	* pcs/cal-backend-sync.h: add protos, vmethods
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_receive_objects): call
+	through
+	(cal_backend_sync_send_objects): ditto
+	(_cal_backend_receive_objects): call backend method and notify
+	(_cal_backend_send_objects): ditto
+	(cal_backend_sync_class_init): override send/receive object
+	vmethods
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): set
+	remove/send objects sync vmethods
+	(cal_backend_file_create_object): remove call to dead method
+	(cal_backend_file_remove_object): ditto
+	(cal_backend_file_modify_object): ditto
+	(cancel_received_object): cancel an object
+	(check_tzids): check we have all the tzid's for the object
+	(cal_backend_file_receive_objects): receive a bunch of objects via
+	itip
+	(cal_backend_file_send_objects): skeleton implementation
+
+2003-09-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: added InvalidObject CallStatus.
+
+	* pcs/cal-backend-file.c (cal_backend_file_create_object): implemented.
+	(cal_backend_file_modify_object): implemented.
 
 2003-09-15  Harry Lu  <harry.lu@sun.com>
 
@@ -136,6 +1265,219 @@
 	 (e_week_view_on_jump_button_event): key_press and focus event for jump button
 	 (e_week_view_jump_to_button_item): new function, jump to the day view.
 	 (e_week_view_is_jump_button_visible): new function.
+
+	
+2003-09-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal.c (cal_notify_cal_address, cal_notify_alarm_email_address,
+	cal_notify_ldap_attribute, cal_notify_static_capability):
+	make sure we always notify listeners, regardless of whether the
+	string is empty or not.
+
+	* cal-client/cal-client.c (check_capability): guard against using
+	NULL strings with strstr.
+
+2003-09-12  JP Rosevear <jpr@ximian.com>
+
+	* cal-client/client-test.c (cal_opened_cb): listen for other query
+	signals
+
+	* cal-client/cal-listener.h: add signals
+
+	* cal-client/cal-listener.c (impl_notifyObjectCreated): implement
+	(impl_notifyObjectModified): implement
+	(cal_listener_class_init): assign epv implementations
+	(cal_listener_class_init): add create/modify object signals
+
+	* cal-client/cal-client.h: add protos
+
+	* cal-client/cal-client.c (cal_object_created_cb): object created
+	callback
+	(cal_object_modified_cb): object modified callback
+	(cal_client_init): listen for create/modify object signals from
+	the listener
+	(cal_client_create_object): call the create object method
+	(cal_client_modify_object): call the modify object method
+
+	* cal-client/client-test.c (cal_opened_cb): listen for all the
+	query signals, tidy
+
+2003-09-12  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal.c (impl_Cal_createObject): implement
+	(impl_Cal_modifyObject): ditto
+	(cal_class_init): set epv methods for create/modify
+
+	* pcs/cal-backend.h: add protos, vmethod
+
+	* pcs/cal-backend.c (cal_backend_class_init): init new vmethods
+	(cal_backend_create_object): call through
+	(cal_backend_modify_object): ditto
+
+	* pcs/cal-backend-sync.h: add protos, vmethods
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_create_object): call
+	through
+	(cal_backend_sync_modify_object): ditto
+	(_cal_backend_create_object): create object and notify
+	(_cal_backend_modify_object): modify object and notify
+
+	* pcs/cal-backend-file.c (cal_backend_file_create_object):
+	skeleton routine for creating objects
+	(cal_backend_file_modify_object): ditto for modifying
+
+	* idl/evolution-calendar.idl: add createObject and modifyObject
+	calls
+
+2003-09-12  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal.c (cal_notify_object_removed): its uid, not uids
+
+2003-09-12  JP Rosevear <jpr@ximian.com>
+
+	* pcs/query.h: add protos
+
+	* pcs/query.c (query_object_matches): use the sexp to check for a
+	match
+	(query_notify_objects_added_1): notify of one object added to
+	query
+	(query_notify_objects_modified_1): ditto for modification
+	(query_notify_objects_removed_1): ditto for removal
+
+	* pcs/cal.h: add protos
+
+	* pcs/cal.c (cal_notify_object_created): notify of object creation
+	(cal_notify_object_modified): notify of object modification
+	(cal_notify_object_removed): use the _1 routines
+
+	* pcs/cal-backend-file.c (match_recurrence_sexp): this returns a
+	boolean
+	(cal_backend_file_update_objects): don't signal removals here now
+
+	* idl/evolution-calendar.idl: add object created and modified
+	responses
+
+	
+2003-09-11  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal.h: update proto
+
+	* pcs/cal.c (cal_notify_object_removed): notify relevant queries
+	of removal
+
+	* pcs/cal-backend.c (cal_backend_get_queries): ref the list before
+	passing it back
+
+	* pcs/cal-backend-sync.c (_cal_backend_remove_object): pass uid to
+	notification
+
+2003-09-11  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal-backend-file.c (match_recurrence_sexp): don't unref the
+	component
+
+	* cal-client/client-test.c (cal_opened_cb): listen to objects
+	added signal
+	(objects_added_cb): print the object uid
+	
+2003-09-11  JP Rosevear <jpr@ximian.com>
+
+	* pcs/cal-backend-object-sexp.c (cal_backend_object_sexp_text):
+	return the base text
+
+2003-09-11  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (update_query): fix c/p typo
+
+2003-09-11  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (update_query): start the query
+
+	* gui/e-cal-model.c (update_query_for_client): ditto
+
+	* cal-client/client-test.c (cal_opened_cb): ditto
+	
+2003-09-11  JP Rosevear <jpr@ximian.com>
+
+	* cal-client/cal-query.h: add proto
+
+	* cal-client/cal-query.c (cal_query_start): start the query
+
+2003-09-11  JP Rosevear <jpr@ximian.com>
+
+	* gui/dialogs/delete-error.c (delete_error_dialog): accept GError
+	and base error messages on that
+
+	* gui/dialogs/delete-error.h: update proto
+
+	* gui/e-tasks.c (e_tasks_delete_completed): pass extra param to
+	cal_client_remove_object
+
+	* conduits/todo/todo-conduit.c (delete_record): ditto
+
+	* conduits/calendar/calendar-conduit.c (process_multi_day): ditto
+	(delete_record): ditto
+	
+	* gui/gnome-cal.c (gnome_calendar_purge): ditto
+
+	* gui/dialogs/comp-editor.c (delete_comp): ditto
+	
+	* gui/e-cal-view.c (e_cal_view_cut_clipboard): pass the error to
+	delete_error_dialog
+	(delete_event): ditto
+	(e_cal_view_delete_selected_occurrence): ditto
+	
+	* gui/e-itip-control.c (remove_item): ditto
+
+	* gui/e-calendar-table.c (delete_selected_components): ditto
+
+	* cal-client/cal-listener.h: add signal
+
+	* cal-client/cal-listener.c (impl_notifyObjectRemoved): implement
+	(cal_listener_class_init): set object removed implementation and
+	create signal
+
+	* cal-client/cal-client.h: update protos
+
+	* cal-client/cal-client.c (cal_object_removed_cb): object removal
+	callback
+	(cal_client_init): listen for object removal signal
+	(cal_client_remove_object_with_mod): make call synchronous
+	(cal_client_remove_object): pass new params
+
+	* pcs/cal.h: add proto
+
+	* pcs/cal.c (impl_Cal_removeObject): just call the backend
+	function
+	(cal_notify_object_removed): notify of removal
+
+	* pcs/cal-backend.h: remove and update protos, remove signal
+
+	* pcs/cal-backend.c (cal_backend_class_init): kill obj_removed
+	signal
+	(cal_backend_remove_object): there is no return value now
+
+	* pcs/cal-backend-sync.h: add vmethod, proto
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_remove_object): call
+	through
+	(_cal_backend_remove_object): remove the object and then do the
+	notification
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): remove
+	object is not part of the sync class
+	(cal_backend_file_update_objects): there is no more removed signal
+	(cal_backend_file_remove_object): return sync status codes
+
+	* idl/evolution-calendar.idl: make removeObject oneway and and a
+	notification method in the listener
+
+2003-09-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query.[ch] (query_get_text): new function.
+	(query_get_object_sexp): new function.
+
+	* pcs/cal-backend-file.c (cal_backend_file_start_query): implemented.
 
 2003-09-11  Hans Petter Jansson  <hpj@ximian.com>
 
@@ -193,12 +1535,279 @@
 	Statically link with wombat. Fix ETodo conduit.
 	(Mdk bug #5348)
 
-2003-09-01  Andrew Wu <Yang.Wu@sun.com>
-       * gui/e-day-view.c:
-       (e_day_view_change_event_end_time_up):
-       (e_day_view_change_event_end_time_down):
-       Use "ctrl+shift+alt+Up/Down" to change the end time of the editing event.
+	
+2003-09-10  JP Rosevear  <jpr@ximian.com>
 
+	* pcs/cal.h: update proto
+
+	* pcs/cal.c (impl_Cal_getObjectList): just call the backend, it
+	will do the notification now
+	(cal_notify_object_list): the list is a list of strings
+
+	* pcs/cal-backend.h: update vmethod, proto
+
+	* pcs/cal-backend.c (cal_backend_get_object_list): call through
+
+	* pcs/cal-backend-sync.h: add proto, vmethod
+
+	* pcs/cal-backend-sync.c (cal_backend_sync_get_object_list): call
+	through
+	(_cal_backend_get_object_list): get the list of objects from the
+	sync backend and do the notification
+	(cal_backend_sync_class_init): set vmethod implementation
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): the get
+	object list call is now part of the sync backend
+	(cal_backend_file_get_object_list): return a status and put the
+	object list in the passed in param
+
+2003-09-10  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend.c (cal_backend_finalize): unref the elist
+	(cal_backend_init): init the query elist
+
+2003-09-10  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (dn_query_objects_added_cb): match new query
+	signals - just tag here
+	(dn_query_objects_modified_cb): always retag
+	(dn_query_objects_removed_cb): ditto
+	(update_query): connect to new signals
+	(gnome_calendar_destroy): we don't keep a list of expunging
+	queries
+	(gnome_calendar_purge): no need to do the
+	expunge async, just get the object list immediately
+
+	* gui/e-tasks.c (e_tasks_delete_completed): no need to do the
+	expunge async, just get the object list immediately
+
+	* gui/e-cal-model.c (query_objects_added_cb): callback for objects
+	added to the query
+	(query_objects_modified_cb): ditto for modifications
+	(query_objects_removed_cb): ditto for removed
+	(query_progress_cb): progress of the query
+	(query_done_cb): query is done
+	(update_query_for_client): connect to the new signals
+
+	* cal-client/client-test.c (cal_opened_cb): run a query
+
+	* cal-client/cal-query.c: we are given the listener now - listen
+	for signals from the listener and emit signals matching the api
+	changes
+
+	* cal-client/query-listener.[hc]: rewrite to match new query
+	listener methods and emit signals rather than using function
+	callbacks
+
+	* cal-client/cal-marshal.list: add to marshallers
+
+	* cal-client/cal-listener.h: add query signal
+
+	* cal-client/cal-listener.c (impl_notifyQuery): implement
+	(cal_listener_class_init): set notifyQuery method
+	(cal_listener_class_init): add query signal
+
+	* cal-client/cal-client.h: update protos
+
+	* cal-client/cal-client.c (cal_query_cb): handle response to
+	getQuery
+	(cal_client_init): listen for query signal
+	(cal_client_get_query): get a query from the calendar
+
+	* pcs/query.h: update protos
+
+	* pcs/query.c: rewrite to implement the query start method and
+	provide notification calls
+
+	* pcs/cal.h: add proto
+
+	* pcs/cal.c (impl_Cal_getQuery): re-implement so the backend
+	doesn't create the query for us
+	(cal_notify_query): respond with the query
+
+	* pcs/cal-factory.c: re-order includes
+
+	* pcs/cal-common.h: add types
+
+	* pcs/cal-backend.h: update protos, vmethods
+
+	* pcs/cal-backend.c (cal_backend_class_init): init start_query
+	vmethod
+	(cal_backend_finalize): free mutex
+	(cal_backend_start_query): call through
+	(cal_backend_add_query): add a query to the list the backend is
+	running
+	(cal_backend_get_queries): get the query list
+
+	* pcs/cal-backend-object-sexp.h: add proto
+
+	* pcs/cal-backend-file.c (cal_backend_file_start_query): skeleton
+	for new backend implementation
+
+	* pcs/Makefile.am: don't build dead files
+
+	* idl/evolution-calendar.idl: make the getQuery call async, make
+	the query listener calls oneway and match the addressbook
+
+2003-09-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_object_component):
+	added case for getting the individual recurrences if 'rid' is
+	not NULL,
+
+2003-09-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (match_object_sexp): expand recurrences
+	for recurrent objects.
+	(match_recurrence_sexp): add the recurrences that match the query
+	expression to the object list.
+
+2003-09-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c: don't store all recurrences in the
+	private structure.
+	
+2003-09-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (process_component):
+	* gui/e-week-view.c (process_component): dont expand recurrences,
+	since they are now expanded by the backends.
+
+2003-09-02  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-control.c (sensitize_commands): adapt to cal-client
+	threaded sync api changes
+
+	* gui/itip-utils.c (itip_organizer_is_user): ditto
+
+	* gui/gnome-cal.c (gnome_calendar_purge): ditto
+
+	* gui/e-meeting-model.c (process_section): ditto
+
+	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): ditto
+
+	* gui/e-cal-view.c (e_cal_view_create_popup_menu): ditto
+
+	* gui/calendar-commands.c (sensitize_calendar_commands): ditto
+	(sensitize_taskpad_commands): ditto
+
+	* gui/dialogs/task-editor.c (set_menu_sens): ditto
+
+	* gui/dialogs/meeting-page.c (meeting_page_construct): ditto
+
+	* gui/dialogs/event-editor.c (set_menu_sens): ditto
+
+	* gui/dialogs/alarm-page.c (add_clicked_cb): ditto
+
+	* conduits/calendar/calendar-conduit.c (pre_sync): convert to
+	cal_client api changes
+
+	* conduits/todo/todo-conduit.c (pre_sync): ditto
+	
+	* cal-client/client-test.c (list_uids): match new error handling
+
+	* cal-client/cal-marshal.list: marshallers
+
+	* cal-client/cal-listener.[hc]: emit signals for corba listener
+	callbacks - start with is_read_only, get_static_capabilities,
+	get_cal_address, get_ldap_attribute, open, remove and object_list
+
+	* cal-client/cal-client.h: move the status enum away from here,
+	update protos to new thread sync api standard
+
+	* cal-client/cal-client.c: the listener emits signals instead of
+	using callback functions now and we return booleans + GError in
+	outs for results
+	(e_calendar_error_quark): for GError handling
+	(cal_read_only_cb): handle listener op callback
+	(cal_cal_address_cb): ditto
+	(cal_alarm_address_cb): ditto
+	(cal_ldap_attribute_cb): ditto
+	(cal_static_capabilities_cb): ditto
+	(cal_opened_cb): ditto
+	(cal_removed_cb): ditto
+	(cal_object_list_cb): ditto
+
+	* cal-client/cal-client-types.h: add GError stuff
+
+	* cal-client/Makefile.am: build glib marshal stuff
+
+	* pcs/query.c (backend_opened_cb): comment out some break
+	temporarily
+
+	* pcs/cal.h: add protos
+
+	* pcs/cal.c (impl_Cal_open): just call the backend method, it will
+	handle the notification
+	(impl_Cal_remove): ditto
+	(impl_Cal_isReadOnly): ditto
+	(impl_Cal_getCalAddress): ditto
+	(impl_Cal_getAlarmEmailAddress): ditto
+	(impl_Cal_getLdapAttribute): ditto
+	(impl_Cal_getStaticCapabilities): ditto
+	(impl_Cal_getObjectList): simplify
+	(cal_new): set poa to be threaded
+	(cal_notify_read_only): notification utils
+	(cal_notify_cal_address): ditto
+	(cal_notify_alarm_email_address): ditto
+	(cal_notify_ldap_attribute): ditto
+	(cal_notify_static_capabilities): ditto
+	(cal_notify_open): ditto
+	(cal_notify_remove): ditto
+	(cal_notify_object_list): ditto
+
+	* pcs/cal-factory.c (impl_CalFactory_getCal): dup the key and the
+	object
+	(cal_factory_new): set poa to be threaded
+
+	* pcs/cal-backend.h: update vmethods and protos
+
+	* pcs/cal-backend.c (cal_backend_get_cal_address): we no longer
+	return anything - the callee is responsible for notification
+	(cal_backend_get_alarm_email_address): ditto
+	(cal_backend_get_ldap_attribute): ditto
+	(cal_backend_get_static_capabilities): ditto
+	(cal_backend_open): ditto
+	(cal_backend_remove): ditto
+
+	* pcs/cal-backend-file.h: update inheritance
+
+	* pcs/cal-backend-file.c: inherit from CalBackendSync and make
+	is_read_only, get_static_capabilities, get_cal_address, get_ldap_attribute, open and
+	remove match
+
+	* pcs/Makefile.am: build new files
+
+2003-09-02 JP Rosevear  <jpr@ximian.com>
+
+	* idl/evolution-calendar.idl: make all listener callbacks one ways
+
+2003-09-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (match_recurrence_sexp, match_object_sexp):
+	new callbacks for g_hash_table_foreach in get_object_list.
+	(cal_backend_file_get_object_list): don't use the priv->comp list
+	to check the components, use the hash table, which contains all
+	the recurrences already expanded.
+	(add_component): only expand recurrences for recurrent components.
+
+2003-09-01  Andrew Wu <Yang.Wu@sun.com>
+
+	* gui/e-day-view.c:
+	(e_day_view_change_event_end_time_up):
+	(e_day_view_change_event_end_time_down): Use
+	"ctrl+shift+alt+Up/Down" to change the end time of the editing
+	event.
+
+2003-08-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (lookup_component): take into account the 'rid'
+	argument.
+	(get_rid_string): new function to convert the recurrence ID to string.
+	(add_recurrence_to_object): callback for cal_recur_generate_instances.
+	(add_component): expand recurrences and g_strdup the hash's key.
+	(free_cal_component): free also the hash's key.
+	
 2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (tray_icon_blink_cb)
@@ -243,6 +1852,72 @@
 	* gui/alarm-notify/alarm-notify.c (AlarmNotify_removeCalendar): set
 	the initial value of lc_ptr and orig_str_ptr to NULL to avoid crash.
 
+
+2003-08-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: QueryListener::notifyObjUpdated now gets
+	a sequence of CalObj's.
+
+	* pcs/query.c (add_component): send the whole object to the listener,
+	not just the UID. Improved the way the listeners are notified, by allocating
+	a CORBA sequence to be used for all listeners, not one for each.
+	(match_component): pass the CalComponent to add_component, not only the UID.
+	(start_cached_query_cb): send the whole object to the listener.
+
+	* cal-client/cal-query.[ch]: changed argument names for "obj_updated"
+	signal.
+	(obj_updated_cb): pass the calobj's, not uid's.
+
+	* gui/e-tasks.c (query_obj_updated_cb):
+	* gui/gnome-cal.c (dn_query_obj_updated_cb, purging_obj_updated_cb):
+	* gui/e-cal-model.c (query_obj_updated_cb): we now get the object's
+	string representation instead of the UID.
+
+2003-08-25  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_get_object): added a 'rid' argument
+	to match the IDL method.
+
+	* conduits/calendar/calendar-conduit.c (local_record_from_uid):
+	* conduits/todo/todo-conduit.c (local_record_from_uid):
+	* gui/comp-editor-factory.c (edit_existing):
+	* gui/comp-util.c (cal_comp_is_on_server):
+	* gui/e-cal-model.c (query_obj_updated_cb):
+	* gui/e-itip-control.c (find_server, get_real_item, update_attendee_status):
+	* gui/gnome-cal.c (dn_query_obj_updated_cb, purging_obj_updated_cb):
+	* gui/dialogs/comp-editor.c (obj_updated_cb): adapted to changes in
+	cal_client_get_object().
+
+2003-08-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query-backend.c (object_updated_cb):
+	* pcs/cal-backend.c (cal_backend_get_type_by_uid): use 'rid' parameter
+	where appropriate.
+
+	* pcs/cal-backend-file.c (check_dup_uid): removed unused variables.
+	(cal_backend_file_compute_changes_foreach_key): pass a NULL 'rid'
+	to cal_backend_get_object().
+	(lookup_component): get a 'rid' argument also.
+	(cal_backend_file_cancel_object, cal_backend_file_remove_object):
+	pass correct number of parameters to lookup_component().
+
+2003-08-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: use UID/RID pairs to identify objects.
+
+	* pcs/cal.c (impl_Cal_getObject): added 'rid' parameter.
+
+	* pcs/cal-backend.c (cal_backend_get_object): added 'rid' parameter.
+	(cal_backend_get_object_component): ditto.
+	(get_object): ditto.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_object_component):
+	added 'rid' parameter.
+	(lookup_component): added 'rid' parameter and made it search for the
+	recurrence when that parameter is not NULL.
+	(cal_backend_file_get_alarms_for_object, cal_backend_file_update_object):
+	adapted to changes in lookup_component().
+	
 2003-08-22  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* gui/alarm-notify/notify-main.c: (main):
@@ -300,6 +1975,111 @@
 	  (gnome_calendar_get_search_bar_widget),
           (gnome_calendar_get_view_notebook_widget): new functions
 
+
+2003-08-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query-backend.c (foreach_uid_cb): use the icalcomponent
+	to call icalcomponent_get_uid, not the string.
+
+2003-08-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c: store objects by UID and RID.
+	(free_object): new function to free the CalBackendFileObject structure.
+	(cal_backend_file_dispose): use free_object callback to remove the
+	objects in the comp_uid_hash.
+	(lookup_component): search correctly the component in the new hash
+	table organizarion.
+	(check_dup_uid): ditto.
+	(add_component): ditto.
+	(remove_component): ditto.
+
+2003-08-19  JP Rosevear  <jpr@ximian.com>
+
+	* gui/gnome-cal.c (setup_widgets): set up models here
+	(gnome_calendar_construct): not here
+
+	* conduits/calendar/calendar-conduit.c
+	(e_calendar_context_destroy): we have a list of calcomponents
+	rather than uids now
+	(process_multi_day): build a list of components rather than uids
+	(pre_sync): use get_object_list instead of getting uids
+	(for_each): create local records from calcomponents
+
+	* conduits/todo/todo-conduit.c: as above
+	
+	* gui/print.c (instance_cb): mark as true if we found an instance
+	(print_month_small): see if atleast one instance exists in a
+	slight different way
+
+	* cal-client/client-test.c (list_uids): use get_object_list
+
+	* cal-client/cal-listener.h: update protos
+
+	* cal-client/cal-listener.c (cal_listener_class_init): set object
+	list callback implementation
+	(impl_notifyObjectListRequested): implement
+	(cal_listener_construct): take object list callback function
+	(cal_listener_new): ditto
+
+	* cal-client/cal-client.h: update protos, add status
+
+	* cal-client/cal-client.c (e_calendar_new_op): create new op
+	(e_calendar_get_op): retrieve current op
+	(e_calendar_free_op): free the op
+	(e_calendar_remove_op): clear current op
+	(cal_client_init): create new mutex
+	(cal_client_finalize): destroy mutex
+	(build_object_list): build list of icalcomponents
+	(cal_object_list_cb): handle getObjectList response
+	(real_open_calendar): pass extra listener arg
+	(cal_client_get_object_list): implement using thread safe mutex
+	locking
+	(cal_client_get_object_list_as_comp): return calcomponents instead
+	of icalcomponents
+	(cal_client_generate_instances): just get the object list - no
+	need to make it atomic since get_object_list is already atomic
+
+	* pcs/query.c (query_finalize): free new sexp class
+	(parse_sexp): use new sexp class
+	(match_component): ditto
+
+	* pcs/query-backend.c (foreach_uid_cb): use icalcomponent to
+	extract uid
+	(query_backend_new): get all objects using object list call
+
+	* pcs/cal.c (impl_Cal_getObjectList): implement
+	(cal_class_init): adjust for idl method changes
+
+	* pcs/cal-backend.h: update vmethods, add proto
+
+	* pcs/cal-backend.c (cal_backend_class_init): remove get_uids and
+	get_objects_in_range vmethods, add get_object_list vmethod
+	(cal_backend_get_object_list): call through to vmethod implementation
+
+	* pcs/cal-backend-object-sexp.[hc]: nice class to represent a sexp
+	and search cal components
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): remove
+	get_uids and get_objects_in_range calls and set get_object_list
+	call
+	(cal_backend_file_get_object_list): implement
+	(create_user_free_busy): use sexp ops to implement
+	(cal_backend_file_compute_changes): just iterate over the
+	component list rather than fetching uids
+	
+	* pcs/Makefile.am: build new files
+
+	* idl/evolution-calendar.idl: make opening a oneway call, add
+	getObjectList call, remove getUIDS and getObjectsInRange call -
+	both can be done with getObjectList; make listener callbacks
+	oneway
+
+2003-08-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_purge): don't leak the client list.
+	(gnome_calendar_destroy): disconnect from all callbacks on all
+	loaded clients.
+	
 2003-08-19  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component): use
@@ -321,6 +2101,51 @@
 	* gui/e-week-view.c (e_week_view_add_event, e_week_view_do_key_press):
 	same as e-day-view.c
 
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/calendar-component.c (impl_createControls): Oops, pass
+	[NULL, NULL] to gtk_scrolled_window_new().
+
+2003-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/main.c (factory): Ref the object from
+	calendar_component_peek() before returning it.
+
+2003-08-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/control-factory.h: #include <bonobo/bonobo-control.h>.
+
+	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Link to
+	libeutil.
+
+	* gui/e-calendar-table.c (e_calendar_table_set_status_message):
+	Don't use the global_shell_client.
+
+	* gui/main.c (factory): Call calendar_component_peek() for the
+	GNOME_Evolution_Calendar_Component OAFIID.
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Set up the
+	GNOME_Evolution_Calendar_Component server and rename
+	GNOME_Evolution_Calendar_Factory to
+	GNOME_Evolution_Calendar_Factory_2.
+	* gui/main.c: Updated IDs accordingly.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Use calendar_component_peek_config_directory() instead of
+	evolution_dir.
+	* gui/gnome-cal.c (setup_widgets): Likewise.
+	(gnome_calendar_destroy): Likewise.
+	* gui/dialogs/meeting-page.c (meeting_page_construct): Likewise.
+
+	* gui/gnome-cal.c (gnome_calendar_open): #if 0 some code for
+	figuring out where the task list is.
+
+	* gui/calendar-component.c: New file.
+	* gui/calendar-component.h: New file.
+
+	* gui/itip-utils.c (itip_addresses_get): Unref the GConf client
+	from gconf_client_get_default.
+
 2003-08-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model.c (ecm_get_color_for_component): use tigert's
@@ -341,16 +2166,6 @@
 
 2003-08-14  Rodrigo Moya <rodrigo@ximian.com>
 
-	* gui/e-cal-model.c (e_cal_model_create_component_with_defaults):
-	use the default client to call cal_comp_*_new_with_defaults, and
-	if no client is available, just create an empty icalcomponent.
-
-	* gui/e-cal-view.c (e_cal_view_init): create an empty model.
-
-	* gui/e-week-view.c (e_week_view_add_event): use the event's client.
-
-2003-08-14  Rodrigo Moya <rodrigo@ximian.com>
-
 	* gui/e-cal-model.[ch] (e_cal_model_free_component_data): new
 	function.
 
@@ -366,6 +2181,46 @@
 	* gui/e-week-event.c (e_week_view_add_event,
 	e_week_view_update_event_cb, e_week_view_remove_event_cb,
 	e_week_view_free_events): same as EDayView.
+
+2003-08-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_create_component_with_defaults):
+	use the default client to call cal_comp_*_new_with_defaults, and
+	if no client is available, just create an empty icalcomponent.
+
+	* gui/e-cal-view.c (e_cal_view_init): create an empty model.
+
+	* gui/e-week-view.c (e_week_view_add_event): use the event's client.
+
+2003-08-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): unref the client if there
+	is an error.
+	(update_query): set status bar messages for progress.
+	(update_query_timeout): re-enabled.
+	(client_cal_opened_cb): install timeout handler for the query updates.
+
+	* gui/e-cal-view.c (e_cal_view_set_model): connect to all appropriate
+	signals on the model, to be called for every change.
+	(model_row_changed_cb, model_rows_changed_cb): new model callbacks.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): colorize
+	the background for multiple days events.
+
+2003-08-13  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (ecm_append_row, ecm_get_color_for_component):
+	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component): merged
+	missing bith from calendar-views-with-model branch.
+
+2003-08-13  JP Rosevear  <jpr@ximian.com>
+
+	* cal-client/cal-client.c (real_open_calendar): set the priv->cal
+	pointer in a slightly different spot so we have it in the call
+	back
+
+	* gui/e-cal-model.c (e_cal_model_get_client_list): merge this in
+	properly
 
 2003-08-13  Rodrigo Moya <rodrigo@ximian.com>
 
@@ -393,7 +2248,170 @@
 
 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): colorize
 	the background for multiple days events.
+	
+2003-08-13  JP Rosevear  <jpr@ximian.com>
 
+	* cal-client/client-test.c (create_client): there is no more
+	object updated signal
+
+	* cal-client/cal-listener.c: clean up comment
+
+	* cal-client/cal-client.c (cal_client_class_init): remove
+	obj_updated and obj_removed signals
+
+	* cal-client/cal-client.h: ditto
+	
+2003-08-12  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend.h: remove get_uri vmethod
+
+	* pcs/cal-backend.c (cal_backend_class_init): remove get_uri
+	vmethod init
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): no longer
+	a get uri vmethod
+	(cal_backend_file_get_uri): remove implementation of above
+
+2003-08-12  JP Rosevear  <jpr@ximian.com>
+	
+	* cal-client/client-test.c (main): use tmp uris
+
+	* cal-client/cal-listener.h: update protos
+
+	* cal-client/cal-listener.c (cal_listener_init): init removed
+	function
+	(cal_listener_finalize): clear removed function
+	(impl_notifyCalOpened): take file status
+	(impl_notifyCalRemoved): implement
+	(cal_listener_construct): take remove function arg
+	(cal_listener_new): ditto
+
+	* cal-client/cal-client.h: update protos, add remove status
+
+	* cal-client/cal-client.c
+	(cal_client_remove_status_enum_get_type): add remove status type
+	(cal_client_class_init): add removed signal
+	(cal_opened_cb): can no longer get unsupported exception here
+	(cal_removed_cb): emit removed status
+	(real_open_calendar): pass removed callback function to listener
+	(get_fall_back_uri): no longer append tasks.ics or calendar.ics
+	(cal_client_remove_calendar): new c wrapper for corba function -
+	calendar must be open currently
+
+	* pcs/query.c (backend_opened_cb): only disconnect the open
+	callback
+	(backend_removed_cb): handle calendar removal
+	(query_construct): listen for remove signal as well
+
+	* pcs/cal.h: cal no longer takes uri during construction
+
+	* pcs/cal.c (backend_to_listener_status): convert backend to corba
+	status code
+	(impl_Cal_open): backend open no longer takes uri, use above to
+	send back status
+	(impl_Cal_remove): implement
+	(cal_construct): we no longer track the uri
+	(cal_finalize): ditto
+	(cal_class_init): set remove epv method
+
+	* pcs/cal-factory.c (impl_CalFactory_getCal): instantiate backend
+	with uri and kind properties
+
+	* pcs/cal-backend.h: list file status enum, add protos
+
+	* pcs/cal-backend.c (cal_backend_set_property): implement object
+	properties
+	(cal_backend_get_property): ditto
+	(cal_backend_class_init): add properties vmethods and uri, kind
+	properties, removed signal
+	(cal_backend_get_uri): don't get the uri from the backend
+	(cal_backend_get_kind): get the kind from the backend
+	(cal_backend_open): adapt to new open call, no uri passed in
+	(cal_backend_remove): call through to remove implementation
+	(cal_backend_opened): use new file status
+	(cal_backend_removed): emit removed signal
+
+	* pcs/cal-backend-file.h: update protos
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): override
+	remove vmethod
+	(cal_backend_file_init): default file name to calendar.ics
+	(cal_backend_file_set_file_name): accessor for filename tacked on
+	to uri
+	(cal_backend_file_get_file_name): ditto
+	(open_cal): return "file" type status codes
+	(create_cal): ditto
+	(get_uri_string): construct the full uri string
+	(cal_backend_file_open): use above
+	(cal_backend_file_remove): implement
+
+	* pcs/cal-backend-file-todos.c (cal_backend_file_todos_init): set
+	the file name to tasks.ics
+
+	* pcs/cal-backend-file-events.c (cal_backend_file_events_init):
+	set the file name to calendar.ics
+
+	* cal-util/cal-util.c (cal_util_expand_uri): just return a copy of
+	the uri now
+
+	* idl/evolution-calendar.idl: convert OpenStatus to FileStatus so
+	remove() can use it as well
+
+	* gui/gnome-cal.c (gnome_calendar_open): just open the default
+	folder in all cases
+
+2003-08-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_component_has_alarms): new function.
+
+	* gui/gnome-cal.[ch]:
+	* gui/goto.c:
+	* gui/itip-bonobo-control.c:
+	* gui/print.c:
+	* gui/e-week-view.[ch]:
+	* gui/e-day-view.[ch]: lots of fixes to make all compile with no
+	warnings.
+
+2003-08-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_component_has_organizer):
+	new function.
+
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-top-item.c:
+	* gui/e-week-view-event-item.c:
+	* gui/e-week-view.c: adaptated to changes in ECalViewEvent.
+
+	* gui/e-cal-model.[ch] (e_cal_model_get_client_list): new function.
+	(ecm_append_row): fixed usage of icalcomponent variable.
+
+	* gui/e-cal-view.c (e_cal_view_class_init): removed unused variable.
+	(selection_received): use default client for pasting from clipboard.
+	(e_cal_view_cut_clipboard): cut the appointment from its client.
+	(e_cal_view_copy_clipboard, delete_event, on_save_as, om_print_event,
+	e_cal_view_delete_selected_occurrence, on_meeting, on_forward,
+	e_cal_view_create_popup_menu): adapted to changes in ECalViewEvent.
+	(e_cal_view_delete_selected_event, e_cal_view_delete_selected_events):
+	pass the ECalViewEvent to delete_event, so that it knows which
+	CalClient to use.
+	(on_edit_appointment): pass CalClient and icalcomponent to
+	gnome_calendar_edit_object.
+	(on_publish): publish F/B info for all the clients currently loaded
+	in the view.
+	(setup_popup_icons): added missing argument to gtk_image_new_from_stock.
+
+	* gui/calendar-commands.c (publish_freebusy_cmd): publish F/B info
+	for all the clients currently loaded in the view.
+	(sensitize_calendar_commands): use icalcomponent functions.
+
+	* gui/e-day-view.c:
+	* gui/comp-editor-factory.c (impl_editExisting):
+	* gui/calendar-offline-handler.c (backend_cal_opened_online):
+	* gui/e-alarm-list.c (e_alarm_list_finalize):
+	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component):
+	* gui/e-date-time-list.c (e_date_time_list_finalize):
+	* gui/control-factory.c (get_prop): fixed warnings.
+	
 2003-08-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-offline-handler.c (impl_dispose): Chain. Prevent
@@ -798,6 +2816,27 @@
 
 	* cal-client/cal-client-multi.[ch]:
 	* cal-client/Makefile.am: removed obsolete code.
+
+2003-07-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/main.c (factory): Do not depend on global_shell_client being
+	not NULL for creating the calendar preferences dialog.
+
+	* gui/e-itip-control.c (show_current): Don't call get_servers
+	anymore [to be fixed].
+	(get_servers): #if 0ed out.
+	(object_requested_cb): Don't create the folder selector button.
+
+	* gui/e-cal-view.c (e_cal_view_set_status_message): Don't create
+	an activity client.
+
+	* gui/calendar-model.c (calendar_model_set_status_message): Don't
+	create an activity client.
+
+	* gui/calendar-component.c: Removed global variable
+	global_shell_client.
+	(owner_set_cb): Don't set global_shell_client.
+	(owner_unset_cb): Don't set it here either.
 
 2003-07-29  Rodrigo Moya <rodrigo@ximian.com>
 

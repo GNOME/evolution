@@ -890,7 +890,6 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	GnomeCanvasItem *item;
-	GnomeCalendar *calendar;
 
 	item = GNOME_CANVAS_ITEM (wveitem);
 
@@ -902,11 +901,7 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 
 	e_week_view_stop_editing_event (week_view);
 
-	calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
-	if (calendar)
-		gnome_calendar_edit_object (calendar, event->comp_data->client, event->comp_data->icalcomp, FALSE);
-	else
-		g_warning ("Calendar not set");
+	e_cal_view_edit_appointment (E_CAL_VIEW (week_view), event->comp_data->client, event->comp_data->icalcomp, FALSE);
 
 	return TRUE;
 }

@@ -265,6 +265,7 @@ e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 void
 e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *ems)
 {
+	char *filename;
 	GtkWidget *hbox, *vbox, *separator, *button, *label, *table;
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GSList *group;
@@ -313,7 +314,12 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_box_pack_start (GTK_BOX (vbox), mts->attendees_vbox, TRUE, TRUE, 0);
 	gtk_widget_show (mts->attendees_vbox);
 
+
+	/* build the etable */
+	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
+				     "config", "et-header-meeting-time-sel", NULL);
 	mts->model = ems;
+
 	if (mts->model)
 		g_object_ref (mts->model);
 

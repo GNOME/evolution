@@ -23,9 +23,10 @@
 
 #include "e-minicard-view.h"
 
-#include "e-addressbook-util.h"
+#include "eab-gui-util.h"
+#include "eab-marshal.h"
+#include "util/eab-book-util.h"
 
-#include "e-addressbook-marshal.h"
 #include <gtk/gtkselection.h>
 #include <gtk/gtkdnd.h>
 #include <gal/widgets/e-canvas.h>
@@ -83,7 +84,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 	case DND_TARGET_TYPE_VCARD_LIST: {
 		char *value;
 		
-		value = e_card_list_get_vcard(view->drag_list);
+		value = eab_contact_list_to_string (view->drag_list);
 
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
@@ -149,7 +150,7 @@ set_empty_message (EMinicardView *view)
 }
 
 static void
-writable_status_change (EAddressbookModel *model, gboolean writable, EMinicardView *view)
+writable_status_change (EABModel *model, gboolean writable, EMinicardView *view)
 {
 	set_empty_message (view);
 }
@@ -177,13 +178,12 @@ e_minicard_view_set_property (GObject *object,
 	case PROP_ADAPTER:
 		if (view->adapter) {
 			if (view->writable_status_id) {
-				EAddressbookModel *model;
+				EABModel *model;
 				g_object_get (view->adapter,
 					      "model", &model,
 					      NULL);
 				if (model) {
 					g_signal_handler_disconnect (model, view->writable_status_id);
-					g_object_unref (model);
 				}
 			}
 
@@ -197,7 +197,7 @@ e_minicard_view_set_property (GObject *object,
 			      "model", view->adapter,
 			      NULL);
 		if (view->adapter) {
-			EAddressbookModel *model;
+			EABModel *model;
 			g_object_get (view->adapter,
 				      "model", &model,
 				      NULL);
@@ -277,13 +277,12 @@ e_minicard_view_dispose (GObject *object)
 
 	if (view->adapter) {
 		if (view->writable_status_id) {
-			EAddressbookModel *model;
+			EABModel *model;
 			g_object_get (view->adapter,
 				      "model", &model,
 				      NULL);
 			if (model) {
 				g_signal_handler_disconnect (model, view->writable_status_id);
-				g_object_unref (model);
 			}
 		}
 
@@ -323,10 +322,8 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 				EBook *book;
 				g_object_get(view, "book", &book, NULL);
  
-				if (book && E_IS_BOOK (book)) {
-					e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
-					g_object_unref (book);
-				}
+				if (book && E_IS_BOOK (book))
+					eab_show_contact_editor (book, e_contact_new(), TRUE, editable);
 			}
 			return TRUE;
 		}
@@ -391,7 +388,7 @@ static void
 do_remove (int i, gpointer user_data)
 {
 	EBook *book;
-	ECard *card;
+	EContact *contact;
 	ViewCbClosure *viewcbclosure = user_data;
 	EMinicardView *view = viewcbclosure->view;
 	EBookCallback cb = viewcbclosure->cb;
@@ -401,12 +398,11 @@ do_remove (int i, gpointer user_data)
 		      "book", &book,
 		      NULL);
 
-	card = e_addressbook_reflow_adapter_get_card (view->adapter, i);
+	contact = e_addressbook_reflow_adapter_get_contact (view->adapter, i);
 
-	e_book_remove_card(book, card, cb, closure);
+	e_book_async_remove_contact(book, contact, cb, closure);
 
-	g_object_unref (card);
-	g_object_unref (book);
+	g_object_unref (contact);
 }
 
 #if 0
@@ -425,13 +421,13 @@ compare_to_utf_str (EMinicard *card, const char *utf_str)
 		g_object_get(card->card,
 			     "file_as", &file_as,
 			     NULL);
-		if (file_as) {
-			int cmp = g_utf8_strcasecmp (file_as, utf_str);
-			g_free (file_as);
-			return cmp;
-		}
+		if (file_as)
+			return g_utf8_strcasecmp (file_as, utf_str);
+		else
+			return 0;
+	} else {
+		return 0;
 	}
-	return 0;
 }
 #endif
 
@@ -486,7 +482,7 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewClass, right_click),
 			      NULL, NULL,
-			      e_addressbook_marshal_INT__POINTER,
+			      eab_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	item_class->event             = e_minicard_view_event;
@@ -567,7 +563,7 @@ static void
 add_to_list (int index, gpointer closure)
 {
 	ModelAndList *mal = closure;
-	mal->list = g_list_prepend (mal->list, e_addressbook_reflow_adapter_get_card (mal->adapter, index));
+	mal->list = g_list_prepend (mal->list, e_addressbook_reflow_adapter_get_contact (mal->adapter, index));
 }
 
 GList *

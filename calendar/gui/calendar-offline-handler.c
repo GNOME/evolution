@@ -29,6 +29,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-i18n.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-url.h"
 #include <cal-client/cal-client.h>
@@ -180,13 +181,16 @@ backend_go_offline (gpointer data, gpointer user_data)
 	char *uri = data;
 	CalClient *client;
 	gboolean success;
+	GError *error = NULL;
 	
-	client = cal_client_new ();
+	client = cal_client_new (uri, CALOBJ_TYPE_ANY);
 	g_signal_connect (client, "cal_opened", G_CALLBACK (backend_cal_opened_offline), offline_handler);
-	success = cal_client_open_calendar (client, uri, TRUE);
+	success = cal_client_open (client, TRUE, &error);
 	if (!success) {
+		g_warning (_("backend_go_offline(): %s"), error->message);
 		update_offline (offline_handler);
 		g_object_unref (client);
+		g_error_free (error);
 		return;		
 	}
 }
@@ -198,13 +202,16 @@ backend_go_online (gpointer data, gpointer user_data)
 	char *uri = data;
 	CalClient *client;
 	gboolean success;
+	GError *error = NULL;
 	
-	client = cal_client_new ();
+	client = cal_client_new (uri, CALOBJ_TYPE_ANY);
 	g_signal_connect (G_OBJECT (client), "cal_opened", 
 			  G_CALLBACK (backend_cal_opened_online), offline_handler);
-	success = cal_client_open_calendar (client, uri, TRUE);
+	success = cal_client_open (client, TRUE, &error);
 	if (!success) {
+		g_warning (_("backend_go_online(): %s"), error->message);
 		g_object_unref (G_OBJECT (client));
+		g_error_free (error);
 		return;		
 	}	
 }
@@ -319,7 +326,8 @@ calendar_offline_handler_init (CalendarOfflineHandler *offline_handler)
 	priv = g_new (CalendarOfflineHandlerPrivate, 1);
 	offline_handler->priv = priv;
 
-	priv->client = cal_client_new ();
+	/* FIXME: what URI to use? */
+	priv->client = cal_client_new ("", CALOBJ_TYPE_ANY);
 	priv->listener_interface = CORBA_OBJECT_NIL;
 	priv->is_offline = FALSE;
 }

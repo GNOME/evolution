@@ -22,7 +22,8 @@
 #define CAL_QUERY_H
 
 #include <glib-object.h>
-
+#include "cal-client-types.h"
+#include "query-listener.h"
 #include "evolution-calendar.h"
 
 G_BEGIN_DECLS
@@ -37,14 +38,6 @@ typedef struct _CalClient CalClient;
 #define IS_CAL_QUERY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_QUERY_TYPE))
 #define IS_CAL_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_QUERY_TYPE))
 
-#define CAL_QUERY_DONE_STATUS_ENUM_TYPE (cal_query_done_status_enum_get_type ())
-
-/* Status values when a query terminates */
-typedef enum {
-	CAL_QUERY_DONE_SUCCESS,
-	CAL_QUERY_DONE_PARSE_ERROR
-} CalQueryDoneStatus;
-
 typedef struct _CalQueryPrivate CalQueryPrivate;
 
 typedef struct {
@@ -58,30 +51,18 @@ typedef struct {
 	GObjectClass parent_class;
 
 	/* Notification signals */
-
-	void (* obj_updated) (CalQuery *query, const char *uid,
-			      gboolean query_in_progress, int n_scanned, int total);
-	void (* obj_removed) (CalQuery *query, const char *uid);
-
-	void (* query_done) (CalQuery *query, CalQueryDoneStatus status, const char *error_str);
-
-	void (* eval_error) (CalQuery *query, const char *error_str);
+	void (* objects_added) (CalQuery *query, GList *objects);
+	void (* objects_modified) (CalQuery *query, GList *objects);
+	void (* objects_removed) (CalQuery *query, GList *uids);
+	void (* query_progress) (CalQuery *query, char *message, int percent);
+	void (* query_done) (CalQuery *query, ECalendarStatus status);
 } CalQueryClass;
 
 GType      cal_query_get_type (void);
 
-GType      cal_query_done_status_enum_get_type (void);
-
-CalQuery  *cal_query_construct (CalQuery *query,
-				GNOME_Evolution_Calendar_Cal cal,
-				const char *sexp);
-
-CalQuery  *cal_query_new (CalClient *client,
-			  GNOME_Evolution_Calendar_Cal cal,
-			  const char *sexp);
+CalQuery *cal_query_new (GNOME_Evolution_Calendar_Query corba_query, QueryListener *listener, CalClient *client);
 CalClient *cal_query_get_client (CalQuery *query);
-
-
+void cal_query_start (CalQuery *query);
 
 G_END_DECLS
 

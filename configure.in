@@ -1051,6 +1051,13 @@ dnl *************************
 
 GNOME_COMPILE_WARNINGS(yes)
 CFLAGS="$CFLAGS $WARN_CFLAGS"
+case $CFLAGS in
+*-Wall*)
+	# Turn off the annoying "comparison between signed and unsigned"
+	# warning in gcc 3.3
+	CFLAGS="$CFLAGS -Wno-sign-compare"
+	;;
+esac
 
 AM_PATH_ORBIT2
 
@@ -1127,7 +1134,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1331,11 +1338,15 @@ addressbook/gui/search/Makefile
 addressbook/gui/widgets/Makefile
 addressbook/backend/Makefile
 addressbook/backend/ebook/Makefile
+addressbook/backend/ebook/tests/Makefile
+addressbook/backend/ebook/tests/ebook/Makefile
+addressbook/backend/ebook/tests/vcard/Makefile
 addressbook/backend/pas/Makefile
 addressbook/backend/idl/Makefile
 addressbook/conduit/Makefile
 addressbook/printing/Makefile
 addressbook/tools/Makefile
+addressbook/util/Makefile
 art/Makefile
 camel/Makefile
 camel/providers/Makefile

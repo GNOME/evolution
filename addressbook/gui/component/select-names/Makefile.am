@@ -69,9 +69,7 @@ libeselectnames_la_SOURCES = 			\
 	e-select-names-text-model.c		\
 	e-select-names-text-model.h		\
 	e-select-names.c			\
-	e-select-names.h			\
-	e-simple-card-bonobo.c			\
-	e-simple-card-bonobo.h
+	e-select-names.h
 
 libeselectnames_la_LIBADD =					\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\

@@ -33,14 +33,13 @@
 #include <gal/widgets/e-canvas-utils.h>
 #include <gal/widgets/e-canvas.h>
 #include "addressbook/backend/ebook/e-book.h"
-#include "e-addressbook-marshal.h"
-#include "e-addressbook-util.h"
+#include "eab-marshal.h"
+#include "eab-gui-util.h"
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
-#include "e-card-merging.h"
-#include "ebook/e-destination.h"
+#include "util/eab-destination.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
@@ -64,7 +63,7 @@ static GnomeCanvasGroupClass *parent_class = NULL;
 typedef struct _EMinicardField EMinicardField;
 
 struct _EMinicardField {
-	ECardSimpleField field;
+	EContactField field;
 	GnomeCanvasItem *label;
 };
 
@@ -90,7 +89,7 @@ enum {
 	PROP_SELECTED,
 	PROP_HAS_CURSOR,
 	PROP_EDITABLE,
-	PROP_CARD
+	PROP_CONTACT
 };
 
 enum {
@@ -185,11 +184,11 @@ e_minicard_class_init (EMinicardClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
   
-	g_object_class_install_property (object_class, PROP_CARD,
-					 g_param_spec_object ("card",
-							      _("Card"),
+	g_object_class_install_property (object_class, PROP_CONTACT,
+					 g_param_spec_object ("contact",
+							      _("Contact"),
 							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_CARD,
+							      E_TYPE_CONTACT,
 							      G_PARAM_READWRITE));
   
 	e_minicard_signals [SELECTED] =
@@ -198,7 +197,7 @@ e_minicard_class_init (EMinicardClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardClass, selected),
 			      NULL, NULL,
-			      e_addressbook_marshal_INT__POINTER,
+			      eab_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	e_minicard_signals [DRAG_BEGIN] =
@@ -207,7 +206,7 @@ e_minicard_class_init (EMinicardClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardClass, drag_begin),
 			      NULL, NULL,
-			      e_addressbook_marshal_INT__POINTER,
+			      eab_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	e_minicard_signals [STYLE_SET] =
@@ -216,7 +215,7 @@ e_minicard_class_init (EMinicardClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMinicardClass, style_set),
 			      NULL, NULL,
-			      e_addressbook_marshal_VOID__OBJECT,
+			      eab_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      GTK_TYPE_STYLE);
 
@@ -231,7 +230,6 @@ e_minicard_class_init (EMinicardClass *klass)
 static void
 e_minicard_init (EMinicard *minicard)
 {
-	/*   minicard->card = NULL;*/
 	minicard->rect             = NULL;
 	minicard->fields           = NULL;
 	minicard->width            = 10;
@@ -241,8 +239,7 @@ e_minicard_init (EMinicard *minicard)
 	minicard->editable         = FALSE;
 	minicard->has_cursor       = FALSE;
 
-	minicard->card             = NULL;
-	minicard->simple           = e_card_simple_new(NULL);
+	minicard->contact          = NULL;
 
 	minicard->list_icon_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" LIST_ICON_FILENAME, NULL);
 	minicard->list_icon_size   = gdk_pixbuf_get_height (minicard->list_icon_pixbuf);
@@ -344,15 +341,12 @@ e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, G
 		if (e_minicard->has_cursor != g_value_get_boolean (value))
 			set_has_cursor (e_minicard, g_value_get_boolean (value));
 		break;
-	case PROP_CARD:
-		if (e_minicard->card)
-			g_object_unref (e_minicard->card);
-		e_minicard->card = E_CARD(g_value_get_object (value));
-		if (e_minicard->card)
-			g_object_ref (e_minicard->card);
-		g_object_set(e_minicard->simple,
-			     "card", e_minicard->card,
-			     NULL);
+	case PROP_CONTACT:
+		if (e_minicard->contact)
+			g_object_unref (e_minicard->contact);
+		e_minicard->contact = E_CONTACT(g_value_get_object (value));
+		if (e_minicard->contact)
+			g_object_ref (e_minicard->contact);
 		remodel(e_minicard);
 		e_canvas_item_request_reflow(item);
 		e_minicard->changed = FALSE;
@@ -389,9 +383,8 @@ e_minicard_get_property  (GObject *object, guint prop_id, GValue *value, GParamS
 	case PROP_EDITABLE:
 		g_value_set_boolean (value, e_minicard->editable);
 		break;
-	case PROP_CARD:
-		e_card_simple_sync_card(e_minicard->simple);
-		g_value_set_object (value, e_minicard->card);
+	case PROP_CONTACT:
+		g_value_set_object (value, e_minicard->contact);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -436,10 +429,8 @@ e_minicard_finalize (GObject *object)
 
 	e_minicard = E_MINICARD (object);
 	
-	if (e_minicard->card)
-		g_object_unref (e_minicard->card);
-	if (e_minicard->simple)
-		g_object_unref (e_minicard->simple);
+	if (e_minicard->contact)
+		g_object_unref (e_minicard->contact);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -523,14 +514,6 @@ e_minicard_unrealize (GnomeCanvasItem *item)
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize) (item);
 }
 
-static void
-card_modified_cb (EBook* book, EBookStatus status, gpointer user_data)
-{
-	d(g_print ("%s: %s(): a card was modified\n", __FILE__, G_GNUC_FUNCTION));
-	if (status != E_BOOK_STATUS_SUCCESS)
-		e_addressbook_error_dialog (_("Error modifying card"), status);
-}
-
 /* Callback used when the contact editor is closed */
 static void
 editor_closed_cb (GtkObject *editor, gpointer data)
@@ -560,35 +543,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				if (!e_minicard->selected) {
 					e_minicard_selected(e_minicard, event);
 				}
-			} else {
-				EBook *book = NULL;
-
-				if (e_minicard->changed) {
-				
-					e_card_simple_sync_card(e_minicard->simple);
-
-					if (E_IS_MINICARD_VIEW(GNOME_CANVAS_ITEM(e_minicard)->parent)) {
-					
-						g_object_get(GNOME_CANVAS_ITEM(e_minicard)->parent,
-							     "book", &book,
-							     NULL);
-					
-					}
-				
-					if (book) {
-					
-						/* Add the card in the contact editor to our ebook */
-						e_card_merging_book_commit_card (book,
-										 e_minicard->card,
-										 card_modified_cb,
-										 NULL);
-						g_object_unref(book);
-					} else {
-						remodel(e_minicard);
-						e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(e_minicard));
-					}
-					e_minicard->changed = FALSE;
-				}
+			}
+			else {
 				e_minicard->has_focus = FALSE;
 			}
 		}
@@ -651,7 +607,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
 			if (e_minicard->editor) {
-				if (e_card_evolution_list (e_minicard->card))
+				if (GPOINTER_TO_INT (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)))
 					e_contact_list_editor_raise (E_CONTACT_LIST_EDITOR(e_minicard->editor));
 				else
 					e_contact_editor_raise(E_CONTACT_EDITOR(e_minicard->editor));
@@ -664,14 +620,14 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 
 				if (book != NULL) {
-					if (e_card_evolution_list (e_minicard->card)) {
-						EContactListEditor *editor = e_addressbook_show_contact_list_editor (book, e_minicard->card,
-														     FALSE, e_minicard->editable);
+					if (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)) {
+						EContactListEditor *editor = eab_show_contact_list_editor (book, e_minicard->contact,
+													   FALSE, e_minicard->editable);
 						e_minicard->editor = G_OBJECT (editor);
 					}
 					else {
-						EContactEditor *editor = e_addressbook_show_contact_editor (book, e_minicard->card,
-													    FALSE, e_minicard->editable);
+						EContactEditor *editor = eab_show_contact_editor (book, e_minicard->contact,
+												  FALSE, e_minicard->editable);
 						e_minicard->editor = G_OBJECT (editor);
 					}
 					g_object_ref (e_minicard->editor);
@@ -685,36 +641,6 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			return TRUE;
 		}
 		break;
-	case GDK_KEY_PRESS:
-		if (event->key.keyval == GDK_Tab || 
-		    event->key.keyval == GDK_KP_Tab || 
-		    event->key.keyval == GDK_ISO_Left_Tab) {
-			GList *list;
-			for (list = e_minicard->fields; list; list = list->next) {
-				EMinicardField *field = E_MINICARD_FIELD(list->data);
-				GnomeCanvasItem *item = field->label;
-				EFocus has_focus;
-				g_object_get(item,
-					     "has_focus", &has_focus,
-					     NULL);
-				if (has_focus != E_FOCUS_NONE) {
-					if (event->key.state & GDK_SHIFT_MASK)
-						list = list->prev;
-					else
-						list = list->next;
-					if (list) {
-						EMinicardField *field = E_MINICARD_FIELD(list->data);
-						GnomeCanvasItem *item = field->label;
-						gnome_canvas_item_set(item,
-								      "has_focus", (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START,
-								      NULL);
-						return 1;
-					} else {
-						return 0;
-					}
-				}
-			}
-		}
 	default:
 		break;
 	}
@@ -729,11 +655,12 @@ static void
 e_minicard_resize_children( EMinicard *e_minicard )
 {
 	GList *list;
-	
+	gboolean is_list = GPOINTER_TO_INT (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST));
+
 	if (e_minicard->header_text) {
 		gnome_canvas_item_set( e_minicard->header_text,
 				       "width", ((double) e_minicard->width - 12 
-						 - (e_card_evolution_list (e_minicard->card) ? e_minicard->list_icon_size : 0.0)),
+						 - (is_list ? e_minicard->list_icon_size : 0.0)),
 				       NULL );
 	}
 	if (e_minicard->list_icon) {
@@ -749,79 +676,24 @@ e_minicard_resize_children( EMinicard *e_minicard )
 }
 
 static void
-field_changed (EText *text, EMinicard *e_minicard)
-{
-	ECardSimpleType type;
-	char *string;
-	char *new_string;
-	gboolean is_list = FALSE;
-
-	type = GPOINTER_TO_INT
-		(g_object_get_data(G_OBJECT(text),
-				   "EMinicard:field"));
-	g_object_get(text,
-		     "text", &string,
-		     NULL);
-
-	/* 
-	 * If the card is coresponding with a contact list and the field be 
-	 * changed is e-mail address, should wrap it before write it back.
-	 */
-	new_string = (char*)e_card_simple_get_const (e_minicard->simple, 
-						     E_CARD_SIMPLE_FIELD_IS_LIST); 
-
-	is_list = (NULL != new_string);	
-
-	if  (is_list && (E_CARD_SIMPLE_FIELD_EMAIL == type || 
-	    	  E_CARD_SIMPLE_FIELD_EMAIL_2 == type ||
-		      E_CARD_SIMPLE_FIELD_EMAIL_3 == type)) {
-		if (string && *string) {
-			EDestination *dest = e_destination_new (); 
-			if (dest != NULL){
-				e_destination_set_email (dest, string);
-				new_string = e_destination_export(dest);
-				g_free(string);
-				string=new_string;
-				g_object_unref (dest);
-			}
-		}
-	}
-
-	e_card_simple_set(e_minicard->simple,
-			  type,
-			  string);
-	g_free(string);
-	e_minicard->changed = TRUE;
-}
-
-static void
-field_activated (EText *text, EMinicard *e_minicard)
-{
-	e_text_stop_editing (text);
-	e_canvas_item_grab_focus (GNOME_CANVAS_ITEM (e_minicard), FALSE);
-}
-
-static void
-add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
+add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 {
 	GnomeCanvasItem *new_item;
 	GnomeCanvasGroup *group;
-	ECardSimpleType type;
 	EMinicardField *minicard_field;
 	char *name;
 	char *string;
 	
 	group = GNOME_CANVAS_GROUP( e_minicard );
 	
-	type = e_card_simple_type(e_minicard->simple, field);
-	name = g_strdup_printf("%s:", e_card_simple_get_name(e_minicard->simple, field));
-	string = e_card_simple_get(e_minicard->simple, field);
+	name = g_strdup_printf("%s:", e_contact_pretty_name (field));
+	string = e_contact_get (e_minicard->contact, field);
 
 	/* Magically convert embedded XML into an address. */
 	if (!strncmp (string, "<?xml", 5)) {
-		EDestination *dest = e_destination_import (string);
+		EABDestination *dest = eab_destination_import (string);
 		if (dest != NULL) {
-			gchar *new_string = g_strdup (e_destination_get_textrep (dest, TRUE));
+			gchar *new_string = g_strdup (eab_destination_get_textrep (dest, TRUE));
 			g_free (string);
 			string = new_string;
 			g_object_unref (dest);
@@ -834,15 +706,13 @@ add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 			       "fieldname", name,
 			       "field", string,
 			       "max_field_name_length", left_width,
-			       "editable", e_minicard->editable,
+			       "editable", FALSE,
 			       NULL );
-	g_signal_connect(E_MINICARD_LABEL(new_item)->field,
-			 "changed", G_CALLBACK (field_changed), e_minicard);
-	g_signal_connect(E_MINICARD_LABEL(new_item)->field,
-			 "activate", G_CALLBACK (field_activated), e_minicard);
+#if notyet
 	g_object_set(E_MINICARD_LABEL(new_item)->field,
-		     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->simple, field),
+		     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
 		     NULL);
+#endif
 	g_object_set_data(G_OBJECT (E_MINICARD_LABEL(new_item)->field),
 			  "EMinicard:field",
 			  GINT_TO_POINTER(field));
@@ -861,14 +731,18 @@ static int
 get_left_width(EMinicard *e_minicard)
 {
 	gchar *name;
-	ECardSimpleField field;
+	EContactField field;
 	int width = -1;
 	PangoLayout *layout;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas), "");
-	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST; field++) {
+	for(field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
 		int this_width;
-		name = g_strdup_printf("%s:", e_card_simple_get_name(e_minicard->simple, field));
+
+		if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
+			continue;
+
+		name = g_strdup_printf("%s:", e_contact_pretty_name (field));
 		pango_layout_set_text (layout, name, -1);
 		pango_layout_get_pixel_size (layout, &this_width, NULL);
 		if (width < this_width)
@@ -885,32 +759,33 @@ remodel( EMinicard *e_minicard )
 	int count = 0;
 	if ( !(GTK_OBJECT_FLAGS( e_minicard ) & GNOME_CANVAS_ITEM_REALIZED) )
 		return;
-	if (e_minicard->simple) {
-		ECardSimpleField field;
+	if (e_minicard->contact) {
+		EContactField field;
 		GList *list;
 		char *file_as;
 		int left_width = -1;
 
 		if (e_minicard->header_text) {
-			file_as = e_card_simple_get(e_minicard->simple, E_CARD_SIMPLE_FIELD_FILE_AS);
-			gnome_canvas_item_set( e_minicard->header_text,
+			file_as = e_contact_get (e_minicard->contact, E_CONTACT_FILE_AS);
+			gnome_canvas_item_set (e_minicard->header_text,
 					       "text", file_as ? file_as : "",
 					       NULL );
 			g_free(file_as);
 		}
 
-		if (e_minicard->card && e_card_evolution_list (e_minicard->card) ) {
+		if (e_minicard->contact && e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST))
 			gnome_canvas_item_show (e_minicard->list_icon);
-		}
-		else {
+		else
 			gnome_canvas_item_hide (e_minicard->list_icon);
-		}
 
 		list = e_minicard->fields;
 		e_minicard->fields = NULL;
 
-		for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING && count < 5; field++) {
+		for(field = E_CONTACT_FULL_NAME; field != E_CONTACT_LAST_SIMPLE_STRING && count < 5; field++) {
 			EMinicardField *minicard_field = NULL;
+
+			if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
+				continue;
 
 			if (list)
 				minicard_field = list->data;
@@ -918,13 +793,13 @@ remodel( EMinicard *e_minicard )
 				GList *this_list = list;
 				char *string;
 
-				string = e_card_simple_get(e_minicard->simple, field);
+				string = e_contact_get(e_minicard->contact, field);
 				if (string && *string) {
 					/* Magically convert embedded XML into an address. */
 					if (!strncmp (string, "<?xml", 4)) {
-						EDestination *dest = e_destination_import (string);
+						EABDestination *dest = eab_destination_import (string);
 						if (dest != NULL) {
-							gchar *new_string = g_strdup (e_destination_get_textrep (dest, TRUE));
+							gchar *new_string = g_strdup (eab_destination_get_textrep (dest, TRUE));
 							g_free (string);
 							string = new_string;
 							g_object_unref (dest);
@@ -948,7 +823,7 @@ remodel( EMinicard *e_minicard )
 					left_width = get_left_width(e_minicard);
 				}
 
-				string = e_card_simple_get(e_minicard->simple, field);
+				string = e_contact_get(e_minicard->contact, field);
 				if (string && *string) {
 					add_field(e_minicard, field, left_width);
 					count++;
@@ -1013,8 +888,8 @@ e_minicard_get_card_id (EMinicard *minicard)
 	g_return_val_if_fail(minicard != NULL, NULL);
 	g_return_val_if_fail(E_IS_MINICARD(minicard), NULL);
 
-	if (minicard->card) {
-		return e_card_get_id(minicard->card);
+	if (minicard->contact) {
+		return e_contact_get_const (minicard->contact, E_CONTACT_UID);
 	} else {
 		return "";
 	}
@@ -1030,13 +905,12 @@ e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 	g_return_val_if_fail(minicard2 != NULL, 0);
 	g_return_val_if_fail(E_IS_MINICARD(minicard2), 0);
 
-	if (minicard1->card && minicard2->card) {
+	if (minicard1->contact && minicard2->contact) {
 		char *file_as1, *file_as2;
-
-		g_object_get(minicard1->card,
+		g_object_get(minicard1->contact,
 			     "file_as", &file_as1,
 			     NULL);
-		g_object_get(minicard2->card,
+		g_object_get(minicard2->contact,
 			     "file_as", &file_as2,
 			     NULL);
 

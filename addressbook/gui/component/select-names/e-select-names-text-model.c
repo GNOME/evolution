@@ -19,7 +19,7 @@
 
 #include <addressbook/gui/contact-editor/e-contact-editor.h>
 #include "e-select-names-text-model.h"
-#include "e-addressbook-util.h"
+#include "eab-gui-util.h"
 
 static FILE *out = NULL; /* stream for debugging spew */
 
@@ -137,7 +137,7 @@ dump_model (ESelectNamesTextModel *text_model)
 	for (i=0; i<e_select_names_model_count (model); ++i)
 		fprintf (out, "[%d] \"%s\" %s\n", i,
 			 e_select_names_model_get_string (model, i),
-			 e_select_names_model_get_card (model, i) ? "<card>" : "");
+			 e_select_names_model_get_contact (model, i) ? "<contact>" : "");
 	fprintf (out, "\n");
 }
 
@@ -372,9 +372,9 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 		/* Is this a quoted or an unquoted separator we are dealing with? */
 		if (ut == g_utf8_get_char(text_model->sep) && index >= 0) {
-			const EDestination *dest = e_select_names_model_get_destination (source, index);
+			const EABDestination *dest = e_select_names_model_get_destination (source, index);
 			if (dest) {
-				const gchar *str = e_destination_get_textrep (dest, FALSE);
+				const gchar *str = eab_destination_get_textrep (dest, FALSE);
 				int j;
 				const char *jp;
 
@@ -400,8 +400,8 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 			if (index == -1) {
 				EReposAbsolute repos;
 				
-				e_select_names_model_insert (source, 0, e_destination_new ());
-				e_select_names_model_insert (source, 0, e_destination_new ());
+				e_select_names_model_insert (source, 0, eab_destination_new ());
+				e_select_names_model_insert (source, 0, eab_destination_new ());
 
 				repos.model = model;
 				repos.pos = -1; /* At end */
@@ -420,7 +420,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 					(e_select_names_model_get_string (source, ins_point) == NULL)) 
 				       || (ins_point > 0 && (e_select_names_model_get_string (source, ins_point-1) == NULL)))) {
 
-					e_select_names_model_insert (source, ins_point, e_destination_new ());
+					e_select_names_model_insert (source, ins_point, eab_destination_new ());
 
 					repos.model = model;
 					repos.pos = pos;
@@ -435,10 +435,10 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 				const gchar *str = e_select_names_model_get_string (source, index);
 				gchar *str1 = g_strndup (str, offset);
 				gchar *str2 = g_strdup (str+offset);
-				EDestination *d1 = e_destination_new (), *d2 = e_destination_new ();
+				EABDestination *d1 = eab_destination_new (), *d2 = eab_destination_new ();
 
-				e_destination_set_raw (d1, str1);
-				e_destination_set_raw (d2, str2);
+				eab_destination_set_raw (d1, str1);
+				eab_destination_set_raw (d2, str2);
 
 				e_select_names_model_replace (source, index, d1);
 				e_select_names_model_insert (source, index+1, d2);
@@ -498,9 +498,9 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 			if (new_str->len) {
 
-				EDestination *dest;
-				dest = index >= 0 ? e_destination_copy (e_select_names_model_get_destination (source, index)) : e_destination_new ();
-				e_destination_set_raw (dest, new_str->str);
+				EABDestination *dest;
+				dest = index >= 0 ? eab_destination_copy (e_select_names_model_get_destination (source, index)) : eab_destination_new ();
+				eab_destination_set_raw (dest, new_str->str);
 				e_select_names_model_replace (source, index, dest);
 				
 				/* e_select_names_model_replace (source, index, dest); */
@@ -589,7 +589,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 
 		if (index+1 < e_select_names_model_count (source)) {
 			EReposDeleteShift repos;
-			EDestination *new_dest;
+			EABDestination *new_dest;
 			const gchar *str1 = e_select_names_model_get_string (source, index);
 			const gchar *str2 = e_select_names_model_get_string (source, index+1);
 			gchar *new_str;
@@ -613,8 +613,8 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 
 			e_select_names_model_delete (source, index+1);
 
-			new_dest = e_destination_new ();
-			e_destination_set_raw (new_dest, new_str);
+			new_dest = eab_destination_new ();
+			eab_destination_set_raw (new_dest, new_str);
 			e_select_names_model_replace (source, index, new_dest);
 			g_free (new_str);
 
@@ -689,7 +689,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 			char *np;
 			int i;
 			EReposDeleteShift repos;
-			EDestination *dest;
+			EABDestination *dest;
 
 			new_str = g_new0 (char, strlen (str) * 6 + 1); /* worse case it can't be any longer than this */
 
@@ -718,8 +718,8 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 				np = g_utf8_next_char (np);
 			}
 
-			dest = index >= 0 ? e_destination_copy (e_select_names_model_get_destination (source, index)) : e_destination_new ();
-			e_destination_set_raw (dest, new_str);
+			dest = index >= 0 ? eab_destination_copy (e_select_names_model_get_destination (source, index)) : eab_destination_new ();
+			eab_destination_set_raw (dest, new_str);
 			e_select_names_model_replace (source, index, dest);
 			
 			if (out)
@@ -764,10 +764,10 @@ e_select_names_text_model_obj_count (ETextModel *model)
 
 	count = i = e_select_names_model_count (source);
 	while (i > 0) {
-		const EDestination *dest;
+		const EABDestination *dest;
 		--i;
 		dest = e_select_names_model_get_destination (source, i);
-		if (e_destination_get_card (dest) == NULL)
+		if (eab_destination_get_contact (dest) == NULL)
 			--count;
 	}
 
@@ -783,8 +783,8 @@ nth_obj_index (ESelectNamesModel *source, gint n)
 	N = e_select_names_model_count (source);
 	
 	do {
-		const EDestination *dest = e_select_names_model_get_destination (source, i);
-		if (e_destination_get_card (dest))
+		const EABDestination *dest = e_select_names_model_get_destination (source, i);
+		if (eab_destination_get_contact (dest))
 			--n;
 		++i;
 	} while (n >= 0 && i < N);
@@ -820,27 +820,32 @@ e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len)
 static void
 e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 {
+#if notyet
+	/* XXX the new ebook doesn't have e_contact_get_book, and we
+	   don't really want to add it, so this can't be implemented
+	   this simply anymore */
 	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL (model)->source;
-	ECard *card;
+	EContact *contact;
 	gint i;
 
 	i = nth_obj_index (source, n);
 	g_return_if_fail (i >= 0);
 
-	card = e_select_names_model_get_card (source, i);
-	g_return_if_fail (card != NULL);
+	contact = e_select_names_model_get_contact (source, i);
+	g_return_if_fail (contact != NULL);
 	
 	/* present read-only contact editor when someone double clicks from here */
-	if (e_card_evolution_list (card)) {
+	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
 		EContactListEditor *ce;
-		ce = e_addressbook_show_contact_list_editor (e_card_get_book(card), card, FALSE, FALSE);
+		ce = e_addressbook_show_contact_list_editor (e_contact_get_book(contact), contact, FALSE, FALSE);
 		e_contact_list_editor_raise (ce);
 	}
 	else {
-		EContactEditor *ce;
-		ce = e_addressbook_show_contact_editor (e_card_get_book(card), card, FALSE, FALSE);
+		EABContactEditor *ce;
+		ce = e_addressbook_show_contact_editor (e_contact_get_book(contact), contact, FALSE, FALSE);
 		e_contact_editor_raise (ce);
 	}
+#endif
 }
 
 

@@ -9,7 +9,6 @@ INCLUDES =									\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/addressbook/gui/contact-editor		\
 	-I$(top_srcdir)/addressbook/gui/contact-list-editor	\
-	-I$(top_srcdir)/addressbook/gui/minicard		\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
 	-I$(top_srcdir)/addressbook/backend			\
 	-I$(top_builddir)/addressbook/backend			\
@@ -38,26 +37,22 @@ libevolution_addressbook_la_SOURCES = 	\
 	addressbook-storage.h		\
 	addressbook.c			\
 	addressbook.h			\
-	component-factory.c		\
-	e-cardlist-model.c		\
-	e-cardlist-model.h		\
-	e-address-widget.h		\
-	e-address-widget.c		\
-	e-address-popup.h		\
-	e-address-popup.c
+	component-factory.c
+
+#	$(top_builddir)/addressbook/printing/libecontactprint.la
 
 libevolution_addressbook_la_LIBADD =							\
-	select-names/libeselectnames.la							\
+	$(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
 	$(top_builddir)/shell/libeshell.la						\
-	$(top_builddir)/addressbook/gui/widgets/libeminicard.la				\
-	$(top_builddir)/addressbook/printing/libecontactprint.la			\
+	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la			\
+	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la			\
 	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.la			\
 	$(top_builddir)/filter/libfilter.la						\
+	$(top_builddir)/addressbook/util/libeabutil.la					\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
-	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
-	$(top_builddir)/addressbook/gui/merging/libecardmerging.la			\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 

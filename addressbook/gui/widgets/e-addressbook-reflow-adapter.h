@@ -3,11 +3,8 @@
 #define _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 
 #include <gal/widgets/e-reflow-model.h>
-#include <gal/widgets/e-selection-model.h>
 #include "e-addressbook-model.h"
-#include "addressbook/backend/ebook/e-book.h"
-#include "addressbook/backend/ebook/e-book-view.h"
-#include "addressbook/backend/ebook/e-card.h"
+#include "addressbook/backend/ebook/e-contact.h"
 
 #define E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER        (e_addressbook_reflow_adapter_get_type ())
 #define E_ADDRESSBOOK_REFLOW_ADAPTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER, EAddressbookReflowAdapter))
@@ -38,10 +35,10 @@ struct _EAddressbookReflowAdapterClass {
 
 GType         e_addressbook_reflow_adapter_get_type          (void);
 void          e_addressbook_reflow_adapter_construct         (EAddressbookReflowAdapter *adapter,
-							      EAddressbookModel         *model);
-EReflowModel *e_addressbook_reflow_adapter_new               (EAddressbookModel         *model);
+							      EABModel         *model);
+EReflowModel *e_addressbook_reflow_adapter_new               (EABModel         *model);
 
 /* Returns object with ref count of 1. */
-ECard        *e_addressbook_reflow_adapter_get_card          (EAddressbookReflowAdapter *adapter,
+EContact     *e_addressbook_reflow_adapter_get_contact       (EAddressbookReflowAdapter *adapter,
 							      int                        index);
 #endif /* _E_ADDRESSBOOK_REFLOW_ADAPTER_H_ */

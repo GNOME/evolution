@@ -26,7 +26,7 @@
 #include <gal/widgets/e-canvas.h>
 #include <libgnome/gnome-i18n.h>
 
-#include "e-addressbook-marshal.h"
+#include "eab-marshal.h"
 #include "e-minicard-view-widget.h"
 
 static void e_minicard_view_widget_init		 (EMinicardViewWidget		 *widget);
@@ -38,7 +38,6 @@ static void e_minicard_view_widget_reflow        (ECanvas *canvas);
 static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static void e_minicard_view_widget_style_set     (GtkWidget *widget, GtkStyle *previous_style);
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
-static gboolean e_minicard_view_widget_real_focus_in_event (GtkWidget *widget, GdkEventFocus *event);
 
 static ECanvasClass *parent_class = NULL;
 
@@ -135,7 +134,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, selection_change),
 			      NULL, NULL,
-			      e_addressbook_marshal_NONE__NONE,
+			      eab_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	signals [COLUMN_WIDTH_CHANGED] =
@@ -144,7 +143,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, column_width_changed),
 			      NULL, NULL,
-			      e_addressbook_marshal_NONE__DOUBLE,
+			      eab_marshal_NONE__DOUBLE,
 			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 
 	signals [RIGHT_CLICK] =
@@ -153,42 +152,18 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, right_click),
 			      NULL, NULL,
-			      e_addressbook_marshal_INT__POINTER,
+			      eab_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	widget_class->style_set     = e_minicard_view_widget_style_set;
 	widget_class->realize       = e_minicard_view_widget_realize;
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
-	widget_class->focus_in_event = e_minicard_view_widget_real_focus_in_event;
 
 	canvas_class->reflow        = e_minicard_view_widget_reflow;
 
 	klass->selection_change     = NULL;
 	klass->column_width_changed = NULL;
 	klass->right_click          = NULL;
-
-}
-
-static gboolean 
-e_minicard_view_widget_real_focus_in_event(GtkWidget *widget, GdkEventFocus *event)
-{
-	GnomeCanvas *canvas;
-	EMinicardViewWidget *view;
-
-	canvas = GNOME_CANVAS (widget);
-	view = E_MINICARD_VIEW_WIDGET(widget);
-
-	if (!canvas->focused_item) {
-		EReflow *reflow = E_REFLOW (view->emv);
-		if (reflow->count) {
-			int unsorted = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), 0);
-
-			if (unsorted != -1)
-				canvas->focused_item = reflow->items [unsorted];
-		}
-	}
-
-	return GTK_WIDGET_CLASS(parent_class)->focus_in_event (widget, event);
 }
 
 static void
@@ -326,6 +301,18 @@ selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
 }
 
 static void
+selection_row_change (ESelectionModel *esm, int row, EMinicardViewWidget *widget)
+{
+	gboolean selected = e_selection_model_is_row_selected (esm, row);
+
+	/* we only handle the selected case here */
+	if (!selected)
+		return;
+
+	selection_change (esm, widget);
+}
+
+static void
 column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *widget)
 {
 	g_signal_emit (widget,
@@ -356,6 +343,7 @@ e_minicard_view_widget_style_set (GtkWidget *widget, GtkStyle *previous_style)
 		GTK_WIDGET_CLASS(parent_class)->style_set (widget, previous_style);
 }
 
+
 static void
 e_minicard_view_widget_realize (GtkWidget *widget)
 {
@@ -379,6 +367,9 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 	g_signal_connect (E_REFLOW(view->emv)->selection,
 			  "selection_changed",
 			  G_CALLBACK (selection_change), view);
+	g_signal_connect (E_REFLOW(view->emv)->selection,
+			  "selection_row_changed",
+			  G_CALLBACK (selection_row_change), view);
 	g_signal_connect (view->emv,
 			  "column_width_changed",
 			  G_CALLBACK (column_width_changed), view);

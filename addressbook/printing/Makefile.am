@@ -38,16 +38,18 @@ contact_print_test_SOURCES = 	\
 	test-print.c
 
 contact_print_test_LDADD =	\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	libecontactprint.la					\
+	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 contact_print_style_editor_test_SOURCES = 	\
 	test-contact-print-style-editor.c
 
 contact_print_style_editor_test_LDADD =	\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	libecontactprint.la					\
+	$(top_builddir)/addressbook/util/libeabutil.la		\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 

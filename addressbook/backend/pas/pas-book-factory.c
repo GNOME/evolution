@@ -8,6 +8,7 @@
  */
 
 #include <config.h>
+#include <pthread.h>
 #include <string.h>
 
 #include "addressbook.h"
@@ -15,21 +16,22 @@
 #include "pas-marshal.h"
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-arg.h>
 
 #define DEFAULT_PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
 
 typedef struct {
-	char                              *uri;
-	GNOME_Evolution_Addressbook_BookListener             listener;
+	char                                     *uri;
+	GNOME_Evolution_Addressbook_BookListener  listener;
 } PASBookFactoryQueuedRequest;
 
 struct _PASBookFactoryPrivate {
-	gint        idle_id;
+	GMutex *map_mutex;
+
 	GHashTable *backends;
 	GHashTable *active_server_map;
-	GList      *queued_requests;
 
 	/* OAFIID of the factory */
 	char *iid;
@@ -108,10 +110,16 @@ pas_book_factory_register_backend (PASBookFactory      *factory,
 int
 pas_book_factory_get_n_backends (PASBookFactory *factory)
 {
+	int n_backends;
+
 	g_return_val_if_fail (factory != NULL, -1);
 	g_return_val_if_fail (PAS_IS_BOOK_FACTORY (factory), -1);
 
-	return g_hash_table_size (factory->priv->active_server_map);
+	g_mutex_lock (factory->priv->map_mutex);
+	n_backends = g_hash_table_size (factory->priv->active_server_map);
+	g_mutex_unlock (factory->priv->map_mutex);
+
+	return n_backends;
 }
 
 static void
@@ -131,10 +139,11 @@ pas_book_factory_dump_active_backends (PASBookFactory *factory)
 {
 	g_message ("Active PAS backends");
 
+	g_mutex_lock (factory->priv->map_mutex);
 	g_hash_table_foreach (factory->priv->active_server_map,
 			      dump_active_server_map_entry,
 			      NULL);
-
+	g_mutex_unlock (factory->priv->map_mutex);
 }
 
 /* Callback used when a backend loses its last connected client */
@@ -154,6 +163,8 @@ backend_last_client_gone_cb (PASBackend *backend, gpointer data)
 		gboolean result;
 		char *orig_uri;
 
+		g_mutex_lock (factory->priv->map_mutex);
+
 		result = g_hash_table_lookup_extended (factory->priv->active_server_map, uri,
 						       &orig_key, NULL);
 		g_assert (result != FALSE);
@@ -165,12 +176,16 @@ backend_last_client_gone_cb (PASBackend *backend, gpointer data)
 
 		g_object_unref (backend);
 
-		/* Notify upstream if there are no more backends */
+		g_mutex_unlock (factory->priv->map_mutex);
 	}
 
-	if (g_hash_table_size (factory->priv->active_server_map) == 0)
+	if (g_hash_table_size (factory->priv->active_server_map) == 0) {
+		/* Notify upstream if there are no more backends */
 		g_signal_emit (G_OBJECT (factory), factory_signals[LAST_BOOK_GONE], 0);
+	}
 }
+
+
 
 static PASBackendFactoryFn
 pas_book_factory_lookup_backend_factory (PASBookFactory *factory,
@@ -203,52 +218,16 @@ pas_book_factory_lookup_backend_factory (PASBookFactory *factory,
 }
 
 static PASBackend *
-pas_book_factory_launch_backend (PASBookFactory              *factory,
-				 GNOME_Evolution_Addressbook_BookListener       listener,
-				 const char                  *uri)
+pas_book_factory_launch_backend (PASBookFactory      *factory,
+				 PASBackendFactoryFn  backend_factory,
+				 GNOME_Evolution_Addressbook_BookListener listener,
+				 const char          *uri)
 {
-	PASBackendFactoryFn  backend_factory;
 	PASBackend          *backend;
 
-	backend_factory = pas_book_factory_lookup_backend_factory (
-		factory, uri);
-
-	if (!backend_factory) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
-			listener,
-			GNOME_Evolution_Addressbook_BookListener_ProtocolNotSupported,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("pas_book_factory_launch_backend(): could not notify "
-				   "the listener");
-
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-
 	backend = (* backend_factory) ();
-	if (!backend) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
-			listener,
-			GNOME_Evolution_Addressbook_BookListener_OtherError,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("pas_book_factory_launch_backend(): could not notify "
-				   "the listener");
-
-		CORBA_exception_free (&ev);
+	if (!backend)
 		return NULL;
-	}
 
 	g_hash_table_insert (factory->priv->active_server_map,
 			     g_strdup (uri),
@@ -261,154 +240,63 @@ pas_book_factory_launch_backend (PASBookFactory              *factory,
 	return backend;
 }
 
-static void
-pas_book_factory_process_request (PASBookFactory              *factory,
-				  PASBookFactoryQueuedRequest *request)
+static GNOME_Evolution_Addressbook_Book
+impl_GNOME_Evolution_Addressbook_BookFactory_getBook (PortableServer_Servant        servant,
+						      const CORBA_char             *uri,
+						      const GNOME_Evolution_Addressbook_BookListener listener,
+						      CORBA_Environment            *ev)
 {
+	PASBookFactory      *factory = PAS_BOOK_FACTORY (bonobo_object (servant));
 	PASBackend *backend;
-	char *uri;
-	GNOME_Evolution_Addressbook_BookListener listener;
-	CORBA_Environment ev;
+	PASBook *book;
 
-	uri = request->uri;
-	listener = request->listener;
-	g_free (request);
+	printf ("impl_GNOME_Evolution_Addressbook_BookFactory_getBook\n");
 
 	/* Look up the backend and create one if needed */
+	g_mutex_lock (factory->priv->map_mutex);
 
 	backend = g_hash_table_lookup (factory->priv->active_server_map, uri);
 
 	if (!backend) {
-		GNOME_Evolution_Addressbook_BookListener_CallStatus status;
+		PASBackendFactoryFn  backend_factory;
 
-		backend = pas_book_factory_launch_backend (factory, listener, uri);
-		if (!backend)
-			goto out;
+		backend_factory = pas_book_factory_lookup_backend_factory (factory, uri);
+	
+		if (backend_factory == NULL) {
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_GNOME_Evolution_Addressbook_BookFactory_ProtocolNotSupported,
+					     NULL);
 
-		status = pas_backend_load_uri (backend, uri);
-		if (status != GNOME_Evolution_Addressbook_BookListener_Success) {
-			/* tell the listener that we failed to open the book */
-			CORBA_exception_init (&ev);
+			g_mutex_unlock (factory->priv->map_mutex);
 
-			GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
-					   listener, status,
-					   CORBA_OBJECT_NIL,
-					   &ev);
-
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				g_warning ("pas_book_respond_open: Exception "
-					   "responding to BookListener!\n");
-			}
-
-			CORBA_exception_free (&ev);
-			
-			backend_last_client_gone_cb (backend, factory);
-
-			goto out;
+			return CORBA_OBJECT_NIL;
 		}
 
-		pas_backend_add_client (backend, listener);
-
-		goto out;
+		backend = pas_book_factory_launch_backend (factory, backend_factory, listener, uri);
 	}
 
-	pas_backend_add_client (backend, listener);
+	if (backend) {
+		GNOME_Evolution_Addressbook_BookListener listener_copy;
 
- out:
-	g_free (uri);
+		listener_copy = bonobo_object_dup_ref (listener, NULL);
 
-	CORBA_exception_init (&ev);
-	CORBA_Object_release (listener, &ev);
+		g_mutex_unlock (factory->priv->map_mutex);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("pas_book_factory_process_request(): could not release the listener");
+		book = pas_book_new (backend, uri, listener);
 
-	CORBA_exception_free (&ev);
-}
+		pas_backend_add_client (backend, book);
 
-static gboolean
-pas_book_factory_process_queue (PASBookFactory *factory)
-{
-	/* Process pending Book-creation requests. */
-	if (factory->priv->queued_requests != NULL) {
-		PASBookFactoryQueuedRequest  *request;
-		GList *l;
-
-		l = factory->priv->queued_requests;
-		request = l->data;
-
-		pas_book_factory_process_request (factory, request);
-
-		factory->priv->queued_requests = g_list_remove_link (
-			factory->priv->queued_requests, l);
-		g_list_free_1 (l);
+		return bonobo_object_corba_objref (BONOBO_OBJECT (book));
 	}
+	else {
+		/* probably need a more descriptive exception here */
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Addressbook_BookFactory_ProtocolNotSupported,
+				     NULL);
+		g_mutex_unlock (factory->priv->map_mutex);
 
-	if (factory->priv->queued_requests == NULL) {
-
-		factory->priv->idle_id = 0;
-		return FALSE;
+		return CORBA_OBJECT_NIL;
 	}
-
-	return TRUE;
-}
-
-static void
-pas_book_factory_queue_request (PASBookFactory               *factory,
-				const char                   *uri,
-				const GNOME_Evolution_Addressbook_BookListener  listener)
-{
-	PASBookFactoryQueuedRequest *request;
-	GNOME_Evolution_Addressbook_BookListener       listener_copy;
-	CORBA_Environment            ev;
-
-	CORBA_exception_init (&ev);
-
-	listener_copy = CORBA_Object_duplicate (listener, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("PASBookFactory: Could not duplicate BookListener!\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-
-	request           = g_new0 (PASBookFactoryQueuedRequest, 1);
-	request->listener = listener_copy;
-	request->uri      = g_strdup (uri);
-
-	factory->priv->queued_requests =
-		g_list_prepend (factory->priv->queued_requests, request);
-
-	if (! factory->priv->idle_id) {
-		factory->priv->idle_id =
-			g_idle_add ((GSourceFunc) pas_book_factory_process_queue, factory);
-	}
-}
-
-static void
-impl_GNOME_Evolution_Addressbook_BookFactory_openBook (PortableServer_Servant        servant,
-				      const CORBA_char             *uri,
-				      const GNOME_Evolution_Addressbook_BookListener  listener,
-				      CORBA_Environment            *ev)
-{
-	PASBookFactory      *factory = PAS_BOOK_FACTORY (bonobo_object (servant));
-	PASBackendFactoryFn  backend_factory;
-
-	backend_factory = pas_book_factory_lookup_backend_factory (factory, uri);
-
-	if (backend_factory == NULL) {
-		GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
-			listener,
-			GNOME_Evolution_Addressbook_BookListener_ProtocolNotSupported,
-			CORBA_OBJECT_NIL,
-			ev);
-
-		return;
-	}
-
-	pas_book_factory_queue_request (factory, uri, listener);
 }
 
 static void
@@ -425,7 +313,9 @@ pas_book_factory_new (void)
 {
 	PASBookFactory *factory;
 
-	factory = g_object_new (PAS_TYPE_BOOK_FACTORY, NULL);
+	factory = g_object_new (PAS_TYPE_BOOK_FACTORY, 
+				"poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL),
+				NULL);
 	
 	pas_book_factory_construct (factory);
 
@@ -483,9 +373,9 @@ pas_book_factory_init (PASBookFactory *factory)
 {
 	factory->priv = g_new0 (PASBookFactoryPrivate, 1);
 
+	factory->priv->map_mutex         = g_mutex_new();
 	factory->priv->active_server_map = g_hash_table_new (g_str_hash, g_str_equal);
 	factory->priv->backends          = g_hash_table_new (g_str_hash, g_str_equal);
-	factory->priv->queued_requests   = NULL;
 	factory->priv->registered        = FALSE;
 }
 
@@ -518,22 +408,8 @@ pas_book_factory_dispose (GObject *object)
 
 	if (factory->priv) {
 		PASBookFactoryPrivate *priv = factory->priv;
-		GList          *l;
 
-		for (l = priv->queued_requests; l != NULL; l = l->next) {
-			PASBookFactoryQueuedRequest *request = l->data;
-			CORBA_Environment ev;
-
-			g_free (request->uri);
-
-			CORBA_exception_init (&ev);
-			CORBA_Object_release (request->listener, &ev);
-			CORBA_exception_free (&ev);
-
-			g_free (request);
-		}
-		g_list_free (priv->queued_requests);
-		priv->queued_requests = NULL;
+		g_mutex_free (priv->map_mutex);
 
 		g_hash_table_foreach (priv->active_server_map,
 				      free_active_server_map_entry,
@@ -585,7 +461,7 @@ pas_book_factory_class_init (PASBookFactoryClass *klass)
 
 	epv = &klass->epv;
 
-	epv->openBook = impl_GNOME_Evolution_Addressbook_BookFactory_openBook;
+	epv->getBook = impl_GNOME_Evolution_Addressbook_BookFactory_getBook;
 }
 
 BONOBO_TYPE_FUNC_FULL (

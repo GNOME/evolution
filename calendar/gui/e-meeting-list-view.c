@@ -35,11 +35,7 @@
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <ebook/e-book.h>
-#include <ebook/e-book-util.h>
-#include <ebook/e-card-types.h>
-#include <ebook/e-card-cursor.h>
-#include <ebook/e-card.h>
-#include <ebook/e-card-simple.h>
+#include <ebook/e-vcard.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/timeutil.h>
@@ -47,6 +43,7 @@
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
 #include <misc/e-cell-renderer-combo.h>
+#include <addressbook/util/eab-destination.h>
 #include "e-select-names-renderer.h"
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
@@ -56,8 +53,6 @@ struct _EMeetingListViewPrivate
 	EMeetingStore *store;
 
 	EBook *ebook;
-	gboolean book_loaded;
-	gboolean book_load_wait;
 
         GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 };
@@ -78,26 +73,17 @@ static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 static GtkTreeViewClass *parent_class = NULL;
 
 static void
-book_open_cb (EBook *book, EBookStatus status, gpointer data)
-{
-	EMeetingListView *view = E_MEETING_LIST_VIEW (data);
-	
-	if (status == E_BOOK_STATUS_SUCCESS)
-		view->priv->book_loaded = TRUE;
-	else
-		g_warning ("Book not loaded");
-	
-	if (view->priv->book_load_wait) {
-		view->priv->book_load_wait = FALSE;
-		gtk_main_quit ();
-	}
-}
-
-static void
 start_addressbook_server (EMeetingListView *view)
 {
+	GError *error = NULL;
+
 	view->priv->ebook = e_book_new ();
-	e_book_load_default_book (view->priv->ebook, book_open_cb, view);
+	if (!e_book_load_local_addressbook (view->priv->ebook, &error)) {
+		g_warning ("start_addressbook_server(): %s", error->message);
+		g_error_free (error);
+
+		return;
+	}
 }
 
 static void
@@ -319,49 +305,41 @@ e_meeting_list_view_column_set_visible (EMeetingListView *view, const gchar *col
 }
 
 static void
-process_section (EMeetingListView *view, GNOME_Evolution_Addressbook_SimpleCardList *cards, icalparameter_role role)
+process_section (EMeetingListView *view, EABDestination **cards, icalparameter_role role)
 {
 	EMeetingListViewPrivate *priv;
 	int i;
 
 	priv = view->priv;
-	for (i = 0; i < cards->_length; i++) {
-		const char *name, *attendee = NULL, *attr;
-		GNOME_Evolution_Addressbook_SimpleCard card;
-		CORBA_Environment ev;
+	for (i = 0; i < G_N_ELEMENTS (cards); i++) {
+		const char *name, *attendee = NULL;
+		char *attr = NULL;
 
-		card = cards->_buffer[i];
-
-		CORBA_exception_init (&ev);
-
-		/* Get the CN */
-		name = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_FullName, &ev);
-		if (BONOBO_EX (&ev)) {
-			CORBA_exception_free (&ev);
-			continue;
-		}
+		name = eab_destination_get_name (cards[i]);
 
 		/* Get the field as attendee from the backend */
-		attr = cal_client_get_ldap_attribute (e_meeting_store_get_cal_client (priv->store));
-		if (attr) {
+		if (cal_client_get_ldap_attribute (e_meeting_store_get_cal_client (priv->store),
+						   &attr, NULL)) {
 			/* FIXME this should be more general */
-			if (!g_ascii_strcasecmp (attr, "icscalendar"))
-				attendee = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_Icscalendar, &ev);
-		}
+			if (!g_ascii_strcasecmp (attr, "icscalendar")) {
+				EContact *contact;
 
-		CORBA_exception_init (&ev);
+				/* FIXME: this does not work, have to use first
+				   eab_destination_use_contact() */
+				contact = eab_destination_get_contact (cards[i]);
+				if (contact) {
+					attendee = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
+					if (!attendee)
+						attendee = e_contact_get (contact, E_CONTACT_CALENDAR_URI);
+				}
+			}
+		}
 
 		/* If we couldn't get the attendee prior, get the email address as the default */
 		if (attendee == NULL || *attendee == '\0') {
-			attendee = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_Email, &ev);
-			if (BONOBO_EX (&ev)) {
-				CORBA_exception_free (&ev);
-				continue;
-			}
+			attendee = eab_destination_get_email (cards[i]);
 		}
 		
-		CORBA_exception_free (&ev);
-
 		if (attendee == NULL || *attendee == '\0')
 			continue;
 		
@@ -381,22 +359,21 @@ static void
 select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORBA_any *arg, CORBA_Environment *ev, gpointer data)
 {
 	EMeetingListView *view = E_MEETING_LIST_VIEW (data);
-	BonoboArg *card_arg;
 	int i;
 	
 	for (i = 0; sections[i] != NULL; i++) {
+		EABDestination **destv;
+		char *string = NULL;
 		Bonobo_Control corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection 
 			(view->priv->corba_select_names, sections[i], ev);
 		GtkWidget *control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
- 		BonoboControlFrame *control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
-		Bonobo_PropertyBag pb = bonobo_control_frame_get_control_property_bag (control_frame, NULL);
- 		card_arg = bonobo_property_bag_client_get_value_any (pb, "simple_card_list", NULL);
- 		if (card_arg != NULL) {
-			GNOME_Evolution_Addressbook_SimpleCardList cards;
- 			cards = BONOBO_ARG_GET_GENERAL (card_arg, TC_GNOME_Evolution_Addressbook_SimpleCardList, 
-					                GNOME_Evolution_Addressbook_SimpleCardList, NULL);
- 			process_section (view, &cards, roles[i]);
- 			bonobo_arg_release (card_arg);
+
+		bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations",
+					    TC_CORBA_string, &string, NULL);
+		destv = eab_destination_importv (string);
+ 		if (destv) {
+ 			process_section (view, destv, roles[i]);
+ 			g_free (destv);
  		}
 	}
 }

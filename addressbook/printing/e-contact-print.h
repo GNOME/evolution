@@ -25,12 +25,12 @@
 #include <glib.h>
 #include <gtk/gtkwidget.h>
 #include <addressbook/backend/ebook/e-book.h>
-#include <addressbook/backend/ebook/e-card.h>
+#include <addressbook/backend/ebook/e-contact.h>
 #include "e-contact-print-types.h"
 
 GtkWidget *e_contact_print_dialog_new(EBook *book, char *query);
 void e_contact_print_preview(EBook *book, char *query);
-GtkWidget *e_contact_print_card_dialog_new(ECard *card);
-GtkWidget *e_contact_print_card_list_dialog_new(GList *list);
+GtkWidget *e_contact_print_contact_dialog_new(EContact *card);
+GtkWidget *e_contact_print_contact_list_dialog_new(GList *list);
 
 #endif /* E_CONTACT_PRINT_H */

@@ -30,7 +30,6 @@
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <ebook/e-book.h>
-#include <ebook/e-book-util.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 #include <cal-util/timeutil.h>
@@ -50,8 +49,6 @@ struct _EMeetingStorePrivate {
 	icaltimezone *zone;
 	
 	EBook *ebook;
-	gboolean book_loaded;
-	gboolean book_load_wait;
 
 	GPtrArray *refresh_queue;
 	GHashTable *refresh_data;
@@ -81,26 +78,10 @@ struct _EMeetingStoreQueueData {
 static GObjectClass *parent_class = NULL;
 
 static void
-book_open_cb (EBook *book, EBookStatus status, gpointer data)
-{
-	EMeetingStore *store = E_MEETING_STORE (data);
-
-	if (status == E_BOOK_STATUS_SUCCESS)
-		store->priv->book_loaded = TRUE;
-	else
-		g_warning ("Book not loaded");
-
-	if (store->priv->book_load_wait) {
-		store->priv->book_load_wait = FALSE;
-		gtk_main_quit ();
-	}
-}
-
-static void
 start_addressbook_server (EMeetingStore *store)
 {
 	store->priv->ebook = e_book_new ();
-	e_book_load_default_book (store->priv->ebook, book_open_cb, store);
+	e_book_load_local_addressbook (store->priv->ebook, NULL);
 }
 
 static icalparameter_cutype
@@ -914,9 +895,11 @@ find_zone (icalproperty *ip, icalcomponent *tz_top_level)
 	iter = icalcomponent_begin_component (tz_top_level, ICAL_VTIMEZONE_COMPONENT);
 	while ((sub_comp = icalcompiter_deref (&iter)) != NULL) {
 		icalcomponent *clone;
+		icalproperty *prop;
 		const char *tz_tzid;
-		
-		tz_tzid = icalproperty_get_tzid (sub_comp);
+
+		prop = icalcomponent_get_first_property (sub_comp, ICAL_TZID_PROPERTY);
+		tz_tzid = icalproperty_get_tzid (prop);
 		if (!strcmp (tzid, tz_tzid)) {
 			icaltimezone *zone;
 
@@ -1141,7 +1124,7 @@ refresh_busy_periods (gpointer data)
 	
 	/* Check the server for free busy data */	
 	if (priv->client) {
-		GList *fb_data, *users = NULL;
+		GList *fb_data = NULL, *users = NULL;
 		struct icaltimetype itt;
 		time_t startt, endt;
 		const char *user;
@@ -1164,7 +1147,7 @@ refresh_busy_periods (gpointer data)
 
 		user = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
 		users = g_list_append (users, g_strdup (user));
-		fb_data = cal_client_get_free_busy (priv->client, users, startt, endt);
+		cal_client_get_free_busy (priv->client, users, startt, endt, &fb_data, NULL);
 
 		g_list_foreach (users, (GFunc)g_free, NULL);
 		g_list_free (users);
@@ -1181,11 +1164,6 @@ refresh_busy_periods (gpointer data)
 	}
 
 	/* Look for fburl's of attendee with no free busy info on server */
-	if (!priv->book_loaded) {
-		priv->book_load_wait = TRUE;
-		gtk_main ();
-	}
-
 	if (!e_meeting_attendee_is_set_address (attendee)) {
 		process_callbacks (qdata);
 		return TRUE;

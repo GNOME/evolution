@@ -107,7 +107,6 @@ struct _AddressbookDialog {
 	GtkWidget *page;
 
 	GladeXML *gui;
-	GNOME_Evolution_Shell shell;
 
 	GtkWidget *sourcesTable;
 	GtkTreeModel *sourcesModel;
@@ -1555,7 +1554,7 @@ sources_table_row_activated (GtkTreeView *tree_view, GtkTreePath *path,
 
 
 static AddressbookDialog *
-ldap_dialog_new (GNOME_Evolution_Shell shell)
+ldap_dialog_new (void)
 {
 	AddressbookDialog *dialog;
 	GList *l;
@@ -1564,7 +1563,6 @@ ldap_dialog_new (GNOME_Evolution_Shell shell)
 	dialog = g_new0 (AddressbookDialog, 1);
 
 	dialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
-	dialog->shell = shell;
 
 	scrolled = glade_xml_get_widget (dialog->gui, "sourcesTable");
 	dialog->sourcesTable = g_object_get_data (G_OBJECT (scrolled), "table");
@@ -1657,7 +1655,7 @@ addressbook_dialog_create_sources_table (char *name, char *string1, char *string
 #endif /* HAVE_LDAP */
 
 static EvolutionConfigControl *
-ldap_config_control_new (GNOME_Evolution_Shell shell)
+ldap_config_control_new (void)
 {
 	GtkWidget *control_widget;
 	EvolutionConfigControl *control;
@@ -1665,7 +1663,7 @@ ldap_config_control_new (GNOME_Evolution_Shell shell)
 #ifdef HAVE_LDAP
 	AddressbookDialog *dialog;
 
-	dialog = ldap_dialog_new (shell);
+	dialog = ldap_dialog_new ();
 
 	control_widget = dialog->page;
 
@@ -1697,13 +1695,7 @@ ldap_config_control_new (GNOME_Evolution_Shell shell)
 EvolutionConfigControl *
 addressbook_config_control_new (void)
 {
-	GNOME_Evolution_Shell shell;
-
-	shell = evolution_shell_client_corba_objref (addressbook_component_get_shell_client ());
-	if (! shell)
-		return NULL;
-
-	return ldap_config_control_new (shell);
+	return ldap_config_control_new ();
 }
 
 void

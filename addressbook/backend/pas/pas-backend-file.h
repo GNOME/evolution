@@ -5,7 +5,7 @@
 #ifndef __PAS_BACKEND_FILE_H__
 #define __PAS_BACKEND_FILE_H__
 
-#include "pas-backend.h"
+#include "pas-backend-sync.h"
 
 #define PAS_TYPE_BACKEND_FILE        (pas_backend_file_get_type ())
 #define PAS_BACKEND_FILE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BACKEND_FILE, PASBackendFile))
@@ -17,12 +17,12 @@
 typedef struct _PASBackendFilePrivate PASBackendFilePrivate;
 
 typedef struct {
-	PASBackend             parent_object;
+	PASBackendSync         parent_object;
 	PASBackendFilePrivate *priv;
 } PASBackendFile;
 
 typedef struct {
-	PASBackendClass parent_class;
+	PASBackendSyncClass parent_class;
 } PASBackendFileClass;
 
 PASBackend *pas_backend_file_new      (void);

@@ -38,6 +38,8 @@ libcal_clientincludedir = $(privincludedir)/cal-client
 libcal_client_la_SOURCES =	\
 	$(CORBA_GENERATED_C)	\
 	cal-client-types.c	\
+	cal-marshal.c	\
+	cal--marshal.h	\
 	cal-client.c		\
 	cal-listener.c		\
 	cal-listener.h		\
@@ -72,7 +74,10 @@ client_test_LDADD =			\
 	libcal-client.la		\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-BUILT_SOURCES = $(CORBA_GENERATED)
+MARSHAL_GENERATED = cal-marshal.c cal-marshal.h
+@EVO_MARSHAL_RULE@
+
+BUILT_SOURCES = $(CORBA_GENERATED) $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

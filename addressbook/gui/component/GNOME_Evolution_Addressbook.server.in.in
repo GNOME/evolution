@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Factory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Factory_2"
             type="shlib"
             location="@COMPONENTDIR@/libevolution-addressbook.so">
 
@@ -13,9 +13,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_Control"
             type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory">
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:Bonobo/Control:1.0"/>
@@ -32,9 +32,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Control"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Control_2"
             type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory">
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:BonoboControl/addressbook-control:1.0"/>
@@ -46,27 +46,22 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
+<oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Component"
             type="factory"
-            location="OAFIID:GNOME_Evolution_Addressbook_Factory">
+            location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
+		<item value="IDL:GNOME/Evolution/Component:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
 	               _value="Evolution Addressbook component"/>
 
-	<oaf_attribute name="evolution:shell_component_icon" type="string"
-		       value="evolution-contacts.png"/>
-	<oaf_attribute name="evolution:shell_component_launch_order" type="number"
-		       value="2"/>
-
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressWidget"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_Factory">
+	    location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:BonoboControl/address-widget:1.0"/>
@@ -80,7 +75,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
 	    type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_Factory">
+	    location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:BonoboControl/address-widget:1.0"/>
@@ -94,7 +89,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
             type="factory"
-	    location="OAFIID:GNOME_Evolution_Addressbook_Factory">
+	    location="OAFIID:GNOME_Evolution_Addressbook_Factory_2">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>

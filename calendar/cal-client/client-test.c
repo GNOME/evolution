@@ -45,24 +45,37 @@ cl_printf (CalClient *client, const char *format, ...)
 	va_end (args);
 }
 
-/* Dumps some interesting data from a component */
 static void
-dump_component (CalComponent *comp)
+objects_added_cb (GObject *object, GList *objects, gpointer data)
 {
-	const char *uid;
-	CalComponentText summary;
+	GList *l;
+	
+	for (l = objects; l; l = l->next)
+		cl_printf (data, "Object added %s\n", icalcomponent_get_uid (l->data));
+}
 
-	cal_component_get_uid (comp, &uid);
+static void
+objects_modified_cb (GObject *object, GList *objects, gpointer data)
+{
+	GList *l;
+	
+	for (l = objects; l; l = l->next)
+		cl_printf (data, "Object modified %s\n", icalcomponent_get_uid (l->data));
+}
 
-	printf ("UID %s\n", uid);
+static void
+objects_removed_cb (GObject *object, GList *objects, gpointer data)
+{
+	GList *l;
+	
+	for (l = objects; l; l = l->next)
+		cl_printf (data, "Object removed %s\n", icalcomponent_get_uid (l->data));
+}
 
-	cal_component_get_summary (comp, &summary);
-	if (summary.value)
-		printf ("\tSummary: `%s', altrep `%s'\n",
-			summary.value,
-			summary.altrep ? summary.altrep : "NONE");
-	else
-		printf ("\tNo summary\n");
+static void
+query_done_cb (GObject *object, ECalendarStatus status, gpointer data)
+{
+	cl_printf (data, "Query done\n");
 }
 
 /* Lists the UIDs of objects in a calendar, called as an idle handler */
@@ -70,47 +83,38 @@ static gboolean
 list_uids (gpointer data)
 {
 	CalClient *client;
-	GList *uids;
+	GList *objects = NULL;
 	GList *l;
-
+	
 	client = CAL_CLIENT (data);
 
-	uids = cal_client_get_uids (client, CALOBJ_TYPE_ANY);
+	g_message ("Blah");
+	
+	if (!cal_client_get_object_list (client, "(contains? \"any\" \"Test4\")", &objects, NULL))
+		return FALSE;
+	
+	cl_printf (client, "UIDS: ");
 
-	cl_printf (client, "UIDs: ");
-
-	if (!uids)
+	if (!objects)
 		printf ("none\n");
 	else {
-		for (l = uids; l; l = l->next) {
-			char *uid;
+		for (l = objects; l; l = l->next) {
+			const char *uid;
 
-			uid = l->data;
+			uid = icalcomponent_get_uid (l->data);
 			printf ("`%s' ", uid);
 		}
 
 		printf ("\n");
 
-		for (l = uids; l; l = l->next) {
-			char *uid;
-			CalComponent *comp;
-			CalClientGetStatus status;
-
-			uid = l->data;
-			status = cal_client_get_object (client, uid, &comp);
-
-			if (status == CAL_CLIENT_GET_SUCCESS) {
-				printf ("------------------------------\n");
-				dump_component (comp);
-				printf ("------------------------------\n");
-				g_object_unref (comp);
-			} else {
-				printf ("FAILED: %d\n", status);
-			}
+		for (l = objects; l; l = l->next) {
+			printf ("------------------------------\n");
+			printf ("%s", icalcomponent_as_ical_string (l->data));
+			printf ("------------------------------\n");
 		}
 	}
 
-	cal_obj_uid_list_free (uids);
+	cal_client_free_object_list (objects);
 
 	g_object_unref (client);
 
@@ -121,6 +125,8 @@ list_uids (gpointer data)
 static void
 cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
+	CalQuery *query;
+	
 	cl_printf (client, "Load/create %s\n",
 		   ((status == CAL_CLIENT_OPEN_SUCCESS) ? "success" :
 		    (status == CAL_CLIENT_OPEN_ERROR) ? "error" :
@@ -129,40 +135,29 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		    "unknown status value"));
 
 	if (status == CAL_CLIENT_OPEN_SUCCESS) {
-		GList *comp_list;
+		if (!cal_client_get_query (client, "(contains? \"any\" \"Test4\")", &query, NULL))
+			g_warning (G_STRLOC ": Unable to obtain query");
 
-		/* get free/busy information */
-		comp_list = cal_client_get_free_busy (client, NULL, 0, time (NULL));
-		if (comp_list) {
-			GList *l;
+		g_signal_connect (G_OBJECT (query), "objects_added", 
+				  G_CALLBACK (objects_added_cb), client);
+		g_signal_connect (G_OBJECT (query), "objects_modified", 
+				  G_CALLBACK (objects_modified_cb), client);
+		g_signal_connect (G_OBJECT (query), "objects_removed", 
+				  G_CALLBACK (objects_removed_cb), client);
+		g_signal_connect (G_OBJECT (query), "query_done",
+				  G_CALLBACK (query_done_cb), client);
 
-			for (l = comp_list; l; l = l->next) {
-				char *comp_str;
-
-				comp_str = cal_component_get_as_string (CAL_COMPONENT (l->data));
-				g_object_unref (l->data);
-				cl_printf (client, "Free/Busy -> %s\n", comp_str);
-				g_free (comp_str);
-			}
-			g_list_free (comp_list);
-		}
-
+		cal_query_start (query);
+		
 		g_idle_add (list_uids, client);
 	}
 	else
 		g_object_unref (client);
 }
 
-/* Callback used when an object is updated */
-static void
-obj_updated_cb (CalClient *client, const char *uid, gpointer data)
-{
-	cl_printf (client, "Object updated: %s\n", uid);
-}
-
 /* Callback used when a client is destroyed */
 static void
-client_destroy_cb (GObject *object, gpointer data)
+client_destroy_cb (gpointer data, GObject *object)
 {
 	if (CAL_CLIENT (object) == client1)
 		client1 = NULL;
@@ -177,33 +172,24 @@ client_destroy_cb (GObject *object, gpointer data)
 
 /* Creates a calendar client and tries to load the specified URI into it */
 static void
-create_client (CalClient **client, const char *uri, gboolean only_if_exists)
+create_client (CalClient **client, const char *uri, CalObjType type, gboolean only_if_exists)
 {
-	gboolean result;
-
-	*client = cal_client_new ();
+	*client = cal_client_new (uri, type);
 	if (!*client) {
-		g_message ("create_client(): could not create the client");
+		g_message (G_STRLOC ": could not create the client");
 		exit (1);
 	}
 
-	g_signal_connect (*client, "destroy",
-			  G_CALLBACK (client_destroy_cb),
-			  NULL);
+	g_object_weak_ref (G_OBJECT (*client), client_destroy_cb, NULL);
 
 	g_signal_connect (*client, "cal_opened",
 			  G_CALLBACK (cal_opened_cb),
 			  NULL);
-	g_signal_connect (*client, "obj_updated",
-			  G_CALLBACK (obj_updated_cb),
-			  NULL);
 
 	printf ("Calendar loading `%s'...\n", uri);
 
-	result = cal_client_open_calendar (*client, uri, only_if_exists);
-
-	if (!result) {
-		g_message ("create_client(): failure when issuing calendar open request `%s'",
+	if (!cal_client_open (*client, only_if_exists, NULL)) {
+		g_message (G_STRLOC ": failure when issuing calendar open request `%s'",
 			   uri);
 		exit (1);
 	}
@@ -212,8 +198,6 @@ create_client (CalClient **client, const char *uri, gboolean only_if_exists)
 int
 main (int argc, char **argv)
 {
-	char *dir;
-
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (GETTEXT_PACKAGE);
 
@@ -225,10 +209,9 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
-	dir = g_strdup_printf ("%s/evolution/local/Calendar/calendar.ics", g_get_home_dir ());
-	create_client (&client1, dir, FALSE);
-	g_free (dir);
-	create_client (&client2, "/cvs/evolution/calendar/cal-client/test.ics", TRUE);
+	create_client (&client1, "file:///home/gnome24-evolution-new-calendar/evolution/local/Calendar", 
+		       CALOBJ_TYPE_EVENT, FALSE);
+//	create_client (&client2, "file:///tmp/tasks", TRUE);
 
 	bonobo_main ();
 	return 0;

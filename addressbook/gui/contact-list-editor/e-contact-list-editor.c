@@ -30,12 +30,13 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-window.h>
 #include <gal/e-table/e-table-scrolled.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include "shell/evolution-shell-component-utils.h"
 
-#include "addressbook/gui/widgets/e-addressbook-util.h"
+#include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/util/eab-book-util.h"
 
 #include "e-contact-editor.h"
-#include "e-contact-save-as.h"
 #include "e-contact-list-model.h"
 #include "e-contact-list-editor-marshal.h"
 
@@ -76,6 +77,17 @@ static void table_drag_data_received_cb (ETable *table, int row, int col,
 					 gint x, gint y,
 					 GtkSelectionData *selection_data, guint info, guint time,
 					 EContactListEditor *editor);
+static gboolean image_drag_motion_cb (GtkWidget *widget,
+				      GdkDragContext *context,
+				      gint x, gint y, guint time, EContactListEditor *editor);
+static gboolean image_drag_drop_cb (GtkWidget *widget,
+				    GdkDragContext *context,
+				    gint x, gint y, guint time, EContactListEditor *editor);
+static void image_drag_data_received_cb (GtkWidget *widget,
+					 GdkDragContext *context,
+					 gint x, gint y,
+					 GtkSelectionData *selection_data,
+					 guint info, guint time, EContactListEditor *editor);
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -83,18 +95,26 @@ static guint contact_list_editor_signals[LAST_SIGNAL];
 
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD,
+	DND_TARGET_TYPE_URI_LIST
 };
 #define VCARD_TYPE "text/x-vcard"
-static GtkTargetEntry drag_types[] = {
+#define URI_LIST_TYPE "text/uri-list"
+
+static GtkTargetEntry list_drag_types[] = {
 	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD },
 };
-static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
+
+static GtkTargetEntry image_drag_types[] = {
+	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
+};
+static const int num_image_drag_types = sizeof (image_drag_types) / sizeof (image_drag_types[0]);
 
 /* The arguments we take */
 enum {
 	PROP_0,
 	PROP_BOOK,
-	PROP_CARD,
+	PROP_CONTACT,
 	PROP_IS_NEW_LIST,
 	PROP_EDITABLE
 };
@@ -144,11 +164,11 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 							      E_TYPE_BOOK,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_CARD, 
-					 g_param_spec_object ("card",
-							      _("Card"),
+	g_object_class_install_property (object_class, PROP_CONTACT, 
+					 g_param_spec_object ("contact",
+							      _("Contact"),
 							      /*_( */"XXX blurb" /*)*/,
-							      E_TYPE_CARD,
+							      E_TYPE_CONTACT,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_IS_NEW_LIST, 
@@ -212,8 +232,10 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	GtkWidget *bonobo_win;
 	BonoboUIContainer *container;
 	char *icon_path;
+	GdkPixbuf *pixbuf;
 
-	editor->card = NULL;
+	editor->image_buf = NULL;
+	editor->contact = NULL;
 	editor->changed = FALSE;
 	editor->editable = TRUE;
 	editor->in_async_call = FALSE;
@@ -235,8 +257,16 @@ e_contact_list_editor_init (EContactListEditor *editor)
 
 	editor->email_entry = glade_xml_get_widget (gui, "email-entry");
 	editor->list_name_entry = glade_xml_get_widget (gui, "list-name-entry");
-
+	editor->list_image = glade_xml_get_widget (gui, "list-image");
+	if (GTK_IS_ALIGNMENT (editor->list_image)) {
+		/* deal with the e_create_image_widget code, that wraps the image in an alignment */
+		editor->list_image = GTK_BIN (editor->list_image)->child;
+	}
 	editor->visible_addrs_checkbutton = glade_xml_get_widget (gui, "visible-addrs-checkbutton");
+
+	pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (editor->list_image));
+	editor->list_image_width = gdk_pixbuf_get_width (pixbuf);
+	editor->list_image_height = gdk_pixbuf_get_height (pixbuf);
 
 	/* Construct the app */
 	bonobo_win = bonobo_window_new ("contact-list-editor", _("Contact List Editor"));
@@ -286,7 +316,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "toggled", G_CALLBACK(visible_addrs_toggled_cb), editor);
 
 	e_table_drag_dest_set (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
-			       0, drag_types, num_drag_types, GDK_ACTION_LINK);
+			       0, list_drag_types, num_list_drag_types, GDK_ACTION_LINK);
 
 	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
 			  "table_drag_motion", G_CALLBACK(table_drag_motion_cb), editor);
@@ -294,6 +324,14 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "table_drag_drop", G_CALLBACK (table_drag_drop_cb), editor);
 	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
 			  "table_drag_data_received", G_CALLBACK(table_drag_data_received_cb), editor);
+
+	gtk_drag_dest_set (editor->list_image, 0, image_drag_types, num_image_drag_types, GDK_ACTION_COPY);
+	g_signal_connect (editor->list_image,
+			  "drag_motion", G_CALLBACK (image_drag_motion_cb), editor);
+	g_signal_connect (editor->list_image,
+			  "drag_drop", G_CALLBACK (image_drag_drop_cb), editor);
+	g_signal_connect (editor->list_image,
+			  "drag_data_received", G_CALLBACK (image_drag_data_received_cb), editor);
 
 	command_state_changed (editor);
 
@@ -311,6 +349,13 @@ e_contact_list_editor_init (EContactListEditor *editor)
 static void
 e_contact_list_editor_dispose (GObject *object)
 {
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (object);
+
+	if (cle->image_buf) {
+		g_free (cle->image_buf);
+		cle->image_buf = NULL;
+	}
+
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -330,12 +375,12 @@ list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 		gtk_widget_set_sensitive (cle->app, TRUE);
 	cle->in_async_call = FALSE;
 
-	e_card_set_id (cle->card, id);
+	e_contact_set (cle->contact, E_CONTACT_UID, (char*)id);
 
 	g_signal_emit (cle, contact_list_editor_signals[LIST_ADDED], 0,
-		       status, cle->card);
+		       status, cle->contact);
 
-	if (status == E_BOOK_STATUS_SUCCESS) {
+	if (status == E_BOOK_ERROR_OK) {
 		cle->is_new_list = FALSE;
 
 		if (should_close)
@@ -359,9 +404,9 @@ list_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 	cle->in_async_call = FALSE;
 
 	g_signal_emit (cle, contact_list_editor_signals[LIST_MODIFIED], 0,
-		       status, cle->card);
+		       status, cle->contact);
 
-	if (status == E_BOOK_STATUS_SUCCESS) {
+	if (status == E_BOOK_ERROR_OK) {
 		if (should_close)
 			close_dialog (cle);
 	}
@@ -371,7 +416,7 @@ list_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 }
 
 static void
-save_card (EContactListEditor *cle, gboolean should_close)
+save_contact (EContactListEditor *cle, gboolean should_close)
 {
 	extract_info (cle);
 
@@ -387,9 +432,9 @@ save_card (EContactListEditor *cle, gboolean should_close)
 		cle->in_async_call = TRUE;
 
 		if (cle->is_new_list)
-			e_book_add_card (cle->book, cle->card, (EBookIdCallback)list_added_cb, ecs);
+			e_book_async_add_contact (cle->book, cle->contact, (EBookIdCallback)list_added_cb, ecs);
 		else
-			e_book_commit_card (cle->book, cle->card, (EBookCallback)list_modified_cb, ecs);
+			e_book_async_commit_contact (cle->book, cle->contact, (EBookCallback)list_modified_cb, ecs);
 
 		cle->changed = FALSE;
 	}
@@ -416,9 +461,9 @@ prompt_to_save_changes (EContactListEditor *editor)
 	if (!editor->changed || !is_named (editor))
 		return TRUE;
 
-	switch (e_addressbook_prompt_save_dialog (GTK_WINDOW(editor->app))) {
+	switch (eab_prompt_save_dialog (GTK_WINDOW(editor->app))) {
 	case GTK_RESPONSE_YES:
-		save_card (editor, FALSE);
+		save_contact (editor, FALSE);
 		return TRUE;
 	case GTK_RESPONSE_NO:
 		return TRUE;
@@ -444,7 +489,7 @@ file_save_cb (GtkWidget *widget, gpointer data)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
 
-	save_card (cle, FALSE);
+	save_contact (cle, FALSE);
 }
 
 static void
@@ -454,7 +499,7 @@ file_save_as_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	e_contact_save_as(_("Save List as VCard"), cle->card, GTK_WINDOW (cle->app));
+	eab_contact_save(_("Save List as VCard"), cle->contact, GTK_WINDOW (cle->app));
 }
 
 static void
@@ -464,7 +509,7 @@ file_send_as_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	e_addressbook_send_card(cle->card, E_ADDRESSBOOK_DISPOSITION_AS_ATTACHMENT);
+	eab_send_contact(cle->contact, EAB_DISPOSITION_AS_ATTACHMENT);
 }
 
 static void
@@ -474,14 +519,14 @@ file_send_to_cb (GtkWidget *widget, gpointer data)
 
 	extract_info (cle);
 
-	e_addressbook_send_card(cle->card, E_ADDRESSBOOK_DISPOSITION_AS_TO);
+	eab_send_contact(cle->contact, EAB_DISPOSITION_AS_TO);
 }
 
 static void
 tb_save_and_close_cb (GtkWidget *widget, gpointer data)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
-	save_card (cle, TRUE);
+	save_contact (cle, TRUE);
 }
 
 static void
@@ -492,10 +537,10 @@ list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
 	cle->in_async_call = FALSE;
 
 	g_signal_emit (cle, contact_list_editor_signals[LIST_DELETED], 0,
-		       status, cle->card);
+		       status, cle->contact);
 
 	/* always close the dialog after we successfully delete a list */
-	if (status == E_BOOK_STATUS_SUCCESS)
+	if (status == E_BOOK_ERROR_OK)
 		close_dialog (cle);
 
 	g_object_unref (cle); /* release reference held for callback */
@@ -505,9 +550,9 @@ static void
 delete_cb (GtkWidget *widget, gpointer data)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
-	ECard *card = cle->card;
+	EContact *contact = cle->contact;
 
-	g_object_ref (card);
+	g_object_ref (contact);
 
 	if (e_contact_editor_confirm_delete(GTK_WINDOW(cle->app))) {
 
@@ -518,11 +563,11 @@ delete_cb (GtkWidget *widget, gpointer data)
 			cle->in_async_call = TRUE;
 			
 			g_object_ref (cle); /* hold reference for callback */
-			e_book_remove_card (cle->book, card, (EBookCallback)list_deleted_cb, cle);
+			e_book_async_remove_contact (cle->book, contact, (EBookCallback)list_deleted_cb, cle);
 		}
 	}
 
-	g_object_unref (card);
+	g_object_unref (contact);
 }
 
 static
@@ -578,7 +623,7 @@ contact_list_editor_destroy_notify (gpointer data,
 
 EContactListEditor *
 e_contact_list_editor_new (EBook *book,
-			   ECard *list_card,
+			   EContact *list_contact,
 			   gboolean is_new_list,
 			   gboolean editable)
 {
@@ -592,7 +637,7 @@ e_contact_list_editor_new (EBook *book,
 
 	g_object_set (ce,
 		      "book", book,
-		      "card", list_card,
+		      "contact", list_contact,
 		      "is_new_list", is_new_list,
 		      "editable", editable,
 		      NULL);
@@ -616,10 +661,10 @@ e_contact_list_editor_set_property (GObject *object, guint prop_id,
 		g_object_ref (editor->book);
 		/* XXX more here about editable/etc. */
 		break;
-	case PROP_CARD:
-		if (editor->card)
-			g_object_unref (editor->card);
-		editor->card = e_card_duplicate(E_CARD(g_value_get_object (value)));
+	case PROP_CONTACT:
+		if (editor->contact)
+			g_object_unref (editor->contact);
+		editor->contact = e_contact_duplicate(E_CONTACT(g_value_get_object (value)));
 		fill_in_info(editor);
 		editor->changed = FALSE;
 		command_state_changed (editor);
@@ -665,9 +710,9 @@ e_contact_list_editor_get_property (GObject *object, guint prop_id,
 		g_value_set_object (value, editor->book);
 		break;
 
-	case PROP_CARD:
+	case PROP_CONTACT:
 		extract_info(editor);
-		g_value_set_object (value, editor->card);
+		g_value_set_object (value, editor->contact);
 		break;
 
 	case PROP_IS_NEW_LIST:
@@ -822,7 +867,7 @@ table_drag_motion_cb (ETable *table, int row, int col,
 	for (p = context->targets; p != NULL; p = p->next) {
 		char *possible_type;
 
-		possible_type = gdk_atom_name ((GdkAtom) p->data);
+		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
 		if (!strcmp (possible_type, VCARD_TYPE)) {
 			g_free (possible_type);
 			gdk_drag_status (context, GDK_ACTION_LINK, time);
@@ -866,32 +911,241 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 
 	if (!strcmp (target_type, VCARD_TYPE)) {
 
-		GList *card_list = e_card_load_cards_from_string_with_default_charset (selection_data->data, "ISO-8859-1");
+		GList *contact_list = eab_contact_list_from_string (selection_data->data);
 		GList *c;
 
-		if (card_list)
+		if (contact_list)
 			handled = TRUE;
 
-		for (c = card_list; c; c = c->next) {
-			ECard *ecard = c->data;
+		for (c = contact_list; c; c = c->next) {
+			EContact *contact = c->data;
 
-			if (!e_card_evolution_list (ecard)) {
-				ECardSimple *simple = e_card_simple_new (ecard);
-
-				e_contact_list_model_add_card (E_CONTACT_LIST_MODEL (editor->model),
-							       simple);
-
-				g_object_unref (simple);
+			if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
+				e_contact_list_model_add_contact (E_CONTACT_LIST_MODEL (editor->model),
+								  contact);
 
 				changed = TRUE;
 			}
 		}
-		g_list_foreach (card_list, (GFunc)g_object_unref, NULL);
-		g_list_free (card_list);
+		g_list_foreach (contact_list, (GFunc)g_object_unref, NULL);
+		g_list_free (contact_list);
 
 		/* Skip to the end of the list */
 		if (adj->upper - adj->lower > adj->page_size)
 			gtk_adjustment_set_value (adj, adj->upper);
+
+		if (changed) {
+			editor->changed = TRUE;
+			command_state_changed (editor);
+		}
+	}
+
+	gtk_drag_finish (context, handled, FALSE, time);
+}
+
+static gboolean
+set_image_from_data (EContactListEditor *editor,
+		     char *data, int length)
+{
+	gboolean rv = FALSE;
+	GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
+	GdkPixbuf *pixbuf;
+
+	gdk_pixbuf_loader_write (loader, data, length, NULL);
+
+	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+	if (pixbuf)
+		gdk_pixbuf_ref (pixbuf);
+	gdk_pixbuf_loader_close (loader, NULL);
+	g_object_unref (loader);
+
+	if (pixbuf) {
+		GdkPixbuf *scaled;
+		GdkPixbuf *composite;
+
+		float scale;
+		int new_height, new_width;
+
+		new_height = gdk_pixbuf_get_height (pixbuf);
+		new_width = gdk_pixbuf_get_width (pixbuf);
+
+		printf ("new dimensions = (%d,%d)\n", new_width, new_height);
+
+		if (editor->list_image_height < new_height
+		    || editor->list_image_width < new_width) {
+			/* we need to scale down */
+			printf ("we need to scale down\n");
+			if (new_height > new_width)
+				scale = (float)editor->list_image_height / new_height;
+			else
+				scale = (float)editor->list_image_width / new_width;
+		}
+		else {
+			/* we need to scale up */
+			printf ("we need to scale up\n");
+			if (new_height > new_width)
+				scale = (float)new_height / editor->list_image_height;
+			else
+				scale = (float)new_width / editor->list_image_width;
+		}
+
+		printf ("scale = %g\n", scale);
+
+		new_width *= scale;
+		new_height *= scale;
+		new_width = MIN (new_width, editor->list_image_width);
+		new_height = MIN (new_height, editor->list_image_height);
+
+		printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height);
+
+		scaled = gdk_pixbuf_scale_simple (pixbuf,
+						  new_width, new_height,
+						  GDK_INTERP_BILINEAR);
+
+		composite = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, gdk_pixbuf_get_bits_per_sample (pixbuf),
+					    editor->list_image_width, editor->list_image_height);
+
+		gdk_pixbuf_fill (composite, 0x00000000);
+
+		gdk_pixbuf_copy_area (scaled, 0, 0, new_width, new_height,
+				      composite,
+				      editor->list_image_width / 2 - new_width / 2,
+				      editor->list_image_height / 2 - new_height / 2);
+
+		gtk_image_set_from_pixbuf (GTK_IMAGE (editor->list_image), composite);
+		gdk_pixbuf_unref (pixbuf);
+		gdk_pixbuf_unref (scaled);
+		gdk_pixbuf_unref (composite);
+
+		rv = TRUE;
+	}
+
+	return rv;
+}
+
+static gboolean
+image_drag_motion_cb (GtkWidget *widget,
+		      GdkDragContext *context,
+		      gint x, gint y, guint time, EContactListEditor *editor)
+{
+	GList *p;
+
+	for (p = context->targets; p != NULL; p = p->next) {
+		char *possible_type;
+
+		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
+		if (!strcmp (possible_type, URI_LIST_TYPE)) {
+			g_free (possible_type);
+			gdk_drag_status (context, GDK_ACTION_COPY, time);
+			return TRUE;
+		}
+
+		g_free (possible_type);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+image_drag_drop_cb (GtkWidget *widget,
+		    GdkDragContext *context,
+		    gint x, gint y, guint time, EContactListEditor *editor)
+{
+	GList *p;
+
+	if (context->targets == NULL)
+		return FALSE;
+
+
+	for (p = context->targets; p != NULL; p = p->next) {
+		char *possible_type;
+
+		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
+		if (!strcmp (possible_type, URI_LIST_TYPE)) {
+			g_free (possible_type);
+			gtk_drag_get_data (widget, context,
+					   GDK_POINTER_TO_ATOM (p->data),
+					   time);
+			return TRUE;
+		}
+
+		g_free (possible_type);
+	}
+
+	return FALSE;
+}
+
+static void
+image_drag_data_received_cb (GtkWidget *widget,
+			     GdkDragContext *context,
+			     gint x, gint y,
+			     GtkSelectionData *selection_data,
+			     guint info, guint time, EContactListEditor *editor)
+{
+	char *target_type;
+	gboolean changed = FALSE;
+	gboolean handled = FALSE;
+
+	target_type = gdk_atom_name (selection_data->target);
+
+	printf ("target_type == %s\n", target_type);
+
+	if (!strcmp (target_type, URI_LIST_TYPE)) {
+		GnomeVFSResult result;
+		GnomeVFSHandle *handle;
+		char *uri;
+		char *nl = strstr (selection_data->data, "\r\n");
+		char *buf = NULL;
+		GnomeVFSFileInfo info;
+
+		if (nl)
+			uri = g_strndup (selection_data->data, nl - (char*)selection_data->data);
+		else
+			uri = g_strdup (selection_data->data);
+
+		printf ("uri == %s\n", uri);
+
+		result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
+		if (result == GNOME_VFS_OK) {
+			result = gnome_vfs_get_file_info_from_handle (handle, &info, GNOME_VFS_FILE_INFO_DEFAULT);
+			if (result == GNOME_VFS_OK) {
+				GnomeVFSFileSize num_left;
+				GnomeVFSFileSize num_read;
+				GnomeVFSFileSize total_read;
+
+				printf ("file size = %d\n", (int)info.size);
+				buf = g_malloc (info.size);
+
+				num_left = info.size;
+				total_read = 0;
+
+				while ((result = gnome_vfs_read (handle, buf + total_read, num_left, &num_read)) == GNOME_VFS_OK) {
+					num_left -= num_read;
+					total_read += num_read;
+				}
+
+				printf ("read %d bytes\n", (int)total_read);
+				if (set_image_from_data (editor, buf, total_read)) {
+					changed = TRUE;
+					handled = TRUE;
+					g_free (editor->image_buf);
+					editor->image_buf = buf;
+					editor->image_buf_size = total_read;
+				}
+				else {
+					/* XXX we should pop up a
+					   warning dialog here */
+					g_free (buf);
+				}
+			}
+
+			gnome_vfs_close (handle);
+		}
+		else {
+			printf ("gnome_vfs_open failed (%s)\n", gnome_vfs_result_to_string (result));
+		}
+
+		g_free (uri);
 
 		if (changed) {
 			editor->changed = TRUE;
@@ -926,48 +1180,43 @@ command_state_changed (EContactListEditor *editor)
 static void
 extract_info(EContactListEditor *editor)
 {
-	ECard *card = editor->card;
-	if (card) {
+	EContact *contact = editor->contact;
+	if (contact) {
 		int i;
-		EList *email_list;
-		EIterator *email_iter;
+		GList *email_list;
 		char *string = gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
 
-		if (string && *string)
-			g_object_set (card,
-				       "file_as", string,
-				       "full_name", string,
-				       NULL);
+		if (string && *string) {
+			e_contact_set (contact, E_CONTACT_FILE_AS, string);
+			e_contact_set (contact, E_CONTACT_FULL_NAME, string);
+		}
 
 		g_free (string);
 
-		
-		g_object_set (card,
-				"list", GINT_TO_POINTER (TRUE),
-				"list_show_addresses",
-				GINT_TO_POINTER (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton))),
-				NULL);
+		e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
+		e_contact_set (contact, E_CONTACT_LIST_SHOW_ADDRESSES,
+			       GINT_TO_POINTER (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton))));
 
-		g_object_get (card,
-				"email", &email_list,
-				NULL);
-
-		/* clear the email list */
-		email_iter = e_list_get_iterator (email_list);
-		e_iterator_last (email_iter);
-		while (e_iterator_is_valid (E_ITERATOR (email_iter))) {
-			e_iterator_delete (E_ITERATOR (email_iter));
-		}
-		g_object_unref (email_iter);
-
+		email_list = NULL;
 		/* then refill it from the contact list model */
 		for (i = 0; i < e_table_model_row_count (editor->model); i ++) {
-			const EDestination *dest = e_contact_list_model_get_destination (E_CONTACT_LIST_MODEL (editor->model), i);
-			gchar *dest_xml = e_destination_export (dest);
-			if (dest_xml) {
-				e_list_append (email_list, dest_xml);
-			}
-			g_free (dest_xml);
+			const EABDestination *dest = e_contact_list_model_get_destination (E_CONTACT_LIST_MODEL (editor->model), i);
+			gchar *dest_xml = eab_destination_export (dest);
+			if (dest_xml)
+				email_list = g_list_append (email_list, dest_xml);
+		}
+
+		e_contact_set (contact, E_CONTACT_EMAIL, email_list);
+
+		/* XXX free email_list? */
+
+		if (editor->image_buf) {
+			EContactPhoto photo;
+
+			photo.data = editor->image_buf;
+			photo.length = editor->image_buf_size;
+
+			e_contact_set (contact, E_CONTACT_LOGO, &photo);
 		}
 		g_object_unref (email_list);
 	}
@@ -976,19 +1225,18 @@ extract_info(EContactListEditor *editor)
 static void
 fill_in_info(EContactListEditor *editor)
 {
-	if (editor->card) {
+	if (editor->contact) {
+		EContactPhoto *photo;
 		char *file_as;
 		gboolean show_addresses = FALSE;
 		gboolean is_evolution_list = FALSE;
-		EList *email_list;
-		EIterator *email_iter;
+		GList *email_list;
+		GList *iter;
 
-		g_object_get (editor->card,
-				"file_as", &file_as,
-				"email", &email_list,
-				"list", &is_evolution_list,
-				"list_show_addresses", &show_addresses,
-				NULL);
+		file_as = e_contact_get_const (editor->contact, E_CONTACT_FILE_AS);
+		email_list = e_contact_get (editor->contact, E_CONTACT_EMAIL);
+		is_evolution_list = GPOINTER_TO_INT (e_contact_get (editor->contact, E_CONTACT_IS_LIST));
+		show_addresses = GPOINTER_TO_INT (e_contact_get (editor->contact, E_CONTACT_LIST_SHOW_ADDRESSES));
 
 		gtk_editable_delete_text (GTK_EDITABLE (editor->list_name_entry), 0, -1);
 		if (file_as) {
@@ -1001,20 +1249,24 @@ fill_in_info(EContactListEditor *editor)
 
 		e_contact_list_model_remove_all (E_CONTACT_LIST_MODEL (editor->model));
 
-		email_iter = e_list_get_iterator (email_list);
-		
-		while (e_iterator_is_valid (email_iter)) {
-			const char *dest_xml = e_iterator_get (email_iter);
-			EDestination *dest;
+		for (iter = email_list; iter; iter = iter->next) {
+			char *dest_xml = iter->data;
+			EABDestination *dest;
 
 			/* g_message ("incoming xml: [%s]", dest_xml); */
-			dest = e_destination_import (dest_xml);
+			dest = eab_destination_import (dest_xml);
 
 			if (dest != NULL) {
 				e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (editor->model), dest);
 			}
+		}
 
-			e_iterator_next (email_iter);
+		/* XXX free email_list */
+
+		photo = e_contact_get (editor->contact, E_CONTACT_LOGO);
+		if (photo) {
+			set_image_from_data (editor, photo->data, photo->length);
+			e_contact_photo_free (photo);
 		}
 		g_object_unref (email_list);
 	}

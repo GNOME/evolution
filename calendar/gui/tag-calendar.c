@@ -162,7 +162,6 @@ resolve_tzid_cb (const char *tzid, gpointer data)
 {
 	CalClient *client;
 	icaltimezone *zone = NULL;
-	CalClientGetStatus status;
 
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (data), NULL);
@@ -174,7 +173,7 @@ resolve_tzid_cb (const char *tzid, gpointer data)
 
 	if (!zone) {
 		/* FIXME: Handle errors. */
-		status = cal_client_get_timezone (client, tzid, &zone);
+		cal_client_get_timezone (client, tzid, &zone, NULL);
 	}
 
 	return zone;

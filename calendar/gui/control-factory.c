@@ -69,8 +69,11 @@ get_prop (BonoboPropertyBag *bag,
 	  CORBA_Environment *ev,
 	  gpointer           user_data)
 {
-	GnomeCalendar *gcal = user_data;
+	GnomeCalendar *gcal;
 	const char *uri;
+	BonoboControl *control = user_data;
+
+	gcal = (GnomeCalendar *) bonobo_control_get_widget (control);
 
 	switch (arg_id) {
 
@@ -96,6 +99,7 @@ get_prop (BonoboPropertyBag *bag,
 		case GNOME_CAL_LIST_VIEW:
 			BONOBO_ARG_SET_STRING (arg, "list");
 			break;
+		default:
 		}
 		break;
 
@@ -104,7 +108,6 @@ get_prop (BonoboPropertyBag *bag,
 	}
 }
 
-
 static void
 set_prop (BonoboPropertyBag *bag,
 	  const BonoboArg   *arg,
@@ -112,14 +115,19 @@ set_prop (BonoboPropertyBag *bag,
 	  CORBA_Environment *ev,
 	  gpointer           user_data)
 {
-	GnomeCalendar *gcal = user_data;
+	GnomeCalendar *gcal;
 	char *string;
 	GnomeCalendarViewType view;
+	BonoboControl *control = user_data;
+
+	gcal = (GnomeCalendar *) bonobo_control_get_widget (control);
 
 	switch (arg_id) {
 	case PROPERTY_CALENDAR_URI_IDX:
 		string = BONOBO_ARG_GET_STRING (arg);
-		if (!gnome_calendar_open (gcal, string)) {
+		if (gnome_calendar_add_event_uri (gcal, string)) {
+			calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
+		} else {
 			char *msg;
 
 			msg = g_strdup_printf (_("Could not open the folder in '%s'"), string);
@@ -161,7 +169,7 @@ calendar_properties_init (GnomeCalendar *gcal, BonoboControl *control)
 {
 	BonoboPropertyBag *pbag;
 
-	pbag = bonobo_property_bag_new (get_prop, set_prop, gcal);
+	pbag = bonobo_property_bag_new (get_prop, set_prop, control);
 
 	bonobo_property_bag_add (pbag,
 				 PROPERTY_CALENDAR_URI,

@@ -15,8 +15,8 @@
 #include <gtk/gtkobject.h>
 #include <stdio.h>
 #include <e-util/e-list.h>
-#include <addressbook/backend/ebook/e-card.h>
-#include <addressbook/backend/ebook/e-destination.h>
+#include <addressbook/backend/ebook/e-contact.h>
+#include <addressbook/util/eab-destination.h>
 
 #define E_TYPE_SELECT_NAMES_MODEL            (e_select_names_model_get_type ())
 #define E_SELECT_NAMES_MODEL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SELECT_NAMES_MODEL, ESelectNamesModel))
@@ -54,18 +54,18 @@ gint                e_select_names_model_get_limit           (ESelectNamesModel 
 void                e_select_names_model_set_limit           (ESelectNamesModel *model, gint limit);
 gboolean            e_select_names_model_at_limit            (ESelectNamesModel *model);
 
-const EDestination *e_select_names_model_get_destination     (ESelectNamesModel *model, gint index);
-gchar              *e_select_names_model_export_destinationv (ESelectNamesModel *model);
-void                e_select_names_model_import_destinationv (ESelectNamesModel *model,
+const EABDestination *e_select_names_model_get_destination     (ESelectNamesModel *model, gint index);
+gchar                *e_select_names_model_export_destinationv (ESelectNamesModel *model);
+void                  e_select_names_model_import_destinationv (ESelectNamesModel *model,
 							      gchar *destinationv);
-ECard              *e_select_names_model_get_card            (ESelectNamesModel *model, gint index);
+EContact           *e_select_names_model_get_contact         (ESelectNamesModel *model, gint index);
 const gchar        *e_select_names_model_get_string          (ESelectNamesModel *model, gint index);
 
-gboolean      e_select_names_model_contains       (ESelectNamesModel *model, const EDestination *dest);
+gboolean      e_select_names_model_contains       (ESelectNamesModel *model, const EABDestination *dest);
 
-void          e_select_names_model_insert         (ESelectNamesModel *model, gint index, EDestination *dest);
-void          e_select_names_model_append         (ESelectNamesModel *model, EDestination *dest);
-void          e_select_names_model_replace        (ESelectNamesModel *model, gint index, EDestination *dest);
+void          e_select_names_model_insert         (ESelectNamesModel *model, gint index, EABDestination *dest);
+void          e_select_names_model_append         (ESelectNamesModel *model, EABDestination *dest);
+void          e_select_names_model_replace        (ESelectNamesModel *model, gint index, EABDestination *dest);
 void          e_select_names_model_delete         (ESelectNamesModel *model, gint index);
 void          e_select_names_model_delete_all     (ESelectNamesModel *model);
 void          e_select_names_model_overwrite_copy (ESelectNamesModel *dest, ESelectNamesModel *src);
@@ -76,11 +76,8 @@ void          e_select_names_model_clean      (ESelectNamesModel *model, gboolea
 void          e_select_names_model_name_pos (ESelectNamesModel *model, gint seplen, gint index, gint *pos, gint *length);
 void          e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, gint *index, gint *start_pos, gint *length);
 
-void          e_select_names_model_cardify            (ESelectNamesModel *model, EBook *book, gint index, gint delay);
-gboolean      e_select_names_model_uncardify          (ESelectNamesModel *model, gint index);
-void          e_select_names_model_cancel_cardify     (ESelectNamesModel *model, gint index);
-void          e_select_names_model_cardify_all        (ESelectNamesModel *model, EBook *book, gint delay);
-void          e_select_names_model_cancel_cardify_all (ESelectNamesModel *model);
+void          e_select_names_model_load_all_contacts       (ESelectNamesModel *model, EBook *book);
+void          e_select_names_model_cancel_all_contact_load (ESelectNamesModel *model);
 
 /* This is a mildly annoying freeze/thaw pair, in that it only applies to the 'changed'
    signal and not to 'resized'.  This could cause unexpected results in some cases. */

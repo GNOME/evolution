@@ -26,6 +26,8 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <pas/pas-types.h>
+#include <ebook/e-contact.h>
 
 #define PAS_TYPE_BACKEND_SUMMARY        (pas_backend_summary_get_type ())
 #define PAS_BACKEND_SUMMARY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BACKEND_SUMMARY, PASBackendSummary))
@@ -36,14 +38,14 @@
 
 typedef struct _PASBackendSummaryPrivate PASBackendSummaryPrivate;
 
-typedef struct {
+struct _PASBackendSummary{
 	GObject parent_object;
 	PASBackendSummaryPrivate *priv;
-} PASBackendSummary;
+};
 
-typedef struct {
+struct _PASBackendSummaryClass{
 	GObjectClass parent_class;
-} PASBackendSummaryClass;
+};
 
 PASBackendSummary* pas_backend_summary_new              (const char *summary_path,
 							 int flush_timeout_millis);
@@ -55,8 +57,8 @@ gboolean           pas_backend_summary_load             (PASBackendSummary *summ
 /* returns FALSE if the save fails, TRUE if it succeeds (or isn't required due to no changes) */
 gboolean           pas_backend_summary_save              (PASBackendSummary *summary);
 
-void               pas_backend_summary_add_card          (PASBackendSummary *summary, const char *vcard);
-void               pas_backend_summary_remove_card       (PASBackendSummary *summary, const char *id);
+void               pas_backend_summary_add_contact       (PASBackendSummary *summary, EContact *contact);
+void               pas_backend_summary_remove_contact    (PASBackendSummary *summary, const char *id);
 
 void               pas_backend_summary_touch             (PASBackendSummary *summary);
 

@@ -42,7 +42,7 @@ ldapschemadir = $(privdatadir)
 ldapschema_DATA= $(LDAP_SCHEMA)
 
 privlib_LIBRARIES = libpas.a
-noinst_LIBRARIES = libpasfile.a $(LDAP_BACKEND)
+noinst_LIBRARIES = libpasfile.a libpasvcf.a $(LDAP_BACKEND)
 
 pasincludedir = $(privincludedir)/pas
 
@@ -54,7 +54,8 @@ pasinclude_HEADERS =					\
 	pas-backend-card-sexp.h				\
 	pas-backend.h					\
 	pas-backend-summary.h				\
-	pas-card-cursor.h
+	pas-backend-sync.h				\
+	pas-types.h
 
 libpas_a_SOURCES =					\
 	$(pasinclude_HEADERS)				\
@@ -66,12 +67,17 @@ libpas_a_SOURCES =					\
 	pas-backend-file.c				\
 	pas-backend.c					\
 	pas-backend-summary.c				\
-	pas-card-cursor.c				\
-	pas-marshal.c
+	pas-backend-sync.c				\
+	pas-marshal.c					\
+	ximian-vcard.h
 
 libpasfile_a_SOURCES =					\
 	pas-backend-file.c				\
 	pas-backend-file.h
+
+libpasvcf_a_SOURCES =					\
+	pas-backend-vcf.c				\
+	pas-backend-vcf.h
 
 if ENABLE_LDAP
 libpasldap_a_SOURCES =					\

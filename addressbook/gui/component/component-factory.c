@@ -26,20 +26,18 @@
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "addressbook-config.h"
-#include "e-address-popup.h"
-#include "e-address-widget.h"
-#include "e-minicard-control.h"
+#include "eab-popup-control.h"
+#include "eab-vcard-control.h"
 #include "select-names/e-select-names-bonobo.h"
 
 #include <bonobo/bonobo-shlib-factory.h>
 
 
-#define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory"
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory_2"
 
-#define MINICARD_CONTROL_ID            "OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control"
+#define VCARD_CONTROL_ID               "OAFIID:GNOME_Evolution_Addressbook_VCard_Control"
 #define ADDRESSBOOK_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_Control"
-#define SHELL_COMPONENT_ID             "OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
-#define ADDRESS_WIDGET_ID              "OAFIID:GNOME_Evolution_Addressbook_AddressWidget"
+#define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component"
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
 #define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 #define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
@@ -50,16 +48,19 @@ factory (BonoboGenericFactory *factory,
 	 const char *component_id,
 	 void *closure)
 {
-	if (strcmp (component_id, MINICARD_CONTROL_ID) == 0)
-		return BONOBO_OBJECT (e_minicard_control_new ());
+	printf ("asked to activate component_id `%s'\n", component_id);
+
+	if (strcmp (component_id, VCARD_CONTROL_ID) == 0)
+		return BONOBO_OBJECT (eab_vcard_control_new ());
 	if (strcmp (component_id, ADDRESSBOOK_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (addressbook_new_control ());
-	if (strcmp (component_id, SHELL_COMPONENT_ID) == 0)
-		return addressbook_component_init ();
-	if (strcmp (component_id, ADDRESS_WIDGET_ID) == 0)
-		return BONOBO_OBJECT (e_address_widget_new_control ());
+	if (strcmp (component_id, COMPONENT_ID) == 0) {
+		BonoboObject *object = BONOBO_OBJECT (addressbook_component_peek ());
+		bonobo_object_ref (object);
+		return object;
+	}
 	if (strcmp (component_id, ADDRESS_POPUP_ID) == 0)
-		return BONOBO_OBJECT (e_address_popup_new_control ());
+		return BONOBO_OBJECT (eab_popup_control_new ());
 	if (strcmp (component_id, LDAP_STORAGE_CONFIG_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (addressbook_config_control_new ());
 	if (strcmp (component_id, SELECT_NAMES_ID) == 0)

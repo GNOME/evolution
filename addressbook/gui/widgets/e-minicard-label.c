@@ -22,7 +22,7 @@
 #include <config.h>
 
 #include "e-minicard-label.h"
-#include "e-addressbook-marshal.h"
+#include "eab-marshal.h"
 
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
@@ -172,7 +172,7 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMinicardLabelClass, style_set),
 			      NULL, NULL,
-			      e_addressbook_marshal_VOID__OBJECT,
+			      eab_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1,
 			      GTK_TYPE_STYLE);
 

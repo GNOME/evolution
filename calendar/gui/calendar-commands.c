@@ -59,6 +59,7 @@
 #include "goto.h"
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
+#include "dialogs/new-calendar.h"
 #include "itip-utils.h"
 #include "evolution-shell-component-utils.h"
 
@@ -72,6 +73,68 @@ typedef struct {
 	guint calendar_focused : 1;
 	guint taskpad_focused : 1;
 } FocusData;
+
+static void
+file_new_calendar_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+}
+
+static void
+file_new_appointment_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+	time_t dtstart, dtend;
+	ECalView *cal_view;
+
+	gcal = GNOME_CALENDAR (data);
+
+	cal_view = (ECalView *) gnome_calendar_get_current_view_widget (gcal);
+	e_cal_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+	e_cal_view_new_appointment_for (cal_view, dtstart, dtend, FALSE, FALSE);
+}
+
+static void
+file_new_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+	time_t dtstart, dtend;
+	ECalView *cal_view;
+
+	gcal = GNOME_CALENDAR (data);
+
+	cal_view = (ECalView *) gnome_calendar_get_current_view_widget (gcal);
+	e_cal_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+	e_cal_view_new_appointment_for (cal_view, dtstart, dtend, TRUE, FALSE);
+}
+
+static void
+file_new_meeting_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+	time_t dtstart, dtend;
+	ECalView *cal_view;
+
+	gcal = GNOME_CALENDAR (data);
+
+	cal_view = (ECalView *) gnome_calendar_get_current_view_widget (gcal);
+	e_cal_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+	e_cal_view_new_appointment_for (cal_view, dtstart, dtend, FALSE, TRUE);
+}
+
+static void
+file_new_task_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	gnome_calendar_new_task (gcal);
+}
 
 /* Prints the calendar at its current view and time range */
 static void
@@ -335,12 +398,10 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	start = time_day_begin_with_zone (start, utc);
 	end = time_add_week_with_zone (start, 6, utc);
 
+	/* FIXME Should we aggregate the data? */
 	client_list = e_cal_model_get_client_list (gnome_calendar_get_calendar_model (gcal));
 	for (cl = client_list; cl != NULL; cl = cl->next) {
-		GList *tmp_comp_list;
-
-		tmp_comp_list = cal_client_get_free_busy ((CalClient *) cl->data, NULL, start, end);
-		if (tmp_comp_list) {
+		if (cal_client_get_free_busy ((CalClient *) cl->data, NULL, start, end, &comp_list, NULL)) {
 			GList *l;
 
 			for (l = comp_list; l; l = l->next) {
@@ -599,19 +660,42 @@ control_util_show_settings (GnomeCalendar *gcal)
  * is FALSE, all will be disabled.  Otherwise, the currently-selected number of
  * events will be used.
  */
-static void
-sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboolean enable)
+void
+calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalendar *gcal, gboolean enable)
 {
 	BonoboUIComponent *uic;
+	ECalViewEvent *event;
+	GList *list;
 	int n_selected;
-	gboolean read_only, has_recurrences;
+	GtkWidget *view;
+	CalClient *cal_client;
+	gboolean read_only = FALSE, has_recurrences;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	n_selected = enable ? gnome_calendar_get_num_events_selected (gcal) : 0;
-	read_only = cal_client_is_read_only (e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal)));
+	view = gnome_calendar_get_current_view_widget (gcal);
+	list = e_cal_view_get_selected_events (E_CAL_VIEW (view));
 
+	n_selected = enable ? g_list_length (list) : 0;
+
+	event = (ECalViewEvent *) list ? list->data : NULL;
+	if (event) {
+		cal_client_is_read_only (event->comp_data->client, &read_only, NULL);
+	} else {
+		cal_client = e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal));
+		if (cal_client)
+			cal_client_is_read_only (cal_client, &read_only, NULL);
+		else
+			read_only = TRUE;
+	}
+
+	bonobo_ui_component_set_prop (uic, "/commands/NewAppointment", "sensitive",
+				      read_only ? "0" : "1", NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/NewAllDayEvent", "sensitive",
+				      read_only ? "0" : "1", NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/NewMeeting", "sensitive",
+				      read_only ? "0" : "1", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
@@ -628,19 +712,8 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 	/* occurrence-related menu items */
 	has_recurrences = FALSE;
 	if (n_selected > 0 && !read_only) {
-		ECalViewEvent *event;
-		GList *list;
-		GtkWidget *view;
-
-		view = gnome_calendar_get_current_view_widget (gcal);
-		list = e_cal_view_get_selected_events (E_CAL_VIEW (view));
 		if (list) {
 			event = (ECalViewEvent *) list->data;
-			g_list_free (list);
-		} else
-			event = NULL;
-
-		if (event) {
 			if (cal_util_component_has_recurrences (event->comp_data->icalcomp))
 				has_recurrences = TRUE;
 		}
@@ -652,6 +725,10 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 	bonobo_ui_component_set_prop (uic, "/commands/DeleteAllOccurrences", "sensitive",
 				      has_recurrences ? "1" : "0",
 				      NULL);
+
+	/* free memory */
+	if (list)
+		g_list_free (list);
 }
 
 /* Sensitizes the UI Component menu/toolbar tasks commands based on the number
@@ -663,14 +740,21 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 {
 	BonoboUIComponent *uic;
 	int n_selected;
-	gboolean read_only;
+	CalClient *cal_client;
+	gboolean read_only = TRUE;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
 	n_selected = enable ? gnome_calendar_get_num_tasks_selected (gcal) : 0;
-	read_only = cal_client_is_read_only (gnome_calendar_get_task_pad_cal_client (gcal));
+	cal_client = gnome_calendar_get_task_pad_cal_client (gcal);
+	if (cal_client)
+		cal_client_is_read_only (cal_client, &read_only, NULL);
+	else
+		read_only = TRUE;
 
+	bonobo_ui_component_set_prop (uic, "/commands/NewTask", "sensitive",
+				      read_only ? "0" : "1", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
@@ -705,7 +789,7 @@ gcal_calendar_selection_changed_cb (GnomeCalendar *gcal, gpointer data)
 
 	control = BONOBO_CONTROL (data);
 
-	sensitize_calendar_commands (gcal, control, TRUE);
+	calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 }
 
 /* Callback used when the selection in the taskpad changes */
@@ -734,13 +818,13 @@ gcal_calendar_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 	if (in) {
 		g_signal_connect (gcal, "calendar_selection_changed",
 				  G_CALLBACK (gcal_calendar_selection_changed_cb), control);
-		sensitize_calendar_commands (gcal, control, TRUE);
+		calendar_control_sensitize_calendar_commands (control, gcal, TRUE);
 		focus->calendar_focused = TRUE;
 	} else if (focus->calendar_focused) {
 		gtk_signal_disconnect_by_func (GTK_OBJECT (gcal),
 					       G_CALLBACK (gcal_calendar_selection_changed_cb),
 					       control);
-		sensitize_calendar_commands (gcal, control, FALSE);
+		calendar_control_sensitize_calendar_commands (control, gcal, FALSE);
 		focus->calendar_focused = FALSE;
 	}
 }
@@ -779,6 +863,11 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 
 
 static BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("NewCalendar", file_new_calendar_cb),
+	BONOBO_UI_VERB ("NewAppointment", file_new_appointment_cb),
+	BONOBO_UI_VERB ("NewAllDayEvent", file_new_event_cb),
+	BONOBO_UI_VERB ("NewMeeting", file_new_meeting_cb),
+	BONOBO_UI_VERB ("NewTask", file_new_task_cb),
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
 
@@ -808,11 +897,15 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/Toolbar/DayView",					      "buttons/dayview.xpm"),
-	E_PIXMAP ("/Toolbar/WorkWeekView",				      "buttons/workweekview.xpm"),
-	E_PIXMAP ("/Toolbar/WeekView",					      "buttons/weekview.xpm"),
-	E_PIXMAP ("/Toolbar/MonthView",					      "buttons/monthview.xpm"),
-	E_PIXMAP ("/Toolbar/ListView",					      "buttons/listview.xpm"),
+	E_PIXMAP ("/commands/NewAppointment", "new_appointment.xpm"),
+	E_PIXMAP ("/commands/NewAllDayEvent", "new_all_day_event.png"),
+	E_PIXMAP ("/commands/NewMeeting",     "meeting-request-16.png"),
+	E_PIXMAP ("/commands/NewTask",        "new_task-16.png"),
+	E_PIXMAP ("/Toolbar/DayView",	      "buttons/dayview.xpm"),
+	E_PIXMAP ("/Toolbar/WorkWeekView",    "buttons/workweekview.xpm"),
+	E_PIXMAP ("/Toolbar/WeekView",	      "buttons/weekview.xpm"),
+	E_PIXMAP ("/Toolbar/MonthView",	      "buttons/monthview.xpm"),
+	E_PIXMAP ("/Toolbar/ListView",	      "buttons/listview.xpm"),
 
 	E_PIXMAP_END
 };
@@ -855,7 +948,7 @@ calendar_control_activate (BonoboControl *control,
 	g_signal_connect (gcal, "taskpad_focus_change",
 			  G_CALLBACK (gcal_taskpad_focus_change_cb), control);
 
-	sensitize_calendar_commands (gcal, control, FALSE);
+	calendar_control_sensitize_calendar_commands (control, gcal, FALSE);
 	sensitize_taskpad_commands (gcal, control, FALSE);
 
 	bonobo_ui_component_thaw (uic, NULL);

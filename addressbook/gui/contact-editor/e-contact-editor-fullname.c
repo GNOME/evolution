@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
- * e-contact-editor-fullname.c
- * Copyright (C) 2000  Ximian, Inc.
- * Author: Chris Lahey <clahey@ximian.com>
+ * eab-contact-editor-phones.c
+ * Copyright (C) 2003  Ximian, Inc.
+ * Author: Chris Toshok <toshok@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -142,7 +142,7 @@ e_contact_editor_fullname_dispose (GObject *object)
 	}
 	
 	if (e_contact_editor_fullname->name) {
-		e_card_name_unref(e_contact_editor_fullname->name);
+		e_contact_name_free(e_contact_editor_fullname->name);
 		e_contact_editor_fullname->name = NULL;
 	}
 
@@ -151,12 +151,12 @@ e_contact_editor_fullname_dispose (GObject *object)
 }
 
 GtkWidget*
-e_contact_editor_fullname_new (const ECardName *name)
+e_contact_editor_fullname_new (const EContactName *name)
 {
 	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME, NULL);
 	g_object_set (widget,
-			"name", name,
-			NULL);
+		      "name", name,
+		      NULL);
 	return widget;
 }
 
@@ -170,8 +170,8 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 	
 	switch (prop_id){
 	case PROP_NAME:
-		e_card_name_unref(e_contact_editor_fullname->name);
-		e_contact_editor_fullname->name = e_card_name_copy(g_value_get_pointer (value));
+		e_contact_name_free(e_contact_editor_fullname->name);
+		e_contact_editor_fullname->name = e_contact_name_copy(g_value_get_pointer (value));
 		fill_in_info(e_contact_editor_fullname);
 		break;
 	case PROP_EDITABLE: {
@@ -224,7 +224,7 @@ e_contact_editor_fullname_get_property (GObject *object, guint prop_id,
 	switch (prop_id) {
 	case PROP_NAME:
 		extract_info(e_contact_editor_fullname);
-		g_value_set_pointer (value, e_card_name_ref(e_contact_editor_fullname->name));
+		g_value_set_pointer (value, e_contact_name_copy(e_contact_editor_fullname->name));
 		break;
 	case PROP_EDITABLE:
 		g_value_set_boolean (value, e_contact_editor_fullname->editable ? TRUE : FALSE);
@@ -250,13 +250,13 @@ fill_in_field(EContactEditorFullname *editor, char *field, char *string)
 static void
 fill_in_info(EContactEditorFullname *editor)
 {
-	ECardName *name = editor->name;
+	EContactName *name = editor->name;
 	if (name) {
-		fill_in_field(editor, "entry-title",  name->prefix);
+		fill_in_field(editor, "entry-title",  name->prefixes);
 		fill_in_field(editor, "entry-first",  name->given);
 		fill_in_field(editor, "entry-middle", name->additional);
 		fill_in_field(editor, "entry-last",   name->family);
-		fill_in_field(editor, "entry-suffix", name->suffix);
+		fill_in_field(editor, "entry-suffix", name->suffixes);
 	}
 }
 
@@ -273,15 +273,15 @@ extract_field(EContactEditorFullname *editor, char *field)
 static void
 extract_info(EContactEditorFullname *editor)
 {
-	ECardName *name = editor->name;
+	EContactName *name = editor->name;
 	if (!name) {
-		name = e_card_name_new();
+		name = e_contact_name_new();
 		editor->name = name;
 	}
 
-	name->prefix     = extract_field(editor, "entry-title" );
+	name->prefixes   = extract_field(editor, "entry-title" );
 	name->given      = extract_field(editor, "entry-first" );
 	name->additional = extract_field(editor, "entry-middle");
 	name->family     = extract_field(editor, "entry-last"  );
-	name->suffix     = extract_field(editor, "entry-suffix");
+	name->suffixes   = extract_field(editor, "entry-suffix");
 }

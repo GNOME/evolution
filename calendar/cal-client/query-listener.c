@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include "cal-marshal.h"
 #include "query-listener.h"
 
 
@@ -29,68 +30,173 @@
 /* Private part of the QueryListener structure */
 
 struct _QueryListenerPrivate {
-	/* Callbacks for notification and their closure data */
-	QueryListenerObjUpdatedFn obj_updated_fn;
-	QueryListenerObjRemovedFn obj_removed_fn;
-	QueryListenerQueryDoneFn query_done_fn;
-	QueryListenerEvalErrorFn eval_error_fn;
-	gpointer fn_data;
-
-	/* Whether notification is desired */
-	gboolean notify : 1;
+	int dummy;
 };
 
-
+/* Signal IDs */
+enum {
+	OBJECTS_ADDED,
+	OBJECTS_MODIFIED,
+	OBJECTS_REMOVED,
+	QUERY_PROGRESS,
+	QUERY_DONE,
+	LAST_SIGNAL
+};
 
-static void query_listener_class_init (QueryListenerClass *class);
-static void query_listener_init (QueryListener *ql, QueryListenerClass *class);
-static void query_listener_finalize (GObject *object);
-
-static void impl_notifyObjUpdated (PortableServer_Servant servant,
-				   const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
-				   CORBA_boolean query_in_progress,
-				   CORBA_long n_scanned,
-				   CORBA_long total,
-				   CORBA_Environment *ev);
-
-static void impl_notifyObjRemoved (PortableServer_Servant servant,
-				   const CORBA_char *uid,
-				   CORBA_Environment *ev);
-
-static void impl_notifyQueryDone (PortableServer_Servant servant,
-				  GNOME_Evolution_Calendar_QueryListener_QueryDoneStatus corba_status,
-				  const CORBA_char *error_str,
-				  CORBA_Environment *ev);
-
-static void impl_notifyEvalError (PortableServer_Servant servant,
-				  const CORBA_char *error_str,
-				  CORBA_Environment *ev);
+static guint signals[LAST_SIGNAL] = { 0 };
 
 static BonoboObjectClass *parent_class;
 
-
-
-BONOBO_TYPE_FUNC_FULL (QueryListener,
-		       GNOME_Evolution_Calendar_QueryListener,
-		       BONOBO_TYPE_OBJECT,
-		       query_listener);
-
-/* Class initialization function for the live search query listener */
-static void
-query_listener_class_init (QueryListenerClass *class)
+/* CORBA method implementations */
+/* FIXME This is duplicated from cal-listener.c */
+static ECalendarStatus
+convert_status (const GNOME_Evolution_Calendar_CallStatus status)
 {
-	GObjectClass *object_class;
+	switch (status) {
+	case GNOME_Evolution_Calendar_Success:
+		return E_CALENDAR_STATUS_OK;
+	case GNOME_Evolution_Calendar_RepositoryOffline:
+		return E_CALENDAR_STATUS_REPOSITORY_OFFLINE;
+	case GNOME_Evolution_Calendar_PermissionDenied:
+		return E_CALENDAR_STATUS_PERMISSION_DENIED;
+	case GNOME_Evolution_Calendar_ObjectNotFound:
+		return E_CALENDAR_STATUS_OBJECT_NOT_FOUND;
+	case GNOME_Evolution_Calendar_CardIdAlreadyExists:
+		return E_CALENDAR_STATUS_CARD_ID_ALREADY_EXISTS;
+	case GNOME_Evolution_Calendar_AuthenticationFailed:
+		return E_CALENDAR_STATUS_AUTHENTICATION_FAILED;
+	case GNOME_Evolution_Calendar_AuthenticationRequired:
+		return E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED;
+	case GNOME_Evolution_Calendar_OtherError:
+	default:
+		return E_CALENDAR_STATUS_OTHER_ERROR;
+	}
+}
 
-	object_class = (GObjectClass *) class;
+/* FIXME This is duplicated from cal-listener.c */
+static GList *
+build_object_list (const GNOME_Evolution_Calendar_stringlist *seq)
+{
+	GList *list;
+	int i;
 
-	parent_class = g_type_class_peek_parent (class);
+	list = NULL;
+	for (i = 0; i < seq->_length; i++) {
+		icalcomponent *comp;
+		
+		comp = icalcomponent_new_from_string (seq->_buffer[i]);
+		if (!comp)
+			continue;
+		
+		list = g_list_prepend (list, comp);
+	}
 
-	object_class->finalize = query_listener_finalize;
+	return list;
+}
 
-	class->epv.notifyObjUpdated = impl_notifyObjUpdated;
-	class->epv.notifyObjRemoved = impl_notifyObjRemoved;
-	class->epv.notifyQueryDone = impl_notifyQueryDone;
-	class->epv.notifyEvalError = impl_notifyEvalError;
+static GList *
+build_uid_list (const GNOME_Evolution_Calendar_CalObjUIDSeq *seq)
+{
+	GList *list;
+	int i;
+
+	list = NULL;
+	for (i = 0; i < seq->_length; i++)
+		list = g_list_prepend (list, g_strdup (seq->_buffer[i]));
+
+	return list;
+}
+
+static void
+impl_notifyObjectsAdded (PortableServer_Servant servant,
+			 const GNOME_Evolution_Calendar_stringlist *objects,
+			 CORBA_Environment *ev)
+{
+	QueryListener *ql;
+	QueryListenerPrivate *priv;
+	GList *object_list, *l;
+	
+	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
+	priv = ql->priv;
+
+	object_list = build_object_list (objects);
+	
+	g_signal_emit (G_OBJECT (ql), signals[OBJECTS_ADDED], 0, object_list);
+
+	for (l = object_list; l; l = l->next)
+		icalcomponent_free (l->data);
+	g_list_free (object_list);
+}
+
+static void
+impl_notifyObjectsModified (PortableServer_Servant servant,
+			    const GNOME_Evolution_Calendar_stringlist *objects,
+			    CORBA_Environment *ev)
+{
+	QueryListener *ql;
+	QueryListenerPrivate *priv;
+	GList *object_list, *l;
+	
+	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
+	priv = ql->priv;
+
+	object_list = build_object_list (objects);
+	
+	g_signal_emit (G_OBJECT (ql), signals[OBJECTS_MODIFIED], 0, object_list);
+
+	for (l = object_list; l; l = l->next)
+		icalcomponent_free (l->data);
+	g_list_free (object_list);
+}
+
+static void
+impl_notifyObjectsRemoved (PortableServer_Servant servant,
+			   const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
+			   CORBA_Environment *ev)
+{
+	QueryListener *ql;
+	QueryListenerPrivate *priv;
+	GList *uid_list, *l;
+	
+	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
+	priv = ql->priv;
+
+	uid_list = build_uid_list (uids);
+	
+	g_signal_emit (G_OBJECT (ql), signals[OBJECTS_REMOVED], 0, uid_list);
+
+	for (l = uid_list; l; l = l->next)
+		g_free (l->data);
+	g_list_free (uid_list);
+}
+
+static void
+impl_notifyQueryProgress (PortableServer_Servant servant,
+			  const CORBA_char *message,
+			  const CORBA_short percent,
+			  CORBA_Environment *ev)
+{
+	QueryListener *ql;
+	QueryListenerPrivate *priv;
+
+	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
+	priv = ql->priv;
+	
+	g_signal_emit (G_OBJECT (ql), signals[QUERY_PROGRESS], 0, message, percent);
+}
+
+static void
+impl_notifyQueryDone (PortableServer_Servant servant,
+		      const GNOME_Evolution_Calendar_CallStatus status,
+		      CORBA_Environment *ev)
+{
+	QueryListener *ql;
+	QueryListenerPrivate *priv;
+
+	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
+	priv = ql->priv;
+	
+	g_signal_emit (G_OBJECT (ql), signals[QUERY_DONE], 0, convert_status (status));
 }
 
 /* Object initialization function for the live search query listener */
@@ -101,14 +207,6 @@ query_listener_init (QueryListener *ql, QueryListenerClass *class)
 
 	priv = g_new0 (QueryListenerPrivate, 1);
 	ql->priv = priv;
-
-	priv->obj_updated_fn = NULL;
-	priv->obj_removed_fn = NULL;
-	priv->query_done_fn = NULL;
-	priv->eval_error_fn = NULL;
-	priv->fn_data = NULL;
-
-	priv->notify = TRUE;
 }
 
 /* Finalize handler for the live search query listener */
@@ -124,198 +222,83 @@ query_listener_finalize (GObject *object)
 	ql = QUERY_LISTENER (object);
 	priv = ql->priv;
 
-	priv->obj_updated_fn = NULL;
-	priv->obj_removed_fn = NULL;
-	priv->query_done_fn = NULL;
-	priv->eval_error_fn = NULL;
-	priv->fn_data = NULL;
-
-	priv->notify = FALSE;
-
 	g_free (priv);
-	ql->priv = NULL;
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-
-
-/* CORBA method implementations */
-
-/* ::notifyObjUpdated() method */
+/* Class initialization function for the live search query listener */
 static void
-impl_notifyObjUpdated (PortableServer_Servant servant,
-		       const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
-		       CORBA_boolean query_in_progress,
-		       CORBA_long n_scanned,
-		       CORBA_long total,
-		       CORBA_Environment *ev)
+query_listener_class_init (QueryListenerClass *klass)
 {
-	QueryListener *ql;
-	QueryListenerPrivate *priv;
+	GObjectClass *object_class;
 
-	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
-	priv = ql->priv;
+	object_class = (GObjectClass *) klass;
 
-	if (!priv->notify)
-		return;
+	parent_class = g_type_class_peek_parent (klass);
 
-	g_assert (priv->obj_updated_fn != NULL);
-	(* priv->obj_updated_fn) (ql, uids, query_in_progress, n_scanned, total, priv->fn_data);
+	object_class->finalize = query_listener_finalize;
+
+	klass->epv.notifyObjectsAdded = impl_notifyObjectsAdded;
+	klass->epv.notifyObjectsModified = impl_notifyObjectsModified;
+	klass->epv.notifyObjectsRemoved = impl_notifyObjectsRemoved;
+	klass->epv.notifyQueryProgress = impl_notifyQueryProgress;
+	klass->epv.notifyQueryDone = impl_notifyQueryDone;
+
+	signals[OBJECTS_ADDED] =
+		g_signal_new ("objects_added",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (QueryListenerClass, objects_added),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[OBJECTS_MODIFIED] =
+		g_signal_new ("objects_modified",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (QueryListenerClass, objects_modified),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[OBJECTS_REMOVED] =
+		g_signal_new ("objects_removed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (QueryListenerClass, objects_removed),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[QUERY_PROGRESS] =
+		g_signal_new ("query_progress",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (QueryListenerClass, query_progress),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_INT);
+	signals[QUERY_DONE] =
+		g_signal_new ("query_done",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (QueryListenerClass, query_done),
+			      NULL, NULL,
+			      cal_marshal_VOID__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 
-/* ::notifyObjRemoved() method */
-static void
-impl_notifyObjRemoved (PortableServer_Servant servant,
-		       const CORBA_char *uid,
-		       CORBA_Environment *ev)
-{
-	QueryListener *ql;
-	QueryListenerPrivate *priv;
+BONOBO_TYPE_FUNC_FULL (QueryListener,
+		       GNOME_Evolution_Calendar_QueryListener,
+		       BONOBO_TYPE_OBJECT,
+		       query_listener);
 
-	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
-	priv = ql->priv;
-
-	if (!priv->notify)
-		return;
-
-	g_assert (priv->obj_removed_fn != NULL);
-	(* priv->obj_removed_fn) (ql, uid, priv->fn_data);
-}
-
-/* ::notifyQueryDone() method */
-static void
-impl_notifyQueryDone (PortableServer_Servant servant,
-		      GNOME_Evolution_Calendar_QueryListener_QueryDoneStatus corba_status,
-		      const CORBA_char *error_str,
-		      CORBA_Environment *ev)
-{
-	QueryListener *ql;
-	QueryListenerPrivate *priv;
-
-	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
-	priv = ql->priv;
-
-	if (!priv->notify)
-		return;
-
-	g_assert (priv->query_done_fn != NULL);
-	(* priv->query_done_fn) (ql, corba_status, error_str, priv->fn_data);
-}
-
-/* ::notifyEvalError() method */
-static void
-impl_notifyEvalError (PortableServer_Servant servant,
-		      const CORBA_char *error_str,
-		      CORBA_Environment *ev)
-{
-	QueryListener *ql;
-	QueryListenerPrivate *priv;
-
-	ql = QUERY_LISTENER (bonobo_object_from_servant (servant));
-	priv = ql->priv;
-
-	if (!priv->notify)
-		return;
-
-	g_assert (priv->eval_error_fn != NULL);
-	(* priv->eval_error_fn) (ql, error_str, priv->fn_data);
-}
-
-
-
-/**
- * query_listener_construct:
- * @ql: A query listener.
- * @obj_updated_fn: Callback to use when a component is updated in the query.
- * @obj_removed_fn: Callback to use when a component is removed from the query.
- * @query_done_fn: Callback to use when a query is done.
- * @eval_error_fn: Callback to use when an evaluation error happens during a query.
- * @fn_data: Closure data to pass to the callbacks.
- * 
- * Constructs a query listener by setting the callbacks it will use for
- * notification from the calendar server.
- * 
- * Return value: The same value as @ql.
- **/
 QueryListener *
-query_listener_construct (QueryListener *ql,
-			  QueryListenerObjUpdatedFn obj_updated_fn,
-			  QueryListenerObjRemovedFn obj_removed_fn,
-			  QueryListenerQueryDoneFn query_done_fn,
-			  QueryListenerEvalErrorFn eval_error_fn,
-			  gpointer fn_data)
-{
-	QueryListenerPrivate *priv;
-
-	g_return_val_if_fail (ql != NULL, NULL);
-	g_return_val_if_fail (IS_QUERY_LISTENER (ql), NULL);
-	g_return_val_if_fail (obj_updated_fn != NULL, NULL);
-	g_return_val_if_fail (obj_removed_fn != NULL, NULL);
-	g_return_val_if_fail (query_done_fn != NULL, NULL);
-	g_return_val_if_fail (eval_error_fn != NULL, NULL);
-
-	priv = ql->priv;
-
-	priv->obj_updated_fn = obj_updated_fn;
-	priv->obj_removed_fn = obj_removed_fn;
-	priv->query_done_fn = query_done_fn;
-	priv->eval_error_fn = eval_error_fn;
-	priv->fn_data = fn_data;
-
-	return ql;
-}
-
-/**
- * query_listener_new:
- * @obj_updated_fn: Callback to use when a component is updated in the query.
- * @obj_removed_fn: Callback to use when a component is removed from the query.
- * @query_done_fn: Callback to use when a query is done.
- * @eval_error_fn: Callback to use when an evaluation error happens during a query.
- * @fn_data: Closure data to pass to the callbacks.
- * 
- * Creates a new query listener object.
- * 
- * Return value: A newly-created query listener object.
- **/
-QueryListener *
-query_listener_new (QueryListenerObjUpdatedFn obj_updated_fn,
-		    QueryListenerObjRemovedFn obj_removed_fn,
-		    QueryListenerQueryDoneFn query_done_fn,
-		    QueryListenerEvalErrorFn eval_error_fn,
-		    gpointer fn_data)
+query_listener_new (void)
 {
 	QueryListener *ql;
 
 	ql = g_object_new (QUERY_LISTENER_TYPE, NULL);
 
-	return query_listener_construct (ql,
-					 obj_updated_fn,
-					 obj_removed_fn,
-					 query_done_fn,
-					 eval_error_fn,
-					 fn_data);
-}
-
-/**
- * query_listener_stop_notification:
- * @ql: A query listener.
- * 
- * Informs a query listener that no further notification is desired.  The
- * callbacks specified when the listener was created will no longer be invoked
- * after this function is called.
- **/
-void
-query_listener_stop_notification (QueryListener *ql)
-{
-	QueryListenerPrivate *priv;
-
-	g_return_if_fail (ql != NULL);
-	g_return_if_fail (IS_QUERY_LISTENER (ql));
-
-	priv = ql->priv;
-	g_return_if_fail (priv->notify != FALSE);
-
-	priv->notify = FALSE;
+	return ql;
 }

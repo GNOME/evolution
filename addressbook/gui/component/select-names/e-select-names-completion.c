@@ -34,17 +34,17 @@
 
 #include <gtk/gtksignal.h>
 
-#include <addressbook/backend/ebook/e-book-util.h>
-#include <addressbook/backend/ebook/e-destination.h>
-#include <addressbook/backend/ebook/e-card-simple.h>
-#include <addressbook/backend/ebook/e-card-compare.h>
+#include <addressbook/util/eab-book-util.h>
+#include <addressbook/util/eab-destination.h>
+#include <addressbook/gui/merging/eab-contact-compare.h>
+#include <addressbook/backend/ebook/e-contact.h>
 
 typedef struct {
 	EBook *book;
 	guint book_view_tag;
 	EBookView *book_view;
 	ESelectNamesCompletion *comp;
-	guint card_added_tag;
+	guint contacts_added_tag;
 	guint seq_complete_tag;
 	gboolean sequence_complete_received;
 
@@ -76,7 +76,7 @@ static void e_select_names_completion_init (ESelectNamesCompletion *);
 static void e_select_names_completion_dispose (GObject *object);
 
 static void e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBookView *view, gpointer user_data);
-static void e_select_names_completion_card_added_cb    (EBookView *, const GList *cards, gpointer user_data);
+static void e_select_names_completion_contacts_added_cb    (EBookView *, const GList *cards, gpointer user_data);
 static void e_select_names_completion_seq_complete_cb  (EBookView *, EBookViewStatus status, gpointer user_data);
 
 static void e_select_names_completion_do_query (ESelectNamesCompletion *, const gchar *query_text, gint pos, gint limit);
@@ -95,7 +95,7 @@ static FILE *out;
  */
 
 typedef gchar *(*BookQuerySExp) (ESelectNamesCompletion *);
-typedef ECompletionMatch *(*BookQueryMatchTester) (ESelectNamesCompletion *, EDestination *);
+typedef ECompletionMatch *(*BookQueryMatchTester) (ESelectNamesCompletion *, EABDestination *);
 
 static int
 utf8_casefold_collate_len (const gchar *str1, const gchar *str2, int len)
@@ -125,14 +125,16 @@ our_match_destroy (ECompletionMatch *match)
 }
 
 static ECompletionMatch *
-make_match (EDestination *dest, const gchar *menu_form, double score)
+make_match (EABDestination *dest, const gchar *menu_form, double score)
 {
 	ECompletionMatch *match;
-	ECard *card = e_destination_get_card (dest);
+#if notyet
+	EContact *contact = eab_destination_get_contact (dest);
+#endif
 
-	match = e_completion_match_new (e_destination_get_name (dest), menu_form, score);
+	match = e_completion_match_new (eab_destination_get_name (dest), menu_form, score);
 
-	e_completion_match_set_text (match, e_destination_get_name (dest), menu_form);
+	e_completion_match_set_text (match, eab_destination_get_name (dest), menu_form);
 
 	/* Reject any match that has null text fields. */
 	if (! (e_completion_match_get_match_text (match) && e_completion_match_get_menu_text (match))) {
@@ -140,10 +142,15 @@ make_match (EDestination *dest, const gchar *menu_form, double score)
 		return NULL;
 	}
 
+#if notyet
+	/* XXX toshok - EContact doesn't have the use_score stuff */
 	/* Since we sort low to high, we negate so that larger use scores will come first */
-	match->sort_major = card ? -floor (e_card_get_use_score (card)) : 0;
+	match->sort_major = contact ? -floor (e_contact_get_use_score (contact)) : 0;
+#else
+	match->sort_major = 0;
+#endif
 
-	match->sort_minor = e_destination_get_email_num (dest);
+	match->sort_minor = eab_destination_get_email_num (dest);
 
 	match->user_data = dest;
 	g_object_ref (dest);
@@ -166,31 +173,33 @@ sexp_nickname (ESelectNamesCompletion *comp)
 }
 
 static ECompletionMatch *
-match_nickname (ESelectNamesCompletion *comp, EDestination *dest)
+match_nickname (ESelectNamesCompletion *comp, EABDestination *dest)
 {
 	ECompletionMatch *match = NULL;
 	gint len;
-	ECard *card = e_destination_get_card (dest);
+	EContact *contact = eab_destination_get_contact (dest);
 	double score;
+	const char *nickname;
 
-	if (card->nickname == NULL)
+	nickname = e_contact_get_const (contact, E_CONTACT_NICKNAME);
+	if (nickname == NULL)
 		return NULL;
 
 	len = g_utf8_strlen (comp->priv->query_text, -1);
-	if (card->nickname && !utf8_casefold_collate_len (comp->priv->query_text, card->nickname, len)) {
+	if (nickname && !utf8_casefold_collate_len (comp->priv->query_text, nickname, len)) {
 		const gchar *name;
 		gchar *str;
 
 		score = len * 2; /* nickname gives 2 points per matching character */
 
-		if (len == g_utf8_strlen (card->nickname, -1)) /* boost score on an exact match */
+		if (len == g_utf8_strlen (nickname, -1)) /* boost score on an exact match */
 		    score *= 10;
 
-		name = e_destination_get_name (dest);
+		name = eab_destination_get_name (dest);
 		if (name && *name)
-			str = g_strdup_printf ("'%s' %s <%s>", card->nickname, name, e_destination_get_email (dest));
+			str = g_strdup_printf ("'%s' %s <%s>", nickname, name, eab_destination_get_email (dest));
 		else
-			str = g_strdup_printf ("'%s' <%s>", card->nickname, e_destination_get_email (dest));
+			str = g_strdup_printf ("'%s' <%s>", nickname, eab_destination_get_email (dest));
 
 		match = make_match (dest, str, score);
 		g_free (str);
@@ -210,17 +219,17 @@ sexp_email (ESelectNamesCompletion *comp)
 }
 
 static ECompletionMatch *
-match_email (ESelectNamesCompletion *comp, EDestination *dest)
+match_email (ESelectNamesCompletion *comp, EABDestination *dest)
 {
 	ECompletionMatch *match;
 	gint len = strlen (comp->priv->query_text);
-	const gchar *name = e_destination_get_name (dest);
-	const gchar *email = e_destination_get_email (dest);
+	const gchar *name = eab_destination_get_name (dest);
+	const gchar *email = eab_destination_get_email (dest);
 	double score;
 	
 	if (email
 	    && !utf8_casefold_collate_len (comp->priv->query_text, email, len)
-	    && !e_destination_is_evolution_list (dest)) {
+	    && !eab_destination_is_evolution_list (dest)) {
 		
 		gchar *str;
 		
@@ -294,78 +303,82 @@ sexp_name (ESelectNamesCompletion *comp)
 }
 
 static ECompletionMatch *
-match_name (ESelectNamesCompletion *comp, EDestination *dest)
+match_name (ESelectNamesCompletion *comp, EABDestination *dest)
 {
 	ECompletionMatch *final_match = NULL;
 	gchar *menu_text = NULL;
-	ECard *card;
+	EContact *contact;
 	const gchar *email;
 	gint match_len = 0;
-	ECardMatchType match;
-	ECardMatchPart first_match;
+	EABContactMatchType match;
+	EABContactMatchPart first_match;
 	double score = 0;
 	gboolean have_given, have_additional, have_family;
+	EContactName *contact_name;
 
-	card = e_destination_get_card (dest);
-	
-	if (card->name == NULL)
+	contact = eab_destination_get_contact (dest);
+
+	contact_name = e_contact_get (contact, E_CONTACT_NAME);
+	if (!contact_name)
 		return NULL;
 
-	email = e_destination_get_email (dest);
+	email = eab_destination_get_email (dest);
 
-	match = e_card_compare_name_to_string_full (card, comp->priv->query_text, TRUE /* yes, allow partial matches */,
-						    NULL, &first_match, &match_len);
+	match = eab_contact_compare_name_to_string_full (contact, comp->priv->query_text, TRUE /* yes, allow partial matches */,
+							 NULL, &first_match, &match_len);
 
-	if (match <= E_CARD_MATCH_NONE)
+	if (match <= EAB_CONTACT_MATCH_NONE) {
+		e_contact_name_free (contact_name);
 		return NULL;
+	}
 
 	score = match_len * 3; /* three points per match character */
 
-	have_given       = card->name->given && *card->name->given;
-	have_additional  = card->name->additional && *card->name->additional;
-	have_family      = card->name->family && *card->name->family;
+	have_given       = contact_name->given && *contact_name->given;
+	have_additional  = contact_name->additional && *contact_name->additional;
+	have_family      = contact_name->family && *contact_name->family;
 
-	if (e_card_evolution_list (card)) {
+	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
 
-		menu_text = e_card_name_to_string (card->name);
+		menu_text = e_contact_name_to_string (contact_name);
 
-	} else if (first_match == E_CARD_MATCH_PART_GIVEN_NAME) {
+	} else if (first_match == EAB_CONTACT_MATCH_PART_GIVEN_NAME) {
 
 		if (have_family)
-			menu_text = g_strdup_printf ("%s %s <%s>", card->name->given, card->name->family, email);
+			menu_text = g_strdup_printf ("%s %s <%s>", contact_name->given, contact_name->family, email);
 		else
-			menu_text = g_strdup_printf ("%s <%s>", card->name->given, email);
+			menu_text = g_strdup_printf ("%s <%s>", contact_name->given, email);
 
-	} else if (first_match == E_CARD_MATCH_PART_ADDITIONAL_NAME) {
+	} else if (first_match == EAB_CONTACT_MATCH_PART_ADDITIONAL_NAME) {
 
 		if (have_given) {
 
 			menu_text = g_strdup_printf ("%s%s%s, %s <%s>",
-						     card->name->additional,
+						     contact_name->additional,
 						     have_family ? " " : "",
-						     have_family ? card->name->family : "",
-						     card->name->given,
+						     have_family ? contact_name->family : "",
+						     contact_name->given,
 						     email);
 		} else {
 
 			menu_text = g_strdup_printf ("%s%s%s <%s>",
-						     card->name->additional,
+						     contact_name->additional,
 						     have_family ? " " : "",
-						     have_family ? card->name->family : "",
+						     have_family ? contact_name->family : "",
 						     email);
 		}
 
-	} else if (first_match == E_CARD_MATCH_PART_FAMILY_NAME) { 
+	} else if (first_match == EAB_CONTACT_MATCH_PART_FAMILY_NAME) { 
 
 		if (have_given)
 			menu_text = g_strdup_printf ("%s, %s%s%s <%s>",
-						     card->name->family,
-						     card->name->given,
+						     contact_name->family,
+						     contact_name->given,
 						     have_additional ? " " : "",
-						     have_additional ? card->name->additional : "",
+						     have_additional ? contact_name->additional : "",
 						     email);
 		else
-			menu_text = g_strdup_printf ("%s <%s>", card->name->family, email);
+			menu_text = g_strdup_printf ("%s <%s>", contact_name->family, email);
 
 	} else { /* something funny happened */
 
@@ -379,6 +392,8 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 		g_free (menu_text);
 	}
 	
+	e_contact_name_free (contact_name);
+
 	return final_match;
 }
 
@@ -393,7 +408,7 @@ sexp_file_as (ESelectNamesCompletion *comp)
 }
 
 static ECompletionMatch *
-match_file_as (ESelectNamesCompletion *comp, EDestination *dest)
+match_file_as (ESelectNamesCompletion *comp, EABDestination *dest)
 {
 	const gchar *name;
 	const gchar *email;
@@ -402,8 +417,8 @@ match_file_as (ESelectNamesCompletion *comp, EDestination *dest)
 	double score = 0.00001;
 	ECompletionMatch *match;
 
-	name = e_destination_get_name (dest);
-	email = e_destination_get_email (dest);
+	name = eab_destination_get_name (dest);
+	email = eab_destination_get_email (dest);
 
 	if (!(name && *name))
 		return NULL;
@@ -491,13 +506,13 @@ book_query_sexp (ESelectNamesCompletion *comp)
  * string that applies to a given destination.
  */
 static ECompletionMatch *
-book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
+book_query_score (ESelectNamesCompletion *comp, EABDestination *dest)
 {
 	ECompletionMatch *best_match = NULL;
 	gint i;
 
 	g_return_val_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp), NULL);
-	g_return_val_if_fail (E_IS_DESTINATION (dest), NULL);
+	g_return_val_if_fail (EAB_IS_DESTINATION (dest), NULL);
 
 	if (! (comp->priv->query_text && *comp->priv->query_text))
 		return NULL;
@@ -506,7 +521,7 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
 
 		ECompletionMatch *this_match = NULL;
 
-		if (book_queries[i].tester && e_destination_get_card (dest)) {
+		if (book_queries[i].tester && eab_destination_get_contact (dest)) {
 			this_match = book_queries[i].tester (comp, dest);
 		}
 
@@ -524,18 +539,18 @@ book_query_score (ESelectNamesCompletion *comp, EDestination *dest)
 }
 
 static void
-book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
+book_query_process_card_list (ESelectNamesCompletion *comp, const GList *contacts)
 {
-	while (cards) {
-		ECard *card = E_CARD (cards->data);
+	while (contacts) {
+		EContact *contact = E_CONTACT (contacts->data);
 
-		if (e_card_evolution_list (card)) {
+		if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
 
 			if (comp->priv->match_contact_lists) {
 
-				EDestination *dest = e_destination_new ();
+				EABDestination *dest = eab_destination_new ();
 				ECompletionMatch *match;
-				e_destination_set_card (dest, card, 0);
+				eab_destination_set_contact (dest, contact, 0);
 				match = book_query_score (comp, dest);
 				if (match && match->score > 0) {
 					e_completion_found_match (E_COMPLETION (comp), match);
@@ -546,31 +561,38 @@ book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 
 			}
 
-		} else if (card->email) {
-			gint i;
-			for (i=0; i<e_list_length (card->email); ++i) {
-				EDestination *dest = e_destination_new ();
-				const gchar *email;
-				ECompletionMatch *match;
+		}
+		else {
+			GList *email = e_contact_get (contact, E_CONTACT_EMAIL);
+			if (email) {
+				GList *iter;
+				gint i;
+				for (i=0, iter = email; iter; ++i, iter = iter->next) {
+					EABDestination *dest = eab_destination_new ();
+					gchar *e;
+					ECompletionMatch *match;
 				
-				e_destination_set_card (dest, card, i);
-				email = e_destination_get_email (dest);
+					eab_destination_set_contact (dest, contact, i);
+					e = iter->data;
 
-				if (email && *email) {
+					if (e && *e) {
 				
-					match = book_query_score (comp, dest);
-					if (match && match->score > 0) {
-						e_completion_found_match (E_COMPLETION (comp), match);
-					} else {
-						e_completion_match_unref (match);
+						match = book_query_score (comp, dest);
+						if (match && match->score > 0) {
+							e_completion_found_match (E_COMPLETION (comp), match);
+						} else {
+							e_completion_match_unref (match);
+						}
 					}
-				}
 
-				g_object_unref (dest);
+					g_object_unref (dest);
+				}
 			}
+			g_list_foreach (email, (GFunc)g_free, NULL);
+			g_list_free (email);
 		}
 		
-		cards = g_list_next (cards);
+		contacts = contacts->next;
 	}
 }
 
@@ -640,9 +662,9 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 	for (l = comp->priv->book_data; l; l = l->next) {
 		ESelectNamesCompletionBookData *book_data = l->data;
 
-		if (book_data->card_added_tag) {
-			g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
-			book_data->card_added_tag = 0;
+		if (book_data->contacts_added_tag) {
+			g_signal_handler_disconnect (book_data->book_view, book_data->contacts_added_tag);
+			book_data->contacts_added_tag = 0;
 		}
 
 		if (book_data->seq_complete_tag) {
@@ -756,7 +778,7 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 	book_data = (ESelectNamesCompletionBookData*)user_data;
 	comp = book_data->comp;
 
-	if (status != E_BOOK_STATUS_SUCCESS) {
+	if (status != E_BOOK_ERROR_OK) {
 		comp->priv->pending_completion_seq--;
 		if (!comp->priv->pending_completion_seq)
 			e_select_names_completion_done (comp);
@@ -765,9 +787,9 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 
 	book_data->book_view_tag = 0;
 
-	if (book_data->card_added_tag) {
-		g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
-		book_data->card_added_tag = 0;
+	if (book_data->contacts_added_tag) {
+		g_signal_handler_disconnect (book_data->book_view, book_data->contacts_added_tag);
+		book_data->contacts_added_tag = 0;
 	}
 	if (book_data->seq_complete_tag) {
 		g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
@@ -781,10 +803,10 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 	}
 	book_data->book_view = view;
 
-	book_data->card_added_tag = 
+	book_data->contacts_added_tag = 
 		g_signal_connect (view,
-				  "card_added",
-				  G_CALLBACK (e_select_names_completion_card_added_cb),
+				  "contacts_added",
+				  G_CALLBACK (e_select_names_completion_contacts_added_cb),
 				  book_data);
 
 	book_data->seq_complete_tag =
@@ -792,11 +814,14 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 				  "sequence_complete",
 				  G_CALLBACK (e_select_names_completion_seq_complete_cb),
 				  book_data);
+
+	e_book_view_start (view);
+
 	book_data->sequence_complete_received = FALSE;
 }
 
 static void
-e_select_names_completion_card_added_cb (EBookView *book_view, const GList *cards, gpointer user_data)
+e_select_names_completion_contacts_added_cb (EBookView *book_view, const GList *cards, gpointer user_data)
 {
 	ESelectNamesCompletionBookData *book_data = user_data;
 	ESelectNamesCompletion *comp = book_data->comp;
@@ -834,7 +859,7 @@ e_select_names_completion_seq_complete_cb (EBookView *book_view, EBookViewStatus
 	}
 
 	if (book_data->cached_query_text
-	    && status == E_BOOK_STATUS_SUCCESS
+	    && status == E_BOOK_ERROR_OK
 	    && !book_data->cache_complete
 	    && !strcmp (book_data->cached_query_text, comp->priv->query_text))
 		book_data->cache_complete = TRUE;
@@ -845,9 +870,9 @@ e_select_names_completion_seq_complete_cb (EBookView *book_view, EBookViewStatus
 	if (!book_data->sequence_complete_received) {
 		book_data->sequence_complete_received = TRUE;
 
-		if (book_data->card_added_tag) {
-			g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
-			book_data->card_added_tag = 0;
+		if (book_data->contacts_added_tag) {
+			g_signal_handler_disconnect (book_data->book_view, book_data->contacts_added_tag);
+			book_data->contacts_added_tag = 0;
 		}
 		if (book_data->seq_complete_tag) {
 			g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
@@ -888,13 +913,15 @@ e_select_names_completion_stop_query (ESelectNamesCompletion *comp)
 	for (l = comp->priv->book_data; l; l = l->next) {
 		ESelectNamesCompletionBookData *book_data = l->data;
 		if (book_data->book_view_tag) {
+#if notyet
 			e_book_cancel (book_data->book, book_data->book_view_tag);
+#endif
 			book_data->book_view_tag = 0;
 		}
 		if (book_data->book_view) {
-			if (book_data->card_added_tag) {
-				g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
-				book_data->card_added_tag = 0;
+			if (book_data->contacts_added_tag) {
+				g_signal_handler_disconnect (book_data->book_view, book_data->contacts_added_tag);
+				book_data->contacts_added_tag = 0;
 			}
 			if (book_data->seq_complete_tag) {
 				g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
@@ -977,13 +1004,10 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 					e_select_names_completion_clear_cache (book_data);
 					book_data->cached_query_text = g_strdup (query_text);
 
-					book_data->book_view_tag = e_book_get_completion_view (book_data->book,
+					book_data->book_view_tag = e_book_async_get_book_view (book_data->book,
 											       sexp, 
 											       e_select_names_completion_got_book_view_cb, book_data);
-					if (! book_data->book_view_tag)
-						g_warning ("Exception calling e_book_get_completion_view");
-					else
-						comp->priv->pending_completion_seq++;
+					comp->priv->pending_completion_seq++;
 				}
 
 				if (out)

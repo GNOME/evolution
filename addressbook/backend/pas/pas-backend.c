@@ -7,12 +7,22 @@
  */
 
 #include <config.h>
+#include <pthread.h>
+#include "pas-book-view.h"
 #include "pas-backend.h"
 #include "pas-marshal.h"
 
 struct _PASBackendPrivate {
+	GMutex *open_mutex;
+
+	GMutex *clients_mutex;
 	GList *clients;
-	gboolean loaded, writable;
+
+	char *uri;
+	gboolean loaded, writable, removed;
+
+	GMutex *views_mutex;
+	EList *views;
 };
 
 /* Signal IDs */
@@ -31,18 +41,25 @@ pas_backend_construct (PASBackend *backend)
 	return TRUE;
 }
 
-GNOME_Evolution_Addressbook_BookListener_CallStatus
+GNOME_Evolution_Addressbook_CallStatus
 pas_backend_load_uri (PASBackend             *backend,
-		      const char             *uri)
+		      const char             *uri,
+		      gboolean                only_if_exists)
 {
-	g_return_val_if_fail (backend != NULL, FALSE);
-	g_return_val_if_fail (PAS_IS_BACKEND (backend), FALSE);
-	g_return_val_if_fail (uri != NULL, FALSE);
+	GNOME_Evolution_Addressbook_CallStatus status;
+
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), FALSE);
+	g_return_val_if_fail (uri, FALSE);
 	g_return_val_if_fail (backend->priv->loaded == FALSE, FALSE);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->load_uri != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->load_uri);
 
-	return (* PAS_BACKEND_GET_CLASS (backend)->load_uri) (backend, uri);
+	status = (* PAS_BACKEND_GET_CLASS (backend)->load_uri) (backend, uri, only_if_exists);
+
+	if (status == GNOME_Evolution_Addressbook_Success)
+		backend->priv->uri = g_strdup (uri);
+
+	return status;
 }
 
 /**
@@ -56,246 +73,198 @@ pas_backend_load_uri (PASBackend             *backend,
 const char *
 pas_backend_get_uri (PASBackend *backend)
 {
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (PAS_IS_BACKEND (backend), NULL);
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), NULL);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_uri != NULL);
-
-	return (* PAS_BACKEND_GET_CLASS (backend)->get_uri) (backend);
+	return backend->priv->uri;
 }
 
-
 void
-pas_backend_create_card (PASBackend *backend,
-			 PASBook    *book,
-			 PASCreateCardRequest *req)
+pas_backend_open (PASBackend *backend,
+		  PASBook    *book,
+		  gboolean    only_if_exists)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->vcard != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->create_card != NULL);
+	g_mutex_lock (backend->priv->open_mutex);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->create_card) (backend, book, req);
+	if (backend->priv->loaded) {
+		pas_book_respond_open (
+			book, GNOME_Evolution_Addressbook_Success);
+
+		pas_book_report_writable (book, backend->priv->writable);
+	} else {
+		GNOME_Evolution_Addressbook_CallStatus status =
+			pas_backend_load_uri (backend, pas_book_get_uri (book), only_if_exists);
+
+		pas_book_respond_open (book, status);
+
+		if (status == GNOME_Evolution_Addressbook_Success)
+			pas_book_report_writable (book, backend->priv->writable);
+	}
+
+	g_mutex_unlock (backend->priv->open_mutex);
 }
 
 void
-pas_backend_remove_cards (PASBackend *backend,
-			  PASBook *book,
-			  PASRemoveCardsRequest *req)
+pas_backend_remove (PASBackend *backend,
+		    PASBook    *book)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->ids != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove_cards != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->remove_cards) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->remove) (backend, book);
 }
 
 void
-pas_backend_modify_card (PASBackend *backend,
+pas_backend_create_contact (PASBackend *backend,
+			    PASBook    *book,
+			    const char *vcard)
+{
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+	g_return_if_fail (vcard);
+
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->create_contact);
+
+	(* PAS_BACKEND_GET_CLASS (backend)->create_contact) (backend, book, vcard);
+}
+
+void
+pas_backend_remove_contacts (PASBackend *backend,
+			     PASBook *book,
+			     GList *id_list)
+{
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+	g_return_if_fail (id_list);
+
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove_contacts);
+
+	(* PAS_BACKEND_GET_CLASS (backend)->remove_contacts) (backend, book, id_list);
+}
+
+void
+pas_backend_modify_contact (PASBackend *backend,
+			    PASBook *book,
+			    const char *vcard)
+{
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+	g_return_if_fail (vcard);
+
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->modify_contact);
+
+	(* PAS_BACKEND_GET_CLASS (backend)->modify_contact) (backend, book, vcard);
+}
+
+void
+pas_backend_get_contact (PASBackend *backend,
 			 PASBook *book,
-			 PASModifyCardRequest *req)
+			 const char *id)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->vcard != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+	g_return_if_fail (id);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->modify_card != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_contact);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->modify_card) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_contact) (backend, book, id);
 }
 
 void
-pas_backend_check_connection (PASBackend *backend,
+pas_backend_get_contact_list (PASBackend *backend,
 			      PASBook *book,
-			      PASCheckConnectionRequest *req)
+			      const char *query)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+	g_return_if_fail (query);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->check_connection != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_contact_list);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->check_connection) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_contact_list) (backend, book, query);
 }
 
 void
-pas_backend_get_vcard (PASBackend *backend,
-		       PASBook *book,
-		       PASGetVCardRequest *req)
+pas_backend_start_book_view (PASBackend *backend,
+			     PASBookView *book_view)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->id != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book_view && PAS_IS_BOOK_VIEW (book_view));
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_vcard != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->start_book_view);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->get_vcard) (backend, book, req);
-}
-
-void
-pas_backend_get_cursor (PASBackend *backend,
-			PASBook *book,
-			PASGetCursorRequest *req)
-{
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->search != NULL);
-
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_cursor != NULL);
-
-	(* PAS_BACKEND_GET_CLASS (backend)->get_cursor) (backend, book, req);
-}
-
-void
-pas_backend_get_book_view (PASBackend *backend,
-			   PASBook *book,
-			   PASGetBookViewRequest *req)
-{
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->search != NULL && req->listener != CORBA_OBJECT_NIL);
-
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_book_view != NULL);
-
-	(* PAS_BACKEND_GET_CLASS (backend)->get_book_view) (backend, book, req);
-}
-
-void
-pas_backend_get_completion_view (PASBackend *backend,
-				 PASBook *book,
-				 PASGetCompletionViewRequest *req)
-{
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->search != NULL && req->listener != CORBA_OBJECT_NIL);
-
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_completion_view != NULL);
-
-	(* PAS_BACKEND_GET_CLASS (backend)->get_completion_view) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->start_book_view) (backend, book_view);
 }
 
 void
 pas_backend_get_changes (PASBackend *backend,
 			 PASBook *book,
-			 PASGetChangesRequest *req)
+			 const char *change_id)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL && req->change_id != NULL && req->listener != CORBA_OBJECT_NIL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+	g_return_if_fail (change_id);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_changes != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_changes);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->get_changes) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_changes) (backend, book, change_id);
 }
 
 void
 pas_backend_authenticate_user (PASBackend *backend,
 			       PASBook *book,
-			       PASAuthenticateUserRequest *req)
+			       const char *user,
+			       const char *passwd,
+			       const char *auth_method)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+	g_return_if_fail (user && passwd && auth_method);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->authenticate_user != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->authenticate_user);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->authenticate_user) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->authenticate_user) (backend, book, user, passwd, auth_method);
 }
 
 void
 pas_backend_get_supported_fields (PASBackend *backend,
-				  PASBook *book,
-				  PASGetSupportedFieldsRequest *req)
+				  PASBook *book)
+
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_supported_fields != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_supported_fields);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->get_supported_fields) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_supported_fields) (backend, book);
 }
 
 void
 pas_backend_get_supported_auth_methods (PASBackend *backend,
-					PASBook *book,
-					PASGetSupportedAuthMethodsRequest *req)
+					PASBook *book)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	g_return_if_fail (req != NULL);
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods);
 
-	(* PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods) (backend, book, req);
+	(* PAS_BACKEND_GET_CLASS (backend)->get_supported_auth_methods) (backend, book);
 }
 
-static void
-process_client_requests (PASBook *book, gpointer user_data)
+GNOME_Evolution_Addressbook_CallStatus
+pas_backend_cancel_operation (PASBackend *backend,
+			      PASBook *book)
 {
-	PASBackend *backend;
-	PASRequest *req;
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), GNOME_Evolution_Addressbook_OtherError);
+	g_return_val_if_fail (book && PAS_IS_BOOK (book), GNOME_Evolution_Addressbook_OtherError);
 
-	backend = PAS_BACKEND (user_data);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->cancel_operation);
 
-	req = pas_book_pop_request (book);
-	if (req == NULL)
-		return;
-
-	switch (req->op) {
-	case CreateCard:
-		pas_backend_create_card (backend, book, &req->create);
-		break;
-
-	case RemoveCards:
-		pas_backend_remove_cards (backend, book, &req->remove);
-		break;
-
-	case ModifyCard:
-		pas_backend_modify_card (backend, book, &req->modify);
-		break;
-
-	case CheckConnection:
-		pas_backend_check_connection (backend, book, &req->check_connection);
-		break;
-
-	case GetVCard:
-		pas_backend_get_vcard (backend, book, &req->get_vcard);
-		break;
-
-	case GetCursor:
-		pas_backend_get_cursor (backend, book, &req->get_cursor);
-		break;
-
-	case GetBookView:
-		pas_backend_get_book_view (backend, book, &req->get_book_view);
-		break;
-
-	case GetCompletionView:
-		pas_backend_get_completion_view (backend, book, &req->get_completion_view);
-		break;
-
-	case GetChanges:
-		pas_backend_get_changes (backend, book, &req->get_changes);
-		break;
-
-	case AuthenticateUser:
-		pas_backend_authenticate_user (backend, book, &req->auth_user);
-		break;
-
-	case GetSupportedFields:
-		pas_backend_get_supported_fields (backend, book, &req->get_supported_fields);
-		break;
-
-	case GetSupportedAuthMethods:
-		pas_backend_get_supported_auth_methods (backend, book, &req->get_supported_auth_methods);
-		break;
-	}
-
-	pas_book_free_request (req);
+	return (* PAS_BACKEND_GET_CLASS (backend)->cancel_operation) (backend, book);
 }
 
 static void
@@ -307,74 +276,82 @@ book_destroy_cb (gpointer data, GObject *where_book_was)
 }
 
 static void
+listener_died_cb (gpointer cnx, gpointer user_data)
+{
+	PASBook *book = PAS_BOOK (user_data);
+
+	pas_backend_remove_client (pas_book_get_backend (book), book);
+}
+
+static void
 last_client_gone (PASBackend *backend)
 {
 	g_signal_emit (backend, pas_backend_signals[LAST_CLIENT_GONE], 0);
 }
 
-static gboolean
-add_client (PASBackend                               *backend,
-	    GNOME_Evolution_Addressbook_BookListener  listener)
+EList*
+pas_backend_get_book_views (PASBackend *backend)
 {
-	PASBook *book;
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), FALSE);
 
-	book = pas_book_new (backend, listener);
-	if (!book) {
-		if (!backend->priv->clients)
-			last_client_gone (backend);
+	return g_object_ref (backend->priv->views);
+}
 
-		return FALSE;
-	}
+void
+pas_backend_add_book_view (PASBackend *backend,
+			   PASBookView *view)
+{
+	g_mutex_lock (backend->priv->views_mutex);
 
-	g_object_weak_ref (G_OBJECT (book), book_destroy_cb, backend);
+	e_list_append (backend->priv->views, view);
 
-	g_signal_connect (book, "requests_queued",
-			  G_CALLBACK (process_client_requests), backend);
-
-	backend->priv->clients = g_list_prepend (backend->priv->clients, book);
-
-	if (backend->priv->loaded) {
-		pas_book_respond_open (
-			book, GNOME_Evolution_Addressbook_BookListener_Success);
-	} else {
-		pas_book_respond_open (
-			book, GNOME_Evolution_Addressbook_BookListener_OtherError);
-	}
-
-	pas_book_report_writable (book, backend->priv->writable);
-
-	bonobo_object_unref (BONOBO_OBJECT (book));
-
-	return TRUE;
+	g_mutex_unlock (backend->priv->views_mutex);
 }
 
 /**
  * pas_backend_add_client:
  * @backend: An addressbook backend.
- * @listener: Listener for notification to the client.
+ * @book: the corba object representing the client connection.
  *
  * Adds a client to an addressbook backend.
  *
  * Return value: TRUE on success, FALSE on failure to add the client.
  */
 gboolean
-pas_backend_add_client (PASBackend                               *backend,
-			GNOME_Evolution_Addressbook_BookListener  listener)
+pas_backend_add_client (PASBackend      *backend,
+			PASBook         *book)
 {
-	g_return_val_if_fail (PAS_IS_BACKEND (backend), FALSE);
-	g_return_val_if_fail (listener != CORBA_OBJECT_NIL, FALSE);
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), FALSE);
+	g_return_val_if_fail (book && PAS_IS_BOOK (book), FALSE);
 
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->add_client != NULL);
+	bonobo_object_set_immortal (BONOBO_OBJECT (book), TRUE);
 
-	return PAS_BACKEND_GET_CLASS (backend)->add_client (backend, listener);
+	g_object_weak_ref (G_OBJECT (book), book_destroy_cb, backend);
+
+	ORBit_small_listen_for_broken (pas_book_get_listener (book), G_CALLBACK (listener_died_cb), book);
+
+	g_mutex_lock (backend->priv->clients_mutex);
+	backend->priv->clients = g_list_prepend (backend->priv->clients, book);
+	g_mutex_unlock (backend->priv->clients_mutex);
+
+	return TRUE;
 }
 
-static void
-remove_client (PASBackend *backend,
-	       PASBook    *book)
+void
+pas_backend_remove_client (PASBackend *backend,
+			   PASBook    *book)
 {
+	/* XXX this needs a bit more thinking wrt the mutex - we
+	   should be holding it when we check to see if clients is
+	   NULL */
+
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book && PAS_IS_BOOK (book));
+
 	/* Disconnect */
+	g_mutex_lock (backend->priv->clients_mutex);
 	backend->priv->clients = g_list_remove (backend->priv->clients, book);
+	g_mutex_unlock (backend->priv->clients_mutex);
 
 	/* When all clients go away, notify the parent factory about it so that
 	 * it may decide whether to kill the backend or not.
@@ -383,25 +360,12 @@ remove_client (PASBackend *backend,
 		last_client_gone (backend);
 }
 
-void
-pas_backend_remove_client (PASBackend *backend,
-			   PASBook    *book)
-{
-	g_return_if_fail (PAS_IS_BACKEND (backend));
-	g_return_if_fail (PAS_IS_BOOK (book));
-	
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove_client != NULL);
-
-	PAS_BACKEND_GET_CLASS (backend)->remove_client (backend, book);
-}
-
 char *
 pas_backend_get_static_capabilities (PASBackend *backend)
 {
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (PAS_IS_BACKEND (backend), NULL);
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), NULL);
 	
-	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_static_capabilities != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_static_capabilities);
 
 	return PAS_BACKEND_GET_CLASS (backend)->get_static_capabilities (backend);
 }
@@ -409,7 +373,7 @@ pas_backend_get_static_capabilities (PASBackend *backend)
 gboolean
 pas_backend_is_loaded (PASBackend *backend)
 {
-	g_return_val_if_fail (PAS_IS_BACKEND (backend), FALSE);
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), FALSE);
 
 	return backend->priv->loaded;
 }
@@ -417,7 +381,7 @@ pas_backend_is_loaded (PASBackend *backend)
 void
 pas_backend_set_is_loaded (PASBackend *backend, gboolean is_loaded)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
 
 	backend->priv->loaded = is_loaded;
 }
@@ -425,7 +389,7 @@ pas_backend_set_is_loaded (PASBackend *backend, gboolean is_loaded)
 gboolean
 pas_backend_is_writable (PASBackend *backend)
 {
-	g_return_val_if_fail (PAS_IS_BACKEND (backend), FALSE);
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), FALSE);
 	
 	return backend->priv->writable;
 }
@@ -433,10 +397,162 @@ pas_backend_is_writable (PASBackend *backend)
 void
 pas_backend_set_is_writable (PASBackend *backend, gboolean is_writable)
 {
-	g_return_if_fail (PAS_IS_BACKEND (backend));
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
 	
 	backend->priv->writable = is_writable;
 }
+
+gboolean
+pas_backend_is_removed (PASBackend *backend)
+{
+	g_return_val_if_fail (backend && PAS_IS_BACKEND (backend), FALSE);
+	
+	return backend->priv->removed;
+}
+
+void
+pas_backend_set_is_removed (PASBackend *backend, gboolean is_removed)
+{
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	
+	backend->priv->removed = is_removed;
+}
+
+
+
+GNOME_Evolution_Addressbook_BookChangeItem*
+pas_backend_change_add_new     (const char *vcard)
+{
+	GNOME_Evolution_Addressbook_BookChangeItem* new_change = GNOME_Evolution_Addressbook_BookChangeItem__alloc();
+
+	new_change->_d = GNOME_Evolution_Addressbook_ContactAdded;
+	new_change->_u.add_vcard = CORBA_string_dup (vcard);
+
+	return new_change;
+}
+
+GNOME_Evolution_Addressbook_BookChangeItem*
+pas_backend_change_modify_new  (const char *vcard)
+{
+	GNOME_Evolution_Addressbook_BookChangeItem* new_change = GNOME_Evolution_Addressbook_BookChangeItem__alloc();
+
+	new_change->_d = GNOME_Evolution_Addressbook_ContactModified;
+	new_change->_u.mod_vcard = CORBA_string_dup (vcard);
+
+	return new_change;
+}
+
+GNOME_Evolution_Addressbook_BookChangeItem*
+pas_backend_change_delete_new  (const char *id)
+{
+	GNOME_Evolution_Addressbook_BookChangeItem* new_change = GNOME_Evolution_Addressbook_BookChangeItem__alloc();
+
+	new_change->_d = GNOME_Evolution_Addressbook_ContactDeleted;
+	new_change->_u.del_id = CORBA_string_dup (id);
+
+	return new_change;
+}
+
+
+
+static void
+pas_backend_foreach_view (PASBackend *backend,
+			  void (*callback) (PASBookView *, gpointer),
+			  gpointer user_data)
+{
+	EList *views;
+	PASBookView *view;
+	EIterator *iter;
+
+	views = pas_backend_get_book_views (backend);
+	iter = e_list_get_iterator (views);
+
+	while (e_iterator_is_valid (iter)) {
+		view = (PASBookView*)e_iterator_get (iter);
+
+		bonobo_object_ref (view);
+		callback (view, user_data);
+		bonobo_object_unref (view);
+
+		e_iterator_next (iter);
+	}
+
+	g_object_unref (iter);
+	g_object_unref (views);
+}
+
+
+static void
+view_notify_update (PASBookView *view, gpointer contact)
+{
+	pas_book_view_notify_update (view, contact);
+}
+
+/**
+ * pas_backend_notify_update:
+ * @backend: an addressbook backend
+ * @contact: a new or modified contact
+ *
+ * Notifies all of @backend's book views about the new or modified
+ * contacts @contact.
+ *
+ * pas_book_respond_create() and pas_book_respond_modify() call this
+ * function for you. You only need to call this from your backend if
+ * contacts are created or modified by another (non-PAS-using) client.
+ **/
+void
+pas_backend_notify_update (PASBackend *backend, EContact *contact)
+{
+	pas_backend_foreach_view (backend, view_notify_update, contact);
+}
+
+
+static void
+view_notify_remove (PASBookView *view, gpointer id)
+{
+	pas_book_view_notify_remove (view, id);
+}
+
+/**
+ * pas_backend_notify_remove:
+ * @backend: an addressbook backend
+ * @id: a contact id
+ *
+ * Notifies all of @backend's book views that the contact with UID
+ * @id has been removed.
+ *
+ * pas_book_respond_remove_contacts() calls this function for you. You
+ * only need to call this from your backend if contacts are removed by
+ * another (non-PAS-using) client.
+ **/
+void
+pas_backend_notify_remove (PASBackend *backend, const char *id)
+{
+	pas_backend_foreach_view (backend, view_notify_remove, (gpointer)id);
+}
+
+
+static void
+view_notify_complete (PASBookView *view, gpointer unused)
+{
+	pas_book_view_notify_complete (view, GNOME_Evolution_Addressbook_Success);
+}
+
+/**
+ * pas_backend_notify_complete:
+ * @backend: an addressbook backend
+ *
+ * Notifies all of @backend's book views that the current set of
+ * notifications is complete; use this after a series of
+ * pas_backend_notify_update() and pas_backend_notify_remove() calls.
+ **/
+void
+pas_backend_notify_complete (PASBackend *backend)
+{
+	pas_backend_foreach_view (backend, view_notify_complete, NULL);
+}
+
+
 
 static void
 pas_backend_init (PASBackend *backend)
@@ -444,7 +560,12 @@ pas_backend_init (PASBackend *backend)
 	PASBackendPrivate *priv;
 
 	priv          = g_new0 (PASBackendPrivate, 1);
+	priv->uri     = NULL;
 	priv->clients = NULL;
+	priv->views   = e_list_new((EListCopyFunc) g_object_ref, (EListFreeFunc) g_object_unref, NULL);
+	priv->open_mutex = g_mutex_new ();
+	priv->clients_mutex = g_mutex_new ();
+	priv->views_mutex = g_mutex_new ();
 
 	backend->priv = priv;
 }
@@ -458,8 +579,20 @@ pas_backend_dispose (GObject *object)
 
 	if (backend->priv) {
 		g_list_free (backend->priv->clients);
-		g_free (backend->priv);
 
+		if (backend->priv->uri)
+			g_free (backend->priv->uri);
+
+		if (backend->priv->views) {
+			g_object_unref (backend->priv->views);
+			backend->priv->views = NULL;
+		}
+
+		g_mutex_free (backend->priv->open_mutex);
+		g_mutex_free (backend->priv->clients_mutex);
+		g_mutex_free (backend->priv->views_mutex);
+
+		g_free (backend->priv);
 		backend->priv = NULL;
 	}
 
@@ -474,9 +607,6 @@ pas_backend_class_init (PASBackendClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 
 	object_class = (GObjectClass *) klass;
-
-	klass->add_client = add_client;
-	klass->remove_client = remove_client;
 
 	object_class->dispose = pas_backend_dispose;
 

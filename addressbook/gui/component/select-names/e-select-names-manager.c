@@ -24,8 +24,8 @@
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
 #include "e-folder-list.h"
-#include <addressbook/backend/ebook/e-book-util.h>
-#include <addressbook/backend/ebook/e-destination.h>
+#include <addressbook/util/eab-book-util.h>
+#include <addressbook/util/eab-destination.h>
 #include "addressbook/gui/component/addressbook.h"
 #include <bonobo/bonobo-object.h>
 
@@ -175,7 +175,7 @@ focus_in_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 		entry->cleaning_tag = 0;
 	}
 
-	e_select_names_model_cancel_cardify_all (entry->model);
+	e_select_names_model_cancel_all_contact_load (entry->model);
 
 	return FALSE;
 }
@@ -189,7 +189,7 @@ focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 	gboolean visible = e_entry_completion_popup_is_visible (entry->entry);
 
 	if (! visible) {
-		e_select_names_model_cardify_all (entry->model, entry->manager->completion_book, 100);
+		e_select_names_model_load_all_contacts (entry->model, entry->manager->completion_book, 100);
 		if (entry->cleaning_tag == 0)
 			entry->cleaning_tag = gtk_timeout_add (100, clean_cb, entry);
 	}
@@ -205,7 +205,7 @@ completion_popup_cb (EEntry *w, gint visible, gpointer user_data)
 	ESelectNamesManagerEntry *entry = user_data;
 
 	if (!visible && !GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (entry->entry->canvas)))
-		e_select_names_model_cardify_all (entry->model, entry->manager->completion_book, 0);
+		e_select_names_model_load_all_contacts (entry->model, entry->manager->completion_book, 0);
 #endif
 }
 
@@ -214,14 +214,14 @@ completion_handler (EEntry *entry, ECompletionMatch *match)
 {
 	ESelectNamesManagerEntry *mgr_entry;
 	ESelectNamesTextModel *text_model;
-	EDestination *dest;
+	EABDestination *dest;
 	gint i, pos, start_pos, len;
 
 	if (match == NULL || match->user_data == NULL)
 		return;
 
 	mgr_entry = get_entry_info (entry);
-	dest = E_DESTINATION (match->user_data);
+	dest = EAB_DESTINATION (match->user_data);
 
 	/* Sometimes I really long for garbage collection.  Reference
            counting makes you feel 31337, but sometimes it is just a
@@ -377,7 +377,7 @@ e_select_names_manager_discard_saved_models (ESelectNamesManager *manager)
 static void
 open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 {
-	if (status == E_BOOK_STATUS_SUCCESS) {
+	if (status == E_BOOK_ERROR_OK) {
 		GList *l;
 		for (l = manager->entries; l; l = l->next) {
 			ESelectNamesManagerEntry *entry = l->data;
@@ -398,15 +398,10 @@ load_completion_books (ESelectNamesManager *manager)
 	EFolderListItem *f;
 
 	for (f = folders; f && f->physical_uri; f++) {
-		char *uri;
 		EBook *book = e_book_new ();
 		g_object_ref (manager); /* ref ourself before our async call */
 
-		uri = e_book_expand_uri (f->physical_uri);
-
-		addressbook_load_uri (book, uri, (EBookCallback)open_book_cb, manager);
-
-		g_free (uri);
+		addressbook_load_uri (book, f->physical_uri, (EBookCallback)open_book_cb, manager);
 	}
 	e_folder_list_free_items (folders);
 }
@@ -485,7 +480,7 @@ e_select_names_manager_new (void)
 	ESelectNamesManager *manager = g_object_new (E_TYPE_SELECT_NAMES_MANAGER, NULL);
 	EConfigListener *db;
 
-	db = e_book_get_config_database();
+	db = eab_get_config_database();
 
 	manager->listener_id = g_signal_connect (db,
 						 "key_changed",
@@ -685,7 +680,7 @@ e_select_names_manager_dispose (GObject *object)
 	}
 
 	if (manager->listener_id) {
-		g_signal_handler_disconnect (e_book_get_config_database(), manager->listener_id);
+		g_signal_handler_disconnect (eab_get_config_database(), manager->listener_id);
 		manager->listener_id = 0;
 	}
 

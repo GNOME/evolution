@@ -25,6 +25,8 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <pas/addressbook.h>
+#include <pas/pas-types.h>
+#include <ebook/e-contact.h>
 
 #define PAS_TYPE_BACKEND         (pas_backend_get_type ())
 #define PAS_BACKEND(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BACKEND, PASBackend))
@@ -33,7 +35,6 @@
 #define PAS_IS_BACKEND_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), PAS_TYPE_BACKEND))
 #define PAS_BACKEND_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS ((k), PAS_TYPE_BACKEND, PASBackendClass))
 
-typedef struct _PASBackend        PASBackend;
 typedef struct _PASBackendPrivate PASBackendPrivate;
 
 #include <pas/pas-book.h>
@@ -43,44 +44,49 @@ struct _PASBackend {
 	PASBackendPrivate *priv;
 };
 
-typedef struct {
+struct _PASBackendClass {
 	GObjectClass parent_class;
 
 	/* Virtual methods */
-	GNOME_Evolution_Addressbook_BookListener_CallStatus (*load_uri) (PASBackend *backend, const char *uri);
-	const char *(* get_uri) (PASBackend *backend);
-	gboolean (*add_client) (PASBackend *backend, GNOME_Evolution_Addressbook_BookListener listener);
-	void (*remove_client) (PASBackend *backend, PASBook *book);
+	GNOME_Evolution_Addressbook_CallStatus (*load_uri) (PASBackend *backend, const char *uri, gboolean only_if_exists);
+	void (*remove) (PASBackend *backend, PASBook *book);
         char *(*get_static_capabilities) (PASBackend *backend);
 
-	void (*create_card)  (PASBackend *backend, PASBook *book, PASCreateCardRequest *req);
-	void (*remove_cards) (PASBackend *backend, PASBook *book, PASRemoveCardsRequest *req);
-	void (*modify_card)  (PASBackend *backend, PASBook *book, PASModifyCardRequest *req);
-	void (*check_connection) (PASBackend *backend, PASBook *book, PASCheckConnectionRequest *req);
-	void (*get_vcard) (PASBackend *backend, PASBook *book, PASGetVCardRequest *req);
-	void (*get_cursor) (PASBackend *backend, PASBook *book, PASGetCursorRequest *req);
-	void (*get_book_view) (PASBackend *backend, PASBook *book, PASGetBookViewRequest *req);
-	void (*get_completion_view) (PASBackend *backend, PASBook *book, PASGetCompletionViewRequest *req);
-	void (*get_changes) (PASBackend *backend, PASBook *book, PASGetChangesRequest *req);
-	void (*authenticate_user) (PASBackend *backend, PASBook *book, PASAuthenticateUserRequest *req);
-	void (*get_supported_fields) (PASBackend *backend, PASBook *book, PASGetSupportedFieldsRequest *req);
-	void (*get_supported_auth_methods) (PASBackend *backend, PASBook *book, PASGetSupportedAuthMethodsRequest *req);
+	void (*create_contact)  (PASBackend *backend, PASBook *book, const char *vcard);
+	void (*remove_contacts) (PASBackend *backend, PASBook *book, GList *id_list);
+	void (*modify_contact)  (PASBackend *backend, PASBook *book, const char *vcard);
+	void (*get_contact) (PASBackend *backend, PASBook *book, const char *id);
+	void (*get_contact_list) (PASBackend *backend, PASBook *book, const char *query);
+	void (*start_book_view) (PASBackend *backend, PASBookView *book_view);
+	void (*get_changes) (PASBackend *backend, PASBook *book, const char *change_id);
+	void (*authenticate_user) (PASBackend *backend, PASBook *book, const char *user, const char *passwd, const char *auth_method);
+	void (*get_supported_fields) (PASBackend *backend, PASBook *book);
+	void (*get_supported_auth_methods) (PASBackend *backend, PASBook *book);
+	GNOME_Evolution_Addressbook_CallStatus (*cancel_operation) (PASBackend *backend, PASBook *book);
 
 	/* Notification signals */
 	void (* last_client_gone) (PASBackend *backend);
-} PASBackendClass;
+
+	/* Padding for future expansion */
+	void (*_pas_reserved0) (void);
+	void (*_pas_reserved1) (void);
+	void (*_pas_reserved2) (void);
+	void (*_pas_reserved3) (void);
+	void (*_pas_reserved4) (void);
+};
 
 typedef PASBackend * (*PASBackendFactoryFn) (void);
 
 gboolean    pas_backend_construct                (PASBackend             *backend);
 
-GNOME_Evolution_Addressbook_BookListener_CallStatus
+GNOME_Evolution_Addressbook_CallStatus
             pas_backend_load_uri                 (PASBackend             *backend,
-						  const char             *uri);
+						  const char             *uri,
+						  gboolean                only_if_exists);
 const char *pas_backend_get_uri                  (PASBackend             *backend);
 
 gboolean    pas_backend_add_client               (PASBackend             *backend,
-						  GNOME_Evolution_Addressbook_BookListener  listener);
+						  PASBook                *book);
 void        pas_backend_remove_client            (PASBackend             *backend,
 						  PASBook                *book);
 char       *pas_backend_get_static_capabilities  (PASBackend             *backend);
@@ -89,42 +95,56 @@ gboolean    pas_backend_is_loaded                (PASBackend             *backen
 
 gboolean    pas_backend_is_writable              (PASBackend             *backend);
 
-void        pas_backend_create_card              (PASBackend             *backend,
+gboolean    pas_backend_is_removed               (PASBackend             *backend);
+
+void        pas_backend_open                     (PASBackend             *backend,
 						  PASBook                *book,
-						  PASCreateCardRequest   *req);
-void        pas_backend_remove_cards              (PASBackend             *backend,
+						  gboolean                only_if_exists);
+void        pas_backend_remove                   (PASBackend *backend,
+						  PASBook    *book);
+void        pas_backend_create_contact           (PASBackend             *backend,
 						  PASBook                *book,
-						  PASRemoveCardsRequest  *req);
-void        pas_backend_modify_card              (PASBackend             *backend,
+						  const char             *vcard);
+void        pas_backend_remove_contacts          (PASBackend             *backend,
 						  PASBook                *book,
-						  PASModifyCardRequest   *req);
-void        pas_backend_check_connection         (PASBackend             *backend,
+						  GList                  *id_list);
+void        pas_backend_modify_contact           (PASBackend             *backend,
 						  PASBook                *book,
-						  PASCheckConnectionRequest *req);
-void        pas_backend_get_vcard                (PASBackend             *backend,
+						  const char             *vcard);
+void        pas_backend_get_contact              (PASBackend             *backend,
 						  PASBook                *book,
-						  PASGetVCardRequest     *req);
-void        pas_backend_get_cursor               (PASBackend             *backend,
+						  const char             *id);
+void        pas_backend_get_contact_list         (PASBackend             *backend,
 						  PASBook                *book,
-						  PASGetCursorRequest    *req);
-void        pas_backend_get_book_view            (PASBackend             *backend,
-						  PASBook                *book,
-						  PASGetBookViewRequest  *req);
-void        pas_backend_get_completion_view      (PASBackend             *backend,
-						  PASBook                *book,
-						  PASGetCompletionViewRequest *req);
+						  const char             *query);
 void        pas_backend_get_changes              (PASBackend             *backend,
 						  PASBook                *book,
-						  PASGetChangesRequest   *req);
+						  const char             *change_id);
 void        pas_backend_authenticate_user        (PASBackend             *backend,
 						  PASBook                *book,
-						  PASAuthenticateUserRequest *req);
+						  const char             *user,
+						  const char             *passwd,
+						  const char             *auth_method);
 void        pas_backend_get_supported_fields     (PASBackend             *backend,
-						  PASBook                *book,
-						  PASGetSupportedFieldsRequest *req);
+						  PASBook                *book);
 void        pas_backend_get_supported_auth_methods (PASBackend             *backend,
-						    PASBook                *book,
-						    PASGetSupportedAuthMethodsRequest *req);
+						    PASBook                *book);
+GNOME_Evolution_Addressbook_CallStatus pas_backend_cancel_operation (PASBackend             *backend,
+								     PASBook                *book);
+
+void        pas_backend_start_book_view            (PASBackend             *backend,
+						    PASBookView            *view);
+
+void        pas_backend_add_book_view              (PASBackend             *backend,
+						    PASBookView            *view);
+
+EList      *pas_backend_get_book_views             (PASBackend             *backend);
+
+void        pas_backend_notify_update              (PASBackend             *backend,
+						    EContact               *contact);
+void        pas_backend_notify_remove              (PASBackend             *backend,
+						    const char             *id);
+void        pas_backend_notify_complete            (PASBackend             *backend);
 
 
 GType       pas_backend_get_type                 (void);
@@ -135,6 +155,13 @@ void        pas_backend_set_is_loaded            (PASBackend             *backen
 						  gboolean                is_loaded);
 void        pas_backend_set_is_writable          (PASBackend             *backend,
 						  gboolean                is_writable);
+void        pas_backend_set_is_removed           (PASBackend             *backend,
+						  gboolean                is_removed);
+
+/* useful for implementing _get_changes in backends */
+GNOME_Evolution_Addressbook_BookChangeItem* pas_backend_change_add_new     (const char *vcard);
+GNOME_Evolution_Addressbook_BookChangeItem* pas_backend_change_modify_new  (const char *vcard);
+GNOME_Evolution_Addressbook_BookChangeItem* pas_backend_change_delete_new  (const char *id);
 
 #endif /* ! __PAS_BACKEND_H__ */
 

@@ -23,8 +23,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include <libgnomecanvas/gnome-canvas.h>
-#include "addressbook/backend/ebook/e-card.h"
-#include "addressbook/backend/ebook/e-card-simple.h"
+#include "addressbook/backend/ebook/e-contact.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -63,8 +62,7 @@ struct _EMinicard
 	GnomeCanvasGroup parent;
 	
 	/* item specific fields */
-	ECard *card;
-	ECardSimple *simple;
+	EContact *contact;
 	
 	GnomeCanvasItem *rect;
 	GnomeCanvasItem *header_rect;

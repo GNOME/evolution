@@ -25,7 +25,7 @@
 #include <gtk/gtkcelleditable.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
-#include <ebook/e-destination.h>
+#include <addressbook/util/eab-destination.h>
 
 #include "e-select-names-editable.h"
 #include "Evolution-Addressbook-SelectNames.h"
@@ -187,16 +187,16 @@ e_select_names_editable_new ()
 gchar *
 e_select_names_editable_get_address (ESelectNamesEditable *esne)
 {
-	EDestination **dest;
+	EABDestination **dest;
 	gchar *dest_str;
 	gchar *result;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
 	dest_str = bonobo_pbclient_get_string (esne->priv->bag, "destinations", NULL);
-	dest = e_destination_importv (dest_str);
-	result = g_strdup (e_destination_get_email (*dest));
-	e_destination_freev (dest);
+	dest = eab_destination_importv (dest_str);
+	result = g_strdup (eab_destination_get_email (*dest));
+	eab_destination_freev (dest);
 
 	return result;
 }
@@ -204,16 +204,16 @@ e_select_names_editable_get_address (ESelectNamesEditable *esne)
 gchar *
 e_select_names_editable_get_name (ESelectNamesEditable *esne)
 {
-	EDestination **dest;
+	EABDestination **dest;
 	gchar *dest_str;
 	gchar *result;
 
 	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
 
 	dest_str = bonobo_pbclient_get_string (esne->priv->bag, "destinations", NULL);
-	dest = e_destination_importv (dest_str);
-	result = g_strdup (e_destination_get_name (*dest));
-	e_destination_freev (dest);
+	dest = eab_destination_importv (dest_str);
+	result = g_strdup (eab_destination_get_name (*dest));
+	eab_destination_freev (dest);
 
 	return result;
 }

@@ -725,10 +725,12 @@ delete_selected_components (ECalendarTable *cal_table)
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
-
-		delete_error_dialog (cal_client_remove_object (comp_data->client,
-							       icalcomponent_get_uid (comp_data->icalcomp)),
-				     CAL_COMPONENT_TODO);
+		GError *error = NULL;
+		
+		cal_client_remove_object (comp_data->client, 
+					  icalcomponent_get_uid (comp_data->icalcomp), &error);
+		delete_error_dialog (error, CAL_COMPONENT_TODO);
+		g_clear_error (&error);
 	}
 
 	e_calendar_table_set_status_message (cal_table, NULL);
@@ -1052,7 +1054,8 @@ e_calendar_table_show_popup_menu (ETable *table,
 	GtkMenu *gtk_menu;
 	icalproperty *prop;
 	ECalModelComponent *comp_data;
-
+	gboolean read_only = TRUE;
+	
 	n_selected = e_table_selected_count (table);
 	if (n_selected <= 0)
 		return TRUE;
@@ -1071,7 +1074,8 @@ e_calendar_table_show_popup_menu (ETable *table,
 	} else
 		hide_mask = MASK_SINGLE;
 
-	if (cal_client_is_read_only (comp_data->client))
+	cal_client_is_read_only (comp_data->client, &read_only, NULL);
+	if (!read_only)
 		disable_mask |= MASK_EDITABLE;
 
 	if (cal_client_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
@@ -1315,6 +1319,7 @@ selection_received (GtkWidget *invisible,
 	icalcomponent *icalcomp;
 	char *uid;
 	CalComponent *comp;
+	CalClient *client;
 	icalcomponent_kind kind;
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
@@ -1338,6 +1343,8 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
+	client = e_cal_model_get_default_client (cal_table->model);
+	
 	e_calendar_table_set_status_message (cal_table, _("Updating objects"));
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -1360,11 +1367,12 @@ selection_received (GtkWidget *invisible,
 				cal_component_set_icalcomponent (
 					tmp_comp, icalcomponent_new_clone (subcomp));
 				cal_component_set_uid (tmp_comp, uid);
-
-				cal_client_update_object (
-					e_cal_model_get_default_client (cal_table->model),
-					tmp_comp);
 				free (uid);
+
+				/* FIXME should we convert start/due/complete times? */
+				/* FIXME Error handling */
+				cal_client_create_object (client, cal_component_get_icalcomponent (tmp_comp), NULL, NULL);
+
 				g_object_unref (tmp_comp);
 			}
 			subcomp = icalcomponent_get_next_component (
@@ -1378,9 +1386,8 @@ selection_received (GtkWidget *invisible,
 		cal_component_set_uid (comp, (const char *) uid);
 		free (uid);
 
-		cal_client_update_object (
-			e_cal_model_get_default_client (cal_table->model),
-			comp);
+		cal_client_create_object (client, cal_component_get_icalcomponent (comp), NULL, NULL);
+
 		g_object_unref (comp);
 	}
 
@@ -1433,8 +1440,6 @@ static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 void
 e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *message)
 {
-	extern EvolutionShellClient *global_shell_client; /* ugly */
-
         g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
                                                                                 
         if (!message || !*message) {
@@ -1448,9 +1453,12 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
                                                                                 
                 if (progress_icon[0] == NULL)
                         progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_TASKS_PROGRESS_IMAGE, NULL);
+
+#if 0				/* EPFIXME */
                 cal_table->activity = evolution_activity_client_new (
                         global_shell_client, client_id,
                         progress_icon, message, TRUE, &display);
+#endif
 
                 g_free (client_id);
         } else

@@ -67,7 +67,7 @@ struct _ESelectNames
 	ETableScrolled *table;
 	ETableModel *adapter;
 	ETableModel *without;
-	EAddressbookModel *model;
+	EABModel *model;
 	GtkWidget *categories;
 	GtkWidget *select_entry;
 	GtkWidget *status_message;

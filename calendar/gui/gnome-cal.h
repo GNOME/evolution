@@ -55,7 +55,8 @@ typedef enum {
 	GNOME_CAL_WORK_WEEK_VIEW,
 	GNOME_CAL_WEEK_VIEW,
 	GNOME_CAL_MONTH_VIEW,
-	GNOME_CAL_LIST_VIEW
+	GNOME_CAL_LIST_VIEW,
+	GNOME_CAL_LAST_VIEW
 } GnomeCalendarViewType;
 
 typedef enum
@@ -106,9 +107,10 @@ ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 CalClient *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
+void       gnome_calendar_set_default_client    (GnomeCalendar *gcal, CalClient *client);
 CalClient *gnome_calendar_get_task_pad_cal_client(GnomeCalendar *gcal);
 
-gboolean   gnome_calendar_open                  (GnomeCalendar *gcal, const char *str_uri);
+gboolean   gnome_calendar_add_event_uri         (GnomeCalendar *gcal, const char *str_uri);
 
 void gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp);
 
@@ -144,17 +146,6 @@ void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 void	   gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 						   time_t	 *start_time,
 						   time_t	 *end_time);
-
-void       gnome_calendar_edit_object           (GnomeCalendar *gcal,
-						 CalClient     *client,
-						 icalcomponent *icalcomp,
-						 gboolean       meeting);
-
-void       gnome_calendar_new_appointment       (GnomeCalendar *gcal);
-void       gnome_calendar_new_appointment_for   (GnomeCalendar *cal,
-						 time_t dtstart, time_t dtend,
-						 gboolean all_day,
-						 gboolean meeting);
 
 void       gnome_calendar_new_task		(GnomeCalendar *gcal);
 
@@ -193,7 +184,6 @@ void       gnome_calendar_paste_clipboard       (GnomeCalendar  *gcal);
 
 void       gnome_calendar_delete_selection	(GnomeCalendar  *gcal);
 void       gnome_calendar_delete_selected_occurrence (GnomeCalendar *gcal);
-void       gnome_calendar_unrecur_selection     (GnomeCalendar *gcal);
 void       gnome_calendar_purge                 (GnomeCalendar  *gcal,
 						 time_t older_than);
 

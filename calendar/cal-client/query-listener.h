@@ -22,6 +22,7 @@
 #define QUERY_LISTENER_H
 
 #include <bonobo/bonobo-object.h>
+#include "cal-client-types.h"
 #include "evolution-calendar.h"
 
 G_BEGIN_DECLS
@@ -48,47 +49,18 @@ typedef struct {
 	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Calendar_QueryListener__epv epv;
+
+	void (*objects_added) (QueryListener *listener, GList *objects);
+	void (*objects_modified) (QueryListener *listener, GList *objects);
+	void (*objects_removed) (QueryListener *listener, GList *uids);
+	void (*query_progress) (QueryListener *listener, const char *message, int percent);
+	void (*query_done) (QueryListener *listener, ECalendarStatus status);
 } QueryListenerClass;
 
 /* Notification functions */
 
-typedef void (* QueryListenerObjUpdatedFn) (QueryListener *ql,
-					    const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
-					    CORBA_boolean query_in_progress,
-					    CORBA_long n_scanned,
-					    CORBA_long total,
-					    gpointer data);
-
-typedef void (* QueryListenerObjRemovedFn) (QueryListener *ql,
-					    const CORBA_char *uid,
-					    gpointer data);
-
-typedef void (* QueryListenerQueryDoneFn) (
-	QueryListener *ql,
-	GNOME_Evolution_Calendar_QueryListener_QueryDoneStatus status,
-	const CORBA_char *error_str,
-	gpointer data);
-
-typedef void (* QueryListenerEvalErrorFn) (QueryListener *ql,
-					   const CORBA_char *error_str,
-					   gpointer data);
-
 GType query_listener_get_type (void);
-
-QueryListener *query_listener_construct (QueryListener *ql,
-					 QueryListenerObjUpdatedFn obj_updated_fn,
-					 QueryListenerObjRemovedFn obj_removed_fn,
-					 QueryListenerQueryDoneFn query_done_fn,
-					 QueryListenerEvalErrorFn eval_error_fn,
-					 gpointer fn_data);
-
-QueryListener *query_listener_new (QueryListenerObjUpdatedFn obj_updated_fn,
-				   QueryListenerObjRemovedFn obj_removed_fn,
-				   QueryListenerQueryDoneFn query_done_fn,
-				   QueryListenerEvalErrorFn eval_error_fn,
-				   gpointer fn_data);
-
-void query_listener_stop_notification (QueryListener *ql);
+QueryListener *query_listener_new (void);
 
 
 

@@ -33,7 +33,7 @@
 
 #include <gal/widgets/e-unicode.h>
 
-#include "ebook/e-card-simple.h"
+#include "ebook/e-contact.h"
 #include "pas-backend-summary.h"
 #include "e-util/e-sexp.h"
 
@@ -689,36 +689,29 @@ pas_backend_summary_save (PASBackendSummary *summary)
 }
 
 void
-pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
+pas_backend_summary_add_contact (PASBackendSummary *summary, EContact *contact)
 {
-	ECard *card;
-	ECardSimple *simple;
 	PASBackendSummaryItem *new_item;
 
-	card = e_card_new ((char*)vcard);
-	simple = e_card_simple_new (card);
+	new_item = g_new0 (PASBackendSummaryItem, 1);
 
-	new_item = g_new (PASBackendSummaryItem, 1);
-
-	new_item->id         = g_strdup (e_card_simple_get_id (simple));
-	new_item->nickname   = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_NICKNAME);
-	new_item->full_name = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FULL_NAME);
-	new_item->given_name = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_GIVEN_NAME);
-	new_item->surname    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FAMILY_NAME);
-	new_item->file_as    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_FILE_AS);
-	new_item->email_1    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL);
-	new_item->email_2    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL_2);
-	new_item->email_3    = e_card_simple_get (simple, E_CARD_SIMPLE_FIELD_EMAIL_3);
-	new_item->list       = e_card_evolution_list (card);
-	new_item->list_show_addresses = e_card_evolution_list_show_addresses (card);
-	new_item->wants_html = card->wants_html;
-	new_item->wants_html_set = card->wants_html_set;
+	new_item->id         = e_contact_get (contact, E_CONTACT_UID);
+	new_item->nickname   = e_contact_get (contact, E_CONTACT_NICKNAME);
+	new_item->full_name  = e_contact_get (contact, E_CONTACT_FULL_NAME);
+	new_item->given_name = e_contact_get (contact, E_CONTACT_GIVEN_NAME);
+	new_item->surname    = e_contact_get (contact, E_CONTACT_FAMILY_NAME);
+	new_item->file_as    = e_contact_get (contact, E_CONTACT_FILE_AS);
+	new_item->email_1    = e_contact_get (contact, E_CONTACT_EMAIL_1);
+	new_item->email_2    = e_contact_get (contact, E_CONTACT_EMAIL_2);
+	new_item->email_3    = e_contact_get (contact, E_CONTACT_EMAIL_3);
+	new_item->list       = GPOINTER_TO_INT (e_contact_get (contact, E_CONTACT_IS_LIST));
+	new_item->list_show_addresses = GPOINTER_TO_INT (e_contact_get (contact, E_CONTACT_LIST_SHOW_ADDRESSES));
+	new_item->wants_html = GPOINTER_TO_INT (e_contact_get (contact, E_CONTACT_WANTS_HTML));
 
 	g_ptr_array_add (summary->priv->items, new_item);
 	g_hash_table_insert (summary->priv->id_to_item, new_item->id, new_item);
 
-	g_object_unref (simple);
-	g_object_unref (card);
+	g_object_unref (contact);
 
 #ifdef SUMMARY_STATS
 	summary->priv->size += sizeof (PASBackendSummaryItem);
@@ -736,7 +729,7 @@ pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
 }
 
 void
-pas_backend_summary_remove_card (PASBackendSummary *summary, const char *id)
+pas_backend_summary_remove_contact (PASBackendSummary *summary, const char *id)
 {
 	PASBackendSummaryItem *item = g_hash_table_lookup (summary->priv->id_to_item, id);
 
@@ -748,7 +741,7 @@ pas_backend_summary_remove_card (PASBackendSummary *summary, const char *id)
 		return;
 	}
 
-	g_warning ("pas_backend_summary_remove_card: unable to locate id `%s'", id);
+	g_warning ("pas_backend_summary_remove_contact: unable to locate id `%s'", id);
 }
 
 static gboolean
@@ -1056,31 +1049,26 @@ pas_backend_summary_get_summary_vcard(PASBackendSummary *summary, const char *id
 	PASBackendSummaryItem *item = g_hash_table_lookup (summary->priv->id_to_item, id);
 
 	if (item) {
-		ECard *card = e_card_new ("");
-		ECardSimple *simple = e_card_simple_new (card);
+		EContact *contact = e_contact_new ();
 		char *vcard;
 
-		e_card_simple_set_id (simple, item->id);
-		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FILE_AS, item->file_as);
-		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_GIVEN_NAME, item->given_name);
-		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FAMILY_NAME, item->surname);
-		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_NICKNAME, item->nickname);
-		e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_FULL_NAME, item->full_name);
-		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL, item->email_1);
-		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL_2, item->email_2);
-		e_card_simple_set_email (simple, E_CARD_SIMPLE_EMAIL_ID_EMAIL_3, item->email_3);
+		e_contact_set (contact, E_CONTACT_UID, item->id);
+		e_contact_set (contact, E_CONTACT_FILE_AS, item->file_as);
+		e_contact_set (contact, E_CONTACT_GIVEN_NAME, item->given_name);
+		e_contact_set (contact, E_CONTACT_FAMILY_NAME, item->surname);
+		e_contact_set (contact, E_CONTACT_NICKNAME, item->nickname);
+		e_contact_set (contact, E_CONTACT_FULL_NAME, item->full_name);
+		e_contact_set (contact, E_CONTACT_EMAIL_1, item->email_1);
+		e_contact_set (contact, E_CONTACT_EMAIL_2, item->email_2);
+		e_contact_set (contact, E_CONTACT_EMAIL_3, item->email_3);
 
-		e_card_simple_sync_card (simple);
+		e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (item->list));
+		e_contact_set (contact, E_CONTACT_LIST_SHOW_ADDRESSES, GINT_TO_POINTER (item->list_show_addresses));
+		e_contact_set (contact, E_CONTACT_WANTS_HTML, GINT_TO_POINTER (item->wants_html));
 
-		card->list = item->list;
-		card->wants_html = item->wants_html;
-		card->wants_html_set = item->wants_html_set;
-		card->list_show_addresses = item->list_show_addresses;
+		vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
 
-		vcard = e_card_simple_get_vcard (simple);
-
-		g_object_unref (simple);
-		g_object_unref (card);
+		g_object_unref (contact);
 
 		return vcard;
 	}

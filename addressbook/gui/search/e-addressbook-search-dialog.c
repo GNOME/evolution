@@ -30,23 +30,23 @@
 #include "e-addressbook-search-dialog.h"
 
 
-static void e_addressbook_search_dialog_init		 (EAddressbookSearchDialog		 *widget);
-static void e_addressbook_search_dialog_class_init	 (EAddressbookSearchDialogClass	 *klass);
-static void e_addressbook_search_dialog_dispose          (GObject *object);
+static void eab_search_dialog_init             (EABSearchDialog          *widget);
+static void eab_search_dialog_class_init       (EABSearchDialogClass     *klass);
+static void eab_search_dialog_dispose          (GObject *object);
 
 static GtkDialog *parent_class = NULL;
 
 #define PARENT_TYPE GTK_TYPE_DIALOG
 
-E_MAKE_TYPE (e_addressbook_search_dialog,
-	     "EAddressbookSearchDialog",
-	     EAddressbookSearchDialog,
-	     e_addressbook_search_dialog_class_init,
-	     e_addressbook_search_dialog_init,
+E_MAKE_TYPE (eab_search_dialog,
+	     "EABSearchDialog",
+	     EABSearchDialog,
+	     eab_search_dialog_class_init,
+	     eab_search_dialog_init,
 	     PARENT_TYPE)
 
 static void
-e_addressbook_search_dialog_class_init (EAddressbookSearchDialogClass *klass)
+eab_search_dialog_class_init (EABSearchDialogClass *klass)
 {
 	GObjectClass *object_class;
 
@@ -54,11 +54,11 @@ e_addressbook_search_dialog_class_init (EAddressbookSearchDialogClass *klass)
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->dispose = e_addressbook_search_dialog_dispose;
+	object_class->dispose = eab_search_dialog_dispose;
 }
 
 static GtkWidget *
-get_widget (EAddressbookSearchDialog *view)
+get_widget (EABSearchDialog *view)
 {
 	FilterPart *part;
 
@@ -79,7 +79,7 @@ get_widget (EAddressbookSearchDialog *view)
 }
 
 static char *
-get_query (EAddressbookSearchDialog *view)
+get_query (EABSearchDialog *view)
 {
 	GString *out = g_string_new("");
 	char *ret;
@@ -92,7 +92,7 @@ get_query (EAddressbookSearchDialog *view)
 }
 
 static void
-dialog_response (GtkWidget *widget, int response_id, EAddressbookSearchDialog *dialog)
+dialog_response (GtkWidget *widget, int response_id, EABSearchDialog *dialog)
 {
 	char *query;
 
@@ -108,7 +108,7 @@ dialog_response (GtkWidget *widget, int response_id, EAddressbookSearchDialog *d
 }
 
 static void
-e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
+eab_search_dialog_init (EABSearchDialog *view)
 {
 	GtkDialog *dialog = GTK_DIALOG (view);
 
@@ -131,19 +131,19 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 }
 
 GtkWidget *
-e_addressbook_search_dialog_new (EAddressbookView *addr_view)
+eab_search_dialog_new (EABView *addr_view)
 {
-	EAddressbookSearchDialog *view = g_object_new (E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, NULL);
+	EABSearchDialog *view = g_object_new (EAB_SEARCH_DIALOG_TYPE, NULL);
 	view->view = addr_view;
 	return GTK_WIDGET(view);
 }
 
 static void
-e_addressbook_search_dialog_dispose (GObject *object)
+eab_search_dialog_dispose (GObject *object)
 {
-	EAddressbookSearchDialog *view;
+	EABSearchDialog *view;
 
-	view = E_ADDRESSBOOK_SEARCH_DIALOG (object);
+	view = EAB_SEARCH_DIALOG (object);
 
 	if (view->context) {
 		g_object_unref(view->context);

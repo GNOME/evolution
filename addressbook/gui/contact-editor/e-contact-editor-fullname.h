@@ -22,7 +22,7 @@
 
 #include <gtk/gtkdialog.h>
 #include <glade/glade.h>
-#include <ebook/e-card.h>
+#include <ebook/e-contact.h>
 
 G_BEGIN_DECLS
 
@@ -50,7 +50,7 @@ struct _EContactEditorFullname
 	GtkDialog parent;
 	
 	/* item specific fields */
-	ECardName *name;
+	EContactName *name;
 	GladeXML *gui;
 
 	/* Whether the dialog will accept modifications */
@@ -63,7 +63,7 @@ struct _EContactEditorFullnameClass
 };
 
 
-GtkWidget *e_contact_editor_fullname_new(const ECardName *name);
+GtkWidget *e_contact_editor_fullname_new(const EContactName *name);
 GType      e_contact_editor_fullname_get_type (void);
 
 G_END_DECLS

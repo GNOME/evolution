@@ -38,6 +38,8 @@ GnomeCalendar *new_calendar (void);
 void calendar_control_activate (BonoboControl *control, GnomeCalendar *gcal);
 void calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal);
 
+void calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalendar *gcal, gboolean enable);
+
 void calendar_goto_today (GnomeCalendar *gcal);
 
 void calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control);

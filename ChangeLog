@@ -1,3 +1,11 @@
+2003-10-21  Dan Winship  <danw@ximian.com>
+
+	* configure.in (GNOME_COMPILE_WARNINGS): Turn off the annoying
+	"comparison between signed and unsigned" warning in gcc 3.3
+
+	* evolution-calendar.pc.in (Cflags): add
+	-I${privincludedir}/libical
+
 2003-10-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* configure.in: Check for gnome-thumbnail.h existence.

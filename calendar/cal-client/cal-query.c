@@ -24,7 +24,8 @@
 
 #include <string.h>
 #include <bonobo/bonobo-exception.h>
-#include "cal-util/cal-util-marshal.h"
+#include "cal-marshal.h"
+#include "cal-client.h"
 #include "cal-query.h"
 #include "query-listener.h"
 
@@ -32,36 +33,257 @@
 
 /* Private part of the CalQuery structure */
 struct _CalQueryPrivate {
-	/* Our query listener implementation */
-	QueryListener *ql;
-
 	/* Handle to the query in the server */
-	GNOME_Evolution_Calendar_Query corba_query;
+	GNOME_Evolution_Calendar_Query query;
+
+	/* Our query listener implementation */
+	QueryListener *listener;
 
 	/* The CalClient associated with this query */
 	CalClient *client;
 };
 
-
-
-static void cal_query_class_init (CalQueryClass *klass);
-static void cal_query_init (CalQuery *query, CalQueryClass *klass);
-static void cal_query_finalize (GObject *object);
+/* Property IDs */
+enum props {
+	PROP_0,
+	PROP_QUERY,
+	PROP_LISTENER,
+	PROP_CLIENT
+};
 
 /* Signal IDs */
 enum {
-	OBJ_UPDATED,
-	OBJ_REMOVED,
+	OBJECTS_ADDED,
+	OBJECTS_MODIFIED,
+	OBJECTS_REMOVED,
+	QUERY_PROGRESS,
 	QUERY_DONE,
-	EVAL_ERROR,
 	LAST_SIGNAL
 };
 
-static guint query_signals[LAST_SIGNAL];
+static guint signals[LAST_SIGNAL];
 
 static GObjectClass *parent_class;
 
 
+
+static void
+objects_added_cb (QueryListener *listener, GList *objects, gpointer data)
+{
+	CalQuery *query;
+
+	query = CAL_QUERY (data);
+
+	g_signal_emit (G_OBJECT (query), signals[OBJECTS_ADDED], 0, objects);
+}
+
+static void
+objects_modified_cb (QueryListener *listener, GList *objects, gpointer data)
+{
+	CalQuery *query;
+
+	query = CAL_QUERY (data);
+
+	g_signal_emit (G_OBJECT (query), signals[OBJECTS_MODIFIED], 0, objects);
+}
+
+static void
+objects_removed_cb (QueryListener *listener, GList *uids, gpointer data)
+{
+	CalQuery *query;
+
+	query = CAL_QUERY (data);
+
+	g_signal_emit (G_OBJECT (query), signals[OBJECTS_REMOVED], 0, uids);
+}
+
+static void
+query_progress_cb (QueryListener *listener, const char *message, int percent, gpointer data)
+{
+	CalQuery *query;
+
+	query = CAL_QUERY (data);
+
+	g_signal_emit (G_OBJECT (query), signals[QUERY_PROGRESS], 0, message, percent);
+}
+
+static void
+query_done_cb (QueryListener *listener, ECalendarStatus status, gpointer data)
+{
+	CalQuery *query;
+
+	query = CAL_QUERY (data);
+
+	g_signal_emit (G_OBJECT (query), signals[QUERY_DONE], 0, status);
+}
+
+/* Object initialization function for the calendar query */
+static void
+cal_query_init (CalQuery *query, CalQueryClass *klass)
+{
+	CalQueryPrivate *priv;
+
+	priv = g_new0 (CalQueryPrivate, 1);
+	query->priv = priv;
+
+	priv->listener = NULL;
+	priv->query = CORBA_OBJECT_NIL;
+}
+
+static void
+cal_query_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
+{
+	CalQuery *query;
+	CalQueryPrivate *priv;
+	
+	query = CAL_QUERY (object);
+	priv = query->priv;
+	
+	switch (property_id) {
+	case PROP_QUERY:
+		priv->query = bonobo_object_dup_ref (g_value_get_pointer (value), NULL);
+		break;
+	case PROP_LISTENER:
+		priv->listener = bonobo_object_ref (g_value_get_pointer (value));
+
+		g_signal_connect (G_OBJECT (priv->listener), "objects_added", 
+				  G_CALLBACK (objects_added_cb), query);
+		g_signal_connect (G_OBJECT (priv->listener), "objects_modified", 
+				  G_CALLBACK (objects_modified_cb), query);
+		g_signal_connect (G_OBJECT (priv->listener), "objects_removed", 
+				  G_CALLBACK (objects_removed_cb), query);
+		g_signal_connect (G_OBJECT (priv->listener), "query_progress", 
+				  G_CALLBACK (query_progress_cb), query);
+		g_signal_connect (G_OBJECT (priv->listener), "query_done", 
+				  G_CALLBACK (query_done_cb), query);
+		break;		
+	case PROP_CLIENT:
+		priv->client = CAL_CLIENT (g_value_dup_object (value));
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+cal_query_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
+{
+	CalQuery *query;
+	CalQueryPrivate *priv;
+	
+	query = CAL_QUERY (object);
+	priv = query->priv;
+
+	switch (property_id) {
+	case PROP_QUERY:
+		g_value_set_pointer (value, priv->query);
+		break;
+	case PROP_LISTENER:
+		g_value_set_pointer (value, priv->listener);
+		break;
+	case PROP_CLIENT:
+		g_value_set_object (value, priv->client);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+/* Finalize handler for the calendar query */
+static void
+cal_query_finalize (GObject *object)
+{
+	CalQuery *query;
+	CalQueryPrivate *priv;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_CAL_QUERY (object));
+
+	query = CAL_QUERY (object);
+	priv = query->priv;
+
+	/* The server keeps a copy of the query listener, so we must unref it */
+	g_signal_handlers_disconnect_matched (priv->listener, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, query);
+	bonobo_object_unref (BONOBO_OBJECT (priv->listener));
+
+	if (priv->query != CORBA_OBJECT_NIL)
+		bonobo_object_release_unref (priv->query, NULL);
+
+	g_free (priv);
+
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
+
+/* Class initialization function for the calendar query */
+static void
+cal_query_class_init (CalQueryClass *klass)
+{
+	GObjectClass *object_class;
+	GParamSpec *param;
+	
+	object_class = (GObjectClass *) klass;
+
+	parent_class = g_type_class_peek_parent (klass);
+
+	object_class->set_property = cal_query_set_property;
+	object_class->get_property = cal_query_get_property;
+	object_class->finalize = cal_query_finalize;
+
+	param =  g_param_spec_pointer ("query", NULL, NULL,
+				      G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY);
+	g_object_class_install_property (object_class, PROP_QUERY, param);
+	param =  g_param_spec_pointer ("listener", NULL, NULL,
+				      G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY);
+	g_object_class_install_property (object_class, PROP_LISTENER, param);
+	param =  g_param_spec_object ("client", NULL, NULL, CAL_CLIENT_TYPE,
+				      G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY);
+	g_object_class_install_property (object_class, PROP_CLIENT, param);
+	
+	signals[OBJECTS_ADDED] =
+		g_signal_new ("objects_added",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, objects_added),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[OBJECTS_MODIFIED] =
+		g_signal_new ("objects_modified",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, objects_modified),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[OBJECTS_REMOVED] =
+		g_signal_new ("objects_removed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, objects_removed),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals[QUERY_PROGRESS] =
+		g_signal_new ("query_progress",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, query_progress),
+			      NULL, NULL,
+			      cal_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_INT);
+	signals[QUERY_DONE] =
+		g_signal_new ("query_done",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalQueryClass, query_done),
+			      NULL, NULL,
+			      cal_marshal_VOID__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
+}
 
 /**
  * cal_query_get_type:
@@ -93,280 +315,6 @@ cal_query_get_type (void)
 	return cal_query_type;
 }
 
-GType
-cal_query_done_status_enum_get_type (void)
-{
-	static GType cal_query_done_status_enum_type = 0;
-
-	if (!cal_query_done_status_enum_type) {
-		static GEnumValue values [] = {
-		  { CAL_QUERY_DONE_SUCCESS,     "CalQueryDoneSuccess",    "success"     },
-		  { CAL_QUERY_DONE_PARSE_ERROR, "CalQueryDoneParseError", "parse-error" },
-		  { -1,                         NULL,                     NULL          }
-		};
-
-		cal_query_done_status_enum_type =
-		  g_enum_register_static ("CalQueryDoneStatusEnum", values);
-	}
-
-	return cal_query_done_status_enum_type;
-}
-
-/* Class initialization function for the calendar query */
-static void
-cal_query_class_init (CalQueryClass *klass)
-{
-	GObjectClass *object_class;
-
-	object_class = (GObjectClass *) klass;
-
-	parent_class = g_type_class_peek_parent (klass);
-
-	query_signals[OBJ_UPDATED] =
-		g_signal_new ("obj_updated",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalQueryClass, obj_updated),
-			      NULL, NULL,
-			      cal_util_marshal_VOID__STRING_BOOLEAN_INT_INT,
-			      G_TYPE_NONE, 4,
-			      G_TYPE_STRING,
-			      G_TYPE_BOOLEAN,
-			      G_TYPE_INT,
-			      G_TYPE_INT);
-	query_signals[OBJ_REMOVED] =
-		g_signal_new ("obj_removed",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalQueryClass, obj_removed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
-	query_signals[QUERY_DONE] =
-		g_signal_new ("query_done",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalQueryClass, query_done),
-			      NULL, NULL,
-			      cal_util_marshal_VOID__ENUM_STRING,
-			      G_TYPE_NONE, 2,
-			      CAL_QUERY_DONE_STATUS_ENUM_TYPE,
-			      G_TYPE_STRING);
-	query_signals[EVAL_ERROR] =
-		g_signal_new ("eval_error",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalQueryClass, eval_error),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
-
-	klass->obj_updated = NULL;
-	klass->obj_removed = NULL;
-	klass->query_done = NULL;
-	klass->eval_error = NULL;
-
-	object_class->finalize = cal_query_finalize;
-}
-
-/* Object initialization function for the calendar query */
-static void
-cal_query_init (CalQuery *query, CalQueryClass *klass)
-{
-	CalQueryPrivate *priv;
-
-	priv = g_new0 (CalQueryPrivate, 1);
-	query->priv = priv;
-
-	priv->ql = NULL;
-	priv->corba_query = CORBA_OBJECT_NIL;
-}
-
-/* Finalize handler for the calendar query */
-static void
-cal_query_finalize (GObject *object)
-{
-	CalQuery *query;
-	CalQueryPrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (IS_CAL_QUERY (object));
-
-	query = CAL_QUERY (object);
-	priv = query->priv;
-
-	/* The server keeps a copy of the query listener, so we must unref it */
-	query_listener_stop_notification (priv->ql);
-	bonobo_object_unref (BONOBO_OBJECT (priv->ql));
-	priv->ql = NULL;
-
-	if (priv->corba_query != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		bonobo_object_release_unref (priv->corba_query, &ev);
-
-		if (BONOBO_EX (&ev))
-			g_message ("cal_query_destroy(): Could not release/unref the query");
-
-		CORBA_exception_free (&ev);
-		priv->corba_query = CORBA_OBJECT_NIL;
-	}
-
-	g_free (priv);
-	query->priv = NULL;
-
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
-
-
-
-/* Callback used when an object is updated in the query */
-static void
-obj_updated_cb (QueryListener *ql,
-		const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
-		CORBA_boolean query_in_progress,
-		CORBA_long n_scanned,
-		CORBA_long total,
-		gpointer data)
-{
-	CalQuery *query;
-	int n;
-
-	query = CAL_QUERY (data);
-
-	for (n = 0; n < uids->_length; n++) {
-		g_signal_emit (G_OBJECT (query), query_signals[OBJ_UPDATED], 0,
-			       uids->_buffer[n], query_in_progress,
-			       (int) n_scanned, (int) total);
-	}
-}
-
-/* Callback used when an object is removed from the query */
-static void
-obj_removed_cb (QueryListener *ql,
-		const CORBA_char *uid,
-		gpointer data)
-{
-	CalQuery *query;
-
-	query = CAL_QUERY (data);
-
-	g_signal_emit (G_OBJECT (query), query_signals[OBJ_REMOVED],
-		       0, uid);
-}
-
-/* Callback used when the query terminates */
-static void
-query_done_cb (QueryListener *ql,
-	       GNOME_Evolution_Calendar_QueryListener_QueryDoneStatus corba_status,
-	       const CORBA_char *error_str,
-	       gpointer data)
-{
-	CalQuery *query;
-	CalQueryDoneStatus status;
-
-	query = CAL_QUERY (data);
-
-	switch (corba_status) {
-	case GNOME_Evolution_Calendar_QueryListener_SUCCESS:
-		status = CAL_QUERY_DONE_SUCCESS;
-		break;
-
-	case GNOME_Evolution_Calendar_QueryListener_PARSE_ERROR:
-		status = CAL_QUERY_DONE_PARSE_ERROR;
-		break;
-
-	default:
-		g_assert_not_reached ();
-		return;
-	}
-
-	g_signal_emit (G_OBJECT (query), query_signals[QUERY_DONE], 0,
-		       status, error_str);
-}
-
-/* Callback used when an error occurs when evaluating the query */
-static void
-eval_error_cb (QueryListener *ql,
-	       const CORBA_char *error_str,
-	       gpointer data)
-{
-	CalQuery *query;
-
-	query = CAL_QUERY (data);
-
-	g_signal_emit (G_OBJECT (query), query_signals[EVAL_ERROR], 0,
-		       error_str);
-}
-
-/**
- * cal_query_construct:
- * @query: A calendar query.
- * @cal: Handle to an open calendar.
- * @sexp: S-expression that defines the query.
- * 
- * Constructs a query object by issuing the query creation request to the
- * calendar server.
- * 
- * Return value: The same value as @query on success, or NULL if the request
- * failed.
- **/
-CalQuery *
-cal_query_construct (CalQuery *query,
-		     GNOME_Evolution_Calendar_Cal cal,
-		     const char *sexp)
-{
-	CalQueryPrivate *priv;
-	GNOME_Evolution_Calendar_QueryListener corba_ql;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (query != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_QUERY (query), NULL);
-	g_return_val_if_fail (sexp != NULL, NULL);
-
-	priv = query->priv;
-
-	priv->ql = query_listener_new (obj_updated_cb,
-				       obj_removed_cb,
-				       query_done_cb,
-				       eval_error_cb,
-				       query);
-	if (!priv->ql) {
-		g_message ("cal_query_construct(): Could not create the query listener");
-		return NULL;
-	}
-
-	corba_ql = BONOBO_OBJREF (priv->ql);
-				 
-	CORBA_exception_init (&ev);
-	priv->corba_query = GNOME_Evolution_Calendar_Cal_getQuery (cal, sexp, corba_ql, &ev);
-
-	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate)) {		
-		g_message ("cal_query_construct(): The server could not create the query");
-		goto error;
-	} else if (BONOBO_EX (&ev)) {
-		g_message ("cal_query_construct(): Could not issue the getQuery() request");
-		goto error;
-	}
-
-	CORBA_exception_free (&ev);
-
-	return query;
-
- error:
-
-	CORBA_exception_free (&ev);
-
-	bonobo_object_unref (BONOBO_OBJECT (priv->ql));
-	priv->ql = NULL;
-	priv->corba_query = CORBA_OBJECT_NIL;
-	return NULL;
-}
-
 /**
  * cal_query_new:
  * @client: Client from which the query is being created.
@@ -379,20 +327,12 @@ cal_query_construct (CalQuery *query,
  * Return value: A newly-created query object, or NULL if the request failed.
  **/
 CalQuery *
-cal_query_new (CalClient *client,
-	       GNOME_Evolution_Calendar_Cal cal,
-	       const char *sexp)
+cal_query_new (GNOME_Evolution_Calendar_Query corba_query, QueryListener *listener, CalClient *client)
 {
 	CalQuery *query;
 
-	query = g_object_new (CAL_QUERY_TYPE, NULL);
-
-	if (!cal_query_construct (query, cal, sexp)) {
-		g_object_unref (G_OBJECT (query));
-		return NULL;
-	}
-
-	query->priv->client = client;
+	query = g_object_new (CAL_QUERY_TYPE, "query", corba_query, "listener", 
+			      listener, "client", client, NULL);
 
 	return query;
 }
@@ -411,4 +351,24 @@ cal_query_get_client (CalQuery *query)
 	g_return_val_if_fail (IS_CAL_QUERY (query), NULL);
 
 	return query->priv->client;
+}
+
+void
+cal_query_start (CalQuery *query)
+{
+	CalQueryPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (query != NULL);
+	g_return_if_fail (IS_CAL_QUERY (query));
+	
+	priv = query->priv;
+	
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Calendar_Query_start (priv->query, &ev);
+	if (BONOBO_EX (&ev)) 
+		g_warning (G_STRLOC ": Unable to start query");
+
+	CORBA_exception_free (&ev);
 }
