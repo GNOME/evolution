@@ -1,3 +1,11 @@
+2000-12-19  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): Oops.
+	Don't do "FETCH 1:0" when the folder is empty.
+	(imap_protocol_get_summary_specifier): Request RFC822.SIZE too.
+	(imap_update_summary): Parse RFC822.SIZE and add it to the
+	summary.
+
 2000-12-18  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-summary.c: Add "guint32 server_flags"

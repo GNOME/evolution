@@ -245,7 +245,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	struct {
 		char *uid;
 		guint32 flags;
-	} *new;
+	} *new = NULL;
 	char *resp, *p;
 	const char *uid, *flags;
 	int i, seq, summary_len;
@@ -253,34 +253,40 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	CamelImapMessageInfo *iinfo;
 	CamelFolderChangeInfo *changes;
 
-	/* Get UIDs and flags of all messages. */
-	response = camel_imap_command (store, folder, ex,
-				       "FETCH 1:%d (UID FLAGS)",
-				       imap_folder->exists);
-	if (!response)
-		return;
-
 	changes = camel_folder_change_info_new ();
-	new = g_malloc0 (imap_folder->exists * sizeof (*new));
-	for (i = 0; i < response->untagged->len; i++) {
-		resp = response->untagged->pdata[i];
 
-		seq = strtoul (resp + 2, &resp, 10);
-		if (g_strncasecmp (resp, " FETCH ", 7) != 0)
-			continue;
-
-		uid = e_strstrcase (resp, "UID ");
-		if (uid) {
-			uid += 4;
-			strtoul (uid, &p, 10);
-			new[seq - 1].uid = g_strndup (uid, p - uid);
+	/* Get UIDs and flags of all messages. */
+	if (imap_folder->exists) {
+		response = camel_imap_command (store, folder, ex,
+					       "FETCH 1:%d (UID FLAGS)",
+					       imap_folder->exists);
+		if (!response) {
+			camel_folder_change_info_free (changes);
+			return;
 		}
 
-		flags = e_strstrcase (resp, "FLAGS ");
-		if (flags) {
-			flags += 6;
-			new[seq - 1].flags = imap_parse_flag_list (flags);
+		new = g_malloc0 (imap_folder->exists * sizeof (*new));
+		for (i = 0; i < response->untagged->len; i++) {
+			resp = response->untagged->pdata[i];
+
+			seq = strtoul (resp + 2, &resp, 10);
+			if (g_strncasecmp (resp, " FETCH ", 7) != 0)
+				continue;
+
+			uid = e_strstrcase (resp, "UID ");
+			if (uid) {
+				uid += 4;
+				strtoul (uid, &p, 10);
+				new[seq - 1].uid = g_strndup (uid, p - uid);
+			}
+
+			flags = e_strstrcase (resp, "FLAGS ");
+			if (flags) {
+				flags += 6;
+				new[seq - 1].flags = imap_parse_flag_list (flags);
+			}
 		}
+		camel_imap_response_free (response);
 	}
 
 	/* If we find a UID in the summary that doesn't correspond to
@@ -587,16 +593,13 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
  *
  * Make a data item specifier for the header lines we need,
  * appropriate to the server level.
- *
- * IMAP4rev1:  UID FLAGS BODY.PEEK[HEADER.FIELDS (SUBJECT FROM .. IN-REPLY-TO)]
- * IMAP4:      UID FLAGS RFC822.HEADER.LINES (SUBJECT FROM .. IN-REPLY-TO)
  **/
 static char *
 imap_protocol_get_summary_specifier (CamelImapStore *store)
 {
 	char *sect_begin, *sect_end;
 	char *headers_wanted = "SUBJECT FROM TO CC DATE MESSAGE-ID REFERENCES IN-REPLY-TO";
-	
+
 	if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
 		sect_begin = "BODY.PEEK[HEADER.FIELDS";
 		sect_end = "]";
@@ -604,8 +607,8 @@ imap_protocol_get_summary_specifier (CamelImapStore *store)
 		sect_begin = "RFC822.HEADER.LINES";
 		sect_end   = "";
 	}
-	
-	return g_strdup_printf ("UID FLAGS %s (%s)%s", sect_begin,
+
+	return g_strdup_printf ("UID FLAGS RFC822.SIZE %s (%s)%s", sect_begin,
 				headers_wanted, sect_end);
 }
 
@@ -640,7 +643,7 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 	for (i = 0; i < headers->len; i++) {
 		CamelMessageInfo *info;
 		CamelImapMessageInfo *iinfo;
-		char *uid, *flags, *header;
+		char *uid, *flags, *header, *size;
 
 		/* Grab the UID... */
 		if (!(uid = strstr (headers->pdata[i], "UID "))) {
@@ -687,12 +690,18 @@ imap_update_summary (CamelFolder *folder, int first, int last,
 		/* now lets grab the FLAGS */
 		if (!(flags = strstr (headers->pdata[i], "FLAGS "))) {
 			d(fprintf (stderr, "We didn't seem to get any flags for %d...\n", i));
-		} else {		
+		} else {
 			for (flags += 6; *flags && *flags != '('; flags++)
 				;
 			info->flags = imap_parse_flag_list (flags);
 			iinfo->server_flags = info->flags;
 		}
+
+		/* And size */
+		if (!(size = strstr (headers->pdata[i], "RFC822.SIZE "))) {
+			d(fprintf (stderr, "We didn't seem to get any size for %d...\n", i));
+		} else
+			info->size = strtoul (size + 12, NULL, 10);
 
 		camel_folder_summary_add (imap_folder->summary, info);
 	}
