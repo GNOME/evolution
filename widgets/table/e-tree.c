@@ -1843,16 +1843,16 @@ e_tree_class_init (ETreeClass *class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETreeClass, cursor_change),
-				gtk_marshal_NONE__POINTER_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
+				gtk_marshal_NONE__INT_POINTER,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	et_signals [CURSOR_ACTIVATED] =
 		gtk_signal_new ("cursor_activated",
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETreeClass, cursor_activated),
-				gtk_marshal_NONE__POINTER_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_POINTER, GTK_TYPE_INT);
+				gtk_marshal_NONE__INT_POINTER,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_POINTER);
 
 	et_signals [SELECTION_CHANGE] =
 		gtk_signal_new ("selection_change",
