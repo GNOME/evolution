@@ -177,7 +177,6 @@ camel_exception_setv (CamelException *ex,
 		      ...)
 {
 	va_list args;
-	gchar *tmp_desc_string;
 	
 	/* if no exception is given, do nothing */
 	if (!ex) return;
