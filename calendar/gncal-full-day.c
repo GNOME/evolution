@@ -1451,6 +1451,8 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 		}
 
 		paint_back_rows (fullday, paint_start_row, paint_rows_used);
+
+		return TRUE;
 	} else {
 		/* Clicked on a child? */
 
@@ -1494,6 +1496,8 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 				  event->time);
 
 		draw_xor_rect (fullday);
+
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1521,6 +1525,8 @@ button_3 (GncalFullDay *fullday, GdkEventButton *event)
 		main_items[0].data = fullday;
 
 		popup_menu (main_items, sizeof (main_items) / sizeof (main_items[0]), event->time);
+
+		return TRUE;
 	} else {
 		child = find_child_by_window (fullday, event->window, &on_text);
 
@@ -1528,6 +1534,7 @@ button_3 (GncalFullDay *fullday, GdkEventButton *event)
 			return FALSE;
 
 		child_popup_menu (fullday, child, event->time);
+
 		return TRUE;
 	}
 
@@ -1672,6 +1679,7 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 	GncalFullDay *fullday;
 	struct drag_info *di;
 	gint y;
+	int retval;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNCAL_IS_FULL_DAY (widget), FALSE);
@@ -1683,9 +1691,11 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 
 	gtk_widget_get_pointer (widget, NULL, &y);
 
+	retval = FALSE;
+
 	switch (di->drag_mode) {
 	case DRAG_NONE:
-		return FALSE;
+		break;
 
 	case DRAG_SELECT:
 		if ((event->time - di->click_time) < UNSELECT_TIMEOUT)
@@ -1697,6 +1707,7 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 
 		paint_back_rows (fullday, di->sel_start_row, MAX (di->sel_rows_used, 1));
 
+		retval = TRUE;
 		break;
 
 	case DRAG_MOVE:
@@ -1710,6 +1721,7 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 
 		di->child_rows_used = 0;
 
+		retval = TRUE;
 		break;
 
 	default:
@@ -1719,7 +1731,7 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 	di->drag_mode = DRAG_NONE;
 	di->child = NULL;
 
-	return FALSE;
+	return retval;
 }
 
 static gint
@@ -1759,7 +1771,7 @@ gncal_full_day_motion (GtkWidget *widget, GdkEventMotion *event)
 
 		paint_back_rows (fullday, new_start_row, new_rows_used);
 
-		break;
+		return TRUE;
 
 	case DRAG_MOVE:
 	case DRAG_SIZE_TOP:
@@ -1768,7 +1780,7 @@ gncal_full_day_motion (GtkWidget *widget, GdkEventMotion *event)
 		recompute_motion (fullday, y);
 		draw_xor_rect (fullday);
 
-		break;
+		return TRUE;
 
 	default:
 		g_assert_not_reached ();

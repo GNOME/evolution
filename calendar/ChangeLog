@@ -1,8 +1,7 @@
-<<<<<<< ChangeLog
 1998-04-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* eventedit.c (ee_ok): Mark the event as non-new after accepting changes.
-=======
+
 1998-04-20  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-full-day.c (gncal_full_day_get_day_start_yoffset): New
@@ -23,7 +22,6 @@
 	is_date_in_list().
 
 1998-04-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
->>>>>>> 1.58
 
 	* calobj.c (duration_callback): Take exception dates into
 	account. 
