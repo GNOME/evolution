@@ -187,6 +187,20 @@ Addressbook:
 
   - Extended wombat functionality with getChanges call (JP)
 
+Executive Summary: (iain)
+
+  - Now compiled by default.
+
+  - Prettier default dialogs.
+
+  - Customisable background.
+
+  - RDF Summary, and Mail Summary components.
+
+  - Fixes and optimisations.
+
+  - Can restore state.
+
 Version 0.7, "Loch Ness Monster", ????
 --------------------------------------
 
