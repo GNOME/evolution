@@ -691,6 +691,17 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 			}
 		}
 
+		/* bind anonymously initially, we'll actually
+		   authenticate the user properly later (in
+		   authenticate_user) if they've selected
+		   authentication */
+		ldap_error = ldap_simple_bind_s (blpriv->ldap, NULL, NULL);
+		if (ldap_error == LDAP_SERVER_DOWN) {
+			/* we only want this to be fatal if the server is down. */
+			g_warning ("failed to bind anonymously while connecting (ldap_error 0x%02x)", ldap_error);
+			return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
+		}
+
 		ldap_error = query_ldap_root_dse (bl);
 		/* query_ldap_root_dse will cause the actual
 		   connect(), so any tcpip problems will show up

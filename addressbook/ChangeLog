@@ -1,3 +1,9 @@
+2003-01-23  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): fix
+	for bug 34883 broke ssl transactions (at least those where we were
+	connecting to port 636).  Move it to after the SSL stanza.
+
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/select-names/Makefile.am (componentdir): Remove
