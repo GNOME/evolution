@@ -1,3 +1,16 @@
+2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mbox-importer.c: We are now going to use a file
+	descriptor and a CamelMimeParser rather than a FILE pointer.
+	(load_file_fn): Open the file descriptor and initialize the
+	CamelMimeParser.
+	(importer_destroy_cb): Unref the mime parser.
+	(support_format_fn): Use an fd and use a case-insensitive
+	comparison as well as elimate a buffer overrun.
+	(process_item_fn): Process 1 CamelMimeMessage per invocation so as
+	to not lock up Iain's GUI and to work similar to the way Iain
+	originally coded it.
+
 2001-02-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-mbox-importer.c, evolution-mbox-importer.h: Moved

@@ -34,14 +34,14 @@
 
 #include "mail-importer.h"
 
-#include <camel/camel-exception.h>
+#include <camel/camel.h>
 
 typedef struct {
 	MailImporter importer; /* Parent */
-
+	
 	char *filename;
-	FILE *handle;
-	off_t size;
+	int num;
+	CamelMimeParser *mp;
 } MboxImporter;
 
 
@@ -55,93 +55,51 @@ process_item_fn (EvolutionImporter *eimporter,
 {
 	MboxImporter *mbi = (MboxImporter *) closure;
 	MailImporter *importer = (MailImporter *) mbi;
+	gboolean done = FALSE;
 	CamelException *ex;
-	static char *line = NULL;
-
-	if (line == NULL)
-		line = g_new0 (char, 4096);
-
-	if (line != NULL) { 
-		/* We had a From line the last time
-		   so just add it and start again */
-		mail_importer_add_line (importer, line, FALSE);
-	}
-
-	if (fgets (line, 4096, mbi->handle) == NULL) {
-		if (*line != '\0')
-			mail_importer_add_line (importer, line, TRUE); 
-		/* Must be the end */
-
-		g_free (line);
-		line = NULL;
-		GNOME_Evolution_ImporterListener_notifyResult (listener,
-							       GNOME_Evolution_ImporterListener_OK,
-							       FALSE, ev);
+	
+	ex = camel_exception_new ();
+	
+	if (camel_mime_parser_step (mbi->mp, 0, 0) == HSCAN_FROM) {
+		/* Import the next message */
+		CamelMimeMessage *msg;
+		CamelMessageInfo *info;
 		
-		ex = camel_exception_new ();
+		msg = camel_mime_message_new ();
+		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mbi->mp) == -1) {
+			g_warning ("Failed message %d", mbi->num);
+			camel_object_unref (CAMEL_OBJECT (msg));
+			done = TRUE;
+		}
+		
+		/* write the mesg */
+		info = g_new0 (CamelMessageInfo, 1);
+		camel_folder_append_message (importer->folder, msg, info, ex);
+		g_free (info);
+		camel_object_unref (CAMEL_OBJECT (msg));
+		if (camel_exception_is_set (ex)) {
+			g_warning ("Failed message %d", mbi->num);
+			done = TRUE;
+		}
+		
+		if (!done) {
+			mbi->num++;
+			
+			/* skip over the FROM_END state */
+			camel_mime_parser_step (mbi->mp, 0, 0);
+		}
+	} else {
+		/* all messages have now been imported */
+		camel_folder_sync (importer->folder, FALSE, ex);
 		camel_folder_thaw (importer->folder);
 		importer->frozen = FALSE;
-		camel_folder_sync (importer->folder, FALSE, ex);
-		camel_exception_free (ex);
-		fclose (mbi->handle);
-		mbi->handle = NULL;
-		return;
-	}
-
-	/* It's the From line, so add it and get a new line. */
-	if (strncmp (line, "From ", 5) == 0) {
-		mail_importer_add_line (importer, line, FALSE);
-		
-		if (fgets (line, 4096, mbi->handle) == NULL) {
-			if (*line != '\0')
-				mail_importer_add_line (importer, line, TRUE); 
-			/* Must be the end */
-			
-			g_free (line);
-			line = NULL;
-			GNOME_Evolution_ImporterListener_notifyResult (listener,
-								       GNOME_Evolution_ImporterListener_OK,
-								       FALSE, ev);
-			
-			ex = camel_exception_new ();
-			camel_folder_thaw (importer->folder);
-			importer->frozen = FALSE;
-			camel_folder_sync (importer->folder, FALSE, ex);
-			camel_exception_free (ex);
-			fclose (mbi->handle);
-			mbi->handle = NULL;
-			return;
-		}
+		done = TRUE;
 	}
 	
-	while (strncmp (line, "From ", 5) != 0) {
-		mail_importer_add_line (importer, line, FALSE);
-
-		if (fgets (line, 4096, mbi->handle) == NULL) {
-			if (*line != '\0')
-				mail_importer_add_line (importer, line, TRUE);
-
-			g_free (line);
-			line = NULL;
-			GNOME_Evolution_ImporterListener_notifyResult (listener,
-								       GNOME_Evolution_ImporterListener_OK,
-								       FALSE, ev);
-			ex = camel_exception_new ();
-			camel_folder_thaw (importer->folder);
-			importer->frozen = FALSE;
-			camel_folder_sync (importer->folder, FALSE, ex);
-			camel_exception_free (ex);
-			fclose (mbi->handle);
-			mbi->handle = NULL;
-			return;
-		}
-	}	
-	
-	mail_importer_add_line (importer, "\0", TRUE);
-	GNOME_Evolution_ImporterListener_notifyResult (listener, 
+	camel_exception_free (ex);
+	GNOME_Evolution_ImporterListener_notifyResult (listener,
 						       GNOME_Evolution_ImporterListener_OK,
-						       TRUE, ev);
-		
+						       !done, ev);
 	return;
 }
 
@@ -150,22 +108,24 @@ support_format_fn (EvolutionImporter *importer,
 		   const char *filename,
 		   void *closure)
 {
-	FILE *handle;
-	char signature[5];
+	char signature[6];
+	gboolean ret = FALSE;
+	int fd, n;
 	
-	handle = fopen (filename, "rb");
-	if (handle == NULL)
-		return FALSE; /* Can't open file: Can't support it :) */
+	fd = open (filename, O_RDONLY);
+	if (fd == -1)
+		return FALSE;
 	
-	/* SIGNATURE */
-	fread (&signature, 5, 1, handle); 
-	if (strncmp (signature, "From ", 5) == 0) {
-		fclose (handle);
-		return TRUE;
+	n = read (fd, signature, 5);
+	if (n > 0) {
+		signature[n] = '\0';
+		if (!g_strncasecmp (signature, "From ", 5))
+			ret = TRUE;
 	}
-
-	fclose (handle);
-	return FALSE; 
+	
+	close (fd);
+	
+	return ret;
 }
 
 static void
@@ -173,18 +133,25 @@ importer_destroy_cb (GtkObject *object,
 		     MboxImporter *mbi)
 {
 	MailImporter *importer;
-
+	
 	importer = (MailImporter *) mbi;
-	if (importer->frozen) 
+	if (importer->frozen) {
+		CamelException *ex;
+		
+		ex = camel_exception_new ();
+		camel_folder_sync (importer->folder, FALSE, ex);
+		camel_exception_free (ex);
+		
 		camel_folder_thaw (importer->folder);
-
+	}
+	
 	if (importer->folder)
 		camel_object_unref (CAMEL_OBJECT (importer->folder));
-
+	
 	g_free (mbi->filename);
-	if (mbi->handle)
-		fclose (mbi->handle);
-
+	if (mbi->mp)
+		camel_object_unref (CAMEL_OBJECT (mbi->mp));
+	
 	g_free (mbi);
 }
 
@@ -195,38 +162,46 @@ load_file_fn (EvolutionImporter *eimporter,
 {
 	MboxImporter *mbi;
 	MailImporter *importer;
-	struct stat buf;
-
+	int fd;
+	
 	mbi = (MboxImporter *) closure;
 	importer = (MailImporter *) mbi;
-
+	
 	mbi->filename = g_strdup (filename);
-
-	mbi->handle = fopen (filename, "rb");
-	if (mbi->handle == NULL) {
+	
+	fd = open (filename, O_RDONLY);
+	if (fd == -1) {
 		g_warning ("Cannot open file");
 		return FALSE;
 	}
-
-	/* Get size of file */
-	if (stat (filename, &buf) == -1) {
-		g_warning ("Cannot stat file");
-		return FALSE;
+	
+	mbi->mp = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (mbi->mp, TRUE);
+	if (camel_mime_parser_init_with_fd (mbi->mp, fd) == -1) {
+		g_warning ("Unable to process spool folder");
+		goto fail;
 	}
 	
-	mbi->size = buf.st_size;
-
 	importer->mstream = NULL;
 	importer->folder = mail_importer_get_folder ("Inbox", NULL);
-
-	if (importer->folder == NULL){
+	
+	if (importer->folder == NULL) {
 		g_print ("Bad folder\n");
-		return FALSE;
+		goto fail;
 	}
-
+	
 	camel_folder_freeze (importer->folder);
 	importer->frozen = TRUE;
+	
+	g_warning ("Okay, so everything is now ready to import that mbox file!");
+	
 	return TRUE;
+	
+ fail:
+	camel_object_unref (CAMEL_OBJECT (mbi->mp));
+	mbi->mp = NULL;
+	
+	return FALSE;
 }
 
 BonoboObject *
@@ -244,4 +219,3 @@ mbox_factory_fn (BonoboGenericFactory *_factory,
 	
 	return BONOBO_OBJECT (importer);
 }
-
