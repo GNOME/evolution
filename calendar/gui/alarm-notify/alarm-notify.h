@@ -22,7 +22,8 @@
 #ifndef ALARM_NOTIFY_H
 #define ALARM_NOTIFY_H
 
-#include <glib-object.h>
+#include <bonobo/bonobo-object.h>
+#include "evolution-calendar.h"
 
 
 
@@ -39,14 +40,15 @@ typedef struct _AlarmNotifyClass AlarmNotifyClass;
 typedef struct _AlarmNotifyPrivate AlarmNotifyPrivate;
 
 struct _AlarmNotify {
-	GObject object;
+	BonoboObject object;
 
 	/* Private data */
 	AlarmNotifyPrivate *priv;
 };
 
 struct _AlarmNotifyClass {
-	GObjectClass parent_class;
+	BonoboObjectClass parent_class;
+	POA_GNOME_Evolution_Calendar_AlarmNotify__epv epv;
 };
 
 GType alarm_notify_get_type (void);

@@ -3076,10 +3076,10 @@ e_day_view_show_popup_menu (EDayView *day_view,
 			    gint event_num)
 {
 	GtkMenu *popup;
-	
+
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
-	
+
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (day_view));
 	e_popup_menu (popup, gdk_event);
 }

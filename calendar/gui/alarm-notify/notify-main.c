@@ -38,6 +38,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <libedataserver/e-source.h>
+#include "e-util/e-passwords.h"
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
@@ -153,9 +154,9 @@ main (int argc, char **argv)
 	textdomain (GETTEXT_PACKAGE);
 
 	gnome_program_init ("evolution-alarm-notify", VERSION, LIBGNOMEUI_MODULE, argc, argv, NULL);
-	gtk_init (&argc, &argv);
 
-	if (bonobo_init (&argc, argv) == FALSE)
+	if (bonobo_init_full (&argc, argv, bonobo_activation_orb_get (),
+			      CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
 	if (!gnome_vfs_init ())
@@ -165,11 +166,12 @@ main (int argc, char **argv)
 
 	gnome_sound_init ("localhost");
 
-	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify:" BASE_VERSION,
+	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory:" BASE_VERSION,
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));
 
+	g_object_set (G_OBJECT (factory), "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL), NULL);
 	set_session_parameters (argv);
 
 	g_idle_add ((GSourceFunc) load_calendars, NULL);
@@ -179,14 +181,13 @@ main (int argc, char **argv)
 	bonobo_object_unref (BONOBO_OBJECT (factory));
 	factory = NULL;
 
-	bonobo_object_unref (BONOBO_OBJECT (alarm_notify_service));
-
 	alarm_queue_done ();
 	alarm_done ();
 
 	if (alarm_notify_service)
 		bonobo_object_unref (BONOBO_OBJECT (alarm_notify_service));
 
+	e_passwords_shutdown ();
 	gnome_sound_shutdown ();
 	gnome_vfs_shutdown ();
 

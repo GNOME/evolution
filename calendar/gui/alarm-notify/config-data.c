@@ -142,30 +142,43 @@ GPtrArray *
 config_data_get_calendars_to_load (void)
 {
 	GPtrArray *cals;
-	GSList *groups, *gl, *sources, *sl;
+	GSList *uids_selected, *l;
+	ESource *source;
 
 	ensure_inited ();
 
 	/* create the array to be returned */
 	cals = g_ptr_array_new ();
 
-	/* process calendar sources */
-	groups = e_source_list_peek_groups (calendar_source_list);
-	for (gl = groups; gl != NULL; gl = gl->next) {
-		sources = e_source_group_peek_sources (E_SOURCE_GROUP (gl->data));
-		for (sl = sources; sl != NULL; sl = sl->next) {
-			g_ptr_array_add (cals, sl->data);
-		}
+	/* get selected calendars */
+	uids_selected = gconf_client_get_list (conf_client, "/apps/evolution/calendar/display/selected_calendars",
+					       GCONF_VALUE_STRING, NULL);
+	for (l = uids_selected; l != NULL; l = l->next) {
+		char *uid = l->data;
+
+		source = e_source_list_peek_source_by_uid (calendar_source_list, uid);
+		if (source)
+			g_ptr_array_add (cals, source);
+
+		g_free (uid);
 	}
 
-	/* process tasks sources */
-	groups = e_source_list_peek_groups (tasks_source_list);
-	for (gl = groups; gl != NULL; gl = gl->next) {
-		sources = e_source_group_peek_sources (E_SOURCE_GROUP (gl->data));
-		for (sl = sources; sl != NULL; sl = sl->next) {
-			g_ptr_array_add (cals, sl->data);
-		}
+	g_slist_free (uids_selected);
+
+	/* get selected tasks */
+	uids_selected = gconf_client_get_list (conf_client, "/apps/evolution/calendar/tasks/selected_tasks",
+					       GCONF_VALUE_STRING, NULL);
+	for (l = uids_selected; l != NULL; l = l->next) {
+		char *uid = l->data;
+
+		source = e_source_list_peek_source_by_uid (calendar_source_list, uid);
+		if (source)
+			g_ptr_array_add (cals, source);
+
+		g_free (uid);
 	}
+
+	g_slist_free (uids_selected);
 
 	return cals;
 }

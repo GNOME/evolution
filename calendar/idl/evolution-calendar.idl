@@ -40,6 +40,9 @@ module Calendar {
 		void editNew (in string uri, in CompEditorMode mode)
 			raises (InvalidURI, BackendContactError, UnsupportedType);
 	};
+
+	interface AlarmNotify : Bonobo::Unknown {
+	};
 };
 
 };

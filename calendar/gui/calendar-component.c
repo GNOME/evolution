@@ -577,7 +577,7 @@ impl_createControls (PortableServer_Servant servant,
 	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb, 
 								 calendar_component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-	
+
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (priv->view_control), ev);

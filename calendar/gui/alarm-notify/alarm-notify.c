@@ -23,6 +23,7 @@
 #endif
 
 #include <string.h>
+#include <bonobo/bonobo-main.h>
 #include <libecal/e-cal.h>
 #include "alarm-notify.h"
 #include "alarm-queue.h"
@@ -48,27 +49,7 @@ static BonoboObjectClass *parent_class;
 
 
 
-GType
-alarm_notify_get_type (void)
-{
-	static GType type = 0;
-                                                                                
-        if (!type) {
-                static GTypeInfo info = {
-                        sizeof (AlarmNotifyClass),
-                        (GBaseInitFunc) NULL,
-                        (GBaseFinalizeFunc) NULL,
-                        (GClassInitFunc) alarm_notify_class_init,
-                        NULL, NULL,
-                        sizeof (AlarmNotify),
-                        0,
-                        (GInstanceInitFunc) alarm_notify_init
-                };
-                type = g_type_register_static (G_TYPE_OBJECT, "AlarmNotify", &info, 0);
-        }
-
-        return type;
-}
+BONOBO_TYPE_FUNC_FULL(AlarmNotify, GNOME_Evolution_Calendar_AlarmNotify, BONOBO_TYPE_OBJECT, alarm_notify)
 
 /* Class initialization function for the alarm notify service */
 static void
@@ -142,7 +123,9 @@ alarm_notify_new (void)
 {
 	AlarmNotify *an;
 
-	an = g_object_new (TYPE_ALARM_NOTIFY, NULL);
+	an = g_object_new (TYPE_ALARM_NOTIFY,
+			   "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL),
+			   NULL);
 	return an;
 }
 

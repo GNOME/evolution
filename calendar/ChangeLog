@@ -1,5 +1,24 @@
 2004-02-04  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #52970
+
+	* idl/evolution-calendar.idl: added back the AlarmNotify interface.
+
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in:
+	changed to have the AlarmNotify component be created via a factory.
+
+	* gui/alarm-notify/alarm-notify.[ch]: converted to implement the
+	AlarmNotify interface.
+
+	* gui/alarm-notify/notify-main.c (main): register the factory with
+	bonobo_generic_factory_new, not the object itself. Removed redundant
+	call to bonobo_object_unref. Call e_passwords_shutdown on exit.
+
+	* gui/alarm-notify/config-data.c (config_data_get_calendars_to_load):
+	get only the selected calendars/task lists.
+
+2004-02-04  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/gnome-cal.c (gnome_calendar_add_event_source): don't update the
 	date navigator query nor the internal lists here...
 	(client_cal_opened_cb): do it here.
