@@ -126,6 +126,9 @@ main (int argc, char *argv [])
 			 "Bonobo against GOAD instead of OAF.");
 	}
 
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
 #ifdef GTKHTML_HAVE_GCONF
 	gconf_init (argc, argv, NULL);
 #endif
