@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2003-04-29 16:32-0400\n"
+"POT-Creation-Date: 2003-05-21 13:52-0400\n"
 "PO-Revision-Date: 2001-10-28 22:33+0200\n"
 "Last-Translator: Gediminas Paulauskas <menesis@delfi.lt>\n"
 "Language-Team: Your language <komp_lt@konferencijos.lt>\n"
@@ -58,7 +58,7 @@ msgid "Email"
 msgstr "El. paðtas"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:1748
+#: addressbook/gui/contact-editor/e-contact-editor.c:1747
 msgid "Primary"
 msgstr "Pagrindinis"
 
@@ -69,16 +69,15 @@ msgstr "Pagr"
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/backend/ebook/e-card.c:1404
-#: addressbook/gui/contact-editor/e-contact-editor.c:1733
+#: addressbook/gui/contact-editor/e-contact-editor.c:1732
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant"
 msgstr "Asistento"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
-#: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: addressbook/gui/contact-editor/e-contact-editor.c:1734
-#: addressbook/gui/contact-editor/e-contact-editor.c:1805
+#: addressbook/gui/contact-editor/e-contact-editor.c:1733
+#: addressbook/gui/contact-editor/e-contact-editor.c:1804
 msgid "Business"
 msgstr "Darbo"
 
@@ -88,12 +87,12 @@ msgid "Bus"
 msgstr "Darb"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:1737
+#: addressbook/gui/contact-editor/e-contact-editor.c:1736
 msgid "Callback"
 msgstr "Atsakiklis"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:1739
+#: addressbook/gui/contact-editor/e-contact-editor.c:1738
 msgid "Company"
 msgstr "Kompanijos"
 
@@ -103,9 +102,8 @@ msgstr "Komp"
 
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
-#: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-editor/e-contact-editor.c:1740
-#: addressbook/gui/contact-editor/e-contact-editor.c:1806
+#: addressbook/gui/contact-editor/e-contact-editor.c:1739
+#: addressbook/gui/contact-editor/e-contact-editor.c:1805
 msgid "Home"
 msgstr "Namø"
 
@@ -120,19 +118,17 @@ msgid "Org"
 msgstr "Org"
 
 #: addressbook/backend/ebook/e-card-simple.c:72
-#: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: addressbook/gui/contact-editor/e-contact-editor.c:1744
+#: addressbook/gui/contact-editor/e-contact-editor.c:1743
 msgid "Mobile"
 msgstr "Mobilus"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1738
+#: addressbook/gui/contact-editor/e-contact-editor.c:1737
 msgid "Car"
 msgstr "Automobilinis"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
-#: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#: addressbook/gui/contact-editor/e-contact-editor.c:1736
+#: addressbook/gui/contact-editor/e-contact-editor.c:1735
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Fax"
 msgstr "Darbo faksas"
@@ -142,13 +138,13 @@ msgid "Bus Fax"
 msgstr "Darb faks"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1742
+#: addressbook/gui/contact-editor/e-contact-editor.c:1741
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Fax"
 msgstr "Namø faksas"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1735
+#: addressbook/gui/contact-editor/e-contact-editor.c:1734
 msgid "Business 2"
 msgstr "Darbo 2"
 
@@ -157,43 +153,43 @@ msgid "Bus 2"
 msgstr "Darb 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
-#: addressbook/gui/contact-editor/e-contact-editor.c:1741
+#: addressbook/gui/contact-editor/e-contact-editor.c:1740
 msgid "Home 2"
 msgstr "Namø 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
-#: addressbook/gui/contact-editor/e-contact-editor.c:1743
+#: addressbook/gui/contact-editor/e-contact-editor.c:1742
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
 #: addressbook/backend/ebook/e-card-simple.c:85
-#: addressbook/gui/contact-editor/e-contact-editor.c:1745
-#: addressbook/gui/contact-editor/e-contact-editor.c:1807
+#: addressbook/gui/contact-editor/e-contact-editor.c:1744
+#: addressbook/gui/contact-editor/e-contact-editor.c:1806
 msgid "Other"
 msgstr "Kitas"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1746
+#: addressbook/gui/contact-editor/e-contact-editor.c:1745
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Other Fax"
 msgstr "Kitas faksas"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1747
+#: addressbook/gui/contact-editor/e-contact-editor.c:1746
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Pager"
 msgstr "Ieðkas"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/contact-editor/e-contact-editor.c:1749
+#: addressbook/gui/contact-editor/e-contact-editor.c:1748
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "Radio"
 msgstr "Radio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
-#: addressbook/gui/contact-editor/e-contact-editor.c:1750
+#: addressbook/gui/contact-editor/e-contact-editor.c:1749
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Telex"
 msgstr "Teleksas"
@@ -205,14 +201,14 @@ msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:488
-#: addressbook/gui/contact-editor/e-contact-editor.c:1778
+#: addressbook/gui/contact-editor/e-contact-editor.c:1777
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 2"
 msgstr "El. paðtas 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:498
-#: addressbook/gui/contact-editor/e-contact-editor.c:1779
+#: addressbook/gui/contact-editor/e-contact-editor.c:1778
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Email 3"
 msgstr "El. paðtas 3"
@@ -364,7 +360,7 @@ msgid "Unnamed List"
 msgstr "Bevardis kontaktø sàraðas"
 
 #: addressbook/backend/ebook/e-card.c:1308
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:319
+#: addressbook/gui/contact-editor/fullname.glade.h:4
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Full Name"
 msgstr "Pilnas vardas"
@@ -478,7 +474,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Negalëjau inicializuoti Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:464
-#: addressbook/backend/pas/pas-backend-ldap.c:3046
+#: addressbook/backend/pas/pas-backend-ldap.c:3047
 msgid "Searching..."
 msgstr "Ieðkoma..."
 
@@ -514,11 +510,11 @@ msgstr "Paðalinama kortelë ið LDAP serverio..."
 msgid "Modifying card from LDAP server..."
 msgstr "Taisoma kortelë LDAP serveryje..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2957
+#: addressbook/backend/pas/pas-backend-ldap.c:2958
 msgid "Receiving LDAP search results..."
 msgstr "Gaunami LDAP paieðkos rezultatai..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3066
+#: addressbook/backend/pas/pas-backend-ldap.c:3067
 #, fuzzy
 msgid "Error performing search"
 msgstr "Klaida paðalinant kortelæ"
@@ -597,7 +593,7 @@ msgid "Evolution Addressbook folder viewer"
 msgstr "Evolution adresø knygelës maþø korteliø vaizduoklë"
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:605
+#: addressbook/gui/component/addressbook-component.c:620
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
@@ -625,29 +621,29 @@ msgstr "Kontaktai"
 msgid "Public folder containing contact information"
 msgstr "Aplankas, kuriame laikoma kontaktø informacija"
 
-#: addressbook/gui/component/addressbook-component.c:564
+#: addressbook/gui/component/addressbook-component.c:574
 msgid "New Contact"
 msgstr "Naujas kontaktas"
 
-#: addressbook/gui/component/addressbook-component.c:564
+#: addressbook/gui/component/addressbook-component.c:574
 msgid "_Contact"
 msgstr "_Kontaktas"
 
-#: addressbook/gui/component/addressbook-component.c:565
+#: addressbook/gui/component/addressbook-component.c:575
 #, fuzzy
 msgid "Create a new contact"
 msgstr "Sukurti naujà kontaktà"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:578
 msgid "New Contact List"
 msgstr "Naujas kontaktø sàraðas"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:578
 #, fuzzy
 msgid "Contact _List"
 msgstr "Kontaktø _sàraðas"
 
-#: addressbook/gui/component/addressbook-component.c:569
+#: addressbook/gui/component/addressbook-component.c:579
 #, fuzzy
 msgid "Create a new contact list"
 msgstr "Sukurti naujà kontaktø sàraðà"
@@ -702,11 +698,11 @@ msgstr "Serverio vardas"
 msgid "LDAP was not enabled in this build of Evolution"
 msgstr "Nurodytas tipas ðioje saugykloje nepalaikomas"
 
-#: addressbook/gui/component/addressbook-storage.c:169
+#: addressbook/gui/component/addressbook-storage.c:178
 msgid "Other Contacts"
 msgstr "Kiti kontaktai"
 
-#: addressbook/gui/component/addressbook.c:512
+#: addressbook/gui/component/addressbook.c:502
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
@@ -714,7 +710,7 @@ msgstr ""
 "Mes negalëjome atidaryti ðios adresø knygelës. Praðom patikrinti, ar\n"
 "kelias egzistuoja ir ar turi teises já pasiekti."
 
-#: addressbook/gui/component/addressbook.c:522
+#: addressbook/gui/component/addressbook.c:512
 #, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
@@ -725,7 +721,7 @@ msgstr ""
 "kad arba tu ávedei neteisingà URI, arba tavo LDAP serveris\n"
 "neveikia"
 
-#: addressbook/gui/component/addressbook.c:527
+#: addressbook/gui/component/addressbook.c:517
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -737,7 +733,7 @@ msgstr ""
 "tu turi sukompiliuoti programà ið CVS ðaltinio, prieð tai\n"
 "parsisiuntæs OpenLDAP ið þemiau esanèio adreso.\n"
 
-#: addressbook/gui/component/addressbook.c:537
+#: addressbook/gui/component/addressbook.c:527
 #, fuzzy
 msgid ""
 "We were unable to open this addressbook.  This either\n"
@@ -748,53 +744,53 @@ msgstr ""
 "kad arba tu ávedei neteisingà URI, arba tavo LDAP serveris\n"
 "neveikia"
 
-#: addressbook/gui/component/addressbook.c:557
+#: addressbook/gui/component/addressbook.c:547
 msgid "Unable to open addressbook"
 msgstr "Negaliu atidaryti adresø knygelës"
 
-#: addressbook/gui/component/addressbook.c:622
+#: addressbook/gui/component/addressbook.c:607
 msgid "Accessing LDAP Server anonymously"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:667
+#: addressbook/gui/component/addressbook.c:652
 #, fuzzy
 msgid "Failed to authenticate.\n"
 msgstr ""
 "Negalëjau autentikuotis á IMAP serverá.\n"
 "%s\n"
 
-#: addressbook/gui/component/addressbook.c:675
-#: addressbook/gui/component/addressbook.c:678
+#: addressbook/gui/component/addressbook.c:660
+#: addressbook/gui/component/addressbook.c:663
 #, fuzzy, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "Ávesk %s slaptaþodá (vartotojas %s)"
 
-#: addressbook/gui/component/addressbook.c:813
+#: addressbook/gui/component/addressbook.c:794
 #, fuzzy
 msgid "Name begins with"
 msgstr "baigiasi su"
 
-#: addressbook/gui/component/addressbook.c:814
+#: addressbook/gui/component/addressbook.c:795
 #, fuzzy
 msgid "Email begins with"
 msgstr "baigiasi su"
 
-#: addressbook/gui/component/addressbook.c:815
+#: addressbook/gui/component/addressbook.c:796
 #: calendar/gui/cal-search-bar.c:53
 msgid "Category is"
 msgstr "Kategorija yra"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:816
+#: addressbook/gui/component/addressbook.c:797
 #: calendar/gui/cal-search-bar.c:49
 msgid "Any field contains"
 msgstr "Bet kuris laukas turi savyje"
 
-#: addressbook/gui/component/addressbook.c:817
+#: addressbook/gui/component/addressbook.c:798
 msgid "Advanced..."
 msgstr "Iðsami..."
 
-#: addressbook/gui/component/addressbook.c:987
+#: addressbook/gui/component/addressbook.c:955
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -802,7 +798,7 @@ msgid ""
 "the directory server preferences for this addressbook."
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:993
+#: addressbook/gui/component/addressbook.c:961
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
@@ -810,25 +806,25 @@ msgid ""
 "preferences for this addressbook."
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:999
+#: addressbook/gui/component/addressbook.c:967
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:1002
+#: addressbook/gui/component/addressbook.c:970
 msgid "The backend for this addressbook refused to perform this query."
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:1006
+#: addressbook/gui/component/addressbook.c:974
 msgid "This query did not complete successfully."
 msgstr ""
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:1089
+#: addressbook/gui/component/addressbook.c:1059
 #: calendar/gui/cal-search-bar.c:354
 msgid "Any Category"
 msgstr "Bet kuri kategorija"
 
-#: addressbook/gui/component/addressbook.c:1169
+#: addressbook/gui/component/addressbook.c:1139
 msgid "The URI that the Folder Browser will display"
 msgstr "URI, kurá rodys Aplankø narðyklë"
 
@@ -842,8 +838,7 @@ msgid "(none)"
 msgstr "(jokio)"
 
 #: addressbook/gui/component/e-address-popup.c:478
-#: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#: addressbook/gui/contact-editor/e-contact-editor.c:1777
+#: addressbook/gui/contact-editor/e-contact-editor.c:1776
 msgid "Primary Email"
 msgstr "Pagrindinis el. paðtas"
 
@@ -876,7 +871,7 @@ msgstr "Keisti kontakto informacijà"
 msgid "Add to Contacts"
 msgstr "Pridëti prie kontaktø"
 
-#: addressbook/gui/component/e-address-popup.c:1052
+#: addressbook/gui/component/e-address-popup.c:1053
 msgid "Merge E-Mail Address"
 msgstr "Álieti el. paðto adresà"
 
@@ -901,7 +896,7 @@ msgstr " _Patikrinti, kokie tipai palaikomi"
 
 #: addressbook/gui/component/ldap-config.glade.h:4
 #: addressbook/gui/component/select-names/select-names.glade.h:1
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
+#: addressbook/gui/contact-editor/contact-editor.glade.h:2
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
@@ -912,6 +907,7 @@ msgstr " _Patikrinti, kokie tipai palaikomi"
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:6
 #: mail/message-tags.glade.h:1
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
 msgstr ""
 
@@ -974,55 +970,52 @@ msgid "Connecting"
 msgstr "Vël jungiamasi prie %s"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
-msgid "De_lete"
-msgstr "Paða_linti"
-
-#: addressbook/gui/component/ldap-config.glade.h:21
 #, fuzzy
 msgid "Distinguished _name:"
 msgstr "Sàraðo _vardas:"
 
-#: addressbook/gui/component/ldap-config.glade.h:22
+#: addressbook/gui/component/ldap-config.glade.h:21
 #, fuzzy
 msgid "Edit LDAP Server"
 msgstr "LDAP serveris"
 
-#: addressbook/gui/component/ldap-config.glade.h:23
-msgid "Email Address:"
+#: addressbook/gui/component/ldap-config.glade.h:22
+#, fuzzy
+msgid "Email address:"
 msgstr "El. paðto adresas:"
 
-#: addressbook/gui/component/ldap-config.glade.h:24
+#: addressbook/gui/component/ldap-config.glade.h:23
 #, fuzzy
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution naudos ðá el. paðto adresà autentikuotis á paðto serverá"
 
-#: addressbook/gui/component/ldap-config.glade.h:25
+#: addressbook/gui/component/ldap-config.glade.h:24
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr "Evolution naudos ðá el. paðto adresà autentikuotis á paðto serverá"
 
-#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/component/ldap-config.glade.h:25
 #, fuzzy
 msgid "Finished"
 msgstr "Rast_i"
 
-#: addressbook/gui/component/ldap-config.glade.h:27
-#: addressbook/gui/contact-editor/contact-editor.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "General"
 msgstr "Esmë"
 
-#: addressbook/gui/component/ldap-config.glade.h:28
+#: addressbook/gui/component/ldap-config.glade.h:27
 #, fuzzy
 msgid "LDAP Configuration Assistant"
 msgstr "Konfigûravimas"
 
-#: addressbook/gui/component/ldap-config.glade.h:29 mail/mail-account-gui.c:63
-#: mail/mail-config.glade.h:77
+#: addressbook/gui/component/ldap-config.glade.h:28 mail/mail-account-gui.c:63
+#: mail/mail-config.glade.h:74
 #, fuzzy
 msgid "Never"
 msgstr "_kas"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:29
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -1032,35 +1025,35 @@ msgid ""
 "these protocols."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:33
+#: addressbook/gui/component/ldap-config.glade.h:32
 msgid "One"
 msgstr "One"
 
-#: addressbook/gui/component/ldap-config.glade.h:34
+#: addressbook/gui/component/ldap-config.glade.h:33
 #, fuzzy
 msgid "S_earch scope: "
 msgstr "Paieðkos _sritis: "
 
 #. No time range is set, so don't start a query
-#: addressbook/gui/component/ldap-config.glade.h:35
-#: calendar/gui/calendar-model.c:1982 calendar/gui/e-day-view.c:1666
-#: calendar/gui/e-week-view.c:1237
+#: addressbook/gui/component/ldap-config.glade.h:34
+#: calendar/gui/calendar-model.c:1982 calendar/gui/e-day-view.c:1686
+#: calendar/gui/e-week-view.c:1252
 msgid "Searching"
 msgstr "Ieðkoma"
 
-#: addressbook/gui/component/ldap-config.glade.h:36
+#: addressbook/gui/component/ldap-config.glade.h:35
 #, fuzzy
 msgid "Selected:"
 msgstr "Iðtrintas"
 
-#: addressbook/gui/component/ldap-config.glade.h:37
+#: addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if\n"
 "your LDAP server supports SSL or TLS."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:39
+#: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a \n"
@@ -1071,7 +1064,7 @@ msgid ""
 "secure."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:43
+#: addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This \n"
@@ -1080,47 +1073,47 @@ msgid ""
 "exploits. "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:46
+#: addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
 "Selecting this option will let you change Evolution's default settings for "
 "LDAP\n"
 "searches, and for creating and editing contacts. "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:48
+#: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:49
+#: addressbook/gui/component/ldap-config.glade.h:48
 #, fuzzy
 msgid "Step 1: Server Information"
 msgstr "Ðaltinio informacija"
 
-#: addressbook/gui/component/ldap-config.glade.h:50
+#: addressbook/gui/component/ldap-config.glade.h:49
 #, fuzzy
 msgid "Step 2: Connecting to Server"
 msgstr "Jungiamasi prie serverio..."
 
-#: addressbook/gui/component/ldap-config.glade.h:51
+#: addressbook/gui/component/ldap-config.glade.h:50
 msgid "Step 3: Searching the Directory"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:52
+#: addressbook/gui/component/ldap-config.glade.h:51
 msgid "Step 4: Display Name"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:53
+#: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
 msgstr "Sub"
 
-#: addressbook/gui/component/ldap-config.glade.h:54
+#: addressbook/gui/component/ldap-config.glade.h:53
 #, fuzzy
 msgid "Supported Search Bases"
 msgstr "Nepalaikoma schema"
 
-#: addressbook/gui/component/ldap-config.glade.h:55
+#: addressbook/gui/component/ldap-config.glade.h:54
 msgid ""
 "The first step in configuring an LDAP server is to provide its name, and "
 "your log in\n"
@@ -1128,7 +1121,7 @@ msgid ""
 "information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:57
+#: addressbook/gui/component/ldap-config.glade.h:56
 msgid ""
 "The options on this page control how many entries should be included in "
 "your\n"
@@ -1137,7 +1130,7 @@ msgid ""
 "need to change these options."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:60
+#: addressbook/gui/component/ldap-config.glade.h:59
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -1145,7 +1138,7 @@ msgid ""
 "directory tree."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:62
+#: addressbook/gui/component/ldap-config.glade.h:61
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
@@ -1155,37 +1148,37 @@ msgid ""
 "your base.\n"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:66
+#: addressbook/gui/component/ldap-config.glade.h:65
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
 "\n"
-"Adding a new LDAP server requires some specialized information\n"
-"about the server. Please contact your system administrator if you \n"
-"need help finding this information."
+"Adding a new LDAP server requires some specialized information about the "
+"server. Please contact your system administrator if you need help finding "
+"this information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:72
+#: addressbook/gui/component/ldap-config.glade.h:69
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:73
+#: addressbook/gui/component/ldap-config.glade.h:70
 msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
 "too large will slow down your addressbook."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:72
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:76
+#: addressbook/gui/component/ldap-config.glade.h:73
 #, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
@@ -1195,7 +1188,7 @@ msgstr ""
 "Ðis vardas bus naudojamas nurodyti tavo sàskaitai. Jis skirtas tiktai "
 "vaizdavimui."
 
-#: addressbook/gui/component/ldap-config.glade.h:78
+#: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -1203,45 +1196,39 @@ msgid ""
 "what port you should specify."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:81
+#: addressbook/gui/component/ldap-config.glade.h:78
 msgid "This option controls how long a search will be run."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:82
+#: addressbook/gui/component/ldap-config.glade.h:79
 msgid "U_se SSL/TLS:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:83
+#: addressbook/gui/component/ldap-config.glade.h:80
 msgid "Using distinguished name (DN)"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:84
+#: addressbook/gui/component/ldap-config.glade.h:81
 #, fuzzy
 msgid "Using email address"
 msgstr "El. paðto adresas:"
 
-#: addressbook/gui/component/ldap-config.glade.h:85 mail/mail-account-gui.c:62
-#: mail/mail-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:82 mail/mail-account-gui.c:62
+#: mail/mail-config.glade.h:128
 msgid "Whenever Possible"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:86
-#: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-msgid "_Add"
-msgstr "_Pridëti"
-
-#: addressbook/gui/component/ldap-config.glade.h:87
+#: addressbook/gui/component/ldap-config.glade.h:83
 #, fuzzy
 msgid "_Display name:"
 msgstr "Vaiz_davimas"
 
-#: addressbook/gui/component/ldap-config.glade.h:88
+#: addressbook/gui/component/ldap-config.glade.h:84
 msgid "_Download limit:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:33
+#: addressbook/gui/component/ldap-config.glade.h:85 filter/filter.glade.h:14
+#: mail/mail-config.glade.h:143 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:31 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
@@ -1250,45 +1237,45 @@ msgstr ""
 msgid "_Edit"
 msgstr "K_eisti"
 
-#: addressbook/gui/component/ldap-config.glade.h:90
+#: addressbook/gui/component/ldap-config.glade.h:86
 msgid "_Log in method:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:87
 #, fuzzy
 msgid "_Port number:"
 msgstr "_Prievadas:"
 
-#: addressbook/gui/component/ldap-config.glade.h:92
+#: addressbook/gui/component/ldap-config.glade.h:88
 #, fuzzy
 msgid "_Search base:"
 msgstr "Paieðkos _pagrindas:"
 
-#: addressbook/gui/component/ldap-config.glade.h:93
+#: addressbook/gui/component/ldap-config.glade.h:89
 msgid "_Server name:"
 msgstr "_Serverio vardas:"
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:90
 #, fuzzy
 msgid "_Timeout (minutes):"
 msgstr "Uþtildymo laikas (minutëmis)"
 
-#: addressbook/gui/component/ldap-config.glade.h:95
+#: addressbook/gui/component/ldap-config.glade.h:91
 #, fuzzy
 msgid "cards"
 msgstr "Nëra korteliø"
 
-#: addressbook/gui/component/ldap-config.glade.h:96
+#: addressbook/gui/component/ldap-config.glade.h:92
 #, fuzzy
 msgid "connecting-tab"
 msgstr "Vël jungiamasi prie %s"
 
-#: addressbook/gui/component/ldap-config.glade.h:97
+#: addressbook/gui/component/ldap-config.glade.h:93
 #, fuzzy
 msgid "general-tab"
 msgstr "Esmë"
 
-#: addressbook/gui/component/ldap-config.glade.h:98
+#: addressbook/gui/component/ldap-config.glade.h:94
 #, fuzzy
 msgid "searching-tab"
 msgstr "Ieðkoma"
@@ -1303,7 +1290,7 @@ msgid "Remove All"
 msgstr "Paðalinti visus"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
-#: addressbook/gui/component/select-names/e-select-names.c:692
+#: addressbook/gui/component/select-names/e-select-names.c:694
 #: composer/e-msg-composer-attachment-bar.c:507
 msgid "Remove"
 msgstr "Paðalinti"
@@ -1332,11 +1319,11 @@ msgstr "Bevardis kontaktas"
 msgid "Source"
 msgstr "Ðaltinis"
 
-#: addressbook/gui/component/select-names/e-select-names.c:505
+#: addressbook/gui/component/select-names/e-select-names.c:509
 msgid "Select Contacts from Addressbook"
 msgstr "Pasirinkti kontaktus ið adresø knygelës"
 
-#: addressbook/gui/component/select-names/e-select-names.c:648
+#: addressbook/gui/component/select-names/e-select-names.c:650
 #, fuzzy
 msgid "Find contact in"
 msgstr "Rasti kontaktà"
@@ -1374,65 +1361,70 @@ msgstr "_Kategorija:"
 msgid "_Folder:"
 msgstr "_Aplankas:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:2
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
+#, fuzzy
+msgid " B_usiness:"
+msgstr "_Darbo"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:3
+#, fuzzy
+msgid "A_ddress..."
+msgstr "_Adresas..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:4
 #, fuzzy
 msgid "A_ssistant's name:"
 msgstr "_Asistento vardas:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
-msgid "Add_ress..."
-msgstr "_Adresas..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:4
+#: addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "Anni_versary:"
 msgstr "_Jubiliejus:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:5
+#: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #, fuzzy
 msgid "Birthda_y:"
 msgstr "_Gimtadienis:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:8
-#: calendar/gui/dialogs/event-page.glade.h:4
-#: calendar/gui/dialogs/task-page.glade.h:2
-msgid "Ca_tegories..."
-msgstr "Ka_tegorijos..."
+#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+#, fuzzy
+msgid "Business fa_x:"
+msgstr "Darbo faksas"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
 msgstr "Bendradarbiavimas"
 
 #. Construct the app
-#: addressbook/gui/contact-editor/contact-editor.glade.h:10
-#: addressbook/gui/contact-editor/e-contact-editor.c:1335
+#: addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: addressbook/gui/contact-editor/e-contact-editor.c:1334
 msgid "Contact Editor"
 msgstr "Kontaktø redaktorius"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: addressbook/gui/contact-editor/contact-editor.glade.h:10
 #, fuzzy
 msgid "D_epartment:"
 msgstr "_Departamentas:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:12
+#: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: calendar/gui/dialogs/task-editor.c:197
 msgid "Details"
 msgstr "Detalës"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:13
+#: addressbook/gui/contact-editor/contact-editor.glade.h:12
 msgid "F_ree/Busy URL:"
 msgstr "_Laisvas-uþsiëmæs URL"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:14
-msgid "File A_s:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:13
+#, fuzzy
+msgid "File a_s:"
 msgstr "Saugoti _kaip:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:15
+#: addressbook/gui/contact-editor/contact-editor.glade.h:14
 #, fuzzy
 msgid "Full _Name..."
 msgstr "_Pilnas vardas..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:18
+#: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid ""
 "If this person publishes free/busy or other calendar information on the "
 "Internet, enter the address\n"
@@ -1442,53 +1434,78 @@ msgstr ""
 "internete, ávesk\n"
 "tos informacijos adresà èia."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:21
+#: addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid "New phone type"
 msgstr "Naujas telefono tipas"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: addressbook/gui/contact-editor/contact-editor.glade.h:19
 msgid "No_tes:"
 msgstr "Pas_tabos:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Organi_zation:"
 msgstr "Organi_zacija:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:24
+#: addressbook/gui/contact-editor/contact-editor.glade.h:21
 #, fuzzy
 msgid "P_rofession:"
 msgstr "_Profesija:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:26
+#: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#, fuzzy
+msgid "Primary _email:"
+msgstr "Pagrindinis el. paðtas"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:23
 #, fuzzy
 msgid "S_pouse:"
 msgstr "S_utuoktinis:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
-msgid "This is the _mailing address"
-msgstr "_Tai yra paðto siuntimo adresas"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Wants to receive _HTML mail"
 msgstr "Nori gauti _HTML laiðkus"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: calendar/gui/dialogs/meeting-page.c:715 calendar/gui/e-calendar-table.c:967
-#: calendar/gui/e-day-view.c:3706 calendar/gui/e-week-view.c:3590
-#: mail/folder-browser.c:1783 ui/evolution-addressbook.xml.h:32
+#: addressbook/gui/contact-editor/contact-editor.glade.h:25
+msgid "_Add"
+msgstr "_Pridëti"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:26
+#, fuzzy
+msgid "_Business:"
+msgstr "_Darbo"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:27
+#, fuzzy
+msgid "_Categories..."
+msgstr "Ka_tegorijos..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:968
+#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3616
+#: mail/folder-browser.c:1786 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Iðtrinti"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:31
+#: addressbook/gui/contact-editor/contact-editor.glade.h:29
+#, fuzzy
+msgid "_Home:"
+msgstr "_Namø"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
 msgstr "_Pareigos:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:32
-msgid "_Manager's Name:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:31
+#, fuzzy
+msgid "_Manager's name:"
 msgstr "_Vadybininko vardas:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:32
+#, fuzzy
+msgid "_Mobile:"
+msgstr "_Mobilus"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Nickname:"
@@ -1503,6 +1520,11 @@ msgid "_Public Calendar URL:"
 msgstr "_Vieðo kalendoriaus URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
+#, fuzzy
+msgid "_This is the mailing address"
+msgstr "_Tai yra paðto siuntimo adresas"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
 msgstr "_Tinklapio adresas:"
 
@@ -2576,21 +2598,21 @@ msgstr "_Nuo laukas"
 msgid "Changed"
 msgstr "Èadas"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:828
+#: addressbook/gui/contact-editor/e-contact-editor.c:827
 #, fuzzy
 msgid "Category editor not available."
 msgstr "Nëra jokios apraðymo."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:836
+#: addressbook/gui/contact-editor/e-contact-editor.c:835
 msgid "This contact belongs to these categories:"
 msgstr "Ðis kontaktas priklauso ðioms kategorijoms:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1010
+#: addressbook/gui/contact-editor/e-contact-editor.c:1009
 #, fuzzy
 msgid "Save Contact as VCard"
 msgstr "Iðsaugoti kaip VCard"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1056
+#: addressbook/gui/contact-editor/e-contact-editor.c:1055
 #, fuzzy
 msgid ""
 "Are you sure you want\n"
@@ -2599,7 +2621,7 @@ msgstr ""
 "Ar tu tikrai nori\n"
 "iðtrinti ðá kontaktà?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1059
+#: addressbook/gui/contact-editor/e-contact-editor.c:1058
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -2607,11 +2629,11 @@ msgstr ""
 "Ar tu tikrai nori\n"
 "iðtrinti ðá kontaktà?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1751
+#: addressbook/gui/contact-editor/e-contact-editor.c:1750
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2362
+#: addressbook/gui/contact-editor/e-contact-editor.c:2369
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr ""
@@ -2620,13 +2642,22 @@ msgstr ""
 msgid "Contact Quick-Add"
 msgstr "Kontakto greitas pridëjimas"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:302
-msgid "Edit Full"
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:301
+#, fuzzy
+msgid "_Edit Full"
 msgstr "Redaguoti visà"
 
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:319
+#, fuzzy
+msgid "_Full Name:"
+msgstr "_Pilnas vardas:"
+
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
-msgid "E-mail"
-msgstr "El. paðtas"
+#, fuzzy
+msgid "E-_mail:"
+msgstr ""
+"\n"
+"El. paðtas:"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
 #, fuzzy, c-format
@@ -2661,21 +2692,22 @@ msgid "Address _2:"
 msgstr "Adresas _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
+#, fuzzy
+msgid "Ci_ty:"
+msgstr "_Miestas:"
+
+#: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Countr_y:"
 msgstr "Valst_ybë:"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:4
+#: addressbook/gui/contact-editor/fulladdr.glade.h:5
 #, fuzzy
 msgid "Full Address"
 msgstr "_Adresas:"
 
-#: addressbook/gui/contact-editor/fulladdr.glade.h:5
+#: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
 msgstr "_Adresas:"
-
-#: addressbook/gui/contact-editor/fulladdr.glade.h:6
-msgid "_City:"
-msgstr "_Miestas:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_PO Box:"
@@ -2690,14 +2722,10 @@ msgid "_ZIP Code:"
 msgstr "_ZIP kodas:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:2
-msgid "Check Full Name"
-msgstr "Tikrinti pilnà vardà"
-
-#: addressbook/gui/contact-editor/fullname.glade.h:3
 msgid "Dr."
 msgstr "Dr."
 
-#: addressbook/gui/contact-editor/fullname.glade.h:4
+#: addressbook/gui/contact-editor/fullname.glade.h:3
 msgid "Esq."
 msgstr "Esq."
 
@@ -2758,27 +2786,24 @@ msgid "_Title:"
 msgstr "_Titulas:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
-msgid "List _name:"
-msgstr "Sàraðo _vardas:"
-
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Members"
 msgstr "Nariai"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-msgid "Type an email address or drag a contact into the list below:"
-msgstr "Áraðyk el. paðto adresà arba atitempk kontaktà á þemiau esantá sàraðà:"
-
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "_Hide addresses when sending mail to this list"
 msgstr "_Paslëpti adresus siunèiant laiðkus ðiam sàraðui"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
-#: calendar/gui/dialogs/recurrence-page.glade.h:12
-msgid "_Remove"
-msgstr "_Paðalinti"
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+#, fuzzy
+msgid "_List name:"
+msgstr "Sàraðo _vardas:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+#, fuzzy
+msgid "_Type an email address or drag a contact into the list below:"
+msgstr "Áraðyk el. paðto adresà arba atitempk kontaktà á þemiau esantá sàraðà:"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
 msgstr "contact-list-editor"
 
@@ -2803,23 +2828,19 @@ msgid "Contact"
 msgstr "Kontaktai"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
-msgid "Add Anyway"
-msgstr "Vis tiek pridëti"
-
-#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
-#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
 msgid "Duplicate Contact Detected"
 msgstr "Rastas pasikartojantis kontaktas"
 
-#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:2
 msgid "New Contact:"
 msgstr "Naujas kontaktas:"
 
-#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:3
 msgid "Original Contact:"
 msgstr "Originalus kontaktas:"
 
-#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:5
+#: addressbook/gui/merging/e-card-duplicate-detected.glade.h:4
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder.  Would you like to add it anyway?"
@@ -2828,18 +2849,14 @@ msgstr ""
 "aplanke.  Ar vis tiek norëtum já pridëti?"
 
 #: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:1
-msgid "Change Anyway"
-msgstr "Pakeisti vis tiek"
-
-#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
 msgid "Changed Contact:"
 msgstr "Pakeistas kontaktas:"
 
-#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:3
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:2
 msgid "Conflicting Contact:"
 msgstr "Konfliktuojantis kontaktas:"
 
-#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:5
+#: addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade.h:4
 msgid ""
 "The changed email or name of this contact already\n"
 "exists in this folder.  Would you like to add it anyway?"
@@ -2885,7 +2902,7 @@ msgstr "Klaida pradedant %s"
 msgid "Model"
 msgstr "Mobilus"
 
-#: addressbook/gui/widgets/e-addressbook-table-adapter.c:142
+#: addressbook/gui/widgets/e-addressbook-table-adapter.c:145
 #: addressbook/gui/widgets/e-addressbook-util.c:105
 #: addressbook/gui/widgets/e-minicard.c:531
 msgid "Error modifying card"
@@ -2897,10 +2914,10 @@ msgid "Success"
 msgstr "Sëkmë"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:37
-#: camel/providers/imap/camel-imap-command.c:309
-#: camel/providers/imap/camel-imap-command.c:406
+#: camel/providers/imap/camel-imap-command.c:306
+#: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:522
-#: camel/providers/pop3/camel-pop3-store.c:529 shell/e-shell.c:2075
+#: camel/providers/pop3/camel-pop3-store.c:529 shell/e-shell.c:2077
 #: shell/e-storage.c:598 shell/evolution-shell-component.c:1219
 msgid "Unknown error"
 msgstr "Neþinoma klaida"
@@ -2929,9 +2946,9 @@ msgstr "Protokolas nepalaikomas"
 #: addressbook/gui/widgets/e-addressbook-util.c:43
 #: calendar/gui/calendar-model.c:758 calendar/gui/calendar-model.c:1183
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:470 calendar/gui/print.c:2319
-#: camel/camel-service.c:737 camel/camel-service.c:779
-#: camel/camel-service.c:849 camel/camel-service.c:892
+#: calendar/gui/e-calendar-table.c:469 calendar/gui/print.c:2319
+#: camel/camel-service.c:737 camel/camel-service.c:780
+#: camel/camel-service.c:850 camel/camel-service.c:894
 #: camel/providers/pop3/camel-pop3-store.c:439
 #: camel/providers/pop3/camel-pop3-store.c:516
 msgid "Cancelled"
@@ -2961,7 +2978,6 @@ msgid "Other error"
 msgstr "Kita klaida"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:75
-#: calendar/gui/dialogs/save-comp.c:50
 msgid "Do you want to save changes?"
 msgstr "Ar nori iðsaugoti pakeitimus?"
 
@@ -3137,7 +3153,7 @@ msgid "Delete"
 msgstr "Iðtrinti"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:904
-#: calendar/gui/e-day-view.c:3666 calendar/gui/e-week-view.c:3555
+#: calendar/gui/e-day-view.c:3689 calendar/gui/e-week-view.c:3581
 #, fuzzy
 msgid "Current View"
 msgstr "_Esamas vaizdas"
@@ -3334,8 +3350,8 @@ msgstr "Korteliø rodinys"
 msgid "GTK Tree View"
 msgstr "Savaitës rodinys"
 
-#: addressbook/printing/e-contact-print-envelope.c:216
-#: addressbook/printing/e-contact-print-envelope.c:237
+#: addressbook/printing/e-contact-print-envelope.c:217
+#: addressbook/printing/e-contact-print-envelope.c:238
 msgid "Print envelope"
 msgstr "Spausdinti vokà"
 
@@ -3437,7 +3453,7 @@ msgstr "Paraðtës"
 msgid "Number of columns:"
 msgstr "Stulpeliø skaièius:"
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:82
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:79
 msgid "Options"
 msgstr "Parinktys"
 
@@ -3649,27 +3665,27 @@ msgstr "31-a"
 
 #: calendar/cal-util/cal-util.c:550 calendar/cal-util/cal-util.c:572
 #: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-calendar-table.c:394 mail/message-list.c:752
+#: calendar/gui/e-calendar-table.c:393 mail/message-list.c:752
 msgid "High"
 msgstr "Aukðtas"
 
 #: calendar/cal-util/cal-util.c:552 calendar/cal-util/cal-util.c:574
 #: calendar/gui/calendar-model.c:1708
 #: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:395 mail/message-list.c:751
+#: calendar/gui/e-calendar-table.c:394 mail/message-list.c:751
 msgid "Normal"
 msgstr "Normalus"
 
 #: calendar/cal-util/cal-util.c:554 calendar/cal-util/cal-util.c:576
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-calendar-table.c:396 mail/message-list.c:750
+#: calendar/gui/e-calendar-table.c:395 mail/message-list.c:750
 msgid "Low"
 msgstr "Þemas"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:570
 #: calendar/gui/dialogs/task-details-page.glade.h:13
-#: calendar/gui/e-calendar-table.c:397
+#: calendar/gui/e-calendar-table.c:396
 msgid "Undefined"
 msgstr "Neapibrëþtas"
 
@@ -3787,17 +3803,17 @@ msgstr "Uþtildymo laikas (minutëmis)"
 msgid "_Edit appointment"
 msgstr "K_eisti ávyká"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:770
 msgid "No description available."
 msgstr "Nëra jokios apraðymo."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:851
-#: calendar/gui/alarm-notify/alarm-queue.c:875
+#: calendar/gui/alarm-notify/alarm-queue.c:843
+#: calendar/gui/alarm-notify/alarm-queue.c:867
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Áspëjimas"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:855
+#: calendar/gui/alarm-notify/alarm-queue.c:847
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3809,7 +3825,7 @@ msgstr ""
 "siøstø laiðkà.  Evolution vietoj to parodys normalø\n"
 "uþuominos dialogà."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:881
+#: calendar/gui/alarm-notify/alarm-queue.c:873
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3820,7 +3836,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:895
+#: calendar/gui/alarm-notify/alarm-queue.c:887
 #, fuzzy
 msgid "Do not ask me about this program again."
 msgstr "Kità kartà nebeklausti."
@@ -3857,7 +3873,7 @@ msgstr "%A, %Y m. %B %d d."
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:421 calendar/gui/e-day-view-top-item.c:264
-#: calendar/gui/e-day-view.c:1392 calendar/gui/e-week-view-main-item.c:325
+#: calendar/gui/e-day-view.c:1412 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
 msgstr "%a, %b %d"
 
@@ -3879,16 +3895,16 @@ msgstr "%Y m. %B %d d."
 msgid "%d %B"
 msgstr "%B %d"
 
-#: calendar/gui/calendar-commands.c:844
+#: calendar/gui/calendar-commands.c:848
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Negalëjau sukurti kalendoriaus rodinio. Patikrink, ar gerai ádiegti ORBit ir "
 "OAF."
 
-#: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1344
+#: calendar/gui/calendar-component.c:70 calendar/gui/gnome-cal.c:1352
 #: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1843
-#: my-evolution/my-evolution.glade.h:3 shell/e-local-storage.c:177
+#: my-evolution/my-evolution.glade.h:2 shell/e-local-storage.c:177
 #: shell/e-shortcuts.c:1085
 msgid "Calendar"
 msgstr "Kalendorius"
@@ -3907,7 +3923,7 @@ msgstr "_Vieðo kalendoriaus URL:"
 msgid "Public folder containing appointments and events"
 msgstr "Aplankas, kuriame saugomi ávykiai ir susitikimai"
 
-#: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:736
+#: calendar/gui/calendar-component.c:80 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1799 calendar/gui/tasks-control.c:518
 #: calendar/importers/icalendar-importer.c:645
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1845
@@ -3988,16 +4004,16 @@ msgid "Create a new all-day appointment"
 msgstr "Sukurti naujà ávyká"
 
 #: calendar/gui/calendar-model.c:404 calendar/gui/calendar-model.c:963
-#: calendar/gui/e-calendar-table.c:373
+#: calendar/gui/e-calendar-table.c:372
 msgid "Private"
 msgstr "Asmeniðkas"
 
 #: calendar/gui/calendar-model.c:407 calendar/gui/calendar-model.c:965
-#: calendar/gui/e-calendar-table.c:374
+#: calendar/gui/e-calendar-table.c:373
 msgid "Confidential"
 msgstr "Slaptas"
 
-#: calendar/gui/calendar-model.c:410 calendar/gui/e-calendar-table.c:372
+#: calendar/gui/calendar-model.c:410 calendar/gui/e-calendar-table.c:371
 msgid "Public"
 msgstr "Vieðas"
 
@@ -4018,32 +4034,32 @@ msgid "W"
 msgstr "V"
 
 #: calendar/gui/calendar-model.c:589 calendar/gui/calendar-model.c:1133
-#: calendar/gui/e-calendar-table.c:446
+#: calendar/gui/e-calendar-table.c:445
 msgid "Free"
 msgstr "Laisvas"
 
-#: calendar/gui/calendar-model.c:591 calendar/gui/e-calendar-table.c:447
-#: calendar/gui/e-meeting-time-sel.c:407
+#: calendar/gui/calendar-model.c:591 calendar/gui/e-calendar-table.c:446
+#: calendar/gui/e-meeting-time-sel.c:406
 #: shell/evolution-shell-component.c:1204
 msgid "Busy"
 msgstr "Uþimtas"
 
 #: calendar/gui/calendar-model.c:749 calendar/gui/calendar-model.c:1177
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:467 calendar/gui/print.c:2310
+#: calendar/gui/e-calendar-table.c:466 calendar/gui/print.c:2310
 msgid "Not Started"
 msgstr "Nepradëta"
 
 #: calendar/gui/calendar-model.c:752 calendar/gui/calendar-model.c:1179
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:468 calendar/gui/print.c:2313
+#: calendar/gui/e-calendar-table.c:467 calendar/gui/print.c:2313
 msgid "In Progress"
 msgstr "Vykdoma"
 
 #: calendar/gui/calendar-model.c:755 calendar/gui/calendar-model.c:1181
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:469 calendar/gui/e-meeting-model.c:296
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:468 calendar/gui/e-meeting-model.c:294
+#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "Uþbaigta"
 
@@ -4060,12 +4076,12 @@ msgstr ""
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1175 calendar/gui/dialogs/meeting-page.c:330
 #: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2054
-#: mail/folder-browser.c:1745 mail/mail-account-gui.c:1253
-#: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
-#: mail/mail-config.glade.h:79
+#: mail/folder-browser.c:1748 mail/mail-account-gui.c:1254
+#: mail/mail-account-gui.c:1686 mail/mail-accounts.c:442
+#: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
-#: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
-#: widgets/misc/e-dateedit.c:1459 widgets/misc/e-dateedit.c:1574
+#: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:441
+#: widgets/misc/e-dateedit.c:1457 widgets/misc/e-dateedit.c:1572
 msgid "None"
 msgstr "Joks"
 
@@ -4077,14 +4093,14 @@ msgstr "Pasikartojantis"
 msgid "Assigned"
 msgstr "Priskirtas"
 
-#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:268
-#: calendar/gui/e-meeting-model.c:278 calendar/gui/e-meeting-model.c:536
-#: calendar/gui/e-meeting-model.c:835
+#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:266
+#: calendar/gui/e-meeting-model.c:276 calendar/gui/e-meeting-model.c:534
+#: calendar/gui/e-meeting-model.c:784
 msgid "Yes"
 msgstr "Taip"
 
-#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:280
-#: calendar/gui/e-meeting-model.c:836
+#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:278
+#: calendar/gui/e-meeting-model.c:785
 msgid "No"
 msgstr "Ne"
 
@@ -4269,7 +4285,7 @@ msgstr "ávykio pabaigà"
 msgid "hour(s)"
 msgstr "valandà(as)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:178
+#: calendar/gui/dialogs/alarm-page.glade.h:15 mail/mail-config.glade.h:173
 msgid "minute(s)"
 msgstr "minutæ(es)"
 
@@ -4454,7 +4470,7 @@ msgid "_Fri"
 msgstr "Pe_n"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:152
+#: mail/mail-config.glade.h:147
 msgid "_General"
 msgstr "_Esmë"
 
@@ -4600,60 +4616,60 @@ msgstr ""
 msgid "Due "
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:328
+#: calendar/gui/dialogs/comp-editor.c:334
 #, fuzzy
 msgid "Could not update invalid object"
 msgstr "Negalëjau tvarkingai atnaujinti bylø"
 
-#: calendar/gui/dialogs/comp-editor.c:331
+#: calendar/gui/dialogs/comp-editor.c:337
 msgid "Object not found, not updated"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:334
+#: calendar/gui/dialogs/comp-editor.c:340
 msgid "You don't have permissions to update this object"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:337
+#: calendar/gui/dialogs/comp-editor.c:343
 #, fuzzy
 msgid "Could not update object"
 msgstr "Negalëjau tvarkingai atnaujinti bylø"
 
-#: calendar/gui/dialogs/comp-editor.c:787
+#: calendar/gui/dialogs/comp-editor.c:793
 msgid "Edit Appointment"
 msgstr "Keisti ávyká"
 
-#: calendar/gui/dialogs/comp-editor.c:792
+#: calendar/gui/dialogs/comp-editor.c:798
 #, c-format
 msgid "Appointment - %s"
 msgstr "Ávykis -- %s"
 
-#: calendar/gui/dialogs/comp-editor.c:795
+#: calendar/gui/dialogs/comp-editor.c:801
 #, c-format
 msgid "Task - %s"
 msgstr "Uþduotis -- %s"
 
-#: calendar/gui/dialogs/comp-editor.c:798
+#: calendar/gui/dialogs/comp-editor.c:804
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Þurnalo áraðas -- %s"
 
-#: calendar/gui/dialogs/comp-editor.c:809
+#: calendar/gui/dialogs/comp-editor.c:815
 msgid "No summary"
 msgstr "Nëra apþvalgos"
 
-#: calendar/gui/dialogs/comp-editor.c:1230
-#: calendar/gui/e-calendar-table.c:1038 calendar/gui/e-day-view.c:3924
-#: calendar/gui/e-week-view.c:3791 composer/e-msg-composer.c:1162
+#: calendar/gui/dialogs/comp-editor.c:1233
+#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3947
+#: calendar/gui/e-week-view.c:3817 composer/e-msg-composer.c:1162
 msgid "Save as..."
 msgstr "Iðsaugoti kaip..."
 
-#: calendar/gui/dialogs/comp-editor.c:1331
-#: calendar/gui/dialogs/comp-editor.c:1355
-#: calendar/gui/dialogs/comp-editor.c:1379
+#: calendar/gui/dialogs/comp-editor.c:1334
+#: calendar/gui/dialogs/comp-editor.c:1358
+#: calendar/gui/dialogs/comp-editor.c:1382
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1406
+#: calendar/gui/dialogs/comp-editor.c:1409
 msgid "Unable to obtain current version!"
 msgstr "Nepavyko gauti esamos versijos!"
 
@@ -4775,13 +4791,13 @@ msgstr "Pasikartojimas"
 
 #: calendar/gui/dialogs/event-editor.c:220
 #: calendar/gui/dialogs/event-editor.c:292
-#: calendar/gui/dialogs/event-editor.c:438
+#: calendar/gui/dialogs/event-editor.c:436
 msgid "Scheduling"
 msgstr "Dienotvarkë"
 
 #: calendar/gui/dialogs/event-editor.c:227
 #: calendar/gui/dialogs/event-editor.c:295
-#: calendar/gui/dialogs/event-editor.c:441 ui/evolution-event-editor.xml.h:6
+#: calendar/gui/dialogs/event-editor.c:439 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
 msgstr "Susitikimas"
 
@@ -4810,6 +4826,11 @@ msgstr "Vis_os dienos ávykis"
 #: calendar/gui/dialogs/event-page.glade.h:3
 msgid "B_usy"
 msgstr "_Uþimtas"
+
+#: calendar/gui/dialogs/event-page.glade.h:4
+#: calendar/gui/dialogs/task-page.glade.h:2
+msgid "Ca_tegories..."
+msgstr "Ka_tegorijos..."
 
 #: calendar/gui/dialogs/event-page.glade.h:5
 #: calendar/gui/dialogs/task-page.glade.h:3
@@ -4883,7 +4904,7 @@ msgstr "Reikalingas bent vienas dalyvis"
 msgid "That person is already attending the meeting!"
 msgstr "Tas asmuo jau dalyvauja susitikime!"
 
-#: calendar/gui/dialogs/meeting-page.c:711
+#: calendar/gui/dialogs/meeting-page.c:713
 msgid "_Delegate To..."
 msgstr "_Pavesti kam..."
 
@@ -4945,7 +4966,7 @@ msgid "_Change Organizer"
 msgstr "_Keisti organizatoriø:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-#: calendar/gui/e-meeting-time-sel.c:425
+#: calendar/gui/e-meeting-time-sel.c:424
 msgid "_Invite Others..."
 msgstr "Pakv_iesti kitus..."
 
@@ -5061,6 +5082,10 @@ msgstr "_Keisti"
 msgid "_No recurrence"
 msgstr "_Jokio pakartojimo"
 
+#: calendar/gui/dialogs/recurrence-page.glade.h:12
+msgid "_Remove"
+msgstr "_Paðalinti"
+
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
 msgstr "_Paprastas pakartojimas"
@@ -5089,6 +5114,26 @@ msgstr "savaitæ(es)"
 msgid "year(s)"
 msgstr "metus"
 
+#: calendar/gui/dialogs/save-comp.c:54
+#, fuzzy
+msgid ""
+"This event has been changed, but has not been saved.\n"
+"\n"
+"Do you wish to save your changes?"
+msgstr ""
+"Ðis paraðas buvo pakeistas, taèiau neiðsaugotas.\n"
+"\n"
+"Ar norëtum iðsaugoti pakeitimus?"
+
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1555
+msgid "_Discard Changes"
+msgstr ""
+
+#: calendar/gui/dialogs/save-comp.c:63
+#, fuzzy
+msgid "Save Event"
+msgstr "Kalendoriaus þinutë"
+
 #: calendar/gui/dialogs/send-comp.c:58
 #, fuzzy
 msgid "The meeting information has been created. Send it?"
@@ -5107,7 +5152,7 @@ msgstr "Uþduoties informacija buvo pakeista. Siøsti atnaujintà informacijà?"
 msgid "The task information has changed. Send an updated version?"
 msgstr "Uþduoties informacija buvo pakeista. Siøsti atnaujintà informacijà?"
 
-#: calendar/gui/dialogs/task-details-page.c:400
+#: calendar/gui/dialogs/task-details-page.c:401
 #, fuzzy
 msgid "Completed date is wrong"
 msgstr "Uþbaigta "
@@ -5127,7 +5172,6 @@ msgid "Progress"
 msgstr "Paþanga"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:584
 msgid "URL:"
 msgstr "URL:"
 
@@ -5145,7 +5189,7 @@ msgstr "Esmë"
 
 #: calendar/gui/dialogs/task-editor.c:204
 #: calendar/gui/dialogs/task-editor.c:252
-#: calendar/gui/dialogs/task-editor.c:390
+#: calendar/gui/dialogs/task-editor.c:387
 msgid "Assignment"
 msgstr "Priskyrimas"
 
@@ -5155,7 +5199,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1110
 #: calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:44
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:43
 msgid "Description:"
 msgstr "Apraðymas:"
 
@@ -5260,136 +5304,127 @@ msgstr ""
 msgid "%s for an unknown trigger type"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:416
-#, c-format
+#: calendar/gui/e-calendar-table.c:415
 msgid "0%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:417
-#, c-format
+#: calendar/gui/e-calendar-table.c:416
 msgid "10%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:418
-#, c-format
+#: calendar/gui/e-calendar-table.c:417
 msgid "20%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:419
-#, fuzzy, c-format
+#: calendar/gui/e-calendar-table.c:418
+#, fuzzy
 msgid "30%"
 msgstr "389"
 
-#: calendar/gui/e-calendar-table.c:420
-#, c-format
+#: calendar/gui/e-calendar-table.c:419
 msgid "40%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:421
-#, c-format
+#: calendar/gui/e-calendar-table.c:420
 msgid "50%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:422
-#, c-format
+#: calendar/gui/e-calendar-table.c:421
 msgid "60%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:423
-#, c-format
+#: calendar/gui/e-calendar-table.c:422
 msgid "70%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:424
-#, fuzzy, c-format
+#: calendar/gui/e-calendar-table.c:423
+#, fuzzy
 msgid "80%"
 msgstr "389"
 
-#: calendar/gui/e-calendar-table.c:425
-#, c-format
+#: calendar/gui/e-calendar-table.c:424
 msgid "90%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:426
-#, c-format
+#: calendar/gui/e-calendar-table.c:425
 msgid "100%"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:716 calendar/gui/e-day-view.c:2821
-#: calendar/gui/e-week-view.c:1914
+#: calendar/gui/e-calendar-table.c:717 calendar/gui/e-day-view.c:2841
+#: calendar/gui/e-week-view.c:1929
 #, fuzzy
 msgid "Deleting selected objects"
 msgstr "Iðtrinti paþymëtus kontaktus"
 
-#: calendar/gui/e-calendar-table.c:948 calendar/gui/e-day-view.c:3688
-#: calendar/gui/e-week-view.c:3572 mail/folder-browser.c:1756
+#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3711
+#: calendar/gui/e-week-view.c:3598 mail/folder-browser.c:1759
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "Ati_daryti"
 
-#: calendar/gui/e-calendar-table.c:949
+#: calendar/gui/e-calendar-table.c:950
 #, fuzzy
 msgid "_Save as..."
 msgstr "Iðsaugoti kaip..."
 
-#: calendar/gui/e-calendar-table.c:950 calendar/gui/e-day-view.c:3690
-#: calendar/gui/e-week-view.c:3547 calendar/gui/e-week-view.c:3574
+#: calendar/gui/e-calendar-table.c:951 calendar/gui/e-day-view.c:3713
+#: calendar/gui/e-week-view.c:3573 calendar/gui/e-week-view.c:3600
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "S_pausdinti..."
 
-#: calendar/gui/e-calendar-table.c:954 calendar/gui/e-day-view.c:3695
-#: calendar/gui/e-week-view.c:3579 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3718
+#: calendar/gui/e-week-view.c:3605 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Iðkirpti"
 
-#: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3696
-#: calendar/gui/e-week-view.c:3580 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3719
+#: calendar/gui/e-week-view.c:3606 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Kopijuoti"
 
-#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3661
-#: calendar/gui/e-day-view.c:3697 calendar/gui/e-week-view.c:3551
-#: calendar/gui/e-week-view.c:3581 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3684
+#: calendar/gui/e-day-view.c:3720 calendar/gui/e-week-view.c:3577
+#: calendar/gui/e-week-view.c:3607 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
 msgstr "Á_dëti"
 
-#: calendar/gui/e-calendar-table.c:960
+#: calendar/gui/e-calendar-table.c:961
 #, fuzzy
 msgid "_Assign Task"
 msgstr "Priskirti uþduotá"
 
-#: calendar/gui/e-calendar-table.c:961
+#: calendar/gui/e-calendar-table.c:962
 #, fuzzy
 msgid "_Forward as iCalendar"
 msgstr "Persiøsti kaip i_Calendar"
 
-#: calendar/gui/e-calendar-table.c:962
+#: calendar/gui/e-calendar-table.c:963
 msgid "_Mark as Complete"
 msgstr "_Paþymëti uþbaigta"
 
-#: calendar/gui/e-calendar-table.c:963
+#: calendar/gui/e-calendar-table.c:964
 #, fuzzy
 msgid "_Mark Selected Tasks as Complete"
 msgstr "_Paþymëti uþduotis uþbaigtomis"
 
-#: calendar/gui/e-calendar-table.c:968
+#: calendar/gui/e-calendar-table.c:969
 msgid "_Delete Selected Tasks"
 msgstr "_Iðtrinti paþymëtas uþduotis"
 
-#: calendar/gui/e-calendar-table.c:1243 calendar/gui/e-day-view.c:7645
-#: calendar/gui/e-week-view.c:4293
+#: calendar/gui/e-calendar-table.c:1236 calendar/gui/e-day-view.c:7661
+#: calendar/gui/e-week-view.c:4312
 msgid "Updating objects"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:1326
+#: calendar/gui/e-calendar-table.c:1319
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Spausk èia, kad pridëtum uþduotá"
@@ -5467,95 +5502,95 @@ msgstr "%02i minuèiø padalos"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:260 calendar/gui/e-day-view.c:1375
+#: calendar/gui/e-day-view-top-item.c:260 calendar/gui/e-day-view.c:1395
 #: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1529
 msgid "%A %d %B"
 msgstr "%A, %B %e"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:268 calendar/gui/e-day-view.c:1408
+#: calendar/gui/e-day-view-top-item.c:268 calendar/gui/e-day-view.c:1428
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
 msgstr "%b %d"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:344
+#: calendar/gui/e-day-view.c:610 calendar/gui/e-week-view.c:346
 #: calendar/gui/print.c:813
 msgid "am"
 msgstr " "
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:615 calendar/gui/e-week-view.c:347
+#: calendar/gui/e-day-view.c:613 calendar/gui/e-week-view.c:349
 #: calendar/gui/print.c:815
 msgid "pm"
 msgstr " "
 
-#: calendar/gui/e-day-view.c:3645
+#: calendar/gui/e-day-view.c:3668
 msgid "New _Appointment"
 msgstr "Naujas á_vykis"
 
-#: calendar/gui/e-day-view.c:3647 calendar/gui/e-week-view.c:3541
+#: calendar/gui/e-day-view.c:3670 calendar/gui/e-week-view.c:3567
 msgid "New All Day _Event"
 msgstr "Naujas visos _dienos ávykis"
 
-#: calendar/gui/e-day-view.c:3649 calendar/gui/e-week-view.c:3542
+#: calendar/gui/e-day-view.c:3672 calendar/gui/e-week-view.c:3568
 #, fuzzy
 msgid "New Meeting"
 msgstr "Susitikimas"
 
-#: calendar/gui/e-day-view.c:3651 calendar/gui/e-week-view.c:3543
+#: calendar/gui/e-day-view.c:3674 calendar/gui/e-week-view.c:3569
 msgid "New Task"
 msgstr "Nauja uþduotis"
 
-#: calendar/gui/e-day-view.c:3656 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3679 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "Spausdinti..."
 
-#: calendar/gui/e-day-view.c:3668 calendar/gui/e-week-view.c:3557
+#: calendar/gui/e-day-view.c:3691 calendar/gui/e-week-view.c:3583
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Eiti á ðia_ndienà"
 
-#: calendar/gui/e-day-view.c:3670 calendar/gui/e-week-view.c:3558
+#: calendar/gui/e-day-view.c:3693 calendar/gui/e-week-view.c:3584
 msgid "_Go to Date..."
 msgstr "_Eiti á datà..."
 
-#: calendar/gui/e-day-view.c:3675 calendar/gui/e-week-view.c:3562
+#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3588
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "_Skelbti laisvas/uþimtas informacijà"
 
-#: calendar/gui/e-day-view.c:3680 calendar/gui/e-week-view.c:3566
+#: calendar/gui/e-day-view.c:3703 calendar/gui/e-week-view.c:3592
 #: ui/evolution.xml.h:60
 #, fuzzy
 msgid "_Settings..."
 msgstr "_Paðto nuostatos..."
 
-#: calendar/gui/e-day-view.c:3689 calendar/gui/e-week-view.c:3573
-#: mail/folder-browser.c:1758 ui/evolution-mail-message.xml.h:112
+#: calendar/gui/e-day-view.c:3712 calendar/gui/e-week-view.c:3599
+#: mail/folder-browser.c:1761 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "Ið_saugoti kaip..."
 
-#: calendar/gui/e-day-view.c:3701 calendar/gui/e-week-view.c:3585
+#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3611
 #, fuzzy
 msgid "_Schedule Meeting..."
 msgstr "Átraukti s_usitikimà á dienotvarkæ"
 
-#: calendar/gui/e-day-view.c:3702 calendar/gui/e-week-view.c:3586
+#: calendar/gui/e-day-view.c:3725 calendar/gui/e-week-view.c:3612
 #, fuzzy
 msgid "_Forward as iCalendar..."
 msgstr "Persiøsti kaip i_Calendar"
 
-#: calendar/gui/e-day-view.c:3707 calendar/gui/e-week-view.c:3591
+#: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3617
 msgid "Make this Occurrence _Movable"
 msgstr "Leisti per_kelti ðá pasitaikymà"
 
-#: calendar/gui/e-day-view.c:3708 calendar/gui/e-week-view.c:3592
+#: calendar/gui/e-day-view.c:3731 calendar/gui/e-week-view.c:3618
 msgid "Delete this _Occurrence"
 msgstr "Iðtrinti ðá _pasitaikymà"
 
-#: calendar/gui/e-day-view.c:3709 calendar/gui/e-week-view.c:3593
+#: calendar/gui/e-day-view.c:3732 calendar/gui/e-week-view.c:3619
 msgid "Delete _All Occurrences"
 msgstr "Iðtrinti _visus pasitaikymus"
 
@@ -5695,8 +5730,8 @@ msgstr ""
 msgid "Status:"
 msgstr "_Bûsena:"
 
-#: calendar/gui/e-itip-control.c:1083 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:849
+#: calendar/gui/e-itip-control.c:1083 calendar/gui/e-meeting-model.c:286
+#: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:798
 #: calendar/gui/itip-utils.c:414
 msgid "Accepted"
 msgstr "Priimtas"
@@ -5706,21 +5741,21 @@ msgstr "Priimtas"
 msgid "Tentatively Accepted"
 msgstr "Negalutinis"
 
-#: calendar/gui/e-itip-control.c:1091 calendar/gui/e-meeting-model.c:290
-#: calendar/gui/e-meeting-model.c:313 calendar/gui/e-meeting-model.c:850
+#: calendar/gui/e-itip-control.c:1091 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:799
 #: calendar/gui/itip-utils.c:420 calendar/gui/itip-utils.c:446
 msgid "Declined"
 msgstr "Atmestas"
 
 #: calendar/gui/e-itip-control.c:1095 calendar/gui/e-itip-control.c:1303
-#: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
-#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1574
+#: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:756
+#: calendar/gui/e-meeting-model.c:772 camel/camel-gpg-context.c:1574
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
-#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
-#: mail/mail-display.c:950 widgets/misc/e-charset-picker.c:60
-#: widgets/misc/e-charset-picker.c:510
+#: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:348
+#: mail/mail-display.c:953 widgets/misc/e-charset-picker.c:60
+#: widgets/misc/e-charset-picker.c:546
 msgid "Unknown"
 msgstr "Neþinomas"
 
@@ -5739,7 +5774,7 @@ msgstr "Data"
 #: calendar/gui/e-itip-control.c:1152 calendar/gui/e-itip-control.c:1183
 #: calendar/gui/e-itip-control.c:1206 calendar/gui/e-itip-control.c:1219
 #: calendar/gui/e-itip-control.c:1232 calendar/gui/e-itip-control.c:1245
-#: shell/e-shell.c:2065 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:2067 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "Gerai"
 
@@ -5773,7 +5808,7 @@ msgid "Send Latest Information"
 msgstr "Susitikimo informacija"
 
 #: calendar/gui/e-itip-control.c:1244 calendar/gui/itip-utils.c:434
-#: mail/mail-send-recv.c:383 mail/mail-send-recv.c:440
+#: mail/mail-send-recv.c:386 mail/mail-send-recv.c:443
 #: shell/evolution-shell-component.c:1182 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Nutraukti"
@@ -6088,93 +6123,93 @@ msgstr "pabaigos-data"
 msgid "date-start"
 msgstr "pradþios-data"
 
-#: calendar/gui/e-meeting-model.c:81
+#: calendar/gui/e-meeting-model.c:79
 msgid "Chair Persons"
 msgstr "Pirmininkaujantys asmenys"
 
-#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1697
+#: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1636
 msgid "Required Participants"
 msgstr "Bûtini dalyviai"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:81
 msgid "Optional Participants"
 msgstr "Nebûtini dalyviai"
 
-#: calendar/gui/e-meeting-model.c:84
+#: calendar/gui/e-meeting-model.c:82
 #, fuzzy
 msgid "Resources"
 msgstr "Resursas"
 
-#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
-#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:803
+#: calendar/gui/e-meeting-model.c:197 calendar/gui/e-meeting-model.c:214
+#: calendar/gui/e-meeting-model.c:530 calendar/gui/e-meeting-model.c:752
 msgid "Individual"
 msgstr "Individas"
 
-#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
-#: calendar/gui/e-meeting-model.c:804
+#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
+#: calendar/gui/e-meeting-model.c:753
 msgid "Group"
 msgstr "Grupë"
 
-#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
-#: calendar/gui/e-meeting-model.c:805
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:754
 msgid "Resource"
 msgstr "Resursas"
 
-#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
-#: calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:755
 msgid "Room"
 msgstr "Kambarys"
 
-#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
-#: calendar/gui/e-meeting-model.c:819
+#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
+#: calendar/gui/e-meeting-model.c:768
 msgid "Chair"
 msgstr "Pirmininkas"
 
-#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
-#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:820
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:769
 msgid "Required Participant"
 msgstr "Bûtinas dalyvis"
 
-#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
-#: calendar/gui/e-meeting-model.c:821
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:770
 msgid "Optional Participant"
 msgstr "Nebûtinas dalyvis"
 
-#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:771
 msgid "Non-Participant"
 msgstr "Ne dalyvis"
 
-#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:309
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:848
+#: calendar/gui/e-meeting-model.c:284 calendar/gui/e-meeting-model.c:307
+#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:797
 msgid "Needs Action"
 msgstr "Reikalauja veiksmo"
 
-#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
-#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:406
+#: calendar/gui/e-meeting-model.c:290 calendar/gui/e-meeting-model.c:313
+#: calendar/gui/e-meeting-model.c:800 calendar/gui/e-meeting-time-sel.c:405
 msgid "Tentative"
 msgstr "Negalutinis"
 
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:852
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:801
 msgid "Delegated"
 msgstr "Pavestas"
 
-#: calendar/gui/e-meeting-model.c:298 calendar/gui/e-meeting-model.c:321
+#: calendar/gui/e-meeting-model.c:296 calendar/gui/e-meeting-model.c:319
 msgid "In Process"
 msgstr "Vykdomas"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:458
-#: calendar/gui/e-meeting-time-sel.c:2115
+#: calendar/gui/e-meeting-time-sel.c:2097
 msgid "%A, %B %d, %Y"
 msgstr "%A, %Y m. %B %e"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:462
-#: calendar/gui/e-meeting-time-sel.c:2148 e-util/e-time-utils.c:189
+#: calendar/gui/e-meeting-time-sel.c:2130 e-util/e-time-utils.c:189
 #: e-util/e-time-utils.c:282 e-util/e-time-utils.c:370
 msgid "%a %m/%d/%Y"
 msgstr "%a %Y-%m-%d"
@@ -6182,15 +6217,15 @@ msgstr "%a %Y-%m-%d"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:224
-#: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1583
+#: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1581
 msgid "%m/%d/%Y"
 msgstr "%Y-%m-%d"
 
-#: calendar/gui/e-meeting-time-sel.c:408 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:407 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "Nesu darbe"
 
-#: calendar/gui/e-meeting-time-sel.c:409
+#: calendar/gui/e-meeting-time-sel.c:408
 msgid "No Information"
 msgstr "Nëra informacijos"
 
@@ -6198,117 +6233,117 @@ msgstr "Nëra informacijos"
 msgid "_Options"
 msgstr "_Parinktys"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:464
 msgid "Show _Only Working Hours"
 msgstr "Rodyti tik _darbo valandas"
 
-#: calendar/gui/e-meeting-time-sel.c:481
+#: calendar/gui/e-meeting-time-sel.c:474
 msgid "Show _Zoomed Out"
 msgstr "Rodyti _atitrauktà"
 
-#: calendar/gui/e-meeting-time-sel.c:499
+#: calendar/gui/e-meeting-time-sel.c:489
 msgid "_Update Free/Busy"
 msgstr "_Atnaujinti Laisvas/Uþimtas"
 
-#: calendar/gui/e-meeting-time-sel.c:517
+#: calendar/gui/e-meeting-time-sel.c:504
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:534
+#: calendar/gui/e-meeting-time-sel.c:522
 msgid "_Autopick"
 msgstr "_Automatiðkai parinkti"
 
-#: calendar/gui/e-meeting-time-sel.c:548
+#: calendar/gui/e-meeting-time-sel.c:537
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:567
+#: calendar/gui/e-meeting-time-sel.c:554
 msgid "_All People and Resources"
 msgstr "_Visi þmonës ir resursai"
 
-#: calendar/gui/e-meeting-time-sel.c:580
+#: calendar/gui/e-meeting-time-sel.c:563
 msgid "All _People and One Resource"
 msgstr "Visi þ_monës ir vienas resursas"
 
-#: calendar/gui/e-meeting-time-sel.c:593
+#: calendar/gui/e-meeting-time-sel.c:572
 msgid "_Required People"
 msgstr "_Bûtini þmonës"
 
-#: calendar/gui/e-meeting-time-sel.c:606
+#: calendar/gui/e-meeting-time-sel.c:581
 msgid "Required People and _One Resource"
 msgstr "Bûtini þmonës ir _vienas resursas"
 
-#: calendar/gui/e-meeting-time-sel.c:629
+#: calendar/gui/e-meeting-time-sel.c:600
 msgid "Meeting _start time:"
 msgstr "Susitikimo _pradþios laikas:"
 
-#: calendar/gui/e-meeting-time-sel.c:648
+#: calendar/gui/e-meeting-time-sel.c:620
 msgid "Meeting _end time:"
 msgstr "Susitikimo pa_baigos laikas:"
 
-#: calendar/gui/e-tasks.c:358 calendar/gui/gnome-cal.c:1983
-#: calendar/gui/gnome-cal.c:1994
+#: calendar/gui/e-tasks.c:360 calendar/gui/gnome-cal.c:2005
+#: calendar/gui/gnome-cal.c:2016
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Atidaromos uþduotys ið %s"
 
-#: calendar/gui/e-tasks.c:387 calendar/gui/tasks-control.c:199
+#: calendar/gui/e-tasks.c:389 calendar/gui/tasks-control.c:199
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Negalëjau ákelti uþduoèiø á ¥%s´"
 
-#: calendar/gui/e-tasks.c:402
+#: calendar/gui/e-tasks.c:404
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Metodas, reikalingas ákelti ¥%s´, nepalaikomas"
 
-#: calendar/gui/e-tasks.c:416 calendar/gui/gnome-cal.c:1501
+#: calendar/gui/e-tasks.c:418 calendar/gui/gnome-cal.c:1508
 #, fuzzy, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "Negalëjau atidaryti aplanko su ¥%s´"
 
-#: calendar/gui/e-tasks.c:484 calendar/gui/gnome-cal.c:1705
+#: calendar/gui/e-tasks.c:486 calendar/gui/gnome-cal.c:1727
 #, fuzzy, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
 msgstr "Klaida pradedant %s"
 
-#: calendar/gui/e-tasks.c:555
+#: calendar/gui/e-tasks.c:557
 #, fuzzy
 msgid "Completing tasks..."
 msgstr "Uþbaigimo data"
 
-#: calendar/gui/e-tasks.c:578
+#: calendar/gui/e-tasks.c:580
 #, fuzzy
 msgid "Deleting selected objects..."
 msgstr "Iðtrinti paþymëtus kontaktus"
 
-#: calendar/gui/e-tasks.c:673
+#: calendar/gui/e-tasks.c:675
 #, fuzzy
 msgid "Expunging"
 msgstr "Iðvalyti"
 
-#: calendar/gui/e-week-view.c:3540
+#: calendar/gui/e-week-view.c:3566
 msgid "New _Appointment..."
 msgstr "Naujas á_vykis..."
 
-#: calendar/gui/gnome-cal.c:1473
+#: calendar/gui/gnome-cal.c:1480
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Negalëjau atidaryti aplanko su ¥%s´"
 
-#: calendar/gui/gnome-cal.c:1487
+#: calendar/gui/gnome-cal.c:1494
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Metodas, reikalingas atidaryti ¥%s´, nepalaikomas"
 
-#: calendar/gui/gnome-cal.c:1533
+#: calendar/gui/gnome-cal.c:1555
 #, fuzzy, c-format
 msgid "Adding alarms for %s"
 msgstr "Perspëti %s"
 
-#: calendar/gui/gnome-cal.c:1725
+#: calendar/gui/gnome-cal.c:1747
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6316,7 +6351,7 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1734
+#: calendar/gui/gnome-cal.c:1756
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6324,12 +6359,12 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1965
+#: calendar/gui/gnome-cal.c:1987
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Atidaromas kalendorius ið %s"
 
-#: calendar/gui/gnome-cal.c:2005
+#: calendar/gui/gnome-cal.c:2027
 #, fuzzy
 msgid "Opening default tasks folder"
 msgstr "Atidaromas aplankas %s"
@@ -6552,8 +6587,8 @@ msgid "Contacts: "
 msgstr "Ko_ntaktai:"
 
 #: calendar/gui/print.c:2533 calendar/gui/print.c:2619
-#: calendar/gui/tasks-control.c:586 mail/mail-callbacks.c:2948
-#: my-evolution/e-summary.c:616
+#: calendar/gui/tasks-control.c:586 mail/mail-callbacks.c:2949
+#: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "Spaudinio perþiûra"
 
@@ -8586,7 +8621,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:573
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:576
 msgid "Cancelled."
 msgstr "Nutraukta."
 
@@ -9026,31 +9061,31 @@ msgstr "URL ¥%s´ turi bûti su keliu"
 msgid "Resolving: %s"
 msgstr ""
 
-#: camel/camel-service.c:773 camel/camel-service.c:887
+#: camel/camel-service.c:774 camel/camel-service.c:889
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr ""
 
-#: camel/camel-service.c:800
+#: camel/camel-service.c:801
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr ""
 
-#: camel/camel-service.c:803
+#: camel/camel-service.c:804
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr ""
 
-#: camel/camel-service.c:853
+#: camel/camel-service.c:854
 #, fuzzy
 msgid "Resolving address"
 msgstr "Atsakymo adresas:"
 
-#: camel/camel-service.c:915
+#: camel/camel-service.c:917
 msgid "Host lookup failed: host not found"
 msgstr ""
 
-#: camel/camel-service.c:918
+#: camel/camel-service.c:920
 msgid "Host lookup failed: unknown reason"
 msgstr ""
 
@@ -9364,47 +9399,47 @@ msgstr "Negaliu pervadinti aplanko: %s: Bloga operacija"
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "Negaliu pervadinti aplanko: %s: Nëra tokio aplanko"
 
-#: camel/providers/imap/camel-imap-command.c:224
-#: camel/providers/imap/camel-imap-command.c:263
-#: camel/providers/imap/camel-imap-command.c:453
+#: camel/providers/imap/camel-imap-command.c:221
+#: camel/providers/imap/camel-imap-command.c:260
+#: camel/providers/imap/camel-imap-command.c:450
 #: camel/providers/imap/camel-imap-store.c:2644
 msgid "Operation cancelled"
 msgstr "Veiksmas nutrauktas"
 
-#: camel/providers/imap/camel-imap-command.c:308
+#: camel/providers/imap/camel-imap-command.c:305
 #: camel/providers/imap/camel-imap-store.c:2647
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Serveris netikëtai atsijungë: %s"
 
 #. for imap ALERT codes, account user@host
-#: camel/providers/imap/camel-imap-command.c:326
+#: camel/providers/imap/camel-imap-command.c:323
 #, fuzzy, c-format
 msgid ""
 "Alert from IMAP server %s@%s:\n"
 "%s"
 msgstr "Netikëtas atsakymas ið IMAP serverio: %s"
 
-#: camel/providers/imap/camel-imap-command.c:395
+#: camel/providers/imap/camel-imap-command.c:392
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Netikëtas atsakymas ið IMAP serverio: %s"
 
-#: camel/providers/imap/camel-imap-command.c:405
+#: camel/providers/imap/camel-imap-command.c:402
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "Nepavyko IMAP komanda: %s"
 
-#: camel/providers/imap/camel-imap-command.c:463
+#: camel/providers/imap/camel-imap-command.c:460
 msgid "Server response ended too soon."
 msgstr "Serverio atsakymas baigësi per anksti."
 
-#: camel/providers/imap/camel-imap-command.c:655
+#: camel/providers/imap/camel-imap-command.c:652
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "IMAP serverio atsakyme nebuvo %s informacijos"
 
-#: camel/providers/imap/camel-imap-command.c:691
+#: camel/providers/imap/camel-imap-command.c:688
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Netikëtas atsakymas OK ið IMAP serverio: %s"
@@ -9428,12 +9463,12 @@ msgstr "Aplankas serveryje buvo sunaikintas ir vël sukurtas."
 msgid "Scanning for changed messages"
 msgstr "Ieðkoma pakeistø laiðkø"
 
-#: camel/providers/imap/camel-imap-folder.c:1873
+#: camel/providers/imap/camel-imap-folder.c:1875
 #, fuzzy, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Nepavyko iðkoduoti laiðko."
 
-#: camel/providers/imap/camel-imap-folder.c:1910
+#: camel/providers/imap/camel-imap-folder.c:1912
 #: camel/providers/local/camel-maildir-folder.c:212
 #: camel/providers/local/camel-maildir-folder.c:225
 #: camel/providers/local/camel-maildir-folder.c:234
@@ -9449,24 +9484,24 @@ msgstr ""
 "Negaliu gauti laiðko: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1910
+#: camel/providers/imap/camel-imap-folder.c:1912
 #: camel/providers/local/camel-maildir-folder.c:212
 #: camel/providers/local/camel-mbox-folder.c:351
 #: camel/providers/local/camel-mh-folder.c:201
 msgid "No such message"
 msgstr "Nëra tokio laiðko"
 
-#: camel/providers/imap/camel-imap-folder.c:1933
-#: camel/providers/imap/camel-imap-folder.c:2529
+#: camel/providers/imap/camel-imap-folder.c:1935
+#: camel/providers/imap/camel-imap-folder.c:2531
 msgid "This message is not currently available"
 msgstr "Ðis laiðkas ðiuo metu nepasiekiamas"
 
-#: camel/providers/imap/camel-imap-folder.c:2193
-#: camel/providers/imap/camel-imap-folder.c:2263
+#: camel/providers/imap/camel-imap-folder.c:2195
+#: camel/providers/imap/camel-imap-folder.c:2265
 msgid "Fetching summary information for new messages"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:2567
+#: camel/providers/imap/camel-imap-folder.c:2569
 msgid "Could not find message body in FETCH response."
 msgstr "Negalëjau rasti laiðko teksto FETCH atsakyme"
 
@@ -9496,7 +9531,7 @@ msgstr "Tikrinama, ar yra naujø laiðkø"
 msgid "Check for new messages in all folders"
 msgstr "Patikrinti, ar yra naujø laiðkø visuose aplankuose"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1176
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1178
 msgid "Folders"
 msgstr "Aplankai"
 
@@ -9526,7 +9561,7 @@ msgstr "Paðto skaitymui ir raðymui IMAP serveriuose."
 
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
-#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:86
+#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:83
 msgid "Password"
 msgstr "Slaptaþodis"
 
@@ -10216,7 +10251,7 @@ msgstr "Palikti laiðkus serveryje"
 msgid "Delete after %s day(s)"
 msgstr "Iðtrinti po %s dienos(ø)"
 
-#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:85
+#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:82
 msgid "POP"
 msgstr "POP"
 
@@ -10308,7 +10343,7 @@ msgid "No such folder `%s'."
 msgstr "Nëra tokio aplanko ¥%s´."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:107
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -10362,7 +10397,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Paðto siuntimas per sendmail programà"
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:102
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:99
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -10552,59 +10587,59 @@ msgstr "Negaliu siøsti laiðko: neapibrëþti jokie gavëjai."
 msgid "SMTP Greeting"
 msgstr "SMTP pasveikinimas"
 
-#: camel/providers/smtp/camel-smtp-transport.c:926
+#: camel/providers/smtp/camel-smtp-transport.c:927
 #, fuzzy, c-format
 msgid "HELO request timed out: %s"
 msgstr "Baigësi RSET uþklausos laiko riba: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:948
+#: camel/providers/smtp/camel-smtp-transport.c:949
 #, fuzzy
 msgid "HELO response error"
 msgstr "RSET atsakymo klaida: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1014
+#: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
 msgstr "SMTP autentikacija"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1020
+#: camel/providers/smtp/camel-smtp-transport.c:1021
 msgid "Error creating SASL authentication object."
 msgstr "Klaida sukuriant SASL autentikacijos objektà."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1037
-#: camel/providers/smtp/camel-smtp-transport.c:1049
+#: camel/providers/smtp/camel-smtp-transport.c:1038
+#: camel/providers/smtp/camel-smtp-transport.c:1050
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Baigësi AUTH uþklausos laiko riba: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1058
+#: camel/providers/smtp/camel-smtp-transport.c:1059
 msgid "AUTH request failed."
 msgstr "AUTH uþklausa nepavyko."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1119
+#: camel/providers/smtp/camel-smtp-transport.c:1120
 msgid "Bad authentication response from server.\n"
 msgstr "Blogas autentikacijos atsakymas ið serverio.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1144
+#: camel/providers/smtp/camel-smtp-transport.c:1145
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Baigësi MAIL FROM uþklausos laiko riba: %s: paðtas neiðsiøstas"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1164
+#: camel/providers/smtp/camel-smtp-transport.c:1165
 #, fuzzy
 msgid "MAIL FROM response error"
 msgstr "MAIL FROM atsakymo klaida: %s: paðtas neiðsiøstas"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1188
+#: camel/providers/smtp/camel-smtp-transport.c:1189
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Baigësi RCPT TO uþklausos laiko riba: %s: paðtas neiðsiøstas"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1210
+#: camel/providers/smtp/camel-smtp-transport.c:1211
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:1249
+#: camel/providers/smtp/camel-smtp-transport.c:1250
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Baigësi DATA uþklausos laiko riba: %s: paðtas neiðsiøstas"
@@ -10612,39 +10647,39 @@ msgstr "Baigësi DATA uþklausos laiko riba: %s: paðtas neiðsiøstas"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1269
+#: camel/providers/smtp/camel-smtp-transport.c:1270
 #, fuzzy
 msgid "DATA response error"
 msgstr "RSET atsakymo klaida: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1310
-#: camel/providers/smtp/camel-smtp-transport.c:1333
+#: camel/providers/smtp/camel-smtp-transport.c:1311
+#: camel/providers/smtp/camel-smtp-transport.c:1334
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "Baigësi DATA siuntimo laiko riba: laiðko nutraukimas: %s: paðtas neiðsiøstas"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1353
+#: camel/providers/smtp/camel-smtp-transport.c:1354
 #, fuzzy
 msgid "DATA termination response error"
 msgstr "Blogas autentikacijos atsakymas ið serverio."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1376
+#: camel/providers/smtp/camel-smtp-transport.c:1377
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Baigësi RSET uþklausos laiko riba: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1396
+#: camel/providers/smtp/camel-smtp-transport.c:1397
 #, fuzzy
 msgid "RSET response error"
 msgstr "RSET atsakymo klaida: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1419
+#: camel/providers/smtp/camel-smtp-transport.c:1420
 #, fuzzy, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Baigësi AUTH uþklausos laiko riba: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1439
+#: camel/providers/smtp/camel-smtp-transport.c:1440
 #, fuzzy
 msgid "QUIT response error"
 msgstr "RSET atsakymo klaida: %s"
@@ -10665,7 +10700,7 @@ msgid "%.0fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:223
+#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:227
 msgid "attachment"
 msgstr "priedas"
 
@@ -10882,10 +10917,6 @@ msgstr ""
 "\n"
 "Ar norëtum iðsaugoti jo pakeitimus?"
 
-#: composer/e-msg-composer.c:1555
-msgid "_Discard Changes"
-msgstr ""
-
 #: composer/e-msg-composer.c:1559
 msgid "Warning: Modified Message"
 msgstr "Áspëjimas: Pakeistas laiðkas"
@@ -10899,22 +10930,22 @@ msgstr "Atidaryti bylà"
 msgid "Signature:"
 msgstr "Iðsaugoti paraðà"
 
-#: composer/e-msg-composer.c:2055 mail/mail-account-gui.c:1254
+#: composer/e-msg-composer.c:2055 mail/mail-account-gui.c:1255
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2871
-#: composer/e-msg-composer.c:2872
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2900
+#: composer/e-msg-composer.c:2901
 msgid "Compose a message"
 msgstr "Sukurti laiðkà"
 
-#: composer/e-msg-composer.c:2903
+#: composer/e-msg-composer.c:2932
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2929
+#: composer/e-msg-composer.c:2958
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -10925,7 +10956,7 @@ msgstr ""
 "Negalëjau sukurti raðyklës lango:\n"
 "Nepavyko aktyvuoti HTML redaktoriaus komponento."
 
-#: composer/e-msg-composer.c:2989
+#: composer/e-msg-composer.c:3026
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10933,7 +10964,7 @@ msgstr ""
 "Negalëjau sukurti raðyklës lango:\n"
 "Nepavyko aktyvuoti HTML redaktoriaus komponento."
 
-#: composer/e-msg-composer.c:4003
+#: composer/e-msg-composer.c:4040
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11108,7 +11139,7 @@ msgstr ""
 "Byla tokiu vardu jau yra.\n"
 "Uþraðyti jà?"
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:196
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:200
 msgid "Overwrite file?"
 msgstr "Uþraðyti bylà?"
 
@@ -11200,13 +11231,13 @@ msgstr "%H:%M:%S"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:334 e-util/e-time-utils.c:421
-#: widgets/misc/e-dateedit.c:1405 widgets/misc/e-dateedit.c:1618
+#: widgets/misc/e-dateedit.c:1403 widgets/misc/e-dateedit.c:1616
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:338 e-util/e-time-utils.c:413
-#: widgets/misc/e-dateedit.c:1402 widgets/misc/e-dateedit.c:1615
+#: widgets/misc/e-dateedit.c:1400 widgets/misc/e-dateedit.c:1613
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -11337,7 +11368,7 @@ msgid "You must specify a folder."
 msgstr "Stiliaus vardas:"
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:438
-#: mail/mail-account-gui.c:1503 mail/mail-account-gui.c:1517
+#: mail/mail-account-gui.c:1504 mail/mail-account-gui.c:1518
 msgid "Select Folder"
 msgstr "Pasirink aplankà"
 
@@ -11351,32 +11382,32 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:121 filter/libfilter-i18n.h:26 mail/mail-config.c:68
-#: mail/mail-config.glade.h:64 shell/e-config-upgrade.c:1404
+#: mail/mail-config.glade.h:62 shell/e-config-upgrade.c:1404
 msgid "Important"
 msgstr "Svarbus"
 
 #. red
 #: filter/filter-label.c:122 mail/mail-config.c:69
-#: mail/mail-config.glade.h:133 shell/e-config-upgrade.c:1405
+#: mail/mail-config.glade.h:129 shell/e-config-upgrade.c:1405
 #, fuzzy
 msgid "Work"
 msgstr "Dirbama"
 
 #. orange
-#: filter/filter-label.c:123 mail/mail-config.c:70 mail/mail-config.glade.h:87
+#: filter/filter-label.c:123 mail/mail-config.c:70 mail/mail-config.glade.h:84
 #: shell/e-config-upgrade.c:1406
 msgid "Personal"
 msgstr ""
 
 #. forest green
 #: filter/filter-label.c:124 mail/mail-config.c:71
-#: mail/mail-config.glade.h:124 shell/e-config-upgrade.c:1407
+#: mail/mail-config.glade.h:120 shell/e-config-upgrade.c:1407
 #, fuzzy
 msgid "To Do"
 msgstr "Togas"
 
 #. blue
-#: filter/filter-label.c:125 mail/mail-config.c:72 mail/mail-config.glade.h:68
+#: filter/filter-label.c:125 mail/mail-config.c:72 mail/mail-config.glade.h:66
 #: shell/e-config-upgrade.c:1408
 #, fuzzy
 msgid "Later"
@@ -11488,7 +11519,7 @@ msgstr " "
 msgid "months"
 msgstr "mënesiø"
 
-#: filter/filter.glade.h:21 mail/mail-config.glade.h:179
+#: filter/filter.glade.h:21 mail/mail-config.glade.h:174
 msgid "seconds"
 msgstr "sekundþiø"
 
@@ -11660,7 +11691,7 @@ msgstr "nëra"
 msgid "is not Flagged"
 msgstr "nëra"
 
-#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1793
+#: filter/libfilter-i18n.h:35 mail/folder-browser.c:1796
 msgid "Label"
 msgstr ""
 
@@ -11726,7 +11757,7 @@ msgstr "yra maþesnis uþ"
 msgid "Score"
 msgstr "Ávertis"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1818
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1819
 msgid "Sender"
 msgstr "Siuntëjas"
 
@@ -11848,6 +11879,7 @@ msgstr "Skanuojama %s"
 #: importers/pine-importer.c:637 mail/component-factory.c:116
 #: mail/folder-browser-ui.c:359 mail/importers/elm-importer.c:526
 #: mail/importers/netscape-importer.c:2085 mail/importers/pine-importer.c:572
+#: my-evolution/my-evolution.glade.h:4
 msgid "Mail"
 msgstr "Paðtas"
 
@@ -11982,70 +12014,55 @@ msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 #, fuzzy
-msgid "Configure the fonts used by Evolution here"
-msgstr "Evolution paðto komponento gamykla."
-
-#: mail/GNOME_Evolution_Mail.server.in.in.h:5
-#, fuzzy
 msgid "Configure your email accounts here"
 msgstr "Sukurti ir keisti paðto sàskaitas ir kitas nuostatas"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:6
+#: mail/GNOME_Evolution_Mail.server.in.in.h:5
 #, fuzzy
 msgid "Evolution Mail"
 msgstr "Evolution"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:7
+#: mail/GNOME_Evolution_Mail.server.in.in.h:6
 #, fuzzy
 msgid "Evolution Mail accounts configuration control"
 msgstr "Evolution paðto nustatymas"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:8
+#: mail/GNOME_Evolution_Mail.server.in.in.h:7
 #, fuzzy
 msgid "Evolution Mail component"
 msgstr "Evolution paðto raðyklë."
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:9
+#: mail/GNOME_Evolution_Mail.server.in.in.h:8
 #, fuzzy
 msgid "Evolution Mail composer"
 msgstr "Evolution paðto raðyklë."
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:10
+#: mail/GNOME_Evolution_Mail.server.in.in.h:9
 #, fuzzy
 msgid "Evolution Mail composer configuration control"
 msgstr "Evolution paðto nustatymas"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11
+#: mail/GNOME_Evolution_Mail.server.in.in.h:10
 #, fuzzy
 msgid "Evolution Mail configuration interface"
 msgstr "Paðto nustatymo sàsaja"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11
 #, fuzzy
 msgid "Evolution Mail folder viewer"
 msgstr "Evolution paðto aplanko vaizdavimo komponentas."
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:13
-#, fuzzy
-msgid "Evolution Mail font configuration control"
-msgstr "Evolution paðto nustatymas"
-
-#: mail/GNOME_Evolution_Mail.server.in.in.h:14
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12
 #, fuzzy
 msgid "Evolution Mail preferences control"
 msgstr "Evolution paðto komponento."
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:15
-#, fuzzy
-msgid "Font Preferences"
-msgstr "Kalendoriaus nuostatos"
-
-#: mail/GNOME_Evolution_Mail.server.in.in.h:16
+#: mail/GNOME_Evolution_Mail.server.in.in.h:13
 #, fuzzy
 msgid "Mail Accounts"
 msgstr "Paðto sàskaita"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:17 mail/mail-config.glade.h:71
+#: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:69
 #, fuzzy
 msgid "Mail Preferences"
 msgstr "Kalendoriaus nuostatos"
@@ -12090,48 +12107,48 @@ msgid ""
 "order."
 msgstr ""
 
-#: mail/component-factory.c:997
+#: mail/component-factory.c:998
 msgid "You have not set a mail transport method"
 msgstr "Tu nenustatei paðto siuntimo metodo"
 
-#: mail/component-factory.c:1020
+#: mail/component-factory.c:1021
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr ""
 
-#: mail/component-factory.c:1060
+#: mail/component-factory.c:1061
 msgid "New Mail Message"
 msgstr "Naujas paðto laiðkas"
 
-#: mail/component-factory.c:1060
+#: mail/component-factory.c:1061
 msgid "_Mail Message"
 msgstr "_Paðto laiðkas"
 
-#: mail/component-factory.c:1061
+#: mail/component-factory.c:1062
 #, fuzzy
 msgid "Compose a new mail message"
 msgstr "Sukurti laiðkà"
 
-#: mail/component-factory.c:1069
+#: mail/component-factory.c:1070
 #, fuzzy
 msgid "New Message Post"
 msgstr "Kità laiðkà"
 
-#: mail/component-factory.c:1069
+#: mail/component-factory.c:1070
 #, fuzzy
 msgid "_Post Message"
 msgstr "S_pausdinti laiðkà"
 
-#: mail/component-factory.c:1070
+#: mail/component-factory.c:1071
 #, fuzzy
 msgid "Post a new mail message"
 msgstr "Naujas paðto laiðkas"
 
-#: mail/component-factory.c:1353
+#: mail/component-factory.c:1354
 #, fuzzy
 msgid "Connecting..."
 msgstr "Jungiamasi prie serverio..."
 
-#: mail/component-factory.c:1364
+#: mail/component-factory.c:1365
 msgid "Cannot register storage with shell"
 msgstr "Negaliu uþregistruoti saugyklos apvalkale"
 
@@ -12144,190 +12161,190 @@ msgstr "¥%s´ savybës"
 msgid "Properties"
 msgstr "Savybës"
 
-#: mail/folder-browser.c:327 mail/mail-display.c:391 mail/mail-display.c:939
+#: mail/folder-browser.c:330 mail/mail-display.c:394 mail/mail-display.c:942
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Negalëjau sukurti laikino katalogo: %s"
 
-#: mail/folder-browser.c:782
+#: mail/folder-browser.c:785
 #, c-format
 msgid "%d new"
 msgstr "%d nauji"
 
-#: mail/folder-browser.c:785 mail/folder-browser.c:793
-#: mail/folder-browser.c:796
+#: mail/folder-browser.c:788 mail/folder-browser.c:796
+#: mail/folder-browser.c:799
 msgid ", "
 msgstr ", "
 
-#: mail/folder-browser.c:787
+#: mail/folder-browser.c:790
 #, c-format
 msgid "%d hidden"
 msgstr "%d paslëpti"
 
-#: mail/folder-browser.c:789
+#: mail/folder-browser.c:792
 #, c-format
 msgid "%d visible"
 msgstr ""
 
-#: mail/folder-browser.c:794
+#: mail/folder-browser.c:797
 #, c-format
 msgid "%d selected"
 msgstr "%d paþymëti"
 
-#: mail/folder-browser.c:799
+#: mail/folder-browser.c:802
 #, c-format
 msgid "%d unsent"
 msgstr "%d neiðsiøsti"
 
-#: mail/folder-browser.c:801
+#: mail/folder-browser.c:804
 #, c-format
 msgid "%d sent"
 msgstr "%d iðsiøsti"
 
-#: mail/folder-browser.c:803
+#: mail/folder-browser.c:806
 #, c-format
 msgid "%d total"
 msgstr "%d ið viso"
 
-#: mail/folder-browser.c:1182
+#: mail/folder-browser.c:1185
 #, fuzzy
 msgid "Create _Virtual Folder From Search..."
 msgstr "Sukurti _virtualø aplankà ið laiðko"
 
-#: mail/folder-browser.c:1729
+#: mail/folder-browser.c:1732
 msgid "VFolder on _Subject"
 msgstr "vAplankas pagal _Temà"
 
-#: mail/folder-browser.c:1730
+#: mail/folder-browser.c:1733
 msgid "VFolder on Se_nder"
 msgstr "vAplankas pagal Siu_ntëjà"
 
-#: mail/folder-browser.c:1731
+#: mail/folder-browser.c:1734
 msgid "VFolder on _Recipients"
 msgstr "vAplankas pagal _Gavëjus"
 
-#: mail/folder-browser.c:1732
+#: mail/folder-browser.c:1735
 msgid "VFolder on Mailing _List"
 msgstr "vAplankas pagal _Konferencijà"
 
-#: mail/folder-browser.c:1736
+#: mail/folder-browser.c:1739
 msgid "Filter on Sub_ject"
 msgstr "Filtras pagal T_emà"
 
-#: mail/folder-browser.c:1737
+#: mail/folder-browser.c:1740
 msgid "Filter on Sen_der"
 msgstr "Filtras pagal Si_untëjà"
 
-#: mail/folder-browser.c:1738
+#: mail/folder-browser.c:1741
 msgid "Filter on Re_cipients"
 msgstr "Filtras pagal Ga_vëjus"
 
-#: mail/folder-browser.c:1739 mail/folder-browser.c:2063
+#: mail/folder-browser.c:1742 mail/folder-browser.c:2066
 msgid "Filter on _Mailing List"
 msgstr "Filtras pagal K_onferencijà"
 
-#: mail/folder-browser.c:1757
+#: mail/folder-browser.c:1760
 msgid "_Edit as New Message..."
 msgstr "_Taisyti kaip naujà laiðkà..."
 
-#: mail/folder-browser.c:1759
+#: mail/folder-browser.c:1762
 msgid "_Print"
 msgstr "S_pausdinti"
 
-#: mail/folder-browser.c:1763 ui/evolution-mail-message.xml.h:110
+#: mail/folder-browser.c:1766 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
 msgstr "_Atsakyti siuntëjui"
 
-#: mail/folder-browser.c:1764 ui/evolution-mail-message.xml.h:75
+#: mail/folder-browser.c:1767 ui/evolution-mail-message.xml.h:75
 msgid "Reply to _List"
 msgstr "Atsakyti á _konferencijà"
 
-#: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:74
+#: mail/folder-browser.c:1768 ui/evolution-mail-message.xml.h:74
 msgid "Reply to _All"
 msgstr "Atsakyti _visiems"
 
-#: mail/folder-browser.c:1766
+#: mail/folder-browser.c:1769
 msgid "_Forward"
 msgstr "P_ersiøsti"
 
-#: mail/folder-browser.c:1770
+#: mail/folder-browser.c:1773
 msgid "Follo_w Up..."
 msgstr ""
 
-#: mail/folder-browser.c:1771
+#: mail/folder-browser.c:1774
 #, fuzzy
 msgid "Fla_g Completed"
 msgstr "Uþbaigta"
 
-#: mail/folder-browser.c:1772
+#: mail/folder-browser.c:1775
 #, fuzzy
 msgid "Cl_ear Flag"
 msgstr "Iðvalyti"
 
 #. separator here?
-#: mail/folder-browser.c:1776 ui/evolution-mail-message.xml.h:43
+#: mail/folder-browser.c:1779 ui/evolution-mail-message.xml.h:43
 msgid "Mar_k as Read"
 msgstr "Paþymëti s_kaitytu"
 
-#: mail/folder-browser.c:1777
+#: mail/folder-browser.c:1780
 #, fuzzy
 msgid "Mark as _Unread"
 msgstr "Paþymëti _neskaitytu"
 
-#: mail/folder-browser.c:1778
+#: mail/folder-browser.c:1781
 msgid "Mark as _Important"
 msgstr "Paþymëti svarb_iu"
 
-#: mail/folder-browser.c:1779
+#: mail/folder-browser.c:1782
 #, fuzzy
 msgid "_Mark as Unimportant"
 msgstr "Paþymëti nesva_rbiu"
 
-#: mail/folder-browser.c:1784
+#: mail/folder-browser.c:1787
 #, fuzzy
 msgid "U_ndelete"
 msgstr "S_ugràþinti"
 
-#: mail/folder-browser.c:1788
+#: mail/folder-browser.c:1791
 #, fuzzy
 msgid "Mo_ve to Folder..."
 msgstr "Perkelti á aplankà..."
 
-#: mail/folder-browser.c:1789 ui/evolution-addressbook.xml.h:31
+#: mail/folder-browser.c:1792 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "K_opijuoti á aplankà..."
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1800
 #, fuzzy
 msgid "Add Sender to Address_book"
 msgstr "Pridëti siuntëjà á adresø knygelæ"
 
-#: mail/folder-browser.c:1801
+#: mail/folder-browser.c:1804
 #, fuzzy
 msgid "Appl_y Filters"
 msgstr "Pritaikyti filtrus"
 
-#: mail/folder-browser.c:1805
+#: mail/folder-browser.c:1808
 #, fuzzy
 msgid "Crea_te Rule From Message"
 msgstr "Sukurti _taisyklæ ið laiðko"
 
-#: mail/folder-browser.c:2064
+#: mail/folder-browser.c:2067
 #, fuzzy
 msgid "VFolder on M_ailing List"
 msgstr "vAplankas pagal Konferencijà"
 
-#: mail/folder-browser.c:2066
+#: mail/folder-browser.c:2069
 #, fuzzy, c-format
 msgid "Filter on _Mailing List (%s)"
 msgstr "Filtras pagal Konferencijà (%s)"
 
-#: mail/folder-browser.c:2067
+#: mail/folder-browser.c:2070
 #, fuzzy, c-format
 msgid "VFolder on M_ailing List (%s)"
 msgstr "vAplankas pagal Konferencijà (%s)"
 
-#: mail/folder-browser.h:26 mail/mail-config.glade.h:40
+#: mail/folder-browser.h:26 mail/mail-config.glade.h:39
 #, fuzzy
 msgid "Default"
 msgstr "Áp_rastas"
@@ -12412,20 +12429,20 @@ msgstr "Tu neávedei visos bûtinos informacijos."
 msgid "Evolution Account Editor"
 msgstr "Evolution sàskaitø tvarkyklë"
 
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:154
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:149
 msgid "_Host:"
 msgstr "_Hostas:"
 
-#: mail/mail-account-gui.c:755 mail/mail-config.glade.h:127
+#: mail/mail-account-gui.c:755 mail/mail-config.glade.h:123
 #, fuzzy
 msgid "User_name:"
 msgstr "_Vartotojo vardas:"
 
-#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:161
+#: mail/mail-account-gui.c:759 mail/mail-config.glade.h:156
 msgid "_Path:"
 msgstr "_Kelias:"
 
-#: mail/mail-account-gui.c:1880
+#: mail/mail-account-gui.c:1881
 msgid "You may not create two accounts with the same name."
 msgstr "Tu negali sukurti dviejø aplankø tuo paèiu vardu."
 
@@ -12438,12 +12455,14 @@ msgid "Don't delete"
 msgstr "Neiðtrinti"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:391
-#: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
+#: mail/mail-composer-prefs.c:675 mail/mail-composer-prefs.c:693
+#: mail/mail-composer-prefs.c:717
 msgid "Disable"
 msgstr "Iðjungti"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:393
-#: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
+#: mail/mail-composer-prefs.c:675 mail/mail-composer-prefs.c:693
+#: mail/mail-composer-prefs.c:717
 msgid "Enable"
 msgstr "Ájungti"
 
@@ -12453,8 +12472,10 @@ msgstr "Ájungti"
 msgid "[Default]"
 msgstr "Áp_rastas"
 
+#. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
+#. has "activatable" set.
 #: mail/mail-accounts.c:481 mail/mail-accounts.etspec.h:2
-#: mail/mail-composer-prefs.c:706 mail/mail-composer-prefs.c:862
+#: mail/mail-composer-prefs.c:708 mail/mail-composer-prefs.c:854
 msgid "Enabled"
 msgstr "Ájungta"
 
@@ -12509,11 +12530,11 @@ msgstr ""
 "Ir buvo atnaujinti."
 
 #. Add the "Don't show this message again." checkbox
-#: mail/mail-callbacks.c:100 widgets/misc/e-messagebox.c:226
+#: mail/mail-callbacks.c:101 widgets/misc/e-messagebox.c:226
 msgid "Don't show this message again."
 msgstr "Kità kartà neberodyti ðios þinutës."
 
-#: mail/mail-callbacks.c:189
+#: mail/mail-callbacks.c:190
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -12525,7 +12546,7 @@ msgstr ""
 "gauti ir raðyti laiðkus.\n"
 "Ar norëtum sutvarkyti já dabar?"
 
-#: mail/mail-callbacks.c:211
+#: mail/mail-callbacks.c:212
 #, fuzzy
 msgid ""
 "You need to configure an account\n"
@@ -12534,7 +12555,7 @@ msgstr ""
 "Tu turi susitvarkyti asmenybæ,\n"
 "tik tada galësi kurti laiðkus."
 
-#: mail/mail-callbacks.c:225
+#: mail/mail-callbacks.c:226
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -12542,7 +12563,7 @@ msgstr ""
 "Tu turi susitvarkyti asmenybæ,\n"
 "tik tada galësi kurti laiðkus."
 
-#: mail/mail-callbacks.c:232
+#: mail/mail-callbacks.c:233
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -12551,7 +12572,7 @@ msgstr ""
 "tik tada galësi kurti laiðkus."
 
 #. FIXME: this wording sucks
-#: mail/mail-callbacks.c:254
+#: mail/mail-callbacks.c:255
 #, fuzzy
 msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
@@ -12560,11 +12581,11 @@ msgstr ""
 "Tu siunti HTML formatuotà laiðkà, bet sekantys gavëjai nemëgsta HTML "
 "formatuoto paðto:\n"
 
-#: mail/mail-callbacks.c:266
+#: mail/mail-callbacks.c:267
 msgid "Send anyway?"
 msgstr "Siøsti vistiek?"
 
-#: mail/mail-callbacks.c:287
+#: mail/mail-callbacks.c:288
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -12572,7 +12593,7 @@ msgstr ""
 "Ðis laiðkas neturi temos.\n"
 "Tikrai siøsti?"
 
-#: mail/mail-callbacks.c:313
+#: mail/mail-callbacks.c:314
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
@@ -12580,11 +12601,11 @@ msgstr ""
 "Kadangi kontaktø sàraðas, kuriam tu siunti, yra sukonfigûruotas slëpti "
 "sàraðo adresus, ðiame laiðke bus tik Bcc gavëjai."
 
-#: mail/mail-callbacks.c:317
+#: mail/mail-callbacks.c:318
 msgid "This message contains only Bcc recipients."
 msgstr "Ðiame laiðke yra tik Bcc gavëjai."
 
-#: mail/mail-callbacks.c:322
+#: mail/mail-callbacks.c:323
 #, fuzzy
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
@@ -12592,11 +12613,11 @@ msgid ""
 "Send anyway?"
 msgstr "Gali bûti, kad paðto serveris"
 
-#: mail/mail-callbacks.c:470
+#: mail/mail-callbacks.c:471
 msgid "You must specify recipients in order to send this message."
 msgstr "Tu turi nurodyti gavëjus, kad galëtum iðsiøsti ðá laiðkà."
 
-#: mail/mail-callbacks.c:722
+#: mail/mail-callbacks.c:723
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -12604,28 +12625,28 @@ msgstr ""
 "Nepavyko atidaryti ðios sàskaitos juodraðèiø aplanko.\n"
 "Ar norëtum naudoti áprastiná juodraðèiø aplankà?"
 
-#: mail/mail-callbacks.c:1187
+#: mail/mail-callbacks.c:1188
 msgid "an unknown sender"
 msgstr "neþinomas siuntëjas"
 
-#: mail/mail-callbacks.c:1191
+#: mail/mail-callbacks.c:1192
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%a, %Y-%m-%d %H:%M, %%s raðë:"
 
-#: mail/mail-callbacks.c:1698 mail/message-browser.c:123
+#: mail/mail-callbacks.c:1699 mail/message-browser.c:123
 msgid "Move message(s) to"
 msgstr "Perkelti laiðkà(us) á"
 
-#: mail/mail-callbacks.c:1700 mail/message-browser.c:125
+#: mail/mail-callbacks.c:1701 mail/message-browser.c:125
 msgid "Copy message(s) to"
 msgstr "Kopijuoti laiðkà(us) á"
 
-#: mail/mail-callbacks.c:2344
+#: mail/mail-callbacks.c:2345
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Ar tu tikrai nori taisyti visus %d laiðkus?"
 
-#: mail/mail-callbacks.c:2360
+#: mail/mail-callbacks.c:2361
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12633,7 +12654,7 @@ msgstr ""
 "Tu gali taisyti tik laiðkus, esanèius \n"
 "Juodraðèiø aplanke."
 
-#: mail/mail-callbacks.c:2393
+#: mail/mail-callbacks.c:2394
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12641,16 +12662,16 @@ msgstr ""
 "Tu gali ið naujo pasiøsti laiðkus\n"
 "tik ið Sent aplanko."
 
-#: mail/mail-callbacks.c:2403
+#: mail/mail-callbacks.c:2404
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Ar tu tikrai nori vël siøsti visus %d laiðkus?"
 
-#: mail/mail-callbacks.c:2424
+#: mail/mail-callbacks.c:2425
 msgid "No Message Selected"
 msgstr "Joks laiðkas nepaþymëtas"
 
-#: mail/mail-callbacks.c:2465
+#: mail/mail-callbacks.c:2466
 #, fuzzy, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12659,7 +12680,7 @@ msgstr ""
 "Negaliu gauti laiðko: %s\n"
 "  %s"
 
-#: mail/mail-callbacks.c:2470
+#: mail/mail-callbacks.c:2471
 #, fuzzy, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12668,15 +12689,15 @@ msgstr ""
 "%s jau egzistuoja.\n"
 "Ar nori áraðyti vietoj jo?"
 
-#: mail/mail-callbacks.c:2511
+#: mail/mail-callbacks.c:2512
 msgid "Save Message As..."
 msgstr "Iðsaugoti laiðkà kaip..."
 
-#: mail/mail-callbacks.c:2513
+#: mail/mail-callbacks.c:2514
 msgid "Save Messages As..."
 msgstr "Iðsaugoti laiðkus kaip..."
 
-#: mail/mail-callbacks.c:2687
+#: mail/mail-callbacks.c:2688
 #, fuzzy
 msgid ""
 "This operation will permanently erase all messages marked as\n"
@@ -12689,7 +12710,7 @@ msgstr ""
 "\n"
 "Tikrai iðtrinti tuos laiðkus?"
 
-#: mail/mail-callbacks.c:2782
+#: mail/mail-callbacks.c:2783
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12698,60 +12719,60 @@ msgstr ""
 "Klaida, ákeliant filtro informacijà:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2790
+#: mail/mail-callbacks.c:2791
 msgid "Filters"
 msgstr "Filtrai"
 
-#: mail/mail-callbacks.c:2831
+#: mail/mail-callbacks.c:2832
 #, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "Gaunamas laiðkas %d ið %d"
 
-#: mail/mail-callbacks.c:2887
+#: mail/mail-callbacks.c:2888
 msgid "Print Message"
 msgstr "Spausdinti laiðkà"
 
-#: mail/mail-callbacks.c:2954
+#: mail/mail-callbacks.c:2955
 msgid "Printing of message failed"
 msgstr "Nepavyko atspausdinti laiðko"
 
-#: mail/mail-callbacks.c:3147
+#: mail/mail-callbacks.c:3148
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Ar tu tikrai nori atidaryti visus %d laiðkus atskiruose languose?"
 
-#: mail/mail-composer-prefs.c:227 mail/mail-composer-prefs.c:350
-#: mail/mail-config.c:1347
+#: mail/mail-composer-prefs.c:226 mail/mail-composer-prefs.c:349
+#: mail/mail-config.c:1362
 #, fuzzy
 msgid "Unnamed"
 msgstr "Bevardis kontaktas"
 
-#: mail/mail-composer-prefs.c:335
+#: mail/mail-composer-prefs.c:334
 #, fuzzy
 msgid "You must specify a valid script name."
 msgstr "Stiliaus vardas:"
 
-#: mail/mail-composer-prefs.c:393 mail/mail-composer-prefs.c:455
+#: mail/mail-composer-prefs.c:392 mail/mail-composer-prefs.c:454
 #, fuzzy
 msgid "[script]"
 msgstr "apraðymas"
 
-#: mail/mail-composer-prefs.c:866
+#: mail/mail-composer-prefs.c:858
 #, fuzzy
 msgid "Language(s)"
 msgstr "Kalba"
 
-#: mail/mail-composer-prefs.c:908
+#: mail/mail-composer-prefs.c:900
 #, fuzzy
 msgid "Add script signature"
 msgstr "Pridëti sàlygà"
 
-#: mail/mail-composer-prefs.c:928
+#: mail/mail-composer-prefs.c:920
 #, fuzzy
 msgid "Signature(s)"
 msgstr "_HTML paraðas:"
 
-#: mail/mail-config-druid.c:380 mail/mail-config.glade.h:63
+#: mail/mail-config-druid.c:380 mail/mail-config.glade.h:61
 msgid "Identity"
 msgstr "Asmenybë"
 
@@ -12818,11 +12839,11 @@ msgstr ""
 "vienà Evolution paðto sàskaità. Praðom ávesti ðios sàskaitos pavadinimà "
 "þemiau esanèiame laukelyje. Ðis pavadinimas bus naudojamas tik vaizdavimui."
 
-#: mail/mail-config.c:1051
+#: mail/mail-config.c:1066
 msgid "Checking Service"
 msgstr "Tikrinama paslauga"
 
-#: mail/mail-config.c:1129 mail/mail-config.c:1133
+#: mail/mail-config.c:1144 mail/mail-config.c:1148
 msgid "Connecting to server..."
 msgstr "Jungiamasi prie serverio..."
 
@@ -12898,51 +12919,46 @@ msgid "Authentication"
 msgstr "Autentikacija"
 
 #: mail/mail-config.glade.h:23
-#, fuzzy
-msgid "Automatically _detect links"
-msgstr "_Automatiðkai tikrinti paðtà kas"
-
-#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-13)"
 msgstr ""
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-4)"
 msgstr ""
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:25
 #, fuzzy
 msgid "C_haracter set:"
 msgstr "Neþinoma koduotë: %s"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:26
 #, fuzzy
 msgid "C_olors"
 msgstr "_Uþdaryti"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:27
 msgid "Check spelling while I _type"
 msgstr ""
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:28
 msgid "Checking for New Mail"
 msgstr "Tikrinama, ar yra naujø laiðkø"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:29
 #, fuzzy
 msgid "Color for _misspelled words:"
 msgstr "Spalva vëluojamoms uþduotims"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:30
 #, fuzzy
 msgid "Composing Messages"
 msgstr "Sukurti laiðkà"
 
-#: mail/mail-config.glade.h:32
+#: mail/mail-config.glade.h:31
 msgid "Configuration"
 msgstr "Konfigûravimas"
 
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:32
 #, fuzzy
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
@@ -12958,324 +12974,309 @@ msgstr ""
 "\n"
 "Paspausk ¥Baigti´, kad iðsaugotum nuostatas."
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:38
 msgid "De_fault"
 msgstr "Áp_rastas"
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:40
 #, fuzzy
 msgid "Default Behavior"
 msgstr "Áp_rastas"
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:41
 #, fuzzy
 msgid "Default character _encoding:"
 msgstr "Áprasta koduotë: "
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:42
 #, fuzzy
 msgid "Deleting Mail"
 msgstr "Gaunamas paðtas"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:44
 msgid "Digital IDs..."
 msgstr ""
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:45
 #, fuzzy
 msgid "Do not quote original message"
 msgstr "Negaliu atidaryti laiðko"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:46
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr ""
 
-#: mail/mail-config.glade.h:48 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:47 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "Baigta"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:48
 #, fuzzy
 msgid "Drafts _folder:"
 msgstr "_Juodraðèiø aplankas:"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:49
 msgid "E_nable"
 msgstr "Áju_ngti"
 
-#: mail/mail-config.glade.h:51
-#, fuzzy
-msgid "Emacs"
-msgstr "Rytø"
-
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:50
 #, fuzzy
 msgid "Email Accounts"
 msgstr "Paðto sàskaita"
 
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:51
 #, fuzzy
 msgid "Email _address:"
 msgstr "El. paðto adresas:"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:52
 #, fuzzy
 msgid "Empty _trash folders on exit"
 msgstr "_Iðtuðtinti ðiukðliø aplankus iðeinant"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:53
 msgid "Evolution Account Assistant"
 msgstr "Evolution sàskaitø padëjëjas"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:54
 #, fuzzy
 msgid "Execute Command..."
 msgstr "Ávykdyti veiksmus"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:55
 #, fuzzy
 msgid "Fi_xed -width:"
 msgstr "baigiasi su"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:56
 #, fuzzy
 msgid "Font Properties"
 msgstr "Sàskaitos savybës"
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:57
 #, fuzzy
 msgid "Format messages in _HTML"
 msgstr "Persiøsti laiðkai"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:58
 msgid "Get Digital ID..."
 msgstr ""
 
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:59
 #, fuzzy
 msgid "Highlight _quotations with"
 msgstr "_Paryðkinti citatas su"
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:60
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:63
 msgid "Inline"
 msgstr "Viduje"
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:64
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:65
 #, fuzzy
 msgid "Labels and Colors"
 msgstr "Iðsaugoti ir uþdaryti"
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:67
 #, fuzzy
 msgid "Loading Images"
 msgstr "Ákelt_i paveikslëlius"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:68
 msgid "Mail Configuration"
 msgstr "Paðto nustatymas"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:70
 msgid "Mailbox location"
 msgstr "Paðto dëþutës vieta"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:71
 #, fuzzy
 msgid "Message Composer"
 msgstr "Laiðko antraðtë"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:72
 #, fuzzy
 msgid "Message Display"
 msgstr "_Laiðko rodymas"
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:73
 #, fuzzy
 msgid "Message Fonts"
 msgstr "Laiðkas turi savyje"
 
-#: mail/mail-config.glade.h:76
-#, fuzzy
-msgid "Microsoft"
-msgstr "Mikronezija"
-
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:75
 #, fuzzy
 msgid "New Mail Notification"
 msgstr "Paðto nustatymas"
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:77
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:78
 msgid "Optional Information"
 msgstr "Nebûtina informacija"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:80
 #, fuzzy
 msgid "Or_ganization:"
 msgstr "Organi_zacija:"
 
-#: mail/mail-config.glade.h:84
+#: mail/mail-config.glade.h:81
 msgid "PGP/GPG _Key ID:"
 msgstr ""
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:85
 msgid "Pick a color"
 msgstr "Pasirink spalvà"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:86
 #, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Paklausti prieð siunèiant laiðkus vien tik su _Bcc gavëjais"
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:87
 #, fuzzy
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:88
 #, fuzzy
 msgid "Printed Fonts"
 msgstr "Spausdinti paþymëtus kontaktus"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:89
 msgid "Qmail maildir "
 msgstr "Qmail maildir "
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:90
 #, fuzzy
 msgid "Quote original message"
 msgstr "Negaliu atidaryti laiðko"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:91
 msgid "Quoted"
 msgstr "Cituojant"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:92
 msgid "Re_member this password"
 msgstr "Prisi_minti ðá slaptaþodá"
 
-#: mail/mail-config.glade.h:96
+#: mail/mail-config.glade.h:93
 #, fuzzy
 msgid "Re_ply-To:"
 msgstr "Atsakyti-kam:"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:94
 msgid "Receiving Email"
 msgstr "Paðto gavimas"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:95
 #, fuzzy
 msgid "Receiving _Options"
 msgstr "Gavimo nuostatos"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:96
 #, fuzzy
 msgid "Remember this _password"
 msgstr "Prisiminti ðá slaptaþodá"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:97
 msgid "Required Information"
 msgstr "Bûtina informacija"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:98
 #, fuzzy
 msgid "Restore Defaults"
 msgstr "Áp_rastas"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:100
 #, fuzzy
 msgid "S_ecurity"
 msgstr "Saugumas"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:101
 msgid "Secure MIME (S/MIME)"
 msgstr ""
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:102
 msgid "Select HTML fixed width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:103
 msgid "Select HTML fixed width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:104
 msgid "Select HTML variable width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:105
 msgid "Select HTML variable width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:106
 msgid "Sending Email"
 msgstr "Paðto siuntimas"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:108
 msgid "Sent _messages folder:"
 msgstr "Iðsiøstø _laiðkø aplankas:"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:109
 msgid "Sent and Draft Messages"
 msgstr "Iðsiøsti laiðkai ir juodraðèiai"
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:110
 msgid "Ser_ver requires authentication"
 msgstr "Ser_veris reikalauja autentikacijos"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:111
 msgid "Server Configuration"
 msgstr "Serverio nustatymas"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:112
 msgid "Server _Type: "
 msgstr "Serverio _tipas:"
 
-#: mail/mail-config.glade.h:116
-#, fuzzy
-msgid "Shortcuts _type:"
-msgstr "Trumpës"
-
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:113
 #, fuzzy
 msgid "Specify _filename:"
 msgstr "Stiliaus vardas:"
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:114
 msgid "Spell _Checking"
 msgstr ""
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:115
 msgid "Standard Unix mbox"
 msgstr "Standartinë Unix mbox"
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:116
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
 
-#: mail/mail-config.glade.h:123
+#: mail/mail-config.glade.h:119
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 
-#: mail/mail-config.glade.h:125
+#: mail/mail-config.glade.h:121
 #, fuzzy
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
@@ -13284,12 +13285,12 @@ msgstr ""
 "Pasirink pavadinimà, kuriuo norëtum vadinti ðiuos serverius. Pavyzdþiui, "
 "¥Namai´ ar ¥Darbas´."
 
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:124
 #, fuzzy
 msgid "V_ariable-width:"
 msgstr "Kintamos krypties"
 
-#: mail/mail-config.glade.h:129
+#: mail/mail-config.glade.h:125
 #, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
@@ -13300,190 +13301,185 @@ msgstr ""
 "\n"
 "Spausk ¥Pirmyn´, kad pradëtum."
 
-#: mail/mail-config.glade.h:134
-#, fuzzy
-msgid "XEmacs"
-msgstr "Rytø"
-
-#: mail/mail-config.glade.h:135
+#: mail/mail-config.glade.h:130
 #, fuzzy
 msgid "_Add Signature"
 msgstr "_HTML paraðas:"
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:131
 msgid "_Always load images off the net"
 msgstr "Vis_ada ákelti paveikslëlius ið tinklo"
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:132
 msgid "_Always sign outgoing messages when using this account"
 msgstr "Visad_a pasiraðyti siunèiamus laiðkus, kai naudojama ði sàskaita"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:133
 msgid "_Authentication Type: "
 msgstr "_Autentikacijos tipas: "
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:134
 #, fuzzy
 msgid "_Authentication type: "
 msgstr "_Autentikacijos tipas: "
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:135
 #, fuzzy
 msgid "_Automatically check for new mail every"
 msgstr "_Automatiðkai tikrinti paðtà kas"
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:136
 #, fuzzy
 msgid "_Automatically insert smiley images"
 msgstr "_Automatiðkai tikrinti paðtà kas"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:137
 msgid "_Beep when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:138
 msgid "_Certificate ID:"
 msgstr ""
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:139
 #, fuzzy
 msgid "_Confirm when expunging a folder"
 msgstr "Patvirtinti aplankø iðvalymà"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:140
 #, fuzzy
 msgid "_Default signature:"
 msgstr "_HTML paraðas:"
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:141
 #, fuzzy
 msgid "_Defaults"
 msgstr "Áp_rastas"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:142
 msgid "_Do not notify me when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:144
 #, fuzzy
 msgid "_Enable"
 msgstr "Ájungti"
 
-#: mail/mail-config.glade.h:150
+#: mail/mail-config.glade.h:145
 #, fuzzy
 msgid "_Forward style:"
 msgstr "Persiøsti kaip"
 
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:146
 #, fuzzy
 msgid "_Full name:"
 msgstr "_Pilnas vardas:"
 
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:148
 #, fuzzy
 msgid "_HTML Mail"
 msgstr "HTML laiðkuose"
 
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:150
 #, fuzzy
 msgid "_Identity"
 msgstr "Asmenybë"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:151
 msgid "_Load images if sender is in addressbook"
 msgstr "Áke_lti paveikslëlius, jei siuntëjas yra adresø knygelëje"
 
-#: mail/mail-config.glade.h:157
+#: mail/mail-config.glade.h:152
 #, fuzzy
 msgid "_Make this my default account"
 msgstr "Pa_daryti ðià sàskaità áprastine"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:153
 #, fuzzy
 msgid "_Mark messages as read after"
 msgstr "_Paþymëti laiðkus skaitytais po"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:154 my-evolution/e-summary-preferences.c:575
 msgid "_Name:"
 msgstr "_Vardas:"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:155
 msgid "_Never load images off the net"
 msgstr "_Niekada neákelti paveikslëliø ið tinklo"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:157
 msgid "_Play sound file when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:158
 #, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "Paklausti, kai siunèiamas HTML laiðkas kontaktams, kurie jø nenori"
 
-#: mail/mail-config.glade.h:164
+#: mail/mail-config.glade.h:159
 #, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Paklausti prieð siunèiant laiðkus su _tuðèia tema"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:160
 #, fuzzy
 msgid "_Receiving Mail"
 msgstr "Paðto gavimas"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:161
 #, fuzzy
 msgid "_Reply style:"
 msgstr "Atsakyti visiems"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:162
 msgid "_Restore defaults"
 msgstr ""
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:163
 #, fuzzy
 msgid "_Script:"
 msgstr "_Saugumas"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:164
 #, fuzzy
 msgid "_Sending Mail"
 msgstr "Paðto siuntimas"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:165
 #, fuzzy
 msgid "_Show animated images"
 msgstr "Rodyti laikà kaip"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:166
 #, fuzzy
 msgid "_Signatures"
 msgstr "_HTML paraðas:"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:167
 #, fuzzy
 msgid "_Standard Font:"
 msgstr "San Marinas"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:168
 #, fuzzy
 msgid "_Terminal Font:"
 msgstr "Originalus kontaktas:"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:169
 #, fuzzy
 msgid "_Use secure connection (SSL):"
 msgstr "Naudoti s_augià jungtá (SSL)"
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:170
 msgid "_Use the same fonts as other applications"
 msgstr ""
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:171
 #, fuzzy
 msgid "color"
 msgstr " spalva"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:172
 msgid "description"
 msgstr "apraðymas"
 
@@ -13509,7 +13505,7 @@ msgstr "Negalëjau sukurti raðyklës lango."
 msgid "Could not create a S/MIME decode context."
 msgstr "Negalëjau sukurti raðyklës lango."
 
-#: mail/mail-display.c:193
+#: mail/mail-display.c:197
 #, fuzzy, c-format
 msgid ""
 "File `%s' already exists.\n"
@@ -13518,74 +13514,74 @@ msgstr ""
 "Byla tokiu vardu jau yra.\n"
 "Uþraðyti jà?"
 
-#: mail/mail-display.c:333
+#: mail/mail-display.c:336
 msgid "Save Attachment"
 msgstr "Iðsaugoti priedà"
 
-#: mail/mail-display.c:406
+#: mail/mail-display.c:409
 #, fuzzy, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Negalëjau sukurti laikino katalogo: %s"
 
-#: mail/mail-display.c:454
+#: mail/mail-display.c:457
 #, fuzzy
 msgid "Save Attachment..."
 msgstr "Iðsaugoti priedà"
 
-#: mail/mail-display.c:455
+#: mail/mail-display.c:458
 msgid "View Inline"
 msgstr "Þiûrëti viduje"
 
-#: mail/mail-display.c:456
+#: mail/mail-display.c:459
 #, c-format
 msgid "Open in %s..."
 msgstr "Atidaryti su %s..."
 
-#: mail/mail-display.c:512
+#: mail/mail-display.c:515
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Þiûrëti viduje (per %s)"
 
-#: mail/mail-display.c:516
+#: mail/mail-display.c:519
 msgid "Hide"
 msgstr "Slëpti"
 
-#: mail/mail-display.c:536
+#: mail/mail-display.c:539
 msgid "External Viewer"
 msgstr "Iðorinë þiûryklë"
 
-#: mail/mail-display.c:1365
+#: mail/mail-display.c:1368
 #, fuzzy
 msgid "Downloading images"
 msgstr "Ákelt_i paveikslëlius"
 
-#: mail/mail-display.c:1542
+#: mail/mail-display.c:1545
 msgid "Loading message content"
 msgstr "Ákeliamas laiðko turinys"
 
-#: mail/mail-display.c:1879
+#: mail/mail-display.c:1887
 #, fuzzy
 msgid "Overdue:"
 msgstr "_Vëluojamos uþduotys:"
 
-#: mail/mail-display.c:1883
+#: mail/mail-display.c:1891
 #, fuzzy
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "%b %d %H:%M"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2256
 msgid "Open Link in Browser"
 msgstr "Nuorodà atidaryti narðyklëje"
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2257
 msgid "Copy Link Location"
 msgstr "Kopijuoti nuorodos adresà"
 
-#: mail/mail-display.c:2243
+#: mail/mail-display.c:2259
 msgid "Save Link as (FIXME)"
 msgstr "Iðsaugoti nuorodà kaip (FIXME)"
 
-#: mail/mail-display.c:2245
+#: mail/mail-display.c:2261
 msgid "Save Image as..."
 msgstr "Iðsaugoti paveikslëlá kaip..."
 
@@ -13718,12 +13714,12 @@ msgstr ""
 "Negalëjau iðtrinti aplanko:\n"
 "%s"
 
-#: mail/mail-local.c:1329
+#: mail/mail-local.c:1319
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Keièiamas aplanko ¥%s´ formatas á ¥%s´"
 
-#: mail/mail-local.c:1354
+#: mail/mail-local.c:1344
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -13731,12 +13727,12 @@ msgstr ""
 "Jei tu nebegali daugiau atidaryti ðios paðto\n"
 "dëþutës, tau teks sutaisyti jà rankutëmis."
 
-#: mail/mail-local.c:1454
+#: mail/mail-local.c:1444
 #, fuzzy, c-format
 msgid "Reconfigure /%s"
 msgstr "Vël konfigûruoti %s"
 
-#: mail/mail-local.c:1518
+#: mail/mail-local.c:1508
 msgid "You cannot change the format of a non-local folder."
 msgstr "Tu negali pakeisti nevietinio aplanko formato."
 
@@ -13789,7 +13785,7 @@ msgstr "Siunèiamas laiðkas %d ið %d"
 msgid "Failed on message %d of %d"
 msgstr "Nesëkmë ties laiðku %d ið %d"
 
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:577
+#: mail/mail-ops.c:750 mail/mail-send-recv.c:580
 msgid "Complete."
 msgstr "Uþbaigta."
 
@@ -13840,26 +13836,37 @@ msgstr "Áraðomas aplankas '%s'"
 msgid "Refreshing folder"
 msgstr "Atnaujinamas aplankas"
 
-#: mail/mail-ops.c:1594
+#: mail/mail-ops.c:1594 mail/mail-ops.c:1645
 msgid "Expunging folder"
 msgstr "Iðvalomas aplankas"
 
-#: mail/mail-ops.c:1643
+#: mail/mail-ops.c:1642
+#, fuzzy, c-format
+msgid "Emptying trash in '%s'"
+msgstr "Importuojama %s kaip %s"
+
+#: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:480
+#: shell/e-local-storage.c:1151
+#, fuzzy
+msgid "Local Folders"
+msgstr "Ypatingi aplankai"
+
+#: mail/mail-ops.c:1718
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Gaunamas laiðkas %s"
 
-#: mail/mail-ops.c:1715
+#: mail/mail-ops.c:1790
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Gaunami %d laiðkai"
 
-#: mail/mail-ops.c:1801
+#: mail/mail-ops.c:1876
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Iðsaugomi %d laiðkai"
 
-#: mail/mail-ops.c:1849
+#: mail/mail-ops.c:1924
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13868,7 +13875,7 @@ msgstr ""
 "Negaliu sukurti iðvesties bylos: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1877
+#: mail/mail-ops.c:1952
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13877,11 +13884,11 @@ msgstr ""
 "Klaida iðsaugant laiðkus á: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1951
+#: mail/mail-ops.c:2026
 msgid "Saving attachment"
 msgstr "Iðsaugomas priedas"
 
-#: mail/mail-ops.c:1968
+#: mail/mail-ops.c:2043
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13890,90 +13897,90 @@ msgstr ""
 "Negaliu sukurti iðvesties bylos: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:2073
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Negalëjau áraðyti duomenø: %s"
 
-#: mail/mail-ops.c:2146
+#: mail/mail-ops.c:2221
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Atsijungiama nuo %s"
 
-#: mail/mail-ops.c:2146
+#: mail/mail-ops.c:2221
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Vël jungiamasi prie %s"
 
-#: mail/mail-search.c:150
+#: mail/mail-search.c:153
 msgid "(Untitled Message)"
 msgstr "(Laiðkas be temos)"
 
-#: mail/mail-search.c:232
+#: mail/mail-search.c:235
 msgid "Untitled Message"
 msgstr "Laiðkas be temos"
 
-#: mail/mail-search.c:234
+#: mail/mail-search.c:237
 msgid "Empty Message"
 msgstr "Tuðèias laiðkas"
 
-#: mail/mail-search.c:282
+#: mail/mail-search.c:285
 msgid "Find in Message"
 msgstr "Ieðkoti laiðke"
 
-#: mail/mail-search.c:285
+#: mail/mail-search.c:288
 msgid "Search"
 msgstr "Paieðka"
 
-#: mail/mail-search.c:313
+#: mail/mail-search.c:316
 msgid "Case Sensitive"
 msgstr "Skirti raidþiø dydá"
 
-#: mail/mail-search.c:315
+#: mail/mail-search.c:318
 msgid "Search Forward"
 msgstr "Ieðkoti pirmyn"
 
-#: mail/mail-search.c:335
+#: mail/mail-search.c:338
 msgid "Find:"
 msgstr "Rasti:"
 
-#: mail/mail-search.c:339
+#: mail/mail-search.c:342
 msgid "Matches:"
 msgstr "Tinka:"
 
-#: mail/mail-send-recv.c:143
+#: mail/mail-send-recv.c:146
 msgid "Cancelling..."
 msgstr "Nutraukiama..."
 
-#: mail/mail-send-recv.c:250
+#: mail/mail-send-recv.c:253
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Serveris: %s, tipas: %s"
 
-#: mail/mail-send-recv.c:252
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Kelias: %s, tipas: %s"
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Type: %s"
 msgstr "Tipas: %s"
 
-#: mail/mail-send-recv.c:302
+#: mail/mail-send-recv.c:305
 msgid "Send & Receive Mail"
 msgstr "Siunèiamas ir gaunamas paðtas"
 
-#: mail/mail-send-recv.c:303
+#: mail/mail-send-recv.c:306
 #, fuzzy
 msgid "Cancel _All"
 msgstr "Nutraukti visus"
 
-#: mail/mail-send-recv.c:385
+#: mail/mail-send-recv.c:388
 msgid "Updating..."
 msgstr "Atnaujinama..."
 
-#: mail/mail-send-recv.c:386 mail/mail-send-recv.c:442
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:445
 msgid "Waiting..."
 msgstr "Laukiama..."
 
@@ -13990,11 +13997,11 @@ msgstr "Ávesk %s slaptaþodá"
 msgid "Enter Password"
 msgstr "Ávesk slaptaþodá"
 
-#: mail/mail-session.c:282
+#: mail/mail-session.c:283
 msgid "_Remember this password"
 msgstr "_Prisiminti ðá slaptaþodá"
 
-#: mail/mail-session.c:283
+#: mail/mail-session.c:284
 #, fuzzy
 msgid "_Remember this password for the remainder of this session"
 msgstr "Prisiminti ðá slaptaþodá iki ðios sesijos galo"
@@ -14032,7 +14039,7 @@ msgstr "Pridëti sàlygà"
 msgid "Enter a name for this signature."
 msgstr "_HTML paraðas:"
 
-#: mail/mail-signature-editor.c:425 my-evolution/e-summary-preferences.c:577
+#: mail/mail-signature-editor.c:425
 msgid "Name:"
 msgstr "Vardas:"
 
@@ -14163,7 +14170,7 @@ msgstr "%b %d %H:%M"
 msgid "%b %d %Y"
 msgstr "%Y %b %d"
 
-#: mail/message-list.c:2617
+#: mail/message-list.c:2630
 msgid "Generating message list"
 msgstr "Generuojamas laiðkø sàraðas"
 
@@ -25170,14 +25177,9 @@ msgstr "%l:%M %d %B"
 msgid "No description"
 msgstr "apraðymas"
 
-#: my-evolution/e-summary-mail.c:188
+#: my-evolution/e-summary-mail.c:189
 msgid "Mail summary"
 msgstr "Paðto apþvalga"
-
-#: my-evolution/e-summary-mail.c:443 shell/e-local-storage.c:1151
-#, fuzzy
-msgid "Local Folders"
-msgstr "Ypatingi aplankai"
 
 #: my-evolution/e-summary-preferences.c:355
 msgid "Dictionary.com Word of the Day"
@@ -25188,18 +25190,20 @@ msgid "Quotes of the Day"
 msgstr "Dienos citatos"
 
 #: my-evolution/e-summary-preferences.c:565
-msgid "Add a news feed"
-msgstr "Pridëti naujienø ðaltiná"
+#, fuzzy
+msgid "New News Feed"
+msgstr "Naujienø ðaltinis"
 
-#: my-evolution/e-summary-preferences.c:573
-msgid "Enter the URL of the news feed you wish to add"
-msgstr "Ávesk URL naujienø ðaltinio, kurá nori pridëti"
+#: my-evolution/e-summary-preferences.c:581
+#, fuzzy
+msgid "_URL:"
+msgstr "URL:"
 
-#: my-evolution/e-summary-rdf.c:305
+#: my-evolution/e-summary-rdf.c:315
 msgid "Error downloading RDF"
 msgstr "Klaida parsiunèiant RDF"
 
-#: my-evolution/e-summary-rdf.c:443
+#: my-evolution/e-summary-rdf.c:453
 msgid "News Feed"
 msgstr "Naujienø ðaltinis"
 
@@ -25229,7 +25233,7 @@ msgstr "Mano orai"
 msgid "There was an error downloading data for"
 msgstr "Ávyko klaida parsiunèiant naujienø ðaltiná"
 
-#: my-evolution/e-summary-weather.c:479
+#: my-evolution/e-summary-weather.c:479 my-evolution/my-evolution.glade.h:16
 msgid "Weather"
 msgstr "Orai"
 
@@ -25241,20 +25245,20 @@ msgstr "Orai"
 msgid "KBOS"
 msgstr ""
 
-#: my-evolution/e-summary.c:198
+#: my-evolution/e-summary.c:204
 msgid "%A, %B %e %Y"
 msgstr "%A, %Y m. %B %e"
 
-#: my-evolution/e-summary.c:523
+#: my-evolution/e-summary.c:531
 #, fuzzy
 msgid "Please wait..."
 msgstr "Praðome palaukti"
 
-#: my-evolution/e-summary.c:589 ui/my-evolution.xml.h:2
+#: my-evolution/e-summary.c:620 ui/my-evolution.xml.h:2
 msgid "Print Summary"
 msgstr "Spausdinti apþvalgà"
 
-#: my-evolution/e-summary.c:623
+#: my-evolution/e-summary.c:655
 msgid "Printing of Summary failed"
 msgstr "Nepavyko atspausdinti apþvalgos"
 
@@ -26439,64 +26443,57 @@ msgid "Drifting dust whirls"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
-msgid "Add n_ews feed"
-msgstr "Pridëti nauji_enø ðaltiná"
-
-#: my-evolution/my-evolution.glade.h:2
 #, fuzzy
 msgid "C_elsius"
 msgstr "C_elsijaus"
 
-#: my-evolution/my-evolution.glade.h:4
-#, fuzzy
-msgid "Delete news feed"
-msgstr "_Visi naujienø ðaltiniai:"
-
-#: my-evolution/my-evolution.glade.h:5
+#: my-evolution/my-evolution.glade.h:3
 msgid "How many days should the calendar display at once?"
 msgstr "Kiek dienø kalendorius turëtø rodyti iðkart?"
 
-#: my-evolution/my-evolution.glade.h:6
-msgid "Ma_x number of items shown:"
-msgstr "Ma_ksimalus rodomø elementø skaièius:"
-
-#: my-evolution/my-evolution.glade.h:7
+#: my-evolution/my-evolution.glade.h:5
 msgid "News Feed Settings"
 msgstr "Naujienø ðaltiniø nuostatos"
 
-#: my-evolution/my-evolution.glade.h:8
+#: my-evolution/my-evolution.glade.h:6
+#, fuzzy
+msgid "News Feeds"
+msgstr "_Naujienø ðaltiniai"
+
+#: my-evolution/my-evolution.glade.h:7
 msgid "One mont_h"
 msgstr "Vienas _mënuo"
 
-#: my-evolution/my-evolution.glade.h:9
+#: my-evolution/my-evolution.glade.h:8
 msgid "One w_eek"
 msgstr "Viena _savaitë"
 
-#: my-evolution/my-evolution.glade.h:10
+#: my-evolution/my-evolution.glade.h:9
 msgid "R_efresh time (seconds):"
 msgstr "_Atnaujinimo laikas (sekundëmis):"
 
-#: my-evolution/my-evolution.glade.h:11
+#: my-evolution/my-evolution.glade.h:10
 msgid "Refresh _time (seconds):"
 msgstr "Atnaujinimo _laikas (sekundëmis):"
 
-#: my-evolution/my-evolution.glade.h:12
-msgid "S_how full path for folders"
-msgstr "_Rodyti pilnà aplankø kelià"
+#: my-evolution/my-evolution.glade.h:11
+#, fuzzy
+msgid "Schedule"
+msgstr "_Dienotvarkë"
 
-#: my-evolution/my-evolution.glade.h:13
+#: my-evolution/my-evolution.glade.h:12
 msgid "Show _all tasks"
 msgstr "Rodyti _visas uþduotis"
 
-#: my-evolution/my-evolution.glade.h:14
+#: my-evolution/my-evolution.glade.h:13
 msgid "Show _today's tasks"
 msgstr "Rodyti ðian_dienos uþduotis"
 
-#: my-evolution/my-evolution.glade.h:15
+#: my-evolution/my-evolution.glade.h:14
 msgid "Show temperatures in:"
 msgstr "Rodyti temperatûras laipsniais:"
 
-#: my-evolution/my-evolution.glade.h:16
+#: my-evolution/my-evolution.glade.h:15
 msgid "Tasks "
 msgstr "Uþduotys "
 
@@ -26506,32 +26503,36 @@ msgid "Weather Settings"
 msgstr "Orø nuostatos"
 
 #: my-evolution/my-evolution.glade.h:18
+#, fuzzy
+msgid "_Delete Feed"
+msgstr "Iðtrintas"
+
+#: my-evolution/my-evolution.glade.h:19
 msgid "_Fahrenheit"
 msgstr "_Farenheito"
 
-#: my-evolution/my-evolution.glade.h:19
+#: my-evolution/my-evolution.glade.h:20
 msgid "_Five days"
 msgstr "_Penkias dienas"
 
-#: my-evolution/my-evolution.glade.h:20
-msgid "_Mail"
-msgstr "_Paðtas"
-
 #: my-evolution/my-evolution.glade.h:21
-msgid "_News Feeds"
-msgstr "_Naujienø ðaltiniai"
+#, fuzzy
+msgid "_Max number of items shown:"
+msgstr "Ma_ksimalus rodomø elementø skaièius:"
 
 #: my-evolution/my-evolution.glade.h:22
+#, fuzzy
+msgid "_New Feed"
+msgstr "_Naujienø ðaltiniai"
+
+#: my-evolution/my-evolution.glade.h:23
 msgid "_One day"
 msgstr "_Vienà dienà"
 
-#: my-evolution/my-evolution.glade.h:23
-msgid "_Schedule"
-msgstr "_Dienotvarkë"
-
 #: my-evolution/my-evolution.glade.h:24
-msgid "_Weather"
-msgstr "_Orai"
+#, fuzzy
+msgid "_Show full path for folders"
+msgstr "_Rodyti pilnà aplankø kelià"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Configure special folders and offline folder behavior here"
@@ -26584,8 +26585,8 @@ msgstr "Pridëti vAplanko taisyklæ"
 msgid "Drafts"
 msgstr "Juodraðtis"
 
-#: shell/e-local-storage.c:180 shell/e-shell-view.c:486
-#: shell/e-shell-view.c:490 shell/e-shortcuts.c:1084
+#: shell/e-local-storage.c:180 shell/e-shell-view.c:481
+#: shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "Gauti laiðkai"
 
@@ -26644,7 +26645,7 @@ msgstr ""
 "Evolution katalogas. Praðau, perkelk já, kad \n"
 "galëèiau ádiegti Evolution vartotojo bylas."
 
-#: shell/e-shell-about-box.c:43
+#: shell/e-shell-about-box.c:45
 msgid "Brought to you by"
 msgstr ""
 
@@ -26756,7 +26757,7 @@ msgid "Rename Folder"
 msgstr "Pervadinti aplankà"
 
 #: shell/e-shell-folder-commands.c:553
-#: shell/e-shell-folder-creation-dialog.c:170
+#: shell/e-shell-folder-creation-dialog.c:180
 #, c-format
 msgid "The specified folder name is not valid: %s"
 msgstr "Nurodytas aplanko vardas yra negalimas: %s"
@@ -26774,7 +26775,7 @@ msgstr ""
 "Negalëjau pervadinti aplanko:\n"
 "%s"
 
-#: shell/e-shell-folder-creation-dialog.c:127
+#: shell/e-shell-folder-creation-dialog.c:137
 #, c-format
 msgid ""
 "Cannot create the specified folder:\n"
@@ -26783,7 +26784,7 @@ msgstr ""
 "Negaliu sukurti nurodyto aplanko:\n"
 "%s"
 
-#: shell/e-shell-folder-creation-dialog.c:308
+#: shell/e-shell-folder-creation-dialog.c:318
 #, fuzzy
 msgid "Create New Folder"
 msgstr "Sukurti _naujà aplankà..."
@@ -26970,27 +26971,27 @@ msgstr "Evolution"
 msgid "Please select a user."
 msgstr "Praðom pasirinkti serverá."
 
-#: shell/e-shell-shared-folder-picker-dialog.c:374
+#: shell/e-shell-shared-folder-picker-dialog.c:387
 #, fuzzy
 msgid "Opening Folder"
 msgstr "Atidaromas aplankas %s"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:380
+#: shell/e-shell-shared-folder-picker-dialog.c:393
 #, fuzzy, c-format
 msgid "Opening Folder \"%s\""
 msgstr "Atidaromas aplankas %s"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:385
+#: shell/e-shell-shared-folder-picker-dialog.c:398
 #, fuzzy, c-format
 msgid "in \"%s\" ..."
 msgstr "Atidaryti su %s..."
 
-#: shell/e-shell-shared-folder-picker-dialog.c:465
+#: shell/e-shell-shared-folder-picker-dialog.c:482
 #, fuzzy, c-format
 msgid "Could not open shared folder: %s."
 msgstr "Negalëjau pervadinti aplanko: %s"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:518
+#: shell/e-shell-shared-folder-picker-dialog.c:535
 #, fuzzy
 msgid "Cannot find the specified shared folder."
 msgstr ""
@@ -26998,7 +26999,7 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-user-creatable-items-handler.c:586
-#: shell/e-shell-user-creatable-items-handler.c:640
+#: shell/e-shell-user-creatable-items-handler.c:642
 #: widgets/misc/e-charset-picker.c:106
 msgid "New"
 msgstr "Nauja"
@@ -27077,31 +27078,31 @@ msgstr "_Dirbti atsijungus"
 msgid "Work Offline"
 msgstr "Dirbti atsijungus"
 
-#: shell/e-shell-view.c:262
+#: shell/e-shell-view.c:264
 msgid "(No folder displayed)"
 msgstr "(Joks aplankas nerodomas)"
 
-#: shell/e-shell-view.c:2045
+#: shell/e-shell-view.c:2040
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: shell/e-shell-view.c:2047
+#: shell/e-shell-view.c:2042
 msgid "(None)"
 msgstr "(Jokio)"
 
-#: shell/e-shell-view.c:2091
+#: shell/e-shell-view.c:2083
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution dabar yra prisijungusi.  Paspausk ðá mygtukà, kad dirbtum "
 "atsijungus."
 
-#: shell/e-shell-view.c:2098
+#: shell/e-shell-view.c:2090
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution dabar yra atsijungimo procese."
 
-#: shell/e-shell-view.c:2104
+#: shell/e-shell-view.c:2096
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
@@ -27125,7 +27126,7 @@ msgstr ""
 msgid "Cannot set up local storage -- %s"
 msgstr ""
 
-#: shell/e-shell.c:1802
+#: shell/e-shell.c:1804
 #, c-format
 msgid ""
 "The Evolution component that handles folders of type \"%s\"\n"
@@ -27133,19 +27134,19 @@ msgid ""
 "in order to access that data again."
 msgstr ""
 
-#: shell/e-shell.c:2067
+#: shell/e-shell.c:2069
 msgid "Invalid arguments"
 msgstr "Blogi argumentai"
 
-#: shell/e-shell.c:2069
+#: shell/e-shell.c:2071
 msgid "Cannot register on OAF"
 msgstr "Negaliu uþsiregistruoti OAF"
 
-#: shell/e-shell.c:2071
+#: shell/e-shell.c:2073
 msgid "Configuration Database not found"
 msgstr "Konfigûracijos duombazë nerasta"
 
-#: shell/e-shell.c:2073 shell/e-storage.c:568
+#: shell/e-shell.c:2075 shell/e-storage.c:568
 msgid "Generic error"
 msgstr "Bendroji klaida"
 
@@ -27612,7 +27613,7 @@ msgstr "Kità kartà nebeklausti"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution gali importuoti duomenis ið þemiau nurodytø bylø:"
 
-#: shell/main.c:112 shell/main.c:564
+#: shell/main.c:112 shell/main.c:574
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -27621,7 +27622,7 @@ msgid "Evolution is now exiting ..."
 msgstr "Evolution baigia darbà..."
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:266
+#: shell/main.c:274
 #, fuzzy, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -27658,7 +27659,7 @@ msgstr ""
 "Mes tikimës, kad tau patiks mûsø sunkaus darbo vaisiai, ir\n"
 "laukiame tavo prisidëjimo!\n"
 
-#: shell/main.c:290
+#: shell/main.c:298
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -27666,48 +27667,44 @@ msgstr ""
 "Aèiû\n"
 "Ximian Evolution komanda\n"
 
-#: shell/main.c:298
+#: shell/main.c:306
 #, fuzzy
 msgid "Don't tell me again"
 msgstr "Kità kartà nebeklausti"
 
-#: shell/main.c:387
+#: shell/main.c:401
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Negalëjau prieiti prie Ximian Evolution apvalkalo."
 
-#: shell/main.c:396
+#: shell/main.c:410
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Negalëjau inicializuoti Ximian Evolution apvalkalo: %s"
 
-#: shell/main.c:528
+#: shell/main.c:542
 #, fuzzy
 msgid "Disable splash screen"
 msgstr "Uþdrausti "
 
-#: shell/main.c:530
+#: shell/main.c:544
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "Pradedama importuoti"
 
-#: shell/main.c:532
+#: shell/main.c:546
 #, fuzzy
 msgid "Start in online mode"
 msgstr "Paleidþiami inteligentiðki importeriai"
 
-#: shell/main.c:535
+#: shell/main.c:549
 msgid "Forcibly shut down all evolution components"
 msgstr ""
 
-#: shell/main.c:538
+#: shell/main.c:552
 msgid "Send the debugging output of all components to a file."
 msgstr "Siøsti visø komponentø derinimo iðvestá á bylà."
 
-#: shell/main.c:541
-msgid "Force upgrading of configuration files from Evolution 1.0.x"
-msgstr ""
-
-#: shell/main.c:568
+#: shell/main.c:578
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -29333,13 +29330,9 @@ msgstr "_Uþduotis"
 msgid "UTC"
 msgstr ""
 
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "Select a Time Zone"
 msgstr "Pasirink laiko juostà"
-
-#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
-msgid "Selection:"
-msgstr "Pasirinkimas:"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "Time Zones"
@@ -29349,25 +29342,30 @@ msgstr "Laiko juostos"
 msgid ""
 "Use the left mouse button to zoom in on an area of the map and select a time "
 "zone.\n"
-" Use the right mouse button to zoom out."
+"Use the right mouse button to zoom out."
 msgstr ""
 
-#: widgets/menus/gal-view-menus.c:287
+#: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
+#, fuzzy
+msgid "_Selection:"
+msgstr "Pasirinkimas:"
+
+#: widgets/menus/gal-view-menus.c:290
 msgid "_Current View"
 msgstr "_Esamas vaizdas"
 
 #. bonobo displays this string so it must be in locale
-#: widgets/menus/gal-view-menus.c:346
+#: widgets/menus/gal-view-menus.c:349
 #, fuzzy
 msgid "Custom View"
 msgstr "Prisitaikyti"
 
-#: widgets/menus/gal-view-menus.c:355
+#: widgets/menus/gal-view-menus.c:358
 #, fuzzy
 msgid "Save Custom View..."
 msgstr "Prisitaikyti"
 
-#: widgets/menus/gal-view-menus.c:368
+#: widgets/menus/gal-view-menus.c:371
 #, fuzzy
 msgid "Define Views..."
 msgstr "Apibrëþti vaizdus"
@@ -29383,11 +29381,11 @@ msgstr "PATKPÐS"
 msgid "%B %Y"
 msgstr "%Y %B"
 
-#: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:429
+#: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:427
 msgid "Now"
 msgstr "Dabar"
 
-#: widgets/misc/e-cell-date-edit.c:249 widgets/misc/e-dateedit.c:435
+#: widgets/misc/e-cell-date-edit.c:249 widgets/misc/e-dateedit.c:433
 msgid "Today"
 msgstr "Dabar"
 
@@ -29466,17 +29464,17 @@ msgstr "Iðjungti"
 msgid "Unknown character set: %s"
 msgstr "Neþinoma koduotë: %s"
 
-#: widgets/misc/e-charset-picker.c:228
+#: widgets/misc/e-charset-picker.c:230 widgets/misc/e-charset-picker.c:459
+msgid "Character Encoding"
+msgstr "Koduotë"
+
+#: widgets/misc/e-charset-picker.c:239
 msgid "Enter the character set to use"
 msgstr "Ávesk, kokià koduotæ naudoti"
 
-#: widgets/misc/e-charset-picker.c:303
+#: widgets/misc/e-charset-picker.c:335
 msgid "Other..."
 msgstr "Kita..."
-
-#: widgets/misc/e-charset-picker.c:423
-msgid "Character Encoding"
-msgstr "Koduotë"
 
 #: widgets/misc/e-clipped-label.c:111
 msgid "..."
@@ -29572,6 +29570,75 @@ msgstr "Evolution paðto komponento."
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution adresø knygelës maþø korteliø vaizduoklë"
+
+#~ msgid "De_lete"
+#~ msgstr "Paða_linti"
+
+#~ msgid "Email Address:"
+#~ msgstr "El. paðto adresas:"
+
+#~ msgid "E-mail"
+#~ msgstr "El. paðtas"
+
+#~ msgid "Check Full Name"
+#~ msgstr "Tikrinti pilnà vardà"
+
+#~ msgid "Add Anyway"
+#~ msgstr "Vis tiek pridëti"
+
+#~ msgid "Change Anyway"
+#~ msgstr "Pakeisti vis tiek"
+
+#, fuzzy
+#~ msgid "Configure the fonts used by Evolution here"
+#~ msgstr "Evolution paðto komponento gamykla."
+
+#, fuzzy
+#~ msgid "Evolution Mail font configuration control"
+#~ msgstr "Evolution paðto nustatymas"
+
+#, fuzzy
+#~ msgid "Font Preferences"
+#~ msgstr "Kalendoriaus nuostatos"
+
+#, fuzzy
+#~ msgid "Automatically _detect links"
+#~ msgstr "_Automatiðkai tikrinti paðtà kas"
+
+#, fuzzy
+#~ msgid "Emacs"
+#~ msgstr "Rytø"
+
+#, fuzzy
+#~ msgid "Microsoft"
+#~ msgstr "Mikronezija"
+
+#, fuzzy
+#~ msgid "Shortcuts _type:"
+#~ msgstr "Trumpës"
+
+#, fuzzy
+#~ msgid "XEmacs"
+#~ msgstr "Rytø"
+
+#~ msgid "Add a news feed"
+#~ msgstr "Pridëti naujienø ðaltiná"
+
+#~ msgid "Enter the URL of the news feed you wish to add"
+#~ msgstr "Ávesk URL naujienø ðaltinio, kurá nori pridëti"
+
+#~ msgid "Add n_ews feed"
+#~ msgstr "Pridëti nauji_enø ðaltiná"
+
+#, fuzzy
+#~ msgid "Delete news feed"
+#~ msgstr "_Visi naujienø ðaltiniai:"
+
+#~ msgid "_Mail"
+#~ msgstr "_Paðtas"
+
+#~ msgid "_Weather"
+#~ msgstr "_Orai"
 
 #~ msgid "Check Address"
 #~ msgstr "Patikrinti adresà"
@@ -30592,13 +30659,6 @@ msgstr "Evolution adresø knygelës maþø korteliø vaizduoklë"
 
 #~ msgid ""
 #~ "\n"
-#~ "E-mail:"
-#~ msgstr ""
-#~ "\n"
-#~ "El. paðtas:"
-
-#~ msgid ""
-#~ "\n"
 #~ "Time Zone: "
 #~ msgstr ""
 #~ "\n"
@@ -30697,20 +30757,8 @@ msgstr "Evolution adresø knygelës maþø korteliø vaizduoklë"
 #~ msgid "_Message Recipients:"
 #~ msgstr "_Laiðko gavëjai:"
 
-#~ msgid "B_usiness"
-#~ msgstr "_Darbo"
-
 #~ msgid "Business _Fax"
 #~ msgstr "Darbo _faksas"
-
-#~ msgid "_Business"
-#~ msgstr "_Darbo"
-
-#~ msgid "_Home"
-#~ msgstr "_Namø"
-
-#~ msgid "_Mobile"
-#~ msgstr "_Mobilus"
 
 #~ msgid "Republic Of Moldova"
 #~ msgstr "Moldovos respublika"
