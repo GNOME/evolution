@@ -34,6 +34,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <gnome.h>
+#include <gal/widgets/e-unicode.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include "e-timezone-entry.h"
 
@@ -77,7 +78,8 @@ static void on_entry_changed		(GtkEntry	*entry,
 static void on_button_clicked		(GtkWidget	*widget,
 					 ETimezoneEntry	*tentry);
 
-static char* e_timezone_entry_get_display_name	(icaltimezone	*zone);
+static char* e_timezone_entry_get_display_name	(ETimezoneEntry *tentry,
+						 icaltimezone	*zone);
 
 static void e_timezone_entry_set_entry_visibility (ETimezoneEntry *tentry);
 
@@ -287,9 +289,7 @@ e_timezone_entry_get_timezone		(ETimezoneEntry	*tentry)
 	   builtin timezone or 'local time' (i.e. no timezone). */
 	display_name = gtk_entry_get_text (GTK_ENTRY (priv->entry));
 
-	if (display_name && display_name[0])
-		return icaltimezone_get_builtin_timezone (display_name);
-	return NULL;
+	return e_timezone_dialog_get_builtin_timezone (display_name);
 }
 
 
@@ -298,6 +298,7 @@ e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
 					 icaltimezone	*zone)
 {
 	ETimezoneEntryPrivate *priv;
+	gchar *display_name;
 
 	g_return_if_fail (E_IS_TIMEZONE_ENTRY (tentry));
 
@@ -306,20 +307,41 @@ e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
 	priv->zone = zone;
 	priv->changed = FALSE;
 
+	display_name = e_timezone_entry_get_display_name (tentry, zone);
 	gtk_entry_set_text (GTK_ENTRY (priv->entry),
-			    zone ? e_timezone_entry_get_display_name (zone) : "");
+			    display_name ? display_name : "");
+	g_free (display_name);
 
 	e_timezone_entry_set_entry_visibility (tentry);
 }
 
 
-/* Returns the timezone name to display to the user. . We prefer to use the
-   Olson city name, but fall back on the TZNAME, or finally the TZID. We don't
-   want to use "" as it may be wrongly interpreted as a 'local time'. */
+/* Returns the timezone name to display to the user, in the locale's encoding.
+   We prefer to use the Olson city name, but fall back on the TZNAME, or
+   finally the TZID. We don't want to use "" as it may be wrongly interpreted
+   as a 'local time'. If zone is NULL, NULL is returned. The returned string
+   should be freed. */
 static char*
-e_timezone_entry_get_display_name	(icaltimezone	*zone)
+e_timezone_entry_get_display_name	(ETimezoneEntry *tentry,
+					 icaltimezone	*zone)
 {
-	return icaltimezone_get_display_name (zone);
+	char *display_name;
+
+	if (!zone)
+		return NULL;
+
+	/* Get the UTF-8 display name from the icaltimezone. */
+	display_name = icaltimezone_get_display_name (zone);
+
+	/* We check if it is one of our builtin timezone names, in which case
+	   we call gettext to translate it. If it isn't a builtin timezone
+	   name, we need to convert it to the GTK+ encoding. */
+	if (icaltimezone_get_builtin_timezone (display_name)) {
+		return g_strdup (_(display_name));
+	} else {
+		return e_utf8_to_gtk_string (GTK_WIDGET (tentry),
+					     display_name);
+	}
 }
 
 

@@ -967,11 +967,15 @@ on_timezone_set			(GnomeDialog	*dialog,
 				 ETimezoneDialog *etd)
 {
 	char *display_name;
+	icaltimezone *zone;
 
 	e_timezone_dialog_get_timezone (etd, &display_name);
 
-	if (display_name && display_name[0]) {
-		calendar_config_set_timezone (display_name);
+	/* We know it can only be a builtin timezone, since there is no way
+	   to set it to anything else. */
+	zone = e_timezone_dialog_get_builtin_timezone (display_name);
+	if (zone) {
+		calendar_config_set_timezone (icaltimezone_get_location (zone));
 
 		calendar_config_write ();
 		update_all_config_settings ();
