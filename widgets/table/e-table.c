@@ -2765,9 +2765,6 @@ do_drag_motion(ETable *et,
 
 	widget = GTK_WIDGET (et);
 
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
-
 	e_table_get_cell_at (et, x, y, &row, &col);
 
 	if (row != et->drop_row && col != et->drop_row) {
@@ -2906,9 +2903,6 @@ et_drag_motion(GtkWidget *widget,
 				  time);
 
 
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
-
 	if (y < 20)
 		direction |= ET_SCROLL_UP;
 	if (y > widget->allocation.height - 20)
@@ -2936,9 +2930,6 @@ et_drag_drop(GtkWidget *widget,
 {
 	gboolean ret_val;
 	int row, col;
-
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
@@ -2971,9 +2962,6 @@ et_drag_data_received(GtkWidget *widget,
 		      ETable *et)
 {
 	int row, col;
-
-	x -= widget->allocation.x;
-	y -= widget->allocation.y;
 
 	e_table_get_cell_at (et, x, y, &row, &col);
 
