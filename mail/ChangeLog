@@ -1,3 +1,8 @@
+2003-04-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (get_receive_type): pass an exception to
+	get_provider, to silence some warnings/get a valid result.
+
 2003-04-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Only add the
