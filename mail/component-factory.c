@@ -39,6 +39,7 @@
 #include "folder-browser.h"
 #include "mail.h"
 #include "mail-config.h"
+#include "mail-config-factory.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-offline-handler.h"

@@ -46,6 +46,7 @@
 #include "e-searching-tokenizer.h"
 #include "folder-browser-factory.h"
 #include "mail-stream-gtkhtml.h"
+#include "message-tag-followup.h"
 #include "folder-browser-window.h"
 #include "folder-browser.h"
 #include "mail-display.h"
@@ -1483,25 +1484,76 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 	g_datalist_clear (&data);
 }
 
+
+#define COLOR_IS_LIGHT(r, g, b)  ((r + g + b) > (128 * 3))
+
 void
 mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 {
 	GtkHTMLStream *stream;
-
+	char bgcolor[7], fontcolor[7];
+	GtkStyle *style = NULL;
+	
 	g_return_if_fail (IS_MAIL_DISPLAY (md));
 	g_return_if_fail (GTK_IS_HTML (html));
-
+	
 	stream = gtk_html_begin (html);
 	if (!reset_scroll) {
 		/* This is a hack until there's a clean way to do this. */
 		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
-
+	
 	mail_html_write (html, stream,
 			 "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n"
 			 "<html>\n"
 			 "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
 	mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
+	
+	if (md->followup) {
+		/* my favorite thing to do... muck around with colors so we respect people's stupid themes. */
+		style = gtk_widget_get_style (GTK_WIDGET (html));
+		if (style && !md->printing) {
+			int state = GTK_WIDGET_STATE (GTK_WIDGET (html));
+			gushort r, g, b;
+			
+			r = style->base[state].red / 256;
+			g = style->base[state].green / 256;
+			b = style->base[state].blue / 256;
+			
+			if (COLOR_IS_LIGHT (r, g, b)) {
+				r *= 0.92;
+				g *= 0.92;
+				b *= 0.92;
+			} else {
+				r = 255 - (0.92 * (255 - r));
+				g = 255 - (0.92 * (255 - g));
+				b = 255 - (0.92 * (255 - b));
+			}
+			
+			sprintf (bgcolor, "%.2X%.2X%.2X", r, g, b);
+			
+			r = style->text[state].red / 256;
+			g = style->text[state].green / 256;
+			b = style->text[state].blue / 256;
+			
+			sprintf (fontcolor, "%.2X%.2X%.2X", r, g, b);
+		} else {
+			strcpy (bgcolor, "EEEEEE");
+			strcpy (fontcolor, "000000");
+		}
+		
+		gtk_html_stream_printf (stream, "<font color=\"#%s\">"
+					"<table width=\"100%%\" cellspacing=0 cellpading=0><tr><td width=\"100%%\">"
+					"<table bgcolor=\"#000000\" width=\"100%%\" cellspacing=0 cellpadding=1>"
+					"<tr><td><table bgcolor=\"#%s\" width=\"100%%\" cellpadding=0 cellspacing=0>"
+					"<tr>\n", fontcolor, bgcolor);
+		
+		gtk_html_stream_printf (stream, "<td><img src=\"%s\"></td><td halign=left><b>%s</b></td>\n",
+					mail_display_get_url_for_icon (md, EVOLUTION_IMAGES "/flag-for-followup-16.png"),
+					message_tag_followup_i18n_name (md->followup->type));
+		
+		mail_html_write (html, stream, "</tr></table></tr></table></td></tr></table></font>");
+	}
 	
 	if (md->current_message) {
 		if (md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
@@ -1539,25 +1591,30 @@ mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
  * mail_display_set_message:
  * @mail_display: the mail display object
  * @medium: the input camel medium, or %NULL
+ * @followup: followup value
  *
  * Makes the mail_display object show the contents of the medium
  * param.
  **/
 void 
-mail_display_set_message (MailDisplay *md, CamelMedium *medium)
+mail_display_set_message (MailDisplay *md, CamelMedium *medium, const char *followup)
 {
 	/* For the moment, we deal only with CamelMimeMessage, but in
 	 * the future, we should be able to deal with any medium.
 	 */
 	if (medium && !CAMEL_IS_MIME_MESSAGE (medium))
 		return;
-
+	
 	/* Clean up from previous message. */
 	if (md->current_message)
 		camel_object_unref (CAMEL_OBJECT (md->current_message));
-
-	md->current_message = (CamelMimeMessage*)medium;
-
+	
+	g_free (md->followup);
+	
+	md->current_message = (CamelMimeMessage *) medium;
+	
+	md->followup = followup ? message_tag_followup_decode (followup) : NULL;
+	
 	g_datalist_init (md->data);
 	mail_display_redisplay (md, TRUE);
 	if (medium) {
@@ -1613,6 +1670,7 @@ mail_display_init (GtkObject *object)
 	mail_display->idle_id           = 0;
 	mail_display->selection         = NULL;
 	mail_display->charset           = NULL;
+	mail_display->followup          = NULL;
 	mail_display->current_message   = NULL;
 	mail_display->data              = NULL;
 	
@@ -1630,6 +1688,7 @@ mail_display_destroy (GtkObject *object)
 
 	g_free (mail_display->charset);
 	g_free (mail_display->selection);
+	g_free (mail_display->followup);
 	
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
@@ -2271,6 +2330,61 @@ mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "on_url",
 			    GTK_SIGNAL_FUNC (html_on_url), mail_display);
+}
+
+
+char *
+mail_display_add_url (MailDisplay *md, const char *kind, char *url, gpointer data)
+{
+	GHashTable *urls;
+	gpointer old_key, old_value;
+	
+	urls = g_datalist_get_data (md->data, kind);
+	g_return_val_if_fail (urls != NULL, NULL);
+	if (g_hash_table_lookup_extended (urls, url, &old_key, &old_value)) {
+		g_free (url);
+		url = old_key;
+	}
+	
+	g_hash_table_insert (urls, url, data);
+	
+	return url;
+}
+
+const char *
+mail_display_get_url_for_icon (MailDisplay *md, const char *icon_name)
+{
+	char *icon_path, buf[1024], *url;
+	int fd, nread;
+	GByteArray *ba;
+	
+	/* FIXME: cache */
+	
+	if (*icon_name == '/')
+		icon_path = g_strdup (icon_name);
+	else {
+		icon_path = gnome_pixmap_file (icon_name);
+		if (!icon_path)
+			return "file:///dev/null";
+	}
+	
+	fd = open (icon_path, O_RDONLY);
+	g_free (icon_path);
+	if (fd == -1)
+		return "file:///dev/null";
+	
+	ba = g_byte_array_new ();
+	while (1) {
+		nread = read (fd, buf, sizeof (buf));
+		if (nread < 1)
+			break;
+		g_byte_array_append (ba, buf, nread);
+	}
+	close (fd);
+	
+	url = g_strdup_printf ("x-evolution-data:%p", ba);
+	
+	return mail_display_add_url (md, "data_urls", url, ba);
 }
 
 

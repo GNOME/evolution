@@ -2649,7 +2649,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 			info = camel_folder_get_message_info (fb->folder, fb->loaded_uid);
 			
 			if (!info || info->flags & CAMEL_MESSAGE_DELETED)
-				mail_display_set_message (fb->mail_display, NULL);
+				mail_display_set_message (fb->mail_display, NULL, NULL);
 		}
 		
 		fb->expunging = fb->folder;
@@ -2906,11 +2906,14 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 	struct blarg_this_sucks *blarg = data;
 	FolderBrowser *fb = blarg->fb;
 	gboolean preview = blarg->preview;
+	const char *followup;
 	
 	g_free (blarg);
-
-	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
-
+	
+	followup = camel_folder_get_message_user_tag (folder, uid, "follow-up");
+	
+	mail_display_set_message (fb->mail_display, (CamelMedium *) msg, followup);
+	
 	g_free (fb->loaded_uid);
 	fb->loaded_uid = fb->loading_uid;
 	fb->loading_uid = NULL;
@@ -2941,7 +2944,7 @@ do_mail_fetch_and_print (FolderBrowser *fb, gboolean preview)
 				fb->loading_uid = g_strdup (fb->new_uid);
 				mail_get_message (fb->folder, fb->loading_uid, done_message_selected, blarg, mail_thread_new);
 			} else {
-				mail_display_set_message (fb->mail_display, NULL);
+				mail_display_set_message (fb->mail_display, NULL, NULL);
 				g_free (blarg);
 			}
 		}

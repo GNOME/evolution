@@ -1,3 +1,49 @@
+2002-04-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-tag-followup.c (construct): Set the window title/icon
+	here instead.
+
+	* message-tag-editor.c (message_tag_editor_init): Don't set the
+	title or window icon here, this is a generic class.
+
+	* mail-format.c (handle_multipart_signed): Replace
+	get_url_for_icon with the new mail_display_get_url_for_icon
+	function.
+	(handle_multipart_digest): Here too.
+	(get_cid): Use mail_display_add_url instead.
+	(get_location): Same.
+	(handle_text_enriched): Here too.
+	(handle_multipart_signed): And here.
+
+	* message-tag-followup.c (message_tag_followup_i18n_name): Use the
+	U_() macro, not the _() macro as it is what we really want.
+
+	* mail-ops.c (mail_send_message): Don't cast the message into a
+	CamelMedium before sending anymore.
+
+	* mail-callbacks.c (expunge_folder): Set the followup argument to
+	NULL here.
+	(done_message_selected): Get the followup value here and pass it
+	to the mail-display here.
+	(do_mail_fetch_and_print): Again with the NULL followup here.
+
+	* folder-browser.c (folder_browser_set_message_preview): Update to
+	pass in NULL as the followup since we are setting the message to
+	NULL here.
+	(done_message_selected): Get and set the appropriate followup
+	value here.
+	(do_message_selected): Update to pass in NULL as the followup
+	since we are setting the message to NULL here.
+
+	* mail-display.c (mail_display_set_message): Now takes a followup
+	tag value.
+	(mail_display_init): Set md->followup to NULL.
+	(mail_display_destroy): Free md->followup.
+	(mail_display_add_url): New: replaces the static add_url function
+	originally in mail-format.c
+	(mail_display_get_url_for_icon): New: replaces get_url_for_icon
+	which was originally in mail-format.c
+
 2002-04-03  Dan Winship  <danw@ximian.com>
 
 	* mail-account-gui.c: Changes to allow combined store/transport

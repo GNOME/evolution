@@ -36,9 +36,10 @@ struct _MailDisplay {
 	
 	char *selection;
 	
+	struct _FollowUpTag *followup;
 	CamelMimeMessage *current_message;
 	GData **data;
-
+	
 	GHashTable *related;	/* related parts not displayed yet */
 	
 	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is
@@ -76,7 +77,8 @@ void           mail_display_stream_write_when_loaded (MailDisplay *md,
 						      gpointer data);
 
 void           mail_display_set_message (MailDisplay *mail_display, 
-					 CamelMedium *medium);
+					 CamelMedium *medium,
+					 const char *followup);
 
 void           mail_display_set_charset (MailDisplay *mail_display,
 					 const char *charset);
@@ -93,5 +95,9 @@ void           mail_text_write          (GtkHTML *html,
 void           mail_error_printf        (GtkHTML *html,
 					 GtkHTMLStream *stream,
 					 const char *format, ...);
+
+char *mail_display_add_url (MailDisplay *md, const char *kind, char *url, gpointer data);
+
+const char *mail_display_get_url_for_icon (MailDisplay *md, const char *icon_name);
 
 #endif /* _MAIL_DISPLAY_H_ */

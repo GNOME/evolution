@@ -33,6 +33,8 @@
 
 #include <libgnomeui/gnome-pixmap.h>
 
+#include <gal/util/e-unicode-i18n.h>
+
 #include "message-tag-followup.h"
 
 static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
@@ -225,13 +227,14 @@ message_tag_followup_encode (struct _FollowUpTag *tag)
 				(unsigned long) tag->completed);
 }
 
+
 const char *
 message_tag_followup_i18n_name (int type)
 {
 	g_return_val_if_fail (type >= 0 && type <= FOLLOWUP_FLAG_NONE, NULL);
 	
 	if (type != FOLLOWUP_FLAG_NONE)
-		return _(available_flags[type].i18n_name);
+		return U_(available_flags[type].i18n_name);
 	else
 		return NULL;
 }
@@ -305,6 +308,9 @@ construct (MessageTagEditor *editor)
 	GtkWidget *widget, *menu, *item;
 	GladeXML *gui;
 	int i;
+	
+	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
+	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_IMAGES "/flag-for-followup-16.png");
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/message-tags.glade", "followup_editor");
 	

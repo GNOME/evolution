@@ -87,8 +87,6 @@ static void
 message_tag_editor_init (MessageTagEditor *editor)
 {
 	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, FALSE);
-      
-	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 	
 	gnome_dialog_append_buttons (GNOME_DIALOG (editor),
 				     GNOME_STOCK_BUTTON_OK,
@@ -96,10 +94,6 @@ message_tag_editor_init (MessageTagEditor *editor)
 				     NULL);
 	
 	gnome_dialog_set_default (GNOME_DIALOG (editor), 0);
-	
-	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_ICONSDIR "/flag-for-followup-16.png");
-
-
 }
 
 

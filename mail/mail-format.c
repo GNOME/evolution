@@ -136,22 +136,6 @@ free_data_urls (gpointer urls)
 	g_hash_table_destroy (urls);
 }
 
-static char *
-add_url (const char *kind, char *url, gpointer data, MailDisplay *md)
-{
-	GHashTable *urls;
-	gpointer old_key, old_value;
-
-	urls = g_datalist_get_data (md->data, kind);
-	g_return_val_if_fail (urls != NULL, NULL);
-	if (g_hash_table_lookup_extended (urls, url, &old_key, &old_value)) {
-		g_free (url);
-		url = old_key;
-	}
-	g_hash_table_insert (urls, url, data);
-	return url;
-}
-
 /**
  * mail_format_mime_message: 
  * @mime_message: the input mime message
@@ -249,8 +233,8 @@ get_cid (CamelMimePart *part, MailDisplay *md)
 				       camel_mime_part_get_content_id (part));
 	} else
 		cid = g_strdup_printf ("cid:@@@%d", fake_cid_counter++);
-
-	return add_url ("part_urls", cid, part, md);
+	
+	return mail_display_add_url (md, "part_urls", cid, part);
 }
 
 static const char *
@@ -263,42 +247,7 @@ get_location (CamelMimePart *part, MailDisplay *md)
 	if (!loc)
 		return NULL;
 
-	return add_url ("part_urls", g_strdup (loc), part, md);
-}
-
-static const char *
-get_url_for_icon (const char *icon_name, MailDisplay *md)
-{
-	char *icon_path, buf[1024], *url;
-	int fd, nread;
-	GByteArray *ba;
-
-	/* FIXME: cache */
-
-	if (*icon_name == '/')
-		icon_path = g_strdup (icon_name);
-	else {
-		icon_path = gnome_pixmap_file (icon_name);
-		if (!icon_path)
-			return "file:///dev/null";
-	}
-
-	fd = open (icon_path, O_RDONLY);
-	g_free (icon_path);
-	if (fd == -1)
-		return "file:///dev/null";
-
-	ba = g_byte_array_new ();
-	while (1) {
-		nread = read (fd, buf, sizeof (buf));
-		if (nread < 1)
-			break;
-		g_byte_array_append (ba, buf, nread);
-	}
-	close (fd);
-
-	url = g_strdup_printf ("x-evolution-data:%p", ba);
-	return add_url ("data_urls", url, ba, md);
+	return mail_display_add_url (md, "part_urls", g_strdup (loc), part);
 }
 
 
@@ -1007,11 +956,11 @@ write_headers (CamelMimeMessage *message, MailDisplay *md,
 		const char *charset;
 		CamelContentType *ct;
 		char *value;
-
+		
 		ct = camel_mime_part_get_content_type(CAMEL_MIME_PART(message));
 		charset = header_content_type_param(ct, "charset");
 		charset = e_iconv_charset_name(charset);
-
+		
 		header = CAMEL_MIME_PART(message)->headers;
 		while (header) {
 			i = default_header_index(header->name);
@@ -1626,7 +1575,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
 	gtk_html_stream_printf (stream, "<iframe src=\"%s\" frameborder=0 scrolling=no></iframe>", xed);
-	add_url ("data_urls", xed, ba, md);
+	mail_display_add_url (md, "data_urls", xed, ba);
 	
 	return TRUE;
 }
@@ -1708,7 +1657,7 @@ handle_multipart_digest (CamelMimePart *part, const char *mime_type,
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	gtk_html_stream_printf (stream, "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"digest:\"><img src=\"%s\">%s</a>",
-				get_url_for_icon (EVOLUTION_ICONSDIR "/envelope.png", md),
+				mail_display_get_url_for_icon (md, EVOLUTION_ICONSDIR "/envelope.png"),
 				U_("View messages..."));
 	
 	return TRUE;
@@ -1800,7 +1749,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 					"<td><table width=3 cellspacing=0 cellpadding=0>"
 					"<tr><td></td></tr></table></td>"
 					"<td><font size=-1>", url);
-		add_url ("part_urls", url, subpart, md);
+		mail_display_add_url (md, "part_urls", url, subpart);
 		
 		mail_html_write (html, stream, 
 				 U_("This message is digitally signed. "
@@ -1833,7 +1782,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 						"<table><tr valign=top>"
 						"<td><img src=\"%s\"></td>"
 						"<td>%s<br><br>",
-						get_url_for_icon (EVOLUTION_ICONSDIR "/pgp-signature-ok.png", md),
+						mail_display_get_url_for_icon (md, EVOLUTION_ICONSDIR "/pgp-signature-ok.png"),
 						U_("This message is digitally signed and "
 						   "has been found to be authentic."));
 		} else {
@@ -1841,7 +1790,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 						"<table><tr valign=top>"
 						"<td><img src=\"%s\"></td>"
 						"<td>%s<br><br>",
-						get_url_for_icon (EVOLUTION_ICONSDIR "/pgp-signature-bad.png", md),
+						mail_display_get_url_for_icon (md, EVOLUTION_ICONSDIR "/pgp-signature-bad.png"),
 						U_("This message is digitally signed but can "
 						   "not be proven to be authentic."));
 		}

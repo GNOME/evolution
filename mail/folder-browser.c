@@ -1065,7 +1065,7 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 	} else {
 		e_paned_set_position (E_PANED (folder_browser->vpaned), 10000);
 		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
-		mail_display_set_message(folder_browser->mail_display, NULL);
+		mail_display_set_message (folder_browser->mail_display, NULL, NULL);
 		folder_browser_ui_message_loaded(folder_browser);
 	}
 }
@@ -2244,12 +2244,15 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 {
 	FolderBrowser *fb = data;
 	int timeout = mail_config_get_mark_as_seen_timeout ();
+	const char *followup;
 	
 	if (folder != fb->folder || fb->mail_display == NULL)
 		return;
 	
-	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
-
+	followup = camel_folder_get_message_user_tag (folder, uid, "follow-up");
+	
+	mail_display_set_message (fb->mail_display, (CamelMedium *) msg, followup);
+	
 	/* FIXME: should this signal be emitted here?? */
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
 	
@@ -2298,7 +2301,7 @@ do_message_selected (FolderBrowser *fb)
 			fb->loading_uid = g_strdup (fb->new_uid);
 			mail_get_message (fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
 		} else {
-			mail_display_set_message (fb->mail_display, NULL);
+			mail_display_set_message (fb->mail_display, NULL, NULL);
 		}
 	}
 	

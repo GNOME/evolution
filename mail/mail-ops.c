@@ -506,7 +506,7 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 		camel_address_cat (recipients, CAMEL_ADDRESS (iaddr));
 	}
 	
-	camel_transport_send_to (xport, CAMEL_MEDIUM (message), from, recipients, ex);
+	camel_transport_send_to (xport, message, from, recipients, ex);
 	camel_object_unref (CAMEL_OBJECT (recipients));
 	camel_object_unref (CAMEL_OBJECT (from));
 	
