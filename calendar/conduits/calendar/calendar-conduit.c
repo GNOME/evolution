@@ -497,6 +497,7 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	time_t event_start, event_end, day_end;
 	struct icaltimetype *old_start_value, *old_end_value;
 	const char *uid;
+	gboolean is_date = FALSE;
 	gboolean last = FALSE;
 	gboolean ret = TRUE;
 
@@ -530,6 +531,9 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 		goto cleanup;
 	}
 
+	if (dt_start.value->is_date && dt_end.value->is_date)
+		is_date = TRUE;
+	
 	old_start_value = dt_start.value;
  	old_end_value = dt_end.value;
 	while (!last) {
@@ -545,11 +549,11 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 
 		cal_component_set_uid (clone, new_uid);
 
-		start_value = icaltime_from_timet_with_zone (event_start, FALSE, tz_start);
+		start_value = icaltime_from_timet_with_zone (event_start, is_date, tz_start);
 		dt_start.value = &start_value;
 		cal_component_set_dtstart (clone, &dt_start);
 		
-		end_value = icaltime_from_timet_with_zone (day_end, FALSE, tz_end);
+		end_value = icaltime_from_timet_with_zone (day_end, is_date, tz_end);
 		dt_end.value = &end_value;
 		cal_component_set_dtend (clone, &dt_end);
 
