@@ -1,3 +1,9 @@
+2000-06-16  Damon Chaplin  <damon@helixcode.com>
+
+	* C/.cvsignore: added evolution-guide and evolution-guide.junk
+	so we don't get the '? doc/C/evolution-guide' messages each time we
+	do a cvs update.
+
 2000-06-14  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mainwindow.sgml: added sect on menubar, other minor changes.
