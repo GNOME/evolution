@@ -1,3 +1,15 @@
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
+	* src/pvl/Makefile: Kill old file
+
+	* src/test/usecases.c: Kill old file
+
+	* src/test/.cvsignore: Update
+
+	* src/libicalvcal/.cvsignore: Update
+
+	* examples/.cvsignore: Shut up
+
 2000-08-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* examples/Makefile.am (INCLUDES): More `$(srcdir)' loving.
