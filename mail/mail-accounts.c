@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-messagebox.h>
 #include <camel/camel-url.h>
 #include <camel/camel-pgp-context.h>
 
@@ -256,14 +257,14 @@ mail_delete (GtkButton *button, gpointer data)
 	if (dialog->accounts_row < 0)
 		return;
 	
-	confirm = GNOME_DIALOG (gnome_dialog_new (_("Are you sure you want to delete this account?"),
-						  GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO, NULL));
+	confirm = GNOME_DIALOG (gnome_message_box_new (_("Are you sure you want to delete this account?"),
+						       GNOME_MESSAGE_BOX_QUESTION,
+						       NULL));
+	gnome_dialog_append_button_with_pixmap (confirm, _("Delete"), GNOME_STOCK_BUTTON_YES);
+	gnome_dialog_append_button_with_pixmap (confirm, _("Don't delete"), GNOME_STOCK_BUTTON_NO);
 	gtk_window_set_policy (GTK_WINDOW (confirm), TRUE, TRUE, TRUE);
 	gtk_window_set_modal (GTK_WINDOW (confirm), TRUE);
-	label = gtk_label_new (_("Are you sure you want to delete this account?"));
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_box_pack_start (GTK_BOX (confirm->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show (label);
+	gtk_window_set_title (GTK_WINDOW (confirm), _("Really delete account?"));
 	gnome_dialog_set_parent (confirm, GTK_WINDOW (dialog));
 	ans = gnome_dialog_run_and_close (confirm);
 	
