@@ -1,3 +1,8 @@
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_disconnect):
+	s/imap_store/store/ to get it to compile.
+
 2001-04-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-summary.c (summary_rebuild): Don't we
