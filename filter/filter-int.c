@@ -250,5 +250,5 @@ format_sexp (FilterElement *fe, GString *out)
 {
 	FilterInt *fs = (FilterInt *)fe;
 	
-	g_string_sprintfa (out, "%d", fs->val);
+	g_string_append_printf (out, "%d", fs->val);
 }

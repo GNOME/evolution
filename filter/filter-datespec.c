@@ -366,8 +366,8 @@ set_values (FilterDatespec *fds)
 		break;
 	}
 	
-	gtk_notebook_set_page((GtkNotebook*)p->notebook_type, p->type);
-	gtk_option_menu_set_history((GtkOptionMenu*)p->option_type, p->type);
+	gtk_notebook_set_current_page ((GtkNotebook*) p->notebook_type, p->type);
+	gtk_option_menu_set_history ((GtkOptionMenu*) p->option_type, p->type);
 }
 
 
@@ -379,7 +379,7 @@ set_option_type (GtkMenu *menu, FilterDatespec *fds)
 	/* ugh, no other way to 'get_history' */
 	w = gtk_menu_get_active (menu);
 	fds->priv->type = g_list_index (GTK_MENU_SHELL (menu)->children, w);
-	gtk_notebook_set_page ((GtkNotebook*) fds->priv->notebook_type, fds->priv->type);
+	gtk_notebook_set_current_page ((GtkNotebook*) fds->priv->notebook_type, fds->priv->type);
 }
 
 static void
@@ -477,10 +477,10 @@ format_sexp (FilterElement *fe, GString *out)
 		g_string_append (out, "(get-current-date)");
 		break;
 	case FDST_SPECIFIED:
-		g_string_sprintfa (out, "%d", (int) fds->value);
+		g_string_append_printf (out, "%d", (int) fds->value);
 		break;
 	case FDST_X_AGO:
-		g_string_sprintfa (out, "(- (get-current-date) %d)", (int) fds->value);
+		g_string_append_printf (out, "(- (get-current-date) %d)", (int) fds->value);
 		break;
 	}
 }
