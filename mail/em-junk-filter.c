@@ -189,8 +189,9 @@ em_junk_sa_test_spamd (void)
 {
 	int port = SPAMD_PORT;
 	char *argv[6] = {
-		"spamassassin",
-		"--version",
+		"/bin/sh",
+		"-c",
+		"spamassassin --version",
 		NULL,
 	};
 	
@@ -264,7 +265,7 @@ em_junk_sa_is_available (void)
 static gboolean
 em_junk_sa_check_junk (CamelMimeMessage *msg)
 {
-	char *argv[4], buf[12];
+	char *argv[5], buf[12];
 	int i = 0;
 	
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
@@ -281,10 +282,13 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 			argv[i++] = buf;
 		}
 	} else {
-		argv[i++] = "spamassassin";
-		argv[i++] = "--exit-code";
+		argv[i++] = "/bin/sh";
+		argv[i++] = "-c";
+		
 		if (mail_session_get_sa_local_only ())
-			argv[i++] = "--local";
+			argv[i++] = "spamassassin --exit-code --local";
+		else
+			argv[i++] = "spamassassin --exit-code";
 	}
 	
 	argv[i] = NULL;

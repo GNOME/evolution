@@ -1,5 +1,10 @@
 2004-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-junk-filter.c (em_junk_sa_test_spamd): Oops, when calling
+	spamassassin rather than spamc, we need to invoke /bin/sh -c
+	since spamassassin is a shell script.
+	(em_junk_sa_check_junk): Same.
+
 	Fixes bug #53175.
 
 	* em-junk-filter.c (pipe_to_sa): Don't need an argc (we don't even
