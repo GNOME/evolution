@@ -1,0 +1,4 @@
+2004-10-25  Radek Doulik  <rodo@ximian.com>
+
+	* audio-inline.c: imported audio inline plugin
+
