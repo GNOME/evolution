@@ -28005,12 +28005,12 @@ msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr ""
-"Le credenziali fornite non erano valide per l'inizializzazione del contenuto o la "
-"gestione delle credenziali non riferisce di nessuna credenziale."
+"Le credenziali fornite non erano valide per l'inizializzazione del contenuto o "
+"l'handle delle credenziali non si riferisce a nessuna credenziale."
 
 #: camel/camel-sasl-gssapi.c:174
 msgid "The supplied context handle did not refer to a valid context."
-msgstr "I'handle al contenuto fornito non si riferisce ad un contesto valido."
+msgstr "L'handle al contenuto fornito non si riferisce ad un contesto valido."
 
 #: camel/camel-sasl-gssapi.c:177
 msgid "The consistency checks performed on the input_token failed."
@@ -28032,15 +28032,3 @@ msgstr "Fallita la risoluzione host '%s': %s"
 #: camel/camel-sasl-gssapi.c:299
 msgid "Unsupported security layer."
 msgstr "Livello di sicurezza non supportato."
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid ""
-#~ "Evolution does not yet support email notification for reminders.  You "
-#~ "will not be able to edit the options for this reminder."
-#~ msgstr ""
-#~ "Questo è un avvertimento di posta elettronica, ma Evolution al momento "
-#~ "non supporta questo tipo di avvertimenti.  Per questo non sarà possibile "
-#~ "modificare le impostazioni di questo avvertimento."
-
