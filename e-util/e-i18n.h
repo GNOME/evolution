@@ -14,6 +14,11 @@
 #ifndef __E_I18N_H__
 #define __E_I18N_H__
 
+#include <glib.h>
+#include "libgnome/gnome-defs.h"
+
+BEGIN_GNOME_DECLS
+
 #ifdef ENABLE_NLS
 #    include <libintl.h>
 #    undef _
@@ -42,6 +47,16 @@
  * To correctly solve this issue include this file before any libgnome/
  * libgnomeui headers
  */
+
 #define __GNOME_I18N_H__ 1
+
+
+const char *gnome_i18n_get_language(void);
+GList      *gnome_i18n_get_language_list (const gchar *category_name);
+void	   gnome_i18n_set_preferred_language (const char *val);
+const char *gnome_i18n_get_preferred_language (void);
+void gnome_i18n_init (void);
+
+END_GNOME_DECLS
 
 #endif /* __E_I18N_H__ */
