@@ -1,3 +1,8 @@
+2004-10-22  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c: Give the Rename item a different path than the
+	Delete item.
+
 2004-10-22  Not Zed  <NotZed@Ximian.com>
 
 	* em-event.c (eme_target_free): duh, they're camel not gobjects.

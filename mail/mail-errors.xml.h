@@ -236,6 +236,8 @@ char *s = N_("Unable to read license file.");
 char *s = N_("Cannot read the license file \"{0}\", due to an\n"
 	"      installation problem.  You will not be able to use this provider until\n"
 	"      you can accept its license.");
+/* mail:checking-service title */
+char *s = N_("Querying server");
 /* mail:checking-service primary */
 char *s = N_("Please wait.");
 /* mail:checking-service secondary */
