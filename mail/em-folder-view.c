@@ -362,8 +362,8 @@ emfv_set_folder_uri(EMFolderView *emfv, const char *uri)
 {
 	if (emfv->preview)
 		em_format_format((EMFormat *)emfv->preview, NULL);
-
-	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_thread_new);
+	
+	mail_get_folder(uri, 0, emfv_got_folder, emfv, mail_thread_queued);
 }
 
 static void

@@ -1,3 +1,9 @@
+2004-01-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_set_folder_uri): Pass mail_thread_queued
+	to mail_get_folder() instead of mail_thread_new so that we
+	eliminate a race when switching folders in the UI.
+
 2004-01-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #50996.
