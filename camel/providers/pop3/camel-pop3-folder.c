@@ -204,6 +204,13 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 	count = atoi (data);
 	g_free (data);
 	
+	if (count == 0) {
+		camel_operation_end (NULL);
+		pop3_folder->uids = g_ptr_array_new ();
+		pop3_folder->flags = g_new0 (guint32, 0);
+		return;
+	}
+
 	if (pop3_store->supports_uidl != FALSE) {
 		status = camel_pop3_command (pop3_store, NULL, ex, "UIDL");
 		switch (status) {

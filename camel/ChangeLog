@@ -1,3 +1,10 @@
+2001-10-01  Dan Winship  <danw@ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): if STAT
+	returns 0, don't bother sending UIDL. Speeds things up slightly
+	and also works around a bug in a particular random POP server.
+	(ximian bug 11369).
+
 2001-09-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (pgp_sign): Add --no-secmem-warning and
