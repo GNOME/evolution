@@ -37,7 +37,7 @@
 #include "mail-ops.h"
 #include "mail-session.h"
 
-#include "e-util/e-gui-utils.h"
+#include "evolution-shell-component-utils.h"
 #include "camel/camel-vtrash-folder.h"
 
 /* The FolderBrowser BonoboControls we have.  */

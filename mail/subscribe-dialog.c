@@ -52,7 +52,7 @@
 #include <gal/e-paned/e-hpaned.h>
 
 #include "e-util/e-html-utils.h"
-#include "e-util/e-gui-utils.h"
+#include "evolution-shell-component-utils.h"
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-mt.h"

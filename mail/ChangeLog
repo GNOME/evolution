@@ -1,3 +1,11 @@
+2001-05-27  Dan Winship  <danw@ximian.com>
+
+	* folder-browser-factory.c: #include
+	"evolution-shell-component-utils.h" rather than "e-gui-utils.h"
+	for e_pixmaps_update.
+
+	* subscribe-dialog.c: Likewise.
+
 2001-05-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (try_inline_pgp_sig): Fix to work properly.
