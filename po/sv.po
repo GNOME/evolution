@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2000-10-10 11:38+0200\n"
-"PO-Revision-Date: 2000-10-10 11:40+0200\n"
+"POT-Creation-Date: 2000-10-10 18:48+0200\n"
+"PO-Revision-Date: 2000-10-10 18:51+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1119,13 +1119,13 @@ msgstr "%a %Y-%m-%d"
 #. in 24-hour format.
 #: calendar/gui/calendar-model.c:286 calendar/gui/calendar-model.c:740
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a %Y-%m-%d %H:%M:%S"
+msgstr "%a %Y-%m-%d %H.%M.%S"
 
 #. strftime format of a weekday, a date and a time,
 #. in 12-hour format.
 #: calendar/gui/calendar-model.c:290 calendar/gui/calendar-model.c:743
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %Y-%m-%d %I:%M:%S %p"
+msgstr "%a %Y-%m-%d %I.%M.%S %p"
 
 #: calendar/gui/calendar-model.c:344
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:23
@@ -1192,23 +1192,23 @@ msgstr "%Y-%m-%d"
 #. If it is is not appropriate in the locale set to an empty string.
 #: calendar/gui/calendar-model.c:867
 msgid "%I:%M:%S %p%n"
-msgstr "%I:%M:%S %p%n"
+msgstr "%I.%M.%S %p%n"
 
 #. strptime format for a time of day, in 24-hour format.
 #: calendar/gui/calendar-model.c:870
 msgid "%H:%M:%S%n"
-msgstr "%H:%M:%S%n"
+msgstr "%H.%M.%S%n"
 
 #. strptime format for time of day, without seconds, 12-hour format.
 #. If it is is not appropriate in the locale set to an empty string.
 #: calendar/gui/calendar-model.c:874
 msgid "%I:%M %p%n"
-msgstr "%I:%M %p%n"
+msgstr "%I.%M %p%n"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: calendar/gui/calendar-model.c:877
 msgid "%H:%M%n"
-msgstr "%H:%M%n"
+msgstr "%H.%M%n"
 
 #: calendar/gui/calendar-model.c:997
 msgid ""
@@ -1234,11 +1234,11 @@ msgstr "URI:t som kalendern kommer att visa"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:183
 msgid "Alarm on %A %b %d %Y %H:%M"
-msgstr "Alarm på %A %d %b %Y %H:%M"
+msgstr "Alarm på %A %d %b %Y %H.%M"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:190
 msgid "Notification about your appointment on %A %b %d %Y %H:%M"
-msgstr "Avisering om ditt möte på %A %d %b %Y %H:%M"
+msgstr "Avisering om ditt möte på %A %d %b %Y %H.%M"
 
 #: calendar/gui/dialogs/alarm-notify-dialog.c:201
 msgid "No summary available."
@@ -4579,51 +4579,15 @@ msgstr "Idag"
 #: widgets/misc/e-dateedit.c:636 widgets/misc/e-dateedit.c:726
 #: widgets/misc/e-dateedit.c:983
 msgid "%H:%M"
-msgstr "%H:%M"
+msgstr "%H.%M"
 
 #. This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: widgets/misc/e-dateedit.c:639 widgets/misc/e-dateedit.c:729
 #: widgets/misc/e-dateedit.c:986
 msgid "%I:%M %p"
-msgstr "%I:%M %p"
+msgstr "%I.%M %p"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
 msgid "Group %i"
 msgstr "Grupp %i"
-
-#~ msgid "Gpilotd calendar conduit"
-#~ msgstr "Gpilotd kalenderkanal"
-
-#~ msgid "Configuration utility for the calendar conduit.\n"
-#~ msgstr "Konfigurationsverktyg för kalenderkanalen.\n"
-
-#~ msgid "Could not start gnomecal server"
-#~ msgstr "Kunde inte starta gnomecal-server"
-
-#~ msgid "Could not read pilot's DateBook application block"
-#~ msgstr "Kunde inte läsa pilotens DateBook-programblock"
-
-#~ msgid "TODO Items"
-#~ msgstr "ATT-GÖRA-objekt"
-
-#~ msgid "%a"
-#~ msgstr "%a"
-
-#~ msgid "%b"
-#~ msgstr "%b"
-
-#~ msgid "Current week (%s %s %d - %s %s %d %d)"
-#~ msgstr "Aktuell vecka (%s %s %d - %s %s %d %d)"
-
-#~ msgid "Current week (%s %s %d %d - %s %s %d %d)"
-#~ msgstr "Aktuell vecka (%s %s %d %d - %s %s %d %d)"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#~ msgid "Use default port"
-#~ msgstr "Använd standardport"
-
-#~ msgid "Found subfolder \"%s\""
-#~ msgstr "Hittade undermapp \"%s\""
