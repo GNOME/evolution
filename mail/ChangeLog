@@ -1,8 +1,5 @@
 2001-04-22  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-callbacks.c (composer_get_message): Only set the
-	X-Evolution-* header if that value is non-NULL.
-
 	* mail-ops.c (mail_send_message): Lets do proper refcounting on
 	the sent-folder. Also, g_strdup() the sent_folder_uri since we
 	later free it. If we don't, then we get lovely corrupt memory.
