@@ -72,8 +72,30 @@ e_book_view_listener_queue_response (EBookViewListener         *listener,
 		g_free (response);
 		return;
 	}
-	
-	listener->priv->response_queue = g_list_append (listener->priv->response_queue, response);
+
+	/* a slight optimization for huge ldap queries.  if there's an
+	   existing Add response on the end of the queue, and we're an
+	   Add response, we just glom the two lists of cards
+	   together */
+	if (response->op == CardAddedEvent) {
+		GList *last = g_list_last (listener->priv->response_queue);
+		EBookViewListenerResponse *last_resp = NULL;
+
+		if (last) last_resp = last->data;
+
+		if (last_resp && last_resp->op == CardAddedEvent ) {
+			response->cards = g_list_concat (last_resp->cards, response->cards);
+			g_free (response);
+			/* there should already be a timeout since the
+			   queue isn't empty, so we'll just return
+			   here */
+			return;
+		}
+		else
+			listener->priv->response_queue = g_list_append (last, response);
+	}
+	else
+		listener->priv->response_queue = g_list_append (listener->priv->response_queue, response);
 
 	if (listener->priv->timeout_id == 0) {
 
