@@ -45,6 +45,10 @@ typedef struct fetch_mail_input_s
 }
 fetch_mail_input_t;
 
+typedef struct fetch_mail_data_s {
+	gboolean empty;
+} fetch_mail_data_t;
+
 static gchar *describe_fetch_mail (gpointer in_data, gboolean gerund);
 static void setup_fetch_mail (gpointer in_data, gpointer op_data,
 			      CamelException * ex);
@@ -70,6 +74,7 @@ static void
 setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
+	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
 
 	if (!input->source_url) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
@@ -87,16 +92,17 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 		return;
 	}
 
+	data->empty = FALSE;
 	camel_object_ref (CAMEL_OBJECT (input->destination));
 }
 
 static void
 do_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 {
-	fetch_mail_input_t *input;
-	CamelFolder *search_folder = NULL;
+	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
+	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
 
-	input = (fetch_mail_input_t *) in_data;
+	CamelFolder *search_folder = NULL;
 
 	if (input->destination == NULL) {
 		input->destination = mail_tool_get_local_inbox (ex);
@@ -110,16 +116,27 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 						      input->keep_on_server, ex);
 
 	if (search_folder == NULL) {
-		/* This happens with an IMAP source and on error */
+		/* This happens with an IMAP source and on error 
+		 * and on "no new mail"
+		 */
 		camel_object_unref (CAMEL_OBJECT (input->destination));
 		input->destination = NULL;
+		data->empty = TRUE;
 		return;
 	}
 
-	mail_tool_filter_contents_into (search_folder, input->destination,
-					TRUE,
-					input->hook_func, input->hook_data,
-					ex);
+	mail_tool_camel_lock_up ();
+	if (camel_folder_get_message_count (search_folder) == 0) {
+		data->empty = TRUE;
+	} else {
+		mail_tool_filter_contents_into (search_folder, input->destination,
+						TRUE,
+						input->hook_func, input->hook_data,
+						ex);
+		data->empty = FALSE;
+	}
+	mail_tool_camel_lock_down ();
+
 	camel_object_unref (CAMEL_OBJECT (search_folder));
 }
 
@@ -127,6 +144,14 @@ static void
 cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
+	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
+
+	if (data->empty && !camel_exception_is_set (ex)) {
+		GtkWidget *dialog;
+
+		dialog = gnome_ok_dialog ("There is no new mail.");
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+	}
 
 	g_free (input->source_url);
 	if (input->destination)
@@ -135,7 +160,7 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static const mail_operation_spec op_fetch_mail = {
 	describe_fetch_mail,
-	0,
+	sizeof (fetch_mail_data_t),
 	setup_fetch_mail,
 	do_fetch_mail,
 	cleanup_fetch_mail

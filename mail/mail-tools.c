@@ -156,6 +156,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	gchar *dest_path;
 	const gchar *source;
 	CamelFolder *ret;
+	struct stat sb;
 #ifndef MOVEMAIL_PATH
 	int tmpfd;
 #endif
@@ -195,6 +196,13 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	mail_tool_camel_lock_up();
 	camel_movemail (source, dest_path, ex);
 	mail_tool_camel_lock_down();
+
+	if (stat (dest_path, &sb) < 0 || sb.st_size == 0) {
+		g_free (dest_path);
+		g_free (dest_url);
+		return NULL;
+	}
+
 	g_free (dest_path);
 
 	if (camel_exception_is_set (ex)) {
@@ -422,6 +430,10 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 		spool_folder = mail_tool_do_movemail (source_url, ex);
 	else
 		spool_folder = mail_tool_get_inbox (source_url, ex);
+
+	/* No new mail */
+	if (spool_folder == NULL)
+		return NULL;
 
 	if (camel_exception_is_set (ex))
 		goto cleanup;
