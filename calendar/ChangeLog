@@ -1,3 +1,8 @@
+2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/: added evolution-calendar-importer binary, starting
+	with an iCalendar file importer
+
 2001-10-29  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit-config.h
