@@ -6,7 +6,6 @@
 #undef HAVE_LIBSM
 #undef PACKAGE
 #undef VERSION
-#undef HAVE_BONOBO
 #undef ENABLE_THREADS
 #undef SENDMAIL_PATH
 #undef SYSTEM_MAIL_DIR
@@ -16,8 +15,6 @@
 #undef USING_OAF
 #undef HAVE_KRB4
 #undef HAVE_KRB5
-#undef USE_BROKEN_THREADS
-#undef BONOBO_POST_0_15
 #undef MOVEMAIL_PATH
 #undef PGP_PROGRAM
 #undef GPG_PATH

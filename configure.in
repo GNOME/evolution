@@ -201,13 +201,6 @@ GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
 AC_SUBST(GNOME_PRINT_LIBS)
 AC_SUBST(GNOME_PRINT_CFLAGS)
 
-dnl **************************************************
-dnl * ORBit support
-dnl **************************************************
-dnl GNOMEGNORBA_LIBS="$GNOMEGNORBA_LIBS"
-dnl AC_SUBST(GNOMEGNORBA_LIBS)
-
-
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
@@ -231,31 +224,19 @@ else
 fi
 
 dnl ******************************
-dnl Whether to use OAF
+dnl OAF
 dnl ******************************
 
-AC_MSG_CHECKING(if Bonobo uses OAF)
-if ( gnome-config --libs bonobo | grep oaf ) > /dev/null 2>&1 ; then
-	enable_oaf="yes"
-	AC_MSG_RESULT(yes)
-        AC_PATH_PROG(OAF_CONFIG,oaf-config,no)
-        if test x$OAF_CONFIG = xno; then
-                AC_MSG_ERROR("The oaf-config program was not found")
-        else
-                OAF_LIBS=`$OAF_CONFIG --libs`
-                OAF_CFLAGS=`$OAF_CONFIG --cflags`
-		AC_MSG_RESULT(yes)
-        fi
+AC_PATH_PROG(OAF_CONFIG,oaf-config,no)
+if test x$OAF_CONFIG = xno; then
+	AC_MSG_ERROR("The oaf-config program was not found")
 else
-	enable_oaf="no"
-	AC_MSG_ERROR(no, a Bonobo using OAF is required for Evolution)
+	OAF_LIBS=`$OAF_CONFIG --libs`
+	OAF_CFLAGS=`$OAF_CONFIG --cflags`
 fi
 
 AC_SUBST(OAF_LIBS)
 AC_SUBST(OAF_CFLAGS)
-
-AM_CONDITIONAL(USING_OAF, test "x$enable_oaf" = "xyes")
-AC_DEFINE(USING_OAF)
 
 
 dnl ******************************
@@ -369,17 +350,6 @@ GNOME_VFS_LIBS="`gnome-config --libs vfs`"
 GNOME_VFS_CFLAGS="`gnome-config --cflags vfs`"
 AC_SUBST(GNOME_VFS_LIBS)
 AC_SUBST(GNOME_VFS_CFLAGS)
-
-save_CFLAGS="$CFLAGS"
-save_LIBS="$LIBS"
-CFLAGS="$GNOME_VFS_CFLAGS"
-LIBS="$GNOME_VFS_LIBS"
-AC_CHECK_LIB(gnomevfs, gnome_vfs_mime_get_default_action_without_fallback,[],
-[
-	AC_MSG_ERROR([You need a newer Gnome VFS. Try the CVS version])
-])
-CFLAGS="$save_CFLAGS"
-LIBS="$save_LIBS"
 
 BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"

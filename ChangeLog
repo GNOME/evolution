@@ -1,3 +1,7 @@
+2000-08-29  Dan Winship  <danw@helixcode.com>
+
+	* configure.in, acconfig.h: decruft
+
 2000-08-28  Jesus Bravo Alvarez  <jba@pobox.com>
 
 	* configure.in: Added Portuguese (pt) to ALL_LINGUAS
