@@ -11,7 +11,7 @@
 
 #define DB_URL (DEFAULT_DB_URL "#" USER_DB_URL)
 
-Bonobo_Storage
+static Bonobo_Storage
 wombat_root_storage (CORBA_Environment *ev)
 {
 	static BonoboStorage *root = NULL;
@@ -83,7 +83,7 @@ wombat_lookup_db (CORBA_Environment *ev)
 	return db;
 }
 
-Bonobo_Unknown 
+static Bonobo_Unknown 
 wombat_moniker_resolve (BonoboMoniker               *moniker,
 			const Bonobo_ResolveOptions *options,
 			const CORBA_char            *interface,
