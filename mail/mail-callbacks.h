@@ -37,7 +37,8 @@ extern "C" {
 enum {
 	REPLY_SENDER,
 	REPLY_LIST,
-	REPLY_ALL
+	REPLY_ALL,
+	REPLY_NO_QUOTE = 0x80	/* dont quote reply */
 };
 
 void enumerate_msg (MessageList *ml, const char *uid, gpointer data);

@@ -870,27 +870,33 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	time_t date;
 	const int max_subject_length = 1024;
 	
-	composer = e_msg_composer_new ();
-	e_msg_composer_add_message_attachments (composer, message, TRUE);
-	
+	composer = e_msg_composer_new ();	
 	if (!composer)
 		return NULL;
 	
-	sender = camel_mime_message_get_from (message);
-	if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
-		camel_internet_address_get (sender, 0, &name, &address);
-	} else {
-		name = _("an unknown sender");
+	e_msg_composer_add_message_attachments (composer, message, TRUE);
+
+	if ((mode & REPLY_NO_QUOTE) == 0) {
+		sender = camel_mime_message_get_from (message);
+		if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
+			camel_internet_address_get (sender, 0, &name, &address);
+		} else {
+			name = _("an unknown sender");
+		}
+
+		date = camel_mime_message_get_date (message, NULL);
+		strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
+			  localtime (&date));
+		format = e_utf8_from_locale_string (date_str);
+		text = mail_tool_quote_message (message, format, name && *name ? name : address);
+		mail_ignore (composer, name, address);
+		g_free (format);
+	
+		if (text) {
+			e_msg_composer_set_body_text (composer, text);
+			g_free (text);
+		}
 	}
-	
-	date = camel_mime_message_get_date (message, NULL);
-	
-	strftime (date_str, sizeof (date_str), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"),
-		  localtime (&date));
-	format = e_utf8_from_locale_string (date_str);
-	text = mail_tool_quote_message (message, format, name && *name ? name : address);
-	mail_ignore (composer, name, address);
-	g_free (format);
 	
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();

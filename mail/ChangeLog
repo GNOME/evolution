@@ -1,3 +1,10 @@
+2002-01-31  Not Zed  <NotZed@Ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Add attachments after
+	we've seen if the composer object is valid.
+	(mail_generate_reply): Support new flag REPLY_NO_QUOTE - if set,
+	then dont quote any of the message in the reply.
+
 2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_new): Destroy the S/MIME
