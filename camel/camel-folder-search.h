@@ -108,6 +108,9 @@ struct _CamelFolderSearchClass {
 	/* (get-current-date) Retrieve 'now' as a time_t */
 	ESExpResult * (*get_current_date)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
+	/* (get-size) Retrieve message size as an int (in kilobytes) */
+	ESExpResult * (*get_size)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+
 	/* (uid "uid" ...) True if the uid is in the list */
 	ESExpResult * (*uid)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 };

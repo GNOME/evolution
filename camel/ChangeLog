@@ -1,5 +1,11 @@
 2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-folder-search.c: Added a (get-size ) function to fix bug
+	#38073.
+	(search_get_size): Implemented.
+
+2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-url-scanner.c (url_scanner_table_init): Mark chars with
 	the high-bit set as CTRL chars.
 	(camel_url_web_end): If the char before the start of the url is an
