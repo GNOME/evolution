@@ -144,8 +144,13 @@ static void
 subscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
 {
 	char *path;
-	CamelException *ex = camel_exception_new ();
+	CamelException *ex;
 
+	/* folders without urls cannot be subscribed to */
+	if (info->url == NULL)
+		return;
+
+	ex = camel_exception_new ();
 	path = g_strdup_printf ("/%s", info->full_name);
 
 	camel_store_subscribe_folder (sc->store, path, ex);
@@ -166,8 +171,13 @@ static void
 unsubscribe_folder_info (SubscribeDialog *sc, CamelFolderInfo *info)
 {
 	char *path;
-	CamelException *ex = camel_exception_new ();
+	CamelException *ex;
 
+	/* folders without urls cannot be subscribed to */
+	if (info->url == NULL)
+		return;
+
+	ex = camel_exception_new ();
 	path = g_strdup_printf ("/%s", info->full_name);
 
 	camel_store_unsubscribe_folder (sc->store, path, ex);
@@ -381,10 +391,18 @@ folder_etree_value_at (ETreeModel *etree, ETreePath *path, int col, void *model_
 	SubscribeDialog *dialog = SUBSCRIBE_DIALOG (model_data);
 	CamelFolderInfo *info = e_tree_model_node_get_data (etree, path);
 
-	if (col == FOLDER_COL_NAME)
+	if (col == FOLDER_COL_NAME) {
 		return info->name;
-	else /* FOLDER_COL_SUBSCRIBED */
-		return GINT_TO_POINTER(folder_info_subscribed(dialog, info));
+	}
+	else /* FOLDER_COL_SUBSCRIBED */ {
+		/* folders without urls cannot be subscribed to */
+		if (info->url == NULL)
+			return 0; /* empty */
+		else if (!folder_info_subscribed(dialog, info))
+			return 0; /* XXX unchecked */
+		else
+			return 1; /* checked */
+	}
 }
 
 static void
