@@ -1,3 +1,11 @@
+2004-06-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-composer-utils.c (forward_non_attached): Don't attach
+	anything ever. This is confusing way too many users who expect it
+	to attach all or nothing. Since Forward-Attached is what users
+	should be using to forward a message and all attachments, make
+	these not attach anything (which is what other mailers do anyway).
+
 2004-06-01  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-selector.c (em_folder_selector_get_selected_uri): set

@@ -889,11 +889,7 @@ forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 		
 		if (text) {
 			composer = create_new_composer (subject, fromuri);
-
-			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-			if (CAMEL_IS_MULTIPART (wrapper))
-				e_msg_composer_add_message_attachments (composer, message, FALSE);
-
+			
 			e_msg_composer_set_body_text (composer, text);
 						
 			e_msg_composer_unset_changed (composer);
