@@ -1970,6 +1970,43 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		}
 	}
 	
+	if (!g_utf8_validate (value, -1, NULL)) {
+		/* The (broken) mailer sent us an unencoded 8bit value
+		 * attempt to save it by assuming it's in the user's
+		 * locale and converting to utf8 */
+		char *outbase, *outbuf, *p;
+		const char *inbuf;
+		int inlen, outlen;
+		iconv_t ic;
+		
+		inbuf = value;
+		inlen = strlen (inbuf);
+		
+		ic = iconv_open ("UTF-8", camel_charset_locale_name ());
+		if (ic != (iconv_t) -1) {
+			int ret;
+			
+			outlen = inlen * 6 + 16;
+			outbuf = outbase = g_malloc (outlen);
+			
+			ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+			if (ret >= 0) {
+				iconv (ic, NULL, 0, &outbuf, &outlen);
+				*outbuf = '\0';
+			}
+			
+			iconv_close (ic);
+			
+			g_free (value);
+			value = outbase;
+		} else {
+			/* Okay, so now what? I guess we convert invalid chars to _'s? */
+			for (p = value; *p; p++)
+				if (!isascii ((unsigned) *p))
+					*p = '_';
+		}
+	}
+	
 	if (param && value) {
 		*paramp = param;
 		*valuep = value;

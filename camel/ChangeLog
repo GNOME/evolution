@@ -1,5 +1,9 @@
 2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_decode_param): Handle broken mailers
+	that send unencoded 8bit header params. And there was much
+	rejoicing. Rah.
+
 	* camel-url.h (CAMEL_URL_HIDE_ALL): New #define, and there was
 	much rejoicing. Rah.
 
