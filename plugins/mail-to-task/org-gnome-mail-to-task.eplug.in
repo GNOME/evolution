@@ -13,7 +13,7 @@
 	<item
 	  type="item"
 	  path="71.mail_to_task"
-	  icon="stock_tasks"
+	  icon="stock_todo"
 	  label="Con_vert to Task"
 	  enable="one"
 	  visible="one"
