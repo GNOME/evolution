@@ -290,6 +290,7 @@ struct create_info_s {
 static void
 create_imap_storage (EvolutionShellComponent *shell_component)
 {
+	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *cpath, *source, *server, *p;
@@ -302,12 +303,13 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	if (!source || strncasecmp (source, "imap://", 7))
 		return;
 	
-	corba_shell = evolution_shell_component_get_owner (shell_component);
-	if (corba_shell == CORBA_OBJECT_NIL) {
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	if (shell_client == NULL) {
 		g_warning ("We have no shell!?");
-		g_free (source);
 		return;
 	}
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
 	if (!(server = strchr (source, '@'))) {
 		g_free (source);
@@ -415,6 +417,7 @@ real_create_imap_storage( gpointer user_data )
 static void
 create_news_storage (EvolutionShellComponent *shell_component)
 {
+	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *cpath, *source, *server, *p;
@@ -427,12 +430,13 @@ create_news_storage (EvolutionShellComponent *shell_component)
 	if (!source || strncasecmp (source, "news://", 7))
 		return;
 	
-	corba_shell = evolution_shell_component_get_owner (shell_component);
-	if (corba_shell == CORBA_OBJECT_NIL) {
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	if (shell_client == NULL) {
 		g_warning ("We have no shell!?");
-		g_free (source);
 		return;
 	}
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
 	server = source + 7;
 	for (p = server; *p && *p != '/'; p++);
