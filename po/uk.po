@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2002-02-21 10:44+0200\n"
-"PO-Revision-Date: 2002-02-21 16:45+0200\n"
+"POT-Creation-Date: 2002-02-22 09:59+0200\n"
+"PO-Revision-Date: 2002-02-22 17:09+0200\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -489,21 +489,20 @@ msgstr "Сервер LDAP"
 msgid "LDAP server containing contact information"
 msgstr "Сервер LDAP, що містить контактну інформацію"
 
-#: addressbook/gui/component/addressbook-component.c:527
-#: ui/evolution-addressbook.xml.h:16
+#: addressbook/gui/component/addressbook-component.c:558
 msgid "New Contact"
 msgstr "Новий контакт"
 
-#: addressbook/gui/component/addressbook-component.c:527
-#: ui/evolution-addressbook.xml.h:36
+#: addressbook/gui/component/addressbook-component.c:558
+#: ui/evolution-addressbook.xml.h:34
 msgid "_Contact"
 msgstr "Контакт"
 
-#: addressbook/gui/component/addressbook-component.c:530
+#: addressbook/gui/component/addressbook-component.c:561
 msgid "New Contact List"
 msgstr "Новий контактний список"
 
-#: addressbook/gui/component/addressbook-component.c:530
+#: addressbook/gui/component/addressbook-component.c:561
 msgid "Contact _List"
 msgstr "Контактний _список"
 
@@ -659,22 +658,21 @@ msgstr ""
 #: addressbook/gui/component/addressbook-config.glade.h:34
 #: filter/filter.glade.h:9
 #: mail/mail-config.glade.h:109
-#: ui/evolution-addressbook.xml.h:40
-#: ui/evolution-calendar.xml.h:41
+#: ui/evolution-addressbook.xml.h:38
+#: ui/evolution-calendar.xml.h:39
 #: ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:47
 #: ui/evolution-signature-editor.xml.h:7
 #: ui/evolution-subscribe.xml.h:10
-#: ui/evolution-tasks.xml.h:19
+#: ui/evolution-tasks.xml.h:18
 msgid "_Edit"
 msgstr "Редагування"
 
 #: addressbook/gui/component/addressbook-config.glade.h:35
 #: mail/mail-config.glade.h:110
-#, fuzzy
 msgid "_Email address:"
-msgstr "Електронна адреса:"
+msgstr "_Електронна адреса:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:36
 msgid "_Port:"
@@ -998,9 +996,9 @@ msgstr "Хоче отримувати листи в HTML"
 #: filter/filter.glade.h:8
 #: mail/folder-browser.c:1492
 #: mail/mail-config.glade.h:107
-#: ui/evolution-calendar.xml.h:40
+#: ui/evolution-calendar.xml.h:38
 #: ui/evolution-mail-message.xml.h:97
-#: ui/evolution-tasks.xml.h:18
+#: ui/evolution-tasks.xml.h:17
 #: ui/evolution.xml.h:35
 msgid "_Delete"
 msgstr "Стерти"
@@ -2325,7 +2323,7 @@ msgstr "Карток: %d"
 #: addressbook/gui/widgets/e-addressbook-view.c:910
 #: addressbook/gui/widgets/e-addressbook-view.c:1024
 #: addressbook/gui/widgets/e-addressbook-view.c:1646
-#: ui/evolution-addressbook.xml.h:24
+#: ui/evolution-addressbook.xml.h:22
 msgid "Save as VCard"
 msgstr "Зберегти як VCard"
 
@@ -2347,7 +2345,7 @@ msgstr "Відіслати повідомлення за контактом"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:316
 #: addressbook/gui/widgets/e-addressbook-view.c:1027
-#: ui/evolution-addressbook.xml.h:21
+#: ui/evolution-addressbook.xml.h:19
 #: ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4
 #: ui/evolution-mail-message.xml.h:66
@@ -2362,13 +2360,11 @@ msgstr "Надрукувати конверт"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:322
 #: addressbook/gui/widgets/e-addressbook-view.c:1033
-#, fuzzy
 msgid "Copy to folder..."
 msgstr "Скопіювати в теку..."
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:323
 #: addressbook/gui/widgets/e-addressbook-view.c:1034
-#, fuzzy
 msgid "Move to folder..."
 msgstr "Перенести в теку..."
 
@@ -2389,8 +2385,8 @@ msgstr "Скопіювати"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:328
 #: addressbook/gui/widgets/e-addressbook-view.c:1039
-#: ui/evolution-addressbook.xml.h:18
-#: ui/evolution-tasks.xml.h:13
+#: ui/evolution-addressbook.xml.h:16
+#: ui/evolution-tasks.xml.h:12
 msgid "Paste"
 msgstr "Вставити"
 
@@ -2825,7 +2821,7 @@ msgstr "Неназвана зустріч"
 #: calendar/cal-util/cal-util.c:498
 #: calendar/cal-util/cal-util.c:520
 #: calendar/gui/dialogs/task-details-page.glade.h:6
-#: mail/message-list.c:653
+#: mail/message-list.c:654
 msgid "High"
 msgstr "Високий"
 
@@ -2833,14 +2829,14 @@ msgstr "Високий"
 #: calendar/cal-util/cal-util.c:522
 #: calendar/gui/calendar-model.c:1711
 #: calendar/gui/dialogs/task-details-page.glade.h:9
-#: mail/message-list.c:652
+#: mail/message-list.c:653
 msgid "Normal"
 msgstr "Звичайний"
 
 #: calendar/cal-util/cal-util.c:502
 #: calendar/cal-util/cal-util.c:524
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: mail/message-list.c:651
+#: mail/message-list.c:652
 msgid "Low"
 msgstr "Низький"
 
@@ -3212,30 +3208,30 @@ msgstr "Завдання"
 msgid "Folder containing to-do items"
 msgstr "Фільтр списку розсилки"
 
-#: calendar/gui/component-factory.c:653
-msgid "New appointment"
-msgstr "Нова зустріч"
-
-#: calendar/gui/component-factory.c:654
-msgid "_Appointment"
-msgstr "_Зустріч"
-
-#: calendar/gui/component-factory.c:659
+#: calendar/gui/component-factory.c:683
 msgid "New meeting"
 msgstr "Нове засідання"
 
-#: calendar/gui/component-factory.c:660
+#: calendar/gui/component-factory.c:683
 msgid "_Meeting"
 msgstr "За_сідання"
 
-#: calendar/gui/component-factory.c:665
+#: calendar/gui/component-factory.c:687
 msgid "New task"
 msgstr "Нове завдання"
 
-#: calendar/gui/component-factory.c:666
-#: ui/evolution-tasks.xml.h:22
+#: calendar/gui/component-factory.c:687
+#: ui/evolution-tasks.xml.h:21
 msgid "_Task"
 msgstr "Завдання"
+
+#: calendar/gui/component-factory.c:691
+msgid "New appointment"
+msgstr "Нова зустріч"
+
+#: calendar/gui/component-factory.c:691
+msgid "_Appointment"
+msgstr "_Зустріч"
 
 #: calendar/gui/control-factory.c:120
 msgid "The URI that the calendar will display"
@@ -3616,7 +3612,7 @@ msgid "Wednesday"
 msgstr "Середа"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-#: ui/evolution-calendar.xml.h:35
+#: ui/evolution-calendar.xml.h:33
 msgid "Work Week"
 msgstr "Робочий тиждень"
 
@@ -4235,7 +4231,7 @@ msgstr "Стерти вибрані контакти"
 #: calendar/gui/e-week-view.c:3433
 #: mail/folder-browser.c:1463
 #: shell/e-shortcuts-view.c:384
-#: ui/evolution-addressbook.xml.h:43
+#: ui/evolution-addressbook.xml.h:41
 msgid "_Open"
 msgstr "Відкрити"
 
@@ -4251,10 +4247,10 @@ msgstr "Вирізати"
 #: calendar/gui/e-calendar-table.c:966
 #: calendar/gui/e-day-view.c:3557
 #: calendar/gui/e-week-view.c:3444
-#: ui/evolution-addressbook.xml.h:38
-#: ui/evolution-calendar.xml.h:39
+#: ui/evolution-addressbook.xml.h:36
+#: ui/evolution-calendar.xml.h:37
 #: ui/evolution-mail-list.xml.h:24
-#: ui/evolution-tasks.xml.h:17
+#: ui/evolution-tasks.xml.h:16
 msgid "_Copy"
 msgstr "Скопіювати"
 
@@ -4263,10 +4259,10 @@ msgstr "Скопіювати"
 #: calendar/gui/e-day-view.c:3559
 #: calendar/gui/e-week-view.c:3420
 #: calendar/gui/e-week-view.c:3446
-#: ui/evolution-addressbook.xml.h:44
-#: ui/evolution-calendar.xml.h:43
+#: ui/evolution-addressbook.xml.h:42
+#: ui/evolution-calendar.xml.h:41
 #: ui/evolution-mail-list.xml.h:29
-#: ui/evolution-tasks.xml.h:21
+#: ui/evolution-tasks.xml.h:20
 msgid "_Paste"
 msgstr "Вставити"
 
@@ -5060,7 +5056,7 @@ msgstr "Надрукувати календар"
 #: calendar/gui/print.c:2569
 #: mail/mail-callbacks.c:2882
 #: my-evolution/e-summary.c:605
-#: ui/evolution-addressbook.xml.h:22
+#: ui/evolution-addressbook.xml.h:20
 #: ui/evolution-mail-message.xml.h:67
 msgid "Print Preview"
 msgstr "Перегляд друку"
@@ -5274,7 +5270,7 @@ msgstr ""
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Африка/Біссау"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
@@ -5290,11 +5286,11 @@ msgstr ""
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "Африка/Каір"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "Африка/Касабланка"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
@@ -5313,9 +5309,8 @@ msgid "Africa/Dar_es_Salaam"
 msgstr ""
 
 #: calendar/zones.h:25
-#, fuzzy
 msgid "Africa/Djibouti"
-msgstr "Джібуті"
+msgstr "Африка/Джібуті"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
@@ -5355,7 +5350,7 @@ msgstr ""
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "Африка/Кіншаса"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
@@ -5399,19 +5394,19 @@ msgstr ""
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "Африка/Моґадішу"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Африка/Монровія"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "Африка/Найробі"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Африка/Нджамена"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
@@ -5427,7 +5422,7 @@ msgstr ""
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Африка/Порто-Ново"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
@@ -5508,7 +5503,7 @@ msgstr ""
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "Америка/Буенос Айрес"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
@@ -5519,9 +5514,8 @@ msgid "America/Cancun"
 msgstr ""
 
 #: calendar/zones.h:75
-#, fuzzy
 msgid "America/Caracas"
-msgstr "Американська Самоа"
+msgstr "Америка/Каракас"
 
 #: calendar/zones.h:76
 #, fuzzy
@@ -5538,9 +5532,8 @@ msgid "America/Cayman"
 msgstr "Американська Самоа"
 
 #: calendar/zones.h:79
-#, fuzzy
 msgid "America/Chicago"
-msgstr "Американська Самоа"
+msgstr "Америка/Чикаґо"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
@@ -5718,7 +5711,7 @@ msgstr "Америка/Ліма"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "Америка/Лос Анжелес"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
@@ -5762,7 +5755,7 @@ msgstr ""
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Америка/Мехіко"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
@@ -5770,16 +5763,15 @@ msgstr ""
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "Америка/Монтеррей"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "Америка/Монтевідео"
 
 #: calendar/zones.h:135
-#, fuzzy
 msgid "America/Montreal"
-msgstr "Американська Самоа"
+msgstr "Америка/Монреаль"
 
 #: calendar/zones.h:136
 #, fuzzy
@@ -5793,7 +5785,7 @@ msgstr "Американська Самоа"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "Америка/Нью Йорк"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
@@ -5811,7 +5803,7 @@ msgstr "Американська Самоа"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "Америка/Північна Дакота/Сентр"
 
 #: calendar/zones.h:143
 msgid "America/Panama"
@@ -6037,7 +6029,7 @@ msgstr ""
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Азія/Ашґабад"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
@@ -6069,7 +6061,7 @@ msgstr "Азія/Бруней"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Азія/Калькутта"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
@@ -6388,9 +6380,8 @@ msgid "Australia/Lord_Howe"
 msgstr "Австралія"
 
 #: calendar/zones.h:280
-#, fuzzy
 msgid "Australia/Melbourne"
-msgstr "Австралія"
+msgstr "Австралія/Мельбурн"
 
 #: calendar/zones.h:281
 #, fuzzy
@@ -6398,9 +6389,8 @@ msgid "Australia/Perth"
 msgstr "Австралія"
 
 #: calendar/zones.h:282
-#, fuzzy
 msgid "Australia/Sydney"
-msgstr "Австралія"
+msgstr "Австралія/Сідней"
 
 #: calendar/zones.h:283
 msgid "Europe/Amsterdam"
@@ -8711,9 +8701,8 @@ msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на MAIL FROM: %s: пошту не відіслано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1014
-#, fuzzy
 msgid "MAIL FROM response error"
-msgstr "Помилка відповіді на MAIL FROM: %s: пошту не відіслано"
+msgstr "Помилка відповіді на MAIL FROM"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1039
 #, c-format
@@ -9455,7 +9444,7 @@ msgid "ago"
 msgstr "тому"
 
 #: filter/filter-datespec.c:711
-#: mail/message-list.c:996
+#: mail/message-list.c:997
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
@@ -9818,9 +9807,8 @@ msgid "Score Rules"
 msgstr "Мобільний"
 
 #: filter/vfolder-rule.c:204
-#, fuzzy
 msgid "You must name this vfolder."
-msgstr "Змінити назву цієї теки"
+msgstr "Вам необхідно мати цю віртуальну теку."
 
 #: filter/vfolder-rule.c:213
 msgid "You need to to specify at least one folder as a source."
@@ -10000,30 +9988,30 @@ msgstr "Змінити властивості цієї теки"
 msgid "Some of your mail settings seem corrupt, please check that everything is in order."
 msgstr ""
 
-#: mail/component-factory.c:969
+#: mail/component-factory.c:971
 msgid "New Mail Message"
 msgstr "Нове поштове повідомлення"
 
-#: mail/component-factory.c:969
-#: ui/evolution-mail-global.xml.h:20
+#: mail/component-factory.c:971
+#: ui/evolution-mail-global.xml.h:19
 msgid "_Mail Message"
 msgstr "Відіслати повідомлення"
 
-#: mail/component-factory.c:994
+#: mail/component-factory.c:998
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Не вдалося ініціалізувати поштовий компонент Evolutuion."
 
-#: mail/component-factory.c:1003
+#: mail/component-factory.c:1007
 #, fuzzy
 msgid "Cannot initialize Evolution's mail config component."
 msgstr "Не вдалося ініціалізувати поштовий компонент Evolutuion."
 
-#: mail/component-factory.c:1009
+#: mail/component-factory.c:1013
 #, fuzzy
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Не вдалося ініціалізувати поштовий компонент Evolutuion."
 
-#: mail/component-factory.c:1225
+#: mail/component-factory.c:1229
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -10191,12 +10179,12 @@ msgid "Mark as Unim_portant"
 msgstr "Позначити як неважливе"
 
 #: mail/folder-browser.c:1490
-#: ui/evolution-addressbook.xml.h:42
+#: ui/evolution-addressbook.xml.h:40
 msgid "_Move to Folder..."
 msgstr "Перенести в теку..."
 
 #: mail/folder-browser.c:1491
-#: ui/evolution-addressbook.xml.h:39
+#: ui/evolution-addressbook.xml.h:37
 msgid "_Copy to Folder..."
 msgstr "Скопіювати в теку..."
 
@@ -11063,9 +11051,8 @@ msgid "_Send mail in HTML format by default."
 msgstr "Відіслати пошту в форматі HTML"
 
 #: mail/mail-config.glade.h:126
-#, fuzzy
 msgid "_Server type: "
-msgstr "Тип сервера:"
+msgstr "Тип _сервера:"
 
 #: mail/mail-config.glade.h:127
 msgid "_Signature file:"
@@ -11096,26 +11083,20 @@ msgid "seconds."
 msgstr "секунд."
 
 #: mail/mail-crypto.c:59
-#, fuzzy
 msgid "Could not create a PGP signature context."
-msgstr "Створити новий календар"
+msgstr "Не вдалося створити вміст PGP-підпису."
 
 #: mail/mail-crypto.c:84
-#, fuzzy
 msgid "Could not create a PGP verification context."
-msgstr "Створити новий календар"
+msgstr "Не вдалося створити вміст PGP-перевірки."
 
 #: mail/mail-crypto.c:113
-#, fuzzy
 msgid "Could not create a PGP encryption context."
-msgstr "Не вдалось створити вікно конструктора."
+msgstr "Не вдалося створити вміст PGP-шифрування."
 
 #: mail/mail-crypto.c:138
-#, fuzzy
 msgid "Could not create a PGP decryption context."
-msgstr ""
-"Не вдалося створити каталог %s:\n"
-"%s"
+msgstr "Не вдалося створити вміст PGP-дешифрування."
 
 #: mail/mail-crypto.c:173
 msgid "Could not create a S/MIME signature context."
@@ -11655,65 +11636,65 @@ msgstr "(Без теми)"
 msgid "%s - Message"
 msgstr "повідомлення - %s"
 
-#: mail/message-list.c:641
+#: mail/message-list.c:642
 msgid "Unseen"
 msgstr "Не прочитано"
 
-#: mail/message-list.c:642
+#: mail/message-list.c:643
 msgid "Seen"
 msgstr "Прочитано"
 
-#: mail/message-list.c:643
+#: mail/message-list.c:644
 msgid "Answered"
 msgstr "Дано відповідь"
 
-#: mail/message-list.c:644
+#: mail/message-list.c:645
 #, fuzzy
 msgid "Multiple Unseen Messages"
 msgstr "Не вдалося відіслати повідомлення: %s"
 
-#: mail/message-list.c:645
+#: mail/message-list.c:646
 #, fuzzy
 msgid "Multiple Messages"
 msgstr "Надрукувати повідомлення"
 
-#: mail/message-list.c:649
+#: mail/message-list.c:650
 msgid "Lowest"
 msgstr "Найнижче"
 
-#: mail/message-list.c:650
+#: mail/message-list.c:651
 msgid "Lower"
 msgstr "Нижче"
 
-#: mail/message-list.c:654
+#: mail/message-list.c:655
 msgid "Higher"
 msgstr "Вище"
 
-#: mail/message-list.c:655
+#: mail/message-list.c:656
 msgid "Highest"
 msgstr "Найвище"
 
-#: mail/message-list.c:960
+#: mail/message-list.c:961
 msgid "?"
 msgstr "?"
 
-#: mail/message-list.c:967
+#: mail/message-list.c:968
 msgid "Today %l:%M %p"
 msgstr "Сьогодні %I:%M %p"
 
-#: mail/message-list.c:976
+#: mail/message-list.c:977
 msgid "Yesterday %l:%M %p"
 msgstr "Вчора %l:%M %p"
 
-#: mail/message-list.c:988
+#: mail/message-list.c:989
 msgid "%a %l:%M %p"
 msgstr "%a %I:%M %p"
 
-#: mail/message-list.c:998
+#: mail/message-list.c:999
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:2366
+#: mail/message-list.c:2394
 msgid "Generating message list"
 msgstr "Створення списку повідомлень"
 
@@ -11841,7 +11822,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:8
 msgid "Abu Dhabi"
-msgstr ""
+msgstr "Абу Дабі"
 
 #: my-evolution/Locations.h:9
 msgid "Abu Dhabi - Bateen"
@@ -12016,9 +11997,8 @@ msgid "Alesund"
 msgstr ""
 
 #: my-evolution/Locations.h:50
-#, fuzzy
 msgid "Alexandria"
-msgstr "Албанія"
+msgstr "Александрія"
 
 #: my-evolution/Locations.h:51
 msgid "Alexandria-Esler"
@@ -12156,9 +12136,8 @@ msgid "Amritsar"
 msgstr ""
 
 #: my-evolution/Locations.h:82
-#, fuzzy
 msgid "Amsterdam"
-msgstr "Австрія"
+msgstr "Амстердам"
 
 #: my-evolution/Locations.h:83
 msgid "Anadyr"
@@ -12243,9 +12222,8 @@ msgid "Anniston"
 msgstr "Афґаністан"
 
 #: my-evolution/Locations.h:102
-#, fuzzy
 msgid "Antalya"
-msgstr "Італія"
+msgstr "Анталія"
 
 #: my-evolution/Locations.h:103
 msgid "Antartica"
@@ -13223,9 +13201,8 @@ msgid "Caen-Carpiquet"
 msgstr ""
 
 #: my-evolution/Locations.h:332
-#, fuzzy
 msgid "Cagliari"
-msgstr "Календар"
+msgstr "Кальярі"
 
 #: my-evolution/Locations.h:333
 #, fuzzy
@@ -13233,9 +13210,8 @@ msgid "Cairns"
 msgstr "Місце"
 
 #: my-evolution/Locations.h:334
-#, fuzzy
 msgid "Cairo"
-msgstr "Місце"
+msgstr "Каір"
 
 #: my-evolution/Locations.h:335
 msgid "Calabozo"
@@ -13243,16 +13219,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:336
 msgid "Calcutta/Dum Dum"
-msgstr ""
+msgstr "Калькутта (Дум Дум)"
 
 #: my-evolution/Locations.h:337
 msgid "Caldwell"
 msgstr ""
 
 #: my-evolution/Locations.h:338
-#, fuzzy
 msgid "Calgary"
-msgstr "Календар"
+msgstr "Калґарі"
 
 #: my-evolution/Locations.h:339
 msgid "Cali/Alfonso Bonillaaragon"
@@ -13264,18 +13239,16 @@ msgid "Caliente"
 msgstr "Календар"
 
 #: my-evolution/Locations.h:341
-#, fuzzy
 msgid "California"
-msgstr "Нова Каледонія"
+msgstr "Каліфорнія"
 
 #: my-evolution/Locations.h:342
 msgid "Calvi-Ste-Catherine"
 msgstr ""
 
 #: my-evolution/Locations.h:343
-#, fuzzy
 msgid "Camaguey"
-msgstr "Параґвай"
+msgstr "Камаґуей"
 
 #: my-evolution/Locations.h:344
 msgid "Camarillo"
@@ -13425,9 +13398,8 @@ msgid "Carbondale"
 msgstr "Камбоджа"
 
 #: my-evolution/Locations.h:378
-#, fuzzy
 msgid "Cardiff"
-msgstr "Відображення картки"
+msgstr "Кардифф"
 
 #: my-evolution/Locations.h:379
 #, fuzzy
@@ -13473,9 +13445,8 @@ msgid "Catacamas"
 msgstr "Багами"
 
 #: my-evolution/Locations.h:388
-#, fuzzy
 msgid "Catania"
-msgstr "Хорватія"
+msgstr "Катанія"
 
 #: my-evolution/Locations.h:390
 msgid "Cayo Largo del Sur"
@@ -13593,7 +13564,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:415
 msgid "Cheboksary"
-msgstr ""
+msgstr "Чебоксари"
 
 #: my-evolution/Locations.h:416
 #, fuzzy
@@ -13602,7 +13573,7 @@ msgstr "Чилі"
 
 #: my-evolution/Locations.h:417
 msgid "Chelyabinsk"
-msgstr ""
+msgstr "Челябінськ"
 
 #: my-evolution/Locations.h:418
 msgid "Chengdu"
@@ -14208,7 +14179,7 @@ msgstr "День"
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
-msgstr ""
+msgstr "Дійтона Біч"
 
 #: my-evolution/Locations.h:564
 msgid "Dayton-Fairborn"
@@ -14280,9 +14251,8 @@ msgid "Denison"
 msgstr "Бенін"
 
 #: my-evolution/Locations.h:581
-#, fuzzy
 msgid "Denton"
-msgstr "Лебанон"
+msgstr "Дентон"
 
 #: my-evolution/Locations.h:582
 #, fuzzy
@@ -14442,9 +14412,8 @@ msgid "Drummond"
 msgstr ""
 
 #: my-evolution/Locations.h:619
-#, fuzzy
 msgid "Dubai"
-msgstr "Куба"
+msgstr "Дубаі"
 
 #: my-evolution/Locations.h:620
 msgid "Dubbo"
@@ -15229,14 +15198,12 @@ msgid "Gaziantep"
 msgstr ""
 
 #: my-evolution/Locations.h:806
-#, fuzzy
 msgid "Gdansk"
-msgstr "Тіло"
+msgstr "Ґданськ"
 
 #: my-evolution/Locations.h:807
-#, fuzzy
 msgid "Geneve"
-msgstr "Греція"
+msgstr "Женева"
 
 #: my-evolution/Locations.h:808
 #, fuzzy
@@ -15586,7 +15553,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:891
 msgid "Hamamatsu Ab"
-msgstr ""
+msgstr "Фукуока (аеропорт)"
 
 #: my-evolution/Locations.h:892
 msgid "Hamburg"
@@ -15611,7 +15578,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:897
 msgid "Hanamaki Airport"
-msgstr ""
+msgstr "Ганамакі (аеропорт)"
 
 #: my-evolution/Locations.h:898
 msgid "Hancock"
@@ -15682,9 +15649,8 @@ msgid "Havre"
 msgstr "Верхній колонтитул"
 
 #: my-evolution/Locations.h:914
-#, fuzzy
 msgid "Hawaii"
-msgstr "Гаїті"
+msgstr "Гаваї"
 
 #: my-evolution/Locations.h:915
 msgid "Hawthorne"
@@ -15941,9 +15907,8 @@ msgid "Iasi"
 msgstr "Вставити"
 
 #: my-evolution/Locations.h:977
-#, fuzzy
 msgid "Ibiza"
-msgstr "Індія"
+msgstr "Ібіца"
 
 #: my-evolution/Locations.h:979
 msgid "Ichikawa"
@@ -15978,7 +15943,7 @@ msgstr "В тілі"
 
 #: my-evolution/Locations.h:986
 msgid "Illinois"
-msgstr ""
+msgstr "Ілліноіс"
 
 #: my-evolution/Locations.h:987
 #, fuzzy
@@ -15999,9 +15964,8 @@ msgid "In Amenas"
 msgstr "Вірменія"
 
 #: my-evolution/Locations.h:992
-#, fuzzy
 msgid "Indiana"
-msgstr "Індія"
+msgstr "Індіана"
 
 #: my-evolution/Locations.h:993
 msgid "Indianapolis"
@@ -16013,7 +15977,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:995
 msgid "Innsbruck"
-msgstr ""
+msgstr "Іннсбрук"
 
 #: my-evolution/Locations.h:996
 msgid "International Falls"
@@ -16033,9 +15997,8 @@ msgid "Inyokern"
 msgstr ""
 
 #: my-evolution/Locations.h:1000
-#, fuzzy
 msgid "Iowa"
-msgstr "Норвеґія"
+msgstr "Айова"
 
 #: my-evolution/Locations.h:1001
 msgid "Iowa City"
@@ -16051,7 +16014,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1004
 msgid "Iquitos"
-msgstr ""
+msgstr "Ікітос"
 
 #: my-evolution/Locations.h:1005
 #, fuzzy
@@ -16088,9 +16051,8 @@ msgid "Islip"
 msgstr ""
 
 #: my-evolution/Locations.h:1014
-#, fuzzy
 msgid "Istanbul"
-msgstr "Італія"
+msgstr "Стамбул"
 
 #: my-evolution/Locations.h:1015
 msgid "Itaituba"
@@ -16299,11 +16261,11 @@ msgstr "Канзас"
 
 #: my-evolution/Locations.h:1068
 msgid "Kansas City"
-msgstr ""
+msgstr "Канзіс-Ситі"
 
 #: my-evolution/Locations.h:1069
 msgid "Kansas City-Gladstone"
-msgstr ""
+msgstr "Канзіс-Ситі (Ґледстоун)"
 
 #: my-evolution/Locations.h:1070
 msgid "Kaohsiung"
@@ -16341,7 +16303,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1078
 msgid "Kayseri"
-msgstr ""
+msgstr "Кайзері"
 
 #: my-evolution/Locations.h:1079
 #, fuzzy
@@ -16377,9 +16339,8 @@ msgid "Kenosha"
 msgstr "Кенія"
 
 #: my-evolution/Locations.h:1086
-#, fuzzy
 msgid "Kentucky"
-msgstr "Кенія"
+msgstr "Кентукі"
 
 #: my-evolution/Locations.h:1087
 msgid "Keokuk"
@@ -16570,9 +16531,8 @@ msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
 #: my-evolution/Locations.h:1133
-#, fuzzy
 msgid "Korea, Republic of"
-msgstr "Чехія"
+msgstr ""
 
 #: my-evolution/Locations.h:1134
 msgid "Kos"
@@ -17777,15 +17737,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:1411
 msgid "Minneapolis"
-msgstr ""
+msgstr "Міннеаполіс"
 
 #: my-evolution/Locations.h:1412
 msgid "Minneapolis [2]"
-msgstr ""
+msgstr "Міннеаполіс [2]"
 
 #: my-evolution/Locations.h:1413
 msgid "Minneapolis [3]"
-msgstr ""
+msgstr "Міннеаполіс [3]"
 
 #: my-evolution/Locations.h:1414
 #, fuzzy
@@ -20134,7 +20094,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1961
 msgid "Salt Lake City"
-msgstr ""
+msgstr "Солт-Лейк-Ситі"
 
 #: my-evolution/Locations.h:1962
 #, fuzzy
@@ -20629,9 +20589,8 @@ msgid "Shenandoah"
 msgstr ""
 
 #: my-evolution/Locations.h:2074
-#, fuzzy
 msgid "Sheridan"
-msgstr "Судан"
+msgstr ""
 
 #: my-evolution/Locations.h:2075
 msgid "Sherman-Denison"
@@ -20677,9 +20636,8 @@ msgid "Shreveport Regional"
 msgstr ""
 
 #: my-evolution/Locations.h:2085
-#, fuzzy
 msgid "Sidney"
-msgstr "Pine"
+msgstr "Сідней"
 
 #: my-evolution/Locations.h:2086
 msgid "Sigonella"
@@ -21451,15 +21409,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:2270
 msgid "Tokyo Heliport"
-msgstr ""
+msgstr "Токіо (геліпорт)"
 
 #: my-evolution/Locations.h:2271
 msgid "Tokyo International Airport"
-msgstr ""
+msgstr "Токіо (міжнародний аеропорт)"
 
 #: my-evolution/Locations.h:2272
 msgid "Tokyo New International Airport"
-msgstr ""
+msgstr "Токіо (новий міжнародний аеропорт)"
 
 #: my-evolution/Locations.h:2273
 #, fuzzy
@@ -23971,11 +23929,11 @@ msgstr "Не вдалося ініціалізувати поштовий ком
 msgid "The Evolution shell."
 msgstr "Оболонка Evolutuion."
 
-#: shell/e-activity-handler.c:200
+#: shell/e-activity-handler.c:160
 msgid "Show Details"
 msgstr "Показати подробиці"
 
-#: shell/e-activity-handler.c:202
+#: shell/e-activity-handler.c:162
 msgid "Cancel Operation"
 msgstr "Скасувати операцію"
 
@@ -24345,8 +24303,8 @@ msgid ""
 ""
 msgstr "Не вдалося ініціалізувати поштовий компонент Evolutuion."
 
-#: shell/e-shell-user-creatable-items-handler.c:495
-#: shell/e-shell-user-creatable-items-handler.c:540
+#: shell/e-shell-user-creatable-items-handler.c:503
+#: shell/e-shell-user-creatable-items-handler.c:548
 #: widgets/misc/e-charset-picker.c:104
 msgid "New"
 msgstr "Новий"
@@ -25005,109 +24963,105 @@ msgid "Move to Folder..."
 msgstr "Перенести в теку..."
 
 #: ui/evolution-addressbook.xml.h:17
-msgid "New List"
-msgstr "Новий список"
-
-#: ui/evolution-addressbook.xml.h:19
-#: ui/evolution-calendar.xml.h:25
+#: ui/evolution-calendar.xml.h:23
 msgid "Paste the clipboard"
 msgstr "Вставити буфер обміну"
 
-#: ui/evolution-addressbook.xml.h:20
+#: ui/evolution-addressbook.xml.h:18
 #, fuzzy
 msgid "Previews the contacts to be printed"
 msgstr "Переглянути календар, що буде надрукувано"
 
-#: ui/evolution-addressbook.xml.h:23
+#: ui/evolution-addressbook.xml.h:21
 msgid "Print selected contacts"
 msgstr "Надрукувати вибрані контакти"
 
-#: ui/evolution-addressbook.xml.h:25
+#: ui/evolution-addressbook.xml.h:23
 msgid "Save selected contacts as a VCard."
 msgstr "Зберегти вибраний контак як vCard."
 
-#: ui/evolution-addressbook.xml.h:26
+#: ui/evolution-addressbook.xml.h:24
 msgid "Select All"
 msgstr "Вибрати все"
 
-#: ui/evolution-addressbook.xml.h:27
+#: ui/evolution-addressbook.xml.h:25
 msgid "Select all contacts"
 msgstr "Вибрати всі контакти"
 
-#: ui/evolution-addressbook.xml.h:28
+#: ui/evolution-addressbook.xml.h:26
 #, fuzzy
 msgid "Send a mess to the selected contacts."
 msgstr "Стерти контакт"
 
-#: ui/evolution-addressbook.xml.h:29
+#: ui/evolution-addressbook.xml.h:27
 msgid "Send message to contact"
 msgstr "Відіслати повідомлення за контактом"
 
-#: ui/evolution-addressbook.xml.h:30
+#: ui/evolution-addressbook.xml.h:28
 msgid "Send selected contacts to another person."
 msgstr "Відіслати вибрані контакти іншій особі."
 
-#: ui/evolution-addressbook.xml.h:31
+#: ui/evolution-addressbook.xml.h:29
 msgid "Stop"
 msgstr "Зупинити"
 
-#: ui/evolution-addressbook.xml.h:32
+#: ui/evolution-addressbook.xml.h:30
 msgid "Stop Loading"
 msgstr "Зупинити завантаження"
 
-#: ui/evolution-addressbook.xml.h:33
+#: ui/evolution-addressbook.xml.h:31
 msgid "View the current contact"
 msgstr "Показати поточний контакт"
 
-#: ui/evolution-addressbook.xml.h:34
-#: ui/evolution-calendar.xml.h:36
+#: ui/evolution-addressbook.xml.h:32
+#: ui/evolution-calendar.xml.h:34
 #: ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10
 #: ui/evolution-event-editor.xml.h:9
-#: ui/evolution-mail-global.xml.h:18
+#: ui/evolution-mail-global.xml.h:17
 #: ui/evolution-mail-list.xml.h:23
 #: ui/evolution-mail-message.xml.h:92
 #: ui/evolution-mail-messagedisplay.xml.h:4
 #: ui/evolution-task-editor.xml.h:9
-#: ui/evolution-tasks.xml.h:16
+#: ui/evolution-tasks.xml.h:15
 msgid "_Actions"
 msgstr "Дії"
 
-#: ui/evolution-addressbook.xml.h:35
+#: ui/evolution-addressbook.xml.h:33
 msgid "_Addressbook Sources..."
 msgstr "Джерела адресних книг..."
 
-#: ui/evolution-addressbook.xml.h:37
+#: ui/evolution-addressbook.xml.h:35
 msgid "_Contact List"
 msgstr "Контактний список"
 
-#: ui/evolution-addressbook.xml.h:41
+#: ui/evolution-addressbook.xml.h:39
 #: ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
 msgstr "Переслати контакт..."
 
-#: ui/evolution-addressbook.xml.h:45
-#: ui/evolution-calendar.xml.h:44
+#: ui/evolution-addressbook.xml.h:43
+#: ui/evolution-calendar.xml.h:42
 #: ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:106
 #: ui/my-evolution.xml.h:7
 msgid "_Print..."
 msgstr "Друкувати..."
 
-#: ui/evolution-addressbook.xml.h:46
+#: ui/evolution-addressbook.xml.h:44
 msgid "_Save as VCard"
 msgstr "Зберегти як VCard"
 
-#: ui/evolution-addressbook.xml.h:47
+#: ui/evolution-addressbook.xml.h:45
 msgid "_Search for Contacts"
 msgstr "Пошук контактів"
 
-#: ui/evolution-addressbook.xml.h:48
+#: ui/evolution-addressbook.xml.h:46
 msgid "_Select All"
 msgstr "Вибрати все"
 
-#: ui/evolution-addressbook.xml.h:49
+#: ui/evolution-addressbook.xml.h:47
 #, fuzzy
 msgid "_Send Message to Contact..."
 msgstr "Відіслати повідомлення за контактом..."
@@ -25189,69 +25143,60 @@ msgstr "Сьогодні"
 msgid "Month"
 msgstr "Місяць"
 
-#: ui/evolution-calendar.xml.h:23
-msgid "New Appointment"
-msgstr "Нова зустріч"
-
 #: ui/evolution-calendar.xml.h:24
-#: ui/evolution-tasks.xml.h:12
-msgid "New Task"
-msgstr "Нове завдання"
-
-#: ui/evolution-calendar.xml.h:26
 msgid "Previews the calendar to be printed"
 msgstr "Переглянути календар, що буде надрукувано"
 
-#: ui/evolution-calendar.xml.h:27
+#: ui/evolution-calendar.xml.h:25
 #: ui/evolution-comp-editor.xml.h:9
 msgid "Print Pre_view"
 msgstr "Перегляд друку"
 
-#: ui/evolution-calendar.xml.h:28
+#: ui/evolution-calendar.xml.h:26
 msgid "Print this calendar"
 msgstr "Надрукувати цей календар"
 
-#: ui/evolution-calendar.xml.h:29
+#: ui/evolution-calendar.xml.h:27
 msgid "Publish Free/Busy information for this calendar"
 msgstr "Опублікувати інформацію про зайнятість для цього календаря"
 
-#: ui/evolution-calendar.xml.h:30
+#: ui/evolution-calendar.xml.h:28
 msgid "Show one day"
 msgstr "Показати один день"
 
-#: ui/evolution-calendar.xml.h:31
+#: ui/evolution-calendar.xml.h:29
 msgid "Show one month"
 msgstr "Показати один місяць"
 
-#: ui/evolution-calendar.xml.h:32
+#: ui/evolution-calendar.xml.h:30
 msgid "Show one week"
 msgstr "Показати один тиждень"
 
-#: ui/evolution-calendar.xml.h:33
+#: ui/evolution-calendar.xml.h:31
 msgid "Show the working week"
 msgstr "Показати робочий тиждень"
 
-#: ui/evolution-calendar.xml.h:34
+#: ui/evolution-calendar.xml.h:32
 msgid "Week"
 msgstr "Тиждень"
 
-#: ui/evolution-calendar.xml.h:37
+#: ui/evolution-calendar.xml.h:35
 msgid "_Appointment..."
 msgstr "Зустріч..."
 
-#: ui/evolution-calendar.xml.h:38
+#: ui/evolution-calendar.xml.h:36
 msgid "_Calendar Settings..."
 msgstr "параметри календаря..."
 
-#: ui/evolution-calendar.xml.h:42
+#: ui/evolution-calendar.xml.h:40
 msgid "_Meeting..."
 msgstr "_Засідання..."
 
-#: ui/evolution-calendar.xml.h:45
+#: ui/evolution-calendar.xml.h:43
 msgid "_Publish Free/Busy Information"
 msgstr "Опублікувати інформацію про зайнятість"
 
-#: ui/evolution-calendar.xml.h:46
+#: ui/evolution-calendar.xml.h:44
 msgid "_Task..."
 msgstr "Завдання..."
 
@@ -25447,54 +25392,50 @@ msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr ""
 
 #: ui/evolution-mail-global.xml.h:10
-msgid "New Message"
-msgstr "Нове повідомлення"
-
-#: ui/evolution-mail-global.xml.h:11
 msgid "Open a window for composing a mail message"
 msgstr "Відкрити вікно для написання нового повідомлення"
 
-#: ui/evolution-mail-global.xml.h:12
+#: ui/evolution-mail-global.xml.h:11
 msgid "Permanently remove all deleted messages from all folders"
 msgstr "Остаточно видалити всі стерті повідомлення з усіх тек"
 
-#: ui/evolution-mail-global.xml.h:13
+#: ui/evolution-mail-global.xml.h:12
 msgid "Send / Receive"
 msgstr "Відіслати / отримати"
 
-#: ui/evolution-mail-global.xml.h:14
+#: ui/evolution-mail-global.xml.h:13
 msgid "Send queued mail and retrieve new mail"
 msgstr "Відіслати повідомлення з черги та отримати нові"
 
-#: ui/evolution-mail-global.xml.h:15
+#: ui/evolution-mail-global.xml.h:14
 msgid "Show message preview window"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:16
+#: ui/evolution-mail-global.xml.h:15
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Передплата на тки на віддалених серверах"
 
-#: ui/evolution-mail-global.xml.h:17
+#: ui/evolution-mail-global.xml.h:16
 msgid "Virtual Folder _Editor..."
 msgstr "Редактор віртуальних тек..."
 
-#: ui/evolution-mail-global.xml.h:19
+#: ui/evolution-mail-global.xml.h:18
 msgid "_Filters..."
 msgstr "Фільтри..."
 
-#: ui/evolution-mail-global.xml.h:21
+#: ui/evolution-mail-global.xml.h:20
 msgid "_Mail Settings..."
 msgstr "Установки пошти..."
 
-#: ui/evolution-mail-global.xml.h:22
+#: ui/evolution-mail-global.xml.h:21
 msgid "_Preview Pane"
 msgstr "панель перегляду"
 
-#: ui/evolution-mail-global.xml.h:23
+#: ui/evolution-mail-global.xml.h:22
 msgid "_Send / Receive"
 msgstr "Відіслати / отримати"
 
-#: ui/evolution-mail-global.xml.h:24
+#: ui/evolution-mail-global.xml.h:23
 msgid "_Subscribe to Folders..."
 msgstr "Передплатити теки..."
 
@@ -25588,7 +25529,7 @@ msgid "Threaded Message list"
 msgstr "Розбитий на гілки список повідомлень"
 
 #: ui/evolution-mail-list.xml.h:26
-#: ui/evolution-tasks.xml.h:20
+#: ui/evolution-tasks.xml.h:19
 msgid "_Expunge"
 msgstr "Викреслити"
 
@@ -26285,11 +26226,11 @@ msgstr "Стерти вибрані завдання"
 msgid "Mar_k as Complete"
 msgstr "Позначити як виконане"
 
-#: ui/evolution-tasks.xml.h:14
+#: ui/evolution-tasks.xml.h:13
 msgid "Paste task from the clipboard"
 msgstr "Вставити завдання з буферу обміну"
 
-#: ui/evolution-tasks.xml.h:15
+#: ui/evolution-tasks.xml.h:14
 msgid "Tasks Settings..."
 msgstr "Установки завдань..."
 
