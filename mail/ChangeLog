@@ -2,7 +2,8 @@
 
 	* mail-session.c (request_password): No need to convert the prompt
 	from Camel into UTF-8 (first, gtk widgets don't want UTF-8 and
-	second, the camel strings are already translated).
+	second, the camel strings are already translated). Fixes bug
+	#36453.
 
 2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
