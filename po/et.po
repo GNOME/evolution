@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Evolution 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-06 12:31-0500\n"
-"PO-Revision-Date: 2005-01-13 11:18+0200\n"
+"PO-Revision-Date: 2005-01-13 16:38+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -386,7 +386,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Postiloendi kontaktide salvestusformaat on muutunud.\n"
+"Postiloendi kontaktide salvestusvorming on muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -3045,19 +3045,19 @@ msgstr "nimekiri"
 
 #: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
-msgstr "Liiguta kontaktid"
+msgstr "Kontakti ümbertõstmine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
-msgstr "Kopeeri kontaktid"
+msgstr "Kontakti kopeerimine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
-msgstr "Liiguta kontaktid"
+msgstr "Kontaktide ümbertõstmine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
-msgstr "Kopeeri kontaktid"
+msgstr "Kontaktide kopeerimine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
@@ -3159,7 +3159,7 @@ msgstr "Evolutioni LDIF importija"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr "LDAP andmevahetusformaat (.ldif)"
+msgstr "LDAP andmevahetusvorming (.ldif)"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
 msgid "Evolution VCard Importer"
@@ -3180,12 +3180,12 @@ msgstr "Trüki ümbrik"
 
 #: addressbook/printing/e-contact-print.c:1000
 msgid "Print contacts"
-msgstr "Kontaktide printimine"
+msgstr "Kontaktide trükkimine"
 
 #: addressbook/printing/e-contact-print.c:1066
 #: addressbook/printing/e-contact-print.c:1093
 msgid "Print contact"
-msgstr "Kontakti printimine"
+msgstr "Kontakti trükkimine"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -3277,7 +3277,7 @@ msgstr "Tulpade arv:"
 
 #: addressbook/printing/e-contact-print.glade.h:23
 msgid "Options"
-msgstr "Häälestus"
+msgstr "Valikud"
 
 #: addressbook/printing/e-contact-print.glade.h:24
 msgid "Orientation"
@@ -4055,7 +4055,8 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr "Kas näidata kellaaega 24 tunni formaadis või kasutada am/pm formaati."
+msgstr ""
+"Kas näidata kellaaega 24-tunnises vormingus või kasutada EL/PL vormingut"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
@@ -4569,7 +4570,7 @@ msgstr "Neljapäev"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Time _zone:"
-msgstr "Ajav_öönd:"
+msgstr "Aja_vöönd:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Time format:"
@@ -4583,7 +4584,7 @@ msgstr "Teisipäev"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "W_eek starts:"
-msgstr "_Nädala algus:"
+msgstr "Nä_dala algus:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1047
@@ -4609,7 +4610,7 @@ msgstr "_URL'i lisamine"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Ask for confirmation when deleting items"
-msgstr "_Küsi nõusolekut kirjete kustutamisel"
+msgstr "Küs_i nõusolekut kirjete kustutamisel"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Compress weekends in month view"
@@ -4617,7 +4618,7 @@ msgstr "_Nädalalõpud kuvatakse kokkusurutud vormis"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Day begins:"
-msgstr "_Päev algab:"
+msgstr "Päev _algab:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: calendar/gui/dialogs/recurrence-page.glade.h:6 filter/filter.glade.h:10
@@ -4706,7 +4707,7 @@ msgstr "Lisa uus ülesandeloend"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
 msgid "C_olor:"
-msgstr "_Värv:"
+msgstr "Vä_rvus:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:5 mail/mail-config.glade.h:110
 msgid "Pick a color"
@@ -4722,7 +4723,7 @@ msgstr "Lisa uus _ülesandeloend"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
-msgstr "_Värskenda:"
+msgstr "_Värskendamissagedus:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
@@ -5105,7 +5106,7 @@ msgstr "_Algus:"
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
 #: widgets/misc/e-dateedit.c:1480 widgets/misc/e-dateedit.c:1595
 msgid "None"
-msgstr "Mitte midagi"
+msgstr "Puudub"
 
 #: calendar/gui/dialogs/meeting-page.c:449
 msgid "The organizer selected no longer has an account."
@@ -5512,7 +5513,7 @@ msgstr "<b>Avalikustamise _asukoht</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
-msgstr "Vaba/Hõivatud teabe redigeerija"
+msgstr "Vaba/Hõivatud teabe redaktor"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -6162,7 +6163,7 @@ msgstr "Asukoht:"
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
-msgstr "Vastu võetud"
+msgstr "Nõusolek antud"
 
 #: calendar/gui/e-itip-control.c:1148 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
@@ -6429,7 +6430,7 @@ msgstr "Vaba/hõivatud teabe saatmine"
 
 #: calendar/gui/e-itip-control.c:2326
 msgid "Update respondent status"
-msgstr ""
+msgstr "Värskenda vastaja olekut"
 
 #: calendar/gui/e-itip-control.c:2354
 msgid "Send Latest Information"
@@ -6493,7 +6494,7 @@ msgstr "Ressursid"
 #: calendar/gui/e-meeting-list-view.c:118 calendar/gui/e-meeting-store.c:90
 #: calendar/gui/e-meeting-store.c:107 calendar/gui/e-meeting-store.c:759
 msgid "Individual"
-msgstr "Individuaalne"
+msgstr "Isik"
 
 #: calendar/gui/e-meeting-list-view.c:119 calendar/gui/e-meeting-store.c:92
 #: calendar/gui/e-meeting-store.c:109
@@ -6589,7 +6590,7 @@ msgstr "Info puudub"
 
 #: calendar/gui/e-meeting-time-sel.c:442
 msgid "O_ptions"
-msgstr ""
+msgstr "_Valikud"
 
 #: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
@@ -10035,7 +10036,7 @@ msgstr ""
 #: camel/providers/groupwise/camel-groupwise-provider.c:61
 #: camel/providers/imap/camel-imap-provider.c:66
 msgid "Check new messages for Junk contents"
-msgstr "Kontrolli, kas uuted sõnumid on rämpspost"
+msgstr "Kontrolli, kas uued sõnumid on rämpspost"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:63
 #: camel/providers/imap/camel-imap-provider.c:68
@@ -10236,7 +10237,7 @@ msgstr "Ühendus serveriga"
 
 #: camel/providers/imap/camel-imap-provider.c:50
 msgid "Use custom command to connect to server"
-msgstr "Kasuta kohandatud käsku proxyserveriga ühendumiseks."
+msgstr "Kasuta kohandatud käsku serveriga ühendumiseks"
 
 #: camel/providers/imap/camel-imap-provider.c:52
 msgid "Command:"
@@ -10265,7 +10266,7 @@ msgstr "Nimeruum"
 
 #: camel/providers/imap/camel-imap-provider.c:64
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Rakenda filtreid kõikidele Sisendkasti uutele sõnumitele"
+msgstr "Rakenda filtreid kõikidele sisendkausta uutele sõnumitele"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -12786,7 +12787,7 @@ msgstr "Keel(ed)"
 
 #: mail/em-composer-prefs.c:955
 msgid "Add signature script"
-msgstr "Lisa allkirjaskript"
+msgstr "Allkirjaskripti lisamine"
 
 #: mail/em-composer-prefs.c:975
 msgid "Signature(s)"
@@ -13080,14 +13081,14 @@ msgstr "Kausta omadused"
 #: mail/em-folder-properties.c:162
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sõnumeid kokku:"
+msgstr[1] "Sõnumeid kokku:"
 
 #: mail/em-folder-properties.c:174
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lugemata sõnumeid:"
+msgstr[1] "Lugemata sõnumeid:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -13412,6 +13413,8 @@ msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
 msgstr ""
+"Selle sõnumi signatuuri ei saa verifitseerida. See võib olla sõnumi "
+"kohaletoimetamise käigus asendatud."
 
 #: mail/em-format-html-display.c:646
 msgid "Valid signature, cannot verify sender"
@@ -13432,6 +13435,8 @@ msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
 msgstr ""
+"See sõnum ei ole krüptitud. Sõnumi sisu edastati internetis kaudu lahtiselt "
+"ja see võis näha olla ka kolmandale osapoolele."
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:592
 msgid "Encrypted, weak"
@@ -13443,6 +13448,9 @@ msgid ""
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
+"See sõnum on krüptitud nõrga krüptoalgoritmiga.  Võimalikul ründajal peaks "
+"olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi "
+"krüpteering lahti murda."
 
 #: mail/em-format-html-display.c:654 mail/em-format-html.c:593
 msgid "Encrypted"
@@ -13465,6 +13473,8 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
+"See sõnum on krüptitud tugeva krüptoalgoritmiga.  Võimalikul ründajal peaks "
+"olema väga raske mõistliku aja jooksul sõnumi krüpteering lahti murda."
 
 #: mail/em-format-html-display.c:756 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
@@ -13874,11 +13884,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
-msgstr "Väljumisel tühjendatakse prügikastid"
+msgstr "Programmi sulgemisel tühjendatakse prügikaustad"
 
 #: mail/evolution-mail.schemas.in.in.h:22
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "_Väljumisel tühjendatakse kõik prügikastid."
+msgstr "_Väljumisel tühjendatakse kõik prügikaustad."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -14732,7 +14742,7 @@ msgstr "<span weight=\"bold\">Mittekohustuslik teave</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
-msgstr "<span weight=\"bold\">Häälestus</span>"
+msgstr "<span weight=\"bold\">Valikud</span>"
 
 #: mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
@@ -14824,7 +14834,7 @@ msgstr "Balti (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
 msgid "Beep w_hen new mail arrives"
-msgstr ""
+msgstr "_Piiksu uue sõnumi saabumisel"
 
 #: mail/mail-config.glade.h:53
 msgid "C_haracter set:"
@@ -14912,7 +14922,7 @@ msgstr "E-posti _aadress:"
 
 #: mail/mail-config.glade.h:79
 msgid "Empty trash folders on e_xit"
-msgstr "Väljumisel tühjendatakse _prügikastid"
+msgstr "Väljumisel tühjendatakse _prügikaustad"
 
 #: mail/mail-config.glade.h:80
 msgid "Encry_ption certificate:"
@@ -14948,7 +14958,7 @@ msgstr "Päised"
 
 #: mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "Rõhuta _tsiteeringuid"
 
 #: mail/mail-config.glade.h:90
 msgid "IMAPv4 "
@@ -15048,7 +15058,7 @@ msgstr "Vali HTML fikseeritud laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:126
 msgid "Select HTML fixed width font for printing"
-msgstr "Vali printimise jaoks HTML fikseeritud laiusega kirjatüüp"
+msgstr "Vali trükkimise jaoks HTML fikseeritud laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:127
 msgid "Select HTML variable width font"
@@ -15056,7 +15066,7 @@ msgstr "Vali HTML muutuva laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:128
 msgid "Select HTML variable width font for printing"
-msgstr "Vali printimise jaoks HTML muutuva laiusega kirjatüüp"
+msgstr "Vali trükkimise jaoks HTML muutuva laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:129
 msgid "Select..."
@@ -15116,6 +15126,8 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"Selle skripti väljundit kasutatakse sinu signatuurina.\n"
+"Nimevälja kasutatakse ainult kuvamiseks."
 
 #: mail/mail-config.glade.h:147
 msgid ""
@@ -15160,7 +15172,7 @@ msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 
 #: mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
-msgstr ""
+msgstr "Uutest sõnumitest ei teavitata"
 
 #: mail/mail-config.glade.h:163
 msgid "_Enable"
@@ -15221,7 +15233,7 @@ msgstr "_Kasuta sama kirjatüüpi, mis teisedki rakendused"
 
 #: mail/mail-config.glade.h:181
 msgid "color"
-msgstr "värvus"
+msgstr "värvusega"
 
 #: mail/mail-config.glade.h:182
 msgid "description"
@@ -16387,6 +16399,8 @@ msgstr "Aktiivsed ühendused"
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
 msgstr ""
+"Kui soovid neid ühendusi sulgeda ja autonoomsesse\n"
+"olekusse siirduda, vajuta \"Olgu\""
 
 #: shell/e-shell-folder-title-bar.c:592 shell/e-shell-folder-title-bar.c:593
 msgid "(Untitled)"
@@ -16532,6 +16546,11 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
+"Kui sa praegu Evolution'i seadistusabilise sulged, lähevad kõik sisestatud "
+"andmed kaotsi. Sel juhul pead sa Evolution'i järgmisel käivitamisel uuesti "
+"ka seadistusabilise käivitama.\n"
+"\n"
+"Kas sa soovid seadistusabilist sulgeda?"
 
 #: shell/e-shell-utils.c:116
 msgid "No folder name specified."
@@ -16670,7 +16689,7 @@ msgstr "Ajavöönd"
 
 #: shell/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
-msgstr ""
+msgstr "Tere tulemast"
 
 #: shell/evolution-startup-wizard.glade.h:6
 msgid ""
@@ -16680,6 +16699,11 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
+"Tere tulemast kasutama Evolution'i! Järgnevate ekraanivormide abil on sul "
+"võimalik kirjeldada oma e-posti kontosid ja vajadusel importida andmeid "
+"teistest rakendustest.\n"
+"\n"
+"Jätkamiseks vajuta nuppu \"Edasi\"."
 
 #: shell/evolution-startup-wizard.glade.h:11
 msgid ""
@@ -16688,6 +16712,10 @@ msgid ""
 "\n"
 "Click the \"Apply\" button to save your settings. "
 msgstr ""
+"Sa oled edukalt sisestanud kõik andmeid, mis on\n"
+"vajalikud Evolution'i esmaseks seadistamiseks.\n"
+"\n"
+"Seadistuste salvestamiseks vajuta nuppu \"Rakenda\"."
 
 #: shell/evolution-test-component.c:140
 msgid "New Test"
@@ -16795,15 +16823,15 @@ msgstr ""
 
 #: shell/main.c:464
 msgid "Start in offline mode"
-msgstr "Alusta offlainrežiimis"
+msgstr "Alusta autonoomses režiimis"
 
 #: shell/main.c:466
 msgid "Start in online mode"
-msgstr "Alusta onlainrežiimis"
+msgstr "Alusta võrgurežiimis"
 
 #: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
-msgstr ""
+msgstr "Sulge jõuga kõik evolution'i komponendid"
 
 #: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
@@ -16811,7 +16839,7 @@ msgstr ""
 
 #: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
-msgstr ""
+msgstr "Saada kõikide komponentide silumisinfo faili"
 
 #: shell/main.c:507
 #, c-format
@@ -16819,11 +16847,13 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online ja --offline võtmeid ei saa koos kasutada.\n"
+"  Täiendava teabe saamiseks käivita %s --help.\n"
 
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "Värskendamiseks napib kettaruumi."
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
@@ -16841,6 +16871,8 @@ msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
 msgstr ""
+"Tõrge eelmise veriooni uuendamisel:\n"
+"{0}"
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
@@ -17486,11 +17518,11 @@ msgstr "Trükitavate kontaktide eelvaatlemine"
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:81
 #: ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "Printimise eel_vaade"
+msgstr "Trükkimise eel_vaade"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
-msgstr "Prindib valitud kontaktid"
+msgstr "Trükib valitud kontaktid"
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
@@ -18120,7 +18152,7 @@ msgstr "Kuvab eelmise lugemata sõnumi"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "F_orward As..."
-msgstr "E_dasta kui..."
+msgstr "E_dasta kohandatud vormingus..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
@@ -18376,7 +18408,7 @@ msgstr "_Liigu"
 
 #: ui/evolution-mail-message.xml.h:116
 msgid "_Inline"
-msgstr ""
+msgstr "Samal _joonel"
 
 #: ui/evolution-mail-message.xml.h:117
 msgid "_Larger"
@@ -18698,7 +18730,7 @@ msgstr "Trükitavate kontaktide eelvaatlemine"
 
 #: ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr "Prindib ülesannete nimekirja"
+msgstr "Trükib ülesannete nimekirja"
 
 #: ui/evolution-tasks.xml.h:18
 msgid "View the selected task"
@@ -18899,7 +18931,7 @@ msgstr "<b>_Valik</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"
-msgstr "Vali ajavöönd"
+msgstr "Ajavööndi valimine"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
