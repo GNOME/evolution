@@ -1,3 +1,17 @@
+2001-07-05  Chris Toshok  <toshok@ximian.com>
+
+	* camel-tcp-stream-openssl.c (ssl_verify): use
+	X509_STORE_CTX_get_ex_data to get at the SSL* - don't use the
+	X509_STORE_CTX to look up our stream, since it's not what we used
+	to insert our stream into the hashtable.
+	(open_ssl_connection): insert the stream into the hashtable before
+	calling SSL_connect, as this can cause ssl_verify to be called,
+	and we need to look up the stream there.  remove the stream from
+	the hashtable if there's an error connecting.
+	(stream_connect): pass the CamelTcpStreamOpenSSL* to
+	open_ssl_connection since it handles the hashtable stuff.  remove
+	hashtable stuff from here.
+
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder.c (camel_folder_copy_messages_to): if source ==

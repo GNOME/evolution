@@ -402,12 +402,15 @@ socket_connect (struct hostent *h, int port)
 static int
 ssl_verify (int ok, X509_STORE_CTX *ctx)
 {
+	SSL *ssl;
 	CamelTcpStreamOpenSSL *stream;
 	X509 *cert;
 	int err;
+
+	ssl = X509_STORE_CTX_get_ex_data (ctx, SSL_get_ex_data_X509_STORE_CTX_idx());
 	
 	OPENSSL_TABLE_LOCK ();
-	stream = CAMEL_TCP_STREAM_OPENSSL (g_hash_table_lookup (openssl_table, ctx));
+	stream = CAMEL_TCP_STREAM_OPENSSL (g_hash_table_lookup (openssl_table, ssl->ctx));
 	OPENSSL_TABLE_UNLOCK ();
 	
 	cert = X509_STORE_CTX_get_current_cert (ctx);
@@ -437,12 +440,15 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 }
 
 static SSL *
-open_ssl_connection (CamelService *service, int sockfd)
+open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *openssl)
 {
 	SSL_CTX *ssl_ctx = NULL;
 	SSL *ssl = NULL;
 	int n;
 	
+	SSLeay_add_ssl_algorithms();
+	SSL_load_error_strings();
+
 	/* SSLv23_client_method will negotiate with SSL v2, v3, or TLS v1 */
 	ssl_ctx = SSL_CTX_new (SSLv23_client_method ());
 	g_return_val_if_fail (ssl_ctx != NULL, NULL);
@@ -450,9 +456,22 @@ open_ssl_connection (CamelService *service, int sockfd)
 	SSL_CTX_set_verify (ssl_ctx, SSL_VERIFY_PEER, &ssl_verify);
 	ssl = SSL_new (ssl_ctx);
 	SSL_set_fd (ssl, sockfd);
+
+	OPENSSL_TABLE_LOCK ();
+	if (!openssl_table)
+		openssl_table = g_hash_table_new (g_direct_hash, g_direct_equal);
+	
+	g_hash_table_insert (openssl_table, ssl->ctx, openssl);
+	OPENSSL_TABLE_UNLOCK ();
+	
 	
 	n = SSL_connect (ssl);
 	if (n != 1) {
+
+		OPENSSL_TABLE_LOCK ();
+		g_hash_table_remove (openssl_table, ssl->ctx);
+		OPENSSL_TABLE_UNLOCK ();
+
 		SSL_shutdown (ssl);
 		
 		if (ssl->ctx)
@@ -478,19 +497,12 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	if (fd == -1)
 		return -1;
 	
-	ssl = open_ssl_connection (openssl->priv->service, fd);
+	ssl = open_ssl_connection (openssl->priv->service, fd, openssl);
 	if (!ssl)
 		return -1;
 	
 	openssl->priv->sockfd = fd;
 	openssl->priv->ssl = ssl;
-	
-	OPENSSL_TABLE_LOCK ();
-	if (!openssl_table)
-		openssl_table = g_hash_table_new (g_direct_hash, g_direct_equal);
-	
-	g_hash_table_insert (openssl_table, ssl->ctx, openssl);
-	OPENSSL_TABLE_UNLOCK ();
 	
 	return 0;
 }
