@@ -342,18 +342,11 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 
 	if (camel_store_supports_subscriptions (store))
 		camel_store_subscribe_folder (store, fi->full_name, NULL);
-
-	if (fi->unread_message_count > 0) {
-		name = g_strdup_printf ("%s (%d)", fi->name,
-					fi->unread_message_count);
-	} else
-		name = g_strdup (fi->name);
-	evolution_storage_new_folder (storage, path, name, type,
-				      fi->url ? fi->url : "", description,
-				      fi->unread_message_count > 0);
-	g_free (name);
+	
+	folder_created (store, fi);
+	
 	camel_store_free_folder_info (store, fi);
-
+	
 	return EVOLUTION_STORAGE_OK;
 }
 

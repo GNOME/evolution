@@ -27,6 +27,7 @@
 #include <camel/camel.h>
 #include "composer/e-msg-composer.h"
 #include "mail-types.h"
+#include "evolution-storage.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -84,6 +85,13 @@ void forward_messages	   (CamelFolder *folder, GPtrArray *uids, gboolean inline)
 
 void mail_print_preview_msg (MailDisplay *md);
 void mail_print_msg         (MailDisplay *md);
+
+
+/* CamelStore callbacks */
+void folder_created (CamelStore *store, CamelFolderInfo *fi);
+void folder_deleted (CamelStore *store, CamelFolderInfo *fi);
+
+void mail_storage_create_folder (EvolutionStorage *storage, CamelStore *store, CamelFolderInfo *fi);
 
 #ifdef __cplusplus
 }

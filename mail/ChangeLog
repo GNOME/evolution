@@ -1,5 +1,27 @@
 2001-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (do_scan_subfolders): Use mail_storage_create_folder
+
+	* mail-callbacks.c (mail_storage_create_folder): Convenience
+	function so we can keep all the evolution_storage_add_new_folder()
+	code in one place as much as possible.
+
+	* subscribe-dialog.c (recursive_add_folder): Use 'name' rather
+	than the no-description bs since that's what all the other places
+	do.
+
+	* mail-callbacks.c (folder_created): New callback to handle the
+	"folder_created" signal - handles CamelFolderInfo's recursively.
+	(folder_deleted): Same but for "folder_deleted".
+
+	* component-factory.c (storage_create_folder): Instead of doing
+	the evolution_storage_new_folder() stuff by hand, pass it off to
+	the new callback: folder_created(). At some point this will be
+	unecessary as we'll attach this callback to the "folder_created"
+	signal.
+
+2001-02-15  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* message-list.c: Wrapped the address compare functions in a
 	#ifdef
 	(address_compare): #ifdef the use of the smart address sorting

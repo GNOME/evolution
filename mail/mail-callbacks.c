@@ -1334,3 +1334,90 @@ stop_threads(BonoboUIComponent *uih, void *user_data, const char *path)
 	camel_operation_cancel(NULL);
 }
 
+
+static void
+create_folders (EvolutionStorage *storage, CamelFolderInfo *fi)
+{
+	char *name, *path;
+	
+	if (fi->unread_message_count > 0)
+		name = g_strdup_printf ("%s (%d)", fi->name,
+					fi->unread_message_count);
+	else
+		name = g_strdup (fi->name);
+	
+	path = g_strdup_printf ("/%s", fi->full_name);
+	evolution_storage_new_folder (storage, path, name,
+				      "mail", fi->url ? fi->url : "",
+				      fi->name, /* description */
+				      fi->unread_message_count > 0);
+	g_free (name);
+	g_free (path);
+	
+	if (fi->child)
+		create_folders (storage, fi->child);
+	
+	if (fi->sibling)
+		create_folders (storage, fi->sibling);
+}
+
+void
+folder_created (CamelStore *store, CamelFolderInfo *fi)
+{
+	EvolutionStorage *storage;
+	
+	if ((storage = mail_lookup_storage (store))) {
+		if (fi)
+			create_folders (storage, fi);
+		
+		gtk_object_unref (GTK_OBJECT (storage));
+	}
+}
+
+void
+mail_storage_create_folder (EvolutionStorage *storage, CamelStore *store, CamelFolderInfo *fi)
+{
+	gboolean unref = FALSE;
+	
+	if (!storage && store) {
+		storage = mail_lookup_storage (store);
+		unref = TRUE;
+	}
+	
+	if (storage) {
+		if (fi)
+			create_folders (storage, fi);
+		
+		if (unref)
+			gtk_object_unref (GTK_OBJECT (storage));
+	}
+}
+
+static void
+delete_folders (EvolutionStorage *storage, CamelFolderInfo *fi)
+{
+	char *path;
+	
+	if (fi->child)
+		delete_folders (storage, fi->child);
+	
+	path = g_strdup_printf ("/%s", fi->full_name);
+	evolution_storage_removed_folder (storage, path);
+	g_free (path);
+	
+	if (fi->sibling)
+		delete_folders (storage, fi->sibling);
+}
+
+void
+folder_deleted (CamelStore *store, CamelFolderInfo *fi)
+{
+	EvolutionStorage *storage;
+	
+	if ((storage = mail_lookup_storage (store))) {
+		if (fi)
+			delete_folders (storage, fi);
+		
+		gtk_object_unref (GTK_OBJECT (storage));
+	}
+}

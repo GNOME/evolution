@@ -356,7 +356,7 @@ recursive_add_folder (EvolutionStorage *storage, const char *path,
 	}
 
 	evolution_storage_new_folder (storage, path, name, "mail", url,
-				      _("(No description)"), FALSE);
+				      name, FALSE);
 }
 
 static void

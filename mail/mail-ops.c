@@ -1029,33 +1029,14 @@ int mail_get_folderinfo(CamelStore *store, void (*done)(CamelStore *store, Camel
 
 /* ********************************************************************** */
 
-static void do_add_subfolders(CamelStore *store, CamelFolderInfo *info, EvolutionStorage *storage, const char *prefix)
-{
-	char *path, *name;
-
-	path = g_strdup_printf("%s/%s", prefix, info->name);
-	if (info->unread_message_count > 0)
-		name = g_strdup_printf("%s (%d)", info->name, info->unread_message_count);
-	else
-		name = g_strdup(info->name);
-
-	evolution_storage_new_folder(storage, path, name, "mail", info->url?info->url:"",
-				     _("(No description)"), info->unread_message_count > 0);
-	g_free(name);
-	if (info->child)
-		do_add_subfolders(store, info->child, storage, path);
-	if (info->sibling)
-		do_add_subfolders(store, info->sibling, storage, prefix);
-	g_free(path);
-}
-
-static void do_scan_subfolders(CamelStore *store, CamelFolderInfo *info, void *data)
+static void
+do_scan_subfolders (CamelStore *store, CamelFolderInfo *info, void *data)
 {
 	EvolutionStorage *storage = data;
 
 	if (info) {
 		gtk_object_set_data((GtkObject *)storage, "connected", (void *)1);
-		do_add_subfolders(store, info, storage, "");
+		mail_storage_create_folder (storage, store, info);
 	}
 }
 
