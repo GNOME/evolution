@@ -1,3 +1,7 @@
+2001-07-20  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: move tests back to subdirs
+
 2001-07-17  Peter Williams  <peterw@ximian.com>
 
 	Clean up some exception misusage.
