@@ -1,3 +1,9 @@
+2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-sexp.c (e_sexp_add_function)
+	(e_sexp_add_ifunction): Make sure any old symbol with the same name
+	as the one being added, is removed first.
+
 2003-04-14  Not Zed  <NotZed@Ximian.com>
 
 	* e-gtk-utils.c (e_gtk_button_new_with_icon): Utility function to

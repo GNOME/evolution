@@ -1181,6 +1181,8 @@ e_sexp_add_function(ESExp *f, int scope, char *name, ESExpFunc *func, void *data
 	g_return_if_fail (IS_E_SEXP (f));
 	g_return_if_fail (name != NULL);
 
+	e_sexp_remove_symbol (f, scope, name);
+
 	s = g_malloc0(sizeof(*s));
 	s->name = g_strdup(name);
 	s->f.func = func;
@@ -1196,6 +1198,8 @@ e_sexp_add_ifunction(ESExp *f, int scope, char *name, ESExpIFunc *ifunc, void *d
 
 	g_return_if_fail (IS_E_SEXP (f));
 	g_return_if_fail (name != NULL);
+
+	e_sexp_remove_symbol (f, scope, name);
 
 	s = g_malloc0(sizeof(*s));
 	s->name = g_strdup(name);
