@@ -79,7 +79,7 @@ e_week_view_layout_events	(GArray		*events,
 
 	/* Clear the number of rows used per day. */
 	num_days = multi_week_view ? weeks_shown * 7 : 7;
-	for (day = 0; day <= num_days; day++) {
+	for (day = 0; day < num_days; day++) {
 		rows_per_day[day] = 0;
 	}
 
