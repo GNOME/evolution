@@ -1,12 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * itip-utils.c
- *
  * Authors:
- *    Jesse Pavel <jpavel@helixcode.com>
- *    JP Rosevear <jpr@ximian.com>
+ *  JP Rosevear <jpr@ximian.com>
  *
  * Copyright 2001, Ximian, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 
 #include <bonobo/bonobo-object.h>
@@ -27,9 +39,9 @@ static gchar *itip_methods[] = {
 	"REQUEST",
 	"REPLY",
 	"ADD",
-	"CANCEL"
-	"RERESH"
-	"COUNTER"
+	"CANCEL",
+	"RERESH",
+	"COUNTER",
 	"DECLINECOUNTER"
 };
 
@@ -116,6 +128,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 
 	switch (method) {
 	case CAL_COMPONENT_METHOD_PUBLISH:
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = to_list->_length = 0;
+		break;
+
 	case CAL_COMPONENT_METHOD_REQUEST:
 	case CAL_COMPONENT_METHOD_CANCEL:
 		cal_component_get_attendee_list (comp, &attendees);
@@ -232,7 +248,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		return;
 	}
 	
-	GNOME_Evolution_Composer_show (composer_server, &ev);
+	if (method == CAL_COMPONENT_METHOD_PUBLISH)
+		GNOME_Evolution_Composer_show (composer_server, &ev);
+	else
+		GNOME_Evolution_Composer_send (composer_server, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Unable to show the composer while sending iTip message");
