@@ -1,3 +1,8 @@
+2001-06-28  Peter Williams  <peterw@ximian.com>
+
+	* zoneinfo/Makefile.am (dist-hook): Add $(srcdir) as in install-data-local
+	rule.
+
 2001-06-28  Damon Chaplin  <damon@ximian.com>
 
 	* configure.in: commented out AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1).

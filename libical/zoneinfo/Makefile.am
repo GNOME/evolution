@@ -30,7 +30,7 @@ install-data-local:
 dist-hook:
 	for dir in $(DIRS); do \
 	  mkdir $(distdir)/$$dir; \
-	  for tzfile in $$dir/*.ics; do \
+	  for tzfile in $(srcdir)/$$dir/*.ics; do \
 	    cp -p $$tzfile $(distdir)/$$dir; \
 	  done \
 	done
