@@ -520,7 +520,12 @@ e_summary_init (ESummary *summary)
 		return;
 	}
 
-	summary->timezone = bonobo_config_get_string (db, "/Calendar/Display/Timezone", NULL);
+	summary->timezone = bonobo_config_get_string_with_default (db,
+		"/Calendar/Display/Timezone", "UTC", NULL);
+	if (!summary->timezone || !summary->timezone[0]) {
+		g_free (summary->timezone);
+		summary->timezone = g_strdup ("UTC");
+	}
 	summary->tz = icaltimezone_get_builtin_timezone (summary->timezone);
 
 	bonobo_object_release_unref (db, NULL);
