@@ -220,6 +220,8 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 		
 		e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
 
+		e_source_list_sync (priv->source_list, NULL);
+
 		/* FIXME: Remove local data */
 	}
 

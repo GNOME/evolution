@@ -1,3 +1,11 @@
+2004-01-29  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-config.c (dialog_to_source): Sync the
+	modified source list.
+
+	* gui/component/addressbook-component.c (delete_addressbook_cb): Sync
+	the modified source list.
+
 2004-01-29  Chris Toshok  <toshok@m198-139.dsl.rawbw.com>
 
 	* gui/component/addressbook-migrate.c (setup_progress_dialog): use
