@@ -1,3 +1,9 @@
+2000-04-12  Matt Loper  <matt@helixcode.com>
+
+	* camel-folder-pt-proxy.c (_folder_open_cb): Print warning message
+	for broken function.
+	(_folder_close_cb): Same.
+
 2000-04-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* Makefile.am (pthread_SRC): Use correct names for the pthread

@@ -6,7 +6,12 @@ images_DATA = \
 	evolution-inbox.png \
 	evolution-notes.png \
 	evolution-tasks.png \
-	evolution-today.png
+	evolution-today.png \
+	cellphone.png       \
+	globe.png           \
+	house.png           \
+	envelope.png        \
+	malehead.png
 
 EXTRA_DIST = \
 	attachment.xpm \

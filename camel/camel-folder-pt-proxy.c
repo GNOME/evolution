@@ -327,6 +327,11 @@ _folder_open_cb (CamelFolder *folder,
 	_ProxyCbUserData *pud;
 	CamelFuncDef *cb_def;
 
+	g_print ("%s: %s(): Bailing. This function is incredibly"
+		 " broken; the \"*pud\" pointer isn't allocated"
+		 " memory anywhere.\n");
+	return;
+	
 	/* transfer the exception information from "ex" to the 
 	 * client supplied exception (kept in pud->ex) */ 	 
 	camel_exception_xfer (pud->ex, ex);
@@ -410,6 +415,11 @@ _folder_close_cb (CamelFolder *folder,
 	CamelOp *cb;
 	_ProxyCbUserData *pud;
 	CamelFuncDef *cb_def;
+
+	g_print ("%s: %s(): Bailing. This function is incredibly"
+		 " broken; the \"*pud\" pointer isn't allocated"
+		 " memory anywhere.\n");
+	return;
 
 	camel_exception_xfer (pud->ex, ex);
 	cb_def = CAMEL_FOLDER_PT_PROXY_CLASS(pud->proxy_folder)->close_cb_def;

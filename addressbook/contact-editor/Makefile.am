@@ -1,3 +1,4 @@
+imagesdir = $(datadir)/images/evolution
 
 images = email.png head.png phone.png snailmail.png web.png arrow.png briefcase.png netmeeting.png netfreebusy.png
 
@@ -10,7 +11,8 @@ CPPFLAGS = \
 
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
-	-I$(top_srcdir)/addressbook/backend/ebook
+	-I$(top_srcdir)/addressbook/backend/ebook \
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"
 
 noinst_LIBRARIES =				\
 	libecontacteditor.a

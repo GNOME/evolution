@@ -255,7 +255,7 @@ filter_arg_edit_values(FilterArg *arg)
 int
 filter_arg_edit_value(FilterArg *arg, int index)
 {
-	((FilterArgClass *)(arg->object.klass))->edit_value(arg, index);
+	return ((FilterArgClass *)(arg->object.klass))->edit_value(arg, index);
 }
 
 xmlNodePtr

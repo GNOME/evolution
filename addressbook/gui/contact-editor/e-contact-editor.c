@@ -134,11 +134,12 @@ _add_image(GtkTable *table, gchar *image, int left, int right, int top, int bott
 static void
 _add_images(GtkTable *table)
 {
-	_add_image(table, DATADIR "/evolution/head.png", 0, 1, 0, 4);
-	_add_image(table, DATADIR "/evolution/phone.png", 4, 5, 0, 4);
-	_add_image(table, DATADIR "/evolution/email.png", 0, 1, 5, 7);
-	_add_image(table, DATADIR "/evolution/web.png", 0, 1, 8, 10);
-	_add_image(table, DATADIR "/evolution/snailmail.png", 4, 5, 5, 10);
+	_add_image(table, EVOLUTION_IMAGES "/malehead.png", 0, 1, 0, 4);
+	_add_image(table, EVOLUTION_IMAGES "/cellphone.png", 4, 5, 0, 4);
+	_add_image(table, EVOLUTION_IMAGES "/envelope.png", 0, 1, 5, 7);
+	_add_image(table, EVOLUTION_IMAGES "/globe.png",
+		   0, 1, 8, 10);
+	_add_image(table, EVOLUTION_IMAGES "/house.png", 4, 5, 5, 10);
 }
 
 static void

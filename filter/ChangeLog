@@ -1,3 +1,7 @@
+2000-04-12  Matt Loper  <matt@helixcode.com>
+
+	* filter-arg.c (filter_arg_edit_value): Return a value.
+
 2000-03-27  NotZed  <NotZed@HelixCode.com>
 
 	* filter-xml.c (tokenise_xmlfreeprop): Free a prop after

@@ -1,3 +1,12 @@
+2000-04-12  Matt Loper  <matt@helixcode.com>
+
+	* art/Makefile.am: Add tigert's contact-dlg-related images.
+
+	* addressbook/contact-editor/e-contact-editor.c (_add_images): Add
+	tigert's images.
+
+	* addressbook/contact-editor/Makefile.am: add EVOLUTION_IMAGES.
+
 2000-04-12  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* art/house.png, art/malehead.png, art/cellphone.png, 
