@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-23 19:56+0200\n"
-"PO-Revision-Date: 2004-09-23 21:59+0200\n"
+"PO-Revision-Date: 2004-09-29 09:03+0200\n"
 "Last-Translator: Craig Jeffares <cjeffares@novell.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -6668,7 +6668,7 @@ msgstr "In corso"
 #: calendar/gui/e-meeting-time-sel-item.c:452
 #: calendar/gui/e-meeting-time-sel.c:2069
 msgid "%A, %B %d, %Y"
-msgstr "%A, %B %d, %Y"
+msgstr "%A %d %B %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -6680,7 +6680,7 @@ msgstr "%A, %B %d, %Y"
 #: calendar/gui/e-meeting-time-sel.c:2102 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
-msgstr "%a %m/%d/%Y"
+msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
@@ -6691,7 +6691,7 @@ msgstr "%a %m/%d/%Y"
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
-msgstr "%m/%d/%Y"
+msgstr "%d/%m/%Y"
 
 #: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
@@ -18159,7 +18159,7 @@ msgstr "Mostra il contatto corrente"
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
 #: ui/evolution-tasks.xml.h:19 ui/evolution.xml.h:27
 msgid "_Actions"
-msgstr "_Azioni"
+msgstr "A_zioni"
 
 #: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:16
 msgid "_Forward Contact..."
@@ -19348,7 +19348,7 @@ msgstr "Crea un nuova finestra che visualizza questa cartella"
 
 #: ui/evolution.xml.h:7
 msgid "E_xit"
-msgstr "E_sci"
+msgstr "_Esci"
 
 #: ui/evolution.xml.h:8
 msgid "Evolution _FAQ"
