@@ -62,6 +62,7 @@ static void e_contact_list_editor_dispose (GObject *object);
 static void     e_contact_list_editor_show       (EABEditor *editor);
 static void     e_contact_list_editor_raise      (EABEditor *editor);
 static void     e_contact_list_editor_close      (EABEditor *editor);
+static void     e_contact_list_editor_save_contact (EABEditor *editor, gboolean should_close);
 static gboolean e_contact_list_editor_is_valid   (EABEditor *editor);
 static gboolean e_contact_list_editor_is_changed (EABEditor *editor);
 static GtkWindow* e_contact_list_editor_get_window (EABEditor *editor);
@@ -150,6 +151,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 	editor_class->show = e_contact_list_editor_show;
 	editor_class->raise = e_contact_list_editor_raise;
 	editor_class->close = e_contact_list_editor_close;
+	editor_class->save_contact = e_contact_list_editor_save_contact;
 	editor_class->is_valid = e_contact_list_editor_is_valid;
 	editor_class->is_changed = e_contact_list_editor_is_changed;
 	editor_class->get_window = e_contact_list_editor_get_window;
@@ -430,6 +432,14 @@ is_named (EContactListEditor *editor)
 	g_free (string);
 
 	return named;
+}
+
+static void
+e_contact_list_editor_save_contact (EABEditor *editor, gboolean should_close)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (editor);
+
+	save_contact (editor, should_close);
 }
 
 static gboolean
@@ -882,14 +892,29 @@ table_drag_drop_cb (ETable *table, int row, int col,
 		    GdkDragContext *context,
 		    gint x, gint y, guint time, EContactListEditor *editor)
 {
-	if (context->targets == NULL)
-		return FALSE;
+	GList *p;
+
+	for (p = context->targets; p != NULL; p = p->next) {
+		char *possible_type;
+
+		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
+		if (!strcmp (possible_type, VCARD_TYPE)) {
+			g_free (possible_type);
+			break;
+		}
+
+		g_free (possible_type);
+	}
 
 
-	gtk_drag_get_data (GTK_WIDGET (table), context,
-			   GDK_POINTER_TO_ATOM (context->targets->data),
-			   time);
-	return TRUE;
+	if (p) {
+		gtk_drag_get_data (GTK_WIDGET (table), context,
+				   GDK_POINTER_TO_ATOM (p->data),
+				   time);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static void

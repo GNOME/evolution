@@ -1,3 +1,18 @@
+2004-08-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #60529.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(table_drag_drop_cb): Make sure to get the text/x-vcard target.
+
+2004-08-02  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #62085.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_class_init): Set the save_contact method.
+	(e_contact_list_editor_save_contact): Implement.
+
 2004-08-02  JP Rosevear  <jpr@novell.com>
 
 	* conduit/address-conduit.c (addrconduit_load_configuration): get
