@@ -7,18 +7,34 @@ Mail:
 
   - Fixed creating IMAP folders.  (Jeff)
 
+  - Add a shortcut to the INBOX of IMAP or spool stores when 
+    their accounts are first created. (Peter)
+
   - Fixed Crash on Exit bugs.  (Jeff)
 
   - Many more i18n fixes.  (Zbigniew Chyla, Jeff and others)
 
+  - Subscribe dialog UI tweaks. (Peter)
+
   - Displaying PGP signed messages now shows icons.  (Jeff)
+
+  - Sensitize menu items based on number of selected messages. (Peter)
 
   - Always-sign options for PGP.  (Jeff)
 
   - Fixed keep-on-server for POP servers that don't support UIDL.
     (Jeff)
 
+  - Fix crash after conversion of an empty folder to another
+    format. (Peter)
+
+  - Ibex now limits its file descriptor usage. (Michael)
+
+  - When deleting an account, remove the shortcuts that point to it. (Peter)
+
   - Several IMAP fixes. (Peter, Jeff, Danw)
+
+  - Miscellaneous bugfixes all around. (Peter, Jeff, Danw, Michael, others)
 
 Calendar & Tasks:
 
