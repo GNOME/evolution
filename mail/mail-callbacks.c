@@ -235,7 +235,7 @@ send_receive_mail (GtkWidget *widget, gpointer user_data)
 		return;
 	}
 	
-	mail_send_receive ();
+	mail_send_receive (fb->folder);
 }
 
 static void
