@@ -360,6 +360,21 @@ component_supports (OAF_ServerInfo *component, const char *mime_type)
 	CORBA_sequence_CORBA_string stringv;
 	int i;
 
+	prop = oaf_server_info_prop_find (component, "repo_ids");
+	if (!prop || prop->v._d != OAF_P_STRINGV)
+		return FALSE;
+
+	stringv = prop->v._u.value_stringv;
+	for (i = 0; i < stringv._length; i++) {
+		if (!g_strcasecmp ("IDL:Bonobo/PersistStream:1.0", stringv._buffer[i]))
+			break;
+	}
+
+	/* got to end of list with no persist stream? */
+
+	if (i >= stringv._length)
+		return FALSE;
+
 	prop = oaf_server_info_prop_find (component,
 					  "bonobo:supported_mime_types");
 	if (!prop || prop->v._d != OAF_P_STRINGV)
@@ -370,6 +385,7 @@ component_supports (OAF_ServerInfo *component, const char *mime_type)
 		if (!g_strcasecmp (mime_type, stringv._buffer[i]))
 			return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -393,7 +409,8 @@ mail_lookup_handler (const char *mime_type)
 	MailMimeHandler *handler;
 	char *mime_type_main;
 	const char *p;
-	
+	GList *components, *iter;
+
 	if (mime_handler_table == NULL)
 		setup_mime_tables ();
 
@@ -417,15 +434,22 @@ mail_lookup_handler (const char *mime_type)
 		goto reg;
 	}
 
-	/* Try for a exact component match. */
-	handler->component = gnome_vfs_mime_get_default_component (mime_type);
-	if (handler->component &&
-	    component_supports (handler->component, mime_type)) {
-		handler->generic = FALSE;
-		handler->builtin = handle_via_bonobo;
-		goto reg;
+	/* Try for the first matching component. (we don't use get_short_list_comps
+	 * as that will return NULL if the oaf files don't have the short_list properties
+	 * defined). */
+	components = gnome_vfs_mime_get_all_components (mime_type);
+	for (iter = components; iter; iter = iter->next) {
+		if (component_supports (iter->data, mime_type)) {
+			handler->generic = FALSE;
+			handler->builtin = handle_via_bonobo;
+			handler->component = OAF_ServerInfo_duplicate (iter->data);
+			gnome_vfs_mime_component_list_free (components);
+			goto reg;
+		}
 	}
-	
+
+	gnome_vfs_mime_component_list_free (components);
+
 	/* Try for a generic builtin match. */
 	p = strchr (mime_type, '/');
 	if (p == NULL)
