@@ -1,5 +1,9 @@
 2005-01-03  JP Rosevear  <jpr@novell.com>
 
+	* itip-formatter.c (format_itip_object): load accounts
+
+2005-01-03  JP Rosevear  <jpr@novell.com>
+	
 	* org-gnome-itip-formatter-errors.xml: remove unused message
 
 	* itip-formatter.c (update_item): use info item, not e-error

@@ -983,6 +983,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	GSList *list, *l;
 	const char *string;
 	int i;
+
+	/* Accounts */
+	pitip->accounts = itip_addresses_get ();
 	
 	/* Source Lists and open ecal clients */
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
