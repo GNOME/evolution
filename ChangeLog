@@ -1,5 +1,11 @@
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
+	* configure.in (UPGRADE_REVISION): bump to 8 for new contact list
+	migration, since there was a bug in the shell that caused all
+	migration to fail, but the key was still updated.
+	
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
 	* configure.in (UPGRADE_REVISION): bump to 7 for new contact list
 	migration.
 
