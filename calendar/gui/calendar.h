@@ -1,7 +1,7 @@
 #ifndef CALENDAR_H
 #define CALENDAR_H
 
-#include "pcs/calobj.h"
+#include "cal-util/calobj.h"
 
 BEGIN_GNOME_DECLS
 

@@ -56,6 +56,7 @@ client_test_INCLUDES =			\
 
 client_test_LDADD =					\
 	$(BONOBO_VFS_GNOME_LIBS)			\
-	$(top_builddir)/libversit/libversit.la		\
 	$(top_srcdir)/calendar/cal-util/libcalutil.la	\
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/libical/src/libical/libical.la	\
 	libcal-client.la

@@ -11,7 +11,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/time.h>
-#include "pcs/calobj.h"
+#include "cal-util/calobj.h"
 #include "alarm.h"
 
 /* The pipes used to notify about an alarm */

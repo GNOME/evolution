@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include "calobj.h"
 #include "timeutil.h"
-#include "../libversit/vcc.h"
+#include "libversit/vcc.h"
 
 extern CalendarAlarm alarm_defaults[4];
 
