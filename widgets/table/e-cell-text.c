@@ -4,8 +4,10 @@
  *
  * Authors: Miguel de Icaza <miguel@helixcode.com>
  *          Chris Lahey <clahey@helixcode.com>
- *         
- * A majority of code taken from:
+ *
+ * (C) 1999, 2000 Helix Code, Inc.
+ *
+ * A lot of code taken from:
  *
  * Text item type for GnomeCanvas widget
  *
@@ -58,27 +60,7 @@ struct line {
 /* Object argument IDs */
 enum {
 	ARG_0,
-	ARG_TEXT, /* UTF-8 */
-	ARG_X,
-	ARG_Y,
-	ARG_FONT,
-        ARG_FONTSET,
-	ARG_FONT_GDK,
-	ARG_ANCHOR,
-	ARG_JUSTIFICATION,
-	ARG_CLIP_WIDTH,
-	ARG_CLIP_HEIGHT,
-	ARG_CLIP,
-	ARG_X_OFFSET,
-	ARG_Y_OFFSET,
-	ARG_FILL_COLOR,
-	ARG_FILL_COLOR_GDK,
-	ARG_FILL_COLOR_RGBA,
-	ARG_FILL_STIPPLE,
-	ARG_TEXT_WIDTH,
-	ARG_TEXT_HEIGHT,
-	ARG_USE_ELLIPSIS,
-	ARG_ELLIPSIS,
+
 	ARG_STRIKEOUT_COLUMN,
 	ARG_BOLD_COLUMN,
 	ARG_TEXT_FILTER,
@@ -1610,6 +1592,30 @@ e_cell_text_init (ECellText *ect)
 
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
 
+/**
+ * e_cell_text_new:
+ * @fontname: font to be used to render on the screen
+ * @justify: Justification of the string in the cell.
+ *
+ * Creates a new ECell renderer that can be used to render strings that
+ * that come from the model.  The value returned from the model is
+ * interpreted as being a char *.
+ *
+ * The ECellText object support a large set of properties that can be
+ * configured through the Gtk argument system and allows the user to have
+ * a finer control of the way the string is displayed.  The arguments supported
+ * allow the control of strikeout, bold, color and a text filter.
+ *
+ * The arguments "strikeout_column", "bold_column" and "color_column" set
+ * and return an integer that points to a column in the model that controls
+ * these settings.  So controlling the way things are rendered is achieved
+ * by having special columns in the model that will be used to flag whether
+ * the text should be rendered with strikeout, or bolded.   In the case of
+ * the "color_column" argument, the column in the model is expected to have
+ * a string that can be parsed by gdk_color_parse().
+ * 
+ * Returns: an ECell object that can be used to render strings.
+ */
 ECell *
 e_cell_text_new (const char *fontname, GtkJustification justify)
 {
@@ -2289,7 +2295,8 @@ _selection_received (GtkInvisible *invisible,
 	}
 }
 
-static void e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAtom selection, char *data, gint length)
+static void
+e_cell_text_view_supply_selection (CellEdit *edit, guint time, GdkAtom selection, char *data, gint length)
 {
 	gboolean successful;
 	GtkWidget *invisible;

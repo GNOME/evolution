@@ -9,7 +9,7 @@
  * the ECellText renderer.
  *
  * Copyright (C) 1998 The Free Software Foundation
- *
+ * Copyright (C) 1999, 2000 Helix Code, Inc.
  */
 
 #include <config.h>

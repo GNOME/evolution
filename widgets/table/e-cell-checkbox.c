@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *
- * (C) 1999 Helix Code, Inc
+ * (C) 1999, 2000 Helix Code, Inc
  */
 #include <config.h>
 #include <gtk/gtkenums.h>
@@ -33,6 +33,15 @@ e_cell_checkbox_class_init (GtkObjectClass *object_class)
 
 E_MAKE_TYPE(e_cell_checkbox, "ECellCheckbox", ECellCheckbox, e_cell_checkbox_class_init, NULL, PARENT_TYPE);
 
+/**
+ * e_cell_checkbox_new:
+ *
+ * Creates a new ECell renderer that can be used to render check
+ * boxes.  the data provided from the model is cast to an integer.
+ * zero is used for the off display, and non-zero for checked status.
+ * 
+ * Returns: an ECell object that can be used to render checkboxes.
+ */
 ECell *
 e_cell_checkbox_new (void)
 {

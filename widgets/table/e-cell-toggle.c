@@ -280,6 +280,16 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 
 E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, NULL, PARENT_TYPE);
 
+/**
+ * e_cell_toggle_construct:
+ * @etog: a fresh ECellToggle object
+ * @border: number of pixels used as a border
+ * @n_states: number of states the toggle will have
+ * @images: a collection of @n_states images, one for each state.
+ *
+ * Constructs the @etog object with the @border, @n_staes, and @images
+ * arguments.
+ */
 void
 e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf **images)
 {
@@ -302,6 +312,20 @@ e_cell_toggle_construct (ECellToggle *etog, int border, int n_states, GdkPixbuf 
 	etog->height = max_height;
 }
 
+/**
+ * e_cell_checkbox_new:
+ * @border: number of pixels used as a border
+ * @n_states: number of states the toggle will have
+ * @images: a collection of @n_states images, one for each state.
+ *
+ * Creates a new ECell renderer that can be used to render toggle
+ * buttons with the images specified in @images.  The value returned 
+ * by ETableModel::get_value is typecase into an integer and clamped
+ * to the [0..n_states) range.  That will select the image rendered.
+ * 
+ * Returns: an ECell object that can be used to render multi-state
+ * toggle cells.
+ */
 ECell *
 e_cell_toggle_new (int border, int n_states, GdkPixbuf **images)
 {

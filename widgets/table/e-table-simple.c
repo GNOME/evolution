@@ -7,7 +7,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * (C) 1999 Helix Code, Inc.
+ * (C) 1999, 2000 Helix Code, Inc.
  */
 
 #include <config.h>
@@ -209,6 +209,33 @@ e_table_simple_get_type (void)
 	return type;
 }
 
+/**
+ * e_table_simple_new:
+ * @col_count:
+ * @row_count:
+ * @value_at:
+ * @set_value_at:
+ * @is_cell_editable:
+ * @duplicate_value:
+ * @free_value:
+ * @initialize_value:
+ * @value_is_empty:
+ * @value_to_string:
+ * @data: closure pointer.
+ *
+ * This initializes a new ETableSimpleModel object.  ETableSimpleModel is
+ * an implementaiton of the abstract class ETableModel.  The ETableSimpleModel
+ * is designed to allow people to easily create ETableModels without having
+ * to create a new GtkType derived from ETableModel every time they need one.
+ *
+ * Instead, ETableSimpleModel uses a setup based in callback functions, every
+ * callback function signature mimics the signature of each ETableModel method
+ * and passes the extra @data pointer to each one of the method to provide them
+ * with any context they might want to use. 
+ *
+ * Returns: An ETableSimpleModel object (which is also an ETableModel
+ * object).
+ */
 ETableModel *
 e_table_simple_new (ETableSimpleColumnCountFn col_count,
 		    ETableSimpleRowCountFn row_count,
@@ -239,4 +266,4 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->data = data;
 	
 	return (ETableModel *) et;
-}
+ }
