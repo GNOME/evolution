@@ -1,3 +1,7 @@
+1999-12-05  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-checks.m4: Removed all guile variables.
+
 1999-11-18  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* gnome-xml-check.m4: Better scoping of below fix.
