@@ -1,3 +1,9 @@
+1998-02-14  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (macros.dep): Put back doubled `$'.  We want the
+	expansion to occur in the including Makefile, not here.
+	Otherwise, there will be an extra `../' in the rule.
+
 Sat Feb 14 17:41:28 KST 1998  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
 
 	* autogen.sh: multilple aclocal -I directories.
