@@ -1,3 +1,11 @@
+2004-06-14  Radek Doulik  <rodo@ximian.com>
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): the check button
+	label has now opposite meaning (after UI changes), call
+	toggle_button_init with 'not' parameter set to TRUE
+	(toggle_button_toggled_not): new helper function, sets negative
+	value to gconf bool key
+
 2004-06-14  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.c (rule_changed): don't check rule->source, its

@@ -494,6 +494,15 @@ toggle_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 }
 
 static void
+toggle_button_toggled_not (GtkToggleButton *toggle, EMMailerPrefs *prefs)
+{
+	const char *key;
+	
+	key = g_object_get_data ((GObject *) toggle, "key");
+	gconf_client_set_bool (prefs->gconf, key, !gtk_toggle_button_get_active (toggle), NULL);
+}
+
+static void
 custom_font_changed (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 {
 	gboolean use_custom;
@@ -952,9 +961,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 			    G_CALLBACK (toggle_button_toggled));
 	
 	prefs->sa_local_tests_only = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSALocalTestsOnly"));
-	toggle_button_init (prefs, prefs->sa_local_tests_only, FALSE,
+	toggle_button_init (prefs, prefs->sa_local_tests_only, TRUE,
 			    "/apps/evolution/mail/junk/sa/local_only",
-			    G_CALLBACK (toggle_button_toggled));
+			    G_CALLBACK (toggle_button_toggled_not));
 }
 
 GtkWidget *
