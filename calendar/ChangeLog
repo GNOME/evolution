@@ -1,3 +1,10 @@
+2002-07-31  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query-backend.[ch]: new class for implementing a backend cache
+	for the calendar queries.
+
+	* pcs/Makefile.am: added new files.
+
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (create_object): Change the order of the
