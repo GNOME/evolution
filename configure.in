@@ -49,7 +49,7 @@ AC_PROG_INTLTOOL
 ALL_LINGUAS="am az be bg ca cs da de el en_AU en_GB es et eu fi fr ga gl hu it ja ko lt lv ms nl nn no pl pt pt_BR ro ru sk sl sr sr@Latn sv tr uk vi zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
-GETTEXT_PACKAGE=evolution-1.4
+GETTEXT_PACKAGE=evolution-1.5
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for gettext])
 
@@ -1199,14 +1199,15 @@ EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
-dnl -- evolution-data-server IDL
+dnl -- evolution-data-server IDL and version
+
+AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-server-1.0`", evolution-data-server version)
 
 AC_MSG_CHECKING(for evolution-data-server IDL)
 DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.0`/Evolution-DataServer.idl
-echo $DATASERVER_IDL
 if test -f "$DATASERVER_IDL"; then
-	   AC_MSG_RESULT($DATASERVER_IDL)
-	   AC_SUBST(DATASERVER_IDL)
+	AC_MSG_RESULT($DATASERVER_IDL)
+	 AC_SUBST(DATASERVER_IDL)
 else
 	AC_MSG_ERROR(no)
 fi

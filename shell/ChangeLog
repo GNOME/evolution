@@ -1,3 +1,8 @@
+2003-11-11  JP Rosevear <jpr@ximian.com>
+
+	* main.c (kill_dataserver): kill the right thing
+	(kill_old_dataserver): rename and check the version correctly
+
 2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c: Added a new "-c" command-line arg.
@@ -42,6 +47,10 @@
 
 	* e-component-registry.h (struct _EComponentInfo): New member
 	"alias".
+
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: don't include top level libical
 
 2003-11-07  JP Rosevear <jpr@ximian.com>
 

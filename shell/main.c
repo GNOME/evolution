@@ -165,19 +165,19 @@ shell_weak_notify (void *data,
 #ifdef KILL_PROCESS_CMD
 
 static void
-kill_wombat (void)
+kill_dataserver (void)
 {
-	g_print ("(Killing old version of Wombat...)\n");
+	g_print ("(Killing old version of evolution-data-server...)\n");
 
-	system (KILL_PROCESS_CMD " -9 lt-evolution-wombat 2> /dev/null");
-	system (KILL_PROCESS_CMD " -9 evolution-wombat 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 lt-evolution-data-server 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-data-server 2> /dev/null");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
 }
 
 static void
-kill_old_wombat (void)
+kill_old_dataserver (void)
 {
 	GNOME_Evolution_DataServer_InterfaceCheck iface;
 	CORBA_Environment ev;
@@ -187,22 +187,22 @@ kill_old_wombat (void)
 
 	iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
 	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
-		kill_wombat ();
+		kill_dataserver ();
 		CORBA_exception_free (&ev);
 		return;
 	}
 
 	version = GNOME_Evolution_DataServer_InterfaceCheck__get_interfaceVersion (iface, &ev);
 	if (BONOBO_EX (&ev)) {
-		kill_wombat ();
+		kill_dataserver ();
 		CORBA_Object_release (iface, &ev);
 		CORBA_exception_free (&ev);
 		return;
 	}
 
-	if (strcmp (version, VERSION) != 0) {
+	if (strcmp (version, DATASERVER_VERSION) != 0) {
 		CORBA_free (version);
-		kill_wombat ();
+		kill_dataserver ();
 		CORBA_Object_release (iface, &ev);
 		CORBA_exception_free (&ev);
 		return;
@@ -352,7 +352,7 @@ idle_cb (void *data)
 	gboolean displayed_any;
 
 #ifdef KILL_PROCESS_CMD
-	kill_old_wombat ();
+	kill_old_dataserver ();
 #endif
 
 	CORBA_exception_init (&ev);

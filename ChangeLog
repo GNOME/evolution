@@ -1,3 +1,8 @@
+2003-11-11  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: determine the e-d-s version, version the gettext
+	files properly
+
 2003-11-07  Dan Winship  <danw@ximian.com>
 
 	* configure.in (AC_OUTPUT): Remove e-util/ename/Makefile
