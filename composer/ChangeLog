@@ -1,3 +1,7 @@
+2003-06-09  Larry Ewing  <lewing@ximian.com>
+
+	* listener.c (insert_paragraph_before): free the return values.
+
 2003-05-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (composer_get_default_charset_setting): Same as
