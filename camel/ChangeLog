@@ -1,5 +1,15 @@
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-vee-folder.c (vee_folder_construct): Move all of the
+	camel_vee_folder_construct() internals here.
+	(camel_vee_folder_construct): This function basically becomes a
+	wrapper for vee_folder_construct and also checks to make sure that
+	the UNMATCHED vfodler is constructed otherwise constructs it.
+	(camel_vee_folder_new): Call vee_folder_construct() instead so
+	that we don't get into a dead-lock.
+
+2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-store.c (init_trash): Use camel_vtrash_folder_new() to
 	create the vtrash folder now.
 

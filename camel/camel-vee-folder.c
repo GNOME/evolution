@@ -191,12 +191,12 @@ camel_vee_folder_finalise (CamelObject *obj)
 	g_free(p);
 }
 
-void
-camel_vee_folder_construct(CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags)
+static void
+vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags)
 {
 	CamelFolder *folder = (CamelFolder *)vf;
 	char *tmp;
-
+	
 	vf->flags = flags;
 
 	tmp = strchr(name, '?');
@@ -217,6 +217,25 @@ camel_vee_folder_construct(CamelVeeFolder *vf, CamelStore *parent_store, const c
 	/* should CamelVeeMessageInfo be subclassable ..? */
 	folder->summary = camel_folder_summary_new();
 	folder->summary->message_info_size = sizeof(CamelVeeMessageInfo);
+}
+
+void
+camel_vee_folder_construct(CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags)
+{
+	UNMATCHED_LOCK();
+	
+	/* setup unmatched folder if we haven't yet */
+	if (folder_unmatched == NULL) {
+		unmatched_uids = g_hash_table_new (g_str_hash, g_str_equal);
+		folder_unmatched = (CamelVeeFolder *)camel_object_new (camel_vee_folder_get_type ());
+		printf("created foldeer unmatched %p\n", folder_unmatched);
+		
+		vee_folder_construct (folder_unmatched, parent_store, "UNMATCHED", CAMEL_STORE_FOLDER_PRIVATE);
+	}
+	
+	UNMATCHED_UNLOCK();
+	
+	vee_folder_construct (vf, parent_store, name, flags);
 }
 
 /**
@@ -242,7 +261,7 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 		unmatched_uids = g_hash_table_new(g_str_hash, g_str_equal);
 		folder_unmatched = vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
 		printf("created foldeer unmatched %p\n", folder_unmatched);
-		camel_vee_folder_construct(vf, parent_store, "UNMATCHED", CAMEL_STORE_FOLDER_PRIVATE);
+		vee_folder_construct (vf, parent_store, "UNMATCHED", CAMEL_STORE_FOLDER_PRIVATE);
 	}
 
 	UNMATCHED_UNLOCK();
@@ -260,7 +279,7 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 	}
 
 	vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
-	camel_vee_folder_construct(vf, parent_store, name, flags);
+	vee_folder_construct(vf, parent_store, name, flags);
 
 	printf("returning folder %s %p, count = %d\n", name, vf, camel_folder_get_message_count((CamelFolder *)vf));
 
