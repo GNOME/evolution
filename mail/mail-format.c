@@ -1060,10 +1060,33 @@ mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_
 	filtered_stream = camel_stream_filter_new_with_stream (memstream);
 	camel_object_unref (CAMEL_OBJECT (memstream));
 	
-	if (wrapper->rawtext) {
+	if (wrapper->rawtext || (mail_display && mail_display->charset)) {
 		CamelMimeFilterCharset *filter;
 		const char *charset;
 		
+		if (!wrapper->rawtext) {
+			/* data wrapper had been successfully converted to UTF-8 using the mime
+			   part's charset, but the user thinks he knows best so we'll let him
+			   shoot himself in the foot here... */
+			CamelContentType *content_type;
+			
+			/* get the original charset of the mime part */
+			content_type = camel_data_wrapper_get_mime_type_field (wrapper);
+			charset = content_type ? header_content_type_param (content_type, "charset") : NULL;
+			if (!charset)
+				charset = mail_config_get_default_charset ();
+			
+			/* since the content is already in UTF-8, we need to decode into the
+			   original charset before we can convert back to UTF-8 using the charset
+			   the user is overriding with... */
+			filter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+			if (filter) {
+				camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
+				camel_object_unref (CAMEL_OBJECT (filter));
+			}
+		}
+		
+		/* find out the charset the user wants to override to */
 		if (mail_display && mail_display->charset)
 			charset = mail_display->charset;
 		else
