@@ -193,12 +193,13 @@ e_hpaned_size_allocate (GtkWidget     *widget,
 			      child2_requisition.width);
 
   /* Move the handle before the children so we don't get extra expose events */
+
+  if (GTK_WIDGET_REALIZED (widget))
+    gdk_window_move_resize (widget->window,
+			    allocation->x, allocation->y,
+			    allocation->width,
+			    allocation->height);
   
-  gdk_window_move_resize (widget->window,
-			  allocation->x, allocation->y,
-			  allocation->width,
-			  allocation->height);
-	
   handle_shown = e_paned_handle_shown(paned);
   if (handle_shown)
     {

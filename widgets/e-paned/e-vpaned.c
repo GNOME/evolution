@@ -193,10 +193,11 @@ e_vpaned_size_allocate (GtkWidget     *widget,
 
   /* Move the handle before the children so we don't get extra expose events */
 
-  gdk_window_move_resize (widget->window,
-			  allocation->x, allocation->y,
-			  allocation->width,
-			  allocation->height);
+  if (GTK_WIDGET_REALIZED (widget))
+    gdk_window_move_resize (widget->window,
+			    allocation->x, allocation->y,
+			    allocation->width,
+			    allocation->height);
 
   handle_shown = e_paned_handle_shown(paned);
   if (handle_shown)
@@ -206,7 +207,7 @@ e_vpaned_size_allocate (GtkWidget     *widget,
       paned->handle_width = MAX (1, (gint) widget->allocation.width - 2 * border_width);
       paned->handle_height = paned->handle_size;
 
-      if (GTK_WIDGET_REALIZED(widget))
+      if (GTK_WIDGET_REALIZED (widget))
 	{
 	  gdk_window_move_resize (paned->handle,
 				  paned->handle_xpos,
