@@ -1,3 +1,18 @@
+2004-05-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #57881.
+
+	* camel-vee-folder.c (camel_vee_folder_add_folder): use the
+	folder's change log and frozen count, not our copy.
+	(vee_thaw): dont maintain our frozen count.
+	(vee_freeze): same.
+	(folder_changed_change): if we get changed messages that dont
+	match, make sure they're also propagated as a change too.
+
+	* camel-private.h: remove the freeze_count from
+	camelveefolderprivate.  We already have that in the camel folder
+	private.
+
 2004-04-30  Priit Laes  <amd@tt.ee>
 
 	* providers/nntp/camel-nntp-summary.c: Fix typo. #53466.

@@ -43,7 +43,7 @@
 #include "camel-vtrash-folder.h"
 #include "filter/filter-rule.h"
 
-#define d(x)
+#define d(x) 
 #define w(x)
 
 extern int camel_verbose_debug;
