@@ -36,6 +36,7 @@
 #include "mail-mt.h"
 
 #include "camel/camel.h"
+#include "camel/camel-vee-store.h"
 #include "filter/vfolder-rule.h"
 #include "filter/filter-part.h"
 
@@ -137,7 +138,7 @@ create_trash_vfolder (const char *name, GPtrArray *urls, CamelException *ex)
 	foldername = g_strdup ("mbox?(match-all (system-flag \"Deleted\"))");
 	
 	/* we dont have indexing on vfolders */
-	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE, ex);
+	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_VEE_FOLDER_AUTO, ex);
 	g_free (foldername);
 	g_free (storeuri);
 	if (camel_exception_is_set (ex))
