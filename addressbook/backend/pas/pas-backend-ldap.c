@@ -425,6 +425,7 @@ check_schema_support (PASBackendLDAP *bl)
 	char *attrs[2];
 	LDAPMessage *resp;
 	LDAP *ldap = bl->priv->ldap;
+	struct timeval timeout;
 
 	if (!bl->priv->schema_dn)
 		return;
@@ -434,9 +435,12 @@ check_schema_support (PASBackendLDAP *bl)
 	attrs[0] = "objectClasses";
 	attrs[1] = NULL;
 
+	timeout.tv_sec = 30;
+	timeout.tv_usec = 0;
+
 	if (ldap_search_ext_s (ldap, bl->priv->schema_dn, LDAP_SCOPE_BASE,
 			       "(objectClass=subschema)", attrs, 0,
-			       NULL, NULL, NULL, 0, &resp) == LDAP_SUCCESS) {
+			       NULL, NULL, &timeout, LDAP_NO_LIMIT, &resp) == LDAP_SUCCESS) {
 		char **values;
 
 		values = ldap_get_values (ldap, resp, "objectClasses");
@@ -518,7 +522,7 @@ get_ldap_library_info ()
 	ldap_unbind_ext_s (ldap, NULL, NULL);
 }
 
-static void
+static int
 query_ldap_root_dse (PASBackendLDAP *bl)
 {
 #define MAX_DSE_ATTRS 20
@@ -538,16 +542,16 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 	attrs[i++] = "schemaNamingContext"; /* Active directory's dn for schema information */
 	attrs[i] = NULL;
 
-	timeout.tv_sec = 0;
-	timeout.tv_usec = LDAP_RESULT_TIMEOUT_MILLIS * 1000;
+	timeout.tv_sec = 30;
+	timeout.tv_usec = 0;
 
 	ldap_error = ldap_search_ext_s (ldap,
 					LDAP_ROOT_DSE, LDAP_SCOPE_BASE,
 					"(objectclass=*)",
-					attrs, 0, NULL, NULL, NULL, 0, &resp);
+					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, &resp);
 	if (ldap_error != LDAP_SUCCESS) {
 		g_warning ("could not perform query on Root DSE");
-		return;
+		return ldap_error;
 	}
 
 	values = ldap_get_values (ldap, resp, "supportedControl");
@@ -591,6 +595,8 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 		ldap_value_free (values);
 
 	ldap_msgfree (resp);
+
+	return LDAP_SUCCESS;
 }
 
 static GNOME_Evolution_Addressbook_BookListener_CallStatus
@@ -643,27 +649,31 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 				g_message ("TLS active");
 		}
 
-		query_ldap_root_dse (bl);
+		ldap_error = query_ldap_root_dse (bl);
+		/* query_ldap_root_dse will cause the actual
+		   connect(), so any tcpip problems will show up
+		   here */
 
-		blpriv->connected = TRUE;
+		if (LDAP_SUCCESS == ldap_error) {
+			blpriv->connected = TRUE;
 
-		/* check to see if evolutionPerson is supported, if we can (me
-		   might not be able to if we can't authenticate.  if we
-		   can't, try again in auth_user.) */
-		if (!bl->priv->evolutionPersonChecked)
-			check_schema_support (bl);
+			/* check to see if evolutionPerson is supported, if we can (me
+			   might not be able to if we can't authenticate.  if we
+			   can't, try again in auth_user.) */
+			if (!bl->priv->evolutionPersonChecked)
+				check_schema_support (bl);
 
-		return GNOME_Evolution_Addressbook_BookListener_Success;
+			return GNOME_Evolution_Addressbook_BookListener_Success;
+		}
 	}
-	else {
-		g_warning ("pas_backend_ldap_connect failed for "
-			   "'ldap://%s:%d/%s'\n",
-			   blpriv->ldap_host,
-			   blpriv->ldap_port,
-			   blpriv->ldap_rootdn ? blpriv->ldap_rootdn : "");
-		blpriv->connected = FALSE;
-		return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
-	}
+
+	g_warning ("pas_backend_ldap_connect failed for "
+		   "'ldap://%s:%d/%s'\n",
+		   blpriv->ldap_host,
+		   blpriv->ldap_port,
+		   blpriv->ldap_rootdn ? blpriv->ldap_rootdn : "");
+	blpriv->connected = FALSE;
+	return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
 }
 
 static gboolean

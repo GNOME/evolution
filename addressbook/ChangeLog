@@ -1,3 +1,13 @@
+2002-09-27  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (check_schema_support): set the
+	timeout to 30 seconds.
+	(query_ldap_root_dse): same, and also return the ldap_error since
+	this function is the one that actually causes openldap to
+	connect() to the ldap host.
+	(pas_backend_ldap_connect): check the return value of
+	query_ldap_root_dse, and error out if it's not SUCCESS.
+
 2002-09-26  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-storage.c (load_source_data): Change
