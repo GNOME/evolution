@@ -480,7 +480,7 @@
       <para>
       Enter an address in the <guilabel>To:</guilabel> field.  If you
       wish, enter a subject in the <guilabel>Subject:</guilabel>, and
-      a message in the big empty box at the bottom of the window.
+      a message in the box at the bottom of the window.
       Once you have written your message, press
       <guibutton>Send</guibutton>.
     </para>
@@ -496,7 +496,7 @@
            "Send Later" feature is particularly useful if you use a
            modem to connect to the Internet and pay per-minute
            charges: you can remain offline until you need to send
-           mail, then connect and send all your mail at once.
+           mail, then connect and send all your mail at once.  Mail in the outbox is sent when you click <guibutton>Send/Recieve</guibutton> in the main window.
         </para>
         <para>
            To learn more about how you can specify message queue and
@@ -512,7 +512,7 @@
 	      from the Internet while you work. When you want to
 	      reconnect, choose
 	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
-	      Online</guimenuitem></menuchoice>
+	      Online</guimenuitem></menuchoice>.  Alternativly, you can click the connection button at the bottom left side of the window.
             </para>
          </note>
 
@@ -622,7 +622,12 @@
             <guilabel>Bcc:</guilabel> list are hidden from the other
             recipients of the message. Use it to send mail to large
             groups of people, especially if they don't know each other
-            or if privacy is a concern.
+            or if privacy is a concern.  If your <guilabel>Bcc:</guilabel> field is absent, click
+	    <menuchoice>
+	      <guimenu>View</guimenu>
+	      <guimenuitem>Bcc Field</guimenuitem>
+	    </menuchoice>.
+		
           </para>
         </sect3>
 
@@ -848,15 +853,15 @@ with quoted materials and the relevant replies interspersed-->
             format preferences in the mail configuration dialog.  See
             <xref linkend="config-prefs-mail-other"> for more
             information.
-          </para>
-        <para>
-           HTML formatting tools are located in the toolbar just above
-           the space where you'll actually compose the message, and
-           they also appear in the <guimenu>Insert</guimenu> and
-           <guimenu>Format</guimenu> menus.
-          </para>
-          <para>
-            The icons in the toolbar are explained in <glossterm
+      </para>
+      <para>
+	HTML formatting tools are located in the toolbar just above
+	the space where you'll actually compose the message, and
+	they also appear in the <guimenu>Insert</guimenu> and
+	<guimenu>Format</guimenu> menus.
+      </para>
+      <para>
+	The icons in the toolbar are explained in <glossterm
             linkend="tooltip">tool-tips</glossterm>, which appear when
             you hold your mouse over the buttons.  The buttons fall
             into four categories:
@@ -937,11 +942,11 @@ with quoted materials and the relevant replies interspersed-->
           </variablelist>
         </para>
         <para>
-	The <guimenu>Insert</guimenu> gives you three opinions which let you
+	The <guimenu>Insert</guimenu> gives you opinions which let you
            spruce up your email to make it more interesting:
 	<variablelist>
 	  <varlistentry>
-	    <term><guimenuitem>Insert Link</guimenuitem></term>
+	    <term><guimenuitem>Link</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Lets you link some text to a website.  Use this tool to put hyperlinks in your HTML
@@ -952,7 +957,7 @@ with quoted materials and the relevant replies interspersed-->
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guimenuitem>Insert Image</guimenuitem></term>
+	    <term><guimenuitem>Image</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Lets you put an image alongside text.
@@ -999,7 +1004,7 @@ with quoted materials and the relevant replies interspersed-->
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guimenuitem>Insert Rule</guimenuitem></term>
+	    <term><guimenuitem>Rule</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Inserts a horizontal line into the text to help divide two
@@ -1058,7 +1063,56 @@ with quoted materials and the relevant replies interspersed-->
 	      </para>
 	    </listitem>
 	  </varlistentry>
-	  </variablelist>
+	  <varlistentry>
+	    <term>Table</term>
+	    <listitem>
+	      <para>
+		Inserts a table into the text to help divide two
+		sections.
+	      </para>
+	      <para>
+		To insert a rule:
+		<orderedlist numeration="arabic">
+		  <listitem>
+		    <para>
+		      Open a new email by clicking <guibutton>New Message</guibutton>
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Make sure that you have the
+		      <menuchoice>
+			<guimenu>Format</guimenu>
+			<guimenuitem>HTML</guimenuitem>
+		      </menuchoice>
+                      selector checked.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Click the <guibutton>Table</guibutton> button in the <guilabel>Toolbar</guilabel>.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Select the <guibutton>Template</guibutton> you wish to use.  Each template has a slightly different feel and layout.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      If you so desire, you may change the other options such as: number of rows, columns, spacing of each cell, and more.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Click the <guibutton>Insert</guibutton> button.
+		    </para>
+		  </listitem>
+		</orderedlist>
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
 	To add a hyperlink to your HTML message:
 	<orderedlist numeration="arabic">
 	  <listitem>
@@ -1084,9 +1138,9 @@ with quoted materials and the relevant replies interspersed-->
 	    </para>
 	  </listitem>
 	</orderedlist>
-</para>
+      </para>
 
-<para>
+      <para>
 	To add an image to your HTML message:
 	<orderedlist numeration="arabic">
 	  <listitem>
@@ -1130,7 +1184,6 @@ with quoted materials and the relevant replies interspersed-->
 	    </para>
 	  </listitem>
 	</orderedlist>
-
       </para>
 
       <sect3 id="html-templates">
@@ -1428,19 +1481,19 @@ with quoted materials and the relevant replies interspersed-->
     </para>
   </sect1>
 
-    <sect1 id="usage-mail-subscriptions">
-      <title>Subscription Management</title>
-      <para>
-         Since IMAP folders exist on the server, and opening them or
-         checking them takes time, you need fine-grained control over
-         the way that you use IMAP folders.  That's why
-         <application>Evolution</application> has an IMAP
-         subscriptions manager.
-     </para>
-     <para>
-       To use it:
+  <sect1 id="usage-mail-subscriptions">
+    <title>Subscription Management</title>
+    <para>
+      Since IMAP folders exist on the server, and opening them or
+      checking them takes time, you need fine-grained control over
+      the way that you use IMAP folders.  That's why
+      <application>Evolution</application> has an IMAP
+      subscriptions manager.
+    </para>
+    <para>
+      To use it:
       <orderedlist numeration="arabic">
-
+	
 	<listitem>
 	  <para>
 	   Select
