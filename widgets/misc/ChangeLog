@@ -1,3 +1,9 @@
+2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-messagebox.c (e_message_box_get_checkbox): Remove the version
+	returning `const char *' as of course it doesn't compile.  Please
+	compile before committing.
+
 2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Added e-messagebox to the build.
