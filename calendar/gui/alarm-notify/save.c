@@ -29,16 +29,15 @@
 #include "evolution-calendar.h"
 #include "config-data.h"
 #include "save.h"
+#include <gconf/gconf-client.h>
 
 
 
 /* Key names for the configuration values */
 
-#define KEY_LAST_NOTIFICATION_TIME "/Calendar/AlarmNotify/LastNotificationTime"
-#define KEY_NUM_CALENDARS_TO_LOAD "/Calendar/AlarmNotify/NumCalendarsToLoad"
-#define BASE_KEY_CALENDAR_TO_LOAD "/Calendar/AlarmNotify/CalendarToLoad"
-#define KEY_NUM_BLESSED_PROGRAMS "/Calendar/AlarmNotify/NumBlessedPrograms"
-#define BASE_KEY_BLESSED_PROGRAM "/Calendar/AlarmNotify/BlessedProgram"
+#define KEY_LAST_NOTIFICATION_TIME "/apps/evolution/calendar/notify/last_notification_time"
+#define KEY_CALENDARS "/apps/evolution/calendar/notify/calendars"
+#define KEY_PROGRAMS "/apps/evolution/calendar/notify/programs"
 
 
 
@@ -100,28 +99,18 @@ get_saved_notification_time (void)
 void
 save_calendars_to_load (GPtrArray *uris)
 {
-	EConfigListener *cl;
-	int len, i;
+	int i;
+	GConfClient *gconf = gconf_client_get_default();
+	GSList *l = NULL;
 
 	g_return_if_fail (uris != NULL);
 
-	if (!(cl = config_data_get_listener ()))
-		return;
+	for (i=0;i<uris->len;i++)
+		l = g_slist_append(l, uris->pdata[i]);
 
-	len = uris->len;
+	gconf_client_set_list(gconf, KEY_CALENDARS, GCONF_VALUE_STRING, l, NULL);
 
-	e_config_listener_set_long (cl, KEY_NUM_CALENDARS_TO_LOAD, len);
-
-	for (i = 0; i < len; i++) {
-		const char *uri;
-		char *key;
-
-		uri = uris->pdata[i];
-
-		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
-		e_config_listener_set_string (cl, key, uri);
-		g_free (key);
-	}
+	g_slist_free(l);
 }
 
 /**
@@ -135,32 +124,20 @@ save_calendars_to_load (GPtrArray *uris)
 GPtrArray *
 get_calendars_to_load (void)
 {
-	EConfigListener *cl;
+	GSList *l, *n;
 	GPtrArray *uris;
-	int len, i;
-
-	if (!(cl = config_data_get_listener ()))
-		return NULL;
 
 	/* Getting the default value below is not necessarily an error, as we
 	 * may not have saved the list of calendar yet.
 	 */
 
-	len = e_config_listener_get_long_with_default (cl, KEY_NUM_CALENDARS_TO_LOAD, 0, NULL);
-
-	uris = g_ptr_array_new ();
-	g_ptr_array_set_size (uris, len);
-
-	for (i = 0; i < len; i++) {
-		char *key;
-		gboolean used_default;
-
-		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
-		uris->pdata[i] = e_config_listener_get_string_with_default (cl, key, "", &used_default);
-		if (used_default)
-			g_message ("get_calendars_to_load(): Could not read calendar name %d", i);
-
-		g_free (key);
+	l = gconf_client_get_list(gconf_client_get_default(), KEY_CALENDARS, GCONF_VALUE_STRING, NULL);
+	while (l) {
+		n = l->next;
+		uris = g_ptr_array_new ();
+		g_ptr_array_add(uris, l->data);
+		g_slist_free_1(l);
+		l = n;
 	}
 
 	return uris;
@@ -175,25 +152,14 @@ get_calendars_to_load (void)
 void
 save_blessed_program (const char *program)
 {
-	EConfigListener *cl;
-	char *key;
-	int len;
+	GConfClient *gconf = gconf_client_get_default();
+	GSList *l;
 
-	g_return_if_fail (program != NULL);
-
-	if (!(cl = config_data_get_listener ()))
-		return;
-
-	/* Up the number saved */
-	len = e_config_listener_get_long_with_default (cl, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
-	len++;
-	
-	e_config_listener_set_long (cl, KEY_NUM_BLESSED_PROGRAMS, len);
-
-	/* Save the program name */
-	key = g_strdup_printf ("%s%d", BASE_KEY_BLESSED_PROGRAM, len - 1);
-	e_config_listener_set_string (cl, key, program);
-	g_free (key);
+	l = gconf_client_get_list(gconf, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
+	l = g_slist_append(l, g_strdup(program));
+	gconf_client_set_list(gconf, KEY_PROGRAMS, GCONF_VALUE_STRING, l, NULL);
+	g_slist_foreach(l, (GFunc)g_free, NULL);
+	g_slist_free(l);
 }
 
 /**
@@ -207,38 +173,19 @@ save_blessed_program (const char *program)
 gboolean
 is_blessed_program (const char *program)
 {
-	EConfigListener *cl;
-	int len, i;
+	GConfClient *gconf = gconf_client_get_default();
+	GSList *l, *n;
+	gboolean found = FALSE;
 
-	g_return_val_if_fail (program != NULL, FALSE);
-
-	if (!(cl = config_data_get_listener ()))
-		return FALSE;
-
-	/* Getting the default value below is not necessarily an error, as we
-	 * may not have saved the list of calendar yet.
-	 */
-
-	len = e_config_listener_get_long_with_default (cl, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
-
-	for (i = 0; i < len; i++) {
-		char *key, *value;
-		gboolean used_default;
-
-		key = g_strdup_printf ("%s%d", BASE_KEY_BLESSED_PROGRAM, i);
-		value = e_config_listener_get_string_with_default (cl, key, "", &used_default);
-		if (used_default)
-			g_message ("get_calendars_to_load(): Could not read calendar name %d", i);
-
-		if (value != NULL && !strcmp (value, program)) {
-			g_free (key);
-			g_free (value);
-			return TRUE;
-		}
-		
-		g_free (key);
-		g_free (value);
+	l = gconf_client_get_list(gconf, KEY_PROGRAMS, GCONF_VALUE_STRING, NULL);
+	while (l) {
+		n = l->next;
+		if (!found)
+			found = strcmp((char *)l->data, program) == 0;
+		g_free(l->data);
+		g_slist_free_1(l);
+		l = n;
 	}
 
-	return FALSE;
+	return found;
 }

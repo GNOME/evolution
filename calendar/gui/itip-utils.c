@@ -35,7 +35,6 @@
 #include <ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-time-utils.h>
-#include <e-util/e-config-listener.h>
 #include <cal-util/timeutil.h>
 #include <cal-util/cal-util.h>
 #include "calendar-config.h"
@@ -65,99 +64,27 @@ static icalproperty_method itip_methods_enum[] = {
     ICAL_METHOD_DECLINECOUNTER,
 };
 
-static EConfigListener *config = NULL;
+static EAccountList *accounts = NULL;
 
-static ItipAddress *
-get_address (long num) 
-{
-	ItipAddress *a;
-	gchar *path;
-		
-	a = g_new0 (ItipAddress, 1);
-
-	/* get the identity info */
-	path = g_strdup_printf ("/Mail/Accounts/identity_name_%ld", num);
-	a->name = e_config_listener_get_string_with_default (config, path, NULL, NULL);
-	g_free (path);
-
-	path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", num);
-	a->address = e_config_listener_get_string_with_default (config, path, NULL, NULL);
-	a->address = g_strstrip (a->address);
-	g_free (path);
-
-	a->full = g_strdup_printf ("%s <%s>", a->name, a->address);
-
-	return a;
-}
-
-GList *
+EAccountList *
 itip_addresses_get (void)
 {
-	GList *addresses = NULL;
-	glong len, def, i;
+	if (accounts == NULL)
+		accounts = e_account_list_new(gconf_client_get_default());
 
-	if (config == NULL)
-		config = e_config_listener_new ();
-	
-	len = e_config_listener_get_long_with_default (config, "/Mail/Accounts/num", 0, NULL);
-	def = e_config_listener_get_long_with_default (config, "/Mail/Accounts/default_account", 0, NULL);
-
-	for (i = 0; i < len; i++) {
-		ItipAddress *a;
-
-		a = get_address (i);
-		if (i == def)
-			a->default_address = TRUE;
-
-		addresses = g_list_append (addresses, a);
-	}
-
-	return addresses;
+	return accounts;
 }
 
-ItipAddress *
+EAccount *
 itip_addresses_get_default (void)
 {
-	ItipAddress *a;
-	glong def;
-
-	if (config == NULL)
-		config = e_config_listener_new ();
-	
-	def = e_config_listener_get_long_with_default (config, "/Mail/Accounts/default_account", 0, NULL);
-
-	a = get_address (def);
-	a->default_address = TRUE;
-
-	return a;
-}
-
-void
-itip_address_free (ItipAddress *address) 
-{
-	g_free (address->name);
-	g_free (address->address);
-	g_free (address->full);
-	g_free (address);
-}
-
-void
-itip_addresses_free (GList *addresses)
-{
-	GList *l;
-	
-	for (l = addresses; l != NULL; l = l->next) {
-		ItipAddress *a = l->data;
-		itip_address_free (a);
-	}
-	g_list_free (addresses);
+	return (EAccount *)e_account_list_get_default(itip_addresses_get());
 }
 
 gboolean
 itip_organizer_is_user (CalComponent *comp)
 {
 	CalComponentOrganizer organizer;
-	GList *addresses, *l;
 	const char *strip;
 	gboolean user_org = FALSE;
 	
@@ -167,17 +94,7 @@ itip_organizer_is_user (CalComponent *comp)
 	cal_component_get_organizer (comp, &organizer);
 	if (organizer.value != NULL) {
 		strip = itip_strip_mailto (organizer.value);
-
-		addresses = itip_addresses_get ();
-		for (l = addresses; l != NULL; l = l->next) {
-			ItipAddress *a = l->data;
-			
-			if (!g_strcasecmp (a->address, strip)) {
-				user_org = TRUE;
-				break;
-			}
-		}
-		itip_addresses_free (addresses);
+		user_org = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
 	return user_org;
@@ -187,7 +104,6 @@ gboolean
 itip_sentby_is_user (CalComponent *comp)
 {
 	CalComponentOrganizer organizer;
-	GList *addresses, *l;
 	const char *strip;
 	gboolean user_sentby = FALSE;
 	
@@ -197,17 +113,7 @@ itip_sentby_is_user (CalComponent *comp)
 	cal_component_get_organizer (comp, &organizer);
 	if (organizer.sentby != NULL) {
 		strip = itip_strip_mailto (organizer.sentby);
-
-		addresses = itip_addresses_get ();
-		for (l = addresses; l != NULL; l = l->next) {
-			ItipAddress *a = l->data;
-			
-			if (!g_strcasecmp (a->address, strip)) {
-				user_sentby = TRUE;
-				break;
-			}
-		}
-		itip_addresses_free (addresses);
+		user_sentby = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
 	return user_sentby;
@@ -631,13 +537,11 @@ static gboolean
 comp_limit_attendees (CalComponent *comp) 
 {
 	icalcomponent *icomp;
-	GList *addresses;
 	icalproperty *prop;
 	gboolean found = FALSE, match = FALSE;
 	GSList *l, *list = NULL;
 
 	icomp = cal_component_get_icalcomponent (comp);
-	addresses = itip_addresses_get ();	
 
 	for (prop = icalcomponent_get_first_property (icomp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
@@ -646,7 +550,6 @@ comp_limit_attendees (CalComponent *comp)
 		icalvalue *value;
 		const char *attendee;
 		char *text;
-		GList *l;
 
 		/* If we've already found something, just erase the rest */
 		if (found) {
@@ -662,12 +565,7 @@ comp_limit_attendees (CalComponent *comp)
 
 		text = g_strdup (itip_strip_mailto (attendee));
 		text = g_strstrip (text);
-		for (l = addresses; l != NULL; l = l->next) {
-			ItipAddress *a = l->data;
-
-			if (!g_strcasecmp (a->address, text))
-				found = match = TRUE;
-		}
+		found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, text) != NULL;
 		g_free (text);
 		
 		if (!match)
@@ -683,8 +581,6 @@ comp_limit_attendees (CalComponent *comp)
 	}
 	g_slist_free (list);
 
-	itip_addresses_free (addresses);
-
 	return found;
 }
 
@@ -695,25 +591,25 @@ comp_sentby (CalComponent *comp)
 	
 	cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
-		ItipAddress *a = itip_addresses_get_default ();
+		EAccount *a = itip_addresses_get_default ();
 
-		organizer.value = g_strdup_printf ("MAILTO:%s", a->address);
+		organizer.value = g_strdup_printf ("MAILTO:%s", a->id->address);
 		organizer.sentby = NULL;
-		organizer.cn = a->name;
+		organizer.cn = a->id->name;
 		organizer.language = NULL;
 		
 		cal_component_set_organizer (comp, &organizer);
 		g_free ((char *) organizer.value);
-		itip_address_free (a);
+		g_object_unref(a);
 		
 		return;
 	}
 
 	if (!itip_organizer_is_user (comp) && !itip_sentby_is_user (comp)) {
-		ItipAddress *a = itip_addresses_get_default ();
+		EAccount *a = itip_addresses_get_default ();
 		
 		organizer.value = g_strdup (organizer.value);
-		organizer.sentby = g_strdup_printf ("MAILTO:%s", a->address);
+		organizer.sentby = g_strdup_printf ("MAILTO:%s", a->id->address);
 		organizer.cn = g_strdup (organizer.cn);
 		organizer.language = g_strdup (organizer.language);
 		
@@ -723,7 +619,7 @@ comp_sentby (CalComponent *comp)
 		g_free ((char *)organizer.sentby);
 		g_free ((char *)organizer.cn);
 		g_free ((char *)organizer.language);
-		itip_address_free (a);
+		g_object_unref(a);
 	}
 }
 static CalComponent *

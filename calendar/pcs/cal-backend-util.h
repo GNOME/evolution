@@ -39,8 +39,6 @@ void cal_backend_util_fill_alarm_instances_seq (
  * Functions for accessing mail configuration
  */
 
-void     cal_backend_mail_account_get (EConfigListener *db, gint def,
-				       char **address, char **name);
 gboolean cal_backend_mail_account_get_default (EConfigListener *db,
 					       char **address, char **name);
 gboolean cal_backend_mail_account_is_valid (EConfigListener *db,

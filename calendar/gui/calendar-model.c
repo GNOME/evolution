@@ -97,7 +97,7 @@ struct _CalendarModelPrivate {
 	gchar *default_category;
 
 	/* Addresses for determining icons */
-	GList *addresses;
+	EAccountList *accounts;
 	
 	/* The current timezone. */
 	icaltimezone *zone;
@@ -215,7 +215,7 @@ calendar_model_init (CalendarModel *model)
 	priv->timeout_id = g_timeout_add (CALENDAR_MODEL_REFRESH_TIMEOUT,
 					  calendar_model_timeout_cb, model);
 
-	priv->addresses = itip_addresses_get ();
+	priv->accounts = itip_addresses_get ();
 	
 	priv->zone = NULL;
 
@@ -339,8 +339,6 @@ calendar_model_finalize (GObject *object)
 	priv->objects_data = NULL;
 
 	g_free (priv->default_category);
-
-	itip_addresses_free (priv->addresses);
 
 	if (priv->activity) {
 		g_object_unref (priv->activity);
@@ -828,7 +826,6 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 
 	case CAL_COMPONENT_FIELD_ICON:
 	{
-		ItipAddress *ia;		
 		GSList *attendees = NULL, *sl;		
 		gint retval = 0;
 
@@ -842,23 +839,17 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		for (sl = attendees; sl != NULL; sl = sl->next) {
 			CalComponentAttendee *ca = sl->data;
 			const char *text;
-			GList *l;
 
 			text = itip_strip_mailto (ca->value);
-			for (l = priv->addresses; l != NULL; l = l->next) {
-				ia = l->data;
-				
-				if (!strcmp (text, ia->address)) {
-					if (ca->delto != NULL)
-						retval = 3;
-					else
-						retval = 2;
-					goto cleanup;
-				}
+			if (e_account_list_find(priv->accounts, E_ACCOUNT_FIND_ID_ADDRESS, text) != NULL) {
+				if (ca->delto != NULL)
+					retval = 3;
+				else
+					retval = 2;
+				break;
 			}
 		}
 
-	cleanup:
 		cal_component_free_attendee_list (attendees);
 		return GINT_TO_POINTER (retval);		
 		break;

@@ -255,20 +255,21 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 		}
 
  		if (organizer.value != NULL) {
- 			GList *addresses, *l;
  			const char *strip;
  			int row;
+			EIterator *it;
  
  			strip = itip_strip_mailto (organizer.value);
 			
- 			addresses = itip_addresses_get ();
- 			for (l = addresses; l != NULL; l = l->next) {
- 				ItipAddress *a = l->data;
- 				
- 				if (e_meeting_model_find_attendee (priv->model, a->address, &row))
+ 			for (it = e_list_get_iterator((EList *)itip_addresses_get ());
+			     e_iterator_is_valid(it);
+			     e_iterator_next(it)) {
+				EAccount *a = (EAccount *)e_iterator_get(it);
+
+ 				if (e_meeting_model_find_attendee (priv->model, a->id->address, &row))
  					e_meeting_model_restricted_add (priv->model, row);
  			}
- 			itip_addresses_free (addresses);
+			g_object_unref(it);
  		}
 
  		if (comp_editor_get_user_org (editor))

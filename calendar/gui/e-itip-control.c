@@ -76,7 +76,8 @@ struct _EItipControlPrivate {
 
 	gchar *calendar_uri;
 
-	GList *addresses;
+	EAccountList *accounts;
+
 	gchar *from_address;
 	gchar *delegator_address;
 	gchar *delegator_name;
@@ -287,7 +288,7 @@ init (EItipControl *itip)
 	itip->priv = priv;
 
 	/* Addresses */
-	priv->addresses = itip_addresses_get ();
+	priv->accounts = itip_addresses_get ();
 
 	/* Initialize the cal clients */
 	priv->event_clients = NULL;
@@ -370,8 +371,7 @@ destroy (GtkObject *obj)
 
 	clean_up (itip);
 
-	itip_addresses_free (priv->addresses);
-	priv->addresses = NULL;
+	priv->accounts = NULL;
 
 	if (priv->event_clients) {
 		for (i = 0; i < priv->event_clients->len; i++) 
@@ -420,7 +420,7 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 		icalparameter *param;
 		const char *attendee, *name;
 		char *attendee_clean, *name_clean;
-		GList *l;
+		EIterator *it;
 
 		value = icalproperty_get_value (prop);
 		if (value != NULL) {
@@ -441,26 +441,32 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 			name = NULL;
 			name_clean = NULL;
 		}
-		
-		for (l = priv->addresses; l != NULL; l = l->next) {
-			ItipAddress *a = l->data;
-			
+
+		it = e_list_get_iterator((EList *)priv->accounts);
+		while (e_iterator_is_valid(it)) {
+			const EAccount *account = e_iterator_get(it);
+
 			/* Check for a matching address */
 			if (attendee_clean != NULL
-			    && !g_strcasecmp (a->address, attendee_clean)) {
-				priv->my_address = g_strdup (a->address);
+			    && !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
+				priv->my_address = g_strdup (account->id->address);
 				g_free (attendee_clean);
 				g_free (name_clean);
+				g_free (my_alt_address);
+				g_object_unref(it);
 				return;
 			}
 			
 			/* Check for a matching cname to fall back on */
 			if (name_clean != NULL 
-			    && !g_strcasecmp (a->name, name_clean))
+			    && !g_ascii_strcasecmp (account->id->name, name_clean))
 				my_alt_address = g_strdup (attendee_clean);
+
+			e_iterator_next(it);
 		}
 		g_free (attendee_clean);
 		g_free (name_clean);
+		g_object_unref(it);
 	}
 
 	priv->my_address = my_alt_address;
@@ -1720,14 +1726,14 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 			param = icalparameter_new_partstat (status);
 			icalproperty_add_parameter (prop, param);
 		} else {
-			ItipAddress *a;
+			EAccount *a;
 
 			a = itip_addresses_get_default ();
 			
-			prop = icalproperty_new_attendee (a->address);
+			prop = icalproperty_new_attendee (a->id->address);
 			icalcomponent_add_property (ical_comp, prop);
 			
-			param = icalparameter_new_cn (a->name);
+			param = icalparameter_new_cn (a->id->name);
 			icalproperty_add_parameter (prop, param);	
 
 			param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
@@ -1735,8 +1741,6 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 			
 			param = icalparameter_new_partstat (status);
 			icalproperty_add_parameter (prop, param);
-			
-			itip_address_free (a);
 		}
 	}
 

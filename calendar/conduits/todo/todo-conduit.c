@@ -449,7 +449,7 @@ get_default_timezone (void)
 	listener = e_config_listener_new ();
 
 	location = e_config_listener_get_string_with_default (listener,
-		"/apps/Evolution/Calendar/Display/Timezone", "UTC", NULL);
+		"/apps/evolution/calendar/display/timezone", "UTC", NULL);
 	if (!location || !location[0]) {
 		g_free (location);
 		location = g_strdup ("UTC");

@@ -77,7 +77,7 @@ struct _MeetingPagePrivate {
 	CalComponent *comp;
 	
 	/* List of identities */
-	GList *addresses;
+	EAccountList *accounts;
 	GList *address_strings;
 	gchar *default_address;
 	
@@ -168,7 +168,7 @@ meeting_page_init (MeetingPage *mpage)
 
 	priv->comp = NULL;
 
-	priv->addresses = NULL;
+	priv->accounts = NULL;
 	priv->address_strings = NULL;
 	
 	priv->xml = NULL;
@@ -232,8 +232,6 @@ meeting_page_finalize (GObject *object)
 	cleanup_attendees (priv->deleted_attendees);
 	g_ptr_array_free (priv->deleted_attendees, FALSE);
 	
-	itip_addresses_free (priv->addresses);
-
 	g_object_unref((priv->model));
 	
 	if (priv->xml) {
@@ -369,18 +367,22 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	if (!priv->existing) {
 		gchar *addr = NULL, *cn = NULL, *sentby = NULL, *str;
-		GList *l;
+		EIterator *it;
 
 		str = e_dialog_editable_get (GTK_COMBO (priv->organizer)->entry);
 		
 		/* Find the identity for the organizer or sentby field */
-		for (l = priv->addresses; l != NULL; l = l->next) {
-			ItipAddress *a = l->data;
-				
-			if (!strcmp (a->full, str)) {
-					addr = g_strdup (a->address);
-					cn = g_strdup (a->name);
+		for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
+			EAccount *a = (EAccount *)e_iterator_get(it);
+			char *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+
+			if (!strcmp (full, str)) {
+				addr = g_strdup (a->id->address);
+				cn = g_strdup (a->id->name);
+				g_free(full);
+				break;
 			}
+			g_free(full);
 		}
 
 		g_free (str);
@@ -716,8 +718,9 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	ETable *real_table;
 	gchar *filename;
 	const char *backend_address;
-	GList *l;
-	
+	EIterator *it;
+	EAccount *def_account;
+
 	priv = mpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
@@ -737,21 +740,28 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	/* Address information */
 	backend_address = cal_client_get_email_address (client);
 
-	priv->addresses = itip_addresses_get ();
-	for (l = priv->addresses; l != NULL; l = l->next) {
-		ItipAddress *a = l->data;
-		
-		priv->address_strings = g_list_append (priv->address_strings, g_strdup (a->full));
+	priv->accounts = itip_addresses_get ();
+	def_account = itip_addresses_get_default();
+	for (it = e_list_get_iterator((EList *)priv->accounts);
+	     e_iterator_is_valid(it);
+	     e_iterator_next(it)) {
+		EAccount *a = (EAccount *)e_iterator_get(it);
+		char *full;
+
+		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+
+		priv->address_strings = g_list_append(priv->address_strings, full);
 
 		/* Note that the address specified by the backend gets
 		 * precedence over the default mail address.
 		 */
-		if (backend_address && !strcmp (backend_address, a->address))
-			priv->default_address = a->full;
-		else if (a->default_address && !priv->default_address)
-			priv->default_address = a->full;
+		if (backend_address && !strcmp (backend_address, a->id->address))
+			priv->default_address = full;
+		else if (a == def_account && !priv->default_address)
+			priv->default_address = full;
 	}
-	
+	g_object_unref(it);
+
 	/* The etable displaying attendees and their status */
 	g_object_ref((emm));
 	priv->model = emm;
