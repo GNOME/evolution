@@ -1,3 +1,8 @@
+2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-datespec.c (button_clicked): Allow the dialog's title to
+	be translated.
+
 2001-08-19  Chris Toshok  <toshok@ximian.com>
 
 	* filter-input.c: #include <sys/types.h> for regex_t on freebsd.

@@ -391,7 +391,7 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	
 	/* The dialog */
 	
-	gd = (GnomeDialog *) gnome_dialog_new ("Select a time to compare against", 
+	gd = (GnomeDialog *) gnome_dialog_new (_("Select a time to compare against"), 
 					       GNOME_STOCK_BUTTON_OK, 
 					       GNOME_STOCK_BUTTON_CANCEL, 
 					       NULL);
