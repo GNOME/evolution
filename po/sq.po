@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-18 03:09+0200\n"
-"PO-Revision-Date: 2004-08-08 15:11+0200\n"
+"POT-Creation-Date: 2004-08-21 03:09+0200\n"
+"PO-Revision-Date: 2004-08-21 12:54+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -178,8 +178,7 @@ msgstr "Dëshiron të ruash ndryshimet e kryera?"
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr ""
-"Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
+msgstr "Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
 
 #: addressbook/addressbook-errors.xml.h:43
 msgid "_Discard"
@@ -216,8 +215,7 @@ msgstr "Rubrika e Evolution përfundoi në menyrë të papritur."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Kontaktet tuaja për {0} do të jenë në dispozicion vetëm mbas rinisjes së "
 "Evolution."
@@ -258,7 +256,7 @@ msgstr "Konfiguro këtu plotësimin automatik"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-#: addressbook/gui/component/addressbook-view.c:1104
+#: addressbook/gui/component/addressbook-view.c:1142
 #: calendar/gui/migration.c:377
 msgid "Contacts"
 msgstr "Kontakte"
@@ -320,7 +318,7 @@ msgid "Create a new contact list"
 msgstr "Krijo një listë të re kontaktesh"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:773
+#: addressbook/gui/component/addressbook-view.c:811
 msgid "New Address Book"
 msgstr "Rubrikë e Re"
 
@@ -424,12 +422,12 @@ msgstr ""
 "\n"
 "Ju lutem durim ndërkohë që Evolution migron të dhënat e sinkronizimit..."
 
-#: addressbook/gui/component/addressbook-view.c:671
+#: addressbook/gui/component/addressbook-view.c:711
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Rubrika '%s' do të hiqet. Jeni i sigurt që dëshironi të vazhdoni?"
 
-#: addressbook/gui/component/addressbook-view.c:774
+#: addressbook/gui/component/addressbook-view.c:812
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
 #: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
@@ -440,7 +438,7 @@ msgstr "Rubrika '%s' do të hiqet. Jeni i sigurt që dëshironi të vazhdoni?"
 msgid "Delete"
 msgstr "Elemino"
 
-#: addressbook/gui/component/addressbook-view.c:775
+#: addressbook/gui/component/addressbook-view.c:813
 #: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
 msgid "Properties..."
 msgstr "Pronësitë..."
@@ -478,8 +476,7 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
-"URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
+msgstr "URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -582,10 +579,8 @@ msgid "Email address"
 msgstr "Adresa Email"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
-msgstr ""
-"Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
+msgid "Evolution will use this email address to authenticate you with the server."
+msgstr "Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -1061,7 +1056,6 @@ msgstr "_Ku:"
 msgid "Address"
 msgstr "Adresa"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
@@ -1104,12 +1098,10 @@ msgstr "Andora"
 msgid "Angola"
 msgstr "Angola"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Anguilla"
 msgstr "Anguila"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Antarctica"
 msgstr "Antarktika"
@@ -1138,7 +1130,6 @@ msgstr "Australia"
 msgid "Austria"
 msgstr "Austria"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Azerbaijan"
 msgstr "Azerbaijan"
@@ -1151,7 +1142,6 @@ msgstr "Bahamas"
 msgid "Bahrain"
 msgstr "Bahrain"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Bangladesh"
 msgstr "Bangladeshi"
@@ -1200,7 +1190,6 @@ msgstr "Botswana"
 msgid "Bouvet Island"
 msgstr "Ishulli Bouvet"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Brazil"
 msgstr "Brazili"
@@ -1317,7 +1306,6 @@ msgstr "Republika Çeke"
 msgid "Denmark"
 msgstr "Danimarka"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Djibouti"
 msgstr "Xhibouti"
@@ -1386,7 +1374,6 @@ msgstr "Guiana Franceze"
 msgid "French Polynesia"
 msgstr "Polinezia Franceze"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
 msgstr "Territoret e Francës Jugore"
@@ -1419,7 +1406,6 @@ msgstr "Gjibraltari"
 msgid "Greece"
 msgstr "Greqia"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greenland"
 msgstr "Grenlanda"
@@ -1452,7 +1438,6 @@ msgstr "Guinea"
 msgid "Guinea-bissau"
 msgstr "Guinea-bissau"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guyana"
 msgstr "Guijana"
@@ -1613,7 +1598,6 @@ msgstr "Madagaskar"
 msgid "Malawi"
 msgstr "Malawi"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malaysia"
 msgstr "Malejzia"
@@ -1650,8 +1634,6 @@ msgstr "Mauritius"
 msgid "Mayotte"
 msgstr "Mayotte"
 
-#. GRUT modified this item
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mexico"
 msgstr "Mexico"
@@ -1704,7 +1686,6 @@ msgstr "Nepali"
 msgid "Netherlands"
 msgstr "Hollanda"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
 msgstr "Antilet Hollandeze"
@@ -1801,7 +1782,6 @@ msgstr "Porto Rico"
 msgid "Qatar"
 msgstr "Katari"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Reunion"
 msgstr "Mbledhje"
@@ -1822,7 +1802,6 @@ msgstr "Ruanda"
 msgid "Saint Kitts And Nevis"
 msgstr "Saint Kitts And Nevis"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Lucia"
 msgstr "Shën Lucia"
@@ -2043,7 +2022,6 @@ msgstr "Ishujt Virgin, U.S."
 msgid "Wallis And Futuna Islands"
 msgstr "Wallis And Futuna Islands"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Western Sahara"
 msgstr "Sahara Perëndimore"
@@ -2139,20 +2117,19 @@ msgstr "Fusha të ndryshueshme"
 msgid "Changed"
 msgstr "Ndryshuar"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2428
+#: addressbook/gui/contact-editor/e-contact-editor.c:2456
 msgid "This contact belongs to these categories:"
 msgstr "Ky kontak u takon këtyre kategorive:"
 
-#. Create the selector
-#: addressbook/gui/contact-editor/e-contact-editor.c:2505
+#: addressbook/gui/contact-editor/e-contact-editor.c:2549
 msgid "Please select an image for this contact"
 msgstr "Ju lutem zgjidhni një figurë për këtë kontakt"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2509
+#: addressbook/gui/contact-editor/e-contact-editor.c:2550
 msgid "No image"
 msgstr "Asnjë figurë"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2712
+#: addressbook/gui/contact-editor/e-contact-editor.c:2778
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2160,7 +2137,7 @@ msgstr ""
 "E dhëna e kontaktit është e pavlefshme:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2740
+#: addressbook/gui/contact-editor/e-contact-editor.c:2806
 msgid "Invalid contact."
 msgstr "Kontakt i pavlefshëm."
 
@@ -2266,7 +2243,6 @@ msgstr "Znj.sha"
 msgid "Mr."
 msgstr "Zt."
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/fullname.glade.h:11
 msgid "Mrs."
 msgstr "Znj."
@@ -2275,7 +2251,6 @@ msgstr "Znj."
 msgid "Ms."
 msgstr "Znj."
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/fullname.glade.h:13
 msgid "Sr."
 msgstr "Zt."
@@ -2351,8 +2326,7 @@ msgstr "Emri i _listës:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
-"_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
+msgstr "_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 #: smime/gui/smime-ui.glade.h:48
@@ -2591,7 +2565,6 @@ msgstr "Asistenti"
 msgid "Assistant Phone"
 msgstr "Telefoni asistentit"
 
-#. GRUT modified this item
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
 msgstr "Fax-i në zyrë"
@@ -2649,7 +2622,6 @@ msgstr "File si"
 msgid "Given Name"
 msgstr "Emri i dhënë"
 
-#. GRUT modified this item
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Fax"
 msgstr "Fax-i në shtëpi"
@@ -2843,7 +2815,6 @@ msgstr "E-mail"
 msgid "Position"
 msgstr "Pozicioni"
 
-#. GRUT modified this item
 #: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Video Conferencing"
 msgstr "Videokonferencë"
@@ -2865,7 +2836,6 @@ msgstr "punë"
 msgid "WWW"
 msgstr "WWW"
 
-#. GRUT modified this item
 #: addressbook/gui/widgets/eab-contact-display.c:363
 #: addressbook/gui/widgets/eab-contact-display.c:582
 msgid "Blog"
@@ -3077,7 +3047,7 @@ msgid "Error removing contact"
 msgstr "Gabim gjatë eleminimit të kontaktit"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -3085,11 +3055,11 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
-"Hapja e %d kontakteve do të ketë si pasojë hapjen e %d dritareve të reja.\n"
-"Me të vërtetë dëshiron t'i shikosh të gjithë këto kontakte?"
+"Duke hapur %d kontakt do të hapet %d dritare e re.\n"
+"Me të vërtetë shfaq këtë kontakt?"
 msgstr[1] ""
-"Hapja e %d kontakteve do të ketë si pasojë hapjen e %d dritareve të reja.\n"
-"Me të vërtetë dëshiron t'i shikosh të gjithë këto kontakte?"
+"Duke hapur %d kontakte do të hapen %d dritare të reja.\n"
+"Me të vërtetë shfaq të gjitha këto kontakte?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
@@ -3482,8 +3452,7 @@ msgid "Export in asynchronous mode "
 msgstr "Eksporto në modalitet asinkron"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 "Numri i card në një file dalje në modalitet asinkron, vlera e paracaktuar "
 "është 100."
@@ -3493,8 +3462,7 @@ msgid "NUMBER"
 msgstr "NUMRI"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Gabim në argumentet e rreshtit të komandës, përdor opcionin --help për të "
 "shikuar përdorimin."
@@ -3565,8 +3533,7 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni këtë mbledhje?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet mbi këtë mbledhje do të fshihen dhe nuk do të jenë "
 "më të rekuperueshme."
@@ -3633,8 +3600,7 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni takimin me titull '{0}'?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet e përmbajtura në këtë takim do të fshihen dhe nuk do "
 "të jenë më të rekuperueshme."
@@ -3657,8 +3623,7 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit '{0}'?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
 "Të gjitha informacionet e përmbajtura në këtë ditar do të fshihen dhe nuk do "
 "të jenë më të rekuperueshme."
@@ -3740,8 +3705,7 @@ msgstr "Dëshiron të ruash ndryshimet e kryera tek ky aktivitet?"
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
 msgid "You have made changes to this task, but not yet saved them."
-msgstr ""
-"Keni kryer ndryshime tek ky aktivitet, por nuk i keni ruajtur akoma ato."
+msgstr "Keni kryer ndryshime tek ky aktivitet, por nuk i keni ruajtur akoma ato."
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
@@ -3750,8 +3714,7 @@ msgstr "Dëshironi t'i dërgoni një ftesë mbledhjeje pjesmarrësve?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
-msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
+msgid "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'i lejojë ata "
 "në RSVP."
@@ -3765,8 +3728,7 @@ msgstr "Dërgo"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
-"Dëshiron t'u dërgosh informacionit e rifreskuar të mbledhjes pjesmarrësve?"
+msgstr "Dëshiron t'u dërgosh informacionit e rifreskuar të mbledhjes pjesmarrësve?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:92
@@ -3794,8 +3756,7 @@ msgstr ""
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
-"Dëshiron t'u dërgosh pjesmarrësve informacionet e rifreskuara të aktivitetit?"
+msgstr "Dëshiron t'u dërgosh pjesmarrësve informacionet e rifreskuara të aktivitetit?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:104
@@ -3814,8 +3775,7 @@ msgstr "Aktivitetet e Evolution përfunduan në menyrë të papritur."
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
-"Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
+msgstr "Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
@@ -3825,8 +3785,7 @@ msgstr "Kalendari i Evolution përfundoi në menyrë të papritur."
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
-"Kalendarët tuaj do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
+msgstr "Kalendarët tuaj do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -3877,8 +3836,7 @@ msgstr "Kalendarët"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr ""
-"Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
+msgstr "Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar and Tasks"
@@ -4813,9 +4771,8 @@ msgid "_Add Calendar"
 msgstr "_Shto një Kalendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Shto një Listë Aktivitetesh"
+msgstr "_Shto një Listë Aktivitetesh"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -4848,8 +4805,7 @@ msgstr "Ky zë u eleminua."
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
-"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
+msgstr "%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5338,19 +5294,15 @@ msgstr "Emri i listës së aktiviteteve"
 
 #: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr ""
-"Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
+msgstr "Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:55
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr ""
-"Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
+msgstr "Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
-"Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
@@ -5380,7 +5332,6 @@ msgstr "Data e përkujtimores është e gabuar"
 msgid "on"
 msgstr "në"
 
-#. GRUT modified this item
 #: calendar/gui/dialogs/recurrence-page.c:978
 msgid "first"
 msgstr "i pari"
@@ -5413,10 +5364,9 @@ msgstr "ditë"
 msgid "on the"
 msgstr "tek"
 
-#. GRUT modified this item
 #: calendar/gui/dialogs/recurrence-page.c:1356
 msgid "occurrences"
-msgstr "përkujtime"
+msgstr "ngjarje"
 
 #: calendar/gui/dialogs/recurrence-page.c:2309
 msgid "Date/Time"
@@ -5527,7 +5477,6 @@ msgstr "E ulët"
 msgid "Normal"
 msgstr "Normal"
 
-#. GRUT modified this item
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:237
 #: calendar/gui/e-cal-model-tasks.c:346 calendar/gui/e-cal-model-tasks.c:649
@@ -5922,7 +5871,6 @@ msgstr "Hap faqen _web"
 msgid "_Save As..."
 msgstr "_Ruaje si..."
 
-#. GRUT modified this item
 #: calendar/gui/e-calendar-table.c:1046 calendar/gui/e-calendar-table.c:1088
 #: calendar/gui/e-calendar-view.c:1410 calendar/gui/e-calendar-view.c:1433
 #: calendar/gui/e-calendar-view.c:1516 ui/evolution-addressbook.xml.h:40
@@ -6079,9 +6027,8 @@ msgid "_Forward as iCalendar..."
 msgstr "_Përcille si iCalendar..."
 
 #: calendar/gui/e-calendar-view.c:1452
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "Elemino këtë përvjetor"
+msgstr "Përcaktoje këtë ngjarje si të _lëvizëshme"
 
 #: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
@@ -6329,13 +6276,11 @@ msgid ""
 msgstr "Mbledhja është anulluar, sidoqoftë nuk gjendet në kalendarët tuaj"
 
 #: calendar/gui/e-itip-control.c:1146
-msgid ""
-"The task has been cancelled, however it could not be found in your task lists"
+msgid "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 "Aktiviteti është anulluar, sidoqoftë nuk gjendet në listën tuaj të "
 "aktiviteteve"
 
-#. GRUT modified this item
 #: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
@@ -6377,8 +6322,7 @@ msgstr "Rifreskimi i mbledhjes"
 #: calendar/gui/e-itip-control.c:1270
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
-"<b>%s</b> kërkon të marrë informacionet aktuale në lidhje me mbledhjen."
+msgstr "<b>%s</b> kërkon të marrë informacionet aktuale në lidhje me mbledhjen."
 
 #: calendar/gui/e-itip-control.c:1271
 msgid "Meeting Update Request"
@@ -6532,8 +6476,7 @@ msgstr "Objekti është i pavlefshëm dhe nuk mund të rifreskohet\n"
 
 #: calendar/gui/e-itip-control.c:1867
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
-"Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
+msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesmarrës?"
 
 #: calendar/gui/e-itip-control.c:1879
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -6547,8 +6490,7 @@ msgstr "Gjendja e pjesmarrësit u rifreskua\n"
 
 #: calendar/gui/e-itip-control.c:1899
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Gjendja e pjesmarrësit nuk mund të rifreskohet pasi elementi nuk ekziston më"
+msgstr "Gjendja e pjesmarrësit nuk mund të rifreskohet pasi elementi nuk ekziston më"
 
 #: calendar/gui/e-itip-control.c:1926
 msgid "Removal Complete"
@@ -7357,7 +7299,6 @@ msgstr "Afrikë/Accra"
 msgid "Africa/Addis_Ababa"
 msgstr "Afrikë/Addis_Ababa"
 
-#. GRUT modified this item
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
 msgstr "Afrikë/Algjir"
@@ -7618,7 +7559,6 @@ msgstr "Amerikë/Cambridge_Bay"
 msgid "America/Cancun"
 msgstr "Amerikë/Cancun"
 
-#. GRUT modified this item
 #: calendar/zones.h:75
 msgid "America/Caracas"
 msgstr "Amerikë/Karakas"
@@ -7643,7 +7583,6 @@ msgstr "Amerikë/Chicago"
 msgid "America/Chihuahua"
 msgstr "Amerikë/Chihuahua"
 
-#. GRUT modified this item
 #: calendar/zones.h:81
 msgid "America/Cordoba"
 msgstr "Amerikë/Kordoba"
@@ -7888,7 +7827,6 @@ msgstr "Amerikë/Nome"
 msgid "America/Noronha"
 msgstr "Amerikë/Noronha"
 
-#. GRUT modified this item
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
 msgstr "Amerikë/Dakota_Veriore/Qendër"
@@ -8033,47 +7971,38 @@ msgstr "Amerikë/Yakutat"
 msgid "America/Yellowknife"
 msgstr "Amerikë/Yellowknife"
 
-#. GRUT modified this item
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
 msgstr "Antarktika/Casey"
 
-#. GRUT modified this item
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
 msgstr "Antarktika/Davis"
 
-#. GRUT modified this item
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
 msgstr "Antarktika/DumontDUrville"
 
-#. GRUT modified this item
 #: calendar/zones.h:181
 msgid "Antarctica/Mawson"
 msgstr "Antarktika/Mawson"
 
-#. GRUT modified this item
 #: calendar/zones.h:182
 msgid "Antarctica/McMurdo"
 msgstr "Antarktika/McMurdo"
 
-#. GRUT modified this item
 #: calendar/zones.h:183
 msgid "Antarctica/Palmer"
 msgstr "Antarktika/Palmer"
 
-#. GRUT modified this item
 #: calendar/zones.h:184
 msgid "Antarctica/South_Pole"
 msgstr "Antarktika/Poli_Jugor"
 
-#. GRUT modified this item
 #: calendar/zones.h:185
 msgid "Antarctica/Syowa"
 msgstr "Antarktika/Syowa"
 
-#. GRUT modified this item
 #: calendar/zones.h:186
 msgid "Antarctica/Vostok"
 msgstr "Antarktika/Vostok"
@@ -8090,7 +8019,6 @@ msgstr "Azia/Aden"
 msgid "Asia/Almaty"
 msgstr "Azia/Almaty"
 
-#. GRUT modified this item
 #: calendar/zones.h:190
 msgid "Asia/Amman"
 msgstr "Azia/Aman"
@@ -8111,7 +8039,6 @@ msgstr "Azia/Aqtobe"
 msgid "Asia/Ashgabat"
 msgstr "Azia/Ashgabat"
 
-#. GRUT modified this item
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
 msgstr "Azia/Bagdad"
@@ -8140,7 +8067,6 @@ msgstr "Azia/Bishkek"
 msgid "Asia/Brunei"
 msgstr "Azia/Brunei"
 
-#. GRUT modified this item
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
 msgstr "Azia/Kalkuta"
@@ -8157,7 +8083,6 @@ msgstr "Azia/Chongqing"
 msgid "Asia/Colombo"
 msgstr "Azia/Colombo"
 
-#. GRUT modified this item
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
 msgstr "Azia/Damaskus"
@@ -8302,7 +8227,6 @@ msgstr "Azia/Pontianak"
 msgid "Asia/Pyongyang"
 msgstr "Azia/Pyongyang"
 
-#. GRUT modified this item
 #: calendar/zones.h:242
 msgid "Asia/Qatar"
 msgstr "Azia/Katar"
@@ -8315,7 +8239,6 @@ msgstr "Azia/Qyzylorda"
 msgid "Asia/Rangoon"
 msgstr "Azia/Rangoon"
 
-#. GRUT modified this item
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
 msgstr "Azia/Riyad"
@@ -8356,7 +8279,6 @@ msgstr "Azia/Tashkent"
 msgid "Asia/Tbilisi"
 msgstr "Azia/Tbilisi"
 
-#. GRUT modified this item
 #: calendar/zones.h:255
 msgid "Asia/Tehran"
 msgstr "Azia/Teheran"
@@ -8373,7 +8295,6 @@ msgstr "Azia/Tokyo"
 msgid "Asia/Ujung_Pandang"
 msgstr "Azia/Ujung_Pandang"
 
-#. GRUT modified this item
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
 msgstr "Azia/Ulanbatar"
@@ -8402,7 +8323,6 @@ msgstr "Azia/Yekaterinburg"
 msgid "Asia/Yerevan"
 msgstr "Azia/Yerevan"
 
-#. GRUT modified this item
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
 msgstr "Atlantikë/Azores"
@@ -8435,7 +8355,6 @@ msgstr "Antlantike/Madeira"
 msgid "Atlantic/Reykjavik"
 msgstr "Antlantike/Reykjavik"
 
-#. GRUT modified this item
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
 msgstr "Antlantikë/Georgia_Jugore"
@@ -8448,52 +8367,42 @@ msgstr "Antlantike/St_Helena"
 msgid "Atlantic/Stanley"
 msgstr "Antlantike/Stanley"
 
-#. GRUT modified this item
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
 msgstr "Australi/Adelaide"
 
-#. GRUT modified this item
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
 msgstr "Australi/Brisbane"
 
-#. GRUT modified this item
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
 msgstr "Australi/Broken_Hill"
 
-#. GRUT modified this item
 #: calendar/zones.h:280
 msgid "Australia/Darwin"
 msgstr "Australi/Darwin"
 
-#. GRUT modified this item
 #: calendar/zones.h:281
 msgid "Australia/Hobart"
 msgstr "Australi/Hobart"
 
-#. GRUT modified this item
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
 msgstr "Australi/Lindeman"
 
-#. GRUT modified this item
 #: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
 msgstr "Australi/Lord_Howe"
 
-#. GRUT modified this item
 #: calendar/zones.h:284
 msgid "Australia/Melbourne"
 msgstr "Australi/Melbourne"
 
-#. GRUT modified this item
 #: calendar/zones.h:285
 msgid "Australia/Perth"
 msgstr "Australi/Perth"
 
-#. GRUT modified this item
 #: calendar/zones.h:286
 msgid "Australia/Sydney"
 msgstr "Australi/Sydney"
@@ -8502,12 +8411,10 @@ msgstr "Australi/Sydney"
 msgid "Europe/Amsterdam"
 msgstr "Europë/Amsterdam"
 
-#. GRUT modified this item
 #: calendar/zones.h:288
 msgid "Europe/Andorra"
 msgstr "Europë/Andora"
 
-#. GRUT modified this item
 #: calendar/zones.h:289
 msgid "Europe/Athens"
 msgstr "Europë/Athina"
@@ -8516,7 +8423,6 @@ msgstr "Europë/Athina"
 msgid "Europe/Belfast"
 msgstr "Europë/Belfast"
 
-#. GRUT modified this item
 #: calendar/zones.h:291
 msgid "Europe/Belgrade"
 msgstr "Europë/Beograd"
@@ -8525,17 +8431,14 @@ msgstr "Europë/Beograd"
 msgid "Europe/Berlin"
 msgstr "Europë/Berlin"
 
-#. GRUT modified this item
 #: calendar/zones.h:293
 msgid "Europe/Bratislava"
 msgstr "Europë/Bratisllava"
 
-#. GRUT modified this item
 #: calendar/zones.h:294
 msgid "Europe/Brussels"
 msgstr "Europë/Bruksel"
 
-#. GRUT modified this item
 #: calendar/zones.h:295
 msgid "Europe/Bucharest"
 msgstr "Europë/Bukuresht"
@@ -8548,7 +8451,6 @@ msgstr "Europë/Budapest"
 msgid "Europe/Chisinau"
 msgstr "Europë/Chisinau"
 
-#. GRUT modified this item
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
 msgstr "Europë/Kopenhagen"
@@ -8565,7 +8467,6 @@ msgstr "Europë/Gibraltar"
 msgid "Europe/Helsinki"
 msgstr "Europë/Helsinki"
 
-#. GRUT modified this item
 #: calendar/zones.h:302
 msgid "Europe/Istanbul"
 msgstr "Europë/Stamboll"
@@ -8586,7 +8487,6 @@ msgstr "Europë/Lisbon"
 msgid "Europe/Ljubljana"
 msgstr "Europë/Ljubljana"
 
-#. GRUT modified this item
 #: calendar/zones.h:307
 msgid "Europe/London"
 msgstr "Europë/Londër"
@@ -8659,7 +8559,6 @@ msgstr "Europë/Simferopol"
 msgid "Europe/Skopje"
 msgstr "Europë/Shkupi"
 
-#. GRUT modified this item
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
 msgstr "Europë/Sofje"
@@ -8684,7 +8583,6 @@ msgstr "Europë/Uzhgorod"
 msgid "Europe/Vaduz"
 msgstr "Europë/Vaduz"
 
-#. GRUT modified this item
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
 msgstr "Europë/Vatikani"
@@ -8705,7 +8603,6 @@ msgstr "Europë/Varshavë"
 msgid "Europe/Zagreb"
 msgstr "Europë/Zagreb"
 
-#. GRUT modified this item
 #: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
 msgstr "Europë/Zaporozhje"
@@ -9004,8 +8901,7 @@ msgstr "Duke përgatitur kartelën '%s' për modalitetin jashtë linje"
 
 #: camel/camel-disco-store.c:404
 msgid "You must be working online to complete this operation"
-msgstr ""
-"Duhet të punoni në modalitetin në linjë për të plotësuar këtë operacion"
+msgstr "Duhet të punoni në modalitetin në linjë për të plotësuar këtë operacion"
 
 #: camel/camel-filter-driver.c:669 camel/camel-filter-search.c:513
 #: camel/camel-process.c:48
@@ -9212,8 +9108,7 @@ msgstr "U anullua."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr ""
-"Zbllokimi i kyçit sekret nuk pati sukses: u dhanë 3 passphrases të gabuara."
+msgstr "Zbllokimi i kyçit sekret nuk pati sukses: u dhanë 3 passphrases të gabuara."
 
 #: camel/camel-gpg-context.c:828
 #, c-format
@@ -9266,8 +9161,7 @@ msgstr "Kjo pjesë e mesazhit është e firmosur"
 #: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
 #: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr ""
-"I pamundur verifikimi i firmës së mesazhit: Format i pavlefshëm mesazhi"
+msgstr "I pamundur verifikimi i firmës së mesazhit: Format i pavlefshëm mesazhi"
 
 #: camel/camel-gpg-context.c:1477
 #, c-format
@@ -9412,8 +9306,7 @@ msgstr "Për të lexuar postën si një kërkim i të përbashkët tjetër karte
 #: camel/camel-provider.c:172
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr ""
-"I pamundur ngarkimi i %s: ky sistem nuk suporton ngarkimin e një moduli."
+msgstr "I pamundur ngarkimi i %s: ky sistem nuk suporton ngarkimin e një moduli."
 
 #: camel/camel-provider.c:181
 #, c-format
@@ -9525,8 +9418,7 @@ msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr ""
-"Me këtë opcion lidheni në server duke përdorur autentifikimin Kerberos 5."
+msgstr "Me këtë opcion lidheni në server duke përdorur autentifikimin Kerberos 5."
 
 #: camel/camel-sasl-gssapi.c:152
 msgid ""
@@ -9574,8 +9466,7 @@ msgstr ""
 
 #: camel/camel-sasl-gssapi.c:178
 msgid "The supplied context handle did not refer to a valid context."
-msgstr ""
-"Handle e përmbajtjes së dhënë nuk i referohet një konteksti të vlefshëm."
+msgstr "Handle e përmbajtjes së dhënë nuk i referohet një konteksti të vlefshëm."
 
 #: camel/camel-sasl-gssapi.c:181
 msgid "The consistency checks performed on the input_token failed."
@@ -9630,8 +9521,7 @@ msgstr "Futu"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
-"Me këtë opcion lidheni me serverin duke përdorur një fjalëkalim të thjeshtë."
+msgstr "Me këtë opcion lidheni me serverin duke përdorur një fjalëkalim të thjeshtë."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -10264,7 +10154,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Sinkronizo postën remote në lokale automatikisht"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "Rubrika dhe Kalendari"
 
@@ -10277,9 +10166,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Porta agjentit të zyrës së postës SOAP:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "_Përdor lidhje të sigurt:"
+msgstr "Përdor lidhje të sigurt (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -10432,8 +10320,7 @@ msgstr "Përgjigje e paplotë nga serveri: nuk është dhënë UID për mesazhin
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 "Përgjigje e papritur nga serveri: Është dhënë UID identike për mesazhet %d "
 "dhe %d"
@@ -10615,8 +10502,7 @@ msgstr "Kartela %s nuk ekziston"
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr ""
 "Emri i kartelës \"%s\" është i pavlefshëm pasi nuk mund të përmbajë simbolin "
 "\"%c\""
@@ -10716,14 +10602,12 @@ msgstr "I pamundur shtimi i mesazhit tek kartela `%s': Komandë e pavlefshme"
 #: camel/providers/imap4/camel-imap4-folder.c:935
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr ""
-"E pamundur lëvizja e mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
+msgstr "E pamundur lëvizja e mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
 
 #: camel/providers/imap4/camel-imap4-folder.c:939
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-msgstr ""
-"I pamundur kopjimi i mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
+msgstr "I pamundur kopjimi i mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
 
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
@@ -10745,12 +10629,10 @@ msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr ""
-"Për të lexuar dhe arkivuar postën në server IMAPv4rev1. EKSPERIMENTALE !!"
+msgstr "Për të lexuar dhe arkivuar postën në server IMAPv4rev1. EKSPERIMENTALE !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 "Ky opcion do t'ju lidhë me serverin IMAPv4rev1 duke përdorur një fjalëkalim "
 "në tekst të thjeshtë."
@@ -10766,8 +10648,7 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 "I apmundur autentifikimi në server-in IMAP %s duke përdorur mekanizmin e "
 "autentifikimit %s"
@@ -10815,8 +10696,7 @@ msgstr "E pamundur fshirja e kartelës `%s': Komandë e pavlefshme"
 #: camel/providers/imap4/camel-imap4-store.c:936
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr ""
-"I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Kartelë speciale"
+msgstr "I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Kartelë speciale"
 
 #: camel/providers/imap4/camel-imap4-store.c:968
 #, c-format
@@ -10828,8 +10708,7 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-store.c:973
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr ""
-"I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Komandë e pavlefshme"
+msgstr "I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Komandë e pavlefshme"
 
 #: camel/providers/imap4/camel-imap4-store.c:1221
 #, c-format
@@ -11246,8 +11125,7 @@ msgstr "E pamundur hapja e kartelës: %s: %s"
 #: camel/providers/local/camel-mbox-summary.c:423
 #, c-format
 msgid "Fatal mail parser error near position %ld in folder %s"
-msgstr ""
-"Gabim fatal i shpërndarjes së postës afër pozicionit %ld në kartelën %s"
+msgstr "Gabim fatal i shpërndarjes së postës afër pozicionit %ld në kartelën %s"
 
 #: camel/providers/local/camel-mbox-summary.c:479
 #, c-format
@@ -11502,16 +11380,14 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "E pamundur ruajtja e file me listën e grupeve për %s: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
 "Shfaq kartelat në formën e shkurtër (d.m.th. c.o.linux në vend të comp.os."
 "linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
-msgstr ""
-"Tek dritarja e dialogut të regjistrimit, shfaq emrat e kartelave relative"
+msgstr "Tek dritarja e dialogut të regjistrimit, shfaq emrat e kartelave relative"
 
 #: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
@@ -11519,8 +11395,7 @@ msgstr "USENET news"
 
 #: camel/providers/nntp/camel-nntp-provider.c:54
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
-"Ky është një furnizues për të lexuar dhe postuar tek newsgroups USENET."
+msgstr "Ky është një furnizues për të lexuar dhe postuar tek newsgroups USENET."
 
 #: camel/providers/nntp/camel-nntp-provider.c:73
 msgid ""
@@ -11720,8 +11595,7 @@ msgstr "E pamundur lidhja me serverin POP %s (porta %d): %s"
 #: camel/providers/pop3/camel-pop3-store.c:214
 #, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr ""
-"I pamundur leximi i një greeting të vlefshëm nga serveri POP %s (porta %d)"
+msgstr "I pamundur leximi i një greeting të vlefshëm nga serveri POP %s (porta %d)"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
 #: camel/providers/pop3/camel-pop3-store.c:261
@@ -11809,8 +11683,7 @@ msgstr "E pamundur lëvizja e listës së marrësve"
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr ""
-"I pamundur krijimi i ridrejtimit drejt sendmail: %s: posta nuk u dërgua"
+msgstr "I pamundur krijimi i ridrejtimit drejt sendmail: %s: posta nuk u dërgua"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
@@ -11851,8 +11724,7 @@ msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr ""
-"Për të dorëzuar postën duke u lidhur me një mailhub remot duke përdorur SMTP."
+msgstr "Për të dorëzuar postën duke u lidhur me një mailhub remot duke përdorur SMTP."
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
@@ -11920,8 +11792,7 @@ msgstr "Veprimi i kërkuar nuk u krye: hapësirë e pamjaftueshme"
 
 #: camel/providers/smtp/camel-smtp-transport.c:206
 msgid "Requested mail action aborted: exceeded storage allocation"
-msgstr ""
-"Operacioni i kërkuar për postën nuk u plotësua: hapësirë e pamjaftueshme"
+msgstr "Operacioni i kërkuar për postën nuk u plotësua: hapësirë e pamjaftueshme"
 
 #: camel/providers/smtp/camel-smtp-transport.c:208
 msgid "Requested action not taken: mailbox name not allowed"
@@ -12156,8 +12027,7 @@ msgstr "Bashkangjitja e file %s është e pamundur: %s"
 #: composer/e-msg-composer-attachment.c:181
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr ""
-"Bashkangjitja e file %s është e pamundur: nuk është një file i rregullt"
+msgstr "Bashkangjitja e file %s është e pamundur: nuk është një file i rregullt"
 
 #: composer/e-msg-composer-attachment.glade.h:2
 msgid "Attachment Properties"
@@ -12258,8 +12128,7 @@ msgid "Attach file(s)"
 msgstr "Bashkangjit file(s)"
 
 #: composer/e-msg-composer.c:704
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "E pamundur firmosja e mesazhit në dalje: Nuk është përcaktuar asnjë "
 "çertifikatë firme për këtë llogari"
@@ -12305,16 +12174,16 @@ msgstr[1] "<b>%d</b> Files të Bashkangjitur"
 
 #: composer/e-msg-composer.c:2312
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Fshih shtyllën e _bashkangjitjes (sill këtu të bashkangjiturit)"
 
 #: composer/e-msg-composer.c:2315 composer/e-msg-composer.c:3271
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Shfaq shtyllën e _bashkangjitjes (sill këtu të bashkangjiturit)"
 
 #: composer/e-msg-composer.c:2332 composer/e-msg-composer.c:3163
 #: composer/e-msg-composer.c:3164
 msgid "Compose a message"
-msgstr ""
+msgstr "Kompozo një mesazh"
 
 #: composer/e-msg-composer.c:2634
 #, c-format
@@ -12334,28 +12203,30 @@ msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
+"<b>(Kompozuesi përmban një mesazh jo tekst të trupit, që nuk mund të ndryshohet.)"
+"</b>"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
 msgid "You cannot attach the file `{0}' to this message."
-msgstr ""
+msgstr "Nuk mund t'i bashkangjitni file `{o}' këtij mesazhi."
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "File `{0}' nuk është një file i rregullt dhe nuk mund të dërgohet në një mesazh."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "Directories nuk mund t'i bashkangjiten mesazhit."
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
-msgstr ""
+msgstr "Për të bashkangjitur përmbajtjen e kësaj kartele, bashkangjit një nga një çdo file në këtë directory, ose krijo arkivin (kompresoje) e directory dhe bashkangjite atë."
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
@@ -12373,7 +12244,7 @@ msgstr "E pamundur marrja e mesazheve për t'u bashkangjitur nga {0}."
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
 #: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Sepse \"{1}\"."
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
@@ -12391,6 +12262,8 @@ msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
 msgstr ""
+"Evolution përfundoi në menyrë të papritur gjatë krijimit të mesazhit të ri. "
+"Duke rikoveruar mesazhin do të keni mundësi të vazhdoni shkrimin nga pika e ndërprerjes."
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
@@ -12403,17 +12276,17 @@ msgstr "Rekupero"
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
 msgid "Could not save to autosave file \"{0}\"."
-msgstr ""
+msgstr "E pamundur ruajtja tek file i autoruajtshëm \"{0}\"."
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
 msgid "Error saving to autosave because \"{1}\"."
-msgstr ""
+msgstr "Gabim gjatë ruajtjes tek file i autoruajtshëm sepse \"{1}\"."
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
 msgid "Warning: Modified Message"
-msgstr ""
+msgstr "Kujdes: Mesazh i ndryshuar"
 
 #. mail-composer:exit-unsaved primary
 #: composer/mail-composer-errors.xml.h:30
@@ -12431,6 +12304,8 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
+"Duke mbyllur këtë dritare kompozimi do të fshini përgjithmonë mesazhin, është mirë "
+"t'a ruani mesazhin tek kartela juaj e Kopjeve. Kjo do t'ju japë mundësinë t'a vazhdoni mesazhin një herë tjetër."
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
@@ -12444,22 +12319,22 @@ msgstr "I pamundur krijimi i mesazhit."
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr ""
+msgstr "Për arsye \"{0}\", ndoshta do t'ju duhet të zgjidhni opcione të tjera mail."
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:40
 msgid "Could not read signature file \"{0}\"."
-msgstr ""
+msgstr "I pamundur leximi i file me firmën \"{0}\"."
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "Të gjitha llogaritë u eleminuan."
 
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
 msgid "You need to configure an account before you can compose mail."
-msgstr ""
+msgstr "Para se të mund të kompozoni një mesazh duhet të konfiguroni një llogari."
 
 #. mail-composer:no-address-control primary
 #. mail-composer:no-editor-control primary
@@ -12471,7 +12346,7 @@ msgstr "I pamundur krijimi i dritares së shkrimit të mesazhit."
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
 msgid "Unable to activate the address selector control."
-msgstr ""
+msgstr "I pamundur aktivimi i kontrollit të zgjedhësit së adresës."
 
 #. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
@@ -12481,24 +12356,24 @@ msgid ""
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
 msgstr ""
+"I pamundur aktivimi i kontrollit të editorit HTML.\n"
+"Sigurohu që keni instaluar versionin korrekt të gtkhtm dhe të libgtkhtm."
 
-#. GRUT modified this item
 #: data/evolution.desktop.in.in.h:1 shell/main.c:503
 msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Suite Groupware"
+msgstr "Suite Groupware e Evolution."
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
-msgstr ""
+msgstr "skedari i adresës"
 
 #: data/evolution.keys.in.in.h:2
 msgid "calendar information"
-msgstr ""
+msgstr "informacionet e kalendarit"
 
 #: designs/OOA/ooa.glade.h:1
 msgid ""
@@ -12554,11 +12429,11 @@ msgstr "      "
 
 #: designs/read_receipts/read.glade.h:2
 msgid "<b>Receiving Email</b>"
-msgstr ""
+msgstr "<b>Duke marrë Email</b>"
 
 #: designs/read_receipts/read.glade.h:3
 msgid "<b>Sending Email:</b>"
-msgstr ""
+msgstr "<b>Duke dërguar Email:</b>"
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -12838,7 +12713,6 @@ msgstr ""
 msgid "Please choose another name."
 msgstr ""
 
-#. GRUT modified this item
 #: filter/filter-file.c:288
 msgid "Choose a file"
 msgstr "Zgjidh një file"
@@ -12993,16 +12867,14 @@ msgid "Composer Preferences"
 msgstr "Preferimet e hartuesit"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 "Konfiguro preferimet e postës, përfshirë sigurinë dhe shfaqjen e mesazheve, "
 "këtu"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
-"Konfiguro këtu kontrollin e drejtshkrimit, firmat dhe hartuesin e mesazheve"
+msgstr "Konfiguro këtu kontrollin e drejtshkrimit, firmat dhe hartuesin e mesazheve"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your email accounts here"
@@ -13343,7 +13215,6 @@ msgstr "fillon me"
 msgid "Stop Processing"
 msgstr "Ndalo proçesimin"
 
-#. GRUT modified this item
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
 #: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
@@ -13448,7 +13319,6 @@ msgstr ""
 msgid "_Move to Folder"
 msgstr ""
 
-#. GRUT modified this item
 #: mail/em-folder-tree.c:966 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
@@ -14019,7 +13889,6 @@ msgstr ""
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Ky arkiv nuk suporton regjistrimet, ose ato nuk janë aktive."
 
-#. GRUT modified this item
 #: mail/em-subscribe-editor.c:635
 msgid "Subscribed"
 msgstr "I regjistruar"
@@ -14306,8 +14175,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:57
@@ -14565,7 +14433,6 @@ msgstr ""
 msgid "Importing..."
 msgstr ""
 
-#. GRUT modified this item
 #: mail/importers/elm-importer.c:91
 #: mail/importers/evolution-mbox-importer.c:223
 #: mail/importers/evolution-outlook-importer.c:257
@@ -14583,7 +14450,6 @@ msgid ""
 "Would you like to import them into Evolution?"
 msgstr ""
 
-#. GRUT modified this item
 #: mail/importers/elm-importer.c:444
 msgid "Elm"
 msgstr "Elm"
@@ -15337,7 +15203,6 @@ msgstr "Firmat"
 msgid "Specify _filename:"
 msgstr ""
 
-#. GRUT modified this item
 #: mail/mail-config.glade.h:140
 msgid "Spell Checking"
 msgstr "Kontrolli i drejtshkrimit"
@@ -15633,8 +15498,7 @@ msgstr ""
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
-"Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
+msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15658,8 +15522,7 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
+msgid "This message cannot be sent because you have not specified any Recipients"
 msgstr ""
 
 #. mail:send-no-recipients secondary
@@ -16302,7 +16165,6 @@ msgstr ""
 msgid "Enter Password for %s"
 msgstr ""
 
-#. GRUT modified this item
 #: mail/mail-session.c:209
 msgid "Enter Password"
 msgstr "Shkruaj fjalëkalimin"
@@ -16402,7 +16264,6 @@ msgstr ""
 msgid "Lower"
 msgstr "Inferior"
 
-#. GRUT modified this item
 #: mail/message-list.c:1013
 msgid "Higher"
 msgstr "Më i lartë"
@@ -16435,7 +16296,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr ""
 
@@ -16588,8 +16449,7 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "Versioni i i fundit i përditsuar i konfigurimit të Evolution"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
@@ -16818,8 +16678,7 @@ msgstr "Puno online"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Evolution aktualisht është online.  Kliko tek ky buton për të punuar offline."
+msgstr "Evolution aktualisht është online.  Kliko tek ky buton për të punuar offline."
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
@@ -16827,8 +16686,7 @@ msgstr "Evolution është në procesin e daljes offline."
 
 #: shell/e-shell-window.c:350
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
+msgstr "Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
 
 #: shell/e-shell-window.c:637
 #, c-format
@@ -17081,9 +16939,8 @@ msgid ""
 msgstr ""
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Kujtesë!!"
+msgstr "_Kujtomë më vonë"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
@@ -17386,8 +17243,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Keni çertifikata nga këto organizata që ju identifikojnë:"
 
 #: smime/gui/smime-ui.glade.h:43
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "Keni çertifikata në file që identifikojnë këto autoritete:"
 
 #: smime/gui/smime-ui.glade.h:44
@@ -17636,8 +17492,7 @@ msgstr "Përshkrimi i të bashkangjiturit."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
-msgstr ""
-"Shëno si rregullim të prezgjedhur shfaqjen  në linjë të të bashkangjiturit."
+msgstr "Shëno si rregullim të prezgjedhur shfaqjen  në linjë të të bashkangjiturit."
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
@@ -17730,7 +17585,6 @@ msgstr "Dërgoja një personi tjetër kontaktet e zgjedhur."
 msgid "Show contact preview window"
 msgstr "Shfaq dritaren e pamjes së parë të kontaktit"
 
-#. GRUT modified this item
 #: ui/evolution-addressbook.xml.h:27
 msgid "Stop"
 msgstr "Ndal"
@@ -17795,7 +17649,7 @@ msgstr "Elemino këtë përvjetor"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Delete this occurrence"
-msgstr "Elemino këtë përvjetor"
+msgstr "Elemino këtë ngjarje"
 
 #: ui/evolution-calendar.xml.h:10
 msgid "Go To"
@@ -18098,8 +17952,7 @@ msgstr "Hap një dritare për të hartuar një mesazh"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
-"Elemino përgjithmonë të gjithë mesazhet e fshirë nga të gjitha kartelat"
+msgstr "Elemino përgjithmonë të gjithë mesazhet e fshirë nga të gjitha kartelat"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
@@ -18158,8 +18011,7 @@ msgid "Hide _Read Messages"
 msgstr "Fshih mesazhet e _lexuar"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Fshih mesazhet e fshirë në vend që t'i shfaqësh të vizuar"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -18793,7 +18645,6 @@ msgstr "_Elemino gjithçka"
 msgid "_From Field"
 msgstr "Fusha _Nga"
 
-#. GRUT modified this item
 #: ui/evolution-message-composer.xml.h:46
 #: ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
@@ -18847,7 +18698,6 @@ msgstr "Rifresko Listën e Kartelave"
 msgid "Remove folder from your list of subscribed folders"
 msgstr "Hiqe kartelën nga lista juaj e kartelave të regjistruara"
 
-#. GRUT modified this item
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
 msgstr "Regjistrimi"
@@ -18940,8 +18790,6 @@ msgstr "Ndrysho dukshmërinë e panelit të instrumentëve"
 msgid "Create a new window displaying this folder"
 msgstr "Krijo një dritare të re për të shfaqur këtë kartelë"
 
-#. GRUT modified this item
-#. GRUT modified this item
 #: ui/evolution.xml.h:7
 msgid "E_xit"
 msgstr "D_alja"
@@ -18960,8 +18808,7 @@ msgstr "Harro _Fjalëkalimet"
 
 #: ui/evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr ""
-"Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
+msgstr "Harro fjalëkalimet në kujtesë në menyrë që t'ju kërkohen përsëri të rejat"
 
 #: ui/evolution.xml.h:12
 msgid "Import data from other programs"
@@ -19019,7 +18866,6 @@ msgstr "_Informacione mbi Evolution..."
 msgid "_Help"
 msgstr "_Ndihmë"
 
-#. GRUT modified this item
 #: ui/evolution.xml.h:31
 msgid "_Import..."
 msgstr "_Importim..."
@@ -19280,8 +19126,7 @@ msgstr "Kërkimi në Evolution"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr "<span weight=\"bold\">Gabim i brendshëm, gabim i panjohur '%s'</span>"
 
 #: widgets/misc/e-expander.c:181
@@ -19308,8 +19153,6 @@ msgstr ""
 "Nëse vihet, një nënvijë në tekst tregon që gërma pasuese duhet përdorur si "
 "kyç për përshpejtues \"mnemonic\""
 
-#. GRUT modified this item
-#. GRUT modified this item
 #: widgets/misc/e-expander.c:205
 msgid "Spacing"
 msgstr "Hapësira e ndërmjetme"
@@ -19443,31 +19286,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% plotësuar)"
 
-#~ msgid ""
-#~ "The contact cannot be saved to the selected address book. Do you want to "
-#~ "discard changes?"
-#~ msgstr ""
-#~ "Kontakti nuk mund të ruhet tek rubrika e zgjedhur. Dëshironi të anulloni "
-#~ "ndryshimet?"
-
-#~ msgid ""
-#~ "You are moving the contact from one address book to another, but it "
-#~ "cannot be removed from the source. Do you want to save a copy instead?"
-#~ msgstr ""
-#~ "Jeni duke lëvizur kontaktin nga një rubrikë në tjetrën, por ai nuk mund "
-#~ "të fshihet nga burimi. Dëshironi përkundrazi të ruani një kopje?"
-
-#~ msgid "_Add Group"
-#~ msgstr "_Shto një grup"
-
-#~ msgid "Use ssl"
-#~ msgstr "Përdor ssl"
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian Evolution (Jo stabël)"
-
-#~ msgid "Remember this password"
-#~ msgstr "Kujtoje këtë fjalëkalim"
-
-#~ msgid "Keep"
-#~ msgstr "Mbaj"
