@@ -1,3 +1,8 @@
+2001-10-30  Iain Holmes  <iain@ximian.com>
+
+	* evolution-gnomecard-importer.c (create_checkboxes_control): Remove the
+	unneeded label.
+
 2001-10-29  Iain Holmes  <iain@ximian.com>
 
 	* pine-importer.c (pine_can_import): Remove the checks to see if we've

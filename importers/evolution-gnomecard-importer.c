@@ -221,18 +221,16 @@ checkbox_toggle_cb (GtkToggleButton *tb,
 static BonoboControl *
 create_checkboxes_control (GnomeCardImporter *importer)
 {
-	GtkWidget *label, *hbox;
+	GtkWidget *hbox;
 	BonoboControl *control;
 
 	hbox = gtk_hbox_new (FALSE, 2);
 
-	label = gtk_label_new (_("GnomeCard:"));
 	importer->addresses = gtk_check_button_new_with_label (_("Addressbook"));
 	gtk_signal_connect (GTK_OBJECT (importer->addresses), "toggled",
 			    GTK_SIGNAL_FUNC (checkbox_toggle_cb),
 			    &importer->do_addresses);
 
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), importer->addresses, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (hbox);
