@@ -353,7 +353,6 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream, *sigstream;
 	CamelCipherValidity *valid;
-	CamelContentType *type;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);

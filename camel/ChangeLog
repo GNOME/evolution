@@ -1,3 +1,10 @@
+2002-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (pgp_sign): Pass --always-trust to gpg
+	(requested by users).
+	(pgp_clearsign): Same.
+	(pgp_encrypt): Here too.
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): Since the

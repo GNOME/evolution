@@ -626,6 +626,7 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 		argv[i++] = "--no-secmem-warning";
 		argv[i++] = "--no-greeting";
 		argv[i++] = "--yes";
+		argv[i++] = "--always-trust";
 		argv[i++] = "--batch";
 		
 		argv[i++] = "--armor";
@@ -727,7 +728,7 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 	CamelPgpContext *context = CAMEL_PGP_CONTEXT (ctx);
 	GByteArray *plaintext;
 	CamelStream *stream;
-	char *argv[15];
+	char *argv[20];
 	char *ciphertext = NULL;
 	char *diagnostics = NULL;
 	char *passphrase = NULL;
@@ -806,6 +807,7 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 		argv[i++] = "--no-secmem-warning";
 		argv[i++] = "--no-greeting";
 		argv[i++] = "--yes";
+		argv[i++] = "--always-trust";
 		argv[i++] = "--batch";
 		
 		argv[i++] = "--armor";
@@ -1181,6 +1183,7 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		g_ptr_array_add (argv, "--no-secmem-warning");
 		g_ptr_array_add (argv, "--no-greeting");
 		g_ptr_array_add (argv, "--yes");
+		g_ptr_array_add (argv, "--always-trust");
 		g_ptr_array_add (argv, "--batch");
 		
 		g_ptr_array_add (argv, "--armor");
