@@ -720,6 +720,7 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 					       strlen (string), string);
 			} else {
 				char *quoted = imap_quote_string (string);
+				
 				op += sprintf (op, "%s", quoted);
 				g_free (quoted);
 			}

@@ -549,6 +549,17 @@ imap_parse_body (char **body_p, CamelFolder *folder,
 	*body_p = body;
 }
 
+static void
+strip (char *str, char c)
+{
+	char *src, *dst;
+	
+	for (src = dst = str; *src; src++)
+		if (*src != c)
+			*dst++ = *src;
+	*dst = '\0';
+}
+
 /**
  * imap_quote_string:
  * @str: the string to quote, which must not contain CR or LF
@@ -563,6 +574,8 @@ imap_quote_string (const char *str)
 	char *quoted, *q;
 	int len;
 	
+	g_assert (strchr (str, '\r') == NULL);
+	
 	len = strlen (str);
 	p = str;
 	while ((p = strpbrk (p, "\"\\"))) {
@@ -572,14 +585,13 @@ imap_quote_string (const char *str)
 	
 	quoted = q = g_malloc (len + 3);
 	*q++ = '"';
-	while ((p = strpbrk (str, "\"\\"))) {
-		memcpy (q, str, p - str);
-		q += p - str;
-		*q++ = '\\';
+	for (p = str; *p; ) {
+		if (strchr ("\"\\", *p))
+			*q++ = '\\';
 		*q++ = *p++;
-		str = p;
 	}
-	sprintf (q, "%s\"", str);
+	*q++ = '"';
+	*q = '\0';
 	
 	return quoted;
 }
