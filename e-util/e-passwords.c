@@ -196,9 +196,10 @@ e_passwords_forget_password (const char *key)
  * e_passwords_get_password:
  * @key: the key
  *
- * Return value: the password associated with @key, or %NULL.
+ * Return value: the password associated with @key, or %NULL.  Caller
+ * must free the returned password.
  **/
-const char *
+char *
 e_passwords_get_password (const char *key)
 {
 	char *passwd = g_hash_table_lookup (passwords, key);

@@ -38,7 +38,7 @@ void        e_passwords_shutdown          (void);
 
 void        e_passwords_remember_password (const char *key);
 void        e_passwords_add_password      (const char *key, const char *passwd);
-const char *e_passwords_get_password      (const char *key);
+char       *e_passwords_get_password      (const char *key);
 void        e_passwords_forget_password   (const char *key);
 void        e_passwords_forget_passwords  (void);
 

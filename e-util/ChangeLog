@@ -1,5 +1,13 @@
 2001-10-11  Chris Toshok  <toshok@ximian.com>
 
+	* e-passwords.h: change prototype for e_passwords_get_password.
+
+	* e-passwords.c (e_passwords_get_password): remove 'const' from
+	return type - the return type is now allocated and must be freed
+	by the caller.
+	
+2001-10-11  Chris Toshok  <toshok@ximian.com>
+
 	* e-passwords.c (e_passwords_init): open the bonobo config db for
 	our passwords.
 	(e_passwords_shutdown): sync and unref the bonobo db, and clear
