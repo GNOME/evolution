@@ -1,3 +1,10 @@
+2001-04-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pkcs7-context.[c,h]: New source files to handle Pkcs7
+	encryption, decryption, signing, and verifying. Not yet
+	complete. I'm sensing this is going to take a while seeing as how
+	NSS is just so well documented.
+
 2001-04-17  Dan Winship  <danw@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message): Fix

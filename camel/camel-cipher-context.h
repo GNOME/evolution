@@ -41,6 +41,7 @@ typedef struct _CamelCipherValidity CamelCipherValidity;
 
 typedef enum {
 	CAMEL_CIPHER_HASH_DEFAULT,
+	CAMEL_CIPHER_HASH_MD2,
 	CAMEL_CIPHER_HASH_MD5,
 	CAMEL_CIPHER_HASH_SHA1
 } CamelCipherHash;
