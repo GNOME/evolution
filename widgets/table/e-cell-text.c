@@ -234,6 +234,9 @@ ect_stop_editing (ECellTextView *text_view)
 	CellEdit *edit = text_view->edit;
 	int row, view_col;
 
+	if ( !edit )
+		return;
+
 	row = edit->cell.row;
 	view_col = edit->cell.view_col;
 	

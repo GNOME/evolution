@@ -1,3 +1,7 @@
+2000-03-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-cell-text.c: Fixed a crashing bug when you cancel an edit.
+
 2000-03-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.c: Made this use an ECanvas.  Fixed a bug where
