@@ -1,3 +1,15 @@
+2005-04-01  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #41740
+
+	* gui/calendar-errors.xml:
+	* gui/calendar-errors.xml.h: added editor error.
+
+	* gui/alarm-notify/alarm-queue.c (edit_component): display error messages
+	when we can't load the component in the editor.
+
+	* gui/alarm-notify/Makefile.am: linked against libemiscwidgets.la.
+
 2005-04-01  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #73879

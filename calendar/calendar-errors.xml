@@ -138,7 +138,6 @@
   <button label="Send" response="GTK_RESPONSE_YES"/>
  </error>
 
-
  <error id="prompt-send-task" type="question" default="GTK_RESPONSE_YES">
   <primary>Would you like to send this task to participants?</primary>
   <secondary>Email invitations will be sent to all participants and allow them to accept this task.</secondary>
@@ -161,6 +160,11 @@
  <error id="calendar-crashed" type="error">
   <primary>The Evolution calendar has quit unexpectedly.</primary>
   <secondary>Your calendars will not be available until Evolution is restarted.</secondary>
+ </error>
+
+ <error id="editor-error" type="error">
+  <primary>Editor could not be loaded.</primary>
+  <secondary>{0}.</secondary>
  </error>
 
  <error id="prompt-delete-calendar" type="question" modal="true" default="GTK_RESPONSE_CANCEL">

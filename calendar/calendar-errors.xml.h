@@ -112,6 +112,10 @@ char *s = N_("Your tasks will not be available until Evolution is restarted.");
 char *s = N_("The Evolution calendar has quit unexpectedly.");
 /* calendar:calendar-crashed secondary */
 char *s = N_("Your calendars will not be available until Evolution is restarted.");
+/* calendar:editor-error primary */
+char *s = N_("Editor could not be loaded.");
+/* calendar:editor-error secondary */
+char *s = N_("{0}.");
 /* calendar:prompt-delete-calendar primary */
 char *s = N_("Delete calendar '{0}'?");
 /* calendar:prompt-delete-calendar secondary */
