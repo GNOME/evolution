@@ -4,7 +4,7 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("window1");
+gchar *s = N_("event-editor-dialog");
 gchar *s = N_("_Owner:");
 gchar *s = N_("_Summary:");
 gchar *s = N_("Time");

@@ -1,3 +1,23 @@
+2000-06-01  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor-dialog.glade: Change of plans.  The toplevel
+	GnomeApp is now generated with Glade instead of being created in
+	the program code.  Otherwise we can't migrate the accelerators to
+	the new toplevel and they won't work.
+
+	* gui/event-editor.[ch]: EventEditor now derives from GtkObject.
+	This lets us use the GnomeApp created by libglade and still have
+	signals and stuff.
+
+	* gui/event-editor.c (create_menu): Tell the UI handler that the
+	menubar is the GnomeApp's existing one, not to create a new one.
+	(create_toolbar): Tell the UI handler to use the GnomeApp's
+	existing toolbar.
+	(event_editor_focus): New function to raise/focus an event editor.
+
+	* gui/gnome-cal.c (gnome_calendar_edit_object): Use
+	event_editor_focus().
+
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): Put the

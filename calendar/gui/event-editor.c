@@ -34,9 +34,6 @@ typedef struct {
 	/* Glade XML data */
 	GladeXML *xml;
 
-	/* Calendar this editor is associated to */
-	GnomeCalendar *gcal;
-
 	/* UI handler */
 	BonoboUIHandler *uih;
 
@@ -46,6 +43,8 @@ typedef struct {
 	iCalObject *ico;
 
 	/* Widgets from the Glade file */
+
+	GtkWidget *app;
 
 	GtkWidget *general_owner;
 	GtkWidget *general_summary;
@@ -126,7 +125,7 @@ static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
 static void event_editor_destroy (GtkObject *object);
 
-static GnomeAppClass *parent_class;
+static GtkObjectClass *parent_class;
 
 extern int day_begin, day_end;
 extern char *user_name;
@@ -175,7 +174,7 @@ event_editor_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		event_editor_type = gtk_type_unique (gnome_app_get_type (), &event_editor_info);
+		event_editor_type = gtk_type_unique (GTK_TYPE_OBJECT, &event_editor_info);
 	}
 
 	return event_editor_type;
@@ -189,7 +188,7 @@ event_editor_class_init (EventEditorClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (gnome_app_get_type ());
+	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
 	event_editor_signals[ICAL_OBJECT_RELEASED] =
 		gtk_signal_new ("ical_object_released",
@@ -235,13 +234,20 @@ event_editor_destroy (GtkObject *object)
 		priv->ico = NULL;
 	}
 
+	if (priv->uih) {
+		bonobo_object_unref (BONOBO_OBJECT (priv->uih));
+		priv->uih = NULL;
+	}
+
+	if (priv->app) {
+		gtk_widget_destroy (priv->app);
+		priv->app = NULL;
+	}
+
 	if (priv->xml) {
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
-
-	bonobo_object_unref (BONOBO_OBJECT (priv->uih));
-	priv->uih = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -289,6 +295,8 @@ get_widgets (EventEditor *ee)
 	priv = ee->priv;
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
+
+	priv->app = GW ("event-editor-dialog");
 
 	priv->general_owner = GW ("general-owner");
 	priv->general_summary = GW ("general-summary");
@@ -1032,49 +1040,44 @@ create_toolbar (EventEditor *ee)
 	EventEditorPrivate *priv;
 	BonoboUIHandlerToolbarItem *list;
 	GnomeDockItem *dock_item;
-	GtkWidget *child;
+	GtkWidget *toolbar_child;
 
 	priv = ee->priv;
 
 	bonobo_ui_handler_create_toolbar (priv->uih, "Toolbar");
 
-	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ee);
-	bonobo_ui_handler_toolbar_add_list (priv->uih, "/Toolbar", list);
+	/* Fetch the toolbar.  What a pain in the ass. */
 
-	/* Turn off labels as GtkToolbar sucks */
-
-	dock_item = gnome_app_get_dock_item_by_name (GNOME_APP (ee), GNOME_APP_TOOLBAR_NAME);
+	dock_item = gnome_app_get_dock_item_by_name (GNOME_APP (priv->app), GNOME_APP_TOOLBAR_NAME);
 	g_assert (dock_item != NULL);
 
-	child = gnome_dock_item_get_child (dock_item);
-	g_assert (child != NULL && GTK_IS_TOOLBAR (child));
+	toolbar_child = gnome_dock_item_get_child (dock_item);
+	g_assert (toolbar_child != NULL && GTK_IS_TOOLBAR (toolbar_child));
 
-	gtk_toolbar_set_style (GTK_TOOLBAR (child), GTK_TOOLBAR_ICONS);
+	/* Turn off labels as GtkToolbar sucks */
+	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar_child), GTK_TOOLBAR_ICONS);
+
+	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ee);
+	bonobo_ui_handler_toolbar_add_list (priv->uih, "/Toolbar", list);
 }
 
 /**
  * event_editor_construct:
  * @ee: An event editor.
- * @gcal: Calendar that this event editor will operate on.
  * 
- * Constructs an event editor by binding it to the specified calendar and creating
- * its widgets.
+ * Constructs an event editor by loading its Glade data.
  * 
  * Return value: The same object as @ee, or NULL if the widgets could not be
  * created.  In the latter case, the event editor will automatically be
  * destroyed.
  **/
-GtkWidget *
-event_editor_construct (EventEditor *ee, GnomeCalendar *gcal)
+EventEditor *
+event_editor_construct (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	GtkWidget *toplevel;
-	GtkWidget *contents;
 
 	g_return_val_if_fail (ee != NULL, NULL);
 	g_return_val_if_fail (IS_EVENT_EDITOR (ee), NULL);
-	g_return_val_if_fail (gcal != NULL, NULL);
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
 
 	priv = ee->priv;
 
@@ -1086,15 +1089,6 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal)
 		goto error;
 	}
 
-	toplevel = glade_xml_get_widget (priv->xml, "event-editor-dialog");
-	contents = glade_xml_get_widget (priv->xml, "dialog-contents");
-	if (!(toplevel && contents)) {
-		g_message ("event_editor_construct(): Could not find the contents in the XML file!");
-		goto error;
-	}
-
-	priv->gcal = gcal;
-
 	if (!get_widgets (ee)) {
 		g_message ("event_editor_construct(): Could not find all widgets in the XML file!");
 		goto error;
@@ -1102,13 +1096,7 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal)
 
 	init_widgets (ee);
 
-	gtk_object_ref (GTK_OBJECT (contents));
-	gtk_container_remove (GTK_CONTAINER (toplevel), GTK_WIDGET (contents));
-	gtk_widget_destroy (GTK_WIDGET (toplevel));
-
 	/* Construct the app */
-
-	gnome_app_construct (GNOME_APP (ee), "event-editor", N_("Edit Appointment"));
 
 	priv->uih = bonobo_ui_handler_new ();
 	if (!priv->uih) {
@@ -1116,18 +1104,16 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal)
 		goto error;
 	}
 
-	bonobo_ui_handler_set_app (priv->uih, GNOME_APP (ee));
+	bonobo_ui_handler_set_app (priv->uih, GNOME_APP (priv->app));
 
 	create_menu (ee);
 	create_toolbar (ee);
 
-	/* Set the contents */
+	/* Show the dialog */
 
-	gnome_app_set_contents (GNOME_APP (ee), contents);
-	gtk_widget_show (contents);
-	gtk_object_unref (GTK_OBJECT (contents));
+	gtk_widget_show (priv->app);
 
-	return GTK_WIDGET (ee);
+	return ee;
 
  error:
 
@@ -1137,23 +1123,19 @@ event_editor_construct (EventEditor *ee, GnomeCalendar *gcal)
 
 /**
  * event_editor_new:
- * @gcal: Calendar that this event editor will operate on.
  * 
  * Creates a new event editor dialog.
  * 
  * Return value: A newly-created event editor dialog, or NULL if the event
  * editor could not be created.
  **/
-GtkWidget *
-event_editor_new (GnomeCalendar *gcal)
+EventEditor *
+event_editor_new (void)
 {
-	GtkWidget *ee;
+	EventEditor *ee;
 
-	g_return_val_if_fail (gcal != NULL, NULL);
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
-
-	ee = GTK_WIDGET (gtk_type_new (TYPE_EVENT_EDITOR));
-	return event_editor_construct (EVENT_EDITOR (ee), gcal);
+	ee = EVENT_EDITOR (gtk_type_new (TYPE_EVENT_EDITOR));
+	return event_editor_construct (EVENT_EDITOR (ee));
 }
 
 /**
@@ -1188,29 +1170,39 @@ event_editor_set_ical_object (EventEditor *ee, iCalObject *ico)
 		priv->ico = ical_object_duplicate (ico);
 
 	title = make_title_from_ico (priv->ico);
-	gtk_window_set_title (GTK_WINDOW (ee), title);
+	gtk_window_set_title (GTK_WINDOW (priv->app), title);
 	g_free (title);
 
 	fill_widgets (ee);
 }
 
-#if 0
-/* FIXME: put this logic in whatever code calls the event editor with a new
- * iCalObject.
- */
+/* Brings attention to a window by raising it and giving it focus */
 static void
-fill_in_dialog_from_defaults (EventEditorDialog *dialog)
+raise_and_focus (GtkWidget *widget)
 {
-	time_t now = time (NULL);
-	time_t soon = time_add_minutes (now, 30);
-
-	store_to_editable (dialog->gui, "general-owner", "?");
-
-	/* start and end time */
-	store_to_gnome_dateedit (dialog->gui, "start-time", now);
-	store_to_gnome_dateedit (dialog->gui, "end-time", soon);
+	g_assert (GTK_WIDGET_REALIZED (widget));
+	gdk_window_show (widget->window);
+	gtk_widget_grab_focus (widget);
 }
-#endif
+
+/**
+ * event_editor_focus:
+ * @ee: An event editor.
+ * 
+ * Makes sure an event editor is shown, on top of other windows, and focused.
+ **/
+void
+event_editor_focus (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+
+	g_return_if_fail (ee != NULL);
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
+	priv = ee->priv;
+	gtk_widget_show_now (priv->app);
+	raise_and_focus (priv->app);
+}
 
 static void
 free_exdate (iCalObject *ico)
@@ -1412,6 +1404,7 @@ dialog_to_ical_object (EventEditor *ee)
 	}
 }
 
+#if 0
 static void
 ee_ok (GtkWidget *widget, EventEditor *ee)
 {
@@ -1441,6 +1434,7 @@ ee_cancel (GtkWidget *widget, EventEditor *ee)
 		priv->ico = NULL;
 	}
 }
+#endif
 
 static void
 alarm_toggle (GtkWidget *toggle, EventEditor *ee)

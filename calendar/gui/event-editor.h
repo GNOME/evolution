@@ -25,7 +25,7 @@
 #define __EVENT_EDITOR_DIALOG_H__
 
 #include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-app.h>
+#include <gtk/gtkobject.h>
 #include "gnome-cal.h"
 
 
@@ -41,14 +41,14 @@ typedef struct _EventEditor EventEditor;
 typedef struct _EventEditorClass EventEditorClass;
 
 struct _EventEditor {
-	GnomeApp app;
+	GtkObject object;
 
 	/* Private data */
 	gpointer priv;
 };
 
 struct _EventEditorClass {
-	GnomeAppClass parent_class;
+	GtkObjectClass parent_class;
 
 	/* Notification signals */
 
@@ -57,11 +57,13 @@ struct _EventEditorClass {
 
 
 GtkType event_editor_get_type (void);
-GtkWidget *event_editor_construct (EventEditor *ee, GnomeCalendar *gcal);
+EventEditor *event_editor_construct (EventEditor *ee);
 
-GtkWidget *event_editor_new (GnomeCalendar *gcal);
+EventEditor *event_editor_new (void);
 
 void event_editor_set_ical_object (EventEditor *ee, iCalObject *ico);
+
+void event_editor_focus (EventEditor *ee);
 
 #if 0
 /* Convenience function to create and show a new event editor for an

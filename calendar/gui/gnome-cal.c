@@ -1307,15 +1307,6 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 	gnome_calendar_update_gtk_calendar (gcal);
 }
 
-/* Brings attention to a window by raising it and giving it focus */
-static void
-raise_and_focus (GtkWidget *widget)
-{
-	g_assert (GTK_WIDGET_REALIZED (widget));
-	gdk_window_show (widget->window);
-	gtk_widget_grab_focus (widget);
-}
-
 /* Callback used when an event editor finishes editing an object */
 static void
 ical_object_released_cb (EventEditor *ee, const char *uid, gpointer data)
@@ -1339,7 +1330,7 @@ ical_object_released_cb (EventEditor *ee, const char *uid, gpointer data)
 void
 gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 {
-	GtkWidget *ee;
+	EventEditor *ee;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -1348,7 +1339,7 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 
 	ee = g_hash_table_lookup (gcal->object_editor_hash, ico->uid);
 	if (!ee) {
-		ee = event_editor_new (gcal);
+		ee = event_editor_new ();
 		if (!ee) {
 			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
 			return;
@@ -1365,8 +1356,7 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 		event_editor_set_ical_object (EVENT_EDITOR (ee), ico);
 	}
 
-	gtk_widget_show_now (ee);
-	raise_and_focus (ee);
+	event_editor_focus (ee);
 }
 
 /* Returns the selected time range for the current view. Note that this may be
