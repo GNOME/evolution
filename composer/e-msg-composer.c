@@ -388,8 +388,11 @@ set_editor_text (BonoboWidget *editor, const char *text)
 	if (sig) {
 		fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n--\n%s<PRE>",
 					    text, sig);
-	} else
+	} else {
+		if (!*text)
+			return;
 		fulltext = (char*)text;
+	}
 
 	CORBA_exception_init (&ev);
 	persist = (Bonobo_PersistStream)
