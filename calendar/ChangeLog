@@ -1,3 +1,12 @@
+2003-11-19  Jack Jia <jack.jia@sun.com>
+
+	Fix for #51052.
+
+	* importers/icalendar-importer.c (prepare_events):
+	call icalcompiter_next to move the pointer to the next before
+	removing a component avoid breaking the link.
+	* importers/icalendar-importer.c (prepare_tasks): ditto.
+
 2003-11-19  Harry Lu  <harry.lu@sun.com>
 
 	* pcs/cal-backend-file.c (cal_backend_file_update_object):
