@@ -20,11 +20,12 @@
 
 static ETableSubsetVariableClass *etsv_parent_class;
 
-static void etsv_proxy_model_changed (ETableModel *etm, ETableSortedVariable *etsv);
-static void etsv_proxy_model_row_changed (ETableModel *etm, int row, ETableSortedVariable *etsv);
+static void etsv_proxy_model_changed      (ETableModel *etm, ETableSortedVariable *etsv);
+static void etsv_proxy_model_row_changed  (ETableModel *etm, int row, ETableSortedVariable *etsv);
 static void etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedVariable *etsv);
-static void etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv);
-static void etsv_add       (ETableSubsetVariable *etssv, gint                  row);
+static void etsv_sort_info_changed        (ETableSortInfo *info, ETableSortedVariable *etsv);
+static void etsv_sort                     (ETableSortedVariable *etsv);
+static void etsv_add                      (ETableSubsetVariable *etssv, gint                  row);
 
 static void
 etsv_destroy (GtkObject *object)
@@ -40,6 +41,10 @@ etsv_destroy (GtkObject *object)
 			       etsv->table_model_cell_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
 			       etsv->sort_info_changed_id);
+
+	if (etsv->sort_idle_id) {
+		g_source_remove(etsv->sort_idle_id);
+	}
 
 	etsv->table_model_changed_id = 0;
 	etsv->table_model_row_changed_id = 0;
@@ -65,45 +70,28 @@ etsv_class_init (GtkObjectClass *object_class)
 	etssv_class->add = etsv_add;
 }
 
-E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariable, etsv_class_init, NULL, PARENT_TYPE);
-
-static int
-etsv_compare(ETableSortedVariable *etsv, 
-	     gint row1,
-	     gint row2)
+static void
+etsv_init (ETableSortedVariable *etsv)
 {
-	static ETableCol *last_col = NULL;
-	static int last_row = -1;
-	static void *val = NULL;
-	ETableSubset *etss = E_TABLE_SUBSET(etsv);
-	int j;
-	int sort_count = e_table_sort_info_sorting_get_count(etsv->sort_info);
-	int comp_val = 0;
-	int ascending = 1;
-	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv->sort_info, j);
-		ETableCol *col;
-		if (column.column > e_table_header_count (etsv->full_header))
-			col = e_table_header_get_columns (etsv->full_header)[e_table_header_count (etsv->full_header) - 1];
-		else
-			col = e_table_header_get_columns (etsv->full_header)[column.column];
-		if (last_col != col || last_row != row1)
-			val = e_table_model_value_at (etss->source, col->col_idx, row1);
-		last_col = col;
-		comp_val = (*col->compare)(val, e_table_model_value_at (etss->source, col->col_idx, row2));
-		ascending = column.ascending;
-		if (comp_val != 0)
-			break;
-	}
-	if (comp_val == 0) {
-		if (row1 < row2)
-			comp_val = -1;
-		if (row1 > row2)
-			comp_val = 1;
-	}
-	if (!ascending)
-		comp_val = -comp_val;
-	return comp_val;
+	etsv->full_header = NULL;
+	etsv->sort_info = NULL;
+
+	etsv->table_model_changed_id = 0;
+	etsv->table_model_row_changed_id = 0;
+	etsv->table_model_cell_changed_id = 0;
+	etsv->sort_info_changed_id = 0;
+
+	etsv->sort_idle_id = 0;
+}
+
+E_MAKE_TYPE(e_table_sorted_variable, "ETableSortedVariable", ETableSortedVariable, etsv_class_init, etsv_init, PARENT_TYPE);
+
+static gboolean
+etsv_sort_idle(ETableSortedVariable *etsv)
+{
+	etsv_sort(etsv);
+	etsv->sort_idle_id = 0;
+	return FALSE;
 }
 
 static void
@@ -112,31 +100,17 @@ etsv_add       (ETableSubsetVariable *etssv,
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE(etssv);
-	int i;
-	int length_to_search;
-
-	/* FIXME: binary search anyone? */
+	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
 	
-	i = 0;
-	length_to_search = etss->n_map;
-	while(length_to_search > 1) {
-		int center = i + length_to_search / 2;
-		if (etsv_compare(etsv, row, etss->map_table[center]))
-			length_to_search /= 2;
-		else {
-			i += length_to_search / 2;
-			length_to_search -= length_to_search / 2;
-		}
-	}
 	if (etss->n_map + 1 > etssv->n_vals_allocated){
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(int));
 	}
-	if (i < etss->n_map)
-		memmove (etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
-	etss->map_table[i] = row;
+	etss->map_table[etss->n_map] = row;
 	etss->n_map++;
+	if (etsv->sort_idle_id == 0) {
+		etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
+	}
 	if (!etm->frozen)
 		e_table_model_changed (etm);
 }
@@ -197,45 +171,56 @@ etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedV
 	}
 }
 
+static void
+etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv)
+{
+	etsv_sort(etsv);
+}
+
 static ETableSortedVariable *etsv_closure;
 
 static int
 qsort_callback(const void *data1, const void *data2)
 {
+	gint row1 = *(int *)data1;
+	gint row2 = *(int *)data2;
+	static ETableCol *last_col = NULL;
+	static int last_row = -1;
+	static void *val = NULL;
+	ETableSubset *etss = E_TABLE_SUBSET(etsv_closure);
 	int j;
+	int sort_count = e_table_sort_info_sorting_get_count(etsv_closure->sort_info);
 	int comp_val = 0;
 	int ascending = 1;
-	int sort_count = e_table_sort_info_sorting_get_count(etsv_closure->sort_info);
-	int row1 = *(int *)data1;
-	int row2 = *(int *)data2;
-
-	while(gtk_events_pending())
-		gtk_main_iteration();
 	for (j = 0; j < sort_count; j++) {
 		ETableSortColumn column = e_table_sort_info_sorting_get_nth(etsv_closure->sort_info, j);
 		ETableCol *col;
-		void *val;
 		if (column.column > e_table_header_count (etsv_closure->full_header))
 			col = e_table_header_get_columns (etsv_closure->full_header)[e_table_header_count (etsv_closure->full_header) - 1];
 		else
 			col = e_table_header_get_columns (etsv_closure->full_header)[column.column];
-		val = e_table_model_value_at (E_TABLE_SUBSET(etsv_closure)->source, col->col_idx, row1);
-		comp_val = (*col->compare)(val, e_table_model_value_at (E_TABLE_SUBSET(etsv_closure)->source, col->col_idx, row2));
+		if (last_col != col || last_row != row1)
+			val = e_table_model_value_at (etss->source, col->col_idx, row1);
+		last_col = col;
+		comp_val = (*col->compare)(val, e_table_model_value_at (etss->source, col->col_idx, row2));
 		ascending = column.ascending;
 		if (comp_val != 0)
 			break;
 	}
-	if (((ascending && comp_val < 0) || ((!ascending) && comp_val > 0)))
-		return -1;
-	
-	if (comp_val == 0)
-		if ((ascending && row1 < row2) || ((!ascending) && row1 > row2))
-			return -1;
-	return 1;
+	if (comp_val == 0) {
+		if (row1 < row2)
+			comp_val = -1;
+		if (row1 > row2)
+			comp_val = 1;
+	}
+	if (!ascending)
+		comp_val = -comp_val;
+	return comp_val;
 }
 
+
 static void
-etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv)
+etsv_sort(ETableSortedVariable *etsv)
 {
 	etsv_closure = etsv;
 	qsort(E_TABLE_SUBSET(etsv)->map_table, E_TABLE_SUBSET(etsv)->n_map, sizeof(int), qsort_callback);
