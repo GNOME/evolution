@@ -13,6 +13,17 @@
           Put your hand-held device on its cradle and press the
           HotSync button.
         </para>
+
+<tip id="sync-tip">
+<title>Palm OS v. 4.0 with Passwords</title>
+<para>
+If you use Palm OS v. 4.0 and have password protection turned on for
+your handheld device, you may encounter trouble synchronizing.  If
+this happens, try turning off password protection on your handheld,
+synchronize it with your desktop computer, and then re-enable password
+protection on your handheld.
+</para>
+</tip>
         <para>
 	 If your environment is correctly configured to sync with your
 	 PDA, then it should sync with <application>Evolution</application>.
