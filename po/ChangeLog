@@ -1,3 +1,8 @@
+2001-11-20  Christian Meyer  <chrisime@gnome.org>
+
+	* de.po: Applied Manuel Borchers diff.
+	Made the translation for consistent.
+
 2001-11-19  Wang Jian  <lark@linux.net.cn>
 
 	* zh_CN.po: Updated Simplified Chinese translation by
