@@ -1,5 +1,14 @@
 2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (impl_setOwner): If the owner is
+	dead, emit "owner_died" instead of "owner_unset".
+	(impl_owner_died): New, default implementation for "owner_died".
+	(class_init): Install it.
+
+	* evolution-shell-component.h: New signal "owner_died".
+
+2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (set_owner_on_components): If setting the owner fails,
 	print the a warning message out.  Then restart the component.
 

@@ -72,6 +72,7 @@ struct _EvolutionShellComponentPrivate {
 enum {
 	OWNER_SET,
 	OWNER_UNSET,
+	OWNER_DIED,
 	DEBUG,
 	HANDLE_EXTERNAL_URI,
 	USER_CREATE_NEW_ITEM,
@@ -322,7 +323,7 @@ impl_setOwner (PortableServer_Servant servant,
 			bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
 			priv->owner_client = NULL;
 
-			gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
+			gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
 		}
 
 		return;
@@ -616,11 +617,26 @@ destroy (GtkObject *object)
 }
 
 
+/* EvolutionShellComponent methods.  */
+
+static void
+impl_owner_died (EvolutionShellComponent *shell_component)
+{
+	/* The default implementation for ::owner_died emits ::owner_unset, so
+	   that we make the behavior for old components kind of correct without
+	   even if they don't handle the new ::owner_died signal correctly
+	   yet.  */
+
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
+}
+
+
 /* Initialization.  */
 
 static void
 class_init (EvolutionShellComponentClass *klass)
 {
+	EvolutionShellComponentClass *shell_component_class;
 	GtkObjectClass *object_class;
 	POA_GNOME_Evolution_ShellComponent__epv *epv = &klass->epv;
 
@@ -635,6 +651,14 @@ class_init (EvolutionShellComponentClass *klass)
 				  gtk_marshal_NONE__POINTER_POINTER,
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+
+	signals[OWNER_DIED]
+		= gtk_signal_new ("owner_died",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellComponentClass, owner_died),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
 
 	signals[OWNER_UNSET]
 		= gtk_signal_new ("owner_unset",
@@ -689,6 +713,9 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->xferFolderAsync             = impl_xferFolderAsync; 
 	epv->populateFolderContextMenu   = impl_populateFolderContextMenu;
 	epv->userCreateNewItem           = impl_userCreateNewItem;
+
+	shell_component_class = EVOLUTION_SHELL_COMPONENT_CLASS (object_class);
+	shell_component_class->owner_died = impl_owner_died;
 }
 
 static void
