@@ -1621,8 +1621,8 @@ imap_noop (CamelStore *store, CamelException *ex)
 	
 	current_folder = imap_store->current_folder;
 	if (current_folder && imap_summary_is_dirty (current_folder->summary)) {
-		/* let's sync the flags instead */
-		camel_folder_sync (current_folder, FALSE, ex);
+		/* let's sync the flags instead.  NB: must avoid folder lock */
+		((CamelFolderClass *)((CamelObject *)current_folder)->klass)->sync(current_folder, FALSE, ex);
 	} else {
 		response = camel_imap_command (imap_store, NULL, ex, "NOOP");
 		if (response)

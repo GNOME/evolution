@@ -1,3 +1,9 @@
+2003-09-05  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_noop): call
+	camel_folder_sync bypassing the folder lock.  See
+	imap_store_refresh_folders too.
+
 2003-09-04  David Woodhouse  <dwmw2@infradead.org>
 
 	* providers/camel-imap-store.[ch]: Add PREAUTH handling and
