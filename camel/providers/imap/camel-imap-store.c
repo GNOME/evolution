@@ -474,7 +474,8 @@ parse_list_response_as_folder_info (const char *response,
 
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = dir;
-	fi->name = strrchr (dir, *sep);
+	if (sep)
+		fi->name = strrchr (dir, *sep);
 	if (fi->name)
 		fi->name = g_strdup (fi->name + 1);
 	else
