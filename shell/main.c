@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* .c
+/* main.c
  *
  * Copyright (C) 2000  Helix Code, Inc.
  *
@@ -198,7 +198,6 @@ main (int argc, char **argv)
 	glade_gnome_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
-
 
 	if (! bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
