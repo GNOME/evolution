@@ -1,5 +1,12 @@
 2004-05-03  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-cal-list-view.c (setup_e_table): listen for double click
+	signal
+	(e_cal_list_view_on_table_double_click): edit the appointment that
+	was double clicked on
+
+2004-05-03  JP Rosevear  <jpr@ximian.com>
+
 	* gui/calendar-component.c (set_info): set the info label
 	(calendar_dates_changed_cb): call back for when the dates of the
 	calendar change

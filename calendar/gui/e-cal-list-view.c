@@ -83,6 +83,8 @@ static gboolean  e_cal_list_view_popup_menu             (GtkWidget *widget);
 
 static void      e_cal_list_view_show_popup_menu        (ECalListView *cal_list_view, gint row,
 							 GdkEvent *gdk_event);
+static gboolean  e_cal_list_view_on_table_double_click   (GtkWidget *table, gint row, gint col,
+							 GdkEvent *event, gpointer data);
 static gboolean  e_cal_list_view_on_table_right_click   (GtkWidget *table, gint row, gint col,
 							 GdkEvent *event, gpointer data);
 
@@ -284,6 +286,8 @@ setup_e_table (ECalListView *cal_list_view)
 
 	/* Connect signals */
 	g_signal_connect (e_table_scrolled_get_table (cal_list_view->table_scrolled),
+			  "double_click", G_CALLBACK (e_cal_list_view_on_table_double_click), cal_list_view);
+	g_signal_connect (e_table_scrolled_get_table (cal_list_view->table_scrolled),
 			  "right-click", G_CALLBACK (e_cal_list_view_on_table_right_click), cal_list_view);
 
 	/* Attach and show widget */
@@ -374,6 +378,20 @@ e_cal_list_view_popup_menu (GtkWidget *widget)
 	ECalListView *cal_list_view = E_CAL_LIST_VIEW (widget);
 
 	e_cal_list_view_show_popup_menu (cal_list_view, -1, NULL);
+	return TRUE;
+}
+
+static gboolean
+e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, GdkEvent *event,
+				      gpointer data)
+{
+	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
+	ECalModelComponent *comp_data;
+	
+	comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)), row);
+	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (cal_list_view), comp_data->client,
+					  comp_data->icalcomp, FALSE);	
+
 	return TRUE;
 }
 
