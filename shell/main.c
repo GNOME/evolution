@@ -86,6 +86,7 @@ static gboolean no_splash = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean force_upgrade = FALSE;
+static gboolean killev = FALSE;
 
 extern char *evolution_debug_log;
 
@@ -528,6 +529,10 @@ main (int argc, char **argv)
 		  N_("Start in offline mode"), NULL },
 		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, 
 		  N_("Start in online mode"), NULL },
+#ifdef KILL_PROCESS_CMD
+		{ "force-shutdown", '\0', POPT_ARG_NONE, &killev, 0, 
+		  N_("Forcibly shut down all evolution components"), NULL },
+#endif
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
 		  N_("Send the debugging output of all components to a file."), NULL },
 #if 0
@@ -560,6 +565,12 @@ main (int argc, char **argv)
 		fprintf (stderr, _("%s: --online and --offline cannot be used together.\n  Use %s --help for more information.\n"),
 			 argv[0], argv[0]);
 		exit (1);
+	}
+
+	if (killev) {
+		execl (EVOLUTION_TOOLSDIR "/killev", "killev", NULL);
+		/* Not reached */
+		exit (0);
 	}
 
 	setup_segv_redirect ();

@@ -14,6 +14,7 @@ INCLUDES =							\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
+	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DDATADIR=\""$(datadir)"\"				\
@@ -289,7 +290,9 @@ install-test-component: evolution-test-component
 server_in_files = GNOME_Evolution_Shell.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@BINDIR\@|$(bindir)|" $< > $@
+	sed -e "s|\@BINDIR\@|$(bindir)|"				\
+	    -e "s|\@VERSION\@|$(BASE_VERSION)|"				\
+	    $< > $@
 
 etspec_DATA = e-storage-set-view.etspec
 

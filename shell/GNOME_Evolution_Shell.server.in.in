@@ -2,14 +2,14 @@
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Shell"
 	      type="exe"
-	      location="@BINDIR@/evolution">
+	      location="@BINDIR@/evolution-@VERSION@">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/Shell:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-		   _value="The Evolution shell."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Shell"/>
   </oaf_server>
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Shell_Config_Factory"
@@ -44,8 +44,8 @@
       <item value="shell"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-		   _value="Configuration control for Evolution folder settings."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution folder settings configuration control"/>
   </oaf_server>
 
 </oaf_info>

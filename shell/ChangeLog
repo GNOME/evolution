@@ -1,3 +1,15 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am ($(server_in_files)): Substitute version number into
+	the evolution binary name in the server file
+	(INCLUDES): define EVOLUTION_TOOLSDIR
+
+	* GNOME_Evolution_Shell.server.in.in: Clean up server names. Add
+	"-@VERSION@" to the end of the shell binary name
+
+	* main.c (main): if KILL_PROCESS_CMD is defined, add a
+	--force-shutdown argument that runs killev and exits.
+
 2003-04-07  Not Zed  <NotZed@Ximian.com>
 
 	[#40536]
