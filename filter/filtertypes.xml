@@ -581,32 +581,32 @@
   <input type="source" name="source"/>
  </part>
 
- <part name="command">
-  <title>Command</title>
+ <part name="pipe">
+  <title>Pipe Message to Shell Command</title>
   <input type="command" name="command"/>
   <input type="optionlist" name="retval-type">
    <option value="is">
-    <title>is</title>
+    <title>returns</title>
     <code>
-      (match-all (= (shell-exec ${command}) ${retval}))
+      (match-all (= (pipe-message "/bin/sh" "-c" ${command}) ${retval}))
     </code>
    </option>
    <option value="is-not">
-    <title>is not</title>
+    <title>does not return</title>
     <code>
-      (match-all (not (= (shell-exec ${command}) ${retval})))
+      (match-all (not (= (pipe-message "/bin/sh" "-c" ${command}) ${retval})))
     </code>
    </option>
    <option value="greater-than">
-    <title>is greater than</title>
+    <title>returns greater than</title>
     <code>
-      (match-all (&gt; (shell-exec ${command}) ${retval}))
+      (match-all (&gt; (pipe-message "/bin/sh" "-c" ${command}) ${retval}))
     </code>
    </option>
    <option value="less-than">
-    <title>is less than</title>
+    <title>returns less than</title>
     <code>
-      (match-all (&lt; (shell-exec ${command}) ${retval}))
+      (match-all (&lt; (pipe-message "/bin/sh" "-c" ${command}) ${retval}))
     </code>
    </option>
   </input>
@@ -682,9 +682,9 @@
   <code>(play-sound ${sound})</code>
   <input type="file" name="sound"/>
  </part>
- <part name="shell-exec">
-  <title>Execute Shell Command</title>
-  <code>(shell-exec ${command})</code>
+ <part name="shell">
+  <title>Shell Command</title>
+  <code>(shell "/bin/sh" "-c" ${command})</code>
   <input type="command" name="command"/>
  </part>
 </actionset>

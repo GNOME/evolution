@@ -181,29 +181,34 @@ validate (FilterElement *fe)
 		return FALSE;
 	}
 	
-	/* FIXME: validate command-lines? */
+	/* FIXME: do more to validate command-lines? */
 	
 	if (strcmp (file->type, "file") != 0) {
 		if (stat (file->path, &st) == -1 || !S_ISREG (st.st_mode)) {
 			char *errmsg;
 			
-			errmsg = g_strdup_printf (_("File '%s' does not exist or is not a regular file."), file->path);
+			errmsg = g_strdup_printf (_("File '%s' does not exist or is not a regular file."),
+						  file->path);
 			dialog = gnome_ok_dialog (errmsg);
 			g_free (errmsg);
 			
 			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 			return FALSE;
 		}
+	} else if (strcmp (file->type, "command") != 0) {
+		/* only requirements so far is that the command can't
+		   be an empty string */
+		return file->path[0] != '\0';
 	}
 	
 	return TRUE;
 }
 
 static int
-file_eq(FilterElement *fe, FilterElement *cm)
+file_eq (FilterElement *fe, FilterElement *cm)
 {
 	FilterFile *ff = (FilterFile *)fe, *cf = (FilterFile *)cm;
-
+	
         return ((FilterElementClass *)(parent_class))->eq(fe, cm)
 		&& ((ff->path && cf->path && strcmp(ff->path, cf->path) == 0)
 		    || (ff->path == NULL && cf->path == NULL))
@@ -216,7 +221,6 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	/* parent implementation */
         ((FilterElementClass *)(parent_class))->xml_create (fe, node);
-	
 }
 
 static xmlNodePtr

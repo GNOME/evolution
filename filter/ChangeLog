@@ -1,3 +1,13 @@
+2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-file.c (validate): Do some minimalistic validation of
+	command-lines (ie, make sure it isn't an empty string).
+
+	* filtertypes.xml: s/shell-exec/shell/ (for the action) and pass
+	"/bin/sh" "-c" as the first 2 arguments. For the shell-exec
+	*rule*, change the name to "pipe-message" and add the "/bin/sh"
+	"-c" arguments too.
+
 2002-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-label.c (xml_create): Use the U_() macro to get the UTF-8
