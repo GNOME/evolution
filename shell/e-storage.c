@@ -468,10 +468,15 @@ e_storage_async_xfer_folder (EStorage *storage,
 	g_return_if_fail (g_path_is_absolute (destination_path));
 
 	if (remove_source) {
+		int destination_len;
 		int source_len;
 
 		source_len = strlen (source_path);
-		if (strncmp (destination_path, source_path, source_len) == 0) {
+		destination_len = strlen (destination_path);
+
+		if (source_len < destination_len
+		    && destination_path[source_len] == G_DIR_SEPARATOR
+		    && strncmp (destination_path, source_path, source_len) == 0) {
 			(* callback) (storage, E_STORAGE_CANTMOVETODESCENDANT, data);
 			return;
 		}

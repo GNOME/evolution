@@ -1,5 +1,25 @@
 2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Implemented the "Rename" command.  Warning, it doesn't quite work
+	yet, as there seems to be something wrong still.]
+
+	* e-storage.c (e_storage_async_xfer_folder): Ooops.  Make the
+	check for CANTMOVETODESCENDANT really work.
+
+	* e-storage-set-view.c (tree_drag_data_received): Pass the
+	EStorageSetView as the data for the async_xfer function.
+	(folder_xfer_callback): Display an error dialog if something goes
+	wrong.
+
+	* e-shell-view-menu.c (command_rename_folder): Enable again.
+
+	* e-shell-folder-commands.c (e_shell_command_rename_folder):
+	Re-implemented.
+	(delete_dialog): Use double quotes instead of single quotes around
+	the folder name, for consistency with the other dialogs.
+
+2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (get_path_for_folder_op): New helper
 	function.
 	(command_move_folder): Pass the @folder_path argument to

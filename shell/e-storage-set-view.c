@@ -33,6 +33,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
@@ -632,7 +633,15 @@ folder_xfer_callback (EStorageSet *storage_set,
 		      EStorageResult result,
 		      void *data)
 {
-	g_print ("Folder Xfer result -- %s\n", e_storage_result_to_string (result));
+	EStorageSetView *storage_set_view;
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+
+	if (result != E_STORAGE_OK)
+		e_notice (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (storage_set_view))),
+			  GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot transfer folder:\n%s"),
+			  e_storage_result_to_string (result));
 }
 
 
@@ -1151,12 +1160,12 @@ tree_drag_data_received (ETree *etree,
 		switch (context->action) {
 		case GDK_ACTION_MOVE:
 			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, TRUE,
-							 folder_xfer_callback, NULL);
+							 folder_xfer_callback, storage_set_view);
 			handled = TRUE;
 			break;
 		case GDK_ACTION_COPY:
 			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, FALSE,
-							 folder_xfer_callback, NULL);
+							 folder_xfer_callback, storage_set_view);
 			handled = TRUE;
 			break;
 		default:

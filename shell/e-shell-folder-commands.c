@@ -27,6 +27,8 @@
 
 #include "e-shell-folder-commands.h"
 
+#include "e-util/e-request.h"
+
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -400,7 +402,7 @@ delete_dialog (EShellView *shell_view, const char *utf8_folder)
            the folder */
 	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), 
 					    (char *)utf8_folder);
-	title = g_strdup_printf (_("Delete folder '%s'"), folder_name);
+	title = g_strdup_printf (_("Delete \"%s\""), folder_name);
 
 	dialog = GNOME_DIALOG (gnome_dialog_new (title,
 						 GNOME_STOCK_BUTTON_YES,
@@ -410,7 +412,7 @@ delete_dialog (EShellView *shell_view, const char *utf8_folder)
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (shell_view));
 
 	/* "Are you sure..." label */
-	question = g_strdup_printf (_("Are you sure you want to remove the '%s' folder?"),
+	question = g_strdup_printf (_("Are you sure you want to remove the \"%s\" folder?"),
 				    folder_name);
 	question_label = gtk_label_new (question);	
 	gtk_widget_show (question_label);
@@ -455,97 +457,29 @@ e_shell_command_delete_folder (EShell *shell,
 	}
 }
 
-#if 0
-static void
-rename_clicked (GtkWidget *dialog, gint button_num, void *data)
-{
-	char **retval = data;
-	GtkWidget *entry;
-
-	entry = gtk_object_get_data (GTK_OBJECT (dialog), "entry");
-	*retval = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
-}
-#endif
-
-#if 0
-static char *
-rename_dialog (char *folder_name)
-{
-	GnomeDialog *dialog;
-	int result;
-	char *title;
-	GtkWidget *hbox;
-	char *label;
-	GtkWidget *prompt_label;
-	GtkWidget *entry;
-	char *question;
-	char *retval;
-
-	/* Popup a dialog asking what the user would like to rename
-           the folder to */
-	title = g_strdup_printf (_("Rename folder '%s'"),
-				 folder_name);
-
-	dialog = GNOME_DIALOG (gnome_dialog_new (title,
-						 _("Rename"),
-						 GNOME_STOCK_BUTTON_CANCEL,
-						 NULL));
-	g_free (title);
-
-	hbox = gtk_hbox_new (FALSE, 2);
-
-	/* Make, pack the label */
-	label = g_strdup_printf (_("Folder name:"));
-	prompt_label = gtk_label_new (label);
-	gtk_box_pack_start (GTK_BOX (hbox), prompt_label, FALSE, TRUE, 2);
-
-	/* Make, setup, pack the entry */
-	entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY (entry), folder_name);
-	gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, TRUE, 2);
-
-	gtk_widget_show (GTK_WIDGET (prompt_label));
-	gtk_widget_show (GTK_WIDGET (entry));
-	gtk_widget_show (GTK_WIDGET (hbox));
-
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), hbox, FALSE, TRUE, 2);
-
-	gtk_object_set_data (GTK_OBJECT (dialog), "entry", entry);
-
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    rename_clicked, &retval);
-
-	gnome_dialog_set_default (dialog, 1);
-
-	result = gnome_dialog_run_and_close (dialog);
-       
-	return retval;
-}
-#endif
-
 
-
-#if 0
 static void
-rename_cb (EStorageSet *storage_set,
-	   EStorageResult result,
-	   void *data)
+rename_cb (EStorageSet *storage_set, EStorageResult result, void *data)
 {
-	/* FIXME: Do something? */
-}
-#endif
+	EShellView *shell_view;
 
-#if 0
+	shell_view = E_SHELL_VIEW (data);
+	if (result != E_STORAGE_OK)
+		e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot rename folder:\n%s"), e_storage_result_to_string (result));
+}
+
 void
 e_shell_command_rename_folder (EShell *shell,
-			       EShellView *shell_view)
+			       EShellView *shell_view,
+			       const char *folder_path)
 {
 	EStorageSet *storage_set;
-	char *oldname;
-	char *newname;
-
-	char *path;
-	char *newpath;
+	const char *old_name;
+	char *prompt;
+	char *new_name;
+	char *old_base_path;
+	char *new_path;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -553,39 +487,38 @@ e_shell_command_rename_folder (EShell *shell,
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	storage_set = e_shell_get_storage_set (shell);
-	path = g_strdup (e_shell_view_get_current_path (shell_view));
 
-	oldname = get_folder_name (shell, path);
-	newname = rename_dialog (oldname);
+	if (folder_path == NULL)
+		folder_path = e_shell_view_get_current_path (shell_view);
 
-	if (strcmp (oldname, newname)) {
-		/* FIXME: Doing strstr isn't robust enough, will fail
-                   when path is /blah/blah, do looped strchr for '/' */
-		char *tmp = strstr (path, oldname);
-		char *tmp2;
+	/* Note that we don't need to get the display name here, as the stock
+	   folders cannot be renamed anyway.  */
+	old_name = g_basename (folder_path);
 
-		tmp2 = g_strndup (path, strlen (path) - strlen (tmp));
+	prompt = g_strdup_printf (_("Rename the \"%s\" folder to:"), old_name);  
 
-		newpath = g_strconcat (tmp2, newname, NULL);
+	new_name = e_request_string (shell_view != NULL ? GTK_WINDOW (shell_view) : NULL,
+				     _("Rename folder"), prompt, old_name);
 
-		printf ("newpath: %s\n", newpath);
+	g_free (prompt);
 
-		g_free (tmp2);
-		g_free (tmp);
+	if (new_name == NULL)
+		return;
 
-/* FIXME: newpath needs to be correct
-		e_storage_set_async_xfer_folder (storage_set,
-						 oldpath,
-						 newpath,
-						 TRUE,
-						 rename_cb,
-						 NULL);
-*/
+	if (strcmp (old_name, new_name) == 0) {
+		g_free (new_name);
+		return;
 	}
 
-	g_free (path);
+	old_base_path = g_strndup (folder_path, old_name - folder_path);
+	new_path = g_strconcat (old_base_path, new_name, NULL);
+
+	e_storage_set_async_xfer_folder (storage_set, folder_path, new_path, TRUE, rename_cb, shell_view);
+
+	g_free (old_base_path);
+	g_free (new_path);
+	g_free (new_name);
 }
-#endif
 
 
 void

@@ -376,7 +376,8 @@ command_rename_folder (BonoboUIComponent *uih,
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
-/*	e_shell_command_rename_folder (e_shell_view_get_shell (shell_view), shell_view); */
+	e_shell_command_rename_folder (e_shell_view_get_shell (shell_view), shell_view,
+				       get_path_for_folder_op (shell_view));
 }
 
 static void
