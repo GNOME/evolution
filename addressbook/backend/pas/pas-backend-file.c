@@ -148,11 +148,17 @@ do_summary_query (PASBackendFile         *bf,
 		char *id = g_ptr_array_index (ids, i);
 		char *vcard = NULL;
 
+#if SUMMARY_STORES_ENOUGH_INFO
+		/* this is disabled for the time being because lists
+		   can have more than 3 email addresses and the
+		   summary only stores 3. */
+
 		if (completion_search) {
 			vcard = pas_backend_summary_get_summary_vcard (bf->priv->summary,
 								       id);
 		}
 		else {
+#endif
 			string_to_dbt (id, &id_dbt);
 			memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 				
@@ -160,7 +166,9 @@ do_summary_query (PASBackendFile         *bf,
 
 			if (db_error == 0)
 				vcard = g_strdup (vcard_dbt.data);
+#if SUMMARY_STORES_ENOUGH_INFO
 		}
+#endif
 
 		if (vcard) {
 			cards = g_list_prepend (cards, vcard);
