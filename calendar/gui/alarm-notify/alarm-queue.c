@@ -826,7 +826,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 		url = icalattach_get_url (attach);
 
-		if (url && *url && g_file_test (url, G_FILE_TEXT_EXISTS))
+		if (url && *url && g_file_test (url, G_FILE_TEST_EXISTS))
 			gnome_sound_play (url); /* this sucks */
 		else
 			gdk_beep ();
