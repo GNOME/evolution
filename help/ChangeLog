@@ -1,3 +1,7 @@
+2001-07-05  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail-org.sgml: Added orderedlists.
+
 2001-07-03  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Put in lots of orderedlists...more SGML, less

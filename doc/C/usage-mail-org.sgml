@@ -14,26 +14,42 @@
       <para>
          By default, the message list has columns with the following
          headings: an envelope icon indicating whether you have read
-         or replied to a message (closed for unread, open for read,
-         and open with an arrow on it to indicate you've sent a
-         reply), an exclamation point indicating priority, and the
+         or replied to a message, an exclamation point indicating priority, and the
          <guilabel>From</guilabel>, <guilabel>Subject</guilabel>, and
          <guilabel>Date</guilabel> fields. You can change their order
-         and remove them by dragging and dropping them.  You can add
-         new ones with the <guimenuitem>Field Chooser</guimenuitem>
-         item in the right click menu for the column headings.
+         and remove them by dragging and dropping them.  
+
+      To add columns to sort by:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para>
+	    Right click on the bar
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Click <guimenuitem>Add a Column</guimenuitem>
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Click and drag a column you want into the toolbar.  A red arrow will
+	    show you where the column will be placed.
+	  </para>
+	</listitem>
+      </orderedlist>
       </para>
       <para>
 	Right-click on one of the column headers to get a list of
 	options:
 	<variablelist>
 	  
-	  <varlistentry>
-	    <term><guimenuitem>Sort Ascending</guimenuitem></term>
-	    <listitem><para>
-		Sorts the messages top to bottom.
-	      </para></listitem>
-	  </varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Sort Ascending</guimenuitem></term>
+	  <listitem><para>
+	      Sorts the messages top to bottom.
+	    </para></listitem>
+	</varlistentry>
 	  
 	  <varlistentry>
 	    <term><guimenuitem>Sort Descending</guimenuitem></term>
@@ -111,7 +127,7 @@
 	right below the toolbar, and choose a search type:
 	<variablelist>
 	  <varlistentry>
-	    <term><guilabel>Body or subject contains:</guilabel></term>
+	    <term><guilabel>Body or subject contains</guilabel></term>
 	  <listitem>
 	      <para>
 	        This will search message subjects and the messages
@@ -121,7 +137,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term> <guilabel>Body contains:</guilabel> </term>
+	    <term> <guilabel>Body contains</guilabel> </term>
 	    <listitem>
 	      <para>
 	        This will search only in message text, not the subject
@@ -130,7 +146,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Subject contains:</guilabel></term>
+	    <term><guilabel>Subject contains</guilabel></term>
 	    <listitem>
 	      <para>
 	        This will show you messages where the search text is
@@ -140,7 +156,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Body does not contain:</guilabel></term>
+	    <term><guilabel>Body does not contain</guilabel></term>
 	    <listitem>
 	      <para>
 	        This finds every email message that does not have the
@@ -151,7 +167,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Subject does not contain:</guilabel></term>
+	    <term><guilabel>Subject does not contain</guilabel></term>
 	    <listitem>
 	      <para>
 	        This finds every mail whose subject does not contain
@@ -214,354 +230,289 @@
         to say, it's faster and more flexible than an actual person
         with a pile of envelopes.
       </para>
+
+    <sect2 id="usage-mail-org-filters-new">
+      <title>Making New Filters</title>
       <para>
-        Most often, you'll want to have
-        <application>Evolution</application> put mail into different
-        folders, but you can have it do almost anything you like.
-        People who get lots of mail, or who often need to refer to old
-        messages, find filters especially helpful, but they can greatly benefit
-        anybody who gets more than a few messages a day.  To
-        create a filter, open the <interface>filter
-        assistant</interface> by selecting
-	<menuchoice>
-	  <guimenu>Settings</guimenu> 
-          <guimenuitem>Mail Filters</guimenuitem>
-        </menuchoice>.
-      </para>
-            
-       <figure id="usage-mail-filters-fig-assist">
-	 <title>The Filter Assistant</title>
-	 <screenshot>
-	  <screeninfo>The Filter Assistant</screeninfo>
-	  <graphic fileref="fig/filter-assist-fig" format="png" srccredit="Aaron Weber">
-	</graphic>
-	</screenshot>
-      </figure>
-
-      <para>
-        The <interface>filter assistant</interface> window contains a
-        list of your current filters, sorted by the order in which
-        they are used.  From the drop-down box at the top of the
-        window, choose <guilabel>Incoming</guilabel> to display
-        filters for incoming mail, and <guilabel>Outgoing</guilabel>
-        for those which sort only outgoing mail.
-      </para>
-      <para>
-         The <interface>filter assistant</interface> also has a set of
-         buttons:
-        <itemizedlist>
-
-           <listitem><para>
-            <guibutton>Add</guibutton> &mdash; Create a new filter.
-           </para></listitem>
-
-           <listitem><para>
-            <guibutton>Edit</guibutton> &mdash; Edit an existing filter.
-           </para></listitem>
-
-           <listitem><para>
-            <guibutton>Delete</guibutton> &mdash; Delete the selected filter.
-           </para></listitem>
-
-           <listitem><para> <guibutton>Up</guibutton> &mdash; Move the
-            selected filter up in the list so it gets applied first.
-           </para></listitem>
-
-           <listitem><para>
-            <guibutton>Down</guibutton> &mdash;  Move the selected filter down 
-             in the list, so it comes into play later.
-           </para></listitem>
-        </itemizedlist>
-
-        If you don't have any filters set up, the only one of those
-        buttons you can click is <guibutton>Add</guibutton>, which
-        will open a dialog to let you add a filter rule.  If you do
-        have filters, you can either add a new filter rule, or select
-        one from your list and click <guibutton>Edit</guibutton>.
-      </para>
-      <para>
-        The filter rule editor, shown in <xref
-        linkend="usage-mail-filters-fig-new">, is where you'll
-        actually create your filtering rule.
-
-       <figure id="usage-mail-filters-fig-new">
-	 <title>Creating a new Filter</title>
-	 <screenshot>
-	  <screeninfo>Creating a new Filter</screeninfo>
-	  <graphic fileref="fig/filter-new-fig" format="png" srccredit="Aaron Weber">
-	</graphic>
-	</screenshot>
-      </figure>
-      </para>
-      <para>
-        Enter a name for your filter in the <guilabel>Rule
-        Name</guilabel> field, and then begin choosing the criteria
-        you'd like to use as you sort your mail.  Choose how many
-        criteria you'd like by pressing <guibutton>Add
-        Criterion</guibutton> and <guibutton>Remove
-        Criterion</guibutton>.  If you have multiple criteria, you
-        should then decide whether to have the filter do its job only
-        <guilabel>if all criteria are met</guilabel>, or <guilabel>if
-        any criteria are met</guilabel>.
-     </para>
-
-     <para>
-        For each filter criterion, you must first select 
-        which of the following parts of the message you want the filter to 
-	examine:
-        <variablelist>
-	  <varlistentry>
-	    <term><guilabel>Sender</guilabel></term>
-	    <listitem><para>
-                The sender's address.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Recipients</guilabel></term>
-	    <listitem><para>
-               The recipients of the message.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Subject</guilabel></term>
-	    <listitem><para>
-                The subject line of the message.
-            </para></listitem>
-	  </varlistentry>
-
-
-	  <varlistentry>
-	    <term><guilabel>Specific Header</guilabel></term>
-	    <listitem><para>
-              The filter can look at any header you
-	      want, even obscure or custom ones. Enter the header name
-	      in the first text box, and put your search text in the
-	      second one.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Message Body</guilabel></term>
-	    <listitem><para>
-                Search in the actual text of the message.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Expression</guilabel></term>
-	    <listitem>
-             <para>
-               For programmers only: match a message according to an
-               expression you write in the Scheme language, used to
-               define filters in Evolution.
-	     </para>
-           </listitem>
-	  </varlistentry>
-
-
-	  <varlistentry>
-	    <term><guilabel>Date Sent</guilabel></term>
-	    <listitem><para> Filter messages according to the date on
-	    which they were sent: First, choose the conditions you
-	    want a message to meet &mdash; <guilabel>before</guilabel>
-	    a given time, <guilabel>after</guilabel> it, and so forth.
-	    Then, choose the time. The filter will compare the
-	    message's time-stamp to the system clock when the filter
-	    is run, or to a specific time and date you choose from a
-	    calendar.  You can even have it look for messages within a
-	    range of time relative to the filter &mdash perhaps you're
-	    looking for messages less than two days old.
-          </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Date Recieved</guilabel></term>
-	    <listitem><para>
-                This works the same way as the <guilabel>Date Sent</guilabel> 
-                option, except that it compares the time you got the message 
-                with the dates you specify.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Priority</guilabel></term>
-	    <listitem><para>
-               Emails have a standard priority range from -3 (least
-               important) to 3 (most important). You can have filters set the
-               priority of messages you recieve, and then have other filters 
-               applied only to those messages which have a certain priority.
-            </para></listitem>
-           </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Regex Match</guilabel></term>
-	    <listitem>
-              <para>
-                If you know your way around a <glossterm
-  	        linkend="regular-expression">regex</glossterm>, or
-  	        regular expression, put your knowledge to use here.
-  	       </para>
-            </listitem>
-          </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Source</guilabel></term>
-	    <listitem>
-               <para>
-               Filter messages according the server you got them from.
-               You can enter a URL or choose one from the drop-down
-               list.  This ability is only relevant if you use more
-               than one mail source.
-             </para>
-            </listitem>
-	  </varlistentry>
-	</variablelist>
-      </para>
-
-      <para>
-        Now, tell it what to do with those messages.  If you want more
-        actions, click <guibutton>Add Action</guibutton>; if you want
-        fewer, click <guibutton>Remove Action</guibutton>.  And choose
-        again:
-
-        <variablelist>
-	  <varlistentry>
-	    <term><guilabel>Copy to Folder</guilabel></term>
-	    <listitem><para>
-               If you select this item, <application>Evolution</application>
-               will put the messages into a folder you specify.  Click the 
-               <guibutton>&lt;click here to select a folder&gt;</guibutton> button
-               to select a folder. 
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Move to Folder</guilabel></term>
-	    <listitem><para>
-               If you select this item, <application>Evolution</application>
-               will put the messages into a folder you specify.  Click the 
-               <guibutton>&lt;click here to select a folder&gt;</guibutton> button
-               to select a folder. 
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Forward to Address</guilabel></term>
-	    <listitem><para>
-                Select this, enter an address, and the addressee will
-                get a copy of the message.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Delete</guilabel></term>
-	    <listitem><para>
-                Marks the message for deletion.  You can still get the message
-                back, at least until you <guimenuitem>Expunge</guimenuitem> your
-                mail yourself.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Stop Processing</guilabel></term>
-	    <listitem><para>
-              Select this if you want to tell all other filters to ignore 
-              this message, because whatever you've done with it so far
-              is plenty.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Assign Color</guilabel></term>
-	    <listitem><para>
-                Select this item, and <application>Evolution</application>
-                will mark the message with whatever color you please.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guilabel>Assign Score</guilabel></term>
-	    <listitem><para> If you know that all mail with
-	    "important" somewhere in the message body line is
-	    important, you can give it a high priority score. In a subsequent filter you can 
-            then arrange your messages by their priority score.
-	  </para></listitem>
-	  </varlistentry>
-
-	</variablelist>
-      </para>
-      <para>
-        You're done.  Click <guibutton>OK</guibutton> to use this
-        filter, or <guibutton>Cancel</guibutton> to close the window
-        without saving any changes.
-      </para>
-
-
-
-   <!-- FIXME: This needs to be in there.  But the feature is temporarily
-         disabled and I don't know how it will be reimplemented.
-
-	  <itemizedlist>
-	    <listitem>
-	       <para>
-		 <guilabel>When mail arrives:</guilabel> Select
-		 this option to have messages filtered as they
-		 arrive.
-	       </para>
-	     </listitem>
-	     <listitem>
-	       <para>
-		 <guilabel>When mail is sent:</guilabel> Select
-		 this option to filter your outgoing mail.  You
-		 can use this feature to keep your
-		 <interface>Outbox</interface> as organized as
-		 your <interface>Inbox</interface>.
-	     </para>
-	  </listitem>
-	</itemizedlist>
-      </para>
-
-    -->
-
-    <note>
-      <title>Notable Filter Features</title>
-      <para>
-	<itemizedlist>
-	  <listitem><para>
-	      Incoming email that your filters don't move goes into the Inbox; 
-	      outgoing mail that they don't move ends up in the Sent folder.
+	To create a new filter:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Click 
+	      <menuchoice>
+		<guimenu>Tools</guimenu>
+		<guimenuitem>Filters</guimenuitem>
+	      </menuchoice>
 	    </para>
 	  </listitem>
-	</itemizedlist>
+	  <listitem>
+	    <para>
+	      Press the <guibutton>Add</guibutton> button.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Name your filter in the <guilabel>Rule name</guilabel> field.
+	      For each filter criterion, you must first select 
+	      which of the following parts of the message you want the filter to 
+	      examine:
+	      
+	      <itemizedlist>
+		<listitem><para>
+		    Sender - The sender's address.
+		  </para></listitem>
+		
+		
+		<listitem><para>
+		    Recipients - The recipients of the message.
+		  </para></listitem>
+	  
+		<listitem><para>
+		    Subject - The subject line of the message.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Specific Header - The filter can look at any header you
+		    want, even obscure or custom ones. Enter the header name
+		    in the first text box, and put your search text in the
+		    second one.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Message Body - Search in the actual text of the message.
+		  </para></listitem>
+		
+		<listitem>
+		  <para>
+		    Expression - For programmers only: match a message according to an
+		    expression you write in the Scheme language, used to
+		    define filters in Evolution.
+		  </para>
+		</listitem>
+		
+		<listitem><para> Date sent - Filter messages according to the date on
+		    which they were sent: First, choose the conditions you
+		    want a message to meet &mdash; <guilabel>before</guilabel>
+		    a given time, <guilabel>after</guilabel> it, and so forth.
+		    Then, choose the time. The filter will compare the
+		    message's time-stamp to the system clock when the filter
+		    is run, or to a specific time and date you choose from a
+		    calendar.  You can even have it look for messages within a
+		    range of time relative to the filter &mdash perhaps you're
+		    looking for messages less than two days old.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Date Recieved - This works the same way as the <guilabel>Date Sent</guilabel> 
+		    option, except that it compares the time you got the message 
+		    with the dates you specify.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Score - Emails have a standard priority range from -3 (least
+		    important) to 3 (most important). You can have filters set the
+		    priority of messages you recieve, and then have other filters 
+		    applied only to those messages which have a certain priority.
+		  </para></listitem>
+		
+		<listitem>
+		  <para>
+		    Size (kb) - Sorts based on the size of the message in kilobytes.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Status - Filters according to the status of a message, such as
+		    'New'.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Attachments - Create a filter whether or not you have an
+		    attachment in the email.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Mailing List - Filter based on the mailing list it came from.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Regex Match - If you know your way around a <glossterm
+									   linkend="regular-expression">regex</glossterm>, or
+		    regular expression, put your knowledge to use here.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Source Account - Filter messages according the server you got them from.
+		    You can enter a URL or choose one from the drop-down
+		    list.  This ability is only relevant if you use more
+		    than one mail source.
+		  </para>
+		</listitem>
+	      </itemizedlist>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the criterion for the condition.
+	</para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      If you want multiple criterion for this filter, press <guibutton>Add
+	    criterion</guibutton> and repeat the previous step.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	  Select the actions for the filter in the <guilabel>Then</guilabel>
+	      section.  You can select any of the following options.
+	      <itemizedlist>
+		<listitem><para>
+		    Move to Folder - If you select this item, <application>Evolution</application>
+		    will put the messages into a folder you specify.  Click the 
+		    <guibutton>&lt;click here to select a folder&gt;</guibutton> button
+		    to select a folder. 
+		  </para></listitem>
+
+		<listitem><para>
+		    Copy to Folder - If you select this item, <application>Evolution</application>
+		    will put the messages into a folder you specify.  Click the 
+		    <guibutton>&lt;click here to select a folder&gt;</guibutton> button
+		    to select a folder. 
+		  </para></listitem>
+		
+		<listitem><para>
+		    Forward to Address - Select this, enter an address, and the addressee will
+		    get a copy of the message.
+		  </para></listitem>
+
+		<listitem><para>
+		    Delete - Marks the message for deletion.  You can still get the message
+		    back, at least until you <guimenuitem>Expunge</guimenuitem> your
+		    mail yourself.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Stop Processing - Select this if you want to tell all other filters to ignore 
+		    this message, because whatever you've done with it so far
+		    is plenty.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Assign Color - Select this item, and <application>Evolution</application>
+		    will mark the message with whatever color you please.
+		  </para></listitem>
+		
+		<listitem><para> 
+		    Assign Score - If you know that all mail with
+		    "important" somewhere in the message body line is
+		    important, you can give it a high priority score. In a subsequent filter you can 
+		    then arrange your messages by their priority score.
+		  </para></listitem>
+	      </itemizedlist>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Set Status - If you want to add multiple actions for this filter, press
+	      <guibutton>Add filter</guibutton> and repeat the previous step.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Press <guibutton>OK</guibutton>.
+	    </para>
+	  </listitem>
+	</orderedlist>
       </para>
-    </note>
+    </sect2>
     
-    <sect2 id="usage-mail-organize-filters-mailing-lists">
-      <title>Filtering by Mailing List</title>
+    <sect2 id="filters-edit">
+      <title>Editing Filters</title>
       <para>
-	  You can tell <application>Evolution</application> to filter by
-	mailing list.  This means that <application>Evolution</application>
-	will look at the mailing list address, and find out automatically
-	what list this is.  If you are subscribed to mailing lists, you
-	should use the <guibutton>Filter by List</guibutton> instead of by
-	sender.
-	<example>
-	    <title>Filter by List</title>
+	To edit a filter:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Select
+	      <menuchoice>
+		<guimenu>Tools</guimenu>
+		<guimenu>Filters</guimenu>
+	      </menuchoice>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the filter in the <guilabel>Filter Rules</guilabel> section
+	      and press <guibutton>Edit</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Change the desired settings.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Press <guibutton>OK</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Press <guibutton>OK</guibutton>.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+    </sect2>
+    
+    <sect2 id="filters-deleting">
+      <title>Deleting Filters</title>
+      <para>
+	To delete a filter:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Select
+	      <menuchoice>
+		<guimenu>Tools</guimenu>
+		<guimenu>Filters</guimenu>
+	    </menuchoice>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the filter and press <guibutton>Delete</guibutton>.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+      <para>
+	<note>
+	  <title>Notable Filter Features</title>
 	  <para>
-	    Kevin subscribes to bananas@ximian.com.  However, there is also
-	    a bananas@ximian.org address.  If he used a regular
-	    <guibutton>Filter by Sender</guibutton>, he would need to specify
-	    one for each address.  However, <guibutton>Filter by
-	      List</guibutton> will recognize that both of them are the same
-	    list.
+	    <itemizedlist>
+	      <listitem><para>
+		  Incoming email that your filters don't move goes into the Inbox; 
+		  outgoing mail that they don't move ends up in the Sent folder.
+	    </para>
+	      </listitem>
+	    </itemizedlist>
 	  </para>
-	</example>
+	</note>
       </para>
     </sect2>
   </sect1>
-      
+    
     <sect1 id="usage-mail-organize-vFolders">
       <title>Getting Really Organized with Virtual Folders</title>
       <para>
@@ -623,58 +574,193 @@
 
 	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
 
+    <sect2 id="vfolder-create">
+      <title>Creating Virtual Folders</title>
       <para>
-	 To create a virtual folder, select <menuchoice>
-	 <guimenu>Settings</guimenu> <guimenuitem>Virtual Folder
-	 Editor</guimenuitem> </menuchoice>.  This will bring up a
-	 dialog box that looks suspiciously like the filter window
-	 (for more information on filters, see <xref
-	 linkend="usage-mail-organize-filters">), and which
-	 presents you with a list of virtual folders you have previously
-	 created. If you have created any virtual folders, they are listed
-	 here, and you can select, edit or remove them if you wish.
-	 If you have not created any, there will be only one available
-	 option: click <guibutton>Add</guibutton> to add a new
-	 Virtual Folder.
-      </para>
-      <para>
-	 You can enter a name for your virtual folder in the
-	 <guilabel>Name</guilabel>.  Then, tell
-	 <application>Evolution</application> what messages to look
-	 for.  This process is exactly like filter creation: decide
-	 between <guilabel>Match all parts</guilabel> and
-	 <guilabel>Match any part</guilabel>, then choose what part of
-	 the message to look in, what sort of matching to perform, and
-	 specify exactly what it is that you want to find, be it a
-	 line of text, a score, a regular expression, or a particular date or
-	 range of dates.
-       </para>
-       <para>
-         The second part, however, is slightly different.  In the
-         section of the window labelled <guilabel>Virtual Folder Sources
-         </guilabel> is a list of folders in which
-         <application>Evolution</application> will search for the
-         contents of your vFolder.  Click <guibutton>Add</guibutton>
-         to add a folder, or <guibutton>Remove</guibutton> to remove
-         one.  That way, you can have your vFolder search in
-         newsgroups, or just in one of your mailboxes, or just in a
-         select few folders you've already screened with filters.
-       </para>
-       <para>
-        The vFolder creation window is shown in <xref
-	linkend="usage-mail-vfolder-fig-createrule">
+	To create a virtual folder:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	    <menuchoice>
+	      <guimenu>Tools</guimenu>
+	      <guimenuitem>Virtual Folder Editor</guimenuitem>
+	    </menuchoice>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Add</guibutton>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Name your filter in the <guilabel>Rule name</guilabel> field.
+	      For each filter criterion, you must first select 
+	      which of the following parts of the message you want the filter to 
+	      examine:
+	      <itemizedlist>
+		<listitem><para>
+		    Sender - The sender's address.
+		  </para></listitem>
+		
+		
+		<listitem><para>
+		    Recipients - The recipients of the message.
+		  </para></listitem>
+	  
+		<listitem><para>
+		    Subject - The subject line of the message.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Specific Header - The filter can look at any header you
+		    want, even obscure or custom ones. Enter the header name
+		    in the first text box, and put your search text in the
+		    second one.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Message Body - Search in the actual text of the message.
+		  </para></listitem>
+		
+		<listitem>
+		  <para>
+		    Expression - For programmers only: match a message according to an
+		    expression you write in the Scheme language, used to
+		    define filters in Evolution.
+		  </para>
+		</listitem>
+		
+		<listitem><para> Date sent - Filter messages according to the date on
+		    which they were sent: First, choose the conditions you
+		    want a message to meet &mdash; <guilabel>before</guilabel>
+		    a given time, <guilabel>after</guilabel> it, and so forth.
+		    Then, choose the time. The filter will compare the
+		    message's time-stamp to the system clock when the filter
+		    is run, or to a specific time and date you choose from a
+		    calendar.  You can even have it look for messages within a
+		    range of time relative to the filter &mdash perhaps you're
+		    looking for messages less than two days old.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Date Recieved - This works the same way as the <guilabel>Date Sent</guilabel> 
+		    option, except that it compares the time you got the message 
+		    with the dates you specify.
+		  </para></listitem>
+		
+		<listitem><para>
+		    Score - Emails have a standard priority range from -3 (least
+		    important) to 3 (most important). You can have filters set the
+		    priority of messages you recieve, and then have other filters 
+		    applied only to those messages which have a certain priority.
+		  </para></listitem>
+		
+		<listitem>
+		  <para>
+		    Size (kb) - Sorts based on the size of the message in kilobytes.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Status - Filters according to the status of a message, such as
+		    'New'.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Attachments - Create a filter whether or not you have an
+		    attachment in the email.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Mailing List - Filter based on the mailing list it came from.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Regex Match - If you know your way around a <glossterm
+									   linkend="regular-expression">regex</glossterm>, or
+		    regular expression, put your knowledge to use here.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Source Account - Filter messages according the server you got them from.
+		    You can enter a URL or choose one from the drop-down
+		    list.  This ability is only relevant if you use more
+		    than one mail source.
+		  </para>
+		</listitem>
+	      </itemizedlist>
 
-       <figure id="usage-mail-vfolder-fig-createrule">
-	 <title>Selecting a vFolder Rule</title>
-	 <screenshot>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the criterion for the condition.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the folder sources.  You can select:
+	      <itemizedlist>
+		<listitem>
+		  <para>
+		    specific folders only
+		    <note>
+		      <para>
+			If you select specific folders only, you need to specify the
+			source folders in the box below.
+		      </para>
+		    </note>
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    all local folders
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    with all active remote folders
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    with all local and active folders
+		  </para>
+		</listitem>
+	      </itemizedlist>
+	 
+	    </para>
+	  </listitem>
+	  <listitem>
+	<para>
+	  If you want multiple criterion for this filter, press <guibutton>Add
+	    criterion</guibutton> and repeat the previous step.
+	</para>
+      </listitem>
+    </orderedlist>
+
+      <figure id="usage-mail-vfolder-fig-createrule">
+	<title>Selecting a vFolder Rule</title>
+	<screenshot>
 	  <screeninfo>Creating a vFolder Rule</screeninfo>
 	  <graphic fileref="fig/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
-	</graphic>
+	  </graphic>
 	</screenshot>
       </figure>
       </para>
-    </sect1>
-<!--
+    </sect2>
+  </sect1>
+  <!--
     <sect1 id="usage-mail-subscriptions">
       <title>Subscription Management</title>
       <para>
