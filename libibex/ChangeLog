@@ -1,3 +1,16 @@
+2001-04-25  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (libibex_la_LIBADD): Add GAL_LIBS for gunicode stuff
+	(until glib 2.0)
+	(INCLUDES): Use EXTRA_GNOME_CFLAGS
+	(dumpindex_LDADD, testindex_LDADD): fix
+	Remove references to mkindex and lookup.
+
+	* ibex_block.c (ibex_normalise_word, utf8_category): Convert to
+	gunicode interfaces
+
+	* ibex_db.c, lookup.c, mkindex.c: Unused, remove.
+
 2001-03-26  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* disktail.c: Header shuffling. Move glibc headers before

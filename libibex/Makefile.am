@@ -11,30 +11,24 @@ libibex_la_SOURCES = \
 
 libibex_la_LDFLAGS = -static
 
+libibex_la_LIBADD = \
+	$(GAL_LIBS)
+
 noinst_HEADERS = \
 	ibex_internal.h \
 	block.h \
 	wordindex.h \
 	index.h
 
-INCLUDES = -I$(srcdir) $(GLIB_CFLAGS) $(UNICODE_CFLAGS) \
-	$(THREADS_CFLAGS) \
-		-DG_LOG_DOMAIN=\"libibex\"
+INCLUDES = \
+	$(EXTRA_GNOME_CFLAGS) \
+	-DG_LOG_DOMAIN=\"libibex\"
 
 
 noinst_PROGRAMS = dumpindex testindex
 
 dumpindex_SOURCES = dumpindex.c
-dumpindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS) $(THREADS_LIBS)
+dumpindex_LDADD = libibex.la $(THREADS_LIBS)
 
 testindex_SOURCES = testindex.c
-testindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS) $(THREADS_LIBS) -lm
-
-#noinst_PROGRAMS = mkindex lookup
-#
-#mkindex_SOURCES = mkindex.c
-#mkindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
-#
-#lookup_SOURCES = lookup.c
-#lookup_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
-
+testindex_LDADD = libibex.la $(THREADS_LIBS) -lm

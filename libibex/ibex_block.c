@@ -2,7 +2,7 @@
 #include <glib.h>
 
 #include <stdio.h>
-#include <unicode.h>
+#include <gal/unicode/gunicode.h>
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
@@ -46,7 +46,7 @@ static void
 ibex_normalise_word(char *start, char *end, char *buf)
 {
 	unsigned char *s, *d;
-	unicode_char_t uc;
+	gunichar uc;
 
 	s = (unsigned char *)start;
 	d = (unsigned char *)buf;
@@ -59,7 +59,8 @@ ibex_normalise_word(char *start, char *end, char *buf)
 				*d++ = tolower (*s);
 			s++;
 		} else {
-			char *next = unicode_get_utf8 (s, &uc);
+			char *next = g_utf8_next_char (s);
+			uc = g_utf8_get_char (s);
 			if (uc >= 0xc0 && uc < 0xc0 + sizeof (utf8_trans)) {
 				signed char ch = utf8_trans[uc - 0xc0];
 				if (ch > 0)
@@ -80,54 +81,24 @@ ibex_normalise_word(char *start, char *end, char *buf)
 
 enum { IBEX_ALPHA, IBEX_NONALPHA, IBEX_INVALID, IBEX_INCOMPLETE };
 
-/* This incorporates parts of libunicode, because there's no way to
- * force libunicode to not read past a certain point.
- */
 static int
-utf8_category (char *sp, char **snp, char *send)
+utf8_category (char *p, char **np, char *end)
 {
-	unsigned char *p = (unsigned char *)sp, **np = (unsigned char **)snp;
-	unsigned char *end = (unsigned char *)send;
-
-	if (isascii (*p)) {
+	if (isascii ((unsigned char)*p)) {
 		*np = p + 1;
-		if (isalpha (*p) || *p == '\'')
+		if (isalpha ((unsigned char)*p) || *p == '\'')
 			return IBEX_ALPHA;
 		return IBEX_NONALPHA;
 	} else {
-		unicode_char_t uc;
-		int more;
+		gunichar uc;
 
-		if ((*p & 0xe0) == 0xc0) {
-			more = 1;
-			uc = *p & 0x1f;
-		} else if ((*p & 0xf0) == 0xe0) {
-			more = 2;
-			uc = *p & 0x0f;
-		} else if ((*p & 0xf8) == 0xf0) {
-			more = 3;
-			uc = *p & 0x07;
-		} else if ((*p & 0xfc) == 0xf8) {
-			more = 4;
-			uc = *p & 0x03;
-		} else if ((*p & 0xfe) == 0xfc) {
-			more = 5;
-			uc = *p & 0x01;
-		} else
-			return IBEX_INVALID;
-
-		if (p + more > end)
+		*np = g_utf8_find_next_char (p, end);
+		if (!*np)
 			return IBEX_INCOMPLETE;
-
-		while (more--) {
-			if ((*++p & 0xc0) != 0x80)
-				return IBEX_INVALID;
-			uc <<= 6;
-			uc |= *p & 0x3f;
-		}
-
-		*np = p + 1;
-		if (unicode_isalpha (uc))
+		uc = g_utf8_get_char (p);
+		if (uc == (gunichar) -1)
+			return IBEX_INVALID;
+		else if (g_unichar_isalpha (uc))
 			return IBEX_ALPHA;
 		else
 			return IBEX_NONALPHA;
