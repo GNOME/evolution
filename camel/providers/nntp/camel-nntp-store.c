@@ -120,17 +120,28 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store, CamelException *ex)
 	int status;
 	int i;
 	gboolean done = FALSE;
+	
+	g_print ("camel_nntp_store_get_overview_fmt\n");
 
 	status = camel_nntp_command (store, ex, NULL,
 				     "LIST OVERVIEW.FMT");
 
 	if (status != NNTP_LIST_FOLLOWS) {
-		/* if we can't get the overview format, we should
-                   disable OVER support */
-		g_warning ("server reported support of OVER but LIST OVERVIEW.FMT failed."
-			   "  disabling OVER\n");
-		store->extensions &= ~CAMEL_NNTP_EXT_OVER;
-		return;
+		if (store->extensions & CAMEL_NNTP_EXT_OVER) {
+			/* if we can't get the overview format, we should
+			   disable OVER support */
+			g_warning ("server reported support of OVER but LIST OVERVIEW.FMT failed."
+				   "  disabling OVER.\n");
+			store->extensions &= ~CAMEL_NNTP_EXT_OVER;
+			return;
+		}
+	}
+	else {
+		if (!(store->extensions & CAMEL_NNTP_EXT_OVER)) {
+			g_warning ("server didn't report support of OVER but LIST OVERVIEW.FMT worked."
+				   "  enabling OVER.\n");
+			store->extensions |= CAMEL_NNTP_EXT_OVER;
+		}
 	}
 
 	/* start at 1 because the article number is always first */
@@ -244,9 +255,8 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 	/* get a list of extensions that the server supports */
 	camel_nntp_store_get_extensions (store, ex);
 
-	/* if the server supports the OVER extension, get the overview.fmt */
-	if (store->extensions & CAMEL_NNTP_EXT_OVER)
-		camel_nntp_store_get_overview_fmt (store, ex);
+	/* try to get the overview.fmt */
+	camel_nntp_store_get_overview_fmt (store, ex);
 
 	return TRUE;
 }

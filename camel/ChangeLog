@@ -1,5 +1,15 @@
 2000-10-04  Chris Toshok  <toshok@helixcode.com>
 
+	* providers/nntp/camel-nntp-utils.c (camel_nntp_get_headers):
+	revert to old method (only use XOVER if OVER is supported.)
+
+	* providers/nntp/camel-nntp-store.c
+	(camel_nntp_store_get_overview_fmt): handle the case where the
+	OVER extension isn't listed but LIST OVERVIEW.FMT works (again,
+	INN 2.2).  enable the OVER extension in this case.
+
+2000-10-04  Chris Toshok  <toshok@helixcode.com>
+
 	* providers/nntp/camel-nntp-utils.c (get_XOVER_headers): return a
 	gboolean so we can tell if this command worked.  we can't key off
 	the OVER extension being present because at least one server (INN

@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static gboolean
+static void
 get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 		  int first_message, int last_message, CamelException *ex)
 {
@@ -107,13 +107,10 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 			}
 			g_free (line);
 		}
-
-		return TRUE;
 	}
 	else {
 		/* XXX */
 		g_warning ("weird nntp response for XOVER: %d\n", status);
-		return FALSE;
 	}
 }
 
@@ -240,7 +237,10 @@ camel_nntp_get_headers (CamelStore *store,
 	}
 
 
-	if (!get_XOVER_headers (nntp_store, folder, first_message, last_message, ex)) {
+	if (nntp_store->extensions & CAMEL_NNTP_EXT_OVER) {
+		get_XOVER_headers (nntp_store, folder, first_message, last_message, ex);
+	}
+	else {
 		g_warning ("need to fix get_HEAD_headers\n");
 #if 0
 		get_HEAD_headers (nntp_store, folder, first_message, last_message, ex);
