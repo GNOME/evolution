@@ -1,3 +1,8 @@
+2000-05-07  NotZed  <NotZed@HelixCode.com>
+
+	* message-list.c (ml_value_at): Size moved to message info, rather
+	than content info structure.
+
 2000-05-07  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (select_msg): unref the message after displaying

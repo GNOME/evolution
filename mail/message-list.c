@@ -226,11 +226,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_SIZE:
-		if (msg_info->content) {
-			sprintf (buffer, "%d", msg_info->content->size);
-		} else {
-			sprintf (buffer, "0");
-		}
+		sprintf (buffer, "%d", msg_info->size);
 		retval = buffer;
 		break;
 			
