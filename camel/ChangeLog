@@ -1,5 +1,12 @@
 2002-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-digest-store.c: A pretty empty store implementation to be
+	the parent store of a CamelDigestFolder.
+
+	* camel-digest-folder.c: Updated to reference it's parent store.
+
+2002-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-digest-folder.c (camel_digest_folder_new): Allow any leaf
 	part to be a message/rfc822 part.
 	(digest_get_uids): Recurse the mime structure and add all

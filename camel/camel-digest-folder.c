@@ -169,7 +169,7 @@ multipart_contains_message_parts (CamelMultipart *multipart)
 }
 
 CamelFolder *
-camel_digest_folder_new (CamelMimeMessage *message)
+camel_digest_folder_new (CamelStore *parent_store, CamelMimeMessage *message)
 {
 	CamelDigestFolder *digest_folder;
 	CamelDataWrapper *wrapper;
@@ -188,7 +188,7 @@ camel_digest_folder_new (CamelMimeMessage *message)
 	folder = CAMEL_FOLDER (camel_object_new (camel_digest_folder_get_type ()));
 	digest_folder = CAMEL_DIGEST_FOLDER (folder);
 	
-	camel_folder_construct (folder, NULL, "folder_name", "short_name");
+	camel_folder_construct (folder, parent_store, "folder_name", "short_name");
 	
 	camel_object_ref (CAMEL_OBJECT (message));
 	digest_folder->priv->message = message;
