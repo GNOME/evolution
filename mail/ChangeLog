@@ -1,3 +1,7 @@
+2001-11-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c: Reverted my hide_save_state patch.
+
 2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_select): 'n' shouldn't wrap if 'p'
