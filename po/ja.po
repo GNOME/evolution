@@ -4585,7 +4585,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1061
 msgid "Calendar file could not be updated!\n"
-msgstr "カレンダーファイルは更新できませんでした"
+msgstr "カレンダーファイルは更新できませんでした!\n"
 
 #: calendar/gui/e-itip-control.c:1063
 msgid "Update complete\n"
