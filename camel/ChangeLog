@@ -1,3 +1,15 @@
+2001-04-30  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set):
+	New-and-improved version of get_uid_set() from
+	camel-imap-folder.c. Looks at the summary as it goes so that if
+	you ask for messages 5, 6, 8, and 9, and there is no message 7,
+	then you get "5:9" instead of "5:6,8:9"
+
+	* providers/imap/camel-imap-folder.c (imap_copy_messages_to): Use
+	imap_uid_array_to_set() rather than get_uid_set().
+	(get_uid_set): Gone
+
 2001-04-27  Dan Winship  <danw@ximian.com>
 
 	* camel-session.c: Redo this a lot so that instead of having a

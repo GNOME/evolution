@@ -566,3 +566,77 @@ imap_quote_string (const char *str)
 
 	return quoted;
 }
+
+
+static inline unsigned long
+get_summary_uid_numeric (CamelFolderSummary *summary, int index)
+{
+	CamelMessageInfo *info;
+	unsigned long uid;
+
+	info = camel_folder_summary_index (summary, index);
+	uid = strtoul (camel_message_info_uid (info), NULL, 10);
+	camel_folder_summary_info_free (summary, info);
+	return uid;
+}
+
+/**
+ * imap_uid_array_to_set:
+ * @summary: summary for the folder the UIDs come from
+ * @uids: a (sorted) array of UIDs
+ *
+ * Return value: an IMAP "set" covering the listed UIDs, which the
+ * caller must free with g_free().
+ **/
+char *
+imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
+{
+	int ui, si, scount;
+	unsigned long last_uid, next_summary_uid, this_uid;
+	gboolean range = FALSE;
+	GString *gset;
+	char *set;
+
+	gset = g_string_new (uids->pdata[0]);
+	last_uid = strtoul (uids->pdata[0], NULL, 10);
+	scount = camel_folder_summary_count (summary);
+
+	for (ui = 1, si = 0; ui < uids->len; ui++) {
+		/* Find the next UID in the summary */
+		for (; si < scount; si++) {
+			next_summary_uid = get_summary_uid_numeric (summary, si);
+			if (next_summary_uid == last_uid)
+				break;
+		}
+		if (++si < scount)
+			next_summary_uid = get_summary_uid_numeric (summary, si);
+		else
+			next_summary_uid = (guint32) -1;
+
+		/* Now get the next UID from @uids */
+		this_uid = strtoul (uids->pdata[ui], NULL, 10);
+		if (this_uid == next_summary_uid) {
+			range = TRUE;
+			if (++si < scount)
+				next_summary_uid = get_summary_uid_numeric (summary, si);
+			else
+				next_summary_uid = (guint32) -1;
+		} else {
+			if (range) {
+				g_string_sprintfa (gset, ":%lu", last_uid);
+				range = FALSE;
+			}
+			g_string_sprintfa (gset, ",%lu", this_uid);
+		}
+
+		last_uid = this_uid;
+	}
+
+	if (range)
+		g_string_sprintfa (gset, ":%lu", last_uid);
+
+	set = gset->str;
+	g_string_free (gset, FALSE);
+
+	return set;
+}

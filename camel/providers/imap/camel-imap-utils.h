@@ -57,6 +57,8 @@ char *imap_quote_string (const char *str);
 
 void imap_skip_list (char **str_p);
 
+char *     imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

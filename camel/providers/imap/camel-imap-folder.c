@@ -698,43 +698,6 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	camel_imap_response_free (response);
 }
 
-static char *
-get_uid_set (GPtrArray *uids)
-{
-	/* Note: the only thing that might be good to do here is to
-           not use atoi() and use strtoul() or something */
-	int i, last_uid, this_uid;
-	gboolean range = FALSE;
-	GString *gset;
-	char *set;
-	
-	gset = g_string_new (uids->pdata[0]);
-	last_uid = atoi (uids->pdata[0]);
-	for (i = 1; i < uids->len; i++) {
-		this_uid = atoi (uids->pdata[i]);
-		if (this_uid != last_uid + 1) {
-			if (range) {
-				g_string_sprintfa (gset, ":%d", last_uid);
-				range = FALSE;
-			}
-			
-			g_string_sprintfa (gset, ",%d", this_uid);
-		} else {
-			range = TRUE;
-		}
-		
-		last_uid = this_uid;
-	}
-	
-	if (range)
-		g_string_sprintfa (gset, ":%d", this_uid);
-	
-	set = gset->str;
-	g_string_free (gset, FALSE);
-	
-	return set;
-}
-
 static void
 imap_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 		       CamelFolder *destination, CamelException *ex)
@@ -753,7 +716,7 @@ imap_copy_messages_to (CamelFolder *source, GPtrArray *uids,
 	
 	/* Now copy the messages */
 	CAMEL_IMAP_STORE_LOCK(store, command_lock);
-	set = get_uid_set (uids);
+	set = imap_uid_array_to_set (source->summary, uids);
 	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
 				       set, destination->full_name);
 	
