@@ -1,5 +1,10 @@
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-icon-factory.c (load_icon): Ooops.  Swapped the large/small
+	pixbufs here.  Also, plug a leak.
+
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-test-component.c (setup_custom_storage): Pass NULL for
 	@custom_icon_name to evolution_storage_new_folder().
 
