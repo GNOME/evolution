@@ -681,40 +681,6 @@ edit_component (ECal *client, ECalComponent *comp)
 	CORBA_exception_free (&ev);
 }
 
-
-/* /\* Callback used from the alarm notify dialog *\/ */
-/* static void */
-/* notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data) */
-/* { */
-
-/* 	switch (result) { */
-/* 	case ALARM_NOTIFY_SNOOZE: */
-/* 		create_snooze (c->cqa, c->alarm_id, snooze_mins); */
-
-/* 		g_object_unref (c->comp); */
-/* 		g_object_unref (c->client); */
-/* 		g_free (c); */
-/* 		return; */
-
-/* 	case ALARM_NOTIFY_EDIT: */
-/* 		edit_component (c->client, c->comp); */
-/* 		break; */
-
-/* 	case ALARM_NOTIFY_CLOSE: */
-/* 		/\* Do nothing *\/ */
-/* 		break; */
-
-/* 	default: */
-/* 		g_assert_not_reached (); */
-/* 	} */
-
-/* 	if (c->cqa != NULL) */
-/* 		remove_queued_alarm (c->cqa, c->alarm_id, TRUE, TRUE); */
-/* 	g_object_unref (c->comp); */
-/* 	g_object_unref (c->client); */
-/* 	g_free (c); */
-/* } */
-
 typedef struct {
 	char *message;
 	gboolean blink_state;

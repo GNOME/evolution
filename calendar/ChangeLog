@@ -1,5 +1,7 @@
 2004-04-05  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-queue.c: removed commented code.
+
 	* gui/alarm-notify/notify-main.c (main): removed useless call to set
 	the POA after construction.
 
