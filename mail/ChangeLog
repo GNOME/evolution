@@ -1,3 +1,8 @@
+2001-03-06  Dan Winship  <danw@ximian.com>
+
+	* mail-ops.c (get_folderinfo_got): If the folderinfo has no URL
+	(ie, can't contain messages), don't add it as a vtrash source.
+
 2001-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c: Don't access the `active` data member of a

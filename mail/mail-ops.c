@@ -928,9 +928,6 @@ add_vtrash_info (CamelFolderInfo *info)
 	CamelURL *url;
 	char *uri;
 	
-	if (!info)
-		return;
-	
 	for (fi = info; fi->sibling; fi = fi->sibling) {
 		if (!strcmp (fi->name, "vTrash"))
 			return;
@@ -961,7 +958,8 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 	
 	camel_operation_register(mm->cancel);
 	m->info = camel_store_get_folder_info(m->store, NULL, FALSE, TRUE, TRUE, &mm->ex);
-	add_vtrash_info (m->info);
+	if (m->info && m->info->url)
+		add_vtrash_info (m->info);
 	camel_operation_unregister(mm->cancel);
 }
 
