@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.1.0.99\n"
-"POT-Creation-Date: 2002-04-13 13:31+0200\n"
-"PO-Revision-Date: 2002-04-13 13:22+0200\n"
+"POT-Creation-Date: 2002-04-16 10:58+0200\n"
+"PO-Revision-Date: 2002-04-16 10:58+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -746,8 +746,8 @@ msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
 msgstr ""
-"Nous n'avons pas pu ouvrir ce carnet d'adresse. Vérifiez que le\n"
-"chemin existe que que vous avez la permission d'accès S.V.P."
+"Nous n'avons pas pu ouvrir ce carnet d'adresse. Veuillez vérifiez\n"
+"que le chemin existe et que vous avez la permission d'accès."
 
 #: addressbook/gui/component/addressbook.c:644
 #: addressbook/gui/component/addressbook.c:647
@@ -2451,7 +2451,7 @@ msgstr "Coller"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:331
 #: addressbook/gui/widgets/e-addressbook-view.c:1038
-#: filter/libfilter-i18n.h:11 mail/mail-accounts.c:213
+#: filter/libfilter-i18n.h:11 mail/mail-accounts.c:214
 #: ui/evolution-addressbook.xml.h:10 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
@@ -3220,8 +3220,8 @@ msgstr ""
 #: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:312
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/folder-browser.c:1591
 #: mail/mail-account-gui.c:1059 mail/mail-account-gui.c:1060
-#: mail/mail-account-gui.c:1661 mail/mail-accounts.c:426
-#: mail/mail-accounts.c:435 mail/mail-accounts.c:485
+#: mail/mail-account-gui.c:1661 mail/mail-accounts.c:427
+#: mail/mail-accounts.c:436 mail/mail-accounts.c:486
 #: mail/mail-config.glade.h:87 mail/message-tag-followup.c:64
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:202
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
@@ -7235,11 +7235,11 @@ msgstr "Le codage n'est pas supporté par ce message chiffré"
 msgid "Decryption is not supported by this cipher"
 msgstr "Le décodage n'est pas supporté par ce message chiffré"
 
-#: camel/camel-data-cache.c:166
+#: camel/camel-data-cache.c:167
 msgid "Unable to create cache path"
 msgstr "Impossible de créer le répertoire de cache"
 
-#: camel/camel-data-cache.c:438
+#: camel/camel-data-cache.c:439
 #, c-format
 msgid "Could not remove cache entry: %s: %s"
 msgstr "Impossible de supprimer l'entrée du cache : %s : %s"
@@ -7559,19 +7559,19 @@ msgstr ""
 msgid "This is a digitally signed message part"
 msgstr "Ceci est une partie de message numériquement signée"
 
-#: camel/camel-provider.c:130
+#: camel/camel-provider.c:131
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
 msgstr ""
 "Ne peut charger %s : Le chargement du module n'est pas supporté sur ce "
 "système."
 
-#: camel/camel-provider.c:139
+#: camel/camel-provider.c:140
 #, c-format
 msgid "Could not load %s: %s"
 msgstr "Ne peut charger %s : %s"
 
-#: camel/camel-provider.c:147
+#: camel/camel-provider.c:148
 #, c-format
 msgid "Could not load %s: No initialization code in module."
 msgstr "Ne peut charger %s : Aucun code d'initialisation dans le module."
@@ -7752,7 +7752,7 @@ msgstr ""
 "authentification NTLM / mot de passe sécurisé."
 
 #: camel/camel-sasl-plain.c:32 camel/providers/imap/camel-imap-provider.c:80
-#: camel/providers/nntp/camel-nntp-store.c:149
+#: camel/providers/nntp/camel-nntp-store.c:153
 #: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:91
 msgid "Password"
 msgstr "Mot de passe"
@@ -7847,7 +7847,7 @@ msgstr "Veuillez saisir votre mot de passe pour %s"
 
 #: camel/camel-smime-context.c:203
 msgid "Please indicate the nickname of a certificate to sign with."
-msgstr "Indiquez le surnom du certificat pour signer grâce à lui S.V.P."
+msgstr "Veuillez indiquez le surnom du certificat avec lequel signer."
 
 #: camel/camel-smime-context.c:209
 #, c-format
@@ -8048,15 +8048,15 @@ msgstr "Examen des nouveaux messages"
 msgid "Could not find message body in FETCH response."
 msgstr "Ne peut trouver le corps du message dans la réponse FETCH."
 
-#: camel/providers/imap/camel-imap-message-cache.c:154
+#: camel/providers/imap/camel-imap-message-cache.c:155
 #, c-format
 msgid "Could not open cache directory: %s"
 msgstr "Ne peut ouvrir le répertoire de cache : %s"
 
-#: camel/providers/imap/camel-imap-message-cache.c:256
-#: camel/providers/imap/camel-imap-message-cache.c:313
-#: camel/providers/imap/camel-imap-message-cache.c:344
-#: camel/providers/imap/camel-imap-message-cache.c:376
+#: camel/providers/imap/camel-imap-message-cache.c:257
+#: camel/providers/imap/camel-imap-message-cache.c:314
+#: camel/providers/imap/camel-imap-message-cache.c:345
+#: camel/providers/imap/camel-imap-message-cache.c:377
 #, c-format
 msgid "Failed to cache message %s: %s"
 msgstr "Impossible de mettre le message %s en cache : %s"
@@ -8206,7 +8206,7 @@ msgstr ""
 #: camel/providers/local/camel-local-store.c:139
 #: camel/providers/local/camel-local-store.c:228
 #: camel/providers/local/camel-spool-store.c:109
-#: camel/providers/local/camel-spoold-store.c:110
+#: camel/providers/local/camel-spoold-store.c:111
 #, c-format
 msgid "Store root %s is not an absolute path"
 msgstr "La racine de stockage %s n'est pas un chemin absolu"
@@ -8294,7 +8294,7 @@ msgstr "Aucun message correspondant"
 msgid "Invalid message contents"
 msgstr "Contenu de message invalide"
 
-#: camel/providers/local/camel-maildir-store.c:105
+#: camel/providers/local/camel-maildir-store.c:106
 #: camel/providers/local/camel-mh-store.c:89
 #, c-format
 msgid ""
@@ -8304,14 +8304,14 @@ msgstr ""
 "Ne peut ouvrir le dossier « %s » :\n"
 "%s"
 
-#: camel/providers/local/camel-maildir-store.c:109
+#: camel/providers/local/camel-maildir-store.c:110
 #: camel/providers/local/camel-mbox-store.c:102
 #: camel/providers/local/camel-mh-store.c:96
 #, c-format
 msgid "Folder `%s' does not exist."
 msgstr "Le dossier « %s » n'existe pas."
 
-#: camel/providers/local/camel-maildir-store.c:116
+#: camel/providers/local/camel-maildir-store.c:117
 #: camel/providers/local/camel-mh-store.c:102
 #, c-format
 msgid ""
@@ -8321,24 +8321,24 @@ msgstr ""
 "Ne peut créer le dossier « %s » :\n"
 "%s"
 
-#: camel/providers/local/camel-maildir-store.c:131
+#: camel/providers/local/camel-maildir-store.c:132
 #, c-format
 msgid "`%s' is not a maildir directory."
 msgstr "« %s » n'est pas un répertoire maildir."
 
-#: camel/providers/local/camel-maildir-store.c:166
-#: camel/providers/local/camel-maildir-store.c:203
+#: camel/providers/local/camel-maildir-store.c:167
+#: camel/providers/local/camel-maildir-store.c:204
 #: camel/providers/local/camel-mh-store.c:126
 #, c-format
 msgid "Could not delete folder `%s': %s"
 msgstr "Impossible de supprimer le dossier « %s » : %s"
 
-#: camel/providers/local/camel-maildir-store.c:167
+#: camel/providers/local/camel-maildir-store.c:168
 msgid "not a maildir directory"
 msgstr "n'est pas un répertoire maildir"
 
-#: camel/providers/local/camel-maildir-store.c:331
-#: camel/providers/local/camel-spoold-store.c:252
+#: camel/providers/local/camel-maildir-store.c:332
+#: camel/providers/local/camel-spoold-store.c:253
 #, c-format
 msgid "Could not scan folder `%s': %s"
 msgstr "Impossible de scruter le dossier « %s » : %s"
@@ -8564,7 +8564,7 @@ msgid "Spool `%s' does not exist or is not a regular file"
 msgstr "Spool « %s » n'existe pas ou n'est pas un fichier normal."
 
 #: camel/providers/local/camel-spool-store.c:141
-#: camel/providers/local/camel-spoold-store.c:147
+#: camel/providers/local/camel-spoold-store.c:148
 #, c-format
 msgid "Folder `%s/%s' does not exist."
 msgstr "Le dossier « %s/%s » n'existe pas."
@@ -8575,12 +8575,12 @@ msgid "Spool mail file %s"
 msgstr "Fichier de courrier spool %s"
 
 #: camel/providers/local/camel-spool-store.c:209
-#: camel/providers/local/camel-spoold-store.c:192
+#: camel/providers/local/camel-spoold-store.c:193
 msgid "Spool folders cannot be renamed"
 msgstr "Les dossiers spool  ne peuvent être renommés."
 
 #: camel/providers/local/camel-spool-store.c:217
-#: camel/providers/local/camel-spoold-store.c:200
+#: camel/providers/local/camel-spoold-store.c:201
 msgid "Spool folders cannot be deleted"
 msgstr "Les dossiers spool  ne peuvent être effacés."
 
@@ -8612,16 +8612,16 @@ msgstr ""
 msgid "Could not file: %s: %s"
 msgstr "Impossible d'ouvrir le fichier : %s : %s"
 
-#: camel/providers/local/camel-spoold-store.c:116
+#: camel/providers/local/camel-spoold-store.c:117
 #, c-format
 msgid "Store `%s' does not exist or is not a directory"
 msgstr "Stockage « %s » n'existe pas ou n'est pas un répertoire."
 
-#: camel/providers/local/camel-spoold-store.c:161
+#: camel/providers/local/camel-spoold-store.c:162
 msgid "Store does not support an INBOX"
 msgstr "Le stockage ne supporte pas de boîte de réception"
 
-#: camel/providers/local/camel-spoold-store.c:172
+#: camel/providers/local/camel-spoold-store.c:173
 #, c-format
 msgid "Mail tree %s"
 msgstr "Arbre de courrier %s"
@@ -8636,12 +8636,12 @@ msgstr ""
 "C'est un fournisseur pour la lecture et la publication dans les groupes de "
 "nouvelles USENET."
 
-#: camel/providers/nntp/camel-nntp-store.c:144
+#: camel/providers/nntp/camel-nntp-store.c:148
 #, c-format
 msgid "USENET News via %s"
 msgstr "Nouvelles USENET via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:151
+#: camel/providers/nntp/camel-nntp-store.c:155
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
@@ -8952,7 +8952,7 @@ msgstr "Action demandée abandonnée : erreur traitement"
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "User not local; please try <forward-path>"
-msgstr "Utilisateur non local; essayez <forward-path> S.V.P"
+msgstr "Utilisateur non local; veuillez essayez <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested action not taken: insufficient system storage"
@@ -10064,7 +10064,7 @@ msgstr "Importation"
 #: importers/elm-importer.c:98 importers/netscape-importer.c:109
 #: importers/pine-importer.c:103
 msgid "Please wait"
-msgstr "Attendez S.V.P"
+msgstr "Veuillez attendre"
 
 #: importers/elm-importer.c:169 importers/netscape-importer.c:687
 #: importers/pine-importer.c:365
@@ -10530,7 +10530,7 @@ msgstr "mh"
 
 #: mail/mail-account-editor-news.c:105 mail/mail-account-editor.c:107
 msgid "You have not filled in all of the required information."
-msgstr "Vous n'avez pas saisi toutes les informations demandées."
+msgstr "Vous n'avez pas saisi toutes les informations requises."
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor-news.c:160
@@ -10573,39 +10573,39 @@ msgstr ""
 msgid "You may not create two accounts with the same name."
 msgstr "Vous ne devez pas créer deux comptes avec le même nom."
 
-#: mail/mail-accounts.c:210
+#: mail/mail-accounts.c:211
 msgid "Are you sure you want to delete this account?"
 msgstr "Êtes-vous sûr de vouloir supprimer ce compte ?"
 
-#: mail/mail-accounts.c:214
+#: mail/mail-accounts.c:215
 msgid "Don't delete"
 msgstr "De pas supprimer"
 
-#: mail/mail-accounts.c:217
+#: mail/mail-accounts.c:218
 msgid "Really delete account?"
 msgstr "Effacer réellement le compte ?"
 
-#: mail/mail-accounts.c:340 mail/mail-accounts.c:374
+#: mail/mail-accounts.c:341 mail/mail-accounts.c:375
 msgid "Disable"
 msgstr "Désactiver."
 
-#: mail/mail-accounts.c:342 mail/mail-accounts.c:376
+#: mail/mail-accounts.c:343 mail/mail-accounts.c:377
 msgid "Enable"
 msgstr "Activer"
 
-#: mail/mail-accounts.c:614 mail/mail-accounts.c:618
+#: mail/mail-accounts.c:615 mail/mail-accounts.c:619
 msgid "Are you sure you want to delete this news account?"
 msgstr "Êtes-vous sûr de vouloir supprimer ce compte de nouvelles ?"
 
-#: mail/mail-accounts.c:713 mail/mail-accounts.etspec.h:2
+#: mail/mail-accounts.c:714 mail/mail-accounts.etspec.h:2
 msgid "Enabled"
 msgstr "Activé"
 
-#: mail/mail-accounts.c:714 mail/mail-accounts.etspec.h:1
+#: mail/mail-accounts.c:715 mail/mail-accounts.etspec.h:1
 msgid "Account name"
 msgstr "Nom de Compte"
 
-#: mail/mail-accounts.c:715 mail/mail-accounts.etspec.h:3
+#: mail/mail-accounts.c:716 mail/mail-accounts.etspec.h:3
 msgid "Protocol"
 msgstr "Protocole"
 
@@ -10846,10 +10846,10 @@ msgid ""
 "below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
-"Veillez saisir votre nom et votre adresse électronique. Les champs « "
-"optionnels » ci-dessous n'ont pas besoin d'être remplis,\n"
-"à moins que vous ne désiriez inclure ces informations dans le message que "
-"vous envoyez."
+"Veuillez saisir votre nom et votre adresse électronique. Les champs « "
+"optionnels » ci-dessous n'ont pas besoin\n"
+"d'être remplis, à moins que vous ne désiriez inclure ces informations dans "
+"les messages que vous envoyez."
 
 #: mail/mail-config-druid.c:148
 msgid ""
@@ -11334,7 +11334,7 @@ msgstr "Options de réception"
 
 #: mail/mail-config.glade.h:108
 msgid "Required Information"
-msgstr "Informations demandées"
+msgstr "Informations requises"
 
 #: mail/mail-config.glade.h:109
 msgid "Restore defaults"
@@ -11797,8 +11797,7 @@ msgstr ""
 #: mail/mail-local.c:763
 #, c-format
 msgid "Cannot save folder metainfo to %s: %s"
-msgstr ""
-"Impossible d'enregistrer les méta-informations du dossier dans %s : %s"
+msgstr "Impossible d'enregistrer les méta-informations du dossier dans %s : %s"
 
 #: mail/mail-local.c:815
 #, c-format
@@ -23981,7 +23980,7 @@ msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
-"Attendez S.V.P...\n"
+"Veuillez attendre...\n"
 "Recherche des paramétrages existants"
 
 #: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:635
