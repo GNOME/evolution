@@ -1,3 +1,9 @@
+2002-02-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (launch_cb): Some programs are buggy when it
+	comes to parsing file: uris, so make sure we do file://%s. Fixes
+	bug #20456.
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (do_forward_non_attached): Show the signature.

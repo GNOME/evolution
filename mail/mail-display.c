@@ -311,7 +311,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	}
 	
 	command = g_strdup_printf ("%s %s%s &", app->command,
-				   app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS ? "file:" : "",
+				   app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS ? "file://" : "",
 				   filename);
 	system (command);
 	g_free (command);
