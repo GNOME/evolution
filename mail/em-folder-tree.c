@@ -1663,8 +1663,15 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	
 	gtk_tree_store_set (model, &root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
 	
-	if (m->select_uri)
+	if (m->select_uri) {
 		em_folder_tree_set_selected (m->emft, m->select_uri);
+	} else if (priv->select_uri) {
+		char *uri = priv->select_uri;
+		
+		priv->select_uri = NULL;
+		em_folder_tree_set_selected (m->emft, uri);
+		g_free (uri);
+	}
 	
 	emft_queue_save_state (m->emft);
 }
@@ -1728,10 +1735,8 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeGetFolderInfo *m;
-	CamelStore *store, *store2;
-	char *select_uri = NULL;
 	GtkTreeModel *model;
-	CamelException ex;
+	CamelStore *store;
 	gboolean load;
 	char *path;
 	
@@ -1750,17 +1755,6 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 		return;
 	}
 	
-	camel_exception_init (&ex);
-	if (priv->select_uri &&
-	    (store2 = (CamelStore *) camel_session_get_service (session, priv->select_uri, CAMEL_PROVIDER_STORE, &ex))) {
-		if (store2 == store) {
-			select_uri = priv->select_uri;
-			priv->select_uri = NULL;
-		}
-		camel_object_unref (store2);
-	}
-	camel_exception_clear (&ex);
-	
 	m = mail_msg_new (&get_folder_info_op, NULL, sizeof (struct _EMFolderTreeGetFolderInfo));
 	m->root = gtk_tree_row_reference_new (model, tree_path);
 	camel_object_ref (store);
@@ -1769,7 +1763,7 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 	g_object_ref(emft);
 	m->top = g_strdup (path);
 	m->flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
-	m->select_uri = select_uri;
+	m->select_uri = NULL;
 	
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
@@ -1811,7 +1805,10 @@ emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeV
 	
 	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &path,
 			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
-
+	
+	g_free (priv->select_uri);
+	priv->select_uri = NULL;
+	
 	g_free (priv->selected_uri);
 	priv->selected_uri = g_strdup (uri);
 	
@@ -2699,6 +2696,9 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &path,
 			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
 	
+	g_free (priv->select_uri);
+	priv->select_uri = NULL;
+	
 	g_free (priv->selected_uri);
 	priv->selected_uri = g_strdup (uri);
 	
@@ -2726,6 +2726,8 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
 	
 	priv = emft->priv;
+	g_free (priv->select_uri);
+	priv->select_uri = NULL;
 	
 	camel_exception_init (&ex);
 	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex))) {

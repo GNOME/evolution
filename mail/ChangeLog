@@ -1,3 +1,15 @@
+2004-06-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (em_folder_tree_set_selected): Free any old
+	select_uri string we may have.
+	(emft_tree_row_expanded): Remove the gross hack that was here.
+	(emft_get_folder_info__got): Check for priv->select_uri and try
+	selecting it (if we can't select it yet, it'll just be re-queued
+	for later).
+	(emft_tree_row_activated): Clear the select_uri if set, the user's
+	selection overrules any auto-selection.
+	(emft_tree_selection_changed): Same.
+
 2004-06-11  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (emft_tree_button_press): rearrange the setting
