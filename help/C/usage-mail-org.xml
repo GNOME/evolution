@@ -695,14 +695,14 @@
 	
 		<listitem><para> Date sent - Filter messages according to the date on
 		    which they were sent: First, choose the conditions you
-		    want a message to meet &mdash; <guilabel>before</guilabel>
+		    want a message to meet:<guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
 		    Then, choose the time. The filter will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash; perhaps you're
-		    looking for messages less than two days old.
+		    range of time relative to the filter, such as two to four
+		    days ago.
 		  </para></listitem>
 		
 		<listitem><para>
@@ -1217,14 +1217,13 @@
 		
 		<listitem><para> Date sent - Search messages according to the date on
 		    which they were sent: First, choose the conditions you
-		    want a message to meet &mdash; <guilabel>before</guilabel>
+		    want a message to meet: <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
 		    Then, choose the time. The vFolder will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
-		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter &mdash; perhaps you're
-		    looking for messages less than two days old.
+		    calendar.  You can also have it look for messages within a
+		    range of time relative to the filter.
 		  </para></listitem>
 		
 		<listitem><para>

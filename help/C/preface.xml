@@ -3,87 +3,24 @@
       <sect1 id="organization">
         <title>Organization</title>
       <para>
-        This book is divided into two parts, with several
-        appendices. The first part is a <link linkend="usage">guided
-        tour</link>, which will explain how to use
-        Evolution.  If you are new to
-        Evolution or to groupware in
-        general, this section is for you. The second section, covering
-        <link linkend="config">configuration</link>, is targeted at
-        more advanced users, but anyone who wants to change the way
-        Evolution looks or acts can benefit
-        from reading it.  
+         The first part of this book is a <link linkend="usage">guided
+      tour</link>, which will explain how to use Evolution.  If you
+      are new to Evolution or to groupware in general, this section is
+      for you. The second section, covering <link
+      linkend="config">configuration</link>, is targeted at more
+      advanced users, but anyone who wants to change the way Evolution
+      looks or acts can benefit from reading it.
       </para>
       </sect1>
-
-      <sect1 id="typography">
-        <title>Typographical conventions</title>
-	<para>
-          In this book, we'll mark some words with special typography:
-          <simplelist>
-	    <member><command>Commands</command> you type at the command line</member>
-
-            <member> Menu selections look like this:
-                       <menuchoice>
-                          <guimenu>Menu</guimenu>
-                          <guisubmenu>Submenu</guisubmenu> 
-                          <guimenuitem>Menu Item</guimenuitem>
-                     </menuchoice>
-            </member>
-	    <member><guilabel>Buttons and item labels</guilabel> in the user interface</member> 
-            <member><userinput>Anything you type in</userinput></member> 
-            <member><command>File names or text output from the computer</command></member>
-            <member><glossterm linkend="apx-gloss">Words</glossterm>
-            that are defined in the <xref linkend="apx-gloss"/>.</member>
-	  </simplelist>
-</para>
-<para>
-We'll provide assorted bits of additional information in tips set off from the rest of the book, as well. 
-
-	  <tip id="example-tip">
-	      <title>Tip</title>
-	      <para>
-		Tips and bits of extra information will look like
-		this.
-	      </para>
-	    </tip>
-</para>
-
-<para>
-Examples are also set off from the rest of the text.  They look like this:
-
-	  <example>
-	    <title>Example Example</title>
-	    <para>
-	      This is what an example looks like.  We'll provide
-	      examples for some of the more complicated tasks you
-	      might be performing.
-	    </para>
-	  </example>
-</para>
-<para>
-  Lastly, we'll have warnings, in cases where you should be careful:
-
-	    <warning id="example-warning">
-	      <title>Example Warning</title>
-	      <para>
-		This is what a warning looks like. If there's a chance
-		you'll run into trouble, we'll warn you beforehand.
-	      </para>
-	  </warning>
-        </para>
-    </sect1>
-
 
     <sect1 id="other-help">
       <title>Additional Help Sources</title>
       <para>
         You can find additional help in three places. For information
         about command-line options, open a terminal window and type
-        <command> man evolution</command> or <command>evolution
-        --help</command>. For support, late-breaking news, and errata,
-        visit the Ximian support center at <ulink
-        url="http://support.ximian.com">support.ximian.com</ulink>.
+        <command>evolution --help</command>. For support,
+        late-breaking news, and errata, visit the Novell support center at
+        <ulink url="http://support.novell.com">support.novell.com</ulink>.
       </para>
     </sect1>
 
@@ -102,9 +39,14 @@ Examples are also set off from the rest of the text.  They look like this:
 	    <term>Junk Mail (Spam) Filtering</term>
 	    <listitem>
 	      <para>
-                Novell Evolution &appversion; uses the same font
-                smoothing technology as the rest of your GNOME 2
-                desktop.
+                Novell Evolution &appversion; includes trainable
+                Bayesian junk mail filters. When you get mail you
+                don't want, click the <guilabel>Junk</guilabel> button
+              in the toolbar. Check your <guilabel>Junk
+              Mail</guilabel> folder periodically to see if it's
+              filtered out anything you want to keep, and mark it as
+              <guilabel>Not Junk.</guilabel> As you correct the
+              filter, it will become more effective.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -116,11 +58,11 @@ Examples are also set off from the rest of the text.  They look like this:
                 Now you can access GroupWise servers as well as IMAP
                 and POP mail servers, with no additional installation
                 required. Connection to Microsoft Exchange 2000 and
-                2003 servers is possible with the Evolution Connector.
+                2003 servers is possible with the Evolution Connector,
+                now available at no charge and under the GPL license.
               </para>
 	    </listitem>
 	  </varlistentry>
-
 
 	  <varlistentry>
             <term>User Interface Updates</term>
@@ -151,9 +93,8 @@ Examples are also set off from the rest of the text.  They look like this:
 	      <para>
                 The <command>~/evolution/</command>
                 directory has been moved to
-                <command>~/.evolution</command>, and therefore
-                normally tucked out of sight in most directory
-                listings.
+                <command>~/.evolution</command>, keeping it
+                out of sight in most cases.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -185,18 +126,27 @@ Examples are also set off from the rest of the text.  They look like this:
           <term>Default Browsers</term>
           <listitem>
             <para>
-              To set the browser that opens when you click a link in
-              an email, open the GNOME preferences tool
-              (<menuchoice><guimenu>System</guimenu><guimenuitem>Personal Settings</guimenuitem></menuchoice>
-            or <command>gnome-control-center</command>) and start the
-            <guilabel>File Associations</guilabel> tool. There, look under
-            <guilabel>Internet Services</guilabel>, select
-             <guilabel>World wide web (http)</guilabel>, and select
-             the browser of your choice. If you wish to use a 
+              To set the browser used for links from email addresses,
+              open the GNOME preferences tool
+              (<menuchoice><guimenu>System</guimenu><guimenuitem>Personal
+            Settings</guimenuitem></menuchoice>
+            or <command>gnome-control-center</command>) and click
+            <guilabel>File Associations</guilabel>. On some systems,
+            this may be called <guilabel>MIME Types</guilabel> or
+            <guilabel>Default Applications</guilabel>.
+          </para>
+          <para>
+            In the <guilabel>File Associations</guilabel> tool, go to the 
+            <guilabel>Internet Services</guilabel> section and click
+             <guilabel>World wide web (http)</guilabel>, then select
+             the browser of your choice. If you wish to use a
              browser other than the ones suggested, you will need to
-             enter the full shell command. For example you might use 
-             <userinput>mybrowser "%s"</userinput> to start the
-             mybrowser program at the right page.
+             enter a complete shell command, rather than just the
+             browser name: <userinput>mybrowser
+             `%s`</userinput> rather than
+             <guilabel>My Browser</guilabel>.
+             Some systems may require you to set the browser used for
+             https:// links seperately.
            </para>
           </listitem>
         </varlistentry>
@@ -218,15 +168,23 @@ Examples are also set off from the rest of the text.  They look like this:
               list.
             </para>
             <para>
+              If you are using KDE, you can also set Evolution as the
+              default through the KDE control center. Go to the
+              <guilabel>KDE Components</guilabel> section and select
+              <guilabel>Component Chooser</guilabel>, then
+              <guilabel>Email Client</guilabel>. Click the
+              <guilabel>Use a different email client</guilabel> option
+              and enter <userinput>evolution `%s`</userinput>.
+            </para>
+            <para>
               For applications such as Mozilla and Netscape, which do
               not use the GNOME preference tools, you will need to
               find the protocol handler preference tool for that
               application and enter <userinput>evolution
-            "%s"</userinput> as your choice for handling mailto links.
+            `%s`</userinput> as your choice for handling mailto links.
             </para>
           </listitem>
         </varlistentry>
 
       </variablelist>
     </sect1>
-  

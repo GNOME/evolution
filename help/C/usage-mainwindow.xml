@@ -1013,8 +1013,8 @@ standard mbox file format, which
           <term> <guimenu>Actions</guimenu>:</term>
           <listitem><para>
 	    Holds actions which maybe applied to a message.  Normally,
-	    if there is only one target for the action &mdash; for
-	    example, replying to a message &mdash; you can find it in
+	    if there is only one target for the action, such as 
+	    replying to a message, you can find it in
 	    the <guimenu>Actions</guimenu> menu.
           </para></listitem>
         </varlistentry>

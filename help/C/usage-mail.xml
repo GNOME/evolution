@@ -826,8 +826,8 @@
           <para>
             Alternately, you can click on the
             <guilabel>To:</guilabel>, <guilabel>Cc:</guilabel>, or
-            <guilabel>Bcc:</guilabel> buttons to get a list &mdash;
-            potentially a very long one &mdash; of the email addresses
+            <guilabel>Bcc:</guilabel> buttons to get a list 
+	    of the email addresses
             in your contacts.  Select addresses and click on
             the arrows to move them into the appropriate address
             columns.
