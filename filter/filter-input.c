@@ -35,7 +35,7 @@
 #include "filter-input.h"
 #include "e-util/e-sexp.h"
 
-#define d(x) 
+#define d(x)
 
 static gboolean validate (FilterElement *fe);
 static int input_eq (FilterElement *fe, FilterElement *cm);
@@ -102,7 +102,7 @@ filter_input_class_init (FilterInputClass *klass)
 static void
 filter_input_init (FilterInput *fi)
 {
-	;
+	fi->values = g_list_prepend (NULL, g_strdup (""));
 }
 
 static void
@@ -148,6 +148,8 @@ filter_input_set_value (FilterInput *fi, const char *value)
 {
 	GList *l;
 	
+	d(printf("set_value '%s'\n", value));
+
 	l = fi->values;
 	while (l) {
 		g_free (l->data);
@@ -269,7 +271,16 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	FilterInput *fi = (FilterInput *)fe;
 	char *name, *str, *type;
 	xmlNodePtr n;
+	GList *l;
 	
+	l = fi->values;
+	while (l) {
+		g_free (l->data);
+		l = l->next;
+	}
+	g_list_free (fi->values);
+	fi->values = NULL;
+
 	name = xmlGetProp (node, "name");
 	type = xmlGetProp (node, "type");
 	
@@ -306,6 +317,8 @@ entry_changed (GtkEntry *entry, FilterElement *fe)
 	
 	new = gtk_entry_get_text (entry);
 	
+	d(printf("entry_changed '%s'\n", new));
+
 	/* NOTE: entry only supports a single value ... */
 	l = fi->values;
 	while (l) {
@@ -344,6 +357,8 @@ format_sexp (FilterElement *fe, GString *out)
 {
 	FilterInput *fi = (FilterInput *) fe;
 	GList *l;
+
+	d(printf("format_sexp, first elem=%p\n", fi->values));
 	
 	l = fi->values;
 	while (l) {
