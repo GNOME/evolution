@@ -1,3 +1,8 @@
+2000-08-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c (get_is_overdue): Finished implementing.
+	(calendar_model_value_at): Handle the color field.
+
 2000-08-11  Seth Alves  <alves@hungry.com>
 
 	* cal-util/cal-component.c (cal_component_get_pilot_id):

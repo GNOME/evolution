@@ -595,7 +595,10 @@ get_is_overdue (CalComponent *comp)
 
 		t = time_from_icaltimetype (*dt.value);
 
-		/* FIXME */
+		if (dt < time (NULL))
+			retval = TRUE;
+		else
+			retval = FALSE;
 	}
 
  out:
@@ -679,18 +682,12 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 
 	case CAL_COMPONENT_FIELD_OVERDUE:
 		return GINT_TO_POINTER (get_is_overdue (comp));
-		if (ico->percent != 100
-		    && ico->dtend > 0
-		    && ico->dtend < time (NULL))
-			return GINT_TO_POINTER (TRUE);
-		return GINT_TO_POINTER (FALSE);
 
-	case ICAL_OBJECT_FIELD_COLOR:
-		if (ico->percent != 100
-		    && ico->dtend > 0
-		    && ico->dtend < time (NULL))
+	case CAL_COMPONENT_FIELD_COLOR:
+		if (get_is_overdue (comp))
 			return "red";
-		return NULL;
+		else
+			return NULL;
 
 	default:
 		g_message ("calendar_model_value_at(): Requested invalid column %d", col);
