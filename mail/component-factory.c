@@ -37,7 +37,7 @@
 #include "evolution-shell-component.h"
 #include "evolution-shell-component-dnd.h"
 #include "folder-browser.h"
-#include "mail.h"		/* YUCK FIXME */
+#include "mail.h"
 #include "mail-config.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
@@ -98,7 +98,6 @@ static char *exported_dnd_types[] = {
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png", N_("Mail"), N_("Folder containing mail"), TRUE, accepted_dnd_types, exported_dnd_types },
-	{ "mailstorage", "evolution-inbox.png", "Mailstorage", N_("Mail storage folder (internal)"), FALSE, NULL, NULL },
 	{ "vtrash", "evolution-trash.png", N_("Virtual Trash"), N_("Virtual Trash folder"), FALSE, accepted_dnd_types, exported_dnd_types },
 	{ NULL, NULL, NULL, NULL, FALSE, NULL, NULL }
 };
@@ -109,35 +108,6 @@ static const char *schema_types[] = {
 };
 
 /* EvolutionShellComponent methods and signals.  */
-
-static void
-storage_activate (BonoboControl *control, gboolean activate,
-		  const char *physical_uri)
-{
-	CamelService *store;
-	EvolutionStorage *storage;
-	CamelException ex;
-
-	if (!activate)
-		return;
-
-	camel_exception_init (&ex);
-	store = camel_session_get_service (session, physical_uri,
-					   CAMEL_PROVIDER_STORE, &ex);
-	if (!store) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot connect to store: %s"),
-			  camel_exception_get_description (&ex));
-		camel_exception_clear (&ex);
-		return;
-	}
-	camel_exception_clear (&ex);
-
-	storage = g_hash_table_lookup (storages_hash, store);
-	if (storage && !gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-		mail_note_store (CAMEL_STORE(store), storage, CORBA_OBJECT_NIL, NULL, NULL);
-	camel_object_unref (CAMEL_OBJECT (store));
-}	
 
 static BonoboControl *
 create_noselect_control (void)
@@ -175,14 +145,6 @@ create_view (EvolutionShellComponent *shell_component,
 			control = folder_browser_factory_new_control (physical_uri,
 								      corba_shell);
 		camel_url_free (url);
-	} else if (!g_strcasecmp (folder_type, "mailstorage")) {
-		char *uri_dup = g_strdup (physical_uri);
-
-		control = create_noselect_control ();
-		gtk_object_set_data_full (GTK_OBJECT (control), "physical_uri",
-					  uri_dup, g_free);
-		gtk_signal_connect (GTK_OBJECT (control), "activate",
-				    storage_activate, uri_dup);
 	} else if (!g_strcasecmp (folder_type, "vtrash")) {
 		if (!g_strncasecmp (physical_uri, "file:", 5))
 			control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
@@ -1203,6 +1165,27 @@ storage_xfer_folder (EvolutionStorage *storage,
 }
 
 static void
+storage_connected (CamelStore *store, CamelFolderInfo *info, void *storage)
+{
+	if (!info) {
+		/* Let it know the connection failed by calling
+		 * has_subfolders again.
+		 */
+		evolution_storage_has_subfolders (storage, "/",
+						  _("Connecting..."));
+	}
+}
+
+static void
+storage_connect (EvolutionStorage *storage,
+		 const char *path,
+		 CamelStore *store)
+{
+	mail_note_store (CAMEL_STORE(store), storage, CORBA_OBJECT_NIL,
+			 storage_connected, storage);
+}
+
+static void
 add_storage (const char *name, const char *uri, CamelService *store,
 	     GNOME_Evolution_Shell corba_shell, CamelException *ex)
 {
@@ -1210,7 +1193,7 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	EvolutionStorageResult res;
 	
 	storage = evolution_storage_new (name);
-	evolution_storage_new_folder (storage, "/", name, "mailstorage", uri, "", 0);
+	gtk_signal_connect (GTK_OBJECT (storage), "open_folder", storage_connect, store);
 	gtk_signal_connect (GTK_OBJECT (storage), "create_folder", storage_create_folder, store);
 	gtk_signal_connect (GTK_OBJECT (storage), "remove_folder", storage_remove_folder, store);
 	gtk_signal_connect ((GtkObject *)storage, "xfer_folder", storage_xfer_folder, store);
@@ -1219,11 +1202,14 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	
 	switch (res) {
 	case EVOLUTION_STORAGE_OK:
+		evolution_storage_has_subfolders (storage, "/",
+						  _("Connecting..."));
 		mail_hash_storage (store, storage);
 		mail_note_store((CamelStore *)store, storage, CORBA_OBJECT_NIL, NULL, NULL);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:
+		bonobo_object_unref (BONOBO_OBJECT (storage));
 		return;
 	default:
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,

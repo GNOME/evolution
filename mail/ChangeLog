@@ -1,3 +1,23 @@
+2002-03-14  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (folder_types): Remove "mailstorage", since
+	it's not needed any more.
+	(storage_activate): Gone, although some of it is moved to
+	storage_connect.
+	(create_view): Remove mailstorage code.
+	(add_storage): Connect to the storage's open_folder signal.
+	Instead of creating a "mailstorage" folder, call
+	evolution_storage_has_subfolders to let the shell know we haven't
+	finished filling it in yet.
+	(storage_connect): Handler for the storage's asyncOpenFolder
+	signal. Call mail_note_store() to try to connect.
+	(storage_connected): Callback for above. If the connection attempt
+	failed, call evolution_storage_has_subfolders again to make the
+	shell re-close the storage.
+
+	* mail-folder-cache.c (update_folders): Remove a piece of
+	mailstorage legacy code from here.
+
 2002-03-14  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.c (get_new_signature_filename): create new signature

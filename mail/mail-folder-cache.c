@@ -711,11 +711,8 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 		/* otherwise its not, and we're on our own and free anyway */
 		e_dlist_remove((EDListNode *)ud);
 
-		if (fi) {
-			if (si->storage)
-				gtk_object_set_data (GTK_OBJECT (si->storage), "connected", GINT_TO_POINTER (TRUE));
+		if (fi)
 			create_folders(fi, si);
-		}
 	}
 	UNLOCK(info_lock);
 
