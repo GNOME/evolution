@@ -1,3 +1,10 @@
+2004-03-06  Pratik V. Parikh <pratikvp@despammed.com>
+
+	* e-shell-window-commands.c (command_quick_reference): Check that 
+	app is not NULL before trying to open the quickref document.
+
+	Fixes #55106
+
 2004-02-15  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-nognome.in: Use @BASE_VERSION@ for the binary
