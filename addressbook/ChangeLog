@@ -1,5 +1,39 @@
 2004-12-23  Hans Petter Jansson  <hpj@novell.com>
 
+	This is the last we see of ESelectNames.
+
+	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in
+	* gui/component/select-names/Makefile.am
+	* gui/component/select-names/e-select-names-bonobo.c
+	* gui/component/select-names/e-select-names-bonobo.h
+	* gui/component/select-names/e-select-names-completion.c
+	* gui/component/select-names/e-select-names-completion.h
+	* gui/component/select-names/e-select-names-config-keys.h
+	* gui/component/select-names/e-select-names-config.c
+	* gui/component/select-names/e-select-names-config.h
+	* gui/component/select-names/e-select-names-factory.c
+	* gui/component/select-names/e-select-names-factory.h
+	* gui/component/select-names/e-select-names-manager.c
+	* gui/component/select-names/e-select-names-manager.h
+	* gui/component/select-names/e-select-names-marshal.list
+	* gui/component/select-names/e-select-names-model.c
+	* gui/component/select-names/e-select-names-model.h
+	* gui/component/select-names/e-select-names-popup.c
+	* gui/component/select-names/e-select-names-popup.h
+	* gui/component/select-names/e-select-names-section.etspec
+	* gui/component/select-names/e-select-names-table-model.c
+	* gui/component/select-names/e-select-names-table-model.h
+	* gui/component/select-names/e-select-names-text-model.c
+	* gui/component/select-names/e-select-names-text-model.h
+	* gui/component/select-names/e-select-names.c
+	* gui/component/select-names/e-select-names.etspec
+	* gui/component/select-names/e-select-names.h
+	* gui/component/select-names/recipient.glade
+	* gui/component/select-names/select-names.glade: Begone.
+
+2004-12-23  Hans Petter Jansson  <hpj@novell.com>
+
 	* gui/component/Makefile.am (SUBDIRS): No more select-names.
 	(libevolution_addressbook_la_LIBADD): Remove libeselectnames.la.
 
