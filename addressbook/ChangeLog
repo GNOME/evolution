@@ -1,3 +1,8 @@
+2001-05-22  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c: track the change in
+	evolution-addressbook.xml's bonobo ui path's.
+
 2001-05-21  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (change_view_type): update_view_type

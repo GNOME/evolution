@@ -215,7 +215,7 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 #if 0
 	/* this is always enabled */
 	bonobo_ui_component_set_prop (uic,
-				      "/Toolbar/View All",
+				      "/Toolbar/ContactViewAll",
 				      "sensitive", "1", NULL);
 #endif
 
@@ -234,7 +234,6 @@ change_view_type (AddressbookView *view, EAddressbookViewType view_type)
 
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrint", print_cb),
-	BONOBO_UI_UNSAFE_VERB ("ViewNewContact", new_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 
 	BONOBO_UI_UNSAFE_VERB ("AddressbookConfig", config_cb),
@@ -248,13 +247,13 @@ BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/New", "evolution-contacts-mini.png"),
-	E_PIXMAP ("/menu/File/Print/Print", "print.xpm"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/ContactNew", "evolution-contacts-mini.png"),
+	E_PIXMAP ("/menu/File/Print/ContactsPrint", "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/Print Preview", "print-preview.xpm"),
 	E_PIXMAP ("/menu/Tools/Component/AddressbookConfig", "configure_16_addressbook.xpm"),
 
-	E_PIXMAP ("/Toolbar/View All", "all_contacts.xpm"),
-	E_PIXMAP ("/Toolbar/New", "new_contact.xpm"),
+	E_PIXMAP ("/Toolbar/ContactViewAll", "all_contacts.xpm"),
+	E_PIXMAP ("/Toolbar/ContactNew", "new_contact.xpm"),
 
 	E_PIXMAP_END
 };
