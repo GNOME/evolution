@@ -16,6 +16,58 @@ Shell:
   - Pre-select a newly created folder in the folder selection dialog.
     (Ettore)
 
+Mail:
+
+  - GPG/PGP support is now mostly working and sort of configurable.
+    Except that the pretty pictures are missing. (Jeff)
+
+  - Exciting new configuration druid (Anna, Jeff) and configuration
+    editor-of-the-month (Jeff). You can now have multiple identities
+    that use different transports. (Jeff)
+
+  - The folder-tree unread message counts now work much better. But
+    vfolders only display their unread message counts *after you've
+    looked at the folder for the first time* (Dan)
+
+  - New mail send/receive stuff with status dialog (NotZed)
+
+  - "Stop" button and support for cancelling operations (NotZed)
+
+  - Various fixes involving IMAP folders and subscriptions (Dan)
+
+  - Fake messages to root threads in the message list are now gone (NotZed)
+
+  - NNTP support is no longer configured by default, as this code is
+    not expected to be completed by 1.0.
+
+  - Interface for hiding messages matching certain criteria (NotZed)
+
+  - Quick search bar now includes "Sender contains" option (Tuomas? Eek!)
+
+  - The mailer now properly launches "gnome_segv" when it crashes. I
+    mean, if it were to crash. (Dan)
+
+  - IMAP attachments are now not loaded unless you look at them (Dan)
+
+  - The X-Mailer header can now include a compile-time-specified
+    string (for specifying package version, etc) (Dan)
+
+  - The Date header in the message list now formats dates differently
+    depending on how long ago they are. (Chris).
+
+  - The composer doesn't ask if you want to save before closing if you
+    haven't changed anything. Also, it has more useful window titles
+    (Jason Leach) And you can now turn off the "are you sure you
+    didn't mean to enter a subject?" dialog box. (Jeff)
+
+  - The "Menu" key on a Windows keyboard (the one with the picture of
+    a pop-up menu) now pops up the message list right-click menu.
+    (Dan)
+
+  - Lots of internal stuff that doesn't much affect the user-visible
+    functionality, particularly involving multithreading, message
+    threading, filters/searching, and regression testing. (NotZed)
+
 Calendar:
 
   - New "go to date" dialog (JP).
