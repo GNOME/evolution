@@ -1,3 +1,29 @@
+2004-09-13  Rodney Dawes  <dobey@novell.com>
+
+	* xmldocs.make: Don't requires entities here
+
+	* C/Makefile.am: Add new figures to the list of images
+	Generate versioned xml/omf files based on $(BASE_VERSION)
+	Fix up CLEANFILES to include the stuff we generate
+
+	* C/POTFILES.in:
+	* C/apx-*.xml:
+	* C/config-*.xml:
+	* C/evolution-1.5-C.omf:
+	* C/evolution-1.5.xml:
+	* C/legal.xml:
+	* C/menuref.xml:
+	* C/preface.xml:
+	* C/topic.dat:
+	* C/usage-*.xml:
+	Remove all of these files from CVS
+
+	* C/evolution-C.omf:
+	* C/evolution.xml:
+	Add these files to replace the removed files above
+
+	* C/figure/*_a.(png|gif): Add new screenshots
+	
 2004-01-27  Aaron Weber <aaron@ximian.com>
 	* C/usage-mail-org.xml: spamfiltering
 	* C/usage-mail.xml: charsets and input methods.
