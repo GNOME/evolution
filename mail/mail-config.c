@@ -894,20 +894,16 @@ mail_config_is_configured (void)
 static char *
 uri_to_key (const char *uri)
 {
-	char *rval;
-	int i = 0;
+	char *rval, *ptr;
 	
 	if (!uri)
 		return NULL;
 	
 	rval = g_strdup (uri);
 	
-	while (rval [i]) {	
-		if (rval [i] == '/' || rval [i] == ':')
-			rval [i] = '_';
-		
-		i++;
-	}
+	for (ptr = rval; *ptr; ptr++)
+		if (*ptr == '/' || *ptr == ':')
+			*ptr = '_';
 	
 	return rval;
 }
@@ -927,7 +923,7 @@ mail_config_set_empty_trash_on_exit (gboolean value)
 gboolean
 mail_config_get_show_preview (const char *uri)
 {
-	if (uri) {
+	if (uri && *uri) {
 		gpointer key, val;
 		char *dbkey;
 		
@@ -962,7 +958,7 @@ mail_config_get_show_preview (const char *uri)
 void
 mail_config_set_show_preview (const char *uri, gboolean value)
 {
-	if (uri) {
+	if (uri && *uri) {
 		char *dbkey = uri_to_key (uri);
 		gpointer key, val;
 		
@@ -984,7 +980,7 @@ mail_config_set_show_preview (const char *uri, gboolean value)
 gboolean
 mail_config_get_thread_list (const char *uri)
 {
-	if (uri) {
+	if (uri && *uri) {
 		gpointer key, val;
 		char *dbkey;
 		
@@ -1019,7 +1015,7 @@ mail_config_get_thread_list (const char *uri)
 void
 mail_config_set_thread_list (const char *uri, gboolean value)
 {
-	if (uri) {
+	if (uri && *uri) {
 		char *dbkey = uri_to_key (uri);
 		gpointer key, val;
 		

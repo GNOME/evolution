@@ -1,3 +1,12 @@
+2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_set_thread_list): Don't let the uri
+	be an empty string (how the fuck is this even happening in the
+	first place??).
+	(mail_config_get_thread_list): Same.
+	(mail_config_set_show_preview): And here.
+	(mail_config_get_show_preview): And finally here.
+
 2001-08-23  Larry Ewing  <lewing@ximian.com>
 
 	* mail-search.c (mail_search_construct): attach to the destroy
