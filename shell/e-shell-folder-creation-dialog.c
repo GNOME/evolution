@@ -86,6 +86,7 @@ async_create_cb (EStorageSet *storage_set,
 	dialog_data = (DialogData *) data;
 
 	if (result == E_STORAGE_OK) {
+		/* Success! Tell the callback of this, then return */
 		if (dialog_data->result_callback != NULL)
 			(* dialog_data->result_callback) (dialog_data->shell,
 							  E_SHELL_FOLDER_CREATION_DIALOG_RESULT_SUCCESS,
@@ -93,7 +94,18 @@ async_create_cb (EStorageSet *storage_set,
 							  dialog_data->result_callback_data);
 		gtk_widget_destroy (dialog_data->dialog);
 		return;
+	} else if (result == E_STORAGE_EXISTS) {
+		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (dialog_data->storage_set_view),
+						       dialog_data->folder_path);
 	}
+
+	/* Tell the callback something failed, then popup a dialog
+           explaining how it failed */
+	if (dialog_data->result_callback != NULL)
+		(* dialog_data->result_callback) (dialog_data->shell,
+						  E_SHELL_FOLDER_CREATION_DIALOG_RESULT_FAIL,
+						  dialog_data->folder_path,
+						  dialog_data->result_callback_data);
 
 	e_notice (GTK_WINDOW (dialog_data->dialog), GNOME_MESSAGE_BOX_ERROR,
 		  _("Cannot create the specified folder:\n%s"),

@@ -1,3 +1,9 @@
+2001-07-30  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-folder-creation-dialog.c (async_create_cb): If we can't
+	create a folder because it already exists, select that folder that
+	exists.  Bug #1716.
+
 2001-07-30  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* main.c (main): call gconf_init if gtkhtml is compiled with gconf
