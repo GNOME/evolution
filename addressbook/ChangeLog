@@ -1,5 +1,14 @@
 2002-10-20  Chris Toshok  <toshok@ximian.com>
 
+	[ fix for #23764 ]
+	* gui/widgets/e-addressbook-view.c (jump_to_letters): handle
+	multiple letters associated with a single button.
+	(button_toggled): closure->letter -> closure->letters.
+	(free_closure): free closure->letters.
+	(create_alphabet): init closure->letters.
+
+2002-10-20  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #29067 ] 
 	* backend/pas/pas-backend-file.c (pas_backend_file_search): we
 	need to create a card_sexp even when doing summary queries since
