@@ -93,9 +93,12 @@ typedef struct _CamelSummaryReferences {
 	CamelSummaryMessageID references[1];
 } CamelSummaryReferences;
 
-#define DOESTRV
+/* #define DOESTRV */
+#define DOEPOOLV
 
-#ifdef DOESTRV
+#if defined (DOEPOOLV) || defined (DOESTRV)
+#include "../e-util/e-memory.h"
+
 /* string array indices */
 enum {
 	CAMEL_MESSAGE_INFO_UID,
@@ -111,7 +114,9 @@ enum {
 /* information about a given object */
 struct _CamelMessageInfo {
 	/* public fields */
-#ifdef DOESTRV
+#ifdef DOEPOOLV
+	EPoolv *strings;
+#elif defined (DOESTRV)
 	struct _EStrv *strings;		/* all strings packed into a single compact array */
 #else
 	char *subject;
@@ -121,7 +126,7 @@ struct _CamelMessageInfo {
 	char *mlist;
 
 	char *uid;
-#endif
+#endif /* DOEPOOLV */
 	guint32 flags;
 	guint32 size;
 	guint32 refcount;
@@ -159,7 +164,7 @@ struct _CamelFolderSummary {
 	guint32 message_info_size;
 	guint32 content_info_size;
 
-#ifdef DOESTRV
+#if defined (DOEPOOLV) || defined (DOESTRV)
 	guint32 message_info_strings;
 #endif	
 	/* memory allocators (setup automatically) */
@@ -297,7 +302,7 @@ void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *t
 void camel_message_info_free(CamelMessageInfo *mi);
 
 /* accessors */
-#ifdef DOESTRV
+#if defined (DOEPOOLV) || defined (DOESTRV)
 const char *camel_message_info_string(const CamelMessageInfo *mi, int type);
 #define camel_message_info_subject(x) camel_message_info_string((const CamelMessageInfo *)(x), CAMEL_MESSAGE_INFO_SUBJECT)
 #define camel_message_info_from(x) camel_message_info_string((const CamelMessageInfo *)(x), CAMEL_MESSAGE_INFO_FROM)

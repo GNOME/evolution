@@ -38,7 +38,7 @@
 
 #include "e-util/md5-utils.h"
 
-#ifdef DOESTRV
+#if defined (DOEPOOLV) || defined (DOESTRV)
 #include "e-util/e-memory.h"
 #endif
 
@@ -488,6 +488,7 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 		node = g_list_next(node);
 	}
 
+	g_free(expr);
 	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 
 	g_hash_table_destroy(searched);
@@ -572,7 +573,9 @@ vee_folder_add_info(CamelVeeFolder *vf, CamelFolder *f, CamelMessageInfo *info, 
 
 	mi = (CamelVeeMessageInfo *)camel_folder_summary_info_new(folder->summary);
 	camel_message_info_dup_to(info, (CamelMessageInfo *)mi);
-#ifdef DOESTRV
+#ifdef DOEPOOLV
+	mi->info.strings = e_poolv_set(mi->info.strings, CAMEL_MESSAGE_INFO_UID, uid, TRUE);
+#elif defined (DOESTRV)
 	mi->info.strings = e_strv_set_ref_free(mi->info.strings, CAMEL_MESSAGE_INFO_UID, uid);
 	mi->info.strings = e_strv_pack(mi->info.strings);
 #else	

@@ -37,7 +37,7 @@ typedef struct _CamelMaildirMessageContentInfo {
 	CamelMessageContentInfo info;
 } CamelMaildirMessageContentInfo;
 
-#ifdef DOESTRV
+#if defined (DOEPOOLV) || defined (DOESTRV)
 enum {
 	CAMEL_MAILDIR_INFO_FILENAME = CAMEL_MESSAGE_INFO_LAST,
 	CAMEL_MAILDIR_INFO_LAST,
@@ -47,7 +47,7 @@ enum {
 typedef struct _CamelMaildirMessageInfo {
 	CamelMessageInfo info;
 
-#ifndef DOESTRV
+#if !defined (DOEPOOLV) && !defined (DOESTRV)
 	char *filename;		/* maildir has this annoying status shit on the end of the filename, use this to get the real message id */
 #endif
 } CamelMaildirMessageInfo;
@@ -72,7 +72,7 @@ CamelMaildirSummary	*camel_maildir_summary_new	(const char *filename, const char
 char *camel_maildir_summary_info_to_name(const CamelMessageInfo *info);
 int camel_maildir_summary_name_to_info(CamelMessageInfo *info, const char *name);
 
-#ifdef DOESTRV
+#if defined (DOEPOOLV) || defined (DOESTRV)
 #define camel_maildir_info_filename(x) camel_message_info_string((const CamelMessageInfo *)(x), CAMEL_MAILDIR_INFO_FILENAME)
 #define camel_maildir_info_set_filename(x, s) camel_message_info_set_string((CamelMessageInfo *)(x), CAMEL_MAILDIR_INFO_FILENAME, s)
 #else

@@ -336,8 +336,10 @@ obj_finalize (CamelObject * obj)
 	obj->s.magic = CAMEL_OBJECT_FINALIZED_VALUE;
 
 	if (obj->event_to_hooklist) {
+#if 0
 		g_hash_table_foreach (obj->event_to_hooklist, (GHFunc) g_free,
 				      NULL);
+#endif
 		g_hash_table_destroy (obj->event_to_hooklist);
 		obj->event_to_hooklist = NULL;
 	}

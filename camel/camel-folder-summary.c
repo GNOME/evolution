@@ -153,7 +153,7 @@ camel_folder_summary_init (CamelFolderSummary *s)
 	s->message_info_chunks = NULL;
 	s->content_info_chunks = NULL;
 
-#ifdef DOESTRV
+#if defined (DOESTRV) || defined (DOEPOOLV)
 	s->message_info_strings = CAMEL_MESSAGE_INFO_LAST;
 #endif
 
@@ -706,6 +706,7 @@ void camel_folder_summary_add(CamelFolderSummary *s, CamelMessageInfo *info)
 
 	CAMEL_SUMMARY_LOCK(s, summary_lock);
 
+/* unnecessary for pooled vectors */
 #ifdef DOESTRV
 	/* this is vitally important, and also if this is ever modified, then
 	   the hash table needs to be resynced */
@@ -1671,6 +1672,9 @@ camel_folder_summary_info_new(CamelFolderSummary *s)
 	CAMEL_SUMMARY_UNLOCK(s, alloc_lock);
 
 	memset(mi, 0, s->message_info_size);
+#ifdef DOEPOOLV
+	mi->strings = e_poolv_new (s->message_info_strings);
+#endif
 #ifdef DOESTRV
 	mi->strings = e_strv_new(s->message_info_strings);
 #endif
@@ -1711,27 +1715,36 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	struct _header_references *refs, *scan;
 	char *msgid;
 	int count;
+	char *subject, *from, *to, *cc, *mlist;
 
 	mi = camel_folder_summary_info_new(s);
 
-#ifdef DOESTRV
-	msgid = camel_folder_summary_format_string(h, "subject");
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, msgid);
-	msgid = camel_folder_summary_format_address(h, "from");
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, msgid);
-	msgid = camel_folder_summary_format_address(h, "to");
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, msgid);
-	msgid = camel_folder_summary_format_address(h, "cc");
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, msgid);
-	msgid = header_raw_check_mailing_list(&h);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, msgid);
+	subject = camel_folder_summary_format_string(h, "subject");
+	from = camel_folder_summary_format_address(h, "from");
+	to = camel_folder_summary_format_address(h, "to");
+	cc = camel_folder_summary_format_address(h, "cc");
+	mlist = header_raw_check_mailing_list(&h);
+
+#ifdef DOEPOOLV
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_FROM, from, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_TO, to, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_CC, cc, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist, TRUE);
+#elif defined (DOESTRV)
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, from);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, to);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, cc);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist);
 #else
-	mi->subject = camel_folder_summary_format_string(h, "subject");
-	mi->from = camel_folder_summary_format_address(h, "from");
-	mi->to = camel_folder_summary_format_address(h, "to");
-	mi->cc = camel_folder_summary_format_address(h, "cc");
-	mi->mlist = header_raw_check_mailing_list(&h);
+	mi->subject = subject;
+	mi->from = from;
+	mi->to = to;
+	mi->cc = cc;
+	mi->mlist = mlist;
 #endif
+
 	mi->user_flags = NULL;
 	mi->user_tags = NULL;
 	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
@@ -1780,42 +1793,46 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	CamelMessageInfo *mi;
 	guint count;
 	int i;
-#ifdef DOESTRV
-	char *tmp;
-#endif
+	char *subject, *from, *to, *cc, *mlist, *uid;;
 
 	mi = camel_folder_summary_info_new(s);
 
 	io(printf("Loading message info\n"));
-#ifdef DOESTRV
-	camel_folder_summary_decode_string(in, &tmp);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_UID, tmp);
+
+	camel_folder_summary_decode_string(in, &uid);
 	camel_folder_summary_decode_uint32(in, &mi->flags);
 	camel_folder_summary_decode_uint32(in, &mi->size);
 	camel_folder_summary_decode_time_t(in, &mi->date_sent);
 	camel_folder_summary_decode_time_t(in, &mi->date_received);
-	camel_folder_summary_decode_string(in, &tmp);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, tmp);
-	camel_folder_summary_decode_string(in, &tmp);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, tmp);
-	camel_folder_summary_decode_string(in, &tmp);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, tmp);
-	camel_folder_summary_decode_string(in, &tmp);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, tmp);
-	camel_folder_summary_decode_string(in, &tmp);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, tmp);
+	camel_folder_summary_decode_string(in, &subject);
+	camel_folder_summary_decode_string(in, &from);
+	camel_folder_summary_decode_string(in, &to);
+	camel_folder_summary_decode_string(in, &cc);
+	camel_folder_summary_decode_string(in, &mlist);
+
+#ifdef DOEPOOLV
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_UID, uid, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_FROM, from, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_TO, to, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_CC, cc, TRUE);
+	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist, TRUE);
+#elif defined (DOESTRV)
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_UID, uid);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, from);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, to);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, cc);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist);
 #else
-	camel_folder_summary_decode_string(in, &mi->uid);
-	camel_folder_summary_decode_uint32(in, &mi->flags);
-	camel_folder_summary_decode_uint32(in, &mi->size);
-	camel_folder_summary_decode_time_t(in, &mi->date_sent);
-	camel_folder_summary_decode_time_t(in, &mi->date_received);
-	camel_folder_summary_decode_string(in, &mi->subject);
-	camel_folder_summary_decode_string(in, &mi->from);
-	camel_folder_summary_decode_string(in, &mi->to);
-	camel_folder_summary_decode_string(in, &mi->cc);
-	camel_folder_summary_decode_string(in, &mi->mlist);
+	mi->uid = uid;
+	mi->subject = subject;
+	mi->from = from;
+	mi->to = to;
+	mi->cc = cc;
+	mi->mlist = mlist;
 #endif
+
 	mi->content = NULL;
 
 	camel_folder_summary_decode_fixed_int32(in, &mi->message_id.id.part.hi);
@@ -1921,7 +1938,9 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 static void
 message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 {
-#ifdef DOESTRV
+#ifdef DOEPOOLV
+	e_poolv_destroy(mi->strings);
+#elif defined (DOESTRV)
 	e_strv_destroy(mi->strings);
 #else
 	g_free(mi->uid);
@@ -2515,6 +2534,9 @@ camel_message_info_new (void)
 	CamelMessageInfo *info;
 	
 	info = g_malloc0(sizeof(*info));
+#ifdef DOEPOOLV
+	info->strings = e_poolv_new(CAMEL_MESSAGE_INFO_LAST);
+#endif
 #ifdef DOESTRV
 	info->strings = e_strv_new (CAMEL_MESSAGE_INFO_LAST);
 #endif
@@ -2591,8 +2613,10 @@ camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
 	to->refcount = 1;
 
 	/* Copy strings */
-#ifdef DOESTRV
-	to->strings = e_strv_new(CAMEL_MESSAGE_INFO_LAST);
+#ifdef DOEPOOLV
+	e_poolv_cpy (to->strings, from->strings);
+#elif defined (DOESTRV)
+	/* to->strings = e_strv_new(CAMEL_MESSAGE_INFO_LAST); */
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_SUBJECT, camel_message_info_subject(from));
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_FROM, camel_message_info_from(from));
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_TO, camel_message_info_to(from));
@@ -2661,7 +2685,9 @@ camel_message_info_free(CamelMessageInfo *mi)
 	}
 	GLOBAL_INFO_UNLOCK(info);
 
-#ifdef DOESTRV
+#ifdef DOEPOOLV
+	e_poolv_destroy(mi->strings);
+#elif defined (DOESTRV)
 	e_strv_destroy(mi->strings);
 #else
 	g_free(mi->uid);
@@ -2678,19 +2704,26 @@ camel_message_info_free(CamelMessageInfo *mi)
 	g_free(mi);
 }
 
-#ifdef DOESTRV
+#if defined (DOEPOOLV) || defined (DOESTRV)
 const char *camel_message_info_string(const CamelMessageInfo *mi, int type)
 {
 	if (mi->strings == NULL)
 		return "";
+#ifdef DOEPOOLV
+	return e_poolv_get(mi->strings, type);
+#else
 	return e_strv_get(mi->strings, type);
+#endif
 }
 
 void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str)
 {
 	g_assert(mi->strings != NULL);
-		
+#ifdef DOEPOOLV
+	e_poolv_set(mi->strings, type, str, TRUE);
+#else
 	mi->strings = e_strv_set_ref_free(mi->strings, type, str);
+#endif
 }
 #endif
 
