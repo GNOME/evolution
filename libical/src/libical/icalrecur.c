@@ -540,7 +540,7 @@ void increment_second(struct icalrecur_iterator_impl* impl, int inc)
     }                 
 }
 
-#if 1
+#if 0 
 
 #include "ical.h"
 void test_increment()

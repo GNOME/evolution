@@ -1,3 +1,8 @@
+2000-12-12  Joe Shaw  <joe@helixcode.com>
+
+	* src/libical/icalrecur.c: #if 0ed out some #if 1ed test code that
+	was breaking my build by #including ical.h. No cookie!
+
 2000-12-12  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: Add a check for "extern int timezone;" vs struct
