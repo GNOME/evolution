@@ -68,6 +68,7 @@ define_views(BonoboUIComponent *component,
 
 static BonoboUIVerb verbs[] = {
 	{"DefineViews", (BonoboUIVerbFn) define_views, NULL, NULL},
+	{NULL, NULL, NULL, NULL}
 };
 
 void          gal_view_menus_apply     (GalViewMenus      *menus,
