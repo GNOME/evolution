@@ -1,3 +1,7 @@
+2001-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Add an ActionsEmptyTrash menu item.
+
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.xml: Took out the "IMPLEMENT ME"'s from the

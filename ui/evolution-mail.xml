@@ -186,6 +186,9 @@
       	  
       	    <menuitem name="FolderExpunge" verb="" _label="_Expunge"
       	    accel="*Control*x"/>
+
+            <menuitem name="ActionsEmptyTrash" verb="" _label="Empty Trash"
+      	    accel=""/>
       	</submenu>
     </placeholder>
     
