@@ -499,9 +499,9 @@ camel_utf8_getc(const unsigned char **ptr)
 {
 	register unsigned char *p = (unsigned char *)*ptr;
 	register unsigned char c, r;
-	register guint32 v=0, /* this is only required because the stupid @@@%#%# compiler thinks it can be used uninitialised */
-		m;
+	register guint32 v, m;
 
+again:
 	r = *p++;
 loop:
 	if (r < 0x80) {
@@ -524,6 +524,8 @@ loop:
 		*ptr = p;
 
 		v &= ~m;
+	} else {
+		goto again;
 	}
 
 	return v;

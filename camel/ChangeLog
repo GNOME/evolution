@@ -1,3 +1,8 @@
+2002-05-18  Not Zed  <NotZed@Ximian.com>
+
+	* camel-search-private.c (camel_utf8_getc): If we get an invalid
+	start char, just ignore it and goto the next character.
+
 2002-05-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-search.c (get_label): New e-sexp callback function
