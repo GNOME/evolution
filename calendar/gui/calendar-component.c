@@ -23,6 +23,12 @@
  */
 
 #include <config.h>
+
+#include <errno.h>
+#include <libgnomevfs/gnome-vfs-types.h>
+#include <libgnomevfs/gnome-vfs-uri.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
+
 #include "evolution-shell-component.h"
 #include <executive-summary/evolution-services/executive-summary-component.h>
 #include "component-factory.h"
@@ -99,6 +105,172 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free(&ev);
 }
 
+static void
+remove_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const GNOME_Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	CORBA_Environment ev;
+	gchar *path;
+	int rv;
+
+	CORBA_exception_init(&ev);
+
+	/* check URI */
+	if (strncmp (physical_uri, "file://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_INVALID_URI,
+			&ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	/* FIXME: check if there are subfolders? */
+
+	/* remove the .ics file */
+	path = g_concat_dir_and_file (physical_uri + 7, "calendar.ics");
+	rv = unlink (path);
+	g_free (path);
+	if (rv == 0) {
+		/* everything OK; notify the listener */
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_OK,
+			&ev);
+	}
+	else {
+		if (errno == EACCES || errno == EPERM)
+			GNOME_Evolution_ShellComponentListener_notifyResult (
+				listener,
+				GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+				&ev);
+		else
+			GNOME_Evolution_ShellComponentListener_notifyResult (
+				listener,
+				GNOME_Evolution_ShellComponentListener_INVALID_URI, /*XXX*/
+				&ev);
+	}
+
+	CORBA_exception_free(&ev);
+}
+
+/* callback used from icalparser_parse */
+static char *
+get_line_fn (char *s, size_t size, void *data)
+{
+	FILE *file;
+
+	file = data;
+	return fgets (s, size, file);
+}
+
+static void
+xfer_folder (EvolutionShellComponent *shell_component,
+	     const char *source_physical_uri,
+	     const char *destination_physical_uri,
+	     gboolean remove_source,
+	     const GNOME_Evolution_ShellComponentListener listener,
+	     void *closure)
+{
+	CORBA_Environment ev;
+	gchar *source_path;
+	FILE *fin;
+	icalparser *parser;
+	icalcomponent *icalcomp;
+	GnomeVFSHandle *handle;
+	GnomeVFSURI *uri;
+	GnomeVFSFileSize out;
+	char *buf;
+
+	CORBA_exception_init (&ev);
+
+	/* check URI */
+	if (strncmp (source_physical_uri, "file://", 7)
+	    || strncmp (destination_physical_uri, "file://", 7)) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_INVALID_URI,
+			&ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	/* open source and destination files */
+	source_path = g_concat_dir_and_file (source_physical_uri + 7, "calendar.ics");
+
+	fin = fopen (source_path, "r");
+	if (!fin) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+			&ev);
+		g_free (source_path);
+		CORBA_exception_free (&ev);
+		return;
+	}
+	parser = icalparser_new ();
+	icalparser_set_gen_data (parser, fin);
+	icalcomp = icalparser_parse (parser, get_line_fn);
+	icalparser_free (parser);
+	if (!icalcomp
+	    || icalcomponent_isa (icalcomp) != ICAL_VCALENDAR_COMPONENT) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+			&ev);
+		fclose (fin);
+		g_free (source_path);
+		if (icalcomp)
+			icalcomponent_free (icalcomp);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	/* now, write the new file out */
+	uri = gnome_vfs_uri_new (destination_physical_uri);
+	if (gnome_vfs_create_uri (&handle, uri, GNOME_VFS_OPEN_WRITE, FALSE, 0666)
+	    != GNOME_VFS_OK) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_INVALID_URI,
+			&ev);
+		fclose (fin);
+		g_free (source_path);
+		icalcomponent_free (icalcomp);
+		CORBA_exception_free (&ev);
+		return;
+	}
+	buf = icalcomponent_as_ical_string (icalcomp);
+	if (gnome_vfs_write (handle, buf, strlen (buf) * sizeof (char), &out)
+	    != GNOME_VFS_OK) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
+			&ev);
+	}
+	else {
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_OK,
+			&ev);
+	}
+
+	gnome_vfs_close (handle);
+	gnome_vfs_uri_unref (uri);
+	
+	/* free resources */
+	fclose (fin);
+
+	if (remove_source)
+		unlink (source_path);
+
+	g_free (source_path);
+	icalcomponent_free (icalcomp);
+	CORBA_exception_free (&ev);
+}
+
 static gint owner_count = 0;
 
 static void
@@ -141,8 +313,8 @@ factory_fn (BonoboGenericFactory *factory,
 	shell_component = evolution_shell_component_new (folder_types,
 							 create_view,
 							 create_folder,
-							 NULL, /* remove_folder_fn */
-							 NULL, /* copy_folder_fn */
+							 remove_folder,
+							 xfer_folder,
 							 NULL, /* populate_folder_context_menu_fn */
 							 NULL, /* get_dnd_selection_fn */
 							 NULL  /* closure */);
