@@ -728,10 +728,10 @@ e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 	g_return_if_fail (i >= 0);
 
 	card = e_select_names_model_get_card (source, i);
-	g_return_if_fail (card);
+	g_return_if_fail (card != NULL);
 	
 	/* present read-only contact editor when someone double clicks from here */
-	contact_editor = e_addressbook_show_contact_editor (NULL, card, FALSE, FALSE);
+	contact_editor = e_addressbook_show_contact_editor (e_card_get_book (card), card, FALSE, FALSE);
 	e_contact_editor_raise (contact_editor);
 }
 

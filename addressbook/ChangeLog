@@ -1,5 +1,10 @@
 2001-09-15  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): We can't use NULL as the
+	first arg for e_addressbook_show_contact_editor anymore.  Damn.
+	(#8535)
+
 	* backend/ebook/e-book-listener.c (e_book_listener_stop): Make
 	"stop" do nothing but set the stopped flag, as in
 	e-book-view-listener.c.
