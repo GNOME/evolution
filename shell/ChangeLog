@@ -1,3 +1,12 @@
+2001-12-07  Iain Holmes  <iain@ximian.com>
+
+	[ Trying to fix 14701 ]
+
+	* e-shell-importer.c (show_error): Show an error message, but not
+	modally.
+	(start_import): Use above function so none of the errors are modal.
+	(folder_selected): Hide the folder dialog.
+	
 2001-12-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #7827, Switching desktops leaves the folder bar popped up.]
