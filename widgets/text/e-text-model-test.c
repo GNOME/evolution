@@ -7,7 +7,9 @@
 #include "e-text-model.h"
 #include "e-text-model-uri.h"
 #include "e-text.h"
+#include <gal/util/e-util.h>
 
+#if 0
 static void
 describe_model (ETextModel *model)
 {
@@ -27,6 +29,7 @@ describe_model (ETextModel *model)
   for (i=0; i<N; ++i)
     g_print ("obj%d: %s\n", i, e_text_model_get_nth_object (model, i));
 }
+#endif
 
 int
 main (int argc, gchar **argv)
