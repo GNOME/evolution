@@ -1,3 +1,8 @@
+1999-02-06  Eskil Olsen <deity@eskil.dk>
+	* corba-cal.c: commented out a g_free that glib reported
+	as being a duplicate free.
+	* calendar_conduit.c: got gnomecal->pilot up and runnning.
+
 1999-02-06  Lauris Kaplinski <lauris@ariman.ee>
 
 	* gncal.desktop: Added Estonian translations.

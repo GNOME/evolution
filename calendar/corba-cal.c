@@ -219,7 +219,7 @@ cal_repo_get_objects (PortableServer_Servant servant,
 	}
 	str = calendar_get_as_vcal_string (dirty_cal);
 	res = CORBA_string_dup (str);
-	g_free (str);
+	/* g_free (str); glib with memcheck enabled says this is already freed */
 	calendar_destroy (dirty_cal);
 
 	g_message("added %d items to return value",items_dbg);

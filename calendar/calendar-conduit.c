@@ -801,6 +801,7 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	  gpointer data)
 {
 	PilotRecord *p;
+	int x,y;
 
 	g_return_val_if_fail(conduit!=NULL,NULL);
 	g_return_val_if_fail(local!=NULL,NULL);
@@ -817,15 +818,14 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 	local->a = g_new0(struct Appointment,1);
 
-	local->a->event = 0;
+	local->a->event = 0; /* if no start time, leave at 1 */
 	local->a->begin = *localtime(&local->ical->dtstart);
 	local->a->end = *localtime(&local->ical->dtend);
 
-	/* g_print("calconduit: new item from %s to %s\n",asctime(&(local->a->begin)),asctime(&(local->a->end))); */
-	
 	local->a->alarm = 0;
 	local->a->advance = 0;
 	local->a->advanceUnits = advMinutes;
+
 	local->a->repeatType = repeatNone;
 	local->a->repeatForever = 0;
 	local->a->repeatEnd = local->a->end;
@@ -842,9 +842,6 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	local->a->exceptions = 0;
 	local->a->exception = NULL;
 
-	g_message("local->ical->comment = %s",local->ical->comment);
-	g_message("local->ical->summary = %s",local->ical->summary);
-
 	/* STOP: don't replace these with g_strdup, since free_Appointment
 	   uses free to deallocte */
 	local->a->note = 
@@ -853,8 +850,23 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		local->ical->summary==NULL?NULL:strdup(local->ical->summary);
 
 	p->record = g_new0(char,0xffff);
-	pack_Appointment(local->a,p->record,sizeof(p->record));
+	p->length = pack_Appointment(local->a,p->record,0xffff);
 
+#if 0
+	g_message("calconduit: new item from %s to %s",asctime(&(local->a->begin)),asctime(&(local->a->end))); 
+	
+	g_message("local->a->note = %s",local->a->note);
+	g_message("local->a->description = %s",local->a->description);
+	g_message("sizeof(p->record) = %d, length is %d",sizeof(p->record),p->length);
+	for(x=0;x<p->length;x+=32) {
+		for(y=x;y<x+32;y++)
+			if(p->record[y]<33 || p->record[y]>128)
+				printf("%02X",p->record[y]);
+			else 
+				printf(" %c",p->record[y]);
+		printf("\n");
+	}
+#endif
 	return p;
 }
 
