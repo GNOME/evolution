@@ -2042,8 +2042,6 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		g_free (uid);
 	}
 	if (!source) {
-		ESource *source;
-		
 		/* Try to create a default if there isn't one */
 		source = e_source_list_peek_source_any (priv->source_lists[priv->type]);
 	}

@@ -1,3 +1,8 @@
+2004-04-28  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-itip-control.c (object_requested_cb): dont shadow source
+	with another source in the fallback case.  Related to #54094.
+
 2004-04-27  JP Rosevear  <jpr@ximian.com>
 
 	* gui/cal-search-bar.c: disable comment searching which is
