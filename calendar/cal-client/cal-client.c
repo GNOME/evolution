@@ -1039,6 +1039,8 @@ cal_client_is_read_only (CalClient *client)
 
 	priv = client->priv;
 
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
+
 	CORBA_exception_init (&ev);
 	read_only = GNOME_Evolution_Calendar_Cal_isReadOnly (priv->cal, &ev);
 	if (BONOBO_EX (&ev)) {

@@ -141,27 +141,38 @@ static void
 set_menu_sens (EventEditor *ee) 
 {
 	EventEditorPrivate *priv;
-	gboolean sens, existing, user;
+	gboolean sens, existing, user, read_only;
 	
 	priv = ee->priv;
 
 	existing = comp_editor_get_existing_org (COMP_EDITOR (ee));
 	user = comp_editor_get_user_org (COMP_EDITOR (ee));
+	read_only = cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (ee)));
 
 	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionScheduleMeeting", 
-				 "sensitive", sens ? "0" : "1");
+				 "sensitive", sens || read_only ? "0" : "1");
 
-	sens = priv->meeting_shown && existing && !user;
+	sens = priv->meeting_shown && existing && !user && !read_only;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionRefreshMeeting", 
 				 "sensitive", sens ? "1" : "0");
 
-	sens = priv->meeting_shown && existing && user;
+	sens = priv->meeting_shown && existing && user && !read_only;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionCancelMeeting", 
-				 "sensitive", sens ? "1" : "0");
+				 "sensitive", sens? "1" : "0");
+
+	comp_editor_set_ui_prop (COMP_EDITOR (ee),
+				 "/commands/FileSave",
+				 "sensitive", read_only ? "0" : "1");
+	comp_editor_set_ui_prop (COMP_EDITOR (ee),
+				 "/commands/FileSaveAndClose",
+				 "sensitive", read_only ? "0" : "1");
+	comp_editor_set_ui_prop (COMP_EDITOR (ee),
+				 "/commands/FileDelete",
+				 "sensitive", read_only ? "0" : "1");
 }
 
 static void

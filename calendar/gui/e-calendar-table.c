@@ -979,6 +979,7 @@ delete_cb (GtkWidget *menuitem, gpointer data)
 enum {
 	MASK_SINGLE	= 1 << 0,	/* For commands that work on 1 task. */
 	MASK_MULTIPLE	= 1 << 1,	/* For commands for multiple tasks. */
+	MASK_EDITABLE   = 1 << 2        /* For commands disabled in read-only folders */
 };
 
 
@@ -989,21 +990,21 @@ static EPopupMenu tasks_popup_menu [] = {
 
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("C_ut"), e_calendar_table_on_cut, 0),
+	E_POPUP_ITEM (N_("C_ut"), e_calendar_table_on_cut, MASK_EDITABLE),
 	E_POPUP_ITEM (N_("_Copy"), e_calendar_table_on_copy, 0),
-	E_POPUP_ITEM (N_("_Paste"), e_calendar_table_on_paste, 0),
+	E_POPUP_ITEM (N_("_Paste"), e_calendar_table_on_paste, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Assign Task"), e_calendar_table_on_assign, MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Assign Task"), e_calendar_table_on_assign, MASK_SINGLE | MASK_EDITABLE),
 	E_POPUP_ITEM (N_("_Forward as iCalendar"), e_calendar_table_on_forward, MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Mark as Complete"), mark_as_complete_cb, MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, MASK_MULTIPLE),
+	E_POPUP_ITEM (N_("_Mark as Complete"), mark_as_complete_cb, MASK_SINGLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, MASK_MULTIPLE | MASK_EDITABLE),
 	
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Delete"), delete_cb, MASK_SINGLE),
-	E_POPUP_ITEM (N_("_Delete Selected Tasks"), delete_cb, MASK_MULTIPLE),
+	E_POPUP_ITEM (N_("_Delete"), delete_cb, MASK_SINGLE | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("_Delete Selected Tasks"), delete_cb, MASK_MULTIPLE | MASK_EDITABLE),
 
 	E_POPUP_TERMINATOR
 };
@@ -1027,6 +1028,9 @@ e_calendar_table_on_right_click (ETable *table,
 		hide_mask = MASK_MULTIPLE;
 	else
 		hide_mask = MASK_SINGLE;
+
+	if (cal_client_is_read_only (calendar_model_get_cal_client (e_calendar_table_get_model (cal_table))))
+		disable_mask |= MASK_EDITABLE;
 
 	e_popup_menu_run (tasks_popup_menu, (GdkEvent *) event,
 			  disable_mask, hide_mask, cal_table);

@@ -3512,10 +3512,10 @@ enum {
 };
 
 static EPopupMenu main_items [] = {
-	E_POPUP_ITEM (N_("New _Appointment..."), e_week_view_on_new_appointment, 0),
-	E_POPUP_ITEM (N_("New All Day _Event"), e_week_view_on_new_event, 0),
-	E_POPUP_ITEM (N_("New Meeting"), e_week_view_on_new_meeting, 0),
-	E_POPUP_ITEM (N_("New Task"), e_week_view_on_new_task, 0),
+	E_POPUP_ITEM (N_("New _Appointment..."), e_week_view_on_new_appointment, MASK_EDITABLE),
+	E_POPUP_ITEM (N_("New All Day _Event"), e_week_view_on_new_event, MASK_EDITABLE),
+	E_POPUP_ITEM (N_("New Meeting"), e_week_view_on_new_meeting, MASK_EDITABLE),
+	E_POPUP_ITEM (N_("New Task"), e_week_view_on_new_task, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
@@ -3523,7 +3523,7 @@ static EPopupMenu main_items [] = {
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Paste"), e_week_view_on_paste, 0),
+	E_POPUP_ITEM (N_("_Paste"), e_week_view_on_paste, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
@@ -3545,7 +3545,7 @@ static EPopupMenu main_items [] = {
 };
 
 static EPopupMenu child_items [] = {
-	E_POPUP_ITEM (N_("_Open"), e_week_view_on_edit_appointment, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Open"), e_week_view_on_edit_appointment, MASK_EDITING),
 	E_POPUP_ITEM (N_("_Save As..."), e_week_view_on_save_as, MASK_EDITING),
 	E_POPUP_ITEM (N_("_Print..."), e_week_view_on_print_event, MASK_EDITING),
 
@@ -3554,7 +3554,7 @@ static EPopupMenu child_items [] = {
 
 	E_POPUP_ITEM (N_("C_ut"), e_week_view_on_cut, MASK_EDITING | MASK_EDITABLE | MASK_MEETING_ORGANIZER),
 	E_POPUP_ITEM (N_("_Copy"), e_week_view_on_copy, MASK_EDITING | MASK_MEETING_ORGANIZER),
-	E_POPUP_ITEM (N_("_Paste"), e_week_view_on_paste, 0),
+	E_POPUP_ITEM (N_("_Paste"), e_week_view_on_paste, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
@@ -3564,9 +3564,9 @@ static EPopupMenu child_items [] = {
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Delete"), e_week_view_on_delete_appointment, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_week_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING),
-	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_week_view_on_delete_occurrence, MASK_RECURRING | MASK_EDITING),
-	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_week_view_on_delete_appointment, MASK_RECURRING | MASK_EDITING),
+	E_POPUP_ITEM (N_("Make this Occurrence _Movable"), e_week_view_on_unrecur_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("Delete this _Occurrence"), e_week_view_on_delete_occurrence, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
+	E_POPUP_ITEM (N_("Delete _All Occurrences"), e_week_view_on_delete_appointment, MASK_RECURRING | MASK_EDITING | MASK_EDITABLE),
 
 	E_POPUP_TERMINATOR
 };
@@ -3626,6 +3626,9 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 				disable_mask |= MASK_MEETING_ORGANIZER;
 		}
 	}
+
+	if (cal_client_is_read_only (week_view->client))
+		disable_mask |= MASK_EDITABLE;
 
 	if (being_edited)
 		disable_mask |= MASK_EDITING;

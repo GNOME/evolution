@@ -1,3 +1,20 @@
+2002-10-02  Rodrigo Moya <rodrigo@ximian.com>
+	
+	Fixes #30057
+	
+	* cal-client/cal-client.c (cal_client_is_read_only): added check
+	of the status of the client before trying to make CORBA calls.
+
+	* gui/calendar-commands.c (sensitize_calendar_commands,
+	  sensitize_taskpad_commands):
+	* gui/tasks-control.c (sensitize_commands):
+	* gui/dialogs/event-editor.c (set_menu_sens):
+	* gui/dialogs/task-editor.c (set_menu_sens):
+	* gui/e-calendar-table.c (e_calendar_table_on_right_click):
+	* gui/e-day-view.c (e_day_view_on_event_right_click):
+	* gui/e-week-view.c (e_week_view_show_popup_menu): take into account
+	the read-onlyness of clients to disable/enable menu items.
+
 2002-10-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* idl/evolution-calendar.idl: added isReadOnly method to Cal

@@ -3705,13 +3705,13 @@ enum {
 
 static EPopupMenu main_items [] = {
 	E_POPUP_ITEM (N_("New _Appointment"),
-	  e_day_view_on_new_appointment, 0),
+	  e_day_view_on_new_appointment, MASK_EDITABLE),
 	E_POPUP_ITEM (N_("New All Day _Event"),
-	  e_day_view_on_new_event, 0),
+	  e_day_view_on_new_event, MASK_EDITABLE),
 	E_POPUP_ITEM (N_("New Meeting"),
-	  e_day_view_on_new_meeting, 0),
+	  e_day_view_on_new_meeting, MASK_EDITABLE),
 	E_POPUP_ITEM (N_("New Task"),
-	  e_day_view_on_new_task, 0),
+	  e_day_view_on_new_task, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
@@ -3721,7 +3721,7 @@ static EPopupMenu main_items [] = {
 	E_POPUP_SEPARATOR,
 
 	E_POPUP_ITEM (N_("_Paste"),
-	  e_day_view_on_paste, 0),
+	  e_day_view_on_paste, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
@@ -3749,7 +3749,7 @@ static EPopupMenu main_items [] = {
 
 static EPopupMenu child_items [] = {
 
-	E_POPUP_ITEM (N_("_Open"), e_day_view_on_edit_appointment, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Open"), e_day_view_on_edit_appointment, MASK_EDITING),
 	E_POPUP_ITEM (N_("_Save As..."), e_day_view_on_save_as, MASK_EDITING),
 	E_POPUP_ITEM (N_("_Print..."), e_day_view_on_print_event, MASK_EDITING),
 
@@ -3758,7 +3758,7 @@ static EPopupMenu child_items [] = {
 
 	E_POPUP_ITEM (N_("C_ut"), e_day_view_on_cut, MASK_EDITABLE | MASK_EDITING | MASK_MEETING_ORGANIZER),
 	E_POPUP_ITEM (N_("_Copy"), e_day_view_on_copy, MASK_EDITING | MASK_MEETING_ORGANIZER),
-	E_POPUP_ITEM (N_("_Paste"), e_day_view_on_paste, 0),
+	E_POPUP_ITEM (N_("_Paste"), e_day_view_on_paste, MASK_EDITABLE),
 
 	E_POPUP_SEPARATOR,
 
@@ -3839,6 +3839,9 @@ e_day_view_on_event_right_click (EDayView *day_view,
 				disable_mask |= MASK_MEETING_ORGANIZER;
 		}
 	}
+
+	if (cal_client_is_read_only (day_view->client))
+		disable_mask |= MASK_EDITABLE;
 
 	if (being_edited)
 		disable_mask |= MASK_EDITING;

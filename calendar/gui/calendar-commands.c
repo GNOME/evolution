@@ -506,23 +506,25 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 {
 	BonoboUIComponent *uic;
 	int n_selected;
+	gboolean read_only;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
 	n_selected = enable ? gnome_calendar_get_num_events_selected (gcal) : 0;
+	read_only = cal_client_is_read_only (gnome_calendar_get_cal_client (gcal));
 
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
-				      n_selected == 0 ? "0" : "1",
+				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Copy", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
-				      enable ? "1" : "0",
+				      enable && !read_only ? "1" : "0",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
-				      n_selected == 0 ? "0" : "1",
+				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
 }
 
@@ -535,23 +537,25 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 {
 	BonoboUIComponent *uic;
 	int n_selected;
+	gboolean read_only;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
 	n_selected = enable ? gnome_calendar_get_num_tasks_selected (gcal) : 0;
+	read_only = cal_client_is_read_only (gnome_calendar_get_task_pad_cal_client (gcal));
 
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
-				      n_selected == 0 ? "0" : "1",
+				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Copy", "sensitive",
 				      n_selected == 0 ? "0" : "1",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Paste", "sensitive",
-				      enable ? "1" : "0",
+				      enable && !read_only ? "1" : "0",
 				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Delete", "sensitive",
-				      n_selected == 0 ? "0" : "1",
+				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
 }
 
