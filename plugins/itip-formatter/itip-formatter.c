@@ -534,7 +534,6 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp)
 					
 					fd->sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\") (make-time \"%s\")) (not (uid? \"%s\")))", 
 								    start, end, icalcomponent_get_uid (pitip->ical_comp));
-					g_message ("Sexp is %s", fd->sexp);
 				}
 				
 				g_free (start);
@@ -671,6 +670,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	struct icaltimetype stamp;
 	icalproperty *prop;
 	icalcomponent *clone;
+	ECalComponent *clone_comp;
 	ESource *source;
 	GError *error = NULL;
 
@@ -692,40 +692,57 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	icalcomponent_add_component (pitip->top_level, clone);
 	icalcomponent_set_method (pitip->top_level, pitip->method);
 
+	clone_comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (clone_comp, clone)) {
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to parse item"));
+		goto cleanup;
+	}
 	source = e_cal_get_source (pitip->current_ecal);
 
 	if ((response != ITIP_VIEW_RESPONSE_CANCEL)
 		&& (response != ITIP_VIEW_RESPONSE_DECLINE)){
-		GSList *attachments = NULL, *l;
+		GSList *attachments = NULL, *new_attachments = NULL, *l;
 		CamelMimeMessage *msg = ((EMFormat *) pitip->pobject.format)->message;
-		GSList *parts, *m;
-		char *uri, *new_uri;
-		CamelMimePart *part;
 		
-		parts = NULL;
-		message_foreach_part ((CamelMimePart *) msg, &parts);
-		
-		for (m = parts; m; m = m->next) {
-			part = m->data;
+		for (l = attachments; l; l = l->next) {
+			GSList *parts = NULL, *m;
+			char *uri, *new_uri;
+			CamelMimePart *part;
+
+			uri = l->data;
+
+			if (!g_ascii_strncasecmp (uri, "cid:...", 4)) {
+				message_foreach_part ((CamelMimePart *) msg, &parts);
+				
+				for (m = parts; m; m = m->next) {
+					part = m->data;
+				
+					/* Skip the actual message and the text/calendar part */
+					/* FIXME Do we need to skip anything else? */
+					if (!g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id ((CamelMimePart *) msg))
+					    || !g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id (pitip->pobject.part)))
+						continue;
+				
+					new_uri = em_utils_temp_save_part (NULL, part);
+					g_message ("DEBUG: the uri obtained was %s\n", new_uri);
+					new_attachments = g_slist_append (new_attachments, new_uri);
+				}
 			
-			/* Skip the actual message and the text/calendar part */
-			/* FIXME Do we need to skip anything else? */
-			if (!g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id ((CamelMimePart *) msg))
-			    || !g_ascii_strcasecmp (camel_mime_part_get_content_id (part), camel_mime_part_get_content_id (pitip->pobject.part)))
-				continue;
-							
-			new_uri = em_utils_temp_save_part (NULL, part);
-			g_message ("DEBUG: the uri obtained was %s\n",
-					new_uri);
-			attachments = g_slist_append (attachments,
-					g_strdup (new_uri));
+				g_slist_free (parts);
+			
+			} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
+				part = camel_mime_message_get_part_by_content_id (msg, uri);
+				new_uri = em_utils_temp_save_part (NULL, part);
+				new_attachments = g_slist_append (new_attachments, new_uri);
+			} else {
+				/* Preserve existing non-cid ones */
+				new_attachments = g_slist_append (new_attachments, g_strdup (uri));
+			}
 		}
-		
-		g_slist_free (parts);
-						
-		e_cal_component_set_attachment_list (pitip->comp, attachments);
+				
+		e_cal_component_set_attachment_list (clone_comp, attachments);
 	}
-		
+
 	if (!e_cal_receive_objects (pitip->current_ecal, pitip->top_level, &error)) {
 		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO,
 						      _("Unable to send item to calendar '%s'.  %s"), 
@@ -763,7 +780,9 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 		/* FIXME Should we hide or desensitize the buttons now? */
 	}
 
+ cleanup:
 	icalcomponent_remove_component (pitip->top_level, clone);
+	g_object_unref (clone_comp);
 }
 
 static void
