@@ -1,3 +1,7 @@
+2000-10-16  Iain Holmes  <iain@helixcode.com>
+
+	* e-msg-composer-hdrs.c (init): Don't need the ID anymore.
+
 2000-10-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): If the body

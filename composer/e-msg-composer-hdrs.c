@@ -59,9 +59,6 @@ struct _EMsgComposerHdrsPrivate {
 	GtkWidget *cc_entry;
 	GtkWidget *bcc_entry;
 	GtkWidget *subject_entry;
-
-	/* Unique section ID */
-	char *section_id;
 };
 
 
@@ -122,7 +119,8 @@ address_button_clicked_cb (GtkButton *button,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_Addressbook_SelectNames_activate_dialog (priv->corba_select_names, priv->section_id, &ev);
+	/* FIXME: Section ID */
+	Evolution_Addressbook_SelectNames_activate_dialog (priv->corba_select_names, "", &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -344,7 +342,6 @@ destroy (GtkObject *object)
 		CORBA_exception_free (&ev);
 	}
 
-	g_free (priv->section_id);
 	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
@@ -392,10 +389,6 @@ init (EMsgComposerHdrs *hdrs)
 	priv->tooltips = gtk_tooltips_new ();
 
 	priv->num_hdrs = 0;
-
-	/* Make a unique id from the addresses various things 
-	   This only needs to be unique as long as hdrs exists */
-	priv->section_id = g_strdup_printf ("%p-%p", hdrs, priv);
 
 	hdrs->priv = priv;
 }
