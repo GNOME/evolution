@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 17:05-0400\n"
-"PO-Revision-Date: 2004-08-13 19:18-0700\n"
+"POT-Creation-Date: 2004-08-19 13:05-0400\n"
+"PO-Revision-Date: 2004-08-19 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -181,8 +181,6 @@ msgstr ""
 "changes?"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "_Discard"
 
@@ -2145,22 +2143,6 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Invalid contact."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "Contact Quick-Add"
@@ -3040,7 +3022,7 @@ msgid "Error adding list"
 msgstr "Error adding list"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "Error adding contact"
 
@@ -3057,20 +3039,26 @@ msgid "Error removing list"
 msgstr "Error removing list"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "Error removing contact"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgstr[1] ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3079,44 +3067,44 @@ msgstr ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "Overwrite"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "Move contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "Copy contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "Move contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "Copy contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "Select target addressbook."
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "Multiple VCards"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard for %s"
@@ -6194,7 +6182,6 @@ msgstr "iCalendar Error"
 msgid "An unknown person"
 msgstr "An unknown person"
 
-#. Describe what the user can do
 #: calendar/gui/e-itip-control.c:938
 msgid ""
 "<br> Please review the following information, and then select an action from "
@@ -12320,7 +12307,6 @@ msgstr "Could not create composer window."
 msgid "Unable to activate the address selector control."
 msgstr "Unable to activate the address selector control."
 
-#. mail-composer:no-editor-control secondary
 #: composer/mail-composer-errors.xml.h:54
 msgid ""
 "Unable to activate the HTML editor control.\n"
@@ -15559,7 +15545,6 @@ msgstr ""
 msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Are you sure you want to send a message in HTML format?"
 
-#. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
@@ -15597,7 +15582,6 @@ msgstr ""
 msgid "Are you sure you want to send a message with only BCC recipients?"
 msgstr "Are you sure you want to send a message with only BCC recipients?"
 
-#. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
@@ -15712,7 +15696,6 @@ msgstr ""
 msgid "Your message with the subject \"{0}\" was not delivered."
 msgstr "Your message with the subject \"{0}\" was not delivered."
 
-#. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
 msgid ""
 "The message was sent via the \"sendmail\" external application.  Sendmail "
@@ -15981,7 +15964,6 @@ msgstr "Cannot add vFolder \"{0}\"."
 msgid "vFolders automatically updated."
 msgstr "vFolders automatically updated."
 
-#. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
 msgid ""
 "The following vFolder(s):\n"
@@ -16001,7 +15983,6 @@ msgstr ""
 msgid "Mail filters automatically updated."
 msgstr "Mail filters automatically updated."
 
-#. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
 msgid ""
 "The following filter rule(s):\n"
@@ -16036,7 +16017,6 @@ msgstr "You must name this vFolder."
 msgid "No sources selected."
 msgstr "No sources selected."
 
-#. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
 msgid ""
 "You must specify at least one folder as a source.\n"
@@ -16053,7 +16033,6 @@ msgstr ""
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Problem migrating old mail folder \"{0}\"."
 
-#. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:226
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
@@ -16439,7 +16418,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "Generating message list"
 
@@ -17003,9 +16982,8 @@ msgstr "Don't ask me again"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution can import data from the following files:"
 
-#. Preview/Alpha/Beta version warning message
 #: shell/main.c:226
-#, no-c-format
+#, c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -17089,7 +17067,6 @@ msgstr ""
 msgid "Insufficient disk space for upgrade."
 msgstr "Insufficient disk space for upgrade."
 
-#. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
 msgid ""
 "Upgrading your data and settings will require upto {0} of disk space, but "
@@ -17104,7 +17081,6 @@ msgstr ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 
-#. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
 msgid ""
 "Upgrade from previous version failed:\n"
@@ -17113,7 +17089,6 @@ msgstr ""
 "Upgrade from previous version failed:\n"
 "{0}"
 
-#. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
 msgid ""
 "{1}\n"
@@ -17136,7 +17111,6 @@ msgstr "Continue"
 msgid "Delete old data from version {0}?"
 msgstr "Delete old data from version {0}?"
 
-#. shell:upgrade-remove-1-4 secondary
 #: shell/shell-errors.xml.h:21
 msgid ""
 "The previous version of evolution stored its data in a different location.\n"
@@ -17167,7 +17141,6 @@ msgstr "_Keep Data"
 msgid "Really delete old data?"
 msgstr "Really delete old data?"
 
-#. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
@@ -17202,7 +17175,6 @@ msgstr "Cannot start Evolution"
 msgid "Evolution can not start."
 msgstr "Evolution cannot start."
 
-#. shell:noshell secondary
 #: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
@@ -17213,7 +17185,6 @@ msgstr ""
 "\n"
 "Click help for details"
 
-#. shell:noshell-reason secondary
 #: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
