@@ -1,3 +1,7 @@
+2004-03-08  Jakub Steiner <jimmac@ximian.com>
+
+	* im-nov.png: (16x16). closes bug #54972
+	
 2004-02-25 Sivaiah Nallagatla <snallagatla@novell.com>
 	* Makefile.am : added im-nov.png (icon for Groupwise im)
 	to images_DATA
