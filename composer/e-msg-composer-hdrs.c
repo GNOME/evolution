@@ -190,11 +190,25 @@ add_header (EMsgComposerHdrs *hdrs,
 		entry = gtk_entry_new ();
 
 	if (entry != NULL) {
-		gtk_table_attach (GTK_TABLE (hdrs), entry,
+		GtkWidget *widget_to_attach;
+
+		/* The entries we get from ::SelectNames don't have a frame.
+                   FIXME: They should.  */
+		if (GTK_IS_ENTRY (entry)) {
+			widget_to_attach = entry;
+		} else {
+			widget_to_attach = gtk_frame_new (NULL);
+			gtk_frame_set_shadow_type (GTK_FRAME (widget_to_attach), GTK_SHADOW_IN);
+			gtk_container_add (GTK_CONTAINER (widget_to_attach), entry);
+			gtk_widget_show (widget_to_attach);
+		}
+
+		gtk_widget_show (entry);
+
+		gtk_table_attach (GTK_TABLE (hdrs), widget_to_attach,
 				  1, 2, priv->num_hdrs, priv->num_hdrs + 1,
 				  GTK_FILL | GTK_EXPAND, GTK_FILL,
 				  2, 2);
-		gtk_widget_show (entry);
 
 		gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
 	}
@@ -447,43 +461,53 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 }
 
 
+static void
+set_entry (BonoboWidget *bonobo_widget,
+	   const GList *list)
+{
+	GString *string;
+	const GList *p;
+
+	string = g_string_new (NULL);
+	for (p = list; p != NULL; p = p->next) {
+		if (string->str[0] != '\0')
+			g_string_append (string, ", ");
+		g_string_append (string, p->data);
+	}
+
+	bonobo_widget_set_property (BONOBO_WIDGET (bonobo_widget), "text", string->str, NULL);
+
+	g_string_free (string, TRUE);
+}
+
 void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 			    const GList *to_list)
 {
-	EMsgComposerAddressEntry *entry;
-
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
-	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->to_entry);
-	e_msg_composer_address_entry_set_list (entry, to_list);
+	set_entry (BONOBO_WIDGET (hdrs->priv->to_entry), to_list);
 }
 
 void
 e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 			    const GList *cc_list)
 {
-	EMsgComposerAddressEntry *entry;
-
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
-	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->cc_entry);
-	e_msg_composer_address_entry_set_list (entry, cc_list);
+	set_entry (BONOBO_WIDGET (hdrs->priv->cc_entry), cc_list);
 }
 
 void
 e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 			     const GList *bcc_list)
 {
-	EMsgComposerAddressEntry *entry;
-
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
-	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->bcc_entry);
-	e_msg_composer_address_entry_set_list (entry, bcc_list);
+	set_entry (BONOBO_WIDGET (hdrs->priv->bcc_entry), bcc_list);
 }
 
 void
@@ -501,34 +525,40 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 }
 
 
+/* FIXME this is currently unused and broken.  */
 GList *
 e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	return e_msg_composer_address_entry_get_addresses
-		(E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->to_entry));
+	g_assert_not_reached ();
+
+	return NULL;
 }
 
+/* FIXME this is currently unused and broken.  */
 GList *
 e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	return e_msg_composer_address_entry_get_addresses
-		(E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->cc_entry));
+	g_assert_not_reached ();
+
+	return NULL;
 }
 
+/* FIXME this is currently unused and broken.  */
 GList *
 e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	return e_msg_composer_address_entry_get_addresses
-		(E_MSG_COMPOSER_ADDRESS_ENTRY (hdrs->priv->bcc_entry));
+	g_assert_not_reached ();
+
+	return NULL;
 }
 
 const char *

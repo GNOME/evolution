@@ -1,5 +1,10 @@
 2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): New function to set the properties.
+
+2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* gui/component/addressbook-factory.c (main): Start up the factory
 	for `Evolution::Addressbook::SelectNames'.
 

@@ -74,6 +74,27 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 	}
 }
 
+static void
+entry_set_property_fn (BonoboPropertyBag *bag,
+		       const BonoboArg *arg,
+		       guint arg_id,
+		       gpointer user_data)
+{
+	GtkWidget *widget;
+	const char *text;
+
+	widget = GTK_WIDGET (user_data);
+
+	switch (arg_id) {
+	case ENTRY_PROPERTY_ID_TEXT:
+		text = BONOBO_ARG_GET_STRING (arg);
+		gtk_object_set (GTK_OBJECT (widget), "text", text, NULL);
+		break;
+	default:
+		break;
+	}
+}
+
 
 /* CORBA interface implementation.  */
 
@@ -148,9 +169,10 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 
 	control = bonobo_control_new (entry_widget);
 
-	property_bag = bonobo_property_bag_new (entry_get_property_fn, NULL, entry_widget);
+	property_bag = bonobo_property_bag_new (entry_get_property_fn, entry_set_property_fn, entry_widget);
 	bonobo_property_bag_add (property_bag, "text", ENTRY_PROPERTY_ID_TEXT,
-				 BONOBO_ARG_STRING, NULL, NULL, BONOBO_PROPERTY_READABLE);
+				 BONOBO_ARG_STRING, NULL, NULL,
+				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
 
 	bonobo_control_set_property_bag (control, property_bag);
 

@@ -1,5 +1,20 @@
 2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-msg-composer-hdrs.c (set_entry): New.
+	(e_msg_composer_hdrs_set_to): Use it.
+	(e_msg_composer_hdrs_set_cc): Likewise
+	(e_msg_composer_hdrs_set_bcc): Likewise.
+	(e_msg_composer_hdrs_get_to): Replace implementation with a
+	`g_assert_not_reached()'.
+	(e_msg_composer_hdrs_get_cc): Likewise.
+	(e_msg_composer_hdrs_get_bcc): Likewise.
+
+	* e-msg-composer.c: Get rid of cut/copy/paste/undo as they
+	duplicate the editor toolbar and cannot be made to work for all
+	the widgets anyway.
+
+2000-07-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-msg-composer-hdrs.c: New member `corba_select_names' in
 	`EMsgComposerHdrsPrivate'.
 	(destroy): If not `CORBA_OBJECT_NIL', release.
