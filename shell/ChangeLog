@@ -1,3 +1,7 @@
+2004-05-03  Dan Winship  <danw@ximian.com>
+
+	* e-shell-importer.c (e_shell_importer_start_import): Fix warnings
+
 2004-04-30  Dan Winship  <danw@ximian.com>
 
 	* apps_evolution_shell.schemas.in.in: Remove default folders,

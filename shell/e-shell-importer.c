@@ -1174,7 +1174,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	/* Intelligent or direct import page */
 	data->typedialog = glade_xml_get_widget (data->wizard, "page1");
-	gnome_druid_page_standard_set_logo (data->typedialog, icon);
+	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (data->typedialog), icon);
 	g_signal_connect (data->typedialog, "next",
 			  G_CALLBACK (next_type_page), data);
 	data->typepage = importer_type_page_new (data);
@@ -1186,7 +1186,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	/* Intelligent importer source page */
 	data->intelligent = glade_xml_get_widget (data->wizard, "page2-intelligent");
-	gnome_druid_page_standard_set_logo (data->intelligent, icon);
+	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (data->intelligent), icon);
 	g_signal_connect (data->intelligent, "back",
 			  G_CALLBACK (back_intelligent_page), data);
 	g_signal_connect_after (data->intelligent, "prepare",
@@ -1202,7 +1202,7 @@ e_shell_importer_start_import (EShellWindow *shell_window)
 
 	/* File selection and file type page */
 	data->filedialog = glade_xml_get_widget (data->wizard, "page2-file");
-	gnome_druid_page_standard_set_logo (data->filedialog, icon);
+	gnome_druid_page_standard_set_logo (GNOME_DRUID_PAGE_STANDARD (data->filedialog), icon);
 	g_signal_connect_after (data->filedialog, "prepare",
 			  G_CALLBACK (prepare_file_page), data);
 	g_signal_connect (data->filedialog, "next",
