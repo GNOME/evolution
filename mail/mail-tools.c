@@ -237,23 +237,23 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	CamelMimePart *part;
 	const char *subject;
 	gchar *desc;
-
-	/*camel_object_ref (CAMEL_OBJECT (message));*/
-
+	
 	subject = camel_mime_message_get_subject (message);
 	if (subject)
 		desc = g_strdup_printf (_("Forwarded message - %s"), subject);
 	else
 		desc = g_strdup (_("Forwarded message (no subject)"));
-
+	
+	/* FIXME: shouldn't we utf-8ify the description? */
+	
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
 	camel_mime_part_set_description (part, desc);
 	camel_medium_set_content_object (CAMEL_MEDIUM (part),
 					 CAMEL_DATA_WRAPPER (message));
 	camel_mime_part_set_content_type (part, "message/rfc822");
-	g_free(desc);
-	/*camel_object_unref (CAMEL_OBJECT (message));*/
+	g_free (desc);
+	
 	return part;
 }
 

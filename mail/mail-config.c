@@ -55,7 +55,7 @@
 
 typedef struct {
 	Bonobo_ConfigDatabase db;
-
+	
 	gboolean show_preview;
 	gboolean thread_list;
 	gboolean hide_deleted;
@@ -71,13 +71,13 @@ typedef struct {
 	
 	GSList *accounts;
 	gint default_account;
-
+	
 	GSList *news;
 	
 	char *pgp_path;
 	CamelPgpType pgp_type;
 	gboolean remember_pgp_passphrase;
-
+	
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
 	MailConfigDisplayStyle message_display_style;
@@ -111,7 +111,7 @@ identity_copy (const MailConfigIdentity *id)
 	new->signature = g_strdup (id->signature);
 	new->html_signature = g_strdup (id->html_signature);
 	new->has_html_signature = id->has_html_signature;
-
+	
 	return new;
 }
 
@@ -230,12 +230,12 @@ mail_config_init (void)
 {
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
-
+	
 	if (config)
 		return;
 	
 	CORBA_exception_init (&ev);
-
+	
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	
 	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
@@ -243,11 +243,11 @@ mail_config_init (void)
 		CORBA_exception_free (&ev);
 		return;
  	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	config = g_new0 (MailConfig, 1);
-
+	
 	config->db = db;
 	
 	config_read ();
@@ -276,12 +276,12 @@ static void
 config_read (void)
 {
 	gint len, i, default_num;
-
+	
 	mail_config_clear ();
 		
 	len = bonobo_config_get_long_with_default (config->db, 
 	        "/Mail/Accounts/num", 0, NULL);
-
+	
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
 		MailConfigIdentity *id;
@@ -359,15 +359,15 @@ config_read (void)
 		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
 		id->name = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
 		id->address = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
 		id->organization = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
 		id->signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
@@ -378,10 +378,10 @@ config_read (void)
 		id->has_html_signature = bonobo_config_get_boolean_with_default (
 			config->db, path, FALSE, NULL);
 		g_free (path);
-
+		
 		/* get the source */
 		source = g_new0 (MailConfigService, 1);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
@@ -393,28 +393,28 @@ config_read (void)
 		path = g_strdup_printf ("/Mail/Accounts/source_keep_on_server_%d", i);
 		source->keep_on_server = bonobo_config_get_boolean (config->db, path, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_%d", i);
 		source->auto_check = bonobo_config_get_boolean_with_default (
                         config->db, path, FALSE, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_time_%d", i);
 		source->auto_check_time = bonobo_config_get_long_with_default ( 
 			config->db, path, -1, NULL);
-
+		
 		if (source->auto_check && source->auto_check_time <= 0) {
 			source->auto_check_time = 5;
 			source->auto_check = FALSE;
 		}
-
+		
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_enabled_%d", i);
 		source->enabled = bonobo_config_get_boolean_with_default (
 			config->db, path, TRUE, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf 
 			("/Mail/Accounts/source_save_passwd_%d", i);
 		source->save_passwd = bonobo_config_get_boolean_with_default ( 
@@ -441,13 +441,12 @@ config_read (void)
 		
 		config->accounts = g_slist_append (config->accounts, account);
 	}
-
-
+	
 	default_num = bonobo_config_get_long_with_default (config->db,
 		"/Mail/Accounts/default_account", 0, NULL);
 
 	mail_config_set_default_account_num (default_num);
-
+	
 #ifdef ENABLE_NNTP
 	/* News */
 	
@@ -458,14 +457,13 @@ config_read (void)
 		gchar *path, *r;
 		
 		path = g_strdup_printf ("/News/Sources/url_%d", i);
-
+		
 		if ((r = bonobo_config_get_string (config->db, path, NULL))) {
-
 			n = g_new0 (MailConfigService, 1);		
 			n->url = r;
 			config->news = g_slist_append (config->news, n);
 		} 
-
+		
 		g_free (path);
 		
 	}
@@ -474,7 +472,7 @@ config_read (void)
 	/* Format */
 	config->send_html = bonobo_config_get_boolean_with_default (config->db,
 	        "/Mail/Format/send_html", FALSE, NULL);
-
+	
 	/* Citation */
 	config->citation_highlight = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Display/citation_highlight", TRUE, NULL);
@@ -485,7 +483,7 @@ config_read (void)
 	/* Mark as seen toggle */
 	config->do_seen_timeout = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Display/do_seen_timeout", TRUE, NULL);
-
+	
 	/* Mark as seen timeout */
 	config->seen_timeout = bonobo_config_get_long_with_default (config->db,
                 "/Mail/Display/seen_timeout", 1500, NULL);
@@ -504,7 +502,7 @@ config_read (void)
 	/* Size of vpaned in mail view */
 	config->paned_size = bonobo_config_get_long_with_default (config->db, 
                 "/Mail/Display/paned_size", 200, NULL);
-
+	
 	/* Empty Subject */
 	config->prompt_empty_subject = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/empty_subject", TRUE, NULL);
@@ -512,7 +510,7 @@ config_read (void)
 	/* Only Bcc */
 	config->prompt_only_bcc = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/only_bcc", TRUE, NULL);
-
+	
 	/* PGP/GPG */
 	config->pgp_path = bonobo_config_get_string (config->db, 
 						     "/Mail/PGP/path", NULL);
@@ -753,7 +751,7 @@ mail_config_write_on_exit (void)
 	/* Size of vpaned in mail view */
 	bonobo_config_set_long (config->db, "/Mail/Display/paned_size", 
 				config->paned_size, NULL);
-
+	
 	/* Mark as seen toggle */
 	bonobo_config_set_boolean (config->db, "/Mail/Display/do_seen_timeout",
 				   config->do_seen_timeout, NULL);

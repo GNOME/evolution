@@ -1253,9 +1253,15 @@ mail_account_gui_new (MailConfigAccount *account)
 	
 	/* Security */
 	gui->pgp_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "pgp_key"));
+	if (account->pgp_key)
+		e_utf8_gtk_entry_set_text (gui->pgp_key, account->pgp_key);
 	gui->pgp_encrypt_to_self = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_encrypt_to_self"));
+	gtk_toggle_button_set_active (gui->pgp_encrypt_to_self, account->pgp_encrypt_to_self);
 	gui->smime_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "smime_key"));
+	if (account->smime_key)
+		e_utf8_gtk_entry_set_text (gui->smime_key, account->smime_key);
 	gui->smime_encrypt_to_self = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_encrypt_to_self"));
+	gtk_toggle_button_set_active (gui->smime_encrypt_to_self, account->smime_encrypt_to_self);
 	
 #ifndef HAVE_NSS
 	{
@@ -1263,7 +1269,7 @@ mail_account_gui_new (MailConfigAccount *account)
 		GtkWidget *frame;
 		
 		frame = glade_xml_get_widget (gui->xml, "smime_frame");
-		gtk_widget_hide (frame);
+		gtk_widget_set_sensitive (frame, FALSE);
 	}
 #endif
 	
