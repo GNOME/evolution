@@ -1070,15 +1070,15 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 		
 		argv[i++] = "--verify";
 		
-		if (sigin != NULL && siglen)
-			argv[i++] = sigfile;
-		
-		argv[i++] = "-";
-		
 		argv[i++] = "--no-tty";
 		/*argv[i++] = "--verbose";*/
 		/*argv[i++] = "--yes";*/
 		/*argv[i++] = "--batch";*/
+		
+		if (sigin != NULL && siglen)
+			argv[i++] = sigfile;
+		
+		argv[i++] = "-";
 		break;
 	case PGP_TYPE_PGP5:
 		argv[i++] = "pgpv";
