@@ -26,6 +26,7 @@
 
 #include <gtk/gtktable.h>
 #include <libgnomeui/gnome-canvas.h>
+#include <gal/widgets/e-popup-menu.h>
 
 #include "gnome-cal.h"
 #include "evolution-activity-client.h"
@@ -347,6 +348,7 @@ struct _EWeekView
 
 	/* The event that the context menu is for. */
 	gint popup_event_num;
+	EPopupMenu *view_menu;
 
 	/* The last mouse position when dragging, in the entire canvas. */
 	gint drag_event_x;

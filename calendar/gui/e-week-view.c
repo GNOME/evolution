@@ -44,8 +44,8 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <gal/e-text/e-text.h>
-#include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-dialog-utils.h>
 #include "dialogs/delete-comp.h"
@@ -3444,6 +3444,8 @@ static EPopupMenu main_items [] = {
 	E_POPUP_ITEM (N_("_Paste"), e_week_view_on_paste, 0),
 
 	E_POPUP_SEPARATOR,
+
+	E_POPUP_SUBMENU (N_("Current View"), NULL, 0),
 	
 	E_POPUP_ITEM (N_("Go to _Today"), e_week_view_on_goto_today, 0),
 	E_POPUP_ITEM (N_("_Go to Date..."), e_week_view_on_goto_date, 0),
@@ -3473,8 +3475,8 @@ static EPopupMenu child_items [] = {
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_week_view_on_meeting, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_week_view_on_forward, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_week_view_on_meeting, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_week_view_on_forward, MASK_EDITABLE | MASK_EDITING),
 
 	E_POPUP_SEPARATOR,
 
@@ -3486,6 +3488,14 @@ static EPopupMenu child_items [] = {
 	E_POPUP_TERMINATOR
 };
 
+static void
+free_view_popup (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view = E_WEEK_VIEW (data);
+	
+	gnome_calendar_discard_view_popup (week_view->calendar, week_view->view_menu);
+}
+
 void
 e_week_view_show_popup_menu (EWeekView	     *week_view,
 			     GdkEventButton  *bevent,
@@ -3496,7 +3506,8 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	gboolean being_edited;
 	guint32 disable_mask = 0, hide_mask = 0;
 	EPopupMenu *context_menu;
-
+	GtkMenu *popup;
+	
 	have_selection = GTK_WIDGET_HAS_FOCUS (week_view)
 		&& week_view->selection_start_day != -1;
 
@@ -3508,6 +3519,8 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	being_edited = FALSE;
 
 	if (event_num == -1) {
+		week_view->view_menu = gnome_calendar_setup_view_popup (week_view->calendar);
+		main_items[9].submenu = week_view->view_menu;
 		context_menu = main_items;
 	} else {
 		context_menu = child_items;
@@ -3523,7 +3536,10 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		disable_mask |= MASK_EDITING;
 	week_view->popup_event_num = event_num;
 
-	e_popup_menu_run (context_menu, (GdkEvent *) bevent, disable_mask, hide_mask, week_view);
+	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, week_view);
+	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+			    GTK_SIGNAL_FUNC (free_view_popup), week_view);
+	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 
 static void

@@ -29,6 +29,7 @@
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkvbox.h>
 #include <bonobo/bonobo-ui-component.h>
+#include <gal/widgets/e-popup-menu.h>
 #include <widgets/misc/e-calendar.h>
 #include <cal-client/cal-client.h>
 
@@ -110,6 +111,9 @@ void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_ty
 
 void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
 void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
+
+EPopupMenu *gnome_calendar_setup_view_popup (GnomeCalendar *gcal);
+void gnome_calendar_discard_view_popup (GnomeCalendar *gcal, EPopupMenu *popup);
 
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,

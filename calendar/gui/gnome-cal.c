@@ -1236,7 +1236,8 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 	GnomeCalendarPrivate *priv;
 	gboolean round_selection;
 	GtkWidget *focus_widget;
-
+	const char *view_id;
+	
 	priv = gcal->priv;
 
 	round_selection = FALSE;
@@ -1244,23 +1245,27 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 
 	switch (view_type) {
 	case GNOME_CAL_DAY_VIEW:
+		view_id = "Day_View";
 		focus_widget = priv->day_view;
-
+		
 		if (!range_selected)
 			e_day_view_set_days_shown (E_DAY_VIEW (priv->day_view), 1);
 
 		break;
 
 	case GNOME_CAL_WORK_WEEK_VIEW:
+		view_id = "Work_Week_View";
 		focus_widget = priv->work_week_view;
 		break;
 
 	case GNOME_CAL_WEEK_VIEW:
+		view_id = "Week_View";
 		focus_widget = priv->week_view;
 		round_selection = TRUE;
 		break;
 
 	case GNOME_CAL_MONTH_VIEW:
+		view_id = "Month_View";
 		focus_widget = priv->month_view;
 
 		if (!range_selected)
@@ -1283,6 +1288,7 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 	calendar_config_set_default_view (view_type);
 
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), (int) view_type);
+	gal_view_instance_set_current_view_id (priv->view_instance, view_id);
 
 	if (grab_focus)
 		gtk_widget_grab_focus (focus_widget);
@@ -1439,6 +1445,38 @@ gnome_calendar_discard_view_menus (GnomeCalendar *gcal)
 
 	gtk_object_unref (GTK_OBJECT (priv->view_menus));
 	priv->view_menus = NULL;
+}
+
+EPopupMenu *
+gnome_calendar_setup_view_popup (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	g_return_val_if_fail (gcal != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	priv = gcal->priv;
+
+	g_return_val_if_fail (priv->view_instance != NULL, NULL);
+
+	return gal_view_instance_get_popup_menu (priv->view_instance);
+}
+
+void
+gnome_calendar_discard_view_popup (GnomeCalendar *gcal, EPopupMenu *popup)
+{
+
+
+	GnomeCalendarPrivate *priv;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	priv = gcal->priv;
+
+	g_return_if_fail (priv->view_instance != NULL);
+
+	gal_view_instance_free_popup_menu (priv->view_instance, popup);
 }
 
 static void

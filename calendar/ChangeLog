@@ -1,3 +1,23 @@
+2002-04-24  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view.c (free_view_popup): free the view popup
+	(e_week_view_show_popup_menu): add the view popup to the
+	"main_item" menu and listen for destruction
+
+	* gui/e-day-view.c (free_view_popup): as above
+	(e_day_view_on_event_right_click): as above
+
+	* gui/e-week-view.h: add class member
+
+	* gui/e-day-view.h: add a class member
+
+	* gui/gnome-cal.h: new protos
+
+	* gui/gnome-cal.c (set_view): set the instance view id properly
+	when switching views
+	(gnome_calendar_setup_view_popup): generate a view popup
+	(gnome_calendar_discard_view_popup): destroy a view popup
+
 2002-04-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal.c (impl_Cal_get_alarms_in_range): raise an exception if the

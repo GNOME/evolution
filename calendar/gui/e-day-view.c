@@ -41,8 +41,8 @@
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
 #include <gal/e-text/e-text.h>
-#include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
@@ -3541,17 +3541,6 @@ enum {
 	MASK_EDITING  = 8
 };
 
-#if 0
-static EPopupMenu view_items [] = {
-	E_POPUP_RADIO_ITEM (N_("Day View"), e_day_view_on_goto_date, 0, 0),
-	E_POPUP_RADIO_ITEM (N_("Work Week View"), e_day_view_on_goto_date, 0, 0),
-	E_POPUP_RADIO_ITEM (N_("Week View"), e_day_view_on_goto_date, 0, 0),
-	E_POPUP_RADIO_ITEM (N_("Month View"), e_day_view_on_goto_date, 0, 0),
-
-	E_POPUP_TERMINATOR
-};
-#endif
-
 static EPopupMenu main_items [] = {
 	E_POPUP_ITEM (N_("New _Appointment"),
 	  e_day_view_on_new_appointment, 0),
@@ -3574,10 +3563,7 @@ static EPopupMenu main_items [] = {
 
 	E_POPUP_SEPARATOR,
 
-#if 0
-	E_POPUP_SUBMENU (N_("Current View"),
-			 view_items, 0),
-#endif
+	E_POPUP_SUBMENU (N_("Current View"), NULL, 0),
 
 	E_POPUP_ITEM (N_("Go to _Today"),
 	  e_day_view_on_goto_today, 0),
@@ -3612,8 +3598,8 @@ static EPopupMenu child_items [] = {
 
 	E_POPUP_SEPARATOR,
 
-	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_day_view_on_meeting, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
-	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_day_view_on_forward, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Schedule Meeting..."), e_day_view_on_meeting, MASK_EDITABLE | MASK_EDITING),
+	E_POPUP_ITEM (N_("_Forward as iCalendar..."), e_day_view_on_forward, MASK_EDITABLE | MASK_EDITING),
 	
 	E_POPUP_SEPARATOR,
 
@@ -3626,6 +3612,14 @@ static EPopupMenu child_items [] = {
 };
 
 static void
+free_view_popup (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+	
+	gnome_calendar_discard_view_popup (day_view->calendar, day_view->view_menu);
+}
+
+static void
 e_day_view_on_event_right_click (EDayView *day_view,
 				 GdkEventButton *bevent,
 				 gint day,
@@ -3635,6 +3629,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	int have_selection;
 	gboolean being_edited;
 	EPopupMenu *context_menu;
+	GtkMenu *popup;
 	int hide_mask = 0;
 	int disable_mask = 0;
 
@@ -3650,9 +3645,11 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	have_selection = GTK_WIDGET_HAS_FOCUS (day_view)
 		&& day_view->selection_start_day != -1;
 
-	if (event_num == -1)
+	if (event_num == -1) {
+		day_view->view_menu = gnome_calendar_setup_view_popup (day_view->calendar);
+		main_items[9].submenu = day_view->view_menu;
 		context_menu = main_items;
-	else {
+	} else {
 		context_menu = child_items;
 		
 		if (day == E_DAY_VIEW_LONG_EVENT)
@@ -3673,8 +3670,11 @@ e_day_view_on_event_right_click (EDayView *day_view,
 
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
-
-	e_popup_menu_run (context_menu, (GdkEvent *) bevent, disable_mask, hide_mask, day_view);
+	
+	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, day_view);
+	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
+			    GTK_SIGNAL_FUNC (free_view_popup), day_view);
+	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 
 static void
