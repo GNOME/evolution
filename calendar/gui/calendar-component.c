@@ -148,7 +148,7 @@ add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
 	if (callback)
 		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
 
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	gtk_widget_show (item);
 }
 

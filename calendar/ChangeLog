@@ -1,3 +1,8 @@
+2003-11-12  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-component.c (add_popup_menu_item): Use non-deprecated
+	gtk_menu_shell_append ().
+
 2003-11-11  Bolian Yin <bolian.yin@sun.com>
                                                                                 
         Fixes #50808
