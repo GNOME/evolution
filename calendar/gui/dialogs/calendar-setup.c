@@ -192,10 +192,11 @@ validate_remote_uri (const gchar *source_location, gboolean interactive, GtkWidg
 	return TRUE;
 }
 
-static void
+static int
 source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list)
 {
 	GSList *groups, *sl;
+	int index=-1, i=0;
 
 	groups = e_source_list_peek_groups (source_list);
 	for (sl = groups; sl; sl = g_slist_next (sl)) {
@@ -204,8 +205,15 @@ source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list
 
 		menu_item = gtk_menu_item_new_with_label (e_source_group_peek_name (group));
 		gtk_widget_show (menu_item);
+		if (e_source_group_get_readonly(group))
+			gtk_widget_set_sensitive(menu_item, FALSE);
+		else if (i == -1)
+			index = i;
+
 		gtk_menu_shell_append (menu_shell, menu_item);
 	}
+
+	return index;
 }
 
 static ESource *
@@ -264,6 +272,7 @@ create_new_source_with_group (GtkWindow *parent,
 	if (!e_cal_open (cal, FALSE, NULL)) {
 		e_source_group_remove_source (group, source);
 		g_object_unref (source);
+		source = NULL;
 	}
 
 	g_object_unref (cal);
@@ -526,6 +535,7 @@ gboolean
 calendar_setup_new_calendar (GtkWindow *parent)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
+	int index;
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "add-calendar-window", NULL);
 	if (!source_dialog->gui_xml) {
@@ -551,9 +561,9 @@ calendar_setup_new_calendar (GtkWindow *parent)
 
 	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
 	 * on startup of the calendar component. */
-	source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
+	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
 		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), 0);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
 	source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
@@ -681,6 +691,7 @@ gboolean
 calendar_setup_new_task_list (GtkWindow *parent)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
+	int index;
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "add-task-list-window", NULL);
 	if (!source_dialog->gui_xml) {
@@ -706,9 +717,9 @@ calendar_setup_new_task_list (GtkWindow *parent)
 
 	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
 	 * on startup of the calendar component. */
-	source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
+	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
 		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), 0);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
 	source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);

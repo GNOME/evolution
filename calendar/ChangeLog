@@ -6,6 +6,18 @@
 
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
+	** Fixes #57034.
+	
+	* gui/dialogs/calendar-setup.c (create_new_source_with_group):
+	NULL out source if we can't open the calendar.
+	(source_group_menu_add_groups): if the group is readonly, then
+	desensitise it.
+	(source_group_menu_add_groups): return the first non-readonly
+	calendar index.
+	(calendar_setup_new_calendar): set the group history to the first
+	non-readonly group.
+	(calendar_setup_new_task_list): same.
+
 	* gui/gnome-cal.c (gnome_calendar_set_ui_component): fix for
 	user_creatable_items api changes.
 
