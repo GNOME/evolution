@@ -200,7 +200,7 @@ child_set_text_pos (Child *child)
 	allocation.width = child->width - handle_size - child->decor_width;
 	allocation.height = child->height - (has_focus ? (2 * handle_size) : 0);
 
-	gtk_widget_size_request (child->widget, &child->widget->requisition); /* FIXME: is this needed? */
+	gtk_widget_size_request (child->widget, NULL);
 	gtk_widget_size_allocate (child->widget, &allocation);
 }
 
