@@ -1,3 +1,18 @@
+2004-09-04 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/widgets/e-addressbook-view.h : add
+	new widget variable contact_dsiplay_window to _EABView strcut
+	to store. Remove unused scrolled varible
+	* gui/widgets/e-addressbook-view.c (eab_view_init)
+	(eab_view_dispose) : initialize and unref the new widget
+	added 
+	(eab_view_new) : remove the loca variable scrlled_window 
+	instead use eav->contact_display_window
+	(eab_view_show_contact_preview) : show/hide contact_display_window 
+	instead of contact_display
+	Fixes #64024 
+
+
 2004-08-27  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #62856 (workaround).
