@@ -189,6 +189,7 @@ camel/camel-vee-folder.c
 camel/camel-vee-store.c
 camel/camel-vtrash-folder.c
 camel/providers/groupwise/camel-groupwise-provider.c
+camel/providers/groupwise/camel-gw-listener.c
 camel/providers/imap/camel-imap-command.c
 camel/providers/imap/camel-imap-folder.c
 camel/providers/imap/camel-imap-message-cache.c

@@ -1,3 +1,9 @@
+2004-01-17  Danilo Šegan  <dsegan@gmx.net>
+
+	* sr.po, sr@Latn.po: Updated Serbian translation.
+
+	* POTFILES.in: Added camel/providers/groupwise/camel-gw-listener.c.
+
 2004-01-16  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.
