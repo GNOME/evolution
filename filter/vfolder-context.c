@@ -54,7 +54,7 @@ vfolder_context_get_type (void)
 			(GInstanceInitFunc) vfolder_context_init,
 		};
 		
-		type = g_type_register_static (RULE_TYPE_CONTEXT, "VFolderContext", &info, 0);
+		type = g_type_register_static (RULE_TYPE_CONTEXT, "VfolderContext", &info, 0);
 	}
 	
 	return type;

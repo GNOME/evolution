@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkframe.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "vfolder-editor.h"
@@ -108,7 +107,7 @@ vfolder_editor_new (VfolderContext *vc)
 	GladeXML *gui;
 	GtkWidget *w;
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	rule_editor_construct ((RuleEditor *) ve, (RuleContext *) vc, gui, NULL);
 	
         w = glade_xml_get_widget (gui, "rule_frame");

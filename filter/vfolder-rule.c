@@ -25,10 +25,8 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkbox.h>
-#include <gtk/gtklist.h>
-#include <gtk/gtkoptionmenu.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
+#include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
@@ -60,20 +58,22 @@ static FilterRuleClass *parent_class = NULL;
 GType
 vfolder_rule_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"VfolderRule",
-			sizeof(VfolderRule),
-			sizeof(VfolderRuleClass),
-			(GtkClassInitFunc)vfolder_rule_class_init,
-			(GtkObjectInitFunc)vfolder_rule_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (VfolderRuleClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) vfolder_rule_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (VfolderRule),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) vfolder_rule_init,
 		};
 		
-		type = gtk_type_unique(filter_rule_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_RULE, "VfolderRule", &info, 0);
 	}
 	
 	return type;
@@ -331,7 +331,7 @@ enum {
 };
 
 struct _source_data {
-	RuleContext *f;
+	RuleContext *rc;
 	VfolderRule *vr;
 	const char *current;
 	GtkList *list;
@@ -345,28 +345,28 @@ static struct {
 	char *name;
 	GtkSignalFunc func;
 } edit_buttons[] = {
-	{ "source_add", source_add },
-	{ "source_remove", source_remove },
+	{ "source_add",    GTK_SIGNAL_FUNC (source_add)    },
+	{ "source_remove", GTK_SIGNAL_FUNC (source_remove) },
 };
 
 static void
-set_sensitive(struct _source_data *data)
+set_sensitive (struct _source_data *data)
 {
 	gtk_widget_set_sensitive ((GtkWidget *) data->buttons[BUTTON_ADD], TRUE);
 	gtk_widget_set_sensitive ((GtkWidget *) data->buttons[BUTTON_REMOVE], data->current != NULL);
 }
 
 static void
-select_source(GtkWidget *w, GtkWidget *child, struct _source_data *data)
+select_source (GtkWidget *widget, GtkWidget *child, struct _source_data *data)
 {
-	data->current = g_object_get_data (child, "source");
+	data->current = g_object_get_data ((GObject *) child, "source");
 	set_sensitive (data);
 }
 
 static void
-select_source_with(GtkWidget *w, struct _source_data *data)
+select_source_with (GtkWidget *widget, struct _source_data *data)
 {
-	char *source = g_object_get_data (w, "source");
+	char *source = g_object_get_data ((GObject *) widget, "source");
 	
 	filter_rule_set_source ((FilterRule *) data->vr, source);
 }
@@ -401,7 +401,7 @@ source_add(GtkWidget *widget, struct _source_data *data)
 		
 		l = NULL;
 		item = (GtkListItem *)gtk_list_item_new_with_label (uri);
-		g_object_set_data (item, "source", uri);
+		g_object_set_data ((GObject *) item, "source", uri);
 		gtk_widget_show ((GtkWidget *) item);
 		l = g_list_append (NULL, item);
 		gtk_list_append_items (data->list, l);
@@ -446,7 +446,7 @@ const char *source_names[] = {
 };
 
 static GtkWidget *
-get_widget(FilterRule *fr, struct _RuleContext *f)
+get_widget (FilterRule *fr, RuleContext *rc)
 {
 	VfolderRule *vr = (VfolderRule *) fr;
 	struct _source_data *data;
@@ -457,19 +457,20 @@ get_widget(FilterRule *fr, struct _RuleContext *f)
 	int i, row;
 	GList *l;
 	
-        widget = FILTER_RULE_CLASS (parent_class)->get_widget (fr, f);
+        widget = FILTER_RULE_CLASS (parent_class)->get_widget (fr, rc);
 	
 	data = g_malloc0 (sizeof (*data));
-	data->f = f;
+	data->rc = rc;
 	data->vr = vr;
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "vfolder_source_frame");
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "vfolder_source_frame", NULL);
         frame = glade_xml_get_widget (gui, "vfolder_source_frame");
 	
-	g_object_set_data_full (frame, "data", data, g_free);
+	g_object_set_data_full ((GObject *) frame, "data", data, g_free);
 	
 	for (i = 0; i < BUTTON_LAST; i++) {
-		data->buttons[i] = glade_xml_get_widget (gui, edit_buttons[i].name);
+		/* FIXME: I think these need to be unref'd */
+		data->buttons[i] = (GtkButton *) glade_xml_get_widget (gui, edit_buttons[i].name);
 		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 	
@@ -480,17 +481,17 @@ get_widget(FilterRule *fr, struct _RuleContext *f)
 	while ((source = vfolder_rule_next_source (vr, source))) {
 		GtkListItem *item;
 		
-		item = (GtkListItem *)gtk_list_item_new_with_label (source);
-		g_object_set_data (item, "source", (void *) source);
+		item = (GtkListItem *) gtk_list_item_new_with_label (source);
+		g_object_set_data ((GObject *) item, "source", (void *) source);
 		gtk_widget_show (GTK_WIDGET (item));
 		l = g_list_append (l, item);
 	}
 	
 	gtk_list_append_items (data->list, l);
 	
-	g_signal_connect (data->list, "select_child", select_source, data);
+	g_signal_connect (data->list, "select_child", GTK_SIGNAL_FUNC (select_source), data);
 	
-	omenu = (GtkOptionMneu *) glade_xml_get_widget (gui, "source_option");
+	omenu = (GtkOptionMenu *) glade_xml_get_widget (gui, "source_option");
 	l = GTK_MENU_SHELL (omenu->menu)->children;
 	i = 0;
 	row = 0;
@@ -499,7 +500,7 @@ get_widget(FilterRule *fr, struct _RuleContext *f)
 		
 		/* make sure that the glade is in sync with the source list! */
 		if (i < sizeof (source_names) / sizeof (source_names[0])) {
-			g_object_set_data (item, "source", (char *) source_names[i]);
+			g_object_set_data ((GObject *) item, "source", (char *) source_names[i]);
 			if (fr->source && strcmp (source_names[i], fr->source) == 0) {
 				row = i;
 			}
@@ -507,7 +508,7 @@ get_widget(FilterRule *fr, struct _RuleContext *f)
 			g_warning ("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
 		}
 		
-		g_signal_connect (item, "activate", select_source_with, data);
+		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (select_source_with), data);
 		
 		i++;
 		l = l->next;
