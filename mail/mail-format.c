@@ -805,7 +805,7 @@ write_address (MailDisplay *md, MailDisplayStream *stream,
 		subaddr = camel_internet_address_new ();
 		camel_internet_address_add (subaddr, name, email);
 		addr_txt = camel_address_format (CAMEL_ADDRESS (subaddr));
-		addr_url = camel_url_encode (addr_txt, TRUE, NULL);
+		addr_url = camel_url_encode (addr_txt, NULL);
 		camel_object_unref (subaddr);
 		
 		if (have_name) {

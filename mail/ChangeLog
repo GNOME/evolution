@@ -1,3 +1,8 @@
+2003-03-26  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (write_address): remove extra arg to
+	camel_url_encode
+
 2003-03-27  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_gui_init): dont set the paned
