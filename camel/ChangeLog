@@ -124,7 +124,6 @@
 	parsing (all other data can be retrieved by the caller except
 	this).
 
->>>>>>> 1.594
 2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_nstring): When
