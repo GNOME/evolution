@@ -1,3 +1,8 @@
+2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): Set
+	the mime part content-id.
+
 2001-03-19  Radek Doulik  <rodo@ximian.com>
 
 	* listener.c (reply_indent): set default text color

@@ -153,6 +153,7 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	CamelStream *stream;
 	struct stat statbuf;
 	gchar *mime_type;
+	char *content_id;
 	
 	g_return_val_if_fail (file_name != NULL, NULL);
 	
@@ -185,6 +186,11 @@ e_msg_composer_attachment_new (const gchar *file_name)
 		camel_mime_part_set_filename (part, strrchr (file_name, '/') + 1);
 	else
 		camel_mime_part_set_filename (part, file_name);
+	
+	/* set the Content-Id */
+	content_id = header_msgid_generate ();
+	camel_mime_part_set_content_id (part, content_id);
+	g_free (content_id);
 	
 	new = e_msg_composer_attachment_new_from_mime_part (part);
 	
