@@ -23,8 +23,12 @@
  * USA
  */
 
-#include <config.h>
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <sys/types.h>
 #include <dirent.h>
 #include <errno.h>
 #include <stdio.h>

@@ -26,10 +26,11 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
+#include <sys/types.h>
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "camel-imap-message-cache.h"
 #include "camel-data-wrapper.h"

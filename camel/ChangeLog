@@ -1,7 +1,15 @@
 2002-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-provider.c: Added #include <sys/types.h> for dirent.h
-	which needs it on MacOS X.
+	* providers/local/camel-spoold-store.c: Added #include
+	<sys/types.h> for dirent.h which needs it on MacOS X.
+
+	* providers/local/camel-maildir-store.c: Same.
+
+	* providers/nntp/camel-nntp-store.c: Same.
+
+	* providers/imap/camel-imap-message-cache.c: Same.
+
+	* camel-provider.c: Same.
 
 	* camel-data-cache.c: Same.
 
