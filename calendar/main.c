@@ -50,13 +50,13 @@ int startup_hidden = 0;
  * values specified here are the defaults for the program.
  */
 struct color_prop color_props[] = {
-	{ 0x3e72, 0x35ec, 0x8ba2, "Outline:",              "/calendar/Colors/outline" },
-	{ 0xffff, 0xffff, 0xffff, "Headings:",             "/calendar/Colors/headings" },
-	{ 0xf26c, 0xecec, 0xbbe7, "Empty days:",           "/calendar/Colors/empty_bg" },
-	{ 0xfc1e, 0xf87f, 0x5f80, "Appointments:",         "/calendar/Colors/mark_bg" },
-	{ 0xd364, 0xc6b7, 0x7969, "Highlighted day:",      "/calendar/Colors/prelight_bg" },
-	{ 0x01f0, 0x01f0, 0x01f0, "Day numbers:",          "/calendar/Colors/day_fg" },
-	{ 0x0000, 0x0000, 0xffff, "Current day's number:", "/calendar/Colors/current_fg" }
+	{ 0x3e72, 0x35ec, 0x8ba2, N_("Outline:"),              "/calendar/Colors/outline" },
+	{ 0xffff, 0xffff, 0xffff, N_("Headings:"),             "/calendar/Colors/headings" },
+	{ 0xf26c, 0xecec, 0xbbe7, N_("Empty days:"),           "/calendar/Colors/empty_bg" },
+	{ 0xfc1e, 0xf87f, 0x5f80, N_("Appointments:"),         "/calendar/Colors/mark_bg" },
+	{ 0xd364, 0xc6b7, 0x7969, N_("Highlighted day:"),      "/calendar/Colors/prelight_bg" },
+	{ 0x01f0, 0x01f0, 0x01f0, N_("Day numbers:"),          "/calendar/Colors/day_fg" },
+	{ 0x0000, 0x0000, 0xffff, N_("Current day's number:"), "/calendar/Colors/current_fg" }
 };
 
 /* Number of active calendars */
