@@ -1,3 +1,10 @@
+2004-05-25  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* providers/groupwise/camel-gw-listener.c (add_addressbook_sources)
+	(add_calendar_tasks_sources) : remove /soap part from uri.
+	make port as a e-source property instead of putting it in uri
+	to amek the uris same as that of mail for password sharing 
+
 2004-05-24  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-utils.c (camel_header_newsgroups_decode):
