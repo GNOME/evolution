@@ -1,3 +1,8 @@
+2000-05-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-msg-composer-hdrs.c: Turned off focus in the To, Cc, and Bcc
+	buttons.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: set G_LOG_DOMAIN.

@@ -80,6 +80,7 @@ add_header (EMsgComposerHdrs *hdrs,
 
 	if (addrbook_button) {
 		label = gtk_button_new_with_label (name);
+		GTK_OBJECT_UNSET_FLAGS(label, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (label), "clicked",
 				    GTK_SIGNAL_FUNC (address_button_clicked_cb),
 				    hdrs);
