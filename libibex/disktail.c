@@ -173,8 +173,8 @@ tail_compress(struct _tailblock *bucket, int index, int newsize)
 
 	g_assert(newstart+(end-start)-newsize <= &bucket->tb_data[sizeof(bucket->tb_data)/sizeof(bucket->tb_data[0])]);
 	g_assert(newstart + (start-newstart) + MIN(end-start, newsize) <= &bucket->tb_data[sizeof(bucket->tb_data)/sizeof(bucket->tb_data[0])]);
-	g_assert(newstart+(end-start)-newsize >= &bucket->tb_offset[bucket->used]);
-	g_assert(newstart + (start-newstart) + MIN(end-start, newsize) >= &bucket->tb_offset[bucket->used]);
+	g_assert(newstart+(end-start)-newsize >= (blockid_t *) &bucket->tb_offset[bucket->used]);
+	g_assert(newstart + (start-newstart) + MIN(end-start, newsize) >= (blockid_t *) &bucket->tb_offset[bucket->used]);
 
 	memmove(newstart+(end-start)-newsize, newstart, ((start-newstart)+MIN(end-start, newsize)) * sizeof(blockid_t));
 
@@ -198,6 +198,7 @@ tail_space(struct _tailblock *tail)
 		- (blockid_t *)&tail->tb_offset[tail->used];
 }
 
+#if 0
 static void
 tail_dump(struct _memcache *blocks, blockid_t tailid)
 {
@@ -210,6 +211,7 @@ tail_dump(struct _memcache *blocks, blockid_t tailid)
 	}
 	printf("\n");
 }
+#endif
 
 static blockid_t
 tail_get(struct _memcache *blocks, int size)
@@ -240,13 +242,13 @@ tail_get(struct _memcache *blocks, int size)
 			ibex_block_dirty((struct _block *)tail);
 
 			g_assert(&tail->tb_offset[tail->used-1]
-				 < &tail->tb_data[tail->tb_offset[tail->used-1]]);
+				 < (unsigned char *) &tail->tb_data[tail->tb_offset[tail->used-1]]);
 
 			return tailid;
 		}
 
 		g_assert(&tail->tb_offset[tail->used-1]
-			 < &tail->tb_data[tail->tb_offset[tail->used-1]]);
+			 < (unsigned char *) &tail->tb_data[tail->tb_offset[tail->used-1]]);
 
 		/* see if we have a free slot first */
 		freeindex = -1;
@@ -297,7 +299,7 @@ tail_get(struct _memcache *blocks, int size)
 	d(printf("allocated %d (%d), used %d\n", tailid, TAIL_KEY(tailid, 0), tail->used));
 
 	g_assert(&tail->tb_offset[tail->used-1]
-		 < &tail->tb_data[tail->tb_offset[tail->used-1]]);
+		 < (unsigned char *) &tail->tb_data[tail->tb_offset[tail->used-1]]);
 
 	return TAIL_KEY(tailid, 0);
 }
@@ -729,6 +731,8 @@ disk_get(struct _IBEXStore *store, blockid_t head, blockid_t tail)
 	}
 	return result;
 }
+
+void ibex_diskarray_dump(struct _memcache *blocks, blockid_t head, blockid_t tail);
 
 void
 ibex_diskarray_dump(struct _memcache *blocks, blockid_t head, blockid_t tail)

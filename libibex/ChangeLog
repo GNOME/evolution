@@ -1,3 +1,13 @@
+2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* disktail.c (tail_compress):
+	(tail_get): Added some casts to get rid of warnings.
+	(tail_dump): #if 0ed this out to get rid of a warning.
+	(ibex_diskarray_dump): Added a prototype.
+
+	* ibex_block.c (ibex_index_buffer): Assigned cat the value 0 to
+	start off with to avoid a warning.
+
 2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* wordindex.c (cache_sanity): Made cache_sanity only be included

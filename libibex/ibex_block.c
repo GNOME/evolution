@@ -159,7 +159,7 @@ int
 ibex_index_buffer (ibex *ib, char *name, char *buffer, size_t len, size_t *unread)
 {
 	char *p, *q, *nq, *end, *word;
-	int wordsiz, cat;
+	int wordsiz, cat = 0;
 	GHashTable *words = g_hash_table_new(g_str_hash, g_str_equal);
 	GPtrArray *wordlist = g_ptr_array_new();
 	int i, ret=-1;
