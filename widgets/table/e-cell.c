@@ -43,7 +43,7 @@ ec_draw (ECellView *ecell_view, GdkDrawable *drawable,
 }
 
 static gint
-ec_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags)
+ec_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
 	g_error ("e-cell-event invoked\n");
 	return 0;
@@ -52,7 +52,7 @@ ec_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, i
 static gint
 ec_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-	g_error ("e-cell-event invoked\n");
+	g_error ("e-cell-height invoked\n");
 	return 0;
 }
 
@@ -131,17 +131,18 @@ E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE)
  * @model_col: the column in the model
  * @view_col: the column in the view
  * @row: the row
- * @flags: the flags passed to the ECellView.
+ * @flags: flags about the current state
+ * @actions: A second return value in case the cell wants to take some action (specifically grabbing & ungrabbing)
  *
  * Dispatches the event @event to the @ecell_view for.
  *
  * Returns: processing state from the GdkEvent handling.
  */
 gint
-e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags)
+e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
 	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->event (
-		ecell_view, event, model_col, view_col, row, flags);
+		ecell_view, event, model_col, view_col, row, flags, actions);
 }
 
 /** 

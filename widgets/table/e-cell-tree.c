@@ -300,7 +300,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags)
+ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
@@ -339,7 +339,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		default:
 			/* nada */
 		}
-		return e_cell_event(tree_view->subcell_view, event, model_col, view_col, row, flags);
+		return e_cell_event(tree_view->subcell_view, event, model_col, view_col, row, flags, actions);
 	}
 }
 

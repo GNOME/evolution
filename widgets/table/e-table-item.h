@@ -86,6 +86,8 @@ typedef struct {
 	int              editing_col, editing_row;
 	void            *edit_ctx;
 
+	int grabbed_col, grabbed_row;
+
 	/*
 	 * Tooltip
 	 */

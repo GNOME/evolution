@@ -913,7 +913,8 @@ set_cursor (ETableHeaderItem *ethi, int pos)
 	if (resizeable)
 		e_cursor_set (canvas->window, E_CURSOR_SIZE_X);
 	else
-		e_cursor_set (canvas->window, E_CURSOR_ARROW);
+		gdk_window_set_cursor (canvas->window, NULL);
+	/*		e_cursor_set (canvas->window, E_CURSOR_ARROW);*/
 }
 
 static void
@@ -1265,7 +1266,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 
 	case GDK_LEAVE_NOTIFY:
-		e_cursor_set (GTK_WIDGET (canvas)->window, E_CURSOR_ARROW);
+		gdk_window_set_cursor (GTK_WIDGET (canvas)->window, NULL);
+		/*		e_cursor_set (GTK_WIDGET (canvas)->window, E_CURSOR_ARROW);*/
 		break;
 			    
 	case GDK_MOTION_NOTIFY:

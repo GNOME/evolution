@@ -30,6 +30,11 @@ typedef enum {
 	E_CELL_EDITING        = 1 << 4,
 } ECellFlags;
 
+typedef enum {
+	E_CELL_GRAB           = 1 << 0,
+	E_CELL_UNGRAB         = 1 << 1,
+} ECellActions;
+
 typedef struct {
 	GtkObject       object;
 } ECell;
@@ -57,7 +62,7 @@ typedef struct {
 	void   	   (*draw)         (ECellView *ecell_view, GdkDrawable *drawable,
 	       			    int model_col, int view_col, int row,
 				    ECellFlags flags, int x1, int y1, int x2, int y2);
-	gint   	   (*event)        (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags);
+	gint   	   (*event)        (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions);
 	void   	   (*focus)        (ECellView *ecell_view, int model_col, int view_col,
 				    int row, int x1, int y1, int x2, int y2);
 	void   	   (*unfocus)      (ECellView *ecell_view);
@@ -78,7 +83,7 @@ GtkType    e_cell_get_type  (void);
 ECellView *e_cell_new_view  (ECell *ecell, ETableModel *table_model, void *e_table_item_view);
 void       e_cell_kill_view (ECellView *ecell_view);
 
-gint       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags);
+gint       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions);
 
 void       e_cell_realize   (ECellView *ecell_view);
 void       e_cell_unrealize (ECellView *ecell_view);

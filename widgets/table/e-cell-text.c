@@ -168,6 +168,8 @@ struct _CellEdit {
 
 	guint pointer_in : 1;
 	guint default_cursor_shown : 1;
+
+	ECellActions actions;
 };
 
 static void e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
@@ -871,7 +873,7 @@ ect_edit_select_all (ECellTextView *text_view)
  * ECell::event method
  */
 static gint
-ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags)
+ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	ETextEventProcessorEvent e_tep_event;
@@ -943,6 +945,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 
 				_get_tep (edit);
 				return_val = e_text_event_processor_handle_event (edit->tep, &e_tep_event);
+				*actions = edit->actions;
 				if (e_tep_event.key.string) g_free (e_tep_event.key.string);
 				break;
 			}
@@ -974,6 +977,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			_get_tep (edit);
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
+			*actions = edit->actions;
 			if (event->button.button == 1) {
 				if (event->type == GDK_BUTTON_PRESS)
 					edit->button_down = TRUE;
@@ -995,6 +999,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			_get_tep (edit);
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
+			*actions = edit->actions;
 			if (event->button.button == 1) {
 				if (event->type == GDK_BUTTON_PRESS)
 					edit->button_down = TRUE;
@@ -1017,6 +1022,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 			_get_tep (edit);
 			return_val = e_text_event_processor_handle_event (edit->tep,
 									  &e_tep_event);
+			*actions = edit->actions;
 			edit->lastx = motion.x;
 			edit->lasty = motion.y;
 			edit->last_state = motion.state;
@@ -2141,17 +2147,11 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		edit->select_by_word = command->value;
 		break;
 	case E_TEP_GRAB:
+		edit->actions = E_CELL_GRAB;
+		break;
 	case E_TEP_UNGRAB:
-#if 0
-	case E_TEP_GRAB:
-		gnome_canvas_item_grab (GNOME_CANVAS_ITEM(text), 
-					GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
-					text_view->i_cursor,
-					command->time);
+		edit->actions = E_CELL_UNGRAB;
 		break;
-		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM(text), command->time);
-		break;
-#endif
 	case E_TEP_NOP:
 		break;
 	}
