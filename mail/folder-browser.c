@@ -1325,31 +1325,50 @@ vfolder_mlist (GtkWidget *w, FolderBrowser *fb)
 void
 filter_subject (GtkWidget *w, FolderBrowser *fb)
 {
-	filter_gui_add_from_message (fb->mail_display->current_message, AUTO_SUBJECT);
+	const char *source = FILTER_SOURCE_INCOMING;
+	
+	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
+		source = FILTER_SOURCE_OUTGOING;
+	
+	filter_gui_add_from_message (fb->mail_display->current_message, source, AUTO_SUBJECT);
 }
 
 void
 filter_sender (GtkWidget *w, FolderBrowser *fb)
 {
-	filter_gui_add_from_message (fb->mail_display->current_message, AUTO_FROM);
+	const char *source = FILTER_SOURCE_INCOMING;
+	
+	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
+		source = FILTER_SOURCE_OUTGOING;
+	
+	filter_gui_add_from_message (fb->mail_display->current_message, source, AUTO_FROM);
 }
 
 void
 filter_recipient (GtkWidget *w, FolderBrowser *fb)
 {
-	filter_gui_add_from_message (fb->mail_display->current_message, AUTO_TO);
+	const char *source = FILTER_SOURCE_INCOMING;
+	
+	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
+		source = FILTER_SOURCE_OUTGOING;
+	
+	filter_gui_add_from_message (fb->mail_display->current_message, source, AUTO_TO);
 }
 
 void
 filter_mlist (GtkWidget *w, FolderBrowser *fb)
 {
+	const char *source = FILTER_SOURCE_INCOMING;
 	char *name;
-
+	
 	g_return_if_fail (fb->mail_display->current_message != NULL);
-
+	
+	if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
+		source = FILTER_SOURCE_OUTGOING;
+	
 	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
 	if (name) {
-		filter_gui_add_from_mlist(name);
+		filter_gui_add_from_mlist(source, name);
 		g_free(name);
 	}
 }
@@ -1359,6 +1378,7 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 /* popup api to vfolder/filter on X, based on current selection */
 struct _filter_data {
 	CamelFolder *folder;
+	const char *source;
 	char *uid;
 	int type;
 	char *uri;
@@ -1411,7 +1431,7 @@ filter_type_got_message(CamelFolder *folder, char *uid, CamelMimeMessage *msg, v
 	struct _filter_data *data = d;
 
 	if (msg)
-		filter_gui_add_from_message(msg, data->type);
+		filter_gui_add_from_message(msg, data->source, data->type);
 
 	filter_data_free(data);
 }
@@ -1430,7 +1450,7 @@ filter_type_uid(struct _filter_data *fdata, int type)
 static void filter_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_SUBJECT); }
 static void filter_sender_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_type_uid(fdata, AUTO_FROM); }
 static void filter_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_TO); }
-static void filter_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_gui_add_from_mlist(fdata->mlist); }
+static void filter_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_gui_add_from_mlist(fdata->source, fdata->mlist); }
 
 void
 hide_none(GtkWidget *w, FolderBrowser *fb)
@@ -1875,6 +1895,10 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				fdata->uri = g_strdup(fb->uri);
 				fdata->folder = fb->folder;
 				camel_object_ref((CamelObject *)fdata->folder);
+				if (folder_browser_is_sent (fb) || folder_browser_is_outbox (fb))
+					fdata->source = FILTER_SOURCE_OUTGOING;
+				else
+					fdata->source = FILTER_SOURCE_INCOMING;
 				
 				enable_mask &= ~SELECTION_SET;
 				mname = camel_message_info_mlist(info);

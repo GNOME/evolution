@@ -1,7 +1,24 @@
 2002-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #27263.
+
+	* folder-browser.c (filter_subject): Decide the filter source type
+	based on the folder we are in (Sent/Outbox folders use
+	FILTER_SOURCE_OUTGOING).
+	(filter_sender): Same.
+	(filter_recipient): Here too.
+	(filter_mlist): And here.
+	(on_right_click): Set the fdata->source.
+	(filter_type_got_message): Pass fdata->source into
+	filter_gui_add_from_message().
+	(filter_mlist_uid): Same.
+
+	* mail-autofilter.c (filter_gui_add_from_message): Now takes a
+	source argument so that we don't always add incoming rules.
+	(filter_gui_add_from_mlist): Same.
+
 	* mail-tools.c (mail_tool_make_message_attachment): Remove Bcc
-	headers too.
+	headers too. Fixes bug #27302.
 
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 

@@ -325,7 +325,7 @@ filter_rule_from_mlist (FilterContext *context, const char *mlist)
 }
 
 void
-filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
+filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flags)
 {
 	FilterContext *fc;
 	char *user, *system;
@@ -339,7 +339,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 	rule_context_load ((RuleContext *)fc, system, user);
 	rule = filter_rule_from_message (fc, msg, flags);
 	
-	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+	filter_rule_set_source (rule, source);
 	
 	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
@@ -347,7 +347,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 }
 
 void
-filter_gui_add_from_mlist (const char *mlist)
+filter_gui_add_from_mlist (const char *source, const char *mlist)
 {
 	FilterContext *fc;
 	char *user, *system;
@@ -359,7 +359,7 @@ filter_gui_add_from_mlist (const char *mlist)
 	rule_context_load ((RuleContext *)fc, system, user);
 	rule = filter_rule_from_mlist(fc, mlist);
 	
-	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+	filter_rule_set_source (rule, source);
 	
 	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
