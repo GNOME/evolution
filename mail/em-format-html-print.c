@@ -129,7 +129,7 @@ emfhp_complete(EMFormatHTMLPrint *efhp, void *data)
 	print_context = gnome_print_job_get_context(print_job);
 
 	gtk_html_print_set_master(efhp->formathtml.html, print_job);
-	info.local_font = gnome_font_find_closest("Helvetica", 10.0);	
+	info.local_font = gnome_font_find_closest("Sans Regular", 10.0);
 	if (info.local_font) {
 		line = gnome_font_get_ascender(info.local_font) - gnome_font_get_descender(info.local_font);	
 		info.page_num = 1;
