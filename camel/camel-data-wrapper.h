@@ -48,7 +48,9 @@ struct _CamelDataWrapper
 
 	CamelContentType *mime_type;
 	CamelStream *stream;
-	gboolean offline;
+
+	unsigned int offline:1;
+	unsigned int rawtext:1;
 };
 
 typedef struct {

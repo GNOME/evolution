@@ -376,12 +376,12 @@ summary_rebuild(CamelSpoolSummary *cls, off_t offset, CamelException *ex)
 	/* FIXME: If there is a failure, it shouldn't clear the summary and restart,
 	   it should try and merge the summary info's.  This is a bit tricky. */
 
-	camel_operation_start(NULL, _("Summarizing folder"));
+	camel_operation_start(NULL, _("Summarising folder"));
 
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
 		printf("%s failed to open: %s\n", cls->folder_path, strerror(errno));
-		camel_exception_setv(ex, 1, _("Could not open folder: %s: summarizing from position %ld: %s"),
+		camel_exception_setv(ex, 1, _("Could not open folder: %s: summarising from position %ld: %s"),
 				     cls->folder_path, offset, strerror(errno));
 		camel_operation_end(NULL);
 		return -1;
@@ -641,7 +641,7 @@ spool_summary_sync_full(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCha
 
 	d(printf("performing full summary/sync\n"));
 
-	camel_operation_start(NULL, _("Synchronizing folder"));
+	camel_operation_start(NULL, _("Synchronising folder"));
 
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {
@@ -928,7 +928,7 @@ spool_summary_sync_quick(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCh
 
 	d(printf("Performing quick summary sync\n"));
 
-	camel_operation_start(NULL, _("Synchronizing folder"));
+	camel_operation_start(NULL, _("Synchronising folder"));
 
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {

@@ -606,10 +606,10 @@ write_to_stream(CamelDataWrapper *data_wrapper, CamelStream *stream)
 			break;
 		}
 		
-		if (header_content_type_is (mp->content_type, "text", "*")) {
-			charset = header_content_type_param (mp->content_type, "charset");
-			if (charset && !(!g_strcasecmp (charset, "us-ascii") || !g_strcasecmp (charset, "utf-8"))) {
-				charenc = (CamelMimeFilter *)camel_mime_filter_charset_new_convert ("UTF-8", charset);
+		if (!data_wrapper->rawtext && header_content_type_is(mp->content_type, "text", "*")) {
+			charset = header_content_type_param(mp->content_type, "charset");
+			if (charset && !(!strcasecmp(charset, "us-ascii") || !strcasecmp(charset, "utf-8"))) {
+				charenc = (CamelMimeFilter *)camel_mime_filter_charset_new_convert("UTF-8", charset);
 			} 
 		}
 		

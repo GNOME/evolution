@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "string-utils.h"
 #include "camel-mime-part-utils.h"
@@ -123,20 +124,74 @@ check_html_charset (CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
 	return charset;
 }
 
+static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *from)
+{
+	iconv_t ic;
+	int inlen, outlen, convlen, i=2;
+	char *inbuf, *outbuf;
+	char *buffer;
+	GByteArray *out = NULL;
+
+	ic = iconv_open(to, from);
+	if (ic == (iconv_t) -1) {
+		g_warning("Cannot convert from '%s' to '%s': %s", from, to, strerror(errno));
+		return NULL;
+	}
+
+	do {
+		/* make plenty of space? */
+		outlen = in->len * i + 16;
+		buffer = g_malloc(outlen);
+
+		inbuf = in->data;
+		inlen = in->len;
+		outbuf = buffer;
+
+		convlen = iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
+		if (convlen == -1) {
+			g_free(buffer);
+			/* we didn't have enough space */
+			if (errno == E2BIG) {
+				i++;
+				continue;
+			}
+			break;
+		}
+
+		out = g_byte_array_new();
+		g_byte_array_append(out, buffer, convlen);
+
+		/* close off the conversion */
+		outbuf = buffer;
+		outlen = in->len * i + 16;
+		convlen = iconv(ic, NULL, 0, &outbuf, &outlen);
+		if (convlen != -1)
+			g_byte_array_append(out, buffer, convlen);
+		g_free(buffer);
+		break;
+	} while (1);
+
+	iconv_close(ic);
+
+	return out;
+}
+
 /* simple data wrapper */
 static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
 {
-	CamelMimeFilter *fdec = NULL, *fcrlf = NULL, *fch = NULL;
-	int len, decid = -1, crlfid = -1, chrid = -1;
+	CamelMimeFilter *fdec = NULL, *fcrlf = NULL /*, *fch = NULL*/;
+	int len, decid = -1, crlfid = -1 /*, chrid = -1*/;
 	struct _header_content_type *ct;
 	CamelSeekableStream *seekable_source = NULL;
 	CamelStream *source;
 	GByteArray *buffer;
-	off_t start = 0, end;
+	/*off_t start = 0, end;*/
 	char *encoding, *buf;
+	const char *charset = NULL;
 	CamelMimeFilterBasicType enctype = 0;
-	
+	CamelStream *mem;
+
 	d(printf("constructing data-wrapper\n"));
 	
 	/* Ok, try and be smart.  If we're storing a small message (typical) convert it,
@@ -173,7 +228,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	/* If we're doing text, we also need to do CRLF->LF and may have to convert it to UTF8 as well. */
 	ct = camel_mime_parser_content_type (mp);
 	if (header_content_type_is (ct, "text", "*")) {
-		const char *charset = header_content_type_param (ct, "charset");
+		charset = header_content_type_param (ct, "charset");
 		
 		if (fdec) {
 			d(printf("Adding CRLF conversion filter\n"));
@@ -183,92 +238,50 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		}
 		
 		/* Possible Lame Mailer Alert... check the META tags for a charset */
+		/* FIXME: do this as part of the normal data reading, so we dont have to do it twice */
 		if (!charset && header_content_type_is (ct, "text", "html"))
 			charset = check_html_charset (mp, enctype);
-		
-		/* if the charset is not us-ascii or utf-8, then we need to convert to utf-8 */
-		if (charset && !(g_strcasecmp (charset, "us-ascii") == 0 || g_strcasecmp (charset, "utf-8") == 0)) {
-			d(printf("Adding conversion filter from %s to UTF-8\n", charset));
-			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert (charset, "UTF-8");
-			if (fch) {
-				chrid = camel_mime_parser_filter_add (mp, (CamelMimeFilter *)fch);
-			} else {
-				g_warning ("Cannot convert '%s' to 'UTF-8', message display may be corrupt", charset);
-			}
-		}
 	}
 	
-	buffer = g_byte_array_new ();
-	
-	if (seekable_source /* !cache */) {
-		start = camel_mime_parser_tell (mp) + seekable_source->bound_start;
-	}
-	
-	while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_BODY_END) {
+	/* read in the entire content */
+	buffer = g_byte_array_new();
+	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END) {
 		d(printf("appending o/p data: %d: %.*s\n", len, len, buf));
-		if (buffer) {
-			if (buffer->len > 20480 && seekable_source) {
-				/* is this a 'big' message?  Yes?  We dont want to convert it all then. */
-				camel_mime_parser_filter_remove (mp, decid);
-				camel_mime_parser_filter_remove (mp, chrid);
-				decid = -1;
-				chrid = -1;
-				g_byte_array_free (buffer, TRUE);
-				buffer = NULL;
-			} else {
-				g_byte_array_append (buffer, buf, len);
-			}
-		}
+		g_byte_array_append(buffer, buf, len);
 	}
-	
-	if (buffer) {
-		CamelStream *mem;
-		
-		d(printf("Small message part, kept in memory!\n"));
-		
-		mem = camel_stream_mem_new_with_byte_array (buffer);
-		camel_data_wrapper_construct_from_stream (dw, mem);
-		camel_object_unref ((CamelObject *)mem);
-	} else {
-		CamelStream *sub;
-		CamelStreamFilter *filter;
-		
-		d(printf("Big message part, left on disk ...\n"));
-		
-		end = camel_mime_parser_tell (mp) + seekable_source->bound_start;
-		sub = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_source, start, end);
-		if (fdec || fch) {
-			filter = camel_stream_filter_new_with_stream (sub);
-			if (fdec) {
-				camel_mime_filter_reset (fdec);
-				camel_stream_filter_add (filter, fdec);
-			}
-			if (fcrlf) {
-				camel_mime_filter_reset (fcrlf);
-				camel_stream_filter_add (filter, fcrlf);
-			}
-			if (fch) {
-				camel_mime_filter_reset (fch);
-				camel_stream_filter_add (filter, fch);
-			}
-			camel_data_wrapper_construct_from_stream (dw, (CamelStream *)filter);
-			camel_object_unref ((CamelObject *)filter);
+
+	/* if we need to do charset conversion, see if we can/it works/etc */
+	if (charset && !(strcasecmp(charset, "us-ascii") == 0
+			 || strcasecmp(charset, "utf-8") == 0
+			 || strncasecmp(charset, "x-", 2) == 0)) {
+		GByteArray *out;
+
+		out = convert_buffer(buffer, "UTF-8", charset);
+		if (out) {
+			/* converted ok, use this data instead */
+			g_byte_array_free(buffer, TRUE);
+			buffer = out;
 		} else {
-			camel_data_wrapper_construct_from_stream (dw, sub);
+			g_warning("Storing text as raw, unknown charset '%s' or invalid format", charset);
+			/* else failed to convert, leave as raw? */
+			dw->rawtext = TRUE;
+			/* should we change the content-type header? */
 		}
-		camel_object_unref ((CamelObject *)sub);
 	}
-	
+
+	d(printf("message part kept in memory!\n"));
+		
+	mem = camel_stream_mem_new_with_byte_array(buffer);
+	camel_data_wrapper_construct_from_stream(dw, mem);
+	camel_object_unref((CamelObject *)mem);
+
 	camel_mime_parser_filter_remove (mp, decid);
 	camel_mime_parser_filter_remove (mp, crlfid);
-	camel_mime_parser_filter_remove (mp, chrid);
 	
 	if (fdec)
 		camel_object_unref ((CamelObject *)fdec);
 	if (fcrlf)
 		camel_object_unref ((CamelObject *)fcrlf);
-	if (fch)
-		camel_object_unref ((CamelObject *)fch);
 	if (source)
 		camel_object_unref ((CamelObject *)source);
 }
@@ -294,10 +307,8 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		break;
 	case HSCAN_MULTIPART: {
 		CamelDataWrapper *bodypart;
-		
-#ifndef NO_WARNINGS
-#warning This should use a camel-mime-multipart
-#endif
+
+		/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 		d(printf("Creating multi-part\n"));
 		content = (CamelDataWrapper *)camel_multipart_new ();
 		
@@ -321,9 +332,6 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		g_warning("Invalid state encountered???: %d", camel_mime_parser_state (mp));
 	}
 	if (content) {
-#ifndef NO_WARNINGS
-#warning there just has got to be a better way ... to transfer the mime-type to the datawrapper
-#endif
 		/* would you believe you have to set this BEFORE you set the content object???  oh my god !!!! */
 		camel_data_wrapper_set_mime_type_field (content, 
 							camel_mime_part_get_content_type ((CamelMimePart *)dw));

@@ -1,3 +1,37 @@
+2001-08-24  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-summary.c (summary_rebuild): Likewise.
+
+	* providers/local/camel-mbox-summary.c (summary_rebuild):
+	Summarising is spelt with an s.
+
+2001-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part.c (write_to_stream): If we have rawtext, then
+	dont do any charset conversion, only encoding/crlf conversion.
+
+	* camel-data-wrapper.h (struct _CamelDataWrapper): Added 'rawtext'
+	member, says the character encoding is raw, not utf8.
+
+	* providers/local/camel-spool-summary.c
+	(spool_summary_sync_quick): Synchronising is spelt with an s, not a z.
+	(spool_summary_sync_full): "
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
+	No, synchronising is spelt with an s.
+	(mbox_summary_sync_quick): "
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Remove the
+	warnings which aren't going anywhere fast.
+	(convert_buffer): Function to convert a bytearray of textual
+	content from one charset to another.  If the charset doesn't exist
+	or fails, then do no conversion.
+	(simple_data_wrapper_construct_from_parser): First, read in data,
+	then try and convert it using the specified charset if supplied.
+	If that fails, then dont do any conversion, and leave as raw.
+	Also, if we have any x-* charsets, then dont do any processing.
+
 2001-08-23  Peter Williams  <peterw@ximian.com>
 
 	* providers/local/camel-mbox-summary.c (summary_rebuild): Add a
