@@ -1,3 +1,10 @@
+2002-11-28  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (create_minicard_view): remove
+	the button_press_event handler (that did nothing).  this makes it
+	so button presses actually get to the canvas (and therefore we can
+	now drag the lines in the reflow widget).
+
 2002-11-26  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-quick-add.c: add include for

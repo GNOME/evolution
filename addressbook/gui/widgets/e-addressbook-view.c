@@ -1088,12 +1088,6 @@ minicard_selection_change (EMinicardViewWidget *widget, EAddressbookView *view)
 }
 
 static void
-minicard_button_press (GtkWidget *widget, GdkEventButton *event, EAddressbookView *view)
-{
-	d(g_print ("Button %d pressed with event type %d\n", event->button, event->type));
-}
-
-static void
 minicard_right_click (EMinicardView *minicard_view_item, GdkEvent *event, EAddressbookView *view)
 {
 	do_popup_menu(view, event);
@@ -1121,9 +1115,6 @@ create_minicard_view (EAddressbookView *view)
 
 	g_signal_connect(minicard_view, "selection_change",
 			 G_CALLBACK(minicard_selection_change), view);
-
-	g_signal_connect(minicard_view, "button_press_event",
-			 G_CALLBACK(minicard_button_press), view);
 
 	g_signal_connect(minicard_view, "right_click",
 			 G_CALLBACK(minicard_right_click), view);
