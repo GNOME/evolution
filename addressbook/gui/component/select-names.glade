@@ -167,11 +167,11 @@
 
       <widget>
 	<class>Custom</class>
-	<name>source</name>
-	<creation_function></creation_function>
+	<name>table-source</name>
+	<creation_function>e_addressbook_create_ebook_table</creation_function>
 	<int1>0</int1>
 	<int2>0</int2>
-	<last_modification_time>Wed, 31 May 2000 03:06:00 GMT</last_modification_time>
+	<last_modification_time>Sat, 10 Jun 2000 22:02:57 GMT</last_modification_time>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>

@@ -17,7 +17,7 @@
 #define PARENT_TYPE e_table_model_get_type()
 
 static void
-addressbook_destroy(GtkObject *object)
+e_cardlist_model_destroy(GtkObject *object)
 {
 	ECardlistModel *model = E_CARDLIST_MODEL(object);
 	int i;
@@ -30,44 +30,44 @@ addressbook_destroy(GtkObject *object)
 
 /* This function returns the number of columns in our ETableModel. */
 static int
-addressbook_col_count (ETableModel *etc)
+e_cardlist_model_col_count (ETableModel *etc)
 {
 	return E_CARD_SIMPLE_FIELD_LAST;
 }
 
 /* This function returns the number of rows in our ETableModel. */
 static int
-addressbook_row_count (ETableModel *etc)
+e_cardlist_model_row_count (ETableModel *etc)
 {
-	ECardlistModel *addressbook = E_CARDLIST_MODEL(etc);
-	return addressbook->data_count;
+	ECardlistModel *e_cardlist_model = E_CARDLIST_MODEL(etc);
+	return e_cardlist_model->data_count;
 }
 
 /* This function returns the value at a particular point in our ETableModel. */
 static void *
-addressbook_value_at (ETableModel *etc, int col, int row)
+e_cardlist_model_value_at (ETableModel *etc, int col, int row)
 {
-	ECardlistModel *addressbook = E_CARDLIST_MODEL(etc);
+	ECardlistModel *e_cardlist_model = E_CARDLIST_MODEL(etc);
 	const char *value;
-	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= addressbook->data_count )
+	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= e_cardlist_model->data_count )
 		return NULL;
-	value = e_card_simple_get_const(addressbook->data[row], 
+	value = e_card_simple_get_const(e_cardlist_model->data[row], 
 					col + 1);
 	return (void *)(value ? value : "");
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
-addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
+e_cardlist_model_set_value_at (ETableModel *etc, int col, int row, const void *val)
 {
-	ECardlistModel *addressbook = E_CARDLIST_MODEL(etc);
+	ECardlistModel *e_cardlist_model = E_CARDLIST_MODEL(etc);
 	ECard *card;
-	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= addressbook->data_count )
+	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= e_cardlist_model->data_count )
 		return;
-	e_card_simple_set(addressbook->data[row],
+	e_card_simple_set(e_cardlist_model->data[row],
 			  col + 1,
 			  val);
-	gtk_object_get(GTK_OBJECT(addressbook->data[row]),
+	gtk_object_get(GTK_OBJECT(e_cardlist_model->data[row]),
 		       "card", &card,
 		       NULL);
 	if ( !etc->frozen )
@@ -76,33 +76,33 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 
 /* This function returns whether a particular cell is editable. */
 static gboolean
-addressbook_is_cell_editable (ETableModel *etc, int col, int row)
+e_cardlist_model_is_cell_editable (ETableModel *etc, int col, int row)
 {
 	return TRUE;
 }
 
 /* This function duplicates the value passed to it. */
 static void *
-addressbook_duplicate_value (ETableModel *etc, int col, const void *value)
+e_cardlist_model_duplicate_value (ETableModel *etc, int col, const void *value)
 {
 	return g_strdup(value);
 }
 
 /* This function frees the value passed to it. */
 static void
-addressbook_free_value (ETableModel *etc, int col, void *value)
+e_cardlist_model_free_value (ETableModel *etc, int col, void *value)
 {
 	g_free(value);
 }
 
 static void *
-addressbook_initialize_value (ETableModel *etc, int col)
+e_cardlist_model_initialize_value (ETableModel *etc, int col)
 {
 	return g_strdup("");
 }
 
 static gboolean
-addressbook_value_is_empty (ETableModel *etc, int col, const void *value)
+e_cardlist_model_value_is_empty (ETableModel *etc, int col, const void *value)
 {
 	return !(value && *(char *)value);
 }
@@ -110,7 +110,7 @@ addressbook_value_is_empty (ETableModel *etc, int col, const void *value)
 /* This function is for when the model is unfrozen.  This can mostly
    be ignored for simple models.  */
 static void
-addressbook_thaw (ETableModel *etc)
+e_cardlist_model_thaw (ETableModel *etc)
 {
 	e_table_model_changed(etc);
 }
@@ -157,18 +157,18 @@ e_cardlist_model_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
 	
-	object_class->destroy = addressbook_destroy;
+	object_class->destroy = e_cardlist_model_destroy;
 
-	model_class->column_count = addressbook_col_count;
-	model_class->row_count = addressbook_row_count;
-	model_class->value_at = addressbook_value_at;
-	model_class->set_value_at = addressbook_set_value_at;
-	model_class->is_cell_editable = addressbook_is_cell_editable;
-	model_class->duplicate_value = addressbook_duplicate_value;
-	model_class->free_value = addressbook_free_value;
-	model_class->initialize_value = addressbook_initialize_value;
-	model_class->value_is_empty = addressbook_value_is_empty;
-	model_class->thaw = addressbook_thaw;
+	model_class->column_count = e_cardlist_model_col_count;
+	model_class->row_count = e_cardlist_model_row_count;
+	model_class->value_at = e_cardlist_model_value_at;
+	model_class->set_value_at = e_cardlist_model_set_value_at;
+	model_class->is_cell_editable = e_cardlist_model_is_cell_editable;
+	model_class->duplicate_value = e_cardlist_model_duplicate_value;
+	model_class->free_value = e_cardlist_model_free_value;
+	model_class->initialize_value = e_cardlist_model_initialize_value;
+	model_class->value_is_empty = e_cardlist_model_value_is_empty;
+	model_class->thaw = e_cardlist_model_thaw;
 }
 
 static void

@@ -45,8 +45,9 @@ enum {
 };
 
 typedef struct {
-	char        *title;
-	ETableModel *model;
+	char         *title;
+	ETableModel  *model;
+	ESelectNames *names;
 } ESelectNamesChild;
 
 GtkType
@@ -107,7 +108,6 @@ set_book(EBook *book, EBookStatus status, ETableModel *model)
 	gtk_object_set(GTK_OBJECT(model),
 		       "book", book,
 		       NULL);
-	gtk_object_unref(GTK_OBJECT(model));
 	gtk_object_unref(GTK_OBJECT(book));
 }
 
@@ -118,6 +118,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	ETableHeader *header;
 	ECell *cell_left_just;
 	EBook *book;
+	GtkWidget *table;
 	char *filename;
 	char *uri;
 
@@ -136,7 +137,15 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
 	g_free(uri);
 	g_free(filename);
-	return e_table_new (header, model, SPEC);
+	table = e_table_new (header, model, SPEC);
+	gtk_object_set_data(GTK_OBJECT(table), "model", model);
+	return table;
+}
+
+static void
+set_current_selection(ETable *table, int row, ESelectNames *names)
+{
+	names->currently_selected = row;
 }
 
 static void
@@ -163,17 +172,13 @@ e_select_names_init (ESelectNames *e_select_names)
 				    GNOME_STOCK_BUTTON_CANCEL,
 				    NULL);
 
-#if 0
-	widget = glade_xml_get_widget(e_select_names->gui, "button-fullname");
-	if (widget && GTK_IS_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-				   full_name_clicked, e_select_names);
+	e_select_names->table = E_TABLE(glade_xml_get_widget(gui, "table-source"));
+	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
 
-	widget = glade_xml_get_widget(e_select_names->gui, "button-categories");
-	if (widget && GTK_IS_BUTTON(widget))
-		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
-				   categories_clicked, e_select_names);
-#endif
+	e_select_names->currently_selected = -1;
+
+	gtk_signal_connect(GTK_OBJECT(e_select_names->table), "cursor_change",
+			   GTK_SIGNAL_FUNC(set_current_selection), e_select_names);
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)
@@ -183,7 +188,7 @@ static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESele
 	g_free(key);
 }
 
-void
+static void
 e_select_names_destroy (GtkObject *object) {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
 	
@@ -226,6 +231,18 @@ e_select_names_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+static void
+button_clicked(GtkWidget *button, ESelectNamesChild *child)
+{
+	ESelectNames *names = child->names;
+	int row = names->currently_selected;
+	if (row != -1) {
+		ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(names->model), row);
+		e_cardlist_model_add(E_CARDLIST_MODEL(child->model), &card, 1);
+		gtk_object_unref(GTK_OBJECT(card));
+	}
+}
+
 void
 e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
 {
@@ -248,6 +265,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
 
 	child = g_new(ESelectNamesChild, 1);
 
+	child->names = e_select_names;
+
 	e_select_names->child_count++;
 
 	alignment = gtk_alignment_new(0, 0, 1, 0);
@@ -256,6 +275,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
 	g_free(label);
 	gtk_container_add(GTK_CONTAINER(alignment), button);
 	gtk_widget_show_all(alignment);
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(button_clicked), child);
 	gtk_table_attach(table, alignment,
 			 0, 1,
 			 e_select_names->child_count,
@@ -273,6 +294,8 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
 	child->model = model;
 	gtk_object_ref(GTK_OBJECT(child->model));
 	
+	gtk_widget_show(etable);
+	
 	gtk_table_attach(table, etable,
 			 1, 2,
 			 e_select_names->child_count,
@@ -281,9 +304,37 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id)
 			 0, 0);
 }
 
+static void *
+card_copy(const void *value, void *closure)
+{
+	gtk_object_ref(GTK_OBJECT(value));
+	return (void *)value;
+}
+
+static void
+card_free(void *value, void *closure)
+{
+	gtk_object_unref(GTK_OBJECT(value));
+}
+
 ECardList *
 e_select_names_get_section(ESelectNames *e_select_names, char *id)
 {
-
-	return NULL;
+	ESelectNamesChild *child;
+	int i;
+	int rows;
+	ECardList *list;
+	
+	child = g_hash_table_lookup(e_select_names->children, id);
+	if (!child)
+		return NULL;
+	rows = e_table_model_row_count(child->model);
+	
+	list = e_card_list_new(card_copy, card_free, NULL);
+	for (i = 0; i < rows; i++) {
+		ECard *card = e_cardlist_model_get(E_CARDLIST_MODEL(child->model), i);
+		e_card_list_append(list, card);
+		gtk_object_unref(GTK_OBJECT(card));
+	}
+	return list;
 }

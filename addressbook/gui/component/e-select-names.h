@@ -24,6 +24,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <addressbook/backend/ebook/e-card-list.h>
+#include <widgets/e-table/e-table.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,6 +58,9 @@ struct _ESelectNames
 	
 	GHashTable *children; /* Of type char * to ESelectNamesChild */
 	int child_count;
+	ETable *table;
+	ETableModel *model;
+	int currently_selected;
 };
 
 struct _ESelectNamesClass

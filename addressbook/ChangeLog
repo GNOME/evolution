@@ -1,5 +1,16 @@
 2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/e-cardlist-model.c: Renamed a bunch of functions
+	for better readability.
+
+	* gui/component/e-select-names.c, gui/component/e-select-names.h:
+	This should be a working dialog now.
+
+	* gui/component/select-names.glade: Changed the name & creation
+	function of the ETable here.
+
+2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/select-names.glade,
 	gui/component/select-names.glade.h: Glade files for Select Names
 	dialog.
