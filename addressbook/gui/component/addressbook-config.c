@@ -270,6 +270,7 @@ dialog_to_temp_source (AddressbookSourceDialog *dialog)
 	ESource *source;
 
 	source = e_source_new ("", "");
+	e_source_set_group (source, dialog->source_group);
 	dialog_to_source (dialog, source, TRUE);
 
 	return source;

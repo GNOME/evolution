@@ -1,3 +1,8 @@
+2004-01-29  Radek Doulik  <rodo@ximian.com>
+
+	* gui/component/addressbook-config.c (dialog_to_temp_source): set
+	group to temporary source
+
 2004-01-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/select-names/e-select-names-table-model.c
