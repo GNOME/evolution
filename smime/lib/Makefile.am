@@ -16,6 +16,7 @@ INCLUDES =						\
 noinst_LTLIBRARIES = libessmime.la
 
 libessmime_la_SOURCES = 	\
+	$(MARSHAL_GENERATED)	\
 	e-asn1-object.c		\
 	e-asn1-object.h		\
 	e-cert.c		\
@@ -26,3 +27,9 @@ libessmime_la_SOURCES = 	\
 	e-cert-db.h		\
 	e-pkcs12.c		\
 	e-pkcs12.h
+
+MARSHAL_GENERATED = smime-marshal.c smime-marshal.h
+@EVO_MARSHAL_RULE@
+
+BUILT_SOURCES = $(MARSHAL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)

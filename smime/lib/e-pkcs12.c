@@ -63,30 +63,29 @@
 #include <unistd.h>
 
 #include "e-util/e-passwords.h"
+#include "e-cert-db.h"
 #include "e-pkcs12.h"
 
 #include "prmem.h"
 #include "nss.h"
+#include "ssl.h"
 #include "pkcs12.h"
 #include "p12plcy.h"
 #include "pk11func.h"
 #include "secerr.h"
 
 struct _EPKCS12Private {
-	int tmp_fd;
-	char *tmp_path;
+	int mumble;
 };
 
 #define PARENT_TYPE G_TYPE_OBJECT
 static GObjectClass *parent_class;
 
-// static callback functions for the NSS PKCS#12 library
+/* static callback functions for the NSS PKCS#12 library */
 static SECItem * PR_CALLBACK nickname_collision(SECItem *, PRBool *, void *);
-static void      PR_CALLBACK write_export_file(void *arg, const char *buf, unsigned long len);
 
 static gboolean handle_error(int myerr);
 
-#define PKCS12_TMPFILENAME         ".p12tmp"
 #define PKCS12_BUFFER_SIZE         2048
 #define PKCS12_RESTORE_OK          1
 #define PKCS12_BACKUP_OK           2
@@ -185,20 +184,16 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const char *path, GError **erro
 	while (TRUE) {
 		amount = fread (buf, 1, sizeof (buf), fp);
 		if (amount < 0) {
-			printf ("got -1 fread\n");
 			fclose (fp);
 			return FALSE;
 		}
+
 		/* feed the file data into the decoder */
 		srv = SEC_PKCS12DecoderUpdate(dcx, 
 					      (unsigned char*) buf, 
 					      amount);
 		if (srv) {
-			/* don't allow the close call to overwrite our precious error code */
 			/* XXX g_error */
-			int pr_err = PORT_GetError();
-			PORT_SetError(pr_err);
-			printf ("SEC_PKCS12DecoderUpdate returned %d\n", srv);
 			fclose (fp);
 			return FALSE;
 		}
@@ -209,6 +204,9 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const char *path, GError **erro
 	return TRUE;
 }
 
+/* XXX toshok - this needs to be done using a signal as in the
+   e_cert_db_login_to_slot stuff, instead of a direct gui dep here..
+   for now, though, it stays. */
 static gboolean
 prompt_for_password (char *title, char *prompt, SECItem *pwd)
 {
@@ -219,8 +217,27 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 					   NULL);
 
 	if (passwd) {
-		SECITEM_AllocItem(NULL, pwd, PL_strlen (passwd));
-		memcpy (pwd->data, passwd, strlen (passwd));
+		int len = g_utf8_strlen (passwd, -1);
+		gunichar2 uni;
+		int i;
+		char *p;
+
+		SECITEM_AllocItem(NULL, pwd, sizeof (gunichar2) * (len + 1));
+		memset (pwd->data, 0, sizeof (gunichar2) * (len + 1));
+
+#ifdef IS_LITTLE_ENDIAN
+		p = passwd;
+		for (i=0; i < len; i++) {
+			uni = (gunichar2)(g_utf8_get_char (p) & 0xFFFF);
+			p = g_utf8_next_char (p);
+
+			pwd->data[2*i] = (unsigned char)(uni >> 8);
+			pwd->data[2*i+1] = (unsigned char)(uni & 0xFF);
+		}
+#else
+		memcpy (pwd->data, uni, pwd->len-2);
+#endif
+		memset (passwd, 0, strlen (passwd));
 		g_free (passwd);
 	}
 
@@ -228,19 +245,17 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 }
 
 static gboolean
-import_from_file_helper (EPKCS12 *pkcs12, const char *path, gboolean *aWantRetry, GError **error)
+import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
+			 const char *path, gboolean *aWantRetry, GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker; */
-	gboolean rv = TRUE;
+	gboolean rv;
 	SECStatus srv = SECSuccess;
 	SEC_PKCS12DecoderContext *dcx = NULL;
 	SECItem passwd;
 	GError *err = NULL;
-	PK11SlotInfo *slot = PK11_GetInternalKeySlot (); /* XXX toshok - we
-							    hardcode this
-							    here */
-	*aWantRetry = FALSE;
 
+	*aWantRetry = FALSE;
 
 	passwd.data = NULL;
 	rv = prompt_for_password (_("PKCS12 File Password"), _("Enter password for PKCS12 file:"), &passwd);
@@ -250,32 +265,14 @@ import_from_file_helper (EPKCS12 *pkcs12, const char *path, gboolean *aWantRetry
 		return TRUE;
 	}
 
-#if notyet
-	/* XXX we don't need this block as long as we hardcode the
-	   slot above */
-	nsXPIDLString tokenName;
-	nsXPIDLCString tokenNameCString;
-	const char *tokNameRef;
-  
-
-	mToken->GetTokenName (getter_Copies(tokenName));
-	tokenNameCString.Adopt (ToNewUTF8String(tokenName));
-	tokNameRef = tokenNameCString; /* I do this here so that the
-					  NS_CONST_CAST below doesn't
-					  break the build on Win32 */
-
-	slot = PK11_FindSlotByName (NS_CONST_CAST(char*,tokNameRef));
-	if (!slot) {
-		srv = SECFailure;
-		goto finish;
-	}
-#endif
-
 	/* initialize the decoder */
-	dcx = SEC_PKCS12DecoderStart (&passwd, slot, NULL,
-				      NULL, NULL,
-				      NULL, NULL,
-				      pkcs12);
+	dcx = SEC_PKCS12DecoderStart (&passwd,
+				      slot,
+				      /* we specify NULL for all the
+					 funcs + data so it'll use the
+					 default pk11wrap functions */
+				      NULL, NULL, NULL,
+				      NULL, NULL, NULL);
 	if (!dcx) {
 		srv = SECFailure;
 		goto finish;
@@ -289,19 +286,21 @@ import_from_file_helper (EPKCS12 *pkcs12, const char *path, gboolean *aWantRetry
 			// inputToDecoder indicated a NSS error
 			srv = SECFailure;
 		}
+#else
+		srv = SECFailure;
 #endif
 		goto finish;
 	}
 
 	/* verify the blob */
 	srv = SEC_PKCS12DecoderVerify (dcx);
-	if (srv) { printf ("decoderverify failed\n"); goto finish; }
+	if (srv) goto finish;
 	/* validate bags */
 	srv = SEC_PKCS12DecoderValidateBags (dcx, nickname_collision);
-	if (srv) { printf ("decodervalidatebags failed\n"); goto finish; }
+	if (srv) goto finish;
 	/* import cert and key */
 	srv = SEC_PKCS12DecoderImportBags (dcx);
-	if (srv) { printf ("decoderimportbags failed\n"); goto finish; }
+	if (srv) goto finish;
 	/* Later - check to see if this should become default email cert */
 	handle_error (PKCS12_RESTORE_OK);
  finish:
@@ -309,18 +308,14 @@ import_from_file_helper (EPKCS12 *pkcs12, const char *path, gboolean *aWantRetry
 	   We should use that error code instead of inventing a new one
 	   for every error possible. */
 	if (srv != SECSuccess) {
-		printf ("srv != SECSuccess\n");
 		if (SEC_ERROR_BAD_PASSWORD == PORT_GetError()) {
-			printf ("BAD PASSWORD\n");
 			*aWantRetry = TRUE;
 		}
 		handle_error(PKCS12_NSS_ERROR);
 	} else if (!rv) {
 		handle_error(PKCS12_RESTORE_FAILED);
 	}
-	if (slot)
-		PK11_FreeSlot(slot);
-	// finish the decoder
+	/* finish the decoder */
 	if (dcx)
 		SEC_PKCS12DecoderFinish(dcx);
 	return TRUE;
@@ -332,32 +327,17 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12, const char *path, GError **error)
 	/*nsNSSShutDownPreventionLock locker;*/
 	gboolean rv = TRUE;
 	gboolean wantRetry;
+	PK11SlotInfo *slot;
   
+	printf ("importing pkcs12 from `%s'\n", path);
 
-#if 0
-	/* XXX we don't use tokens yet */
-	if (!mToken) {
-		if (!mTokenSet) {
-			rv = SetToken(NULL); // Ask the user to pick a slot
-			if (NS_FAILED(rv)) {
-				handle_error(PKCS12_USER_CANCELED);
-				return rv;
-			}
-		}
-	}
+	slot = PK11_GetInternalKeySlot();
 
-	if (!mToken) {
-		handle_error(PKCS12_RESTORE_FAILED);
-		return NS_ERROR_NOT_AVAILABLE;
-	}
+	if (!e_cert_db_login_to_slot (e_cert_db_peek (), slot))
+		return FALSE;
 
-	/* init slot */
-	rv = mToken->Login(PR_TRUE);
-	if (NS_FAILED(rv)) return rv;
-#endif
-  
 	do {
-		rv = import_from_file_helper (pkcs12, path, &wantRetry, error);
+		rv = import_from_file_helper (pkcs12, slot, path, &wantRetry, error);
 	} while (rv && wantRetry);
 
 	return rv;
@@ -431,18 +411,6 @@ nickname_collision(SECItem *oldNick, PRBool *cancel, void *wincx)
 	new_nick->data = nickname;
 	new_nick->len  = strlen((char*)new_nick->data);
 	return new_nick;
-}
-
-/* write bytes to the exported PKCS#12 file */
-static void PR_CALLBACK
-write_export_file(void *arg, const char *buf, unsigned long len)
-{
-	EPKCS12 *pkcs12 = E_PKCS12 (arg);
-	EPKCS12Private *priv = pkcs12->priv;
-
-	printf ("write_export_file\n");
-
-	write (priv->tmp_fd, buf, len);
 }
 
 static gboolean

@@ -1,3 +1,61 @@
+2004-01-05  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component.c (smime_pk11_passwd): new function, implement the
+	password dialog for PK11 slot authentication.
+	(smime_component_init): new function, initialize any gui related
+	signals that the backend exposes.
+
+	* gui/certificate-manager.c (import_your): use
+	e_cert_db_import_pkcs12_file.
+	(delete_your): new function, implement.
+	(view_your): same.
+	(backup_your): new function, stub out.
+	(backup_all_your): same.
+	(create_yourcerts_treemodel): new function.
+	(initialize_yourcerts_ui): do all the sorting foo, and hook up all
+	the signals.
+	(ainitialize_contactcerts_ui): same.
+	(initialize_authoritycerts_ui): same.
+	(view_contact): treemodel -> streemodel.
+	(view_ca): same.
+	(delete_contact): same, and convert from the sort iter to the
+	child iter before we remove.
+	(delete_ca): same.
+	(import_contact): call gtk_tree_view_expand_all.
+	(import_ca): same.
+	(add_user_cert): append to the child model, not the sort model.
+	(add_contact_cert): same.
+	(add_ca_cert): same.
+	(unload_certs): implement the E_CERT_USER case, and fix the
+	USER/CA stuff to use the sorted treemodels.
+	(load_certs): remove spew.
+	(populate_ui): expand all the tree views.
+
+	* lib/.cvsignore: ignore the generated marshalling files.
+	
+	* lib/Makefile.am: add the marshalling foo.
+
+	* lib/smime-marshal.list (BOOL): new file.
+
+	* lib/e-cert-db.c (pk11_password): new function, emit the
+	pk11_passwd signal.
+	(initialize_nss): new function, split out all the nss init code
+	here, and add all the PKCS12 cipers.
+	(install_loadable_roots): new function, split this code out from
+	the class_init.
+	(e_cert_db_class_init): call initialize_nss() and
+	install_loadable_roots().  also register our pk11_passwd signal.
+	(e_cert_db_import_pkcs12_file): implement.
+	(e_cert_db_login_to_slot): new function, implement.
+
+	* lib/e-cert-db.h (struct _ECertDBClass): add pk11_passwd signal,
+	and add prototype for e_cert_db_login_to_slot.
+
+	* lib/e-pkcs12.c (input_to_decoder): remove spew.
+	(prompt_for_password): fix this.
+	(import_from_file_helper): fix fix fix, and remove spew.
+	(write_export_file): nuke, we don't need this.
+	
 2004-01-04  Chris Toshok  <toshok@ximian.com>
 
 	* gui/certificate-viewer.c (fill_in_general): use <tt> markup

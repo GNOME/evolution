@@ -22,7 +22,10 @@ libevolution_smime_la_SOURCES = 	\
 	certificate-viewer.c		\
 	certificate-viewer.h		\
 	e-cert-selector.c		\
-	e-cert-selector.h
+	e-cert-selector.h		\
+	component.c			\
+	component.h
+
 
 libevolution_smime_la_LIBADD =			\
 	$(top_builddir)/smime/lib/libessmime.la	\

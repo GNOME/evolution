@@ -62,18 +62,23 @@
 #define CERT_NewTempCertificate __CERT_NewTempCertificate
 #define CERT_AddTempCertToPerm __CERT_AddTempCertToPerm
 
+#include "smime-marshal.h"
 #include "e-cert-db.h"
 #include "e-cert-trust.h"
+#include "e-pkcs12.h"
 
 #include "gmodule.h"
 
 #include "nss.h"
+#include "ssl.h"
+#include "p12plcy.h"
 #include "pk11func.h"
 #include "secmod.h"
 #include "certdb.h"
 #include "plstr.h"
 #include "prprf.h"
 #include "prmem.h"
+#include "e-util/e-passwords.h"
 #include "e-util/e-dialog-utils.h"
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
@@ -81,6 +86,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+enum {
+	PK11_PASSWD,
+	LAST_SIGNAL
+};
+
+static guint e_cert_db_signals[LAST_SIGNAL];
 
 struct _ECertDBPrivate {
 };
@@ -109,21 +121,45 @@ e_cert_db_dispose (GObject *object)
 		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
-static void
-e_cert_db_class_init (ECertDBClass *klass)
+PRBool
+ucs2_ascii_conversion_fn (PRBool toUnicode,
+			  unsigned char *inBuf,
+			  unsigned int inBufLen,
+			  unsigned char *outBuf,
+			  unsigned int maxOutBufLen,
+			  unsigned int *outBufLen,
+			  PRBool swapBytes)
 {
-	GObjectClass *object_class;
+	printf ("in ucs2_ascii_conversion_fn\n");
+}
+
+static char* PR_CALLBACK
+pk11_password (PK11SlotInfo* slot, PRBool retry, void* arg)
+{
+	char *pwd;
+	char *nsspwd;
+
+	gboolean rv = FALSE;
+
+	g_signal_emit (e_cert_db_peek (),
+		       e_cert_db_signals[PK11_PASSWD], 0,
+		       slot,
+		       retry,
+		       &pwd,
+		       &rv);
+
+	nsspwd = PORT_Strdup (pwd);
+	memset (pwd, 0, strlen (pwd));
+	g_free (pwd);
+	return nsspwd;
+}
+
+static void
+initialize_nss (void)
+{
 	char *evolution_dir_path;
 	gboolean success;
-	gboolean has_roots;
-	PK11SlotList *list;
 
-	object_class = G_OBJECT_CLASS(klass);
-
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
-	object_class->dispose = e_cert_db_dispose;
-	
 	evolution_dir_path = g_build_path ("/", g_get_home_dir (), ".evolution", NULL);
 
 	/* we initialize NSS here to make sure it only happens once */
@@ -142,11 +178,29 @@ e_cert_db_class_init (ECertDBClass *klass)
 
 	if (!success) {
 		g_warning ("Failed all methods for initializing NSS");
+		return;
 	}
 
-	/*
-	 * check to see if you have a rootcert module installed
-	 */
+	NSS_SetDomesticPolicy();
+
+	PK11_SetPasswordFunc(pk11_password);
+
+	/* Enable ciphers for PKCS#12 */
+	SEC_PKCS12EnableCipher(PKCS12_RC4_40, 1);
+	SEC_PKCS12EnableCipher(PKCS12_RC4_128, 1);
+	SEC_PKCS12EnableCipher(PKCS12_RC2_CBC_40, 1);
+	SEC_PKCS12EnableCipher(PKCS12_RC2_CBC_128, 1);
+	SEC_PKCS12EnableCipher(PKCS12_DES_56, 1);
+	SEC_PKCS12EnableCipher(PKCS12_DES_EDE3_168, 1);
+	SEC_PKCS12SetPreferredCipher(PKCS12_DES_EDE3_168, 1);
+	PORT_SetUCS2_ASCIIConversionFunction(ucs2_ascii_conversion_fn);
+}
+
+static void
+install_loadable_roots (void)
+{
+	gboolean has_roots;
+	PK11SlotList *list;
 
 	has_roots = FALSE;
 	list = PK11_GetAllTokens(CKM_INVALID_MECHANISM, PR_FALSE, PR_FALSE, NULL);
@@ -186,6 +240,32 @@ e_cert_db_class_init (ECertDBClass *klass)
 			g_free (dll_path);
 		}
 	}
+}
+
+static void
+e_cert_db_class_init (ECertDBClass *klass)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS(klass);
+
+	parent_class = g_type_class_ref (PARENT_TYPE);
+
+	object_class->dispose = e_cert_db_dispose;
+
+	initialize_nss();
+	/* check to see if you have a rootcert module installed */
+	install_loadable_roots();
+
+	e_cert_db_signals[PK11_PASSWD] =
+		g_signal_new ("pk11_passwd",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECertDBClass, pk11_passwd),
+			      NULL, NULL,
+			      smime_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER,
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_POINTER, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 }
 
 static void
@@ -250,14 +330,6 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 	CERTCertificate *cert = NULL;
 
 	/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Getting \"%s\"\n", asciiname));*/
-#if 0
-	/* what it should be, but for now...*/
-	if (aToken) {
-		cert = PK11_FindCertFromNickname(asciiname, NULL);
-	} else {
-		cert = CERT_FindCertByNickname(CERT_GetDefaultCertDB(), asciiname);
-	}
-#endif
 	cert = PK11_FindCertFromNickname((char*)nickname, NULL);
 	if (!cert) {
 		cert = CERT_FindCertByNickname(CERT_GetDefaultCertDB(), (char*)nickname);
@@ -1013,6 +1085,15 @@ e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 			      const char *file_path,
 			      GError **error)
 {
+	EPKCS12 *pkcs12 = e_pkcs12_new ();
+	GError *e = NULL;
+
+	if (!e_pkcs12_import_from_file (pkcs12, file_path, &e)) {
+		g_propagate_error (error, e);
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 gboolean
@@ -1021,6 +1102,28 @@ e_cert_db_export_pkcs12_file (ECertDB *cert_db,
 			      GList *certs,
 			      GError **error)
 {
+}
+
+gboolean
+e_cert_db_login_to_slot (ECertDB *cert_db,
+			 PK11SlotInfo *slot)
+{
+	if (PK11_NeedLogin (slot)) {
+		PK11_Logout (slot);
+
+		if (PK11_NeedUserInit (slot)) {
+			printf ("initializing slot password\n");
+			/* the user needs to specify the initial password */
+			PK11_InitPin (slot, "", "farcl.");
+		}
+
+		if (PK11_Authenticate (slot, PR_TRUE, NULL) != SECSuccess) {
+			printf ("PK11_Authenticate failed (err = %d/%d)\n", PORT_GetError(), PORT_GetError() + 0x2000);
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
 
 

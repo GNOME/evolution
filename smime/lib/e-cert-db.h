@@ -47,6 +47,9 @@ struct _ECertDB {
 struct _ECertDBClass {
 	GObjectClass parent_class;
 
+	/* signals */
+	gboolean (*pk11_passwd) (ECertDB *db, PK11SlotInfo *slot, gboolean retry, char **passwd);
+
 	/* Padding for future expansion */
 	void (*_ecert_reserved0) (void);
 	void (*_ecert_reserved1) (void);
@@ -124,5 +127,7 @@ gboolean             e_cert_db_export_pkcs12_file (ECertDB *cert_db,
 						   GList *certs,
 						   GError **error);
 
+gboolean             e_cert_db_login_to_slot      (ECertDB *cert_db,
+						   PK11SlotInfo *slot);
 
 #endif /* _E_CERT_DB_H_ */
