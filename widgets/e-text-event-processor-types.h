@@ -75,8 +75,8 @@ enum _ETextEventProcessorCommandAction {
 	E_TEP_MOVE,
 	E_TEP_SELECT,
 	E_TEP_DELETE,
-
 	E_TEP_INSERT,
+
 	E_TEP_COPY,
 	E_TEP_PASTE,
 	E_TEP_GET_SELECTION,

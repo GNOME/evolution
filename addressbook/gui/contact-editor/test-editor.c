@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <gnome.h>
+#include <glade/glade.h>
 #include "e-contact-editor.h"
 
 /* This is a horrible thing to do, but it is just a test. */
@@ -30,7 +31,10 @@ GtkWidget *editor;
 
 static void destroy_callback(GtkWidget *app, gpointer data)
 {
-  exit(0);
+	static int count = 2;
+	count --;
+	if ( count <= 0 )
+		exit(0);
 }
 
 static void about_callback( GtkWidget *widget, gpointer data )
@@ -59,6 +63,22 @@ int main( int argc, char *argv[] )
       textdomain (PACKAGE);*/
 
   gnome_init( "Contact Editor Test", VERSION, argc, argv);
+
+  glade_gnome_init ();
+
+  app = gnome_app_new("Contact Editor Test", NULL);
+
+  editor = e_contact_editor_new(NULL);
+  
+  gnome_app_set_contents( GNOME_APP( app ), editor );
+
+  /* Connect the signals */
+  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
+		      GTK_SIGNAL_FUNC( destroy_callback ),
+		      ( gpointer ) app );
+
+  gtk_widget_show_all( app );
+
   app = gnome_app_new("Contact Editor Test", NULL);
 
   editor = e_contact_editor_new(NULL);

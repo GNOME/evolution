@@ -1,3 +1,37 @@
+2000-01-20  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text-event-processor-types.h: Changed some line
+	spacing.
+
+	* widgets/test-reflow.c: Connected to the resize signal of the
+	reflow.
+
+	* widgets/e-minicard.c: Made width argument set function only
+	update if width is different.
+
+	* widgets/e-reflow.h, widgets/e-reflow.c: Added draggable column dividers.
+
+	* addressbook/contact-editor/test-editor.c: Open two dialogs for
+	more interesting testing.
+
+	* addressbook/contact-editor/e-contact-editor.h,
+	addressbook/contact-editor/e-contact-editor.c: Modified to use
+	glade.  Added menus to change which phone/address/email entries to
+	view.  Added images to the dialog.
+
+	* addressbook/contact-editor/e-contact-editor-strings.h,
+	addressbook/contact-editor/contact-editor.glade: Glade files for
+	the contact editor dialog.
+
+	* addressbook/contact-editor/Makefile.am: Added images and added
+	glade stuff.
+
+	* addressbook/contact-editor/arrow.png,
+	addressbook/contact-editor/briefcase.png,
+	addressbook/contact-editor/netfreebusy.png,
+	addressbook/contact-editor/netmeeting.png: Image files for the
+	contact editor dialog.
+
 2000-01-19  bertrand  <bertrand@helixcode.com>
 
 	* camel/providers/mbox/camel-mbox-folder.c (_get_message_count): 

@@ -22,6 +22,7 @@
 #define __E_CONTACT_EDITOR_H__
 
 #include <gnome.h>
+#include <glade/glade.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,17 +50,26 @@ typedef struct _EContactEditorClass  EContactEditorClass;
 
 struct _EContactEditor
 {
-	GtkNotebook parent;
+	GtkVBox parent;
 	
 	/* item specific fields */
 	/*  ECard *card; */
 	
-	GList *fields; /* Of type GnomeCanvasItem. */
+	GladeXML *gui;
+	GnomeUIInfo *email_info;
+	GnomeUIInfo *phone_info;
+	GnomeUIInfo *address_info;
+	GtkWidget *email_popup;
+	GtkWidget *phone_popup;
+	GtkWidget *address_popup;
+	GList *email_list;
+	GList *phone_list;
+	GList *address_list;
 };
 
 struct _EContactEditorClass
 {
-	GtkNotebookClass parent_class;
+	GtkVBoxClass parent_class;
 };
 
 

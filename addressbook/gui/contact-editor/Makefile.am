@@ -1,4 +1,13 @@
 
+images = email.png head.png phone.png snailmail.png web.png arrow.png briefcase.png netmeeting.png netfreebusy.png
+
+EXTRA_DIST = $(images)
+pkgdata_DATA = $(images)
+
+CPPFLAGS = \
+        -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"           \
+	-DDATADIR=\""$(datadir)"\"
+
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)
 
@@ -17,4 +26,10 @@ contact_editor_test_SOURCES = 	\
 
 contact_editor_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
-	libecontacteditor.a	
+	libecontacteditor.a
+
+gladedir   = $(datadir)/evolution/glade
+
+glade_DATA = 				\
+	contact-editor.glade
+

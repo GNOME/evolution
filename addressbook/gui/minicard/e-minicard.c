@@ -141,9 +141,11 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_WIDTH:
-	  e_minicard->width = GTK_VALUE_DOUBLE (*arg);
-	  _update_card(e_minicard);
-	  gnome_canvas_item_request_update (item);
+		if (e_minicard->width != GTK_VALUE_DOUBLE (*arg)) {
+			e_minicard->width = GTK_VALUE_DOUBLE (*arg);
+			_update_card(e_minicard);
+			gnome_canvas_item_request_update (item);
+		}
 	  break;
 	case ARG_HAS_FOCUS:
 		if (e_minicard->fields)

@@ -26,6 +26,7 @@
 /* This is a horrible thing to do, but it is just a test. */
 GnomeCanvasItem *reflow;
 GnomeCanvasItem *rect;
+GtkAllocation last_alloc;
 
 static void destroy_callback(GtkWidget *app, gpointer data)
 {
@@ -35,6 +36,7 @@ static void destroy_callback(GtkWidget *app, gpointer data)
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpointer data)
 {
   double width;
+  last_alloc = *allocation;
   gnome_canvas_item_set( reflow,
 			 "height", (double) allocation->height,
 			 NULL );
@@ -47,6 +49,20 @@ static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, gpoi
 			 "x2", (double) width,
 			 "y2", (double) allocation->height,
 			 NULL );
+}
+
+static void resize(GnomeCanvasItem *item, gpointer data)
+{
+	double width;
+	gtk_object_get(GTK_OBJECT(reflow),
+		 "width", &width,
+		       NULL);
+	width = MAX(width, last_alloc.width);
+	gnome_canvas_set_scroll_region(item->canvas , 0, 0, width, last_alloc.height );
+	gnome_canvas_item_set( rect,
+			       "x2", (double) width,
+			       "y2", (double) last_alloc.height,
+			       NULL );	
 }
 
 static void about_callback( GtkWidget *widget, gpointer data )
@@ -98,6 +114,9 @@ int main( int argc, char *argv[] )
 				  "y", (double) 0,
 				  "height", (double) 100,
 				  NULL );
+  gtk_signal_connect( GTK_OBJECT( reflow ), "resize",
+		      GTK_SIGNAL_FUNC( resize ),
+		      ( gpointer ) app);
   for ( i = 0; i < 200; i++ )
     {
       GnomeCanvasItem *item;

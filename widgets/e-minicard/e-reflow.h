@@ -65,6 +65,12 @@ struct _EReflow
 	double column_width;
 
 	int idle;
+
+	/* These are all for when the column is being dragged. */
+	gboolean column_drag;
+	gdouble start_x;
+	gint which_column_dragged;
+	double temp_column_width;
 };
 
 struct _EReflowClass
