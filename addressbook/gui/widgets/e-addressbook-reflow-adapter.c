@@ -21,8 +21,11 @@
 
 struct _EAddressbookReflowAdapterPrivate {
 	EAddressbookModel *model;
-	
+
+	gboolean loading;
+
 	int create_card_id, remove_card_id, modify_card_id, model_changed_id;
+	int search_started_id, search_result_id;
 };
 
 #define PARENT_TYPE e_reflow_model_get_type()
@@ -59,15 +62,22 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 	if (priv->model && priv->modify_card_id)
 		g_signal_handler_disconnect (priv->model,
 					     priv->modify_card_id);
-
 	if (priv->model && priv->model_changed_id)
 		g_signal_handler_disconnect (priv->model,
 					     priv->model_changed_id);
+	if (priv->model && priv->search_started_id)
+		g_signal_handler_disconnect (priv->model,
+					     priv->search_started_id);
+	if (priv->model && priv->search_result_id)
+		g_signal_handler_disconnect (priv->model,
+					     priv->search_result_id);
 
 	priv->create_card_id = 0;
 	priv->remove_card_id = 0;
 	priv->modify_card_id = 0;
 	priv->model_changed_id = 0;
+	priv->search_started_id = 0;
+	priv->search_result_id = 0;
 
 	if (priv->model)
 		g_object_unref (priv->model);
@@ -115,17 +125,14 @@ addressbook_count (EReflowModel *erm)
 static int
 addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 {
-	/* XXX ugh, an extra pango layout step for every minicard
-	   whether it's displayed or not? */
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
-	/* FIXME */
 	ECardSimpleField field;
 	int count = 0;
-	int height;
 	char *string;
 	ECardSimple *simple = e_card_simple_new (e_addressbook_model_card_at (priv->model, i));
 	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (parent)->canvas), "");
+	int height;
 
 	string = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FILE_AS);
 	height = text_height (layout, string ? string : "") + 10.0;
@@ -168,27 +175,32 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	ECard *card1, *card2;
-	
-	card1 = e_addressbook_model_card_at (priv->model, n1);
-	card2 = e_addressbook_model_card_at (priv->model, n2);
 
-	if (card1 && card2) {
-		char *file_as1, *file_as2;
-		file_as1 = card1->file_as;
-		file_as2 = card2->file_as;
-		if (file_as1 && file_as2)
-			return g_utf8_collate(file_as1, file_as2);
-		if (file_as1)
-			return -1;
-		if (file_as2)
-			return 1;
-		return strcmp(e_card_get_id(card1), e_card_get_id(card2));
+	if (priv->loading) {
+		return n1-n2;
 	}
-	if (card1)
-		return -1;
-	if (card2)
-		return 1;
-	return 0;
+	else {
+		card1 = e_addressbook_model_card_at (priv->model, n1);
+		card2 = e_addressbook_model_card_at (priv->model, n2);
+
+		if (card1 && card2) {
+			char *file_as1, *file_as2;
+			file_as1 = card1->file_as;
+			file_as2 = card2->file_as;
+			if (file_as1 && file_as2)
+				return g_utf8_collate(file_as1, file_as2);
+			if (file_as1)
+				return -1;
+			if (file_as2)
+				return 1;
+			return strcmp(e_card_get_id(card1), e_card_get_id(card2));
+		}
+		if (card1)
+			return -1;
+		if (card2)
+			return 1;
+		return 0;
+	}
 }
 
 static int
@@ -238,12 +250,10 @@ addressbook_reincarnate (EReflowModel *erm, int i, GnomeCanvasItem *item)
 			      NULL);
 }
 
-
-
 static void
-create_card(EAddressbookModel *model,
-	    gint index, gint count,
-	    EAddressbookReflowAdapter *adapter)
+create_card (EAddressbookModel *model,
+	     gint index, gint count,
+	     EAddressbookReflowAdapter *adapter)
 {
 	e_reflow_model_items_inserted (E_REFLOW_MODEL (adapter),
 				       index,
@@ -251,26 +261,47 @@ create_card(EAddressbookModel *model,
 }
 
 static void
-remove_card(EAddressbookModel *model,
-	    gint index,
-	    EAddressbookReflowAdapter *adapter)
+remove_card (EAddressbookModel *model,
+	     gint index,
+	     EAddressbookReflowAdapter *adapter)
 {
-	e_reflow_model_changed (E_REFLOW_MODEL (adapter));
+	e_reflow_model_item_removed (E_REFLOW_MODEL (adapter), index);
 }
 
 static void
-modify_card(EAddressbookModel *model,
-	    gint index,
-	    EAddressbookReflowAdapter *adapter)
+modify_card (EAddressbookModel *model,
+	     gint index,
+	     EAddressbookReflowAdapter *adapter)
 {
 	e_reflow_model_item_changed (E_REFLOW_MODEL (adapter), index);
 }
 
 static void
-model_changed(EAddressbookModel *model,
-	      EAddressbookReflowAdapter *adapter)
+model_changed (EAddressbookModel *model,
+	       EAddressbookReflowAdapter *adapter)
 {
 	e_reflow_model_changed (E_REFLOW_MODEL (adapter));
+}
+
+static void
+search_started (EAddressbookModel *model,
+		EAddressbookReflowAdapter *adapter)
+{
+	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
+
+	priv->loading = TRUE;
+}
+
+static void
+search_result (EAddressbookModel *model,
+	       EBookViewStatus status,
+	       EAddressbookReflowAdapter *adapter)
+{
+	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
+
+	priv->loading = FALSE;
+
+	e_reflow_model_comparison_changed (E_REFLOW_MODEL (adapter));
 }
 
 static void
@@ -396,10 +427,13 @@ e_addressbook_reflow_adapter_init (GtkObject *object)
 
 	priv = adapter->priv = g_new0 (EAddressbookReflowAdapterPrivate, 1);
 
+	priv->loading = FALSE;
 	priv->create_card_id = 0;
 	priv->remove_card_id = 0;
 	priv->modify_card_id = 0;
 	priv->model_changed_id = 0;
+	priv->search_started_id = 0;
+	priv->search_result_id = 0;
 }
 
 GType
@@ -450,6 +484,14 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 	priv->model_changed_id = g_signal_connect(priv->model,
 						  "model_changed",
 						  G_CALLBACK(model_changed),
+						  adapter);
+	priv->search_started_id = g_signal_connect(priv->model,
+						   "search_started",
+						   G_CALLBACK(search_started),
+						   adapter);
+	priv->search_result_id = g_signal_connect(priv->model,
+						  "search_result",
+						  G_CALLBACK(search_result),
 						  adapter);
 }
 

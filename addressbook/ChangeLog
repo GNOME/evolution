@@ -1,3 +1,35 @@
+2003-02-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-reflow-adapter.c (unlink_model):
+	disconnect search_started and search_result.
+	(addressbook_compare): if we're loading, just compare model
+	positions (so we just append while loading).
+	(remove_card): use e_reflow_model_item_removed.
+	(search_started): new function, set loading = TRUE.
+	(search_result): new function, set loading = FALSE and emit
+	"comparison_changed".
+	(e_addressbook_reflow_adapter_init): init loading and the new
+	signal ids.
+	(e_addressbook_reflow_adapter_construct): connect "search_started"
+	and "search_result".
+
+	* gui/widgets/e-addressbook-model.h (struct
+	_EAddressbookModelClass): add search_started signal.
+
+	* gui/widgets/e-addressbook-model.c
+	(e_addressbook_model_class_init): new signal "search_started".
+	(book_view_loaded): emit "search_started" after "model_changed".
+	(remove_card): simplify this, and use CARD_REMOVED all the time,
+	instead of just in the single card case.
+
+2003-02-10  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_search_timeout): split out the bulk of the
+	non-summary searching logic to here.  we do 1 "card_threshold"
+	sized lump per timeout.
+	(pas_backend_file_search): use pas_backend_file_search_timeout.
+
 2003-02-10  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #33066 ]

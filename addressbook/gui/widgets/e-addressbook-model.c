@@ -39,6 +39,7 @@ enum {
 enum {
 	WRITABLE_STATUS,
 	STATUS_MESSAGE,
+	SEARCH_STARTED,
 	SEARCH_RESULT,
 	FOLDER_BAR_MESSAGE,
 	CARD_ADDED,
@@ -201,13 +202,8 @@ remove_card(EBookView *book_view,
 	    EAddressbookModel *model)
 {
 	int i = 0;
-	int num_deleted = 0;
 	GList *l;
 
-	/* XXX this is really broken.  the CARD_REMOVED signal should
-	   be enough for us, but the !(*@#& EReflow mess can't delete
-	   single objects at a time.  In fact it can't remove objects
-	   at all.  every deletion = model_changed. */
 	for (l = ids; l; l = l->next) {
 		char *id = l->data;
 		for ( i = 0; i < model->data_count; i++) {
@@ -216,23 +212,16 @@ remove_card(EBookView *book_view,
 				memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
 				model->data_count--;
 
-				num_deleted++;
+				g_signal_emit (model,
+					       e_addressbook_model_signals [CARD_REMOVED], 0,
+					       i);
+
 				break;
 			}
 		}
 	}
 
-	if (num_deleted == 1) {
-		g_signal_emit (model,
-			       e_addressbook_model_signals [CARD_REMOVED], 0,
-			       i);
-		update_folder_bar_message (model);
-	}
-	else if (num_deleted > 1) {
-		g_signal_emit (model,
-			       e_addressbook_model_signals [MODEL_CHANGED], 0);
-		update_folder_bar_message (model);
-	}
+	update_folder_bar_message (model);
 }
 
 static void
@@ -351,6 +340,15 @@ e_addressbook_model_class_init (GObjectClass *object_class)
 			      G_TYPE_NONE,
 			      1, G_TYPE_POINTER);
 
+	e_addressbook_model_signals [SEARCH_STARTED] =
+		g_signal_new ("search_started",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EAddressbookModelClass, search_started),
+			      NULL, NULL,
+			      e_addressbook_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
+	
 	e_addressbook_model_signals [SEARCH_RESULT] =
 		g_signal_new ("search_result",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -489,6 +487,8 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 	model->search_in_progress = TRUE;
 	g_signal_emit (model,
 		       e_addressbook_model_signals [MODEL_CHANGED], 0);
+	g_signal_emit (model,
+		       e_addressbook_model_signals [SEARCH_STARTED], 0);
 	g_signal_emit (model,
 		       e_addressbook_model_signals [STOP_STATE_CHANGED], 0);
 }
