@@ -1,3 +1,14 @@
+2004-07-19  Radek Doulik  <rodo@ximian.com>
+
+	* gui/widgets/eab-vcard-control.c (eab_vcard_control_new): but
+	buttons to button box, use vbox instead of table
+
+	* gui/widgets/eab-contact-display.c: base this widget directly on
+	gtkhtml
+
+	* gui/widgets/e-addressbook-view.c (eab_view_new): put contact
+	display in scrolled window
+
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* gui/widgets/eab-contact-display.c: 

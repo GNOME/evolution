@@ -247,8 +247,8 @@ eab_vcard_control_new (void)
 	BonoboPersistStream *stream;
 	GtkWidget	    *display;
 	GtkWidget           *button1, *button2;
-	GtkWidget           *label;
-	GtkWidget           *table;
+	GtkWidget           *bbox;
+	GtkWidget           *vbox;
 
 	EABVCardControl    *vcard_control = g_new (EABVCardControl, 1);
 
@@ -263,31 +263,34 @@ eab_vcard_control_new (void)
 	/* Create the control. */
 
 	display = eab_contact_display_new ();
-	gtk_widget_show (display);
 	vcard_control->display = EAB_CONTACT_DISPLAY (display);
 
-	/* This is intentionally not shown. */
-	label = gtk_label_new ("");
-	vcard_control->label = label;
+	bbox = gtk_hbutton_box_new ();
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (bbox), GTK_BUTTONBOX_START);
+	gtk_box_set_spacing (GTK_BOX (bbox), 12);
 
 	button1 = gtk_button_new_with_label(_("Show Full VCard"));
 	g_signal_connect (button1, "clicked",
 			  G_CALLBACK (toggle_full_vcard), vcard_control);
-	gtk_widget_show (button1);
+	gtk_box_pack_start (GTK_BOX (bbox), button1, FALSE, FALSE, 0);
 
 	button2 = gtk_button_new_with_label(_("Save in addressbook"));
 	g_signal_connect (button2, "clicked",
 			  G_CALLBACK (save_in_addressbook), vcard_control);
-	gtk_widget_show (button2);
+	gtk_box_pack_start (GTK_BOX (bbox), button2, FALSE, FALSE, 0);
 
-	table = gtk_table_new (6, 6, FALSE);
-	gtk_table_attach (GTK_TABLE (table), display, 0, 6, 3, 6, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 3, 2, 3, GTK_FILL, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), button1, 0, 1, 1, 2, 0, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), button2, 1, 2, 1, 2, 0, 0, 0, 0);
-	gtk_widget_show (table);
+	/* This is intentionally not shown. */
+	vcard_control->label = gtk_label_new ("");
 
-	control = bonobo_control_new (table);
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), display, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), vcard_control->label, TRUE, TRUE, 0);
+	gtk_widget_show_all (bbox);
+	gtk_widget_show (display);
+	gtk_widget_show (vbox);
+
+	control = bonobo_control_new (vbox);
 
 	g_object_weak_ref (G_OBJECT (control), free_struct, vcard_control);
 

@@ -414,6 +414,7 @@ GtkWidget*
 eab_view_new (void)
 {
 	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_AB_VIEW, NULL));
+	GtkWidget *scrolled_window;
 	EABView *eav = EAB_VIEW (widget);
 	FilterPart *part;
 
@@ -480,9 +481,13 @@ eab_view_new (void)
 	gtk_widget_show (eav->widget);
 
 	eav->contact_display = eab_contact_display_new ();
-	gtk_container_add (GTK_CONTAINER (eav->paned), eav->contact_display);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), eav->contact_display);
+	gtk_container_add (GTK_CONTAINER (eav->paned), scrolled_window);
 	gtk_widget_show (eav->contact_display);
-
+	gtk_widget_show (scrolled_window);
 	gtk_widget_show (eav->paned);
 
 	/* gtk selection crap */

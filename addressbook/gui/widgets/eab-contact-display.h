@@ -23,7 +23,6 @@
 #ifndef _EAB_CONTACT_DISPLAY_H_
 #define _EAB_CONTACT_DISPLAY_H_
 
-#include <gtk/gtkvbox.h>
 #include <gtkhtml/gtkhtml.h>
 #include <libebook/e-contact.h>
 
@@ -43,13 +42,13 @@ typedef enum {
 } EABContactDisplayRenderMode;
 
 struct _EABContactDisplay {
-	GtkVBox parent;
+	GtkHTML parent;
 	
 	EABContactDisplayPrivate *priv;
 };
 
 struct _EABContactDisplayClass {
-	GtkVBoxClass parent_class;
+	GtkHTMLClass parent_class;
 };
 
 GtkType        eab_contact_display_get_type    (void);

@@ -35,14 +35,12 @@
 #include <libgnome/gnome-url.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
-#include <gtk/gtkscrolledwindow.h>
 
 /*#define HANDLE_MAILTO_INTERNALLY 1*/
 
-#define PARENT_TYPE (gtk_vbox_get_type ())
+#define PARENT_TYPE (GTK_TYPE_HTML)
 
 struct _EABContactDisplayPrivate {
-	GtkHTML *html;
 	EContact *contact;
 };
 
@@ -394,7 +392,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 	if (display->priv->contact)
 		g_object_ref (display->priv->contact);
 
-	html_stream = gtk_html_begin (display->priv->html);
+	html_stream = gtk_html_begin (GTK_HTML (display));
 	gtk_html_stream_write (html_stream, HTML_HEADER, sizeof (HTML_HEADER) - 1);
 	gtk_html_stream_write (html_stream, "<body>\n", 7);
 
@@ -433,7 +431,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 	}
 
 	gtk_html_stream_write (html_stream, "</body></html>\n", 15);
-	gtk_html_end (display->priv->html, html_stream, GTK_HTML_STREAM_OK);
+	gtk_html_end (GTK_HTML (display), html_stream, GTK_HTML_STREAM_OK);
 }
 
 static void
@@ -447,7 +445,7 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 	if (display->priv->contact)
 		g_object_ref (display->priv->contact);
 
-	html_stream = gtk_html_begin (display->priv->html);
+	html_stream = gtk_html_begin (GTK_HTML (display));
 	gtk_html_stream_write (html_stream, HTML_HEADER, sizeof (HTML_HEADER) - 1);
 	gtk_html_stream_write (html_stream, "<body>\n", 7);
 
@@ -589,7 +587,7 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 	}
 
 	gtk_html_stream_write (html_stream, "</body></html>\n", 15);
-	gtk_html_end (display->priv->html, html_stream, GTK_HTML_STREAM_OK);
+	gtk_html_end (GTK_HTML (display), html_stream, GTK_HTML_STREAM_OK);
 }
 
 void
@@ -610,50 +608,36 @@ GtkWidget*
 eab_contact_display_new (void)
 {
 	EABContactDisplay *display;
-	GtkWidget *scrolled_window;
 
 	display = g_object_new (EAB_TYPE_CONTACT_DISPLAY, NULL);
 	
 	display->priv = g_new0 (EABContactDisplayPrivate, 1);
 
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
-
-	display->priv->html = GTK_HTML (gtk_html_new ());
+	gtk_html_set_default_content_type (GTK_HTML (display), "text/html; charset=utf-8");
 	
-	gtk_html_set_default_content_type (display->priv->html, "text/html; charset=utf-8");
-	
-	gtk_html_set_editable (display->priv->html, FALSE);
+	gtk_html_set_editable (GTK_HTML (display), FALSE);
 
-	g_signal_connect (display->priv->html, "url_requested",
+	g_signal_connect (display, "url_requested",
 			  G_CALLBACK (on_url_requested),
 			  display);
-	g_signal_connect (display->priv->html, "link_clicked",
+	g_signal_connect (display, "link_clicked",
 			  G_CALLBACK (on_link_clicked),
 			  display);
 #if 0
-	g_signal_connect (display->priv->html, "object_requested",
+	g_signal_connect (display, "object_requested",
 			  G_CALLBACK (on_object_requested),
 			  mail_display);
-	g_signal_connect (display->priv->html, "button_press_event",
+	g_signal_connect (display, "button_press_event",
 			  G_CALLBACK (html_button_press_event), mail_display);
-	g_signal_connect (display->priv->html, "motion_notify_event",
+	g_signal_connect (display, "motion_notify_event",
 			  G_CALLBACK (html_motion_notify_event), mail_display);
-	g_signal_connect (display->priv->html, "enter_notify_event",
+	g_signal_connect (display, "enter_notify_event",
 			  G_CALLBACK (html_enter_notify_event), mail_display);
-	g_signal_connect (display->priv->html, "iframe_created",
+	g_signal_connect (display, "iframe_created",
 			  G_CALLBACK (html_iframe_created), mail_display);
-	g_signal_connect (display->priv->html, "on_url",
+	g_signal_connect (display, "on_url",
 			  G_CALLBACK (html_on_url), mail_display);
 #endif
-
-	gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET (display->priv->html));
-
-	gtk_box_pack_start_defaults (GTK_BOX (display), scrolled_window);
-	gtk_widget_show_all (scrolled_window);
 
 	return GTK_WIDGET (display);
 }
