@@ -1003,17 +1003,17 @@ is_rfc2015_signed (CamelMimePart *mime_part)
 	CamelDataWrapper *wrapper;
 	CamelMultipart *mp;
 	CamelMimePart *part;
-	GMimeContentField *type;
+	CamelContentType *type;
 	const gchar *param;
 	int nparts;
 	
 	/* check that we have a multipart/signed */
 	type = camel_mime_part_get_content_type (mime_part);
-	if (!gmime_content_field_is_type (type, "multipart", "signed"))
+	if (!header_content_type_is (type, "multipart", "signed"))
 		return FALSE;
 	
 	/* check that we have a protocol param with the value: "application/pgp-signed" */
-	param = gmime_content_field_get_parameter (type, "protocol");
+	param = header_content_type_param (type, "protocol");
 	if (!param || g_strcasecmp (param, "\"application/pgp-signed\""))
 		return FALSE;
 	
@@ -1028,13 +1028,13 @@ is_rfc2015_signed (CamelMimePart *mime_part)
 	 * application/pgp-signature - check it. */
 	part = camel_multipart_get_part (mp, 0);
 	type = camel_mime_part_get_content_type (part);
-	if (gmime_content_field_is_type (type, "application","pgp-signature"))
+	if (header_content_type_is (type, "application", "pgp-signature"))
 		return FALSE;
 	
 	/* The second part should be application/pgp-signature. */
 	part = camel_multipart_get_part (mp, 1);
 	type = camel_mime_part_get_content_type (part);
-	if (!gmime_content_field_is_type (type, "application","pgp-siganture"))
+	if (!header_content_type_is (type, "application", "pgp-siganture"))
 		return FALSE;
 	
 	/* FIXME: Implement multisig stuff */	
@@ -1048,17 +1048,17 @@ is_rfc2015_encrypted (CamelMimePart *mime_part)
 	CamelDataWrapper *wrapper;
 	CamelMultipart *mp;
 	CamelMimePart *part;
-	GMimeContentField *type;
+	CamelContentType *type;
 	const gchar *param;
 	int nparts;
 	
 	/* check that we have a multipart/encrypted */
 	type = camel_mime_part_get_content_type (mime_part);
-	if (!gmime_content_field_is_type (type, "multipart", "encrypted"))
+	if (!header_content_type_is (type, "multipart", "encrypted"))
 		return FALSE;
 	
 	/* check that we have a protocol param with the value: "application/pgp-encrypted" */
-	param = gmime_content_field_get_parameter (type, "protocol");
+	param = header_content_type_param (type, "protocol");
 	if (!param || g_strcasecmp (param, "\"application/pgp-encrypted\""))
 		return FALSE;
 	
@@ -1072,14 +1072,14 @@ is_rfc2015_encrypted (CamelMimePart *mime_part)
 	/* The first part should be application/pgp-encrypted */
 	part = camel_multipart_get_part (mp, 0);
 	type = camel_mime_part_get_content_type (part);
-	if (!gmime_content_field_is_type (type, "application","pgp-encrypted"))
+	if (!header_content_type_is (type, "application","pgp-encrypted"))
 		return FALSE;
 	
 	/* The second part should be application/octet-stream - this
            is the one we care most about */
 	part = camel_multipart_get_part (mp, 1);
 	type = camel_mime_part_get_content_type (part);
-	if (!gmime_content_field_is_type (type, "application","octet-stream"))
+	if (!header_content_type_is (type, "application","octet-stream"))
 		return FALSE;
 	
 	return TRUE;
@@ -1102,7 +1102,7 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 	CamelMimePart *part, *signed_part;
 	CamelMultipart *multipart;
 	CamelMimePartEncodingType encoding;
-	GMimeContentField *mime_type;
+	CamelContentType *mime_type;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream;
@@ -1169,8 +1169,8 @@ pgp_mime_part_sign (CamelMimePart **mime_part, const gchar *userid, PgpHashType 
 		hash_type = NULL;
 	}
 	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
-	gmime_content_field_set_parameter (mime_type, "micalg", hash_type);
-	gmime_content_field_set_parameter (mime_type, "protocol", "application/pgp-signature");
+	header_content_type_set_param (mime_type, "micalg", hash_type);
+	header_content_type_set_param (mime_type, "protocol", "application/pgp-signature");
 	camel_multipart_set_boundary (multipart, NULL);
 	
 	/* add the parts to the multipart */
@@ -1263,7 +1263,7 @@ pgp_mime_part_encrypt (CamelMimePart **mime_part, const GPtrArray *recipients, C
 {
 	CamelMultipart *multipart;
 	CamelMimePart *part, *version_part, *encrypted_part;
-	GMimeContentField *mime_type;
+	CamelContentType *mime_type;
 	CamelStream *stream;
 	GByteArray *contents;
 	gchar *ciphertext;
@@ -1305,7 +1305,7 @@ pgp_mime_part_encrypt (CamelMimePart **mime_part, const GPtrArray *recipients, C
 					  "multipart/encrypted");
 	camel_multipart_set_boundary (multipart, NULL);
 	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
-	gmime_content_field_set_parameter (mime_type, "protocol", "application/pgp-encrypted");
+	header_content_type_param (mime_type, "protocol", "application/pgp-encrypted");
 	
 	/* add the parts to the multipart */
 	camel_multipart_add_part (multipart, version_part);
@@ -1338,7 +1338,7 @@ pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 	CamelMultipart *multipart;
 	CamelMimeParser *parser;
 	CamelMimePart *encrypted_part, *part;
-	GMimeContentField *mime_type;
+	CamelContentType *mime_type;
 	CamelStream *stream;
 	GByteArray *content;
 	gchar *cleartext, *ciphertext = NULL;
@@ -1356,7 +1356,7 @@ pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 	/* get the encrypted part (second part) */
 	encrypted_part = camel_multipart_get_part (multipart, 1 /* second part starting at 0 */);
 	mime_type = camel_mime_part_get_content_type (encrypted_part);
-	if (!gmime_content_field_is_type (mime_type, "application", "octet-stream"))
+	if (!header_content_type_is (mime_type, "application", "octet-stream"))
 		return NULL;
 	
 	/* get the ciphertext */
