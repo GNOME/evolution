@@ -45,8 +45,3 @@ noinst_HEADERS =				\
 	camel-imap-private.h
 
 EXTRA_DIST = libcamelimap.urls
-
-
-
-
-

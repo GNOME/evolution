@@ -16,6 +16,8 @@ INCLUDES =					\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/e-util			\
 	$(GTK_INCLUDEDIR)			\
+	$(NSPR_CFLAGS)				\
+	$(NSS_CFLAGS)				\
         -DG_LOG_DOMAIN=\"camel-smtp-provider\"
 
 libcamelsmtp_la_SOURCES = 			\

@@ -1,3 +1,15 @@
+2001-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.h: Uninclude prnetdb.h since it's not
+	needed here.
+
+	* providers/smtp/camel-smtp-transport.c: #include prnetdb.h here
+	instead of making camel-tcp-stream-ssl.h include it. Prevents some
+	header bloat.
+
+	* providers/smtp/Makefile.am: Include the NSPR_CFLAGS and
+	NSS_CFLAGS.
+
 2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_connect): Update for

@@ -49,6 +49,7 @@
 #include "camel-tcp-stream-raw.h"
 #ifdef HAVE_NSS
 #include "camel-tcp-stream-ssl.h"
+#include <prnetdb.h>
 #endif
 #include "camel-session.h"
 #include "camel-exception.h"
