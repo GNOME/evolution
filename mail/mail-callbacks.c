@@ -1567,8 +1567,20 @@ mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	select_all (uih, user_data, path);
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	FolderBrowser *fb = user_data;
+        MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	int i;
+
+	if (ml == NULL)
+		return;
+
+	uids = camel_folder_get_uids(ml->folder);
+	camel_folder_freeze(ml->folder);
+	for (i=0;i<uids->len;i++)
+		camel_folder_set_message_flags(ml->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, ~0);
+	camel_folder_thaw(ml->folder);
+	g_ptr_array_free(uids, TRUE);
 }
 
 void

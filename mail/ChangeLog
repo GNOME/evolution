@@ -1,3 +1,9 @@
+2001-10-22    <NotZed@Ximian.com>
+
+	* mail-callbacks.c (mark_all_as_seen): Instead of select_all()
+	then using the tree's selected nodes to iterate, just do it on the
+	folder which keeps the current selection.  Fixes #3658.
+
 2001-10-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c: Call the new move/copy_msg_cb's
