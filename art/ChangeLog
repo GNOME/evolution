@@ -1,3 +1,8 @@
+2003-12-02  Not Zed  <NotZed@Ximian.com>
+
+	* flag-for-folloup*: Changed the base flag colour to reddish, and
+	created a -done set, the original blue-ish colour.
+
 2003-11-12  Jakub Steiner <jimmac@ximian.com>
 
 	* about-box.png: replace the foobar file
