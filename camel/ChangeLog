@@ -1,5 +1,9 @@
 2001-05-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): s/folder_deleted/folder_created -
+	result of a bad copy/paste.
+
 	* providers/imap/camel-imap-search.c (imap_body_contains):
 	Optimize the match "" case.
 

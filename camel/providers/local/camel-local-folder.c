@@ -224,7 +224,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	fi->unread_message_count = -1;
 	
 	camel_object_trigger_event (CAMEL_OBJECT (parent_store),
-				    "folder_deleted", fi);
+				    "folder_created", fi);
 	
 	camel_folder_info_free (fi);
 	
