@@ -1,5 +1,9 @@
 2002-06-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account):
+	Agh, priv->from.entry is no longer a GtkOptionMenu - it is an hbox
+	containing the GtkOptionMenu.
+
 	* e-msg-composer.c (setup_ui): Remove the customize toolbar thingy
 	since Michael said that this would fix bug #17952.
 

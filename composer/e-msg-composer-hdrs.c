@@ -252,6 +252,8 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	gtk_widget_show (omenu);
 	gtk_widget_show (hbox);
 	
+	gtk_object_set_data (GTK_OBJECT (hbox), "from_menu", omenu);
+	
 	return hbox;
 }
 
@@ -808,7 +810,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	omenu = GTK_OPTION_MENU (hdrs->priv->from.entry);
+	omenu = GTK_OPTION_MENU (gtk_object_get_data (GTK_OBJECT (hdrs->priv->from.entry), "from_menu"));
 	
 	if (account_name)
 		default_account = -1;
