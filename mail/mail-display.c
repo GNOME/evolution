@@ -1327,13 +1327,15 @@ static void fetch_next(MailDisplay *md)
 	       && (rd = (struct _remote_data *)e_dlist_remhead(&p->fetch_queue))) {
 
 		ctx = soup_context_get(rd->uri);
-		rd->msg = msg = soup_message_new(ctx, SOUP_METHOD_GET);
-		soup_context_unref(ctx);
+		rd->msg = msg =  soup_message_new(ctx, SOUP_METHOD_GET);
+
+		if (ctx)
+			soup_context_unref(ctx);
+
 		soup_message_set_flags(msg, SOUP_MESSAGE_OVERWRITE_CHUNKS);
 		soup_message_add_handler(msg, SOUP_HANDLER_BODY_CHUNK, fetch_data, rd);
-		soup_message_queue(msg, fetch_done, rd);
-
 		e_dlist_addtail(&p->fetch_active, (EDListNode *)rd);
+		soup_message_queue(msg, fetch_done, rd);
 	}
 }
 

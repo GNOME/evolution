@@ -1,3 +1,10 @@
+2002-10-27  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (fetch_next): don't queue the action until we've
+	added ourselves to the active list, because the fetch_done
+	callback can fire immediately and we'll end up queueing something
+	that has already been destroyed.
+
 2002-10-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Update the upgrade script to handle the new url format introduced
