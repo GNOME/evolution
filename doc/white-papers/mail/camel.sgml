@@ -52,6 +52,14 @@
     <title>Overview</title>
 
     <para>
+      Camel sees all mail repositories as stores containing 
+      folders. These folders in turn contain the messages
+      the client actually accesses. The use of such a unified
+      interface allows the client applications to be very
+      extensible. Camel includes a provider mechnism which
+      allows the application to be written once, and access
+      the various mail protocols when camel supports them.
+    <para>
       To begin using &Camel;, an application first creates a
       <classname>CamelSession</classname> object. This object is used
       to store application defaults, and to coordinate communication
