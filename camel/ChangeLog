@@ -1,5 +1,14 @@
 2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream.[c,h]: New abstract class for TCP streams. The
+	next step is to write child classes (CamelTcpStreamBSD and
+	CamelTcpStreamSSL). The BSD stream will use normal BSD sockets
+	while SSL will use Mozilla's NSPR and NSS libraries to do Secure
+	Socket Layers which wille ventually replace CamelStreamSSL which I
+	just commit'd. Oh well.
+
+2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-stream-ssl.[c,h]: New stream for handling SSL/TLS
 	connections.
 
