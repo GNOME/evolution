@@ -1,3 +1,9 @@
+2000-07-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-folder-creation-dialog.c (add_folder_types): Work around
+	GtkOptionMenu utter brokenness by destroying the associated
+	Glade-built GtkMenu and creating a new one from scratch.
+
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
 	* e-shell.c, main.c: Remove GOAD support.

@@ -292,9 +292,17 @@ add_folder_types (GtkWidget *dialog,
 
 	folder_type_option_menu = glade_xml_get_widget (gui, "folder_type_option_menu");
 
+	/* KLUDGE.  So, GtkOptionMenu is badly broken.  It calculates its size
+           in `gtk_option_menu_set_menu()' instead of using `size_request()' as
+           any sane widget would do.  So, in order to avoid the "narrow
+           GtkOptionMenu" bug, we have to destroy the existing associated menu
+           and create a new one.  Life sucks.  */
+
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (folder_type_option_menu));
 	g_assert (menu != NULL);
-	g_assert (GTK_IS_MENU (menu));
+	gtk_widget_destroy (menu);
+
+	menu = gtk_menu_new ();
 
 	folder_type_registry = e_shell_get_folder_type_registry (shell);
 	g_assert (folder_type_registry != NULL);
@@ -316,8 +324,8 @@ add_folder_types (GtkWidget *dialog,
 		type_name = (const char *) p->data;
 
 		menu_item = gtk_menu_item_new_with_label (type_name);
-		gtk_menu_append (GTK_MENU (menu), menu_item);
 		gtk_widget_show (menu_item);
+		gtk_menu_append (GTK_MENU (menu), menu_item);
 
 		gtk_object_set_data (GTK_OBJECT (menu_item), "folder_type", (void *) type_name);
 
@@ -325,7 +333,11 @@ add_folder_types (GtkWidget *dialog,
 			default_item = i;
 	}
 
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (folder_type_option_menu), menu);
+	gtk_widget_show (menu);
+
 	gtk_option_menu_set_history (GTK_OPTION_MENU (folder_type_option_menu), default_item);
+	gtk_widget_queue_resize (folder_type_option_menu);
 
 	return folder_types;
 }
