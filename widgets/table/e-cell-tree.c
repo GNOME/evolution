@@ -63,9 +63,9 @@ offset_of_node (ETreeModel *tree_model, ETreePath *path)
 }
 
 static ETreePath*
-e_cell_tree_get_node (ETreeModel *tree_model, int row)
+e_cell_tree_get_node (ETableModel *table_model, int row)
 {
-	return (ETreePath*)e_table_model_value_at (E_TABLE_MODEL(tree_model), -1, row);
+	return (ETreePath*)e_table_model_value_at (table_model, -1, row);
 }
 
 static ETreeModel*
@@ -177,7 +177,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		int node_image_width = 0, node_image_height = 0;
 		ETreePath *parent_node;
 
-		node = e_cell_tree_get_node (tree_model, row);
+		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 
 		offset = offset_of_node (tree_model, node);
 		expandable = e_tree_model_node_is_expandable (tree_model, node);
@@ -304,7 +304,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-	ETreePath *node = e_cell_tree_get_node (tree_model, row);
+	ETreePath *node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 	int offset = offset_of_node (tree_model, node);
 
 	switch (event->type) {
@@ -378,7 +378,7 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 		int offset, subcell_offset;
 		gboolean expanded, expandable;
 		
-		node = e_cell_tree_get_node (tree_model, row);
+		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 		
 		offset = offset_of_node (tree_model, node);
 		expandable = e_tree_model_node_is_expandable (tree_model, node);
@@ -422,7 +422,7 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 {		
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-	ETreePath *node = e_cell_tree_get_node (tree_model, row);
+	ETreePath *node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 	int offset = offset_of_node (tree_model, node);
 	GdkPixbuf *node_image;
 
@@ -471,7 +471,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 
 	if (/* XXX only if we're the active sort */ TRUE) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-		ETreePath *node = e_cell_tree_get_node (tree_model, row);
+		ETreePath *node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 		int offset = offset_of_node (tree_model, node);
 		int subcell_offset = offset;
 		gboolean expandable = e_tree_model_node_is_expandable (tree_model, node);

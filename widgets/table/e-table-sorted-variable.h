@@ -26,6 +26,9 @@ typedef struct {
 	int              table_model_cell_changed_id;
 	int              sort_info_changed_id;
 	int              sort_idle_id;
+	int		 insert_idle_id;
+	int		 insert_count;
+
 } ETableSortedVariable;
 
 typedef struct {

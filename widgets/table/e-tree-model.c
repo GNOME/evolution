@@ -72,6 +72,7 @@ etree_destroy (GtkObject *object)
 	g_hash_table_foreach_remove (etree->expanded_state,
 				     expanded_remove_func, NULL);
 
+	g_string_free(etree->sort_group, TRUE);
 	GTK_OBJECT_CLASS (e_tree_model_parent_class)->destroy (object);
 }
 
@@ -347,6 +348,38 @@ etable_is_cell_editable (ETableModel *etm, int col, int row)
 	return et_class->is_editable (etree, node, col);
 }
 
+static void
+build_sort_group(GString *out, ETreePath *node)
+{
+	if (node->parent) {
+		build_sort_group(out, node->parent);
+	}
+	g_string_sprintfa(out, "/%p", node);
+}
+
+static const char *
+etable_row_sort_group(ETableModel *etm, int row)
+{
+	ETreeModel *etree = E_TREE_MODEL(etm);
+	ETreeModelClass *et_class = ETM_CLASS(etm);
+	ETreePath* node = e_tree_model_node_at_row (etree, row);
+
+	g_return_val_if_fail (node, "");
+
+	g_string_truncate(etree->sort_group, 0);
+	if (node)
+		build_sort_group(etree->sort_group, node);
+
+	return etree->sort_group->str;
+}
+
+static gboolean
+etable_has_sort_group(ETableModel *etm)
+{
+	/* could optimise for the flat &/or unexpanded tree case */
+	return TRUE;
+}
+
 
 static void
 e_tree_model_class_init (GtkObjectClass *klass)
@@ -414,6 +447,9 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	table_class->thaw             = etable_thaw;
 #endif
 
+	table_class->row_sort_group   = etable_row_sort_group;
+	table_class->has_sort_group   = etable_has_sort_group;
+
 	tree_class->get_root          = etree_get_root;
 	tree_class->get_prev          = etree_get_prev;
 	tree_class->get_next          = etree_get_next;
@@ -432,7 +468,15 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	tree_class->node_at_row       = etree_node_at_row;
 }
 
-E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, NULL, PARENT_TYPE)
+static void
+e_tree_init (GtkObject *object)
+{
+	ETreeModel *etree = (ETreeModel *)object;
+
+	etree->sort_group = g_string_new("");
+}
+
+E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, e_tree_init, PARENT_TYPE)
 
 
 /* signals */

@@ -91,6 +91,30 @@ e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, int r
 		ETM_CLASS (e_table_model)->append_row (e_table_model, source, row);
 }
 
+const char *
+e_table_model_row_sort_group(ETableModel *e_table_model, int row)
+{
+	g_return_val_if_fail (e_table_model != NULL, "/");
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), "/");
+
+	if (ETM_CLASS (e_table_model)->row_sort_group)
+		return ETM_CLASS (e_table_model)->row_sort_group (e_table_model, row);
+	else
+		return "/";
+}
+
+gboolean
+e_table_model_has_sort_group(ETableModel *e_table_model)
+{
+	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
+
+	if (ETM_CLASS (e_table_model)->has_sort_group)
+		return ETM_CLASS (e_table_model)->has_sort_group (e_table_model);
+	else
+		return FALSE;
+}
+
 void *
 e_table_model_duplicate_value (ETableModel *e_table_model, int col, const void *value)
 {
@@ -220,6 +244,9 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	klass->set_value_at = NULL;     
 	klass->is_cell_editable = NULL; 
 	klass->append_row = NULL;
+
+	klass->row_sort_group = NULL;
+	klass->has_sort_group = NULL;
 
 	klass->duplicate_value = NULL;  
 	klass->free_value = NULL;       

@@ -24,6 +24,7 @@ struct ETreeModel {
 	guint32    num_expanded_to_save;
 	guint32    num_collapsed_to_save;
 	GHashTable *expanded_state; /* used for loading/saving expanded state */
+	GString    *sort_group;	/* for caching the last sort group info */
 };
 
 struct ETreeModelClass {
