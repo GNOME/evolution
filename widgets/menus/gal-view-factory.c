@@ -21,7 +21,7 @@ d(static gint depth = 0);
 static GtkObjectClass *gal_view_factory_parent_class;
 
 /**
- * gal_view_factory_get_title
+ * gal_view_factory_get_title:
  * @factory: The factory to query.
  *
  * Returns: The title of the factory.
@@ -39,7 +39,7 @@ gal_view_factory_get_title       (GalViewFactory *factory)
 }
 
 /**
- * gal_view_factory_new_view
+ * gal_view_factory_new_view:
  * @factory: The factory to use
  * @name: the name for the view.
  *
