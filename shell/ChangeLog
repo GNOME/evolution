@@ -1,3 +1,9 @@
+2001-01-27  Jason Leach  <jasonleach@usa.net>
+
+	* Makefile.am (evolution_LDADD): Don't link with the old
+	widgets/shortcut-bar/libshortcut-bar.la anymore, gal has the new
+	shortcut-bar.
+
 2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (get_pixbuf_for_folder): Don't scale if the
