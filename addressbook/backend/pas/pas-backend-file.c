@@ -1428,6 +1428,15 @@ pas_backend_file_get_static_capabilities (PASBackend             *backend)
 	return g_strdup("local");
 }
 
+static int
+pas_backend_file_get_supported_fields (PASBackend *backend,
+				       char ***fields)
+{
+	printf ("in pas_backend_file_get_supported_fields\n");
+	*fields = NULL;
+	return 0;
+}
+
 static gboolean
 pas_backend_file_construct (PASBackendFile *backend)
 {
@@ -1488,6 +1497,7 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	parent_class->add_client              = pas_backend_file_add_client;
 	parent_class->remove_client           = pas_backend_file_remove_client;
 	parent_class->get_static_capabilities = pas_backend_file_get_static_capabilities;
+	parent_class->get_supported_fields    = pas_backend_file_get_supported_fields;
 
 	object_class->destroy = pas_backend_file_destroy;
 }

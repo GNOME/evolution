@@ -2215,6 +2215,15 @@ pas_backend_ldap_get_static_capabilites (PASBackend *backend)
 	return g_strdup("net");
 }
 
+static int
+pas_backend_ldap_get_supported_fields (PASBackend *backend,
+				       char ***fields)
+{
+	printf ("in pas_backend_ldap_get_supported_fields\n");
+	*fields = NULL;
+	return 0;
+}
+
 static gboolean
 pas_backend_ldap_construct (PASBackendLDAP *backend)
 {
@@ -2283,6 +2292,7 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	parent_class->add_client              = pas_backend_ldap_add_client;
 	parent_class->remove_client           = pas_backend_ldap_remove_client;
 	parent_class->get_static_capabilities = pas_backend_ldap_get_static_capabilites;
+	parent_class->get_supported_fields    = pas_backend_ldap_get_supported_fields;
 
 	object_class->destroy = pas_backend_ldap_destroy;
 }

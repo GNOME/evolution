@@ -107,6 +107,18 @@ pas_backend_get_static_capabilities (PASBackend *backend)
 	return CLASS (backend)->get_static_capabilities (backend);
 }
 
+int
+pas_backend_get_supported_fields (PASBackend             *backend,
+				  char                   ***fields)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (PAS_IS_BACKEND (backend), NULL);
+
+	g_assert (CLASS (backend)->get_supported_fields != NULL);
+
+	return CLASS (backend)->get_supported_fields (backend, fields);
+}
+
 /**
  * pas_backend_last_client_gone:
  * @backend: An addressbook backend.
@@ -149,6 +161,7 @@ pas_backend_class_init (PASBackendClass *klass)
 	klass->add_client = NULL;
 	klass->remove_client = NULL;
 	klass->get_static_capabilities = NULL;
+	klass->get_supported_fields = NULL;
 }
 
 /**

@@ -1,3 +1,27 @@
+2001-02-17  Chris Toshok  <toshok@ximian.com>
+
+	* backend/idl/addressbook.idl: add sequence<string> typedef, and
+	add getSupportedFields method.
+
+	* backend/pas/pas-book.c
+	(impl_GNOME_Evolution_Addressbook_Book_getSupportedFields): new
+	function.
+
+	* backend/pas/pas-backend.c (pas_backend_class_init): init
+	get_supported_fields = NULL.
+	(pas_backend_get_supported_fields): new function.
+
+	* backend/pas/pas-backend.h: add prototype for
+	pas_backend_get_supported_fields.
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_get_supported_fields): new function.
+	(pas_backend_file_class_init): fill in get_supported_fields.
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_get_supported_fields): new function.
+	(pas_backend_ldap_class_init): fill in get_supported_fields.
+
 2001-02-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c: Undefine E_STRING_PROP and

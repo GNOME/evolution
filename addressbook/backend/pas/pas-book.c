@@ -315,6 +315,32 @@ impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities (PortableServer_Serv
 	return ret_val;
 }
 
+static GNOME_Evolution_Addressbook_stringlist *
+impl_GNOME_Evolution_Addressbook_Book_getSupportedFields (PortableServer_Servant servant,
+							  CORBA_Environment *ev)
+{
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
+	GNOME_Evolution_Addressbook_stringlist *stringlist;
+	char **supported_fields;
+	int num_fields, i;
+
+	stringlist = GNOME_Evolution_Addressbook_stringlist__alloc ();
+	num_fields = pas_backend_get_supported_fields (book->priv->backend, &supported_fields);
+
+	stringlist->_buffer = CORBA_sequence_CORBA_string_allocbuf (num_fields);
+	stringlist->_maximum = num_fields;
+	stringlist->_length = num_fields;
+
+	for (i = 0; num_fields; i++) {
+		stringlist->_buffer[i] = CORBA_string_dup (supported_fields[i]);
+		g_free (supported_fields[i]);
+	}
+
+	g_free (supported_fields);
+
+	return stringlist;
+}
+
 /**
  * pas_book_get_backend:
  */
@@ -729,6 +755,7 @@ pas_book_get_epv (void)
 	epv->modifyCard            = impl_GNOME_Evolution_Addressbook_Book_modifyCard;
 	epv->checkConnection       = impl_GNOME_Evolution_Addressbook_Book_checkConnection;
 	epv->getStaticCapabilities = impl_GNOME_Evolution_Addressbook_Book_getStaticCapabilities;
+	epv->getSupportedFields    = impl_GNOME_Evolution_Addressbook_Book_getSupportedFields;
 	epv->getCursor             = impl_GNOME_Evolution_Addressbook_Book_getCursor;
 	epv->getBookView           = impl_GNOME_Evolution_Addressbook_Book_getBookView;
 	epv->getChanges            = impl_GNOME_Evolution_Addressbook_Book_getChanges;

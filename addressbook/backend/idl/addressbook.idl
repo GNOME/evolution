@@ -15,6 +15,7 @@ module Addressbook {
 	typedef string CardId;
 	typedef string VCard;
 	typedef sequence<VCard> VCardList;
+	typedef sequence<string> stringlist;
 
 	interface CardCursor : Bonobo::Unknown {
 		long   count  ();
@@ -90,6 +91,8 @@ module Addressbook {
 
 		void checkConnection ();
 
+		stringlist getSupportedFields ();
+
 		string getStaticCapabilities ();
 
 		string getName ();
@@ -105,6 +108,7 @@ module Addressbook {
 			ProtocolNotSupported,
 			AuthenticationFailed,
 			AuthenticationRequired,
+			UnsupportedField,
 			OtherError
 		};
 
