@@ -79,8 +79,8 @@ struct _MeetingPagePrivate {
 	
 	/* List of identities */
 	EAccountList *accounts;
-	GList *address_strings;
-	gchar *default_address;
+	EMeetingAttendee *ia;
+	char *default_address;
 	
 	/* Glade XML data */
 	GladeXML *xml;
@@ -170,7 +170,8 @@ meeting_page_init (MeetingPage *mpage)
 	priv->comp = NULL;
 
 	priv->accounts = NULL;
-	priv->address_strings = NULL;
+	priv->ia = NULL;
+	priv->default_address = NULL;
 	
 	priv->xml = NULL;
 	priv->main = NULL;
@@ -180,6 +181,37 @@ meeting_page_init (MeetingPage *mpage)
 	priv->etable = NULL;
 	
 	priv->updating = FALSE;
+}
+
+static EAccount *
+get_current_account (MeetingPage *mpage)
+{	
+	MeetingPagePrivate *priv;
+	EIterator *it;
+	const char *str;
+	
+	priv = mpage->priv;
+
+	str = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry));
+	if (!str)
+		return NULL;
+	
+	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
+		EAccount *a = (EAccount *)e_iterator_get(it);
+		char *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+
+		if (!strcmp (full, str)) {
+			g_free (full);
+			g_object_unref (it);
+
+			return a;
+		}
+	
+		g_free (full);
+	}
+	g_object_unref (it);
+	
+	return NULL;	
 }
 
 static void
@@ -232,6 +264,9 @@ meeting_page_finalize (GObject *object)
 	
 	cleanup_attendees (priv->deleted_attendees);
 	g_ptr_array_free (priv->deleted_attendees, TRUE);
+
+	if (priv->ia != NULL)
+		g_object_unref (priv->ia);
 	
 	g_object_unref((priv->model));
 	
@@ -283,7 +318,7 @@ clear_widgets (MeetingPage *mpage)
 
 	priv = mpage->priv;
 
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), "");
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
 	gtk_label_set_text (GTK_LABEL (priv->existing_organizer), _("None"));
 
 	gtk_widget_show (priv->organizer_table);
@@ -319,12 +354,6 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Component for cancellation */
 	priv->comp = cal_component_clone (comp);
 	
-	/* List the user identities for default organizers */
-	if (priv->address_strings)
-		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
-	else
-		g_warning ("No potential organizers!");
-
 	/* If there is an existing organizer show it properly */
 	if (cal_component_has_organizer (comp)) {
 		cal_component_get_organizer (comp, &organizer);
@@ -356,7 +385,17 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			priv->existing = TRUE;
 		}
 	} else {
-		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
+		EAccount *a;
+		
+		a = get_current_account (mpage);
+		if (a != NULL) {
+			priv->ia = e_meeting_model_add_attendee_with_defaults (priv->model);
+			g_object_ref (priv->ia);
+
+			e_meeting_attendee_set_address (priv->ia, g_strdup_printf ("MAILTO:%s", a->id->address));
+			e_meeting_attendee_set_cn (priv->ia, g_strdup (a->id->name));
+			e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
+		}
 	}
 	
 	priv->updating = FALSE;
@@ -374,50 +413,32 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	priv = mpage->priv;
 
 	if (!priv->existing) {
-		gchar *addr = NULL, *cn = NULL, *sentby = NULL, *str;
-		EIterator *it;
+		EAccount *a;
+		gchar *addr = NULL;
 
-		str = e_dialog_editable_get (GTK_COMBO (priv->organizer)->entry);
-		
 		/* Find the identity for the organizer or sentby field */
-		for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
-			EAccount *a = (EAccount *)e_iterator_get(it);
-			char *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
-
-			if (!strcmp (full, str)) {
-				addr = g_strdup (a->id->address);
-				cn = g_strdup (a->id->name);
-				g_free(full);
-				break;
-			}
-			g_free(full);
-		}
-
-		g_free (str);
+		a = get_current_account (mpage);
 		
 		/* Sanity Check */
-		if (addr == NULL || strlen (addr) == 0) {
+		if (a == NULL) {
+			e_notice (page, GTK_MESSAGE_ERROR,
+				  _("The organizer selected no longer has an account."));
+			return FALSE;			
+		}
+		
+		if (a->id->address == NULL || strlen (a->id->address) == 0) {
 			e_notice (page, GTK_MESSAGE_ERROR,
 				  _("An organizer is required."));
-			g_free (addr);
-			g_free (cn);
 			return FALSE;
-		} else {
-			gchar *tmp;
-			
-			tmp = addr;
-			addr = g_strdup_printf ("MAILTO:%s", addr);
-			g_free (tmp);
-		}
+		} 
+
+		addr = g_strdup_printf ("MAILTO:%s", a->id->address);
 	
 		organizer.value = addr;
-		organizer.cn = cn;
-		organizer.sentby = sentby;
+		organizer.cn = a->id->name;
 		cal_component_set_organizer (comp, &organizer);
 
 		g_free (addr);
-		g_free (cn);
-		g_free (sentby);
 	}
 
 	if (e_meeting_model_count_actual_attendees (priv->model) < 1) {
@@ -482,18 +503,34 @@ get_widgets (MeetingPage *mpage)
 		&& priv->existing_organizer_btn);
 }
 
-/* This is called when any field is changed; it notifies upstream. */
 static void
-field_changed_cb (GtkWidget *widget, gpointer data)
+org_changed_cb (GtkWidget *widget, gpointer data)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
 	
 	mpage = MEETING_PAGE (data);
 	priv = mpage->priv;
+
+	if (priv->updating)
+		return;
 	
-	if (!priv->updating) 
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
+	if (!priv->existing && priv->ia != NULL) {
+		EAccount *a;
+		
+		a = get_current_account (mpage);
+		if (a != NULL) {
+			e_meeting_attendee_set_address (priv->ia, g_strdup_printf ("MAILTO:%s", a->id->address));
+			e_meeting_attendee_set_cn (priv->ia, g_strdup (a->id->name));
+			
+			if (!e_meeting_model_find_attendee (priv->model, e_meeting_attendee_get_address (priv->ia), NULL))
+				e_meeting_model_add_attendee (priv->model, priv->ia);
+		} else {
+			e_meeting_model_remove_attendee (priv->model, priv->ia);
+		}
+	}
+		
+	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 }
 
 /* Function called to change the organizer */
@@ -511,7 +548,6 @@ change_clicked_cb (GtkWidget *widget, gpointer data)
 	gtk_widget_show (priv->invite);
 	e_meeting_model_etable_click_to_add (priv->model, TRUE);
 
-	e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
 	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
 	
 	priv->existing = FALSE;
@@ -540,7 +576,7 @@ init_widgets (MeetingPage *mpage)
 
 	/* Organizer */
 	g_signal_connect((GTK_COMBO (priv->organizer)->entry), "changed",
-			    G_CALLBACK (field_changed_cb), mpage);
+			    G_CALLBACK (org_changed_cb), mpage);
 
 	g_signal_connect((priv->existing_organizer_btn), "clicked",
 			    G_CALLBACK (change_clicked_cb), mpage);
@@ -621,6 +657,13 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 
 	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
 
+	/* If the user deletes the attendee explicitly, assume they no
+	   longer want the organizer showing up */
+	if (ia == priv->ia) {
+		g_object_unref (priv->ia);
+		priv->ia = NULL;
+	}	
+		
 	/* If this was a delegatee, no longer delegate */
 	if (e_meeting_attendee_is_set_delfrom (ia)) {
 		EMeetingAttendee *ib;
@@ -733,7 +776,8 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	const char *backend_address;
 	EIterator *it;
 	EAccount *def_account;
-
+	GList *address_strings = NULL, *l;
+	
 	priv = mpage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR 
@@ -760,21 +804,34 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	     e_iterator_next(it)) {
 		EAccount *a = (EAccount *)e_iterator_get(it);
 		char *full;
-
+		
 		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
-		priv->address_strings = g_list_append(priv->address_strings, full);
+		address_strings = g_list_append(address_strings, full);
 
 		/* Note that the address specified by the backend gets
 		 * precedence over the default mail address.
 		 */
-		if (backend_address && !strcmp (backend_address, a->id->address))
-			priv->default_address = full;
-		else if (a == def_account && !priv->default_address)
-			priv->default_address = full;
+		if (backend_address && !strcmp (backend_address, a->id->address)) {
+			if (priv->default_address)
+				g_free (priv->default_address);
+			
+			priv->default_address = g_strdup (full);
+		} else if (a == def_account && !priv->default_address) {
+			priv->default_address = g_strdup (full);
+		}
 	}
 	g_object_unref(it);
+	
+	if (address_strings)
+		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), address_strings);
+	else
+		g_warning ("No potential organizers!");
 
+	for (l = address_strings; l != NULL; l = l->next)
+		g_free (l->data);
+	g_list_free (address_strings);
+	
 	/* The etable displaying attendees and their status */
 	g_object_ref((emm));
 	priv->model = emm;

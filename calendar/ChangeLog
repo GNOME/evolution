@@ -1,3 +1,27 @@
+2003-03-28  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (meeting_page_init): init new members
+	(get_current_account): get a matching account for the currently
+	selected user in the combo
+	(meeting_page_finalize): unref the meeting attendee if there is
+	one
+	(meeting_page_fill_widgets): don't set the combo list here
+	(clear_widgets): set the default organizer here and if we don't
+	have an organizer, add the default organizer as an attendee
+	(meeting_page_fill_component): use get_current_account
+	(org_changed_cb): if this is a new meeting and the organizer
+	changes, change the attendee
+	(change_clicked_cb): no need to set the default here
+	(init_widgets): reflect changed callback name
+	(meeting_page_construct): set the combo strings here
+	(popup_delete_cb): remove the organizer attendee if the user
+	explicitly deletes it
+
+	* gui/e-meeting-model.c (attendee_changed_cb): set row properly
+
+	* gui/itip-utils.c (comp_to_list): skip the user themselves if
+	cancelling or requesting
+
 2003-03-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/icalendar-importer.c (gnome_calendar_import_data_fn): use

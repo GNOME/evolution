@@ -303,13 +303,22 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 		to_list->_maximum = len;
 		to_list->_length = 0;
 		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
-		
+
+		cal_component_get_organizer (comp, &organizer);
+		if (organizer.value == NULL) {
+			e_notice (NULL, GTK_MESSAGE_ERROR,
+				  _("An organizer must be set."));
+			return NULL;
+		}
+
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *att = l->data;
 
 			if (users_has_attendee (users, att->value))
 				continue;
-
+			else if (!g_strcasecmp (att->value, organizer.value))
+				continue;
+			
 			recipient = &(to_list->_buffer[to_list->_length]);
 			if (att->cn)
 				recipient->name = CORBA_string_dup (att->cn);

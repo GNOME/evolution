@@ -1804,7 +1804,7 @@ attendee_changed_cb (EMeetingAttendee *ia, gpointer data)
 
 	for (i = 0; i < priv->attendees->len; i++) {
 		if (ia == g_ptr_array_index (priv->attendees, i)) {
-			row = 1;
+			row = i;
 			break;
 		}
 	}
