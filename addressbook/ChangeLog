@@ -1,3 +1,12 @@
+2004-11-07  Rodney Dawes  <dobey@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c
+	(init_email_record_location, init_im_record_location):
+	Translate the category pretty names that we pass for creation of
+	new menu item entries for the E-Mail and IM dropdown selections
+
+	Partially fixes bug #66854
+	
 2004-11-04  mengjie yu  <meng-jie.yu@sun.com>
 
 	fix for bugzilla #44876
