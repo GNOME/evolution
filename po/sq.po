@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution HEAD\n"
+"Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-09 10:41+0200\n"
-"PO-Revision-Date: 2004-07-09 18:42+0200\n"
+"POT-Creation-Date: 2004-07-10 12:35+0200\n"
+"PO-Revision-Date: 2004-07-10 13:56+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2593,7 +2593,7 @@ msgid "Paste"
 msgstr "Ngjite"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1123
-#: calendar/gui/e-calendar-view.c:1327
+#: calendar/gui/e-calendar-view.c:1340
 msgid "Current View"
 msgstr "Paraqitja aktuale"
 
@@ -4168,7 +4168,7 @@ msgstr "Jo korrispondues"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:552
 #: calendar/gui/dialogs/select-source-dialog.c:108
-#: calendar/gui/gnome-cal.c:1826
+#: calendar/gui/gnome-cal.c:1828
 #: camel/providers/groupwise/camel-gw-listener.c:311
 #: camel/providers/groupwise/camel-gw-listener.c:334
 msgid "Calendar"
@@ -4205,7 +4205,7 @@ msgstr "%A %d %B %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:507
-#: calendar/gui/e-day-view-top-item.c:694 calendar/gui/e-day-view.c:1588
+#: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
@@ -5860,7 +5860,7 @@ msgid "Updating objects"
 msgstr "Duke rifreskuar objektet"
 
 #: calendar/gui/e-calendar-table.c:1019 calendar/gui/e-calendar-table.c:1060
-#: calendar/gui/e-calendar-view.c:1340 calendar/gui/e-calendar-view.c:1420
+#: calendar/gui/e-calendar-view.c:1353 calendar/gui/e-calendar-view.c:1433
 #: mail/em-folder-view.c:898 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Hap"
@@ -5870,15 +5870,15 @@ msgid "Open _Web Page"
 msgstr "Hap faqen _web"
 
 #: calendar/gui/e-calendar-table.c:1021 calendar/gui/e-calendar-table.c:1066
-#: calendar/gui/e-calendar-view.c:1341 calendar/gui/e-calendar-view.c:1426
+#: calendar/gui/e-calendar-view.c:1354 calendar/gui/e-calendar-view.c:1439
 #: mail/em-folder-view.c:900 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Ruaje si..."
 
 #: calendar/gui/e-calendar-table.c:1022 calendar/gui/e-calendar-table.c:1064
-#: calendar/gui/e-calendar-view.c:1319 calendar/gui/e-calendar-view.c:1342
-#: calendar/gui/e-calendar-view.c:1424 ui/evolution-addressbook.xml.h:40
+#: calendar/gui/e-calendar-view.c:1332 calendar/gui/e-calendar-view.c:1355
+#: calendar/gui/e-calendar-view.c:1437 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
@@ -5886,14 +5886,14 @@ msgid "_Print..."
 msgstr "_Printo..."
 
 #: calendar/gui/e-calendar-table.c:1026 calendar/gui/e-calendar-table.c:1055
-#: calendar/gui/e-calendar-view.c:1347 calendar/gui/e-calendar-view.c:1390
+#: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1403
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "P_reje"
 
 #: calendar/gui/e-calendar-table.c:1027 calendar/gui/e-calendar-table.c:1053
-#: calendar/gui/e-calendar-view.c:1348 calendar/gui/e-calendar-view.c:1388
+#: calendar/gui/e-calendar-view.c:1361 calendar/gui/e-calendar-view.c:1401
 #: mail/em-folder-tree.c:965 mail/message-list.c:1650
 #: ui/evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
 #: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:109
@@ -5902,8 +5902,8 @@ msgid "_Copy"
 msgstr "_Kopjo"
 
 #: calendar/gui/e-calendar-table.c:1028 calendar/gui/e-calendar-table.c:1062
-#: calendar/gui/e-calendar-view.c:1323 calendar/gui/e-calendar-view.c:1349
-#: calendar/gui/e-calendar-view.c:1422 ui/evolution-addressbook.xml.h:38
+#: calendar/gui/e-calendar-view.c:1336 calendar/gui/e-calendar-view.c:1362
+#: calendar/gui/e-calendar-view.c:1435 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -5927,7 +5927,7 @@ msgstr "_Shëno aktivitetet e zgjedhura si të plotësuara"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1392
+#: calendar/gui/e-calendar-view.c:1373 calendar/gui/e-calendar-view.c:1405
 #: mail/em-folder-tree.c:2615 mail/em-folder-view.c:923
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
@@ -5979,75 +5979,75 @@ msgstr "Data fillimit"
 msgid "Task sort"
 msgstr "Rreshto aktivitetet"
 
-#: calendar/gui/e-calendar-view.c:1156
+#: calendar/gui/e-calendar-view.c:1169
 msgid "Moving items"
 msgstr "Duke lëvizur elementët"
 
-#: calendar/gui/e-calendar-view.c:1158
+#: calendar/gui/e-calendar-view.c:1171
 msgid "Copying items"
 msgstr "Duke kopjuar elementët"
 
-#: calendar/gui/e-calendar-view.c:1312 calendar/gui/e-calendar-view.c:1400
+#: calendar/gui/e-calendar-view.c:1325 calendar/gui/e-calendar-view.c:1413
 msgid "New _Appointment..."
 msgstr "_Takim i Ri..."
 
-#: calendar/gui/e-calendar-view.c:1313 calendar/gui/e-calendar-view.c:1405
+#: calendar/gui/e-calendar-view.c:1326 calendar/gui/e-calendar-view.c:1418
 msgid "New All Day _Event"
 msgstr "_Ndodhi e Re e ditës"
 
-#: calendar/gui/e-calendar-view.c:1314 calendar/gui/e-calendar-view.c:1410
+#: calendar/gui/e-calendar-view.c:1327 calendar/gui/e-calendar-view.c:1423
 msgid "New Meeting"
 msgstr "Mbledhje e Re"
 
-#: calendar/gui/e-calendar-view.c:1315 calendar/gui/e-calendar-view.c:1415
+#: calendar/gui/e-calendar-view.c:1328 calendar/gui/e-calendar-view.c:1428
 msgid "New Task"
 msgstr "Aktivitet i Ri"
 
-#: calendar/gui/e-calendar-view.c:1329 ui/evolution-calendar.xml.h:26
+#: calendar/gui/e-calendar-view.c:1342 ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Zgjidh _Sot"
 
-#: calendar/gui/e-calendar-view.c:1330
+#: calendar/gui/e-calendar-view.c:1343
 msgid "_Select Date..."
 msgstr "_Zgjidh datën..."
 
-#: calendar/gui/e-calendar-view.c:1334 ui/evolution-calendar.xml.h:45
+#: calendar/gui/e-calendar-view.c:1347 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Publiko informacionet mbi disponibilitetin"
 
-#: calendar/gui/e-calendar-view.c:1353
+#: calendar/gui/e-calendar-view.c:1366
 msgid "Cop_y to Calendar..."
 msgstr "Kopjo_je në kalendar..."
 
-#: calendar/gui/e-calendar-view.c:1354
+#: calendar/gui/e-calendar-view.c:1367
 msgid "Mo_ve to Calendar..."
 msgstr "Lë_vize në kalendar..."
 
-#: calendar/gui/e-calendar-view.c:1355
+#: calendar/gui/e-calendar-view.c:1368
 msgid "_Schedule Meeting..."
 msgstr "_Planifiko Mbledhje..."
 
-#: calendar/gui/e-calendar-view.c:1356
+#: calendar/gui/e-calendar-view.c:1369
 msgid "_Forward as iCalendar..."
 msgstr "_Përcille si iCalendar..."
 
-#: calendar/gui/e-calendar-view.c:1361 calendar/gui/e-calendar-view.c:1393
+#: calendar/gui/e-calendar-view.c:1374 calendar/gui/e-calendar-view.c:1406
 msgid "Delete this _Occurrence"
 msgstr "Elemino këtë _përkujtimore"
 
-#: calendar/gui/e-calendar-view.c:1362 calendar/gui/e-calendar-view.c:1394
+#: calendar/gui/e-calendar-view.c:1375 calendar/gui/e-calendar-view.c:1407
 msgid "Delete _All Occurrences"
 msgstr "Elemino të _gjitha përkujtimoret"
 
-#: calendar/gui/e-calendar-view.c:1396
+#: calendar/gui/e-calendar-view.c:1409
 msgid "Go to _Today"
 msgstr "Shko tek _Sot"
 
-#: calendar/gui/e-calendar-view.c:1398
+#: calendar/gui/e-calendar-view.c:1411
 msgid "_Go to Date..."
 msgstr "_Shko tek data..."
 
-#: calendar/gui/e-calendar-view.c:1428 ui/evolution.xml.h:35
+#: calendar/gui/e-calendar-view.c:1441 ui/evolution.xml.h:35
 msgid "_Settings..."
 msgstr "_Rregullimet..."
 
@@ -6093,7 +6093,7 @@ msgstr "%02i ndarje për minutë"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: calendar/gui/e-day-view-top-item.c:690 calendar/gui/e-day-view.c:1571
+#: calendar/gui/e-day-view-top-item.c:710 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
 msgstr "%A %d %B"
@@ -6103,7 +6103,7 @@ msgstr "%A %d %B"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/e-day-view-top-item.c:698 calendar/gui/e-day-view.c:1604
+#: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
 msgstr "%d %b"
@@ -6112,13 +6112,13 @@ msgstr "%d %b"
 #: calendar/gui/e-day-view.c:817 calendar/gui/e-week-view.c:573
 #: calendar/gui/print.c:838
 msgid "am"
-msgstr "am"
+msgstr "pd"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:820 calendar/gui/e-week-view.c:576
 #: calendar/gui/print.c:840
 msgid "pm"
-msgstr "pm"
+msgstr "md"
 
 #: calendar/gui/e-itip-control.c:585
 msgid "Yes. (Complex Recurrence)"
@@ -6702,7 +6702,7 @@ msgstr "Personat e duhur dhe _një gjëndje"
 msgid "Enter the password for %s"
 msgstr "Shkruaj fjalëkalimin për %s"
 
-#: calendar/gui/e-tasks.c:709 calendar/gui/gnome-cal.c:2159
+#: calendar/gui/e-tasks.c:709 calendar/gui/gnome-cal.c:2160
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6736,22 +6736,22 @@ msgstr "Duke pastruar"
 msgid "Updating query"
 msgstr "Duke rifreskuar kërkesën"
 
-#: calendar/gui/gnome-cal.c:2006
+#: calendar/gui/gnome-cal.c:2007
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Duke lexuar takimet tek %s"
 
-#: calendar/gui/gnome-cal.c:2025
+#: calendar/gui/gnome-cal.c:2026
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Duke lexuar aktivitetet tek %s"
 
-#: calendar/gui/gnome-cal.c:2048
+#: calendar/gui/gnome-cal.c:2049
 #, c-format
 msgid "Opening %s"
 msgstr "Duke hapur %s"
 
-#: calendar/gui/gnome-cal.c:3003
+#: calendar/gui/gnome-cal.c:3004
 msgid "Purging"
 msgstr "Duke pastruar"
 
@@ -12150,17 +12150,17 @@ msgid "Compose a message"
 msgstr ""
 
 #: composer/e-msg-composer.c:2649
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message - %s"
-msgstr "Mesazhi"
+msgstr "Mesazhi i bashkangjitur - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2654 composer/e-msg-composer.c:2798
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Mesazhi"
-msgstr[1] "Mesazhi"
+msgstr[0] "Mesazh i bashkangjitur"
+msgstr[1] "%d mesazh të bashkangjitur"
 
 #: composer/e-msg-composer.c:4332
 msgid ""
@@ -12192,9 +12192,8 @@ msgstr ""
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
-#, fuzzy
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "E pamundur marrja e mesazheve për t'u bashkangjitur nga {0}."
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
@@ -12211,15 +12210,13 @@ msgstr ""
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
-#, fuzzy
 msgid "Unfinished messages found"
-msgstr "Mesazhi"
+msgstr "U gjetën mesazhe jo të plotë"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
-#, fuzzy
 msgid "Do you want to recover unfinished messages?"
-msgstr "Dëshiron të ruash ndryshimet e kryera?"
+msgstr "Dëshiron të rekuperosh mesazhet jo të plotë?"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
@@ -12229,14 +12226,12 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:21
-#, fuzzy
 msgid "Don't Recover"
-msgstr "Hiq"
+msgstr "Mos rekupero"
 
 #: composer/mail-composer-errors.xml.h:22
-#, fuzzy
 msgid "Recover"
-msgstr "Hiq"
+msgstr "Rekupero"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
@@ -12255,11 +12250,10 @@ msgstr ""
 
 #. mail-composer:exit-unsaved primary
 #: composer/mail-composer-errors.xml.h:30
-#, fuzzy
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni këtë takim pa emër?"
+msgstr "Jeni i sigurt që dëshironi të braktisni mesazhin me titull {0} që ishit duke hartuar?"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12270,15 +12264,13 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "Save Message"
-msgstr "_Kërko në mesazh..."
+msgstr "Ruaj mesazhin"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
-#, fuzzy
 msgid "Could not create message."
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "I pamundur krijimi i mesazhit."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
@@ -12304,9 +12296,8 @@ msgstr ""
 #. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
-#, fuzzy
 msgid "Could not create composer window."
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "I pamundur krijimi i dritares së shkrimit të mesazhit."
 
 #. mail-composer:no-address-control secondary
 #: composer/mail-composer-errors.xml.h:50
@@ -12327,9 +12318,8 @@ msgid "The Ximian Evolution Groupware Suite"
 msgstr ""
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "Ximian Evolution (Unstable)"
-msgstr "Informacione mbi Ximian Evolution"
+msgstr "Ximian Evolution (Jo stabël)"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12667,9 +12657,8 @@ msgstr ""
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
-#, fuzzy
 msgid "Missing name."
-msgstr "_Emri dallues:"
+msgstr "Mungon emri."
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:20
@@ -12716,9 +12705,8 @@ msgid "Rule name:"
 msgstr "Emri i rregullit:"
 
 #: filter/filter-rule.c:817
-#, fuzzy
 msgid "<b>If</b>"
-msgstr "<b>Gjendja:</b>"
+msgstr "<b>Nëse</b>"
 
 #: filter/filter-rule.c:854
 msgid "if all criteria are met"
@@ -12737,18 +12725,16 @@ msgid "All related"
 msgstr ""
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "Replies"
-msgstr "Përkujtesë"
+msgstr "Përgjigjet"
 
 #: filter/filter-rule.c:877
 msgid "Replies and parents"
 msgstr ""
 
 #: filter/filter-rule.c:879
-#, fuzzy
 msgid "Include threads"
-msgstr "Përfshi:"
+msgstr "Përfshi diskutimet"
 
 #: filter/filter-rule.c:974
 msgid "incoming"
@@ -12759,9 +12745,8 @@ msgid "outgoing"
 msgstr ""
 
 #: filter/filter.glade.h:1
-#, fuzzy
 msgid "<b>_Filter Rules</b>"
-msgstr "<b>Gjendja:</b>"
+msgstr "<b>Rregullat e _Filtrit</b>"
 
 #: filter/filter.glade.h:2
 msgid "Compare against"
@@ -12776,30 +12761,36 @@ msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
+"Data e mesazhit do të krahasohet me\n"
+"12:00pd të datës së specifikuar."
 
 #: filter/filter.glade.h:6
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
+"Data e mesazhit do të krahasohet me\n"
+"orën relative kur përdoret filtri."
 
 #: filter/filter.glade.h:8
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
+"Data e mesazhit do të krahasohet me\n"
+"orën aktuale kur përdoret filtri."
 
 #: filter/filter.glade.h:11
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "një datë relative me aktualen"
 
 #: filter/filter.glade.h:12
 msgid "ago"
-msgstr ""
+msgstr "më parë"
 
 #: filter/filter.glade.h:16
 msgid "months"
-msgstr ""
+msgstr "muaj"
 
 #: filter/filter.glade.h:17 mail/mail-config.glade.h:184
 msgid "seconds"
@@ -12807,71 +12798,71 @@ msgstr "sekonda"
 
 #: filter/filter.glade.h:18
 msgid "the current time"
-msgstr ""
+msgstr "ora aktuale"
 
 #: filter/filter.glade.h:19
 msgid "the time you specify"
-msgstr ""
+msgstr "data e dhënë"
 
 #: filter/filter.glade.h:21
 msgid "years"
-msgstr ""
+msgstr "vite"
 
 #: filter/rule-editor.c:285
 msgid "Add Rule"
-msgstr ""
+msgstr "Shto rregull"
 
 #: filter/rule-editor.c:361
 msgid "Edit Rule"
-msgstr ""
+msgstr "Ndrysho rregullin"
 
 #: filter/rule-editor.c:685
 msgid "Rule name"
-msgstr ""
+msgstr "Emri i rregullit"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "*Control*F1"
-msgstr ""
+msgstr "*Control*F1"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Composer Preferences"
-msgstr ""
+msgstr "Preferimet e hartuesit"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure mail preferences, including security and message display, here"
-msgstr ""
+msgstr "Konfiguro preferimet e postës, përfshirë sigurinë dhe shfaqjen e mesazheve, këtu"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "Konfiguro këtu kontrollin e drejtshkrimit, firmat dhe hartuesin e mesazheve"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your email accounts here"
-msgstr ""
+msgstr "Konfiguro këtu llogaritë e postës elektronike"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail"
-msgstr ""
+msgstr "Posta e Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail accounts configuration control"
-msgstr ""
+msgstr "Kontrolli i konfigurimit të llogarive së postës Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail component"
-msgstr ""
+msgstr "Përbërës i postës së Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer"
-msgstr ""
+msgstr "Hartuesi i postës së Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail composer configuration control"
-msgstr ""
+msgstr "Kontrolli i konfigurimit të hartuesit të postës së Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11
 msgid "Evolution Mail preferences control"
-msgstr ""
+msgstr "Kontrolli i preferimeve të postës së Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-view.c:418
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
@@ -12882,11 +12873,11 @@ msgstr "Posta"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
 msgid "Mail Accounts"
-msgstr ""
+msgstr "Llogaritë e postës"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:99
 msgid "Mail Preferences"
-msgstr ""
+msgstr "Preferimet e postës"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
 msgid "_Mail"
@@ -12895,11 +12886,11 @@ msgstr "_Mail"
 #. translators: default account indicator
 #: mail/em-account-prefs.c:418
 msgid "[Default]"
-msgstr ""
+msgstr "[Prezgjedhur]"
 
 #: mail/em-account-prefs.c:472
 msgid "Account name"
-msgstr ""
+msgstr "Emri i llogarisë"
 
 #: mail/em-account-prefs.c:474
 msgid "Protocol"
@@ -12912,23 +12903,23 @@ msgstr "Pa emër"
 
 #: mail/em-composer-prefs.c:909
 msgid "Language(s)"
-msgstr ""
+msgstr "Gjuha(ët)"
 
 #: mail/em-composer-prefs.c:955
 msgid "Add signature script"
-msgstr ""
+msgstr "Shto firmën"
 
 #: mail/em-composer-prefs.c:975
 msgid "Signature(s)"
-msgstr ""
+msgstr "Firma(t)"
 
 #: mail/em-composer-utils.c:887
 msgid "-------- Forwarded Message --------"
-msgstr ""
+msgstr "-------- Mesazhi i Përcjellë --------"
 
 #: mail/em-composer-utils.c:1500
 msgid "an unknown sender"
-msgstr ""
+msgstr "një dërgues i panjohur"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
@@ -12938,11 +12929,12 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+"Më ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} ka shkruar:"
 
 #: mail/em-filter-editor.c:147
-#, fuzzy
 msgid "_Filter Rules"
-msgstr "Filtra"
+msgstr "Rregullat e _Filtrave"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
 #: mail/mail-account-gui.c:1347
@@ -12955,43 +12947,36 @@ msgid "Adjust Score"
 msgstr ""
 
 #: mail/em-filter-i18n.h:3
-#, fuzzy
 msgid "Assign Color"
-msgstr "Caktuar"
+msgstr "Cakto ngjyrën"
 
 #: mail/em-filter-i18n.h:4
-#, fuzzy
 msgid "Assign Score"
-msgstr "Caktuar"
+msgstr "Cakto pikët"
 
 #: mail/em-filter-i18n.h:5
-#, fuzzy
 msgid "Attachments"
-msgstr "Bashkangjitur"
+msgstr "Të bashkangjitur"
 
 #: mail/em-filter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Belize"
+msgstr "Beep"
 
 #: mail/em-filter-i18n.h:7
 msgid "contains"
 msgstr "përmban"
 
 #: mail/em-filter-i18n.h:8
-#, fuzzy
 msgid "Copy to Folder"
-msgstr "Shko tek kartela..."
+msgstr "Kopjoje tek kartela"
 
 #: mail/em-filter-i18n.h:9
-#, fuzzy
 msgid "Date received"
-msgstr "I përfunduar"
+msgstr "Data e marrjes"
 
 #: mail/em-filter-i18n.h:10
-#, fuzzy
 msgid "Date sent"
-msgstr "sekondë"
+msgstr "Data e dërgimit"
 
 #: mail/em-filter-i18n.h:12
 msgid "Deleted"
@@ -13006,19 +12991,16 @@ msgid "does not end with"
 msgstr ""
 
 #: mail/em-filter-i18n.h:15
-#, fuzzy
 msgid "does not exist"
-msgstr "Rubrika nuk ekziston"
+msgstr "nuk ekziston"
 
 #: mail/em-filter-i18n.h:16
-#, fuzzy
 msgid "does not return"
-msgstr "Komenti përmban"
+msgstr "nuk kthehet"
 
 #: mail/em-filter-i18n.h:17
-#, fuzzy
 msgid "does not sound like"
-msgstr "Komenti përmban"
+msgstr "nuk duket si"
 
 #: mail/em-filter-i18n.h:18
 msgid "does not start with"
@@ -13037,14 +13019,12 @@ msgid "ends with"
 msgstr "mbaron me"
 
 #: mail/em-filter-i18n.h:22
-#, fuzzy
 msgid "Exist"
-msgstr "D_il"
+msgstr "Ekziston"
 
 #: mail/em-filter-i18n.h:23
-#, fuzzy
 msgid "exists"
-msgstr "Teksti"
+msgstr "ekziston"
 
 #: mail/em-filter-i18n.h:24
 msgid "Expression"
@@ -13087,9 +13067,8 @@ msgid "is not Flagged"
 msgstr ""
 
 #: mail/em-filter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "Qershor"
+msgstr "Teksti për t'u refuzuar"
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:931
 #: widgets/misc/e-expander.c:189
@@ -13097,62 +13076,52 @@ msgid "Label"
 msgstr "Etiketa"
 
 #: mail/em-filter-i18n.h:38
-#, fuzzy
 msgid "Mailing list"
-msgstr "Bashko adresën E-Mail"
+msgstr "Mailing list"
 
 #: mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "Message Body"
-msgstr "Mesazhi që duhet dërguar"
+msgstr "Trupi i mesazhit"
 
 #: mail/em-filter-i18n.h:40
-#, fuzzy
 msgid "Message Header"
-msgstr "Mesazhi që duhet dërguar"
+msgstr "Kreu i mesazhit"
 
 #: mail/em-filter-i18n.h:41
-#, fuzzy
 msgid "Message is Junk"
-msgstr "Mesazhi"
+msgstr "Mesazhi është për tu flakur"
 
 #: mail/em-filter-i18n.h:42
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "Mesazhi që duhet dërguar"
+msgstr "Mesazhi nuk është për tu flakur"
 
 #: mail/em-filter-i18n.h:43
-#, fuzzy
 msgid "Move to Folder"
-msgstr "Shko tek kartela..."
+msgstr "Lëvize tek kartela"
 
 #: mail/em-filter-i18n.h:44
-#, fuzzy
 msgid "Pipe to Program"
-msgstr "Përfundo programin"
+msgstr "Ridrejtoje tek programi"
 
 #: mail/em-filter-i18n.h:45
-#, fuzzy
 msgid "Play Sound"
-msgstr "Lësho tingullin:"
+msgstr "Lësho tingullin"
 
 #: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:79
 msgid "Read"
 msgstr "Lexo"
 
 #: mail/em-filter-i18n.h:47
-#, fuzzy
 msgid "Recipients"
-msgstr "Përshkrimi përmban"
+msgstr "Marrës"
 
 #: mail/em-filter-i18n.h:48
 msgid "Regex Match"
 msgstr ""
 
 #: mail/em-filter-i18n.h:49
-#, fuzzy
 msgid "Replied to"
-msgstr "Përkujtesë"
+msgstr "Në përgjigje të"
 
 #: mail/em-filter-i18n.h:50
 msgid "returns"
@@ -13175,28 +13144,24 @@ msgid "Score"
 msgstr "Pikë"
 
 #: mail/em-filter-i18n.h:55
-#, fuzzy
 msgid "Sender"
-msgstr "_Dërgo"
+msgstr "Dërguesi"
 
 #: mail/em-filter-i18n.h:56
-#, fuzzy
 msgid "Set Status"
-msgstr "Gjendja"
+msgstr "Vendos gjendjen"
 
 #: mail/em-filter-i18n.h:57
-#, fuzzy
 msgid "Size (kB)"
-msgstr "Madhësia"
+msgstr "Madhësia (kB)"
 
 #: mail/em-filter-i18n.h:58
 msgid "sounds like"
 msgstr ""
 
 #: mail/em-filter-i18n.h:59
-#, fuzzy
 msgid "Source Account"
-msgstr "Buruesi"
+msgstr "Buruesi i llogarisë"
 
 #: mail/em-filter-i18n.h:60
 msgid "Specific header"
@@ -13207,51 +13172,45 @@ msgid "starts with"
 msgstr "fillon me"
 
 #: mail/em-filter-i18n.h:63
-#, fuzzy
 msgid "Stop Processing"
-msgstr "Gabim analize"
+msgstr "Ndalo proçesimin"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1519
-#: mail/em-format-quote.c:302 mail/em-format.c:755 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
+#: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
 msgstr ""
 
 #: mail/em-filter-i18n.h:65
-#, fuzzy
 msgid "Unset Status"
-msgstr "Shtetet e Bashkuara"
+msgstr "Gjëndje e pacaktuar"
 
 #. and now for the action area
 #: mail/em-filter-rule.c:488
-#, fuzzy
 msgid "<b>Then</b>"
-msgstr "<b>Gjendja:</b>"
+msgstr "<b>Atëhere</b>"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
 msgstr ""
 
 #: mail/em-folder-properties.c:122
-#, fuzzy
 msgid "Folder Properties"
-msgstr "Pronësitë"
+msgstr "Pronësitë e kartelës"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
-#, fuzzy
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "Mesazhi"
-msgstr[1] "Mesazhi"
+msgstr[0] "Gjithsej mesazh:"
+msgstr[1] "Gjithsej mesazhe:"
 
 #: mail/em-folder-properties.c:173
-#, fuzzy
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] "Mesazhi"
-msgstr[1] "Mesazhi"
+msgstr[0] "Mesazh i palexuar:"
+msgstr[1] "Mesazhe të palexuar:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -13289,24 +13248,24 @@ msgid "Loading..."
 msgstr "Duke ngarkuar..."
 
 #: mail/em-folder-tree.c:846
-#, fuzzy, c-format
+#, c-format
 msgid "Moving folder %s"
-msgstr "Lëvize tek kartela..."
+msgstr "Duke lëvizur kartelën %s"
 
 #: mail/em-folder-tree.c:848
-#, fuzzy, c-format
+#, c-format
 msgid "Copying folder %s"
-msgstr "Kopjoje tek kartela..."
+msgstr "Duke kopjuar kartelën %s"
 
 #: mail/em-folder-tree.c:855 mail/message-list.c:1561
-#, fuzzy, c-format
+#, c-format
 msgid "Moving messages into folder %s"
-msgstr "Opcionet e alarmit me mesazh"
+msgstr "Duke lëvizur mesazhet në kartelën %s"
 
 #: mail/em-folder-tree.c:857 mail/message-list.c:1563
-#, fuzzy, c-format
+#, c-format
 msgid "Copying messages into folder %s"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "Duke kopjuar mesazhet në kartelën %s"
 
 #: mail/em-folder-tree.c:873
 msgid "Cannot drop message(s) into toplevel store"
@@ -13326,9 +13285,8 @@ msgid "_Move"
 msgstr "_Lëvize"
 
 #: mail/em-folder-tree.c:968 mail/message-list.c:1653
-#, fuzzy
 msgid "Cancel _Drag"
-msgstr "Anullo"
+msgstr "Anullo _zvarritjen"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:802 mail/em-folder-view.c:816
@@ -13338,19 +13296,17 @@ msgid "Select folder"
 msgstr ""
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-view.c:816
-#, fuzzy
 msgid "C_opy"
-msgstr "Kopjo"
+msgstr "K_opjo"
 
 #: mail/em-folder-tree.c:2144
-#, fuzzy, c-format
+#, c-format
 msgid "Creating folder `%s'"
-msgstr "Lëvize tek kartela..."
+msgstr "Duke krijuar kartelën `%s'"
 
 #: mail/em-folder-tree.c:2330 mail/mail-component.c:709
-#, fuzzy
 msgid "Create folder"
-msgstr "Lëvize tek kartela..."
+msgstr "Krijo kartelë"
 
 #: mail/em-folder-tree.c:2526
 #, c-format
@@ -13368,9 +13324,8 @@ msgid "_View"
 msgstr "_Shfaq"
 
 #: mail/em-folder-tree.c:2604
-#, fuzzy
 msgid "Open in _New Window"
-msgstr "Hape në një dritare të re"
+msgstr "Hape në një dritare të _re"
 
 #: mail/em-folder-tree.c:2608
 msgid "_Copy..."
@@ -13479,9 +13434,8 @@ msgid "Appl_y Filters"
 msgstr ""
 
 #: mail/em-folder-view.c:940
-#, fuzzy
 msgid "F_ilter Junk"
-msgstr "Filtra"
+msgstr "F_iltro kë duhet refuzuar"
 
 #: mail/em-folder-view.c:943
 msgid "Crea_te Rule From Message"
@@ -13540,14 +13494,13 @@ msgstr ""
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Matches: %d"
-msgstr "Jo korrispondues"
+msgstr "Korrispondues: %d"
 
-#: mail/em-format-html-display.c:641 mail/em-format-html.c:559
-#, fuzzy
+#: mail/em-format-html-display.c:641 mail/em-format-html.c:582
 msgid "Unsigned"
-msgstr "Caktuar"
+msgstr "Pa firmë"
 
 #: mail/em-format-html-display.c:641
 msgid ""
@@ -13555,7 +13508,7 @@ msgid ""
 "authentic."
 msgstr ""
 
-#: mail/em-format-html-display.c:642 mail/em-format-html.c:560
+#: mail/em-format-html-display.c:642 mail/em-format-html.c:583
 msgid "Valid signature"
 msgstr ""
 
@@ -13565,10 +13518,9 @@ msgid ""
 "message is authentic."
 msgstr ""
 
-#: mail/em-format-html-display.c:643 mail/em-format-html.c:561
-#, fuzzy
+#: mail/em-format-html-display.c:643 mail/em-format-html.c:584
 msgid "Invalid signature"
-msgstr "Argumente të pavlefshme"
+msgstr "Firmë e pavlefshme"
 
 #: mail/em-format-html-display.c:643
 msgid ""
@@ -13586,7 +13538,7 @@ msgid ""
 "cannot be verified."
 msgstr ""
 
-#: mail/em-format-html-display.c:650 mail/em-format-html.c:568
+#: mail/em-format-html-display.c:650 mail/em-format-html.c:591
 msgid "Unencrypted"
 msgstr "Jo i dekriptuar"
 
@@ -13596,7 +13548,7 @@ msgid ""
 "The Internet."
 msgstr ""
 
-#: mail/em-format-html-display.c:651 mail/em-format-html.c:569
+#: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
 msgstr ""
 
@@ -13607,7 +13559,7 @@ msgid ""
 "message in a practical amount of time."
 msgstr ""
 
-#: mail/em-format-html-display.c:652 mail/em-format-html.c:570
+#: mail/em-format-html-display.c:652 mail/em-format-html.c:593
 msgid "Encrypted"
 msgstr "Shifruar"
 
@@ -13617,7 +13569,7 @@ msgid ""
 "the content of this message."
 msgstr ""
 
-#: mail/em-format-html-display.c:653 mail/em-format-html.c:571
+#: mail/em-format-html-display.c:653 mail/em-format-html.c:594
 msgid "Encrypted, strong"
 msgstr ""
 
@@ -13648,11 +13600,11 @@ msgstr "Të skaduara:"
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr ""
 
-#: mail/em-format-html-display.c:1085
+#: mail/em-format-html-display.c:1054
 msgid "_View Inline"
 msgstr ""
 
-#: mail/em-format-html-display.c:1086
+#: mail/em-format-html-display.c:1055
 msgid "_Hide"
 msgstr "_Fshih"
 
@@ -13661,125 +13613,125 @@ msgstr "_Fshih"
 msgid "Page %d of %d"
 msgstr ""
 
-#: mail/em-format-html.c:452 mail/em-format-html.c:454
+#: mail/em-format-html.c:475 mail/em-format-html.c:477
 #, c-format
 msgid "Retrieving `%s'"
 msgstr ""
 
-#: mail/em-format-html.c:562
+#: mail/em-format-html.c:585
 msgid "Valid signature but cannot verify sender"
 msgstr ""
 
-#: mail/em-format-html.c:820
+#: mail/em-format-html.c:848
 msgid "Malformed external-body part."
 msgstr ""
 
-#: mail/em-format-html.c:850
+#: mail/em-format-html.c:878
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/em-format-html.c:861
+#: mail/em-format-html.c:889
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/em-format-html.c:863
+#: mail/em-format-html.c:891
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/em-format-html.c:884
+#: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr ""
 
-#: mail/em-format-html.c:895
+#: mail/em-format-html.c:923
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/em-format-html.c:1137
+#: mail/em-format-html.c:1165
 msgid "Formatting message"
 msgstr ""
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:750
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr ""
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:751
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:801
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr ""
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:752
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr ""
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:753
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr ""
 
-#: mail/em-format-html.c:1413 mail/em-format-quote.c:192 mail/em-format.c:754
+#: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr ""
 
 #. pseudo-header
-#: mail/em-format-html.c:1523 mail/em-format-quote.c:309
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Trajtuesi i postës"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1550
+#: mail/em-format-html.c:1581
 msgid "<I> (%a, %R %Z)</I>"
 msgstr ""
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1553
+#: mail/em-format-html.c:1584
 msgid "<I> (%R %Z)</I>"
 msgstr ""
 
-#: mail/em-format-html.c:1563 mail/em-format-quote.c:316 mail/em-format.c:756
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
 
-#: mail/em-format-html.c:1586 mail/em-format.c:757 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr ""
 
-#: mail/em-format.c:993
+#: mail/em-format.c:1056
 #, c-format
 msgid "%s attachment"
 msgstr ""
 
-#: mail/em-format.c:1024 mail/em-format.c:1143
+#: mail/em-format.c:1095 mail/em-format.c:1228
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr ""
 
-#: mail/em-format.c:1133
+#: mail/em-format.c:1218
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr ""
 
-#: mail/em-format.c:1279
+#: mail/em-format.c:1379
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 
-#: mail/em-format.c:1298
+#: mail/em-format.c:1398
 msgid "Unsupported signature format"
 msgstr "Format firme i pasuportuar"
 
-#: mail/em-format.c:1306
+#: mail/em-format.c:1406
 msgid "Error verifying signature"
 msgstr "Gabim gjatë kontrollit të firmës"
 
-#: mail/em-format.c:1306
+#: mail/em-format.c:1406
 msgid "Unknown error verifying signature"
 msgstr ""
 
@@ -13812,14 +13764,14 @@ msgid ""
 msgstr ""
 
 #: mail/em-migrate.c:1602
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "I pamundur krijimi i kartelës së re `%s': %s"
 
 #: mail/em-migrate.c:1628
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "I pamundur kopjimi i kartelës `%s' tek `%s': %s"
 
 #: mail/em-migrate.c:1811
 #, c-format
@@ -13832,9 +13784,9 @@ msgid "Unable to open old POP keep-on-server data `%s': %s"
 msgstr ""
 
 #: mail/em-migrate.c:2029
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "I pamundur krijimi i kartelës `%s' me të dhëna POP3 për t'u mbajtur në server: %s"
 
 #: mail/em-migrate.c:2058
 #, c-format
@@ -13842,14 +13794,14 @@ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 msgstr ""
 
 #: mail/em-migrate.c:2413 mail/em-migrate.c:2425
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "Krijimi i arkivit lokal të postës `%s' dështoi: %s"
 
 #: mail/em-migrate.c:2576
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "I pamundur krijimi i kartelave lokale të postës `%s': %s"
 
 #: mail/em-migrate.c:2594
 msgid ""
@@ -13892,9 +13844,8 @@ msgid "Open in %s..."
 msgstr ""
 
 #: mail/em-subscribe-editor.c:606
-#, fuzzy
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "Ky server nuk suporton informacionet e skemës LDAPv3"
+msgstr "Ky arkiv nuk suporton regjistrimet, ose ato nuk janë aktive."
 
 #: mail/em-subscribe-editor.c:635
 msgid "Subscribed"
@@ -14000,37 +13951,32 @@ msgid "Default forward style"
 msgstr "Stili i prezgjedhur i përcjelljes"
 
 #: mail/evolution-mail.schemas.in.in.h:13
-#, fuzzy
 msgid "Default height of the Composer Window"
-msgstr "Bëj të padukshëm panelin e shtigjeve"
+msgstr "Lartësia e prezgjedhur e dritares së hartuesit"
 
 #: mail/evolution-mail.schemas.in.in.h:14
 msgid "Default height of the Message Window"
-msgstr ""
+msgstr "Lartësia e prezgjedhur e dritares së mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:15
-#, fuzzy
 msgid "Default height of the Subscribe dialog"
-msgstr "Bëj të padukshëm panelin e shtigjeve"
+msgstr "Lartësia e prezgjedhur e dritares së dialogut të regjistrimit"
 
 #: mail/evolution-mail.schemas.in.in.h:16
 msgid "Default reply style"
 msgstr "Stili i prezgjedhur i përgjigjes"
 
 #: mail/evolution-mail.schemas.in.in.h:17
-#, fuzzy
 msgid "Default width of the Composer Window"
-msgstr "Bëj të padukshëm panelin e shtigjeve"
+msgstr "Gjerësia e prezgjedhur e dritares së hartuesit"
 
 #: mail/evolution-mail.schemas.in.in.h:18
-#, fuzzy
 msgid "Default width of the Message Window"
-msgstr "Bëj të padukshëm panelin e shtigjeve"
+msgstr "Gjerësia e prezgjedhur e dritares së mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:19
-#, fuzzy
 msgid "Default width of the Subscribe dialog"
-msgstr "Bëj të padukshëm panelin e shtigjeve"
+msgstr "Gjerësia e prezgjedhur e dritares së dialogut të regjistrimit"
 
 #: mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
@@ -14151,9 +14097,8 @@ msgid "Mark citations in the message \"Preview\"."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:47
-#, fuzzy
 msgid "Message Window default height"
-msgstr "Prioriteti i prezgjedhur:"
+msgstr "Lartësia e prezgjedhur e dritares së mesazhit"
 
 #: mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default width"
@@ -14270,9 +14215,8 @@ msgid "Spell check inline"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:76
-#, fuzzy
 msgid "Subscribe dialog default height"
-msgstr "Prioriteti i prezgjedhur:"
+msgstr "Lartësia e prezgjedhur e dritares së dialogut të regjistrimit"
 
 #: mail/evolution-mail.schemas.in.in.h:77
 msgid "Subscribe dialog default width"
@@ -14646,11 +14590,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: mail/mail-component.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "ditë"
-msgstr[1] "ditë"
+msgstr[0] "%d kopje"
+msgstr[1] "%d kopje"
 
 #: mail/mail-component.c:486
 #, c-format
@@ -15377,7 +15321,7 @@ msgstr "Gërma të mëdha/të vogla"
 
 #: mail/mail-dialogs.glade.h:14
 msgid "Find in Message"
-msgstr ""
+msgstr "Gjej në mesazh"
 
 #: mail/mail-dialogs.glade.h:15
 msgid "Find:"
@@ -15390,7 +15334,7 @@ msgstr ""
 
 #: mail/mail-dialogs.glade.h:17
 msgid "Folder Subscriptions"
-msgstr ""
+msgstr "Regjistrimet në kartelë"
 
 #: mail/mail-dialogs.glade.h:18
 msgid "License Agreement"
@@ -15398,11 +15342,11 @@ msgstr ""
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
-msgstr ""
+msgstr "Asnjë zgjedhje"
 
 #: mail/mail-dialogs.glade.h:20
 msgid "S_erver:"
-msgstr ""
+msgstr "S_erveri:"
 
 #: mail/mail-dialogs.glade.h:21
 msgid "Security Information"
@@ -15436,19 +15380,19 @@ msgstr "_Ç'regjistrohu"
 
 #: mail/mail-dialogs.glade.h:30
 msgid "specific folders only"
-msgstr ""
+msgstr "vetëm kartelat e caktuara"
 
 #: mail/mail-dialogs.glade.h:31
 msgid "with all active remote folders"
-msgstr ""
+msgstr "me të gjitha kartelat aktive remote"
 
 #: mail/mail-dialogs.glade.h:32
 msgid "with all local and active remote folders"
-msgstr ""
+msgstr "me të gjitha kartelat lokale dhe kartelat aktive remote"
 
 #: mail/mail-dialogs.glade.h:33
 msgid "with all local folders"
-msgstr ""
+msgstr "me të gjitha kartelat lokale"
 
 #. mail:camel-service-auth-invalid primary
 #: mail/mail-errors.xml.h:2
@@ -15465,7 +15409,7 @@ msgstr ""
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "Futja në serverin tuaj \"{0}\" si \"{0}\" dështoi."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
@@ -15474,8 +15418,8 @@ msgid ""
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
 "Kontrolloni që keni shkruar si duhet fjalëkalimin.  Kini parasysh që tek "
-"fjalëkalimet gërmat e mëdha ndikojnë dhe mund të keni shtypur pulsantin "
-"e shkrimit me gërma të mëdha."
+"fjalëkalimet gërmat e mëdha ndikojnë dhe mund të keni shtypur pulsantin e "
+"shkrimit me gërma të mëdha."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
@@ -15511,9 +15455,8 @@ msgstr ""
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni këtë zë të ditarit?"
+msgstr "Jeni i sigurt që dëshironi të dërgoni një mesazh vetëm me marrësit BCC?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15550,7 +15493,7 @@ msgstr ""
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
 msgid "Use default drafts folder?"
-msgstr ""
+msgstr "Përdor kartelën e prezgjedhur të kopjeve?"
 
 #. mail:ask-default-drafts secondary
 #: mail/mail-errors.xml.h:40
@@ -15558,6 +15501,8 @@ msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
 msgstr ""
+"E pamundur hapja e kartelës së kopjeve për kë llogari.  Dëshironi të përdorni "
+"kartelën e kopjeve të sistemit?"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
@@ -15569,14 +15514,14 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
 msgstr ""
-"Jeni i sigurt që dëshironi të eleminoni përgjithmonë të gjithë mesazhet e fshirë "
-"tek kartela \"{0}\"?"
+"Jeni i sigurt që dëshironi të eleminoni përgjithmonë të gjithë mesazhet e "
+"fshirë tek kartela \"{0}\"?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr ""
+msgstr "Nëse vazhdoni, nuk do të jeni në gjendje të rekuperoni këto mesazhe."
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
@@ -15588,8 +15533,8 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
-"Jeni i sigurt që dëshironi të eleminoni përgjithmonë të gjithë mesazhet e fshirë "
-"në të gjitha kartelat?"
+"Jeni i sigurt që dëshironi të eleminoni përgjithmonë të gjithë mesazhet e "
+"fshirë në të gjitha kartelat?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -15598,7 +15543,7 @@ msgstr "_Zbraz Koshin"
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Keni akoma mesazhe të padërguar, dëshironi të dilni sidoqoftë?"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
@@ -15612,7 +15557,7 @@ msgstr ""
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr ""
+msgstr "Mesazhi juaj me subjekt \"{0}\" nuk u dërgua."
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15622,11 +15567,15 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
+"Mesazhi sëhtë dërguar me anë të programit të jashtëm \"sendmail\".  Senmail "
+"u përgjigj me mesazhin e gabimit në vazhdim: status 67: posta nuk u dërgua.\n"
+"Mesazhi është magazinuar në kartelën OutBox.  Kontrolloje mesazhin për "
+"gabime dhe rinise."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
 msgid "Error while {0}."
-msgstr ""
+msgstr "Gabim kur {0}."
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
@@ -15668,15 +15617,13 @@ msgstr "E pamundur ruajtja tek file \"{0}\"."
 
 #. mail:no-create-path secondary
 #: mail/mail-errors.xml.h:96
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "I pamundur krijimi i directory %s: %s"
+msgstr "I pamundur krijimi i directory për ruajtje, sepse \"{1}\""
 
 #. mail:no-create-tmp-path primary
 #: mail/mail-errors.xml.h:98
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "E pamundur hapja e kartelës `%s': nuk është një directory."
+msgstr "I pamundur krijimi i directory për ruajtjen e përkohshme."
 
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
@@ -15686,7 +15633,7 @@ msgstr "File ekziston por nuk mund të mbishkruhet."
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
 msgid "File exists but is not a regular file."
-msgstr ""
+msgstr "File ekziston por nuk është një file i rregullt."
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
@@ -15705,6 +15652,8 @@ msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
 msgstr ""
+"Kartelat e sistemit nevoiten që Ximian Evolution të funksionojë si duhet dhe ato "
+"nuk mund të riemërtohen, lëvizen, apo eleminohen."
 
 #. mail:no-rename-spethal-folder primary
 #: mail/mail-errors.xml.h:118
@@ -16473,10 +16422,6 @@ msgstr ""
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
 msgstr ""
-
-#: shell/apps_evolution_shell.schemas.in.in.h:14
-msgid "mail"
-msgstr "mail"
 
 #: shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -18034,7 +17979,7 @@ msgstr "Rreshtim sipas diskutimeve"
 
 #: ui/evolution-mail-list.xml.h:25
 msgid "_Folder"
-msgstr "_Kartelë"
+msgstr "_Kartela"
 
 #: ui/evolution-mail-list.xml.h:26 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
@@ -18937,8 +18882,8 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Përdor butonin e majtë të mouse për të zmadhuar një zonë të hartës dhe zgjidh "
-"zonën e orarit.\n"
+"Përdor butonin e majtë të mouse për të zmadhuar një zonë të hartës dhe "
+"zgjidh zonën e orarit.\n"
 "Përdor butonin e djathtë për të zvogëluar zonën e hartës."
 
 #: widgets/menus/gal-view-menus.c:292
