@@ -598,6 +598,9 @@ struct imap4_fetch_all_t {
 	GHashTable *uid_hash;
 	GPtrArray *added;
 	guint32 first;
+	guint32 need;
+	int count;
+	int total;
 };
 
 static void
@@ -891,6 +894,8 @@ untagged_fetch_all (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 ind
 	
 	if (envelope) {
 		envelope->changed |= changed;
+		if ((envelope->changed & fetch->need) == fetch->need)
+			camel_operation_progress (NULL, (++fetch->count * 100.0f) / fetch->total);
 	} else if (changed & IMAP4_FETCH_FLAGS) {
 		camel_folder_change_info_change_uid (fetch->changes, camel_message_info_uid (info));
 	}
@@ -930,6 +935,11 @@ imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 las
 	fetch->added = g_ptr_array_new ();
 	fetch->summary = summary;
 	fetch->first = first;
+	fetch->need = IMAP4_FETCH_ALL;
+	fetch->total = last ? (last - first) + 1 : (imap4_summary->exists - first) + 1;
+	fetch->count = 0;
+	
+	g_ptr_array_set_size (fetch->added, fetch->total);
 	
 	/* From rfc2060, Section 6.4.5:
 	 * 
@@ -971,6 +981,11 @@ imap4_summary_fetch_flags (CamelFolderSummary *summary, guint32 first, guint32 l
 	fetch->added = g_ptr_array_new ();
 	fetch->summary = summary;
 	fetch->first = first;
+	fetch->need = IMAP4_FETCH_UID | IMAP4_FETCH_FLAGS;
+	fetch->total = (last - first) + 1;
+	fetch->count = 0;
+	
+	g_ptr_array_set_size (fetch->added, fetch->total);
 	
 	if (last != 0)
 		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:%u (UID FLAGS)\r\n", first, last);
@@ -1201,6 +1216,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 		 * client */
 		ic = imap4_summary_fetch_flags (summary, 1, scount);
 		
+		camel_operation_start (NULL, _("Scanning for changed messages"));
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 			;
 		
@@ -1208,6 +1224,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 			imap4_fetch_all_free (ic->user_data);
 			camel_exception_xfer (ex, &ic->ex);
 			camel_imap4_command_unref (ic);
+			camel_operation_end (NULL);
 			return -1;
 		}
 		
@@ -1215,6 +1232,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 			first = scount + 1;
 		
 		camel_imap4_command_unref (ic);
+		camel_operation_end (NULL);
 	} else {
 		first = scount + 1;
 	}
@@ -1222,6 +1240,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 	if (first != 0 && first <= imap4_summary->exists) {
 		ic = imap4_summary_fetch_all (summary, first, 0);
 		
+		camel_operation_start (NULL, _("Fetching envelopes for new messages"));
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 			;
 		
@@ -1229,11 +1248,13 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 			imap4_fetch_all_free (ic->user_data);
 			camel_exception_xfer (ex, &ic->ex);
 			camel_imap4_command_unref (ic);
+			camel_operation_end (NULL);
 			return -1;
 		}
 		
 		imap4_fetch_all_add (ic->user_data);
 		camel_imap4_command_unref (ic);
+		camel_operation_end (NULL);
 		
 #if 0
 		/* Note: this should not be needed - the code that adds envelopes to the summary

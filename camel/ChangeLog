@@ -1,3 +1,11 @@
+2004-08-06  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-summary.c (untagged_fetch_all): Call
+	camel_operation_progress().
+	(imap4_summary_fetch_all): Setup info we need for progress
+	reporting.
+	(imap4_summary_fetch_flags): Same.
+
 2004-08-04  Rodney Dawes  <dobey@novell.com>
 
 	* camel-charset-map.c: #include <gal/util/e-iconv.h>
