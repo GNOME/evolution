@@ -1,3 +1,9 @@
+1999-03-10  Tomislav Vujec  <tvujec@carnet.hr>
+
+	* gnome.m4 (GNOME_INIT_HOOK): Wrapped position parameter in testing
+	for additional inits. It gets expanded while generating configure,
+	resulting in an empty parameter list - syntax error in for statement.
+
 1999-03-09  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome.m4 (GNOME_INIT): Add a new paramater, which is passed to
