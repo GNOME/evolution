@@ -1,3 +1,14 @@
+2002-02-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	[This gets rid of some spurious "could not find handler" messages
+	on exit.  What happened is that the signal would be disconnected
+	twice, once by cleanup_delayed_selection() and once by the
+	while_alive handler.]
+
+	* e-shell-view.c (destroy): Call cleanup_delayed_selection() here.
+	(e_shell_view_display_uri): Use gtk_signal_connect_full(), not
+	e_gtk_signal_connect_full_while_alive().
+
 2002-02-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-about-box.c: Add year 2002 to the copyright.

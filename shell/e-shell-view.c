@@ -1193,6 +1193,10 @@ destroy (GtkObject *object)
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
 
+	/* This is necessary to remove the signal handler for folder_new on the
+	   storage set used for the delayed selection mechanism.  */
+	cleanup_delayed_selection (shell_view);
+
 	gtk_object_unref (GTK_OBJECT (priv->tooltips));
 
 	if (priv->history != NULL)
@@ -2138,11 +2142,9 @@ display_uri (EShellView *shell_view,
 	} else if (! create_new_view_for_uri (shell_view, uri)) {
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (uri);
-		e_gtk_signal_connect_full_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
-						       GTK_SIGNAL_FUNC (new_folder_cb), NULL,
-						       shell_view, NULL,
-						       FALSE, TRUE,
-						       GTK_OBJECT (shell_view));
+		gtk_signal_connect_full (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
+					 "new_folder", GTK_SIGNAL_FUNC (new_folder_cb), NULL,
+					 shell_view, NULL, FALSE, TRUE);
 		retval = FALSE;
 		goto end;
 	}
