@@ -1,3 +1,17 @@
+2001-07-08  Chris Toshok  <toshok@ximian.com>
+
+	* camel-tcp-stream-openssl.c (camel_tcp_stream_openssl_finalize):
+	openssl_table is gone.  we now store/get the stream from the
+	SSL_CTX's app_data.
+	(stream_read): rework the non-blocking case to account for SSL
+	possibly buffering data (in which case select will block even
+	though data is ready to be read), and to account for FreeBSD's
+	strange behavior of returning -1/EAGAIN even though select said
+	the fd was ready to be read.
+	(ssl_verify): openssl_table is gone.
+	(open_ssl_connection): set the SSL_CTX's app_data to be the
+	stream, remove the openssl_table code.
+
 2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_encode_param): Don't allow in to be

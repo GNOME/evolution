@@ -46,16 +46,6 @@
 
 static CamelTcpStreamClass *parent_class = NULL;
 
-static GHashTable *openssl_table = NULL;
-#ifdef ENABLE_THREADS
-static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-#define OPENSSL_TABLE_LOCK()   pthread_mutex_lock (&lock)
-#define OPENSSL_TABLE_UNLOCK() pthread_mutex_unlock (&lock)
-#else
-#define OPENSSL_TABLE_LOCK
-#define OPENSSL_TABLE_UNLOCK
-#endif
-
 /* Returns the class for a CamelTcpStreamOpenSSL */
 #define CTSR_CLASS(so) CAMEL_TCP_STREAM_OPENSSL_CLASS (CAMEL_OBJECT_GET_CLASS (so))
 
@@ -117,13 +107,6 @@ camel_tcp_stream_openssl_finalize (CamelObject *object)
 		SSL_shutdown (stream->priv->ssl);
 		
 		if (stream->priv->ssl->ctx) {
-			OPENSSL_TABLE_LOCK ();
-			g_hash_table_remove (openssl_table, stream->priv->ssl->ctx);
-			if (g_hash_table_size (openssl_table) == 0) {
-				g_hash_table_destroy (openssl_table);
-				openssl_table = NULL;
-			}
-			OPENSSL_TABLE_UNLOCK ();
 			SSL_CTX_free (stream->priv->ssl->ctx);
 		}
 		
@@ -206,20 +189,28 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		
 		flags = fcntl (tcp_stream_openssl->priv->sockfd, F_GETFL);
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
+
+		do {
+			nread = SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
+
+			if (nread == 0)
+				return nread;
+
+			if (nread == -1 && errno == EAGAIN) {
+				FD_ZERO (&rdset);
+				FD_SET (tcp_stream_openssl->priv->sockfd, &rdset);
+				FD_SET (cancel_fd, &rdset);
+				fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
 		
-		FD_ZERO (&rdset);
-		FD_SET (tcp_stream_openssl->priv->sockfd, &rdset);
-		FD_SET (cancel_fd, &rdset);
-		fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
-		
-		select (fdmax, &rdset, 0, 0, NULL);
-		if (FD_ISSET (cancel_fd, &rdset)) {
-			fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
-			errno = EINTR;
-			return -1;
-		}
-		
-		nread = SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
+				select (fdmax, &rdset, 0, 0, NULL);
+				if (FD_ISSET (cancel_fd, &rdset)) {
+					fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
+					errno = EINTR;
+					return -1;
+				}
+			}
+		} while (nread == -1 && errno == EAGAIN);
+
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
 	}
 	
@@ -409,9 +400,7 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 
 	ssl = X509_STORE_CTX_get_ex_data (ctx, SSL_get_ex_data_X509_STORE_CTX_idx());
 	
-	OPENSSL_TABLE_LOCK ();
-	stream = CAMEL_TCP_STREAM_OPENSSL (g_hash_table_lookup (openssl_table, ssl->ctx));
-	OPENSSL_TABLE_UNLOCK ();
+	stream = SSL_CTX_get_app_data (ssl->ctx);
 	
 	cert = X509_STORE_CTX_get_current_cert (ctx);
 	err = X509_STORE_CTX_get_error (ctx);
@@ -457,20 +446,10 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 	ssl = SSL_new (ssl_ctx);
 	SSL_set_fd (ssl, sockfd);
 
-	OPENSSL_TABLE_LOCK ();
-	if (!openssl_table)
-		openssl_table = g_hash_table_new (g_direct_hash, g_direct_equal);
-	
-	g_hash_table_insert (openssl_table, ssl->ctx, openssl);
-	OPENSSL_TABLE_UNLOCK ();
-	
-	
+	SSL_CTX_set_app_data (ssl_ctx, openssl);
+
 	n = SSL_connect (ssl);
 	if (n != 1) {
-
-		OPENSSL_TABLE_LOCK ();
-		g_hash_table_remove (openssl_table, ssl->ctx);
-		OPENSSL_TABLE_UNLOCK ();
 
 		SSL_shutdown (ssl);
 		
