@@ -1,3 +1,8 @@
+2001-11-19  Wang Jian  <lark@linux.net.cn>
+
+	* zh_CN.po: Updated Simplified Chinese translation by
+	Wang Jian(Merged from HEAD), and gettext-0.10.40 compatible.
+
 2001-11-19  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation by
