@@ -1,3 +1,8 @@
+2003-05-17  Larry Ewing  <lewing@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: remove font prefs server from
+	the list.
+
 2003-05-17  Jeremy Katz  <katzj@redhat.com>
 
 	* mail-offline-handler.c: Add #include to fix warning.

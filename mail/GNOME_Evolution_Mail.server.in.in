@@ -160,31 +160,6 @@
 
   </oaf_server>
 
-  <!-- Font Preferences -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_FontPrefs_ConfigControl"
-	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="evolution:config_item:title" type="string"
-		   _value="Font Preferences"/>
-
-    <oaf_attribute name="evolution:config_item:description" type="string"
-		   _value="Configure the fonts used by Evolution here"/>
-
-    <oaf_attribute name="evolution:config_item:icon_name" type="string"
-		   value="font.png"/>
-    
-    <oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
-    
-    <oaf_attribute name="name" type="string"
-		   _value="Evolution Mail font configuration control"/>
-
-  </oaf_server>
-
   <!-- Composer Preferences -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
 	      type="factory"
