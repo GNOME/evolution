@@ -52,7 +52,6 @@
 	(destination_folder_handle_motion): Ditto.
 	(destination_folder_handle_drop): Ditto.
 
->>>>>>> 1.1426
 2001-07-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (reconfigure_folder_reconfigure): remvoed
