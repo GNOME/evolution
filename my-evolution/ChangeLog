@@ -1,3 +1,8 @@
+2002-09-05  Anna Dirks  <anna@ximian.com>
+
+	* GNOME_Evolution_Summary.oaf.in.in : Changed the description of the 
+	summary page of the settings dialog to be less wordy.
+
 2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (create_component): Pass NULL as

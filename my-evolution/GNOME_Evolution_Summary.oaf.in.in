@@ -54,7 +54,7 @@
 		   _value="Summary Preferences"/>
 
     <oaf_attribute name="evolution:config_item:description" type="string"
-		   _value="This page can be used to customize the appearance of the Summary page."/>
+		   _value="Configure the appearance of the Evolution Summary here"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="evolution-today.png"/>
