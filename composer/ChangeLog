@@ -1,3 +1,12 @@
+2002-10-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Set
+	content->rawtext to TRUE for text parts because the content is in
+	its raw form (since we didn't know the charset when we created
+	it). Also only write out the content-object to discover the best
+	encoding, we don't want to include the headers of the MIME
+	part. Second half of the fix for bug #31655.
+
 2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (get_file_content): Don't create a new file if

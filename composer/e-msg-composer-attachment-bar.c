@@ -739,10 +739,12 @@ attach_to_multipart (CamelMultipart *multipart,
 		     const char *default_charset)
 {
 	CamelContentType *content_type;
+	CamelDataWrapper *content;
 	
 	content_type = camel_mime_part_get_content_type (attachment->body);
+	content = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
 	
-	if (!header_content_type_is (content_type, "multipart", "*")) {
+	if (!CAMEL_IS_MULTIPART (content)) {
 		if (header_content_type_is (content_type, "text", "*")) {
 			CamelMimePartEncodingType encoding;
 			CamelStreamFilter *filtered_stream;
@@ -750,17 +752,35 @@ attach_to_multipart (CamelMultipart *multipart,
 			CamelStream *stream;
 			char *type;
 			
+			/* Let camel know that this text part was read in raw and thus is not in
+			 * UTF-8 format so that when it writes this part out, it doesn't try to
+			 * convert it from UTF-8 into the @default_charset charset. */
+			content->rawtext = TRUE;
+			
 			stream = camel_stream_null_new ();
 			filtered_stream = camel_stream_filter_new_with_stream (stream);
 			bestenc = camel_mime_filter_bestenc_new (CAMEL_BESTENC_GET_ENCODING);
 			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (bestenc));
 			camel_object_unref (CAMEL_OBJECT (stream));
 			
-			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (attachment->body),
-							    CAMEL_STREAM (filtered_stream));
+			camel_data_wrapper_write_to_stream (content, CAMEL_STREAM (filtered_stream));
+			camel_object_unref (CAMEL_OBJECT (filtered_stream));
 			
 			encoding = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_8BIT);
 			camel_mime_part_set_encoding (attachment->body, encoding);
+			
+			if (encoding == CAMEL_MIME_PART_ENCODING_7BIT) {
+				/* the text fits within us-ascii so this is safe */
+				/* FIXME: check that this isn't iso-2022-jp? */
+				default_charset = "us-ascii";
+			} else {
+				if (!default_charset)
+					default_charset = mail_config_get_default_charset ();
+				
+				/* FIXME: We should really check that this fits within the
+                                   default_charset and if not find one that does and/or
+				   allow the user to specify? */
+			}
 			
 			/* looks kinda nasty, but this is how ya have to do it */
 			header_content_type_set_param (content_type, "charset", default_charset);
@@ -769,8 +789,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			g_free (type);
 			
 			camel_object_unref (CAMEL_OBJECT (bestenc));
-			camel_object_unref (CAMEL_OBJECT (filtered_stream));
-		} else if (!header_content_type_is (content_type, "message", "*")) {
+		} else if (!CAMEL_IS_MIME_MESSAGE (content)) {
 			camel_mime_part_set_encoding (attachment->body,
 						      CAMEL_MIME_PART_ENCODING_BASE64);
 		}
@@ -787,9 +806,7 @@ e_msg_composer_attachment_bar_to_multipart (EMsgComposerAttachmentBar *bar,
 	EMsgComposerAttachmentBarPrivate *priv;
 	GList *p;
 	
-	g_return_if_fail (bar != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar));
-	g_return_if_fail (multipart != NULL);
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
 	
 	priv = bar->priv;
