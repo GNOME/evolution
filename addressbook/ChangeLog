@@ -1,5 +1,10 @@
 2003-03-23  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-list-editor/contact-list-editor.glade: set the
+	dialog to "Visible: No" so it doesn't flash when we bring it up.
+
+2003-03-23  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #40026 ]
 	* gui/contact-editor/e-contact-editor.c (set_field): add
 	EContactEditor arg, and block/unblock signals around the
