@@ -3,7 +3,7 @@
 	* gui/component/addressbook.c (book_open_cb): backing out a tiny
 	porting of jpr's fix - we need to set the book on the
 	EAddressbookView, or else it won't do queries, and it won't show
-	any cards.  Fixes #43023.
+	any cards.  Fixes #43023, #43090.
 
 2003-05-15  Chris Toshok  <toshok@ximian.com>
 
