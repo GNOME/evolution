@@ -404,7 +404,10 @@ folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
 	char *old = event_data;
 
 	d(printf("Folder renamed from '%s' to '%s'\n", old, folder->full_name));
+
 	mfi = mfi;
+	old = old;
+	folder = folder;
 	/* Dont do anything, do it from the store rename event? */
 }
 
@@ -604,7 +607,7 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
 		GPtrArray *folders = g_ptr_array_new();
-		CamelFolderInfo *fi, *top;
+		CamelFolderInfo *top;
 		int i;
 
 		/* Ok, so for some reason the folderinfo we have comes in all messed up from

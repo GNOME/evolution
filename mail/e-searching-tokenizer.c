@@ -186,6 +186,7 @@ search_info_set_case_sensitivity (SearchInfo *si, gboolean flag)
 	si->case_sensitive = flag;
 }
 
+#if 0
 static void
 search_info_set_match_size_increase (SearchInfo *si, gint incr)
 {
@@ -194,6 +195,7 @@ search_info_set_match_size_increase (SearchInfo *si, gint incr)
 
 	si->match_size_incr = incr;
 }
+#endif
 
 static void
 search_info_set_match_color (SearchInfo *si, const gchar *color)

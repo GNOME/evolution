@@ -76,6 +76,7 @@ struct  _FolderBrowser {
 	GSList *sensitize_changes;
 	GHashTable *sensitise_state; /* the last sent sensitise state, to avoid much bonobo overhead */
 	int sensitize_timeout_id;
+	int update_status_bar_idle_id;
 	
 	/* View collection and the menu handler object */
 	GalViewCollection *view_collection;

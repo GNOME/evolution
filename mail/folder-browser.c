@@ -808,7 +808,32 @@ update_status_bar(FolderBrowser *fb)
 	GNOME_Evolution_ShellView_setFolderBarLabel(fb->shell_view, work->str, &ev);
 	CORBA_exception_free(&ev);
 
+	if (fb->update_status_bar_idle_id != 0) {
+		g_source_remove (fb->update_status_bar_idle_id);
+		fb->update_status_bar_idle_id = 0;
+	}
+
 	g_string_free(work, TRUE);
+}
+
+static gboolean
+update_status_bar_idle_cb(gpointer data)
+{
+	FolderBrowser *fb = data;
+	if (!GTK_OBJECT_DESTROYED (fb))
+		update_status_bar (fb);
+	fb->update_status_bar_idle_id = 0;
+	gtk_object_unref (GTK_OBJECT (fb));
+	return FALSE;
+}
+
+static void
+update_status_bar_idle(FolderBrowser *fb)
+{
+	if (fb->update_status_bar_idle_id == 0) {
+		gtk_object_ref (GTK_OBJECT (fb));
+		fb->update_status_bar_idle_id = g_idle_add (update_status_bar_idle_cb, fb);
+	}
 }
 
 static void main_folder_changed(CamelObject *o, void *event_data, void *data)
@@ -1768,7 +1793,7 @@ on_selection_changed (GtkObject *obj, gpointer user_data)
 
 	folder_browser_ui_set_selection_state (fb, state);
 
-	update_status_bar(fb);
+	update_status_bar_idle(fb);
 }
 
 static void

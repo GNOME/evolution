@@ -1,3 +1,14 @@
+2001-10-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-searching-tokenizer.c (search_info_set_match_size_increase):
+	Fixed a warning by #if 0ing out this function.
+
+	* folder-browser.c, folder-browser.h (on_selection_changed):
+	Update status bar in an idle call.  Fixes Ximian bug #13929.
+
+	* mail-folder-cache.c (folder_renamed, store_folder_renamed):
+	Fixed some warnings here.
+
 2001-10-29  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (folder_browser_copy): Fix the focus check.
