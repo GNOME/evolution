@@ -1,5 +1,12 @@
 2001-07-23  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-mail.c (e_summary_mail_init): Move the storage register out
+	of here into a seperate function.
+	(e_summary_mail_register_storages): Register the local storage.
+	(e_summary_mail_register_storage): Register a single storage.
+
+2001-07-23  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c: Fix the KDE and Newsforge things. Change the
 	KDE rdf to the one that the KDE person told me :)
 

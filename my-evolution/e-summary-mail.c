@@ -30,6 +30,7 @@
 struct _ESummaryMail {
 	GNOME_Evolution_FolderInfo folder_info;
 	BonoboListener *listener;
+	EvolutionStorageListener *storage_listener;
 
 	GHashTable *folders;
 	GList *shown;
@@ -246,22 +247,83 @@ e_summary_mail_protocol (ESummary *summary,
 {
 }
 
+static gboolean
+e_summary_mail_register_storage (ESummary *summary,
+				 GNOME_Evolution_Storage corba_storage)
+{
+	ESummaryMail *mail;
+	EvolutionStorageListener *listener;
+	GNOME_Evolution_StorageListener corba_listener;
+	CORBA_Environment ev;
+
+	mail = summary->mail;
+
+	if (mail->storage_listener == NULL) {
+		mail->storage_listener = evolution_storage_listener_new ();
+
+		gtk_signal_connect (GTK_OBJECT (mail->storage_listener), "new-folder",
+				    GTK_SIGNAL_FUNC (new_folder_cb), summary);
+		gtk_signal_connect (GTK_OBJECT (mail->storage_listener), "removed-folder",
+				    GTK_SIGNAL_FUNC (remove_folder_cb), summary);
+	} 
+	listener = mail->storage_listener;
+	
+	corba_listener = evolution_storage_listener_corba_objref (listener);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_addListener (corba_storage, corba_listener, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Exception adding listener: %s", 
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		
+		g_free (mail);
+		return TRUE;
+	}
+
+	CORBA_exception_free (&ev);
+	return TRUE;
+}
+
+static gboolean
+e_summary_mail_register_storages (ESummary *summary,
+				  GNOME_Evolution_Shell corba_shell)
+{
+	GNOME_Evolution_LocalStorage local_storage;
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (summary != NULL, FALSE);
+	g_return_val_if_fail (IS_E_SUMMARY (summary), FALSE);
+
+	CORBA_exception_init (&ev);
+
+	local_storage = GNOME_Evolution_Shell_getLocalStorage (corba_shell, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Exception getting local storage: %s",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		
+		return FALSE;
+	}
+
+	e_summary_mail_register_storage (summary, local_storage);
+
+	CORBA_exception_free (&ev);
+	return TRUE;
+}
+
 void
 e_summary_mail_init (ESummary *summary,
 		     GNOME_Evolution_Shell corba_shell)
 {
 	ESummaryMail *mail;
 	CORBA_Environment ev;
-	GNOME_Evolution_Storage local_storage;
-	EvolutionStorageListener *listener;
-	GNOME_Evolution_StorageListener corba_listener;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
-	mail = g_new (ESummaryMail, 1);
+	mail = g_new0 (ESummaryMail, 1);
 	summary->mail = mail;
-
 
 	CORBA_exception_init (&ev);
 	mail->folder_info = oaf_activate_from_id (MAIL_IID, 0, NULL, &ev);
@@ -274,44 +336,16 @@ e_summary_mail_init (ESummary *summary,
 		return;
 	}
 
-	/* Create a hash table for the folders */
-	mail->folders = g_hash_table_new (g_str_hash, g_str_equal);
-	mail->shown = NULL;
-	
 	/* Create a BonoboListener for all the notifies. */
 	mail->listener = bonobo_listener_new (NULL, NULL);
 	gtk_signal_connect (GTK_OBJECT (mail->listener), "event-notify",
 			    GTK_SIGNAL_FUNC (mail_change_notify), summary);
 
-	local_storage = GNOME_Evolution_Shell_getLocalStorage (corba_shell, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Exception getting local storage: %s",
-			   CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		
-		g_free (mail);
-		return;
-	}
+	/* Create a hash table for the folders */
+	mail->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	mail->shown = NULL;
 
-	listener = evolution_storage_listener_new ();
-	gtk_signal_connect (GTK_OBJECT (listener), "new-folder",
-			    GTK_SIGNAL_FUNC (new_folder_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (listener), "removed-folder",
-			    GTK_SIGNAL_FUNC (remove_folder_cb), summary);
-	corba_listener = evolution_storage_listener_corba_objref (listener);
-
-	GNOME_Evolution_Storage_addListener (local_storage, corba_listener, &ev);
-	if (BONOBO_EX (&ev)) {
-		g_warning ("Exception adding listener: %s", 
-			   CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		
-		g_free (mail);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-
+	e_summary_mail_register_storages (summary, corba_shell);	
 	e_summary_add_protocol_listener (summary, "mail", e_summary_mail_protocol, mail);
 	return;
 }
@@ -395,8 +429,8 @@ str_compare (gconstpointer a,
 {
 	ESummaryMailRowData *rda, *rdb;
 
-	rda = a;
-	rdb = b;
+	rda = (ESummaryMailRowData *) a;
+	rdb = (ESummaryMailRowData *) b;
 	return strcmp (rda->name, rdb->name);
 }
 
