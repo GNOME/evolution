@@ -56,6 +56,8 @@ int free_count = 0;
 #define d(x)
 #define d2(x)
 
+#define	CAMEL_UUDECODE_CHAR(c)	(((c) - ' ') & 077)
+
 static char *base64_alphabet =
 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -354,6 +356,17 @@ base64_encode_step(unsigned char *in, int len, unsigned char *out, int *state, i
 	return outptr-out;
 }
 
+
+/**
+ * base64_decode_step: decode a chunk of base64 encoded data
+ * @in: input stream
+ * @len: max length of data to decode ( normally strlen(in) ??)
+ * @out: output stream
+ * @state: holds the number of bits that are stored in @save
+ * @save: leftover bits that have not yet been decoded
+ *
+ * Decodes a chunk of base64 encoded data
+ **/
 int
 base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, unsigned int *save)
 {
@@ -400,6 +413,98 @@ base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, u
 
 	/* if i!= 0 then there is a truncation error! */
 	return outptr-out;
+}
+
+
+/**
+ * uudecode_step: uudecode a chunk of data
+ * @in: input stream
+ * @len: max length of data to decode ( normally strlen(in) ??)
+ * @out: output stream
+ * @state: holds the number of bits that are stored in @save
+ * @save: leftover bits that have not yet been decoded
+ * @uulen: holds the value of the length-char which is used to calculate
+ *         how many more chars need to be decoded for that 'line'
+ *
+ * uudecodes a chunk of data. Assumes the "begin <mode> <file name>" line
+ * has been stripped off.
+ **/
+int
+uudecode_step (unsigned char *in, int len, unsigned char *out, int *state, guint32 *save, char *uulen)
+{
+	register unsigned char *inptr, *outptr;
+	unsigned char *inend, ch;
+	register guint32 saved;
+	gboolean last_was_eoln;
+	int i;
+
+	if (*uulen <= 0)
+		last_was_eoln = TRUE;
+	else
+		last_was_eoln = FALSE;
+	
+	inend = in + len;
+	outptr = out;
+	saved = *save;
+	i = *state;
+	inptr = in;
+	while (inptr < inend && *inptr) {
+		if (*inptr == '\n' || last_was_eoln) {
+			if (last_was_eoln) {
+				*uulen = CAMEL_UUDECODE_CHAR (*inptr);
+				last_was_eoln = FALSE;
+			} else {
+				last_was_eoln = TRUE;
+			}
+
+			inptr++;
+			continue;
+		}
+
+		ch = *inptr++;
+		
+		if (*uulen > 0) {
+			/* save the byte */
+			saved = (saved << 8) | ch;
+			i++;
+			if (i == 4) {
+				/* convert 4 uuencoded bytes to 3 normal bytes */
+				unsigned char b0, b1, b2, b3;
+
+				b0 = saved >> 24;
+				b1 = saved >> 16 & 0xff;
+				b2 = saved >> 8 & 0xff;
+				b3 = saved & 0xff;
+
+				if (*uulen >= 3) {
+					*outptr++ = CAMEL_UUDECODE_CHAR (b0) << 2 | CAMEL_UUDECODE_CHAR (b1) >> 4;
+					*outptr++ = CAMEL_UUDECODE_CHAR (b1) << 4 | CAMEL_UUDECODE_CHAR (b2) >> 2;
+				        *outptr++ = CAMEL_UUDECODE_CHAR (b2) << 6 | CAMEL_UUDECODE_CHAR (b3);
+				} else {
+					int j = 0;
+					
+					if (*uulen >= 1) {
+						*outptr++ = CAMEL_UUDECODE_CHAR (b0) << 2 | CAMEL_UUDECODE_CHAR (b1) >> 4;
+						j++;
+					}
+					if (*uulen >= 2) {
+						*outptr++ = CAMEL_UUDECODE_CHAR (b1) << 4 | CAMEL_UUDECODE_CHAR (b2) >> 2;
+					}
+				}
+
+				i = 0;
+				saved = 0;
+				*uulen -= 3;
+			}
+		} else {
+			break;
+		}
+	}
+
+	*save = saved;
+	*state = i;
+
+	return outptr - out;
 }
 
 int

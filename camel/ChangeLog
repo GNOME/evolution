@@ -1,3 +1,9 @@
+2000-07-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-utils.c (uudecode_step): A rather complex uudecoder
+	written in the spirit of Zucchi-ness, is it up to par? Only the 
+	Z-man can tell us :-)
+
 2000-07-01  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (camel_service_get_name): New method, to return
