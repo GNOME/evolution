@@ -212,8 +212,8 @@ impl_OfflineProgressListener_updateProgress (PortableServer_Servant servant,
 	update_dialog_clist (offline_handler);
 
 	if (priv->num_total_connections == 0 && ! priv->finished) {
-		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, TRUE);
 		priv->finished = TRUE;
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, TRUE);
 	}
 }
 
@@ -384,8 +384,8 @@ cancel_offline (EShellOfflineHandler *offline_handler)
 	priv->num_total_connections = 0;
 
 	if (! priv->finished) {
-		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, FALSE);
 		priv->finished = TRUE;
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, FALSE);
 	}
 }
 
@@ -511,8 +511,8 @@ finalize_offline (EShellOfflineHandler *offline_handler)
 
 	if (priv->num_total_connections == 0 && ! priv->finished) {
 		/* Nothing else to do, we are all set.  */
-		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, TRUE);
 		priv->finished = TRUE;
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, TRUE);
 	}
 
 	g_object_unref (offline_handler);
@@ -846,8 +846,8 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 	if (! prepare_for_offline (offline_handler)) {
 		/* FIXME: Maybe do something smarter here.  */
 		g_warning ("Couldn't put components off-line");
-		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, FALSE);
 		priv->finished = TRUE;
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, FALSE);
 		g_object_unref (offline_handler);
 		return;
 	}

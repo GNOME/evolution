@@ -1,3 +1,13 @@
+2005-01-21  JP Rosevear  <jpr@novell.com>
+
+	* e-shell-offline-handler.c
+	(impl_OfflineProgressListener_updateProgress): mark priv->finished
+	as true first so we don't access freed memory if we get finalized
+	during the signal emmission
+	(cancel_offline): ditto
+	(finalize_offline): ditto
+	(e_shell_offline_handler_put_components_offline): ditto
+
 2005-01-20  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* e-shell-importer.c: (import_druid_esc),
