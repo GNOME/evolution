@@ -1021,11 +1021,12 @@ camel_store_unsubscribe_folder (CamelStore *store,
 
 	CS_CLASS (store)->unsubscribe_folder (store, folder_name, ex);
 
-	if (store->folders)
-		camel_object_bag_remove(store->folders, folder);
+	if (folder) {
+		if (store->folders)
+			camel_object_bag_remove(store->folders, folder);
 
-	if (folder)
 		camel_object_unref(folder);
+	}
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
