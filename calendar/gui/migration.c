@@ -21,6 +21,13 @@
  */
 
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <errno.h>
+
 #include <bonobo/bonobo-i18n.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-xfer.h>
@@ -33,6 +40,8 @@
 #include <libecal/e-cal.h>
 #include <e-util/e-bconf-map.h>
 #include <e-util/e-folder-map.h>
+#include <libedataserver/e-dbhash.h>
+#include <libedataserver/e-xml-hash-utils.h>
 #include "calendar-config-keys.h"
 #include "migration.h"
 
@@ -482,8 +491,7 @@ create_task_sources (TasksComponent *component,
 	*personal_source = NULL;
 	
 	base_uri = g_build_filename (tasks_component_peek_base_directory (component),
-				     "/tasks/local/",
-				     NULL);
+				     "tasks", "local", NULL);
 
 	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
 
@@ -541,6 +549,116 @@ create_task_sources (TasksComponent *component,
 
 	g_free (base_uri_proto);
 	g_free (base_uri);
+}
+
+static void
+migrate_pilot_db_key (const char *key, const char *data, gpointer user_data)
+{
+	EXmlHash *xmlhash = user_data;
+	
+	e_xmlhash_add (xmlhash, key, data);
+}
+
+static void
+migrate_pilot_data (const char *old_path, const char *new_path)
+{
+	struct dirent *dent;
+	const char *ext;
+	char *filename;
+	DIR *dir;
+	
+	if (!(dir = opendir (old_path)))
+		return;
+	
+	while ((dent = readdir (dir))) {
+		if (!strncmp (dent->d_name, "pilot-map-todo-", 15) &&
+		    ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".xml"))) {
+			/* pilot map file - src and dest file formats are identical */
+			unsigned char inbuf[4096];
+			size_t nread, nwritten;
+			int fd0, fd1;
+			ssize_t n;
+			
+			filename = g_build_filename (old_path, dent->d_name, NULL);
+			if ((fd0 = open (filename, O_RDONLY)) == -1) {
+				g_free (filename);
+				continue;
+			}
+			
+			g_free (filename);
+			filename = g_build_filename (new_path, dent->d_name, NULL);
+			if ((fd1 = open (filename, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+				g_free (filename);
+				close (fd0);
+				continue;
+			}
+			
+			do {
+				do {
+					n = read (fd0, inbuf, sizeof (inbuf));
+				} while (n == -1 && errno == EINTR);
+				
+				if (n < 1)
+					break;
+				
+				nread = n;
+				nwritten = 0;
+				do {
+					do {
+						n = write (fd1, inbuf + nwritten, nread - nwritten);
+					} while (n == -1 && errno == EINTR);
+					
+					if (n > 0)
+						nwritten += n;
+				} while (nwritten < nread && n != -1);
+				
+				if (n == -1)
+					break;
+			} while (1);
+			
+			if (n != -1)
+				n = fsync (fd1);
+			
+			if (n == -1) {
+				g_warning ("Failed to migrate %s: %s", dent->d_name, strerror (errno));
+				unlink (filename);
+			}
+			
+			close (fd0);
+			close (fd1);
+			g_free (filename);
+		} else if (strstr (dent->d_name, ".ics-pilot-sync-evolution-todo-") &&
+			   ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".db"))) {
+			/* src and dest formats differ, src format is db3 while dest format is xml */
+			EXmlHash *xmlhash;
+			EDbHash *dbhash;
+			struct stat st;
+			
+			filename = g_build_filename (old_path, dent->d_name, NULL);
+			if (stat (filename, &st) == -1) {
+				g_free (filename);
+				continue;
+			}
+			
+			dbhash = e_dbhash_new (filename);
+			g_free (filename);
+			
+			filename = g_build_filename (new_path, dent->d_name, NULL);
+			if (stat (filename, &st) != -1)
+				unlink (filename);
+			xmlhash = e_xmlhash_new (filename);
+			g_free (filename);
+			
+			e_dbhash_foreach_key (dbhash, migrate_pilot_db_key, xmlhash);
+			
+			e_dbhash_destroy (dbhash);
+			
+			e_xmlhash_write (xmlhash);
+			e_xmlhash_destroy (xmlhash);
+		}
+	}
+	
+	closedir (dir);
 }
 
 gboolean
@@ -642,7 +760,17 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			
 			g_object_unref (gconf);
 		}
-
+		
+		if (minor <= 5 && revision <= 9) {
+			char *old_path, *new_path;
+			
+			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
+			new_path = g_build_filename (calendar_component_peek_base_directory (component),
+						     "calendar", "local", "system", NULL);
+			migrate_pilot_data (old_path, new_path);
+			g_free (new_path);
+			g_free (old_path);
+		}
 	}
 
 	e_source_list_sync (calendar_component_peek_source_list (component), NULL);
@@ -704,13 +832,13 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 		if (minor <= 4) {
 			GSList *migration_dirs, *l;
 			char *path, *local_task_folder;
-
+			
 			setup_progress_dialog (TRUE);
 			
 			path = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 			migration_dirs = e_folder_map_local_folders (path, "tasks");
 			local_task_folder = g_build_filename (path, "Tasks", NULL);
-			g_free (path);			
+			g_free (path);
 
 			if (personal_source)
 				migrate_ical_folder_to_source (local_task_folder, personal_source, E_CAL_SOURCE_TYPE_TODO);
@@ -732,7 +860,18 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 			g_free (local_task_folder);
 
 			dialog_close ();
-		}		
+		}
+		
+		if (minor <= 5 && revision <= 9) {
+			char *old_path, *new_path;
+			
+			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Tasks", NULL);
+			new_path = g_build_filename (tasks_component_peek_base_directory (component),
+						     "tasks", "local", "system", NULL);
+			migrate_pilot_data (old_path, new_path);
+			g_free (new_path);
+			g_free (old_path);
+		}
 	}
 
 	e_source_list_sync (tasks_component_peek_source_list (component), NULL);
