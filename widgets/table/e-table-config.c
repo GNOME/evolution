@@ -49,11 +49,12 @@ config_destroy (GtkObject *object)
 }
 
 static void
-e_table_config_changed       (ETableConfig *config, ETableState *state)
+e_table_config_changed (ETableConfig *config, ETableState *state)
 {
 	g_return_if_fail (config != NULL);
 	g_return_if_fail (E_IS_TABLE_CONFIG (config));
 
+	
 	gtk_signal_emit(GTK_OBJECT(config),
 			e_table_config_signals [CHANGED],
 			state);
@@ -75,8 +76,8 @@ config_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableConfigClass, changed),
-				gtk_marshal_NONE__OBJECT,
-				GTK_TYPE_NONE, 1, E_TABLE_STATE_TYPE);
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, e_table_config_signals, LAST_SIGNAL);
 }
@@ -127,6 +128,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 	
 	for (i = 0; i < 4; i++){
 		gboolean sensitive = (i <= count);
+		char *text = "";
 		
 		gtk_widget_set_sensitive (widgets [i].frames, sensitive);
 
@@ -136,6 +138,9 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		gtk_signal_handler_block (
 			GTK_OBJECT (widgets [i].radio_ascending),
 			widgets [i].toggled_id);
+		gtk_signal_handler_block (
+			GTK_OBJECT (widgets [i].combo->entry),
+			widgets [i].changed_id);
 		
 		if (i < count){
 			GtkToggleButton *a, *d;
@@ -161,18 +166,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 				continue;
 			}
 
-			/*
-			 * Change the text
-			 */
-			gtk_signal_handler_block (
-				GTK_OBJECT (widgets [i].combo->entry),
-				widgets [i].changed_id);
-			gtk_combo_text_set_text (
-				widgets [i].combo, gettext (
-					column->title));
-			gtk_signal_handler_unblock (
-				GTK_OBJECT (widgets [i].combo->entry),
-				widgets [i].changed_id);
+			text = gettext (column->title);
 
 			/*
 			 * Update radio buttons
@@ -189,18 +183,23 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			t = GTK_TOGGLE_BUTTON (
 				widgets [i].radio_ascending);
 
+			if (is_sort)
+				g_assert (widgets [i].radio_ascending != config->group [i].radio_ascending);
+			else
+				g_assert (widgets [i].radio_ascending != config->sort [i].radio_ascending);
 			gtk_toggle_button_set_active (t, 1);
 		}
+
+		/* Set the text */
+		gtk_combo_text_set_text (widgets [i].combo, text);
+
 		gtk_signal_handler_unblock (
 			GTK_OBJECT (widgets [i].radio_ascending),
 			widgets [i].toggled_id);
+		gtk_signal_handler_unblock (
+			GTK_OBJECT (widgets [i].combo->entry),
+			widgets [i].changed_id);
 	}
-}
-
-static void
-update_group_config_dialog (ETableConfig *config)
-{
-	g_warning ("IMPLEMENT ME\n");
 }
 
 static void
@@ -250,7 +249,6 @@ config_group_info_update (ETableConfig *config)
 	int count, i;
 
 	count = e_table_sort_info_grouping_get_count (info);
-	printf ("Count of the grouping action: %d\n", count);
 	res = g_string_new ("");
 
 	for (i = 0; i < count; i++) {
@@ -310,7 +308,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 	int button, running = 1;
 
 	config->temp_state = e_table_state_duplicate (config->state);
-	
+
 	update_sort_and_group_config_dialog (config, is_sort);
 
 	gtk_widget_grab_focus (GTK_WIDGET (
@@ -342,6 +340,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		case 1:
 			gtk_object_unref (GTK_OBJECT (config->state));
 			config->state = config->temp_state;
+			config->temp_state = 0;
 			running = 0;
 			gnome_property_box_changed (
 				GNOME_PROPERTY_BOX (config->dialog_toplevel));
@@ -434,13 +433,13 @@ sort_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *sort)
 	
 	char *s = gtk_entry_get_text (entry);
 
-	if (g_hash_table_lookup (sort->combo->elements, s)){
+	if (s && s [0] && g_hash_table_lookup (sort->combo->elements, s)){
 		ETableSortColumn c;
 		int col;
 		
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
-			g_warning ("This should not happen");
+			g_warning ("sort: This should not happen (%s)", s);
 			return;
 		}
 
@@ -535,16 +534,15 @@ group_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *group)
 	ETableSortInfo *sort_info = config->temp_state->sort_info;
 	ETableConfigSortWidgets *base = &config->group[0];
 	int idx = group - base;
-	
 	char *s = gtk_entry_get_text (entry);
 
-	if (g_hash_table_lookup (group->combo->elements, s)){
+	if (s && s [0] && g_hash_table_lookup (group->combo->elements, s)){
 		ETableSortColumn c;
 		int col;
 		
 		col = find_model_column_by_name (config->source_spec, s);
 		if (col == -1){
-			g_warning ("This should not happen");
+			g_warning ("grouping: this should not happen, %s", s);
 			return;
 		}
 
@@ -553,10 +551,10 @@ group_entry_changed (GtkEntry *entry, ETableConfigSortWidgets *group)
 		c.column = col;
 		e_table_sort_info_grouping_set_nth (sort_info, idx, c);
 		  
-		update_group_config_dialog (config);
+		update_sort_and_group_config_dialog (config, FALSE);
 	}  else {
 		e_table_sort_info_grouping_truncate (sort_info, idx);
-		update_group_config_dialog (config);
+		update_sort_and_group_config_dialog (config, FALSE);
 	}
 }
 

@@ -28,9 +28,10 @@ etst_destroy (GtkObject *object)
 {
 	ETableState *etst = E_TABLE_STATE (object);
 
+	gtk_object_destroy (GTK_OBJECT (etst->sort_info));
 	if (etst->columns)
 		g_free (etst->columns);
-
+	
 	GTK_OBJECT_CLASS (etst_parent_class)->destroy (object);
 }
 

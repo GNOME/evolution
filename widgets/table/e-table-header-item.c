@@ -1221,14 +1221,13 @@ config_destroyed (GtkObject *object, ETableHeaderItem *ethi)
 }
 
 static void
-apply_changes (GnomePropertyBox *pbox, gint page_num, ETableHeaderItem *ethi)
+apply_changes (ETableConfig *config, ETableHeaderItem *ethi)
 {
-	ETableConfig *config = E_TABLE_CONFIG (ethi->config);
 	char *state = e_table_state_save_to_string (config->state);
 
-	if (page_num != -1)
-		return;
-
+	printf ("This is the Table: %p %p\n", ethi->table, ethi);
+	printf ("This is the state: %s\n", state);
+	
 	e_table_set_state (ethi->table, state);
 	g_free (state);
 }
@@ -1239,6 +1238,7 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 	ETableHeaderItem *ethi = info->ethi;
 	ETableState *state;
 
+	printf ("___This is the Table: %p %p\n", ethi->table, ethi);
 	if (ethi->config)
 		e_table_config_raise (E_TABLE_CONFIG (ethi->config));
 	else {
@@ -1251,9 +1251,7 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 			GTK_OBJECT (ethi->config), "destroy",
 			GTK_SIGNAL_FUNC (config_destroyed), ethi);
 		gtk_signal_connect (
-			GTK_OBJECT (
-				E_TABLE_CONFIG (ethi->config)->dialog_toplevel),
-			"apply",
+			GTK_OBJECT (ethi->config), "changed",
 			GTK_SIGNAL_FUNC (apply_changes), ethi);
 	}
 }
