@@ -18,6 +18,6 @@ IDL_INCLUDES=-I ${idldir} @IDL_INCLUDES@
 Name: evolution-shell
 Description: libraries needed for Evolution shell components
 Version: @VERSION@
-Requires: libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= @BONOBOUI_REQUIRED@ gal-2.2 >= @GAL_REQUIRED@
+Requires: libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= @BONOBOUI_REQUIRED@ gal-2.4 >= @GAL_REQUIRED@
 Libs: -L${privlibdir} -leshell
 Cflags: -I${privincludedir}

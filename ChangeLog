@@ -1,3 +1,8 @@
+2004-10-15  Sarfraaz Ahmed <asarfraaz@novell.com>
+	
+	* camel.pc.in : Change gal-2.2 to gal-2.4
+	* evolution-shell.pc.in : Similar
+
 2004-10-13  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: remove plugins from ac output

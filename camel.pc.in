@@ -10,6 +10,6 @@ privincludedir=@privincludedir@
 Name: camel
 Description: the Evolution mail library
 Version: @VERSION@
-Requires: gal-2.2 >= @GAL_REQUIRED@
+Requires: gal-2.4 >= @GAL_REQUIRED@
 Libs: -L${privlibdir} -lcamel
 Cflags: -I${privincludedir}
