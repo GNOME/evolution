@@ -1,3 +1,8 @@
+2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c (e_timezone_dialog_init):
+	Make not floating.
+
 2002-01-11  Damon Chaplin  <damon@ximian.com>
 
 	* e-timezone-dialog/e-timezone-dialog.[hc]: translate timezone names,
