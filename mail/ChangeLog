@@ -25,7 +25,6 @@
 	* mail-mt.c (mail_call_main): new generic interface for calling
 	stuff/proxying in the gui thread.
 
->>>>>>> 1.1832
 2001-10-14  Jon Trowbridge  <trow@ximian.com>
 
 	* e-searching-tokenizer.c (e_searching_tokenizer_clone): Share
