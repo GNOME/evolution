@@ -1,5 +1,10 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-accounts.c (mail_accounts_treeview_new): Set the
+	shadow_type of the scrlled window to GTK_SHADOW_IN.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-config.glade: Add some spacing to the buttons.  [#38227]
 
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
