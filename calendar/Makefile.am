@@ -1,33 +1,51 @@
+SUBDIRS = versit
+
 INCLUDES = 			\
-	-I$(includedir)		\
-	$(GNOME_INCLUDEDIR)	\
+	-I$(includedir)					\
+	$(GNOME_INCLUDEDIR)				\
+        -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I../../gcalendar
 
-bin_PROGRAMS = gncal objedit
+bin_PROGRAMS = gnomecal
 
-gncal_SOURCES = \
-	gncal.c			\
-	gncal.h			\
-	calcs.c			\
-	calcs.h			\
-	clist.c			\
-	clist.h			\
+gnomecal_SOURCES = \
+	main.c			\
+	gnome-cal.c		\
+	gnome-cal.h		\
+	views.c			\
 	calendar.c		\
 	calendar.h		\
 	calobj.c		\
 	calobj.h		\
-	gncal-day-view.c	\
-	gncal-day-view.h	\
-	timeutil.c		\
-	timeutil.h
+	views.h	
+	
+
+#gncal_SOURCES = \
+#	gncal.c			\
+#	gncal.h			\
+#	calcs.c			\
+#	calcs.h			\
+#	clist.c			\
+#	clist.h			\
+#	calendar.c		\
+#	calendar.h		\
+#	calobj.c		\
+#	calobj.h		\
+#	gncal-day-view.c	\
+#	gncal-day-view.h	\
+#	timeutil.c		\
+#	timeutil.h
 
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS) \
-	$(INTLLIBS)
+	$(INTLLIBS) versit/libversit.a
 
-gncal_LDADD = $(LINK_FLAGS)
-objedit_LDADD = $(LINK_FLAGS)
+
+#gncal_LDADD = $(LINK_FLAGS)
+#objedit_LDADD = $(LINK_FLAGS)
+
+gnomecal_LDADD = $(LINK_FLAGS)
 
 EXTRA_DIST = \
 	gncal.desktop

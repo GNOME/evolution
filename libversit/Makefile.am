@@ -1,0 +1,12 @@
+
+lib_LIBRARIES = libversit.a
+
+libversit_a_SOURCES =	\
+	vcc.y		\
+	vobject.c	\
+	vobject.h	\
+	port.h		\
+	vcaltmp.c	\
+	vcaltmp.h
+
+EXTRA_DIST = README.TXT vcaltest.c vctest.c 
