@@ -1,5 +1,11 @@
 2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/search/e-addressbook-search-dialog.c,
+	gui/search/e-addressbook-search-dialog.h: Made this into a Gtk
+	object.
+
+2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/pas/pas-book-view.c: Ref our book view listener.
 
 	* gui/component/addressbook.c: Updated to use new minicard view
