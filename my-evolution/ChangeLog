@@ -1,3 +1,11 @@
+2001-12-19  JP Rosevear  <jpr@ximian.com>
+
+	* e-summary-tasks.c (e_summary_tasks_init): use
+	cal_client_open_default_tasks
+
+	* e-summary-calendar.c (e_summary_calendar_init): use
+	cal_client_open_default_calendar
+
 2001-12-14  Iain Holmes  <iain@ximian.com>
 
 	* Location-translation-script: shell script to convert Locations to

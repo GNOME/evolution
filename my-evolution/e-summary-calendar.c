@@ -484,8 +484,6 @@ e_summary_calendar_init (ESummary *summary)
 	CORBA_Environment ev;
 	ESummaryCalendar *calendar;
 	gboolean result;
-	char *uri;
-	char *default_uri;
 
 	g_return_if_fail (summary != NULL);
 
@@ -517,14 +515,7 @@ e_summary_calendar_init (ESummary *summary)
 	gtk_signal_connect (GTK_OBJECT (calendar->client), "obj-removed",
 			    GTK_SIGNAL_FUNC (obj_changed_cb), summary);
 
-	default_uri = bonobo_config_get_string (db, "/Calendar/DefaultUri", NULL);
-	if (!default_uri)
-		uri = gnome_util_prepend_user_home ("evolution/local/Calendar/calendar.ics");
-	else
-		uri = g_strdup (default_uri);
-
-	result = cal_client_open_calendar (calendar->client, uri, FALSE);
-	g_free (uri);
+	result = cal_client_open_default_calendar (calendar->client, FALSE);
 	if (result == FALSE) {
 		g_message ("Open calendar failed");
 	}
