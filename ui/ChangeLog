@@ -1,5 +1,11 @@
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-mail-message.xml: Change "Copy to Folder" to be
+	Ctrl-Shift-Y so we are more like O* and don't get in the way of
+	the Ctrl-Shift-C for "New Contact".
+
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-mail-global.xml: Add an F9 accelerator for the
 	"Send/Receive" item.
 

@@ -35,7 +35,7 @@
 
     <cmd name="MessageCopy"
      _tip="Copy selected messages to another folder"
-     accel="*Control**Shift*c"
+     accel="*Control**Shift*y"
      pixtype="pixbuf"/>
 
     <cmd name="MessageDelete"
