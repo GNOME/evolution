@@ -355,7 +355,7 @@ static GnomeUIInfo menu_help [] = {
 	{ GNOME_APP_UI_ITEM, N_("Help _Index"), NULL,
 	  command_help, "index.html",
 	  NULL, 0, 0, 0, 0 },
-	{ GNOME_APP_UI_ITEM, N_("Using the _Shell"), NULL,
+	{ GNOME_APP_UI_ITEM, N_("Getting _Started"), NULL,
 	  command_help, "usage-mainwindow.html",
 	  NULL, 0, 0, 0, 0 },
 	{ GNOME_APP_UI_ITEM, N_("Using the _Mailer"), NULL,
