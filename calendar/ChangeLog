@@ -1,3 +1,11 @@
+2000-07-23  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/calobj.h: added a few more fields.
+
+	* cal-util/calobj.c (ical_object_create_from_vobject): check for a
+	NULL return from vObjectUStringZValue for URL property to avoid SEGV.
+	For some reason an empty 'URL:' property appears and causes trouble.
+	
 2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component-factory.c (factory_fn): Update for the new
