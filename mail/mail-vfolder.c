@@ -554,7 +554,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 	}
 
 	g_free(from);
-	g_fre(to);
+	g_free(to);
 }
 
 /* ********************************************************************** */
@@ -746,7 +746,6 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 static void
 store_folder_renamed(CamelObject *o, void *event_data, void *data)
 {
-	CamelStore *store = (CamelStore *)o;
 	CamelRenameInfo *info = event_data;
 	FilterRule *rule;
 	char *user;

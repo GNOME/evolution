@@ -915,10 +915,10 @@ guess_account (CamelMimeMessage *message, CamelFolder *folder)
 	const CamelInternetAddress *to, *cc;
 	GHashTable *account_hash = NULL;
 	EAccount *account = NULL;
-	const char *addr;
+	const char *posthdr, *addr;
+	char *tmp;
 	int i;
-	const char *posthdr, *tmp;
-
+	
 	/* check for newsgroup header */
 	posthdr = camel_medium_get_header (CAMEL_MEDIUM (message), "Newsgroups");
 	
@@ -2400,12 +2400,12 @@ em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 
 	camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
 
-	if (!em_utils_prompt_user(parent, GTK_RESPONSE_NO, 
-				  "/apps/evolution/mail/prompts/expunge",
-				  _("This operation will permanently remove all deleted messages "
-				    "in the folder `%s'. If you continue, you "
-				    "will not be able to recover these messages.\n"
-				    "\nReally erase these messages?"), name))
+	if (!em_utils_prompt_user ((GtkWindow *) parent, GTK_RESPONSE_NO, 
+				   "/apps/evolution/mail/prompts/expunge",
+				   _("This operation will permanently remove all deleted messages "
+				     "in the folder `%s'. If you continue, you "
+				     "will not be able to recover these messages.\n"
+				     "\nReally erase these messages?"), name))
 		return;
 	
 	mail_expunge_folder(folder, NULL, NULL);
@@ -2426,12 +2426,12 @@ em_utils_empty_trash (GtkWidget *parent)
 	EAccount *account;
 	EIterator *iter;
 	CamelException ex;
-
-	if (!em_utils_prompt_user(parent, GTK_RESPONSE_NO, "/apps/evolution/mail/prompts/empty_trash",
-				  _("This operation will permanently remove all deleted messages "
-				    "in all folders. If you continue, you will not be able to "
-				    "recover these messages.\n"
-				    "\nReally erase these messages?")))
+	
+	if (!em_utils_prompt_user ((GtkWindow *) parent, GTK_RESPONSE_NO, "/apps/evolution/mail/prompts/empty_trash",
+				   _("This operation will permanently remove all deleted messages "
+				     "in all folders. If you continue, you will not be able to "
+				     "recover these messages.\n"
+				     "\nReally erase these messages?")))
 		return;
 	
 	camel_exception_init (&ex);

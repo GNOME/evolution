@@ -1,5 +1,12 @@
 2004-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-vfolder.c (mail_vfolder_rename_uri): s/g_fre/g_free/
+
+	* em-utils.c (guess_account): Change 'tmp' to not be const - fixes
+	a compile warning.
+	(em_utils_expunge_folder): Cast parent to a GtkWindow.
+	(em_utils_empty_trash): Same.
+
 	* em-migrate.c (cp): Oops, still need to stat() the src file so we
 	can report what percentage of the file has been completed so far
 	and also so we don't quit copying until we've copied the whole
