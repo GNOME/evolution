@@ -1037,8 +1037,6 @@ drop_folder (CamelStore *dest_store, const char *name, GtkSelectionData *selecti
 	
 	*moved = FALSE;
 	
-	/* FIXME: all this stuff needs to run asynchronous */
-	
 	if (!(src = mail_tool_uri_to_folder (selection->data, 0, ex)))
 		return;
 	
@@ -1329,11 +1327,16 @@ em_folder_tree_model_row_drop_target (EMFolderTreeModel *model, GtkTreePath *pat
 {
 	gboolean is_store;
 	GtkTreeIter iter;
+	char *uri;
 	
 	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, path))
 		return GDK_NONE;
 	
-	gtk_tree_model_get ((GtkTreeModel *) model, &iter, COL_BOOL_IS_STORE, &is_store, -1);
+	gtk_tree_model_get ((GtkTreeModel *) model, &iter, COL_BOOL_IS_STORE, &is_store, COL_STRING_URI, &uri, -1);
+	
+	/* can't drag&drop into/onto a vfolder or the vfolder store */
+	if (uri && !strncmp (uri, "vfolder:", 8))
+		return GDK_NONE;
 	
 	if (is_store) {
 		/* can only drop x-folder into a store */
@@ -1447,25 +1450,26 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GdkDragContext *co
 	GtkTreeIter iter;
 	char *path, *uri;
 	
-	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path)) {
-		printf ("model_drag_data_get failed to get iter\n");
-		return FALSE;
-	}
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, src_path))
+		return;
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, &iter,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_STRING_FOLDER_PATH, &path,
 			    COL_STRING_URI, &uri, -1);
 	
-	/* make sure user isn't try to drag on a placeholder row */
+	/* make sure user isn't trying to drag on a placeholder row */
 	if (path == NULL)
-		return FALSE;
+		return;
 	
 	full_name = path[0] == '/' ? path + 1 : path;
+	
+	camel_exception_init (&ex);
 	
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
+		printf ("dragging uri: %s\n", uri);
 		gtk_selection_data_set (selection, drag_atoms[info], 8, uri, strlen (uri) + 1);
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
@@ -1484,10 +1488,10 @@ em_folder_tree_model_drag_data_get (EMFolderTreeModel *model, GdkDragContext *co
 	
 	if (camel_exception_is_set (&ex)) {
 		camel_exception_clear (&ex);
-		return FALSE;
+		return;
 	}
 	
-	return TRUE;
+	return;
 }
 
 

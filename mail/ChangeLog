@@ -1,3 +1,8 @@
+2004-02-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree-model.c (em_folder_tree_model_row_drop_target):
+	Don't allow dropping into a vfolder (store). Fixes bug #53757.
+
 2004-02-04  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53683.
