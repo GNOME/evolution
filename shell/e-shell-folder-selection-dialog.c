@@ -219,7 +219,7 @@ set_default_folder (EShellFolderSelectionDialog *shell_folder_selection_dialog,
 
 	priv = shell_folder_selection_dialog->priv;
 
-	if (strncmp (default_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+	if (default_uri && strncmp (default_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
 		/* `evolution:' URI.  */
 		default_path = g_strdup (default_uri + E_SHELL_URI_PREFIX_LEN);
 	} else {
