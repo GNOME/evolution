@@ -678,7 +678,7 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 				len += arglen * 2;
 			start = p + 1;
 			break;
-			
+
 		case '%':
 			start = p;
 			break;

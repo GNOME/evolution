@@ -136,9 +136,8 @@ typedef struct {
 
 	gboolean (*has_search_capability) (CamelFolder *folder);
 
-	GPtrArray * (*search_by_expression) (CamelFolder *folder,
-					     const char *expression,
-					     CamelException *ex);
+	GPtrArray * (*search_by_expression) (CamelFolder *, const char *, CamelException *);
+	GPtrArray * (*search_by_uids) (CamelFolder *, const char *, GPtrArray *uids, CamelException *);
 
 	void (*search_free) (CamelFolder *folder, GPtrArray *result);
 
@@ -254,9 +253,8 @@ void               camel_folder_free_uids             (CamelFolder *folder,
 
 /* search api */
 gboolean           camel_folder_has_search_capability (CamelFolder *folder);
-GPtrArray *	   camel_folder_search_by_expression  (CamelFolder *folder,
-						       const char *expression,
-						       CamelException *ex);
+GPtrArray *	   camel_folder_search_by_expression  (CamelFolder *folder, const char *expr, CamelException *ex);
+GPtrArray *	   camel_folder_search_by_uids	      (CamelFolder *folder, const char *expr, GPtrArray *uids, CamelException *ex);
 void		   camel_folder_search_free	      (CamelFolder *folder, GPtrArray *);
 
 /* summary info */

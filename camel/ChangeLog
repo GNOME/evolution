@@ -1,3 +1,36 @@
+2001-10-09    <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-folder.c (spool_search_by_uids):
+	Implement.
+
+	* providers/imap/camel-imap-search.c (imap_body_contains): If
+	searching a sub-set of the total message count, then use a UID
+	range to search only specific messages.
+
+	* camel-vee-folder.c (vee_folder_change_match): Removed.
+	(folder_changed_add_uid): Helper func for changed code.
+	(folder_changed_remove_uid): "
+	(folder_changed_change_uid): "
+	(folder_changed): Rewritten.  Supports proper auto-updating of
+	changes, but not removals till a sync occurs.
+	(vee_search_by_uids): Implement.
+	(folder_changed): Changed to call an async threaded function to do
+	the actual folder updating.
+
+	* camel-folder-summary.c (camel_flag_list_copy): New func to copy
+	a whole list of flags.
+	(camel_tag_list_copy): New func to copy a whole list of flags.
+
+	* providers/imap/camel-imap-folder.c (imap_search_by_uids):
+	Implement.
+
+	* providers/local/camel-local-folder.c (local_search_by_uids):
+	Implement.
+
+	* camel-folder.c (camel_folder_search_by_uids): New function,
+	search a subset of uid's.
+	(search_by_uids): Default impl, return error.
+
 2001-10-08  Dan Winship  <danw@ximian.com>
 
 	* camel-folder.h (struct _CamelFolder): replace the ever-growing

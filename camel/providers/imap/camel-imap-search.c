@@ -34,6 +34,7 @@
 #include "camel-imap-store.h"
 #include "camel-imap-search.h"
 #include "camel-imap-private.h"
+#include "camel-imap-utils.h"
 
 static ESExpResult *
 imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
@@ -67,6 +68,21 @@ camel_imap_search_get_type (void)
 	return camel_imap_search_type;
 }
 
+static int
+cmp_uid(const void *ap, const void *bp)
+{
+	unsigned int a, b;
+
+	a = strtoul(((char **)ap)[0], NULL, 10);
+	b = strtoul(((char **)bp)[0], NULL, 10);
+	if (a<b)
+		return -1;
+	else if (a>b)
+		return 1;
+
+	return 0;
+}
+
 static ESExpResult *
 imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 		    CamelFolderSearch *s)
@@ -79,6 +95,9 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 	ESExpResult *r;
 	CamelMessageInfo *info;
 	GHashTable *uid_hash = NULL;
+	char *set;
+	GPtrArray *sorted;
+	int i;
 
 	if (s->current) {
 		uid = camel_message_info_uid (s->current);
@@ -100,11 +119,29 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 				g_ptr_array_add (r->value.ptrarray, (char *)camel_message_info_uid (info));
 			}
 		} else {
-			/* FIXME: danw: what if we have multiple string args? */
+			/* If searching a (reasonably small) subset of
+                           the real folder size, then use a
+                           message-set to optimise it */
+			/* TODO: This peeks a bunch of 'private'ish data */
+			if (s->summary->len < camel_folder_get_message_count(s->folder)/2) {
+				sorted = g_ptr_array_new();
+				g_ptr_array_set_size(sorted, s->summary->len);
+				for (i=0;i<s->summary->len;i++)
+					sorted->pdata[i] = (void *)camel_message_info_uid((CamelMessageInfo *)s->summary->pdata[i]);
+				qsort(sorted->pdata, sorted->len, sizeof(sorted->pdata[0]), cmp_uid);
+				set = imap_uid_array_to_set(s->folder->summary, sorted);
+				response = camel_imap_command (store, s->folder, NULL,
+							       "UID SEARCH UID %s BODY \"%s\"",
+							       set, value);
+				g_free(set);
+				g_ptr_array_free(sorted, TRUE);
+			} else {
+				response = camel_imap_command (store, s->folder, NULL,
+							       "UID SEARCH BODY \"%s\"",
+							       value);
+			}
+
 			r->value.ptrarray = g_ptr_array_new ();
-			response = camel_imap_command (store, s->folder, NULL,
-						       "UID SEARCH BODY \"%s\"",
-						       value);
 		}
 	}
 	

@@ -2150,8 +2150,49 @@ camel_flag_list_free(CamelFlag **list)
 	*list = NULL;
 }
 
-const char
-*camel_tag_get(CamelTag **list, const char *name)
+/**
+ * camel_flag_list_copy:
+ * @to: 
+ * @from: 
+ * 
+ * Copy a flag list, return true if the destination list @to changed.
+ * 
+ * Return value: 
+ **/
+gboolean
+camel_flag_list_copy(CamelFlag **to, CamelFlag **from)
+{
+	CamelFlag *flag, *tmp;
+	int changed = FALSE;
+
+	if (*to == NULL && from == NULL)
+		return FALSE;
+
+	/* Remove any now-missing flags */
+	flag = (CamelFlag *)to;
+	while (flag->next) {
+		tmp = flag->next;
+		if (!camel_flag_get(from, tmp->name)) {
+			flag->next = tmp->next;
+			g_free(tmp);
+			changed = TRUE;
+		} else {
+			flag = tmp;
+		}
+	}
+
+	/* Add any new flags */
+	flag = *from;
+	while (flag) {
+		changed |= camel_flag_set(to, flag->name, TRUE);
+		flag = flag->next;
+	}
+
+	return changed;
+}
+
+const char *
+camel_tag_get(CamelTag **list, const char *name)
 {
 	CamelTag *tag;
 
@@ -2229,6 +2270,54 @@ int		camel_tag_list_size(CamelTag **list)
 		tag = tag->next;
 	}
 	return count;
+}
+
+static void
+rem_tag(char *key, char *value, CamelTag **to)
+{
+	camel_tag_set(to, key, NULL);
+}
+
+/**
+ * camel_tag_list_copy:
+ * @to: 
+ * @from: 
+ * 
+ * Copy a list of tags.
+ * 
+ * Return value: 
+ **/
+gboolean
+camel_tag_list_copy(CamelTag **to, CamelTag **from)
+{
+	int changed = FALSE;
+	CamelTag *tag;
+	GHashTable *left;
+
+	if (*to == NULL && from == NULL)
+		return FALSE;
+
+	left = g_hash_table_new(g_str_hash, g_str_equal);
+	tag = *to;
+	while (tag) {
+		g_hash_table_insert(left, tag->name, tag);
+		tag = tag->next;
+	}
+
+	tag = *from;
+	while (tag) {
+		changed |= camel_tag_set(to, tag->name, tag->value);
+		g_hash_table_remove(left, tag->name);
+		tag = tag->next;
+	}
+
+	if (g_hash_table_size(left)>0) {
+		g_hash_table_foreach(left, (GHFunc)rem_tag, to);
+		changed = TRUE;
+	}
+	g_hash_table_destroy(left);
+
+	return changed;
 }
 
 /**

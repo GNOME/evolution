@@ -64,6 +64,7 @@ static void spool_sync(CamelFolder *folder, gboolean expunge, CamelException *ex
 static void spool_expunge(CamelFolder *folder, CamelException *ex);
 
 static GPtrArray *spool_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
+static GPtrArray *spool_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
 static void spool_search_free(CamelFolder *folder, GPtrArray * result);
 
 static void spool_append_message(CamelFolder *folder, CamelMimeMessage * message, const CamelMessageInfo * info, CamelException *ex);
@@ -87,6 +88,7 @@ camel_spool_folder_class_init(CamelSpoolFolderClass * camel_spool_folder_class)
 	camel_folder_class->expunge = spool_expunge;
 
 	camel_folder_class->search_by_expression = spool_search_by_expression;
+	camel_folder_class->search_by_uids = spool_search_by_uids;
 	camel_folder_class->search_free = spool_search_free;
 
 	/* virtual method overload */
@@ -359,6 +361,47 @@ spool_search_by_expression(CamelFolder *folder, const char *expression, CamelExc
 	CAMEL_SPOOL_FOLDER_UNLOCK(folder, search_lock);
 
 	camel_folder_free_summary(folder, summary);
+
+	return matches;
+}
+
+static GPtrArray *
+spool_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex)
+{
+	CamelSpoolFolder *spool_folder = CAMEL_SPOOL_FOLDER(folder);
+	GPtrArray *summary, *matches;
+	int i;
+
+	/* NOTE: could get away without the search lock by creating a new
+	   search object each time */
+
+	summary = g_ptr_array_new();
+	for (i=0;i<uids->len;i++) {
+		CamelMessageInfo *info;
+
+		info = camel_folder_get_message_info(folder, uids->pdata[i]);
+		if (info)
+			g_ptr_array_add(summary, info);
+	}
+
+	if (summary->len == 0)
+		return summary;
+
+	CAMEL_SPOOL_FOLDER_LOCK(folder, search_lock);
+
+	if (spool_folder->search == NULL)
+		spool_folder->search = camel_folder_search_new();
+
+	camel_folder_search_set_folder(spool_folder->search, folder);
+	camel_folder_search_set_summary(spool_folder->search, summary);
+
+	matches = camel_folder_search_execute_expression(spool_folder->search, expression, ex);
+
+	CAMEL_SPOOL_FOLDER_UNLOCK(folder, search_lock);
+
+	for (i=0;i<summary->len;i++)
+		camel_folder_free_message_info(folder, summary->pdata[i]);
+	g_ptr_array_free(summary, TRUE);
 
 	return matches;
 }

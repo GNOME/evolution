@@ -97,6 +97,7 @@ static void imap_move_messages_to (CamelFolder *source, GPtrArray *uids,
 
 /* searching */
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
+static GPtrArray *imap_search_by_uids	    (CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex);
 static void       imap_search_free          (CamelFolder *folder, GPtrArray *uids);
 
 static void imap_thaw (CamelFolder *folder);
@@ -115,6 +116,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->get_message = imap_get_message;
 	camel_folder_class->move_messages_to = imap_move_messages_to;
 	camel_folder_class->search_by_expression = imap_search_by_expression;
+	camel_folder_class->search_by_uids = imap_search_by_uids;
 	camel_folder_class->search_free = imap_search_free;
 	camel_folder_class->thaw = imap_thaw;
 
@@ -1297,6 +1299,50 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 	CAMEL_IMAP_FOLDER_UNLOCK(folder, search_lock);
 
 	camel_folder_free_summary(folder, summary);
+
+	return matches;
+}
+
+static GPtrArray *
+imap_search_by_uids(CamelFolder *folder, const char *expression, GPtrArray *uids, CamelException *ex)
+{
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER(folder);
+	GPtrArray *summary, *matches;
+	int i;
+
+	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (folder->parent_store), ex))
+		return NULL;
+
+	/* NOTE: could get away without the search lock by creating a new
+	   search object each time */
+
+	summary = g_ptr_array_new();
+	for (i=0;i<uids->len;i++) {
+		CamelMessageInfo *info;
+
+		info = camel_folder_get_message_info(folder, uids->pdata[i]);
+		if (info)
+			g_ptr_array_add(summary, info);
+	}
+
+	if (summary->len == 0)
+		return summary;
+
+	CAMEL_IMAP_FOLDER_LOCK(folder, search_lock);
+
+	if (imap_folder->search == NULL)
+		imap_folder->search = camel_imap_search_new();
+
+	camel_folder_search_set_folder(imap_folder->search, folder);
+	camel_folder_search_set_summary(imap_folder->search, summary);
+
+	matches = camel_folder_search_execute_expression(imap_folder->search, expression, ex);
+
+	CAMEL_IMAP_FOLDER_UNLOCK(folder, search_lock);
+
+	for (i=0;i<summary->len;i++)
+		camel_folder_free_message_info(folder, summary->pdata[i]);
+	g_ptr_array_free(summary, TRUE);
 
 	return matches;
 }

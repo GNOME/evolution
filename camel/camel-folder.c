@@ -46,7 +46,7 @@
 static CamelObjectClass *parent_class = NULL;
 
 /* Returns the class for a CamelFolder */
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+#define CF_CLASS(so) ((CamelFolderClass *)((CamelObject *)(so))->classfuncs)
 
 static void camel_folder_finalize (CamelObject *object);
 
@@ -95,11 +95,9 @@ static CamelMessageInfo *get_message_info	(CamelFolder *folder, const char *uid)
 static void		 free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
 static void		 ref_message_info	(CamelFolder *folder, CamelMessageInfo *info);
 
-static GPtrArray      *search_by_expression  (CamelFolder *folder,
-					      const char *exp,
-					      CamelException *ex);
-static void            search_free           (CamelFolder * folder, 
-					      GPtrArray * result);
+static GPtrArray      *search_by_expression  (CamelFolder *folder, const char *exp, CamelException *ex);
+static GPtrArray      *search_by_uids	     (CamelFolder *folder, const char *exp, GPtrArray *uids, CamelException *ex);
+static void            search_free           (CamelFolder * folder, GPtrArray *result);
 
 static void            copy_messages_to       (CamelFolder *source,
 					       GPtrArray *uids,
@@ -153,6 +151,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_summary = get_summary;
 	camel_folder_class->free_summary = free_summary;
 	camel_folder_class->search_by_expression = search_by_expression;
+	camel_folder_class->search_by_uids = search_by_uids;
 	camel_folder_class->search_free = search_free;
 	camel_folder_class->get_message_info = get_message_info;
 	camel_folder_class->ref_message_info = ref_message_info;
@@ -1077,6 +1076,45 @@ camel_folder_search_by_expression (CamelFolder *folder, const char *expression,
 	/* NOTE: that it is upto the callee to lock */
 
 	ret = CF_CLASS (folder)->search_by_expression (folder, expression, ex);
+
+	return ret;
+}
+
+static GPtrArray *
+search_by_uids(CamelFolder *folder, const char *exp, GPtrArray *uids, CamelException *ex)
+{
+	camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+			      _("Unsupported operation: search by uids: for %s"),
+			      camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	
+	w(g_warning ("CamelFolder::search_by_expression not implemented for "
+		     "`%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
+	
+	return NULL;
+}
+
+/**
+ * camel_folder_search_by_uids:
+ * @folder: 
+ * @expr: 
+ * @uids: array of uid's to match against.
+ * @ex: 
+ * 
+ * Search a subset of uid's for an expression match.
+ * 
+ * Return value: 
+ **/
+GPtrArray *
+camel_folder_search_by_uids(CamelFolder *folder, const char *expr, GPtrArray *uids, CamelException *ex)
+{
+	GPtrArray *ret;
+
+	g_return_val_if_fail(CAMEL_IS_FOLDER (folder), NULL);
+	g_return_val_if_fail(folder->folder_flags & CAMEL_FOLDER_HAS_SEARCH_CAPABILITY, NULL);
+
+	/* NOTE: that it is upto the callee to lock */
+
+	ret = CF_CLASS(folder)->search_by_uids(folder, expr, uids, ex);
 
 	return ret;
 }
