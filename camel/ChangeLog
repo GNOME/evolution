@@ -1,5 +1,14 @@
 2004-12-23  Not Zed  <NotZed@Ximian.com>
   
+	** See bug #70556.
+	
+	* providers/imap/camel-imap-command.c (imap_read_untagged): scan
+	the non-literal contnet for s-expression brackets, and if we seem
+	to be outside of one, don't try the 'blank line after literal'
+	hack.
+
+2004-12-23  Not Zed  <NotZed@Ximian.com>
+  
 	* camel-folder-search.c (check_header): treat a missing header as
 	if it was set to "".
 

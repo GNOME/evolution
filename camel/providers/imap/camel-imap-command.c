@@ -43,7 +43,7 @@
 #include <camel/camel-private.h>
 #include <camel/camel-utf8.h>
 #include <camel/camel-session.h>
-
+#include <camel/camel-debug.h>
 
 extern int camel_verbose_debug;
 
@@ -409,7 +409,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 static char *
 imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 {
-	int fulllen, ldigits, nread, i;
+	int fulllen, ldigits, nread, i, sexp = 0;
 	unsigned int length;
 	GPtrArray *data;
 	GString *str;
@@ -431,6 +431,18 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		p = strrchr (str->str, '{');
 		if (!p)
 			break;
+
+		/* HACK ALERT: We scan the non-literal part of the string, looking for possible s expression braces.
+		   This assumes we're getting s-expressions, which we should be.
+		   This is so if we get a blank line after a literal, in an s-expression, we can keep going, since
+		   we do no other parsing at this level.
+		   TODO: handle quoted strings? */
+		for (s=str->str; s<p; s++) {
+			if (*s == '(')
+				sexp++;
+			else if (*s == ')')
+				sexp--;
+		}
 		
 		length = strtoul (p + 1, &end, 10);
 		if (*end != '}' || *(end + 1) || end == p + 1 || length >= UINT_MAX - 2)
@@ -460,6 +472,12 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 			goto lose;
 		}
 		str->str[length + 1] = '\0';
+
+		if (camel_debug("imap")) {
+			printf("Literal: -->");
+			fwrite(str->str+1, 1, length, stdout);
+			printf("<--\n");
+		}
 		
 		/* Fix up the literal, turning CRLFs into LF. Also, if
 		 * we find any embedded NULs, strip them. This is
@@ -505,10 +523,11 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 			if (camel_imap_store_readline (store, &line, ex) < 0)
 				goto lose;
 
-			/* MAJOR HACK ALERT, gropuwise sometimes sends an extra blank line after literals, check that here */
-			if (line[0] == 0)
+			/* MAJOR HACK ALERT, gropuwise sometimes sends an extra blank line after literals, check that here
+			   But only do it if we're inside an sexpression */
+			if (line[0] == 0 && sexp > 0)
 				g_warning("Server sent empty line after a literal, assuming in error");
-		} while (line[0] == 0);
+		} while (line[0] == 0 && sexp > 0);
 	}
 	
 	/* Now reassemble the data. */
