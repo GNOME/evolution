@@ -145,6 +145,8 @@ static void unindex_name(struct _IBEXWord *idx, const char *name)
 	int i;
 	nameid_t nameid, wordid;
 	blockid_t nameblock, wordblock, newblock, nametail, wordtail, newtail;
+	char *word;
+	struct _wordcache *cache;
 
 	d(printf("unindexing %s\n", name));
 
@@ -168,7 +170,34 @@ static void unindex_name(struct _IBEXWord *idx, const char *name)
 		if (newblock != wordblock || newtail != wordtail)
 			idx->wordindex->klass->set_data(idx->wordindex, wordid, newblock, newtail);
 
-		/* FIXME: check cache as well */
+		/* now check the cache as well */
+		word = idx->nameindex->klass->get_key(idx->wordindex, wordid, NULL);
+		if (word) {
+			cache = g_hash_table_lookup(idx->wordcache, word);
+			if (cache) {
+				/* its there, update our head/tail pointers */
+				cache->wordblock = newblock;
+				cache->wordtail = newtail;
+
+				/* now check that we have a data entry in it */
+				if (cache->filealloc == 0 && cache->filecount == 1) {
+					if (cache->file.file0 == nameid) {
+						cache->filecount = 0;
+					}
+				} else {
+					int j;
+
+					for (j=0;j<cache->filecount;j++) {
+						if (cache->file.files[j] == nameid) {
+							cache->file.files[j] = cache->file.files[cache->filecount-1];
+							cache->filecount--;
+							break;
+						}
+					}
+				}
+			}
+			g_free(word);
+		}
 	}
 	g_array_free(words, TRUE);
 

@@ -21,10 +21,10 @@ INCLUDES = -I$(srcdir) $(GLIB_CFLAGS) $(UNICODE_CFLAGS) \
 		-DG_LOG_DOMAIN=\"libibex\"
 
 
-#noinst_PROGRAMS = hash
+noinst_PROGRAMS = dumpindex
 
-#hash_SOURCES = disktail.c
-#hash_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
+dumpindex_SOURCES = dumpindex.c
+dumpindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
 
 #noinst_PROGRAMS = mkindex lookup
 #

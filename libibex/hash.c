@@ -622,9 +622,20 @@ hash_insert(struct _IBEXIndex *index, const char *key, int keylen)
 
 /* debug */
 void ibex_hash_dump(struct _IBEXIndex *index);
+static void ibex_hash_dump_rec(struct _IBEXIndex *index, int *words, int *wordslen);
 
-void
-ibex_hash_dump(struct _IBEXIndex *index)
+void ibex_hash_dump(struct _IBEXIndex *index)
+{
+	int words = 0, wordslen=0;
+
+	ibex_hash_dump_rec(index, &words, &wordslen);
+
+	printf("Total words = %d, bytes = %d, ave length = %f\n", words, wordslen, (double)wordslen/(double)words);
+}
+
+
+static void
+ibex_hash_dump_rec(struct _IBEXIndex *index, int *words, int *wordslen)
 {
 	int i;
 	struct _hashtableblock *table;
@@ -643,6 +654,8 @@ ibex_hash_dump(struct _IBEXIndex *index)
 		while (hashbucket) {
 			int len;
 
+			*words = *words + 1;
+
 			bucket = (struct _hashblock *)ibex_block_read(index->blocks, HASH_BLOCK(hashbucket));
 			printf(" bucket %d: [used %d]", hashbucket, bucket->used);
 			if (HASH_INDEX(hashbucket) == 0) {
@@ -655,6 +668,9 @@ ibex_hash_dump(struct _IBEXIndex *index)
 			printf("'%.*s' = %d next=%d\n", len, &bucket->hb_keydata[bucket->hb_keys[HASH_INDEX(hashbucket)].keyoffset],
 			       bucket->hb_keys[HASH_INDEX(hashbucket)].root,
 			       bucket->hb_keys[HASH_INDEX(hashbucket)].next);
+
+			*wordslen = *wordslen + len;
+
 			ibex_diskarray_dump(index->blocks,
 					    bucket->hb_keys[HASH_INDEX(hashbucket)].root << BLOCK_BITS,
 					    bucket->hb_keys[HASH_INDEX(hashbucket)].tail);
