@@ -215,9 +215,9 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			retval = GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
-			retval = GINT_TO_POINTER (0);
-		else
 			retval = GINT_TO_POINTER (1);
+		else
+			retval = GINT_TO_POINTER (0);
 		break;
 		
 	case COL_PRIORITY:
