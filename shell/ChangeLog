@@ -1,5 +1,29 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* evolution-storage-set-view.c (impl_StorageSetView_add_listener): fix typo.
+	(impl_StorageSetView_remove_listener): same.
+	(impl_StorageSetView__get_show_folders): implementation of getter for show_folders.
+	(impl_StorageSetView__set_show_folders): implementation of setter for show_folders.
+	(corba_class_init): install _set_show_folders and _get_show_folders.
+
+	* Evolution-StorageSetView.idl: add show_folders attribute to
+	StorageSetView.
+
+	* e-storage-set-view.h: add prototypes for
+	e_storage_set_view_{get,set}_show_folders.
+
+	* e-storage-set-view.c (insert_storages): split this code out from
+	e_storage_set_view_construct so we can call it when "show_folders"
+	has been changed.
+	(e_storage_set_view_construct): remove the code to insert
+	storages.
+	(e_storage_set_view_set_show_folders): new function.  tears down
+	existing tree and node/path hashtable and calls insert_storages.
+	(e_storage_set_view_get_show_folders): new function, retrieves
+	current show_folders state.
+
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* evolution-storage-set-view-factory.c
 	(evolution_storage_set_view_factory_new_view): pass
 	storage_set_view_interface as second argument to

@@ -62,6 +62,8 @@ struct _EStorageSetViewPrivate {
 
 	/* Path of the row selected by the latest "cursor_change" signal.  */
 	const char *selected_row_path;
+
+	gboolean show_folders;
 };
 
 
@@ -695,6 +697,7 @@ init (EStorageSetView *storage_set_view)
 	priv->path_to_etree_node  = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->type_name_to_pixbuf = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->selected_row_path   = NULL;
+	priv->show_folders        = TRUE;
 
 	storage_set_view->priv = priv;
 }
@@ -800,6 +803,42 @@ insert_folders (EStorageSetView *storage_set_view,
 }
 
 static void
+insert_storages (EStorageSetView *storage_set_view)
+{
+	EStorageSetViewPrivate *priv;
+	EStorageSet *storage_set;
+	GList *storage_list;
+	GList *p;
+
+	priv = storage_set_view->priv;
+
+	storage_set = priv->storage_set;
+
+	storage_list = e_storage_set_get_storage_list (storage_set);
+
+	for (p = storage_list; p != NULL; p = p->next) {
+		EStorage *storage = E_STORAGE (p->data);
+		const char *name;
+		char *path;
+		ETreePath *parent;
+
+		name = e_storage_get_name (storage);
+		path = g_strconcat ("/", name, NULL);
+
+		parent = e_tree_model_node_insert_id (priv->etree_model, priv->root_node,
+						   -1, path, path);
+		e_tree_model_node_set_expanded (priv->etree_model, parent, TRUE);
+
+		g_hash_table_insert (priv->path_to_etree_node, path, parent);
+
+		if (priv->show_folders)
+			insert_folders (storage_set_view, parent, storage, "/");
+	}
+
+	e_free_object_list (storage_list);
+}
+
+static void
 right_click (EStorageSetView *storage_set_view, int row, int col,
 	     GdkEventButton *event, gboolean *ret)
 {
@@ -835,13 +874,6 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 			      EStorageSet *storage_set)
 {
 	EStorageSetViewPrivate *priv;
-	ETreePath *parent;
-	EStorage *storage;
-	GList *storage_list;
-	GList *p;
-	const char *name;
-	char *text[2];
-	char *path;
 	ETableCol *ecol;
 	ETableHeader *e_table_header;
 	ECell *cell_left_just;
@@ -913,26 +945,7 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "table_drag_data_get",
 			    GTK_SIGNAL_FUNC (etable_drag_data_get), GTK_OBJECT(storage_set_view));
 
-	storage_list = e_storage_set_get_storage_list (storage_set);
-
-	text[1] = NULL;
-
-	for (p = storage_list; p != NULL; p = p->next) {
-		storage = E_STORAGE (p->data);
-
-		name = e_storage_get_name (storage);
-		path = g_strconcat ("/", name, NULL);
-
-		parent = e_tree_model_node_insert_id (priv->etree_model, priv->root_node,
-						   -1, path, path);
-		e_tree_model_node_set_expanded (priv->etree_model, parent, TRUE);
-
-		g_hash_table_insert (priv->path_to_etree_node, path, parent);
-
-		insert_folders (storage_set_view, parent, storage, "/");
-	}
-
-	e_free_object_list (storage_list);
+	insert_storages (storage_set_view);
 }
 
 GtkWidget *
@@ -996,6 +1009,41 @@ e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
 	path = (char*)e_tree_model_node_get_data(priv->etree_model, etree_node);
 
 	return path;
+}
+
+void
+e_storage_set_view_set_show_folders (EStorageSetView *storage_set_view,
+				     gboolean show)
+{
+	EStorageSetViewPrivate *priv;
+
+	g_return_if_fail (storage_set_view != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
+
+	priv = storage_set_view->priv;
+
+	if (show == priv->show_folders)
+		return;
+
+	/* tear down existing tree and hash table mappings */
+	e_tree_model_node_remove (priv->etree_model, priv->root_node);
+	g_hash_table_foreach (priv->path_to_etree_node, path_free_func, NULL);
+
+	/* now re-add the root node */
+	priv->root_node = e_tree_model_node_insert (priv->etree_model, NULL, -1, "/Root Node");
+
+	/* then reinsert the storages after setting the "show_folders"
+	   flag.  insert_storages will call insert_folders if
+	   show_folders is TRUE */
+
+	priv->show_folders = show;
+	insert_storages (storage_set_view);
+}
+
+gboolean
+e_storage_set_view_get_show_folders (EStorageSetView *storage_set_view)
+{
+	return storage_set_view->priv->show_folders;
 }
 
 

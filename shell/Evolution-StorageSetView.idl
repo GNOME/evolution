@@ -20,6 +20,8 @@ module Evolution {
 		exception AlreadyListening {};
 		exception NotFound {};
 
+		attribute boolean show_folders;
+
 		void add_listener (in StorageSetViewListener listener)
 			raises (AlreadyListening);
 		void remove_listener (in StorageSetViewListener listener)

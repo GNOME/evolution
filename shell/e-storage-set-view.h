@@ -71,6 +71,10 @@ void        e_storage_set_view_set_current_folder  (EStorageSetView *storage_set
 						    const char      *path);
 const char *e_storage_set_view_get_current_folder  (EStorageSetView *storage_set_view);
 
+void        e_storage_set_view_set_show_folders    (EStorageSetView *storage_set_view,
+						    gboolean show);
+gboolean    e_storage_set_view_get_show_folders    (EStorageSetView *storage_set_view);
+						    
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

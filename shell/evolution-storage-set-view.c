@@ -184,7 +184,7 @@ impl_StorageSetView_add_listener (PortableServer_Servant servant,
 	EvolutionStorageSetView *storage_set_view;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (servant);
+	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (bonobo_object);
 
 	if (! add_listener (storage_set_view, listener))
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -200,11 +200,45 @@ impl_StorageSetView_remove_listener (PortableServer_Servant servant,
 	EvolutionStorageSetView *storage_set_view;
 
 	bonobo_object = bonobo_object_from_servant (servant);
-	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (servant);
+	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (bonobo_object);
 
 	if (! remove_listener (storage_set_view, listener))
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Evolution_StorageSetView_NotFound, NULL);
+}
+
+static CORBA_boolean
+impl_StorageSetView__get_show_folders (PortableServer_Servant servant,
+				       CORBA_Environment * ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorageSetView *storage_set_view;
+	EvolutionStorageSetViewPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (bonobo_object);
+	priv = storage_set_view->priv;
+
+	return (CORBA_boolean)e_storage_set_view_get_show_folders (
+			 E_STORAGE_SET_VIEW(priv->storage_set_view_widget));
+}
+
+static void
+impl_StorageSetView__set_show_folders (PortableServer_Servant servant,
+				       const CORBA_boolean value,
+				       CORBA_Environment * ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorageSetView *storage_set_view;
+	EvolutionStorageSetViewPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (bonobo_object);
+	priv = storage_set_view->priv;
+
+	e_storage_set_view_set_show_folders (
+		          E_STORAGE_SET_VIEW(priv->storage_set_view_widget),
+			  (gboolean)value);
 }
 
 
@@ -254,6 +288,8 @@ corba_class_init (void)
 	epv = g_new0 (POA_Evolution_StorageSetView__epv, 1);
 	epv->add_listener    = impl_StorageSetView_add_listener;
 	epv->remove_listener = impl_StorageSetView_remove_listener;
+	epv->_set_show_folders = impl_StorageSetView__set_show_folders;
+	epv->_get_show_folders = impl_StorageSetView__get_show_folders;
 
 	vepv = &StorageSetView_vepv;
 	vepv->_base_epv                    = base_epv;
