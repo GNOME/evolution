@@ -2,7 +2,8 @@
 
 	[Fix #3756, `--debug' option not working anymore.]
 
-	* main.c (main): Get the URI
+	* main.c (main): Get the URI list from popt with `poptGetArgs'
+	instead of just using argv.  Sigh, I am rusty.
 
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
