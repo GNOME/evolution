@@ -7,7 +7,7 @@
 
 2003-10-03  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* mail-config-druid.c: (identity_prepare), (config_wizard_new):
+	* mail-config-druid.c (identity_prepare), (config_wizard_new):
 	Convert real name to UTF-8 if needed.
 
 2003-10-03  Jeffrey Stedfast  <fejj@ximian.com>
