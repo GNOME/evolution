@@ -7,6 +7,7 @@
 #include "e-table-header.h"
 #include "e-table-selection-model.h"
 #include "e-table-defines.h"
+#include "e-table-tooltip.h"
 #include <e-util/e-printable.h>
 
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
@@ -91,6 +92,11 @@ typedef struct {
 	 */
 	int              editing_col, editing_row;
 	void            *edit_ctx;
+
+	/*
+	 * Tooltip
+	 */
+	ETableTooltip *tooltip;
 
 } ETableItem;
 

@@ -1,8 +1,36 @@
 2000-09-15  Iain Holmes  <iain@helixcode.com>
 
-	* e-table-header-item.c (draw_button): Replace the NULL in the
-	gtk_paint_box call with a pointer to the canvas. Fixes a crash
-	reported and solved by Radek
+	* e-cell-tree.c (ect_show_tooltip): If the cursor is inside
+	the subcell, call the show_tooltip on it.
+
+	* e-table-header-item.c (draw_button): Draw the arrow first,
+	then take it's size into account when calculating how to draw
+	the text. Use ellipsis if the text it too long.
+
+2000-09-15  Iain Holmes  <iain@helixcode.com>
+
+	* e-table-header-item.c (draw_button): Fix a crash by passing
+	the canvas widget to gtk_paint_box. Reported by Radek.
+	
+2000-09-14  Iain Holmes  <iain@helixcode.com>
+
+	* e-table-header-item.c (set_cursor): The column isn't resizable
+	if it is the last, or if all other columns after it are not
+	resizable.
+	
+	* e-cell-text.c (ect_max_width): Correctly calculate the width
+	of the line of text. Unbuild the current cell and unref the lines
+	as well.
+	(build_current_cell): Initialize cell->style to 0;
+
+2000-09-14  Iain Holmes  <iain@helixcode.com>
+
+	* e-table-item.c: Start timers for the tooltip to appear, on motion 
+	events.
+
+	* e-cell.[ch]: Add a new show_tooltip method.
+
+	* e-cell-text.c (ect_show_tooltip): Show the tooltip.
 
 2000-09-14  Peter Williams  <peter@beta.newton.cx>
 
@@ -67,7 +95,6 @@
 
 	* e-tree-simple.c: Fixed the ETableModel callbacks.
 
->>>>>>> 1.273
 2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-tree-example-1.c: Added base ETableModel functions.

@@ -5,6 +5,7 @@
 #include <gdk/gdktypes.h>
 #include <libgnomeprint/gnome-print.h>
 #include "e-table-model.h"
+#include "e-table-tooltip.h"
 
 #define E_CELL_TYPE        (e_cell_get_type ())
 #define E_CELL(o)          (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))
@@ -70,6 +71,7 @@ typedef struct {
 	gdouble    (*print_height) (ECellView *ecell_view, GnomePrintContext *context,
 				    int model_col, int view_col, int row, gdouble width);
 	int        (*max_width) (ECellView *ecell_view, int model_col, int view_col);
+	void       (*show_tooltip) (ECellView *ecell_view, int model_col, int view_col, int row, ETableTooltip *tooltip);
 } ECellClass;
 
 GtkType    e_cell_get_type  (void);
@@ -90,6 +92,7 @@ void       e_cell_print      (ECellView *ecell_view, GnomePrintContext *context,
 gdouble    e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context,
 				int model_col, int view_col, int row, gdouble width);
 int        e_cell_max_width (ECellView *ecell_view, int model_col, int view_col);
+void       e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row, ETableTooltip *tooltip);
 void       e_cell_focus     (ECellView *ecell_view, int model_col, int view_col, int row,
 			     int x1, int y1, int x2, int y2);
 void       e_cell_unfocus   (ECellView *ecell_view);

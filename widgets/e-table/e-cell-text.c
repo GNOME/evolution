@@ -39,6 +39,7 @@
 #include "e-table-item.h"
 #include "e-text-event-processor.h"
 #include "e-text-event-processor-emacs-like.h"
+#include "e-table-tooltip.h"
 
 #include <gdk/gdkx.h> /* for BlackPixel */
 #include <ctype.h>
@@ -1284,13 +1285,192 @@ ect_max_width (ECellView *ecell_view,
 
 	for (row = 0; row < number_of_rows; row++) {
 		CurrentCell cell;
+		struct line *line;
+		int width;
+
 		build_current_cell (&cell, text_view, model_col, view_col, row);
 		split_into_lines (&cell);
 		calc_line_widths (&cell);
-		max_width = MAX (max_width, cell.breaks->max_width);
+		
+		line = (struct line *)cell.breaks->lines;
+		width = e_font_utf8_text_width (font, cell.style,
+						line->text, line->length);
+		max_width = MAX (max_width, width);
+		unref_lines (&cell);
+		unbuild_current_cell (&cell);
 	}
 	
 	return max_width;
+}
+
+static gint
+tooltip_event (GtkWidget *window,
+	       GdkEvent *event,
+	       ETableTooltip *tooltip)
+{
+	gint ret_val = FALSE;
+	
+	switch (event->type) {
+	case GDK_LEAVE_NOTIFY:
+		if (tooltip->window) {
+			gtk_widget_destroy (tooltip->window);
+			tooltip->window = NULL;
+		}
+		break;
+	case GDK_BUTTON_PRESS:
+	case GDK_BUTTON_RELEASE:
+		if (event->type == GDK_BUTTON_RELEASE) {
+			if (tooltip->window) {
+				gtk_widget_destroy (tooltip->window);
+				tooltip->window = NULL;
+			}
+		}
+
+		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
+					 event, &ret_val);
+		break;
+	default:
+		break;
+	}
+	
+	return ret_val;
+}
+
+static void
+ect_show_tooltip (ECellView *ecell_view, 
+		  int model_col,
+		  int view_col,
+		  int row,
+		  ETableTooltip *tooltip)
+{
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CurrentCell cell;
+	struct line *lines;
+	GtkWidget *canvas;
+	int i;
+	gdouble max_width;
+	gboolean cut_off;
+	double i2c[6];
+	ArtPoint origin = {0, 0};
+	ArtPoint pixel_origin;
+	int canvas_x, canvas_y;
+	GnomeCanvasItem *tooltip_text;
+	double tooltip_width;
+	double tooltip_height;
+	double tooltip_x;
+	double tooltip_y;
+	GnomeCanvasItem *rect;
+	double text_height;
+
+	tooltip->timer = 0;
+
+	build_current_cell (&cell, text_view, model_col, view_col, row);
+	split_into_lines (&cell);
+	calc_line_widths (&cell);
+
+	cut_off = FALSE;
+	for (lines = cell.breaks->lines, i = 0; i < cell.breaks->num_lines;
+	     lines++, i++) {
+		if (lines->length > lines->ellipsis_length) {
+			cut_off = TRUE;
+			break;
+		}
+	}
+
+	if (!cut_off) {
+		tooltip->timer = 0;
+		return;
+	}
+
+	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (tooltip->eti), i2c);
+	art_affine_point (&pixel_origin, &origin, i2c);
+
+	g_print ("%d,%d\n", pixel_origin.x, pixel_origin.y);
+	gdk_window_get_origin (GTK_WIDGET (text_view->canvas)->window,
+			       &canvas_x, &canvas_y);
+	pixel_origin.x += canvas_x;
+	pixel_origin.y += canvas_y;
+	pixel_origin.x -= (int) gtk_layout_get_hadjustment (GTK_LAYOUT (text_view->canvas))->value;
+	pixel_origin.y -= (int) gtk_layout_get_vadjustment (GTK_LAYOUT (text_view->canvas))->value;
+
+	tooltip->window = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_container_set_border_width (GTK_CONTAINER (tooltip->window), 1);
+
+	canvas = e_canvas_new ();
+	gtk_container_add (GTK_CONTAINER (tooltip->window), canvas);
+
+	max_width = 0.0;
+	for (lines = cell.breaks->lines, i = 0; i < cell.breaks->num_lines;
+	     lines++, i++) {
+		gdouble line_width;
+
+		line_width = e_font_utf8_text_width (text_view->font, 
+						     E_FONT_PLAIN, lines->text,
+						     lines->length);
+		max_width = MAX (max_width, line_width);
+	}
+
+	text_height = e_font_height (text_view->font) * cell.breaks->num_lines + 4;
+	rect = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
+				      gnome_canvas_rect_get_type (),
+				      "x1", (double) 0.0,
+				      "y1", (double) 0.0,
+				      "x2", (double) max_width + 4,
+				      "y2", (double) text_height,
+				      "fill_color", "yellow",
+				      NULL);
+
+	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
+					      e_text_get_type (),
+					      "anchor", GTK_ANCHOR_NW,
+/*  					      "font_gdk", text_view->font, */
+					      "text", cell.text,
+					      "editable", FALSE,
+					      "clip_width", max_width,
+					      "clip_height", (double) text_height,
+					      "clip", TRUE,
+					      "line_wrap", FALSE,
+  					      "justification", E_CELL_TEXT (text_view->cell_view.ecell)->justify,
+					      NULL);
+
+	tooltip_width = max_width;
+	tooltip_height = text_height;
+	tooltip_y = tooltip->y;
+
+	switch (E_CELL_TEXT (text_view->cell_view.ecell)->justify) {
+	case GTK_JUSTIFY_CENTER:
+		tooltip_x = - tooltip_width / 2;
+		break;
+	case GTK_JUSTIFY_RIGHT:
+		tooltip_x = tooltip_width / 2;
+		break;
+	case GTK_JUSTIFY_FILL:
+	case GTK_JUSTIFY_LEFT:
+		tooltip_x = tooltip->x;
+		break;
+	}
+
+	gnome_canvas_item_set (rect,
+			       "x2", (double) tooltip_width,
+			       "y2", (double) tooltip->row_height,
+			       NULL);
+	gtk_widget_set_usize (tooltip->window, tooltip_width,
+			      tooltip->row_height);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0.0, 0.0,
+					(double) tooltip_width,
+					(double) tooltip_height);
+	gtk_widget_show (canvas);
+	gtk_widget_realize (tooltip->window);
+	gtk_signal_connect (GTK_OBJECT (tooltip->window), "event",
+			    GTK_SIGNAL_FUNC (tooltip_event), tooltip);
+
+	gtk_widget_popup (tooltip->window, pixel_origin.x + tooltip->x,
+			  pixel_origin.y + tooltip->y);
+
+	unref_lines (&cell);
+	unbuild_current_cell (&cell);
+
+	return;
 }
 
 /*
@@ -1384,6 +1564,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;
+	ecc->show_tooltip = ect_show_tooltip;
 
 	object_class->get_arg = ect_get_arg;
 	object_class->set_arg = ect_set_arg;
@@ -2331,6 +2512,7 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->width = e_table_header_get_column (
 		((ETableItem *)ecell_view->e_table_item_view)->header,
 		view_col)->width - 8;
+	cell->style = 0;
 }
 
 static void

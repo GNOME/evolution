@@ -881,6 +881,10 @@ eti_destroy (GtkObject *object)
 
 	g_free (eti->height_cache);
 
+	if (eti->tooltip->window)
+		gtk_widget_destroy (eti->tooltip->window);
+	g_free (eti->tooltip);
+
 	if (GTK_OBJECT_CLASS (eti_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (eti_parent_class)->destroy) (object);
 }
@@ -1009,6 +1013,8 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->needs_redraw = 0;
 	eti->needs_compute_height = 0;
+
+	eti->tooltip = g_new0 (ETableTooltip, 1);
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }
@@ -1414,6 +1420,34 @@ eti_cursor_move_down (ETableItem *eti)
 	eti_cursor_move (eti, model_to_view_row(eti, cursor_row) + 1, model_to_view_col(eti, cursor_col));
 }
 
+static int
+_do_tooltip (ETableItem *eti)
+{
+	ECellView *ecell_view;
+	int x = 0, y = 0;
+	int i;
+
+	ecell_view = eti->cell_views[eti->tooltip->col];
+
+	for (i = 0; i < eti->tooltip->col; i++)
+		x += eti->header->columns[i]->width;
+	eti->tooltip->x = x;
+
+	for (i = 0; i < eti->tooltip->row; i++)
+		y += ETI_ROW_HEIGHT (eti, i);
+	eti->tooltip->y = y;
+	eti->tooltip->eti = eti;
+	eti->tooltip->row_height = ETI_ROW_HEIGHT (eti, i);
+	
+	g_print ("Tooltip at %d,%d\n", x, y);
+	e_cell_show_tooltip (ecell_view, 
+			     view_to_model_col (eti, eti->tooltip->col),
+			     eti->tooltip->col,
+			     eti->tooltip->row,
+			     eti->tooltip);
+	return FALSE;
+}
+
 /* FIXME: cursor */
 static int
 eti_event (GnomeCanvasItem *item, GdkEvent *e)
@@ -1428,6 +1462,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 
+		if (eti->tooltip->timer) {
+			gtk_timeout_remove (eti->tooltip->timer);
+			eti->tooltip->timer = 0;
+		}
+		if (eti->tooltip->window) {
+			gtk_widget_destroy (eti->tooltip->window);
+			eti->tooltip->window = NULL;
+		}
 		e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 
 		switch (e->button.button) {
@@ -1495,6 +1537,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 
+		if (eti->tooltip->timer) {
+			gtk_timeout_remove (eti->tooltip->timer);
+			eti->tooltip->timer = 0;
+		}
+		if (eti->tooltip->window) {
+			gtk_widget_destroy (eti->tooltip->window);
+			eti->tooltip->window = NULL;
+		}
 		switch (e->button.button) {
 		case 1: /* Fall through. */
 		case 2:
@@ -1562,6 +1612,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			       "cursor_row", &cursor_row,
 			       "cursor_col", &cursor_col,
 			       NULL);
+
+		if (eti->tooltip->timer > 0)
+			gtk_timeout_remove (eti->tooltip->timer);
+		eti->tooltip->col = col;
+		eti->tooltip->row = row;
+		eti->tooltip->cx = e->motion.x;
+		eti->tooltip->cy = e->motion.y;
+		eti->tooltip->timer = gtk_timeout_add (1000, _do_tooltip, eti);
 
 		if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
 			ecell_view = eti->cell_views [col];
@@ -1710,6 +1768,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		break;
 	}
+
+	case GDK_LEAVE_NOTIFY:
+	case GDK_ENTER_NOTIFY:
+		if (eti->tooltip->timer > 0)
+			gtk_timeout_remove (eti->tooltip->timer);
+		break;
 
 	default:
 		return_val = FALSE;

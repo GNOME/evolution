@@ -92,7 +92,8 @@ libetable_a_SOURCES = 				\
 	e-tree-model.c				\
 	e-tree-model.h				\
 	e-tree-simple.c				\
-	e-tree-simple.h
+	e-tree-simple.h				\
+	e-table-tooltip.h
 
 noinst_PROGRAMS =	\
 	table-test table-example-1 table-example-2 table-size-test tree-example-1 tree-example-2

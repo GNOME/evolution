@@ -740,40 +740,6 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	
 	gdk_gc_set_clip_rectangle (ethi->gc, &clip);
 
-	if (col->is_pixbuf){
-		xtra = (clip.width - gdk_pixbuf_get_width (col->pixbuf))/2;
-		
-		xtra += HEADER_PADDING / 2;
-
-		gdk_pixbuf_render_to_drawable_alpha (col->pixbuf, 
-						    drawable,
-						    0, 0, 
-						    x + xtra, y + (clip.height - gdk_pixbuf_get_height (col->pixbuf)) / 2,
-						    gdk_pixbuf_get_width (col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
-						    GDK_PIXBUF_ALPHA_FULL, 128,
-						    GDK_RGB_DITHER_NORMAL,
-						    0, 0);
-	} else {
-		/* Center the thing */
-		xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
-		
-		/* Skip over border */
-		if (xtra < 0)
-			xtra = 0;
-
-		xtra += HEADER_PADDING / 2;
-	
-		gdk_draw_text (
-			       drawable, ethi->font,
-			       ethi->gc, x + xtra, y + ethi->height - ethi->font->descent - HEADER_PADDING / 2,
-			       col->text, strlen (col->text));
-	}
-
-	if (col->pixbuf){
-		if ((gdk_pixbuf_get_width (col->pixbuf) + MIN_ARROW_SIZE + 4) > width)
-			return;
-	}
-	
 	switch (arrow){
 	case E_TABLE_COL_ARROW_NONE:
 		break;
@@ -794,8 +760,81 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			y + (ethi->height - MIN_ARROW_SIZE) / 2,
 			MIN_ARROW_SIZE,
 			MIN_ARROW_SIZE);
+		
+		clip.width -= (MIN_ARROW_SIZE + 2 + HEADER_PADDING);
 		break;
 	}
+
+	if (col->is_pixbuf){
+		xtra = (clip.width - gdk_pixbuf_get_width (col->pixbuf))/2;
+		
+		xtra += HEADER_PADDING / 2;
+
+		gdk_pixbuf_render_to_drawable_alpha (col->pixbuf, 
+						    drawable,
+						    0, 0, 
+						    x + xtra, y + (clip.height - gdk_pixbuf_get_height (col->pixbuf)) / 2,
+						    gdk_pixbuf_get_width (col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
+						    GDK_PIXBUF_ALPHA_FULL, 128,
+						    GDK_RGB_DITHER_NORMAL,
+						    0, 0);
+	} else {
+		int str_width, ellipsis_width, text_len;
+
+		text_len = strlen (col->text);
+		ellipsis_width = gdk_text_width (ethi->font, "...", 3);
+
+		str_width = gdk_text_width (ethi->font, col->text, text_len);
+
+		if (str_width < clip.width) {
+			/* Center the thing */
+			xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
+			
+			/* Skip over border */
+			if (xtra < 0)
+				xtra = 0;
+			
+			xtra += HEADER_PADDING / 2;
+			
+			gdk_draw_text (
+				       drawable, ethi->font,
+				       ethi->gc, x + xtra, y + ethi->height - ethi->font->descent - HEADER_PADDING / 2,
+				       col->text, text_len);
+		} else {
+			/* Need ellipsis */
+			gchar *p;
+			int ellipsis_length = 0;
+			
+			for (p = col->text; p && *p && (p - col->text) < text_len; p++) {
+				if (gdk_text_width (ethi->font, col->text, p - col->text) + ellipsis_width <= clip.width)
+					ellipsis_length = p - col->text;
+				else
+					break;
+			}
+
+			xtra = (clip.width - gdk_text_measure (ethi->font, col->text, ellipsis_length) - gdk_string_measure (ethi->font, "..."))/2;
+
+			if (xtra < 0)
+				xtra = 0;
+
+			xtra += HEADER_PADDING / 2;
+
+			gdk_draw_text (drawable, ethi->font, ethi->gc,
+				       x + xtra, y + ethi->height - ethi->font->descent - HEADER_PADDING / 2,
+				       col->text, ellipsis_length);
+			gdk_draw_string (drawable, ethi->font, ethi->gc,
+					 x + xtra + gdk_text_width (ethi->font,
+								    col->text,
+								    ellipsis_length),
+					 y + ethi->height - ethi->font->descent - HEADER_PADDING / 2,
+					 "...");
+		}
+	}
+	
+	if (col->pixbuf){
+		if ((gdk_pixbuf_get_width (col->pixbuf) + MIN_ARROW_SIZE + 4) > width)
+			return;
+	}	
 }
 
 static void
@@ -912,19 +951,37 @@ set_cursor (ETableHeaderItem *ethi, int pos)
 {
 	int col;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
+	gboolean resizeable = FALSE;
 		
 	/* We might be invoked before we are realized */
 	if (!canvas->window)
 		return;
 
 	if (is_pointer_on_division (ethi, pos, NULL, &col)) {
+		int last_col = ethi->eth->col_count - 1;
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
-		if (ecol->resizeable)
-			e_cursor_set (canvas->window, E_CURSOR_SIZE_X);
-		else
-			e_cursor_set (canvas->window, E_CURSOR_ARROW);
-	} else
+		/* Last column is not resizable */
+		if (ecol->resizeable && col != last_col) {
+			int c = col + 1;
+
+			/* Column is not resizable if all columns after it
+			   are also not resizable */
+			for (; c <= last_col; c++){
+				ETableCol *ecol2;
+
+				ecol2 = e_table_header_get_column (ethi->eth, c);
+				if (ecol2->resizeable) {
+					resizeable = TRUE;
+					break;
+				}
+			}
+		}
+	}
+	
+	if (resizeable)
+		e_cursor_set (canvas->window, E_CURSOR_SIZE_X);
+	else
 		e_cursor_set (canvas->window, E_CURSOR_ARROW);
 }
 
@@ -1325,6 +1382,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 			e_table_header_set_size (ethi->eth, ethi->resize_col, width + 10);
 
 			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
+			ethi->maybe_drag = FALSE;
 		}
 		break;
 		
