@@ -36,6 +36,7 @@
 #include <time.h>
 
 #include <camel/camel-utf8.h>
+#include <camel/camel-private.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
@@ -424,6 +425,8 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	int id, max, i;
 	int retval;
 	
+	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
+	
 	/* gather a list of changes to sync to the server */
 	sync = g_ptr_array_new ();
 	max = camel_folder_summary_count (folder->summary);
@@ -453,7 +456,7 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		g_ptr_array_free (sync, TRUE);
 		
 		if (retval == -1)
-			return;
+			goto done;
 	} else {
 		g_ptr_array_free (sync, TRUE);
 	}
@@ -481,6 +484,10 @@ imap4_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	}
 	
 	camel_folder_summary_save (folder->summary);
+	
+ done:
+	
+	CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
 }
 
 static void
@@ -572,6 +579,8 @@ imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelStream *stream;
 	int id;
 	
+	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
+	
 	ic = camel_imap4_engine_queue (engine, folder, "UID FETCH %s BODY.PEEK[]\r\n", uid);
 	camel_imap4_command_register_untagged (ic, "FETCH", untagged_fetch);
 	ic->user_data = stream = camel_stream_mem_new ();
@@ -583,7 +592,7 @@ imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
 		camel_object_unref (stream);
-		return NULL;
+		goto done;
 	}
 	
 	switch (ic->result) {
@@ -609,6 +618,10 @@ imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	
 	camel_object_unref (stream);
 	
+ done:
+	
+	CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
+	
 	return message;
 }
 
@@ -631,6 +644,8 @@ imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	char date[50];
 	struct tm tm;
 	int id, i;
+	
+	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
 	
 	/* construct the option flags list */
 	if (info->flags & folder->permanent_flags) {
@@ -695,6 +710,7 @@ imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
 		camel_exception_xfer (ex, &ic->ex);
 		camel_imap4_command_unref (ic);
+		CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
 		return;
 	}
 	
@@ -756,6 +772,8 @@ imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
 	}
 	
 	camel_imap4_command_unref (ic);
+	
+	CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
 }
 
 
@@ -798,6 +816,8 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 	}
 	
 	g_ptr_array_sort (infos, (GCompareFunc) info_uid_sort);
+	
+	CAMEL_SERVICE_LOCK (src->parent_store, connect_lock);
 	
 	dest_namelen = strlen (camel_imap4_folder_utf7_name ((CamelIMAP4Folder *) dest));
 	
@@ -863,4 +883,6 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 	for (i = 0; i < infos->len; i++)
 		camel_folder_summary_info_free (src->summary, infos->pdata[i]);
 	g_ptr_array_free (infos, TRUE);
+	
+	CAMEL_SERVICE_LOCK (src->parent_store, connect_lock);
 }
