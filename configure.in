@@ -214,11 +214,11 @@ AC_SUBST(GNOME_PRINT_CFLAGS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.27)
+AC_MSG_CHECKING(for Bonobo >= 0.29)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo | sed -e "s/bonobo-//" | \
 		awk 'BEGIN { FS = "."; } { printf "%d", $1 * 1000 + $2;}'`
-	if test "$vers" -ge 27; then
+	if test "$vers" -ge 29; then
 		bonobo_ok=true
 	else
 		bonobo_ok=false
