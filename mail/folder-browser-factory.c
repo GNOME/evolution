@@ -187,7 +187,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		char *fname;
 		xmlNode *ui;
 
-		fname = bonobo_ui_util_get_ui_fname ("evolution-mail.xml");
+		fname = bonobo_ui_util_get_ui_fname (
+			EVOLUTION_DATADIR, "evolution-mail.xml");
 		g_warning ("Attempting ui load from '%s'", fname);
 		
 		ui = bonobo_ui_util_new_ui (component, fname, "evolution-mail");

@@ -1,3 +1,7 @@
+2000-09-16  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): use datadir.
+
 2000-09-16  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.h: #include "bonobo-win.h", not "bonobo-app.h".

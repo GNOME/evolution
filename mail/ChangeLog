@@ -1,3 +1,9 @@
+2000-09-16  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (INCLUDES): add datadir
+
+	* folder-browser-factory.c (control_activate): use it.
+
 2000-09-15  Dan Winship  <danw@helixcode.com>
 
 	* mail-callbacks.c (transfer_msg): Revert **Temp fix** from below

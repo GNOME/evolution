@@ -1,3 +1,12 @@
+2000-09-16  Michael Meeks  <michael@helixcode.com>
+
+	* gui/component/select-names/e-select-names.c: fix broken include.
+
+	* gui/component/Makefile.am (INCLUDES): define datadir.
+	(evolution_addressbook_SOURCES): remove e-addressbook-model.[ch]
+
+	* gui/component/addressbook.c (control_activate): use datadir.
+
 2000-09-16  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/widgets/Makefile.am (gladedir): Define.

@@ -18,6 +18,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)/widgets				\
 	-I$(includedir)					\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 

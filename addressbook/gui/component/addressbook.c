@@ -28,7 +28,7 @@
 
 #include <e-scroll-frame.h>
 
-#include <e-addressbook-model.h>
+#include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>
 
@@ -524,7 +524,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	
 	bonobo_ui_container_freeze (container, NULL);
 
-	fname = bonobo_ui_util_get_ui_fname ("evolution-addressbook.xml");
+	fname = bonobo_ui_util_get_ui_fname (
+		EVOLUTION_DATADIR, "evolution-addressbook.xml");
 	g_warning ("Attempting ui load from '%s'", fname);
 		
 	ui = bonobo_ui_util_new_ui (component, fname, "evolution-addressbook");

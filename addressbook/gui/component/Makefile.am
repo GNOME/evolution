@@ -21,6 +21,7 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\

@@ -457,7 +457,8 @@ e_shell_view_menu_setup (EShellView *shell_view)
 
 	bonobo_ui_container_freeze (container, NULL);
 
-	fname = bonobo_ui_util_get_ui_fname ("evolution.xml");
+	fname = bonobo_ui_util_get_ui_fname (
+		EVOLUTION_DATADIR, "evolution.xml");
 	g_warning ("Attempting ui load from '%s'", fname);
 
 	ui = bonobo_ui_util_new_ui (component, fname, "evolution");
