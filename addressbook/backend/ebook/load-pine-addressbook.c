@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include <e-book.h>
+#include <ctype.h>
 
 static CORBA_Environment ev;
 

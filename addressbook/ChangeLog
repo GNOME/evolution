@@ -1,5 +1,17 @@
 2000-09-21  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/load-pine-addressbook.c: Added a missing include
+	of ctype.h.
+
+	* backend/pas/pas-backend-file.c: Fixed a problem where using a
+	GList was causing us to not be reentrant.  We now use an EList
+	here and so now this is reentrant.  This should fix the "wombat
+	crashes every time you run evolution" bug.
+
+	* contact-editor/e-contact-editor.c: Fixed a type mismatch.
+
+2000-09-21  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/load-pine-addressbook.c: Make this work when a
 	field is spread across multiple lines.
 

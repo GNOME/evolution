@@ -42,7 +42,7 @@ struct _PASBackendFilePrivate {
 	gboolean  loaded;
 	char     *uri;
 	DB       *file_db;
-	GList    *book_views;
+	EList    *book_views;
 };
 
 struct _PASBackendFileCursorPrivate {
@@ -63,6 +63,31 @@ struct _PASBackendFileBookView {
 struct _PASBackendFileSearchContext {
 	ECardSimple *card;
 };
+
+static PASBackendFileBookView *
+pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *closure)
+{
+	PASBackendFileBookView *new_book_view;
+	new_book_view = g_new(PASBackendFileBookView, 1);
+	new_book_view->book_view = book_view->book_view;
+	new_book_view->search = g_strdup(book_view->search);
+	new_book_view->search_sexp = book_view->search_sexp;
+	if (new_book_view->search_sexp)
+		gtk_object_ref(GTK_OBJECT(new_book_view->search_sexp));
+	new_book_view->search_context = g_new(PASBackendFileSearchContext, 1);
+	new_book_view->search_context->card = book_view->search_context->card;
+	return new_book_view;
+}
+
+static void
+pas_backend_file_book_view_free(PASBackendFileBookView *book_view, void *closure)
+{
+	g_free(book_view->search);
+	if (book_view->search_sexp)
+		gtk_object_unref(GTK_OBJECT(book_view->search_sexp));
+	g_free(book_view->search_context);
+	g_free(book_view);
+}
 
 static long
 get_length(PASCardCursor *cursor, gpointer data)
@@ -114,21 +139,17 @@ view_destroy(GtkObject *object, gpointer data)
 	Evolution_Book    corba_book;
 	PASBook           *book = (PASBook *)data;
 	PASBackendFile    *bf;
-	GList             *list;
+	EIterator         *iterator;
 
 	bf = PAS_BACKEND_FILE(pas_book_get_backend(book));
-	for (list = bf->priv->book_views; list; list = g_list_next(list)) {
-		PASBackendFileBookView *view = list->data;
+	for (iterator = e_list_get_iterator(bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		const PASBackendFileBookView *view = e_iterator_get(iterator);
 		if (view->book_view == PAS_BOOK_VIEW(object)) {
-			gtk_object_unref((GtkObject *)view->search_sexp);
-			g_free (view->search_context);
-			g_free (view->search);
-			g_free (view);
-			bf->priv->book_views = g_list_remove_link(bf->priv->book_views, list);
-			g_list_free_1(list);
+			e_iterator_delete(iterator);
 			break;
 		}
 	}
+	gtk_object_unref(GTK_OBJECT(iterator));
 
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
 
@@ -373,12 +394,15 @@ static struct {
 };
 
 static gboolean
-vcard_matches_search (PASBackendFileBookView *view, char *vcard_string)
+vcard_matches_search (const PASBackendFileBookView *view, char *vcard_string)
 {
 	ESExpResult *r;
 	gboolean retval;
+	ECard *card;
 
-	view->search_context->card = e_card_simple_new (e_card_new (vcard_string));
+	card = e_card_new (vcard_string);
+	view->search_context->card = e_card_simple_new (card);
+	gtk_object_unref(GTK_OBJECT(card));
 
 	/* if it's not a valid vcard why is it in our db? :) */
 	if (!view->search_context->card)
@@ -388,6 +412,7 @@ vcard_matches_search (PASBackendFileBookView *view, char *vcard_string)
 
 	retval = (r && r->type == ESEXP_RES_BOOL && r->value.bool);
 
+
 	gtk_object_unref(GTK_OBJECT(view->search_context->card));
 
 	e_sexp_result_free(r);
@@ -396,21 +421,23 @@ vcard_matches_search (PASBackendFileBookView *view, char *vcard_string)
 }
 
 static void
-pas_backend_file_search (PASBackendFile  	*bf,
-			 PASBook         	*book,
-			 PASBackendFileBookView *view)
+pas_backend_file_search (PASBackendFile  	      *bf,
+			 PASBook         	      *book,
+			 const PASBackendFileBookView *cnstview)
 {
 	int     db_error = 0;
 	GList   *cards = NULL;
 	DB      *db = bf->priv->file_db;
 	DBT     id_dbt, vcard_dbt;
 	int i;
+	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 
 	if (!bf->priv->loaded)
 		return;
 
+	if (view->search_sexp)
+		gtk_object_unref(GTK_OBJECT(view->search_sexp));
 	view->search_sexp = e_sexp_new();
-	view->search_context = g_new0(PASBackendFileSearchContext, 1);
 
 	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
 		if (symbols[i].type == 1) {
@@ -513,23 +540,24 @@ pas_backend_file_process_create_card (PASBackend *backend,
 {
 	char *id;
 	char *vcard;
-	GList          *list;
+	EIterator *iterator;
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 
 	id = do_create(backend, req->vcard, &vcard);
 	if (id) {
-		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
-			PASBackendFileBookView *view = list->data;
+		for (iterator = e_list_get_iterator(bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			const PASBackendFileBookView *view = e_iterator_get(iterator);
 			if (vcard_matches_search (view, vcard)) {
 				pas_book_view_notify_add_1 (view->book_view, vcard);
 				pas_book_view_notify_complete (view->book_view);
 			}
 		}
-
+		gtk_object_unref(GTK_OBJECT(iterator));
+		
 		pas_book_respond_create (
-				 book,
-				 Evolution_BookListener_Success,
-				 id);
+			book,
+			Evolution_BookListener_Success,
+			id);
 		g_free(vcard);
 		g_free(id);
 	}
@@ -554,7 +582,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	DB             *db = bf->priv->file_db;
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
-	GList         *list;
+	EIterator     *iterator;
 	char          *vcard_string;
 
 	string_to_dbt (req->id, &id_dbt);
@@ -583,13 +611,14 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 
 
 	vcard_string = vcard_dbt.data;
-	for (list = bf->priv->book_views; list; list = g_list_next(list)) {
-		PASBackendFileBookView *view = list->data;
+	for (iterator = e_list_get_iterator (bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		const PASBackendFileBookView *view = e_iterator_get(iterator);
 		if (vcard_matches_search (view, vcard_string)) {
 			pas_book_view_notify_remove (view->book_view, req->id);
 			pas_book_view_notify_complete (view->book_view);
 		}
 	}
+	gtk_object_unref(GTK_OBJECT(iterator));
 	
 	pas_book_respond_remove (
 				 book,
@@ -607,7 +636,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	DB             *db = bf->priv->file_db;
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
-	GList         *list;
+	EIterator     *iterator;
 	ECard         *card;
 	char          *id;
 	char          *old_vcard_string;
@@ -638,9 +667,14 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 		if (db_error != 0)
 			g_warning ("db->sync failed.\n");
 
-		for (list = bf->priv->book_views; list; list = g_list_next(list)) {
-			PASBackendFileBookView *view = list->data;
+		for (iterator = e_list_get_iterator(bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			CORBA_Environment ev;
+			const PASBackendFileBookView *view = e_iterator_get(iterator);
 			gboolean old_match, new_match;
+
+			CORBA_exception_init(&ev);
+
+			bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 
 			old_match = vcard_matches_search (view, old_vcard_string);
 			new_match = vcard_matches_search (view, req->vcard);
@@ -651,7 +685,10 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 			else /* if (old_match) */
 				pas_book_view_notify_remove (view->book_view, id);
 			pas_book_view_notify_complete (view->book_view);
+
+			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 		}
+		gtk_object_unref(GTK_OBJECT(iterator));
 
 		pas_book_respond_modify (
 				 book,
@@ -764,7 +801,9 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	CORBA_Environment ev;
 	PASBookView       *book_view;
 	Evolution_Book    corba_book;
-	PASBackendFileBookView *view;
+	PASBackendFileBookView view;
+	PASBackendFileSearchContext ctx;
+	EIterator *iterator;
 
 	g_return_if_fail (req->listener != NULL);
 
@@ -792,13 +831,18 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 		    : Evolution_BookListener_CardNotFound /* XXX */),
 		   book_view);
 
-	view = g_new(PASBackendFileBookView, 1);
-	view->book_view = book_view;
-	view->search = g_strdup(req->search);
+	view.book_view = book_view;
+	view.search = req->search;
+	view.search_sexp = NULL;
+	view.search_context = &ctx;
+	ctx.card = NULL;
 
-	bf->priv->book_views = g_list_prepend(bf->priv->book_views, view);
+	e_list_append(bf->priv->book_views, &view);
 
-	pas_backend_file_search (bf, book, view);
+	iterator = e_list_get_iterator(bf->priv->book_views);
+	e_iterator_last(iterator);
+	pas_backend_file_search (bf, book, e_iterator_get(iterator));
+	gtk_object_unref(GTK_OBJECT(iterator));
 
 	g_free(req->search);
 }
@@ -1169,6 +1213,7 @@ pas_backend_file_destroy (GtkObject *object)
 
 	bf = PAS_BACKEND_FILE (object);
 
+	gtk_object_unref(GTK_OBJECT(bf->priv->book_views));
 	g_free (bf->priv->uri);
 
 	GTK_OBJECT_CLASS (pas_backend_file_parent_class)->destroy (object);	
@@ -1201,7 +1246,7 @@ pas_backend_file_init (PASBackendFile *backend)
 	priv             = g_new0 (PASBackendFilePrivate, 1);
 	priv->loaded     = FALSE;
 	priv->clients    = NULL;
-	priv->book_views = NULL;
+	priv->book_views = e_list_new((EListCopyFunc) pas_backend_file_book_view_copy, (EListFreeFunc) pas_backend_file_book_view_free, NULL);
 	priv->uri        = NULL;
 
 	backend->priv = priv;

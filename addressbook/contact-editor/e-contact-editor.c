@@ -741,7 +741,7 @@ create_ui (EContactEditor *ce)
 	char *fname;
 	xmlNode *ui;
 	BonoboUIComponent *component;
-	Bonobo_UIContainer *container;
+	Bonobo_UIContainer container;
 
 	component = bonobo_ui_compat_get_component (ce->uih);
 	container = bonobo_ui_compat_get_container (ce->uih);
