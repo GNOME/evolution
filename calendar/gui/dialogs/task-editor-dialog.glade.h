@@ -21,7 +21,8 @@ gchar *s = N_("High\n"
               "Low\n"
               "");
 gchar *s = N_("C_lassification:");
-gchar *s = N_("Public\n"
+gchar *s = N_("None\n"
+              "Public\n"
               "Private\n"
               "Confidential\n"
               "");

@@ -1,3 +1,34 @@
+2000-09-11  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/dialogs/task-editor.c: changed to use EDateEdit.
+
+	* gui/dialogs/task-editor-dialog.glade: added "None" option to
+	Classification option menu, and used custom widgets for the date
+	entries so we can use EDateEdit widgets.
+
+	* gui/event-editor.c: changed to use EDateEdit. Note that this needs
+	to be fixed at some point to handle invalid dates, i.e. when
+	e_date_edit_get_time returns -1.
+
+	* gui/calendar-model.c (ensure_task_complete): 
+	(ensure_task_not_complete): new functions to set the related properties
+	to make sure a task is marked as complete on not, i.e. "Date Completed"
+	"Status" and "Percent" properties.
+
+2000-09-08  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/calendar-model.c (get_is_complete): use the status field rather
+	than the completed date, as it is more reliable.
+	(get_is_overdue): use get_is_complete().
+	(calendar_model_mark_task_complete): check if it is already complete,
+	and if so don't update it.
+
+	* cal-util/cal-component.c (cal_component_get_status): 
+	(cal_component_set_status): added functions to support the STATUS
+	property. Also added the property to CalComponentPrivate and set it
+	to NULL in free_icalcomponent(). Someone should check my code as I've
+	mainly done a Cut & Paste job.
+
 2000-09-10  JP Rosevear  <jpr@helixcode.com>
 	* conduits/todo/todo-conduit.c: Convert "//" style comments
 	(local_record_from_ical_uid): Remove iCalObject cruft

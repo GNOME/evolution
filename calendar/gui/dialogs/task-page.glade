@@ -162,54 +162,6 @@
 	    </child>
 
 	    <widget>
-	      <class>GnomeDateEdit</class>
-	      <name>due-date</name>
-	      <show_time>True</show_time>
-	      <use_24_format>True</use_24_format>
-	      <week_start_monday>False</week_start_monday>
-	      <lower_hour>7</lower_hour>
-	      <upper_hour>19</upper_hour>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>0</top_attach>
-		<bottom_attach>1</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GnomeDateEdit</class>
-	      <name>start-date</name>
-	      <show_time>True</show_time>
-	      <use_24_format>True</use_24_format>
-	      <week_start_monday>False</week_start_monday>
-	      <lower_hour>7</lower_hour>
-	      <upper_hour>19</upper_hour>
-	      <child>
-		<left_attach>1</left_attach>
-		<right_attach>2</right_attach>
-		<top_attach>1</top_attach>
-		<bottom_attach>2</bottom_attach>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<xexpand>True</xexpand>
-		<yexpand>False</yexpand>
-		<xshrink>False</xshrink>
-		<yshrink>False</yshrink>
-		<xfill>True</xfill>
-		<yfill>False</yfill>
-	      </child>
-	    </widget>
-
-	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label6</name>
 	      <label>Sta_rt Date:</label>
@@ -310,6 +262,52 @@
 		<right_attach>4</right_attach>
 		<top_attach>0</top_attach>
 		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>Custom</class>
+	      <name>due-date</name>
+	      <creation_function>task_editor_create_date_edit</creation_function>
+	      <int1>0</int1>
+	      <int2>0</int2>
+	      <last_modification_time>Sun, 10 Sep 2000 17:32:18 GMT</last_modification_time>
+	      <child>
+		<left_attach>1</left_attach>
+		<right_attach>2</right_attach>
+		<top_attach>0</top_attach>
+		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>Custom</class>
+	      <name>start-date</name>
+	      <creation_function>task_editor_create_date_edit</creation_function>
+	      <int1>0</int1>
+	      <int2>0</int2>
+	      <last_modification_time>Sun, 10 Sep 2000 17:33:31 GMT</last_modification_time>
+	      <child>
+		<left_attach>1</left_attach>
+		<right_attach>2</right_attach>
+		<top_attach>1</top_attach>
+		<bottom_attach>2</bottom_attach>
 		<xpad>0</xpad>
 		<ypad>0</ypad>
 		<xexpand>True</xexpand>
@@ -435,7 +433,8 @@ Low
 	    <class>GtkOptionMenu</class>
 	    <name>classification</name>
 	    <can_focus>True</can_focus>
-	    <items>Public
+	    <items>None
+Public
 Private
 Confidential
 </items>
@@ -587,30 +586,6 @@ Confidential
 	<column_spacing>4</column_spacing>
 
 	<widget>
-	  <class>GnomeDateEdit</class>
-	  <name>completed-date</name>
-	  <show_time>True</show_time>
-	  <use_24_format>True</use_24_format>
-	  <week_start_monday>False</week_start_monday>
-	  <lower_hour>7</lower_hour>
-	  <upper_hour>19</upper_hour>
-	  <child>
-	    <left_attach>1</left_attach>
-	    <right_attach>2</right_attach>
-	    <top_attach>0</top_attach>
-	    <bottom_attach>1</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>True</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
-
-	<widget>
 	  <class>GtkLabel</class>
 	  <name>label12</name>
 	  <label>Date Completed:</label>
@@ -675,6 +650,29 @@ Confidential
 	    <right_attach>2</right_attach>
 	    <top_attach>1</top_attach>
 	    <bottom_attach>2</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>True</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>Custom</class>
+	  <name>completed-date</name>
+	  <creation_function>task_editor_create_date_edit</creation_function>
+	  <int1>0</int1>
+	  <int2>0</int2>
+	  <last_modification_time>Sun, 10 Sep 2000 17:34:07 GMT</last_modification_time>
+	  <child>
+	    <left_attach>1</left_attach>
+	    <right_attach>2</right_attach>
+	    <top_attach>0</top_attach>
+	    <bottom_attach>1</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>True</xexpand>

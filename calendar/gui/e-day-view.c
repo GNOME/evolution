@@ -5051,6 +5051,7 @@ e_day_view_get_event_position (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint start_row, end_row, cols_in_row, start_col, num_columns;
+	gfloat width;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
@@ -5078,12 +5079,20 @@ e_day_view_get_event_position (EDayView *day_view,
 			end_row = day_view->resize_end_row;
 	}
 
-	*item_x = day_view->day_offsets[day] + day_view->day_widths[day] * start_col / cols_in_row;
-	*item_w = day_view->day_widths[day] * num_columns / cols_in_row - E_DAY_VIEW_GAP_WIDTH;
+
+	*item_x = day_view->day_offsets[day]
+		+ day_view->day_widths[day] * start_col / cols_in_row;
+	*item_w = day_view->day_widths[day] * num_columns / cols_in_row
+		- E_DAY_VIEW_GAP_WIDTH;
 	*item_w = MAX (*item_w, 0);
 	*item_y = start_row * day_view->row_height;
+#if 0
 	*item_h = (end_row - start_row + 1) * day_view->row_height;
-
+#else
+	/* This makes the event end on the grid line of the next row,
+	   which maybe looks nicer if you have 2 events on consecutive rows. */
+	*item_h = (end_row - start_row + 1) * day_view->row_height + 1;
+#endif
 	return TRUE;
 }
 

@@ -25,6 +25,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
+#include <widgets/misc/e-dateedit.h>
 #include <e-util/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "event-editor.h"
@@ -135,8 +136,8 @@ static void append_exception (EventEditor *ee, time_t t);
 static void check_all_day (EventEditor *ee);
 static void set_all_day (GtkWidget *toggle, EventEditor *ee);
 static void alarm_toggle (GtkWidget *toggle, EventEditor *ee);
-static void check_dates (GnomeDateEdit *gde, EventEditor *ee);
-static void check_times (GnomeDateEdit *gde, EventEditor *ee);
+static void check_dates (EDateEdit *dedit, EventEditor *ee);
+static void check_times (EDateEdit *dedit, EventEditor *ee);
 static void recurrence_toggled (GtkWidget *radio, EventEditor *ee);
 static void recurrence_exception_added (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_deleted (GtkWidget *widget, EventEditor *ee);
@@ -486,8 +487,6 @@ static void
 init_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	GnomeDateEdit *gde;
-	GtkWidget *widget;
 
 	priv = ee->priv;
 
@@ -538,27 +537,6 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (recurrence_exception_deleted), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->recurrence_exception_change), "clicked",
 			    GTK_SIGNAL_FUNC (recurrence_exception_changed), ee);
-
-	/* Hide the stupid 'Calendar' labels. */
-	gde = GNOME_DATE_EDIT (priv->start_time);
-	gtk_widget_hide (gde->cal_label);
-	widget = gde->date_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	widget = gde->time_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	gtk_box_set_spacing (GTK_BOX (widget->parent), 2);
-
-	gde = GNOME_DATE_EDIT (priv->end_time);
-	gtk_widget_hide (gde->cal_label);
-	widget = gde->date_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	widget = gde->time_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	gtk_box_set_spacing (GTK_BOX (widget->parent), 2);
 }
 
 /* Fills the widgets with default values */
@@ -581,8 +559,8 @@ clear_widgets (EventEditor *ee)
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
 
-	e_dialog_dateedit_set (priv->start_time, now);
-	e_dialog_dateedit_set (priv->end_time, now);
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), now);
+	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), now);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
@@ -644,8 +622,7 @@ clear_widgets (EventEditor *ee)
 
 	e_dialog_toggle_set (priv->recurrence_ending_date_repeat_forever, TRUE);
 	e_dialog_spin_set (priv->recurrence_ending_date_end_after_count, 1);
-	e_dialog_dateedit_set (priv->recurrence_ending_date_end_on_date,
-			       time_add_day (time (NULL), 1));
+	e_date_edit_set_time (E_DATE_EDIT (priv->recurrence_ending_date_end_on_date), time_add_day (time (NULL), 1));
 
 	/* Exceptions list */
 
@@ -698,8 +675,8 @@ fill_widgets (EventEditor *ee)
 		dtend = time_add_day (dtend, -1);
 	}
 
-	e_dialog_dateedit_set (priv->start_time, dtstart);
-	e_dialog_dateedit_set (priv->end_time, dtend);
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time), dtstart);
+	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), dtend);
 
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
@@ -857,8 +834,7 @@ fill_widgets (EventEditor *ee)
 			e_dialog_toggle_set (priv->recurrence_ending_date_end_on, TRUE);
 			/* Shorten by one day, as we store end-on date a day ahead */
 			/* FIXME is this correct? */
-			e_dialog_dateedit_set (priv->recurrence_ending_date_end_on_date,
-					       time_add_day (t, -1));
+			e_date_edit_set_time (E_DATE_EDIT (priv->recurrence_ending_date_end_on_date), time_add_day (t, -1));
 		}
 		cal_component_free_recur_list (list);
 	}
@@ -918,7 +894,7 @@ dialog_to_comp_object (EventEditor *ee)
 	cal_component_free_text_list (list);
 	
 	date.value = g_new (struct icaltimetype, 1);
-	t = e_dialog_dateedit_get (priv->start_time);
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
 	*date.value = icaltime_from_timet (t, FALSE, FALSE);
 	date.tzid = NULL;
 	cal_component_set_dtstart (comp, &date);
@@ -926,7 +902,7 @@ dialog_to_comp_object (EventEditor *ee)
 	/* If the all_day toggle is set, the end date is inclusive of the
 	   entire day on which it points to. */
 	all_day_event = e_dialog_toggle_get (priv->all_day_event);
-	t = e_dialog_dateedit_get (priv->end_time);
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 	if (all_day_event)
 		t = time_day_end (t);
 
@@ -1040,7 +1016,7 @@ dialog_to_comp_object (EventEditor *ee)
 			/* Also here, to ensure that the event is used, we add a day
 			 * to get the next day, in accordance to the RFC
 			 */
-			t = e_dialog_dateedit_get (priv->recurrence_ending_date_end_on_date);
+			t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_ending_date_end_on_date));
 			t = time_add_day (t, 1);
 			recur.until = icaltime_from_timet (t, TRUE, FALSE);
 		} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
@@ -1756,8 +1732,8 @@ check_all_day (EventEditor *ee)
 
 	priv = ee->priv;
 
-	ev_start = e_dialog_dateedit_get (priv->start_time);
-	ev_end = e_dialog_dateedit_get (priv->end_time);
+	ev_start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+	ev_end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 
 	/* all day event checkbox */
 	if (time_day_begin (ev_start) == ev_start
@@ -1777,7 +1753,6 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 	struct tm start_tm, end_tm;
 	time_t start_t, end_t;
 	gboolean all_day;
-	int flags;
 
 	priv = ee->priv;
 
@@ -1785,7 +1760,7 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 	   entire day on which it points to. */
 	all_day = GTK_TOGGLE_BUTTON (toggle)->active;
 
-	start_t = e_dialog_dateedit_get (priv->start_time);
+	start_t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
 	start_tm = *localtime (&start_t);
 	start_tm.tm_min  = 0;
 	start_tm.tm_sec  = 0;
@@ -1795,9 +1770,10 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 	else
 		start_tm.tm_hour = day_begin;
 
-	e_dialog_dateedit_set (priv->start_time, mktime (&start_tm));
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_time),
+			      mktime (&start_tm));
 
-	end_t = e_dialog_dateedit_get (priv->end_time);
+	end_t = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 	end_tm = *localtime (&end_t);
 	end_tm.tm_min  = 0;
 	end_tm.tm_sec  = 0;
@@ -1813,25 +1789,17 @@ set_all_day (GtkWidget *toggle, EventEditor *ee)
 			end_tm.tm_hour = start_tm.tm_hour + 1;
 	}
 
-	flags = gnome_date_edit_get_flags (GNOME_DATE_EDIT (priv->start_time));
-	if (all_day)
-		flags &= ~GNOME_DATE_EDIT_SHOW_TIME;
-	else
-		flags |= GNOME_DATE_EDIT_SHOW_TIME;
-	gnome_date_edit_set_flags (GNOME_DATE_EDIT (priv->start_time), flags);
-	gnome_date_edit_set_flags (GNOME_DATE_EDIT (priv->end_time), flags);
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
+	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
 
-	e_dialog_dateedit_set (priv->end_time, mktime (&end_tm));
-
-	gtk_widget_hide (GNOME_DATE_EDIT (priv->start_time)->cal_label);
-	gtk_widget_hide (GNOME_DATE_EDIT (priv->end_time)->cal_label);
+	e_date_edit_set_time (E_DATE_EDIT (priv->end_time), mktime (&end_tm));
 }
 
 /*
  * Callback: checks that the dates are start < end
  */
 static void
-check_dates (GnomeDateEdit *gde, EventEditor *ee)
+check_dates (EDateEdit *dedit, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	time_t start, end;
@@ -1839,29 +1807,31 @@ check_dates (GnomeDateEdit *gde, EventEditor *ee)
 
 	priv = ee->priv;
 
-	start = e_dialog_dateedit_get (priv->start_time);
-	end = e_dialog_dateedit_get (priv->end_time);
+	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 
 	if (start > end) {
 		tm_start = *localtime (&start);
 		tm_end = *localtime (&end);
 
-		if (GTK_WIDGET (gde) == priv->start_time) {
+		if (GTK_WIDGET (dedit) == priv->start_time) {
 			tm_end.tm_year = tm_start.tm_year;
 			tm_end.tm_mon  = tm_start.tm_mon;
 			tm_end.tm_mday = tm_start.tm_mday;
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
-			e_dialog_dateedit_set (priv->end_time, mktime (&tm_end));
+			e_date_edit_set_time (E_DATE_EDIT (priv->end_time),
+					      mktime (&tm_end));
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
-		} else if (GTK_WIDGET (gde) == priv->end_time) {
+		} else if (GTK_WIDGET (dedit) == priv->end_time) {
 			tm_start.tm_year = tm_end.tm_year;
 			tm_start.tm_mon  = tm_end.tm_mon;
 			tm_start.tm_mday = tm_end.tm_mday;
 
 #if 0
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
-			e_dialog_dateedit_set (priv->start_time, mktime (&tm_start));
+			e_date_edit_set_time (E_DATE_EDIT (priv->start_time),
+					      mktime (&tm_start));
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 #endif
 		}
@@ -1873,7 +1843,7 @@ check_dates (GnomeDateEdit *gde, EventEditor *ee)
  * selected hour range spans all of the day
  */
 static void
-check_times (GnomeDateEdit *gde, EventEditor *ee)
+check_times (EDateEdit *dedit, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	time_t start, end;
@@ -1884,14 +1854,14 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 	gdk_flush ();
 #endif
-	start = e_dialog_dateedit_get (priv->start_time);
-	end = e_dialog_dateedit_get (priv->end_time);
+	start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+	end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 
 	if (start > end) {
 		tm_start = *localtime (&start);
 		tm_end = *localtime (&end);
 
-		if (GTK_WIDGET (gde) == priv->start_time) {
+		if (GTK_WIDGET (dedit) == priv->start_time) {
 			tm_end.tm_min  = tm_start.tm_min;
 			tm_end.tm_sec  = tm_start.tm_sec;
 			tm_end.tm_hour = tm_start.tm_hour + 1;
@@ -1903,9 +1873,10 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 			}
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_time), ee);
-			e_dialog_dateedit_set (priv->end_time, mktime (&tm_end));
+			e_date_edit_set_time (E_DATE_EDIT (priv->end_time),
+					      mktime (&tm_end));
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_time), ee);
-		} else if (GTK_WIDGET (gde) == priv->end_time) {
+		} else if (GTK_WIDGET (dedit) == priv->end_time) {
 			tm_start.tm_min  = tm_end.tm_min;
 			tm_start.tm_sec  = tm_end.tm_sec;
 			tm_start.tm_hour = tm_end.tm_hour - 1;
@@ -1917,7 +1888,8 @@ check_times (GnomeDateEdit *gde, EventEditor *ee)
 			}
 
 			gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
-			e_dialog_dateedit_set (priv->start_time, mktime (&tm_start));
+			e_date_edit_set_time (E_DATE_EDIT (priv->start_time),
+					      mktime (&tm_start));
 			gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_time), ee);
 		}
 	}
@@ -1990,7 +1962,7 @@ recurrence_exception_added (GtkWidget *widget, EventEditor *ee)
 
 	priv = ee->priv;
 
-	t = e_dialog_dateedit_get (priv->recurrence_exceptions_date);
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exceptions_date));
 	append_exception (ee, t);
 }
 
@@ -2037,7 +2009,7 @@ recurrence_exception_changed (GtkWidget *widget, EventEditor *ee)
 	sel = GPOINTER_TO_INT (clist->selection->data);
 
 	t = gtk_clist_get_row_data (clist, sel);
-	*t = e_dialog_dateedit_get (priv->recurrence_exceptions_date);
+	*t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exceptions_date));
 
 	e_utf8_gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
 }
@@ -2060,12 +2032,13 @@ make_date_edit_with_time (void)
 GtkWidget *
 date_edit_new (time_t the_time, int show_time)
 {
-	return gnome_date_edit_new_flags (the_time,
-					  ((show_time ? GNOME_DATE_EDIT_SHOW_TIME : 0)
-					   | (am_pm_flag ? 0 : GNOME_DATE_EDIT_24_HR)
-					   | (week_starts_on_monday
-					      ? GNOME_DATE_EDIT_WEEK_STARTS_ON_MONDAY
-					      : 0)));
+	GtkWidget *dedit;
+
+	dedit = e_date_edit_new ();
+	/* FIXME: Set other options. */
+	e_date_edit_set_show_time (E_DATE_EDIT (dedit), show_time);
+	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), 8, 18);
+	return dedit;
 }
 
 

@@ -77,6 +77,9 @@ static char * calendar_model_value_to_string (ETableModel *etm, int col, const v
 #endif
 static void load_objects (CalendarModel *model);
 static int remove_object (CalendarModel *model, const char *uid);
+static void ensure_task_complete (CalComponent *comp,
+				  time_t completed_date);
+static void ensure_task_not_complete (CalComponent *comp);
 
 static ETableModelClass *parent_class;
 
@@ -540,9 +543,17 @@ get_has_alarms (CalComponent *comp)
 static gboolean
 get_is_complete (CalComponent *comp)
 {
+	const char *status;
+
+	cal_component_get_status (comp, &status);
+	return (status && !strcmp (status, "COMPLETED"));
+
+#if 0
 	struct icaltimetype *t;
 	gboolean retval;
 
+	/* I don't think this is as reliable, especially at the moment when
+	   we can't set a Completed Date to None. */
 	cal_component_get_completed (comp, &t);
 	retval = (t != NULL);
 
@@ -550,6 +561,7 @@ get_is_complete (CalComponent *comp)
 		cal_component_free_icaltimetype (t);
 
 	return retval;
+#endif
 }
 
 /* Returns whether a calendar component is overdue.
@@ -571,26 +583,16 @@ get_is_overdue (CalComponent *comp)
 	if (!dt.value)
 		retval = FALSE;
 	else {
-		struct icaltimetype *completed;
 		time_t t;
 
 		/* Second, is it already completed? */
 
-		cal_component_get_completed (comp, &completed);
-
-		if (completed) {
+		if (get_is_complete (comp)) {
 			retval = FALSE;
-
-			cal_component_free_icaltimetype (completed);
 			goto out;
 		}
 
-		/* Third, are we overdue as of right now?
-		 *
-		 * FIXME: should we check the PERCENT as well?  If it is at 100%
-		 * but the COMPLETED property is not set, is the component
-		 * really overdue?
-		 **/
+		/* Third, are we overdue as of right now? */
 
 		t = icaltime_as_timet (*dt.value);
 
@@ -852,23 +854,20 @@ parse_time (const char *value)
 	return mktime (&tmp_tm);
 }
 
-/* Sets the completion time of a component */
+/* Called to set the "Date Completed" field. We also need to update the
+   Status and Percent fields to make sure they match. */
 static void
 set_completed (CalComponent *comp, const char *value)
 {
 	time_t t;
-	struct icaltimetype itt;
 
 	t = parse_time (value);
 	if (t == -1) {
 		show_date_warning ();
-		return;
 	} else if (t == 0) {
-		cal_component_set_completed (comp, NULL);
-		return;
+		ensure_task_not_complete (comp);
 	} else {
-		itt = icaltime_from_timet (t, FALSE, TRUE);
-		cal_component_set_completed (comp, &itt);
+		ensure_task_complete (comp, t);
 	}
 }
 
@@ -960,6 +959,7 @@ set_percent (CalComponent *comp, const char *value)
 
 	if (string_is_empty (value)) {
 		cal_component_set_percent (comp, NULL);
+		ensure_task_not_complete (comp);
 		return;
 	}
 
@@ -971,6 +971,11 @@ set_percent (CalComponent *comp, const char *value)
 	}
 
 	cal_component_set_percent (comp, &percent);
+
+	if (percent == 100)
+		ensure_task_complete (comp, -1);
+	else
+		ensure_task_not_complete (comp);
 }
 
 /* FIXME: We need to set the "transient_for" property for the dialog, but the
@@ -1036,19 +1041,17 @@ set_url (CalComponent *comp, const char *value)
 	cal_component_set_url (comp, value);
 }
 
-/* Sets the completion time of a component was toggled */
+/* Called to set the checkbutton field which indicates whether a task is
+   complete. */
 static void
 set_complete (CalComponent *comp, const void *value)
 {
-	time_t t = time (NULL);
 	gint state = GPOINTER_TO_INT (value);
-	struct icaltimetype itt;
 
 	if (state) {
-		itt = icaltime_from_timet (t, FALSE, FALSE);
-		cal_component_set_completed (comp, &itt);
+		ensure_task_complete (comp, -1);
 	} else {
-		cal_component_set_completed (comp, NULL);
+		ensure_task_not_complete (comp);
 	}
 }
 
@@ -1769,8 +1772,6 @@ calendar_model_mark_task_complete (CalendarModel *model,
 {
 	CalendarModelPrivate *priv;
 	CalComponent *comp;
-	int percent;
-	struct icaltimetype itt;
 
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (IS_CALENDAR_MODEL (model));
@@ -1782,11 +1783,7 @@ calendar_model_mark_task_complete (CalendarModel *model,
 	comp = g_array_index (priv->objects, CalComponent *, row);
 	g_assert (comp != NULL);
 
-	percent = 100;
-	cal_component_set_percent (comp, &percent);
-
-	itt = icaltime_from_timet (time (NULL), FALSE, TRUE);
-	cal_component_set_completed (comp, &itt);
+	ensure_task_complete (comp, -1);
 
 	if (!cal_client_update_object (priv->client, comp))
 		g_message ("calendar_model_mark_task_complete(): Could not update the object!");
@@ -1809,3 +1806,80 @@ calendar_model_get_cal_object (CalendarModel *model,
 
 	return g_array_index (priv->objects, CalComponent *, row);
 }
+
+
+/* This makes sure a task is marked as complete.
+   It makes sure the "Date Completed" property is set. If the completed_date
+   is not -1, then that is used, otherwise if the "Date Completed" property
+   is not already set it is set to the current time.
+   It makes sure the percent is set to 100, and that the status is "Completed".
+   Note that this doesn't update the component on the client. */
+static void
+ensure_task_complete (CalComponent *comp,
+		      time_t completed_date)
+{
+	struct icaltimetype *old_completed = NULL;
+	struct icaltimetype new_completed;
+	const char *old_status;
+	int *old_percent, new_percent;
+	gboolean set_completed = TRUE;
+
+	/* Date Completed. */
+	if (completed_date == -1) {
+		cal_component_get_completed (comp, &old_completed);
+
+		if (old_completed) {
+			cal_component_free_icaltimetype (old_completed);
+			set_completed = FALSE;
+		} else {
+			completed_date = time (NULL);
+		}
+	}
+
+	if (set_completed) {
+		new_completed = icaltime_from_timet (completed_date, FALSE,
+						     TRUE);
+		cal_component_set_completed (comp, &new_completed);
+	}
+
+	/* Percent. */
+	cal_component_get_percent (comp, &old_percent);
+	if (!old_percent || *old_percent != 100) {
+		new_percent = 100;
+		cal_component_set_percent (comp, &new_percent);
+	}
+	if (old_percent)
+		cal_component_free_percent (old_percent);
+
+	/* Status. */
+	cal_component_get_status (comp, &old_status);
+}
+
+
+/* This makes sure a task is marked as incomplete. It clears the
+   "Date Completed" property. If the percent is set to 100 it removes it,
+   and if the status is "Completed" it sets it to "Needs Action".
+   Note that this doesn't update the component on the client. */
+static void
+ensure_task_not_complete (CalComponent *comp)
+{
+	const char *old_status;
+	int *old_percent;
+
+	/* Date Completed. */
+	cal_component_set_completed (comp, NULL);
+
+	/* Percent. */
+	cal_component_get_percent (comp, &old_percent);
+	if (old_percent && *old_percent == 100)
+		cal_component_set_percent (comp, NULL);
+	if (old_percent)
+		cal_component_free_percent (old_percent);
+
+	/* Status. */
+	cal_component_get_status (comp, &old_status);
+	if (old_status && !strcmp (old_status, "COMPLETED"))
+		cal_component_set_status (comp, "NEEDS-ACTION");
+}
+
+

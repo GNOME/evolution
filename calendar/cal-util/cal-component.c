@@ -37,6 +37,8 @@ struct _CalComponentPrivate {
 
 	icalproperty *uid;
 
+	icalproperty *status;
+
 	struct categories {
 		icalproperty *prop;
 	};
@@ -220,6 +222,8 @@ free_icalcomponent (CalComponent *comp)
 	/* Free the mappings */
 
 	priv->uid = NULL;
+
+	priv->status = NULL;
 
 	priv->categories_list = free_slist (priv->categories_list);
 
@@ -471,6 +475,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 	kind = icalproperty_isa (prop);
 
 	switch (kind) {
+	case ICAL_STATUS_PROPERTY:
+		priv->status = prop;
+		break;
+
 	case ICAL_CATEGORIES_PROPERTY:
 		scan_categories (comp, prop);
 		break;
@@ -950,6 +958,73 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 	g_assert (priv->uid != NULL);
 
 	icalproperty_set_uid (priv->uid, (char *) uid);
+}
+
+/**
+ * cal_component_get_status:
+ * @comp: A calendar component object.
+ * @status: Return value for the status string.
+ *
+ * Queries the status property of a calendar component object.
+ **/
+void
+cal_component_get_status (CalComponent *comp, const char **status)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (status != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!priv->status) {
+		*status = NULL;
+		return;
+	}
+
+	*status = icalproperty_get_status (priv->status);
+}
+
+/**
+ * cal_component_set_status:
+ * @comp: A calendar component object.
+ * @status: a status string, e.g. "IN-PROCESS", "NEEDS-ACTION". See the RFC.
+ *
+ * Sets the status string property of a calendar component object.
+ **/
+void
+cal_component_set_status (CalComponent *comp, const char *status)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (status != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	priv->need_sequence_inc = TRUE;
+
+	if (status == NULL) {
+		if (priv->status) {
+			icalcomponent_remove_property (priv->icalcomp, priv->status);
+			icalproperty_free (priv->status);
+			priv->status = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->status) {
+		icalproperty_set_status (priv->status, (char *) status);
+	} else {
+		priv->status = icalproperty_new_status ((char *) status);
+		icalcomponent_add_property (priv->icalcomp,
+					    priv->status);
+	}
 }
 
 /**

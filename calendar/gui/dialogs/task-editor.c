@@ -32,6 +32,7 @@
 #include <glade/glade.h>
 #include <e-util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
+#include <widgets/misc/e-dateedit.h>
 #include <cal-util/timeutil.h>
 #include <cal-client/cal-client.h>
 #include "task-editor.h"
@@ -81,21 +82,24 @@ typedef struct {
 	GtkWidget *url;
 } TaskEditorPrivate;
 
-/* CalComponent doesn't support status yet, so we use this temporarily. */
-typedef enum {
-	STATUS_NOT_STARTED,
-	STATUS_IN_PROGRESS,
-	STATUS_COMPLETED,
-	STATUS_CANCELLED
-} TaskEditorStatus;
 
+/* Note that these two arrays must match. */
 static const int status_map[] = {
-	STATUS_NOT_STARTED,
-	STATUS_IN_PROGRESS,
-	STATUS_COMPLETED,
-	STATUS_CANCELLED,
+	ICAL_STATUS_NEEDSACTION,
+	ICAL_STATUS_INPROCESS,
+	ICAL_STATUS_COMPLETED,
+	ICAL_STATUS_CANCELLED,
 	-1
 };
+
+static const char* status_string_map[] = {
+	"NEEDS-ACTION",
+	"IN-PROCESS",
+	"COMPLETED",
+	"CANCELLED",
+	NULL
+};
+
 
 typedef enum {
 	PRIORITY_HIGH,
@@ -113,6 +117,7 @@ static const int priority_map[] = {
 };
 
 static const int classification_map[] = {
+	CAL_COMPONENT_CLASS_NONE,
 	CAL_COMPONENT_CLASS_PUBLIC,
 	CAL_COMPONENT_CLASS_PRIVATE,
 	CAL_COMPONENT_CLASS_CONFIDENTIAL,
@@ -150,12 +155,17 @@ static void raise_and_focus (GtkWidget *widget);
 static TaskEditorPriority priority_value_to_index (int priority_value);
 static int priority_index_to_value (TaskEditorPriority priority);
 
-static void completed_date_changed	(GnomeDateEdit	*dedit,
+static int status_string_to_value	(const char *status_string);
+static const char* status_value_to_string	(int status);
+
+static void completed_date_changed	(EDateEdit	*dedit,
 					 TaskEditor	*tedit);
 static void status_changed		(GtkMenu	*menu,
 					 TaskEditor	*tedit);
 static void percent_complete_changed	(GtkAdjustment	*adj,
 					 TaskEditor	*tedit);
+
+GtkWidget * task_editor_create_date_edit (void);
 
 static GtkObjectClass *parent_class;
 
@@ -270,6 +280,20 @@ task_editor_construct (TaskEditor *tedit)
 }
 
 
+/* Called by libglade to create our custom EDateEdit widgets. */
+GtkWidget *
+task_editor_create_date_edit (void)
+{
+	GtkWidget *dedit;
+
+	dedit = e_date_edit_new ();
+	/* FIXME: Set other options. */
+	e_date_edit_set_time_popup_range (E_DATE_EDIT (dedit), 8, 18);
+	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
+	return dedit;
+}
+
+
 /* Callback used when the dialog box is destroyed */
 static gint
 app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
@@ -356,11 +380,8 @@ static void
 init_widgets (TaskEditor *tedit)
 {
 	TaskEditorPrivate *priv;
-	GnomeDateEdit *gde;
-	GtkWidget *widget;
 
 	priv = tedit->priv;
-
 
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
@@ -377,38 +398,6 @@ init_widgets (TaskEditor *tedit)
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
 			    "value_changed",
 			    GTK_SIGNAL_FUNC (percent_complete_changed), tedit);
-
-
-	/* Hide the stupid 'Calendar' labels. */
-	gde = GNOME_DATE_EDIT (priv->due_date);
-	gtk_widget_hide (gde->cal_label);
-	widget = gde->date_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	widget = gde->time_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	gtk_box_set_spacing (GTK_BOX (widget->parent), 2);
-
-	gde = GNOME_DATE_EDIT (priv->start_date);
-	gtk_widget_hide (gde->cal_label);
-	widget = gde->date_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	widget = gde->time_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	gtk_box_set_spacing (GTK_BOX (widget->parent), 2);
-
-	gde = GNOME_DATE_EDIT (priv->completed_date);
-	gtk_widget_hide (gde->cal_label);
-	widget = gde->date_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	widget = gde->time_entry;
-	gtk_box_set_child_packing (GTK_BOX (widget->parent), widget,
-				   FALSE, FALSE, 0, GTK_PACK_START);
-	gtk_box_set_spacing (GTK_BOX (widget->parent), 2);
 }
 
 
@@ -949,8 +938,9 @@ fill_widgets (TaskEditor *tedit)
 	GSList *l;
 	time_t t;
 	int *priority_value, *percent;
+	icalproperty_status status;
 	TaskEditorPriority priority;
-	const char *url;
+	const char *url, *status_string;
 
 	priv = tedit->priv;
 
@@ -980,20 +970,18 @@ fill_widgets (TaskEditor *tedit)
 	if (d.value) {
 		t = icaltime_as_timet (*d.value);
 	} else {
-		/* FIXME: Can't set GnomeDateEdit to a date of 'None'. */
-		t = time (NULL);
+		t = -1;
 	}
-	e_dialog_dateedit_set (priv->due_date, t);
+	e_date_edit_set_time (E_DATE_EDIT (priv->due_date), t);
 
 	/* Start Date. */
 	cal_component_get_dtstart (priv->comp, &d);
 	if (d.value) {
 		t = icaltime_as_timet (*d.value);
 	} else {
-		/* FIXME: Can't set GnomeDateEdit to a date of 'None'. */
-		t = time (NULL);
+		t = -1;
 	}
-	e_dialog_dateedit_set (priv->start_date, t);
+	e_date_edit_set_time (E_DATE_EDIT (priv->start_date), t);
 
 	/* Completed Date. */
 	cal_component_get_completed (priv->comp, &completed);
@@ -1001,10 +989,9 @@ fill_widgets (TaskEditor *tedit)
 		t = icaltime_as_timet (*completed);
 		cal_component_free_icaltimetype (completed);
 	} else {
-		/* FIXME: Can't set GnomeDateEdit to a date of 'None'. */
-		t = time (NULL);
+		t = -1;
 	}
-	e_dialog_dateedit_set (priv->completed_date, t);
+	e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), t);
 
 	/* Percent Complete. */
 	cal_component_get_percent (priv->comp, &percent);
@@ -1016,9 +1003,25 @@ fill_widgets (TaskEditor *tedit)
 		e_dialog_spin_set (priv->percent_complete, 0);
 	}
 
-	/* Status. FIXME: CalComponent doesn't support this yet. */
-	e_dialog_option_menu_set (priv->status, STATUS_IN_PROGRESS,
-				  status_map);
+	/* Status. */
+	cal_component_get_status (priv->comp, &status_string);
+	if (status_string) {
+		status = status_string_to_value (status_string);
+	} else {
+		/* Try to user the percent value. */
+		if (percent) {
+			if (*percent == 0)
+				status = ICAL_STATUS_NEEDSACTION;
+			else if (*percent == 100)
+				status = ICAL_STATUS_COMPLETED;
+			else
+				status = ICAL_STATUS_INPROCESS;
+		} else {
+			status = ICAL_STATUS_NEEDSACTION;
+		}
+	}
+	g_print ("Setting status\n");
+	e_dialog_option_menu_set (priv->status, status, status_map);
 
 	/* Priority. */
 	cal_component_get_priority (priv->comp, &priority_value);
@@ -1028,11 +1031,13 @@ fill_widgets (TaskEditor *tedit)
 	} else {
 		priority = PRIORITY_UNDEFINED;
 	}
+	g_print ("Setting priority\n");
 	e_dialog_option_menu_set (priv->priority, priority, priority_map);
 
 
 	/* Classification. */
 	cal_component_get_classification (priv->comp, &classification);
+	g_print ("Setting classification\n");
 	e_dialog_option_menu_set (priv->classification, classification,
 				  classification_map);
 
@@ -1079,11 +1084,12 @@ dialog_to_comp_object (TaskEditor *tedit)
 	CalComponentDateTime date;
 	time_t t;
 	GSList *list;
-	TaskEditorStatus status;
+	icalproperty_status status;
 	TaskEditorPriority priority;
 	int priority_value, percent;
 	CalComponentClassification classification;
 	char *url;
+	const char *status_string;
 	
 	priv = tedit->priv;
 	comp = priv->comp;
@@ -1106,19 +1112,31 @@ dialog_to_comp_object (TaskEditor *tedit)
 	date.tzid = NULL;
 
 	/* Due Date. */
-	t = e_dialog_dateedit_get (priv->due_date);
-	*date.value = icaltime_from_timet (t, FALSE, FALSE);
-	cal_component_set_due (comp, &date);
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->due_date));
+	if (t != -1) {
+		*date.value = icaltime_from_timet (t, FALSE, FALSE);
+		cal_component_set_due (comp, &date);
+	} else {
+		cal_component_set_due (comp, NULL);
+	}
 
 	/* Start Date. */
-	t = e_dialog_dateedit_get (priv->start_date);
-	*date.value = icaltime_from_timet (t, FALSE, FALSE);
-	cal_component_set_dtstart (comp, &date);
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_date));
+	if (t != -1) {
+		*date.value = icaltime_from_timet (t, FALSE, FALSE);
+		cal_component_set_dtstart (comp, &date);
+	} else {
+		cal_component_set_dtstart (comp, NULL);
+	}
 
 	/* Completed Date. */
-	t = e_dialog_dateedit_get (priv->completed_date);
-	*date.value = icaltime_from_timet (t, FALSE, FALSE);
-	cal_component_set_completed (comp, date.value);
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
+	if (t != -1) {
+		*date.value = icaltime_from_timet (t, FALSE, FALSE);
+		cal_component_set_completed (comp, date.value);
+	} else {
+		cal_component_set_completed (comp, NULL);
+	}
 
 	g_free (date.value);
 
@@ -1126,11 +1144,10 @@ dialog_to_comp_object (TaskEditor *tedit)
 	percent = e_dialog_spin_get_int (priv->percent_complete);
 	cal_component_set_percent (comp, &percent);
 
-	/* Status. FIXME: CalComponent doesn't support it. */
+	/* Status. */
 	status = e_dialog_option_menu_get (priv->status, status_map);
-#if 0
-	cal_component_set_status (comp, status);
-#endif
+	status_string = status_value_to_string (status);
+	cal_component_set_status (comp, status_string);
 
 	/* Priority. */
 	priority = e_dialog_option_menu_get (priv->priority, priority_map);
@@ -1262,8 +1279,38 @@ priority_index_to_value (TaskEditorPriority priority)
 }
 
 
+static int
+status_string_to_value	(const char *status_string)
+{
+	int i;
+
+	for (i = 0; status_map[i] != -1; i++) {
+		if (!strcmp (status_string_map[i], status_string))
+			return status_map[i];
+	}
+
+	g_warning ("Invalid todo status string");
+	return ICAL_STATUS_NEEDSACTION;
+}
+
+
+static const char*
+status_value_to_string	(int status)
+{
+	int i;
+
+	for (i = 0; status_map[i] != -1; i++) {
+		if (status_map[i] == status)
+			return status_string_map[i];
+	}
+
+	g_warning ("Invalid todo status value");
+	return NULL;
+}
+
+
 static void
-completed_date_changed	(GnomeDateEdit	*dedit,
+completed_date_changed	(EDateEdit	*dedit,
 			 TaskEditor	*tedit)
 {
 	TaskEditorPrivate *priv;
@@ -1276,17 +1323,18 @@ completed_date_changed	(GnomeDateEdit	*dedit,
 	if (priv->ignore_callbacks)
 		return;
 
-	t = e_dialog_dateedit_get (priv->completed_date);
-	/* FIXME: We want to check for 'None' here. */
+	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
 	priv->ignore_callbacks = TRUE;
-	if (0) {
-		/* What do we do if the 'Date Completed' property is set to
-		   'None' ? The status should not be 'Completed' and the
-		   percent-complete should not be 100%, but what do we set
-		   them to? */
-
+	if (t == -1) {
+		/* If the 'Completed Date' is set to 'None', we set the
+		   status to 'Not Started' and the percent-complete to 0.
+		   The task may actually be partially-complete, but we leave
+		   it to the user to set those fields. */
+		e_dialog_option_menu_set (priv->status, ICAL_STATUS_NEEDSACTION,
+					  status_map);
+		e_dialog_spin_set (priv->percent_complete, 0);
 	} else {
-		e_dialog_option_menu_set (priv->status, STATUS_COMPLETED,
+		e_dialog_option_menu_set (priv->status, ICAL_STATUS_COMPLETED,
 					  status_map);
 		e_dialog_spin_set (priv->percent_complete, 100);
 	}
@@ -1299,7 +1347,7 @@ status_changed		(GtkMenu	*menu,
 			 TaskEditor	*tedit)
 {
 	TaskEditorPrivate *priv;
-	TaskEditorStatus status;
+	icalproperty_status status;
 
 	g_return_if_fail (IS_TASK_EDITOR (tedit));
 
@@ -1310,13 +1358,13 @@ status_changed		(GtkMenu	*menu,
 
 	status = e_dialog_option_menu_get (priv->status, status_map);
 	priv->ignore_callbacks = TRUE;
-	if (status == STATUS_NOT_STARTED) {
+	if (status == ICAL_STATUS_NEEDSACTION) {
 		e_dialog_spin_set (priv->percent_complete, 0);
-		/* FIXME: Set to 'None'. */
-		e_dialog_dateedit_set (priv->completed_date, time (NULL));
-	} else if (status == STATUS_COMPLETED) {
+		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), -1);
+	} else if (status == ICAL_STATUS_COMPLETED) {
 		e_dialog_spin_set (priv->percent_complete, 100);
-		e_dialog_dateedit_set (priv->completed_date, time (NULL));
+		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date),
+				      time (NULL));
 	}
 	priv->ignore_callbacks = FALSE;
 }
@@ -1328,7 +1376,7 @@ percent_complete_changed	(GtkAdjustment	*adj,
 {
 	TaskEditorPrivate *priv;
 	gint percent;
-	TaskEditorStatus status;
+	icalproperty_status status;
 	time_t date_completed;
 
 	g_return_if_fail (IS_TASK_EDITOR (tedit));
@@ -1343,18 +1391,19 @@ percent_complete_changed	(GtkAdjustment	*adj,
 
 	if (percent == 100) {
 		date_completed = time (NULL);
-		status = STATUS_COMPLETED;
+		status = ICAL_STATUS_COMPLETED;
 	} else {
 		/* FIXME: Set to 'None'. */
 		date_completed = time (NULL);
 
 		if (percent == 0)
-			status = STATUS_NOT_STARTED;
+			status = ICAL_STATUS_NEEDSACTION;
 		else
-			status = STATUS_IN_PROGRESS;
+			status = ICAL_STATUS_INPROCESS;
 	}
 
-	e_dialog_dateedit_set (priv->completed_date, date_completed);
+	e_date_edit_set_time (E_DATE_EDIT (priv->completed_date),
+			      date_completed);
 	e_dialog_option_menu_set (priv->status, status, status_map);
 
 	priv->ignore_callbacks = FALSE;

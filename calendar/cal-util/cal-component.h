@@ -165,6 +165,9 @@ void cal_component_commit_sequence (CalComponent *comp);
 void cal_component_get_uid (CalComponent *comp, const char **uid);
 void cal_component_set_uid (CalComponent *comp, const char *uid);
 
+void cal_component_get_status (CalComponent *comp, const char **status);
+void cal_component_set_status (CalComponent *comp, const char *status);
+
 void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list);
 void cal_component_set_categories_list (CalComponent *comp, GSList *categ_list);
 
