@@ -62,17 +62,17 @@
     <option value="contains">
      <title>contains</title>
      <code>
-	(match-all (header-contains ${header-field} ${subject}))
+	(match-all (header-contains ${header-field} ${word}))
      </code>
     </option>
     <option value="not contains">
      <title>does not contain</title>
      <code>
-	(match-all (not (header-contains ${header-field} ${subject})))
+	(match-all (not (header-contains ${header-field} ${word})))
      </code>
     </option>
    </input>
-   <input type="string" name="subject"/>
+   <input type="string" name="word"/>
  </part>
 
  <part name="body">
