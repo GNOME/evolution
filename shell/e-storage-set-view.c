@@ -2352,9 +2352,6 @@ void
 e_storage_set_view_enable_search (EStorageSetView *storage_set_view,
 				  gboolean enable)
 {
-	ETableState *state;
-	ETableSortColumn col;
-
 	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
 
@@ -2364,17 +2361,7 @@ e_storage_set_view_enable_search (EStorageSetView *storage_set_view,
 		return;
 	
 	storage_set_view->priv->search_enabled = enable;
-
-	state = e_tree_get_state_object (E_TREE (storage_set_view));
-
-	if (enable) {
-		col.column = 0;
-		col.ascending = TRUE;
-		e_table_sort_info_sorting_set_nth (state->sort_info, 0, col);
-	} else
-		e_table_sort_info_sorting_truncate (state->sort_info, 0);
-
-	e_tree_set_state_object (E_TREE (storage_set_view), state);
+	e_tree_set_search_column (E_TREE (storage_set_view), enable ? 0 : -1);
 }
 
 void
