@@ -1,3 +1,9 @@
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-callbacks.c (composer_sent_cb): Always unref the composer
+	[even when we are destroying it], otherwise we leak it and we get
+	the nasty bug where you can't quit.
+
 2002-05-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (ml_tree_value_at): Check for a label tag when

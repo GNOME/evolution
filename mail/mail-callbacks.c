@@ -355,9 +355,9 @@ composer_sent_cb (char *uri, CamelMimeMessage *message, gboolean sent, void *dat
 	} else {
 		e_msg_composer_set_enable_autosave (send->composer, TRUE);
 		gtk_widget_show (GTK_WIDGET (send->composer));
-		gtk_object_unref (GTK_OBJECT (send->composer));
 	}
 	
+	gtk_object_unref (GTK_OBJECT (send->composer));
 	g_free (send);
 	camel_object_unref (CAMEL_OBJECT (message));
 }
