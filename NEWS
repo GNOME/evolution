@@ -40,6 +40,11 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
 Other bugs
 
+  * Calendar
+
+    - Fix invalid shared use of list of calendar factories (Rodrigo)
+    - Make the calendar editor window title reflect the summary contents (Rodrigo)
+
   * Mail
 
     - Fix bug in indexer string normalisation (they weren't) (Larry)
