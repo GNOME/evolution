@@ -499,30 +499,30 @@ calendar_config_set_confirm_delete (gboolean confirm)
 }
 
 /**
- * calendar_config_get_confirm_expunge:
+ * calendar_config_get_confirm_purge:
  *
  * Queries the configuration value for whether a confirmation dialog is
- * presented when expunging calendar/tasks items.
+ * presented when purging calendar/tasks items.
  *
- * Return value: Whether confirmation is required when expunging items.
+ * Return value: Whether confirmation is required when purging items.
  **/
 gboolean
-calendar_config_get_confirm_expunge (void)
+calendar_config_get_confirm_purge (void)
 {
-	return e_config_listener_get_boolean_with_default (config, "/apps/evolution/calendar/prompts/confirm_expunge", TRUE, NULL);
+	return e_config_listener_get_boolean_with_default (config, "/apps/evolution/calendar/prompts/confirm_purge", TRUE, NULL);
 }
 
 /**
- * calendar_config_set_confirm_expunge:
- * @confirm: Whether confirmation is required when expunging items.
+ * calendar_config_set_confirm_purge:
+ * @confirm: Whether confirmation is required when purging items.
  *
  * Sets the configuration value for whether a confirmation dialog is presented
- * when expunging calendar/tasks items.
+ * when purging calendar/tasks items.
  **/
 void
-calendar_config_set_confirm_expunge (gboolean confirm)
+calendar_config_set_confirm_purge (gboolean confirm)
 {
-	e_config_listener_set_boolean (config, "/apps/evolution/calendar/prompts/confirm_expunge", confirm);
+	e_config_listener_set_boolean (config, "/apps/evolution/calendar/prompts/confirm_purge", confirm);
 }
 
 /* This sets all the common config settings for an ECalendar widget.
