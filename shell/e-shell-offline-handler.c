@@ -146,8 +146,6 @@ progress_listener_servant_free (OfflineProgressListenerServant *servant)
 	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
 	CORBA_free (oid);
 
-	POA_GNOME_Evolution_OfflineProgressListener__fini ((POA_GNOME_Evolution_OfflineProgressListener *) servant, &ev);
-
 	CORBA_exception_free (&ev);
 
 	g_free (servant->component_id);

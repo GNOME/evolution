@@ -268,7 +268,6 @@ impl_dispose (GObject *object)
 							      &ev);
 		PortableServer_POA_deactivate_object (bonobo_poa (), object_id, &ev);
 
-		POA_GNOME_Evolution_StorageListener__fini (priv->storage_listener_servant, &ev);
 		CORBA_free (object_id);
 
 		priv->storage_listener_servant = NULL;

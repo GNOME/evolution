@@ -1,5 +1,29 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component-client.c (destroy_listener_interface):
+	Avoid freeing the servant for now, it looks like something is
+	messed up and this causes a crash on exit.
+
+	* evolution-storage-set-view-listener.c (impl_finalize): Do not
+	invoke POA_GNOME_Evolution_StorageSetViewListener__fini().
+
+	* evolution-storage-listener.c (impl_finalize): Do not invoke
+	POA_GNOME_Evolution_StorageListener__fini().
+
+	* e-shell-offline-sync.c (progress_listener_servant_free): Do not
+	invoke POA_GNOME_Evolution_SyncFolderProgressListener__fini().
+
+	* e-shell-offline-handler.c (progress_listener_servant_free): Do
+	not invoke POA_GNOME_Evolution_OfflineProgressListener__fini().
+
+	* e-corba-storage.c (impl_dispose): Do not invoke
+	POA_GNOME_Evolution_StorageListener__fini().
+
+	* evolution-shell-component-client.c (destroy_listener_interface):
+	Do not invoke POA_GNOME_Evolution_ShellComponentListener__fini().
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (quit_box_destroyed_callback): Removed.
 	(no_views_left_cb): Use g_object_add_weak_pointer() instad of
 	connecting to the "destroy" signal.

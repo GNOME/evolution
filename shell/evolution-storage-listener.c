@@ -210,8 +210,6 @@ impl_finalize (GObject *object)
 		object_id = PortableServer_POA_servant_to_id (bonobo_poa(), priv->servant, &ev);
 		PortableServer_POA_deactivate_object (bonobo_poa (), object_id, &ev);
 		CORBA_free (object_id);
-
-		POA_GNOME_Evolution_StorageListener__fini (priv->servant, &ev);
 	}
 
 	CORBA_exception_free (&ev);

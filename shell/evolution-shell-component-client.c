@@ -253,11 +253,10 @@ destroy_listener_interface (EvolutionShellComponentClient *client)
 
 	oid = PortableServer_POA_servant_to_id (bonobo_poa (), priv->listener_servant, &ev);
 	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
-	POA_GNOME_Evolution_ShellComponentListener__fini (priv->listener_servant, &ev);
 	CORBA_free (oid);
 
 	CORBA_Object_release (priv->listener_interface, &ev);
-	free_ShellComponentListener_servant (priv->listener_servant);
+	/* free_ShellComponentListener_servant (priv->listener_servant); */
 
 	CORBA_exception_free (&ev);
 }

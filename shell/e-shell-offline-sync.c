@@ -114,8 +114,6 @@ progress_listener_servant_free (SyncFolderProgressListenerServant *servant)
 	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
 	CORBA_free (oid);
 
-	POA_GNOME_Evolution_SyncFolderProgressListener__fini ((POA_GNOME_Evolution_SyncFolderProgressListener *) servant, &ev);
-
 	CORBA_exception_free (&ev);
 
 	g_free (servant);
