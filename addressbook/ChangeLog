@@ -1,3 +1,8 @@
+2001-10-20  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-minicard.c (e_minicard_event): Changed this to not
+	grab on a right click.  Fixes Ximian bug #12660.
+
 2001-10-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c

@@ -511,7 +511,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_BUTTON_PRESS: {
-		if (1 <= event->button.button && event->button.button <= 3) {
+		if (1 <= event->button.button && event->button.button <= 2) {
 			int ret_val = e_minicard_selected(e_minicard, event);
 			GdkEventMask mask = ((1 << (4 + event->button.button)) |
 					     GDK_POINTER_MOTION_MASK |
@@ -530,6 +530,10 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_minicard->drag_button = event->button.button;
 			e_minicard->drag_button_down = TRUE;
 			return ret_val;
+		} else if (event->button.button == 3) {
+			int ret_val = e_minicard_selected(e_minicard, event);
+			if (ret_val != 0)
+				return ret_val;
 		}
 		break;
 	}
