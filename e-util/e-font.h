@@ -14,6 +14,7 @@
 
 #include <glib.h>
 #include <gdk/gdk.h>
+#include <unicode.h>
 #include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
@@ -58,6 +59,10 @@ int e_font_utf8_text_width (EFont *font, EFontStyle style,
 
 int e_font_utf8_char_width (EFont *font, EFontStyle style,
 			    char *text);
+
+const gchar *e_gdk_font_encoding (GdkFont *font);
+unicode_iconv_t e_uiconv_from_gdk_font (GdkFont *font);
+unicode_iconv_t e_uiconv_to_gdk_font (GdkFont *font);
 
 END_GNOME_DECLS
 

@@ -7,9 +7,13 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <unicode.h>
 #include <gdk/gdk.h>
 #include "e-unicode.h"
+#include "e-font.h"
+
+#undef FONT_TESTING
 
 void
 e_unicode_init (void)
@@ -82,57 +86,34 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 	utf[unilen] = '\0';
 
 	return utf;
-#if 0
-	/* test it out with iso-8859-1 */
-
-	static gboolean uinit = FALSE;
-	static gboolean uerror = FALSE;
-	static unicode_iconv_t uiconv = (unicode_iconv_t) -1;
-	char *new, *ob;
-	size_t ibl, obl;
-
-	if (uerror) return NULL;
-
-	if (!string) return NULL;
-
-	if (!uinit) {
-		e_unicode_init ();
-		uiconv = unicode_iconv_open ("UTF-8", "iso-8859-1");
-		if (uiconv == (unicode_iconv_t) -1) {
-			uerror = TRUE;
-			return NULL;
-		} else {
-			uinit = TRUE;
-		}
-	}
-
-	ibl = strlen (string);
-	new = ob = g_new (gchar, ibl * 6 + 1);
-	obl = ibl * 6 + 1;
-
-	unicode_iconv (uiconv, &string, &ibl, &ob, &obl);
-
-	*ob = '\0';
-
-	return new;
-#endif
 }
 
 gchar *
 e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 {
+#ifndef FONT_TESTING
 	/* test it out with iso-8859-1 */
 
 	static gboolean uinit = FALSE;
 	static gboolean uerror = FALSE;
 	static unicode_iconv_t uiconv = (unicode_iconv_t) -1;
+	const gchar *encoding;
+#else
+	unicode_iconv_t uiconv;
+#endif
 	char *new, *ob;
 	size_t ibl, obl;
 
+	g_return_val_if_fail (widget != NULL, NULL);
+	g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
+
+#ifndef FONT_TESTING
 	if (uerror) return NULL;
+#endif
 
 	if (!string) return NULL;
 
+#ifndef FONT_TESTING
 	if (!uinit) {
 		e_unicode_init ();
 		uiconv = unicode_iconv_open ("UTF-8", "iso-8859-1");
@@ -143,6 +124,10 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 			uinit = TRUE;
 		}
 	}
+#else
+	uiconv = e_uiconv_from_gdk_font (widget->style->font);
+	if (uiconv == (unicode_iconv_t) -1) return NULL;
+#endif
 
 	ibl = strlen (string);
 	new = ob = g_new (gchar, ibl * 6 + 1);
@@ -158,18 +143,25 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 gchar *
 e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 {
+#ifndef FONT_TESTING
 	/* test it out with iso-8859-1 */
 
 	static gboolean uinit = FALSE;
 	static gboolean uerror = FALSE;
 	static unicode_iconv_t uiconv = (unicode_iconv_t) -1;
+#else
+	unicode_iconv_t uiconv;
+#endif
 	char *new, *ob;
 	size_t ibl, obl;
 
+#ifndef FONT_TESTING
 	if (uerror) return NULL;
+#endif
 
 	if (!string) return NULL;
 
+#ifndef FONT_TESTING
 	if (!uinit) {
 		e_unicode_init ();
 		uiconv = unicode_iconv_open ("iso-8859-1", "UTF-8");
@@ -180,10 +172,14 @@ e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 			uinit = TRUE;
 		}
 	}
+#else
+	uiconv = e_uiconv_to_gdk_font (widget->style->font);
+	if (uiconv == (unicode_iconv_t) -1) return NULL;
+#endif
 
 	ibl = strlen (string);
-	new = ob = g_new (gchar, ibl * 2 + 1);
-	obl = ibl * 2 + 1;
+	new = ob = g_new (gchar, ibl * 4 + 1);
+	obl = ibl * 4 + 1;
 
 	unicode_iconv (uiconv, &string, &ibl, &ob, &obl);
 

@@ -1,3 +1,8 @@
+2000-09-04  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-unicode.c: Added new font code, but comment it out now
+	* e-font.h, e-font.c: Test code for font analyzing
+
 2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-unicode.h, e-unicode.c: New functions
