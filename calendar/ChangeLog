@@ -1,3 +1,8 @@
+2001-12-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/itip-utils.c (comp_subject, comp_description):
+	Marked strings for translation.
+
 2001-12-03  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-meeting-model.c: 
