@@ -227,21 +227,21 @@ static ESearchBarItem folder_browser_search_menu_items[] = {
 };
 
 enum {
-	ESB_SENDER_CONTAINS,
 	ESB_BODY_SUBJECT_CONTAINS,
 	ESB_BODY_CONTAINS,
 	ESB_SUBJECT_CONTAINS,
 	ESB_BODY_DOES_NOT_CONTAIN,
 	ESB_SUBJECT_DOES_NOT_CONTAIN,
+	ESB_SENDER_CONTAINS,
 };
 
 static ESearchBarItem folder_browser_search_option_items[] = {
-	{ N_("Sender contains"),          ESB_SENDER_CONTAINS          },
 	{ N_("Body or subject contains"), ESB_BODY_SUBJECT_CONTAINS    },
 	{ N_("Body contains"),            ESB_BODY_CONTAINS            },
         { N_("Subject contains"),         ESB_SUBJECT_CONTAINS         },
 	{ N_("Body does not contain"),    ESB_BODY_DOES_NOT_CONTAIN    },
 	{ N_("Subject does not contain"), ESB_SUBJECT_DOES_NOT_CONTAIN },
+	{ N_("Sender contains"),          ESB_SENDER_CONTAINS          },
 	{ NULL,                           -1                           }
 };
 
@@ -249,12 +249,12 @@ static ESearchBarItem folder_browser_search_option_items[] = {
 /* %s is replaced by the whole search string in quotes ...
    possibly could split the search string into words as well ? */
 static char *search_string[] = {
-	"(match-all (header-contains \"from\" %s)",
 	"(or (body-contains %s) (match-all (header-contains \"Subject\" %s)))",
 	"(body-contains %s)",
 	"(match-all (header-contains \"Subject\" %s))",
 	"(match-all (not (body-contains %s)))",
 	"(match-all (not (header-contains \"Subject\" %s)))",
+	"(match-all (header-contains \"from\" %s))",
 };
 
 static void
