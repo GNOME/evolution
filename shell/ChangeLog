@@ -1,5 +1,10 @@
 2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-window-commands.c (command_open_new_window): New,
+	implement "OpenNewWindow" verb.
+
+2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-setup.c: Do not #include "e-local-folder.h".
 
 	* Makefile.am: Don't build evolution-test-component for now since

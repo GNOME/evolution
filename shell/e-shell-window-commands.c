@@ -198,6 +198,19 @@ command_work_online (BonoboUIComponent *uih,
 }
 
 static void
+command_open_new_window (BonoboUIComponent *uih,
+			 EShellWindow *window,
+			 const char *path)
+{
+	e_shell_create_window (e_shell_window_peek_shell (window),
+			       e_shell_window_peek_current_component_id (window),
+			       window);
+}
+
+
+/* Actions menu.  */
+
+static void
 command_send_receive (BonoboUIComponent *uih,
 		      EShellWindow *window,
 		      const char *path)
@@ -232,6 +245,12 @@ static BonoboUIVerb file_verbs [] = {
 
 	BONOBO_UI_VERB ("WorkOffline", (BonoboUIVerbFn) command_work_offline),
 	BONOBO_UI_VERB ("WorkOnline", (BonoboUIVerbFn) command_work_online),
+
+	BONOBO_UI_VERB_END
+};
+
+static BonoboUIVerb new_verbs [] = {
+	BONOBO_UI_VERB ("OpenNewWindow", (BonoboUIVerbFn) command_open_new_window),
 
 	BONOBO_UI_VERB_END
 };
@@ -356,6 +375,7 @@ e_shell_window_commands_setup (EShellWindow *shell_window)
 	shell = e_shell_window_peek_shell (shell_window);
 
 	bonobo_ui_component_add_verb_list_with_data (uic, file_verbs, shell_window);
+	bonobo_ui_component_add_verb_list_with_data (uic, new_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, actions_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, tools_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, help_verbs, shell_window);
