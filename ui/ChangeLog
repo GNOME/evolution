@@ -1,3 +1,7 @@
+2000-11-05  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (uidir): kill all the bonob-ui-extract crud.
+
 2000-11-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* evolution-addressbook.xml: Removed QuickSearch widget.
