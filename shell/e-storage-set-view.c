@@ -1452,11 +1452,11 @@ etree_value_at (ETreeModel *etree,
 	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
 	folder = e_storage_set_get_folder (storage_set, path);
-	if (folder == NULL)
-		return (void *) "?";
 
 	switch (col) {
 	case 0: /* Title */
+		if (folder == NULL)
+			return (void *) "?";
 		folder_name = e_folder_get_name (folder);
 		unread_count = e_folder_get_unread_count (folder);
 
@@ -1473,6 +1473,8 @@ etree_value_at (ETreeModel *etree,
 		} else
 			return (void *) folder_name;
 	case 1: /* bold */
+		if (folder == NULL)
+			return (void *) FALSE;
 		return (void *) e_folder_get_highlighted (folder);
 	case 2: /* checkbox */
 		return (void *) FALSE;   /* FIXME: Yo danw, here's the whatnot, ya know. */

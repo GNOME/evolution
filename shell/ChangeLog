@@ -1,5 +1,10 @@
 2002-04-02  Christopher James Lahey  <clahey@ximian.com>
 
+	* e-storage-set-view.c (etree_value_at): If folder is NULL, return
+	the correct type of data.
+
+2002-04-02  Christopher James Lahey  <clahey@ximian.com>
+
 	* Makefile.am (etspec_DATA): Added
 	e-storage-set-view-checkboxes.etstate and
 	e-storage-set-view-no-checkboxes.etstate here.
