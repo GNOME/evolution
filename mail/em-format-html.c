@@ -254,7 +254,7 @@ EMFormatHTML *em_format_html_new(void)
 /* force loading of http images */
 void em_format_html_load_http(EMFormatHTML *emfh)
 {
-	if (emfh->load_http)
+	if (emfh->load_http == MAIL_CONFIG_HTTP_ALWAYS)
 		return;
 
 	/* This will remain set while we're still rendering the same message, then it wont be */
