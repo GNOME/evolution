@@ -36,11 +36,15 @@
 #include "camel-smtp-transport.h"
 #include "camel-url.h"
 #include "camel-sasl.h"
+#include "groupwise-config-listener.h"
 
 static void add_hash (guint *hash, char *s);
 static guint groupwise_url_hash (gconstpointer key);
 static gint check_equal (char *s1, char *s2);
 static gint groupwise_url_equal (gconstpointer a, gconstpointer b);
+static void free_groupwise_listener ( void );
+
+static GroupwiseConfigListener *config_listener = NULL;
 
 CamelProviderConfEntry groupwise_conf_entries[] = {
 	/* override the labels/defaults of the standard settings */
@@ -52,7 +56,7 @@ CamelProviderConfEntry groupwise_conf_entries[] = {
 	{ CAMEL_PROVIDER_CONF_SECTION_END },
 
 	/* extra Groupwise  configuration settings */
-	{ CAMEL_PROVIDER_CONF_SECTION_START, "ldapserver", NULL,
+	/*CAMEL_PROVIDER_CONF_SECTION_START, "ldapserver", NULL,
 	  N_("Address Book") },
 
 	{ CAMEL_PROVIDER_CONF_ENTRY, "ldap_server", NULL,
@@ -61,7 +65,7 @@ CamelProviderConfEntry groupwise_conf_entries[] = {
 	{ CAMEL_PROVIDER_CONF_CHECKSPIN, "ldap_download_limit", NULL,
 	  N_("LDAP Download limit: %s"), "y:1:500:10000" },
 
-	{ CAMEL_PROVIDER_CONF_SECTION_END },
+	  { CAMEL_PROVIDER_CONF_SECTION_END }, */
 
 	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", NULL,
 	  N_("Apply filters to new messages in Inbox on this server"), "0" },
@@ -104,23 +108,41 @@ CamelServiceAuthType camel_groupwise_password_authtype = {
 void
 camel_provider_module_init (CamelSession *session)
 {
-	GModule *module;
 
-	/* make sure the IMAP and SMTP providers are loaded */
-	module = g_module_open (CAMEL_PROVIDERDIR "/libcamelimap.so", G_MODULE_BIND_LAZY);
-	g_module_make_resident (module);
 
-	module = g_module_open (CAMEL_PROVIDERDIR "/libcamelsmtp.so", G_MODULE_BIND_LAZY);
-	g_module_make_resident (module);
+	CamelProvider *imap_provider;
+	CamelProvider *smtp_provider;
+	CamelSession *temp_session;
 
-	groupwise_provider.object_types[CAMEL_PROVIDER_STORE] = camel_imap_store_get_type ();
-	groupwise_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = camel_smtp_transport_get_type ();
+	temp_session = CAMEL_SESSION ( camel_object_new ( CAMEL_SESSION_TYPE));
+	imap_provider =  camel_session_get_provider (temp_session, "imap://", NULL);
+	smtp_provider = camel_session_get_provider (temp_session, "smtp://", NULL);
+
 	groupwise_provider.url_hash = groupwise_url_hash;
 	groupwise_provider.url_equal = groupwise_url_equal;
-	groupwise_provider.authtypes = g_list_prepend (groupwise_provider.authtypes,
-						  &camel_groupwise_password_authtype);
+	groupwise_provider.authtypes = g_list_prepend (groupwise_provider.authtypes,  &camel_groupwise_password_authtype);
 
-	camel_session_register_provider (session, &groupwise_provider);
+	if (imap_provider != NULL && smtp_provider != NULL) {
+
+		groupwise_provider.object_types[CAMEL_PROVIDER_STORE] =  imap_provider->object_types [CAMEL_PROVIDER_STORE];
+		groupwise_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = smtp_provider->object_types [CAMEL_PROVIDER_TRANSPORT];
+		camel_session_register_provider (session, &groupwise_provider);
+	}
+
+
+	if (!config_listener)	{
+
+		config_listener = groupwise_config_listener_new  (gconf_client_get_default ());	
+		g_atexit ( free_groupwise_listener );
+	}
+	
+	g_object_unref (temp_session);
+
+}
+
+void free_groupwise_listener ( void )
+{
+	g_object_unref (config_listener);
 }
 
 static void

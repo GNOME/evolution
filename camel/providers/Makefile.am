@@ -8,5 +8,5 @@ if ENABLE_IMAPP
 IMAPP_DIR=imapp
 endif
 
-SUBDIRS = pop3 sendmail smtp imap $(NNTP_DIR) local $(IMAPP_DIR)
+SUBDIRS = pop3 sendmail smtp imap $(NNTP_DIR) local $(IMAPP_DIR) groupwise
 

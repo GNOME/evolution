@@ -1,3 +1,11 @@
+2004-01-08 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* providers/Makefile.am : add groupwise to SUBDIRS 
+	* providers/groupwise/camel-groupwise-provider.c: new camel provider for groupwise 
+	* providers/groupwise/groupwise-config-listener.[ch] : new class to add e-sources for groupwise calender and tasks 
+	* providers/groupwise/Makefile.am : added new files to Makefile.am  
+	 
+
 2004-01-05  JP Rosevear <jpr@ximian.com>
 
 	* camel-utf8.c: include sys/types.h for freebsd
