@@ -13,6 +13,9 @@
 #include <pas-backend-file.h>
 #include <pas-book.h>
 
+#define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
+#define PAS_BACKEND_FILE_VERSION "0.1"
+
 static PASBackendClass *pas_backend_file_parent_class;
 
 struct _PASBackendFilePrivate {
@@ -20,6 +23,13 @@ struct _PASBackendFilePrivate {
 	gboolean  loaded;
 	DB       *file_db;
 };
+
+static void
+string_to_dbt(const char *str, DBT *dbt)
+{
+	dbt->data = (void*)str;
+	dbt->size = strlen (str);
+}
 
 static char *
 pas_backend_file_create_unique_id (char *vcard)
@@ -38,13 +48,10 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	int            db_error;
 	char           *id;
 
-	id = pas_backend_file_create_unique (req->vcard);
+	id = pas_backend_file_create_unique_id (req->vcard);
 
-	id_dbt.data = id;
-	id_dbt.size = strlen(id_dbt.data);
-
-	vcard_dbt.data = (void*)req->vcard;
-	vcard_dbt.size = strlen(req->vcard);
+	string_to_dbt (id, &id_dbt);
+	string_to_dbt (req->vcard, &vcard_dbt);
 
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
@@ -81,8 +88,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	DBT            id_dbt;
 	int            db_error;
 
-	id_dbt.data = (void*)req->id;
-	id_dbt.size = strlen(req->id);
+	string_to_dbt (req->id, &id_dbt);
 
 	db_error = db->del (db, &id_dbt, 0);
 
@@ -116,11 +122,8 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
 
-	id_dbt.data = (void*)req->id;
-	id_dbt.size = strlen(req->id);
-
-	vcard_dbt.data = (void*)req->vcard;
-	vcard_dbt.size = strlen(req->vcard);
+	string_to_dbt (req->id, &id_dbt);
+	string_to_dbt (req->vcard, &vcard_dbt);	
 
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
@@ -209,8 +212,7 @@ pas_backend_file_get_vcard (PASBook *book, const char *id)
 	bf = PAS_BACKEND_FILE (pas_book_get_backend (book));
 	db = bf->priv->file_db;
 
-	id_dbt.data = (void*)id;
-	id_dbt.size = strlen(id);
+	string_to_dbt (id, &id_dbt);
 
 	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
 	if (db_error == 0) {
@@ -237,6 +239,60 @@ pas_backend_file_extract_path_from_uri (const char *uri)
 	return g_strdup (uri + 5);
 }
 
+static gboolean
+pas_backend_file_upgrade_db (PASBackendFile *bf, char *old_version)
+{
+	if (!strcmp (old_version, "0.0")) {
+		/* 0.0 is the same as 0.1, we just need to add the version */
+		DB  *db = bf->priv->file_db;
+		DBT version_name_dbt, version_dbt;
+		int db_error;
+
+		string_to_dbt (PAS_BACKEND_FILE_VERSION_NAME, &version_name_dbt);
+		string_to_dbt (PAS_BACKEND_FILE_VERSION, &version_dbt);
+
+		db_error = db->put (db, &version_name_dbt, &version_dbt, 0);
+		if (db_error == 0)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	else {
+		g_warning ("unsupported version '%s' found in PAS backend file\n",
+			   old_version);
+		return FALSE;
+	}
+}
+
+static gboolean
+pas_backend_file_maybe_upgrade_db (PASBackendFile *bf)
+{
+	DB   *db = bf->priv->file_db;
+	DBT  version_name_dbt, version_dbt;
+	int  db_error;
+	char *version;
+	gboolean ret_val = TRUE;
+
+	string_to_dbt (PAS_BACKEND_FILE_VERSION_NAME, &version_name_dbt);
+
+	db_error = db->get (db, &version_name_dbt, &version_dbt, 0);
+	if (db_error == 0) {
+		/* success */
+		version = g_strndup (version_dbt.data, version_dbt.size);
+	}
+	else {
+		/* key was not in file */
+		version = g_strdup ("0.0");
+	}
+
+	if (strcmp (version, PAS_BACKEND_FILE_VERSION))
+		ret_val = pas_backend_file_upgrade_db (bf, version);
+
+	g_free (version);
+
+	return ret_val;
+}
+
 static void
 pas_backend_file_load_uri (PASBackend             *backend,
 			   const char             *uri)
@@ -250,8 +306,11 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 	bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
 
-	if (bf->priv->file_db != NULL)
-		bf->priv->loaded = TRUE;
+	if (bf->priv->file_db != NULL) {
+		if (pas_backend_file_maybe_upgrade_db (bf))
+			bf->priv->loaded = TRUE;
+		/* XXX what if we fail to upgrade it? */
+	}
 	else
 		g_warning ("pas_backend_file_load_uri failed for '%s'\n", filename);
 

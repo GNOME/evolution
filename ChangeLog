@@ -10,6 +10,16 @@
 	db.
 	(pas_backend_file_process_modify_card): call
 	pas_book_notify_change if db->put was successful, and sync out db.
+	(string_to_dbt): new function.
+	(pas_backend_file_process_create_card): use string_to_dbt
+	(pas_backend_file_process_remove_card): likewise
+	(pas_backend_file_process_modify_card): likewise
+	(pas_backend_file_get_vcard): likewise
+	(pas_backend_file_upgrade_db): new function, to upgrade a db file
+	if we change the data format.
+	(pas_backend_file_maybe_upgrade_db): check db version vs. current
+	code version, and upgrade it necessary.
+	(pas_backend_file_load_uri): call pas_backend_file_maybe_upgrade.
 
 2000-03-26  Christopher James Lahey  <clahey@helixcode.com>
 
