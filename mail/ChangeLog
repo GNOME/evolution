@@ -1,3 +1,18 @@
+2001-04-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (do_view_message): Use the message-browser
+	widget rather than the mail-view window.
+
+	* mail-view.c: Removed.
+
+	* folder-browser.c: Added a folder_loaded signal.
+
+	* message-browser.[c,h]: New window to solve all our message
+	browsing needs. This replaces mail-view.c.
+
+	* message-list.c (message_list_select_uid): New function needed by
+	the new message-browser window.
+
 2001-04-23  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (save_msg): Append a "/" to the result of
@@ -14,10 +29,10 @@
 
 2001-04-22  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* folder-browser.c, mail-autofilter.c, mail-callbacks.c, mail-ops.c,
-	mail-summary.c, mail-vfolder.c: use system = EVOLUTION_DATADIR "/file"
-	instead of g_strdup_printf. Rename userrules to user (and system) to be
-	consistent.
+	* folder-browser.c, mail-autofilter.c, mail-callbacks.c,
+	mail-ops.c, mail-summary.c, mail-vfolder.c: use system =
+	EVOLUTION_DATADIR "/file" instead of g_strdup_printf. Rename
+	userrules to user (and system) to be consistent.
 
 	* mail-send-recv.c: set window icon to send-receive.xpm
 

@@ -112,6 +112,9 @@ void           message_list_select     (MessageList *message_list,
 					MessageListSelectDirection direction,
 					guint32 flags, guint32 mask);
 
+void           message_list_select_uid (MessageList *message_list,
+					const char *uid);
+
 /* info */
 unsigned int   message_list_length(MessageList *ml);
 

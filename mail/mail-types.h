@@ -29,6 +29,7 @@ extern "C" {
 
 
 typedef struct  _FolderBrowser     FolderBrowser;
+typedef struct  _MessageBrowser    MessageBrowser;
 typedef struct  _SubscribeDialog   SubscribeDialog;
 typedef struct  _MessageList       MessageList;
 typedef struct  _MailDisplay       MailDisplay;

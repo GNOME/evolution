@@ -52,6 +52,13 @@ static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
 
 static GtkObjectClass *folder_browser_parent_class;
 
+enum {
+	FOLDER_LOADED,
+	LAST_SIGNAL
+};
+
+static guint folder_browser_signals [LAST_SIGNAL] = {0, };
+
 static void
 folder_browser_destroy (GtkObject *object)
 {
@@ -92,6 +99,16 @@ folder_browser_class_init (GtkObjectClass *object_class)
 	object_class->destroy = folder_browser_destroy;
 	
 	folder_browser_parent_class = gtk_type_class (PARENT_TYPE);
+	
+	folder_browser_signals[FOLDER_LOADED] =
+		gtk_signal_new ("folder_loaded",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (FolderBrowserClass, folder_loaded),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
+	
+	gtk_object_class_add_signals (object_class, folder_browser_signals, LAST_SIGNAL);
 }
 
 /*
@@ -189,6 +206,8 @@ done:
 	/* Sigh, i dont like this (it can be set in reconfigure folder),
 	   but its just easier right now to do it this way */
 	fb->reconfigure = FALSE;
+	
+	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [FOLDER_LOADED], fb->uri);
 }
 
 gboolean

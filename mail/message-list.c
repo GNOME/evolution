@@ -420,6 +420,34 @@ message_list_select (MessageList *message_list, int base_row,
 	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], NULL);
 }
 
+
+/**
+ * message_list_select_uid:
+ * @message_list:
+ * @uid:
+ *
+ * Selects the message with the given UID.
+ **/
+void
+message_list_select_uid (MessageList *message_list, const char *uid)
+{
+	ETreePath node;
+	
+	node = g_hash_table_lookup (message_list->uid_nodemap, uid);
+	if (node) {
+		CamelMessageInfo *info;
+		
+		info = get_message_info (message_list, node);
+		e_tree_set_cursor (message_list->tree, node);
+		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
+				 camel_message_info_uid (info));
+	} else {
+		g_free (message_list->cursor_uid);
+		message_list->cursor_uid = NULL;
+		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], uid);
+	}
+}
+
 static void
 add_uid (MessageList *ml, const char *uid, gpointer data)
 {

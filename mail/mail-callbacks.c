@@ -42,6 +42,7 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <filter/filter-editor.h>
 #include "mail.h"
+#include "message-browser.h"
 #include "mail-callbacks.h"
 #include "mail-config.h"
 #include "mail-accounts.h"
@@ -1522,15 +1523,16 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-do_view_message(CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+do_view_message (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
 {
-	/*FolderBrowser *fb = data;*/
-	GtkWidget *view;
+	FolderBrowser *fb = FOLDER_BROWSER (data);
 	
-	if (message) {
+	if (message && fb) {
+		GtkWidget *mb;
+		
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		view = mail_view_create(folder, uid, message);
-		gtk_widget_show(view);
+		mb = message_browser_new (fb->shell, fb->uri, uid);
+		gtk_widget_show (mb);
 	}
 }
 
