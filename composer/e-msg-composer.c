@@ -3897,7 +3897,7 @@ e_msg_composer_guess_mime_type (const gchar *file_name)
 					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 	if (result == GNOME_VFS_OK) {
 		gchar *type;
-
+		
 		type = g_strdup (gnome_vfs_file_info_get_mime_type (info));
 		gnome_vfs_file_info_unref (info);
 		return type;
