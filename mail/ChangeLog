@@ -1,3 +1,7 @@
+2005-02-27  Frank Arnold  <farnold@cvs.gnome.org>
+
+	* default/de/Inbox: Added German translation of default inbox.
+
 2005-02-25  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* em-folder-browser.c: (emfb_edit_select_all):make the 'select all'
