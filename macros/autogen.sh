@@ -127,6 +127,8 @@ do
 	  echo "Running gettextize...  Ignore non-fatal messages."
 	  echo "no" | gettextize --force --copy
 	  echo "Making $dr/aclocal.m4 writable ..."
+          echo "Running xml-i18n-toolize... Ignore non-fatal messages."
+          xml-i18n-toolize --copy --force --automake
 	  test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
         fi
       fi
@@ -136,6 +138,8 @@ do
 	echo "Running gettextize...  Ignore non-fatal messages."
 	echo "no" | gettextize --force --copy
 	echo "Making $dr/aclocal.m4 writable ..."
+	echo "Running xml-i18n-toolize... Ignore non-fatal messages."
+	xml-i18n-toolize --copy --force --automake
 	test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
       fi
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
@@ -167,13 +171,6 @@ do
     ) || exit 1
   fi
 done
-
-if [ -r po/Makefile.i18npatch ]; then
-        if grep GENPOT po/Makefile.in.in >/dev/null;
-        then echo "no need for patching file \`Makefile.in.in'";
-        else patch po/Makefile.in.in < po/Makefile.i18npatch;
-        fi;
-fi
 
 conf_flags="--enable-maintainer-mode --enable-compile-warnings" #--enable-iso-c
 
