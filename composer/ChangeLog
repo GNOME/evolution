@@ -1,8 +1,28 @@
+2003-01-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (update_mime_type): Fixed a #warning
+	by converting the filename into a uri before passing it into
+	gnome_vfs_get_mime_type() since that function really needs a uri.
+
+2003-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (init): Get the list of accounts here and
+	ref the account-list.
+	(destroy): Unref the accounts list here.
+	(create_from_optionmenu): Connect to the added/changed/removed
+	account-list signals here.
+	(account_added_cb): New callback function that adds the newly
+	added account to the from-dropdown menu.
+	(account_changed_cb): New callback that changes the label for the
+	account that got changed in the dropdown menu.
+	(account_removed_cb): Removes the account from the from dropdown
+	menu.
+
 2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (iconsdir): Remove, this is now defined in
 	configure.in.
-x
+
 2003-01-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_load_config): Load the view

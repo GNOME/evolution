@@ -34,6 +34,7 @@
 #include <camel/camel.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktogglebutton.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 
 #include "e-msg-composer.h"
@@ -301,15 +302,17 @@ destroy_dialog_data (DialogData *data)
 static void
 update_mime_type (DialogData *data)
 {
-	const char *file_name;
-	char *mime_type;
+	const char *filename;
+	char *mime_type, *uri;
 	
 	if (!data->attachment->guessed_type)
 		return;
 	
-	file_name = gtk_entry_get_text (data->file_name_entry);
-#warning "do we need to create file uri for gnome-vfs-get-mime-type"
-	mime_type = gnome_vfs_get_mime_type (file_name);
+	filename = gtk_entry_get_text (data->file_name_entry);
+	
+	uri = gnome_vfs_get_uri_from_local_path (filename);
+	mime_type = gnome_vfs_get_mime_type (uri);
+	g_free (uri);
 	
 	if (mime_type) {
 		gtk_entry_set_text (data->mime_type_entry, mime_type);

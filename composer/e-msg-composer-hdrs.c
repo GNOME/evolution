@@ -80,6 +80,7 @@ struct _EMsgComposerHdrsPrivate {
 	/* The tooltips.  */
 	GtkTooltips *tooltips;
 	
+	EAccountList *accounts;
 	GSList *from_options;
 	
 	/* Standard headers.  */
@@ -189,17 +190,115 @@ from_changed (GtkWidget *item, gpointer data)
 	g_signal_emit (hdrs, signals [FROM_CHANGED], 0);
 }
 
+static void
+account_added_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs *hdrs)
+{
+	GtkWidget *item, *menu, *omenu, *toplevel;
+	char *label;
+	
+	omenu = e_msg_composer_hdrs_get_from_omenu (hdrs);
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (omenu));
+	
+	label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
+	item = gtk_menu_item_new_with_label (label);
+	gtk_widget_show (item);
+	g_free (label);
+	
+	g_object_ref (account);
+	g_object_set_data ((GObject *) item, "account", account);
+	g_signal_connect (item, "activate", G_CALLBACK (from_changed), hdrs);
+	
+	/* this is so we can later set which one we want */
+	hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
+	
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	
+	toplevel = gtk_widget_get_toplevel ((GtkWidget *) hdrs);
+	gtk_widget_set_sensitive (toplevel, TRUE);
+}
+
+static void
+account_changed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs *hdrs)
+{
+	GtkWidget *item, *label;
+	EAccount *acnt;
+	GSList *node;
+	char *text;
+	
+	node = hdrs->priv->from_options;
+	while (node != NULL) {
+		item = node->data;
+		acnt = g_object_get_data ((GObject *) item, "account");
+		if (acnt == account) {
+			text = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
+			label = gtk_bin_get_child ((GtkBin *) item);
+			gtk_label_set_text ((GtkLabel *) label, text);
+			g_free (text);
+			break;
+		}
+		
+		node = node->next;
+	}
+}
+
+static void
+account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs *hdrs)
+{
+	struct _EMsgComposerHdrsPrivate *priv = hdrs->priv;
+	GtkWidget *item, *omenu, *toplevel, *dialog;
+	EAccount *acnt;
+	GSList *node;
+	
+	node = priv->from_options;
+	while (node != NULL) {
+		item = node->data;
+		acnt = g_object_get_data ((GObject *) item, "account");
+		if (acnt == account) {
+			if (hdrs->account == account)
+				hdrs->account = NULL;
+			
+			priv->from_options = g_slist_remove_link (priv->from_options, node);
+			g_slist_free_1 (node);
+			g_object_unref (account);
+			gtk_widget_destroy (item);
+			break;
+		}
+		
+		node = node->next;
+	}
+	
+	if (hdrs->account == NULL) {
+		if (priv->from_options) {
+			/* the previously selected account was removed,
+			   default the new selection to the first account in
+			   the menu list */
+			omenu = e_msg_composer_hdrs_get_from_omenu (hdrs);
+			
+			item = priv->from_options->data;
+			gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
+			g_signal_emit_by_name (item, "activate", hdrs);
+		} else {
+			toplevel = gtk_widget_get_toplevel ((GtkWidget *) hdrs);
+			gtk_widget_set_sensitive (toplevel, FALSE);
+			
+			dialog = gtk_message_dialog_new ((GtkWindow *) toplevel, GTK_DIALOG_MODAL |
+							 GTK_DIALOG_DESTROY_WITH_PARENT,
+							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s",
+							 _("Hey you, dunce. You need an account to send mail doncha know."));
+		}
+	}
+}
+
 static GtkWidget *
 create_from_optionmenu (EMsgComposerHdrs *hdrs)
 {
-	GtkWidget *omenu, *menu, *first = NULL;
-	EAccountList *accounts;
+	struct _EMsgComposerHdrsPrivate *priv = hdrs->priv;
+	GtkWidget *hbox, *omenu, *menu, *item, *first = NULL;
+	int i = 0, history = 0, m, matches;
+	GPtrArray *addresses;
+	GConfClient *gconf;
 	EAccount *account;
 	EIterator *iter;
-	GPtrArray *addresses;
-	GtkWidget *item, *hbox;
-	int i = 0, history = 0, m, matches;
-	GConfClient *gconf;
 	int index;
 	
 	omenu = gtk_option_menu_new ();
@@ -210,8 +309,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	
 	/* Make list of account email addresses */
 	addresses = g_ptr_array_new ();
-	accounts = mail_config_get_accounts ();
-	iter = e_list_get_iterator ((EList *) accounts);
+	iter = e_list_get_iterator ((EList *) priv->accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 		
@@ -289,6 +387,11 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	gtk_widget_show (hbox);
 	
 	g_object_set_data ((GObject *) hbox, "from_menu", omenu);
+	
+	/* listen for changes to the account list so we can auto-update the from menu */
+	g_signal_connect (priv->accounts, "account-added", G_CALLBACK (account_added_cb), hdrs);
+	g_signal_connect (priv->accounts, "account-changed", G_CALLBACK (account_changed_cb), hdrs);
+	g_signal_connect (priv->accounts, "account-removed", G_CALLBACK (account_removed_cb), hdrs);
 	
 	return hbox;
 }
@@ -386,9 +489,9 @@ entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 	char *subject;
 	
 	subject = e_msg_composer_hdrs_get_subject (hdrs);
-	g_signal_emit(hdrs, signals[SUBJECT_CHANGED], 0, subject);
+	g_signal_emit (hdrs, signals[SUBJECT_CHANGED], 0, subject);
 	g_free (subject);
-	g_signal_emit(hdrs, signals[HDRS_CHANGED], 0);
+	g_signal_emit (hdrs, signals[HDRS_CHANGED], 0);
 }
 
 static void
@@ -406,11 +509,11 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 */
 	priv->reply_to.label = gtk_label_new (_("Reply-To:"));
 	priv->reply_to.entry = e_entry_new ();
-	g_object_set((priv->reply_to.entry),
-			"editable", TRUE,
-			"use_ellipsis", TRUE,
-			"allow_newlines", FALSE,
-			NULL);
+	g_object_set (priv->reply_to.entry,
+		      "editable", TRUE,
+		      "use_ellipsis", TRUE,
+		      "allow_newlines", FALSE,
+		      NULL);
 	
 	/*
 	 * From
@@ -423,13 +526,13 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 */
 	priv->subject.label = gtk_label_new (_("Subject:"));
 	priv->subject.entry = e_entry_new ();
-	g_object_set((priv->subject.entry),
-			"editable", TRUE,
-			"use_ellipsis", TRUE,
-			"allow_newlines", FALSE,
-			NULL);
-	g_signal_connect(priv->subject.entry, "changed",
-			 G_CALLBACK (entry_changed), hdrs);
+	g_object_set (priv->subject.entry,
+		      "editable", TRUE,
+		      "use_ellipsis", TRUE,
+		      "allow_newlines", FALSE,
+		      NULL);
+	g_signal_connect (priv->subject.entry, "changed",
+			  G_CALLBACK (entry_changed), hdrs);
 	
 	/*
 	 * To, CC, and Bcc
@@ -600,6 +703,11 @@ destroy (GtkObject *object)
 			priv->tooltips = NULL;
 		}
 		
+		if (priv->accounts) {
+			g_object_unref (priv->accounts);
+			priv->accounts = NULL;
+		}
+		
 		l = priv->from_options;
 		while (l) {
 			EAccount *account;
@@ -682,7 +790,10 @@ init (EMsgComposerHdrs *hdrs)
 	priv->tooltips = gtk_tooltips_new ();
 	g_object_ref (priv->tooltips);
 	gtk_object_sink ((GtkObject *) priv->tooltips);
-
+	
+	priv->accounts = mail_config_get_accounts ();
+	g_object_ref (priv->accounts);
+	
 	hdrs->priv = priv;
 }
 
@@ -705,7 +816,7 @@ e_msg_composer_hdrs_get_type (void)
 			(GInstanceInitFunc) init,
 		};
 		
-		type = g_type_register_static(gtk_table_get_type(), "EMsgComposerHdrs", &info, 0);
+		type = g_type_register_static (gtk_table_get_type (), "EMsgComposerHdrs", &info, 0);
 	}
 	
 	return type;
