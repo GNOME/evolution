@@ -83,6 +83,22 @@
 		
 		<separator/>
 
+		<toolitem name="DayView" label="Day"
+		_tip="Show 1 day" verb="ShowDayView"
+		pixtype="pixbuf"/>
+
+		<toolitem name="WorkWeekView" label="5 Days"
+		_tip="Show the working week" verb="ShowWorkWeekView"
+		pixtype="pixbuf"/>
+
+		<toolitem name="WeekView" label="Week"
+		_tip="Show 1 week" verb="ShowWeekView"
+		pixtype="pixbuf"/>
+
+		<toolitem name="MonthView" label="Month"
+		_tip="Show 1 month" verb="ShowMonthView"
+		pixtype="pixbuf"/>
+
 	</dockitem>
 
 </Root>

@@ -1,3 +1,9 @@
+2000-10-12  Damon Chaplin  <damon@helixcode.com>
+
+	* evolution-calendar.xml: Added toolbar buttons to switch views.
+	We'll use plain buttons for the view buttons for now, until Bonobo
+	toolbars support radio buttons.
+
 2000-10-11  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-addressbook-ldap.xml: Apply behavior "exclusive" to
