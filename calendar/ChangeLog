@@ -1,3 +1,12 @@
+2004-03-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #35577
+
+	* gui/e-cal-view.c (e_calendar_view_delete_selected_occurrence):
+	if the component is an instance, pass the recurrence ID to
+	e_cal_remove_object_with_mod. Also, make the user confirm the
+	deletion, and send the cancellation message for meetings.
+
 2004-03-12  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-cal-model.c (ecm_initialize_value): return "" instead of

@@ -944,8 +944,9 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 {
 	ECalendarViewEvent *event;
 	GList *selected;
-	const char *uid;
+	const char *uid, *rid;
 	GError *error = NULL;
+	ECalComponent *comp;
 		
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -953,15 +954,30 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 	event = (ECalendarViewEvent *) selected->data;
 
-	uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-	/* FIXME: use 'rid' argument */
-	e_cal_remove_object_with_mod (event->comp_data->client, uid, NULL, CALOBJ_MOD_THIS, &error);
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	e_cal_component_get_uid (comp, &uid);
+	if (e_cal_component_is_instance (comp))
+		rid = e_cal_component_get_recur_id_as_string (comp);
+	else
+		rid = "";
 
-	delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-	g_clear_error (&error);
+	if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
+
+		if (itip_organizer_is_user (comp, event->comp_data->client)
+		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
+						event->comp_data->client,
+						comp, TRUE))
+			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL);
+
+		e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_THIS, &error);
+		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+		g_clear_error (&error);
+	}
 
 	/* free memory */
 	g_list_free (selected);
+	g_object_unref (comp);
 }
 
 static void
