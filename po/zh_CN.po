@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-22 15:42+0800\n"
-"PO-Revision-Date: 2005-01-14 23:37+0800\n"
+"PO-Revision-Date: 2005-01-22 15:52+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -670,9 +670,8 @@ msgid "Contacts"
 msgstr "联系人"
 
 #: addressbook/gui/component/addressbook-view.c:1130
-#, fuzzy
 msgid "Contact Source Selector"
-msgstr "日历源选择器"
+msgstr "联系人源选择器"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList XML for the list of completion URIs"
@@ -1106,9 +1105,8 @@ msgid "Full _Name..."
 msgstr "全名(_N)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Image"
-msgstr "信件"
+msgstr "图像"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
@@ -1133,9 +1131,8 @@ msgid "Personal Information"
 msgstr "个人信息"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Telephone"
-msgstr "<b>电话</b>"
+msgstr "电话"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
@@ -1152,19 +1149,16 @@ msgid "_Address:"
 msgstr "地址(_A)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#, fuzzy
 msgid "_Anniversary:"
-msgstr "周年："
+msgstr "周年(_A)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Assistant:"
-msgstr "助手："
+msgstr "助手(_A)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Birthday:"
-msgstr "生日："
+msgstr "生日(_B)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: plugins/itip-formatter/itip-view.c:1573
@@ -1176,53 +1170,44 @@ msgid "_Categories"
 msgstr "类别(_C)"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#, fuzzy
 msgid "_City:"
-msgstr "城市："
+msgstr "城市(_C)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
-#, fuzzy
 msgid "_Company:"
-msgstr "公司："
+msgstr "公司(_C)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "_Country:"
-msgstr "国家："
+msgstr "国家(_C)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#, fuzzy
 msgid "_Department:"
-msgstr "部门："
+msgstr "部门(_D)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_File under:"
 msgstr "存档于(_F)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "_Free/Busy:"
-msgstr "忙/闲："
+msgstr "忙/闲(_F)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_Home Page:"
-msgstr "主页："
+msgstr "主页(_H)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "_Manager:"
-msgstr "经理："
+msgstr "经理(_M)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
-#, fuzzy
 msgid "_Notes:"
-msgstr "注释："
+msgstr "注释(_N)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:39
-#, fuzzy
 msgid "_Office:"
-msgstr "办公室："
+msgstr "办公室(_O)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
@@ -1230,14 +1215,12 @@ msgid "_PO Box:"
 msgstr "邮政邮箱(_P)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
-#, fuzzy
 msgid "_Profession:"
-msgstr "职业："
+msgstr "职业(_P)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "_Spouse:"
-msgstr "配偶："
+msgstr "配偶(_S)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
@@ -1250,19 +1233,16 @@ msgid "_Title:"
 msgstr "头衔(_T):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:45
-#, fuzzy
 msgid "_Video Chat:"
-msgstr "视频聊天："
+msgstr "视频聊天(_V)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:46
-#, fuzzy
 msgid "_Wants to receive HTML mail"
-msgstr "愿意接收 HTML 邮件"
+msgstr "愿意接收 HTML 邮件(_W)"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
-#, fuzzy
 msgid "_Web Log:"
-msgstr "Web 日志："
+msgstr "_Web 日志："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
@@ -1270,9 +1250,8 @@ msgid "_Where:"
 msgstr "何处(_W)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:49
-#, fuzzy
 msgid "_Zip/Postal Code:"
-msgstr "邮政编码："
+msgstr "邮政编码(_Z)："
 
 #: addressbook/gui/contact-editor/eab-editor.c:319
 msgid ""
@@ -2396,7 +2375,6 @@ msgid "_Edit Full"
 msgstr "编辑全名(_E)"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:306
-#, fuzzy
 msgid "_Full name:"
 msgstr "全名(_F)："
 
@@ -2541,9 +2519,8 @@ msgid "_List name:"
 msgstr "列出姓名(_L)："
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
-#, fuzzy
 msgid "_Select"
-msgstr "选择"
+msgstr "选择(_S)"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
@@ -3140,9 +3117,8 @@ msgid "Any Category"
 msgstr "任何类别"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1750
-#, fuzzy
 msgid "Print cards"
-msgstr "打印任务"
+msgstr "打印名片"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -5807,7 +5783,7 @@ msgstr "<span weight=\"bold\">日期和时间</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:5
 msgid "Ad_vanced send options"
-msgstr ""
+msgstr "高级发送选项(_V)"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "D_escription:"
@@ -5842,9 +5818,8 @@ msgid "<b>Publishing _Location</b>"
 msgstr "<b>公布位置(_L)</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Publishing Settings"
-msgstr "忙闲信息"
+msgstr "忙闲公布设置"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -10335,9 +10310,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "在“%s”中扫描文件夹"
 
 #: mail/em-folder-tree.c:2007
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "把信件复制到 %s"
+msgstr "把“%s”复制到“%s”"
 
 #: mail/em-folder-tree.c:2249 mail/em-folder-tree.c:2263
 #: mail/em-folder-view.c:835 mail/em-folder-view.c:850
@@ -10371,9 +10346,8 @@ msgid "Rename Folder"
 msgstr "重命名文件夹"
 
 #: mail/em-folder-tree.c:2677
-#, fuzzy
 msgid "Folder names cannot contain '/'"
-msgstr "文件夹名不能含有字符“/”。"
+msgstr "文件夹名不能含有字符“/”"
 
 #: mail/em-folder-tree.c:2754 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
@@ -11249,9 +11223,8 @@ msgid "Prompt when user only fills Bcc"
 msgstr "用户只填入 Bcc 时提示"
 
 #: mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr "当用户视图发送没有 To 或 Cc 收件人的邮件时提示。"
+msgstr "当用户试图一次打开超过十封信时提示"
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid ""
@@ -11261,7 +11234,7 @@ msgstr "当用户试图给不想接收 HTML 的联系人发送 HTML 邮件时提
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "当用户视图发送没有 To 或 Cc 收件人的邮件时提示。"
+msgstr "当用户试图发送没有 To 或 Cc 收件人的邮件时提示。"
 
 #: mail/evolution-mail.schemas.in.in.h:63
 msgid "Prompt when user tries to send unwanted HTML"
@@ -13120,14 +13093,12 @@ msgid "Imperial (Fahrenheit, inches, etc)"
 msgstr ""
 
 #: plugins/default-source/default-source.c:82
-#, fuzzy
 msgid "Mark  as default folder"
-msgstr "使用默认草稿文件夹吗？"
+msgstr "标为默认文件夹"
 
 #: plugins/default-source/default-source.c:108
-#, fuzzy
 msgid "Mark as default folder"
-msgstr "使用默认草稿文件夹吗？"
+msgstr "标为默认文件夹"
 
 #. Description section
 #: plugins/exchange-account-setup/exchange-account-setup.c:90
@@ -13878,15 +13849,15 @@ msgstr "默认按照主体对线索中的信件排序(_J)"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
-msgstr ""
+msgstr "当前打印机设置的 GNOME 打印描述"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Button style"
-msgstr ""
+msgstr "按钮样式"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Buttons are visible"
-msgstr ""
+msgstr "按钮可见"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default width of the folder bar pane"
@@ -13930,9 +13901,8 @@ msgid ""
 msgstr "列出脱机使用时要同步到磁盘的文件夹路径"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
-#, fuzzy
 msgid "Printer settings"
-msgstr "Pilot 设置(_L)..."
+msgstr "打印机设置"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:14
 msgid ""
@@ -16243,19 +16213,19 @@ msgstr "创建显示此文件加的新窗口"
 
 #: ui/evolution.xml.h:7
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
+msgstr "使用桌面工具栏设置显示窗口按钮"
 
 #: ui/evolution.xml.h:8
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "显示带图标和文字的窗口按钮"
 
 #: ui/evolution.xml.h:9
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "显示只有图标的窗口按钮"
 
 #: ui/evolution.xml.h:10
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "显示只有文字的窗口按钮"
 
 #: ui/evolution.xml.h:11
 msgid "E_xit"
@@ -16279,11 +16249,11 @@ msgstr "保存的密码被丢弃，所以将再次提示您输入密码"
 
 #: ui/evolution.xml.h:16
 msgid "Hide window buttons"
-msgstr ""
+msgstr "隐藏窗口按钮"
 
 #: ui/evolution.xml.h:17
 msgid "Icons _and text"
-msgstr ""
+msgstr "图标和文字(_A)"
 
 #: ui/evolution.xml.h:18
 msgid "Import data from other programs"
@@ -16355,11 +16325,11 @@ msgstr "帮助(_H)"
 
 #: ui/evolution.xml.h:41
 msgid "_Hide buttons"
-msgstr ""
+msgstr "隐藏按钮(_H)"
 
 #: ui/evolution.xml.h:42
 msgid "_Icons only"
-msgstr ""
+msgstr "只有图标(_I)"
 
 #: ui/evolution.xml.h:43
 msgid "_Import..."
@@ -16767,9 +16737,8 @@ msgstr "同步类别："
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: widgets/misc/e-search-bar.c:343
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "搜索编辑器"
+msgstr "搜索文本项"
 
 #: widgets/misc/e-search-bar.c:547
 msgid "_Search"
@@ -16829,7 +16798,7 @@ msgstr "分类(_L)"
 
 #: widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
-msgstr ""
+msgstr "创建一个已发送项以跟踪信息(_E)"
 
 #: widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
@@ -16840,35 +16809,31 @@ msgid "Gene_ral Options"
 msgstr "常规选项(_R)"
 
 #: widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "阅读收条"
+msgstr "无\n阅读收条"
 
 #: widgets/misc/e-send-options.glade.h:12
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt\n"
-msgstr "阅读收条"
+msgstr "无\n阅读收条\n"
 
 #: widgets/misc/e-send-options.glade.h:15
-#, fuzzy
 msgid ""
 "Public\n"
 "Private\n"
 "Confidential\n"
-msgstr "机密"
+msgstr "公开\n私人\n机密\n"
 
 #: widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "R_eply requested"
-msgstr "回复风格(_R)："
+msgstr "请求回复(_E)"
 
 #: widgets/misc/e-send-options.glade.h:21
 msgid "Sta_tus  Tracking"
-msgstr ""
+msgstr "状态跟踪(_T)"
 
 #: widgets/misc/e-send-options.glade.h:22
 msgid ""
@@ -16876,7 +16841,7 @@ msgid ""
 "High\n"
 "Standard\n"
 "Low"
-msgstr ""
+msgstr "未定义\n高\n标准\n低"
 
 #: widgets/misc/e-send-options.glade.h:26
 #, fuzzy
@@ -16893,7 +16858,7 @@ msgstr "完成时(_M)："
 
 #: widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
-msgstr ""
+msgstr "拒绝时(_N)："
 
 #: widgets/misc/e-send-options.glade.h:30
 msgid "_After:"
@@ -16913,7 +16878,7 @@ msgstr "已投递(_D)"
 
 #: widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration  date"
-msgstr ""
+msgstr "设置过期时间(_S)"
 
 #: widgets/misc/e-send-options.glade.h:36
 msgid "_Until:"
@@ -16961,408 +16926,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
 
-#~ msgid "Address:"
-#~ msgstr "地址："
-
-#~ msgid "Calendar:"
-#~ msgstr "日历："
-
-#~ msgid "PO Box:"
-#~ msgstr "邮政邮箱："
-
-#~ msgid "State/Province:"
-#~ msgstr "州/省："
-
-#~ msgid "Title:"
-#~ msgstr "头衔:"
-
-#~ msgid "Edit Contact Info"
-#~ msgstr "编辑联系人信息"
-
-#~ msgid "Add to Contacts"
-#~ msgstr "添加到联系人"
-
-#~ msgid "Free/Busy Editor"
-#~ msgstr "忙闲编辑器"
-
-#~ msgid "Print Setup"
-#~ msgstr "打印设置"
-
-#~ msgid "Specify where to postion the folder:"
-#~ msgstr "指定在哪里创建文件夹："
-
-#~ msgid "Invalid authentication"
-#~ msgstr "无效的身份验证"
-
-#~ msgid ""
-#~ "This server does not support this type of authentication and may not "
-#~ "support authentication at all."
-#~ msgstr "此服务器不支持此类型的身份验证，而且可能根本不支持身份验证。"
-
-#~ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-#~ msgstr "您以登录到服务器“{0}”失败。"
-
-#~ msgid ""
-#~ "Check to make sure your password is spelled correctly.  Remember that "
-#~ "many passwords are case sensitive; your caps lock might be on."
-#~ msgstr ""
-#~ "选中此处以确保您的密码拼写正确。请记住，很多密码都是区分大小写的；您的 "
-#~ "Caps Lock 灯可能为开。"
-
-#~ msgid "Are you sure you want to send a message in HTML format?"
-#~ msgstr "您确定想要以 HTML 格式发送信件吗？"
-
-#~ msgid ""
-#~ "Please make sure the following recipients are willing and able to receive "
-#~ "HTML email:\n"
-#~ "{0}\n"
-#~ "Send anyway?"
-#~ msgstr ""
-#~ "请确定下列受检人想要并可以接收 HTML 邮件：\n"
-#~ "{0}\n"
-#~ "仍然发送吗？"
-
-#~ msgid "Are you sure you want to send a message without a subject?"
-#~ msgstr "您确定想要发送没有主题的信件吗？"
-
-#~ msgid ""
-#~ "Adding a meaningful Subject line to your messages will give your "
-#~ "recipients an idea of what your mail is about."
-#~ msgstr ""
-#~ "在您的信件中添加有意义的主题行可以让您的收件人更容易明白您邮件的内容。"
-
-#~ msgid "Are you sure you want to send a message with only BCC recipients?"
-#~ msgstr "您确定想要发送只有 BCC 收件人的邮件吗？"
-
-#~ msgid ""
-#~ "The contact list you are sending to is configured to hide list "
-#~ "recipients.\n"
-#~ "\n"
-#~ "Many email systems add an Apparently-To header to messages that only have "
-#~ "BCC recipients. This header, if added, will list all of your recipients "
-#~ "in your message. To avoid this, you should add at least one To: or CC: "
-#~ "recipient. "
-#~ msgstr ""
-#~ "您即将发送的联系人列表配置为隐藏列表收件人。\n"
-#~ "\n"
-#~ "许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
-#~ "该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一"
-#~ "个 To: 或 CC: 收件人。"
-
-#~ msgid ""
-#~ "Many email systems add an Apparently-To header to messages that only have "
-#~ "BCC recipients. This header, if added, will list all of your recipients "
-#~ "to your message anyway. To avoid this, you should add at least one To: or "
-#~ "CC: recipient."
-#~ msgstr ""
-#~ "许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
-#~ "该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一"
-#~ "个 To: 或 CC: 收件人。"
-
-#~ msgid ""
-#~ "This message cannot be sent because you have not specified any Recipients"
-#~ msgstr "无法发送这封信，原因是您没有指定任何收件人"
-
-#~ msgid ""
-#~ "Please enter a valid email address in the To: field. You can search for "
-#~ "email addresses by clicking on the To: button next to the entry box."
-#~ msgstr ""
-#~ "请在收件人域中输入有效的电子邮件地址。您可以单击输入框旁边的“收件人：”按钮"
-#~ "来搜索电子邮件地址。"
-
-#~ msgid ""
-#~ "Unable to open the drafts folder for this account.  Use the system drafts "
-#~ "folder instead?"
-#~ msgstr "无法打开此账户的草稿文件夹。换用系统的草稿文件夹吗？"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted message in "
-#~ "folder \"{0}\"?"
-#~ msgstr "您确定想要永久删除文件夹“{0}”中已删除的全部信件？"
-
-#~ msgid "If you continue, you will not be able to recover these messages."
-#~ msgstr "如果您继续的话，您将无法恢复这些信件。"
-
-#~ msgid "_Expunge"
-#~ msgstr "销毁(_E)"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted messages in "
-#~ "all folders?"
-#~ msgstr "您确定想要永久删除全部文件夹中已删除的全部信件吗？"
-
-#~ msgid "_Empty Trash"
-#~ msgstr "清空回收站(_E)"
-
-#~ msgid "You have unsent messages, do you wish to quit anyway?"
-#~ msgstr "您有未发的信件，您仍然想要退出吗？"
-
-#~ msgid ""
-#~ "If you quit, these messages will not be sent until Evolution is started "
-#~ "again."
-#~ msgstr "如果您退出的话，这些信件将直到 Evolution 下次启动时才会发出。"
-
-#~ msgid "Your message with the subject \"{0}\" was not delivered."
-#~ msgstr "您主题为“{0}”的信件未投递。"
-
-#~ msgid ""
-#~ "The message was sent via the \"sendmail\" external application.  Sendmail "
-#~ "reports the following error: status 67: mail not sent.\n"
-#~ "The message is stored in the Outbox folder.  Check the message for errors "
-#~ "and resend."
-#~ msgstr ""
-#~ "信件已通过外部应用程序“sendmail”发送。Sendmail 报告了如下错误：状态 67：邮"
-#~ "件未发送。\n"
-#~ "信件存储于发件箱文件夹中。请检查信件中的错误然后重新发送。"
-
-#~ msgid "Error while {0}."
-#~ msgstr "{0} 时错误。"
-
-#~ msgid "{1}."
-#~ msgstr "{1}。"
-
-#~ msgid "Error while performing operation."
-#~ msgstr "执行操作时错误。"
-
-#~ msgid "{0}."
-#~ msgstr "{0}。"
-
-#~ msgid "Enter password."
-#~ msgstr "输入密码。"
-
-#~ msgid "Error loading filter definitions."
-#~ msgstr "装入过滤规则信息错误。"
-
-#~ msgid "Cannot save to directory \"{0}\"."
-#~ msgstr "无法保存到目录“{0}”。"
-
-#~ msgid "Cannot save to file \"{0}\"."
-#~ msgstr "无法保存到文件“{0}”。"
-
-#~ msgid "Cannot create the save directory, because \"{1}\""
-#~ msgstr "无法创建保存目录，原因是“{0}”"
-
-#~ msgid "Cannot create temporary save directory."
-#~ msgstr "无法创建临时保存目录。"
-
-#~ msgid "File exists but cannot overwrite it."
-#~ msgstr "文件已存在，但无法覆盖。"
-
-#~ msgid "File exists but is not a regular file."
-#~ msgstr "文件已存在但并不是普通文件。"
-
-#~ msgid "Cannot delete folder \"{0}\"."
-#~ msgstr "无法删除文件夹“{0}”。"
-
-#~ msgid "Cannot delete system folder \"{0}\"."
-#~ msgstr "无法删除系统文件夹“{0}”。"
-
-#~ msgid ""
-#~ "System folders are required for Ximian Evolution to function correctly "
-#~ "and cannot be renamed, moved, or deleted."
-#~ msgstr ""
-#~ "Ximian Evolution 需要系统文件夹才能正常工作。您也不应该重命名、移动或删除"
-#~ "系统文件夹。"
-
-#~ msgid "Cannot rename or move system folder \"{0}\"."
-#~ msgstr "无法重命名或移动系统文件夹“{0}”。"
-
-#~ msgid "Delete \"{0}\"?"
-#~ msgstr "删除“{0}”吗？"
-
-#~ msgid "Really delete folder \"{0}\" and all of its subfolders?"
-#~ msgstr "真的要删除文件夹“{0}”及其全部子文件夹吗?？"
-
-#~ msgid ""
-#~ "If you delete the folder, all of its contents and its subfolders contents "
-#~ "will be deleted permanently."
-#~ msgstr ""
-#~ "如果您删除了文件夹，其中的全部内容及其子文件夹的全部内容都将会被永久删除。"
-
-#~ msgid "Cannot rename \"{0}\" to \"{1}\"."
-#~ msgstr "无法将“{0}”重命名为“{1}”。"
-
-#~ msgid "A folder named \"{1}\" already exists. Please use a different name."
-#~ msgstr "名为“{1}”的文件夹已经存在。请使用不同的名称。"
-
-#~ msgid "Because \"{2}\"."
-#~ msgstr "原因是“{2}”。"
-
-#~ msgid "Cannot move folder \"{0}\" to \"{1}\"."
-#~ msgstr "无法将文件夹“{0}”移动到“{1}”。"
-
-#~ msgid "Cannot open source \"{2}\"."
-#~ msgstr "无法打开源“{2}”。"
-
-#~ msgid "Cannot open target \"{2}\"."
-#~ msgstr "无法打开目标“{2}”。"
-
-#~ msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-#~ msgstr "无法将文件夹“{0}”复制到“{1}”。"
-
-#~ msgid "Cannot create folder \"{0}\"."
-#~ msgstr "无法创建文件夹“{0}”。"
-
-#~ msgid "Cannot open source \"{1}\""
-#~ msgstr "无法打开源“{1}”"
-
-#~ msgid "Cannot save changes to account."
-#~ msgstr "无法将更改保存到账户。"
-
-#~ msgid "You have not filled in all of the required information."
-#~ msgstr "您还没有填写所有必需的信息。"
-
-#~ msgid "You may not create two accounts with the same name."
-#~ msgstr "您不能以相同的名字创建两个账户。"
-
-#~ msgid "Delete account?"
-#~ msgstr "删除账户吗？"
-
-#~ msgid "Are you sure you want to delete this account?"
-#~ msgstr "您确定要删除此账户吗？"
-
-#~ msgid "If you proceed, the account information will be deleted permanently."
-#~ msgstr "如果您删除了文件夹，账户信息将会被永久删除。"
-
-#~ msgid "Don't delete"
-#~ msgstr "不删除"
-
-#~ msgid "Could not save signature file."
-#~ msgstr "无法保存签名文件。"
-
-#~ msgid "Because \"{0}\"."
-#~ msgstr "原因是“{0}”。"
-
-#~ msgid "Cannot set signature script \"{0}\"."
-#~ msgstr "无法设置签名脚本“{0}”。"
-
-#~ msgid "The script file must exist and be executable."
-#~ msgstr "脚本文件必须存在且可执行。"
-
-#~ msgid "Discard changed?"
-#~ msgstr "丢弃更改吗？"
-
-#~ msgid "Do you wish to save your changes?"
-#~ msgstr "您希望保存更改吗？"
-
-#~ msgid "This signature has been changed, but has not been saved."
-#~ msgstr "签名已经更改，但尚未保存。"
-
-#~ msgid "_Discard changes"
-#~ msgstr "丢弃更改(_D)"
-
-#~ msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-#~ msgstr "无法编辑虚拟文件夹“{0}”，因为它不存在。"
-
-#~ msgid ""
-#~ "This folder may have been added implictly, go to the virtual folder "
-#~ "editor to add it explictly, if required."
-#~ msgstr ""
-#~ "此文件夹可能是隐式添加的。若需要的话，请前往虚拟文件夹编辑器显示添加。"
-
-#~ msgid "Cannot add vFolder \"{0}\"."
-#~ msgstr "无法添加虚拟文件夹“{0}”。"
-
-#~ msgid "vFolders automatically updated."
-#~ msgstr "虚拟文件夹已自动更新。"
-
-#~ msgid ""
-#~ "The following vFolder(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "下列虚拟文件夹：\n"
-#~ "{0}\n"
-#~ "使用了新删除的文件夹：\n"
-#~ "   “{1}”\n"
-#~ "因此也将更新。"
-
-#~ msgid "Mail filters automatically updated."
-#~ msgstr "邮件过滤器已自动更新。"
-
-#~ msgid ""
-#~ "The following filter rule(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "下列过滤规则：\n"
-#~ "{0}\n"
-#~ "使用了新删除的文件夹：\n"
-#~ "   “{1}”\n"
-#~ "因此也将更新。"
-
-#~ msgid "Missing folder."
-#~ msgstr "缺少文件夹。"
-
-#~ msgid "You must specify a folder."
-#~ msgstr "您必须指定文件夹。"
-
-#~ msgid "You must name this vFolder."
-#~ msgstr "您必须为该虚拟文件夹命名。"
-
-#~ msgid "No sources selected."
-#~ msgstr "没有选定来源。"
-
-#~ msgid ""
-#~ "You must specify at least one folder as a source.\n"
-#~ "Either by selecting the folders individually, and/or by selecting\n"
-#~ "all local folders, all remote folders, or both."
-#~ msgstr ""
-#~ "您必须至少指定一个文件夹作为来源。\n"
-#~ "您即可以逐一选择文件夹，也可以选择全部本地文件夹、全部远程文件夹或二者。"
-
-#~ msgid "Problem migrating old mail folder \"{0}\"."
-#~ msgstr "升迁旧的邮件文件夹“{0}”有问题。"
-
-#~ msgid ""
-#~ "A non-empty folder at \"{1}\" already exists.\n"
-#~ "\n"
-#~ "You can choose to ignore this folder, overwrite or append its contents, "
-#~ "or quit.\n"
-#~ msgstr ""
-#~ "已经存在非空文件夹“{1}”。\n"
-#~ "\n"
-#~ "您可以选择忽略此文件夹、覆盖、追加内容或退出。\n"
-
-#~ msgid "Ignore"
-#~ msgstr "忽略"
-
-#~ msgid "_Append"
-#~ msgstr "追加(_A)"
-
-#~ msgid "Unable to read license file."
-#~ msgstr "无法读取协议文件。"
-
-#~ msgid ""
-#~ "Cannot read the license file \"{0}\", due to an\n"
-#~ "      installation problem.  You will not be able to use this provider "
-#~ "until\n"
-#~ "      you can accept its license."
-#~ msgstr ""
-#~ "无法读取协议文件“{0}”，可能是安装出现问题。\n"
-#~ "      除非您接受其协议，否则您无法使用此服务。"
-
-#~ msgid "Querying server"
-#~ msgstr "查询服务器"
-
-#~ msgid "Please wait."
-#~ msgstr "请稍候。"
-
-#~ msgid "Querying server for a list of supported authentication mechanisms."
-#~ msgstr "正在查询服务器支持的身份验证机制列表。"
-
-#~ msgid ""
-#~ "Unable to connect to the GroupWise\n"
-#~ "server."
-#~ msgstr "无法连接到 GroupWise 服务器。"
-
-#~ msgid ""
-#~ "\n"
-#~ "Please check your account settings and try again.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "请检查您的账户设置然后再试一次。\n"
