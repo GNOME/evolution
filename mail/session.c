@@ -1,11 +1,26 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* mail-session.c: handles the session information and resource manipulation */
 /*
- * mail-session.c: handles the session information and resource manipulation
+ *  Authors: Miguel de Icaza <miguel@gnu.org>
  *
- * Author:
- *   Miguel de Icaza (miguel@gnu.org)
+ *  Copyright 2001 Ximian, Inc. (www.ximian.com)
  *
- * (C) 2000 Helix Code, Inc. http://www.helixcode.com
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
+
 #include <config.h>
 #include <gnome.h>
 #include "mail.h"
@@ -34,7 +49,6 @@ mail_session_request_dialog (const char *prompt, gboolean secret, const char *ke
 			     gboolean async)
 {
 	GtkWidget *dialog;
-
 	char *ans;
 
 	if (!passwords)

@@ -224,7 +224,9 @@ static void
 subscribe_do_get_store (SubscribeDialog *sc, const char *url, SubscribeGetStoreCallback cb, gpointer cb_data)
 {
 	get_store_input_t *input;
-
+	
+	g_return_if_fail (url != NULL);
+	
         input = g_new (get_store_input_t, 1);
 	input->sc = sc;
 	input->url = g_strdup (url);
@@ -232,6 +234,7 @@ subscribe_do_get_store (SubscribeDialog *sc, const char *url, SubscribeGetStoreC
 	input->cb_data = cb_data;
 
         mail_operation_queue (&op_get_store, input, TRUE);
+	mail_operation_wait_for_finish ();
 }
 
 /* ** SUBSCRIBE FOLDER ******************************************************* */
@@ -870,8 +873,7 @@ store_cb (SubscribeDialog *sc, CamelStore *store, gpointer data)
 	if (camel_store_supports_subscriptions (store)) {
 		sc->store_list = g_list_prepend (sc->store_list, store);
 		e_table_model_row_inserted (sc->store_model, 0);
-	}
-	else {
+	} else {
 		camel_object_unref (CAMEL_OBJECT (store));
 	}
 }
@@ -879,6 +881,8 @@ store_cb (SubscribeDialog *sc, CamelStore *store, gpointer data)
 static void
 populate_store_foreach (MailConfigService *service, SubscribeDialog *sc)
 {
+	g_return_if_fail (service->url != NULL);
+	
 	subscribe_do_get_store (sc, service->url, store_cb, NULL);
 }
 
@@ -894,7 +898,7 @@ populate_store_list (SubscribeDialog *sc)
 	
 	news = mail_config_get_news ();
 	g_slist_foreach ((GSList *)news, (GFunc)populate_store_foreach, sc);
-
+	
 	e_table_model_changed (sc->store_model);
 }
 
@@ -945,21 +949,20 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gtk_widget_show_all (folder_search_widget);
 	search_control = bonobo_control_new (folder_search_widget);
 
-	bonobo_ui_component_object_set (
-		component, "/Toolbar/FolderSearch",
-		bonobo_object_corba_objref (BONOBO_OBJECT (search_control)), NULL);
+	bonobo_ui_component_object_set (component, "/Toolbar/FolderSearch",
+					bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
+					NULL);
 					
 	/* set our our contents */
 #if 0
 	sc->description = html_new (TRUE);
 	put_html (GTK_HTML (sc->description), EXAMPLE_DESCR);
 
-	gtk_table_attach (
-		GTK_TABLE (sc->table), sc->description->parent->parent,
-		0, 1, 0, 1,
-		GTK_FILL | GTK_EXPAND,
-		0,
-		0, 0);
+	gtk_table_attach (GTK_TABLE (sc->table), sc->description->parent->parent,
+			  0, 1, 0, 1,
+			  GTK_FILL | GTK_EXPAND,
+			  0,
+			  0, 0);
 #endif
 
 	/* set up the store etable */
@@ -1055,9 +1058,8 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gtk_widget_show (sc->hpaned);
 
 	/* FIXME: Session management and stuff?  */
-	gtk_window_set_default_size (
-		GTK_WINDOW (sc->app),
-		DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	gtk_window_set_default_size (GTK_WINDOW (sc->app),
+				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
 	populate_store_list (sc);
 }

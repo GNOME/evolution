@@ -1,3 +1,12 @@
+2001-01-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* subscribe-dialog.c (populate_store_foreach): Check for a NULL
+	service->url as we obviously can't subscribe to folders on a
+	non-existant mail source :-)
+	(subscribe_do_get_store): Check for a NULL url here too, not that
+	we should need it anymore (due to the above fix) but it doesn't
+	hurt. Also, should we wait on the thread? Probably doesn't matter.
+
 2001-01-26  Iain Holmes  <iain@ximian.com>
 
 	* evolution-outlook-importer.c (load_file_fn): Replace fsetpos with
