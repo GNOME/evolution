@@ -394,13 +394,14 @@ source_add (GtkWidget *widget, struct _source_data *data)
 						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
 						   _("Select Folder"),
 						   def, allowed_types, &folder);
-	
+#warning "gtk_object_destroyed?"
+#if 0
 	if (GTK_OBJECT_DESTROYED (widget)) {
 		if (folder)
 			CORBA_free (folder);
 		return;
 	}
-	
+#endif
 	gtk_widget_set_sensitive (widget, TRUE);
 	
 	if (folder) {

@@ -113,12 +113,59 @@ filter_label_new (void)
 	return (FilterLabel *) g_object_new (FILTER_TYPE_LABEL, NULL, NULL);
 }
 
+
+static struct {
+	char *path;
+	char *title;
+	char *value;
+} labels[] = {
+	{ "/Mail/Labels/label_0", N_("Important"), "important" },
+	{ "/Mail/Labels/label_1", N_("Work"), "work" },
+	{ "/Mail/Labels/label_2", N_("Personal"), "personal" },
+	{ "/Mail/Labels/label_3", N_("To Do"), "todo" },
+	{ "/Mail/Labels/label_4", N_("Later"), "later" },
+};
+
+int filter_label_count(void)
+{
+	return sizeof(labels)/sizeof(labels[0]);
+}
+
+const char *filter_label_label(int i)
+{
+	if (i<0 || i >= sizeof(labels)/sizeof(labels[0]))
+		return NULL;
+	else
+		return labels[i].value;
+}
+
+int filter_label_index(const char *label)
+{
+	int i;
+
+	for (i=0;i<sizeof(labels)/sizeof(labels[0]);i++) {
+		if (strcmp(labels[i].value, label) == 0)
+			return i;
+	}
+
+	return -1;
+}
+
 static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *) fe;
-	
+	int i;
+
 	FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 	
 	/* FIXME: probably use gconf_client_get_list() here? */
+
+	/* just hardcode some stuff for now */
+	for (i=0;i<sizeof(labels)/sizeof(labels[0]);i++) {
+		const char *title;
+		
+		title = _(labels[i].title);
+		filter_option_add(fo, labels[i].value, title, NULL);
+	}
 }
