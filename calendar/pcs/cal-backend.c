@@ -816,34 +816,6 @@ cal_backend_send_objects (CalBackend *backend, Cal *cal, const char *calobj)
 }
 
 /**
- * cal_backend_opened:
- * @backend: A calendar backend.
- * @status: Open status code.
- * 
- * Emits the "opened" signal of a calendar backend.  This function is to be used
- * only by backend implementations.
- **/
-void
-cal_backend_opened (CalBackend *backend, int status)
-{
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (IS_CAL_BACKEND (backend));
-
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[OPENED],
-		       0, status);
-}
-
-void
-cal_backend_removed (CalBackend *backend, int status)
-{
-	g_return_if_fail (backend != NULL);
-	g_return_if_fail (IS_CAL_BACKEND (backend));
-
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[REMOVED],
-		       0, status);
-}
-
-/**
  * cal_backend_get_timezone:
  * @backend: A calendar backend.
  * @tzid: Unique identifier of a VTIMEZONE object. Note that this must not be

@@ -1,5 +1,21 @@
 2003-10-23  JP Rosevear <jpr@ximian.com>
 
+	* cal-util/cal-recur.c: update g_date calls to non-deprecated
+	calls
+
+	* cal-util/Makefile.am: turn off deprecated funcs
+
+	* cal-client/Makefile.am: turn off deprecated funcs
+
+	* cal-client/cal-client.c (cal_client_get_error_message): add OK
+	message
+
+	* pcs/cal-backend.[hc]: remove dead funcs
+
+	* pcs/query.c: tidy headers
+
+2003-10-23  JP Rosevear <jpr@ximian.com>
+
 	* pcs/query.c (query_notify_objects_removed_1): Fix c/p typo -
 	call removed instead of modify
 

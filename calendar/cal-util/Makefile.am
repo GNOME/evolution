@@ -1,5 +1,3 @@
-noinst_PROGRAMS = test-recur
-
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"cal-util\"			\
 	-I$(top_srcdir) 				\
@@ -9,6 +7,14 @@ INCLUDES =						\
 	-I$(top_builddir)				\
 	-I$(top_srcdir)/libical/src			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
+
+AM_CFLAGS = 								\
+	-DGTK_DISABLE_DEPRECATED=1					\
+	-DGDK_DISABLE_DEPRECATED=1					\
+	-DG_DISABLE_DEPRECATED=1					\
+	-DGNOME_DISABLE_DEPRECATED=1
+
+noinst_PROGRAMS = test-recur
 
 #
 # cal util library

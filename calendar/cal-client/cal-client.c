@@ -3806,6 +3806,8 @@ cal_client_get_error_message (ECalendarStatus status)
 		return _("A CORBA esception has occurred");
 	case E_CALENDAR_STATUS_OTHER_ERROR :
 		return _("Unknown error");
+	case E_CALENDAR_STATUS_OK :
+		return _("No error");
 	}
 
 	return NULL;

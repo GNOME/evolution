@@ -20,9 +20,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
+#include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/timeutil.h>
@@ -1439,7 +1443,7 @@ cal_object_compute_duration (CalObjTime *start,
 	g_date_set_dmy (&end_date, end->day, end->month + 1,
 			end->year);
 
-	*days = g_date_julian (&end_date) - g_date_julian (&start_date);
+	*days = g_date_get_julian (&end_date) - g_date_get_julian (&start_date);
 	start_seconds = start->hour * 3600 + start->minute * 60
 		+ start->second;
 	end_seconds = end->hour * 3600 + end->minute * 60 + end->second;
@@ -2233,10 +2237,10 @@ cal_obj_weekly_find_start_position (CalObjTime *event_start,
 
 	/* Calculate the start of the weeks corresponding to the event start
 	   and interval start. */
-	event_start_julian = g_date_julian (&event_start_date);
+	event_start_julian = g_date_get_julian (&event_start_date);
 	event_start_julian -= recur_data->weekday_offset;
 
-	interval_start_julian = g_date_julian (&interval_start_date);
+	interval_start_julian = g_date_get_julian (&interval_start_date);
 	interval_start_weekday_offset = cal_obj_time_weekday_offset (interval_start, recur_data->recur);
 	interval_start_julian -= interval_start_weekday_offset;
 
@@ -2328,8 +2332,8 @@ cal_obj_daily_find_start_position  (CalObjTime *event_start,
 	g_date_set_dmy (&interval_start_date, interval_start->day,
 			interval_start->month + 1, interval_start->year);
 
-	event_start_julian = g_date_julian (&event_start_date);
-	interval_start_julian = g_date_julian (&interval_start_date);
+	event_start_julian = g_date_get_julian (&event_start_date);
+	interval_start_julian = g_date_get_julian (&interval_start_date);
 
 	if (event_start_julian < interval_start_julian) {
 		days = interval_start_julian - event_start_julian
@@ -2400,8 +2404,8 @@ cal_obj_hourly_find_start_position (CalObjTime *event_start,
 				interval_start->month + 1,
 				interval_start->year);
 
-		event_start_julian = g_date_julian (&event_start_date);
-		interval_start_julian = g_date_julian (&interval_start_date);
+		event_start_julian = g_date_get_julian (&event_start_date);
+		interval_start_julian = g_date_get_julian (&interval_start_date);
 
 		hours = (interval_start_julian - event_start_julian) * 24;
 		hours += interval_start->hour - event_start->hour;
@@ -2472,8 +2476,8 @@ cal_obj_minutely_find_start_position (CalObjTime *event_start,
 				interval_start->month + 1,
 				interval_start->year);
 
-		event_start_julian = g_date_julian (&event_start_date);
-		interval_start_julian = g_date_julian (&interval_start_date);
+		event_start_julian = g_date_get_julian (&event_start_date);
+		interval_start_julian = g_date_get_julian (&interval_start_date);
 
 		minutes = (interval_start_julian - event_start_julian)
 			* 24 * 60;
@@ -2546,8 +2550,8 @@ cal_obj_secondly_find_start_position (CalObjTime *event_start,
 				interval_start->month + 1,
 				interval_start->year);
 
-		event_start_julian = g_date_julian (&event_start_date);
-		interval_start_julian = g_date_julian (&interval_start_date);
+		event_start_julian = g_date_get_julian (&event_start_date);
+		interval_start_julian = g_date_get_julian (&interval_start_date);
 
 		seconds = (interval_start_julian - event_start_julian)
 			* 24 * 60 * 60;
@@ -3668,7 +3672,7 @@ cal_obj_time_weekday		(CalObjTime *cotime)
 	g_date_set_dmy (&date, cotime->day, cotime->month + 1, cotime->year);
 
 	/* This results in a value of 0 (Monday) - 6 (Sunday). */
-	weekday = g_date_weekday (&date) - 1;
+	weekday = g_date_get_weekday (&date) - 1;
 
 	return weekday;
 }
@@ -3687,7 +3691,7 @@ cal_obj_time_weekday_offset	(CalObjTime *cotime,
 	g_date_set_dmy (&date, cotime->day, cotime->month + 1, cotime->year);
 
 	/* This results in a value of 0 (Monday) - 6 (Sunday). */
-	weekday = g_date_weekday (&date) - 1;
+	weekday = g_date_get_weekday (&date) - 1;
 
 	/* This calculates the offset of our day from the start of the week.
 	   We just add on a week (to avoid any possible negative values) and
@@ -3708,7 +3712,7 @@ cal_obj_time_day_of_year		(CalObjTime *cotime)
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, cotime->day, cotime->month + 1, cotime->year);
 
-	return g_date_day_of_year (&date);
+	return g_date_get_day_of_year (&date);
 }
 
 
@@ -3727,7 +3731,7 @@ cal_obj_time_find_first_week	(CalObjTime *cotime,
 	/* Find out the weekday of the 1st of the year, 0 (Mon) - 6 (Sun). */
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, 1, 1, cotime->year);
-	weekday = g_date_weekday (&date) - 1;
+	weekday = g_date_get_weekday (&date) - 1;
 
 	/* Calculate the first day of the year that starts a new week, i.e. the
 	   first week_start_day after weekday, using 0 = 1st Jan.

@@ -1,6 +1,19 @@
-#
-# libcal-client
-#
+INCLUDES =						\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
+	-DG_LOG_DOMAIN=\"cal-client\"			\
+	-I$(top_srcdir)/calendar			\
+	-I$(srcdir) -I$(top_srcdir) 			\
+	-I. 						\
+	-I.. 						\
+	-I$(top_builddir)				\
+	-I$(top_srcdir)/libical/src			\
+	$(EVOLUTION_CALENDAR_CFLAGS)
+
+AM_CFLAGS = 								\
+	-DGTK_DISABLE_DEPRECATED=1					\
+	-DGDK_DISABLE_DEPRECATED=1					\
+	-DG_DISABLE_DEPRECATED=1					\
+	-DGNOME_DISABLE_DEPRECATED=1
 
 CORBA_GENERATED_C =				\
 	evolution-calendar-common.c		\
@@ -19,17 +32,6 @@ idl_flags = $(IDL_INCLUDES)
 $(CORBA_GENERATED_H): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
 $(CORBA_GENERATED_C): $(CORBA_GENERATED_H)
-
-INCLUDES =						\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DG_LOG_DOMAIN=\"cal-client\"			\
-	-I$(top_srcdir)/calendar			\
-	-I$(srcdir) -I$(top_srcdir) 			\
-	-I. 						\
-	-I.. 						\
-	-I$(top_builddir)				\
-	-I$(top_srcdir)/libical/src			\
-	$(EVOLUTION_CALENDAR_CFLAGS)
 
 privlib_LTLIBRARIES = libcal-client.la
 

@@ -22,18 +22,10 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <glib.h>
-#include <gtk/gtkmain.h>
-#include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/widgets/e-unicode.h>
 #include <e-util/e-component-listener.h>
-#include <e-util/e-sexp.h>
 #include <pcs/cal-backend-object-sexp.h>
-#include <cal-util/cal-recur.h>
-#include <cal-util/timeutil.h>
-#include "cal-backend.h"
 #include "query.h"
 
 

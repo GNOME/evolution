@@ -160,10 +160,6 @@ icaltimezone* cal_backend_internal_get_timezone (CalBackend *backend, const char
 
 void cal_backend_last_client_gone (CalBackend *backend);
 
-/* FIXME what to do about status */
-void cal_backend_opened (CalBackend *backend, int status);
-void cal_backend_removed (CalBackend *backend, int status);
-
 void cal_backend_notify_mode      (CalBackend *backend,
 				   GNOME_Evolution_Calendar_Listener_SetModeStatus status, 
 				   GNOME_Evolution_Calendar_CalMode mode);
