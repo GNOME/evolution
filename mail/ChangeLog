@@ -1,5 +1,7 @@
 2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
 
+	* message-tags.glade: Fixed the icon name to get the right one.
+
 	* message-list.c (message_list_init_images): Changed to load an
 	empty pixbuf manually rather than relying on the pixbuf returned
 	for "" from e_icon_factory_get_icon() since it has changed to
