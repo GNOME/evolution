@@ -459,10 +459,8 @@ struct LexBuf {
 	/* input */
 #ifdef INCLUDEMFC
     CFile *inputFile;
-    void *handle;
 #else
     FILE *inputFile;
-    GnomeVFSHandle *handle;
 #endif
     char *inputString;
     unsigned long curPos;
@@ -516,23 +514,13 @@ static char lexGetc_()
 	return EOF;
     else if (lexBuf.inputString)
 	return *(lexBuf.inputString + lexBuf.curPos++);
-    else if (lexBuf.inputFile {
+    else {
 #ifdef INCLUDEMFC
 	char result;
 	return lexBuf.inputFile->Read(&result, 1) == 1 ? result : EOF;
 #else
 	return fgetc(lexBuf.inputFile);
 #endif
-	}
-    else if (lexBuf.handle) {
-	char buf;
-	GnomeVFSResult result;
-	GnomeVFSFileSize n;
-
-	if (gnome_vfs_read (lexBuf.handle, &buf, 1, &n) == GNOME_VFS_OK)
-	    return buf;
-	else
-	    return EOF;
 	}
     }
 
@@ -797,9 +785,9 @@ static int match_begin_name(int end) {
 
 
 #ifdef INCLUDEMFC
-void initLex(const char *inputstring, unsigned long inputlen, CFile *inputfile, void *handle)
+void initLex(const char *inputstring, unsigned long inputlen, CFile *inputfile)
 #else
-void initLex(const char *inputstring, unsigned long inputlen, FILE *inputfile, GnomeVFSHandle *handle)
+void initLex(const char *inputstring, unsigned long inputlen, FILE *inputfile)
 #endif
     {
     /* initialize lex mode stack */
@@ -810,7 +798,6 @@ void initLex(const char *inputstring, unsigned long inputlen, FILE *inputfile, G
     lexBuf.inputLen = inputlen;
     lexBuf.curPos = 0;
     lexBuf.inputFile = inputfile;
-    lexBuf.handle = handle;
 
     lexBuf.len = 0;
     lexBuf.getPtr = 0;
@@ -1198,55 +1185,6 @@ DLLEXPORT(VObject*) Parse_MIME_FromFileName(char *fname)
     }
 
 #endif
-
-VObject *
-Parse_MIME_FromGnomeVFSHandle (GnomeVFSHandle *handle)
-{
-	VObject *result;
-	GnomeVFSFileSize start_pos;
-
-	g_return_val_if_fail (handle != NULL, NULL);
-
-	if (gnome_vfs_tell (handle, &start_pos) != GNOME_VFS_OK) {
-		g_message ("Parse_MIME_FromGnomeVFSHandle(): could not tell() the file");
-		return NULL;
-	}
-
-	initLex (NULL, -1, NULL, handle);
-
-	result = Parse_MIMEHelper ();
-	if (!result)
-		if (gnome_vfs_seek (handle, GNOME_VFS_SEEK_START, start_pos) != GNOME_VFS_OK)
-			g_message ("Parse_MIME_FromGnomeVFSHandle(): "
-				   "could not reset the file position");
-
-	return result;
-}
-
-VObject *
-Parse_MIME_FromGnomeVFSURI (GnomeVFSURI *uri)
-{
-	GnomeVFSHandle *handle;
-	VObject *o;
-
-	g_return_val_if_fail (uri != NULL, NULL);
-
-	if (gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ) != GNOME_VFS_OK) {
-		char *msg;
-		char *str_uri;
-
-		str_uri = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
-		msg = g_strdup_printf ("Could not open `%s'\n", str_uri);
-		mime_error (msg);
-		g_free (str_uri);
-		g_free (msg);
-		return NULL;
-	}
-
-	o = Parse_MIME_FromGnomeVFSHandle (handle);
-	gnome_vfs_close (handle);
-	return o;
-}
 
 /*/////////////////////////////////////////////////////////////////////////*/
 static void YYDebug(const char *s)

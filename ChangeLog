@@ -1,3 +1,10 @@
+2000-01-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* libversit/vcc.y: Removed the VFS crap; my mistake, it should not
+	go here.
+
+	* configure.in: Added yacc requirements for libversit.
+
 2000-01-21  Matt Loper  <matt@helixcode.com>
 
 	* camel/camel-formatter.c (camel_formatter_make_html): added a

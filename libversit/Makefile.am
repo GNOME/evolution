@@ -10,4 +10,4 @@ libversit_la_SOURCES =	\
 	vcaltmp.c	\
 	vcaltmp.h
 
-EXTRA_DIST = README.TXT vcaltest.c vctest.c ChangeLog
+EXTRA_DIST = README.TXT vcaltest.c vctest.c
