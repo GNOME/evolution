@@ -62,29 +62,31 @@ delete_component_dialog (CalComponent *comp, GtkWidget *widget)
 	vtype = cal_component_get_vtype (comp);
 	cal_component_get_summary (comp, &summary);
 
+	tmp = e_utf8_to_gtk_string (widget, summary.value);
+
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
-		if (summary.value)
+		if (tmp)
 			str = g_strdup_printf (_("Are you sure you want to delete the appointment "
-						 "`%s'?"), summary.value);
+						 "`%s'?"), tmp);
 		else
 			str = g_strdup (_("Are you sure you want to delete this "
 					  "untitled appointment?"));
 		break;
 
 	case CAL_COMPONENT_TODO:
-		if (summary.value)
+		if (tmp)
 			str = g_strdup_printf (_("Are you sure you want to delete the task "
-						 "`%s'?"), summary.value);
+						 "`%s'?"), tmp);
 		else
 			str = g_strdup (_("Are you sure you want to delete this "
 					  "untitled task?"));
 		break;
 
 	case CAL_COMPONENT_JOURNAL:
-		if (summary.value)
+		if (tmp)
 			str = g_strdup_printf (_("Are you sure you want to delete the journal entry "
-						 "`%s'?"), summary.value);
+						 "`%s'?"), tmp);
 		else
 			str = g_strdup (_("Are you sure want to delete this "
 					  "untitled journal entry?"));
@@ -95,19 +97,12 @@ delete_component_dialog (CalComponent *comp, GtkWidget *widget)
 		return FALSE;
 	}
 
-	tmp = e_utf8_to_gtk_string (widget, str);
+	dialog = gnome_question_dialog_modal (str, NULL, NULL);
+	g_free (tmp);
 	g_free (str);
 
-	if (tmp) {
-		dialog = gnome_question_dialog_modal (tmp, NULL, NULL);
-		g_free (tmp);
-
-		if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
-			return TRUE;
-		else
-			return FALSE;
-	} else {
-		g_message ("delete_component_dialog(): Could not convert the string from UTF8");
+	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == GNOME_YES)
+		return TRUE;
+	else
 		return FALSE;
-	}
 }

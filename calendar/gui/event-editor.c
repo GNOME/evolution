@@ -3022,7 +3022,7 @@ append_reminder (EventEditor *ee, CalComponentAlarm *alarm, ReminderStatus statu
 	clist = GTK_CLIST (priv->reminder_list);
 
 	c[0] = get_alarm_string (alarm);
-	i = e_utf8_gtk_clist_append (clist, c);
+	i = gtk_clist_append (clist, c);
 
 	rdata = g_new (ReminderData, 1);
 	rdata->status = status;
@@ -3144,7 +3144,7 @@ append_exception (EventEditor *ee, time_t t)
 	gtk_signal_handler_block_by_data (GTK_OBJECT (clist), ee);
 
 	c[0] = get_exception_string (t);
-	i = e_utf8_gtk_clist_append (clist, c);
+	i = gtk_clist_append (clist, c);
 
 	gtk_clist_set_row_data (clist, i, tt);
 
@@ -3195,7 +3195,7 @@ recurrence_exception_modify_cb (GtkWidget *widget, EventEditor *ee)
 	t = gtk_clist_get_row_data (clist, sel);
 	*t = e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_exception_date));
 
-	e_utf8_gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
+	gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
 
 	preview_recur (ee);
 }

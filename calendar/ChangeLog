@@ -1,3 +1,13 @@
+2001-04-11  Gediminas Paulauskas <menesis@delfi.lt>
+
+	Display fixes, thanks to Kjartan for finding these.
+
+	* gui/event-editor.c: use simple (not e_utf8_) gtk_clist_append for
+	strings which are never in utf-8.
+	* dialogs/delete-comp.c (delete_component_dialog): convert only
+	summary from utf-8 to gtk charset. Translated values are in correct
+	craset already.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/calendar-commands.c: Fix headers.
