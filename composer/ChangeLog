@@ -1,3 +1,11 @@
+2002-02-11  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_drop_editor_undo): new method,
+	drops undo in editor and resets dirty flag in editor
+	(do_exit): remove TRUE from condition as dirty flag in editor
+	should work now
+	(e_msg_composer_is_dirty): use new editor API for dirty flag
+
 2002-02-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (update_auto_recipients): Update the
