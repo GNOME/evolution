@@ -19,7 +19,7 @@ libecalendar_conduit_la_LDFLAGS = -module -avoid-version
 libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
-	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/libical/src/libical/libical-static.la		\
 	$(top_builddir)/libwombat/libwombat-static.la		 	\
 	$(top_builddir)/e-util/libeconduit-static.la	 		\

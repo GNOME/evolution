@@ -1,5 +1,11 @@
 2002-03-29  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/Makefile.am: s/libversit.la/libversit.a/
+
+	* conduits/todo/Makefile.am: ditto
+
+2002-03-29  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-calendar-table.c: implement new pop up menu items for
 	"Save as", "Print", "Assign Task", "Forward as iCalendar"
 
