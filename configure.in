@@ -1341,7 +1341,7 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/all/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=no)
 
 dnl Add any new plugins here
-plugins_all="subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task bbdb folder-unsubscribe mark-calendar-offline"
+plugins_all="subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task bbdb folder-unsubscribe mark-calendar-offline audio-inline"
 
 if test x"$enable_plugins" = "xno"; then
 	plugins_enabled=""
@@ -1356,6 +1356,17 @@ else
 fi
 AC_SUBST(plugins_enabled)
 AC_SUBST(plugins_all)
+
+if echo ${plugins_enabled} | grep -q "audio-inline"
+then
+
+	dnl *********************
+	dnl gstreamer
+	dnl *********************
+	PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.8)
+	AC_SUBST(GSTREAMER_CFLAGS)
+	AC_SUBST(GSTREAMER_LIBS)
+fi
 
 ##################################################
 # Check for gtk-doc.
@@ -1533,6 +1544,7 @@ mail/default/Makefile
 mail/default/C/Makefile
 mail/importers/Makefile
 plugins/Makefile
+plugins/audio-inline/Makefile
 plugins/mail-to-task/Makefile
 plugins/subject-thread/Makefile
 plugins/save-attachments/Makefile
