@@ -1,5 +1,10 @@
 2000-09-10  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit.c (comp_from_remote_record): Only
+	set the due date only if it exists
+
+2000-09-10  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/calendar-model.c (get_is_complete): Relying on the status
 	field is somewhat faulty since it is related to group scheduling
 

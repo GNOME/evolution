@@ -407,10 +407,16 @@ comp_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 		cal_component_set_percent (comp, &percent);
 	}
 
-	due = icaltime_from_timet (mktime (& todo.due), FALSE, FALSE);
-	dt.value = &due;
-	cal_component_set_due (comp, &dt);
-
+	/* FIX ME This is a bit hackish, how else can we tell if there is
+	 * no due date set?
+	 */
+	if (todo.due.tm_sec || todo.due.tm_min || todo.due.tm_hour 
+	    || todo.due.tm_mday || todo.due.tm_mon || todo.due.tm_year) {
+		due = icaltime_from_timet (mktime (&todo.due), FALSE, FALSE);
+		dt.value = &due;
+		cal_component_set_due (comp, &dt);
+	}
+	
 	cal_component_set_priority (comp, &todo.priority);
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 
