@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<filterdescription>
+<partset>
+ <part name="name">
+  <title>Sender</title>
+   <input type="optionlist" name="sender-type">
+    <option value="contains">
+        <title>contains</title>
+	<code>(contains "fullname" ${name}))</code>
+    </option>
+    <option value="not contains">
+        <title>does not contain</title>
+	<code>(not (contains "fullname" ${name})))</code>
+    </option>
+   </input>
+   <input type="string" name="name"/>
+ </part>
+ <part name="email">
+  <title>Sender</title>
+   <input type="optionlist" name="sender-type">
+    <option value="contains">
+        <title>contains</title>
+	<code>(contains "email" ${email}))</code>
+    </option>
+    <option value="not contains">
+        <title>does not contain</title>
+	<code>(not (contains "email" ${email})))</code>
+    </option>
+   </input>
+   <input type="string" name="email"/>
+ </part>
+ <part name="sexp">
+   <title>Expression</title>
+   <input type="code" name="code"/>
+  </part>
+</partset>
+</filterdescription>

@@ -1,3 +1,8 @@
+2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/search/, gui/search/addresstypes.xml: New search dialog for
+	addressbook.
+
 2000-08-10  Dan Winship  <danw@helixcode.com>
 
 	* gui/component/addressbook-component.c (owner_set_cb): Update for

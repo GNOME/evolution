@@ -41,8 +41,6 @@ static GnomeDialogClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_BOOK,
-	ARG_QUERY,
 };
 
 typedef struct {
@@ -85,11 +83,6 @@ e_select_names_class_init (ESelectNamesClass *klass)
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	gtk_object_add_arg_type ("ESelectNames::book", GTK_TYPE_OBJECT, 
-				 GTK_ARG_READWRITE, ARG_BOOK);
-	gtk_object_add_arg_type ("ESelectNames::query", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_QUERY);
-
 	object_class->set_arg = e_select_names_set_arg;
 	object_class->get_arg = e_select_names_get_arg;
 	object_class->destroy = e_select_names_destroy;
@@ -98,15 +91,13 @@ e_select_names_class_init (ESelectNamesClass *klass)
 #define SPEC "<ETableSpecification no-header=\"1\">    	       \
 	<columns-shown>                  			       \
 		<column> 2 </column>     			       \
-                <column> 1 </column>                                   \
 	</columns-shown>                 			       \
 	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
 </ETableSpecification>"
 
 #define SPEC2 "<ETableSpecification no-header=\"1\">    	       \
 	<columns-shown>                  			       \
-		<column> 0 </column>     			       \
-                <column> 1 </column>                                   \
+                <column> 0 </column>                                   \
 	</columns-shown>                 			       \
 	<grouping> </grouping>                                         \
 </ETableSpecification>"
@@ -118,6 +109,7 @@ set_book(EBook *book, EBookStatus status, ETableModel *model)
 {
 	gtk_object_set(GTK_OBJECT(model),
 		       "book", book,
+		       "query", "(not (is \"email\" \"\"))",
 		       NULL);
 	gtk_object_unref(GTK_OBJECT(book));
 }
