@@ -223,7 +223,7 @@ format_sexp (FilterElement *fe, GString *out)
 	FilterColour *fc = (FilterColour *)fe;
 	char *str;
 	
-	str = g_strdup_printf ("rgb:%04x/%04x/%04x", fc->r, fc->g, fc->b);
+	str = g_strdup_printf ("#%02x%02x%02x", (fc->r >> 8) & 0xff, (fc->g >> 8) & 0xff, (fc->b >> 8) & 0xff);
 	e_sexp_encode_string (out, str);
 	g_free (str);
 }
