@@ -752,5 +752,7 @@ echo "
 else
 echo "
 	Programming documentation files will not be built.
+	You may want to install the gtk-doc package
+	so that you will get the Evolution Developer's Guide.
 "
 fi

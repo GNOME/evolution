@@ -1,3 +1,7 @@
+2001-01-12  Federico Mena Quintero  <federico@ximian.com>
+
+	* configure.in: Suggest what to do if gtk-doc is not found.
+
 2001-01-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Make evolution depend on the new version of gal.
