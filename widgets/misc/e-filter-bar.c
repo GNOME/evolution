@@ -154,7 +154,9 @@ do_advanced (ESearchBar *esb)
 		
 		gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 		gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 300);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 0);
+		gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+		
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), w, TRUE, TRUE, 3);
 		
 		g_object_ref (rule);
 		g_object_set_data_full ((GObject *) dialog, "rule", rule, (GDestroyNotify) g_object_unref);

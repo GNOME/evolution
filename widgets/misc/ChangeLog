@@ -1,3 +1,8 @@
+2003-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c (do_advanced): Change the border width and
+	padding to comply with the HIG. Fixes bug #41202.
+
 2003-04-08  Mike Kestner  <mkestner@ximian.com>
 
 	* e-search-bar.c (set_option): kill an old e_utf8_gtk usage
