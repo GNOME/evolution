@@ -88,6 +88,7 @@ typedef enum {
 	SEND_RECEIVE,		/* receiver */
 	SEND_SEND,		/* sender */
 	SEND_UPDATE,		/* imap-like 'just update folder info' */
+	SEND_INVALID
 } send_info_t ;
 
 typedef enum {
@@ -257,6 +258,9 @@ static send_info_t get_receive_type(const char *url)
 	CamelProvider *provider;
 
 	provider = camel_session_get_provider (session, url, NULL);
+	if (!provider)
+		return SEND_INVALID;
+	
 	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
 		return SEND_UPDATE;
 	else
@@ -278,7 +282,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	GtkHSeparator *line;
 	struct _send_info *info;
 	char *pretty_url; 
-		
+	
 	gd = (GnomeDialog *)send_recv_dialogue = gnome_dialog_new (_("Send & Receive Mail"), NULL);
 	gtk_signal_connect((GtkObject *)gd, "destroy", gtk_widget_destroyed, &send_recv_dialogue);
 	gnome_dialog_append_button_with_pixmap (gd, _("Cancel All"), GNOME_STOCK_BUTTON_CANCEL);
@@ -304,8 +308,16 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		/* see if we have an outstanding download active */
 		info = g_hash_table_lookup (data->active, source->url);
 		if (info == NULL) {
+			send_info_t type;
+			
+			type = get_receive_type (source->url);
+			if (type == SEND_INVALID) {
+				sources = sources->next;
+				continue;
+			}
+			
 			info = g_malloc0 (sizeof (*info));
-			info->type = get_receive_type(source->url);
+			info->type = type;
 			d(printf("adding source %s\n", source->url));
 			
 			info->uri = g_strdup (source->url);
@@ -668,6 +680,8 @@ void mail_send_receive (void)
 			/* FIXME: error reporting? */
 			mail_get_store(info->uri, receive_update_got_store, info);
 			break;
+		default:
+			g_assert_not_reached ();
 		}
 		scan = scan->next;
 	}
@@ -785,6 +799,7 @@ mail_receive_uri (const char *uri, int keep)
 	struct _send_info *info;
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
+	send_info_t type;
 	
 	data = setup_send_data();
 	info = g_hash_table_lookup(data->active, uri);
@@ -795,8 +810,14 @@ mail_receive_uri (const char *uri, int keep)
 	
 	d(printf("starting non-interactive download of '%s'\n", uri));
 	
+	type = get_receive_type (uri);
+	if (type == SEND_INVALID) {
+		d(printf ("unsupported provider: '%s'\n", uri));
+		return;
+	}
+	
 	info = g_malloc0 (sizeof (*info));
-	info->type = get_receive_type(uri);
+	info->type = type;
 	info->bar = NULL;
 	info->status = NULL;
 	info->uri = g_strdup (uri);
@@ -833,5 +854,7 @@ mail_receive_uri (const char *uri, int keep)
 		/* FIXME: error reporting? */
 		mail_get_store (info->uri, receive_update_got_store, info);
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 }
