@@ -1,3 +1,7 @@
+2001-10-29  Damon Chaplin  <damon@ximian.com>
+
+	* Makefile.am (wombat_LDADD): use libical-evolution.la
+
 2001-10-29  Chris Toshok  <toshok@ximian.com>
 
 	* wombat.c (dump_backends): new function, ifdef'ed DEBUG_BACKENDS.
