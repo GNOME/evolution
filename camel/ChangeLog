@@ -1,3 +1,8 @@
+2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-charset-map.c (camel_charset_iso_to_windows): Map us-ascii
+	to windows-1252 also.
+
 2002-10-02  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (get_matching): Set *set to

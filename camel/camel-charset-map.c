@@ -307,6 +307,7 @@ camel_charset_iso_to_windows (const char *isocharset)
 	/* According to http://czyborra.com/charsets/codepages.html,
 	 * the charset mapping is as follows:
 	 *
+	 * us-ascii    maps to windows-cp1252
 	 * iso-8859-1  maps to windows-cp1252
 	 * iso-8859-2  maps to windows-cp1250
 	 * iso-8859-3  maps to windows-cp????
@@ -327,7 +328,7 @@ camel_charset_iso_to_windows (const char *isocharset)
 	 *    windows-cp1257.
 	 */
 	
-	if (!strcasecmp (isocharset, "iso-8859-1"))
+	if (!strcasecmp (isocharset, "iso-8859-1") || !strcasecmp (isocharset, "us-ascii"))
 		return "windows-cp1252";
 	else if (!strcasecmp (isocharset, "iso-8859-2"))
 		return "windows-cp1250";
