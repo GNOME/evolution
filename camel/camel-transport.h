@@ -45,7 +45,8 @@ extern "C" {
 struct _CamelTransport
 {
 	CamelService parent_object;
-
+	
+	gboolean supports_8bit;
 };
 
 

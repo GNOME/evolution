@@ -1,5 +1,20 @@
 2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/smtp/camel-smtp-transport.c: Fixed some memory leaks.
+	(camel_smtp_transport_init): Initialize supports_8bit to FALSE.
+	(smtp_helo): If server supports 8bit, set supports_8bit to TRUE.
+
+	* camel-transport.h (struct _CamelTransport): Added variable
+	gboolean supports_8bit (we'll need this eventually? - see bugzilla
+	bug #53)
+
+	* providers/smtp/camel-smtp-transport.c
+	(smtp_get_email_addr_from_text): Ugh, no wonder people were
+	getting illegal seek warnings *sigh*. I guess I can only blame
+	myself for this one though :-(
+
+2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/smtp/camel-smtp-transport.c (_send_to): Don't send the
 	recipient data through smtp_get_email_addr_from_text - this is a
 	complete waste. In fact, we don't want to have to use that
