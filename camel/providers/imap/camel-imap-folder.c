@@ -1577,32 +1577,33 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	part_spec = content_info_get_part_spec (ci);
 	
 	/* There are three cases: multipart/signed, multipart, message/rfc822, and "other" */
-	if (header_content_type_is(ci->type, "multipart", "signed")) {
+	if (header_content_type_is (ci->type, "multipart", "signed")) {
 		CamelMultipartSigned *body_mp;
 		char *spec;
 		int ret;
-
+		
 		/* Note: because we get the content parts uninterpreted anyway, we could potentially
 		   just use the normalmultipart code, except that multipart/signed wont let you yet! */
-
-		body_mp = camel_multipart_signed_new();
+		
+		body_mp = camel_multipart_signed_new ();
 		/* need to set this so it grabs the boundary and other info about the signed type */
 		/* we assume that part->content_type is more accurate/full than ci->type */
-		camel_data_wrapper_set_mime_type_field(CAMEL_DATA_WRAPPER(body_mp), part->content_type);
-
-		spec = alloca(strlen(part_spec) + 6);
-		sprintf(spec, part_spec[0]?"%s.TEXT":"TEXT", part_spec);
-
+		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), part->content_type);
+		
+		spec = alloca (strlen (part_spec) + 6);
+		sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
+		g_free (part_spec);
+		
 		stream = camel_imap_folder_fetch_data (imap_folder, uid, spec, FALSE, ex);
 		if (stream) {
-			ret = camel_data_wrapper_construct_from_stream(CAMEL_DATA_WRAPPER(body_mp), stream);
-			camel_object_unref(CAMEL_OBJECT(stream));
+			ret = camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (body_mp), stream);
+			camel_object_unref (CAMEL_OBJECT (stream));
 			if (ret == -1) {
-				camel_object_unref((CamelObject *)body_mp);
+				camel_object_unref ((CamelObject *) body_mp);
 				return NULL;
 			}
 		}
-
+		
 		return (CamelDataWrapper *)body_mp;
 	} else if (header_content_type_is (ci->type, "multipart", "*")) {
 		CamelMultipart *body_mp;

@@ -1,5 +1,9 @@
 2002-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (get_content): When the part
+	is a multipart/signed, make sure to free the part_spec before
+	returning (the other types already did this properly).
+
 	* providers/imap/camel-imap-message-cache.c
 	(camel_imap_message_cache_get): Free the path buffer when we're
 	done with it.
