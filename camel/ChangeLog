@@ -1,3 +1,10 @@
+2004-03-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* providers/groupwise/camel-gw-listener.c
+	(add_calendar_tasks_sources): use "Calendar" and "Checklist" for the
+	folder names, instead of "Default".
+	(remove_calendar_tasks_sources): remove the correct folder.
+
 2004-03-03  Not Zed  <NotZed@Ximian.com>
 
 	* camel-operation.c (camel_operation_uncancel): attempt at

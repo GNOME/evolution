@@ -247,7 +247,6 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 	/* FIXME: don't hard-code the port number */
 	old_relative_uri =  g_strdup_printf ("%s:7181/soap", url->host);
 
-	
         list = e_source_list_new_for_gconf (gconf_client_get_default (), conf_key);
 	groups = e_source_list_peek_groups (list); 
 
@@ -258,8 +257,8 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 		group = E_SOURCE_GROUP (groups->data);
 		
 		if (strcmp (e_source_group_peek_name (group), old_account_info->name) == 0 && 
-		   strcmp (e_source_group_peek_base_uri (group), GROUPWISE_URI_PREFIX) == 0) {
-			
+		    strcmp (e_source_group_peek_base_uri (group), GROUPWISE_URI_PREFIX) == 0) {
+
 			sources = e_source_group_peek_sources (group);
 			
 			for ( ; sources != NULL; sources = g_slist_next (sources)) {
@@ -296,8 +295,8 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	url = camel_url_new (info->source_url, NULL);
 	/* FIXME: don't hard-code the port number */
 	relative_uri =  g_strdup_printf ("%s:7181/soap", url->host);
-	add_esource ("/apps/evolution/calendar/sources", info->name, N_("Default"), url->user, relative_uri);
-	add_esource ("/apps/evolution/tasks/sources", info->name, N_("Default"), url->user,  relative_uri);
+	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url->user, relative_uri);
+	add_esource ("/apps/evolution/tasks/sources", info->name, _("Checklist"), url->user,  relative_uri);
 	
 	groupwise_accounts = g_list_append (groupwise_accounts, info);
 	
@@ -320,8 +319,8 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 	relative_uri =  g_strdup_printf ("%s:7181/soap", url->host);
 
 
-	remove_esource ("/apps/evolution/calendar/sources", info->name,  "Default", relative_uri);
-	remove_esource ("/apps/evolution/tasks/sources", info->name,  "Default", relative_uri);
+	remove_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), relative_uri);
+	remove_esource ("/apps/evolution/tasks/sources", info->name,  _("Checklist"), relative_uri);
 	
 	g_free (info->uid);
 	g_free (info->name);
@@ -483,7 +482,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 	info->uid = g_strdup (account->uid);
 	info->name = g_strdup (account->name);
 	info->source_url = g_strdup (account->source->url);
-	
+
 	add_calendar_tasks_sources (info);
 	add_ldap_addressbook_source(account);
 }
