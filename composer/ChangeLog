@@ -1,3 +1,8 @@
+2004-08-13  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_show_sig_file): set paragraph
+	style to normal to avoid signature landing in PRE paragraph
+
 2004-07-29  Carlos Garnacho Parro  <carlosg@gnome.org>
 
 	* e-msg-composer-select-file.[ch]: Optionally use GtkFileChooser
