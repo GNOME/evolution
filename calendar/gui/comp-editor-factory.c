@@ -592,9 +592,8 @@ impl_editExisting (PortableServer_Servant servant,
 	}
 
 	/* Look up the component */
-
 	editor = e_comp_editor_registry_find (comp_editor_registry, uid);	
-	if (editor != NULL) {
+	if (editor == NULL) {
 		edit_existing (oc, uid);
 	} else {
 		comp_editor_focus (editor);

@@ -1,9 +1,16 @@
+2002-07-26  JP Rosevear  <jpr@ximian.com>
+
+	* gui/comp-editor-factory.c (impl_editExisting): focus the editor
+	if it does exist, create a new one if it doesn't (not vice-versa)
+
 2002-07-25  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_init): set large_font to NULL
 	(e_day_view_style_set): calculate large font, fall back to the
 	style->font if necessary
 
+	Fixes #11773
+	
 2002-07-24  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (write_html): display the location in the
