@@ -5,6 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkWindow" id="startup-wizard">
+  <property name="border_width">6</property>
   <property name="title" translatable="yes">Evolution Setup Assistant</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
@@ -14,7 +15,7 @@
 
   <child>
     <widget class="GnomeDruid" id="startup-druid">
-      <property name="border_width">4</property>
+      <property name="border_width">6</property>
       <property name="visible">True</property>
       <property name="show_help">False</property>
 
