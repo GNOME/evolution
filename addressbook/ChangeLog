@@ -1,3 +1,29 @@
+2002-06-29  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/Makefile.am (libpas_a_SOURCES): add
+	pas-backend-summary.[ch].
+
+	* backend/pas/pas-backend-file.c (string_to_dbt): move this to the
+	top of the file so it can be used in..
+	(build_summary): loop over the db, adding cards ot the summary.
+	(do_summary_query): call pas_backend_summary_search and loop over
+	the returned id's looking them up in the db.
+	(pas_backend_file_search): call
+	pas_backend_summary_is_summary_query, and either call
+	do_summary_query if it's a query over just the set of attributes
+	in the summary or use the old, slow method if not.
+	(pas_backend_file_process_create_card): call
+	pas_backend_summary_add_card.
+	(pas_backend_file_process_remove_card): call
+	pas_backend_summary_remove_card.
+	(pas_backend_file_process_modify_card): call remove_card/add_card.
+	(pas_backend_file_load_uri): try to load the summary file, and if
+	it doesn't exist create it.
+	(pas_backend_file_destroy): unref the summary.
+
+	* backend/pas/pas-backend-summary.[ch]: new files, reading and
+	writing (and querying) summaries.
+
 2002-06-25  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-component.c (create_component):

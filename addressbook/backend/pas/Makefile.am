@@ -50,6 +50,8 @@ libpas_a_SOURCES =					\
 	$(LDAP_BACKEND)					\
 	pas-backend.c					\
 	pas-backend.h					\
+	pas-backend-summary.c				\
+	pas-backend-summary.h				\
 	pas-card-cursor.c				\
 	pas-card-cursor.h
 
