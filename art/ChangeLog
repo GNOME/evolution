@@ -1,3 +1,10 @@
+2001-08-18  Damon Chaplin  <damon@ximian.com>
+
+	* Makefile.am (images_DATA): added 16_copy.png, 16_customize.png,
+	16_cut.png & 16_paste.png.
+	(buttons_DATA): added new_task.png, which I made from scaling up the
+	smaller task.xpm icon.
+
 2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (buttons_DATA): Added `delete-message.png'.

@@ -1,5 +1,9 @@
 imagesdir = $(datadir)/images/evolution
 images_DATA = \
+	16_copy.png			\
+	16_customize.png		\
+	16_cut.png			\
+	16_paste.png			\
 	apply-filters-16.xpm		\
 	bcg.png				\
 	configure_16_addressbook.xpm	\
@@ -135,6 +139,7 @@ buttons_DATA = 				\
 	move-message.png		\
 	next-message.png		\
 	new_appointment.png		\
+	new_task.png			\
 	previous-message.png		\
 	print.png			\
 	print-preview-24.png		\
