@@ -127,16 +127,6 @@
       </placeholder>
     </submenu>
 
-    <submenu name="Tools">
-      <placeholder name="ComponentPlaceholder">
-	<menuitem name="ToolSearch"
-		  verb=""
-		  _label="_Search for Contacts"
-		  pixtype="pixbuf"/>
-	<separator f="" name="eadbk3"/>
-      </placeholder>
-    </submenu>
-
   </menu>
 
   <dockitem name="Toolbar">
