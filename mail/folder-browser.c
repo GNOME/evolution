@@ -133,6 +133,11 @@ folder_browser_finalise (GtkObject *object)
 	
 	CORBA_exception_init (&ev);
 	
+	g_free (folder_browser->loading_uid);
+	g_free (folder_browser->pending_uid);
+	g_free (folder_browser->new_uid);
+	g_free (folder_browser->loaded_uid);
+	
 	if (folder_browser->search_full)
 		gtk_object_unref (GTK_OBJECT (folder_browser->search_full));
 	
@@ -172,7 +177,7 @@ folder_browser_finalise (GtkObject *object)
 	
 	if (folder_browser->clipboard_selection)
 		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
-
+	
 	if (folder_browser->sensitise_state) {
 		g_hash_table_destroy(folder_browser->sensitise_state);
 		folder_browser->sensitise_state = NULL;
@@ -210,7 +215,7 @@ folder_browser_destroy (GtkObject *object)
 	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
-
+	
 	if (folder_browser->get_id != -1) {
 		mail_msg_cancel(folder_browser->get_id);
 		folder_browser->get_id = -1;

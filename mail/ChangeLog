@@ -1,5 +1,8 @@
 2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (folder_browser_finalise): Free the
+	loading/pending/new/loaded_uid string buffers.
+
 	* mail-config.c (config_read_signature): Free some temporary path
 	buffers.
 
