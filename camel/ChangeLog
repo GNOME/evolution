@@ -1,5 +1,7 @@
 2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-message.h: Added Resent-* #defines.
+
 	* camel-filter-driver.c (camel_filter_driver_remove_rule_by_name):
 	Use while (node->next) instead of while (node)
 
