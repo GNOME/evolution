@@ -31,7 +31,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include "camel-store.h"
+#include "camel-remote-store.h"
 #include "camel-nntp-newsrc.h"
 
 #define CAMEL_NNTP_STORE_TYPE     (camel_nntp_store_get_type ())
@@ -58,7 +58,7 @@ typedef struct {
 } CamelNNTPOverField;
 
 typedef struct {
-	CamelStore parent_object;	
+	CamelRemoteStore parent_object;	
 
 #define CAMEL_NNTP_EXT_SEARCH     (1<<0)
 #define CAMEL_NNTP_EXT_SETGET     (1<<1)
@@ -77,13 +77,12 @@ typedef struct {
 
 	CamelNNTPNewsrc *newsrc;
 
-	CamelStream *istream, *ostream;
 } CamelNNTPStore;
 
 
 
 typedef struct {
-	CamelStoreClass parent_class;
+	CamelRemoteStoreClass parent_class;
 
 } CamelNNTPStoreClass;
 
@@ -102,7 +101,6 @@ gchar *camel_nntp_store_get_toplevel_dir (CamelNNTPStore *store);
 /* support functions */
 enum { CAMEL_NNTP_OK, CAMEL_NNTP_ERR, CAMEL_NNTP_FAIL };
 int camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...);
-char *camel_nntp_command_get_additional_data (CamelNNTPStore *store);
 
 /* Standard Camel function */
 CamelType camel_nntp_store_get_type (void);

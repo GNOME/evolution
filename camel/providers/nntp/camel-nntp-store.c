@@ -25,8 +25,6 @@
 #include <config.h>
 
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <dirent.h>
 #include <sys/stat.h>
 #include <errno.h>
@@ -40,8 +38,6 @@
 #include "camel-folder-summary.h"
 #include "camel-nntp-store.h"
 #include "camel-nntp-folder.h"
-#include "camel-stream-buffer.h"
-#include "camel-stream-fs.h"
 #include "camel-exception.h"
 #include "camel-url.h"
 #include "string-utils.h"
@@ -49,6 +45,8 @@
 #define NNTP_PORT 119
 
 #define DUMP_EXTENSIONS
+
+static CamelRemoteStoreClass *remote_store_class = NULL;
 
 static CamelServiceClass *service_class = NULL;
 
@@ -66,11 +64,13 @@ camel_nntp_store_get_extensions (CamelNNTPStore *store)
 
 	if (CAMEL_NNTP_OK == camel_nntp_command (store, NULL, "LIST EXTENSIONS")) {
 		gboolean done = FALSE;
+		CamelException ex;
 
 		while (!done) {
 			char *line;
 
-			line = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER(store->istream));
+			if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, &ex) < 0)
+				break; /* XXX */
 
 			if (*line == '.') {
 				done = TRUE;
@@ -114,9 +114,9 @@ static void
 camel_nntp_store_get_overview_fmt (CamelNNTPStore *store)
 {
 	int status;
-	char *result;
-	char *field;
 	int i;
+	gboolean done = FALSE;
+	CamelException ex;
 
 	status = camel_nntp_command (store, NULL,
 				     "LIST OVERVIEW.FMT");
@@ -129,63 +129,66 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store)
 		store->extensions &= ~CAMEL_NNTP_EXT_OVER;
 		return;
 	}
-		
-	result = camel_nntp_command_get_additional_data (store);
 
-	/* count the number of fields the server returns in the
-	   overview.  start at 1 because the article number is always
-	   first */
+	/* start at 1 because the article number is always first */
 	store->num_overview_fields = 1;
-
+	
 	for (i = 0; i < CAMEL_NNTP_OVER_LAST; i ++) {
 		store->overview_field [i].index = -1;
 	}
 
-	while ((field = strsep (&result, "\n"))) {
-		CamelNNTPOverField *over_field = NULL;
-		char *colon = NULL;;
+	while (!done) {
+		char *line;
 
-		if (field[0] == '\0')
-			break;
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &line, &ex) < 0)
+			break; /* XXX */
 
-		if (!strncasecmp (field, "From:", 5)) {
-			over_field = &store->overview_field [ CAMEL_NNTP_OVER_FROM ];
-			over_field->index = store->num_overview_fields;
-			colon = field + 5;
+		if (*line == '.') {
+			done = TRUE;
 		}
-		else if (!strncasecmp (field, "Subject:", 7)) {
-			over_field = &store->overview_field [ CAMEL_NNTP_OVER_SUBJECT ];
-			over_field->index = store->num_overview_fields;
-			colon = field + 7;
-		}
-		else if (!strncasecmp (field, "Date:", 5)) {
-			over_field = &store->overview_field [ CAMEL_NNTP_OVER_DATE ];
-			over_field->index = store->num_overview_fields;
-			colon = field + 5;
-		}
-		else if (!strncasecmp (field, "Message-ID:", 11)) {
-			over_field = &store->overview_field [ CAMEL_NNTP_OVER_MESSAGE_ID ];
-			over_field->index = store->num_overview_fields;
-			colon = field + 11;
-		}
-		else if (!strncasecmp (field, "References:", 11)) {
-			over_field = &store->overview_field [ CAMEL_NNTP_OVER_REFERENCES ];
-			over_field->index = store->num_overview_fields;
-			colon = field + 11;
-		}
-		else if (!strncasecmp (field, "Bytes:", 6)) {
-			over_field = &store->overview_field [ CAMEL_NNTP_OVER_BYTES ];
-			over_field->index = store->num_overview_fields;
-			colon = field + 11;
-		}
+		else {
+			CamelNNTPOverField *over_field = NULL;
+			char *colon = NULL;;
+
+			if (!strncasecmp (line, "From:", 5)) {
+				over_field = &store->overview_field [ CAMEL_NNTP_OVER_FROM ];
+				over_field->index = store->num_overview_fields;
+				colon = line + 5;
+			}
+			else if (!strncasecmp (line, "Subject:", 7)) {
+				over_field = &store->overview_field [ CAMEL_NNTP_OVER_SUBJECT ];
+				over_field->index = store->num_overview_fields;
+				colon = line + 7;
+			}
+			else if (!strncasecmp (line, "Date:", 5)) {
+				over_field = &store->overview_field [ CAMEL_NNTP_OVER_DATE ];
+				over_field->index = store->num_overview_fields;
+				colon = line + 5;
+			}
+			else if (!strncasecmp (line, "Message-ID:", 11)) {
+				over_field = &store->overview_field [ CAMEL_NNTP_OVER_MESSAGE_ID ];
+				over_field->index = store->num_overview_fields;
+				colon = line + 11;
+			}
+			else if (!strncasecmp (line, "References:", 11)) {
+				over_field = &store->overview_field [ CAMEL_NNTP_OVER_REFERENCES ];
+				over_field->index = store->num_overview_fields;
+				colon = line + 11;
+			}
+			else if (!strncasecmp (line, "Bytes:", 6)) {
+				over_field = &store->overview_field [ CAMEL_NNTP_OVER_BYTES ];
+				over_field->index = store->num_overview_fields;
+				colon = line + 11;
+			}
 		
-		if (colon && !strcmp (colon + 1, "full"))
-			over_field->full = TRUE;
+			if (colon && !strncmp (colon + 1, "full", 4))
+				over_field->full = TRUE;
 
-		store->num_overview_fields ++;
+			store->num_overview_fields ++;
+		}
+
+		g_free (line);
 	}
-
-	g_free (result);
 
 	for (i = 0; i < CAMEL_NNTP_OVER_LAST; i ++) {
 		if (store->overview_field [i].index == -1) {
@@ -199,9 +202,6 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store)
 static gboolean
 nntp_store_connect (CamelService *service, CamelException *ex)
 {
-	struct hostent *h;
-	struct sockaddr_in sin;
-	int fd;
 	char *buf;
 	int resp_code;
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
@@ -213,37 +213,12 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 	}
 
-	if (!service_class->connect (service, ex))
+	if (CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex) == FALSE)
 		return FALSE;
-
-	h = camel_service_gethost (service, ex);
-	if (!h)
-		return FALSE;
-
-	sin.sin_family = h->h_addrtype;
-	sin.sin_port = htons (service->url->port ? service->url->port : NNTP_PORT);
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
-
-	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
-	if (fd == -1 ||
-	    connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not connect to %s (port %s): %s",
-				      service->url->host, service->url->port,
-				      strerror(errno));
-		if (fd > -1)
-			close (fd);
-		return FALSE;
-	}
-
-	store->ostream = camel_stream_fs_new_with_fd (fd);
-	store->istream = camel_stream_buffer_new (store->ostream,
-						  CAMEL_STREAM_BUFFER_READ);
 
 	/* Read the greeting */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
-	if (!buf) {
-		return -1;
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (service), &buf, ex) < 0) {
+		return FALSE;
 	}
 
 	/* check if posting is allowed. */
@@ -290,10 +265,6 @@ nntp_store_disconnect (CamelService *service, CamelException *ex)
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 
-	camel_object_unref (CAMEL_OBJECT (store->ostream));
-	camel_object_unref (CAMEL_OBJECT (store->istream));
-	store->ostream = NULL;
-	store->istream = NULL;
 	return TRUE;
 }
 
@@ -311,6 +282,8 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 	CamelNNTPFolder *new_nntp_folder;
 	CamelFolder *new_folder;
 	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
+
+	printf ("get_folder called on folder_name=%s\n", folder_name);
 
 	/* if we haven't already read our .newsrc, read it now */
 	if (!nntp_store->newsrc)
@@ -369,6 +342,9 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_nntp_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
 
+	remote_store_class = CAMEL_REMOTE_STORE_CLASS(camel_type_get_global_classfuncs 
+						      (camel_remote_store_get_type ()));
+
 	service_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method overload */
@@ -396,7 +372,7 @@ camel_nntp_store_get_type (void)
 	static CamelType camel_nntp_store_type = CAMEL_INVALID_TYPE;
 	
 	if (camel_nntp_store_type == CAMEL_INVALID_TYPE)	{
-		camel_nntp_store_type = camel_type_register (CAMEL_STORE_TYPE, "CamelNNTPStore",
+		camel_nntp_store_type = camel_type_register (CAMEL_REMOTE_STORE_TYPE, "CamelNNTPStore",
 							     sizeof (CamelNNTPStore),
 							     sizeof (CamelNNTPStoreClass),
 							     (CamelObjectClassInitFunc) camel_nntp_store_class_init,
@@ -436,38 +412,32 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 	va_list ap;
 	int status;
 	int resp_code;
+	char *real_fmt;
+	CamelException ex;
+
+	real_fmt = g_strdup_printf ("%s\r\n", fmt);
 
 	va_start (ap, fmt);
-	cmdbuf = g_strdup_vprintf (fmt, ap);
+	cmdbuf = g_strdup_vprintf (real_fmt, ap);
 	va_end (ap);
 
-	/* make sure we're connected */
-	if (store->ostream == NULL) {
-		CamelException ex;
-	
-		camel_exception_init (&ex);
-		nntp_store_connect (CAMEL_SERVICE (store), &ex);
-		if (camel_exception_get_id (&ex)) {
-			camel_exception_clear (&ex);
-			return CAMEL_NNTP_FAIL;
-		}
-		camel_exception_clear (&ex);
-	}
+	g_free (real_fmt);
 
 	/* Send the command */
-	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf));
+	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), &ex, cmdbuf) < 0) {
+		g_free (cmdbuf);
+		return CAMEL_NNTP_FAIL;
+	}
+
 	g_free (cmdbuf);
-	camel_stream_write (store->ostream, "\r\n", 2);
 
 	/* Read the response */
-	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
-
-	if (!respbuf) {
+	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, &ex) < 0) {
 		if (ret)
 			*ret = g_strdup (g_strerror (errno));
 		return CAMEL_NNTP_FAIL;
 	}
-	
+
 	resp_code = atoi (respbuf);
 		
 	if (resp_code < 400)
@@ -485,74 +455,6 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 	g_free (respbuf);
 	
 	return status;
-}
-
-/**
- * camel_nntp_command_get_additional_data: get "additional data" from
- * a NNTP command.
- * @store: the NNTP store
- *
- * This command gets the additional data returned by This command gets
- * the additional data returned by "multi-line" NNTP commands, such as
- * LIST. This command must only be called after a successful
- * (CAMEL_NNTP_OK) call to camel_nntp_command for a command that has a
- * multi-line response.  The returned data is un-byte-stuffed, and has
- * lines termined by newlines rather than CR/LF pairs.
- *
- * Return value: the data, which the caller must free.
- **/
-char *
-camel_nntp_command_get_additional_data (CamelNNTPStore *store)
-{
-	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
-	GPtrArray *data;
-	char *buf;
-	int i, status = CAMEL_NNTP_OK;
-
-	/* make sure we're connected */
-	if (store->ostream == NULL) {
-		CamelException ex;
-	
-		camel_exception_init (&ex);
-		nntp_store_connect (CAMEL_SERVICE (store), &ex);
-		if (camel_exception_get_id (&ex)) {
-			camel_exception_clear (&ex);
-			return NULL;
-		}
-		camel_exception_clear (&ex);
-	}
-
-	data = g_ptr_array_new ();
-	while (1) {
-		buf = camel_stream_buffer_read_line (stream);
-		if (!buf) {
-			status = CAMEL_NNTP_FAIL;
-			break;
-		}
-
-		if (!strcmp (buf, "."))
-			break;
-		if (*buf == '.')
-			memmove (buf, buf + 1, strlen (buf));
-		g_ptr_array_add (data, buf);
-	}
-
-	if (status == CAMEL_NNTP_OK) {
-		/* Append an empty string to the end of the array
-		 * so when we g_strjoinv it, we get a "\n" after
-		 * the last real line.
-		 */
-		g_ptr_array_add (data, "");
-		g_ptr_array_add (data, NULL);
-		buf = g_strjoinv ("\n", (char **)data->pdata);
-	} else
-		buf = NULL;
-
-	for (i = 0; i < data->len - 2; i++)
-		g_free (data->pdata[i]);
-	g_ptr_array_free (data, TRUE);
-
-	return buf;
 }
 
 void

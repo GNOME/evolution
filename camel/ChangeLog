@@ -1,5 +1,34 @@
 2000-08-31  Chris Toshok  <toshok@helixcode.com>
 
+	* providers/nntp/camel-nntp-utils.c (get_OVER_headers): use
+	camel_remote_store_recv_line.
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message):
+	use camel_remote_store_recv_line to build message.  also, free our
+	buffer so we don't leak like mad.
+
+	* providers/nntp/camel-nntp-store.c:
+	(camel_nntp_store_get_additional_data) remove.
+	(camel_nntp_store_get_extensions): use
+	camel_remote_store_recv_line.
+	(camel_nntp_store_get_overview_fmt): same.  also, don't rely on
+	_get_additional_data anymore since it's easier to parse without.
+	(camel_nntp_command): use camel_remote_store_send_string and
+	camel_remote_store_recv_line.
+
+	* providers/nntp/camel-nntp-store.h: CamelRemoteStore is the
+	parent class now.  remove istream/ostream since CamelRemoteStore
+	takes care of that for us.  also remove the prototype for
+	camel_nntp_store_get_additional_data.
+
+	* providers/nntp/camel-nntp-newsrc.c (camel_nntp_newsrc_write):
+	make sure to clear dirty bit.
+	(camel_nntp_newsrc_read_for_server): don't worry about continually
+	trying to open the file - if it fails we just return an
+	unpopulated .newsrc file.
+
+2000-08-31  Chris Toshok  <toshok@helixcode.com>
+
 	* providers/nntp/camel-nntp-newsrc.c
 	(camel_nntp_newsrc_read_for_server): make this a bit more robust.
 	try to create an empty .newsrc file for the server if we can't

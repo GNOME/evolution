@@ -26,7 +26,6 @@
 #include "camel-nntp-folder.h"
 #include "camel-nntp-store.h"
 #include "camel-nntp-utils.h"
-#include "camel-stream-buffer.h"
 #include "camel-stream-mem.h"
 
 #include <stdlib.h>
@@ -45,13 +44,15 @@ get_OVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				     last_message);
 
 	if (status == CAMEL_NNTP_OK) {
-		CamelStream *nntp_istream = nntp_store->istream;
 		gboolean done = FALSE;
 
 		while (!done) {
 			char *line;
 
-			line = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER ( nntp_istream ));
+			if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (nntp_store), &line, ex) < 0) {
+				g_warning ("failed to recv_line while building OVER header list\n");
+				break;
+			}
 
 			if (*line == '.') {
 				done = TRUE;

@@ -42,7 +42,6 @@
 
 #include "string-utils.h"
 #include "camel-stream-mem.h"
-#include "camel-stream-buffer.h"
 #include "camel-data-wrapper.h"
 #include "camel-mime-message.h"
 #include "camel-folder-summary.h"
@@ -196,8 +195,7 @@ nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
 static CamelMimeMessage *
 nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CamelStream *nntp_istream;
-	CamelStream *message_stream;
+	CamelStream *message_stream = NULL;
 	CamelMimeMessage *message = NULL;
 	CamelStore *parent_store;
 	char *buf;
@@ -212,8 +210,6 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 
 	message_id = strchr (uid, ',') + 1;
 	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), NULL, "ARTICLE %s", message_id);
-
-	nntp_istream = CAMEL_NNTP_STORE (parent_store)->istream;
 
 	/* if the message_id was not found, raise an exception and return */
 	if (status != CAMEL_NNTP_OK) {
@@ -234,8 +230,13 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	buf[0] = 0;
 
 	while (!done) {
-		char *line = camel_stream_buffer_read_line ( CAMEL_STREAM_BUFFER ( nntp_istream ));
 		int line_length;
+		char *line;
+
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (parent_store), &line, ex) < 0) {
+			g_error ("recv_line failed while building message\n");
+			break;
+		}
 
 		/* XXX check exception */
 
@@ -261,23 +262,15 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	message_stream = camel_stream_mem_new_with_buffer(buf, buf_len);
 
 	message = camel_mime_message_new ();
-	if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)message, message_stream) == -1) {
-		camel_object_unref (CAMEL_OBJECT (message));
-		camel_object_unref (CAMEL_OBJECT (message_stream));
-		camel_exception_setv (ex,
-				      CAMEL_EXCEPTION_FOLDER_INVALID_UID, /* XXX */
-				      "Could not create message for message_id %s.", message_id);
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER(message), message_stream);
 
-		return NULL;
-	}
 	camel_object_unref (CAMEL_OBJECT (message_stream));
-
-	/* init other fields? */
-	camel_object_ref (CAMEL_OBJECT (folder));
 
 #if 0
 	gtk_signal_connect (CAMEL_OBJECT (message), "message_changed", message_changed, folder);
 #endif
+
+	g_free (buf);
 
 	return message;
 }

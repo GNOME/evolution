@@ -371,6 +371,8 @@ camel_nntp_newsrc_write(CamelNNTPNewsrc *newsrc)
 
 	camel_nntp_newsrc_write_to_file(newsrc, fp);
 
+	newsrc->dirty = FALSE;
+
 	fclose(fp);
 }
 
@@ -445,30 +447,15 @@ camel_nntp_newsrc_read_for_server (const char *server)
 	char *filename = g_strdup_printf ("%s/.newsrc-%s", g_get_home_dir(), server);
 	CamelNNTPNewsrc *newsrc;
 
-	if ((fp = fopen(filename, "r")) == NULL) {
-		int fd;
-
-		g_warning ("~/.newsrc-%s not present.  creating empty file\n", server);
-
-		if ((fd = open (filename, O_CREAT, O_TRUNC, O_WRONLY, 0777)) < 0) {
-			g_warning ("unable to create ~/.newsrc-%s file\n", server);
-			g_free (filename);
-			return NULL;
-		}
-		close (fd);
-
-		if ((fp = fopen(filename, "r")) == NULL) {
-			g_warning ("unable to open ~/.newsrc-%s file on second try.\n", server);
-			g_free (filename);
-			return NULL;
-		}
-	}
-
 	newsrc = g_new0(CamelNNTPNewsrc, 1);
 	newsrc->filename = filename;
 	newsrc->groups = g_hash_table_new (g_str_hash, g_str_equal);
 	newsrc->subscribed_groups = g_hash_table_new (g_str_hash, g_str_equal);
 
+	if ((fp = fopen(filename, "r")) == NULL) {
+		g_warning ("~/.newsrc-%s not present.\n", server);
+		return newsrc;
+	}
 
 	while (fgets(buf, MAX_LINE_LENGTH, fp) != NULL) {
 		/* we silently ignore (and lose!) lines longer than 20 * 1500 chars.
