@@ -82,7 +82,6 @@ static void e_tasks_init (ETasks *tasks);
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 
-static void cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data);
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
 
 /* Signal IDs */
@@ -456,6 +455,33 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 }
 
 static void
+model_row_changed_cb (ETableModel *etm, int row, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	ECalModelComponent *comp_data;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	if (priv->current_uid) {
+		const char *uid;
+
+		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), row);
+		if (comp_data) {
+			uid = icalcomponent_get_uid (comp_data->icalcomp);
+			if (!strcmp (uid ? uid : "", priv->current_uid)) {
+				ETable *etable;
+
+				etable = e_table_scrolled_get_table (
+					E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
+				table_cursor_change_cb (etable, 0, tasks);
+			}
+		}
+	}
+}
+
+static void
 setup_config (ETasks *tasks)
 {
 	ETasksPrivate *priv;
@@ -485,6 +511,7 @@ setup_widgets (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	ETable *etable;
+	ECalModel *model;
 	GtkWidget *paned, *scroll;
 
 	priv = tasks->priv;
@@ -540,10 +567,14 @@ setup_widgets (ETasks *tasks)
 	gtk_container_add (GTK_CONTAINER (scroll), priv->html);
 	gtk_paned_add2 (GTK_PANED (paned), scroll);
 	gtk_widget_show_all (scroll);
+
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
+	g_signal_connect (G_OBJECT (model), "model_row_changed",
+			  G_CALLBACK (model_row_changed_cb), tasks);
 }
 
 /* Class initialization function for the gnome calendar */
-	static void
+static void
 e_tasks_class_init (ETasksClass *class)
 {
 	GtkObjectClass *object_class;
@@ -598,27 +629,6 @@ client_categories_changed_cb (ECal *client, GPtrArray *categories, gpointer data
 
 	cal_search_bar_set_categories (CAL_SEARCH_BAR (priv->search_bar), categories);
 }
-
-static void
-client_obj_updated_cb (ECal *client, const char *uid, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	if (priv->current_uid) {
-		if (!strcmp (uid, priv->current_uid)) {
-			ETable *etable;
-
-			etable = e_table_scrolled_get_table (
-				E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
-			table_cursor_change_cb (etable, 0, tasks);
-		}
-	}
-}
-
 
 GtkWidget *
 e_tasks_new (void)
@@ -689,99 +699,19 @@ e_tasks_destroy (GtkObject *object)
 }
 
 static void
-set_status_message (ETasks *tasks, const char *message)
+set_status_message (ETasks *tasks, const char *message, ...)
 {
 	ETasksPrivate *priv;
+	va_list args;
+	char sz[2048];
 	
+	va_start (args, message);
+	vsnprintf (sz, sizeof sz, message, args);
+	va_end (args);
+
 	priv = tasks->priv;
 	
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), message);
-}
-
-/* Displays an error to indicate that loading a calendar failed */
-static void
-load_error				(ETasks		*tasks,
-					 const char	*uri)
-{
-	char *msg;
-	char *urinopwd;
-
-	urinopwd = get_uri_without_password (uri);
-	msg = g_strdup_printf (_("Could not load the tasks in `%s'"), urinopwd);
-	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
-	g_free (msg);
-	g_free (urinopwd);
-}
-
-/* Displays an error to indicate that the specified URI method is not supported */
-static void
-method_error				(ETasks		*tasks,
-					 const char	*uri)
-{
-	char *msg;
-	char *urinopwd;
-
-	urinopwd = get_uri_without_password (uri);
-	msg = g_strdup_printf (_("The method required to load `%s' is not supported"), urinopwd);
-	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
-	g_free (msg);
-	g_free (urinopwd);
-}
-
-/* Displays an error to indicate permission problems */
-static void
-permission_error (ETasks *tasks, const char *uri)
-{
-	char *msg;
-	char *urinopwd;
-
-	urinopwd = get_uri_without_password (uri);
-	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), urinopwd);
-	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
-	g_free (msg);
-	g_free (urinopwd);
-}
-
-/* Callback from the calendar client when a calendar is opened */
-static void
-cal_opened_cb				(ECal	*client,
-					 ECalendarStatus status,
-					 gpointer	 data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	set_status_message (tasks, NULL);
-
-	switch (status) {
-	case E_CALENDAR_STATUS_OK:
-		/* Everything is OK */
-		set_timezone (tasks);
-		return;
-
-	case E_CALENDAR_STATUS_OTHER_ERROR:
-		load_error (tasks, e_cal_get_uri (client));
-		break;
-
-	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
-		/* bullshit; we did not specify only_if_exists */
-		g_assert_not_reached ();
-		return;
-
-	case E_CALENDAR_STATUS_PROTOCOL_NOT_SUPPORTED:
-		method_error (tasks, e_cal_get_uri (client));
-		break;
-
-	case E_CALENDAR_STATUS_PERMISSION_DENIED:
-		permission_error (tasks, e_cal_get_uri (client));
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), sz);
 }
 
 /* Callback from the calendar client when an error occurs in the backend */
@@ -848,7 +778,8 @@ e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
 	ETasksPrivate *priv;
 	ECal *client;
 	ECalModel *model;
-	
+	GError *error = NULL;
+
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
 	g_return_val_if_fail (str_uri != NULL, FALSE);
@@ -858,7 +789,9 @@ e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
 	client = g_hash_table_lookup (priv->clients, str_uri);
 	if (client)
 		return TRUE;
-	
+
+	set_status_message (tasks, _("Opening tasks at %s"), str_uri);
+
 	client = auth_new_cal_from_uri (str_uri, E_CAL_SOURCE_TYPE_TODO);
 	g_hash_table_insert (priv->clients, g_strdup (str_uri), client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
@@ -866,17 +799,35 @@ e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
 
-	if (!e_cal_open (client, FALSE, NULL)) {
+	if (!e_cal_open (client, FALSE, &error)) {
+		GtkWidget *dialog;
+
+		dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
+						 GTK_DIALOG_NO_SEPARATOR,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+						 _("Error opening %s:\n%s"),
+						 str_uri, error ? error->message : "");
+
+		g_error_free (error);
 		g_hash_table_remove (priv->clients, str_uri);
 		priv->clients_list = g_list_prepend (priv->clients_list, client);
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, tasks);	
 
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		set_status_message (tasks, NULL);
+
 		return FALSE;
 	}
 
+	set_status_message (tasks, _("Loading tasks"));
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	e_cal_model_add_client (model, client);
+
+	set_timezone (tasks);
+	set_status_message (tasks, NULL);
 
 	return TRUE;
 }

@@ -5617,7 +5617,7 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 		end_dt = icaltime_as_timet (end_time);
 		break;	
 	default:
-		break;
+		return;
 	}
 	
 	e_day_view_change_event_time (day_view, start_dt, end_dt);

@@ -108,6 +108,8 @@ static gint e_calendar_table_on_key_press	(ETable		*table,
 static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
 						    gpointer data);
 static void mark_row_complete_cb (int model_row, gpointer data);
+static ECalModelComponent *get_selected_comp (ECalendarTable *cal_table);
+static void open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean assign);
 
 
 /* The icons to represent the task. */

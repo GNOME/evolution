@@ -222,8 +222,6 @@ row_updated (EDateTimeList *date_time_list, gint n)
 static void
 e_date_time_list_finalize (GObject *object)
 {
-	EDateTimeList *date_time_list = E_DATE_TIME_LIST (object);
-
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }

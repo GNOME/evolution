@@ -84,7 +84,8 @@ process_old_dir (ESourceGroup *source_group, const char *path,
 	s = g_build_filename (path, "subfolders", NULL);
 	dir = g_dir_open (s, 0, NULL);
 	if (dir) {
-		const char *name, *tmp_s;
+		const char *name;
+		char *tmp_s;
 
 		while ((name = g_dir_read_name (dir))) {
 			tmp_s = g_build_filename (s, name, NULL);

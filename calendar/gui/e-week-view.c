@@ -3061,7 +3061,7 @@ e_week_view_scroll_a_step (EWeekView *week_view, ECalViewMoveDirection direction
 		new_value = adj->value + adj->step_increment;
 		break;
 	default:
-		break;
+		return;
 	}
 	
 	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);

@@ -1,3 +1,40 @@
+2003-01-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/notify-main.c: added missing headers.
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_remove_calendar):
+	use the correct variable when calling alarm_queue_remove_client().
+
+	* gui/calendar-component.c (impl_upgradeFromVersion): removed redundant
+	variable declarations.
+
+	* gui/migration.c (process_old_dir):
+	* gui/e-timezone-entry.c (e_timezone_entry_mnemonic_activate):
+	* gui/e-date-time-list.c (e_date_time_list_finalize):
+	* gui/e-alarm-list.c (e_alarm_list_finalize): fixed warnings.
+
+	* gui/e-calendar-table.c: added missing prototypes at the top to
+	avoid warnings.
+
+	* gui/e-week-view.c (e_week_view_scroll_a_step):
+	* gui/e-day-view.c (e_day_view_event_move): directly return in the
+	default: case.
+
+	* gui/e-tasks.c (setup_widgets): connect to changes on the model.
+	(model_row_changed_cb): callback to update the HTML detailed view
+	when the currently selected task changes.
+	(client_obj_updated_cb): removed unused function.
+	(set_status_message): changed to accept a variable list of arguments.
+	(e_tasks_add_todo_uri): display status messages and get error message
+	from backend and display it in a dialog.
+	(cal_opened_cb, load_error, method_error, permission_error): removed
+	unused functions.
+
+	* gui/gnome-cal.c (open_ecal): added a GnomeCalendar argument, and
+	display status messages.
+	(gnome_calendar_construct, gnome_calendar_add_event_source):
+	adapted to changes in open_ecal().
+
 2004-01-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (display_notification): keep

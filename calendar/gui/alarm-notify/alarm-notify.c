@@ -189,13 +189,12 @@ void
 alarm_notify_remove_calendar (AlarmNotify *an, const char *str_uri)
 {
 	AlarmNotifyPrivate *priv;
-	ECal *client;
 	gpointer orig_key, orig_value;
 
 	priv = an->priv;
 
 	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &orig_key, &orig_value)) {
-		alarm_queue_remove_client (client);
+		alarm_queue_remove_client (E_CAL (orig_value));
 
 		g_hash_table_remove (priv->uri_client_hash, str_uri);
 		g_free (orig_key);

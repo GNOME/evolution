@@ -557,11 +557,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 	/* create calendar for birthdays & anniversaries */
 	if ((major < 0) ||
 	    ((major == 1) && (minor < 5)) ||
-	    ((major == 1) && (minor == 5) && (revision < 2))) {
-		ESourceGroup *group;
-		ESource *source;
-		char *base_uri, *new_dir;
-		
+	    ((major == 1) && (minor == 5) && (revision < 2))) {		
 		group = e_source_group_new (_("Contacts"), "contacts://");
 		source = e_source_new (_("Birthdays & Anniversaries"), "/");
 		e_source_group_add_source (group, source, -1);
@@ -573,10 +569,7 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
  	/* create calendar for birthdays & anniversaries */
  	if ((major < 0) ||
  	    ((major == 1) && (minor < 5)) ||
-	    ((major == 1) && (minor == 5) && (revision < 2))) {
- 		ESource *source;
-		char *base_uri, *new_dir;
- 		
+	    ((major == 1) && (minor == 5) && (revision < 2))) { 		
  		group = e_source_group_new (_("Birthdays"), "contacts://");
  		source = e_source_new (_("Birthdays & Anniversaries"), "/");
  		e_source_group_add_source (group, source, -1);

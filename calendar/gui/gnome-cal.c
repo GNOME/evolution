@@ -1746,10 +1746,15 @@ copy_categories (GPtrArray *categories)
 }
 
 static gboolean
-open_ecal (ECal *cal, gboolean only_if_exists)
+open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists)
 {
 	gboolean retval;
+	char *msg;
 	GError *error = NULL;
+
+	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
+	e_calendar_view_set_status_message (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)), msg);
+	g_free (msg);
 
 	retval = e_cal_open (cal, only_if_exists, &error);
 	if (!retval) {
@@ -1762,7 +1767,12 @@ open_ecal (ECal *cal, gboolean only_if_exists)
 						 e_cal_get_uri (cal),
 						 error ? error->message : "");
 		g_error_free (error);
+
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
 	}
+
+	e_calendar_view_set_status_message (E_CAL_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
 
 	return retval;
 }
@@ -1961,7 +1971,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 		g_free (uid);
 
-		if (!open_ecal (priv->task_pad_client, TRUE))
+		if (!open_ecal (gcal, priv->task_pad_client, TRUE))
 			return NULL;
 
 		e_cal_model_add_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)),
@@ -2100,7 +2110,7 @@ gnome_calendar_add_event_source (GnomeCalendar *gcal, ESource *source)
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
 
 	/* FIXME Do this async? */
-	if (!open_ecal (client, FALSE)) {
+	if (!open_ecal (gcal, client, FALSE)) {
 		priv->clients_list = g_list_remove (priv->clients_list, client);
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, gcal);
