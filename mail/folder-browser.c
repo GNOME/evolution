@@ -8,6 +8,7 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+#include <ctype.h>
 #include <gnome.h>
 #include "e-util/e-util.h"
 #include "e-util/e-sexp.h"
@@ -319,7 +320,7 @@ folder_browser_clear_search (FolderBrowser *fb)
 static int
 etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 {
-	if (ev->key.state != 0)
+	if ((ev->key.state & !(GDK_SHIFT_MASK | GDK_LOCK_MASK)) != 0)
 		return FALSE;
 
 	if (ev->key.keyval == GDK_space || ev->key.keyval == GDK_BackSpace) {
@@ -346,9 +347,17 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 	} else if (ev->key.keyval == GDK_Delete ||
 		   ev->key.keyval == GDK_KP_Delete) {
 		delete_msg (NULL, fb);
-		message_list_select_next (fb->message_list, row,
-					  0, CAMEL_MESSAGE_DELETED);
+		message_list_select (fb->message_list, row,
+				     MESSAGE_LIST_SELECT_NEXT,
+				     0, CAMEL_MESSAGE_DELETED);
 		return TRUE;
+	} else if (ev->key.keyval == 'n' || ev->key.keyval == 'N' ||
+		   ev->key.keyval == 'p' || ev->key.keyval == 'P') {
+		message_list_select (fb->message_list, row,
+				     tolower (ev->key.keyval) == 'p' ?
+				     MESSAGE_LIST_SELECT_PREVIOUS :
+				     MESSAGE_LIST_SELECT_NEXT,
+				     0, CAMEL_MESSAGE_SEEN);
 	}
 
 	return FALSE;

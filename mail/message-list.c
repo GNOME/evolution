@@ -102,35 +102,45 @@ get_message_info (MessageList *message_list, int row)
 }
 
 /**
- * message_list_select_next:
+ * message_list_select:
  * @message_list: a MessageList
- * @row: the row to start from
+ * @base_row: the row to start from
+ * @direction: the direction to search in
  * @flags: a set of flag values
  * @mask: a mask for comparing against @flags
  *
- * This moves the message list selection to the first row on or after
- * @row whose flags match @flags when masked with @mask.
+ * This moves the message list selection to a suitable row. @base_row
+ * lists the first row to try, and @flags and @mask combine to specify
+ * what constitutes a suitable row. @direction is
+ * %MESSAGE_LIST_SELECT_NEXT if it should find the next matching
+ * message, or %MESSAGE_LIST_SELECT_PREVIOUS if it should find the
+ * previous. If no suitable row is found, the selection will be
+ * unchanged but the message display will be cleared.
  **/
 void
-message_list_select_next (MessageList *message_list, int row,
-			  guint32 flags, guint32 mask)
+message_list_select (MessageList *message_list, int base_row,
+		     MessageListSelectDirection direction,
+		     guint32 flags, guint32 mask)
 {
 	const CamelMessageInfo *info;
+	int last;
 
-	while (row < e_table_model_row_count (message_list->table_model)) {
-		info = get_message_info (message_list, row);
+	if (direction == MESSAGE_LIST_SELECT_PREVIOUS)
+		last = 0;
+	else
+		last = e_table_model_row_count (message_list->table_model);
+
+	while (base_row != last) {
+		base_row += direction;
+		info = get_message_info (message_list, base_row);
 		if (info && (info->flags & mask) == flags) {
 			e_table_scrolled_set_cursor_row (E_TABLE_SCROLLED (message_list->etable),
-							 row);
+							 base_row);
 			return;
 		}
-		row++;
 	}
 
-	/* We know "row" is out of bounds now, so this will cause the
-	 * MailDisplay to be cleared.
-	 */
-	select_msg (message_list, row);
+	mail_display_set_message (message_list->parent_folder_browser->mail_display, NULL);
 }
 
 static gint

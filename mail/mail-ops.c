@@ -124,8 +124,8 @@ select_first_unread (CamelFolder *folder, int type, gpointer data)
 {
 	FolderBrowser *fb = data;
 
-	message_list_select_next (fb->message_list, 0,
-				  0, CAMEL_MESSAGE_SEEN);
+	message_list_select (fb->message_list, 0, MESSAGE_LIST_SELECT_NEXT,
+			     0, CAMEL_MESSAGE_SEEN);
 }
 
 void
@@ -136,7 +136,7 @@ real_fetch_mail (gpointer user_data)
 	CamelException *ex;
 	CamelStore *store = NULL, *dest_store = NULL;
 	CamelFolder *folder = NULL, *dest_folder = NULL;
-	char *url = NULL, *dest_url, *dest_mbox;
+	char *url = NULL, *dest_url;
 	FilterDriver *filter = NULL;
 	char *userrules, *systemrules;
 	char *tmp_mbox = NULL, *source;
@@ -145,6 +145,10 @@ real_fetch_mail (gpointer user_data)
 	info = (rfm_t *) user_data;
 	fb = info->fb;
 	url = info->source_url;
+	
+	/* If using IMAP, don't do anything... */
+	if (!strncmp (url, "imap:", 5))
+		return;
 	
 	ex = camel_exception_new ();
 
@@ -156,21 +160,14 @@ real_fetch_mail (gpointer user_data)
 		goto cleanup;
 	}
 	
-	dest_mbox = g_strdup_printf ("%s/local/Inbox/mbox", evolution_dir);
-	dest_folder = camel_store_get_folder (dest_store,
-					      strrchr (dest_mbox, '/') + 1,
-					      FALSE, ex);
+	dest_folder = camel_store_get_folder (dest_store, "mbox", FALSE, ex);
 	if (!dest_folder) {
 		async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 		goto cleanup;
 	}
-	
+
 	tmp_mbox = g_strdup_printf ("%s/local/Inbox/movemail", evolution_dir);
 
-	/* If using IMAP, don't do anything... */
-	if (!strncmp (url, "imap:", 5))
-		goto cleanup;
-	
 	/* If fetching mail from an mbox store, safely copy it to a
 	 * temporary store first.
 	 */
@@ -204,8 +201,7 @@ real_fetch_mail (gpointer user_data)
 			goto cleanup;
 		}
 
-		folder = camel_store_get_folder (dest_store,
-						 strrchr (tmp_mbox, '/') + 1,
+		folder = camel_store_get_folder (dest_store, "movemail",
 						 FALSE, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			async_mail_exception_dialog ("Unable to move mail", ex, fb);
@@ -222,7 +218,6 @@ real_fetch_mail (gpointer user_data)
 
 		camel_service_connect (CAMEL_SERVICE (store), ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			gtk_object_unref (GTK_OBJECT (dest_folder));
 			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL)
 				async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
@@ -230,7 +225,6 @@ real_fetch_mail (gpointer user_data)
 
 		sourcefolder = camel_store_get_folder (store, "inbox", FALSE, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			gtk_object_unref (GTK_OBJECT (dest_folder));
 			async_mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
@@ -244,8 +238,7 @@ real_fetch_mail (gpointer user_data)
 			printf ("folder isn't searchable, performing movemail ...\n");
 
 			folder = camel_store_get_folder (dest_store,
-							 strrchr (tmp_mbox, '/') + 1,
-							 TRUE, ex);
+							 "movemail", TRUE, ex);
 			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 				async_mail_exception_dialog ("Unable to move mail", ex, fb);
 				goto cleanup;

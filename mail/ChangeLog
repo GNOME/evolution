@@ -1,3 +1,14 @@
+2000-07-10  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (message_list_select): Update
+	message_list_select_next to do either next or previous.
+
+	* folder-browser.c (etable_key): Make 'n' and 'p' do next and
+	previous unread message.
+
+	* mail-ops.c (select_first_unread): Update.
+	(real_fetch_mail): clean up a bit.
+
 2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (forward_msg): Initialize `fwd_subj' to NULL if
