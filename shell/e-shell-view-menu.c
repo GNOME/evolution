@@ -245,6 +245,22 @@ command_new_folder (BonoboUIHandler *uih,
 					     default_parent_folder);
 }
 
+static void
+command_new_view (BonoboUIHandler *uih,
+		  void *data,
+		  const char *path)
+{
+	EShellView *shell_view;
+	EShell *shell;
+	const char *current_uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell = e_shell_view_get_shell (shell_view);
+	current_uri = e_shell_view_get_current_uri (shell_view);
+
+	e_shell_new_view (shell, current_uri);
+}
+
 
 /* Going to a folder.  */
 
@@ -362,14 +378,18 @@ DEFINE_UNIMPLEMENTED (command_new_journal_entry)
  */
 static GnomeUIInfo menu_file_new [] = {
 
+	{ GNOME_APP_UI_ITEM, N_("View"),
+	  NULL, command_new_view, NULL,
+	  NULL, 0, 0, 'v', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	
 	{ GNOME_APP_UI_ITEM, N_("_Folder"),
 	  NULL, command_new_folder, NULL,
-	  NULL, 0, 0, 'e', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	  NULL, 0, 0, 'f', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 
 	{ GNOME_APP_UI_ITEM, N_("Evolution _Bar Shortcut"),
 	  NULL, command_new_shortcut, NULL,
-	  NULL, 0, 0, 'e', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	
+	  NULL, 0, 0, 's', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+
 	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_ITEM, N_("_Mail message (FIXME)"),

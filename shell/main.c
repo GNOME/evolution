@@ -39,6 +39,7 @@ static EShell *shell;
 static void
 no_views_left_cb (EShell *shell, gpointer data)
 {
+	e_shell_quit (shell);
 	gtk_main_quit ();
 }
 
@@ -138,21 +139,6 @@ development_warning ()
 		gtk_object_destroy (GTK_OBJECT (warning_dialog));
 }
 
-static void
-view_delete_event_cb (GtkWidget *widget,
-		      GdkEventAny *event,
-		      void *data)
-{
-	EShell *shell;
-
-	shell = E_SHELL (data);
-
-	gtk_widget_destroy (widget);
-
-	/* FIXME we should keep track of the number of views and exit when all the views are gone.  */
-	e_shell_quit (shell);
-}
-
 static gint
 idle_cb (gpointer data)
 {
@@ -178,13 +164,8 @@ idle_cb (gpointer data)
 	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
 
-	if (! e_shell_restore_from_settings (shell)) {
+	if (! e_shell_restore_from_settings (shell))
 		view = e_shell_new_view (shell, STARTUP_URI);
-		/* FIXME: Do this for all the shell views even when the shell
-                   is restored.  */
-		gtk_signal_connect (GTK_OBJECT (view), "delete_event",
-				    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
-	}
 
 	if (!getenv ("EVOLVE_ME_HARDER"))
 		development_warning ();

@@ -1,3 +1,13 @@
+2000-07-20  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* main.c (no_views_left_cb): Call `e_shell_quit()' on the shell
+	before getting out of the GTK+ main loop.
+	(view_delete_event_cb): Removed.
+	(idle_cb): Don't call it.
+
+	* e-shell-view-menu.c (command_new_view): New, implementation of
+	the "New view" command.
+
 2000-07-16  Damon Chaplin  <damon@helixcode.com>
 
 	* e-shortcuts-view.c (e_shortcuts_view_construct): created a model
