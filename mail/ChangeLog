@@ -1,3 +1,10 @@
+2000-06-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c (on_cmdSourcesAdd_clicked): Changed identity_row to source_row
+	as this is a Sources clist we are dealing with and not an identity clist
+	(on_cmdSourcesEdit_clicked): same
+	(on_cmdSourcesDelete_clicked): again, same
+
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c: Add a date column.	

@@ -1597,7 +1597,7 @@ on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
 	GtkWidget *dialog;
 	char *sourcep;
 	
-	if (identity_row == -1)
+	if (source_row == -1)
 		return;
 
 	sourcep = gtk_clist_get_row_data (GTK_CLIST (user_data), source_row);
@@ -1617,7 +1617,7 @@ on_cmdSourcesDelete_clicked (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	gtk_clist_remove (GTK_CLIST (user_data), source_row);
-	identity_row = -1;
+	source_row = -1;
 }
 
 static void
