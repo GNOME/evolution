@@ -1,3 +1,4 @@
+filter-editor
 *.la
 *.lo
 .libs
