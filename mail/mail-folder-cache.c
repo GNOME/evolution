@@ -106,8 +106,13 @@ static void folder_changed(CamelObject *o, gpointer event_data, gpointer user_da
 static void folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data);
 
+
+static guint ping_id = 0;
+static gboolean ping_cb (gpointer user_data);
+
+
 /* Store to storeinfo table, active stores */
-static GHashTable *stores;
+static GHashTable *stores = NULL;
 
 /* List of folder changes to be executed in gui thread */
 static EDList updates = E_DLIST_INITIALISER(updates);
@@ -721,13 +726,36 @@ update_folders(CamelStore *store, CamelFolderInfo *fi, void *data)
 	g_free(ud);
 }
 
+static void
+ping_store (gpointer key, gpointer val, gpointer user_data)
+{
+	CamelStore *store = (CamelStore *) key;
+	CamelException ex;
+	
+	camel_exception_init (&ex);
+	camel_store_noop (store, &ex);
+	camel_exception_clear (&ex);
+}
+
+static gboolean
+ping_cb (gpointer user_data)
+{
+	LOCK (info_lock);
+	
+	g_hash_table_foreach (stores, ping_store, NULL);
+	
+	UNLOCK (info_lock);
+}
+
 void
 mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_Storage corba_storage,
 		void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _store_info *si;
 	struct _update_data *ud;
-
+	const char *buf;
+	guint timeout;
+	
 	g_assert(CAMEL_IS_STORE(store));
 	g_assert(pthread_self() == mail_gui_thread);
 	g_assert(storage == NULL || corba_storage == CORBA_OBJECT_NIL);
@@ -738,11 +766,13 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 		stores = g_hash_table_new(NULL, NULL);
 		count_sent = getenv("EVOLUTION_COUNT_SENT") != NULL;
 		count_trash = getenv("EVOLUTION_COUNT_TRASH") != NULL;
+		buf = getenv ("EVOLUTION_PING_TIMEOUT");
+		timeout = buf ? strtoul (buf, NULL, 10) * 1000 : 600000;
+		ping_id = g_timeout_add (timeout, ping_cb, NULL);
 	}
 
 	si = g_hash_table_lookup(stores, store);
 	if (si == NULL) {
-
 		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
 
 		/* FIXME: Need to ref the storages & store or something?? */

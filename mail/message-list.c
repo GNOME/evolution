@@ -119,7 +119,7 @@ enum {
 #ifdef SMART_ADDRESS_COMPARE
 struct _EMailAddress {
 	ENameWestern *wname;
-	gchar *address;
+	char *address;
 };
 
 typedef struct _EMailAddress EMailAddress;
@@ -304,7 +304,7 @@ address_compare (gconstpointer address1, gconstpointer address2)
 	return retval;
 }
 
-static gchar *
+static char *
 filter_size (gint size)
 {
 	gfloat fsize;

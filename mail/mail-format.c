@@ -1505,8 +1505,8 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	GString *string;
 	
 	if (!translations) {
-		translations = g_hash_table_new (g_strcase_hash,
-						 g_strcase_equal);
+		translations = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+		
 		g_hash_table_insert (translations, "bold", "<b>");
 		g_hash_table_insert (translations, "/bold", "</b>");
 		g_hash_table_insert (translations, "italic", "<i>");

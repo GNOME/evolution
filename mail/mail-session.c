@@ -111,8 +111,6 @@ class_init (MailSessionClass *mail_session_class)
 	camel_session_class->get_password = get_password;
 	camel_session_class->forget_password = forget_password;
 	camel_session_class->alert_user = alert_user;
-	camel_session_class->register_timeout = register_timeout;
-	camel_session_class->remove_timeout = remove_timeout;
 	camel_session_class->get_filter_driver = get_filter_driver;
 }
 
