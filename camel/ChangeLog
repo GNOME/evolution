@@ -1,3 +1,9 @@
+2001-08-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (crypto_exec_with_passwd): Initialize buf
+	and diag_buf to NULL, hopefully this fixes the crash if the
+	select() times out.
+
 2001-08-28  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (create_folder): Whoops.

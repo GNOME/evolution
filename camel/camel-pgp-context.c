@@ -277,17 +277,17 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 			 int passwd_fds[], const char *passphrase,
 			 char **output, int *outlen, char **diagnostics)
 {
-	fd_set fdset, write_fdset;
-	int ip_fds[2], op_fds[2], diag_fds[2];
-	int select_result, read_len, write_len;
-	size_t tmp_len;
-	pid_t child;
-	char *buf, *diag_buf;
-	const char *passwd_next, *input_next;
-	size_t size, alloc_size, diag_size, diag_alloc_size;
 	gboolean eof_seen, diag_eof_seen, passwd_eof_seen, input_eof_seen;
 	size_t passwd_remaining, passwd_incr, input_remaining, input_incr;
+	size_t size, alloc_size, diag_size, diag_alloc_size;
+	int select_result, read_len, write_len;
+	int ip_fds[2], op_fds[2], diag_fds[2];
+	const char *passwd_next, *input_next;
+	char *buf = NULL, *diag_buf = NULL;
+	fd_set fdset, write_fdset;
 	struct timeval timeout;
+	size_t tmp_len;
+	pid_t child;
 	
 	
 	if ((pipe (ip_fds) < 0 ) ||
@@ -409,7 +409,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 			size += read_len;
 		}
 		
-		if (FD_ISSET(diag_fds[0], &fdset) ) {
+		if (FD_ISSET (diag_fds[0], &fdset) ) {
 			/* More stderr is available. */
 			
 			if (diag_size + 1024 > diag_alloc_size) {
@@ -430,7 +430,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 			diag_size += read_len;
 		}
 		
-		if (FD_ISSET(passwd_fds[1], &write_fdset)) {
+		if (FD_ISSET (passwd_fds[1], &write_fdset)) {
 			/* Ready for more password input. */
 			
 			tmp_len = passwd_incr;
@@ -451,7 +451,7 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 			}
 		}
 		
-		if (FD_ISSET(ip_fds[1], &write_fdset)) {
+		if (FD_ISSET (ip_fds[1], &write_fdset)) {
 			/* Ready for more ciphertext input. */
 			
 			tmp_len = input_incr;
