@@ -1,3 +1,7 @@
+2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-list.c, e-list.h: Added e_list_duplicate.
+
 2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util.c, e-util.h: Added e_strsplit to work around a bug in

@@ -87,6 +87,24 @@ e_list_new          (EListCopyFunc copy, EListFreeFunc free, void *closure)
 	return list;
 }
 
+EList *
+e_list_duplicate    (EList *old)
+{
+	EList *list = gtk_type_new(e_list_get_type());
+
+	list->copy    = old->copy;
+	list->free    = old->free;
+	list->closure = old->closure;
+	list->list    = g_list_copy(old->list);
+	if (list->copy) {
+		GList *listlist;
+		for (listlist = list->list; listlist; listlist = listlist->next) {
+			listlist->data = list->copy (listlist->data, list->closure);
+		}
+	}
+	return list;
+}
+
 EIterator *
 e_list_get_iterator (EList *list)
 {
