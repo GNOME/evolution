@@ -1,0 +1,55 @@
+module GNOME {
+
+	module Calendar {
+		
+		interface Repository {
+
+			exception NotFound {};
+
+			/*
+			 * get_object:
+			 * @uid: Unique Identifier for the object
+			 *
+			 * Returns a vCalendar object for the object
+			 * that matches the UID @uid
+			 */
+			string get_object    (in string uid)
+				raises (NotFound);
+
+			/*
+			 * get_object_by_pilot_id:
+			 * @pilot_id: the pilot id
+			 * 
+			 * Returns the object that has the @pilot_id 
+			 * identifier.
+			 */
+			string get_object_by_pilot_id (in long pilot_id) 
+				raises (NotFound);
+
+			string get_id_from_pilot_id (in long pilot_id)
+				raises (NotFound);
+
+			/*
+			 * delete_object:
+			 * @uid: Unique Identifier for the object
+			 */
+			void delete_object (in string uid)
+				raises (NotFound);
+
+			/*
+			 * update_object:
+			 * @uid: uid of object to update
+			 * @object: vcard object to update 
+			 */
+			void update_object (in string uid, in string object);
+
+			/*
+			 * done:
+			 * 
+			 * Informs the calendar that we are done using it,
+			 * gets a chance to destroy windows and save information.
+			 */
+			void done ();
+		};
+	};
+};

@@ -6,3 +6,7 @@ _libs
 gncal
 gnomecal
 getdate.c
+GnomeCal-skels.c
+GnomeCal-common.c
+GnomeCal.h
+calendar-pilot-sync
