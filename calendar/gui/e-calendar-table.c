@@ -716,8 +716,11 @@ copy_row_cb (int model_row, gpointer data)
 	/* add the new component to the VCALENDAR component */
 	comp_str = cal_component_get_as_string (comp);
 	child = icalparser_parse_string (comp_str);
-	if (child)
-		icalcomponent_add_component (cal_table->tmp_vcal, child);
+	if (child) {
+		icalcomponent_add_component (cal_table->tmp_vcal,
+					     icalcomponent_new_clone (child));
+		icalcomponent_free (child);
+	}
 
 	g_free (comp_str);
 }
@@ -1036,7 +1039,7 @@ selection_received (GtkWidget *invisible,
 	icalcomp = icalparser_parse_string ((const char *) comp_str);
 	if (!icalcomp)
 		return;
-	
+
 	/* check the type of the component */
 	kind = icalcomponent_isa (icalcomp);
 	if (kind != ICAL_VCALENDAR_COMPONENT &&
@@ -1047,12 +1050,13 @@ selection_received (GtkWidget *invisible,
 	}
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		int num_found = 0;
 		icalcomponent_kind child_kind;
 		icalcomponent *subcomp;
+		icalcomponent *vcal_comp;
 
+		vcal_comp = icalcomp;
 		subcomp = icalcomponent_get_first_component (
-			icalcomp, ICAL_ANY_COMPONENT);
+			vcal_comp, ICAL_ANY_COMPONENT);
 		while (subcomp) {
 			child_kind = icalcomponent_isa (subcomp);
 			if (child_kind == ICAL_VEVENT_COMPONENT ||
@@ -1066,24 +1070,14 @@ selection_received (GtkWidget *invisible,
 					tmp_comp, icalcomponent_new_clone (subcomp));
 				cal_component_set_uid (tmp_comp, uid);
 
+				cal_client_update_object (
+					calendar_model_get_cal_client (cal_table->model),
+					tmp_comp);
 				free (uid);
 				gtk_object_unref (GTK_OBJECT (tmp_comp));
-
-				num_found++;
 			}
 			subcomp = icalcomponent_get_next_component (
-				icalcomp, ICAL_ANY_COMPONENT);
-		}
-
-		if (num_found) {
-			comp = cal_component_new ();
-			cal_component_set_icalcomponent (comp, icalcomp);
-
-			cal_client_update_object (
-				calendar_model_get_cal_client (cal_table->model),
-				comp);
-
-			gtk_object_unref (GTK_OBJECT (comp));
+				vcal_comp, ICAL_ANY_COMPONENT);
 		}
 	}
 	else {

@@ -1,3 +1,9 @@
+2001-08-06  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.c (destroy_wombat_client): added check for
+	NULL pointers. Maybe fixes #5203 (I can't reproduce it, so I'm not
+	sure)
+
 2001-08-03  Federico Mena Quintero  <federico@ximian.com>
 
 	* cal-client/query-listener.c (query_listener_stop_notification):

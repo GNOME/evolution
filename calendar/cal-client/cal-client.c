@@ -216,6 +216,9 @@ destroy_wombat_client (CalClient *client)
 {
         CalClientPrivate *priv;
 
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (IS_CAL_CLIENT (client));
+
         priv = client->priv;
 
         if (!priv->w_client)
