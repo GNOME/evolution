@@ -108,6 +108,8 @@ view_destroy(GtkObject *object, gpointer data)
 		if (view->book_view == PAS_BOOK_VIEW(object)) {
 			g_free (view->search);
 			g_free (view);
+			if (view->search_idle != 0)
+				g_source_remove(view->search_idle);
 			bl->priv->book_views = g_list_remove_link(bl->priv->book_views, list);
 			g_list_free_1(list);
 			break;

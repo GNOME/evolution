@@ -4,6 +4,7 @@
 	function that polls ldap for more search responses.
 	(pas_backend_ldap_search): use the async search interface and
 	register an idle call to poll for the responses.
+	(view_destroy): make sure to g_source_remove the idle id.
 
 2000-04-12  Chris Toshok  <toshok@helixcode.com>
 
