@@ -1,3 +1,8 @@
+2001-01-05  Maciej Stachowiak  <mjs@eazel.com>
+
+	* autogen.sh: xml-i18n-toolize if AM_PROG_XML_I18N_TOOLS is found
+	in configure.in.
+
 2000-11-05  Martin Baulig  <baulig@suse.de>
 
 	* gnome-bonobo-check.m4 (BONOBO_CFLAGS, BONOBO_LIBS): Added
