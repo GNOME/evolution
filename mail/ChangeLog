@@ -1,35 +1,41 @@
-2001-07-16  Peter Williams  <peterw@ximian.com>
+2001-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-folder-cache.c (outbox_folder): prototype outbox_folder so we
-	can check if a folder is it.
-	(make_folder_name): If the folder is the outbox, display the count of
-	total messages as "unsent".
-	(make_folder_status): If the folder is the outbox, display "unsent"
-	instead of "total"
+	* component-factory.c: Let VTrash folders accept/export the same
+	dnd types as normal folders.
 
 2001-07-16  Peter Williams  <peterw@ximian.com>
 
-	* mail-display.c (mail_display_redisplay): Use our own display_style
-	member instead of the global setting.
+	* mail-folder-cache.c (outbox_folder): prototype outbox_folder so
+	we can check if a folder is it.
+	(make_folder_name): If the folder is the outbox, display the count
+	of total messages as "unsent".
+	(make_folder_status): If the folder is the outbox, display
+	"unsent" instead of "total"
+
+2001-07-16  Peter Williams  <peterw@ximian.com>
+
+	* mail-display.c (mail_display_redisplay): Use our own
+	display_style member instead of the global setting.
 	(mail_display_init): Initialize display_style.
 
-	* mail-display.h: Include "mail-config.h" and add a display_style member.
+	* mail-display.h: Include "mail-config.h" and add a display_style
+	member.
 
-	* mail-format.c (write_headers): Look at the MailDisplay's display_style
-	instead of using the full_headers data.
+	* mail-format.c (write_headers): Look at the MailDisplay's
+	display_style instead of using the full_headers data.
 
 	* folder-browser.c (folder_browser_set_message_display_style): Set
 	the MailDisplay's display style as well as the global display
-	style. 
-	(my_folder_browser_init): Don't save preference changes by default. (This
-	is only observered wrt. the message display style but should apply to other
-	items.)
+	style.
+	(my_folder_browser_init): Don't save preference changes by
+	default. (This is only observered wrt. the message display style
+	but should apply to other items.)
 
-	* folder-browser-factory.c (folder_browser_factory_new_control): Set this
-	FB to save the preferences set in it.
+	* folder-browser-factory.c (folder_browser_factory_new_control):
+	Set this FB to save the preferences set in it.
 
-	* folder-browser-ui.c (folder_browser_ui_add_message): Read our display's
-	state instead of the global setting.
+	* folder-browser-ui.c (folder_browser_ui_add_message): Read our
+	display's state instead of the global setting.
 
 2001-07-16  Peter Williams  <peterw@ximian.com>
 
