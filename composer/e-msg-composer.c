@@ -1168,6 +1168,7 @@ save (EMsgComposer *composer, const char *file_name)
 			return;
 		default:
 			/* ie, the user hit "Yes" so just continue as normal */
+			break;
 		}
 	} else
 		close (fd);
