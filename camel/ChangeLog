@@ -2,6 +2,7 @@
 
 	* camel-stream-fs.c (stream_read): Increment the seekable stream
 	position by the number of bytes read. Oops.
+	(stream_write): Same here.
 
 2003-07-17  Timo Sirainen <tss@iki.fi>
 

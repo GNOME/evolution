@@ -233,11 +233,15 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
+	ssize_t nwritten;
 	
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 	
-	return camel_write (stream_fs->fd, buffer, n);
+	if ((nwritten = camel_write (stream_fs->fd, buffer, n)) > 0)
+		seekable->position += nwritten;
+	
+	return nwritten;
 }
 
 static int
