@@ -1,3 +1,7 @@
+2001-01-01  Michael Meeks  <michael@helixcode.com>
+
+	* POTFILES.in: remove all the stale addressbook entries.
+
 2000-12-27  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.

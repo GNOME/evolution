@@ -14,8 +14,6 @@ addressbook/contact-editor/fulladdr.glade
 addressbook/contact-editor/fullname-strings.h
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook.c
-addressbook/gui/component/e-ldap-storage.c
-addressbook/gui/component/ldap-server-dialog.glade
 addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/gui/widgets/alphabet.glade
@@ -144,7 +142,6 @@ shell/e-shortcuts.c
 shell/e-storage-set-view.c
 shell/e-storage.c
 shell/main.c
-ui/evolution-addressbook-ldap.xml
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
 ui/evolution-contact-editor.xml
