@@ -850,8 +850,10 @@ update_folder_title_bar (EShellView *shell_view,
 		folder_name = e_folder_get_name (folder);
 	}
 
-	e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_icon);
-	e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_name);
+	if (folder_icon)
+		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_icon);
+	if (folder_name)
+		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_name);
 }
 
 static void

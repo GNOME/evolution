@@ -292,7 +292,8 @@ destroy (GtkObject *object)
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (object);
 	priv = folder_title_bar->priv;
 
-	gdk_pixbuf_unref (priv->icon);
+	if (priv->icon)
+		gdk_pixbuf_unref (priv->icon);
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

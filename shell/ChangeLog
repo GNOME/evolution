@@ -1,3 +1,16 @@
+2000-08-25  Peter Williams  <peterw@helixcode.com>
+
+	Silence some obvious assertions.
+	
+	* e-shell.c (e_shell_construct): Ref our shortcut bar to
+	sink it. Same with the folder_type_registry.
+
+	* e-shell-folder-title-bar.c (destroy): Only attempt to unref
+	priv->icon if nonnull.
+
+	* e-shell-view.c (update_folder_title_bar): Don't attempt to set
+	the folder_icon/_name if they're NULL.
+
 2000-08-24  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-shell-component-client.c

@@ -487,7 +487,8 @@ e_shell_construct (EShell *shell,
 	priv->folder_type_registry = e_folder_type_registry_new ();
 	priv->storage_set          = e_storage_set_new (shell->priv->folder_type_registry);
 
-	gtk_object_ref (GTK_OBJECT (priv->storage_set ));
+	gtk_object_ref (GTK_OBJECT (priv->folder_type_registry));
+	gtk_object_ref (GTK_OBJECT (priv->storage_set));
 
 	/* CORBA storages must be set up before the components, because otherwise components
            cannot register their own storages.  */
@@ -506,6 +507,8 @@ e_shell_construct (EShell *shell,
 
 	if (priv->shortcuts == NULL)
 		g_warning ("Cannot load shortcuts -- %s", shortcut_path);
+	else
+		gtk_object_ref (GTK_OBJECT (priv->shortcuts));
 
 	g_free (shortcut_path);
 }
