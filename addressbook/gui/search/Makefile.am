@@ -1,4 +1,4 @@
-ruledir = $(prefix)/share/evolution
+ruledir = $(datadir)/evolution
 rule_DATA = addresstypes.xml
 
 EXTRA_DIST = addresstypes.xml

@@ -1,5 +1,5 @@
 
-gladedir = $(prefix)/share/evolution/glade
+gladedir = $(datadir)/evolution/glade
 glade_DATA = filter.glade
 
 INCLUDES = 					\
@@ -71,6 +71,6 @@ EXTRA_DIST = filtertypes.xml vfoldertypes.xml \
 	filter.glade
 
 # basic rules.
-filterdir = $(prefix)/share/evolution
+filterdir = $(datadir)/evolution
 filter_DATA = filtertypes.xml vfoldertypes.xml
 

@@ -1,3 +1,8 @@
+2000-09-19  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (gladedir, filterdir): Use $(datadir), not
+	$(prefix)/share.
+
 2000-09-18  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filtertypes.xml: Modified to use more intuitive naming
