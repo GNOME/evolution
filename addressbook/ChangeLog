@@ -1,3 +1,8 @@
+2002-01-09  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (set_fields): Choose the
+	first filled in address field here.  Fixes Ximian bug #2222.
+
 2002-01-03  Joe Shaw  <joe@ximian.com>
 
 	* backend/ebook/test-card.c: Add a test for getting arbitrary

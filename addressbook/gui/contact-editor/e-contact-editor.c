@@ -1908,7 +1908,7 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 		gtk_check_menu_item_set_show_toggle(GTK_CHECK_MENU_ITEM(editor->address_info[i].widget),
 						    TRUE);
 	}
-	
+
 	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address", "text-address", "Add new Address type");
 
 	if (result != -1) {
@@ -1941,6 +1941,8 @@ static void
 set_fields(EContactEditor *editor)
 {
 	GtkWidget *entry;
+	GtkWidget *label_widget;
+	int i;
 
 	entry = glade_xml_get_widget(editor->gui, "entry-phone1");
 	if (entry && GTK_IS_ENTRY(entry))
@@ -1961,8 +1963,28 @@ set_fields(EContactEditor *editor)
 	entry = glade_xml_get_widget(editor->gui, "entry-email1");
 	if (entry && GTK_IS_ENTRY(entry))
 		set_field(GTK_ENTRY(entry), e_card_simple_get_email(editor->simple, editor->email_choice));
-	
-	set_address_field(editor, -1);
+
+
+
+	e_contact_editor_build_address_ui (editor);
+
+	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+		const ECardAddrLabel *address = e_card_simple_get_address(editor->simple, i);
+
+		if (address && address->data && *address->data)
+			break;
+	}
+	if (i == E_CARD_SIMPLE_ADDRESS_ID_LAST)
+		i = 0;
+
+	label_widget = glade_xml_get_widget(editor->gui, "label-address");
+	if (label_widget && GTK_IS_LABEL(label_widget)) {
+		gtk_object_set(GTK_OBJECT(label_widget),
+			       "label", _(g_list_nth_data(editor->address_list, i)),
+			       NULL);
+	}
+
+	set_address_field(editor, i);
 }
 
 static void
