@@ -32,6 +32,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-fsutils.h"
+#include "e-util/e-passwords.h"
 #include "widgets/misc/e-error.h"
 
 #include "e-shell-constants.h"
@@ -286,6 +287,9 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
+
+	/* let the password manager know out online status */
+	e_passwords_set_online(online);
 
 	if (online)
 		e_shell_go_online (shell, NULL);
@@ -660,6 +664,8 @@ e_shell_construct (EShell *shell,
 		start_online = FALSE; /* Make compiler happy.  */
 		g_assert_not_reached ();
 	}
+
+	e_passwords_set_online(start_online);
 
 	if (start_online)
 		e_shell_go_online (shell, NULL);

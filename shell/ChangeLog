@@ -1,3 +1,10 @@
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #62856 (workaround only)
+
+	* e-shell.c (impl_Shell_setLineStatus, e_shell_construct): set the
+	online state on e_passwords.
+
 2004-08-26  Rodney Dawes  <dobey@novell.com>
 
 	* apps_evolution_shell.schemas.in.in: Don't translate the default
