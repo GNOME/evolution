@@ -1,3 +1,8 @@
+2001-08-13  Peter Williams  <peterw@ximian.com>
+
+	* filter-datespec.c (make_span_editor): Add a gettext around our static
+	strings.
+
 2001-08-10  Peter Williams  <peterw@ximian.com>
 
 	* rule-context.c (rule_context_add_rule_gui): Make this compile again.

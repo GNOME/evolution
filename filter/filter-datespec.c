@@ -602,7 +602,7 @@ make_span_editor (FilterDatespec *fds)
 	for (i = 0; i < N_TIMESPANS; i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (timespans[i].plural);
+		item = gtk_menu_item_new_with_label (gettext (timespans[i].plural));
 		gtk_object_set_data (GTK_OBJECT (item), "timespan", (gpointer) &(timespans[i]));
 		gtk_signal_connect (GTK_OBJECT (item), "activate", omenu_item_activated, fds);
 		gtk_widget_show (item);
