@@ -23,7 +23,6 @@ calendar/gui/e-day-view.c
 calendar/gui/e-week-view.c
 calendar/gui/event-editor.c
 calendar/gui/event-editor-dialog.glade.h
-calendar/gui/evolution-calendar-control.c
 calendar/gui/getdate.y
 calendar/gui/gncal-todo.c
 calendar/gui/gnome-cal.c

@@ -1,3 +1,7 @@
+2000-07-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* POTFILES.in: Removed calendar/gui/evolution-calendar-control.c
+
 2000-07-09  Valek Filippov  <frob@df.ru>
 
 	* ru.po: Updated russian translation.
