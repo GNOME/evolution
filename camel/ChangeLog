@@ -1,5 +1,10 @@
 2000-03-27  Dan Winship  <danw@helixcode.com>
 
+	* providers/mbox/camel-mbox-folder.c (_append_message): uncomment
+	the call to unlink the temp file: there's no way to tell
+	camel_stream_fs to truncate a file, so reusing the same file was
+	resulting in junk at the ends of messages.
+
 	* camel-folder.[ch]: add delete_message_by_{number,uid}.
 
 	* providers/pop3/camel-pop3-folder.[ch]: implement

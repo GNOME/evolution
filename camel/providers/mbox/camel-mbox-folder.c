@@ -946,7 +946,7 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	close (fd2);
 
 	/* remove the temporary file */
-	//unlink (tmp_message_filename);
+	unlink (tmp_message_filename);
 
 	g_free (tmp_message_filename);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::append_message\n");
