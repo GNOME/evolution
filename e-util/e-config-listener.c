@@ -8,6 +8,7 @@
  * Copyright 2002, Ximian, Inc.
  */
 
+#include <gtk/gtksignal.h>
 #include <gtk/gtktypeutils.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-event-source.h>
@@ -22,8 +23,9 @@ typedef struct {
 	char *key;
 	GtkFundamentalType type;
 	union {
-		char *v_str;
 		gboolean v_bool;
+		long v_long;
+		char *v_str;
 	} value;
 	gboolean used_default;
 } KeyData;
@@ -39,6 +41,13 @@ static void e_config_listener_destroy    (GtkObject *object);
 
 static GtkObjectClass *parent_class = NULL;
 
+enum {
+	KEY_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint config_listener_signals[LAST_SIGNAL];
+
 static void
 e_config_listener_class_init (EConfigListenerClass *klass)
 {
@@ -47,6 +56,16 @@ e_config_listener_class_init (EConfigListenerClass *klass)
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = e_config_listener_destroy;
+	klass->key_changed = NULL;
+
+	config_listener_signals[KEY_CHANGED] =
+		gtk_signal_new ("key_changed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EConfigListenerClass, key_changed),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
+	gtk_object_class_add_signals (object_class, config_listener_signals, LAST_SIGNAL);
 }
 
 static void
@@ -172,11 +191,16 @@ property_change_cb (BonoboListener *listener,
 	if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_BOOLEAN, NULL)) {
 		kd->type = GTK_TYPE_BOOL;
 		kd->value.v_bool = BONOBO_ARG_GET_BOOLEAN (any);
+	} else if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_LONG, NULL)) {
+		kd->type = GTK_TYPE_LONG;
+		kd->value.v_long = BONOBO_ARG_GET_LONG (any);
 	} else if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_STRING, NULL)) {
 		kd->type = GTK_TYPE_STRING;
 		kd->value.v_str = g_strdup (BONOBO_ARG_GET_STRING (any));
 	} else
 		return;
+
+	gtk_signal_emit (GTK_OBJECT (kd->cl), config_listener_signals[KEY_CHANGED], kd->key);
 }
 
 static KeyData *
@@ -185,6 +209,7 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 {
 	KeyData *kd;
 	char *event_name;
+	char *ch;
 	CORBA_Environment ev;
 
 	/* add the key to our hash table */
@@ -195,6 +220,9 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 	switch (type) {
 	case GTK_TYPE_BOOL :
 		memcpy (&kd->value.v_bool, value, sizeof (gboolean));
+		break;
+	case GTK_TYPE_LONG :
+		memcpy (&kd->value.v_long, value, sizeof (long));
 		break;
 	case GTK_TYPE_STRING :
 		kd->value.v_str = (char *) value;
@@ -207,6 +235,9 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 	/* add the listener for changes */
 	event_name = g_strdup_printf ("=Bonobo/ConfigDatabase:change%s",
 				      kd->key);
+	ch = strrchr (event_name, '/');
+	if (ch)
+		*ch = ':';
 
 	CORBA_exception_init (&ev);
 	bonobo_event_source_client_add_listener (
@@ -216,6 +247,7 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 		&ev, kd);
 	if (BONOBO_EX (&ev)) {
 		CORBA_exception_free (&ev);
+		g_free (event_name);
 		free_key_hash (kd->key, kd, NULL);
 		return NULL;
 	}
@@ -226,6 +258,80 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 	g_free (event_name);
 
 	return kd;
+}
+
+gboolean
+e_config_listener_get_boolean_with_default (EConfigListener *cl,
+					    const char *key,
+					    gboolean def,
+					    gboolean *used_default)
+{
+	gboolean value;
+	KeyData *kd;
+	gboolean d;
+	gpointer orig_key, orig_value;
+
+	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), FALSE);
+	g_return_val_if_fail (key != NULL, FALSE);
+
+	/* search for the key in our hash table */
+	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+		/* not found, so retrieve it from the configuration database */
+		value = bonobo_config_get_boolean_with_default (cl->priv->db, key, def, &d);
+		kd = add_key (cl, key, GTK_TYPE_BOOL, &value, d);
+
+		if (used_default != NULL)
+			*used_default = d;
+	} else {
+		kd = (KeyData *) orig_value;
+		g_assert (kd != NULL);
+
+		if (kd->type == GTK_TYPE_BOOL) {
+			value = kd->value.v_bool;
+			if (used_default != NULL)
+				*used_default = kd->used_default;
+		} else
+			return FALSE;
+	}
+
+	return value;
+}
+
+long
+e_config_listener_get_long_with_default (EConfigListener *cl,
+					 const char *key,
+					 long def,
+					 gboolean *used_default)
+{
+	long value;
+	KeyData *kd;
+	gboolean d;
+	gpointer orig_key, orig_value;
+
+	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), -1);
+	g_return_val_if_fail (key != NULL, -1);
+
+	/* search for the key in our hash table */
+	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
+		/* not found, so retrieve it from the configuration database */
+		value = bonobo_config_get_long_with_default (cl->priv->db, key, def, &d);
+		kd = add_key (cl, key, GTK_TYPE_LONG, &value, d);
+
+		if (used_default != NULL)
+			*used_default = d;
+	} else {
+		kd = (KeyData *) orig_value;
+		g_assert (kd != NULL);
+
+		if (kd->type == GTK_TYPE_LONG) {
+			value = kd->value.v_long;
+			if (used_default != NULL)
+				*used_default = kd->used_default;
+		} else
+			return -1;
+	}
+
+	return value;
 }
 
 char *
@@ -268,41 +374,38 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 	return str;
 }
 
-gboolean
-e_config_listener_get_boolean_with_default (EConfigListener *cl,
-					    const char *key,
-					    gboolean def,
-					    gboolean *used_default)
+void
+e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 {
-	gboolean value;
-	KeyData *kd;
-	gboolean d;
-	gpointer orig_key, orig_value;
+	CORBA_Environment ev;
 
-	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), FALSE);
-	g_return_val_if_fail (key != NULL, FALSE);
+	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
+	g_return_if_fail (key != NULL);
 
-	/* search for the key in our hash table */
-	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
-		/* not found, so retrieve it from the configuration database */
-		value = bonobo_config_get_boolean_with_default (cl->priv->db, key, def, &d);
-		kd = add_key (cl, key, GTK_TYPE_BOOL, &value, d);
+	CORBA_exception_init (&ev);
 
-		if (used_default != NULL)
-			*used_default = d;
-	} else {
-		kd = (KeyData *) orig_value;
-		g_assert (kd != NULL);
+	bonobo_config_set_long (cl->priv->db, key, value, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
 
-		if (kd->type == GTK_TYPE_BOOL) {
-			value = kd->value.v_bool;
-			if (used_default != NULL)
-				*used_default = kd->used_default;
-		} else
-			return FALSE;
-	}
+	CORBA_exception_free (&ev);
+}
 
-	return value;
+void
+e_config_listener_set_string (EConfigListener *cl, const char *key, const char *value)
+{
+	CORBA_Environment ev;
+
+	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
+	g_return_if_fail (key != NULL);
+
+	CORBA_exception_init (&ev);
+
+	bonobo_config_set_string (cl->priv->db, key, value, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+
+	CORBA_exception_free (&ev);
 }
 
 Bonobo_ConfigDatabase

@@ -32,19 +32,31 @@ typedef struct {
 
 typedef struct {
 	GtkObjectClass parent_class;
+
+	void (* key_changed) (EConfigListener *cl, const char *key);
 } EConfigListenerClass;
 
 GtkType               e_config_listener_get_type (void);
 EConfigListener      *e_config_listener_new (void);
 
-char                 *e_config_listener_get_string_with_default (EConfigListener *cl,
-								 const char *key,
-								 const char *def,
-								 gboolean *used_default);
 gboolean              e_config_listener_get_boolean_with_default (EConfigListener *cl,
 								  const char *key,
 								  gboolean def,
 								  gboolean *used_default);
+long                  e_config_listener_get_long_with_default (EConfigListener *cl,
+							       const char *key,
+							       long def,
+							       gboolean *used_default);
+char                 *e_config_listener_get_string_with_default (EConfigListener *cl,
+								 const char *key,
+								 const char *def,
+								 gboolean *used_default);
+void                  e_config_listener_set_long (EConfigListener *cl,
+						  const char *key,
+						  long value);
+void                  e_config_listener_set_string (EConfigListener *cl,
+						    const char *key,
+						    const char *value);
 
 Bonobo_ConfigDatabase e_config_listener_get_db (EConfigListener *cl);
 
