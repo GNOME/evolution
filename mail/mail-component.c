@@ -524,7 +524,12 @@ view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 			message_list_free_uids(emfv->list, selected);
 		}
 
-		e_info_label_set_info(el, name, tmp->str);
+		if (emfv->folder->parent_store == mail_component_peek_local_store(NULL)
+		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
+			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent")))
+			e_info_label_set_info(el, _(name), tmp->str);
+		else
+			e_info_label_set_info(el, name, tmp->str);
 		g_string_free(tmp, TRUE);
 		camel_object_free(emfv->folder, CAMEL_FOLDER_NAME, name);
 	} else {

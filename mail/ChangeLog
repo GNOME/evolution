@@ -1,5 +1,10 @@
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #65329.
+
+	* mail-component.c (view_changed_cb): translate special names on
+	the local store.
+
 	* em-folder-tree-model.c (sort_cb): use the type hint to sort for
 	inbox, not the name.
 	(emft_is_special_local_folder): removed.
