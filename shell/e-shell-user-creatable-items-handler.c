@@ -363,7 +363,7 @@ ensure_menu_xml (EShellUserCreatableItemsHandler *handler)
 
 	xml = g_string_new ("");
 
-	g_string_append (xml, "<placeholder name=\"NewItems\">");
+	g_string_append (xml, "<placeholder name=\"ComponentItems\">");
 
 	for (p = priv->menu_items; p != NULL; p = p->next) {
 		const MenuItem *item;
@@ -719,7 +719,7 @@ e_shell_user_creatable_items_handler_attach_menus (EShellUserCreatableItemsHandl
 	add_verbs (handler, shell_view);
 
 	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
-	bonobo_ui_component_set (ui_component, "/menu/File/New/NewItems", priv->menu_xml, NULL);
+	bonobo_ui_component_set (ui_component, "/menu/File/New", priv->menu_xml, NULL);
 	bonobo_ui_component_set (ui_component, "/popups/NewPopup", priv->menu_xml, NULL);
 }
 

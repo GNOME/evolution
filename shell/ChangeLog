@@ -1,5 +1,10 @@
 2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-user-creatable-items-handler.c (ensure_menu_xml): Put in
+	the ComponentItems placeholder, instead of NewItems.
+
+2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-local-storage.c (load_all_folders): Don't return FALSE if any
 	of the folders fails to load; otherwise, if the user has played
 	with ~/evolution, he might end up not seeing any folders at all.
