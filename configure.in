@@ -193,17 +193,16 @@ fi
 dnl **************************************************
 dnl * Print check
 dnl **************************************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.20)
+AC_MSG_CHECKING(for GnomePrint libraries version 0.20)
 if gnome-config --libs print > /dev/null 2>&1; then 
-    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
-        awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 13; then
+    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//"`
+    if test "$vers" = "0.20"; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME print 0.13)
+        AC_MSG_ERROR(Please make sure you are using the released version of gnome-print-0.20.  Please note that CVS HEAD versions will not work.)
     fi
 else
-    AC_MSG_ERROR(Did not find GnomePrint installed)
+    AC_MSG_ERROR(Did not find GnomePrint installed.  Please make sure you are using the released version of gnome-print-0.20.  Please note that CVS HEAD versions will not work.)
 fi
 GNOME_PRINT_LIBS=`gnome-config --libs print`
 GNOME_PRINT_CFLAGS=`gnome-config --cflags print`

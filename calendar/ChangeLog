@@ -1,3 +1,8 @@
+2000-07-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/print.c: Revert Michael's GnomeFont patch until the
+	gnome-print API stabilizes.
+
 2000-07-12  Michael Meeks  <michael@helixcode.com>
 
 	* gui/print.c (titled_box, print_text, print_month_small),

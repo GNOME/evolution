@@ -220,7 +220,7 @@ print_text(GnomePrintContext *pc, GnomeFont *font, const char *text, enum align_
 		x = l+((r-l)-w)/2;
 		break;
 	}
-	gnome_print_moveto(pc, x, t - gnome_font_get_size (font));
+	gnome_print_moveto(pc, x, t-font->size);
 	gnome_print_setfont(pc, font);
 	gnome_print_setrgbcolor (pc, 0,0,0);
 	gnome_print_show(pc, text);
@@ -239,23 +239,19 @@ print_text_size(GnomePrintContext *pc, double size, const char *text, enum align
 }
 
 static void
-titled_box (GnomePrintContext *pc, const char *text,
-	    GnomeFont *font, enum align_box align,
-	    double *l, double *r, double *t, double *b, double linewidth)
+titled_box(GnomePrintContext *pc, const char *text, GnomeFont *font, enum align_box align, double *l, double *r, double *t, double *b, double linewidth)
 {
-	double size = gnome_font_get_size (font);
-
-	if (align & ALIGN_BORDER) {
-		gnome_print_gsave (pc);
-		print_border (pc, *l, *r, *t, *t - size - size * 0.4, linewidth, 0.9);
-		print_border (pc, *l, *r, *t - size - size * 0.4, *b, linewidth, -1.0);
-		gnome_print_grestore (pc);
-		*l += 2;
-		*r -= 2;
-		*b += 2;
+	if (align&ALIGN_BORDER) {
+		gnome_print_gsave(pc);
+		print_border(pc, *l, *r, *t, *t-font->size-font->size*0.4, linewidth, 0.9);
+		print_border(pc, *l, *r, *t-font->size-font->size*0.4, *b, linewidth, -1.0);
+		gnome_print_grestore(pc);
+		*l+=2;
+		*r-=2;
+		*b+=2;
 	}
-	print_text (pc, font, text, align, *l, *r, *t, *b);
-	*t -= size * 1.4;
+	print_text(pc, font, text, align, *l, *r, *t, *b);
+	*t-=font->size*1.4;
 }
 
 enum datefmt {
@@ -326,7 +322,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 	int day;
 	char buf[100];
 	struct tm tm;
-	double xpad, ypad, size, font_size;
+	double xpad, ypad, size;
 	char *daynames[] = { _("Su"), _("Mo"), _("Tu"), _("We"), _("Th"), _("Fr"), _("Sa") };
 
 	xpad = (right-left)/7;
@@ -349,15 +345,12 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 	/* get title */
 	format_date(month, titleflags, buf, 100);
 	font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, size*1.2); /* title font */
-
-	font_size = gnome_font_get_size (font);
-
 	if (bordertitle)
 		print_border(pc,
-			     left, left+7*xpad, top, top-font_size*1.3,
+			     left, left+7*xpad, top, top-font->size*1.3,
 			     1.0, 0.9);
 	print_text(pc, font, buf, ALIGN_CENTRE,
-		   left, left+7*xpad, top, top - font_size);
+		   left, left+7*xpad, top, top - font->size);
 	gtk_object_unref (GTK_OBJECT (font));
 
 	font_normal = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, size);
@@ -366,8 +359,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 	gnome_print_setrgbcolor (pc, 0,0,0);
 	for (x=0;x<7;x++) {
 		print_text(pc, font_bold, daynames[(week_starts_on_monday?x+1:x)%7], ALIGN_CENTRE,
-			   left+x*xpad, left+(x+1)*xpad, bottom+7*ypad,
-			   bottom+7*ypad-gnome_font_get_size (font_bold));
+			   left+x*xpad, left+(x+1)*xpad, bottom+7*ypad, bottom+7*ypad-font_bold->size);
 	}
 
 	for (y=0;y<6;y++) {
@@ -391,12 +383,12 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 					print_border(pc,
 						     left+x*xpad+xpad*0.1,
 						     left+(x+1)*xpad+xpad*0.1,
-						     bottom+(5-y)*ypad+font_size-ypad*0.15,
+						     bottom+(5-y)*ypad+font->size-ypad*0.15,
 						     bottom+(5-y)*ypad-ypad*0.15,
 						     -1.0, 0.75);
 				}
 				print_text(pc, font, buf, ALIGN_RIGHT,
-					   left+x*xpad, left+(x+1)*xpad, bottom+(5-y)*ypad+font_size, bottom+(5-y)*ypad);
+					   left+x*xpad, left+(x+1)*xpad, bottom+(5-y)*ypad+font->size, bottom+(5-y)*ypad);
 				now = next;
 			}
 		}
@@ -412,7 +404,7 @@ static double
 bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, double right, double top, double bottom, double indent)
 {
 	double maxwidth = right-left;
-	double width, font_size;
+	double width;
 	char *p;
 	char *wordstart;
 	int c;
@@ -432,9 +424,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, doub
 	outbuffer = g_malloc(outbufflen);
 	outbuffendmarker = outbuffer+outbufflen-2;
 
-	font_size = gnome_font_get_size (font);
-
-	top -= font_size;
+	top -= font->size;
 	gnome_print_setfont (pc, font);
 
 	width=0;
@@ -459,7 +449,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, doub
 			*o++=c;
 			if (c==' ')
 				wordstart = o;
-			width+=gnome_font_get_glyph_width (font, c);
+			width+=gnome_font_get_width(font, c);
 			if (width>maxwidth)
 				dump=1;
 			else
@@ -477,7 +467,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, doub
 			width = gnome_font_get_width_string_n(font, outbuffer, o-wordstart);
 			o=outbuffer+(o-wordstart);
 			wordstart = outbuffer;
-			top -= font_size;
+			top -= font->size;
 			if (top<bottom) {
 				/* too much to fit, drop the rest */
 				g_free(outbuffer);
@@ -495,7 +485,7 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, doub
 		*o=0;
 		gnome_print_moveto(pc, left, top);
 		gnome_print_show(pc, outbuffer);
-		top -= font_size;
+		top -= font->size;
 	}
 	g_free(outbuffer);
 	return top;
@@ -692,14 +682,14 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		x = left + incsmall;
 		xend = right - inc;
 
-		if (y - gnome_font_get_size (font_summary) < bottom)
+		if (y - font_summary->size < bottom)
 			break;
 
 		tm = *localtime (&coi->start);
 		strftime (buf, 100, TIME_FMT, &tm);
 		gnome_print_moveto (pc, x + (margin
 					     - gnome_font_get_width_string (font_summary, buf)),
-				    y - gnome_font_get_size (font_summary));
+				    y - font_summary->size);
 		gnome_print_show (pc, buf);
 
 		if (totime) {
@@ -709,7 +699,7 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 					    (x + margin + inc
 					     + (margin
 						- gnome_font_get_width_string (font_summary, buf))),
-					    y - gnome_font_get_size (font_summary));
+					    y - font_summary->size);
 			gnome_print_show (pc, buf);
 
 			y = bound_text (pc, font_summary, ico->summary,
@@ -722,7 +712,7 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 					y, yend, -margin + inc);
 		}
 
-		y += gnome_font_get_size (font_summary) - inc;
+		y += font_summary->size - inc;
 
 		ical_object_unref (ico);
 	}
@@ -838,9 +828,9 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		format_date(today, DATE_DAYNAME, buf, 100);
 		print_text(pc, font_days, buf, ALIGN_CENTRE,
 			   (right-left)*x/7+left, (right-left)*(x+1)/7+left,
-			   top, top-gnome_font_get_size (font_days));
+			   top, top-font_days->size);
 	}
-	top -= gnome_font_get_size (font_days) * 1.5;
+	top -= font_days->size*1.5;
 	gtk_object_unref (GTK_OBJECT (font_days));
 
 	for (y=0;y<6;y++) {
@@ -904,7 +894,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, ti
 			break;
 
 		y = bound_text (pc, font_summary, ico->summary, x + 2, xend, y, yend, 0);
-		y += gnome_font_get_size (font_summary);
+		y += font_summary->size;
 		gnome_print_moveto (pc, x, y - 3);
 		gnome_print_lineto (pc, xend, y - 3);
 		gnome_print_stroke (pc);
