@@ -1,3 +1,9 @@
+Sun Mar 15 15:54:43 1998  Owen Taylor  <owt1@cornell.edu>
+
+	* gnome-x-checks.m4: Replaced checks for X and GTK
+	with AM_PATH_GTK. x_include, X_LIBS, etc, variables no longer
+	defined.
+
 1998-03-12  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4: Add a check for <linewrap.h> -- this enables
