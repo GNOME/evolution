@@ -28,7 +28,8 @@ e_address_conduits_LTLIBRARIES = libeaddress_conduit.la
 
 libeaddress_conduit_la_SOURCES = \
 	address-conduit.c \
-	address-conduit.h
+	address-conduit.h \
+	address-conduit-config.h
 
 libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\

@@ -1,5 +1,7 @@
 2000-10-19  JP Rosevear  <jpr@helixcode.com>
 
+	* conduit/Makefile.am: Build fix
+
 	* Makefile.am (DIST_SUBDIRS): Build fix
 
 2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
