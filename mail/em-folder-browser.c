@@ -100,6 +100,8 @@ struct _EMFolderBrowserPrivate {
 
 	guint vpane_resize_id;
 	guint list_built_id;	/* hook onto list-built for delayed 'select first unread' stuff */
+	
+	char *select_uid;
 };
 
 static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
@@ -107,11 +109,12 @@ static void emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char 
 
 /* FilterBar stuff ... */
 static void emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data);
-static void emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *fb);
+static void emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb);
 static void emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb);
-static void emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *fb);
+static void emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *emfb);
 
-static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *fb);
+static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
+static void emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb);
 
 static const EMFolderViewEnable emfb_enable_map[];
 
@@ -212,15 +215,17 @@ emfb_init(GObject *o)
 	gtk_paned_add2((GtkPaned *)emfb->vpane, p->preview);
 	gtk_widget_show(p->preview);
 
-	g_signal_connect(emfb->view.list->tree, "key_press", G_CALLBACK(emfb_list_key_press), emfb);
+	g_signal_connect (((EMFolderView *) emfb)->list->tree, "key_press", G_CALLBACK(emfb_list_key_press), emfb);
+	g_signal_connect (((EMFolderView *) emfb)->list, "message_selected", G_CALLBACK (emfb_list_message_selected), emfb);
 }
 
 static void
 emfb_finalise(GObject *o)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
-
-	g_free(emfb->priv);
+	
+	g_free (emfb->priv->select_uid);
+	g_free (emfb->priv);
 
 	((GObjectClass *)emfb_parent)->finalize(o);
 }
@@ -438,6 +443,15 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	}
 	
 	return TRUE;
+}
+
+static void
+emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb)
+{
+	EMFolderView *emfv = (EMFolderView *) emfb;
+	
+	camel_object_meta_set (emfv->folder, "evolution:selected_uid", uid);
+	camel_object_state_write (emfv->folder);
 }
 
 /* ********************************************************************** */
@@ -747,16 +761,23 @@ emfb_view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 /* TODO: This should probably be handled by message-list, by storing/queueing
    up the select operation if its busy rebuilding the message-list */
 static void
-emfb_list_built(MessageList *ml, EMFolderBrowser *emfb)
+emfb_list_built (MessageList *ml, EMFolderBrowser *emfb)
 {
-	g_signal_handler_disconnect(ml, emfb->priv->list_built_id);
+	EMFolderView *emfv = (EMFolderView *) emfb;
+	
+	g_signal_handler_disconnect (ml, emfb->priv->list_built_id);
 	emfb->priv->list_built_id = 0;
 	
-	/* FIXME: if the 1st message in the list is unread, this will actually select the second unread msg */
-	/* FIXME: this usually happens "too soon" and so the toolbar/menu-items remain desensitised even tho with the message selected they should be sensitive */
-	if (((EMFolderView *)emfb)->list->cursor_uid == NULL)
-		message_list_select(((EMFolderView *)emfb)->list,
-				    MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);
+	if (emfv->list->cursor_uid == NULL) {
+		if (emfb->priv->select_uid) {
+			message_list_select_uid (ml, emfb->priv->select_uid);
+			g_free (emfb->priv->select_uid);
+			emfb->priv->select_uid = NULL;
+		} else {
+			/* FIXME: if the 1st message in the list is unread, this will actually select the second unread msg */
+			message_list_select (ml, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);
+		}
+	}
 }
 
 
@@ -868,23 +889,30 @@ emfb_create_view_instance (EMFolderBrowser *emfb, CamelFolder *folder, const cha
 static void
 emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
+	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
+	
 	/* This is required since we get activated the first time
 	   before the folder is open and need to override the
 	   defaults */
 	if (folder) {
 		char *sstate;
 		
-		if ((sstate = camel_object_meta_get(folder, "evolution:show_preview")))
-			em_folder_browser_show_preview((EMFolderBrowser *)emfv, sstate[0] != '0');
+		if ((sstate = camel_object_meta_get (folder, "evolution:show_preview"))) {
+			em_folder_browser_show_preview ((EMFolderBrowser *) emfv, sstate[0] != '0');
+			g_free (sstate);
+		}
 		
-		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list")))
-			message_list_set_threaded(emfv->list, sstate[0] != '0');
+		if ((sstate = camel_object_meta_get (folder, "evolution:thread_list"))) {
+			message_list_set_threaded (emfv->list, sstate[0] != '0');
+			g_free (sstate);
+		}
 		
-#if 0
-		if (emfv->list->cursor_uid == NULL && ((EMFolderBrowser *)emfv)->priv->list_built_id == 0)
-			((EMFolderBrowser *)emfv)->priv->list_built_id =
-				g_signal_connect(emfv->list, "message_list_built", G_CALLBACK(emfb_list_built), emfv);
-#endif
+		if ((sstate = camel_object_meta_get (folder, "evolution:selected_uid")))
+			emfb->priv->select_uid = sstate;
+		
+		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
+			emfb->priv->list_built_id =
+				g_signal_connect (emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
 		
 		emfb_create_view_instance ((EMFolderBrowser *) emfv, folder, uri);
 	}
@@ -944,7 +972,7 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL));
 		g_signal_handler_unblock(emfb->vpane, emfb->priv->vpane_resize_id);
 #endif
-	
+		
 		/* (Pre)view toggle */
 		if (emfv->folder
 		    && (sstate = camel_object_meta_get(emfv->folder, "evolution:show_preview"))) {

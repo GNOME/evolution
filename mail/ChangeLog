@@ -1,5 +1,21 @@
 2003-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #1717.
+
+	* em-folder-browser.c (emfb_list_built): If we have a uid to
+	select, select that instead of selecting the first unread.
+	(emfb_set_folder): CamelObject::meta_get() actually returns a
+	strdup'd buffer, so we need to free it. Get the last selected uid
+	and set that up as the uid to select when the message-list
+	finishes building.
+	(emfb_list_message_selected): Save the selected uid.
+	(emfb_init): Connect to the message-list's message_selected signal
+	so that we can save selected state (don't want to do this in
+	EMFolderView or MessageList because we don't want the state to be
+	saved for the EMMessageBrowser).
+
+2003-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-folder-tree.c: Shorten the namespace of some internal
 	functions to just emft.
 	(emft_popup_delete_rec): Don't delete the contents of a folder if
