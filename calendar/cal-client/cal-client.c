@@ -425,9 +425,9 @@ cal_client_finalize (GObject *object)
 	client = CAL_CLIENT (object);
 	priv = client->priv;
 
-	/* The server unrefs the query listener, so we just NULL it out here */
 	if (priv->listener) {
 		cal_listener_stop_notification (priv->listener);
+		bonobo_object_unref (priv->listener);
 		priv->listener = NULL;
 	}
 

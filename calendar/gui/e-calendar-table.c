@@ -135,6 +135,7 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
@@ -533,8 +534,8 @@ e_calendar_table_init (ECalendarTable *cal_table)
 			  G_CALLBACK (selection_clear_event), cal_table);
 	g_signal_connect (cal_table->invisible, "selection_received",
 			  G_CALLBACK (selection_received), cal_table);
-	g_signal_connect (cal_table->invisible, "destroy",
-			  G_CALLBACK (invisible_destroyed), cal_table);
+	g_signal_connect_after (cal_table->invisible, "destroy",
+				G_CALLBACK (invisible_destroyed), cal_table);
 
 	cal_table->clipboard_selection = NULL;
 }
@@ -582,9 +583,11 @@ e_calendar_table_destroy (GtkObject *object)
 
 	cal_table = E_CALENDAR_TABLE (object);
 
-	g_object_unref (cal_table->model);
-	cal_table->model = NULL;
-
+	if (cal_table->model) {
+		g_object_unref (cal_table->model);
+		cal_table->model = NULL;
+	}
+	
 	if (cal_table->invisible)
 		gtk_widget_destroy (cal_table->invisible);
 	if (cal_table->clipboard_selection) {
@@ -1175,7 +1178,6 @@ e_calendar_table_save_state (ECalendarTable	*cal_table,
 static void
 invisible_destroyed (GtkWidget *invisible, ECalendarTable *cal_table)
 {
-	g_object_unref (cal_table->invisible);
 	cal_table->invisible = NULL;
 }
 

@@ -306,15 +306,17 @@ e_tasks_destroy (GtkObject *object)
 	tasks = E_TASKS (object);
 	priv = tasks->priv;
 
-	if (priv->client) {
-		g_object_unref (priv->client);
-		priv->client = NULL;
+	if (priv) {
+		if (priv->client) {
+			g_object_unref (priv->client);
+			priv->client = NULL;
+		}
+		
+		g_free (priv);
+		tasks->priv = NULL;
+	
+		all_tasks = g_list_remove (all_tasks, tasks);
 	}
-
-	g_free (priv);
-	tasks->priv = NULL;
-
-	all_tasks = g_list_remove (all_tasks, tasks);
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

@@ -39,7 +39,7 @@ static BonoboObjectClass *parent_class = NULL;
 
 struct _CalendarOfflineHandlerPrivate {
 	CalClient *client;
-	
+
 	GNOME_Evolution_OfflineProgressListener listener_interface;
 
 	gboolean is_offline;	
@@ -143,6 +143,7 @@ backend_cal_set_mode (CalClient *client, CalClientSetModeStatus status, CalMode 
 	CalendarOfflineHandler *offline_handler = data;
 
 	update_offline (offline_handler);
+	g_object_unref (client);
 }
 
 static void
@@ -171,6 +172,7 @@ backend_cal_opened_online (CalClient *client, CalClientOpenStatus status, gpoint
 	}
 
 	cal_client_set_mode (client, CAL_MODE_REMOTE);
+	g_object_unref (client);
 }
 
 static void
@@ -188,7 +190,7 @@ backend_go_offline (gpointer data, gpointer user_data)
 		update_offline (offline_handler);
 		g_object_unref (client);
 		return;		
-	}	
+	}
 }
 
 static void
@@ -256,6 +258,8 @@ impl_dispose (GObject *object)
 	offline_handler = CALENDAR_OFFLINE_HANDLER (object);
 	priv = offline_handler->priv;
 
+	g_object_unref (priv->client);
+	
 	if (priv->listener_interface != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
 

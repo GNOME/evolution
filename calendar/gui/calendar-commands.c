@@ -482,6 +482,8 @@ control_util_set_folder_bar_label (BonoboControl *control, char *label)
 		g_message ("control_util_set_folder_bar_label(): Could not set the folder bar label");
 
 	CORBA_exception_free (&ev);
+
+	bonobo_object_release_unref (shell_view, NULL);
 }
 
 void
@@ -507,6 +509,8 @@ control_util_show_settings (GnomeCalendar *gcal)
 		g_message ("control_util_show_settings(): Could not show settings");
 
 	CORBA_exception_free (&ev);
+
+	bonobo_object_release_unref (shell_view, NULL);
 }
 
 /* Sensitizes the UI Component menu/toolbar calendar commands based on the

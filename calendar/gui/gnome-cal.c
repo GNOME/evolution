@@ -916,56 +916,58 @@ gnome_calendar_destroy (GtkObject *object)
 	gcal = GNOME_CALENDAR (object);
 	priv = gcal->priv;
 
-	free_categories (priv->cal_categories);
-	priv->cal_categories = NULL;
+	if (priv) {
+		free_categories (priv->cal_categories);
+		priv->cal_categories = NULL;
 
-	free_categories (priv->tasks_categories);
-	priv->tasks_categories = NULL;
+		free_categories (priv->tasks_categories);
+		priv->tasks_categories = NULL;
 
-	/* Save the TaskPad layout. */
-	filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
-	e_calendar_table_save_state (E_CALENDAR_TABLE (priv->todo), filename);
-	g_free (filename);
+		/* Save the TaskPad layout. */
+		filename = g_strdup_printf ("%s/config/TaskPad", evolution_dir);
+		e_calendar_table_save_state (E_CALENDAR_TABLE (priv->todo), filename);
+		g_free (filename);
 
-	if (priv->dn_query) {
-		g_signal_handlers_disconnect_matched (priv->dn_query, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, gcal);
-		g_object_unref (priv->dn_query);
-		priv->dn_query = NULL;
+		if (priv->dn_query) {
+			g_signal_handlers_disconnect_matched (priv->dn_query, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->dn_query);
+			priv->dn_query = NULL;
+		}
+
+		if (priv->sexp) {
+			g_free (priv->sexp);
+			priv->sexp = NULL;
+		}
+
+		if (priv->client) {
+			g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->client);
+			priv->client = NULL;
+		}
+
+		if (priv->task_pad_client) {
+			g_signal_handlers_disconnect_matched (priv->task_pad_client, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->task_pad_client);
+			priv->task_pad_client = NULL;
+		}
+
+		if (priv->view_instance) {
+			g_object_unref (priv->view_instance);
+			priv->view_instance = NULL;
+		}
+
+		if (priv->view_menus) {
+			g_object_unref (priv->view_menus);
+			priv->view_menus = NULL;
+		}
+
+		g_free (priv);
+		gcal->priv = NULL;
 	}
-
-	if (priv->sexp) {
-		g_free (priv->sexp);
-		priv->sexp = NULL;
-	}
-
-	if (priv->client) {
-		g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, gcal);
-		g_object_unref (priv->client);
-		priv->client = NULL;
-	}
-
-	if (priv->task_pad_client) {
-		g_signal_handlers_disconnect_matched (priv->task_pad_client, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, gcal);
-		g_object_unref (priv->task_pad_client);
-		priv->task_pad_client = NULL;
-	}
-
-	if (priv->view_instance) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
-	}
-
-	if (priv->view_menus) {
-		g_object_unref (priv->view_menus);
-		priv->view_menus = NULL;
-	}
-
-	g_free (priv);
-	gcal->priv = NULL;
-
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

@@ -843,8 +843,8 @@ e_day_view_init (EDayView *day_view)
 			  G_CALLBACK (selection_clear_event), (gpointer) day_view);
 	g_signal_connect (day_view->invisible, "selection_received",
 			  G_CALLBACK (selection_received), (gpointer) day_view);
-	g_signal_connect (day_view->invisible, "destroy",
-			  G_CALLBACK (invisible_destroyed), (gpointer) day_view);
+	g_signal_connect_after (day_view->invisible, "destroy",
+				G_CALLBACK (invisible_destroyed), (gpointer) day_view);
 
 	day_view->clipboard_selection = NULL;
 
@@ -7574,7 +7574,6 @@ e_day_view_get_time_string_width	(EDayView	*day_view)
 static void
 invisible_destroyed (GtkWidget *invisible, EDayView *day_view)
 {
-	g_object_unref (day_view->invisible);
 	day_view->invisible = NULL;
 }
 
