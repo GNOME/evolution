@@ -728,7 +728,7 @@ imap_skip_list (const char **str_p)
 	skip_char (str_p, ')');
 }
 
-static void
+static int
 parse_params (const char **parms_p, CamelContentType *type)
 {
 	const char *parms = *parms_p;
@@ -737,13 +737,11 @@ parse_params (const char **parms_p, CamelContentType *type)
 	
 	if (!strncasecmp (parms, "nil", 3)) {
 		*parms_p += 3;
-		return;
+		return 0;
 	}
 	
-	if (*parms++ != '(') {
-		*parms_p = NULL;
-		return;
-	}
+	if (*parms++ != '(')
+		return -1;
 	
 	while (parms && *parms != ')') {
 		name = imap_parse_nstring (&parms, &len);
@@ -759,12 +757,209 @@ parse_params (const char **parms_p, CamelContentType *type)
 			parms++;
 	}
 	
-	if (!parms || *parms++ != ')') {
-		*parms_p = NULL;
-		return;
-	}
+	if (!parms || *parms++ != ')')
+		return -1;
+	
 	*parms_p = parms;
+	
+	return 0;
 }
+
+
+static CamelMessageContentInfo *
+imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *folder, GPtrArray *cis)
+{
+	const char *inptr = *in;
+	CamelMessageContentInfo *child = NULL;
+	char *type, *subtype, *id = NULL;
+	CamelContentType *ctype = NULL;
+	char *description = NULL;
+	char *encoding = NULL;
+	unsigned int len;
+	char *p;
+	
+	if (*inptr++ != '(')
+		return NULL;
+	
+	if (ci == NULL) {
+		ci = camel_folder_summary_content_info_new (folder->summary);
+		g_ptr_array_add (cis, ci);
+	}
+	
+	if (*inptr == '(') {
+		/* body_type_mpart */
+		CamelMessageContentInfo *tail, *children = NULL;
+		
+		tail = (CamelMessageContentInfo *) &children;
+		
+		do {
+			if (!(child = imap_body_decode (&inptr, NULL, folder, cis)))
+				return NULL;
+			
+			child->parent = ci;
+			tail->next = child;
+			tail = child;
+		} while (*inptr == '(');
+		
+		if (*inptr++ != ' ')
+			return NULL;
+		
+		if (!strncasecmp (inptr, "nil", 3) != 0) {
+			subtype = imap_parse_string (&inptr, &len);
+		} else {
+			subtype = NULL;
+			inptr += 3;
+		}
+		
+		ctype = header_content_type_new ("multipart", subtype ? subtype : "mixed");
+		g_free (subtype);
+		
+		if (*inptr++ != ')') {
+			header_content_type_unref (ctype);
+			return NULL;
+		}
+		
+		ci->type = ctype;
+		ci->childs = children;
+	} else {
+		/* body_type_1part */
+		if (strncasecmp (inptr, "nil", 3) != 0) {
+			type = imap_parse_string (&inptr, &len);
+			if (inptr == NULL)
+				return NULL;
+		} else {
+			return NULL;
+		}
+		
+		if (*inptr++ != ' ') {
+			g_free (type);
+			return NULL;
+		}
+		
+		if (strncasecmp (inptr, "nil", 3) != 0) {
+			subtype = imap_parse_string (&inptr, &len);
+			if (inptr == NULL) {
+				g_free (type);
+				return NULL;
+			}
+		} else {
+			if (!strcasecmp (type, "text"))
+				subtype = g_strdup ("plain");
+			else
+				subtype = NULL;
+			inptr += 3;
+		}
+		
+		camel_strdown (type);
+		camel_strdown (subtype);
+		ctype = header_content_type_new (type, subtype);
+		g_free (subtype);
+		g_free (type);
+		
+		if (*inptr++ != ' ')
+			goto exception;
+		
+		/* content-type params */
+		if (parse_params (&inptr, ctype) == -1)
+			goto exception;
+		
+		if (*inptr++ != ' ')
+			goto exception;
+		
+		/* content-id */
+		if (strncasecmp (inptr, "nil", 3) != 0) {
+			id = imap_parse_string (&inptr, &len);
+			if (inptr == NULL)
+				goto exception;
+		} else
+			inptr += 3;
+		
+		if (*inptr++ != ' ')
+			goto exception;
+		
+		/* description */
+		if (strncasecmp (inptr, "nil", 3) != 0) {
+			description = imap_parse_string (&inptr, &len);
+			if (inptr == NULL)
+				goto exception;
+		} else
+			inptr += 3;
+		
+		if (*inptr++ != ' ')
+			goto exception;
+		
+		/* encoding */
+		if (strncasecmp (inptr, "nil", 3) != 0) {
+			encoding = imap_parse_string (&inptr, &len);
+			if (inptr == NULL)
+				goto exception;
+		} else
+			inptr += 3;
+		
+		if (*inptr++ != ' ')
+			goto exception;
+		
+		/* size */
+		ci->size = strtoul ((const char *) inptr, &p, 10);
+		inptr = (const unsigned char *) p;
+		
+		if (header_content_type_is (ctype, "message", "rfc822")) {
+			/* body_type_msg */
+			if (*inptr++ != ' ')
+				goto exception;
+			
+			/* envelope */
+			imap_skip_list (&inptr);
+			
+			if (*inptr++ != ' ')
+				goto exception;
+			
+			/* body */
+			if (!(child = imap_body_decode (&inptr, NULL, folder, cis)))
+				goto exception;
+			child->parent = ci;
+			
+			if (*inptr++ != ' ')
+				goto exception;
+			
+			/* lines */
+			strtoul ((const char *) inptr, &p, 10);
+			inptr = (const unsigned char *) p;
+		} else if (header_content_type_is (ctype, "text", "*")) {
+			if (*inptr++ != ' ')
+				goto exception;
+			
+			/* lines */
+			strtoul ((const char *) inptr, &p, 10);
+			inptr = (const unsigned char *) p;
+		} else {
+			/* body_type_basic */
+		}
+		
+		if (*inptr++ != ')')
+			goto exception;
+		
+		ci->type = ctype;
+		ci->id = id;
+		ci->description = description;
+		ci->encoding = encoding;
+		ci->childs = child;
+	}
+	
+	*in = inptr;
+	
+	return ci;
+	
+ exception:
+	
+	header_content_type_unref (ctype);
+	g_free (id);
+	g_free (description);
+	g_free (encoding);
+	
+	return NULL;
+}
+
 
 /**
  * imap_parse_body:
@@ -780,135 +975,31 @@ void
 imap_parse_body (const char **body_p, CamelFolder *folder,
 		 CamelMessageContentInfo *ci)
 {
-	const char *body = *body_p;
+	const char *inptr = *body_p;
 	CamelMessageContentInfo *child;
-	CamelContentType *type;
-	size_t len;
+	GPtrArray *children;
+	int i;
 	
-	if (!body || *body++ != '(') {
+	if (!inptr || *inptr != '(') {
 		*body_p = NULL;
 		return;
 	}
 	
-	if (*body == '(') {
-		/* multipart */
-		GPtrArray *children;
-		char *subtype;
-		int i;
-		
-		/* Parse the child body parts */
-		children = g_ptr_array_new ();
-		while (body && *body == '(') {
-			child = camel_folder_summary_content_info_new (folder->summary);
-			g_ptr_array_add (children, child);
-			imap_parse_body (&body, folder, child);
-			if (!body)
-				break;
-			child->parent = ci;
-		}
-		skip_char (&body, ' ');
-		
-		/* Parse the multipart subtype */
-		subtype = imap_parse_string (&body, &len);
-		
-		/* If there is a parse error, abort. */
-		if (!body) {
-			for (i = 0; i < children->len; i++) {
-				child = children->pdata[i];
-				camel_folder_summary_content_info_free (folder->summary, child);
-			}
-			g_ptr_array_free (children, TRUE);
-			*body_p = NULL;
-			return;
-		}
-		
-		camel_strdown (subtype);
-		ci->type = header_content_type_new ("multipart", subtype);
-		g_free (subtype);
-		
-		/* Chain the children. */
-		ci->childs = children->pdata[0];
-		ci->size = 0;
-		for (i = 0; i < children->len - 1; i++) {
+	children = g_ptr_array_new ();
+	
+	if (!(imap_body_decode (&inptr, ci, folder, children))) {
+		for (i = 0; i < children->len; i++) {
 			child = children->pdata[i];
-			child->next = children->pdata[i + 1];
-			ci->size += child->size;
+			camel_folder_summary_content_info_free (folder->summary, child);
 		}
-		g_ptr_array_free (children, TRUE);
-	} else {
-		/* single part */
-		char *main_type, *subtype;
-		char *id, *description, *encoding;
-		guint32 size = 0;
-		
-		main_type = imap_parse_string (&body, &len);
-		skip_char (&body, ' ');
-		subtype = imap_parse_string (&body, &len);
-		skip_char (&body, ' ');
-		if (!body) {
-			g_free (main_type);
-			g_free (subtype);
-			*body_p = NULL;
-			return;
-		}
-		
-		camel_strdown (main_type);
-		camel_strdown (subtype);
-		type = header_content_type_new (main_type, subtype);
-		g_free (main_type);
-		g_free (subtype);
-		parse_params (&body, type);
-		skip_char (&body, ' ');
-		
-		id = imap_parse_nstring (&body, &len);
-		skip_char (&body, ' ');
-		description = imap_parse_nstring (&body, &len);
-		skip_char (&body, ' ');
-		encoding = imap_parse_string (&body, &len);
-		skip_char (&body, ' ');
-		if (body)
-			size = strtoul (body, (char **) &body, 10);
-		
-		child = NULL;
-		if (header_content_type_is (type, "message", "rfc822")) {
-			skip_char (&body, ' ');
-			imap_skip_list (&body); /* envelope */
-			skip_char (&body, ' ');
-			child = camel_folder_summary_content_info_new (folder->summary);
-			imap_parse_body (&body, folder, child);
-			if (!body)
-				camel_folder_summary_content_info_free (folder->summary, child);
-			skip_char (&body, ' ');
-			if (body)
-				strtoul (body, (char **) &body, 10);
-			child->parent = ci;
-		} else if (header_content_type_is (type, "text", "*")) {
-			if (body)
-				strtoul (body, (char **) &body, 10);
-		}
-		
-		if (body) {
-			ci->type = type;
-			ci->id = id;
-			ci->description = description;
-			ci->encoding = encoding;
-			ci->size = size;
-			ci->childs = child;
-		} else {
-			header_content_type_unref (type);
-			g_free (id);
-			g_free (description);
-			g_free (encoding);
-		}
-	}
-	
-	if (!body || *body++ != ')') {
 		*body_p = NULL;
-		return;
+	} else {
+		*body_p = inptr;
 	}
 	
-	*body_p = body;
+	g_ptr_array_free (children, TRUE);
 }
+
 
 /**
  * imap_quote_string:

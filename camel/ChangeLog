@@ -1,5 +1,17 @@
 2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes for bug #40778. Probably others as well.
+
+	* providers/imap/camel-imap-utils.c (parse_params): Return 0 on
+	success, or -1 on fail. The other small utility functions should
+	probably do the same, but I was too lazy to fix them. Setting
+	inptr to NULL is just lame.
+	(imap_body_decode): New function to correctly parse a BODY
+	response.
+	(imap_parse_body): Rewritten to use the above function.
+
+2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): Make sure
 	host->h_name is not an empty string too? Apparently for one user
 	his resolved hostname is "". Go figure. Probably a broken system,
