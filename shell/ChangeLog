@@ -1,3 +1,9 @@
+2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
+
+	* main.c: Evolution product name spelled with an uppercase E
+
+	Fixes #61605
+
 2004-11-02  mengjie yu  <meng-jie.yu@sun.com>
 
 	* evolution-startup-wizard.glade:remove the hard line breaks.
