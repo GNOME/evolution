@@ -15,11 +15,12 @@ addressbook/gui/component/addressbook.c
 addressbook/gui/component/e-ldap-storage.c
 addressbook/gui/component/ldap-server-dialog.glade.h
 addressbook/gui/component/select-names/select-names.glade.h
+addressbook/gui/widgets/alphabet.glade.h
 addressbook/gui/widgets/e-addressbook-view.c
 addressbook/gui/widgets/e-minicard-control.c
 addressbook/gui/widgets/e-minicard-view.c
 addressbook/gui/widgets/e-minicard.c
-addressbook/gui/widgets/alphabet.glade.h
+addressbook/gui/widgets/test-minicard-view.c
 addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/printing/e-contact-print.glade.h
 calendar/cal-util/timeutil.c
@@ -52,7 +53,7 @@ calendar/gui/prop.c
 composer/e-msg-composer-address-dialog.c
 composer/e-msg-composer-address-dialog.glade.h
 composer/e-msg-composer-attachment-bar.c
-composer/e-msg-composer-attachment.c
+#composer/e-msg-composer-attachment.c
 composer/e-msg-composer-attachment.glade.h
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
@@ -66,7 +67,7 @@ filter/score-editor.c
 filter/score-rule.c
 filter/vfolder-editor.c
 filter/vfolder-rule.c
-libversit/vobject.c
+#libversit/vobject.c
 mail/component-factory.c
 mail/folder-browser-factory.c
 mail/folder-browser.c
@@ -75,7 +76,7 @@ mail/mail-callbacks.c
 mail/mail-config-gui.c
 mail/mail-config-druid.glade.h
 mail/mail-config.glade.h
-mail/mail-config.c
+#mail/mail-config.c
 mail/mail-crypto.c
 mail/mail-display.c
 mail/mail-local.c
@@ -85,8 +86,10 @@ mail/mail-threads.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/mail-view.c
-mail/main.c
+#mail/main.c
 mail/message-list.c
+notes/component-factory.c
+notes/main.c
 shell/e-setup.c
 shell/e-shell-folder-creation-dialog.c
 shell/e-shell-folder-selection-dialog.c
@@ -99,9 +102,11 @@ shell/e-shortcuts.c
 shell/e-storage.c
 shell/e-storage-set-view.c
 shell/main.c
+#tests/ui-tests/message-browser.c
 widgets/meeting-time-sel/e-meeting-time-sel.c
 widgets/misc/e-calendar.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/shortcut-bar/e-group-bar.c
+
