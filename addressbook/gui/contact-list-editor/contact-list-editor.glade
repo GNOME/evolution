@@ -23,22 +23,22 @@
 
       <child>
 	<widget class="GtkVBox" id="vbox8">
-	  <property name="border_width">3</property>
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkHBox" id="hbox6">
-	      <property name="border_width">3</property>
+	      <property name="border_width">6</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">3</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label10">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">List _name:</property>
+		  <property name="label" translatable="yes">_List name:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -110,22 +110,22 @@
 
 	      <child>
 		<widget class="GtkHBox" id="hbox7">
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">0</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox9">
-		      <property name="border_width">3</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">3</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label11">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Type an email address or drag a contact into the list below:</property>
-			  <property name="use_underline">False</property>
+			  <property name="label" translatable="yes">_Type an email address or drag a contact into the list below:</property>
+			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_CENTER</property>
 			  <property name="wrap">False</property>
@@ -234,7 +234,7 @@
 			<widget class="GtkVButtonBox" id="vbuttonbox4">
 			  <property name="visible">True</property>
 			  <property name="layout_style">GTK_BUTTONBOX_START</property>
-			  <property name="spacing">0</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkButton" id="add-email-button">
