@@ -3,6 +3,9 @@
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): Remove
 	cached info at the end of the summary when the folder shrinks
 	between sessions. Also remove an untrue comment.
+	(camel_imap_folder_new): Move the summary creation to after the
+	folder selection again, since it depends on the uidvalidity
+	having been set.
 
 	* providers/imap/camel-imap-store.c (get_folder): Fix up
 	summary_file to not include the namespace twice.

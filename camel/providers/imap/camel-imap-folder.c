@@ -187,15 +187,6 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 		short_name = folder_name;
 	camel_folder_construct (folder, parent, folder_name, short_name);
 
-	imap_folder->summary = camel_imap_summary_new (summary_file, validity);
-	if (!imap_folder->summary) {
-		camel_object_unref (CAMEL_OBJECT (folder));
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not load summary for %s",
-				      folder_name);
-		return NULL;
-	}
-
 	response = camel_imap_command (imap_store, folder, ex, NULL);
 	if (!response) {
 		camel_object_unref ((CamelObject *)folder);
@@ -220,6 +211,15 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 		}
 	}
 	camel_imap_response_free (response);
+
+	imap_folder->summary = camel_imap_summary_new (summary_file, validity);
+	if (!imap_folder->summary) {
+		camel_object_unref (CAMEL_OBJECT (folder));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not load summary for %s",
+				      folder_name);
+		return NULL;
+	}
 
 	imap_refresh_info (folder, ex);
 	if (camel_exception_is_set (ex)) {
