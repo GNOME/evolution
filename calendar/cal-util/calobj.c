@@ -12,9 +12,12 @@
 #include <glib.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <time.h>
 #include "calobj.h"
 #include "timeutil.h"
 #include "libversit/vcc.h"
+#include "icalendar-save.h"
+#include "icalendar.h"
 
 
 
@@ -1565,6 +1568,56 @@ alarm_compute_offset (CalendarAlarm *a)
 CalObjFindStatus
 ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico)
 {
+#if 1
+	icalcomponent* comp = NULL;
+	icalcomponent *subcomp;
+	iCalObject    *ical;
+
+	g_return_val_if_fail (vcalobj != NULL, CAL_OBJ_FIND_NOT_FOUND);
+
+	comp = icalparser_parse_string (vcalobj);
+
+	if (!comp) {
+		printf ("CAL_OBJ_FIND_SYNTAX_ERROR #1\n");
+		return CAL_OBJ_FIND_SYNTAX_ERROR;
+	}
+
+	subcomp = icalcomponent_get_first_component (comp,
+						     ICAL_ANY_COMPONENT);
+	if (!subcomp) {
+		printf ("CAL_OBJ_FIND_SYNTAX_ERROR #2\n");
+		return CAL_OBJ_FIND_SYNTAX_ERROR;
+	}
+
+	while (subcomp) {
+		ical = ical_object_create_from_icalcomponent (subcomp);
+		if (ical->type != ICAL_EVENT && 
+		    ical->type != ICAL_TODO  &&
+		    ical->type != ICAL_JOURNAL) {
+			g_warning ("Skipping unsupported iCalendar component");
+		} else {
+			if (strcasecmp (ical->uid, uid) == 0) {
+				(*ico) = ical;
+				(*ico)->ref_count = 1;
+				printf ("CAL_OBJ_FIND_SUCCESS\n");
+
+	printf ("ical_object_find_in_string:\n");
+	printf ("-----------------------------------------------------\n");
+	dump_icalobject (*ico);
+	printf ("-----------------------------------------------------\n");
+
+
+				return CAL_OBJ_FIND_SUCCESS;
+			}
+		}
+		subcomp = icalcomponent_get_next_component (comp,
+							   ICAL_ANY_COMPONENT);
+	}
+
+	printf ("CAL_OBJ_FIND_NOT_FOUND\n");
+	return CAL_OBJ_FIND_NOT_FOUND;
+
+#else /* 0 */
 	VObject *vcal;
 	VObjectIterator i;
 	CalObjFindStatus status;
@@ -1619,6 +1672,7 @@ ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **i
 	cleanStrTbl ();
 
 	return status;
+#endif /* 0 */
 }
 
 /* Creates a VObject with the base information of a calendar */
@@ -1663,6 +1717,22 @@ get_calendar_base_vobject (void)
 char *
 ical_object_to_string (iCalObject *ico)
 {
+#if 1
+	icalcomponent *top = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
+	char *out_cal_string;
+	icalcomponent *comp;
+
+	printf ("ical_object_to_string:\n");
+	printf ("-----------------------------------------------------\n");
+	dump_icalobject (ico);
+	printf ("-----------------------------------------------------\n");
+
+	comp = icalcomponent_create_from_ical_object (ico);
+	icalcomponent_add_component (top, comp);
+	out_cal_string = icalcomponent_as_ical_string (top);
+	return g_strdup (out_cal_string);
+
+#else /* 0 */
 	VObject *vcalobj, *vobj;
 	char *buf, *gbuf;
 
@@ -1682,6 +1752,7 @@ ical_object_to_string (iCalObject *ico)
 	free (buf);
 
 	return gbuf;
+#endif /* 0 */
 }
 
 
@@ -1807,4 +1878,116 @@ ical_object_normalize_summary (iCalObject *ico)
 		}
 	}
 	*dest = '\0';
+}
+
+
+void dump_icalobject (iCalObject *ico)
+{
+	if (!ico) {
+		printf ("<<NULL>>\n");
+		return;
+	}
+
+	printf ("type ");
+	switch (ico->type) {
+	case ICAL_EVENT: printf ("event"); break;
+	case ICAL_TODO: printf ("todo"); break;
+	case ICAL_JOURNAL: printf ("journal"); break;
+	case ICAL_FBREQUEST: printf ("fbrequest"); break;
+	case ICAL_FBREPLY: printf ("fbreply"); break;
+	case ICAL_BUSYTIME: printf ("busytime"); break;
+	case ICAL_TIMEZONE: printf ("timezone"); break;
+	}
+	printf ("\n");
+
+	printf ("attach-length %d\n", g_list_length (ico->attach));
+
+	printf ("attendee-length %d\n", g_list_length (ico->attendee));
+
+	printf ("catagories-length %d\n", g_list_length (ico->categories));
+
+	printf ("class '%s'\n", ico->class ? ico->class : "NULL");
+
+	printf ("comment '%s'\n", ico->comment ? ico->comment : "NULL");
+
+	printf ("completed %ld=%s",
+		ico->completed, ctime (&ico->completed));
+
+	printf ("created %ld=%s", ico->created, ctime (&ico->created));
+
+	printf ("contact-length %d\n", g_list_length (ico->contact));
+
+	printf ("desc '%s'\n", ico->desc ? ico->desc : "NULL");
+
+	printf ("dtstamp %ld=%s", ico->dtstamp, ctime (&ico->dtstamp));
+
+	printf ("dtstart %ld=%s", ico->dtstart, ctime (&ico->dtstart));
+
+	printf ("dtend %ld=%s", ico->dtend, ctime (&ico->dtend));
+
+	printf ("date_only %d\n", ico->date_only);
+
+	printf ("exdate-length %d\n", g_list_length (ico->exdate));
+
+	printf ("exrule-length %d\n", g_list_length (ico->exrule));
+
+	printf ("iCalGeo %d %f %f\n",
+		ico->geo.valid, ico->geo.latitude, ico->geo.longitude);
+
+	printf ("last_mod %ld=%s", ico->last_mod, ctime (&ico->last_mod));
+
+	printf ("location '%s'\n", ico->location ? ico->location : "NULL");
+
+	printf ("organizer %p\n", ico->organizer);
+
+	printf ("percent %d\n", ico->percent);
+
+	printf ("priority %d\n", ico->priority);
+
+	printf ("rstatus '%s'\n", ico->rstatus ? ico->rstatus : "NULL");
+
+	printf ("related-length %d\n", g_list_length (ico->related));
+
+	printf ("resources-length %d\n", g_list_length (ico->resources));
+
+	printf ("rdate-length %d\n", g_list_length (ico->rdate));
+
+	printf ("rrule-length %d\n", g_list_length (ico->rrule));
+
+	printf ("seq %d\n", ico->seq);
+
+	printf ("status '%s'\n", ico->status ? ico->status : "NULL");
+
+	printf ("summary '%s'\n", ico->summary ? ico->summary : "NULL");
+
+	printf ("transp ");
+	switch (ico->transp) {
+	case ICAL_OPAQUE: printf ("opaque"); break;
+	case ICAL_TRANSPARENT: printf ("transparent"); break;
+	}
+	printf ("\n");
+
+	printf ("uid '%s'\n", ico->uid ? ico->uid : "NULL");
+
+	printf ("url '%s'\n", ico->url ? ico->url : "NULL");
+
+	printf ("recurid %ld=%s", ico->recurid, ctime (&ico->recurid));
+
+	printf ("dalarm %d\n", ico->dalarm.enabled);
+
+	printf ("aalarm %d\n", ico->aalarm.enabled);
+
+	printf ("palarm %d\n", ico->palarm.enabled);
+
+	printf ("malarm %d\n", ico->malarm.enabled);
+
+	printf ("alarms-length %d\n", g_list_length (ico->alarms));
+
+	printf ("recur %p\n", ico->recur);
+
+	printf ("new %d\n", ico->new);
+
+	printf ("user_data %p\n", ico->user_data);
+
+	printf ("ref_count %d\n", ico->ref_count);
 }

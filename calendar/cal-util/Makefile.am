@@ -13,10 +13,14 @@ INCLUDES =						\
 
 lib_LTLIBRARIES = libcal-util.la
 
-libcal_util_la_SOURCES = \
-	cal-recur.c	\
-	cal-util.c	\
-	calobj.c	\
+libcal_util_la_SOURCES = 	\
+	cal-recur.c		\
+	cal-util.c		\
+	calobj.c		\
+	icalendar.c		\
+	icalendar.h		\
+	icalendar-save.c	\
+	icalendar-save.h	\
 	timeutil.c
 
 libcal_utilincludedir = $(includedir)/evolution/cal-util
@@ -27,6 +31,19 @@ libcal_utilinclude_HEADERS =	\
 	calobj.h		\
 	timeutil.h
 
+noinst_PROGRAMS = icalendar-test
+
+icalendar_test_SOURCES =	\
+	icalendar-test.c	\
+	icalendar.c		\
+	icalendar-save.c
+
+icalendar_test_LDADD =						\
+	$(EXTRA_GNOME_LIBS)					\
+	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/libical/src/libical/libical.a
+
+#	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 
 test_recur_SOURCES = 	\
 	test-recur.c

@@ -311,7 +311,8 @@ struct icaltimetype timet_to_icaltime (time_t tt)
 	struct tm *t;
 	struct icaltimetype i;
 
-	t = gmtime (&tt);
+	//t = gmtime (&tt);
+	t = localtime (&tt);
 
 	/*return tt - (i->is_utc ? timezone : 0); */
 	i.is_utc = 0;
@@ -351,52 +352,58 @@ void unparse_person (iCalPerson *person, icalproperty *person_prop)
 		icalproperty_add_parameter (person_prop, param);
 	}
 
-	if (g_strcasecmp (person->role, "CHAIR") == 0)
-		param = icalparameter_new_role (ICAL_ROLE_CHAIR);
-	else if (g_strcasecmp (person->role, "REQPARTICIPANT") == 0)
-		param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
-	else if (g_strcasecmp (person->role, "OPTPARTICIPANT") == 0)
-		param = icalparameter_new_role (ICAL_ROLE_OPTPARTICIPANT);
-	else if (g_strcasecmp (person->role, "NONPARTICIPANT") == 0)
-		param = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
-	else
-		param = icalparameter_new_role (ICAL_ROLE_XNAME);
-	icalproperty_add_parameter (person_prop, param);
+	if (person->role) {
+		if (g_strcasecmp (person->role, "CHAIR") == 0)
+			param = icalparameter_new_role (ICAL_ROLE_CHAIR);
+		else if (g_strcasecmp (person->role, "REQPARTICIPANT") == 0)
+			param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
+		else if (g_strcasecmp (person->role, "OPTPARTICIPANT") == 0)
+			param = icalparameter_new_role (ICAL_ROLE_OPTPARTICIPANT);
+		else if (g_strcasecmp (person->role, "NONPARTICIPANT") == 0)
+			param = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
+		else
+			param = icalparameter_new_role (ICAL_ROLE_XNAME);
+		icalproperty_add_parameter (person_prop, param);
+	}
 
-	if (g_strcasecmp (person->partstat, "NEEDSACTION") == 0)
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_NEEDSACTION);
-	else if (g_strcasecmp (person->partstat, "ACCEPTED") == 0)
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_ACCEPTED);
-	else if (g_strcasecmp (person->partstat, "DECLINED") == 0)
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_DECLINED);
-	else if (g_strcasecmp (person->partstat, "TENTATIVE") == 0)
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_TENTATIVE);
-	else if (g_strcasecmp (person->partstat, "DELEGATED") == 0)
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_DELEGATED);
-	else if (g_strcasecmp (person->partstat, "COMPLETED") == 0)
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_COMPLETED);
-	else if (g_strcasecmp (person->partstat, "INPROCESS") == 0)
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_INPROCESS);
-	else /* FIX ME, NEEDSACTION instead? */
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_XNAME);
-	icalproperty_add_parameter (person_prop, param);
+	if (person->partstat) {
+		if (g_strcasecmp (person->partstat, "NEEDSACTION") == 0)
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_NEEDSACTION);
+		else if (g_strcasecmp (person->partstat, "ACCEPTED") == 0)
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_ACCEPTED);
+		else if (g_strcasecmp (person->partstat, "DECLINED") == 0)
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_DECLINED);
+		else if (g_strcasecmp (person->partstat, "TENTATIVE") == 0)
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_TENTATIVE);
+		else if (g_strcasecmp (person->partstat, "DELEGATED") == 0)
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_DELEGATED);
+		else if (g_strcasecmp (person->partstat, "COMPLETED") == 0)
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_COMPLETED);
+		else if (g_strcasecmp (person->partstat, "INPROCESS") == 0)
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_INPROCESS);
+		else /* FIX ME, NEEDSACTION instead? */
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_XNAME);
+		icalproperty_add_parameter (person_prop, param);
+	}
 
 	if (person->rsvp != FALSE) {
 		param = icalparameter_new_rsvp (TRUE);
 		icalproperty_add_parameter (person_prop, param);
 	}
 
-	if (g_strcasecmp (person->cutype, "INDIVIDUAL") == 0)
-		param = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
-	else if (g_strcasecmp (person->cutype, "GROUP") == 0)
-		param = icalparameter_new_cutype (ICAL_CUTYPE_GROUP);
-	else if (g_strcasecmp (person->cutype, "RESOURCE") == 0)
-		param = icalparameter_new_cutype (ICAL_CUTYPE_RESOURCE);
-	else if (g_strcasecmp (person->cutype, "ROOM") == 0)
-		param = icalparameter_new_cutype (ICAL_CUTYPE_ROOM);
-	else /* FIX ME, INDIVIDUAL instead? */
-		param = icalparameter_new_cutype (ICAL_CUTYPE_UNKNOWN);
-	icalproperty_add_parameter (person_prop, param);
+	if (person->cutype) {
+		if (g_strcasecmp (person->cutype, "INDIVIDUAL") == 0)
+			param = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
+		else if (g_strcasecmp (person->cutype, "GROUP") == 0)
+			param = icalparameter_new_cutype (ICAL_CUTYPE_GROUP);
+		else if (g_strcasecmp (person->cutype, "RESOURCE") == 0)
+			param = icalparameter_new_cutype (ICAL_CUTYPE_RESOURCE);
+		else if (g_strcasecmp (person->cutype, "ROOM") == 0)
+			param = icalparameter_new_cutype (ICAL_CUTYPE_ROOM);
+		else /* FIX ME, INDIVIDUAL instead? */
+			param = icalparameter_new_cutype (ICAL_CUTYPE_UNKNOWN);
+		icalproperty_add_parameter (person_prop, param);
+	}
 
 	/* person->member is a list of ICAL_MEMBER_PARAMETER */
 	for (cur = person->member; cur; cur = cur->next) {

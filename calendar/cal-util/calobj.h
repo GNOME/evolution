@@ -275,6 +275,8 @@ char	   *ical_gen_uid (void);
 void	    ical_object_reset_recurrence (iCalObject *ico);
 
 
+void dump_icalobject (iCalObject *ico);
+
 END_GNOME_DECLS
 
 #endif

@@ -29,7 +29,7 @@ LINK_FLAGS =							\
 	$(top_builddir)/widgets/e-paned/libepaned.a		\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/libical/src/libical/libical.la
+	$(top_builddir)/libical/src/libical/libical.a
 
 gladedir   = $(datadir)/evolution/glade
 

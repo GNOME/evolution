@@ -1,3 +1,16 @@
+2000-06-06  Seth Alves  <alves@hungry.com>
+
+	* cal-util/icalendar.c, icalendar-save.c: fixed a bunch of problems
+	* cal-util/calobj.c (ical_object_find_in_string): use libical
+	instead of libversit
+	(ical_object_to_string): same
+	(dump_icalobject): prints the contents of an icalobject for debugging
+
+	* gui/Makefile.am (LINK_FLAGS): link libical.a instead of libical.la
+	so we don't have to modify the build system of the released libical
+	* cal-client/Makefile.am (client_test_LDADD): same
+	* cal-util/Makefile.am (icalendar_test_LDADD): same
+
 2000-06-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/calobj.c (ical_object_destroy): Removed from the public

@@ -24,7 +24,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "cal-backend-imc.h"
-#include "icalendar.h"
+#include "cal-util/icalendar.h"
 
 
 
