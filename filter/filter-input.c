@@ -20,6 +20,7 @@
 
 #include <gtk/gtk.h>
 #include <gnome.h>
+#include <regex.h>
 
 #include <gal/widgets/e-unicode.h>
 
@@ -28,6 +29,7 @@
 
 #define d(x)
 
+static gboolean validate (FilterElement *fe, gpointer data);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -86,6 +88,7 @@ filter_input_class_init (FilterInputClass *class)
 	object_class->finalize = filter_input_finalise;
 
 	/* override methods */
+	filter_element->validate = validate;
 	filter_element->xml_create = xml_create;
 	filter_element->xml_encode = xml_encode;
 	filter_element->xml_decode = xml_decode;
@@ -101,16 +104,16 @@ filter_input_class_init (FilterInputClass *class)
 static void
 filter_input_init (FilterInput *o)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
+	o->priv = g_malloc0 (sizeof (*o->priv));
 }
 
 static void
-filter_input_finalise(GtkObject *obj)
+filter_input_finalise (GtkObject *obj)
 {
 	FilterInput *o = (FilterInput *)obj;
-
+	
 	o = o;
-
+	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
 
@@ -131,8 +134,8 @@ filter_input_new (void)
 FilterInput *
 filter_input_new_type_name (const char *type)
 {
-	FilterInput *o = filter_input_new();
-	o->type = g_strdup(type);
+	FilterInput *o = filter_input_new ();
+	o->type = g_strdup (type);
 	
 	d(printf("new type %s = %p\n", type, o));
 	return o;
@@ -142,15 +145,62 @@ void
 filter_input_set_value (FilterInput *fi, const char *value)
 {
 	GList *l;
-
+	
 	l = fi->values;
 	while (l) {
-		g_free(l->data);
-		l = g_list_next(l);
+		g_free (l->data);
+		l = g_list_next (l);
 	}
-	g_list_free(fi->values);
+	g_list_free (fi->values);
+	
+	fi->values = g_list_append (NULL, g_strdup (value));
+}
 
-	fi->values = g_list_append(NULL, g_strdup(value));
+static gboolean
+validate (FilterElement *fe, gpointer data)
+{
+	FilterInput *fi = (FilterInput *)fe;
+	gboolean is_regex = FALSE;
+	gboolean valid = TRUE;
+	
+	if (data)
+		is_regex = GPOINTER_TO_INT (data);
+	
+	if (is_regex) {
+		regex_t regexpat;        /* regex patern */
+		gint regerr;
+		char *text;
+		
+		text = fi->values->data;
+		
+		regerr = regcomp (&regexpat, text, REG_EXTENDED | REG_NEWLINE | REG_ICASE);
+		if (regerr) {
+			GtkWidget *dialog;
+			gchar *regmsg, *errmsg;
+			size_t reglen;
+			
+			/* regerror gets called twice to get the full error string 
+			   length to do proper posix error reporting */
+			reglen = regerror (regerr, &regexpat, 0, 0);
+			regmsg = g_malloc0 (reglen + 1);
+			regerror (regerr, &regexpat, regmsg, reglen);
+			
+			errmsg = g_strdup_printf (_("Error in regular expression '%s':\n%s"),
+						  text, regmsg);
+			g_free (regmsg);
+			
+			dialog = gnome_ok_dialog (errmsg);
+			
+			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+			
+			g_free (errmsg);
+			valid = FALSE;
+		}
+		
+		regfree (&regexpat);
+	}
+	
+	return valid;
 }
 
 static void

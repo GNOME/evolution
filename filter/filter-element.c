@@ -31,6 +31,7 @@
 #include "filter-folder.h"
 #include "filter-url.h"
 
+static gboolean validate (FilterElement *fe, gpointer data);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
 
@@ -83,6 +84,7 @@ filter_element_class_init (FilterElementClass *class)
 	object_class->finalize = filter_element_finalise;
 
 	/* override methods */
+	class->validate = validate;
 	class->xml_create = xml_create;
 	class->clone = clone;
 
@@ -119,6 +121,12 @@ filter_element_new (void)
 {
 	FilterElement *o = (FilterElement *)gtk_type_new(filter_element_get_type ());
 	return o;
+}
+
+gboolean
+filter_element_validate (FilterElement *fe, gpointer data)
+{
+	return ((FilterElementClass *)((GtkObject *)fe)->klass)->validate (fe, data);
 }
 
 /**
@@ -261,6 +269,12 @@ filter_element_new_type_name (const char *type)
 }
 
 /* default implementations */
+static gboolean
+validate (FilterElement *fe, gpointer data)
+{
+	return TRUE;
+}
+
 static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
@@ -280,5 +294,3 @@ clone (FilterElement *fe)
 	
 	return new;
 }
-
-

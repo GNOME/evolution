@@ -52,13 +52,13 @@
         (match-all (not (header-ends-with "From" ${sender})))
      </code>
     </option>
-    <option value="matches regex" type="regex">
+    <option value="matches regex">
      <title>matches regex</title>
      <code>
         (match-all (header-regex "From" ${sender}))
      </code>
     </option>
-    <option value="not match regex" type="regex">
+    <option value="not match regex">
      <title>does not match regex</title>
      <code>
         (match-all (not (header-regex "From" ${sender})))

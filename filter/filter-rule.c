@@ -458,6 +458,17 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 	FilterPart *new;
 	GtkWidget *w;
 	
+	/* first make sure that the last part is ok */
+	if (data->fr->parts) {
+		FilterPart *part;
+		GList *l;
+		
+		l = g_list_last (data->fr->parts);
+		part = l->data;
+		if (!filter_part_validate (part))
+			return;
+	}
+	
 	/* create a new rule entry, use the first type of rule */
 	new = rule_context_next_part (data->f, NULL);
 	if (new) {

@@ -1,5 +1,23 @@
 2000-10-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-option.c (option_activate): If a regex option is
+	selected, change the FilterElement data to TRUE else set to FALSE.
+
+	* filter-rule.c (more_parts): Validate the previously entered
+	FilterPart before allowing the user to add a new FilterPart.
+
+	* filter-part.c (filter_part_validate): New convenience function
+	to validate an entire FilterPart expression.
+
+	* filter-input.c (validate): Validate the entry text if it
+	contains a regular expression.
+
+	* filter-element.[c,h]: New virtual function to validate the
+	contents of the FilterElement (useful for regex and sexp).
+	(filter_element_validate): You get the idea...	
+
+2000-10-30  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* filter-input.c: 
 	* filter-option.c: 
 	* filter-part.c: Pure formatting changes, no actual code

@@ -234,8 +234,15 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 static void
 option_activate (GtkMenuItem *item, FilterOption *fo)
 {
+	FilterElement *fe = (FilterElement *) fo;
+	gboolean is_regex;
+	
 	fo->current = gtk_object_get_data (GTK_OBJECT (item), "option");
 	d(printf ("option changed to %s\n", fo->current->title));
+	
+	/* FIXME: there's probably a better way to do this */
+	is_regex = !(!strstr (fo->current->title, "regex"));
+	fe->data = GINT_TO_POINTER (is_regex);
 }
 
 static GtkWidget *

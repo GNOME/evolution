@@ -36,6 +36,7 @@ struct _FilterElement {
 	struct _FilterElementPrivate *priv;
 
 	char *name;
+	gpointer data;
 };
 
 struct _FilterPart;
@@ -44,6 +45,8 @@ struct _FilterElementClass {
 	GtkObjectClass parent_class;
 
 	/* virtual methods */
+	gboolean (*validate)(FilterElement *fe, gpointer data);
+	
 	void (*xml_create)(FilterElement *, xmlNodePtr);
 	xmlNodePtr (*xml_encode)(FilterElement *);
 	int (*xml_decode)(FilterElement *, xmlNodePtr);
@@ -63,6 +66,8 @@ FilterElement	*filter_element_new	(void);
 FilterElement	*filter_element_new_type_name	(const char *type);
 
 /* methods */
+gboolean        filter_element_validate         (FilterElement *fe, gpointer data);
+
 void		filter_element_xml_create	(FilterElement *fe, xmlNodePtr node);
 
 xmlNodePtr	filter_element_xml_encode	(FilterElement *fe);

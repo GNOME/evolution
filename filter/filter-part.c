@@ -113,6 +113,25 @@ filter_part_new (void)
 	return o;
 }
 
+gboolean
+filter_part_validate (FilterPart *fp)
+{
+	gboolean correct = TRUE;
+	FilterElement *last = NULL;
+	GList *l;
+	
+	l = fp->elements;
+	while (l && correct) {
+		FilterElement *fe = l->data;
+		
+	        correct = filter_element_validate (fe, last ? last->data : NULL);
+		
+		last = fe;
+		l = l->next;
+	}
+	
+	return correct;
+}
 
 int
 filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
