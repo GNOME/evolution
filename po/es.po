@@ -3096,7 +3096,7 @@ msgstr "%02i divisiónes por minuto"
 #: calendar/gui/e-day-view-top-item.c:285 calendar/gui/e-day-view.c:1328
 #: calendar/gui/e-week-view-main-item.c:325 calendar/gui/print.c:1602
 msgid "%A %d %B"
-msgstr "%A %b de %B"
+msgstr "%A %d de %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.

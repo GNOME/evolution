@@ -1,3 +1,9 @@
+2001-07-27  Damon Chaplin  <damon@ximian.com>
+
+	* es.po: changed strftime format translation from "%A %b de %B" to
+	"%A %d de %B". It was showing the abbreviated month name instead of
+	the day number.
+
 2001-07-27  Andras Timar <timar@gnome.hu>
 
         * hu.po: Updated Hungarian translation.
