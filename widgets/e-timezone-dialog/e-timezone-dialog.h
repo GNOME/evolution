@@ -40,14 +40,14 @@ typedef struct _ETimezoneDialogClass	ETimezoneDialogClass;
 typedef struct _ETimezoneDialogPrivate	ETimezoneDialogPrivate;
 
 struct _ETimezoneDialog {
-	GtkObject object;
+	GObject object;
 
 	/* Private data */
 	ETimezoneDialogPrivate *priv;
 };
 
 struct _ETimezoneDialogClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
 

@@ -28,7 +28,10 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <widgets/misc/e-map.h>
+
 #include "e-timezone-dialog.h"
+
+#include <gal/util/e-util.h>
 
 #define E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA 0xc070a0ff
 #define E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA 0xffff60ff
@@ -63,7 +66,8 @@ struct _ETimezoneDialogPrivate {
 
 static void e_timezone_dialog_class_init	(ETimezoneDialogClass *class);
 static void e_timezone_dialog_init		(ETimezoneDialog      *etd);
-static void e_timezone_dialog_destroy		(GtkObject	*object);
+static void e_timezone_dialog_dispose		(GObject	*object);
+static void e_timezone_dialog_finalize		(GObject	*object);
 
 static gboolean get_widgets			(ETimezoneDialog *etd);
 static gboolean on_map_timeout			(gpointer	 data);
@@ -87,44 +91,20 @@ static void	on_combo_changed		(GtkEditable	*entry,
 						 ETimezoneDialog *etd);
 
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
-
-GtkType
-e_timezone_dialog_get_type (void)
-{
-	static GtkType e_timezone_dialog_type = 0;
-
-	if (!e_timezone_dialog_type) {
-		static const GtkTypeInfo e_timezone_dialog_info = {
-			"ETimezoneDialog",
-			sizeof (ETimezoneDialog),
-			sizeof (ETimezoneDialogClass),
-			(GtkClassInitFunc) e_timezone_dialog_class_init,
-			(GtkObjectInitFunc) e_timezone_dialog_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		e_timezone_dialog_type = gtk_type_unique (GTK_TYPE_OBJECT,
-							  &e_timezone_dialog_info);
-	}
-
-	return e_timezone_dialog_type;
-}
 
 /* Class initialization function for the event editor */
 static void
 e_timezone_dialog_class_init (ETimezoneDialogClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose  = e_timezone_dialog_dispose;
+	object_class->finalize = e_timezone_dialog_finalize;
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
-
-	object_class->destroy = e_timezone_dialog_destroy;
+	parent_class = gtk_type_class (G_TYPE_OBJECT);
 }
 
 /* Object initialization function for the event editor */
@@ -132,8 +112,6 @@ static void
 e_timezone_dialog_init (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
-
-	GTK_OBJECT_UNSET_FLAGS (etd, GTK_FLOATING);
 
 	priv = g_new0 (ETimezoneDialogPrivate, 1);
 	etd->priv = priv;
@@ -144,9 +122,9 @@ e_timezone_dialog_init (ETimezoneDialog *etd)
 	priv->timeout_id = 0;
 }
 
-/* Destroy handler for the event editor */
+/* Dispose handler for the event editor */
 static void
-e_timezone_dialog_destroy (GtkObject *object)
+e_timezone_dialog_dispose (GObject *object)
 {
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
@@ -159,11 +137,10 @@ e_timezone_dialog_destroy (GtkObject *object)
 	priv = etd->priv;
 
 	/* Destroy the actual dialog. */
-	dialog = e_timezone_dialog_get_toplevel (etd);
-	gtk_widget_destroy (dialog);
-
-	g_free (priv->tzid);
-	priv->tzid = NULL;
+	if (dialog != NULL) {
+		dialog = e_timezone_dialog_get_toplevel (etd);
+		gtk_widget_destroy (dialog);
+	}
 
 	if (priv->timeout_id) {
 		g_source_remove (priv->timeout_id);
@@ -171,15 +148,30 @@ e_timezone_dialog_destroy (GtkObject *object)
 	}
 
 	if (priv->xml) {
-		gtk_object_unref (GTK_OBJECT (priv->xml));
+		g_object_unref (priv->xml);
 		priv->xml = NULL;
 	}
 
-	g_free (priv);
-	etd->priv = NULL;
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+/* Finalize handler for the event editor */
+static void
+e_timezone_dialog_finalize (GObject *object)
+{
+	ETimezoneDialog *etd;
+	ETimezoneDialogPrivate *priv;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (E_IS_TIMEZONE_DIALOG (object));
+
+	etd = E_TIMEZONE_DIALOG (object);
+	priv = etd->priv;
+
+	g_free (priv->tzid);
+	g_free (priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -270,23 +262,18 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 	gtk_container_add (GTK_CONTAINER (priv->map_window), map);
 	gtk_widget_show (map);
 
-        gtk_signal_connect (GTK_OBJECT (map), "motion-notify-event",
-			    GTK_SIGNAL_FUNC (on_map_motion), etd);
-        gtk_signal_connect (GTK_OBJECT (map), "leave-notify-event",
-			    GTK_SIGNAL_FUNC (on_map_leave), etd);
-        gtk_signal_connect (GTK_OBJECT (map), "visibility-notify-event",
-			    GTK_SIGNAL_FUNC (on_map_visibility_changed), etd);
-	gtk_signal_connect (GTK_OBJECT (map), "button-press-event",
-			    GTK_SIGNAL_FUNC (on_map_button_pressed), etd);
+        g_signal_connect (map, "motion-notify-event", G_CALLBACK (on_map_motion), etd);
+        g_signal_connect (map, "leave-notify-event", G_CALLBACK (on_map_leave), etd);
+        g_signal_connect (map, "visibility-notify-event", G_CALLBACK (on_map_visibility_changed), etd);
+	g_signal_connect (map, "button-press-event", G_CALLBACK (on_map_button_pressed), etd);
 
-	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (priv->timezone_combo)->entry), "changed", 
-			    GTK_SIGNAL_FUNC (on_combo_changed), etd);
+	g_signal_connect (GTK_COMBO (priv->timezone_combo)->entry, "changed", G_CALLBACK (on_combo_changed), etd);
 
 	return etd;
 
  error:
 
-	gtk_object_unref (GTK_OBJECT (etd));
+	g_object_unref (etd);
 	return NULL;
 }
 
@@ -330,7 +317,7 @@ e_timezone_dialog_new (void)
 {
 	ETimezoneDialog *etd;
 
-	etd = E_TIMEZONE_DIALOG (gtk_type_new (E_TYPE_TIMEZONE_DIALOG));
+	etd = E_TIMEZONE_DIALOG (g_object_new (E_TYPE_TIMEZONE_DIALOG, NULL));
 	return e_timezone_dialog_construct (E_TIMEZONE_DIALOG (etd));
 }
 
@@ -716,3 +703,7 @@ e_timezone_dialog_get_builtin_timezone	(const char *display_name)
 
 	return NULL;
 }
+
+
+E_MAKE_TYPE (e_timezone_dialog, "ETimezoneDialog", ETimezoneDialog,
+	     e_timezone_dialog_class_init, e_timezone_dialog_init, G_TYPE_OBJECT)

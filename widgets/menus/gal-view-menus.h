@@ -2,10 +2,11 @@
 #ifndef _GAL_VIEW_MENUS_H_
 #define _GAL_VIEW_MENUS_H_
 
-#include <gtk/gtkobject.h>
 #include <libxml/tree.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <gal/menus/gal-view-instance.h>
+
+#include <glib-object.h>
 
 #define GAL_VIEW_MENUS_TYPE        (gal_view_menus_get_type ())
 #define GAL_VIEW_MENUS(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_MENUS_TYPE, GalViewMenus))
@@ -16,12 +17,12 @@
 typedef struct _GalViewMenusPrivate GalViewMenusPrivate;
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 	GalViewMenusPrivate *priv;
 } GalViewMenus;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } GalViewMenusClass;
 
 GtkType       gal_view_menus_get_type               (void);

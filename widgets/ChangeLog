@@ -1,5 +1,21 @@
 2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* menus/gal-view-menus.h
+	* menus/gal-view-menus.c: GObjectified.
+
+	* e-timezone-dialog/e-timezone-dialog.h
+	* e-timezone-dialog/e-timezone-dialog.c: GObjectified.
+
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c
+	(e_timezone_dialog_destroy): g_object_unref() instead of
+	gtk_object_unref() on the GladeXML object.
+	(e_timezone_dialog_construct): Likewise on the ETimezoneDialog
+	object.
+
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-timezone-dialog/e-timezone-dialog.glade: Converted to Glade 2.
 
 2002-11-13  Not Zed  <NotZed@Ximian.com>
