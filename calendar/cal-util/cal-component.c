@@ -1130,73 +1130,6 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 }
 
 /**
- * cal_component_get_status:
- * @comp: A calendar component object.
- * @status: Return value for the status value.  It is set to #ICAL_STATUS_NONE
- * if the component has no status property.
- *
- * Queries the status property of a calendar component object.
- **/
-void
-cal_component_get_status (CalComponent *comp, icalproperty_status *status)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (status != NULL);
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	if (!priv->status) {
-		*status = ICAL_STATUS_NONE;
-		return;
-	}
-
-	*status = icalproperty_get_status (priv->status);
-}
-
-/**
- * cal_component_set_status:
- * @comp: A calendar component object.
- * @status: Status value.  You should use #ICAL_STATUS_NONE if you want to unset
- * this property.
- *
- * Sets the status property of a calendar component object.
- **/
-void
-cal_component_set_status (CalComponent *comp, icalproperty_status status)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	priv->need_sequence_inc = TRUE;
-
-	if (status == ICAL_STATUS_NONE) {
-		if (priv->status) {
-			icalcomponent_remove_property (priv->icalcomp, priv->status);
-			icalproperty_free (priv->status);
-			priv->status = NULL;
-		}
-
-		return;
-	}
-
-	if (priv->status) {
-		icalproperty_set_status (priv->status, status);
-	} else {
-		priv->status = icalproperty_new_status (status);
-		icalcomponent_add_property (priv->icalcomp, priv->status);
-	}
-}
-
-/**
  * cal_component_get_categories_list:
  * @comp: A calendar component object.
  * @categ_list: Return value for the list of strings, where each string is a
@@ -2381,8 +2314,7 @@ cal_component_get_exrule_list (CalComponent *comp, GSList **recur_list)
  * @comp: A calendar component object.
  * @recur_list: Returns a list of exception rule properties.
  *
- * Returns a list of exception rule properties of a calendar component
- * object.
+ * Queries the list of exception rule properties of a calendar component object.
  **/
 void
 cal_component_get_exrule_property_list (CalComponent *comp, GSList **recur_list)
@@ -2802,8 +2734,7 @@ cal_component_get_rrule_list (CalComponent *comp, GSList **recur_list)
  * @comp: A calendar component object.
  * @recur_list: Returns a list of recurrence rule properties.
  *
- * Returns a list of recurrence rule properties of a calendar component
- * object.
+ * Queries a list of recurrence rule properties of a calendar component object.
  **/
 void
 cal_component_get_rrule_property_list (CalComponent *comp, GSList **recur_list)
@@ -2947,6 +2878,73 @@ cal_component_set_sequence (CalComponent *comp, int *sequence)
 	else {
 		priv->sequence = icalproperty_new_sequence (*sequence);
 		icalcomponent_add_property (priv->icalcomp, priv->sequence);
+	}
+}
+
+/**
+ * cal_component_get_status:
+ * @comp: A calendar component object.
+ * @status: Return value for the status value.  It is set to #ICAL_STATUS_NONE
+ * if the component has no status property.
+ *
+ * Queries the status property of a calendar component object.
+ **/
+void
+cal_component_get_status (CalComponent *comp, icalproperty_status *status)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (status != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!priv->status) {
+		*status = ICAL_STATUS_NONE;
+		return;
+	}
+
+	*status = icalproperty_get_status (priv->status);
+}
+
+/**
+ * cal_component_set_status:
+ * @comp: A calendar component object.
+ * @status: Status value.  You should use #ICAL_STATUS_NONE if you want to unset
+ * this property.
+ *
+ * Sets the status property of a calendar component object.
+ **/
+void
+cal_component_set_status (CalComponent *comp, icalproperty_status status)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	priv->need_sequence_inc = TRUE;
+
+	if (status == ICAL_STATUS_NONE) {
+		if (priv->status) {
+			icalcomponent_remove_property (priv->icalcomp, priv->status);
+			icalproperty_free (priv->status);
+			priv->status = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->status) {
+		icalproperty_set_status (priv->status, status);
+	} else {
+		priv->status = icalproperty_new_status (status);
+		icalcomponent_add_property (priv->icalcomp, priv->status);
 	}
 }
 
@@ -3369,34 +3367,6 @@ cal_component_free_sequence (int *sequence)
 }
 
 /**
- * cal_component_free_pilot_id:
- * @sequence: Sequence number value.
- *
- * Frees a sequence number value.
- **/
-void
-cal_component_free_pilot_id (unsigned long *pilot_id)
-{
-	g_return_if_fail (pilot_id != NULL);
-
-	g_free (pilot_id);
-}
-
-/**
- * cal_component_free_pilot_status:
- * @sequence: Sequence number value.
- *
- * Frees a sequence number value.
- **/
-void
-cal_component_free_pilot_status (unsigned long *pilot_status)
-{
-	g_return_if_fail (pilot_status != NULL);
-
-	g_free (pilot_status);
-}
-
-/**
  * cal_component_free_text_list:
  * @text_list: List of #CalComponentText structures.
  *
@@ -3625,7 +3595,7 @@ cal_component_alarms_free (CalComponentAlarms *alarms)
 		g_free (instance);
 	}
 
-	g_free (alarms->alarms);
+	g_slist_free (alarms->alarms);
 	g_free (alarms);
 }
 

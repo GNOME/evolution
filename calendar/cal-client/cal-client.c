@@ -1283,13 +1283,38 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 }
 
 /**
+ * cal_client_free_alarms:
+ * @comp_alarms: A list of #CalComponentAlarms structures.
+ * 
+ * Frees a list of #CalComponentAlarms structures as returned by
+ * cal_client_get_alarms_in_range().
+ **/
+void
+cal_client_free_alarms (GSList *comp_alarms)
+{
+	GSList *l;
+
+	for (l = comp_alarms; l; l = l->next) {
+		CalComponentAlarms *alarms;
+
+		alarms = l->data;
+		g_assert (alarms != NULL);
+
+		cal_component_alarms_free (alarms);
+	}
+
+	g_slist_free (comp_alarms);
+}
+
+/**
  * cal_client_get_alarms_for_object:
  * @client: A calendar client.
  * @uid: Unique identifier for a calendar component.
  * @start: Start time for query.
  * @end: End time for query.
  * @alarms: Return value for the component's alarm instances.  Will return NULL
- * if no instances occur within the specified time range.
+ * if no instances occur within the specified time range.  This should be freed
+ * using the cal_component_alarms_free() function.
  *
  * Queries a calendar for the alarms of a particular object that trigger in the
  * specified range of time.
@@ -1412,6 +1437,20 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	return retval;
 }
 
+/**
+ * cal_client_remove_object:
+ * @client: A calendar client.
+ * @uid: Unique identifier of the calendar component to remove.
+ * 
+ * Asks a calendar to remove a component.  If the server is able to remove the
+ * component, all clients will be notified and they will emit the "obj_removed"
+ * signal.
+ * 
+ * Return value: TRUE on success, FALSE on specifying a UID for a component that
+ * is not in the server.  Returning FALSE is normal; the object may have
+ * disappeared from the server before the client has had a chance to receive the
+ * corresponding notification.
+ **/
 gboolean
 cal_client_remove_object (CalClient *client, const char *uid)
 {

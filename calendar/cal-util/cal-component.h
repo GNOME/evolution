@@ -173,9 +173,6 @@ void cal_component_commit_sequence (CalComponent *comp);
 void cal_component_get_uid (CalComponent *comp, const char **uid);
 void cal_component_set_uid (CalComponent *comp, const char *uid);
 
-void cal_component_get_status (CalComponent *comp, icalproperty_status *status);
-void cal_component_set_status (CalComponent *comp, icalproperty_status status);
-
 void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list);
 void cal_component_set_categories_list (CalComponent *comp, GSList *categ_list);
 
@@ -243,6 +240,9 @@ gboolean cal_component_has_recurrences (CalComponent *comp);
 void cal_component_get_sequence (CalComponent *comp, int **sequence);
 void cal_component_set_sequence (CalComponent *comp, int *sequence);
 
+void cal_component_get_status (CalComponent *comp, icalproperty_status *status);
+void cal_component_set_status (CalComponent *comp, icalproperty_status status);
+
 void cal_component_get_summary (CalComponent *comp, CalComponentText *summary);
 void cal_component_set_summary (CalComponent *comp, CalComponentText *summary);
 
@@ -264,8 +264,6 @@ void cal_component_free_priority (int *priority);
 void cal_component_free_period_list (GSList *period_list);
 void cal_component_free_recur_list (GSList *recur_list);
 void cal_component_free_sequence (int *sequence);
-void cal_component_free_pilot_id (unsigned long *pilot_status);
-void cal_component_free_pilot_status (unsigned long *pilot_status);
 void cal_component_free_text_list (GSList *text_list);
 
 /* Alarms */

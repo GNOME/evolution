@@ -104,7 +104,7 @@ void cal_client_generate_instances (CalClient *client, CalObjType type,
 
 GSList *cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end);
 
-void cal_client_free_alarms (GSList *alarms);
+void cal_client_free_alarms (GSList *comp_alarms);
 
 gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 					   time_t start, time_t end,

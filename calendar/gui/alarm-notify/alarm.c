@@ -252,6 +252,8 @@ alarm_remove (gpointer alarm)
 	AlarmRecord *old_head;
 	GList *l;
 
+	g_return_if_fail (alarm != NULL);
+
 	ar = alarm;
 
 	l = g_list_find (alarms, ar);
@@ -277,7 +279,6 @@ alarm_remove (gpointer alarm)
 
 /**
  * alarm_init:
- * @void:
  *
  * Initializes the alarm notification system.  This must be called near the
  * beginning of the program.

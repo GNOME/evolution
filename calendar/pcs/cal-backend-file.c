@@ -958,24 +958,14 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
 			continue;
 
 		case CAL_ALARM_TRIGGER_RELATIVE_START:
-			dur = &trigger.u.rel_duration;
-			dur_time = icaldurationtype_as_timet (*dur);
-
-			if (dur->is_neg)
-				*alarm_start = MIN (*alarm_start, start - dur_time);
-			else
-				*alarm_end = MAX (*alarm_end, start + dur_time);
-
-			break;
-
 		case CAL_ALARM_TRIGGER_RELATIVE_END:
 			dur = &trigger.u.rel_duration;
 			dur_time = icaldurationtype_as_timet (*dur);
 
 			if (dur->is_neg)
-				*alarm_start = MIN (*alarm_start, end - dur_time);
-			else
 				*alarm_end = MAX (*alarm_end, end + dur_time);
+			else
+				*alarm_start = MIN (*alarm_start, start - dur_time);
 
 			break;
 

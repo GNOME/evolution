@@ -1,3 +1,33 @@
+2000-12-19  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-backend-file.c (compute_alarm_range): Fix confusion in
+	the way the range is expanded.
+
+	* cal-util/cal-component.c (cal_component_alarms_free): Doh,
+	alarms->alarms is a list, not a generic pointer.  Free it properly.
+	(cal_component_free_pilot_id): Removed unused function.
+	(cal_component_free_pilot_status): Likewise.
+
+	* gui/main.c (init_bonobo): Use VERSION instead of a hardcoded
+	string.  Pass argc by value, not by reference.  Test the return
+	value of gnome_init_with_popt_table().
+
+	* cal-client/cal-client.c (cal_client_free_alarms): Oops, missed
+	implementing this function.
+
+	* cal-util/timeutil.c (print_time_t): Better printing format.
+	(isodiff_to_secs): Removed unused function.
+	(isodiff_from_secs): Removed unused function.
+	(time_day_end): Removed crufty part.
+	(time_day_begin): Removed crufty part.
+	(time_day_hour): Removed unused function.
+	(format_simple_hour): Removed unused function.
+	(get_time_t_hour): Removed unused function.
+	(time_from_start_duration): Removed unused function.
+
+	* cal-util/timeutil.h (parse_date): Removed unimplemented, unused
+	function prototype.
+
 2000-12-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/gnome-cal.c: Removed prototype for setup_alarm to fix a

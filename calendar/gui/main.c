@@ -28,7 +28,6 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <bonobo.h>
-#include <bonobo/bonobo-control.h>
 #include <glade/glade.h>
 
 #include <liboaf/liboaf.h>
@@ -42,13 +41,13 @@
 #include "e-itip-control.h"
 
 static void
-init_bonobo (int *argc, char **argv)
+init_bonobo (int argc, char **argv)
 {
-	/* FIXME: VERSION instead of "0.0".  */
-	gnome_init_with_popt_table ("evolution-calendar", "0.0",
-				    *argc, argv, oaf_popt_options,
-				    0, NULL);
-	oaf_init (*argc, argv);
+	if (gnome_init_with_popt_table ("evolution-calendar", VERSION, argc, argv,
+					oaf_popt_options, 0, NULL) != 0)
+		g_error (_("Could not initialize GNOME"));
+
+	oaf_init (argc, argv);
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
@@ -61,7 +60,7 @@ main (int argc, char **argv)
 	bindtextdomain(PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain(PACKAGE);
 
-	init_bonobo (&argc, argv);
+	init_bonobo (argc, argv);
 	glade_gnome_init ();
 	alarm_init ();
 	e_cursors_init ();
