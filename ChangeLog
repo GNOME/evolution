@@ -1,3 +1,7 @@
+2001-09-10  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added "zh_TW" to ALL_LINGUAS.
+
 2001-09-07  Dan Winship  <danw@ximian.com>
 
 	* configure.in: one-line OpenSSL fix from Yanko Kaneti
