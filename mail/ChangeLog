@@ -1,3 +1,8 @@
+2004-05-21  Not Zed  <NotZed@Ximian.com>
+
+	* em-migrate.c (update_passwords_1_2): finally put the 1.2
+	password upgrade patch in.  Untested.  #42721.
+
 2004-05-20  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fixes for bug #57305.
