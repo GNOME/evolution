@@ -1,14 +1,14 @@
 Evolution is the integrated mail, calendar and address book suite from
-Ximian, Inc.
+the Evolution Team.
 
-See http://www.ximian.com/products/evolution for more information.
+See http://www.gnome.org/projects/evolution for more information.
 
 If you are using Evolution, you may wish to subscribe to the Evolution
 users mailing list.  If you are interested in contributing to
 development on it, you should certainly subscribe to the Evolution
 Hackers mailing list.  Visit
 
-	http://developer.ximian.com/community/lists.html
+	http://lists.ximian.com
 
 to subscribe or view archives of the Ximian mailing lists.
 
@@ -20,8 +20,8 @@ to change).
 There is also a #evolution IRC channel on irc.gnome.org.
 
 Help for Evolution is available in the user manual (select "Help" from
-the menu after running the application), at the Ximian knowledge base
-(http://support.ximian.com), in the Evolution man page (run "man
+the menu after running the application), at the Novell knowledge base
+(http://support.novell.com), in the Evolution man page (run "man
 evolution" at the command line), and in the --help strings (run
 "evolution --help" at the command line).
 
@@ -31,31 +31,18 @@ The rest of this file is dedicated to building Evolution.
 DEPENDENCIES
 ------------
 
-In order to build Evolution you need to have the full set of GNOME 2
-or GNOME 2.2 development libraries installed.
+In order to build Evolution you need to have the full set of GNOME 2.2
+(or greater) development libraries installed.
 
-GNOME 2 comes with most of the modern distributions, so in most cases
-it should be enough to just install all the devel packages from your
-distribution.  If, on the other hand, you want to build GNOME 2 from
-source, please refer to this page:
-
-	http://gnome.org/start/2.2/notes/rninstallation.html
+GNOME 2.2 or greater comes with most of the modern distributions, so
+in most cases it should be enough to just install all the devel
+packages from your distribution.
 
 Please make sure you have the most recent versions of the libraries
 installed, since bugs in the libraries can cause bugs in Evolution.
 
 Additional dependencies, besides the stock GNOME libraries (the
 dependencies should be compiled in the order they are listed here):
-
-	* [If compiling against GNOME 2.0] libgnomeprint and
-          libgnomeprintui 2.2.0 or later
-
-	  These library come with GNOME 2.2 installations, but not
-	  with GNOME 2.0 ones.  The source code can be downloaded from
-	  the following locations:
-
-	     ftp://ftp.gnome.org/pub/gnome/sources/libgnomeprint
-	     ftp://ftp.gnome.org/pub/gnome/sources/libgnomeprintui
 
 	* [If compiling against GNOME 2.2] libgnomecanvas 2.2.0.2 or
           later
@@ -65,28 +52,33 @@ dependencies should be compiled in the order they are listed here):
 	  Evolution exposes a bug in the older versions of the library
 	  which causes a crash.
 
-	  If you have a GNOME 2.0 installation, libgnomecanvas 2.0 is
-	  safe to use.
+	* [If compiling against GNOME 2.2] libbonobo and libbonoboui 2.4
 
-	* gtkhtml 3.0.1 or later
+	* gnome-icon-theme 1.2.0 or later
+
+	* ORBit 2.9.8 or later
+
+	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
+	
+	* libsoup 2.2.0 or later
+
+	     ftp://ftp.gnome.org/pub/gnome/sources/libsoup
+
+	* evolution-data-server 1.0.0 or later
+
+	     ftp://ftp.gnome.org/pub/gnome/sources/evolution-data-server
+
+	* gtkhtml 3.2.0 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gtkhtml
 
-	* gal 1.99.8 or later
+	* gal 2.2.0 or later
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gal
 
-	* Berkeley's libdb 3.1.17
-
-	  It is important to use *exactly* this version, and not a
-	  later one, to compile Evolution.  Please check the "Building
-	  Berkeley DB" section below for more information.
-
-   	     ftp://ftp.ximian.com/pub/source/evolution
-
 	* [Optional] Mozilla NSPR/NSS libraries
 
-	  These are needed if you want to compile Evolution with SSL
+	  These are needed if you want to compile Evolution with SSL and S/MIME
 	  support.
 
 	     http://www.mozilla.org/
@@ -108,70 +100,6 @@ dependencies should be compiled in the order they are listed here):
 	  checking functionality in Evolution's message composer.
 
 	     ftp://ftp.gnome.org/pub/gnome/sources/gnome-spell
-
-
-COMPILING BERKELEY DB
----------------------
-
-    --- IMPORTANT WARNING ---
-
-    The on-disk format of DB files has been changing between versions 2, 3
-    and 4.  Also, because of the libdb API, there is no way to easily
-    handle the different formats from within the application.  For this
-    reason, Evolution has chosen to use one specific version of the
-    library (version 3) and stick to it, so that users do not need to
-    convert their addressbook files to use them with different version of
-    Evolution.
-
-    That's why Evolution REQUIRES libdb 3.1.17, and NO OTHER VERSION.
-
-    If you force the check to accept a version different from 3.1.17, your
-    binary of Evolution will be using a different format from the chosen
-    one; this means that it will not be able to read addressbook databases
-    created by other versions of Evolution which were compiled in the
-    standard way.  Also, we DO NOT GUARRANTEE that Evolution will work
-    with different versions of libdb at all, even if it can be trivially
-    made to compile against them.
-
-    SPECIAL NOTE FOR BINARY PACKAGERS:
-
-    If you are making binary packages for end-users (e.g. if you are a
-    distribution vendor), please statically link Evolution to Berkeley
-    DB 3.1.17, as mandated by the configure.in check.  DO NOT patch
-    configure.in to work around the check.  Forcing the check to link
-    to a different version of the library will only give headaches and
-    pain to your users, who will see their addressbook disappear and
-    will complain to us (the Evolution team) about losing their data.
-
-    Besides, libdb will be linked statically, which means that your
-    distribution doesn't actually need to ship DB 3.1.17 itself
-    separately.
-
-    The Evolution team will be infinitely grateful for your
-    co-operation.  Thanks!
-
-If you don't have version 3.1.17 installed on your system or Evolution
-doesn't detect it for some reason, here is a way to get Evolution to
-link to it without messing up your system installation.
-
-  * Install the content of the tarball somewhere *other* than the
-    evolution source tree, e.g: NOT evolution/db-3.1.17 .
-
-  * Compile according to instructions, but installing into some custom
-    prefix, for example:
-
-      ../dist/configure --prefix=/home/user/berkeleydb-3.1.17
-
-  * Configure Evolution specifying that it has to look for the DB
-    library there, for example:
-
-      ./configure --prefix=/opt/gnome
-      --with-db3-includes=/home/user/berkeleydb-3.1.17/include
-      --with-db3-libs=/home/user/berkeleydb-3.1.17/lib
-
-Evolution links statically to the library, so after you have compiled
-Evolution you can remove the installed library from your system.
-
 
 CONFIGURING EVOLUTION
 ---------------------
