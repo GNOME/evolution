@@ -1,3 +1,7 @@
+2001-09-26  Iain Holmes  <iain@ximian.com>
+
+	* *.[ch]: Add correct approved copyright notices.
+
 2001-09-25  Iain Holmes  <iain@ximian.com>
 
 	* e-summary.c (e_summary_draw): Check if the summary is frozen, if so
