@@ -44,7 +44,8 @@ struct _EvolutionShellComponentPrivate {
 	EvolutionShellComponentCreateFolderFn create_folder_fn;
 	EvolutionShellComponentRemoveFolderFn remove_folder_fn;
 
-	Evolution_Shell corba_owner;
+	EvolutionShellClient *owner_client;
+
 	void *closure;
 };
 
@@ -131,15 +132,15 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 	priv = shell_component->priv;
 
-	if (priv->corba_owner != CORBA_OBJECT_NIL) {
+	if (priv->owner_client != NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Evolution_ShellComponent_AlreadyOwned, NULL);
 		return;
 	}
 
-	priv->corba_owner = CORBA_Object_duplicate (shell, ev);
+	priv->owner_client = evolution_shell_client_new (shell);
 
-	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->corba_owner);
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->owner_client);
 }
 
 static void
@@ -154,14 +155,13 @@ impl_ShellComponent_unset_owner (PortableServer_Servant servant,
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 	priv = shell_component->priv;
 
-	if (priv->corba_owner == CORBA_OBJECT_NIL) {
+	if (priv->owner_client == CORBA_OBJECT_NIL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Evolution_ShellComponent_NotOwned, NULL);
 		return;
 	}
 
-	Bonobo_Unknown_unref (priv->corba_owner, ev);
-	CORBA_Object_release (priv->corba_owner, ev);
+	bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
 
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_UNSET]);
 }
@@ -275,10 +275,8 @@ destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	if (priv->corba_owner != NULL) {
-		Bonobo_Unknown_unref (priv->corba_owner, &ev);
-		CORBA_Object_release (priv->corba_owner, &ev);
-	}
+	if (priv->owner_client != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
 
 	CORBA_exception_free (&ev);
 
@@ -368,7 +366,7 @@ init (EvolutionShellComponent *shell_component)
 	priv->create_view_fn   = NULL;
 	priv->create_folder_fn = NULL;
 	priv->remove_folder_fn = NULL;
-	priv->corba_owner      = CORBA_OBJECT_NIL;
+	priv->owner_client     = NULL;
 	priv->closure          = NULL;
 
 	shell_component->priv = priv;
@@ -444,13 +442,13 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 	return new;
 }
 
-Evolution_Shell
+EvolutionShellClient *
 evolution_shell_component_get_owner  (EvolutionShellComponent *shell_component)
 {
-	g_return_val_if_fail (shell_component != NULL, CORBA_OBJECT_NIL);
-	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component), CORBA_OBJECT_NIL);
+	g_return_val_if_fail (shell_component != NULL, NULL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component), NULL);
 
-	return shell_component->priv->corba_owner;
+	return shell_component->priv->owner_client;
 }
 
 

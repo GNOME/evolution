@@ -1,3 +1,9 @@
+2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* notes/component-factory.c (owner_set_cb): Get an
+	EvolutionShellClient instead of an Evolution_Shell to match the
+	changes in libeshell.
+
 2000-06-29  Peter Williams  <peterw@helixcode.com>
 
 	* configure.in:  Re-enable GNOME_PILOT_CHECK.

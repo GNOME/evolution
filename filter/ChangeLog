@@ -1,3 +1,13 @@
+2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* filter-arg-types.c: Replaced `global_shell_interface' with
+	`global_shell_client'.
+	(arg_folder_edit_value): Use
+	`evolution_shell_client_user_select_folder()'.
+	(create_listener): Removed.
+	(impl_FolderSelectionListener_selected): Removed, together with
+	all the ::Listener stuff.
+
 2000-06-29  Arik Devens  <arik@helixcode.com>
 
 	* vfoldertypes.xml (ruleset type="match"): Changed Cc to CC to be

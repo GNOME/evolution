@@ -69,7 +69,8 @@ create_view (EvolutionShellComponent *shell_component,
 
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
-	      Evolution_Shell shell_interface)
+	      EvolutionShellClient shell_client,
+	      void *data)
 {
 	g_print ("evolution-calendar: Yeeeh! We have an owner!\n"); /* FIXME */
 }

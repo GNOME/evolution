@@ -469,6 +469,7 @@ widgets/Makefile
 widgets/e-paned/Makefile
 widgets/e-table/Makefile
 widgets/e-text/Makefile
+widgets/e-toolbar/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
 widgets/shortcut-bar/Makefile

@@ -1,3 +1,16 @@
+2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-shell-component.c: New member `owner_client'.  Removed
+	member `corba_owner'.  All the code updated to use it.
+	(evolution_shell_component_get_owner): Changed so that it returns
+	an EvolutionShellClient instead of the raw CORBA object.
+
+	* evolution-shell-component.h: Change signal "owner_set" to get an
+	EvolutionShellClient wrapper instead of a CORBA interface.
+
+	* evolution-shell-client.c: New.
+	* evolution-shell-client.h: New.
+
 2000-06-29  Dan Winship  <danw@helixcode.com>
 
 	* evolution-shell-component-client.c

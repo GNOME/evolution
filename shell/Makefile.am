@@ -44,6 +44,8 @@ noinst_LIBRARIES =	\
 
 libeshell_a_SOURCES = 				\
 	$(IDL_GENERATED)			\
+	evolution-shell-client.c		\
+	evolution-shell-client.h		\
 	evolution-shell-component.c		\
 	evolution-shell-component.h		\
 	evolution-storage.c			\
@@ -95,6 +97,8 @@ evolution_SOURCES =				\
 	e-storage-set.h				\
 	e-storage.c				\
 	e-storage.h				\
+	evolution-shell-client.c		\
+	evolution-shell-client.h		\
 	evolution-shell-component-client.c	\
 	evolution-shell-component-client.h	\
 	main.c

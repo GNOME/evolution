@@ -33,6 +33,8 @@
 
 #include "Evolution.h"
 
+#include "evolution-shell-client.h"
+
 #ifdef cplusplus
 extern "C" {
 #pragma }
@@ -104,7 +106,7 @@ struct _EvolutionShellComponentClass {
 	/* Signals.  */
 
 	void (* owner_set)   (EvolutionShellComponent *shell_component,
-			      Evolution_Shell shell_interface);
+			      EvolutionShellClient *shell_client);
 	void (* owner_unset) (EvolutionShellComponent *shell_component);
 };
 
@@ -122,7 +124,7 @@ EvolutionShellComponent *evolution_shell_component_new        (const EvolutionSh
 							       EvolutionShellComponentCreateFolderFn    create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn    remove_folder_fn,
 							       void                                    *closure);
-Evolution_Shell          evolution_shell_component_get_owner  (EvolutionShellComponent                 *shell_component);
+EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                 *shell_component);
 
 #ifdef cplusplus
 }

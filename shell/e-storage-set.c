@@ -214,8 +214,7 @@ class_init (EStorageSetClass *klass)
 	GtkObjectClass *object_class;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
-
-	object_class = (GtkObjectClass*) klass;
+	object_class = GTK_OBJECT_CLASS (klass);
 
 	object_class->destroy = destroy;
 
@@ -259,6 +258,8 @@ static void
 init (EStorageSet *storage_set)
 {
 	EStorageSetPrivate *priv;
+
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
 	priv = g_new (EStorageSetPrivate, 1);
 	priv->storages              = NULL;

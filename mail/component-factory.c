@@ -64,7 +64,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 static GList *browsers;
 
 /* GROSS HACK: for passing to other parts of the program */
-Evolution_Shell global_shell_interface;
+EvolutionShellClient global_shell_client;
 
 /* EvolutionShellComponent methods and signals.  */
 
@@ -143,13 +143,14 @@ create_folder (EvolutionShellComponent *shell_component,
 
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
-	      Evolution_Shell shell_interface,
+	      EvolutionShellClient shell_client,
 	      gpointer user_data)
 {
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 
 	/* GROSS HACK */
-	global_shell_interface = shell_interface;
+	global_shell_client = shell_client;
+
 	create_vfolder_storage (shell_component);
 	create_imap_storage (shell_component);
 	create_news_storage (shell_component);
@@ -211,14 +212,17 @@ component_factory_init (void)
 static void
 create_vfolder_storage (EvolutionShellComponent *shell_component)
 {
+	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	
-	corba_shell = evolution_shell_component_get_owner (shell_component);
-	if (corba_shell == CORBA_OBJECT_NIL) {
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	if (shell_client == NULL) {
 		g_warning ("We have no shell!?");
 		return;
 	}
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
     
 	storage = evolution_storage_new ("VFolders");
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {

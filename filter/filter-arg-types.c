@@ -22,6 +22,8 @@
 
 #include <gnome.h>
 
+#include "evolution-shell-client.h"
+
 #include "filter-arg-types.h"
 
 /* ********************************************************************** */
@@ -501,91 +503,7 @@ static void filter_arg_folder_class_init (FilterArgFolderClass *class);
 static void filter_arg_folder_init       (FilterArgFolder      *gspaper);
 
 static FilterArg *folder_parent_class;
-extern Evolution_Shell global_shell_interface;
-
-static PortableServer_ServantBase__epv            FolderSelectionListener_base_epv;
-static POA_Evolution_FolderSelectionListener__epv  FolderSelectionListener_epv;
-static POA_Evolution_FolderSelectionListener__vepv FolderSelectionListener_vepv;
-static gboolean FolderSelectionListener_vepv_initialized = FALSE;
-
-struct _FolderSelectionListenerServant {
-	POA_Evolution_FolderSelectionListener servant;
-	FilterArg *arg;
-	int index;
-	/*EvolutionShellComponentClient *component_client;*/
-};
-typedef struct _FolderSelectionListenerServant FolderSelectionListenerServant;
-
-static void
-impl_FolderSelectionListener_selected(PortableServer_Servant listener_servant, char *uri, char *physical, CORBA_Environment *ev)
-{
-	FolderSelectionListenerServant *servant = listener_servant;
-	GList *node;
-
-	/* only if we have a selection */
-	if (physical[0]) {
-		printf ("user selected; %s, or did they select %s\n", uri, physical);
-
-		/* FIXME: passing arg 2 of `g_list_index' makes pointer from integer without a cast */
-		if (servant->index >= 0 && (node = g_list_index (servant->arg->values, servant->index))) {
-			node->data = g_strdup (physical);
-		} else {
-			servant->arg->values = g_list_append (servant->arg->values, g_strdup (physical));
-		}
-
-		gtk_signal_emit_by_name (GTK_OBJECT (servant->arg), "changed");
-	}
-	gtk_object_unref (GTK_OBJECT (servant->arg));
-
-	g_free (servant);
-}
-
-static Evolution_FolderSelectionListener
-create_listener (FilterArg *arg, int index)
-{
-	PortableServer_Servant listener_servant;
-	Evolution_FolderSelectionListener corba_interface;
-	CORBA_Environment ev;
-	FolderSelectionListenerServant *servant;
-
-	if (!FolderSelectionListener_vepv_initialized) {
-		FolderSelectionListener_base_epv._private = NULL;
-		FolderSelectionListener_base_epv.finalize = NULL;
-		FolderSelectionListener_base_epv.default_POA = NULL;
-		
-		FolderSelectionListener_epv.selected = impl_FolderSelectionListener_selected;
-		
-		FolderSelectionListener_vepv._base_epv = & FolderSelectionListener_base_epv;
-		FolderSelectionListener_vepv.Evolution_FolderSelectionListener_epv = & FolderSelectionListener_epv;
-		
-		FolderSelectionListener_vepv_initialized = TRUE;
-	}
-	servant = g_malloc0 (sizeof (*servant));
-	servant->servant.vepv     = &FolderSelectionListener_vepv;
-	servant->arg = arg;
-	gtk_object_ref (GTK_OBJECT (arg));
-	servant->index = index;
-
-	listener_servant = (PortableServer_Servant) servant;
-
-	CORBA_exception_init (&ev);
-
-	POA_Evolution_FolderSelectionListener__init (listener_servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free(servant);
-		return CORBA_OBJECT_NIL;
-	}
-
-	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), listener_servant, &ev));
-
-	corba_interface = PortableServer_POA_servant_to_reference (bonobo_poa (), listener_servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		corba_interface = CORBA_OBJECT_NIL;
-	}
-
-	CORBA_exception_free (&ev);
-	return corba_interface;
-}
+extern EvolutionShellClient *global_shell_client;
 
 guint
 filter_arg_folder_get_type (void)
@@ -639,19 +557,32 @@ static int
 arg_folder_edit_value (FilterArg *arg, int index)
 {
 	char *def;
-	CORBA_Environment ev;
+	char *physical_uri;
 
 	printf ("folder edit value %d\n", index);
+
 	if (index < 0) {
 		def = "";
 	} else {
 		def = filter_arg_get_value (arg, index);
 	}
 
-	CORBA_exception_init (&ev);
-	Evolution_Shell_user_select_folder (global_shell_interface,
-					    create_listener (arg, index),
-					    "Select Folder", def, &ev);
+	evolution_shell_client_user_select_folder (global_shell_client,
+						   _("Select Folder"),
+						   def, NULL, &physical_uri);
+
+	if (physical_uri != NULL && physical_uri[0] != '\0') {
+		GList *node;
+
+		if (index >= 0 && (node = g_list_index (arg->values, index)))
+			node->data = physical_uri;
+		else
+			arg->values = g_list_append (arg->values, physical_uri);
+
+		gtk_signal_emit_by_name (GTK_OBJECT (arg), "changed");
+	} else {
+		g_free (physical_uri);
+	}
 
 #warning "What do we really want to return here???"
 	return 0;

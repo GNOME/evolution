@@ -74,7 +74,7 @@ static int owner_count = 0;
 
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
-	      Evolution_Shell shell_interface,
+	      EvolutionShellClient *shell_client,
 	      gpointer user_data)
 {
 	owner_count ++;
