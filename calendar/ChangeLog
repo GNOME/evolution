@@ -1,3 +1,8 @@
+1999-07-17  Nat Friedman  <nat@gnome-support.com>
+
+	* calendar.c (calendar_add_object): Copy the new UID into the
+ 	iCalObject structure.
+
 1999-07-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* gnome-month-item.c (gnome_month_item_set_arg): Merge fix from

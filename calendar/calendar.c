@@ -119,6 +119,7 @@ calendar_add_object (Calendar *cal, iCalObject *obj)
 		char buffer [80];
 
 		snprintf (buffer, sizeof (buffer), "GnomeCalendar-%ld\n", time (NULL));
+		obj->uid = g_strdup (buffer);
 	}
 	
 	cal->modified = TRUE;
