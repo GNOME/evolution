@@ -989,6 +989,7 @@ e_shell_show_settings (EShell *shell,
 
 	g_object_add_weak_pointer (G_OBJECT (priv->settings_dialog), (void **) & priv->settings_dialog);
 
+	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog), GTK_WINDOW (shell_window));
 	gtk_widget_show (priv->settings_dialog);
 }
 

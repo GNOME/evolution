@@ -1,3 +1,7 @@
+2003-12-22  Ross Burton  <ross@burtonini.com>
+
+	* e-shell.c: mark the settings dialog as transient for the main window.
+
 2003-12-14  JP Rosevear <jpr@ximian.com>
 
 	* e-user-creatable-items-handler.c (get_components_from_registry):
