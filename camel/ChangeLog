@@ -1,3 +1,13 @@
+2004-11-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69109.
+	
+	* camel-service.c (cs_getnameinfo): honour the NI_NAMEREQD flag.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): change the
+	nameinfo flags a bit so we know when we got a numeric name and
+	need to wrap it in [].
+
 2004-11-21 Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* providers/groupwise/camel-groupwise-provider.c : added 
@@ -8,7 +18,6 @@
 	to pass CamelUrl instead of individual properties 
 	Add offline_sync property on e-sources if account is 
 	marked for offline
-
 
 2004-11-18  Not Zed  <NotZed@Ximian.com>
 
