@@ -1,3 +1,7 @@
+2001-03-26  Radek Doulik  <rodo@ximian.com>
+
+	* configure.in: create camel/misc/Makefile
+
 2001-03-22  Dan Winship  <danw@ximian.com>
 
 	* README: Update xml-i18n-tools version

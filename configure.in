@@ -825,6 +825,7 @@ camel/providers/local/Makefile
 camel/tests/Makefile
 camel/tests/lib/Makefile
 camel/tests/message/Makefile
+camel/tests/misc/Makefile
 camel/tests/folder/Makefile
 camel/tests/stream/Makefile
 composer/Makefile
