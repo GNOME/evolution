@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-cell-tree.h>

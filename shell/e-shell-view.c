@@ -28,7 +28,10 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
 #include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-window.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <bonobo/bonobo-socket.h>

@@ -1,3 +1,11 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-local-folder.c: Fix headers.
+	* e-shell-view.c: Same here.
+	* e-shortcuts-view.c: Same here.
+	* e-shortcuts.c: Same here.
+	* e-storage-set-view.c: Same here.
+	
 2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* importer/importer.c (create_html): copied newer and fixed function

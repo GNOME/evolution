@@ -25,6 +25,19 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-popup-menu.h>
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-uidefs.h>
 #include <gal/util/e-util.h>
 
 #include "e-shortcuts-view-model.h"
