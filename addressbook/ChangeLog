@@ -1,5 +1,12 @@
+2004-04-13  Larry Ewing  <lewing@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (create_table_view): add
+	GDK_ACTION_COPY to the supported drag types.  Connect to the
+	table_drag_data_delete callback.
+	(table_drag_data_delete): remove the drag rows.
+
 2004-04-13  Sivaiah Nallagatla <snallagatla@novell.com>
-                                                                                                                              
+
         * gui/component/addressbook.c  (addressbook_authenicate):
          added a check for new auth type "plain/password"
          for groupwise in addressbook_authenicate function

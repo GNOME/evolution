@@ -1189,6 +1189,36 @@ table_white_space_event(ETableScrolled *table, GdkEvent *event, EABView *view)
 }
 
 static void
+table_drag_data_delete (ETable         *table,
+			int             row,
+			int             col,
+			GdkDragContext *context,
+			gpointer        user_data)
+{
+	EABView *view = user_data;
+	EContact *contact;
+	EBook *book;
+
+	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER(view->object))
+		return;
+	
+	g_object_get(view->model,
+		     "book", &book,
+		     NULL);
+
+	contact = eab_model_contact_at(view->model, row);
+	/* Remove the card. */
+	/* XXX no callback specified... ugh */
+	e_book_async_remove_contact (book,
+				     contact,
+				     NULL,
+				     NULL);
+
+	g_object_unref(book);
+}
+
+
+static void
 table_drag_data_get (ETable             *table,
 		     int                 row,
 		     int                 col,
@@ -1372,11 +1402,16 @@ create_table_view (EABView *view)
 
 	/* drag & drop signals */
 	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
-				 drag_types, num_drag_types, GDK_ACTION_MOVE);
+				 drag_types, num_drag_types, GDK_ACTION_MOVE | GDK_ACTION_COPY);
 	
 	g_signal_connect (E_TABLE_SCROLLED(table)->table,
 			  "table_drag_data_get",
 			  G_CALLBACK (table_drag_data_get),
+			  view);
+	
+	g_signal_connect (E_TABLE_SCROLLED(table)->table,
+			  "table_drag_data_delete",
+			  G_CALLBACK (table_drag_data_delete),
 			  view);
 
 	gtk_paned_add1 (GTK_PANED (view->paned), table);
