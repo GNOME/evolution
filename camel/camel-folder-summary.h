@@ -35,14 +35,9 @@
 /*typedef struct _CamelFolderSummary      CamelFolderSummary;*/
 typedef struct _CamelFolderSummaryClass CamelFolderSummaryClass;
 
-/* these structs from camel-folder-summary.h ... (remove comment after cleanup soon) */
-/* TODO: perhaps they should be full-block objects? */
-/* FIXME: rename this to something more suitable */
 typedef struct {
-	gchar *name;
-	gint nb_message;	/* ick, these should be renamed to something better */
-	gint nb_unread_message;
-	gint nb_deleted_message;
+	char *full_name, *name;
+	int message_count, unread_message_count;
 } CamelFolderInfo;
 
 /* A tree of message content info structures
@@ -234,5 +229,8 @@ void		camel_tag_list_free(CamelTag **list);
 /* message info utils */
 void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to);
 void camel_message_info_free(CamelMessageInfo *mi);
+
+/* folder info utils */
+void camel_folder_info_free(CamelFolderInfo *fi);
 
 #endif /* ! _CAMEL_FOLDER_SUMMARY_H */
