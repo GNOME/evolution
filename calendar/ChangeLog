@@ -1,3 +1,8 @@
+2002-01-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (write_html): if this is a reply, print the
+	attendee status
+
 2002-01-25  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/alarm-options.glade: Use 1 instead of zero as the
