@@ -24,12 +24,28 @@
 #ifndef CAL_BACKEND_UTIL_H
 #define CAL_BACKEND_UTIL_H
 
+#include <bonobo-conf/bonobo-config-database.h>
 #include <cal-backend.h>
 
 BEGIN_GNOME_DECLS
 
+/*
+ * CORBA utility functions
+ */
+
 void cal_backend_util_fill_alarm_instances_seq (
 	GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GSList *alarms);
+
+/*
+ * Functions for accessing mail configuration
+ */
+
+void     cal_backend_mail_account_get (Bonobo_ConfigDatabase db, gint def,
+				       char **address, char **name);
+gboolean cal_backend_mail_account_get_default (Bonobo_ConfigDatabase db,
+					       char **address, char **name);
+gboolean cal_backend_mail_account_is_valid (Bonobo_ConfigDatabase db,
+					    char *user, char **name);
 
 END_GNOME_DECLS
 

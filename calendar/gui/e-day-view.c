@@ -52,6 +52,7 @@
 #include "dialogs/delete-comp.h"
 #include "comp-util.h"
 #include "calendar-commands.h"
+#include "calendar-config.h"
 #include "goto.h"
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"

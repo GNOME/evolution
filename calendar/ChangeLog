@@ -1,3 +1,13 @@
+2001-10-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.c (mail_account_*): moved to a common place
+	(cal_backend_file_open): check if "uristr != NULL" and not
+	"uri != NULL"
+
+	* pcs/cal-backend-util.c: moved to here
+
+	* gui/e-day-view.c: add missing header file
+
 2001-10-09  Dan Winship  <danw@ximian.com>
 
 	* gui/e-meeting-model.c (process_free_busy_comp): Fix incorrect

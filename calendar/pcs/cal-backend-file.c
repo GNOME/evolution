@@ -25,7 +25,6 @@
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
-#include <bonobo-conf/bonobo-config-database.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include "e-util/e-dbhash.h"
 #include "cal-util/cal-recur.h"
@@ -848,7 +847,7 @@ cal_backend_file_open (CalBackend *backend, const char *uristr, gboolean only_if
 	priv = cbfile->priv;
 
 	g_return_val_if_fail (priv->icalcomp == NULL, CAL_BACKEND_OPEN_ERROR);
-	g_return_val_if_fail (uri != NULL, CAL_BACKEND_OPEN_ERROR);
+	g_return_val_if_fail (uristr != NULL, CAL_BACKEND_OPEN_ERROR);
 
 	g_assert (priv->uri == NULL);
 	g_assert (priv->comp_uid_hash == NULL);
@@ -1204,64 +1203,6 @@ cal_backend_file_get_objects_in_range (CalBackend *backend, CalObjType type,
 	return event_list;
 }
 
-static void
-mail_account_get (Bonobo_ConfigDatabase db, gint def, char **address, char **name)
-{
-	gchar *path;
-	
-	*address = NULL;
-	*name = NULL;
-	
-	/* get the identity info */
-	path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", def);
-	*name = bonobo_config_get_string (db, path, NULL);
-	g_free (path);
-	
-	path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", def);
-	*address = bonobo_config_get_string (db, path, NULL);
-	g_free (path);
-}
-
-static gboolean
-mail_account_get_default (Bonobo_ConfigDatabase db, char **address, char **name)
-{
-	glong def, len;
-	
-	*address = NULL;
-	*name = NULL;
-	
-	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
-	def = bonobo_config_get_long_with_default (db, "/Mail/Accounts/default_account", 0, NULL);
-
-	if (def < len)
-		mail_account_get (db, def, address, name);
-	else
-		return FALSE;
-	
-	return TRUE;
-}
-
-static gboolean
-mail_account_is_valid (Bonobo_ConfigDatabase db, char *user, char **name)
-{
-	gchar *address;
-	glong len, i;
-	
-	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
-
-	for (i = 0; i < len; i++) {
-		mail_account_get (db, i, &address, name);
-		if (address != NULL && !strcmp (address, user)) {
-			g_free (address);
-			return TRUE;
-		}		
-		g_free (address);
-		g_free (*name);		
-	}
-
-	return FALSE;	
-}
-
 static icalcomponent *
 create_user_free_busy (CalBackendFile *cbfile, const char *address, const char *cn,
 		       time_t start, time_t end)
@@ -1358,7 +1299,7 @@ cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start,
 	g_return_val_if_fail (start <= end, NULL);
 
 	if (users == NULL) {
-		if (mail_account_get_default (priv->db, &address, &name)) {			
+		if (cal_backend_mail_account_get_default (priv->db, &address, &name)) {			
 			vfb = create_user_free_busy (cbfile, address, name, start, end);
 			calobj = icalcomponent_as_ical_string (vfb);
 			obj_list = g_list_append (obj_list, g_strdup (calobj));
@@ -1369,7 +1310,7 @@ cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start,
 	} else {
 		for (l = users; l != NULL; l = l->next ) {
 			address = l->data;			
-			if (mail_account_is_valid (priv->db, address, &name)) {
+			if (cal_backend_mail_account_is_valid (priv->db, address, &name)) {
 				vfb = create_user_free_busy (cbfile, address, name, start, end);
 				calobj = icalcomponent_as_ical_string (vfb);
 				obj_list = g_list_append (obj_list, g_strdup (calobj));
