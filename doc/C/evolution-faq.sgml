@@ -640,12 +640,14 @@
             <listitem>
               <para>
                 Make a copy of the addressbook database for backup
-                purposes.
+                purposes, then move the original out of the way.
               </para>
 
               <programlisting>
-                cp ~/evolution/local/Contacts/addressbook.db addressbook.db.backup
-              </programlisting>
+                cd ~/evolution/local/Contacts
+                cp addressbook.db addressbook.db.backup
+                mv addressbook.db addressbook.db.tmp
+               </programlisting>
             </listitem>
 
             <listitem>
@@ -656,7 +658,7 @@
               </para>
 
               <programlisting>
-                db_dump185 ~/evolution/local/Contacts/addressbook.db.backup | db_load ~/evolution/local/Contacts/addressbook.db
+                db_dump185 addressbook.db.tmp | db_load ~/evolution/local/Contacts/addressbook.db
               </programlisting>
             </listitem>
 

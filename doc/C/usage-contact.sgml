@@ -375,7 +375,7 @@
 	</listitem>
 	<listitem>
 	  <para>
-	    Name the rule in the <guilabel>Rule name</guilabel field.
+	    Name the rule in the <guilabel>Rule name</guilabel> field.
 	  </para>
 	</listitem>
 	<listitem>
@@ -398,7 +398,7 @@
     </para>
     <para>
       To show all your contacts, select <guibutton>Show All</guibutton> in the
-      <guilablel>Search Bar</guilabel> or search with an empty query.
+      <guilabel>Search Bar</guilabel> or search with an empty query.
     </para>
 
   </sect1>
