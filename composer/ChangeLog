@@ -1,5 +1,13 @@
 2001-07-06  Larry Ewing  <lewing@ximian.com>
 
+	* e-msg-composer.c (autosave_manager_query_load_orphans): only ask
+	if there are actually contents in the file.  Asking about an
+	emptry fil is not very useful.
+	(autosave_load_draft): add some sanity chacks.
+	(autosave_run_foreach_cb): remove debugging warning.
+
+2001-07-06  Larry Ewing  <lewing@ximian.com>
+
 	* e-msg-composer.c (autosave_manager_unregister): make sure we
 	only remove the file if we think we saved it properly.
 	(autosave_manager_stop): make sure we set the timeout back to 0 so

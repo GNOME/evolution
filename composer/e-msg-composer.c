@@ -1084,8 +1084,15 @@ autosave_load_draft (const char *filename)
 	CamelMimeMessage *msg;
 	EMsgComposer *composer;
 
+	g_return_val_if_fail (filename != NULL, NULL);
+
 	g_warning ("autosave load filename = \"%s\"", filename);
+        
 	stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0);
+
+	if (stream == NULL) 
+		return NULL;
+		
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream);
 	unlink (filename);
@@ -1128,11 +1135,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 	struct dirent *d;
 	GSList *match = NULL;
 	gint len = strlen (AUTOSAVE_SEED);
-	gint pre_len;
 	gint ok;
-	
-	/* length of the seed minus the XXXXXX */
-	pre_len = len - 6;
 	
 	dir = opendir (g_get_home_dir());
 	if (!dir) {
@@ -1140,21 +1143,30 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 	}
 		    
 	while ((d = readdir (dir))) {
-		if ((!strncmp (d->d_name, AUTOSAVE_SEED, pre_len) )
+		if ((!strncmp (d->d_name, AUTOSAVE_SEED, len - 6))
 		    && (strlen (d->d_name) == len)
 		    && (!autosave_is_owned (am, d->d_name))) {
+			char *filename =  g_strdup_printf ("%s/%s", g_get_home_dir(), d->d_name);
+			struct stat st;
+		
+			/*
+			 * check if the file has any length,  It is a valid case if it doesn't 
+			 * so we simply don't ask then.
+			 */
+			if (stat (filename, &st) < 0 || st.st_size == 0)
+				continue;
+				
 			dialog = gnome_ok_cancel_dialog_parented (_("Evolution has detected an editor buffer from a previous session.\n"
 								    "Would you like to recover this buffer?"),
 								  autosave_query_cb, &ok, GTK_WINDOW (composer));
 
 			gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
-			if (ok) {
-				match = g_slist_prepend (match, 
-							 g_strdup_printf ("%s/%s", 
-									  g_get_home_dir(),
-									  d->d_name));
-			}
+			if (ok) 
+				match = g_slist_prepend (match, filename);
+			else 
+				g_free (filename);
+
 		}
 	}
 	
@@ -1164,7 +1176,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 		EMsgComposer *composer;
 		
 		composer = autosave_load_draft (filename);
-		
+				
 		g_free (filename);
 		g_slist_free_1 (match);
 		match = next;
@@ -1175,7 +1187,7 @@ static void
 autosave_run_foreach_cb (gpointer key, gpointer value, gpointer data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (value);
-	g_warning ("autosave");
+
 	autosave_save_draft (composer);
 }
 
