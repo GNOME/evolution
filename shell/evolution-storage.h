@@ -138,6 +138,7 @@ EvolutionStorageResult  evolution_storage_new_folder           (EvolutionStorage
 								const char                      *type,
 								const char                      *physical_uri,
 								const char                      *description,
+								const char                      *custom_icon_name,
 								int                              unread_count,
 								gboolean                         can_sync_offline);
 EvolutionStorageResult  evolution_storage_update_folder        (EvolutionStorage                *evolution_storage,

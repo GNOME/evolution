@@ -460,6 +460,7 @@ e_folder_to_corba (EFolder *folder,
 	folder_return->displayName    = safe_corba_string_dup (e_folder_get_name (folder));
 	folder_return->physicalUri    = safe_corba_string_dup (e_folder_get_physical_uri (folder));
 	folder_return->evolutionUri   = safe_corba_string_dup (evolution_uri);
+	folder_return->customIconName = safe_corba_string_dup (e_folder_get_custom_icon_name (folder));
 	folder_return->unreadCount    = e_folder_get_unread_count (folder);
 	folder_return->canSyncOffline = e_folder_get_can_sync_offline (folder);
 }

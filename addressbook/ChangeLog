@@ -1,3 +1,10 @@
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-storage.c (load_source_data): Pass
+	NULL @custom_icon_name to evolution_storage_new_folder().
+	(addressbook_storage_add_source): Likewise.  [Note we could be
+	passing a nice custom here. ;-)]
+
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (add_creatable_item): New

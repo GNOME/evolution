@@ -1,3 +1,11 @@
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* subscribe-dialog.c (recursive_add_folder): Pass NULL for
+	@custom_icon_name to evolution_storage_new_folder().
+
+	* mail-folder-cache.c (real_flush_updates): Pass NULL for
+	@custom_icon_name to evolution_storage_new_folder().
+
 2002-07-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (redirect): Don't ever use the mail-display's

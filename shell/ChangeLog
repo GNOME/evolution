@@ -1,5 +1,29 @@
 2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-test-component.c (setup_custom_storage): Pass NULL for
+	@custom_icon_name to evolution_storage_new_folder().
+
+	* e-local-storage.c (new_folder): Pass the custom_icon_name here
+	to evolution_storage_new_folder().
+
+	* evolution-shell-client.c
+	(impl_FolderSelectionListener_selected): Set customIconName here
+	too.
+
+	* e-folder.c (e_folder_to_corba): Set customIconName too.
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_getFolderByUri): Set customIconName.  Also,
+	use e_safe_corba_string() to clean up the code a bit.
+
+	* evolution-storage.c (evolution_storage_new_folder): New arg
+	@custom_icon_name.
+
+	* Evolution-common.idl: New member customIconName in struct
+	Folder.
+
+2002-07-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts-view-model.c (get_icon_for_item): If the
 	custom_icon_name is not NULL, return the pixbuf for it.
 

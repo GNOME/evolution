@@ -965,6 +965,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      const char *type,
 			      const char *physical_uri,
 			      const char *description,
+			      const char *custom_icon_name,
 			      int         unread_count,
 			      gboolean    can_sync_offline)
 {
@@ -998,6 +999,11 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	corba_folder->type           = CORBA_string_dup (type);
 	corba_folder->physicalUri    = CORBA_string_dup (physical_uri);
 	corba_folder->canSyncOffline = (CORBA_boolean) can_sync_offline;
+
+	if (custom_icon_name != NULL)
+		corba_folder->customIconName = CORBA_string_dup (custom_icon_name);
+	else
+		corba_folder->customIconName = CORBA_string_dup ("");
 
 	evolutionUri = make_full_uri (evolution_storage, path);
 	corba_folder->evolutionUri = CORBA_string_dup (evolutionUri);

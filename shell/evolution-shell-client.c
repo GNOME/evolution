@@ -104,14 +104,16 @@ impl_FolderSelectionListener_selected (PortableServer_Servant servant,
 	listener_servant = (FolderSelectionListenerServant *) servant;
 
 	if (listener_servant->folder_return != NULL) {
-		GNOME_Evolution_Folder *ret_folder =
-			GNOME_Evolution_Folder__alloc ();
+		GNOME_Evolution_Folder *ret_folder = GNOME_Evolution_Folder__alloc ();
+
 		ret_folder->type = CORBA_string_dup (folder->type);
-		ret_folder->description = CORBA_string_dup (folder->description);
-		ret_folder->displayName = CORBA_string_dup (folder->displayName);
-		ret_folder->physicalUri = CORBA_string_dup (folder->physicalUri);
-		ret_folder->evolutionUri = CORBA_string_dup (folder->evolutionUri);
-		ret_folder->unreadCount = folder->unreadCount;
+		ret_folder->description    = CORBA_string_dup (folder->description);
+		ret_folder->displayName    = CORBA_string_dup (folder->displayName);
+		ret_folder->physicalUri    = CORBA_string_dup (folder->physicalUri);
+		ret_folder->customIconName = CORBA_string_dup (folder->customIconName);
+		ret_folder->evolutionUri   = CORBA_string_dup (folder->evolutionUri);
+		ret_folder->unreadCount    = folder->unreadCount;
+
 		* (listener_servant->folder_return) = ret_folder;
 	}
 

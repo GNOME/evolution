@@ -16,6 +16,7 @@ module Evolution {
 		string displayName;
 		string physicalUri;
 		string evolutionUri;
+		string customIconName;
 		long unreadCount;
 		boolean canSyncOffline;
 	};

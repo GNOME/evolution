@@ -145,6 +145,7 @@ new_folder (ELocalStorage *local_storage,
 				      e_folder_get_type_string (folder),
 				      e_folder_get_physical_uri (folder),
 				      e_folder_get_description (folder),
+				      e_folder_get_custom_icon_name (folder),
 				      e_folder_get_unread_count (folder),
 				      FALSE);
 }

@@ -29,6 +29,8 @@
 #include "e-corba-storage-registry.h"
 #include "e-shell-constants.h"
 
+#include "e-util/e-corba-utils.h"
+
 #include <bonobo/bonobo-exception.h>
 #include <gal/util/e-util.h>
 
@@ -393,18 +395,15 @@ impl_StorageRegistry_getFolderByUri (PortableServer_Servant servant,
 	}
 
 	corba_folder = GNOME_Evolution_Folder__alloc ();
+
 	corba_folder->displayName = CORBA_string_dup (e_folder_get_name (folder));
-	if (e_folder_get_description (folder))
-		corba_folder->description = CORBA_string_dup (e_folder_get_description (folder));
-	else
-		corba_folder->description = CORBA_string_dup ("");
-	corba_folder->type = CORBA_string_dup (e_folder_get_type_string (folder));
-	if (e_folder_get_physical_uri (folder))
-		corba_folder->physicalUri = CORBA_string_dup (e_folder_get_physical_uri (folder));
-	else
-		corba_folder->physicalUri = CORBA_string_dup ("");
-	corba_folder->evolutionUri = corba_evolution_uri;
-	corba_folder->unreadCount = e_folder_get_unread_count (folder);
+
+	corba_folder->description    = CORBA_string_dup (e_safe_corba_string (e_folder_get_description (folder)));
+	corba_folder->type           = CORBA_string_dup (e_folder_get_type_string (folder));
+	corba_folder->physicalUri    = CORBA_string_dup (e_safe_corba_string (e_folder_get_physical_uri (folder)));
+	corba_folder->customIconName = CORBA_string_dup (e_safe_corba_string (e_folder_get_custom_icon_name (folder)));
+	corba_folder->evolutionUri   = corba_evolution_uri;
+	corba_folder->unreadCount    = e_folder_get_unread_count (folder);
 
 	return corba_folder;
 }

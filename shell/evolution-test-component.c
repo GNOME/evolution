@@ -327,9 +327,9 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 	}
 
 	evolution_storage_new_folder (the_storage, "/FirstFolder", "FirstFolder",
-				      "mail", "file:///tmp/blah", "", 0, TRUE);
+				      "mail", "file:///tmp/blah", "", NULL, 0, TRUE);
 	evolution_storage_new_folder (the_storage, "/SecondFolder", "SecondFolder",
-				      "calendar", "file:///tmp/bleh", "", 0, FALSE);
+				      "calendar", "file:///tmp/bleh", "", NULL, 0, FALSE);
 }
 
 

@@ -460,7 +460,7 @@ load_source_data (const char *file_path)
 		path = g_strdup_printf ("/%s", source->name);
 		evolution_storage_new_folder (storage, path, source->name,
 					      "ldap-contacts", source->uri,
-					      source->description, 0, FALSE);
+					      source->description, NULL, 0, FALSE);
 
 		sources = g_list_append (sources, source);
 
@@ -579,7 +579,7 @@ addressbook_storage_add_source (AddressbookSource *source)
 	addressbook_get_other_contact_storage();
 	path = g_strdup_printf ("/%s", source->name);
 	evolution_storage_new_folder (storage, path, source->name, "ldap-contacts",
-				      source->uri, source->description, 0, FALSE);
+				      source->uri, source->description, NULL, 0, FALSE);
 
 	g_free (path);
 }

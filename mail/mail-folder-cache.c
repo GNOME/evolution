@@ -191,7 +191,8 @@ real_flush_updates(void *o, void *event_data, void *data)
 			
 				d(printf("Adding new folder: %s\n", up->path));
 				evolution_storage_new_folder(storage,
-							     up->path, up->name, type, up->uri, up->name, up->unread,
+							     up->path, up->name, type, up->uri, up->name, NULL,
+							     up->unread,
 							     TRUE);
 			}
 
