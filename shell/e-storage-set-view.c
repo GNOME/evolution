@@ -564,7 +564,7 @@ new_storage_cb (EStorageSet *storage_set,
 
 	/* FIXME: We want a more specialized sort, e.g. the local folders should always be
            on top.  */
-	e_tree_model_node_set_compare_function (priv->etree_model, priv->root_node, (GCompareFunc)treepath_compare);
+	e_tree_model_node_set_compare_function (priv->etree_model, priv->root_node, treepath_compare);
 }
 
 static void
@@ -626,6 +626,7 @@ new_folder_cb (EStorageSet *storage_set,
 
 	copy_of_path = g_strdup (path);
 	new_node = e_tree_model_node_insert_id (etree, parent_node, -1, copy_of_path, copy_of_path);
+	e_tree_model_node_set_compare_function (priv->etree_model, new_node, treepath_compare);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
 		e_tree_model_node_remove (etree, new_node);
@@ -778,6 +779,7 @@ insert_folders (EStorageSetView *storage_set_view,
 		full_path = g_strconcat ("/", storage_name, folder_path, NULL);
 		node = e_tree_model_node_insert_id (etree, parent, -1, (void *) full_path, full_path);
 		add_node_to_hash (storage_set_view, full_path, node);
+		e_tree_model_node_set_compare_function (priv->etree_model, node, treepath_compare);
 
 		insert_folders (storage_set_view, node, storage, folder_path);
 
