@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,9 +20,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <config.h>
 
-#include <glib.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -34,85 +38,84 @@
 #define d(x)
 
 static gboolean validate (FilterElement *fe);
-static int folder_eq(FilterElement *fe, FilterElement *cm);
-static void xml_create(FilterElement *fe, xmlNodePtr node);
-static xmlNodePtr xml_encode(FilterElement *fe);
-static int xml_decode(FilterElement *fe, xmlNodePtr node);
-static GtkWidget *get_widget(FilterElement *fe);
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
-static void format_sexp(FilterElement *, GString *);
+static int folder_eq (FilterElement *fe, FilterElement *cm);
+static void xml_create (FilterElement *fe, xmlNodePtr node);
+static xmlNodePtr xml_encode (FilterElement *fe);
+static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static GtkWidget *get_widget (FilterElement *fe);
+static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
+static void format_sexp (FilterElement *, GString *);
 
-extern EvolutionShellClient *global_shell_client;
+static void filter_folder_class_init (FilterFolderClass *class);
+static void filter_folder_init (FilterFolder *ff);
+static void filter_folder_finalise (GObject *obj);
 
-static void filter_folder_class_init	(FilterFolderClass *class);
-static void filter_folder_init	(FilterFolder *gspaper);
-static void filter_folder_finalise	(GtkObject *obj);
-
-#define _PRIVATE(x) (((FilterFolder *)(x))->priv)
-
-struct _FilterFolderPrivate {
-};
 
 static FilterElementClass *parent_class;
 
-guint
+
+extern EvolutionShellClient *global_shell_client;
+
+
+GType
 filter_folder_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterFolder",
-			sizeof(FilterFolder),
-			sizeof(FilterFolderClass),
-			(GtkClassInitFunc)filter_folder_class_init,
-			(GtkObjectInitFunc)filter_folder_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (FilterFolderClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_folder_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterFolder),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_folder_init,
 		};
 		
-		type = gtk_type_unique (filter_element_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterFolder", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_folder_class_init (FilterFolderClass *class)
+filter_folder_class_init (FilterFolderClass *klass)
 {
-	GtkObjectClass *object_class;
-	FilterElementClass *filter_element = (FilterElementClass *)class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class (filter_element_get_type ());
-
+	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
+	
 	object_class->finalize = filter_folder_finalise;
-
+	
 	/* override methods */
-	filter_element->validate = validate;
-	filter_element->eq = folder_eq;
-	filter_element->xml_create = xml_create;
-	filter_element->xml_encode = xml_encode;
-	filter_element->xml_decode = xml_decode;
-	filter_element->get_widget = get_widget;
-	filter_element->build_code = build_code;
-	filter_element->format_sexp = format_sexp;
+	fe_class->validate = validate;
+	fe_class->eq = folder_eq;
+	fe_class->xml_create = xml_create;
+	fe_class->xml_encode = xml_encode;
+	fe_class->xml_decode = xml_decode;
+	fe_class->get_widget = get_widget;
+	fe_class->build_code = build_code;
+	fe_class->format_sexp = format_sexp;
 }
 
 static void
-filter_folder_init (FilterFolder *o)
+filter_folder_init (FilterFolder *ff)
 {
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	;
 }
 
 static void
-filter_folder_finalise (GtkObject *obj)
+filter_folder_finalise (GObject *obj)
 {
-	FilterFolder *o = (FilterFolder *)obj;
+	FilterFolder *ff = (FilterFolder *) obj;
 	
-	g_free (o->uri);
+	g_free (ff->uri);
 	
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -125,15 +128,14 @@ filter_folder_finalise (GtkObject *obj)
 FilterFolder *
 filter_folder_new (void)
 {
-	FilterFolder *o = (FilterFolder *)gtk_type_new (filter_folder_get_type ());
-	return o;
+	return (FilterFolder *) g_object_new (FILTER_TYPE_FOLDER, NULL, NULL);
 }
 
 void
-filter_folder_set_value(FilterFolder *ff, const char *uri)
+filter_folder_set_value (FilterFolder *ff, const char *uri)
 {
-	g_free(ff->uri);
-	ff->uri = g_strdup(uri);
+	g_free (ff->uri);
+	ff->uri = g_strdup (uri);
 }
 
 static gboolean
@@ -155,9 +157,9 @@ validate (FilterElement *fe)
 }
 
 static int
-folder_eq(FilterElement *fe, FilterElement *cm)
+folder_eq (FilterElement *fe, FilterElement *cm)
 {
-        return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+        return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
 		&& strcmp(((FilterFolder *)fe)->uri, ((FilterFolder *)cm)->uri) == 0;
 }
 
@@ -165,7 +167,7 @@ static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	/* parent implementation */
-        ((FilterElementClass *)(parent_class))->xml_create(fe, node);
+        FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 }
 
 static xmlNodePtr
@@ -201,7 +203,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	while (n) {
 		if (!strcmp (n->name, "folder")) {
 			char *uri;
-
+			
 			uri = xmlGetProp (n, "uri");
 			g_free (ff->uri);
 			ff->uri = g_strdup (uri);
@@ -236,9 +238,9 @@ get_widget (FilterElement *fe)
 						       _("Select Folder"),
 						       ff->uri,
 						       allowed_types);
-
+	
 	gtk_widget_show (button);
-	gtk_signal_connect (GTK_OBJECT (button), "selected", folder_selected, ff);
+	g_signal_connect (button, "selected", folder_selected, ff);
 	
 	return button;
 }

@@ -26,16 +26,19 @@
 
 #include "filter-element.h"
 
-#define FILTER_INT(obj)           GTK_CHECK_CAST (obj, filter_int_get_type (), FilterInt)
-#define FILTER_INT_CLASS(klass)   GTK_CHECK_CLASS_CAST (klass, filter_int_get_type (), FilterIntClass)
-#define IS_FILTER_INT(obj)        GTK_CHECK_TYPE (obj, filter_int_get_type ())
+#define FILTER_TYPE_INT            (filter_int_get_type ())
+#define FILTER_INT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_INT, FilterInt))
+#define FILTER_INT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_INT, FilterIntClass))
+#define IS_FILTER_INT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_INT))
+#define IS_FILTER_INT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_INT))
+#define FILTER_INT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_INT, FilterIntClass))
 
-typedef struct _FilterInt        FilterInt;
-typedef struct _FilterIntClass   FilterIntClass;
+typedef struct _FilterInt FilterInt;
+typedef struct _FilterIntClass FilterIntClass;
 
 struct _FilterInt {
-	FilterElement parent;
-
+	FilterElement parent_object;
+	
 	char *type;
 	int val;
 	int min;
@@ -50,10 +53,10 @@ struct _FilterIntClass {
 	/* signals */
 };
 
-GtkType		filter_int_get_type	(void);
-FilterInt	*filter_int_new	(void);
-FilterInt	*filter_int_new_type(const char *type, int min, int max);
-void            filter_int_set_value(FilterInt *fi, int val);
+GType filter_int_get_type (void);
+FilterInt *filter_int_new (void);
+FilterInt *filter_int_new_type (const char *type, int min, int max);
+void filter_int_set_value (FilterInt *fi, int val);
 
 /* methods */
 

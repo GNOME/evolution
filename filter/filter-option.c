@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,10 +20,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <string.h>
-#include <glib.h>
+
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-defs.h>
@@ -34,106 +39,92 @@
 
 #define d(x)
 
-static int option_eq(FilterElement *fe, FilterElement *cm);
-static void xml_create(FilterElement *fe, xmlNodePtr node);
-static xmlNodePtr xml_encode(FilterElement *fe);
-static int xml_decode(FilterElement *fe, xmlNodePtr node);
-static FilterElement *clone(FilterElement *fe);
-static GtkWidget *get_widget(FilterElement *fe);
-static void build_code(FilterElement *fe, GString *out, struct _FilterPart *ff);
-static void format_sexp(FilterElement *, GString *);
+static int option_eq (FilterElement *fe, FilterElement *cm);
+static void xml_create (FilterElement *fe, xmlNodePtr node);
+static xmlNodePtr xml_encode (FilterElement *fe);
+static int xml_decode (FilterElement *fe, xmlNodePtr node);
+static FilterElement *clone (FilterElement *fe);
+static GtkWidget *get_widget (FilterElement *fe);
+static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
+static void format_sexp (FilterElement *, GString *);
 
-static void filter_option_class_init	(FilterOptionClass *class);
-static void filter_option_init	(FilterOption *gspaper);
-static void filter_option_finalise	(GtkObject *obj);
+static void filter_option_class_init (FilterOptionClass *klass);
+static void filter_option_init (FilterOption *fo);
+static void filter_option_finalise (GObject *obj);
 
-#define _PRIVATE(x) (((FilterOption *)(x))->priv)
-
-struct _FilterOptionPrivate {
-};
 
 static FilterElementClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
 
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+GType
 filter_option_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterOption",
-			sizeof(FilterOption),
-			sizeof(FilterOptionClass),
-			(GtkClassInitFunc)filter_option_class_init,
-			(GtkObjectInitFunc)filter_option_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (FilterOptionClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_option_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterOption),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_option_init,
 		};
 		
-		type = gtk_type_unique (filter_element_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterOption", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_option_class_init (FilterOptionClass *class)
+filter_option_class_init (FilterOptionClass *klass)
 {
-	GtkObjectClass *object_class;
-	FilterElementClass *filter_element = (FilterElementClass *)class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(filter_element_get_type ());
-
+	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
+	
 	object_class->finalize = filter_option_finalise;
 	
 	/* override methods */
-	filter_element->eq = option_eq;
-	filter_element->xml_create = xml_create;
-	filter_element->xml_encode = xml_encode;
-	filter_element->xml_decode = xml_decode;
-	filter_element->clone = clone;
-	filter_element->get_widget = get_widget;
-	filter_element->build_code = build_code;
-	filter_element->format_sexp = format_sexp;
-	
-	/* signals */
-	
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
+	fe_class->eq = option_eq;
+	fe_class->xml_create = xml_create;
+	fe_class->xml_encode = xml_encode;
+	fe_class->xml_decode = xml_decode;
+	fe_class->clone = clone;
+	fe_class->get_widget = get_widget;
+	fe_class->build_code = build_code;
+	fe_class->format_sexp = format_sexp;
 }
 
 static void
-filter_option_init (FilterOption *o)
+filter_option_init (FilterOption *fo)
 {
-	o->type = "option";
-
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	fo->type = "option";
 }
 
 static void
-free_option(struct _filter_option *o, void *data)
+free_option (struct _filter_option *o, void *data)
 {
-	g_free(o->title);
-	g_free(o->value);
-	g_free(o->code);
-	g_free(o);
+	g_free (o->title);
+	g_free (o->value);
+	g_free (o->code);
+	g_free (o);
 }
 
 static void
-filter_option_finalise (GtkObject *obj)
+filter_option_finalise (GObject *obj)
 {
-	FilterOption *o = (FilterOption *)obj;
-
-	g_list_foreach(o->options, (GFunc)free_option, NULL);
-	g_list_free(o->options);
+	FilterOption *fo = (FilterOption *) obj;
 	
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	g_list_foreach (fo->options, (GFunc)free_option, NULL);
+	g_list_free (fo->options);
+	
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -146,8 +137,7 @@ filter_option_finalise (GtkObject *obj)
 FilterOption *
 filter_option_new (void)
 {
-	FilterOption *o = (FilterOption *)gtk_type_new (filter_option_get_type ());
-	return o;
+	return (FilterOption *) g_object_new (FILTER_TYPE_OPTION, NULL, NULL);
 }
 
 static struct _filter_option *
@@ -180,15 +170,15 @@ void
 filter_option_add(FilterOption *fo, const char *value, const char *title, const char *code)
 {
 	struct _filter_option *op;
-
+	
 	g_assert(IS_FILTER_OPTION(fo));
 	g_return_if_fail(find_option(fo, value) == NULL);
-
+	
 	op = g_malloc(sizeof(*op));
 	op->title = g_strdup(title);
 	op->value = g_strdup(value);
 	op->code = g_strdup(code);
-
+	
 	fo->options = g_list_append(fo->options, op);
 	if (fo->current == NULL)
 		fo->current = op;
@@ -198,8 +188,8 @@ static int
 option_eq(FilterElement *fe, FilterElement *cm)
 {
 	FilterOption *fo = (FilterOption *)fe, *co = (FilterOption *)cm;
-
-	return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+	
+	return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
 		&& ((fo->current && co->current && strcmp(fo->current->value, co->current->value) == 0)
 		    || (fo->current == NULL && co->current == NULL));
 }
@@ -211,7 +201,7 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	xmlNodePtr n, work;
 
 	/* parent implementation */
-        ((FilterElementClass *)(parent_class))->xml_create(fe, node);
+        FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 	
 	n = node->childs;
 	while (n) {
@@ -289,7 +279,7 @@ option_changed (GtkWidget *widget, FilterElement *fe)
 {
 	FilterOption *fo = (FilterOption *)fe;
 	
-	fo->current = gtk_object_get_data (GTK_OBJECT (widget), "option");
+	fo->current = g_object_get_data (widget, "option");
 }
 
 static GtkWidget *
@@ -308,8 +298,8 @@ get_widget (FilterElement *fe)
 	while (l) {
 		op = l->data;
 		item = gtk_menu_item_new_with_label (_(op->title));
-		gtk_object_set_data (GTK_OBJECT (item), "option", op);
-		gtk_signal_connect (GTK_OBJECT (item), "activate", option_changed, fe);
+		g_object_set_data (item, "option", op);
+		g_signal_connect (item, "activate", option_changed, fe);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 		if (op == fo->current) {
@@ -327,7 +317,7 @@ get_widget (FilterElement *fe)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
 	
 	if (first)
-		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", fe);
+		g_signal_emit_by_name (first, "activate", fe);
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current);
 	
@@ -363,7 +353,7 @@ clone (FilterElement *fe)
 	
 	d(printf ("cloning option\n"));
 	
-        new = FILTER_OPTION (((FilterElementClass *)(parent_class))->clone(fe));
+        new = FILTER_OPTION (FILTER_ELEMENT_CLASS (parent_class)->clone (fe));
 	l = fo->options;
 	while (l) {
 		op = l->data;
@@ -373,5 +363,5 @@ clone (FilterElement *fe)
 	
 	d(printf ("cloning option code %p, current = %p\n", new, new->current));
 	
-	return (FilterElement *)new;
+	return (FilterElement *) new;
 }

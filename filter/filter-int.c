@@ -1,30 +1,31 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Ripped off by Sam Creasey <sammy@oh.verio.com> from
- *  filter-score by Jeffrey Stedfast <fejj@helixcode.com>
+ *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ *  Copyright 2002 Ximian, Inc. (www.ximian.com)
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  *
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
 
 #include "e-util/e-sexp.h"
@@ -32,7 +33,7 @@
 
 #define d(x)
 
-static int int_eq(FilterElement *fe, FilterElement *cm);
+static int int_eq (FilterElement *fe, FilterElement *cm);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (FilterElement *fe);
 static int xml_decode (FilterElement *fe, xmlNodePtr node);
@@ -40,80 +41,73 @@ static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp (FilterElement *fe, GString *out);
 
-static void filter_int_class_init (FilterIntClass *class);
-static void filter_int_init (FilterInt *gspaper);
-static void filter_int_finalise (GtkObject *obj);
+static void filter_int_class_init (FilterIntClass *klass);
+static void filter_int_init (FilterInt *fi);
+static void filter_int_finalise (GObject *obj);
+
 
 static FilterElementClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
 
-static guint signals[LAST_SIGNAL] = { 0 };
-
-GtkType
+GType
 filter_int_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterInt",
-			sizeof (FilterInt),
+		static const GTypeInfo info = {
 			sizeof (FilterIntClass),
-			(GtkClassInitFunc) filter_int_class_init,
-			(GtkObjectInitFunc) filter_int_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_int_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterInt),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_int_init,
 		};
 		
-		type = gtk_type_unique (filter_element_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_ELEMENT, "FilterInt", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_int_class_init (FilterIntClass *class)
+filter_int_class_init (FilterIntClass *klass)
 {
-	GtkObjectClass *object_class;
-	FilterElementClass *filter_element = (FilterElementClass *)class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class (filter_element_get_type ());
+	parent_class = g_type_class_ref (FILTER_TYPE_ELEMENT);
 	
 	object_class->finalize = filter_int_finalise;
 	
 	/* override methods */
-	filter_element->eq = int_eq;
-	filter_element->xml_create = xml_create;
-	filter_element->xml_encode = xml_encode;
-	filter_element->xml_decode = xml_decode;
-	filter_element->get_widget = get_widget;
-	filter_element->build_code = build_code;
-	filter_element->format_sexp = format_sexp;
-	
-	/* signals */
-	
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
+	fe_class->eq = int_eq;
+	fe_class->xml_create = xml_create;
+	fe_class->xml_encode = xml_encode;
+	fe_class->xml_decode = xml_decode;
+	fe_class->get_widget = get_widget;
+	fe_class->build_code = build_code;
+	fe_class->format_sexp = format_sexp;
 }
 
 static void
-filter_int_init (FilterInt *o)
+filter_int_init (FilterInt *fi)
 {
-	o->min = 0;
-	o->max = G_MAXINT;
+	fi->min = 0;
+	fi->max = G_MAXINT;
 }
 
 static void
-filter_int_finalise(GtkObject *obj)
+filter_int_finalise (GObject *obj)
 {
-	FilterInt *o = (FilterInt *)obj;
-
-	g_free(o->type);
+	FilterInt *fi = (FilterInt *) obj;
 	
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	g_free (fi->type);
+	
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -126,30 +120,33 @@ filter_int_finalise(GtkObject *obj)
 FilterInt *
 filter_int_new (void)
 {
-	FilterInt *o = (FilterInt *)gtk_type_new(filter_int_get_type ());
-	return o;
+	return (FilterInt *) g_object_new (FILTER_TYPE_INT, NULL, NULL);
 }
 
 FilterInt *
-filter_int_new_type(const char *type, int min, int max)
+filter_int_new_type (const char *type, int min, int max)
 {
-	FilterInt *o = (FilterInt *)gtk_type_new(filter_int_get_type ());
-	o->type = g_strdup(type);
-	o->min = min;
-	o->max = max;
+	FilterInt *fi;
+	
+	fi = filter_int_new ();
+	
+	fi->type = g_strdup (type);
+	fi->min = min;
+	fi->max = max;
+	
 	return o;
 }
 
 void
-filter_int_set_value(FilterInt *fi, int val)
+filter_int_set_value (FilterInt *fi, int val)
 {
 	fi->val = val;
 }
 
 static int
-int_eq(FilterElement *fe, FilterElement *cm)
+int_eq (FilterElement *fe, FilterElement *cm)
 {
-        return ((FilterElementClass *)(parent_class))->eq(fe, cm)
+        return FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
 		&& ((FilterInt *)fe)->val == ((FilterInt *)cm)->val;
 }
 
@@ -157,7 +154,7 @@ static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	/* parent implementation */
-        ((FilterElementClass *)(parent_class))->xml_create(fe, node);
+        FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 }
 
 static xmlNodePtr
@@ -169,7 +166,7 @@ xml_encode (FilterElement *fe)
 	const char *type;
 	
 	type = fs->type?fs->type:"integer";
-
+	
 	d(printf("Encoding %s as xml\n", type));
 	
 	value = xmlNewNode (NULL, "value");
@@ -195,7 +192,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	d(printf ("Name = %s\n", name));
 	xmlFree (fe->name);
 	fe->name = name;
-
+	
 	type = xmlGetProp(node, "type");
 	d(printf ("Type = %s\n", type));
 	g_free(fs->type);
@@ -237,7 +234,7 @@ get_widget (FilterElement *fe)
 	if (fs->val)
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), (gfloat) fs->val);
 	
-	gtk_signal_connect (GTK_OBJECT (spin), "changed", spin_changed, fe);
+	g_signal_connect (spin, "changed", spin_changed, fe);
 	
 	return spin;
 }
@@ -252,6 +249,6 @@ static void
 format_sexp (FilterElement *fe, GString *out)
 {
 	FilterInt *fs = (FilterInt *)fe;
-
-	g_string_sprintfa(out, "%d", fs->val);
+	
+	g_string_sprintfa (out, "%d", fs->val);
 }

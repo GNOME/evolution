@@ -27,7 +27,6 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
 
 #include <libgnome/gnome-defs.h>
@@ -54,33 +53,31 @@ static void xml_create (FilterElement *fe, xmlNodePtr node);
 
 static void filter_label_class_init (FilterLabelClass *klass);
 static void filter_label_init (FilterLabel *label);
-static void filter_label_finalise (GtkObject *obj);
+static void filter_label_finalise (GObject *obj);
+
 
 static FilterElementClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
 
-static guint signals[LAST_SIGNAL] = { 0 };
-
-GtkType
+GType
 filter_label_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterLabel",
-			sizeof (FilterLabel),
+		static const GTypeInfo info = {
 			sizeof (FilterLabelClass),
-			(GtkClassInitFunc) filter_label_class_init,
-			(GtkObjectInitFunc) filter_label_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_label_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterLabel),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_label_init,
 		};
 		
-		type = gtk_type_unique (filter_option_get_type (), &type_info);
+		type = g_type_register_static (FILTER_TYPE_OPTION, "FilterLabel", &info, 0);
 	}
 	
 	return type;
@@ -89,30 +86,27 @@ filter_label_get_type (void)
 static void
 filter_label_class_init (FilterLabelClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
-	FilterElementClass *filter_element = (FilterElementClass *) klass;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	FilterElementClass *fe_class = FILTER_ELEMENT_CLASS (klass);
 	
-	parent_class = gtk_type_class (filter_option_get_type ());
+	parent_class = g_type_class_ref (FILTER_TYPE_OPTION);
 	
 	object_class->finalize = filter_label_finalise;
 	
 	/* override methods */
-	filter_element->xml_create = xml_create;
-	
-	/* signals */
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	fe_class->xml_create = xml_create;
 }
 
 static void
-filter_label_init (FilterLabel *o)
+filter_label_init (FilterLabel *fl)
 {
-	((FilterOption *)o)->type = "label";
+	((FilterOption *) fl)->type = "label";
 }
 
 static void
 filter_label_finalise (GtkObject *obj)
 {
-        ((GtkObjectClass *)(parent_class))->finalize (obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -125,7 +119,7 @@ filter_label_finalise (GtkObject *obj)
 FilterLabel *
 filter_label_new (void)
 {
-	return (FilterLabel *) gtk_type_new (filter_label_get_type ());
+	return (FilterLabel *) g_object_new (FILTER_TYPE_LABEL, NULL, NULL);
 }
 
 static struct {
@@ -140,28 +134,31 @@ static struct {
 	{ "/Mail/Labels/label_4", N_("Later"), "later" },
 };
 
-int filter_label_count(void)
+int
+filter_label_count (void)
 {
-	return sizeof(labels)/sizeof(labels[0]);
+	return (sizeof (labels) / sizeof (labels[0]));
 }
 
-const char *filter_label_label(int i)
+const char *
+filter_label_label (int i)
 {
-	if (i<0 || i >= sizeof(labels)/sizeof(labels[0]))
+	if (i < 0 || i >= sizeof (labels) / sizeof (labels[0]))
 		return NULL;
 	else
 		return labels[i].value;
 }
 
-int filter_label_index(const char *label)
+int
+filter_label_index (const char *label)
 {
 	int i;
-
-	for (i=0;i<sizeof(labels)/sizeof(labels[0]);i++) {
-		if (strcmp(labels[i].value, label) == 0)
+	
+	for (i = 0; i < sizeof (labels) / sizeof (labels[0]); i++) {
+		if (strcmp (labels[i].value, label) == 0)
 			return i;
 	}
-
+	
 	return -1;
 }
 
@@ -172,9 +169,9 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
 	int i;
-
-        ((FilterElementClass *)(parent_class))->xml_create(fe, node);
-
+	
+        FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
+	
 	CORBA_exception_init (&ev);
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	
@@ -182,18 +179,18 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 		db = CORBA_OBJECT_NIL;
 	
 	CORBA_exception_free (&ev);
-
-	for (i=0;i<sizeof(labels)/sizeof(labels[0]);i++) {
+	
+	for (i = 0; i < sizeof (labels) / sizeof (labels[0]); i++) {
 		const char *title;
 		char *btitle;
 		
 		if (db == CORBA_OBJECT_NIL
-		    || (title = btitle = bonobo_config_get_string(db, labels[i].path, NULL)) == NULL) {
+		    || (title = btitle = bonobo_config_get_string (db, labels[i].path, NULL)) == NULL) {
 			btitle = NULL;
 			title = U_(labels[i].title);
 		}
 		
-		filter_option_add(fo, labels[i].value, title, NULL);
-		g_free(btitle);
+		filter_option_add (fo, labels[i].value, title, NULL);
+		g_free (btitle);
 	}
 }

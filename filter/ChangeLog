@@ -12,6 +12,16 @@
 
 	* filter-file.c: And again...
 
+	* filter-folder.c: Wheee! This is fun...
+
+	* filter-int.c: Gee, I wonder...
+
+	* filter-label.c: Also ported.
+
+	* filter-option.c: Yep, this too.
+
+	* filter-source.c: And finally this one.
+
 2002-10-30  Dan Winship  <danw@ximian.com>
 
 	* rule-editor.c (rule_add): Adjust default rule editor size to

@@ -31,15 +31,18 @@ extern "C" {
 
 #include "filter-option.h"
 
-#define FILTER_LABEL(obj)         GTK_CHECK_CAST (obj, filter_label_get_type (), FilterLabel)
-#define FILTER_LABEL_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_label_get_type (), FilterLabelClass)
-#define IS_FILTER_LABEL(obj)      GTK_CHECK_TYPE (obj, filter_label_get_type ())
+#define FILTER_TYPE_LABEL            (filter_label_get_type ())
+#define FILTER_LABEL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_LABEL, FilterLabel))
+#define FILTER_LABEL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_LABEL, FilterLabelClass))
+#define IS_FILTER_LABEL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_LABEL))
+#define IS_FILTER_LABEL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_LABEL))
+#define FILTER_LABEL_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_LABEL, FilterLabelClass))
 
 typedef struct _FilterLabel FilterLabel;
 typedef struct _FilterLabelClass FilterLabelClass;
 
 struct _FilterLabel {
-	FilterOption parent;
+	FilterOption parent_object;
 };
 
 struct _FilterLabelClass {
@@ -50,14 +53,14 @@ struct _FilterLabelClass {
 	/* signals */
 };
 
-GtkType filter_label_get_type (void);
+GType filter_label_get_type (void);
 
 FilterLabel *filter_label_new (void);
 
 /* Sigh, this is a mess, but its cleaner than the original mess */
-int filter_label_count(void);
-const char *filter_label_label(int i);
-int filter_label_index(const char *label);
+int filter_label_count (void);
+const char *filter_label_label (int i);
+int filter_label_index (const char *label);
 
 #ifdef __cplusplus
 }
