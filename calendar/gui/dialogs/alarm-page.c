@@ -680,8 +680,9 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	e_cal_component_alarm_set_action (alarm, action);
 	if (action == E_CAL_COMPONENT_ALARM_EMAIL && !e_cal_component_alarm_has_attendees (alarm)) {
 		char *email;
-		
-		if (!e_cal_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
+
+		if (!e_cal_get_static_capability (COMP_EDITOR_PAGE (apage)->client, CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)
+		    && e_cal_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
 			ECalComponentAttendee *a;
 			GSList attendee_list;
 
