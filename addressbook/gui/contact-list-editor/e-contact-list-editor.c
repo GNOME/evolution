@@ -27,6 +27,7 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/widgets/e-unicode.h>
+#include "shell/evolution-shell-component-utils.h"
 
 #include "e-contact-editor.h"
 #include "e-contact-list-editor.h"
@@ -417,6 +418,13 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static EPixmap pixmaps[] = {
+	E_PIXMAP ("/commands/ContactListEditorSave", "save-16.png"),
+	E_PIXMAP ("/commands/ContactListEditorSaveAs", "save-as-16.png"),
+
+	E_PIXMAP_END
+};
+
 static void
 create_ui (EContactListEditor *ce)
 {
@@ -426,6 +434,8 @@ create_ui (EContactListEditor *ce)
 	bonobo_ui_util_set_ui (ce->uic, EVOLUTION_DATADIR,
 			       "evolution-contact-list-editor.xml",
 			       "evolution-contact-list-editor");
+
+	e_pixmaps_update (ce->uic, pixmaps);
 }
 
 EContactListEditor *
