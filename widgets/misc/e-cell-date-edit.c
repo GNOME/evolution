@@ -546,7 +546,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 	GtkRequisition popup_requisition;
 	gint avail_height, screen_width, column_width, row_height;
-	double x1, y1;
+	double x1, y1, wx, wy;
   
 	gdk_window_get_origin (canvas->window, x, y);
 
@@ -558,10 +558,16 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 					    eti->editing_row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
-	*x += x1;
+	gnome_canvas_world_to_window (GNOME_CANVAS (canvas),
+				      x1,
+				      y1,
+				      &wx,
+				      &wy);
+
+	*x += wx;
 	/* The ETable positions don't include the grid lines, I think, so we
 	   add 1. */
-	*y += y1 + 1;
+	*y += wy + 1;
 
 	avail_height = gdk_screen_height () - *y;
 
