@@ -13,65 +13,11 @@
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/widgets/e-categories.h>
+#include <libedataserver/e-categories.h>
 #include "e-categories-config.h"
 #include "e-categories-master-list-wombat.h"
 
-static gboolean initialized = FALSE;
-static ECategoriesMasterListWombat *ecmlw = NULL;
 static GHashTable *icons_table = NULL;
-
-static void
-initialize_categories_config (void)
-{
-	g_return_if_fail (initialized == FALSE);
-
-	ecmlw = E_CATEGORIES_MASTER_LIST_WOMBAT (e_categories_master_list_wombat_new ());
-	icons_table = g_hash_table_new (g_str_hash, g_str_equal);
-	/* FIXME: must free the two objects above when exiting */
-
-	initialized = TRUE;
-}
-
-/**
- * e_categories_config_get_color_for:
- * @category: Category to get the color for.
- *
- * Returns the representation of the color configured for the given
- * category
- *
- * Returns: An X color specification.
- */
-const char *
-e_categories_config_get_color_for (const char *category)
-{
-	int n;
-
-	g_return_val_if_fail (category != NULL, NULL);
-
-	if (!initialized)
-		initialize_categories_config ();
-
-	for (n = 0;
-	     n < e_categories_master_list_count (E_CATEGORIES_MASTER_LIST (ecmlw));
-	     n++) {
-		char *tmp_cat;
-
-		tmp_cat = (char *) e_categories_master_list_nth (E_CATEGORIES_MASTER_LIST (ecmlw), n);
-		if (tmp_cat && !strcmp (tmp_cat, category))
-			return e_categories_master_list_nth_color (E_CATEGORIES_MASTER_LIST (ecmlw), n);
-	}
-
-	return NULL; /* not found */
-}
-
-/**
- * e_categories_config_set_color_for
- */
-void
-e_categories_config_set_color_for (const char *category, const char *color)
-{
-	/* FIXME: implement */
-}
 
 /**
  * e_categories_config_get_icon_for:
@@ -91,7 +37,7 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 
 	g_return_val_if_fail (pixmap != NULL, FALSE);
 
-	icon_file = (char *) e_categories_config_get_icon_file_for (category);
+	icon_file = (char *) e_categories_get_icon_file_for (category);
 	if (!icon_file) {
 		*pixmap = NULL;
 		if (mask != NULL)
@@ -100,17 +46,12 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 	}
 
 	/* load the icon in our list */
-	pixbuf = g_hash_table_lookup (icons_table, icon_file);
+	pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
 	if (!pixbuf) {
-		pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
-		if (!pixbuf) {
-			*pixmap = NULL;
-			if (mask != NULL)
-				*mask = NULL;
-			return FALSE;
-		}
-
-		g_hash_table_insert (icons_table, g_strdup (icon_file), pixbuf);
+		*pixmap = NULL;
+		if (mask != NULL)
+			*mask = NULL;
+		return FALSE;
 	}
 
 	/* render the pixbuf to the pixmap and mask passed */
@@ -119,43 +60,6 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 		*mask = tmp_mask;
 
 	return TRUE;
-}
-
-/**
- * e_categories_config_get_icon_file_for
- * @category: Category for which to get the icon file
- */
-const char *
-e_categories_config_get_icon_file_for (const char *category)
-{
-	int n;
-
-	g_return_val_if_fail (category != NULL, NULL);
-
-	if (!initialized)
-		initialize_categories_config ();
-
-	for (n = 0;
-	     n < e_categories_master_list_count (E_CATEGORIES_MASTER_LIST (ecmlw));
-	     n++) {
-		char *tmp_cat;
-
-		tmp_cat = (char *) e_categories_master_list_nth (E_CATEGORIES_MASTER_LIST (ecmlw), n);
-		if (tmp_cat && !strcmp (tmp_cat, category))
-			return e_categories_master_list_nth_icon (E_CATEGORIES_MASTER_LIST (ecmlw), n);
-	}
-
-	return NULL; /* not found */
-}
-
-/**
- * e_categories_config_set_icon_for
- * @category: Category for which to set the icon.
- * @icon_file: Full path of the icon file.
- */
-void
-e_categories_config_set_icon_for (const char *category, const char *icon_file)
-{
 }
 
 /**
@@ -177,16 +81,15 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	const char *text;
 	char *categories;
 	int result;
+	ECategoriesMasterListWombat *ecmlw;
 	
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
 	
-	if (!initialized)
-		initialize_categories_config ();
-	
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 	dialog = GTK_DIALOG (e_categories_new (text));
 	
+	ecmlw = e_categories_master_list_wombat_new ();
 	g_object_set (dialog, "ecml", ecmlw, NULL);
 	
 	/* run the dialog */

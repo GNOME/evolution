@@ -17,17 +17,10 @@
 
 G_BEGIN_DECLS
 
-const char *e_categories_config_get_color_for (const char *category);
-void e_categories_config_set_color_for (const char *category, const char *color);
-
 gboolean e_categories_config_get_icon_for (const char *category,
 					   GdkPixmap **icon,
 					   GdkBitmap **mask);
-const char *e_categories_config_get_icon_file_for (const char *category);
-void e_categories_config_set_icon_for (const char *category,
-				       const char *pixmap_file);
-
-void e_categories_config_open_dialog_for_entry (GtkEntry *entry);
+void     e_categories_config_open_dialog_for_entry (GtkEntry *entry);
 
 G_END_DECLS
 
