@@ -18,10 +18,16 @@ BEGIN_GNOME_DECLS
 void e_unicode_init (void);
 
 /*
- * e_utf8_strstrcase
+ * UTF-8 searching implementations
+ *
+ * e_utf8_strstrcase - case insensitive search
+ * e_utf8_strstrcasedecomp - case insensitive and decompositing search (i.e. accented
+ *   letters are treated equal to their base letters, explicit accent marks (unicode
+ *   not ascii/iso ones) are ignored).
  */
 
 const gchar *e_utf8_strstrcase (const gchar *haystack, const gchar *needle);
+const gchar *e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle);
 
 gchar *e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string);
 
