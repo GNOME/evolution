@@ -369,6 +369,8 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		}
 	}
 
+	printf("building folder expression: %s\n", vf->expression);
+
 	messages = g_ptr_array_new();
 	messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -379,6 +381,14 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		CamelVeeMessageInfo *mi;
 		const CamelMessageInfo *info;
 		CamelFlag *flag;
+
+		printf("searching folder: (%s)%s\n",
+		       gtk_type_name(((GtkObject *)f)->klass->type),
+		       camel_folder_get_full_name(f));
+
+		/* ugh, make sure the folder is open? */
+		if (!camel_folder_is_open(f))
+			camel_folder_open (f, FOLDER_OPEN_RW, ex);
 
 		matches = camel_folder_search_by_expression(f, vf->expression, ex);
 		match = matches;
@@ -409,6 +419,8 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		g_list_free(matches);
 		node = g_list_next(node);
 	}
+
+	printf("search complete\n");
 
 	g_ptr_array_free(vf->messages, TRUE);
 	vf->messages = messages;

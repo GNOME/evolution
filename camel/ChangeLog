@@ -1,3 +1,8 @@
+2000-05-29  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/vee/camel-vee-folder.c (vee_folder_build): Check the
+	searched folder is open before trying to search it.
+
 2000-05-29  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (camel_service_new): Fix up some glib
