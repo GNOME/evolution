@@ -165,7 +165,7 @@ load_pages (EShellSettingsDialog *dialog)
 	
 	CORBA_exception_init (&ev);
 
-	control_list = bonobo_activation_query ("defined(evolution2:config_item:title)", NULL, &ev);
+	control_list = bonobo_activation_query ("repo_ids.has('IDL:GNOME/Evolution/ConfigControl:" BASE_VERSION "')", NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || control_list == NULL) {
 		g_warning ("Cannot load configuration pages -- %s", BONOBO_EX_REPOID (&ev));
 		CORBA_exception_free (&ev);

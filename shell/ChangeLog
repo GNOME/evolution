@@ -1,3 +1,11 @@
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61285.
+
+	* e-shell-settings-dialog.c (load_pages): use a better query to
+	get the configuration pages, the old one didn't include version
+	information properly.
+
 2004-08-26  Rodney Dawes  <dobey@novell.com>
 
 	* apps_evolution_shell.schemas.in.in: Don't translate the default
