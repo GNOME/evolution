@@ -1,3 +1,11 @@
+2000-09-14  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (transfer_msg): **Temp fix** Send "" as the
+	default folder to select as anything else seems to cause a
+	segfault in shell's user_get_folder().
+	(check_configured): A spoon full of 'line wrapping' makes the
+	medicine go down, the medicine go dowwwwn...
+
 2000-09-14  Iain Holmes  <terrorist@gegl.org>
 
 	* mail-callbacks.c (check_configured): Ask if you want to 

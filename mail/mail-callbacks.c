@@ -63,17 +63,20 @@ check_configured (FolderBrowser *fb)
 {
 	if (mail_config_is_configured ())
 		return TRUE;
-
+	
 	if (fb) {
 		GtkWidget *dialog;
-
-		dialog = gnome_message_box_new (_("You have not configured the mail client.\nYou need to do this before you can send,\nreceive or compose mail.\nWould you like to configure it now?"),
+		
+		dialog = gnome_message_box_new (_("You have not configured the mail client.\n"
+						  "You need to do this before you can send,\n"
+						  "receive or compose mail.\n"
+						  "Would you like to configure it now?"),
 						GNOME_MESSAGE_BOX_QUESTION,
 						GNOME_STOCK_BUTTON_YES,
 						GNOME_STOCK_BUTTON_NO, NULL);
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 					 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET(fb), GTK_TYPE_WINDOW)));
-
+		
 		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
 		case 0:
 			mail_config_druid (fb->shell);
@@ -82,7 +85,7 @@ check_configured (FolderBrowser *fb)
 		default:
 			break;
 		}
-
+		
 		return mail_config_is_configured ();
 	} else
 		return FALSE;
@@ -92,15 +95,15 @@ static gboolean
 check_send_configuration (FolderBrowser *fb)
 {
 	MailConfigService *xport = NULL;
-
+	
 	/* Check general */
 	
 	if (!check_configured (fb)) {
 		return FALSE;
 	}
-
+	
 	/* Check for an identity */
-
+	
 	if (!mail_config_get_default_identity ()) {
 		GtkWidget *message;
 		
@@ -125,7 +128,7 @@ check_send_configuration (FolderBrowser *fb)
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return FALSE;
 	}
-
+	
 	return TRUE;
 }
 
@@ -134,7 +137,7 @@ main_select_first_unread (CamelObject *object, gpointer event_data, gpointer dat
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	/*ETable *table = E_TABLE_SCROLLED (fb->message_list->etable)->table;*/
-  
+	
 	message_list_select (fb->message_list, -1, MESSAGE_LIST_SELECT_NEXT,
   			     0, CAMEL_MESSAGE_SEEN);
 }
@@ -475,22 +478,20 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	extern EvolutionShellClient *global_shell_client;
 	static char *last = NULL;
 	
-	if (last == NULL)
-		last = g_strdup ("");
 	
 	if (delete_from_source)
 		desc = _("Move message(s) to");
 	else
 		desc = _("Copy message(s) to");
 	
-	evolution_shell_client_user_select_folder  (global_shell_client,
-						    desc,
-						    last, allowed_types, &uri, &physical);
+	evolution_shell_client_user_select_folder (global_shell_client,
+						   desc, /* last ? last : */ "",
+						   allowed_types, &uri, &physical);
 	if (!uri)
 		return;
 	
 	path = strchr (uri, '/');
-	if (path && strcmp (last, path) != 0) {
+	if (!last || (last && path && strcmp (last, path))) {
 		g_free (last);
 		last = g_strdup (path);
 	}
