@@ -1,3 +1,7 @@
+2000-05-26  Héctor García Alvarez <hector@scouts-es.org>
+
+        * configure.in: Added Spanish language
+
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-paned/e-hpaned.c, widgets/e-paned/e-vpaned.c: Fixed a
