@@ -841,7 +841,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/composer/charset", NULL);
-	menu = e_charset_picker_new (buf ? buf : e_iconv_locale_charset ());
+	menu = e_charset_picker_new (buf && *buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
 	g_free (buf);

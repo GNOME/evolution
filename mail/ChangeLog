@@ -1,3 +1,17 @@
+2003-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Allow the
+	sent/drafts folder uri to be any file: uri.
+
+2003-09-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-preferences.c (mail_preferences_construct): Same as below.
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): gconf can
+	return empty string if the charset has not been set, so if the
+	charset string is empty, default the charset to the user's locale
+	charset. Partial fix for bug #47638.
+
 2003-09-25  Rodney Dawes  <dobey@ximian.com>
 
 	* mail-send-recv.c: Make the dialog more HIG-compliant by fixing
