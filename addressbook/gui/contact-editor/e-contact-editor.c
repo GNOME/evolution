@@ -2484,7 +2484,7 @@ _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *edito
 	g_signal_stop_emission_by_name (widget, "button_press_event");
 
 	gtk_widget_realize(popup);
-	menu_item = gnome_popup_menu_do_popup_modal(popup, _popup_position, widget, button, editor, widget);
+	menu_item = gnome_popup_menu_do_popup_modal(popup, NULL, NULL, button, editor, widget);
 	if ( menu_item != -1 ) {
 		GtkWidget *label_widget = glade_xml_get_widget(editor->gui, label);
 		if (label_widget && GTK_IS_LABEL(label_widget)) {
