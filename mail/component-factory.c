@@ -202,26 +202,16 @@ create_folder (EvolutionShellComponent *shell_component,
 	       void *closure)
 {
 	CORBA_Environment ev;
-	CamelURL *url;
-	char *uri;
-	
+
 	CORBA_exception_init (&ev);
 	
-	url = physical_uri ? camel_url_new (physical_uri, NULL) : NULL;
-	
-	if (url && !strcmp (type, "mail")) {
-		camel_url_set_protocol (url, "mbox");
-		uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		mail_create_folder (uri, create_folder_done, CORBA_Object_duplicate (listener, &ev));
-		g_free (uri);
+	if (!strcmp (type, "mail")) {
+		mail_get_folder (physical_uri, create_folder_done, CORBA_Object_duplicate (listener, &ev));
 	} else {
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 	}
-	
-	if (url)
-		camel_url_free (url);
-	
+
 	CORBA_exception_free (&ev);
 }
 
@@ -265,22 +255,36 @@ remove_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
+typedef struct _xfer_folder_data {
+	GNOME_Evolution_ShellComponentListener listener;
+	gboolean remove_source;
+	char *source_uri;
+} xfer_folder_data;
+
 static void
 xfer_folder_done (gboolean ok, void *data)
 {
-	GNOME_Evolution_ShellComponentListener listener = data;
+	xfer_folder_data *xfd = (xfer_folder_data *)data;
+	GNOME_Evolution_ShellComponentListener listener = xfd->listener;
 	GNOME_Evolution_ShellComponentListener_Result result;
 	CORBA_Environment ev;
+
+	if (xfd->remove_source && ok) {
+		mail_remove_folder (xfd->source_uri, remove_folder_done, xfd->listener);
+	} else {
+		if (ok)
+			result = GNOME_Evolution_ShellComponentListener_OK;
+		else
+			result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
 	
-	if (ok)
-		result = GNOME_Evolution_ShellComponentListener_OK;
-	else
-		result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
-	
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
-	CORBA_Object_release (listener, &ev);
-	CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
+		CORBA_Object_release (listener, &ev);
+		CORBA_exception_free (&ev);
+	}
+
+	g_free (xfd->source_uri);
+	g_free (xfd);
 }
 
 static void
@@ -298,7 +302,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CamelException ex;
 	GPtrArray *uids;
 	CamelURL *url;
-	
+
 	url = camel_url_new (destination_physical_uri, NULL);
 	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
 	
@@ -323,10 +327,17 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	
 	CORBA_exception_init (&ev);
 	if (source) {
+		xfer_folder_data *xfd;
+
+		xfd = g_new0 (xfer_folder_data, 1);
+		xfd->remove_source = remove_source;
+		xfd->source_uri = g_strdup (source_physical_uri);
+		xfd->listener = CORBA_Object_duplicate (listener, &ev);
+
 		uids = camel_folder_get_uids (source);
 		mail_transfer_messages (source, uids, remove_source, destination_physical_uri,
-					xfer_folder_done,
-					CORBA_Object_duplicate (listener, &ev));
+					xfer_folder_done, xfd);
+		camel_object_unref (CAMEL_OBJECT (source));
 	} else
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
 	CORBA_exception_free (&ev);
@@ -633,7 +644,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
-	
+
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
 	vfolder_create_storage (shell_component);

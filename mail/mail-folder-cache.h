@@ -56,6 +56,7 @@ void mail_folder_cache_note_folderinfo     (const gchar *uri, CamelFolderInfo *f
 void mail_folder_cache_note_name           (const gchar *uri, const gchar *name);
 
 CamelFolder *mail_folder_cache_try_folder  (const gchar *uri);
+gchar *      mail_folder_cache_try_name    (const gchar *uri);
 
 void mail_folder_cache_set_shell_view      (GNOME_Evolution_ShellView sv);
 void mail_folder_cache_set_folder_browser  (FolderBrowser *fb);

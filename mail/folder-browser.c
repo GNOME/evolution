@@ -720,10 +720,6 @@ got_folder(char *uri, CamelFolder *folder, void *data)
  done:
 	gtk_object_unref (GTK_OBJECT (fb));
 	
-	/* Sigh, i dont like this (it can be set in reconfigure folder),
-	   but its just easier right now to do it this way */
-	fb->reconfigure = FALSE;
-	
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [FOLDER_LOADED], fb->uri);
 }
 
@@ -733,12 +729,8 @@ folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 	if (uri && *uri) {
 		gtk_object_ref((GtkObject *)folder_browser);
 		mail_get_folder(uri, got_folder, folder_browser);
-	} else {
-		/* Sigh, i dont like this (it can be set in reconfigure folder),
-		   but its just easier right now to do it this way */
-		folder_browser->reconfigure = FALSE;
 	}
-	
+
 	return TRUE;
 }
 
@@ -1370,12 +1362,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	char *mailing_list_name = NULL;
 	char *subject_match = NULL, *from_match = NULL;
 	GtkMenu *menu;
-	
-	if (fb->reconfigure) {
-		enable_mask = 0;
-		goto display_menu;
-	}
-	
+
 	if (fb->folder != sent_folder) {
 		enable_mask |= CAN_RESEND;
 		hide_mask |= CAN_RESEND;
@@ -1762,15 +1749,6 @@ static gboolean
 do_message_selected (FolderBrowser *fb)
 {
 	d(printf ("selecting uid %s (delayed)\n", fb->new_uid ? fb->new_uid : "NONE"));
-	
-	/* keep polling if we are busy */
-	if (fb->reconfigure) {
-		if (fb->new_uid == NULL) {
-			mail_display_set_message (fb->mail_display, NULL);
-			return FALSE;
-		}
-		return TRUE;
-	}
 	
 	fb->loading_id = 0;
 	

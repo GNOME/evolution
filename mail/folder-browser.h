@@ -56,9 +56,6 @@ struct  _FolderBrowser {
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
 	
-	/* set to true when we are reconfiguring stuff == can't do much else */
-	int	     reconfigure;
-	
 	MessageList *message_list;
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;

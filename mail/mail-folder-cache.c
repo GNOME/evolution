@@ -36,8 +36,8 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 
-#define ld(x)
-#define d(x)
+#define ld(x) 
+#define d(x) 
 
 /* Structures */
 
@@ -888,6 +888,28 @@ mail_folder_cache_try_folder (const gchar *uri)
 
 	if (mfi->flags & MAIL_FIF_FOLDER_VALID)
 		ret = mfi->folder;
+	else
+		ret = NULL;
+
+	UNLOCK_FOLDERS ();
+
+	return ret;
+}
+
+gchar *
+mail_folder_cache_try_name (const gchar *uri)
+{
+	mail_folder_info *mfi;
+	gchar *ret;
+
+	g_return_val_if_fail (uri, NULL);
+
+	LOCK_FOLDERS ();
+
+	mfi = get_folder_info (uri);
+
+	if (mfi->flags & MAIL_FIF_NAME_VALID)
+		ret = g_strdup (mfi->name);
 	else
 		ret = NULL;
 

@@ -91,11 +91,6 @@ int mail_get_folderinfo (CamelStore *store,
 			 void (*done)(CamelStore *store, CamelFolderInfo *info, void *data),
 			 void *data);
 
-/* create a new mail folder */
-void mail_create_folder (const char *uri,
-			 void (*done) (char *uri, CamelFolder *folder, void *data),
-			 void *data);
-
 /* remove an existing folder */
 void mail_remove_folder (const char *uri,
 			 void (*done) (char *uri, gboolean removed, void *data),

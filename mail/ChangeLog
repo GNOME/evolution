@@ -1,3 +1,13 @@
+2001-09-10    <NotZed@Ximian.com>
+
+	* mail-local.c (mail_local_reconfigure_folder): Dynamically create
+	the folder type list from camel.
+	(reconfigure_clicked): And change code to handle changes.
+
+2001-09-10    <NotZed@Ximian.com>
+
+        * merged mail_local patch from peterw.  Many changes.
+
 2001-09-10  Iain Holmes  <iain@ximian.com>
 
 	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount): Add a
@@ -45,6 +55,7 @@
 	mistake in previous commit that made it *always* complain you had
 	invalid recipients.
 
+>>>>>>> 1.1665
 2001-09-09  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Complain if we are
@@ -249,6 +260,50 @@
 	* mail-send-recv.c (build_dialogue): Fix capitalization. Fixes bug
 	#7486.
 
+=======
+2001-09-04  Peter Williams  <peterw@ximian.com>
+
+	* mail-local.c (mlf_init): Remove accidentally left-in "choke on
+	this" preprocessor thingie.
+	(mail_local_folder_reconfigure): Instead of creating our own local
+	exception, just assert that ex != NULL.
+	(*): Staticize everything that can be and remove some obnoxious
+	prototypes.
+
+2001-08-31  Peter Williams  <peterw@ximian.com>
+
+	* mail-local.c (mail_local_reconfigure_folder): Use (NULL, NULL)
+	as the arguments to g_hash_table_new instead of g_direct_foo.
+	Instead of checking the URI, check MAIL_IS_LOCAL_FOLDER (fb->folder)
+	to check whether we can reconfigure the folder. Instead of
+	gnome_dialog_run_and_close, use gnome_dialog_run...
+	(reconfigure_clicked): And deal with removing the hash table
+	elements here.
+	(local_storage_new_folder_cb): Set the folder's name to the
+	displayName to i18nize correctly (after shell patch is applied).
+
+2001-08-30  Peter Williams  <peterw@ximian.com>
+
+	* mail-local.c: Rewrite as a more complete CamelStore.
+	
+	* component-factory.c (create_folder): We can now chuck out most
+	of this function and just call mail_get_folder.
+	(xfer_folder_done): If we succeeded in moving the messages, now
+	delete the source folder as we should be.
+	(xfer_folder): In order to do so, create a new xfer_folder_data
+	struct that records the value of 'remove_source' Fix a leak by
+	unreffing the source folder.
+
+	* mail-ops.[ch]: We no longer need the mail_new_folder operation.
+	
+	* folder-browser.[ch]: Don't need the 'reconfigure' member 
+	anymore, because the loaded folder's URL doesn't change.
+	(do_message_selected): Don't check it
+	(on_right_click): Same.
+	(folder_browser_set_uri): Same.
+	(got_folder): Same.
+	
+>>>>>>> 1.1642.2.4
 2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-vfolder.c (vfolder_create_storage): Marked string for
