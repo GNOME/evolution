@@ -366,7 +366,7 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	g_free (cert_str);
 	
 	/* query the user to find out if we want to accept this certificate */
-	accept = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE, NULL);
+	accept = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
 	g_free (prompt);
 	
 	if (accept)
