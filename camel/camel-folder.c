@@ -43,7 +43,7 @@
 #include "camel-vtrash-folder.h"
 #include "filter/filter-rule.h"
 
-#define d(x) 
+#define d(x)
 #define w(x)
 
 static CamelObjectClass *parent_class = NULL;
@@ -723,6 +723,11 @@ gboolean
 camel_folder_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	g_return_val_if_fail(CAMEL_IS_FOLDER(folder), FALSE);
+
+	if ((flags & (CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN)) == CAMEL_MESSAGE_JUNK) {
+		flags |= CAMEL_MESSAGE_JUNK_LEARN;
+		set &= ~CAMEL_MESSAGE_JUNK_LEARN;
+	}
 
 	return CF_CLASS(folder)->set_message_flags(folder, uid, flags, set);
 }
@@ -1553,6 +1558,8 @@ struct _folder_filter_msg {
 	CamelSessionThreadMsg msg;
 
 	GPtrArray *recents;
+	GPtrArray *junk;
+	GPtrArray *notjunk;
 	CamelFolder *folder;
 	CamelFilterDriver *driver;
 	CamelException ex;
@@ -1568,46 +1575,79 @@ filter_filter(CamelSession *session, CamelSessionThreadMsg *msg)
 	char *source_url;
 	CamelException ex;
 
-	camel_operation_start(NULL, _("Filtering new message(s)"));
+	if (m->junk || m->notjunk) {
+		CamelJunkPlugin *csp = ((CamelService *)m->folder->parent_store)->session->junk_plugin;
 
-	source_url = camel_service_get_url((CamelService *)m->folder->parent_store);
-	uri = camel_url_new(source_url, NULL);
-	g_free(source_url);
-	if (m->folder->full_name && m->folder->full_name[0] != '/') {
-		char *tmp = alloca(strlen(m->folder->full_name)+2);
+		camel_operation_start (NULL, _("Learning junk and/or non junk message(s)"));
 
-		sprintf(tmp, "/%s", m->folder->full_name);
-		camel_url_set_path(uri, tmp);
-	} else
-		camel_url_set_path(uri, m->folder->full_name);
-	source_url = camel_url_to_string(uri, CAMEL_URL_HIDE_ALL);
-	camel_url_free(uri);
+		if (m->junk) {
+			for (i = 0; i < m->junk->len; i ++) {
+				CamelMimeMessage *msg = camel_folder_get_message(m->folder, m->junk->pdata[i], NULL);
 
-	for (i=0;status == 0 && i<m->recents->len;i++) {
-		char *uid = m->recents->pdata[i];
-		int pc = 100 * i / m->recents->len;
+				if (msg) {
+					camel_junk_plugin_report_junk (csp, msg);
+					camel_object_unref (msg);
+				}
+			}
+		}
+		if (m->notjunk) {
+			for (i = 0; i < m->notjunk->len; i ++) {
+				CamelMimeMessage *msg = camel_folder_get_message(m->folder, m->notjunk->pdata[i], NULL);
 
-		camel_operation_progress(NULL, pc);
-
-		info = camel_folder_get_message_info(m->folder, uid);
-		if (info == NULL) {
-			g_warning("uid %s vanished from folder: %s", uid, source_url);
-			continue;
+				if (msg) {
+					camel_junk_plugin_report_notjunk (csp, msg);
+					camel_object_unref (msg);
+				}
+			}
 		}
 
-		status = camel_filter_driver_filter_message(m->driver, NULL, info, uid, m->folder, source_url, source_url, &m->ex);
+		camel_junk_plugin_commit_reports (csp);
 
-		camel_folder_free_message_info(m->folder, info);
+		camel_operation_end (NULL);
 	}
 
-	camel_exception_init(&ex);
-	camel_filter_driver_flush(m->driver, &ex);
-	if (!camel_exception_is_set(&m->ex))
-		camel_exception_xfer(&m->ex, &ex);
+	if (m->driver && m->recents) {
+		camel_operation_start(NULL, _("Filtering new message(s)"));
 
-	g_free(source_url);
+		source_url = camel_service_get_url((CamelService *)m->folder->parent_store);
+		uri = camel_url_new(source_url, NULL);
+		g_free(source_url);
+		if (m->folder->full_name && m->folder->full_name[0] != '/') {
+			char *tmp = alloca(strlen(m->folder->full_name)+2);
 
-	camel_operation_end(NULL);
+			sprintf(tmp, "/%s", m->folder->full_name);
+			camel_url_set_path(uri, tmp);
+		} else
+			camel_url_set_path(uri, m->folder->full_name);
+		source_url = camel_url_to_string(uri, CAMEL_URL_HIDE_ALL);
+		camel_url_free(uri);
+
+		for (i=0;status == 0 && i<m->recents->len;i++) {
+			char *uid = m->recents->pdata[i];
+			int pc = 100 * i / m->recents->len;
+
+			camel_operation_progress(NULL, pc);
+
+			info = camel_folder_get_message_info(m->folder, uid);
+			if (info == NULL) {
+				g_warning("uid %s vanished from folder: %s", uid, source_url);
+				continue;
+			}
+
+			status = camel_filter_driver_filter_message(m->driver, NULL, info, uid, m->folder, source_url, source_url, &m->ex);
+
+			camel_folder_free_message_info(m->folder, info);
+		}
+
+		camel_exception_init(&ex);
+		camel_filter_driver_flush(m->driver, &ex);
+		if (!camel_exception_is_set(&m->ex))
+			camel_exception_xfer(&m->ex, &ex);
+
+		g_free(source_url);
+
+		camel_operation_end(NULL);
+	}
 }
 
 static void
@@ -1618,10 +1658,23 @@ filter_free(CamelSession *session, CamelSessionThreadMsg *msg)
 
 	camel_folder_thaw(m->folder);
 	camel_object_unref((CamelObject *)m->folder);
-	camel_object_unref((CamelObject *)m->driver);
-	for (i=0;i<m->recents->len;i++)
-		g_free(m->recents->pdata[i]);
-	g_ptr_array_free(m->recents, TRUE);
+	if (m->driver)
+		camel_object_unref((CamelObject *)m->driver);
+	if (m->recents) {
+		for (i=0;i<m->recents->len;i++)
+			g_free(m->recents->pdata[i]);
+		g_ptr_array_free(m->recents, TRUE);
+	}
+	if (m->junk) {
+		for (i=0;i<m->junk->len;i++)
+			g_free(m->junk->pdata[i]);
+		g_ptr_array_free(m->junk, TRUE);
+	}
+	if (m->notjunk) {
+		for (i=0;i<m->notjunk->len;i++)
+			g_free(m->notjunk->pdata[i]);
+		g_ptr_array_free(m->notjunk, TRUE);
+	}
 }
 
 static CamelSessionThreadOps filter_ops = {
@@ -1636,6 +1689,11 @@ folder_changed (CamelObject *obj, gpointer event_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (obj);
 	CamelFolderChangeInfo *changed = event_data;
+	CamelSession *session = ((CamelService *)folder->parent_store)->session;
+	CamelFilterDriver *driver = NULL;
+	GPtrArray *junk = NULL;
+	GPtrArray *notjunk = NULL;
+	GPtrArray *recents = NULL;
 	gboolean ret = TRUE;
 
 	d(printf ("folder_changed(%p, %p), frozen=%d\n", obj, event_data, folder->priv->frozen));
@@ -1643,51 +1701,81 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		 changed->uid_added->len, changed->uid_removed->len,
 		 changed->uid_changed->len, changed->uid_recent->len));
 
-	if (changed != NULL) {
-		CamelSession *session = ((CamelService *)folder->parent_store)->session;
-		CamelFilterDriver *driver = NULL;
-
-		if ((folder->folder_flags & (CAMEL_FOLDER_FILTER_RECENT|CAMEL_FOLDER_FILTER_JUNK))
-		    && changed->uid_recent->len > 0)
-			driver = camel_session_get_filter_driver(session,
-								 (folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT) ? FILTER_SOURCE_INCOMING : FILTER_SOURCE_JUNKTEST, NULL);
-		
-		CAMEL_FOLDER_LOCK(folder, change_lock);
-
-		if (driver) {
-			GPtrArray *recents = g_ptr_array_new();
-			int i;
-			struct _folder_filter_msg *msg;
-			
-			d(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
-
-			folder->priv->frozen++;
-			msg = camel_session_thread_msg_new(session, &filter_ops, sizeof(*msg));
-			for (i=0;i<changed->uid_recent->len;i++)
-				g_ptr_array_add(recents, g_strdup(changed->uid_recent->pdata[i]));
-			msg->recents = recents;
-			msg->folder = folder;
-			camel_object_ref((CamelObject *)folder);
-			msg->driver = driver;
-			camel_exception_init(&msg->ex);
-			camel_session_thread_queue(session, &msg->msg, 0);
-			
-			/* zero out the recent list so we dont reprocess */
-			/* this pokes past abstraction, but changeinfo is our structure anyway */
-			/* the only other alternative is to recognise when trigger is called from	
-			   thaw(), but thats a pita */
-			g_ptr_array_set_size(changed->uid_recent, 0);
-		}
-		
-		if (folder->priv->frozen) {
-			camel_folder_change_info_cat(folder->priv->changed_frozen, changed);
-			ret = FALSE;
-		}
-		CAMEL_FOLDER_UNLOCK(folder, change_lock);
-	} else {
-			w(g_warning ("Class %s is passing NULL to folder_changed event",
-				     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
+	if (changed == NULL) {
+		w(g_warning ("Class %s is passing NULL to folder_changed event",
+			     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder))));
+		return ret;
 	}
+
+	if (changed->uid_changed->len) {
+		int i;
+		guint32 flags;
+
+		for (i = 0; i < changed->uid_changed->len; i ++) {
+			flags = camel_folder_get_message_flags (folder, changed->uid_changed->pdata [i]);
+			if (flags & CAMEL_MESSAGE_JUNK_LEARN) {
+				if (flags & CAMEL_MESSAGE_JUNK) {
+					if (!junk)
+						junk = g_ptr_array_new();
+					g_ptr_array_add (junk, g_strdup (changed->uid_changed->pdata [i]));
+				} else {
+					if (!notjunk)
+						notjunk = g_ptr_array_new();
+					g_ptr_array_add (notjunk, g_strdup (changed->uid_changed->pdata [i]));
+				}
+			}
+
+				/* reset junk learn flag so that we don't process it again */
+			camel_folder_set_message_flags (folder, changed->uid_changed->pdata [i], CAMEL_MESSAGE_JUNK_LEARN, 0);
+		}
+		d(if (junk || notjunk) printf("** Have '%d' messages for junk filter to learn, launching thread to process them\n",
+					      (junk ? junk->len : 0) + (notjunk ? notjunk->len : 0)));
+	}
+
+	if ((folder->folder_flags & (CAMEL_FOLDER_FILTER_RECENT|CAMEL_FOLDER_FILTER_JUNK))
+	    && changed->uid_recent->len > 0)
+		driver = camel_session_get_filter_driver(session,
+							 (folder->folder_flags & CAMEL_FOLDER_FILTER_RECENT) 
+							 ? FILTER_SOURCE_INCOMING : FILTER_SOURCE_JUNKTEST, NULL);
+		
+	CAMEL_FOLDER_LOCK(folder, change_lock);
+
+	if (driver) {
+		int i;
+		recents = g_ptr_array_new();
+			
+		for (i=0;i<changed->uid_recent->len;i++)
+			g_ptr_array_add(recents, g_strdup(changed->uid_recent->pdata[i]));
+
+		d(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
+	}
+
+	if (driver || junk || notjunk) {
+		struct _folder_filter_msg *msg;
+
+		folder->priv->frozen++;
+		msg = camel_session_thread_msg_new(session, &filter_ops, sizeof(*msg));
+		msg->recents = recents;
+		msg->junk = junk;
+		msg->notjunk = notjunk;
+		msg->folder = folder;
+		camel_object_ref((CamelObject *)folder);
+		msg->driver = driver;
+		camel_exception_init(&msg->ex);
+		camel_session_thread_queue(session, &msg->msg, 0);
+			
+		/* zero out the recent list so we dont reprocess */
+		/* this pokes past abstraction, but changeinfo is our structure anyway */
+		/* the only other alternative is to recognise when trigger is called from	
+		   thaw(), but thats a pita */
+		g_ptr_array_set_size(changed->uid_recent, 0);
+	}
+		
+	if (folder->priv->frozen) {
+		camel_folder_change_info_cat(folder->priv->changed_frozen, changed);
+		ret = FALSE;
+	}
+	CAMEL_FOLDER_UNLOCK(folder, change_lock);
 
 	return ret;
 }

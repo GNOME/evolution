@@ -1,3 +1,24 @@
+2004-03-11  Radek Doulik  <rodo@ximian.com>
+
+	* camel-folder.c (camel_folder_set_message_flags): watch for
+	setting JUNK flag, if JUNK_LEARN is not set as well then reset
+	JUNK_LEARN bit
+	(folder_changed): look for junk changes in uid_changed's messages,
+	if these changes request junk filter learning
+	(CAMEL_MESSAGE_JUNK_LEARN bit set) then prepare junk and nonjunk
+	uid arrays, clear CAMEL_MESSAGE_JUNK_LEARN bit so that we don't
+	process it again
+	(folder_changed): start filter thread if there's junk and/or
+	nonjunk arrays
+	(filter_filter): if junk/nonjunk arrays are non-NULL, call junk
+	filter report to learn junk/non-junk messages
+	(filter_free): free junk/nonjunk uids and arrays
+
+	* camel-folder-summary.h: added CAMEL_MESSAGE_JUNK_LEARN to
+	CamelMessageFlags, used when setting CAMEL_MESSAGE_JUNK flag to
+	say that we request junk plugin to learn that message as
+	junk/non-junk
+
 2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (connect_to_server): If

@@ -70,6 +70,9 @@ enum _CamelMessageFlags {
 
 	/* following flags are for the folder, and are not really permanent flags */
 	CAMEL_MESSAGE_FOLDER_FLAGGED = 1<<16, /* for use by the folder implementation */
+	CAMEL_MESSAGE_JUNK_LEARN = 1<<17, /* used when setting CAMEL_MESSAGE_JUNK flag
+					     to say that we request junk plugin
+					     to learn that message as junk/non junk */
 	CAMEL_MESSAGE_USER = 1<<31 /* supports user flags */
 };
 
