@@ -1080,10 +1080,11 @@ EVO_SET_COMPILE_FLAGS(IMPORTERS, bonobo_conf bonobox_print gdk_pixbuf gnomecanva
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBIBEX, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs,
-		      $THREADS_CFLAGS, $THREADS_LIBS)
-AC_SUBST(LIBIBEX_CFLAGS)
-AC_SUBST(LIBIBEX_LIBS)
+dnl libibex is now deprecated
+dnl EVO_SET_COMPILE_FLAGS(LIBIBEX, bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs,
+dnl 		      $THREADS_CFLAGS, $THREADS_LIBS)
+dnl AC_SUBST(LIBIBEX_CFLAGS)
+dnl AC_SUBST(LIBIBEX_LIBS)
 
 EVO_SET_COMPILE_FLAGS(LIBFILTER, bonobo gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade)
 AC_SUBST(LIBFILTER_CFLAGS)
@@ -1291,7 +1292,6 @@ help/C/Makefile
 help/no/Makefile
 importers/Makefile
 intl/Makefile
-libibex/Makefile
 libversit/Makefile
 libwombat/Makefile
 macros/Makefile

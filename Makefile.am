@@ -21,7 +21,6 @@ SUBDIRS =			\
 	libical			\
         widgets                 \
         shell                   \
-        libibex                 \
         camel                   \
         filter                  \
         libversit               \
