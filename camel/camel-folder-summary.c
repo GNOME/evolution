@@ -755,7 +755,7 @@ camel_folder_summary_encode_string(FILE *out, char *str)
 int
 camel_folder_summary_decode_string(FILE *in, char **str)
 {
-	guint32 len;
+	gint32 len;
 	register char *ret;
 
 	io(printf("Decode string ...\n", str));
