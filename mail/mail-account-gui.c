@@ -740,6 +740,12 @@ mail_account_gui_new (MailConfigAccount *account)
 			e_utf8_gtk_entry_set_text (gui->full_name, account->id->name);
 		if (account->id->address)
 			gtk_entry_set_text (gui->email_address, account->id->address);
+		if (account->id->organization)
+			e_utf8_gtk_entry_set_text (gui->organization, account->id->organization);
+		if (account->id->signature) {
+			gnome_file_entry_set_default_path (gui->signature, account->id->signature);
+			gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (gui->signature)), account->id->signature);
+		}
 	}
 
 	/* Source */
@@ -1043,6 +1049,7 @@ gboolean
 mail_account_gui_save (MailAccountGui *gui)
 {
 	MailConfigAccount *account = gui->account;
+	gboolean old_enabled;
 
 	if (!mail_account_gui_identity_complete (gui) ||
 	    !mail_account_gui_source_complete (gui) ||
@@ -1062,9 +1069,12 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->organization = e_utf8_gtk_entry_get_text (gui->organization);
 	account->id->signature = gnome_file_entry_get_full_path (gui->signature, TRUE);
 
+	old_enabled = account->source && account->source->enabled;
 	service_destroy (account->source);
 	account->source = g_new0 (MailConfigService, 1);
 	save_service (&gui->source, gui->extra_config, account->source);
+	if (account->source && account->source->url && old_enabled)
+		account->source->enabled = TRUE;
 	account->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
 	if (account->source->auto_check)
 		account->source->auto_check_time = gtk_spin_button_get_value_as_int (gui->source_auto_check_min);

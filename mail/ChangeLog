@@ -1,3 +1,9 @@
+2001-03-27  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_new): Fill in signature and
+	organization too.
+	(mail_account_gui_save): Preserve the "enabled" flag on the source.
+
 2001-03-27  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (receive_done): Use gnome-dialog-close instead
