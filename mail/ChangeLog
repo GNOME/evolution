@@ -1,3 +1,19 @@
+2001-07-24  Peter Williams  <peterw@ximian.com>
+
+	* mail-config.glade: Add new label widgets with a message that SSL
+	isn't supported.
+	
+	* mail-account-gui.h: Add a new member to the Transport GUI struct
+	for the 'SSL is not supported' message.
+	
+	* mail-account-gui.c (source_type_changed): Change logic to display
+	a message stating that SSL isn't supported if SSL isn't supported.
+	(transport_type_changed): Same.
+	(mail_account_gui_new): Also load the labels for the the no-SSL
+	message.
+
+	* mail-accounts.c (construct): Fix typo.
+
 2001-07-24  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (create_folder): Dont call notifyResult here

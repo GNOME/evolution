@@ -780,7 +780,7 @@ None
 	  <class>GtkTable</class>
 	  <name>table4</name>
 	  <border_width>3</border_width>
-	  <rows>4</rows>
+	  <rows>5</rows>
 	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>3</row_spacing>
@@ -924,6 +924,28 @@ None
 	      <right_attach>2</right_attach>
 	      <top_attach>3</top_attach>
 	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>source_ssl_disabled</name>
+	    <label>(SSL is not supported in this build of evolution)</label>
+	    <active>False</active>
+	    <sensitive>False</sensitive>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>4</top_attach>
+	      <bottom_attach>5</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>False</xexpand>
@@ -1360,6 +1382,19 @@ Sendmail
 	    <label>Use secure connection (SSL)</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>transport_ssl_disabled</name>
+	    <label>(SSL is not supported in this build of evolution)</label>
+	    <active>False</active>
+	    <sensitive>False</sensitive>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>

@@ -867,7 +867,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->prompt_bcc_only), "toggled",
 			    GTK_SIGNAL_FUNC (prompt_bcc_only_toggled), dialog);
 	
-	dialog->thread_list = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkThreadList"));
+	dialog->thread_list = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkThreadedList"));
 	gtk_toggle_button_set_active (dialog->thread_list, mail_config_get_thread_list (NULL));
 	gtk_signal_connect (GTK_OBJECT (dialog->thread_list), "toggled",
 			    GTK_SIGNAL_FUNC (thread_list_toggled), dialog);

@@ -335,9 +335,13 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
 			gtk_widget_show (GTK_WIDGET (gui->source.use_ssl));
 		else
-#endif
 			gtk_widget_hide (GTK_WIDGET (gui->source.use_ssl));
-		
+		gtk_widget_hide (GTK_WIDGET (gui->source.no_ssl));
+#else
+		gtk_widget_hide (GTK_WIDGET (gui->source.use_ssl));
+		gtk_widget_show (GTK_WIDGET (gui->source.no_ssl));
+#endif
+
 		/* auth */
 		frame = glade_xml_get_widget (gui->xml, "source_auth_frame");
 		if (provider && CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH)) {
@@ -404,9 +408,13 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
 			gtk_widget_show (GTK_WIDGET (gui->transport.use_ssl));
 		else
-#endif
 			gtk_widget_hide (GTK_WIDGET (gui->transport.use_ssl));
-		
+		gtk_widget_hide (GTK_WIDGET (gui->transport.no_ssl));
+#else
+		gtk_widget_hide (GTK_WIDGET (gui->transport.use_ssl));
+		gtk_widget_show (GTK_WIDGET (gui->transport.no_ssl));
+#endif
+
 		/* auth */
 		if (CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_AUTH) &&
 		    !CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_AUTH))
@@ -813,7 +821,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 		gboolean use_ssl = camel_url_get_param (url, "use_ssl") != NULL;
 		gtk_toggle_button_set_active (gsvc->use_ssl, use_ssl);
 	}
-	
+
 	if (url->authmech && CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH)) {
 		GList *children, *item;
 		CamelServiceAuthType *authtype;
@@ -1185,6 +1193,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gtk_signal_connect (GTK_OBJECT (gui->source.path), "changed",
 			    GTK_SIGNAL_FUNC (service_changed), &gui->source);
 	gui->source.use_ssl = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "source_use_ssl"));
+	gui->source.no_ssl = glade_xml_get_widget (gui->xml, "source_ssl_disabled");
 	gui->source.authtype = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_auth_omenu"));
 	gui->source.remember = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "source_remember_password"));
 	gui->source.check_supported = GTK_BUTTON (glade_xml_get_widget (gui->xml, "source_check_supported"));
@@ -1202,6 +1211,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gtk_signal_connect (GTK_OBJECT (gui->transport.username), "changed",
 			    GTK_SIGNAL_FUNC (service_changed), &gui->source);
 	gui->transport.use_ssl = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_use_ssl"));
+	gui->transport.no_ssl = glade_xml_get_widget (gui->xml, "transport_ssl_disabled");
 	gui->transport_needs_auth = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_needs_auth"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport_needs_auth), "toggled", transport_needs_auth_toggled, gui);
 	gui->transport.authtype = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_auth_omenu"));
@@ -1505,7 +1515,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 		if (gtk_toggle_button_get_active (gsvc->use_ssl))
 			camel_url_set_param (url, "use_ssl", "");
 	}
-	
+
 	if (extra_config)
 		extract_values (gsvc, extra_config, url);
 	

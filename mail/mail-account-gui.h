@@ -43,6 +43,7 @@ typedef struct {
 	GtkEntry *username;
 	GtkEntry *path;
 	GtkToggleButton *use_ssl;
+	GtkWidget *no_ssl;
 	GtkOptionMenu *authtype;
 	GtkWidget *authitem;
 	GtkToggleButton *remember;
