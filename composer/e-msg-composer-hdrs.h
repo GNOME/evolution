@@ -62,6 +62,8 @@ GtkWidget  *e_msg_composer_hdrs_new                (void);
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
 						    CamelMimeMessage *msg);
 
+void        e_msg_composer_hdrs_set_from           (EMsgComposerHdrs *hdrs,
+						    const char       *from);
 void        e_msg_composer_hdrs_set_to             (EMsgComposerHdrs *hdrs,
 						    const GList      *to_list);
 void        e_msg_composer_hdrs_set_cc             (EMsgComposerHdrs *hdrs,
@@ -71,6 +73,7 @@ void        e_msg_composer_hdrs_set_bcc            (EMsgComposerHdrs *hdrs,
 void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 						    const char       *subject);
 
+char       *e_msg_composer_hdrs_get_from           (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_to             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_cc             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_bcc            (EMsgComposerHdrs *hdrs);

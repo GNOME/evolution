@@ -1,3 +1,16 @@
+2000-08-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-hdrs.c (add_header): Modified to allow dropdown
+	entry-boxes as well (for headers like From:)
+	(setup_headers): Modified to use the correct enum type.
+	(create_dropdown_entry): New convenience function to add a
+	drop-down combo box and fill it in with identities
+	(init): Set from_entry to NULL
+	(e_msg_composer_hdrs_get_from): New convenience function to get
+	the text in the From widget in the composer
+	(e_msg_composer_hdrs_set_from): New convenience function to set
+	the From header in the composer
+
 2000-08-08  JP Rosevear  <jpr@helixcode.com>
 
 	* Makefile.am: Fix build by allowing includes for e-table dir

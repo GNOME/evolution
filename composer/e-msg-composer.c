@@ -1181,26 +1181,26 @@ e_msg_composer_construct (EMsgComposer *composer)
 {
 	GtkWidget *vbox;
 	BonoboObject *editor_server;
-
+	
 	g_return_if_fail (gtk_main_level () > 0);
-
+	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
+	
 	gnome_app_construct (GNOME_APP (composer), "e-msg-composer",
 			     _("Compose a message"));
-
+	
 	composer->uih = bonobo_ui_handler_new ();
 	bonobo_ui_handler_set_app (composer->uih, GNOME_APP (composer));
-
+	
 	vbox = gtk_vbox_new (FALSE, 0);
-
+	
 	composer->hdrs = e_msg_composer_hdrs_new ();
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, TRUE, 0);
 	gtk_widget_show (composer->hdrs);
-
+	
 	/* Editor component.  */
-
+	
 	create_menubar (composer);
 	create_toolbar (composer);
 	composer->editor = create_editor (composer);
@@ -1211,7 +1211,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 		= bonobo_object_query_interface (editor_server, "IDL:Bonobo/PersistFile:1.0");
 	composer->persist_stream_interface
 		= bonobo_object_query_interface (editor_server, "IDL:Bonobo/PersistStream:1.0");
-
+	
 	gtk_widget_show (composer->editor);
 	gtk_box_pack_start (GTK_BOX (vbox), composer->editor, TRUE, TRUE, 0);
 	gtk_widget_show (composer->editor);
