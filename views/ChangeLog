@@ -1,3 +1,9 @@
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail/galview.xml: Offer the new By Follow Up Flag view.
+
+	* mail/By_Follow_Up_Flag.galview: New galview for Follow Up Flag.
+
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* addressbook/Makefile.am (defaultaddressbook_DATA): Added
