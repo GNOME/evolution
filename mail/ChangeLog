@@ -1,3 +1,9 @@
+2001-01-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-account-editor.c (apply_changes): Eek! Don't destroy the
+	account if the connection fails, duh. This is what is causing the
+	segfaults.
+
 2001-01-11  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (got_folder): Connect to folder_changed as well
@@ -7,7 +13,7 @@
 
 	* GNOME_Evolution_Mail.oafinfo: Add Bonobo/ItemContainer as the
 	set of supported interfaces in GNOME_Evolution_Mail_Composer
-	component. 
+	component.
 
 2001-01-11  Dan Winship  <danw@ximian.com>
 

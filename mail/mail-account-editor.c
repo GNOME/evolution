@@ -166,22 +166,17 @@ apply_changes (MailAccountEditor *editor)
 	/* check to make sure the source works */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, NULL)) {
 		camel_url_free (url);
-		account_destroy (account);
 		return FALSE;
 	}
 	
-	if (account->source->save_passwd) {
-		char *string;
-		
-		string = camel_url_to_string (url, FALSE);
-		mail_session_set_password (string, url->passwd);
-		mail_session_remember_password (string);
-		g_free (string);
-	}
-	
-	/* now that we know this url works, set it */
 	g_free (account->source->url);
 	account->source->url = camel_url_to_string (url, FALSE);
+	
+	if (account->source->save_passwd) {
+		mail_session_set_password (account->source->url, url->passwd);
+		mail_session_remember_password (account->source->url);
+	}
+	
 	camel_url_free (url);
 	
 	/* transport */
@@ -205,7 +200,6 @@ apply_changes (MailAccountEditor *editor)
 	/* check to make sure the transport works */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
 		camel_url_free (url);
-		account_destroy (account);
 		return FALSE;
 	}
 	
