@@ -581,14 +581,11 @@ e_tree_model_node_append (ETreeModel *etm,
 			  gpointer data)
 {
 	ETreeMemory *etmm;
-	int position;
 	ETreePath path;
 	
-	position = e_tree_model_node_get_children (etm, parent, NULL);
-
 	etmm = E_TREE_MEMORY (etm);
 	e_tree_memory_freeze (etmm);
-	path = e_tree_memory_node_insert (etmm, parent, position, data);
+	path = e_tree_memory_node_insert (etmm, parent, -1, data);
 	e_tree_memory_thaw (etmm);
 
 	return path;

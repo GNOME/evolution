@@ -1,5 +1,13 @@
 2002-06-26  Iain <iain@ximian.com>
 
+	* e-summary-weather.c (e_summary_weather_fill_etable): Count the
+	states from 0 up.
+
+	* e-summary-shown.c (e_summary_shown_append): Use -1 instead of the
+	children count.
+
+2002-06-26  Iain <iain@ximian.com>
+
 	* component-factory.c (owner_set_cb): Pass the shell.
 
 	* e-summary-mail.c (new_folder_cb): Use the ESummaryPrefsFolder stuff.

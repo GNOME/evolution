@@ -701,7 +701,7 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 		gnome_config_get_vector (states_key, &nstates, &states);
 
 		state = NULL;
-		for (istates = nstates - 1; istates >= 0; istates--) {
+		for (istates = 0; istates < nstates; istates++) {
 			void *iter;
 			char *iter_key, *iter_val;
 			char *state_path, *state_name_key, *state_name;
@@ -721,10 +721,10 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 			iter = gnome_config_init_iterator (state_path);
 
 			while ((iter = gnome_config_iterator_next (iter, &iter_key, &iter_val)) != NULL) {
-				if (strstr (iter_key, "loc") != NULL) {
+				if (strncmp (iter_key, "loc", 3) == 0) {
 					char **locdata;
 					int nlocdata;
-
+					
 					gnome_config_make_vector (iter_val,
 								  &nlocdata,
 								  &locdata);
@@ -736,7 +736,6 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 					entry->showable = TRUE;
 
 					location = e_summary_shown_add_node (ess, TRUE, entry, state, TRUE, NULL);
-					/* FIXME: Show the showns here */
 					if (is_weather_shown (locdata[1]) == TRUE) {
 						entry = g_new (ESummaryShownModelEntry, 1);
 						entry->location = g_strdup (locdata[1]);
