@@ -40,7 +40,14 @@
 int
 g_str_compare(const void *x, const void *y)
 {
-  return strcmp(x, y);
+	if (x == NULL || y == NULL) {
+		if (x == y)
+			return 0;
+		else
+			return x ? -1 : 1;
+	} 
+		
+	return strcmp(x, y);
 }
 
 int
