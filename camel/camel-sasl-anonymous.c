@@ -138,7 +138,7 @@ anon_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 			buf = base64_encode_simple (sasl_anon->trace_info, strlen (sasl_anon->trace_info));
 			break;
 		case CAMEL_SASL_ANON_TRACE_EMPTY:
-			buf = g_strdup ("");
+			buf = g_strdup ("=");
 			break;
 		default:
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
