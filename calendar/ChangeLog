@@ -1,3 +1,11 @@
+2000-07-18  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (cal_component_alarm_free): Free the
+	icalcomponent if this is an unattached alarm.
+	(scan_alarm_property): Handle the TRIGGER property.
+	(cal_component_alarm_get_trigger): Ditto.  Royal pain.
+	(cal_component_alarm_set_trigger): Ditto.  Less pain.
+
 2000-07-17  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client/cal-client.c (cal_client_get_object): Fixed inline

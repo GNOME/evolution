@@ -95,6 +95,7 @@ struct _CalComponentAlarm {
 	/* Properties */
 
 	icalproperty *action;
+	icalproperty *trigger;
 };
 
 
@@ -2059,6 +2060,10 @@ scan_alarm_property (CalComponentAlarm *alarm, icalproperty *prop)
 		alarm->action = prop;
 		break;
 
+	case ICAL_TRIGGER_PROPERTY:
+		alarm->trigger = prop;
+		break;
+
 	default:
 		break;
 	}
@@ -2125,8 +2130,14 @@ cal_component_alarm_free (CalComponentAlarm *alarm)
 {
 	g_return_if_fail (alarm != NULL);
 
-	alarm->parent = NULL;
+	g_assert (alarm->icalcomp != NULL);
+
+	if (icalcomponent_get_parent (alarm->icalcomp) != NULL)
+		icalcomponent_free (alarm->icalcomp);
+
 	alarm->icalcomp = NULL;
+
+	alarm->parent = NULL;
 	alarm->action = NULL;
 
 	g_free (alarm);
@@ -2146,6 +2157,8 @@ cal_component_alarm_get_action (CalComponentAlarm *alarm, CalComponentAlarmActio
 
 	g_return_if_fail (alarm != NULL);
 	g_return_if_fail (action != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
 
 	if (!alarm->action) {
 		*action = CAL_COMPONENT_ALARM_NONE;
@@ -2182,6 +2195,8 @@ cal_component_alarm_set_action (CalComponentAlarm *alarm, CalComponentAlarmActio
 	g_return_if_fail (action != CAL_COMPONENT_ALARM_NONE);
 	g_return_if_fail (action != CAL_COMPONENT_ALARM_UNKNOWN);
 
+	g_assert (alarm->icalcomp != NULL);
+
 	switch (action) {
 	case CAL_COMPONENT_ALARM_AUDIO:
 		str = "AUDIO";
@@ -2210,4 +2225,134 @@ cal_component_alarm_set_action (CalComponentAlarm *alarm, CalComponentAlarmActio
 		alarm->action = icalproperty_new_action (str);
 		icalcomponent_add_property (alarm->icalcomp, alarm->action);
 	}
+}
+
+/**
+ * cal_component_alarm_get_trigger:
+ * @alarm: An alarm.
+ * @trigger: Return value for the trigger time.
+ * 
+ * Queries the trigger time for an alarm.
+ **/
+void
+cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrigger **trigger)
+{
+	icalparameter *param;
+	union icaltriggertype t;
+
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (trigger != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (!alarm->trigger) {
+		*trigger = NULL;
+		return;
+	}
+
+	*trigger = g_new (CalComponentAlarmTrigger, 1);
+
+	/* Get trigger type */
+
+	param = icalproperty_get_first_parameter (alarm->trigger, ICAL_VALUE_PARAMETER);
+
+	if (param) {
+		icalparameter_value value;
+
+		value = icalparameter_get_value (param);
+
+		switch (value) {
+		case ICAL_VALUE_DURATION:
+			(*trigger)->type = CAL_COMPONENT_ALARM_TRIGGER_RELATIVE;
+			break;
+
+		case ICAL_VALUE_DATETIME:
+			(*trigger)->type = CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE;
+			break;
+
+		default:
+			g_message ("cal_component_alarm_get_trigger(): Unknown value for trigger "
+				   "value %d; using RELATIVE", value);
+
+			(*trigger)->type = CAL_COMPONENT_ALARM_TRIGGER_RELATIVE;
+			break;
+		}
+	} else
+		(*trigger)->type = CAL_COMPONENT_ALARM_TRIGGER_RELATIVE;
+
+	/* Get trigger value and the RELATED parameter */
+
+	t = icalproperty_get_trigger (alarm->trigger);
+
+	switch ((*trigger)->type) {
+	case CAL_COMPONENT_ALARM_TRIGGER_RELATIVE:
+		(*trigger)->u.relative.duration = t.duration;
+
+		param = icalproperty_get_first_parameter (alarm->trigger, ICAL_RELATED_PARAMETER);
+		if (param) {
+			icalparameter_related rel;
+
+			rel = icalparameter_get_related (param);
+
+			switch (rel) {
+			case ICAL_RELATED_START:
+				(*trigger)->u.relative.related =
+					CAL_COMPONENT_ALARM_TRIGGER_RELATED_START;
+				break;
+
+			case ICAL_RELATED_END:
+				(*trigger)->u.relative.related =
+					CAL_COMPONENT_ALARM_TRIGGER_RELATED_END;
+				break;
+
+			default:
+				g_assert_not_reached ();
+			}
+		} else
+			(*trigger)->u.relative.related = CAL_COMPONENT_ALARM_TRIGGER_RELATED_START;
+
+		break;
+
+	case CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE:
+		(*trigger)->u.absolute = t.time;
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+void
+cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrigger *trigger)
+{
+	union icaltriggertype t;
+
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (trigger != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	/* Set the value */
+
+	switch (trigger->type) {
+	case CAL_COMPONENT_ALARM_TRIGGER_RELATIVE:
+		t.duration = trigger->u.relative.duration;
+		break;
+
+	case CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE:
+		t.time = trigger->u.absolute;
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	if (alarm->trigger)
+		icalproperty_set_trigger (alarm->trigger, t);
+	else {
+		alarm->trigger = icalproperty_new_trigger (t);
+		icalcomponent_add_property (alarm->icalcomp, alarm->trigger);
+	}
+
+	/* Set the parameters */
 }

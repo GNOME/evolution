@@ -182,6 +182,29 @@ typedef enum {
 	CAL_COMPONENT_ALARM_UNKNOWN
 } CalComponentAlarmAction;
 
+typedef enum {
+	CAL_COMPONENT_ALARM_TRIGGER_RELATIVE,
+	CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE
+} CalComponentAlarmTriggerType;
+
+typedef enum {
+	CAL_COMPONENT_ALARM_TRIGGER_RELATED_START,
+	CAL_COMPONENT_ALARM_TRIGGER_RELATED_END
+} CalComponentAlarmTriggerRelated;
+
+typedef struct {
+	CalComponentAlarmTriggerType type;
+
+	union {
+		struct {
+			struct icaldurationtype duration;
+			CalComponentAlarmTriggerRelated related;
+		} relative;
+
+		struct icaltimetype absolute;
+	} u;
+} CalComponentAlarmTrigger;
+
 CalComponentAlarm *cal_component_get_first_alarm (CalComponent *comp);
 CalComponentAlarm *cal_component_get_next_alarm (CalComponent *comp);
 
@@ -189,6 +212,10 @@ void cal_component_alarm_free (CalComponentAlarm *alarm);
 
 void cal_component_alarm_get_action (CalComponentAlarm *alarm, CalComponentAlarmAction *action);
 void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalComponentAlarmAction action);
+
+void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrigger **trigger);
+void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalComponentAlarmTrigger *trigger);
+void cal_component_alarm_free_trigger (CalComponentAlarmTrigger *trigger);
 
 
 
