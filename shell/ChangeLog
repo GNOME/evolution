@@ -1,5 +1,21 @@
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #6474 and friends, crash when selecting things from the
+	context activity context menu.]
+
+	* e-activity-handler.c: New member `menu' in struct
+	`ActivityInfo'.
+	(activity_info_new): Init to NULL.
+	(show_cancellation_popup): Set the `menu' member to point to this
+	newly created pop-up, use `gnome_popup_menu_do_popup_modal()'
+	instead of `gnome_popup_menu_do_popup()', and set the `menu'
+	member to NULL when the menu is gone.
+	(activity_info_free): Destroy `menu' member.
+	(impl_requestDialog): Return
+	`GNOME_Evolution_Activity_DIALOG_ACTION_ERROR' instead of nothing.
+
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #6971, Default folder should be the Summary.]
 
 	* main.c (idle_cb): s/DEFAULT_URI/E_SHELL_VIEW_DEFAULT_URI/.

@@ -51,6 +51,7 @@ struct _ActivityInfo {
 	CORBA_boolean cancellable;
 	Bonobo_Listener event_listener;
 	CORBA_float progress;
+	GtkWidget *menu;
 };
 typedef struct _ActivityInfo ActivityInfo;
 
@@ -203,7 +204,13 @@ show_cancellation_popup (ActivityInfo *activity_info,
 
 	/* FIXME: We should gray out things properly here.  */
 	popup = e_popup_menu_create (items, 0, 0, activity_info);
-	gnome_popup_menu_do_popup (GTK_WIDGET (popup), NULL, NULL, button_event, activity_info);
+
+	g_assert (activity_info->menu == NULL);
+	activity_info->menu = GTK_WIDGET (popup);
+
+	gnome_popup_menu_do_popup_modal (GTK_WIDGET (popup), NULL, NULL, button_event, activity_info);
+
+	activity_info->menu = NULL;
 }
 
 static int
@@ -268,6 +275,7 @@ activity_info_new (GNOME_Evolution_Activity_ActivityId id,
 	info->cancellable    = cancellable;
 	info->event_listener = CORBA_Object_duplicate (event_listener, &ev);
 	info->progress       = -1.0; /* (Unknown) */
+	info->menu           = NULL;
 
 	CORBA_exception_free (&ev);
 
@@ -284,6 +292,9 @@ activity_info_free (ActivityInfo *info)
 	gdk_pixbuf_unref (info->icon_pixbuf);
 	CORBA_free (info->information);
 	CORBA_Object_release (info->event_listener, &ev);
+
+	if (info->menu != NULL)
+		gtk_widget_destroy (info->menu);
 
 	g_free (info);
 
@@ -507,7 +518,7 @@ impl_requestDialog (PortableServer_Servant servant,
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
 
 	if (GTK_OBJECT_DESTROYED (activity_handler))
-		return;
+		return GNOME_Evolution_Activity_DIALOG_ACTION_ERROR;
 
 	/* FIXME implement.  */
 	g_warning ("Evolution::Activity::requestDialog not implemented");
