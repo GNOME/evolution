@@ -23,17 +23,24 @@ etss_destroy (GtkObject *object)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (object);
 
-	if (etss->source)
-		gtk_object_unref (GTK_OBJECT (etss->source));
+	if (etss->source) {
+		gtk_signal_disconnect (GTK_OBJECT (etss->source),
+				       etss->table_model_pre_change_id);
+		gtk_signal_disconnect (GTK_OBJECT (etss->source),
+				       etss->table_model_changed_id);
+		gtk_signal_disconnect (GTK_OBJECT (etss->source),
+				       etss->table_model_row_changed_id);
+		gtk_signal_disconnect (GTK_OBJECT (etss->source),
+				       etss->table_model_cell_changed_id);
 
-	gtk_signal_disconnect (GTK_OBJECT (etss->source),
-			       etss->table_model_pre_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (etss->source),
-			       etss->table_model_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (etss->source),
-			       etss->table_model_row_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (etss->source),
-			       etss->table_model_cell_changed_id);
+		etss->table_model_pre_change_id = 0;
+		etss->table_model_changed_id = 0;
+		etss->table_model_row_changed_id = 0;
+		etss->table_model_cell_changed_id = 0;
+
+		gtk_object_unref (GTK_OBJECT (etss->source));
+		etss->source = NULL;
+	}
 
 	etss->table_model_pre_change_id = 0;
 	etss->table_model_changed_id = 0;

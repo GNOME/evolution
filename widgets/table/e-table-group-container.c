@@ -826,11 +826,16 @@ e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, void *clos
 		ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 		GList *list = etgc->children;
 
+		/* Protect from unrefs in the callback functions */
+		gtk_object_ref (GTK_OBJECT (etg));
+
 		for (list = etgc->children; list; list = list->next){
 			ETableGroupContainerChildNode *child_node = list->data;
 
 			e_table_group_apply_to_leafs (child_node->child, fn, closure);
 		}
+
+		gtk_object_unref (GTK_OBJECT (etg));
 	} else if (E_IS_TABLE_GROUP_LEAF (etg)){
 		(*fn) (E_TABLE_GROUP_LEAF (etg)->item, closure);
 	} else {
