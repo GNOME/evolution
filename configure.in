@@ -3,9 +3,9 @@ AC_INIT(camel)
 AM_CONFIG_HEADER(config.h)
 
 EVOLUTION_MAJOR_VERSION=0
-EVOLUTION_MINOR_VERSION=12
-EVOLUTION_MICRO_VERSION=99
-VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
+EVOLUTION_MINOR_VERSION=13
+EVOLUTION_MICRO_VERSION=0
+VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
 PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -573,11 +573,11 @@ EVO_CHECK_LIB(OAF, oaf, 0.6.2)
 EVO_CHECK_LIB(Bonobo Conf, bonobo_conf, 0.2)
 EVO_CHECK_LIB(libglade, libglade, 0.14)
 EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.9.0)
-EVO_CHECK_LIB(GAL, gal, 0.10.99.5)
-EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.11.0)
+EVO_CHECK_LIB(GAL, gal, 0.11)
+EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.12)
 EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
-EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.6)
+EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
 
 dnl *************************
 dnl CFLAGS and LIBS and stuff
@@ -1153,7 +1153,6 @@ doc/devel/Makefile
 doc/devel/calendar/Makefile
 doc/devel/calendar/cal-client/Makefile
 doc/devel/calendar/cal-util/Makefile
-doc/devel/executive-summary/Makefile
 help/Makefile
 help/C/Makefile
 help/no/Makefile

@@ -1,3 +1,10 @@
+2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump requirements to GAL 0.11, bonobo-conf 0.11,
+	GtkHTML 0.12.  Don't autogen
+	`doc/devel/executive-summary/Makefile'.  Bump version number to
+	0.13.
+
 2001-08-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* NEWS (Global): Added.
