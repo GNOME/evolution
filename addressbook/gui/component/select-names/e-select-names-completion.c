@@ -623,9 +623,9 @@ book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 					} else {
 						e_completion_match_unref (match);
 					}
-
-					gtk_object_unref (GTK_OBJECT (dest));
 				}
+
+				gtk_object_unref (GTK_OBJECT (dest));
 			}
 		}
 		
