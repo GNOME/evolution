@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-29 03:14+0200\n"
+"POT-Creation-Date: 2004-04-29 13:14-0400\n"
 "PO-Revision-Date: 2004-04-29 15:46+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -84,7 +84,6 @@ msgstr "Zde nastavte automatické dokončování"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:373
@@ -203,7 +202,6 @@ msgid "Migrating `%s':"
 msgstr "Převádím `%s':"
 
 #. create the local source group
-#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:438
 #: calendar/gui/migration.c:446 calendar/gui/migration.c:528
 #: mail/em-folder-tree-model.c:192 mail/em-folder-tree-model.c:194
@@ -212,9 +210,6 @@ msgid "On This Computer"
 msgstr "V tomto počítači"
 
 #. Create the default Person addressbook
-#. Create the default Person calendar
-#. Create the default Person task list
-#. orange
 #: addressbook/gui/component/addressbook-migrate.c:446
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 #: calendar/gui/migration.c:454 calendar/gui/migration.c:536
@@ -3140,17 +3135,17 @@ msgstr "Zobrazení karty"
 msgid "GTK Tree View"
 msgstr "GTK Tree View"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Test přeformátování"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright © 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Toto by mělo otestovat položku canvasu přeformátování"
 
@@ -3841,10 +3836,6 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:694
 #: calendar/gui/e-day-view.c:1589 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4879,11 +4870,6 @@ msgid "_Start time:"
 msgstr "_Začátek:"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:619 composer/e-msg-composer.c:2102
@@ -5779,20 +5765,12 @@ msgid "_Settings..."
 msgstr "Na_stavení..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5816,10 +5794,6 @@ msgstr "%02i rozdělení minuty"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:690 calendar/gui/e-day-view.c:1572
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -5827,9 +5801,6 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:698 calendar/gui/e-day-view.c:1605
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6203,64 +6174,64 @@ msgstr "Zpráva obsahuje pouze nepodporované požadavky."
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Příloha neobsahuje platnou zprávu kalendáře"
 
-#: calendar/gui/e-itip-control.c:1533
+#: calendar/gui/e-itip-control.c:1535
 msgid "The attachment has no viewable calendar items"
 msgstr "Příloha nemá žádné zobrazitelné položky kalendáře"
 
-#: calendar/gui/e-itip-control.c:1764
+#: calendar/gui/e-itip-control.c:1766
 msgid "Calendar file could not be updated!\n"
 msgstr "Soubor kalendáře nemůže být aktualizován!\n"
 
-#: calendar/gui/e-itip-control.c:1766
+#: calendar/gui/e-itip-control.c:1768
 msgid "Update complete\n"
 msgstr "Aktualizace dokončena\n"
 
-#: calendar/gui/e-itip-control.c:1796 calendar/gui/e-itip-control.c:1868
+#: calendar/gui/e-itip-control.c:1798 calendar/gui/e-itip-control.c:1870
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Stav účastníka nemůže být aktualizován, protože položka již neexistuje"
 
-#: calendar/gui/e-itip-control.c:1812 calendar/gui/e-itip-control.c:1850
+#: calendar/gui/e-itip-control.c:1814 calendar/gui/e-itip-control.c:1852
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Objekt není platný a nemůže být aktualizován\n"
 
-#: calendar/gui/e-itip-control.c:1822
+#: calendar/gui/e-itip-control.c:1824
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "Tato reakce není od stávajícího účastníka. Přidat jako účastníka?"
 
-#: calendar/gui/e-itip-control.c:1834
+#: calendar/gui/e-itip-control.c:1836
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Stav účastníka nemůže být aktualizován, protože jeho stav není platný!\n"
 
-#: calendar/gui/e-itip-control.c:1853
+#: calendar/gui/e-itip-control.c:1855
 msgid "There was an error on the CORBA system\n"
 msgstr "Došlo k chybě v systému CORBA\n"
 
-#: calendar/gui/e-itip-control.c:1856
+#: calendar/gui/e-itip-control.c:1858
 msgid "Object could not be found\n"
 msgstr "Objekt nelze nalézt\n"
 
-#: calendar/gui/e-itip-control.c:1859
+#: calendar/gui/e-itip-control.c:1861
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "Nemáte příslušná práva pro aktualizaci kalendáře\n"
 
-#: calendar/gui/e-itip-control.c:1862
+#: calendar/gui/e-itip-control.c:1864
 msgid "Attendee status updated\n"
 msgstr "Stav účastníka byl zaktualizován\n"
 
-#: calendar/gui/e-itip-control.c:1865
+#: calendar/gui/e-itip-control.c:1867
 msgid "Attendee status could not be updated!\n"
 msgstr "Stav účastníka nelze aktualizovat!\n"
 
-#: calendar/gui/e-itip-control.c:1896
+#: calendar/gui/e-itip-control.c:1898
 msgid "Removal Complete"
 msgstr "Odstranění dokončeno"
 
-#: calendar/gui/e-itip-control.c:1919 calendar/gui/e-itip-control.c:1967
+#: calendar/gui/e-itip-control.c:1921 calendar/gui/e-itip-control.c:1969
 msgid "Item sent!\n"
 msgstr "Položka odeslána!\n"
 
-#: calendar/gui/e-itip-control.c:1921 calendar/gui/e-itip-control.c:1971
+#: calendar/gui/e-itip-control.c:1923 calendar/gui/e-itip-control.c:1973
 msgid "The item could not be sent!\n"
 msgstr "Položka nemůže být odeslána!\n"
 
@@ -6386,10 +6357,6 @@ msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6398,10 +6365,6 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -11671,7 +11634,9 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr "Zavření tohoto okna editoru natrvalo zahodí zprávu, pokud se ji nerozhodnete uložit do vaší složky Koncepty. To vám umožní pokračovat ve zprávě později."
+msgstr ""
+"Zavření tohoto okna editoru natrvalo zahodí zprávu, pokud se ji nerozhodnete "
+"uložit do vaší složky Koncepty. To vám umožní pokračovat ve zprávě později."
 
 #: composer/mail-composer-errors.xml.in.h:7
 msgid "Could not create message."
@@ -11709,7 +11674,9 @@ msgstr "Chyba při automatickém ukládání, protože \"{1}\"."
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
-msgstr "Když jste psali novou zprávu, Evolution neočekávaně skončila. Obnovení zprávy vám umožní pokračovat, kde jste přestali."
+msgstr ""
+"Když jste psali novou zprávu, Evolution neočekávaně skončila. Obnovení "
+"zprávy vám umožní pokračovat, kde jste přestali."
 
 #: composer/mail-composer-errors.xml.in.h:16
 msgid "Recover"
@@ -11727,7 +11694,9 @@ msgstr "Soubor `${0}' není obyčejný soubor a nemůže být poslán ve zpráv�
 msgid ""
 "To attach the contents of this directory, either attach the files in this "
 "directory individually, or create an archive of the directory and attach it."
-msgstr "Obsah tohoto adresáře připojíte připojením souborů z tohoto adresáře jednotlivě nebo vytvořením a připojením archivu adresáře."
+msgstr ""
+"Obsah tohoto adresáře připojíte připojením souborů z tohoto adresáře "
+"jednotlivě nebo vytvořením a připojením archivu adresáře."
 
 #: composer/mail-composer-errors.xml.in.h:20
 msgid "Unfinished messages found"
@@ -11894,16 +11863,12 @@ msgstr "Synchronizované kategorie:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d. %m. %Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d. %m. %Y %H:%M"
@@ -11955,31 +11920,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%d. %m. %Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%H:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%H:%M, %x"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -12132,7 +12089,9 @@ msgid ""
 "You must specify at least one folder as a source. Either by selecting the "
 "folders individually, and/or by selecting all local folders, all remote "
 "folders, or both."
-msgstr "Jako zdroj musíte zadat alespoň jednu složku, a to individuálním výběrem složek, výběčem všech místních složek, všech vzdálených složek nebo obojí."
+msgstr ""
+"Jako zdroj musíte zadat alespoň jednu složku, a to individuálním výběrem "
+"složek, výběčem všech místních složek, všech vzdálených složek nebo obojí."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -14575,7 +14534,9 @@ msgstr "Za_hrát zvuk, když přijde nová pošta"
 
 #: mail/mail-config.glade.h:109
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Up_ozornit, když posílám zprávu, kde jsou uvedeni jen příjemci ve skryté kopii"
+msgstr ""
+"Up_ozornit, když posílám zprávu, kde jsou uvedeni jen příjemci ve skryté "
+"kopii"
 
 #: mail/mail-config.glade.h:110
 msgid "Qmail maildir "
@@ -14825,7 +14786,9 @@ msgstr "Složka nazvaná \"{1}\" již existuje. Použijte prosím jiný název."
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "Přidání smysluplného řádku s předměntem k vašim zprávám dá vašim příjemcům shrnutí, o čem je vaše zpráva."
+msgstr ""
+"Přidání smysluplného řádku s předměntem k vašim zprávám dá vašim příjemcům "
+"shrnutí, o čem je vaše zpráva."
 
 #: mail/mail-errors.xml.in.h:3
 msgid "Are you sure you want to delete this account?"
@@ -14835,13 +14798,16 @@ msgstr "Opravdu chcete odstranit tento účet?"
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze složky \"{0}\"?"
+msgstr ""
+"Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze složky \"{0}"
+"\"?"
 
 #: mail/mail-errors.xml.in.h:5
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze všech složek?"
+msgstr ""
+"Opravdu chcete natrvalo odstranit všechny odstraněné zprávy ze všech složek?"
 
 #: mail/mail-errors.xml.in.h:6
 msgid "Are you sure you want to send a message in HTML format?"
@@ -14943,7 +14909,9 @@ msgstr "Nemohu nastavit skript podpisu \"{0}\"."
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr "Zkontrolujte, že vaše heslo je zadáno správně. Nezapomeňte, že u mnoha hesel se rozlišuje velikost písmen; možná máte zapnut caps lock."
+msgstr ""
+"Zkontrolujte, že vaše heslo je zadáno správně. Nezapomeňte, že u mnoha hesel "
+"se rozlišuje velikost písmen; možná máte zapnut caps lock."
 
 #: mail/mail-errors.xml.in.h:31
 msgid "Could not save signature file."
@@ -14970,8 +14938,9 @@ msgid "Don't delete"
 msgstr "Neodstraňovat"
 
 #: mail/mail-errors.xml.in.h:37
-msgid "Enter password for {0}"
-msgstr "Zadejte heslo pro {0}"
+#, fuzzy
+msgid "Enter password."
+msgstr "Zadejte heslo"
 
 #: mail/mail-errors.xml.in.h:38
 msgid "Error loading filter definitions."
@@ -15001,7 +14970,9 @@ msgstr "Pokud budete pokračovat, nebudete moci tyto zprávy obnovit."
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr "Pokud složku odstraníte, bude všechen její obsah a obsah jejích podsložek natrvalo odstraněn."
+msgstr ""
+"Pokud složku odstraníte, bude všechen její obsah a obsah jejích podsložek "
+"natrvalo odstraněn."
 
 #: mail/mail-errors.xml.in.h:45
 msgid "If you proceed, the account information will be deleted permanently."
@@ -15011,7 +14982,9 @@ msgstr "Pokud budete pokračovat, informace o účtu budou natrvalo odstraněny.
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "Pokud skončíte, tyto zprávy nebudou odeslány, dokud nebude Evolution znovu spuštěna."
+msgstr ""
+"Pokud skončíte, tyto zprávy nebudou odeslány, dokud nebude Evolution znovu "
+"spuštěna."
 
 #: mail/mail-errors.xml.in.h:47
 msgid "Invalid authentication"
@@ -15027,19 +15000,27 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients to "
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr "Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, které mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, bude obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli byste přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
+msgstr ""
+"Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, které "
+"mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, bude "
+"obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli byste "
+"přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
 
 #: mail/mail-errors.xml.in.h:50
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr "Zadejte prosím do pole Komu: platnou e-mailovou adresu. E-mailové adresy můžete hledat kliknutím na tlačíko Komu: vedle vstupního pole."
+msgstr ""
+"Zadejte prosím do pole Komu: platnou e-mailovou adresu. E-mailové adresy "
+"můžete hledat kliknutím na tlačíko Komu: vedle vstupního pole."
 
 #: mail/mail-errors.xml.in.h:51
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email: {0} Send anyway?"
-msgstr "Ujistěte se prosím, že následující příjemci si přejí a mohou dostávat zprávy ve formátu HTML: {0} Přesto poslat?"
+msgstr ""
+"Ujistěte se prosím, že následující příjemci si přejí a mohou dostávat zprávy "
+"ve formátu HTML: {0} Přesto poslat?"
 
 #: mail/mail-errors.xml.in.h:52
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
@@ -15049,7 +15030,9 @@ msgstr "Opravdu odstranit složku \"{0}\" a všechny její podsložky?"
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
-msgstr "Systémové složky jsou vyžadovány pro správnou funkci Ximian Evolution a nemohou být přejmenovány, přesunuty ani odstraněny."
+msgstr ""
+"Systémové složky jsou vyžadovány pro správnou funkci Ximian Evolution a "
+"nemohou být přejmenovány, přesunuty ani odstraněny."
 
 #: mail/mail-errors.xml.in.h:54
 msgid ""
@@ -15058,26 +15041,38 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients in "
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr "Seznam kontaktů, kterému odesíláte zprávu, je nastaven, aby skrýval příjemce zprávy. Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, které mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, bude obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli byste přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
+msgstr ""
+"Seznam kontaktů, kterému odesíláte zprávu, je nastaven, aby skrýval příjemce "
+"zprávy. Mnoho systémů pro e-mail přidává hlavičku Apparently-To ke zprávám, "
+"které mají příjemce jen pro skryté kopie. Pokud bude tato hlavička přidána, "
+"bude obsahovat všechny příjemce vaší zprávy. Abyste se tomu vyhnuli, měli "
+"byste přidat alespoň jednoho příjemce do Komu: nebo Kopie:."
 
 #: mail/mail-errors.xml.in.h:55
 msgid ""
 "The following filter rule(s): {0} Used the now removed folder: \"{1}\" And "
 "have been updated."
-msgstr "Následující pravidla filtrů: {0} Používala odstraněnou složku: \"{1}\" A byla aktualizována."
+msgstr ""
+"Následující pravidla filtrů: {0} Používala odstraněnou složku: \"{1}\" A "
+"byla aktualizována."
 
 #: mail/mail-errors.xml.in.h:56
 msgid ""
 "The following vFolder(s): {0} Used the now removed folder: \"{1}\" And have "
 "been updated."
-msgstr "Následující V-složky: {0} Používaly odstraněnou složku: \"{1}\" A byly aktualizovány."
+msgstr ""
+"Následující V-složky: {0} Používaly odstraněnou složku: \"{1}\" A byly "
+"aktualizovány."
 
 #: mail/mail-errors.xml.in.h:57
 msgid ""
 "The message was sent via the \"sendmail\" external application. Sendmail "
 "reports the following error: status 67: mail not sent. The message is stored "
 "in the Outbox folder. Check the message for errors and resend."
-msgstr "Tato zpráva byla odeslána externí aplikací \"sendmail\". Sendmail hlásí následující chybu: stav 67: zpráva neodeslána. Zpráva je uložena ve složce K odeslání. Zkontrolujte, ze ve zprávě nejsou chyby, a zkuste ji poslat znovu."
+msgstr ""
+"Tato zpráva byla odeslána externí aplikací \"sendmail\". Sendmail hlásí "
+"následující chybu: stav 67: zpráva neodeslána. Zpráva je uložena ve složce K "
+"odeslání. Zkontrolujte, ze ve zprávě nejsou chyby, a zkuste ji poslat znovu."
 
 #: mail/mail-errors.xml.in.h:58
 msgid "The script file must exist and be executable."
@@ -15087,7 +15082,9 @@ msgstr "Soubor skriptu musí existovat a musí být spustitelný."
 msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
-msgstr "Tato složka možná byla přidána implicitně, je-li to vyžadováno, přidejte ji explicitně v editoru virtuálních složek."
+msgstr ""
+"Tato složka možná byla přidána implicitně, je-li to vyžadováno, přidejte ji "
+"explicitně v editoru virtuálních složek."
 
 #: mail/mail-errors.xml.in.h:60
 msgid ""
@@ -15098,7 +15095,9 @@ msgstr "Tato zpráva nemůže být odeslána, protože jste nezadali žádné p�
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "Tento server nepodporuje tento typ autentizace a možná autentizaci nepodporuje vůbec."
+msgstr ""
+"Tento server nepodporuje tento typ autentizace a možná autentizaci "
+"nepodporuje vůbec."
 
 #: mail/mail-errors.xml.in.h:62
 msgid "This signature has been changed, but has not been saved."
@@ -15108,7 +15107,9 @@ msgstr "Tento podpis byl změněn, ale nebyl uložen."
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr "Nemohu otevřít složku konceptů pro tento účet. Použít místo ní systémovou složku konceptů?"
+msgstr ""
+"Nemohu otevřít složku konceptů pro tento účet. Použít místo ní systémovou "
+"složku konceptů?"
 
 #: mail/mail-errors.xml.in.h:64
 msgid "Use _Default"
@@ -18508,6 +18509,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hotovo)"
+
+#~ msgid "Enter password for {0}"
+#~ msgstr "Zadejte heslo pro {0}"
 
 #~ msgid "Due date is before start date!"
 #~ msgstr "Datum splnění je před počátečním datem!"

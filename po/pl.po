@@ -11,14 +11,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-28 12:28+0200\n"
+"POT-Creation-Date: 2004-04-29 13:14-0400\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -87,7 +87,6 @@ msgstr "Konfiguracja automatycznego uzupełniania"
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
 #: calendar/gui/migration.c:373
@@ -207,7 +206,6 @@ msgid "Migrating `%s':"
 msgstr "Migrowanie \"%s\":"
 
 #. create the local source group
-#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:438
 #: calendar/gui/migration.c:446 calendar/gui/migration.c:528
 #: mail/em-folder-tree-model.c:192 mail/em-folder-tree-model.c:194
@@ -216,9 +214,6 @@ msgid "On This Computer"
 msgstr "Na tym komputerze"
 
 #. Create the default Person addressbook
-#. Create the default Person calendar
-#. Create the default Person task list
-#. orange
 #: addressbook/gui/component/addressbook-migrate.c:446
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 #: calendar/gui/migration.c:454 calendar/gui/migration.c:536
@@ -3156,17 +3151,17 @@ msgstr "Widok karty"
 msgid "GTK Tree View"
 msgstr "Widok drzewiasty GTK"
 
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Test przeformatowania"
 
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Powinno to przetestować element przeformatowania"
 
@@ -3860,10 +3855,6 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:434 calendar/gui/e-day-view-top-item.c:694
 #: calendar/gui/e-day-view.c:1589 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
@@ -4170,7 +4161,7 @@ msgstr "początek terminu"
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
 #: calendar/gui/dialogs/cal-prefs-dialog.c:567 mail/em-account-prefs.c:463
-#: mail/em-composer-prefs.c:660 mail/em-composer-prefs.c:888
+#: mail/em-composer-prefs.c:663 mail/em-composer-prefs.c:891
 msgid "Enabled"
 msgstr "Aktywne"
 
@@ -4186,8 +4177,8 @@ msgstr "Nie usuwaj"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
 #: calendar/gui/dialogs/cal-prefs-dialog.c:844 mail/em-account-prefs.c:285
 #: mail/em-account-prefs.c:326 mail/em-account-prefs.c:369
-#: mail/em-composer-prefs.c:579 mail/em-composer-prefs.c:637
-#: mail/em-composer-prefs.c:667
+#: mail/em-composer-prefs.c:582 mail/em-composer-prefs.c:640
+#: mail/em-composer-prefs.c:670
 msgid "Disable"
 msgstr "Wyłącz"
 
@@ -4195,8 +4186,8 @@ msgstr "Wyłącz"
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
 #: calendar/gui/dialogs/cal-prefs-dialog.c:846 mail/em-account-prefs.c:285
 #: mail/em-account-prefs.c:326 mail/em-account-prefs.c:371
-#: mail/em-composer-prefs.c:579 mail/em-composer-prefs.c:637
-#: mail/em-composer-prefs.c:667
+#: mail/em-composer-prefs.c:582 mail/em-composer-prefs.c:640
+#: mail/em-composer-prefs.c:670
 msgid "Enable"
 msgstr "Aktywne"
 
@@ -4911,11 +4902,6 @@ msgid "_Start time:"
 msgstr "Cza_s rozpoczęcia:"
 
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:619 composer/e-msg-composer.c:2102
@@ -5813,20 +5799,12 @@ msgid "_Settings..."
 msgstr "_Ustawienia..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -5850,10 +5828,6 @@ msgstr "%02i-minutowe przedziały czasu"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view-top-item.c:690 calendar/gui/e-day-view.c:1572
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -5861,9 +5835,6 @@ msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view-top-item.c:698 calendar/gui/e-day-view.c:1605
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -6236,67 +6207,67 @@ msgstr "Lista zawiera tylko nieobsługiwane żądania."
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Załącznik nie zawiera poprawnego komunikatu kalendarza"
 
-#: calendar/gui/e-itip-control.c:1533
+#: calendar/gui/e-itip-control.c:1535
 msgid "The attachment has no viewable calendar items"
 msgstr "Załącznik nie zawiera dających się wyświetlić elementów kalendarza"
 
-#: calendar/gui/e-itip-control.c:1764
+#: calendar/gui/e-itip-control.c:1766
 msgid "Calendar file could not be updated!\n"
 msgstr "Nie można uaktualnić pliku kalendarza!\n"
 
-#: calendar/gui/e-itip-control.c:1766
+#: calendar/gui/e-itip-control.c:1768
 msgid "Update complete\n"
 msgstr "Aktualizacja zakończona\n"
 
-#: calendar/gui/e-itip-control.c:1796 calendar/gui/e-itip-control.c:1868
+#: calendar/gui/e-itip-control.c:1798 calendar/gui/e-itip-control.c:1870
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Nie można uaktualnić stanu uczestnika, ponieważ element już nie istnieje"
 
-#: calendar/gui/e-itip-control.c:1812 calendar/gui/e-itip-control.c:1850
+#: calendar/gui/e-itip-control.c:1814 calendar/gui/e-itip-control.c:1852
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Obiekt jest niepoprawny i nie można go zaktualizować\n"
 
-#: calendar/gui/e-itip-control.c:1822
+#: calendar/gui/e-itip-control.c:1824
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 "Odpowiedź nie pochodzi od aktualnego uczestnika. Czy dodać nadawcę jako "
 "uczestnika?"
 
-#: calendar/gui/e-itip-control.c:1834
+#: calendar/gui/e-itip-control.c:1836
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Nie można uaktualnić stanu uczestnika, ponieważ jest on nieprawidłowy!\n"
 
-#: calendar/gui/e-itip-control.c:1853
+#: calendar/gui/e-itip-control.c:1855
 msgid "There was an error on the CORBA system\n"
 msgstr "Wystąpił błąd w podsystemie CORBA\n"
 
-#: calendar/gui/e-itip-control.c:1856
+#: calendar/gui/e-itip-control.c:1858
 msgid "Object could not be found\n"
 msgstr "Nie można odnaleźć obiektu\n"
 
-#: calendar/gui/e-itip-control.c:1859
+#: calendar/gui/e-itip-control.c:1861
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "Brak uprawnień potrzebnych do aktualizacji kalendarza\n"
 
-#: calendar/gui/e-itip-control.c:1862
+#: calendar/gui/e-itip-control.c:1864
 msgid "Attendee status updated\n"
 msgstr "Stan uczestnika został uaktualniony\n"
 
-#: calendar/gui/e-itip-control.c:1865
+#: calendar/gui/e-itip-control.c:1867
 msgid "Attendee status could not be updated!\n"
 msgstr "Nie można uaktualnić stanu uczestnika!\n"
 
-#: calendar/gui/e-itip-control.c:1896
+#: calendar/gui/e-itip-control.c:1898
 msgid "Removal Complete"
 msgstr "Usunięcie zakończone"
 
-#: calendar/gui/e-itip-control.c:1919 calendar/gui/e-itip-control.c:1967
+#: calendar/gui/e-itip-control.c:1921 calendar/gui/e-itip-control.c:1969
 msgid "Item sent!\n"
 msgstr "Element został wysłany!\n"
 
-#: calendar/gui/e-itip-control.c:1921 calendar/gui/e-itip-control.c:1971
+#: calendar/gui/e-itip-control.c:1923 calendar/gui/e-itip-control.c:1973
 msgid "The item could not be sent!\n"
 msgstr "Nie można wysłać elementu!\n"
 
@@ -6422,10 +6393,6 @@ msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday name,
-#. %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2093 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6434,10 +6401,6 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -8869,7 +8832,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:781 camel/camel-gpg-context.c:1267
 #: camel/camel-gpg-context.c:1425 camel/camel-gpg-context.c:1517
-#: camel/camel-gpg-context.c:1624 mail/mail-ops.c:697
+#: camel/camel-gpg-context.c:1624 mail/mail-ops.c:695
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Anulowano."
@@ -9415,6 +9378,79 @@ msgstr ""
 msgid "Enter security pass-phrase for `%s'"
 msgstr "Wprowadź hasło dla \"%s\""
 
+#: camel/camel-smime-context.c:261
+#, fuzzy, c-format
+msgid "Cannot find certificate for '%s'"
+msgstr "Nie można utworzyć folderu \"%s\": %s"
+
+#: camel/camel-smime-context.c:267
+#, fuzzy
+msgid "Cannot create CMS message"
+msgstr "Nie można utworzyć wiadomości."
+
+#: camel/camel-smime-context.c:272
+msgid "Cannot create CMS signedData"
+msgstr ""
+
+#: camel/camel-smime-context.c:278
+#, fuzzy
+msgid "Cannot attach CMS signedData"
+msgstr "Nie można załączyć pliku %s: %s"
+
+#: camel/camel-smime-context.c:285
+#, fuzzy
+msgid "Cannot attach CMS data"
+msgstr "Nie można załączyć pliku %s: %s"
+
+#: camel/camel-smime-context.c:291
+msgid "Cannot create CMS SignerInfo"
+msgstr ""
+
+#: camel/camel-smime-context.c:297
+msgid "Cannot find cert chain"
+msgstr ""
+
+#: camel/camel-smime-context.c:303
+msgid "Cannot add CMS SigningTime"
+msgstr ""
+
+#: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
+#, fuzzy, c-format
+msgid "Encryption cert for '%s' does not exist"
+msgstr "Folder \"%s\" nie istnieje."
+
+#: camel/camel-smime-context.c:344
+msgid "Cannot add SMIMEEncKeyPrefs attribute"
+msgstr ""
+
+#: camel/camel-smime-context.c:349
+msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
+msgstr ""
+
+#: camel/camel-smime-context.c:354
+#, fuzzy
+msgid "Cannot add add encryption certificate"
+msgstr "C_ertyfikat szyfrujący:"
+
+#: camel/camel-smime-context.c:360
+msgid "Cannot add CMS SignerInfo"
+msgstr ""
+
+#: camel/camel-smime-context.c:430
+#, fuzzy
+msgid "Cannot create encoder context"
+msgstr "Nie można utworzyć blokady folderu dla %s: %s"
+
+#: camel/camel-smime-context.c:436
+#, fuzzy
+msgid "Failed to add data to CMS encoder"
+msgstr "Dodanie do lokalanego folderu \"Wysłane\" nie powiodło się: %s"
+
+#: camel/camel-smime-context.c:441 camel/camel-smime-context.c:890
+#, fuzzy
+msgid "Failed to encode data"
+msgstr "Nie można dokonać uwierzytelnienia.\n"
+
 #: camel/camel-smime-context.c:514
 msgid "Unverified"
 msgstr "Niezweryfikowany"
@@ -9444,7 +9480,8 @@ msgid "Signature algorithm unknown"
 msgstr "Nieznany algorytm podpisu"
 
 #: camel/camel-smime-context.c:528
-msgid "Siganture algorithm unsupported"
+#, fuzzy
+msgid "Signature algorithm unsupported"
 msgstr "Nieobsługiwany algorytm podpisu"
 
 #: camel/camel-smime-context.c:530
@@ -9455,10 +9492,120 @@ msgstr "Niepoprawnie zbudowany podpis"
 msgid "Processing error"
 msgstr "Błąd przetwarzania"
 
+#: camel/camel-smime-context.c:569
+#, fuzzy
+msgid "No signedData in signature"
+msgstr "Nieprawidłowy podpis"
+
+#: camel/camel-smime-context.c:576
+msgid "Digests missing from enveloped data"
+msgstr ""
+
+#: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
+#, fuzzy
+msgid "Cannot calculate digests"
+msgstr "Nie można utworzyć folderu: %s: %s"
+
+# c-format
+#: camel/camel-smime-context.c:604
+#, fuzzy
+msgid "Cannot set message digests"
+msgstr "Nie można pobrać listu %s: %s"
+
+#: camel/camel-smime-context.c:614
+#, fuzzy
+msgid "Certificate import failed"
+msgstr "Błędny podpis certyfikatu"
+
+#: camel/camel-smime-context.c:624
+msgid "Certficate only message, cannot verify certificates"
+msgstr ""
+
+#: camel/camel-smime-context.c:627
+msgid "Certficate only message, certificates imported and verified"
+msgstr ""
+
+#: camel/camel-smime-context.c:631
+#, fuzzy
+msgid "Can't find signature digests"
+msgstr "Podpis prawidłowy"
+
 #: camel/camel-smime-context.c:647
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
 msgstr "Podpisujący: %s <%s>: %s\n"
+
+#: camel/camel-smime-context.c:748
+#, fuzzy
+msgid "Decoder failed"
+msgstr "Nie powiodło się polecenie DATA"
+
+#: camel/camel-smime-context.c:800
+#, fuzzy, c-format
+msgid "Can't find certificate for `%s'"
+msgstr "Nie można utworzyć folderu \"%s\": %s"
+
+#: camel/camel-smime-context.c:807
+msgid "Can't find common bulk encryption algorithm"
+msgstr ""
+
+#. PORT_GetError(); ??
+#: camel/camel-smime-context.c:816
+msgid "Can't allocate slot for encryption bulk key"
+msgstr ""
+
+#: camel/camel-smime-context.c:827
+#, fuzzy
+msgid "Can't create CMS Message"
+msgstr "Nie można utworzyć wiadomości."
+
+#: camel/camel-smime-context.c:833
+msgid "Can't create CMS EnvelopedData"
+msgstr ""
+
+#: camel/camel-smime-context.c:839
+msgid "Can't attach CMS EnvelopedData"
+msgstr ""
+
+#: camel/camel-smime-context.c:845
+msgid "Can't attach CMS data object"
+msgstr ""
+
+#: camel/camel-smime-context.c:854
+msgid "Can't create CMS RecipientInfo"
+msgstr ""
+
+#: camel/camel-smime-context.c:859
+msgid "Can't add CMS RecipientInfo"
+msgstr ""
+
+#: camel/camel-smime-context.c:873
+#, fuzzy
+msgid "Can't create encoder context"
+msgstr "Nie można utworzyć blokady folderu dla %s: %s"
+
+#: camel/camel-smime-context.c:884
+#, fuzzy
+msgid "Failed to add data to encoder"
+msgstr "Nie można było przesłać nazwy użytkownika na serwer"
+
+#: camel/camel-smime-context.c:970
+#, c-format
+msgid "Decoder failed, error %d"
+msgstr ""
+
+#: camel/camel-smime-context.c:977
+msgid "S/MIME Decrypt: No encrypted content found"
+msgstr ""
+
+#: camel/camel-smime-context.c:1004
+#, fuzzy
+msgid "import keys: unimplemented"
+msgstr "Niezaimplementowane polecenie"
+
+#: camel/camel-smime-context.c:1012
+msgid "export keys: unimplemented"
+msgstr ""
 
 #: camel/camel-store.c:214
 msgid "Cannot get folder: Invalid operation on this store"
@@ -9850,31 +9997,31 @@ msgstr "Odpowiedź serwera IMAP nie zawiera informacji %s"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Nieoczekiwana odpowiedź OK od serwera IMAP: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:223
+#: camel/providers/imap/camel-imap-folder.c:226
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Nie można utworzyć katalogu %s: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:242
+#: camel/providers/imap/camel-imap-folder.c:245
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Nie można wczytać zestawienia dla %s"
 
-#: camel/providers/imap/camel-imap-folder.c:323
+#: camel/providers/imap/camel-imap-folder.c:326
 msgid "Folder was destroyed and recreated on server."
 msgstr "Folder na serwerze został usunięty i utworzony ponownie."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:566
+#: camel/providers/imap/camel-imap-folder.c:569
 msgid "Scanning for changed messages"
 msgstr "Wyszukiwanie zmodyfikowanych listów"
 
-#: camel/providers/imap/camel-imap-folder.c:1960
+#: camel/providers/imap/camel-imap-folder.c:1963
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Nie można pobrać listu: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:2007
+#: camel/providers/imap/camel-imap-folder.c:2010
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9890,25 +10037,25 @@ msgstr ""
 "Nie można pobrać listu: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:2007
+#: camel/providers/imap/camel-imap-folder.c:2010
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "Nie ma takiego listu"
 
-#: camel/providers/imap/camel-imap-folder.c:2041
-#: camel/providers/imap/camel-imap-folder.c:2643
+#: camel/providers/imap/camel-imap-folder.c:2044
+#: camel/providers/imap/camel-imap-folder.c:2646
 #: camel/providers/nntp/camel-nntp-folder.c:233
 msgid "This message is not currently available"
 msgstr "Ten list jest obecnie niedostępny"
 
-#: camel/providers/imap/camel-imap-folder.c:2307
-#: camel/providers/imap/camel-imap-folder.c:2377
+#: camel/providers/imap/camel-imap-folder.c:2310
+#: camel/providers/imap/camel-imap-folder.c:2380
 msgid "Fetching summary information for new messages"
 msgstr "Pobieranie informacji podsumowujących nowe listy"
 
-#: camel/providers/imap/camel-imap-folder.c:2681
+#: camel/providers/imap/camel-imap-folder.c:2684
 msgid "Could not find message body in FETCH response."
 msgstr "Nie można odnaleźć treści listu w odpowiedzi na FETCH."
 
@@ -11844,16 +11991,12 @@ msgstr "Kategorie synchronizacji:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %d/%m/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %d/%m/%Y %H:%M"
@@ -11905,31 +12048,23 @@ msgid "%m/%d/%Y %H"
 msgstr "%d/%m/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -12620,20 +12755,20 @@ msgstr "Nazwa konta"
 msgid "Protocol"
 msgstr "Protokół"
 
-#: mail/em-composer-prefs.c:292 mail/em-composer-prefs.c:408
+#: mail/em-composer-prefs.c:292 mail/em-composer-prefs.c:411
 #: mail/mail-config.c:1038
 msgid "Unnamed"
 msgstr "Bez nazwy"
 
-#: mail/em-composer-prefs.c:892
+#: mail/em-composer-prefs.c:895
 msgid "Language(s)"
 msgstr "Język(i)"
 
-#: mail/em-composer-prefs.c:938
+#: mail/em-composer-prefs.c:941
 msgid "Add signature script"
 msgstr "Dodawanie treści podpisu"
 
-#: mail/em-composer-prefs.c:958
+#: mail/em-composer-prefs.c:961
 msgid "Signature(s)"
 msgstr "Podpis(y)"
 
@@ -12685,16 +12820,17 @@ msgstr "_Nazwa folderu:"
 msgid "VFolders"
 msgstr "VFoldery"
 
-#: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
+#. UNMATCHED is always last
+#: mail/em-folder-tree-model.c:202 mail/em-folder-tree-model.c:204
 msgid "UNMATCHED"
 msgstr "NIEPASUJĄCE"
 
 #. Inbox is always first
-#: mail/em-folder-tree-model.c:236 mail/em-folder-tree-model.c:238
+#: mail/em-folder-tree-model.c:208 mail/em-folder-tree-model.c:210
 msgid "Inbox"
 msgstr "Nadchodzące"
 
-#: mail/em-folder-tree-model.c:493 mail/em-folder-tree-model.c:802
+#: mail/em-folder-tree-model.c:465 mail/em-folder-tree-model.c:774
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
@@ -14954,8 +15090,9 @@ msgid "Don't delete"
 msgstr "Nie usuwaj"
 
 #: mail/mail-errors.xml.in.h:37
-msgid "Enter password for {0}"
-msgstr "Wprowadź hasło dla {0}"
+#, fuzzy
+msgid "Enter password."
+msgstr "Wprowadź hasło"
 
 #: mail/mail-errors.xml.in.h:38
 msgid "Error loading filter definitions."
@@ -15201,13 +15338,13 @@ msgstr "Filtrowanie folderu"
 msgid "Fetching Mail"
 msgstr "Pobieranie poczty"
 
-#: mail/mail-ops.c:534
+#: mail/mail-ops.c:532
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Zastosowanie filtrów wychodzących nie powiodło się: %s"
 
 # FIXME - jakieś takie kwadratowe to zdanie
-#: mail/mail-ops.c:559
+#: mail/mail-ops.c:557
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -15216,101 +15353,101 @@ msgstr ""
 "Nie powiodło się dodanie do %s: %s\n"
 "Zamiast tego będzie dodanie do folderu \"Wysłane\"."
 
-#: mail/mail-ops.c:568
+#: mail/mail-ops.c:566
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Dodanie do lokalanego folderu \"Wysłane\" nie powiodło się: %s"
 
-#: mail/mail-ops.c:664
+#: mail/mail-ops.c:662
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Wysyłanie %d. listu z %d"
 
-#: mail/mail-ops.c:695
+#: mail/mail-ops.c:693
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Niepowodzenie przy wysyłaniu %d z %d listów"
 
-#: mail/mail-ops.c:699
+#: mail/mail-ops.c:697
 msgid "Complete."
 msgstr "Gotowe."
 
-#: mail/mail-ops.c:796
+#: mail/mail-ops.c:794
 msgid "Saving message to folder"
 msgstr "Zapisywanie listu w folderze"
 
-#: mail/mail-ops.c:881
+#: mail/mail-ops.c:879
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Przenoszenie listów do %s"
 
-#: mail/mail-ops.c:881
+#: mail/mail-ops.c:879
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Kopiowanie listów do %s"
 
-#: mail/mail-ops.c:994
+#: mail/mail-ops.c:992
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Analizowanie folderów w \"%s\""
 
-#: mail/mail-ops.c:1107
+#: mail/mail-ops.c:1105
 msgid "Forwarded messages"
 msgstr "Przesłane listy"
 
-#: mail/mail-ops.c:1150
+#: mail/mail-ops.c:1148
 #, c-format
 msgid "Opening folder %s"
 msgstr "Otwieranie folderu %s"
 
-#: mail/mail-ops.c:1222
+#: mail/mail-ops.c:1220
 #, c-format
 msgid "Opening store %s"
 msgstr "Otwieranie miejsca przechowywania %s"
 
-#: mail/mail-ops.c:1300
+#: mail/mail-ops.c:1298
 #, c-format
 msgid "Removing folder %s"
 msgstr "Usuwanie folderu %s"
 
-#: mail/mail-ops.c:1394
+#: mail/mail-ops.c:1392
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Zapisywanie folderu \"%s\""
 
-#: mail/mail-ops.c:1459
+#: mail/mail-ops.c:1457
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Oczyszczanie i zapisywanie konta \"%s\""
 
-#: mail/mail-ops.c:1460
+#: mail/mail-ops.c:1458
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Zapisywanie konta \"%s\""
 
-#: mail/mail-ops.c:1515
+#: mail/mail-ops.c:1513
 msgid "Refreshing folder"
 msgstr "Odświeżanie folderu"
 
-#: mail/mail-ops.c:1551 mail/mail-ops.c:1602
+#: mail/mail-ops.c:1549 mail/mail-ops.c:1600
 msgid "Expunging folder"
 msgstr "Oczyszczanie folderu"
 
-#: mail/mail-ops.c:1599
+#: mail/mail-ops.c:1597
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Opróżnianie śmietnika w \"%s\""
 
-#: mail/mail-ops.c:1600
+#: mail/mail-ops.c:1598
 msgid "Local Folders"
 msgstr "Lokalne foldery"
 
-#: mail/mail-ops.c:1683
+#: mail/mail-ops.c:1681
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Pobieranie listu %s"
 
-#: mail/mail-ops.c:1755
+#: mail/mail-ops.c:1753
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
@@ -15318,7 +15455,7 @@ msgstr[0] "Pobieranie %d listu"
 msgstr[1] "Pobieranie %d listów"
 msgstr[2] "Pobieranie %d listów"
 
-#: mail/mail-ops.c:1841
+#: mail/mail-ops.c:1839
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
@@ -15326,7 +15463,7 @@ msgstr[0] "Zapisywanie %d listu"
 msgstr[1] "Zapisywanie %d listów"
 msgstr[2] "Zapisywanie %d listów"
 
-#: mail/mail-ops.c:1891
+#: mail/mail-ops.c:1889
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -15335,7 +15472,7 @@ msgstr ""
 "Nie można utworzyć pliku wyjściowego: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1919
+#: mail/mail-ops.c:1917
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -15344,11 +15481,11 @@ msgstr ""
 "Błąd przy zapisie listów do: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1990
+#: mail/mail-ops.c:1988
 msgid "Saving attachment"
 msgstr "Zapisywanie załącznika"
 
-#: mail/mail-ops.c:2007
+#: mail/mail-ops.c:2005
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -15357,17 +15494,17 @@ msgstr ""
 "Nie można utworzyć pliku wyjściowego: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2037
+#: mail/mail-ops.c:2035
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nie można zapisać danych: %s"
 
-#: mail/mail-ops.c:2185
+#: mail/mail-ops.c:2183
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Odłączanie od %s"
 
-#: mail/mail-ops.c:2185
+#: mail/mail-ops.c:2183
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Ponowne nawiązywanie połączenia z %s"
@@ -18556,6 +18693,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (zakończono %d%%)"
+
+#~ msgid "Enter password for {0}"
+#~ msgstr "Wprowadź hasło dla {0}"
 
 # To jest przykładowa nazwa grupy
 #~ msgid "Chillonia"
