@@ -91,6 +91,7 @@ struct ETreePriv {
 
 	int reflow_idle_id;
 	int scroll_idle_id;
+	int hover_idle_id;
 
 	int table_model_change_id;
 	int table_row_change_id;
@@ -131,6 +132,9 @@ struct ETreePriv {
 	int last_drop_y;
 	int last_drop_time;
 	GdkDragContext *last_drop_context;
+
+	int hover_x;
+	int hover_y;
 
 	int drag_row;
 	ETreePath drag_path;
@@ -193,6 +197,8 @@ static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
 static void scroll_off (ETree *et);
 static void scroll_on (ETree *et, gboolean down);
+static void hover_off (ETree *et);
+static void hover_on (ETree *et, int x, int y);
 
 static void
 et_disconnect_from_etta (ETree *et)
@@ -230,6 +236,7 @@ et_destroy (GtkObject *object)
 	et->priv->reflow_idle_id = 0;
 
 	scroll_off (et);
+	hover_off (et);
 
 	et_disconnect_from_etta (et);
 
@@ -283,6 +290,7 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->sorter                             = NULL;
 	e_tree->priv->reflow_idle_id                     = 0;
 	e_tree->priv->scroll_idle_id                     = 0;
+	e_tree->priv->hover_idle_id                     = 0;
 
 	e_tree->priv->alternating_row_colors             = 1;
 	e_tree->priv->horizontal_draw_grid               = 1;
@@ -298,6 +306,14 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->drop_path                          = NULL;
 	e_tree->priv->drop_col                           = -1;
 	e_tree->priv->drop_highlight                     = NULL;
+
+	e_tree->priv->last_drop_x                        = 0;
+	e_tree->priv->last_drop_y                        = 0;
+	e_tree->priv->last_drop_time                     = 0;
+	e_tree->priv->last_drop_context                  = NULL;
+
+	e_tree->priv->hover_x                            = 0;
+	e_tree->priv->hover_y                            = 0;
 
 	e_tree->priv->drag_row                           = -1;
 	e_tree->priv->drag_path                          = NULL;
@@ -2068,6 +2084,51 @@ scroll_off (ETree *et)
 		et->priv->scroll_idle_id = 0;
 	}
 }
+ 
+static gboolean
+hover_timeout (gpointer data)
+{
+	ETree *et = data;
+	GtkWidget *widget = data;
+	int x = et->priv->hover_x;
+	int y = et->priv->hover_y;
+	int row, col;
+	ETreePath path;
+
+	x -= widget->allocation.x;
+	y -= widget->allocation.y;
+	e_tree_get_cell_at (et,
+			    x,
+			    y,
+			    &row,
+			    &col);
+
+	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
+	if (path && e_tree_model_node_is_expandable (E_TREE_MODEL (et->priv->sorted), path)) {
+		e_tree_table_adapter_node_set_expanded (et->priv->etta, path, TRUE);
+	}
+
+	return TRUE;
+}
+
+static void
+hover_on (ETree *et, int x, int y)
+{
+	et->priv->hover_x = x;
+	et->priv->hover_y = y;
+	if (et->priv->hover_idle_id != 0)
+		g_source_remove (et->priv->hover_idle_id);
+	et->priv->hover_idle_id = g_timeout_add (500, hover_timeout, et);
+}
+
+static void
+hover_off (ETree *et)
+{
+	if (et->priv->hover_idle_id) {
+		g_source_remove (et->priv->hover_idle_id);
+		et->priv->hover_idle_id = 0;
+	}
+}
 
 static void
 et_drag_leave(GtkWidget *widget,
@@ -2086,6 +2147,7 @@ et_drag_leave(GtkWidget *widget,
 	et->priv->drop_col = -1;
 
 	scroll_off (et);
+	hover_off (et);
 }
 
 static gboolean
@@ -2102,6 +2164,15 @@ et_drag_motion(GtkWidget *widget,
 	et->priv->last_drop_y = y;
 	et->priv->last_drop_time = time;
 	et->priv->last_drop_context = context;
+
+	if (et->priv->hover_idle_id != 0) {
+		if (abs (et->priv->hover_x - x) > 3 ||
+		    abs (et->priv->hover_y - y) > 3) {
+			hover_on (et, x, y);
+		}
+	} else {
+		hover_on (et, x, y);
+	}
 
 	ret_val = do_drag_motion (et,
 				  context,
