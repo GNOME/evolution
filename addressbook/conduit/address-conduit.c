@@ -545,7 +545,7 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 		GnomePilotConduitStandard *conduit;
 		LOG ("    doing slow sync\n");
 		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
-		gnome_pilot_conduit_standard_set_slow (conduit);
+		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
 	} else {
 		LOG ("    doing fast sync\n");
 	}
@@ -1096,9 +1096,6 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 
 	retval = gnome_pilot_conduit_sync_abs_new ("AddressDB", 0x61646472);
 	g_assert (retval != NULL);
-
-	gnome_pilot_conduit_construct (GNOME_PILOT_CONDUIT (retval),
-				       "e_addr_conduit");
 
 	e_addr_context_new (&ctxt, pilot_id);
 	gtk_object_set_data (GTK_OBJECT (retval), "addrconduit_context", ctxt);

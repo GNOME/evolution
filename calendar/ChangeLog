@@ -1,3 +1,11 @@
+2001-06-18  Eskil Heyn Olsen  <eskil@eskil.dk>
+
+	* conduits/calendar/calendar-conduit.c: (comp_from_remote_record),
+	(check_for_slow_setting), (conduit_get_gpilot_conduit):
+	* conduits/todo/todo-conduit.c: (check_for_slow_setting),
+	(conduit_get_gpilot_conduit):
+	Tweaked for some gnome-pilot api changes
+
 2001-06-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.c (selection_received): generate a new UID

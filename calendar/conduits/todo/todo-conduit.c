@@ -514,7 +514,7 @@ check_for_slow_setting (GnomePilotConduit *c, EToDoConduitContext *ctxt)
 		GnomePilotConduitStandard *conduit;
 		LOG ("    doing slow sync\n");
 		conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
-		gnome_pilot_conduit_standard_set_slow (conduit);
+		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
 	} else {
 		LOG ("    doing fast sync\n");
 	}
@@ -969,9 +969,6 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 
 	retval = gnome_pilot_conduit_sync_abs_new ("ToDoDB", 0x746F646F);
 	g_assert (retval != NULL);
-
-	gnome_pilot_conduit_construct (GNOME_PILOT_CONDUIT (retval),
-				       "e_todo_conduit");
 
 	ctxt = e_todo_context_new (pilot_id);
 	gtk_object_set_data (GTK_OBJECT (retval), "todoconduit_context", ctxt);

@@ -1,3 +1,9 @@
+2001-06-18  Eskil Heyn Olsen  <eskil@eskil.dk>
+
+	* conduit/address-conduit.c: (check_for_slow_setting),
+	(conduit_get_gpilot_conduit):
+	Tweaked for some gnome-pilot api changes
+
 2001-06-15  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (search_for_dn): implement this
