@@ -754,7 +754,7 @@ Standard Unix mbox
 Qmail maildir 
 None
 </items>
-	  <initial_choice>0</initial_choice>
+	  <initial_choice>1</initial_choice>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -1253,7 +1253,7 @@ Kerberos
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
-	  <fill>True</fill>
+	  <fill>False</fill>
 	</child>
 
 	<widget>

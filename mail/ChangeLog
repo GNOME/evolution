@@ -1,3 +1,7 @@
+2001-08-20  Iain Holmes  <iain@ximian.com>
+
+	* mail-config.druid: Fix the jumping around.
+
 2001-08-20  Peter Williams  <peterw@ximian.com>
 
 	* mail-ops.c (remove_folder_get): Fix double-unref of the store.
