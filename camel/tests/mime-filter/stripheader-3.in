@@ -1,9 +1,0 @@
-Subject: this is a simple test with a different subject
-Stripped: of the header stripping filter
-Stripped: this header should also be stripped
-CC: this header should be preserved
-BCC: and so should this one
-
-This is the body of the message.
-There are several lines to it. Oh boy oh boy.
-Let's add lots of characters on this line just for fun because I love fun don't you who wouldn't love fun I sure do.
