@@ -2,6 +2,8 @@
 
 	* providers/nntp/camel-nntp-store.c (camel_nntp_command):
 	disconnect if we get an io error or user cancellation.
+	(nntp_disconnect_online): reset current folder.
+	(connect_to_server): and here too just to make sure.
 
 	* providers/nntp/camel-nntp-folder.c (nntp_folder_sync_online):
 	only save the summary, don't update from server, thats what

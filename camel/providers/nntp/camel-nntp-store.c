@@ -258,6 +258,9 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 	g_free (path);	
 	
 	retval = TRUE;
+
+	g_free(store->current_folder);
+	store->current_folder = NULL;
 	
  fail:
 	CAMEL_NNTP_STORE_UNLOCK(store, command_lock);
@@ -367,7 +370,9 @@ nntp_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 	
 	camel_object_unref (store->stream);
 	store->stream = NULL;
-	
+	g_free(store->current_folder);
+	store->current_folder = NULL;
+
 	CAMEL_NNTP_STORE_UNLOCK(store, command_lock);
 	
 	return TRUE;
