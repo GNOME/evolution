@@ -1,3 +1,8 @@
+1998-11-27  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4: All parts of GNOME will now require
+	LibGTop >= 0.29.0 which is the latest version from CVS.
+
 1998-11-20  James Henstridge  <james@daa.com.au>
 
 	* gnome.m4(GNOME_INIT_HOOK): Changed the call to GNOME_GNORBA_CHECK
