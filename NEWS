@@ -3,6 +3,10 @@ Evolution 1.4.x, 2003-??-??
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Calendar
+
+    #41582 - display incorrect after switching between week and day view (Rodrigo)
+
   * Mail
 
     #44322 - Evolution crash with weird IMAP foldername (Michael)
