@@ -222,6 +222,60 @@ is_7bit (GByteArray *buffer)
 	return TRUE;
 }
 
+static const char *iso_charsets[] = {
+	"us-ascii",
+	"iso-8859-1",
+	"iso-8859-2",
+	"iso-8859-3",
+	"iso-8859-4",
+	"iso-8859-5",
+	"iso-8859-6",
+	"iso-8859-7",
+	"iso-8859-8",
+	"iso-8859-9",
+	"iso-8859-10",
+	"iso-8859-11",
+	"iso-8859-12",
+	"iso-8859-13",
+	"iso-8859-14",
+	"iso-8859-15",
+	"iso-8859-16"
+};
+
+#define NUM_ISO_CHARSETS (sizeof (iso_charsets) / sizeof (iso_charsets[0]))
+
+static const char *
+canon_charset_name (const char *charset)
+{
+	const char *ptr;
+	char *endptr;
+	int iso;
+	
+	if (strncasecmp (charset, "iso", 3) != 0)
+		return charset;
+	
+	ptr = charset + 3;
+	if (*ptr == '-' || *ptr == '_')
+		ptr++;
+	
+	/* if it's not an iso-8859-# charset, we don't care about it */
+	if (strncmp (ptr, "8859", 4) != 0)
+		return charset;
+	
+	ptr += 4;
+	if (*ptr == '-' || *ptr == '_')
+		ptr++;
+	
+	iso = strtoul (ptr, &endptr, 10);
+	if (endptr == ptr || *endptr != '\0')
+		return charset;
+	
+	if (iso >= NUM_ISO_CHARSETS)
+		return charset;
+	
+	return iso_charsets[iso];
+}
+
 /* simple data wrapper */
 static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
@@ -311,7 +365,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		 * as being in ISO-8859-1 even when in fact they contain funny
 		 * characters from the Windows-CP1252 superset.
 		 */
-		/* FIXME: not all systems will use the canonical "iso-8859-#" format */
+		charset = canon_charset_name (charset);
 		if (!strncasecmp (charset, "iso-8859", 8)) {
 			/* check for Windows-specific chars... */
 			if (broken_windows_charset (buffer, charset))
@@ -329,7 +383,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 			dw->rawtext = TRUE;
 		}
 	} else if (header_content_type_is (ct, "text", "*")) {
-		if (charset == NULL) {
+		if (charset == NULL || !strcasecmp (charset, "us-ascii")) {
 			/* check that it's 7bit */
 			dw->rawtext = !is_7bit (buffer);
 		} else if (!strncasecmp (charset, "x-", 2)) {

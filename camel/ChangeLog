@@ -1,5 +1,19 @@
 2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): canonicalise the
+	charset name (if it is an iso charset) so that our strncasecmp to
+	see if it is an iso-8859-# charset will be guarenteed to work on
+	all systems.
+	(canon_charset_name): New function to return the canonical iso
+	charset name.
+	(simple_data_wrapper_construct_from_parser): If the charset is
+	NULL *or* the charset == "us-ascii" then check that it is 7bit
+	clean to decide if it is rawtext (we did not check the case where
+	charset was "us-ascii" before).
+
+2003-02-25  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-message.c: Same as the ones below.
 
 	* camel-mime-part.c: Reverted back to pre-camel-iconv
