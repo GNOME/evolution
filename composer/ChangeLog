@@ -1,3 +1,8 @@
+2000-05-26  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (get_editor_text, set_editor_text): Update for
+	PersistStream changes
+
 2000-05-25  Not Zed  <NotZed@HelixCode.com>
 
 	* e-msg-composer.c (build_message): Use camel_data_wrapper_new

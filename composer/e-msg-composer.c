@@ -120,7 +120,7 @@ get_editor_text (BonoboWidget *editor)
 	g_assert (persist != CORBA_OBJECT_NIL);
 
 	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
-	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), &ev);
+	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
 		return NULL;
@@ -216,7 +216,7 @@ set_editor_text (BonoboWidget *editor, const char *text)
 
 	stream = bonobo_stream_mem_create ((char *)text, strlen (text),
 					   TRUE, FALSE);
-	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), &ev);
+	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
 		return;
