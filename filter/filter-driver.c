@@ -458,8 +458,10 @@ open_folder(FilterDriver *d, const char *folder_url)
 		return camelfolder;
 
 	camelfolder = p->fetcher(folder_url);
-	if (camelfolder)
+	if (camelfolder) {
 		g_hash_table_insert(p->folders, g_strdup(folder_url), camelfolder);
+		camel_folder_freeze(camelfolder);
+	}
 
 	return camelfolder;
 }
@@ -475,6 +477,7 @@ close_folder(void *key, void *value, void *data)
 
 	g_free(key);
 	camel_folder_sync(f, FALSE, p->ex);
+	camel_folder_thaw(f);
 	gtk_object_unref((GtkObject *)f);
 }
 
@@ -526,6 +529,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	p->processed = g_hash_table_new(g_str_hash, g_str_equal);
 
 	camel_exception_init(p->ex);
+	camel_folder_freeze(inbox);
 
 	options = p->options;
 	while (options) {
@@ -598,6 +602,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	g_hash_table_destroy(p->terminated);
 	close_folders(d);
 	g_hash_table_destroy(p->folders);
+	camel_folder_thaw(inbox);
 
 	return 0;
 }

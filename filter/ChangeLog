@@ -1,5 +1,11 @@
 2000-07-02  Dan Winship  <danw@helixcode.com>
 
+	* filter-driver.c (open_folder): freeze the folder to avoid
+	multiple folder_changed's
+	(close_folder): and thaw it.
+	
+2000-07-02  Dan Winship  <danw@helixcode.com>
+
 	* filter-driver.c (filter_driver_new): kill
 	filter_driver_set_session and filter_driver_set_rules and instead
 	make filter_driver_new take the rules and a callback function it
