@@ -1,3 +1,8 @@
+2003-06-19  Dan Winship  <danw@ximian.com>
+
+	* e-folder-tree.c (e_folder_tree_add): Don't leak parent_path,
+	even on error
+
 2003-06-16  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* Makefile.am:

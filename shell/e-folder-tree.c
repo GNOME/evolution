@@ -262,8 +262,10 @@ e_folder_tree_add (EFolderTree *folder_tree,
 	if (parent_folder == NULL) {
 		g_warning ("e_folder_tree_add() -- Trying to add a subfolder to a path that does not exist yet -- %s",
 			   parent_path);
+		g_free (parent_path);
 		return FALSE;
 	}
+	g_free (parent_path);
 
 	folder = g_hash_table_lookup (folder_tree->path_to_folder, path);
 	if (folder != NULL) {
@@ -284,8 +286,6 @@ e_folder_tree_add (EFolderTree *folder_tree,
 
 	g_hash_table_insert (folder_tree->path_to_folder, folder->path, folder);
 	g_hash_table_insert (folder_tree->data_to_path, data, folder->path);
-
-	g_free (parent_path);
 
 	return TRUE;
 }
