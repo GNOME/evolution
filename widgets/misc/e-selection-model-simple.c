@@ -74,19 +74,21 @@ esms_get_row_count (ESelectionModel *esm)
 	return esms->row_count;
 }
 
-void      e_selection_model_simple_insert_row          (ESelectionModelSimple *esms,
-							int                    row)
+void      e_selection_model_simple_insert_rows         (ESelectionModelSimple *esms,
+							int                    row,
+							int                    count)
 {
-	esms->row_count ++;
-	e_selection_model_insert_row (E_SELECTION_MODEL(esms), row);
+	esms->row_count += count;
+	e_selection_model_insert_rows (E_SELECTION_MODEL(esms), row, count);
 }
 
 void
-e_selection_model_simple_delete_row          (ESelectionModelSimple *esms,
-					      int                    row)
+e_selection_model_simple_delete_rows          (ESelectionModelSimple *esms,
+					       int                    row,
+					       int                    count)
 {
-	esms->row_count --;
-	e_selection_model_delete_row (E_SELECTION_MODEL(esms), row);
+	esms->row_count -= count;
+	e_selection_model_delete_rows (E_SELECTION_MODEL(esms), row, count);
 }
 
 void
