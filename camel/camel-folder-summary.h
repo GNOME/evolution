@@ -264,7 +264,7 @@ int camel_folder_summary_decode_token(FILE *, char **);
 
 /* message flag operations */
 gboolean	camel_flag_get(CamelFlag **list, const char *name);
-void		camel_flag_set(CamelFlag **list, const char *name, gboolean state);
+gboolean	camel_flag_set(CamelFlag **list, const char *name, gboolean state);
 int		camel_flag_list_size(CamelFlag **list);
 void		camel_flag_list_free(CamelFlag **list);
 
@@ -273,7 +273,7 @@ gboolean        camel_system_flag_get (guint32 flags, const char *name);
 
 /* message tag operations */
 const char	*camel_tag_get(CamelTag **list, const char *name);
-void		camel_tag_set(CamelTag **list, const char *name, const char *value);
+gboolean	camel_tag_set(CamelTag **list, const char *name, const char *value);
 int		camel_tag_list_size(CamelTag **list);
 void		camel_tag_list_free(CamelTag **list);
 

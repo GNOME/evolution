@@ -1977,8 +1977,10 @@ camel_flag_get(CamelFlag **list, const char *name)
  * @value: 
  * 
  * Set the state of a flag @name in the list @list to @value.
+ *
+ * Return value: Whether or not it changed.
  **/
-void
+gboolean
 camel_flag_set(CamelFlag **list, const char *name, gboolean value)
 {
 	CamelFlag *flag, *tmp;
@@ -1992,7 +1994,7 @@ camel_flag_set(CamelFlag **list, const char *name, gboolean value)
 				flag->next = tmp->next;
 				g_free(tmp);
 			}
-			return;
+			return !value;
 		}
 		flag = tmp;
 	}
@@ -2003,6 +2005,7 @@ camel_flag_set(CamelFlag **list, const char *name, gboolean value)
 		tmp->next = 0;
 		flag->next = tmp;
 	}
+	return value;
 }
 
 /**
@@ -2046,7 +2049,8 @@ camel_flag_list_free(CamelFlag **list)
 	*list = NULL;
 }
 
-const char	*camel_tag_get(CamelTag **list, const char *name)
+const char
+*camel_tag_get(CamelTag **list, const char *name)
 {
 	CamelTag *tag;
 
@@ -2066,8 +2070,11 @@ const char	*camel_tag_get(CamelTag **list, const char *name)
  * @value: 
  * 
  * Set the tag @name in the tag list @list to @value.
+ *
+ * Return value: whether or not it changed
  **/
-void		camel_tag_set(CamelTag **list, const char *name, const char *value)
+gboolean
+camel_tag_set(CamelTag **list, const char *name, const char *value)
 {
 	CamelTag *tag, *tmp;
 
@@ -2080,11 +2087,13 @@ void		camel_tag_set(CamelTag **list, const char *name, const char *value)
 				tag->next = tmp->next;
 				g_free(tmp->value);
 				g_free(tmp);
+				return TRUE;
 			} else if (strcmp(tmp->value, value)) { /* has it changed? */
 				g_free(tmp->value);
 				tmp->value = g_strdup(value);
+				return TRUE;
 			}
-			return;
+			return FALSE;
 		}
 		tag = tmp;
 	}
@@ -2095,7 +2104,9 @@ void		camel_tag_set(CamelTag **list, const char *name, const char *value)
 		tmp->value = g_strdup(value);
 		tmp->next = 0;
 		tag->next = tmp;
+		return TRUE;
 	}
+	return FALSE;
 }
 
 /**

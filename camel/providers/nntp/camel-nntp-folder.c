@@ -97,10 +97,14 @@ nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
 	CamelMessageInfo *info = camel_folder_summary_uid (nntp_folder->summary, uid);
+	guint32 new;
 
-	info->flags = set;
+	new = (info->flags & ~flags) | (set & flags);
+	if (new == info->flags)
+		return;
 
-	if (set & CAMEL_MESSAGE_SEEN) {
+	info->flags = new;
+	if (flags & set & CAMEL_MESSAGE_SEEN) {
 		int article_num;
 		CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder));
 

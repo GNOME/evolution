@@ -1,3 +1,16 @@
+2000-12-05  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_set_message_flags): Fix
+	the check for "flags aren't actually changing".
+
+	* providers/local/camel-local-folder.c (local_set_message_flags,
+	local_set_message_user_flag, local_set_message_user_tag): Don't
+	emit message_changed unless the flags actually changed.
+
+	* providers/nntp/camel-nntp-folder.c
+	(nntp_folder_set_message_flags): Don't emit message_changed unless
+	the flags actually changed. Fix the check for marked as seen.
+
 2000-12-05  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-seekable-substream.c (stream_flush): stream_flush does

@@ -799,14 +799,16 @@ imap_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, gui
 {
 	CamelImapFolder *imap_folder = (CamelImapFolder *)folder;
 	CamelMessageInfo *info;
+	guint32 new;
 
 	info = camel_folder_summary_uid (imap_folder->summary, uid);
 	g_return_if_fail (info != NULL);
 
-	if ((info->flags & set) == flags)
+	new = (info->flags & ~flags) | (set & flags);
+	if (new == info->flags)
 		return;
 
-	info->flags = (info->flags & ~flags) | (set & flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
+	info->flags = new | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch (imap_folder->summary);
 
 	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed",
