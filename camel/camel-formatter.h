@@ -33,7 +33,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel.h"
+#include "camel-types.h"
 
 #define CAMEL_FORMATTER_TYPE     (camel_formatter_get_type ())
 #define CAMEL_FORMATTER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FORMATTER_TYPE, CamelFormatter))
@@ -41,8 +41,6 @@ extern "C" {
 #define CAMEL_IS_FORMATTER(o)    (GTK_CHECK_TYPE((o), CAMEL_FORMATTER_TYPE))
 
 typedef struct _CamelFormatterPrivate CamelFormatterPrivate;
-
-typedef struct _CamelFormatter CamelFormatter;
 
 struct _CamelFormatter
 {

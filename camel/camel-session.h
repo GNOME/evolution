@@ -35,11 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-
-typedef struct _CamelSession CamelSession;
-
+#include "camel-types.h"
 #include "camel-provider.h"
-#include "camel-store.h"
 
 #define CAMEL_SESSION_TYPE     (camel_session_get_type ())
 #define CAMEL_SESSION(obj)     (GTK_CHECK_CAST((obj), CAMEL_SESSION_TYPE, CamelSession))

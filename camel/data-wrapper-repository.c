@@ -24,9 +24,9 @@
  */
 
 
-
-
 #include "data-wrapper-repository.h"
+#include "camel-simple-data-wrapper.h"
+#include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include <string.h>
 #include "hash-table-utils.h"

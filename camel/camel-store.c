@@ -25,6 +25,7 @@
  */
 #include <config.h>
 #include "camel-store.h"
+#include "camel-exception.h"
 #include "camel-log.h"
 
 static CamelServiceClass *parent_class = NULL;

@@ -35,8 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include "camel-types.h"
 #include "url-util.h"
-#include "camel-exception.h"
 
 #define CAMEL_SERVICE_TYPE     (camel_service_get_type ())
 #define CAMEL_SERVICE(obj)     (GTK_CHECK_CAST((obj), CAMEL_SERVICE_TYPE, CamelService))
@@ -45,13 +45,13 @@ extern "C" {
 
 
 
-typedef struct {
+struct _CamelService {
 	GtkObject parent_object;
 
 	gboolean connected;
 	Gurl *url;
 
-} CamelService;
+};
 
 
 

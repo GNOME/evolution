@@ -24,15 +24,9 @@
 #ifndef __CAMEL_SIMPLE_DATA_WRAPPER_STREAM_H__
 #define __CAMEL_SIMPLE_DATA_WRAPPER_STREAM_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtk.h>
-
-#include "camel-simple-data-wrapper.h"
+#include "camel-types.h"
 #include "camel-seekable-stream.h"
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,7 +45,6 @@ extern "C" {
 	(GTK_CHECK_CLASS_TYPE ((obj), CAMEL_TYPE_SIMPLE_DATA_WRAPPER_STREAM))
 
 
-typedef struct _CamelSimpleDataWrapperStream       CamelSimpleDataWrapperStream;
 typedef struct _CamelSimpleDataWrapperStreamClass  CamelSimpleDataWrapperStreamClass;
 
 struct _CamelSimpleDataWrapperStream {

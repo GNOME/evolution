@@ -46,6 +46,8 @@
 #include "md5-utils.h"
 #include "gmime-utils.h"
 #include "camel-mbox-search.h"
+#include "camel-data-wrapper.h"
+#include "camel-mime-message.h"
 
 #include "camel-exception.h"
 

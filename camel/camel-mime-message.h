@@ -34,12 +34,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-typedef struct _CamelMimeMessage CamelMimeMessage;
-
 #include <gtk/gtk.h>
+#include "camel-types.h"
 #include "camel-mime-part.h"
-#include "camel-folder.h"
-#include "camel-session.h"
 #include "camel-recipient.h"
 
 

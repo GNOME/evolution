@@ -35,9 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <stdio.h>
+#include "camel-types.h"
 #include "camel-seekable-stream.h"
-
 
 
 #define CAMEL_SEEKABLE_SUBSTREAM_TYPE       (camel_seekable_substream_get_type ())
@@ -48,7 +47,7 @@ extern "C" {
 
 
 
-typedef struct 
+struct _CamelSeekableSubstream
 {
 	CamelSeekableStream parent_object;
 
@@ -59,7 +58,7 @@ typedef struct
 	gint64  sup_bound;                    /* first invalid position */
 	gboolean open;
 	
-} CamelSeekableSubstream;
+};
 
 
 

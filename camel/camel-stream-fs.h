@@ -35,7 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <stdio.h>
+#include "camel-types.h"
 #include "camel-seekable-stream.h"
 
 #define CAMEL_STREAM_FS_TYPE     (camel_stream_fs_get_type ())
@@ -51,7 +51,7 @@ typedef enum
 } CamelStreamFsMode;
 
 
-typedef struct 
+struct _CamelStreamFs
 {
 
 	CamelSeekableStream parent_object;
@@ -62,7 +62,7 @@ typedef struct
 	guint32 inf_bound;   /* first valid position */
 	gint32 sup_bound;    /* last valid position, -1 means, no sup bound */
 	
-} CamelStreamFs;
+};
 
 
 

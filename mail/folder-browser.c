@@ -10,6 +10,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "e-util/e-util.h"
+#include "camel/camel-exception.h"
 #include "folder-browser.h"
 #include "session.h"
 

@@ -36,7 +36,8 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <camel/data-wrapper-repository.h>
 #include <camel/data-wrapper-repository.h>
-#include <camel/camel-log.h>	
+#include <camel/camel-log.h>
+#include <camel/camel-exception.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-simple-data-wrapper.h>
 #include <camel/camel-folder.h>

@@ -35,9 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include "camel-types.h"
 #include "camel-data-wrapper.h"
-#include "camel-stream.h"
-
 
 #define CAMEL_MEDIUM_TYPE     (camel_medium_get_type ())
 #define CAMEL_MEDIUM(obj)     (GTK_CHECK_CAST((obj), CAMEL_MEDIUM_TYPE, CamelMedium))
@@ -45,7 +44,7 @@ extern "C" {
 #define CAMEL_IS_MEDIUM(o)    (GTK_CHECK_TYPE((o), CAMEL_MEDIUM_TYPE))
 
 
-typedef struct 
+struct _CamelMedium
 {
 	CamelDataWrapper parent_object;
 	
@@ -53,7 +52,7 @@ typedef struct
 	
 	CamelDataWrapper *content; /* part real content */
 	
-} CamelMedium;
+};
 
 
 

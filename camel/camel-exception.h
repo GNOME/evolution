@@ -36,7 +36,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <glib.h>
-
+#include "camel-types.h"
 
 typedef enum {
 #include "camel-exception-list.def"
@@ -44,12 +44,12 @@ typedef enum {
 } ExceptionId;
 
 
-typedef struct {
+struct _CamelException {
 	/* do not access the fields directly */
 	ExceptionId id;
 	char *desc;
 
-} CamelException;
+};
 
 
 

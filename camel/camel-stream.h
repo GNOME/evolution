@@ -35,6 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include "camel-types.h"
 
 #define CAMEL_STREAM_TYPE     (camel_stream_get_type ())
 #define CAMEL_STREAM(obj)     (GTK_CHECK_CAST((obj), CAMEL_STREAM_TYPE, CamelStream))
@@ -42,11 +43,11 @@ extern "C" {
 #define CAMEL_IS_STREAM(o)    (GTK_CHECK_TYPE((o), CAMEL_STREAM_TYPE))
 
 
-typedef struct 
+struct _CamelStream
 {
 	GtkObject parent_object;
 
-} CamelStream;
+};
 
 
 

@@ -36,11 +36,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include "camel-stream.h"
+#include "camel-types.h"
 #include "camel-data-wrapper.h"
-
-
 
 #define CAMEL_SIMPLE_DATA_WRAPPER_TYPE     (camel_simple_data_wrapper_get_type ())
 #define CAMEL_SIMPLE_DATA_WRAPPER(obj)     (GTK_CHECK_CAST((obj), CAMEL_SIMPLE_DATA_WRAPPER_TYPE, CamelSimpleDataWrapper))
@@ -48,13 +45,13 @@ extern "C" {
 #define CAMEL_IS_SIMPLE_DATA_WRAPPER(o)    (GTK_CHECK_TYPE((o), CAMEL_SIMPLE_DATA_WRAPPER_TYPE))
 
 
-typedef struct 
+struct _CamelSimpleDataWrapper
 {
 	CamelDataWrapper parent_object;
 
 	GByteArray *byte_array;
 	CamelStream *stream;
-} CamelSimpleDataWrapper;
+};
 
 
 

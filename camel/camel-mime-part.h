@@ -35,9 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
+#include "camel-types.h"
 #include "camel-medium.h"
-#include "camel-stream.h"
-
 
 #define CAMEL_MIME_PART_TYPE     (camel_mime_part_get_type ())
 #define CAMEL_MIME_PART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_PART_TYPE, CamelMimePart))
@@ -58,7 +57,7 @@ typedef enum _CamelMimePartEncodingType CamelMimePartEncodingType;
 
 /* Do not change these values directly, you
    would regret it one day */
-typedef struct 
+struct _CamelMimePart
 {
 	CamelMedium parent_object;
 	
@@ -76,7 +75,7 @@ typedef struct
 	GMimeContentField *content_type;
 	CamelStream *content_input_stream;
 	
-} CamelMimePart;
+};
 
 
 

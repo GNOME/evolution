@@ -35,7 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <stdio.h>
+#include "camel-types.h"
 #include "camel-stream.h"
 
 #define CAMEL_SEEKABLE_STREAM_TYPE     (camel_seekable_stream_get_type ())
@@ -53,13 +53,13 @@ typedef enum
 } CamelStreamSeekPolicy;
 
 
-typedef struct 
+struct _CamelSeekableStream
 {
 	CamelStream parent_object;
 	
 	guint32 cur_pos;     /* current postion in the stream */
 
-} CamelSeekableStream;
+};
 
 
 

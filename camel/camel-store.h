@@ -35,13 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-
-typedef struct _CamelStore CamelStore;
-
-#include "camel-folder.h"
+#include "camel-types.h"
 #include "camel-service.h"
-#include "camel-session.h"
-#include "camel-exception.h"
 
 #define CAMEL_STORE_TYPE     (camel_store_get_type ())
 #define CAMEL_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_STORE_TYPE, CamelStore))

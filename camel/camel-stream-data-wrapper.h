@@ -24,11 +24,8 @@
 #ifndef __CAMEL_STREAM_DATA_WRAPPER_H__
 #define __CAMEL_STREAM_DATA_WRAPPER_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtk.h>
+#include "camel-types.h"
 #include "camel-data-wrapper.h"
 
 #ifdef __cplusplus
@@ -49,7 +46,6 @@ extern "C" {
 	(GTK_CHECK_CLASS_TYPE ((obj), CAMEL_TYPE_STREAM_DATA_WRAPPER))
 
 
-typedef struct _CamelStreamDataWrapper       CamelStreamDataWrapper;
 typedef struct _CamelStreamDataWrapperClass  CamelStreamDataWrapperClass;
 
 struct _CamelStreamDataWrapper {

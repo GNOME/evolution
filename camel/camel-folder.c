@@ -26,6 +26,8 @@
 #include <config.h>
 #include "camel-folder.h"
 #include "camel-log.h"
+#include "camel-exception.h"
+#include "camel-store.h"
 #include "string-utils.h"
 
 static GtkObjectClass *parent_class=NULL;

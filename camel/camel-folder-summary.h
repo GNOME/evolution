@@ -35,7 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-
+#include "camel-types.h"
 
 
 #define CAMEL_FOLDER_SUMMARY_TYPE     (camel_folder_summary_get_type ())
@@ -70,13 +70,13 @@ typedef struct {
 
 
 
-typedef struct {
+struct _CamelFolderSummary {
 	GtkObject parent_object;
  
 	GArray *subfolder_info_list; /* informations on subfolders */
 	GArray *message_info_list;   /* informations on messages */
 
-} CamelFolderSummary;
+};
 
 
 

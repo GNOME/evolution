@@ -34,12 +34,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-typedef struct _CamelMimeBodyPart CamelMimeBodyPart;
-
 #include <gtk/gtk.h>
+#include "camel-types.h"
 #include "camel-mime-part.h"
-#include "camel-multipart.h"
-
 
 
 #define CAMEL_MIME_BODY_PART_TYPE     (camel_mime_body_part_get_type ())

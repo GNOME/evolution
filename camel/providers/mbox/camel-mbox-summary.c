@@ -25,8 +25,10 @@
 #include <config.h> 
 
 #include "camel-log.h"
+#include "camel-exception.h"
 #include "camel-mbox-folder.h"
 #include "camel-mbox-summary.h"
+#include "camel-folder-summary.h"
 #include "md5-utils.h"
 
 

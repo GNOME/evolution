@@ -11,6 +11,7 @@
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include "e-util/e-util.h"
+#include "camel/camel-exception.h"
 #include "message-list.h"
 #include "Mail.h"
 

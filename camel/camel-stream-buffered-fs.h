@@ -35,7 +35,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <stdio.h>
+#include "camel-types.h"
 #include "camel-stream-fs.h"
 
 #define CAMEL_STREAM_BUFFERED_FS_TYPE     (camel_stream_buffered_fs_get_type ())
@@ -50,7 +50,7 @@ typedef enum
 } CamelStreamBufferedFsMode;
 
 
-typedef struct 
+struct _CamelStreamBufferedFs
 {
 	CamelStreamFs parent_object;
 
@@ -63,7 +63,7 @@ typedef struct
 	gint write_pos;
 	gint write_pos_max;
 
-} CamelStreamBufferedFs;
+};
 
 
 

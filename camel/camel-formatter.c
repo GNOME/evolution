@@ -25,6 +25,10 @@
 
 #include <config.h>
 #include "camel-formatter.h"
+#include "camel-data-wrapper.h"
+#include "camel-mime-message.h"
+#include "camel-multipart.h"
+#include "camel-recipient.h"
 
 #include "camel-log.h"
 #include <libgnome/libgnome.h>

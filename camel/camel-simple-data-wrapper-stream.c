@@ -26,6 +26,7 @@
 #endif
 
 #include "camel-simple-data-wrapper-stream.h"
+#include "camel-simple-data-wrapper.h"
 
 
 static CamelStreamClass *parent_class = NULL;

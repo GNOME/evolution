@@ -35,10 +35,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include <stdio.h>
+#include "camel-types.h"
 #include "gmime-content-field.h"
-#include "camel-stream.h"
-
 
 
 #define CAMEL_DATA_WRAPPER_TYPE     (camel_data_wrapper_get_type ())
@@ -47,7 +45,7 @@ extern "C" {
 #define CAMEL_IS_DATA_WRAPPER(o)    (GTK_CHECK_TYPE((o), CAMEL_DATA_WRAPPER_TYPE))
 
 
-typedef struct 
+struct _CamelDataWrapper
 {
 	GtkObject parent_object;
 
@@ -55,7 +53,7 @@ typedef struct
 	CamelStream *output_stream;
 
 	GMimeContentField *mime_type;
-} CamelDataWrapper;
+};
 
 
 

@@ -26,6 +26,7 @@
 
 #include <gnome.h>
 #include <camel/camel-multipart.h>
+#include <camel/camel-mime-body-part.h>
 
 #ifdef __cplusplus
 extern "C" {
