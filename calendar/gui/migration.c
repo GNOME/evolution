@@ -552,11 +552,11 @@ create_task_sources (TasksComponent *component,
 }
 
 static void
-migrate_pilot_db_key (const char *key, const char *data, gpointer user_data)
+migrate_pilot_db_key (const char *key, gpointer user_data)
 {
 	EXmlHash *xmlhash = user_data;
 	
-	e_xmlhash_add (xmlhash, key, data);
+	e_xmlhash_add (xmlhash, key, "");
 }
 
 static void
@@ -574,8 +574,8 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 	map = g_alloca (12 + strlen (conduit));
 	sprintf (map, "pilot-map-%s-", conduit);
 	
-	changelog = g_alloca (strlen (component) + 28 + strlen (conduit));
-	sprintf (changelog, "%s.ics-pilot-sync-evolution-%s-", component, conduit);
+	changelog = g_alloca (24 + strlen (conduit));
+	sprintf (changelog, "pilot-sync-evolution-%s-", conduit);
 	
 	while ((dent = readdir (dir))) {
 		if (!strncmp (dent->d_name, map, strlen (map)) &&
@@ -650,7 +650,7 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 			dbhash = e_dbhash_new (filename);
 			g_free (filename);
 			
-			filename = g_build_filename (new_path, dent->d_name, NULL);
+			filename = g_strdup_printf ("%s/%s.ics-%s", new_path, component, dent->d_name, NULL);
 			if (stat (filename, &st) != -1)
 				unlink (filename);
 			xmlhash = e_xmlhash_new (filename);
@@ -768,7 +768,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			g_object_unref (gconf);
 		}
 		
-		if (minor < 5 || (minor == 5 && revision <= 9)) {
+		if (minor < 5 || (minor == 5 && revision <= 10)) {
 			char *old_path, *new_path;
 			
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
@@ -869,7 +869,7 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 			dialog_close ();
 		}
 		
-		if (minor < 5 || (minor == 5 && revision <= 9)) {
+		if (minor < 5 || (minor == 5 && revision <= 10)) {
 			char *old_path, *new_path;
 			
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Tasks", NULL);

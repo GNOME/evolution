@@ -6,6 +6,9 @@
 	(migrate_pilot_data): Doh. Take a third argument to specify what
 	component we are migrating ("todo" vs "calendar") so that we can
 	compare against the correct filename. Might help :-)
+	(migrate_pilot_db_key): Just set an empty value for the data since
+	there's no way to actually get it and I don't think it really
+	matters anyway.
 
 2004-04-27  Kidd Wang  <kidd.wang@sun.com>
 
