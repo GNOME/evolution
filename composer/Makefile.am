@@ -48,7 +48,7 @@ gladedir = $(datadir)/evolution/glade
 glade_DATA =					\
 	e-msg-composer-attachment.glade
 
-iconsdir = $(datadir)/images/evolution
+iconsdir = $(datadir)/evolution/images
 
 libcomposerincludedir = $(includedir)/composer
 

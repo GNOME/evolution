@@ -1,3 +1,8 @@
+2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Icons are now in $(datadir)/evolution/images
+	instead of $(datadir)/images/evolution.
+
 2003-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_from_optionmenu): Use gconf to get
