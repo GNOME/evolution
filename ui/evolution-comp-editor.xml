@@ -1,0 +1,65 @@
+<Root>
+
+<commands>
+
+        <cmd name="FileSaveAndClose" _label="Save and Close"
+	_tip="Save the appointment and close the dialog box"
+	pixtype="stock" pixname="Save" accel="*Control*s"/>
+
+        <cmd name="FileSaveAs" _label="Save As..."
+	_tip="Save this item to disk"
+        pixtype="stock" pixname="Save" accel="*Control*Alt*s"/>
+
+	<cmd name="FileDelete" _label="Delete"
+	_tip="Delete this appointment"
+	pixtype="stock" pixname="Trash"/>
+
+        <cmd name="FileClose" _label="_Close"
+	_tip="Close this appointment"
+        pixtype="stock" pixname="Close" accel="*Control*w"/>
+
+</commands>
+
+<menu>
+
+<submenu name="File" _label="_File">
+
+        <menuitem name="FileSaveAndClose" verb=""/>
+
+        <menuitem name="FileSaveAs" verb=""/>
+
+	<separator/>
+
+        <menuitem name="FileDelete" verb=""/>
+
+	<separator/>
+
+	<placeholder name="Print"/>
+
+	<separator/>
+
+        <menuitem name="FileClose" verb=""/>
+
+</submenu>	
+
+<submenu name="Edit" _label="_Edit">
+
+	<placeholder name="Edit"/>
+
+</submenu>
+
+<submenu name="Actions" _label="_Action">
+
+	<placeholder name="Actions"/>
+
+</submenu>
+
+<submenu name="Help" _label="_Help">
+	
+	<placeholder name="BuiltMenuItems"/>
+
+</submenu>
+
+</menu>
+
+</Root>
