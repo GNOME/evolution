@@ -8838,9 +8838,9 @@ msgid "Failure in name lookup: %s"
 msgstr "Errore nella ricerca del nome: %s"
 
 #: camel/camel-service.c:804
-#, fuzzy, c-format
+#, c-format
 msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Ricerca dell'Host fallita: motivo sconosciuto"
+msgstr "Ricerca dell'host fallita: impossibile creare il thread: %s"
 
 #: camel/camel-service.c:818
 #, c-format
@@ -10031,7 +10031,7 @@ msgstr "Elimina dopo %s giorno(i)"
 
 #: camel/providers/pop3/camel-pop3-provider.c:46
 msgid "Disable support for all POP3 extensions"
-msgstr ""
+msgstr "Disabilita il supporto per tutte le estensioni POP3"
 
 #: camel/providers/pop3/camel-pop3-provider.c:54 mail/mail-config.glade.h:82
 msgid "POP"
@@ -28021,105 +28021,3 @@ msgstr "Backend dei file del calendario locale di Evolution"
 msgid "Evolution Addressbook local file backend"
 msgstr "Backend dei file locali della rubrica di Evolution"
 
-#~ msgid ""
-#~ "ping_timeout_callback: could not determine if the CORBA object is nil or "
-#~ "not"
-#~ msgstr ""
-#~ "ping_timeout_callback: non riesco a determinare se l'oggetto CORBA è nil "
-#~ "o no"
-
-#~ msgid "Search"
-#~ msgstr "Cerca"
-
-#~ msgid "Email Address:"
-#~ msgstr "Indirizzo email:"
-
-#~ msgid "Check Full Name"
-#~ msgstr "Verificare nome e cognome"
-
-#~ msgid "Add Anyway"
-#~ msgstr "Aggiungere comunque"
-
-#~ msgid "Change Anyway"
-#~ msgstr "Cambiare comunque"
-
-#~ msgid "Configure the fonts used by Evolution here"
-#~ msgstr "Configura qui i font utilizzati da Evolution"
-
-#~ msgid "Evolution Mail font configuration control"
-#~ msgstr "Controllo di configurazione dei caratteri della posta di Evolution."
-
-#~ msgid "Font Preferences"
-#~ msgstr "Preferenze caratteri"
-
-#~ msgid "Automatically _detect links"
-#~ msgstr "Rileva collegamenti automaticamente"
-
-#~ msgid "Emacs"
-#~ msgstr "Emacs"
-
-#~ msgid "Microsoft"
-#~ msgstr "Microsoft"
-
-#~ msgid "Shortcuts _type:"
-#~ msgstr "_Tipo scorciatoie:"
-
-#~ msgid "XEmacs"
-#~ msgstr "XEmacs"
-
-#~ msgid "Add a news feed"
-#~ msgstr "Aggiungere un notiziario"
-
-#~ msgid "Enter the URL of the news feed you wish to add"
-#~ msgstr "Aggiungere la URL del notiziario RDF che si vuole aggiungere"
-
-#~ msgid "Add n_ews feed"
-#~ msgstr "Aggiungi not_iziario"
-
-#~ msgid "Delete news feed"
-#~ msgstr "Cancella notiziario"
-
-#~ msgid "_Mail"
-#~ msgstr "_Posta"
-
-#~ msgid "_Weather"
-#~ msgstr "_Meteo"
-
-#~ msgid "Force upgrading of configuration files from Evolution 1.0.x"
-#~ msgstr "Forza l'aggiornamento dei file di configurazione da Evolution 1.0.x"
-
-#~ msgid "&lt;b&gt;Status:&lt;/b&gt;"
-#~ msgstr "&lt;b&gt;Stato:&lt;/b&gt;"
-
-#~ msgid "&lt;b&gt;Receiving Email&lt;/b&gt;"
-#~ msgstr "&lt;b&gt;Ricezione email&lt;/b&gt;"
-
-#~ msgid "&lt;b&gt;Sending Email:&lt;/b&gt;"
-#~ msgstr "&lt;b&gt;Invio email:&lt;/b&gt;"
-
-#~ msgid "De_lete"
-#~ msgstr "E_limina"
-
-#~ msgid "_Meeting"
-#~ msgstr "Riunione"
-
-#~ msgid "_every"
-#~ msgstr "_ogni"
-
-#~ msgid "Check Address"
-#~ msgstr "Controlla indirizzo"
-
-#~ msgid "_Clear Flag"
-#~ msgstr "Azzera Segnalazione"
-
-#~ msgid "S_elect server: "
-#~ msgstr "S_eleziona server:"
-
-#~ msgid "Add"
-#~ msgstr "Aggiungi"
-
-#~ msgid "_Signature editor"
-#~ msgstr "Editor della Firma"
-
-#~ msgid "Create _New Folder..."
-#~ msgstr "Crea _Nuova cartella..."
