@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shell.c
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000, 2001 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -269,6 +269,7 @@ add_storage_set_view (GtkWidget *dialog,
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (vbox), scroll_frame, TRUE, TRUE, 0);
 
 	gtk_container_add (GTK_CONTAINER (scroll_frame), storage_set_view);
