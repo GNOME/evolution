@@ -1,16 +1,8 @@
-2003-07-01  Dan Winship  <danw@ximian.com>
+== Version 1.4.2 ==
 
-	* configure.in: Check for gnome-icon-lookup.h (which could mean
-	either plain GNOME 2.2 or Sun GNOME 2.0)
+2003-06-30  Ettore Perazzoli  <ettore@ximian.com>
 
-2003-06-30  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in:
-	* Makefile.am: removed libwombat from the build.
-
-	* evolution-calendar.pc.in: removed -lwombat.
-
-	* libwombat/*: removed unused directory.
+	* configure.in: Version 1.4.2.
 
 == Version 1.4.1 ==
 

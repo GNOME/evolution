@@ -211,7 +211,7 @@ best_encoding (GByteArray *buf, const char *charset)
 	do {
 		out = outbuf;
 		outlen = sizeof (outbuf);
-		status = e_iconv (cd, (const char **) &in, &inlen, &out, &outlen);
+		status = e_iconv (cd, &in, &inlen, &out, &outlen);
 		for (ch = out - 1; ch >= outbuf; ch--) {
 			if ((unsigned char)*ch > 127)
 				count++;
@@ -1335,10 +1335,7 @@ autosave_load_draft (const char *filename)
 		autosave_save_draft (composer);
 		
 		g_signal_connect (GTK_OBJECT (composer), "send",
-				  G_CALLBACK (composer_send_cb), NULL);
-		
-		g_signal_connect (GTK_OBJECT (composer), "save-draft",
-				  G_CALLBACK (composer_save_draft_cb), NULL);
+				    G_CALLBACK (composer_send_cb), NULL);
 		
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
@@ -3564,8 +3561,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 	
 	if (postto == NULL) {
-		auto_cc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
-		auto_bcc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+		auto_cc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+		auto_bcc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 		
 		if (account) {
 			CamelInternetAddress *iaddr;
@@ -3827,7 +3824,6 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 	size_t nread, nwritten;
 	char *content;
 	int len, clen;
-	CamelURL *url;
 	
 	/* Parse recipients (everything after ':' until '?' or eos). */
 	p = mailto + 7;
@@ -3891,16 +3887,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 					}
 				}
 			} else if (!strncasecmp (header, "attach", len)) {
-				/*Change file url to absolute path*/
-				if (!strncasecmp (content, "file:", 5)) {
-					url = camel_url_new (content, NULL);
-					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-									      url->path);
-					camel_url_free (url);
-				} else {
-					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-									      content);
-				}
+				e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), content);
 			} else {
 				/* add an arbitrary header? */
 				e_msg_composer_add_header (composer, header, content);

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.0.6\n"
-"POT-Creation-Date: 2003-06-25 13:24-0400\n"
+"POT-Creation-Date: 2003-07-08 16:32-0400\n"
 "PO-Revision-Date: 2000-11-01 00:40+0100\n"
 "Last-Translator: Quico Llach <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -625,7 +625,7 @@ msgid "Evolution Addressbook folder viewer"
 msgstr "Conducte de la llibreta d'adreces de l'Evolution"
 
 #: addressbook/gui/component/addressbook-component.c:76
-#: addressbook/gui/component/addressbook-component.c:620
+#: addressbook/gui/component/addressbook-component.c:625
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1844
 #: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 #, fuzzy
@@ -663,32 +663,32 @@ msgstr ""
 "Error en carregar la informació del filtre:\n"
 "%s"
 
-#: addressbook/gui/component/addressbook-component.c:574
+#: addressbook/gui/component/addressbook-component.c:579
 #, fuzzy
 msgid "New Contact"
 msgstr "Visualitza tots els contactes"
 
-#: addressbook/gui/component/addressbook-component.c:574
+#: addressbook/gui/component/addressbook-component.c:579
 #, fuzzy
 msgid "_Contact"
 msgstr "_Contactes..."
 
-#: addressbook/gui/component/addressbook-component.c:575
+#: addressbook/gui/component/addressbook-component.c:580
 #, fuzzy
 msgid "Create a new contact"
 msgstr "Crea un nou contacte"
 
-#: addressbook/gui/component/addressbook-component.c:578
+#: addressbook/gui/component/addressbook-component.c:583
 #, fuzzy
 msgid "New Contact List"
 msgstr "Visualitza tots els contactes"
 
-#: addressbook/gui/component/addressbook-component.c:578
+#: addressbook/gui/component/addressbook-component.c:583
 #, fuzzy
 msgid "Contact _List"
 msgstr "_Contactes..."
 
-#: addressbook/gui/component/addressbook-component.c:579
+#: addressbook/gui/component/addressbook-component.c:584
 #, fuzzy
 msgid "Create a new contact list"
 msgstr "Crea un nou contacte"
@@ -901,24 +901,24 @@ msgstr "Crea un nou contacte"
 msgid "Add address to existing contact \"%s\""
 msgstr ""
 
-#: addressbook/gui/component/e-address-popup.c:914
+#: addressbook/gui/component/e-address-popup.c:917
 #, fuzzy
 msgid "Querying Addressbook..."
 msgstr "Desa a la llibreta d'adreces"
 
-#: addressbook/gui/component/e-address-popup.c:998
+#: addressbook/gui/component/e-address-popup.c:1001
 #: addressbook/gui/component/e-address-widget.c:392
 msgid "Edit Contact Info"
 msgstr ""
 
-#: addressbook/gui/component/e-address-popup.c:1028
+#: addressbook/gui/component/e-address-popup.c:1031
 #: addressbook/gui/component/e-address-widget.c:428
 #: addressbook/gui/component/select-names/e-select-names-popup.c:324
 #, fuzzy
 msgid "Add to Contacts"
 msgstr "Contacte _nou"
 
-#: addressbook/gui/component/e-address-popup.c:1053
+#: addressbook/gui/component/e-address-popup.c:1056
 #, fuzzy
 msgid "Merge E-Mail Address"
 msgstr "Adreça electrònica:"
@@ -1533,7 +1533,7 @@ msgstr "Ca_tegories..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
-#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3631
+#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3636
 #: mail/folder-browser.c:1790 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
@@ -1587,7 +1587,7 @@ msgstr "Adreça de pàgina web:"
 #: addressbook/gui/contact-editor/e-contact-editor.c:184
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
 #: addressbook/gui/widgets/e-addressbook-model.c:318
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:402
 #: addressbook/gui/widgets/e-minicard-label.c:164
 #: addressbook/gui/widgets/e-minicard-view-widget.c:120
 #: addressbook/gui/widgets/e-minicard-view.c:478
@@ -2694,7 +2694,7 @@ msgstr ""
 #: addressbook/gui/contact-editor/e-contact-editor.c:156
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:142
 #: addressbook/gui/widgets/e-addressbook-model.c:304
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:388
 #: addressbook/gui/widgets/e-addressbook-view.c:180
 #: addressbook/gui/widgets/e-minicard-view-widget.c:106
 #: addressbook/gui/widgets/e-minicard-view.c:464
@@ -3016,7 +3016,7 @@ msgid "%d cards"
 msgstr " segons"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:311
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:386
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:395
 #: addressbook/gui/widgets/e-addressbook-view.c:187
 #: addressbook/gui/widgets/e-minicard-view-widget.c:113
 #: addressbook/gui/widgets/e-minicard-view.c:471
@@ -3029,7 +3029,7 @@ msgstr "maig"
 msgid "Error getting book view"
 msgstr "Error en carregar el fitxer: %s"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:400
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:409
 #, fuzzy
 msgid "Model"
 msgstr "Mòbil"
@@ -3197,114 +3197,114 @@ msgstr "Si us plau, introduïu la contrasenya NNTP per a %s@%s"
 msgid "Type"
 msgstr "Tipus:"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:394
+#: addressbook/gui/widgets/e-addressbook-view.c:398
 #: importers/evolution-gnomecard-importer.c:228 importers/pine-importer.c:642
 #: mail/importers/pine-importer.c:577
 #, fuzzy
 msgid "Addressbook"
 msgstr "Desa a la llibreta d'adreces"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:676
-#: addressbook/gui/widgets/e-addressbook-view.c:895
-#: addressbook/gui/widgets/e-addressbook-view.c:1879
+#: addressbook/gui/widgets/e-addressbook-view.c:680
+#: addressbook/gui/widgets/e-addressbook-view.c:899
+#: addressbook/gui/widgets/e-addressbook-view.c:1883
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Desa com a VCard"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:882
+#: addressbook/gui/widgets/e-addressbook-view.c:886
 #, fuzzy
 msgid "New Contact..."
 msgstr "Visualitza tots els contactes"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:883
+#: addressbook/gui/widgets/e-addressbook-view.c:887
 #, fuzzy
 msgid "New Contact List..."
 msgstr "Visualitza tots els contactes"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:886
+#: addressbook/gui/widgets/e-addressbook-view.c:890
 #, fuzzy
 msgid "Go to Folder..."
 msgstr "_Vés a la carpeta..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:887
+#: addressbook/gui/widgets/e-addressbook-view.c:891
 #, fuzzy
 msgid "Import..."
 msgstr "S'està movent"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:889
+#: addressbook/gui/widgets/e-addressbook-view.c:893
 #, fuzzy
 msgid "Search for Contacts..."
 msgstr "_Cerca contactes"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:890
+#: addressbook/gui/widgets/e-addressbook-view.c:894
 #, fuzzy
 msgid "Addressbook Sources..."
 msgstr "Afegeix una font"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:892
+#: addressbook/gui/widgets/e-addressbook-view.c:896
 #, fuzzy
 msgid "Pilot Settings..."
 msgstr "_Paràmetres"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:896
+#: addressbook/gui/widgets/e-addressbook-view.c:900
 #: ui/evolution-addressbook.xml.h:10
 #, fuzzy
 msgid "Forward Contact"
 msgstr "Reenvia"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:897
+#: addressbook/gui/widgets/e-addressbook-view.c:901
 #, fuzzy
 msgid "Send Message to Contact"
 msgstr "FIXME: Nou _missatge per contactar"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:898 calendar/gui/print.c:2439
+#: addressbook/gui/widgets/e-addressbook-view.c:902 calendar/gui/print.c:2439
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:1
 msgid "Print"
 msgstr "Imprimeix"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:900
+#: addressbook/gui/widgets/e-addressbook-view.c:904
 #, fuzzy
 msgid "Print Envelope"
 msgstr "Imprimeix el missatge..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:904
+#: addressbook/gui/widgets/e-addressbook-view.c:908
 #, fuzzy
 msgid "Copy to folder..."
 msgstr "Copia a la carpeta"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:905
+#: addressbook/gui/widgets/e-addressbook-view.c:909
 #, fuzzy
 msgid "Move to folder..."
 msgstr "Mou a la carpeta"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:908
+#: addressbook/gui/widgets/e-addressbook-view.c:912
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 #, fuzzy
 msgid "Cut"
 msgstr "Personalitzat"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:909
+#: addressbook/gui/widgets/e-addressbook-view.c:913
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:8
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copia"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:910
+#: addressbook/gui/widgets/e-addressbook-view.c:914
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:9
 msgid "Paste"
 msgstr "Enganxa"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:911 filter/libfilter-i18n.h:11
+#: addressbook/gui/widgets/e-addressbook-view.c:915 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:234 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:915
-#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3596
+#: addressbook/gui/widgets/e-addressbook-view.c:919
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3601
 #, fuzzy
 msgid "Current View"
 msgstr "l'hora actual"
@@ -3313,7 +3313,7 @@ msgstr "l'hora actual"
 #. Translators: put here a list of labels you want to see on buttons in
 #. addressbook. You may use any character to separate labels but it must
 #. also be placed at the begining ot the string
-#: addressbook/gui/widgets/e-addressbook-view.c:949
+#: addressbook/gui/widgets/e-addressbook-view.c:953
 msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ""
 
@@ -3321,11 +3321,11 @@ msgstr ""
 #. in addressbook. You may use any character to separate labels but it
 #. must also be placed at the begining ot the string.
 #. Use lower case letters if possible.
-#: addressbook/gui/widgets/e-addressbook-view.c:954
+#: addressbook/gui/widgets/e-addressbook-view.c:958
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ""
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1352
+#: addressbook/gui/widgets/e-addressbook-view.c:1356
 #, c-format
 msgid ""
 "The addressbook backend for\n"
@@ -3949,7 +3949,7 @@ msgstr "Hora de _finalització:"
 msgid "Evolution Alarm"
 msgstr "Evolution"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:365
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:366
 #, fuzzy, c-format
 msgid "Alarm on %s"
 msgstr "Alarmes"
@@ -4252,7 +4252,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2056
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2061
 #: mail/folder-browser.c:1752 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4772,46 +4772,46 @@ msgstr ""
 "Esteu segur que voleu\n"
 "suprimir aquest contacte?"
 
-#: calendar/gui/dialogs/changed-comp.c:58
+#: calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:62
+#: calendar/gui/dialogs/changed-comp.c:63
 msgid "This task has been deleted."
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:66
+#: calendar/gui/dialogs/changed-comp.c:67
 msgid "This journal entry has been deleted."
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:75
+#: calendar/gui/dialogs/changed-comp.c:76
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:77
+#: calendar/gui/dialogs/changed-comp.c:78
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:82
+#: calendar/gui/dialogs/changed-comp.c:83
 msgid "This event has been changed."
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:86
+#: calendar/gui/dialogs/changed-comp.c:87
 msgid "This task has been changed."
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:90
+#: calendar/gui/dialogs/changed-comp.c:91
 msgid "This journal entry has been changed."
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:99
+#: calendar/gui/dialogs/changed-comp.c:100
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
 msgstr ""
 
-#: calendar/gui/dialogs/changed-comp.c:101
+#: calendar/gui/dialogs/changed-comp.c:102
 #, c-format
 msgid "%s  You have made no changes, update the editor?"
 msgstr ""
@@ -4892,17 +4892,17 @@ msgstr "Sense resum"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3993
-#: calendar/gui/e-week-view.c:3840 composer/e-msg-composer.c:1164
+#: calendar/gui/e-week-view.c:3845 composer/e-msg-composer.c:1169
 msgid "Save as..."
 msgstr "Anomena i desa..."
 
-#: calendar/gui/dialogs/comp-editor.c:1382
-#: calendar/gui/dialogs/comp-editor.c:1406
-#: calendar/gui/dialogs/comp-editor.c:1432
+#: calendar/gui/dialogs/comp-editor.c:1383
+#: calendar/gui/dialogs/comp-editor.c:1407
+#: calendar/gui/dialogs/comp-editor.c:1433
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1459
+#: calendar/gui/dialogs/comp-editor.c:1460
 msgid "Unable to obtain current version!"
 msgstr ""
 
@@ -5403,7 +5403,7 @@ msgstr ""
 "\n"
 "Voleu desar-ne els canvis?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1557
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1562
 msgid "_Discard Changes"
 msgstr ""
 
@@ -5643,7 +5643,7 @@ msgid "Deleting selected objects"
 msgstr "Suprimeix un contacte"
 
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3737
-#: calendar/gui/e-week-view.c:3613 mail/folder-browser.c:1763
+#: calendar/gui/e-week-view.c:3618 mail/folder-browser.c:1763
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 #, fuzzy
 msgid "_Open"
@@ -5655,7 +5655,7 @@ msgid "_Save as..."
 msgstr "Anomena i desa..."
 
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3739
-#: calendar/gui/e-week-view.c:3588 calendar/gui/e-week-view.c:3615
+#: calendar/gui/e-week-view.c:3593 calendar/gui/e-week-view.c:3620
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
@@ -5664,14 +5664,14 @@ msgid "_Print..."
 msgstr "Imprimeix..."
 
 #: calendar/gui/e-calendar-table.c:964 calendar/gui/e-day-view.c:3744
-#: calendar/gui/e-week-view.c:3620 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-week-view.c:3625 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 #, fuzzy
 msgid "C_ut"
 msgstr "Personalitzat"
 
 #: calendar/gui/e-calendar-table.c:965 calendar/gui/e-day-view.c:3745
-#: calendar/gui/e-week-view.c:3621 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-week-view.c:3626 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 #, fuzzy
@@ -5679,8 +5679,8 @@ msgid "_Copy"
 msgstr "Copia"
 
 #: calendar/gui/e-calendar-table.c:966 calendar/gui/e-day-view.c:3710
-#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3592
-#: calendar/gui/e-week-view.c:3622 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3597
+#: calendar/gui/e-week-view.c:3627 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 #, fuzzy
@@ -5712,8 +5712,8 @@ msgstr "Marca com a completa"
 msgid "_Delete Selected Tasks"
 msgstr "Suprimeix la tasca"
 
-#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7929
-#: calendar/gui/e-week-view.c:4335
+#: calendar/gui/e-calendar-table.c:1265 calendar/gui/e-day-view.c:7949
+#: calendar/gui/e-week-view.c:4342
 msgid "Updating objects"
 msgstr ""
 
@@ -5831,17 +5831,17 @@ msgstr "pm"
 msgid "New _Appointment"
 msgstr "Nova cita..."
 
-#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3582
+#: calendar/gui/e-day-view.c:3696 calendar/gui/e-week-view.c:3587
 #, fuzzy
 msgid "New All Day _Event"
 msgstr "Esdeveniment per a _tot el dia"
 
-#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3583
+#: calendar/gui/e-day-view.c:3698 calendar/gui/e-week-view.c:3588
 #, fuzzy
 msgid "New Meeting"
 msgstr "Cancel·lat"
 
-#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3584
+#: calendar/gui/e-day-view.c:3700 calendar/gui/e-week-view.c:3589
 #, fuzzy
 msgid "New Task"
 msgstr "Tasca"
@@ -5850,56 +5850,56 @@ msgstr "Tasca"
 msgid "Print..."
 msgstr "Imprimeix..."
 
-#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3598
+#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3603
 #: ui/evolution-calendar.xml.h:13
 #, fuzzy
 msgid "Go to _Today"
 msgstr "Vés a avui"
 
-#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3599
+#: calendar/gui/e-day-view.c:3719 calendar/gui/e-week-view.c:3604
 #, fuzzy
 msgid "_Go to Date..."
 msgstr "Vés a una data"
 
-#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3603
+#: calendar/gui/e-day-view.c:3724 calendar/gui/e-week-view.c:3608
 #: ui/evolution-calendar.xml.h:34
 #, fuzzy
 msgid "_Publish Free/Busy Information"
 msgstr "Cap informació"
 
-#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3607
+#: calendar/gui/e-day-view.c:3729 calendar/gui/e-week-view.c:3612
 #: ui/evolution.xml.h:60
 #, fuzzy
 msgid "_Settings..."
 msgstr "_Paràmetres"
 
-#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3614
+#: calendar/gui/e-day-view.c:3738 calendar/gui/e-week-view.c:3619
 #: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:112
 #, fuzzy
 msgid "_Save As..."
 msgstr "Anomena i desa..."
 
-#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3626
+#: calendar/gui/e-day-view.c:3750 calendar/gui/e-week-view.c:3631
 #, fuzzy
 msgid "_Schedule Meeting..."
 msgstr "Seleccioneu una carpeta"
 
-#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3627
+#: calendar/gui/e-day-view.c:3751 calendar/gui/e-week-view.c:3632
 #, fuzzy
 msgid "_Forward as iCalendar..."
 msgstr "FIXME: Reenvia com a v_Calendar"
 
-#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3632
+#: calendar/gui/e-day-view.c:3756 calendar/gui/e-week-view.c:3637
 #, fuzzy
 msgid "Make this Occurrence _Movable"
 msgstr "Fes aquesta cita movible"
 
-#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3633
+#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3638
 #, fuzzy
 msgid "Delete this _Occurrence"
 msgstr "Suprimeix-ne aquesta aparició"
 
-#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3634
+#: calendar/gui/e-day-view.c:3758 calendar/gui/e-week-view.c:3639
 #, fuzzy
 msgid "Delete _All Occurrences"
 msgstr "Suprimeix-ne totes les aparicions"
@@ -6659,7 +6659,7 @@ msgstr "Suprimeix un contacte"
 msgid "Expunging"
 msgstr "_Esborra"
 
-#: calendar/gui/e-week-view.c:3581
+#: calendar/gui/e-week-view.c:3586
 #, fuzzy
 msgid "New _Appointment..."
 msgstr "Nova cita..."
@@ -11217,12 +11217,12 @@ msgstr "Descripció:"
 msgid "Attach file(s)"
 msgstr "Adjunta un fitxer"
 
-#: composer/e-msg-composer.c:535
+#: composer/e-msg-composer.c:540
 #, fuzzy
 msgid "Could not create a PGP signature context"
 msgstr "No s'ha pogut crear el quadre de diàleg."
 
-#: composer/e-msg-composer.c:814
+#: composer/e-msg-composer.c:819
 #, fuzzy, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -11231,65 +11231,65 @@ msgstr ""
 "Error en preparar-se per a %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1177
+#: composer/e-msg-composer.c:1182
 msgid "File exists, overwrite?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1195
+#: composer/e-msg-composer.c:1200
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Error en desar el fitxer: %s"
 
-#: composer/e-msg-composer.c:1218
+#: composer/e-msg-composer.c:1223
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Error en carregar el fitxer: %s"
 
-#: composer/e-msg-composer.c:1256
+#: composer/e-msg-composer.c:1261
 #, fuzzy, c-format
 msgid "Error accessing file: %s"
 msgstr "Error en desar el fitxer: %s"
 
-#: composer/e-msg-composer.c:1264
+#: composer/e-msg-composer.c:1269
 #, fuzzy
 msgid "Unable to retrieve message from editor"
 msgstr "No s'ha pogut recuperar el missatge %s del servidor POP: %s"
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1276
 #, fuzzy, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr "No es pot desar el fitxer de llista de grups per a %s: %s"
 
-#: composer/e-msg-composer.c:1278
+#: composer/e-msg-composer.c:1283
 #, fuzzy, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr "No es pot desar el fitxer de llista de grups per a %s: %s"
 
-#: composer/e-msg-composer.c:1287
+#: composer/e-msg-composer.c:1292
 #, fuzzy, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
 "%s"
 msgstr "No es pot desar el fitxer de llista de grups per a %s: %s"
 
-#: composer/e-msg-composer.c:1296
+#: composer/e-msg-composer.c:1301
 #, fuzzy, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
 msgstr "Error en desar el fitxer: %s"
 
-#: composer/e-msg-composer.c:1390
+#: composer/e-msg-composer.c:1395
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1552
+#: composer/e-msg-composer.c:1557
 #, fuzzy, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -11300,36 +11300,36 @@ msgstr ""
 "\n"
 "Voleu desar-ne els canvis?"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1566
 #, fuzzy
 msgid "Warning: Modified Message"
 msgstr "Reenvia el missatge"
 
-#: composer/e-msg-composer.c:1593
+#: composer/e-msg-composer.c:1598
 msgid "Open file"
 msgstr "Obre un fitxer"
 
-#: composer/e-msg-composer.c:2017
+#: composer/e-msg-composer.c:2022
 #, fuzzy
 msgid "Signature:"
 msgstr "Fitxer de signatura:"
 
-#: composer/e-msg-composer.c:2057 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2062 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr ""
 
-#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2902
-#: composer/e-msg-composer.c:2903
+#: composer/e-msg-composer.c:2238 composer/e-msg-composer.c:2907
+#: composer/e-msg-composer.c:2908
 msgid "Compose a message"
 msgstr "Redacta un missatge"
 
-#: composer/e-msg-composer.c:2934
+#: composer/e-msg-composer.c:2939
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2962
+#: composer/e-msg-composer.c:2967
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -11338,14 +11338,14 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr "No s'ha pogut crear la finestra del redactor."
 
-#: composer/e-msg-composer.c:3029
+#: composer/e-msg-composer.c:3034
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr "No s'ha pogut crear la finestra del redactor."
 
-#: composer/e-msg-composer.c:4045
+#: composer/e-msg-composer.c:4050
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"

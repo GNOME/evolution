@@ -443,7 +443,7 @@ load_source_data (const char *file_path)
 	}
 
 	for (child = root->children; child; child = child->next) {
-		char *path;
+		char *path, *value;
 		AddressbookSource *source;
 
 		source = g_new0 (AddressbookSource, 1);
@@ -452,9 +452,15 @@ load_source_data (const char *file_path)
 			source->port   = get_string_value (child, "port");
 			source->host   = get_string_value (child, "host");
 			source->rootdn = get_string_value (child, "rootdn");
-			source->scope  = ldap_parse_scope (get_string_value (child, "scope"));
-			source->auth   = ldap_parse_auth (get_string_value (child, "authmethod"));
-			source->ssl    = ldap_parse_ssl (get_string_value (child, "ssl"));
+			value = get_string_value (child, "scope");
+			source->scope  = ldap_parse_scope (value);
+			g_free (value);
+			value = get_string_value (child, "authmethod");
+			source->auth   = ldap_parse_auth (value);
+			g_free (value);
+			value = get_string_value (child, "ssl");
+			source->ssl    = ldap_parse_ssl (value);
+			g_free (value);
 			source->email_addr = get_string_value (child, "emailaddr");
 			source->binddn = get_string_value (child, "binddn");
 			source->limit  = get_integer_value (child, "limit", 100);

@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 1.4.1, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 1.4.3, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -358,7 +358,7 @@ AC_CACHE_CHECK([for db3 library name], ac_cv_db3_ldadd,
 	ac_cv_db3_ldadd=""
 
 	for name in db db3 db-3.1; do
-		LIBS="$LIBS_save $with_db3_libs/lib${name}.a -lpthread"
+		LIBS="$LIBS_save $with_db3_libs/lib${name}.a"
 		AC_TRY_LINK([
 			#ifdef HAVE_DB3_DB_H
 			#include <db3/db.h>
@@ -369,7 +369,7 @@ AC_CACHE_CHECK([for db3 library name], ac_cv_db3_ldadd,
 			DB *db;
 			db_create (&db, 0, 0);
 		], [
-			ac_cv_db3_ldadd="$with_db3_libs/lib${name}.a -lpthread"
+			ac_cv_db3_ldadd="$with_db3_libs/lib${name}.a"
 			break
 		])
 	done
@@ -1058,11 +1058,6 @@ EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
 AC_SUBST(GNOME_FULL_CFLAGS)
 AC_SUBST(GNOME_FULL_LIBS)
 
-CPPFLAGS_save="$CPPFLAGS"
-CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
-AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
-CPPFLAGS="$CPPFLAGS_save"
-
 dnl --- Flags for the various libraries we build
 
 EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gthread-2.0 gal-2.0 >= $GAL_REQUIRED $mozilla_nss,
@@ -1367,6 +1362,7 @@ widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
 wombat/Makefile
+libwombat/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/idl/Makefile

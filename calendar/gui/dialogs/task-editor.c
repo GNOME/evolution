@@ -50,7 +50,6 @@ struct _TaskEditorPrivate {
 
 static void task_editor_class_init (TaskEditorClass *class);
 static void task_editor_init (TaskEditor *te);
-static void task_editor_set_cal_client (CompEditor *editor, CalClient *client);
 static void task_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static gboolean task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void task_editor_finalize (GObject *object);
@@ -100,7 +99,6 @@ task_editor_class_init (TaskEditorClass *klass)
 
 	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
 
-	editor_class->set_cal_client = task_editor_set_cal_client;
 	editor_class->edit_comp = task_editor_edit_comp;
 	editor_class->send_comp = task_editor_send_comp;
 
@@ -213,21 +211,6 @@ task_editor_construct (TaskEditor *te, CalClient *client)
 	set_menu_sens (te);
 
 	return te;
-}
-
-static void
-task_editor_set_cal_client (CompEditor *editor, CalClient *client)
-{
-	TaskEditor *te;
-	TaskEditorPrivate *priv;
-
-	te = TASK_EDITOR (editor);
-	priv = te->priv;
-
-	e_meeting_model_set_cal_client (priv->model, client);
-
-	if (parent_class->set_cal_client)
-		parent_class->set_cal_client (editor, client);
 }
 
 static void
@@ -363,14 +346,12 @@ task_editor_finalize (GObject *object)
 	te = TASK_EDITOR (object);
 	priv = te->priv;
 
-	g_object_unref (priv->task_page);
-	g_object_unref (priv->task_details_page);
-	g_object_unref (priv->meet_page);
+	g_object_unref((priv->task_page));
+	g_object_unref((priv->task_details_page));
+	g_object_unref((priv->meet_page));
 	
 	g_object_unref (priv->model);
 	
-	g_free (priv);
-
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }

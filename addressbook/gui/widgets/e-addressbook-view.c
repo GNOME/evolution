@@ -326,6 +326,10 @@ e_addressbook_view_dispose (GObject *object)
 	EAddressbookView *eav = E_ADDRESSBOOK_VIEW(object);
 
 	if (eav->model) {
+		g_signal_handlers_disconnect_matched (eav->model,
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      object);
 		g_object_unref (eav->model);
 		eav->model = NULL;
 	}

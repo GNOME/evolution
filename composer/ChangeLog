@@ -1,25 +1,3 @@
-2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_new_with_message): Updated to
-	use camel_strcase_hash/equal.
-
-2003-07-01  Dan Winship  <danw@ximian.com>
-
-	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): Gone.
-	(update): Use e_icon_for_mime_type instead.
-
-	* Makefile.am (INCLUDES): remove EVOLUTION_IMAGESDIR define
-
-2003-06-25  Antonio Xu  <antonio.xu@sun.com>
-
-	* e-msg-composer.c (handle_mailto): Change file url to absolute
-	path. Fixes bug #44065.
-
-2003-07-01  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (autosave_load_draft): Connect to the
-	save-draft signal too. Fixes bug #45531.
-
 2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Set the rawtext bits for the

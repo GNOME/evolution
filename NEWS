@@ -1,3 +1,47 @@
+Evolution 1.4.3, 2003-07-08
+---------------------------
+
+Bugs fixed:
+
+  * Addresbook
+
+    - Fixed a race condition that could cause a crash on exit and some
+      memory leaks.  (Dan)
+
+  * Calendar
+
+    - Make it compile against GTK 2.0 again.  (Rodrigo)
+
+Updated translations:
+
+  - cs (Miloslav Trmac)
+  - hu (Andras Timar)
+
+
+Evolution 1.4.2, 2003-06-30
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Calendar
+
+    #44719 - Alarm Notify window is not sticky any more (Rodrigo)
+    #44723 - Alarm Notify - Displays _originally entered_ summary (Rodrigo)
+    #45276 - Use the key "Esc" to escape editing current event and give focusi
+             to day/week view (Bolian Yin)
+
+Other bugs
+
+  * Calendar
+
+    - Made all dialogs be centered on the Evolution window (Rodrigo)
+
+  * Mail
+
+    - Fixed a charset handling problem in the message composer, which
+      was introduced in 1.4.1.
+
+
 Evolution 1.4.1, 2003-06-25
 ---------------------------
 
