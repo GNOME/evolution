@@ -1,5 +1,10 @@
 2002-06-04  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_setup_view_menus):
+	gal_view_menus_set_show_define_views (..., FALSE);
+
+2002-06-04  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/e-tasks.c (e_tasks_setup_view_menus), gui/gnome-cal.c
 	(gnome_calendar_setup_view_menus): Set the title of our
 	GalViewCollection.

@@ -1393,6 +1393,7 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 	priv->view_instance = gal_view_instance_new (collection, cal_client_get_uri (priv->client));
 
 	priv->view_menus = gal_view_menus_new (priv->view_instance);
+	gal_view_menus_set_show_define_views (priv->view_menus, FALSE);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);
 	gnome_calendar_set_view (gcal, priv->current_view_type, TRUE, FALSE);
 
