@@ -1,7 +1,7 @@
 <Root>
 
 	<menu>
-		<submenu name="File" _label="_File">
+		<submenu name="File">
 
 			<submenu name="New" _label="_New">
 
@@ -35,7 +35,7 @@
 
 		</submenu>
 
-		<submenu name="Edit" _label="_Edit">
+		<submenu name="Edit">
 
 			<menuitem name="Appointment" _label="_New appointment..."
 			verb="EditNewAppointment" _descr="Create a new appointment"/>

@@ -1,7 +1,7 @@
 <Root>
 
 	<menu>
-		<submenu name="File" _label="_File">
+		<submenu name="File">
 
 			<placeholder name="Print">
 
@@ -13,7 +13,7 @@
 
 		</submenu>
 
-		<submenu name="View" _label="_View">
+		<submenu name="View">
 
 			<menuitem name="AsTable" _label="As _Table"
 			verb="ViewAsTable"/>

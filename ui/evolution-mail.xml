@@ -8,7 +8,7 @@
 
   <menu>
 
-    <submenu name="File" _label="_File">
+    <submenu name="File">
 
 	<placeholder name="Print">
 
@@ -21,16 +21,12 @@
         _label="Print Preview of message..."
         _descr="Previews the message to be printed"
         pixtype="stock" pixname="Menu_Print"/>
-	
-<!-- do we need this separator ? -->
-
-        <menuitem/>
 
       </placeholder>
 
     </submenu>
 
-    <submenu name="Edit" _label="_Edit">
+    <submenu name="Edit">
 
         <menuitem name="EditSelectAll" verb=""
         _label="Select _All"/>
@@ -40,7 +36,7 @@
 
     </submenu>
 
-    <submenu name="View" _label="_View">
+    <submenu name="View">
 
       <menuitem/>
 
@@ -49,7 +45,7 @@
 
     </submenu>
 
-    <submenu name="Settings" _label="_Settings">
+    <submenu name="Settings">
 
       <menuitem name="MailFilters" verb="SetMailFilter"
       _label="Mail _Filters..."/>
