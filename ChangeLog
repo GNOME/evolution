@@ -1,5 +1,13 @@
 2001-03-22  Jakub Steiner <jimmac@ximian.com>
 
+	* art/new-message.xpm: file->new->mail message
+	* art/folder.xpm: file->new->folder
+	* art/new_appointment.xpm: file->new->appontment
+	* art/print-preview.xpm: file->print preview
+	* art/configure_16_calendar.xpm: for the tools menu
+
+2001-03-22  Jakub Steiner <jimmac@ximian.com>
+
 	* art/splash.png: move it a bit up so the icons fit better
 
 2001-03-22  Christopher James Lahey  <clahey@ximian.com>
