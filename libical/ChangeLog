@@ -1,3 +1,8 @@
+2001-02-05  JP Rosevear  <jpr@ximian.com>
+
+	* src/libical/icallangbind.c (icallangbind_get_property): Use the
+	renamed api call
+
 2001-02-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* src/libical/Makefile.am (COMBINEDHEADERS): `icalvalue.h',
