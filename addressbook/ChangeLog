@@ -1,5 +1,12 @@
 2004-09-29  Hans Petter Jansson  <hpj@ximian.com>
 
+	Fixes bug #66369.
+
+	* util/eab-book-util.c (eab_contact_list_from_string): Make the
+	vcard splitter work with any amount of blank lines between vcards.
+
+2004-09-29  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes bug #65537.
 
 	* gui/merging/eab-contact-compare.c (query_cb): Protect against NULL
