@@ -1,3 +1,18 @@
+2001-07-24  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (wants_html_changed): call
+	widget_changed.
+	(phone_entry_changed): same.
+	(email_entry_changed): same.
+	(address_text_changed): same.
+	(name_entry_changed): same.
+	(company_entry_changed): same.
+	(widget_changed): new function that we can either call or set as a
+	signal to change the "changed" flag on the dialog.
+	(set_entry_changed_signals): connect lots of "changed" signals on
+	widgets to widget_changed.
+	(add_lists): connect "changed" to widget_changed.
+
 2001-07-24  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

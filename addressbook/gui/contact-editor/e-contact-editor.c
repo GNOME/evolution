@@ -82,6 +82,7 @@ static void set_fields(EContactEditor *editor);
 static void set_address_field(EContactEditor *editor, int result);
 static void add_field_callback(GtkWidget *widget, EContactEditor *editor);
 static void command_state_changed (EContactEditor *ce);
+static void widget_changed (GtkWidget *widget, EContactEditor *editor);
 static void close_dialog (EContactEditor *ce);
 
 static GtkObjectClass *parent_class = NULL;
@@ -249,10 +250,7 @@ wants_html_changed (GtkWidget *widget, EContactEditor *editor)
 		       "wants_html", wants_html,
 		       NULL);
 
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	widget_changed (widget, editor);
 }
 
 static void
@@ -283,10 +281,7 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	e_card_phone_free(phone);
 	set_fields(editor);
 
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	widget_changed (widget, editor);
 }
 
 static void
@@ -301,10 +296,7 @@ email_entry_changed (GtkWidget *widget, EContactEditor *editor)
 
 	g_free (string);
 
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	widget_changed (widget, editor);
 }
 
 static void
@@ -323,10 +315,7 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 	e_card_simple_set_address(editor->simple, editor->address_choice, address);
 	e_card_address_label_free(address);
 
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	widget_changed (widget, editor);
 }
 
 /* This function tells you whether name_to_style will make sense.  */
@@ -499,10 +488,7 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	
 	file_as_set_style(editor, style);
 
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	widget_changed (widget, editor);
 }
 
 static void
@@ -518,10 +504,7 @@ company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	
 	file_as_set_style(editor, style);
 
-	if (!editor->changed) {
-		editor->changed = TRUE;
-		command_state_changed (editor);
-	}
+	widget_changed (widget, editor);
 }
 
 static void
@@ -531,6 +514,15 @@ set_entry_changed_signal_phone(EContactEditor *editor, char *id)
 	if (widget && GTK_IS_ENTRY(widget))
 		gtk_signal_connect(GTK_OBJECT(widget), "changed",
 				   phone_entry_changed, editor);
+}
+
+static void
+widget_changed (GtkWidget *widget, EContactEditor *editor)
+{
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 static void
@@ -561,6 +553,72 @@ set_entry_changed_signals(EContactEditor *editor)
 		gtk_signal_connect(GTK_OBJECT(widget), "changed",
 				   company_entry_changed, editor);
 	}
+	widget = glade_xml_get_widget(editor->gui, "entry-categories");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-jobtitle");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-file-as");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-manager");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-assistant");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-office");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-department");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-profession");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-nickname");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "entry-spouse");
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "text-comments");
+	if (widget && GTK_IS_TEXT(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "dateedit-birthday");
+	if (widget && E_IS_DATE_EDIT(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+	widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
+	if (widget && E_IS_DATE_EDIT(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   widget_changed, editor);
+	}
+
 }
 
 static void
@@ -711,6 +769,8 @@ add_lists (EContactEditor *editor)
 		ensure_select_names_contact (editor);
 		entry = e_select_names_manager_create_entry (editor->select_names_contacts,
 							     "contacts");
+		gtk_signal_connect(GTK_OBJECT(entry), "changed",
+				   widget_changed, editor);
 		gtk_table_attach_defaults (GTK_TABLE (table), entry, 0, 1, 0, 1);
 		gtk_widget_show (entry);
 	}
@@ -1831,7 +1891,7 @@ add_field_callback(GtkWidget *widget, EContactEditor *editor)
 	}
 }
 
-struct {
+static struct {
 	char *id;
 	char *key;
 } field_mapping [] = {
