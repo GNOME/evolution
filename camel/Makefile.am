@@ -17,14 +17,6 @@ INCLUDES = -I.. -I$(srcdir)/.. 			 	\
 	-DG_LOG_DOMAIN=\"camel\"			\
 	$(CAMEL_CFLAGS)
 
-if ENABLE_SMIME
-SMIME_SOURCES_C = camel-smime-context.c
-SMIME_SOURCES_H = camel-smime-context.h
-else
-SMIME_SOURCES_C =
-SMIME_SOURCES_H =
-endif
-
 libcamel_la_SOURCES = 				\
 	broken-date-parser.c			\
 	camel-address.c				\
@@ -100,7 +92,7 @@ libcamel_la_SOURCES = 				\
 	camel-seekable-substream.c		\
 	camel-service.c				\
 	camel-session.c				\
-	$(SMIME_SOURCES_C)			\
+	camel-smime-context.c			\
 	camel-store.c				\
 	camel-store-summary.c			\
 	camel-stream-buffer.c			\
@@ -201,7 +193,7 @@ libcamelinclude_HEADERS =			\
 	camel-seekable-substream.h		\
 	camel-service.h				\
 	camel-session.h				\
-	$(SMIME_SOURCES_H)			\
+	camel-smime-context.h			\
 	camel-store.h				\
 	camel-store-summary.h			\
 	camel-stream-buffer.h			\
@@ -291,6 +283,4 @@ noinst_HEADERS =				\
 
 EXTRA_DIST =					\
 	ChangeLog.pre-1-4			\
-	camel-smime-context.h			\
-	camel-smime-context.c			\
 	README

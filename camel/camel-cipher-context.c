@@ -339,6 +339,13 @@ camel_cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
 }
 
 /* Cipher Validity stuff */
+static void
+ccv_certinfo_free(CamelCipherCertInfo *info)
+{
+	g_free(info->name);
+	g_free(info->email);
+	g_free(info);
+}
 
 CamelCipherValidity *
 camel_cipher_validity_new (void)
@@ -358,6 +365,8 @@ camel_cipher_validity_init (CamelCipherValidity *validity)
 
 	memset(validity, 0, sizeof(*validity));
 	e_dlist_init(&validity->children);
+	e_dlist_init(&validity->sign.signers);
+	e_dlist_init(&validity->encrypt.encrypters);
 }
 
 gboolean
@@ -398,6 +407,7 @@ camel_cipher_validity_clear (CamelCipherValidity *validity)
 {
 	g_assert (validity != NULL);
 
+	/* TODO: this doesn't free children/clear key lists */
 	g_free(validity->sign.description);
 	g_free(validity->encrypt.description);
 	camel_cipher_validity_init(validity);
@@ -407,6 +417,7 @@ CamelCipherValidity *
 camel_cipher_validity_clone(CamelCipherValidity *vin)
 {
 	CamelCipherValidity *vo;
+	CamelCipherCertInfo *info;
 
 	vo = camel_cipher_validity_new();
 	vo->sign.status = vin->sign.status;
@@ -414,7 +425,44 @@ camel_cipher_validity_clone(CamelCipherValidity *vin)
 	vo->encrypt.status = vin->encrypt.status;
 	vo->encrypt.description = g_strdup(vin->encrypt.description);
 
+	info = (CamelCipherCertInfo *)vin->sign.signers.head;
+	while (info->next) {
+		camel_cipher_validity_add_certinfo(vo, CAMEL_CIPHER_VALIDITY_SIGN, info->name, info->email);
+		info = info->next;
+	}
+
+	info = (CamelCipherCertInfo *)vin->encrypt.encrypters.head;
+	while (info->next) {
+		camel_cipher_validity_add_certinfo(vo, CAMEL_CIPHER_VALIDITY_ENCRYPT, info->name, info->email);
+		info = info->next;
+	}
+
 	return vo;
+}
+
+/**
+ * camel_cipher_validity_add_certinfo:
+ * @vin: 
+ * @mode: 
+ * @name: 
+ * @email: 
+ * 
+ * Add a cert info to the signer or encrypter info.
+ **/
+void
+camel_cipher_validity_add_certinfo(CamelCipherValidity *vin, enum _camel_cipher_validity_mode_t mode, const char *name, const char *email)
+{
+	CamelCipherCertInfo *info;
+	EDList *list;
+
+	info = g_malloc0(sizeof(*info));
+	info->name = g_strdup(name);
+	info->email = g_strdup(email);
+
+	list = (mode==CAMEL_CIPHER_VALIDITY_SIGN)?&vin->sign.signers:&vin->encrypt.encrypters;
+	e_dlist_addtail(list, (EDListNode *)info);
+
+	printf("adding certinfo %s <%s>\n", name?name:"unset", email?email:"unset");
 }
 
 /**
@@ -428,6 +476,8 @@ camel_cipher_validity_clone(CamelCipherValidity *vin)
 void
 camel_cipher_validity_envelope(CamelCipherValidity *parent, CamelCipherValidity *valid)
 {
+	CamelCipherCertInfo *info;
+
 	if (parent->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
 	    && parent->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 	    && valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
@@ -435,6 +485,11 @@ camel_cipher_validity_envelope(CamelCipherValidity *parent, CamelCipherValidity 
 		/* case 1: only signed inside only encrypted -> merge both */
 		parent->encrypt.status = valid->encrypt.status;
 		parent->encrypt.description = g_strdup(valid->encrypt.description);
+		info = (CamelCipherCertInfo *)valid->encrypt.encrypters.head;
+		while (info->next) {
+			camel_cipher_validity_add_certinfo(parent, CAMEL_CIPHER_VALIDITY_ENCRYPT, info->name, info->email);
+			info = info->next;
+		}
 	} else if (parent->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
 		   && parent->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		   && valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
@@ -442,6 +497,11 @@ camel_cipher_validity_envelope(CamelCipherValidity *parent, CamelCipherValidity 
 		/* case 2: only encrypted inside only signed */
 		parent->sign.status = valid->sign.status;
 		parent->sign.description = g_strdup(valid->sign.description);
+		info = (CamelCipherCertInfo *)valid->sign.signers.head;
+		while (info->next) {
+			camel_cipher_validity_add_certinfo(parent, CAMEL_CIPHER_VALIDITY_SIGN, info->name, info->email);
+			info = info->next;
+		}
 	}
 	/* Otherwise, I dunno - what do you do? */
 }
@@ -450,12 +510,19 @@ void
 camel_cipher_validity_free (CamelCipherValidity *validity)
 {
 	CamelCipherValidity *child;
+	CamelCipherCertInfo *info;
 
 	if (validity == NULL)
 		return;
 
 	while ((child = (CamelCipherValidity *)e_dlist_remhead(&validity->children)))
 		camel_cipher_validity_free(child);
+
+	while ((info = (CamelCipherCertInfo *)e_dlist_remhead(&validity->sign.signers)))
+		ccv_certinfo_free(info);
+
+	while ((info = (CamelCipherCertInfo *)e_dlist_remhead(&validity->encrypt.encrypters)))
+		ccv_certinfo_free(info);
 
 	camel_cipher_validity_clear(validity);
 	g_free(validity);

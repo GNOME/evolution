@@ -30,6 +30,8 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_NSS
+
 #include "nss.h"
 #include <cms.h>
 #include <cert.h>
@@ -635,6 +637,8 @@ sm_verify_cmsg(CamelCipherContext *context, NSSCMSMessage *cmsg, CamelStream *ex
 							       cn?cn:"<unknown>", em?em:"<unknown>",
 							       sm_status_description(status));
 					
+					camel_cipher_validity_add_certinfo(valid, CAMEL_CIPHER_VALIDITY_SIGN, cn, em);
+
 					if (cn)
 						PORT_Free(cn);
 					if (em)
@@ -1059,3 +1063,5 @@ camel_smime_context_get_type(void)
 	
 	return type;
 }
+
+#endif /* HAVE_NSS */

@@ -1,5 +1,22 @@
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
+	* Makefile.am (libcamel_la_SOURCES): put the
+	camel-smime-context.[ch] back in here, remove it from EXTRA_DIST,
+	and make it compile optinally the same way camel-tcp-stream-ssl.c
+	does (#ifdef ...).
+
+	* camel-smime-context.c (sm_verify_cmsg): add signer info to
+	certvalidity.
+
+	* camel-cipher-context.c (CamelCipherValidity): Added certinfo to
+	validity for signing and encrypting, so we can find the keys later
+	for a gui.
+	(camel_cipher_validity_add_certinfo): add signer or
+	encrypter info to the validity.
+	(camel_cipher_validity_envelope): add sign/encrypt keys.
+
+2003-12-10  Not Zed  <NotZed@Ximian.com>
+
 	* camel-stream-process.c (do_exec_command): remove dthe clearenv
 	stuff, not sure why its there.  s/setenv/putenv/ for portability.
 	See Bug #51767.
