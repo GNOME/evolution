@@ -2,6 +2,7 @@
 
 	* POTFILES.in: Removed camel/camel-pgp-context.c and added
 	camel-gpg-context.c and camel-multipart-encrypted.c.
+	Also removed camel/camel-spoold-store.c
 
 2002-06-23  Kjartan Maraas  <kmaraas@gnome.org>
 

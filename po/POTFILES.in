@@ -179,7 +179,6 @@ camel/providers/local/camel-mh-summary.c
 camel/providers/local/camel-spool-folder.c
 camel/providers/local/camel-spool-store.c
 camel/providers/local/camel-spool-summary.c
-camel/providers/local/camel-spoold-store.c
 camel/providers/nntp/camel-nntp-provider.c
 camel/providers/nntp/camel-nntp-store.c
 camel/providers/nntp/camel-nntp-summary.c
