@@ -3738,9 +3738,9 @@ static struct {
 	/* X-Mailing-List: gnome-hackers@gnome.org */
 	/* X-Mailing-List: gnome-hackers */
 	/* X-Mailing-List: <gnome-hackers> */
-	{ "X-Mailing-List", " <?([^@>]+)@?([^ \n\t\r>]*)" },
+	{ "X-Mailing-List", "[ \t]*<?([^@>]+)@?([^ \n\t\r>]*)" },
 	/* X-Loop: gnome-hackers@gnome.org */
-	{ "X-Loop", " *([^@]+)@?([^ \n\t\r>]*)" },
+	{ "X-Loop", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },
 	/* List-Id: GNOME stuff <gnome-hackers.gnome.org> */
 	/* List-Id: <gnome-hackers.gnome.org> */
 	/* List-Id: <gnome-hackers> */
@@ -3748,31 +3748,31 @@ static struct {
 	{ "List-Id", "[^<]*<([^\\.>]+)\\.?([^ \n\t\r>]*)" },
 	/* List-Post: <mailto:gnome-hackers@gnome.org> */
 	/* List-Post: <mailto:gnome-hackers> */
-	{ "List-Post", " *<mailto:([^@>]+)@?([^ \n\t\r>]*)" },
+	{ "List-Post", "[ \t]*<mailto:([^@>]+)@?([^ \n\t\r>]*)" },
 	/* Mailing-List: list gnome-hackers@gnome.org; contact gnome-hackers-owner@gnome.org */
-	{ "Mailing-List", " *list ([^@]+)@?([^ \n\t\r>;]*)" },
+	{ "Mailing-List", "[ \t]*list ([^@]+)@?([^ \n\t\r>;]*)" },
 	/* Originator: gnome-hackers@gnome.org */
-	{ "Originator", " *([^@]+)@?([^ \n\t\r>]*)" },
+	{ "Originator", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },
 	/* X-List: gnome-hackers */
 	/* X-List: gnome-hackers@gnome.org */
-	{ "X-List", " *([^@]+)@?([^ \n\t\r>]*)" },	
+	{ "X-List", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },	
 	/* Sender: owner-gnome-hackers@gnome.org */
 	/* Sender: owner-gnome-hacekrs */
-	{ "Sender", " *owner-([^@]+)@?([^ @\n\t\r>]*)" },
+	{ "Sender", "[ \t]*owner-([^@]+)@?([^ @\n\t\r>]*)" },
 	/* Sender: gnome-hackers-owner@gnome.org */
 	/* Sender: gnome-hackers-owner */
-	{ "Sender", " *([^@]+)-owner@?([^ @\n\t\r>]*)" },
+	{ "Sender", "[ \t]*([^@]+)-owner@?([^ @\n\t\r>]*)" },
 	/* Delivered-To: mailing list gnome-hackers@gnome.org */
 	/* Delivered-To: mailing list gnome-hackers */
-	{ "Delivered-To", " *mailing list ([^@]+)@?([^ \n\t\r>]*)" },
+	{ "Delivered-To", "[ \t]*mailing list ([^@]+)@?([^ \n\t\r>]*)" },
 	/* Sender: owner-gnome-hackers@gnome.org */
 	/* Sender: <owner-gnome-hackers@gnome.org> */
 	/* Sender: owner-gnome-hackers */
 	/* Sender: <owner-gnome-hackers> */
-	{ "Return-Path", " <?owner-([^@>]+)@?([^ \n\t\r>]*)" },
+	{ "Return-Path", "[ \t]*<?owner-([^@>]+)@?([^ \n\t\r>]*)" },
 	/* X-BeenThere: gnome-hackers@gnome.org */
 	/* X-BeenThere: gnome-hackers */
-	{ "X-BeenThere", " *([^@]+)@?([^ \n\t\r>]*)" },
+	{ "X-BeenThere", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },
 };
 
 char *

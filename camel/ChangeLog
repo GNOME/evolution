@@ -1,3 +1,9 @@
+2002-10-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c: Fix all mailing list regex patterns to allow
+	any number of spaces *or* tabs as pre-padding for the header
+	values.
+
 2002-10-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part.c (write_to_stream): Use the content-object's
