@@ -949,7 +949,6 @@ eabc_commit(EConfig *ec, GSList *items, void *data)
 #endif
 	} else {
 		d(printf("committing new source\n"));
-		e_source_set_relative_uri (sdialog->source, e_source_peek_uid (sdialog->source));
 		e_source_group_add_source(sdialog->source_group, sdialog->source, -1);
 		e_source_list_sync(sdialog->source_list, NULL);
 	}
