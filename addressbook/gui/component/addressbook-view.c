@@ -681,8 +681,8 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 	}
 
 	/* Remove local data */
-	book = e_book_new ();
-	if (e_book_load_source (book, selected_source, TRUE, &error))
+	book = e_book_new (selected_source, &error);
+	if (book)
 		removed = e_book_remove (book, &error);
 
 	if (removed) {
@@ -876,12 +876,12 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source))
 		goto finish;
 	
-	book = e_book_new ();
+	book = e_book_new (source, NULL);
 	if (!book) {
 		g_message (G_STRLOC ":Couldn't create EBook.");
 		return FALSE;
 	}
-	e_book_load_source (book, source, TRUE, NULL);
+	e_book_open (book, TRUE, NULL);
 	contactlist = eab_contact_list_from_string (data->data);
 	
 	for (l = contactlist; l; l = l->next) {
@@ -1128,8 +1128,6 @@ activate_source (AddressbookView *view,
 			g_object_unref (book);
 		}
 		else {
-			book = e_book_new ();
-
 			g_object_get (uid_view,
 				      "source", &source,
 				      NULL);
@@ -1139,11 +1137,18 @@ activate_source (AddressbookView *view,
 			   actually made it to
 			   book_open_cb yet. */
 			if (source) {
-				data = g_new (BookOpenData, 1);
-				data->view = g_object_ref (uid_view);
-				data->source = source; /* transfer the ref we get back from g_object_get */
+				book = e_book_new (source, NULL);
 
-				addressbook_load_source (book, source, book_open_cb, data);
+				if (!book) {
+					g_object_unref (source);
+				}
+				else {
+					data = g_new (BookOpenData, 1);
+					data->view = g_object_ref (uid_view);
+					data->source = source; /* transfer the ref we get back from g_object_get */
+
+					addressbook_load (book, book_open_cb, data);
+				}
 			}
 		}
 	}
@@ -1177,13 +1182,13 @@ activate_source (AddressbookView *view,
 		g_signal_connect (uid_view, "command_state_change",
 				  G_CALLBACK(update_command_state), view);
 
-		book = e_book_new ();
+		book = e_book_new (source, NULL);
 
 		data = g_new (BookOpenData, 1);
 		data->view = g_object_ref (uid_view);
 		data->source = g_object_ref (source);
 
-		addressbook_load_source (book, source, book_open_cb, data);
+		addressbook_load (book, book_open_cb, data);
 	}
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook),

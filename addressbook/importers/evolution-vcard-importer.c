@@ -277,12 +277,12 @@ load_file_fn (EvolutionImporter *importer,
 	gci->ready = FALSE;
 	
 	/* Load the book */
-	gci->book = e_book_new ();
+	gci->book = e_book_new (gci->primary, NULL);
 	if (!gci->book) {
 		g_message (G_STRLOC ":Couldn't create EBook.");
 		return FALSE;
 	}
-	e_book_load_source (gci->book, gci->primary, TRUE, NULL);
+	e_book_open (gci->book, TRUE, NULL);
 
 	/* Load the file and the contacts */
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {

@@ -1,3 +1,51 @@
+2004-05-19  Chris Toshok  <toshok@ximian.com>
+
+	* importers/evolution-vcard-importer.c (load_file_fn): use the new
+	e_book_new and e_book_open apis.
+
+	* importers/evolution-ldif-importer.c (load_file_fn): use the new
+	e_book_new and e_book_open apis.
+
+	* gui/widgets/eab-gui-util.c (eab_transfer_contacts): use the new
+	e_book_new and e_book_async_open apis.
+
+	* gui/contact-editor/e-contact-editor.c (cancel_load):
+	addressbook_load_source_cancel -> addressbook_load_cancel.
+	(source_selected): use the new e_book_new and addressbook_load.
+
+	* gui/component/select-names/e-select-names.c
+	(addressbook_model_set_source): use the new e_book_new and
+	addressbook_load.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(update_completion_books): use the new e_book_new and
+	addressbook_load.
+
+	* gui/component/addressbook.h: rename
+	addressbook_load_source{_cancel} to addressbook_load{_cancel}, and
+	remove the source arg.
+
+	* gui/component/addressbook.c (addressbook_load): rename since we
+	aren't passing a source anymore.
+	(addressbook_load_cancel): same.
+	(addressbook_load_default_book): use the new e_book_new_* apis.
+
+	* gui/component/addressbook-view.c (delete_addressbook_cb): just
+	use e_book_new, not e_book_load_source.
+	(selector_tree_drag_data_received): switch to new
+	e_book_new_*/e_book_open apis.
+	(activate_source): same, and addressbook_load_source ->
+	addressbook_load.
+
+	* gui/component/addressbook-migrate.c
+	(migrate_contact_folder_to_source): switch to new
+	e_book_new_*/e_book_open apis.
+	(migrate_contact_lists_for_local_folders): same.
+	(migrate_company_phone_for_local_folders): same.
+
+	* conduit/address-conduit.c (pre_sync): switch to new
+	e_book_new_*/e_book_open apis.
+
 2004-05-19  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (sensitize_email): Check

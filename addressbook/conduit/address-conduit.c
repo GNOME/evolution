@@ -1145,8 +1145,9 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->dbi = dbi;
 	
 	/* FIXME Need to allow our own concept of "local" */
-	ctxt->ebook = e_book_new ();
-	if (!e_book_load_local_addressbook (ctxt->ebook, NULL)) {
+	ctxt->ebook = e_book_new_system_addressbook  (NULL);
+	if (!ctxt->ebook
+	    || !e_book_open (ctxt->ebook, FALSE, NULL)) {
 		WARN(_("Could not load addressbook"));
 		gnome_pilot_conduit_error (conduit, _("Could not load addressbook"));
 

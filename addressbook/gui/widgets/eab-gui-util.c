@@ -736,8 +736,8 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 	else
 		process->done_cb = NULL;
 
-	dest = e_book_new ();
-	e_book_async_load_source (dest, destination_source, got_book_cb, process);
+	dest = e_book_new (destination_source, NULL);
+	e_book_async_open (dest, TRUE, got_book_cb, process);
 }
 
 #include <Evolution-Composer.h>

@@ -341,14 +341,16 @@ migrate_contact_folder_to_source (MigrationContext *context, char *old_path, ESo
 
 	dialog_set_folder_name (context, e_source_peek_name (new_source));
 
-	old_book = e_book_new ();
-	if (!e_book_load_source (old_book, old_source, TRUE, &e)) {
+	old_book = e_book_new (old_source, &e);
+	if (!old_book
+	    || !e_book_open (old_book, TRUE, &e)) {
 		g_warning ("failed to load source book for migration: `%s'", e->message);
 		goto finish;
 	}
 
-	new_book = e_book_new ();
-	if (!e_book_load_source (new_book, new_source, FALSE, &e)) {
+	new_book = e_book_new (new_source, &e);
+	if (!new_book
+	    || e_book_open (new_book, FALSE, &e)) {
 		g_warning ("failed to load destination book for migration: `%s'", e->message);
 		goto finish;
 	}
@@ -779,8 +781,9 @@ migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup
 
 		dialog_set_folder_name (context, e_source_peek_name (source));
 
-		book = e_book_new ();
-		if (!e_book_load_source (book, source, TRUE, NULL)) {
+		book = e_book_new (source, NULL);
+		if (!book
+		    || !e_book_open (book, TRUE, NULL)) {
 			char *uri = e_source_get_uri (source);
 			g_warning ("failed to migrate contact lists for source %s", uri);
 			g_free (uri);
@@ -853,8 +856,9 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 
 		dialog_set_folder_name (context, e_source_peek_name (source));
 
-		book = e_book_new ();
-		if (!e_book_load_source (book, source, TRUE, NULL)) {
+		book = e_book_new (source, NULL);
+		if (!book
+		    || !e_book_open (book, TRUE, NULL)) {
 			char *uri = e_source_get_uri (source);
 			g_warning ("failed to migrate company phone numbers for source %s", uri);
 			g_free (uri);

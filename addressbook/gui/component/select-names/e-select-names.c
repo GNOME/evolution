@@ -154,12 +154,12 @@ addressbook_model_set_source (ESelectNames *e_select_names, EABModel *model, ESo
 {
 	EBook *book;
 
-	book = e_book_new();
+	book = e_book_new(source, NULL);
 
 	g_object_ref(e_select_names);
 	g_object_ref(model);
 
-	addressbook_load_source (book, source, (EBookCallback) set_book, e_select_names);
+	addressbook_load (book, (EBookCallback) set_book, e_select_names);
 }
 
 static void *

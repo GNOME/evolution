@@ -225,23 +225,23 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 guint
-addressbook_load_source (EBook *book, ESource *source,
-			 EBookCallback cb, gpointer closure)
+addressbook_load (EBook *book,
+		  EBookCallback cb, gpointer closure)
 {
 	LoadSourceData *load_source_data = g_new0 (LoadSourceData, 1);
 
 	load_source_data->cb = cb;
 	load_source_data->closure = closure;
-	load_source_data->source = g_object_ref (source);
+	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
 	load_source_data->cancelled = FALSE;
 
-	e_book_async_load_source (book, source, load_source_cb, load_source_data);
+	e_book_async_open (book, FALSE, load_source_cb, load_source_data);
 
 	return GPOINTER_TO_UINT (load_source_data);
 }
 
 void
-addressbook_load_source_cancel (guint id)
+addressbook_load_cancel (guint id)
 {
 	LoadSourceData *load_source_data = GUINT_TO_POINTER (id);
 
@@ -263,11 +263,16 @@ void
 addressbook_load_default_book (EBookCallback cb, gpointer closure)
 {
 	LoadSourceData *load_source_data = g_new (LoadSourceData, 1);
+	EBook *book;
 
 	load_source_data->cb = cb;
 	load_source_data->source = NULL;
 	load_source_data->closure = closure;
 	load_source_data->cancelled = FALSE;
 
-	e_book_async_get_default_addressbook (default_book_cb, load_source_data);
+	book = e_book_new_default_addressbook (NULL);
+	if (!book)
+		load_source_cb (NULL, E_BOOK_ERROR_OTHER_ERROR, closure); /* XXX we should just use a GError and it's error code here */
+
+	e_book_async_open (book, FALSE, default_book_cb, load_source_data);
 }

@@ -335,9 +335,9 @@ update_completion_books (ESelectNamesManager *manager)
 			ESource *source = E_SOURCE (sources->data);
 			const char *completion = e_source_get_property (source, "completion");
 			if (completion && !g_ascii_strcasecmp (completion, "true")) {
-				EBook *book = e_book_new ();
+				EBook *book = e_book_new (source, NULL);
 				g_object_ref (manager);
-				addressbook_load_source (book, source, open_book_cb, manager);
+				addressbook_load (book, open_book_cb, manager);
 			}
 		}
 	}

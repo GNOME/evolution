@@ -2204,7 +2204,7 @@ static void
 cancel_load (EContactEditor *editor)
 {
 	if (editor->load_source_id) {
-		addressbook_load_source_cancel (editor->load_source_id);
+		addressbook_load_cancel (editor->load_source_id);
 		editor->load_source_id = 0;
 
 		g_object_unref (editor->load_book);
@@ -2225,9 +2225,9 @@ source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor 
 		return;
 	}
 
-	editor->load_book = e_book_new ();
-	editor->load_source_id = addressbook_load_source (editor->load_book, source,
-							  (EBookCallback) new_target_cb, editor);
+	editor->load_book = e_book_new (source, NULL);
+	editor->load_source_id = addressbook_load (editor->load_book,
+						   (EBookCallback) new_target_cb, editor);
 }
 
 static void
