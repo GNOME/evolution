@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-26 11:09+0200\n"
-"PO-Revision-Date: 2004-10-12 17:14+0330\n"
+"PO-Revision-Date: 2004-10-13 17:14+0330\n"
 "Last-Translator: Meelad Zakaria <meelad@bamdad.org>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr ""
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
 msgid "This addressbook server does not have any suggested search bases."
-msgstr "این کارگزار دفترچه‌ی نشانی مبنای جست و جوی پیشنهادی‌ای ندارد."
+msgstr "این کارگزار دفترچه‌ی نشانی پایه‌ی جست و جوی پیشنهادی‌ای ندارد."
 
 #. addressbook:ldap-search-base secondary
 #: addressbook/addressbook-errors.xml.h:12
@@ -325,13 +325,13 @@ msgstr "به‌هنگام‌سازی تنظیمات دفترچه‌ی نشانی
 #: addressbook/gui/component/addressbook-migrate.c:72
 #: calendar/gui/migration.c:141 mail/em-migrate.c:1160
 msgid "Migrating..."
-msgstr ""
+msgstr "در حال کوچ دادن..."
 
 #: addressbook/gui/component/addressbook-migrate.c:124
 #: calendar/gui/migration.c:188 mail/em-migrate.c:1201
 #, c-format
 msgid "Migrating `%s':"
-msgstr ""
+msgstr "در حال کوچ دادن '%s':"
 
 #. create the local source group
 #. On This Computer is always first and VFolders is always last
@@ -456,7 +456,7 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
+msgstr "URI پوشه‌ای که آخرین بار در محاوره‌ی انتخاب نام به کار رفته است"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -543,7 +543,7 @@ msgstr "به طور ناشناس"
 
 #: addressbook/gui/component/ldap-config.glade.h:17
 msgid "Basic"
-msgstr ""
+msgstr "اساسی"
 
 #: addressbook/gui/component/ldap-config.glade.h:18
 #: mail/mail-dialogs.glade.h:13 smime/gui/smime-ui.glade.h:19
@@ -567,7 +567,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
-msgstr "یافتن مبناهای جست و جوی ممکن"
+msgstr "یافتن پایه‌های جست و جوی ممکن"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
@@ -590,7 +590,7 @@ msgstr "یک"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
-msgstr "مبنای جست و جو:"
+msgstr "پایه‌ی جست و جو:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid ""
@@ -626,7 +626,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Supported Search Bases"
-msgstr "مبناهای جست و جوی پشتیبانی شده"
+msgstr "پایه‌های جست و جوی پشتیبانی شده"
 
 #: addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
@@ -634,6 +634,8 @@ msgid ""
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
+"پایه‌ی جست و جو نام متمایز (DN) ورودی است که جست و جوی شما از آنجا آغاز می‌شود."
+"اگر آن را خالی بگذارید، جست و جو از ریشه‌ی درخت شاخه‌ها آغاز خواهد شد."
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid ""
@@ -711,36 +713,36 @@ msgstr "حدود بارگیری:"
 
 #: addressbook/gui/component/ldap-config.glade.h:45
 msgid "_Find Possible Search Bases"
-msgstr "یافتن مبناهای جست و جوی ممکن"
+msgstr "_یافتن پایه‌های جست و جوی ممکن"
 
 #: addressbook/gui/component/ldap-config.glade.h:46
 msgid "_Log in method:"
-msgstr "روش ورود به سیستم:"
+msgstr "روش _ورود به سیستم:"
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 #: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:171
 msgid "_Name:"
-msgstr "نام:"
+msgstr "_نام:"
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Port:"
-msgstr "درگاه:"
+msgstr "_درگاه:"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
 msgid "_Search scope:"
-msgstr "حوزه‌ی جست و جو:"
+msgstr "حوزه‌ی _جست و جو:"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Server:"
-msgstr "کارگزار:"
+msgstr "_کارگزار:"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Timeout:"
-msgstr "انقضای مدت:"
+msgstr "انق_ضای مدت:"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Use secure connection:"
-msgstr "استفاده از اتصال امن:"
+msgstr "_استفاده از اتصال امن:"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 msgid "cards"
@@ -816,7 +818,7 @@ msgstr "<b>نشان دادن آشنا‌ها</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Address _Book:"
-msgstr "دفترچه‌ی نشانی:"
+msgstr "_دفترچه‌ی نشانی:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "C_ategory:"
@@ -824,11 +826,11 @@ msgstr "_مقوله:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
 msgid "_Find"
-msgstr "یافتن"
+msgstr "یافتن_"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Search:"
-msgstr "جست و جو:"
+msgstr "_جست و جو:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "<b>Email</b>"
@@ -948,7 +950,7 @@ msgstr "مدیر:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "Ni_ckname:"
-msgstr "لقب:"
+msgstr "_لقب:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "Notes:"
@@ -1014,7 +1016,7 @@ msgstr "کد پستی:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Categories"
-msgstr "مقولات"
+msgstr "م_قولات"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_File under:"
@@ -1023,7 +1025,7 @@ msgstr "پرونده به نام:"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 msgid "_Where:"
-msgstr "در:"
+msgstr "_در:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
 #: addressbook/gui/widgets/eab-contact-display.c:352
@@ -1351,7 +1353,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
-msgstr ""
+msgstr "سرزمین‌های جنوب فرانسه"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
@@ -1487,7 +1489,7 @@ msgstr "ژاپن"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Jersey"
-msgstr ""
+msgstr "جرسی"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Jordan"
@@ -1571,7 +1573,7 @@ msgstr "ماداگاسکار"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Malawi"
-msgstr ""
+msgstr "مالاوی"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malaysia"
@@ -1695,7 +1697,7 @@ msgstr "جزیره‌ی نورفوک"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "جزایر ماریانای شمالی"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Norway"
@@ -11952,12 +11954,12 @@ msgstr "به دلیل \"{1}\""
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
 msgid "Unfinished messages found"
-msgstr "پیغام‌های ناتمامی پیدا شد"
+msgstr "پیغام‌ ناتمام پیدا شد"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
 msgid "Do you want to recover unfinished messages?"
-msgstr ""
+msgstr "آیا می‌خواهید پیغام ناتمام را بازیابی کنید؟"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
@@ -11967,24 +11969,22 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:21
-#, fuzzy
 msgid "Don't Recover"
-msgstr "حذف"
+msgstr "بازیابی"
 
 #: composer/mail-composer-errors.xml.h:22
-#, fuzzy
 msgid "Recover"
-msgstr "حذف"
+msgstr "بازیابی نشود"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
 msgid "Could not save to autosave file \"{0}\"."
-msgstr ""
+msgstr "ذخیره در پرونده‌ی ذخیره‌ی خودکار \"{0}\" ممکن نیست."
 
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
 msgid "Error saving to autosave because \"{1}\"."
-msgstr ""
+msgstr "خطا در ذخیره‌ی خودکار به دلیل »{1}»"
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
@@ -12064,6 +12064,9 @@ msgid ""
 "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
 "installed."
 msgstr ""
+"فعال سازی کنترل ویرایش‌گر HTML امکان‌پذیر نیست.\n"
+"\n"
+"لطفاْ اطمینان حاصل کنید که نسخه‌ی صحیح gtkhtml و libgtkhtml نصب شده‌اند."
 
 #: data/evolution.desktop.in.in.h:1 shell/main.c:503
 msgid "Evolution"
@@ -12102,6 +12105,8 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
+"<small>پیغامی که در زیر مشخص شده است به طور خودکار به تک تک کسانی که هنگامی که شما در دفتر نیستید\n"
+"به شما پیغام می‌زنند، ارسال خواهد شد.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
@@ -12349,7 +12354,7 @@ msgstr ""
 
 #: filter/filter-datespec.c:406
 msgid "Select a time to compare against"
-msgstr ""
+msgstr "زمانی برای مقایسه انتخاب کنید"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
@@ -12421,22 +12426,21 @@ msgstr "مهم"
 #: filter/filter-label.c:124 mail/em-migrate.c:1014 mail/mail-config.c:79
 #: mail/mail-config.glade.h:148
 msgid "To Do"
-msgstr ""
+msgstr "رسیدگی شود"
 
 #. blue
 #: filter/filter-label.c:125 mail/em-migrate.c:1015 mail/mail-config.c:80
 #: mail/mail-config.glade.h:97
 msgid "Later"
-msgstr ""
+msgstr "بعداْ"
 
 #: filter/filter-part.c:532 shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
 msgstr "آزمایش"
 
 #: filter/filter-rule.c:790
-#, fuzzy
 msgid "Rule name:"
-msgstr "_نام پرونده:"
+msgstr "نام قاعده:"
 
 #: filter/filter-rule.c:817
 msgid "<b>If</b>"
@@ -12501,12 +12505,16 @@ msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
+"تاریخ پیغام هنگام صافی کردن\n"
+"با زمانی نسبی مقایسه خواهد شد."
 
 #: filter/filter.glade.h:8
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
+"تاریخ پیغام هنگام صافی کردن\n"
+"با تاریخ جاری مقایسه خواهد شد."
 
 #: filter/filter.glade.h:11
 msgid "a time relative to the current time"
@@ -12559,7 +12567,7 @@ msgstr "ترجیحات نامه‌، از جمله امنیت و نمایش پی
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "غلط یاب املائی، امضاها و نگارشگر پیغام را اینجا پیکربندی کنید"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -12587,7 +12595,7 @@ msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail preferences control"
-msgstr ""
+msgstr "کنترل ترجیحات نامه‌ی Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
@@ -12657,7 +12665,7 @@ msgstr ""
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
-msgstr ""
+msgstr "_قواعد صافی"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
 #: mail/mail-account-gui.c:1353
@@ -12671,7 +12679,7 @@ msgstr ""
 
 #: mail/em-filter-i18n.h:3
 msgid "Assign Color"
-msgstr ""
+msgstr "تخصیص رنگ"
 
 #: mail/em-filter-i18n.h:4
 msgid "Assign Score"
@@ -12944,7 +12952,7 @@ msgstr[1] "ایالات متحده"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<برای انتخاب پوشه اینجا کلیک کنید<"
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
@@ -12953,7 +12961,7 @@ msgstr "ایجاد پوشه‌ی جدید"
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
 #: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
-msgstr ""
+msgstr "مشخص کنید پوشه کجا ایجاد شود:"
 
 #: mail/em-folder-selector.c:304
 msgid "Create"
@@ -12961,7 +12969,7 @@ msgstr "ایجاد"
 
 #: mail/em-folder-selector.c:308
 msgid "Folder _name:"
-msgstr "نام پوشه:"
+msgstr "_نام پوشه:"
 
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
 #: mail/mail-vfolder.c:872
@@ -13003,16 +13011,16 @@ msgstr ""
 
 #: mail/em-folder-tree.c:1011 ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
-msgstr "نسخه‌برداری در پوشه"
+msgstr "_نسخه‌برداری در پوشه"
 
 #: mail/em-folder-tree.c:1012 ui/evolution-mail-message.xml.h:119
 msgid "_Move to Folder"
-msgstr "انتقال به پوشه"
+msgstr "انتقا_ل به پوشه"
 
 #: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
-msgstr "انتقال"
+msgstr "_انتقال"
 
 #: mail/em-folder-tree.c:1016 mail/message-list.c:1705
 msgid "Cancel _Drag"
@@ -13064,11 +13072,11 @@ msgstr "باز کردن در پنجره‌ی جدید"
 
 #: mail/em-folder-tree.c:2715
 msgid "_Copy..."
-msgstr "نسخه‌برداری:"
+msgstr "_نسخه‌برداری..."
 
 #: mail/em-folder-tree.c:2716
 msgid "_Move..."
-msgstr "انتقال..."
+msgstr "_انتقال..."
 
 #. FIXME: need to disable for nochildren folders
 #: mail/em-folder-tree.c:2720
@@ -13077,17 +13085,17 @@ msgstr "پوشه‌ی جدید"
 
 #: mail/em-folder-tree.c:2723
 msgid "_Rename..."
-msgstr "تغییر نام..."
+msgstr "_تغییر نام..."
 
 #: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
-msgstr "مشخصه‌ها:"
+msgstr "_مشخصه‌ها:"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:900 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
-msgstr "ویرایش به صورت پیغام جدید..."
+msgstr "_ویرایش به صورت پیغام جدید..."
 
 #: mail/em-folder-view.c:902
 msgid "_Print"
@@ -13100,25 +13108,25 @@ msgstr "پاسخ به فرستنده"
 #: mail/em-folder-view.c:906 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
-msgstr "پاسخ به فهرست"
+msgstr "پاسخ به _فهرست"
 
 #: mail/em-folder-view.c:907 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
-msgstr "پاسخ به همه"
+msgstr "پاسخ به _همه"
 
 #: mail/em-folder-view.c:908 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
-msgstr "ارجاع"
+msgstr "_ارجاع"
 
 #: mail/em-folder-view.c:911
 msgid "Follo_w Up..."
-msgstr "پیرو..."
+msgstr "پیر_و..."
 
 #: mail/em-folder-view.c:912
 msgid "Fla_g Completed"
-msgstr ""
+msgstr "پرچم گذاشتن برای انجام شده‌ها"
 
 #: mail/em-folder-view.c:913
 msgid "Cl_ear Flag"
@@ -13126,39 +13134,39 @@ msgstr "پاک کردن پرچم‌"
 
 #: mail/em-folder-view.c:916 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
-msgstr "علامت‌گذاری به عنوان خوانده"
+msgstr "علامت‌گذاری به عنوان _خوانده"
 
 #: mail/em-folder-view.c:917
 msgid "Mark as _Unread"
-msgstr "علامت‌گذاری به عنوان نخوانده"
+msgstr "علامت‌گذاری به عنوان _نخوانده"
 
 #: mail/em-folder-view.c:918
 msgid "Mark as _Important"
-msgstr "علامت‌گذاری به عنوان مهم"
+msgstr "علامت‌گذاری به عنوان _مهم"
 
 #: mail/em-folder-view.c:919
 msgid "_Mark as Unimportant"
-msgstr "علامت‌گذاری به عنوان بی‌اهمیت"
+msgstr "علامت‌گذاری به عنوان _بی‌اهمیت"
 
 #: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
-msgstr "علامت‌گذاری به عنوان آشغال"
+msgstr "علامت‌گذاری به عنوان آش_غال"
 
 #: mail/em-folder-view.c:921 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
-msgstr "علامت‌گذاری به عنوان غیر آشغال"
+msgstr "علامت‌گذاری به عنوان _غیر آشغال"
 
 #: mail/em-folder-view.c:925
 msgid "U_ndelete"
-msgstr "احیا"
+msgstr "ا_حیاء"
 
 #: mail/em-folder-view.c:928
 msgid "Mo_ve to Folder..."
-msgstr "انتقال به پوشه..."
+msgstr "انت_قال به پوشه..."
 
 #: mail/em-folder-view.c:929 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
-msgstr "نسخه برداری در پوشه..."
+msgstr "_نسخه برداری در پوشه..."
 
 #: mail/em-folder-view.c:937
 msgid "Add Sender to Address_book"
@@ -13166,11 +13174,11 @@ msgstr "افزودن فرستنده به دفترچه‌ی نشانی"
 
 #: mail/em-folder-view.c:940
 msgid "Appl_y Filters"
-msgstr "اعمال صافی‌ها"
+msgstr "ا_عمال صافی‌ها"
 
 #: mail/em-folder-view.c:941
 msgid "F_ilter Junk"
-msgstr "صافی آشغال"
+msgstr "_صافی آشغال"
 
 #: mail/em-folder-view.c:944
 msgid "Crea_te Rule From Message"
