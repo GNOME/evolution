@@ -27,6 +27,8 @@
 
 static GtkObjectClass *e_table_selection_model_parent_class;
 
+static void etsm_select_single_row (ETableSelectionModel *selection, int row);
+
 enum {
 	CURSOR_CHANGED,
 	SELECTION_CHANGED,
@@ -74,6 +76,8 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 		etsm->selection[box] = (etsm->selection[box] & BITMASK_LEFT(row)) | ((etsm->selection[box] & BITMASK_RIGHT(row)) >> 1);
 		etsm->row_count ++;
 	}
+	if (etsm->cursor_row >= row)
+		etsm->cursor_row ++;
 }
 
 static void
@@ -82,6 +86,7 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 	int box;
 	int i;
 	int last;
+	int selected = FALSE;
 	if(etsm->row_count >= 0) {
 		guint32 bitmask;
 		box = row >> 5;
@@ -89,6 +94,7 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 
 		/* Build bitmasks for the left and right half of the box */
 		bitmask = BITMASK_RIGHT(row) >> 1;
+		selected = e_table_selection_model_is_row_selected(etsm, row);
 		/* Shift right half of box one bit to the left. */
 		etsm->selection[box] = (etsm->selection[box] & BITMASK_LEFT(row))| ((etsm->selection[box] & bitmask) << 1);
 
@@ -106,7 +112,12 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 		if ((etsm->row_count & 0x1f) == 0) {
 			etsm->selection = g_renew(gint, etsm->selection, etsm->row_count >> 5);
 		}
+		if (selected && etsm->mode == GTK_SELECTION_SINGLE) {
+			etsm_select_single_row (etsm, row > 0 ? row - 1 : 0);
+		}
 	}
+	if (etsm->cursor_row >= row && etsm->cursor_row > 0)
+		etsm->cursor_row --;
 }
 
 #else
