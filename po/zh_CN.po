@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-24 17:39+0800\n"
+"POT-Creation-Date: 2005-01-25 00:42+0800\n"
 "PO-Revision-Date: 2005-01-22 15:52+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -438,7 +438,7 @@ msgid ""
 msgstr "已经存在此地址的联系人了。您想要仍然想要以相同地址添加新名片吗？"
 
 #: addressbook/addressbook-errors.xml.h:62 mail/em-vfolder-rule.c:494
-#: plugins/shared-folder/properties.glade.h:17
+#: plugins/shared-folder/properties.glade.h:10
 msgid "_Add"
 msgstr "添加(_A)"
 
@@ -467,7 +467,7 @@ msgstr "认证失败。\n"
 
 #: addressbook/gui/component/addressbook.c:192
 #: plugins/groupwise-account-setup/camel-gw-listener.c:460
-#: plugins/send-options/send-options.c:84
+#: plugins/send-options/send-options.c:82
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s为 %s 输入口令 (用户 %s)"
@@ -784,7 +784,7 @@ msgstr "在此管理您的 S/MIME 证书"
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:3
 #: mail/mail-dialogs.glade.h:6 mail/message-tags.glade.h:1
-#: plugins/shared-folder/properties.glade.h:3
+#: plugins/shared-folder/properties.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
 msgstr "*"
@@ -3050,7 +3050,6 @@ msgid "Type"
 msgstr "类型"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:541
-#: plugins/shared-folder/properties.glade.h:6
 msgid "Address Book"
 msgstr "地址簿"
 
@@ -4662,7 +4661,7 @@ msgstr "附件"
 #: calendar/gui/dialogs/cal-attachment-bar.c:439
 #: calendar/gui/dialogs/meeting-page.c:781
 #: composer/e-msg-composer-attachment-bar.c:440
-#: plugins/shared-folder/properties.glade.h:19
+#: plugins/shared-folder/properties.glade.h:14
 msgid "_Remove"
 msgstr "删除(_R)"
 
@@ -4854,7 +4853,7 @@ msgid "Free/Busy"
 msgstr "忙/闲"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: calendar/gui/dialogs/recurrence-page.c:1031
+#: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "星期五"
@@ -4868,7 +4867,7 @@ msgid "Minutes"
 msgstr "分钟"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-#: calendar/gui/dialogs/recurrence-page.c:1027
+#: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "星期一"
@@ -4878,7 +4877,7 @@ msgid "S_un"
 msgstr "周日(_U)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#: calendar/gui/dialogs/recurrence-page.c:1032
+#: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "星期六"
@@ -4892,7 +4891,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "在日期浏览器中显示周数(_N)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: calendar/gui/dialogs/recurrence-page.c:1033
+#: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "星期日"
@@ -4910,7 +4909,7 @@ msgid "Template:"
 msgstr "模板："
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#: calendar/gui/dialogs/recurrence-page.c:1030
+#: calendar/gui/dialogs/recurrence-page.c:1043
 #: calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "星期四"
@@ -4924,7 +4923,7 @@ msgid "Time format:"
 msgstr "时间格式："
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#: calendar/gui/dialogs/recurrence-page.c:1028
+#: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "星期二"
@@ -4934,7 +4933,7 @@ msgid "W_eek starts:"
 msgstr "一周开始(_E)："
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: calendar/gui/dialogs/recurrence-page.c:1029
+#: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "星期三"
@@ -5406,7 +5405,7 @@ msgstr "开始时间(_S)："
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1269
-#: mail/em-account-prefs.c:431 mail/em-folder-view.c:973
+#: mail/em-account-prefs.c:431 mail/em-folder-view.c:965
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1365
@@ -5578,51 +5577,51 @@ msgstr "所有各次"
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "此约会含有 Evolution 无法编辑的循环。"
 
-#: calendar/gui/dialogs/recurrence-page.c:799
+#: calendar/gui/dialogs/recurrence-page.c:812
 msgid "Recurrence date is invalid"
 msgstr "再现日期无效"
 
-#: calendar/gui/dialogs/recurrence-page.c:910
+#: calendar/gui/dialogs/recurrence-page.c:923
 msgid "on"
 msgstr "在"
 
-#: calendar/gui/dialogs/recurrence-page.c:971
+#: calendar/gui/dialogs/recurrence-page.c:984
 msgid "first"
 msgstr "第一"
 
-#: calendar/gui/dialogs/recurrence-page.c:972
+#: calendar/gui/dialogs/recurrence-page.c:985
 msgid "second"
 msgstr "第二"
 
-#: calendar/gui/dialogs/recurrence-page.c:973
+#: calendar/gui/dialogs/recurrence-page.c:986
 msgid "third"
 msgstr "第三"
 
-#: calendar/gui/dialogs/recurrence-page.c:974
+#: calendar/gui/dialogs/recurrence-page.c:987
 msgid "fourth"
 msgstr "第四"
 
-#: calendar/gui/dialogs/recurrence-page.c:975
+#: calendar/gui/dialogs/recurrence-page.c:988
 msgid "last"
 msgstr "最后"
 
-#: calendar/gui/dialogs/recurrence-page.c:998
+#: calendar/gui/dialogs/recurrence-page.c:1011
 msgid "Other Date"
 msgstr "其它日期"
 
-#: calendar/gui/dialogs/recurrence-page.c:1026
+#: calendar/gui/dialogs/recurrence-page.c:1039
 msgid "day"
 msgstr "天"
 
-#: calendar/gui/dialogs/recurrence-page.c:1163
+#: calendar/gui/dialogs/recurrence-page.c:1176
 msgid "on the"
 msgstr "在"
 
-#: calendar/gui/dialogs/recurrence-page.c:1349
+#: calendar/gui/dialogs/recurrence-page.c:1362
 msgid "occurrences"
 msgstr "循环"
 
-#: calendar/gui/dialogs/recurrence-page.c:2302
+#: calendar/gui/dialogs/recurrence-page.c:2315
 msgid "Date/Time"
 msgstr "日期/时间"
 
@@ -5919,7 +5918,7 @@ msgstr "在 %2$s 时 %1$s"
 msgid "%s for an unknown trigger type"
 msgstr "%s 为未知触发类型"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2478
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2470
 #, c-format
 msgid "Click to open %s"
 msgstr "单击以打开 %s"
@@ -6024,7 +6023,7 @@ msgid "Save as..."
 msgstr "另存为..."
 
 #: calendar/gui/e-calendar-table.c:1151 calendar/gui/e-calendar-view.c:1389
-#: mail/em-folder-view.c:939 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:931 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "打开(_O)"
 
@@ -6033,7 +6032,7 @@ msgid "Open _Web Page"
 msgstr "打开网页(_W)"
 
 #: calendar/gui/e-calendar-table.c:1153 calendar/gui/e-calendar-view.c:1390
-#: mail/em-folder-view.c:941 mail/em-popup.c:498
+#: mail/em-folder-view.c:933 mail/em-popup.c:493
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "另存为(_S)..."
@@ -6084,7 +6083,7 @@ msgstr "把任务标记为完成(_M)"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1171 calendar/gui/e-calendar-view.c:1408
-#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:964
+#: mail/em-folder-tree.c:2766 mail/em-folder-view.c:956
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -9133,7 +9132,7 @@ msgid_plural "%d attached messages"
 msgstr[0] "%d 封附加的信件"
 
 #: composer/e-msg-composer.c:2902 mail/em-folder-tree.c:1037
-#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:835
+#: mail/em-folder-tree.c:2263 mail/em-folder-view.c:827
 #: mail/message-list.c:1713
 msgid "_Move"
 msgstr "移动(_M)"
@@ -10102,7 +10101,7 @@ msgstr "垃圾"
 msgid "Junk Test"
 msgstr "垃圾测试"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:972
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:964
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "标签"
@@ -10214,7 +10213,7 @@ msgstr "停止处理"
 #: mail/em-filter-i18n.h:65 mail/em-format.c:853 mail/em-format-html.c:1533
 #: mail/em-format-quote.c:306 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
-#: plugins/shared-folder/properties.glade.h:14 smime/lib/e-cert.c:1131
+#: plugins/shared-folder/properties.glade.h:7 smime/lib/e-cert.c:1131
 msgid "Subject"
 msgstr "主题"
 
@@ -10242,7 +10241,7 @@ msgid "Unread message:"
 msgid_plural "Unread messages:"
 msgstr[0] "未读信件数："
 
-#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:9
+#: mail/em-folder-properties.c:270 plugins/shared-folder/properties.glade.h:3
 msgid "Folder Properties"
 msgstr "文件夹属性"
 
@@ -10256,7 +10255,7 @@ msgstr "创建新文件夹"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2479
 #: mail/mail-component.c:732 plugins/shared-folder/install-shared.c:144
-#: plugins/shared-folder/share-folder-common.c:346
+#: plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
 
@@ -10315,13 +10314,13 @@ msgid "Copying `%s' to `%s'"
 msgstr "把“%s”复制到“%s”"
 
 #: mail/em-folder-tree.c:2249 mail/em-folder-tree.c:2263
-#: mail/em-folder-view.c:835 mail/em-folder-view.c:850
+#: mail/em-folder-view.c:827 mail/em-folder-view.c:842
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "选择文件夹"
 
-#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:850
+#: mail/em-folder-tree.c:2249 mail/em-folder-view.c:842
 msgid "C_opy"
 msgstr "复制(_O)"
 
@@ -10332,7 +10331,7 @@ msgstr "创建文件夹“%s”"
 
 #: mail/em-folder-tree.c:2479 mail/mail-component.c:732
 #: plugins/shared-folder/install-shared.c:144
-#: plugins/shared-folder/share-folder-common.c:346
+#: plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "创建文件夹"
 
@@ -10404,143 +10403,143 @@ msgstr "正在装入..."
 msgid "Mail"
 msgstr "邮件"
 
-#: mail/em-folder-view.c:940 ui/evolution-mail-message.xml.h:113
+#: mail/em-folder-view.c:932 ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "作为新信件进行编辑(_E)..."
 
-#: mail/em-folder-view.c:942
+#: mail/em-folder-view.c:934
 msgid "_Print"
 msgstr "打印(_P)"
 
-#: mail/em-folder-view.c:945 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:937 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "回复发件人(_R)"
 
-#: mail/em-folder-view.c:946 mail/em-popup.c:502
+#: mail/em-folder-view.c:938 mail/em-popup.c:497
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "回复邮件列表(_L)"
 
-#: mail/em-folder-view.c:947 mail/em-popup.c:503
+#: mail/em-folder-view.c:939 mail/em-popup.c:498
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "回复所有人(_A)"
 
-#: mail/em-folder-view.c:948 mail/em-popup.c:505
+#: mail/em-folder-view.c:940 mail/em-popup.c:500
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "转发(_F)"
 
-#: mail/em-folder-view.c:951
+#: mail/em-folder-view.c:943
 msgid "Follo_w Up..."
 msgstr "跟随(_W)..."
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:944
 msgid "Fla_g Completed"
 msgstr "已完成标志(_G)"
 
-#: mail/em-folder-view.c:953
+#: mail/em-folder-view.c:945
 msgid "Cl_ear Flag"
 msgstr "清除标志(_E)"
 
-#: mail/em-folder-view.c:956 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:948 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "标记为已读(_K)"
 
-#: mail/em-folder-view.c:957
+#: mail/em-folder-view.c:949
 msgid "Mark as _Unread"
 msgstr "标记为未读(_U)"
 
-#: mail/em-folder-view.c:958
+#: mail/em-folder-view.c:950
 msgid "Mark as _Important"
 msgstr "标记为重要(_I)"
 
-#: mail/em-folder-view.c:959
+#: mail/em-folder-view.c:951
 msgid "_Mark as Unimportant"
 msgstr "标记为不重要(_M)"
 
-#: mail/em-folder-view.c:960 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:952 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "标记为垃圾(_J)"
 
-#: mail/em-folder-view.c:961 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:953 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "标记为非垃圾(_N)"
 
-#: mail/em-folder-view.c:965
+#: mail/em-folder-view.c:957
 msgid "U_ndelete"
 msgstr "取消删除(_N)"
 
-#: mail/em-folder-view.c:968
+#: mail/em-folder-view.c:960
 msgid "Mo_ve to Folder..."
 msgstr "移动到文件夹(_V)..."
 
-#: mail/em-folder-view.c:969 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:961 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "复制到文件夹(_C)..."
 
-#: mail/em-folder-view.c:977
+#: mail/em-folder-view.c:969
 msgid "Add Sender to Address_book"
 msgstr "将发件人添加到地址簿(_B)"
 
-#: mail/em-folder-view.c:980
+#: mail/em-folder-view.c:972
 msgid "Appl_y Filters"
 msgstr "应用过滤规则(_Y)"
 
-#: mail/em-folder-view.c:981
+#: mail/em-folder-view.c:973
 msgid "F_ilter Junk"
 msgstr "过滤垃圾(_I)"
 
-#: mail/em-folder-view.c:984
+#: mail/em-folder-view.c:976
 msgid "Crea_te Rule From Message"
 msgstr "根据信件创建规则(_T)"
 
-#: mail/em-folder-view.c:985
+#: mail/em-folder-view.c:977
 msgid "VFolder on _Subject"
 msgstr "基于主题的虚拟文件夹(_S)"
 
-#: mail/em-folder-view.c:986
+#: mail/em-folder-view.c:978
 msgid "VFolder on Se_nder"
 msgstr "基于发件人的虚拟文件夹(_N)"
 
-#: mail/em-folder-view.c:987
+#: mail/em-folder-view.c:979
 msgid "VFolder on _Recipients"
 msgstr "基于收件人的虚拟文件夹(_R)"
 
-#: mail/em-folder-view.c:988
+#: mail/em-folder-view.c:980
 msgid "VFolder on Mailing _List"
 msgstr "基于邮件列表的虚拟文件夹(_L)"
 
-#: mail/em-folder-view.c:992
+#: mail/em-folder-view.c:984
 msgid "Filter on Sub_ject"
 msgstr "基于主题过滤(_J)"
 
-#: mail/em-folder-view.c:993
+#: mail/em-folder-view.c:985
 msgid "Filter on Sen_der"
 msgstr "基于发件人过滤(_D)"
 
-#: mail/em-folder-view.c:994
+#: mail/em-folder-view.c:986
 msgid "Filter on Re_cipients"
 msgstr "基于收件人过滤(_C)"
 
-#: mail/em-folder-view.c:995
+#: mail/em-folder-view.c:987
 msgid "Filter on _Mailing List"
 msgstr "基于邮件列表过滤(_M)"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1772 mail/em-folder-view.c:1815
+#: mail/em-folder-view.c:1764 mail/em-folder-view.c:1807
 msgid "Default"
 msgstr "默认"
 
-#: mail/em-folder-view.c:1911
+#: mail/em-folder-view.c:1903
 msgid "Print Message"
 msgstr "打印信件"
 
-#: mail/em-folder-view.c:2190
+#: mail/em-folder-view.c:2182
 msgid "_Copy Link Location"
 msgstr "复制链接位置(_C)"
 
-#: mail/em-folder-view.c:2473
+#: mail/em-folder-view.c:2465
 #, c-format
 msgid "Click to mail %s"
 msgstr "单击以给 %s 发送邮件"
@@ -10875,36 +10874,36 @@ msgstr ""
 "无法从先前的 Evolution 安装中读取设置，“evolution/config.xmldb”不存在或者已损"
 "坏。"
 
-#: mail/em-popup.c:386
+#: mail/em-popup.c:381
 msgid "Save As..."
 msgstr "另存为..."
 
-#: mail/em-popup.c:405
+#: mail/em-popup.c:400
 #, c-format
 msgid "untitled_image.%s"
 msgstr "无标题图像.%s"
 
-#: mail/em-popup.c:499
+#: mail/em-popup.c:494
 msgid "Set as _Background"
 msgstr "设为背景(_B)"
 
-#: mail/em-popup.c:501
+#: mail/em-popup.c:496
 msgid "_Reply to sender"
 msgstr "回复发件人(_R)"
 
-#: mail/em-popup.c:553
+#: mail/em-popup.c:548
 msgid "_Open Link in Browser"
 msgstr "在浏览器中打开链接(_O)"
 
-#: mail/em-popup.c:554
+#: mail/em-popup.c:549
 msgid "Se_nd message to..."
 msgstr "把信件发送到(_N)..."
 
-#: mail/em-popup.c:555
+#: mail/em-popup.c:550
 msgid "_Add to Addressbook"
 msgstr "添加到地址簿(_A)"
 
-#: mail/em-popup.c:686
+#: mail/em-popup.c:681
 #, c-format
 msgid "Open in %s..."
 msgstr "在 %s 中打开..."
@@ -12747,8 +12746,7 @@ msgstr "编辑签名"
 msgid "Enter a name for this signature."
 msgstr "输入该签名的名字。"
 
-#: mail/mail-signature-editor.c:415
-#: plugins/shared-folder/properties.glade.h:11
+#: mail/mail-signature-editor.c:415 plugins/shared-folder/properties.glade.h:5
 msgid "Name:"
 msgstr "名称："
 
@@ -13113,6 +13111,12 @@ msgstr "办公室以外信件："
 #: plugins/exchange-account-setup/exchange-account-setup.c:194
 msgid "Exchange Settings"
 msgstr "Exchange 设置"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:329
+#: plugins/exchange-account-setup/exchange-ask-password.c:193
+#, fuzzy
+msgid "A_uthenticate"
+msgstr "身份验证"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:336
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
@@ -13768,55 +13772,42 @@ msgid ""
 "chosen filename. Do you want to continue?"
 msgstr ""
 
-#: plugins/shared-folder/properties.glade.h:1
-msgid ""
-"\n"
-"Share List"
-msgstr ""
-"\n"
-"共享列表"
+#: plugins/shared-folder/properties.glade.h:2
+#, fuzzy
+msgid "<b>Users :</b>"
+msgstr "<b>提醒</b>"
 
 #: plugins/shared-folder/properties.glade.h:4
-msgid "Ad_d"
-msgstr "添加(_D)"
-
-#: plugins/shared-folder/properties.glade.h:5
-msgid "Additional Access"
-msgstr "额外地址"
-
-#: plugins/shared-folder/properties.glade.h:7
-msgid "Delet_e"
-msgstr "删除(_E)"
-
-#: plugins/shared-folder/properties.glade.h:8
-msgid "Edi_t"
-msgstr "编辑(_T)"
-
-#: plugins/shared-folder/properties.glade.h:10
 msgid "Message"
 msgstr "消息"
 
-#: plugins/shared-folder/properties.glade.h:12
-msgid "Sen_d Custom Notification"
-msgstr "发送自定义通知(_D)"
-
-#: plugins/shared-folder/properties.glade.h:13
+#: plugins/shared-folder/properties.glade.h:6
 msgid "Shared Folder Notification"
 msgstr "共享文件夹通知"
 
-#: plugins/shared-folder/properties.glade.h:15
+#: plugins/shared-folder/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
 msgstr ""
 
-#: plugins/shared-folder/properties.glade.h:18
+#: plugins/shared-folder/properties.glade.h:11
+#, fuzzy
+msgid "_Contacts..."
+msgstr "联系人..."
+
+#: plugins/shared-folder/properties.glade.h:12
+#, fuzzy
+msgid "_Cutomize notification message"
+msgstr "发送自定义通知(_D)"
+
+#: plugins/shared-folder/properties.glade.h:13
 msgid "_Not Shared"
 msgstr "未共享(_N)"
 
-#: plugins/shared-folder/properties.glade.h:20
+#: plugins/shared-folder/properties.glade.h:15
 msgid "_Shared With ..."
 msgstr "共享对象(_S)..."
 
-#: plugins/shared-folder/properties.glade.h:21
+#: plugins/shared-folder/properties.glade.h:16
 msgid "_Sharing"
 msgstr "共享(_S)"
 
@@ -13828,7 +13819,7 @@ msgstr "用户"
 msgid "Enter the users and set permissions"
 msgstr "输入用户及设定权限"
 
-#: plugins/shared-folder/share-folder-common.c:402
+#: plugins/shared-folder/share-folder-common.c:401
 msgid "Sharing"
 msgstr "共享"
 
@@ -16738,23 +16729,28 @@ msgstr "搜索(_S)"
 msgid "_Find Now"
 msgstr "立即查找(_F)"
 
-#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:936
+#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:941
 msgid "_Clear"
 msgstr "清除(_C)"
 
-#: widgets/misc/e-search-bar.c:844
+#: widgets/misc/e-search-bar.c:645
+#, fuzzy
+msgid "Search Type"
+msgstr "搜索范围(_S)："
+
+#: widgets/misc/e-search-bar.c:849
 msgid "Item ID"
 msgstr "项目 ID"
 
-#: widgets/misc/e-search-bar.c:851
+#: widgets/misc/e-search-bar.c:856
 msgid "Subitem ID"
 msgstr "子项目 ID"
 
-#: widgets/misc/e-search-bar.c:858
+#: widgets/misc/e-search-bar.c:863
 msgid "Text"
 msgstr "文字"
 
-#: widgets/misc/e-search-bar.c:938
+#: widgets/misc/e-search-bar.c:943
 msgid "Find _Now"
 msgstr "立即查找(_N)"
 
@@ -16926,6 +16922,25 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
+#~ msgid ""
+#~ "\n"
+#~ "Share List"
+#~ msgstr ""
+#~ "\n"
+#~ "共享列表"
+
+#~ msgid "Ad_d"
+#~ msgstr "添加(_D)"
+
+#~ msgid "Additional Access"
+#~ msgstr "额外地址"
+
+#~ msgid "Delet_e"
+#~ msgstr "删除(_E)"
+
+#~ msgid "Edi_t"
+#~ msgstr "编辑(_T)"
 
 #~ msgid "Body contains"
 #~ msgstr "邮件体含有"
