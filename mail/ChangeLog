@@ -1,5 +1,8 @@
 2004-06-11  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree-model.c (em_folder_tree_model_add_store): revert
+	previous change.  Stupid emftm.
+
 	* em-utils.c (em_uri_from_camel): handle a null path or fragment.
 
 	* em-folder-tree-model.c (em_folder_tree_model_add_store): set the

@@ -1810,7 +1810,7 @@ emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeV
 	
 	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &path,
 			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
-	
+
 	g_free (priv->selected_uri);
 	priv->selected_uri = g_strdup (uri);
 	
