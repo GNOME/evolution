@@ -92,6 +92,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 {
 	GncalDayPanel *dpanel;
 	GtkWidget *w;
+	struct tm *tm;
 
 	g_return_val_if_fail (calendar != NULL, NULL);
 
@@ -144,11 +145,16 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 
 	/* Gtk calendar */
 
+	tm = localtime (&start_of_day);
+
 	w = gtk_calendar_new ();
 	dpanel->gtk_calendar = GTK_CALENDAR (w);
 	gtk_calendar_display_options (dpanel->gtk_calendar,
 				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
-	dpanel->day_selected_id = gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "day_selected_double_click",
+	gtk_calendar_select_month (dpanel->gtk_calendar, tm->tm_mon, tm->tm_year + 1900);
+	gtk_calendar_select_day (dpanel->gtk_calendar, tm->tm_mday);
+	dpanel->day_selected_id = gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar),
+						      "day_selected_double_click",
 						      (GtkSignalFunc) calendar_day_selected,
 						      dpanel);
 	gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "month_changed",

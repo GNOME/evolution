@@ -1,5 +1,8 @@
 1999-01-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-day-panel.c (gncal_day_panel_new): Make the little
+	calendar start up with the correct date.
+
 	* gncal-week-view.c (gncal_week_view_set): Add the month to the
 	date range display label.
 
