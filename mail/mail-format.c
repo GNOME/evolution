@@ -2356,7 +2356,8 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 		if (text && !header_content_type_is (mime_type, "text", "html")) {
 			char *html;
 			
-			html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | (cite ? E_TEXT_TO_HTML_CITE : 0));
+			html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | E_TEXT_TO_HTML_CONVERT_URLS |
+					       (cite ? E_TEXT_TO_HTML_CITE : 0));
 			g_free (text);
 			text = html;
 		}
