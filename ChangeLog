@@ -1,8 +1,3 @@
-2000-04-06  Matt Loper  <matt@helixcode.com>
-
-	* shell/main.c (evolution_boot): Make sure our data directory is
-	available with e_setup_base_dir ().
-
 2000-04-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/demo/demo.c, addressbook/demo/addressbook-widget.c:
@@ -10,22 +5,11 @@
 
 2000-04-06  Miguel de Icaza  <miguel@gnu.org>
 
-	* shell/e-shortcut.c (shell_icon_cb): Load the icons from the
-	installation path, not form the GNOME-libs installation prefix. 
-	(shell_icon_cb): Memory leak fix.
-
-	* shell/Makefile.am (imagesdir): Pass the EVOLUTION_IMAGES
-	installation directory here.
-
 	* art/Makefile.am (images_DATA): Renamed from pixmaps to images. 
 
 2000-04-05  Matt Loper  <matt@helixcode.com>
 
 	* README: Added wombat.
-
-2000-04-05  Seth Alves  <alves@hungry.com>
-
-	* shell/e-shell-view.c (get_view): hook up control:calendar
 
 2000-04-04  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -136,15 +120,6 @@
 
 	* art/.cvsignore: New file.
 
-2000-03-31  Dan Winship  <danw@helixcode.com>
-
-	* shell/e-shortcut.c (e_shortcut_bar_view_new, shell_icon_cb):
-	Update for shortcut bar changes.
-
-	* shell/e-folder.h: add E_FOLDER_SUMMARY
-	* shell/e-shell.c (e_shell_setup_default_folders): make the
-	"Today" icon be of type E_FOLDER_SUMMARY, not E_FOLDER_MAIL.
-
 2000-03-31  Damon Chaplin  <damon@helixcode.com>
 
 	* widgets/shortcut-bar/e-shortcut-bar.[hc]: added support for a
@@ -170,13 +145,7 @@
 	* addressbook/backend/pas/pas-backend-ldap.c: new file
 
 2000-03-30  Dan Winship  <danw@helixcode.com>
-
-	* shell/e-shell-view.c (e_shell_view_set_view): Hold off on
-	deactivating the "outgoing" control until after setting up the
-	"incoming" control. That way if the new control takes a few
-	seconds to load, there won't be an ugly empty spot where the
-	toolbar used to be while the new control loads.
-
+	
 	* configure.in:
 	* Makefile.am:
 	* art/Makefile.am: install new shortcut bar pixmaps.
@@ -192,13 +161,6 @@
 	art/evolution-notes.png evolution-today.png:
 	added some artwork for the main shortcutbar.. someone
 	could stick them in it.
-
-2000-03-29  Dan Winship  <danw@helixcode.com>
-
-	* shell/e-shell-view.c (e_shell_view_set_view): Call
-	bonobo_control_frame_activate on the folder_view every time it
-	is displayed, and bonobo_control_frame_deactivate every time it is
-	hidden.
 
 2000-03-29  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -465,9 +427,6 @@
 
 2000-03-25  Matt Loper  <matt@helixcode.com>
 
-	* shell/e-shell-view.c (get_view): Move CORBA_Environment to
-	different scope.
-
 	* ebook/e-book.c,
 	ebook/e-book.h,	
 	ebook/e-book.h,		
@@ -531,15 +490,6 @@
 	addressbook/printing/test-contact-print-style-editor.c,
 	addressbook/printing/test-print.c: Killed some warnings.
 
-2000-03-22  Matt Loper  <matt@helixcode.com>
-
-	* shell/main.c (evolution_boot): gtk_signal_connect'ed "destroy"
-	to gtk_main_quit, so that the shell dies when you want it to.
-
-	* shell/e-shell-view.c (get_view): Reorganized, and added
-	assertions.
-	(e_shell_view_set_view): Added assertions.
-
 2000-03-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Changed gnome_canvas_item_grab_focus to
@@ -571,16 +521,6 @@
 
 	* addressbook/demo/.cvsignore: added test-addressbook.
 
-	* shell/e-shell-view.h: New private field in EShellView added,
-	which contains the notebook and a hashtable of folders to views.
-
-	* shell/e-shell-view.c (e_shell_view_set_view): Instead of
-	creating a new control every time we set the view, we now keep our
-	controls in a notebook. This function now switches to the correct
-	notebook page, or creates a new page/control as necessary.
-	(e_shell_view_new): Creates and inserts the notebook into the
-	shell.
-
 2000-03-17 Elliot Lee <sopwith@redhat.com>
 	* calendar/cal-client/Makefile.am,
 	calendar/cal-util/Makefile.am, calendar/gui/Makefile.am,
@@ -594,9 +534,6 @@
 
 2000-03-13  Christopher James Lahey  <clahey@helixcode.com>
 
-	* shell/e-shell-view.c: Added an E_FOLDER_CONTACTS section to the
-	get_view function.
-
 	* addressbook/demo/Makefile.am: Added files for addressbook bonobo
 	component.  Changed non bonobo version to compile as
 	test-addressbook.
@@ -608,39 +545,6 @@
 	addressbook/demo/addressbook-widget.c,
 	addressbook/demo/addressbook-widget.h: New factory to create an
 	addressbook bonobo component.
-
-2000-03-13  bertrand  <bertrand@helixcode.com>
-
-	* shell/e-shell.c (EShell_register_service): 
-	test implementation. Show the uri and the type 
-	of service that	has just been registered.
-	
-	* shell/e-shell-view.c (get_view): 
-	once we have the bonobo control widget, 
-	disable the autoactivation and activate
-	the control frame.
-	(get_view): added a parameter to have
-	a reference to the EShellView.
-	(get_view): In the case of the mail component
-	use the Evolution_ServiceRepository to 
-	give the component a reference to the 
-	Shell server.
-
-2000-03-12  bertrand  <bertrand@helixcode.com>
-
-	* shell/e-shell-view.c (get_view): name change
-	
-
-	* shell/e-folder.c (e_folder_get_folder_type): added the
-	get_e_folder_type function.
-
-	* shell/evolution-service-repository.c:
-	(evolution_service_repository_new): creates an 
-	Evolution_ServiceRepository object.
-	(create_evolution_service_repository): 
-	create the corresponding servant.
-	(evolution_service_repository_construct): set 
-	the closure as well as the virtual functions. 
 
 2000-03-12  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -657,20 +561,6 @@
 	* addressbook/demo/Makefile.am: Added e-test-model.c and
 	e-test-model.h.
 
-2000-03-12  bertrand  <bertrand@helixcode.com>
-
-	* shell/evolution-service-repository.c: 
-	* shell/evolution-service-repository.h: 
-	Implementation of the service repository interface
-	as a bonobo object.
-
-	* shell/evolution-service-repository.idl: 
-	new file. Contains the definition for the service
-	repository interface.
-
-	* shell/Shell.idl: move the shell related stuff 
-	here
-	
 2000-03-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/Makefile.am: Rearranged SUBDIRS for dependencies.
@@ -706,19 +596,6 @@
 
 	* addressbook/Makefile.am: Added the demo/ subdirectory.
 
-2000-03-12  bertrand  <bertrand@helixcode.com>
-
-	* shell/e-folder.h: add a field refering to a
-	service associated to the efolder. In the case of 
-	distant folders, it is generally a server.  
-
-	* shell/e-service.c: New class. Models a service.
-	A service is an object with an URI and a root folder. 
-	It genreally reporesents a distant folder. 
-	A service is generally a ressource shared amongst
-	several folders. 
-	* shell/e-service.h: 
-
 2000-03-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-minicard/e-minicard.c,
@@ -727,12 +604,6 @@
 	widgets/e-minicard/e-reflow.c, widgets/e-minicard/test-reflow.c,
 	widgets/e-text/e-text.c, widgets/e-text/e-text.h: Adapted to use
 	the new e-canvas reflow system.
-
-2000-03-07  bertrand  <bertrand@helixcode.com>
-
-	* shell/e-shell-shortcut.c (shortcut_bar_item_selected): 
-	removed a test that prevented the standard menu 
-	to be shown.
 
 2000-03-07  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -785,12 +656,7 @@
 	gnomeprint in the lib list. 
 
 2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* shell/Makefile.am (INCLUDES): use `top_srcdir' instead of
-	`srcdir'.  Also, add `$(top_srcdir)'.  And put the srcdir includes
-	before everything else.
-	(evolution_LDADD): `libeutil.la', not `libeutil.a'.
-
+	
 	* configure.in: Build `filter/Makefile'.  Added check for GtkHTML.
 	Set `GTKHTML_CFLAGS' and `GTKHTML_LIBS' to the appropriate values
 	for linking with GtkHTML.
@@ -869,11 +735,6 @@
 	an EFocus for its "has_focus" argument.  Made the font that
 	e-minicard-label uses only be allocated once.
 	
-2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
-
-	* shell/Makefile.am (evolution_LDADD): 
-	add libetext.a.
-
 2000-02-21  Matt Loper  <matt@helixcode.com>
 
 	* tests/ui-tests/message-browser.c (on_link_clicked): stop
@@ -1279,11 +1140,6 @@
 	handle its mime type, but can return NULL if it fails to find the
 	mime type.
 	(handle_vcard): New function; will write out a vcard as html.
-
-2000-02-08  Iain Holmes  <ih@csd.abdn.ac.uk>
-
-	* shell/Makefile.am: Changed the order of the compilation, so the CORBA
-	stuff was generated before it was needed.
 
 2000-02-07  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -1892,27 +1748,6 @@
 	(parser_free): ditto.
 	(new_parser): ditto.
 
-2000-01-15  Miguel de Icaza  <miguel@gnu.org>
-
-	* shell/e-shell.c: Construct the default folders 
-
-	* shell/e-shell-view.c (e_shell_view_new): Setup the main GnomeApp
-	application, load the shortcut, internal api. 
-
-	* shell/e-folder.c (e_folder_get_type_name): Return description
-	here;  Change of policy;  We now know about all of the possible
-	types that can be displayed on Evolution. 
-
-2000-01-15  Miguel de Icaza <miguel@gnu.org>
-
-	* shell/e-folder.c: Renamed signal.
-
-	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
-	Use e_bar_set_item_data.
-
-	Drop item_url;  Require image argument;  Require user data
-	argument. 
-
 2000-01-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_init): Turn on anti-aliasing.
@@ -2090,8 +1925,6 @@
 	builddir != srcdir
 
 2000-01-05  Miguel de Icaza  <miguel@gnu.org>
-
-	* shell/Makefile.am: New file.
 
 	* configure.in (EXTRA_GNOME_CFLAGS_THREADS,
 	EXTRA_GNOME_LIBS_THREADS): New variables that hold the thread

@@ -350,12 +350,12 @@ static struct {
 	char *prefix, *path;
 	GdkPixbuf *image;
 } shell_icons[] = {
-	{ "summary:", "evolution/evolution-today.png", NULL },
-	{ "mail:", "evolution/evolution-inbox.png", NULL },
-	{ "calendar:", "evolution/evolution-calendar.png", NULL },
-	{ "contacts:", "evolution/evolution-contacts.png", NULL },
-	{ "notes:", "evolution/evolution-notes.png", NULL },
-	{ "todo:", "evolution/evolution-tasks.png", NULL }
+	{ "summary:", "evolution-today.png", NULL },
+	{ "mail:", "evolution-inbox.png", NULL },
+	{ "calendar:", "evolution-calendar.png", NULL },
+	{ "contacts:", "evolution-contacts.png", NULL },
+	{ "notes:", "evolution-notes.png", NULL },
+	{ "todo:", "evolution-tasks.png", NULL }
 };
 #define NSHELL_ICONS (sizeof (shell_icons) / sizeof (shell_icons[0]))
 
@@ -370,7 +370,7 @@ shell_icon_cb (EShortcutBar *shortcut_bar, gchar *url)
 			if (!shell_icons[i].image) {
 				char *pixmap_path;
 
-				pixmap_path = g_strconcat (EVOLUTION_IMAGES, shell_icons[i].path, NULL);
+				pixmap_path = g_strconcat (EVOLUTION_IMAGES "/", shell_icons[i].path, NULL);
 				if (pixmap_path)
 					shell_icons[i].image = gdk_pixbuf_new_from_file (pixmap_path);
 				else {

@@ -69,9 +69,13 @@ evolution_boot (void)
 {
 	EShellView *e_shell_view;
 
-	/* FIXME: this is rude */
-	if (!e_setup_base_dir ())
+	if (!e_setup_base_dir ()){
+		e_notice (
+			NULL, GNOME_MESSAGE_BOX_ERROR,
+			_("It was not possible to setup the Evolution startup files.  Please\n"
+			  "fix the problem, and restart Evolution"));
 		exit (0);
+	}
 	
 	eshell = e_shell_new ();
 	e_shell_view = E_SHELL_VIEW (
