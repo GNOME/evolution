@@ -300,9 +300,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			gtk_tree_store_append(treestore, &iter, parent);
 			node = g_malloc0(sizeof(*node));
 			node->info = fi;
-			/* FIXME: CAMEL_FOLDER_SUBSCRIBED not implemented properly in imap */
-			state = camel_store_folder_subscribed(sub->store, fi->full_name);
-			/* state = (fi->flags & CAMEL_FOLDER_SUBSCRIBED) != 0; */
+			state = (fi->flags & CAMEL_FOLDER_SUBSCRIBED) != 0;
 			gtk_tree_store_set(treestore, &iter, 0, state, 1, fi->name, 2, node, -1);
 			if ((fi->flags & CAMEL_FOLDER_NOINFERIORS) == 0) {
 				node->path = gtk_tree_model_get_path((GtkTreeModel *)treestore, &iter);
@@ -342,7 +340,7 @@ sub_folderinfo_get (struct _mail_msg *mm)
 
 	if (m->seq == m->sub->seq) {
 		camel_operation_register(mm->cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:"", CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:"", CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL | CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_INFO, &mm->ex);
 		camel_operation_unregister(mm->cancel);
 	}
 }

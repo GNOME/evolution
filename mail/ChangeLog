@@ -1,3 +1,12 @@
+2005-02-02  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fixes bug #70454
+
+	* em-subscribe-editor.c (sub_folderinfo_get): Request subscription
+	info (new flag).
+	(sub_fill_level): Fixed the FIXME here (imap4 now implements
+	CAMEL_FOLDER_SUBSCRIBED flag properly).
+
 2005-02-01  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-browser.c: Replace "_Virtual Folder" with "_vFolder" for
