@@ -166,11 +166,12 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			message = camel_folder_get_message (folder, uids->pdata[i], ex);
 			fprintf (stderr, "about to run the filter\n");
 			filter_driver_run (filter, message, input->destination,
-					   FILTER_SOURCE_INCOMING, TRUE,
-					   input->hook_func, input->hook_data);
+					   FILTER_SOURCE_INCOMING,
+					   input->hook_func, input->hook_data,
+					   TRUE, ex);
 			mail_tool_camel_lock_down ();
 			
-			if (!input->keep_on_server) {
+			if (!input->keep_on_server && !camel_exception_is_set (ex)) {
 				guint32 flags;
 				
 				flags = camel_folder_get_message_flags (folder, uids->pdata[i]);
@@ -180,6 +181,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
+		camel_folder_sync (folder, ex);
 		camel_folder_free_uids (folder, uids);
 		
 		data->empty = FALSE;
@@ -324,7 +326,9 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			message = camel_folder_get_message (input->source, uids->pdata[i], ex);
 			filter_driver_run (input->driver, message, input->destination,
-					   FILTER_SOURCE_DEMAND, TRUE, NULL, NULL);
+					   FILTER_SOURCE_DEMAND, NULL, NULL, TRUE, ex);
+			
+			/* FIXME: should we delete the message from the source mailbox? */
 			
 			camel_object_unref (CAMEL_OBJECT (message));
 			g_free (uids->pdata[i]);
