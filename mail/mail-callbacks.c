@@ -477,7 +477,7 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 	       fb->message_list->cursor_uid, TRUE);
 }
 
-static void
+void
 enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 {
 	g_ptr_array_add ((GPtrArray *) data, g_strdup (uid));

@@ -1,3 +1,15 @@
+2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser-factory.c: Updated to have the same menu items as
+	the new right-click menu - eventually these 2 menus should be the
+	same.
+
+	* folder-browser.c (on_right_click): Now correctly handles the
+	case of multiple selection.
+
+	* mail-callbacks.c (enumerate_msg): Make public so it can be used
+	in other source files (it's a useful function!)
+
 2000-11-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (on_right_click): Added an "Undelete" option to

@@ -474,8 +474,9 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 {
 	extern CamelFolder *drafts_folder;
 	const CamelMessageInfo *info;
+	GPtrArray *uids;
 	int enable_mask = 0;
-	int last_item;
+	int last_item, i;
 	char *mailing_list_name;
 	EPopupMenu menu[] = {
 		{ _("Open"),                       NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
@@ -525,18 +526,42 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 								  NULL, NULL);
 	}
 	
-	/* FIXME: the following 2 should really account for when multiple messages are selected. */
-	info = camel_folder_get_message_info (fb->folder, fb->message_list->cursor_uid);
-	if (info->flags & CAMEL_MESSAGE_SEEN)
-		enable_mask |= 4;
-	else
-		enable_mask |= 8;
-	
-	if (info->flags & CAMEL_MESSAGE_DELETED)
-		enable_mask |= 16;
-	else
-		enable_mask |= 32;
-	
+	/* get a list of uids */
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	if (uids->len >= 1) {
+		/* gray-out any items we don't need */
+		gboolean have_deleted = FALSE;
+		gboolean have_undeleted = FALSE;
+		gboolean have_seen = FALSE;
+		gboolean have_unseen = FALSE;
+		
+		for (i = 0; i < uids->len; i++) {
+			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
+			if (info->flags & CAMEL_MESSAGE_SEEN)
+				have_seen = TRUE;
+			else
+				have_unseen = TRUE;
+			
+			if (info->flags & CAMEL_MESSAGE_DELETED)
+				have_deleted = TRUE;
+			else
+				have_undeleted = TRUE;
+			
+			if (have_seen && have_unseen && have_deleted && have_undeleted)
+				break;
+		}
+		
+		if (!have_unseen)
+			enable_mask |= 4;
+		if (!have_seen)
+			enable_mask |= 8;
+		
+		if (!have_undeleted)
+			enable_mask |= 16;
+		if (!have_deleted)
+			enable_mask |= 32;
+	}
 	
 	if (mailing_list_name == NULL) {
 		enable_mask |= 64;
@@ -545,6 +570,11 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 		menu[last_item].name = g_strdup_printf (_("Filter on Mailing List (%s)"),
 							mailing_list_name);
 	}
+	
+	/* free uids */
+	for (i = 0; i < uids->len; i++)
+		g_free (uids->pdata[i]);
+	g_ptr_array_free (uids, TRUE);
 	
 	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
 	

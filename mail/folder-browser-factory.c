@@ -58,12 +58,18 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySndr", reply_to_sender),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
 	BONOBO_UI_UNSAFE_VERB ("MessageForward", forward_msg),
+	/*BONOBO_UI_UNSAFE_VERB ("MessageForwardAttach", forward_msg),*/
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
-	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),
+	
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageDelete", delete_msg),
+	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", undelete_msg),
+	
+	/*BONOBO_UI_UNSAFE_VERB ("MessageAddSenderToAddressBook", addrbook_sender),*/
+	
 	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSubj", vfolder_subject),
