@@ -1,3 +1,9 @@
+2001-07-20  Peter Williams  <peterw@ximian.com>
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync): More
+	usage fixes for CamelException. Check our own exception for
+	summary_update and xfer it out if an error occurred.
+
 2001-07-20  JP Rosevear  <jpr@ximian.com>
 
 	* Pull up test fixes to get them building again
