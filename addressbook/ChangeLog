@@ -1,6 +1,7 @@
 2002-02-07  Christopher James Lahey  <clahey@ximian.com>
 
-	* gui/widgets/e-addressbook-view.c
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h
 	(e_addressbook_view_setup_menus): Changed this function to use the
 	new GalViewMenus which takes a GalViewInstance, instead of a
 	GalViewCollection.
