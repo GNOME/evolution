@@ -213,7 +213,7 @@ impl_ShellComponent_create_view (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
+	return CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (control)), ev);
 }
 
 static void
