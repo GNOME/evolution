@@ -1,3 +1,8 @@
+2002-02-20  Jakub Steiner <jimmac@ximian.com>
+
+	* summary_preferences-16.png: menu icon for summary preferences
+	* Makefile.am: added the icon
+
 2002-02-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* flag-for-followup.xpm:

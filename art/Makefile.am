@@ -131,6 +131,7 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
+   summary_preferences-16.png \
 	talking-heads.png		\
 	task.xpm			\
 	task.png			\
