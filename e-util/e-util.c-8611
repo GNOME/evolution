@@ -43,7 +43,7 @@ g_int_compare(const void *x, const void *y)
   else if ( GPOINTER_TO_INT(x) == GPOINTER_TO_INT(y) )
     return 0;
   else
-    return -1;
+    return 1;
 }
 
 char *
