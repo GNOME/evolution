@@ -1,3 +1,16 @@
+2002-07-16  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_sync_online): Clean
+	up some improper usage of CamelExceptions (looking at
+	camel_exception_is_set when ex = NULL).
+
+	* providers/imap/camel-imap-store.c (get_folder_online): Here too.
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_new): Nothing sets the exception so
+	don't bother to check it at the end of this function. Prevents
+	a warning about checking a NULL exception's value.
+
 2002-07-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): Make the

@@ -1349,10 +1349,15 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	new_folder = camel_imap_folder_new (store, folder_name, folder_dir, ex);
 	g_free (folder_dir);
 	if (new_folder) {
+		CamelException local_ex;
+
 		imap_store->current_folder = new_folder;
 		camel_object_ref (CAMEL_OBJECT (new_folder));
-		camel_imap_folder_selected (new_folder, response, ex);
-		if (camel_exception_is_set (ex)) {
+		camel_exception_init (&local_ex);
+		camel_imap_folder_selected (new_folder, response, &local_ex);
+
+		if (camel_exception_is_set (&local_ex)) {
+			camel_exception_xfer (ex, &local_ex);
 			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 			imap_store->current_folder = NULL;
 			camel_object_unref (CAMEL_OBJECT (new_folder));

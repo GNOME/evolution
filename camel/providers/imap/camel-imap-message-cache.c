@@ -190,11 +190,6 @@ camel_imap_message_cache_new (const char *path, CamelFolderSummary *summary,
 	}
 	g_ptr_array_free (deletes, TRUE);
 
-	if (camel_exception_is_set (ex)) {
-		camel_object_unref (CAMEL_OBJECT (cache));
-		return NULL;
-	}
-
 	return cache;
 }
 

@@ -711,11 +711,13 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelImapResponse *response = NULL;
 	CamelMessageInfo *info;
+	CamelException local_ex;
 	GPtrArray *matches;
 	char *set, *flaglist;
 	gboolean unset;
 	int i, j, max;
 	
+	camel_exception_init (&local_ex);
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	
 	/* Find a message with changed flags, find all of the other
@@ -751,7 +753,7 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		camel_folder_summary_info_free (folder->summary, info);
 		
 		/* Note: to `unset' flags, use -FLAGS.SILENT (<flag list>) */
-		response = camel_imap_command (store, folder, ex,
+		response = camel_imap_command (store, folder, &local_ex,
 					       "UID STORE %s %sFLAGS.SILENT %s",
 					       set, unset ? "-" : "", flaglist);
 		g_free (set);
@@ -760,7 +762,7 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		if (response)
 			camel_imap_response_free (store, response);
 		
-		if (!camel_exception_is_set (ex)) {
+		if (!camel_exception_is_set (&local_ex)) {
 			for (j = 0; j < matches->len; j++) {
 				info = matches->pdata[j];
 				info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
@@ -780,8 +782,10 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 		
 		/* check for an exception */
-		if (camel_exception_is_set (ex))
+		if (camel_exception_is_set (&local_ex)) {
+			camel_exception_xfer (ex, &local_ex);
 			return;
+		}
 		
 		/* Re-lock the command_lock */
 		CAMEL_IMAP_STORE_LOCK (store, command_lock);
