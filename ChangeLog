@@ -1,3 +1,7 @@
+2000-05-03  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in (xmlversion): Fix to remove older 'libxml' prefix.
+
 2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in: Do not output `doc/Makefile' because there is
