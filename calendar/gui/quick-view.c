@@ -49,7 +49,7 @@ static void
 quick_view_init (QuickView *qv)
 {
 	GTK_WINDOW (qv)->type = GTK_WINDOW_POPUP;
-	gtk_window_position (GTK_WINDOW (qv), GTK_WIN_POS_MOUSE);
+	gtk_window_set_position (GTK_WINDOW (qv), GTK_WIN_POS_MOUSE);
 }
 
 /* Handles button release events from the canvas in the quick view.  When a button release is
@@ -207,7 +207,7 @@ quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 
 	w = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
-	gtk_container_border_width (GTK_CONTAINER (w), GNOME_PAD_SMALL);
+	gtk_container_set_border_width (GTK_CONTAINER (w), GNOME_PAD_SMALL);
 	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 
 	gtk_widget_push_visual (gdk_imlib_get_visual ());

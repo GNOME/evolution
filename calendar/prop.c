@@ -244,7 +244,7 @@ create_time_display_page (void)
 	GtkWidget *w;
 
 	table = gtk_table_new (2, 2, FALSE);
-	gtk_container_border_width (GTK_CONTAINER (table), GNOME_PAD_SMALL);
+	gtk_container_set_border_width (GTK_CONTAINER (table), GNOME_PAD_SMALL);
 	gtk_table_set_row_spacings (GTK_TABLE (table), GNOME_PAD_SMALL);
 	gtk_table_set_col_spacings (GTK_TABLE (table), GNOME_PAD_SMALL);
 	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), table,
@@ -284,7 +284,7 @@ create_time_display_page (void)
 			  0, 0);
 
 	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
-	gtk_container_border_width (GTK_CONTAINER (vbox), GNOME_PAD_SMALL);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), GNOME_PAD_SMALL);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 
 	w = gtk_label_new (_("Please select the start and end hours you want\n"
@@ -438,12 +438,12 @@ create_colors_page (void)
 	int i;
 
 	frame = gtk_frame_new (_("Colors for months"));
-	gtk_container_border_width (GTK_CONTAINER (frame), GNOME_PAD_SMALL);
+	gtk_container_set_border_width (GTK_CONTAINER (frame), GNOME_PAD_SMALL);
 	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), frame,
 					gtk_label_new (_("Colors")));
 
 	hbox = gtk_hbox_new (FALSE, GNOME_PAD);
-	gtk_container_border_width (GTK_CONTAINER (hbox), GNOME_PAD_SMALL);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), GNOME_PAD_SMALL);
 	gtk_container_add (GTK_CONTAINER (frame), hbox);
 
 	table = gtk_table_new (COLOR_PROP_LAST, 2, FALSE);
