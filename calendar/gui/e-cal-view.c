@@ -593,6 +593,8 @@ delete_event (ECalView *cal_view, CalComponent *comp)
 					cal_view->priv->client, NULL);
 
 		cal_component_get_uid (comp, &uid);
+		if (!uid || !*uid)
+			return;
 
 		delete_error_dialog (
 			cal_client_remove_object (cal_view->priv->client, uid), CAL_COMPONENT_EVENT);

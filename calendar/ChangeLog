@@ -1,5 +1,9 @@
 2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-cal-view.c (delete_event): check the uid before using it.
+
+2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-day-view.c (e_day_view_delete_event,
 	 e_day_view_delete_event_internal):
 	* gui/e-week-view.c (e_week_view_delete_event,
