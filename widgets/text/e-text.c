@@ -1814,7 +1814,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			gtk_paint_shadow (widget->style, drawable,
 					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
 					  NULL, widget, "entry",
-					  thisx - x, thisy - y, thiswidth, thisheight);
+					  thisx, thisy, thiswidth, thisheight);
 		
 			if (text->editing) {
 				/*
@@ -1826,7 +1826,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 */
 				gtk_paint_focus (widget->style, drawable, 
 						 NULL, widget, "entry",
-						 thisx - 1, thisy - 1, thiswidth + 2, thisheight + 2);
+						 thisx - 1, thisy - 1, thiswidth + 1, thisheight + 1);
 			}
 		}
 	}
