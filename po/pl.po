@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-07-13 10:36+0200\n"
-"PO-Revision-Date: 2001-07-13 12:04+0200\n"
+"PO-Revision-Date: 2001-07-13 19:47+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1505,7 +1505,7 @@ msgstr "Notka"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Free-busy URL"
-msgstr ""
+msgstr "URL sygnalizuj±cy zajêto¶æ"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Done."
@@ -1547,7 +1547,7 @@ msgstr "8-punktowa Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Blank forms at end:"
-msgstr "Pusta formatka na koñcu:"
+msgstr "Pustych formatek na koñcu:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Body"
@@ -1555,7 +1555,7 @@ msgstr "Tre¶æ"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Bottom:"
-msgstr "Dó³:"
+msgstr "Dolny:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Dimensions:"
@@ -1587,11 +1587,11 @@ msgstr "G³ówka/Stopka"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Headings"
-msgstr "Nag³ówek"
+msgstr "Nag³ówki"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Headings for each letter"
-msgstr "Nag³ówek dla ka¿dego listu"
+msgstr "Nag³ówek dla ka¿dej litery"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Height:"
@@ -1599,11 +1599,11 @@ msgstr "Wysoko¶æ:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Immediately follow each other"
-msgstr ""
+msgstr "Bezpo¶rednio jedna po drugiej"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Include:"
-msgstr "Do³±cz:"
+msgstr "Do³±czanie:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Landscape"
@@ -1659,7 +1659,7 @@ msgstr "Podgl±d:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Print using gray shading"
-msgstr "Wydrukuj uzywaj±c odcieni szaro¶ci"
+msgstr "Drukowanie przy u¿yciu odcieni szaro¶ci"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Reverse on even pages"
@@ -1683,7 +1683,7 @@ msgstr "Rozmiar:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Start on a new page"
-msgstr "Rozpoczynanie na nowej stronie"
+msgstr "Rozpoczynana na nowej stronie"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Style name:"
@@ -1691,7 +1691,7 @@ msgstr "Nazwa stylu:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Top:"
-msgstr "Góra:"
+msgstr "Górny:"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "Type:"
@@ -3816,7 +3816,8 @@ msgstr "Nie mo¿na stworzyæ procesu dla pomocniczego programu blokuj±cego: %s"
 #: camel/camel-lock-client.c:1 camel/camel-lock-client.c:1
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr "Nie mo¿na zablokowaæ \"%s\": b³±d przy komuniacji z programem blokuj±cym"
+msgstr ""
+"Nie mo¿na zablokowaæ \"%s\": b³±d przy komuniacji z programem blokuj±cym"
 
 #: camel/camel-lock-client.c:1
 #, c-format
@@ -4957,12 +4958,18 @@ msgid ""
 "For connecting to POP servers. The POP protocol can also be used to retrieve "
 "mail from certain web mail providers and proprietary email systems."
 msgstr ""
+"Do ³±czenia z serwerami POP. Protokó³ POP mo¿e byæ równie¿ wykorzystywany do "
+"pobierania poczty z pewnych zamkniêtych systemów pocztowych i od dostawców "
+"poczty obs³ugiwanej poprzez www."
 
 #: camel/providers/pop3/camel-pop3-provider.c:1
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
+"Przy tej opcji uwierzytelnianie na serwerze POP bêdzie przeprowadzane z "
+"u¿yciem has³a w postaci czystego tekstu. Wiele serwerów POP obs³uguje tylko "
+"tê opcjê."
 
 #: camel/providers/pop3/camel-pop3-provider.c:1
 msgid ""
@@ -4970,11 +4977,16 @@ msgid ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
+"Przy tej opcji uwierzytelnianie na serwerze POP bêdzie przeprowadzane przy "
+"u¿yciu protoko³u APOP. Mo¿e on nie funkcjonowaæ dla wszystkich u¿ytkowników, "
+"nawet, je¶li serwer teoretycznie obs³uguje protokó³."
 
 #: camel/providers/pop3/camel-pop3-provider.c:1
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr ""
+"Przy tej opcji uwierzytelnianie na serwerze POP bêdzie przeprowadzane przy "
+"u¿yciu Kerberosa 4 ."
 
 #: camel/providers/pop3/camel-pop3-store.c:1
 #, c-format
@@ -5062,8 +5074,7 @@ msgstr "Nie mo¿na wys³aæ listu: %s"
 #: camel/providers/sendmail/camel-sendmail-transport.c:1
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
-"Program sendmail zosta³ przerwany przez sygna³ %s: nie wys³ano poczty."
+msgstr "Program sendmail zosta³ przerwany przez sygna³ %s: nie wys³ano poczty."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:1
 #, c-format
@@ -5306,7 +5317,9 @@ msgstr "B³êdna odpowied¼ na DATA: %s: nie wys³ano poczty"
 #: camel/providers/smtp/camel-smtp-transport.c:1
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr "Up³yn±³ czas oczekiwania na wys³anie DATA: przerwanie listu: %s: nie wys³ano poczty"
+msgstr ""
+"Up³yn±³ czas oczekiwania na wys³anie DATA: przerwanie listu: %s: nie wys³ano "
+"poczty"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1
 #, c-format
@@ -7674,8 +7687,8 @@ msgstr ""
 msgid "kph"
 msgstr "km/h"
 
-#: my-evolution/metar.c:1
 # [cyba] mo¿e raczej calHg??
+#: my-evolution/metar.c:1
 msgid "inHg"
 msgstr "inHG"
 
@@ -8282,7 +8295,7 @@ msgstr "Czê¶ciowa mgie³ka"
 
 #: my-evolution/metar.c:1
 msgid "Mist with wind"
-msgstr ""
+msgstr "Mgie³ka z wiatrem"
 
 #: my-evolution/metar.c:1
 msgid "Drifting mist"
@@ -8327,7 +8340,7 @@ msgstr "Czê¶ciowa mg³a"
 
 #: my-evolution/metar.c:1
 msgid "Fog with wind"
-msgstr ""
+msgstr "Mg³a z wiatrem"
 
 #: my-evolution/metar.c:1
 msgid "Drifting fog"
@@ -8340,11 +8353,11 @@ msgstr ""
 #. SMOKE
 #: my-evolution/metar.c:1
 msgid "Smoke"
-msgstr ""
+msgstr "Dym"
 
 #: my-evolution/metar.c:1
 msgid "Smoke in the vicinity"
-msgstr ""
+msgstr "Nadchodz±cy dym"
 
 #: my-evolution/metar.c:1
 msgid "Thin smoke"
@@ -8352,7 +8365,7 @@ msgstr ""
 
 #: my-evolution/metar.c:1
 msgid "Moderate smoke"
-msgstr ""
+msgstr "Umiarkowany dym"
 
 #: my-evolution/metar.c:1
 msgid "Thick smoke"
@@ -8360,7 +8373,7 @@ msgstr ""
 
 #: my-evolution/metar.c:1
 msgid "Shallow smoke"
-msgstr ""
+msgstr "S³aby dym"
 
 #: my-evolution/metar.c:1
 msgid "Patches of smoke"
@@ -8368,7 +8381,7 @@ msgstr ""
 
 #: my-evolution/metar.c:1
 msgid "Partial smoke"
-msgstr ""
+msgstr "Czê¶ciowy dym"
 
 #: my-evolution/metar.c:1
 msgid "Smoke w/ thunders"
@@ -8376,7 +8389,7 @@ msgstr ""
 
 #: my-evolution/metar.c:1
 msgid "Smoke with wind"
-msgstr ""
+msgstr "Dym z wiatrem"
 
 #: my-evolution/metar.c:1
 msgid "Drifting smoke"
@@ -8951,11 +8964,11 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
 msgid "imperial"
-msgstr ""
+msgstr "imperialne"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid "metric"
-msgstr ""
+msgstr "metryczne"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
@@ -9036,6 +9049,10 @@ msgid ""
 "Evolution will run.\n"
 "Do you want me to remove this directory?"
 msgstr ""
+"Wykryto stary katalog Executive-Summary.\n"
+"Aby uruchomiæ Evolution, konieczne jest\n"
+"jego usuniêcie.\n"
+"Czy chcesz usun±æ ten katalog?"
 
 #: shell/e-setup.c:1
 #, c-format
@@ -9567,7 +9584,7 @@ msgstr "Nie pytaj o to ponownie"
 
 #: shell/importer/intelligent.c:1
 msgid "Evolution has found the following data sources:"
-msgstr ""
+msgstr "Odnaleziono nastêpuj±ce ¼ród³a danych:"
 
 #: shell/main.c:1
 #, no-c-format
@@ -9617,6 +9634,7 @@ msgstr "Ukrywa okno powitalne"
 #: shell/main.c:1
 msgid "Send the debugging output of all components to a file."
 msgstr ""
+"Zapisuje do pliku informacje dotycz±ce przebiegu wykonania komponentów."
 
 #: shell/main.c:1
 msgid "Cannot initialize the Bonobo component system."
@@ -9937,7 +9955,7 @@ msgstr "Zapisuje bie¿±cy element na dysku"
 
 #: ui/evolution-comp-editor.xml.h:1
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "Ustala ustawienia strony bie¿±cej drukarki"
 
 #: ui/evolution-comp-editor.xml.h:1
 msgid "_Action"
@@ -10612,7 +10630,7 @@ msgstr "Szyfruje list przy u¿yciu PGP"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr ""
+msgstr "Szyfruje list za pomoc± cerftyfikatu szyfruj±cego S/MIME"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "F_ormat"
@@ -10644,11 +10662,11 @@ msgstr "Podpis PGP"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "S/MIME Encrypt"
-msgstr ""
+msgstr "Szyfrowanie S/MIME"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "S/MIME Sign"
-msgstr ""
+msgstr "Podpis S/MIME"
 
 #: ui/evolution-message-composer.xml.h:1
 #: ui/evolution-signature-editor.xml.h:1 widgets/misc/e-filter-bar.c:1
@@ -10751,7 +10769,7 @@ msgstr "Pole _Cc"
 #: ui/evolution-message-composer.xml.h:1
 #: ui/evolution-signature-editor.xml.h:1
 msgid "_Debug"
-msgstr ""
+msgstr "¦ledzenie przebiegu _wykonania"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "_Delete all"
