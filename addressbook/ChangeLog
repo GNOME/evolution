@@ -1,3 +1,8 @@
+2000-05-06  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_load_uri): if a
+	port isn't specified in the uri default to 389.
+
 2000-05-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c: Made this take a uri through its

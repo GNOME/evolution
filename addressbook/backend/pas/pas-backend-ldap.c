@@ -889,6 +889,9 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 		bl->priv->uri = g_strdup (uri);
 		bl->priv->ldap_host = g_strdup(lud->lud_host);
 		bl->priv->ldap_port = lud->lud_port;
+		/* if a port wasn't specified, default to 389 */
+		if (bl->priv->ldap_port == 0)
+			bl->priv->ldap_port = 389;
 		bl->priv->ldap_rootdn = g_strdup(lud->lud_dn);
 
 		ldap_free_urldesc(lud);
