@@ -245,7 +245,7 @@ email_menu_add_option (EMailMenu *menu, char *addr)
 	GtkWidget *menu_item;
 
 	g_return_if_fail (menu != NULL);
-	if (addr == NULL)
+	if (!addr || !*addr)
 		return;
 
 	menu->options = g_list_append (menu->options, addr);

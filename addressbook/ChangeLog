@@ -1,5 +1,10 @@
 2004-04-12  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/eab-popup-control.c (email_menu_add_option): treat
+	"" the same as NULL (don't add it to the list).
+
+2004-04-12  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (addressbook_load_default_book):
 	quiet valgrind uninitialized memory warning.
 
