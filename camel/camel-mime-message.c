@@ -25,11 +25,14 @@
  */
 
 #include <config.h>
+
 #include "camel-mime-message.h"
-#include <stdio.h>
+#include "camel-multipart.h"
 #include "gmime-content-field.h"
+#include "camel-stream-mem.h"
 #include "string-utils.h"
 #include "hash-table-utils.h"
+#include <stdio.h>
 
 #define d(x)
 
@@ -547,4 +550,170 @@ remove_header(CamelMedium *medium, const char *header_name)
 {
 	process_header(medium, header_name, NULL);
 	parent_class->parent_class.remove_header (medium, header_name);
+}
+
+static gboolean
+multipart_has_8bit_parts (CamelMultipart *multipart)
+{
+	gboolean has_8bit = FALSE;
+	int i, nparts;
+	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts && !has_8bit; i++) {
+		GMimeContentField *content;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content = camel_mime_part_get_content_type (mime_part);
+		
+		if (gmime_content_field_is_type (content, "multipart", "*")) {
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			has_8bit = multipart_has_8bit_parts (mpart);
+		} else {
+			/* see if this part is 8bit */
+			has_8bit = camel_mime_part_get_encoding (mime_part) == CAMEL_MIME_PART_ENCODING_8BIT;
+		}
+	}
+	
+	return has_8bit;
+}
+
+gboolean
+camel_mime_message_has_8bit_parts (CamelMimeMessage *mime_message)
+{
+	GMimeContentField *content;
+	gboolean has_8bit = FALSE;
+	
+	content = camel_mime_part_get_content_type (CAMEL_MIME_PART (mime_message));
+	
+	if (gmime_content_field_is_type (content, "multipart", "*")) {
+		CamelDataWrapper *wrapper;
+		CamelMultipart *multipart;
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (mime_message)));
+		multipart = CAMEL_MULTIPART (wrapper);
+		
+		has_8bit = multipart_has_8bit_parts (multipart);
+	} else {
+		/* single-part message so just check this part */
+		has_8bit = camel_mime_part_get_encoding (CAMEL_MIME_PART (mime_message)) == CAMEL_MIME_PART_ENCODING_8BIT;
+	}
+	
+	return has_8bit;
+}
+
+static int
+best_encoding (const guchar *text)
+{
+	guchar *ch;
+	int count = 0;
+	int total;
+	
+	for (ch = (guchar *) text; *ch; ch++)
+		if (*ch > (guchar) 127)
+			count++;
+	
+	total = (int) (ch - text);
+	
+	if ((float) count <= total * 0.17)
+		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+	else
+		return CAMEL_MIME_PART_ENCODING_BASE64;
+}
+
+static void
+multipart_encode_8bit_parts (CamelMultipart *multipart)
+{
+	int i, nparts;
+	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts; i++) {
+		GMimeContentField *content;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content = camel_mime_part_get_content_type (mime_part);
+		
+		if (gmime_content_field_is_type (content, "multipart", "*")) {
+			/* ...and the search for Spock continues */
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			multipart_encode_8bit_parts (mpart);
+		} else {
+			/* re-encode this if necessary */
+			gboolean is_8bit;
+			
+			is_8bit = camel_mime_part_get_encoding (mime_part) == CAMEL_MIME_PART_ENCODING_8BIT;
+			if (is_8bit) {
+				CamelStream *stream;
+				GByteArray *array;
+				guchar *content;
+				
+				array = g_byte_array_new ();
+				stream = camel_stream_mem_new_with_byte_array (array);
+				camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_part), stream);
+				g_byte_array_append (array, "", 1);
+				
+				content = array->data;
+				g_byte_array_free (array, FALSE);
+				
+				camel_mime_part_set_encoding (mime_part, best_encoding (content));
+				g_free (content);
+				camel_object_unref (CAMEL_OBJECT (stream));
+			}
+		}
+	}
+}
+
+void
+camel_mime_message_encode_8bit_parts (CamelMimeMessage *mime_message)
+{
+	GMimeContentField *content;
+	
+	content = camel_mime_part_get_content_type (CAMEL_MIME_PART (mime_message));
+	
+	if (gmime_content_field_is_type (content, "multipart", "*")) {
+		/* search for Spock */
+		CamelDataWrapper *wrapper;
+		CamelMultipart *multipart;
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (mime_message)));
+		multipart = CAMEL_MULTIPART (wrapper);
+		
+		multipart_encode_8bit_parts (multipart);
+	} else {
+		/* re-encode if we need to */
+		gboolean is_8bit;
+		
+		is_8bit = camel_mime_part_get_encoding (CAMEL_MIME_PART (mime_message)) == CAMEL_MIME_PART_ENCODING_8BIT;
+		if (is_8bit) {
+			/* FIXME: is there a better way of doing this? */
+			CamelStream *stream;
+			GByteArray *array;
+			guchar *content;
+			
+			array = g_byte_array_new ();
+			stream = camel_stream_mem_new_with_byte_array (array);
+			camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (CAMEL_MIME_PART (mime_message)), stream);
+			g_byte_array_append (array, "", 1);
+			
+			content = array->data;
+			g_byte_array_free (array, FALSE);
+						
+			camel_mime_part_set_encoding (CAMEL_MIME_PART (mime_message), best_encoding (content));
+			g_free (content);
+			camel_object_unref (CAMEL_OBJECT (stream));
+		}
+	}
 }

@@ -70,9 +70,11 @@ static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
 
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
-static gboolean smtp_mail (CamelSmtpTransport *transport, const char *sender, CamelException *ex);
+static gboolean smtp_mail (CamelSmtpTransport *transport, const char *sender,
+			   gboolean has_8bit_parts, CamelException *ex);
 static gboolean smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException *ex);
-static gboolean smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *ex);
+static gboolean smtp_data (CamelSmtpTransport *transport, CamelMedium *message,
+			   gboolean has_8bit_parts, CamelException *ex);
 static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 
@@ -350,6 +352,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	CamelInternetAddress *cia;
 	char *recipient, *sender;
 	const char *addr;
+	gboolean has_8bit_parts;
 	GList *r;
 	
 	sender = g_strdup (camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message)));
@@ -371,7 +374,12 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 		return FALSE;
 	}
 	
-	smtp_mail (smtp_transport, addr, ex);
+	/* find out if the message has 8bit mime parts */
+	has_8bit_parts = camel_mime_message_has_8bit_parts (CAMEL_MIME_MESSAGE (message));
+	
+	/* rfc1652 (8BITMIME) requires that you notify the ESMTP daemon that
+	   you'll be sending an 8bit mime message at "MAIL FROM:" time. */
+	smtp_mail (smtp_transport, addr, has_8bit_parts, ex);
 	
 	if (!recipients) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -389,7 +397,10 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 		g_free (recipient);
 	}
 	
-	if (!smtp_data (smtp_transport, message, ex))
+	/* passing in has_8bit_parts saves time as we don't have to
+           recurse through the message all over again if the user is
+           not sending 8bit mime parts */
+	if (!smtp_data (smtp_transport, message, has_8bit_parts, ex))
 		return FALSE;
 	
 	/* reset the service for our next transfer session */
@@ -507,13 +518,16 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 }
 
 static gboolean
-smtp_mail (CamelSmtpTransport *transport, const char *sender, CamelException *ex)
+smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_parts, CamelException *ex)
 {
 	/* we gotta tell the smtp server who we are. (our email addy) */
 	gchar *cmdbuf, *respbuf = NULL;
 	
 	/* enclose address in <>'s since some SMTP daemons *require* that */
-	cmdbuf = g_strdup_printf ("MAIL FROM: <%s>\r\n", sender);
+	if (CAMEL_TRANSPORT (transport)->supports_8bit && has_8bit_parts)
+		cmdbuf = g_strdup_printf ("MAIL FROM: <%s> BODY=8BITMIME\r\n", sender);
+	else
+		cmdbuf = g_strdup_printf ("MAIL FROM: <%s>\r\n", sender);
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	
@@ -591,11 +605,8 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 	return TRUE;
 }
 
-/* FIXME: if the message has 8bit mime parts and the server doesn't
-   support 8bit, we should re-encode those parts to either QP or
-   Base64 */
 static gboolean
-smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *ex)
+smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bit_parts, CamelException *ex)
 {
 	/* now we can actually send what's important :p */
 	gchar *cmdbuf, *respbuf = NULL;
@@ -603,7 +614,13 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	CamelMimeFilter *crlffilter, *lwfilter;
 	gint crlfid, lwid;
 	
-	/* enclose address in <>'s since some SMTP daemons *require* that */
+	
+	/* if the message contains 8bit mime parts and the server
+           doesn't support it, encode 8bit parts to the best
+           encoding. */
+	if (has_8bit_parts && !CAMEL_TRANSPORT (transport)->supports_8bit)
+		camel_mime_message_encode_8bit_parts (CAMEL_MIME_MESSAGE (message));
+	
 	cmdbuf = g_strdup ("DATA\r\n");
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));

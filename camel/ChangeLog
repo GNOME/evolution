@@ -1,5 +1,23 @@
 2000-10-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-mime-message.c (camel_mime_message_has_8bit_parts): New
+	convenience function to determine if there are any 8bit mime parts
+	in a mime message.
+	(camel_mime_message_encode_8bit_parts): New convenience function
+	to recursively reencode all 8bit mime parts to either
+	quoted-printable or base64 depending on which would be the best
+	encoding for that part.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): If the mime
+	message contains 8bit parts and the server doesn't support 8bit
+	transfers, reencode those parts before proceding with the send.
+	(smtp_mail): If the mime message contains 8bit parts and the
+	server supports the 8BITMIME extension to SMTP, notify the server
+	that we'll be sending it 8bit mime parts.
+	(_send_to): Find out if the message contains 8bit parts.
+
+2000-10-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/smtp/camel-smtp-transport.c (_send_to): Use the
 	CamelInternetAddress parser.
 	(smtp_get_email_addr_from_text): deprecated.

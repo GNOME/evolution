@@ -111,6 +111,11 @@ void		camel_mime_message_remove_recipient_name (CamelMimeMessage *mime_message,
 const CamelInternetAddress *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
 							       const char *type);
 
+
+/* utility functions */
+gboolean camel_mime_message_has_8bit_parts    (CamelMimeMessage *mime_message);
+void     camel_mime_message_encode_8bit_parts (CamelMimeMessage *mime_message);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
