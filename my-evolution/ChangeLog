@@ -1,3 +1,9 @@
+2002-12-11  Kevin Breit  <mrproper@ximian.com>
+
+	* Locations: Removed Marquette from the listing, it is no longer listed by METAR.  This is per bug 29693.
+
+	* Locations.h: Removed Marquette from the listing, it is no longer listed by METAR.
+
 2002-12-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c: Change description passed to
