@@ -1,3 +1,8 @@
+2004-01-12  JP Rosevear  <jpr@ximian.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_post_to): fix
+	compilation error
+
 2004-01-12  Meilof Veeningen  <meilof@wanadoo.nl>
 
 	* e-msg-composer.[ch]: added "View To", "View Post To" menu items,

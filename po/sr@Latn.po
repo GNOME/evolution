@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-12 03:00+0100\n"
+"POT-Creation-Date: 2004-01-12 22:53-0500\n"
 "PO-Revision-Date: 2004-01-12 03:05+0100\n"
 "Last-Translator: Danilo Šegan <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -51,7 +51,7 @@ msgstr "Podesite ovde samodopunjavanje"
 #. name = e_book_get_name (book);
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
-#: calendar/gui/calendar-component.c:561
+#: calendar/gui/calendar-component.c:583
 #: mail/importers/netscape-importer.c:1844 shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "Kontakti"
@@ -93,19 +93,19 @@ msgstr "Upravljanje podešavanjem direktorijuma iz Evolucije"
 msgid "Manager your S/Mime certificates here"
 msgstr "Ovde upravljajte vašim S/MIME sertifikatima"
 
-#: addressbook/gui/component/addressbook-component.c:217
+#: addressbook/gui/component/addressbook-component.c:202
+#, fuzzy, c-format
+msgid "Addressbook '%s' will be removed. Are you sure you want to continue?"
+msgstr "Kalendar „%s“ će biti uklonjen. Sigurno želite da nastavite?"
+
+#: addressbook/gui/component/addressbook-component.c:258
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "New Addressbook"
 msgstr "Novi adresar"
 
-#: addressbook/gui/component/addressbook-component.c:218
-#: calendar/gui/calendar-component.c:409 calendar/gui/tasks-component.c:402
-msgid "Properties..."
-msgstr "Osobine..."
-
-#: addressbook/gui/component/addressbook-component.c:219
+#: addressbook/gui/component/addressbook-component.c:259
 #: addressbook/gui/widgets/e-addressbook-view.c:1017
-#: calendar/gui/calendar-component.c:408 calendar/gui/tasks-component.c:400
+#: calendar/gui/calendar-component.c:410 calendar/gui/tasks-component.c:399
 #: filter/libfilter-i18n.h:10 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -113,31 +113,32 @@ msgstr "Osobine..."
 msgid "Delete"
 msgstr "Obriši"
 
-#: addressbook/gui/component/addressbook-component.c:220
-msgid "Rename"
-msgstr "Preimenuj"
+#: addressbook/gui/component/addressbook-component.c:260
+#: calendar/gui/calendar-component.c:411 calendar/gui/tasks-component.c:401
+msgid "Properties..."
+msgstr "Osobine..."
 
-#: addressbook/gui/component/addressbook-component.c:291
+#: addressbook/gui/component/addressbook-component.c:331
 msgid "New Contact"
 msgstr "Novi kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:292
+#: addressbook/gui/component/addressbook-component.c:332
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:293
+#: addressbook/gui/component/addressbook-component.c:333
 msgid "Create a new contact"
 msgstr "Unesi novi kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:298
+#: addressbook/gui/component/addressbook-component.c:338
 msgid "New Contact List"
 msgstr "Nova kontakt lista"
 
-#: addressbook/gui/component/addressbook-component.c:299
+#: addressbook/gui/component/addressbook-component.c:339
 msgid "Contact _List"
 msgstr "_Spisak kontakata"
 
-#: addressbook/gui/component/addressbook-component.c:300
+#: addressbook/gui/component/addressbook-component.c:340
 msgid "Create a new contact list"
 msgstr "Napravi novi spisak kontakata"
 
@@ -197,15 +198,15 @@ msgstr "Prenosim „%s“:"
 
 #. create the local source group
 #: addressbook/gui/component/addressbook-migrate.c:313
-#: calendar/gui/calendar-component.c:519 calendar/gui/calendar-component.c:529
-#: calendar/gui/tasks-component.c:503 calendar/gui/tasks-component.c:509
+#: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:550
+#: calendar/gui/tasks-component.c:502 calendar/gui/tasks-component.c:508
 msgid "On This Computer"
 msgstr "Na ovom računaru"
 
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:323
-#: calendar/gui/calendar-component.c:536 calendar/gui/migration.c:124
-#: calendar/gui/migration.c:147 calendar/gui/tasks-component.c:516
+#: calendar/gui/calendar-component.c:557 calendar/gui/migration.c:124
+#: calendar/gui/migration.c:147 calendar/gui/tasks-component.c:515
 #: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
 #: shell/e-config-upgrade.c:1456
 msgid "Personal"
@@ -342,13 +343,13 @@ msgstr " P_okaži podržane baze "
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
-#: calendar/gui/dialogs/alarm-options.glade.h:2
+#: calendar/gui/dialogs/alarm-options.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
-#: calendar/gui/dialogs/event-page.glade.h:2
+#: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/new-calendar.glade.h:1
 #: calendar/gui/dialogs/new-task-list.glade.h:1
-#: calendar/gui/dialogs/task-page.glade.h:2
+#: calendar/gui/dialogs/task-page.glade.h:1
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:6
 #: mail/mail-search.glade.h:1 mail/message-tags.glade.h:1
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
@@ -385,19 +386,24 @@ msgid "Addressbook Creation Assistant"
 msgstr "Pomoćnik za pravljenje adresara"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
+#, fuzzy
+msgid "Addressbook Properties"
+msgstr "Izvori adresara"
+
+#: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Addressbook Sources"
 msgstr "Izvori adresara"
 
-#: addressbook/gui/component/ldap-config.glade.h:13 mail/mail-account-gui.c:66
+#: addressbook/gui/component/ldap-config.glade.h:14 mail/mail-account-gui.c:66
 #: mail/mail-config.glade.h:16
 msgid "Always"
 msgstr "Uvek"
 
-#: addressbook/gui/component/ldap-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:15
 msgid "Anonymously"
 msgstr "Anonimno"
 
-#: addressbook/gui/component/ldap-config.glade.h:15
+#: addressbook/gui/component/ldap-config.glade.h:16
 msgid ""
 "Congratulations, you are finished setting up this addressbook.\n"
 "\n"
@@ -408,17 +414,13 @@ msgstr ""
 "\n"
 "Molim pritisnite dugme „Završi“ da sačuvate podešavanja koja ste ovde uneli."
 
-#: addressbook/gui/component/ldap-config.glade.h:18
+#: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Connecting"
 msgstr "Povezujem se"
 
-#: addressbook/gui/component/ldap-config.glade.h:19
+#: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Distinguished _name:"
 msgstr "Posebno _ime:"
-
-#: addressbook/gui/component/ldap-config.glade.h:20
-msgid "Edit LDAP Server"
-msgstr "Uredi LDAP server"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
 msgid "Email address:"
@@ -440,7 +442,7 @@ msgid "Finished"
 msgstr "Gotovo"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
-#: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: calendar/gui/dialogs/calendar-setup.glade.h:11
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
@@ -481,7 +483,7 @@ msgid "S_earch scope: "
 msgstr "Opseg p_retrage:"
 
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:659
+#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:660
 #: calendar/gui/gnome-cal.c:586
 msgid "Searching"
 msgstr "Tražim"
@@ -536,7 +538,8 @@ msgid ""
 "LDAP\n"
 "searches, and for creating and editing contacts. "
 msgstr ""
-"Odabiranje ove opcije omogućiće promenu podrazumevanih podešavanja  Evolucije\n"
+"Odabiranje ove opcije omogućiće promenu podrazumevanih podešavanja  "
+"Evolucije\n"
 "za LDAP pretrage, i za upisivanje i menjanje kontakata. "
 
 #: addressbook/gui/component/ldap-config.glade.h:47
@@ -719,11 +722,13 @@ msgstr "_Ime:"
 msgid "_Download limit:"
 msgstr "Limit za _preuzimanje:"
 
-#: addressbook/gui/component/ldap-config.glade.h:87 filter/filter.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:87
+#: addressbook/gui/contact-editor/contact-editor.glade.h:34
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
-#: ui/evolution-message-composer.xml.h:41
+#: ui/evolution-message-composer.xml.h:43
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:20
 msgid "_Edit"
@@ -846,8 +851,82 @@ msgid " B_usiness:"
 msgstr "_Poslovni:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
+msgid "A_ddress..."
+msgstr "A_dresa..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:4
+msgid "A_ssistant's name:"
+msgstr "Ime a_sistenta:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:5
+msgid "Addressbook:"
+msgstr "Adresar:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:6
+msgid "Anni_versary:"
+msgstr "Godi_šnjica:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+msgid "Birthda_y:"
+msgstr "Rođenda_n"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:8
+msgid "Blog address:"
+msgstr "Adresa blogčeta:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:9
+msgid "Business fa_x:"
+msgstr "Poslovni fa_ks:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:10
+msgid "Collaboration"
+msgstr "Saradnja"
+
+#. Construct the app
+#: addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: addressbook/gui/contact-editor/e-contact-editor.c:1989
+msgid "Contact Editor"
+msgstr "Urednik kontakata"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:12
+msgid "D_epartment:"
+msgstr "O_delenje:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:13
+#: calendar/gui/dialogs/task-editor.c:200 mail/mail-security.glade.h:1
+#: smime/gui/smime-ui.glade.h:19
+msgid "Details"
+msgstr "Detalji"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:14
+msgid "Enter the person's instant messenger accounts here."
+msgstr ""
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:15
+msgid "F_ree/Busy URL:"
+msgstr "URL za s_lobodan/zauzet:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:16
+msgid "File a_s:"
+msgstr "Smesti k_ao:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:17
+msgid "Full _Name..."
+msgstr "Puno _ime..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:19
+#, fuzzy
 msgid ""
-"<b>Calendar Access</b>\n"
+"If this person has the ability to participate in a video conference, enter "
+"their address here."
+msgstr ""
+"<b>Video konferencija</b>\n"
+"Ukoliko ova osoba može da učestvuje u video konferenciji, unesite ovde njenu "
+"adresu."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:20
+#, fuzzy
+msgid ""
 "If this person publishes free/busy or other calendar information on the "
 "Internet, enter the address\n"
 "of that information here."
@@ -857,75 +936,10 @@ msgstr ""
 "Internet, unesite \n"
 "ovde adresu tih podataka."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:6
-msgid ""
-"<b>Video Conferencing</b>\n"
-"If this person has the ability to participate in a video conference, enter "
-"their address here."
-msgstr ""
-"<b>Video konferencija</b>\n"
-"Ukoliko ova osoba može da učestvuje u video konferenciji, unesite ovde njenu "
-"adresu."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:8
-msgid "A_ddress..."
-msgstr "A_dresa..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:9
-msgid "A_ssistant's name:"
-msgstr "Ime a_sistenta:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:10
-msgid "Addressbook:"
-msgstr "Adresar:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:11
-msgid "Anni_versary:"
-msgstr "Godi_šnjica:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:12
-msgid "Birthda_y:"
-msgstr "Rođenda_n"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:13
-msgid "Blog address:"
-msgstr "Adresa blogčeta:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:14
-msgid "Business fa_x:"
-msgstr "Poslovni fa_ks:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:15
-msgid "Collaboration"
-msgstr "Saradnja"
-
-#. Construct the app
-#: addressbook/gui/contact-editor/contact-editor.glade.h:16
-#: addressbook/gui/contact-editor/e-contact-editor.c:1521
-msgid "Contact Editor"
-msgstr "Urednik kontakata"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:17
-msgid "D_epartment:"
-msgstr "O_delenje:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:18
-#: calendar/gui/dialogs/task-editor.c:200 mail/mail-security.glade.h:1
-#: smime/gui/smime-ui.glade.h:19
-msgid "Details"
-msgstr "Detalji"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:19
-msgid "F_ree/Busy URL:"
-msgstr "URL za s_lobodan/zauzet:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:20
-msgid "File a_s:"
-msgstr "Smesti k_ao:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:21
-msgid "Full _Name..."
-msgstr "Puno _ime..."
+#: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#, fuzzy
+msgid "Instant Messaging"
+msgstr "_Pošalji poruku"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "New phone type"
@@ -968,9 +982,9 @@ msgid "_Categories..."
 msgstr "Ka_tegorije..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1290
-#: calendar/gui/e-cal-view.c:1321 calendar/gui/e-calendar-table.c:1055
-#: calendar/gui/e-calendar-table.c:1073 mail/em-folder-tree.c:1530
+#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1264
+#: calendar/gui/e-cal-view.c:1295 calendar/gui/e-calendar-table.c:1055
+#: calendar/gui/e-calendar-table.c:1073 mail/em-folder-tree.c:1654
 #: mail/em-folder-view.c:731 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -978,43 +992,43 @@ msgstr "Ka_tegorije..."
 msgid "_Delete"
 msgstr "_Obriši"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:34
+#: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Home:"
 msgstr "_Kuća:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Job title:"
 msgstr "Naziv _posla:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:36
+#: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Manager's name:"
 msgstr "Ime _menadžera:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:37
+#: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Mobile:"
 msgstr "_Mobilni:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:38
+#: addressbook/gui/contact-editor/contact-editor.glade.h:39
 msgid "_Nickname:"
 msgstr "_Nadimak:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:39
+#: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "_Office:"
 msgstr "_Kancelarija:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:40
+#: addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Public Calendar URL:"
 msgstr "URL za _javni kalendar:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:41
+#: addressbook/gui/contact-editor/contact-editor.glade.h:42
 msgid "_This is the mailing address"
 msgstr "Ovo je adresa za _slanje"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:42
+#: addressbook/gui/contact-editor/contact-editor.glade.h:43
 msgid "_Video Conferencing URL:"
 msgstr "_Adresa za video konferencije:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Web page address:"
 msgstr "Adresa _strane na Internetu:"
 
@@ -1024,7 +1038,7 @@ msgstr "Adresa"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
-#: addressbook/gui/contact-editor/e-contact-editor.c:226
+#: addressbook/gui/contact-editor/e-contact-editor.c:242
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:183
 #: addressbook/gui/widgets/e-addressbook-model.c:312
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:392
@@ -2004,46 +2018,55 @@ msgstr "Zambija"
 msgid "Zimbabwe"
 msgstr "Zimbabve"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:191
+#: addressbook/gui/contact-editor/e-contact-editor.c:207
 msgid "Source Book"
 msgstr "Izvorni adresar"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:198
+#: addressbook/gui/contact-editor/e-contact-editor.c:214
 msgid "Target Book"
 msgstr "Odredišni adresar"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:205
+#: addressbook/gui/contact-editor/e-contact-editor.c:221
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:169
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:189
 msgid "Contact"
 msgstr "Kontakt"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:212
+#: addressbook/gui/contact-editor/e-contact-editor.c:228
 msgid "Is New Contact"
 msgstr "Je novi kontakt"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:219
+#: addressbook/gui/contact-editor/e-contact-editor.c:235
 msgid "Writable Fields"
 msgstr "Polja za upis"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:233
+#: addressbook/gui/contact-editor/e-contact-editor.c:249
 msgid "Changed"
 msgstr "Promenjen"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:977
+#: addressbook/gui/contact-editor/e-contact-editor.c:708
+#, fuzzy
+msgid "Service"
+msgstr "Servis spreman"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:722
+msgid "Account Name"
+msgstr "Ime naloga"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:1426
 msgid "Category editor not available."
 msgstr "Uređivač kategorija nije dostupan."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:985
+#: addressbook/gui/contact-editor/e-contact-editor.c:1434
 msgid "This contact belongs to these categories:"
 msgstr "Ovaj kontakt pripada ovim kategorijama"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1207
+#: addressbook/gui/contact-editor/e-contact-editor.c:1657
 msgid "Save Contact as VCard"
 msgstr "Sačuvaj kontakt kao VCard"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1247
+#: addressbook/gui/contact-editor/e-contact-editor.c:1697
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2051,7 +2074,7 @@ msgstr ""
 "Jeste li sigurni da hoćete\n"
 "da obrišete ove kontakte?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1250
+#: addressbook/gui/contact-editor/e-contact-editor.c:1700
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -2059,19 +2082,41 @@ msgstr ""
 "Jeste li sigurni da hoćete\n"
 "da obrišete ovaj kontakt?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2029
+#: addressbook/gui/contact-editor/e-contact-editor.c:2497
 msgid "Business"
 msgstr "Posao"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2030
+#: addressbook/gui/contact-editor/e-contact-editor.c:2498
 msgid "Home"
 msgstr "Kuća"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2031
+#: addressbook/gui/contact-editor/e-contact-editor.c:2499
 msgid "Other"
 msgstr "Drugo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2574
+#: addressbook/gui/contact-editor/e-contact-editor.c:2807
+msgid "AIM"
+msgstr ""
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:2808
+#, fuzzy
+msgid "Jabber"
+msgstr "Lista bez imena"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:2809
+#, fuzzy
+msgid "Yahoo"
+msgstr "Porto"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:2810
+msgid "MSN"
+msgstr ""
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:2811
+msgid "ICQ"
+msgstr ""
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:3098
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Nisam mogao da pronađem pomoć đa polje: `%s'"
@@ -2419,9 +2464,9 @@ msgstr "Iseci"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1015
-#: calendar/gui/calendar-component.c:406
+#: calendar/gui/calendar-component.c:408
 #: calendar/gui/dialogs/copy-source-dialog.c:136
-#: calendar/gui/tasks-component.c:398 ui/evolution-addressbook.xml.h:2
+#: calendar/gui/tasks-component.c:397 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Kopiraj"
@@ -2432,7 +2477,7 @@ msgid "Paste"
 msgstr "Umetni"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1021
-#: calendar/gui/e-cal-view.c:1259
+#: calendar/gui/e-cal-view.c:1233
 msgid "Current View"
 msgstr "Trenutan pogled"
 
@@ -2758,8 +2803,8 @@ msgid "Protocol not supported"
 msgstr "Protokol nije podržan"
 
 #: addressbook/gui/widgets/eab-gui-util.c:50
-#: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:601
+#: calendar/gui/dialogs/task-details-page.glade.h:3
+#: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:600
 #: calendar/gui/e-calendar-table.c:467 calendar/gui/e-tasks.c:212
 #: calendar/gui/print.c:2319 camel/camel-service.c:734
 #: camel/camel-service.c:772 camel/camel-service.c:856
@@ -3250,7 +3295,8 @@ msgstr "Ime datoteke nije dato."
 msgid "Unnamed List"
 msgstr "Lista bez imena"
 
-#: calendar/common/authentication.c:34 smime/gui/component.c:39
+#: calendar/common/authentication.c:34 calendar/gui/itip-utils.c:1156
+#: smime/gui/component.c:39
 msgid "Enter password"
 msgstr "Unesite lozinku"
 
@@ -3328,7 +3374,7 @@ msgstr "Deo Evolucije za zaduženja"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1042 calendar/gui/print.c:1795
-#: calendar/gui/tasks-control.c:506
+#: calendar/gui/tasks-control.c:505
 #: calendar/importers/icalendar-importer.c:717
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
 msgid "Tasks"
@@ -3374,8 +3420,8 @@ msgstr "Vreme dremanja (minuti)"
 msgid "_Edit appointment"
 msgstr "_Izmeni sastanak"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:900 calendar/gui/e-cal-view.c:1272
-#: calendar/gui/e-cal-view.c:1337 calendar/gui/e-calendar-table.c:1035
+#: calendar/gui/alarm-notify/alarm-queue.c:900 calendar/gui/e-cal-view.c:1246
+#: calendar/gui/e-cal-view.c:1311 calendar/gui/e-calendar-table.c:1035
 #: calendar/gui/e-calendar-table.c:1076 mail/em-folder-view.c:706
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
@@ -3497,90 +3543,94 @@ msgid "Intervals shown in Day and Work Week views"
 msgstr "Intervali prikazani pri pregledu dana i radne nedelje"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
+msgid "List of urls for free/busy publishing"
+msgstr ""
+
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
 msgstr "Minut kojim se završava radni dan"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Minute the workday starts on"
 msgstr "Minut kojim počinje radni dan"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for default reminder"
 msgstr "Broj jedinica za podrazumevani podsetnik"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
 msgstr "Broj jedinica za određivanje kada sakriti zaduženja"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
 msgstr "Položaj vodoravne površi"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
 msgstr "Položaj vodoravne površi pri pregledu meseca"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
 msgstr "Položaj uspravne površi"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
 msgstr "Položaj uspravne površi pri pregledu meseca"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
 msgstr "Položaj uspravne površi pri pregledu zaduženja"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
 msgstr "Programi koji mogu da se pokrenu kao deo alarma"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Show where events end in week and month views"
 msgstr "Pokaži završetke zakazanih sastanaka u nedeljnim i mesečnim prikazima"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "The view showing when the calendar starts"
 msgstr "Pregled koji prikazuje kada počinje kalendar"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Time last alarm ran"
 msgstr "Vreme poslednjeg pokretanja alarma"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Units for determining when to hide tasks"
 msgstr "Jedinice za određivanje kada sakriti zaduženja"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Units of default reminder"
 msgstr "Jedinice podrazumevanog podsetnika"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Weekday the week starts on"
 msgstr "Dan u nedelji kojim počinje nedelja"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
 msgstr "Da li da tražim potvrdu pre brisanja sastanaka"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Whether to ask for confirmation when folder is expunged"
 msgstr "Da li da tražim potvrdu pre uklanjanja direktorijuma"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Whether to hide completed tasks"
 msgstr "Da li da sakrivam izvršena zaduženja"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
 msgstr "Da li da postavim podrazumevani podsetnik za događaje"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
 msgstr "Da li da prikazujem vreme u 24č obliku umesto am/pm"
 
-#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
+#: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
 msgstr "Da li da prikazuje brojeve nedelja u izbiraču datuma"
 
@@ -3596,11 +3646,11 @@ msgstr "Opis sadrži"
 msgid "Comment contains"
 msgstr "Komentar sadrži"
 
-#: calendar/gui/cal-search-bar.c:357 mail/mail-ops.c:1113
+#: calendar/gui/cal-search-bar.c:357 mail/mail-ops.c:1117
 msgid "Unmatched"
 msgstr "Neraspodeljeno"
 
-#: calendar/gui/calendar-commands.c:370
+#: calendar/gui/calendar-commands.c:342
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -3611,128 +3661,128 @@ msgstr ""
 "\n"
 "Stvarno da brišem ove zadatke?"
 
-#: calendar/gui/calendar-commands.c:377
+#: calendar/gui/calendar-commands.c:348
 msgid "Purge events older than"
 msgstr "Obriši događaje starije od"
 
-#: calendar/gui/calendar-commands.c:382
-#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:17
+#: calendar/gui/calendar-commands.c:353
+#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter.glade.h:17
 msgid "days"
 msgstr "dana"
 
-#: calendar/gui/calendar-commands.c:451
+#: calendar/gui/calendar-commands.c:422
 msgid "%A %d %B %Y"
 msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:454 calendar/gui/e-day-view-top-item.c:692
+#: calendar/gui/calendar-commands.c:425 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: calendar/gui/calendar-commands.c:456 calendar/gui/calendar-commands.c:461
-#: calendar/gui/calendar-commands.c:463
+#: calendar/gui/calendar-commands.c:427 calendar/gui/calendar-commands.c:432
+#: calendar/gui/calendar-commands.c:434
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/calendar-commands.c:480 calendar/gui/calendar-commands.c:486
-#: calendar/gui/calendar-commands.c:492 calendar/gui/calendar-commands.c:494
+#: calendar/gui/calendar-commands.c:451 calendar/gui/calendar-commands.c:457
+#: calendar/gui/calendar-commands.c:463 calendar/gui/calendar-commands.c:465
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:484
+#: calendar/gui/calendar-commands.c:455
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1516
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-component.c:358
+#: calendar/gui/calendar-component.c:361
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Kalendar „%s“ će biti uklonjen. Sigurno želite da nastavite?"
 
-#: calendar/gui/calendar-component.c:404
+#: calendar/gui/calendar-component.c:406
 #: calendar/gui/dialogs/calendar-setup.glade.h:13
 msgid "New Calendar"
 msgstr "Novi kalendar"
 
 #. create the remote source group
-#: calendar/gui/calendar-component.c:523 calendar/gui/calendar-component.c:553
+#: calendar/gui/calendar-component.c:544 calendar/gui/calendar-component.c:573
 msgid "On The Web"
 msgstr "Na vebu"
 
 #. red
-#: calendar/gui/calendar-component.c:543 filter/filter-label.c:122
+#: calendar/gui/calendar-component.c:564 filter/filter-label.c:122
 #: mail/mail-config.c:64 mail/mail-config.glade.h:135
 #: shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "Posao"
 
-#: calendar/gui/calendar-component.c:562 calendar/gui/calendar-component.c:574
+#: calendar/gui/calendar-component.c:584 calendar/gui/calendar-component.c:596
 msgid "Birthdays & Anniversaries"
 msgstr "Rođendani i godišnjice"
 
-#: calendar/gui/calendar-component.c:573
+#: calendar/gui/calendar-component.c:595
 msgid "Birthdays"
 msgstr "Rođendani"
 
-#: calendar/gui/calendar-component.c:677
+#: calendar/gui/calendar-component.c:720
 msgid "New appointment"
 msgstr "Novi zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:678
+#: calendar/gui/calendar-component.c:721
 msgid "_Appointment"
 msgstr "Zakazani _sastanak"
 
-#: calendar/gui/calendar-component.c:679
+#: calendar/gui/calendar-component.c:722
 msgid "Create a new appointment"
 msgstr "Zakaži sastanak"
 
-#: calendar/gui/calendar-component.c:684
+#: calendar/gui/calendar-component.c:727
 msgid "New meeting"
 msgstr "Novi sastanak"
 
-#: calendar/gui/calendar-component.c:685
+#: calendar/gui/calendar-component.c:728
 msgid "M_eeting"
 msgstr "S_astanak"
 
-#: calendar/gui/calendar-component.c:686
+#: calendar/gui/calendar-component.c:729
 msgid "Create a new meeting request"
 msgstr "Sačini novi zahtev za sastanak"
 
-#: calendar/gui/calendar-component.c:691
+#: calendar/gui/calendar-component.c:734
 msgid "New all day appointment"
 msgstr "Novi celodnevni zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:692
+#: calendar/gui/calendar-component.c:735
 msgid "All _Day Appointment"
 msgstr "Celo_dnevni zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:693
+#: calendar/gui/calendar-component.c:736
 msgid "Create a new all-day appointment"
 msgstr "Sačini novi celodnevni zakazani sastanak"
 
-#: calendar/gui/calendar-component.c:698
+#: calendar/gui/calendar-component.c:741
 msgid "New calendar"
 msgstr "Novi kalendar"
 
-#: calendar/gui/calendar-component.c:699
+#: calendar/gui/calendar-component.c:742
 msgid "C_alendar"
 msgstr "K_alendar"
 
-#: calendar/gui/calendar-component.c:700
+#: calendar/gui/calendar-component.c:743
 msgid "Create a new calendar"
 msgstr "Napravi novi kalendar"
 
-#: calendar/gui/calendar-component.c:767
+#: calendar/gui/calendar-component.c:810
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Ne mogu da otvorim kalendar „%s“ radi pravljenja događaja i sastanaka"
 
-#: calendar/gui/calendar-component.c:780
+#: calendar/gui/calendar-component.c:822
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Nema dostupnog kalendara za pravljenje događaja i sastanaka"
 
@@ -3778,7 +3828,7 @@ msgstr "Metod nije podržan kod otvaranja kalendara"
 msgid "Permission denied to open the calendar"
 msgstr "Zabranjen pristup kalendaru"
 
-#: calendar/gui/comp-editor-factory.c:519
+#: calendar/gui/comp-editor-factory.c:518
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
@@ -3816,74 +3866,54 @@ msgstr "Opcije za program alarma"
 msgid "Unknown Alarm Options"
 msgstr "Nepoznate opcije za alarm"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:1
-#: calendar/gui/dialogs/alarm-page.glade.h:1
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#: calendar/gui/dialogs/event-page.glade.h:1
-#: calendar/gui/dialogs/recurrence-page.glade.h:1
-#: calendar/gui/dialogs/task-details-page.glade.h:1
-#: calendar/gui/dialogs/task-page.glade.h:1
-msgid "    "
-msgstr "    "
-
-#: calendar/gui/dialogs/alarm-options.glade.h:3
-msgid "<b>Alarm Action</b>"
-msgstr "<b>Dejstvo alarma</b>"
-
-#: calendar/gui/dialogs/alarm-options.glade.h:4
-msgid "<b>Alarm Email</b>"
-msgstr "<b>E-pošta alarma</b>"
-
-#: calendar/gui/dialogs/alarm-options.glade.h:5
-msgid "<b>Alarm Repeat</b>"
+#: calendar/gui/dialogs/alarm-options.glade.h:2
+#, fuzzy
+msgid "Alarm Repeat"
 msgstr "<b>Ponavljanje alarma</b>"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:6
-msgid "<b>Alarm Sound</b>"
-msgstr "<b>Zvuk alarma</b>"
+#: calendar/gui/dialogs/alarm-options.glade.h:3
+#, fuzzy
+msgid "Message to Display:"
+msgstr "Prikaz poruke"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:7
-msgid "<b>Message to Display</b>"
-msgstr "<b>Poruka za prikaz</b>"
-
-#: calendar/gui/dialogs/alarm-options.glade.h:8
+#: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
 msgstr "Poruka za slanje"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:9
+#: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Play sound:"
 msgstr "Pusti zvuk:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:10
+#: calendar/gui/dialogs/alarm-options.glade.h:6
 msgid "Repeat the alarm"
 msgstr "Ponovi alarm"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:11
+#: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "Run program:"
 msgstr "Pokreni program:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:12
+#: calendar/gui/dialogs/alarm-options.glade.h:8
 msgid "Send To:"
 msgstr "Pošalji kome:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:13
+#: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "With these arguments:"
 msgstr "Sa ovim argumentima:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:15 smime/gui/smime-ui.glade.h:47
+#: calendar/gui/dialogs/alarm-options.glade.h:11 smime/gui/smime-ui.glade.h:47
 msgid "dialog1"
 msgstr "prozorče1"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:16
+#: calendar/gui/dialogs/alarm-options.glade.h:12
 msgid "extra times every"
 msgstr "pokaži još na svakih"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:17 filter/filter.glade.h:18
+#: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:18
 msgid "hours"
 msgstr "sati"
 
 # bug: plural-forms
-#: calendar/gui/dialogs/alarm-options.glade.h:18 filter/filter.glade.h:19
+#: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:19
 msgid "minutes"
 msgstr "minuta"
 
@@ -3891,215 +3921,223 @@ msgstr "minuta"
 msgid "Action/Trigger"
 msgstr "Dejstvo/pokreni"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:2
+#: calendar/gui/dialogs/alarm-page.glade.h:1
 #: calendar/gui/dialogs/recurrence-page.glade.h:2
-msgid "<b>Basics</b>"
-msgstr "<b>Osnove</b>"
+msgid "Basics"
+msgstr "Osnove"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3
-msgid "<b>Reminders</b>"
-msgstr "<b>Podsetnici</b>"
-
-#: calendar/gui/dialogs/alarm-page.glade.h:4
-#: calendar/gui/dialogs/recurrence-page.glade.h:7
+#: calendar/gui/dialogs/alarm-page.glade.h:2
+#: calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "Date/Time:"
 msgstr "Datum/Vreme:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:5 calendar/gui/e-alarm-list.c:463
+#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:463
 msgid "Display a message"
 msgstr "Pokaži poruku"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:459
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:459
 msgid "Play a sound"
 msgstr "Pusti zvuk"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:7 calendar/gui/e-alarm-list.c:471
+#: calendar/gui/dialogs/alarm-page.glade.h:5
+#, fuzzy
+msgid "Reminders"
+msgstr "Podsetnik"
+
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:471
 msgid "Run a program"
 msgstr "Pokreni program"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:8
+#: calendar/gui/dialogs/alarm-page.glade.h:7
 msgid "Send an Email"
 msgstr "Pošalji elektronsku poruku"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/recurrence-page.glade.h:9
+#: calendar/gui/dialogs/alarm-page.glade.h:8
+#: calendar/gui/dialogs/recurrence-page.glade.h:8
 #: calendar/gui/e-itip-control.c:933 calendar/gui/e-itip-control.glade.h:11
 #: calendar/gui/e-tasks.c:167
 msgid "Summary:"
 msgstr "Zaključak:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/alarm-page.glade.h:9
 msgid "_Options..."
 msgstr "_Opcije..."
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
+#: calendar/gui/dialogs/alarm-page.glade.h:10
 msgid "after"
 msgstr "nakon"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:12
+#: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "before"
 msgstr "pre"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13
-#: calendar/gui/dialogs/recurrence-page.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:12
+#: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
 msgstr "dan(a)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:13
 msgid "end of appointment"
 msgstr "kraj zakazanog sastanka"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:14
 msgid "hour(s)"
 msgstr "sat(a)"
 
 # bug:plural-forms
-#: calendar/gui/dialogs/alarm-page.glade.h:16
+#: calendar/gui/dialogs/alarm-page.glade.h:15
 #: calendar/gui/dialogs/calendar-setup.glade.h:40 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "minut(a)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17
+#: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "start of appointment"
 msgstr "početak zakazanog sastanka"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "05 minutes"
 msgstr "5 minuta"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "10 minutes"
 msgstr "10 minuta"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "15 minutes"
 msgstr "15 minuta"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "30 minutes"
 msgstr "30 minuta"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "60 minutes"
 msgstr "60 minuta"
 
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:15
+msgid "Alerts"
+msgstr "Upozorenja"
+
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
-msgid "<b>Alerts</b>"
-msgstr "<b>Uzbune</b>"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-msgid "<b>Task List</b>"
-msgstr "<b>Spisak zaduženja</b>"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-msgid "<b>Time</b>"
-msgstr "<b>Vreme</b>"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-msgid "<b>Work Week</b>"
-msgstr "<b>Radna nedelja</b>"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Calendar and Tasks Settings"
 msgstr "Podešavanja kalendara i zaduženja"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Color for overdue tasks"
 msgstr "Boja neizvršenih zaduženja"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "Color for tasks due today"
 msgstr "Boja zaduženja za danas"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "Day _ends:"
 msgstr "Kraj _dana:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Days"
 msgstr "Dani"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: mail/mail-config.glade.h:51
+msgid "E_nable"
+msgstr "O_mogući"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 #: calendar/gui/dialogs/recurrence-page.c:1048
 #: calendar/gui/e-itip-control.c:557
 msgid "Friday"
 msgstr "Petak"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Hours"
 msgstr "Sati"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Minutes"
 msgstr "Minuti"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 #: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:553
 msgid "Monday"
 msgstr "Ponedeljak"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "S_un"
 msgstr "N_ed"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 #: calendar/gui/dialogs/recurrence-page.c:1049
 #: calendar/gui/e-itip-control.c:558
 msgid "Saturday"
 msgstr "Subota"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Sh_ow a reminder"
 msgstr "Po_kaži podsetnik"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "Show week _numbers in date navigator"
 msgstr "Pokaži _brojeve nedelja u navigatoru za datume"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 #: calendar/gui/dialogs/recurrence-page.c:1050
 #: calendar/gui/e-itip-control.c:552
 msgid "Sunday"
 msgstr "Nedelja"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "T_asks due today:"
 msgstr "Z_adaci za danas:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "T_hu"
 msgstr "U_to"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+#, fuzzy
+msgid "Task List"
+msgstr "_Spisak zaduženja"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1047
 #: calendar/gui/e-itip-control.c:556
 msgid "Thursday"
 msgstr "Četvrtak"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
+msgid "Time"
+msgstr "Vreme"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Time _zone:"
 msgstr "Vremenska zona:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 msgid "Time format:"
 msgstr "Format za vreme:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 #: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:554
 msgid "Tuesday"
 msgstr "Utorak"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "W_eek starts:"
 msgstr "Početak n_edelje:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:555
 msgid "Wednesday"
 msgstr "Sreda"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#: ui/evolution-calendar.xml.h:32
+msgid "Work Week"
+msgstr "Radna nedelja"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Work days:"
@@ -4114,63 +4152,73 @@ msgid "_24 hour"
 msgstr "_24-očasovni"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#, fuzzy
+msgid "_Add URL"
+msgstr "_Dodaj"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Traži potvrdu za brisanje podataka"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Compress weekends in month view"
 msgstr "_Skupi nedelje u mesečni prikaz"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "_Day begins:"
 msgstr "Početak _dana:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Display"
 msgstr "_Prikaži"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#, fuzzy
+msgid "_Free/Busy Publishing"
+msgstr "Slobodan/zauzet zahtev"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "_Fri"
 msgstr "_Pet"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: mail/mail-config.glade.h:153
 msgid "_General"
 msgstr "_Opšte"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_Hide completed tasks after"
 msgstr "_Sakrij ispunjena zaduženja nakon"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Mon"
 msgstr "_Pon"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Overdue tasks:"
 msgstr "_Neispunjena zaduženja:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Sat"
 msgstr "_Sub"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Show appointment end times in week and month views"
 msgstr "_Pokaži završetke zakazanih sastanaka u nedeljnim i mesečnim prikazima"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Time divisions:"
 msgstr "Podela _vremena:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Tue"
 msgstr "_Uto"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Wed"
 msgstr "_Sre"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "before every appointment"
 msgstr "pre svakog zakazanog sastanka"
 
@@ -4236,7 +4284,7 @@ msgstr ""
 "Molim pritisnite dugme „Završi“ da sačuvate podešavanja koja ste ovde uneli."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:14
-#: calendar/gui/tasks-component.c:396
+#: calendar/gui/tasks-component.c:395
 msgid "New Task List"
 msgstr "Novi spisak zaduženja"
 
@@ -4345,8 +4393,8 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
-"Obrisani unos u dnevnik je objavljen, želite li da pošaljete poruku za njegovo "
-"otkazivanje?"
+"Obrisani unos u dnevnik je objavljen, želite li da pošaljete poruku za "
+"njegovo otkazivanje?"
 
 #: calendar/gui/dialogs/cancel-comp.c:78
 msgid "Are you sure you want to cancel and delete this journal entry?"
@@ -4453,7 +4501,7 @@ msgstr "Unos u dnevnik - %s"
 msgid "No summary"
 msgstr "Nema sažetka"
 
-#: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:1046
+#: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:1047
 #: calendar/gui/e-calendar-table.c:1187 composer/e-msg-composer.c:1128
 msgid "Save as..."
 msgstr "Sačuvaj kao..."
@@ -4622,81 +4670,81 @@ msgstr "Krajnje vreme je pogrešno"
 msgid "Unable to open the calendar '%s'."
 msgstr "Ne mogu da otvorim kalendar „%s“."
 
-#: calendar/gui/dialogs/event-page.glade.h:3
-#: calendar/gui/dialogs/task-page.glade.h:3
-msgid "<b>Classification</b>"
-msgstr "<b>Klasifikacija</b>"
-
-#: calendar/gui/dialogs/event-page.glade.h:4
-#: calendar/gui/dialogs/task-page.glade.h:4
-msgid "<b>Date &amp; Time</b>"
-msgstr "<b>Datum i vreme</b>"
-
-#: calendar/gui/dialogs/event-page.glade.h:5
-#: calendar/gui/dialogs/task-page.glade.h:5
-msgid "<b>Description</b>"
-msgstr "<b>Opis</b>"
-
-#: calendar/gui/dialogs/event-page.glade.h:6
-msgid "<b>L_ocation</b>"
-msgstr "<b>_Mesto</b>"
-
-#: calendar/gui/dialogs/event-page.glade.h:7
-msgid "<b>Show Time As</b>"
-msgstr "<b>Prikaži vreme kao</b>"
-
-#: calendar/gui/dialogs/event-page.glade.h:8
-#: calendar/gui/dialogs/task-page.glade.h:6
-msgid "<b>Su_mmary</b>"
-msgstr "<b>_Sažetak</b>"
-
-#: calendar/gui/dialogs/event-page.glade.h:9
+#: calendar/gui/dialogs/event-page.glade.h:2
 msgid "A_ll day event"
 msgstr "C_elodnevni događaj"
 
-#: calendar/gui/dialogs/event-page.glade.h:10
+#: calendar/gui/dialogs/event-page.glade.h:3
 msgid "B_usy"
 msgstr "Z_uzet"
 
-#: calendar/gui/dialogs/event-page.glade.h:11
-#: calendar/gui/dialogs/task-page.glade.h:7
+#: calendar/gui/dialogs/event-page.glade.h:4
+#: calendar/gui/dialogs/task-page.glade.h:2
 msgid "Ca_tegories..."
 msgstr "Ka_tegorije..."
 
-#: calendar/gui/dialogs/event-page.glade.h:12
+#: calendar/gui/dialogs/event-page.glade.h:5
 msgid "Calendar:"
 msgstr "Kalendar:"
 
-#: calendar/gui/dialogs/event-page.glade.h:13
+#: calendar/gui/dialogs/event-page.glade.h:6
+#: calendar/gui/dialogs/task-page.glade.h:3
+#: calendar/gui/e-cal-list-view.etspec.h:2
+#: calendar/gui/e-calendar-table.etspec.h:5
+msgid "Classification"
+msgstr "Klasifikacija"
+
+#: calendar/gui/dialogs/event-page.glade.h:7
 msgid "Co_nfidential"
 msgstr "Po_verljivo"
 
-#: calendar/gui/dialogs/event-page.glade.h:14
+#: calendar/gui/dialogs/event-page.glade.h:8
+#: calendar/gui/dialogs/task-page.glade.h:5
+#, fuzzy
+msgid "Date & Time"
+msgstr "Datum/vreme"
+
+#: calendar/gui/dialogs/event-page.glade.h:9
 msgid "F_ree"
 msgstr "_Slobodno"
 
-#: calendar/gui/dialogs/event-page.glade.h:15
-#: calendar/gui/dialogs/task-page.glade.h:10
+#: calendar/gui/dialogs/event-page.glade.h:10
+#, fuzzy
+msgid "L_ocation:"
+msgstr "Mesto:"
+
+#: calendar/gui/dialogs/event-page.glade.h:11
+#: calendar/gui/dialogs/task-page.glade.h:8
 msgid "Pri_vate"
 msgstr "Lič_no"
 
-#: calendar/gui/dialogs/event-page.glade.h:16
-#: calendar/gui/dialogs/task-page.glade.h:11
+#: calendar/gui/dialogs/event-page.glade.h:12
+#: calendar/gui/dialogs/task-page.glade.h:9
 msgid "Pu_blic"
 msgstr "Ja_vno"
 
-#: calendar/gui/dialogs/event-page.glade.h:17
+#: calendar/gui/dialogs/event-page.glade.h:13
+#, fuzzy
+msgid "Show Time As"
+msgstr "<b>Prikaži vreme kao</b>"
+
+#: calendar/gui/dialogs/event-page.glade.h:14
+#: calendar/gui/dialogs/task-page.glade.h:11
+msgid "Su_mmary:"
+msgstr "Saž_etak:"
+
+#: calendar/gui/dialogs/event-page.glade.h:15
 msgid "_End time:"
 msgstr "_Krajnje vreme:"
 
-#: calendar/gui/dialogs/event-page.glade.h:18
+#: calendar/gui/dialogs/event-page.glade.h:16
 msgid "_Start time:"
 msgstr "_Početno vreme:"
 
 #. an empty string is the same as 'None'
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#: calendar/gui/e-cal-model-tasks.c:593 composer/e-msg-composer.c:2040
+#: calendar/gui/e-cal-model-tasks.c:592 composer/e-msg-composer.c:2066
 #: mail/em-account-prefs.c:448 mail/em-folder-view.c:740
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
 #: mail/mail-config.glade.h:80
@@ -4840,19 +4888,19 @@ msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "Menjate povratni unos u dnevnik, šta želite da izmenite?"
 
-#: calendar/gui/dialogs/recur-comp.c:73
+#: calendar/gui/dialogs/recur-comp.c:72
 msgid "This Instance Only"
 msgstr "Samo ova pojava"
 
-#: calendar/gui/dialogs/recur-comp.c:77
+#: calendar/gui/dialogs/recur-comp.c:76
 msgid "This and Prior Instances"
 msgstr "Ova i prethodna pojava"
 
-#: calendar/gui/dialogs/recur-comp.c:83
+#: calendar/gui/dialogs/recur-comp.c:82
 msgid "This and Future Instances"
 msgstr "Ova i buduća pojava"
 
-#: calendar/gui/dialogs/recur-comp.c:88
+#: calendar/gui/dialogs/recur-comp.c:87
 msgid "All Instances"
 msgstr "Sve pojave"
 
@@ -4910,67 +4958,70 @@ msgstr "pojave"
 msgid "Date/Time"
 msgstr "Datum/vreme"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:3
-msgid "<b>Exceptions</b>"
-msgstr "<b>Izuzeci</b>"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:4
-msgid "<b>Preview</b>"
-msgstr "<b>Prikaz</b>"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:5
-msgid "<b>Recurrence Rule</b>"
-msgstr "<b>Pravilo za ponavljanje</b>"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:6
+#: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "A_dd"
 msgstr "_Dodaj"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:8
+#: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
 msgstr "Svaki"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:10
+#: calendar/gui/dialogs/recurrence-page.glade.h:5
+#, fuzzy
+msgid "Exceptions"
+msgstr "<b>Izuzeci</b>"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:6
+#, fuzzy
+msgid "Preview"
+msgstr "Izgled:"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:7
+#, fuzzy
+msgid "Recurrence Rule"
+msgstr "<b>Pravilo za ponavljanje</b>"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "_Custom recurrence"
 msgstr "_Posebno ponavljanje"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:11
+#: calendar/gui/dialogs/recurrence-page.glade.h:10
 msgid "_Modify"
 msgstr "_Izmeni"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:12
+#: calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "_No recurrence"
 msgstr "_Bez ponavljanja"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:13
+#: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "_Remove"
 msgstr "_Ukloni"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:14
+#: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
 msgstr "_Jednostavno ponavljanje"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:16
+#: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
 msgstr "za"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:17
+#: calendar/gui/dialogs/recurrence-page.glade.h:16
 msgid "forever"
 msgstr "uvek"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:18
+#: calendar/gui/dialogs/recurrence-page.glade.h:17
 msgid "month(s)"
 msgstr "mesec(i)"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:19
+#: calendar/gui/dialogs/recurrence-page.glade.h:18
 msgid "until"
 msgstr "do"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:20
+#: calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "week(s)"
 msgstr "nedelja(e)"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:21
+#: calendar/gui/dialogs/recurrence-page.glade.h:20
 msgid "year(s)"
 msgstr "godina(e)"
 
@@ -4984,11 +5035,11 @@ msgstr ""
 "\n"
 "Želite li da sačuvate vaše izmene?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1545
+#: calendar/gui/dialogs/save-comp.c:57 composer/e-msg-composer.c:1545
 msgid "_Discard Changes"
 msgstr "_Zanemari promene"
 
-#: calendar/gui/dialogs/save-comp.c:63
+#: calendar/gui/dialogs/save-comp.c:62
 msgid "Save Event"
 msgstr "Sačuvaj događaj"
 
@@ -5012,21 +5063,13 @@ msgstr "Informacija o zaduženju je izmenjena. Da pošaljem noviju verziju?"
 msgid "Completed date is wrong"
 msgstr "Datum završetka je pogrešan"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:3
+#: calendar/gui/dialogs/task-details-page.glade.h:2
 #, no-c-format
 msgid "% _Complete"
 msgstr "% _gotovo"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-msgid "<b>Progress</b>"
-msgstr "<b>Napredak</b>"
-
-#: calendar/gui/dialogs/task-details-page.glade.h:5
-msgid "<b>Web Page</b>"
-msgstr "<b>Veb stranica</b>"
-
-#: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:599
+#: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:598
 #: calendar/gui/e-calendar-table.c:466 calendar/gui/e-meeting-model.c:289
 #: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-store.c:187
 #: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:209
@@ -5034,54 +5077,63 @@ msgstr "<b>Veb stranica</b>"
 msgid "Completed"
 msgstr "Gotovo"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:8
+#: calendar/gui/dialogs/task-details-page.glade.h:5
 #: calendar/gui/e-calendar-table.c:391 calendar/gui/e-tasks.c:230
 #: mail/message-list.c:919
 msgid "High"
 msgstr "Visok"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:597
-#: calendar/gui/e-cal-model-tasks.c:659 calendar/gui/e-calendar-table.c:465
+#: calendar/gui/dialogs/task-details-page.glade.h:6
+#: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:596
+#: calendar/gui/e-cal-model-tasks.c:658 calendar/gui/e-calendar-table.c:465
 #: calendar/gui/e-tasks.c:206 calendar/gui/print.c:2313
 msgid "In Progress"
 msgstr "U toku"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:10
+#: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-calendar-table.c:393 calendar/gui/e-tasks.c:234
 #: mail/message-list.c:917
 msgid "Low"
 msgstr "Nizak"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:11
+#: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:392
 #: calendar/gui/e-tasks.c:232 mail/message-list.c:918
 msgid "Normal"
 msgstr "Običan"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:12
-#: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:595
+#: calendar/gui/dialogs/task-details-page.glade.h:9
+#: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:594
 #: calendar/gui/e-calendar-table.c:464 calendar/gui/e-tasks.c:216
 #: calendar/gui/print.c:2310
 msgid "Not Started"
 msgstr "Nije pokrenut"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:13
+#: calendar/gui/dialogs/task-details-page.glade.h:10
+#, fuzzy
+msgid "Progress"
+msgstr "U toku"
+
+#: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:394
 msgid "Undefined"
 msgstr "Nedefinisano"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:14
+#: calendar/gui/dialogs/task-details-page.glade.h:12
 msgid "_Date Completed:"
 msgstr "_Datum završetka:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:15
+#: calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Priority:"
 msgstr "_Važnost:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:16
+#: calendar/gui/dialogs/task-details-page.glade.h:14
 msgid "_Status:"
 msgstr "_Status:"
+
+#: calendar/gui/dialogs/task-details-page.glade.h:15
+msgid "_Web Page:"
+msgstr "_Veb stranica:"
 
 #: calendar/gui/dialogs/task-editor.c:193
 msgid "Basic"
@@ -5106,19 +5158,25 @@ msgstr "Datum završetka je pre datuma početka!"
 msgid "Unable to open tasks in '%s'."
 msgstr "Ne mogu da otvorim zaduženja u „%s“."
 
-#: calendar/gui/dialogs/task-page.glade.h:8
+#: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Con_fidential"
 msgstr "Pov_erljivo"
 
-#: calendar/gui/dialogs/task-page.glade.h:9
+#: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:988
+#: calendar/gui/e-itip-control.glade.h:6 calendar/gui/e-tasks.c:246
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:45
+msgid "Description:"
+msgstr "Opis:"
+
+#: calendar/gui/dialogs/task-page.glade.h:7
 msgid "Folder:"
 msgstr "Direktorijum:"
 
-#: calendar/gui/dialogs/task-page.glade.h:12
+#: calendar/gui/dialogs/task-page.glade.h:10
 msgid "Sta_rt Date:"
 msgstr "Datum p_očetka:"
 
-#: calendar/gui/dialogs/task-page.glade.h:13
+#: calendar/gui/dialogs/task-page.glade.h:12
 msgid "_Due Date:"
 msgstr "Datum z_avršetka:"
 
@@ -5240,11 +5298,6 @@ msgstr "Lično"
 msgid "Confidential"
 msgstr "Poverljivo"
 
-#: calendar/gui/e-cal-list-view.etspec.h:2
-#: calendar/gui/e-calendar-table.etspec.h:5
-msgid "Classification"
-msgstr "Klasifikacija"
-
 #: calendar/gui/e-cal-list-view.etspec.h:3
 #: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Description"
@@ -5304,7 +5357,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:934 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:933 calendar/gui/e-cal-model.c:841
 #: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-model.c:261
 #: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:529
 #: calendar/gui/e-meeting-model.c:782 calendar/gui/e-meeting-store.c:159
@@ -5312,7 +5365,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Da"
 
-#: calendar/gui/e-cal-model-tasks.c:934 calendar/gui/e-cal-model.c:841
+#: calendar/gui/e-cal-model-tasks.c:933 calendar/gui/e-cal-model.c:841
 #: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-model.c:273
 #: calendar/gui/e-meeting-model.c:783 calendar/gui/e-meeting-store.c:171
 msgid "No"
@@ -5329,7 +5382,7 @@ msgstr "Ne"
 #: calendar/gui/e-meeting-store.c:215 camel/camel-gpg-context.c:1664
 #: camel/camel-gpg-context.c:1715 camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2003
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2094
 #: shell/e-component-registry.c:164 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Nepoznato"
@@ -5342,32 +5395,32 @@ msgstr "Povratno"
 msgid "Assigned"
 msgstr "Dodeljeno"
 
-#: calendar/gui/e-cal-view.c:680 calendar/gui/e-calendar-table.c:698
+#: calendar/gui/e-cal-view.c:681 calendar/gui/e-calendar-table.c:698
 msgid "Deleting selected objects"
 msgstr "Brišem izabrane objekte"
 
-#: calendar/gui/e-cal-view.c:784 calendar/gui/e-calendar-table.c:859
+#: calendar/gui/e-cal-view.c:785 calendar/gui/e-calendar-table.c:859
 msgid "Updating objects"
 msgstr "Unosim promene u objekte"
 
-#: calendar/gui/e-cal-view.c:1244 calendar/gui/e-cal-view.c:1329
+#: calendar/gui/e-cal-view.c:1218 calendar/gui/e-cal-view.c:1303
 msgid "New _Appointment..."
 msgstr "Nov zakazan _sastanak..."
 
-#: calendar/gui/e-cal-view.c:1245 calendar/gui/e-cal-view.c:1331
+#: calendar/gui/e-cal-view.c:1219 calendar/gui/e-cal-view.c:1305
 msgid "New All Day _Event"
 msgstr "Nov celodnevni _događaj"
 
-#: calendar/gui/e-cal-view.c:1246 calendar/gui/e-cal-view.c:1333
+#: calendar/gui/e-cal-view.c:1220 calendar/gui/e-cal-view.c:1307
 msgid "New Meeting"
 msgstr "Novi sastanak"
 
-#: calendar/gui/e-cal-view.c:1247 calendar/gui/e-cal-view.c:1335
+#: calendar/gui/e-cal-view.c:1221 calendar/gui/e-cal-view.c:1309
 msgid "New Task"
 msgstr "Novo zaduženje"
 
-#: calendar/gui/e-cal-view.c:1251 calendar/gui/e-cal-view.c:1274
-#: calendar/gui/e-cal-view.c:1341 calendar/gui/e-calendar-table.c:1038
+#: calendar/gui/e-cal-view.c:1225 calendar/gui/e-cal-view.c:1248
+#: calendar/gui/e-cal-view.c:1315 calendar/gui/e-calendar-table.c:1038
 #: calendar/gui/e-calendar-table.c:1080 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
@@ -5375,66 +5428,66 @@ msgstr "Novo zaduženje"
 msgid "_Print..."
 msgstr "Štam_paj..."
 
-#: calendar/gui/e-cal-view.c:1255 calendar/gui/e-cal-view.c:1281
-#: calendar/gui/e-cal-view.c:1339 calendar/gui/e-calendar-table.c:1044
+#: calendar/gui/e-cal-view.c:1229 calendar/gui/e-cal-view.c:1255
+#: calendar/gui/e-cal-view.c:1313 calendar/gui/e-calendar-table.c:1044
 #: calendar/gui/e-calendar-table.c:1078 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:22
 msgid "_Paste"
 msgstr "Umet_ni"
 
-#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-cal-view.c:1325
+#: calendar/gui/e-cal-view.c:1235 calendar/gui/e-cal-view.c:1299
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Idi na _danas"
 
-#: calendar/gui/e-cal-view.c:1262 calendar/gui/e-cal-view.c:1327
+#: calendar/gui/e-cal-view.c:1236 calendar/gui/e-cal-view.c:1301
 msgid "_Go to Date..."
 msgstr "_Idi na datum..."
 
-#: calendar/gui/e-cal-view.c:1266 ui/evolution-calendar.xml.h:40
+#: calendar/gui/e-cal-view.c:1240 ui/evolution-calendar.xml.h:40
 msgid "_Publish Free/Busy Information"
 msgstr "_Objavi slobodan/zauzet informaciju"
 
-#: calendar/gui/e-cal-view.c:1273 calendar/gui/e-cal-view.c:1343
+#: calendar/gui/e-cal-view.c:1247 calendar/gui/e-cal-view.c:1317
 #: calendar/gui/e-calendar-table.c:1037 calendar/gui/e-calendar-table.c:1082
 #: mail/em-folder-view.c:708 mail/em-popup.c:597 mail/em-popup.c:712
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "_Sačuvaj kao..."
 
-#: calendar/gui/e-cal-view.c:1279 calendar/gui/e-cal-view.c:1319
+#: calendar/gui/e-cal-view.c:1253 calendar/gui/e-cal-view.c:1293
 #: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1071
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Iseci"
 
-#: calendar/gui/e-cal-view.c:1280 calendar/gui/e-cal-view.c:1317
+#: calendar/gui/e-cal-view.c:1254 calendar/gui/e-cal-view.c:1291
 #: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1069
-#: mail/em-folder-tree.c:1525 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:1649 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
 msgstr "_Kopiraj"
 
-#: calendar/gui/e-cal-view.c:1285
+#: calendar/gui/e-cal-view.c:1259
 msgid "_Schedule Meeting..."
 msgstr "_Zakaži sastanak..."
 
-#: calendar/gui/e-cal-view.c:1286
+#: calendar/gui/e-cal-view.c:1260
 msgid "_Forward as iCalendar..."
 msgstr "_Prosledi kao iCalendar..."
 
-#: calendar/gui/e-cal-view.c:1291 calendar/gui/e-cal-view.c:1322
+#: calendar/gui/e-cal-view.c:1265 calendar/gui/e-cal-view.c:1296
 msgid "Delete this _Occurrence"
 msgstr "Obriši ovu _pojavu"
 
-#: calendar/gui/e-cal-view.c:1292 calendar/gui/e-cal-view.c:1323
+#: calendar/gui/e-cal-view.c:1266 calendar/gui/e-cal-view.c:1297
 msgid "Delete _All Occurrences"
 msgstr "Obriši _sve pojave"
 
-#: calendar/gui/e-cal-view.c:1345 ui/evolution.xml.h:30
+#: calendar/gui/e-cal-view.c:1319 ui/evolution.xml.h:30
 msgid "_Settings..."
 msgstr "_Podešavanja..."
 
@@ -5730,27 +5783,21 @@ msgstr "Stanje:"
 #: calendar/gui/e-itip-control.c:961 calendar/gui/e-meeting-list-view.c:180
 #: calendar/gui/e-meeting-model.c:281 calendar/gui/e-meeting-model.c:304
 #: calendar/gui/e-meeting-model.c:796 calendar/gui/e-meeting-store.c:179
-#: calendar/gui/e-meeting-store.c:202 calendar/gui/itip-utils.c:418
+#: calendar/gui/e-meeting-store.c:202 calendar/gui/itip-utils.c:422
 msgid "Accepted"
 msgstr "Prihvaćeno"
 
-#: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:421
+#: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
 msgstr "Prihvaćeno s rezervom"
 
 #: calendar/gui/e-itip-control.c:969 calendar/gui/e-meeting-list-view.c:181
 #: calendar/gui/e-meeting-model.c:283 calendar/gui/e-meeting-model.c:306
 #: calendar/gui/e-meeting-model.c:797 calendar/gui/e-meeting-store.c:181
-#: calendar/gui/e-meeting-store.c:204 calendar/gui/itip-utils.c:424
-#: calendar/gui/itip-utils.c:450
+#: calendar/gui/e-meeting-store.c:204 calendar/gui/itip-utils.c:428
+#: calendar/gui/itip-utils.c:454
 msgid "Declined"
 msgstr "Odbijeno"
-
-#: calendar/gui/e-itip-control.c:988 calendar/gui/e-itip-control.glade.h:6
-#: calendar/gui/e-tasks.c:246 composer/e-msg-composer-attachment.glade.h:3
-#: mail/mail-config.glade.h:45
-msgid "Description:"
-msgstr "Opis:"
 
 #: calendar/gui/e-itip-control.c:1028 calendar/gui/e-itip-control.c:1056
 #: calendar/gui/e-itip-control.c:1082 calendar/gui/e-itip-control.c:1095
@@ -5793,7 +5840,7 @@ msgstr "Ažuriraj stanje stranke"
 msgid "Send Latest Information"
 msgstr "Pošalji najnoviju informaciju"
 
-#: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:438
+#: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
 #: shell/e-shell-startup-wizard.c:794 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -6400,59 +6447,64 @@ msgstr "Oktobar"
 msgid "September"
 msgstr "Septembar"
 
-#: calendar/gui/itip-utils.c:267 calendar/gui/itip-utils.c:315
-#: calendar/gui/itip-utils.c:347
+#: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
+#: calendar/gui/itip-utils.c:351
 msgid "An organizer must be set."
 msgstr "Organizator mora biti poslat."
 
-#: calendar/gui/itip-utils.c:302
+#: calendar/gui/itip-utils.c:306
 msgid "At least one attendee is necessary"
 msgstr "Najmanje jedan prisutni je neophodan"
 
-#: calendar/gui/itip-utils.c:390 calendar/gui/itip-utils.c:499
+#: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
 msgid "Event information"
 msgstr "Informacija o događaju"
 
-#: calendar/gui/itip-utils.c:392 calendar/gui/itip-utils.c:501
+#: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:505
 msgid "Task information"
 msgstr "Informacija o zaduženju"
 
-#: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
+#: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:507
 msgid "Journal information"
 msgstr "Informacija o unosu u dnevnik"
 
-#: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:521
+#: calendar/gui/itip-utils.c:400 calendar/gui/itip-utils.c:525
 msgid "Free/Busy information"
 msgstr "Slobodan/zauzet informacija"
 
-#: calendar/gui/itip-utils.c:398
+#: calendar/gui/itip-utils.c:402
 msgid "Calendar information"
 msgstr "Informacija o kalendaru"
 
-#: calendar/gui/itip-utils.c:434
+#: calendar/gui/itip-utils.c:438
 msgid "Updated"
 msgstr "Ažurirano"
 
-#: calendar/gui/itip-utils.c:442
+#: calendar/gui/itip-utils.c:446
 msgid "Refresh"
 msgstr "Osveži"
 
-#: calendar/gui/itip-utils.c:446
+#: calendar/gui/itip-utils.c:450
 msgid "Counter-proposal"
 msgstr "Kontra-predlog"
 
-#: calendar/gui/itip-utils.c:517
+#: calendar/gui/itip-utils.c:521
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Slobodan/zauzet informacija (%s do %s)"
 
-#: calendar/gui/itip-utils.c:527
+#: calendar/gui/itip-utils.c:531
 msgid "iCalendar information"
 msgstr "iCalendar informacija"
 
-#: calendar/gui/itip-utils.c:667
+#: calendar/gui/itip-utils.c:671
 msgid "You must be an attendee of the event."
 msgstr "Morate biti učesnik događaja"
+
+#: calendar/gui/itip-utils.c:1155
+#, fuzzy, c-format
+msgid "Enter the password for %s"
+msgstr "Unesite lozinku za „%s“"
 
 #: calendar/gui/print.c:476
 msgid "1st"
@@ -6673,7 +6725,7 @@ msgid "Contacts: "
 msgstr "Konatkti: "
 
 #: calendar/gui/print.c:2530 calendar/gui/print.c:2616
-#: calendar/gui/tasks-control.c:583 mail/em-format-html-print.c:147
+#: calendar/gui/tasks-control.c:582 mail/em-format-html-print.c:147
 msgid "Print Preview"
 msgstr "Štampaj prikaz"
 
@@ -6690,38 +6742,38 @@ msgstr "Podesi štampu"
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "Spisak zaduženja „%s“ će biti ukloljen. Sigurno želite da nastavite?"
 
-#: calendar/gui/tasks-component.c:623
+#: calendar/gui/tasks-component.c:622
 msgid "New task"
 msgstr "Novo zaduženje"
 
-#: calendar/gui/tasks-component.c:624
+#: calendar/gui/tasks-component.c:623
 msgid "_Task"
 msgstr "_Zaduženje"
 
-#: calendar/gui/tasks-component.c:625
+#: calendar/gui/tasks-component.c:624
 msgid "Create a new task"
 msgstr "Unesi novo zaduženje"
 
-#: calendar/gui/tasks-component.c:630
+#: calendar/gui/tasks-component.c:629
 msgid "New task list"
 msgstr "Novi spisak zaduženja"
 
-#: calendar/gui/tasks-component.c:631
+#: calendar/gui/tasks-component.c:630
 msgid "_Task List"
 msgstr "_Spisak zaduženja"
 
-#: calendar/gui/tasks-component.c:632
+#: calendar/gui/tasks-component.c:631
 msgid "Create a new task list"
 msgstr "Napravi novi spisak zaduženja"
 
-#: calendar/gui/tasks-component.c:699
+#: calendar/gui/tasks-component.c:698
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "Ne mogu da otvorim spisak zaduženja „%s“ radi dodavanja novih događaja i "
 "sastanaka"
 
-#: calendar/gui/tasks-component.c:712
+#: calendar/gui/tasks-component.c:710
 msgid "There is no calendar available for creating tasks"
 msgstr "Nijedan kalendar nije dostupan za dodavanje zaduženja"
 
@@ -6746,11 +6798,11 @@ msgstr ""
 "\n"
 "Stvarno da brišem ove zadatke?"
 
-#: calendar/gui/tasks-control.c:470
+#: calendar/gui/tasks-control.c:469
 msgid "Do not ask me again."
 msgstr "Ne pitaj me ponovo."
 
-#: calendar/gui/tasks-control.c:612
+#: calendar/gui/tasks-control.c:611
 msgid "Print Tasks"
 msgstr "Štampaj zaduženja"
 
@@ -8831,8 +8883,8 @@ msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
-"Ova opcija će povezati na server korišćenjem sigurnosne CRAM-MD5 lozinke, ako "
-"je server podržava."
+"Ova opcija će povezati na server korišćenjem sigurnosne CRAM-MD5 lozinke, "
+"ako je server podržava."
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
@@ -9156,11 +9208,11 @@ msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Ne mogu da napravim direktorijum: neispravna operacija"
 
 #: camel/camel-store.c:791 mail/importers/netscape-importer.c:1842
-#: mail/mail-ops.c:1098
+#: mail/mail-ops.c:1102
 msgid "Trash"
 msgstr "Smeće"
 
-#: camel/camel-store.c:793 mail/mail-ops.c:1104
+#: camel/camel-store.c:793 mail/mail-ops.c:1108
 #: ui/evolution-mail-message.xml.h:46
 msgid "Junk"
 msgstr "Đubre"
@@ -9442,7 +9494,7 @@ msgstr "Za pristup Novel Grupvajz serverima"
 #: camel/providers/groupwise/camel-groupwise-provider.c:99
 #: camel/providers/imap/camel-imap-provider.c:89
 #: camel/providers/imapp/camel-imapp-provider.c:65
-#: camel/providers/nntp/camel-nntp-store.c:265
+#: camel/providers/nntp/camel-nntp-provider.c:71
 #: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:87
 msgid "Password"
 msgstr "Lozinka"
@@ -9520,12 +9572,12 @@ msgstr "Direktorijum je uništen i ponovo na serveru napravljen."
 msgid "Scanning for changed messages"
 msgstr "Tragam za promenjenim porukama"
 
-#: camel/providers/imap/camel-imap-folder.c:1896
+#: camel/providers/imap/camel-imap-folder.c:1899
 #, c-format
 msgid "Unable to retrieve message: %s"
 msgstr "Ne mogu da pokupim poruku: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1933
+#: camel/providers/imap/camel-imap-folder.c:1936
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-maildir-folder.c:224
 #: camel/providers/local/camel-maildir-folder.c:233
@@ -9541,24 +9593,25 @@ msgstr ""
 "Ne mogu da dobijem poruku: %s\n"
 "  %s"
 
-#: camel/providers/imap/camel-imap-folder.c:1933
+#: camel/providers/imap/camel-imap-folder.c:1936
 #: camel/providers/local/camel-maildir-folder.c:211
 #: camel/providers/local/camel-mbox-folder.c:417
 #: camel/providers/local/camel-mh-folder.c:200
 msgid "No such message"
 msgstr "Nema takve poruke"
 
-#: camel/providers/imap/camel-imap-folder.c:1956
-#: camel/providers/imap/camel-imap-folder.c:2552
+#: camel/providers/imap/camel-imap-folder.c:1959
+#: camel/providers/imap/camel-imap-folder.c:2555
+#: camel/providers/nntp/camel-nntp-folder.c:205
 msgid "This message is not currently available"
 msgstr "Ova poruke nije trenutno dostupna"
 
-#: camel/providers/imap/camel-imap-folder.c:2216
-#: camel/providers/imap/camel-imap-folder.c:2286
+#: camel/providers/imap/camel-imap-folder.c:2219
+#: camel/providers/imap/camel-imap-folder.c:2289
 msgid "Fetching summary information for new messages"
 msgstr "Prikupljam sažetu informaciju za nove poruke"
 
-#: camel/providers/imap/camel-imap-folder.c:2590
+#: camel/providers/imap/camel-imap-folder.c:2593
 msgid "Could not find message body in FETCH response."
 msgstr "Nisam mogao da pronađem tekst poruke u FETCH odgovoru."
 
@@ -9593,6 +9646,7 @@ msgid "Command:"
 msgstr "Naredba:"
 
 #: camel/providers/imap/camel-imap-provider.c:55
+#: camel/providers/nntp/camel-nntp-provider.c:41
 msgid "Folders"
 msgstr "Direktorijumi"
 
@@ -9633,7 +9687,7 @@ msgstr "IMAP servis za %s na %s"
 #: camel/providers/imap/camel-imap-store.c:582
 #: camel/providers/imap/camel-imap-store.c:602
 #: camel/providers/imapp/camel-imapp-store.c:236
-#: camel/providers/nntp/camel-nntp-store.c:131
+#: camel/providers/nntp/camel-nntp-store.c:140
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:269
 #: camel/providers/smtp/camel-smtp-transport.c:285
@@ -9650,8 +9704,8 @@ msgstr "SSL nije dostupan"
 #: camel/providers/imap/camel-imap-store.c:599
 #: camel/providers/imap/camel-imap-store.c:831
 #: camel/providers/imapp/camel-imapp-store.c:233
-#: camel/providers/nntp/camel-nntp-store.c:128
-#: camel/providers/nntp/camel-nntp-store.c:146
+#: camel/providers/nntp/camel-nntp-store.c:137
+#: camel/providers/nntp/camel-nntp-store.c:155
 #: camel/providers/pop3/camel-pop3-store.c:194
 msgid "Connection cancelled"
 msgstr "Povezivanje poništeno"
@@ -9830,7 +9884,8 @@ msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
-"Za čitanje i smeštanje lokalne pošte u spoljne standardne mbox spool datoteke.\n"
+"Za čitanje i smeštanje lokalne pošte u spoljne standardne mbox spool "
+"datoteke.\n"
 "Takođe se može koristiti za čitanje stabla direktorijuma u Elm, Pine, ili "
 "Mutt stilu."
 
@@ -10144,7 +10199,7 @@ msgstr "Nisam mogao da zatvorim izvorni direktorijum %s: %s"
 msgid "Could not close temp folder: %s"
 msgstr "Nisam mogao da zatvorim temp direktorijum: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1286
+#: camel/providers/local/camel-mbox-summary.c:560 mail/em-folder-tree.c:1410
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Nisam mogao da preimenujem direktorijum: %s"
@@ -10263,6 +10318,7 @@ msgstr ""
 "Direktorijum je možda oštećen, kopirajte sačuvano u `%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
+#: camel/providers/nntp/camel-nntp-store.c:998
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Unesite NNTP lozinku za %s@%s"
@@ -10279,13 +10335,19 @@ msgstr "Neuspešno slanje korisničkog imena serveru"
 msgid "Server rejected username/password"
 msgstr "Server je odbio korisnika/lozinku"
 
-#: camel/providers/nntp/camel-nntp-folder.c:114
-#, c-format
-msgid "Internal error: uid in invalid format: %s"
-msgstr "Unutrašnja greška: KIB u neispravnom obliku: %s"
+# Ovo je bilo "korisnik poništen", ali mislim da je ovo ipak ispravnije
+#: camel/providers/nntp/camel-nntp-folder.c:140
+#: camel/providers/nntp/camel-nntp-folder.c:230
+#: camel/providers/pop3/camel-pop3-folder.c:262
+#: camel/providers/pop3/camel-pop3-folder.c:430
+#: camel/providers/pop3/camel-pop3-folder.c:491
+#: camel/providers/pop3/camel-pop3-folder.c:509
+msgid "User cancelled"
+msgstr "Korisnik poništio"
 
-#: camel/providers/nntp/camel-nntp-folder.c:155
-#: camel/providers/nntp/camel-nntp-folder.c:161
+#: camel/providers/nntp/camel-nntp-folder.c:142
+#: camel/providers/nntp/camel-nntp-folder.c:226
+#: camel/providers/nntp/camel-nntp-folder.c:232
 #: camel/providers/pop3/camel-pop3-folder.c:433
 #: camel/providers/pop3/camel-pop3-folder.c:494
 #: camel/providers/pop3/camel-pop3-folder.c:501
@@ -10294,14 +10356,51 @@ msgstr "Unutrašnja greška: KIB u neispravnom obliku: %s"
 msgid "Cannot get message %s: %s"
 msgstr "Ne mogu da dobijem poruku %s: %s"
 
-# Ovo je bilo "korisnik poništen", ali mislim da je ovo ipak ispravnije
-#: camel/providers/nntp/camel-nntp-folder.c:159
-#: camel/providers/pop3/camel-pop3-folder.c:262
-#: camel/providers/pop3/camel-pop3-folder.c:430
-#: camel/providers/pop3/camel-pop3-folder.c:491
-#: camel/providers/pop3/camel-pop3-folder.c:509
-msgid "User cancelled"
-msgstr "Korisnik poništio"
+#: camel/providers/nntp/camel-nntp-folder.c:157
+#: camel/providers/nntp/camel-nntp-folder.c:195
+#, c-format
+msgid "Internal error: uid in invalid format: %s"
+msgstr "Unutrašnja greška: KIB u neispravnom obliku: %s"
+
+#: camel/providers/nntp/camel-nntp-folder.c:170
+#, fuzzy, c-format
+msgid "Could not get article %s from NNTP server"
+msgstr "Nisam mogao da preuzmem spisak grupa sa servera."
+
+#: camel/providers/nntp/camel-nntp-folder.c:353
+msgid "Posting not allowed by news server"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-folder.c:364
+#, c-format
+msgid "Failed to send newsgroups header: %s: message not posted"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-folder.c:404
+#: camel/providers/nntp/camel-nntp-folder.c:417
+#, c-format
+msgid "Error posting to newsgroup: %s: message not posted"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-folder.c:429
+msgid "Error reading response to posted message: message not posted"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-folder.c:432
+#, fuzzy, c-format
+msgid "Error posting message: %s: message not posted"
+msgstr ""
+"Greška kod automatskog čuvanja poruke: %s\n"
+" %s"
+
+#: camel/providers/nntp/camel-nntp-folder.c:448
+msgid "You cannot post NNTP messages while working offline!"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-folder.c:459
+#, fuzzy
+msgid "You cannot copy messages from a NNTP folder!"
+msgstr "Nisam mogao da premestim poruke u privremeni mbox direktorijum: %s"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
 msgid "Could not get group list from server."
@@ -10318,67 +10417,129 @@ msgstr "Ne mogu da učitam datoteku sa spiskom grupa za %s: %s"
 msgid "Unable to save grouplist file for %s: %s"
 msgstr "Ne mogu da sačuvam datoteku sa spiskom grupa za %s: %s"
 
-#: camel/providers/nntp/camel-nntp-provider.c:41
+#: camel/providers/nntp/camel-nntp-provider.c:43
+msgid ""
+"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-provider.c:45
+msgid "In the subscription dialog, show relative folder names"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-provider.c:52
 msgid "USENET news"
 msgstr "USENET vesti"
 
-#: camel/providers/nntp/camel-nntp-provider.c:43
+#: camel/providers/nntp/camel-nntp-provider.c:54
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr "Ovo je ponuđač za čitanje i slanje na USENET grupe"
 
-#: camel/providers/nntp/camel-nntp-store.c:149
-#, c-format
-msgid "Could not read greeting from %s: %s"
-msgstr "Nisam mogao da pročitam pozdrav od %s: %s"
-
-#: camel/providers/nntp/camel-nntp-store.c:161
-#, c-format
-msgid "NNTP server %s returned error code %d: %s"
-msgstr "NNTP server %s je uzvratio kodom o grešci %d: %s"
-
-#: camel/providers/nntp/camel-nntp-store.c:260
-#, c-format
-msgid "USENET News via %s"
-msgstr "USENET vesti preko %s"
-
-#: camel/providers/nntp/camel-nntp-store.c:267
+#: camel/providers/nntp/camel-nntp-provider.c:73
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
 msgstr ""
 "Ova opcija će prijaviti na NNTP server korišćenjem lozinke u običnom tekstu."
 
-#: camel/providers/nntp/camel-nntp-summary.c:237
+#: camel/providers/nntp/camel-nntp-store.c:158
+#, c-format
+msgid "Could not read greeting from %s: %s"
+msgstr "Nisam mogao da pročitam pozdrav od %s: %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:170
+#, c-format
+msgid "NNTP server %s returned error code %d: %s"
+msgstr "NNTP server %s je uzvratio kodom o grešci %d: %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:326
+#, c-format
+msgid "USENET News via %s"
+msgstr "USENET vesti preko %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:641
+#, fuzzy
+msgid "Stream error"
+msgstr "greška čitanja"
+
+#: camel/providers/nntp/camel-nntp-store.c:644
+#, fuzzy, c-format
+msgid ""
+"Error retrieving newsgroups:\n"
+"\n"
+"%s"
+msgstr ""
+"Greška pri otvaranju %s:\n"
+"%s"
+
+#: camel/providers/nntp/camel-nntp-store.c:736
+msgid ""
+"You cannot subscribe to this newsgroup:\n"
+"\n"
+"No such newsgroup. The selected item is a probably a parent folder."
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-store.c:768
+msgid ""
+"You cannot unsubscribe to this newsgroup:\n"
+"\n"
+"newsgroup does not exist!"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-store.c:793
+msgid "You cannot create a folder in a News store: subscribe instead."
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-store.c:801
+#, fuzzy
+msgid "You cannot rename a folder in a News store."
+msgstr "Nisam mogao da preimenujem direktorijum %s u %s: %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:809
+#, fuzzy
+msgid "You cannot remove a folder in a News store: unsubscribe instead."
+msgstr "Ne mogu da premestim direktorijum u neki od nižih direktorijuma."
+
+#: camel/providers/nntp/camel-nntp-summary.c:229
+#, fuzzy, c-format
+msgid "Connection error: %s"
+msgstr "Nepoznata greška: %s"
+
+#: camel/providers/nntp/camel-nntp-summary.c:240
 #, c-format
 msgid "No such folder: %s"
 msgstr "Nema takvog direktorijuma: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:241
+#: camel/providers/nntp/camel-nntp-summary.c:246
 #, c-format
 msgid "Could not get group: %s"
 msgstr "Nisam mogao da dobijem grupu: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:347
+#: camel/providers/nntp/camel-nntp-summary.c:311
+#, fuzzy
+msgid "Could not get messages: unspecificed error"
+msgstr "Nisam mogao da pošaljem poruku: %s"
+
+#: camel/providers/nntp/camel-nntp-summary.c:356
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP komanda neuspela: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:407
-#: camel/providers/nntp/camel-nntp-summary.c:508
+#: camel/providers/nntp/camel-nntp-summary.c:416
+#: camel/providers/nntp/camel-nntp-summary.c:517
 #, c-format
 msgid "%s: Scanning new messages"
 msgstr "%s: Tražim nove poruke"
 
-#: camel/providers/nntp/camel-nntp-summary.c:523
+#: camel/providers/nntp/camel-nntp-summary.c:532
 #, c-format
 msgid "Unknown server response: %s"
 msgstr "Nepoznat odgovor servera: %s"
 
-#: camel/providers/nntp/camel-nntp-summary.c:569
+#: camel/providers/nntp/camel-nntp-summary.c:579
 msgid "Use cancel"
 msgstr "Koristite poništi"
 
-#: camel/providers/nntp/camel-nntp-summary.c:571
+#: camel/providers/nntp/camel-nntp-summary.c:581
 #, c-format
 msgid "Operation failed: %s"
 msgstr "Neuspela operacija: %s"
@@ -10815,7 +10976,8 @@ msgstr "DATA pogrešan odgovor"
 #: camel/providers/smtp/camel-smtp-transport.c:1341
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr "DATA slanju isteklo je vreme: završetak poruke: %s: poruka nije poslata"
+msgstr ""
+"DATA slanju isteklo je vreme: završetak poruke: %s: poruka nije poslata"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1361
 msgid "DATA termination response error"
@@ -10854,7 +11016,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1382
+#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1473
 msgid "attachment"
 msgstr "prilog"
 
@@ -10898,11 +11060,20 @@ msgstr "MIME tip:"
 msgid "Suggest automatic display of attachment"
 msgstr "Predloži automatsko otvaranje priloga"
 
-#: composer/e-msg-composer-hdrs.c:287
+#: composer/e-msg-composer-hdrs.c:304
 msgid "You need to configure an account before you can compose mail."
 msgstr "Morate da podesite nalog pre sastavljanja poruke."
 
-#: composer/e-msg-composer-hdrs.c:480
+#: composer/e-msg-composer-hdrs.c:507
+msgid "Posting destination"
+msgstr "Odredište"
+
+#: composer/e-msg-composer-hdrs.c:508
+#, fuzzy
+msgid "Choose folders to post the message to."
+msgstr "Izaberite direktorijum u koji šaljete poruku."
+
+#: composer/e-msg-composer-hdrs.c:542
 msgid "Click here for the address book"
 msgstr "Pritisnite ovde za adresar."
 
@@ -10913,45 +11084,45 @@ msgstr "Pritisnite ovde za adresar."
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:510
+#: composer/e-msg-composer-hdrs.c:572
 msgid "Reply-To:"
 msgstr "Odgovor-za:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:516
+#: composer/e-msg-composer-hdrs.c:578
 msgid "From:"
 msgstr "Od:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:522
+#: composer/e-msg-composer-hdrs.c:584
 msgid "Subject:"
 msgstr "Naslov:"
 
-#: composer/e-msg-composer-hdrs.c:531
+#: composer/e-msg-composer-hdrs.c:593
 msgid "To:"
 msgstr "Kome:"
 
-#: composer/e-msg-composer-hdrs.c:532
+#: composer/e-msg-composer-hdrs.c:594
 msgid "Enter the recipients of the message"
 msgstr "Unesite primaoce poruke"
 
-#: composer/e-msg-composer-hdrs.c:535
+#: composer/e-msg-composer-hdrs.c:597
 msgid "Cc:"
 msgstr "Kopija:"
 
-#: composer/e-msg-composer-hdrs.c:536
+#: composer/e-msg-composer-hdrs.c:598
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Unesite adrese koje će primiti kopiju poruke"
 
-#: composer/e-msg-composer-hdrs.c:539
+#: composer/e-msg-composer-hdrs.c:601
 msgid "Bcc:"
 msgstr "Nevidljiva kopija:"
 
-#: composer/e-msg-composer-hdrs.c:540
+#: composer/e-msg-composer-hdrs.c:602
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -10962,17 +11133,14 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:609
 msgid "Post To:"
 msgstr "Pošalji:"
 
-#: composer/e-msg-composer-hdrs.c:548
-msgid "Posting destination"
-msgstr "Odredište"
-
-#: composer/e-msg-composer-hdrs.c:548
-msgid "Choose a folder to post the message to."
-msgstr "Izaberite direktorijum u koji šaljete poruku."
+#: composer/e-msg-composer-hdrs.c:614
+#, fuzzy
+msgid "Click here to select folders to post to"
+msgstr "<protisnite ovde da izaberete direktorijum>"
 
 #: composer/e-msg-composer-select-file.c:119
 msgid "Attach file(s)"
@@ -10991,8 +11159,8 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for from "
 "account"
 msgstr ""
-"Ne mogu da šifrujem odlazeću poruku: nije postavljen sertifikat za šifrovanje "
-"na ovom nalogu"
+"Ne mogu da šifrujem odlazeću poruku: nije postavljen sertifikat za "
+"šifrovanje na ovom nalogu"
 
 #: composer/e-msg-composer.c:791
 #, c-format
@@ -11089,15 +11257,15 @@ msgstr "Upozorenje: izmenjena poruka"
 msgid "Open file"
 msgstr "Otvori datoteku"
 
-#: composer/e-msg-composer.c:2001
+#: composer/e-msg-composer.c:2027
 msgid "Signature:"
 msgstr "Potpis:"
 
-#: composer/e-msg-composer.c:2041 mail/mail-account-gui.c:1260
+#: composer/e-msg-composer.c:2067 mail/mail-account-gui.c:1260
 msgid "Autogenerated"
 msgstr "Autogenerisan"
 
-#: composer/e-msg-composer.c:2203
+#: composer/e-msg-composer.c:2245
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
@@ -11105,20 +11273,20 @@ msgstr[0] "<b>%d</b> datoteka prikačena"
 msgstr[1] "<b>%d</b> datoteke prikačene"
 msgstr[2] "<b>%d</b> datoteka prikačeno"
 
-#: composer/e-msg-composer.c:2232
+#: composer/e-msg-composer.c:2274
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Sakrij _traku priloga (ovde prevucite priloge)"
 
-#: composer/e-msg-composer.c:2235 composer/e-msg-composer.c:3067
+#: composer/e-msg-composer.c:2277 composer/e-msg-composer.c:3136
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Prikaži _traku priloga (ovde prevucite priloge)"
 
-#: composer/e-msg-composer.c:2252 composer/e-msg-composer.c:2951
-#: composer/e-msg-composer.c:2952
+#: composer/e-msg-composer.c:2294 composer/e-msg-composer.c:3020
+#: composer/e-msg-composer.c:3021
 msgid "Compose a message"
 msgstr "Sastavi poruku"
 
-#: composer/e-msg-composer.c:2983
+#: composer/e-msg-composer.c:3052
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -11126,7 +11294,7 @@ msgstr ""
 "Nisam mogao da napravim prozor za sastavljanje:\n"
 "Ne mogu da pokrenem kontrolu biranja adresa."
 
-#: composer/e-msg-composer.c:3012
+#: composer/e-msg-composer.c:3081
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -11138,7 +11306,7 @@ msgstr ""
 "Molim proverite da imate odgovarajuće verzije\n"
 "gtkhtml i libgtkhtml na sistemu.\n"
 
-#: composer/e-msg-composer.c:3113
+#: composer/e-msg-composer.c:3182
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -11146,12 +11314,13 @@ msgstr ""
 "Nisam mogao da napravim prozor za sastavljanje:\n"
 "Ne mogu da aktiviram komponentu HTML urednika."
 
-#: composer/e-msg-composer.c:4126
+#: composer/e-msg-composer.c:4190
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
-"<b>(Urednik sadrži u tekstu poruke ne sadrži tekst, i ne može biti menjan.)<b>"
+"<b>(Urednik sadrži u tekstu poruke ne sadrži tekst, i ne može biti menjan.)"
+"<b>"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -12020,7 +12189,7 @@ msgid "Evolution Mail preferences control"
 msgstr "Kontrola osobina Evolucija pošte"
 
 # 48x48/emblems/emblem-mail.icon.in.h:1
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:810
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:806
 #: mail/importers/elm-importer.c:526 mail/importers/netscape-importer.c:2085
 #: mail/importers/pine-importer.c:572
 msgid "Mail"
@@ -12123,8 +12292,8 @@ msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
-"Pošto je kontakt lista koju šaljete podešena da sakrije adrese, ova poruke će "
-"sadržati samo skrivene primaoce."
+"Pošto je kontakt lista koju šaljete podešena da sakrije adrese, ova poruke "
+"će sadržati samo skrivene primaoce."
 
 #: mail/em-composer-utils.c:157
 msgid "This message contains only Bcc recipients."
@@ -12140,11 +12309,11 @@ msgstr ""
 "zaglavlje.\n"
 "Svejedno da pošaljem?"
 
-#: mail/em-composer-utils.c:301
+#: mail/em-composer-utils.c:305
 msgid "You must specify recipients in order to send this message."
 msgstr "Morate da odredite primaoce da bi poslali poruku."
 
-#: mail/em-composer-utils.c:543
+#: mail/em-composer-utils.c:579
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -12156,7 +12325,7 @@ msgstr ""
 msgid "Create _Virtual Folder From Search..."
 msgstr "Napravi _Virtuelni direktorijum iz pretrage..."
 
-#: mail/em-folder-selection-button.c:116
+#: mail/em-folder-selection-button.c:120
 #: shell/evolution-folder-selector-button.c:100
 msgid "<click here to select a folder>"
 msgstr "<protisnite ovde da izaberete direktorijum>"
@@ -12165,7 +12334,7 @@ msgstr "<protisnite ovde da izaberete direktorijum>"
 msgid "Create New Folder"
 msgstr "Napravi novi direktorijum"
 
-#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1091
+#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1189
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Navedite gde da napravim direktorijum:"
@@ -12175,7 +12344,7 @@ msgstr "Navedite gde da napravim direktorijum:"
 msgid "Folder _name:"
 msgstr "_Ime direktorijuma:"
 
-#: mail/em-folder-tree-model.c:560 mail/em-utils.c:1994
+#: mail/em-folder-tree-model.c:560 mail/em-utils.c:2085
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nisam mogao da napravim privremeni direktorijum: %s"
@@ -12199,96 +12368,96 @@ msgstr "Nisam mogao da premestim poruke u privremeni mbox direktorijum: %s"
 msgid "Loading..."
 msgstr "Učitavam..."
 
-#: mail/em-folder-tree.c:969 mail/em-folder-tree.c:1056
+#: mail/em-folder-tree.c:1067 mail/em-folder-tree.c:1154
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:985 mail/em-folder-tree.c:998
+#: mail/em-folder-tree.c:1083 mail/em-folder-tree.c:1096
 #: mail/em-folder-view.c:616 mail/em-folder-view.c:630
 #: shell/e-shell-importer.c:1060
 msgid "Select folder"
 msgstr "Odaberite direktorijum"
 
-#: mail/em-folder-tree.c:1091
+#: mail/em-folder-tree.c:1189
 msgid "Create folder"
 msgstr "Napravi direktorijum"
 
-#: mail/em-folder-tree.c:1182
+#: mail/em-folder-tree.c:1306
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Ne mogu da obrišem direktorijum: %s"
 
-#: mail/em-folder-tree.c:1203
+#: mail/em-folder-tree.c:1327
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Zaista da brišem direktorijum „%s“, i sve njegove poddirektorijume?"
 
-#: mail/em-folder-tree.c:1213 shell/e-shell-folder-commands.c:416
+#: mail/em-folder-tree.c:1337 shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Obriši „%s“"
 
-#: mail/em-folder-tree.c:1247 shell/e-shell-folder-commands.c:534
+#: mail/em-folder-tree.c:1371 shell/e-shell-folder-commands.c:534
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Preimenuj direktorijum „%s“ u:"
 
-#: mail/em-folder-tree.c:1249 shell/e-shell-folder-commands.c:541
+#: mail/em-folder-tree.c:1373 shell/e-shell-folder-commands.c:541
 msgid "Rename Folder"
 msgstr "Preimenuj direktorijum"
 
-#: mail/em-folder-tree.c:1273 shell/e-shell-folder-commands.c:554
+#: mail/em-folder-tree.c:1397 shell/e-shell-folder-commands.c:554
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr ""
 "Direktorijum sa imenom „%s“ već postoji. Molim koristite neko drugo ime."
 
-#: mail/em-folder-tree.c:1373
+#: mail/em-folder-tree.c:1497
 msgid "Folder properties"
 msgstr "Osobine direktorijuma"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/em-folder-tree.c:1379
+#: mail/em-folder-tree.c:1503
 msgid "Properties"
 msgstr "Osobine"
 
 #. TODO: can this be done in a loop?
-#: mail/em-folder-tree.c:1388
+#: mail/em-folder-tree.c:1512
 msgid "Folder Name"
 msgstr "Ime direktorijuma"
 
-#: mail/em-folder-tree.c:1399
+#: mail/em-folder-tree.c:1523
 msgid "Total messages"
 msgstr "Ukupno poruka"
 
-#: mail/em-folder-tree.c:1411
+#: mail/em-folder-tree.c:1535
 msgid "Unread messages"
 msgstr "Nepročitanih poruka"
 
-#: mail/em-folder-tree.c:1520 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:1644 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:20 ui/evolution-mail-messagedisplay.xml.h:8
-#: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:32
+#: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:32
 msgid "_View"
 msgstr "P_regled"
 
-#: mail/em-folder-tree.c:1521
+#: mail/em-folder-tree.c:1645
 msgid "Open in _New Window"
 msgstr "Otvori u _novom prozoru"
 
-#: mail/em-folder-tree.c:1526
+#: mail/em-folder-tree.c:1650
 msgid "_Move"
 msgstr "Pre_mesti"
 
-#: mail/em-folder-tree.c:1529
+#: mail/em-folder-tree.c:1653
 msgid "_New Folder..."
 msgstr "_Novi direktorijum..."
 
-#: mail/em-folder-tree.c:1531 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:1655 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "Preimenu_j"
 
-#: mail/em-folder-tree.c:1534 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:1658 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "_Osobine..."
 
@@ -12495,8 +12664,8 @@ msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
-"Poruka je potpisana ispravnim potpisom, ali pošiljalac poruke nije mogao biti "
-"proveren."
+"Poruka je potpisana ispravnim potpisom, ali pošiljalac poruke nije mogao "
+"biti proveren."
 
 #: mail/em-format-html-display.c:641 mail/em-format-html.c:573
 msgid "Unencrypted"
@@ -12682,7 +12851,7 @@ msgstr "Ova poruka je digitalno potpisana i odgovara potpisu."
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Ova poruka je digitalno potpisana ali ne može biti proverena."
 
-#: mail/em-junk-filter.c:72
+#: mail/em-junk-filter.c:73
 msgid "Spamassassin (built-in)"
 msgstr "Ubica-spama (ugrađen)"
 
@@ -12693,8 +12862,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Putanja i hijerarhija direktorijuma pošte u Evoluciji je izmenjen od izdanja 1."
-"*.\n"
+"Putanja i hijerarhija direktorijuma pošte u Evoluciji je izmenjen od izdanja "
+"1.*.\n"
 "\n"
 "Budite strpljivi dok Evolucija prenese vaše direktorijume..."
 
@@ -12752,24 +12921,24 @@ msgstr "Dodaj u _adresar"
 msgid "Open in %s..."
 msgstr "Otvori u %s..."
 
-#: mail/em-subscribe-editor.c:583
+#: mail/em-subscribe-editor.c:605
 msgid "This store does not support subscriptions, or the are not enabled."
 msgstr "Ovaj smeštaj ne podržava pretplatu, ili nije omogućena."
 
-#: mail/em-subscribe-editor.c:612
+#: mail/em-subscribe-editor.c:634
 msgid "Subscribed"
 msgstr "Pretplati se"
 
-#: mail/em-subscribe-editor.c:616 shell/e-storage-set-view.etspec.h:2
+#: mail/em-subscribe-editor.c:638 shell/e-storage-set-view.etspec.h:2
 msgid "Folder"
 msgstr "Direktorijum"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: mail/em-subscribe-editor.c:803
+#: mail/em-subscribe-editor.c:826
 msgid "Please select a server."
 msgstr "Molim izaberite server."
 
-#: mail/em-subscribe-editor.c:824
+#: mail/em-subscribe-editor.c:847
 msgid "No server has been selected"
 msgstr "Nije izabran server"
 
@@ -12790,21 +12959,21 @@ msgstr ""
 msgid "Filters"
 msgstr "Filteri"
 
-#: mail/em-utils.c:493
+#: mail/em-utils.c:531
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Prosleđena poruka --------"
 
-#: mail/em-utils.c:1046
+#: mail/em-utils.c:1136
 msgid "an unknown sender"
 msgstr "nepoznati pošiljalac"
 
 #. translators: attribution string used when quoting messages,
 #. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-utils.c:1056
+#: mail/em-utils.c:1146
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
 msgstr "U %a, %d. %m. %Y u %H:%M %%+05d, %%s napisa:"
 
-#: mail/em-utils.c:1332 mail/em-utils.c:1416 mail/em-utils.c:1425
+#: mail/em-utils.c:1423 mail/em-utils.c:1507 mail/em-utils.c:1516
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12813,7 +12982,7 @@ msgstr ""
 "Ne mogu da sačuvam u `%s'\n"
 " %s"
 
-#: mail/em-utils.c:1337
+#: mail/em-utils.c:1428
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12822,24 +12991,24 @@ msgstr ""
 "`%s' već postoji.\n"
 "Da prepišem?"
 
-#: mail/em-utils.c:1380
+#: mail/em-utils.c:1471
 msgid "message"
 msgstr "poruka"
 
-#: mail/em-utils.c:1432
+#: mail/em-utils.c:1523
 #, c-format
 msgid "Error: '%s' exists and is not a regular file"
 msgstr "Greška: „%s“ postoji i nije obična datoteka"
 
-#: mail/em-utils.c:1486
+#: mail/em-utils.c:1577
 msgid "Save Message..."
 msgstr "Sačuvaj poruku..."
 
-#: mail/em-utils.c:1524
+#: mail/em-utils.c:1615
 msgid "Add address"
 msgstr "Dodaj adresu"
 
-#: mail/em-utils.c:2314
+#: mail/em-utils.c:2405
 #, c-format
 msgid ""
 "This operation will permanently remove all deleted messages in the folder `%"
@@ -12852,7 +13021,7 @@ msgstr ""
 "\n"
 "Zaista ukloniti ove poruke?"
 
-#: mail/em-utils.c:2340
+#: mail/em-utils.c:2431
 msgid ""
 "This operation will permanently remove all deleted messages in all folders. "
 "If you continue, you will not be able to recover these messages.\n"
@@ -13191,59 +13360,67 @@ msgid "UID string of the default account."
 msgstr "KIB niska podrazumevanog naloga."
 
 #: mail/evolution-mail.schemas.in.in.h:73
+msgid "Use Spamasssassin daemon and client"
+msgstr ""
+
+#: mail/evolution-mail.schemas.in.in.h:74
+msgid "Use Spamasssassin daemon and client (spamc/spamd)"
+msgstr ""
+
+#: mail/evolution-mail.schemas.in.in.h:75
 msgid "Use custom fonts"
 msgstr "Koristi proizvoljne fontove"
 
-#: mail/evolution-mail.schemas.in.in.h:74
+#: mail/evolution-mail.schemas.in.in.h:76
 msgid "Use custom fonts for displaying mail"
 msgstr "Koristi proizvoljne fontove za prikaz pošte"
 
-#: mail/evolution-mail.schemas.in.in.h:75
+#: mail/evolution-mail.schemas.in.in.h:77
 msgid "Variable width font"
 msgstr "Font promenljive širine"
 
-#: mail/evolution-mail.schemas.in.in.h:76
+#: mail/evolution-mail.schemas.in.in.h:78
 msgid "View/Bcc menu item is checked"
 msgstr "Stavka menija Pregled/Nevidljiva kopija je izabrana"
 
-#: mail/evolution-mail.schemas.in.in.h:77
+#: mail/evolution-mail.schemas.in.in.h:79
 msgid "View/Bcc menu item is checked."
 msgstr "Stavka menija Pregled/Nevidljiva kopija je izabrana."
 
-#: mail/evolution-mail.schemas.in.in.h:78
+#: mail/evolution-mail.schemas.in.in.h:80
 msgid "View/Cc menu item is checked"
 msgstr "Stavka menija Pregled/Kopija je izabrana"
 
-#: mail/evolution-mail.schemas.in.in.h:79
+#: mail/evolution-mail.schemas.in.in.h:81
 msgid "View/Cc menu item is checked."
 msgstr "Stavka menija Pregled/Kopija je izabrana."
 
-#: mail/evolution-mail.schemas.in.in.h:80
+#: mail/evolution-mail.schemas.in.in.h:82
 msgid "View/From menu item is checked"
 msgstr "Stavka menija Pregled/Od je izabrana"
 
-#: mail/evolution-mail.schemas.in.in.h:81
+#: mail/evolution-mail.schemas.in.in.h:83
 msgid "View/From menu item is checked."
 msgstr "Stavka menija Pregled/Od je izabrana."
 
-#: mail/evolution-mail.schemas.in.in.h:82
+#: mail/evolution-mail.schemas.in.in.h:84
 msgid "View/PostTo menu item is checked"
 msgstr "Stavka menija Pregled/Pošalji-kome je izabrana"
 
-#: mail/evolution-mail.schemas.in.in.h:83
+#: mail/evolution-mail.schemas.in.in.h:85
 msgid "View/PostTo menu item is checked."
 msgstr "Stavka menija Pregled/Pošalji-kome je izabrana."
 
-#: mail/evolution-mail.schemas.in.in.h:84
+#: mail/evolution-mail.schemas.in.in.h:86
 msgid "View/ReplyTo menu item is checked"
 msgstr "Stavka menija Pregled/Odgovor-za je izabrana"
 
-#: mail/evolution-mail.schemas.in.in.h:85
+#: mail/evolution-mail.schemas.in.in.h:87
 msgid "View/ReplyTo menu item is checked."
 msgstr "Stavka menija Pregled/Odgovor-za je izabrana."
 
 # Da li ovo treba ostaviti na engleskom, pošto su doslovna imena zaglavlja?
-#: mail/evolution-mail.schemas.in.in.h:86
+#: mail/evolution-mail.schemas.in.in.h:88
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -13529,17 +13706,22 @@ msgstr ""
 msgid "On this Computer"
 msgstr "Na ovom računaru"
 
-#: mail/mail-component.c:389
+#: mail/mail-component.c:438
 msgid "New Mail Message"
 msgstr "Nova poruka"
 
-#: mail/mail-component.c:390
+#: mail/mail-component.c:439
 msgid "_Mail Message"
 msgstr "_Poruka"
 
-#: mail/mail-component.c:391
+#: mail/mail-component.c:440
 msgid "Compose a new mail message"
 msgstr "Sastavi novu poruku"
+
+#: mail/mail-component.c:582
+#, fuzzy
+msgid "URI of the mail source that the view will display"
+msgstr "KIB izvora kontakata koji će biti prikazani u pregledu"
 
 #: mail/mail-config-druid.c:367 mail/mail-config.glade.h:65
 msgid "Identity"
@@ -13647,10 +13829,6 @@ msgstr "Dodaj novi potpis..."
 #: mail/mail-config.glade.h:14
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "Uv_ek šifriraj na mene kod slanja šifrovane pošte"
-
-#: mail/mail-config.glade.h:15
-msgid "Alerts"
-msgstr "Upozorenja"
 
 #: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
@@ -13771,10 +13949,6 @@ msgstr "Gotovo"
 #: mail/mail-config.glade.h:50
 msgid "Drafts _folder:"
 msgstr "D_irektorijum Priprema:"
-
-#: mail/mail-config.glade.h:51
-msgid "E_nable"
-msgstr "O_mogući"
 
 #: mail/mail-config.glade.h:52
 msgid "Email Accounts"
@@ -14293,78 +14467,78 @@ msgstr "Gotovo."
 msgid "Saving message to folder"
 msgstr "Čuvam poruku u direktorijum"
 
-#: mail/mail-ops.c:923
+#: mail/mail-ops.c:927
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Premeštam poruke u %s"
 
-#: mail/mail-ops.c:923
+#: mail/mail-ops.c:927
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Kopiram poruke u %s"
 
-#: mail/mail-ops.c:1036
+#: mail/mail-ops.c:1040
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Pretražujem direktorijume u \"%s\""
 
-#: mail/mail-ops.c:1239
+#: mail/mail-ops.c:1243
 msgid "Forwarded messages"
 msgstr "Prosleđene poruke"
 
-#: mail/mail-ops.c:1282
+#: mail/mail-ops.c:1286
 #, c-format
 msgid "Opening folder %s"
 msgstr "Otvaram direktorijum %s"
 
-#: mail/mail-ops.c:1354
+#: mail/mail-ops.c:1358
 #, c-format
 msgid "Opening store %s"
 msgstr "Otvaram ostavu %s"
 
-#: mail/mail-ops.c:1432
+#: mail/mail-ops.c:1436
 #, c-format
 msgid "Removing folder %s"
 msgstr "Uklanjam direktorijum %s"
 
-#: mail/mail-ops.c:1526
+#: mail/mail-ops.c:1530
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Smeštam direktorijum '%s'"
 
-#: mail/mail-ops.c:1577
+#: mail/mail-ops.c:1581
 msgid "Refreshing folder"
 msgstr "Osvežavam direktorijum"
 
-#: mail/mail-ops.c:1613 mail/mail-ops.c:1664
+#: mail/mail-ops.c:1617 mail/mail-ops.c:1668
 msgid "Expunging folder"
 msgstr "Izbacujem direktorijum"
 
-#: mail/mail-ops.c:1661
+#: mail/mail-ops.c:1665
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Praznim smeće u '%s'"
 
-#: mail/mail-ops.c:1662
+#: mail/mail-ops.c:1666
 msgid "Local Folders"
 msgstr "Lokalni direktorijumi"
 
-#: mail/mail-ops.c:1745
+#: mail/mail-ops.c:1749
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Učitavam poruku %s"
 
-#: mail/mail-ops.c:1817
+#: mail/mail-ops.c:1821
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Učitavam %d poruka(e)"
 
-#: mail/mail-ops.c:1901
+#: mail/mail-ops.c:1905
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Čuvam %d poruka(e)"
 
-#: mail/mail-ops.c:1949
+#: mail/mail-ops.c:1953
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -14373,7 +14547,7 @@ msgstr ""
 "Ne mogu da napravim izlaznu datoteku: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1977
+#: mail/mail-ops.c:1981
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -14382,11 +14556,11 @@ msgstr ""
 "Greška kod čuvanja poruka u: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2048
+#: mail/mail-ops.c:2052
 msgid "Saving attachment"
 msgstr "Čuvam prilog"
 
-#: mail/mail-ops.c:2065
+#: mail/mail-ops.c:2069
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -14395,22 +14569,22 @@ msgstr ""
 "Ne mogu da napravim izlaznu datoteku: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2095
+#: mail/mail-ops.c:2099
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nisam mogao da upišem: %s"
 
-#: mail/mail-ops.c:2243
+#: mail/mail-ops.c:2247
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Prekidam vezu sa %s"
 
-#: mail/mail-ops.c:2243
+#: mail/mail-ops.c:2247
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Ponovo se povezujem na %s"
 
-#: mail/mail-ops.c:2345
+#: mail/mail-ops.c:2349
 msgid "Changing junk status"
 msgstr "Izmena stanja đubreta"
 
@@ -14477,24 +14651,24 @@ msgstr "Osvežavam..."
 msgid "Waiting..."
 msgstr "Čekam..."
 
-#: mail/mail-session.c:234
+#: mail/mail-session.c:240
 msgid "User canceled operation."
 msgstr "Korisnik je poništio operaciju."
 
-#: mail/mail-session.c:267
+#: mail/mail-session.c:273
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Unesite lozinku za %s"
 
-#: mail/mail-session.c:269
+#: mail/mail-session.c:275
 msgid "Enter Password"
 msgstr "Unesite lozinku"
 
-#: mail/mail-session.c:292
+#: mail/mail-session.c:298
 msgid "_Remember this password"
 msgstr "_Zapamti ovu lozinku"
 
-#: mail/mail-session.c:293
+#: mail/mail-session.c:299
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Zapamti ovu lozinku do kraja ove sesije"
 
@@ -14812,8 +14986,8 @@ msgid ""
 "If set to true, the warning dialog in development versions of Evolution is "
 "not displayed."
 msgstr ""
-"Ako je postavljeno, prozorče sa upozorenjem u razvojnim izdanjima Evolucije se "
-"neće prikazivati."
+"Ako je postavljeno, prozorče sa upozorenjem u razvojnim izdanjima Evolucije "
+"se neće prikazivati."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid ""
@@ -15185,9 +15359,9 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
-"Ukoliko sada zatvorite Evolucijinog pomoćnika za podešavanje, svi podaci koje "
-"ste uneli će biti zanemareni. Moraćete da pokrenete ovog pomoćnika ponovo "
-"pre upotrebe Evolucije.\n"
+"Ukoliko sada zatvorite Evolucijinog pomoćnika za podešavanje, svi podaci "
+"koje ste uneli će biti zanemareni. Moraćete da pokrenete ovog pomoćnika "
+"ponovo pre upotrebe Evolucije.\n"
 "\n"
 "Želite li da sada zatvorite pomoćnika?"
 
@@ -15483,15 +15657,15 @@ msgstr ""
 "Greška koju je poslao sistem za pokretanje je:\n"
 "%s"
 
-#: shell/evolution-test-component.c:125
+#: shell/evolution-test-component.c:140
 msgid "New Test"
 msgstr "Nova proba"
 
-#: shell/evolution-test-component.c:126
+#: shell/evolution-test-component.c:141
 msgid "_Test"
 msgstr "_Proba"
 
-#: shell/evolution-test-component.c:127
+#: shell/evolution-test-component.c:142
 msgid "Create a new test item"
 msgstr "Napravi novu probnu stavku"
 
@@ -15703,7 +15877,8 @@ msgid ""
 "Evolution.\n"
 msgstr ""
 "Upozorenje: Evolucija ne može da dogradi sve vaše podatke iz izdanja %s.\n"
-"Vaši podaci nisu obrisani, ali neće biti prikazani u ovom izdanju Evolucije.\n"
+"Vaši podaci nisu obrisani, ali neće biti prikazani u ovom izdanju "
+"Evolucije.\n"
 
 #: shell/main.c:410
 msgid "Cannot access the Ximian Evolution shell."
@@ -16437,10 +16612,6 @@ msgstr "Pregledaj tekući zakazani sastanak"
 msgid "Week"
 msgstr "Nedelja"
 
-#: ui/evolution-calendar.xml.h:32
-msgid "Work Week"
-msgstr "Radna nedelja"
-
 #: ui/evolution-calendar.xml.h:37
 msgid "_Open Appointment"
 msgstr "_Otvori zakazani sastanak"
@@ -16503,7 +16674,7 @@ msgstr "Sačuvaj stavku na disk"
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:13
 #: ui/evolution-mail-messagedisplay.xml.h:7
-#: ui/evolution-message-composer.xml.h:42
+#: ui/evolution-message-composer.xml.h:44
 #: ui/evolution-signature-editor.xml.h:13 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:25
 msgid "_File"
@@ -16511,7 +16682,7 @@ msgstr "Dato_teka"
 
 #: ui/evolution-comp-editor.xml.h:20 ui/evolution-contact-editor.xml.h:18
 #: ui/evolution-contact-list-editor.xml.h:14
-#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-message-composer.xml.h:50
 #: ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Sačuvaj"
@@ -17190,7 +17361,7 @@ msgid "Close this window"
 msgstr "Zatvori ovaj prozor"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
-#: ui/evolution-message-composer.xml.h:39 ui/evolution-subscribe.xml.h:9
+#: ui/evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:24
 msgid "_Close"
 msgstr "_Zatvori"
@@ -17327,45 +17498,65 @@ msgid "Toggles whether the From chooser is displayed"
 msgstr "Menja da li je polje Od prikazano"
 
 #: ui/evolution-message-composer.xml.h:35
-msgid "Toggles whether the Reply-To field is displayed"
+#, fuzzy
+msgid "Toggles whether the Post-To field is displayed"
 msgstr "Menja da li je polje Odgovor-za prikazano"
 
 #: ui/evolution-message-composer.xml.h:36
+msgid "Toggles whether the Reply-To field is displayed"
+msgstr "Menja da li je polje Odgovor-za prikazano"
+
+#: ui/evolution-message-composer.xml.h:37
+#, fuzzy
+msgid "Toggles whether the To field is displayed"
+msgstr "Menja da li je polje CC prikazano"
+
+#: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
 msgstr "_Prilog..."
 
-#: ui/evolution-message-composer.xml.h:37
+#: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
 msgstr "_Bcc zaglavlje"
 
-#: ui/evolution-message-composer.xml.h:38
+#: ui/evolution-message-composer.xml.h:40
 msgid "_Cc Field"
 msgstr "_Cc zaglavlje"
 
-#: ui/evolution-message-composer.xml.h:40
+#: ui/evolution-message-composer.xml.h:42
 msgid "_Delete all"
 msgstr "Obri_ši sve"
 
-#: ui/evolution-message-composer.xml.h:43
+#: ui/evolution-message-composer.xml.h:45
 msgid "_From Field"
 msgstr "O_d zaglavlje"
 
-#: ui/evolution-message-composer.xml.h:44
+#: ui/evolution-message-composer.xml.h:46
 #: ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
 msgstr "Ubac_i"
 
-#: ui/evolution-message-composer.xml.h:45
+#: ui/evolution-message-composer.xml.h:47
 msgid "_Open..."
 msgstr "_Otvori..."
 
-#: ui/evolution-message-composer.xml.h:46
+#: ui/evolution-message-composer.xml.h:48
+#, fuzzy
+msgid "_Post-To Field"
+msgstr "Odgo_vori-na polje"
+
+#: ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
 msgstr "Odgo_vori-na polje"
 
-#: ui/evolution-message-composer.xml.h:48
+#: ui/evolution-message-composer.xml.h:51
 msgid "_Security"
 msgstr "_Bezbednost"
+
+#: ui/evolution-message-composer.xml.h:52
+#, fuzzy
+msgid "_To Field"
+msgstr "O_d zaglavlje"
 
 #: ui/evolution-signature-editor.xml.h:5
 msgid "H_TML"
@@ -17871,7 +18062,9 @@ msgstr "Koristi podvlaku"
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
-msgstr "Ako je postavljeno, podvlaka u tekstu označava tekst koji će se koristiti kao prečica"
+msgstr ""
+"Ako je postavljeno, podvlaka u tekstu označava tekst koji će se koristiti "
+"kao prečica"
 
 #: widgets/misc/e-expander.c:205
 msgid "Spacing"
@@ -17904,6 +18097,69 @@ msgstr "Razmak pokazivača"
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
 msgstr "Razmak oko strelice razgranika"
+
+#~ msgid "Rename"
+#~ msgstr "Preimenuj"
+
+#~ msgid "Edit LDAP Server"
+#~ msgstr "Uredi LDAP server"
+
+#~ msgid "    "
+#~ msgstr "    "
+
+#~ msgid "<b>Alarm Action</b>"
+#~ msgstr "<b>Dejstvo alarma</b>"
+
+#~ msgid "<b>Alarm Email</b>"
+#~ msgstr "<b>E-pošta alarma</b>"
+
+#~ msgid "<b>Alarm Sound</b>"
+#~ msgstr "<b>Zvuk alarma</b>"
+
+#~ msgid "<b>Message to Display</b>"
+#~ msgstr "<b>Poruka za prikaz</b>"
+
+#~ msgid "<b>Basics</b>"
+#~ msgstr "<b>Osnove</b>"
+
+#~ msgid "<b>Reminders</b>"
+#~ msgstr "<b>Podsetnici</b>"
+
+#~ msgid "<b>Alerts</b>"
+#~ msgstr "<b>Uzbune</b>"
+
+#~ msgid "<b>Task List</b>"
+#~ msgstr "<b>Spisak zaduženja</b>"
+
+#~ msgid "<b>Time</b>"
+#~ msgstr "<b>Vreme</b>"
+
+#~ msgid "<b>Work Week</b>"
+#~ msgstr "<b>Radna nedelja</b>"
+
+#~ msgid "<b>Classification</b>"
+#~ msgstr "<b>Klasifikacija</b>"
+
+#~ msgid "<b>Date &amp; Time</b>"
+#~ msgstr "<b>Datum i vreme</b>"
+
+#~ msgid "<b>Description</b>"
+#~ msgstr "<b>Opis</b>"
+
+#~ msgid "<b>L_ocation</b>"
+#~ msgstr "<b>_Mesto</b>"
+
+#~ msgid "<b>Su_mmary</b>"
+#~ msgstr "<b>_Sažetak</b>"
+
+#~ msgid "<b>Preview</b>"
+#~ msgstr "<b>Prikaz</b>"
+
+#~ msgid "<b>Progress</b>"
+#~ msgstr "<b>Napredak</b>"
+
+#~ msgid "<b>Web Page</b>"
+#~ msgstr "<b>Veb stranica</b>"
 
 #~ msgid "The method required to load `%s' is not supported"
 #~ msgstr "Metod potreban za učitavanje `%s' nije podržan"
@@ -17973,18 +18229,6 @@ msgstr "Razmak oko strelice razgranika"
 #~ msgid "Adding %s"
 #~ msgstr "Dodajem %s"
 
-#~ msgid "Basics"
-#~ msgstr "Osnove"
-
-#~ msgid "Time"
-#~ msgstr "Vreme"
-
-#~ msgid "Su_mmary:"
-#~ msgstr "Saž_etak:"
-
-#~ msgid "_Web Page:"
-#~ msgstr "_Veb stranica:"
-
 #~ msgid "Select Calendar Folder"
 #~ msgstr "Odaberite direktorijum kalendara"
 
@@ -18049,9 +18293,6 @@ msgstr "Razmak oko strelice razgranika"
 
 #~ msgid "Folder Settings"
 #~ msgstr "Podešavanja direktorijuma"
-
-#~ msgid "Account Name"
-#~ msgstr "Ime naloga"
 
 #~ msgid "LDAP was not enabled in this build of Evolution"
 #~ msgstr "LDAP nije omogućen u ovoj verziji Evolucije"
@@ -18319,19 +18560,11 @@ msgstr "Razmak oko strelice razgranika"
 #~ msgstr "Traži HTML"
 
 #, fuzzy
-#~ msgid "Jabber Id List"
-#~ msgstr "Lista bez imena"
-
-#, fuzzy
 #~ msgid "ICQ Id List"
 #~ msgstr "Da li je nova lista"
 
 #~ msgid "Organizational Unit"
 #~ msgstr "Organizaciona jedinica"
-
-#, fuzzy
-#~ msgid "Photo"
-#~ msgstr "Porto"
 
 #, fuzzy
 #~ msgid "Logo"
@@ -18847,9 +19080,6 @@ msgstr "Razmak oko strelice razgranika"
 
 #~ msgid "New Message Post"
 #~ msgstr "Slanje nove poruke"
-
-#~ msgid "_Post Message"
-#~ msgstr "_Pošalji poruku"
 
 #~ msgid "Post a new mail message"
 #~ msgstr "Pošalji novu poruku"
