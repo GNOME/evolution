@@ -860,6 +860,16 @@ fill_widgets (EventEditor *ee)
 	cal_component_free_exdate_list (list);
 }
 
+
+/* Tell the event editor to reread its widget values from the associated
+   CalComponent object. If one changes the CalComponent through a means other
+   than the GUI, one should call this function. */
+void
+event_editor_update_widgets (EventEditor *ee)
+{
+	fill_widgets (ee);
+}
+
 
 
 /* Decode the radio button group for classifications */

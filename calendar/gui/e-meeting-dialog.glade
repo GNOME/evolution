@@ -66,7 +66,7 @@ Updates</label>
       <widget>
 	<class>GtkButton</class>
 	<child_name>Toolbar:button</child_name>
-	<name>button4</name>
+	<name>cancel_button</name>
 	<label>Cancel
 Meeting</label>
 	<stock_pixmap>GNOME_STOCK_PIXMAP_CLOSE</stock_pixmap>
@@ -77,6 +77,15 @@ Meeting</label>
 	<name>vseparator2</name>
 	<width>12</width>
 	<height>58</height>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<child_name>Toolbar:button</child_name>
+	<name>schedule_button</name>
+	<label>Schedule
+Time</label>
+	<stock_pixmap>GNOME_STOCK_PIXMAP_MULTIPLE</stock_pixmap>
       </widget>
     </widget>
 

@@ -62,6 +62,8 @@ void event_editor_set_event_object (EventEditor *ee, CalComponent *comp);
 
 void event_editor_focus (EventEditor *ee);
 
+void event_editor_update_widgets (EventEditor *ee);
+
 #if 0
 /* Convenience function to create and show a new event editor for an
  * event that goes from day_begin to day_end of the specified day.

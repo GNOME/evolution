@@ -1,3 +1,8 @@
+2000-10-19  Jesse Pavel <jpavel@helixcode.com>
+
+	* gui/event-editor.[ch]: added a public function which causes the
+	event editor to reload its widgets to the associated CalComponent.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/Makefile.am: Add `event-editor-dialog.glade.h'.
