@@ -291,7 +291,7 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	
 	g_signal_connect (re->dialog, "response", GTK_SIGNAL_FUNC (add_editor_response), re);
-	g_object_weak_ref (re->dialog, (GWeakNotify) editor_destroy, re);
+	g_object_weak_ref ((GObject *)re->dialog, (GWeakNotify) editor_destroy, re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
@@ -363,7 +363,7 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	
 	g_signal_connect (re->dialog, "clicked", GTK_SIGNAL_FUNC (edit_editor_response), re);
-	g_object_weak_ref (re->dialog, (GWeakNotify) editor_destroy, re);
+	g_object_weak_ref ((GObject *)re->dialog, (GWeakNotify) editor_destroy, re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	

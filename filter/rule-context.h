@@ -26,7 +26,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <gnome-xml/parser.h>
+#include <libxml/parser.h>
 
 #include "filter-part.h"
 #include "filter-rule.h"

@@ -191,7 +191,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	CamelURL *url;
 	char *uri;
 	
-	node = node->childs;
+	node = node->children;
 	if (node && node->name && !strcmp (node->name, "uri")) {
 		uri = xmlNodeGetContent (node);
 		url = camel_url_new (uri, NULL);

@@ -1,5 +1,17 @@
 2002-11-13  Not Zed  <NotZed@Ximian.com>
 
+	* rule-context.c (load): Get the root node properly.
+
+	* rule-editor.c (rule_add): cast g_object_weak_ref
+	(rule_edit): "
+
+	* all: xml2 node change - childs->children.  Also, ignore 'text'
+	nodes while scanning tree.
+
+	* rule-context.h: gnome-xml->libxml.
+
+	* filter-element.h: gnome-xml->libxml
+
 	* vfolder-rule.c (source_add): comment out gtk_destroyed check.
 
 	* filter-label.c: Added back some of the guts.  Might not work but

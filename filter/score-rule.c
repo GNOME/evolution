@@ -139,7 +139,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 	if (result != 0)
 		return result;
 	
-	value = node->childs;
+	value = node->children;
 	while (value) {
 		if (!strcmp (value->name, "score")) {
 			str = xmlGetProp (value, "value");

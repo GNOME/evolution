@@ -326,7 +326,7 @@ load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 	char *rulename;
 	FilterPart *part;
 	
-	work = node->childs;
+	work = node->children;
 	while (work) {
 		if (!strcmp (work->name, "part")) {
 			rulename = xmlGetProp (work, "name");
@@ -339,7 +339,7 @@ load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 				g_warning ("cannot find rule part '%s'\n", rulename);
 			}
 			xmlFree (rulename);
-		} else {
+		} else if (work->type == XML_ELEMENT_NODE) {
 			g_warning ("Unknown xml node in part: %s", work->name);
 		}
 		work = work->next;
@@ -393,7 +393,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 		fr->source = g_strdup ("incoming");
 	}
 	
-	work = node->childs;
+	work = node->children;
 	while (work) {
 		if (!strcmp (work->name, "partset")) {
 			load_set (work, fr, f);

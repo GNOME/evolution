@@ -285,10 +285,10 @@ xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 	if (result != 0)
 		return result;
 	
-	set = node->childs;
+	set = node->children;
 	while (set) {
 		if (!strcmp (set->name, "sources")) {
-			work = set->childs;
+			work = set->children;
 			while (work) {
 				if (!strcmp (work->name, "folder")) {
 					uri = xmlGetProp (work, "uri");

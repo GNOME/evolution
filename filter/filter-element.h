@@ -26,8 +26,8 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtkwidget.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/parser.h>
+#include <libxml/xmlmemory.h>
 
 #define FILTER_TYPE_ELEMENT            (filter_element_get_type ())
 #define FILTER_ELEMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_ELEMENT, FilterElement))

@@ -202,7 +202,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	xmlFree (fe->name);
 	fe->name = xmlGetProp (node, "name");
 	
-	n = node->childs;
+	n = node->children;
 	while (n) {
 		if (!strcmp (n->name, "folder")) {
 			char *uri;

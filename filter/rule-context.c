@@ -286,7 +286,7 @@ rule_context_load (RuleContext *rc, const char *system, const char *user)
 static int
 load (RuleContext *rc, const char *system, const char *user)
 {
-	xmlNodePtr set, rule;
+	xmlNodePtr set, rule, root;
 	struct _part_set_map *part_map;
 	struct _rule_set_map *rule_map;
 	
@@ -300,8 +300,9 @@ load (RuleContext *rc, const char *system, const char *user)
 							     system, g_strerror (errno)));
 		return -1;
 	}
-	
-	if (strcmp (rc->system->name, "filterdescription")) {
+
+	root = xmlDocGetRootElement(rc->system);
+	if (root == NULL || strcmp (root->name, "filterdescription")) {
 		rule_context_set_error (rc, g_strdup_printf ("Unable to load system rules '%s': Invalid format", system));
 		xmlFreeDoc (rc->system);
 		rc->system = NULL;
@@ -312,7 +313,7 @@ load (RuleContext *rc, const char *system, const char *user)
 	
 	/* now parse structure */
 	/* get rule parts */
-	set = rc->system->children;
+	set = root->children;
 	while (set) {
 		d(printf("set name = %s\n", set->name));
 		part_map = g_hash_table_lookup (rc->part_set_map, set->name);
@@ -338,7 +339,8 @@ load (RuleContext *rc, const char *system, const char *user)
 	
 	/* now load actual rules */
 	if (rc->user) {
-		set = rc->user->children;
+		root = xmlDocGetRootElement(rc->user);
+		set = root?root->children:NULL;
 		while (set) {
 			d(printf("set name = %s\n", set->name));
 			rule_map = g_hash_table_lookup (rc->rule_set_map, set->name);
@@ -413,7 +415,9 @@ save (RuleContext *rc, const char *user)
 		l = g_list_next (l);
 	}
 	
-	ret = e_xml_save_file (user, doc);
+#warning "xmlSaveFile used here"
+	ret = xmlSaveFile (user, doc);
+	/*ret = e_xml_save_file (user, doc);*/
 	
 	xmlFreeDoc (doc);
 	

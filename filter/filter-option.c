@@ -200,13 +200,13 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	/* parent implementation */
         FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 	
-	n = node->childs;
+	n = node->children;
 	while (n) {
 		if (!strcmp (n->name, "option")) {
 			char *tmp, *value, *title = NULL, *code = NULL;
 			
 			value = xmlGetProp (n, "value");
-			work = n->childs;
+			work = n->children;
 			while (work) {
 				if (!strcmp (work->name, "title")) {
 					if (!title) {
@@ -232,7 +232,7 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 			xmlFree (value);
 			g_free (title);
 			g_free (code);
-		} else {
+		} else if (n->type == XML_ELEMENT_NODE) {
 			g_warning ("Unknown xml node within optionlist: %s\n", n->name);
 		}
 		n = n->next;

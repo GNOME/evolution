@@ -175,7 +175,7 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 	if (str)
 		xmlFree (str);
 	
-	n = node->childs;
+	n = node->children;
 	while (n) {
 		if (!strcmp (n->name, "input")) {
 			type = xmlGetProp (n, "type");
@@ -203,7 +203,7 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 				if (str)
 					xmlFree (str);
 			}
-		} else {
+		} else if (n->type == XML_ELEMENT_NODE) {
 			g_warning ("Unknown part element in xml: %s\n", n->name);
 		}
 		n = n->next;
@@ -245,7 +245,7 @@ filter_part_xml_decode (FilterPart *fp, xmlNodePtr node)
 	g_return_val_if_fail (fp != NULL, -1);
 	g_return_val_if_fail (node != NULL, -1);
 	
-	n = node->childs;
+	n = node->children;
 	while (n) {
 		if (!strcmp (n->name, "value")) {
 			name = xmlGetProp (n, "name");

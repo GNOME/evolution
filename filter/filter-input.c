@@ -279,7 +279,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	fe->name = name;
 	xmlFree (fi->type);
 	fi->type = type;
-	n = node->childs;
+	n = node->children;
 	while (n) {
 		if (!strcmp (n->name, type)) {
 			if (!(str = xmlNodeGetContent (n)))
@@ -288,7 +288,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 			d(printf ("  '%s'\n", str));
 			fi->values = g_list_append (fi->values, g_strdup (str));
 			xmlFree (str);
-		} else {
+		} else if (n->type == XML_ELEMENT_NODE) {
 			g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
 		}
 		n = n->next;
