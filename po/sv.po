@@ -1,4 +1,4 @@
-# Swedish translation of Evolution.
+# Swedish messages for Evolution.
 # Copyright (C) 2000, 2001 Free Software Foundation, Inc.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Richard Hult <rhult@codefactory.se>, 2000, 2001.
@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.142 2001/12/21 03:58:46 menthos Exp $
+# $Id: sv.po,v 1.143 2001/12/28 18:51:32 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-21 04:56+0100\n"
-"PO-Revision-Date: 2001-12-21 04:57+0100\n"
+"POT-Creation-Date: 2001-12-28 19:47+0100\n"
+"PO-Revision-Date: 2001-12-28 19:49+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1071,7 +1071,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr "Fabrik för adressbokens namnvalsgränssnitt"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
-#: addressbook/gui/component/select-names/e-select-names.c:838
+#: addressbook/gui/component/select-names/e-select-names.c:830
 #: composer/e-msg-composer-attachment-bar.c:505 filter/filter-filter.c:436
 #: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
@@ -1102,7 +1102,7 @@ msgstr "(%d visas inte)"
 msgid "Unnamed Contact"
 msgstr "Namnlös kontakt:"
 
-#: addressbook/gui/component/select-names/e-select-names.c:579
+#: addressbook/gui/component/select-names/e-select-names.c:581
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "This may have been caused by the evolution-addressbook component crashing.\n"
@@ -1118,7 +1118,7 @@ msgstr ""
 "detaljerad beskrivning av de omständigheter under vilket felet framträdde.\n"
 "Tack på förhand."
 
-#: addressbook/gui/component/select-names/e-select-names.c:587
+#: addressbook/gui/component/select-names/e-select-names.c:589
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "Under normal circumstances, this should never happen.\n"
@@ -1129,7 +1129,7 @@ msgstr ""
 "Normalt bör detta aldrig inträffa. Du kan behöva avsluta\n"
 "och starta om Evolution för att åtgärda detta problem."
 
-#: addressbook/gui/component/select-names/e-select-names.c:669
+#: addressbook/gui/component/select-names/e-select-names.c:671
 msgid "Select Contacts from Addressbook"
 msgstr "Välj kontakter från adressboken"
 
@@ -5443,39 +5443,39 @@ msgstr " (Ska utföras "
 msgid "Due "
 msgstr "Ska utföras "
 
-#: calendar/gui/dialogs/comp-editor.c:303
+#: calendar/gui/dialogs/comp-editor.c:321
 msgid "Could not update object!"
 msgstr "Kunde inte uppdatera objekt!"
 
-#: calendar/gui/dialogs/comp-editor.c:678
+#: calendar/gui/dialogs/comp-editor.c:692
 msgid "Edit Appointment"
 msgstr "Redigera möte"
 
-#: calendar/gui/dialogs/comp-editor.c:683
+#: calendar/gui/dialogs/comp-editor.c:697
 #, c-format
 msgid "Appointment - %s"
 msgstr "Möte - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:686
+#: calendar/gui/dialogs/comp-editor.c:700
 #, c-format
 msgid "Task - %s"
 msgstr "Uppgift - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:689
+#: calendar/gui/dialogs/comp-editor.c:703
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Dagbokspost - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:703
+#: calendar/gui/dialogs/comp-editor.c:717
 msgid "No summary"
 msgstr "Ingen sammanfattning"
 
-#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:2053
+#: calendar/gui/dialogs/comp-editor.c:1077 mail/mail-callbacks.c:2053
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "Skriv över fil?"
 
-#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:2060
+#: calendar/gui/dialogs/comp-editor.c:1081 mail/mail-callbacks.c:2060
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -5484,12 +5484,12 @@ msgstr ""
 "Det finns redan en fil med det namnet.\n"
 "Ska den skrivas över?"
 
-#: calendar/gui/dialogs/comp-editor.c:1111 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1127 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Spara som..."
 
-#: calendar/gui/dialogs/comp-editor.c:1272
+#: calendar/gui/dialogs/comp-editor.c:1277
 msgid "Unable to obtain current version!"
 msgstr "Kunde inte få tag i aktuell version!"
 
@@ -5814,17 +5814,21 @@ msgstr "veckor"
 msgid "year(s)"
 msgstr "år"
 
-#: calendar/gui/dialogs/send-comp.c:55
+#: calendar/gui/dialogs/send-comp.c:56
+msgid "The meeting information has been created. Send it?"
+msgstr "Mötesinformationen har skapats. Skicka den?"
+
+#: calendar/gui/dialogs/send-comp.c:59
 msgid "The meeting information has changed. Send an updated version?"
 msgstr "Mötesinformationen har ändrats. Skicka en uppdaterad version?"
 
-#: calendar/gui/dialogs/send-comp.c:60
+#: calendar/gui/dialogs/send-comp.c:66
+msgid "The task assignment information has been created. Send it?"
+msgstr "Uppgiftstilldelningsinformationen har ändrats. Skicka den?"
+
+#: calendar/gui/dialogs/send-comp.c:70
 msgid "The task information has changed. Send an updated version?"
 msgstr "Uppgiftsinformationen har ändrats. Skicka en uppdaterad version?"
-
-#: calendar/gui/dialogs/send-comp.c:65
-msgid "The journal entry has changed. Send an updated version?"
-msgstr "Dagboksposten har ändrats. Skicka en uppdaterad version?"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
@@ -9083,7 +9087,7 @@ msgid "MIME type:"
 msgstr "MIME-typ:"
 
 #: composer/e-msg-composer-attachment.glade.h:5
-#: composer/e-msg-composer-select-file.c:179
+#: composer/e-msg-composer-select-file.c:180
 msgid "Suggest automatic display of attachment"
 msgstr "Föreslå automatisk visning av bilaga"
 
@@ -9140,7 +9144,7 @@ msgstr ""
 "Ange adresserna till de som ska ta emot en extra kopia av meddelandet utan "
 "att visas i mottagarlistan av meddelandet."
 
-#: composer/e-msg-composer-select-file.c:290
+#: composer/e-msg-composer-select-file.c:291
 #: ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
 msgstr "Bifoga en fil"
@@ -25675,6 +25679,9 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+#~ msgid "The journal entry has changed. Send an updated version?"
+#~ msgstr "Dagboksposten har ändrats. Skicka en uppdaterad version?"
 
 #~ msgid "Special Folders"
 #~ msgstr "Specialmappar"
