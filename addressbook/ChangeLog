@@ -1,3 +1,8 @@
+2004-04-29  Hans Petter Jansson  <hpj@ximian.com>
+
+	* printing/e-contact-print.c: Don't dereference the file_as pointer
+	if it turns out to be NULL.
+
 2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/component/addressbook-migrate.c: We need a migration dialog

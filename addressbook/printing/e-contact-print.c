@@ -554,7 +554,7 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 				e_contact_print_letter_heading(ctxt, ctxt->character);
 		}
 		g_free (letter_str);
-		ctxt->last_char_on_page = toupper(*file_as);
+		ctxt->last_char_on_page = file_as ? toupper (*file_as) : ' ';
 		if ( ctxt->last_char_on_page < ctxt->first_char_on_page )
 			ctxt->first_char_on_page = ctxt->last_char_on_page;
 		e_contact_print_contact(contact, ctxt);
