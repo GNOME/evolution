@@ -255,14 +255,20 @@ icaltimezone_get_vtimezone_properties	(icaltimezone	*zone,
     icalproperty *prop;
     const char *tzid, *location;
  
+    fprintf (stderr, "In icaltimezone_get_vtimezone_properties\n");
+
     prop = icalcomponent_get_first_property (component, ICAL_TZID_PROPERTY);
     if (!prop)
 	return 0;
+
+    fprintf (stderr, "  found TZID property, getting TZID\n");
 
     /* A VTIMEZONE MUST have a TZID, or a lot of our code won't work. */
     tzid = icalproperty_get_tzid (prop);
     if (!tzid)
 	return 0;
+
+    fprintf (stderr, "  found TZID: %s\n", tzid);
 
     zone->tzid = strdup (tzid);
     zone->component = component;
@@ -721,8 +727,11 @@ icaltimezone_convert_time		(struct icaltimetype *tt,
 {
     int utc_offset, is_daylight;
 
-    /* First we convert the time to UTC by getting the UTC offset and
-       subtracting it. */       
+    /* If both timezones are the same, we don't need to do anything. */
+    if (from_zone == to_zone)
+	return;
+
+    /* Convert the time to UTC by getting the UTC offset and subtracting it. */
     utc_offset = icaltimezone_get_utc_offset (from_zone, tt, NULL);
     icaltime_adjust (tt, 0, 0, 0, -utc_offset);
 
