@@ -1,3 +1,9 @@
+2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-local-storage.c (setup_folder_as_stock): utf_name should not
+	be const as e_utf8_from_locale_string() returns an allocated
+	buffer.
+
 3001-08-17  Iain Holmes  <iain@ximian.com>
 
 	* Evolution.idl: Add Evolution-Wizard.idl
@@ -6,8 +12,8 @@
 
 	* Makefile.am: Add the wizard stuff and the startup dialog stuff
 
-	* e-shell.c (e_shell_construct): Hide the splash screen and try to start
-	the startup assistant.
+	* e-shell.c (e_shell_construct): Hide the splash screen and try to
+	start the startup assistant.
 
 	* glade/Makefile.am: Add the evolution-startup-wizard.glade
 

@@ -47,6 +47,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include "e-util/e-path.h"
 #include "e-local-folder.h"
 
@@ -152,7 +153,7 @@ setup_folder_as_stock (ELocalStorage *local_storage,
 		       const char *name)
 {
 	EFolder *folder;
-	const char *utf8_name;
+	char *utf8_name;
 
 	folder = e_storage_get_folder (E_STORAGE (local_storage), path);
 	if (folder == NULL)
