@@ -1677,7 +1677,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			CamelMimePart *iconpart;
 
 			classid = g_strdup_printf("icon:///em-format-html/%s/icon/header", emf->part_id->str);
-			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img src=\"%s\"></td>", classid);
+			camel_stream_printf(stream, "<td align=\"right\" valign=\"top\"><img width=16 height=16 src=\"%s\"></td>", classid);
 			iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", EVOLUTION_ICONSDIR, "monkey-16.png");
 			if (iconpart) {
 				em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);

@@ -1,3 +1,8 @@
+2004-04-09  Radek Doulik  <rodo@ximian.com>
+
+	* em-format-html.c (efh_format_headers): add width=16 height=16 to
+	rupert's image so that it doesn't flicker/move
+
 2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-selection.c (em_select_folder): Set the excluded bits
