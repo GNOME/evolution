@@ -36,6 +36,7 @@ ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleValueAtFn value_at,
 				 ETableSimpleSetValueAtFn set_value_at,
 				 ETableSimpleIsCellEditableFn is_cell_editable,
+				 ETableSimpleRowHeightFn row_height,
 				 void *data);
 
 #endif /* _E_TABLE_SIMPLE_H_ */

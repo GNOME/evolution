@@ -110,7 +110,7 @@ eti_add_header_model (ETableItem *eti, ETableHeader *header)
 		GTK_SIGNAL_FUNC (eti_header_dim_changed), eti);
 
 	eti->header_structure_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "structure_changed",
+		GTK_OBJECT (header), "structure_change",
 		GTK_SIGNAL_FUNC (eti_header_structure_changed), eti);
 }
 
@@ -138,12 +138,14 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_TABLE_HEADER:
-		eti->header = GTK_VALUE_POINTER (*arg);
-		gtk_object_ref (GTK_OBJECT (eti->header));
+		eti_remove_header_model (eti);
+		eti_add_header_model (eti, GTK_VALUE_POINTER (*arg));
 		break;
 
 	case ARG_TABLE_MODEL:
 		eti_remove_table_model (eti);
+		eti_add_table_model (eti, GTK_VALUE_POINTER (*arg));
+
 		eti->height = e_table_model_height (eti->table_model);
 		break;
 		
@@ -176,9 +178,61 @@ eti_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x1, int y1, int width, int height)
+eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
+	ETableItem *eti = E_TABLE_ITEM (item);
+	const int rows = e_table_model_row_count (eti->table_model);
+	const int cols = e_table_header_count (eti->header);
+	int row, col, y1, y2;
+	int first_col, last_col, x_offset;
+	int x1, x2;
 	
+	/*
+	 * Clear the background
+	 */
+	gdk_draw_rectangle (
+		drawable, eti->fill_gc, TRUE, 0, 0, width, height);
+
+	/*
+	 * First column to draw, last column to draw
+	 */
+	x1 = x_offset = 0;
+	first_col = -1;
+	last_col = 0;
+	for (col = 0; col < cols; col++, x1 = x2){
+		ETableCol *ecol = e_table_header_get_column (eti->header, col);
+
+		x2 = x1 + ecol->width;
+		
+		if (x1 > (x + width))
+			break;
+		if (x2 < x)
+			continue;
+		if (first_col == -1){
+			x_offset = x - x1;
+			first_col = col;
+		}
+	}
+	last_col = col;
+	
+	/*
+	 * Draw individual lines
+	 */
+	y1 = y2 = 0;
+	for (row = eti->top_item; row < rows; row++, y1 = y2){
+		y2 += e_table_model_row_height (eti->table_model, row) + 1;
+
+		if (y1 > y + height)
+			break;
+
+		if (y2 < y)
+			continue;
+		
+		if (eti->draw_grid)
+			gdk_draw_line (drawable, eti->grid_gc, 0, y - y2, width, y - y2);
+
+		
+	}
 }
 
 static double
@@ -213,13 +267,13 @@ eti_class_init (GtkObjectClass *object_class)
 	item_class->point       = eti_point;
 	item_class->event       = eti_event;
 	
-	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
-	gtk_object_add_arg_type ("ETableHeaderItem::ETableModel", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableItem::ETableModel", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
-	gtk_object_add_arg_type ("ETableHeaderItem::x", GTK_TYPE_INT,
+	gtk_object_add_arg_type ("ETableItem::x", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_X);
-	gtk_object_add_arg_type ("ETableHeaderItem::y", GTK_TYPE_INT,
+	gtk_object_add_arg_type ("ETableItem::y", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_Y);
 }
 

@@ -19,12 +19,19 @@ typedef struct {
 	int              x1, y1;
 	int              height;
 
+	int              top_item;
+	
 	/*
 	 * Ids for the signals we connect to
 	 */
 	int              header_dim_change_id;
 	int              header_structure_change_id;
 	int              table_model_change_id;
+
+	GdkGC           *fill_gc;
+	GdkGC           *grid_gc;
+
+	unsigned int     draw_grid:1;
 } ETableItem;
 
 typedef struct {

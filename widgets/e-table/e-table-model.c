@@ -126,7 +126,7 @@ e_table_model_height (ETableModel *etable)
 	size = 0;
 	
 	for (i = 0; i < rows; i++)
-		size += e_table_model_row_height (etable, i);
+		size += e_table_model_row_height (etable, i) + 1;
 
 	return size;
 }

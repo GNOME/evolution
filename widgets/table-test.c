@@ -12,6 +12,7 @@
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-render.h"
+#include "e-table-item.h"
 
 char buffer [1024];
 char **column_labels;
@@ -172,6 +173,12 @@ set_canvas_size (GnomeCanvas *canvas, GtkAllocation *alloc)
 	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
 }
 
+static int
+row_height (ETableModel *etm, int row, void *data)
+{
+	return row * 2 + 14;
+}
+
 int
 main (int argc, char *argv [])
 {
@@ -190,7 +197,7 @@ main (int argc, char *argv [])
 	 */
 	e_table_model = e_table_simple_new (
 		col_count, col_name, row_count, value_at,
-		set_value_at, is_cell_editable, NULL);
+		set_value_at, is_cell_editable, row_height, NULL);
 
 	/*
 	 * Header
@@ -228,6 +235,15 @@ main (int argc, char *argv [])
 		"x2", 10.0,
 		"y2", 10.0,
 		"fill_color", "red",
+		NULL);
+
+	gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (canvas)),
+		e_table_item_get_type (),
+		"ETableHeader", e_table_header,
+		"ETableModel", e_table_model,
+		"x",  0,
+		"y", 30,
 		NULL);
 	gtk_main ();
 
