@@ -45,27 +45,40 @@
 #endif
 
 int
-g_str_compare(const void *x, const void *y)
+g_str_compare (const void *x, const void *y)
 {
 	if (x == NULL || y == NULL) {
 		if (x == y)
 			return 0;
 		else
 			return x ? -1 : 1;
-	} 
+	}
+	
+	return strcmp (x, y);
+}
 
+int
+g_collate_compare (const void *x, const void *y)
+{
+	if (x == NULL || y == NULL) {
+		if (x == y)
+			return 0;
+		else
+			return x ? -1 : 1;
+	}
+	
 	return g_utf8_collate (x, y);
 }
 
 int
-g_int_compare(const void *x, const void *y)
+g_int_compare (const void *x, const void *y)
 {
-  if ( GPOINTER_TO_INT(x) < GPOINTER_TO_INT(y) )
-    return -1;
-  else if ( GPOINTER_TO_INT(x) == GPOINTER_TO_INT(y) )
-    return 0;
-  else
-    return 1;
+	if (GPOINTER_TO_INT (x) < GPOINTER_TO_INT (y))
+		return -1;
+	else if (GPOINTER_TO_INT (x) == GPOINTER_TO_INT (y))
+		return 0;
+	else
+		return 1;
 }
 
 char *
