@@ -1447,26 +1447,44 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	
 	len = CAMEL_ADDRESS (to)->addresses->len;
 	for (i = 0; i < len; i++) {
-		const char *addr;
+		const char *name, *addr;
 		
-		if (camel_internet_address_get (to, i, NULL, &addr))
-			To = g_list_append (To, g_strdup (addr));
+		if (camel_internet_address_get (to, i, &name, &addr)) {
+			CamelInternetAddress *cia;
+			
+			cia = camel_internet_address_new ();
+			camel_internet_address_add (cia, name, addr);
+			To = g_list_append (To, camel_address_encode (CAMEL_ADDRESS (cia)));
+			camel_object_unref (CAMEL_OBJECT (cia));
+		}
 	}
 	
 	len = CAMEL_ADDRESS (cc)->addresses->len;
 	for (i = 0; i < len; i++) {
-		const char *addr;
+		const char *name, *addr;
 		
-		if (camel_internet_address_get (cc, i, NULL, &addr))
-			Cc = g_list_append (Cc, g_strdup (addr));
+		if (camel_internet_address_get (to, i, &name, &addr)) {
+			CamelInternetAddress *cia;
+			
+			cia = camel_internet_address_new ();
+			camel_internet_address_add (cia, name, addr);
+			Cc = g_list_append (Cc, camel_address_encode (CAMEL_ADDRESS (cia)));
+			camel_object_unref (CAMEL_OBJECT (cia));
+		}
 	}
 	
 	len = CAMEL_ADDRESS (bcc)->addresses->len;
 	for (i = 0; i < len; i++) {
-		const char *addr;
+		const char *name, *addr;
 		
-		if (camel_internet_address_get (bcc, i, NULL, &addr))
-			Bcc = g_list_append (Bcc, g_strdup (addr));
+		if (camel_internet_address_get (to, i, &name, &addr)) {
+			CamelInternetAddress *cia;
+			
+			cia = camel_internet_address_new ();
+			camel_internet_address_add (cia, name, addr);
+			Bcc = g_list_append (Bcc, camel_address_encode (CAMEL_ADDRESS (cia)));
+			camel_object_unref (CAMEL_OBJECT (cia));
+		}
 	}
 	
 	e_msg_composer_set_headers (new, To, Cc, Bcc, subject);
