@@ -1,4 +1,10 @@
-2004-06-22    <jpr@novell.com>
+2004-06-22  JP Rosevear  <jpr@novell.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	clean up mnemonic handling and put the proper icon in the contacts
+	button
+
+2004-06-22  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/recurrence-page.glade: fix mnemonics
 

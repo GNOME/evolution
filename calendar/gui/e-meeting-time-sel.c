@@ -58,6 +58,7 @@
 #include <gal/widgets/e-canvas-utils.h>
 
 #include <widgets/misc/e-dateedit.h>
+#include <e-util/e-gui-utils.h>
 
 #include "calendar-component.h"
 #include "calendar-config.h"
@@ -411,14 +412,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 			  0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (hbox);
 
-	mts->add_attendees_button = gtk_button_new_with_label ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (mts->add_attendees_button)->child),
-					  _("Con_tacts..."));
-	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (mts->add_attendees_button)->child));
+	mts->add_attendees_button = e_button_new_with_stock_icon (_("Con_tacts..."), "gtk-jump-to");
 	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 6);
 	gtk_widget_show (mts->add_attendees_button);
-	gtk_widget_add_accelerator (mts->add_attendees_button, "clicked", mts->accel_group,
-				    accel_key, GDK_MOD1_MASK, 0);
 	g_signal_connect (mts->add_attendees_button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_invite_others_button_clicked), mts);
 
@@ -433,8 +429,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_container_add (GTK_CONTAINER (mts->options_button), child_hbox);
 	gtk_widget_show (child_hbox);
 
-	label = gtk_label_new ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _("_Options"));
+	label = gtk_label_new_with_mnemonic (_("O_ptions"));
 	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
@@ -585,15 +580,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_container_add (GTK_CONTAINER (alignment), table);
 	gtk_widget_show (table);
 
-	label = gtk_label_new ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (label),
-					  _("_Start time:"));
-	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), label,
-			  0, 1, 0, 1, GTK_FILL, 0, 4, 0);
-	gtk_widget_show (label);
-
 	mts->start_date_edit = e_date_edit_new ();
 	e_date_edit_set_show_time (E_DATE_EDIT (mts->start_date_edit), TRUE);
 	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (mts->start_date_edit),
@@ -605,13 +591,12 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	g_signal_connect (mts->start_date_edit, "changed",
 			  G_CALLBACK (e_meeting_time_selector_on_start_time_changed), mts);
 
-	label = gtk_label_new ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (label),
-					  _("_End time:"));
-	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
+	label = gtk_label_new_with_mnemonic (_("_Start time:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), (mts->start_date_edit));
+
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), label,
-			  0, 1, 1, 2, GTK_FILL, 0, 4, 0);
+			  0, 1, 0, 1, GTK_FILL, 0, 4, 0);
 	gtk_widget_show (label);
 
 	mts->end_date_edit = e_date_edit_new ();
@@ -624,6 +609,14 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_widget_show (mts->end_date_edit);
 	g_signal_connect (mts->end_date_edit, "changed",
 			  G_CALLBACK (e_meeting_time_selector_on_end_time_changed), mts);
+
+	label = gtk_label_new_with_mnemonic (_("_End time:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), (mts->end_date_edit));
+
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_table_attach (GTK_TABLE (table), label,
+			  0, 1, 1, 2, GTK_FILL, 0, 4, 0);
+	gtk_widget_show (label);
 
 	gtk_table_set_col_spacing (GTK_TABLE (mts), 0, 4);
 	gtk_table_set_row_spacing (GTK_TABLE (mts), 4, 12);
