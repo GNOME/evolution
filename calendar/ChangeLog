@@ -1,5 +1,12 @@
 2001-10-01  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	Convert the comp exceptions to the pilot record
+	(comp_from_remote_record): record exceptions on the desktop and
+	use time zone stuff on recurrence end date
+
+2001-10-01  JP Rosevear  <jpr@ximian.com>
+	
 	* pcs/cal-backend-file.c (cal_backend_file_compute_changes):
 	strdup the uid to avoid double free, write out only after
 	everything is done

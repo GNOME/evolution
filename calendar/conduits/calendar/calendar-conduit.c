@@ -48,7 +48,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.5"
+#define CONDUIT_VERSION "0.1.6"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -410,11 +410,11 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 {
 	const char *uid;
 	CalComponentText summary;
-	GSList *d_list = NULL;
+	GSList *d_list = NULL, *edl = NULL, *l;
 	CalComponentText *description;
 	CalComponentDateTime dt;
-	time_t dt_time;
 	CalComponentClassification classif;
+	time_t dt_time;
 	int i;
 	
 	g_return_if_fail (local != NULL);
@@ -547,13 +547,31 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 			local->appt->repeatForever = 1;
 		} else {
 			local->appt->repeatForever = 0;
-			dt_time = icaltime_as_timet (recur->until);
+			dt_time = icaltime_as_timet_with_zone (recur->until, get_timezone (ctxt->client, dt.tzid));
 			local->appt->repeatEnd = *localtime (&dt_time);
 		}
 		
 		cal_component_free_recur_list (list);
 	}
 
+	/* Exceptions */
+	cal_component_get_exdate_list (comp, &edl);
+	local->appt->exceptions = g_slist_length (edl);
+	local->appt->exception = g_new0 (struct tm, local->appt->exceptions);	
+	for (l = edl, i = 0; l != NULL; l = l->next, i++) {
+		CalComponentDateTime *dt = l->data;
+
+		if (dt->value->is_date) {
+			local->appt->exception[i].tm_mday = dt->value->day;
+			local->appt->exception[i].tm_mon = dt->value->month - 1;
+			local->appt->exception[i].tm_year = dt->value->year - 1900;
+		} else {
+			dt_time = icaltime_as_timet_with_zone (*dt->value, get_timezone (ctxt->client, dt->tzid));
+			local->appt->exception[i] = *localtime (&dt_time);
+		}		
+	}
+	cal_component_free_exdate_list (edl);
+	
 	cal_component_get_classification (comp, &classif);
 
 	if (classif == CAL_COMPONENT_CLASS_PRIVATE)
@@ -598,10 +616,11 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	struct Appointment appt;
 	struct icaltimetype now = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone), it;
 	struct icalrecurrencetype recur;
-	int pos, i;
 	CalComponentText summary = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, icaltimezone_get_tzid (timezone)};
+	GSList *edl = NULL;	
 	char *txt;
+	int pos, i;
 	
 	g_return_val_if_fail (remote != NULL, NULL);
 
@@ -624,7 +643,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 	/* The iCal description field */
 	if (!appt.note) {
-		cal_component_set_comment_list (comp, NULL);
+		cal_component_set_description_list (comp, NULL);
 	} else {
 		GSList l;
 		CalComponentText text;
@@ -722,6 +741,29 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		cal_component_set_rrule_list (comp, NULL);		
 	}
 
+	/* Exceptions */
+	for (i = 0; i < appt.exceptions; i++) {
+		struct tm ex;
+		CalComponentDateTime *dt = g_new0 (CalComponentDateTime, 1);
+
+		dt->value = g_new0 (struct icaltimetype, 1);
+		dt->tzid = NULL;		
+		
+		ex = appt.exception[i];
+		*dt->value = icaltime_from_timet_with_zone (mktime (&ex), TRUE, timezone);
+		
+		edl = g_slist_prepend (edl, dt);
+		
+		INFO ("%d %d %d %d %d %d %d %d %d",
+		      ex.tm_sec, ex.tm_min,
+		      ex.tm_hour, ex.tm_mday,
+		      ex.tm_mon, ex.tm_year,
+		      ex.tm_wday, ex.tm_yday,
+		      ex.tm_isdst);		
+	}
+	cal_component_set_exdate_list (comp, edl);
+	cal_component_free_exdate_list (edl);
+	
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
 
 	if (remote->attr & dlpRecAttrSecret)
