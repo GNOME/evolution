@@ -1,3 +1,8 @@
+2003-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type): Fixed a
+	memory leak.
+
 2003-02-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_send_html): Don't save the

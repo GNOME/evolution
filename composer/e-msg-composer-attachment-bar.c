@@ -242,6 +242,7 @@ pixbuf_for_mime_type (const char *mime_type)
 			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
 			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
 			if (!filename) {
+				g_free (fm_icon);
 				fm_icon = g_strdup_printf ("mc/%s", icon_name);
 				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
 			}
