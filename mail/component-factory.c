@@ -535,9 +535,9 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 static void
 free_storage (gpointer service, gpointer storage, gpointer data)
 {
-	camel_service_disconnect (service, TRUE, NULL);
-	camel_object_unref (service);
-	bonobo_object_unref (storage);
+	camel_service_disconnect (CAMEL_SERVICE (service), TRUE, NULL);
+	camel_object_unref (CAMEL_OBJECT (service));
+	bonobo_object_unref (BONOBO_OBJECT (storage));
 }
 
 static gboolean
@@ -761,19 +761,19 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 	const GSList *iter;
 	
 	camel_exception_init (&ex);
-
+	
 	/* Load each service (don't connect!). Check its provider and
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
 	 */
-
+	
 	for (iter = sources; iter; iter = iter->next) {
 		const MailConfigAccount *account = NULL;
 		const MailConfigService *service = NULL;
 		CamelService *store;
 		CamelProvider *prov;
 		char *name;
-
+		
 		if (is_account_data) {
 			account = iter->data;
 			service = account->source;
@@ -783,7 +783,7 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		
 		if (service->url == NULL || service->url[0] == '\0')
 			continue;
-
+		
 		prov = camel_session_get_provider (session, service->url, &ex);
 		if (prov == NULL) {
 			/* FIXME: real error dialog */
@@ -792,7 +792,7 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 			camel_exception_clear (&ex);
 			continue;
 		}
-
+		
 		/* FIXME: this case is ambiguous for things like the
 		 * mbox provider, which can really be a spool
 		 * (/var/spool/mail/user) or a storage (~/mail/, eg).
@@ -805,7 +805,7 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		    && !((strcmp(prov->protocol, "spool") == 0)
 			 || strcmp(prov->protocol, "maildir") == 0))
 			continue;
-
+		
 		store = camel_session_get_service (session, service->url,
 						   CAMEL_PROVIDER_STORE, &ex);
 		if (store == NULL) {
@@ -815,15 +815,15 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 			camel_exception_clear (&ex);
 			continue;
 		}
-
+		
 		if (is_account_data)
 			name = g_strdup (account->name);
 		else
 			name = camel_service_get_name (store, TRUE);
-
+		
 		add_storage (name, service->url, store, shell, &ex);
 		g_free (name);
-
+		
 		if (camel_exception_is_set (&ex)) {
 			/* FIXME: real error dialog */
 			g_warning ("Cannot load storage: %s",
@@ -846,18 +846,37 @@ EvolutionStorage*
 mail_lookup_storage (CamelStore *store)
 {
 	EvolutionStorage *storage;
-
+	
 	/* Because the storages_hash holds a reference to each store
 	 * used as a key in it, none of them will ever be gc'ed, meaning
 	 * any call to camel_session_get_{service,store} with the same
 	 * URL will always return the same object. So this works.
 	 */
-
+	
 	storage = g_hash_table_lookup (storages_hash, store);
 	if (storage)
 		gtk_object_ref (GTK_OBJECT (storage));
-
+	
 	return storage;
+}
+
+void
+mail_remove_storage (CamelStore *store)
+{
+	EvolutionStorage *storage;
+	
+	/* Because the storages_hash holds a reference to each store
+	 * used as a key in it, none of them will ever be gc'ed, meaning
+	 * any call to camel_session_get_{service,store} with the same
+	 * URL will always return the same object. So this works.
+	 */
+	
+	storage = g_hash_table_lookup (storages_hash, store);
+	g_hash_table_remove (storages_hash, store);
+	
+	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
+	bonobo_object_unref (BONOBO_OBJECT (storage));
+	camel_object_unref (CAMEL_OBJECT (store));
 }
 
 int

@@ -32,10 +32,12 @@
 #include <camel/camel-pgp-context.h>
 #include <gal/widgets/e-charset-picker.h>
 
+#include "mail.h"
 #include "mail-accounts.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
 #include "mail-account-editor.h"
+#include "mail-session.h"
 
 static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
 static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
@@ -311,6 +313,32 @@ mail_delete (GtkButton *button, gpointer data)
 		sel = dialog->accounts_row;
 		
 		account = gtk_clist_get_row_data (dialog->mail_accounts, sel);
+		
+		/* remove it from the folder-tree in the shell */
+		if (account->source && account->source->url) {
+			MailConfigService *service = account->source;
+			CamelProvider *prov;
+			CamelException ex;
+			
+			camel_exception_init (&ex);
+			prov = camel_session_get_provider (session, service->url, &ex);
+			if (prov != NULL && prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
+			    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
+				CamelService *store;
+				
+				store = camel_session_get_service (session, service->url,
+								   CAMEL_PROVIDER_STORE, &ex);
+				if (store != NULL) {
+					g_warning ("removing storage: %s", service->url);
+					mail_remove_storage (CAMEL_STORE (store));
+					camel_object_unref (CAMEL_OBJECT (store));
+				}
+			} else
+				g_warning ("%s is not a remote storage.", service->url);
+			camel_exception_clear (&ex);
+		}
+		
+		/* remove it from the config file */
 		dialog->accounts = mail_config_remove_account (account);
 		mail_config_write ();
 		
@@ -447,6 +475,31 @@ news_delete (GtkButton *button, gpointer data)
 		int row, len;
 		
 		server = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
+		
+		/* remove it from the folder-tree in the shell */
+		if (server && server->url) {
+			CamelProvider *prov;
+			CamelException ex;
+			
+			camel_exception_init (&ex);
+			prov = camel_session_get_provider (session, server->url, &ex);
+			if (prov != NULL && prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
+			    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
+				CamelService *store;
+				
+				store = camel_session_get_service (session, server->url,
+								   CAMEL_PROVIDER_STORE, &ex);
+				if (store != NULL) {
+					g_warning ("removing news storage: %s", server->url);
+					mail_remove_storage (CAMEL_STORE (store));
+					camel_object_unref (CAMEL_OBJECT (store));
+				}
+			} else
+				g_warning ("%s is not a remote news storage.", server->url);
+			camel_exception_clear (&ex);
+		}
+		
+		/* remove it from the config file */
 		dialog->news = mail_config_remove_news (server);
 		mail_config_write ();
 		
@@ -519,7 +572,7 @@ pgp_path_changed (GtkEntry *entry, gpointer data)
 		type = CAMEL_PGP_TYPE_PGP2;
 	else if (!strcmp (bin, "pgpv") || !strcmp (bin, "pgpe") || !strcmp (bin, "pgpk") || !strcmp (bin, "pgps"))
 		type = CAMEL_PGP_TYPE_PGP5;
-	else if (!strcmp (bin, "gpg"))
+	else if (!strncmp (bin, "gpg", 3))
 		type = CAMEL_PGP_TYPE_GPG;
 	
 	mail_config_set_pgp_path (path && *path ? path : NULL);
@@ -651,7 +704,7 @@ construct (MailAccountsDialog *dialog)
 	set_color (dialog->citation_color);
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
 			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
-
+	
 	dialog->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
 	gtk_spin_button_set_value (dialog->timeout, (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
 	gtk_signal_connect (GTK_OBJECT (dialog->timeout), "changed",
@@ -669,7 +722,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_toggle_button_set_active (dialog->images_always, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS);
 	gtk_signal_connect (GTK_OBJECT (dialog->images_always), "toggled",
 			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
-
+	
 	/* Composer page */
 	dialog->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
 	gtk_toggle_button_set_active (dialog->send_html, mail_config_get_send_html ());
@@ -682,7 +735,7 @@ construct (MailAccountsDialog *dialog)
 	num = 0;
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (dialog->forward_style)),
 			       attach_forward_style_signal, &num);
-
+	
 	/* Other page */
 	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->pgp_path)),
@@ -696,7 +749,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_option_menu_set_menu (dialog->charset, menu);
 	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
 			    GTK_SIGNAL_FUNC (charset_menu_deactivate), NULL);
-
+	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;
 	dialog->accounts = mail_config_get_accounts ();

@@ -1,5 +1,16 @@
 2001-06-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c: #include "folder-browser-factory.h"
+
+	* component-factory.c (mail_remove_storage): New function to
+	remove an EvolutionStorage.
+
+	* mail-accounts.c (mail_delete): Remove the storage from the
+	folder-tree.
+	(news_delete): Same.
+
+2001-06-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* component-factory.c (destination_folder_handle_drop): Accept
 	text/uri-list mime types - this allows us to drag messages from
 	Nautilus into an Evolution folder.

@@ -39,6 +39,7 @@
 #include "addressbook/backend/ebook/e-book-util.h"
 
 #include "e-searching-tokenizer.h"
+#include "folder-browser-factory.h"
 #include "mail-display.h"
 #include "mail-config.h"
 #include "mail-ops.h"
