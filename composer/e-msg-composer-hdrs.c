@@ -472,7 +472,7 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 	priv = hdrs->priv;
 	
 	ret.label = gtk_button_new_with_label (name);
-
+	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);
 	g_signal_connect_data (ret.label, "clicked",
 			       G_CALLBACK (address_button_clicked_cb),
 			       e_msg_composer_hdrs_and_string_create (hdrs, name),

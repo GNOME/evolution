@@ -1,3 +1,9 @@
+2003-09-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-msg-composer-hdrs.c (header_new_recipient): Make the entry
+	non-focusable again.  The right fix for A11Y is to add
+	accelerators.
+
 2003-09-11  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-msg-composer.h (EMsgComposer): Added an entry_uic field for a
