@@ -1,3 +1,8 @@
+2001-08-08  jacob berkman  <jacob@ximian.com>
+
+	* camel-search-private.c (camel_search_header_match): check for
+	NULL name and addr (fixes a bug i was about to report)
+
 2001-08-08  Not Zed  <NotZed@Ximian.com>
 
 	* camel-filter-search.c (check_header): Properly determine match

@@ -425,8 +425,8 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 
 		if (camel_address_length((CamelAddress *)cia) == 1) {
 			camel_internet_address_get(cia, 0, &name, &addr);
-			truth = header_match(name, match, how)
-				|| header_match(addr, match, how);
+			truth = (name && header_match(name, match, how))
+				|| (addr && header_match(addr, match, how));
 		}
 		camel_object_unref((CamelObject *)cia);
 		break;
