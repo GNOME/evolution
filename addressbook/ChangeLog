@@ -1,3 +1,8 @@
+2004-06-24  Hans Petter Jansson  <hpj@ximian.com>
+
+	* util/eab-book-util.c (eab_contact_list_from_string): Don't accept
+	input that doesn't have at least a "BEGIN:VCARD" in it.
+
 2004-06-24  Radek Doulik  <rodo@ximian.com>
 
 	* gui/component/select-names/e-select-names-model.c

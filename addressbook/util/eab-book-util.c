@@ -219,6 +219,13 @@ eab_contact_list_from_string (const char *str)
 			temp = g_strdup (q);
 		}
 
+		/* Do a minimal well-formedness test, since
+		 * e_contact_new_from_vcard () always returns a contact */
+		if (!strstr (p, "BEGIN:VCARD")) {
+			g_free (temp);
+			break;
+		}
+
 		contacts = g_list_append (contacts, e_contact_new_from_vcard (temp));
 
 		g_free (temp);
