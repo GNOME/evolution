@@ -33,4 +33,6 @@ oaf_in_files = GNOME_Evolution_Mail_Mbox_Importer.oaf.in	\
 
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
+EXTRA_DIST = $(oaf_in_files) $(oaf_DATA)
+
 @XML_I18N_MERGE_OAF_RULE@

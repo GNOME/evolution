@@ -1,3 +1,7 @@
+2001-03-20  JP Rosevear  <jpr@ximian.com>
+
+	* importers/Makefile.am: extra dist the oaf files
+
 2001-03-20  Radek Doulik  <rodo@ximian.com>
 
 	* mail-tools.c (mail_tool_quote_message): set color in html
