@@ -1,3 +1,18 @@
+2001-04-12  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (e_mail_address_new): Updated this function to be
+	a correct full ordering.
+	(ml_has_get_node_by_id, ml_get_node_by_id): Implemented these
+	functions.
+	(find_next_undeleted): Changed this to find next sorted undeleted
+	message.  Also, changed it so that if the current message is not
+	deleted, it returns NULL.
+	(build_tree, build_flat): Changed these to only set the cursor if
+	the cursor is changed.
+
+	* subscribe-dialog.c: Changed this to pass NULL, NULL for
+	has_get_node_by_id and get_node_by_id.
+
 2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* session.c (auth_callback): If the service is NULL, just use the
