@@ -21,6 +21,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-object-client.h>

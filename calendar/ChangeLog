@@ -1,3 +1,14 @@
+2001-08-03  Zbigniew Chyla  <cyba@gnome.pl>
+
+	I18n fixes.
+
+	* gui/dialogs/event-page.c (summary_changed_cb):
+	Use e_dialog_editable_get instead of gtk_editable_get_chars (we need
+	UTF-8 string).
+
+	* gui/itip-utils.c:
+	Added missing #include <config.h>
+
 2001-08-02  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/Makefile.am: Added camel dependency (now needed by ebook).

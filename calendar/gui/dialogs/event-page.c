@@ -664,7 +664,7 @@ summary_changed_cb (GtkEditable *editable, gpointer data)
 	if (priv->updating)
 		return;
 	
-	summary = gtk_editable_get_chars (editable, 0, -1);
+	summary = e_dialog_editable_get (editable);
 	comp_editor_page_notify_summary_changed (COMP_EDITOR_PAGE (epage),
 						 summary);
 	g_free (summary);
