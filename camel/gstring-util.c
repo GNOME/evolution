@@ -37,12 +37,13 @@
  * @Return Value : true if the strings equal, false otherwise
  **/
 gboolean
-g_string_equals(GString *string1, GString *string2)
+g_string_equals (GString *string1, GString *string2)
 {
 	g_assert(string1);
 	g_assert(string2);
 	return !strcmp(string1->str, string2->str);
 }
+
 
 
 
@@ -190,6 +191,11 @@ g_string_append_g_string(GString *dest_string, GString *other_string)
 g_string_equal_for_hash (gconstpointer v, gconstpointer v2)
 {
   return strcmp ( ((const GString*)v)->str, ((const GString*)v2)->str) == 0;
+}
+
+g_string_equal_for_glist (gconstpointer v, gconstpointer v2)
+{
+  return !strcmp ( ((const GString*)v)->str, ((const GString*)v2)->str) == 0;
 }
 
 

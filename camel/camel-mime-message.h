@@ -37,6 +37,10 @@ extern "C" {
 #include "camel-session.h"
 
 
+#define RECIPIENT_TYPE_TO "To"
+#define RECIPIENT_TYPE_CC "Cc"
+#define RECIPIENT_TYPE_BCC "Bcc"
+
 
 #define CAMEL_MIME_MESSAGE_TYPE     (camel_mime_message_get_type ())
 #define CAMEL_MIME_MESSAGE(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessage))

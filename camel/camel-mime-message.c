@@ -320,7 +320,7 @@ _add_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GString
 	existent_list = (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
 
 	/* if the recipient is already in this list, do nothing */
-	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, g_string_equal_for_hash) ) {
+	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, g_string_equal_for_glist) ) {
 		g_string_free (recipient_type, FALSE);
 		g_string_free (recipient, FALSE);
 		return;
@@ -378,7 +378,7 @@ _remove_recipient (CamelMimeMessage *mime_message, GString *recipient_type, GStr
 					    (gpointer)&(recipients_list)) 
 	    ) return;
 	
-	/* look for the recipient to remoce */
+	/* look for the recipient to remove */
 	old_element = g_list_find_custom (recipients_list, recipient, g_string_equal_for_hash);
 	if (old_element) {
 		/* if recipient exists, remove it */
@@ -490,11 +490,39 @@ camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 #endif
 #define WHPTF gmime_write_header_pair_to_file
 
+static void
+_write_one_recipient_to_file (gpointer key, gpointer value, gpointer user_data)
+{
+	GString *recipient_type = (GString *)key;
+	GList *recipients = (GList *)value;
+	GString *current;
+	FILE *file = (FILE *)user_data;
+
+	if ( (recipient_type) && (recipient_type->str) && 
+	     (recipients) )
+		{
+			gboolean first;
+
+			fprintf(file, "%s: ", recipient_type->str);
+			first = TRUE;
+			while (recipients) {
+				current = (GString *)recipients->data;
+				if ( (current) && (current->str) ) {
+					if (!first) fprintf(file, ", ");
+					else first = FALSE;
+					fprintf(file, "%s", current->str);
+				}
+				recipients = g_list_next(recipients);
+				
+			}
+			fprintf(file, "\n");
+		}
+}
 
 static void
-_write_recipients_to_file (CamelDataWrapper *data_wrapper, FILE *file)
+_write_recipients_to_file (CamelMimeMessage *mime_message, FILE *file)
 {
-	
+	g_hash_table_foreach (mime_message->recipients, _write_one_recipient_to_file, (gpointer)file);
 }
 
 static void
@@ -504,6 +532,7 @@ _write_to_file (CamelDataWrapper *data_wrapper, FILE *file)
 	
 	WHPTF (file, "From", mm->from);
 	WHPTF (file, "Reply-To", mm->reply_to);
+	_write_recipients_to_file (mm, file);
 	WHPTF (file, "Date", mm->received_date);
 	WHPTF (file, "Subject", mm->subject);
 	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_file (data_wrapper, file);
