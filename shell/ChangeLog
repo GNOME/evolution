@@ -1,3 +1,12 @@
+2001-04-03  Dan Winship  <danw@ximian.com>
+
+	* main.c:
+	* evolution-shell-component-client.c: Don't declare debug_log as
+	extern in evolution-shell-component-client.c, because that's part
+	of libeshell and so gets linked into the other components.
+	Instead, declare it there and extern it from main.c.
+	(Noticed by Peter Williams)
+
 2001-04-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (get_control_for_uri): Change `! folder_type'
