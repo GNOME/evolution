@@ -34,6 +34,7 @@
 #include "camel/camel-operation.h"
 #include "camel/camel-data-cache.h"
 #include "camel/camel-session.h"
+#include "camel/camel-file-utils.h"
 
 #include "camel-imapp-store.h"
 #include "camel-imapp-folder.h"
@@ -177,7 +178,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 static void
 imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-	camel_imapp_driver_sync(((CamelIMAPPStore *)(folder->parent_store))->driver, expunge, folder);
+	camel_imapp_driver_sync(((CamelIMAPPStore *)(folder->parent_store))->driver, expunge, (CamelIMAPPFolder *) folder);
 }
 
 static CamelMimeMessage *

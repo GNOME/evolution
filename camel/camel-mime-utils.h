@@ -83,7 +83,7 @@ struct _camel_header_raw {
 	int offset;		/* in file, if known */
 };
 
-typedef struct {
+typedef struct _CamelContentDisposition {
 	char *disposition;
 	struct _camel_header_param *params;
 	unsigned int refcount;

@@ -1,3 +1,17 @@
+2003-09-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/nntp/camel-nntp-store.c (connect_to_server): Fix the
+	code that creates a new ssl stream to pass the correct arguments
+	and the proper flags.
+
+	* providers/imapp/camel-imapp-folder.c (imap_sync): Cast the
+	CamelFolder to a CamelIMAPPFolder to hush some compiler warnings.
+
+	* camel-mime-utils.h: Define a struct _CamelContentDisposition
+	(allows the imapp code to compile)
+
+	* providers/imapp/camel-imapp-driver.c: #include <string.h>
+
 2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (camel_transfer_encoding_to_string): New
@@ -503,7 +517,7 @@
 	class's default mime_type.
 	(camel_mime_part_finalize): Don't need to unref the content_type
 	anymore.
-M	(process_header): Updated to use CamelDataWrapper's mime_type
+	(process_header): Updated to use CamelDataWrapper's mime_type
 	field.
 	(camel_mime_part_set_filename): Same.
 	(camel_mime_part_get_filename): Same.

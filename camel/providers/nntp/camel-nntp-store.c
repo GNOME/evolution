@@ -35,7 +35,7 @@
 #include <errno.h>
 
 #include <camel/camel-url.h>
-#include <camel/string-utils.h>
+#include <camel/camel-string-utils.h>
 #include <camel/camel-session.h>
 #include <camel/camel-tcp-stream-raw.h>
 #include <camel/camel-tcp-stream-ssl.h>
@@ -112,7 +112,7 @@ connect_to_server (CamelService *service, int ssl_mode, CamelException *ex)
 #ifdef HAVE_SSL
 	if (ssl_mode != USE_SSL_NEVER) {
 		port = service->url->port ? service->url->port : NNTPS_PORT;
-		tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
+		tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, CAMEL_TCP_STREAM_SSL_ENABLE_SSL2 | CAMEL_TCP_STREAM_SSL_ENABLE_SSL3);
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
