@@ -107,42 +107,57 @@ struct _ECardClass {
 };
 
 
-ECard         *e_card_new       (      char  *vcard);
-char          *e_card_get_id    (      ECard *card);
-void           e_card_set_id    (      ECard *card,
-				 const char  *character);
-char          *e_card_get_vcard (      ECard *card);
-ECard         *e_card_duplicate (      ECard *card);
+/* Simple functions */
+ECard                *e_card_new                          (char                       *vcard);
+char                 *e_card_get_id                       (ECard                      *card);
+void                  e_card_set_id                       (ECard                      *card,
+							   const char                 *character);
+char                 *e_card_get_vcard                    (ECard                      *card);
+ECard                *e_card_duplicate                    (ECard                      *card);
 
-ECardPhone *e_card_phone_new  (void);
-ECardPhone *e_card_phone_copy (const ECardPhone *phone);
-void        e_card_phone_free (      ECardPhone *phone);
+/* ECardPhone manipulation */
+ECardPhone           *e_card_phone_new                    (void);
+ECardPhone           *e_card_phone_copy                   (const ECardPhone           *phone);
+void                  e_card_phone_free                   (ECardPhone                 *phone);
 
+/* ECardDeliveryAddress manipulation */
 ECardDeliveryAddress *e_card_delivery_address_new         (void);
 ECardDeliveryAddress *e_card_delivery_address_copy        (const ECardDeliveryAddress *addr);
-void                  e_card_delivery_address_free        (      ECardDeliveryAddress *addr);
+void                  e_card_delivery_address_free        (ECardDeliveryAddress       *addr);
 gboolean              e_card_delivery_address_is_empty    (const ECardDeliveryAddress *addr);
 char                 *e_card_delivery_address_to_string   (const ECardDeliveryAddress *addr);
-ECardDeliveryAddress *e_card_delivery_address_from_label  (const ECardAddrLabel *label);
+ECardDeliveryAddress *e_card_delivery_address_from_label  (const ECardAddrLabel       *label);
 ECardAddrLabel       *e_card_delivery_address_to_label    (const ECardDeliveryAddress *addr);
 
-ECardAddrLabel *e_card_address_label_new  (void);
-ECardAddrLabel *e_card_address_label_copy (const ECardAddrLabel *addr);
-void            e_card_address_label_free (      ECardAddrLabel *addr);
+/* ECardAddrLabel manipulation */
+ECardAddrLabel       *e_card_address_label_new            (void);
+ECardAddrLabel       *e_card_address_label_copy           (const ECardAddrLabel       *addr);
+void                  e_card_address_label_free           (ECardAddrLabel             *addr);
 
-ECardName *e_card_name_new         (void);
-ECardName *e_card_name_copy        (const ECardName *name);
-void       e_card_name_free        (      ECardName *name);
-char      *e_card_name_to_string   (const ECardName *name);
-ECardName *e_card_name_from_string (const char      *full_name);
+/* ECardName manipulation */
+ECardName            *e_card_name_new                     (void);
+ECardName            *e_card_name_copy                    (const ECardName            *name);
+void                  e_card_name_free                    (ECardName                  *name);
+char                 *e_card_name_to_string               (const ECardName            *name);
+ECardName            *e_card_name_from_string             (const char                 *full_name);
 
-ECardArbitrary *e_card_arbitrary_new  (void);
-ECardArbitrary *e_card_arbitrary_copy (const ECardArbitrary *arbitrary);
-void            e_card_arbitrary_free (      ECardArbitrary *arbitrary);
+/* ECardArbitrary manipulation */
+ECardArbitrary       *e_card_arbitrary_new                (void);
+ECardArbitrary       *e_card_arbitrary_copy               (const ECardArbitrary       *arbitrary);
+void                  e_card_arbitrary_free               (ECardArbitrary             *arbitrary);
 
-GList *e_card_load_cards_from_file(const char *filename);
+/* Specialized functionality */
+GList                *e_card_load_cards_from_file         (const char                 *filename);
+
+enum _ECardDisposition {
+	E_CARD_DISPOSITION_AS_ATTACHMENT,
+	E_CARD_DISPOSITION_AS_TO,
+};
+typedef enum _ECardDisposition ECardDisposition;
+void                  e_card_send                         (ECard                      *card,
+							   ECardDisposition            disposition);
 
 /* Standard Gtk function */
-GtkType        e_card_get_type (void);
+GtkType               e_card_get_type                     (void);
 
 #endif /* ! __E_CARD_H__ */

@@ -22,6 +22,8 @@
 
 #include <gal/util/e-util.h>
 
+#include <bonobo/bonobo-object-client.h>
+
 #define is_a_prop_of(obj,prop) (isAPropertyOf ((obj),(prop)))
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
 #define has(obj,prop) (vo = isAPropertyOf ((obj), (prop)))
@@ -3380,4 +3382,129 @@ set_address_flags (VObject *vobj, ECardAddressFlags flags)
 			addProp (vobj, addr_pairs[i].id);
 		}
 	}
+}
+
+#include <Evolution-Composer.h>
+
+#define COMPOSER_OAFID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
+
+void
+e_card_send (ECard *card, ECardDisposition disposition)
+{
+	BonoboObjectClient *bonobo_server;
+	Evolution_Composer composer_server;
+	CORBA_Environment ev;
+	
+	/* First, I obtain an object reference that represents the Composer. */
+	bonobo_server = bonobo_object_activate (COMPOSER_OAFID, 0);
+
+	g_return_if_fail (bonobo_server != NULL);
+
+	composer_server = bonobo_object_corba_objref (BONOBO_OBJECT (bonobo_server));
+
+	CORBA_exception_init (&ev);
+
+	if (disposition == E_CARD_DISPOSITION_AS_TO) {
+		Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+		CORBA_char *subject;
+		char *name;
+		EList *email;
+		EIterator *iterator;
+		Evolution_Composer_Recipient *recipient;
+		/* Now I have to make a CORBA sequence that represents a recipient list with
+		   one item, for the card. */
+		to_list = Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = 1;
+		to_list->_length = 1; 
+		to_list->_buffer = CORBA_sequence_Evolution_Composer_Recipient_allocbuf (1);
+
+		gtk_object_get(GTK_OBJECT(card),
+			       "full_name", &name,
+			       "email", &email,
+			       NULL);
+
+		recipient = &(to_list->_buffer[0]);
+
+		iterator = e_list_get_iterator(email);
+		if (e_iterator_is_valid(iterator)) {
+			recipient->address = CORBA_string_dup(e_iterator_get(iterator));
+		} else {
+			recipient->address = CORBA_string_dup("");
+		}
+		gtk_object_unref(GTK_OBJECT(iterator));
+		
+		recipient->name = CORBA_string_dup(name);
+
+		cc_list = Evolution_Composer_RecipientList__alloc ();
+		cc_list->_maximum = cc_list->_length = 0;
+		bcc_list = Evolution_Composer_RecipientList__alloc ();
+		bcc_list->_maximum = bcc_list->_length = 0;
+
+		subject = CORBA_string_dup ("");
+	
+		Evolution_Composer_set_headers (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
+
+		if (CORBA_sequence_get_release (to_list) != FALSE)
+			CORBA_free (to_list->_buffer);
+
+		CORBA_free (to_list);
+		CORBA_free (cc_list);
+		CORBA_free (bcc_list);
+		CORBA_free (subject);
+	}
+
+	if (disposition == E_CARD_DISPOSITION_AS_ATTACHMENT) {
+		CORBA_char *content_type, *filename, *description, *attach_data;
+		CORBA_boolean show_inline;
+		char *tempstr;
+		char *name;
+
+		gtk_object_get(GTK_OBJECT(card),
+			       "full_name", &name,
+			       NULL);
+
+		content_type = CORBA_string_dup ("text/vcard");
+		filename = CORBA_string_dup ("");
+
+		tempstr = g_strdup_printf ("VCard for %s", name);
+		description = CORBA_string_dup (tempstr);
+		g_free (tempstr);
+
+		show_inline = FALSE;
+
+		tempstr = e_card_get_vcard(card);
+		attach_data = CORBA_string_dup (tempstr);
+		g_free(tempstr);
+
+		Evolution_Composer_attach_data (composer_server, 
+						content_type, filename, description,
+						show_inline, attach_data,
+						&ev);
+	
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
+	
+		CORBA_free (content_type);
+		CORBA_free (filename);
+		CORBA_free (description);
+		CORBA_free (attach_data);
+	}
+
+	Evolution_Composer_show (composer_server, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
 }

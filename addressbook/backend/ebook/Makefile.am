@@ -6,15 +6,20 @@ CORBA_SOURCE =						\
 	addressbook.h					\
 	addressbook-common.c				\
 	addressbook-stubs.c				\
-	addressbook-skels.c
+	addressbook-skels.c				\
+        Evolution-Composer.h              \
+        Evolution-Composer-common.c       \
+        Evolution-Composer-skels.c        \
+        Evolution-Composer-stubs.c
 
 idls =							\
-	$(srcdir)/../idl/addressbook.idl
+	$(srcdir)/../idl/addressbook.idl		\
+	$(srcdir)/../../../composer/Evolution-Composer.idl
 
 idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_SOURCE): $(idls)
-	$(ORBIT_IDL) -I $(srcdir) $(srcdir)/../idl/addressbook.idl $(idl_flags)
+	$(ORBIT_IDL) -I $(srcdir) $(idls) $(idl_flags)
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(localedir)"\"        \

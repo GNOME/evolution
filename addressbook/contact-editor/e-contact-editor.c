@@ -662,6 +662,36 @@ file_save_as_cb (GtkWidget *widget, gpointer data)
 	e_contact_save_as("Save as VCard", card);
 }
 
+static void
+file_send_as_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+	ECard *card;
+
+	ce = E_CONTACT_EDITOR (data);
+
+	extract_info (ce);
+	e_card_simple_sync_card (ce->simple);
+
+	card = ce->card;
+	e_card_send(card, E_CARD_DISPOSITION_AS_ATTACHMENT);
+}
+
+static void
+file_send_to_cb (GtkWidget *widget, gpointer data)
+{
+	EContactEditor *ce;
+	ECard *card;
+
+	ce = E_CONTACT_EDITOR (data);
+
+	extract_info (ce);
+	e_card_simple_sync_card (ce->simple);
+
+	card = ce->card;
+	e_card_send(card, E_CARD_DISPOSITION_AS_TO);
+}
+
 gboolean
 e_contact_editor_confirm_delete(GtkWindow *parent)
 {
@@ -744,6 +774,8 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSave", file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveAs", file_save_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveClose", tb_save_and_close_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendAs", file_send_as_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorDelete", delete_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrint", print_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrintEnvelope", print_envelope_cb),

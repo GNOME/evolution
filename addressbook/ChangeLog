@@ -1,3 +1,20 @@
+2000-11-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Link in composer bonobo code.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added code to
+	send mail to an ECard or send an ECard as a VCard attachment.
+
+	* contact-editor/e-contact-editor.c: Add verbs to send the contact
+	as a VCard or send mail to the contact.
+
+	* gui/search/e-addressbook-search-dialog.c: Removed some unused
+	variables.
+
+	* gui/widgets/e-addressbook-view.c, gui/widgets/e-minicard.c:
+	Added menu items to send the contact as a VCard or send mail to
+	the contact.
+
 2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
 
 	* gui/component/addressbook.oafinfo:

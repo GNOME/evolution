@@ -72,12 +72,8 @@ static void
 e_addressbook_search_dialog_class_init (EAddressbookSearchDialogClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
-	ECanvasClass *canvas_class;
 
 	object_class = (GtkObjectClass*) klass;
-	widget_class = GTK_WIDGET_CLASS (klass);
-	canvas_class = E_CANVAS_CLASS (klass);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 

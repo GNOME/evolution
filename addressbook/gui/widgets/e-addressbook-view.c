@@ -417,6 +417,20 @@ save_as (GtkWidget *widget, CardAndBook *card_and_book)
 }
 
 static void
+send_as (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
+	card_and_book_free(card_and_book);
+}
+
+static void
+send_to (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_card_send(card_and_book->card, E_CARD_DISPOSITION_AS_TO);
+	card_and_book_free(card_and_book);
+}
+
+static void
 print (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	gtk_widget_show(e_contact_print_card_dialog_new(card_and_book->card));
@@ -451,11 +465,13 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		CardAndBook *card_and_book;
 		
 		EPopupMenu menu[] = {
-			{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
-			{"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
-			{"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), 0},
-			{"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0}, 
-			{NULL, NULL, NULL, 0}
+			{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
+			{"Send contact to other", NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
+			{"Send message to contact", NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+			{"Print", NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+			{"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+			{"Delete", NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
+			{NULL, NULL, NULL, NULL, 0}
 		};
 		
 		card_and_book = g_new(CardAndBook, 1);

@@ -339,6 +339,20 @@ save_as (GtkWidget *widget, EMinicard *minicard)
 }
 
 static void
+send_as (GtkWidget *widget, EMinicard *minicard)
+{
+	e_card_simple_sync_card(minicard->simple);
+	e_card_send(minicard->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
+}
+
+static void
+send_to (GtkWidget *widget, EMinicard *minicard)
+{
+	e_card_simple_sync_card(minicard->simple);
+	e_card_send(minicard->card, E_CARD_DISPOSITION_AS_TO);
+}
+
+static void
 delete (GtkWidget *widget, EMinicard *minicard)
 {
 	EBook *book;
@@ -483,20 +497,14 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->button.button == 1) {
 			e_canvas_item_grab_focus(item);
 		} else if (event->button.button == 3) {
-			if (E_IS_MINICARD_VIEW(item->parent)) {
-				EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
-						      {"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
-						      {"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), 0},
-						      {"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0},
-						      {NULL, NULL, NULL, 0}};
-				e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, e_minicard);
-			} else {
-				EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
-						      {"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), 0},
-						      {"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
-						      {NULL, NULL, NULL, 0}};
-				e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, e_minicard);
-			}
+			EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
+					      {"Send contact to other", NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0}, 
+					      {"Send message to contact", NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+					      {"Print", NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+					      {"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+					      {"Delete", NULL, GTK_SIGNAL_FUNC(delete), NULL, 1},
+					      {NULL, NULL, NULL, 0}};
+			e_popup_menu_run (menu, (GdkEventButton *)event, 0, E_IS_MINICARD_VIEW(item->parent) ? 0 : 1, e_minicard);
 		}
 		break;
 
