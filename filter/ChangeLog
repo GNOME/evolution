@@ -1,3 +1,16 @@
+2002-12-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* vfolder-rule.c (vfolder_editor_sourcelist_new): New custom
+	function for creating the source_list widget.
+	(get_widget): Removed the source_list creation code.
+
+	* rule-editor.c (rule_editor_construct): Listen to row-activated
+	for double-click events. Also, removed the model creation code out
+	of here.
+	(rule_editor_treeview_new): Moved the treeview and model creation
+	code into here instead, and made the glade widgets into custom
+	widgets.
+
 2002-11-26  Not Zed  <NotZed@Ximian.com>
 
 	* vfolder-rule.c (get_widget): Add a textcellrenderer to display

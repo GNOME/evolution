@@ -311,7 +311,8 @@ edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 		
 		rule = rule_context_find_rule (re->context, re->edit->name, re->edit->source);
 		if (rule != NULL && rule != re->current) {
-			dialog = gtk_message_dialog_new ((GtkWindow *) dialog, GTK_DIALOG_DESTROY_WITH_PARENT,
+			dialog = gtk_message_dialog_new ((GtkWindow *) dialog,
+							 GTK_DIALOG_DESTROY_WITH_PARENT,
 							 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 							 _("Rule name '%s' is not unique, choose another."),
 							 re->edit->name);
@@ -331,7 +332,8 @@ edit_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 			
 			gtk_list_store_set (re->model, &iter, 0, re->edit->name, -1);
 			
-			rule_editor_add_undo (re, RULE_EDITOR_LOG_EDIT, filter_rule_clone (re->current), pos, 0);
+			rule_editor_add_undo (re, RULE_EDITOR_LOG_EDIT, filter_rule_clone (re->current),
+					      pos, 0);
 			
 			/* replace the old rule with the new rule */
 			filter_rule_copy (re->current, re->edit);
@@ -502,7 +504,7 @@ set_sensitive (RuleEditor *re)
 
 
 static void
-cursor_changed (GtkWidget *list, RuleEditor *re)
+cursor_changed (GtkTreeView *treeview, RuleEditor *re)
 {
 	GtkTreeViewColumn *column;
 	GtkTreePath *path;
@@ -519,13 +521,11 @@ cursor_changed (GtkWidget *list, RuleEditor *re)
 	rule_editor_set_sensitive (re);
 }
 
-static gboolean
-double_click (GtkWidget *widget, GdkEventButton *event, RuleEditor *re)
+static void
+double_click (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, RuleEditor *re)
 {
-	if (re->current && event->type == GDK_2BUTTON_PRESS)
-		rule_edit (widget, re);
-	
-	return TRUE;
+	if (re->current)
+		rule_edit ((GtkWidget *) treeview, re);
 }
 
 static void
@@ -536,7 +536,7 @@ set_source (RuleEditor *re, const char *source)
 	
 	gtk_list_store_clear (re->model);
 	
-	d(printf("Checking for rules that are of type %s\n", source?source:"<nil>"));
+	d(printf("Checking for rules that are of type %s\n", source ? source : "<nil>"));
 	while ((rule = rule_context_next_rule (re->context, rule, source)) != NULL) {
 		d(printf("Adding row '%s'\n", rule->name));
 		gtk_list_store_append (re->model, &iter);
@@ -581,36 +581,37 @@ rule_editor_play_undo (RuleEditor *re)
 		next = undo->next;
 		switch (undo->type) {
 		case RULE_EDITOR_LOG_EDIT:
-			printf("Undoing edit on rule '%s'\n", undo->rule->name);
-			rule = rule_context_find_rank_rule(re->context, undo->rank, undo->rule->source);
+			d(printf ("Undoing edit on rule '%s'\n", undo->rule->name));
+			rule = rule_context_find_rank_rule (re->context, undo->rank, undo->rule->source);
 			if (rule) {
-				printf(" name was '%s'\n", rule->name);
-				filter_rule_copy(rule, undo->rule);
-				printf(" name is '%s'\n", rule->name);
+				d(printf (" name was '%s'\n", rule->name));
+				filter_rule_copy (rule, undo->rule);
+				d(printf (" name is '%s'\n", rule->name));
 			} else {
-				g_warning("Could not find the right rule to undo against?\n");
+				g_warning ("Could not find the right rule to undo against?");
 			}
 			break;
 		case RULE_EDITOR_LOG_ADD:
-			printf("Undoing add on rule '%s'\n", undo->rule->name);
-			rule = rule_context_find_rank_rule(re->context, undo->rank, undo->rule->source);
+			d(printf ("Undoing add on rule '%s'\n", undo->rule->name));
+			rule = rule_context_find_rank_rule (re->context, undo->rank, undo->rule->source);
 			if (rule)
-				rule_context_remove_rule(re->context, rule);
+				rule_context_remove_rule (re->context, rule);
 			break;
 		case RULE_EDITOR_LOG_REMOVE:
-			printf("Undoing remove on rule '%s'\n", undo->rule->name);
+			d(printf ("Undoing remove on rule '%s'\n", undo->rule->name));
 			g_object_ref (undo->rule);
-			rule_context_add_rule(re->context, undo->rule);
-			rule_context_rank_rule(re->context, undo->rule, undo->rank);
+			rule_context_add_rule (re->context, undo->rule);
+			rule_context_rank_rule (re->context, undo->rule, undo->rank);
 			break;
 		case RULE_EDITOR_LOG_RANK:
-			rule = rule_context_find_rank_rule(re->context, undo->newrank, undo->rule->source);
+			rule = rule_context_find_rank_rule (re->context, undo->newrank, undo->rule->source);
 			if (rule)
-				rule_context_rank_rule(re->context, rule, undo->rank);
+				rule_context_rank_rule (re->context, rule, undo->rank);
 			break;
 		}
+		
 		g_object_unref (undo->rule);
-		g_free(undo);
+		g_free (undo);
 		undo = next;
 	}
 	re->undo_active = FALSE;
@@ -637,6 +638,44 @@ editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 	}
 }
 
+GtkWidget *rule_editor_treeview_new (char *widget_name, char *string1, char *string2,
+				     int int1, int int2);
+
+GtkWidget *
+rule_editor_treeview_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+{
+	GtkWidget *table, *scrolled;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
+	GtkListStore *model;
+	
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	
+	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
+	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, FALSE);
+	
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1,
+						     _("Rule name"), renderer,
+						     "text", 0, NULL);
+	
+	selection = gtk_tree_view_get_selection ((GtkTreeView *) table);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	
+	gtk_container_add (GTK_CONTAINER (scrolled), table);
+	
+	g_object_set_data ((GObject *) scrolled, "table", table);
+	g_object_set_data ((GObject *) scrolled, "model", model);
+	
+	gtk_widget_show (scrolled);
+	gtk_widget_show (table);
+	
+	return scrolled;
+}
+
 void
 rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source)
 {
@@ -647,7 +686,7 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	re->context = context;
 	g_object_ref (context);
 	
-	gtk_window_set_policy (GTK_WINDOW (re), FALSE, TRUE, FALSE);
+	gtk_window_set_policy ((GtkWindow *) re, FALSE, TRUE, FALSE);
 	
         w = glade_xml_get_widget (gui, "rule_editor");
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re)->vbox), w, TRUE, TRUE, 0);
@@ -657,20 +696,14 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 		g_signal_connect (w, "clicked", edit_buttons[i].func, re);
 	}
 	
-	re->model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-	re->list = (GtkTreeView *) glade_xml_get_widget (gui, "rule_list");
-	gtk_tree_view_set_model (re->list, (GtkTreeModel *) re->model);
-	gtk_tree_view_insert_column_with_attributes(re->list, -1, _("Rule(s)"),
-						    gtk_cell_renderer_text_new(),
-						    "text", 0,
-						    NULL);
-	selection = gtk_tree_view_get_selection (re->list);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	w = glade_xml_get_widget (gui, "rule_list");
+	re->list = (GtkTreeView *) g_object_get_data ((GObject *) w, "table");
+	re->model = (GtkListStore *) g_object_get_data ((GObject *) w, "model");
 	
 	g_signal_connect (re->list, "cursor-changed", G_CALLBACK (cursor_changed), re);
-	g_signal_connect (re->list, "button_press_event", G_CALLBACK (double_click), re);
+	g_signal_connect (re->list, "row-activated", G_CALLBACK (double_click), re);
 	
-	g_signal_connect (re, "response", G_CALLBACK(editor_response), re);
+	g_signal_connect (re, "response", G_CALLBACK (editor_response), re);
 	rule_editor_set_source (re, source);
 	
 	if (enable_undo) {

@@ -474,6 +474,46 @@ source_remove (GtkWidget *widget, struct _source_data *data)
 	set_sensitive (data);
 }
 
+
+GtkWidget *vfolder_editor_sourcelist_new (char *widget_name, char *string1, char *string2,
+					  int int1, int int2);
+
+GtkWidget *
+vfolder_editor_sourcelist_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+{
+	GtkWidget *table, *scrolled;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
+	GtkListStore *model;
+	
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	
+	model = gtk_list_store_new (1, G_TYPE_STRING);
+	table = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
+	gtk_tree_view_set_headers_visible ((GtkTreeView *) table, FALSE);
+	
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) table, -1,
+						     _("VFolder source"), renderer,
+						     "text", 0, NULL);
+	
+	selection = gtk_tree_view_get_selection ((GtkTreeView *) table);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	
+	gtk_container_add (GTK_CONTAINER (scrolled), table);
+	
+	g_object_set_data ((GObject *) scrolled, "table", table);
+	g_object_set_data ((GObject *) scrolled, "model", model);
+	
+	gtk_widget_show (scrolled);
+	gtk_widget_show (table);
+	
+	return scrolled;
+}
+
+
 /* DO NOT internationalise these strings */
 const char *source_names[] = {
 	"specific",
@@ -512,15 +552,9 @@ get_widget (FilterRule *fr, RuleContext *rc)
 		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 	
-	data->model = gtk_list_store_new (1, G_TYPE_STRING);
-        data->list = (GtkTreeView *) glade_xml_get_widget (gui, "source_list");
-	gtk_tree_view_set_model (data->list, (GtkTreeModel *) data->model);
-	selection = gtk_tree_view_get_selection (data->list);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	gtk_tree_view_insert_column_with_attributes(data->list, -1, _("Folder(s)"),
-						    gtk_cell_renderer_text_new(),
-						    "text", 0,
-						    NULL);
+	widget = glade_xml_get_widget (gui, "source_list");
+	data->list = (GtkTreeView *) g_object_get_data ((GObject *) widget, "table");
+	data->model = (GtkListStore *) g_object_get_data ((GObject *) widget, "model");
 	
 	source = NULL;
 	while ((source = vfolder_rule_next_source (vr, source))) {

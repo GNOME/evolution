@@ -113,17 +113,17 @@
 		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		  <child>
-		    <widget class="GtkViewport" id="viewport1">
+		    <widget class="GtkViewport" id="viewport5">
 		      <property name="visible">True</property>
 		      <property name="shadow_type">GTK_SHADOW_IN</property>
 
 		      <child>
-			<widget class="GtkTreeView" id="rule_list">
+			<widget class="Custom" id="rule_list">
 			  <property name="visible">True</property>
-			  <property name="headers_visible">False</property>
-			  <property name="rules_hint">False</property>
-			  <property name="reorderable">True</property>
-			  <property name="enable_search">True</property>
+			  <property name="creation_function">rule_editor_treeview_new</property>
+			  <property name="int1">0</property>
+			  <property name="int2">0</property>
+			  <property name="last_modification_time">Thu, 12 Dec 2002 23:41:46 GMT</property>
 			</widget>
 		      </child>
 		    </widget>
@@ -323,17 +323,17 @@
 		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		  <child>
-		    <widget class="GtkViewport" id="viewport2">
+		    <widget class="GtkViewport" id="viewport7">
 		      <property name="visible">True</property>
 		      <property name="shadow_type">GTK_SHADOW_IN</property>
 
 		      <child>
-			<widget class="GtkTreeView" id="rule_list">
+			<widget class="Custom" id="rule_list">
 			  <property name="visible">True</property>
-			  <property name="headers_visible">False</property>
-			  <property name="rules_hint">False</property>
-			  <property name="reorderable">True</property>
-			  <property name="enable_search">True</property>
+			  <property name="creation_function">rule_editor_treeview_new</property>
+			  <property name="int1">0</property>
+			  <property name="int2">0</property>
+			  <property name="last_modification_time">Fri, 13 Dec 2002 00:15:04 GMT</property>
 			</widget>
 		      </child>
 		    </widget>
@@ -602,17 +602,17 @@
 		      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		      <child>
-			<widget class="GtkViewport" id="viewport3">
+			<widget class="GtkViewport" id="viewport8">
 			  <property name="visible">True</property>
 			  <property name="shadow_type">GTK_SHADOW_IN</property>
 
 			  <child>
-			    <widget class="GtkTreeView" id="source_list">
+			    <widget class="Custom" id="source_list">
 			      <property name="visible">True</property>
-			      <property name="headers_visible">True</property>
-			      <property name="rules_hint">False</property>
-			      <property name="reorderable">False</property>
-			      <property name="enable_search">True</property>
+			      <property name="creation_function">vfolder_editor_sourcelist_new</property>
+			      <property name="int1">0</property>
+			      <property name="int2">0</property>
+			      <property name="last_modification_time">Fri, 13 Dec 2002 00:22:39 GMT</property>
 			    </widget>
 			  </child>
 			</widget>
@@ -774,17 +774,17 @@
 		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		  <child>
-		    <widget class="GtkViewport" id="viewport4">
+		    <widget class="GtkViewport" id="viewport6">
 		      <property name="visible">True</property>
 		      <property name="shadow_type">GTK_SHADOW_IN</property>
 
 		      <child>
-			<widget class="GtkTreeView" id="rule_list">
+			<widget class="Custom" id="rule_list">
 			  <property name="visible">True</property>
-			  <property name="headers_visible">False</property>
-			  <property name="rules_hint">False</property>
-			  <property name="reorderable">True</property>
-			  <property name="enable_search">True</property>
+			  <property name="creation_function">rule_editor_treeview_new</property>
+			  <property name="int1">0</property>
+			  <property name="int2">0</property>
+			  <property name="last_modification_time">Thu, 12 Dec 2002 23:50:05 GMT</property>
 			</widget>
 		      </child>
 		    </widget>
