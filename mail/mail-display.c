@@ -58,12 +58,7 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), text, TRUE, TRUE, 4);
 		gtk_widget_show (text);
 
-		/* This should be mail_dialog_run_and_close, but for some reason this 
-		 * particular dialog will deadlock as it tries to GDK_THREADS_ENTER
-		 * (gtk_main_level is indeed 1). I think it has to do with being in 
-		 * the file selection window. God this sucks.
-		 */
-		if (gnome_dialog_run_and_close (GNOME_DIALOG (dlg)) != 0) /* !!! */
+		if (gnome_dialog_run_and_close (GNOME_DIALOG (dlg)) != 0)
 			return FALSE;
 		gtk_widget_destroy (dlg);
 

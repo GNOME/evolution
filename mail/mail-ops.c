@@ -167,7 +167,7 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 				       input->source_url);
 		dialog = gnome_ok_dialog (str);
 		g_free (str);
-		mail_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 
 	g_free (input->source_url);

@@ -668,7 +668,7 @@ mail_tool_uri_to_folder_noex (const char *uri)
 				       camel_exception_get_description (&ex));
 		dialog = gnome_error_dialog (msg);
 		g_free (msg);
-		mail_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 	}
 

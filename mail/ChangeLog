@@ -1,3 +1,10 @@
+2000-08-28  Peter Williams  <peterw@helixcode.com>
+
+	* *.c: s,mail_dialog_run,gnome_dialog_run,g.
+
+	* main.c (main): Since only the main thread is dealing with GTK+,
+	free the GDK threads mutex and never worry about locking again.
+
 2000-08-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-crypto.c (mail_crypto_openpgp_encrypt): Fix to prevent

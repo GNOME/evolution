@@ -498,5 +498,5 @@ local_reconfigure_folder(FolderBrowser *fb)
 	gtk_signal_connect((GtkObject *)gd, "clicked", reconfigure_clicked, data);
 	gtk_object_unref((GtkObject *)gui);
 
-	mail_dialog_run_and_close (GNOME_DIALOG (gd));
+	gnome_dialog_run_and_close (GNOME_DIALOG (gd));
 }

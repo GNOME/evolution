@@ -1275,7 +1275,7 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 				     GTK_SIGNAL_FUNC (iddialog_ok_clicked),
 				     iddialog);
 
-	mail_dialog_run_and_close (GNOME_DIALOG (iddialog->dialog));
+	gnome_dialog_run_and_close (GNOME_DIALOG (iddialog->dialog));
 
 	returnid = iddialog->id;
 	g_free (iddialog);
@@ -1372,7 +1372,7 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 				    GTK_SIGNAL_FUNC (sdialog_ok_clicked),
 				    sdialog);
 
-	mail_dialog_run_and_close (GNOME_DIALOG (sdialog->dialog));
+	gnome_dialog_run_and_close (GNOME_DIALOG (sdialog->dialog));
 
 	returnsource = sdialog->source;
 	g_free (sdialog);
@@ -1468,7 +1468,7 @@ news_dialog (MailConfigService *source, GtkWidget *parent)
 				    GTK_SIGNAL_FUNC (ndialog_ok_clicked),
 				    ndialog);
 
-	mail_dialog_run_and_close (GNOME_DIALOG (ndialog->dialog));
+	gnome_dialog_run_and_close (GNOME_DIALOG (ndialog->dialog));
 
 	returnsource = ndialog->source;
 	g_free (ndialog);
@@ -2203,7 +2203,7 @@ mail_config (Evolution_Shell shell)
 			    GTK_SIGNAL_FUNC (mail_config_apply_clicked),
 			    dialog);
 
-	mail_dialog_run (GNOME_DIALOG (dialog->dialog));
+	gnome_dialog_run (GNOME_DIALOG (dialog->dialog));
 
 	/* Clean up */
 	gtk_object_unref (GTK_OBJECT (gui));
@@ -2283,7 +2283,7 @@ static void cleanup_test_service (gpointer in_data, gpointer op_data, CamelExcep
 
 	if (data->success) {
 		dlg = gnome_ok_dialog (_("The connection was successful!"));
-		mail_dialog_run_and_close (GNOME_DIALOG (dlg));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
 	}
 
 	g_free (input->url);

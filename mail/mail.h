@@ -99,13 +99,6 @@ void forget_passwords (BonoboUIHandler *uih, void *user_data,
 		       const char *path);
 extern CamelSession *session;
 
-/* mail-threads */
-/* These are NOT for the async thread. They handle locking 
- * of GDK, which is a bit wacky when threads are enabled.
- */
-gint mail_dialog_run_and_close (GnomeDialog *dlg);
-gint mail_dialog_run (GnomeDialog *dlg);
-
 /* message-list */
 void vfolder_subject(GtkWidget *w, FolderBrowser *fb);
 void vfolder_sender(GtkWidget *w, FolderBrowser *fb);

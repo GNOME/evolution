@@ -84,7 +84,7 @@ check_send_configuration (FolderBrowser *fb)
 							   "before you can compose mail."),
 							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
 											      GTK_TYPE_WINDOW)));
-		mail_dialog_run_and_close (GNOME_DIALOG (message));
+		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return FALSE;
 	}
 
@@ -97,7 +97,7 @@ check_send_configuration (FolderBrowser *fb)
 							   "before you can compose mail."),
 							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
 											      GTK_TYPE_WINDOW)));
-		mail_dialog_run_and_close (GNOME_DIALOG (message));
+		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return FALSE;
 	}
 	
@@ -111,7 +111,7 @@ check_send_configuration (FolderBrowser *fb)
 							   "before you can compose mail."),
 							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
 											      GTK_TYPE_WINDOW)));
-		mail_dialog_run_and_close (GNOME_DIALOG (message));
+		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return FALSE;
 	}
 
@@ -186,7 +186,7 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 					     GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
 					     NULL);
 
-	button = mail_dialog_run_and_close (GNOME_DIALOG (message_box));
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
 
 	if (button == 0)
 		return TRUE;
@@ -487,7 +487,7 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 
 		message = gnome_warning_dialog (_("You may only edit messages saved\n"
 							   "in the Drafts folder."));
-		mail_dialog_run_and_close (GNOME_DIALOG (message));
+		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
 
@@ -580,7 +580,7 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 		dialog = gnome_warning_dialog (err);
 		g_free (err);
 		
-		mail_dialog_run_and_close (GNOME_DIALOG (dialog));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		return;
 	}
 

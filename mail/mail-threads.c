@@ -278,7 +278,7 @@ mail_operation_queue (const mail_operation_spec * spec, gpointer input,
 			g_free (msg);
 			gnome_dialog_set_close (GNOME_DIALOG (err_dialog),
 						TRUE);
-			mail_dialog_run_and_close (GNOME_DIALOG (err_dialog));
+			gnome_dialog_run_and_close (GNOME_DIALOG (err_dialog));
 
 			g_warning ("Setup failed for `%s': %s",
 				   clur->infinitive,
@@ -516,77 +516,6 @@ mail_operations_get_status (int *busy_return,
 {
 	*busy_return = busy;
 	*message_return = current_message;
-}
-
-/**
- * mail_dialog_run_and_close:
- *
- * A wrapper for gnome_dialog... that will Do The Right Thing
- * wrt the GDK lock.
- **/
-
-gint
-mail_dialog_run_and_close (GnomeDialog *dlg)
-{
-	gint ret;
-	gboolean unlock = FALSE;
-
-	/*g_message ("DLG:  IN: r_a_c");*/
-
-	/*if (inside_read_msg || gtk_main_level() == 1)
-	 *	GDK_THREADS_ENTER ();
-	 */
-
-	if (gdk_threads_mutex && g_mutex_trylock (gdk_threads_mutex))
-		unlock = TRUE;
-
-	ret = gnome_dialog_run_and_close (dlg);
-
-	/*if (inside_read_msg || gtk_main_level() == 1)
-	 *	GDK_THREADS_LEAVE();
-	 */
-
-	if (unlock)
-		g_mutex_unlock (gdk_threads_mutex);
-
-	/*g_message ("DLG: OUT: r_a_c");*/
-
-	return ret;
-}
-
-/**
- * mail_dialog_run:
- *
- * Analogous to above.
- **/
-
-gint
-mail_dialog_run (GnomeDialog *dlg)
-{
-	gint ret;
-	gboolean unlock = FALSE;
-
-	/*g_message ("DLG:  IN: run");*/
-
-	/*if (inside_read_msg || gtk_main_level() == 1)
-	 *	GDK_THREADS_ENTER();
-	 */
-
-	if (gdk_threads_mutex && g_mutex_trylock (gdk_threads_mutex))
-		unlock = TRUE;
-
-	ret = gnome_dialog_run (dlg);
-
-	/*if (inside_read_msg || gtk_main_level() == 1)
-	 *	GDK_THREADS_LEAVE();
-	 */
-
-	if (unlock)
-		g_mutex_unlock (gdk_threads_mutex);
-
-	/*g_message ("DLG: OUT: run");*/
-
-	return ret;
 }
 
 /* ** Static functions **************************************************** */
@@ -890,7 +819,7 @@ show_error (com_msg_t * msg)
 	 * only GDK_THREADS_ENTER were recursive...
 	 */
 
-	mail_dialog_run_and_close (GNOME_DIALOG (err_dialog));
+	gnome_dialog_run_and_close (GNOME_DIALOG (err_dialog));
 
 	/* Allow the other thread to proceed */
 
@@ -928,7 +857,7 @@ get_password (com_msg_t * msg)
 		button = -1;
 	} else {
 		*(msg->reply) = NULL;
-		button = mail_dialog_run_and_close (GNOME_DIALOG (dialog));
+		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 
 	if (button == 1 || *(msg->reply) == NULL) {

@@ -65,6 +65,11 @@ main (int argc, char *argv [])
 	signal (SIGSEGV, SIG_DFL);
 	signal (SIGBUS, SIG_DFL);
 
+	if (gdk_threads_mutex) {
+		g_mutex_free (gdk_threads_mutex);
+		gdk_threads_mutex = NULL;
+	}
+
 	GDK_THREADS_ENTER ();
 	bonobo_main ();
 	GDK_THREADS_LEAVE ();

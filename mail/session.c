@@ -45,7 +45,7 @@ mail_request_dialog (const char *prompt, gboolean secret, const char *key,
 					       request_callback, &ans, NULL);
 		if (!dialog)
 			return NULL;
-		if (mail_dialog_run_and_close (GNOME_DIALOG (dialog)) == -1 ||
+		if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == -1 ||
 		    ans == NULL)
 			return NULL;
 	} else {
