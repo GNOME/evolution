@@ -1,5 +1,12 @@
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (impl_handleExternalURI):
+	Implementation for the `::handleExternalURI' CORBA method; just
+	emit the `HANDLE_EXTERNAL_URI' signal.
+	(class_init): Install.
+
+2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c (impl_setOwner): Renamed from
 	`impl_ShellComponent_set_owner'.
 	(impl_unsetOwner): Renamed from `impl_ShellComponent_unset_owner'.

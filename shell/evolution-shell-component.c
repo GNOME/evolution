@@ -328,6 +328,18 @@ impl_createView (PortableServer_Servant servant,
 }
 
 static void
+impl_handleExternalURI (PortableServer_Servant servant,
+			const CORBA_char *uri,
+			CORBA_Environment *ev)
+{
+	EvolutionShellComponent *shell_component;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object_from_servant (servant));
+
+	gtk_signal_emit (GTK_OBJECT (shell_component), signals[HANDLE_EXTERNAL_URI], uri);
+}
+
+static void
 impl_createFolderAsync (PortableServer_Servant servant,
 			const GNOME_Evolution_ShellComponentListener listener,
 			const CORBA_char *physical_uri,
@@ -534,6 +546,7 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->unsetOwner                = impl_unsetOwner; 
 	epv->debug                     = impl_debug; 
 	epv->createView                = impl_createView; 
+	epv->handleExternalURI         = impl_handleExternalURI; 
 	epv->createFolderAsync         = impl_createFolderAsync; 
 	epv->removeFolderAsync         = impl_removeFolderAsync; 
 	epv->xferFolderAsync           = impl_xferFolderAsync; 
