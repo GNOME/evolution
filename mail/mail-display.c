@@ -296,14 +296,19 @@ mail_display_jump_to_anchor (MailDisplay *md, const char *url)
 static void
 on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
-	if (!strncasecmp (url, "news:", 5) || !strncasecmp (url, "nntp:", 5)) {
-		g_warning ("Can't handle news URLs yet.");
-	} else if (!strncasecmp (url, "mailto:", 7)) {
+
+	if (!strncasecmp (url, "mailto:", 7)) {
 		send_to_url (url);
 	} else if (*url == '#') {
 		mail_display_jump_to_anchor (md, url);
 	} else {
-		gnome_url_show (url);
+		GError *err = NULL;
+		gnome_url_show (url, err);
+
+		if (err) {
+			g_warning ("gnome_url_show: %s", err->message);
+			g_error_free (err);
+		}
 	}
 }
 
@@ -823,7 +828,7 @@ save_url (MailDisplay *md, const char *url)
 		g_return_val_if_fail (urls != NULL, NULL);
 		
 		/* See if it's some piece of cached data if it is then pretend it
-		 * is a mime part so that we can use the mime part saveing routines.
+		 * is a mime part so that we can use the mime part saving routines.
 		 * It is gross but it keeps duplicated code to a minimum and helps
 		 * out with ref counting and the like.
 		 */
