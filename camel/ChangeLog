@@ -1,5 +1,7 @@
 2004-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-provider.c (camel_provider_init): Use strrchr, not strchr.
+
 	* camel-gpg-context.c (gpg_ctx_parse_status): Forget the need_id,
 	not the userid. Fixes bug #53908.
 

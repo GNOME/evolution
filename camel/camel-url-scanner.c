@@ -244,6 +244,8 @@ camel_url_addrspec_end (const char *in, const char *pos, const char *inend, urlm
 			inptr++;
 		else
 			return FALSE;
+		
+		got_dot = TRUE;
 	} else {
 		while (inptr < inend) {
 			if (is_domain (*inptr))

@@ -79,7 +79,7 @@ camel_provider_init (void)
 	while ((d = readdir (dir))) {
 		FILE *fp;
 		
-		p = strchr (d->d_name, '.');
+		p = strrchr (d->d_name, '.');
 		if (!p || strcmp (p, ".urls") != 0)
 			continue;
 		
