@@ -1,3 +1,10 @@
+2003-03-26  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c (local_record_from_ecard): append the
+	second line to the address if necessary
+	(ecard_from_remote_record): split the address line in two if
+	necessary
+
 2003-03-23  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-list-editor/contact-list-editor.glade: set the

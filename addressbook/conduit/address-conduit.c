@@ -958,7 +958,16 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 
 	delivery = e_card_simple_get_delivery_address (simple, mailing_address);
 	if (delivery) {
-		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (delivery->street);
+		char *add;
+		
+		/* If the address has 2 lines, make sure both get added */
+		if (delivery->ext != NULL)
+			add = g_strconcat (delivery->street, "\n", delivery->ext, NULL);
+		else
+			add = g_strdup (delivery->street);
+		local->addr->entry[entryAddress] = e_pilot_utf8_to_pchar (add);
+		g_free (add);
+		
 		local->addr->entry[entryCity] = e_pilot_utf8_to_pchar (delivery->city);
 		local->addr->entry[entryState] = e_pilot_utf8_to_pchar (delivery->region);
 		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (delivery->code);
@@ -1082,7 +1091,7 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	ECardDeliveryAddress *delivery;
 	ECardAddrLabel *label;
 	ECardSimpleAddressId mailing_address;
-	char *txt;
+	char *txt, *find;
 	ECardSimpleField next_mail, next_home, next_work, next_fax;
 	ECardSimpleField next_other, next_main, next_pager, next_mobile;
 	int i;
@@ -1137,7 +1146,13 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	delivery = e_card_delivery_address_new ();
 	delivery->flags |= E_CARD_ADDR_DEFAULT;
-	delivery->street = get_entry_text (address, entryAddress);
+	txt = get_entry_text (address, entryAddress);
+	if ((find = strchr (txt, '\n')) != NULL) {
+		*find = '\0';
+		find++;
+	}
+	delivery->street = txt;
+	delivery->ext = find != NULL ? find : g_strdup ("");
 	delivery->city = get_entry_text (address, entryCity);
 	delivery->region = get_entry_text (address, entryState);
 	delivery->country = get_entry_text (address, entryCountry);
