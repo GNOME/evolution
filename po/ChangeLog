@@ -1,3 +1,7 @@
+2003-02-06  Michal Bukovjan  <bukm@centrum.cz>
+
+	* cs.po: updated and proofread Czech translation
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* POTFILES.in: add cal-recur.c
