@@ -153,7 +153,7 @@ static ESearchBarItem folder_browser_search_menu_items[] = {
 	{ NULL,              0            },
 	{ N_("Advanced..."), ESB_ADVANCED },
 	{ NULL,              0            },
-	{ N_("Save Search"), ESB_SAVE     },
+	{ N_("Save"),        ESB_SAVE     },
 	{ NULL,              -1           }
 };
 
@@ -194,7 +194,6 @@ search_full_clicked (MailSearchDialogue *msd, guint button, FolderBrowser *fb)
 	case 0:			/* 'ok' */
 	case 1:			/* 'search' */
 		query = mail_search_dialogue_get_query (msd);
-		gtk_entry_set_text (GTK_ENTRY (fb->search->entry), query);
 		message_list_set_search (fb->message_list, query);
 		g_free (query);
 		

@@ -6,9 +6,6 @@
 	(folder_browser_search_menu_activated): Set the search entry
 	widget sensitive.
 	(folder_browser_search_query_changed): Same.
-	(search_full_clicked): Set the text of the disabled search entry
-	to the search query string (as search_save depends on this
-	string). Would it be better to save this somewhere else?
 
 2000-11-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
