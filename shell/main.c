@@ -288,7 +288,7 @@ idle_cb (void *data)
 
 	g_slist_free (uri_list);
 
-	if (display_default || !displayed_any) {
+	if (display_default && ! displayed_any) {
 		const char *uri;
 
 		uri = E_SHELL_VIEW_DEFAULT_URI;

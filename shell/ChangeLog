@@ -1,5 +1,10 @@
 2002-04-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (idle_cb): Change the logic for displaying a default
+	window, so we don't end up with two windows all the time.
+
+2002-04-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Patch from Max Horn <max@quendi.de>.]
 
 	* e-local-storage.c: Move <dirent.h> down the #include list so it
