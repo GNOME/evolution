@@ -150,7 +150,7 @@ clicked_cb (GtkWidget *w, gint button, gpointer user_data)
 		
 		/* EDIT FULL */
 		EContactEditor *contact_editor;
-		contact_editor = e_contact_editor_new (card, TRUE);
+		contact_editor = e_contact_editor_new (card, TRUE, NULL);
 
 		gtk_signal_connect (GTK_OBJECT (contact_editor),
 				    "add_card",

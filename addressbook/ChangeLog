@@ -1,3 +1,11 @@
+2001-03-06  Benjamin Kahn  <xkahn@cybersites.com>
+
+	* contact-editor/e-contact-quick-add.c (clicked_cb): 
+	Added the third argument to e_contact_editor_new.  (Cheated
+	and send NULL for the field argument, which is probably
+	troublesome.  It will be fixed soon by either clahey or 
+	toshok.)
+
 2001-03-06  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-model.c
