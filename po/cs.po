@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-02-13 03:42+0100\n"
-"PO-Revision-Date: 2003-02-13 18:44+0100\n"
+"POT-Creation-Date: 2003-02-20 14:24+0100\n"
+"PO-Revision-Date: 2003-02-20 20:17+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -446,12 +446,12 @@ msgstr "VCard pro %s"
 msgid "Could not initialize Bonobo"
 msgstr "Nelze spustit Bonobo"
 
-#: addressbook/backend/pas/pas-backend-file.c:365
+#: addressbook/backend/pas/pas-backend-file.c:465
 #: addressbook/backend/pas/pas-backend-ldap.c:3045
 msgid "Searching..."
 msgstr "Vyhledávám..."
 
-#: addressbook/backend/pas/pas-backend-file.c:367
+#: addressbook/backend/pas/pas-backend-file.c:467
 msgid "Loading..."
 msgstr "Načítám..."
 
@@ -562,7 +562,7 @@ msgstr "Generátor pro ovládací prvky exportovaném adresářem Evolution."
 #: calendar/gui/dialogs/comp-editor-util.c:309
 #: calendar/gui/dialogs/comp-editor-util.c:365
 #: importers/netscape-importer.c:1874 mail/importers/netscape-importer.c:1863
-#: shell/e-local-storage.c:178 shell/e-shortcuts.c:1086
+#: shell/e-local-storage.c:178 shell/e-shortcuts.c:1087
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -1635,8 +1635,8 @@ msgstr "Adresa _webové stránky:"
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor.c:187
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
-#: addressbook/gui/widgets/e-addressbook-model.c:329
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:362
+#: addressbook/gui/widgets/e-addressbook-model.c:318
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:393
 #: addressbook/gui/widgets/e-minicard-label.c:151
 #: addressbook/gui/widgets/e-minicard-view-widget.c:118
 #: addressbook/gui/widgets/e-minicard-view.c:473
@@ -2667,8 +2667,8 @@ msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:159
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:142
-#: addressbook/gui/widgets/e-addressbook-model.c:315
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:348
+#: addressbook/gui/widgets/e-addressbook-model.c:304
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:379
 #: addressbook/gui/widgets/e-addressbook-view.c:180
 #: addressbook/gui/widgets/e-minicard-view-widget.c:104
 #: addressbook/gui/widgets/e-minicard-view.c:459
@@ -2964,32 +2964,32 @@ msgstr ""
 msgid "Advanced Search"
 msgstr "Pokročilé vyhledávání"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:155
+#: addressbook/gui/widgets/e-addressbook-model.c:156
 msgid "No cards"
 msgstr "Žádné karty"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:158
+#: addressbook/gui/widgets/e-addressbook-model.c:159
 msgid "1 card"
 msgstr "1 karta"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:161
+#: addressbook/gui/widgets/e-addressbook-model.c:162
 #, c-format
 msgid "%d cards"
 msgstr "%d karty/karet"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:322
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:355
+#: addressbook/gui/widgets/e-addressbook-model.c:311
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:386
 #: addressbook/gui/widgets/e-addressbook-view.c:187
 #: addressbook/gui/widgets/e-minicard-view-widget.c:111
 #: addressbook/gui/widgets/e-minicard-view.c:466
 msgid "Query"
 msgstr "Dotaz"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:459
+#: addressbook/gui/widgets/e-addressbook-model.c:457
 msgid "Error getting book view"
 msgstr "Chyba při získávání náhledu knihy"
 
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:369
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:400
 msgid "Model"
 msgstr "Model"
 
@@ -3007,7 +3007,7 @@ msgstr "Úspěch"
 #: addressbook/gui/widgets/e-addressbook-util.c:36
 #: camel/providers/imap/camel-imap-command.c:309
 #: camel/providers/imap/camel-imap-command.c:406
-#: camel/providers/pop3/camel-pop3-store.c:519 shell/e-shell.c:2102
+#: camel/providers/pop3/camel-pop3-store.c:518 shell/e-shell.c:2102
 #: shell/e-storage.c:606 shell/evolution-shell-component.c:1200
 msgid "Unknown error"
 msgstr "Neznámá chyba"
@@ -3040,7 +3040,7 @@ msgstr "Protokol není podporován"
 #: camel/camel-service.c:737 camel/camel-service.c:779
 #: camel/camel-service.c:847 camel/camel-service.c:890
 #: camel/providers/pop3/camel-pop3-store.c:436
-#: camel/providers/pop3/camel-pop3-store.c:513
+#: camel/providers/pop3/camel-pop3-store.c:512
 msgid "Cancelled"
 msgstr "Zrušeno"
 
@@ -3952,7 +3952,7 @@ msgstr ""
 #: calendar/gui/calendar-component.c:71 calendar/gui/gnome-cal.c:1341
 #: importers/netscape-importer.c:1873 mail/importers/netscape-importer.c:1862
 #: my-evolution/my-evolution.glade.h:3 shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1084
+#: shell/e-shortcuts.c:1085
 msgid "Calendar"
 msgstr "Kalendář"
 
@@ -3973,7 +3973,7 @@ msgstr "Veřejná složka obsahující události a schůzky"
 #: calendar/importers/icalendar-importer.c:705
 #: importers/netscape-importer.c:1875 mail/importers/netscape-importer.c:1864
 #: my-evolution/e-summary-tasks.c:326 my-evolution/e-summary-tasks.c:344
-#: shell/e-local-storage.c:183 shell/e-shortcuts.c:1085
+#: shell/e-local-storage.c:183 shell/e-shortcuts.c:1086
 msgid "Tasks"
 msgstr "Úkoly"
 
@@ -4109,7 +4109,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1177 calendar/gui/dialogs/meeting-page.c:288
-#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1978
+#: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1980
 #: mail/folder-browser.c:1730 mail/mail-account-gui.c:1229
 #: mail/mail-account-gui.c:1655 mail/mail-accounts.c:392
 #: mail/mail-config.glade.h:77
@@ -4764,7 +4764,7 @@ msgstr "Není shrnutí"
 
 #: calendar/gui/dialogs/comp-editor.c:1206
 #: calendar/gui/e-calendar-table.c:1035 calendar/gui/e-day-view.c:3929
-#: calendar/gui/e-week-view.c:3737 composer/e-msg-composer.c:1155
+#: calendar/gui/e-week-view.c:3737 composer/e-msg-composer.c:1157
 msgid "Save as..."
 msgstr "Uložit jako..."
 
@@ -5330,8 +5330,8 @@ msgstr "Kliknout pro přidání úkolu"
 msgid "Alarms"
 msgstr "Alarmy"
 
-#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1000
-#: camel/camel-filter-driver.c:1095
+#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1143
+#: camel/camel-filter-driver.c:1238
 msgid "Complete"
 msgstr "Dokončit"
 
@@ -5361,7 +5361,7 @@ msgstr "Začátek"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:56 shell/e-shell.c:765
-#: shell/e-shortcuts.c:1081
+#: shell/e-shortcuts.c:1082
 msgid "Summary"
 msgstr "Přehled"
 
@@ -6418,7 +6418,7 @@ msgid "Contacts: "
 msgstr "Kontakty: "
 
 #: calendar/gui/print.c:2519 calendar/gui/print.c:2597
-#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2924
+#: calendar/gui/tasks-control.c:579 mail/mail-callbacks.c:2923
 #: my-evolution/e-summary.c:617
 msgid "Print Preview"
 msgstr "Prohlížení před tiskem"
@@ -8251,52 +8251,67 @@ msgstr "Příprava složky '%s' pro práci při odpojení"
 msgid "You must be working online to complete this operation"
 msgstr "Pro dokončení této operace musíte pracovat on-line"
 
-#: camel/camel-filter-driver.c:767 camel/camel-filter-driver.c:776
+#: camel/camel-filter-driver.c:666 camel/camel-filter-search.c:514
+#, c-format
+msgid "Failed to create pipe to '%s': %s"
+msgstr "Nepodařilo se vytvořit propojení ' %s': %s"
+
+#: camel/camel-filter-driver.c:710 camel/camel-filter-search.c:550
+#, c-format
+msgid "Failed to create create child process '%s': %s"
+msgstr "Selhalo vytvoření procesu potomka '%s': %s"
+
+#: camel/camel-filter-driver.c:732
+#, c-format
+msgid "Invalid message stream received from %s"
+msgstr "Od %s přijat neplatný proud zprávy"
+
+#: camel/camel-filter-driver.c:910 camel/camel-filter-driver.c:919
 msgid "Syncing folders"
 msgstr "Synchronizuji složky"
 
-#: camel/camel-filter-driver.c:865 camel/camel-filter-driver.c:1238
+#: camel/camel-filter-driver.c:1008 camel/camel-filter-driver.c:1381
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Chyba při zpracování filtru: %s: %s"
 
-#: camel/camel-filter-driver.c:874 camel/camel-filter-driver.c:1244
+#: camel/camel-filter-driver.c:1017 camel/camel-filter-driver.c:1387
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Chyba při spuštění filtru: %s: %s"
 
-#: camel/camel-filter-driver.c:941
+#: camel/camel-filter-driver.c:1084
 msgid "Unable to open spool folder"
 msgstr "Nelze otevřít adresář fronty"
 
-#: camel/camel-filter-driver.c:950
+#: camel/camel-filter-driver.c:1093
 msgid "Unable to process spool folder"
 msgstr "Nelze zpracovat adresář fronty"
 
-#: camel/camel-filter-driver.c:965
+#: camel/camel-filter-driver.c:1108
 #, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "Stahuji zprávu %d (%d%%)"
 
-#: camel/camel-filter-driver.c:969
+#: camel/camel-filter-driver.c:1112
 msgid "Cannot open message"
 msgstr "Nelze otevřít zprávu"
 
-#: camel/camel-filter-driver.c:970 camel/camel-filter-driver.c:982
+#: camel/camel-filter-driver.c:1113 camel/camel-filter-driver.c:1125
 #, c-format
 msgid "Failed on message %d"
 msgstr "Nepodařilo se stáhnout zprávu %d"
 
-#: camel/camel-filter-driver.c:996 camel/camel-filter-driver.c:1090
+#: camel/camel-filter-driver.c:1139 camel/camel-filter-driver.c:1233
 msgid "Syncing folder"
 msgstr "Synchronizuji složku"
 
-#: camel/camel-filter-driver.c:1057
+#: camel/camel-filter-driver.c:1200
 #, c-format
 msgid "Getting message %d of %d"
 msgstr "Stahuji zprávu %d z %d"
 
-#: camel/camel-filter-driver.c:1072
+#: camel/camel-filter-driver.c:1215
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr "Nepodařilo se stáhnout zprávu %d z %d"
@@ -8313,22 +8328,12 @@ msgstr "Neplatné parametry pro (system-flag)"
 msgid "Invalid arguments to (user-tag)"
 msgstr "Neplatné parametry pro (user-tag)"
 
-#: camel/camel-filter-search.c:514
-#, c-format
-msgid "Failed to create pipe to '%s': %s"
-msgstr "Nepodařilo se vytvořit propojení ' %s': %s"
-
-#: camel/camel-filter-search.c:550
-#, c-format
-msgid "Failed to create create child process '%s': %s"
-msgstr "Selhalo vytvoření procesu potomka '%s': %s"
-
 #: camel/camel-filter-search.c:656 camel/camel-filter-search.c:664
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Chyba při spuštění vyhledávání filtru: %s: %s"
 
-#: camel/camel-folder-search.c:343
+#: camel/camel-folder-search.c:346
 #, c-format
 msgid ""
 "Cannot parse search expression: %s:\n"
@@ -8337,7 +8342,7 @@ msgstr ""
 "Nelze zpracovat vyhledávací výraz: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:353
+#: camel/camel-folder-search.c:356
 #, c-format
 msgid ""
 "Error executing search expression: %s:\n"
@@ -8346,11 +8351,11 @@ msgstr ""
 "Chyba při provádění vyhledávacího výrazu: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:570 camel/camel-folder-search.c:598
+#: camel/camel-folder-search.c:573 camel/camel-folder-search.c:601
 msgid "(match-all) requires a single bool result"
 msgstr "(odpovídá všemu) vyžaduje jeden pravdivý výsledek"
 
-#: camel/camel-folder-search.c:650
+#: camel/camel-folder-search.c:653
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Vykonání otázky na neznámé hlavičce: %s"
@@ -9196,12 +9201,12 @@ msgstr "Nelze přejmenovat adresář: %s: Adresář neexistuje"
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
 #: camel/providers/imap/camel-imap-command.c:452
-#: camel/providers/imap/camel-imap-store.c:2641
+#: camel/providers/imap/camel-imap-store.c:2639
 msgid "Operation cancelled"
 msgstr "Operace zrušena"
 
 #: camel/providers/imap/camel-imap-command.c:308
-#: camel/providers/imap/camel-imap-store.c:2644
+#: camel/providers/imap/camel-imap-store.c:2642
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Server neočekávaně zrušil spojení: %s"
@@ -9417,17 +9422,16 @@ msgstr "IMAP server %s nepodporuje požadovaný typ ověření %s"
 msgid "No support for authentication type %s"
 msgstr "Typ ověření %s není podporován"
 
-#: camel/providers/imap/camel-imap-store.c:1106
+#: camel/providers/imap/camel-imap-store.c:1105
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sUveďte IMAP heslo pro %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:1121
-#: camel/providers/smtp/camel-smtp-transport.c:523
+#: camel/providers/imap/camel-imap-store.c:1119
 msgid "You didn't enter a password."
 msgstr "Neuvedli jste heslo."
 
-#: camel/providers/imap/camel-imap-store.c:1150
+#: camel/providers/imap/camel-imap-store.c:1148
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -9438,24 +9442,24 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1495
-#: camel/providers/imap/camel-imap-store.c:1637
+#: camel/providers/imap/camel-imap-store.c:1493
+#: camel/providers/imap/camel-imap-store.c:1635
 #, c-format
 msgid "No such folder %s"
 msgstr "Adresář %s neexistuje"
 
-#: camel/providers/imap/camel-imap-store.c:1838
+#: camel/providers/imap/camel-imap-store.c:1836
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Název adresáře \"%s\" je neplatný, protože obsahuje znak \"%c\""
 
-#: camel/providers/imap/camel-imap-store.c:1850
+#: camel/providers/imap/camel-imap-store.c:1848
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Neznámý rodičovský adresář: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1886
+#: camel/providers/imap/camel-imap-store.c:1884
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Rodičovská složka nemůže obsahovat podsložky"
 
@@ -10081,7 +10085,7 @@ msgid "Could not connect to POP server %s"
 msgstr "Není možné spojit se s POP serverem %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:392
-#: camel/providers/pop3/camel-pop3-store.c:502
+#: camel/providers/pop3/camel-pop3-store.c:501
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -10105,13 +10109,13 @@ msgstr "Nelze se přihlásit k POP serveru %s: Chyba protokolu SASL"
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Nepodařilo se ověření na POP serveru %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:462
+#: camel/providers/pop3/camel-pop3-store.c:461
 #, c-format
 msgid "%sPlease enter the POP password for %s@%s"
 msgstr "%s Uveďte POP heslo pro %s@%s"
 
-#: camel/providers/pop3/camel-pop3-store.c:516
-#: camel/providers/pop3/camel-pop3-store.c:523
+#: camel/providers/pop3/camel-pop3-store.c:515
+#: camel/providers/pop3/camel-pop3-store.c:522
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -10320,7 +10324,7 @@ msgstr "SMTP server %s nepodporuje požadovaný typ ověření %s."
 msgid "%sPlease enter the SMTP password for %s@%s"
 msgstr "%sUveďte SMTP heslo pro %s@%s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:531
+#: camel/providers/smtp/camel-smtp-transport.c:529
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -10331,87 +10335,87 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:664
+#: camel/providers/smtp/camel-smtp-transport.c:662
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:664
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Doručení pošty SMTP pomocí %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:684
+#: camel/providers/smtp/camel-smtp-transport.c:682
 msgid "Cannot send message: sender address not valid."
 msgstr "Zprávu nelze poslat: adresa odesílatele je neplatná."
 
-#: camel/providers/smtp/camel-smtp-transport.c:689 mail/mail-ops.c:613
+#: camel/providers/smtp/camel-smtp-transport.c:687 mail/mail-ops.c:613
 msgid "Sending message"
 msgstr "Posílám zprávu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:704
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
 msgstr "Nelze poslat zprávu: nebyli určeni příjemci."
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:711
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Nelze poslat zprávu: jeden nebo více neplatných příjemců"
 
-#: camel/providers/smtp/camel-smtp-transport.c:881
+#: camel/providers/smtp/camel-smtp-transport.c:879
 msgid "SMTP Greeting"
 msgstr "SMTP pozdrav"
 
-#: camel/providers/smtp/camel-smtp-transport.c:927
+#: camel/providers/smtp/camel-smtp-transport.c:925
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "Vypršel čas odpovědi HELO: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:949
+#: camel/providers/smtp/camel-smtp-transport.c:947
 msgid "HELO response error"
 msgstr "Chyba odpovědi HELO"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1015
+#: camel/providers/smtp/camel-smtp-transport.c:1013
 msgid "SMTP Authentication"
 msgstr "SMTP ověření"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1021
+#: camel/providers/smtp/camel-smtp-transport.c:1019
 msgid "Error creating SASL authentication object."
 msgstr "Chyba při vytváření ověřovacího objektu SASL."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1038
-#: camel/providers/smtp/camel-smtp-transport.c:1050
+#: camel/providers/smtp/camel-smtp-transport.c:1036
+#: camel/providers/smtp/camel-smtp-transport.c:1048
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "Vypršel čas požadavku AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1059
+#: camel/providers/smtp/camel-smtp-transport.c:1057
 msgid "AUTH request failed."
 msgstr "Požadavek AUTH selhal."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1120
+#: camel/providers/smtp/camel-smtp-transport.c:1118
 msgid "Bad authentication response from server.\n"
 msgstr "Neplatná odpověď na ověření od serveru.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1145
+#: camel/providers/smtp/camel-smtp-transport.c:1143
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Vypršel čas požadavku MAIL FROM: %s: pošta neodeslána"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1165
+#: camel/providers/smtp/camel-smtp-transport.c:1163
 msgid "MAIL FROM response error"
 msgstr "Chyba odpovědi MAIL FROM"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1189
+#: camel/providers/smtp/camel-smtp-transport.c:1187
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "Vypršel čas požadavku RCPT TO: %s: pošta neodeslána"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1211
+#: camel/providers/smtp/camel-smtp-transport.c:1209
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> selhal"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1253
+#: camel/providers/smtp/camel-smtp-transport.c:1251
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "Vypršel čas požadavku DATA: %s: pošta neodeslána"
@@ -10419,35 +10423,35 @@ msgstr "Vypršel čas požadavku DATA: %s: pošta neodeslána"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1273
+#: camel/providers/smtp/camel-smtp-transport.c:1271
 msgid "DATA response error"
 msgstr "Chyba odpovědi DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1313
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1311
+#: camel/providers/smtp/camel-smtp-transport.c:1334
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr "Vypršel čas posílání DATA: konec zprávy: %s: pošta neodeslána"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1356
+#: camel/providers/smtp/camel-smtp-transport.c:1354
 msgid "DATA termination response error"
 msgstr "Chyba odpovědi ukončení DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1379
+#: camel/providers/smtp/camel-smtp-transport.c:1377
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "Vypršel čas požadavku RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1399
+#: camel/providers/smtp/camel-smtp-transport.c:1397
 msgid "RSET response error"
 msgstr "Chyba odpovědi RSET"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1422
+#: camel/providers/smtp/camel-smtp-transport.c:1420
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "Vypršel čas požadavku QUIT: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1442
+#: camel/providers/smtp/camel-smtp-transport.c:1440
 msgid "QUIT response error"
 msgstr "Chyba odpovědi QUIT"
 
@@ -10515,7 +10519,7 @@ msgstr "Navrhnout automatické zobrazovaní příloh"
 msgid "Hey you, dunce. You need an account to send mail doncha know."
 msgstr "Hej ty, truhlíku. Potřebuješ účet, abys mohl poslat poštu, chápeš."
 
-#: composer/e-msg-composer-hdrs.c:480
+#: composer/e-msg-composer-hdrs.c:479
 msgid "Click here for the address book"
 msgstr "Kliknutím zobrazíte adresář"
 
@@ -10526,45 +10530,45 @@ msgstr "Kliknutím zobrazíte adresář"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:512
+#: composer/e-msg-composer-hdrs.c:511
 msgid "Reply-To:"
 msgstr "Odpovědět-komu:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:523
+#: composer/e-msg-composer-hdrs.c:522
 msgid "From:"
 msgstr "Od:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:529
+#: composer/e-msg-composer-hdrs.c:528
 msgid "Subject:"
 msgstr "Předmět:"
 
-#: composer/e-msg-composer-hdrs.c:543
+#: composer/e-msg-composer-hdrs.c:542
 msgid "To:"
 msgstr "Komu:"
 
-#: composer/e-msg-composer-hdrs.c:544
+#: composer/e-msg-composer-hdrs.c:543
 msgid "Enter the recipients of the message"
 msgstr "Vyplnit příjemce zprávy"
 
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:546
 msgid "Cc:"
 msgstr "Kopie:"
 
-#: composer/e-msg-composer-hdrs.c:548
+#: composer/e-msg-composer-hdrs.c:547
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Vyplňte adresy, které obdrží kopii této zprávy."
 
-#: composer/e-msg-composer-hdrs.c:551
+#: composer/e-msg-composer-hdrs.c:550
 msgid "Bcc:"
 msgstr "Skrytá kopie:"
 
-#: composer/e-msg-composer-hdrs.c:552
+#: composer/e-msg-composer-hdrs.c:551
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -10575,11 +10579,11 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:559
+#: composer/e-msg-composer-hdrs.c:558
 msgid "Post To:"
 msgstr "Poslat komu:"
 
-#: composer/e-msg-composer-hdrs.c:561
+#: composer/e-msg-composer-hdrs.c:560
 msgid "Posting destination"
 msgstr "Cíl odeslání"
 
@@ -10588,11 +10592,11 @@ msgstr "Cíl odeslání"
 msgid "Attach file(s)"
 msgstr "Připojit soubor(y)"
 
-#: composer/e-msg-composer.c:526
+#: composer/e-msg-composer.c:528
 msgid "Could not create a PGP signature context"
 msgstr "Nelze vytvořit kontext podpisu PGP."
 
-#: composer/e-msg-composer.c:805
+#: composer/e-msg-composer.c:807
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10601,30 +10605,30 @@ msgstr ""
 "Chyba při čtení souboru %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1168
+#: composer/e-msg-composer.c:1170
 msgid "File exists, overwrite?"
 msgstr "Soubor existuje, přepsat?"
 
-#: composer/e-msg-composer.c:1186
+#: composer/e-msg-composer.c:1188
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Chyba při ukládání souboru: %s"
 
-#: composer/e-msg-composer.c:1209
+#: composer/e-msg-composer.c:1211
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Chyba při načítání souboru: %s"
 
-#: composer/e-msg-composer.c:1244
+#: composer/e-msg-composer.c:1246
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Chyba při přístupu k souboru: %s"
 
-#: composer/e-msg-composer.c:1252
+#: composer/e-msg-composer.c:1254
 msgid "Unable to retrieve message from editor"
 msgstr "Nelze obdržet zprávu z editoru"
 
-#: composer/e-msg-composer.c:1259
+#: composer/e-msg-composer.c:1261
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10633,7 +10637,7 @@ msgstr ""
 "Nelze hledat v souboru: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1266
+#: composer/e-msg-composer.c:1268
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10642,7 +10646,7 @@ msgstr ""
 "Nelze rozdělit soubor: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1275
+#: composer/e-msg-composer.c:1277
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10651,7 +10655,7 @@ msgstr ""
 "Nelze kopírovat popisovač souboru: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1284
+#: composer/e-msg-composer.c:1286
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10660,7 +10664,7 @@ msgstr ""
 "Chyba při automatickém ukládaní zprávy: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1378
+#: composer/e-msg-composer.c:1380
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10668,7 +10672,7 @@ msgstr ""
 "Ximian Evolution našla neuložené soubory z předchozího sezení.\n"
 "Chcete se pokusit o jejich obnovení?"
 
-#: composer/e-msg-composer.c:1540
+#: composer/e-msg-composer.c:1542
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10679,31 +10683,31 @@ msgstr ""
 "\n"
 "Chcete uložit změny?"
 
-#: composer/e-msg-composer.c:1545
+#: composer/e-msg-composer.c:1547
 msgid "_Discard Changes"
 msgstr "Zaho_dit změny"
 
-#: composer/e-msg-composer.c:1549
+#: composer/e-msg-composer.c:1551
 msgid "Warning: Modified Message"
 msgstr "Varování: Změněná zpráva"
 
-#: composer/e-msg-composer.c:1581
+#: composer/e-msg-composer.c:1583
 msgid "Open file"
 msgstr "Otevřít soubor"
 
-#: composer/e-msg-composer.c:1939
+#: composer/e-msg-composer.c:1941
 msgid "Signature:"
 msgstr "Podpis:"
 
-#: composer/e-msg-composer.c:1979 mail/mail-account-gui.c:1230
+#: composer/e-msg-composer.c:1981 mail/mail-account-gui.c:1230
 msgid "Autogenerated"
 msgstr "automatický"
 
-#: composer/e-msg-composer.c:2158 composer/e-msg-composer.c:2753
+#: composer/e-msg-composer.c:2160 composer/e-msg-composer.c:2755
 msgid "Compose a message"
 msgstr "Napsat zprávu"
 
-#: composer/e-msg-composer.c:2784
+#: composer/e-msg-composer.c:2786
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10711,7 +10715,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat ovládací prvek pro výběr adresy."
 
-#: composer/e-msg-composer.c:2810
+#: composer/e-msg-composer.c:2812
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10723,7 +10727,7 @@ msgstr ""
 "Ujistěte se prosím, že máte instalovanou\n"
 "správnou verzi gtkhtml a libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:2870
+#: composer/e-msg-composer.c:2872
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10731,7 +10735,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat komponent HTML editor."
 
-#: composer/e-msg-composer.c:3886
+#: composer/e-msg-composer.c:3888
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11877,12 +11881,12 @@ msgstr "Připojuji se..."
 msgid "Cannot register storage with shell"
 msgstr "Nelze zaregistrovat sklad u shellu"
 
-#: mail/folder-browser-ui.c:484
+#: mail/folder-browser-ui.c:483
 #, c-format
 msgid "Properties for \"%s\""
 msgstr "Vlastnosti \"%s\""
 
-#: mail/folder-browser-ui.c:486
+#: mail/folder-browser-ui.c:485
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -12328,12 +12332,12 @@ msgstr "Přesunout zprávu(y) do"
 msgid "Copy message(s) to"
 msgstr "Kopírovat zprávu(y) do"
 
-#: mail/mail-callbacks.c:2334
+#: mail/mail-callbacks.c:2333
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Opravdu chcete upravit všechny zprávy (%d)?"
 
-#: mail/mail-callbacks.c:2350
+#: mail/mail-callbacks.c:2349
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12341,7 +12345,7 @@ msgstr ""
 "Upravovat můžete pouze zprávy uložené\n"
 "ve složce Koncepty."
 
-#: mail/mail-callbacks.c:2383
+#: mail/mail-callbacks.c:2382
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12349,16 +12353,16 @@ msgstr ""
 "Pouze zprávy ze složky Odeslané je možné\n"
 "znovu poslat."
 
-#: mail/mail-callbacks.c:2393
+#: mail/mail-callbacks.c:2392
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Opravdu chcete přeposlat všechny zprávy (%d)?"
 
-#: mail/mail-callbacks.c:2414
+#: mail/mail-callbacks.c:2413
 msgid "No Message Selected"
 msgstr "Žádná vybraná zpráva"
 
-#: mail/mail-callbacks.c:2455
+#: mail/mail-callbacks.c:2454
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12367,7 +12371,7 @@ msgstr ""
 "Nelze uložit do `%s'\n"
 " %s"
 
-#: mail/mail-callbacks.c:2460
+#: mail/mail-callbacks.c:2459
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12376,15 +12380,15 @@ msgstr ""
 "`%s' již existuje.\n"
 "Chcete jej přepsat?"
 
-#: mail/mail-callbacks.c:2501
+#: mail/mail-callbacks.c:2500
 msgid "Save Message As..."
 msgstr "Uložit zprávu jako..."
 
-#: mail/mail-callbacks.c:2503
+#: mail/mail-callbacks.c:2502
 msgid "Save Messages As..."
 msgstr "Uložit zprávy jako..."
 
-#: mail/mail-callbacks.c:2671
+#: mail/mail-callbacks.c:2670
 msgid ""
 "This operation will permanently erase all messages marked as\n"
 "deleted. If you continue, you will not be able to recover these messages.\n"
@@ -12396,7 +12400,7 @@ msgstr ""
 "\n"
 "Opravdu vymazat tyto zprávy?"
 
-#: mail/mail-callbacks.c:2757
+#: mail/mail-callbacks.c:2756
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12405,24 +12409,24 @@ msgstr ""
 "Chyba při načítání informací o filtrech:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2765
+#: mail/mail-callbacks.c:2764
 msgid "Filters"
 msgstr "Filtry"
 
-#: mail/mail-callbacks.c:2807
+#: mail/mail-callbacks.c:2806
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stránka %d z %d"
 
-#: mail/mail-callbacks.c:2863
+#: mail/mail-callbacks.c:2862
 msgid "Print Message"
 msgstr "Tisknout zprávu"
 
-#: mail/mail-callbacks.c:2930
+#: mail/mail-callbacks.c:2929
 msgid "Printing of message failed"
 msgstr "Tisk zprávy selhal"
 
-#: mail/mail-callbacks.c:3120
+#: mail/mail-callbacks.c:3119
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Opravdu chcete otevřít všechny zprávy (%d) v samostatných oknech?"
@@ -12444,7 +12448,7 @@ msgstr "[skript]"
 msgid "You must specify a valid script name."
 msgstr "Musíte zadat platný název skriptu."
 
-#: mail/mail-composer-prefs.c:335 mail/mail-config.c:1389
+#: mail/mail-composer-prefs.c:335 mail/mail-config.c:1281
 msgid "Unnamed"
 msgstr "Beze jména"
 
@@ -12508,11 +12512,11 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Průvodce účtem Evolution"
 
-#: mail/mail-config.c:1093
+#: mail/mail-config.c:985
 msgid "Checking Service"
 msgstr "Kontroluje se služba"
 
-#: mail/mail-config.c:1171 mail/mail-config.c:1175
+#: mail/mail-config.c:1063 mail/mail-config.c:1067
 msgid "Connecting to server..."
 msgstr "Připojuji se k serveru..."
 
@@ -13598,24 +13602,24 @@ msgstr "Aktualizuje se..."
 msgid "Waiting..."
 msgstr "Čeká se..."
 
-#: mail/mail-session.c:222
+#: mail/mail-session.c:225
 msgid "User canceled operation."
 msgstr "Uživatel zrušil operaci."
 
-#: mail/mail-session.c:255
+#: mail/mail-session.c:258
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Zadat heslo pro %s"
 
-#: mail/mail-session.c:257
+#: mail/mail-session.c:260
 msgid "Enter Password"
 msgstr "Zadat heslo"
 
-#: mail/mail-session.c:273
+#: mail/mail-session.c:282
 msgid "_Remember this password"
 msgstr "_Zapamatovat si toto heslo"
 
-#: mail/mail-session.c:274
+#: mail/mail-session.c:283
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Zapamatovat si toto heslo pro zbytek tohoto sezení"
 
@@ -23808,7 +23812,7 @@ msgstr "Zadejte URL novinek, které chcete přidat"
 msgid "Error downloading RDF"
 msgstr "Chyba při stahování RDF"
 
-#: my-evolution/e-summary-rdf.c:446
+#: my-evolution/e-summary-rdf.c:447
 msgid "News Feed"
 msgstr "Novinky"
 
@@ -25182,7 +25186,7 @@ msgid "Drafts"
 msgstr "Rozepsaná"
 
 #: shell/e-local-storage.c:180 shell/e-shell-view.c:466
-#: shell/e-shell-view.c:470 shell/e-shortcuts.c:1083
+#: shell/e-shell-view.c:470 shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "Příchozí"
 
@@ -25869,11 +25873,11 @@ msgstr "_Odstranit"
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Odstranit tuto zkratku ze zkratkové lišty"
 
-#: shell/e-shortcuts.c:648
+#: shell/e-shortcuts.c:649
 msgid "Error saving shortcuts."
 msgstr "Chyba při ukládání zkratek."
 
-#: shell/e-shortcuts.c:1095
+#: shell/e-shortcuts.c:1096
 msgid "Shortcuts"
 msgstr "Zkratky"
 
@@ -26208,15 +26212,15 @@ msgstr "Příště se neptat"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution našel tyto soubory dat vhodné pro import:"
 
-#: shell/main.c:104 shell/main.c:474
+#: shell/main.c:107 shell/main.c:529
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:110
+#: shell/main.c:113
 msgid "Evolution is now exiting ..."
 msgstr "Evolution se právě zavírá ..."
 
-#: shell/main.c:209
+#: shell/main.c:212
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -26252,7 +26256,7 @@ msgstr ""
 "Doufáme, že si užijete výsledků naší tvrdé práce a nedočkavě čekáme\n"
 "na vaše přispění!\n"
 
-#: shell/main.c:230
+#: shell/main.c:233
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -26260,40 +26264,40 @@ msgstr ""
 "Děkujeme\n"
 "Team Ximian Evolution\n"
 
-#: shell/main.c:238
+#: shell/main.c:241
 msgid "Don't tell me again"
 msgstr "Příště neupozorňovat"
 
-#: shell/main.c:357
+#: shell/main.c:360
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Nelze inicializovat shell Ximian Evolution."
 
-#: shell/main.c:366
+#: shell/main.c:369
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Nelze inicializovat shell Ximian Evolution: %s"
 
-#: shell/main.c:446
+#: shell/main.c:501
 msgid "Disable splash screen"
 msgstr "Zakázat úvodní okno"
 
-#: shell/main.c:448
+#: shell/main.c:503
 msgid "Start in offline mode"
 msgstr "Spustit v režimu odpojení"
 
-#: shell/main.c:450
+#: shell/main.c:505
 msgid "Start in online mode"
 msgstr "Spustit v režimu on-line"
 
-#: shell/main.c:452
+#: shell/main.c:507
 msgid "Send the debugging output of all components to a file."
 msgstr "Poslat ladící výstup ze všech komponent do souboru."
 
-#: shell/main.c:454
+#: shell/main.c:509
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr "Přinutit k aktualizaci souborů s nastavením z Evolution 1.0.x"
 
-#: shell/main.c:478
+#: shell/main.c:533
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
