@@ -1012,7 +1012,7 @@ run_only_once (gpointer key, char *action, struct _run_only_once *data)
 	CamelException *ex = data->ex;
 	ESExpResult *r;
 	
-	printf ("evaluating: %s\n\n", action);
+	d(printf ("evaluating: %s\n\n", action));
 	
 	e_sexp_input_text (p->eval, action, strlen (action));
 	if (e_sexp_parse (p->eval) == -1) {
