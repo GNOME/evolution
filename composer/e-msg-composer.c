@@ -1061,11 +1061,18 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 
 	GNOME_GtkHTML_Editor_Engine_undo_begin (composer->editor_engine, "Delete all but signature", "Undelete all", &ev);
 	GNOME_GtkHTML_Editor_Engine_freeze (composer->editor_engine, &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "disable-selection", &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "text-default-color", &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "bold-off", &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "italic-off", &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "underline-off", &ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "strikeout-off", &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "select-all", &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "delete", &ev);
 	GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "signature", "0", &ev);
 	GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "orig", "0", &ev);
 	e_msg_composer_set_sig_file (composer, composer->sig_file);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "style-normal", &ev);
 	GNOME_GtkHTML_Editor_Engine_thaw (composer->editor_engine, &ev);
 	GNOME_GtkHTML_Editor_Engine_undo_end (composer->editor_engine, &ev);
 
