@@ -1,453 +1,885 @@
-<!--
- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
+
+
+<!-- $Id: usage-mainwindow.sgml,v 1.1.22.1 2003/08/08 21:42:17 olea Exp $ -->
+<!-- Traducción: Ismael -->
+<!-- Revisión: irm 030504/final 030428/rápida -->
+
 <chapter id="usage-mainwindow">
 
-  <title>La Ventana Principal: Conceptos Básicos de Evolution</title>
-  <para>
-     Start <application>Evolution</application> by selecting
-     <menuchoice><guimenu>Main Panel Menu</guimenu>
-     <guisubmenu>Applications</guisubmenu>
-     <guimenuitem>Evolution</guimenuitem></menuchoice> or by typing
-     <command>evolution</command> at the command line.  The first time
-     you run the program, it will create a directory called
-     <filename>evolution</filename> in your home directory, where it
-     will keep all your <application>Evolution</application>-related
-     files.
-   </para>
-   <para>
-     After <application>Evolution</application> starts
-     up, you will see the <interface>main window</interface>, with the
-     <interface>Inbox</interface> open.  It should look a lot like the
-     picture in <xref linkend="usage-mainwindow-fig">. On the left of
-     the <interface>main window</interface> is the <interface>shortcut
-     bar</interface>, with several buttons in it.  Just underneath the
-     title bar is a series of menus in the <interface>menu
-     bar</interface>, and below that, the <interface>tool
-     bar</interface> with buttons for different functions. The largest
-     part of the <interface>main window</interface> is taken up by the
-     actual <interface>Inbox</interface>, where messages are listed
-     and displayed.  If you're running the program for the first time,
-     you'll have just one message: a welcome from Ximian.
+  <title>Primeros pasos con Ximian Evolution</title>
 
+    <sect1 id="what">
+      <title>Qué es  Ximian Evolution y qué puede hacer por mí</title>
+      <para> Una información desorganizada y de difícil acceso es inútil; no puede llamarse así si tras consultarla no queda <emphasis>informado</emphasis>.  El objetivo de <application>Ximian Evolution</application> es simplificar las tareas de almacenamiento, organización y recuperación de su información personal, con el fin de poder trabajar y comunicarse con otras personas. Se trata por tanto de un programa muy evolucionado de <glossterm linkend="groupware">trabajo en grupo</glossterm>, una parte integral de su escritorio de trabajo conectado a Internet.
 
-<!-- ==============Figure=================================== -->
-    <figure id="usage-mainwindow-fig">
-    <title>Evolution Main Window and Inbox</title>
-    <screenshot>
-      <screeninfo>Evolution Main Window</screeninfo>
-      <graphic fileref="fig/mainwindow-pic" format="png" srccredit="Kevin Breit">
-	</graphic>
-    </screenshot>
-    </figure>
-<!-- ==============End of Figure=================================== -->
-</para>
+      </para>
+      <para> En otras palabras, <application>Ximian Evolution</application> es una herramienta para ayudarle a hacer su trabajo.
+      </para>
+      <para> <application>Ximian Evolution</application> es software libre. El programa y su código fuente han sido liberados acogiéndose a los términos de la licencia <xref linkend="apx-gpl"> (GPL) y la documentación lo hace a la <xref linkend="apx-fdl"> (FDL). Para obtener más información acerca de ambas licencias puede visitar la web de la Free Software Foundation en <ulink url="http://www.fsf.org">http://www.fsf.org</ulink>.
+      </para>
 
-   <para>
-    <note>
-      <title>The Way Evolution Looks</title>
-      <para>
-	The appearance of both <application>Evolution</application>
-	and <application>GNOME</application> is very easy to
-	customize, so your screen might not look like this picture.
-	You might decide to have <application>Evolution</application>
-	start with the calendar and a folder bar, or with the contact
-	manager occupying the entire window.
+      <para> <application>Ximian Evolution</application> puede ayudarle a trabajar en grupo manejando su correo electrónico, sus direcciones, otra información de contacto y uno o más calendarios.  Funciona en uno o varios sistemas conectados en local o en red, para un uso individual o de grupos de gran tamaño.
+      </para>
+
+    <para> <application>Ximian Evolution</application> permite realizar la mayoría de las tareas diarias más rápidamente. Por ejemplo, agregar una nueva cita o enviar una tarjeta de visita por correo electrónico o escribir a un contacto sólo requiere hacer clic un par de veces. <application>Ximian Evolution</application> muestra información en pantalla de forma más rápida y eficaz, las búsquedas son más veloces y el consumo de memoria es menor. Los usuarios que reciban cantidades ingentes de correo apreciará características avanzadas como las <trademark>carpetas virtuales</trademark> que  permiten guardar búsquedas como si fueran carpetas de correo convencionales.
+    </para>
+  </sect1>
+
+  <sect1 id="usage-mainwindow-starting">
+    <title>Primeros pasos con Ximian Evolution</title>
+    <para> Puede iniciar <application>Ximian Evolution</application> de una de estas maneras:
+      <itemizedlist>
+      <listitem>
+      <para> Elija <menuchoice><guimenu>Programas</guimenu> <guimenuitem>Evolution</guimenuitem> </menuchoice> desde el menú del panel.
+      </para>
+      </listitem>
+
+      <listitem>
+      <para>Escriba <command>evolution</command> en la línea de órdenes.
+      </para>
+      </listitem>
+     </itemizedlist>
+     </para>
+
+     <para>
+       <note>
+         <title>Opciones de la línea de órdenes</title>
+         <para> Evolution le permite utilizar una serie de opciones de la línea de órdenes. Para consultar la lista completa, ejecute las órdenes <userinput>man evolution</userinput> o <userinput>evolution --help</userinput>. Las más importantes son:
+
+           <itemizedlist>
+             <listitem>
+               <para> Para iniciar Evolution en modo desconectado: <userinput>evolution --offline</userinput>
+               </para>
+             </listitem>
+
+             <listitem>
+               <para> Para iniciar Evolution y empezar a escribir un mensaje a la dirección de correo que especifique: <userinput>evolution mailto:paco@porahi.net</userinput>.
+             </para>
+           </listitem>
+
+           <listitem>
+             <para> Para que su navegador Web utilice Evolution de manera predeterminada escriba <userinput>evolution "%s"</userinput> en el campo correspondiente al administrador de correo,  en la configuración de su navegador o en el Centro de control de GNOME.
+            </para>
+          </listitem>
+        </itemizedlist>
       </para>
     </note>
   </para>
-  
-  <sect1 id="usage-mainwindow-shortcutbar">
-    <title>La Barra de Atajos</title>
-    <para>
-        <application>Evolution</application>'s most important job is
-        to give you access to your information and help you use it
-        quickly.  One way it does that is through the
-        <interface>shortcut bar</interface>, the column on the left
-        hand side of the main window.  The large buttons with names
-        like <guilabel>Inbox</guilabel> and
-        <guilabel>Contacts</guilabel> are the shortcuts, and you can
-        select different groups of shortcuts by clicking the
-        rectangular group buttons.
+ <para> La primera vez que los ejecute, el programa crea un directorio llamado <filename>evolution</filename> en su directorio de inicio de sesión, donde almacena toda su información local.  Después se abrirá un asistente, sólo la primera vez, con el fin de ayudarle a configurar sus cuentas de correo, así como para importar datos de otras aplicaciones.
+
     </para>
-    <para>
-       The shortcut group buttons are <guibutton>Evolution
-       Shortcuts</guibutton> and <guibutton>Internet
-       Directories</guibutton>.  When you click on them, they'll slide
-       up and down to give you access to different sorts of shortcuts.
-       When you first start <application>Evolution</application>, you
-       are looking at the <guilabel>Evolution Shortcuts</guilabel>
-       category.  If you click <guilabel>Internet
-       Directories</guilabel>, it will slide up and you'll see buttons
-       for the <guilabel>Bigfoot</guilabel> and
-       <guilabel>Netcenter</guilabel> directories, as well as any
-       others you or your system administrator may have added. You can
-       add more groups by right-clicking on the background of the
-       shortcut bar and selecting <guimenuitem>Menu
-       Group</guimenuitem>.  Internet directories behave a lot like
-       the local contact manager, which is covered in <xref
-       linkend="usage-contact">.
-       </para>
-    <para>
-       Take a look at the <guilabel>Evolution Shortcuts</guilabel>
-       again.  The shortcut buttons in that category are:
+    <para> El asistente de primer inicio requiere entre dos y cinco minutos de su tiempo, aproximadamente.  </para>
 
-      <variablelist>
-
-<!--  NOT IMPLEMENTED! 
-	<varlistentry>
-	<term> <guibutton>Today:</guibutton></term>
-	<listitem>
-	  <para>
-	This will bring up a summary of any new messages you've
-	received, along with the tasks and appointments you have
-	lined up for today.
+    <sect2 id="first-step">
+      <title>Definición de su identidad</title>
+      <para> La ventana Identidad es el primer paso del asistente. Aquí debe escribir algunos datos  personales. Más tarde podrá definir más identidades desde el menú <menuchoice><guimenu>Herramientas</guimenu> <guimenuitem>Configuración</guimenuitem></menuchoice>, con el botón <guibutton>Cuentas de correo</guibutton>.
+	<itemizedlist>
+	  <listitem>
+	    <para> Nombre completo: su nombre completo (por ejemplo Francisco López).
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Dirección de correo:  su dirección de correo electrónico (por ejemplo: francisco@lopez.com).
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Organización: la compañía para la que trabaja o la organización a la que representa cuando escribe correo (opcional).
+	    </para>
+	  </listitem>
+	</itemizedlist>
       </para>
-      </listitem>
-      </varlistentry>
--->
+    </sect2>
 
-
-	<varlistentry>
-	  <term> <guibutton>Executive Summary:</guibutton></term>
+    <sect2 id="second-step">
+      <title>Recibiendo mensajes</title>
+      <para> La sección <guilabel>Recibiendo mensajes</guilabel> permite determinar de dónde obtendrá su correo.
+	<itemizedlist>
 	  <listitem>
-	    <para>
-	      Start your day here.  The Executive summary gives you
-              lists of new or important messages, daily appointments
-              and urgent tasks.  You can customize its appearance and
-              content, and use it to access Evolution services.
+	    <para> Tipo de servidor: <application>Ximian Evolution</application> es capaz de recuperar su correo desde varios tipos de servidores. Si no está seguro cuál de los siguientes debe elegir, pregunte a su administrador del sistema:
+	      <itemizedlist>
+
+		<listitem>
+		  <para> POP: descargará el correo a su disco duro para almacenarlo permanentemente.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para> Microsoft Exchange: sólo disponible si ha adquirido Ximian Connector para Microsoft Exchange, permite conectarse a un servidor Microsoft Exchange Server 2000, que almacena la información de calendario, contacto y correo electrónico en el servidor.
+		  </para>
+		</listitem>
+
+
+		<listitem>
+		  <para> IMAP: conserva su correo en el servidor para que pueda acceder a él con sistemas diferentes.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para> Mbox estándar de Unix: seleccione esta opción si desea leer y almacenar su correo en un buzón de correo local en su sistema. Debe proporcionar la ruta de acceso al buzón.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para> Directorios de correo en formato Maildir:  si utiliza <application>qmail</application> para descargar su correo, u otro programa de tipo maildir, querrá usar esta opción. Debe escribir la ruta de acceso al buzón.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para> Directorios de correo en formato MH: si descarga el correo utilizando <application>mh</application> u otro programa tipo MH querrá utiliza esta opción. Debe escribir la ruta de acceso al buzón.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para> Entrega local: si desea mover su correo desde el buzón local a su directorio de inicio. Si en cambio prefiere dejarlo donde está, opte por <guimenuitem>Mbox estándar de Unix</guimenuitem>. Debe escribir la ruta de acceso al buzón.
+		  </para>
+		</listitem>
+
+		<!-- cacho borrado porque no existe esa opción ni aparece en manuales futuros -->
+
+		<listitem>
+		  <para> Ninguno: elija esta opción si no planea consultar correo electrónico con esta cuenta.
+		  </para>
+		</listitem>
+	      </itemizedlist>
+
 	    </para>
 	  </listitem>
-	</varlistentry>
+	</itemizedlist>
+</para>
+    <para> Si ha elegido un servidor de correo POP, Microsoft Exchange o IMAP, es necesario introducir la siguiente información:
+                     <itemizedlist>
+		      <listitem>
+				<para> El nombre del servidor de correo. Si tiene dudas pregunte a su administrador de sistemas.</para>
+		      </listitem>
 
+		      <listitem>
+			<para> El nombre de usuario para su cuenta en ese sistema.
+			 </para>
+		      </listitem>
 
-	<varlistentry>
-	  <term> <guibutton>Inbox:</guibutton></term>
-	  <listitem>
-	    <para>
-	      Click the <guibutton>Inbox</guibutton> button to start
-	      reading your mail.  Your Inbox is also where you can
-	      access Evolution's tools to filter, sort, organize, and
-	      search your mail.
-	    </para>
-	  </listitem>
-	</varlistentry>
+		      <listitem>
+			<para> Si quiere utilizar una conexión segura (SSL). Es mejor activar esta opción de seguridad, si su servidor la reconoce.
+			</para>
+		      </listitem>
 
-	<varlistentry>
-	  <term><guibutton>Calendar:</guibutton></term>
-	  <listitem>
-	    <para>
-	      The Calendar can store your appointments and To do lists
-	      for you.  Connected to a network, you can use it to keep
-	      a group of people on schedule and up to date.
-	    </para>
-	  </listitem>
-	</varlistentry>
+		      <listitem>
+				<para> Las opciones de autenticación implementadas en su servidor. Si no está seguro, haga clic en <guilabel>Comprobar tipos soportados</guilabel> o pregunte a su administrador de sistemas.
+			</para>
+		      </listitem>
 
-       <varlistentry>
-         <term><guibutton>Tasks:</guibutton></term>
-	<listitem>
-	  <para>
-	     A full-size view of your calendar's task pad.
-	  </para>
-	</listitem>
-      </varlistentry>
-
-	<varlistentry>
-	  <term><guibutton>Contacts:</guibutton></term>
-	  <listitem>
-	    <para>
-	      The Contact Manager holds your addresses, phone numbers,
-	      and contact information.  Like calendar information,
-	      contact data can be synchronized with hand-held devices
-	      and shared over a network.
-	   </para>
-	  </listitem>
-	</varlistentry>
-
-<!-- NOT IMPLEMENTED YET
-
-
-	<varlistentry>
-	  <term> <guibutton>Notes:</guibutton></term>
-	<listitem>
-	  <para> The note pad is your catch-all tool: use it to take
-	    messages from phone conversations, keep small things
-	    organized, write <glossterm linkend="haiku">haiku</glossterm>, or whatever
-	    you like. This feature is not yet implemented, but will be
-	    soon. See <xref linkend="usage-notes"> for more
-	    information.
-	  </para>
-	</listitem>
-	</varlistentry>
--->
-
-      </variablelist>
-    </para>
-    <para>
-      If you don't like the shortcut bar, you can use the folder bar
-      or the menu bar to navigate the main window. Press 
-            <keycombo action="simul">
-                 <keycap>Ctrl</keycap> 
-                 <keycap>O</keycap> 
-             </keycombo>
-      to choose from a list of folders you'd like to visit, or use the
-      drop-down folder bar.  You can hide and show the folder bar and
-      the shortcut bar by selecting those items in the
-      <guimenu>View</guimenu> menu.
-    </para>
-
-    <tip>
-       <title>Trucos de la Barra de Atajos</title>
-       <para>
-         To remove a shortcut from the shortcut bar, right-click on it
-         and select <guimenuitem>Remove</guimenuitem>.  To add one,
-         select <menuchoice> <guimenu>File</guimenu>
-         <guisubmenu>New</guisubmenu> <guimenuitem>Evolution Bar
-         Shortcut</guimenuitem> </menuchoice>.
+		      <listitem>
+			<para> Si quiere que Evolution recuerde su contraseña.</para>
+		      </listitem>
+		    </itemizedlist>
+              </para>
+      <para>
+      <tip id="exchange-info">
+	<title>Uso de Ximian Evolution con Microsoft Exchange</title>
+         <para> Si ha adquirido  Ximian Connector para Microsoft Exchange puede acceder a servidores Microsoft Exchange 2000 con el protocolo nativo. Si no dispone de Connector, o si utiliza una versión anterior de Microsoft Exchange, pregunte a su administrador de sistemas acerca de qué protocolos de acceso estándar puede usar, como POP o IMAP.
+	</para>
+      </tip>
+</para>
+    </sect2>
+    <sect2 id="more-mail-options">
+      <title>Opciones de configuración adicionales</title>
+      <para> Hay más opciones para las preferencias de correo específicas para tipos de servidor POP, Microsoft Exchange o IMAP. Si quiere, puede configurarlas más tarde, después de haber creado su cuenta: abra el menú <menuchoice><guimenu>Herramientas</guimenu> <guimenuitem>Configuración</guimenuitem></menuchoice>, y haga clic en <guibutton>Cuentas de correo</guibutton>.  A continuación, elija la cuenta que desea modificar y haga clic en <guibutton>Editar</guibutton>.
       </para>
-       <para>
-         To change the way the shortcut bar looks, right-click in an
-         empty space on the shortcut bar.  From the menu that appears,
-         you can select icon sizes.
-       </para>
-    </tip>
+        <variablelist>
+	 <varlistentry> <term>Si optó por correo POP:</term>
+	  <listitem><para>
+         <itemizedlist>
+	  <listitem>
+	    <para>Comprobación de correo nuevo: si quiere que <application>Evolution</application> compruebe automáticamente si ha llegado correo nuevo active esta casilla y elija la frecuencia en minutos.
+            </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> Almacenamiento del mensaje: si quiere guardar copias de su correo en el servidor, active esta casilla.
+            </para>
+	  </listitem>
+	</itemizedlist>
+           </para>
+ 	  </listitem>
+	</varlistentry>
+	<varlistentry> <term>Si optó por  Microsoft Exchange:</term>
+	  <listitem><para>
+        <itemizedlist> <listitem>
+	    <para>Comprobación de correo nuevo: si quiere que <application>Evolution</application> compruebe automáticamente si ha llegado correo nuevo active esta casilla y elija la frecuencia en minutos.
+            </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>El nombre del buzón es diferente al nombre del usuario: si su nombre de usuario en el active directory es diferente al nombre de su buzón Exchange active esta casilla y escriba el nombre del buzón.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Anular la ruta de acceso web de Outlook: en muchos casos la URL para acceso web es <quote>http://server.company.com/exchange</quote>. Si su sistema tiene una ruta que no es <quote>exchange</quote> active esta casilla e introduzca la ruta correcta.
+	     </para>
+	  </listitem>
+	  <listitem>
+	    <para> Crear una carpeta con la lista global de direcciones: active esta casilla si va a utilizar Active Directory o la lista global de direcciones de su organización.
+	     </para>
+	  </listitem>
+	  <listitem>
+	    <para> Nombre del servidor Active Directory: escriba aquí el nombre del servidor Active Directory.
+            </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> Limitar el número de respuestas: elija un número máximo de resultados para una búsqueda de direcciones. Ese máximo sirve para limitar la carga de su sistema y de su red local.
+              </para>
+	  </listitem>
+	</itemizedlist>
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry> <term>Si optó por IMAP:</term>
+	  <listitem>
+	    <para>
+         <itemizedlist>
+	  <listitem>
+	    <para>Comprobación de correo nuevo: si quiere que <application>Evolution</application> compruebe automáticamente si ha llegado correo nuevo active esta casilla y elija la frecuencia en minutos.
+            </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> Comprobación de correo nuevo: si quiere que <application>Evolution</application> compruebe automáticamente si ha llegado correo nuevo a <emphasis>todas</emphasis> sus carpetas IMAP, asegúrese de activar la casilla <guilabel>Comprobar si hay mensajes nuevos en todas las carpetas</guilabel>.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> Mostrar sólo las carpetas suscritas: active la casilla si tiene más carpetas en su vista IMAP que las que quiere leer.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> Sobreescribir el espacio de nombres dado por el servidor: si lo desea puede especificar un directorio donde el servidor guarda su correo.  Los valores más comunes son <quote>mail</quote> y <quote>Mail</quote>.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para> Aplicar filtros a los mensajes nuevos en el buzón de entrada en el servidor: si quiere que sus filtros se apliquen remotamente en esta cuenta además de en el correo descargado localmente marque esta caja.  </para>
+	  </listitem>
+	</itemizedlist>
+     </para>
+    </listitem>
+  </varlistentry>
+ </variablelist>
+
+         <note id="imap-namespace">
+            <title>¿Qué es el espacio de nombres de IMAP?</title>
+                <para> En un servidor de correo IMAP el administrador puede proporcionarle un espacio de nombres específico, el directorio en el que el servidor almacenará su correo. Si al comprobar su correo IMAP ve que su lista de carpetas incluye archivos que no se parecen a carpetas de correo probablemente necesita cambiar su espacio de nombres de correo.  Los valores más normales son <quote>mail</quote> y <quote>Mail</quote>. Si lo prefiere puede optar por suscribir las carpetas de correo una a una.
+               </para>
+             </note>
+
+    </sect2>
+
+    <sect2 id="third-step">
+      <title>Enviando correo</title>
+      <para>
+
+	El paso <guilabel>Enviando correo</guilabel> sirve para configurar el envío de correo electrónico.
+	<itemizedlist>
+	  <listitem>
+	    <para> Tipo de servidor: <application>Ximian Evolution</application> es capaz de comunicarse con varios tipos de servidor a la hora de enviar su correo.
+	    <itemizedlist>
+		<listitem>
+		  <para> SMTP: envía el correo directamente desde su sistema.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+
+		    Microsoft Exchange: envía el correo a través de un servidor Microsoft Exchange utilizando el protocolo Microsoft Exchange 2000. Sólo está disponible si adquiere Ximian Connector para Microsoft Exchange. Debe tener la clave de una licencia válida que haya  adquirido en <ulink url="http://store.ximian.com">store.ximian.com</ulink>.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para> Sendmail: utiliza el programa <application>Sendmail</application> para enviar el correo desde su sistema. Sendmail es muy flexible pero no es tan fácil de configurar por lo que sólo debería elegir esta opción si sabe cómo poner en marcha un servicio Sendmail.
+		  </para>
+		</listitem>
+	      </itemizedlist>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Servidor: si eligió <guilabel>SMTP</guilabel> o <guilabel>Microsoft Exchange</guilabel> escriba el nombre del servidor o su dirección IP.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> El servidor requiere autenticación: active esta casilla si al enviar su correo el servidor pide que le escriba una contraseña.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Tipo de autenticación: a menos que haya recibido otras indicaciones, lo mejor es que deje esta opción en <guilabel>Contraseña</guilabel>.  Si no está seguro pregunte a su administrador de sistemas, a su proveedor de Internet o deje que <application>Ximian Evolution</application> lo compruebe por usted mediante la opción <guibutton>Comprobar tipos soportados</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Nombre de usuario: el nombre de la cuenta con la que descarga su correo. Normalmente es la parte de su dirección de correo electrónico que esta antes de la <quote>@</quote>.  Con servidores Exchange, es el nombre de usuario que usa al ingresar en una estación de trabajo Windows en su compañía.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Recordar contraseña: Si no quiere tener que escribir su contraseña cada vez que descarga su correo pulse este botón.  </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+    </sect2>
+
+  <sect2 id="fourth-step">
+      <title>Importar correo  (opcional)</title>
+      <para> Si <application>Ximian Evolution</application> encuentra archivos de direcciones o de correo electrónico de otra aplicación, ofrecerá importarlos.  Si no está seguro de qué formato usa su programa de correo pregunte a su administrador de sistemas. Si quiere, puede saltar este paso y volver con posterioridad eligiendo
+
+		<menuchoice> <guimenu>Archivo</guimenu> <guimenuitem>Importar</guimenuitem> </menuchoice>.
+      </para>
+      <para>
+
+        <application>Ximian Evolution</application> puede importar los siguientes tipos de archivos:
+
+          <variablelist>
+           <varlistentry> <term>VCard (.vcf, gcrd):</term>
+	    <listitem>
+	      <para> El formato de tarjeta de visita usado por GNOME, KDE y otras aplicaciones de gestión de contactos.  Debería poder exportar al formato VCard desde cualquier aplicación de libreta de direcciones.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>Microsoft Outlook Express 4 (.mbx):</term>
+	    <listitem>
+	      <para> Formato de archivo de correo electrónico usado por  Microsoft Outlook Express 4. Para otras versiones de  Microsoft Outlook y Outlook Express consulte la nota más abajo.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry> <term>mbox:</term>
+	    <listitem>
+	      <para> El formato buzón de correo usado por  Mozilla, Netscape, Ximian Evolution, Eudora y muchos otros clientes de correo.
+  	     </para>
+	    </listitem>
+	  </varlistentry>
+       </variablelist>
+</para>
+<para>
+    <note>
+      <title>Usuarios expertos de Microsoft Outlook y Outlook Express</title>
+      <para> Microsoft Outlook y las versiones de Outlook Express posteriores a la 4 usan formatos propietarios que <application>Ximian Evolution</application> no puede leer o importar. Para importar los contactos deberá enviárselos a usted mismo por correo e importarlos a mano.  Para el correo hay una alternativa más simple:
+
+	<orderedlist numeration="arabic">
+
+	<listitem>
+	<para> Desde Windows, importe los ficheros en Mozilla Mail (u otro cliente del estilo como Netscape o Eudora, que use el formato mbox).
+
+        </para>
+        </listitem>
+
+	<listitem>
+	<para> Copie los ficheros al sistema o la partición donde use <application>Ximian Evolution</application>.
+         </para>
+        </listitem>
+
+	<listitem>
+	<para>
+
+	  Utilice la herramienta de importación de  <application>Ximian Evolution</application> para importar esos archivos. Encontrará más información acerca de su funcionamiento en el sitio Web de  <ulink           url="http://support.ximian.com">asistencia técnica</ulink> de Ximian.
+
+      </para>
+        </listitem>
+     </orderedlist>
+    </para>
+    </note>
+
+    <note>
+      <title>Usuarios de Netscape</title>
+      <para> Antes de importar correo desde Netscape asegúrese de hacer lo siguiente en ese programa: <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Compactar todas las carpetas</guimenuitem></menuchoice>. Si no lo hiciera, <application>Ximian Evolution</application> importará y deshará el borrado de los mensajes de la Papelera de mensajes.
+      </para>
+    </note>
+
+    </para>
+
+      <tip>
+	<title>Exportar archivos desde  Ximian Evolution</title>
+	<para> Ximian Evolution usa tipos de archivos estándar para toda su información por lo que no debería tener problema para llevarse su información a otro lado, si es que lo quisiera.
+    </para>
+	<para> Para el correo se usa <filename>mbox</filename>, para el calendario <filename>iCal</filename>, y para la libreta de contactos vCards dentro de una base de datos <filename>.db3</filename>.
+        </para>
+      </tip>
+    </sect2>
   </sect1>
 
-  <sect1 id="usage-mainwindow-folderbar">
-    <title>La Barra de Carpetas</title>
-    <para>
-      The <interface>folder bar</interface> is a more comprehensive
-      way to view the information you've stored with
-      <application>Evolution</application>. It displays all your
-      appointments, address cards, and email in a tree that's a lot
-      like a <glossterm linkend="filetree">file
-      tree</glossterm>&mdash; it starts small at the top, and branches
-      downwards. On most computers, there will be three or four
-      folders at the base.  First is the <guilabel>Local</guilabel>
-      folder, which holds all the <application>Evolution</application>
-      data that's stored on your computer.  After that come
-      <guilabel>Virtual Folders</guilabel>, or virtual folders, discussed in
-      <xref linkend="usage-mail-organize-vfolders">, followed by any
-      <glossterm linkend="imap">IMAP</glossterm> mail folders you may
-      have available to you over your network.  Lastly, there are
-      <guilabel>External Directories</guilabel>, <glossterm
-      linkend="ldap">LDAP</glossterm> contact directories stored on a
-      network.
+  <sect1 id="importing-mail-from-clients">
+    <title>Importar correo de otros clientes de correo</title>
+    <para> Probablemente ya tenga su correo en otro programa cliente y no querrá perder la información. La siguiente sección describe cómo importar correo desde clientes específicos de correo.
+    </para>
+    <sect2 id="mutt">
+      <title>Importar correo desde mutt</title>
+      <para> <application>mutt</application> es una aplicación en modo carácter incluida en muchas distribuciones Linux y Unix. <application>mutt</application> usa los formatos de archivo estándar mbox, maildir y  MH, lo que hace sencilla la importación de su correo en <application>Evolution</application>. En su configuración predeterminada <application>mutt</application> uses el formato mbox.
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para> Abra <application>Ximian Evolution</application>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Abra <menuchoice> <guimenu>Archivo</guimenu> <guimenuitem>Importar</guimenuitem> </menuchoice> o o presione la combinación de teclas <keycombo action="simul"> <keycap>Ctrl</keycap> <keycap>I</keycap> </keycombo>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Haga clic en <guibutton>Siguiente</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Elija <guibutton>Importar un único archivo</guibutton>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Haga clic en <guibutton>Buscar</guibutton> y elija el archivo que quiere importar. En general el correo se almacena en en el archivo <filename>~/mbox</filename> para el formato mbox y en   <filename
+	      class="directory">~/Maildir</filename> para el Maildir.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> <application>Evolution</application> preguntará en qué carpeta quiere importarlo: elija una. También podrá crear una carpeta nueva y volcar ahí la información.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+    </sect2>
+    <sect2 id="kmail">
+      <title>Importar correo desde KMail</title>
+      <para> KMail es el cliente de correo incluido en el entorno de escritorio KDE. KMail usa el formato de archivo estándar mbox, por lo que es fácil importar su correo en <application>Evolution</application>.
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para> Abra <application>Ximian Evolution</application>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Elija el menú <menuchoice> <guimenu>Archivo</guimenu> <guimenuitem>Importar</guimenuitem> </menuchoice> o o presione la combinación de teclas <keycombo action="simul"> <keycap>Ctrl</keycap> <keycap>I</keycap> </keycombo>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Haga clic en <guibutton>Siguiente</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Elija <guibutton>Importar un único archivo</guibutton>
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Haga clic en <guibutton>Buscar</guibutton> y elija el archivo que quiere importar. En su configuración predeterminada KMail almacena su información en el directorio Mail de su directorio de inicio.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> <application>Evolution</application> preguntará en qué carpeta quiere importarlo: elija una. También podrá crear una carpeta nueva y volcar ahí la información.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+    </sect2>
+  </sect1>
+
+  <sect1 id="ui-intro">
+    <title>Qué es qué en  Ximian Evolution</title>
+    <para> Ahora que ya tiene su configuración, tras la ejecución del asistente del inicio, ya está listo para empezar a trabajar. Proporcionamos a continuación una explicación rápida de qué es lo que está ocurriendo en su ventana principal de <application>Ximian Evolution</application>.
+    </para>
+
+    <figure id="preface-basic-interface">
+      <title>La ventana principal de  Ximian Evolution</title>
+      <screenshot> <screeninfo>Entrada</screeninfo> <mediaobject><imageobject>  <imagedata fileref="figures/mainwindow-pic"
+	format="png" srccredit="Kevin Breit"> </imageobject></mediaobject>
+      </screenshot> </figure>
+
+    <para> <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1" format="png"></imageobject></inlinemediaobject> <guilabel>Barra del menú</guilabel>
+    </para>
+
+    <para> La <guilabel>barra del menú</guilabel>  da acceso a casi todas las características  que pueden encontrarse en <application>Ximian Evolution</application>.
+    </para>
+
+    <para> <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="png"></imageobject></inlinemediaobject> <guilabel>Barra de herramientas</guilabel>
+    </para>
+
+    <para> La  <guilabel>barra de herramientas</guilabel> da acceso fácil y rápido a las características más usadas de cada componente.
+    </para>
+
+    <para> <inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="png"></imageobject></inlinemediaobject> <guilabel>Barra de atajos</guilabel>
+    </para>
+
+    <para> La <guilabel>barra de atajos</guilabel> permite llegar a los componentes principales con un clic.
+    </para>
+
+    <para> <inlinemediaobject><imageobject><imagedata  fileref="figures/full-4" format="png"></imageobject></inlinemediaobject> <guilabel>Barra de estado</guilabel>
+    </para>
+
+    <para> Periódicamente <application>Ximian Evolution</application> muestra discretamente un mensaje o informa del progreso de alguna tarea. Esto ocurre sobre todo a la hora de descargar o enviar el correo. Esta información se muestra en la  <guilabel>barra de estado</guilabel>.
+    </para>
+
+    <para> <inlinemediaobject><imageobject><imagedata  fileref="figures/full-5" format="png"></imageobject></inlinemediaobject> <guilabel>Herramienta de búsqueda</guilabel>
+    </para>
+
+    <para> La <guilabel>herramienta de búsqueda</guilabel> permite hacer búsquedas en el correo con precisión y sencillez.
+    </para>
+
+
+  <sect2 id="usage-mainwindow-shortcutbar">
+    <title>La barra de atajos</title>
+    <para> La labor más importante de <application>Ximian Evolution</application> es facilitar el acceso y simplificar la consulta de su información. Una manera de conseguirlo es mediante la <interface>barra de atajos</interface>, la columna a la izquierda de la ventana principal.  Los grandes botones con nombre como <guilabel>Buzón de entrada</guilabel> y <guilabel>Contactos</guilabel> son atajos y puede elegir varios grupos de atajos pulsando sobre los botones rectangulares de grupos.
+    </para>
+    <para> Échele un vistazo a la <guilabel>barra de atajos</guilabel>. Los botones de atajos en esa categoría son:
+
+	    <variablelist>
+	      <varlistentry> <term> <guibutton>Resumen</guibutton>:</term>
+		<listitem>
+	    <para> Empiece aquí su jornada. El <guilabel>Resumen</guilabel> de Ximian Evolution ofrece un rápido resumen de los mensajes nuevos o importantes, las citas diarias y las urgentes. Puede adaptar su apariencia y contenido y usarlo para acceder a los servicios de Ximian Evolution.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	<varlistentry> <term> <guibutton>Buzón de entrada</guibutton>:</term>
+	  <listitem>
+	    <para> Haga clic en <guibutton>buzón entrada</guibutton> para  comenzar la lectura de su correo. Su buzón es también el lugar donde las herramientas de Ximian Evolution filtran, ordenan, organizan y buscan su correo.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry> <term><guibutton>Calendario</guibutton>:</term>
+	  <listitem>
+	    <para> El Calendario puede almacenar sus listas de citas y tareas. Conectado a la red puede usarse para mantener al día la planificación de un grupo de personas.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+       <varlistentry> <term><guibutton>Tareas</guibutton>:</term>
+	<listitem>
+	  <para>
+
+	     Una vista completa de la libreta de tareas de su calendario.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+	<varlistentry> <term><guibutton>Contactos</guibutton>:</term>
+	  <listitem>
+	    <para> La libreta de contactos contiene información de contactos con sus direcciones, teléfono y otros datos personales. Como la información del calendario, los datos de contactos pueden sincronizarse con agendas electrónicas y ser compartidos en red.
+	   </para>
+	  </listitem>
+	</varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+    <sect2 id="usage-mainwindow-folderbar">
+    <title>Carpetas y la barra de carpetas</title>
+    <para> La  <interface>barra de carpetas</interface> es la manera más amplia de ver la información que tiene almacenada en <application>Ximian Evolution</application>. Muestra todas sus citas, tarjetas de visita y correo electrónico en un árbol que es muy parecido a un   <glossterm
+      linkend="filetree">árbol de archivos</glossterm>: es pequeño en la parte superior y las ramas crecen hacia abajo. En la mayoría de los sistemas habrá tres o cuatro carpetas en la base. La primera, por supuesto es el <guilabel>Resumen</guilabel>, un resumen personalizable de su información. Debajo están las <guilabel>Carpetas locales</guilabel>, que guardan todos los datos que <application>Ximian Evolution</application> tiene almacenados en su sistema.  Tras esto están sus servidores de red: servidores   <glossterm
+      linkend="ldap">LDAP</glossterm> que alojan directorios compartidos de contactos y carpetas de correo   <glossterm
+      linkend="imap">IMAP</glossterm> a las que está suscrito.  Finalmente están las <guilabel>carpetas virtuales</guilabel>, las carpetas virtuales.
     </para>
     <para>
-       
-      A typical <guilabel>Local</guilabel> folder contains the following folders:
+
+      Una carpeta <guilabel>Carpetas locales</guilabel> típica contiene las siguientes carpetas:
       <itemizedlist>
 	 <listitem>
-	    <para>
-	     <guilabel>Calendar</guilabel>, for appointments and
-	     event listings.
-	   </para>
-	 </listitem> 
-	 <listitem>
-	    <para>
-	    <guilabel>Contacts</guilabel>, for address cards.
+	    <para> <guilabel>Calendario</guilabel>, para listados de citas y eventos.
 	   </para>
 	 </listitem>
 	 <listitem>
-	    <para>
-	     <guilabel>Inbox</guilabel>, for incoming mail. 
+	    <para> <guilabel>Contactos</guilabel>, para las tarjetas de visita.
 	   </para>
 	 </listitem>
          <listitem>
-	    <para>
-	    <guilabel>Drafts</guilabel>, for messages you started and didn't finish.
+	    <para> <guilabel>Borradores</guilabel>, para los mensajes que empezó a escribir y no acabó.
 	   </para>
 	 </listitem>
-	<listitem>
-	    <para>
-	    <guilabel>Sent</guilabel>, for sent mail.
-	   </para>
-	 </listitem>
-	<listitem>
-	    <para>
-	    <guilabel>Trash</guilabel>, which is used to store
-	    messages you don't want, but keep around just in case you
-	    change your mind.
-	   </para>
-	 </listitem>
-	<listitem>
-	    <para>
-	    <guilabel>Outbox</guilabel>, for messages you have written
-	    but not yet sent.  This will be empty unless you use
-	    <application>Evolution</application> while offline.
+	 <listitem>
+	    <para> <guilabel>Entrada</guilabel>, para el correo entrante.
 	   </para>
 	 </listitem>
 
+	<listitem>
+	   <para> <guilabel>Salida</guilabel>, para mensajes que ha escrito pero que no ha enviado todavía. Esta carpeta estará vacía a menos que use <application>Ximian Evolution</application> en modo desconectado.
+	   </para>
+	 </listitem>
+
+	<listitem>
+	   <para> <guilabel>Enviado</guilabel>, para el correo enviado.
+	   </para>
+	 </listitem>
+
+	<listitem>
+	    <para> <guilabel>Papelera</guilabel>, una vista de tipo carpeta virtual con todos los mensajes que ha marcado para borrar pero que aún no ha <glossterm linkend="expunge">purgado</glossterm>.
+	   	</para>
+	 </listitem>
       </itemizedlist>
 
     </para>
     <tip id="foldertips">
-    <title>Navegando sin la Barra de Carpetas</title>
-       <para>
-         You don't need the folder bar or the shortcut bar to move
-         around the main window. You can use <keycap>Tab</keycap> to
-         switch from one part of the window to another, and the folder
-         menu on the right side of the window just below the toolbar
-         to move about the folder tree.
+    <title>Navegar sin la Barra de Carpetas ni la Barra de Atajos</title>
+       <para> Para moverse por la ventana principal no son necesarias las barras de menú o de atajos. Puede usar la tecla <keycap>Tabulador</keycap> para saltar en una ventana de una parte a otra. Cuando oculte la barra de carpetas hay un menú en la parte izquierda de la ventana, justo debajo de la barra de herramientas, para moverse a través del árbol de carpetas incluso si las barras de carpetas y de atajos están escondidas.
        </para>
      </tip>
 
-    <para>
-       To create a new folder, select <menuchoice>
-       <guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
-       <guimenuitem>Folder</guimenuitem></menuchoice>.  You'll be asked where you want to
-       put it, and what kind of folder it should be.  You can choose
-       from three types: <guilabel>Mail</guilabel>, for storing mail,
-       <guilabel>Calendar</guilabel> for storing calendars, and
-       <guilabel>Contacts</guilabel> for storing contacts.
-    </para>
+    <para> Si tiene grandes cantidades de correo, querrá tener más carpetas, además de la carpeta de Entrada. Para crear una carpeta nueva:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para> Haga clic en <menuchoice> <guimenu>Archivo</guimenu> <guisubmenu>Nuevo</guisubmenu> <guimenuitem>Carpeta</guimenuitem></menuchoice> <keycombo action="simul"> <keycap>Mayús</keycap> <keycap>Ctrl</keycap> <keycap>E</keycap> </keycombo>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Escriba el nombre de la carpeta en el campo <guilabel>Nombre de la carpeta</guilabel>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Elija el tipo de carpeta. Los tipos disponibles son:
+	      <itemizedlist>
+		<listitem>
+		  <para> Calendario
+		  </para>
+		</listitem>
+		<listitem>
+		  <para> Contactos
+		  </para>
+		</listitem>
+		<listitem>
+		  <para> Correo
+		  </para>
+		</listitem>
+		<listitem>
+		  <para> Tareas
+		  </para>
+		</listitem>
+	      </itemizedlist>
+
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para> Elija dónde crear la carpeta.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+
+    <sect3 id="subfolders">
+    <title>Subcarpetas</title>
+      <para> <application>Ximian Evolution</application> permite anidar carpetas unas dentro de otras para que pueda tener un detallado sistema organizacional.
+      </para>
 
        <note>
-	  <title>Las Carpetas Tienen Limitaciones</title>
-	  <para>
-              Los calendarios deben ir en carpetas de calendarios, el correo
-	      en carpetas de correo, y los contactos en carpetas de contactos.
-           </para>
+	  <title>Las carpetas tienen un límite</title>
+	  <para> Los calendarios deben ir en  carpetas específicas para calendario, el correo en carpetas de correo, y los contactos en carpetas de contactos.
+      </para>
 	</note>
 
-    <para>
-      Right-clicking will bring up a menu for just about anything
-      in GNOME, and <application>Evolution</application> is no
-      exception.  If you right-click on a folder, you'll have a
-      menu with the following options:
+    <para> Un clic con el botón derecho sobre casi cualquier elemento de <application>Ximian Evolution</application> permite abrir un menú. Si lo hace sobre una carpeta obtendrá un menú con las opciones siguientes:
       <itemizedlist>
-	<listitem><para><guimenuitem>FIXME</guimenuitem>, for another purpose. </para></listitem>
-	<listitem><para><guimenuitem>Something else</guimenuitem>, for another purpose. </para></listitem>
-      </itemizedlist>.
+	<listitem><para><guimenuitem>Vista</guimenuitem>:  ver la carpeta. </para></listitem>
+	<listitem><para><guimenuitem>Abre en una ventana nueva</guimenuitem>: ver la carpeta en una ventana diferente. </para></listitem>
+	<listitem><para><guimenuitem>Mover</guimenuitem>: mover la carpeta a otro lugar. </para></listitem>
+	<listitem><para><guimenuitem>Copiar</guimenuitem>: duplicar la carpeta en otro lugar. </para></listitem>
+	<listitem><para><guimenuitem>Borrar</guimenuitem>: borrar la carpeta y todo su contenido. </para></listitem>
+	<listitem><para><guimenuitem>Renombrar</guimenuitem>: cambiar su nombre. </para></listitem>
+	<listitem><para><guimenuitem>Crear carpeta nueva</guimenuitem>: crear otra carpeta que cuelgue de este lugar. </para></listitem>
+	<listitem><para><guimenuitem>Añadir a la barra de atajos</guimenuitem>: agregar la carpeta a la barra de atajos. </para></listitem>
+	<listitem><para><guimenuitem>Propiedades</guimenuitem>: ver o cambiar propiedades de la carpeta. </para></listitem>
+      </itemizedlist>
+    </para>
+    <para> También puede reorganizar las carpetas y los mensajes arrastrándolos y soltándolos donde desee.
     </para>
 
-    <tip>
-     <title>Ayuda Sensible al Contexto</title>
-      <para>
-	GNOME 2.0 will support context-sensitive help, which means you
-	can almost always get help on an item by right-clicking it.
-	If you're not sure what something is, or don't know what you
-	can do with it, choosing <guimenuitem>Help</guimenuitem> from
-	the right-click menu is a good way to find out.
-      </para>
-    </tip>
+	<para> Siempre que llegue un mensaje nuevo a una carpeta de correo, su nombre se mostrará en negrita junto al número de mensajes contenidos.
+	</para>
+      </sect3>
+    </sect2>
 
-    <para>
-      Any time new information arrives in a folder, that folder label
-      is displayed in bold text.
-    </para>
-    <para>
-      To delete a folder, right-click it and select
-      <guimenuitem>Delete</guimenuitem> from the menu that pops up.
-      To change the order of folders, or put one inside another, use
-      drag-and-drop.  To move individual
-      messages, appointments, and address cards between folders, you
-      can do the same thing: drag them where you want them, and
-      they'll go.
-    </para>
-  </sect1>
-  <sect1 id="usage-mainwindow-menubar">
-    <title>La Barra de Menú</title>
-    <para>
-      The <interface>menu bar</interface>'s contents will always
-      provide all the possible actions for any given view of your
-      data.  That means that, depending on the context, menu bar items
-      will change.  If you're looking at your Inbox, most of the menu
-      items will relate to mail; some will relate to other components
-      of <application>Evolution</application> and some, especially
-      those in the <guimenu>File Menu</guimenu> will relate to the
-      application as a whole. The contents of the menu bar are
-      described in <xref linkend="menuref">.
+    <sect2 id="usage-mainwindow-menubar">
+    <title>La barra del menú</title>
+    <para> Los contenidos de la  <interface>barra del menú</interface> contienen todas las acciones correspondientes a la vista actual.  Si está examinando su buzón de entrada, la mayoría de los elementos del menú estarán relacionados con el correo; algunos lo estarán con otros componentes de <application>Ximian Evolution</application> y algunos, especialmente los del menú <guimenu>Archivo</guimenu>, lo estarán con la aplicación como un todo.
    </para>
    <para>
       <variablelist>
-        <varlistentry>
-          <term> <guimenu>File</guimenu> Menu</term>
+        <varlistentry> <term> <guimenu>Archivo</guimenu>:</term>
 
-          <listitem><para> 
-            Anything even related to a file or to the operations
-            of the application generally  falls under this
-            menu: creating things, saving them to disk, 
-            printing them, and quitting the program itself.  
-
+          <listitem><para> Este menú reúne todas las operaciones relacionadas con archivos o con la aplicación: crear o guardar elementos a disco, imprimirlos y salir del propio programa.
             </para></listitem>
         </varlistentry>
 
-       <varlistentry>
-          <term> <guimenu>Edit</guimenu> Menu </term>
-          <listitem><para>
-              The <guimenu>Edit</guimenu> menu holds
-              useful tools that help you edit text and move it around.
+       <varlistentry> <term> <guimenu>Editar</guimenu>:</term>
+          <listitem><para> El menú <guimenu>Editar</guimenu> contiene las herramientas útiles para modificar y desplazar texto en la aplicación.
           </para></listitem>
         </varlistentry>
 
-       <varlistentry>
-          <term> <guimenu>View</guimenu> Menu </term>
-          <listitem><para>
-            This menu lets you decide how <application>Evolution</application> 
-            should look. Some of the features control the appearance of 
-            <application>Evolution</application> as a whole, and others 
-            the way a particular kind of information appears.
+       <varlistentry> <term> <guimenu>Vista</guimenu>:</term>
+          <listitem><para> Este menú permite configurar la apariencia de  <application>Ximian Evolution</application>. Algunas de las opciones afectan la apariencia de todo <application>Ximian Evolution</application>, mientras otras sólo afectan a determinados tipos de información.
           </para></listitem>
         </varlistentry>
 
-        <varlistentry>
-          <term> <guimenu>Settings</guimenu> Menu </term>
-          <listitem><para> Tools for configuring, changing, and
-          setting up go here.  For mail, that means things like
-          <guimenuitem>Mail Configuration</guimenuitem> and the
-          <guimenuitem>Virtual Folder Editor</guimenuitem>.  For the
-          <interface>Calendar</interface> and the <interface>Contact
-          Manager</interface>, it's color, network, and layout
-          configuration. </para></listitem>
+        <varlistentry> <term> <guimenu>Acciones</guimenu>:</term>
+          <listitem><para> Acciones que pueden aplicarse a un mensaje. Normalmente, si la acción sólo tiene un objetivo -por ejemplo responder a un mensaje- le encontrará en este el menú <guimenu>Acciones</guimenu>.
+          </para></listitem>
         </varlistentry>
 
-       <varlistentry>
-          <term> <guimenu>Help</guimenu> Menu</term>
-          <listitem><para>
-             Select among these items to open the 
-             <application>Help Browser</application> 
-             and read the <application>Evolution</application> manual.
+       <varlistentry> <term> <guimenu>Herramientas</guimenu>:</term>
+          <listitem><para> Incluye las herramientas de configuración y reconfiguración. En el caso del correo, se trata de elementos como el <guimenuitem>Editor de carpetas virtuales</guimenuitem>.  Para el <interface>Calendario</interface> y el <interface>administrador de contactos</interface>, incluye la configuración del color, de la red y la organización en pantalla.
+          </para></listitem>
+        </varlistentry>
+
+       <varlistentry> <term> <guimenu>Ayuda</guimenu>:</term>
+          <listitem><para> Estos elementos permiten abrir el <application>navegador de ayuda</application>  para leer el manual de <application>Ximian Evolution</application>.
           </para></listitem>
         </varlistentry>
       </variablelist>
    </para>
-   <para>
-     Other menus, like <guilabel>Folder</guilabel>,
-     <guilabel>Message</guilabel>, and <guilabel>Actions</guilabel>,
-     appear only occasionally.  <guilabel>Message</guilabel> and
-     <guilabel>Folder</guilabel>, for example, have commands that only
-     relate to email, so they're only available when you're looking at
-     email.
-   </para>
-   <para>
-      Once you've familiarized yourself with the <interface>main
-      window</interface> you can start doing things with it.  We'll
-      start with your email inbox, since you've got a letter waiting
-      for you already.
+
+   <para> Cuando esté familiarizado con la <interface>ventana principal</interface> podrá empezar a hacer cosas con ella. Empezaremos por el <guilabel>Resumen</guilabel> que proporciona una perspectiva general de su información en <application>Ximian Evolution</application>.
     </para>
+    </sect2>
+    <sect2 id="basics-summary">
+      <title>Introducción al Resumen</title>
+      <para> El Resumen de Ximian Evolution ofrece una vista rápida de la información importante: sus citas para la jornada, su correo pendiente , los titulares de los servicios de noticias elegidos, etc. Para ver el Resumen haga clic en <guibutton>Resumen</guibutton> en la barra de atajos o elija la carpeta <guilabel>Resumen</guilabel> en la barra de carpetas.
+      </para>
+
+      <para> <figure>
+	<title>El Resumen de Evolution</title>
+
+<screenshot> <graphic  format="png" fileref="figures/summary" srccredit="Kevin Breit">
+</screenshot> </figure>
+      </para>
+
+<para> <inlinemediaobject><imageobject><imagedata fileref="figures/full-1" format="png"></imageobject></inlinemediaobject> <guilabel>Meteorología</guilabel>
+</para>
+<para> Muestra las últimas noticias sobre el clima de cientos de ciudades de todo el mundo.
+</para>
+<para> <inlinemediaobject><imageobject><imagedata fileref="figures/full-2" format="png"></imageobject></inlinemediaobject> <guilabel>Titulares de noticias</guilabel>
+</para>
+<para> Muestra los titulares de las últimas noticias de sus sitios web favoritos.
+</para>
+<para> <inlinemediaobject><imageobject><imagedata fileref="figures/full-3" format="png"></imageobject></inlinemediaobject> <guilabel>Resumen de correo</guilabel>
+</para>
+<para> Muestra cuántos mensajes de correo tiene pendientes de leer  en las carpetas elegidas.
+</para>
+<para> <inlinemediaobject><imageobject><imagedata fileref="figures/full-4" format="png"></imageobject></inlinemediaobject> <guilabel>Resumen de citas</guilabel>
+</para>
+<para> Muestra su agenda.
+</para>
+<para> <inlinemediaobject><imageobject><imagedata fileref="figures/full-5" format="png"></imageobject></inlinemediaobject> <guilabel>Tareas</guilabel>
+</para>
+<para> Muestra sus tareas pendientes.
+</para>
+
+
+      <para> Para agregar servicios adicionales a su resumen o modificar los  actuales elija <menuchoice> <guimenu>Herramientas</guimenu> <guimenuitem>Configuración</guimenuitem> </menuchoice> y haga clic en <guibutton>Configuración del resumen</guibutton>.
+      </para>
+
+    </sect2>
+
+    <sect2 id="basics-mail">
+      <title>Introducción al correo electrónico</title>
+      <para> En varios aspectos <application>Ximian Evolution</application> es como cualquier otro programa de correo electrónico:
+     <itemizedlist>
+	  <listitem>
+	    <para> Puede ordenar y organizar su correo en una amplia gama de maneras con carpetas, búsquedas y filtros.  </para>
+	  </listitem>
+	  <listitem>
+	    <para> Permite enviar y recibir mensajes en HTML o en texto sencillo, y facilita el envío y recepción de múltiples archivos adjuntos.
+        </para>
+	  </listitem>
+	  <listitem>
+	    <para> Implementa múltiples fuentes de correo, como   <glossterm
+              linkend="imap">IMAP</glossterm>,   <glossterm
+              linkend="pop">POP3</glossterm> y archivos locales <filename>mbox</filename> o <filename>mh</filename> creados por otros programas de correo.
+            </para>
+	  </listitem>
+	  <listitem>
+	    <para> Permite proteger su privacidad utilizando cifrado.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+      <para> Sin embargo, <application>Ximian Evolution</application> tiene algunas diferencias importantes. Primero está diseñado para manejar ingentes cantidades de correo. Las funciones  de   filtrado  y de búsqueda han sido optimizadas en velocidad y eficiencia para operar con grandes cantidades de correo. También están las carpetas virtuales de <application>Ximian Evolution</application>, una característica organizacional avanzada que no está disponible en los clientes de correo más comunes.  Esta característica le resultará especialmente útil si administra un montón de correo o conserva todos sus mensajes para poder referirse a ellos posteriormente.
+     </para>
+     <para> Este es el aspecto que tiene el editor de correo:
+
+ <!-- ==============Figure=================================== -->
+
+      <figure id="usage-mail-intro-fig">
+          <title>Correo en Ximian Evolution</title>
+          <screenshot> <screeninfo>Entrada</screeninfo> <mediaobject><imageobject><imagedata  fileref="figures/mail-inbox" format="png" srccredit="Kevin Breit"> </imageobject></mediaobject>
+        </screenshot> </figure>
+<!-- ==============End of Figure============================== -->
+</para>
+      <para> <inlinemediaobject><imageobject>  <imagedata  fileref="figures/full-1"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Liste de mensajes</guilabel>
+      </para>
+
+      <para> La <guilabel>lista de mensajes</guilabel> muestra todos los  mensajes que tiene. Esto incluye los que mensajes ya leídos, sin leer o marcados para su borrado.
+      </para>
+
+      <para> <inlinemediaobject><imageobject>  <imagedata  fileref="figures/full-2"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Visor de correo</guilabel>
+      </para>
+
+      <para> Aquí es donde se presentan los mensajes para su lectura.
+      </para>
+
+      <para> Si le parece que el <interface>panel de previsualización </interface> es demasiado pequeño, puede cambiar su tamaño, aumentar la ventana completamente o hacer doble clic sobre el mensaje en la <interface>lista de mensajes</interface> para abrirlo en una ventana aislada. Para cambiar los tamaños de un panel sólo hay que hacer clic en la línea divisoria y arrastrarla arriba y abajo hasta la posición deseada.
+
+</para>
+<para> Como con las carpetas,  puede  hacer clic con el botón derecho sobre los mensajes de la lista y obtener un menú con todas las acciones posibles: mover, borrar o recuperarlo, crear carpetas virtuales y filtros basados en ellos.
+      </para>
+      <para> Muchas de las acciones más frecuentes relacionadas con los mensajes aparecen en el menú <guimenu>Mensaje</guimenu> de la barra del menú.  Los más frecuentes como <guimenuitem>Responder</guimenuitem> o <guimenuitem>Reenviar</guimenuitem> también aparecen como botones en la barra de herramientas.  La mayoría de ellos también aparecen también en el menú contextual (con el botón derecho) y como atajos de teclado, a los que se acostumbrará pronto por su rapidez. Utilice el método que le resulte más cómodo: la idea es que el software debe adaptarse al usuario, y no a la inversa.
+      </para>
+
+    </sect2>
+    <sect2 id="basics-calendar">
+      <title>Introducción al Calendario</title>
+      <para> Para abrir el calendario haga clic en <guibutton>Calendario</guibutton> en la <interface>barra de atajos</interface>.  En la configuración predeterminada, el calendario muestra la planificación del día sobre un fondo de renglones. En la parte superior derecha, un calendario mensual permite cambiar de día. En la parte inferior, una libreta de <guilabel>Tareas</guilabel> le permite administrar una lista de tareas separadas de las citas del calendario. La vista del día en el calendario tiene el aspecto similar al siguiente:
+
+   <!-- ============== Figure ============================= --> <figure id="usage-calendar-fig">
+      <title>Vista de contactos de Ximian Evolution</title>
+      <screenshot> <screeninfo>Ventana del administrador de contactos de Ximian Evolution</screeninfo> <mediaobject><imageobject><imagedata  fileref="figures/calendar" format="png" srccredit="Aaron Weber"> </imageobject></mediaobject>
+      </screenshot> </figure>
+  <!-- ============== End of Figure ============================= -->
+
+    </para>
+
+      <para> <inlinemediaobject><imageobject>  <imagedata  fileref="figures/full-1"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Lista de citas</guilabel>
+      </para>
+
+      <para> La <guilabel>lista de citas</guilabel> es la encargada de mostrar todas las citas que tiene planificadas, tanto si son de un día completo como si son citas puntuales de menos de media hora.
+      </para>
+
+      <para> <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="png"></imageobject></inlinemediaobject> <guilabel>Lista de tareas</guilabel>
+      </para>
+
+      <para> La  <guilabel>lista de tareas</guilabel> complementa a la <guilabel>lista de citas </guilabel> ya que mantiene las tareas que no tienen una fecha asociada. Las tareas pueden tener notas complejas asociadas y puede anotar el porcentaje de acabado de la misma en una escala.
+      </para>
+
+      <para> <inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="png"></imageobject></inlinemediaobject> <guilabel>Ventana del calendario</guilabel>
+      </para>
+
+      <para> La <guilabel>ventana del calendario</guilabel> contiene una representación gráfica del calendario en la que puede elegir qué días quiere ver en la <guilabel>lista de citas</guilabel>.
+      </para>
+
+
+    </sect2>
+    <sect2 id="basics-contacts">
+      <title>Introducción al administrador de contactos</title>
+      <para> La libreta de direcciones de  <application>Ximian Evolution</application> puede manejar todas las funciones de libreta de direcciones, listín telefónico o tarjetero. Por supuesto es mucho más fácil actualizar <application>Ximian Evolution</application> que hacerlo en un libro de papel de verdad. <application>Ximian Evolution</application> también permite la fácil sincronización con dispositivos de mano y funciona con directorios   <glossterm
+        linkend="ldap">LDAP</glossterm> conectados a la red.
+      </para>
+      <para> Otra ventaja de la libreta de direcciones de <application>Ximian Evolution</application> es su integración con el resto de la aplicación.  Por ejemplo puede crear una tarjeta de visita a partir de un mensaje de correo sólo pinchando con el botón derecho sobre la dirección del remitente del mensaje.
+      </para>
+      <para> Para abrir su libreta de direcciones, haga clic en <guibutton>Contactos</guibutton> en la barra de atajos o elija una de las carpetas de contactos en la barra de carpetas.  En   <xref
+        linkend="usage-contact-fig"> podrá ver una reproducción de la libreta de direcciones con todas sus posibilidades de organización. En su configuración predeterminada, la libreta muestra todas sus tarjetas en orden alfabético en la vista de  <glossterm      linkend="minicard">minitarjetas</glossterm>. Puede elegir otras vistas desde el menú <guimenu>Vistas</guimenu> y ajustar el ancho de las columnas si hace clic y arrastra las columnas divisorias grises.
+      </para>
+      <para> La apariencia de la libreta de direcciones es la siguiente:
+
+      <figure id="usage-contact-fig">
+	<title>Interfaz de contactos de Ximian Evolution</title>
+	<screenshot> <screeninfo>Ventana de lista de contactos de Ximian Evolution</screeninfo> <mediaobject><imageobject><imagedata  fileref="figures/contact" format="png" srccredit="Kevin Breit"> </imageobject></mediaobject>
+	</screenshot> </figure>
+     </para>
+      <para> <inlinemediaobject><imageobject>  <imagedata  fileref="figures/full-1"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Lista de contactos</guilabel>
+      </para>
+      <para> La <guilabel>lista de contactos</guilabel> lista sus contactos.
+      </para>
+    </sect2>
   </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

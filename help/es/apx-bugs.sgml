@@ -1,23 +1,23 @@
- <appendix id="bugs">
-   
-    <title>Errores y limitaciones conocidas</title>
-    <abstract>
-    <para>
-     Este apéndice describe errores y limitaciones conocidas de
-    <application>Evolution</application>.  Por favor use la
-    <application>Herramienta de reporte de fallos</application> de GNOME
-    (<command>bug-buddy</command> en la línea de comandos) si encuentra
-    algún error que no este en esta lista.
-    </para>
-    </abstract>
 
-    <para>
-      Evolution todavía es software en fase beta, así que el seguimiento
-      de errores es mejor dejárselo al sistema bugzilla y a los 
-      programadores.  Eso sí, hay cierto número de limitaciones que
-      no serán corregidas antes de la versión 1.0. Las más notables son: 
-      Importación de los archivos .pst de Microsoft Outlook, y la
-      compatibilidad con el protocolo de Microsoft Exchange.
+
+<!-- $Id: apx-bugs.sgml,v 1.1.22.1 2003/08/08 21:42:17 olea Exp $ -->
+<!-- Traducción: Ismael  -->
+<!-- Revisión: irm 030504/final 030428/rápida		-->
+
+
+ <appendix id="bugs">
+
+  <title>Fallos conocidos y limitaciones</title> <abstract>
+    <para> El control de calidad de Ximian Evolution se realiza desde la   <ulink url="http://bugzilla.ximian.com">base de datos de partes de Ximian</ulink>.  Si encuentra algún defecto o si quiere sugerir alguna nueva funcionalidad puede utilizarla o bien optar por la <application>herramienta de información de errores</application> de GNOME (conocida como <command>bug-buddy</command> en la línea de órdenes).
     </para>
-  </appendix>
+    <para> Si necesita ayuda adicional sobre Ximian Evolution, visite la web de asistencia técnica en  <ulink       url="http://support.ximian.com">support.ximian.com</ulink>.
+  </para> </abstract>
+
+	<para> En la web tiene disponible una lista completa de solicitudes de características y otros asuntos en la base de datos de partes de Ximian. Puede aprender más sobre el proceso de desarrollo de Ximian Evolution en  <ulink        url="http://developer.ximian.com">developer.ximian.com</ulink>.
+  </para>
+</appendix>
+
+
+
+
 
