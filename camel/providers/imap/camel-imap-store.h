@@ -75,10 +75,20 @@ void camel_imap_store_close (CamelImapStore *store, gboolean expunge, CamelExcep
 
 /* support functions */
 
-enum { CAMEL_IMAP_OK = 0, CAMEL_IMAP_NO, CAMEL_IMAP_BAD, CAMEL_IMAP_FAIL };
+enum {
+	CAMEL_IMAP_OK = 0,
+	CAMEL_IMAP_NO,
+	CAMEL_IMAP_BAD,
+	CAMEL_IMAP_PLUS,
+	CAMEL_IMAP_FAIL
+};
 
 gint camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...);
 gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, char *fmt, ...);
+
+/* multi-transactional commands... */
+gint camel_imap_command_preliminary (CamelImapStore *store, char **ret, char **cmdid, char *fmt, ...);
+gint camel_imap_command_continuation (CamelImapStore *store, char *cmdid, char **ret, CamelStream *cstream);
 
 /* Standard Camel function */
 CamelType camel_imap_store_get_type (void);

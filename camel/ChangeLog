@@ -1,3 +1,11 @@
+2000-08-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c
+	(camel_imap_command_preliminary): New convenience function for
+	multi-transactional commands (opening request)
+	(camel_imap_command_continuation): New convenience function for
+	multi-transactional commands (followup data)
+
 2000-08-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* providers/mh/camel-mh-folder.c: Fixed a warning.

@@ -141,12 +141,12 @@ camel_imap_folder_init (gpointer object, gpointer klass)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 	CamelFolder *folder = CAMEL_FOLDER (object);
-
+	
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = FALSE; /* FIXME: this should be TRUE but it's not yet implemented */
-
+	folder->has_search_capability = TRUE;
+	
 	imap_folder->summary = NULL;
 	imap_folder->summary_hash = NULL;
 	imap_folder->lsub = NULL;
@@ -213,7 +213,7 @@ imap_summary_free (GPtrArray **summary)
 			g_free (info);
 			info = NULL;
 		}
-
+		
 		g_ptr_array_free (array, TRUE);
 		*summary = NULL;
 	}
@@ -238,10 +238,10 @@ imap_finalize (CamelObject *object)
 	gint max, i;
 	
 	imap_folder_summary_free (imap_folder);
-
+	
 	if (imap_folder->lsub) {
 		max = imap_folder->lsub->len;
-
+		
 		for (i = 0; i < max; i++) {
 			g_free (imap_folder->lsub->pdata[i]);
 			imap_folder->lsub->pdata[i] = NULL;
@@ -261,13 +261,13 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	parent_class->init (folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
 	if (camel_exception_get_id (ex))
 		return;
-
+	
 	/* we assume that the parent init
 	   method checks for the existance of @folder */
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE; /* FIXME: this should be TRUE 'cept it ain't implemented yet */
+	folder->has_search_capability = TRUE;
 	
         /* some IMAP daemons support user-flags           *
 	 * I would not, however, rely on this feature as  *
@@ -301,7 +301,7 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		max = imap_folder->summary->len;
 		for (i = 0; i < max; i++) {
 			CamelMessageInfo *info;
-
+			
 			info = (CamelMessageInfo *) g_ptr_array_index (imap_folder->summary, i);
 			if (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED) {
 				char *flags;
@@ -347,9 +347,9 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	gchar *node, *result;
 	gint i, status, recent = -1;
-
+	
 	g_return_if_fail (folder != NULL);
-
+	
 	imap_sync (folder, FALSE, ex);
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
@@ -365,7 +365,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 		g_free (result);
 		return;
 	}
-
+	
 	/* determine which messages were successfully expunged */
 	node = result;
 	for (i = 0; node; i++) {
@@ -438,8 +438,6 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	}
 	
 	g_free (result);
-
-	/*imap_folder_summary_free (imap_folder);*/
 	
 	camel_imap_folder_changed (folder, recent, ex);
 }
@@ -527,13 +525,13 @@ imap_get_unread_message_count (CamelFolder *folder)
 	CamelMessageInfo *info;
 	GPtrArray *infolist;
 	gint i, count = 0;
-
+	
 	g_return_val_if_fail (folder != NULL, 0);
-
+	
 	/* If we don't have a message count, return 0 */
 	if (!imap_folder->summary)
 		return 0;
-
+	
 	infolist = imap_get_summary (folder);
 	
 	for (i = 0; i < infolist->len; i++) {
@@ -541,7 +539,7 @@ imap_get_unread_message_count (CamelFolder *folder)
 		if (!(info->flags & CAMEL_MESSAGE_SEEN))
 			count++;
 	}
-
+	
 	return count;
 }
 
@@ -553,21 +551,12 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, const Camel
 	CamelStreamMem *mem;
 	gchar *result, *folder_path, *dir_sep, *flagstr = NULL;
 	gint status;
-
+	
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (message != NULL);
-
+	
 	/* write the message to a CamelStreamMem so we can get it's size */
-	mem = CAMEL_STREAM_MEM (camel_stream_mem_new ());
-	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (mem)) == -1) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not APPEND message to IMAP server %s: %s.",
-				      service->url->host,
-				      g_strerror (errno));
-		
-	        return;
-	}
+	mem = CAMEL_STREAM_MEM (CAMEL_DATA_WRAPPER (message)->stream);
 	
 	mem->buffer = g_byte_array_append (mem->buffer, g_strdup ("\r\n"), 3);
 	
@@ -1516,7 +1505,7 @@ imap_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, gui
 	info->flags = (info->flags & ~flags) | (set & flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	
 	/*gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);*/
-	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", (char *) uid);
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", (gpointer *) uid);
 }
 
 static gboolean
@@ -1529,7 +1518,7 @@ static void
 imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value)
 {
 	/*gtk_signal_emit_by_name (GTK_OBJECT (folder), "message_changed", uid);*/
-	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", (char *) uid);
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", (gpointer *) uid);
 }
 
 void
