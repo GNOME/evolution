@@ -249,7 +249,7 @@ schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
 EXTRA_DIST =	 			\
 	e-calendar-marshal.list		\
 	$(glade_DATA)			\
-	$(schema_DATA)                  \
+	$(schema_in_files)              \
 	$(etspec_DATA)			\
 	$(server_in_files)
 

@@ -1,3 +1,8 @@
+2004-07-08  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* gui/Makefile.am:
+	tarball should ship .schemas.in.in files, not generated files.
+
 2004-07-06  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/gnome-cal.c (gnome_calendar_init): setup the widgets before
