@@ -120,8 +120,8 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 {
 	GdkDragContext *context;
 	GtkTargetList *target_list;
-	GdkDragAction actions = GDK_ACTION_MOVE;
-
+	GdkDragAction actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
+	
 	view->drag_list = get_card_list (adapter, E_REFLOW (view)->selection);
 
 	g_print ("dragging %d card(s)\n", g_list_length (view->drag_list));

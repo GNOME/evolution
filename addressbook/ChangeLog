@@ -1,3 +1,9 @@
+2002-04-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_drag_begin):
+	Allow GDK_ACTION_COPY also, since the composer for example does
+	not accept MOVE's. Completes bug #8448.
+
 2002-04-18  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/ldap-config.glade: change order of scope option
