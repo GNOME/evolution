@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0RC2\n"
-"POT-Creation-Date: 2002-04-18 12:30+0300\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-04-11 13:32GMT\n"
 "Last-Translator: Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -7025,7 +7025,7 @@ msgid "Print Calendar"
 msgstr "Отпечатай Календар"
 
 #: calendar/gui/print.c:2498 calendar/gui/print.c:2590
-#: mail/mail-callbacks.c:2365 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Печатен Преглед"
@@ -10577,19 +10577,19 @@ msgstr ""
 msgid "Filters"
 msgstr "Филтри"
 
-#: mail/mail-callbacks.c:2326
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "Отпечатай Съобщението"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr "US-Писмо"
 
-#: mail/mail-callbacks.c:2372
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "Отпечатването неуспешно"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2478
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""

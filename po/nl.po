@@ -22,7 +22,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 1\n"
-"POT-Creation-Date: 2002-04-03 21:25+0200\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-04-06 03:17+02:00\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -343,7 +343,9 @@ msgstr "Kaart:"
 msgid ""
 "\n"
 "Name: "
-msgstr "\nNaam:"
+msgstr ""
+"\n"
+"Naam:"
 
 #: addressbook/backend/ebook/e-card.c:3715
 msgid ""
@@ -365,7 +367,9 @@ msgstr ""
 msgid ""
 "\n"
 "  Additional: "
-msgstr "\n  Extra:"
+msgstr ""
+"\n"
+"  Extra:"
 
 #: addressbook/backend/ebook/e-card.c:3718
 msgid ""
@@ -379,19 +383,25 @@ msgstr ""
 msgid ""
 "\n"
 "  Suffix:     "
-msgstr "\n  Achtervoegsel:"
+msgstr ""
+"\n"
+"  Achtervoegsel:"
 
 #: addressbook/backend/ebook/e-card.c:3733
 msgid ""
 "\n"
 "Birth Date: "
-msgstr "\nGeboortedatum:"
+msgstr ""
+"\n"
+"Geboortedatum:"
 
 #: addressbook/backend/ebook/e-card.c:3744
 msgid ""
 "\n"
 "Address:"
-msgstr "\nAdres:"
+msgstr ""
+"\n"
+"Adres:"
 
 #: addressbook/backend/ebook/e-card.c:3746
 msgid ""
@@ -445,7 +455,9 @@ msgstr ""
 msgid ""
 "\n"
 "  Country:     "
-msgstr "\n  Land:"
+msgstr ""
+"\n"
+"  Land:"
 
 #: addressbook/backend/ebook/e-card.c:3765
 msgid ""
@@ -475,49 +487,65 @@ msgstr ""
 msgid ""
 "\n"
 "E-mail:\n"
-msgstr "\nEmail:\n"
+msgstr ""
+"\n"
+"Email:\n"
 
 #: addressbook/backend/ebook/e-card.c:3807
 msgid ""
 "\n"
 "E-mail:"
-msgstr "\nEmail:"
+msgstr ""
+"\n"
+"Email:"
 
 #: addressbook/backend/ebook/e-card.c:3826
 msgid ""
 "\n"
 "Mailer: "
-msgstr "\nPostbode: "
+msgstr ""
+"\n"
+"Postbode: "
 
 #: addressbook/backend/ebook/e-card.c:3832
 msgid ""
 "\n"
 "Time Zone: "
-msgstr "\nTijdzone: "
+msgstr ""
+"\n"
+"Tijdzone: "
 
 #: addressbook/backend/ebook/e-card.c:3840
 msgid ""
 "\n"
 "Geo Location: "
-msgstr "\nGeografische Locatie: "
+msgstr ""
+"\n"
+"Geografische Locatie: "
 
 #: addressbook/backend/ebook/e-card.c:3844
 msgid ""
 "\n"
 "Business Role: "
-msgstr "\nBedrijfsrol: "
+msgstr ""
+"\n"
+"Bedrijfsrol: "
 
 #: addressbook/backend/ebook/e-card.c:3856
 msgid ""
 "\n"
 "Org: "
-msgstr "\nOrg:"
+msgstr ""
+"\n"
+"Org:"
 
 #: addressbook/backend/ebook/e-card.c:3857
 msgid ""
 "\n"
 "  Name:  "
-msgstr "\nNaam:  "
+msgstr ""
+"\n"
+"Naam:  "
 
 #: addressbook/backend/ebook/e-card.c:3858
 msgid ""
@@ -555,13 +583,17 @@ msgstr ""
 msgid ""
 "\n"
 "Categories: "
-msgstr "\nCategorieën: "
+msgstr ""
+"\n"
+"Categorieën: "
 
 #: addressbook/backend/ebook/e-card.c:3866
 msgid ""
 "\n"
 "Comment: "
-msgstr "\nCommentaar: "
+msgstr ""
+"\n"
+"Commentaar: "
 
 #. if (crd->sound.prop.used) {
 #. if (crd->sound.type != SOUND_PHONETIC)
@@ -585,7 +617,9 @@ msgstr ""
 msgid ""
 "\n"
 "Public Key: "
-msgstr "\nOpenbare sleutel: "
+msgstr ""
+"\n"
+"Openbare sleutel: "
 
 #: addressbook/backend/ebook/e-card.c:4235
 msgid "Multiple VCards"
@@ -611,7 +645,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Kon Bonobo niet initialiseren"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2382
+#: addressbook/backend/pas/pas-backend-ldap.c:2394
 msgid "Searching..."
 msgstr "Bezig met zoeken..."
 
@@ -624,35 +658,35 @@ msgstr "Bezig met laden..."
 msgid "Error in search expression."
 msgstr "Fout in zoekopdracht."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:515
+#: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
 msgstr "Verbinding met LDAP server wordt opgezet..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:525
+#: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
 msgstr "Kan geen verbinding krijgen met LDAP server."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:541
+#: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
 msgstr "Wacht op antwoord van de LDAP server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:962
+#: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
 msgstr "Kaart wordt toegevoegd aan LDAP server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1063
+#: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
 msgstr "Kaart wordt verwijderd van LDAP server..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1173
+#: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
 msgstr "Kaart van LDAP server wordt aangepast..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2299
+#: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
 msgstr "LDAP zoekresultaten komen binnen..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2305
+#: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
 msgstr "Zoeken wordt herstart."
 
@@ -4615,7 +4649,9 @@ msgstr "Fabriek voor de voorbeeld Kalendercomponent"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:10
 msgid "Factory to centralize calendar component editor dialogs"
-msgstr "Fabriek voor het centraliseren van kalendercomponent bewerkingsdialoogvensters"
+msgstr ""
+"Fabriek voor het centraliseren van kalendercomponent "
+"bewerkingsdialoogvensters"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:11
 msgid "Factory to create a component editor factory"
@@ -4821,7 +4857,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:202
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
@@ -5362,7 +5398,9 @@ msgstr "voor het begin van de afspraak"
 
 #: calendar/gui/dialogs/cancel-comp.c:51
 msgid "The meeting status has changed. Send an updated version?"
-msgstr "De status van de bijeenkomst is veranderd. Een geactualiseerde versie versturen?"
+msgstr ""
+"De status van de bijeenkomst is veranderd. Een geactualiseerde versie "
+"versturen?"
 
 #: calendar/gui/dialogs/cancel-comp.c:57
 msgid "Are you sure you want to cancel and delete this meeting?"
@@ -6435,7 +6473,9 @@ msgstr "Update voltooid\n"
 
 #: calendar/gui/e-itip-control.c:1446
 msgid "This response is not from a currentattendee.  Add as an attendee?"
-msgstr "Dit antwoord is niet van een geregistreerde deelnemer. Toevoegen als deelnemer?"
+msgstr ""
+"Dit antwoord is niet van een geregistreerde deelnemer. Toevoegen als "
+"deelnemer?"
 
 #: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -7022,7 +7062,7 @@ msgid "Print Calendar"
 msgstr "Kalender afdrukken"
 
 #: calendar/gui/print.c:2498 calendar/gui/print.c:2590
-#: mail/mail-callbacks.c:2365 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Afdrukvoorbeeld"
@@ -7087,79 +7127,79 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "ZMDWDVZ"
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr "time-now verwacht 0 argumenten"
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr "make-time verwacht 1 argument"
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr "make-time verwacht dat argument 1 een string is"
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr "make-time argument 1 moet een ISO-8601 date/time string zijn"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr "time-add-day verwacht 2 argumenten"
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "time-add-day verwacht dat argument 1 een time_t is"
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "time-add-day verwacht dat argument 2 een integer is"
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr "time-day-begin verwacht 1 argument"
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "time-day-bewgin verwacht dat argument 1 een time_t is"
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr "time-dat-end verwacht 1 argument"
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "time-dat-end verwacht dat argument 1 een time_t is"
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr "get-vtype verwacht geen argumenten"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "occur-in-time-range? verwacht 2 argumenten"
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "occur-in-time-range? verwacht dat argument 1 een time_t is"
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "occur-in-time-range? verwacht dat argument 2 een time_t is"
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr "Bevat? verwacht 2 argumenten"
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr "contains? verwacht dat argument 1 een string is"
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr "contains? verwacht dat argument 2 een string is"
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
@@ -7167,11 +7207,11 @@ msgstr ""
 "contains? verwacht dat argument 1 een kleuze is uit \"any\",\"summary\","
 "\"description\""
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr "has-categories? verwacht op zijn minst 1 argument"
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -7179,19 +7219,19 @@ msgstr ""
 "has-categories? verwacht dat alle argumenten strings zijn, of dat slechts "
 "een argument booleaans onwaar is (#f)"
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed? verwacht 0 argumenten"
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr "completed-before? verwacht 1 argumenten"
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "completed-before? verwacht dat argument 1 een time_t is"
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Evaluation of the search expression did not yield a boolean value"
 
@@ -7839,7 +7879,7 @@ msgstr "Kan map niet verkrijgen: Ongeldige bewerking op deze opslag"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Kan map niet maken: Ongeldige bewerking op deze opslag"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7859,7 +7899,7 @@ msgstr ""
 "Land: %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -8156,7 +8196,7 @@ msgid "Could not save summary: %s: %s"
 msgstr "Kon samenvatting %s niet opslaan: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Kan geen bericht toevoegen aan de korte inhoud: onbekende reden"
 
@@ -8342,7 +8382,7 @@ msgstr "Map `%s' is niet leeg. Niet verwijderd."
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 msgid "Storing folder"
 msgstr "Bezig met opslaan map"
 
@@ -8383,8 +8423,8 @@ msgstr "Kon tijdelijke postbus niet openen: %s"
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "Samenvatting en map niet gelijk, zelfs na synchronisatie"
 
@@ -8402,7 +8442,7 @@ msgstr "Fout bij het schrijven naar tijdelijk postbus %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Kon de bronmap %s niet sluiten: %s"
@@ -8419,7 +8459,7 @@ msgstr "Kon de naam van de map niet wijzigen: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Onbekende fout: %s"
@@ -8471,21 +8511,21 @@ msgstr "Spoolmappen kunnen niet hernoemd worden"
 msgid "Spool folders cannot be deleted"
 msgstr "Spoolmappen kunnen niet gewist worden"
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Kon tijdelijke map %s niet synchroniseren: %s"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Kon spoolmap: %s niet synchroniseren: %s"
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
@@ -8494,7 +8534,7 @@ msgstr ""
 "Synchroniseren spoolmap '%s' is mislukt: %s\n"
 "Map is wellicht beschadigd, kopie opgeslagen in '%s'"
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, c-format
 msgid "Could not file: %s: %s"
 msgstr "Kon niet opslaan: %s: %s"
@@ -8650,7 +8690,9 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-provider.c:91
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
-msgstr "Dit zal een verbinding maken met de POP server en Kerberos 4 gebruiken voor de aannmelding."
+msgstr ""
+"Dit zal een verbinding maken met de POP server en Kerberos 4 gebruiken voor "
+"de aannmelding."
 
 #: camel/providers/pop3/camel-pop3-store.c:198
 #, c-format
@@ -8998,7 +9040,9 @@ msgstr "DATA responsfout: %s: bericht niet verzonden"
 #: camel/providers/smtp/camel-smtp-transport.c:1048
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr "Time-out tijdens het versturen van DATA: bericht afgebroken: %s: bericht niet verzonden"
+msgstr ""
+"Time-out tijdens het versturen van DATA: bericht afgebroken: %s: bericht "
+"niet verzonden"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1067
 #, c-format
@@ -9282,7 +9326,8 @@ msgstr ""
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be editted.)"
 "<b>"
-msgstr "<b>(Het opstelvenster bevat non-tekst inhoud die niet kan worden bewerkt.)<b>"
+msgstr ""
+"<b>(Het opstelvenster bevat non-tekst inhoud die niet kan worden bewerkt.)<b>"
 
 #: composer/evolution-composer.c:376
 msgid ""
@@ -10603,19 +10648,19 @@ msgstr ""
 msgid "Filters"
 msgstr "Filters"
 
-#: mail/mail-callbacks.c:2326
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "Bericht Afdrukken"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:2372
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "Afdrukken van bericht mislukt"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2478
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -23280,7 +23325,7 @@ msgstr ""
 "U kunt \"Automatisch\" kiezen als u het niet weet; Evolution probeert het "
 "dan voor u uit te zoeken."
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:803
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:809
 msgid "Please select the information that you would like to import:"
 msgstr "Kies de informatie die u zou willen importeren:"
 
@@ -23385,7 +23430,7 @@ msgstr "Importeer informatie en instellingen van oudere programma's"
 msgid "Import a single file"
 msgstr "Importeer een enkel bestand"
 
-#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:632
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:638
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -23393,11 +23438,11 @@ msgstr ""
 "Even geduld...\n"
 "Bestaande instellingen worden nagezocht"
 
-#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:635
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
 msgstr "Intelligent Importeren wordt gestart"
 
-#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:758
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:764
 #, c-format
 msgid "From %s:"
 msgstr "Van %s:"
@@ -24736,7 +24781,8 @@ msgstr "Doorsturen _Geciteerd"
 
 #: ui/evolution-mail-message.xml.h:36
 msgid "Forward the selected message in the body of a new message"
-msgstr "Stuur het geselecteerde bericht door als de inhoud van een nieuw bericht"
+msgstr ""
+"Stuur het geselecteerde bericht door als de inhoud van een nieuw bericht"
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Forward the selected message quoted like a reply"
@@ -25455,8 +25501,8 @@ msgid "With Category"
 msgstr "Op Categorie:"
 
 #. Check for UTC.
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:207
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:700
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:209
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:702
 msgid "UTC"
 msgstr "GMT"
 
@@ -25666,757 +25712,771 @@ msgstr "init_corba(): kon Gnome niet initializeren"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kon Bonobo niet initializeren"
 
-msgid "Unable to find any of your identities in the attendees list!\n"
-msgstr "Kan geen van uw identiteiten vinden in de bezoekerlijst!\n"
+#~ msgid "Unable to find any of your identities in the attendees list!\n"
+#~ msgstr "Kan geen van uw identiteiten vinden in de bezoekerlijst!\n"
 
-msgid "Name contains"
-msgstr "Naam bevat"
+#~ msgid "Name contains"
+#~ msgstr "Naam bevat"
 
-msgid "Email contains"
-msgstr "Email bevat"
+#~ msgid "Email contains"
+#~ msgstr "Email bevat"
 
-msgid "Free/Busy information (%s to %s)"
-msgstr "Vrij/Bezet informatie (%s tot %s)"
+#~ msgid "Free/Busy information (%s to %s)"
+#~ msgstr "Vrij/Bezet informatie (%s tot %s)"
 
-msgid "iCalendar information"
-msgstr "iCalendar informatie"
+#~ msgid "iCalendar information"
+#~ msgstr "iCalendar informatie"
 
-msgid "B_usiness"
-msgstr "Z_akelijk"
+#~ msgid "B_usiness"
+#~ msgstr "Z_akelijk"
 
-msgid "Business _Fax"
-msgstr "Bedrijfs_fax"
+#~ msgid "Business _Fax"
+#~ msgstr "Bedrijfs_fax"
 
-msgid "_Business"
-msgstr "_Zakelijk"
+#~ msgid "_Business"
+#~ msgstr "_Zakelijk"
 
-msgid "_Home"
-msgstr "_Thuis"
+#~ msgid "_Home"
+#~ msgstr "_Thuis"
 
-msgid "_Mobile"
-msgstr "_Mobiel"
+#~ msgid "_Mobile"
+#~ msgstr "_Mobiel"
 
-msgid "°F"
-msgstr "°F"
+#~ msgid "°F"
+#~ msgstr "°F"
 
-msgid "°C"
-msgstr "°C"
+#~ msgid "°C"
+#~ msgstr "°C"
 
-msgid "Factory for the Evolution addressbook component."
-msgstr "Fabriek voor de Evolution adresboekcomponent."
+#~ msgid "Factory for the Evolution addressbook component."
+#~ msgstr "Fabriek voor de Evolution adresboekcomponent."
 
-msgid "Please enter your email address and password for access to %s"
-msgstr "Voer uw emailadres en wachtwoord in voor toegang tot %s"
+#~ msgid "Please enter your email address and password for access to %s"
+#~ msgstr "Voer uw emailadres en wachtwoord in voor toegang tot %s"
 
-msgid "LDAP Authentication"
-msgstr "LDAP Aanmelding"
+#~ msgid "LDAP Authentication"
+#~ msgstr "LDAP Aanmelding"
 
-msgid "Password:"
-msgstr "Wachtwoord:"
+#~ msgid "Password:"
+#~ msgstr "Wachtwoord:"
 
-msgid "Unable to get local storage.  This should never happen."
-msgstr "Niet staat lokale opslag te verkrijgen. Dit zou nooit mogen gebeuren."
+#~ msgid "Unable to get local storage.  This should never happen."
+#~ msgstr ""
+#~ "Niet staat lokale opslag te verkrijgen. Dit zou nooit mogen gebeuren."
 
-msgid "Web page address:"
-msgstr "Homepage adres:"
+#~ msgid "Web page address:"
+#~ msgstr "Homepage adres:"
 
-msgid "123"
-msgstr "123"
+#~ msgid "123"
+#~ msgstr "123"
 
-msgid "a"
-msgstr "a"
+#~ msgid "a"
+#~ msgstr "a"
 
-msgid "b"
-msgstr "b"
+#~ msgid "b"
+#~ msgstr "b"
 
-msgid "c"
-msgstr "c"
+#~ msgid "c"
+#~ msgstr "c"
 
-msgid "d"
-msgstr "d"
+#~ msgid "d"
+#~ msgstr "d"
 
-msgid "e"
-msgstr "e"
+#~ msgid "e"
+#~ msgstr "e"
 
-msgid "f"
-msgstr "f"
+#~ msgid "f"
+#~ msgstr "f"
 
-msgid "g"
-msgstr "g"
+#~ msgid "g"
+#~ msgstr "g"
 
-msgid "h"
-msgstr "h"
+#~ msgid "h"
+#~ msgstr "h"
 
-msgid "i"
-msgstr "i"
+#~ msgid "i"
+#~ msgstr "i"
 
-msgid "j"
-msgstr "j"
+#~ msgid "j"
+#~ msgstr "j"
 
-msgid "k"
-msgstr "k"
+#~ msgid "k"
+#~ msgstr "k"
 
-msgid "l"
-msgstr "l"
+#~ msgid "l"
+#~ msgstr "l"
 
-msgid "m"
-msgstr "m"
+#~ msgid "m"
+#~ msgstr "m"
 
-msgid "n"
-msgstr "n"
+#~ msgid "n"
+#~ msgstr "n"
 
-msgid "o"
-msgstr "o"
+#~ msgid "o"
+#~ msgstr "o"
 
-msgid "p"
-msgstr "p"
+#~ msgid "p"
+#~ msgstr "p"
 
-msgid "q"
-msgstr "q"
+#~ msgid "q"
+#~ msgstr "q"
 
-msgid "r"
-msgstr "r"
+#~ msgid "r"
+#~ msgstr "r"
 
-msgid "s"
-msgstr "s"
+#~ msgid "s"
+#~ msgstr "s"
 
-msgid "t"
-msgstr "t"
+#~ msgid "t"
+#~ msgstr "t"
 
-msgid "u"
-msgstr "u"
+#~ msgid "u"
+#~ msgstr "u"
 
-msgid "v"
-msgstr "v"
+#~ msgid "v"
+#~ msgstr "v"
 
-msgid "w"
-msgstr "w"
+#~ msgid "w"
+#~ msgstr "w"
 
-msgid "x"
-msgstr "x"
+#~ msgid "x"
+#~ msgstr "x"
 
-msgid "y"
-msgstr "y"
+#~ msgid "y"
+#~ msgstr "y"
 
-msgid "z"
-msgstr "z"
+#~ msgid "z"
+#~ msgstr "z"
 
-msgid "Done."
-msgstr "Klaar."
+#~ msgid "Done."
+#~ msgstr "Klaar."
 
-msgid "Factory for the Evolution calendar component."
-msgstr "Fabriek voor de Evolution kalendercomponent."
+#~ msgid "Factory for the Evolution calendar component."
+#~ msgstr "Fabriek voor de Evolution kalendercomponent."
 
-msgid "Notification about your appointment starting on %s and ending on %s"
-msgstr "Herinnering aan uw afspraak beginnend op %s en eindigend op %s"
+#~ msgid "Notification about your appointment starting on %s and ending on %s"
+#~ msgstr "Herinnering aan uw afspraak beginnend op %s en eindigend op %s"
 
-msgid "Notification about your appointment starting on %s"
-msgstr "Herinnering aan uw afspraak beginnend op %s"
+#~ msgid "Notification about your appointment starting on %s"
+#~ msgstr "Herinnering aan uw afspraak beginnend op %s"
 
-msgid "Notification about your appointment ending on %s"
-msgstr "Herinnering aan uw afspraak eindigend op %s"
+#~ msgid "Notification about your appointment ending on %s"
+#~ msgstr "Herinnering aan uw afspraak eindigend op %s"
 
-msgid "Notification about your appointment"
-msgstr "Herinnering aan uw afspraak"
+#~ msgid "Notification about your appointment"
+#~ msgstr "Herinnering aan uw afspraak"
 
-msgid "Notification about your task starting on %s and ending on %s"
-msgstr "Herinnering aan uw taak beginnend op %s en eindigend op %s"
+#~ msgid "Notification about your task starting on %s and ending on %s"
+#~ msgstr "Herinnering aan uw taak beginnend op %s en eindigend op %s"
 
-msgid "Notification about your task starting on %s"
-msgstr "Herinnering aan uw taak beginnend op %s"
+#~ msgid "Notification about your task starting on %s"
+#~ msgstr "Herinnering aan uw taak beginnend op %s"
 
-msgid "Notification about your task ending on %s"
-msgstr "Herinnering aan uw taak eindigend op %s"
+#~ msgid "Notification about your task ending on %s"
+#~ msgstr "Herinnering aan uw taak eindigend op %s"
 
-msgid "Notification about your task"
-msgstr "Herinnering aan uw taak"
+#~ msgid "Notification about your task"
+#~ msgstr "Herinnering aan uw taak"
 
-msgid "Alarm on %A %b %d %Y %H:%M"
-msgstr "Alarm op %A %b %d %Y %H:%M"
+#~ msgid "Alarm on %A %b %d %Y %H:%M"
+#~ msgstr "Alarm op %A %b %d %Y %H:%M"
 
-msgid "Reminder of your appointment at "
-msgstr "Herinnering aan uw afspraak op"
+#~ msgid "Reminder of your appointment at "
+#~ msgstr "Herinnering aan uw afspraak op"
 
-msgid "Snooze"
-msgstr "Sluimeren"
+#~ msgid "Snooze"
+#~ msgstr "Sluimeren"
 
-msgid ""
-"It is %s.  The Unix time is %ld right now.  We just thought you may like to "
-"know."
-msgstr ""
-"Het is %s.  De Unix tijd is %ld nu.  We dachten dat u het wel zou willen "
-"weten."
+#~ msgid ""
+#~ "It is %s.  The Unix time is %ld right now.  We just thought you may like "
+#~ "to know."
+#~ msgstr ""
+#~ "Het is %s.  De Unix tijd is %ld nu.  We dachten dat u het wel zou willen "
+#~ "weten."
 
-msgid "%d"
-msgstr "%d"
+#~ msgid "%d"
+#~ msgstr "%d"
 
-msgid "%B"
-msgstr "%B"
+#~ msgid "%B"
+#~ msgstr "%B"
 
-msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
-msgstr "De prioriteit moet 'Hoog', 'Normaal', 'Laag' of 'Ongedefinieerd' zijn"
+#~ msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
+#~ msgstr ""
+#~ "De prioriteit moet 'Hoog', 'Normaal', 'Laag' of 'Ongedefinieerd' zijn"
 
-msgid "FIXME: mail alarm options"
-msgstr "FIXME: berichtenalarm opties"
+#~ msgid "FIXME: mail alarm options"
+#~ msgstr "FIXME: berichtenalarm opties"
 
-msgid "before start of appointment"
-msgstr "voor begin van afspraak"
+#~ msgid "before start of appointment"
+#~ msgstr "voor begin van afspraak"
 
-msgid "after start of appointment"
-msgstr "na begin van afspraak"
+#~ msgid "after start of appointment"
+#~ msgstr "na begin van afspraak"
 
-msgid "before end of appointment"
-msgstr "voor einde van afspraak"
+#~ msgid "before end of appointment"
+#~ msgstr "voor einde van afspraak"
 
-msgid "_Invite Others"
-msgstr "_Anderen Uitnodigen"
+#~ msgid "_Invite Others"
+#~ msgstr "_Anderen Uitnodigen"
 
-msgid "_Confidential"
-msgstr "_Vertrouwelijk"
+#~ msgid "_Confidential"
+#~ msgstr "_Vertrouwelijk"
 
-msgid "I couldn't update your calendar file!\n"
-msgstr "Kon uw kalenderbestand niet bijwerken!\n"
+#~ msgid "I couldn't update your calendar file!\n"
+#~ msgstr "Kon uw kalenderbestand niet bijwerken!\n"
 
-msgid "I couldn't remove the item from your calendar file!\n"
-msgstr "Ik kon het item niet uit uw kalenderbestand verwijderen!\n"
+#~ msgid "I couldn't remove the item from your calendar file!\n"
+#~ msgstr "Ik kon het item niet uit uw kalenderbestand verwijderen!\n"
 
-msgid "No plaintext to sign."
-msgstr "geen gewone tekst om te ondertekenen"
+#~ msgid "No plaintext to sign."
+#~ msgstr "geen gewone tekst om te ondertekenen"
 
-msgid "No plaintext to clearsign."
-msgstr "Geen gewone tekst om te signeren"
+#~ msgid "No plaintext to clearsign."
+#~ msgstr "Geen gewone tekst om te signeren"
 
-msgid "No plaintext to verify."
-msgstr "geen plaintext om te controleren"
+#~ msgid "No plaintext to verify."
+#~ msgstr "geen plaintext om te controleren"
 
-msgid "No plaintext to encrypt."
-msgstr "Geen plaintext om te encrypten"
+#~ msgid "No plaintext to encrypt."
+#~ msgstr "Geen plaintext om te encrypten"
 
-msgid "No ciphertext to decrypt."
-msgstr "geen ciphertext om te decoderen."
+#~ msgid "No ciphertext to decrypt."
+#~ msgstr "geen ciphertext om te decoderen."
 
-msgid ""
-"Issuer: %s\n"
-"Subject: %s"
-msgstr ""
-"Issuer: %s\n"
-"Onderwerp: %s"
+#~ msgid ""
+#~ "Issuer: %s\n"
+#~ "Subject: %s"
+#~ msgstr ""
+#~ "Issuer: %s\n"
+#~ "Onderwerp: %s"
 
-msgid "Standard Unix mailbox file"
-msgstr "Standaard Unix mailboxbestand"
+#~ msgid "Standard Unix mailbox file"
+#~ msgstr "Standaard Unix mailboxbestand"
 
-msgid "Qmail maildir-format mail files"
-msgstr "Qmail maildir-formaat mailbestanden"
+#~ msgid "Qmail maildir-format mail files"
+#~ msgstr "Qmail maildir-formaat mailbestanden"
 
-msgid "Unix mbox spool-format mail files"
-msgstr "Unix mbox spool-formaat mailbestanden"
+#~ msgid "Unix mbox spool-format mail files"
+#~ msgstr "Unix mbox spool-formaat mailbestanden"
 
-msgid "Summarizing folder"
-msgstr "Samenvatting maken van map"
+#~ msgid "Summarizing folder"
+#~ msgstr "Samenvatting maken van map"
 
-msgid "Could not open folder: %s: summarizing from position %ld: %s"
-msgstr "Kon map: %s niet openen: samenvatting makend vanaf positie %ld: %s"
+#~ msgid "Could not open folder: %s: summarizing from position %ld: %s"
+#~ msgstr "Kon map: %s niet openen: samenvatting makend vanaf positie %ld: %s"
 
-msgid "Cannot summarize folder: %s: %s"
-msgstr "Kan map niet samenvatten: %s: %s"
+#~ msgid "Cannot summarize folder: %s: %s"
+#~ msgstr "Kan map niet samenvatten: %s: %s"
 
-msgid "Synchronizing folder"
-msgstr "Bezig met synchroniseren map"
+#~ msgid "Synchronizing folder"
+#~ msgstr "Bezig met synchroniseren map"
 
-msgid "Could not open folder to summarize: %s: %s"
-msgstr "Kon map: %s niet openen voor maken van samenvatting: %s"
+#~ msgid "Could not open folder to summarize: %s: %s"
+#~ msgstr "Kon map: %s niet openen voor maken van samenvatting: %s"
 
-msgid "Spool stores do not have an inbox"
-msgstr "Lokale opslaglocaties hebben geen postbus-in"
+#~ msgid "Spool stores do not have an inbox"
+#~ msgstr "Lokale opslaglocaties hebben geen postbus-in"
 
-msgid "Cannot summarise folder: %s: %s"
-msgstr "Kan geen samenvatting maken van map: %s: %s"
+#~ msgid "Cannot summarise folder: %s: %s"
+#~ msgstr "Kan geen samenvatting maken van map: %s: %s"
 
-msgid "Could not open folder to summarise: %s: %s"
-msgstr "Kon map: %s niet openen om samenvatting te maken: %s"
+#~ msgid "Could not open folder to summarise: %s: %s"
+#~ msgstr "Kon map: %s niet openen om samenvatting te maken: %s"
 
-msgid ""
-"For connecting to POP servers. The POP protocol can also be used to retrieve "
-"mail from certain web mail providers and proprietary email systems."
-msgstr ""
-"Voor het verbinden met POP-servers. Het POP-protocol kan ook gebruikt worden "
-"om post te halen van bepaalde 'web mail'-providers en gesloten postsystemen."
+#~ msgid ""
+#~ "For connecting to POP servers. The POP protocol can also be used to "
+#~ "retrieve mail from certain web mail providers and proprietary email "
+#~ "systems."
+#~ msgstr ""
+#~ "Voor het verbinden met POP-servers. Het POP-protocol kan ook gebruikt "
+#~ "worden om post te halen van bepaalde 'web mail'-providers en gesloten "
+#~ "postsystemen."
 
-msgid "Could not create composer window."
-msgstr "Kon het opstelvenster niet creëren."
+#~ msgid "Could not create composer window."
+#~ msgstr "Kon het opstelvenster niet creëren."
 
-msgid "%d/%m/%Y"
-msgstr "%d-%m-%Y"
+#~ msgid "%d/%m/%Y"
+#~ msgstr "%d-%m-%Y"
 
-msgid "%Y/%m/%d"
-msgstr "%Y/%m/%d"
+#~ msgid "%Y/%m/%d"
+#~ msgstr "%Y/%m/%d"
 
-msgid "Elm mail"
-msgstr "Elm email"
+#~ msgid "Elm mail"
+#~ msgstr "Elm email"
 
-msgid "Forwarded message:\n"
-msgstr "Doorgestuurd bericht:\n"
+#~ msgid "Forwarded message:\n"
+#~ msgstr "Doorgestuurd bericht:\n"
 
-msgid "Always encrypt to myself when sending encrypyed mail"
-msgstr ""
-"Versleutel berichten altijd naar mijzelf bij het versturen van versleutelde "
-"berichten"
+#~ msgid "Always encrypt to myself when sending encrypyed mail"
+#~ msgstr ""
+#~ "Versleutel berichten altijd naar mijzelf bij het versturen van "
+#~ "versleutelde berichten"
 
-msgid "Each account must have a different name."
-msgstr "Ieder account moet een andere naam hebben."
+#~ msgid "Each account must have a different name."
+#~ msgstr "Ieder account moet een andere naam hebben."
 
-msgid "Message _preview should be displayed by default"
-msgstr "Toon berichten-preview"
+#~ msgid "Message _preview should be displayed by default"
+#~ msgstr "Toon berichten-preview"
 
-msgid "Message list should display in a _threaded fashion by default"
-msgstr "Toon discussiebomen in berichtenlijst"
+#~ msgid "Message list should display in a _threaded fashion by default"
+#~ msgstr "Toon discussiebomen in berichtenlijst"
 
-msgid "_Remember PGP Passphrase until exit"
-msgstr "_Onthoud PGP-wachtwoord tot het afsluiten van Evolution"
+#~ msgid "_Remember PGP Passphrase until exit"
+#~ msgstr "_Onthoud PGP-wachtwoord tot het afsluiten van Evolution"
 
-msgid "No GPG/PGP program configured."
-msgstr "Geen GPG/PGP programma geconfigureerd"
+#~ msgid "No GPG/PGP program configured."
+#~ msgstr "Geen GPG/PGP programma geconfigureerd"
 
-msgid "Encrypted message not displayed"
-msgstr "Versleuteld bericht niet weergegeven"
+#~ msgid "Encrypted message not displayed"
+#~ msgstr "Versleuteld bericht niet weergegeven"
 
-msgid "Click icon to decrypt."
-msgstr "Klik op het pictogram om te ontsleutelen."
+#~ msgid "Click icon to decrypt."
+#~ msgstr "Klik op het pictogram om te ontsleutelen."
 
-msgid "No such folder /%s"
-msgstr "Map /%s bestaat niet"
+#~ msgid "No such folder /%s"
+#~ msgstr "Map /%s bestaat niet"
 
-msgid "Registering '%s'"
-msgstr "Bezig met registreren '%s'"
+#~ msgid "Registering '%s'"
+#~ msgstr "Bezig met registreren '%s'"
 
-msgid "Synchronizing '%s'"
-msgstr "Bezig met synchroniseren '%s'"
+#~ msgid "Synchronizing '%s'"
+#~ msgstr "Bezig met synchroniseren '%s'"
 
-msgid "Couldn't create temporary mbox `%s': %s"
-msgstr "Kon geen tijdelijke mbox `%s' maken: %s"
+#~ msgid "Couldn't create temporary mbox `%s': %s"
+#~ msgstr "Kon geen tijdelijke mbox `%s' maken: %s"
 
-msgid "Factory for the Evolution executive summary component."
-msgstr "Fabriek voor het Evolution-samenvattingscomponent."
+#~ msgid "Factory for the Evolution executive summary component."
+#~ msgstr "Fabriek voor het Evolution-samenvattingscomponent."
 
-msgid "Cannot initialize Evolution's Executive Summary component."
-msgstr "Kan het Samenvattingscomponent van Evolution niet initializeren"
+#~ msgid "Cannot initialize Evolution's Executive Summary component."
+#~ msgstr "Kan het Samenvattingscomponent van Evolution niet initializeren"
 
-msgid "%l:%M%p"
-msgstr "%I:%M%p"
+#~ msgid "%l:%M%p"
+#~ msgstr "%I:%M%p"
 
-msgid "%a %l:%M%p"
-msgstr "%a %l:%M%p"
+#~ msgid "%a %l:%M%p"
+#~ msgstr "%a %l:%M%p"
 
-msgid "KBOS:ZSAM:EGAA"
-msgstr "KBOS:ZSAM:EGAA"
+#~ msgid "KBOS:ZSAM:EGAA"
+#~ msgstr "KBOS:ZSAM:EGAA"
 
-msgid "There was an error downloading news feed"
-msgstr "Er trad een fout op bij downloaden van nieuwsbron"
+#~ msgid "There was an error downloading news feed"
+#~ msgstr "Er trad een fout op bij downloaden van nieuwsbron"
 
-msgid "Units: "
-msgstr "Eenheden:  "
+#~ msgid "Units: "
+#~ msgstr "Eenheden:  "
 
-msgid "This seems to be the first time you are running Evolution."
-msgstr "Het lijkt erop dat dit de eerste keer is dat u Evolution start."
+#~ msgid "This seems to be the first time you are running Evolution."
+#~ msgstr "Het lijkt erop dat dit de eerste keer is dat u Evolution start."
 
-msgid "Please click \"OK\" to install the Evolution user files under"
-msgstr "Klik op \"OK\" om de Evolution gebruikersbestanden te installeren onder"
+#~ msgid "Please click \"OK\" to install the Evolution user files under"
+#~ msgstr ""
+#~ "Klik op \"OK\" om de Evolution gebruikersbestanden te installeren onder"
 
-msgid "Delete folder '%s'"
-msgstr "Verwijder map '%s'"
+#~ msgid "Delete folder '%s'"
+#~ msgstr "Verwijder map '%s'"
 
-msgid ""
-"Evolution is a suite of groupware applications\n"
-"for mail, calendaring, and contact management\n"
-"within the GNOME desktop environment."
-msgstr ""
-"Evolution is een een verzameling van groupware\n"
-"programma's voor post, planning en contactbeheer\n"
-"in de GNOME werkomgeving."
+#~ msgid ""
+#~ "Evolution is a suite of groupware applications\n"
+#~ "for mail, calendaring, and contact management\n"
+#~ "within the GNOME desktop environment."
+#~ msgstr ""
+#~ "Evolution is een een verzameling van groupware\n"
+#~ "programma's voor post, planning en contactbeheer\n"
+#~ "in de GNOME werkomgeving."
 
-msgid "%s - Evolution %s"
-msgstr "%s - Evolution %s"
+#~ msgid "%s - Evolution %s"
+#~ msgstr "%s - Evolution %s"
 
-msgid "%s - Evolution %s [%s]"
-msgstr "%s - Evolution %s [%s]"
+#~ msgid "%s - Evolution %s [%s]"
+#~ msgstr "%s - Evolution %s [%s]"
 
-msgid ""
-"Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
-"This probably means that the %s component has crashed."
-msgstr ""
-"Ojee!  De weergaven van de `%s' zijn onverwacht verdwenen.  :-(\n"
-"Dit betekent waarschijnlijk dat de %s component is gecrasht."
+#~ msgid ""
+#~ "Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
+#~ "This probably means that the %s component has crashed."
+#~ msgstr ""
+#~ "Ojee!  De weergaven van de `%s' zijn onverwacht verdwenen.  :-(\n"
+#~ "Dit betekent waarschijnlijk dat de %s component is gecrasht."
 
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Evolution groupware suite.\n"
-"\n"
-"Evolution is not yet complete. It's getting close, but there are\n"
-"places where features are either missing or only half working. \n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-"Dank u! U heeft de moeite genomen om deze vooruitblik op de Evolution werkgroepsuite te downloaden.\n"
-"\n"
-"Evolution is nog niet voltooid. We zitten er dicht bij maar er zijn nog een paar\n"
-"dingen die ontbreken of die slechts voor de helft werken. \n"
-"\n"
-"Als u fouten ontdekt, meldt deze dan aan ons (in het Engels) via bugzilla.ximian.com.\n"
-"Dit product geeft geen enkele garantie, en is niet geschikt voor mensen met plotseling opkomende woedeaanvallen.  \n"
-"\n"
-"We hopen dat u de vruchten van ons harde werk waardeert, en we wachten met\n"
-"smart op uw bijdragen!\n"
+#~ msgid ""
+#~ "Hi.  Thanks for taking the time to download this preview release\n"
+#~ "of the Evolution groupware suite.\n"
+#~ "\n"
+#~ "Evolution is not yet complete. It's getting close, but there are\n"
+#~ "places where features are either missing or only half working. \n"
+#~ "\n"
+#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+#~ "This product comes with no warranty and is not intended for\n"
+#~ "individuals prone to violent fits of anger.\n"
+#~ "\n"
+#~ "We hope that you enjoy the results of our hard work, and we\n"
+#~ "eagerly await your contributions!\n"
+#~ msgstr ""
+#~ "Dank u! U heeft de moeite genomen om deze vooruitblik op de Evolution "
+#~ "werkgroepsuite te downloaden.\n"
+#~ "\n"
+#~ "Evolution is nog niet voltooid. We zitten er dicht bij maar er zijn nog "
+#~ "een paar\n"
+#~ "dingen die ontbreken of die slechts voor de helft werken. \n"
+#~ "\n"
+#~ "Als u fouten ontdekt, meldt deze dan aan ons (in het Engels) via bugzilla."
+#~ "ximian.com.\n"
+#~ "Dit product geeft geen enkele garantie, en is niet geschikt voor mensen "
+#~ "met plotseling opkomende woedeaanvallen.  \n"
+#~ "\n"
+#~ "We hopen dat u de vruchten van ons harde werk waardeert, en we wachten "
+#~ "met\n"
+#~ "smart op uw bijdragen!\n"
 
-msgid ""
-"Thanks\n"
-"The Evolution Team\n"
-msgstr ""
-"Bedankt\n"
-"Het Evolution Team\n"
+#~ msgid ""
+#~ "Thanks\n"
+#~ "The Evolution Team\n"
+#~ msgstr ""
+#~ "Bedankt\n"
+#~ "Het Evolution Team\n"
 
-msgid "F_ormat"
-msgstr "F_ormaat"
+#~ msgid "F_ormat"
+#~ msgstr "F_ormaat"
 
-msgid "All Attendees"
-msgstr "Alle Deelnemers"
+#~ msgid "All Attendees"
+#~ msgstr "Alle Deelnemers"
 
-msgid "100"
-msgstr "100"
+#~ msgid "100"
+#~ msgstr "100"
 
-msgid ""
-"This is the maximum number of cards to download.  Setting this number too "
-"large will slow down this addressbook."
-msgstr ""
-"Dit is het maximum aantal kaarten wat zal worden binnengehaald. Als u het te "
-"hoog zet wordt dit adresboek erg langzaam."
+#~ msgid ""
+#~ "This is the maximum number of cards to download.  Setting this number too "
+#~ "large will slow down this addressbook."
+#~ msgstr ""
+#~ "Dit is het maximum aantal kaarten wat zal worden binnengehaald. Als u het "
+#~ "te hoog zet wordt dit adresboek erg langzaam."
 
-msgid "_Download Limit"
-msgstr "_Downloadlimiet"
+#~ msgid "_Download Limit"
+#~ msgstr "_Downloadlimiet"
 
-msgid "Display Cards?"
-msgstr "Kaarten weergeven?"
+#~ msgid "Display Cards?"
+#~ msgstr "Kaarten weergeven?"
 
-msgid "Display Cards"
-msgstr "Kaarten weergeven"
+#~ msgid "Display Cards"
+#~ msgstr "Kaarten weergeven"
 
-msgid ""
-"You have requested that %d cards be cards. This will cause %d new windows to "
-"be\n"
-"displayed on your screen. Do you really want to display all of these cards?"
-msgstr ""
-"U heeft aangegeven dat %d kaarten worden weergegeven als kaarten. Er zullen %"
-"d\n"
-"nieuwe vensters worden geopend. Wilt u deze werkelijk allemaal openen?"
+#~ msgid ""
+#~ "You have requested that %d cards be cards. This will cause %d new windows "
+#~ "to be\n"
+#~ "displayed on your screen. Do you really want to display all of these "
+#~ "cards?"
+#~ msgstr ""
+#~ "U heeft aangegeven dat %d kaarten worden weergegeven als kaarten. Er "
+#~ "zullen %d\n"
+#~ "nieuwe vensters worden geopend. Wilt u deze werkelijk allemaal openen?"
 
-msgid "Do not ask me about this program again."
-msgstr "Dit bericht niet meer weergeven voor dit programma."
+#~ msgid "Do not ask me about this program again."
+#~ msgstr "Dit bericht niet meer weergeven voor dit programma."
 
-msgid "The meeting information has been created. Send it?"
-msgstr "De vergaderingsgegevens zijn gamaakt. Verzenden?"
+#~ msgid "The meeting information has been created. Send it?"
+#~ msgstr "De vergaderingsgegevens zijn gamaakt. Verzenden?"
 
-msgid "The task assignment information has been created. Send it?"
-msgstr "De taakopdracht informatie is gemaakt. Verzenden?"
+#~ msgid "The task assignment information has been created. Send it?"
+#~ msgstr "De taakopdracht informatie is gemaakt. Verzenden?"
 
-msgid "Expunging"
-msgstr "Bezig met Schrappen"
+#~ msgid "Expunging"
+#~ msgstr "Bezig met Schrappen"
 
-msgid ""
-"This operation will permanently erase all tasks marked as completed. If you "
-"continue, you will not be able to recover these tasks.\n"
-"\n"
-"Really erase these tasks?"
-msgstr ""
-"Deze bewerking zal alle taken die als 'voltooid' gemarkeerd zijn, permanent "
-"verwijderen. Als u doorgaat zult u ze niet meer kunnen herstellen.\n"
-"\n"
-"De taken echt verwijderen?"
+#~ msgid ""
+#~ "This operation will permanently erase all tasks marked as completed. If "
+#~ "you continue, you will not be able to recover these tasks.\n"
+#~ "\n"
+#~ "Really erase these tasks?"
+#~ msgstr ""
+#~ "Deze bewerking zal alle taken die als 'voltooid' gemarkeerd zijn, "
+#~ "permanent verwijderen. Als u doorgaat zult u ze niet meer kunnen "
+#~ "herstellen.\n"
+#~ "\n"
+#~ "De taken echt verwijderen?"
 
-msgid "Factory to import iCalendar files into Evolution"
-msgstr "Fabriek om iCalendar bestanden te importeren in Evolution"
+#~ msgid "Factory to import iCalendar files into Evolution"
+#~ msgstr "Fabriek om iCalendar bestanden te importeren in Evolution"
 
-msgid "Imports iCalendar files into Evolution"
-msgstr "Importeert iCalendat bestanden in Evolution"
+#~ msgid "Imports iCalendar files into Evolution"
+#~ msgstr "Importeert iCalendat bestanden in Evolution"
 
-msgid "Unable to create cache path"
-msgstr "Kon cache pad niet creëren"
+#~ msgid "Unable to create cache path"
+#~ msgstr "Kon cache pad niet creëren"
 
-msgid "Could not remove cache entry: %s: %s"
-msgstr "Kon cache item: %s niet verwijderen: %s"
+#~ msgid "Could not remove cache entry: %s: %s"
+#~ msgstr "Kon cache item: %s niet verwijderen: %s"
 
-msgid "Failed to retrieve message"
-msgstr "Ophalen bericht mislukt"
+#~ msgid "Failed to retrieve message"
+#~ msgstr "Ophalen bericht mislukt"
 
-msgid "Error hashing password."
-msgstr "Fout bij fijnhakken van wachtwoord"
+#~ msgid "Error hashing password."
+#~ msgstr "Fout bij fijnhakken van wachtwoord"
 
-msgid "Invalid password."
-msgstr "Ongeldig wachtwoord."
+#~ msgid "Invalid password."
+#~ msgstr "Ongeldig wachtwoord."
 
-msgid "Could not sign: certificate not found for \"%s\"."
-msgstr "Kon niet ondertekenen: certificaat voor \"%s\" niet gevonden."
+#~ msgid "Could not sign: certificate not found for \"%s\"."
+#~ msgstr "Kon niet ondertekenen: certificaat voor \"%s\" niet gevonden."
 
-msgid "Could not clearsign: certificate not found for \"%s\"."
-msgstr "Kon niet ondertekenen: certificaat voor \"%s\" niet gevonden"
+#~ msgid "Could not clearsign: certificate not found for \"%s\"."
+#~ msgstr "Kon niet ondertekenen: certificaat voor \"%s\" niet gevonden"
 
-msgid "Could not encrypt: failed to create enveloped data."
-msgstr "Kon niet coderen: kon ingevouwen informatie niet aanmaken"
+#~ msgid "Could not encrypt: failed to create enveloped data."
+#~ msgstr "Kon niet coderen: kon ingevouwen informatie niet aanmaken"
 
-msgid "Could not encrypt: failed to create encryption context."
-msgstr "Kon niet versleutelen: gefaald bij maken van encryptiecontext."
+#~ msgid "Could not encrypt: failed to create encryption context."
+#~ msgstr "Kon niet versleutelen: gefaald bij maken van encryptiecontext."
 
-msgid "Could not encrypt data: invalid user key: \"%s\"."
-msgstr "Kon gegevens niet versleutelen: ongeldige gebruikers-sleutel: \"%s\"."
+#~ msgid "Could not encrypt data: invalid user key: \"%s\"."
+#~ msgstr ""
+#~ "Kon gegevens niet versleutelen: ongeldige gebruikers-sleutel: \"%s\"."
 
-msgid "Could not encrypt: encoding failed."
-msgstr "Kon niet versleutelen: versleutelen mislukt"
+#~ msgid "Could not encrypt: encoding failed."
+#~ msgstr "Kon niet versleutelen: versleutelen mislukt"
 
-msgid "Failed to decrypt: Unknown"
-msgstr "Kan bericht niet decoderen: Onbekende fout"
+#~ msgid "Failed to decrypt: Unknown"
+#~ msgstr "Kan bericht niet decoderen: Onbekende fout"
 
-msgid ""
-"Issuer:            %s\n"
-"Subject:           %s\n"
-"Fingerprint:       %s\n"
-"Signature:         %s"
-msgstr ""
-"Uitgever:        %s\n"
-"Onderwerp:        %s\n"
-"Vingerafdruk:        %s\n"
-"Handtekening:        %s"
+#~ msgid ""
+#~ "Issuer:            %s\n"
+#~ "Subject:           %s\n"
+#~ "Fingerprint:       %s\n"
+#~ "Signature:         %s"
+#~ msgstr ""
+#~ "Uitgever:        %s\n"
+#~ "Onderwerp:        %s\n"
+#~ "Vingerafdruk:        %s\n"
+#~ "Handtekening:        %s"
 
-msgid "GOOD"
-msgstr "GOED"
+#~ msgid "GOOD"
+#~ msgstr "GOED"
 
-msgid "BAD"
-msgstr "SLECHT"
+#~ msgid "BAD"
+#~ msgstr "SLECHT"
 
-msgid ""
-"SSL Certificate check for %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Do you wish to accept?"
-msgstr ""
-"SSL Certificaatcontrole voor %s:\n"
-"\n"
-"%s\n"
-"\n"
-"Wilt u dit accepteren?"
+#~ msgid ""
+#~ "SSL Certificate check for %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Do you wish to accept?"
+#~ msgstr ""
+#~ "SSL Certificaatcontrole voor %s:\n"
+#~ "\n"
+#~ "%s\n"
+#~ "\n"
+#~ "Wilt u dit accepteren?"
 
-msgid "Internal error: uid in invalid format: %s"
-msgstr "Interne fout: uid heeft ongeldige opmaak: %s"
+#~ msgid "Internal error: uid in invalid format: %s"
+#~ msgstr "Interne fout: uid heeft ongeldige opmaak: %s"
 
-msgid "Cannot get message %s: %s"
-msgstr "Kan bericht: %s niet verkrijgen: %s"
+#~ msgid "Cannot get message %s: %s"
+#~ msgstr "Kan bericht: %s niet verkrijgen: %s"
 
-msgid "User cancelled"
-msgstr "Gebruiker geannuleerd"
+#~ msgid "User cancelled"
+#~ msgstr "Gebruiker geannuleerd"
 
-msgid "No such folder: %s"
-msgstr "Map: %s bestaat niet"
+#~ msgid "No such folder: %s"
+#~ msgstr "Map: %s bestaat niet"
 
-msgid "Could not get group: %s"
-msgstr "Kon de groep: %s niet verkrijgen"
+#~ msgid "Could not get group: %s"
+#~ msgstr "Kon de groep: %s niet verkrijgen"
 
-msgid "NNTP Command failed: %s"
-msgstr "NNTP-Opdracht mislukt: %s"
+#~ msgid "NNTP Command failed: %s"
+#~ msgstr "NNTP-Opdracht mislukt: %s"
 
-msgid "%s: Scanning new messages"
-msgstr "%s Bezig met doorzoeken nieuwe berichten"
+#~ msgid "%s: Scanning new messages"
+#~ msgstr "%s Bezig met doorzoeken nieuwe berichten"
 
-msgid "Unknown server response: %s"
-msgstr "Onbekend server-antwoord: %s"
+#~ msgid "Unknown server response: %s"
+#~ msgstr "Onbekend server-antwoord: %s"
 
-msgid "Use cancel"
-msgstr "Gebruik annuleren"
+#~ msgid "Use cancel"
+#~ msgstr "Gebruik annuleren"
 
-msgid "Operation failed: %s"
-msgstr "Bewerking mislukt: %s"
+#~ msgid "Operation failed: %s"
+#~ msgstr "Bewerking mislukt: %s"
 
-msgid "Could not parse recipient list"
-msgstr "kon ontvangerslijst niet verwerken"
+#~ msgid "Could not parse recipient list"
+#~ msgstr "kon ontvangerslijst niet verwerken"
 
-msgid "Cannot send message: one or more invalid recipients"
-msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
+#~ msgid "Cannot send message: one or more invalid recipients"
+#~ msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
 
-msgid "Select a service"
-msgstr "Selecteer een service"
+#~ msgid "Select a service"
+#~ msgstr "Selecteer een service"
 
-msgid ""
-"You can select a different HTML page for the background of the Executive "
-"Summary.\n"
-"\n"
-"Just leave it blank for the default"
-msgstr ""
-"U kunt een andere HTML-pagina kiezen als achtergrond voor de samenvatting.\n"
-"\n"
-"Laat deze leeg voor de standaardachtergrond."
+#~ msgid ""
+#~ "You can select a different HTML page for the background of the Executive "
+#~ "Summary.\n"
+#~ "\n"
+#~ "Just leave it blank for the default"
+#~ msgstr ""
+#~ "U kunt een andere HTML-pagina kiezen als achtergrond voor de "
+#~ "samenvatting.\n"
+#~ "\n"
+#~ "Laat deze leeg voor de standaardachtergrond."
 
-msgid "Open %s with the default GNOME application"
-msgstr "Open %s met het standaard GNOME-programma"
+#~ msgid "Open %s with the default GNOME application"
+#~ msgstr "Open %s met het standaard GNOME-programma"
 
-msgid "Open %s with the default GNOME web browser"
-msgstr "Open %s met de standaard GNOME-browser"
+#~ msgid "Open %s with the default GNOME web browser"
+#~ msgstr "Open %s met de standaard GNOME-browser"
 
-msgid "Send an email to %s"
-msgstr "Verstuur een bericht naar %s"
+#~ msgid "Send an email to %s"
+#~ msgstr "Verstuur een bericht naar %s"
 
-msgid "Change the view to %s"
-msgstr "Verander de weergave naar %s"
+#~ msgid "Change the view to %s"
+#~ msgstr "Verander de weergave naar %s"
 
-msgid "Run %s"
-msgstr "Voer %s uit"
+#~ msgid "Run %s"
+#~ msgstr "Voer %s uit"
 
-msgid "Close %s"
-msgstr "Sluit %s"
+#~ msgid "Close %s"
+#~ msgstr "Sluit %s"
 
-msgid "Move %s to the left"
-msgstr "Verplaats %s naar links"
+#~ msgid "Move %s to the left"
+#~ msgstr "Verplaats %s naar links"
 
-msgid "Move %s to the right"
-msgstr "Verplaats %s naar rechts"
+#~ msgid "Move %s to the right"
+#~ msgstr "Verplaats %s naar rechts"
 
-msgid "Move %s into the previous row"
-msgstr "Verplaats %s naar de vorige rij"
+#~ msgid "Move %s into the previous row"
+#~ msgstr "Verplaats %s naar de vorige rij"
 
-msgid "Move %s into the next row"
-msgstr "Verplaats %s naar de volgende rij"
+#~ msgid "Move %s into the next row"
+#~ msgstr "Verplaats %s naar de volgende rij"
 
-msgid "Configure %s"
-msgstr "Configureer %s"
+#~ msgid "Configure %s"
+#~ msgstr "Configureer %s"
 
-msgid "page"
-msgstr "pagina"
+#~ msgid "page"
+#~ msgstr "pagina"
 
-msgid ""
-"Cannot open the HTML file:\n"
-"%s"
-msgstr ""
-"Kon HTML bestand niet openen:\n"
-"%s"
+#~ msgid ""
+#~ "Cannot open the HTML file:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Kon HTML bestand niet openen:\n"
+#~ "%s"
 
-msgid ""
-"Error reading data:\n"
-"%s"
-msgstr ""
-"Fout bij lezen gegevens:\n"
-"%s"
+#~ msgid ""
+#~ "Error reading data:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Fout bij lezen gegevens:\n"
+#~ "%s"
 
-msgid "File does not have a place for the services.\n"
-msgstr "Bestand heeft geen plaats voor de services.\n"
+#~ msgid "File does not have a place for the services.\n"
+#~ msgstr "Bestand heeft geen plaats voor de services.\n"
 
-msgid ""
-"Executive summary component could not initialize Bonobo.\n"
-"If there was a warning message about the RootPOA, it probably means\n"
-"you compiled Bonobo against GOAD instead of OAF."
-msgstr ""
-"Samenvatting kon Bonobo niet starten.\n"
-"Als er een waarschuwing was over de RootPOA, dan is Bonobo\n"
-"waarschijnlijk gecompileerd met GOAD in plaats van OAF."
+#~ msgid ""
+#~ "Executive summary component could not initialize Bonobo.\n"
+#~ "If there was a warning message about the RootPOA, it probably means\n"
+#~ "you compiled Bonobo against GOAD instead of OAF."
+#~ msgstr ""
+#~ "Samenvatting kon Bonobo niet starten.\n"
+#~ "Als er een waarschuwing was over de RootPOA, dan is Bonobo\n"
+#~ "waarschijnlijk gecompileerd met GOAD in plaats van OAF."
 
-msgid "Factory for the RDF summary."
-msgstr "Fabriek voor de RDF samenvatting."
+#~ msgid "Factory for the RDF summary."
+#~ msgstr "Fabriek voor de RDF samenvatting."
 
-msgid "RDF Summary"
-msgstr "RDF Samenvatting"
+#~ msgid "RDF Summary"
+#~ msgstr "RDF Samenvatting"
 
-msgid "Factory for the test bonobo component."
-msgstr "Fabriek voor het test-bonobo component."
+#~ msgid "Factory for the test bonobo component."
+#~ msgstr "Fabriek voor het test-bonobo component."
 
-msgid "Factory for the test component."
-msgstr "Fabriek voor het test-component."
+#~ msgid "Factory for the test component."
+#~ msgstr "Fabriek voor het test-component."
 
-msgid "Test bonobo service"
-msgstr "Test bonobo service"
+#~ msgid "Test bonobo service"
+#~ msgstr "Test bonobo service"
 
-msgid "Test service"
-msgstr "Test service"
+#~ msgid "Test service"
+#~ msgstr "Test service"
 
-msgid "Update automatically"
-msgstr "Automatisch verversen"
+#~ msgid "Update automatically"
+#~ msgstr "Automatisch verversen"
 
-msgid "Update now"
-msgstr "Nu bijwerken"
+#~ msgid "Update now"
+#~ msgstr "Nu bijwerken"
 
-msgid "Update every "
-msgstr "Actualiseer elke "
+#~ msgid "Update every "
+#~ msgstr "Actualiseer elke "
 
-msgid "Execute Shell Command"
-msgstr "Shellopdracht uitvoeren"
+#~ msgid "Execute Shell Command"
+#~ msgstr "Shellopdracht uitvoeren"
 
-msgid "Needs Reply"
-msgstr "Behoeft Antwoord"
+#~ msgid "Needs Reply"
+#~ msgstr "Behoeft Antwoord"
 
-msgid "%d visible"
-msgstr "%d zichtbaar"
+#~ msgid "%d visible"
+#~ msgstr "%d zichtbaar"
 
-msgid "Mark as Needing Reply"
-msgstr "Markeer als Behoeft Antwoord"
+#~ msgid "Mark as Needing Reply"
+#~ msgstr "Markeer als Behoeft Antwoord"
 
-msgid "Mark as Not Needing Reply"
-msgstr "Markeer als Behoeft Geen Antwoord"
+#~ msgid "Mark as Not Needing Reply"
+#~ msgstr "Markeer als Behoeft Geen Antwoord"
 
-msgid "Always blind carbon-copy to:"
-msgstr "Altijd een geheime kopie (Bcc) naar:"
+#~ msgid "Always blind carbon-copy to:"
+#~ msgstr "Altijd een geheime kopie (Bcc) naar:"
 
-msgid "Always carbon-copy to:"
-msgstr "Altijd een kopie (Cc) naar:"
+#~ msgid "Always carbon-copy to:"
+#~ msgstr "Altijd een kopie (Cc) naar:"
 
-msgid "Beep when new mail arrives"
-msgstr "Piep bij binnenkomst van nieuwe email"
+#~ msgid "Beep when new mail arrives"
+#~ msgstr "Piep bij binnenkomst van nieuwe email"
 
-msgid "Composing Messages"
-msgstr "Berichten Opstellen"
+#~ msgid "Composing Messages"
+#~ msgstr "Berichten Opstellen"
 
-msgid "Defaults"
-msgstr "Standaard"
+#~ msgid "Defaults"
+#~ msgstr "Standaard"
 
-msgid "Do not notify me when new mail arrives"
-msgstr "Geen melding bij binnenkomst van nieuwe berichten"
+#~ msgid "Do not notify me when new mail arrives"
+#~ msgstr "Geen melding bij binnenkomst van nieuwe berichten"
 
-msgid "Execute Command..."
-msgstr "Opdracht Uitvoeren..."
+#~ msgid "Execute Command..."
+#~ msgstr "Opdracht Uitvoeren..."
 
-msgid "New Mail Notification"
-msgstr "Nieuwe Mail Notificatie"
+#~ msgid "New Mail Notification"
+#~ msgstr "Nieuwe Mail Notificatie"
 
-msgid "Play sound file when new mail arrives"
-msgstr "Geluid afspelen bij binnekomst van nieuwe berichten"
+#~ msgid "Play sound file when new mail arrives"
+#~ msgstr "Geluid afspelen bij binnekomst van nieuwe berichten"
 
-msgid "Specify filename:"
-msgstr "Geef Bestandsnaam:"
+#~ msgid "Specify filename:"
+#~ msgstr "Geef Bestandsnaam:"
 
-msgid "Executing shell command: %s"
-msgstr "Shellopdracht wordt uitgevoerd: %s"
+#~ msgid "Executing shell command: %s"
+#~ msgstr "Shellopdracht wordt uitgevoerd: %s"
 
-msgid "Incomplete message written on pipe!"
-msgstr "Invcomplete berichten geschreven op de pijp!"
+#~ msgid "Incomplete message written on pipe!"
+#~ msgstr "Invcomplete berichten geschreven op de pijp!"
 
-msgid "Mail Summary"
-msgstr "Berichten Samenvatting"
+#~ msgid "Mail Summary"
+#~ msgstr "Berichten Samenvatting"
 
-msgid "Factory for the Notes control"
-msgstr "Fabriek voor Notitiebeheer."
+#~ msgid "Factory for the Notes control"
+#~ msgstr "Fabriek voor Notitiebeheer."
 
-msgid "Test type"
-msgstr "Test type"
+#~ msgid "Test type"
+#~ msgstr "Test type"
 
-msgid "View the current contact"
-msgstr "Huidige contact weergeven"
+#~ msgid "View the current contact"
+#~ msgstr "Huidige contact weergeven"
 
-msgid "Delete completed tasks"
-msgstr "Verwijder de voltooide taken"
+#~ msgid "Delete completed tasks"
+#~ msgstr "Verwijder de voltooide taken"
 
-msgid "Mar_k as Complete"
-msgstr "Markeer als Voltooid"
+#~ msgid "Mar_k as Complete"
+#~ msgstr "Markeer als Voltooid"
 
-msgid "Hebrew"
-msgstr "Hebreeuws"
+#~ msgid "Hebrew"
+#~ msgstr "Hebreeuws"
 
-msgid "Visual"
-msgstr "Visueel"
+#~ msgid "Visual"
+#~ msgstr "Visueel"

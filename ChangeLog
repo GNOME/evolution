@@ -1,3 +1,9 @@
+== Version 1.0.4. ==
+
+2002-04-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Version 1.0.4.
+
 2002-04-04  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: Fix static linking on solaris which doesn't have a
@@ -21,6 +27,8 @@
 
 	* configure.in: 1.0.2.99, Preview Release.
 
+== Version 1.0.2. ==
+
 2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Not a Preview Release anymore.  Set VERSION to
@@ -37,6 +45,8 @@
 2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Set VERSION to 1.0.1.99.
+
+== Version 1.0.1. ==
 
 2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
 

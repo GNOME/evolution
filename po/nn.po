@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-1.01\n"
-"POT-Creation-Date: 2002-03-19 13:08-0500\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-01-30 06:10+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: \n"
@@ -626,7 +626,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Kunne ikkje initialisere Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2382
+#: addressbook/backend/pas/pas-backend-ldap.c:2394
 msgid "Searching..."
 msgstr "Søkjer ..."
 
@@ -639,35 +639,35 @@ msgstr "Lastar ..."
 msgid "Error in search expression."
 msgstr "Feil i søkeuttrykk."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:515
+#: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
 msgstr "Koplar til LDAP-tenar ..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:525
+#: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
 msgstr "Klarte ikkje å kople til LDAP-tenar."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:541
+#: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
 msgstr "Ventar på å kople til LDAP-tenar ..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:962
+#: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
 msgstr "Legg til kort til LDAP-tenar ..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1063
+#: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
 msgstr "Fjernar kort frå LDAP-tenar ..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1173
+#: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
 msgstr "Endrar kort frå LDAP-tenar ..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2299
+#: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
 msgstr "Mottek LDAP-søkeresultat ..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2305
+#: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
 msgstr "Startar søk om att."
 
@@ -4834,7 +4834,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:202
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
@@ -5140,7 +5140,7 @@ msgstr "Påminning"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:758 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:769 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Samandrag:"
 
@@ -5721,7 +5721,7 @@ msgid "Member"
 msgstr "Medlem"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:853
+#: calendar/gui/e-itip-control.c:864
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5902,7 +5902,7 @@ msgstr "_Status:"
 msgid "Assignment"
 msgstr "Tildeling"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:801
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:812
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:26
 msgid "Description:"
@@ -6164,63 +6164,63 @@ msgstr "Erstatt denne førekomsten?"
 msgid "Delete _All Occurrences"
 msgstr "Slettar klassen"
 
-#: calendar/gui/e-itip-control.c:545
+#: calendar/gui/e-itip-control.c:556
 msgid "Meeting begins: <b>"
 msgstr "Møtet byrjar: <b>"
 
-#: calendar/gui/e-itip-control.c:550
+#: calendar/gui/e-itip-control.c:561
 msgid "Task begins: <b>"
 msgstr "Oppgåva byrjar: <b>"
 
-#: calendar/gui/e-itip-control.c:555
+#: calendar/gui/e-itip-control.c:566
 #, fuzzy
 msgid "Free/Busy info begins: <b>"
 msgstr "Informasjon"
 
-#: calendar/gui/e-itip-control.c:559
+#: calendar/gui/e-itip-control.c:570
 msgid "Begins: <b>"
 msgstr "Byrjar: <b>"
 
-#: calendar/gui/e-itip-control.c:571
+#: calendar/gui/e-itip-control.c:582
 #, fuzzy
 msgid "Meeting ends: <b>"
 msgstr "Informasjon"
 
-#: calendar/gui/e-itip-control.c:574
+#: calendar/gui/e-itip-control.c:585
 #, fuzzy
 msgid "Free/Busy info ends: <b>"
 msgstr "Informasjon"
 
-#: calendar/gui/e-itip-control.c:578
+#: calendar/gui/e-itip-control.c:589
 msgid "Ends: <b>"
 msgstr "Sluttar: <b>"
 
-#: calendar/gui/e-itip-control.c:592
+#: calendar/gui/e-itip-control.c:603
 #, fuzzy
 msgid "Task Completed: <b>"
 msgstr "Ferdig"
 
-#: calendar/gui/e-itip-control.c:602
+#: calendar/gui/e-itip-control.c:613
 msgid "Task Due: <b>"
 msgstr "Oppgåva ferdig: <b>"
 
-#: calendar/gui/e-itip-control.c:639 calendar/gui/e-itip-control.c:688
+#: calendar/gui/e-itip-control.c:650 calendar/gui/e-itip-control.c:699
 #, fuzzy
 msgid "iCalendar Information"
 msgstr "Informasjon"
 
 #. Title
-#: calendar/gui/e-itip-control.c:654
+#: calendar/gui/e-itip-control.c:665
 #, fuzzy
 msgid "iCalendar Error"
 msgstr "Skriv ut alle"
 
-#: calendar/gui/e-itip-control.c:719 calendar/gui/e-itip-control.c:735
+#: calendar/gui/e-itip-control.c:730 calendar/gui/e-itip-control.c:746
 msgid "An unknown person"
 msgstr "Ein ukjent person"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:742
+#: calendar/gui/e-itip-control.c:753
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -6228,34 +6228,34 @@ msgstr ""
 "<br> Sjå gjennom den følgjande informasjon, og velj ei handling frå menyen "
 "under."
 
-#: calendar/gui/e-itip-control.c:758
+#: calendar/gui/e-itip-control.c:769
 msgid "<i>None</i>"
 msgstr "<i>Ingen</i>"
 
-#: calendar/gui/e-itip-control.c:770
+#: calendar/gui/e-itip-control.c:781
 #, fuzzy
 msgid "Status:"
 msgstr "_Status:"
 
-#: calendar/gui/e-itip-control.c:775 calendar/gui/e-meeting-model.c:318
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
 #: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
 #: calendar/gui/itip-utils.c:323
 msgid "Accepted"
 msgstr "Akseptert"
 
-#: calendar/gui/e-itip-control.c:779 calendar/gui/itip-utils.c:326
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Mellombels"
 
-#: calendar/gui/e-itip-control.c:783 calendar/gui/e-meeting-model.c:320
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
 #: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
 #: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
 msgid "Declined"
 msgstr "Avslått"
 
-#: calendar/gui/e-itip-control.c:787 calendar/gui/e-itip-control.c:986
-#: calendar/gui/e-itip-control.c:1057 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
 #: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
 #: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
 #: camel/providers/smtp/camel-smtp-transport.c:170
@@ -6264,269 +6264,269 @@ msgstr "Avslått"
 msgid "Unknown"
 msgstr "Ukjend"
 
-#: calendar/gui/e-itip-control.c:833 calendar/gui/e-itip-control.c:849
-#: calendar/gui/e-itip-control.c:865 calendar/gui/e-itip-control.c:878
-#: calendar/gui/e-itip-control.c:891 calendar/gui/e-itip-control.c:904
+#: calendar/gui/e-itip-control.c:844 calendar/gui/e-itip-control.c:860
+#: calendar/gui/e-itip-control.c:876 calendar/gui/e-itip-control.c:889
+#: calendar/gui/e-itip-control.c:902 calendar/gui/e-itip-control.c:915
 msgid "Choose an action:"
 msgstr "Vel ei handling:"
 
-#: calendar/gui/e-itip-control.c:834
+#: calendar/gui/e-itip-control.c:845
 msgid "Update"
 msgstr "Oppdater"
 
-#: calendar/gui/e-itip-control.c:835 calendar/gui/e-itip-control.c:854
-#: calendar/gui/e-itip-control.c:867 calendar/gui/e-itip-control.c:880
-#: calendar/gui/e-itip-control.c:893 calendar/gui/e-itip-control.c:906
+#: calendar/gui/e-itip-control.c:846 calendar/gui/e-itip-control.c:865
+#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:891
+#: calendar/gui/e-itip-control.c:904 calendar/gui/e-itip-control.c:917
 #: shell/e-shell.c:1882 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:850
+#: calendar/gui/e-itip-control.c:861
 msgid "Accept"
 msgstr "Godta"
 
-#: calendar/gui/e-itip-control.c:851
+#: calendar/gui/e-itip-control.c:862
 #, fuzzy
 msgid "Tentatively accept"
 msgstr "Mellombels"
 
-#: calendar/gui/e-itip-control.c:852
+#: calendar/gui/e-itip-control.c:863
 msgid "Decline"
 msgstr "Avslå"
 
-#: calendar/gui/e-itip-control.c:866
+#: calendar/gui/e-itip-control.c:877
 #, fuzzy
 msgid "Send Free/Busy Information"
 msgstr "Informasjon"
 
-#: calendar/gui/e-itip-control.c:879
+#: calendar/gui/e-itip-control.c:890
 msgid "Update respondent status"
 msgstr "Opdatér status på svar"
 
-#: calendar/gui/e-itip-control.c:892
+#: calendar/gui/e-itip-control.c:903
 #, fuzzy
 msgid "Send Latest Information"
 msgstr "Informasjon"
 
-#: calendar/gui/e-itip-control.c:905 calendar/gui/itip-utils.c:343
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: calendar/gui/e-itip-control.c:953
+#: calendar/gui/e-itip-control.c:964
 #, fuzzy, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "generer avlusingsinformasjon"
 
-#: calendar/gui/e-itip-control.c:954
+#: calendar/gui/e-itip-control.c:965
 #, fuzzy
 msgid "Meeting Information"
 msgstr "Personleg informasjon"
 
-#: calendar/gui/e-itip-control.c:958
+#: calendar/gui/e-itip-control.c:969
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> spør etter deg for å stille opp på eit møte."
 
-#: calendar/gui/e-itip-control.c:959
+#: calendar/gui/e-itip-control.c:970
 msgid "Meeting Proposal"
 msgstr "Møteframlegg"
 
-#: calendar/gui/e-itip-control.c:963
+#: calendar/gui/e-itip-control.c:974
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:964
+#: calendar/gui/e-itip-control.c:975
 msgid "Meeting Update"
 msgstr "Møteoppdatering"
 
-#: calendar/gui/e-itip-control.c:968
+#: calendar/gui/e-itip-control.c:979
 #, fuzzy, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "generer avlusingsinformasjon"
 
-#: calendar/gui/e-itip-control.c:969
+#: calendar/gui/e-itip-control.c:980
 msgid "Meeting Update Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:992
+#: calendar/gui/e-itip-control.c:1003
 #, fuzzy, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "Dette er ei repeterande hending."
 
-#: calendar/gui/e-itip-control.c:993
+#: calendar/gui/e-itip-control.c:1004
 msgid "Meeting Reply"
 msgstr "Møtesvar"
 
-#: calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1008
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:998
+#: calendar/gui/e-itip-control.c:1009
 msgid "Meeting Cancellation"
 msgstr "Møtekansellering"
 
-#: calendar/gui/e-itip-control.c:1002 calendar/gui/e-itip-control.c:1073
-#: calendar/gui/e-itip-control.c:1108
+#: calendar/gui/e-itip-control.c:1013 calendar/gui/e-itip-control.c:1084
+#: calendar/gui/e-itip-control.c:1119
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1003
+#: calendar/gui/e-itip-control.c:1014
 #, fuzzy
 msgid "Bad Meeting Message"
 msgstr "&Finn i melding ..."
 
-#: calendar/gui/e-itip-control.c:1023
+#: calendar/gui/e-itip-control.c:1034
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1024
+#: calendar/gui/e-itip-control.c:1035
 msgid "Task Information"
 msgstr "Oppgåveinformasjon"
 
-#: calendar/gui/e-itip-control.c:1028
+#: calendar/gui/e-itip-control.c:1039
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1029
+#: calendar/gui/e-itip-control.c:1040
 msgid "Task Proposal"
 msgstr "Oppgåveframlegg"
 
-#: calendar/gui/e-itip-control.c:1033
+#: calendar/gui/e-itip-control.c:1044
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> ønskjar å leggje til ei eksisterande oppgåve."
 
-#: calendar/gui/e-itip-control.c:1034
+#: calendar/gui/e-itip-control.c:1045
 msgid "Task Update"
 msgstr "Oppgåveoppdatering"
 
-#: calendar/gui/e-itip-control.c:1038
+#: calendar/gui/e-itip-control.c:1049
 #, fuzzy, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "Dette er ei førehandsvising av det valte bakgrunnsbiletet."
 
-#: calendar/gui/e-itip-control.c:1039
+#: calendar/gui/e-itip-control.c:1050
 msgid "Task Update Request"
 msgstr "Oppgåveoppdateringsforepørjing"
 
-#: calendar/gui/e-itip-control.c:1063
+#: calendar/gui/e-itip-control.c:1074
 #, fuzzy, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "Dette er ei repeterande hending."
 
-#: calendar/gui/e-itip-control.c:1064
+#: calendar/gui/e-itip-control.c:1075
 msgid "Task Reply"
 msgstr "Oppgåvesvar"
 
-#: calendar/gui/e-itip-control.c:1068
+#: calendar/gui/e-itip-control.c:1079
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> har kansellert ei oppgåve."
 
-#: calendar/gui/e-itip-control.c:1069
+#: calendar/gui/e-itip-control.c:1080
 msgid "Task Cancellation"
 msgstr "Oppgåvekansellering"
 
-#: calendar/gui/e-itip-control.c:1074
+#: calendar/gui/e-itip-control.c:1085
 #, fuzzy
 msgid "Bad Task Message"
 msgstr "Skriv ut alle"
 
-#: calendar/gui/e-itip-control.c:1093
+#: calendar/gui/e-itip-control.c:1104
 #, fuzzy, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "Skriv avlusingsinformasjon"
 
-#: calendar/gui/e-itip-control.c:1094
+#: calendar/gui/e-itip-control.c:1105
 msgid "Free/Busy Information"
 msgstr "Fri/ledig-informasjon"
 
-#: calendar/gui/e-itip-control.c:1098
+#: calendar/gui/e-itip-control.c:1109
 #, fuzzy, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "Prøv «%s --help» for meir informasjon\n"
 
-#: calendar/gui/e-itip-control.c:1099
+#: calendar/gui/e-itip-control.c:1110
 msgid "Free/Busy Request"
 msgstr "Fri/ledig forespørsel"
 
-#: calendar/gui/e-itip-control.c:1103
+#: calendar/gui/e-itip-control.c:1114
 #, fuzzy, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "Dette er ei repeterande hending."
 
-#: calendar/gui/e-itip-control.c:1104
+#: calendar/gui/e-itip-control.c:1115
 msgid "Free/Busy Reply"
 msgstr "Fri/Oppteke svar"
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1120
 #, fuzzy
 msgid "Bad Free/Busy Message"
 msgstr "Private meldingar"
 
-#: calendar/gui/e-itip-control.c:1182
+#: calendar/gui/e-itip-control.c:1193
 msgid "The message does not appear to be properly formed"
 msgstr "Meldinga ser ikkje ut til å vere skikkeleg forma"
 
-#: calendar/gui/e-itip-control.c:1201
+#: calendar/gui/e-itip-control.c:1212
 #, fuzzy
 msgid "The message contains only unsupported requests."
 msgstr "Meldinga har ingen sendar"
 
-#: calendar/gui/e-itip-control.c:1229 calendar/gui/e-itip-control.c:1235
+#: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1246
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Vedlegg inneheld ikkje ei gyldig kalendarmelding."
 
-#: calendar/gui/e-itip-control.c:1260
+#: calendar/gui/e-itip-control.c:1271
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1338
-msgid "Unable to find any of your identities in the attendees list!\n"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:1369
+#: calendar/gui/e-itip-control.c:1403
 msgid "Calendar file could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1371
+#: calendar/gui/e-itip-control.c:1405
 #, fuzzy
 msgid "Update complete\n"
 msgstr "Ferdig"
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1446
+msgid "This response is not from a currentattendee.  Add as an attendee?"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1424
+#: calendar/gui/e-itip-control.c:1472
 msgid "Attendee status could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1426
+#: calendar/gui/e-itip-control.c:1474
 msgid "Attendee status updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1476
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1456
+#: calendar/gui/e-itip-control.c:1504
 #, fuzzy
 msgid "Removal Complete"
 msgstr "Ferdig"
 
-#: calendar/gui/e-itip-control.c:1486 calendar/gui/e-itip-control.c:1536
+#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
 #, fuzzy
 msgid "Item sent!\n"
 msgstr "Dato"
 
-#: calendar/gui/e-itip-control.c:1488 calendar/gui/e-itip-control.c:1540
+#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
 msgid "The item could not be sent!\n"
 msgstr ""
 
@@ -7109,7 +7109,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalendar"
 
 #: calendar/gui/print.c:2498 calendar/gui/print.c:2590
-#: mail/mail-callbacks.c:2365 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Førehandsvising av utskrift"
@@ -7164,107 +7164,107 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "MTOTFLS"
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr ""
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr ""
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
 msgstr ""
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr ""
 
@@ -7923,7 +7923,7 @@ msgstr "Leitar etter tilleggsmodular"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Klarar ikkje å opprette mappe: Ugyldig operasjon på dette lageret"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7936,7 +7936,7 @@ msgid ""
 msgstr ""
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -8254,7 +8254,7 @@ msgid "Could not save summary: %s: %s"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr ""
 
@@ -8441,7 +8441,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 msgid "Storing folder"
 msgstr "Lagrar mappe"
 
@@ -8491,8 +8491,8 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr ""
 
@@ -8510,7 +8510,7 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, fuzzy, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
@@ -8527,7 +8527,7 @@ msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, fuzzy, c-format
 msgid "Unknown error: %s"
 msgstr "Ukjend feil"
@@ -8584,9 +8584,9 @@ msgstr "Denne mappa kan ikkje fjernast."
 msgid "Spool folders cannot be deleted"
 msgstr "Denne mappa kan ikkje slettast."
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, fuzzy, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr ""
@@ -8594,21 +8594,21 @@ msgstr ""
 "%1:\n"
 "%2"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, fuzzy, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, fuzzy, c-format
 msgid "Could not file: %s: %s"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
@@ -10717,19 +10717,19 @@ msgstr "Les filinformasjon"
 msgid "Filters"
 msgstr "Filter"
 
-#: mail/mail-callbacks.c:2326
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "Skriv ut melding"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:2372
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "Utskrift av melding feila"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2478
 #, fuzzy, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Er du sikker på at du vil sletta denne overføringa?"
@@ -23479,7 +23479,7 @@ msgid ""
 "to work it out."
 msgstr ""
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:803
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:809
 msgid "Please select the information that you would like to import:"
 msgstr "Vel informasjonen du vil importere:"
 
@@ -23580,17 +23580,17 @@ msgstr "Importér data og innstillinga frå eldre program"
 msgid "Import a single file"
 msgstr "Flyttar"
 
-#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:632
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:638
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
 
-#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:635
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
 msgstr ""
 
-#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:758
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:764
 #, c-format
 msgid "From %s:"
 msgstr "Frå %s:"
@@ -25756,8 +25756,8 @@ msgid "With Category"
 msgstr "Kategori"
 
 #. Check for UTC.
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:207
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:700
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:209
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:702
 msgid "UTC"
 msgstr "UTC"
 

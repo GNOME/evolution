@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-01-15 10:20+0900\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-01-15 06:14:33+0900\n"
 "Last-Translator: Young-Ho Cha <ganadist@chollian.net>\n"
 "Language-Team: korean <gnome-kr-translation@lists.sourceforge.net>\n"
@@ -33,7 +33,7 @@ msgid "Imports VCard files into Evolution."
 msgstr "VCard 파일을 Evolution으로 가져옵니다"
 
 #: addressbook/backend/ebook/e-card-simple.c:60
-#: addressbook/gui/widgets/e-addressbook-view.c:849
+#: addressbook/gui/widgets/e-addressbook-view.c:841
 msgid "File As"
 msgstr "파일로 저장"
 
@@ -42,7 +42,7 @@ msgid "Name"
 msgstr "이름"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
-#: addressbook/gui/widgets/e-addressbook-view.c:851
+#: addressbook/gui/widgets/e-addressbook-view.c:843
 msgid "Email"
 msgstr "이메일"
 
@@ -58,7 +58,7 @@ msgstr ""
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/gui/contact-editor/e-contact-editor.c:1644
-#: addressbook/gui/widgets/e-addressbook-view.c:883
+#: addressbook/gui/widgets/e-addressbook-view.c:875
 msgid "Assistant"
 msgstr "조수"
 
@@ -98,7 +98,7 @@ msgid "Home"
 msgstr "집"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
-#: addressbook/gui/widgets/e-addressbook-view.c:858
+#: addressbook/gui/widgets/e-addressbook-view.c:850
 msgid "Organization"
 msgstr "조직"
 
@@ -120,7 +120,7 @@ msgstr "자동차"
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #: addressbook/gui/contact-editor/e-contact-editor.c:1647
-#: addressbook/gui/widgets/e-addressbook-view.c:863
+#: addressbook/gui/widgets/e-addressbook-view.c:855
 msgid "Business Fax"
 msgstr "직장 팩스"
 
@@ -130,7 +130,7 @@ msgstr "직장 팩스"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1653
-#: addressbook/gui/widgets/e-addressbook-view.c:864
+#: addressbook/gui/widgets/e-addressbook-view.c:856
 msgid "Home Fax"
 msgstr "집 팩스"
 
@@ -150,7 +150,7 @@ msgstr "집 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
 #: addressbook/gui/contact-editor/e-contact-editor.c:1654
-#: addressbook/gui/widgets/e-addressbook-view.c:867
+#: addressbook/gui/widgets/e-addressbook-view.c:859
 msgid "ISDN"
 msgstr "ISDN"
 
@@ -164,49 +164,49 @@ msgstr "기타"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
 #: addressbook/gui/contact-editor/e-contact-editor.c:1657
-#: addressbook/gui/widgets/e-addressbook-view.c:869
+#: addressbook/gui/widgets/e-addressbook-view.c:861
 msgid "Other Fax"
 msgstr "기타 팩스"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
 #: addressbook/gui/contact-editor/e-contact-editor.c:1658
-#: addressbook/gui/widgets/e-addressbook-view.c:870
+#: addressbook/gui/widgets/e-addressbook-view.c:862
 msgid "Pager"
 msgstr "삐삐"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1660
-#: addressbook/gui/widgets/e-addressbook-view.c:871
+#: addressbook/gui/widgets/e-addressbook-view.c:863
 msgid "Radio"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:83
 #: addressbook/gui/contact-editor/e-contact-editor.c:1661
-#: addressbook/gui/widgets/e-addressbook-view.c:872
+#: addressbook/gui/widgets/e-addressbook-view.c:864
 msgid "Telex"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:84
-#: addressbook/gui/widgets/e-addressbook-view.c:873
+#: addressbook/gui/widgets/e-addressbook-view.c:865
 msgid "TTY"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
 #: addressbook/gui/contact-editor/e-contact-editor.c:1687
-#: addressbook/gui/widgets/e-addressbook-view.c:875
+#: addressbook/gui/widgets/e-addressbook-view.c:867
 msgid "Email 2"
 msgstr "이메일 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:494
 #: addressbook/gui/contact-editor/e-contact-editor.c:1688
-#: addressbook/gui/widgets/e-addressbook-view.c:876
+#: addressbook/gui/widgets/e-addressbook-view.c:868
 msgid "Email 3"
 msgstr "이메일 3"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
-#: addressbook/gui/widgets/e-addressbook-view.c:877
+#: addressbook/gui/widgets/e-addressbook-view.c:869
 msgid "Web Site"
 msgstr "웹 사이트"
 
@@ -215,7 +215,7 @@ msgid "Url"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:89
-#: addressbook/gui/widgets/e-addressbook-view.c:878
+#: addressbook/gui/widgets/e-addressbook-view.c:870
 msgid "Department"
 msgstr "부서"
 
@@ -224,7 +224,7 @@ msgid "Dep"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:90
-#: addressbook/gui/widgets/e-addressbook-view.c:879
+#: addressbook/gui/widgets/e-addressbook-view.c:871
 msgid "Office"
 msgstr "사무실"
 
@@ -233,12 +233,12 @@ msgid "Off"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:91
-#: addressbook/gui/widgets/e-addressbook-view.c:880
+#: addressbook/gui/widgets/e-addressbook-view.c:872
 msgid "Title"
 msgstr "제목"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
-#: addressbook/gui/widgets/e-addressbook-view.c:881
+#: addressbook/gui/widgets/e-addressbook-view.c:873
 msgid "Profession"
 msgstr "직업"
 
@@ -247,7 +247,7 @@ msgid "Prof"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#: addressbook/gui/widgets/e-addressbook-view.c:882
+#: addressbook/gui/widgets/e-addressbook-view.c:874
 msgid "Manager"
 msgstr ""
 
@@ -260,7 +260,7 @@ msgid "Ass"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:95
-#: addressbook/gui/widgets/e-addressbook-view.c:884
+#: addressbook/gui/widgets/e-addressbook-view.c:876
 msgid "Nickname"
 msgstr "별명"
 
@@ -269,12 +269,12 @@ msgid "Nick"
 msgstr "별명"
 
 #: addressbook/backend/ebook/e-card-simple.c:96
-#: addressbook/gui/widgets/e-addressbook-view.c:885
+#: addressbook/gui/widgets/e-addressbook-view.c:877
 msgid "Spouse"
 msgstr "배우자"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
-#: addressbook/gui/widgets/e-addressbook-view.c:886
+#: addressbook/gui/widgets/e-addressbook-view.c:878
 msgid "Note"
 msgstr "노트"
 
@@ -287,7 +287,7 @@ msgid "CALUri"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:99
-#: addressbook/gui/widgets/e-addressbook-view.c:887
+#: addressbook/gui/widgets/e-addressbook-view.c:879
 msgid "Free-busy URL"
 msgstr ""
 
@@ -601,7 +601,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Bonobo를 초기화 할수 없습니다"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2269
+#: addressbook/backend/pas/pas-backend-ldap.c:2394
 msgid "Searching..."
 msgstr "검색중..."
 
@@ -614,35 +614,35 @@ msgstr "읽는 중..."
 msgid "Error in search expression."
 msgstr "찾기 표현식에 오류."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:483
+#: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
 msgstr "LDAP 서버에 연결하는 중..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:493
+#: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
 msgstr "LDAP 서버에 연결할 수 없음."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:509
+#: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
 msgstr "LDAP 서버로 연결을 기다리는 중..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:912
+#: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
 msgstr "LDAP 서버에 카드를 추가하는 중..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1013
+#: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
 msgstr "LDAP 서버에서 카드를 지우는 중..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1123
+#: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
 msgstr "LDAP 서버에서 카드를 고치는 중..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2214
+#: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
 msgstr "LDAP 검색 결과를 받는 중..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2219
+#: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
 msgstr "검색 다시 시작중."
 
@@ -747,7 +747,7 @@ msgstr "새 연락처 목록"
 msgid "New Contact _List"
 msgstr "새 연락처 목록(_L)"
 
-#: addressbook/gui/component/addressbook-config.c:186
+#: addressbook/gui/component/addressbook-config.c:218
 msgid "Edit Addressbook"
 msgstr "주소록 편집"
 
@@ -756,104 +756,131 @@ msgid "389"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
+#, fuzzy
+msgid "A_uthenticate with server using:"
+msgstr "인증이 필요함"
+
+#: addressbook/gui/component/addressbook-config.glade.h:3
 msgid "Account Name"
 msgstr "계정 이름"
 
-#: addressbook/gui/component/addressbook-config.glade.h:3
+#: addressbook/gui/component/addressbook-config.glade.h:4
 msgid "Add Addressbook"
 msgstr "주소록 추가"
 
-#: addressbook/gui/component/addressbook-config.glade.h:4
+#: addressbook/gui/component/addressbook-config.glade.h:5
 msgid "Addressbook Sources"
 msgstr "주소록 소스"
 
-#: addressbook/gui/component/addressbook-config.glade.h:5
+#: addressbook/gui/component/addressbook-config.glade.h:6
 msgid "Advanced"
 msgstr "고급"
 
-#: addressbook/gui/component/addressbook-config.glade.h:6
+#: addressbook/gui/component/addressbook-config.glade.h:7
 msgid "Base"
 msgstr ""
 
-#: addressbook/gui/component/addressbook-config.glade.h:7
+#: addressbook/gui/component/addressbook-config.glade.h:8
 #: calendar/gui/dialogs/task-editor.c:178
 msgid "Basic"
 msgstr "기본"
 
-#: addressbook/gui/component/addressbook-config.glade.h:8
+#: addressbook/gui/component/addressbook-config.glade.h:9
+#, fuzzy
+msgid "Check this if the server requires you to authenticate."
+msgstr "서버가 인증을 요구합니다(_M)"
+
+#: addressbook/gui/component/addressbook-config.glade.h:10
 msgid "De_lete"
 msgstr "삭제(_l)"
 
-#: addressbook/gui/component/addressbook-config.glade.h:9
-msgid "Email Address:"
-msgstr "전자우편 주소:"
-
-#: addressbook/gui/component/addressbook-config.glade.h:10
-msgid ""
-"Evolution will use this email address to authenticate you with the server"
-msgstr ""
-"Evolution은 이 메일 주소로 서버에 인증할때 사용합니다"
-
 #: addressbook/gui/component/addressbook-config.glade.h:11
-msgid "One"
+msgid "Distinguished name (DN)"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:12
-msgid "Search _base:"
-msgstr ""
+#, fuzzy
+msgid "Email address"
+msgstr "전자우편 주소:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:13
-msgid "Search s_cope: "
-msgstr "검색 범위(_c):"
+#, fuzzy
+msgid ""
+"Evolution will use this Distinquished Name (DN) to authenticate you with the "
+"server"
+msgstr "Evolution은 이 메일 주소로 서버에 인증할때 사용합니다"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
-msgid "Server Name"
-msgstr "서버 이름"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
+msgstr "Evolution은 이 메일 주소로 서버에 인증할때 사용합니다"
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
-msgid "Sub"
+msgid "One"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:16
-msgid "The information below is required in order to add an addressbook.  "
+msgid "Search _base:"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:17
+msgid "Search s_cope: "
+msgstr "검색 범위(_c):"
+
+#: addressbook/gui/component/addressbook-config.glade.h:18
+msgid "Server Name"
+msgstr "서버 이름"
+
+#: addressbook/gui/component/addressbook-config.glade.h:19
+msgid "Sub"
+msgstr ""
+
+#: addressbook/gui/component/addressbook-config.glade.h:20
+msgid "The information below is required in order to add an addressbook.  "
+msgstr ""
+
+#: addressbook/gui/component/addressbook-config.glade.h:21
 msgid "This information is not required for most ldap servers. "
 msgstr ""
 
-#: addressbook/gui/component/addressbook-config.glade.h:18
+#: addressbook/gui/component/addressbook-config.glade.h:22
 msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
 msgstr ""
 
-#: addressbook/gui/component/addressbook-config.glade.h:19
+#: addressbook/gui/component/addressbook-config.glade.h:23
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
 msgstr ""
 
-#: addressbook/gui/component/addressbook-config.glade.h:20
+#: addressbook/gui/component/addressbook-config.glade.h:24
+msgid ""
+"This is the method evolution will use to authenticate you.  Note that "
+"setting this to \"Email Address\" requires anonymous access to your ldap "
+"server."
+msgstr ""
+
+#: addressbook/gui/component/addressbook-config.glade.h:25
 msgid "This is the name of the server where your addressbook is located."
 msgstr "주소록이 위치한 서버의 이름입니다"
 
-#: addressbook/gui/component/addressbook-config.glade.h:21
+#: addressbook/gui/component/addressbook-config.glade.h:26
 msgid "This is the port that your ldap server uses."
 msgstr "ldap서버가 사용하는 포트입니다"
 
-#: addressbook/gui/component/addressbook-config.glade.h:22
+#: addressbook/gui/component/addressbook-config.glade.h:27
 msgid ""
 "This name will be used to identify your account. It is for display purposes "
 "only."
-msgstr ""
-"계정을 인식할때 사용할 이름입니다. 표시할 목적으로만 사용됩니다."
+msgstr "계정을 인식할때 사용할 이름입니다. 표시할 목적으로만 사용됩니다."
 
-#: addressbook/gui/component/addressbook-config.glade.h:23
+#: addressbook/gui/component/addressbook-config.glade.h:28
 msgid "_Account name:"
 msgstr "계정 이름(_A):"
 
-#: addressbook/gui/component/addressbook-config.glade.h:24
+#: addressbook/gui/component/addressbook-config.glade.h:29
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
@@ -861,7 +888,11 @@ msgstr "계정 이름(_A):"
 msgid "_Add"
 msgstr "추가(_A)"
 
-#: addressbook/gui/component/addressbook-config.glade.h:25
+#: addressbook/gui/component/addressbook-config.glade.h:30
+msgid "_Distinguished Name:"
+msgstr ""
+
+#: addressbook/gui/component/addressbook-config.glade.h:31
 #: filter/filter.glade.h:9 mail/mail-config.glade.h:98
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-calendar.xml.h:39
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
@@ -871,15 +902,16 @@ msgstr "추가(_A)"
 msgid "_Edit"
 msgstr "편집(_E)"
 
-#: addressbook/gui/component/addressbook-config.glade.h:26
-msgid "_My server requires authentication"
-msgstr "서버가 인증을 요구합니다(_M)"
+#: addressbook/gui/component/addressbook-config.glade.h:32
+#, fuzzy
+msgid "_Email address:"
+msgstr "전자우편 주소(_E):"
 
-#: addressbook/gui/component/addressbook-config.glade.h:27
+#: addressbook/gui/component/addressbook-config.glade.h:33
 msgid "_Port:"
 msgstr "포트(_P):"
 
-#: addressbook/gui/component/addressbook-config.glade.h:28
+#: addressbook/gui/component/addressbook-config.glade.h:34
 msgid "_Server name:"
 msgstr "서버 이름(_S):"
 
@@ -917,42 +949,44 @@ msgid ""
 "path exists and that you have permission to access it."
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:640
+#: addressbook/gui/component/addressbook.c:641
+#: addressbook/gui/component/addressbook.c:644
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "%s(사용자 %s)의 비밀번호를 입력하십시오"
 
-#: addressbook/gui/component/addressbook.c:808
-#: calendar/gui/cal-search-bar.c:55
-msgid "Any field contains"
+#: addressbook/gui/component/addressbook.c:822
+msgid "Name begins with"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:809
-msgid "Name contains"
-msgstr "이름이 포함"
+#: addressbook/gui/component/addressbook.c:823
+#, fuzzy
+msgid "Email is"
+msgstr "이메일 2"
 
-#: addressbook/gui/component/addressbook.c:810
-msgid "Email contains"
-msgstr "메일주소가 포함"
-
-#: addressbook/gui/component/addressbook.c:811
+#: addressbook/gui/component/addressbook.c:824
 #: calendar/gui/cal-search-bar.c:59
 msgid "Category is"
 msgstr "분류"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:812 widgets/misc/e-filter-bar.h:97
+#: addressbook/gui/component/addressbook.c:825
+#: calendar/gui/cal-search-bar.c:55
+msgid "Any field contains"
+msgstr ""
+
+#: addressbook/gui/component/addressbook.c:826 widgets/misc/e-filter-bar.h:97
 #: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "고급..."
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:1030
+#: addressbook/gui/component/addressbook.c:1059
 #: calendar/gui/cal-search-bar.c:412
 msgid "Any Category"
 msgstr "아무 분류"
 
-#: addressbook/gui/component/addressbook.c:1112
+#: addressbook/gui/component/addressbook.c:1143
 msgid "The URI that the Folder Browser will display"
 msgstr "폴더 탐색기가 표시할 URI"
 
@@ -1022,7 +1056,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr "주소록 이름 선택 인터페이스를 위한 팩토리"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
-#: addressbook/gui/component/select-names/e-select-names.c:838
+#: addressbook/gui/component/select-names/e-select-names.c:876
 #: composer/e-msg-composer-attachment-bar.c:501 filter/filter-filter.c:436
 #: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
@@ -1053,7 +1087,7 @@ msgstr "(%d개 보이지 않음)"
 msgid "Unnamed Contact"
 msgstr "이름없는 연락처"
 
-#: addressbook/gui/component/select-names/e-select-names.c:579
+#: addressbook/gui/component/select-names/e-select-names.c:610
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "This may have been caused by the evolution-addressbook component crashing.\n"
@@ -1063,7 +1097,7 @@ msgid ""
 "occurred.  Thank you."
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:587
+#: addressbook/gui/component/select-names/e-select-names.c:618
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "Under normal circumstances, this should never happen.\n"
@@ -1071,7 +1105,7 @@ msgid ""
 "correct this problem."
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:669
+#: addressbook/gui/component/select-names/e-select-names.c:700
 msgid "Select Contacts from Addressbook"
 msgstr "주소록에서 연락처 선택"
 
@@ -1282,7 +1316,7 @@ msgid "Edit Full"
 msgstr "정식 이름 편집"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:326
-#: addressbook/gui/widgets/e-addressbook-view.c:850
+#: addressbook/gui/widgets/e-addressbook-view.c:842
 msgid "Full Name"
 msgstr "정식 이름"
 
@@ -2513,24 +2547,29 @@ msgstr "고급 검색"
 msgid "Search"
 msgstr "검색"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:127
+#: addressbook/gui/widgets/e-addressbook-model.c:136
 msgid "No cards"
 msgstr "카드 없음"
 
-#: addressbook/gui/widgets/e-addressbook-model.c:130
+#: addressbook/gui/widgets/e-addressbook-model.c:139
 msgid "1 card"
 msgstr ""
 
-#: addressbook/gui/widgets/e-addressbook-model.c:133
+#: addressbook/gui/widgets/e-addressbook-model.c:142
 #, c-format
 msgid "%d cards"
 msgstr ""
 
+#: addressbook/gui/widgets/e-addressbook-model.c:369
+#, fuzzy
+msgid "Error getting book view"
+msgstr "%s을(를) 읽는중 오류 발생"
+
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:139
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:268
-#: addressbook/gui/widgets/e-addressbook-view.c:671
-#: addressbook/gui/widgets/e-addressbook-view.c:733
-#: addressbook/gui/widgets/e-addressbook-view.c:1405
+#: addressbook/gui/widgets/e-addressbook-view.c:663
+#: addressbook/gui/widgets/e-addressbook-view.c:725
+#: addressbook/gui/widgets/e-addressbook-view.c:1397
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "VCard로 저장"
@@ -2541,18 +2580,18 @@ msgid "Open"
 msgstr "열기"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:269
-#: addressbook/gui/widgets/e-addressbook-view.c:734
+#: addressbook/gui/widgets/e-addressbook-view.c:726
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "주소 전달"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:270
-#: addressbook/gui/widgets/e-addressbook-view.c:735
+#: addressbook/gui/widgets/e-addressbook-view.c:727
 msgid "Send Message to Contact"
 msgstr "연락처로 메세지 보냄"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:271
-#: addressbook/gui/widgets/e-addressbook-view.c:736
+#: addressbook/gui/widgets/e-addressbook-view.c:728
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:2
@@ -2560,12 +2599,12 @@ msgid "Print"
 msgstr "인쇄"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:273
-#: addressbook/gui/widgets/e-addressbook-view.c:738
+#: addressbook/gui/widgets/e-addressbook-view.c:730
 msgid "Print Envelope"
 msgstr "봉투 인쇄"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:275
-#: addressbook/gui/widgets/e-addressbook-view.c:740 filter/libfilter-i18n.h:8
+#: addressbook/gui/widgets/e-addressbook-view.c:732 filter/libfilter-i18n.h:8
 #: mail/mail-accounts.c:296 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:18
@@ -2585,7 +2624,7 @@ msgid "Success"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:34
-#: camel/providers/imap/camel-imap-command.c:355 shell/e-shell.c:1894
+#: camel/providers/imap/camel-imap-command.c:355 shell/e-shell.c:1892
 #: shell/e-storage.c:528 shell/evolution-shell-component.c:1044
 msgid "Unknown error"
 msgstr "알 수없는 에러"
@@ -2614,7 +2653,7 @@ msgstr "프로토콜 지원되지 않음"
 #: addressbook/gui/widgets/e-addressbook-util.c:40
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2255
+#: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2276
 #: camel/camel-service.c:610 camel/camel-service.c:646
 msgid "Cancelled"
 msgstr "취소됨"
@@ -2645,7 +2684,7 @@ msgid "Error removing list"
 msgstr "목록 제거중 오류"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:95
-#: addressbook/gui/widgets/e-addressbook-view.c:1278
+#: addressbook/gui/widgets/e-addressbook-view.c:1270
 msgid "Error removing card"
 msgstr "카드 제거중 오류"
 
@@ -2668,63 +2707,63 @@ msgstr ""
 ",0,ㄱ,ㄴ,ㄷ,ㄹ,ㅁ,ㅂ,ㅅ,ㅇ,ㅈ,ㅊ,ㅋ,ㅍ,ㅎ,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,"
 "r,s,t,u,v,w,x,y,z"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:848
+#: addressbook/gui/widgets/e-addressbook-view.c:840
 msgid "* Click here to add a contact *"
 msgstr "* 연락처에 추가하기 *"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:852
+#: addressbook/gui/widgets/e-addressbook-view.c:844
 msgid "Primary Phone"
 msgstr "기본 전화"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:853
+#: addressbook/gui/widgets/e-addressbook-view.c:845
 msgid "Assistant Phone"
 msgstr "조수 전화"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:854
+#: addressbook/gui/widgets/e-addressbook-view.c:846
 msgid "Business Phone"
 msgstr "직장 전화"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:855
+#: addressbook/gui/widgets/e-addressbook-view.c:847
 msgid "Callback Phone"
 msgstr ""
 
-#: addressbook/gui/widgets/e-addressbook-view.c:856
+#: addressbook/gui/widgets/e-addressbook-view.c:848
 msgid "Company Phone"
 msgstr "회사 전화"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:857
+#: addressbook/gui/widgets/e-addressbook-view.c:849
 msgid "Home Phone"
 msgstr "집 전화"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:859
+#: addressbook/gui/widgets/e-addressbook-view.c:851
 msgid "Business Address"
 msgstr "직장 주소"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:860
+#: addressbook/gui/widgets/e-addressbook-view.c:852
 msgid "Home Address"
 msgstr "집 주소"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:861
+#: addressbook/gui/widgets/e-addressbook-view.c:853
 msgid "Mobile Phone"
 msgstr "휴대 전화"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:862
+#: addressbook/gui/widgets/e-addressbook-view.c:854
 msgid "Car Phone"
 msgstr "카 폰"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:865
+#: addressbook/gui/widgets/e-addressbook-view.c:857
 msgid "Business Phone 2"
 msgstr "직장 전화 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:866
+#: addressbook/gui/widgets/e-addressbook-view.c:858
 msgid "Home Phone 2"
 msgstr "집 전화 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:868
+#: addressbook/gui/widgets/e-addressbook-view.c:860
 msgid "Other Phone"
 msgstr "다른 전화"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:874
+#: addressbook/gui/widgets/e-addressbook-view.c:866
 msgid "Other Address"
 msgstr "다른 주소"
 
@@ -2923,12 +2962,12 @@ msgstr "폭:"
 msgid "_Font..."
 msgstr "글꼴(_F)..."
 
-#: addressbook/printing/e-contact-print.c:1111
+#: addressbook/printing/e-contact-print.c:1115
 msgid "Print cards"
 msgstr "카드 인쇄하기"
 
-#: addressbook/printing/e-contact-print.c:1171
-#: addressbook/printing/e-contact-print.c:1193
+#: addressbook/printing/e-contact-print.c:1175
+#: addressbook/printing/e-contact-print.c:1197
 msgid "Print card"
 msgstr "카드 인쇄하기"
 
@@ -4456,20 +4495,20 @@ msgstr "제목없는 약속"
 
 #: calendar/cal-util/cal-util.c:498 calendar/cal-util/cal-util.c:520
 #: calendar/gui/dialogs/task-details-page.glade.h:6
-#: calendar/gui/e-calendar-table.c:405 mail/message-list.c:651
+#: calendar/gui/e-calendar-table.c:405 mail/message-list.c:668
 msgid "High"
 msgstr "높음"
 
 #: calendar/cal-util/cal-util.c:500 calendar/cal-util/cal-util.c:522
 #: calendar/gui/calendar-model.c:1711
 #: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:406 mail/message-list.c:650
+#: calendar/gui/e-calendar-table.c:406 mail/message-list.c:667
 msgid "Normal"
 msgstr "보통"
 
 #: calendar/cal-util/cal-util.c:502 calendar/cal-util/cal-util.c:524
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-calendar-table.c:407 mail/message-list.c:649
+#: calendar/gui/e-calendar-table.c:407 mail/message-list.c:666
 msgid "Low"
 msgstr "낮음"
 
@@ -4645,7 +4684,7 @@ msgstr "%Y년 %B %d일"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: calendar/gui/calendar-commands.c:474
-#: calendar/gui/e-week-view-main-item.c:341 calendar/gui/print.c:1445
+#: calendar/gui/e-week-view-main-item.c:341 calendar/gui/print.c:1468
 msgid "%d %B"
 msgstr "%B %d일"
 
@@ -4690,27 +4729,27 @@ msgid "Free"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:432
+#: calendar/gui/e-meeting-time-sel.c:435
 #: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "바쁨"
 
 #: calendar/gui/calendar-model.c:754 calendar/gui/calendar-model.c:1191
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:478 calendar/gui/print.c:2246
+#: calendar/gui/e-calendar-table.c:478 calendar/gui/print.c:2267
 msgid "Not Started"
 msgstr "시작 안함"
 
 #: calendar/gui/calendar-model.c:757 calendar/gui/calendar-model.c:1193
 #: calendar/gui/dialogs/task-details-page.glade.h:7
-#: calendar/gui/e-calendar-table.c:479 calendar/gui/print.c:2249
+#: calendar/gui/e-calendar-table.c:479 calendar/gui/print.c:2270
 msgid "In Progress"
 msgstr "진행중"
 
 #: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1195
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:329
-#: calendar/gui/e-meeting-model.c:352 calendar/gui/print.c:2252
+#: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:326
+#: calendar/gui/e-meeting-model.c:349 calendar/gui/print.c:2273
 msgid "Completed"
 msgstr "완료됨"
 
@@ -4726,7 +4765,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:203
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
@@ -4740,14 +4779,14 @@ msgstr "반복됨"
 msgid "Assigned"
 msgstr "예약됨"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:301
-#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:536
-#: calendar/gui/e-meeting-model.c:810
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:298
+#: calendar/gui/e-meeting-model.c:308 calendar/gui/e-meeting-model.c:537
+#: calendar/gui/e-meeting-model.c:821
 msgid "Yes"
 msgstr "예"
 
-#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:313
-#: calendar/gui/e-meeting-model.c:811
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:310
+#: calendar/gui/e-meeting-model.c:822
 msgid "No"
 msgstr "아니오"
 
@@ -4798,7 +4837,7 @@ msgstr "달력"
 msgid "Folder containing appointments and events"
 msgstr ""
 
-#: calendar/gui/component-factory.c:68 calendar/gui/print.c:1733
+#: calendar/gui/component-factory.c:68 calendar/gui/print.c:1754
 #: my-evolution/e-summary-tasks.c:247 my-evolution/e-summary-tasks.c:263
 #: shell/e-local-storage.c:177 shell/e-shortcuts.c:1058
 #: views/tasks/galview.xml.h:1
@@ -4826,7 +4865,12 @@ msgstr "새 작업을 만듭니다"
 msgid "New _Task"
 msgstr "새 작업(_T)"
 
-#: calendar/gui/control-factory.c:127
+#: calendar/gui/control-factory.c:103
+#, fuzzy, c-format
+msgid "Could not open the folder in '%s'"
+msgstr "`%s'에있는 폴더를 열수가 없습니다"
+
+#: calendar/gui/control-factory.c:130
 msgid "The URI that the calendar will display"
 msgstr "달력이 표시할 URI"
 
@@ -4994,12 +5038,12 @@ msgstr "%s %s 약속 끝난 후"
 msgid "%s at the end of the appointment"
 msgstr "%s 약속 끝날때"
 
-#: calendar/gui/dialogs/alarm-page.c:453
+#: calendar/gui/dialogs/alarm-page.c:452
 #, c-format
 msgid "%s at %s"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-page.c:459
+#: calendar/gui/dialogs/alarm-page.c:458
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr ""
@@ -5020,7 +5064,7 @@ msgstr "알림"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:738 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:769 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "요약"
 
@@ -5317,23 +5361,23 @@ msgstr ""
 msgid "%s  You have made no changes, update the editor?"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor-util.c:188 calendar/gui/print.c:2164
+#: calendar/gui/dialogs/comp-editor-util.c:188 calendar/gui/print.c:2185
 msgid " to "
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor-util.c:192 calendar/gui/print.c:2168
+#: calendar/gui/dialogs/comp-editor-util.c:192 calendar/gui/print.c:2189
 msgid " (Completed "
 msgstr " (완료됨 "
 
-#: calendar/gui/dialogs/comp-editor-util.c:194 calendar/gui/print.c:2170
+#: calendar/gui/dialogs/comp-editor-util.c:194 calendar/gui/print.c:2191
 msgid "Completed "
 msgstr "완료됨 "
 
-#: calendar/gui/dialogs/comp-editor-util.c:199 calendar/gui/print.c:2175
+#: calendar/gui/dialogs/comp-editor-util.c:199 calendar/gui/print.c:2196
 msgid " (Due "
 msgstr " (기한 "
 
-#: calendar/gui/dialogs/comp-editor-util.c:201 calendar/gui/print.c:2177
+#: calendar/gui/dialogs/comp-editor-util.c:201 calendar/gui/print.c:2198
 msgid "Due "
 msgstr "기한 "
 
@@ -5364,12 +5408,12 @@ msgstr "여행 일정 - %s"
 msgid "No summary"
 msgstr "요약 없음"
 
-#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1908
+#: calendar/gui/dialogs/comp-editor.c:1061 mail/mail-callbacks.c:1909
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1915
+#: calendar/gui/dialogs/comp-editor.c:1065 mail/mail-callbacks.c:1916
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -5439,7 +5483,7 @@ msgstr ""
 msgid "Enter Delegate"
 msgstr ""
 
-#: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2203
+#: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2224
 msgid "Appointment"
 msgstr "약속"
 
@@ -5453,13 +5497,13 @@ msgstr "반복"
 
 #: calendar/gui/dialogs/event-editor.c:202
 #: calendar/gui/dialogs/event-editor.c:260
-#: calendar/gui/dialogs/event-editor.c:363
+#: calendar/gui/dialogs/event-editor.c:366
 msgid "Scheduling"
 msgstr ""
 
 #: calendar/gui/dialogs/event-editor.c:207
 #: calendar/gui/dialogs/event-editor.c:263
-#: calendar/gui/dialogs/event-editor.c:366
+#: calendar/gui/dialogs/event-editor.c:369
 msgid "Meeting"
 msgstr "회의"
 
@@ -5580,7 +5624,7 @@ msgid "Member"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:799
+#: calendar/gui/e-itip-control.c:864
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr ""
@@ -5614,7 +5658,7 @@ msgid "_Change Organizer"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
-#: calendar/gui/e-meeting-time-sel.c:450
+#: calendar/gui/e-meeting-time-sel.c:453
 msgid "_Invite Others..."
 msgstr "다른 이들을 초대(_I)..."
 
@@ -5733,7 +5777,7 @@ msgid "Progress"
 msgstr "진행중"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:965
+#: my-evolution/e-summary-preferences.c:966
 msgid "URL:"
 msgstr ""
 
@@ -5747,11 +5791,11 @@ msgstr "상태(_S):"
 
 #: calendar/gui/dialogs/task-editor.c:190
 #: calendar/gui/dialogs/task-editor.c:227
-#: calendar/gui/dialogs/task-editor.c:322
+#: calendar/gui/dialogs/task-editor.c:325
 msgid "Assignment"
 msgstr ""
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:747
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:812
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:26
 msgid "Description:"
@@ -5955,7 +5999,7 @@ msgstr ""
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1389
-#: calendar/gui/e-week-view-main-item.c:324 calendar/gui/print.c:1461
+#: calendar/gui/e-week-view-main-item.c:324 calendar/gui/print.c:1484
 msgid "%A %d %B"
 msgstr "%B %d일 %A"
 
@@ -5968,13 +6012,13 @@ msgstr "%b %d"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:614 calendar/gui/e-week-view.c:350
-#: calendar/gui/print.c:768
+#: calendar/gui/print.c:791
 msgid "am"
 msgstr "오전"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:617 calendar/gui/e-week-view.c:353
-#: calendar/gui/print.c:770
+#: calendar/gui/print.c:793
 msgid "pm"
 msgstr "오후"
 
@@ -6007,328 +6051,351 @@ msgstr ""
 msgid "Delete _All Occurrences"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:525
+#: calendar/gui/e-itip-control.c:556
 msgid "Meeting begins: <b>"
 msgstr "회의 시작: <b>"
 
-#: calendar/gui/e-itip-control.c:530
+#: calendar/gui/e-itip-control.c:561
 msgid "Task begins: <b>"
 msgstr "작업 시작: <b>"
 
-#: calendar/gui/e-itip-control.c:535
+#: calendar/gui/e-itip-control.c:566
 msgid "Free/Busy info begins: <b>"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:539
+#: calendar/gui/e-itip-control.c:570
 msgid "Begins: <b>"
 msgstr "시작: <b>"
 
-#: calendar/gui/e-itip-control.c:551
+#: calendar/gui/e-itip-control.c:582
 msgid "Meeting ends: <b>"
 msgstr "회의 끝: <b>"
 
-#: calendar/gui/e-itip-control.c:554
+#: calendar/gui/e-itip-control.c:585
 msgid "Free/Busy info ends: <b>"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:558
+#: calendar/gui/e-itip-control.c:589
 msgid "Ends: <b>"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:572
+#: calendar/gui/e-itip-control.c:603
 msgid "Task Completed: <b>"
 msgstr "작업 완료됨: <b>"
 
-#: calendar/gui/e-itip-control.c:582
+#: calendar/gui/e-itip-control.c:613
 msgid "Task Due: <b>"
 msgstr "작업 만료: <b>"
 
-#: calendar/gui/e-itip-control.c:619 calendar/gui/e-itip-control.c:668
+#: calendar/gui/e-itip-control.c:650 calendar/gui/e-itip-control.c:699
 msgid "iCalendar Information"
 msgstr "iCalendar 정보"
 
 #. Title
-#: calendar/gui/e-itip-control.c:634
+#: calendar/gui/e-itip-control.c:665
 msgid "iCalendar Error"
 msgstr "iCalendar 오류"
 
-#: calendar/gui/e-itip-control.c:699 calendar/gui/e-itip-control.c:715
+#: calendar/gui/e-itip-control.c:730 calendar/gui/e-itip-control.c:746
 msgid "An unknown person"
 msgstr ""
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:722
+#: calendar/gui/e-itip-control.c:753
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:738
+#: calendar/gui/e-itip-control.c:769
 msgid "<i>None</i>"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:779 calendar/gui/e-itip-control.c:795
-#: calendar/gui/e-itip-control.c:811 calendar/gui/e-itip-control.c:824
-#: calendar/gui/e-itip-control.c:837 calendar/gui/e-itip-control.c:850
-msgid "Choose an action:"
+#: calendar/gui/e-itip-control.c:781
+#, fuzzy
+msgid "Status:"
+msgstr "상태(_S):"
+
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
+#: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
+#: calendar/gui/itip-utils.c:323
+msgid "Accepted"
+msgstr "승인됨"
+
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
+#, fuzzy
+msgid "Tentatively Accepted"
+msgstr "잠정적"
+
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
+#: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
+#: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
+msgid "Declined"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:780
-msgid "Update"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:781 calendar/gui/e-itip-control.c:800
-#: calendar/gui/e-itip-control.c:813 calendar/gui/e-itip-control.c:826
-#: calendar/gui/e-itip-control.c:839 calendar/gui/e-itip-control.c:852
-#: shell/e-shell.c:1884 widgets/misc/e-cell-date-edit.c:258
-msgid "OK"
-msgstr "확인"
-
-#: calendar/gui/e-itip-control.c:796
-msgid "Accept"
-msgstr "적용"
-
-#: calendar/gui/e-itip-control.c:797
-msgid "Tentatively accept"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:798
-msgid "Decline"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:812
-msgid "Send Free/Busy Information"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:825
-msgid "Update respondent status"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:838
-msgid "Send Latest Information"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:851 ui/evolution-mail-global.xml.h:1
-msgid "Cancel"
-msgstr "취소"
-
-#: calendar/gui/e-itip-control.c:899
-#, c-format
-msgid "<b>%s</b> has published meeting information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:900
-msgid "Meeting Information"
-msgstr "회의 정보"
-
-#: calendar/gui/e-itip-control.c:904
-#, c-format
-msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:905
-msgid "Meeting Proposal"
-msgstr "회의 계획"
-
-#: calendar/gui/e-itip-control.c:909
-#, c-format
-msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:910
-msgid "Meeting Update"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:914
-#, c-format
-msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:915
-msgid "Meeting Update Request"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:932 calendar/gui/e-itip-control.c:1003
-#: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
-#: calendar/gui/e-meeting-model.c:357 calendar/gui/e-meeting-model.c:782
-#: calendar/gui/e-meeting-model.c:798
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
+#: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
 #: camel/providers/smtp/camel-smtp-transport.c:170
 #: camel/providers/smtp/camel-smtp-transport.c:225
 #: widgets/misc/e-charset-picker.c:57 widgets/misc/e-charset-picker.c:439
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: calendar/gui/e-itip-control.c:938
+#: calendar/gui/e-itip-control.c:844 calendar/gui/e-itip-control.c:860
+#: calendar/gui/e-itip-control.c:876 calendar/gui/e-itip-control.c:889
+#: calendar/gui/e-itip-control.c:902 calendar/gui/e-itip-control.c:915
+msgid "Choose an action:"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:845
+msgid "Update"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:846 calendar/gui/e-itip-control.c:865
+#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:891
+#: calendar/gui/e-itip-control.c:904 calendar/gui/e-itip-control.c:917
+#: shell/e-shell.c:1882 widgets/misc/e-cell-date-edit.c:258
+msgid "OK"
+msgstr "확인"
+
+#: calendar/gui/e-itip-control.c:861
+msgid "Accept"
+msgstr "적용"
+
+#: calendar/gui/e-itip-control.c:862
+msgid "Tentatively accept"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:863
+msgid "Decline"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:877
+msgid "Send Free/Busy Information"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:890
+msgid "Update respondent status"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:903
+msgid "Send Latest Information"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
+#: ui/evolution-mail-global.xml.h:1
+msgid "Cancel"
+msgstr "취소"
+
+#: calendar/gui/e-itip-control.c:964
 #, c-format
-msgid "<b>%s</b> has replied to a meeting request."
+msgid "<b>%s</b> has published meeting information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:939
-msgid "Meeting Reply"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:943
-#, c-format
-msgid "<b>%s</b> has cancelled a meeting."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:944
-msgid "Meeting Cancellation"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:948 calendar/gui/e-itip-control.c:1019
-#: calendar/gui/e-itip-control.c:1054
-#, c-format
-msgid "<b>%s</b> has sent an unintelligible message."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:949
-msgid "Bad Meeting Message"
-msgstr ""
+#: calendar/gui/e-itip-control.c:965
+msgid "Meeting Information"
+msgstr "회의 정보"
 
 #: calendar/gui/e-itip-control.c:969
 #, c-format
-msgid "<b>%s</b> has published task information."
+msgid "<b>%s</b> requests your presence at a meeting."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:970
-msgid "Task Information"
-msgstr "작업 정보"
+msgid "Meeting Proposal"
+msgstr "회의 계획"
 
 #: calendar/gui/e-itip-control.c:974
 #, c-format
-msgid "<b>%s</b> requests you perform a task."
+msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:975
-msgid "Task Proposal"
+msgid "Meeting Update"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:979
 #, c-format
-msgid "<b>%s</b> wishes to add to an existing task."
+msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:980
-msgid "Task Update"
+msgid "Meeting Update Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:984
+#: calendar/gui/e-itip-control.c:1003
 #, c-format
-msgid "<b>%s</b> wishes to receive the latest task information."
+msgid "<b>%s</b> has replied to a meeting request."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:985
-msgid "Task Update Request"
+#: calendar/gui/e-itip-control.c:1004
+msgid "Meeting Reply"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1008
+#, c-format
+msgid "<b>%s</b> has cancelled a meeting."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1009
-#, c-format
-msgid "<b>%s</b> has replied to a task assignment."
+msgid "Meeting Cancellation"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1010
-msgid "Task Reply"
+#: calendar/gui/e-itip-control.c:1013 calendar/gui/e-itip-control.c:1084
+#: calendar/gui/e-itip-control.c:1119
+#, c-format
+msgid "<b>%s</b> has sent an unintelligible message."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1014
+msgid "Bad Meeting Message"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1034
 #, c-format
-msgid "<b>%s</b> has cancelled a task."
+msgid "<b>%s</b> has published task information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1015
-msgid "Task Cancellation"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:1020
-msgid "Bad Task Message"
-msgstr ""
+#: calendar/gui/e-itip-control.c:1035
+msgid "Task Information"
+msgstr "작업 정보"
 
 #: calendar/gui/e-itip-control.c:1039
 #, c-format
-msgid "<b>%s</b> has published free/busy information."
+msgid "<b>%s</b> requests you perform a task."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1040
-msgid "Free/Busy Information"
+msgid "Task Proposal"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1044
 #, c-format
-msgid "<b>%s</b> requests your free/busy information."
+msgid "<b>%s</b> wishes to add to an existing task."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1045
-msgid "Free/Busy Request"
+msgid "Task Update"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1049
 #, c-format
-msgid "<b>%s</b> has replied to a free/busy request."
+msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1050
+msgid "Task Update Request"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1074
+#, c-format
+msgid "<b>%s</b> has replied to a task assignment."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1075
+msgid "Task Reply"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1079
+#, c-format
+msgid "<b>%s</b> has cancelled a task."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1080
+msgid "Task Cancellation"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1085
+msgid "Bad Task Message"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1104
+#, c-format
+msgid "<b>%s</b> has published free/busy information."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1105
+msgid "Free/Busy Information"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1109
+#, c-format
+msgid "<b>%s</b> requests your free/busy information."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1110
+msgid "Free/Busy Request"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1114
+#, c-format
+msgid "<b>%s</b> has replied to a free/busy request."
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1115
 msgid "Free/Busy Reply"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1055
+#: calendar/gui/e-itip-control.c:1120
 msgid "Bad Free/Busy Message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1128
+#: calendar/gui/e-itip-control.c:1193
 msgid "The message does not appear to be properly formed"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1147
+#: calendar/gui/e-itip-control.c:1212
 msgid "The message contains only unsupported requests."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1181
+#: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1246
 msgid "The attachment does not contain a valid calendar message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1206
+#: calendar/gui/e-itip-control.c:1271
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1305
+#: calendar/gui/e-itip-control.c:1403
 msgid "Calendar file could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1307
+#: calendar/gui/e-itip-control.c:1405
 msgid "Update complete\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1352
+#: calendar/gui/e-itip-control.c:1446
+msgid "This response is not from a currentattendee.  Add as an attendee?"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1360
+#: calendar/gui/e-itip-control.c:1472
 msgid "Attendee status could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1362
+#: calendar/gui/e-itip-control.c:1474
 msgid "Attendee status updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1364
+#: calendar/gui/e-itip-control.c:1476
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1392
+#: calendar/gui/e-itip-control.c:1504
 msgid "Removal Complete"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1411 calendar/gui/e-itip-control.c:1461
+#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
 msgid "Item sent!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1413 calendar/gui/e-itip-control.c:1465
+#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
 msgid "The item could not be sent!\n"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:1638
-msgid "Unable to find any of your identities in the attendees list!\n"
 msgstr ""
 
 #: calendar/gui/e-itip-control.glade.h:2
@@ -6368,184 +6435,174 @@ msgstr ""
 msgid "date-start"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:95
+#: calendar/gui/e-meeting-model.c:81
 msgid "Chair Persons"
 msgstr "의장"
 
-#: calendar/gui/e-meeting-model.c:96 calendar/gui/e-meeting-model.c:1570
+#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1652
 msgid "Required Participants"
 msgstr "필수 참석자"
 
-#: calendar/gui/e-meeting-model.c:97
+#: calendar/gui/e-meeting-model.c:83
 msgid "Optional Participants"
 msgstr "선택 참석자"
 
-#: calendar/gui/e-meeting-model.c:98
+#: calendar/gui/e-meeting-model.c:84
 msgid "Non-Participants"
 msgstr "참석 불가자"
 
-#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
-#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:778
+#: calendar/gui/e-meeting-model.c:229 calendar/gui/e-meeting-model.c:246
+#: calendar/gui/e-meeting-model.c:533 calendar/gui/e-meeting-model.c:789
 msgid "Individual"
 msgstr "개인"
 
-#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
-#: calendar/gui/e-meeting-model.c:779
+#: calendar/gui/e-meeting-model.c:231 calendar/gui/e-meeting-model.c:248
+#: calendar/gui/e-meeting-model.c:790
 msgid "Group"
 msgstr "단체"
 
-#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
-#: calendar/gui/e-meeting-model.c:780
+#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
+#: calendar/gui/e-meeting-model.c:791
 msgid "Resource"
 msgstr "자원"
 
-#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
-#: calendar/gui/e-meeting-model.c:781
+#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
+#: calendar/gui/e-meeting-model.c:792
 msgid "Room"
 msgstr "방"
 
-#: calendar/gui/e-meeting-model.c:267 calendar/gui/e-meeting-model.c:284
-#: calendar/gui/e-meeting-model.c:794
+#: calendar/gui/e-meeting-model.c:264 calendar/gui/e-meeting-model.c:281
+#: calendar/gui/e-meeting-model.c:805
 msgid "Chair"
 msgstr "죄장"
 
-#: calendar/gui/e-meeting-model.c:269 calendar/gui/e-meeting-model.c:286
-#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:795
+#: calendar/gui/e-meeting-model.c:266 calendar/gui/e-meeting-model.c:283
+#: calendar/gui/e-meeting-model.c:535 calendar/gui/e-meeting-model.c:806
 msgid "Required Participant"
 msgstr "필수 참석자"
 
-#: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:796
+#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
+#: calendar/gui/e-meeting-model.c:807
 msgid "Optional Participant"
 msgstr "선택 참석자"
 
-#: calendar/gui/e-meeting-model.c:273 calendar/gui/e-meeting-model.c:290
-#: calendar/gui/e-meeting-model.c:797
+#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
+#: calendar/gui/e-meeting-model.c:808
 msgid "Non-Participant"
 msgstr "참석 불가자"
 
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:342
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:823
+#: calendar/gui/e-meeting-model.c:316 calendar/gui/e-meeting-model.c:339
+#: calendar/gui/e-meeting-model.c:543 calendar/gui/e-meeting-model.c:834
 msgid "Needs Action"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:321 calendar/gui/e-meeting-model.c:344
-#: calendar/gui/e-meeting-model.c:824
-msgid "Accepted"
-msgstr "승인됨"
-
-#: calendar/gui/e-meeting-model.c:323 calendar/gui/e-meeting-model.c:346
-#: calendar/gui/e-meeting-model.c:825
-msgid "Declined"
-msgstr ""
-
-#: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
-#: calendar/gui/e-meeting-model.c:826 calendar/gui/e-meeting-time-sel.c:431
+#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:345
+#: calendar/gui/e-meeting-model.c:837 calendar/gui/e-meeting-time-sel.c:434
 msgid "Tentative"
 msgstr "잠정적"
 
-#: calendar/gui/e-meeting-model.c:327 calendar/gui/e-meeting-model.c:350
-#: calendar/gui/e-meeting-model.c:827
+#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:347
+#: calendar/gui/e-meeting-model.c:838
 msgid "Delegated"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
+#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
 msgid "In Process"
 msgstr "진행중"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:471
-#: calendar/gui/e-meeting-time-sel.c:2102
+#: calendar/gui/e-meeting-time-sel-item.c:475
+#: calendar/gui/e-meeting-time-sel.c:2088
 msgid "%A, %B %d, %Y"
 msgstr "%Y년 %B %d일 %A"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:475
-#: calendar/gui/e-meeting-time-sel.c:2132 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel-item.c:479
+#: calendar/gui/e-meeting-time-sel.c:2118 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:276 e-util/e-time-utils.c:348
 msgid "%a %m/%d/%Y"
 msgstr "%Y/%m/%D %a"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:479 e-util/e-time-utils.c:221
+#: calendar/gui/e-meeting-time-sel-item.c:483 e-util/e-time-utils.c:221
 #: e-util/e-time-utils.c:279 widgets/misc/e-dateedit.c:1612
 msgid "%m/%d/%Y"
 msgstr "%Y/%m/%d"
 
-#: calendar/gui/e-meeting-time-sel.c:433
+#: calendar/gui/e-meeting-time-sel.c:436
 msgid "Out of Office"
 msgstr "사무실 떠남"
 
-#: calendar/gui/e-meeting-time-sel.c:434
+#: calendar/gui/e-meeting-time-sel.c:437
 msgid "No Information"
 msgstr "정보 없음"
 
-#: calendar/gui/e-meeting-time-sel.c:470
+#: calendar/gui/e-meeting-time-sel.c:473
 msgid "_Options"
 msgstr "설정(_O)"
 
-#: calendar/gui/e-meeting-time-sel.c:487
+#: calendar/gui/e-meeting-time-sel.c:490
 msgid "Show _Only Working Hours"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:500
+#: calendar/gui/e-meeting-time-sel.c:503
 msgid "Show _Zoomed Out"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:518
+#: calendar/gui/e-meeting-time-sel.c:521
 msgid "_Update Free/Busy"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:536
+#: calendar/gui/e-meeting-time-sel.c:539
 msgid "_<<"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:553
+#: calendar/gui/e-meeting-time-sel.c:556
 msgid "_Autopick"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:567
+#: calendar/gui/e-meeting-time-sel.c:570
 msgid ">_>"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:584
+#: calendar/gui/e-meeting-time-sel.c:587
 msgid "_All People and Resources"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:597
+#: calendar/gui/e-meeting-time-sel.c:600
 msgid "All _People and One Resource"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:610
+#: calendar/gui/e-meeting-time-sel.c:613
 msgid "_Required People"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:623
+#: calendar/gui/e-meeting-time-sel.c:626
 msgid "Required People and _One Resource"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:646
+#: calendar/gui/e-meeting-time-sel.c:649
 msgid "Meeting _start time:"
 msgstr "회의 시작 시간(_s):"
 
-#: calendar/gui/e-meeting-time-sel.c:665
+#: calendar/gui/e-meeting-time-sel.c:668
 msgid "Meeting _end time:"
 msgstr "회의 종료 시간(_e):"
 
-#: calendar/gui/e-tasks.c:328
+#: calendar/gui/e-tasks.c:337
 #, c-format
 msgid "Opening tasks at %s"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:355
+#: calendar/gui/e-tasks.c:369 calendar/gui/tasks-control.c:175
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:367
+#: calendar/gui/e-tasks.c:381
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr ""
@@ -6564,7 +6621,7 @@ msgstr "`%s'에있는 폴더를 열수가 없습니다"
 msgid "The method required to open `%s' is not supported"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1865
+#: calendar/gui/gnome-cal.c:1872
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "%s에서 달력 열기"
@@ -6625,44 +6682,48 @@ msgstr "시월"
 msgid "September"
 msgstr "구월"
 
-#: calendar/gui/itip-utils.c:243
+#: calendar/gui/itip-utils.c:220
 msgid "At least one attendee is necessary"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:274
+#: calendar/gui/itip-utils.c:251
 msgid "An organizer must be set."
 msgstr ""
 
-#: calendar/gui/itip-utils.c:313 calendar/gui/itip-utils.c:355
+#: calendar/gui/itip-utils.c:295
 msgid "Event information"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:315 calendar/gui/itip-utils.c:357
+#: calendar/gui/itip-utils.c:297
 msgid "Task information"
 msgstr "작업 정보"
 
-#: calendar/gui/itip-utils.c:317 calendar/gui/itip-utils.c:359
+#: calendar/gui/itip-utils.c:299
 msgid "Journal information"
 msgstr "여행 정보"
 
-#: calendar/gui/itip-utils.c:319 calendar/gui/itip-utils.c:376
+#: calendar/gui/itip-utils.c:301
 msgid "Free/Busy information"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:321
+#: calendar/gui/itip-utils.c:303
 msgid "Calendar information"
 msgstr "달력 정보"
 
-#: calendar/gui/itip-utils.c:370
-#, c-format
-msgid "Free/Busy information (%s to %s)"
+#: calendar/gui/itip-utils.c:339
+msgid "Updated"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:382
-msgid "iCalendar information"
-msgstr "iCalendar 정보"
+#: calendar/gui/itip-utils.c:347
+#, fuzzy
+msgid "Refresh"
+msgstr "목록 다시읽음"
 
-#: calendar/gui/itip-utils.c:581
+#: calendar/gui/itip-utils.c:351
+msgid "Counter-proposal"
+msgstr ""
+
+#: calendar/gui/itip-utils.c:617
 msgid "You must be an attendee of the event."
 msgstr ""
 
@@ -6670,239 +6731,239 @@ msgstr ""
 msgid "Could not create the component editor factory"
 msgstr ""
 
-#: calendar/gui/print.c:425
+#: calendar/gui/print.c:456
 msgid "1st"
 msgstr "1일"
 
-#: calendar/gui/print.c:425
+#: calendar/gui/print.c:456
 msgid "2nd"
 msgstr "2일"
 
-#: calendar/gui/print.c:425
+#: calendar/gui/print.c:456
 msgid "3rd"
 msgstr "3일"
 
-#: calendar/gui/print.c:425
+#: calendar/gui/print.c:456
 msgid "4th"
 msgstr "4일"
 
-#: calendar/gui/print.c:425
+#: calendar/gui/print.c:456
 msgid "5th"
 msgstr "5일"
 
-#: calendar/gui/print.c:426
+#: calendar/gui/print.c:457
 msgid "6th"
 msgstr "6일"
 
-#: calendar/gui/print.c:426
+#: calendar/gui/print.c:457
 msgid "7th"
 msgstr "7일"
 
-#: calendar/gui/print.c:426
+#: calendar/gui/print.c:457
 msgid "8th"
 msgstr "8일"
 
-#: calendar/gui/print.c:426
+#: calendar/gui/print.c:457
 msgid "9th"
 msgstr "9일"
 
-#: calendar/gui/print.c:426
+#: calendar/gui/print.c:457
 msgid "10th"
 msgstr "10일"
 
-#: calendar/gui/print.c:427
+#: calendar/gui/print.c:458
 msgid "11th"
 msgstr "11일"
 
-#: calendar/gui/print.c:427
+#: calendar/gui/print.c:458
 msgid "12th"
 msgstr "12일"
 
-#: calendar/gui/print.c:427
+#: calendar/gui/print.c:458
 msgid "13th"
 msgstr "13일"
 
-#: calendar/gui/print.c:427
+#: calendar/gui/print.c:458
 msgid "14th"
 msgstr "14일"
 
-#: calendar/gui/print.c:427
+#: calendar/gui/print.c:458
 msgid "15th"
 msgstr "15일"
 
-#: calendar/gui/print.c:428
+#: calendar/gui/print.c:459
 msgid "16th"
 msgstr "16일"
 
-#: calendar/gui/print.c:428
+#: calendar/gui/print.c:459
 msgid "17th"
 msgstr "17일"
 
-#: calendar/gui/print.c:428
+#: calendar/gui/print.c:459
 msgid "18th"
 msgstr "18일"
 
-#: calendar/gui/print.c:428
+#: calendar/gui/print.c:459
 msgid "19th"
 msgstr "19일"
 
-#: calendar/gui/print.c:428
+#: calendar/gui/print.c:459
 msgid "20th"
 msgstr "20일"
 
-#: calendar/gui/print.c:429
+#: calendar/gui/print.c:460
 msgid "21st"
 msgstr "21일"
 
-#: calendar/gui/print.c:429
+#: calendar/gui/print.c:460
 msgid "22nd"
 msgstr "22일"
 
-#: calendar/gui/print.c:429
+#: calendar/gui/print.c:460
 msgid "23rd"
 msgstr "23일"
 
-#: calendar/gui/print.c:429
+#: calendar/gui/print.c:460
 msgid "24th"
 msgstr "24일"
 
-#: calendar/gui/print.c:429
+#: calendar/gui/print.c:460
 msgid "25th"
 msgstr "25일"
 
-#: calendar/gui/print.c:430
+#: calendar/gui/print.c:461
 msgid "26th"
 msgstr "26일"
 
-#: calendar/gui/print.c:430
+#: calendar/gui/print.c:461
 msgid "27th"
 msgstr "27일"
 
-#: calendar/gui/print.c:430
+#: calendar/gui/print.c:461
 msgid "28th"
 msgstr "28일"
 
-#: calendar/gui/print.c:430
+#: calendar/gui/print.c:461
 msgid "29th"
 msgstr "29일"
 
-#: calendar/gui/print.c:430
+#: calendar/gui/print.c:461
 msgid "30th"
 msgstr "30일"
 
-#: calendar/gui/print.c:431
+#: calendar/gui/print.c:462
 msgid "31st"
 msgstr "31일"
 
-#: calendar/gui/print.c:498
+#: calendar/gui/print.c:529
 msgid "Su"
 msgstr "일"
 
-#: calendar/gui/print.c:498
+#: calendar/gui/print.c:529
 msgid "Mo"
 msgstr "월"
 
-#: calendar/gui/print.c:498
+#: calendar/gui/print.c:529
 msgid "Tu"
 msgstr "화"
 
-#: calendar/gui/print.c:498
+#: calendar/gui/print.c:529
 msgid "We"
 msgstr "수"
 
-#: calendar/gui/print.c:499
+#: calendar/gui/print.c:530
 msgid "Th"
 msgstr "목"
 
-#: calendar/gui/print.c:499
+#: calendar/gui/print.c:530
 msgid "Fr"
 msgstr "금"
 
-#: calendar/gui/print.c:499
+#: calendar/gui/print.c:530
 msgid "Sa"
 msgstr "토"
 
 #. Day
-#: calendar/gui/print.c:1819
+#: calendar/gui/print.c:1840
 msgid "Selected day (%a %b %d %Y)"
 msgstr "선택된 날(%Y년 %b %d일 %a)"
 
-#: calendar/gui/print.c:1844 calendar/gui/print.c:1848
+#: calendar/gui/print.c:1865 calendar/gui/print.c:1869
 msgid "%a %b %d"
 msgstr "%b %d %a"
 
-#: calendar/gui/print.c:1845
+#: calendar/gui/print.c:1866
 msgid "%a %d %Y"
 msgstr "%Y %d %a"
 
-#: calendar/gui/print.c:1849 calendar/gui/print.c:1851
-#: calendar/gui/print.c:1852
+#: calendar/gui/print.c:1870 calendar/gui/print.c:1872
+#: calendar/gui/print.c:1873
 msgid "%a %b %d %Y"
 msgstr "%Y년 %b %d일 %a"
 
-#: calendar/gui/print.c:1856
+#: calendar/gui/print.c:1877
 #, c-format
 msgid "Selected week (%s - %s)"
 msgstr "선택된 주 (%s - %s)"
 
 #. Month
-#: calendar/gui/print.c:1864
+#: calendar/gui/print.c:1885
 msgid "Selected month (%b %Y)"
 msgstr "선택된 달 (%Y년 %b)"
 
 #. Year
-#: calendar/gui/print.c:1871
+#: calendar/gui/print.c:1892
 msgid "Selected year (%Y)"
 msgstr "선택한 년도 (%Y)"
 
-#: calendar/gui/print.c:2205
+#: calendar/gui/print.c:2226
 msgid "Task"
 msgstr "작업"
 
-#: calendar/gui/print.c:2262
+#: calendar/gui/print.c:2283
 #, c-format
 msgid "Status: %s"
 msgstr "상태: %s"
 
-#: calendar/gui/print.c:2280
+#: calendar/gui/print.c:2301
 #, c-format
 msgid "Priority: %s"
 msgstr "우선순위: %s"
 
-#: calendar/gui/print.c:2294
+#: calendar/gui/print.c:2315
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "퍼센트 완료: %i"
 
-#: calendar/gui/print.c:2306
+#: calendar/gui/print.c:2327
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: calendar/gui/print.c:2320
+#: calendar/gui/print.c:2341
 #, c-format
 msgid "Categories: %s"
 msgstr "분류: %s"
 
-#: calendar/gui/print.c:2331
+#: calendar/gui/print.c:2352
 msgid "Contacts: "
 msgstr "연락처:"
 
-#: calendar/gui/print.c:2386
+#: calendar/gui/print.c:2407
 msgid "Print Calendar"
 msgstr ""
 
-#: calendar/gui/print.c:2477 calendar/gui/print.c:2569
-#: mail/mail-callbacks.c:2364 my-evolution/e-summary.c:623
+#: calendar/gui/print.c:2498 calendar/gui/print.c:2590
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "인쇄 미리보기"
 
-#: calendar/gui/print.c:2506
+#: calendar/gui/print.c:2527
 msgid "Print Item"
 msgstr "항목 인쇄"
 
-#: calendar/gui/print.c:2587
+#: calendar/gui/print.c:2608
 msgid "Print Setup"
 msgstr "인쇄 설정"
 
@@ -6947,107 +7008,107 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr ""
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr ""
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr ""
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
 msgstr ""
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr ""
 
@@ -7158,13 +7219,13 @@ msgstr ""
 #: camel/camel-folder.c:1040
 #, c-format
 msgid "Unsupported operation: search by expression: for %s"
-msgstr "지원되지 않는 동작: 표현식으로 찾기: %s에서 "
-"%s"
+msgstr "지원되지 않는 동작: 표현식으로 찾기: %s에서 %s"
 
 #: camel/camel-folder.c:1080
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr "지원되지 않는 동작: uid로 찾기: %s에서:\n"
+msgstr ""
+"지원되지 않는 동작: uid로 찾기: %s에서:\n"
 "%s"
 
 #: camel/camel-folder.c:1262
@@ -7672,7 +7733,7 @@ msgstr "폴더를 얻을수 없습니다: %s: %s"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "폴더를 얻을수 없습니다: %s: %s"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7685,7 +7746,7 @@ msgid ""
 msgstr ""
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -7782,7 +7843,7 @@ msgid "Scanning for changed messages"
 msgstr "메시지들을 저장"
 
 #: camel/providers/imap/camel-imap-folder.c:1585
-#: camel/providers/imap/camel-imap-folder.c:2001
+#: camel/providers/imap/camel-imap-folder.c:2028
 msgid "This message is not currently available"
 msgstr "이 메시지는 현재 보여줄 수가 없습니다"
 
@@ -7796,7 +7857,7 @@ msgstr ""
 msgid "Scanning for new messages"
 msgstr "메시지들을 저장"
 
-#: camel/providers/imap/camel-imap-folder.c:2038
+#: camel/providers/imap/camel-imap-folder.c:2065
 msgid "Could not find message body in FETCH response."
 msgstr ""
 
@@ -7823,7 +7884,7 @@ msgstr "새 편지 확인중"
 msgid "Check for new messages in all folders"
 msgstr "모든 폴더에서 새 메세지 확인"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:831
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:958
 msgid "Folders"
 msgstr "폴더"
 
@@ -7981,7 +8042,7 @@ msgstr ""
 "%s"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr ""
 
@@ -8162,7 +8223,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 #, fuzzy
 msgid "Storing folder"
 msgstr "폴더 동기화"
@@ -8208,8 +8269,8 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr ""
 
@@ -8227,7 +8288,7 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr ""
@@ -8244,7 +8305,7 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, c-format
 msgid "Unknown error: %s"
 msgstr "알 수 없는 오류: %s"
@@ -8299,28 +8360,28 @@ msgstr ""
 msgid "Spool folders cannot be deleted"
 msgstr ""
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, fuzzy, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "임시 폴더를 닫을수 없음: %s"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, fuzzy, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "임시 폴더를 닫을수 없음: %s"
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, fuzzy, c-format
 msgid "Could not file: %s: %s"
 msgstr ""
@@ -8961,52 +9022,52 @@ msgstr "참조 목록에는 없지만 메세지의 사본을 받을 사람들의 주소를 입력하세요"
 msgid "Attach a file"
 msgstr "파일을 첨부합니다"
 
-#: composer/e-msg-composer.c:698
+#: composer/e-msg-composer.c:712
 #, fuzzy, c-format
 msgid ""
 "Error while reading file %s:\n"
 "%s"
 msgstr "파일을 읽는중 오류 발생: %s"
 
-#: composer/e-msg-composer.c:896
+#: composer/e-msg-composer.c:910
 msgid "Save as..."
 msgstr "다른 이름으로 저장..."
 
-#: composer/e-msg-composer.c:905
+#: composer/e-msg-composer.c:919
 #, fuzzy
 msgid "Warning!"
 msgstr "경고"
 
-#: composer/e-msg-composer.c:909
+#: composer/e-msg-composer.c:923
 msgid "File exists, overwrite?"
 msgstr "파일이 있습니다, 덮어쓸까요?"
 
-#: composer/e-msg-composer.c:931
+#: composer/e-msg-composer.c:945
 #, c-format
 msgid "Error saving file: %s"
 msgstr "파일 저장중 오류 발생: %s"
 
-#: composer/e-msg-composer.c:950
+#: composer/e-msg-composer.c:964
 #, c-format
 msgid "Error loading file: %s"
 msgstr "파일을 읽는중 오류 발생: %s"
 
-#: composer/e-msg-composer.c:1021
+#: composer/e-msg-composer.c:1035
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1071
+#: composer/e-msg-composer.c:1085
 #, fuzzy, c-format
 msgid "Error accessing file: %s"
 msgstr "파일 저장중 오류 발생: %s"
 
-#: composer/e-msg-composer.c:1079
+#: composer/e-msg-composer.c:1093
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
-#: composer/e-msg-composer.c:1086
+#: composer/e-msg-composer.c:1100
 #, fuzzy, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -9015,7 +9076,7 @@ msgstr ""
 "출력파일을 생성할 수가 없습니다: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1093
+#: composer/e-msg-composer.c:1107
 #, fuzzy, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -9024,7 +9085,7 @@ msgstr ""
 "출력파일을 생성할 수가 없습니다: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1102
+#: composer/e-msg-composer.c:1116
 #, fuzzy, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -9033,13 +9094,13 @@ msgstr ""
 "%s로 메시지 저장중 오류 발생:\n"
 " %s"
 
-#: composer/e-msg-composer.c:1204
+#: composer/e-msg-composer.c:1218
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1358
+#: composer/e-msg-composer.c:1372
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -9049,31 +9110,31 @@ msgstr ""
 "\n"
 "변경된 내용을 저장하시겠습니까?"
 
-#: composer/e-msg-composer.c:1365
+#: composer/e-msg-composer.c:1379
 #, fuzzy
 msgid "Warning: Modified Message"
 msgstr "전달된 메시지"
 
-#: composer/e-msg-composer.c:1388
+#: composer/e-msg-composer.c:1402
 msgid "Open file"
 msgstr "파일 열기"
 
-#: composer/e-msg-composer.c:1537
+#: composer/e-msg-composer.c:1551
 #, fuzzy
 msgid "Insert File"
 msgstr "텍스트 파일 삽입"
 
-#: composer/e-msg-composer.c:1923 composer/e-msg-composer.c:2366
+#: composer/e-msg-composer.c:1937 composer/e-msg-composer.c:2382
 msgid "Compose a message"
 msgstr "메일 메세지를 작성합니다"
 
-#: composer/e-msg-composer.c:2383
+#: composer/e-msg-composer.c:2399
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2406 composer/e-msg-composer.c:2461
+#: composer/e-msg-composer.c:2422 composer/e-msg-composer.c:2477
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
@@ -9082,7 +9143,13 @@ msgstr ""
 "아직 신상 정보가 입력이 되어있지 않았기때문에\n"
 "메시지 작성창을 만들 수가 없습니다."
 
-#: composer/evolution-composer.c:367
+#: composer/e-msg-composer.c:3180
+msgid ""
+"<b>(The composer contains a non-text message body, which cannot be editted.)"
+"<b>"
+msgstr ""
+
+#: composer/evolution-composer.c:376
 msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
@@ -9090,7 +9157,7 @@ msgstr ""
 "아직 신상 정보가 입력이 되어있지 않았기때문에\n"
 "메시지 작성창을 만들 수가 없습니다."
 
-#: composer/evolution-composer.c:382
+#: composer/evolution-composer.c:391
 msgid "Cannot initialize Evolution's composer."
 msgstr "Evolution 작성기가 초기화되지 않았습니다."
 
@@ -9340,7 +9407,7 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: filter/filter-datespec.c:711 mail/message-list.c:939
+#: filter/filter-datespec.c:711 mail/message-list.c:956
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %p %l:%M"
 
@@ -9567,7 +9634,7 @@ msgstr "회신"
 msgid "Score"
 msgstr ""
 
-#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1404
+#: filter/libfilter-i18n.h:26 mail/mail-callbacks.c:1405
 msgid "Sender"
 msgstr "보낸이"
 
@@ -10294,53 +10361,53 @@ msgstr ""
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%Y-%m-%d %a %H:%M, %%s가 작성:"
 
-#: mail/mail-callbacks.c:1281 mail/message-browser.c:130
+#: mail/mail-callbacks.c:1282 mail/message-browser.c:130
 msgid "Move message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:1283 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1284 mail/message-browser.c:132
 msgid "Copy message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:1759
+#: mail/mail-callbacks.c:1760
 #, fuzzy, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "정말로 작업 `%s'를 지우기를 원하십니까"
 
-#: mail/mail-callbacks.c:1784
+#: mail/mail-callbacks.c:1785
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:1823
+#: mail/mail-callbacks.c:1824
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:1837
+#: mail/mail-callbacks.c:1838
 #, fuzzy, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "정말로 작업 `%s'를 지우기를 원하십니까"
 
-#: mail/mail-callbacks.c:1863
+#: mail/mail-callbacks.c:1864
 msgid "No Message Selected"
 msgstr ""
 
-#: mail/mail-callbacks.c:1962
+#: mail/mail-callbacks.c:1963
 msgid "Save Message As..."
 msgstr "다른이름으로 메세지 저장..."
 
-#: mail/mail-callbacks.c:1964
+#: mail/mail-callbacks.c:1965
 msgid "Save Messages As..."
 msgstr "다른이름으로 메세지 저장..."
 
-#: mail/mail-callbacks.c:2128 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:2129 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "경고"
 
-#: mail/mail-callbacks.c:2135
+#: mail/mail-callbacks.c:2136
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -10348,34 +10415,34 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2142
+#: mail/mail-callbacks.c:2143
 msgid "Do not ask me again."
 msgstr ""
 
-#: mail/mail-callbacks.c:2250
+#: mail/mail-callbacks.c:2251
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:2262
+#: mail/mail-callbacks.c:2263
 msgid "Filters"
 msgstr "거르개"
 
-#: mail/mail-callbacks.c:2325
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "메세지 인쇄"
 
-#: mail/mail-callbacks.c:2352
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr ""
 
-#: mail/mail-callbacks.c:2371
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "메세지 인쇄중 실패"
 
-#: mail/mail-callbacks.c:2473
+#: mail/mail-callbacks.c:2478
 #, fuzzy, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "정말로 이 새 계정을 지우기를 원하십니까?"
@@ -11002,49 +11069,49 @@ msgstr "참조"
 msgid "Bcc"
 msgstr "숨은 참조"
 
-#: mail/mail-format.c:1814
+#: mail/mail-format.c:1818
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 
-#: mail/mail-format.c:1837
+#: mail/mail-format.c:1841
 msgid "Evolution does not recognize this type of signed message."
 msgstr ""
 
-#: mail/mail-format.c:1845
+#: mail/mail-format.c:1849
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1853
+#: mail/mail-format.c:1857
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:2069
+#: mail/mail-format.c:2073
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2083
+#: mail/mail-format.c:2087
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:2088
+#: mail/mail-format.c:2092
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2117
+#: mail/mail-format.c:2121
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2125
+#: mail/mail-format.c:2129
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:2130
+#: mail/mail-format.c:2134
 msgid "Malformed external-body part."
 msgstr ""
 
@@ -11360,16 +11427,16 @@ msgstr "%s의 비밀번호를 입력하십시오"
 msgid "Enter Password"
 msgstr "비밀번호 입력"
 
-#: mail/mail-tools.c:255
+#: mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "전달된 메시지 - %s"
 
-#: mail/mail-tools.c:259
+#: mail/mail-tools.c:260
 msgid "Forwarded message"
 msgstr "전달된 메시지"
 
-#: mail/mail-tools.c:393
+#: mail/mail-tools.c:394
 msgid "Forwarded Message"
 msgstr "전달된 메시지"
 
@@ -11426,63 +11493,63 @@ msgstr "(제목 없음)"
 msgid "%s - Message"
 msgstr "%s - 메세지"
 
-#: mail/message-list.c:639
+#: mail/message-list.c:656
 msgid "Unseen"
 msgstr "보지않았음"
 
-#: mail/message-list.c:640
+#: mail/message-list.c:657
 msgid "Seen"
 msgstr "봤음"
 
-#: mail/message-list.c:641
+#: mail/message-list.c:658
 msgid "Answered"
 msgstr "답장함"
 
-#: mail/message-list.c:642
+#: mail/message-list.c:659
 msgid "Multiple Unseen Messages"
 msgstr "여러개의 보지않은 메세지"
 
-#: mail/message-list.c:643
+#: mail/message-list.c:660
 msgid "Multiple Messages"
 msgstr "여러 메세지"
 
-#: mail/message-list.c:647
+#: mail/message-list.c:664
 msgid "Lowest"
 msgstr "가장 낮음"
 
-#: mail/message-list.c:648
+#: mail/message-list.c:665
 msgid "Lower"
 msgstr "낮음"
 
-#: mail/message-list.c:652
+#: mail/message-list.c:669
 msgid "Higher"
 msgstr "높음"
 
-#: mail/message-list.c:653
+#: mail/message-list.c:670
 msgid "Highest"
 msgstr "가장 높음"
 
-#: mail/message-list.c:903
+#: mail/message-list.c:920
 msgid "?"
 msgstr ""
 
-#: mail/message-list.c:910
+#: mail/message-list.c:927
 msgid "Today %l:%M %p"
 msgstr "오늘 %p %l:%M"
 
-#: mail/message-list.c:919
+#: mail/message-list.c:936
 msgid "Yesterday %l:%M %p"
 msgstr "어제 %p %l:%M "
 
-#: mail/message-list.c:931
+#: mail/message-list.c:948
 msgid "%a %l:%M %p"
 msgstr "%a %p %l:%M"
 
-#: mail/message-list.c:941
+#: mail/message-list.c:958
 msgid "%b %d %Y"
 msgstr "%Y년 %b %d일"
 
-#: mail/message-list.c:2334
+#: mail/message-list.c:2358
 msgid "Generating message list"
 msgstr "메세지 목록 작성중"
 
@@ -11617,19 +11684,19 @@ msgstr ""
 msgid "Quotes of the Day"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:945
+#: my-evolution/e-summary-preferences.c:946
 msgid "Add a news feed"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:953
+#: my-evolution/e-summary-preferences.c:954
 msgid "Enter the URL of the news feed you wish to add"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:957
+#: my-evolution/e-summary-preferences.c:958
 msgid "Name:"
 msgstr "이름:"
 
-#: my-evolution/e-summary-preferences.c:1503
+#: my-evolution/e-summary-preferences.c:1504
 msgid "Summary Settings"
 msgstr "요약 설정"
 
@@ -13089,7 +13156,6 @@ msgid "Agen"
 msgstr "아르헨티나"
 
 #: my-evolution/Locations.h:25
-#, fuzzy
 msgid "Aguascaliantes"
 msgstr ""
 
@@ -13571,7 +13637,6 @@ msgid "Astoria"
 msgstr "오스트리아"
 
 #: my-evolution/Locations.h:138
-#, fuzzy
 msgid "Astrakhan"
 msgstr ""
 
@@ -19861,7 +19926,6 @@ msgid "Oslo/Gardenmoen"
 msgstr ""
 
 #: my-evolution/Locations.h:1648
-#, fuzzy
 msgid "Ostrava"
 msgstr ""
 
@@ -23017,7 +23081,6 @@ msgid "Viru-Viru"
 msgstr ""
 
 #: my-evolution/Locations.h:2392
-#, fuzzy
 msgid "Visalia"
 msgstr ""
 
@@ -23595,7 +23658,8 @@ msgstr "자세히 보기"
 msgid "Cancel Operation"
 msgstr "미팅 취소"
 
-#: shell/e-local-storage.c:174 shell/e-shortcuts.c:1052
+#: shell/e-local-storage.c:174 shell/e-shell-view.c:343
+#: shell/e-shortcuts.c:1052
 msgid "Inbox"
 msgstr "들어온 편지함"
 
@@ -23706,75 +23770,85 @@ msgstr ""
 msgid "Brought to you by"
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:176
+#: shell/e-shell-folder-commands.c:140
+#, fuzzy, c-format
+msgid "Cannot copy folder: %s"
+msgstr "폴더를 얻을수 없습니다: %s: %s"
+
+#: shell/e-shell-folder-commands.c:143
+#, fuzzy, c-format
+msgid "Cannot move folder: %s"
+msgstr "폴더를 얻을수 없습니다: %s: %s"
+
+#: shell/e-shell-folder-commands.c:190
 #, fuzzy
 msgid "Cannot move a folder over itself."
 msgstr "폴더를 얻을수 없습니다: %s: %s"
 
-#: shell/e-shell-folder-commands.c:178
+#: shell/e-shell-folder-commands.c:192
 #, fuzzy
 msgid "Cannot copy a folder over itself."
 msgstr ""
 "`%s'로 파일을\n"
 "복사할 수가 없습니다."
 
-#: shell/e-shell-folder-commands.c:192
+#: shell/e-shell-folder-commands.c:206
 msgid "Cannot move a folder into one of its descendants."
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:307
+#: shell/e-shell-folder-commands.c:321
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:312
+#: shell/e-shell-folder-commands.c:326
 msgid "Copy folder"
 msgstr "폴더 복사"
 
-#: shell/e-shell-folder-commands.c:354
+#: shell/e-shell-folder-commands.c:368
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:359
+#: shell/e-shell-folder-commands.c:373
 msgid "Move folder"
 msgstr "폴더 이동"
 
-#: shell/e-shell-folder-commands.c:385
+#: shell/e-shell-folder-commands.c:399
 #, fuzzy, c-format
 msgid ""
 "Cannot delete folder:\n"
 "%s"
 msgstr "폴더를 얻을수 없습니다: %s: %s"
 
-#: shell/e-shell-folder-commands.c:401
+#: shell/e-shell-folder-commands.c:415
 #, fuzzy, c-format
 msgid "Delete \"%s\""
 msgstr "삭제"
 
 #. "Are you sure..." label
-#: shell/e-shell-folder-commands.c:411
+#: shell/e-shell-folder-commands.c:425
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
 msgstr "정말로 작업 `%s'를 지우기를 원하십니까"
 
-#: shell/e-shell-folder-commands.c:488
+#: shell/e-shell-folder-commands.c:502
 #, fuzzy, c-format
 msgid ""
 "Cannot rename folder:\n"
 "%s"
 msgstr "폴더를 얻을수 없습니다: %s: %s"
 
-#: shell/e-shell-folder-commands.c:537
+#: shell/e-shell-folder-commands.c:551
 #, fuzzy, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "%s 폴더를 열기"
 
-#: shell/e-shell-folder-commands.c:544
+#: shell/e-shell-folder-commands.c:558
 msgid "Rename folder"
 msgstr "폴더 이름바꿈"
 
-#: shell/e-shell-folder-commands.c:554
+#: shell/e-shell-folder-commands.c:568
 #: shell/e-shell-folder-creation-dialog.c:168
 #, fuzzy, c-format
 msgid "The specified folder name is not valid: %s"
@@ -23820,7 +23894,7 @@ msgid ""
 "to work it out."
 msgstr ""
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:799
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:809
 msgid "Please select the information that you would like to import:"
 msgstr ""
 
@@ -23924,17 +23998,17 @@ msgstr ""
 msgid "Import a single file"
 msgstr "가져오기"
 
-#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:628
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:638
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
 
-#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:631
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
 msgstr ""
 
-#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:754
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:764
 #, c-format
 msgid "From %s:"
 msgstr "%s 에서:"
@@ -23999,66 +24073,66 @@ msgstr "Bug buddy를 실행할수 없습니다."
 msgid "About Ximian Evolution"
 msgstr "Ximian Evolution은"
 
-#: shell/e-shell-view-menu.c:424
+#: shell/e-shell-view-menu.c:427
 msgid "Go to folder..."
 msgstr "폴더 이동..."
 
-#: shell/e-shell-view-menu.c:425
+#: shell/e-shell-view-menu.c:428
 msgid "Select the folder that you want to open"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:545
+#: shell/e-shell-view-menu.c:548
 msgid "Create a new shortcut"
 msgstr "새로운 바로가기를 만듭니다"
 
-#: shell/e-shell-view-menu.c:546
+#: shell/e-shell-view-menu.c:549
 msgid "Select the folder you want the shortcut to point to:"
 msgstr ""
 
-#: shell/e-shell-view-menu.c:577
+#: shell/e-shell-view-menu.c:580
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
 msgstr ""
 
-#: shell/e-shell-view-menu.c:585
+#: shell/e-shell-view-menu.c:588
 #, fuzzy, c-format
 msgid "Error executing %s."
 msgstr "필터 실행중 오류: %s: %s"
 
-#: shell/e-shell-view-menu.c:688
+#: shell/e-shell-view-menu.c:691
 msgid "_Work Online"
 msgstr "온라인 작업(_W)"
 
-#: shell/e-shell-view-menu.c:701 ui/evolution.xml.h:51
+#: shell/e-shell-view-menu.c:704 ui/evolution.xml.h:51
 msgid "_Work Offline"
 msgstr "오프라인 작업(_W)"
 
-#: shell/e-shell-view-menu.c:714 ui/evolution.xml.h:30
+#: shell/e-shell-view-menu.c:717 ui/evolution.xml.h:30
 msgid "Work Offline"
 msgstr "오프라인에서 작업"
 
-#: shell/e-shell-view.c:214
+#: shell/e-shell-view.c:218
 msgid "(No folder displayed)"
 msgstr "(표시된 폴더가 없음)"
 
-#: shell/e-shell-view.c:1585
+#: shell/e-shell-view.c:1716
 #, c-format
 msgid "%s (%d)"
 msgstr ""
 
-#: shell/e-shell-view.c:1587
+#: shell/e-shell-view.c:1718
 msgid "(None)"
 msgstr "(없음)"
 
-#: shell/e-shell-view.c:1634
+#: shell/e-shell-view.c:1765
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1641
+#: shell/e-shell-view.c:1772
 msgid "Ximian Evolution is in the process of going offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1647
+#: shell/e-shell-view.c:1778
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
@@ -24068,7 +24142,7 @@ msgstr ""
 msgid "Cannot set up local storage -- %s"
 msgstr "시스템 저장장치를 지정할수 없습니다 -- %s"
 
-#: shell/e-shell.c:1659
+#: shell/e-shell.c:1657
 #, c-format
 msgid ""
 "The Evolution component that handles folders of type \"%s\"\n"
@@ -24076,19 +24150,19 @@ msgid ""
 "in order to access that data again."
 msgstr ""
 
-#: shell/e-shell.c:1886
+#: shell/e-shell.c:1884
 msgid "Invalid arguments"
 msgstr ""
 
-#: shell/e-shell.c:1888
+#: shell/e-shell.c:1886
 msgid "Cannot register on OAF"
 msgstr ""
 
-#: shell/e-shell.c:1890
+#: shell/e-shell.c:1888
 msgid "Configuration Database not found"
 msgstr ""
 
-#: shell/e-shell.c:1892 shell/e-storage.c:500
+#: shell/e-shell.c:1890 shell/e-storage.c:500
 msgid "Generic error"
 msgstr "일반 오류"
 
@@ -25976,6 +26050,12 @@ msgstr "메세지"
 msgid "With Category"
 msgstr "분류"
 
+#. Check for UTC.
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:209
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:702
+msgid "UTC"
+msgstr ""
+
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "Select a Time Zone"
 msgstr "시간대를 선택하십시오"
@@ -26149,11 +26229,11 @@ msgstr "메세지"
 msgid "Don't show this message again."
 msgstr "이 메세지를 다시 보지 않습니다."
 
-#: widgets/misc/e-search-bar.c:334
+#: widgets/misc/e-search-bar.c:342
 msgid "Sear_ch"
 msgstr "검색(_c)"
 
-#: widgets/misc/e-search-bar.c:460
+#: widgets/misc/e-search-bar.c:468
 msgid "Find Now"
 msgstr "지금 찾기"
 
@@ -26178,3 +26258,12 @@ msgstr "init_corba(): 그놈을 초기화 할 수 없습니다"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobo를 초기화 할 수 없습니다"
+
+#~ msgid "Name contains"
+#~ msgstr "이름이 포함"
+
+#~ msgid "Email contains"
+#~ msgstr "메일주소가 포함"
+
+#~ msgid "iCalendar information"
+#~ msgstr "iCalendar 정보"

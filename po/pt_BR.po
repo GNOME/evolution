@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.4\n"
-"POT-Creation-Date: 2002-04-04 08:23-0300\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-04-04 08:35-0300\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -628,7 +628,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Não foi possível iniciar Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2382
+#: addressbook/backend/pas/pas-backend-ldap.c:2394
 msgid "Searching..."
 msgstr "Buscando..."
 
@@ -641,35 +641,35 @@ msgstr "Carregando..."
 msgid "Error in search expression."
 msgstr "Erro na expressão de busca."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:515
+#: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
 msgstr "Conectando ao servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:525
+#: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
 msgstr "Não é possível conectar ao servidor LDAP."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:541
+#: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
 msgstr "Esperando por conexão ao servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:962
+#: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
 msgstr "Adicionando cartão ao servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1063
+#: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
 msgstr "Removendo cartão do servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1173
+#: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
 msgstr "Modificando cartão do servidor LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2299
+#: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
 msgstr "Recebendo resultados da busca LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2305
+#: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
 msgstr "Reiniciando busca."
 
@@ -832,7 +832,9 @@ msgstr "Endereço de e-mail"
 msgid ""
 "Evolution will use this Distinquished Name (DN) to authenticate you with the "
 "server"
-msgstr "O Evolution usará este Distinquished Name (DN) para autenticá-lo com o servidor"
+msgstr ""
+"O Evolution usará este Distinquished Name (DN) para autenticá-lo com o "
+"servidor"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
 msgid ""
@@ -892,7 +894,9 @@ msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
-msgstr "Este é o método que o Evolution usará para autenticá-lo. Note que a opção \"Endereço de e-mail\" requer acesso anônimo ao seu servidor ldap."
+msgstr ""
+"Este é o método que o Evolution usará para autenticá-lo. Note que a opção "
+"\"Endereço de e-mail\" requer acesso anônimo ao seu servidor ldap."
 
 #: addressbook/gui/component/addressbook-config.glade.h:25
 msgid "This is the name of the server where your addressbook is located."
@@ -4841,7 +4845,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:202
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
@@ -6452,7 +6456,8 @@ msgstr "Atualização concluída\n"
 
 #: calendar/gui/e-itip-control.c:1446
 msgid "This response is not from a currentattendee.  Add as an attendee?"
-msgstr "Esta resposta não é de um participante atual. Adicioná-lo como participante?"
+msgstr ""
+"Esta resposta não é de um participante atual. Adicioná-lo como participante?"
 
 #: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -7039,7 +7044,7 @@ msgid "Print Calendar"
 msgstr "Imprimir agenda"
 
 #: calendar/gui/print.c:2498 calendar/gui/print.c:2590
-#: mail/mail-callbacks.c:2365 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Visualizar impressão"
@@ -7105,79 +7110,79 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "DSTQQSS"
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr "time-now espera 0 argumentos"
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr "make-time espera 1 argumento"
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr "make-time espera que o argumento 1 seja uma string"
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr "O argumento 1 de make-time deve ser uma string de data ISO 8601"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr "time-add-day espera 2 argumentos"
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "time-add-day espera que o argumento 1 seja um time_t"
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "time-add-day espera que o argumento 2 seja um inteiro"
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr "time-day-begin espera 1 argumento"
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "time-day-begin espera que o argument 1 seja um time_t"
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr "time-day-end espera 1 argumento"
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "time-day-end espera que o argument 1 seja um time_t"
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr "get-vtype espera 0 argumentos"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "occur-in-time-range? espera 2 argumentos"
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "occur-in-time-range? espera que o argument 1 seja um time_t"
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "occur-in-time-range? espera que o argument 2 seja um time_t"
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr "contains? espera 2 argumentos"
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr "contains? espera que o argument 1 seja uma string"
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr "contains? espera que o argument 2 seja uma string"
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
@@ -7185,11 +7190,11 @@ msgstr ""
 "contains? espera que o argument 1 seja um de \"any\", \"summary\", "
 "\"description\""
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr "has-categories? espera pelo menos 1 argumento"
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -7197,19 +7202,19 @@ msgstr ""
 "has-categories? espera que todos os argumentos sejam strings ou somente um "
 "argumento que seja o falso booleano (#f)"
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed? espera 0 argumentos"
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr "completed-before? espera 1 argumento"
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "completed-before? espera que o argumento 1 seja um time_t"
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Avaliação da expressão de busca não forneceu um valor booleano"
 
@@ -7868,7 +7873,7 @@ msgstr "Não é possível obter pasta: Operação inválida neste repositório"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Não é possível criar pasta: Operação inválida neste repositório"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7888,7 +7893,7 @@ msgstr ""
 "País: %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -8182,7 +8187,7 @@ msgid "Could not save summary: %s: %s"
 msgstr "Não foi possível salvar resumo: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Não é possível adicionar mensagem ao resumo: razão desconhecida"
 
@@ -8368,7 +8373,7 @@ msgstr "Pasta `%s' não está vazia. Ela não foi excluída."
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 msgid "Storing folder"
 msgstr "Armazenando pasta"
 
@@ -8409,8 +8414,8 @@ msgstr "Não é possível abrir mbox temporário: %s"
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "O resumo e a pasta não casam, mesmo após uma sincronização"
 
@@ -8428,7 +8433,7 @@ msgstr "Falha ao escrever para o mbox temporário: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Não foi possível fechar pasta fonte %s: %s"
@@ -8445,7 +8450,7 @@ msgstr "Não foi possível renomear pasta: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Erro desconhecido: %s"
@@ -8497,21 +8502,21 @@ msgstr "Pastas de fila não podem ser renomeadas"
 msgid "Spool folders cannot be deleted"
 msgstr "Pastas de fila não podem ser excluídas"
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Não foi possível sincronizar pasta temporária %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Não foi possível sincronizar pasta de fila %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
@@ -8520,7 +8525,7 @@ msgstr ""
 "Não foi possível sincronizar pasta de fila %s: %s\n"
 "A pasta pode estar corrompida, cópia salva em `%s'"
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, c-format
 msgid "Could not file: %s: %s"
 msgstr "Não foi possível arquivar: %s: %s"
@@ -9314,7 +9319,9 @@ msgstr ""
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be editted.)"
 "<b>"
-msgstr "<b>(O redator contém um corpo de mensagem não texto, o qual não pode ser editado.)<b>"
+msgstr ""
+"<b>(O redator contém um corpo de mensagem não texto, o qual não pode ser "
+"editado.)<b>"
 
 #: composer/evolution-composer.c:376
 msgid ""
@@ -10636,19 +10643,19 @@ msgstr ""
 msgid "Filters"
 msgstr "Filtros"
 
-#: mail/mail-callbacks.c:2326
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "Imprimir mensagem"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr "Carta-US"
 
-#: mail/mail-callbacks.c:2372
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "Falhou a impressão da mensagem"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2478
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -23304,7 +23311,7 @@ msgstr ""
 "Você pode selecionar \"Automático\" se você não sabe e o Evolution tentará "
 "descobrir sozinho."
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:803
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:809
 msgid "Please select the information that you would like to import:"
 msgstr "Por favor selecione a informação que você gostaria de importar:"
 
@@ -23409,7 +23416,7 @@ msgstr "Importar dados e configurações de programas antigos"
 msgid "Import a single file"
 msgstr "Importar um único arquivo"
 
-#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:632
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:638
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -23417,11 +23424,11 @@ msgstr ""
 "Por favor aguarde...\n"
 "Procurando configurações existentes"
 
-#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:635
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
 msgstr "Iniciando importadores inteligentes"
 
-#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:758
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:764
 #, c-format
 msgid "From %s:"
 msgstr "De %s:"
@@ -25483,8 +25490,8 @@ msgid "With Category"
 msgstr "Com categoria"
 
 #. Check for UTC.
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:207
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:700
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:209
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:702
 msgid "UTC"
 msgstr "UTC"
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-04-06 13:24+0200\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-04-06 13:28+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -628,7 +628,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Kunne ikke initiere Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2382
+#: addressbook/backend/pas/pas-backend-ldap.c:2394
 msgid "Searching..."
 msgstr "Søker..."
 
@@ -641,35 +641,35 @@ msgstr "Laster..."
 msgid "Error in search expression."
 msgstr "Feil i søkeuttrykk."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:515
+#: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
 msgstr "Kobler til LDAP-tjener..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:525
+#: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
 msgstr "Kunne ikke koble til LDAP-tjener."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:541
+#: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
 msgstr "Venter på tilkobling til LDAP-tjener..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:962
+#: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
 msgstr "Legger til kort på LDAP-tjener..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1063
+#: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
 msgstr "Fjerner kort fra LDAP-tjener..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1173
+#: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
 msgstr "Endrer kort fra LDAP-tjener..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2299
+#: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
 msgstr "Mottar søkeresultater fra LDAP-tjener..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2305
+#: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
 msgstr "Starter søk på nytt."
 
@@ -1300,7 +1300,7 @@ msgstr "Vil motta _HTML e-post"
 #: calendar/gui/dialogs/meeting-page.c:707 filter/filter.glade.h:8
 #: mail/folder-browser.c:1468 mail/mail-config.glade.h:96
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:95
-#: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:39
+#: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
 msgid "_Delete"
 msgstr "_Slett"
 
@@ -7037,7 +7037,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
 #: calendar/gui/print.c:2498 calendar/gui/print.c:2590
-#: mail/mail-callbacks.c:2365 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Forhåndsvisning av utskrift"
@@ -7103,90 +7103,90 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "SMTOTFL"
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr "tid-nå forventer 0 argumenter"
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr "lag-tid forventer 1 argument"
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr "lag-tid forventer at argument 1 er en streng"
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr "argument 1 til make-time må være en dato/tid streng på ISO 8601 format"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr "tid-add-day forventer 2 argumenter"
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "time-add-day forventer at argument 1 er en time_t"
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "time-add-day forventer at argument 2 er et heltall"
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr "time-day-begin forventer 1 argument"
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "time-day-begin forventer at argument 1 er en time_t"
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr "time-day-end forventer 1 argument"
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "time-day-end forventer at argument 1 er av type time_t"
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr "get-vtype forventer 0 argumenter"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "occur-in-time-range? forventer 2 argumenter"
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "occur-in-time-range? forventer at argument 1 er av type time_t"
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "occur-in-time-range forventer at argument 2 er av type time_t"
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr "inneholder? forventer 2 argumenter"
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr "contains? forventer at argument 1 er en streng"
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr "contains? forventer at argument 2 er en streng"
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
 "contains? forventer at argument 1 er en av «any», «summary», «description»"
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr "has-categories? forventer minst 1 argument"
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -7194,19 +7194,19 @@ msgstr ""
 "has-categories? forventer at alle argumenter er strenger eller ett, og kun "
 "ett, argument er den bolske verdien falsk (#f)"
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed? forventer 0 argumenter"
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr "completed-before? forventer 1 argument"
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "completed-before? forventer at argument 1 er en time_t"
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Evaluering av søkeuttrykket ga ikke en boolsk verdi"
 
@@ -7855,7 +7855,7 @@ msgstr "Kan ikke finne mappe: Ugyldig operasjon på dette lageret"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Kan ikke opprette mappe: Ugyldig operasjon på dette lageret"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7875,7 +7875,7 @@ msgstr ""
 "Land: %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -8171,7 +8171,7 @@ msgid "Could not save summary: %s: %s"
 msgstr "Kunne ikke lagre sammendrag: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Kunne ikke legge til melding i sammendraget: ukjent grunn"
 
@@ -8357,7 +8357,7 @@ msgstr "Mappen «%s» er ikke tom. Ikke slettet."
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 msgid "Storing folder"
 msgstr "Lagrer mappe"
 
@@ -8398,8 +8398,8 @@ msgstr "Kan ikke åpne midlertidig postboks: %s"
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "Feil i sammendrag og mappe, selv etter synkronisering"
 
@@ -8417,7 +8417,7 @@ msgstr "Skriving til midlertidig postboks feilet: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Kunne ikke lukke kildemappe %s: %s"
@@ -8434,7 +8434,7 @@ msgstr "Kunne ikke endre navn på mappe: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Ukjent feil: %s"
@@ -8486,21 +8486,21 @@ msgstr "Spool-mapper kan ikke være gis nytt navn"
 msgid "Spool folders cannot be deleted"
 msgstr "Spoolmapper kan ikke være slettes"
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Kunne ikke synkronisere midlertidig mappe %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Kunne ikke synkronisere spool-mappe %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
@@ -8509,7 +8509,7 @@ msgstr ""
 "Kunne ikke synkronisere spool-mappe %s: %s\n"
 "Mappen kan være korrupt, kopi lagret i «%s»"
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, c-format
 msgid "Could not file: %s: %s"
 msgstr "Kunne ikke lagre: %s: %s"
@@ -9299,7 +9299,9 @@ msgstr ""
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be editted.)"
 "<b>"
-msgstr "<b>(Redigeringskomponenten inneholder en meldingskropp som ikke er tekst, og derfor ikke kan redigeres.)<b>"
+msgstr ""
+"<b>(Redigeringskomponenten inneholder en meldingskropp som ikke er tekst, og "
+"derfor ikke kan redigeres.)<b>"
 
 #: composer/evolution-composer.c:376
 msgid ""
@@ -10617,19 +10619,19 @@ msgstr ""
 msgid "Filters"
 msgstr "Filtre"
 
-#: mail/mail-callbacks.c:2326
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "Skriv ut melding"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr "US-letter"
 
-#: mail/mail-callbacks.c:2372
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "Feil under utskrift av melding"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2478
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Er du sikker på at du vil åpne alle %d meldingene i separate vinduer?"
@@ -23467,7 +23469,7 @@ msgstr "Gå til mappe..."
 msgid "Select the folder that you want to open"
 msgstr "Velg mappen du ønsker å åpne"
 
-#: shell/e-shell-view-menu.c:548 ui/evolution.xml.h:10
+#: shell/e-shell-view-menu.c:548
 msgid "Create a new shortcut"
 msgstr "Opprett en ny snarvei"
 
@@ -23489,11 +23491,11 @@ msgstr "Feil under kjøring av %s."
 msgid "_Work Online"
 msgstr "Ar_beid tilkoblet"
 
-#: shell/e-shell-view-menu.c:704 ui/evolution.xml.h:55
+#: shell/e-shell-view-menu.c:704 ui/evolution.xml.h:51
 msgid "_Work Offline"
 msgstr "Ar_beid frakoblet"
 
-#: shell/e-shell-view-menu.c:717 ui/evolution.xml.h:33
+#: shell/e-shell-view-menu.c:717 ui/evolution.xml.h:30
 msgid "Work Offline"
 msgstr "Arbeid frakoblet"
 
@@ -23649,7 +23651,7 @@ msgstr "Endre navn på valgt snarvei til:"
 msgid "Open the folder linked to this shortcut"
 msgstr "Åpne mappen som er lenket til denne snarveien"
 
-#: shell/e-shortcuts-view.c:386 ui/evolution.xml.h:21
+#: shell/e-shortcuts-view.c:386 ui/evolution.xml.h:19
 msgid "Open in New _Window"
 msgstr "Åpne i nytt _vindu"
 
@@ -24284,7 +24286,7 @@ msgid "Delete this item"
 msgstr "Slett denne oppføringen"
 
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-mail-messagedisplay.xml.h:3
-#: ui/evolution.xml.h:17
+#: ui/evolution.xml.h:16
 msgid "Main toolbar"
 msgstr "Hovedverktøylinje"
 
@@ -24324,7 +24326,7 @@ msgstr "Lagre denne oppføringen til disk"
 #: ui/evolution-mail-messagedisplay.xml.h:7
 #: ui/evolution-message-composer.xml.h:48
 #: ui/evolution-signature-editor.xml.h:8 ui/evolution-subscribe.xml.h:11
-#: ui/evolution.xml.h:40
+#: ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Fil"
 
@@ -24586,7 +24588,7 @@ msgstr "Meldingsliste med tråder"
 msgid "_Expunge"
 msgstr "_Tøm"
 
-#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:41
+#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
 msgstr "M_appe"
 
@@ -24958,7 +24960,7 @@ msgstr "_Normal visning"
 msgid "_Open Message"
 msgstr "_Åpne melding"
 
-#: ui/evolution-mail-message.xml.h:106 ui/evolution.xml.h:53
+#: ui/evolution-mail-message.xml.h:106 ui/evolution.xml.h:49
 #: ui/my-evolution.xml.h:9
 msgid "_Tools"
 msgstr "_Verktøy"
@@ -24970,12 +24972,12 @@ msgstr "Lukk dette vinduet"
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:45
 #: ui/evolution-signature-editor.xml.h:6 ui/evolution-subscribe.xml.h:9
-#: ui/evolution.xml.h:37
+#: ui/evolution.xml.h:33
 msgid "_Close"
 msgstr "L_ukk"
 
 #: ui/evolution-mail-messagedisplay.xml.h:8
-#: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:54
+#: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
 msgid "_View"
 msgstr "_Vis"
 
@@ -25161,7 +25163,7 @@ msgstr "Svar-til felt"
 msgid "_Security"
 msgstr "_Sikkerhet"
 
-#: ui/evolution-signature-editor.xml.h:9 ui/evolution.xml.h:44
+#: ui/evolution-signature-editor.xml.h:9 ui/evolution.xml.h:40
 msgid "_Help"
 msgstr "_Hjelp"
 
@@ -25273,139 +25275,127 @@ msgstr "Lag en lenke til denne mappen på snarveilinjen"
 msgid "Create a new folder"
 msgstr "Opprett en ny mappe"
 
-#: ui/evolution.xml.h:11
+#: ui/evolution.xml.h:10
 msgid "Delete this folder"
 msgstr "Slett denne mappen"
 
-#: ui/evolution.xml.h:12
+#: ui/evolution.xml.h:11
 msgid "Display a different folder"
 msgstr "Vis en annen mappe"
 
-#: ui/evolution.xml.h:13
+#: ui/evolution.xml.h:12
 msgid "E_xit"
 msgstr "A_vslutt"
 
-#: ui/evolution.xml.h:14
+#: ui/evolution.xml.h:13
 msgid "Evolution _Window"
 msgstr "Evolution vindu"
 
-#: ui/evolution.xml.h:15
+#: ui/evolution.xml.h:14
 msgid "Exit the program"
 msgstr "Avslutt programmet"
 
-#: ui/evolution.xml.h:16
+#: ui/evolution.xml.h:15
 msgid "Import data from other programs"
 msgstr "Importer data fra andre programmer"
 
-#: ui/evolution.xml.h:18
+#: ui/evolution.xml.h:17
 msgid "Move this folder to another place"
 msgstr "Flytt denne mappen til et annet sted"
 
-#: ui/evolution.xml.h:19
-msgid "Open a new Evolution window"
-msgstr "Åpne et nytt Evolution vindu"
-
-#: ui/evolution.xml.h:20
+#: ui/evolution.xml.h:18
 msgid "Open in New Window"
 msgstr "Åpne i nytt vindu"
 
-#: ui/evolution.xml.h:22
+#: ui/evolution.xml.h:20
 msgid "Open this folder in an other window"
 msgstr "Åpne denne mappen i et annet vindu"
 
-#: ui/evolution.xml.h:23
-msgid "Settings for the Pilot"
-msgstr "Innstillinger for Pilot"
-
-#: ui/evolution.xml.h:24
+#: ui/evolution.xml.h:21
 msgid "Show information about Ximian Evolution"
 msgstr "Vis informasjon om Ximian Evolution"
 
-#: ui/evolution.xml.h:25
+#: ui/evolution.xml.h:22
 msgid "Submit Bug Report"
 msgstr "Send inn feilrapport"
 
-#: ui/evolution.xml.h:26
+#: ui/evolution.xml.h:23
 msgid "Submit _Bug Report"
 msgstr "Sen_d inn feilrapport"
 
-#: ui/evolution.xml.h:27
+#: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Send inn en feilrapport med Bug Buddy"
 
-#: ui/evolution.xml.h:28
+#: ui/evolution.xml.h:25
 msgid "Toggle"
 msgstr "Bytt"
 
-#: ui/evolution.xml.h:29
+#: ui/evolution.xml.h:26
 msgid "Toggle whether to show the folder bar"
 msgstr "Slå av/på visning av mappelinjen"
 
-#: ui/evolution.xml.h:30
+#: ui/evolution.xml.h:27
 msgid "Toggle whether to show the shortcut bar"
 msgstr "Slå av/på visning av snarveilinjen"
 
-#: ui/evolution.xml.h:31
+#: ui/evolution.xml.h:28
 msgid "Toggle whether we are working offline."
 msgstr "Skift til frakoblet arbeidsmodus."
 
-#: ui/evolution.xml.h:32
+#: ui/evolution.xml.h:29
 msgid "View the selected folder"
 msgstr "Vis den valgte mappen"
 
-#: ui/evolution.xml.h:34
-msgid "Work in offline mode"
-msgstr "Arbeid frakoblet"
-
-#: ui/evolution.xml.h:35
+#: ui/evolution.xml.h:31
 msgid "Ximian Evolution _FAQ"
 msgstr "Ximian Evolution _OBS"
 
-#: ui/evolution.xml.h:36
+#: ui/evolution.xml.h:32
 msgid "_About Ximian Evolution..."
 msgstr "_Om Ximian Evolution..."
 
-#: ui/evolution.xml.h:38
+#: ui/evolution.xml.h:34
 msgid "_Copy..."
 msgstr "_Kopier..."
 
-#: ui/evolution.xml.h:42
+#: ui/evolution.xml.h:38
 msgid "_Folder Bar"
 msgstr "_Mappelinje"
 
-#: ui/evolution.xml.h:43
+#: ui/evolution.xml.h:39
 msgid "_Go to Folder..."
 msgstr "_Gå til mappe..."
 
-#: ui/evolution.xml.h:45
+#: ui/evolution.xml.h:41
 msgid "_Import..."
 msgstr "_Importer..."
 
-#: ui/evolution.xml.h:46
+#: ui/evolution.xml.h:42
 msgid "_Move..."
 msgstr "_Flytt..."
 
-#: ui/evolution.xml.h:47
+#: ui/evolution.xml.h:43
 msgid "_New"
 msgstr "_Ny"
 
-#: ui/evolution.xml.h:48
+#: ui/evolution.xml.h:44
 msgid "_New Folder"
 msgstr "_Ny mappe"
 
-#: ui/evolution.xml.h:49
+#: ui/evolution.xml.h:45
 msgid "_Pilot Settings..."
 msgstr "Innstillinger for _pilot..."
 
-#: ui/evolution.xml.h:50
+#: ui/evolution.xml.h:46
 msgid "_Rename..."
 msgstr "_Gi nytt navn..."
 
-#: ui/evolution.xml.h:51
+#: ui/evolution.xml.h:47
 msgid "_Shortcut"
 msgstr "_Snarvei"
 
-#: ui/evolution.xml.h:52
+#: ui/evolution.xml.h:48
 msgid "_Shortcut Bar"
 msgstr "_Snarveilinje"
 
@@ -25672,6 +25662,15 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initiere Bonobo"
+
+#~ msgid "Open a new Evolution window"
+#~ msgstr "Åpne et nytt Evolution vindu"
+
+#~ msgid "Settings for the Pilot"
+#~ msgstr "Innstillinger for Pilot"
+
+#~ msgid "Work in offline mode"
+#~ msgstr "Arbeid frakoblet"
 
 #~ msgid "Unable to find any of your identities in the attendees list!\n"
 #~ msgstr "Kunne ikke finne noen av dine identiteter i deltakerlisten!\n"

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2002-03-19 13:08-0500\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-03-11 16:57+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -627,7 +627,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2382
+#: addressbook/backend/pas/pas-backend-ldap.c:2394
 msgid "Searching..."
 msgstr "Поиск..."
 
@@ -640,35 +640,35 @@ msgstr "Загрузка..."
 msgid "Error in search expression."
 msgstr "Ошибка в выражении поиска."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:515
+#: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
 msgstr "Подключение к серверу LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:525
+#: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
 msgstr "Невозможно подключиться к серверу LDAP."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:541
+#: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
 msgstr "Ожидание подключения к серверу LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:962
+#: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
 msgstr "Добавление карточки к серверу LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1063
+#: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
 msgstr "Удаление карточки с сервера LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1173
+#: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
 msgstr "Изменение карточки на сервере LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2299
+#: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
 msgstr "Получение результатов поиска с сервера LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2305
+#: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
 msgstr "Перезапуск поиска."
 
@@ -4834,7 +4834,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:202
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
@@ -5135,7 +5135,7 @@ msgstr "Напоминания"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:758 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:769 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Итог:"
 
@@ -5697,7 +5697,7 @@ msgid "Member"
 msgstr "Член"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:853
+#: calendar/gui/e-itip-control.c:864
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "Заинтересованное лицо"
@@ -5870,7 +5870,7 @@ msgstr "Состояние:"
 msgid "Assignment"
 msgstr "Назначение"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:801
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:812
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:26
 msgid "Description:"
@@ -6129,57 +6129,57 @@ msgstr "Удалить это вхождение"
 msgid "Delete _All Occurrences"
 msgstr "Удалить все вхождения"
 
-#: calendar/gui/e-itip-control.c:545
+#: calendar/gui/e-itip-control.c:556
 msgid "Meeting begins: <b>"
 msgstr "Встреча начинается: <b>"
 
-#: calendar/gui/e-itip-control.c:550
+#: calendar/gui/e-itip-control.c:561
 msgid "Task begins: <b>"
 msgstr "Задание начинается: <b>"
 
-#: calendar/gui/e-itip-control.c:555
+#: calendar/gui/e-itip-control.c:566
 msgid "Free/Busy info begins: <b>"
 msgstr "Дата начала информация о занятости: <b>"
 
-#: calendar/gui/e-itip-control.c:559
+#: calendar/gui/e-itip-control.c:570
 msgid "Begins: <b>"
 msgstr "Начинается: <b>"
 
-#: calendar/gui/e-itip-control.c:571
+#: calendar/gui/e-itip-control.c:582
 msgid "Meeting ends: <b>"
 msgstr "Встреча заканчивается: <b>"
 
-#: calendar/gui/e-itip-control.c:574
+#: calendar/gui/e-itip-control.c:585
 msgid "Free/Busy info ends: <b>"
 msgstr "Дата окончания информация о занятости: <b>"
 
-#: calendar/gui/e-itip-control.c:578
+#: calendar/gui/e-itip-control.c:589
 msgid "Ends: <b>"
 msgstr "Заканчивается: <b>"
 
-#: calendar/gui/e-itip-control.c:592
+#: calendar/gui/e-itip-control.c:603
 msgid "Task Completed: <b>"
 msgstr "Задание выполнено: <b>"
 
-#: calendar/gui/e-itip-control.c:602
+#: calendar/gui/e-itip-control.c:613
 msgid "Task Due: <b>"
 msgstr "Срок выполнения задачи: <b>"
 
-#: calendar/gui/e-itip-control.c:639 calendar/gui/e-itip-control.c:688
+#: calendar/gui/e-itip-control.c:650 calendar/gui/e-itip-control.c:699
 msgid "iCalendar Information"
 msgstr "Информация iCalendar"
 
 #. Title
-#: calendar/gui/e-itip-control.c:654
+#: calendar/gui/e-itip-control.c:665
 msgid "iCalendar Error"
 msgstr "Ошибка iCalendar"
 
-#: calendar/gui/e-itip-control.c:719 calendar/gui/e-itip-control.c:735
+#: calendar/gui/e-itip-control.c:730 calendar/gui/e-itip-control.c:746
 msgid "An unknown person"
 msgstr "Неизвестный человек"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:742
+#: calendar/gui/e-itip-control.c:753
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -6187,32 +6187,32 @@ msgstr ""
 "<br> Пожалуйста, просмотрите следующую информацию и выберите действие из "
 "следующего меню."
 
-#: calendar/gui/e-itip-control.c:758
+#: calendar/gui/e-itip-control.c:769
 msgid "<i>None</i>"
 msgstr "<i>Нет</i>"
 
-#: calendar/gui/e-itip-control.c:770
+#: calendar/gui/e-itip-control.c:781
 msgid "Status:"
 msgstr "Состояние:"
 
-#: calendar/gui/e-itip-control.c:775 calendar/gui/e-meeting-model.c:318
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
 #: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
 #: calendar/gui/itip-utils.c:323
 msgid "Accepted"
 msgstr "Принято"
 
-#: calendar/gui/e-itip-control.c:779 calendar/gui/itip-utils.c:326
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
 msgid "Tentatively Accepted"
 msgstr "Экспериментальный"
 
-#: calendar/gui/e-itip-control.c:783 calendar/gui/e-meeting-model.c:320
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
 #: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
 #: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
 msgid "Declined"
 msgstr "Отклонено"
 
-#: calendar/gui/e-itip-control.c:787 calendar/gui/e-itip-control.c:986
-#: calendar/gui/e-itip-control.c:1057 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
 #: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
 #: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
 #: camel/providers/smtp/camel-smtp-transport.c:170
@@ -6221,261 +6221,261 @@ msgstr "Отклонено"
 msgid "Unknown"
 msgstr "Неизвестное"
 
-#: calendar/gui/e-itip-control.c:833 calendar/gui/e-itip-control.c:849
-#: calendar/gui/e-itip-control.c:865 calendar/gui/e-itip-control.c:878
-#: calendar/gui/e-itip-control.c:891 calendar/gui/e-itip-control.c:904
+#: calendar/gui/e-itip-control.c:844 calendar/gui/e-itip-control.c:860
+#: calendar/gui/e-itip-control.c:876 calendar/gui/e-itip-control.c:889
+#: calendar/gui/e-itip-control.c:902 calendar/gui/e-itip-control.c:915
 msgid "Choose an action:"
 msgstr "Выбрать действие:"
 
-#: calendar/gui/e-itip-control.c:834
+#: calendar/gui/e-itip-control.c:845
 msgid "Update"
 msgstr "Обновить"
 
-#: calendar/gui/e-itip-control.c:835 calendar/gui/e-itip-control.c:854
-#: calendar/gui/e-itip-control.c:867 calendar/gui/e-itip-control.c:880
-#: calendar/gui/e-itip-control.c:893 calendar/gui/e-itip-control.c:906
+#: calendar/gui/e-itip-control.c:846 calendar/gui/e-itip-control.c:865
+#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:891
+#: calendar/gui/e-itip-control.c:904 calendar/gui/e-itip-control.c:917
 #: shell/e-shell.c:1882 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "Ок"
 
-#: calendar/gui/e-itip-control.c:850
+#: calendar/gui/e-itip-control.c:861
 msgid "Accept"
 msgstr "Принято"
 
-#: calendar/gui/e-itip-control.c:851
+#: calendar/gui/e-itip-control.c:862
 msgid "Tentatively accept"
 msgstr "Принять для пробы"
 
-#: calendar/gui/e-itip-control.c:852
+#: calendar/gui/e-itip-control.c:863
 msgid "Decline"
 msgstr "Отклонено"
 
-#: calendar/gui/e-itip-control.c:866
+#: calendar/gui/e-itip-control.c:877
 msgid "Send Free/Busy Information"
 msgstr "Отправить информацию о занятости"
 
-#: calendar/gui/e-itip-control.c:879
+#: calendar/gui/e-itip-control.c:890
 msgid "Update respondent status"
 msgstr "Обновить состояние участников"
 
-#: calendar/gui/e-itip-control.c:892
+#: calendar/gui/e-itip-control.c:903
 msgid "Send Latest Information"
 msgstr "Отправить последнюю информацию"
 
-#: calendar/gui/e-itip-control.c:905 calendar/gui/itip-utils.c:343
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Отмена"
 
-#: calendar/gui/e-itip-control.c:953
+#: calendar/gui/e-itip-control.c:964
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> опубликовал(а) информацию о совещании."
 
-#: calendar/gui/e-itip-control.c:954
+#: calendar/gui/e-itip-control.c:965
 msgid "Meeting Information"
 msgstr "Информация о совещании"
 
-#: calendar/gui/e-itip-control.c:958
+#: calendar/gui/e-itip-control.c:969
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> запрашивает вашего присутствия на совещании."
 
-#: calendar/gui/e-itip-control.c:959
+#: calendar/gui/e-itip-control.c:970
 msgid "Meeting Proposal"
 msgstr "План совещания"
 
-#: calendar/gui/e-itip-control.c:963
+#: calendar/gui/e-itip-control.c:974
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> желает принять участие в совещании."
 
-#: calendar/gui/e-itip-control.c:964
+#: calendar/gui/e-itip-control.c:975
 msgid "Meeting Update"
 msgstr "Обновление совещания"
 
-#: calendar/gui/e-itip-control.c:968
+#: calendar/gui/e-itip-control.c:979
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> желает получать последнюю информацию о совещании."
 
-#: calendar/gui/e-itip-control.c:969
+#: calendar/gui/e-itip-control.c:980
 msgid "Meeting Update Request"
 msgstr "Запрос на обновление совещания"
 
-#: calendar/gui/e-itip-control.c:992
+#: calendar/gui/e-itip-control.c:1003
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> ответил(а) на запрос об участии в совещании."
 
-#: calendar/gui/e-itip-control.c:993
+#: calendar/gui/e-itip-control.c:1004
 msgid "Meeting Reply"
 msgstr "Ответ о совещании"
 
-#: calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1008
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> отменил(а) совещание."
 
-#: calendar/gui/e-itip-control.c:998
+#: calendar/gui/e-itip-control.c:1009
 msgid "Meeting Cancellation"
 msgstr "Отмена совещания"
 
-#: calendar/gui/e-itip-control.c:1002 calendar/gui/e-itip-control.c:1073
-#: calendar/gui/e-itip-control.c:1108
+#: calendar/gui/e-itip-control.c:1013 calendar/gui/e-itip-control.c:1084
+#: calendar/gui/e-itip-control.c:1119
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> послал(а) непонятное сообщение."
 
-#: calendar/gui/e-itip-control.c:1003
+#: calendar/gui/e-itip-control.c:1014
 msgid "Bad Meeting Message"
 msgstr "Неверное сообщение о совещании"
 
-#: calendar/gui/e-itip-control.c:1023
+#: calendar/gui/e-itip-control.c:1034
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> опубликовал(а) информацию о задаче."
 
-#: calendar/gui/e-itip-control.c:1024
+#: calendar/gui/e-itip-control.c:1035
 msgid "Task Information"
 msgstr "Информация о задании"
 
-#: calendar/gui/e-itip-control.c:1028
+#: calendar/gui/e-itip-control.c:1039
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> предлагает участвовать в выполнении задачи."
 
-#: calendar/gui/e-itip-control.c:1029
+#: calendar/gui/e-itip-control.c:1040
 msgid "Task Proposal"
 msgstr "План задания"
 
-#: calendar/gui/e-itip-control.c:1033
+#: calendar/gui/e-itip-control.c:1044
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> желает участвовать в выполнении задачи."
 
-#: calendar/gui/e-itip-control.c:1034
+#: calendar/gui/e-itip-control.c:1045
 msgid "Task Update"
 msgstr "Обновление задания"
 
-#: calendar/gui/e-itip-control.c:1038
+#: calendar/gui/e-itip-control.c:1049
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> желает получать аоследнюю информацию о задаче."
 
-#: calendar/gui/e-itip-control.c:1039
+#: calendar/gui/e-itip-control.c:1050
 msgid "Task Update Request"
 msgstr "Запрос обновления задания"
 
-#: calendar/gui/e-itip-control.c:1063
+#: calendar/gui/e-itip-control.c:1074
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> ответил(а) на назаначение задачи."
 
-#: calendar/gui/e-itip-control.c:1064
+#: calendar/gui/e-itip-control.c:1075
 msgid "Task Reply"
 msgstr "Ответить по задаче"
 
-#: calendar/gui/e-itip-control.c:1068
+#: calendar/gui/e-itip-control.c:1079
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> отменил(а) задачу."
 
-#: calendar/gui/e-itip-control.c:1069
+#: calendar/gui/e-itip-control.c:1080
 msgid "Task Cancellation"
 msgstr "Отмена задания"
 
-#: calendar/gui/e-itip-control.c:1074
+#: calendar/gui/e-itip-control.c:1085
 msgid "Bad Task Message"
 msgstr "Неверное сообщение о задаче"
 
-#: calendar/gui/e-itip-control.c:1093
+#: calendar/gui/e-itip-control.c:1104
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> опубликовал(а) информацию о занятости."
 
-#: calendar/gui/e-itip-control.c:1094
+#: calendar/gui/e-itip-control.c:1105
 msgid "Free/Busy Information"
 msgstr "Информация о занятости"
 
-#: calendar/gui/e-itip-control.c:1098
+#: calendar/gui/e-itip-control.c:1109
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> запрашивает информацию о Вашей занятости."
 
-#: calendar/gui/e-itip-control.c:1099
+#: calendar/gui/e-itip-control.c:1110
 msgid "Free/Busy Request"
 msgstr "URL информации о занятости:"
 
-#: calendar/gui/e-itip-control.c:1103
+#: calendar/gui/e-itip-control.c:1114
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> ответил(а) на запрос о занятости."
 
-#: calendar/gui/e-itip-control.c:1104
+#: calendar/gui/e-itip-control.c:1115
 msgid "Free/Busy Reply"
 msgstr "Ответить о занятости"
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1120
 msgid "Bad Free/Busy Message"
 msgstr "Неверное сообщение о занятости"
 
-#: calendar/gui/e-itip-control.c:1182
+#: calendar/gui/e-itip-control.c:1193
 msgid "The message does not appear to be properly formed"
 msgstr "Видимо, сообщение неверно оформлено"
 
-#: calendar/gui/e-itip-control.c:1201
+#: calendar/gui/e-itip-control.c:1212
 msgid "The message contains only unsupported requests."
 msgstr "Сообщение содержит только неподдерживаемые запросы."
 
-#: calendar/gui/e-itip-control.c:1229 calendar/gui/e-itip-control.c:1235
+#: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1246
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Присоединённый файл не содержит правильного сообщения календаря"
 
-#: calendar/gui/e-itip-control.c:1260
+#: calendar/gui/e-itip-control.c:1271
 msgid "The attachment has no viewable calendar items"
 msgstr "Присоединённый файл не имеет просматриваемых элементов календаря"
 
-#: calendar/gui/e-itip-control.c:1338
-msgid "Unable to find any of your identities in the attendees list!\n"
-msgstr "Невозможно идентифицировать Вас в списке участников!\n"
-
-#: calendar/gui/e-itip-control.c:1369
+#: calendar/gui/e-itip-control.c:1403
 msgid "Calendar file could not be updated!\n"
 msgstr "Файл календаря не может быть обновлён!\n"
 
-#: calendar/gui/e-itip-control.c:1371
+#: calendar/gui/e-itip-control.c:1405
 msgid "Update complete\n"
 msgstr "Обновление закончено\n"
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1446
+msgid "This response is not from a currentattendee.  Add as an attendee?"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
-#: calendar/gui/e-itip-control.c:1424
+#: calendar/gui/e-itip-control.c:1472
 msgid "Attendee status could not be updated!\n"
 msgstr "Статус участника не может быть обновлён!\n"
 
-#: calendar/gui/e-itip-control.c:1426
+#: calendar/gui/e-itip-control.c:1474
 msgid "Attendee status updated\n"
 msgstr "Статус участника обновлён!\n"
 
-#: calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1476
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Статус участника не может быть обновлён, потому что элемент больше не "
 "существует"
 
-#: calendar/gui/e-itip-control.c:1456
+#: calendar/gui/e-itip-control.c:1504
 msgid "Removal Complete"
 msgstr "Удаление завершено"
 
-#: calendar/gui/e-itip-control.c:1486 calendar/gui/e-itip-control.c:1536
+#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
 msgid "Item sent!\n"
 msgstr "Элемент отправлен!\n"
 
-#: calendar/gui/e-itip-control.c:1488 calendar/gui/e-itip-control.c:1540
+#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
 msgid "The item could not be sent!\n"
 msgstr "Элемент не может быть послан!\n"
 
@@ -7034,7 +7034,7 @@ msgid "Print Calendar"
 msgstr "Напечатать календарь"
 
 #: calendar/gui/print.c:2498 calendar/gui/print.c:2590
-#: mail/mail-callbacks.c:2365 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Просмотр печати"
@@ -7098,79 +7098,79 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "ПВСЧПСВ"
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr "time-now не предполагает аргументов"
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr "make-time предполагает 1 аргумент"
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr "make-time предполагает строку в качестве аргумента 1"
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr "аргумент 1 make-time должен быть строкой даты в формате ISO 8601"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr "time-add-day предполагает 2 аргумента"
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr "time-add-day предполагает тип time_t в качестве аргумента 1"
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr "time-add-day предполагает целое число в качестве аргумента 2"
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr "time-day-begin предполагает 1 аргумент"
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr "time-day-begin предполагает тип time_t в качестве аргумента 1"
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr "time-day-end предполагает 1 аргумент"
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr "time-day-end предполагает тип time_t в качестве аргумента 1"
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr "get-vtype не предполагает аргументов"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr "occur-in-time-range? предполагает 2 аргумента"
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr "occur-in-time-range? предполагает тип time_t в качестве аргумента 1"
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr "occur-in-time-range? предполагает тип time_t в качестве аргумента 2"
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr "contains? предполагает два аргумента"
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr "contains? предполагает строку в качестве первого аргумента"
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr "contains? предполагает строку в качестве второго аргумента"
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
@@ -7178,11 +7178,11 @@ msgstr ""
 "contains? предполагает одно из \"any\", \"summary\", \"description\" в "
 "качестве аргумента 1"
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr "has-categories? предполагает по крайней мере 1 аргумент"
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
@@ -7190,19 +7190,19 @@ msgstr ""
 "has-categories? предполагает, что все аргументы - строки или один-"
 "единственный аргумент - логическая ложь (#f)"
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr "is-completed? не предполагает аргументов"
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr "completed-before? предполагает 1 аргумент"
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr "completed-before? предполагает тип time_t в качестве аргумента 1"
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Выполнение выражения поиска не выдало логического значения"
 
@@ -7855,7 +7855,7 @@ msgstr "Не удалось получить папку: недопустимая операция в этом хранилище"
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Не удалось создать папку: недопустимая операция в этом хранилище"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7875,7 +7875,7 @@ msgstr ""
 "Страна: %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -8174,7 +8174,7 @@ msgid "Could not save summary: %s: %s"
 msgstr "Не удалось сохранить краткую информацию: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Не удалось добавить сообщение к итогу: причина неизвестна"
 
@@ -8362,7 +8362,7 @@ msgstr "Папка \"%s\" не пуста. Не удалена."
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 msgid "Storing folder"
 msgstr "Сохранение папки"
 
@@ -8403,8 +8403,8 @@ msgstr "Не удалось открыть временный почтовый ящик: %s"
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "Несовпадение папки и итога, даже после синхронизации"
 
@@ -8422,7 +8422,7 @@ msgstr "Сбой записи во временный почтовый ящик: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Невозможно закрыть исходную папку %s: %s"
@@ -8439,7 +8439,7 @@ msgstr "Не удалось переименовать папку: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Неизвестная ошибка: %s"
@@ -8491,21 +8491,21 @@ msgstr "Папки спула не могут быть переименованы"
 msgid "Spool folders cannot be deleted"
 msgstr "Папки спула не могут быть удалены"
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Не удалось синхронизировать временную папку %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr "Не удалось синхронизировать папку спула %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
@@ -8514,7 +8514,7 @@ msgstr ""
 "Не удалось синхронизировать папку спула: %s: %s\n"
 "Папка может быть испорчена, копия сохранена в \"%s\""
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, c-format
 msgid "Could not file: %s: %s"
 msgstr "Не удалось записать: %s: %s"
@@ -10623,19 +10623,19 @@ msgstr ""
 msgid "Filters"
 msgstr "Фильтры"
 
-#: mail/mail-callbacks.c:2326
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "Печать сообщения"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:2372
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "Сбой печати сообщения"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2478
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Вы уверены что хотите открыть все %d сообщений в отдельных окнах?"
@@ -23286,7 +23286,7 @@ msgstr ""
 "Вы можете выбрать \"Автоматический\" если вы не знаете и Evolution "
 "попытается опознать его."
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:803
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:809
 msgid "Please select the information that you would like to import:"
 msgstr "Пожалуйста, укажите какую информацию вы хотите импортировать:"
 
@@ -23391,7 +23391,7 @@ msgstr "Импорт данных и установок из старых программ"
 msgid "Import a single file"
 msgstr "Импорт одного файла"
 
-#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:632
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:638
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -23399,11 +23399,11 @@ msgstr ""
 "Пожалуйста подождите...\n"
 "Сканирование существующих установок"
 
-#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:635
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
 msgstr "Запуск интеллектуального импортёра"
 
-#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:758
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:764
 #, c-format
 msgid "From %s:"
 msgstr "Из %s:"
@@ -25456,8 +25456,8 @@ msgid "With Category"
 msgstr "C категорией:"
 
 #. Check for UTC.
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:207
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:700
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:209
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:702
 msgid "UTC"
 msgstr "UTC"
 
@@ -25666,3 +25666,6 @@ msgstr "init_corba(): Не удалось инициализировать GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
+
+#~ msgid "Unable to find any of your identities in the attendees list!\n"
+#~ msgstr "Невозможно идентифицировать Вас в списке участников!\n"

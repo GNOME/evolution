@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.1.99\n"
-"POT-Creation-Date: 2002-03-19 13:08-0500\n"
+"POT-Creation-Date: 2002-04-18 17:29-0400\n"
 "PO-Revision-Date: 2002-01-16 19:40GMT\n"
 "Last-Translator: Nick Niktaris(Νίκος Νύκταρης) <niktarin@yahoo.com>\n"
 "Language-Team: Greek <nls@hellug.gr>\n"
@@ -641,7 +641,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Δεν ήταν δυνατή η αρχικοποίηση του Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#: addressbook/backend/pas/pas-backend-ldap.c:2382
+#: addressbook/backend/pas/pas-backend-ldap.c:2394
 msgid "Searching..."
 msgstr "Γίνεται αναζήτηση..."
 
@@ -654,35 +654,35 @@ msgstr "Γίνεται φόρτωση..."
 msgid "Error in search expression."
 msgstr "Σφάλμα στην έκφραση αναζήτησης."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:515
+#: addressbook/backend/pas/pas-backend-ldap.c:522
 msgid "Connecting to LDAP server..."
 msgstr "Σύνδεση με τον διακομιστή LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:525
+#: addressbook/backend/pas/pas-backend-ldap.c:532
 msgid "Unable to connect to LDAP server."
 msgstr "Δεν είναι δυνατή η σύνδεση με τον διακομιστή LDAP."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:541
+#: addressbook/backend/pas/pas-backend-ldap.c:548
 msgid "Waiting for connection to LDAP server..."
 msgstr "Αναμονή σύνδεσης με τον διακομιστή LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:962
+#: addressbook/backend/pas/pas-backend-ldap.c:974
 msgid "Adding card to LDAP server..."
 msgstr "Προσθήκη κάρτας στον διακομιστή LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1063
+#: addressbook/backend/pas/pas-backend-ldap.c:1075
 msgid "Removing card from LDAP server..."
 msgstr "Αφαίρεση κάρτας από τον διακομιστή LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1173
+#: addressbook/backend/pas/pas-backend-ldap.c:1185
 msgid "Modifying card from LDAP server..."
 msgstr "Τροποποίηση κάρτας στον διακομιστή LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2299
+#: addressbook/backend/pas/pas-backend-ldap.c:2311
 msgid "Receiving LDAP search results..."
 msgstr "Λήψη αποτελεσμάτων αναζήτησης από LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2305
+#: addressbook/backend/pas/pas-backend-ldap.c:2317
 msgid "Restarting search."
 msgstr "Επανεκκίνηση Αναζήτησης."
 
@@ -4884,7 +4884,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:202
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1488 widgets/misc/e-dateedit.c:1603
 msgid "None"
@@ -5186,7 +5186,7 @@ msgstr "Υπενθυμίσεις"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:758 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:769 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Περίληψη:"
 
@@ -5759,7 +5759,7 @@ msgid "Member"
 msgstr "Μέλος"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:853
+#: calendar/gui/e-itip-control.c:864
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5935,7 +5935,7 @@ msgstr "_Κατάσταση:"
 msgid "Assignment"
 msgstr "Εργασία"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:801
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:812
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:26
 msgid "Description:"
@@ -6194,57 +6194,57 @@ msgstr "Διαγραφή αυτής της _Εμφάνισης"
 msgid "Delete _All Occurrences"
 msgstr "Διαγραφή Ό_λων των Εμφανίσεων"
 
-#: calendar/gui/e-itip-control.c:545
+#: calendar/gui/e-itip-control.c:556
 msgid "Meeting begins: <b>"
 msgstr "Η συνάντηση αρχίζει: <b>"
 
-#: calendar/gui/e-itip-control.c:550
+#: calendar/gui/e-itip-control.c:561
 msgid "Task begins: <b>"
 msgstr "Η εργασία αρχίζει στις : <b>"
 
-#: calendar/gui/e-itip-control.c:555
+#: calendar/gui/e-itip-control.c:566
 msgid "Free/Busy info begins: <b>"
 msgstr "Πληροφορίες ελεύθερου/απασχολημένου χρόνου αρχίζει: <b>"
 
-#: calendar/gui/e-itip-control.c:559
+#: calendar/gui/e-itip-control.c:570
 msgid "Begins: <b>"
 msgstr "Αρχίζει στις:<b>"
 
-#: calendar/gui/e-itip-control.c:571
+#: calendar/gui/e-itip-control.c:582
 msgid "Meeting ends: <b>"
 msgstr "Η συνάντηση τελειώνει στις: <b>"
 
-#: calendar/gui/e-itip-control.c:574
+#: calendar/gui/e-itip-control.c:585
 msgid "Free/Busy info ends: <b>"
 msgstr "Οι πληροφορίες διαθεσιμότητας τελειώνουν στις: <b>"
 
-#: calendar/gui/e-itip-control.c:578
+#: calendar/gui/e-itip-control.c:589
 msgid "Ends: <b>"
 msgstr "Τελειώνουν στις:<b>"
 
-#: calendar/gui/e-itip-control.c:592
+#: calendar/gui/e-itip-control.c:603
 msgid "Task Completed: <b>"
 msgstr "Η εργασία ολοκληρώθηκε: <b>"
 
-#: calendar/gui/e-itip-control.c:602
+#: calendar/gui/e-itip-control.c:613
 msgid "Task Due: <b>"
 msgstr "Λήξη Εργασίας: <b>"
 
-#: calendar/gui/e-itip-control.c:639 calendar/gui/e-itip-control.c:688
+#: calendar/gui/e-itip-control.c:650 calendar/gui/e-itip-control.c:699
 msgid "iCalendar Information"
 msgstr "Πληροφορίες iCalendar"
 
 #. Title
-#: calendar/gui/e-itip-control.c:654
+#: calendar/gui/e-itip-control.c:665
 msgid "iCalendar Error"
 msgstr "Σφάλμα iCalendar"
 
-#: calendar/gui/e-itip-control.c:719 calendar/gui/e-itip-control.c:735
+#: calendar/gui/e-itip-control.c:730 calendar/gui/e-itip-control.c:746
 msgid "An unknown person"
 msgstr "Ένα άγνωστο άτομο"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:742
+#: calendar/gui/e-itip-control.c:753
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -6252,34 +6252,34 @@ msgstr ""
 "<br> Παρακαλώ διαβάστε τις παρακάτω πληροφορίες, και επιλέξτε μετά μια "
 "ενέργεια από το παρακάτω μενού."
 
-#: calendar/gui/e-itip-control.c:758
+#: calendar/gui/e-itip-control.c:769
 msgid "<i>None</i>"
 msgstr "<i>Κανένα</i>"
 
-#: calendar/gui/e-itip-control.c:770
+#: calendar/gui/e-itip-control.c:781
 #, fuzzy
 msgid "Status:"
 msgstr "_Κατάσταση:"
 
-#: calendar/gui/e-itip-control.c:775 calendar/gui/e-meeting-model.c:318
+#: calendar/gui/e-itip-control.c:786 calendar/gui/e-meeting-model.c:318
 #: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:835
 #: calendar/gui/itip-utils.c:323
 msgid "Accepted"
 msgstr "Αποδοχή"
 
-#: calendar/gui/e-itip-control.c:779 calendar/gui/itip-utils.c:326
+#: calendar/gui/e-itip-control.c:790 calendar/gui/itip-utils.c:326
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Δοκιμαστική αποδοχή"
 
-#: calendar/gui/e-itip-control.c:783 calendar/gui/e-meeting-model.c:320
+#: calendar/gui/e-itip-control.c:794 calendar/gui/e-meeting-model.c:320
 #: calendar/gui/e-meeting-model.c:343 calendar/gui/e-meeting-model.c:836
 #: calendar/gui/itip-utils.c:329 calendar/gui/itip-utils.c:355
 msgid "Declined"
 msgstr "Άρνηση πρόσβασης"
 
-#: calendar/gui/e-itip-control.c:787 calendar/gui/e-itip-control.c:986
-#: calendar/gui/e-itip-control.c:1057 calendar/gui/e-meeting-model.c:254
+#: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1068 calendar/gui/e-meeting-model.c:254
 #: calendar/gui/e-meeting-model.c:289 calendar/gui/e-meeting-model.c:354
 #: calendar/gui/e-meeting-model.c:793 calendar/gui/e-meeting-model.c:809
 #: camel/providers/smtp/camel-smtp-transport.c:170
@@ -6288,264 +6288,263 @@ msgstr "Άρνηση πρόσβασης"
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: calendar/gui/e-itip-control.c:833 calendar/gui/e-itip-control.c:849
-#: calendar/gui/e-itip-control.c:865 calendar/gui/e-itip-control.c:878
-#: calendar/gui/e-itip-control.c:891 calendar/gui/e-itip-control.c:904
+#: calendar/gui/e-itip-control.c:844 calendar/gui/e-itip-control.c:860
+#: calendar/gui/e-itip-control.c:876 calendar/gui/e-itip-control.c:889
+#: calendar/gui/e-itip-control.c:902 calendar/gui/e-itip-control.c:915
 msgid "Choose an action:"
 msgstr "Επιλέξτε μια ενέργεια:"
 
-#: calendar/gui/e-itip-control.c:834
+#: calendar/gui/e-itip-control.c:845
 msgid "Update"
 msgstr "Ανανέωση"
 
-#: calendar/gui/e-itip-control.c:835 calendar/gui/e-itip-control.c:854
-#: calendar/gui/e-itip-control.c:867 calendar/gui/e-itip-control.c:880
-#: calendar/gui/e-itip-control.c:893 calendar/gui/e-itip-control.c:906
+#: calendar/gui/e-itip-control.c:846 calendar/gui/e-itip-control.c:865
+#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:891
+#: calendar/gui/e-itip-control.c:904 calendar/gui/e-itip-control.c:917
 #: shell/e-shell.c:1882 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "ΟΚ"
 
-#: calendar/gui/e-itip-control.c:850
+#: calendar/gui/e-itip-control.c:861
 msgid "Accept"
 msgstr "Αποδοχή"
 
-#: calendar/gui/e-itip-control.c:851
+#: calendar/gui/e-itip-control.c:862
 msgid "Tentatively accept"
 msgstr "Δοκιμαστική αποδοχή"
 
-#: calendar/gui/e-itip-control.c:852
+#: calendar/gui/e-itip-control.c:863
 msgid "Decline"
 msgstr "Απόκρυψη"
 
-#: calendar/gui/e-itip-control.c:866
+#: calendar/gui/e-itip-control.c:877
 msgid "Send Free/Busy Information"
 msgstr "Αποστολή πληροφοριών Διαθεσιμότητας"
 
-#: calendar/gui/e-itip-control.c:879
+#: calendar/gui/e-itip-control.c:890
 msgid "Update respondent status"
 msgstr "Ανανέωση κατάστασης απάντησης"
 
-#: calendar/gui/e-itip-control.c:892
+#: calendar/gui/e-itip-control.c:903
 msgid "Send Latest Information"
 msgstr "Αποστολή τελευταίων πληροφοριών"
 
-#: calendar/gui/e-itip-control.c:905 calendar/gui/itip-utils.c:343
+#: calendar/gui/e-itip-control.c:916 calendar/gui/itip-utils.c:343
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: calendar/gui/e-itip-control.c:953
+#: calendar/gui/e-itip-control.c:964
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> έχει δημοσιεύσει πληροφορίες συνάντησης."
 
-#: calendar/gui/e-itip-control.c:954
+#: calendar/gui/e-itip-control.c:965
 msgid "Meeting Information"
 msgstr "Πληροφορίες Συνάντησης"
 
-#: calendar/gui/e-itip-control.c:958
+#: calendar/gui/e-itip-control.c:969
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> παρακαλεί την παρουσία σας σε μια συνάντηση."
 
-#: calendar/gui/e-itip-control.c:959
+#: calendar/gui/e-itip-control.c:970
 msgid "Meeting Proposal"
 msgstr "Πρόταση Συνάντησης"
 
-#: calendar/gui/e-itip-control.c:963
+#: calendar/gui/e-itip-control.c:974
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> θα ήθελε να προσθέσει σε μια υπάρχουσα συνάντηση."
 
-#: calendar/gui/e-itip-control.c:964
+#: calendar/gui/e-itip-control.c:975
 msgid "Meeting Update"
 msgstr "Ανανέωση Συνάντησης"
 
-#: calendar/gui/e-itip-control.c:968
+#: calendar/gui/e-itip-control.c:979
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> θα ήθελε να παραλάβει τις τελευταίες πληροφορίες συνάντησης."
 
-#: calendar/gui/e-itip-control.c:969
+#: calendar/gui/e-itip-control.c:980
 msgid "Meeting Update Request"
 msgstr "Αίτη_ση Ανανέωσης Συνάντησης"
 
-#: calendar/gui/e-itip-control.c:992
+#: calendar/gui/e-itip-control.c:1003
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> έχει απαντήσει σε μία πρόσκληση σε συνάντηση."
 
-#: calendar/gui/e-itip-control.c:993
+#: calendar/gui/e-itip-control.c:1004
 msgid "Meeting Reply"
 msgstr "Απάντηση Συνάντησης"
 
-#: calendar/gui/e-itip-control.c:997
+#: calendar/gui/e-itip-control.c:1008
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> ακύρωσε μια συνάντηση."
 
-#: calendar/gui/e-itip-control.c:998
+#: calendar/gui/e-itip-control.c:1009
 msgid "Meeting Cancellation"
 msgstr "Ακύρωση Συνάντησης"
 
-#: calendar/gui/e-itip-control.c:1002 calendar/gui/e-itip-control.c:1073
-#: calendar/gui/e-itip-control.c:1108
+#: calendar/gui/e-itip-control.c:1013 calendar/gui/e-itip-control.c:1084
+#: calendar/gui/e-itip-control.c:1119
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "ο/η <b>%s</b> έστειλε ένα ακατανόητο μήνυμα."
 
-#: calendar/gui/e-itip-control.c:1003
+#: calendar/gui/e-itip-control.c:1014
 msgid "Bad Meeting Message"
 msgstr "Εσφαλμένο Μήνυμα Συνάντησης"
 
-#: calendar/gui/e-itip-control.c:1023
+#: calendar/gui/e-itip-control.c:1034
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> έχει δημοσιεύσει πληροφορίες εργασιών."
 
-#: calendar/gui/e-itip-control.c:1024
+#: calendar/gui/e-itip-control.c:1035
 msgid "Task Information"
 msgstr "Πληροφορίες Εργασιών"
 
-#: calendar/gui/e-itip-control.c:1028
+#: calendar/gui/e-itip-control.c:1039
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> σας έχει ζητήσει να εκτελέσετε μια εργασία"
 
-#: calendar/gui/e-itip-control.c:1029
+#: calendar/gui/e-itip-control.c:1040
 msgid "Task Proposal"
 msgstr "Πρόταση Εργασίας"
 
-#: calendar/gui/e-itip-control.c:1033
+#: calendar/gui/e-itip-control.c:1044
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> θα ήθελε να προσθέσει σε μια υπάρχουσα εργασία."
 
-#: calendar/gui/e-itip-control.c:1034
+#: calendar/gui/e-itip-control.c:1045
 msgid "Task Update"
 msgstr "Ανανέωση Εργασίας"
 
-#: calendar/gui/e-itip-control.c:1038
+#: calendar/gui/e-itip-control.c:1049
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> θα ήθελε την τελευταία πληροφορία εργασιών."
 
-#: calendar/gui/e-itip-control.c:1039
+#: calendar/gui/e-itip-control.c:1050
 msgid "Task Update Request"
 msgstr "Αίτηση _Ανανέωση Εργασίας"
 
-#: calendar/gui/e-itip-control.c:1063
+#: calendar/gui/e-itip-control.c:1074
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> απάντησε σε μια ανάθεση εργασίας"
 
-#: calendar/gui/e-itip-control.c:1064
+#: calendar/gui/e-itip-control.c:1075
 msgid "Task Reply"
 msgstr "Απάντηση Εργασίας"
 
-#: calendar/gui/e-itip-control.c:1068
+#: calendar/gui/e-itip-control.c:1079
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> έχει ακυρώσει μια εργασία."
 
-#: calendar/gui/e-itip-control.c:1069
+#: calendar/gui/e-itip-control.c:1080
 msgid "Task Cancellation"
 msgstr "Ακύρωση Εργασίας"
 
-#: calendar/gui/e-itip-control.c:1074
+#: calendar/gui/e-itip-control.c:1085
 msgid "Bad Task Message"
 msgstr " Μήνυμα Εργασίας"
 
-#: calendar/gui/e-itip-control.c:1093
+#: calendar/gui/e-itip-control.c:1104
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> έχει δημοσίευση πληροφορίες διαθεσιμότητας"
 
-#: calendar/gui/e-itip-control.c:1094
+#: calendar/gui/e-itip-control.c:1105
 msgid "Free/Busy Information"
 msgstr "Πληροφορίες Διαθεσιμότητας"
 
-#: calendar/gui/e-itip-control.c:1098
+#: calendar/gui/e-itip-control.c:1109
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "ο/η <b>%s</b> ζητά πληροφορίες διαθεσιμότητας."
 
-#: calendar/gui/e-itip-control.c:1099
+#: calendar/gui/e-itip-control.c:1110
 msgid "Free/Busy Request"
 msgstr "Αίτηση Διαθεσιμότητας"
 
-#: calendar/gui/e-itip-control.c:1103
+#: calendar/gui/e-itip-control.c:1114
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "ο/η <b>%s</b> απάντησε στην αίτηση διαθεσιμότητας."
 
-#: calendar/gui/e-itip-control.c:1104
+#: calendar/gui/e-itip-control.c:1115
 msgid "Free/Busy Reply"
 msgstr "Απάντηση Διαθεσιμότητας"
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1120
 msgid "Bad Free/Busy Message"
 msgstr "Εσφαλμένο Μήνυμα Διαθεσιμότητας"
 
-#: calendar/gui/e-itip-control.c:1182
+#: calendar/gui/e-itip-control.c:1193
 msgid "The message does not appear to be properly formed"
 msgstr "Το μήνυμα φαίνετε να μην έχει διατυπωθεί σωστά"
 
-#: calendar/gui/e-itip-control.c:1201
+#: calendar/gui/e-itip-control.c:1212
 msgid "The message contains only unsupported requests."
 msgstr "Το μήνυμα περιέχει μόνο αιτήσεις που δεν υποστηρίζονται"
 
-#: calendar/gui/e-itip-control.c:1229 calendar/gui/e-itip-control.c:1235
+#: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1246
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Το επισυναπτόμενο αρχείο δεν περιέχει έγκυρο αρχείο ημερολογίου"
 
-#: calendar/gui/e-itip-control.c:1260
+#: calendar/gui/e-itip-control.c:1271
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 "Το επισυναπτόμενο αρχείο περιέχει στοιχεία που δεν μπορούν να προβληθούν"
 
-#: calendar/gui/e-itip-control.c:1338
-msgid "Unable to find any of your identities in the attendees list!\n"
-msgstr ""
-"Δεν ήταν δυνατή η εύρεση των ταυτοτήτων σας στην λίστα παρευρισκομένων!\n"
-
-#: calendar/gui/e-itip-control.c:1369
+#: calendar/gui/e-itip-control.c:1403
 msgid "Calendar file could not be updated!\n"
 msgstr "Δεν ήταν δυνατό να ανανεωθεί\n"
 
-#: calendar/gui/e-itip-control.c:1371
+#: calendar/gui/e-itip-control.c:1405
 msgid "Update complete\n"
 msgstr "Η ανανέωση ολοκληρώθηκε\n"
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1446
+msgid "This response is not from a currentattendee.  Add as an attendee?"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Δεν ήταν δυνατή η ανανεωθεί της κατάστασης παρευρισκομένων λόγο μιας μη "
 "έγκυρης κατάστασης\n"
 
-#: calendar/gui/e-itip-control.c:1424
+#: calendar/gui/e-itip-control.c:1472
 msgid "Attendee status could not be updated!\n"
 msgstr "Δεν ήταν δυνατή η ανανέωση της κατάστασης παρευρισκομένων\n"
 
-#: calendar/gui/e-itip-control.c:1426
+#: calendar/gui/e-itip-control.c:1474
 msgid "Attendee status updated\n"
 msgstr "Η κατάσταση παρευρισκομένων ανανεώθηκε\n"
 
-#: calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1476
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Δεν ήταν δυνατή η ανανέωση της κατάστασης παρευρισκομένων επειδή το στοιχείο "
 "δεν υπάρχει πλέον"
 
-#: calendar/gui/e-itip-control.c:1456
+#: calendar/gui/e-itip-control.c:1504
 msgid "Removal Complete"
 msgstr "Η Αφαίρεση Ολοκληρώθηκε"
 
-#: calendar/gui/e-itip-control.c:1486 calendar/gui/e-itip-control.c:1536
+#: calendar/gui/e-itip-control.c:1534 calendar/gui/e-itip-control.c:1584
 msgid "Item sent!\n"
 msgstr "Το στοιχείο στάλθηκε!\n"
 
-#: calendar/gui/e-itip-control.c:1488 calendar/gui/e-itip-control.c:1540
+#: calendar/gui/e-itip-control.c:1536 calendar/gui/e-itip-control.c:1588
 msgid "The item could not be sent!\n"
 msgstr "Δεν ήταν δυνατή η αποστολή του στοιχείου!\n"
 
@@ -7107,7 +7106,7 @@ msgid "Print Calendar"
 msgstr "Εκτύπωση Ημερολογίου"
 
 #: calendar/gui/print.c:2498 calendar/gui/print.c:2590
-#: mail/mail-callbacks.c:2365 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2369 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Προεπισκόπηση Εκτύπωσης"
@@ -7173,110 +7172,110 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr "ΚΔΤΤΠΠΣ"
 
-#: calendar/pcs/query.c:246
+#: calendar/pcs/query.c:247
 msgid "time-now expects 0 arguments"
 msgstr "ο χρόνος περιμένει τώρα 0 παραμέτρους"
 
-#: calendar/pcs/query.c:270
+#: calendar/pcs/query.c:271
 msgid "make-time expects 1 argument"
 msgstr "αναγκαστική αναμονή του χρόνου για μία παράμετρο"
 
-#: calendar/pcs/query.c:275
+#: calendar/pcs/query.c:276
 msgid "make-time expects argument 1 to be a string"
 msgstr "αναγκαστική αναμονή του χρόνου να είναι η παράμετρος 1 στοιχείο"
 
-#: calendar/pcs/query.c:283
+#: calendar/pcs/query.c:284
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
 msgstr ""
 "αναγκαστικά η παράμετρος χρόνου 1 να είναι στοιχείο ημερομηνία/χρόνος ISO "
 "8601"
 
-#: calendar/pcs/query.c:312
+#: calendar/pcs/query.c:313
 msgid "time-add-day expects 2 arguments"
 msgstr "η προσθήκη χρόνου ημέρας αναμένεται να έχει 2 παραμέτρους"
 
-#: calendar/pcs/query.c:317
+#: calendar/pcs/query.c:318
 msgid "time-add-day expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:324
+#: calendar/pcs/query.c:325
 msgid "time-add-day expects argument 2 to be an integer"
 msgstr ""
 "η προσθήκη χρόνου ημέρας αναμένεται να έχει ως παράμετρο 2 έναν ακέραιο"
 
-#: calendar/pcs/query.c:351
+#: calendar/pcs/query.c:352
 msgid "time-day-begin expects 1 argument"
 msgstr "η αρχή χρόνου ημέρας αναμένεται να έχει 1 παραμέτρο"
 
-#: calendar/pcs/query.c:356
+#: calendar/pcs/query.c:357
 msgid "time-day-begin expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:383
+#: calendar/pcs/query.c:384
 msgid "time-day-end expects 1 argument"
 msgstr "το τέλους χρόνου ημέρας αναμένεται να έχει 1 παραμέτρο"
 
-#: calendar/pcs/query.c:388
+#: calendar/pcs/query.c:389
 msgid "time-day-end expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:424
+#: calendar/pcs/query.c:425
 msgid "get-vtype expects 0 arguments"
 msgstr "Το get-vtype αναμένεται να έχει 0 παραμέτρους"
 
-#: calendar/pcs/query.c:520
+#: calendar/pcs/query.c:521
 msgid "occur-in-time-range? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:525
+#: calendar/pcs/query.c:526
 msgid "occur-in-time-range? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:532
+#: calendar/pcs/query.c:533
 msgid "occur-in-time-range? expects argument 2 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:662
+#: calendar/pcs/query.c:663
 msgid "contains? expects 2 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:667
+#: calendar/pcs/query.c:668
 msgid "contains? expects argument 1 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:674
+#: calendar/pcs/query.c:675
 msgid "contains? expects argument 2 to be a string"
 msgstr ""
 
-#: calendar/pcs/query.c:691
+#: calendar/pcs/query.c:692
 msgid ""
 "contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
 "\""
 msgstr ""
 
-#: calendar/pcs/query.c:733
+#: calendar/pcs/query.c:734
 msgid "has-categories? expects at least 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:745
+#: calendar/pcs/query.c:746
 msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
 msgstr ""
 
-#: calendar/pcs/query.c:833
+#: calendar/pcs/query.c:834
 msgid "is-completed? expects 0 arguments"
 msgstr ""
 
-#: calendar/pcs/query.c:878
+#: calendar/pcs/query.c:879
 msgid "completed-before? expects 1 argument"
 msgstr ""
 
-#: calendar/pcs/query.c:883
+#: calendar/pcs/query.c:884
 msgid "completed-before? expects argument 1 to be a time_t"
 msgstr ""
 
-#: calendar/pcs/query.c:1160
+#: calendar/pcs/query.c:1161
 msgid "Evaluation of the search expression did not yield a boolean value"
 msgstr "Η εκτίμηση της έκφρασης αναζήτησης δεν επέφερε τιμή boolean"
 
@@ -7942,7 +7941,7 @@ msgid "Cannot create folder: Invalid operation on this store"
 msgstr ""
 "Δεν είναι δυνατό να δημιουργηθεί ο φακέλος: Μη έγκυρη σε αυτή την αποθήκη"
 
-#: camel/camel-tcp-stream-ssl.c:422
+#: camel/camel-tcp-stream-ssl.c:446
 #, c-format
 msgid ""
 "EMail: %s\n"
@@ -7962,7 +7961,7 @@ msgstr ""
 "Χώρα: %s"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:438
+#: camel/camel-tcp-stream-ssl.c:462
 #, c-format
 msgid ""
 "Bad certificate from %s:\n"
@@ -8262,7 +8261,7 @@ msgid "Could not save summary: %s: %s"
 msgstr "Δεν ήταν δυνατή η αποθήκευση της περίληψης:%s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
-#: camel/providers/local/camel-spool-summary.c:1157
+#: camel/providers/local/camel-spool-summary.c:1164
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Δεν ήταν δυνατή η προσθήκη του μηνύματος στην περίληψη : άγνωστη αιτία"
 
@@ -8448,7 +8447,7 @@ msgstr "Ο φάκελος `%s' δεν είναι άδειος. Δεν έγινε η διαγραφή."
 #: camel/providers/local/camel-mbox-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:378
 #: camel/providers/local/camel-spool-summary.c:643
-#: camel/providers/local/camel-spool-summary.c:935
+#: camel/providers/local/camel-spool-summary.c:942
 msgid "Storing folder"
 msgstr "Φάκελος αποθήκευσης"
 
@@ -8489,8 +8488,8 @@ msgstr "Δεν είναι δυνατό το άνοιγμα του προσωρινού mailbox: %s"
 #: camel/providers/local/camel-mbox-summary.c:749
 #: camel/providers/local/camel-spool-summary.c:697
 #: camel/providers/local/camel-spool-summary.c:705
-#: camel/providers/local/camel-spool-summary.c:978
-#: camel/providers/local/camel-spool-summary.c:986
+#: camel/providers/local/camel-spool-summary.c:985
+#: camel/providers/local/camel-spool-summary.c:993
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "Ασυμφωνία περίληψης και φακέλου, ακόμα και μετά από συγχρονισμό"
 
@@ -8508,7 +8507,7 @@ msgstr "Η εγγραφή του προσωρινού mailbox απέτυχε: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:630
 #: camel/providers/local/camel-mbox-summary.c:799
-#: camel/providers/local/camel-spool-summary.c:1036
+#: camel/providers/local/camel-spool-summary.c:1043
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Δεν ήταν δυνατό το κλείσιμο του φακέλου πηγής %s: %s"
@@ -8525,7 +8524,7 @@ msgstr "Δεν ήταν δυνατή η μετονομασία του φακέλου : %s"
 
 #: camel/providers/local/camel-mbox-summary.c:873
 #: camel/providers/local/camel-spool-summary.c:544
-#: camel/providers/local/camel-spool-summary.c:1110
+#: camel/providers/local/camel-spool-summary.c:1117
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Άγνωστο σφάλμα: %s"
@@ -8577,28 +8576,28 @@ msgstr ""
 msgid "Spool folders cannot be deleted"
 msgstr ""
 
-#: camel/providers/local/camel-spool-summary.c:788
-#: camel/providers/local/camel-spool-summary.c:797
-#: camel/providers/local/camel-spool-summary.c:806
+#: camel/providers/local/camel-spool-summary.c:795
+#: camel/providers/local/camel-spool-summary.c:804
+#: camel/providers/local/camel-spool-summary.c:813
 #, c-format
 msgid "Could not sync temporary folder %s: %s"
 msgstr "Δεν ήταν δυνατό να συγχρονιστεί ο προσωρινός φάκελός %s: %s"
 
-#: camel/providers/local/camel-spool-summary.c:821
+#: camel/providers/local/camel-spool-summary.c:828
 #, c-format
 msgid "Could not sync spool folder %s: %s"
 msgstr ""
 
-#: camel/providers/local/camel-spool-summary.c:851
-#: camel/providers/local/camel-spool-summary.c:869
-#: camel/providers/local/camel-spool-summary.c:881
+#: camel/providers/local/camel-spool-summary.c:858
+#: camel/providers/local/camel-spool-summary.c:876
+#: camel/providers/local/camel-spool-summary.c:888
 #, c-format
 msgid ""
 "Could not sync spool folder %s: %s\n"
 "Folder may be corrupt, copy saved in `%s'"
 msgstr ""
 
-#: camel/providers/local/camel-spool-summary.c:940
+#: camel/providers/local/camel-spool-summary.c:947
 #, c-format
 msgid "Could not file: %s: %s"
 msgstr "Δεν ήταν δυνατή η αρχειοθέτηση: %s: %s"
@@ -10735,19 +10734,19 @@ msgstr ""
 msgid "Filters"
 msgstr "Φίλτρα"
 
-#: mail/mail-callbacks.c:2326
+#: mail/mail-callbacks.c:2327
 msgid "Print Message"
 msgstr "Εκτύπωση Μηνύματος"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2354
 msgid "US-Letter"
 msgstr "Διαστάσεις US-Letter"
 
-#: mail/mail-callbacks.c:2372
+#: mail/mail-callbacks.c:2376
 msgid "Printing of message failed"
 msgstr "Απέτυχε η εκτύπωση του μηνύματος"
 
-#: mail/mail-callbacks.c:2474
+#: mail/mail-callbacks.c:2478
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -24532,7 +24531,7 @@ msgstr ""
 "Μπορείτε να επιλέξτε \"Αυτόματη\" αν δεν ξέρετε, και το Evolution θα "
 "δοκιμάσει να βρει την λίστα."
 
-#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:803
+#: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:809
 msgid "Please select the information that you would like to import:"
 msgstr "Παρακαλώ επιλέξτε την πληροφορία που θέλετε να εισάγετε:"
 
@@ -24637,7 +24636,7 @@ msgstr "Εισαγωγή δεδομένων και ρυθμίσεις από παλαιότερα προγράμματα"
 msgid "Import a single file"
 msgstr "Εισαγωγή μοναδικού αρχείου"
 
-#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:632
+#: shell/e-shell-importer.c:732 shell/e-shell-startup-wizard.c:638
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -24645,11 +24644,11 @@ msgstr ""
 "Παρακαλώ περιμένετε...\n"
 "Γίνεται σάρωση για υπάρχουσες εγκαταστάσεις"
 
-#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:635
+#: shell/e-shell-importer.c:735 shell/e-shell-startup-wizard.c:641
 msgid "Starting Intelligent Importers"
 msgstr "Εκκίνηση των Έξυπνων Εισαγωγέων"
 
-#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:758
+#: shell/e-shell-importer.c:859 shell/e-shell-startup-wizard.c:764
 #, c-format
 msgid "From %s:"
 msgstr "Από %s:"
@@ -26726,8 +26725,8 @@ msgid "With Category"
 msgstr "Με Κατηγορία"
 
 #. Check for UTC.
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:207
-#: widgets/e-timezone-dialog/e-timezone-dialog.c:700
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:209
+#: widgets/e-timezone-dialog/e-timezone-dialog.c:702
 msgid "UTC"
 msgstr ""
 
@@ -26936,6 +26935,10 @@ msgstr "init_corba(): Δεν ήταν δυνατή η αρχικοποίηση του GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Δεν ήταν δυνατή η αρχικοποίηση του Bonobo"
+
+#~ msgid "Unable to find any of your identities in the attendees list!\n"
+#~ msgstr ""
+#~ "Δεν ήταν δυνατή η εύρεση των ταυτοτήτων σας στην λίστα παρευρισκομένων!\n"
 
 #~ msgid "Name contains"
 #~ msgstr "Το όνομα περιέχει"
