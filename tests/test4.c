@@ -57,8 +57,8 @@ main (int argc, char**argv)
 	}
 	
 	printf ("\n  Inbox folder contains %d messages\n", camel_folder_get_message_count (inbox_folder));
-	printf ("\n------------- Gettting message numer 1 in inbox --------\n");
-	message_1 = camel_folder_get_message (inbox_folder, 1);
+	printf ("\n------------- Gettting message numer 3 in inbox --------\n");
+	message_1 = camel_folder_get_message (inbox_folder, 3);
 	printf ("--------------------------------------------------------\n\n");
 
 

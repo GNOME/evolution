@@ -156,13 +156,15 @@ static void
 __string_list_free_string (gpointer data, gpointer user_data)
 {
 	gchar *string = (gchar *)data;
-	g_free(string);
+	g_free (string);
 }
 
 
 void 
 string_list_free (GList *string_list)
 {
+	if (string_list == NULL) return; 
+
 	g_list_foreach (string_list, __string_list_free_string, NULL);
 	g_list_free (string_list);
 }

@@ -356,50 +356,6 @@ _list_subfolders(CamelFolder *folder)
 
 
 
-
-
-static CamelMimeMessage *
-_get_message (CamelFolder *folder, gint number)
-{
-	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
-	gchar *directory_path;
-	gchar *message_file_name;
-	struct stat stat_buf;
-	gint stat_error = 0;
-	CamelStream *input_stream;
-	CamelMimeMessage *message;
-
-	g_assert(folder);
-
-	/* call default implementation */
-	parent_class->delete_messages (folder);
-
-	directory_path = mh_folder->directory_path;
-	if (!directory_path) return NULL;
-	
-	if (!camel_folder_exists (folder)) return NULL;
-
-	message_file_name = g_strdup_printf ("%s/%d", directory_path, number);
-	stat_error = stat (message_file_name, &stat_buf);
-	
-	if ((stat_error == -1) || (!S_ISREG (stat_buf.st_mode))) {
-		g_free (message_file_name);
-		return NULL;
-	} else {
-		input_stream = camel_stream_fs_new_with_name (message_file_name, CAMEL_STREAM_FS_READ);
-		g_free (message_file_name);
-		if (!input_stream) return NULL;
-#warning use session field here
-		message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
-		camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
-		gtk_object_unref (GTK_OBJECT (input_stream));
-		
-	}
-
-	return message;   
-}
-
-
 static gboolean
 _is_a_message_file (const gchar *file_name, const gchar *file_path)
 {
@@ -409,15 +365,11 @@ _is_a_message_file (const gchar *file_name, const gchar *file_path)
 	gchar *full_file_name;
 	int i;
 	
-	
-	
-	
 	/* test if the name is a number */
 	i=0;
 	while ((file_name[i] != '\0') && (file_name[i] >= '0') && (file_name[i] <= '9'))
 		i++;
 	if ((i==0) || (file_name[i] != '\0')) return FALSE;
-	
 	
 	/* is it a regular file ? */
 	full_file_name = g_strdup_printf ("%s/%s", file_path, file_name);
@@ -425,14 +377,81 @@ _is_a_message_file (const gchar *file_name, const gchar *file_path)
 	g_free (full_file_name);
 
 	return  ((stat_error != -1) && S_ISREG (stat_buf.st_mode));
-	
 }
+
+
+static gint
+_message_name_compare (gconstpointer a, gconstpointer b)
+{
+	gchar *m1 = (gchar *)a;
+	gchar *m2 = (gchar *)b;
+	gint len_diff;
+
+	return (atoi (m1) - atoi (m2));
+}
+
+/* slow routine, may be optimixed, or we should use
+   caches if users complain */
+static CamelMimeMessage *
+_get_message (CamelFolder *folder, gint number)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	const gchar *directory_path;
+	gchar *message_name;
+	gchar *message_file_name;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
+	CamelStream *input_stream = NULL;
+	CamelMimeMessage *message = NULL;
+	GList *message_list = NULL;
+	
+	g_assert(folder);
+	
+	directory_path = mh_folder->directory_path;
+	if (!directory_path) return NULL;	
+	if (!camel_folder_exists (folder)) return NULL;
+	
+	/* read the whole folder and sort message names */
+	dir_handle = opendir (directory_path);
+	/* read first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while (dir_entry != NULL) {
+		/* tests if the entry correspond to a message file */
+		if (_is_a_message_file (dir_entry->d_name, directory_path)) 
+			message_list = g_list_insert_sorted (message_list, g_strdup (dir_entry->d_name), _message_name_compare);
+		/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}		
+
+	closedir (dir_handle);
+		
+
+	message_name = g_list_nth_data (message_list, number);
+	
+	if (message_name != NULL) {
+		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, name = %s\n", number, message_name);
+		message_file_name = g_strdup_printf ("%s/%s", directory_path, message_name);
+		input_stream = camel_stream_fs_new_with_name (message_file_name, CAMEL_STREAM_FS_READ);
+		g_free (message_file_name);
+		if (input_stream != NULL) {
+#warning use session field here
+			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
+			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
+			gtk_object_unref (GTK_OBJECT (input_stream));
+		}
+	} else 
+		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, not found\n", number);
+	string_list_free (message_list);
+	
+	return message;   
+}
+
 
 
 static gint
 _get_message_count (CamelFolder *folder)
 {
-
+	
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 	const gchar *directory_path;
 	struct dirent *dir_entry;
@@ -461,4 +480,3 @@ _get_message_count (CamelFolder *folder)
 	closedir (dir_handle);
 	return message_count;
 }
-

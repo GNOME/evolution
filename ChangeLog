@@ -1,5 +1,9 @@
 1999-08-08  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/providers/MH/camel-mh-folder.c (_get_message): 
+	fix. In MH, message number is not related to 
+	message position in folder.
+
 	* camel/providers/MH/camel-mh-folder.c (_is_a_message_file): 
 	util func.
 	(_get_message_count): implemented.
