@@ -2099,7 +2099,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		closure = g_new (struct _label_data, 1);
 		g_object_ref (fb);
 		closure->fb = fb;
-		closure->label = label->name;
+		closure->label = label->tag;
 		
 		g_ptr_array_add (closures, closure);
 		

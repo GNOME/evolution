@@ -950,17 +950,17 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	}
 	case COL_FOLLOWUP_FLAG:
 		str = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
-		return (void *) str ? str : "";
+		return (void *)(str ? str : "");
 	case COL_ATTACHMENT:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
 		str = camel_message_info_from (msg_info);
-		return (void *) str ? str : "";
+		return (void *)(str ? str : "");
 	case COL_FROM_NORM:
 		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SUBJECT:
 		str = camel_message_info_subject (msg_info);
-		return (void *) str ? str : "";
+		return (void *)(str ? str : "");
 	case COL_SUBJECT_NORM:
 		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SENT:
@@ -969,7 +969,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER (msg_info->date_received);
 	case COL_TO:
 		str = camel_message_info_to (msg_info);
-		return (void *) str ? str : "";
+		return (void *)(str ? str : "");
 	case COL_TO_NORM:
 		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SIZE:

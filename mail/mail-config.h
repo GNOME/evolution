@@ -82,6 +82,7 @@ typedef enum {
 } MailConfigXMailerDisplayStyle;
 
 typedef struct {
+	char *tag;
 	char *name;
 	char *colour;
 } MailConfigLabel;

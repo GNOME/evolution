@@ -63,13 +63,13 @@
 
 #include "Mailer.h"
 
-
+/* Note, the first element of each MailConfigLabel must NOT be translated */
 MailConfigLabel label_defaults[5] = {
-	{ N_("Important"), "#ff0000" },  /* red */
-	{ N_("Work"),      "#ff8c00" },  /* orange */
-	{ N_("Personal"),  "#008b00" },  /* forest green */
-	{ N_("To Do"),     "#0000ff" },  /* blue */
-	{ N_("Later"),     "#8b008b" }   /* magenta */
+	{ "important", N_("Important"), "#ff0000" },  /* red */
+	{ "work",      N_("Work"),      "#ff8c00" },  /* orange */
+	{ "personal",  N_("Personal"),  "#008b00" },  /* forest green */
+	{ "todo",      N_("To Do"),     "#0000ff" },  /* blue */
+	{ "later",     N_("Later"),     "#8b008b" }   /* magenta */
 };
 
 typedef struct {
@@ -320,6 +320,7 @@ config_clear_labels (void)
 	list = config->labels;
 	while (list != NULL) {
 		label = list->data;
+		g_free(label->tag);
 		g_free (label->name);
 		g_free (label->colour);
 		g_free (label);
@@ -347,10 +348,11 @@ config_cache_labels (void)
 	while (list != NULL) {
 		buf = list->data;
 		
-		if ((colour = strrchr (buf, ':'))) {
+		if (num < 5 && (colour = strrchr (buf, ':'))) {
 			label = g_new (MailConfigLabel, 1);
 			
 			*colour++ = '\0';
+			label->tag = g_strdup(label_defaults[num].tag);
 			label->name = g_strdup (buf);
 			label->colour = g_strdup (colour);
 			
@@ -378,6 +380,7 @@ config_cache_labels (void)
 	while (num < 5) {
 		/* complete the list with defaults */
 		label = g_new (MailConfigLabel, 1);
+		label->tag = g_strdup (label_defaults[num].tag);
 		label->name = g_strdup (_(label_defaults[num].name));
 		label->colour = g_strdup (label_defaults[num].colour);
 		
@@ -665,7 +668,7 @@ mail_config_get_label_color_by_name (const char *name)
 	node = config->labels;
 	while (node != NULL) {
 		label = node->data;
-		if (!strcmp (label->name, name))
+		if (!strcmp (label->tag, name))
 			return label->colour;
 		node = node->next;
 	}

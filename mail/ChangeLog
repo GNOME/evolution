@@ -1,3 +1,24 @@
+2003-04-29  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #41972
+
+	* message-list.c (ml_tree_value_at): fix (void *) casts on trinary
+	ops.
+
+	* folder-browser.c (on_right_click): Store the label tag in the
+	label callback data, not the translated name.
+
+	* mail-config.c (label_defaults[]): Initialise with the tag
+	values.
+	(config_clear_labels): free tag field.
+	(config_cache_labels): setup the tag field based on the position
+	of the label name.
+	(mail_config_get_label_color_by_name): Lookup colour by the
+	untranslated TAG, not the translated/customisable tag.
+
+	* mail-config.h (MailConfigLabel): Add a tag field, we were using
+	the translated name as the label(!).
+
 2003-04-29  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (write_xmailer_header): Remove preceding whitespace
@@ -16,6 +37,8 @@
 	Changed Add/Delete buttons to the stock Add/Remove buttons, etc
 
 2003-04-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #41789
 
 	* mail-config.c (mail_config_init): Cache the allowable
 	mime-types.
@@ -71,7 +94,7 @@
 	* message-browser.c:
 	Use PREFIX instead of EVOLUTION_DATADIR for bonobo_ui_util_set_ui ().
 	Fixes bug #21499.
-	
+
 2003-04-17  Not Zed  <NotZed@Ximian.com>
 
 	* mail-signature-editor.c (menu_help): remove the help menu item
