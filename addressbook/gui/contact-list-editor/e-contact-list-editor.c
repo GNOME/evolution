@@ -19,6 +19,9 @@
  */
 
 #include <config.h>
+
+#include "e-contact-list-editor.h"
+
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -31,7 +34,7 @@
 #include "addressbook/gui/widgets/e-addressbook-util.h"
 
 #include "e-contact-editor.h"
-#include "e-contact-list-editor.h"
+#include "e-contact-save-as.h"
 #include "e-contact-list-model.h"
 
 /* Signal IDs */
@@ -416,6 +419,36 @@ file_save_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
+file_save_as_cb (GtkWidget *widget, gpointer data)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
+
+	extract_info (cle);
+
+	e_contact_save_as(_("Save List as VCard"), cle->card);
+}
+
+static void
+file_send_as_cb (GtkWidget *widget, gpointer data)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
+
+	extract_info (cle);
+
+	e_card_send(cle->card, E_CARD_DISPOSITION_AS_ATTACHMENT);
+}
+
+static void
+file_send_to_cb (GtkWidget *widget, gpointer data)
+{
+	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
+
+	extract_info (cle);
+
+	e_card_send(cle->card, E_CARD_DISPOSITION_AS_TO);
+}
+
+static void
 tb_save_and_close_cb (GtkWidget *widget, gpointer data)
 {
 	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (data);
@@ -468,18 +501,26 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSave", file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSaveClose", tb_save_and_close_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorDelete", delete_cb),
-#if 0
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveAs", file_save_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendAs", file_send_as_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
-#endif
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorClose", file_close_cb),
 	BONOBO_UI_VERB_END
 };
 
 static EPixmap pixmaps[] = {
 	E_PIXMAP ("/commands/ContactListEditorSave", "save-16.png"),
+	E_PIXMAP ("/commands/ContactListEditorSaveClose", "save-16.png"),
 	E_PIXMAP ("/commands/ContactListEditorSaveAs", "save-as-16.png"),
+
+	E_PIXMAP ("/commands/ContactListEditorDelete", "evolution-trash-mini.png"),
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
+	E_PIXMAP ("/commands/ContactListEditorPrint", "print.xpm"),
+	E_PIXMAP ("/commands/ContactListEditorPrintEnvelope", "print.xpm"),
+#endif
+	E_PIXMAP ("/Toolbar/ContactListEditorSaveClose", "buttons/save-24.png"),
+	E_PIXMAP ("/Toolbar/ContactListEditorDelete", "buttons/delete-message.png"),
+	E_PIXMAP ("/Toolbar/ContactListEditorPrint", "buttons/print.png"),
 
 	E_PIXMAP_END
 };

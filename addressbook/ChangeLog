@@ -1,5 +1,12 @@
 2001-11-28  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/contact-list-editor/e-contact-list-editor.c: Consistency
+	fixes with standard contact editor.  Added Save As, Send As, and
+	Send To.  Replaced Save toolbar with Save and Close and added Save
+	and Close menu item.  Added a trash icon.
+
+2001-11-28  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/contact-editor/e-contact-editor-address.c (setup_tab_order):
 	Setup the tab order here.  Fixes Ximian bug #13751.
 
