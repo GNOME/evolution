@@ -1,5 +1,30 @@
 2001-08-07  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook.c (search_cb): pass view->view instead
+	of the EBook.
+	(addressbook_search_menu_items): remove E_FILTERBAR_ADVANCED.
+	(addressbook_menu_activated): remove E_FILTERBAR_ADVANCED.
+	(addressbook_search_option_items): add "Advanced..." here.
+	(addressbook_query_changed): add special handling for Advanced...
+
+	* gui/search/e-addressbook-search-dialog.h (struct
+	_EAddressbookSearchDialog): add EAddressbookView and remove the
+	model/adapter fields.  Also fix prototype of
+	e_addressbook_search_dialog_new.
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_class_init): get rid of
+	set_arg/get_arg.
+	(button_press): set the query on the EAddressbookView, and always
+	close the dialog.
+	(e_addressbook_search_dialog_init): get rid of the minicard view,
+	and pack the other widgets accordingly.
+	(e_addressbook_search_dialog_new): pass EAddressbookView instead
+	of EBook.
+	(e_addressbook_search_dialog_destroy): remove model/adapter stuff.
+
+2001-08-07  Chris Toshok  <toshok@ximian.com>
+
 	[ Fixes bug #5066 ]
 	* gui/component/addressbook-storage.c (remove_ldap_folder): new
 	function, remove the source.

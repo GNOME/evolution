@@ -98,15 +98,9 @@ config_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	EBook *book;
 	AddressbookView *view = (AddressbookView *) user_data;
 
-	gtk_object_get(GTK_OBJECT(view->view),
-		       "book", &book,
-		       NULL);
-	g_assert (E_IS_BOOK (book));
-
-	gtk_widget_show(e_addressbook_search_dialog_new(book));
+	gtk_widget_show(e_addressbook_search_dialog_new(view->view));
 }
 
 static void
@@ -245,7 +239,7 @@ change_view_type (AddressbookView *view, EAddressbookViewType view_type)
 	gtk_object_set (GTK_OBJECT (view->view), "type", view_type, NULL);
 }
 
-BonoboUIVerb verbs [] = {
+static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrint", print_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsSaveAsVCard", save_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
@@ -559,26 +553,15 @@ set_prop (BonoboPropertyBag *bag,
 
 static ESearchBarItem addressbook_search_menu_items[] = {
 	E_FILTERBAR_RESET,
-	{ NULL, 0 },
-	E_FILTERBAR_ADVANCED,
-	{ NULL, -1 }
+	{ NULL, -1 },
 };
 
 static void
 addressbook_menu_activated (ESearchBar *esb, int id, AddressbookView *view)
 {
-	EBook *book;
 	switch (id) {
 	case E_FILTERBAR_RESET_ID:
 		e_addressbook_view_show_all(view->view);
-		break;
-	case E_FILTERBAR_ADVANCED_ID:
-		gtk_object_get(GTK_OBJECT(view->view),
-			       "book", &book,
-			       NULL);
-		g_assert (E_IS_BOOK (book));
-
-		gtk_widget_show(e_addressbook_search_dialog_new(book));
 		break;
 	}
 }
@@ -588,6 +571,7 @@ enum {
 	ESB_FULL_NAME,
 	ESB_EMAIL,
 	ESB_CATEGORY,
+	ESB_ADVANCED
 };
 
 static ESearchBarItem addressbook_search_option_items[] = {
@@ -595,6 +579,7 @@ static ESearchBarItem addressbook_search_option_items[] = {
 	{ N_("Name contains"), ESB_FULL_NAME },
 	{ N_("Email contains"), ESB_EMAIL },
 	{ N_("Category contains"), ESB_CATEGORY },
+	{ N_("Advanced..."), ESB_ADVANCED },
 	{ NULL, -1 }
 };
 
@@ -609,37 +594,42 @@ addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
 		       "option_choice", &search_type,
 		       NULL);
 
-	if (search_word && strlen (search_word)) {
-		switch (search_type) {
-		case ESB_ANY:
-			search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")",
-							search_word);
-			break;
-		case ESB_FULL_NAME:
-			search_query = g_strdup_printf ("(contains \"full_name\" \"%s\")",
-							search_word);
-			break;
-		case ESB_EMAIL:
-			search_query = g_strdup_printf ("(contains \"email\" \"%s\")",
-							search_word);
-			break;
-		case ESB_CATEGORY:
-			search_query = g_strdup_printf ("(contains \"category\" \"%s\")",
-							search_word);
-			break;
-		default:
+	if (search_type == ESB_ADVANCED) {
+		gtk_widget_show(e_addressbook_search_dialog_new(view->view));
+	}
+	else {
+		if (search_word && strlen (search_word)) {
+			switch (search_type) {
+			case ESB_ANY:
+				search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")",
+								search_word);
+				break;
+			case ESB_FULL_NAME:
+				search_query = g_strdup_printf ("(contains \"full_name\" \"%s\")",
+								search_word);
+				break;
+			case ESB_EMAIL:
+				search_query = g_strdup_printf ("(contains \"email\" \"%s\")",
+								search_word);
+				break;
+			case ESB_CATEGORY:
+				search_query = g_strdup_printf ("(contains \"category\" \"%s\")",
+								search_word);
+				break;
+			default:
+				search_query = g_strdup ("(contains \"full_name\" \"\")");
+				break;
+			}
+		} else
 			search_query = g_strdup ("(contains \"full_name\" \"\")");
-			break;
-		}
-	} else
-		search_query = g_strdup ("(contains \"full_name\" \"\")");
 
-	gtk_object_set (GTK_OBJECT(view->view),
-			"query", search_query,
-			NULL);
+		gtk_object_set (GTK_OBJECT(view->view),
+				"query", search_query,
+				NULL);
 
-	g_free (search_query);
-	g_free (search_word);
+		g_free (search_query);
+		g_free (search_word);
+	}
 }
 
 static GNOME_Evolution_ShellView

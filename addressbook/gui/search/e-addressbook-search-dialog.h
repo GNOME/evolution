@@ -23,8 +23,7 @@
 
 #include <ebook/e-book.h>
 
-#include "addressbook/gui/widgets/e-addressbook-model.h"
-#include "addressbook/gui/widgets/e-addressbook-reflow-adapter.h"
+#include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "filter/rule-context.h"
 #include "filter/filter-rule.h"
 
@@ -50,14 +49,11 @@ struct _EAddressbookSearchDialog
 	GnomeDialog parent;
 
 	GtkWidget *search;
-	GtkWidget *view;
 
-	EAddressbookModel *model;
-	EAddressbookReflowAdapter *adapter;
+	EAddressbookView *view;
 
 	RuleContext *context;
 	FilterRule *rule;
-	GtkWidget *scrolled_window;
 };
 
 struct _EAddressbookSearchDialogClass
@@ -67,7 +63,7 @@ struct _EAddressbookSearchDialogClass
 
 GtkType    e_addressbook_search_dialog_get_type (void);
 
-GtkWidget *e_addressbook_search_dialog_new (EBook *book);
+GtkWidget *e_addressbook_search_dialog_new (EAddressbookView *view);
 
 #ifdef __cplusplus
 }
