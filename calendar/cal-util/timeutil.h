@@ -59,15 +59,6 @@ time_t	time_from_isodate	(const char *str);
 /* Add or subtract a number of days, weeks or months. */
 time_t	time_add_day		(time_t time, int days);
 time_t	time_add_week		(time_t time, int weeks);
-time_t	time_add_month		(time_t time, int months);
-
-/* Returns the beginning of the year or month. */
-time_t	time_year_begin		(time_t t);
-time_t	time_month_begin	(time_t t);
-
-/* Returns the beginning of the week. week_start_day should use the same values
-   as mktime(), i.e. 0 (Sun) to 6 (Sat). */
-time_t	time_week_begin		(time_t t, int week_start_day);
 
 /* Returns the beginning or end of the day. */
 time_t	time_day_begin		(time_t t);

@@ -81,87 +81,6 @@ time_add_week (time_t time, int weeks)
 	return time_add_day (time, weeks * 7);
 }
 
-time_t
-time_add_month (time_t time, int months)
-{
-	struct tm *tm = localtime (&time);
-	time_t new_time;
-	int mday;
-
-	mday = tm->tm_mday;
-	
-	tm->tm_mon += months;
-	tm->tm_isdst = -1;
-	if ((new_time = mktime (tm)) == -1) {
-		g_message ("time_add_month(): mktime() could not handling adding %d months with\n",
-			   months);
-		print_time_t (time);
-		printf ("\n");
-		return time;
-	}
-	tm = localtime (&new_time);
-	if (tm->tm_mday < mday) {
-		tm->tm_mon--;
-		tm->tm_mday = time_days_in_month (tm->tm_year+1900, tm->tm_mon);
-		return new_time = mktime (tm);
-	}
-	else
-		return new_time;
-}
-
-time_t
-time_year_begin (time_t t)
-{
-	struct tm tm;
-
-	tm = *localtime (&t);
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	tm.tm_mon  = 0;
-	tm.tm_mday = 1;
-	tm.tm_isdst = -1;
-
-	return mktime (&tm);
-}
-
-time_t
-time_month_begin (time_t t)
-{
-	struct tm tm;
-
-	tm = *localtime (&t);
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	tm.tm_mday = 1;
-	tm.tm_isdst = -1;
-
-	return mktime (&tm);
-}
-
-/* Returns the start of the week. week_start_day should use the same values
-   as mktime(), i.e. 0 (Sun) to 6 (Sat). */
-time_t
-time_week_begin (time_t t, int week_start_day)
-{
-	struct tm tm;
-	int offset;
-
-	tm = *localtime (&t);
-
-	/* Calculate the current offset from the week start day. */
-	offset = (tm.tm_wday + 7 - week_start_day) % 7;
-
-	tm.tm_hour = 0;
-	tm.tm_min  = 0;
-	tm.tm_sec  = 0;
-	tm.tm_mday -= offset;
-	tm.tm_isdst = -1;
-
-	return mktime (&tm);
-}
-
 /* Returns the start of the day, according to the local time. */
 time_t
 time_day_begin (time_t t)
@@ -238,6 +157,11 @@ time_add_week_with_zone (time_t time, int weeks, icaltimezone *zone)
 
 /* Adds or subtracts a number of months to/from the given time_t value, using
    the given timezone.
+
+   If the day would be off the end of the month (e.g. adding 1 month to
+   30th January, would lead to an invalid day, 30th February), it moves it
+   down to the last day in the month, e.g. 28th Feb (or 29th in a leap year.)
+
    NOTE: this function is only here to make the transition to the timezone
    functions easier. New code should use icaltimetype values and
    icaltime_adjust() to add or subtract days, hours, minutes & seconds. */
@@ -245,6 +169,7 @@ time_t
 time_add_month_with_zone (time_t time, int months, icaltimezone *zone)
 {
 	struct icaltimetype tt;
+	int day, days_in_month;
 
 	/* Convert to an icaltimetype. */
 	tt = icaltime_from_timet_with_zone (time, FALSE, zone);
@@ -252,8 +177,20 @@ time_add_month_with_zone (time_t time, int months, icaltimezone *zone)
 	/* Add on the number of months. */
 	tt.month += months;
 
-	/* Normalize it, fixing any overflow. */
+	/* Save the day, and set it to 1, so we don't overflow into the next
+	   month. */
+	day = tt.day;
+	tt.day = 1;
+
+	/* Normalize it, fixing any month overflow. */
 	tt = icaltime_normalize (tt);
+
+	/* If we go past the end of a month, set it to the last day. */
+	days_in_month = time_days_in_month (tt.year, tt.month - 1);
+	if (day > days_in_month)
+		day = days_in_month;
+
+	tt.day = day;
 
 	/* Convert back to a time_t. */
 	return icaltime_as_timet_with_zone (tt, zone);
@@ -429,6 +366,8 @@ int
 time_days_in_month (int year, int month)
 {
 	int days;
+
+	g_print ("Year: %i Month: %i\n", year, month);
 
 	g_return_val_if_fail (year >= 1900, 0);
 	g_return_val_if_fail ((month >= 0) && (month < 12), 0);

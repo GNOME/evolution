@@ -1,3 +1,23 @@
+2001-10-03  Damon Chaplin  <damon@ximian.com>
+
+	* gui/comp-util.c (cal_comp_util_add_exdate): save the EXDATE as a
+	DATE-TIME value, since we know the exact time. Fixes bug #11278.
+	(Before we were setting is_date, but icaltime_from_timet_with_zone()
+	didn't convert it properly. We need to figure out how to handle DATEs
+	when using time_t's.)
+
+	* gui/dialogs/recurrence-page.c (get_exception_string): use
+	e_time_format_date_and_time() so we show the time as well, if the
+	exception is a DATE-TIME value.
+
+	* cal-util/timeutil.c: removed time_add_month(), time_year_begin(),
+	time_month_begin() & time_week_begin() - old pre-timezone functions
+	which we no longer use.
+
+	* cal-util/cal-recur.c (cal_recur_from_icalproperty): set
+	ir.until.is_date to FALSE before converting to a time_t.
+	Hopefully fixes bug #5034.
+
 2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/dialogs/comp-editor.c (setup_widgets): Use

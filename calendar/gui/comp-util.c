@@ -49,7 +49,7 @@ cal_comp_util_add_exdate (CalComponent *comp, time_t t, icaltimezone *zone)
 
 	cdt = g_new (CalComponentDateTime, 1);
 	cdt->value = g_new (struct icaltimetype, 1);
-	*cdt->value = icaltime_from_timet_with_zone (t, TRUE, zone);
+	*cdt->value = icaltime_from_timet_with_zone (t, FALSE, zone);
 	cdt->tzid = g_strdup (icaltimezone_get_tzid (zone));
 
 	list = g_slist_append (list, cdt);

@@ -878,9 +878,14 @@ cal_recur_from_icalproperty (icalproperty *prop, gboolean exception,
 			ir.until.hour = 23;
 			ir.until.minute = 59;
 			ir.until.second = 59;
+			ir.until.is_date = FALSE;
 
 			r->enddate = icaltime_as_timet_with_zone (ir.until,
 								  zone);
+#if 0
+			g_print ("  until: %li - %s", r->enddate, ctime (&r->enddate));
+#endif
+
 		} else {
 			/* If UNTIL is a DATE-TIME, it must be in UTC. */
 			icaltimezone *utc_zone;

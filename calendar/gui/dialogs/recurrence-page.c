@@ -419,7 +419,8 @@ get_exception_string (CalComponentDateTime *dt)
 					   dt->value->month - 1,
 					   dt->value->year);
 
-	strftime (buf, sizeof (buf), _("%a %b %d %Y"), &tmp_tm);
+	e_time_format_date_and_time (&tmp_tm, calendar_config_get_24_hour_format(), FALSE, FALSE, buf, sizeof (buf));
+
 	return buf;
 }
 
