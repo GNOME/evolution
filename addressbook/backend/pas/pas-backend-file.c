@@ -34,24 +34,26 @@ struct _PASBackendFilePrivate {
 struct _PASBackendFileCursorPrivate {
 	PASBackend *backend;
 	PASBook    *book;
+
+	GList      *elements;
+	guint32    num_elements;
 };
 
 static long
 get_length(PASCardCursor *cursor, gpointer data)
 {
-#if 0
 	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
-#endif
-	return 0;
+
+	return cursor_data->num_elements;
 }
 
 static char *
 get_nth(PASCardCursor *cursor, long n, gpointer data)
 {
-#if 0
 	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
-#endif
-	return "";
+	GList *nth_item = g_list_nth(cursor_data->elements, n);
+
+	return (char*)nth_item->data;
 }
 
 static void
@@ -61,7 +63,7 @@ cursor_destroy(GtkObject *object, gpointer data)
 	Evolution_Book corba_book;
 	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
 
-	corba_book = bonobo_object_corba_objref(cursor_data->book);
+	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(cursor_data->book));
 
 	CORBA_exception_init(&ev);
 
@@ -73,6 +75,9 @@ cursor_destroy(GtkObject *object, gpointer data)
 	}
 
 	CORBA_exception_free(&ev);
+
+	g_list_foreach(cursor_data->elements, (GFunc)g_free, NULL);
+	g_list_free (cursor_data->elements);
 
 	g_free(cursor_data);
 }
@@ -204,6 +209,44 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 }
 
 static void
+pas_backend_file_build_all_cards_list(PASBackend *backend,
+				      PASBackendFileCursorPrivate *cursor_data)
+{
+	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	  DB             *db = bf->priv->file_db;
+	  int            db_error;
+
+	  cursor_data->elements = NULL;
+	  do {
+		  DBT  id_dbt, vcard_dbt;
+		  char *id;
+  
+		  db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+
+		  id = g_strndup(id_dbt.data, id_dbt.size);
+
+		  /* don't include the version in the list of cards */
+		  if (!strcmp (id, PAS_BACKEND_FILE_VERSION_NAME)) {
+			  g_free(id);
+			  continue;
+		  }
+		  else {
+			  g_free(id);
+			  g_list_append(cursor_data->elements, g_strndup(vcard_dbt.data,
+									 vcard_dbt.size));
+		  }
+
+	  } while (db_error == 0);
+
+	  if (db_error == -1) {
+		  g_warning ("pas_backend_file_build_all_cards_list: error building list\n");
+	  }
+	  else {
+		  cursor_data->num_elements = g_list_length (cursor_data->elements);
+	  }
+}
+
+static void
 pas_backend_file_process_get_all_cards (PASBackend *backend,
 					PASBook    *book,
 					PASRequest *req)
@@ -222,8 +265,10 @@ pas_backend_file_process_get_all_cards (PASBackend *backend,
 	cursor_data = g_new(PASBackendFileCursorPrivate, 1);
 	cursor_data->backend = backend;
 	cursor_data->book = book;
-	
-	corba_book = bonobo_object_corba_objref(book);
+
+	pas_backend_file_build_all_cards_list(backend, cursor_data);
+
+	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
 
 	CORBA_exception_init(&ev);
 

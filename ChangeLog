@@ -14,6 +14,14 @@
 
 	* addressbook/backend/pas/pas-backend-file.c
 	(pas_backend_file_get_vcard): remove unneeded g_strdup;
+	(get_length): implement function.
+	(get_nth): implement function.
+	(cursor_destroy): free up the internal glist of vcards, and fix
+	warning.
+	(pas_backend_file_build_all_cards_list): new function, to build up
+	the list of cards in the db.
+	(pas_backend_file_process_get_all_cards): call
+	pas_backend_file_build_+all_cards_list, and fix warning.
 
 2000-03-27  Christopher James Lahey  <clahey@helixcode.com>
 
