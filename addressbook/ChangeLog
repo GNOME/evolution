@@ -1,3 +1,11 @@
+2004-03-04  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                                                             
+        * gui/component/addressbook-config.c :
+        (addressbook_add_server_druid) : maintain a list of only those source groups which are added to menu
+        instead of all
+        (source_group_changed_cb) : use the new list to get the selected group
+        (addressbook_source_dialog_destroy) : free the new list
+
 2004-03-04  Not Zed  <NotZed@Ximian.com>
 
 	** See #54991.

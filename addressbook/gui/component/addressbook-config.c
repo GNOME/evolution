@@ -96,6 +96,7 @@ struct _AddressbookSourceDialog {
 
 	/* Source selection (druid only) */
 	ESourceList *source_list;
+	GSList *menu_source_groups;
 	GtkWidget *group_optionmenu;
 
 	/* ESource we're currently editing (editor only) */
@@ -463,6 +464,8 @@ addressbook_source_dialog_destroy (gpointer data, GObject *where_object_was)
 	AddressbookSourceDialog *dialog = data;
 
 	g_object_unref (dialog->gui);
+	g_object_unref (dialog->source_list);
+	g_slist_free (dialog->menu_source_groups);
 	g_free (dialog);
 }
 
@@ -961,8 +964,8 @@ druid_folder_page_modify_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
 static void
 source_group_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 {
-	sdialog->source_group = g_slist_nth (e_source_list_peek_groups (sdialog->source_list),
-		gtk_option_menu_get_history (GTK_OPTION_MENU (sdialog->group_optionmenu)))->data;
+	sdialog->source_group = g_slist_nth (sdialog->menu_source_groups,
+					     gtk_option_menu_get_history (GTK_OPTION_MENU (sdialog->group_optionmenu)))->data;
 }
 
 static void
@@ -1019,6 +1022,7 @@ addressbook_add_server_druid (void)
 	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
 	GtkWidget *page;
 	GConfClient *gconf_client;
+	GSList *source_groups;
 
 	sdialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
 
@@ -1037,6 +1041,15 @@ addressbook_add_server_druid (void)
 
 	gconf_client = gconf_client_get_default ();
 	sdialog->source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+	source_groups = e_source_list_peek_groups (sdialog->source_list);
+	sdialog->menu_source_groups = g_slist_copy (source_groups);
+#ifndef HAVE_LDAP
+	for ( ; source_groups != NULL; source_groups = g_slist_next (source_groups))
+
+		if (!strcmp ("ldap://", e_source_group_peek_base_uri (source_groups->data)))	
+			sdialog->menu_source_groups = g_slist_remove (sdialog->menu_source_groups, source_groups->data);
+#endif 
+
 	sdialog->group_optionmenu = glade_xml_get_widget (sdialog->gui, "druid-group-option-menu");
 	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (sdialog->group_optionmenu)))) {
 		GtkWidget *menu = gtk_menu_new ();
