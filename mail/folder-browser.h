@@ -63,7 +63,8 @@ struct  _FolderBrowser {
 	
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
-	
+	int expunge_mlfocussed;	/* true if the ml was focussed before we expunged */
+
 	MessageList *message_list;
 	MailDisplay *mail_display;
 	GtkWidget   *vpaned;

@@ -2669,6 +2669,12 @@ expunged_folder (CamelFolder *f, void *data)
 	
 	fb->expunging = NULL;
 	gtk_widget_set_sensitive (GTK_WIDGET (fb->message_list), TRUE);
+
+	/* FIXME: we should check that the focus hasn't changed in the
+	 * mean time, otherwise we steal the focus unecessarily.
+	 * Check :get_toplevel()->focus_widget? */
+	if (fb->expunge_mlfocussed)
+		gtk_widget_grab_focus((GtkWidget *)fb->message_list);
 }
 
 static gboolean
@@ -2702,8 +2708,17 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge (fb)) {
 		CamelMessageInfo *info;
-		
-		/* hide the deleted messages so user can't click on them while we expunge */
+		GtkWindow *top;
+		GtkWidget *focus;
+
+		/* disable the message list so user can't click on them while we expunge */
+
+		/* nasty hack to find out if some widget inside the message list is focussed ... */
+		top = gtk_widget_get_toplevel((GtkWidget *)fb->message_list);
+		focus = top?top->focus_widget:NULL;
+		while (focus && focus != (GtkWidget *)fb->message_list)
+			focus = focus->parent;
+		fb->expunge_mlfocussed = focus == (GtkWidget *)fb->message_list;
 		gtk_widget_set_sensitive (GTK_WIDGET (fb->message_list), FALSE);
 		
 		/* Only blank the mail display if the message being
