@@ -41,6 +41,7 @@ typedef enum {
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_INTEGER,
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING,
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF,
+	E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT,
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM
 } ETableMemoryStoreColumnType;
 
@@ -66,6 +67,9 @@ typedef struct {
 #define E_TABLE_MEMORY_STORE_CUSTOM(editable, duplicate, free, initialize, empty, string) \
         { E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM, \
              { (duplicate), (free), (initialize), (empty), (string) }, editable }
+#define E_TABLE_MEMORY_STORE_OBJECT(editable, initialize, empty, string) \
+        { E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM, \
+             { NULL, NULL, (initialize), (empty), (string) }, editable }
 
 typedef struct _ETableMemoryStorePrivate ETableMemoryStorePrivate;
 

@@ -43,8 +43,12 @@ duplicate_value (ETableMemoryStore *etms, int col, const void *val)
 		return g_strdup (val);
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
 		if (val)
-			gdk_pixbuf_ref ((GdkPixbuf *) val);
-		return (GdkPixbuf *) val;
+			gdk_pixbuf_ref ((void *) val);
+		return (void *) val;
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
+		if (val)
+			gtk_object_ref ((void *) val);
+		return (void *) val;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
 		if (etms->priv->columns[col].custom.duplicate_value)
 			return etms->priv->columns[col].custom.duplicate_value (E_TABLE_MODEL (etms), col, val, NULL);
@@ -111,6 +115,10 @@ etms_free_value (ETableModel *etm, int col, void *value)
 		if (value)
 			gdk_pixbuf_unref (value);
 		break;
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
+		if (value)
+			gtk_object_unref (value);
+		break;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
 		if (etms->priv->columns[col].custom.free_value)
 			etms->priv->columns[col].custom.free_value (E_TABLE_MODEL (etms), col, value, NULL);
@@ -131,6 +139,7 @@ etms_initialize_value (ETableModel *etm, int col)
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
 		return NULL;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
 		if (etms->priv->columns[col].custom.initialize_value)
 			return etms->priv->columns[col].custom.initialize_value (E_TABLE_MODEL (etms), col, NULL);
 		break;
@@ -151,6 +160,7 @@ etms_value_is_empty (ETableModel *etm, int col, const void *value)
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
 		return value == NULL;
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
 		if (etms->priv->columns[col].custom.value_is_empty)
 			return etms->priv->columns[col].custom.value_is_empty (E_TABLE_MODEL (etms), col, value, NULL);
 		break;
@@ -171,6 +181,7 @@ etms_value_to_string (ETableModel *etm, int col, const void *value)
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
 		return g_strdup ("");
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
 		if (etms->priv->columns[col].custom.value_is_empty)
 			return etms->priv->columns[col].custom.value_to_string (E_TABLE_MODEL (etms), col, value, NULL);
 		break;
