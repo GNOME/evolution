@@ -77,6 +77,9 @@ camel_local_store_init (gpointer object, gpointer klass)
 	CamelStore *store = CAMEL_STORE (object);
 
 	/* local names are filenames, so they are case-sensitive. */
+	if (store->folders)
+		g_hash_table_destroy(store->folders);
+
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
 

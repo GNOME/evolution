@@ -646,7 +646,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 	int i, count;
 	CamelMboxMessageInfo *info;
 	int fd = -1;
-	char *xevnew;
+	char *xevnew, *xevtmp;
 	const char *xev;
 	int len;
 	off_t lastpos;
@@ -709,12 +709,20 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 			goto error;
 		}
 		xevnew = camel_local_summary_encode_x_evolution(cls, (CamelMessageInfo *)info);
-		/* the raw header contains a leading ' ', so count that too */
-		if (strlen(xev)-1 != strlen(xevnew)) {
+		/* SIGH: encode_param_list is about the only function which folds headers by itself.
+		   This should be fixed somehow differently (either parser doesn't fold headers,
+		   or param_list doesn't, or something */
+		xevtmp = header_unfold(xevnew);
+		/* the raw header contains a leading ' ', so (dis)count that too */
+		if (strlen(xev)-1 != strlen(xevtmp)) {
 			g_free(xevnew);
+			g_free(xevtmp);
 			g_warning("Hmm, the xev headers shouldn't have changed size, but they did");
 			goto error;
 		}
+		g_free(xevtmp);
+
+		/* we write out the xevnew string, assuming its been folded identically to the original too! */
 
 		lastpos = lseek(fd, 0, SEEK_CUR);
 		lseek(fd, xevoffset+strlen("X-Evolution: "), SEEK_SET);
@@ -722,6 +730,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 			len = write(fd, xevnew, strlen(xevnew));
 		} while (len == -1 && errno == EINTR);
 		lseek(fd, lastpos, SEEK_SET);
+		g_free(xevnew);
 
 		camel_mime_parser_drop_step(mp);
 		camel_mime_parser_drop_step(mp);

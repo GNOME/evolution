@@ -116,8 +116,9 @@ camel_folder_search_finalize (CamelObject *obj)
 	CamelFolderSearch *search = (CamelFolderSearch *)obj;
 	struct _CamelFolderSearchPrivate *p = _PRIVATE(obj);
 
+	/* yeah, this is a gtk object */
 	if (search->sexp)
-		camel_object_unref((CamelObject *)search->sexp);
+		gtk_object_unref(search->sexp);
 
 	g_free(search->last_search);
 	g_hash_table_foreach(p->mempool_hash, free_mempool, obj);

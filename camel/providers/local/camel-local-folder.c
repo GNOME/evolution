@@ -138,8 +138,21 @@ local_finalize(CamelObject * object)
 {
 	CamelLocalFolder *local_folder = CAMEL_LOCAL_FOLDER(object);
 
+	if (local_folder->summary) {
+		camel_local_summary_sync(local_folder->summary, FALSE, local_folder->changes, NULL);
+		camel_object_unref((CamelObject *)local_folder->summary);
+	}
+
+	if (local_folder->search) {
+		camel_object_unref((CamelObject *)local_folder->search);
+	}
+
+	/* must free index after summary, since it isn't refcounted */
 	if (local_folder->index)
 		ibex_close(local_folder->index);
+
+	while (local_folder->locked> 0)
+		camel_local_folder_unlock(local_folder);
 
 	g_free(local_folder->base_path);
 	g_free(local_folder->folder_path);

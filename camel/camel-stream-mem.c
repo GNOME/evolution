@@ -127,14 +127,14 @@ void camel_stream_mem_set_byte_array (CamelStreamMem *s, GByteArray *buffer)
 	s->buffer = buffer;
 }
 
-void camel_stream_mem_set_buffer (CamelStreamMem *s, const char *buffer,
-				  size_t len)
+void camel_stream_mem_set_buffer (CamelStreamMem *s, const char *buffer, size_t len)
 {
 	GByteArray *ba;
 
 	ba = g_byte_array_new ();
-	g_byte_array_append (ba, (const guint8 *)buffer, len);
+	g_byte_array_append(ba, (const guint8 *)buffer, len);
 	camel_stream_mem_set_byte_array(s, ba);
+	s->owner = TRUE;
 }
 
 static void

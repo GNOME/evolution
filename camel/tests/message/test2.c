@@ -229,6 +229,7 @@ int main(int argc, char **argv)
 		check(camel_internet_address_get(addr, 0, &real, &where) == TRUE);
 		check_msg(string_equal(name, real), "name = '%s' real = '%s'", name, real);
 		check(strcmp(where, "nobody@nowhere.com") == 0);
+		test_free(name);
 
 		check(camel_internet_address_get(addr, 1, &real, &where) == FALSE);
 		check(camel_address_length(CAMEL_ADDRESS(addr)) == 1);
@@ -248,6 +249,7 @@ int main(int argc, char **argv)
 		push("Compare addresses");
 		test_address_compare(addr, addr2);
 		pull();
+		check_unref(addr2, 1);
 		test_free(enc);
 		pull();
 

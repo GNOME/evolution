@@ -1440,7 +1440,7 @@ header_decode_quoted_string(const char **in)
 		/* first, calc length */
 		inptr++;
 		intmp = inptr;
-		while ( (c = *intmp++) && c!= '"' && c != '\0') {
+		while ( (c = *intmp++) && c!= '"') {
 			if (c=='\\' && *intmp) {
 				intmp++;
 				skip++;
@@ -1448,7 +1448,7 @@ header_decode_quoted_string(const char **in)
 		}
 		outlen = intmp-inptr-skip;
 		out = outptr = g_malloc(outlen+1);
-		while ( (c = *inptr++) && c!= '"' && c != '\0') {
+		while ( (c = *inptr++) && c!= '"') {
 			if (c=='\\' && *inptr) {
 				c = *inptr++;
 			}
@@ -3042,6 +3042,33 @@ header_fold(const char *in)
 	ret = out->str;
 	g_string_free(out, FALSE);
 	return ret;	
+}
+
+char *
+header_unfold(const char *in)
+{
+	char *out = g_malloc(strlen(in)+1);
+	const char *inptr = in;
+	char c, *o = out;
+
+	o = out;
+	while ((c = *inptr++)) {
+		if (c == '\n') {
+			if (is_lwsp(*inptr)) {
+				do {
+					inptr++;
+				} while (is_lwsp(*inptr));
+				*o++ = ' ';
+			} else {
+				*o++ = c;
+			}
+		} else {
+			*o++ = c;
+		}
+	}
+	*o = 0;
+
+	return out;
 }
 
 #ifdef BUILD_TABLE

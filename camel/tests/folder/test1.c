@@ -33,9 +33,12 @@ int main(int argc, char **argv)
 	int i;
 	char *path;
 
+	camel_test_init(argc, argv);
+
 	ex = camel_exception_new();
 
-	camel_test_init(argc, argv);
+	/* clear out any camel-test data */
+	system("/bin/rm -rf /tmp/camel-test");
 
 	session = camel_session_new("/tmp/camel-test", auth_callback, NULL, NULL);
 

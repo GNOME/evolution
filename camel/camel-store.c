@@ -90,7 +90,8 @@ camel_store_init (void *o, void *k)
 {
 	CamelStore *store = o;
 
-	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	if (store->folders == NULL)
+		store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 	store->flags = 0;
 }
 

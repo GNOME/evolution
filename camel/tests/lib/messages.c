@@ -33,6 +33,12 @@ test_message_create_simple(void)
 	return msg;
 }
 
+static void
+content_finalise(CamelObject *folder, void *crap, void *ba)
+{
+	g_byte_array_free(ba, TRUE);
+}
+
 void
 test_message_set_content_simple(CamelMimePart *part, int how, const char *type, const char *text, int len)
 {
@@ -65,7 +71,7 @@ test_message_set_content_simple(CamelMimePart *part, int how, const char *type, 
 		content = (CamelStreamMem *)camel_stream_mem_new();
 		camel_stream_mem_set_byte_array(content, ba);
 
-		/* ba gets leaked here */
+		camel_object_hook_event((CamelObject *)content, "finalize", content_finalise, ba);
 		break;
 	}
 
@@ -137,9 +143,11 @@ test_message_compare_content(CamelDataWrapper *dw, const char *text, int len)
 int
 test_message_compare_header(CamelMimeMessage *m1, CamelMimeMessage *m2)
 {
+	return 0;
 }
 
 int
 test_message_compare_messages(CamelMimeMessage *m1, CamelMimeMessage *m2)
 {
+	return 0;
 }

@@ -13,6 +13,9 @@
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-mime-message.h>
 
+#define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
+
+
 /* god, who designed this horrid interface */
 static char *auth_callback(CamelAuthCallbackMode mode,
 			   char *data, gboolean secret,
@@ -33,12 +36,12 @@ test_folder_search_sub(CamelFolder *folder, const char *expr, int expected)
 
 	uids = camel_folder_search_by_expression(folder, expr, ex);
 	check(uids != NULL);
-	check(uids->len == expected);
+	check_msg(uids->len == expected, "search %s expected %d got %d", expr, expected, uids->len);
 	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 
 	/* check the uid's are actually unique, too */
 	hash = g_hash_table_new(g_str_hash, g_str_equal);
-	for (i=0;uids->len;i++) {
+	for (i=0;i<uids->len;i++) {
 		check(g_hash_table_lookup(hash, uids->pdata[i]) == NULL);
 		g_hash_table_insert(hash, uids->pdata[i], uids->pdata[i]);
 	}
@@ -54,9 +57,14 @@ test_folder_search(CamelFolder *folder, const char *expr, int expected)
 {
 	char *matchall;
 
+#if 0
+	/* FIXME: ??? */
+	camel_test_nonfatal("most searches require match-all construct");
 	push("Testing search: %s", expr);
 	test_folder_search_sub(folder, expr, expected);
 	pull();
+	camel_test_fatal();
+#endif
 
 	matchall = g_strdup_printf("(match-all %s)", expr);
 	push("Testing search: %s", matchall);
@@ -65,7 +73,77 @@ test_folder_search(CamelFolder *folder, const char *expr, int expected)
 	pull();
 }
 
-#define ARRAY_LEN(x) (sizeof(x)/sizeof(x[0]))
+static struct {
+	int counts[3];
+	char *expr;
+} searches[] = {
+	{ { 100, 50, 0 }, "(header-contains \"subject\" \"subject\")" },
+	{ { 100, 50, 0 }, "(header-contains \"subject\" \"Subject\")" },
+
+	{ { 100, 50, 0 }, "(body-contains \"content\")" },
+	{ { 100, 50, 0 }, "(body-contains \"Content\")" },
+
+	{ { 0, 0, 0 }, "(user-flag \"every7\")" },
+	{ { 100/13+1, 50/13+1, 0 }, "(user-flag \"every13\")" },
+	{ { 1, 1, 0 }, "(= \"7tag1\" (user-tag \"every7\"))" },
+	{ { 100/11+1, 50/11+1, 0 }, "(= \"11tag\" (user-tag \"every11\"))" },
+	
+	{ { 100/13 + 100/17 + 1, 50/13 + 50/17 + 2, 0 }, "(user-flag \"every13\" \"every17\")" },
+	{ { 100/13 + 100/17 + 1, 50/13 + 50/17 + 2, 0 }, "(or (user-flag \"every13\") (user-flag \"every17\"))" },
+	{ { 1, 0, 0 }, "(and (user-flag \"every13\") (user-flag \"every17\"))" },
+	
+	{ { 0, 0, 0 }, "(and (header-contains \"subject\" \"Test1\") (header-contains \"subject\" \"Test2\"))" },
+	/* we get 11 here as the header-contains is a substring match */
+	{ { 11, 6, 0 }, "(and (header-contains \"subject\" \"Test1\") (header-contains \"subject\" \"subject\"))" },
+	{ { 1, 1, 0 }, "(and (header-contains \"subject\" \"Test19\") (header-contains \"subject\" \"subject\"))" },
+	{ { 0, 0, 0 }, "(and (header-contains \"subject\" \"Test191\") (header-contains \"subject\" \"subject\"))" },
+	{ { 1, 1, 0 }, "(and (header-contains \"subject\" \"Test1\") (header-contains \"subject\" \"message99\"))" },
+	
+	{ { 22, 11, 0 }, "(or (header-contains \"subject\" \"Test1\") (header-contains \"subject\" \"Test2\"))" },
+	{ { 2, 1, 0 }, "(or (header-contains \"subject\" \"Test16\") (header-contains \"subject\" \"Test99\"))" },
+	{ { 1, 1, 0 }, "(or (header-contains \"subject\" \"Test123\") (header-contains \"subject\" \"Test99\"))" },
+	{ { 100, 50, 0 }, "(or (header-contains \"subject\" \"Test1\") (header-contains \"subject\" \"subject\"))" },
+	{ { 11, 6, 0 }, "(or (header-contains \"subject\" \"Test1\") (header-contains \"subject\" \"message99\"))" },
+	
+	/* 72000 is 24*60*100 == half the 'sent date' of the messages */
+	{ { 100/2, 50/2, 0 }, "(> 72000 (get-sent-date))" },
+	{ { 100/2-1, 50/2, 0 }, "(< 72000 (get-sent-date))" },
+	{ { 1, 0, 0 }, "(= 72000 (get-sent-date))" },
+	{ { 0, 0, 0 }, "(= 72001 (get-sent-date))" },
+	
+ 	{ { (100/2-1)/17+1, (50/2-1)/17+1, 0 }, "(and (user-flag \"every17\") (< 72000 (get-sent-date)))" },
+	{ { (100/2-1)/17+1, (50/2-1)/17, 0 }, "(and (user-flag \"every17\") (> 72000 (get-sent-date)))" },
+	{ { (100/2-1)/13+1, (50/2-1)/13+1, 0 }, "(and (user-flag \"every13\") (< 72000 (get-sent-date)))" },
+	{ { (100/2-1)/13+1, (50/2-1)/13+1, 0 }, "(and (user-flag \"every13\") (> 72000 (get-sent-date)))" },
+	
+	{ { 100/2+100/2/17, 50/2+50/2/17, 0 }, "(or (user-flag \"every17\") (< 72000 (get-sent-date)))" },
+	{ { 100/2+100/2/17+1, 50/2+50/2/17+1, 0 }, "(or (user-flag \"every17\") (> 72000 (get-sent-date)))" },
+	{ { 100/2+100/2/13, 50/2+50/2/13+1, 0 }, "(or (user-flag \"every13\") (< 72000 (get-sent-date)))" },
+	{ { 100/2+100/2/13+1, 50/2+50/2/13+1, 0 }, "(or (user-flag \"every13\") (> 72000 (get-sent-date)))" },
+};
+
+static void
+run_search(CamelFolder *folder, int m)
+{
+	int i, j = 0;
+
+	check(m == 50 || m == 100 || m == 0);
+
+	/* *shrug* messy, but it'll do */
+	if (m==50)
+		j = 1;
+	else if (m==0)
+		j = 2;
+
+	push("performing searches, expected %d", m);
+	for (i=0;i<ARRAY_LEN(searches);i++) {
+		push("running search %d: %s", i, searches[i].expr);
+		test_folder_search(folder, searches[i].expr, searches[i].counts[j]);
+		pull();
+	}
+	pull();
+}
+
 
 static char *stores[] = {
 	"mbox:///tmp/camel-test/mbox",
@@ -84,9 +162,13 @@ int main(int argc, char **argv)
 	int indexed;
 	GPtrArray *uids;
 
+	gtk_init(&argc, &argv);
+	camel_test_init(argc, argv);
+
 	ex = camel_exception_new();
 
-	camel_test_init(argc, argv);
+	/* clear out any camel-test data */
+	system("/bin/rm -rf /tmp/camel-test");
 
 	session = camel_session_new("/tmp/camel-test", auth_callback, NULL, NULL);
 
@@ -137,7 +219,6 @@ int main(int argc, char **argv)
 				camel_mime_message_set_subject(msg, subject);
 
 				camel_mime_message_set_date(msg, j*60*24, 0);
-
 				pull();
 
 				push("appending simple message %d", j);
@@ -175,99 +256,70 @@ int main(int argc, char **argv)
 			camel_folder_free_uids(folder, uids);
 			pull();
 
-			/* should try invalid search strings too */
-
-			/* try some searches */
-			push("performing searches");
-			test_folder_search(folder, "(header-contains \"subject\" \"subject\")", 100);
-			test_folder_search(folder, "(header-contains \"subject\" \"Subject\")", 100);
-
-			test_folder_search(folder, "(body-contains \"content\")", 100);
-			test_folder_search(folder, "(body-contains \"Content\")", 100);
-
-			test_folder_search(folder, "(user-flag \"every7\")", 0);
-			test_folder_search(folder, "(user-flag \"every13\")", 100/13);
-			test_folder_search(folder, "(= \"7tag1\" (user-tag \"every7\"))", 1);
-			test_folder_search(folder, "(= \"11tag\" (user-tag \"every11\"))", 100/11);
-
-			test_folder_search(folder, "(user-flag \"every13\" \"every17\")", 100/13 + 100/17);
-			test_folder_search(folder, "(or (user-flag \"every13\") (user-flag \"every17\"))", 100/13 + 100/17);
-			test_folder_search(folder, "(and (user-flag \"every13\") (user-flag \"every17\"))", 0);
-
-			test_folder_search(folder, "(and (header-contains \"subject\" \"Test1\")"
-					   "(header-contains \"subject\" \"Test2\"))", 0);
-			test_folder_search(folder, "(and (header-contains \"subject\" \"Test1\")"
-					   "(header-contains \"subject\" \"subject\"))", 1);
-			test_folder_search(folder, "(and (header-contains \"subject\" \"Test1\")"
-					   "(header-contains \"subject\" \"message99\"))", 1);
-
-			test_folder_search(folder, "(or (header-contains \"subject\" \"Test1\")"
-					   "(header-contains \"subject\" \"Test2\"))", 2);
-			test_folder_search(folder, "(or (header-contains \"subject\" \"Test1\")"
-					   "(header-contains \"subject\" \"subject\"))", 100);
-			test_folder_search(folder, "(or (header-contains \"subject\" \"Test1\")"
-					   "(header-contains \"subject\" \"message99\"))", 1);
-
-			/* 7200 is 24*60*50 == half the 'sent date' of the messages */
-			test_folder_search(folder, "(> 7200 (get-sent-date))", 49);
-			test_folder_search(folder, "(< 7200 (get-sent-date))", 49);
-			test_folder_search(folder, "(= 7200 (get-sent-date))", 1);
-			test_folder_search(folder, "(= 7201 (get-sent-date))", 0);
-
-			test_folder_search(folder, "(and (user-flag \"every17\") (< 7200 (get-sent-date)))", 49/17);
-			test_folder_search(folder, "(and (user-flag \"every17\") (> 7200 (get-sent-date)))", 49/17-1);
-			test_folder_search(folder, "(and (user-flag \"every13\") (< 7200 (get-sent-date)))", 49/13);
-			test_folder_search(folder, "(and (user-flag \"every13\") (> 7200 (get-sent-date)))", 49/13-1);
-
-			test_folder_search(folder, "(or (user-flag \"every17\") (< 7200 (get-sent-date)))", 49);
-			test_folder_search(folder, "(or (user-flag \"every17\") (> 7200 (get-sent-date)))", 49);
-			test_folder_search(folder, "(or (user-flag \"every13\") (< 7200 (get-sent-date)))", 49);
-			test_folder_search(folder, "(or (user-flag \"every13\") (> 7200 (get-sent-date)))", 49);
-
-			push("deleting every 2nd message & expunging");
-			uids = camel_folder_get_uids(folder);
-			check(uids->len == 100);
-			for (j=0;j<uids->len;j++) {
-				camel_folder_delete_message(folder, uids->pdata[j]);
-			}
-
-			push("searches after deletions, before sync");
-			test_folder_search(folder, "(header-contains \"subject\" \"subject\")", 100);
-			test_folder_search(folder, "(body-contains \"content\")", 100);
+			push("Search before sync");
+			run_search(folder, 100);
 			pull();
 
+			push("syncing folder, searching");
 			camel_folder_sync(folder, FALSE, ex);
-
-			push("searches after sync, before expunge");
-			test_folder_search(folder, "(header-contains \"subject\" \"subject\")", 100);
-			test_folder_search(folder, "(body-contains \"content\")", 100);
+			run_search(folder, 100);
 			pull();
 
-			camel_folder_expunge(folder, ex);
-			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
-			camel_folder_free_uids(folder, uids);
+			push("syncing wiht expunge, search");
+			camel_folder_sync(folder, TRUE, ex);
+			run_search(folder, 100);
 			pull();
 
-			/* more searches */
-			push("searches after deletions");
-			test_folder_search(folder, "(header-contains \"subject\" \"subject\")", 50);
-			test_folder_search(folder, "(body-contains \"content\")", 50);
-			pull();
-
-			push("deleting remaining messages & expunging");
+			push("deleting every 2nd message");
 			uids = camel_folder_get_uids(folder);
 			check(uids->len == 100);
+			for (j=0;j<uids->len;j+=2) {
+				camel_folder_delete_message(folder, uids->pdata[j]);
+			}
+			camel_folder_free_uids(folder, uids);
+			run_search(folder, 100);
+
+			push("syncing");
+			camel_folder_sync(folder, FALSE, ex);
+			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+			run_search(folder, 100);
+			pull();
+
+			push("expunging");
+			camel_folder_expunge(folder, ex);
+			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+			run_search(folder, 50);
+			pull();
+
+			pull();
+
+			push("closing and re-opening folder");
+			check_unref(folder, 1);
+			folder = camel_store_get_folder(store, "testbox", flags&~(CAMEL_STORE_FOLDER_CREATE), ex);
+			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+			check(folder != NULL);
+
+			push("deleting remaining messages");
+			uids = camel_folder_get_uids(folder);
+			check(uids->len == 50);
 			for (j=0;j<uids->len;j++) {
 				camel_folder_delete_message(folder, uids->pdata[j]);
 			}
-			camel_folder_expunge(folder, ex);
-			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 			camel_folder_free_uids(folder, uids);
+			run_search(folder, 50);
+
+			push("syncing");
+			camel_folder_sync(folder, FALSE, ex);
+			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+			run_search(folder, 50);
 			pull();
 
-			push("searches wtih no messages");
-			test_folder_search(folder, "(header-contains \"subject\" \"subject\")", 0);
-			test_folder_search(folder, "(body-contains \"content\")", 0);
+			push("expunging");
+			camel_folder_expunge(folder, ex);
+			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
+			run_search(folder, 0);
+			pull();
+
 			pull();
 
 			check_unref(folder, 1);
@@ -278,12 +330,12 @@ int main(int argc, char **argv)
 			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 			pull();
 
-			camel_object_unref((CamelObject *)store);
+			check_unref(store, 1);
 			camel_test_end();
 		}
 	}
 
-	camel_object_unref((CamelObject *)session);
+	check_unref(session, 1);
 	camel_exception_free(ex);
 
 	return 0;

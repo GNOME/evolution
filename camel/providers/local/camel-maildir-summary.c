@@ -38,6 +38,7 @@
 #define CAMEL_MAILDIR_SUMMARY_VERSION (0x2000)
 
 static CamelMessageInfo *message_info_new(CamelFolderSummary *, struct _header_raw *);
+static void message_info_free(CamelFolderSummary *, CamelMessageInfo *mi);
 
 static int maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 static int maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
@@ -86,6 +87,7 @@ camel_maildir_summary_class_init (CamelMaildirSummaryClass *class)
 
 	/* override methods */
 	sklass->message_info_new = message_info_new;
+	sklass->message_info_free = message_info_free;
 	sklass->next_uid_string = maildir_summary_next_uid_string;
 
 	lklass->check = maildir_summary_check;
@@ -118,6 +120,7 @@ camel_maildir_summary_finalise(CamelObject *obj)
 {
 	CamelMaildirSummary *o = (CamelMaildirSummary *)obj;
 
+	g_free(o->priv->hostname);
 	g_free(o->priv);
 }
 
@@ -252,6 +255,16 @@ static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _header
 
 	return mi;
 }
+
+static void message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
+{
+	CamelMaildirMessageInfo *mdi = (CamelMaildirMessageInfo *)mi;
+
+	g_free(mdi->filename);
+
+	((CamelFolderSummaryClass *) parent_class)->message_info_free(s, mi);
+}
+
 
 static char *maildir_summary_next_uid_string(CamelFolderSummary *s)
 {
@@ -476,6 +489,7 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 			g_free(dest);
 		}
 	}
+	closedir(dir);
 
 	g_free(new);
 	g_free(cur);

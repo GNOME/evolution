@@ -94,6 +94,15 @@ setup(void)
 	texts[13].len = 102400;
 }
 
+static void cleanup(void)
+{
+	int i;
+
+	for (i=6;i<14;i++) {
+		g_free(texts[i].text);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	CamelMimeMessage *msg, *msg2;
@@ -184,6 +193,8 @@ int main(int argc, char **argv)
 		pull();
 	}
 	camel_test_end();
+
+	cleanup();
 
 	return 0;
 }

@@ -470,14 +470,13 @@ local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo 
 	}
 
 	if (flag || tag) {
-		g_string_append(out, "; ");
 		val = g_string_new("");
 
 		if (flag) {
 			while (flag) {
 				g_string_append(val, flag->name);
 				if (flag->next)
-					g_string_append_c(out, ',');
+					g_string_append_c(val, ',');
 				flag = flag->next;
 			}
 			header_set_param(&params, "flags", val->str);
@@ -489,7 +488,7 @@ local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo 
 				g_string_append_c(val, '=');
 				g_string_append(val, tag->value);
 				if (tag->next)
-					g_string_append_c(out, ',');
+					g_string_append_c(val, ',');
 				tag = tag->next;
 			}
 			header_set_param(&params, "tags", val->str);

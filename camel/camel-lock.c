@@ -134,7 +134,7 @@ camel_lock_dot(const char *path, CamelException *ex)
 		/* check for stale lock, kill it */
 		if (stat(lock, &st) == 0) {
 			time_t now = time(0);
-			d(printf("There is an existing lock %ld seconds old\n", now-st.st_ctime));
+			(printf("There is an existing lock %ld seconds old\n", now-st.st_ctime));
 			if (st.st_ctime < now - CAMEL_LOCK_DOT_STALE) {
 				d(printf("Removing it now\n"));
 				unlink(lock);

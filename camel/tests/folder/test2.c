@@ -43,9 +43,12 @@ int main(int argc, char **argv)
 	GPtrArray *uids;
 	const CamelMessageInfo *info;
 
-	ex = camel_exception_new();
-
 	camel_test_init(argc, argv);
+
+	/* clear out any camel-test data */
+	system("/bin/rm -rf /tmp/camel-test");
+
+	ex = camel_exception_new();
 
 	session = camel_session_new("/tmp/camel-test", auth_callback, NULL, NULL);
 
@@ -221,7 +224,7 @@ int main(int argc, char **argv)
 			camel_folder_free_uids(folder, uids);
 			pull();
 
-			camel_object_unref((CamelObject *)folder);
+			check_unref(folder, 1);
 			pull(); /* re-opening folder */
 
 			push("deleting test folder, with no messages in it");
@@ -229,12 +232,12 @@ int main(int argc, char **argv)
 			check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 			pull();
 
-			camel_object_unref((CamelObject *)store);
+			check_unref(store, 1);
 			camel_test_end();
 		}
 	}
 
-	camel_object_unref((CamelObject *)session);
+	check_unref(session, 1);
 	camel_exception_free(ex);
 
 	return 0;

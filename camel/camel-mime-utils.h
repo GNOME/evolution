@@ -142,6 +142,7 @@ void header_raw_clear(struct _header_raw **list);
 
 /* fold a header */
 char *header_fold(const char *in);
+char *header_unfold(const char *in);
 
 /* decode a header which is a simple token */
 char *header_token_decode(const char *in);

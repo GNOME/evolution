@@ -145,7 +145,7 @@ static char *mh_summary_next_uid_string(CamelFolderSummary *s)
 	CamelLocalSummary *cls = (CamelLocalSummary *)s;
 	int fd = -1;
 	guint32 uid;
-	char *name = NULL;
+	char *name;
 
 	/* if we are working to add an existing file, then use current_uid */
 	if (mhs->priv->current_uid)
@@ -153,12 +153,12 @@ static char *mh_summary_next_uid_string(CamelFolderSummary *s)
 
 	/* else scan for one - and create it too, to make sure */
 	do {
-		g_free(name);
 		close(fd);
 		uid = camel_folder_summary_next_uid(s);
 		name = g_strdup_printf("%s/%u", cls->folder_path, uid);
 		/* O_EXCL isn't guaranteed, sigh.  Oh well, bad luck, mh has problems anyway */
 		fd = open(name, O_WRONLY|O_CREAT|O_EXCL, 0600);
+		g_free(name);
 	} while (fd == -1 && errno == EEXIST);
 
 	close(fd);

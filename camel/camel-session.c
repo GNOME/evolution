@@ -65,6 +65,7 @@ camel_session_finalise (CamelObject *o)
 {
 	CamelSession *session = (CamelSession *)o;
 
+	g_free(session->storage_path);
 	g_hash_table_foreach_remove (session->providers,
 				     camel_session_destroy_provider, NULL);
 	g_hash_table_destroy (session->providers);

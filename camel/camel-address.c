@@ -43,6 +43,7 @@ static void
 camel_address_finalize (CamelObject *obj)
 {
 	camel_address_remove((CamelAddress *)obj, -1);
+	g_ptr_array_free(((CamelAddress *)obj)->addresses, TRUE);
 }
 
 CamelType

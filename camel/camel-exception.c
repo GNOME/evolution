@@ -179,27 +179,18 @@ camel_exception_setv (CamelException *ex,
 	va_list args;
 	gchar *tmp_desc_string;
 	
-	
 	/* if no exception is given, do nothing */
 	if (!ex) return;
 	
+	if (ex->desc)
+		g_free (ex->desc);
 	
 	/* create the temporary exception string */
 	va_start(args, format);
-	tmp_desc_string = g_strdup_vprintf (format, args);
+	ex->desc = g_strdup_vprintf (format, args);
 	va_end (args);
-	
-	
-	/* now set the exception. We don't call
-	   camel_exception_set because we want to 
-	   avoid a useless strdup () */
+
 	ex->id = id;
-	
-	/* remove the previous exception description */
-	if (ex->desc)
-		g_free (ex->desc);
-	ex->desc = g_strdup (tmp_desc_string);
-	
 }
 
 

@@ -468,8 +468,8 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 		char *txt;
 
 		txt = header_content_type_format(object_content_field?object_content_field->content_type:NULL);
-		camel_medium_set_header (CAMEL_MEDIUM (mime_part),
-					 "Content-Type", txt);
+		camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-Type", txt);
+		g_free(txt);
 	}
 }
 

@@ -1,3 +1,70 @@
+2000-11-29  Not Zed  <NotZed@HelixCode.com>
+
+	* tests/message/test2.c (main): Add a missed unref.
+
+	* camel-stream-mem.c (camel_stream_mem_set_buffer): We must set
+	ourselves as the owner of the byte-array.
+	Weird, someone has modified this file (its been reindented), but i
+	can't see any changelogs ...
+
+	* tests/lib/messages.c (content_finalise): Fix memleak in tester,
+	free byte array when our content object is deleted.
+
+	* camel-folder-search.c (camel_folder_search_finalize): Yeah
+	great, so the sexp is a gtk object, not a camel object.  Isn't
+	that going to be fun to fix?
+
+	* camel-session.c (camel_session_finalise): Free the storage path.
+
+	* providers/local/camel-local-store.c (camel_local_store_init): If
+	store->folders is setup, free it first, then overwrite.  Hmm,
+	this seems a bit crappy to me.
+
+	* camel-store.c (camel_store_init): Dont setup store->folders if
+	its already setup.
+
+	* camel-exception.c (camel_exception_setv): Removed a memleak.  no
+	need to strdup after a strdup_printf!!!
+
+	* camel-address.c (camel_address_finalize): Free the address
+	ptrarray, once finished.
+
+	* providers/local/camel-local-folder.c (local_finalize): Make sure
+	we dont leave the folder locked on close.
+	(local_finalize): Free summary/search.
+
+	* providers/local/camel-mh-summary.c (mh_summary_next_uid_string):
+	Small memleak, always free name after using it.
+
+	* camel-mime-part.c (set_content_object): Free txt after setting
+	the header.
+
+	* providers/local/camel-maildir-summary.c (maildir_summary_check):
+	Fix a memleak, close the dir after scanning new.
+	(message_info_free): Added so we can free the filename cached in
+	the messageinfo.
+	(camel_maildir_summary_finalise): Free the hostname.
+
+	* tests/folder/test[12].c (main): Clear out camel-test before
+	starting.
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync_quick):
+	Because encode_x_evolution folds the line (sigh, because
+	encode_param does, unlike every other function in
+	camel-mime-utils), unfold the encoded result before comparing.
+	(mbox_summary_sync_quick): Another small memleak, free xevnew once
+	finished with it.
+
+	* camel-mime-utils.c (header_decode_quoted_string): Removed a
+	redundant check for c=0.
+	(header_unfold): New function to un-fold headers.
+
+	* providers/local/camel-local-summary.c
+	(local_summary_encode_x_evolution): some problems with encoding
+	tags, using the wrong output strings.
+	(local_summary_encode_x_evolution): We dont need to append a ;
+	either, param_list_format_append() will do it for us.
+
 2000-11-28  JP Rosevear  <jpr@helixcode.com>
 
 	* camel-lock.c: No longer hard code the enabled lock types
