@@ -213,7 +213,7 @@ camel_tcp_stream_get_remote_address (CamelTcpStream *stream)
 
 /**
  * camel_tcp_address_new:
- * @family: the address family (currently must be CAMEL_TCP_ADDRESS_IPV4)
+ * @family: the address family
  * @port: the port number (in network byte order)
  * @length: the length of @address
  * @address: the address data (family dependent, in network byte order)
@@ -221,19 +221,20 @@ camel_tcp_stream_get_remote_address (CamelTcpStream *stream)
  * Return value: a new CamelTcpAddress.
  **/
 CamelTcpAddress *
-camel_tcp_address_new  (CamelTcpAddressFamily family, gushort port,
-			gushort length, gpointer address)
+camel_tcp_address_new (CamelTcpAddressFamily family, gushort port,
+		       gushort length, gpointer address)
 {
 	CamelTcpAddress *addr;
-
+	
 	addr = g_malloc (sizeof (CamelTcpAddress) + length - 1);
 	addr->family = family;
-	addr->port   = port;
+	addr->port = port;
 	addr->length = length;
 	memcpy (&addr->address, address, length);
-
+	
 	return addr;
 }
+
 
 /**
  * camel_tcp_address_free:

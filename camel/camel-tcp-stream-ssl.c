@@ -611,7 +611,14 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	g_return_val_if_fail (host != NULL, -1);
 	
 	memset ((void *) &netaddr, 0, sizeof (PRNetAddr));
+#ifdef ENABLE_IPv6
+	if (h->addrtype == AF_INET6)
+		memcpy (&netaddr.ipv6.ip, host->h_addr, sizeof (netaddr.ipv6.ip));
+	else
+		memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
+#else
 	memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
+#endif
 	
 	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILURE) {
 		set_errno (PR_GetError ());
@@ -723,28 +730,52 @@ static CamelTcpAddress *
 stream_get_local_address (CamelTcpStream *stream)
 {
 	PRFileDesc *sockfd = CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
+	int family, length;
+	gpointer address;
 	PRNetAddr addr;
-
+	
 	PR_GetSockName (sockfd, &addr);
-	if (addr.inet.family != PR_AF_INET)
+	
+	if (addr.inet.family == PR_AF_INET) {
+		family = CAMEL_TCP_ADDRESS_IPv4;
+		address = &addr.inet.ip;
+		length = 4;
+#ifdef ENABLE_IPv6
+	} else if (addr.inet.family == PR_AF_INET6) {
+		family = CAMEL_TCP_ADDRESS_IPv6;
+		address = &addr.ipv6.ip;
+		length = 16;
+#endif
+	} else
 		return NULL;
-
-	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, addr.inet.port,
-				      4, &addr.inet.ip);
+	
+	return camel_tcp_address_new (family, addr.inet.port, length, address);
 }
 
 static CamelTcpAddress *
 stream_get_remote_address (CamelTcpStream *stream)
 {
 	PRFileDesc *sockfd = CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
+	int family, length;
+	gpointer address;
 	PRNetAddr addr;
-
+	
 	PR_GetPeerName (sockfd, &addr);
-	if (addr.inet.family != PR_AF_INET)
+	
+	if (addr.inet.family == PR_AF_INET) {
+		family = CAMEL_TCP_ADDRESS_IPv4;
+		address = &addr.inet.ip;
+		length = sizeof (addr.inet.ip);
+#ifdef ENABLE_IPv6
+	} else if (addr.inet.family == PR_AF_INET6) {
+		family = CAMEL_TCP_ADDRESS_IPv6;
+		address = &addr.ipv6.ip;
+		length = sizeof (addr.ipv6.ip);
+#endif
+	} else
 		return NULL;
-
-	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, addr.inet.port,
-				      4, &addr.inet.ip);
+	
+	return camel_tcp_address_new (family, addr.inet.port, length, address);
 }
 
 #endif /* HAVE_NSS */

@@ -89,8 +89,8 @@ typedef struct _CamelSockOptData {
 } CamelSockOptData;
 
 typedef enum {
-	CAMEL_TCP_ADDRESS_IPV4,
-	CAMEL_TCP_ADDRESS_IPV6
+	CAMEL_TCP_ADDRESS_IPv4,
+	CAMEL_TCP_ADDRESS_IPv6
 } CamelTcpAddressFamily;
 
 typedef struct {

@@ -455,12 +455,15 @@ stream_close (CamelStream *stream)
 static int
 socket_connect (struct hostent *h, int port)
 {
+#ifdef ENABLE_IPv6
+	struct sockaddr_in6 sin6;
+#endif
 	struct sockaddr_in sin;
-	int fd;
-	int ret;
-	socklen_t len;
+	struct sockaddr *saddr;
 	struct timeval tv;
+	socklen_t len;
 	int cancel_fd;
+	int ret, fd;
 	
 	/* see if we're cancelled yet */
 	if (camel_operation_cancel_check (NULL)) {
@@ -469,15 +472,29 @@ socket_connect (struct hostent *h, int port)
 	}
 	
 	/* setup connect, we do it using a nonblocking socket so we can poll it */
-	sin.sin_port = htons (port);
-	sin.sin_family = h->h_addrtype;
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
+#ifdef ENABLE_IPv6
+	if (h->h_addrtype == AF_INET6) {
+		sin6.sin6_port = htons (port);
+		sin6.sin6_family = h->h_addrtype;
+		memcpy (&sin6.sin6_addr, h->h_addr, sizeof (sin6.sin6_addr));
+		saddr = (struct sockaddr *) &sin6;
+		len = sizeof (sin6);
+	} else {
+#endif
+		sin.sin_port = htons (port);
+		sin.sin_family = h->h_addrtype;
+		memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
+		saddr = (struct sockaddr *) &sin;
+		len = sizeof (sin);
+#ifdef ENABLE_IPv6
+	}
+#endif
 	
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
-		ret = connect (fd, (struct sockaddr *)&sin, sizeof (sin));
+		ret = connect (fd, saddr, len);
 		if (ret == -1) {
 			close (fd);
 			return -1;
@@ -491,7 +508,7 @@ socket_connect (struct hostent *h, int port)
 		flags = fcntl (fd, F_GETFL);
 		fcntl (fd, F_SETFL, flags | O_NONBLOCK);
 		
-		ret = connect (fd, (struct sockaddr *)&sin, sizeof (sin));
+		ret = connect (fd, saddr, len);
 		if (ret == 0) {
 			fcntl (fd, F_SETFL, flags);
 			return fd;
@@ -862,32 +879,74 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 			   sizeof (data->value));
 }
 
+#ifdef ENABLE_IPv6
+#define MIN_SOCKADDR_BUFLEN  (sizeof (struct sockaddr_in6))
+#else
+#define MIN_SOCKADDR_BUFLEN  (sizeof (struct sockaddr_in))
+#endif
+
 static CamelTcpAddress *
 stream_get_local_address (CamelTcpStream *stream)
 {
-	struct sockaddr_in sin;
+	unsigned char buf[MIN_SOCKADDR_BUFLEN];
+#ifdef ENABLE_IPv6
+	struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *) buf;
+#endif
+	struct sockaddr_in *sin = (struct sockaddr_in *) buf;
+	struct sockaddr *saddr = (struct sockaddr *) buf;
+	gpointer address;
 	socklen_t len;
-
-	if (getsockname (CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd,
-			 (struct sockaddr *)&sin, &len) == -1)
+	int family;
+	
+	len = MIN_SOCKADDR_BUFLEN;
+	
+	if (getsockname (CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd, saddr, &len) == -1)
 		return NULL;
-
-	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, sin.sin_port,
-				      4, &sin.sin_addr);
+	
+	if (saddr->sa_family == AF_INET) {
+		family = CAMEL_TCP_ADDRESS_IPv4;
+		address = &sin->sin_addr;
+#ifdef ENABLE_IPv6
+	} else if (saddr->sa_family == AF_INET6) {
+		family = CAMEL_TCP_ADDRESS_IPv6;
+		address = &sin6->sin6_addr;
+#endif
+	} else
+		return NULL;
+	
+	return camel_tcp_address_new (family, sin->sin_port, len, address);
 }
 
 static CamelTcpAddress *
 stream_get_remote_address (CamelTcpStream *stream)
 {
-	struct sockaddr_in sin;
+	unsigned char buf[MIN_SOCKADDR_BUFLEN];
+#ifdef ENABLE_IPv6
+	struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *) buf;
+#endif
+	struct sockaddr_in *sin = (struct sockaddr_in *) buf;
+	struct sockaddr *saddr = (struct sockaddr *) buf;
+	gpointer address;
 	socklen_t len;
-
-	if (getpeername (CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd,
-			 (struct sockaddr *)&sin, &len) == -1)
+	int family;
+	
+	len = MIN_SOCKADDR_BUFLEN;
+	
+	if (getpeername (CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd, saddr, &len) == -1)
 		return NULL;
-
-	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, sin.sin_port,
-				      4, &sin.sin_addr);
+	
+	if (saddr->sa_family == AF_INET) {
+		family = CAMEL_TCP_ADDRESS_IPv4;
+		address = &sin->sin_addr;
+#ifdef ENABLE_IPv6
+	} else if (saddr->sa_family == AF_INET6) {
+		family = CAMEL_TCP_ADDRESS_IPv6;
+		address = &sin6->sin6_addr;
+#endif
+	} else
+		return NULL;
+	
+	return camel_tcp_address_new (family, sin->sin_port, len, address);
 }
 
 #endif /* HAVE_OPENSSL */

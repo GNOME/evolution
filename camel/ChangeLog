@@ -1,5 +1,26 @@
 2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream.c (camel_tcp_address_new): Update the comment.
+
+	* camel-tcp-stream-raw.c (socket_connect): If building with IPv6
+	support and the address is an IPv6 address, connect using a
+	sockaddr_in6 otherwise use the standard IPv4 sockaddr_in
+	structure.
+	(stream_get_local_address): Fix to work with IPv6 addresses.
+	(stream_get_remote_address): Same.
+
+	* camel-tcp-stream-openssl.c (socket_connect): Same as above.
+	(stream_get_local_address): Fix to work with IPv6 addresses.
+	(stream_get_remote_address): Same.
+	
+	* camel-tcp-stream-ssl.c (stream_connect): If building with IPv6
+	support and the address is an IPv6 address, initialise the
+	PRNetAddr accordingly.
+	(stream_get_local_address): Fix to work with IPv6 addresses.
+	(stream_get_remote_address): Same.
+
+2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-tcp-stream-openssl.c (ssl_verify): X509_digest() needs a
 	pointer to an int len. Also fixed some other compiler errors.
 

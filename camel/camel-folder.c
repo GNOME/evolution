@@ -695,7 +695,7 @@ set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 s
 		camel_folder_summary_info_free(folder->summary, info);
 		return;
 	}
-
+	
 	info->flags = new | CAMEL_MESSAGE_FOLDER_FLAGGED;
 	camel_folder_summary_touch(folder->summary);
 	camel_folder_summary_info_free(folder->summary, info);
