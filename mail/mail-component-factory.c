@@ -37,11 +37,14 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 
+#include "importers/mail-importer.h"
+
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-shlib-factory.h>
 
 #include <string.h>
 
+/* TODO: clean up these definitions */
 
 #define FACTORY_ID	"OAFIID:GNOME_Evolution_Mail_Factory:" BASE_VERSION
 #define COMPONENT_ID	"OAFIID:GNOME_Evolution_Mail_Component:" BASE_VERSION
@@ -51,14 +54,10 @@
 #define MAIL_CONFIG_ID	"OAFIID:GNOME_Evolution_MailConfig:" BASE_VERSION
 #define WIZARD_ID	"OAFIID:GNOME_Evolution_Mail_Wizard:" BASE_VERSION
 
-
 static BonoboObject *
-factory (BonoboGenericFactory *factory,
-	 const char *component_id,
-	 void *closure)
+factory(BonoboGenericFactory *factory, const char *component_id, void *closure)
 {
-	/* EPFIXME this is messy.  The IDs are defined all over the place
-	   without a logic... */
+	BonoboObject *o;
 
 	if (strcmp (component_id, COMPONENT_ID) == 0) {
 		MailComponent *component = mail_component_peek ();
@@ -80,8 +79,11 @@ factory (BonoboGenericFactory *factory,
 		return (BonoboObject *) evolution_composer_new (em_utils_composer_send_cb, em_utils_composer_save_draft_cb);
 	}
 
-	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
-	return NULL;
+	o = mail_importer_factory_cb(factory, component_id, NULL);
+	if (o == NULL)
+		g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
+
+	return o;
 }
 
 static Bonobo_Unknown

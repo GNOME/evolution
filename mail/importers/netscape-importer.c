@@ -61,21 +61,14 @@
 #include <filter/filter-option.h>
 #include <filter/filter-folder.h>
 #include <filter/filter-int.h>
-#include <shell/evolution-shell-client.h>
 
-#include "Mailer.h"
-#include "mail/mail-importer.h"
+#include "mail-importer.h"
 
 static char *nsmail_dir = NULL;
 static GHashTable *user_prefs = NULL;
 
-/* This is rather ugly -- libfilter needs this symbol: */
-EvolutionShellClient *global_shell_client = NULL;
-
 static char          *filter_name = N_("Priority Filter \"%s\"");
 
-#define FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Netscape_Intelligent_Importer_Factory:" BASE_VERSION
-#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer:" BASE_VERSION
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig:" BASE_VERSION
 
 #define KEY "netscape-mail-imported"
@@ -196,14 +189,10 @@ typedef struct {
 	GList                    *conditions; /* List of NSFilterConditions */
 } NsFilter;
 
-
 /* Prototypes ------------------------------------------------------------- */
-void mail_importer_module_init (void);
-
 static void  netscape_filter_cleanup (NsFilter *nsf);
 static char *fix_netscape_folder_names (const char *original_name);
 static void  import_next (NsImporter *importer);
-
 
 /* Email filter stuff ----------------------------------------------------- */
 
@@ -1472,6 +1461,7 @@ get_user_fullname (void)
 	}
 }
 
+#if 0
 static void
 netscape_import_accounts (NsImporter *importer)
 {
@@ -1667,6 +1657,7 @@ netscape_import_accounts (NsImporter *importer)
 	g_free (username);
 	CORBA_exception_free (&ev);
 }
+#endif
 
 static gboolean
 is_dir_empty (const char *path)
@@ -1766,7 +1757,8 @@ netscape_import_file (NsImporter *importer,
 	if (!uri)
 		return FALSE;
 
-	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, "", &ev);
+#warning "load file dest path"
+	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, &ev);
 	g_free(uri);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
 		g_warning ("Exception here: %s", CORBA_exception_id (&ev));
@@ -1983,7 +1975,8 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 
 	if (importer->do_settings == TRUE) {
 		gconf_client_set_bool(gconf, "/apps/evolution/importer/netscape/settings-imported", TRUE, NULL);
-		netscape_import_accounts (importer);
+#warning "import netscape accounts"
+		/*netscape_import_accounts (importer);*/
 	}
 
 	if (importer->do_mail == TRUE) {
@@ -2107,10 +2100,8 @@ create_checkboxes_control (NsImporter *importer)
 	return control;
 }
 	
-static BonoboObject *
-factory_fn (BonoboGenericFactory *_factory,
-	    const char *iid,
-	    void *closure)
+BonoboObject *
+netscape_intelligent_importer_new(void)
 {
 	EvolutionIntelligentImporter *importer;
 	BonoboControl *control;
@@ -2144,19 +2135,4 @@ factory_fn (BonoboGenericFactory *_factory,
 	bonobo_object_add_interface (BONOBO_OBJECT (importer),
 				     BONOBO_OBJECT (control));
 	return BONOBO_OBJECT (importer);
-}
-
-void
-mail_importer_module_init (void)
-{
-	BonoboGenericFactory *factory;
-	static int init = FALSE;
-
-	if (init)
-		return;
-
-	factory = bonobo_generic_factory_new (FACTORY_IID, factory_fn, NULL);
-	if (factory == NULL)
-		g_warning("Could not initialise Netscape intelligent mail importer");
-	init = 1;
 }

@@ -44,6 +44,7 @@
 #include "em-folder-selection.h"
 #include "em-migrate.h"
 
+#include "filter/rule-context.h"
 #include "mail-config.h"
 #include "mail-component.h"
 #include "mail-folder-cache.h"
@@ -54,6 +55,8 @@
 #include "mail-send-recv.h"
 #include "mail-session.h"
 #include "mail-offline-handler.h"
+
+#include "e-activity-handler.h"
 
 #include "composer/e-msg-composer.h"
 

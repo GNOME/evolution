@@ -52,10 +52,8 @@
 #include <importer/evolution-importer-client.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#include "mail/mail-importer.h"
+#include "mail-importer.h"
 
-#define ELM_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Elm_Intelligent_Importer_Factory:" BASE_VERSION
-#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_Importer:" BASE_VERSION
 #define KEY "elm-mail-imported"
 
 /*#define SUPER_IMPORTER_DEBUG*/
@@ -93,8 +91,6 @@ typedef struct {
 
 static GHashTable *elm_prefs = NULL;
 
-void mail_importer_module_init (void);
-
 static void import_next (ElmImporter *importer);
 
 static GtkWidget *
@@ -121,6 +117,7 @@ elm_store_settings (ElmImporter *importer)
 
 	gconf = gconf_client_get_default ();
 	gconf_client_set_bool (gconf, "/apps/evolution/importer/elm/mail", importer->do_mail, NULL);
+	g_object_unref(gconf);
 }
 
 static void
@@ -172,8 +169,9 @@ elm_import_file (ElmImporter *importer,
 	}
 
 	CORBA_exception_init(&ev);
+#warning "loadFile needs a destination path"
 
-	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, "", &ev);
+	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, &ev);
 	g_free(uri);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
 		g_warning ("Exception here: %s", CORBA_exception_id (&ev));
@@ -535,10 +533,8 @@ create_checkboxes_control (ElmImporter *importer)
 	return control;
 }
 
-static BonoboObject *
-elm_factory_fn (BonoboGenericFactory *_factory,
-		const char *id,
-		void *closure)
+BonoboObject *
+elm_intelligent_importer_new(void)
 {
 	EvolutionIntelligentImporter *importer;
 	BonoboControl *control;
@@ -574,20 +570,4 @@ elm_factory_fn (BonoboGenericFactory *_factory,
 	bonobo_object_add_interface (BONOBO_OBJECT (importer),
 				     BONOBO_OBJECT (control));
 	return BONOBO_OBJECT (importer);
-}
-
-void
-mail_importer_module_init (void)
-{
-	static gboolean initialised = FALSE;
-	BonoboGenericFactory *factory;
-
-	if (initialised == TRUE)
-		return;
-
-	factory = bonobo_generic_factory_new (ELM_INTELLIGENT_IMPORTER_IID,
-					      elm_factory_fn, NULL);
-	if (factory == NULL)
-		g_warning ("Could not initialise Elm Intelligent Mail Importer.");
-	initialised = TRUE;
 }

@@ -1,3 +1,31 @@
+2004-02-11  Not Zed  <NotZed@Ximian.com>
+
+	* importers/pine-importer.c: Basically rewrote this, the import
+	tasks run in another thread.  It tells you more about what's going
+	on, and its cancellable.
+	(pine_store_settings): changed the meaning of the settings
+	slightly, if set it means we've processed them already.
+
+	* mail-component-factory.c (factory): hook in importer factory
+	callback.
+
+2004-02-10  Not Zed  <NotZed@Ximian.com>
+
+	* importers/*-importer.c: removed module init, just provide a new
+	method.  Updates for api changes.
+
+	* Makefile.am: link mail importers in directly.
+
+	* mail-importer.c: changed to do stuff in-memory with linked
+	stuff, moved to importers/.
+
+	* importers/GNOME_Evolution_Mail_Importers.server.in.in: merge all
+	importer .server info's here, point them all to the mailer
+	factory.  Removed the others.
+
+	* importers/Makefile.am: remove Mailer.idl stuff.  Move all
+	importers to a single library.
+
 2004-02-09  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (tree_drag_data_delete): merged in code from

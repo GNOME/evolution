@@ -36,12 +36,10 @@
 #include <camel/camel-exception.h>
 
 #include "e-util/e-memory.h"
+#include "mail/mail-tools.h"
+#include "mail/mail-component.h"
 
 #include "mail-importer.h"
-#include "mail-tools.h"
-
-
-#define OUTLOOK_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory:" BASE_VERSION
 
 extern char *evolution_dir;
 typedef struct {
@@ -65,10 +63,6 @@ struct oe_msg_segmentheader {
 };
 
 typedef struct oe_msg_segmentheader oe_msg_segmentheader;
-
-/* Prototype */
-
-void mail_importer_module_init (void);
 
 
 /* EvolutionImporter methods */
@@ -224,14 +218,13 @@ importer_destroy_cb (void *data, GObject *object)
 static gboolean
 load_file_fn (EvolutionImporter *eimporter,
 	      const char *filename,
-	      const char *uri,
-	      const char *folder_type,
 	      void *closure)
 {
 	OutlookImporter *oli;
 	MailImporter *importer;
 	struct stat buf;
 	long pos = 0x54;
+	char *uri;
 
 	oli = (OutlookImporter *) closure;
 	importer = (MailImporter *) oli;
@@ -264,8 +257,10 @@ load_file_fn (EvolutionImporter *eimporter,
 
 	importer->mstream = NULL;
 
+#warning "no uri for load file fn"
+	uri = NULL;
 	if (uri == NULL || *uri == 0)
-		importer->folder = mail_tool_get_local_inbox (NULL);
+		importer->folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
 	else
 		importer->folder = mail_tool_uri_to_folder (uri, 0, NULL);
 
@@ -279,40 +274,16 @@ load_file_fn (EvolutionImporter *eimporter,
 	return TRUE;
 }
 
-static BonoboObject *
-outlook_factory_fn (BonoboGenericFactory *_factory,
-		    const char *cid,
-		    void *closure)
+BonoboObject *
+outlook_importer_new(void)
 {
 	EvolutionImporter *importer;
 	OutlookImporter *oli;
 
 	oli = g_new0 (OutlookImporter, 1);
 
-	importer = evolution_importer_new (support_format_fn, load_file_fn, 
-					   process_item_fn, NULL, oli);
+	importer = evolution_importer_new (NULL, support_format_fn, load_file_fn, process_item_fn, NULL, oli);
 	g_object_weak_ref((GObject *)importer, importer_destroy_cb, oli);
 
 	return BONOBO_OBJECT (importer);
 }
-
-/* Entry point */
-void
-mail_importer_module_init (void)
-{
-	static gboolean initialised = FALSE;
-	BonoboGenericFactory *factory;
-	
-	if (initialised == TRUE)
-		return;
-
-	factory = bonobo_generic_factory_new (OUTLOOK_FACTORY_IID, 
-					      outlook_factory_fn, NULL);
-
-	if (factory == NULL)
-		g_warning ("Could not initialise Outlook importer factory.");
-
-	initialised = TRUE;
-}
-
-

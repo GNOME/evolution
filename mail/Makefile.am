@@ -1,6 +1,4 @@
-SUBDIRS = default # importers FIXME
-
-importerdir = $(privlibdir)/evolution-mail-importers
+SUBDIRS = default importers
 
 INCLUDES =						\
 	-I$(top_srcdir)/widgets				\
@@ -29,7 +27,6 @@ INCLUDES =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\"	\
-	-DMAIL_IMPORTERSDIR=\""$(importerdir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
@@ -163,13 +160,9 @@ libevolution_mail_la_SOURCES =			\
 	message-tag-followup.h			\
 	mail.h
 
-# EPFIXME: Functionality to be brought back to life.
-#
-#	mail-local.c
-#	mail-local.h
-
 libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/shell/importer/libevolution-importer.la	\
+	$(top_builddir)/mail/importers/libevolution-mail-importers.la\
 	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
@@ -182,7 +175,6 @@ libevolution_mail_la_LIBADD =					\
 
 libevolution_mail_la_LDFLAGS =				\
 	-avoid-version -module
-
 
 # .server files
 

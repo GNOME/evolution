@@ -39,12 +39,12 @@
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#include "mozilla-status-headers.h"
-
-#include "mail/mail-importer.h"
-#include "mail-tools.h"
+#include "mail/mail-tools.h"
+#include "mail/mail-component.h"
 
 #include "e-util/e-path.h"
+
+#include "mail-importer.h"
 
 /*  #define IMPORTER_DEBUG */
 #ifdef IMPORTER_DEBUG
@@ -55,23 +55,17 @@
 #define OUT
 #endif
 
-#define MBOX_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory:" BASE_VERSION
-
 typedef struct {
 	MailImporter importer; /* Parent */
 
 	char *filename;
 	int num;
-	GNOME_Evolution_Storage_Result create_result;
 
 	CamelMimeParser *mp;
 	gboolean is_folder;
 } MboxImporter;
 
-void mail_importer_module_init (void);
-
 /* EvolutionImporter methods */
-
 
 static CamelMessageInfo *
 get_info_from_mozilla (const char *mozilla_status,
@@ -240,14 +234,13 @@ importer_destroy_cb (void *data, GObject *object)
 static gboolean
 load_file_fn (EvolutionImporter *eimporter,
 	      const char *filename,
-	      const char *uri,
-	      const char *folder_type,
 	      void *closure)
 {
 	MboxImporter *mbi;
 	MailImporter *importer;
 	struct stat buf;
 	int fd;
+	char *uri;
 
 	mbi = (MboxImporter *) closure;
 	importer = (MailImporter *) mbi;
@@ -274,8 +267,10 @@ load_file_fn (EvolutionImporter *eimporter,
 	}
 
 	importer->mstream = NULL;
+#warning "No destination uri"
+	uri = NULL;
 	if (uri == NULL || *uri == '\0')
-		importer->folder = mail_tool_get_local_inbox (NULL);
+		importer->folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
 	else
 		importer->folder = mail_tool_uri_to_folder(uri, 0, NULL);
 
@@ -298,38 +293,15 @@ load_file_fn (EvolutionImporter *eimporter,
 	return FALSE;
 }
 
-static BonoboObject *
-mbox_factory_fn (BonoboGenericFactory *_factory,
-		 const char *cid,
-		 void *closure)
+BonoboObject *
+mbox_importer_new(void)
 {
 	EvolutionImporter *importer;
 	MboxImporter *mbox;
 	
 	mbox = g_new0 (MboxImporter, 1);
-	importer = evolution_importer_new (support_format_fn, load_file_fn,
-					   process_item_fn, NULL, mbox);
+	importer = evolution_importer_new(NULL, support_format_fn, load_file_fn, process_item_fn, NULL, mbox);
 	g_object_weak_ref(G_OBJECT(importer), importer_destroy_cb, mbox);
 	
 	return BONOBO_OBJECT (importer);
 }
-
-/* Entry point */
-void
-mail_importer_module_init (void)
-{
-	static gboolean initialised = FALSE;
-	BonoboGenericFactory *factory;
-	
-	if (initialised == TRUE)
-		return;
-
-	factory = bonobo_generic_factory_new (MBOX_FACTORY_IID, 
-					      mbox_factory_fn, NULL);
-
-	if (factory == NULL)
-		g_warning ("Could not initialise mbox importer factory.");
-
-	initialised = TRUE;
-}
-
