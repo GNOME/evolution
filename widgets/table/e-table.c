@@ -121,16 +121,24 @@ static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 static void
 et_disconnect_model (ETable *et)
 {
-	gtk_signal_disconnect (GTK_OBJECT (et->model),
-			       et->table_model_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (et->model),
-			       et->table_row_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (et->model),
-			       et->table_cell_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (et->model),
-			       et->table_row_inserted_id);
-	gtk_signal_disconnect (GTK_OBJECT (et->model),
-			       et->table_row_deleted_id);
+	if (et->model == NULL)
+		return;
+
+	if (et->table_model_change_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->model),
+				       et->table_model_change_id);
+	if (et->table_row_change_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->model),
+				       et->table_row_change_id);
+	if (et->table_cell_change_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->model),
+				       et->table_cell_change_id);
+	if (et->table_row_inserted_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->model),
+				       et->table_row_inserted_id);
+	if (et->table_row_deleted_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->model),
+				       et->table_row_deleted_id);
 
 	et->table_model_change_id = 0;
 	et->table_row_change_id = 0;
