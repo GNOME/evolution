@@ -663,13 +663,15 @@ void
 fbui_sensitise_item (FolderBrowser *fb, const char *item, int state)
 {
 	char *name, *key;
+	gpointer val_ptr;
 	int val;
 	
 	/* If this whole caching idea doesn't work, remove it here */
 	if (fb->sensitise_state == NULL)
 		fb->sensitise_state = g_hash_table_new (g_str_hash, g_str_equal);
 	
-	if (g_hash_table_lookup_extended (fb->sensitise_state, item, (void **)&key, (void **)&val)) {
+	if (g_hash_table_lookup_extended (fb->sensitise_state, item, (void **)&key, &val_ptr)) {
+		val = GPOINTER_TO_INT(val_ptr);
 		if (val == state)
 			return;
 	}
@@ -678,7 +680,7 @@ fbui_sensitise_item (FolderBrowser *fb, const char *item, int state)
 		name = g_alloca (strlen (item) + strlen ("/commands/") + 1);
 		sprintf (name, "/commands/%s", item);
 		bonobo_ui_component_set_prop (fb->uicomp, name, "sensitive", state ? "1" : "0", NULL);
-		g_hash_table_insert (fb->sensitise_state, (char *) item, (gpointer) state);
+		g_hash_table_insert (fb->sensitise_state, (char *) item, GINT_TO_POINTER(state));
 	}
 }
 

@@ -1,3 +1,8 @@
+2003-04-29  Jeremy Katz  <katzj@redhat.com>
+
+	* folder-browser-ui.c (fbui_sensitise_item): Don't just blindly
+	cast an int to gpointer, use the proper glib magic instead.
+	
 2003-04-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* importers/netscape-importer.c
