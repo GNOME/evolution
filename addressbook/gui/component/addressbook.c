@@ -808,10 +808,12 @@ addressbook_factory_new_control (void)
 
 		subitems[0].id = G_MAXINT;
 		subitems[0].text = g_strdup (_("Any Category"));
+		subitems[0].translate = FALSE;
 
 		for (i=0; i<N; ++i) {
 			subitems[i+1].id = i;
 			subitems[i+1].text = (char *) e_categories_master_list_nth (master_list, i);
+			subitems[i+1].translate = TRUE;
 		}
 		subitems[N+1].id = -1;
 		subitems[N+1].text = NULL;
