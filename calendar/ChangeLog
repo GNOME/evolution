@@ -1,5 +1,15 @@
 2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/component-factory.c (): Pass the env argument to
+	bonobo_control_set_property ().
+
+	* gui/e-meeting-model.c (class_init): We're no longer derived from
+	GtkObject, so use GObject class methods instead. destroy->finalize.
+	(destroy): Zapped.
+	(finalize): Implement based on old destroy ().
+
+2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
+
 	* cal-client/cal-client.c (cal_client_open_status_enum_get_type):
 	Create a non-abstract enumeration type derived from GEnum.
 	(cal_client_set_mode_status_enum_get_type): Ditto.

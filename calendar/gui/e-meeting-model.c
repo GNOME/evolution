@@ -109,7 +109,7 @@ struct _EMeetingModelQueueData {
 
 static void class_init	(EMeetingModelClass	 *klass);
 static void init	(EMeetingModel		 *model);
-static void destroy	(GtkObject *obj);
+static void finalize	(GObject *obj);
 
 static void refresh_queue_add (EMeetingModel *im, int row,
 			       EMeetingTime *start,
@@ -621,15 +621,15 @@ free_duplicated_key (void *key, gpointer data)
 static void
 class_init (EMeetingModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *gobject_class;
 	ETableModelClass *etm_class;
 	
-	object_class = GTK_OBJECT_CLASS (klass);
+	gobject_class = G_OBJECT_CLASS (klass);
 	etm_class = E_TABLE_MODEL_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = destroy;
+	gobject_class->finalize = finalize;
 
 	etm_class->column_count = column_count;
 	etm_class->row_count = row_count;
@@ -685,7 +685,7 @@ init (EMeetingModel *im)
 }
 
 static void
-destroy (GtkObject *obj)
+finalize (GObject *obj)
 {
 	EMeetingModel *im = E_MEETING_MODEL (obj);
 	EMeetingModelPrivate *priv;
@@ -699,7 +699,8 @@ destroy (GtkObject *obj)
 	g_ptr_array_free (priv->attendees, TRUE); 
 
 	for (l = priv->tables; l != NULL; l = l->next)
-		gtk_signal_disconnect_by_data (GTK_OBJECT (l->data), im);
+		g_signal_handlers_disconnect_matched (G_OBJECT (l->data), G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, im);
 	g_list_free (priv->tables);
 	
 	if (priv->client != NULL)
