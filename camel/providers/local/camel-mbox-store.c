@@ -199,6 +199,8 @@ static void
 delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelFolderInfo *fi;
+	CamelException lex;
+	CamelFolder *lf;
 	char *name, *path;
 	struct stat st;
 	
@@ -269,6 +271,30 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not delete folder index file `%s': %s"),
 				      path, g_strerror (errno));
+		g_free (path);
+		g_free (name);
+		return;
+	}
+	
+	g_free (path);
+	
+	camel_exception_init (&lex);
+	if ((lf = camel_store_get_folder (store, folder_name, 0, &lex))) {
+		camel_object_get (lf, NULL, CAMEL_OBJECT_STATE_FILE, &path, NULL);
+		camel_object_set (lf, NULL, CAMEL_OBJECT_STATE_FILE, NULL, NULL);
+		camel_object_unref (lf);
+	} else {
+		camel_exception_clear (&lex);
+	}
+	
+	if (path == NULL)
+		path = mbox_folder_name_to_meta_path (store, folder_name, ".cmeta");
+	
+	if (unlink (path) == -1 && errno != ENOENT) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not delete folder meta file `%s': %s"),
+				      path, g_strerror (errno));
+		
 		g_free (path);
 		g_free (name);
 		return;

@@ -1,3 +1,12 @@
+2003-12-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #51881
+
+	* providers/local/camel-mbox-store.c (delete_folder): Same.
+
+	* providers/local/camel-local-store.c (delete_folder): Unlink the
+	cmeta file too.
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* */Makefile.am: Remove hard coded disable deprecated flags

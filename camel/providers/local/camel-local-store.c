@@ -376,9 +376,11 @@ static void
 delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelFolderInfo *fi;
+	CamelException lex;
+	CamelFolder *lf;
 	char *name;
 	char *str;
-
+	
 	/* remove metadata only */
 	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	str = g_strdup_printf("%s.ev-summary", name);
@@ -401,7 +403,30 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 		return;
 	}
 	g_free(str);
-	g_free(name);
+	
+	camel_exception_init (&lex);
+	if ((lf = camel_store_get_folder (store, folder_name, 0, &lex))) {
+		camel_object_get (lf, NULL, CAMEL_OBJECT_STATE_FILE, &str, NULL);
+		camel_object_set (lf, NULL, CAMEL_OBJECT_STATE_FILE, NULL, NULL);
+		camel_object_unref (lf);
+	} else {
+		camel_exception_clear (&lex);
+	}
+	
+	if (str == NULL)
+		str = g_strdup_printf ("%s.cmeta", name);
+	
+	if (unlink (str) == -1 && errno != ENOENT) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not delete folder meta file `%s': %s"),
+				      str, g_strerror (errno));
+		g_free (name);
+		g_free (str);
+		return;
+	}
+	
+	g_free (str);
+	g_free (name);
 	
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
