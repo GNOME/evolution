@@ -2871,7 +2871,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	   user's theme. */
 	fb->mail_display->printing = TRUE;
 
-	mail_display_render (fb->mail_display, html);
+	mail_display_render (fb->mail_display, html, TRUE);
 	gtk_html_print_set_master (html, print_master);
 
 	info = footer_info_new (html, print_context, &line);

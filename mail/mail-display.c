@@ -1450,7 +1450,7 @@ clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
 }
 
 void
-mail_display_render (MailDisplay *md, GtkHTML *html)
+mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 {
 	GtkHTMLStream *stream;
 
@@ -1458,7 +1458,11 @@ mail_display_render (MailDisplay *md, GtkHTML *html)
 	g_return_if_fail (GTK_IS_HTML (html));
 
 	stream = gtk_html_begin (html);
-	
+	if (!reset_scroll) {
+		/* This is a hack until there's a clean way to do this. */
+		GTK_HTML (md->html)->engine->newPage = FALSE;
+	}
+
 	mail_html_write (html, stream,
 			 "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n"
 			 "<html>\n"
@@ -1479,12 +1483,12 @@ mail_display_render (MailDisplay *md, GtkHTML *html)
 /**
  * mail_display_redisplay:
  * @mail_display: the mail display object
- * @unscroll: specifies whether or not to lose current scroll
+ * @reset_scroll: specifies whether or not to reset current scroll
  *
  * Force a redraw of the message display.
  **/
 void
-mail_display_redisplay (MailDisplay *md, gboolean unscroll)
+mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
 {
 	if (GTK_OBJECT_DESTROYED (md))
 		return;
@@ -1493,12 +1497,7 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 	md->redisplay_counter++;
 	/* printf ("md %p redisplay %d\n", md, md->redisplay_counter); */
 	
-	if (!unscroll) {
-		/* This is a hack until there's a clean way to do this. */
-		GTK_HTML (md->html)->engine->newPage = FALSE;
-	}
-
-	mail_display_render (md, md->html);
+	mail_display_render (md, md->html, reset_scroll);
 }
 
 

@@ -1,3 +1,20 @@
+2002-03-07  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (add_storage): Update for storage changes:
+	explicitly create a root folder.
+
+2002-03-06  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (mail_display_render): Fix the "don't scroll back
+	to the top of the HTML widget when opening an attachment" hack
+	again by moving it here from mail_display_redisplay(). (It has to
+	happen after the gtk_html_begin.)
+	(mail_display_redisplay): Pass reset_scroll arg to
+	mail_display_render.
+
+	* mail-callbacks.c (do_mail_print): Pass reset_scroll (TRUE) to
+	mail_display_render.
+
 2002-03-05  Dan Winship  <danw@ximian.com>
 
 	* folder-browser-ui.c: Don't try to set pixmap for

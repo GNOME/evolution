@@ -60,8 +60,8 @@ GtkWidget *    mail_display_new         (void);
 void           mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html);
 
 void           mail_display_queue_redisplay (MailDisplay *mail_display);
-void           mail_display_render (MailDisplay *mail_display, GtkHTML *html);
-void           mail_display_redisplay (MailDisplay *mail_display, gboolean unscroll);
+void           mail_display_render (MailDisplay *mail_display, GtkHTML *html, gboolean reset_scroll);
+void           mail_display_redisplay (MailDisplay *mail_display, gboolean reset_scroll);
 void           mail_display_redisplay_when_loaded (MailDisplay *md,
 						   gconstpointer key,
 						   void (*callback)(MailDisplay *, gpointer),

@@ -1209,7 +1209,8 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	EvolutionStorage *storage;
 	EvolutionStorageResult res;
 	
-	storage = evolution_storage_new (name, uri, "mailstorage");
+	storage = evolution_storage_new (name);
+	evolution_storage_new_folder (storage, "/", name, "mailstorage", uri, "", 0);
 	gtk_signal_connect (GTK_OBJECT (storage), "create_folder", storage_create_folder, store);
 	gtk_signal_connect (GTK_OBJECT (storage), "remove_folder", storage_remove_folder, store);
 	gtk_signal_connect ((GtkObject *)storage, "xfer_folder", storage_xfer_folder, store);
