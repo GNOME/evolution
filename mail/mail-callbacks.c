@@ -2864,7 +2864,7 @@ footer_info_new (GtkHTML *html, GnomePrintContext *pc, gdouble *line)
 	info->local_font = gnome_font_find_closest ("Helvetica", 10.0);
 	
 	if (info->local_font)
-		*line = gnome_font_get_ascender (info->local_font) + gnome_font_get_descender (info->local_font);
+		*line = gnome_font_get_ascender (info->local_font) - gnome_font_get_descender (info->local_font);
 	
 	info->page_num = 1;
 	info->pages = gtk_html_print_get_pages_num (html, pc, 0.0, *line);

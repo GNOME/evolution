@@ -1,3 +1,8 @@
+2003-05-16  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (footer_info_new): gnome_font_get_descender
+	returns negative value
+
 2003-05-17  Larry Ewing  <lewing@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: remove font prefs server from
