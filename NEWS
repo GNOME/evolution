@@ -30,6 +30,24 @@ Addressbook:
 
 Calendar:
 
+Summary:
+
+  - Worked around gnome-vfs problems that were causing crashes.  (Trow)
+
+  - Set the defaults to be CNN and Boston (Ettore)
+
+  - Move the location of the RDF file to be in a place that will always exist.
+
+  - Fixed numerous bugs (Trow, iain)
+
+  - Made the offline stuff work correctly (iain)
+
+Importers:
+
+  - Made the pine importer work for multidepth mail folders. (iain)
+
+Calendar:
+
   - Underlined accelerators now work in the editor dialogs.  (Damon)
 
   - Many fixes for scheduling meetings.  (JP)
@@ -74,11 +92,6 @@ Calendar:
   - New iCalendar importer.  (Rodrigo)
 
 Conduits:
-
-Summary:
-
-  - Worked around gnome-vfs problems that were causing crashes.  (Trow)
-
 
 Version 0.17 (Beta 7), 2001-10-15
 ---------------------------------
@@ -128,7 +141,6 @@ Addressbook:
   - Show error dialog if saving a contact to a file fails.  (Chris Lahey)
 
   - Handle carriage returns in any contact field properly.  (Chris Lahey)
-
 
 Calendar:
 
