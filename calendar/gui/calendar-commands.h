@@ -30,11 +30,6 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-component.h>
 
-/* This tells all the calendars to reload the config settings. */
-void update_all_config_settings (void);
-
-GnomeCalendar *new_calendar (void);
-
 void calendar_control_activate (BonoboControl *control, GnomeCalendar *gcal);
 void calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal);
 

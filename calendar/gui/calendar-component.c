@@ -36,6 +36,8 @@
 
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-i18n.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkimagemenuitem.h>
 #include <gal/util/e-util.h>
 
 #include <errno.h>
@@ -271,7 +273,7 @@ impl_createControls (PortableServer_Servant servant,
 	/* Create main calendar view */
 	/* FIXME Instead of returning, we should make a control with a
 	 * label describing the problem */
-	priv->calendar = new_calendar ();
+	priv->calendar = GNOME_CALENDAR (gnome_calendar_new ());
 	if (!priv->calendar) {
 		g_warning (G_STRLOC ": could not create the calendar widget!");
 		return;

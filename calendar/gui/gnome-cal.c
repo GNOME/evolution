@@ -1039,9 +1039,6 @@ setup_widgets (GnomeCalendar *gcal)
 
 		gtk_widget_show (GTK_WIDGET (priv->views[i]));
 	}
-	
-
-	gnome_calendar_update_config_settings (gcal, TRUE);
 }
 
 /* Object initialization function for the gnome calendar */
@@ -2330,26 +2327,6 @@ gnome_calendar_set_default_uri (GnomeCalendar *gcal, const char *uri)
 	}
 
 	return TRUE;
-}
-
-/* Tells the calendar to reload all config settings.
-   If initializing is TRUE it sets the pane positions as well. (We don't
-   want to reset the pane positions after the user clicks 'Apply' in the
-   preferences dialog.) */
-void
-gnome_calendar_update_config_settings (GnomeCalendar *gcal,
-				       gboolean	      initializing)
-{
-	GnomeCalendarPrivate *priv;
-	
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	priv = gcal->priv;
-
-	/* The range of days shown may have changed, so we update the date
-	   navigator if needed. */
-	gnome_calendar_update_date_navigator (gcal);
-	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 
 void

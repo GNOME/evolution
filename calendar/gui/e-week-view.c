@@ -1648,7 +1648,6 @@ e_week_view_set_compress_weekend	(EWeekView	*week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
- 
 /* Whether we display event end times. */
 gboolean
 e_week_view_get_show_event_end_times	(EWeekView	*week_view)

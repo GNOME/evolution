@@ -169,11 +169,6 @@ gint	   gnome_calendar_get_num_events_selected (GnomeCalendar *gcal);
 /* Returns the number of selected tasks */
 gint       gnome_calendar_get_num_tasks_selected (GnomeCalendar *gcal);
 
-/* Tells the calendar to reload all config settings. initializing should be
-   TRUE when we are setting the config settings for the first time. */
-void	   gnome_calendar_update_config_settings (GnomeCalendar *gcal,
-						  gboolean	 initializing);
-
 /* Get the current timezone. */
 icaltimezone *gnome_calendar_get_timezone	(GnomeCalendar	*gcal);
 

@@ -49,10 +49,6 @@
 
 #include "e-tasks.h"
 
-/* A list of all of the ETasks widgets in use. We use this to update the
-   user preference settings. This will change when we switch to GConf. */
-static GList *all_tasks = NULL;
-
 
 /* Private part of the GnomeCalendar structure */
 struct _ETasksPrivate {
@@ -74,6 +70,8 @@ struct _ETasksPrivate {
 	/* View instance and the view menus handler */
 	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
+
+	GList *notifications;
 };
 
 
@@ -98,48 +96,6 @@ static guint e_tasks_signals[LAST_SIGNAL] = { 0 };
 E_MAKE_TYPE (e_tasks, "ETasks", ETasks,
 	     e_tasks_class_init, e_tasks_init,
 	     GTK_TYPE_TABLE)
-
-
-/* Class initialization function for the gnome calendar */
-	static void
-e_tasks_class_init (ETasksClass *class)
-{
-	GtkObjectClass *object_class;
-
-	object_class = (GtkObjectClass *) class;
-
-	parent_class = gtk_type_class (GTK_TYPE_TABLE);
-
-	e_tasks_signals[SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_LAST,
-				G_TYPE_FROM_CLASS (object_class), 
-				GTK_SIGNAL_OFFSET (ETasksClass, selection_changed),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_INT);
-
-	object_class->destroy = e_tasks_destroy;
-
-	class->selection_changed = NULL;
-}
-
-
-/* Object initialization function for the gnome calendar */
-static void
-e_tasks_init (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-
-	priv = g_new0 (ETasksPrivate, 1);
-	tasks->priv = priv;
-
-	priv->client = NULL;
-	priv->query = NULL;
-	priv->view_instance = NULL;
-	priv->view_menus = NULL;
-	priv->current_uid = NULL;
-}
 
 /* Converts a time_t to a string, relative to the specified timezone */
 static char *
@@ -463,6 +419,50 @@ vpaned_resized_cb (GtkWidget *widget, GdkEventButton *event, ETasks *tasks)
 	return FALSE;
 }
 
+static void
+set_timezone (ETasks *tasks) 
+{
+	ETasksPrivate *priv;
+	char *location;
+	icaltimezone *zone;
+
+	priv = tasks->priv;
+	
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+	g_free (location);
+	
+	if (!zone)
+		zone = icaltimezone_get_utc_timezone ();
+
+	if (cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED)
+		/* FIXME Error checking */
+		cal_client_set_default_timezone (priv->client, zone, NULL);
+}
+
+static void
+timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	ETasks *tasks = data;
+	
+	set_timezone (tasks);
+}
+
+static void
+setup_config (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+	guint not;
+
+	priv = tasks->priv;
+	
+	/* Timezone */
+	set_timezone (tasks);
+	
+	not = calendar_config_add_notification_timezone (timezone_changed_cb, tasks);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+}
+
 #define E_TASKS_TABLE_DEFAULT_STATE					\
 	"<?xml version=\"1.0\"?>"					\
 	"<ETableState>"							\
@@ -472,7 +472,6 @@ vpaned_resized_cb (GtkWidget *widget, GdkEventButton *event, ETasks *tasks)
 	"<column source=\"5\"/>"					\
 	"<grouping/>"							\
 	"</ETableState>"
-
 
 static void
 setup_widgets (ETasks *tasks)
@@ -536,6 +535,50 @@ setup_widgets (ETasks *tasks)
 	gtk_widget_show_all (scroll);
 }
 
+/* Class initialization function for the gnome calendar */
+	static void
+e_tasks_class_init (ETasksClass *class)
+{
+	GtkObjectClass *object_class;
+
+	object_class = (GtkObjectClass *) class;
+
+	parent_class = gtk_type_class (GTK_TYPE_TABLE);
+
+	e_tasks_signals[SELECTION_CHANGED] =
+		gtk_signal_new ("selection_changed",
+				GTK_RUN_LAST,
+				G_TYPE_FROM_CLASS (object_class), 
+				GTK_SIGNAL_OFFSET (ETasksClass, selection_changed),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_INT);
+
+	object_class->destroy = e_tasks_destroy;
+
+	class->selection_changed = NULL;
+}
+
+
+/* Object initialization function for the gnome calendar */
+static void
+e_tasks_init (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+
+	priv = g_new0 (ETasksPrivate, 1);
+	tasks->priv = priv;
+
+	setup_config (tasks);
+	setup_widgets (tasks);
+
+	priv->client = NULL;
+	priv->query = NULL;
+	priv->view_instance = NULL;
+	priv->view_menus = NULL;
+	priv->current_uid = NULL;
+}
+
 /* Callback used when the set of categories changes in the calendar client */
 static void
 client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer data)
@@ -569,21 +612,6 @@ client_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	}
 }
 
-GtkWidget *
-e_tasks_construct (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-
-	g_return_val_if_fail (tasks != NULL, NULL);
-	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
-
-	priv = tasks->priv;
-
-	setup_widgets (tasks);
-
-	return GTK_WIDGET (tasks);
-}
-
 
 GtkWidget *
 e_tasks_new (void)
@@ -591,14 +619,6 @@ e_tasks_new (void)
 	ETasks *tasks;
 
 	tasks = g_object_new (e_tasks_get_type (), NULL);
-
-	if (!e_tasks_construct (tasks)) {
-		g_message ("e_tasks_new(): Could not construct the tasks GUI");
-		g_object_unref (tasks);
-		return NULL;
-	}
-
-	all_tasks = g_list_prepend (all_tasks, tasks);
 
 	return GTK_WIDGET (tasks);
 }
@@ -628,6 +648,8 @@ e_tasks_destroy (GtkObject *object)
 	priv = tasks->priv;
 
 	if (priv) {
+		GList *l;
+		
 		if (priv->client) {
 			g_object_unref (priv->client);
 			priv->client = NULL;
@@ -643,10 +665,12 @@ e_tasks_destroy (GtkObject *object)
 			priv->tasks_view_config = NULL;
 		}
 		
+		for (l = priv->notifications; l; l = l->next)
+			calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+		priv->notifications = NULL;
+		
 		g_free (priv);
 		tasks->priv = NULL;
-	
-		all_tasks = g_list_remove (all_tasks, tasks);
 	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -780,8 +804,6 @@ cal_opened_cb				(CalClient	*client,
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
-	char *location;
-	icaltimezone *zone;
 
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
@@ -791,13 +813,7 @@ cal_opened_cb				(CalClient	*client,
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
 		/* Everything is OK */
-
-		/* Set the client's default timezone, if we have one. */
-		location = calendar_config_get_timezone ();
-		zone = icaltimezone_get_builtin_timezone (location);
-		if (zone)
-			/* FIXME Error checking */
-			cal_client_set_default_timezone (client, zone, NULL);
+		set_timezone (tasks);
 		return;
 
 	case CAL_CLIENT_OPEN_ERROR:
@@ -1115,28 +1131,4 @@ e_tasks_get_calendar_table (ETasks *tasks)
 
 	priv = tasks->priv;
 	return E_CALENDAR_TABLE (priv->tasks_view);
-}
-
-/* This updates all the preference settings for all the ETasks widgets in use.
- */
-void
-e_tasks_update_all_config_settings	(void)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	GList *elem;
-	char *location;
-	icaltimezone *zone;
-
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-
-	for (elem = all_tasks; elem; elem = elem->next) {
-		tasks = E_TASKS (elem->data);
-		priv = tasks->priv;
-
-		if (zone)
-			/* FIXME Error checking */
-			cal_client_set_default_timezone (priv->client, zone, NULL);
-	}
 }

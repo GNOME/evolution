@@ -63,9 +63,6 @@
 #include "itip-utils.h"
 #include "evolution-shell-component-utils.h"
 
-/* A list of all of the calendars started */
-static GList *all_calendars = NULL;
-
 /* Focusing information for the calendar view.  We have to keep track of this
  * ourselves because with Bonobo controls, we may get unpaired focus_out events.
  */
@@ -187,18 +184,6 @@ file_print_preview_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 	gcal = GNOME_CALENDAR (data);
 	print (gcal, TRUE);
 }
-
-/* This iterates over each calendar telling them to update their config
-   settings. */
-void
-update_all_config_settings (void)
-{
-	GList *l;
-
-	for (l = all_calendars; l; l = l->next)
-		gnome_calendar_update_config_settings (GNOME_CALENDAR (l->data), FALSE);
-}
-
 
 /* Sets a clock cursor for the specified calendar window */
 static void
@@ -992,31 +977,4 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 
 	bonobo_ui_component_rm (uic, "/", NULL);
  	bonobo_ui_component_unset_container (uic, NULL);
-}
-
-/* Removes a calendar from our list of all calendars when it is destroyed. */
-static void
-on_calendar_destroyed (GnomeCalendar *gcal)
-{
-	all_calendars = g_list_remove (all_calendars, gcal);
-}
-
-GnomeCalendar *
-new_calendar (void)
-{
-	GtkWidget *gcal;
-
-	gcal = gnome_calendar_new ();
-	if (!gcal) {
-		gnome_warning_dialog (_("Could not create the calendar view.  Please check your "
-					"ORBit and OAF setup."));
-		return NULL;
-	}
-
-	g_signal_connect (gcal, "destroy",
-			  G_CALLBACK (on_calendar_destroyed), NULL);
-
-	all_calendars = g_list_prepend (all_calendars, gcal);
-
-	return GNOME_CALENDAR (gcal);
 }

@@ -692,12 +692,8 @@ on_timezone_set			(GnomeDialog	*dialog,
 	icaltimezone *zone;
 
 	zone = e_timezone_dialog_get_timezone (etd);
-	if (zone) {
+	if (zone)
 		calendar_config_set_timezone (icaltimezone_get_location (zone));
-
-		update_all_config_settings ();
-		e_tasks_update_all_config_settings ();
-	}
 
 	g_object_unref (etd);
 }

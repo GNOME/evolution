@@ -34,8 +34,6 @@
 #include "../e-timezone-entry.h"
 #include "cal-prefs-dialog.h"
 #include "../calendar-config.h"
-#include "../calendar-commands.h"
-#include "../e-tasks.h"
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtkoptionmenu.h>
@@ -685,9 +683,4 @@ update_config (DialogData *dialog_data)
 
 	calendar_config_set_default_reminder_units (
 		e_dialog_option_menu_get (dialog_data->default_reminder_units, default_reminder_units_map));
-
-	/* Done */
-
-	update_all_config_settings ();
-	e_tasks_update_all_config_settings ();
 }

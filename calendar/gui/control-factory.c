@@ -196,7 +196,7 @@ control_factory_new_control (void)
 	BonoboControl *control;
 	GnomeCalendar *gcal;
 
-	gcal = new_calendar ();
+	gcal = GNOME_CALENDAR (gnome_calendar_new ());
 	if (!gcal)
 		return NULL;
 

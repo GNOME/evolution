@@ -25,6 +25,7 @@
 #ifndef _E_TASKS_H_
 #define _E_TASKS_H_
 
+#include <bonobo/bonobo-ui-component.h>
 #include <gtk/gtktable.h>
 #include <cal-client/cal-client.h>
 #include "e-calendar-table.h"
@@ -78,9 +79,5 @@ void e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic);
 void e_tasks_discard_view_menus (ETasks *tasks);
 
 ECalendarTable *e_tasks_get_calendar_table (ETasks *tasks);
-
-/* This updates all the preference settings for all the ETasks widgets in use.
- */
-void	   e_tasks_update_all_config_settings	(void);
 
 #endif /* _E_TASKS_H_ */

@@ -1,3 +1,42 @@
+2003-10-29    <jpr@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.c (update_config): no need to
+	update config settings everywhere explicitly
+
+	* gui/tasks-component.c (update_uris_for_selection): cast the
+	widget
+
+	* gui/gnome-cal.h: remove proto
+
+	* gui/gnome-cal.c (setup_widgets): don't update config settings
+	explicitly
+	(gnome_calendar_update_config_settings): kill
+
+	* gui/e-week-view.c: remove null chars
+
+	* gui/e-tasks.h: remove proto
+
+	* gui/e-tasks.c (set_timezone): set the timezone on the client
+	(timezone_changed_cb): changed timezone callback
+	(setup_config): setup config stuff
+	(e_tasks_init): setup config and widgets here
+	(e_tasks_new): construct is dead, no need to track all widgets
+	(cal_opened_cb): set the timezone upon opening
+	(e_tasks_update_all_config_settings): kill
+
+	* gui/control-factory.c (control_factory_new_control): create the
+	calendar ourselves
+
+	* gui/calendar-config.c (on_timezone_set): don't update the
+	settings everywhere here, we have config managers now
+
+	* gui/calendar-component.c (impl_createControls): create the
+	calendar ourselves
+
+	* gui/calendar-commands.h: remove protos
+
+	* gui/calendar-commands.c: remove dead functions
+
 2003-10-29  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-day-view-config.c (set_twentyfour_hour): set the format on

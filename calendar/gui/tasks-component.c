@@ -118,13 +118,13 @@ update_uris_for_selection (ESourceSelector *selector, TasksComponent *component)
 		ESource *old_selected_source = l->data;
 
 		if (!is_in_selection (selection, old_selected_source))
-			remove_uri_for_source (old_selected_source, priv->tasks);
+			remove_uri_for_source (old_selected_source, E_TASKS (priv->tasks));
 	}	
 	
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		add_uri_for_source (selected_source, priv->tasks);
+		add_uri_for_source (selected_source, E_TASKS (priv->tasks));
 	}
 
 	e_source_selector_free_selection (priv->source_selection);
