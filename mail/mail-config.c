@@ -426,16 +426,21 @@ config_cache_mime_types (void)
 	g_ptr_array_add (config->mime_types, NULL);
 }
 
+#define CONFIG_GET_SPELL_VALUE(t,x,prop,f,c) G_STMT_START { \
+        val = gconf_client_get_without_default (config->gconf, "/GNOME/Spell" x, NULL); \
+        if (val) { f; prop = c (gconf_value_get_ ## t (val)); \
+        gconf_value_free (val); } } G_STMT_END
+
 static void
 config_write_style (void)
 {
+	GConfValue *val;
 	char *filename;
 	FILE *rc;
 	gboolean custom;
 	char *fix_font;
 	char *var_font;
-	gint red, green, blue;
-
+	gint red = 0xffff, green = 0, blue = 0;
 	
 	/*
 	 * This is the wrong way to get the path but it needs to 
@@ -459,9 +464,9 @@ config_write_style (void)
 	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
 	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
 
-	red   = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_red", NULL);
-	green = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_green", NULL);
-	blue  = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_blue", NULL);
+ 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_red",   red, (void)0, (int));
+ 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_green", green, (void)0, (int));
+ 	CONFIG_GET_SPELL_VALUE (int, "/spell_error_color_blue",  blue, (void)0, (int));
 
 	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
 	fprintf (rc, "        GtkHTML::spell_error_color = \"#%02x%02x%02x\"\n",

@@ -1,3 +1,8 @@
+2003-06-25  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c (config_write_style): provide hardcoded default
+	(red) spell error color
+
 2003-06-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Might fix bug #45368 but I wouldn't bet on it.
