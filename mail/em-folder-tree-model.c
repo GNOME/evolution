@@ -39,6 +39,7 @@
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-tools.h"
+#include "mail-mt.h"
 
 #include "em-utils.h"
 
@@ -795,6 +796,11 @@ folder_subscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *mo
 	gboolean load;
 	char *dirname;
 	
+	if (pthread_self () != mail_gui_thread) {
+		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_subscribed_cb, store, event_data, model);
+		return;
+	}
+	
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
 	
@@ -849,6 +855,11 @@ folder_unsubscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	
+	if (pthread_self () != mail_gui_thread) {
+		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_unsubscribed_cb, store, event_data, model);
+		return;
+	}
+	
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
 	
@@ -867,6 +878,11 @@ folder_unsubscribed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *
 static void
 folder_created_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
 {
+	if (pthread_self () != mail_gui_thread) {
+		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_created_cb, store, event_data, model);
+		return;
+	}
+	
 	/* we only want created events to do more work if we don't support subscriptions */
 	if (!camel_store_supports_subscriptions (store))
 		folder_subscribed_cb (store, event_data, model);
@@ -875,6 +891,11 @@ folder_created_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 static void
 folder_deleted_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model)
 {
+	if (pthread_self () != mail_gui_thread) {
+		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_deleted_cb, store, event_data, model);
+		return;
+	}
+	
 	/* we only want deleted events to do more work if we don't support subscriptions */
 	if (!camel_store_supports_subscriptions (store))
 		folder_unsubscribed_cb (store, event_data, model);
@@ -889,6 +910,11 @@ folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTreeModel *model
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
 	char *parent, *p;
+	
+	if (pthread_self () != mail_gui_thread) {
+		mail_async_event_emit (mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) folder_renamed_cb, store, event_data, model);
+		return;
+	}
 	
 	if (!(si = g_hash_table_lookup (model->store_hash, store)))
 		return;
