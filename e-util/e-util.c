@@ -627,9 +627,11 @@ e_format_number (gint number)
 	int divider;
 	char *value;
 	char *value_iterator;
+	int initial_grouping;
 
 	locality = localeconv();
 	grouping = locality->grouping;
+	initial_grouping = *grouping;
 	while (number) {
 		char *group;
 		switch (*grouping) {
@@ -638,7 +640,11 @@ e_format_number (gint number)
 			grouping++;
 		case 0:
 			divider = epow10(last_count);
-			group = g_strdup_printf("%d", number % divider);
+			if(!list && (number/divider) > 0) {
+				group = g_strdup_printf("%0*d", initial_grouping, number % divider);
+			} else {
+				group = g_strdup_printf("%d", number % divider);
+			}
 			number /= divider;
 			break;
 		case CHAR_MAX:
