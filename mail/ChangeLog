@@ -1,3 +1,7 @@
+2002-03-19  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (evolution_mail_LDADD): s/libversit.la/libversit.a/
+
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (main): Report a message before entering bonobo_main() to

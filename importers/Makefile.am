@@ -51,7 +51,7 @@ evolution_pine_importer_LDADD =					\
 	$(top_builddir)/libibex/libibex.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/libversit/libversit.a			\
 	$(IMPORTERS_LIBS)
 
 evolution_gnomecard_importer_SOURCES =	\
@@ -64,7 +64,7 @@ evolution_gnomecard_importer_LDADD =				\
 	$(top_builddir)/libibex/libibex.la			\
         $(top_builddir)/e-util/libeutil.la      		\
         $(top_builddir)/e-util/ename/libename.la        	\
-        $(top_builddir)/libversit/libversit.la  		\
+        $(top_builddir)/libversit/libversit.a 	 		\
 	$(IMPORTERS_LIBS)
 
 oafdir = $(datadir)/oaf

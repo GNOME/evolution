@@ -166,13 +166,12 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\
 	$(top_builddir)/e-util/libeutil.la						\
-	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/libical/src/libical/libical-evolution.la			\
 	$(top_builddir)/libwombat/libwombat.la						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
 	$(top_builddir)/camel/libcamel.la						\
 	$(top_builddir)/libibex/libibex.la						\
-	$(top_builddir)/libversit/libversit.la						\
+	$(top_builddir)/libversit/libversit.a						\
 	$(top_builddir)/e-util/ename/libename.la					\
 	dialogs/libcal-dialogs.a							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a			\

@@ -28,7 +28,7 @@ evolution_addressbook_import_LDADD =				\
 	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/libibex/libibex.la			\
 	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/libversit/libversit.a			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/menus/libmenus.la
 

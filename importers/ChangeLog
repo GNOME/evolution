@@ -1,3 +1,7 @@
+2002-03-19  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (bin_PROGRAMS): s/libversit.la/libversit.a/
+
 2002-03-07  Radek Doulik  <rodo@ximian.com>
 
 	* netscape-importer.c (netscape_import_accounts): comment out

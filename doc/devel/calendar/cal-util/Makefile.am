@@ -61,7 +61,7 @@ GTKDOC_LIBS = 								\
 	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(top_builddir)/calendar/cal-util/.libs/libcal-util-static.al	\
 	$(top_builddir)/libical/src/libical/.libs/libical-static.al	\
-	$(top_builddir)/libversit/.libs/libversit.al
+	$(top_builddir)/libversit/libversit.a
 
 GTKDOC_CC=$(LIBTOOL) --mode=compile $(CC)
 GTKDOC_LD=$(LIBTOOL) --mode=link $(CC)

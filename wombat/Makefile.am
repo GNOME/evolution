@@ -32,7 +32,7 @@ wombat_LDADD =								\
 	$(top_builddir)/calendar/pcs/libpcs.a				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libversit/libversit.la				\
+	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/e-util/libedb3util.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libwombat/libwombat.la				\

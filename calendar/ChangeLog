@@ -1,3 +1,11 @@
+2002-03-19  Dan Winship  <danw@ximian.com>
+
+	* cal-util/Makefile.am: s/libversit.la/libversit.a/
+
+	* cal-client/Makefile.am: Likewise
+
+	* gui/Makefile.am: Likewise
+
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/cal-search-bar.c: Removed `search_menu_items'.

@@ -44,6 +44,6 @@ test_recur_SOURCES = 	\
 
 test_recur_LDADD = 							\
 	 libcal-util.la							\
-	 $(top_builddir)/libversit/libversit.la				\
+	 $(top_builddir)/libversit/libversit.a				\
 	 $(top_builddir)/libical/src/libical/libical-evolution.la	\
 	 $(EVOLUTION_CALENDAR_LIBS)

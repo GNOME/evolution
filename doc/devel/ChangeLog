@@ -1,3 +1,10 @@
+2002-03-19  Dan Winship  <danw@ximian.com>
+
+	* calendar/cal-util/Makefile.am (GTKDOC_LIBS): Update for
+	libversit change.
+
+	* calendar/cal-client/Makefile.am (GTKDOC_LIBS): Likewise
+
 2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* calendar/cal-client/Makefile.am: Use EVOLUTION_CALENDAR_CFLAGS
