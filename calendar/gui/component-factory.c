@@ -70,20 +70,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 };
 
 
-/* Utility functions.  */
 
-static const char *
-get_local_file_name_for_folder_type (const char *type)
-{
-	if (strcmp (type, "calendar") == 0)
-		return "calendar.ics";
-	else if (strcmp (type, "tasks") == 0)
-		return "tasks.ics";
-	else
-		return NULL;
-}
-
-
 /* EvolutionShellComponent methods and signals.  */
 
 static EvolutionShellComponentResult
@@ -160,26 +147,33 @@ remove_folder (EvolutionShellComponent *shell_component,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
-	CORBA_Environment ev;
-	GnomeVFSURI *uri;
-	GnomeVFSResult result;
-	GList *file_list;
-
-	CORBA_exception_init(&ev);
+	GnomeVFSURI *dir_uri, *data_uri, *backup_uri;
+	GnomeVFSResult data_result, backup_result;
 
 	/* check type */
 	if (strcmp (type, FOLDER_CALENDAR) && strcmp (type, FOLDER_TASKS)) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE,
 			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("remove_folder(): Could not notify the listener of "
+				   "an unsupported folder type");
+
 		CORBA_exception_free (&ev);
 		return;
 	}
 
 	/* check URI */
-	uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
-	if (!uri) {
+	dir_uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
+	if (!dir_uri) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_INVALID_URI,
@@ -188,64 +182,82 @@ remove_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	/* remove all files in that directory */
-	result = gnome_vfs_directory_list_load (&file_list, physical_uri, 0, NULL);
-	if (result == GNOME_VFS_OK) {
-		GList *l;
-		gboolean success = TRUE;
+	/* Compute the URIs of the appropriate files */
 
-		for (l = file_list; l; l = l->next) {
-			GnomeVFSFileInfo *file_info;
-			GnomeVFSURI *tmp_uri;
-
-			/* ignore hidden files */
-			file_info = (GnomeVFSFileInfo *) l->data;
-			if (!file_info || file_info->name[0] == '.')
-				continue;
-
-			if (file_info->type == GNOME_VFS_FILE_TYPE_DIRECTORY) {
-				GNOME_Evolution_ShellComponentListener_notifyResult (
-					listener,
-					GNOME_Evolution_ShellComponentListener_HAS_SUBFOLDERS,
-					&ev);
-				success = FALSE;
-				break;
-			}
-
-			tmp_uri = gnome_vfs_uri_new_private (physical_uri, TRUE, TRUE, TRUE);
-			tmp_uri = gnome_vfs_uri_append_file_name (tmp_uri, file_info->name);
-
-			result = gnome_vfs_unlink_from_uri (tmp_uri);
-			gnome_vfs_uri_unref (tmp_uri);
-			if (result != GNOME_VFS_OK) {
-				GNOME_Evolution_ShellComponentListener_notifyResult (
-					listener,
-					GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
-					&ev);
-				success = FALSE;
-				break;
-			}
-		}
- 
-		if (success) {
-			GNOME_Evolution_ShellComponentListener_notifyResult (
-				listener,
-				GNOME_Evolution_ShellComponentListener_OK,
-				&ev);
-		}
+	if (strcmp (type, FOLDER_CALENDAR) == 0) {
+		data_uri = gnome_vfs_uri_append_file_name (dir_uri, "calendar.ics");
+		backup_uri = gnome_vfs_uri_append_file_name (dir_uri, "calendar.ics~");
+	} else if (strcmp (type, FOLDER_TASKS) == 0) {
+		data_uri = gnome_vfs_uri_append_file_name (dir_uri, "tasks.ics");
+		backup_uri = gnome_vfs_uri_append_file_name (dir_uri, "tasks.ics~");
+	} else {
+		g_assert_not_reached ();
+		return;
 	}
-	else {
+
+	if (!data_uri || !backup_uri) {
+		CORBA_Environment ev;
+
+		g_message ("remove_folder(): Could not generate the data/backup URIs");
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_INVALID_URI,
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("remove_folder(): Could not notify the listener "
+				   "of an invalid URI");
+
+		CORBA_exception_free (&ev);
+
+		goto out;
+	}
+
+	/* Delete the data and backup files; the shell will take care of the rest */
+
+	data_result = gnome_vfs_unlink_from_uri (data_uri);
+	backup_result = gnome_vfs_unlink_from_uri (backup_uri);
+
+	if ((data_result == GNOME_VFS_OK || data_result == GNOME_VFS_ERROR_NOT_FOUND)
+	    && (backup_result == GNOME_VFS_OK || backup_result == GNOME_VFS_ERROR_NOT_FOUND)) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_ShellComponentListener_notifyResult (
+			listener,
+			GNOME_Evolution_ShellComponentListener_OK,
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("remove_folder(): Could not notify the listener about success");
+
+		CORBA_exception_free (&ev);
+	} else {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
 		GNOME_Evolution_ShellComponentListener_notifyResult (
 			listener,
 			GNOME_Evolution_ShellComponentListener_PERMISSION_DENIED,
 			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("remove_folder(): Could not notify the listener about failure");
+
+		CORBA_exception_free (&ev);
 	}
 
-	/* free memory */
-	gnome_vfs_file_info_list_free (file_list);
-	gnome_vfs_uri_unref (uri);
+ out:
 
-	CORBA_exception_free(&ev);
+	gnome_vfs_uri_unref (dir_uri);
+
+	if (data_uri)
+		gnome_vfs_uri_unref (data_uri);
+
+	if (backup_uri)
+		gnome_vfs_uri_unref (backup_uri);
 }
 
 static void

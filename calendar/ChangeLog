@@ -1,5 +1,13 @@
 2001-09-18  Federico Mena Quintero  <federico@ximian.com>
 
+	Fixes bug #6350.
+
+	* gui/component-factory.c (remove_folder): Use a simplified method
+	for removing our folder data; we just need to remove calendar.ics
+	or tasks.ics and the corresponding backup files.
+
+2001-09-18  Federico Mena Quintero  <federico@ximian.com>
+
 	Fixes bug #2830.
 
 	* gui/calendar-config.c (calendar_config_get_confirm_delete): New
