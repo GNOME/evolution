@@ -44,8 +44,8 @@
 #include <gtk/gtk.h>
 #include "e-icon-list.h"
 #include <libgnomeui/gnome-icon-item.h>
-#include <libgnomeui/gnome-canvas-pixbuf.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 
 #include "bad-icon.xpm"
 

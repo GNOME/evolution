@@ -1,3 +1,7 @@
+2000-10-02  Dan Winship  <danw@helixcode.com>
+
+	* e-icon-list.c: fix #include of gnome-canvas-pixbuf.h
+
 2000-10-02  Iain Holmes  <iain@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c: If the description of an attachment
