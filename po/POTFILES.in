@@ -12,6 +12,7 @@ a11y/calendar/ea-jump-button.c
 a11y/calendar/ea-week-view.c
 a11y/calendar/ea-week-view-main-item.c
 a11y/widgets/ea-calendar-item.c
+a11y/widgets/ea-combo-button.c
 addressbook/addressbook-errors.xml.h
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/addressbook.c
@@ -89,6 +90,10 @@ calendar/gui/dialogs/alarm-list-dialog.c
 calendar/gui/dialogs/alarm-list-dialog.glade
 calendar/gui/dialogs/calendar-setup.c
 calendar/gui/dialogs/calendar-setup.glade
+calendar/gui/dialogs/cal-attachment-bar.c
+calendar/gui/dialogs/cal-attachment-select-file.c
+calendar/gui/dialogs/cal-attachment.c
+calendar/gui/dialogs/cal-attachment.glade
 calendar/gui/dialogs/cal-prefs-dialog.c
 calendar/gui/dialogs/cal-prefs-dialog.glade
 calendar/gui/dialogs/cancel-comp.c
@@ -234,6 +239,7 @@ mail/mail-config.glade
 mail/mail-crypto.c
 mail/mail-dialogs.glade
 mail/mail-errors.xml.h
+mail/mail-errors.xml
 mail/mail-folder-cache.c
 mail/mail-mt.c
 mail/mail-ops.c
@@ -253,12 +259,18 @@ plugins/backup-restore/backup-restore.c
 plugins/backup-restore/org-gnome-backup-restore.xml
 plugins/bbdb/bbdb.c
 plugins/calendar-http/calendar-http.c
+plugins/calendar-weather/calendar-weather.c
+plugins/default-source/default-source.c
+plugins/exchange-account-setup/exchange-account-setup.c
+plugins/exchange-account-setup/exchange-ask-password.c
 plugins/folder-unsubscribe/folder-unsubscribe.c
 plugins/groupwise-account-setup/camel-gw-listener.c
+plugins/groupwise-send-options/org-gnome-compose-send-options.xml
 plugins/itip-formatter/itip-formatter.c
 plugins/itip-formatter/itip-view.c
 plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
+plugins/new-mail-notify/new-mail-notify.c
 plugins/plugin-manager/org-gnome-plugin-manager.xml
 plugins/plugin-manager/plugin-manager.c
 plugins/prefer-plain/prefer-plain.c
@@ -268,6 +280,8 @@ plugins/save-calendar/csv-format.c
 plugins/save-calendar/ical-format.c
 plugins/save-calendar/rdf-format.c
 plugins/save-calendar/save-calendar.c
+plugins/send-options/send-options.c
+plugins/shared-folder/install-shared.c
 plugins/shared-folder/properties.glade
 plugins/shared-folder/share-folder-common.c
 plugins/subject-thread/subject-thread.c
@@ -341,5 +355,7 @@ widgets/misc/e-image-chooser.c
 widgets/misc/e-map.c
 widgets/misc/e-pilot-settings.c
 widgets/misc/e-search-bar.c
+widgets/misc/e-send-options.c
+widgets/misc/e-send-options.glade
 widgets/misc/e-system-errors.xml.h
 widgets/misc/e-task-widget.c
