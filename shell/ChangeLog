@@ -1,3 +1,21 @@
+2000-07-22  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c (e_shell_view_set_folder_bar_mode): Make the
+	title bar non-clickable when the folder tree is visible.
+
+	* e-shell-folder-title-bar.c: New members `button_arrow' and
+	`clickable' in `EShellFolderTitleBarPrivate'.  Renamed `label'
+	into `button_label'.  Added `label'.
+	(init): Init them.
+	(e_shell_folder_title_bar_construct): Pass a pointer to the title
+	bar as the user data for the "realize" signal.  Create `label'.
+	(title_button_box_realize_cb): Use the `button_arrow' member
+	instead of using `gtk_object_{set,get}_data()'.
+	(setup_style): Set the style for `label' too.
+	(e_shell_folder_title_bar_set_clickable): New.
+	(e_shell_folder_title_bar_set_title): Set both `label' and
+	`button_label'.
+
 2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (storage_set_view_box_button_release_event_cb):

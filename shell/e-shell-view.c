@@ -1015,6 +1015,13 @@ e_shell_view_set_shortcut_bar_mode (EShellView *shell_view,
 	gtk_signal_emit (GTK_OBJECT (shell_view), signals[SHORTCUT_BAR_MODE_CHANGED], mode);
 }
 
+/**
+ * e_shell_view_set_folder_bar_mode:
+ * @shell_view: 
+ * @mode: 
+ * 
+ * Set the visualization mode for the folder bar's subwindow.
+ **/
 void
 e_shell_view_set_folder_bar_mode (EShellView *shell_view,
 				  EShellViewSubwindowMode mode)
@@ -1036,6 +1043,9 @@ e_shell_view_set_folder_bar_mode (EShellView *shell_view,
 			gtk_widget_show (priv->storage_set_view_box);
 			e_paned_set_position (E_PANED (priv->view_hpaned), priv->view_hpaned_position);
 		}
+
+		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar),
+							FALSE);
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			gtk_widget_hide (priv->storage_set_view_box);
@@ -1043,6 +1053,9 @@ e_shell_view_set_folder_bar_mode (EShellView *shell_view,
 			priv->view_hpaned_position = E_PANED (priv->view_hpaned)->child1_size;
 			e_paned_set_position (E_PANED (priv->view_hpaned), 0);
 		}
+
+		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar),
+							TRUE);
 	}
 
         priv->folder_bar_mode = mode;

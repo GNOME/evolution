@@ -64,12 +64,15 @@ struct _EShellFolderTitleBarClass {
 GtkType    e_shell_folder_title_bar_get_type          (void);
 void       e_shell_folder_title_bar_construct         (EShellFolderTitleBar *folder_title_bar);
 GtkWidget *e_shell_folder_title_bar_new               (void);
+
 void       e_shell_folder_title_bar_set_title         (EShellFolderTitleBar *folder_title_bar,
 						       const char           *title);
 void       e_shell_folder_title_bar_set_icon          (EShellFolderTitleBar *folder_title_bar,
 						       const GdkPixbuf      *icon);
 void       e_shell_folder_title_bar_set_toggle_state  (EShellFolderTitleBar *folder_title_bar,
 						       gboolean              state);
+void       e_shell_folder_title_bar_set_clickable     (EShellFolderTitleBar *folder_title_bar,
+						       gboolean              clickable);
 
 #ifdef __cplusplus
 }
