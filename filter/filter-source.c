@@ -275,7 +275,11 @@ get_widget (FilterElement *fe)
 	} else {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), 0);
 		g_free (fs->priv->current_url);
-		fs->priv->current_url = g_strdup (first->url);
+
+		if (first)
+			fs->priv->current_url = g_strdup (first->url);
+		else
+			fs->priv->current_url = NULL;
 	}
 
 	return omenu;

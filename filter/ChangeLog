@@ -1,3 +1,11 @@
+2001-07-03  Peter Williams  <peterw@ximian.com>
+
+	* filter-source.c (get_widget): Prevent crashing while we work this out.
+
+	* filter-rule.c (get_widget): Don't try to gtk_widget_grab_default
+	with a widget that can't be the default. Altough it should be able
+	to....
+
 2001-07-02  Sam Creasey <sammy@oh.verio.com>
 	* filter-int.c: Added an integer type for filtering values.  used
 	for size.
