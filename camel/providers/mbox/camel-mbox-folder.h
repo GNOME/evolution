@@ -35,6 +35,8 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-folder.h"
+#include "camel-mbox-summary.h"
+
 /*  #include "camel-store.h" */
 
 #define CAMEL_MBOX_FOLDER_TYPE     (camel_mbox_folder_get_type ())
@@ -46,9 +48,12 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 	
-	gchar *folder_file_path; /* contains the messages */
-	gchar *folder_dir_path;  /* contains the subfolders */
-	GArray *uid_array;
+	gchar *folder_file_path;   /* contains the messages */
+	gchar *summary_file_path;  /* contains the messages summary */
+	gchar *folder_dir_path;    /* contains the subfolders */
+	
+	CamelMboxSummary *summary; /* internal summary object */
+	GList  *uid_array;
 
 } CamelMboxFolder;
 

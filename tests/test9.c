@@ -26,6 +26,7 @@ main (int argc, char**argv)
 	GArray *mbox_summary_info;
 	CamelMboxSummaryInformation *msg_info;
 	int i;
+	guint32 next_uid;
 
 	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 
@@ -35,12 +36,13 @@ main (int argc, char**argv)
 	ex = camel_exception_new ();
 	test_file_fd = open (argv[1], O_RDONLY);
 	message_info_array = camel_mbox_parse_file (test_file_fd, 
-						   "From ", 
-						   0,
-						   TRUE,
-						   NULL,
-						   0,
-						   ex); 
+						    "From ", 
+						    0,
+						    &next_uid
+						    TRUE,
+						    NULL,
+						    0,
+						    ex); 
 	
 	close (test_file_fd);
 	camel_mbox_write_xev (argv[1], message_info_array, 1, ex);

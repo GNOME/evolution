@@ -39,15 +39,13 @@
 #include "camel-log.h"
 #include "camel-stream-buffered-fs.h"
 #include "camel-folder-summary.h"
+#include "camel-mbox-summary.h"
+#include "camel-mbox-parser.h"
+#include "camel-mbox-utils.h"
+#include "md5-utils.h"
 #include "gmime-utils.h"
 
 #include "camel-exception.h"
-
-#if 0
-#include "mbox-utils.h"
-#include "mbox-uid.h"
-#include "mbox-summary.h"
-#endif 
 
 static CamelFolderClass *parent_class=NULL;
 
@@ -68,9 +66,9 @@ static gboolean _create(CamelFolder *folder, CamelException *ex);
 static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
-#if 0
-static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
+/* static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);*/
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
+#if 0
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static void _expunge (CamelFolder *folder, CamelException *ex);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex);
@@ -90,6 +88,7 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	parent_class = gtk_type_class (camel_folder_get_type ());
 		
 	/* virtual method definition */
+
 	/* virtual method overload */
 	camel_folder_class->init_with_store = _init_with_store;
 	camel_folder_class->set_name = _set_name;
@@ -100,9 +99,9 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->delete = _delete;
 	camel_folder_class->delete_messages = _delete_messages;
 	camel_folder_class->list_subfolders = _list_subfolders;
-#if 0
-	camel_folder_class->get_message_by_number = _get_message_by_number;
+	/* camel_folder_class->get_message_by_number = _get_message_by_number; */
 	camel_folder_class->get_message_count = _get_message_count;
+#if 0
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->copy_message_to = _copy_message_to;
@@ -167,6 +166,9 @@ camel_mbox_folder_get_type (void)
 static void 
 _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
 {
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
+
+
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::init_with_store\n");
 
 	/* call parent method */
@@ -180,14 +182,104 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
 	folder->has_uid_capability = TRUE;
- 
-	folder->summary = NULL;
+ 	folder->summary = NULL;
+
+	mbox_folder->folder_file_path = NULL;
+	mbox_folder->summary_file_path = NULL;
+	mbox_folder->folder_dir_path = NULL;
+	mbox_folder->summary = NULL;
+	mbox_folder->uid_array = NULL;
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::init_with_store\n");
 }
 
 
 
+/* internal method used to : 
+   - test for the existence of a summary file 
+   - test the sync between the summary and the mbox file
+   - load the summary or create it if necessary 
+*/ 
+static void
+_check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelException *ex)
+{
+	GArray *message_info_array;
+	gboolean summary_file_exists;
+	gboolean summary_file_is_sync;
+	GArray *mbox_summary_info;
+	gint mbox_file_fd;
+	guint32 next_uid;
+	
+	/* test for the existence of the summary file */
+	summary_file_exists = (access (mbox_folder->summary_file_path, F_OK) == 0);
+
+	/* if the summary file exists, test if the 
+	   md5 of the mbox file is still in sync
+	   with the one we had computed the last time
+	   we saved the summary file */
+	if (summary_file_exists) {
+		
+		summary_file_is_sync = 
+			camel_mbox_check_summary_sync (mbox_folder->summary_file_path,
+						       mbox_folder->folder_file_path,
+						       ex);
+		if (camel_exception_get_id (ex)) return;
+	}
+
+
+	/* in the case where the summary does not exist 
+	   or is not in sync with the mbox file
+	   regenerate it */
+	if ( !(summary_file_exists && summary_file_is_sync)) {
+		
+		/* parse the mbox folder and get some
+		   information about the messages */
+
+		mbox_file_fd = open (mbox_folder->folder_file_path, O_RDONLY);
+		message_info_array = camel_mbox_parse_file (mbox_file_fd, 
+							    "From - ", 
+							    0,
+							    &next_uid,
+							    TRUE,
+							    NULL,
+							    0,
+							    ex); 
+		
+		close (mbox_file_fd);
+		if (camel_exception_get_id (ex)) { 
+			return;
+		}
+
+		
+		next_uid = camel_mbox_write_xev (mbox_folder->folder_file_path, 
+						 message_info_array, next_uid, ex);
+
+		if (camel_exception_get_id (ex)) { 
+			/* ** FIXME : free the preparsed information */
+			return;
+		}
+						
+		mbox_summary_info =
+			parsed_information_to_mbox_summary (message_info_array);
+		
+		/* **FIXME : Free the parsed information structure */
+
+		/* allocate an internal summary object */
+		mbox_folder->summary = g_new (CamelMboxSummary, 1);
+		
+		/* generate the folder md5 signature */
+		md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->summary->md5_digest);
+
+		/* store the number of messages as well as the summary array */
+		mbox_folder->summary->nb_message = mbox_summary_info->len;		
+		mbox_folder->summary->next_uid = next_uid;		
+		mbox_folder->summary->message_info = mbox_summary_info;
+		
+	} else {
+		/* every thing seems ok, just read the summary file from disk */
+		mbox_folder->summary = camel_mbox_load_summary ("ev-summary.mbox", ex);
+	}
+}
 
 
 
@@ -195,35 +287,25 @@ static void
 _open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
-	struct dirent *dir_entry;
-	
-	
+	//struct dirent *dir_entry;
+	//struct stat stat_buf;
+
+
 	if (folder->open_state == FOLDER_OPEN) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
 				     "folder is already open");
 		return;
 	}
-
 	
-#if 0
-	Here, we need to check for the summary file 
-	existence and create it if necessary.
+	
+	
 	/* get (or create) uid list */
-	if (!(mbox_load_uid_list (mbox_folder) > 0))
-		mbox_generate_uid_list (mbox_folder);
-
-	/* get or create summary */
-	/* it is important that it comes after uid list reading/generation */
-	if (!(mbox_load_summary (mbox_folder) > 0))
-		mbox_generate_summary (folder);
+	//if (!(mbox_load_uid_list (mbox_folder) > 0))
+	//	mbox_generate_uid_list (mbox_folder);
 	
-#endif 
+	_check_get_or_maybe_generate_summary_file (mbox_folder, ex);
 }
-
-
-
-
 
 
 static void
@@ -234,6 +316,9 @@ _close (CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	/* call parent implementation */
 	parent_class->close (folder, expunge, ex);
+	
+	/* save the folder summary on disc */
+	camel_mbox_save_summary (mbox_folder->summary, mbox_folder->summary_file_path, ex);
 }
 
 
@@ -244,8 +329,8 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	const gchar *root_dir_path;
-	gchar *full_name;
-	const gchar *parent_full_name;
+	//gchar *full_name;
+	//const gchar *parent_full_name;
 	gchar separator;
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::set_name\n");
@@ -265,6 +350,7 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::separator is %c\n", separator);
 
 	mbox_folder->folder_file_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
+	mbox_folder->summary_file_path = g_strdup_printf ("%s%c.%s-ev-summary", root_dir_path, separator, folder->full_name);
 	mbox_folder->folder_dir_path = g_strdup_printf ("%s%c%s.sdb", root_dir_path, separator, folder->full_name);
 	
 	
@@ -313,8 +399,21 @@ _exists (CamelFolder *folder, CamelException *ex)
 				     "undetermined folder directory path. Maybe use set_name ?");
 		return FALSE;
 	}
-	
+
+
+	/* we should not check for that here */
+#if 0
 	/* check if the mbox directory exists */
+	access_result = access (mbox_folder->folder_dir_path, F_OK);
+	if (access_result < 0) {
+		CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::exists errot when executing access on %s\n", 
+				      mbox_folder->folder_dir_path);
+		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_SYSTEM,
+				     strerror(errno));
+		return FALSE;
+	}
 	stat_error = stat (mbox_folder->folder_dir_path, &stat_buf);
 	if (stat_error == -1)  {
 		CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::exists when executing stat on %s, stat_error = %d\n", 
@@ -327,19 +426,14 @@ _exists (CamelFolder *folder, CamelException *ex)
 	}
 	exists = S_ISDIR (stat_buf.st_mode);
 	if (!exists) return FALSE;
+#endif 
+
 
 	/* check if the mbox file exists */
 	stat_error = stat (mbox_folder->folder_file_path, &stat_buf);
-	if (stat_error == -1)  {
-		CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::exists when executing stat on %s, stat_error = %d\n", 
-				      mbox_folder->folder_file_path, stat_error);
-		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_SYSTEM,
-				     strerror(errno));
+	if (stat_error == -1)
 		return FALSE;
-	}
-
+	
 	exists = S_ISREG (stat_buf.st_mode);
 	/* we should  check the rights here  */
 	
@@ -410,7 +504,13 @@ _create (CamelFolder *folder, CamelException *ex)
 	umask (old_umask);
 	if (creat_fd == -1) goto io_error;
 	close (creat_fd);
-	
+
+	/* create the summary object */	
+	mbox_folder->summary = g_new (CamelMboxSummary, 1);
+	mbox_folder->summary->nb_message = 0;
+	mbox_folder->summary->next_uid = 1;
+	mbox_folder->summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
+
 	return TRUE;
 
 	/* exception handling for io errors */
@@ -472,7 +572,7 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 	parent_class->delete (folder, recurse, ex);
 	
 
-	/* get the paths of what we need to delete */
+	/* get the paths of what we need to be deleted */
 	folder_file_path = mbox_folder->folder_file_path;
 	folder_dir_path = mbox_folder->folder_file_path;
 	
@@ -638,7 +738,7 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 
 	struct stat stat_buf;
 	gint stat_error = 0;
-	GList *file_list;
+	//GList *file_list;
 	gchar *entry_name;
 	gchar *full_entry_name;
 	gchar *real_folder_name;
@@ -646,7 +746,7 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 	DIR *dir_handle;
 	gboolean folder_suffix_found;
 	
-	gchar *io_error_text;
+	//gchar *io_error_text;
 	
 
 
@@ -701,7 +801,7 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 				CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::list_subfolders adding "
 						      "%s\n", entry_name);
 
-				/* if the folder is a netscape folder, remove the 
+				/* if the folder is a netscape folder, remove the  
 				   ".sdb" from the name */
 				real_folder_name = string_prefix (entry_name, ".sdb", &folder_suffix_found);
 				/* stick here the tests for other folder suffixes if any */
@@ -757,61 +857,19 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 
 
 
-
-
-
-
-
-
-#if 0
-
-static CamelMimeMessage *
-_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
+static gint
+_get_message_count (CamelFolder *folder, CamelException *ex)
 {
-	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
-	const gchar *directory_path;
-	gchar *message_name;
-	gchar *message_file_name;
-	CamelStream *input_stream = NULL;
-	CamelMimeMessage *message = NULL;
-	GList *message_list = NULL;
 	
-	g_assert(folder);
-	
-	
-	directory_path = mh_folder->directory_path;
-	if (!directory_path) return NULL;	
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
+	gint message_count;
 
-		
+	g_assert (folder);
+	g_assert (mbox_folder->summary);
 	
-	message_name = g_list_nth_data (mh_folder->file_name_list, number);
-	
-	if (message_name != NULL) {
-		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, name = %s\n", 
-				       number, message_name);
-		message_file_name = g_strdup_printf ("%s/%s", directory_path, message_name);
-		input_stream = camel_stream_buffered_fs_new_with_name (message_file_name, CAMEL_STREAM_BUFFERED_FS_READ);
-		
-		if (input_stream != NULL) {
-#warning use session field here
-			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
-			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
-			gtk_object_unref (GTK_OBJECT (input_stream));
-			message->message_number = number;
-			gtk_object_set_data_full (GTK_OBJECT (message), "filename", 
-						  g_strdup (message_name), _filename_free);
-			
-#warning Set flags and all this stuff here
-		}
-		g_free (message_file_name);
+	message_count = mbox_folder->summary->nb_message;
 
-	} else 
-		CAMEL_LOG_FULL_DEBUG  ("CanelMhFolder::get_message message number = %d, not found\n", number);
-	
-	
-	return message;   
+	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::get_message_count found %d messages\n", message_count);
+	return message_count;
 }
-
-#endif 
-
 

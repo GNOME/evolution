@@ -1,3 +1,29 @@
+2000-01-19  bertrand  <bertrand@helixcode.com>
+
+	* camel/providers/mbox/camel-mbox-folder.c (_get_message_count): 
+	implemented.
+
+	* camel/providers/mbox/camel-mbox-summary.c (camel_mbox_save_summary): 
+	(camel_mbox_load_summary): save/load the next uid. 
+
+	* camel/providers/mbox/camel-mbox-parser.c (camel_mbox_parse_file): 
+	Compute the next available uid. 
+	* camel/providers/mbox/camel-mbox-folder.c (_create): 
+	(_check_get_or_maybe_generate_summary_file): 
+	Set and use the next_uid field properly. 
+	* camel/providers/mbox/camel-mbox-summary.h: added
+	an extra field to store the next available uid. 
+
+	* camel/providers/mbox/camel-mbox-folder.c 
+	(_check_get_or_maybe_generate_summary_file): 
+	routine called when the folder is opened. 
+	Reads or creates the summary file. 
+	(_create): initialize the internal summary 
+	structure. 
+	(_close): save the summary file on closing. 
+	(_init_with_store): initialize mbox specific
+	folder members. 
+
 2000-01-18  bertrand  <bertrand@helixcode.com>
 
 	* tests/test9.c:

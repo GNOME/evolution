@@ -65,11 +65,11 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 	/* compute and write the mbox file md5 signature */
 	//md5_get_digest_from_file (filename, summary->md5_digest);
 
-	/* write the number of messages  + the md5 signatures */
-	write (fd, summary, sizeof (guint) +  sizeof (guchar) * 16);
+	/* write the number of messages  + the md5 signatures 
+	 + next UID */
+	write (fd, summary, sizeof (guint) +  sizeof (guchar) * 16 + sizeof (guint32));
 	       
 	
-	printf ("%d %d\n", summary->nb_message, summary->message_info->len);
 	for (cur_msg=0; cur_msg < summary->nb_message; cur_msg++) {
 
 		msg_info = (CamelMboxSummaryInformation *)(summary->message_info->data) + cur_msg;
@@ -80,7 +80,6 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 		       sizeof (guint32) + sizeof (guint) + 
 		       sizeof (guint32) + sizeof (guchar));
 		
-		//printf ("IN iewr subject = %s\n", msg_info->subject);
 		/* write subject */
 		field_lgth = msg_info->subject ? strlen (msg_info->subject) : 0;
 		write (fd, &field_lgth, sizeof (guint));
@@ -142,8 +141,9 @@ camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 		}
 	summary = g_new0 (CamelMboxSummary, 1);
 
-	/* read the message number as well as the md5 signature */
-	read (fd, summary, sizeof (guint) + sizeof (guchar) * 16);
+	/* read the message number, the md5 signature 
+	 and the next available UID */
+	read (fd, summary, sizeof (guint) + sizeof (guchar) * 16 +  sizeof (guint32));
 
 	summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
 	summary->message_info =  g_array_set_size (summary->message_info, summary->nb_message);
@@ -209,6 +209,43 @@ camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 
 
 
+gboolean
+camel_mbox_check_summary_sync (gchar *summary_filename,
+			       gchar *mbox_filename,
+			       CamelException *ex)
 
+{
+	gint fd;
+	guchar summary_md5[16];
+	guchar real_md5[16];
 
+	
+	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
+
+	fd = open (summary_filename, O_RDONLY);
+	if (fd == -1) {
+			camel_exception_setv (ex, 
+					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
+					     "could not open the mbox summary file\n"
+					      "\t%s\n"
+					      "Full error is : %s\n",
+					      summary_filename,
+					      strerror (errno));
+			return FALSE;
+		}
+	
+	/* skip the message number field */
+	lseek (fd, sizeof (guint), SEEK_SET);
+	
+	/* read the md5 signature stored in the summary file */
+	read (fd, summary_md5, + sizeof (guchar) * 16);
+	close (fd);
+	/* ** FIXME : check for exception in all these operations */
+	
+	/* compute the actual md5 signature on the 
+	   mbox file */
+	md5_get_digest_from_file (mbox_filename, real_md5);
+	
+	return (strncmp (real_md5, summary_md5, 16) == 0);
+}
 

@@ -561,6 +561,7 @@ GArray *
 camel_mbox_parse_file (int fd, 
 		       const gchar *message_delimiter,
 		       glong start_position,
+		       guint32 *next_uid,
 		       gboolean get_message_summary,
 		       camel_mbox_preparser_status_callback *status_callback,
 		       double status_interval,
@@ -577,7 +578,10 @@ camel_mbox_parse_file (int fd,
 	gboolean newline;
 	GArray *return_value;
 	gchar *x_ev_header_content;
+	guint32 next_available_uid = 1;
 
+
+	g_assert (next_uid);
 
 	/* get file size */
 	fstat_result = fstat (fd, &stat_buf);
@@ -720,11 +724,8 @@ camel_mbox_parse_file (int fd,
 											 G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info) + 
 											 G_STRUCT_OFFSET (CamelMboxParserMessageInfo, status)));
 					g_free (x_ev_header_content);
-
-					/* 
-					   parser->current_message_info.x_evolution_length = 
-					   parser->real_position - parser->current_message_info.x_evolution_position;
-					*/
+					next_available_uid = MAX (next_available_uid, parser->current_message_info.uid);
+					
 					newline = TRUE;
 					continue;
 				}
@@ -760,7 +761,7 @@ camel_mbox_parse_file (int fd,
 	}
 
 	return_value = parser->preparsed_messages;
-
+	*next_uid = next_available_uid;
 	/* free the parser */
 	parser_free (parser);
 

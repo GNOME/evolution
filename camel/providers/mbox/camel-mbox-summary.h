@@ -26,7 +26,6 @@
 #define MBOX_SUMMARY_H 1
 
 #include <glib.h>
-#include "camel-mbox-folder.h"
 
 
 
@@ -47,7 +46,8 @@ typedef struct {
 typedef struct {
 	
 	guint nb_message;      /* number of messages in the summary    */
-	guchar md5_digest[16];   /* md5 signature of the mbox file       */
+	guchar md5_digest[16];   /* md5 signature of the mbox file     */
+	guint32 next_uid;
 	
 	GArray *message_info;    /* array of CamelMboxSummaryInformation */
 	
@@ -59,6 +59,11 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 
 CamelMboxSummary *
 camel_mbox_load_summary (const gchar *filename, CamelException *ex);
+
+gboolean
+camel_mbox_check_summary_sync (gchar *summary_filename,
+			       gchar *mbox_filename,
+			       CamelException *ex);
 
 
 
