@@ -1648,7 +1648,7 @@ loc57=Zacatecas MMZC ------ ---
 
 [EU]
 name=Europe
-states=AB OS BE BA BG CZ HR CY DK EE FI FR MK DE GI GR HU IE IS IT LV LT LU MT MD NL NO PL PT RO RU SK SI SP SE CH TR UK YU
+states=AB OS BE BA BG CZ HR CY DK EE FI FR MK DE GI GR HU IE IS IT LV LT LU MT MD NL NO PL PT RO RU SK SI SP SE CH TR UA UK YU
 
 [EU_AB]
 name=Albania
@@ -1914,6 +1914,21 @@ loc49=Voronezh UUOO ------ ---
 loc50=Yakutsk UEEE ------ ---
 loc51=Yekaterinburg USSS ------ ---
 loc52=Yuzhno-Sakhalinsk UHSS ------ ---
+
+[EU_UA]
+name=Ukraine
+loc0=Dnipropetrovsk UKDD ------ ---
+loc1=Donetsk UKCC ------ ---
+loc2=Ivano-Frankivsk UKLI ------ ---
+loc3=Kharkiv UKHH ------ ---
+loc4=Kyyiv/Boryspil UKBB ------ ---
+loc5=Kyyiv/Zhulyany UKKK ------ ---
+loc6=Kryviy\\ Rig/Lozovatka UKDR ------ ---
+loc7=Lviv UKLL ------ ---
+loc8=Odesa UKOO ------ ---
+loc9=Rivne UKLR ------ ---
+loc10=Sympheropol UKFF ------ ---
+loc11=Uzhgorod UKLU ------ ---
 
 [EU_SK]
 name=Slovakia

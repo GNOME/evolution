@@ -1,3 +1,9 @@
+2002-01-24  Iain Holmes  <iain@ximian.com>
+
+	* Locations: Applied the Ukraine patch from Leonid Kanter
+
+	* Locations.h: Re-generated to get the UK stations added.
+
 2002-01-22  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-mail (e_summary_mail_reconfigure): Do the list backwards.
