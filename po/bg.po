@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-25 16:24+0200\n"
-"PO-Revision-Date: 2005-01-25 16:23+0200\n"
+"POT-Creation-Date: 2005-01-27 11:58+0200\n"
+"PO-Revision-Date: 2005-01-27 12:01+0200\n"
 "Last-Translator: Vladimir Petkov <vpetkov@i-space.org>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
 "MIME-Version: 1.0\n"
@@ -256,18 +256,16 @@ msgid "evolution calendar item"
 msgstr "елемент от календара на еволюшън"
 
 #: a11y/widgets/ea-combo-button.c:40
-#, fuzzy
 msgid "Combo Button"
-msgstr "Бутон за времева зона"
+msgstr "Комбо бутон"
 
 #: a11y/widgets/ea-combo-button.c:50
-#, fuzzy
 msgid "Activate Default"
-msgstr "Използване на _стандартни"
+msgstr "Активиране на стандартните"
 
 #: a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "Изскачащо меню"
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
@@ -409,7 +407,7 @@ msgstr ""
 
 #: addressbook/addressbook-errors.xml.h:45
 msgid "_Discard"
-msgstr "_Отмяна"
+msgstr "_Отхвърляне"
 
 #. addressbook:prompt-move primary
 #: addressbook/addressbook-errors.xml.h:47
@@ -551,7 +549,7 @@ msgstr ""
 #: addressbook/gui/component/ldap-config.glade.h:23
 #: calendar/gui/dialogs/calendar-setup.c:361
 #: calendar/gui/dialogs/calendar-setup.c:372
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: mail/em-folder-properties.c:214 mail/mail-config.glade.h:85
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
@@ -695,9 +693,8 @@ msgid "Contacts"
 msgstr "Контакти"
 
 #: addressbook/gui/component/addressbook-view.c:1130
-#, fuzzy
 msgid "Contact Source Selector"
-msgstr "Местонахождение на календара"
+msgstr "Избиране на контакти"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList XML for the list of completion URIs"
@@ -806,6 +803,7 @@ msgstr "Управление на вашите S/MIME сертификати"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
 #: calendar/gui/dialogs/cal-attachment.glade.h:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 #: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/new-calendar.glade.h:1
@@ -1138,9 +1136,8 @@ msgid "Full _Name..."
 msgstr "Пълно _име..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Image"
-msgstr "съобщение"
+msgstr "Изображение"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
@@ -1165,9 +1162,8 @@ msgid "Personal Information"
 msgstr "Лична информация"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Telephone"
-msgstr "<b>Телефон</b>"
+msgstr "Телефон"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
@@ -1184,22 +1180,19 @@ msgid "_Address:"
 msgstr "_Адрес:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#, fuzzy
 msgid "_Anniversary:"
-msgstr "Годишнина:"
+msgstr "_Годишнина:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Assistant:"
-msgstr "Асистент:"
+msgstr "_Асистент:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Birthday:"
-msgstr "Рожден ден:"
+msgstr "_Рожден ден:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: plugins/itip-formatter/itip-view.c:1573
+#: plugins/itip-formatter/itip-view.c:1575
 msgid "_Calendar:"
 msgstr "_Календар:"
 
@@ -1208,53 +1201,44 @@ msgid "_Categories"
 msgstr "_Категории"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#, fuzzy
 msgid "_City:"
-msgstr "Град:"
+msgstr "_Град:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
-#, fuzzy
 msgid "_Company:"
-msgstr "Компания:"
+msgstr "_Компания:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "_Country:"
-msgstr "Държава:"
+msgstr "_Държава:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#, fuzzy
 msgid "_Department:"
-msgstr "Отдел:"
+msgstr "_Отдел:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_File under:"
 msgstr "Име в _списъка:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "_Free/Busy:"
-msgstr "Свободен/зает:"
+msgstr "_Свободен/зает:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_Home Page:"
-msgstr "Интернет страница:"
+msgstr "_Интернет страница:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "_Manager:"
-msgstr "Мениджър:"
+msgstr "_Ръководител:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
-#, fuzzy
 msgid "_Notes:"
-msgstr "Бележки:"
+msgstr "_Бележки:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:39
-#, fuzzy
 msgid "_Office:"
-msgstr "Офис:"
+msgstr "_Офис:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 #: addressbook/gui/contact-editor/fulladdr.glade.h:7
@@ -1262,14 +1246,12 @@ msgid "_PO Box:"
 msgstr "_Пощенска кутия:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
-#, fuzzy
 msgid "_Profession:"
-msgstr "Професия:"
+msgstr "_Професия:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "_Spouse:"
-msgstr "Съпруг(а):"
+msgstr "_Съпруг(а):"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: addressbook/gui/contact-editor/fulladdr.glade.h:8
@@ -1282,19 +1264,16 @@ msgid "_Title:"
 msgstr "Титла:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:45
-#, fuzzy
 msgid "_Video Chat:"
-msgstr "Видео разговор:"
+msgstr "_Видео разговор:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:46
-#, fuzzy
 msgid "_Wants to receive HTML mail"
-msgstr "Желая да получавам поща във формат HTML"
+msgstr "_Желая да получавам поща във формат HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
-#, fuzzy
 msgid "_Web Log:"
-msgstr "Блог (интернет дневник):"
+msgstr "_Блог:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
@@ -1302,9 +1281,8 @@ msgid "_Where:"
 msgstr "_Къде:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:49
-#, fuzzy
 msgid "_Zip/Postal Code:"
-msgstr "ZIP/Пощенски код:"
+msgstr "_ZIP/Пощенски код:"
 
 #: addressbook/gui/contact-editor/eab-editor.c:319
 msgid ""
@@ -2428,9 +2406,8 @@ msgid "_Edit Full"
 msgstr "Пълно р_едактиране"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:306
-#, fuzzy
 msgid "_Full name:"
-msgstr "Пълно _име:"
+msgstr "_Пълно име:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:316
 msgid "E-_mail:"
@@ -2556,7 +2533,6 @@ msgid "Insert email adresses from Adress Book"
 msgstr "Вмъкване на пощенски адреси от адреси"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:709
 msgid "Members"
 msgstr "Членове"
 
@@ -2573,9 +2549,8 @@ msgid "_List name:"
 msgstr "Име на списък:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
-#, fuzzy
 msgid "_Select"
-msgstr "Избор"
+msgstr "_Избор"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
@@ -2593,6 +2568,10 @@ msgstr "Книга"
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:175
 msgid "Is New List"
 msgstr "Е нов списък"
+
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:709
+msgid "_Members"
+msgstr "_Членове"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:712
 msgid "Contact List Members"
@@ -2916,7 +2895,7 @@ msgid "Error removing contact"
 msgstr "Грешка при премахване на контакт"
 
 #: addressbook/gui/widgets/eab-gui-util.c:282
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -2925,13 +2904,9 @@ msgid_plural ""
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
 "Отварянето на %d контакт, ще отвори %d нов прозорец.\n"
-"Наистина ли желаете да покажете този контакт?Отварянето на %d контакта, ще "
-"отвори %d нови прозореца.\n"
-"Наистина ли желаете да покажете всички тези контакти?"
+"Наистина ли желаете да покажете този контакт?"
 msgstr[1] ""
-"Отварянето на %d контакт, ще отвори %d нов прозорец.\n"
-"Наистина ли желаете да покажете този контакт?Отварянето на %d контакта, ще "
-"отвори %d нови прозореца.\n"
+"Отварянето на %d контакта, ще отвори %d нови прозореца.\n"
 "Наистина ли желаете да покажете всички тези контакти?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:311
@@ -3184,9 +3159,8 @@ msgid "Any Category"
 msgstr "Всяка категория"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1750
-#, fuzzy
 msgid "Print cards"
-msgstr "Задачи за разпечатване"
+msgstr "Разпечатване на карти"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -4076,10 +4050,8 @@ msgstr "Сигурен ли сте, че желаете да изпратите 
 #: calendar/calendar-errors.xml.h:131
 msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
-"of what your appointment is about."
-msgstr ""
-"Чрез добавянето на смислено резюме към вашата задача, вие ще дадете на "
-"получателите идея за какво се отнася тази среща."
+"of what your task is about."
+msgstr "Чрез добавянето на смислено резюме към вашата задача, вие ще дадете на получателите идея за какво се отнася тази задача."
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4128,13 +4100,13 @@ msgstr "Име на среща"
 
 #. End time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: plugins/itip-formatter/itip-view.c:830
+#: plugins/itip-formatter/itip-view.c:832
 msgid "End time:"
 msgstr "Край:"
 
 #. Location
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:813
+#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:815
 msgid "Location:"
 msgstr "Местоположение:"
 
@@ -4144,12 +4116,12 @@ msgstr "Време за _отлагане:"
 
 #. Start time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
-#: plugins/itip-formatter/itip-view.c:821
+#: plugins/itip-formatter/itip-view.c:823
 msgid "Start time:"
 msgstr "_Начало:"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:7
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 #: calendar/gui/dialogs/recurrence-page.glade.h:6 filter/filter.glade.h:11
 #: mail/mail-config.glade.h:153 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:41 ui/evolution-composer-entries.xml.h:8
@@ -4876,252 +4848,252 @@ msgstr "Забраняване"
 msgid "Enable"
 msgstr "Разрешаване"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "05 minutes"
 msgstr "5 минути"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "10 minutes"
 msgstr "10 минути"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "15 minutes"
 msgstr "15 минути"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "30 minutes"
 msgstr "30 минути"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "60 minutes"
 msgstr "60 минути"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "<b>Alerts</b>"
 msgstr "<b>Аларми</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "<b>Default Free/Busy Server</b>"
 msgstr "<b>Стандартен сървър свободен/зает</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>General</b>"
 msgstr "<b>Общи</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "<b>Publishing</b>"
 msgstr "<b>Публикуване</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<b>Task List</b>"
 msgstr "<b>Списък със задачи</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<b>Time</b>"
 msgstr "<b>Време</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "<b>Work Week</b>"
 msgstr "<b>Работна седмица</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr "<i>%u и %d ще бъдат заменени от потребител и домейн от ел. поща.</i>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
 msgstr "Настройки на календара и задачите"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Color for overdue tasks"
 msgstr "Цвят за просрочени задачи"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Color for tasks due today"
 msgstr "Цвят на задачи за деня"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Day _ends:"
 msgstr "Деня приключва в:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "Days"
 msgstr "Дни"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "Display"
 msgstr "Показване"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: mail/mail-config.glade.h:74
 msgid "E_nable"
 msgstr "Разрешава"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Free/Busy"
 msgstr "Свободен/зает"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "Петък"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Hours"
 msgstr "Часове"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Minutes"
 msgstr "Минути"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "Понеделник"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "S_un"
 msgstr "Нед"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "Събота"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 msgid "Sh_ow a reminder"
 msgstr "Показване на напомняне"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Show week _numbers in date navigator"
 msgstr "Показване на номерата на седмиците в навигацията за _ден"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "Неделя"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "T_asks due today:"
 msgstr "Задачи за днес:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "T_hu"
 msgstr "_Чет"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Template:"
 msgstr "Шаблон:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 #: calendar/gui/dialogs/recurrence-page.c:1043
 #: calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "Четвъртък"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Time _zone:"
 msgstr "Времева _зона:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Time format:"
 msgstr "Формат на време:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "W_eek starts:"
 msgstr "С_едмицата започва в:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 #: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "Сряда"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Work days:"
 msgstr "Работни дни:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_12 hour (AM/PM)"
 msgstr "_12 часа (am/pm)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_24 hour"
 msgstr "_24 часа"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Add URL"
 msgstr "Д_обавяне на URL"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Питане за подтвърждение при изтриване на обекти"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Compress weekends in month view"
 msgstr "Сбиване на почивните дни в месечен пре_глед"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Day begins:"
 msgstr "_Денят започва в:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Fri"
 msgstr "_Пет"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Hide completed tasks after"
 msgstr "Скриване на завършени_те задачи след"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Mon"
 msgstr "По_н"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Overdue tasks:"
 msgstr "_Просрочени задачи:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Sat"
 msgstr "_Съб"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Show appointment end times in week and month views"
 msgstr "_Показване края на срещите в седмичните и месечните календарни изгледи"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Time divisions:"
 msgstr "_Времеви разделения:"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Tue"
 msgstr "_Вт"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Wed"
 msgstr "_Ср"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "before every appointment"
 msgstr "преди всяка среща"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "option menu to choose reminder units"
 msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "option menu to choose time units"
 msgstr ""
 
@@ -5937,9 +5909,8 @@ msgid "<b>Publishing _Location</b>"
 msgstr "<b>Място за публикуване</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Publishing Settings"
-msgstr "Информация свободен/зает"
+msgstr "Настройки на свободен/зает"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -6070,7 +6041,7 @@ msgstr "Крайна дата:"
 #. write status
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
-#: calendar/gui/e-itip-control.c:1132 plugins/itip-formatter/itip-view.c:838
+#: calendar/gui/e-itip-control.c:1132 plugins/itip-formatter/itip-view.c:840
 msgid "Status:"
 msgstr "Състояние:"
 
@@ -6136,9 +6107,8 @@ msgid "Busy"
 msgstr "Заето"
 
 #: calendar/gui/e-calendar-table.c:516
-#, fuzzy
 msgid "Task Table"
-msgstr "Актуализиране на задача"
+msgstr "Таблица със задачи"
 
 #: calendar/gui/e-calendar-table.c:694 calendar/gui/e-calendar-view.c:652
 msgid "Deleting selected objects"
@@ -6541,10 +6511,10 @@ msgstr "Грешка в iCalendar"
 
 #: calendar/gui/e-itip-control.c:1038 calendar/gui/e-itip-control.c:1054
 #: calendar/gui/e-itip-control.c:1065 calendar/gui/e-itip-control.c:1082
-#: plugins/itip-formatter/itip-view.c:285
-#: plugins/itip-formatter/itip-view.c:286
-#: plugins/itip-formatter/itip-view.c:353
-#: plugins/itip-formatter/itip-view.c:354
+#: plugins/itip-formatter/itip-view.c:287
+#: plugins/itip-formatter/itip-view.c:288
+#: plugins/itip-formatter/itip-view.c:355
+#: plugins/itip-formatter/itip-view.c:356
 msgid "An unknown person"
 msgstr "Неизвестна личност"
 
@@ -10501,9 +10471,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Сканиране на папки в \"%s\""
 
 #: mail/em-folder-tree.c:2007
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "Копиране на писма в %s"
+msgstr "Копиране на \"%s\" в \"%s\""
 
 #: mail/em-folder-tree.c:2249 mail/em-folder-tree.c:2263
 #: mail/em-folder-view.c:827 mail/em-folder-view.c:842
@@ -10536,10 +10506,9 @@ msgstr "Преименуване на папката \"%s\" на:"
 msgid "Rename Folder"
 msgstr "Преименуване на папка"
 
-#: mail/em-folder-tree.c:2677
-#, fuzzy
+#: mail/em-folder-tree.c:2680
 msgid "Folder names cannot contain '/'"
-msgstr "В името на папката не може да се съдържа символа \"/\"."
+msgstr "Името на папката не може да съдържа \"/\""
 
 #: mail/em-folder-tree.c:2754 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
@@ -12023,7 +11992,7 @@ msgstr "<span weight=\"bold\">Изобразени пощенски колонт
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Настройка на филтър</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1641
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1656
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">Общи</span>"
 
@@ -12450,13 +12419,11 @@ msgid "T_ype: "
 msgstr "Т_ип:"
 
 #: mail/mail-config.glade.h:135
-#, fuzzy
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
-"Тази страница позволява настройването на проверка на правописа и езика. "
-"Списъкът на езиците отразява само езиците, за които имате инсталиран речник."
+"Списъкът на езиците отразява само езиците, за които има инсталиран речник."
 
 #: mail/mail-config.glade.h:136
 msgid ""
@@ -12858,11 +12825,8 @@ msgstr "Изпразване на _кошчето"
 
 #. mail:ask-open-many primary
 #: mail/mail-errors.xml.h:53
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr ""
-"Сигурни ли сте, че желаете да изпратите писмото само с получатели в полето "
-"\"Скрито копие до\"?"
+msgstr "Сигурни ли сте, че желаете да отворите едновременно {0} писма?"
 
 #. mail:ask-open-many secondary
 #: mail/mail-errors.xml.h:55
@@ -12870,9 +12834,8 @@ msgid "Opening too many messages at once may take a long time."
 msgstr ""
 
 #: mail/mail-errors.xml.h:56
-#, fuzzy
 msgid "_Open Messages"
-msgstr "Отваряне на _писмо"
+msgstr "Отваряне на _писма"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:58
@@ -13624,8 +13587,8 @@ msgstr "Най-висока"
 msgid "?"
 msgstr "?"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
+#. strftime format of a time,
+#. in 12-hour format, without seconds.
 #: mail/message-list.c:1348 plugins/itip-formatter/itip-view.c:160
 msgid "Today %l:%M %p"
 msgstr "Днес %l:%M %p"
@@ -13739,9 +13702,8 @@ msgid "Subject contains"
 msgstr "Темата съдържа"
 
 #: mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "Темата съдържа"
+msgstr "Темата или изпращача съдържа"
 
 #: plugins/backup-restore/backup.c:109
 msgid "Backup Evolution directory"
@@ -13769,7 +13731,7 @@ msgstr "_Рестартиране на Evolution след създаването
 
 #: plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr ""
+msgstr "Избор на архив за възстановяване"
 
 #: plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
@@ -13813,6 +13775,8 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
+"Периодично синхронизиране на информацията за контактите и изображенията с "
+"програмата за _бързи съобщения(gaim)"
 
 #. Synchronize now button.
 #: plugins/bbdb/bbdb.c:448
@@ -13822,102 +13786,89 @@ msgstr "Синхронизиране със _списъкът с приятел�
 #: plugins/calendar-weather/calendar-weather.c:54
 #: plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "Време: Облачно"
 
 #: plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr ""
+msgstr "Време: мъгла"
 
 #: plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "Време: частична облачност"
 
 #: plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Rain"
-msgstr "Бахрейн"
+msgstr "Време: дъждовно"
 
 #: plugins/calendar-weather/calendar-weather.c:64
 msgid "Weather: Snow"
-msgstr ""
+msgstr "Време: сняг"
 
 #: plugins/calendar-weather/calendar-weather.c:65
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "Време: слънчево"
 
 #: plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "Време: буря"
 
 #: plugins/calendar-weather/calendar-weather.c:100
-#, fuzzy
 msgid "Weather"
-msgstr "По-късно"
+msgstr "Време"
 
 #: plugins/calendar-weather/calendar-weather.c:268
-#, fuzzy
 msgid "Select a location"
-msgstr "Избор на действие"
+msgstr "Избор на местоположение"
 
 #: plugins/calendar-weather/calendar-weather.c:655
-#, fuzzy
 msgid "_Units:"
-msgstr "Единица"
+msgstr "_Единици:"
 
 #: plugins/calendar-weather/calendar-weather.c:662
 msgid "Metric (Celsius, cm, etc)"
-msgstr ""
+msgstr "Метрични (Целзий, см и т.н.)"
 
 #: plugins/calendar-weather/calendar-weather.c:663
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr ""
+msgstr "Имперски (Фаренхайт, инчове и т.н.)"
 
 #: plugins/default-source/default-source.c:82
-#, fuzzy
 msgid "Mark  as default folder"
-msgstr "Да бъде ли използвана стандартната папка за чернови?"
+msgstr "Обозначаване като стандартна папка"
 
 #: plugins/default-source/default-source.c:108
-#, fuzzy
 msgid "Mark as default folder"
-msgstr "Да бъде ли използвана стандартната папка за чернови?"
+msgstr "Обозначаване като стандартна папка"
 
 #. Description section
 #: plugins/exchange-account-setup/exchange-account-setup.c:91
-#, fuzzy
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"<small>Писмото, посочено по-долу, ще бъде пращано автоматично до всеки, "
-"който ви изпрати\n"
-"писмо, докато сте извън офиса.</small>"
+"Писмото, посочено по-долу, ще бъде пращано автоматично до всеки, \n"
+"който ви изпрати писмо, докато сте извън офиса."
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:115
-#, fuzzy
 msgid "I am in the office"
 msgstr "В момента съм в офиса"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:129
-#, fuzzy
 msgid "I am out of the office"
 msgstr "В момента не съм в офиса"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:143
-#, fuzzy
 msgid "Out of office Message:"
-msgstr "<b>Съобщение \"Не съм в офиса\":</b>"
+msgstr "Съобщение \"Не съм в офиса\":"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:194
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "Настройки"
+msgstr "Настройки на Exchange"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:329
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "Опълномощаване"
+msgstr "_Удостоверяване"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:336
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
@@ -13939,14 +13890,12 @@ msgstr ""
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: widgets/misc/e-send-options.glade.h:20
-#, fuzzy
 msgid "Send Options"
-msgstr "<b>Нсатройки за изпращане</b>"
+msgstr "Настройки за изпращане"
 
 #: plugins/itip-formatter/itip-formatter.c:697
-#, fuzzy
 msgid "Unable to parse item"
-msgstr "Неуспех при прегледа на съдържанието на писмото"
+msgstr "Неуспех при прегледа на съдържанието на записа"
 
 #: plugins/itip-formatter/itip-formatter.c:750
 #, c-format
@@ -13980,9 +13929,9 @@ msgstr ""
 "статус"
 
 #: plugins/itip-formatter/itip-formatter.c:836
-#, c-format
-msgid "Unable to update attendee statusAttendee status updated. %s"
-msgstr ""
+#, fuzzy, c-format
+msgid "Unable to update attendee. %s"
+msgstr "Неуспех при мигрирането на календара \"%s\""
 
 #: plugins/itip-formatter/itip-formatter.c:840
 msgid "Attendee status updated"
@@ -14011,34 +13960,35 @@ msgid ""
 msgstr ""
 
 #: plugins/itip-formatter/itip-formatter.c:1012
-#, fuzzy
 msgid "The calendar attached contains multiple items"
-msgstr "Добавеният календар е невалиден"
+msgstr "Добавеният календар съдържа множество обекта"
 
 #: plugins/itip-formatter/itip-formatter.c:1013
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"За да бъдат обработени тези записи, файлът трябва да бъде запазен и "
+"календарът внесен"
 
-#: plugins/itip-formatter/itip-formatter.c:1632
+#: plugins/itip-formatter/itip-formatter.c:1647
 msgid "Meetings and Tasks"
 msgstr "Събрания и задачи"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1655
+#: plugins/itip-formatter/itip-formatter.c:1670
 msgid "_Delete message after acting"
 msgstr "_Изтриване на писмото след действието"
 
-#: plugins/itip-formatter/itip-formatter.c:1665
+#: plugins/itip-formatter/itip-formatter.c:1680
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Търсене на конфликти</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1678
+#: plugins/itip-formatter/itip-formatter.c:1693
 msgid "Select the calendars to search for meeting conflicts"
-msgstr ""
+msgstr "Избор на календари за проверка за конфликти в събранията"
 
 #. strftime format of a weekday and a date.
 #: plugins/itip-formatter/itip-view.c:146 ui/evolution-calendar.xml.h:34
@@ -14046,263 +13996,289 @@ msgstr ""
 msgid "Today"
 msgstr "Днес"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
+#. strftime format of a time,
+#. in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:151
 msgid "Today %H:%M"
 msgstr "Днес %H:%M"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
+#. strftime format of a time,
+#. in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:155
 msgid "Today %H:%M:%S"
 msgstr "Днес %H:%M:%S"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
+#. strftime format of a time,
+#. in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:164
 msgid "Today %l:%M:%S %p"
 msgstr "Днес %l:%M:%S·%p"
 
 #. strftime format of a weekday and a date.
 #: plugins/itip-formatter/itip-view.c:172
-#: plugins/itip-formatter/itip-view.c:224
-msgid "%A, %B %e"
-msgstr "%A, %B %e"
+msgid "Tomorrow"
+msgstr "Утре"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
+#. strftime format of a time,
+#. in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:177
-#: plugins/itip-formatter/itip-view.c:229
-msgid "%A, %B %e %H:%M"
-msgstr "%A, %B %e %H:%M"
+msgid "Tomorrow %H:%M"
+msgstr "Утре %H:%M"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
+#. strftime format of a time,
+#. in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:181
-#: plugins/itip-formatter/itip-view.c:233
-msgid "%A, %B %e %H:%M:%S"
-msgstr "%A, %B %e %H:%M:%S"
+msgid "Tomorrow %H:%M:%S"
+msgstr "Утре %H:%M:%S"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
+#. strftime format of a time,
+#. in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:186
-#: plugins/itip-formatter/itip-view.c:238
-msgid "%A, %B %e %l:%M %p"
-msgstr "%A, %B %e %l:%M %p"
+msgid "Tomorrow %l:%M %p"
+msgstr "Утре %l:%M %p"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
+#. strftime format of a time,
+#. in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:190
-#: plugins/itip-formatter/itip-view.c:242
-msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%A, %B %e %l:%M:%S %p"
+msgid "Tomorrow %l:%M:%S %p"
+msgstr "Утре %l:%M:%S·%p"
 
-#. strftime format of a weekday and a date.
+#. strftime format of a weekday.
 #: plugins/itip-formatter/itip-view.c:198
 #, c-format
 msgid "%A"
 msgstr ""
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:203
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:207
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:212
 msgid "%A %l:%M %p"
 msgstr "%A %l:%M %p"
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:216
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l:%M:%S %p"
 
+#. strftime format of a weekday and a date
+#. without a year.
+#: plugins/itip-formatter/itip-view.c:225
+msgid "%A, %B %e"
+msgstr "%A, %B %e"
+
+#. strftime format of a weekday, a date
+#. without a year and a time,
+#. in 24-hour format, without seconds.
+#: plugins/itip-formatter/itip-view.c:231
+msgid "%A, %B %e %H:%M"
+msgstr "%A, %B %e %H:%M"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 24-hour format.
+#: plugins/itip-formatter/itip-view.c:235
+msgid "%A, %B %e %H:%M:%S"
+msgstr "%A, %B %e %H:%M:%S"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 12-hour format, without seconds.
+#: plugins/itip-formatter/itip-view.c:240
+msgid "%A, %B %e %l:%M %p"
+msgstr "%A, %B %e %l:%M %p"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 12-hour format.
+#: plugins/itip-formatter/itip-view.c:244
+msgid "%A, %B %e %l:%M:%S %p"
+msgstr "%A, %B %e %l:%M:%S %p"
+
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:248
+#: plugins/itip-formatter/itip-view.c:250
 msgid "%A, %B %e, %Y"
 msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:253
+#: plugins/itip-formatter/itip-view.c:255
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:257
+#: plugins/itip-formatter/itip-view.c:259
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:262
+#: plugins/itip-formatter/itip-view.c:264
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:266
+#: plugins/itip-formatter/itip-view.c:268
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
-#: plugins/itip-formatter/itip-view.c:291
+#: plugins/itip-formatter/itip-view.c:293
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr "<b>%s</b> през %s публикува следната информация за събрание:"
 
-#: plugins/itip-formatter/itip-view.c:293
+#: plugins/itip-formatter/itip-view.c:295
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> публикува следнтата информация за събрание:"
 
-#: plugins/itip-formatter/itip-view.c:298
+#: plugins/itip-formatter/itip-view.c:300
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
 msgstr "<b>%s</b> изисква присъствието на %s по време на следното събрание:"
 
-#: plugins/itip-formatter/itip-view.c:301
+#: plugins/itip-formatter/itip-view.c:303
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> през %s изисква вашето присъствие на следното събрание:"
 
-#: plugins/itip-formatter/itip-view.c:303
+#: plugins/itip-formatter/itip-view.c:305
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr "<b>%s</b> изисква вашето присъствие на следното събрание:"
 
-#: plugins/itip-formatter/itip-view.c:309
+#: plugins/itip-formatter/itip-view.c:311
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> през %s желае да бъде добавен към съществуващо събрание:"
 
-#: plugins/itip-formatter/itip-view.c:311
+#: plugins/itip-formatter/itip-view.c:313
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> желае да бъде добавен към съществуващо събрание:"
 
-#: plugins/itip-formatter/itip-view.c:314
+#: plugins/itip-formatter/itip-view.c:316
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> желае да получи последната информация за следното събрание:"
 
-#: plugins/itip-formatter/itip-view.c:317
+#: plugins/itip-formatter/itip-view.c:319
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> изпрати обратно следния отговор относно събранието:"
 
-#: plugins/itip-formatter/itip-view.c:321
+#: plugins/itip-formatter/itip-view.c:323
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
 msgstr "<b>%s</b> през %s отказа следното съобрание:"
 
-#: plugins/itip-formatter/itip-view.c:323
+#: plugins/itip-formatter/itip-view.c:325
 #, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
 msgstr "<b>%s</b> отказа следното събрание."
 
-#: plugins/itip-formatter/itip-view.c:326
+#: plugins/itip-formatter/itip-view.c:328
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> предложи следните промени в събранието."
 
-#: plugins/itip-formatter/itip-view.c:330
+#: plugins/itip-formatter/itip-view.c:332
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> през %s отказа следните промени в събранието:"
 
-#: plugins/itip-formatter/itip-view.c:332
+#: plugins/itip-formatter/itip-view.c:334
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
 msgstr "<b>%s</b> отказа следните промени в събранието."
 
-#: plugins/itip-formatter/itip-view.c:359
+#: plugins/itip-formatter/itip-view.c:361
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
 msgstr "<b>%s</b> през %s публикува следната задача:"
 
-#: plugins/itip-formatter/itip-view.c:361
+#: plugins/itip-formatter/itip-view.c:363
 #, c-format
 msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> публикува следната задача:"
 
-#: plugins/itip-formatter/itip-view.c:366
+#: plugins/itip-formatter/itip-view.c:368
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> изисква назначаването на %s за следната задача:"
 
-#: plugins/itip-formatter/itip-view.c:369
+#: plugins/itip-formatter/itip-view.c:371
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
 msgstr "<b>%s</b> през %s ви назначи следната задача:"
 
-#: plugins/itip-formatter/itip-view.c:371
+#: plugins/itip-formatter/itip-view.c:373
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
 msgstr "<b>%s</b> ви назначи следната задача:"
 
-#: plugins/itip-formatter/itip-view.c:377
+#: plugins/itip-formatter/itip-view.c:379
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> през %s желае да бъде добавен към съществуваща задача:"
 
-#: plugins/itip-formatter/itip-view.c:379
+#: plugins/itip-formatter/itip-view.c:381
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s</b> желае да бъде добавен към съществуваща задача:"
 
-#: plugins/itip-formatter/itip-view.c:382
+#: plugins/itip-formatter/itip-view.c:384
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "<b>%s</b> желае да получи последната информация за задача:"
 
-#: plugins/itip-formatter/itip-view.c:385
+#: plugins/itip-formatter/itip-view.c:387
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> отговори относно назначената задача:"
 
-#: plugins/itip-formatter/itip-view.c:389
+#: plugins/itip-formatter/itip-view.c:391
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
 msgstr "<b>%s</b> през %s отказа следните му назначени задачи:"
 
-#: plugins/itip-formatter/itip-view.c:391
+#: plugins/itip-formatter/itip-view.c:393
 #, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
 msgstr "<b>%s</b> отмени следната назначена задача:"
 
-#: plugins/itip-formatter/itip-view.c:394
+#: plugins/itip-formatter/itip-view.c:396
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr "<b>%s</b> предложи следните промени в назначените задачи:"
 
-#: plugins/itip-formatter/itip-view.c:398
+#: plugins/itip-formatter/itip-view.c:400
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr "<b>%s</b> през %s отказа следната назначена задача:"
 
-#: plugins/itip-formatter/itip-view.c:400
+#: plugins/itip-formatter/itip-view.c:402
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> отказа следната назначена задача:"
 
 #. Comment
-#: plugins/itip-formatter/itip-view.c:846
-#: plugins/itip-formatter/itip-view.c:896
+#: plugins/itip-formatter/itip-view.c:848
+#: plugins/itip-formatter/itip-view.c:898
 msgid "Comment:"
 msgstr "Коментар:"
 
@@ -14382,9 +14358,8 @@ msgstr ""
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
-#, fuzzy
 msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "_Без известяване при пристигнане на нови писма"
+msgstr "_Генериране на D-BUS съобщение, при пристигането на ново писмо"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
@@ -14520,9 +14495,8 @@ msgid ""
 msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:2
-#, fuzzy
 msgid "<b>Users :</b>"
-msgstr "<b>Аларми</b>"
+msgstr "<b>Потребители:</b>"
 
 #: plugins/shared-folder/properties.glade.h:4
 msgid "Message"
@@ -14537,14 +14511,12 @@ msgid "The participants will receive the following notification.\n"
 msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:11
-#, fuzzy
 msgid "_Contacts..."
-msgstr "Контакти..."
+msgstr "_Контакти..."
 
 #: plugins/shared-folder/properties.glade.h:12
-#, fuzzy
 msgid "_Cutomize notification message"
-msgstr "Изпращане на потребителско уве_домяване"
+msgstr "_Настройване на уведомяване"
 
 #: plugins/shared-folder/properties.glade.h:13
 msgid "_Not Shared"
@@ -14633,9 +14605,8 @@ msgid ""
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
-#, fuzzy
 msgid "Printer settings"
-msgstr "Настройки на Pi_lot"
+msgstr "Настройки на принтера"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:14
 msgid ""
@@ -17334,7 +17305,7 @@ msgid "Evolution Query"
 msgstr "Заявка на Evolution"
 
 #. setup a dummy error
-#: widgets/misc/e-error.c:436
+#: widgets/misc/e-error.c:438
 #, c-format
 msgid ""
 "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
@@ -17450,9 +17421,8 @@ msgstr "Синхронизиране на категории:"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: widgets/misc/e-search-bar.c:343
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "Редактор за търсене"
+msgstr "Дума за търсене"
 
 #: widgets/misc/e-search-bar.c:547
 msgid "_Search"
@@ -17467,9 +17437,8 @@ msgid "_Clear"
 msgstr "_Изчистване"
 
 #: widgets/misc/e-search-bar.c:645
-#, fuzzy
 msgid "Search Type"
-msgstr "Обхват на _търсене:"
+msgstr "Тип търсене"
 
 #: widgets/misc/e-search-bar.c:849
 msgid "Item ID"
@@ -17488,60 +17457,50 @@ msgid "Find _Now"
 msgstr "Търсене сега"
 
 #: widgets/misc/e-send-options.c:505
-#, fuzzy
 msgid "When de_leted:"
-msgstr " %d изтрито"
+msgstr "Дата на изтриване:"
 
 #: widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>Нсатройки за изпращане</b>"
+msgstr "<b>Настройки за изпращане</b>"
 
 #: widgets/misc/e-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Replies</b>"
-msgstr "<b>Повтаряне</b>"
+msgstr "<b>Отговори</b>"
 
 #: widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Удостоверяване</b>"
+msgstr "<b>Уведомяване</b>"
 
 #: widgets/misc/e-send-options.glade.h:4
-#, fuzzy
 msgid "<b>Status Tracking</b>"
-msgstr "<b>Търсене</b>"
+msgstr "<b>Проследяване на състоянието</b>"
 
 #: widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr ""
+msgstr "_Автоматично изтриване на изпратените писма"
 
 #: widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
-msgstr "Класификация:"
+msgstr "К_ласификация"
 
 #: widgets/misc/e-send-options.glade.h:7
-#, fuzzy
 msgid "Creat_e a sent item to track information"
-msgstr "Не може да се създаде информация за получател в CMS "
+msgstr "Създаван_е на запис, за проследяваща информация"
 
 #: widgets/misc/e-send-options.glade.h:8
-#, fuzzy
 msgid "Deli_vered and opened"
-msgstr "Отговори и първи писма"
+msgstr "Доста_вено и отворено"
 
 #: widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "Основни"
+msgstr "Основни наст_ройки"
 
 #: widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "Прочитане на известия за прочитане"
+msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:12
 #, fuzzy
@@ -17559,9 +17518,8 @@ msgid ""
 msgstr "Поверително"
 
 #: widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "R_eply requested"
-msgstr "_Стил на отговор:"
+msgstr "_Изисква се отговор"
 
 #: widgets/misc/e-send-options.glade.h:21
 msgid "Sta_tus  Tracking"
@@ -17576,32 +17534,28 @@ msgid ""
 msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "W_ithin"
-msgstr "Ширина"
+msgstr "_Вътре"
 
 #: widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
 msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "Дата на приключване:"
+msgstr "Дата на при_ключване:"
 
 #: widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
 msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_After:"
-msgstr "след"
+msgstr "_След:"
 
 #: widgets/misc/e-send-options.glade.h:31
-#, fuzzy
 msgid "_All information"
-msgstr "Информация за задача"
+msgstr "_Цялата информация"
 
 #: widgets/misc/e-send-options.glade.h:32
 #, fuzzy
@@ -17609,18 +17563,16 @@ msgid "_Delay message delivery"
 msgstr "Оставяне на пощата на сървъра"
 
 #: widgets/misc/e-send-options.glade.h:33
-#, fuzzy
 msgid "_Delivered"
-msgstr "_Изтриване"
+msgstr "_Доставено"
 
 #: widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration  date"
-msgstr ""
+msgstr "_Задаване на дата на изтичане"
 
 #: widgets/misc/e-send-options.glade.h:36
-#, fuzzy
 msgid "_Until:"
-msgstr "Неименувано"
+msgstr "_Докато:"
 
 #: widgets/misc/e-send-options.glade.h:37
 msgid "_When convenient"
