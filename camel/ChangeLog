@@ -1,3 +1,9 @@
+2001-10-10    <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (vee_sync): Only re-build the folder if we're
+	expunging.  Also only clear out the changed folders list if we're
+	expungung and everything worked.
+
 2001-10-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-charset-map.c (camel_charset_map_init): Added a hack for

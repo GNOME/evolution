@@ -527,16 +527,18 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 		if (camel_exception_is_set(ex))
 			break;
 
-		if (vee_folder_build_folder(vf, f, ex) == -1)
+		if (expunge && vee_folder_build_folder(vf, f, ex) == -1)
 			break;
 
 		node = node->next;
 	}
 
-	CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
-	g_list_free(p->folders_changed);
-	p->folders_changed = NULL;
-	CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
+	if (expunge && node == NULL) {
+		CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
+		g_list_free(p->folders_changed);
+		p->folders_changed = NULL;
+		CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
+	}
 
 	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 }
