@@ -1,0 +1,49 @@
+# Process this file with autoconf to produce a configure script.
+AC_INIT(camel)
+
+cflags_set=${CFLAGS+set}
+
+MAJOR_VERSION=1
+MINOR_VERSION=0
+MICRO_VERSION=1
+VERSION=$OBGNOME_MAJOR_VERSION.$OBGNOME_MINOR_VERSION.$OBGNOME_MICRO_VERSION
+PACKAGE=gnome-mailer
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AC_SUBST(VERSION)
+
+AM_CONFIG_HEADER(config.h)
+
+dnl Initialize libtool
+AM_PROG_LIBTOOL
+
+dnl Initialize maintainer mode
+AM_MAINTAINER_MODE
+
+AC_CANONICAL_HOST
+
+AM_ACLOCAL_INCLUDE(macros)
+GNOME_INIT
+
+AC_ISC_POSIX
+AC_PROG_CC
+AC_PROG_CPP
+AC_STDC_HEADERS
+AC_ARG_PROGRAM
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+
+ALL_LINGUAS=""
+
+AM_GNOME_GETTEXT
+
+GNOME_X_CHECKS
+
+
+AC_OUTPUT([
+Makefile
+macros/Makefile
+po/Makefile.in
+camel/Makefile
+])
