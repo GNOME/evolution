@@ -134,9 +134,10 @@ new_view_on_running_shell (void)
 	}
 
 	shell_view = GNOME_Evolution_Shell_createNewView ((GNOME_Evolution_Shell) corba_object, STARTUP_URI, &ev);
-
-	Bonobo_Unknown_unref ((Bonobo_Unknown) shell_view, &ev);
-	CORBA_Object_release ((CORBA_Object) shell_view, &ev);
+	if (ev._major == CORBA_NO_EXCEPTION) {
+		Bonobo_Unknown_unref ((Bonobo_Unknown) shell_view, &ev);
+		CORBA_Object_release ((CORBA_Object) shell_view, &ev);
+	}
 
 	CORBA_exception_free (&ev);
 }

@@ -49,6 +49,9 @@ struct _EStoragePrivate {
 
 	/* URI for the toplevel node.  */
 	char *toplevel_node_uri;
+
+	/* Toplevel node type.  */
+	char *toplevel_node_type;
 };
 
 enum {
@@ -96,6 +99,7 @@ destroy (GtkObject *object)
 		e_folder_tree_destroy (priv->folder_tree);
 
 	g_free (priv->toplevel_node_uri);
+	g_free (priv->toplevel_node_type);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -208,8 +212,9 @@ init (EStorage *storage)
 
 	priv = g_new (EStoragePrivate, 1);
 
-	priv->folder_tree       = e_folder_tree_new (folder_destroy_notify, NULL);
-	priv->toplevel_node_uri = NULL;
+	priv->folder_tree        = e_folder_tree_new (folder_destroy_notify, NULL);
+	priv->toplevel_node_uri  = NULL;
+	priv->toplevel_node_type = NULL;
 
 	storage->priv = priv;
 }
@@ -219,7 +224,8 @@ init (EStorage *storage)
 
 void
 e_storage_construct (EStorage *storage,
-		     const char *toplevel_node_uri)
+		     const char *toplevel_node_uri,
+		     const char *toplevel_node_type)
 {
 	EStoragePrivate *priv;
 
@@ -227,19 +233,22 @@ e_storage_construct (EStorage *storage,
 	g_return_if_fail (E_IS_STORAGE (storage));
 
 	priv = storage->priv;
-	priv->toplevel_node_uri = g_strdup (toplevel_node_uri);
+
+	priv->toplevel_node_uri  = g_strdup (toplevel_node_uri);
+	priv->toplevel_node_type = g_strdup (toplevel_node_type);
 
 	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (storage), GTK_FLOATING);
 }
 
 EStorage *
-e_storage_new (const char *toplevel_node_uri)
+e_storage_new (const char *toplevel_node_uri,
+	       const char *toplevel_node_type)
 {
 	EStorage *new;
 
 	new = gtk_type_new (e_storage_get_type ());
 
-	e_storage_construct (new, toplevel_node_uri);
+	e_storage_construct (new, toplevel_node_uri, toplevel_node_type);
 
 	return new;
 }
@@ -313,6 +322,26 @@ e_storage_get_toplevel_node_uri (EStorage *storage)
 
 	priv = storage->priv;
 	return priv->toplevel_node_uri;
+}
+
+/**
+ * e_storage_get_toplevel_node_type:
+ * @storage: A pointer to an EStorage object.
+ * 
+ * Get the folder type for the toplevel node.
+ * 
+ * Return value: A string identifying the type of the toplevel node.
+ **/
+const char *
+e_storage_get_toplevel_node_type (EStorage *storage)
+{
+	EStoragePrivate *priv;
+
+	g_return_val_if_fail (storage != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
+
+	priv = storage->priv;
+	return priv->toplevel_node_type;
 }
 
 

@@ -72,6 +72,7 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 				 const GNOME_Evolution_Storage storage_interface,
 				 const CORBA_char *name,
 				 const CORBA_char *toplevel_node_uri,
+				 const CORBA_char *toplevel_node_type,
 				 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -86,7 +87,10 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
 	priv = storage_registry->priv;
 
-	storage = e_corba_storage_new (toplevel_node_uri, storage_interface, name);
+	storage = e_corba_storage_new (toplevel_node_uri,
+				       toplevel_node_type,
+				       storage_interface,
+				       name);
 
 	if (! e_storage_set_add_storage (priv->storage_set, storage)) {
 		CORBA_exception_set (ev,

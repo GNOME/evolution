@@ -326,6 +326,7 @@ init (ECorbaStorage *corba_storage)
 void
 e_corba_storage_construct (ECorbaStorage *corba_storage,
 			   const char *toplevel_node_uri,
+			   const char *toplevel_node_type,
 			   const GNOME_Evolution_Storage storage_interface,
 			   const char *name)
 {
@@ -337,7 +338,7 @@ e_corba_storage_construct (ECorbaStorage *corba_storage,
 	g_return_if_fail (storage_interface != CORBA_OBJECT_NIL);
 	g_return_if_fail (name != NULL);
 
-	e_storage_construct (E_STORAGE (corba_storage), toplevel_node_uri);
+	e_storage_construct (E_STORAGE (corba_storage), toplevel_node_uri, toplevel_node_type);
 
 	priv = corba_storage->priv;
 
@@ -359,6 +360,7 @@ e_corba_storage_construct (ECorbaStorage *corba_storage,
 
 EStorage *
 e_corba_storage_new (const char *toplevel_node_uri,
+		     const char *toplevel_node_type,
 		     const GNOME_Evolution_Storage storage_interface,
 		     const char *name)
 {
@@ -369,7 +371,10 @@ e_corba_storage_new (const char *toplevel_node_uri,
 
 	new = gtk_type_new (e_corba_storage_get_type ());
 
-	e_corba_storage_construct (E_CORBA_STORAGE (new), toplevel_node_uri, storage_interface, name);
+	e_corba_storage_construct (E_CORBA_STORAGE (new),
+				   toplevel_node_uri,
+				   toplevel_node_type,
+				   storage_interface, name);
 
 	return new;
 }

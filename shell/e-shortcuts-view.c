@@ -522,8 +522,8 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 
 	priv = shortcuts_view->priv;
 
-	gtk_object_ref (GTK_OBJECT (priv->shortcuts));
 	priv->shortcuts = shortcuts;
+	gtk_object_ref (GTK_OBJECT (priv->shortcuts));
 
 	e_shortcut_bar_set_icon_callback (E_SHORTCUT_BAR (shortcuts_view), icon_callback,
 					  shortcuts);

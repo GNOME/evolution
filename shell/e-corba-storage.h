@@ -62,9 +62,11 @@ struct _ECorbaStorageClass {
 GtkType   e_corba_storage_get_type   (void);
 void      e_corba_storage_construct  (ECorbaStorage                 *corba_storage,
 				      const char                    *toplevel_node_uri,
+				      const char                    *toplevel_node_type,
 				      const GNOME_Evolution_Storage  storage_interface,
 				      const char                    *name);
 EStorage *e_corba_storage_new        (const char                    *toplevel_node_uri,
+				      const char                    *toplevel_node_type,
 				      const GNOME_Evolution_Storage  storage_interface,
 				      const char                    *name);
 

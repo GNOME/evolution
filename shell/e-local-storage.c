@@ -593,7 +593,7 @@ construct (ELocalStorage *local_storage,
 	ELocalStoragePrivate *priv;
 	int base_path_len;
 
-	e_storage_construct (E_STORAGE (local_storage), NULL);
+	e_storage_construct (E_STORAGE (local_storage), NULL, NULL);
 
 	priv = local_storage->priv;
 

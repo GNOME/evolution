@@ -315,7 +315,6 @@ evolution_shell_component_client_construct (EvolutionShellComponentClient *shell
 EvolutionShellComponentClient *
 evolution_shell_component_client_new (const char *id)
 {
-	EvolutionShellComponentClient *new;
 	CORBA_Environment ev;
 	CORBA_Object corba_object;
 
@@ -338,8 +337,18 @@ evolution_shell_component_client_new (const char *id)
 		return NULL;
 	}
 
+	return evolution_shell_component_client_new_for_objref (corba_object);
+}
+
+EvolutionShellComponentClient *
+evolution_shell_component_client_new_for_objref (const GNOME_Evolution_ShellComponent objref)
+{
+	EvolutionShellComponentClient *new;
+
+	g_return_val_if_fail (objref != CORBA_OBJECT_NIL, NULL);
+
 	new = gtk_type_new (evolution_shell_component_client_get_type ());
-	evolution_shell_component_client_construct (new, corba_object);
+	evolution_shell_component_client_construct (new, objref);
 
 	return new;
 }

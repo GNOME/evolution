@@ -290,6 +290,36 @@ pop_up_folder_bar (EShellView *shell_view)
 }
 
 
+/* Switching views on a tree view click.  */
+
+static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
+
+static void
+switch_on_folder_tree_click (EShellView *shell_view,
+			     const char *path)
+{
+	EShellViewPrivate *priv;
+	char *uri;
+
+	priv = shell_view->priv;
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+	e_shell_view_display_uri (shell_view, uri);
+	g_free (uri);
+
+	if (priv->delayed_selection) {
+		g_free (priv->delayed_selection);
+		priv->delayed_selection = NULL;
+		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set(priv->shell)),
+					       GTK_SIGNAL_FUNC (new_folder_cb),
+					       shell_view);
+	}
+
+	if (priv->folder_bar_mode == E_SHELL_VIEW_SUBWINDOW_TRANSIENT)
+		popdown_transient_folder_bar (shell_view);
+}
+
+
 /* Callbacks.  */
 
 /* Callback when a new folder is added.  removed when we clear the
@@ -342,27 +372,10 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 		    void *data)
 {
 	EShellView *shell_view;
-	EShellViewPrivate *priv;
-
-	char *uri;
 
 	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
 
-	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-	e_shell_view_display_uri (shell_view, uri);
-	g_free (uri);
-
-	if (priv->delayed_selection) {
-		g_free (priv->delayed_selection);
-		priv->delayed_selection = NULL;
-		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set(priv->shell)),
-					       GTK_SIGNAL_FUNC (new_folder_cb),
-					       shell_view);
-	}
-
-	if (priv->folder_bar_mode == E_SHELL_VIEW_SUBWINDOW_TRANSIENT)
-		popdown_transient_folder_bar (shell_view);
+	switch_on_folder_tree_click (shell_view, path);
 }
 
 /* Callback called when a storage in the tree view is clicked.  */
@@ -372,18 +385,16 @@ storage_selected_cb (EStorageSetView *storage_set_view,
 		     void *data)
 {
 	EShellView *shell_view;
-	EShellViewPrivate *priv;
-	EStorageSet *storage_set;
-	EStorage *storage;
-	const char *uri;
+	char *path;
 
 	shell_view = E_SHELL_VIEW (data);
-	priv = shell_view->priv;
 
-	storage_set = e_shell_get_storage_set (priv->shell);
+	path = g_strconcat (G_DIR_SEPARATOR_S, name, NULL);
+	switch_on_folder_tree_click (shell_view, path);
 
-	storage = e_storage_set_get_storage (storage_set, name);
-	g_assert (storage != NULL);
+	puts (__FUNCTION__);
+
+	g_free (path);
 }
 
 /* Callback called when the button on the tree's title bar is clicked.  */
@@ -1227,24 +1238,65 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 }
 
 
+static const char *
+get_type_for_storage (EShellView *shell_view,
+		      const char *name,
+		      const char **physical_uri_return)
+{
+	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
+	EStorage *storage;
+
+	priv = shell_view->priv;
+
+	storage_set = e_shell_get_storage_set (priv->shell);
+	storage = e_storage_set_get_storage (storage_set, name);
+
+	*physical_uri_return = e_storage_get_toplevel_node_uri (storage);
+
+	return e_storage_get_toplevel_node_type (storage);
+}
+
+static const char *
+get_type_for_folder (EShellView *shell_view,
+		     const char *path,
+		     const char **physical_uri_return)
+{
+	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
+	EFolderTypeRegistry *folder_type_registry;
+	EFolder *folder;
+
+	priv = shell_view->priv;
+
+	storage_set = e_shell_get_storage_set (priv->shell);
+	folder = e_storage_set_get_folder (storage_set, path);
+
+	*physical_uri_return = e_folder_get_physical_uri (folder);
+
+	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));
+
+	return e_folder_get_type_string (folder);
+}
+
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static GtkWidget *
 get_control_for_uri (EShellView *shell_view,
 		     const char *uri)
 {
 	EShellViewPrivate *priv;
-	EFolderTypeRegistry *folder_type_registry;
-	EStorageSet *storage_set;
-	EFolder *folder;
-	EvolutionShellComponentClient *handler_client;
-	Bonobo_Control corba_control;
-	GNOME_Evolution_ShellComponent handler;
-	const char *path;
-	const char *folder_type;
-	GtkWidget *control;
 	CORBA_Environment ev;
+	EvolutionShellComponentClient *handler_client;
+	EFolderTypeRegistry *folder_type_registry;
+	GNOME_Evolution_ShellComponent handler;
 	Bonobo_UIContainer container;
+	GtkWidget *control;
 	GtkWidget *socket;
+	Bonobo_Control corba_control;
+	const char *path;
+	const char *slash;
+	const char *physical_uri;
+	const char *folder_type;
 	int destroy_connection_id;
 
 	priv = shell_view->priv;
@@ -1257,29 +1309,25 @@ get_control_for_uri (EShellView *shell_view,
 	if (*path == '\0')
 		return NULL;
 
-	storage_set = e_shell_get_storage_set (priv->shell);
-	folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
+	/* FIXME: This code needs to be made more robust.  */
 
-	folder = e_storage_set_get_folder (storage_set, path);
-	if (folder == NULL)
-		return NULL;
+	slash = strchr (path, G_DIR_SEPARATOR);
+	if (slash == NULL || slash[1] == '\0')
+		folder_type = get_type_for_storage (shell_view, path, &physical_uri);
+	else
+		folder_type = get_type_for_folder (shell_view, path, &physical_uri);
 
-	folder_type = e_folder_get_type_string (folder);
-	if (folder_type == NULL)
-		return NULL;
+	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));
 
 	handler_client = e_folder_type_registry_get_handler_for_type (folder_type_registry, folder_type);
-	if (handler_client == NULL)
-		return NULL;
-
-	handler = bonobo_object_corba_objref (BONOBO_OBJECT (handler_client));
 	if (handler_client == CORBA_OBJECT_NIL)
 		return NULL;
 
+	handler = bonobo_object_corba_objref (BONOBO_OBJECT (handler_client));
+
 	CORBA_exception_init (&ev);
 
-	corba_control = GNOME_Evolution_ShellComponent_createView (handler, e_folder_get_physical_uri (folder),
-								   folder_type, &ev);
+	corba_control = GNOME_Evolution_ShellComponent_createView (handler, physical_uri, folder_type, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);

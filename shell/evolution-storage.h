@@ -74,31 +74,33 @@ struct _EvolutionStorageClass {
 
 POA_GNOME_Evolution_Storage__epv *evolution_storage_get_epv            (void);
 
-GtkType                     evolution_storage_get_type           (void);
-void                        evolution_storage_construct          (EvolutionStorage          *storage,
-								  GNOME_Evolution_Storage    corba_object,
-								  const char                *name,
-								  const char                *toplevel_node_uri);
-EvolutionStorage           *evolution_storage_new                (const char                *name,
-								  const char                *toplevel_node_uri);
+GtkType           evolution_storage_get_type   (void);
+void              evolution_storage_construct  (EvolutionStorage        *storage,
+						GNOME_Evolution_Storage  corba_object,
+						const char              *name,
+						const char              *toplevel_node_uri,
+						const char              *toplevel_node_type);
+EvolutionStorage *evolution_storage_new        (const char              *name,
+						const char              *toplevel_node_uri,
+						const char              *toplevel_node_type);
 
-EvolutionStorageResult      evolution_storage_register           (EvolutionStorage          *storage,
-								  GNOME_Evolution_StorageRegistry  corba_registry);
-EvolutionStorageResult      evolution_storage_register_on_shell  (EvolutionStorage          *evolution_storage,
-								  GNOME_Evolution_Shell            corba_shell);
-EvolutionStorageResult      evolution_storage_new_folder         (EvolutionStorage          *evolution_storage,
-								  const char                *path,
-								  const char                *display_name,
-								  const char                *type,
-								  const char                *physical_uri,
-								  const char                *description,
-								  gboolean                   highlighted);
-EvolutionStorageResult      evolution_storage_update_folder      (EvolutionStorage          *evolution_storage,
-								  const char                *path,
-								  const char                *display_name,
-								  gboolean                   highlighted);
-EvolutionStorageResult      evolution_storage_removed_folder     (EvolutionStorage          *evolution_storage,
-								  const char                *path);
+EvolutionStorageResult  evolution_storage_register           (EvolutionStorage                *storage,
+							      GNOME_Evolution_StorageRegistry  corba_registry);
+EvolutionStorageResult  evolution_storage_register_on_shell  (EvolutionStorage                *evolution_storage,
+							      GNOME_Evolution_Shell            corba_shell);
+EvolutionStorageResult  evolution_storage_new_folder         (EvolutionStorage                *evolution_storage,
+							      const char                      *path,
+							      const char                      *display_name,
+							      const char                      *type,
+							      const char                      *physical_uri,
+							      const char                      *description,
+							      gboolean                         highlighted);
+EvolutionStorageResult  evolution_storage_update_folder      (EvolutionStorage                *evolution_storage,
+							      const char                      *path,
+							      const char                      *display_name,
+							      gboolean                         highlighted);
+EvolutionStorageResult  evolution_storage_removed_folder     (EvolutionStorage                *evolution_storage,
+							      const char                      *path);
 
 #ifdef __cplusplus
 }

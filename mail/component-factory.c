@@ -223,7 +223,7 @@ add_storage (const char *uri, CamelService *store,
 	char *name;
 
 	name = camel_service_get_name (store, TRUE);
-	storage = evolution_storage_new (name, NULL);
+	storage = evolution_storage_new (name, NULL, NULL);
 	g_free (name);
 
 	res = evolution_storage_register_on_shell (storage, corba_shell);

@@ -1,3 +1,63 @@
+2000-12-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcuts-view.c (e_shortcuts_view_construct): Ooops.  We were
+	reffing a bogus pointer that was not assigned yet.
+
+	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage):
+	Updated according to the new IDL.
+
+	* e-local-storage.c (construct): Pass `NULL' to
+	`e_storage_construct' as the @toplevel_node_type arg.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_new_for_objref): New.
+	(evolution_shell_component_client_new): Refactored to use it.
+
+	* e-corba-storage.c (e_corba_storage_construct): New arg
+	@toplevel_node_type.  Pass it to `e_storage_construct'.
+	(e_corba_storage_new): New arg @toplevel_node_type.  Pass it to
+	`e_corba_storage_construct'.
+
+	* e-storage.c: New member `toplevel_node_uri_type' in
+	`EStoragePrivate'.
+	(init): Init to NULL.
+	(destroy): Unref.
+	(e_storage_construct): New arg @toplevel_node_type.  Set the
+	private member value accordingly.
+	(e_storage_new): New arg @toplevel_node_type.  Pass to
+	`e_storage_construct'.
+	(e_storage_get_toplevel_node_type): New.
+
+	* e-shell-view.c (get_physical_uri_for_evolution_uri): New arg
+	@shell_view.
+	(get_physical_uri_for_storage): Filled in.  New arg @shell_view.
+	(get_physical_uri_for_folder): Filled in.  New arg @shell_view.
+
+	* evolution-local-storage.c (evolution_local_storage_construct):
+	Pass `NULL' as the @toplevel_node_type arg to
+	`evolution_storage_construct'.
+
+	* evolution-storage.c: New member `toplevel_node_type' in
+	`EvolutionStoragePrivate'.
+	(destroy): Free.
+	(init): Init to NULL.
+	(evolution_storage_construct): New arg @toplevel_node_handler
+	to initialize the corresponding field in `->priv'.
+	(evolution_storage_new): New arg @toplevel_node_type.  Pass
+	it to `evolution_storage_construct'.
+	(evolution_storage_register): Pass the @toplevel_node_type
+	arg to `::addStorage'.
+
+	* Evolution-Storage.idl: Add arg @toplevel_node_type to
+	`StorageRegistry::addStorage'.
+
+	* main.c (new_view_on_running_shell): Deal with an exception in
+	`::createNewView' gracefully.
+
+	* e-shell-view.c (switch_on_folder_tree_click): New.
+	(folder_selected_cb): Refactored to use it.
+	(storage_selected_cb): Use it.
+
 2000-12-07  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am (oaf_DATA): update to GNOME_Evolution_Shell.oafinfo

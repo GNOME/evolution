@@ -1,3 +1,10 @@
+2000-12-07  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component-factory.c (add_storage): Pass `NULL' as the
+	@toplevel_node_handler_id arg in `evolution_storage_new()'.
+	FIXME: We should be passing the ID of the mail component here.
+	* mail-vfolder.c (vfolder_create_storage): Likewise.
+
 2000-12-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (message_list_get_layout): Set the "Size" field

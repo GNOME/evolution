@@ -85,7 +85,7 @@ setup_ldap_storage (EvolutionShellComponent *shell_component,
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
-	storage = evolution_storage_new (_("External Directories"), NULL);
+	storage = evolution_storage_new (_("External Directories"), NULL, NULL);
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		return;

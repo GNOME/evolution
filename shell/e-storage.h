@@ -30,6 +30,8 @@
 
 #include <gtk/gtkobject.h>
 
+#include "evolution-shell-component-client.h"
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -94,10 +96,12 @@ struct _EStorageClass {
 };
 
 
-GtkType     e_storage_get_type              (void);
-void        e_storage_construct             (EStorage   *storage,
-					     const char *toplevel_node_uri);
-EStorage   *e_storage_new                   (const char *toplevel_node_uri);
+GtkType   e_storage_get_type   (void);
+void      e_storage_construct  (EStorage   *storage,
+				const char *toplevel_node_uri,
+				const char *toplevel_node_type);
+EStorage *e_storage_new        (const char *toplevel_node_uri,
+				const char *toplevel_node_type);
 
 gboolean    e_storage_path_is_relative      (const char *path);
 gboolean    e_storage_path_is_absolute      (const char *path);
@@ -107,8 +111,9 @@ GList      *e_storage_get_subfolder_paths   (EStorage   *storage,
 EFolder    *e_storage_get_folder            (EStorage   *storage,
 					     const char *path);
 
-const char *e_storage_get_name              (EStorage   *storage);
-const char *e_storage_get_toplevel_node_uri (EStorage   *storage);
+const char *e_storage_get_name                (EStorage *storage);
+const char *e_storage_get_toplevel_node_uri   (EStorage *storage);
+const char *e_storage_get_toplevel_node_type  (EStorage *storage);
 
 /* Folder operations.  */
 
