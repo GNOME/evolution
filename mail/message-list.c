@@ -58,7 +58,7 @@ ml_row_count (ETableModel *etm, void *data)
 	CamelException ex;
 
 	if (!message_list->folder)
-		return 0;
+		return 1;
 	
 	return camel_folder_get_message_count (message_list->folder, &ex);
 }
@@ -76,7 +76,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		return GINT_TO_POINTER (1);
 		
 	case COL_PRIORITY:
-		return GINT_TO_POINTER (10);
+		return GINT_TO_POINTER (1);
 		
 	case COL_ATTACHMENT:
 		return GINT_TO_POINTER (0);
@@ -129,19 +129,25 @@ message_list_init_renderers (MessageList *message_list)
 
 	message_list->render_online_status = e_cell_checkbox_new ();
 	message_list->render_message_status = e_cell_checkbox_new ();
-	message_list->render_priority = e_cell_checkbox_new ();
 	message_list->render_attachment = e_cell_checkbox_new ();
+
+	/*
+	 * FIXME: We need a real renderer here
+	 */
+	message_list->render_priority = e_cell_checkbox_new ();
 }
 
+#define CHAR_WIDTH 10
 static void
 message_list_init_header (MessageList *message_list)
 {
+	int i;
+	
 	/*
 	 * FIXME:
 	 *
 	 * Use the font metric to compute this.
 	 */
-#define CHAR_WIDTH 10
 	
 	message_list->header_model = e_table_header_new ();
 
@@ -162,7 +168,7 @@ message_list_init_header (MessageList *message_list)
 				 COL_ICON_WIDTH, COL_ICON_WIDTH,
 				 message_list->render_priority,
 				 g_int_equal, FALSE);
-
+	
 	message_list->table_cols [COL_ATTACHMENT] =
 		e_table_col_new (COL_ATTACHMENT, _("Attachment"),
 				 COL_ICON_WIDTH, COL_ICON_WIDTH,
@@ -203,6 +209,15 @@ message_list_init_header (MessageList *message_list)
 				 COL_SIZE_WIDTH, COL_SIZE_WIDTH_MIN,
 				 message_list->render_text,
 				 g_str_equal, TRUE);
+
+	/*
+	 * Dummy init: It setups the headers to match the order in which
+	 * they are defined.  In the future e-table widget will take care
+	 * of this.
+	 */
+	for (i = 0; i < COL_LAST; i++)
+		e_table_header_add_column (message_list->header_model,
+					   message_list->table_cols [i], i);
 }
 
 static void
