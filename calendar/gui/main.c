@@ -56,7 +56,8 @@ struct color_prop color_props[] = {
 	{ 0xfc1e, 0xf87f, 0x5f80, N_("Appointments:"),         "/calendar/Colors/mark_bg" },
 	{ 0xd364, 0xc6b7, 0x7969, N_("Highlighted day:"),      "/calendar/Colors/prelight_bg" },
 	{ 0x01f0, 0x01f0, 0x01f0, N_("Day numbers:"),          "/calendar/Colors/day_fg" },
-	{ 0x0000, 0x0000, 0xffff, N_("Current day's number:"), "/calendar/Colors/current_fg" }
+	{ 0x0000, 0x0000, 0xffff, N_("Current day's number:"), "/calendar/Colors/current_fg" },
+	{ 0x0000, 0xaaaa, 0xaaaa, N_("Overdue TODO item"),     "/calendar/Coloirs/todo_overdue" }
 };
 
 /* Number of active calendars */
@@ -133,6 +134,17 @@ init_calendar (void)
 		g_free (str);
 		g_free (color);
 	}
+
+	/* read todolist settings */
+
+	todo_show_due_date = gnome_config_get_bool("/calendar/Todo/show_due_date");
+
+	todo_due_date_overdue_highlight = gnome_config_get_bool("/calendar/Todo/highlight_overdue_tasks");
+
+        todo_current_sort_column = gnome_config_get_int("/calendar/Todo/sort_column");
+	
+	todo_current_sort_type = gnome_config_get_int("/calendar/Todo/sort_type");
+	
 
 	/* Done */
 
@@ -222,6 +234,17 @@ colors_changed (void)
 	for (l = all_calendars; l; l = l->next)
 		gnome_calendar_colors_changed (GNOME_CALENDAR (l->data));
 }
+
+void 
+todo_properties_changed(void) 
+{
+        GList *l;
+	
+	for (l = all_calendars; l; l = l->next)
+		gnome_calendar_todo_properties_changed (GNOME_CALENDAR (l->data));
+}
+
+
 
 static void
 quit_cmd (void)

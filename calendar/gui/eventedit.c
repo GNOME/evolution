@@ -210,7 +210,7 @@ set_all_day (GtkToggleButton *toggle, EventEditor *ee)
 }
 
 /* Convenience function to create a properly-configured date editor widget */
-static GtkWidget *
+GtkWidget *
 date_edit_new (time_t the_time, int show_time)
 {
 	return gnome_date_edit_new_flags (the_time,

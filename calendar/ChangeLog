@@ -1,3 +1,23 @@
+1999-03-10  Clifford R. Conover <rconover@montana.edu>
+
+	* gncal-todo.c (simple_todo_editor): Add support for Due Date when
+	adding a TODO item here.
+	(column_resized): New function
+	(init_column_sorting): New function.
+	(todo_click_column): New function.
+	(convert_time_t_to_char, make_overdue_todo_style): New functions.
+
+	* gnome-cal.c (gnome_calendar_todo_properties_changed): New
+	function used to update the TODO when the properties have been
+	chagned for it.
+
+	* prop.c (prop_apply_todo): Apply TODO properties.
+
+	* gncal-day-panel.c (todo_list_properties_changed): Update the
+	TODO display here.
+
+	* eventedit.c (date_edit_new): Made public
+
 1999-03-10  Craig A Soules (soules+@andrew.cmu.edu)
 
 	* timeutil.c, calendar.c, calobj.c, gncal-day-panel.c: Add support

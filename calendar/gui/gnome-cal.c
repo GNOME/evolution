@@ -483,4 +483,20 @@ gnome_calendar_colors_changed (GnomeCalendar *gcal)
 
 	month_view_colors_changed (MONTH_VIEW (gcal->month_view));
 	year_view_colors_changed (YEAR_VIEW (gcal->year_view));
+	todo_style_changed = 1;
+	todo_list_properties_changed (GNCAL_DAY_PANEL (gcal->day_view));
 }
+
+void 
+gnome_calendar_todo_properties_changed (GnomeCalendar *gcal) 
+{
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	
+	/* FIXME: add day and week view when they are done */
+	
+	todo_style_changed = 1;
+	todo_list_properties_changed (GNCAL_DAY_PANEL (gcal->day_view));
+}
+
+

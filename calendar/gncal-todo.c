@@ -11,8 +11,17 @@
 #include "gncal-todo.h"
 #include "main.h"
 #include "popup-menu.h"
+#include "eventedit.h"
 
+int todo_show_due_date = 0;
+int todo_due_date_overdue_highlight = 0;
+char *todo_overdue_font_text;
+gint todo_current_sort_column = 0;
+gint todo_current_sort_type = GTK_SORT_ASCENDING;
 
+gboolean todo_style_changed =0;
+gboolean todo_list_autoresize = 1;
+gboolean todo_list_redraw_in_progess = 0;
 static void gncal_todo_init (GncalTodo *todo);
 
 
@@ -44,15 +53,15 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	iCalObject *ico;
 	GncalTodo *todo;
 	GtkEntry *entry;
-
+	GnomeDateEdit *due_date;
 	ico = gtk_object_get_user_data (GTK_OBJECT (dialog));
 
 	todo = GNCAL_TODO (gtk_object_get_data (GTK_OBJECT (dialog), "gncal_todo"));
 	entry = GTK_ENTRY (gtk_object_get_data (GTK_OBJECT (dialog), "summary_entry"));
-
+	due_date = GNOME_DATE_EDIT (gtk_object_get_data(GTK_OBJECT(dialog), "due_date"));
 	if (ico->summary)
 		g_free (ico->summary);
-
+	ico->dtend = gnome_date_edit_get_date (due_date);
 	ico->summary = g_strdup (gtk_entry_get_text (entry));
 	ico->user_data = NULL;
 
@@ -79,6 +88,8 @@ cancel_button (GtkWidget *widget, GnomeDialog *dialog)
 		ical_object_destroy (ico);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+
 }
 
 static gint
@@ -93,7 +104,11 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 {
 	GtkWidget *dialog;
 	GtkWidget *hbox;
+	GtkWidget *due_box;
+	GtkWidget *due_label;
+	GtkWidget *due_entry;
 	GtkWidget *w;
+
 	GtkWidget *entry;
 
 	dialog = gnome_dialog_new (ico->new ? _("Create to-do item") : _("Edit to-do item"),
@@ -106,6 +121,12 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
+
+	due_box = gtk_hbox_new (FALSE, 4);
+	gtk_container_border_width (GTK_CONTAINER (due_box), 4);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), due_box, FALSE, FALSE, 0);
+	gtk_widget_show (due_box);
+
 	w = gtk_label_new (_("Summary:"));
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
@@ -115,15 +136,28 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 	gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
 	gtk_widget_show (entry);
 
+
+	due_label = gtk_label_new (_("Due Date:"));
+	gtk_box_pack_start (GTK_BOX (due_box), due_label, FALSE, FALSE, 0);
+	gtk_widget_show (due_label);
+
+	due_entry = gtk_entry_new ();
+	due_entry = date_edit_new (ico->dtend, FALSE);
+	gtk_box_pack_start (GTK_BOX (due_box), due_entry, TRUE, TRUE, 0);
+	gtk_widget_show (due_entry);
+	
+
 	ico->user_data = dialog;
 
 	gtk_object_set_user_data (GTK_OBJECT (dialog), ico);
 
 	gtk_object_set_data (GTK_OBJECT (dialog), "gncal_todo", todo);
 	gtk_object_set_data (GTK_OBJECT (dialog), "summary_entry", entry);
+	gtk_object_set_data (GTK_OBJECT (dialog), "due_date", due_entry);
 
 	gnome_dialog_button_connect (GNOME_DIALOG (dialog), 0, (GtkSignalFunc) ok_button, dialog);
 	gnome_dialog_button_connect (GNOME_DIALOG (dialog), 1, (GtkSignalFunc) cancel_button, dialog);
+
 	gtk_signal_connect (GTK_OBJECT (dialog), "delete_event",
 			    (GtkSignalFunc) delete_event,
 			    dialog);
@@ -172,6 +206,7 @@ delete_todo (GncalTodo *todo)
 {
 	gnome_calendar_remove_object (todo->calendar, get_clist_selected_ico (todo->clist));
 	save_default_calendar (todo->calendar);
+	
 }
 
 static void
@@ -191,6 +226,7 @@ delete_activated (GtkWidget *widget, GncalTodo *todo)
 {
 	delete_todo (todo);
 }
+
 
 static void
 clist_row_selected (GtkCList *clist, gint row, gint column, GdkEventButton *event, GncalTodo *todo)
@@ -227,13 +263,75 @@ clist_row_selected (GtkCList *clist, gint row, gint column, GdkEventButton *even
 	}
 }
 
+/*
+ * once we get a call back stating that a column
+ * has been resized never ever automatically resize again
+ */
+void
+column_resized (GtkWidget *widget, GncalTodo *todo)
+{
+	/* disabling autoresize of columns */
+	if (todo_list_autoresize && !todo_list_redraw_in_progess){
+		todo_list_autoresize = 0;
+	}
+}
+
+/*
+ * restore the previously set settings for sorting the 
+ * todo list
+ */
+static void
+init_column_sorting (GtkCList *clist)
+{
+
+	/* due date isn't shown so we can't sort by it */
+	if (todo_current_sort_column == 1 && ! todo_show_due_date) 
+		todo_current_sort_column = 0;
+	
+	clist->sort_type = todo_current_sort_type;
+	clist->sort_column = todo_current_sort_column;
+	
+	gtk_clist_set_sort_column (clist, todo_current_sort_column);
+	gtk_clist_sort (clist);
+}
+
+static void 
+todo_click_column (GtkCList *clist, gint column, gpointer data)
+{
+	if (column == clist->sort_column)
+	{
+		if (clist->sort_type == GTK_SORT_ASCENDING) {
+			clist->sort_type = GTK_SORT_DESCENDING;
+			todo_current_sort_type = GTK_SORT_DESCENDING;
+		} else {
+			clist->sort_type = GTK_SORT_ASCENDING;
+			todo_current_sort_type = GTK_SORT_ASCENDING;
+		}
+	}
+	else {
+		gtk_clist_set_sort_column (clist, column);
+		todo_current_sort_column = column;
+	}
+	
+	gtk_clist_sort (clist); 
+  
+	/*
+	 * save the sorting preferences cause I hate to have the user
+	 * click twice
+	 */
+
+	gnome_config_set_int("/calendar/Todo/sort_column", todo_current_sort_column);
+	gnome_config_set_int("/calendar/Todo/sort_type", todo_current_sort_type);
+	gnome_config_sync();
+}
+
 static void
 gncal_todo_init (GncalTodo *todo)
 {
 	GtkWidget *w;
 	GtkWidget *sw;
 	GtkWidget *hbox;
-
+	gchar *titles[2] = {"Summary","Due Date"};
 	gtk_box_set_spacing (GTK_BOX (todo), 4);
 
 	/* Label */
@@ -250,13 +348,20 @@ gncal_todo_init (GncalTodo *todo)
 	gtk_box_pack_start (GTK_BOX (todo), sw, TRUE, TRUE, 0);
 	gtk_widget_show (sw);
 
-	w = gtk_clist_new (1);
+
+	w = gtk_clist_new_with_titles(2, titles);
+
 	todo->clist = GTK_CLIST (w);
 	gtk_clist_set_selection_mode (todo->clist, GTK_SELECTION_BROWSE);
 
 	gtk_signal_connect (GTK_OBJECT (todo->clist), "select_row",
 			    (GtkSignalFunc) clist_row_selected,
 			    todo);
+	gtk_signal_connect (GTK_OBJECT (todo->clist), "resize_column",
+			    (GtkSignalFunc) column_resized,
+			    todo);
+	gtk_signal_connect (GTK_OBJECT (todo->clist), "click_column",
+			  (GtkSignalFunc) todo_click_column, NULL);
 
 	gtk_container_add (GTK_CONTAINER (sw), w);
 	gtk_widget_show (w);
@@ -315,51 +420,143 @@ gncal_todo_new (GnomeCalendar *calendar)
 	return GTK_WIDGET (todo);
 }
 
+
+
+char *
+convert_time_t_to_char (time_t t)
+{
+	char *buffer;
+	struct tm *tm;
+
+	buffer = g_malloc(15);
+	tm = localtime (&t);
+	strftime(buffer, 15, "%m/%d/%y", tm);
+
+	return buffer;
+}
+
+GtkStyle *
+make_overdue_todo_style(GncalTodo *todo)
+{
+	GtkStyle *overdue_style = NULL;
+	GdkColor overdue_color;
+	
+	/*make the overdue color configurable */
+	overdue_color.red   = color_props[COLOR_PROP_OVERDUE_TODO].r;
+	overdue_color.green = color_props[COLOR_PROP_OVERDUE_TODO].g;
+	overdue_color.blue  = color_props[COLOR_PROP_OVERDUE_TODO].b;
+	
+	overdue_style = gtk_style_copy (GTK_WIDGET (todo->clist)->style);
+	overdue_style->base[GTK_STATE_NORMAL] = overdue_color;
+	
+	return overdue_style;
+}
+
 static void
 insert_in_clist (GncalTodo *todo, iCalObject *ico)
 {
 	int i;
-	char *text[1] = { ico->summary };
-	iCalObject *row_ico;
-
-	if (ico->priority == 0)
-		i = gtk_clist_append (todo->clist, text); /* items with undefined priority go to the end of the list */
-	else {
-
-		/* Find proper place in clist to insert object.  Objects are sorted by priority. */
-
-		for (i = 0; i < todo->clist->rows; i++) {
-			row_ico = gtk_clist_get_row_data (todo->clist, i);
-
-			if (ico->priority >= row_ico->priority)
-				break;
-		}
-
-		gtk_clist_insert (todo->clist, i, text);
+	char *text[2];
+        static GtkStyle *overdue_style = NULL;
+	
+      
+	/* setup the over due style if we haven't already, or it changed.*/
+	if (todo_style_changed || !overdue_style) { 
+		/* free the old style cause its not needed anymore */
+		if(!overdue_style) g_free(overdue_style);
+		overdue_style = make_overdue_todo_style(todo);
+		todo_style_changed = 0;
 	}
 
-	/* Set the appropriate "done" icon and hook the object to the row */
 
+	text[0] =  ico->summary;
+
+	/*
+	 * right now column 0 will be the summary
+	 * and column 1 will be the due date. 
+	 * WISH:  this should be able to be changed on the fly
+	 */
+
+	if(ico->dtend && todo_show_due_date) {
+		text[1] = convert_time_t_to_char(ico->dtend);
+		/* Append the data's pointer so later it can be properly freed */
+		todo->data_ptrs = g_slist_append (todo->data_ptrs, text[1]);
+	}
+	else
+		text[1] = NULL;
+	
+	
+	i = gtk_clist_append (todo->clist, text);
+	
 	gtk_clist_set_row_data (todo->clist, i, ico);
+
+	/*
+	 * determine if the task is overdue..
+	 * if so mark with the apropriate style
+	 */
+	if(todo_due_date_overdue_highlight) {
+		if(ico->dtend < time(NULL))
+			gtk_clist_set_row_style(todo->clist, i, overdue_style);
+	}
+	
+	/* keep the list in order */
+	gtk_clist_sort (todo->clist); 
 }
 
 void
 gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 {
-	GList *list;
+	GList *list;	
+	GSList *current_list;
 
 	g_return_if_fail (todo != NULL);
 	g_return_if_fail (GNCAL_IS_TODO (todo));
-
+	
+	/*
+	 * shut down the resize handler cause we are playing with the list. 
+	 * In otherwords turn off the event handler
+	 */
+	todo_list_redraw_in_progess =1;
+	
+	/* freeze the list */
 	gtk_clist_freeze (todo->clist);
+	init_column_sorting (todo->clist);
+
+	/*
+	 * before here we have to free some of the memory that
+	 * stores the due date, or else we have a memory leak. 
+	 * luckily all of the pointers are stored in todo->data_ptrs;
+	 */
+
+	/* check on the columns that we should display */
+	/* check for due date */
+
+	if(todo_show_due_date) 
+		gtk_clist_set_column_visibility (todo->clist, 1, 1);
+	else
+		gtk_clist_set_column_visibility (todo->clist, 1, 0);
+	
+	/* free the memory locations that were used in the previous display */
+	for (current_list = todo->data_ptrs; current_list != NULL; current_list = g_slist_next(current_list)){
+		g_free(current_list->data);
+	}
+
+	/* free the list and clear out the pointer */
+	g_slist_free(todo->data_ptrs);
+	todo->data_ptrs = NULL;
 
 	gtk_clist_clear (todo->clist);
 
 	for (list = todo->calendar->cal->todo; list; list = list->next)
 		insert_in_clist (todo, list->data);
 
-	gtk_clist_thaw (todo->clist);
+	/* if we are autoresizing then do it now */
+	if(todo_list_autoresize && todo->clist->rows != 0) 
+		gtk_clist_columns_autosize (todo->clist);
 
+	gtk_clist_thaw (todo->clist);
+	
 	gtk_widget_set_sensitive (todo->edit_button, (todo->clist->selection != NULL));
 	gtk_widget_set_sensitive (todo->delete_button, (todo->clist->selection != NULL));
+	todo_list_redraw_in_progess = 0;
 }

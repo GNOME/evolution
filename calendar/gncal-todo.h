@@ -34,6 +34,9 @@ struct _GncalTodo {
 
 	GtkWidget *edit_button;
 	GtkWidget *delete_button;
+              GSList *data_ptrs;
+  
+ 
 };
 
 struct _GncalTodoClass {

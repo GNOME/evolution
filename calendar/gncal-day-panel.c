@@ -266,3 +266,15 @@ gncal_day_panel_time_format_changed (GncalDayPanel *dpanel)
 				       : (dpanel->gtk_calendar->display_flags
 					  & ~GTK_CALENDAR_WEEK_START_MONDAY)));
 }
+
+void
+todo_list_properties_changed (GncalDayPanel *dpanel)
+{
+	g_return_if_fail (dpanel != NULL);
+	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
+
+	gncal_todo_update (dpanel->todo, NULL, 0);
+}
+
+
+

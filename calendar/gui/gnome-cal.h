@@ -65,8 +65,13 @@ void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
 /* Notifies the calendar that the time format has changed and it must update all its views */
 void gnome_calendar_time_format_changed (GnomeCalendar *gcal);
 
-/* Notifies the calendar that the colors have changed and it must update all its views */
-void gnome_calendar_colors_changed (GnomeCalendar *gcal);
+/* Notifies the calendar that the todo list properties have changed and its time to update the views */
+void 
+gnome_calendar_colors_changed (GnomeCalendar *gcal);
+
+/* Notifies the calendar that the todo list properties have changed and its time to update the views */
+void 
+gnome_calendar_todo_properties_changed (GnomeCalendar *gcal);
 
 
 END_GNOME_DECLS

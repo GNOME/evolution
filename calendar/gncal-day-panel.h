@@ -56,6 +56,9 @@ void gncal_day_panel_update (GncalDayPanel *dpanel, iCalObject *ico, int flags);
 void gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day);
 void gncal_day_panel_time_format_changed (GncalDayPanel *dpanel);
 
+void todo_list_properties_changed (GncalDayPanel *dpanel);
+
+
 
 END_GNOME_DECLS
 

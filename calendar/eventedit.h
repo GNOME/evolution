@@ -76,7 +76,7 @@ GtkWidget *event_editor_new      (GnomeCalendar *owner, iCalObject *);
  */
 void event_editor_new_whole_day (GnomeCalendar *owner, time_t day);
  
-
+GtkWidget *date_edit_new (time_t the_time, int show_time);
 
 END_GNOME_DECLS
 

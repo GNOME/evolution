@@ -254,12 +254,12 @@ goto_dialog (GnomeCalendar *gcal)
 	GtkWidget *hbox;
 	GtkWidget *w;
 	GtkWidget *days;
-	struct tm tm;
+	struct tm *tm;
 
 	gnome_calendar = gcal;
 	current_index = -1;
 
-	tm = *localtime (&gnome_calendar->current_display);
+	tm = localtime (&gnome_calendar->current_display);
 
 	goto_win = gnome_dialog_new (_("Go to date"),
 				     GNOME_STOCK_BUTTON_CANCEL,
@@ -282,17 +282,17 @@ goto_dialog (GnomeCalendar *gcal)
 	 * month_item to be created.
 	 */
 
-	days = create_days (tm.tm_mday, tm.tm_mon, tm.tm_year + 1900);
+	days = create_days (tm->tm_mday, tm->tm_mon, tm->tm_year + 1900);
 
 	/* Year */
 
-	w = create_year (tm.tm_year + 1900);
+	w = create_year (tm->tm_year + 1900);
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 
 	/* Month */
 
-	w = create_months (tm.tm_mon);
+	w = create_months (tm->tm_mon);
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 

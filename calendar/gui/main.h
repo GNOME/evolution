@@ -8,6 +8,7 @@ extern char *user_name;
 extern int am_pm_flag;
 extern int week_starts_on_monday;
 
+
 /* This enum and the following array define the color preferences */
 
 typedef enum {
@@ -18,6 +19,7 @@ typedef enum {
 	COLOR_PROP_PRELIGHT_DAY_BG,	/* Background color for prelighted day */
 	COLOR_PROP_DAY_FG,		/* Color for day numbers */
 	COLOR_PROP_CURRENT_DAY_FG,	/* Color for current day's number */
+	COLOR_PROP_OVERDUE_TODO,
 	COLOR_PROP_LAST			/* Number of color properties */
 } ColorProp;
 
@@ -31,6 +33,17 @@ struct color_prop {
 
 extern struct color_prop color_props[];
 
+ 
+/* todo preferences */
+extern int todo_show_due_date;
+extern int todo_due_date_overdue_highlight;
+extern char *todo_overdue_font_text;
+extern struct color_prop todo_overdue_highlight_color;
+extern gboolean todo_style_changed;
+extern gint todo_current_sort_column;
+extern gint todo_current_sort_type;
+
+
 /* Creates and runs the preferences dialog box */
 void properties (GtkWidget *toplevel);
 
@@ -41,6 +54,9 @@ void time_format_changed (void);
 
 /* Asks for all the month items' colors to be reset */
 void colors_changed (void);
+
+/* Asks for all todo lists to reflect the accurate properties */
+void todo_properties_changed(void);
 
 /* Creates and runs the Go-to date dialog */
 void goto_dialog (GnomeCalendar *gcal);
