@@ -90,6 +90,7 @@ static ESExpResult *do_move (struct _ESExp *f, int argc, struct _ESExpResult **a
 static ESExpResult *do_stop (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
+static ESExpResult *do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 
 /* these are our filter actions - each must have a callback */
 static struct {
@@ -104,7 +105,8 @@ static struct {
 	{ "move-to",    (ESExpFunc *) do_move,      0 },
 	{ "stop",       (ESExpFunc *) do_stop,      0 },
 	{ "set-colour", (ESExpFunc *) do_colour,    0 },
-	{ "set-score",  (ESExpFunc *) do_score,     0 }
+	{ "set-score",  (ESExpFunc *) do_score,     0 },
+	{ "set-flag",   (ESExpFunc *) do_flag,      0 }
 };
 
 static GtkObjectClass *filter_driver_parent;
@@ -410,6 +412,45 @@ do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 	return NULL;
 }
 
+static ESExpResult *
+do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *driver)
+{
+	struct _FilterDriverPrivate *p = _PRIVATE (driver);
+	
+	d(fprintf (stderr, "setting flag\n"));
+	if (argc > 0 && argv[0]->type == ESEXP_RES_INT) {
+		char *flag;
+		
+		switch (argv[0]->value.number) {
+		case CAMEL_MESSAGE_ANSWERED:
+			p->info->flags |= CAMEL_MESSAGE_ANSWERED;
+			flag = "Answered";
+			break;
+		case CAMEL_MESSAGE_DELETED:
+			p->info->flags |= CAMEL_MESSAGE_DELETED;
+			flag = "Deleted";
+			break;
+		case CAMEL_MESSAGE_DRAFT:
+			p->info->flags |= CAMEL_MESSAGE_DRAFT;
+			flag = "Draft";
+			break;
+		case CAMEL_MESSAGE_FLAGGED:
+			p->info->flags |= CAMEL_MESSAGE_FLAGGED;
+			flag = "Flagged";
+			break;
+		case CAMEL_MESSAGE_SEEN:
+			p->info->flags |= CAMEL_MESSAGE_SEEN;
+			flag = "Seen";
+			break;
+		default:
+			flag = "Unknown";
+		}
+		report_status (driver, FILTER_STATUS_ACTION, "Set %s flag", flag);
+	}
+	
+	return NULL;
+}
+
 static CamelFolder *
 open_folder (FilterDriver *driver, const char *folder_url)
 {
@@ -478,16 +519,16 @@ filter_driver_status_log (FilterDriver *driver, enum filter_status_t status,
 	FILE *out = data;
 	
 	switch(status) {
-	case FILTER_STATUS_END: {
+	case FILTER_STATUS_START: {
 		/* write log header */
 		time_t t;
 		char date[50];
 		char *from = NULL;
 		char *subject = NULL;
-
+		
 		if (msg) {
-			from = camel_mime_message_get_from(msg);
-			subject = camel_mime_message_get_subject(msg);
+			from = camel_mime_message_get_from (msg);
+			subject = camel_mime_message_get_subject (msg);
 		}
 		
 		time (&t);
@@ -497,7 +538,7 @@ filter_driver_status_log (FilterDriver *driver, enum filter_status_t status,
 			 subject ? subject : "", date);
 		break;
 	}
-	case FILTER_STATUS_START:
+	case FILTER_STATUS_END:
 		fprintf (out, "\n");
 		break;
 	case FILTER_STATUS_ACTION:
@@ -544,7 +585,7 @@ filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *s
 		
 		if (st.st_size > 0)
 			pc = (int)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
-
+		
 		report_status (driver, FILTER_STATUS_START, "Getting message %d (%d%% of file)", i, pc);
 		
 		msg = camel_mime_message_new ();

@@ -1,3 +1,16 @@
+2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filtertypes.xml: Updated to add an action to set message flags.
+
+	* filter-driver.c (do_flag): New callback to set message info
+	flags.
+
+	* filter-element.c (filter_element_set_data): New convenience
+	function to set the data on a FilterElement.
+
+	* filter-url.c (get_widget): Set the sources list to point to the
+	FilterElement data.
+
 2000-10-31  Federico Mena Quintero  <federico@helixcode.com>
 
 	* filter-rule.c (get_widget): Do not pad around the Name hbox;

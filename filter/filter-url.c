@@ -188,7 +188,7 @@ static GtkWidget *
 get_widget (FilterElement *fe)
 {
 	GtkWidget *combo;
-	GList *sources = NULL;  /* this needs to be a list of urls */
+	GList *sources = fe->data;  /* this needs to be a list of urls */
 	
 	combo = gtk_combo_new ();
 	gtk_combo_set_popdown_strings (GTK_COMBO (combo), sources);

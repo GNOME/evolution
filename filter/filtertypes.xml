@@ -486,5 +486,40 @@
   <code>(set-score ${score})</code>
   <input type="score" name="score"/>
  </part>
+ <part name="flag">
+  <title>Set Flag</title>
+   <input type="optionlist" name="flag-type">
+   <option value="answered">
+    <title>Answered</title>
+    <code>
+       (set-flag 1)
+    </code>
+   </option>
+   <option value="deleted">
+    <title>Deleted</title>
+    <code>
+       (set-flag 2)
+    </code>
+   </option>
+   <option value="draft">
+    <title>Draft</title>
+    <code>
+       (set-flag 4)
+    </code>
+   </option>
+   <option value="flagged">
+    <title>Flagged</title>
+    <code>
+       (set-flag 8)
+    </code>
+   </option>
+   <option value="seen">
+    <title>Seen</title>
+    <code>
+       (set-flag 16)
+    </code>
+   </option>
+   </input>
+ </part>
 </actionset>
 </filterdescription>

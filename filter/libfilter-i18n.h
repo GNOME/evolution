@@ -1,11 +1,15 @@
 /* Automatically generated. Do not edit. */
+char *s = N_("Answered");
 char *s = N_("Assign Colour");
 char *s = N_("Assign Score");
 char *s = N_("Copy to Folder");
 char *s = N_("Date received");
 char *s = N_("Date sent");
 char *s = N_("Delete");
+char *s = N_("Deleted");
+char *s = N_("Draft");
 char *s = N_("Expression");
+char *s = N_("Flagged");
 char *s = N_("Forward to Address");
 char *s = N_("Message Body");
 char *s = N_("Message was received");
@@ -13,7 +17,9 @@ char *s = N_("Message was sent");
 char *s = N_("Move to Folder");
 char *s = N_("Priority");
 char *s = N_("Recipients");
+char *s = N_("Seen");
 char *s = N_("Sender");
+char *s = N_("Set Flag");
 char *s = N_("Source");
 char *s = N_("Specific header");
 char *s = N_("Stop Processing");

@@ -268,6 +268,12 @@ filter_element_new_type_name (const char *type)
 	}
 }
 
+void
+filter_element_set_data (FilterElement *fe, gpointer data)
+{
+	fe->data = data;
+}
+
 /* default implementations */
 static gboolean
 validate (FilterElement *fe, gpointer data)

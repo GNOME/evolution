@@ -65,6 +65,8 @@ FilterElement	*filter_element_new	(void);
 
 FilterElement	*filter_element_new_type_name	(const char *type);
 
+void            filter_element_set_data (FilterElement *fe, gpointer data);
+
 /* methods */
 gboolean        filter_element_validate         (FilterElement *fe, gpointer data);
 
