@@ -922,6 +922,7 @@ imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 las
 	struct imap4_fetch_all_t *fetch;
 	CamelIMAP4Engine *engine;
 	CamelIMAP4Command *ic;
+	int total;
 	
 	engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
 	
@@ -929,17 +930,16 @@ imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 las
 	 * 'added' array here rather than possibly having to grow it
 	 * one element at a time (in the common case) in the
 	 * untagged_fetch_all() callback */
+	total = last ? (last - first) + 1 : (imap4_summary->exists - first) + 1;
 	fetch = g_new (struct imap4_fetch_all_t, 1);
 	fetch->uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	fetch->changes = camel_folder_change_info_new ();
-	fetch->added = g_ptr_array_new ();
+	fetch->added = g_ptr_array_sized_new (total);
 	fetch->summary = summary;
 	fetch->first = first;
 	fetch->need = IMAP4_FETCH_ALL;
-	fetch->total = last ? (last - first) + 1 : (imap4_summary->exists - first) + 1;
+	fetch->total = total;
 	fetch->count = 0;
-	
-	g_ptr_array_set_size (fetch->added, fetch->total);
 	
 	/* From rfc2060, Section 6.4.5:
 	 * 
@@ -968,6 +968,7 @@ imap4_summary_fetch_flags (CamelFolderSummary *summary, guint32 first, guint32 l
 	struct imap4_fetch_all_t *fetch;
 	CamelIMAP4Engine *engine;
 	CamelIMAP4Command *ic;
+	int total;
 	
 	engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
 	
@@ -975,17 +976,16 @@ imap4_summary_fetch_flags (CamelFolderSummary *summary, guint32 first, guint32 l
 	 * 'added' array here rather than possibly having to grow it
 	 * one element at a time (in the common case) in the
 	 * untagged_fetch_all() callback */
+	total = (last - first) + 1;
 	fetch = g_new (struct imap4_fetch_all_t, 1);
 	fetch->uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	fetch->changes = camel_folder_change_info_new ();
-	fetch->added = g_ptr_array_new ();
+	fetch->added = g_ptr_array_sized_new (total);
 	fetch->summary = summary;
 	fetch->first = first;
 	fetch->need = IMAP4_FETCH_UID | IMAP4_FETCH_FLAGS;
-	fetch->total = (last - first) + 1;
+	fetch->total = total;
 	fetch->count = 0;
-	
-	g_ptr_array_set_size (fetch->added, fetch->total);
 	
 	if (last != 0)
 		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:%u (UID FLAGS)\r\n", first, last);

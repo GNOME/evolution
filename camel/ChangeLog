@@ -11,7 +11,7 @@
 	remove the cal/taksks sources when account is disbaled. Also do
 	not try to to create sources when a disabled account is changed to
 	Novell Groupwise
-	(camel_gw_listener_construct) : do not add the disbaled accounts
+	(camel_gw_listener_construct): do not add the disbaled accounts
 	to exitsting groupwise accounts list
 
 2004-08-13  Sivaiah Nallagatla <snallagatla@novell.com>
