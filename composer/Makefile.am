@@ -22,10 +22,10 @@ $(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.id
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		-I $(selectnamesdir)  $(srcdir)/Composer.idl
 
-Editor-commmon.c:	$(GTK_HTML_EDITOR_IDL)
+Editor-commmon.c:	$(GTKHTML_DATADIR)/gtkhtml/Editor.idl
 
-$(HTML_EDITOR_GENERATED): $(GTK_HTML_EDITOR_IDL)
-	$(ORBIT_IDL) -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` $(GTK_HTML_EDITOR_IDL)
+$(HTML_EDITOR_GENERATED): $(GTKHTML_DATADIR)/gtkhtml/Editor.idl
+	$(ORBIT_IDL) -I $(srcdir) `$(GNOME_CONFIG) --cflags idl` -I $(GTKHTML_DATADIR)/gtkhtml $(GTKHTML_DATADIR)/gtkhtml/Editor.idl
 
 ##
 
