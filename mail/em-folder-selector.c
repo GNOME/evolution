@@ -141,7 +141,7 @@ folder_created_cb (EMFolderTreeModel *model, const char *path, const char *uri, 
 	camel_exception_init (&ex);
 	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex)))
 		return;
-	
+
 	if (camel_store_folder_uri_equal (store, emfs->created_uri, uri)) {
 		em_folder_tree_set_selected (emfs->emft, uri);
 		g_signal_handler_disconnect (model, emfs->created_id);
