@@ -702,7 +702,6 @@ calendar/gui/dialogs/Makefile
 calendar/conduits/Makefile
 calendar/conduits/calendar/Makefile
 calendar/conduits/todo/Makefile
-cmdline/Makefile
 filter/Makefile
 wombat/Makefile
 composer/Makefile
