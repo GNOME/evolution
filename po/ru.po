@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-06-28 20:22+0000\n"
-"PO-Revision-Date: 2000-06-28 21:01+00:00\n"
+"POT-Creation-Date: 2000-06-29 18:21+0000\n"
+"PO-Revision-Date: 2000-06-29 18:23+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1585,7 +1585,7 @@ msgstr "Правка встречи"
 
 #: calendar/gui/dialogs/alarm-notify.glade.h:10
 msgid "Snooze time (minutes)"
-msgstr ""
+msgstr "Время дремания (минут)"
 
 #: calendar/gui/e-day-view-time-item.c:391
 #, c-format
@@ -1792,7 +1792,7 @@ msgstr "Конфиденциальное"
 msgid "Recurrence rule"
 msgstr "Правила повторения"
 
-#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:575
+#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:574
 msgid "None"
 msgstr "Нет"
 
@@ -2946,9 +2946,11 @@ msgstr "Применить"
 msgid ""
 "<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
 "continue forwards to customise it.</p>"
-msgstr "<h2>Создать правило фильтрации</h2><p>Выберите одно из приведенных ниже правил, затем продолжите его настройку.</p>"
+msgstr ""
+"<h2>Создать правило фильтрации</h2><p>Выберите одно из приведенных ниже "
+"правил, затем продолжите его настройку.</p>"
 
-#: mail/component-factory.c:184
+#: mail/component-factory.c:206
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
@@ -3200,7 +3202,7 @@ msgstr "Невозможно создать окно диалога."
 msgid "User cancelled query."
 msgstr "Пользователь отменил запрос."
 
-#: mail/main.c:58
+#: mail/main.c:61
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
@@ -3472,17 +3474,17 @@ msgstr "(Папки не показаны)"
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:579
+#: shell/e-shell-view.c:578
 #, c-format
 msgid "Evolution - %s"
 msgstr "Эволюция - %s"
 
-#: shell/e-shell-view.c:647
+#: shell/e-shell-view.c:646
 #, c-format
 msgid "Cannot open location: %s"
 msgstr "Невозможно открыть: %s"
 
-#: shell/e-shell.c:256
+#: shell/e-shell.c:258
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Невозможно установить локальное хранилище -- %s"
@@ -3627,11 +3629,15 @@ msgstr ""
 "С благодарностью\n"
 "Команда Evolution\n"
 
-#: shell/main.c:169
+#: shell/main.c:172
 msgid "Cannot initialize the Evolution shell."
 msgstr "Невозможно инициализировать оболочку \"Эволюции\"."
 
-#: shell/main.c:204
+#: shell/main.c:214
+msgid "Cannot initialize the configuration system."
+msgstr "Невозможно инициализировать конфигурационную систему."
+
+#: shell/main.c:220
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Не удалось инициализировать компонентную систему Bonobo."
 
