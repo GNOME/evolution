@@ -3647,7 +3647,7 @@ cal_component_get_alarm (CalComponent *comp, const char *auid)
 void 
 cal_component_free_alarm_uids (GList *alarm_uids)
 {
-
+	g_list_foreach (alarm_uids, (GFunc)g_free, NULL);
 }
 
 /**
@@ -3918,6 +3918,8 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 
 	related = ICAL_RELATED_START; /* Keep GCC happy */
 
+	t.time = icaltime_null_time ();
+	t.duration = icaldurationtype_null_duration ();
 	switch (trigger.type) {
 	case CAL_ALARM_TRIGGER_RELATIVE_START:
 		t.duration = trigger.u.rel_duration;

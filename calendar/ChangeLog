@@ -1,5 +1,12 @@
 2001-02-05  JP Rosevear  <jpr@ximian.com>
 
+	* cal-util/cal-component.c (cal_component_alarm_set_trigger): Set
+	the time and duration values in the trigger to null by default
+	(cal_component_free_alarm_uids): properly free the list of alarm
+	uids
+
+2001-02-05  JP Rosevear  <jpr@ximian.com>
+
 	* gui/event-editor.c (get_widgets): get the new reminder widgets
 	(sync_entries): different callback data
 	(summary_changed_cb): take different data and handle various cases
