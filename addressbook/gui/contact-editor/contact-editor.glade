@@ -1317,6 +1317,9 @@
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
 				  <property name="focus_on_click">True</property>
+				  <accessibility>
+				    <atkproperty name="AtkObject::accessible_name" translatable="yes">Telephone</atkproperty>
+				  </accessibility>
 
 				  <child>
 				    <widget class="GtkArrow" id="arrow-phone-expand">
