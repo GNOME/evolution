@@ -1,3 +1,8 @@
+2004-06-25  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-url-scanner.c (camel_url_web_end): Fixed to handle :pass
+	in proto://user:pass@host. Fixes bug #60104.
+
 2004-06-24  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/pop3/camel-pop3-store.c (connect_to_server): Error out

@@ -325,6 +325,8 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 {
 	register const char *inptr = pos;
 	int parts = 0, digits, port;
+	gboolean passwd = FALSE;
+	const char *save;
 	char close_brace;
 	
 	inptr += strlen (match->pattern);
@@ -351,8 +353,6 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 		} while (parts < 4);
 	} else if (is_atom (*inptr)) {
 		/* might be a domain or user@domain */
-		const char *save = inptr;
-		
 		while (inptr < inend) {
 			if (!is_atom (*inptr))
 				break;
@@ -392,15 +392,42 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 	
 	if (inptr < inend) {
 		switch (*inptr) {
-		case ':': /* port notation */
+		case ':': /* we either have a port or a password */
 			inptr++;
-			port = 0;
 			
-			while (inptr < inend && is_digit (*inptr) && port < 65536)
-				port = (port * 10) + (*inptr++ - '0');
-			
-			if (port >= 65536)
-				inptr--;
+			if (is_digit (*inptr) || passwd) {
+				port = 0;
+				
+				while (inptr < inend && is_digit (*inptr) && port < 65536)
+					port = (port * 10) + (*inptr++ - '0');
+				
+				if (port >= 65536) {
+					if (!passwd) {
+						/* this must be a password? */
+						goto passwd;
+					}
+					
+					inptr--;
+				}
+			} else {
+			passwd:
+				passwd = TRUE;
+				save = inptr;
+				
+				while (inptr < inend && is_atom (*inptr))
+					inptr++;
+				
+				if (inptr < inend) {
+					if (*inptr == '@') {
+						/* there should be a domain next */
+						inptr++;
+						goto domain;
+					} else {
+						/* no idea what this is... so don't keep it */
+						inptr = save;
+					}
+				}
+			}
 			
 			if (inptr >= inend || *inptr != '/')
 				break;
