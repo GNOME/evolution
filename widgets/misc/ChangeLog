@@ -1,3 +1,11 @@
+2003-11-11  Bolian Yin <bolian.yin@sun.com>
+                                                                                
+        Fixes #50538
+                                                                                
+        * e-calendar-item: make e_calendar_item_normalize_date public func.
+           add "selection_preview_changed" signal.
+           move some definition of constants to .h
+                                                                                
 2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-source-selector.c (e_source_selector_new): Expand all the

@@ -46,36 +46,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 
-/*
- * These are the padding sizes between various pieces of the calendar.
- */
-
-/* The minimum padding around the numbers in each cell/day. */
-#define	E_CALENDAR_ITEM_MIN_CELL_XPAD	4
-#define	E_CALENDAR_ITEM_MIN_CELL_YPAD	0
-
-/* Vertical padding. */
-#define	E_CALENDAR_ITEM_YPAD_ABOVE_DAY_LETTERS		1
-#define	E_CALENDAR_ITEM_YPAD_BELOW_DAY_LETTERS		0
-#define	E_CALENDAR_ITEM_YPAD_ABOVE_CELLS		1
-#define	E_CALENDAR_ITEM_YPAD_BELOW_CELLS		2
-
-/* Horizontal padding in the heading bars. */
-#define	E_CALENDAR_ITEM_XPAD_BEFORE_MONTH_NAME_WITH_BUTTON	16
-#define	E_CALENDAR_ITEM_XPAD_BEFORE_MONTH_NAME			3
-#define	E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME			3
-#define	E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME_WITH_BUTTON	16
-
-/* Horizontal padding in the month displays. */
-#define	E_CALENDAR_ITEM_XPAD_BEFORE_WEEK_NUMBERS	4
-#define	E_CALENDAR_ITEM_XPAD_AFTER_WEEK_NUMBERS		2
-#define	E_CALENDAR_ITEM_XPAD_BEFORE_CELLS		1
-#define	E_CALENDAR_ITEM_XPAD_AFTER_CELLS		4
-
-/* The number of rows & columns of days in each month. */
-#define E_CALENDAR_ROWS_PER_MONTH	6
-#define E_CALENDAR_COLS_PER_MONTH	7
-
 static const int e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };
@@ -168,11 +138,6 @@ static void e_calendar_item_get_month_info	(ECalendarItem	*calitem,
 						 gint		*days_in_prev_month);
 static void e_calendar_item_recalc_sizes(ECalendarItem *calitem);
 
-static gint e_calendar_item_get_week_number	(ECalendarItem *calitem,
-						 gint		day,
-						 gint		month,
-						 gint		year);
-
 static void e_calendar_item_get_day_style	(ECalendarItem	*calitem,
 						 gint		 year,
 						 gint		 month,
@@ -197,9 +162,6 @@ static void e_calendar_item_check_selection_start(ECalendarItem	*calitem,
 						  gint		*start_day,
 						  gint		 end_month,
 						  gint		 end_day);
-static void e_calendar_item_normalize_date	(ECalendarItem	*calitem,
-						 gint		*year,
-						 gint		*month);
 static void e_calendar_item_add_days_to_selection(ECalendarItem	*calitem,
 						  gint		 days);
 static void e_calendar_item_round_up_selection	(ECalendarItem	*calitem,
@@ -272,6 +234,7 @@ enum {
 enum {
   DATE_RANGE_CHANGED,
   SELECTION_CHANGED,
+  SELECTION_PREVIEW_CHANGED,
   LAST_SIGNAL
 };
 
@@ -376,6 +339,14 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 				G_STRUCT_OFFSET (ECalendarItemClass, selection_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
+	e_calendar_item_signals[SELECTION_PREVIEW_CHANGED] =
+		g_signal_new ("selection_preview_changed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalendarItemClass, selection_preview_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	object_class->destroy = e_calendar_item_destroy;
 	object_class->get_arg = e_calendar_item_get_arg;
@@ -394,6 +365,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 
 	class->date_range_changed	= NULL;
 	class->selection_changed	= NULL;
+	class->selection_preview_changed	= NULL;
 
 	e_calendar_item_a11y_init ();
 }
@@ -1576,7 +1548,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 }
 
 
-static gint
+gint
 e_calendar_item_get_week_number	(ECalendarItem *calitem,
 				 gint		day,
 				 gint		month,
@@ -1715,6 +1687,8 @@ e_calendar_item_selection_add_days (ECalendarItem *calitem, gint n_days,
 	e_calendar_item_set_selection_if_emission (calitem,
 						   &gdate_start, &gdate_end,
 						   FALSE);
+	g_signal_emit_by_name (G_OBJECT (calitem),
+			       "selection_preview_changed");
 }
 
 static gint
@@ -2531,7 +2505,7 @@ e_calendar_item_set_display_popup      (ECalendarItem	*calitem,
 
 /* This will make sure that the given year & month are valid, i.e. if month
    is < 0 or > 11 the year and month will be updated accordingly. */
-static void
+void
 e_calendar_item_normalize_date	(ECalendarItem	*calitem,
 				 gint		*year,
 				 gint		*month)
