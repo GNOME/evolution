@@ -703,6 +703,8 @@ write_to_stream (CamelDataWrapper *dw, CamelStream *stream)
 				filter = (CamelMimeFilter *) camel_mime_filter_basic_new_type (CAMEL_MIME_FILTER_BASIC_UU_ENC);
 				break;
 			default:
+				/* content is encoded but the part doesn't want to be... */
+				reencode = TRUE;
 				break;
 			}
 		}
