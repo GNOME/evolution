@@ -785,9 +785,9 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 					 CamelMimeMessage *msg,
 					 gboolean redirect)
 {
+	EDestination **to_destv, **cc_destv, **bcc_destv;
 	CamelInternetAddress *addr;
 	char *subject, *header;
-	EDestination **to_destv, **cc_destv, **bcc_destv;
 	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
@@ -824,6 +824,12 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 		e_destination_freev (to_destv);
 		e_destination_freev (cc_destv);
 		e_destination_freev (bcc_destv);
+	}
+	
+	if (hdrs->visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO) {
+		header = e_msg_composer_hdrs_get_post_to (hdrs);
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-PostTo", header);
+		g_free (header);
 	}
 }
 

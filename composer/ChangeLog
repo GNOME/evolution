@@ -1,3 +1,14 @@
+2002-08-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #29016
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): If the
+	X-Evolution-PostTo header exists, then treat this message composer
+	as a PostTo composer rather than a mail composer.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message_internal):
+	Set the X-Evolution-PostTo header if that is the mdoe we are in.
+
 2002-08-16  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_headers): Use an
