@@ -269,7 +269,7 @@ find_record_in_ebook(GnomePilotConduitStandardAbs *conduit,
 }
 
 static ECard *
-ecard_from_remote_record(GnomePilotConduitStandardAbs *conduit,
+ecard_from_remote_record(AddressbookConduitContext *ctxt,
 			 PilotRecord *remote)
 {
 	ECard *ecard;
@@ -312,13 +312,36 @@ ecard_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 #if 1
 	for (i = entryPhone1; i <= entryPhone5; i ++) {
 		if (address.entry [i]) {
+			const char* phone_type;
+			char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
 			VObject *phoneprop = addPropValue (vobj,
 							   VCTelephoneProp,
 							   address.entry[i]);
 
-			printf ("added phone entry %s\n", address.entry[i]);
+			printf ("added '%s' phone entry %s\n",
+				phonelabel,
+				address.entry[i]);
 
-			addProp (phoneprop, VCWorkProp); /* XXX */
+			if (!strcmp (phonelabel, "Home"))
+				phone_type = VCHomeProp;
+			else if (!strcmp (phonelabel, "Work"))
+				phone_type = VCWorkProp;
+			else if (!strcmp (phonelabel, "Fax"))
+				phone_type = VCFaxProp;
+			else if (!strcmp (phonelabel, "Other"))
+				phone_type = VCHomeProp; /* XXX */
+			else if (!strcmp (phonelabel, "E-mail"))
+				phone_type = VCHomeProp; /* XXX */
+			else if (!strcmp (phonelabel, "Main")) { /* XXX */
+				addProp (phoneprop, VCHomeProp);
+				phone_type = VCPreferredProp;
+			}
+			else if (!strcmp (phonelabel, "Pager"))
+				phone_type = VCPagerProp;
+			else if (!strcmp (phonelabel, "Mobile"))
+				phone_type = VCCellularProp;
+			
+			addProp (phoneprop, phone_type);
 		}
 	}
 #endif
@@ -375,7 +398,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 		LOG ("Object did not exist, creating a new one");
 		printf ("Object did not exist, creating a new one\n");
 
-		ecard = ecard_from_remote_record (conduit, remote);
+		ecard = ecard_from_remote_record (ctxt, remote);
 
 		/* add the ecard to the server */
 		e_book_add_card (ctxt->ebook, ecard, add_card_cb, &cons);
@@ -849,6 +872,30 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	}
 }
 
+static int
+find_phone_label_for_flags (struct AddressAppInfo *ai,
+			    int flags)
+{
+	char *label_to_find;
+	int i;
+
+	if (flags & E_CARD_PHONE_PREF) label_to_find = "Main";
+	else if (flags & E_CARD_PHONE_WORK) label_to_find = "Work";
+	else if (flags & E_CARD_PHONE_HOME) label_to_find = "Home";
+	else if (flags & E_CARD_PHONE_FAX) label_to_find = "Fax";
+	else if (flags & E_CARD_PHONE_PAGER) label_to_find = "Pager";
+	else if (flags & E_CARD_PHONE_CELL) label_to_find = "Mobile";
+	else label_to_find = "Other";
+
+	for (i = 0; i < 8 /* the number of pilot address labels */; i ++) {
+		if (!strcmp(label_to_find, ai->phoneLabels[i]))
+			return i;
+	}
+
+	WARN ("couldn't find pilot label for phone type.\n");
+	return 0;
+}
+
 /*
 ** used to convert between a local record and a remote record.  memory
 ** allocated during this process should be freed in free_transmit
@@ -913,6 +960,8 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 		while ((phone = (ECardPhone*)e_iterator_get(iterator))) {
 
+			local->address->phoneLabel[phone_entry - entryPhone1] =
+				find_phone_label_for_flags (&ctxt->ai, phone->flags);
 			local->address->entry [ phone_entry ] = strdup (phone->number);
 
 			/* only store 5 numbers */
@@ -921,6 +970,8 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 
 			if (e_iterator_next (iterator) == FALSE)
 				break;
+
+			phone_entry++;
 		}
 	}
 
