@@ -70,6 +70,7 @@
 #include "art/bell.xpm"
 #include "art/recur.xpm"
 #include "art/timezone-16.xpm"
+#include "art/schedule-meeting-16.xpm"
 
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
@@ -1078,7 +1079,7 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->reminder_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->reminder_mask, NULL, bell_xpm);
 	day_view->recurrence_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->recurrence_mask, NULL, recur_xpm);
 	day_view->timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->timezone_mask, NULL, timezone_16_xpm);
-	day_view->meeting_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->meeting_mask, NULL, timezone_16_xpm);
+	day_view->meeting_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->meeting_mask, NULL, schedule_meeting_16_xpm);
 
 
 
