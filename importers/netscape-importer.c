@@ -413,7 +413,6 @@ netscape_import_accounts (NetscapeImporter *importer)
 
 	/* Create account */
 	account.name = CORBA_string_dup (username);
-	g_free (username);
 	account.id = id;
 	account.transport = transport;
 
@@ -504,6 +503,20 @@ netscape_import_accounts (NetscapeImporter *importer)
 			CORBA_exception_free (&ev);			
 			g_strfreev (servers);
 			return;
+		} else {
+			char *url, *path;
+
+			/* Using Movemail */
+			path = getenv ("MAIL");
+			url = g_strconcat ("mbox://", path, NULL);
+			source.url = CORBA_string_dup (url);
+			g_free (url);
+
+			source.keep_on_server = netscape_get_boolean ("mail.leave_on_server");
+			source.auto_check = TRUE;
+			source.auto_check_time = 10;
+			source.save_passwd = netscape_get_boolean ("mail.remember_password");
+			source.enabled = FALSE;
 		}
 	}
 	account.source = source;
@@ -514,7 +527,8 @@ netscape_import_accounts (NetscapeImporter *importer)
 		CORBA_exception_free (&ev);
 		return;
 	}
-
+	
+	g_free (username);
 	CORBA_exception_free (&ev);
 }
 
