@@ -30,10 +30,9 @@
 #include "mail-preferences.h"
 
 #include <gconf/gconf.h>
-#include <camel/camel-charset-map.h>
+#include <gal/util/e-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
 #include "widgets/misc/e-charset-picker.h"
-
 #include <bonobo/bonobo-generic-factory.h>
 
 #include "mail-config.h"
@@ -225,7 +224,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/format/charset", NULL);
-	menu = e_charset_picker_new (buf ? buf : camel_charset_locale_name ());
+	menu = e_charset_picker_new (buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
 	g_free (buf);
@@ -372,7 +371,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	
 	menu = gtk_option_menu_get_menu (prefs->charset);
 	if (!(string = e_charset_picker_get_charset (menu)))
-		string = g_strdup (camel_charset_locale_name ());
+		string = g_strdup (e_iconv_locale_charset ());
 	
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/format/charset", string, NULL);
 	g_free (string);

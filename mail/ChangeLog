@@ -1,3 +1,9 @@
+2003-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-preferences.c: Reverted back to using e-iconv
+
+	* mail-composer-preferences.c: Same.
+
 2003-02-26  Dan Winship  <danw@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: add a repo_id and a priority
