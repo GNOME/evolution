@@ -1,3 +1,7 @@
+2003-12-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/ldap-config.glade: Fix start page text.
+
 2003-12-01  JP Rosevear <jpr@ximian.com>
 
 	* conduit/Makefile.am: use privconduitdir
@@ -13,6 +17,12 @@
 2003-12-01  JP Rosvear <jpr@ximian.com>
 
 	* conduit/Makefile.am: version the .conduit file
+
+2003-12-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/new-addressbook.glade: Remove this too.
+
+	* gui/component/Makefile.am (glade_DATA): Remove new-addressbook.glade.
 
 2003-12-01  Hans Petter Jansson  <hpj@ximian.com>
 

@@ -302,10 +302,11 @@
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_START</property>
 	  <property name="title" translatable="yes">Addressbook Creation Assistant</property>
-	  <property name="text" translatable="yes">This assistant will help you to access online directory services
-using LDAP (Lightweight Directory Access Protocol) servers. 
+	  <property name="text" translatable="yes">This assistant will help you create a new addressbook. 
 
-Adding a new LDAP server requires some specialized information about the server. Please contact your system administrator if you need help finding this information.</property>
+Depending on the type of addressbook you create, additional
+parameters may be required. Please contact your system
+administrator if you need help finding this information.</property>
 	</widget>
       </child>
 
