@@ -154,8 +154,10 @@ fi
 if test x$ac_cv_lib_ldap_ldap_open = xyes; then
 	AC_DEFINE(HAVE_LDAP)
 	AC_SUBST(LDAP_LIBS)
+	msg_ldap=Yes
 else
 	AC_MSG_WARN(no ldap support present)
+	msg_ldap=No
 fi
 AM_CONDITIONAL(ENABLE_LDAP, test x$ac_cv_lib_ldap_ldap_open = xyes)
 
@@ -389,6 +391,11 @@ if test "x$enable_pilot_conduits" = "xyes"; then
 GNOME_PILOT_CHECK
 fi
 AM_CONDITIONAL(ENABLE_PILOT_CONDUITS, test "x$enable_pilot_conduits" = "xyes")
+if test x$enable_pilot_conduits = xyes; then
+   msg_pilot=Yes
+else
+   msg_pilot=No
+fi
 
 dnl ******
 dnl XML
@@ -542,19 +549,23 @@ dnl **********
 dnl GPGPGPGPGP
 dnl **********
 AC_PATH_PROG(GPG, gpg)
+priv=None
 if test -n "$GPG"; then
 	AC_DEFINE_UNQUOTED(GPG_PATH, "$GPG")
 	AC_DEFINE(PGP_PROGRAM, "GPG")
+	priv="GNU PG"
 else
 	AC_PATH_PROG(PGP5, pgpv)
 	if test -n "$PGP5"; then
 		AC_DEFINE_UNQUOTED(PGP5_PATH, "$PGP5")
 		AC_DEFINE(PGP_PROGRAM, "PGP")
+		priv="PGP5"
 	else
 		AC_PATH_PROG(PGP, pgp)
 		if test -n "$PGP"; then
 			AC_DEFINE_UNQUOTED(PGP_PATH, "$PGP")
 			AC_DEFINE(PGP_PROGRAM, "PGP")
+			priv=PGP
 		fi
 	fi
 fi
@@ -648,3 +659,19 @@ doc/devel/calendar/Makefile
 doc/devel/calendar/cal-client/Makefile
 doc/devel/calendar/cal-util/Makefile
 ])
+
+msg_kerberos=$msg_krb4/$msg_krb5
+if test x$msg_kerberos = /; then
+   msg_kerberos=""
+fi
+
+echo "
+	Evolution has been configured as follows:
+
+	Mail Directory:   $system_mail_dir
+	LDAP support:     $msg_ldap
+	Pilot conduits:   $msg_pilot
+	Kerberos 4/5:     $msg_kerberos
+	Use movemail:     $with_movemail
+	Crypto support:   $priv
+"
