@@ -2,6 +2,10 @@
   <commands>
     <cmd name="TasksNewTask" pixtype="pixbuf" _tip="Create a new task"/>
 
+    <cmd name="TasksPrint" _tip="Print the list of tasks" pixtype="pixbuf" 
+	 accel="*Control*p"/>
+    <cmd name="TasksPrintPreview" _tip="Previews the list of tasks to be printed" pixtype="pixbuf"/>
+
     <cmd name="TasksCut" _tip="Cut selected task" accel="*Control*x"/>
     <cmd name="TasksCopy" _tip="Copy selected task" accel="*Control*c"/>
     <cmd name="TasksPaste" _tip="Paste task from the clipboard" accel="*Control*v"/>
@@ -23,6 +27,15 @@
 	  <separator/>
 	</placeholder>
       </submenu>
+
+      <placeholder name="Print">
+	<menuitem name="PrintPreview" verb="TasksPrintPreview"
+		  _label="Print Pre_view" pixtype="pixbuf"/>
+
+	<menuitem name="Print" verb="TasksPrint" accel="*Control*p"
+		  _label="_Print..." pixtype="pixbuf"/>
+      </placeholder>
+
     </submenu>
 
     <placeholder name="EditPlaceholder">
@@ -69,6 +82,8 @@
     <separator/>
 
     <toolitem name="Delete" verb="TasksDelete" pixtype="pixbuf"/>
+
+    <toolitem name="Print" verb="TasksPrint" pixtype = "pixbuf"/>
 
   </dockitem>
 

@@ -1,3 +1,7 @@
+2002-03-04  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-tasks.xml: added Print & PrintPreview stuff.
+
 2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Add NewComboButton and a separator.
