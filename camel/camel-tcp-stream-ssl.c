@@ -65,7 +65,8 @@ static PRFileDesc *enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd);
 static int stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
-static gpointer stream_get_socket (CamelTcpStream *stream);
+static CamelTcpAddress *stream_get_local_address (CamelTcpStream *stream);
+static CamelTcpAddress *stream_get_remote_address (CamelTcpStream *stream);
 
 struct _CamelTcpStreamSSLPrivate {
 	PRFileDesc *sockfd;
@@ -94,7 +95,8 @@ camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_cl
 	camel_tcp_stream_class->connect = stream_connect;
 	camel_tcp_stream_class->getsockopt = stream_getsockopt;
 	camel_tcp_stream_class->setsockopt = stream_setsockopt;
-	camel_tcp_stream_class->get_socket = stream_get_socket;
+	camel_tcp_stream_class->get_local_address  = stream_get_local_address;
+	camel_tcp_stream_class->get_remote_address = stream_get_remote_address;
 }
 
 static void
@@ -613,10 +615,32 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 	return 0;
 }
 
-static gpointer
-stream_get_socket (CamelTcpStream *stream)
+static CamelTcpAddress *
+stream_get_local_address (CamelTcpStream *stream)
 {
-	return (gpointer) CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
+	PRFileDesc *sockfd = CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
+	PRNetAddr addr;
+
+	PR_GetSockName (sockfd, &addr);
+	if (addr.inet.family != PR_AF_INET)
+		return NULL;
+
+	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, addr.inet.port,
+				      4, &addr.inet.ip);
+}
+
+static CamelTcpAddress *
+stream_get_remote_address (CamelTcpStream *stream)
+{
+	PRFileDesc *sockfd = CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
+	PRNetAddr addr;
+
+	PR_GetPeerName (sockfd, &addr);
+	if (addr.inet.family != PR_AF_INET)
+		return NULL;
+
+	return camel_tcp_address_new (CAMEL_TCP_ADDRESS_IPV4, addr.inet.port,
+				      4, &addr.inet.ip);
 }
 
 #endif /* HAVE_NSS */

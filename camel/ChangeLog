@@ -1,3 +1,30 @@
+2002-03-10  Dan Winship  <danw@ximian.com>
+
+	* camel-tcp-stream.c (camel_tcp_stream_get_socket): Remove this:
+	it couldn't be generically used, because different subclasses
+	returned entirely different types of data.
+	(camel_tcp_stream_get_local_address,
+	camel_tcp_stream_get_remote_address): Add these to replace what
+	get_socket was being used for.
+	(camel_tcp_address_new, camel_tcp_address_free): Utility functions
+	for get_{local,remote}_address.
+
+	* providers/smtp/camel-smtp-transport.c: Change localaddr to a
+	CamelTcpAddress *.
+	(connect_to_server): Call camel_tcp_stream_get_local_address to
+	get the local IP address.
+	(smtp_disconnect): free localaddr.
+	(smtp_helo): Update for localaddr change.
+
+	* camel-tcp-stream-raw.c (stream_get_socket): Remove
+	(stream_get_local_address, stream_get_remote_address): Implement.
+
+	* camel-tcp-stream-ssl.c (stream_get_socket): Remove
+	(stream_get_local_address, stream_get_remote_address): Implement.
+
+	* camel-tcp-stream-openssl.c (stream_get_socket): Remove
+	(stream_get_local_address, stream_get_remote_address): Implement.
+
 2002-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-provider.c

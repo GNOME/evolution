@@ -36,7 +36,9 @@ static CamelStreamClass *parent_class = NULL;
 static int tcp_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 static int tcp_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int tcp_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
-static gpointer tcp_get_socket (CamelTcpStream *stream);
+static CamelTcpAddress *tcp_get_local_address (CamelTcpStream *stream);
+static CamelTcpAddress *tcp_get_remote_address (CamelTcpStream *stream);
+
 
 static void
 camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
@@ -46,10 +48,11 @@ camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
 	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (CAMEL_STREAM_TYPE));
 	
 	/* tcp stream methods */
-	camel_tcp_stream_class->connect    = tcp_connect;
-	camel_tcp_stream_class->getsockopt = tcp_getsockopt;
-	camel_tcp_stream_class->setsockopt = tcp_setsockopt;
-	camel_tcp_stream_class->get_socket = tcp_get_socket;
+	camel_tcp_stream_class->connect            = tcp_connect;
+	camel_tcp_stream_class->getsockopt         = tcp_getsockopt;
+	camel_tcp_stream_class->setsockopt         = tcp_setsockopt;
+	camel_tcp_stream_class->get_local_address  = tcp_get_local_address;
+	camel_tcp_stream_class->get_remote_address = tcp_get_remote_address;
 }
 
 static void
@@ -156,26 +159,88 @@ camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *dat
 }
 
 
-static gpointer
-tcp_get_socket (CamelTcpStream *stream)
+static CamelTcpAddress *
+tcp_get_local_address (CamelTcpStream *stream)
 {
-	w(g_warning ("CamelTcpStream::get_socket called on default implementation"));
+	w(g_warning ("CamelTcpStream::get_local_address called on default implementation"));
 	return NULL;
+}
+
+/**
+ * camel_tcp_stream_get_local_address:
+ * @stream: tcp stream object
+ *
+ * Get the local address of @stream.
+ *
+ * Return value: the stream's local address (which must be freed with
+ * camel_tcp_address_free()) if the stream is connected, or %NULL if not.
+ **/
+CamelTcpAddress *
+camel_tcp_stream_get_local_address (CamelTcpStream *stream)
+{
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), NULL);
+	
+	return CTS_CLASS (stream)->get_local_address (stream);
+}
+
+
+static CamelTcpAddress *
+tcp_get_remote_address (CamelTcpStream *stream)
+{
+	w(g_warning ("CamelTcpStream::get_remote_address called on default implementation"));
+	return NULL;
+}
+
+/**
+ * camel_tcp_stream_get_remote_address:
+ * @stream: tcp stream object
+ *
+ * Get the remote address of @stream.
+ *
+ * Return value: the stream's remote address (which must be freed with
+ * camel_tcp_address_free()) if the stream is connected, or %NULL if not.
+ **/
+CamelTcpAddress *
+camel_tcp_stream_get_remote_address (CamelTcpStream *stream)
+{
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), NULL);
+	
+	return CTS_CLASS (stream)->get_remote_address (stream);
 }
 
 
 /**
- * camel_tcp_stream_get_socket:
- * @stream: tcp stream object
+ * camel_tcp_address_new:
+ * @family: the address family (currently must be CAMEL_TCP_ADDRESS_IPV4)
+ * @port: the port number (in network byte order)
+ * @length: the length of @address
+ * @address: the address data (family dependent, in network byte order)
  *
- * Get the stream's socket.
- *
- * Return value: the stream's socket on success or NULL on failure.
+ * Return value: a new CamelTcpAddress.
  **/
-gpointer
-camel_tcp_stream_get_socket (CamelTcpStream *stream)
+CamelTcpAddress *
+camel_tcp_address_new  (CamelTcpAddressFamily family, gushort port,
+			gushort length, gpointer address)
 {
-	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), NULL);
-	
-	return CTS_CLASS (stream)->get_socket (stream);
+	CamelTcpAddress *addr;
+
+	addr = g_malloc (sizeof (CamelTcpAddress) + length - 1);
+	addr->family = family;
+	addr->port   = port;
+	addr->length = length;
+	memcpy (&addr->address, address, length);
+
+	return addr;
+}
+
+/**
+ * camel_tcp_address_free:
+ * @address: the address
+ *
+ * Frees @address.
+ **/
+void
+camel_tcp_address_free (CamelTcpAddress *address)
+{
+	g_free (address);
 }

@@ -88,6 +88,17 @@ typedef struct _CamelSockOptData {
 	} value;
 } CamelSockOptData;
 
+typedef enum {
+	CAMEL_TCP_ADDRESS_IPV4
+} CamelTcpAddressFamily;
+
+typedef struct {
+	CamelTcpAddressFamily family;
+	gushort port, length;
+	guint8 address[1];
+} CamelTcpAddress;
+
+
 struct _CamelTcpStream
 {
 	CamelStream parent_object;
@@ -102,7 +113,8 @@ typedef struct {
 	int (*getsockopt) (CamelTcpStream *stream, CamelSockOptData *data);
 	int (*setsockopt) (CamelTcpStream *stream, const CamelSockOptData *data);
 	
-	gpointer (*get_socket) (CamelTcpStream *stream);
+	CamelTcpAddress * (*get_local_address)  (CamelTcpStream *stream);
+	CamelTcpAddress * (*get_remote_address) (CamelTcpStream *stream);
 } CamelTcpStreamClass;
 
 /* Standard Camel function */
@@ -113,7 +125,13 @@ int         camel_tcp_stream_connect    (CamelTcpStream *stream, struct hostent 
 int         camel_tcp_stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 int         camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
-gpointer    camel_tcp_stream_get_socket (CamelTcpStream *stream);
+CamelTcpAddress *camel_tcp_stream_get_local_address  (CamelTcpStream *stream);
+CamelTcpAddress *camel_tcp_stream_get_remote_address (CamelTcpStream *stream);
+
+CamelTcpAddress *camel_tcp_address_new  (CamelTcpAddressFamily family,
+					 gushort port, gushort length,
+					 gpointer address);
+void             camel_tcp_address_free (CamelTcpAddress *address);
 
 #ifdef __cplusplus
 }

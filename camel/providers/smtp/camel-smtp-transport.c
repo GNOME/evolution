@@ -51,7 +51,6 @@
 #include "camel-tcp-stream-raw.h"
 #ifdef HAVE_NSS
 #include "camel-tcp-stream-ssl.h"
-#include <prnetdb.h>
 #endif
 #ifdef HAVE_OPENSSL
 #include "camel-tcp-stream-openssl.h"
@@ -243,9 +242,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	CamelStream *tcp_stream;
 	char *respbuf = NULL;
 	struct hostent *h;
-	guint32 addrlen;
 	int port, ret;
-	int sockfd;
 	
 	if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex))
 		return FALSE;
@@ -299,28 +296,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	}
 	
 	/* get the localaddr - needed later by smtp_helo */
-	addrlen = sizeof (transport->localaddr);
-#ifdef HAVE_NSS
-	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
-		PRFileDesc *sockfd = camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream));
-		PRNetAddr addr;
-		char hname[1024];
-		
-		PR_GetSockName (sockfd, &addr);
-		memset (hname, 0, sizeof (hname));
-		PR_NetAddrToString (&addr, hname, 1023);
-		
-		inet_aton (hname, (struct in_addr *)&transport->localaddr.sin_addr);
-	} else {
-		sockfd = GPOINTER_TO_INT (camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream)));
-		
-		getsockname (sockfd, (struct sockaddr *)&transport->localaddr, &addrlen);
-	}
-#else
-	sockfd = GPOINTER_TO_INT (camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (tcp_stream)));
-	
-	getsockname (sockfd, (struct sockaddr *)&transport->localaddr, &addrlen);
-#endif /* HAVE_NSS */
+	transport->localaddr = camel_tcp_stream_get_local_address (CAMEL_TCP_STREAM (tcp_stream));
 	
 	transport->ostream = tcp_stream;
 	transport->istream = camel_stream_buffer_new (tcp_stream, CAMEL_STREAM_BUFFER_READ);
@@ -608,9 +584,11 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 	
 	camel_object_unref (CAMEL_OBJECT (transport->ostream));
 	camel_object_unref (CAMEL_OBJECT (transport->istream));
-	
 	transport->ostream = NULL;
 	transport->istream = NULL;
+
+	camel_tcp_address_free (transport->localaddr);
+	transport->localaddr = NULL;
 	
 	return TRUE;
 }
@@ -910,27 +888,31 @@ static gboolean
 smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
-	char *cmdbuf, *respbuf = NULL;
+	char *name, *cmdbuf, *respbuf = NULL;
 	const char *token;
 	struct hostent *host;
 	
 	camel_operation_start_transient (NULL, _("SMTP Greeting"));
 	
 	/* get the local host name */
-	host = gethostbyaddr ((char *)&transport->localaddr.sin_addr, sizeof (transport->localaddr.sin_addr), AF_INET);
-	
-	/* hiya server! how are you today? */
-	if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) {
-		if (host && host->h_name)
-			cmdbuf = g_strdup_printf ("EHLO %s\r\n", host->h_name);
-		else
-			cmdbuf = g_strdup_printf ("EHLO [%s]\r\n", inet_ntoa (transport->localaddr.sin_addr));
-	} else {
-		if (host && host->h_name)
-			cmdbuf = g_strdup_printf ("HELO %s\r\n", host->h_name);
-		else
-			cmdbuf = g_strdup_printf ("HELO [%s]\r\n", inet_ntoa (transport->localaddr.sin_addr));
+	host = gethostbyaddr ((char *)&transport->localaddr->address,
+			      transport->localaddr->length, AF_INET);
+	if (host && host->h_name)
+		name = g_strdup (host->h_name);
+	else {
+		name = g_strdup_printf ("[%d.%d.%d.%d]",
+					transport->localaddr->address[0],
+					transport->localaddr->address[1],
+					transport->localaddr->address[2],
+					transport->localaddr->address[3]);
 	}
+
+	/* hiya server! how are you today? */
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)
+		cmdbuf = g_strdup_printf ("EHLO %s\r\n", name);
+	else
+		cmdbuf = g_strdup_printf ("HELO %s\r\n", name);
+	g_free (name);
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {

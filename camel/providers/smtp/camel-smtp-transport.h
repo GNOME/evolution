@@ -33,13 +33,8 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 
-#include <sys/param.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
 #include "camel-transport.h"
+#include "camel-tcp-stream.h"
 
 #define CAMEL_SMTP_TRANSPORT_TYPE     (camel_smtp_transport_get_type ())
 #define CAMEL_SMTP_TRANSPORT(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SMTP_TRANSPORT_TYPE, CamelSmtpTransport))
@@ -65,7 +60,7 @@ typedef struct {
 	
 	guint32 flags;
 	
-	struct sockaddr_in localaddr;
+	CamelTcpAddress *localaddr;
 	
 	GHashTable *authtypes;
 	
