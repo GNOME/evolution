@@ -1,3 +1,7 @@
+2003-11-07  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: remove build sources from dist
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: make sure the marshal header and source are in the
