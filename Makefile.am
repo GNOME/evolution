@@ -22,9 +22,9 @@ SUBDIRS =			\
 	composer		\
 	mail			\
 	tests			\
-	addressbook		\
 	libical			\
 	libversit		\
+	addressbook		\
 	po
 
 # Add this when the calendar builds. 
