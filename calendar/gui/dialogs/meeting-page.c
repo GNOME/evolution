@@ -826,7 +826,7 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
 		menus = g_slist_prepend(menus, &context_menu_items[i]);
 
-	e_popup_add_items((EPopup *)ep, menus, context_popup_free, mpage);
+	e_popup_add_items((EPopup *)ep, menus, NULL, context_popup_free, mpage);
 	menu = e_popup_create_menu_once((EPopup *)ep, NULL, disable_mask);
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
 

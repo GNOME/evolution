@@ -1213,7 +1213,7 @@ e_calendar_table_show_popup_menu (ETable *table,
 
 	for (i=0;i<sizeof(tasks_popup_items)/sizeof(tasks_popup_items[0]);i++)
 		menus = g_slist_prepend(menus, &tasks_popup_items[i]);
-	e_popup_add_items((EPopup *)ep, menus, ect_popup_free, cal_table);
+	e_popup_add_items((EPopup *)ep, menus, NULL, ect_popup_free, cal_table);
 
 	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 

@@ -1,3 +1,19 @@
+2004-12-17  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): 
+
+	* gui/tasks-component.c (popup_event_cb): 
+
+	* gui/gnome-cal.c (gnome_calendar_view_popup_factory): 
+
+	* gui/e-calendar-view.c (e_calendar_view_create_popup_menu): 
+
+	* gui/alarm-notify/alarm-queue.c (tray_icon_clicked_cb): 
+
+	* gui/dialogs/meeting-page.c (button_press_event): 
+
+	* gui/calendar-component.c (popup_event_cb): 
+
 2004-12-22  JP Rosevear  <jpr@novell.com>
 
 	Fixes #61077

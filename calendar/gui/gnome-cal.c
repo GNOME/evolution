@@ -2117,7 +2117,7 @@ gnome_calendar_view_popup_factory (GnomeCalendar *gcal, EPopup *ep, const char *
 	}
 
 	if (menus)
-		e_popup_add_items(ep, menus, gc_popup_free, gcal);
+		e_popup_add_items(ep, menus, NULL, gc_popup_free, gcal);
 
 	menus = NULL;
 	for (i = found?3:0; i<sizeof(gc_popups)/sizeof(gc_popups[0]);i++) {
@@ -2127,7 +2127,7 @@ gnome_calendar_view_popup_factory (GnomeCalendar *gcal, EPopup *ep, const char *
 		menus = g_slist_prepend(menus, pitem);
 	}
 
-	e_popup_add_items(ep, menus, gc_popup_free_static, gcal);
+	e_popup_add_items(ep, menus, NULL, gc_popup_free_static, gcal);
 }
 
 static void

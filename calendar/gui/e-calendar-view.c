@@ -1469,7 +1469,7 @@ e_calendar_view_create_popup_menu (ECalendarView *cal_view)
 			menus = g_slist_prepend(menus, &ecv_child_items[i]);
 	}
 
-	e_popup_add_items((EPopup *)ep, menus, ecv_popup_free, cal_view);
+	e_popup_add_items((EPopup *)ep, menus, NULL, ecv_popup_free, cal_view);
 
 	return e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 }

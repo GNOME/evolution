@@ -360,7 +360,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	for (i=0;i<sizeof(etc_source_popups)/sizeof(etc_source_popups[0]);i++)
 		menus = g_slist_prepend(menus, &etc_source_popups[i]);
 
-	e_popup_add_items((EPopup *)ep, menus, etc_source_popup_free, component_view);
+	e_popup_add_items((EPopup *)ep, menus, NULL,etc_source_popup_free, component_view);
 
 	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
