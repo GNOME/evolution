@@ -1,3 +1,10 @@
+2003-06-23  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c (config_write_style): add
+	EvolutionMailPrintHTMLWidget style assignment
+
+	* mail-callbacks.c (do_mail_print): set printing widget name
+
 2003-06-24  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c: use spell preferences at new location

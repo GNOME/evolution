@@ -523,10 +523,10 @@ config_write_style (void)
 	fprintf (rc, "widget \"*.MailDisplay.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.FolderBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.BonoboPlug.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
-	
+	fprintf (rc, "widget \"*.EvolutionMailPrintHTMLWidget\" style \"evolution-mail-custom-fonts\"\n");
+
 	if (fclose (rc) == 0)
 		gtk_rc_reparse_all ();
-
 }
 
 static void

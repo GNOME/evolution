@@ -2913,6 +2913,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	print_context = gnome_print_job_get_context (print_master);
 	
 	html = GTK_HTML (gtk_html_new ());
+	gtk_widget_set_name (GTK_WIDGET (html), "EvolutionMailPrintHTMLWidget");
 	mail_display_initialize_gtkhtml (fb->mail_display, html);
 	
 	/* Set our 'printing' flag to true and render.  This causes us
