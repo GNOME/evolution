@@ -56,6 +56,10 @@ static EFolderClass *parent_class = NULL;
 #define METADATA_FILE_NAME     "folder-metadata.xml"
 #define METADATA_FILE_NAME_LEN 19
 
+struct _ELocalFolderPrivate {
+	int dummy;
+};
+
 
 static char *
 get_string_value (xmlNode *node,
@@ -90,6 +94,7 @@ construct_loading_metadata (ELocalFolder *local_folder,
 	char *type;
 	char *description;
 	char *metadata_path;
+	char *physical_uri;
 
 	folder = E_FOLDER (local_folder);
 
@@ -118,7 +123,9 @@ construct_loading_metadata (ELocalFolder *local_folder,
 
 	xmlFreeDoc (doc);
 
-	local_folder->physical_uri = g_strconcat (URI_PREFIX, path, NULL);
+	physical_uri = g_strconcat (URI_PREFIX, path, NULL);
+	e_folder_set_physical_uri (folder, physical_uri);
+	g_free (physical_uri);
 
 	g_free (metadata_path);
 
@@ -142,7 +149,7 @@ save_metadata (ELocalFolder *local_folder)
 	xmlNewChild (root, NULL, (xmlChar *) "type", (xmlChar *) e_folder_get_type_string (folder));
 	xmlNewChild (root, NULL, (xmlChar *) "description", (xmlChar *) e_folder_get_description (folder));
 
-	physical_path = local_folder->physical_uri + URI_PREFIX_LEN - 1;
+	physical_path = e_folder_get_physical_uri (folder) + URI_PREFIX_LEN - 1;
 
 	if (xmlSaveFile (physical_path, doc) < 0) {
 		xmlFreeDoc (doc);
@@ -154,28 +161,12 @@ save_metadata (ELocalFolder *local_folder)
 }
 
 
-/* EFolder methods.  */
-
-static const char *
-get_physical_uri (EFolder *folder)
-{
-	ELocalFolder *local_folder;
-
-	local_folder = E_LOCAL_FOLDER (folder);
-	return local_folder->physical_uri;
-}
-
-
 /* GtkObject methods.  */
 
 static void
 destroy (GtkObject *object)
 {
-	ELocalFolder *folder;
-
-	folder = E_LOCAL_FOLDER (object);
-
-	g_free (folder->physical_uri);
+	/* No ELocalFolder-specific data to free.  */
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -185,21 +176,16 @@ static void
 class_init (ELocalFolderClass *klass)
 {
 	GtkObjectClass *object_class;
-	EFolderClass *folder_class;
 
 	parent_class = gtk_type_class (e_folder_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
-
-	folder_class = E_FOLDER_CLASS (klass);
-	folder_class->get_physical_uri = get_physical_uri;
 }
 
 static void
 init (ELocalFolder *local_folder)
 {
-	local_folder->physical_uri = NULL;
 }
 
 

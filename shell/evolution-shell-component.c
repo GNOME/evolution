@@ -224,7 +224,8 @@ corba_class_init (void)
 	epv->create_view          = impl_ShellComponent_create_view;
 
 	vepv = &ShellComponent_vepv;
-	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
+	vepv->_base_epv                    = base_epv;
+	vepv->Bonobo_Unknown_epv           = bonobo_object_get_epv ();
 	vepv->Evolution_ShellComponent_epv = epv;
 }
 
@@ -325,6 +326,15 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 	evolution_shell_component_construct (new, folder_types, corba_object, create_view_fn, closure);
 
 	return new;
+}
+
+Evolution_Shell
+evolution_shell_component_get_owner  (EvolutionShellComponent *shell_component)
+{
+	g_return_val_if_fail (shell_component != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT (shell_component), CORBA_OBJECT_NIL);
+
+	return shell_component->priv->corba_owner;
 }
 
 

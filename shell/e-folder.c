@@ -40,6 +40,7 @@ struct _EFolderPrivate {
 	char *name;
 	char *type;
 	char *description;
+	char *physical_uri;
 };
 
 #define EF_CLASS(obj) \
@@ -83,9 +84,7 @@ remove (EFolder *folder)
 static const char *
 get_physical_uri (EFolder *folder)
 {
-	g_warning ("`%s' does not implement `EFolder::get_physical_uri()'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return NULL;
+	return folder->priv->physical_uri;
 }
 
 
@@ -103,6 +102,7 @@ destroy (GtkObject *object)
 	g_free (priv->name);
 	g_free (priv->type);
 	g_free (priv->description);
+	g_free (priv->physical_uri);
 
 	g_free (priv);
 
@@ -141,9 +141,10 @@ init (EFolder *folder)
 	EFolderPrivate *priv;
 
 	priv = g_new (EFolderPrivate, 1);
-	priv->type = NULL;
-	priv->name = NULL;
-	priv->description = NULL;
+	priv->type         = NULL;
+	priv->name         = NULL;
+	priv->description  = NULL;
+	priv->physical_uri = NULL;
 
 	folder->priv = priv;
 }
@@ -261,6 +262,20 @@ e_folder_set_description (EFolder *folder,
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
+void
+e_folder_set_physical_uri (EFolder *folder,
+			   const char *physical_uri)
+{
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (E_IS_FOLDER (folder));
+	g_return_if_fail (physical_uri != NULL);
+
+	g_free (folder->priv->physical_uri);
+	folder->priv->physical_uri = g_strdup (physical_uri);
+
+	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+}
+
 
 const char *
 e_folder_get_physical_uri (EFolder *folder)
@@ -268,7 +283,7 @@ e_folder_get_physical_uri (EFolder *folder)
 	g_return_val_if_fail (folder != NULL, NULL);
 	g_return_val_if_fail (E_IS_FOLDER (folder), NULL);
 
-	return (* EF_CLASS (folder)->get_physical_uri) (folder);
+	return folder->priv->physical_uri;
 }
 
 

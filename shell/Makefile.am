@@ -62,12 +62,12 @@ evolution_SOURCES = 			\
 	e-storage-set-view.h		\
 	e-storage-set.c			\
 	e-storage-set.h			\
-	e-storage-watcher.c		\
-	e-storage-watcher.h		\
 	e-storage.c			\
 	e-storage.h			\
 	evolution-shell-component.c	\
 	evolution-shell-component.h	\
+	evolution-storage.c		\
+	evolution-storage.h		\
 	main.c
 
 Evolution-impl.o: Evolution.h

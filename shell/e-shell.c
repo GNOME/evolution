@@ -165,6 +165,8 @@ setup_storages (EShell *shell)
 	priv->storage_set = e_storage_set_new (shell->priv->folder_type_registry);
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 
+	gtk_object_unref (GTK_OBJECT (local_storage));
+
 	return setup_corba_storages (shell);
 }
 

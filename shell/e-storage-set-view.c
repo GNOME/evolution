@@ -90,6 +90,122 @@ static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 static GtkTargetList *target_list;
 
 
+/* Helper functions.  */
+
+static gboolean
+add_node_to_hashes (EStorageSetView *storage_set_view,
+		    const char *path,
+		    GtkCTreeNode *node)
+{
+	EStorageSetViewPrivate *priv;
+	char *hash_path;
+
+	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+
+	priv = storage_set_view->priv;
+
+	if (g_hash_table_lookup (priv->path_to_ctree_node, path) != NULL) {
+		g_warning ("EStorageSetView: Node already existing while adding -- %s", path);
+		return FALSE;
+	}
+
+	g_print ("EStorageSetView: Adding -- %s\n", path);
+
+	hash_path = g_strdup (path);
+
+	g_hash_table_insert (priv->path_to_ctree_node, hash_path, node);
+	g_hash_table_insert (priv->ctree_node_to_path, node, hash_path);
+
+	return TRUE;
+}
+
+static GtkCTreeNode *
+remove_node_from_hashes (EStorageSetView *storage_set_view,
+			 const char *path)
+{
+	EStorageSetViewPrivate *priv;
+	GtkCTreeNode *node;
+	char *hash_path;
+
+	priv = storage_set_view->priv;
+
+	node = g_hash_table_lookup (priv->path_to_ctree_node, path);
+	if (node == NULL) {
+		g_warning ("EStorageSetView: Node not found while removing -- %s", path);
+		return NULL;
+	}
+
+	g_print ("EStorageSetView: Removing -- %s\n", path);
+
+	hash_path = g_hash_table_lookup (priv->ctree_node_to_path, node);
+	g_free (hash_path);
+
+	g_hash_table_remove (priv->ctree_node_to_path, node);
+	g_hash_table_remove (priv->path_to_ctree_node, path);
+
+	return node;
+}
+
+static void
+get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
+				EFolder *folder,
+				GdkPixmap **pixmap_return,
+				GdkBitmap **mask_return)
+{
+	EFolderTypeRegistry *folder_type_registry;
+	EStorageSet *storage_set;
+	const char *type_name;
+	GdkPixbuf *icon_pixbuf;
+	GdkPixbuf *scaled_pixbuf;
+	GdkVisual *visual;
+	GdkGC *gc;
+
+	storage_set = storage_set_view->priv->storage_set;
+	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
+
+	type_name = e_folder_get_type_string (folder);
+	icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
+								type_name, TRUE);
+
+	if (icon_pixbuf == NULL) {
+		*pixmap_return = NULL;
+		*mask_return = NULL;
+		return;
+	}
+
+	scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
+					gdk_pixbuf_get_has_alpha (icon_pixbuf),
+					gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
+					E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
+
+	gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
+			  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+			  0.0, 0.0,
+			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
+			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
+			  GDK_INTERP_HYPER);
+
+	visual = gdk_rgb_get_visual ();
+	*pixmap_return = gdk_pixmap_new (NULL,
+					 E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+					 visual->depth);
+
+	gc = gdk_gc_new (*pixmap_return);
+	gdk_pixbuf_render_to_drawable (scaled_pixbuf, *pixmap_return, gc, 0, 0, 0, 0,
+				       E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+				       GDK_RGB_DITHER_NORMAL, 0, 0);
+	gdk_gc_unref (gc);
+
+	*mask_return = gdk_pixmap_new (NULL, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE, 1);
+	gdk_pixbuf_render_threshold_alpha (scaled_pixbuf, *mask_return,
+					   0, 0, 0, 0,
+					   E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+					   0x7f);
+
+	gdk_pixbuf_unref (scaled_pixbuf);
+}
+
+
 /* GtkObject methods.  */
 
 static void
@@ -317,6 +433,134 @@ drag_data_get (GtkWidget *widget,
 }
 
 
+/* StorageSet signal handling.  */
+
+static void
+new_storage_cb (EStorageSet *storage_set,
+		EStorage *storage,
+		void *data)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	GtkCTreeNode *node;
+	char *text[2];
+	char *path;
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+
+	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
+
+	text[0] = (char *) e_storage_get_name (storage); /* Yuck.  */
+	text[1] = NULL;
+
+	node = gtk_ctree_insert_node (GTK_CTREE (storage_set_view), NULL, NULL,
+				      text, 3, NULL, NULL, NULL, NULL, FALSE, TRUE);
+
+	if (! add_node_to_hashes (storage_set_view, path, node)) {
+		g_free (path);
+		gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
+		return;
+	}
+
+	g_free (path);
+
+	/* FIXME: We want a more specialized sort, e.g. the local folders should always be
+           on top.  */
+	gtk_ctree_sort_node (GTK_CTREE (storage_set_view), NULL);
+}
+
+static void
+removed_storage_cb (EStorageSet *storage_set,
+		    EStorage *storage,
+		    void *data)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	GtkCTreeNode *node;
+	char *path;
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+
+	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
+	node = remove_node_from_hashes (storage_set_view, path);
+	g_free (path);
+
+	gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
+}
+
+static void
+new_folder_cb (EStorageSet *storage_set,
+	       const char *path,
+	       void *data)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	GtkCTreeNode *parent_node;
+	GtkCTreeNode *node;
+	GdkPixmap *pixmap;
+	GdkBitmap *mask;
+	char *text[2];
+	const char *last_separator;
+	char *parent_path;
+
+	g_return_if_fail (g_path_is_absolute (path));
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+
+	last_separator = strrchr (path, G_DIR_SEPARATOR);
+
+	parent_path = g_strndup (path, last_separator - path);
+	parent_node = g_hash_table_lookup (priv->path_to_ctree_node, parent_path);
+	if (parent_node == NULL) {
+		g_print ("EStorageSetView: EStorageSet reported new subfolder for non-existing folder -- %s\n",
+			 parent_path);
+		g_free (parent_path);
+		return;
+	}
+
+	g_free (parent_path);
+
+	if (parent_node == NULL)
+		return;
+
+	text[0] = (char *) last_separator + 1; /* Yuck.  */
+	text[1] = NULL;
+
+	get_pixmap_and_mask_for_folder (storage_set_view,
+					e_storage_set_get_folder (storage_set, path),
+					&pixmap, &mask);
+	node = gtk_ctree_insert_node (GTK_CTREE (storage_set_view),
+				      parent_node, NULL,
+				      text, 3,
+				      pixmap, mask, pixmap, mask,
+				      FALSE, TRUE);
+
+	if (! add_node_to_hashes (storage_set_view, path, node)) {
+		gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
+		return;
+	}
+
+	gtk_ctree_sort_node (GTK_CTREE (storage_set_view), parent_node);
+}
+
+static void
+removed_folder_cb (EStorageSet *storage_set,
+		   const char *path,
+		   void *data)
+{
+	EStorageSetView *storage_set_view;
+	GtkCTreeNode *node;
+
+	storage_set_view = E_STORAGE_SET_VIEW (data);
+
+	node = remove_node_from_hashes (storage_set_view, path);
+	gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
+}
+
+
 /* GtkCTree methods.  */
 
 static void
@@ -402,65 +646,6 @@ init (EStorageSetView *storage_set_view)
 }
 
 
-static void
-get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
-				EFolder *folder,
-				GdkPixmap **pixmap_return,
-				GdkBitmap **mask_return)
-{
-	EFolderTypeRegistry *folder_type_registry;
-	EStorageSet *storage_set;
-	const char *type_name;
-	GdkPixbuf *icon_pixbuf;
-	GdkPixbuf *scaled_pixbuf;
-	GdkVisual *visual;
-	GdkGC *gc;
-
-	storage_set = storage_set_view->priv->storage_set;
-	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
-
-	type_name = e_folder_get_type_string (folder);
-	icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
-								type_name, TRUE);
-
-	if (icon_pixbuf == NULL) {
-		*pixmap_return = NULL;
-		*mask_return = NULL;
-		return;
-	}
-
-	scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
-					gdk_pixbuf_get_has_alpha (icon_pixbuf),
-					gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
-					E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
-
-	gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
-			  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-			  0.0, 0.0,
-			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
-			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
-			  GDK_INTERP_HYPER);
-
-	visual = gdk_rgb_get_visual ();
-	*pixmap_return = gdk_pixmap_new (NULL,
-					 E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-					 visual->depth);
-
-	gc = gdk_gc_new (*pixmap_return);
-	gdk_pixbuf_render_to_drawable (scaled_pixbuf, *pixmap_return, gc, 0, 0, 0, 0,
-				       E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-				       GDK_RGB_DITHER_NORMAL, 0, 0);
-	gdk_gc_unref (gc);
-
-	*mask_return = gdk_pixmap_new (NULL, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE, 1);
-	gdk_pixbuf_render_threshold_alpha (scaled_pixbuf, *mask_return,
-					   0, 0, 0, 0,
-					   E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-					   0x7f);
-
-	gdk_pixbuf_unref (scaled_pixbuf);
-}
-
 static int
 folder_compare_cb (gconstpointer a, gconstpointer b)
 {
@@ -519,7 +704,6 @@ insert_folders (EStorageSetView *storage_set_view,
 		text[1] = NULL;
 
 		get_pixmap_and_mask_for_folder (storage_set_view, folder, &pixmap, &mask);
-
 		node = gtk_ctree_insert_node (ctree, parent, NULL,
 					      text, 3,
 					      pixmap, mask, pixmap, mask,
@@ -561,9 +745,9 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	/* Set up GtkCTree/GtkCList parameters.  */
 	gtk_ctree_construct (ctree, 1, 0, NULL);
-	/* This looks ugly with Helix GNOME unless we do this. */
-	gtk_ctree_set_line_style (ctree, GTK_CTREE_LINES_NONE);
-	gtk_ctree_set_expander_style (ctree, GTK_CTREE_EXPANDER_TRIANGLE);
+
+	gtk_ctree_set_line_style (ctree, GTK_CTREE_LINES_DOTTED);
+	gtk_ctree_set_expander_style (ctree, GTK_CTREE_EXPANDER_SQUARE);
 	gtk_clist_set_selection_mode (GTK_CLIST (ctree), GTK_SELECTION_BROWSE);
 	gtk_clist_set_row_height (GTK_CLIST (ctree), E_SHELL_MINI_ICON_SIZE);
 	
@@ -571,6 +755,15 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
+
+	gtk_signal_connect (GTK_OBJECT (storage_set), "new_storage",
+			    GTK_SIGNAL_FUNC (new_storage_cb), storage_set_view);
+	gtk_signal_connect (GTK_OBJECT (storage_set), "removed_storage",
+			    GTK_SIGNAL_FUNC (removed_storage_cb), storage_set_view);
+	gtk_signal_connect (GTK_OBJECT (storage_set), "new_folder",
+			    GTK_SIGNAL_FUNC (new_folder_cb), storage_set_view);
+	gtk_signal_connect (GTK_OBJECT (storage_set), "removed_folder",
+			    GTK_SIGNAL_FUNC (removed_folder_cb), storage_set_view);
 	
 	storage_list = e_storage_set_get_storage_list (storage_set);
 

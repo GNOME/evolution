@@ -47,7 +47,6 @@ typedef struct _EStoragePrivate EStoragePrivate;
 typedef struct _EStorageClass   EStorageClass;
 
 #include "e-folder.h"
-#include "e-storage-watcher.h"
 
 struct _EStorage {
 	GtkObject parent;
@@ -58,11 +57,14 @@ struct _EStorage {
 struct _EStorageClass {
 	GtkObjectClass parent_class;
 
+	/* Signals.  */
+	void * (* new_folder)     (EStorage *storage, const char *path);
+	void * (* removed_folder) (EStorage *storage, const char *path);
+
 	/* Virtual methods.  */
-	GList           * (* list_folders)         (EStorage *storage, const char *path);
-	EStorageWatcher * (* get_watcher_for_path) (EStorage *storage, const char *path);
-	EFolder         * (* get_folder)           (EStorage *storage, const char *path);
-	const char      * (* get_name)             (EStorage *storage);
+	GList      * (* list_folders) (EStorage *storage, const char *path);
+	EFolder    * (* get_folder)   (EStorage *storage, const char *path);
+	const char * (* get_name)     (EStorage *storage);
 };
 
 
@@ -74,7 +76,6 @@ gboolean  e_storage_path_is_relative  (const char *path);
 gboolean  e_storage_path_is_absolute  (const char *path);
 
 GList           *e_storage_list_folders          (EStorage   *storage, const char *path);
-EStorageWatcher *e_storage_get_watcher_for_path  (EStorage   *storage, const char *path);
 EFolder         *e_storage_get_folder            (EStorage   *storage, const char *path);
 
 const char *e_storage_get_name  (EStorage *storage);

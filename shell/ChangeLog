@@ -1,3 +1,105 @@
+2000-05-26  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-corba-storage.c (impl_StorageListener_new_folder): Set the
+	physical URI on the folder using `e_folder_set_physical_uri()'.
+
+	* e-local-folder.c (get_physical_uri): Removed.
+	(construct_loading_metadata): Use EFolder's `physical_uri' field
+	instead of ours, which is gone.
+	(save_metadata): Likewise.
+	(destroy): Don't free.
+
+	* e-local-folder.h: Removed `physical_uri' from `ELocalFolder'.
+
+	* e-folder.c: New member `physical_uri' in `EFolderPrivate'.
+	(init): Initialize to NULL.
+	(destroy): Free it.
+	(get_physical_uri): Removed.
+	(e_folder_set_physical_uri): New function.
+
+	* e-storage-set.c (e_storage_set_get_folder): Fix off-by-one error
+	in extracting the base name.
+
+	* e-storage.c: New member `path' in `Folder'.
+	(folder_destroy): Free it.
+	(folder_new): New arg.  Initialize `path' from it.
+	(e_storage_construct): Updated accordingly.
+	(e_storage_new_folder): Likewise.
+	(e_storage_remove_folder): Remove the folder from the hash.
+
+	* e-storage-set-view.c (remove_node): New function.
+	(removed_storage_cb): Use it.
+	(new_folder_cb): New function, callback for the "new_folder"
+	signal on the EStorageSet.
+	(removed_folder_cb): New function, callback for the
+	"removed_folder" signal on the EStorageSet.
+	(e_storage_set_view_construct): Connect these signal handlers to
+	the respective signals on our model storage.
+
+	* e-storage-set.c (storage_new_folder_cb): New function, callback
+	for the "new_folder" signal on the storages.
+	(storage_removed_folder_cb): New function, callback for the
+	"removed_folder" signal on the storages.
+	(e_storage_set_add_storage): Connect them to the signals of the
+	storage being added.
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_register_storage): Throw an exception if
+	`e_storage_set_add_storage()' returns false.
+
+	* e-shell.c (setup_storages): Unref the local storage after adding
+	to the storage set.
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_register_storage): Unref the storage after
+	adding to the storage set.
+
+	* e-storage-set.c: New hash table `name_to_named_storage' in
+	`EStorageSetPrivate'.
+	(named_storage_new): New helper function.
+	(named_storage_destroy): New helper function.
+	(e_storage_set_add_storage): Use the hash table.  Return value
+	changed to `gboolean'.  Return FALSE if there is a storage with
+	that name already.  Also, ref the storage.
+	(e_storage_set_remove_storage): Likewise [but of course don't ref
+	the storage].
+	(e_storage_set_get_storage): Use the `name_to_named_storage' hash
+	table.
+	(destroy): Destroy the `name_to_named_storage' hash.
+
+	* e-storage-set.h: New signals "new_folder", "removed_folder".
+
+	* e-storage.c (e_storage_get_watcher_for_path): Removed.
+	(get_watcher_for_path): Removed.
+	(class_init): Install signals "new_folder" and "removed_folder".
+	(e_storage_remove_folder): Emit "removed_folder".
+	(e_storage_new_folder): Emit "new_folder".
+
+	* e-storage.h: Removed method `get_watcher_for_path'.  New signals
+	"new_folder", "removed_folder".
+
+	* e-storage-watcher.c: Removed.
+	* e-storage-watcher.h: Removed.
+
+	* e-corba-storage-registry.c (corba_class_init): Set the
+	Bonobo_Unknown evp parts.
+
+	* evolution-storage.c: New.
+	* evolution-storage.h: New.
+
+	* evolution-shell-component.c
+	(evolution_shell_component_get_owner): New.
+
+	* e-storage-set-view.c (new_storage_cb): New function.
+	(e_storage_set_view_construct): Connect to the "new_storage"
+	signal on the EStorageSet.
+	(removed_storage_cb): New function.
+	(e_storage_set_view_construct): Connect to the "removed_storage"
+	signal on the EStorageSet.
+
+	* e-storage-set-view.c (e_storage_set_view_construct): Make this
+	always look pretty, with Helix GNOME or without.
+
 2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-storage-set-view.c: Make this always look pretty, with Helix

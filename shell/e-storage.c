@@ -41,35 +41,37 @@ static GtkObjectClass *parent_class = NULL;
 #define ES_CLASS(obj) \
 	E_STORAGE_CLASS (GTK_OBJECT (obj)->klass)
 
-struct _WatcherList {
-	char *path;
-	GList *watchers;
-};
-typedef struct _WatcherList WatcherList;
-
 /* This describes a folder and its children.  */
 struct _Folder {
 	struct _Folder *parent;
+
+	char *path;
 	EFolder *e_folder;
 	GList *subfolders;
 };
 typedef struct _Folder Folder;
 
 struct _EStoragePrivate {
-	GHashTable *path_to_watcher_list;
-	GHashTable *watcher_to_watcher_list;
-
-	/* Every element here is a list of subfolders, hashed to the path of the parent.  */
-	GHashTable *path_to_folder;
+	GHashTable *path_to_folder; /* Folder */
 };
+
+enum {
+	NEW_FOLDER,
+	REMOVED_FOLDER,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 static Folder *
-folder_new (EFolder *e_folder)
+folder_new (EFolder *e_folder,
+	    const char *path)
 {
 	Folder *folder;
 
 	folder = g_new (Folder, 1);
+	folder->path = g_strdup (path);
 	folder->parent = NULL;
 	folder->e_folder = e_folder;
 	folder->subfolders = NULL;
@@ -98,68 +100,14 @@ folder_destroy (Folder *folder)
 	if (folder->parent != NULL)
 		folder_remove_subfolder (folder->parent, folder);
 
+	g_free (folder->path);
+
 	gtk_object_unref (GTK_OBJECT (folder->e_folder));
 
 	for (p = folder->subfolders; p != NULL; p = p->next)
 		folder_destroy (p->data);
 
 	g_free (folder);
-}
-
-
-/* Watcher management.  */
-
-static void
-watcher_destroyed_cb (GtkObject *object,
-		      gpointer data)
-{
-	EStorageWatcher *watcher;
-	EStorage *storage;
-	EStoragePrivate *priv;
-	WatcherList *list;
-
-	watcher = E_STORAGE_WATCHER (object);
-	storage = E_STORAGE (data);
-	priv = storage->priv;
-
-	list = g_hash_table_lookup (priv->watcher_to_watcher_list, watcher);
-	g_return_if_fail (list != NULL);
-
-	list->watchers = g_list_remove (list->watchers, watcher);
-}
-
-static void
-free_watcher_list (EStorage *storage,
-		   WatcherList *watcher_list)
-{
-	GtkObject *watcher_object;
-	GList *p;
-
-	for (p = watcher_list->watchers; p != NULL; p = p->next) {
-		watcher_object = GTK_OBJECT (p->data);
-		gtk_signal_disconnect_by_func (watcher_object, watcher_destroyed_cb, storage);
-
-		gtk_object_destroy (watcher_object); /* Make sure it does not live when we are dead.  */
-		gtk_object_unref (watcher_object);
-	}
-
-	g_free (watcher_list->path);
-
-	g_free (watcher_list);
-}
-
-static void
-hash_foreach_free_watcher_list (gpointer key,
-				gpointer value,
-				gpointer data)
-{
-	WatcherList *watcher_list;
-	EStorage *storage;
-
-	storage = E_STORAGE (data);
-	watcher_list = (WatcherList *) value;
-
-	free_watcher_list (storage, watcher_list);
 }
 
 static void
@@ -169,10 +117,9 @@ free_private (EStorage *storage)
 
 	priv = storage->priv;
 
-	g_hash_table_foreach (priv->path_to_watcher_list, hash_foreach_free_watcher_list, storage);
-	g_hash_table_destroy (priv->path_to_watcher_list);
+	g_hash_table_foreach (priv->path_to_folder, (GHFunc) folder_destroy, NULL);
 
-	g_hash_table_destroy (priv->watcher_to_watcher_list);
+	g_hash_table_destroy (priv->path_to_folder);
 
 	g_free (priv);
 }
@@ -202,37 +149,6 @@ list_folders (EStorage *storage,
 	}
 
 	return list;
-}
-
-static EStorageWatcher *
-get_watcher_for_path (EStorage *storage,
-		      const char *path)
-{
-	EStoragePrivate *priv;
-	EStorageWatcher *watcher;
-	WatcherList *watcher_list;
-
-	priv = storage->priv;
-
-	watcher = e_storage_watcher_new (storage, path);
-
-	watcher_list = g_hash_table_lookup (priv->path_to_watcher_list, path);
-	if (watcher_list == NULL) {
-		watcher_list = g_new (WatcherList, 1);
-		watcher_list->path = g_strdup (path);
-		watcher_list->watchers = NULL;
-
-		g_hash_table_insert (priv->path_to_watcher_list, watcher_list->path, watcher_list);
-	}
-
-	g_hash_table_insert (priv->watcher_to_watcher_list, watcher, watcher_list);
-
-	watcher_list->watchers = g_list_prepend (watcher_list->watchers, watcher);
-
-	gtk_signal_connect (GTK_OBJECT (watcher), "destroy",
-			    GTK_SIGNAL_FUNC (watcher_destroyed_cb), storage);
-
-	return watcher;
 }
 
 static EFolder *
@@ -286,9 +202,27 @@ class_init (EStorageClass *class)
 	object_class->destroy = destroy;
 
 	class->list_folders         = list_folders;
-	class->get_watcher_for_path = get_watcher_for_path;
 	class->get_folder           = get_folder;
 	class->get_name             = get_name;
+
+	signals[NEW_FOLDER] =
+		gtk_signal_new ("new_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageClass, new_folder),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	signals[REMOVED_FOLDER] =
+		gtk_signal_new ("removed_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageClass, removed_folder),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -297,10 +231,7 @@ init (EStorage *storage)
 	EStoragePrivate *priv;
 
 	priv = g_new (EStoragePrivate, 1);
-
-	priv->path_to_watcher_list    = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->watcher_to_watcher_list = g_hash_table_new (g_direct_hash, g_direct_equal);
-	priv->path_to_folder          = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->path_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
 
 	storage->priv = priv;
 }
@@ -318,8 +249,8 @@ e_storage_construct (EStorage *storage)
 
 	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (storage), GTK_FLOATING);
 
-	root_folder = folder_new (NULL);
-	g_hash_table_insert (storage->priv->path_to_folder, G_DIR_SEPARATOR_S, root_folder);
+	root_folder = folder_new (NULL, G_DIR_SEPARATOR_S);
+	g_hash_table_insert (storage->priv->path_to_folder, root_folder->path, root_folder);
 }
 
 EStorage *
@@ -362,17 +293,6 @@ e_storage_list_folders (EStorage *storage,
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
 	return (* ES_CLASS (storage)->list_folders) (storage, path);
-}
-
-EStorageWatcher *
-e_storage_get_watcher_for_path  (EStorage *storage, const char *path)
-{
-	g_return_val_if_fail (storage != NULL, NULL);
-	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
-	g_return_val_if_fail (path != NULL, NULL);
-	g_return_val_if_fail (e_storage_path_is_absolute (path), NULL);
-
-	return (* ES_CLASS (storage)->get_watcher_for_path) (storage, path);
 }
 
 EFolder *
@@ -440,10 +360,15 @@ e_storage_new_folder (EStorage *storage,
 		return FALSE;
 	}
 
-	folder = folder_new (e_folder);
+	folder = folder_new (e_folder, full_path);
 	folder_add_subfolder (parent_folder, folder);
 
-	g_hash_table_insert (priv->path_to_folder, full_path, folder);
+	g_hash_table_insert (priv->path_to_folder, folder->path, folder);
+
+	g_print ("EStorage: New folder -- %s\n", folder->path);
+	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], folder->path);
+
+	g_free (full_path);
 
 	return TRUE;
 }
@@ -468,6 +393,9 @@ e_storage_remove_folder (EStorage *storage,
 		return FALSE;
 	}
 
+	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVED_FOLDER], path);
+
+	g_hash_table_remove (priv->path_to_folder, path);
 	folder_destroy (folder);
 
 	return TRUE;

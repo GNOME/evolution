@@ -82,7 +82,7 @@ void                     evolution_shell_component_construct  (EvolutionShellCom
 EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType  folder_types[],
 							       EvolutionShellComponentCreateViewFn      create_view_fn,
 							       void                                    *closure);
-Evolution_Shell          evolution_shell_component_get_shell  (EvolutionShellComponent                 *shell_component);
+Evolution_Shell          evolution_shell_component_get_owner  (EvolutionShellComponent                 *shell_component);
 
 #ifdef __cplusplus
 }

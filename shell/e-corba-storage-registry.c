@@ -79,14 +79,23 @@ impl_StorageRegistry_register_storage (PortableServer_Servant servant,
 	EStorage *storage;
 	Evolution_StorageListener listener_interface;
 
+	g_print ("Shell: Registering storage -- %s\n", name);
+
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
 	priv = storage_registry->priv;
 
 	storage = e_corba_storage_new (storage_interface, name);
 
-	/* FIXME check failure.  */
-	e_storage_set_add_storage (priv->storage_set, storage);
+	if (! e_storage_set_add_storage (priv->storage_set, storage)) {
+		CORBA_exception_set (ev,
+				     CORBA_USER_EXCEPTION,
+				     ex_Evolution_StorageRegistry_Exists,
+				     NULL);
+		return CORBA_OBJECT_NIL;
+	}
+
+	gtk_object_unref (GTK_OBJECT (storage));
 
 	listener_interface = CORBA_Object_duplicate (e_corba_storage_get_StorageListener
 						     (E_CORBA_STORAGE (storage)), ev);
@@ -161,6 +170,7 @@ corba_class_init (void)
 
 	vepv = &storage_registry_vepv;
 	vepv->_base_epv                     = base_epv;
+	vepv->Bonobo_Unknown_epv            = bonobo_object_get_epv ();
 	vepv->Evolution_StorageRegistry_epv = epv;
 }
 

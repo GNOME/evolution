@@ -84,6 +84,7 @@ const char *e_folder_get_description  (EFolder *folder);
 void  e_folder_set_name         (EFolder *folder, const char *name);
 void  e_folder_set_type_string  (EFolder *folder, const char *type);
 void  e_folder_set_description  (EFolder *folder, const char *description);
+void  e_folder_set_physical_uri (EFolder *folder, const char *physical_uri);
 
 #ifdef __cplusplus
 }

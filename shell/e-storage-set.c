@@ -37,23 +37,107 @@
 #include "e-storage-set.h"
 
 
-enum {
-	NEW_STORAGE,
-	REMOVED_STORAGE,
-	LAST_SIGNAL
-};
-
-
 #define PARENT_TYPE GTK_TYPE_OBJECT
 
 static GtkObjectClass *parent_class = NULL;
-static guint signals[LAST_SIGNAL] = { 0 };
+
+/* This is just to make GHashTable happy.  */
+struct _NamedStorage {
+	char *name;
+	EStorage *storage;
+};
+typedef struct _NamedStorage NamedStorage;
 
 struct _EStorageSetPrivate {
 	GList *storages;
+	GHashTable *name_to_named_storage;
 
 	EFolderTypeRegistry *folder_type_registry;
 };
+
+enum {
+	NEW_STORAGE,
+	REMOVED_STORAGE,
+	NEW_FOLDER,
+	REMOVED_FOLDER,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+
+static NamedStorage *
+named_storage_new (EStorage *storage)
+{
+	NamedStorage *new;
+
+	new = g_new (NamedStorage, 1);
+	new->name    = g_strdup (e_storage_get_name (storage));
+	new->storage = storage;
+
+	return new;
+}
+
+static void
+named_storage_destroy (NamedStorage *named_storage)
+{
+	g_free (named_storage->name);
+	g_free (named_storage);
+}
+
+
+/* Handling for signals coming from the EStorages.  */
+
+static char *
+make_full_path (EStorage *storage,
+		const char *path)
+{
+	const char *storage_name;
+	char *full_path;
+
+	storage_name = e_storage_get_name (storage);
+
+	if (! g_path_is_absolute (path))
+		full_path = g_strconcat (G_DIR_SEPARATOR_S, storage_name,
+					 G_DIR_SEPARATOR_S, path, NULL);
+	else
+		full_path = g_strconcat (G_DIR_SEPARATOR_S, storage_name,
+					 path, NULL);
+
+	return full_path;
+}
+
+static void
+storage_new_folder_cb (EStorage *storage,
+		       const char *path,
+		       void *data)
+{
+	EStorageSet *storage_set;
+	char *full_path;
+
+	storage_set = E_STORAGE_SET (data);
+
+	full_path = make_full_path (storage, path);
+	g_print ("EStorageSet: New folder -- %s\n", full_path);
+	gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_FOLDER], full_path);
+	g_free (full_path);
+}
+
+static void
+storage_removed_folder_cb (EStorage *storage,
+			   const char *path,
+			   void *data)
+{
+	EStorageSet *storage_set;
+	char *full_path;
+
+	storage_set = E_STORAGE_SET (data);
+
+	full_path = make_full_path (storage, path);
+	g_print ("EStorageSet: Removed folder -- %s\n", full_path);
+	gtk_signal_emit (GTK_OBJECT (storage_set), signals[REMOVED_FOLDER], full_path);
+	g_free (full_path);
+}
 
 
 /* GtkObject methods.  */
@@ -70,6 +154,9 @@ destroy (GtkObject *object)
 	e_free_object_list (priv->storages);
 
 	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
+
+	g_hash_table_foreach (priv->name_to_named_storage, (GHFunc) named_storage_destroy, NULL);
+	g_hash_table_destroy (priv->name_to_named_storage);
 
 	g_free (priv);
 
@@ -104,6 +191,22 @@ class_init (EStorageSetClass *klass)
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
+	signals[NEW_FOLDER] = 
+		gtk_signal_new ("new_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageSetClass, new_folder),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	signals[REMOVED_FOLDER] = 
+		gtk_signal_new ("removed_folder",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EStorageSetClass, removed_folder),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -114,9 +217,9 @@ init (EStorageSet *storage_set)
 	EStorageSetPrivate *priv;
 
 	priv = g_new (EStorageSetPrivate, 1);
-
-	priv->storages = NULL;
-	priv->folder_type_registry = NULL;
+	priv->storages              = NULL;
+	priv->name_to_named_storage = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->folder_type_registry  = NULL;
 
 	storage_set->priv = priv;
 }
@@ -174,45 +277,72 @@ e_storage_set_get_storage_list (EStorageSet *storage_set)
  * @storage_set: 
  * @storage: 
  * 
- * Add @storage to @storage_set.  Notice that this won't ref the @storage, so
- * after the call @storage_set actually owns @storage.
+ * Add @storage to @storage_set.  Notice that will ref the storage.
  **/
-void
+gboolean
 e_storage_set_add_storage (EStorageSet *storage_set,
 			   EStorage *storage)
 {
 	EStorageSetPrivate *priv;
+	const char *storage_name;
+	NamedStorage *named_storage;
 
-	g_return_if_fail (storage_set != NULL);
-	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
-	g_return_if_fail (storage != NULL);
-	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_val_if_fail (storage_set != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), FALSE);
+	g_return_val_if_fail (storage != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
 
 	priv = storage_set->priv;
 
+	storage_name = e_storage_get_name (storage);
+	if (g_hash_table_lookup (priv->name_to_named_storage, storage_name) != NULL)
+		return FALSE;
+
+	gtk_object_ref (GTK_OBJECT (storage));
+
+	gtk_signal_connect (GTK_OBJECT (storage), "new_folder",
+			    GTK_SIGNAL_FUNC (storage_new_folder_cb), storage_set);
+	gtk_signal_connect (GTK_OBJECT (storage), "removed_folder",
+			    GTK_SIGNAL_FUNC (storage_removed_folder_cb), storage_set);
+
 	priv->storages = g_list_append (priv->storages, storage);
 
+	named_storage = named_storage_new (storage);
+	g_hash_table_insert (priv->name_to_named_storage, named_storage->name, named_storage);
+
 	gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_STORAGE], storage);
+
+	return TRUE;
 }
 
-void
+gboolean
 e_storage_set_remove_storage (EStorageSet *storage_set,
 			      EStorage *storage)
 {
 	EStorageSetPrivate *priv;
+	NamedStorage *named_storage;
 
-	g_return_if_fail (storage_set != NULL);
-	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
-	g_return_if_fail (storage != NULL);
-	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_val_if_fail (storage_set != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), FALSE);
+	g_return_val_if_fail (storage != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
 
 	priv = storage_set->priv;
+
+	named_storage = g_hash_table_lookup (priv->name_to_named_storage,
+					     e_storage_get_name (storage));
+	if (named_storage == NULL)
+		return FALSE;
+
+	g_hash_table_remove (priv->name_to_named_storage, named_storage->name);
+	named_storage_destroy (named_storage);
 
 	priv->storages = g_list_remove (priv->storages, storage);
 
 	gtk_signal_emit (GTK_OBJECT (storage_set), signals[REMOVED_STORAGE], storage);
-
 	gtk_object_unref (GTK_OBJECT (storage));
+
+	return TRUE;
 }
 
 EStorage *
@@ -220,7 +350,7 @@ e_storage_set_get_storage (EStorageSet *storage_set,
 			   const char *name)
 {
 	EStorageSetPrivate *priv;
-	GList *p;
+	NamedStorage *named_storage;
 
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
@@ -228,17 +358,11 @@ e_storage_set_get_storage (EStorageSet *storage_set,
 
 	priv = storage_set->priv;
 
-	for (p = priv->storages; p != NULL; p = p->next) {
-		const char *storage_name;
-		EStorage *storage;
-
-		storage = E_STORAGE (p->data);
-		storage_name = e_storage_get_name (storage);
-		if (strcmp (storage_name, name) == 0)
-			return storage;
-	}
-
-	return NULL;
+	named_storage = g_hash_table_lookup (priv->name_to_named_storage, name);
+	if (named_storage == NULL)
+		return NULL;
+	else
+		return named_storage->storage;
 }
 
 EFolder *

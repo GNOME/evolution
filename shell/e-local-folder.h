@@ -48,8 +48,6 @@ typedef struct _ELocalFolderClass   ELocalFolderClass;
 
 struct _ELocalFolder {
 	EFolder parent;
-
-	char *physical_uri;
 };
 
 struct _ELocalFolderClass {

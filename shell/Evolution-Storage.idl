@@ -23,8 +23,6 @@ module Evolution {
 
 	interface Storage : Bonobo::Unknown {
 		attribute string name;
-
-		void set_listener (in StorageListener storage_listener);
 	};
 
 	interface StorageListener {

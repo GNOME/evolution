@@ -58,15 +58,13 @@ struct _EStorageSet {
 struct _EStorageSetClass {
 	GtkObjectClass parent_class;
 
-	/* Virtual methods.  */
-
-	void (* add_storage)     (EStorageSet *storage_set, EStorage *storage);
-	void (* remove_storage)  (EStorageSet *storage_set, EStorage *storage);
-
 	/* Signals.  */
 
-	void (* new_storage)      (EStorageSet *storage_set, EStorage *storage);
-	void (* removed_storage)  (EStorageSet *storage_set, EStorage *storage);
+	void (* new_storage)     (EStorageSet *storage_set, EStorage *storage);
+	void (* removed_storage) (EStorageSet *storage_set, EStorage *storage);
+	/* FIXME?  Inconsistency between storage and folders.  */
+	void (* new_folder)     (EStorageSet *storage_set, const char *path);
+	void (* removed_folder) (EStorageSet *storage_set, const char *path);
 };
 
 
@@ -75,9 +73,9 @@ void         e_storage_set_construct         (EStorageSet         *storage_set,
 					      EFolderTypeRegistry *folder_type_registry);
 EStorageSet *e_storage_set_new               (EFolderTypeRegistry *folder_type_registry);
 
-void         e_storage_set_add_storage       (EStorageSet         *storage_set,
+gboolean     e_storage_set_add_storage       (EStorageSet         *storage_set,
 					      EStorage            *storage);
-void         e_storage_set_remove_storage    (EStorageSet         *storage_set,
+gboolean     e_storage_set_remove_storage    (EStorageSet         *storage_set,
 					      EStorage            *storage);
 
 GList       *e_storage_set_get_storage_list  (EStorageSet         *storage_set);
