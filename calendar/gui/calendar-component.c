@@ -335,7 +335,7 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent 
 {
 	gboolean sensitive;
 
-	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector)) ?
+	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ?
 		TRUE : FALSE;
 
 	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), comp, TRUE);

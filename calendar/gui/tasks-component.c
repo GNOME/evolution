@@ -305,7 +305,7 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *co
 {
 	gboolean sensitive;
 
-	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector)) ?
+	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component->priv->source_selector)) ?
 		TRUE : FALSE;
 
 	add_popup_menu_item (menu, _("New Task List"), GTK_STOCK_NEW, G_CALLBACK (new_task_list_cb),
