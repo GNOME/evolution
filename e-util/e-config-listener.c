@@ -422,6 +422,7 @@ void
 e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean value)
 {
 	CORBA_Environment ev;
+	KeyData *kd;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -437,12 +438,18 @@ e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean va
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
 
 	CORBA_exception_free (&ev);
+
+	/* update the internal copy */
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd)
+		kd->value.v_bool = value;
 }
 
 void
 e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
 {
 	CORBA_Environment ev;
+	KeyData *kd;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -458,12 +465,18 @@ e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
 
 	CORBA_exception_free (&ev);
+
+	/* update the internal copy */
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd)
+		kd->value.v_float = value;
 }
 
 void
 e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 {
 	CORBA_Environment ev;
+	KeyData *kd;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -479,6 +492,11 @@ e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
 
 	CORBA_exception_free (&ev);
+
+	/* update the internal copy */
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd)
+		kd->value.v_long = value;
 }
 
 void
@@ -486,6 +504,7 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 {
 	CORBA_Environment ev;
 	char *s1, *s2;
+	KeyData *kd;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -507,6 +526,13 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
 
 	CORBA_exception_free (&ev);
+
+	/* update the internal copy */
+	kd = g_hash_table_lookup (cl->priv->keys, key);
+	if (kd) {
+		g_free (kd->value.v_str);
+		kd->value.v_str = g_strdup (value);
+	}
 }
 
 Bonobo_ConfigDatabase
