@@ -1,14 +1,7 @@
-2002-04-18  gettextize  <bug-gnu-utils@gnu.org>
+2002-04-30  Yanko Kaneti <yaneti@declera.com>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2002-04-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2002-04-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
+	* Updated Bulgarian translation by 
+	Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>
 
 2002-04-18  Yanko Kaneti <yaneti@declera.com>
 
