@@ -310,7 +310,7 @@ group_double_click (ETableGroup *etg, int row, ETable *et)
 static gint
 group_right_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
 {
-	int return_val;
+	int return_val = 0;
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [RIGHT_CLICK],
 			 row, col, event, &return_val);
@@ -320,7 +320,7 @@ group_right_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *
 static gint
 group_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
 {
-	int return_val;
+	int return_val = 0;
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [CLICK],
 			 row, col, event, &return_val);
@@ -330,7 +330,7 @@ group_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
 static gint
 group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
 {
-	int return_val;
+	int return_val = 0;
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [KEY_PRESS],
 			 row, col, event, &return_val);

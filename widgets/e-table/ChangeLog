@@ -1,5 +1,9 @@
 2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table.c: Set default values for all of the signal emissions.
+
+2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-selection-model.c: Check for selection->selection being
 	NULL in e_table_selection_model_selected_count.
 
