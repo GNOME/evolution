@@ -399,7 +399,7 @@ delete_dialog (EShellView *shell_view, const char *folder_name)
 	char *title;
 
 	dialog = gtk_message_dialog_new (GTK_WINDOW (shell_view),
-					 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
+					 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_NONE,
 					 _("Really delete folder \"%s\"?"), folder_name);

@@ -1,3 +1,8 @@
+2003-05-07  JP Rosevear  <jpr@ximian.com>
+
+	* e-shell-folder-commands.c (delete_dialog): don't pass
+	NO_SEPARATOR flag as per gtkmessagedialog warning
+
 2003-05-02  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-about-box.c (text[]): grepped changelogs and added all
