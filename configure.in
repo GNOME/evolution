@@ -1275,6 +1275,7 @@ widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
 calendar/Makefile
+calendar/idl/Makefile
 calendar/cal-util/Makefile
 calendar/cal-client/Makefile
 calendar/pcs/Makefile
