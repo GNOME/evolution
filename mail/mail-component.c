@@ -543,7 +543,7 @@ mail_component_init (MailComponent *component)
 	accounts = mail_config_get_accounts ();
 	load_accounts(component, accounts);
 	
-	/* mail_autoreceive_setup (); EPFIXME keep it off for testing */
+	mail_autoreceive_setup();
 	
 	setup_search_context (component);
 	

@@ -1,5 +1,10 @@
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #52990.
+
+	* mail-component.c (mail_component_init): re-enable auto-send-recv
+	setup.
+
 	** See bug #52989.
 
 	* message-list.c (hide_load_state): clear the hidden table if

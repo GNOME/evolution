@@ -771,7 +771,7 @@ mail_autoreceive_setup (void)
 	EAccountList *accounts;
 	GHashTable *set_hash;
 	EIterator *iter;
-	
+
 	accounts = mail_config_get_accounts ();
 	
 	if (auto_active == NULL)
@@ -791,7 +791,7 @@ mail_autoreceive_setup (void)
 		if (account->enabled && source->url && source->auto_check) {
 			struct _auto_data *info;
 			
-			d(printf("setting up auto-receive mail for : %s\n", source->url));
+			d(printf("setting up auto-receive mail for : %s %dm\n", source->url, source->auto_check_time));
 			
 			g_hash_table_remove(set_hash, source->url);
 			info = g_hash_table_lookup(auto_active, source->url);
