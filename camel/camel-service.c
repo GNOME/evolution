@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
+#include <netdb.h>
 #include <errno.h>
 
 #include <sys/poll.h>
@@ -739,7 +740,7 @@ cs_waitinfo(void *(worker)(void *), struct _addrinfo_msg *msg, const char *error
 			d(printf("child done\n"));
 		}
 	} else {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "%s: %s: %s", _("cannot create thread"), g_strerror(err));
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "%s: %s: %s", error, _("cannot create thread"), g_strerror(err));
 	}
 	e_msgport_destroy(reply_port);
 
@@ -877,7 +878,7 @@ camel_getaddrinfo(const char *name, const char *service, const struct addrinfo *
 	struct _addrinfo_msg *msg;
 	struct addrinfo *res = NULL;
 #ifndef ENABLE_IPv6
-	struct addrinfo *myhints;
+	struct addrinfo myhints;
 #endif
 	g_return_val_if_fail(name != NULL, NULL);
 	
@@ -890,12 +891,13 @@ camel_getaddrinfo(const char *name, const char *service, const struct addrinfo *
 
 	/* force ipv4 addresses only */
 #ifndef ENABLE_IPv6
-	if (hints == NULL) {
+	if (hints == NULL)
 		memset(&myhints, 0, sizeof(myhints));
-		hints = &myhints;
-	}
-
-	hints->ai_family = AF_INET;
+	else
+		memcpy (&myhints, hints, sizeof (myhints));
+	
+	myhints.ai_faimily = AF_INET;
+	hints = &myhints;
 #endif
 
 	msg = g_malloc0(sizeof(*msg));
@@ -907,9 +909,13 @@ camel_getaddrinfo(const char *name, const char *service, const struct addrinfo *
 	msg->hostbuflen = 1024;
 	msg->hostbufmem = g_malloc(msg->hostbuflen);
 #endif	
-	if (cs_waitinfo(cs_getaddrinfo, msg, _("Host lookup failed"), ex) == 0)
+	if (cs_waitinfo(cs_getaddrinfo, msg, _("Host lookup failed"), ex) == 0) {
+		if (msg->result != 0)
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: %s: %s"),
+					      name, gai_strerror (msg->result));
+		
 		cs_freeinfo(msg);
-	else
+	} else
 		res = NULL;
 
 	camel_operation_end(NULL);
@@ -1034,7 +1040,9 @@ camel_getnameinfo(const struct sockaddr *sa, socklen_t salen, char **host, char 
 #endif
 	cs_waitinfo(cs_getnameinfo, msg, _("Name lookup failed"), ex);
 
-	result = msg->result;
+	if ((result = msg->result) != 0)
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, _("Name lookup failed: %s"),
+				      gai_strerror (result));
 
 	if (host)
 		*host = g_strdup(msg->host);

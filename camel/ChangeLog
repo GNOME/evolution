@@ -1,3 +1,15 @@
+2004-10-05  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-service.c (camel_getaddrinfo): Check msg->result for error
+	and set an exception if appropriate.
+	(camel_getnameinfo): Same.
+
+2004-10-04  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-service.c (camel_getaddrinfo): Add a non-const cast for
+	hints when changing the ai_family member in the IPv6-disabled
+	case. Fixes bug #67028.
+
 2004-10-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67527.
