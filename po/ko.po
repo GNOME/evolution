@@ -2,12 +2,13 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Young-Ho, Cha <ganadist@dacome.co.kr>, 2000.
 # update by Sung-Hyun Nam 2000/09/08
-# update by ChiDeok Hwang <hwang@mizi.co.kr> 2000/03/12
+# update by ChiDeok Hwang <hwang@mizi.co.kr> 2001/03/12
+# update by ChiDeok Hwang <hwang@mizi.co.kr> 2001/03/15
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.9\n"
 "POT-Creation-Date: 2001-03-12 00:15+0900\n"
-"PO-Revision-Date: 2001-03-12 01:31+0900\n"
+"PO-Revision-Date: 2001-03-15 16:12+0900\n"
 "Last-Translator: ChiDeok, Hwang <hwang@mizi.co.kr>\n"
 "Language-Team: korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +97,7 @@ msgid ""
 "  City:        "
 msgstr ""
 "\n"
-"  시:          "
+"  시/도:          "
 
 #: addressbook/backend/ebook/e-card.c:3091
 msgid ""
@@ -188,7 +189,7 @@ msgid ""
 "Business Role: "
 msgstr ""
 "\n"
-"직장내 지위: "
+"직장 직함: "
 
 #: addressbook/backend/ebook/e-card.c:3197
 msgid ""
@@ -276,7 +277,7 @@ msgstr ""
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in.h:2
 msgid "Imports GnomeCard files into Evolution."
-msgstr ""
+msgstr "GnomeCard 파일을 Evolution으로 가져옵니다"
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
@@ -322,13 +323,13 @@ msgstr "Pilot로 복사"
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:81
 #: calendar/conduits/todo/todo-conduit-control-applet.c:81
 msgid "Merge From Pilot"
-msgstr ""
+msgstr "Pilot으로부터 합침"
 
 #: addressbook/conduit/address-conduit-control-applet.c:82
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:82
 #: calendar/conduits/todo/todo-conduit-control-applet.c:82
 msgid "Merge To Pilot"
-msgstr ""
+msgstr "Pilot으로 합침"
 
 #: addressbook/conduit/address-conduit-control-applet.c:121
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
@@ -4025,7 +4026,7 @@ msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:192
 msgid "Could not find 'From' address in message"
-msgstr "메세지에서 보낸이를 알아낼수가 없음"
+msgstr "메세지에서 보낸 사람을 알아낼수가 없음"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:244
 msgid "sendmail"
@@ -4351,7 +4352,7 @@ msgstr "주소록"
 #.
 #: composer/e-msg-composer-hdrs.c:345 mail/mail-format.c:679
 msgid "From:"
-msgstr "보낸이:"
+msgstr "보낸 사람:"
 
 #.
 #. * Subject:
@@ -4362,11 +4363,11 @@ msgstr "제목:"
 
 #: composer/e-msg-composer-hdrs.c:365 mail/mail-format.c:683
 msgid "To:"
-msgstr "받는사람:"
+msgstr "받는 사람:"
 
 #: composer/e-msg-composer-hdrs.c:366
 msgid "Enter the recipients of the message"
-msgstr "메세지를 받을사람을 입력하세요"
+msgstr "메세지를 받을 사람을 입력하세요"
 
 #: composer/e-msg-composer-hdrs.c:369 mail/mail-format.c:685
 msgid "Cc:"
@@ -4378,7 +4379,7 @@ msgstr "메세지의 사본을 받을 사람의 주소를 입력하세요"
 
 #: composer/e-msg-composer-hdrs.c:373
 msgid "Bcc:"
-msgstr ""
+msgstr "숨은 참조:"
 
 #: composer/e-msg-composer-hdrs.c:374
 msgid ""
@@ -4392,10 +4393,12 @@ msgid ""
 "Could not open signature file %s:\n"
 "%s"
 msgstr ""
+"서명 파일 %s을 열 수가 없습니다:\n"
+"%s"
 
 #: composer/e-msg-composer.c:706
 msgid "Save as..."
-msgstr "저장..."
+msgstr "다른 이름으로 저장..."
 
 #: composer/e-msg-composer.c:717
 #, c-format
@@ -4417,10 +4420,13 @@ msgid ""
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
+"이 메시지는 보내지지않았습니다.\n"
+"\n"
+"변경된 내용을 저장하시겠습니까?"
 
 #: composer/e-msg-composer.c:848
 msgid "Open file"
-msgstr ""
+msgstr "파일 열기"
 
 #: composer/e-msg-composer.c:974
 msgid "That file does not exist."
@@ -4428,25 +4434,27 @@ msgstr "그 파일은 존재하지않습니다"
 
 #: composer/e-msg-composer.c:984
 msgid "That is not a regular file."
-msgstr ""
+msgstr "요거이 보통 파일이 아니네요."
 
 #: composer/e-msg-composer.c:994
 msgid "That file exists but is not readable."
-msgstr ""
+msgstr "파일이 있기는한데 읽을 수가 없네요."
 
 #: composer/e-msg-composer.c:1004
 msgid "That file appeared accesible but open(2) failed."
-msgstr ""
+msgstr "파일이 읽을수 있는 거같기는한데 열 수가 없습니다."
 
 #: composer/e-msg-composer.c:1026
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
 msgstr ""
+"파일이 아주 크네요(100k도 넘음).\n"
+"삽입하고 싶으신거 맞나요?"
 
 #: composer/e-msg-composer.c:1047
 msgid "An error occurred while reading the file."
-msgstr ""
+msgstr "파일을 읽는 도중 에러 발생"
 
 #: composer/e-msg-composer.c:1332 composer/e-msg-composer.c:1660
 msgid "Compose a message"
@@ -4454,13 +4462,15 @@ msgstr "메일 메세지를 작성합니다"
 
 #: composer/e-msg-composer.c:1744
 msgid "Could not create composer window."
-msgstr ""
+msgstr "메시지 작성 창을 만들 수가 없습니다"
 
 #: composer/evolution-composer.c:352
 msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
 msgstr ""
+"아직 신상 정보가 입력이 되어있지 않았기때문에\n"
+"메시지 작성창을 만들 수가 없습니다."
 
 #: composer/evolution-composer.c:367
 msgid "Cannot initialize Evolution's composer."
@@ -4539,12 +4549,12 @@ msgstr ""
 #: executive-summary/component/e-summary-url.c:81
 #, c-format
 msgid "Open %s with the default GNOME application"
-msgstr ""
+msgstr "기본 그놈 프로그램으로 %s을 열기"
 
 #: executive-summary/component/e-summary-url.c:70
 #, c-format
 msgid "Open %s with the default GNOME web browser"
-msgstr ""
+msgstr "기본 그놈 브라우져로 %s를 열기"
 
 #: executive-summary/component/e-summary-url.c:71
 #, c-format
@@ -4554,12 +4564,12 @@ msgstr "%s로 이메일 보내기"
 #: executive-summary/component/e-summary-url.c:72
 #, c-format
 msgid "Change the view to %s"
-msgstr ""
+msgstr "뷰를 %s로 변경"
 
 #: executive-summary/component/e-summary-url.c:73
 #, c-format
 msgid "Run %s"
-msgstr ""
+msgstr "%s 실행"
 
 #: executive-summary/component/e-summary-url.c:75
 #, c-format
@@ -4660,24 +4670,24 @@ msgstr "에러"
 
 #: executive-summary/test-service/rdf-summary.c:765
 msgid "Update automatically"
-msgstr ""
+msgstr "자동으로 갱신"
 
 #: executive-summary/test-service/rdf-summary.c:775
 msgid "Update now"
-msgstr ""
+msgstr "지금 갱신"
 
 #: executive-summary/test-service/rdf-summary.c:785
 msgid "Update every "
-msgstr ""
+msgstr "갱신 주기"
 
 #: executive-summary/test-service/rdf-summary.c:793
 #: filter/filter-datespec.c:67
 msgid "minutes"
-msgstr ""
+msgstr "분"
 
 #: filter/filter-datespec.c:62
 msgid "year"
-msgstr ""
+msgstr "연도"
 
 #: filter/filter-datespec.c:62
 msgid "years"
@@ -4685,51 +4695,51 @@ msgstr "연도"
 
 #: filter/filter-datespec.c:63
 msgid "month"
-msgstr ""
+msgstr "달"
 
 #: filter/filter-datespec.c:63
 msgid "months"
-msgstr ""
+msgstr "달"
 
 #: filter/filter-datespec.c:64
 msgid "week"
-msgstr ""
+msgstr "주"
 
 #: filter/filter-datespec.c:64
 msgid "weeks"
-msgstr ""
+msgstr "주"
 
 #: filter/filter-datespec.c:65
 msgid "days"
-msgstr ""
+msgstr "날"
 
 #: filter/filter-datespec.c:66
 msgid "hour"
-msgstr ""
+msgstr "시"
 
 #: filter/filter-datespec.c:66
 msgid "hours"
-msgstr ""
+msgstr "시"
 
 #: filter/filter-datespec.c:67
 msgid "minute"
-msgstr ""
+msgstr "분"
 
 #: filter/filter-datespec.c:68
 msgid "second"
-msgstr ""
+msgstr "초"
 
 #: filter/filter-datespec.c:68
 msgid "seconds"
-msgstr ""
+msgstr "초"
 
 #: filter/filter-datespec.c:183
 msgid "Oops. You have forgotten to choose a date."
-msgstr ""
+msgstr "헤. 날짜 선택해야 하는걸 잊으셨죠:-)"
 
 #: filter/filter-datespec.c:185
 msgid "Oops. You have chosen an invalid date."
-msgstr ""
+msgstr "쩝. 고른 날짜가 적합하지않네요."
 
 #: filter/filter-datespec.c:259
 msgid ""
@@ -4754,7 +4764,7 @@ msgstr ""
 #. keep in sync with FilterDatespec_type!
 #: filter/filter-datespec.c:357
 msgid "the current time"
-msgstr ""
+msgstr "현재 시각"
 
 #: filter/filter-datespec.c:357
 msgid "a time you specify"
@@ -4771,20 +4781,20 @@ msgstr ""
 
 #: filter/filter-datespec.c:533 filter/filter-datespec.c:693
 msgid "now"
-msgstr "지금"
+msgstr "현재"
 
 #: filter/filter-datespec.c:690
 msgid "<click here to select a date>"
-msgstr ""
+msgstr "<날짜를 선택할려면 여길 누르세요>"
 
 #: filter/filter-editor.c:160 mail/mail-autofilter.c:336
 #: mail/mail-autofilter.c:358
 msgid "Add Filter Rule"
-msgstr ""
+msgstr "거르게 규칙을 추가"
 
 #: filter/filter-editor.c:233
 msgid "Edit Filter Rule"
-msgstr ""
+msgstr "거르게 규칙을 편집"
 
 #: filter/filter-editor.c:457 filter/filter.glade.h:4
 msgid "Edit Filters"
@@ -4793,21 +4803,23 @@ msgstr "거르게 편집"
 #. and now for the action area
 #: filter/filter-filter.c:403
 msgid "Then"
-msgstr ""
+msgstr "동작 선택"
 
 #: filter/filter-filter.c:416
 msgid "Add action"
-msgstr "행동 추가"
+msgstr "동작 추가"
 
 #: filter/filter-filter.c:422
 msgid "Remove action"
-msgstr "행동 제거"
+msgstr "동작 제거"
 
 #: filter/filter-folder.c:143
 msgid ""
 "Oops, you forgot to choose a folder.\n"
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
+"쩝, 폴더 고르는 것을 잊으셨네요.\n"
+"뒤로 돌아가 메일을 배달할 폴더를 지정하세요."
 
 #: filter/filter-folder.c:218 filter/vfolder-rule.c:279
 msgid "Select Folder"
@@ -4815,11 +4827,11 @@ msgstr "폴더 선택"
 
 #: filter/filter-folder.c:243
 msgid "Enter folder URI"
-msgstr ""
+msgstr "폴더 URI를 지정하세요"
 
 #: filter/filter-folder.c:289
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<폴더를 고를려면 여길 누르세요>"
 
 #: filter/filter-input.c:189
 #, c-format
@@ -4827,10 +4839,12 @@ msgid ""
 "Error in regular expression '%s':\n"
 "%s"
 msgstr ""
+"정규식 '%s'에서 에러:\n"
+"%s"
 
 #: filter/filter-part.c:467
 msgid "Test"
-msgstr ""
+msgstr "테스트"
 
 #: filter/filter-rule.c:572
 msgid "Rule name: "
@@ -4842,31 +4856,31 @@ msgstr "제목없음"
 
 #: filter/filter-rule.c:592
 msgid "If"
-msgstr ""
+msgstr "조건 선택"
 
 #: filter/filter-rule.c:609
 msgid "Execute actions"
-msgstr ""
+msgstr "동작 선택"
 
 #: filter/filter-rule.c:613
 msgid "if all criteria are met"
-msgstr ""
+msgstr "모든 조건이 다 충족될 때"
 
 #: filter/filter-rule.c:618
 msgid "if any criteria are met"
-msgstr ""
+msgstr "어떤 조건이라도 충족될 때"
 
 #: filter/filter-rule.c:629
 msgid "Add criterion"
-msgstr ""
+msgstr "조건 추가"
 
 #: filter/filter-rule.c:635
 msgid "Remove criterion"
-msgstr ""
+msgstr "조건 삭제"
 
 #: filter/filter-system-flag.c:67
 msgid "Replied to"
-msgstr "답장"
+msgstr "회신"
 
 #. { _("Deleted"), "Deleted" },
 #. { _("Draft"), "Draft" },
@@ -4888,11 +4902,11 @@ msgstr "거르개 규칙"
 
 #: filter/filter.glade.h:7
 msgid "Incoming"
-msgstr ""
+msgstr "들어오는거"
 
 #: filter/filter.glade.h:8
 msgid "Outgoing"
-msgstr ""
+msgstr "나가는거"
 
 #: filter/filter.glade.h:10
 msgid "Virtual Folders"
@@ -4936,11 +4950,11 @@ msgstr "폴더로 복사"
 
 #: filter/libfilter-i18n.h:17
 msgid "Date received"
-msgstr "날짜 받았음"
+msgstr "받은 날짜"
 
 #: filter/libfilter-i18n.h:18
 msgid "Date sent"
-msgstr "날짜 보냈음"
+msgstr "보낸 날짜"
 
 #: filter/libfilter-i18n.h:24
 msgid "Deleted"
@@ -4988,7 +5002,7 @@ msgstr "폴더로 이동"
 
 #: filter/libfilter-i18n.h:41 filter/libfilter-i18n.h:114
 msgid "Recipients"
-msgstr "참조인"
+msgstr "받는 사람"
 
 #: filter/libfilter-i18n.h:42 filter/libfilter-i18n.h:117
 msgid "Regex Match"
@@ -5005,7 +5019,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:50
 msgid "Set Flag"
-msgstr ""
+msgstr "플래그 설정"
 
 #: filter/libfilter-i18n.h:52 filter/libfilter-i18n.h:122
 msgid "Set Status"
@@ -5036,7 +5050,7 @@ msgstr "포함"
 #: filter/libfilter-i18n.h:67 filter/libfilter-i18n.h:75
 #: filter/libfilter-i18n.h:142
 msgid "does not contain"
-msgstr ""
+msgstr "포함하지않음"
 
 #: filter/libfilter-i18n.h:68 filter/libfilter-i18n.h:76
 #: filter/libfilter-i18n.h:143
@@ -5188,11 +5202,11 @@ msgstr ""
 
 #: mail/folder-browser.c:532 mail/folder-browser.c:700
 msgid "Filter on Mailing List"
-msgstr ""
+msgstr "메일링 리스트에대한 필터"
 
 #: mail/folder-browser.c:543
 msgid "Save As..."
-msgstr "새 이름으로 저장..."
+msgstr "다른 이름으로 저장..."
 
 #: mail/folder-browser.c:545 mail/mail-view.c:148
 #: ui/evolution-addressbook.xml.h:9 ui/evolution-calendar.xml.h:19
@@ -5202,11 +5216,11 @@ msgstr "인쇄"
 
 #: mail/folder-browser.c:550
 msgid "Reply to Sender"
-msgstr "보낸이에게 답장"
+msgstr "보낸 사람에게 회신"
 
 #: mail/folder-browser.c:552 mail/mail-view.c:141 ui/evolution-mail.xml.h:38
 msgid "Reply to All"
-msgstr "모두 답장"
+msgstr "전체 회신"
 
 #: mail/folder-browser.c:554 mail/mail-view.c:144 ui/evolution-mail.xml.h:14
 msgid "Forward"
@@ -5599,7 +5613,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:42
 msgid "News"
-msgstr ""
+msgstr "뉴스"
 
 #: mail/mail-config.glade.h:44
 msgid "Optional"
@@ -5631,7 +5645,7 @@ msgstr "이 비밀번호 기억"
 
 #: mail/mail-config.glade.h:53
 msgid "Reply address:"
-msgstr ""
+msgstr "회신 주소:"
 
 #: mail/mail-config.glade.h:54
 msgid "Required"
@@ -5643,7 +5657,7 @@ msgstr "암호 저장"
 
 #: mail/mail-config.glade.h:57
 msgid "Select PGP binary"
-msgstr ""
+msgstr "PGP 프로그램 파일을 선택"
 
 #: mail/mail-config.glade.h:58
 msgid "Select signature file"
@@ -5667,7 +5681,7 @@ msgstr "서버 종류: "
 
 #: mail/mail-config.glade.h:64
 msgid "Server requires authentication"
-msgstr ""
+msgstr "서버가 인증을 요구합니다"
 
 #: mail/mail-config.glade.h:65
 msgid "Server type:"
@@ -5687,7 +5701,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:70
 msgid "This server requires a secure connection (SSL)"
-msgstr ""
+msgstr "이 서버는 SSL를 요구합니다"
 
 #: mail/mail-config.glade.h:71
 msgid "Transport"
@@ -5706,6 +5720,8 @@ msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
 msgstr ""
+"이 서버를 가르킬 이름을 지정하세요."
+"가령 \"직장\"이나 또는 \"집\"."
 
 #: mail/mail-config.glade.h:75
 msgid "User Information"
@@ -5730,7 +5746,7 @@ msgstr "수정(_E)"
 
 #: mail/mail-config.glade.h:83
 msgid "minutes."
-msgstr ""
+msgstr "분"
 
 #: mail/mail-config-druid.c:421
 #, c-format
@@ -5753,16 +5769,16 @@ msgstr ""
 #. set window title
 #: mail/mail-config-druid.c:1215
 msgid "Evolution Account Wizard"
-msgstr ""
+msgstr "Evolution 계정 마법사"
 
 #: mail/mail-display.c:189
 msgid "Save Attachment"
-msgstr "첨부 저장"
+msgstr "첨부파일 저장"
 
 #: mail/mail-display.c:229
 #, c-format
 msgid "Could not create temporary directory: %s"
-msgstr ""
+msgstr "임시 디렉토리를 만들 수가 없습니다: %s"
 
 #: mail/mail-display.c:290
 msgid "Save to Disk..."
@@ -5797,7 +5813,7 @@ msgstr "%s 첨부"
 
 #: mail/mail-format.c:681
 msgid "Reply-To:"
-msgstr ""
+msgstr "답신 주소:"
 
 #: mail/mail-format.c:704
 msgid "Loading message content"
@@ -5805,7 +5821,7 @@ msgstr "메시지 내용을 읽어드림"
 
 #: mail/mail-format.c:993
 msgid "Encrypted message not displayed"
-msgstr ""
+msgstr "암호화된 메시지는 보이지않음"
 
 #: mail/mail-format.c:999
 msgid "Encrypted message"
@@ -5860,12 +5876,12 @@ msgstr "`%s'을(를) 열기"
 #: mail/mail-local.c:786
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
-msgstr ""
+msgstr "\"%s\" 폴더를 \"%s\" 포멧으로 바꾸기"
 
 #: mail/mail-local.c:790
 #, c-format
 msgid "Change folder \"%s\" to \"%s\" format"
-msgstr ""
+msgstr "\"%s\" 폴더를 \"%s\" 포멧으로 바꾸기"
 
 #: mail/mail-local.c:814
 msgid "Reconfiguring folder"
@@ -5878,7 +5894,7 @@ msgstr "현재 폴더 닫는중"
 
 #: mail/mail-local.c:875
 msgid "Renaming old folder and opening"
-msgstr ""
+msgstr "예전 폴더를 다른 이름으로 바꾸어서 열기"
 
 #: mail/mail-local.c:893
 msgid "Creating new folder"
@@ -5914,6 +5930,8 @@ msgid ""
 "Error while performing operation:\n"
 "%s"
 msgstr ""
+"작업 수행중 에러가 발생했습니다:\n"
+"%s"
 
 #: mail/mail-mt.c:502 mail/mail-mt.c:531 mail/mail-mt.c:875
 msgid "Working"
@@ -5921,7 +5939,7 @@ msgstr ""
 
 #: mail/mail-mt.c:666
 msgid "Do you accept?"
-msgstr ""
+msgstr "받아들이겠습니까?"
 
 #: mail/mail-mt.c:857
 msgid "Evolution progress"
@@ -6016,7 +6034,7 @@ msgstr ""
 #: mail/mail-ops.c:1657
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
-msgstr ""
+msgstr "%2$d중 %1$d메시지 저장 (uid \"%3$s\")"
 
 #: mail/mail-ops.c:1671
 #, c-format
@@ -6042,7 +6060,7 @@ msgstr "출력 파일을 만들수 없음: %s:\n"
 #: mail/mail-ops.c:1788
 #, c-format
 msgid "Could not write data: %s"
-msgstr ""
+msgstr "데이타를 쓸 수가 없습니다: %s"
 
 #: mail/mail-search-dialogue.c:107
 msgid "_Search"
@@ -6050,7 +6068,7 @@ msgstr "검색(_S)"
 
 #: mail/mail-send-recv.c:136
 msgid "Cancelling ..."
-msgstr ""
+msgstr "취소하는 중..."
 
 #: mail/mail-send-recv.c:231
 msgid "Send & Receive mail"
@@ -6062,11 +6080,11 @@ msgstr "받았음"
 
 #: mail/mail-send-recv.c:283
 msgid "Updating ..."
-msgstr ""
+msgstr "갱신중 ..."
 
 #: mail/mail-send-recv.c:285 mail/mail-send-recv.c:331
 msgid "Waiting ..."
-msgstr ""
+msgstr "기다리는 중 ..."
 
 #: mail/mail-send-recv.c:304
 msgid "Sending"
@@ -6087,16 +6105,16 @@ msgstr ""
 #: mail/mail-tools.c:138
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
-msgstr ""
+msgstr "임시 mbox `%s'를 만들수가 없습니다: %s"
 
 #: mail/mail-tools.c:185
 #, c-format
 msgid "[%s] (forwarded message)"
-msgstr ""
+msgstr "[%s] (전달된 메시지)"
 
 #: mail/mail-tools.c:195
 msgid "Fwd: (no subject)"
-msgstr ""
+msgstr "전달: (제목 없음)"
 
 #: mail/mail-tools.c:212
 #, c-format
@@ -6113,6 +6131,8 @@ msgid ""
 "-----Forwarded Message-----<br><b>From:</b> %s<br><b>To:</b> "
 "%s<br><b>Subject:</b> %s<br>"
 msgstr ""
+"-----전달 메시지-----<br><b>보낸이:</b> %s<br><b>받는이:</b> "
+"%s<br><b>제목:</b> %s<br>"
 
 #: mail/mail-vfolder.c:248
 msgid "VFolders"
@@ -6126,15 +6146,15 @@ msgstr "새 가상폴더"
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
 #: mail/mail-view.c:138 ui/evolution-mail.xml.h:37
 msgid "Reply"
-msgstr "답장"
+msgstr "회신"
 
 #: mail/mail-view.c:138 ui/evolution-mail.xml.h:41
 msgid "Reply to the sender of this message"
-msgstr "이 메세지를 보낸사람에게 답장을 합니다"
+msgstr "이 메세지를 보낸사람에게 회신을 합니다"
 
 #: mail/mail-view.c:141 ui/evolution-mail.xml.h:40
 msgid "Reply to all recipients of this message"
-msgstr "이 메세지를 받은 모든 사람에게 답장을 합니다"
+msgstr "이 메세지를 받은 모든 사람에게 회신을 합니다"
 
 #: mail/mail-view.c:144 ui/evolution-mail.xml.h:16
 msgid "Forward this message"
@@ -6169,11 +6189,11 @@ msgstr ""
 #: mail/message-list.c:964 mail/message-list.c:980
 #, c-format
 msgid "%s, et al."
-msgstr ""
+msgstr "%s 등등."
 
 #: mail/message-list.c:967 mail/message-list.c:983
 msgid "<unknown>"
-msgstr ""
+msgstr "<누굴까>"
 
 #: mail/message-list.c:1035
 msgid "?"
@@ -6181,11 +6201,11 @@ msgstr ""
 
 #: mail/message-list.c:1042
 msgid "Today %l:%M %p"
-msgstr ""
+msgstr "오늘 %l:%M %p"
 
 #: mail/message-list.c:1051
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "어제 %l:%M %p"
 
 #: mail/message-list.c:1063
 msgid "%a %l:%M %p"
@@ -6232,12 +6252,12 @@ msgstr ""
 #: mail/openpgp-utils.c:452 mail/openpgp-utils.c:558 mail/openpgp-utils.c:760
 #: mail/openpgp-utils.c:913 mail/openpgp-utils.c:1071
 msgid "No GPG/PGP program available."
-msgstr ""
+msgstr "GPG/PGP 프로그램이 없습니다."
 
 #: mail/openpgp-utils.c:459 mail/openpgp-utils.c:567 mail/openpgp-utils.c:767
 #: mail/openpgp-utils.c:920
 msgid "No password provided."
-msgstr ""
+msgstr "암호를 지정하지않았습니다."
 
 #: mail/openpgp-utils.c:467 mail/openpgp-utils.c:574 mail/openpgp-utils.c:773
 #: mail/openpgp-utils.c:928 mail/openpgp-utils.c:1077
@@ -6247,7 +6267,7 @@ msgstr ""
 
 #: mail/openpgp-utils.c:588
 msgid "No recipients specified"
-msgstr ""
+msgstr "수신자가 지정되지않음"
 
 #: mail/openpgp-utils.c:1088
 #, c-format
@@ -6309,6 +6329,8 @@ msgid ""
 "Importing %s\n"
 "Importing item %d."
 msgstr ""
+"%s를 가져오는 중\n"
+"아이템 %d를 가져옴."
 
 #: shell/importer/importer.c:309
 #, c-format
@@ -6316,10 +6338,12 @@ msgid ""
 "There is no importer that is able to handle\n"
 "%s"
 msgstr ""
+"다음을 가져올 수있는 도구가 없습니다\n"
+"%s"
 
 #: shell/importer/importer.c:319
 msgid "Importing"
-msgstr "불러들이기"
+msgstr "가져오기"
 
 #: shell/importer/importer.c:327
 #, c-format
@@ -6327,6 +6351,8 @@ msgid ""
 "Importing %s.\n"
 "Starting %s"
 msgstr ""
+"%s을 가져오기.\n"
+"%s를 시작합니다"
 
 #: shell/importer/importer.c:342
 #, c-format
@@ -6339,10 +6365,12 @@ msgid ""
 "Importing %s\n"
 "Importing item 1."
 msgstr ""
+"%s를 가져오는 중\n"
+"아이템 1을 가져옴."
 
 #: shell/importer/importer.c:428
 msgid "Automatic"
-msgstr ""
+msgstr "자동"
 
 #: shell/importer/importer.c:478
 msgid "Filename:"
@@ -6358,7 +6386,7 @@ msgstr "파일 종류:"
 
 #: shell/importer/import.glade.h:4 shell/importer/importer.c:574
 msgid "Import"
-msgstr "불러들이기"
+msgstr "가져오기"
 
 #: shell/importer/importer.c:609
 msgid ""
@@ -6371,7 +6399,7 @@ msgstr ""
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
+msgstr "Evolution으로 파일을 가져오실려면 \"가져오기\"를 누르세요."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Utility"
@@ -6390,7 +6418,7 @@ msgstr ""
 
 #: shell/e-setup.c:112 shell/e-setup.c:185
 msgid "Evolution installation"
-msgstr ""
+msgstr "Evolution 설치"
 
 #: shell/e-setup.c:116
 msgid ""
@@ -6400,23 +6428,23 @@ msgstr ""
 
 #: shell/e-setup.c:117
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr ""
+msgstr "파일을 설치할려면 \"확인\", 끝낼려면 \"취소\"를 누르세요."
 
 #: shell/e-setup.c:157
 msgid "Could not update files correctly"
-msgstr ""
+msgstr "제대로 파일들을 갱신할 수가 없습니다"
 
 #: shell/e-setup.c:160 shell/e-setup.c:228
 msgid "Evolution files successfully installed."
-msgstr ""
+msgstr "Evolution 파일들이 제대로 설치되었되었습니다."
 
 #: shell/e-setup.c:189
 msgid "This seems to be the first time you are running Evolution."
-msgstr ""
+msgstr "이번이 evolution을 처음으로 쓰시는 거지요?"
 
 #: shell/e-setup.c:190
 msgid "Please click \"OK\" to install the Evolution user files under"
-msgstr ""
+msgstr "Evolution 사용자 파일을 다음에 설치하실려면 \"확인\"을 누르세요"
 
 #: shell/e-setup.c:209
 #, c-format
@@ -6425,6 +6453,9 @@ msgid ""
 "%s\n"
 "Error: %s"
 msgstr ""
+"%s 디렉토리를\n"
+"생성할 수가 없습니다"
+"에러: %s"
 
 #: shell/e-setup.c:224
 #, c-format
@@ -6432,6 +6463,8 @@ msgid ""
 "Cannot copy files into\n"
 "`%s'."
 msgstr ""
+"`%s'로 파일을\n"
+"복사할 수가 없습니다."
 
 #: shell/e-setup.c:249
 #, c-format
@@ -6460,11 +6493,11 @@ msgstr ""
 
 #: shell/e-shell-folder-creation-dialog.c:153
 msgid "The specified folder name is not valid."
-msgstr ""
+msgstr "지정하신 폴더의 이름이 적절하지않습니다"
 
 #: shell/e-shell-folder-creation-dialog.c:245
 msgid "Evolution - Create new folder"
-msgstr ""
+msgstr "Evolution - 새 폴더 생성"
 
 #: shell/e-shell-folder-selection-dialog.c:96
 msgid ""
@@ -6504,11 +6537,11 @@ msgstr ""
 
 #: shell/e-shell-view-menu.c:360
 msgid "Go to folder..."
-msgstr ""
+msgstr "폴더 이동..."
 
 #: shell/e-shell-view.c:143
 msgid "(No folder displayed)"
-msgstr ""
+msgstr "(표시된 폴더가 없음)"
 
 #: shell/e-shell-view.c:474
 msgid "Folders"
@@ -6535,6 +6568,8 @@ msgid ""
 "Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
 "This probably means that the %s component has crashed."
 msgstr ""
+"쩝!! `%s' 뷰가 말도 없이 죽었네요 :-(\n"
+"%s 컴포넌트가 사망하신거 같습니다."
 
 #: shell/e-shortcuts-view.c:123
 msgid "Create new shortcut group"
@@ -6550,14 +6585,16 @@ msgid ""
 "Do you really want to remove group\n"
 "`%s' from the shortcut bar?"
 msgstr ""
+"단축 막대로부터 `%s'그룹을\n"
+"정말로 지우시겠습니까?"
 
 #: shell/e-shortcuts-view.c:254
 msgid "Don't remove"
-msgstr ""
+msgstr "지우지마세요"
 
 #: shell/e-shortcuts-view.c:265
 msgid "_Small Icons"
-msgstr ""
+msgstr "작은 아이콘(_S)"
 
 #: shell/e-shortcuts-view.c:266
 msgid "Show the shortcuts as small icons"
@@ -6788,7 +6825,7 @@ msgstr "닷새씩"
 
 #: ui/evolution-calendar.xml.h:2 ui/evolution-tasks.xml.h:1
 msgid "Alter preferences"
-msgstr ""
+msgstr "설정을 변경합니다"
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Create a new appointment"
@@ -6849,7 +6886,7 @@ msgstr "달력 인쇄하기"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Print this Calendar"
-msgstr "이 달력 인쇄하기"
+msgstr "현재의 달력을 인쇄합니다"
 
 #: ui/evolution-calendar.xml.h:23 ui/evolution-message-composer.xml.h:15
 msgid "Save As"
@@ -6857,7 +6894,7 @@ msgstr "다른이름으로 저장"
 
 #: ui/evolution-calendar.xml.h:24
 msgid "Save calendar as something else"
-msgstr ""
+msgstr "달력을 다른 것으로 저장합니다"
 
 #: ui/evolution-calendar.xml.h:26
 msgid "Show 1 day"
@@ -7160,7 +7197,7 @@ msgstr "복사(_C)"
 #: ui/evolution-event-editor.xml.h:56 ui/evolution-message-composer.xml.h:41
 #: ui/evolution-task-editor-dialog.xml.h:68
 msgid "_Debug"
-msgstr ""
+msgstr "디버깅(_D)"
 
 #: ui/evolution-event-editor.xml.h:60 ui/evolution-message-composer.xml.h:45
 #: ui/evolution-task-editor-dialog.xml.h:72 ui/evolution.xml.h:33
@@ -7181,7 +7218,7 @@ msgstr ""
 
 #: ui/evolution-event-editor.xml.h:64 ui/evolution-task-editor-dialog.xml.h:76
 msgid "_Mail Message (FIXME)"
-msgstr ""
+msgstr "편지 메시지(_M) (수리중)"
 
 #: ui/evolution-event-editor.xml.h:65 ui/evolution-task-editor-dialog.xml.h:78
 msgid "_Move to Folder... (FIXME)"
@@ -7228,7 +7265,7 @@ msgstr ""
 
 #: ui/evolution-executive-summary.xml.h:3
 msgid "Create a new email"
-msgstr ""
+msgstr "새 편지를 작성합니다"
 
 #: ui/evolution-executive-summary.xml.h:4
 msgid "Executive Summary Settings..."
@@ -7252,31 +7289,31 @@ msgstr "메세지를 새 폴더로 복사합니다"
 
 #: ui/evolution-mail.xml.h:6
 msgid "Create _Virtual Folder From Message"
-msgstr ""
+msgstr "메시지로부터 가상 폴더 생성(_V)"
 
 #: ui/evolution-mail.xml.h:9
 msgid "Display all of the message headers"
-msgstr ""
+msgstr "모든 메시지 헤더 보이기"
 
 #: ui/evolution-mail.xml.h:10
 msgid "Filter on Se_nder"
-msgstr ""
+msgstr "발송인에대한 거르게(_n)"
 
 #: ui/evolution-mail.xml.h:11
 msgid "Filter on _Recipients"
-msgstr ""
+msgstr "수신인에대한 거르게(_R)"
 
 #: ui/evolution-mail.xml.h:12
 msgid "Filter on _Subject"
-msgstr ""
+msgstr "제목에대한 거르게(_S)"
 
 #: ui/evolution-mail.xml.h:13
 msgid "Forget _Passwords"
-msgstr ""
+msgstr "기억된 암호 버리기"
 
 #: ui/evolution-mail.xml.h:15
 msgid "Forward As"
-msgstr ""
+msgstr "다른 주소로 전달"
 
 #: ui/evolution-mail.xml.h:17
 msgid "Full Headers"
@@ -7316,7 +7353,7 @@ msgstr "읽지 않은 것으로 표시(_n)"
 
 #: ui/evolution-mail.xml.h:26
 msgid "Message _Display"
-msgstr ""
+msgstr "메시지 표시(_D)"
 
 #: ui/evolution-mail.xml.h:27
 msgid "Move"
@@ -7328,7 +7365,7 @@ msgstr "메세지를 새 폴더로 이동합니다"
 
 #: ui/evolution-mail.xml.h:32
 msgid "Print message to the printer"
-msgstr ""
+msgstr "메시지 인쇄"
 
 #: ui/evolution-mail.xml.h:35
 msgid "Quoted"
@@ -7340,7 +7377,7 @@ msgstr ""
 
 #: ui/evolution-mail.xml.h:39
 msgid "Reply to _All"
-msgstr "모두 답장(_A)"
+msgstr "전체 회신(_A)"
 
 #: ui/evolution-mail.xml.h:42
 msgid "S_ource"
@@ -7356,11 +7393,11 @@ msgstr "글타래 선택(_T)"
 
 #: ui/evolution-mail.xml.h:45
 msgid "Send and Receive"
-msgstr ""
+msgstr "보내고 받기"
 
 #: ui/evolution-mail.xml.h:46
 msgid "Send queued mail and retrieve new mail"
-msgstr ""
+msgstr "밀린 편지를 보내고 새 편지를 가져온다"
 
 #: ui/evolution-mail.xml.h:47
 msgid "Show _All"
@@ -7372,19 +7409,19 @@ msgstr "연관된 메세지 목록"
 
 #: ui/evolution-mail.xml.h:50
 msgid "VFolder on Se_nder"
-msgstr ""
+msgstr "발송자에따른 가상폴더(_n)"
 
 #: ui/evolution-mail.xml.h:51
 msgid "VFolder on _Recipients"
-msgstr ""
+msgstr "수신자에따른 가상폴더(_R)"
 
 #: ui/evolution-mail.xml.h:52
 msgid "VFolder on _Subject"
-msgstr ""
+msgstr "제목에따른 가상폴더(_S)"
 
 #: ui/evolution-mail.xml.h:53
 msgid "View Raw Message Source"
-msgstr ""
+msgstr "Raw 메시지 보기"
 
 #: ui/evolution-mail.xml.h:54
 msgid "Virtual Folder _Editor..."
@@ -7408,7 +7445,7 @@ msgstr "폴더로 복사(_C)..."
 
 #: ui/evolution-mail.xml.h:59
 msgid "_Create Filter From Message"
-msgstr ""
+msgstr "메시지로부터 거르게 생성(_C)"
 
 #: ui/evolution-mail.xml.h:61
 msgid "_Expunge"
@@ -7452,11 +7489,11 @@ msgstr "선택된 메세지 열기(_S)"
 
 #: ui/evolution-mail.xml.h:73
 msgid "_Send and Receive"
-msgstr ""
+msgstr "보내고 받기(_S)"
 
 #: ui/evolution-mail.xml.h:74
 msgid "_Threaded"
-msgstr ""
+msgstr "쓰레드 표시(_T)"
 
 #: ui/evolution-mail.xml.h:76
 msgid "_Undelete"
@@ -7505,7 +7542,7 @@ msgstr "PGP 서명"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save _Draft"
-msgstr ""
+msgstr "초고를 저장(_D)"
 
 #: ui/evolution-message-composer.xml.h:18
 msgid "Save in _folder... (FIXME)"
@@ -7569,11 +7606,11 @@ msgstr "이메세지에 PGP키로 서명함"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the BCC field is displayed"
-msgstr ""
+msgstr "BCC 항목을 표시할 것인지를 토글"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the CC field is displayed"
-msgstr ""
+msgstr "참조 항목을 표시할 것인지를 토글"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the From chooser is displayed"
@@ -7665,7 +7702,7 @@ msgstr "바꾸기"
 
 #: ui/evolution-task-editor-dialog.xml.h:47
 msgid "Reply to A_ll (FIXME)"
-msgstr "모두 답장(_l) (고칠 예정)"
+msgstr "전체 회신(_l) (고칠 예정)"
 
 #: ui/evolution-task-editor-dialog.xml.h:48
 msgid "S_end Status Report (FIXME)"
@@ -7976,7 +8013,7 @@ msgstr ""
 #. FIXME: Better message needed.
 #: widgets/misc/e-cell-date-edit.c:736
 msgid "The time is invalid"
-msgstr ""
+msgstr "시간이 부적절합니다"
 
 #: widgets/misc/e-clipped-label.c:107
 msgid "..."
@@ -8021,7 +8058,7 @@ msgstr "검색(_c)"
 
 #: wombat/GNOME_Evolution_Wombat.oaf.in.h:1
 msgid "The Personal Addressbook Server"
-msgstr ""
+msgstr "개인용 주소록 서버"
 
 #: wombat/GNOME_Evolution_Wombat.oaf.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
@@ -8029,13 +8066,14 @@ msgstr ""
 
 #: wombat/wombat.c:153
 msgid "setup_vfs(): could not initialize GNOME-VFS"
-msgstr ""
+msgstr "setup_vfs(): GNOME-VFS를 초기화 할 수 없습니다"
 
 #: wombat/wombat.c:165
 msgid "init_corba(): could not initialize GNOME"
-msgstr "init_corba(): 그놈을 초기화 할수 없습니다"
+msgstr "init_corba(): 그놈을 초기화 할 수 없습니다"
 
 #: wombat/wombat.c:178
 msgid "init_bonobo(): could not initialize Bonobo"
-msgstr "init_bonobo(): Bonobo를 초기화 할수 없습니다"
+msgstr "init_bonobo(): Bonobo를 초기화 할 수 없습니다"
+
 
