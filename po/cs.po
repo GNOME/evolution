@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-04-17 11:48+0200\n"
-"PO-Revision-Date: 2003-04-17 13:45+0200\n"
+"POT-Creation-Date: 2003-04-22 11:43+0200\n"
+"PO-Revision-Date: 2003-04-22 15:11+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -453,12 +453,12 @@ msgstr "Použít skóre"
 msgid "Could not initialize Bonobo"
 msgstr "Nelze spustit Bonobo"
 
-#: addressbook/backend/pas/pas-backend-file.c:465
+#: addressbook/backend/pas/pas-backend-file.c:464
 #: addressbook/backend/pas/pas-backend-ldap.c:3046
 msgid "Searching..."
 msgstr "Vyhledávám..."
 
-#: addressbook/backend/pas/pas-backend-file.c:467
+#: addressbook/backend/pas/pas-backend-file.c:466
 msgid "Loading..."
 msgstr "Načítám..."
 
@@ -1446,7 +1446,7 @@ msgstr "Chce dostávat poštu v _HTML formátu"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:712 calendar/gui/e-calendar-table.c:969
+#: calendar/gui/dialogs/meeting-page.c:715 calendar/gui/e-calendar-table.c:969
 #: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3583
 #: mail/folder-browser.c:1783 mail/mail-config.glade.h:148
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
@@ -3661,23 +3661,23 @@ msgstr "Prohlížeč úkolů Evolution"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Sloužba upozornění na alarm kalendáře Evolution"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
 msgid "Starting:"
 msgstr "Spuštění:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
 msgid "Ending:"
 msgstr "Ukončení:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:229
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:227
 msgid "invalid time"
 msgstr "neplatný čas"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:274
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:272
 msgid "Evolution Alarm"
 msgstr "Evolution alarm"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:369
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:365
 #, c-format
 msgid "Alarm on %s"
 msgstr "Alarm na %s"
@@ -3699,17 +3699,17 @@ msgstr "Doba odložení (minut)"
 msgid "_Edit appointment"
 msgstr "_Upravit událost"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:776
+#: calendar/gui/alarm-notify/alarm-queue.c:780
 msgid "No description available."
 msgstr "Popis není dostupný."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:847
-#: calendar/gui/alarm-notify/alarm-queue.c:871
+#: calendar/gui/alarm-notify/alarm-queue.c:851
+#: calendar/gui/alarm-notify/alarm-queue.c:875
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Varování"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:851
+#: calendar/gui/alarm-notify/alarm-queue.c:855
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3721,7 +3721,7 @@ msgstr ""
 "vytvořena k poslání e-mailu. Evolution namísto toho\n"
 "zobrazí dialogové okno pro běžnou připomínku."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:877
+#: calendar/gui/alarm-notify/alarm-queue.c:881
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3738,7 +3738,7 @@ msgstr ""
 "\n"
 "Opravdu chcete spustit tento program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:891
+#: calendar/gui/alarm-notify/alarm-queue.c:895
 msgid "Do not ask me about this program again."
 msgstr "Příště se neptat na tento program."
 
@@ -4707,11 +4707,11 @@ msgstr "Je požadován organizátor."
 msgid "At least one attendee is required."
 msgstr "Je požadován alespoň jeden účastník."
 
-#: calendar/gui/dialogs/meeting-page.c:628
+#: calendar/gui/dialogs/meeting-page.c:629
 msgid "That person is already attending the meeting!"
 msgstr "Tato osoba se již schůzky účastní!"
 
-#: calendar/gui/dialogs/meeting-page.c:708
+#: calendar/gui/dialogs/meeting-page.c:711
 msgid "_Delegate To..."
 msgstr "_Postoupit komu..."
 
@@ -9309,20 +9309,20 @@ msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Rodičovská složka nemůže obsahovat podsložky"
 
 #. $HOME relative path + protocol string
-#: camel/providers/local/camel-local-folder.c:352
+#: camel/providers/local/camel-local-folder.c:354
 #, c-format
 msgid "~%s (%s)"
 msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
-#: camel/providers/local/camel-local-folder.c:356
-#: camel/providers/local/camel-local-folder.c:359
+#: camel/providers/local/camel-local-folder.c:358
+#: camel/providers/local/camel-local-folder.c:361
 #, c-format
 msgid "mailbox:%s (%s)"
 msgstr "schránka %s (%s)"
 
 #. a full path + protocol
-#: camel/providers/local/camel-local-folder.c:363
+#: camel/providers/local/camel-local-folder.c:365
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -10363,7 +10363,7 @@ msgstr "Navrhnout automatické zobrazovaní příloh"
 msgid "Hey you, dunce. You need an account to send mail doncha know."
 msgstr "Hej ty, truhlíku. Potřebuješ účet, abys mohl poslat poštu, chápeš."
 
-#: composer/e-msg-composer-hdrs.c:479
+#: composer/e-msg-composer-hdrs.c:481
 msgid "Click here for the address book"
 msgstr "Kliknutím zobrazíte adresář"
 
@@ -10374,45 +10374,45 @@ msgstr "Kliknutím zobrazíte adresář"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:510
+#: composer/e-msg-composer-hdrs.c:512
 msgid "Reply-To:"
 msgstr "Odpovědět-komu:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:516
+#: composer/e-msg-composer-hdrs.c:518
 msgid "From:"
 msgstr "Od:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:522
+#: composer/e-msg-composer-hdrs.c:524
 msgid "Subject:"
 msgstr "Předmět:"
 
-#: composer/e-msg-composer-hdrs.c:531
+#: composer/e-msg-composer-hdrs.c:533
 msgid "To:"
 msgstr "Komu:"
 
-#: composer/e-msg-composer-hdrs.c:532
+#: composer/e-msg-composer-hdrs.c:534
 msgid "Enter the recipients of the message"
 msgstr "Vyplnit příjemce zprávy"
 
-#: composer/e-msg-composer-hdrs.c:535
+#: composer/e-msg-composer-hdrs.c:537
 msgid "Cc:"
 msgstr "Kopie:"
 
-#: composer/e-msg-composer-hdrs.c:536
+#: composer/e-msg-composer-hdrs.c:538
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Vyplňte adresy, které obdrží kopii této zprávy."
 
-#: composer/e-msg-composer-hdrs.c:539
+#: composer/e-msg-composer-hdrs.c:541
 msgid "Bcc:"
 msgstr "Skrytá kopie:"
 
-#: composer/e-msg-composer-hdrs.c:540
+#: composer/e-msg-composer-hdrs.c:542
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -10423,11 +10423,11 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:549
 msgid "Post To:"
 msgstr "Poslat komu:"
 
-#: composer/e-msg-composer-hdrs.c:549
+#: composer/e-msg-composer-hdrs.c:551
 msgid "Posting destination"
 msgstr "Cíl odeslání"
 
@@ -10547,12 +10547,12 @@ msgstr "Podpis:"
 msgid "Autogenerated"
 msgstr "automatický"
 
-#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2872
-#: composer/e-msg-composer.c:2873
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2875
 msgid "Compose a message"
 msgstr "Napsat zprávu"
 
-#: composer/e-msg-composer.c:2904
+#: composer/e-msg-composer.c:2906
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10560,7 +10560,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat ovládací prvek pro výběr adresy."
 
-#: composer/e-msg-composer.c:2930
+#: composer/e-msg-composer.c:2932
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10572,7 +10572,7 @@ msgstr ""
 "Ujistěte se prosím, že máte instalovanou\n"
 "správnou verzi gtkhtml a libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:2990
+#: composer/e-msg-composer.c:2992
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10580,7 +10580,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat komponentu HTML editor."
 
-#: composer/e-msg-composer.c:4004
+#: composer/e-msg-composer.c:4010
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12032,12 +12032,12 @@ msgid "Don't delete"
 msgstr "Neodstraňovat"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:391
-#: mail/mail-composer-prefs.c:674 mail/mail-composer-prefs.c:692
+#: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
 msgid "Disable"
 msgstr "Zakázat"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:393
-#: mail/mail-composer-prefs.c:674 mail/mail-composer-prefs.c:692
+#: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
 msgid "Enable"
 msgstr "Povolit"
 
@@ -12047,7 +12047,7 @@ msgid "[Default]"
 msgstr "[Výchozí]"
 
 #: mail/mail-accounts.c:481 mail/mail-accounts.etspec.h:2
-#: mail/mail-composer-prefs.c:704 mail/mail-composer-prefs.c:860
+#: mail/mail-composer-prefs.c:706 mail/mail-composer-prefs.c:862
 msgid "Enabled"
 msgstr "Povoleno"
 
@@ -12322,15 +12322,15 @@ msgstr "Musíte zadat platný název skriptu."
 msgid "[script]"
 msgstr "[skript]"
 
-#: mail/mail-composer-prefs.c:864
+#: mail/mail-composer-prefs.c:866
 msgid "Language(s)"
 msgstr "Jazyk(y)"
 
-#: mail/mail-composer-prefs.c:906
+#: mail/mail-composer-prefs.c:908
 msgid "Add script signature"
 msgstr "Přidat skript podpisu"
 
-#: mail/mail-composer-prefs.c:926
+#: mail/mail-composer-prefs.c:928
 msgid "Signature(s)"
 msgstr "Podpis(y)"
 
@@ -13420,23 +13420,23 @@ msgstr "Prázdná zpráva"
 msgid "Find in Message"
 msgstr "Najít ve zprávě"
 
-#: mail/mail-search.c:287
+#: mail/mail-search.c:285
 msgid "Search"
 msgstr "Vyhledat"
 
-#: mail/mail-search.c:314
+#: mail/mail-search.c:313
 msgid "Case Sensitive"
 msgstr "Rozlišovat malá/velká"
 
-#: mail/mail-search.c:316
+#: mail/mail-search.c:315
 msgid "Search Forward"
 msgstr "Hledat dopředu"
 
-#: mail/mail-search.c:336
+#: mail/mail-search.c:335
 msgid "Find:"
 msgstr "Najít:"
 
-#: mail/mail-search.c:340
+#: mail/mail-search.c:339
 msgid "Matches:"
 msgstr "Odpovídá:"
 
@@ -23639,7 +23639,7 @@ msgstr "Bez popisu"
 msgid "Mail summary"
 msgstr "Pošta"
 
-#: my-evolution/e-summary-mail.c:443 shell/e-local-storage.c:1151
+#: my-evolution/e-summary-mail.c:443 shell/e-local-storage.c:1150
 msgid "Local Folders"
 msgstr "Místní složky"
 
@@ -25142,7 +25142,7 @@ msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr "Zadejte složku, kam chcete zkopírovat složku \"%s\":"
 
 #: shell/e-shell-folder-commands.c:323
-msgid "Copy folder"
+msgid "Copy Folder"
 msgstr "Kopírovat složku"
 
 #: shell/e-shell-folder-commands.c:363
@@ -25151,7 +25151,7 @@ msgid "Specify a folder to move folder \"%s\" into:"
 msgstr "Zadejte složku, kam přesunout složku \"%s\":"
 
 #: shell/e-shell-folder-commands.c:367
-msgid "Move folder"
+msgid "Move Folder"
 msgstr "Přesunout složku"
 
 #: shell/e-shell-folder-commands.c:391
@@ -25168,12 +25168,12 @@ msgstr ""
 msgid "Really delete folder \"%s\"?"
 msgstr "Opravdu odstranit složku \"%s\"?"
 
-#: shell/e-shell-folder-commands.c:412
+#: shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Odstranit \"%s\""
 
-#: shell/e-shell-folder-commands.c:485
+#: shell/e-shell-folder-commands.c:489
 #, c-format
 msgid ""
 "Cannot rename folder:\n"
@@ -25182,26 +25182,26 @@ msgstr ""
 "Nelze přejmenovat složku:\n"
 "%s"
 
-#: shell/e-shell-folder-commands.c:534
+#: shell/e-shell-folder-commands.c:538
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Přejmenovat složku \"%s\" na:"
 
-#: shell/e-shell-folder-commands.c:540
-msgid "Rename folder"
+#: shell/e-shell-folder-commands.c:544
+msgid "Rename Folder"
 msgstr "Přejmenovat složku"
 
-#: shell/e-shell-folder-commands.c:549
+#: shell/e-shell-folder-commands.c:553
 #: shell/e-shell-folder-creation-dialog.c:170
 #, c-format
 msgid "The specified folder name is not valid: %s"
 msgstr "Zadaný název složky není platný: %s"
 
-#: shell/e-shell-folder-commands.c:583
+#: shell/e-shell-folder-commands.c:587
 msgid "Selected folder does not belong to another user"
 msgstr "Vybraná složka nepatří jinému uživateli"
 
-#: shell/e-shell-folder-commands.c:586
+#: shell/e-shell-folder-commands.c:590
 #, c-format
 msgid ""
 "Cannot remove folder:\n"
@@ -25872,7 +25872,7 @@ msgid "Evolution Test Component"
 msgstr "Testovací komponenta Evolution."
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
-msgid "Active connections"
+msgid "Active Connections"
 msgstr "Aktivní spojení"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
@@ -25900,12 +25900,12 @@ msgid "_Tasks:"
 msgstr "Úk_oly:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
-msgid "Folder name:"
-msgstr "Název složky:"
+msgid "Folder _name:"
+msgstr "_Název složky:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
-msgid "Folder type:"
-msgstr "Typ složky:"
+msgid "Folder _type:"
+msgstr "_Typ složky:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
@@ -27963,9 +27963,6 @@ msgstr "Obsluha místního souboru adresáře Evolution"
 #~ msgid "_LDAP attribute:"
 #~ msgstr "Atribut _LDAP:"
 
-#~ msgid "_LDAP attributes:"
-#~ msgstr "Vlastnosti _LDAP:"
-
 #~ msgid "_More Options >>"
 #~ msgstr "_Více voleb >>"
 
@@ -28051,21 +28048,6 @@ msgstr "Obsluha místního souboru adresáře Evolution"
 
 #~ msgid "Salve file"
 #~ msgstr "Zachránit soubor"
-
-#~ msgid "Associated LDAP Attribute"
-#~ msgstr "Sdružené vlastnosti LDAP"
-
-#~ msgid "Attribute"
-#~ msgstr "Vlastnost"
-
-#~ msgid "Corresponding Evolution Attribute"
-#~ msgstr "Odpovídající vlastnost Evolution"
-
-#~ msgid "Evolution Attribute"
-#~ msgstr "Vlastnost Evolution"
-
-#~ msgid "LDAP Attribute"
-#~ msgstr "Vlastnost LDAP"
 
 #~ msgid "Select"
 #~ msgstr "Vybrat"
