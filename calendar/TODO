@@ -1,3 +1,10 @@
+Preferences:
+
+- Add possibility to start weeks also on monday (European calendar mode)
+
+- BUG: 12/24 hours stuff is not consistent - I remember that on editing
+  new appointment you get the time-selectors always on 12-hr format
+
 Event editor dialog:
 
 - Make it figure out whether the alarm is in
