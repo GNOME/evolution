@@ -69,6 +69,11 @@ module Evolution {
 			raises (UnknownType);
 
 
+		/*** URI handling (e.g. for the command-line, "evolution
+		     mailto:foo@bar.org")  ***/
+		void handleURI (in string uri);
+
+
 		/*** Send/receive.  ***/
 
 		void sendAndReceive ();

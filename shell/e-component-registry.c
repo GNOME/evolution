@@ -81,6 +81,9 @@ component_info_free (EComponentInfo *info)
 	if (info->iface != NULL)
 		bonobo_object_release_unref (info->iface, NULL);
 
+	g_slist_foreach (info->uri_schemas, (GFunc) g_free, NULL);
+	g_slist_free (info->uri_schemas);
+
 	g_free (info);
 }
 
@@ -96,6 +99,30 @@ component_info_compare_func (EComponentInfo *a,
 
 
 /* Utility methods.  */
+
+static void
+set_schemas (EComponentInfo *component_info,
+	     Bonobo_ServerInfo *server_info)
+{
+	Bonobo_ActivationProperty *property = bonobo_server_info_prop_find (server_info, "evolution:uri_schemas");
+	Bonobo_StringList *list;
+	int i;
+
+	if (property == NULL)
+		return;
+
+	if (property->v._d != Bonobo_ACTIVATION_P_STRINGV) {
+		CORBA_free (property);
+		return;
+	}
+
+	list = & property->v._u.value_stringv;
+
+	for (i = 0; i < list->_length; i ++)
+		component_info->uri_schemas = g_slist_prepend (component_info->uri_schemas, g_strdup (list->_buffer [i]));
+
+	CORBA_free (property);
+}
 
 static void
 query_components (EComponentRegistry *registry)
@@ -125,6 +152,7 @@ query_components (EComponentRegistry *registry)
 		const char *icon_name;
 		const char *sort_order_string;
 		GdkPixbuf *icon;
+		EComponentInfo *info;
 		int sort_order;
 
 		id = info_list->_buffer[i].iid;
@@ -149,8 +177,10 @@ query_components (EComponentRegistry *registry)
 		else
 			sort_order = atoi (sort_order_string);
 
-		registry->priv->infos = g_slist_prepend (registry->priv->infos,
-							 component_info_new (id, alias, label, sort_order, icon));
+		info = component_info_new (id, alias, label, sort_order, icon);
+		set_schemas (info, & info_list->_buffer [i]);
+
+		registry->priv->infos = g_slist_prepend (registry->priv->infos, info);
 
 		if (icon != NULL)
 			g_object_unref (icon);

@@ -1,5 +1,18 @@
 2003-11-19  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-component-registry.c (component_info_free): Free
+	->uri_schemas.
+	(set_schemas): New function to get the list of URI schemas given a
+	component's ServerInfo.
+	(query_components): Call it.
+
+	* e-component-registry.h (struct _EComponentInfo): Add
+	"uri_schemas" member.
+
+	* Evolution-Component.idl (Component.handleURI): New method.
+
+2003-11-19  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-activity-client.c
 	(evolution_activity_client_construct): Get a raw
 	GNOME_Evolution_Shell as an arg instead of an

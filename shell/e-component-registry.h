@@ -70,6 +70,9 @@ struct _EComponentInfo {
 	GdkPixbuf *button_icon;
 
 	int sort_order;
+
+	/* List of URI schemas that this component supports.  */
+	GSList *uri_schemas;	/* <char *> */
 };
 typedef struct _EComponentInfo EComponentInfo;
 
