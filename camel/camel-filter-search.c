@@ -546,12 +546,13 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 		}
 		
 		args = g_ptr_array_new ();
-		for (i = 0; i < argc; i++) {
+		g_ptr_array_add (args, g_basename (argv[0]->value.string));
+		for (i = 1; i < argc; i++) {
 			g_ptr_array_add (args, argv[i]->value.string);
 		}
 		g_ptr_array_add (args, NULL);
 		
-		execvp (argv[i]->value.string, (char **) args->pdata);
+		execvp (argv[0]->value.string, (char **) args->pdata);
 		
 		g_ptr_array_free (args, TRUE);
 		
@@ -573,16 +574,8 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	
 	message = camel_filter_search_get_message (fms, f);
 	
-	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream) == -1 ||
-	    camel_stream_flush (stream) == -1) {
-		if (errno == EINTR)
-			camel_exception_set (fms->ex, CAMEL_EXCEPTION_USER_CANCEL, "User Cancelled");
-		else
-			camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Failed to write message to '%s': %s"),
-					      argv[0]->value.string, g_strerror (errno));
-	}
-	
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
+	camel_stream_flush (stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	result = waitpid (pid, &status, 0);
@@ -600,7 +593,7 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 		}
 	}
 	
-	if (!camel_exception_is_set (fms->ex) && result != -1 && WIFEXITED (status))
+	if (result != -1 && WIFEXITED (status))
 		return WEXITSTATUS (status);
 	else
 		return -1;	

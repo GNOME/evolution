@@ -2,6 +2,7 @@
 
 	* camel-filter-search.c (shell_exec): New filter function to pipe
 	a message to another program.
+	(run_command): Fixed some bugs to make this work.
 
 2002-05-09  Not Zed  <NotZed@Ximian.com>
 
