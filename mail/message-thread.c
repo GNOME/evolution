@@ -190,7 +190,7 @@ get_root_subject(struct _container *c, int *re)
 			if ((s[0] == 'r' || s[0]=='R')
 			    && (s[1] == 'e' || s[1]=='E')) {
 				p = s+2;
-				while (ispunct(*p) || (isdigit(*p) && (*p != ':')))
+				while (isdigit(*p) || (ispunct(*p) && (*p != ':')))
 					p++;
 				if (*p==':') {
 					*re = TRUE;
