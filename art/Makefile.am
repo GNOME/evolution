@@ -19,6 +19,16 @@ images_DATA = \
 	envelope.png        		\
 	malehead.png
 
+buttonsdir = $(datadir)/images/evolution/buttons
+buttons_DATA = 				\
+	compose-message.png		\
+	copy-message.png		\
+	fetch-mail.png			\
+	forward.png			\
+	move-message.png		\
+	reply-to-all.png		\
+	reply.png
+
 EXTRA_DIST = \
 	attachment.xpm \
 	compose-message.png \
@@ -39,6 +49,3 @@ EXTRA_DIST = \
 	tree-expanded.xpm \
 	tree-unexpanded.xpm \
 	$(images_DATA)
-
-
-

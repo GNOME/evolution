@@ -1,3 +1,8 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* art/Makefile.am (buttonsdir): Install the new button icons into
+	`$(datadir)/images/evolution/buttons'.
+
 2000-09-11  Tuomas Kuosmanen  <tigert@helixcode.com>
 
 	* art/fetch-mail.png
