@@ -1,3 +1,9 @@
+2000-05-03  Damon Chaplin  <damon@helixcode.com>
+
+	* e-shell-view.c (e_shell_view_new): turned the notebook border off.
+	The calendar looks better without it. If any of the views want a
+	border they should create it themselves, shouldn't they?
+
 2000-05-04  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcut.c (shell_icon_cb): Type of @url changed from `gchar

@@ -412,6 +412,9 @@ e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 	if (!eshell_view->priv->notebook) {
 		eshell_view->priv->notebook = gtk_notebook_new();
 
+		gtk_notebook_set_show_border (
+			GTK_NOTEBOOK (eshell_view->priv->notebook),
+			FALSE);
 		gtk_notebook_set_show_tabs (
 			GTK_NOTEBOOK (eshell_view->priv->notebook),
 			FALSE);
