@@ -50,7 +50,7 @@ typedef struct {
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryHtmlView *view;
 	BonoboPropertyControl *property_control;
-	CalClient *client;
+	CalClient *client, *task_client;
 
 	GtkWidget *show_appointments;
 	GtkWidget *show_tasks;
@@ -64,6 +64,8 @@ typedef struct {
 	guint32 idle;
 
 	gpointer alarm;
+
+	gboolean calendar_ready, task_ready;
 } CalSummary;
 
 enum {
@@ -171,7 +173,7 @@ generate_html_summary (gpointer data)
 		g_free (tmp);
 		
 		/* Generate a list of tasks */
-		uids = cal_client_get_uids (summary->client, CALOBJ_TYPE_TODO);
+		uids = cal_client_get_uids (summary->task_client, CALOBJ_TYPE_TODO);
 		for (l = uids; l; l = l->next){
 			CalComponent *comp;
 			CalComponentText text;
@@ -181,7 +183,7 @@ generate_html_summary (gpointer data)
 			char *tmp2;
 			
 			uid = l->data;
-			status = cal_client_get_object (summary->client, uid, &comp);
+			status = cal_client_get_object (summary->task_client, uid, &comp);
 			if (status != CAL_CLIENT_GET_SUCCESS)
 				continue;
 			
@@ -324,6 +326,14 @@ cal_opened_cb (CalClient *client,
 {
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
+		if (client == summary->client)
+			summary->calendar_ready = TRUE;
+		else
+			summary->task_ready = TRUE;
+
+		if (! (summary->calendar_ready && summary->task_ready))
+			return;
+
 		if (summary->idle != 0)
 			return;
 
@@ -574,8 +584,6 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	char *file;
 	time_t t, day_end;
 
-	file = g_concat_dir_and_file (evolution_dir, "local/Calendar/calendar.ics");
-
 	/* Create the component object */
 	component = executive_summary_component_new ();
 
@@ -584,6 +592,23 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->icon = g_strdup ("evolution-calendar.png");
 	summary->title = g_strdup ("Things to do");
 	summary->client = cal_client_new ();
+	summary->calendar_ready = FALSE;
+	gtk_signal_connect (GTK_OBJECT (summary->client), "cal-opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), summary);
+		
+	summary->task_client = cal_client_new ();
+	summary->task_ready = FALSE;
+	gtk_signal_connect (GTK_OBJECT (summary->task_client), "cal-opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->task_client), "obj-updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
+	gtk_signal_connect (GTK_OBJECT (summary->task_client), "obj-removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), summary);
+	
 	summary->idle = 0;
 	summary->appointments = TRUE;
 	summary->tasks = TRUE;
@@ -593,16 +618,15 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 
 	/* Load calendar */
+	file = g_concat_dir_and_file (evolution_dir, "local/Calendar/calendar.ics");
 	cal_client_open_calendar (summary->client, file, FALSE);
 	g_free (file);
 
-	gtk_signal_connect (GTK_OBJECT (summary->client), "cal-opened",
-			    GTK_SIGNAL_FUNC (cal_opened_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-updated",
-			    GTK_SIGNAL_FUNC (obj_updated_cb), summary);
-	gtk_signal_connect (GTK_OBJECT (summary->client), "obj-removed",
-			    GTK_SIGNAL_FUNC (obj_removed_cb), summary);
-		
+	/* Load tasks */
+	file = g_concat_dir_and_file (evolution_dir, "local/Tasks/tasks.ics");
+	cal_client_open_calendar (summary->task_client, file, FALSE);
+	g_free (file);
+
 	gtk_signal_connect (GTK_OBJECT (component), "destroy",
 			    GTK_SIGNAL_FUNC (component_destroyed), summary);
 
