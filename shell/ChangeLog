@@ -1,3 +1,35 @@
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c: New signal "component_changed".
+	(class_init): Install.
+	(switch_view): Emit.
+	(e_shell_window_new): Call
+	e_user_creatable_items_handler_attach_menus() to attach the
+	"New..."  menus.
+	(e_shell_window_peek_current_component_id): New.
+	(e_shell_window_peek_shell): Add precondition.
+	(e_shell_window_peek_current_component_id): Likewise.
+	(e_shell_window_peek_bonobo_ui_component): Likewise.
+
+	* e-user-creatable-items-handler.c: New.
+	* e-user-creatable-items-handler.h: New.
+
+	* e-shell-window.h: #include <bonobo/bonobo-ui-component.h>.
+
+	* e-shell.c (struct _EShellPrivate): Add member
+	user_creatable_items_handler.
+	(e_shell_get_user_creatable_items_handler): Remove.
+	(e_shell_peek_user_creatable_items_handler): New.
+
+	* Evolution.idl: Don't #include Evolution-ShellComponent.idl.
+
+	* Evolution-Component.idl (GNOME.Evolution.RequestCreateItem): New
+	method.
+	(GNOME.Evolution.creatableItems): New attribute.
+
+	* e-shell-user-creatable-items-handler.c: Remove.
+	* e-shell-user-creatable-items-handler.h: Remove.
+
 2003-11-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-window.c (e_shell_window_switch_to_component): Call

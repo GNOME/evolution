@@ -24,6 +24,7 @@
 #define _E_SHELL_WINDOW_H_
 
 #include <bonobo/bonobo-window.h>
+#include <bonobo/bonobo-ui-component.h>
 
 #define E_TYPE_SHELL_WINDOW			(e_shell_window_get_type ())
 #define E_SHELL_WINDOW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL_WINDOW, EShellWindow))
@@ -44,6 +45,8 @@ struct _EShellWindow {
 
 struct _EShellWindowClass {
 	BonoboWindowClass parent_class;
+
+	void (* component_changed) (EShellWindow *window);
 };
 
 
@@ -55,8 +58,9 @@ GType  e_shell_window_get_type  (void);
 GtkWidget *e_shell_window_new  (EShell     *shell,
 				const char *component_id);
 
-void  e_shell_window_switch_to_component  (EShellWindow *shell,
-					   const char   *component_id);
+void        e_shell_window_switch_to_component        (EShellWindow *shell,
+						       const char   *component_id);
+const char *e_shell_window_peek_current_component_id  (EShellWindow *shell);
 
 EShell            *e_shell_window_peek_shell                (EShellWindow *window);
 BonoboUIComponent *e_shell_window_peek_bonobo_ui_component  (EShellWindow *window);

@@ -13,6 +13,18 @@
 module GNOME {
 module Evolution {
 
+	/* A type of item that the component can create when asked by the user,
+	   e.g. a mail message or an appointment.  */
+	struct CreatableItemType {
+		string id;
+		string description;
+		string menuDescription;
+		string tooltip;
+		char menuShortcut;
+		string iconName;
+	};
+	typedef sequence <CreatableItemType> CreatableItemTypeList;
+
 	interface Component : Bonobo::Unknown {
 		exception Failed {};
 
@@ -34,6 +46,17 @@ module Evolution {
 		   is FALSE) */
 		void interactive (in boolean now_interactive,
 				  in unsigned long new_view_xid);
+
+
+		/*** The following stuff is needed to build the "New" toolbar
+                     item as well as the "File -> New" submenu.  ***/
+
+		/* List of creatable items. */
+		readonly attribute CreatableItemTypeList userCreatableItems;
+
+		/* Pop up a new editing dialog for the item with the specified
+		   @item_type_name.  */
+		void requestCreateItem (in string item_type_name);
 	};
 
 };

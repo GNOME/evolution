@@ -78,6 +78,7 @@ struct _EShellPrivate {
 
 	GList *windows;
 
+	EUserCreatableItemsHandler *user_creatable_items_handler;
 	EUriSchemaRegistry *uri_schema_registry;
 	EComponentRegistry *component_registry;
 
@@ -354,6 +355,11 @@ impl_dispose (GObject *object)
 
 	priv->is_initialized = FALSE;
 
+	if (priv->user_creatable_items_handler != NULL) {
+		g_object_unref (priv->user_creatable_items_handler);
+		priv->user_creatable_items_handler = NULL;
+	}
+
 	if (priv->uri_schema_registry != NULL) {
 		g_object_unref (priv->uri_schema_registry);
 		priv->uri_schema_registry = NULL;
@@ -460,8 +466,9 @@ e_shell_init (EShell *shell)
 	EShellPrivate *priv;
 
 	priv = g_new0 (EShellPrivate, 1);
-	priv->line_status = E_SHELL_LINE_STATUS_OFFLINE;
-	priv->component_registry = e_component_registry_new ();
+	priv->line_status                  = E_SHELL_LINE_STATUS_OFFLINE;
+	priv->component_registry           = e_component_registry_new ();
+	priv->user_creatable_items_handler = e_user_creatable_items_handler_new (priv->component_registry);
 
 	shell->priv = priv;
 }
@@ -866,14 +873,6 @@ e_shell_show_settings (EShell *shell,
 }
 
 
-EShellUserCreatableItemsHandler *
-e_shell_get_user_creatable_items_handler (EShell *shell)
-{
-	g_assert_not_reached (); /* FIXME */
-	return NULL;
-}
-
-
 const char *
 e_shell_construct_result_to_string (EShellConstructResult result)
 {
@@ -951,6 +950,15 @@ e_shell_prepare_for_quit (EShell *shell)
 	e_free_string_list (component_ids);
 	return retval;
 #endif
+}
+
+
+EUserCreatableItemsHandler *
+e_shell_peek_user_creatable_items_handler (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->user_creatable_items_handler;
 }
 
 

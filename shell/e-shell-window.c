@@ -28,6 +28,7 @@
 
 #include "e-component-registry.h"
 #include "e-shell-window-commands.h"
+#include "e-shell-marshal.h"
 #include "e-sidebar.h"
 
 #include "e-util/e-lang-utils.h"
@@ -89,6 +90,14 @@ struct _EShellWindowPrivate {
 	/* The current view (can be NULL initially).  */
 	ComponentView *current_view;
 };
+
+
+enum {
+	COMPONENT_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 /* ComponentView handling.  */
@@ -253,6 +262,8 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 				 NULL);
 
 	g_object_unref (gconf_client);
+
+	g_signal_emit (window, signals[COMPONENT_CHANGED], 0);
 }
 
 
@@ -375,6 +386,14 @@ class_init (EShellWindowClass *class)
 	object_class->finalize = impl_finalize;
 
 	parent_class = g_type_class_peek_parent (class);
+
+	signals[COMPONENT_CHANGED] = g_signal_new ("component_changed",
+						   G_OBJECT_CLASS_TYPE (object_class),
+						   G_SIGNAL_RUN_FIRST,
+						   G_STRUCT_OFFSET (EShellWindowClass, component_changed),
+						   NULL, NULL,
+						   e_shell_marshal_NONE__NONE,
+						   G_TYPE_NONE, 0);
 }
 
 static void
@@ -447,6 +466,8 @@ e_shell_window_new (EShell *shell,
 		}
 	}
 
+	e_user_creatable_items_handler_attach_menus (e_shell_peek_user_creatable_items_handler (shell), window);
+
 	return GTK_WIDGET (window);
 }
 
@@ -482,9 +503,23 @@ e_shell_window_switch_to_component (EShellWindow *window, const char *component_
 }
 
 
+const char *
+e_shell_window_peek_current_component_id (EShellWindow *window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+
+	if (window->priv->current_view == NULL)
+		return NULL;
+
+	return window->priv->current_view->component_id;
+}
+
+
 EShell *
 e_shell_window_peek_shell (EShellWindow *window)
 {
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+
 	return window->priv->shell;
 }
 
@@ -492,6 +527,8 @@ e_shell_window_peek_shell (EShellWindow *window)
 BonoboUIComponent *
 e_shell_window_peek_bonobo_ui_component (EShellWindow *window)
 {
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+
 	return window->priv->ui_component;
 }
 

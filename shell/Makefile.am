@@ -204,7 +204,6 @@ evolution_SOURCES =				\
 	e-shell-settings-dialog.h		\
 	e-shell-startup-wizard.c		\
 	e-shell-startup-wizard.h		\
-	e-shell-user-creatable-items-handler.h	\
 	e-shell-view.h				\
 	e-shell-window-commands.c		\
 	e-shell-window-commands.h		\
@@ -214,6 +213,8 @@ evolution_SOURCES =				\
 	e-shell.h				\
 	e-sidebar.c				\
 	e-sidebar.h				\
+	e-user-creatable-items-handler.c	\
+	e-user-creatable-items-handler.h	\
 	e-task-bar.c				\
 	e-task-bar.h				\
 	e-task-widget.c				\
