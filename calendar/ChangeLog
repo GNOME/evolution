@@ -1,3 +1,8 @@
+2001-10-25  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/component-factory.c (xfer_folder): Handle tasks folders as
+	well; was always using "calendar.ics" as the filename.
+
 2001-10-24  Damon Chaplin  <damon@ximian.com>
 
 	* gui/GNOME_Evolution_Calendar.oaf.in: added sections for Tasks

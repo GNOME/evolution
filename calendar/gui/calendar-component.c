@@ -416,6 +416,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	GnomeVFSURI *src_uri;
 	GnomeVFSURI *dest_uri;
 	GnomeVFSResult result;
+	char *filename, *backup_filename;
 
 	CORBA_exception_init (&ev);
 
@@ -443,9 +444,20 @@ xfer_folder (EvolutionShellComponent *shell_component,
 		return;
 	}
 
-	result = xfer_file (src_uri, dest_uri, "calendar.ics", remove_source);
+	if (strcmp (type, FOLDER_CALENDAR) == 0) {
+		filename = "calendar.ics";
+		backup_filename = "calendar.ics~";
+	} else if (strcmp (type, FOLDER_TASKS) == 0) {
+		filename = "tasks.ics";
+		backup_filename = "tasks.ics~";
+	} else {
+		g_assert_not_reached ();
+		return;
+	}
+
+	result = xfer_file (src_uri, dest_uri, filename, remove_source);
 	if (result == GNOME_Evolution_ShellComponentListener_OK)
-		result = xfer_file (src_uri, dest_uri, "calendar.ics~", remove_source);
+		result = xfer_file (src_uri, dest_uri, backup_filename, remove_source);
 	
 	GNOME_Evolution_ShellComponentListener_notifyResult (listener, result, &ev);
 
