@@ -53,6 +53,7 @@
 
 #include <e-util/e-gtk-utils.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-icon-factory.h>
 
 #include "e-shell-importer.h"
 #include "importer/GNOME_Evolution_Importer.h"
