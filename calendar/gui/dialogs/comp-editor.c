@@ -373,7 +373,7 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 	ECalComponentText text;
 	
 	priv = editor->priv;
-	
+
 	switch (response) {
 	case GTK_RESPONSE_OK:
 		commit_all_fields (editor);
@@ -395,13 +395,32 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 
 		break;
 	case GTK_RESPONSE_CANCEL:
-	case GTK_RESPONSE_DELETE_EVENT:
 		commit_all_fields (editor);
 		
 		if (prompt_to_save_changes (editor, TRUE))
 			close_dialog (editor);
 		break;
+	default:
+		/* We handle delete event below */
+		break;
 	}
+}
+
+static int
+delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+	ECalComponentText text;
+	
+	priv = editor->priv;
+
+	commit_all_fields (editor);
+	
+	if (prompt_to_save_changes (editor, TRUE))
+		close_dialog (editor);
+
+	return TRUE;
 }
 
 static void
@@ -496,6 +515,7 @@ setup_widgets (CompEditor *editor)
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, FALSE);
 
 	g_signal_connect (editor, "response", G_CALLBACK (response_cb), editor);
+	g_signal_connect (editor, "delete_event", G_CALLBACK (delete_event_cb), editor);
 
 	/*Attachments */
 	priv->attachment_scrolled_window = gtk_scrolled_window_new (NULL, NULL);

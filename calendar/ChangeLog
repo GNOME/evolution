@@ -1,3 +1,11 @@
+2005-01-28  JP Rosevear  <jpr@novell.com>
+
+	Fixes #71452
+	
+	* gui/dialogs/comp-editor.c (setup_widgets): listen for
+	delete_event signal and handle it outside of the response signal
+	so that cancel works properly
+
 2005-01-28  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-tasks.c (setup_widgets):
