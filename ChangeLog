@@ -1,3 +1,12 @@
+2001-10-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* data/Makefile.am [HAVE_KDE_APPLNK]: Install `evolution.desktop'
+	in the `KDE_APPLNK_DIR'.
+
+	* configure.in: New option `--with-kde-applnk-path'.  Define the
+	`HAVE_KDE_APPLNK' Automake conditional, and the `KDE_APPLNK_DIR'
+	value.
+
 2001-10-19  Dan Winship  <danw@ximian.com>
 
 	* tools/Makefile.am (EXTRA_DIST): Merge the two EXTRA_DIST

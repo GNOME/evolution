@@ -11,4 +11,9 @@ keys_DATA = $(keys_in_files:.keys.in=.keys)
 mimedir = $(datadir)/mime-info
 mime_DATA = evolution.mime
 
+if HAVE_KDE_APPLNK
+kdedesktopdir = $(KDE_APPLNK_DIR)/Applications
+kdedesktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+endif
+
 EXTRA_DIST = $(desktop_in_files) $(keys_in_files) $(mime_DATA)

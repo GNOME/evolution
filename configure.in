@@ -1021,6 +1021,25 @@ dnl ******************
 AC_ARG_WITH(sub-version, [  --with-sub-version=VERSION Specify a sub-version string])
 AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version")
 
+dnl ********************
+dnl KDE applnk directory
+dnl ********************
+AC_ARG_WITH(kde-applnk-path, [  --with-kde-applnk-path=PATH    Location of KDE applnk files],
+            [with_kde_applnk_path="$withval"])
+AC_MSG_CHECKING(for the KDE applnk directory)
+if test -z "$with_kde_applnk_path"; then
+	with_kde_applnk_path="$prefix/share/applnk"
+fi
+if test -d "$with_kde_applnk_path" ; then
+	AC_MSG_RESULT("$with_kde_applnk_path" found)
+	KDE_APPLNK_DIR="$with_kde_applnk_path"
+else
+	AC_MSG_RESULT(not found)
+	KDE_APPLNK_DIR="no"
+fi
+AM_CONDITIONAL(HAVE_KDE_APPLNK, test "x$with_kde_applnk_path" != xno)
+AC_SUBST(KDE_APPLNK_DIR)
+
 dnl ******************************
 dnl Makefiles
 dnl ******************************
