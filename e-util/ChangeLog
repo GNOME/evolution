@@ -1,3 +1,10 @@
+2001-06-11  Damon Chaplin  <damon@ximian.com>
+
+	* e-time-utils.c (e_time_parse_date_and_time): skip any non-digits
+	while looking for dates and times. This should fix some translation
+	problems. Though there is still a problem with Japanese, where the
+	am/pm flag comes before the time so we will skip it incorrectly.
+
 2001-06-10  Damon Chaplin  <damon@ximian.com>
 
 	* e-time-utils.c (e_time_parse_date_and_time): 

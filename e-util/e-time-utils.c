@@ -55,14 +55,9 @@ e_time_parse_date_and_time		(const char	*value,
 
 	pos = value;
 
-	/* Skip any whitespace. */
-	while (isspace (*pos))
+	/* Skip everything up to the first digit. */
+	while (!isdigit (*pos))
 		pos++;
-
-	/* Skip any weekday name, full or abbreviated. */
-	parse_end = strptime (pos, "%a ", &discard_tm);
-	if (parse_end)
-		pos = parse_end;
 
 	memset (result, 0, sizeof (*result));
 	/* strptime format for a date. */
@@ -72,25 +67,19 @@ e_time_parse_date_and_time		(const char	*value,
 		parsed_date = TRUE;
 	}
 
-	/* Skip any whitespace. */
-	while (isspace (*pos))
+	/* FIXME: Skip everything up to the first digit. I hope the am/pm flag
+	   never gets entered first - it does in Japanese, so fix this. */
+	while (!isdigit (*pos))
 		pos++;
 
-	/* Skip any weekday name, full or abbreviated, again. */
-	parse_end = strptime (pos, "%a ", &discard_tm);
-	if (parse_end)
-		pos = parse_end;
 
-
-	/* strptime format for a time of day, in 12-hour format.
-	   If it is not appropriate in the locale set to an empty string. */
+	/* strptime format for a time of day, in 12-hour format. */
 	format[0] = _("%I:%M:%S %p");
 
 	/* strptime format for a time of day, in 24-hour format. */
 	format[1] = _("%H:%M:%S");
 
-	/* strptime format for time of day, without seconds, 12-hour format.
-	   If it is is not appropriate in the locale set to an empty string. */
+	/* strptime format for time of day, without seconds, 12-hour format. */
 	format[2] = _("%I:%M %p");
 
 	/* strptime format for time of day, without seconds 24-hour format. */
