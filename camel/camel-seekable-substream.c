@@ -172,12 +172,16 @@ _set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, gint
 
 
 	seekable_substream->cur_pos = 0;
+	seekable_substream->eos = FALSE;
 	
-	CAMEL_LOG_FULL_DEBUG ("In CamelSeekableSubstream::_set_bounds, "
+	CAMEL_LOG_FULL_DEBUG ("In CamelSeekableSubstream::_set_bounds (%p), "
 			      "setting inf bound to %lu, "
-			      "sup bound to %lld, current position to %lu from %lu\n", 
+			      "sup bound to %lld, current position to %lu from %lu\n"
+			      "Parent stream = %p\n", 
+			      seekable_substream,
 			      seekable_substream->inf_bound, seekable_substream->sup_bound,
-			      seekable_substream->cur_pos, inf_bound);
+			      seekable_substream->cur_pos, inf_bound,
+			      seekable_substream->parent_stream);
 	
 	CAMEL_LOG_FULL_DEBUG ("CamelSeekableSubstream::_set_bounds Leaving\n");
 }
@@ -272,6 +276,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	g_assert (stream);
 	g_assert (seekable_substream->parent_stream);
 
+	g_assert (n);
 
 
 	/* 
@@ -286,6 +291,9 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	   and is incompatible with buffering. 
 	*/
 
+	printf ("in CamelSeekable::read stream=(%p) cur position : %d\n", seekable_stream, seekable_stream->cur_pos);
+
+
 	parent_stream_current_position = 
 		camel_seekable_stream_get_current_position (seekable_substream->parent_stream);
 
@@ -293,20 +301,39 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	position_in_parent =  
 		seekable_stream->cur_pos + seekable_substream->inf_bound;
 		
-	/* go to our position in the parent stream */
-	if (parent_stream_current_position != position_in_parent)
-		camel_seekable_stream_seek (seekable_substream->parent_stream, 
-					    position_in_parent,
-					    CAMEL_STREAM_SET);
-
-
-
 	/* compute how much byte should be read */
 	if (seekable_substream->sup_bound != -1)
 		nb_to_read = 
 			MIN (seekable_substream->sup_bound - position_in_parent, n);
 	else
 		nb_to_read = n;
+
+	if (!nb_to_read) {
+		seekable_substream->eos = TRUE;
+		return 0;
+	}
+
+	/* go to our position in the parent stream */
+	if (parent_stream_current_position != position_in_parent) {
+		printf ("In SeekableSubstream(%p)::read, the position has to be changed\n", stream);
+		printf ("--- parent_stream_current_position=%d,  position_in_parent=%d\n", parent_stream_current_position, position_in_parent);
+		printf ("--- seekable_substream->inf_bound=%d\n", seekable_substream->inf_bound);
+		printf ("--- seekable_substream->sup_bound=%d\n", seekable_substream->sup_bound);
+		printf ("--- seekable_substream->parent_stream=%p\n", seekable_substream->parent_stream);
+	camel_seekable_stream_seek (seekable_substream->parent_stream, 
+					    position_in_parent,
+					    CAMEL_STREAM_SET);
+	}
+
+	/* check if we were able to set the position in the parent */
+	parent_stream_current_position = 
+		camel_seekable_stream_get_current_position (seekable_substream->parent_stream);
+
+	if (parent_stream_current_position != position_in_parent) {
+		printf ("Unable to set the position in the parent\n");
+		seekable_substream->eos = TRUE;
+		return 0;
+	}
 
 	
 	/* Read the data */
@@ -402,14 +429,23 @@ _eos (CamelStream *stream)
 	gboolean eos;
 	
 	g_assert (stream);
-	
-	if (seekable_substream->sup_bound != -1) {
-		substream_len = seekable_substream->sup_bound - seekable_substream->inf_bound;		
-		eos = ( seekable_stream->cur_pos >= substream_len);
-	} else {
+
+	printf ("** %% ** (%p)\n", stream);
+	if (seekable_substream->eos)
+		eos = TRUE;
+	else {
+
+		/* first check that the parent stream is ok */
 		eos = camel_stream_eos (CAMEL_STREAM (seekable_substream->parent_stream));
+		if ((!eos) && (seekable_substream->sup_bound != -1)) {
+			substream_len = seekable_substream->sup_bound - seekable_substream->inf_bound;		
+			eos = ( seekable_stream->cur_pos >= substream_len);
+		} 
 	}
-	
+
+	if (eos)
+		printf ("  EOS\n");
+
 	return eos;
 }
 
@@ -442,6 +478,8 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 
 	substream_len = seekable_substream->sup_bound - seekable_substream->inf_bound;
 	
+	seekable_substream->eos = FALSE;
+
 	switch  (policy) {
 
 	case CAMEL_STREAM_SET:

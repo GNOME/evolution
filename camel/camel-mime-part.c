@@ -869,10 +869,10 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	
 	/* set the input stream for the content object */
 	content_stream_inf_bound = camel_seekable_stream_get_current_position (seekable_stream);
-	mime_part->content_input_stream = 
-		camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
-									      content_stream_inf_bound, 
-									      -1);
+	printf ("Current position = %d\n", content_stream_inf_bound);
+	mime_part->content_input_stream = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
+													content_stream_inf_bound, 
+													-1);
 		
 	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_input_stream leaving\n");
 

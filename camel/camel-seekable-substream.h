@@ -57,6 +57,7 @@ struct _CamelSeekableSubstream
 	guint32 inf_bound;                    /* first valid position */
 	gint64  sup_bound;                    /* first invalid position */
 	gboolean open;
+	gboolean eos;
 	
 };
 

@@ -1022,7 +1022,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	CamelMimeMessage *message = NULL;
 	CamelStore *parent_store;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::get_uid_list\n");
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::get_message_by_uid\n");
 	
         searched_uid = strtoul(uid, (char **)NULL, 10);
 

@@ -169,11 +169,12 @@ _set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, guint32 sup_bound)
 	/* go to the first position */
 	lseek (stream_fs->fd, inf_bound, SEEK_SET);
 
-	CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos = inf_bound;
+	CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos = 0;
 	
-	CAMEL_LOG_FULL_DEBUG ("In CamelStreamFs::_set_bounds, "
+	CAMEL_LOG_FULL_DEBUG ("In CamelStreamFs::_set_bounds (%p), "
 			      "setting inf bound to %u, "
 			      "sup bound to %ld, current postion to %u from %u\n", 
+			      stream_fs,
 			      stream_fs->inf_bound, stream_fs->sup_bound,
 			      CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos, inf_bound);
 	
@@ -344,11 +345,13 @@ static gint
 _read (CamelStream *stream, gchar *buffer, gint n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
-	gint v;
+	gint v = 0;
 	gint nb_to_read;
 	
+	g_assert (n);
+	
 	if (stream_fs->sup_bound != -1)
-		nb_to_read = MIN (stream_fs->sup_bound - CAMEL_SEEKABLE_STREAM (stream)->cur_pos, n);
+		nb_to_read = MIN (stream_fs->sup_bound - CAMEL_SEEKABLE_STREAM (stream)->cur_pos - stream_fs->inf_bound , n);
 	else 
 		nb_to_read = n;
 	
@@ -496,10 +499,10 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 		break;
 
 	case CAMEL_STREAM_CUR:
-		if ((stream_fs->sup_bound != -1) && ((CAMEL_SEEKABLE_STREAM (stream)->cur_pos + offset) > stream_fs->sup_bound)) {
+		if ((stream_fs->sup_bound != -1) && ((CAMEL_SEEKABLE_STREAM (stream)->cur_pos + stream_fs->inf_bound + offset) > stream_fs->sup_bound)) {
 			real_offset = stream_fs->sup_bound;
 			whence = SEEK_SET;	
-		} else if ((CAMEL_SEEKABLE_STREAM (stream)->cur_pos + offset) < stream_fs->inf_bound) {
+		} else if ((CAMEL_SEEKABLE_STREAM (stream)->cur_pos + stream_fs->inf_bound + offset) < stream_fs->inf_bound) {
 			real_offset = stream_fs->inf_bound;
 			whence = SEEK_SET;	
 		} else 
@@ -528,10 +531,10 @@ _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy)
 		
 	printf ("***** Seeking : real_offset=%d, whence=%d\n", real_offset, whence);
 	return_position =  lseek (stream_fs->fd, real_offset, whence) - stream_fs->inf_bound;
-	if (CAMEL_SEEKABLE_STREAM (stream)->cur_pos != return_position)
+	if (((CAMEL_SEEKABLE_STREAM (stream)->cur_pos  + stream_fs->inf_bound) != return_position) && stream_fs->eof) 
 		stream_fs->eof = FALSE;
 
-	CAMEL_SEEKABLE_STREAM (stream)->cur_pos = return_position;
+	CAMEL_SEEKABLE_STREAM (stream)->cur_pos = return_position - stream_fs->inf_bound;
 	
 	
 	return return_position;

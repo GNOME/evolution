@@ -380,7 +380,7 @@ new_message_detected (CamelMboxPreParser *parser)
 
 	/* if we were filling a message information 
 	   save it in the message information array */ 
-
+	CAMEL_LOG_FULL_DEBUG ("   Message position : %d\n", parser->real_position);
 	if (parser->is_pending_message) {
 		parser->current_message_info.size = 
 			parser->real_position - parser->current_message_info.message_position;
