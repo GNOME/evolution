@@ -305,7 +305,7 @@ camel_service_disconnect (CamelService *service, gboolean clean,
 char *
 camel_service_get_url (CamelService *service)
 {
-	return camel_url_to_string(service->url, FALSE);
+	return camel_url_to_string(service->url, CAMEL_URL_HIDE_PASSWORD);
 }
 
 
