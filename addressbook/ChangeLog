@@ -1,3 +1,16 @@
+2001-07-17  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_set_string): Removed
+	old, broken code and annoying g_messages.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_queue_response): Hold a reference to the listener
+	while the idle function is active.
+	(e_book_listener_check_queue): Only release our reference to the
+	listener when the queue is empty.  These two changes fix a race
+	condition, since the listener could be unrefed while the listener
+	was still active. (Seems to fix bug #4485)
+
 2001-07-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade,

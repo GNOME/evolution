@@ -271,58 +271,11 @@ e_destination_set_email (EDestination *dest, const gchar *email)
 void
 e_destination_set_string (EDestination *dest, const gchar *str)
 {
-	gchar *name = NULL;
-	gchar *email = NULL;
-#if 0
-	gchar *lt, *gt;
-#endif
-
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	g_return_if_fail (str != NULL);
 
-	/* This turned out to be an overly-clever approach... */
-#if 0
-	/* Look for something of the form Jane Smith <jane@assbarn.com> */
-	if ( (lt = strrchr (str, '<')) && (gt = strrchr (str, '>')) && lt+1 < gt) {
-		name  = g_strndup (str, lt-str);
-		email = g_strndup (lt+1, gt-lt-1);
-
-		/* I love using goto.  It makes me feel so wicked. */
-		goto finished;
-	}
-
-	/* If it contains '@', assume it is an e-mail address. */
-	if (strchr (str, '@')) {
-		email = g_strdup (str);
-		goto finished;
-	}
-
-	/* If we contain whitespace, that is very suggestive of being a name. */
-	if (strchr (str, ' ')) {
-		name = g_strdup (str);
-		goto finished;
-	}
-#endif
-
 	/* Default: Just treat it as a name address. */
-	name = g_strdup (str);
-
-#if 0
- finished:
-#endif
-	if (name) {
-		g_message ("name: [%s]", name);
-		if (*name)
-			e_destination_set_name (dest, name);
-		g_free (name);
-	}
-
-	if (email) {
-		g_message ("email: [%s]", email);
-		if (*email)
-			e_destination_set_email (dest, email);
-		g_free (email);
-	}
+	e_destination_set_name (dest, str);
 }
 
 void
