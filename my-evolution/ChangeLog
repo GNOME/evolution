@@ -1,3 +1,37 @@
+2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix a crash that can happen if you have opened multiple views of
+	the summary and try to go off-line.  This is not the correct fix,
+	as the code should really be changed to only use one set of
+	connections for all the views, instead of binding the connections
+	to the view.]
+
+	* e-summary-factory.c (e_summary_factory_new_control): Call
+	`e_summary_offline_handler_add_summary()' instead of
+	e_summary_offline_handler_set_summary()'.
+
+	* e-summary-offline-handler.c: Replace member `summary' with
+	`summaries' in the ESummaryOfflineHandlerPriv.  This way, instead
+	of assuming that there is only one summary, we keep a list of the
+	summaries.
+	(impl_destroy): Free ->summaries.
+	(e_summary_offline_handler_set_summary): Removed.
+	(e_summary_offline_handler_add_summary): New.  Add the summary to
+	->summaries.  Also, connect to the ::destroy handler so we can
+	bookkeep them correctly.
+	(create_connection_list): Made private from
+	e_summary_offline_handler_create_connection_list().  Get a GSList
+	instead of just one summary, and sum up all the connections from
+	it.
+	(impl_prepareForOffline): Use it.
+	(impl__get_isOffline): Return %FALSE if any of the summaries are
+	online, %TRUE otherwise.
+	(impl_goOffline): Call ::set_online on all the summaries.  Pass
+	CORBA_OBJECT_NIL for the progress_listener as it doesn't really
+	get used anyways.
+	(impl_goOnline): Likewise.  Pass CORBA_OBJECT_NIL, not NULL, for
+	the progress CORBA_Object pointer.
+
 2002-01-22  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-mail (e_summary_mail_reconfigure): Do the list backwards.

@@ -138,7 +138,7 @@ e_summary_factory_new_control (const char *uri,
 		return NULL;
 	}
 
-	e_summary_offline_handler_set_summary (handler, E_SUMMARY (summary));
+	e_summary_offline_handler_add_summary (handler, E_SUMMARY (summary));
 	gtk_widget_show (summary);
 	
 	control = bonobo_control_new (summary);
