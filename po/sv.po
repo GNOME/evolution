@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2000-11-17 16:35+0100\n"
-"PO-Revision-Date: 2000-11-17 16:45+0100\n"
+"POT-Creation-Date: 2000-11-18 14:56+0100\n"
+"PO-Revision-Date: 2000-11-18 14:56+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4653,6 +4653,11 @@ msgstr "Pekare till okänd extern data (typen \"%s\")"
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
+#: mail/mail-format.c:1669
+#, c-format
+msgid "On %s, %s wrote:\n"
+msgstr "Den %s skrev %s:\n"
+
 #: mail/mail-local.c:194
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
@@ -4874,109 +4879,113 @@ msgstr ""
 "Misslyckades med att generera mime-del från meddelande när ett "
 "vidarebefordrat meddelande skulle genereras."
 
-#: mail/mail-ops.c:1736
+#: mail/mail-ops.c:1617
+msgid "Forwarded message:\n"
+msgstr "Vidarebefordrat meddelande:\n"
+
+#: mail/mail-ops.c:1686
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Läser in \"%s\""
 
-#: mail/mail-ops.c:1738
+#: mail/mail-ops.c:1688
 #, c-format
 msgid "Load \"%s\""
 msgstr "Läs in \"%s\""
 
-#: mail/mail-ops.c:1840
+#: mail/mail-ops.c:1790
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Skapar \"%s\""
 
-#: mail/mail-ops.c:1842
+#: mail/mail-ops.c:1792
 #, c-format
 msgid "Create \"%s\""
 msgstr "Skapa \"%s\""
 
-#: mail/mail-ops.c:1890
+#: mail/mail-ops.c:1840
 msgid "Exception while reporting result to shell component listener."
 msgstr "Undantag vid rapportering av resultat till skalkomponentslyssnaren."
 
-#: mail/mail-ops.c:1936
+#: mail/mail-ops.c:1886
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Synkroniserar \"%s\""
 
-#: mail/mail-ops.c:1938
+#: mail/mail-ops.c:1888
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Synkronisera \"%s\""
 
-#: mail/mail-ops.c:2002
+#: mail/mail-ops.c:1952
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Visar meddelande-UID \"%s\""
 
-#: mail/mail-ops.c:2005
+#: mail/mail-ops.c:1955
 msgid "Clearing message display"
 msgstr "Tömmer meddelandevisningen"
 
-#: mail/mail-ops.c:2008
+#: mail/mail-ops.c:1958
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Visa meddelande-UID \"%s\""
 
-#: mail/mail-ops.c:2011
+#: mail/mail-ops.c:1961
 msgid "Clear message display"
 msgstr "Töm meddelandevisning"
 
-#: mail/mail-ops.c:2124
+#: mail/mail-ops.c:2074
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Öppnar meddelanden från mappen \"%s\""
 
-#: mail/mail-ops.c:2127
+#: mail/mail-ops.c:2077
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Öppnar meddelanden från \"%s\""
 
-#: mail/mail-ops.c:2231
+#: mail/mail-ops.c:2181
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Läser in mappen %s"
 
-#: mail/mail-ops.c:2233
+#: mail/mail-ops.c:2183
 #, c-format
 msgid "Load %s Folder"
 msgstr "Läs in mappen %s"
 
-#: mail/mail-ops.c:2300
+#: mail/mail-ops.c:2250
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Visar meddelanden från mappen \"%s\""
 
-#: mail/mail-ops.c:2303
+#: mail/mail-ops.c:2253
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Visa meddelanden från \"%s\""
 
-#: mail/mail-ops.c:2329 mail/mail-ops.c:2447 mail/mail-ops.c:2577
+#: mail/mail-ops.c:2279 mail/mail-ops.c:2397 mail/mail-ops.c:2527
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Hämtar meddelande %d av %d (uid \"%s\")"
 
-#: mail/mail-ops.c:2419
+#: mail/mail-ops.c:2369
 #, c-format
 msgid "Viewing message sources from folder \"%s\""
 msgstr "Visar meddelandekällor från mappen \"%s\""
 
-#: mail/mail-ops.c:2422
+#: mail/mail-ops.c:2372
 #, c-format
 msgid "View message sources from \"%s\""
 msgstr "Visa meddelandekällor från \"%s\""
 
-#: mail/mail-ops.c:2550
+#: mail/mail-ops.c:2500
 #, c-format
 msgid "Saving messages from folder \"%s\""
 msgstr "Sparar meddelanden från mappen \"%s\""
 
-#: mail/mail-ops.c:2553
+#: mail/mail-ops.c:2503
 #, c-format
 msgid "Saving messages from \"%s\""
 msgstr "Sparar meddelanden från \"%s\""
@@ -5027,18 +5036,18 @@ msgstr "Kunde inte skapa dialogfönster."
 msgid "User cancelled query."
 msgstr "Användaren avbröt frågan."
 
-#: mail/mail-tools.c:187
+#: mail/mail-tools.c:189
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "Kunde inte skapa temporärt meddelandefält \"%s\": %s"
 
 #. Get all uids of source
-#: mail/mail-tools.c:237
+#: mail/mail-tools.c:239
 #, c-format
 msgid "Examining %s"
 msgstr "Undersöker %s"
 
-#: mail/mail-tools.c:267
+#: mail/mail-tools.c:269
 #, c-format
 msgid ""
 "Could not read UID cache file \"%s\". You may receive duplicate messages."
@@ -5047,41 +5056,41 @@ msgstr ""
 "av meddelanden."
 
 #. Info
-#: mail/mail-tools.c:288
+#: mail/mail-tools.c:290
 #, c-format
 msgid "Retrieving message %d of %d"
 msgstr "Hämtar meddelande %d av %d"
 
 #. Append it to dest
-#: mail/mail-tools.c:301
+#: mail/mail-tools.c:303
 #, c-format
 msgid "Writing message %d of %d"
 msgstr "Skriver meddelande %d av %d"
 
-#: mail/mail-tools.c:330
+#: mail/mail-tools.c:332
 #, c-format
 msgid "Saving changes to %s"
 msgstr "Sparar ändringar i %s"
 
-#: mail/mail-tools.c:367
+#: mail/mail-tools.c:369
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr "[%s] (vidarebefordrat meddelande)"
 
-#: mail/mail-tools.c:377
+#: mail/mail-tools.c:379
 msgid "Fwd: (no subject)"
 msgstr "Fwd: (inget ämne)"
 
-#: mail/mail-tools.c:416
+#: mail/mail-tools.c:418
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Vidarebefordrat meddelande - %s"
 
-#: mail/mail-tools.c:418
+#: mail/mail-tools.c:420
 msgid "Forwarded message (no subject)"
 msgstr "Vidarebefordrat meddelande (inget ämne)"
 
-#: mail/mail-tools.c:521
+#: mail/mail-tools.c:523
 #, c-format
 msgid ""
 "Cannot open location `%s':\n"
